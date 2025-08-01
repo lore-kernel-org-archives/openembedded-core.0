@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72096CA0EC0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDFDCA0EC1
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 04:22:55 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.80417.1754022168589032273
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.80419.1754022171319674453
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Jul 2025 21:22:48 -0700
+ Thu, 31 Jul 2025 21:22:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=b9uGqN1e;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7682560a2f2so1756009b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 21:22:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aXCSAL6H;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-76bdc73f363so306548b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 21:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754022167; x=1754626967; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754022170; x=1754626970; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2hGkO/AheyuLFnBp3fUjRNlke079oEBwexo18EcMk34=;
-        b=b9uGqN1e+uOz0WRv3GZ1Buqruua13XNKZtVZj2ji04QqgkOAU+TAe0ppwkoHvLzOp9
-         23VFioZr+V56RC5MJqPydUGR0Ys4VUVz7/nGv/QHBaxKYk7/N3mlh/HWbv0Hwyj6aXmK
-         Nu4+Zb3qf//4Nswtj/b4X7NAbIhAjC6tumVwsBQA/jue9gS73u+q04S5DExJID9AxAc4
-         RG+4MrF2ot9dzuswIziM9f7J7wZnI8GXTE8ygCadre7HEBxVp9zA8M/msI00hnGtUP52
-         07IUZhquyt2giog5q6WOap7s8maQiiwrWNu6xrSHMWEEye0mMqOspbl4GeDhlJlMlxIM
-         yfcg==
+        bh=9ZT0V2cQuHG12q76YTIh8bG+qFEh7XjKkL1DVz56QP8=;
+        b=aXCSAL6HIEZ3N6tFB3uF8q34L4LZQ2On58GKxgN8mCbDr2bE9Yq3QoQc0vOf24ntig
+         XtEL2b30UiFkucb9xvtDjoBcRNkWtcr82rPozQEHneDsTned18YuL/fB5Zl7Ngv3zit2
+         79D9KxMjv6dFIqW9aQO20eD3MNHhma/DXTQ0yZ1+WQUJJgkPjn8BlcB8bPot035oha8R
+         bRTYDAbshpe50pjfGViVZqreUPsMhKaxMOpmnXZtT6y32jwraDvb8yYY5vOH+Nivs0S+
+         VwPFaS0RC88Rho3BRygNXH0abr0Iv0XTTv/9bEwNqiAysqy6D3zeO0RcMIwafnZAfRA+
+         89dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754022167; x=1754626967;
+        d=1e100.net; s=20230601; t=1754022170; x=1754626970;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2hGkO/AheyuLFnBp3fUjRNlke079oEBwexo18EcMk34=;
-        b=RDikHoyjEZ53Q6sXcCkHNAmuJnOdt8ruRrf57TWhUYu5Rl8YrZWO5lcjdYPQv/9BhP
-         Pkd8SNwv17QcLMC37LSN/tR0a5GGfBpNbvRjVJEBOlc4xuCaZJ/lPPzPspRE43lM7WTR
-         cR3jA8PTslV13CP7ohfIpY0diDQL0fpGQp0b7egRxYLcE9gh8zhjIT+W2fRVwrmLuL1H
-         SXyGwizso4XVWlFqMgZIwGfuG28wXfOQew5YHmud54Fxnj9Oh9257HMNXD9TIZwrHk1H
-         nFIIMffj/4ZjYHGXdgg3aPeWAtMHp26a6vIJrqUiVSUie21pZ1LR0mV8z4rQbOkv+Xa6
-         ItyA==
-X-Gm-Message-State: AOJu0YzrskTyYs3Uv7XlOfQ2AcXdTyavRk599RfoJIRqB83HPB3TZmO2
-	esUqudFeq7Oq9jYWj4mH85yIKykV/E5p+NzW4Rh2GwQ3uKrPQtGcwrCE5BOmcizQNMI=
-X-Gm-Gg: ASbGncuM7ri3KtZbPW0JHCKEai/JdHMZ2wsymibZlMuYOum9gNVWRvmZd832ONAl7l1
-	L/umC/69pghp5q8d2jMRhHjGgZpInPrMwcVzQa4QLCY9KVCayd1P41vmUBbzpFfcWMUY+Z3HVqa
-	G00v8+ZMaNc9sIyszWfhkbxD7k/zcvoTipWoXU03V7zGop1EkLEoPh1OPIM5942Cxe6jKcj2T0i
-	UTwfshKQR3Oi2Tyt5MUhU4Oi0wY/0eSbDh9fuLbfmGNBnT232lUhLI6DHv8ine+9lqyeS2mwZWT
-	B1l8NJD1W45VFdeFKyH5eQV5AfnRR2u3J6zfpfzcYNXQp75pgCx0gwtZPTfW2GM1Vix/0dCjYzd
-	ze/QR6xsUaqZXQw==
-X-Google-Smtp-Source: AGHT+IEFiyvUBCZsyLmW18TZhoG3KKLnjzX6Do6XmACPcWtTnGMEa5B6l1TOkNqsPoUZgLeB4i4Zsw==
-X-Received: by 2002:aa7:888c:0:b0:74e:aaca:c32d with SMTP id d2e1a72fcca58-76bcd0b6789mr6868132b3a.10.1754022167381;
-        Thu, 31 Jul 2025 21:22:47 -0700 (PDT)
+        bh=9ZT0V2cQuHG12q76YTIh8bG+qFEh7XjKkL1DVz56QP8=;
+        b=jnTIqtN8QUz7cgyjm+5Nm0PXrqP6ezPmXydJ7AuLqGaiKCpRXDB9RluFirTHzVrlPg
+         j5N78etcz1IBOR80fUNZXVEqduJ7/xwrKyOx4KEpVaqwNWrBFnR8bn6gSBxtZt7gDm1I
+         K6oDZV7xLtOUbvPu3xWSmTqUJJXK08kRjAhtLY5ga8iFOwdQSa5xyq0pGP0uFU2wHalT
+         e5U6cVeJ9Y1dj+7H2QbXoipYQeEbCJk7y8YLfuWHI/PkfDFe3/t8wDnAC0NWXWgGB/TA
+         tn9/dCd3XhZvLVwdBSlbsENI+wsgtxAPfocnUjM/Zp48Pqq91OdZvOMuyoSnJql4gAKu
+         OWqw==
+X-Gm-Message-State: AOJu0YxImaoTN+B5vgWjxHyMXJbO7oL757rz7SeCSPm/Iv/axbFUtKsC
+	P2xyHySSlrxc4q69V0gSTCFwGIKm4hZko/K8JCJWHnd15UIsbNV3Wy0WDZ4z8mLl/lA=
+X-Gm-Gg: ASbGnctvUm8nZYSj87Vi1Snk2DO+h2wNbHM3Zn9cENuH6/e//B3A4lXQ3Yy32NAySKn
+	XzKVgOxmZEdfxRyqSYM1kfAMnSDhlkO6gdoHb9smSeYOMk2yQaG6eDwouKMu8DFiKam7Il08+FD
+	En3e+s3DarOOzr/FeYR8rah+TtUJn8lN7NRzU3VY4mWj4emCf/4TAuZpEDz9S5VrP8SLKhgfrea
+	QP2xfrFLAChJYM94d0p8/cfKxjqorKzraWiMFrtcoi+S4nex3nxjb6O/wH0Mv3tohNHo9WlcD1k
+	MLjsQ6dpVYYr3z9/rAe+4Via4VGuAodWC7VxU0XWlc2KnVi4hMiBlg8KrPg6XA8i051mCARME1l
+	PSoD0qS8CPiOWNg==
+X-Google-Smtp-Source: AGHT+IFX3vIlhCQQWdjP4e54w7cDnU8QrPtOdZH9Y8Ue+FUtzILN0iyIVz+c5wv0lk99Evw2z0X3QQ==
+X-Received: by 2002:a05:6a00:7589:b0:76a:d724:d6fe with SMTP id d2e1a72fcca58-76ad724dd1cmr11119508b3a.11.1754022170389;
+        Thu, 31 Jul 2025 21:22:50 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::a237])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfe9003sm2950780b3a.125.2025.07.31.21.22.46
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfe9003sm2950780b3a.125.2025.07.31.21.22.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 21:22:46 -0700 (PDT)
+        Thu, 31 Jul 2025 21:22:49 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 4/7] libtirpc: Allow undefined symbols in version scripts with lld linker
-Date: Thu, 31 Jul 2025 21:22:38 -0700
-Message-ID: <20250801042242.3076232-4-raj.khem@gmail.com>
+Subject: [PATCH 7/7] fmt: Fix build with clang-21
+Date: Thu, 31 Jul 2025 21:22:41 -0700
+Message-ID: <20250801042242.3076232-7-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250801042242.3076232-1-raj.khem@gmail.com>
 References: <20250801042242.3076232-1-raj.khem@gmail.com>
@@ -67,47 +67,82 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 04:22:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221216
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221219
 
-Fixes link errors with lld
-
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol '_svcauth_gss' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_create' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_create_default' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_free_private_data' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_get_private_data' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_service' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'cbc_crypt' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'ecb_crypt' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'endrpcent' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'getrpcent' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'getrpcbynumber' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'getrpcbyname' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'gss_log_debug' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'gss_log_hexdump' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'gss_log_status' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_error' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_mech_info' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_mechanisms' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_principal_name' failed: symbol not defined
-aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_versions' failed: symbol not defined
+Backport a fix from upstream master branch
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...compilation-on-clang-21-libc-21-4477.patch | 46 +++++++++++++++++++
+ meta/recipes-devtools/fmt/fmt_11.2.0.bb       |  4 +-
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb
-index 6ea9a725dbf..98bb1128c00 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb
-@@ -27,6 +27,8 @@ PACKAGECONFIG ??= "\
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6"
- PACKAGECONFIG[gssapi] = "--enable-gssapi,--disable-gssapi,krb5"
- 
-+LDFLAGS:append:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
+diff --git a/meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch b/meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
+new file mode 100644
+index 00000000000..911fa90a40c
+--- /dev/null
++++ b/meta/recipes-devtools/fmt/fmt/0001-Fix-compilation-on-clang-21-libc-21-4477.patch
+@@ -0,0 +1,46 @@
++From f4345467fce7edbc6b36c3fa1cf197a67be617e2 Mon Sep 17 00:00:00 2001
++From: Remy Jette <remy@remyjette.com>
++Date: Sat, 21 Jun 2025 07:28:14 -0700
++Subject: [PATCH] Fix compilation on clang-21 / libc++-21 (#4477)
 +
- do_install:append() {
- 	test -e ${D}${sysconfdir}/netconfig && chown root:root ${D}${sysconfdir}/netconfig
- }
++`<cstdlib>` was not being included, so malloc and free were only declared
++via transitive includes. Some includes changed in the latest libc++-21
++build which broke fmt.
++
++Also changed `malloc`/`free` to `std::malloc` and `std::free`, as
++putting those symbols in the global namespace is optional for the
++implementation when including `<cstdlib>`.
++
++Upstream-Status: Backport [https://github.com/fmtlib/fmt/pull/4477]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ include/fmt/format.h | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++Index: fmt-11.2.0/include/fmt/format.h
++===================================================================
++--- fmt-11.2.0.orig/include/fmt/format.h
+++++ fmt-11.2.0/include/fmt/format.h
++@@ -44,6 +44,7 @@
++ #  include <cmath>    // std::signbit
++ #  include <cstddef>  // std::byte
++ #  include <cstdint>  // uint32_t
+++#  include <cstdlib>  // std::malloc, std::free
++ #  include <cstring>  // std::memcpy
++ #  include <limits>   // std::numeric_limits
++ #  include <new>      // std::bad_alloc
++@@ -744,12 +745,12 @@ template <typename T> struct allocator {
++ 
++   T* allocate(size_t n) {
++     FMT_ASSERT(n <= max_value<size_t>() / sizeof(T), "");
++-    T* p = static_cast<T*>(malloc(n * sizeof(T)));
+++    T* p = static_cast<T*>(std::malloc(n * sizeof(T)));
++     if (!p) FMT_THROW(std::bad_alloc());
++     return p;
++   }
++ 
++-  void deallocate(T* p, size_t) { free(p); }
+++  void deallocate(T* p, size_t) { std::free(p); }
++ };
++ 
++ }  // namespace detail
+diff --git a/meta/recipes-devtools/fmt/fmt_11.2.0.bb b/meta/recipes-devtools/fmt/fmt_11.2.0.bb
+index d0d4cea23e2..fd5dc0c4ab7 100644
+--- a/meta/recipes-devtools/fmt/fmt_11.2.0.bb
++++ b/meta/recipes-devtools/fmt/fmt_11.2.0.bb
+@@ -5,7 +5,9 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b9257785fc4f3803a4b71b76c1412729"
+ 
+ SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=${PV}\
+-           file://0001-Workaround-an-ABI-issue-in-spdlog.patch"
++           file://0001-Workaround-an-ABI-issue-in-spdlog.patch \
++           file://0001-Fix-compilation-on-clang-21-libc-21-4477.patch \
++           "
+ SRCREV = "40626af88bd7df9a5fb80be7b25ac85b122d6c21"
+ 
+ inherit cmake
 
