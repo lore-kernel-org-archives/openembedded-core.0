@@ -1,143 +1,90 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A59D2C87FD2
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 02:18:34 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web11.78542.1754014705199068458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64AD2C87FDA
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 04:22:55 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.80228.1754022165520281352
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Jul 2025 19:18:25 -0700
+ Thu, 31 Jul 2025 21:22:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=InpzvN8e;
- spf=pass (domain: underview.tech, ip: 209.85.222.174, mailfrom: vince@underview.tech)
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7e6817653d0so43198785a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 19:18:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NvLNG2/g;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso410515b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 21:22:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1754014704; x=1754619504; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bGLy1iMR67fvn+6SuMga8KLU1s1FK38i/nCe0V5V9Y8=;
-        b=InpzvN8e0/vQuxEzUGfVkyIBXoml3mQ9WhTFU6cY6UUNrFJeg9iKt5bxhFMTU9PDSf
-         Muod32cvI3CyxtFjcn16f5eThD76kEv2Mc81g8VSG8XEX8a4tGW/2sJW5XN6zEdc5VJT
-         c0utC2okNdmGD8A2SRPayCLaxJsRjin+wwGsdyK0sAoZwwdsHw0SaB9cNzTKL/9lYYbB
-         oXav8hYliVNAfJpBUYbXauDK/6jFxNmUyVcGnVIDsQolBPQ5iI6TdDyBZGdVlmjfbFVW
-         sda1mnF0iwxy9kjiX5tbTjpp7tFsTUW0JdXg15uKD9n3VLyqbj/2HEn3QeFYpYDQrqf2
-         uLWg==
+        d=gmail.com; s=20230601; t=1754022164; x=1754626964; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8+VXKAe9VcHIppDrR6fKJUO3yIAO7n7vC1xYY15+Yk=;
+        b=NvLNG2/gCr7mABjLS9d9NfwTs/olSnIpqmfiabc6F/vfgY4/vATwB6oqHYTuX4wrv3
+         qnnnFDOz1y20gbBm2HL4HfEqb5AHLdmFN5w4F0I6cW3/M/pWh6qfd8B2OL7BuHaAKV4H
+         PGUa5xlg6ddinCZfg7nbmAcpwAkVfjCSGXuTDKj0RP3EPKAYgXPcFrrXLPyV5Ew7Rjv9
+         MfacP0xueIuDhz7rgjp6sRjR9sBl/ANKAs+L1BJlh/oYY3vxsw0CBxeaOWbKWQUK+pOA
+         RPF/arrc11AXuk0xVO9IRDIF0xuMRL4d1jiCzTXFbHZd5TKd0IiiUNmcZNMX4sYGO2c5
+         QEKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754014704; x=1754619504;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bGLy1iMR67fvn+6SuMga8KLU1s1FK38i/nCe0V5V9Y8=;
-        b=Xav83dLWkYh6341B4n1EiePXXbuUfK9qWPiUv28LDKWTqEpJaCdljTPJI5jKgUUwPR
-         Qcl+OtccxihEVrYfmv8gzZe9pIKFvagnVh94k9u+h0ZMV1V2df+TThGY6YJ+kD55PxK8
-         7+vGTm01k4LqXe+bXKISV8h8nR7AHBYIoUVmCwVFXuq7GK9NN2RAj2MOH0b5q4EUM61T
-         ehQ6z+CKwO8nD5PwxHmxBm139fEfo8FXjIJxYlwhux2Iclw/qbq+nYndYz0Txdikj18m
-         Cfu8+SE/CSNaFDXvxmfFopwS797zhhSf+/KJOdIDF05P6naBdlWYsGBvBJlKJZ0d7bAL
-         YnPg==
-X-Gm-Message-State: AOJu0YzR5XSctikMYdKosZjC/8AEmS4LZs+DC1IDUm5DCsX8eisr0BXj
-	CTsyRofsxJRGfZd/HKH+sjfo08p7PweR7ElM0vzkd+ssjifQo5IJmsm5ZgaLbb9+Aw3rDFFKb76
-	ssB6M
-X-Gm-Gg: ASbGncsAs80W9JoMgK9GL/ViN1/7N9k//PwgWqJdq8/PUrN6RsBB1xKRIDkhqm9OjCj
-	TKefgJNQREv9WNerjiFZGOd8AGSt8mK9QvD0SirY2PigpLQIQ8JmiyWZjUnWOUVw9duEKUiigge
-	/vgVOJxRsh1x5YgA4NdyMVzg2hWD3hnKhh4oUE2+RlHWq+KwHSl+izakGZsppBnTlKOOlFAEgHe
-	XHEng033vGNbmTXMATls4Ew4OSBeABiFcOTmFV3zJyqKe4i4XoqQWfq2t3R561HpAI42JD9XO/4
-	cmBudKqfchN8n6GFptieS0WVEQYnrjnpJzD+b13DycSZckhNIeRcdQjpXnTMKqd9e94CqBW7U8q
-	qrBk6BV91y20WbWMzvDCzyQ==
-X-Google-Smtp-Source: AGHT+IGR1CAp53Dn/QBiSsp9j4X1LAEfMyDm9n6lhiKKRhcKVT3QBk2cdNgCzQ2JlujlK7bJm5IDYA==
-X-Received: by 2002:a05:620a:2a01:b0:7e6:2929:6b88 with SMTP id af79cd13be357-7e66f3581b3mr1379985785a.41.1754014703877;
-        Thu, 31 Jul 2025 19:18:23 -0700 (PDT)
-Received: from vince-server.. ([2601:406:4d01:1820::71f9])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e6877517dcsm101220585a.67.2025.07.31.19.18.23
+        d=1e100.net; s=20230601; t=1754022164; x=1754626964;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t8+VXKAe9VcHIppDrR6fKJUO3yIAO7n7vC1xYY15+Yk=;
+        b=TXk3MAHuh8KNtwSxulJaANa5uaYIxoKtjE2NWP34TjEmh8bIctNg4yq5di+uU2M0M3
+         bDd4nOe3iiTZ0OL7V5ve/TxY5+kwDovhloUt1huCNnOfHYQEOWRTvYlvFt+tcrXJmdo1
+         FOolGCo5+BKyrt2UryB7698PRP/88WOcv1tDFLcAhtrFmsDb0J5Yhb1UzBYRuOVSVD0b
+         6+NhO8VVutCG1sIVLycLgC1knRJ2fjjpjaKVGlzTO1qkdeAJbfp92vFZbCFvRVc4kOTE
+         JJohK5S3xO+wPtncdvP1PlizDy4/DLd7QJQL0yFqdufESf6wl5clkqh//WnxstgSxcN+
+         +t0A==
+X-Gm-Message-State: AOJu0Yy3P4Yu6yWqwHuxLjeftbx1Ot6u0UvSxzYI/HR8HYBDE5dD4j15
+	aTPusRHua81OZshy+ZqGzGwNdHyW/cjNAL5aokJeXOcWvwmR0sMP42EMSEMI5fzruok=
+X-Gm-Gg: ASbGnct3GJn8kNJZcCXinv9grikDkXFqu3y2i5oQFqvKEyxX0kkgB0c2pqITLmlXQe2
+	P2X51iocpCDLrXca1J02nsydozZn8fUtDXsKz9gfOOur7TwA0vuV0uKCZisbtAtu2epG90ZHEvS
+	1IpJD4A9dW05vwYySMumty4Nkw7MaDUne6EqDvqaZV2ZOFUOLYrCFMwULLoA3xZIseb5iUiM2eP
+	O6ZcuRIe7QQQhAopG31hnoML8tP+5VDden+7Oj9YZoq0NImC5xG29VwQbrzePL43c7JqESfCpKU
+	mTdm2RcbvrjPv1YNdXzETezEFceItYld6KZ8fhMaXLVuI2rHRi5wHAESOVZE5MrKaSfBu0LnXSb
+	pNn4sadd0e6XHPxvw2vO/wR/x
+X-Google-Smtp-Source: AGHT+IHpvgvlO53qhOpKvU656qhBieXW7jo6VHm8e8RJB5mxIC1cUPzAKNE2/5lii4SahcEPB0+6VQ==
+X-Received: by 2002:a05:6a00:854:b0:76b:a439:be4a with SMTP id d2e1a72fcca58-76ba439c1dbmr9792055b3a.12.1754022164344;
+        Thu, 31 Jul 2025 21:22:44 -0700 (PDT)
+Received: from apollo.localdomain ([2601:646:8201:fd20::a237])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfe9003sm2950780b3a.125.2025.07.31.21.22.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 19:18:23 -0700 (PDT)
-From: Vincent Davis Jr <vince@underview.tech>
+        Thu, 31 Jul 2025 21:22:43 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v5 3/3] oe-selftest: add wic.Wic.test_grub_install_pcbios
-Date: Thu, 31 Jul 2025 22:16:10 -0400
-Message-ID: <20250801021607.511597-6-vince@underview.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250801021607.511597-2-vince@underview.tech>
-References: <20250801021607.511597-2-vince@underview.tech>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/7] toolchain/clang-native: Set BUILD_LDFLAGS instead of LDFLAGS
+Date: Thu, 31 Jul 2025 21:22:35 -0700
+Message-ID: <20250801042242.3076232-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 02:18:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221212
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 04:22:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221213
 
-wic.Wic.test_grub_install_pcbios test
+BUILD_LDFLAGS is used by other recipes to emit native LDFLAGS
+into their cmake toolchain files especially in QT layers. it
+will usually be inherited by recipes wanting clang provide
+BUILD_* variables so this is more appropriate than LDFLAGS to
+pass these options.
 
-Test updates to the bootimg_pcbios plugin that
-enables support for installing grub directly
-to the resulting wic image.
-
-The test checks to see if the wics plugin
-generates a wic image. Then see's if normal.mod
-and grub.cfg are located in the boot partition.
-
-Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 41 +++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ meta/classes/toolchain/clang-native.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 680f99d381..44442e402d 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -215,6 +215,47 @@ class Wic(WicTestCase):
-                     found, "The kernel image '{}' was not found in the boot partition".format(kimgtype)
-                 )
+diff --git a/meta/classes/toolchain/clang-native.bbclass b/meta/classes/toolchain/clang-native.bbclass
+index 4de491a1cb5..006be9fadd6 100644
+--- a/meta/classes/toolchain/clang-native.bbclass
++++ b/meta/classes/toolchain/clang-native.bbclass
+@@ -15,4 +15,4 @@ BUILD_READELF = "${BUILD_PREFIX}llvm-readelf"
  
-+    @skipIfNotArch(['x86_64'])
-+    def test_grub_install_pcbios(self):
-+        """
-+        Test the installation of the grub modules + config
-+        into the boot directory in the resulting wic image.
-+        """
-+
-+        # create a temporary file for the WKS content
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.write(
-+                'part --source bootimg_pcbios --sourceparams="loader-bios=grub" '
-+                '--offset 1024 --fixed-size 78M --label boot --active\n'
-+                'bootloader --ptable msdos --source bootimg_pcbios\n'
-+            )
-+            wks.flush()
-+            # create a temporary directory to extract the disk image to
-+            with TemporaryDirectory() as tmpdir:
-+                img = "core-image-minimal"
-+                config = 'DEPENDS:pn-%s += "grub-native grub"' % (img)
-+
-+                self.append_config(config)
-+                bitbake(img)
-+                self.remove_config(config)
-+
-+                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+                runCmd(cmd)
-+
-+                wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+                out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
-+                self.assertEqual(1, len(out))
-+
-+                sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+
-+                # Check if grub.cfg is installed
-+                result = runCmd("wic ls %s:1/boot/grub -n %s" % (out[0], sysroot))
-+                self.assertIn('grub', result.output)
-+
-+                # Check if normal.mod is installed
-+                result = runCmd("wic ls %s:1/boot/grub/i386-pc -n %s" % (out[0], sysroot))
-+                self.assertIn('normal', result.output)
-+
-     def test_build_image_name(self):
-         """Test wic create wictestdisk --image-name=core-image-minimal"""
-         cmd = "wic create wictestdisk --image-name=core-image-minimal -o %s" % self.resultdir
--- 
-2.43.0
-
+ DEPENDS += "clang-native libcxx-native compiler-rt-native"
+ 
+-LDFLAGS += " --rtlib=libgcc --unwindlib=libgcc"
++BUILD_LDFLAGS += " --rtlib=libgcc --unwindlib=libgcc"
 
