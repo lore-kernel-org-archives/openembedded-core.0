@@ -2,27 +2,26 @@ Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E31A3C87FD2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2468C87FCA
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 11:04:17 +0000 (UTC)
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
- by mx.groups.io with SMTP id smtpd.web11.84907.1754046249413391755
+Received: from smtp-42ab.mail.infomaniak.ch (smtp-42ab.mail.infomaniak.ch [84.16.66.171])
+ by mx.groups.io with SMTP id smtpd.web10.85033.1754046247077790659
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 04:04:09 -0700
+ Fri, 01 Aug 2025 04:04:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.15, mailfrom: foss+yocto@0leil.net)
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 84.16.66.171, mailfrom: foss+yocto@0leil.net)
 Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6c])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4btjkc0TQkzhVC;
-	Fri,  1 Aug 2025 13:04:08 +0200 (CEST)
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4btjkb06kXzZxK;
-	Fri,  1 Aug 2025 13:04:06 +0200 (CEST)
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4btjkY4CBtzj28;
+	Fri,  1 Aug 2025 13:04:05 +0200 (CEST)
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4btjkX3ntHzYFl;
+	Fri,  1 Aug 2025 13:04:04 +0200 (CEST)
 From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Fri, 01 Aug 2025 13:03:12 +0200
-Subject: [PATCH RFC v4 4/9] mesa: move BBCLASSEXTEND out of the include
- file
+Date: Fri, 01 Aug 2025 13:03:10 +0200
+Subject: [PATCH RFC v4 2/9] mesa: move PACKAGECONFIG defaults to recipes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250801-mesa-libclc-panfrost-v4-4-101c6dcf564f@cherry.de>
+Message-Id: <20250801-mesa-libclc-panfrost-v4-2-101c6dcf564f@cherry.de>
 References: <20250801-mesa-libclc-panfrost-v4-0-101c6dcf564f@cherry.de>
 In-Reply-To: <20250801-mesa-libclc-panfrost-v4-0-101c6dcf564f@cherry.de>
 To: openembedded-core@lists.openembedded.org
@@ -37,57 +36,88 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 11:04:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221234
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221232
 
 From: Quentin Schulz <quentin.schulz@cherry.de>
 
-We're going to have a new mesa-tools-native recipe include mesa.inc
-soon. We don't need a target mesa-tools recipe for now so we'll go with
-a native-only recipe which this BBCLASSEXTEND prevents us to do
-properly, so let's move them to the recipes instead.
+We're planning on reusing mesa.inc for a new mesa-tools-native recipe
+which will require much less in terms of PACKAGECONFIG than the actual
+mesa recipes.
+
+It also doesn't make a lot of sense to have a default PACKAGECONFIG in
+an include file inherited by multiple recipes (here mesa and mesa-gl)
+which is highlighted by the fact that the only other recipe that
+includes mesa.inc (mesa-gl) overrides PACKAGECONFIG (hence why mesa-gl
+only gets a partial migration of PACKAGECONFIG defaults.
 
 No intended change in behavior.
 
 Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- meta/recipes-graphics/mesa/mesa-gl.bb | 2 ++
- meta/recipes-graphics/mesa/mesa.bb    | 2 ++
- meta/recipes-graphics/mesa/mesa.inc   | 2 --
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/mesa/mesa-gl.bb |  5 +++++
+ meta/recipes-graphics/mesa/mesa.bb    | 12 ++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc   | 13 -------------
+ 3 files changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/meta/recipes-graphics/mesa/mesa-gl.bb b/meta/recipes-graphics/mesa/mesa-gl.bb
-index 42120687197d663a157786916392d52f8f180999..1a594a52f8c6dabbc282af0769b27a755d0e7b22 100644
+index 35d6dc854cf4dfac7a757e333e25e4ddeab10b6e..42120687197d663a157786916392d52f8f180999 100644
 --- a/meta/recipes-graphics/mesa/mesa-gl.bb
 +++ b/meta/recipes-graphics/mesa/mesa-gl.bb
-@@ -15,3 +15,5 @@ PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
- PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
- PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
- PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
+@@ -10,3 +10,8 @@ TARGET_CFLAGS = "-I${STAGING_INCDIR}/drm"
+ 
+ # At least one DRI rendering engine is required to build mesa.
+ PACKAGECONFIG = "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
 +
-+BBCLASSEXTEND = "native nativesdk"
++PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
 diff --git a/meta/recipes-graphics/mesa/mesa.bb b/meta/recipes-graphics/mesa/mesa.bb
-index 51d0384ef5930f36ff2f5c20ebad2d7ad8b817a9..db5eab5fb27c6a7228f6e0fd823514352c42ad1f 100644
+index 96e8aa38d61661c02d2228d825f70cf41f985382..305b18070d6a47a53f204906a16bc8d4833fd9d6 100644
 --- a/meta/recipes-graphics/mesa/mesa.bb
 +++ b/meta/recipes-graphics/mesa/mesa.bb
-@@ -23,3 +23,5 @@ PROVIDES = " \
-     ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)} \
-     virtual/mesa \
- "
+@@ -1,2 +1,14 @@
+ require ${BPN}.inc
+ 
++PACKAGECONFIG = " \
++	gallium \
++	video-codecs \
++	${@bb.utils.filter('DISTRO_FEATURES', 'x11 vulkan wayland glvnd', d)} \
++	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm virgl', '', d)} \
++	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
++"
 +
-+BBCLASSEXTEND = "native nativesdk"
++PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
 diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 6da99293ca844a253705d4759f72bf148f5a72c8..0bacdbc89e96ca83b38ca6158cf22a282019beda 100644
+index 0d6f013ae10a519a7271bf841b7348007e8d7aee..0dd9f9cb882014fc6784b0a71b7645072714a3b4 100644
 --- a/meta/recipes-graphics/mesa/mesa.inc
 +++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -45,8 +45,6 @@ EXTRANATIVEPATH += "chrpath-native"
+@@ -82,22 +82,9 @@ EXTRA_OEMESON = " \
+ def strip_comma(s):
+     return s.strip(',')
  
- inherit meson pkgconfig python3native gettext features_check rust
- 
--BBCLASSEXTEND = "native nativesdk"
+-PACKAGECONFIG = " \
+-	gallium \
+-	video-codecs \
+-	${@bb.utils.filter('DISTRO_FEATURES', 'x11 vulkan wayland glvnd', d)} \
+-	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm virgl', '', d)} \
+-	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
+-"
 -
- ANY_OF_DISTRO_FEATURES = "opengl vulkan"
+ # skip all Rust dependencies if we are not building OpenCL"
+ INHIBIT_DEFAULT_RUST_DEPS = "${@bb.utils.contains('PACKAGECONFIG', 'opencl', '', '1', d)}"
  
- PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)}"
+-PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
+-PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
+-PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
+-PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
+-
+ # "gbm" requires "opengl"
+ PACKAGECONFIG[gbm] = "-Dgbm=enabled,-Dgbm=disabled"
+ 
 
 -- 
 2.50.1
