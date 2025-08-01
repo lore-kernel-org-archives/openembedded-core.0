@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB7CCA0EF8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91ED7CA0EFC
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:13 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.88800.1754057267128198881
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.88817.1754057284012420384
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:08:07 -0700
+ Fri, 01 Aug 2025 07:08:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NGfUmUvZ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LDK8sKQN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019865f62490-21852ff0-a04d-43ab-b646-85376afac4be-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AdmOpvMj;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=hMFYCOqL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019865f616e9-5a465b1e-7033-462d-a6a2-6f3f9ce56259-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754057286;
+	t=1754057283;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hPw7+HDdFxYKbeFrsp1IYFejqXybNiBeVOyuNWgsZ14=;
-	b=NGfUmUvZHwK+XcXV5YA1WQR/YDjjdUkUaHQ6Gtwx/1YB0vHtnXmpjFBfeBE0rFJ5
-	tDiCjt4SJM6KP0LDBooBwaczrh5sAU3OBTtQvGyM5UnmNr+aIrBzDwN8YdS+7TA4KEY
-	f07dBGSHo+UFZuuGEFhsANv3vjuKPVp2+GZo6NKI=
+	bh=nXWaMVhEi3TKCMBRvxdyhJUKDRfMU0oPqoRaBJRUh6I=;
+	b=AdmOpvMjdpSgxMUa2MaRidofalexp40q7Zg3MMZz/lVgWUvmW/RXFXfoTkxq2cTr
+	8S3YCPK7EJQEv2Q2KZXCV5NbbN7F1QOc4h+6rZ5FPuA1VSISR8S+BOLn+JykghycUyX
+	b7ap1RrSWJ7eMTr/IE/fkGAWHBemgFmJN48oOsM0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057286;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057283;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hPw7+HDdFxYKbeFrsp1IYFejqXybNiBeVOyuNWgsZ14=;
-	b=LDK8sKQN0aIuxuznKZjqLciWGviLRwYIDyFb4JymGJm8vKClYjdrzZNoQ1B9tQ0W
-	i2XBDBPAatoG82TTO76WS+gHQVVtWkbEhav6PIogu1e+Hsr+y/WfJoxbbfJT0jG00u9
-	QRZLchK6qsgu3Q3ELFOuMgKSAk3PHANyxl84QPxE=
-Content-Type: multipart/mixed; boundary="===============6635158919615260508=="
+	bh=nXWaMVhEi3TKCMBRvxdyhJUKDRfMU0oPqoRaBJRUh6I=;
+	b=hMFYCOqLDwaE0O+wXfk4L0H0h/HnoM1N3i76mcU9ZwAup5kLj/EDr0QPW2kxJmS9
+	wg/mFZtnBeKsnz9L3JIhqOZJ8Asjfj2YD1RiNMSsKRx6Q5BS5mNKuiVsPZO5UXgLOn6
+	lVgQCZAEzhJFw7iw2fxKxEO/H1y1Nn6sZUObgBE4=
+Content-Type: multipart/mixed; boundary="===============8173533914227761309=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] babeltrace2: upgrading to 2.1.2 SUCCEEDED
-Message-ID: <0101019865f62490-21852ff0-a04d-43ab-b646-85376afac4be-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Aug 2025 14:08:06 +0000
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] spirv-tools: upgrading to 1.4.321.0 FAILED
+Message-ID: <0101019865f616e9-5a465b1e-7033-462d-a6a2-6f3f9ce56259-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Aug 2025 14:08:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.45
+X-SES-Outgoing: 2025.08.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221323
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221314
 
---===============6635158919615260508==
+--===============8173533914227761309==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *babeltrace2* to *2.1.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *spirv-tools* to *1.4.321.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-babeltrace2-upgrade-2.1.1-2.1.2.patch
+    - apply the patch: git am 0001-spirv-tools-upgrade-1.4.313.0-1.4.321.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,282 +78,185 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f604f502e38e9c57cf554062a71ef16712a9b027 Mon Sep 17 00:00:00 2001
+From bd248ffa8d411c34ca8669b7335ff5aa2c809f11 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Aug 2025 12:19:02 +0000
-Subject: [PATCH] babeltrace2: upgrade 2.1.1 -> 2.1.2
+Date: Fri, 1 Aug 2025 11:46:04 +0000
+Subject: [PATCH] spirv-tools: upgrade 1.4.313.0 -> 1.4.321.0
 
 ---
- ...field_blob_get_length-return-size_t-instead-.patch |  4 ++--
- .../0001-Make-manpages-multilib-identical.patch       |  6 ++----
- ...01-tests-fix-test-applications-in-cpp-common.patch |  5 +----
- .../0001-tests-set-the-correct-plugin-directory.patch | 11 ++++-------
- .../{babeltrace2_2.1.1.bb => babeltrace2_2.1.2.bb}    |  2 +-
- 5 files changed, 10 insertions(+), 18 deletions(-)
- rename meta/recipes-kernel/lttng/{babeltrace2_2.1.1.bb => babeltrace2_2.1.2.bb} (99%)
+ .../spir/{spirv-tools_1.4.313.0.bb => spirv-tools_1.4.321.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/spir/{spirv-tools_1.4.313.0.bb => spirv-tools_1.4.321.0.bb} (97%)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
-index 4dffa7bfa5..286cd58836 100644
---- a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
-@@ -1,4 +1,4 @@
--From a73cef80a0d4129f74ab2e160a15693235aad4d1 Mon Sep 17 00:00:00 2001
-+From a23ec3754802d5793edd73cefab94fccb6e9a7be Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 20 Mar 2025 18:10:08 -0700
- Subject: [PATCH] Cast result of bt_field_blob_get_length to size_t in
-@@ -24,7 +24,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-graphics/spir/spirv-tools_1.4.313.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb
+similarity index 97%
+rename from meta/recipes-graphics/spir/spirv-tools_1.4.313.0.bb
+rename to meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb
+index 4594a1a942..319b25b7f4 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_1.4.313.0.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb
+@@ -7,7 +7,7 @@ SECTION = "graphics"
+ LICENSE  = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
- diff --git a/src/cpp-common/bt2/field.hpp b/src/cpp-common/bt2/field.hpp
--index 8b291f7a..3a7d30a4 100644
-+index 8b291f7a1..3a7d30a4f 100644
- --- a/src/cpp-common/bt2/field.hpp
- +++ b/src/cpp-common/bt2/field.hpp
- @@ -1136,7 +1136,7 @@ public:
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
-index c2b76b1ed5..41e1ad7f0a 100644
---- a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
-@@ -1,4 +1,4 @@
--From 56986190e4b0c10945ce6aaa7ca10d6bd8a26a39 Mon Sep 17 00:00:00 2001
-+From 5b8ed38da0500c5f1eed8a32ed9a15e64c539f13 Mon Sep 17 00:00:00 2001
- From: Jeremy Puhlman <jpuhlman@mvista.com>
- Date: Mon, 9 Mar 2020 21:10:35 +0000
- Subject: [PATCH] Make manpages multilib identical
-@@ -16,7 +16,7 @@ index 88fb13ce2..27858b720 100644
- --- a/doc/man/asciidoc-attrs.conf.in
- +++ b/doc/man/asciidoc-attrs.conf.in
- @@ -4,8 +4,8 @@
--
-+ 
-  [attributes]
-  # default values
- -system_plugin_path="@LIBDIR@/babeltrace2/plugins"
-@@ -26,5 +26,3 @@ index 88fb13ce2..27858b720 100644
-  babeltrace_version="@PACKAGE_VERSION@"
-  enable_debug_info="@ENABLE_DEBUG_INFO_VAL@"
-  defrdport=5344
---- 
--2.34.1
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
-index 87f94fb087..14677d42ff 100644
---- a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
-@@ -1,4 +1,4 @@
--From 1dc81f272855d94e6a78f7d10ea952745d991aa9 Mon Sep 17 00:00:00 2001
-+From dbf89e24b7e4ce977bb8ced38c36e5fdd311efbe Mon Sep 17 00:00:00 2001
- From: Bin Lan <bin.lan.cn@windriver.com>
- Date: Tue, 11 Mar 2025 17:19:11 +0800
- Subject: [PATCH] Tests: fix test applications in cpp-common are needed to
-@@ -124,6 +124,3 @@ index 000000000..8c65daa94
- +source "$UTILSSH"
- +
- +"${BT_TESTS_BUILDDIR}/cpp-common/test-uuid" "$BT_TESTS_BT2_BIN"
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
-index 7ac7582ad7..09ceb4fb99 100644
---- a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
-@@ -1,11 +1,11 @@
--From 32494b1726a881883cb6d317ab76d1ec3f1fa740 Mon Sep 17 00:00:00 2001
-+From e5edaa197903a4c1b87fcacd87ecc85497106387 Mon Sep 17 00:00:00 2001
- From: Bin Lan <bin.lan.cn@windriver.com>
- Date: Wed, 5 Mar 2025 10:51:11 +0800
- Subject: [PATCH] tests: set the correct directory of plugin shared library
- 
--The plugin shared libraries are put in test-plugins-plugins/.libs when 
--building in a host. test-plugins-plugins/.libs is not exist when cross 
--build. The plugin shared libraries are put in test-plugins-plugins 
-+The plugin shared libraries are put in test-plugins-plugins/.libs when
-+building in a host. test-plugins-plugins/.libs is not exist when cross
-+build. The plugin shared libraries are put in test-plugins-plugins
- directory when cross build.
- 
- Upstream-Status: Inappropriate [oe specific]
-@@ -25,6 +25,3 @@ index f83e42baa..939236393 100755
-  
- -"${BT_TESTS_BUILDDIR}/lib/test-plugins" "${BT_TESTS_BUILDDIR}/lib/test-plugins-plugins/.libs"
- +"${BT_TESTS_BUILDDIR}/lib/test-plugins" "${BT_TESTS_BUILDDIR}/lib/test-plugins-plugins"
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
-similarity index 99%
-rename from meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
-rename to meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
-index 8bab7f677a..a56676e854 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
-@@ -14,7 +14,7 @@ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=http
-            file://0001-tests-set-the-correct-plugin-directory.patch \
-            file://0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch \
+-SRCREV = "a62abcb402009b9ca5975e6167c09f237f630e0e"
++SRCREV = "33e02568181e3312f49a3cf33df470bf96ef293a"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=main;protocol=https \
             "
--SRCREV = "7f2f8cd6dac497cbb466efb31219b531c62013f5"
-+SRCREV = "d0e946a71faf5f0c2d7f1fb5b92a369983e9cf10"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
- 
- inherit autotools pkgconfig ptest python3targetconfig
+ PE = "1"
 -- 
 2.47.1
 
 
---===============6635158919615260508==
+--===============8173533914227761309==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1935 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 942 .bb files complete (941 cached, 1 parsed). 1933 targets, 42 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-68d1ef609a2546b7421c078a227ec5e83e22f748"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:68d1ef609a2546b7421c078a227ec5e83e22f748"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 200 Local 188 Mirrors 0 Missed 12 Current 308 (94% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 397 of 508 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 435 of 508 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.4.313.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 455 of 508 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_recipe_qa_setscene)
+NOTE: recipe spirv-headers-1_1.4.313.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1038 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_fetch)
+NOTE: recipe spirv-headers-1_1.4.313.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 468 of 508 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_create_spdx_setscene)
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_fetch: Started
+NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 482 of 508 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1065 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_unpack)
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_unpack: Started
+NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 487 of 508 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 500 of 508 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1169 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_patch)
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_patch: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_patch: Succeeded
+NOTE: Running task 1170 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1171 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1172 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_populate_lic)
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_populate_lic: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_populate_lic unihash changed to bdebaabc9f05f00afea6c48df0440124328c88c80ab6720638e733e939fa7034
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 505 of 508 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.45.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1372 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1458 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1468 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_configure: Succeeded
+NOTE: Running task 1469 of 1480 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_compile)
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/build --target all --
+| Change Dir: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/build'
+| 
+| Run Build Command(s): ninja -v -j 16 all
+| ninja: error: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/recipe-sysroot/usr/include/spirv/unified1/extinst.tosa.001000.1.grammar.json', needed by 'core_tables_body.inc', missing and no known rule to make it
+| 
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/temp/run.do_compile.2866498:154 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| WARNING: Backtrace (BB generated script):
+| 	#1: cmake_runcmake_build, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/temp/run.do_compile.2866498, line 154
+| 	#2: cmake_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/temp/run.do_compile.2866498, line 148
+| 	#3: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/temp/run.do_compile.2866498, line 143
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/temp/run.do_compile.2866498, line 167
+NOTE: recipe spirv-tools-1_1.4.321.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1469 tasks of which 1459 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801114550.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801114550.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/temp/log.do_compile.2866498
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: spirv-tools-1_1.4.321.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/temp/run.do_compile.2866498' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.4.321.0/temp/log.do_compile.2866498
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb:do_compile) failed with exit code '1'
+
+--===============8173533914227761309==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-babeltrace2-upgrade-2.1.1-2.1.2.patch"
+ filename="0001-spirv-tools-upgrade-1.4.313.0-1.4.321.0.patch"
 
-RnJvbSBmNjA0ZjUwMmUzOGU5YzU3Y2Y1NTQwNjJhNzFlZjE2NzEyYTliMDI3IE1vbiBTZXAgMTcg
+RnJvbSBiZDI0OGZmYThkNDExYzM0Y2E4NjY5YjczMzVmZjVhYTJjODA5ZjExIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMjoxOTowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJh
-YmVsdHJhY2UyOiB1cGdyYWRlIDIuMS4xIC0+IDIuMS4yCgotLS0KIC4uLmZpZWxkX2Jsb2JfZ2V0
-X2xlbmd0aC1yZXR1cm4tc2l6ZV90LWluc3RlYWQtLnBhdGNoIHwgIDQgKystLQogLi4uLzAwMDEt
-TWFrZS1tYW5wYWdlcy1tdWx0aWxpYi1pZGVudGljYWwucGF0Y2ggICAgICAgfCAgNiArKy0tLS0K
-IC4uLjAxLXRlc3RzLWZpeC10ZXN0LWFwcGxpY2F0aW9ucy1pbi1jcHAtY29tbW9uLnBhdGNoIHwg
-IDUgKy0tLS0KIC4uLi8wMDAxLXRlc3RzLXNldC10aGUtY29ycmVjdC1wbHVnaW4tZGlyZWN0b3J5
-LnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi97YmFiZWx0cmFjZTJfMi4xLjEuYmIgPT4gYmFi
-ZWx0cmFjZTJfMi4xLjIuYmJ9ICAgIHwgIDIgKy0KIDUgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0
-aW9ucygrKSwgMTggZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRu
-Zy97YmFiZWx0cmFjZTJfMi4xLjEuYmIgPT4gYmFiZWx0cmFjZTJfMi4xLjIuYmJ9ICg5OSUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLU1h
-a2UtYnRfZmllbGRfYmxvYl9nZXRfbGVuZ3RoLXJldHVybi1zaXplX3QtaW5zdGVhZC0ucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEtTWFrZS1idF9maWVs
-ZF9ibG9iX2dldF9sZW5ndGgtcmV0dXJuLXNpemVfdC1pbnN0ZWFkLS5wYXRjaAppbmRleCA0ZGZm
-YTdiZmE1Li4yODZjZDU4ODM2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5n
-L2JhYmVsdHJhY2UyLzAwMDEtTWFrZS1idF9maWVsZF9ibG9iX2dldF9sZW5ndGgtcmV0dXJuLXNp
-emVfdC1pbnN0ZWFkLS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVs
-dHJhY2UyLzAwMDEtTWFrZS1idF9maWVsZF9ibG9iX2dldF9sZW5ndGgtcmV0dXJuLXNpemVfdC1p
-bnN0ZWFkLS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYTczY2VmODBhMGQ0MTI5Zjc0YWIy
-ZTE2MGExNTY5MzIzNWFhZDRkMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTIzZWMz
-NzU0ODAyZDU3OTNlZGQ3M2NlZmFiOTRmY2NiNmU5YTdiZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDIwIE1h
-ciAyMDI1IDE4OjEwOjA4IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIENhc3QgcmVzdWx0IG9mIGJ0
-X2ZpZWxkX2Jsb2JfZ2V0X2xlbmd0aCB0byBzaXplX3QgaW4KQEAgLTI0LDcgKzI0LDcgQEAgU2ln
-bmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3NyYy9jcHAt
-Y29tbW9uL2J0Mi9maWVsZC5ocHAgYi9zcmMvY3BwLWNvbW1vbi9idDIvZmllbGQuaHBwCi1pbmRl
-eCA4YjI5MWY3YS4uM2E3ZDMwYTQgMTAwNjQ0CitpbmRleCA4YjI5MWY3YTEuLjNhN2QzMGE0ZiAx
-MDA2NDQKIC0tLSBhL3NyYy9jcHAtY29tbW9uL2J0Mi9maWVsZC5ocHAKICsrKyBiL3NyYy9jcHAt
-Y29tbW9uL2J0Mi9maWVsZC5ocHAKIEBAIC0xMTM2LDcgKzExMzYsNyBAQCBwdWJsaWM6CmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEtTWFrZS1t
-YW5wYWdlcy1tdWx0aWxpYi1pZGVudGljYWwucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0
-dG5nL2JhYmVsdHJhY2UyLzAwMDEtTWFrZS1tYW5wYWdlcy1tdWx0aWxpYi1pZGVudGljYWwucGF0
-Y2gKaW5kZXggYzJiNzZiMWVkNS4uNDFlMWFkN2YwYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLU1ha2UtbWFucGFnZXMtbXVsdGlsaWItaWRl
-bnRpY2FsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTIv
-MDAwMS1NYWtlLW1hbnBhZ2VzLW11bHRpbGliLWlkZW50aWNhbC5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gNTY5ODYxOTBlNGIwYzEwOTQ1Y2U2YWFhN2NhMTBkNmJkOGEyNmEzOSBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNWI4ZWQzOGRhMDUwMGM1ZjFlZWQ4YTMyZWQ5YTE1ZTY0
-YzUzOWYxMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEplcmVteSBQdWhsbWFuIDxq
-cHVobG1hbkBtdmlzdGEuY29tPgogRGF0ZTogTW9uLCA5IE1hciAyMDIwIDIxOjEwOjM1ICswMDAw
-CiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2UgbWFucGFnZXMgbXVsdGlsaWIgaWRlbnRpY2FsCkBAIC0x
-Niw3ICsxNiw3IEBAIGluZGV4IDg4ZmIxM2NlMi4uMjc4NThiNzIwIDEwMDY0NAogLS0tIGEvZG9j
-L21hbi9hc2NpaWRvYy1hdHRycy5jb25mLmluCiArKysgYi9kb2MvbWFuL2FzY2lpZG9jLWF0dHJz
-LmNvbmYuaW4KIEBAIC00LDggKzQsOCBAQAotCisgCiAgW2F0dHJpYnV0ZXNdCiAgIyBkZWZhdWx0
-IHZhbHVlcwogLXN5c3RlbV9wbHVnaW5fcGF0aD0iQExJQkRJUkAvYmFiZWx0cmFjZTIvcGx1Z2lu
-cyIKQEAgLTI2LDUgKzI2LDMgQEAgaW5kZXggODhmYjEzY2UyLi4yNzg1OGI3MjAgMTAwNjQ0CiAg
-YmFiZWx0cmFjZV92ZXJzaW9uPSJAUEFDS0FHRV9WRVJTSU9OQCIKICBlbmFibGVfZGVidWdfaW5m
-bz0iQEVOQUJMRV9ERUJVR19JTkZPX1ZBTEAiCiAgZGVmcmRwb3J0PTUzNDQKLS0tIAotMi4zNC4x
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEt
-dGVzdHMtZml4LXRlc3QtYXBwbGljYXRpb25zLWluLWNwcC1jb21tb24ucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEtdGVzdHMtZml4LXRlc3QtYXBwbGlj
-YXRpb25zLWluLWNwcC1jb21tb24ucGF0Y2gKaW5kZXggODdmOTRmYjA4Ny4uMTQ2NzdkNDJmZiAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLXRl
-c3RzLWZpeC10ZXN0LWFwcGxpY2F0aW9ucy1pbi1jcHAtY29tbW9uLnBhdGNoCisrKyBiL21ldGEv
-cmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTIvMDAwMS10ZXN0cy1maXgtdGVzdC1hcHBs
-aWNhdGlvbnMtaW4tY3BwLWNvbW1vbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMWRjODFm
-MjcyODU1ZDk0ZTZhNzhmN2QxMGVhOTUyNzQ1ZDk5MWFhOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gZGJmODllMjRiN2U0Y2U5NzdiYjhjZWQzOGMzNmU1ZmRkMzExZWZiZSBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEJpbiBMYW4gPGJpbi5sYW4uY25Ad2luZHJpdmVyLmNv
-bT4KIERhdGU6IFR1ZSwgMTEgTWFyIDIwMjUgMTc6MTk6MTEgKzA4MDAKIFN1YmplY3Q6IFtQQVRD
-SF0gVGVzdHM6IGZpeCB0ZXN0IGFwcGxpY2F0aW9ucyBpbiBjcHAtY29tbW9uIGFyZSBuZWVkZWQg
-dG8KQEAgLTEyNCw2ICsxMjQsMyBAQCBpbmRleCAwMDAwMDAwMDAuLjhjNjVkYWE5NAogK3NvdXJj
-ZSAiJFVUSUxTU0giCiArCiArIiR7QlRfVEVTVFNfQlVJTERESVJ9L2NwcC1jb21tb24vdGVzdC11
-dWlkIiAiJEJUX1RFU1RTX0JUMl9CSU4iCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEtdGVzdHMtc2V0LXRoZS1jb3Jy
-ZWN0LXBsdWdpbi1kaXJlY3RvcnkucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2Jh
-YmVsdHJhY2UyLzAwMDEtdGVzdHMtc2V0LXRoZS1jb3JyZWN0LXBsdWdpbi1kaXJlY3RvcnkucGF0
-Y2gKaW5kZXggN2FjNzU4MmFkNy4uMDljZWI0ZmI5OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLXRlc3RzLXNldC10aGUtY29ycmVjdC1wbHVn
-aW4tZGlyZWN0b3J5LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0
-cmFjZTIvMDAwMS10ZXN0cy1zZXQtdGhlLWNvcnJlY3QtcGx1Z2luLWRpcmVjdG9yeS5wYXRjaApA
-QCAtMSwxMSArMSwxMSBAQAotRnJvbSAzMjQ5NGIxNzI2YTg4MTg4M2NiNmQzMTdhYjc2ZDFlYzNm
-MWZhNzQwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlNWVkYWExOTc5MDNhNGMxYjg3
-ZmNhY2Q4N2VjYzg1NDk3MTA2Mzg3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQmlu
-IExhbiA8YmluLmxhbi5jbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCA1IE1hciAyMDI1IDEw
-OjUxOjExICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzOiBzZXQgdGhlIGNvcnJlY3QgZGly
-ZWN0b3J5IG9mIHBsdWdpbiBzaGFyZWQgbGlicmFyeQogCi1UaGUgcGx1Z2luIHNoYXJlZCBsaWJy
-YXJpZXMgYXJlIHB1dCBpbiB0ZXN0LXBsdWdpbnMtcGx1Z2lucy8ubGlicyB3aGVuIAotYnVpbGRp
-bmcgaW4gYSBob3N0LiB0ZXN0LXBsdWdpbnMtcGx1Z2lucy8ubGlicyBpcyBub3QgZXhpc3Qgd2hl
-biBjcm9zcyAKLWJ1aWxkLiBUaGUgcGx1Z2luIHNoYXJlZCBsaWJyYXJpZXMgYXJlIHB1dCBpbiB0
-ZXN0LXBsdWdpbnMtcGx1Z2lucyAKK1RoZSBwbHVnaW4gc2hhcmVkIGxpYnJhcmllcyBhcmUgcHV0
-IGluIHRlc3QtcGx1Z2lucy1wbHVnaW5zLy5saWJzIHdoZW4KK2J1aWxkaW5nIGluIGEgaG9zdC4g
-dGVzdC1wbHVnaW5zLXBsdWdpbnMvLmxpYnMgaXMgbm90IGV4aXN0IHdoZW4gY3Jvc3MKK2J1aWxk
-LiBUaGUgcGx1Z2luIHNoYXJlZCBsaWJyYXJpZXMgYXJlIHB1dCBpbiB0ZXN0LXBsdWdpbnMtcGx1
-Z2lucwogZGlyZWN0b3J5IHdoZW4gY3Jvc3MgYnVpbGQuCiAKIFVwc3RyZWFtLVN0YXR1czogSW5h
-cHByb3ByaWF0ZSBbb2Ugc3BlY2lmaWNdCkBAIC0yNSw2ICsyNSwzIEBAIGluZGV4IGY4M2U0MmJh
-YS4uOTM5MjM2MzkzIDEwMDc1NQogIAogLSIke0JUX1RFU1RTX0JVSUxERElSfS9saWIvdGVzdC1w
-bHVnaW5zIiAiJHtCVF9URVNUU19CVUlMRERJUn0vbGliL3Rlc3QtcGx1Z2lucy1wbHVnaW5zLy5s
-aWJzIgogKyIke0JUX1RFU1RTX0JVSUxERElSfS9saWIvdGVzdC1wbHVnaW5zIiAiJHtCVF9URVNU
-U19CVUlMRERJUn0vbGliL3Rlc3QtcGx1Z2lucy1wbHVnaW5zIgotLS0gCi0yLjM0LjEKLQpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMl8yLjEuMS5iYiBi
-L21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTJfMi4xLjIuYmIKc2ltaWxhcml0
-eSBpbmRleCA5OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRy
-YWNlMl8yLjEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRy
-YWNlMl8yLjEuMi5iYgppbmRleCA4YmFiN2Y2NzdhLi5hNTY2NzZlODU0IDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyXzIuMS4xLmJiCisrKyBiL21ldGEv
-cmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTJfMi4xLjIuYmIKQEAgLTE0LDcgKzE0LDcg
-QEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXQuZWZmaWNpb3MuY29tL2JhYmVsdHJhY2UuZ2l0O2JyYW5j
-aD1zdGFibGUtMi4xO3Byb3RvY29sPWh0dHAKICAgICAgICAgICAgZmlsZTovLzAwMDEtdGVzdHMt
-c2V0LXRoZS1jb3JyZWN0LXBsdWdpbi1kaXJlY3RvcnkucGF0Y2ggXAogICAgICAgICAgICBmaWxl
-Oi8vMDAwMS1NYWtlLWJ0X2ZpZWxkX2Jsb2JfZ2V0X2xlbmd0aC1yZXR1cm4tc2l6ZV90LWluc3Rl
-YWQtLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjdmMmY4Y2Q2ZGFjNDk3Y2JiNDY2
-ZWZiMzEyMTliNTMxYzYyMDEzZjUiCitTUkNSRVYgPSAiZDBlOTQ2YTcxZmFmNWYwYzJkN2YxZmI1
-YjkyYTM2OTk4M2U5Y2YxMCIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gInYoP1A8cHZl
-cj4yKFwuXGQrKSspJCIKIAogaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIHB0ZXN0IHB5dGhv
-bjN0YXJnZXRjb25maWcKLS0gCjIuNDcuMQoK
+CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMTo0NjowNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
+aXJ2LXRvb2xzOiB1cGdyYWRlIDEuNC4zMTMuMCAtPiAxLjQuMzIxLjAKCi0tLQogLi4uL3NwaXIv
+e3NwaXJ2LXRvb2xzXzEuNC4zMTMuMC5iYiA9PiBzcGlydi10b29sc18xLjQuMzIxLjAuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LXRvb2xzXzEuNC4zMTMuMC5iYiA9
+PiBzcGlydi10b29sc18xLjQuMzIxLjAuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS40LjMxMy4wLmJiIGIvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS40LjMyMS4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEu
+NC4zMTMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9v
+bHNfMS40LjMyMS4wLmJiCmluZGV4IDQ1OTRhMWE5NDIuLjMxOWIyNWI3ZjQgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuNC4zMTMuMC5iYgorKysg
+Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18xLjQuMzIxLjAuYmIKQEAg
+LTcsNyArNyw3IEBAIFNFQ1RJT04gPSAiZ3JhcGhpY3MiCiBMSUNFTlNFICA9ICJBcGFjaGUtMi4w
+IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdmMTQ2
+NTVmYzg1NGRkYzNjNmJkNTciCiAKLVNSQ1JFViA9ICJhNjJhYmNiNDAyMDA5YjljYTU5NzVlNjE2
+N2MwOWYyMzdmNjMwZTBlIgorU1JDUkVWID0gIjMzZTAyNTY4MTgxZTMzMTJmNDlhM2NmMzNkZjQ3
+MGJmOTZlZjI5M2EiCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQ
+SVJWLVRvb2xzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgICIK
+IFBFID0gIjEiCi0tIAoyLjQ3LjEKCg==
 
---===============6635158919615260508==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dbg: PKGSIZE changed from 74488256 to 74490696 (+0%)
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dbg: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dbg: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dev: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-dev: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-doc: PKGSIZE changed from 424839 to 425589 (+0%)
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-doc: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-doc: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-locale: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-locale: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: PKGSIZE changed from 25560786 to 25556820 (-0%)
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: FILELIST: added "/usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/index/channel0_2.idx /usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/metadata /usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/channel0_2"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-src: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-src: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-staticdev: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-staticdev: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/babeltrace2/babeltrace2: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/babeltrace2/babeltrace2: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/babeltrace2: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/babeltrace2: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/babeltrace2: SRC_URI changed from "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=https;tag=v2.1.1 file://run-ptest file://0001-Make-manpages-multilib-identical.patch file://0001-tests-fix-test-applications-in-cpp-common.patch file://0001-tests-set-the-correct-plugin-directory.patch file://0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch" to "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=https;tag=v2.1.2 file://run-ptest file://0001-Make-manpages-multilib-identical.patch file://0001-tests-fix-test-applications-in-cpp-common.patch file://0001-tests-set-the-correct-plugin-directory.patch file://0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch"
-
---===============6635158919615260508==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: FILELIST: added "/usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/index/channel0_2.idx /usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/channel0_2 /usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/metadata"
-
---===============6635158919615260508==--
+--===============8173533914227761309==--
 
