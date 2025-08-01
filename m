@@ -1,87 +1,120 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA70C87FCA
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 15:03:55 +0000 (UTC)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
- by mx.groups.io with SMTP id smtpd.web11.90078.1754060630848975344
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38A29C87FCB
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 15:42:36 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.91334.1754062950114296890
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 08:03:51 -0700
+ Fri, 01 Aug 2025 08:42:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hPpgPTEK;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.178, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-71b6ad2d6fcso11484247b3.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 08:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1754060630; x=1754665430; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0wo68TAm/kIZ2wZfjMQxFreMeMDns9w/OmZo2bIBtPA=;
-        b=hPpgPTEK/LCE9iSbtg2BWd5AknHJb77er/o2kf65H+zqlRMpbkOklYNCWqJ0bnXaWs
-         ChjDeaFqjjopRF6w5wgjy69CElfcTJ1EhujBLRBMs6nDdiMGPHKuRzWEj1nIPsF75d8N
-         Mm/24zQPGUZEJtI/VjuiAIatUP4bTF1+3KT60X5JyDZu1Ebn6t6EqULvFkVMCMXHQxdK
-         JO1uJnlP9t+qfwnbllfQfrG4aJlmyea/Gj36O3oKcaBxvX9vJv/asEiOSG8kRawtTKr5
-         h6W6BJ8TJMKYgRxNQKkteeGxwacgwUq5zcRU5tg3KYRdbUls6ZvFMjh+bS0kkBV30wDB
-         Iu8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754060630; x=1754665430;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0wo68TAm/kIZ2wZfjMQxFreMeMDns9w/OmZo2bIBtPA=;
-        b=hlwUQ1RVta/ztd0BvSSOfbIkRgrnm+H9ifYf9lgePx7tX6lqGLe0fBdxAGT6Mmd9Gg
-         J2+hsLJLIMAjDz5Yf5X1YJ5wDAUXteHn1Ja2PbMaLZQxslDcosf9gS+dsdhfXe9zm3zR
-         q23nDcWREm9Rd+zIhbVRItDta/K64uxsI1O+WyhvaQDiX6gPl0QC9vrlKd/h88ivrttt
-         IOc/wtPNOP2fD7dDA6H9oAXwk/888PCV+c4s3GE74AnfaFpiyNcsPNj44PlgrKgNzlUU
-         RF6zyyZWWRtsq+DzWeJMDf4h3qi8q7iLY6v5u3CM+mTNifiDJvtAd9t3M2EIAiQwJYOF
-         CJVw==
-X-Gm-Message-State: AOJu0Yz+A3CRRo6GwOsSAr0IRwGEEAn7GAmKoSDOpODR1bycJWsBZ+o/
-	eMiE0+uqjvlFSKcw6N4LsZd0IWFkeNcMKOPX6Iyx/uBvoSFoY7apbsgv8UX3NazvNKgkX6nDorj
-	u0uhH2WTgyuGP/kmuXkZcaNWRKt1iXptfYoaXR+pGHA==
-X-Gm-Gg: ASbGncuVcArjlV1/tmcKSByZc9TgFRE/K26IKILLRauEUBmEpkRtLDR1koeoKGoNvMn
-	Dq0hYr8lxZEzgLATUxfaLM4IsNVOcPg6O6Ic7d+2ZRzZ8tgYOxcyltIycxUFBPOjEQHqvvHYiGB
-	oHoWyHbHFopMYik5lVG4pSIHY7fjHK9JY5DCo+tTOJIln9CKP+zUJkIWbIwR0trIm2JNFgIIv6g
-	G32SNY09PKVrDQdPclzvYtT6J+y4JEou/W4C3g=
-X-Google-Smtp-Source: AGHT+IGvJLjKDrbz6MOuxPl3jo6P5OIUf6lRN+8SnvRCKLQKWNrasRzXZxrWoXQ+zKjnvoZ66yqUTZnZJ5oMfml56Zo=
-X-Received: by 2002:a05:690c:6401:b0:719:3e4f:60f7 with SMTP id
- 00721157ae682-71b6d78ffaemr39417787b3.26.1754060629892; Fri, 01 Aug 2025
- 08:03:49 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 592CB1516
+	for <openembedded-core@lists.openembedded.org>; Fri,  1 Aug 2025 08:42:21 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 01CA43F66E
+	for <openembedded-core@lists.openembedded.org>; Fri,  1 Aug 2025 08:42:28 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] python3-unittest-automake-output: upgrade to 0.3
+Date: Fri,  1 Aug 2025 16:42:25 +0100
+Message-ID: <20250801154225.3823025-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250801100708.2925411-1-martin.jansa@gmail.com>
- <CAOSpxdbjrwU2N-qYdy8+o2K3Q+XH9dn0VquQe0YSyass_PxYcA@mail.gmail.com> <CA+chaQcVit+vwWQny5N-uAsCHD4YFbU1RSrVfNuPqkJW_ii8BA@mail.gmail.com>
-In-Reply-To: <CA+chaQcVit+vwWQny5N-uAsCHD4YFbU1RSrVfNuPqkJW_ii8BA@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 1 Aug 2025 08:03:39 -0700
-X-Gm-Features: Ac12FXxQqbrh1NvSHO5b06JdK4TD2a2qu3KLhRYWOrEuIpcqguVGteTpkqNHCnU
-Message-ID: <CAOSpxdYWyrg-A84eUjcXH5gdPZH+FvMtxE8hzJM68BONmBbNeQ@mail.gmail.com>
-Subject: Re: [scarthgap][PATCH] libpam: re-add missing libgen include
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, hprajapati@mvista.com
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 15:03:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221364
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 15:42:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221365
 
-On Fri, Aug 1, 2025 at 7:43=E2=80=AFAM Martin Jansa <martin.jansa@gmail.com=
-> wrote:
->
-> On Fri, Aug 1, 2025 at 4:42=E2=80=AFPM Steve Sakoman <steve@sakoman.com> =
-wrote:
-> >
-> > Thanks Martin!
-> >
-> > Any theories on why I didn't see this error on local or autobuilder tes=
-ting?
->
-> I've seen it in build with clang which is more strict than older gcc
-> used in scarthgap.
+The patch is merged in this upgrade, so remove.
 
-Makes sense, thanks!
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ ...__version__-to-match-the-tag-version.patch | 30 -------------------
+ ...> python3-unittest-automake-output_0.3.bb} |  5 ++--
+ 2 files changed, 2 insertions(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-unittest-automak=
+e-output/0001-Update-__version__-to-match-the-tag-version.patch
+ rename meta/recipes-devtools/python/{python3-unittest-automake-output_0.=
+2.bb =3D> python3-unittest-automake-output_0.3.bb} (71%)
 
-Steve
+diff --git a/meta/recipes-devtools/python/python3-unittest-automake-outpu=
+t/0001-Update-__version__-to-match-the-tag-version.patch b/meta/recipes-d=
+evtools/python/python3-unittest-automake-output/0001-Update-__version__-t=
+o-match-the-tag-version.patch
+deleted file mode 100644
+index c2e519a12ae..00000000000
+--- a/meta/recipes-devtools/python/python3-unittest-automake-output/0001-=
+Update-__version__-to-match-the-tag-version.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 8da931c5e9e32a15091d517b28cdf2e2b5395f77 Mon Sep 17 00:00:00 2001
+-From: Yi Zhao <yi.zhao@windriver.com>
+-Date: Tue, 8 Apr 2025 15:55:42 +0800
+-Subject: [PATCH] Update __version__ to match the tag version
+-
+-Update __version__ to 0.2 to match the current tag.
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+-
+-Upstream-Status: Backport
+-[https://gitlab.com/rossburton/python-unittest-automake-output/-/commit/=
+8da931c5e9e32a15091d517b28cdf2e2b5395f77]
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- src/putao/__init__.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/putao/__init__.py b/src/putao/__init__.py
+-index e8758de..00265e2 100644
+---- a/src/putao/__init__.py
+-+++ b/src/putao/__init__.py
+-@@ -5,4 +5,4 @@
+- Tools to write automake-style test reports.
+- """
+-=20
+--__version__ =3D "0.1"
+-+__version__ =3D "0.2"
+---=20
+-2.34.1
+-
+diff --git a/meta/recipes-devtools/python/python3-unittest-automake-outpu=
+t_0.2.bb b/meta/recipes-devtools/python/python3-unittest-automake-output_=
+0.3.bb
+similarity index 71%
+rename from meta/recipes-devtools/python/python3-unittest-automake-output=
+_0.2.bb
+rename to meta/recipes-devtools/python/python3-unittest-automake-output_0=
+.3.bb
+index 216fea2b935..66c1abee347 100644
+--- a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.b=
+b
++++ b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.b=
+b
+@@ -3,10 +3,9 @@ HOMEPAGE =3D "https://gitlab.com/rossburton/python-unitt=
+est-automake-output"
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Df6f16008d9fb7349f06609329f1ab=
+93b"
+=20
+-SRC_URI =3D "git://gitlab.com/rossburton/python-unittest-automake-output=
+;protocol=3Dhttps;branch=3Dmain \
+-           file://0001-Update-__version__-to-match-the-tag-version.patch=
+"
++SRC_URI =3D "git://gitlab.com/rossburton/python-unittest-automake-output=
+;protocol=3Dhttps;branch=3Dmain;tag=3D${PV}"
+=20
+-SRCREV =3D "aebdfb188e368c690ea55cf6c9c9ffa1a52def65"
++SRCREV =3D "3376ff9bc319f8338849b7b9f63b9325d7b7663a"
+=20
+ inherit python_flit_core
+=20
+--=20
+2.43.0
+
 
