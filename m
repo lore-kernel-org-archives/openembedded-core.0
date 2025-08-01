@@ -2,460 +2,283 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C485DC87FD3
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 02:17:54 +0000 (UTC)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web11.78531.1754014668220993475
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A373DC87FD2
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 02:18:14 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web10.78712.1754014685962726302
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Jul 2025 19:17:48 -0700
+ Thu, 31 Jul 2025 19:18:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=TXMpAtpE;
- spf=pass (domain: underview.tech, ip: 209.85.222.171, mailfrom: vince@underview.tech)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7e32cf22fdfso153291585a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 19:17:48 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=QfDcDbej;
+ spf=pass (domain: underview.tech, ip: 209.85.222.179, mailfrom: vince@underview.tech)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7e6817653d0so43181685a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 19:18:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1754014667; x=1754619467; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7ey9inekT2ivpd1wA78Rd8Xv0/XGJfqiVv8GZREUNtM=;
-        b=TXMpAtpEDxMRUoWIeBb4seAzxIpF8hUd+hscKIoJ3zSak4VOPQUlIHENRzWAmJIDj1
-         k9Sb5JVBONOydbmef8UAJ66MDUEf5QOn61rGYfDyw6vlStXiN8DJ4Q/wS9VRK/ut30Is
-         p0vG4D2Q1hAB4VTWWyuw6UQRQavu91jqTealfqr/U7cCdwS5UDWbM6zyU1wvTewU965l
-         g+qRNw7UI8p4fH+pD2UOcoxszr/xlO9j7wyx2MzztoQ+R/vztEuxhVlski2VsJ403TnK
-         Fb58asRIRBMqAsX5481MejsEt+ZiA5bXrXx+onVoSdOQFx/OAwy/jpiGNsu5UaUbkgvj
-         MgEw==
+        d=underview.tech; s=google; t=1754014684; x=1754619484; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zcYx03FBNEwn7FltsdhhnIp7vDUmTuUeVt5PB6uiM7o=;
+        b=QfDcDbejEBuRHp6ZlOlVJR8oz6p5qTAJZQhwUDbD0S/i5KgOtkj7Na6FaZb5682XLp
+         YLS4tRT3lvCXESkfKMVQqTOlskYC+q14J9tZNd84KFT+Z9H/Ar4hGiv3kSO9k+sbmzTb
+         a15T9bOcrBbGsy02SLfQ2Nu2pyVExPfTD9TAqXgBE3DQugLqyezUp7iv/npFZE0Zzcc5
+         dVG8xb63gx91HeEBuIC6IGI+W2Z72Y6bu7yOWlEPWibJmXsjOiO9g9/qVntCpoO3bFWQ
+         PcfiY99WjgBLtj7CSc1dxoZxlwjpwsB485HlCce/4JYOAmJ53QBgPhgun02JZSPgOChx
+         N2Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754014667; x=1754619467;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7ey9inekT2ivpd1wA78Rd8Xv0/XGJfqiVv8GZREUNtM=;
-        b=dB2u+kyKoxt/Le2uhC9F6snHl+8wed6PC5oOFWq4NMb94qYVmLFtYagRwR8yVj7Iye
-         WyPGbeavB0p6eCKD8f7e1jSlYkPqp+nfLSO48uBczPkN7KwDA0xoRP+Y1Yf8pRATEy2O
-         U2Di8dWWD/+PS0aNbvHLNiYx2Mh6Ai0uojJy6KW12shnz3xbuFz43VO3TrLWt3ZWBY0R
-         2m3zSpyTD4Z3iGPujAL8q1MPgPsQOeFAOCV4ITeFGlj76dgTEiRJ6+7+Ck3v8ASB7eKy
-         nTtorcdSAY/PEM2iePfEE8DR1lqzUq1dKITIuxL2HZa4nN2e6R/2zgGp3rmQXkm9YDdR
-         tWmw==
-X-Gm-Message-State: AOJu0Ywr8kgXKLSHQVsHSF4frB4u6Goq1FFttrEdyvBtrZYvAzdvGT/w
-	3wbaL/qPuXSRO37/zsQClo18VZbK+QqbpEOf8zt1Zskk7I9c41IsDhbI/oV45le0YxtKaQVLnW0
-	1+RFY
-X-Gm-Gg: ASbGncupR04cgLHKImywbtLdJTrePoHT9so4640F9EnauNRfjcn4sXtyI8wh2TdH5TM
-	hWkGkWtDaJ8qeZi72quoVBZyMKJjUrNkV5qi8y3T3sTJf6n7ocj3I7JSFiiGiUKQmUGLwZgGv2u
-	/6yyVrWMZBr64oZex6UMdf5ysqTxMomMmsJ6r4inAEseKjQfueHn+dA0dvecnDshZYzcNgZvrSC
-	Z6j31NtI+aawmS5AZX6cCw/0nq1ijKnu+VgLd42xI123SU/9pChSrgMPyv8vX6I9/v2S/2ZH3z3
-	N6UeK/9PeH3wPTcwpubscsodATuJwXCKKnm/aJqCQft27ol5V0hzWHdvR9j34u3nOuN5lKeoIYq
-	dxRgXhMxJijo=
-X-Google-Smtp-Source: AGHT+IGz9HP42YFVYduCg3cjqnNsXQZnKldXXlp8gBcU5DjjX92Pks97KZo86Pm0UyZvtzih60AfkQ==
-X-Received: by 2002:a05:620a:254d:b0:7e6:2cf0:3b7b with SMTP id af79cd13be357-7e66efb88e2mr1482981685a.25.1754014666630;
-        Thu, 31 Jul 2025 19:17:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754014684; x=1754619484;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zcYx03FBNEwn7FltsdhhnIp7vDUmTuUeVt5PB6uiM7o=;
+        b=qZt8fuAs3YaK7bBGd8VYvfRVnyIdM6bZD4QhRyFGu9PH3CvyGTGMboGOEoXsKLCKw1
+         OYOAy+PaebCNphL4kEXI+NOM1PQB6hSt9D08a01gjHMKsrKdYK00NAEQ6RWcgh7KUVy7
+         8jHWMAASrATPavBl9CKOVv6oU2cRQ2QCIhvjal7Su0vya3iFlEkV/01cNC2p9eoZFgv1
+         l3RnPzD9lrmap6nBzdhF23uJBefPUzsNZ165aNIhrytx+ZSU1ul3hrHd1hnIB2I3Jqun
+         G4KUcMSSVVkDIIzYERoYM2IvjSdkarmfT5KCHlJcvUs2VJ+d+MyF6NGr+VLDbw5Acnpa
+         NR6w==
+X-Gm-Message-State: AOJu0YyAz1ehRg/hcv/ByHDbVssoyQ9UDrpseei2np7wH+UJZniKHhRx
+	h5ktndlAFT3jphkj7nvLjms8pBqpyhQWg6R9nSSJBsGnRvyfh231OVKEnpcS2HQAf4OL0T9tjul
+	7wzu3
+X-Gm-Gg: ASbGnctuuSVgR2lMfUZQ1ZeEw97K0KpyUFqUc+K1p0rg0kVdSxaYaI0bq+7WsorGrpn
+	tHJFLIaEcEHe+x6vGL0ExNi+e8JDU+hKTZiQFA66jYoUUvwacFnlUQIOwCdH2ZYAegGb/sbBcMG
+	CWAsbwGqFumfenZ5ZI14PG7VmdqAAhkk1GkzQSzmOBMdh0gr0Ctics5rNhE6F3skvQSR0r8PAZZ
+	Y2e6Pw1LhipZZtYT4d5LfpiJkwvzD1vQ5vOhBMenilpyi+zyvlDWXnoDFgj1Y3GOYpZxOb4qqup
+	qdURFP3zis+/Z37Wp2KToIb8E+IDwo7MwiNoWtCMr8uKoJSttSyYcpM7Q1ytUs4Lz2pDWPBBI6j
+	Zsth+pdkYMIg=
+X-Google-Smtp-Source: AGHT+IHOBmOuVX53NZyuhchsvy1ZCZbNFs6W7XQeH1USI8srK5kRYQ+8+Cbm2oCnw++XlDtv09I/Zw==
+X-Received: by 2002:a05:620a:6193:b0:7e3:17dc:d1e4 with SMTP id af79cd13be357-7e66f3c46c9mr1169699085a.58.1754014684373;
+        Thu, 31 Jul 2025 19:18:04 -0700 (PDT)
 Received: from vince-server.. ([2601:406:4d01:1820::71f9])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e6877517dcsm101220585a.67.2025.07.31.19.17.45
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e6877517dcsm101220585a.67.2025.07.31.19.18.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 19:17:46 -0700 (PDT)
+        Thu, 31 Jul 2025 19:18:04 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v5 1/3] bootimg_pcbios: initial import of grub legacy bios boot
-Date: Thu, 31 Jul 2025 22:16:06 -0400
-Message-ID: <20250801021607.511597-2-vince@underview.tech>
+Subject: [PATCH v5 2/3] bootimg_pcbios: final import of grub legacy boot
+Date: Thu, 31 Jul 2025 22:16:08 -0400
+Message-ID: <20250801021607.511597-4-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250801021607.511597-2-vince@underview.tech>
+References: <20250801021607.511597-2-vince@underview.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 02:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221210
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 02:18:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221211
 
-Moves syslinux config file creation,
-partition prepare, and mbr install
-tasks into there own seperate functions
-before removal from SourcePlugin class
-functions.
+Due to the bootimg_biosplusefi source_params['loader']
+had to be named source_params['loader-bios'] so not
+to create conflict in the wics plugin
 
-Add 3 new functions for creation of
-grub config, preparing boot partition
-to contain grub config and modules,
-and install grub boot.img to resulting
-wic image.
+Removes old syslinux implementation as it
+was copied into seperate functions and
+adds ability to set and or not set
+source_params. If source_params set check
+for both
+	* syslinux
+	* grub
+
+if not set default to using syslinux
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- .../lib/wic/plugins/source/bootimg_pcbios.py  | 345 +++++++++++++++++-
- 1 file changed, 344 insertions(+), 1 deletion(-)
+ .../lib/wic/plugins/source/bootimg_pcbios.py  | 156 ++++--------------
+ 1 file changed, 30 insertions(+), 126 deletions(-)
 
 diff --git a/scripts/lib/wic/plugins/source/bootimg_pcbios.py b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-index 21f41e00bb..f74075ed79 100644
+index f74075ed79..3c403f4ec2 100644
 --- a/scripts/lib/wic/plugins/source/bootimg_pcbios.py
 +++ b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-@@ -13,7 +13,9 @@
- import logging
- import os
- import re
-+import shutil
- 
-+from glob import glob
- from wic import WicError
- from wic.engine import get_custom_config
- from wic.pluginbase import SourcePlugin
-@@ -24,11 +26,49 @@ logger = logging.getLogger('wic')
- 
- class BootimgPcbiosPlugin(SourcePlugin):
-     """
--    Create MBR boot partition and install syslinux on it.
-+    Creates boot partition bootable off of legacy BIOS firmare with
-+    MBR/MSDOS as partition table format. Plugin will install caller
-+    selected bootloader directly to resulting wic image.
-+
-+    Supported Bootloaders:
-+        * syslinux
-+        * grub
-+
-+    ****************** Wic Plugin Depends/Vars ******************
-+    WKS_FILE_DEPENDS = "grub-native grub"
-+    WKS_FILE_DEPENDS = "syslinux-native syslinux"
-+
-+    # Optional variables
-+    GRUB_PREFIX_PATH = '/boot/grub2'    # Default: /boot/grub
-+    GRUB_MKIMAGE_FORMAT_PC = 'i386-pc'  # Default: i386-pc
-+
-+    WICVARS:append = "\
-+        GRUB_PREFIX_PATH \
-+        GRUB_MKIMAGE_FORMAT_PC \
-+        "
-+    ****************** Wic Plugin Depends/Vars ******************
-+
-+    **************** Example kickstart Legacy Bios Grub Boot ****************
-+    part boot --label bios_boot --fstype ext4 --offset 1024 --fixed-size 78M
-+        --source bootimg_pcbios --sourceparams="loader-bios=grub" --active
-+
-+    part roots --label rootfs --fstype ext4 --source rootfs --use-uuid
-+    bootloader --ptable msdos --source bootimg_pcbios
-+    **************** Example kickstart Legacy Bios Grub Boot ****************
-+
-+    *************** Example kickstart Legacy Bios Syslinux Boot ****************
-+    part /boot --source bootimg_pcbios --sourceparams="loader-bios=syslinux"
-+           --ondisk sda --label boot --active --align 1024
-+
-+    part roots --label rootfs --fstype ext4 --source rootfs --use-uuid
-+    bootloader --ptable msdos --source bootimg_pcbios
-     """
- 
-     name = 'bootimg_pcbios'
- 
-+    # Variable required for do_install_disk
-+    loader = ''
-+
-     @classmethod
-     def _get_bootimg_dir(cls, bootimg_dir, dirname):
+@@ -94,27 +94,19 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         Called after all partitions have been prepared and assembled into a
+         disk image.  In this case, we install the MBR.
          """
-@@ -207,3 +247,306 @@ class BootimgPcbiosPlugin(SourcePlugin):
+-        bootimg_dir = cls._get_bootimg_dir(bootimg_dir, 'syslinux')
+-        mbrfile = "%s/syslinux/" % bootimg_dir
+-        if creator.ptable_format == 'msdos':
+-            mbrfile += "mbr.bin"
+-        elif creator.ptable_format == 'gpt':
+-            mbrfile += "gptmbr.bin"
+-        else:
+-            raise WicError("Unsupported partition table: %s" %
+-                           creator.ptable_format)
+-
+-        if not os.path.exists(mbrfile):
+-            raise WicError("Couldn't find %s.  If using the -e option, do you "
+-                           "have the right MACHINE set in local.conf?  If not, "
+-                           "is the bootimg_dir path correct?" % mbrfile)
  
-         part.size = int(bootimg_size)
-         part.source_file = bootimg
-+
-+    @classmethod
-+    def _get_staging_libdir(cls):
-+        """
-+        For unknown reasons when running test with poky
-+        STAGING_LIBDIR gets unset when wic create is executed.
-+        Bellow is a hack to determine what STAGING_LIBDIR should
-+        be if not specified.
-+        """
-+
-+        staging_libdir = get_bitbake_var('STAGING_LIBDIR')
-+        staging_dir_target = get_bitbake_var('STAGING_DIR_TARGET')
-+
-+        if not staging_libdir:
-+            staging_libdir = '%s/usr/lib64' % staging_dir_target
-+            if not os.path.isdir(staging_libdir):
-+                staging_libdir = '%s/usr/lib32' % staging_dir_target
-+                if not os.path.isdir(staging_libdir):
-+                    staging_libdir = '%s/usr/lib' % staging_dir_target
-+
-+        return staging_libdir
-+
-+    @classmethod
-+    def _get_bootloader_config(cls, bootloader, loader):
-+        custom_cfg = None
-+
-+        if bootloader.configfile:
-+            custom_cfg = get_custom_config(bootloader.configfile)
-+            if custom_cfg:
-+                logger.debug("Using custom configuration file %s "
-+                             "for %s.cfg", bootloader.configfile,
-+                             loader)
-+                return custom_cfg
-+            else:
-+                raise WicError("configfile is specified but failed to "
-+                               "get it from %s." % bootloader.configfile)
-+        return custom_cfg
-+
-+    @classmethod
-+    def _do_configure_syslinux_cfg(cls, creator, cr_workdir, bootimg_dir):
-+        hdddir = "%s/hdd/boot" % cr_workdir
-+        bootloader = creator.ks.bootloader
-+
-+        syslinux_conf = cls._get_bootloader_config(bootloader, 'syslinux')
-+
-+        install_cmd = "install -d %s" % hdddir
-+        exec_cmd(install_cmd)
-+
-+        if not syslinux_conf:
-+            # Create syslinux configuration using parameters from wks file
-+            splash = os.path.join(hdddir, "/splash.jpg")
-+            if os.path.exists(splash):
-+                splashline = "menu background splash.jpg"
-+            else:
-+                splashline = ""
-+
-+            syslinux_conf = ""
-+            syslinux_conf += "PROMPT 0\n"
-+            syslinux_conf += "TIMEOUT " + str(bootloader.timeout) + "\n"
-+            syslinux_conf += "\n"
-+            syslinux_conf += "ALLOWOPTIONS 1\n"
-+            syslinux_conf += "SERIAL 0 115200\n"
-+            syslinux_conf += "\n"
-+            if splashline:
-+                syslinux_conf += "%s\n" % splashline
-+            syslinux_conf += "DEFAULT boot\n"
-+            syslinux_conf += "LABEL boot\n"
-+
-+            kernel = "/" + get_bitbake_var("KERNEL_IMAGETYPE")
-+            syslinux_conf += "KERNEL " + kernel + "\n"
-+
-+            syslinux_conf += "APPEND label=boot root=%s %s\n" % \
-+                             (creator.rootdev, bootloader.append)
-+
-+        logger.debug("Writing syslinux config %s/syslinux.cfg", hdddir)
-+        cfg = open("%s/syslinux.cfg" % hdddir, "w")
-+        cfg.write(syslinux_conf)
-+        cfg.close()
-+
-+    @classmethod
-+    def _do_prepare_syslinux(cls, part, cr_workdir, oe_builddir,
-+                             bootimg_dir, kernel_dir, native_sysroot):
-+
-+        bootimg_dir = cls._get_bootimg_dir(bootimg_dir, 'syslinux')
-+
-+        staging_kernel_dir = kernel_dir
-+
-+        hdddir = "%s/hdd/boot" % cr_workdir
-+
-+        kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-+        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-+            if get_bitbake_var("INITRAMFS_IMAGE"):
-+                kernel = "%s-%s.bin" % \
-+                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
-+
-+        cmds = ("install -m 0644 %s/%s %s/%s" %
-+                (staging_kernel_dir, kernel, hdddir, get_bitbake_var("KERNEL_IMAGETYPE")),
-+                "install -m 444 %s/syslinux/ldlinux.sys %s/ldlinux.sys" %
-+                (bootimg_dir, hdddir),
-+                "install -m 0644 %s/syslinux/vesamenu.c32 %s/vesamenu.c32" %
-+                (bootimg_dir, hdddir),
-+                "install -m 444 %s/syslinux/libcom32.c32 %s/libcom32.c32" %
-+                (bootimg_dir, hdddir),
-+                "install -m 444 %s/syslinux/libutil.c32 %s/libutil.c32" %
-+                (bootimg_dir, hdddir))
-+
-+        for install_cmd in cmds:
-+            exec_cmd(install_cmd)
-+
-+        du_cmd = "du -bks %s" % hdddir
-+        out = exec_cmd(du_cmd)
-+        blocks = int(out.split()[0])
-+
-+        extra_blocks = part.get_extra_block_count(blocks)
-+
-+        if extra_blocks < BOOTDD_EXTRA_SPACE:
-+            extra_blocks = BOOTDD_EXTRA_SPACE
-+
-+        blocks += extra_blocks
-+
-+        logger.debug("Added %d extra blocks to %s to get to %d total blocks",
-+                     extra_blocks, part.mountpoint, blocks)
-+
-+        # dosfs image, created by mkdosfs
-+        bootimg = "%s/boot%s.img" % (cr_workdir, part.lineno)
-+
-+        label = part.label if part.label else "boot"
-+
-+        dosfs_cmd = "mkdosfs -n %s -i %s -S 512 -C %s %d" % \
-+                    (label, part.fsuuid, bootimg, blocks)
-+        exec_native_cmd(dosfs_cmd, native_sysroot)
-+
-+        mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
-+        exec_native_cmd(mcopy_cmd, native_sysroot)
-+
-+        syslinux_cmd = "syslinux %s" % bootimg
-+        exec_native_cmd(syslinux_cmd, native_sysroot)
-+
-+        chmod_cmd = "chmod 644 %s" % bootimg
-+        exec_cmd(chmod_cmd)
-+
-+        du_cmd = "du -Lbks %s" % bootimg
-+        out = exec_cmd(du_cmd)
-+        bootimg_size = out.split()[0]
-+
-+        part.size = int(bootimg_size)
-+        part.source_file = bootimg
-+
-+    @classmethod
-+    def _do_install_syslinux(cls, creator, bootimg_dir,
-+                             native_sysroot, full_path):
-+
-+        bootimg_dir = cls._get_bootimg_dir(bootimg_dir, 'syslinux')
-+
-+        mbrfile = "%s/syslinux/" % bootimg_dir
-+        if creator.ptable_format == 'msdos':
-+            mbrfile += "mbr.bin"
-+        elif creator.ptable_format == 'gpt':
-+            mbrfile += "gptmbr.bin"
+         full_path = creator._full_path(workdir, disk_name, "direct")
+         logger.debug("Installing MBR on disk %s as %s with size %s bytes",
+                      disk_name, full_path, disk.min_size)
+ 
+-        dd_cmd = "dd if=%s of=%s conv=notrunc" % (mbrfile, full_path)
+-        exec_cmd(dd_cmd, native_sysroot)
++        if cls.loader == 'grub':
++            cls._do_install_grub(creator, kernel_dir,
++                            native_sysroot, full_path)
++        elif cls.loader == 'syslinux':
++            cls._do_install_syslinux(creator, bootimg_dir,
++                            native_sysroot, full_path)
 +        else:
-+            raise WicError("Unsupported partition table: %s" %
-+                           creator.ptable_format)
-+
-+        if not os.path.exists(mbrfile):
-+            raise WicError("Couldn't find %s.  If using the -e option, do you "
-+                           "have the right MACHINE set in local.conf?  If not, "
-+                           "is the bootimg_dir path correct?" % mbrfile)
-+
-+        dd_cmd = "dd if=%s of=%s conv=notrunc" % (mbrfile, full_path)
-+        exec_cmd(dd_cmd, native_sysroot)
-+
-+    @classmethod
-+    def _do_configure_grub_cfg(cls, creator, cr_workdir):
-+        hdddir = "%s/hdd" % cr_workdir
-+        bootloader = creator.ks.bootloader
-+
-+        grub_conf = cls._get_bootloader_config(bootloader, 'grub')
-+
-+        grub_prefix_path = get_bitbake_var('GRUB_PREFIX_PATH')
-+        if not grub_prefix_path:
-+            grub_prefix_path = '/boot/grub'
-+
-+        grub_path = "%s/%s" %(hdddir, grub_prefix_path)
-+        install_cmd = "install -d %s" % grub_path
-+        exec_cmd(install_cmd)
-+
-+        if not grub_conf:
-+            grub_conf = 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n'
-+            grub_conf += 'set gfxmode=auto\n'
-+            grub_conf += 'set gfxpayload=keep\n\n'
-+            grub_conf += 'set default=0\n\n'
-+            grub_conf += '# Boot automatically after 500 secs.\n'
-+            grub_conf += 'set timeout=500\n\n'
-+            grub_conf += 'menuentry \'rootfs\' {\n'
-+            grub_conf += '\tsearch --no-floppy --set=root --label rootfs\n'
-+            grub_conf += '\tprobe --set partuuid --part-uuid ($root)\n'
-+
-+            kernel = "/boot/" + get_bitbake_var("KERNEL_IMAGETYPE")
-+            grub_conf += '\tlinux %s root=PARTUUID=$partuuid %s\n}\n' % \
-+                    (kernel, bootloader.append if bootloader.append else '')
-+
-+        logger.debug("Writing grub config %s/grub.cfg", grub_path)
-+        cfg = open("%s/grub.cfg" % grub_path, "w")
-+        cfg.write(grub_conf)
-+        cfg.close()
-+
-+    @classmethod
-+    def _do_prepare_grub(cls, part, cr_workdir, oe_builddir,
-+                         kernel_dir, rootfs_dir, native_sysroot):
-+        """
-+        1. Generate embed.cfg that'll later be embedded into core.img.
-+           So, that core.img knows where to search for grub.cfg.
-+        2. Generate core.img or grub stage 1.5.
-+        3. Copy modules into partition.
-+        4. Create partition rootfs file.
-+        """
-+
-+        hdddir = "%s/hdd" % cr_workdir
-+
-+        copy_types = [ '*.mod', '*.o', '*.lst' ]
-+
-+        builtin_modules = 'boot linux ext2 fat serial part_msdos part_gpt \
-+        normal multiboot probe biosdisk msdospart configfile search loadenv test'
-+
-+        staging_libdir = cls._get_staging_libdir()
-+
-+        grub_format = get_bitbake_var('GRUB_MKIMAGE_FORMAT_PC')
-+        if not grub_format:
-+            grub_format = 'i386-pc'
-+
-+        grub_prefix_path = get_bitbake_var('GRUB_PREFIX_PATH')
-+        if not grub_prefix_path:
-+            grub_prefix_path = '/boot/grub'
-+
-+        grub_path = "%s/%s" %(hdddir, grub_prefix_path)
-+        core_img = '%s/grub-bios-core.img' % (kernel_dir)
-+        grub_mods_path = '%s/grub/%s' % (staging_libdir, grub_format)
-+
-+        # Generate embedded grub config
-+        embed_cfg_str = 'search.file %s/grub.cfg root\n' % (grub_prefix_path)
-+        embed_cfg_str += 'set prefix=($root)%s\n' % (grub_prefix_path)
-+        embed_cfg_str += 'configfile ($root)%s/grub.cfg\n' % (grub_prefix_path)
-+        cfg = open('%s/embed.cfg' % (kernel_dir), 'w+')
-+        cfg.write(embed_cfg_str)
-+        cfg.close()
-+
-+        # core.img doesn't get included into boot partition
-+        # it's later dd onto the resulting wic image.
-+        grub_mkimage = 'grub-mkimage \
-+        --prefix=%s \
-+        --format=%s \
-+        --config=%s/embed.cfg \
-+        --directory=%s \
-+        --output=%s %s' % \
-+        (grub_prefix_path, grub_format, kernel_dir,
-+         grub_mods_path, core_img, builtin_modules)
-+        exec_native_cmd(grub_mkimage, native_sysroot)
-+
-+        # Copy grub modules
-+        install_dir = '%s/%s/%s' % (hdddir, grub_prefix_path, grub_format)
-+        os.makedirs(install_dir, exist_ok=True)
-+
-+        for ctype in copy_types:
-+            files = glob('%s/grub/%s/%s' % \
-+                (staging_libdir, grub_format, ctype))
-+            for file in files:
-+                shutil.copy2(file, install_dir, follow_symlinks=True)
-+
-+        # Create boot partition
-+        logger.debug('Prepare partition using rootfs in %s', hdddir)
-+        part.prepare_rootfs(cr_workdir, oe_builddir, hdddir,
-+                            native_sysroot, False)
-+
-+    @classmethod
-+    def _do_install_grub(cls, creator, kernel_dir,
-+                         native_sysroot, full_path):
-+        core_img = '%s/grub-bios-core.img' % (kernel_dir)
-+
-+        staging_libdir = cls._get_staging_libdir()
-+
-+        grub_format = get_bitbake_var('GRUB_MKIMAGE_FORMAT_PC')
-+        if not grub_format:
-+            grub_format = 'i386-pc'
-+
-+        boot_img = '%s/grub/%s/boot.img' %(staging_libdir, grub_format)
-+        if not os.path.exists(boot_img):
-+            raise WicError("Couldn't find %s. Did you include "
-+                           "do_image_wic[depends] += \"grub:do_populate_sysroot\" "
-+                           "in your image recipe" % boot_img)
-+
-+        # Install boot.img or grub stage 1
-+        dd_cmd = "dd if=%s of=%s conv=notrunc bs=1 seek=0 count=440" % (boot_img, full_path)
-+        exec_cmd(dd_cmd, native_sysroot)
-+
-+        if creator.ptable_format == 'msdos':
-+            # Install core.img or grub stage 1.5
-+            dd_cmd = "dd if=%s of=%s conv=notrunc bs=1 seek=512" % (core_img, full_path)
-+            exec_cmd(dd_cmd, native_sysroot)
-+        elif creator.ptable_format == 'gpt':
-+            logger.debug('Update core.img stored on bios boot partition')
-+        else:
-+            raise WicError("Unsupported partition table: %s" %
-+                           creator.ptable_format)
++            raise WicError("boot loader some how not specified check do_prepare_partition")
+ 
+     @classmethod
+     def do_configure_partition(cls, part, source_params, creator, cr_workdir,
+@@ -123,56 +115,16 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         """
+         Called before do_prepare_partition(), creates syslinux config
+         """
+-        hdddir = "%s/hdd/boot" % cr_workdir
+-
+-        install_cmd = "install -d %s" % hdddir
+-        exec_cmd(install_cmd)
+-
+-        bootloader = creator.ks.bootloader
+-
+-        custom_cfg = None
+-        if bootloader.configfile:
+-            custom_cfg = get_custom_config(bootloader.configfile)
+-            if custom_cfg:
+-                # Use a custom configuration for grub
+-                syslinux_conf = custom_cfg
+-                logger.debug("Using custom configuration file %s "
+-                             "for syslinux.cfg", bootloader.configfile)
+-            else:
+-                raise WicError("configfile is specified but failed to "
+-                               "get it from %s." % bootloader.configfile)
+ 
+-        if not custom_cfg:
+-            # Create syslinux configuration using parameters from wks file
+-            splash = os.path.join(cr_workdir, "/hdd/boot/splash.jpg")
+-            if os.path.exists(splash):
+-                splashline = "menu background splash.jpg"
++        try:
++            if source_params['loader-bios'] == 'grub':
++                cls._do_configure_grub_cfg(creator, cr_workdir)
++            elif source_params['loader-bios'] == 'syslinux':
++                cls._do_configure_syslinux_cfg(creator, cr_workdir, bootimg_dir)
+             else:
+-                splashline = ""
+-
+-            syslinux_conf = ""
+-            syslinux_conf += "PROMPT 0\n"
+-            syslinux_conf += "TIMEOUT " + str(bootloader.timeout) + "\n"
+-            syslinux_conf += "\n"
+-            syslinux_conf += "ALLOWOPTIONS 1\n"
+-            syslinux_conf += "SERIAL 0 115200\n"
+-            syslinux_conf += "\n"
+-            if splashline:
+-                syslinux_conf += "%s\n" % splashline
+-            syslinux_conf += "DEFAULT boot\n"
+-            syslinux_conf += "LABEL boot\n"
+-
+-            kernel = "/" + get_bitbake_var("KERNEL_IMAGETYPE")
+-            syslinux_conf += "KERNEL " + kernel + "\n"
+-
+-            syslinux_conf += "APPEND label=boot root=%s %s\n" % \
+-                             (creator.rootdev, bootloader.append)
+-
+-        logger.debug("Writing syslinux config %s/hdd/boot/syslinux.cfg",
+-                     cr_workdir)
+-        cfg = open("%s/hdd/boot/syslinux.cfg" % cr_workdir, "w")
+-        cfg.write(syslinux_conf)
+-        cfg.close()
++                raise WicError("unrecognized bootimg_pcbios loader: %s" % source_params['loader-bios'])
++        except KeyError:
++            cls._do_configure_syslinux_cfg(creator, cr_workdir, bootimg_dir)
+ 
+     @classmethod
+     def do_prepare_partition(cls, part, source_params, creator, cr_workdir,
+@@ -183,70 +135,22 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         'prepares' the partition to be incorporated into the image.
+         In this case, prepare content for legacy bios boot partition.
+         """
+-        bootimg_dir = cls._get_bootimg_dir(bootimg_dir, 'syslinux')
+-
+-        staging_kernel_dir = kernel_dir
+ 
+-        hdddir = "%s/hdd/boot" % cr_workdir
+-
+-        kernel = get_bitbake_var("KERNEL_IMAGETYPE")
+-        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
+-            if get_bitbake_var("INITRAMFS_IMAGE"):
+-                kernel = "%s-%s.bin" % \
+-                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
+-
+-        cmds = ("install -m 0644 %s/%s %s/%s" %
+-                (staging_kernel_dir, kernel, hdddir, get_bitbake_var("KERNEL_IMAGETYPE")),
+-                "install -m 444 %s/syslinux/ldlinux.sys %s/ldlinux.sys" %
+-                (bootimg_dir, hdddir),
+-                "install -m 0644 %s/syslinux/vesamenu.c32 %s/vesamenu.c32" %
+-                (bootimg_dir, hdddir),
+-                "install -m 444 %s/syslinux/libcom32.c32 %s/libcom32.c32" %
+-                (bootimg_dir, hdddir),
+-                "install -m 444 %s/syslinux/libutil.c32 %s/libutil.c32" %
+-                (bootimg_dir, hdddir))
+-
+-        for install_cmd in cmds:
+-            exec_cmd(install_cmd)
+-
+-        du_cmd = "du -bks %s" % hdddir
+-        out = exec_cmd(du_cmd)
+-        blocks = int(out.split()[0])
+-
+-        extra_blocks = part.get_extra_block_count(blocks)
+-
+-        if extra_blocks < BOOTDD_EXTRA_SPACE:
+-            extra_blocks = BOOTDD_EXTRA_SPACE
+-
+-        blocks += extra_blocks
+-
+-        logger.debug("Added %d extra blocks to %s to get to %d total blocks",
+-                     extra_blocks, part.mountpoint, blocks)
+-
+-        # dosfs image, created by mkdosfs
+-        bootimg = "%s/boot%s.img" % (cr_workdir, part.lineno)
+-
+-        label = part.label if part.label else "boot"
+-
+-        dosfs_cmd = "mkdosfs -n %s -i %s -S 512 -C %s %d" % \
+-                    (label, part.fsuuid, bootimg, blocks)
+-        exec_native_cmd(dosfs_cmd, native_sysroot)
+-
+-        mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
+-        exec_native_cmd(mcopy_cmd, native_sysroot)
+-
+-        syslinux_cmd = "syslinux %s" % bootimg
+-        exec_native_cmd(syslinux_cmd, native_sysroot)
+-
+-        chmod_cmd = "chmod 644 %s" % bootimg
+-        exec_cmd(chmod_cmd)
+-
+-        du_cmd = "du -Lbks %s" % bootimg
+-        out = exec_cmd(du_cmd)
+-        bootimg_size = out.split()[0]
++        try:
++            if source_params['loader-bios'] == 'grub':
++                cls._do_prepare_grub(part, cr_workdir, oe_builddir,
++                                kernel_dir, rootfs_dir, native_sysroot)
++            elif source_params['loader-bios'] == 'syslinux':
++                cls._do_prepare_syslinux(part, cr_workdir, oe_builddir,
++                                    bootimg_dir, kernel_dir, native_sysroot)
++            else:
++                raise WicError("unrecognized bootimg_pcbios loader: %s" % source_params['loader-bios'])
+ 
+-        part.size = int(bootimg_size)
+-        part.source_file = bootimg
++            # Required by do_install_disk
++            cls.loader = source_params['loader-bios']
++        except KeyError:
++            # Required by do_install_disk
++            cls.loader = 'syslinux'
+ 
+     @classmethod
+     def _get_staging_libdir(cls):
 -- 
 2.43.0
 
