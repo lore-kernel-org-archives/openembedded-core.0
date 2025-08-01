@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65108CA0ECD
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:12 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.88624.1754057267642143515
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB7CCA0EF8
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:13 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.88800.1754057267128198881
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:08:10 -0700
+ Fri, 01 Aug 2025 07:08:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bmMAiYNS;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=F6U2F3P0;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019865f63301-4aacf90b-5638-4793-9b06-094ae463e280-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NGfUmUvZ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LDK8sKQN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019865f62490-21852ff0-a04d-43ab-b646-85376afac4be-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754057290;
+	t=1754057286;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=RJKSwmmLgQKWrdEet+djjEymMbJOXXw8uw+ocPgRkBk=;
-	b=bmMAiYNSwoLHNdgT/dGq/k7/3yUOKtTd07wkiFu9zmf7yAFJd/DZNYpaBMv7nAS7
-	QtGjCQQGNhGtHPfxFk2cEod2IeHrPLHCbtG7AEPpca4aVK2MqJI+4aKyUs/pvhyqz5d
-	tGO26fxHWcvh1EuQmIjgpdjeRJ/ScshZiWXKle/w=
+	bh=hPw7+HDdFxYKbeFrsp1IYFejqXybNiBeVOyuNWgsZ14=;
+	b=NGfUmUvZHwK+XcXV5YA1WQR/YDjjdUkUaHQ6Gtwx/1YB0vHtnXmpjFBfeBE0rFJ5
+	tDiCjt4SJM6KP0LDBooBwaczrh5sAU3OBTtQvGyM5UnmNr+aIrBzDwN8YdS+7TA4KEY
+	f07dBGSHo+UFZuuGEFhsANv3vjuKPVp2+GZo6NKI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057290;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057286;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=RJKSwmmLgQKWrdEet+djjEymMbJOXXw8uw+ocPgRkBk=;
-	b=F6U2F3P0Wsxjt1OmkuBRiXeT9iC4kRbHg3pqP0oWN2BbwsH8xRczvrNDxx1qmJYi
-	jIHw3b5JYXLGtABv2i1YHsOO11zYnBWS4o8ac+1QhsR+r7wAyu3FLM0srWtr+5FxT4b
-	Bt/Tx7DVKhvq+Vom7nYMYUhGW6MFq4Zu6tX42DJE=
-Content-Type: multipart/mixed; boundary="===============5422412529295120486=="
+	bh=hPw7+HDdFxYKbeFrsp1IYFejqXybNiBeVOyuNWgsZ14=;
+	b=LDK8sKQN0aIuxuznKZjqLciWGviLRwYIDyFb4JymGJm8vKClYjdrzZNoQ1B9tQ0W
+	i2XBDBPAatoG82TTO76WS+gHQVVtWkbEhav6PIogu1e+Hsr+y/WfJoxbbfJT0jG00u9
+	QRZLchK6qsgu3Q3ELFOuMgKSAk3PHANyxl84QPxE=
+Content-Type: multipart/mixed; boundary="===============6635158919615260508=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Joslyn <robert.joslyn@redrectangle.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] curl: upgrading to 8.15.0 SUCCEEDED
-Message-ID: <0101019865f63301-4aacf90b-5638-4793-9b06-094ae463e280-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Aug 2025 14:08:10 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] babeltrace2: upgrading to 2.1.2 SUCCEEDED
+Message-ID: <0101019865f62490-21852ff0-a04d-43ab-b646-85376afac4be-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Aug 2025 14:08:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.191
+X-SES-Outgoing: 2025.08.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221337
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221323
 
---===============5422412529295120486==
+--===============6635158919615260508==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *curl* to *8.15.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *babeltrace2* to *2.1.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-curl-upgrade-8.14.1-8.15.0.patch
+    - apply the patch: git am 0001-babeltrace2-upgrade-2.1.1-2.1.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,193 +72,282 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 75c873a02cabbb6fa257f5fb416386b2b0bbef84 Mon Sep 17 00:00:00 2001
+From f604f502e38e9c57cf554062a71ef16712a9b027 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Aug 2025 13:34:00 +0000
-Subject: [PATCH] curl: upgrade 8.14.1 -> 8.15.0
+Date: Fri, 1 Aug 2025 12:19:02 +0000
+Subject: [PATCH] babeltrace2: upgrade 2.1.1 -> 2.1.2
 
 ---
- meta/recipes-support/curl/curl/no-test-timeout.patch        | 6 +++---
- .../recipes-support/curl/{curl_8.14.1.bb => curl_8.15.0.bb} | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/curl/{curl_8.14.1.bb => curl_8.15.0.bb} (98%)
+ ...field_blob_get_length-return-size_t-instead-.patch |  4 ++--
+ .../0001-Make-manpages-multilib-identical.patch       |  6 ++----
+ ...01-tests-fix-test-applications-in-cpp-common.patch |  5 +----
+ .../0001-tests-set-the-correct-plugin-directory.patch | 11 ++++-------
+ .../{babeltrace2_2.1.1.bb => babeltrace2_2.1.2.bb}    |  2 +-
+ 5 files changed, 10 insertions(+), 18 deletions(-)
+ rename meta/recipes-kernel/lttng/{babeltrace2_2.1.1.bb => babeltrace2_2.1.2.bb} (99%)
 
-diff --git a/meta/recipes-support/curl/curl/no-test-timeout.patch b/meta/recipes-support/curl/curl/no-test-timeout.patch
-index 5b901a6fe9..eb15fffb11 100644
---- a/meta/recipes-support/curl/curl/no-test-timeout.patch
-+++ b/meta/recipes-support/curl/curl/no-test-timeout.patch
+diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
+index 4dffa7bfa5..286cd58836 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
++++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch
 @@ -1,4 +1,4 @@
--From 42cddb52e821cfc2f09f1974742714e5f2f1856e Mon Sep 17 00:00:00 2001
-+From f11a16da27bfa00d98ffae3e7a49d0936e411443 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Fri, 15 Mar 2024 14:37:37 +0000
- Subject: [PATCH] Set the max-time timeout to 600 so the timeout is 10 minutes
-@@ -11,10 +11,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+-From a73cef80a0d4129f74ab2e160a15693235aad4d1 Mon Sep 17 00:00:00 2001
++From a23ec3754802d5793edd73cefab94fccb6e9a7be Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 20 Mar 2025 18:10:08 -0700
+ Subject: [PATCH] Cast result of bt_field_blob_get_length to size_t in
+@@ -24,7 +24,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/tests/servers.pm b/tests/servers.pm
--index d4472d5..9999938 100644
-+index df32ca7..933e250 100644
- --- a/tests/servers.pm
- +++ b/tests/servers.pm
--@@ -124,7 +124,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
-+@@ -125,7 +125,7 @@ my $sshdverstr;  # for socks server, ssh daemon version string
-  my $sshderror;   # for socks server, ssh daemon version error
-  my %doesntrun;    # servers that don't work, identified by pidfile
-  my %PORT = (nolisten => 47); # port we use for a local non-listening service
-diff --git a/meta/recipes-support/curl/curl_8.14.1.bb b/meta/recipes-support/curl/curl_8.15.0.bb
-similarity index 98%
-rename from meta/recipes-support/curl/curl_8.14.1.bb
-rename to meta/recipes-support/curl/curl_8.15.0.bb
-index 08ad9cdb17..809aac8bec 100644
---- a/meta/recipes-support/curl/curl_8.14.1.bb
-+++ b/meta/recipes-support/curl/curl_8.15.0.bb
-@@ -20,7 +20,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-curl.sh \
- "
+ diff --git a/src/cpp-common/bt2/field.hpp b/src/cpp-common/bt2/field.hpp
+-index 8b291f7a..3a7d30a4 100644
++index 8b291f7a1..3a7d30a4f 100644
+ --- a/src/cpp-common/bt2/field.hpp
+ +++ b/src/cpp-common/bt2/field.hpp
+ @@ -1136,7 +1136,7 @@ public:
+diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+index c2b76b1ed5..41e1ad7f0a 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
++++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+@@ -1,4 +1,4 @@
+-From 56986190e4b0c10945ce6aaa7ca10d6bd8a26a39 Mon Sep 17 00:00:00 2001
++From 5b8ed38da0500c5f1eed8a32ed9a15e64c539f13 Mon Sep 17 00:00:00 2001
+ From: Jeremy Puhlman <jpuhlman@mvista.com>
+ Date: Mon, 9 Mar 2020 21:10:35 +0000
+ Subject: [PATCH] Make manpages multilib identical
+@@ -16,7 +16,7 @@ index 88fb13ce2..27858b720 100644
+ --- a/doc/man/asciidoc-attrs.conf.in
+ +++ b/doc/man/asciidoc-attrs.conf.in
+ @@ -4,8 +4,8 @@
+-
++ 
+  [attributes]
+  # default values
+ -system_plugin_path="@LIBDIR@/babeltrace2/plugins"
+@@ -26,5 +26,3 @@ index 88fb13ce2..27858b720 100644
+  babeltrace_version="@PACKAGE_VERSION@"
+  enable_debug_info="@ENABLE_DEBUG_INFO_VAL@"
+  defrdport=5344
+--- 
+-2.34.1
+diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
+index 87f94fb087..14677d42ff 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
++++ b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-fix-test-applications-in-cpp-common.patch
+@@ -1,4 +1,4 @@
+-From 1dc81f272855d94e6a78f7d10ea952745d991aa9 Mon Sep 17 00:00:00 2001
++From dbf89e24b7e4ce977bb8ced38c36e5fdd311efbe Mon Sep 17 00:00:00 2001
+ From: Bin Lan <bin.lan.cn@windriver.com>
+ Date: Tue, 11 Mar 2025 17:19:11 +0800
+ Subject: [PATCH] Tests: fix test applications in cpp-common are needed to
+@@ -124,6 +124,3 @@ index 000000000..8c65daa94
+ +source "$UTILSSH"
+ +
+ +"${BT_TESTS_BUILDDIR}/cpp-common/test-uuid" "$BT_TESTS_BT2_BIN"
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
+index 7ac7582ad7..09ceb4fb99 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
++++ b/meta/recipes-kernel/lttng/babeltrace2/0001-tests-set-the-correct-plugin-directory.patch
+@@ -1,11 +1,11 @@
+-From 32494b1726a881883cb6d317ab76d1ec3f1fa740 Mon Sep 17 00:00:00 2001
++From e5edaa197903a4c1b87fcacd87ecc85497106387 Mon Sep 17 00:00:00 2001
+ From: Bin Lan <bin.lan.cn@windriver.com>
+ Date: Wed, 5 Mar 2025 10:51:11 +0800
+ Subject: [PATCH] tests: set the correct directory of plugin shared library
  
--SRC_URI[sha256sum] = "f4619a1e2474c4bbfedc88a7c2191209c8334b48fa1f4e53fd584cc12e9120dd"
-+SRC_URI[sha256sum] = "6cd0a8a5b126ddfda61c94dc2c3fc53481ba7a35461cf7c5ab66aa9d6775b609"
+-The plugin shared libraries are put in test-plugins-plugins/.libs when 
+-building in a host. test-plugins-plugins/.libs is not exist when cross 
+-build. The plugin shared libraries are put in test-plugins-plugins 
++The plugin shared libraries are put in test-plugins-plugins/.libs when
++building in a host. test-plugins-plugins/.libs is not exist when cross
++build. The plugin shared libraries are put in test-plugins-plugins
+ directory when cross build.
  
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+ Upstream-Status: Inappropriate [oe specific]
+@@ -25,6 +25,3 @@ index f83e42baa..939236393 100755
+  
+ -"${BT_TESTS_BUILDDIR}/lib/test-plugins" "${BT_TESTS_BUILDDIR}/lib/test-plugins-plugins/.libs"
+ +"${BT_TESTS_BUILDDIR}/lib/test-plugins" "${BT_TESTS_BUILDDIR}/lib/test-plugins-plugins"
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
+similarity index 99%
+rename from meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
+rename to meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
+index 8bab7f677a..a56676e854 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=http
+            file://0001-tests-set-the-correct-plugin-directory.patch \
+            file://0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch \
+            "
+-SRCREV = "7f2f8cd6dac497cbb466efb31219b531c62013f5"
++SRCREV = "d0e946a71faf5f0c2d7f1fb5b92a369983e9cf10"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+ 
+ inherit autotools pkgconfig ptest python3targetconfig
 -- 
 2.47.1
 
 
---===============5422412529295120486==
+--===============6635158919615260508==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-babeltrace2-upgrade-2.1.1-2.1.2.patch"
+
+RnJvbSBmNjA0ZjUwMmUzOGU5YzU3Y2Y1NTQwNjJhNzFlZjE2NzEyYTliMDI3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMjoxOTowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJh
+YmVsdHJhY2UyOiB1cGdyYWRlIDIuMS4xIC0+IDIuMS4yCgotLS0KIC4uLmZpZWxkX2Jsb2JfZ2V0
+X2xlbmd0aC1yZXR1cm4tc2l6ZV90LWluc3RlYWQtLnBhdGNoIHwgIDQgKystLQogLi4uLzAwMDEt
+TWFrZS1tYW5wYWdlcy1tdWx0aWxpYi1pZGVudGljYWwucGF0Y2ggICAgICAgfCAgNiArKy0tLS0K
+IC4uLjAxLXRlc3RzLWZpeC10ZXN0LWFwcGxpY2F0aW9ucy1pbi1jcHAtY29tbW9uLnBhdGNoIHwg
+IDUgKy0tLS0KIC4uLi8wMDAxLXRlc3RzLXNldC10aGUtY29ycmVjdC1wbHVnaW4tZGlyZWN0b3J5
+LnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi97YmFiZWx0cmFjZTJfMi4xLjEuYmIgPT4gYmFi
+ZWx0cmFjZTJfMi4xLjIuYmJ9ICAgIHwgIDIgKy0KIDUgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0
+aW9ucygrKSwgMTggZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRu
+Zy97YmFiZWx0cmFjZTJfMi4xLjEuYmIgPT4gYmFiZWx0cmFjZTJfMi4xLjIuYmJ9ICg5OSUpCgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLU1h
+a2UtYnRfZmllbGRfYmxvYl9nZXRfbGVuZ3RoLXJldHVybi1zaXplX3QtaW5zdGVhZC0ucGF0Y2gg
+Yi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEtTWFrZS1idF9maWVs
+ZF9ibG9iX2dldF9sZW5ndGgtcmV0dXJuLXNpemVfdC1pbnN0ZWFkLS5wYXRjaAppbmRleCA0ZGZm
+YTdiZmE1Li4yODZjZDU4ODM2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5n
+L2JhYmVsdHJhY2UyLzAwMDEtTWFrZS1idF9maWVsZF9ibG9iX2dldF9sZW5ndGgtcmV0dXJuLXNp
+emVfdC1pbnN0ZWFkLS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVs
+dHJhY2UyLzAwMDEtTWFrZS1idF9maWVsZF9ibG9iX2dldF9sZW5ndGgtcmV0dXJuLXNpemVfdC1p
+bnN0ZWFkLS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYTczY2VmODBhMGQ0MTI5Zjc0YWIy
+ZTE2MGExNTY5MzIzNWFhZDRkMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTIzZWMz
+NzU0ODAyZDU3OTNlZGQ3M2NlZmFiOTRmY2NiNmU5YTdiZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDIwIE1h
+ciAyMDI1IDE4OjEwOjA4IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIENhc3QgcmVzdWx0IG9mIGJ0
+X2ZpZWxkX2Jsb2JfZ2V0X2xlbmd0aCB0byBzaXplX3QgaW4KQEAgLTI0LDcgKzI0LDcgQEAgU2ln
+bmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3NyYy9jcHAt
+Y29tbW9uL2J0Mi9maWVsZC5ocHAgYi9zcmMvY3BwLWNvbW1vbi9idDIvZmllbGQuaHBwCi1pbmRl
+eCA4YjI5MWY3YS4uM2E3ZDMwYTQgMTAwNjQ0CitpbmRleCA4YjI5MWY3YTEuLjNhN2QzMGE0ZiAx
+MDA2NDQKIC0tLSBhL3NyYy9jcHAtY29tbW9uL2J0Mi9maWVsZC5ocHAKICsrKyBiL3NyYy9jcHAt
+Y29tbW9uL2J0Mi9maWVsZC5ocHAKIEBAIC0xMTM2LDcgKzExMzYsNyBAQCBwdWJsaWM6CmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEtTWFrZS1t
+YW5wYWdlcy1tdWx0aWxpYi1pZGVudGljYWwucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0
+dG5nL2JhYmVsdHJhY2UyLzAwMDEtTWFrZS1tYW5wYWdlcy1tdWx0aWxpYi1pZGVudGljYWwucGF0
+Y2gKaW5kZXggYzJiNzZiMWVkNS4uNDFlMWFkN2YwYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLU1ha2UtbWFucGFnZXMtbXVsdGlsaWItaWRl
+bnRpY2FsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTIv
+MDAwMS1NYWtlLW1hbnBhZ2VzLW11bHRpbGliLWlkZW50aWNhbC5wYXRjaApAQCAtMSw0ICsxLDQg
+QEAKLUZyb20gNTY5ODYxOTBlNGIwYzEwOTQ1Y2U2YWFhN2NhMTBkNmJkOGEyNmEzOSBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNWI4ZWQzOGRhMDUwMGM1ZjFlZWQ4YTMyZWQ5YTE1ZTY0
+YzUzOWYxMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEplcmVteSBQdWhsbWFuIDxq
+cHVobG1hbkBtdmlzdGEuY29tPgogRGF0ZTogTW9uLCA5IE1hciAyMDIwIDIxOjEwOjM1ICswMDAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2UgbWFucGFnZXMgbXVsdGlsaWIgaWRlbnRpY2FsCkBAIC0x
+Niw3ICsxNiw3IEBAIGluZGV4IDg4ZmIxM2NlMi4uMjc4NThiNzIwIDEwMDY0NAogLS0tIGEvZG9j
+L21hbi9hc2NpaWRvYy1hdHRycy5jb25mLmluCiArKysgYi9kb2MvbWFuL2FzY2lpZG9jLWF0dHJz
+LmNvbmYuaW4KIEBAIC00LDggKzQsOCBAQAotCisgCiAgW2F0dHJpYnV0ZXNdCiAgIyBkZWZhdWx0
+IHZhbHVlcwogLXN5c3RlbV9wbHVnaW5fcGF0aD0iQExJQkRJUkAvYmFiZWx0cmFjZTIvcGx1Z2lu
+cyIKQEAgLTI2LDUgKzI2LDMgQEAgaW5kZXggODhmYjEzY2UyLi4yNzg1OGI3MjAgMTAwNjQ0CiAg
+YmFiZWx0cmFjZV92ZXJzaW9uPSJAUEFDS0FHRV9WRVJTSU9OQCIKICBlbmFibGVfZGVidWdfaW5m
+bz0iQEVOQUJMRV9ERUJVR19JTkZPX1ZBTEAiCiAgZGVmcmRwb3J0PTUzNDQKLS0tIAotMi4zNC4x
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEt
+dGVzdHMtZml4LXRlc3QtYXBwbGljYXRpb25zLWluLWNwcC1jb21tb24ucGF0Y2ggYi9tZXRhL3Jl
+Y2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEtdGVzdHMtZml4LXRlc3QtYXBwbGlj
+YXRpb25zLWluLWNwcC1jb21tb24ucGF0Y2gKaW5kZXggODdmOTRmYjA4Ny4uMTQ2NzdkNDJmZiAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLXRl
+c3RzLWZpeC10ZXN0LWFwcGxpY2F0aW9ucy1pbi1jcHAtY29tbW9uLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTIvMDAwMS10ZXN0cy1maXgtdGVzdC1hcHBs
+aWNhdGlvbnMtaW4tY3BwLWNvbW1vbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMWRjODFm
+MjcyODU1ZDk0ZTZhNzhmN2QxMGVhOTUyNzQ1ZDk5MWFhOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gZGJmODllMjRiN2U0Y2U5NzdiYjhjZWQzOGMzNmU1ZmRkMzExZWZiZSBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEJpbiBMYW4gPGJpbi5sYW4uY25Ad2luZHJpdmVyLmNv
+bT4KIERhdGU6IFR1ZSwgMTEgTWFyIDIwMjUgMTc6MTk6MTEgKzA4MDAKIFN1YmplY3Q6IFtQQVRD
+SF0gVGVzdHM6IGZpeCB0ZXN0IGFwcGxpY2F0aW9ucyBpbiBjcHAtY29tbW9uIGFyZSBuZWVkZWQg
+dG8KQEAgLTEyNCw2ICsxMjQsMyBAQCBpbmRleCAwMDAwMDAwMDAuLjhjNjVkYWE5NAogK3NvdXJj
+ZSAiJFVUSUxTU0giCiArCiArIiR7QlRfVEVTVFNfQlVJTERESVJ9L2NwcC1jb21tb24vdGVzdC11
+dWlkIiAiJEJUX1RFU1RTX0JUMl9CSU4iCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyLzAwMDEtdGVzdHMtc2V0LXRoZS1jb3Jy
+ZWN0LXBsdWdpbi1kaXJlY3RvcnkucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2Jh
+YmVsdHJhY2UyLzAwMDEtdGVzdHMtc2V0LXRoZS1jb3JyZWN0LXBsdWdpbi1kaXJlY3RvcnkucGF0
+Y2gKaW5kZXggN2FjNzU4MmFkNy4uMDljZWI0ZmI5OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMi8wMDAxLXRlc3RzLXNldC10aGUtY29ycmVjdC1wbHVn
+aW4tZGlyZWN0b3J5LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0
+cmFjZTIvMDAwMS10ZXN0cy1zZXQtdGhlLWNvcnJlY3QtcGx1Z2luLWRpcmVjdG9yeS5wYXRjaApA
+QCAtMSwxMSArMSwxMSBAQAotRnJvbSAzMjQ5NGIxNzI2YTg4MTg4M2NiNmQzMTdhYjc2ZDFlYzNm
+MWZhNzQwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlNWVkYWExOTc5MDNhNGMxYjg3
+ZmNhY2Q4N2VjYzg1NDk3MTA2Mzg3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQmlu
+IExhbiA8YmluLmxhbi5jbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCA1IE1hciAyMDI1IDEw
+OjUxOjExICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzOiBzZXQgdGhlIGNvcnJlY3QgZGly
+ZWN0b3J5IG9mIHBsdWdpbiBzaGFyZWQgbGlicmFyeQogCi1UaGUgcGx1Z2luIHNoYXJlZCBsaWJy
+YXJpZXMgYXJlIHB1dCBpbiB0ZXN0LXBsdWdpbnMtcGx1Z2lucy8ubGlicyB3aGVuIAotYnVpbGRp
+bmcgaW4gYSBob3N0LiB0ZXN0LXBsdWdpbnMtcGx1Z2lucy8ubGlicyBpcyBub3QgZXhpc3Qgd2hl
+biBjcm9zcyAKLWJ1aWxkLiBUaGUgcGx1Z2luIHNoYXJlZCBsaWJyYXJpZXMgYXJlIHB1dCBpbiB0
+ZXN0LXBsdWdpbnMtcGx1Z2lucyAKK1RoZSBwbHVnaW4gc2hhcmVkIGxpYnJhcmllcyBhcmUgcHV0
+IGluIHRlc3QtcGx1Z2lucy1wbHVnaW5zLy5saWJzIHdoZW4KK2J1aWxkaW5nIGluIGEgaG9zdC4g
+dGVzdC1wbHVnaW5zLXBsdWdpbnMvLmxpYnMgaXMgbm90IGV4aXN0IHdoZW4gY3Jvc3MKK2J1aWxk
+LiBUaGUgcGx1Z2luIHNoYXJlZCBsaWJyYXJpZXMgYXJlIHB1dCBpbiB0ZXN0LXBsdWdpbnMtcGx1
+Z2lucwogZGlyZWN0b3J5IHdoZW4gY3Jvc3MgYnVpbGQuCiAKIFVwc3RyZWFtLVN0YXR1czogSW5h
+cHByb3ByaWF0ZSBbb2Ugc3BlY2lmaWNdCkBAIC0yNSw2ICsyNSwzIEBAIGluZGV4IGY4M2U0MmJh
+YS4uOTM5MjM2MzkzIDEwMDc1NQogIAogLSIke0JUX1RFU1RTX0JVSUxERElSfS9saWIvdGVzdC1w
+bHVnaW5zIiAiJHtCVF9URVNUU19CVUlMRERJUn0vbGliL3Rlc3QtcGx1Z2lucy1wbHVnaW5zLy5s
+aWJzIgogKyIke0JUX1RFU1RTX0JVSUxERElSfS9saWIvdGVzdC1wbHVnaW5zIiAiJHtCVF9URVNU
+U19CVUlMRERJUn0vbGliL3Rlc3QtcGx1Z2lucy1wbHVnaW5zIgotLS0gCi0yLjM0LjEKLQpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRyYWNlMl8yLjEuMS5iYiBi
+L21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTJfMi4xLjIuYmIKc2ltaWxhcml0
+eSBpbmRleCA5OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRy
+YWNlMl8yLjEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9iYWJlbHRy
+YWNlMl8yLjEuMi5iYgppbmRleCA4YmFiN2Y2NzdhLi5hNTY2NzZlODU0IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2JhYmVsdHJhY2UyXzIuMS4xLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1rZXJuZWwvbHR0bmcvYmFiZWx0cmFjZTJfMi4xLjIuYmIKQEAgLTE0LDcgKzE0LDcg
+QEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXQuZWZmaWNpb3MuY29tL2JhYmVsdHJhY2UuZ2l0O2JyYW5j
+aD1zdGFibGUtMi4xO3Byb3RvY29sPWh0dHAKICAgICAgICAgICAgZmlsZTovLzAwMDEtdGVzdHMt
+c2V0LXRoZS1jb3JyZWN0LXBsdWdpbi1kaXJlY3RvcnkucGF0Y2ggXAogICAgICAgICAgICBmaWxl
+Oi8vMDAwMS1NYWtlLWJ0X2ZpZWxkX2Jsb2JfZ2V0X2xlbmd0aC1yZXR1cm4tc2l6ZV90LWluc3Rl
+YWQtLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjdmMmY4Y2Q2ZGFjNDk3Y2JiNDY2
+ZWZiMzEyMTliNTMxYzYyMDEzZjUiCitTUkNSRVYgPSAiZDBlOTQ2YTcxZmFmNWYwYzJkN2YxZmI1
+YjkyYTM2OTk4M2U5Y2YxMCIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gInYoP1A8cHZl
+cj4yKFwuXGQrKSspJCIKIAogaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIHB0ZXN0IHB5dGhv
+bjN0YXJnZXRjb25maWcKLS0gCjIuNDcuMQoK
+
+--===============6635158919615260508==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/curl/curl-dbg: FILELIST: removed "/usr/lib/curl/ptest/tests/libtest/.debug/lib1908 /usr/lib/curl/ptest/tests/libtest/.debug/lib1906 /usr/lib/curl/ptest/tests/libtest/.debug/lib1907 /usr/lib/curl/ptest/tests/libtest/.debug/lib1905 /usr/lib/curl/ptest/tests/libtest/.debug/lib1903 /usr/lib/curl/ptest/tests/libtest/.debug/lib1900 /usr/lib/curl/ptest/tests/libtest/.debug/lib1901 /usr/lib/curl/ptest/tests/libtest/.debug/lib542 /usr/lib/curl/ptest/tests/libtest/.debug/lib543 /usr/lib/curl/ptest/tests/libtest/.debug/lib540 /usr/lib/curl/ptest/tests/libtest/.debug/lib541 /usr/lib/curl/ptest/tests/libtest/.debug/lib547 /usr/lib/curl/ptest/tests/libtest/.debug/lib544 /usr/lib/curl/ptest/tests/libtest/.debug/lib545 /usr/lib/curl/ptest/tests/libtest/.debug/lib548 /usr/lib/curl/ptest/tests/libtest/.debug/lib549 /usr/lib/curl/ptest/tests/libtest/.debug/lib2304 /usr/lib/curl/ptest/tests/libtest/.debug/lib1978 /usr/lib/curl/ptest/tests/libtest/.debug/lib2301 /usr/lib/curl
- /ptest/tests/libtest/.debug/lib2306 /usr/lib/curl/ptest/tests/libtest/.debug/lib2302 /usr/lib/curl/ptest/tests/libtest/.debug/lib1973 /usr/lib/curl/ptest/tests/libtest/.debug/lib1972 /usr/lib/curl/ptest/tests/libtest/.debug/lib1971 /usr/lib/curl/ptest/tests/libtest/.debug/lib1970 /usr/lib/curl/ptest/tests/libtest/.debug/lib1977 /usr/lib/curl/ptest/tests/libtest/.debug/lib2308 /usr/lib/curl/ptest/tests/libtest/.debug/lib1975 /usr/lib/curl/ptest/tests/libtest/.debug/lib1974 /usr/lib/curl/ptest/tests/libtest/.debug/lib2309 /usr/lib/curl/ptest/tests/libtest/.debug/lib668 /usr/lib/curl/ptest/tests/libtest/.debug/lib667 /usr/lib/curl/ptest/tests/libtest/.debug/lib666 /usr/lib/curl/ptest/tests/libtest/.debug/libprereq /usr/lib/curl/ptest/tests/libtest/.debug/lib661 /usr/lib/curl/ptest/tests/libtest/.debug/lib1598 /usr/lib/curl/ptest/tests/libtest/.debug/lib1591 /usr/lib/curl/ptest/tests/libtest/.debug/lib1593 /usr/lib/curl/ptest/tests/libtest/.debug/lib1592 /usr/lib/curl/ptest/tests/libtes
- t/.debug/lib1594 /usr/lib/curl/ptest/tests/libtest/.debug/lib1597 /usr/lib/curl/ptest/tests/libtest/.debug/lib1596 /usr/lib/curl/ptest/tests/libtest/.debug/lib533 /usr/lib/curl/ptest/tests/libtest/.debug/lib532 /usr/lib/curl/ptest/tests/libtest/.debug/lib530 /usr/lib/curl/ptest/tests/libtest/.debug/lib537 /usr/lib/curl/ptest/tests/libtest/.debug/lib536 /usr/lib/curl/ptest/tests/libtest/.debug/lib539 /usr/lib/curl/ptest/tests/server/.debug/socksd /usr/lib/curl/ptest/tests/libtest/.debug/lib1528 /usr/lib/curl/ptest/tests/libtest/.debug/lib1529 /usr/lib/curl/ptest/tests/libtest/.debug/lib1525 /usr/lib/curl/ptest/tests/libtest/.debug/lib643 /usr/lib/curl/ptest/tests/libtest/.debug/lib1526 /usr/lib/curl/ptest/tests/libtest/.debug/lib645 /usr/lib/curl/ptest/tests/libtest/.debug/lib1527 /usr/lib/curl/ptest/tests/libtest/.debug/lib1520 /usr/lib/curl/ptest/tests/libtest/.debug/lib1521 /usr/lib/curl/ptest/tests/libtest/.debug/lib1522 /usr/lib/curl/ptest/tests/libtest/.debug/lib1523 /usr/lib/c
- url/ptest/tests/libtest/.debug/lib652 /usr/lib/curl/ptest/tests/libtest/.debug/lib653 /usr/lib/curl/ptest/tests/libtest/.debug/libntlmconnect /usr/lib/curl/ptest/tests/libtest/.debug/lib1301 /usr/lib/curl/ptest/tests/libtest/.debug/lib1308 /usr/lib/curl/ptest/tests/libtest/.debug/lib751 /usr/lib/curl/ptest/tests/libtest/.debug/lib2502 /usr/lib/curl/ptest/tests/server/.debug/sockfilt /usr/lib/curl/ptest/tests/server/.debug/rtspd /usr/lib/curl/ptest/tests/libtest/.debug/lib1955 /usr/lib/curl/ptest/tests/libtest/.debug/lib1957 /usr/lib/curl/ptest/tests/libtest/.debug/lib1956 /usr/lib/curl/ptest/tests/libtest/.debug/lib1959 /usr/lib/curl/ptest/tests/libtest/.debug/lib1958 /usr/lib/curl/ptest/tests/server/.debug/resolve /usr/lib/curl/ptest/tests/libtest/.debug/lib1662 /usr/lib/curl/ptest/tests/libtest/.debug/lib1156 /usr/lib/curl/ptest/tests/libtest/.debug/lib1502 /usr/lib/curl/ptest/tests/libtest/.debug/lib1503 /usr/lib/curl/ptest/tests/libtest/.debug/lib1500 /usr/lib/curl/ptest/tests/l
- ibtest/.debug/lib1501 /usr/lib/curl/ptest/tests/libtest/.debug/lib1506 /usr/lib/curl/ptest/tests/libtest/.debug/lib1507 /usr/lib/curl/ptest/tests/libtest/.debug/lib1504 /usr/lib/curl/ptest/tests/libtest/.debug/lib1505 /usr/lib/curl/ptest/tests/libtest/.debug/lib1508 /usr/lib/curl/ptest/tests/libtest/.debug/lib1509 /usr/lib/curl/ptest/tests/server/.debug/sws /usr/lib/curl/ptest/tests/libtest/.debug/lib586 /usr/lib/curl/ptest/tests/libtest/.debug/lib587 /usr/lib/curl/ptest/tests/libtest/.debug/lib584 /usr/lib/curl/ptest/tests/libtest/.debug/lib585 /usr/lib/curl/ptest/tests/libtest/.debug/lib582 /usr/lib/curl/ptest/tests/libtest/.debug/lib583 /usr/lib/curl/ptest/tests/libtest/.debug/lib589 /usr/lib/curl/ptest/tests/libtest/.debug/lib1937 /usr/lib/curl/ptest/tests/libtest/.debug/lib1936 /usr/lib/curl/ptest/tests/libtest/.debug/lib1935 /usr/lib/curl/ptest/tests/libtest/.debug/lib1934 /usr/lib/curl/ptest/tests/libtest/.debug/lib1933 /usr/lib/curl/ptest/tests/libtest/.debug/lib1485 /usr/li
- b/curl/ptest/tests/server/.debug/dnsd /usr/lib/curl/ptest/tests/libtest/.debug/lib1939 /usr/lib/curl/ptest/tests/libtest/.debug/lib1938 /usr/lib/curl/ptest/tests/libtest/.debug/lib519 /usr/lib/curl/ptest/tests/libtest/.debug/lib518 /usr/lib/curl/ptest/tests/libtest/.debug/lib515 /usr/lib/curl/ptest/tests/libtest/.debug/lib514 /usr/lib/curl/ptest/tests/libtest/.debug/lib517 /usr/lib/curl/ptest/tests/libtest/.debug/lib516 /usr/lib/curl/ptest/tests/libtest/.debug/lib511 /usr/lib/curl/ptest/tests/libtest/.debug/lib510 /usr/lib/curl/ptest/tests/libtest/.debug/lib513 /usr/lib/curl/ptest/tests/libtest/.debug/lib512 /usr/lib/curl/ptest/tests/libtest/.debug/lib1568 /usr/lib/curl/ptest/tests/libtest/.debug/lib1569 /usr/lib/curl/ptest/tests/libtest/.debug/lib670 /usr/lib/curl/ptest/tests/libtest/.debug/lib671 /usr/lib/curl/ptest/tests/libtest/.debug/lib672 /usr/lib/curl/ptest/tests/libtest/.debug/lib673 /usr/lib/curl/ptest/tests/libtest/.debug/lib674 /usr/lib/curl/ptest/tests/libtest/.debug/li
- b676 /usr/lib/curl/ptest/tests/libtest/.debug/lib1560 /usr/lib/curl/ptest/tests/libtest/.debug/lib677 /usr/lib/curl/ptest/tests/libtest/.debug/lib678 /usr/lib/curl/ptest/tests/libtest/.debug/lib1564 /usr/lib/curl/ptest/tests/libtest/.debug/lib1565 /usr/lib/curl/ptest/tests/libtest/.debug/lib1567 /usr/lib/curl/ptest/tests/libtest/.debug/lib3104 /usr/lib/curl/ptest/tests/libtest/.debug/lib3105 /usr/lib/curl/ptest/tests/libtest/.debug/lib3100 /usr/lib/curl/ptest/tests/libtest/.debug/lib3101 /usr/lib/curl/ptest/tests/libtest/.debug/lib3102 /usr/lib/curl/ptest/tests/libtest/.debug/lib3103 /usr/lib/curl/ptest/tests/libtest/.debug/lib1539 /usr/lib/curl/ptest/tests/libtest/.debug/lib1538 /usr/lib/curl/ptest/tests/libtest/.debug/lib658 /usr/lib/curl/ptest/tests/libtest/.debug/lib659 /usr/lib/curl/ptest/tests/libtest/.debug/lib1533 /usr/lib/curl/ptest/tests/libtest/.debug/lib1532 /usr/lib/curl/ptest/tests/libtest/.debug/lib1531 /usr/lib/curl/ptest/tests/libtest/.debug/lib1530 /usr/lib/curl/pt
- est/tests/libtest/.debug/lib1537 /usr/lib/curl/ptest/tests/libtest/.debug/lib1536 /usr/lib/curl/ptest/tests/libtest/.debug/lib1535 /usr/lib/curl/ptest/tests/libtest/.debug/lib1534 /usr/lib/curl/ptest/tests/libtest/.debug/lib650 /usr/lib/curl/ptest/tests/libtest/.debug/lib651 /usr/lib/curl/ptest/tests/libtest/.debug/lib654 /usr/lib/curl/ptest/tests/libtest/.debug/lib655 /usr/lib/curl/ptest/tests/libtest/.debug/lib3010 /usr/lib/curl/ptest/tests/libtest/.debug/lib1919 /usr/lib/curl/ptest/tests/libtest/.debug/lib1918 /usr/lib/curl/ptest/tests/libtest/.debug/lib1915 /usr/lib/curl/ptest/tests/libtest/.debug/lib1917 /usr/lib/curl/ptest/tests/libtest/.debug/lib1916 /usr/lib/curl/ptest/tests/libtest/.debug/lib1911 /usr/lib/curl/ptest/tests/libtest/.debug/lib1910 /usr/lib/curl/ptest/tests/libtest/.debug/lib1913 /usr/lib/curl/ptest/tests/libtest/.debug/lib1912 /usr/lib/curl/ptest/tests/libtest/.debug/lib576 /usr/lib/curl/ptest/tests/libtest/.debug/lib575 /usr/lib/curl/ptest/tests/libtest/.debu
- g/lib574 /usr/lib/curl/ptest/tests/libtest/.debug/lib573 /usr/lib/curl/ptest/tests/libtest/.debug/lib572 /usr/lib/curl/ptest/tests/libtest/.debug/lib571 /usr/lib/curl/ptest/tests/libtest/.debug/lib570 /usr/lib/curl/ptest/tests/libtest/.debug/lib579 /usr/lib/curl/ptest/tests/libtest/.debug/lib578 /usr/lib/curl/ptest/tests/libtest/.debug/lib1545 /usr/lib/curl/ptest/tests/libtest/.debug/lib1542 /usr/lib/curl/ptest/tests/libtest/.debug/lib1543 /usr/lib/curl/ptest/tests/libtest/.debug/lib1540 /usr/lib/curl/ptest/tests/libtest/.debug/lib1541 /usr/lib/curl/ptest/tests/server/.debug/tftpd /usr/lib/curl/ptest/tests/libtest/.debug/lib1511 /usr/lib/curl/ptest/tests/libtest/.debug/lib1510 /usr/lib/curl/ptest/tests/libtest/.debug/lib1513 /usr/lib/curl/ptest/tests/libtest/.debug/lib1512 /usr/lib/curl/ptest/tests/libtest/.debug/lib1515 /usr/lib/curl/ptest/tests/libtest/.debug/lib1514 /usr/lib/curl/ptest/tests/libtest/.debug/lib1517 /usr/lib/curl/ptest/tests/libtest/.debug/lib2402 /usr/lib/curl/pte
- st/tests/libtest/.debug/lib1518 /usr/lib/curl/ptest/tests/libtest/.debug/lib2404 /usr/lib/curl/ptest/tests/libtest/.debug/lib2405 /usr/lib/curl/ptest/tests/libtest/.debug/lib553 /usr/lib/curl/ptest/tests/libtest/.debug/lib552 /usr/lib/curl/ptest/tests/libtest/.debug/lib555 /usr/lib/curl/ptest/tests/libtest/.debug/lib554 /usr/lib/curl/ptest/tests/libtest/.debug/lib557 /usr/lib/curl/ptest/tests/libtest/.debug/lib556 /usr/lib/curl/ptest/tests/libtest/.debug/lib559 /usr/lib/curl/ptest/tests/libtest/.debug/lib558 /usr/lib/curl/ptest/tests/libtest/.debug/lib524 /usr/lib/curl/ptest/tests/libtest/.debug/lib525 /usr/lib/curl/ptest/tests/libtest/.debug/lib526 /usr/lib/curl/ptest/tests/libtest/.debug/lib527 /usr/lib/curl/ptest/tests/libtest/.debug/lib520 /usr/lib/curl/ptest/tests/libtest/.debug/lib521 /usr/lib/curl/ptest/tests/libtest/.debug/lib523 /usr/lib/curl/ptest/tests/libtest/.debug/lib529 /usr/lib/curl/ptest/tests/libtest/.debug/lib2700 /usr/lib/curl/ptest/tests/libtest/.debug/lib1964 /
- usr/lib/curl/ptest/tests/libtest/.debug/lib1960 /usr/lib/curl/ptest/tests/libtest/.debug/lib3207 /usr/lib/curl/ptest/tests/libtest/.debug/lib1940 /usr/lib/curl/ptest/tests/libtest/.debug/lib1946 /usr/lib/curl/ptest/tests/libtest/.debug/lib1947 /usr/lib/curl/ptest/tests/libtest/.debug/lib1945 /usr/lib/curl/ptest/tests/libtest/.debug/lib696 /usr/lib/curl/ptest/tests/libtest/.debug/lib1948 /usr/lib/curl/ptest/tests/libtest/.debug/lib694 /usr/lib/curl/ptest/tests/libtest/.debug/lib695 /usr/lib/curl/ptest/tests/libtest/.debug/lib3208 /usr/lib/curl/ptest/tests/libtest/.debug/lib508 /usr/lib/curl/ptest/tests/libtest/.debug/lib509 /usr/lib/curl/ptest/tests/libtest/.debug/lib506 /usr/lib/curl/ptest/tests/libtest/.debug/lib507 /usr/lib/curl/ptest/tests/libtest/.debug/lib504 /usr/lib/curl/ptest/tests/libtest/.debug/lib505 /usr/lib/curl/ptest/tests/libtest/.debug/lib502 /usr/lib/curl/ptest/tests/libtest/.debug/lib503 /usr/lib/curl/ptest/tests/libtest/.debug/lib500 /usr/lib/curl/ptest/tests/libt
- est/.debug/lib501 /usr/lib/curl/ptest/tests/libtest/.debug/lib1576 /usr/lib/curl/ptest/tests/libtest/.debug/lib1571 /usr/lib/curl/ptest/tests/libtest/.debug/libauthretry /usr/lib/curl/ptest/tests/server/.debug/mqttd /usr/lib/curl/ptest/tests/libtest/.debug/lib1578 /usr/lib/curl/ptest/tests/libtest/.debug/lib597 /usr/lib/curl/ptest/tests/libtest/.debug/lib591 /usr/lib/curl/ptest/tests/libtest/.debug/lib590 /usr/lib/curl/ptest/tests/libtest/.debug/lib599 /usr/lib/curl/ptest/tests/libtest/.debug/lib598 /usr/lib/curl/ptest/tests/libtest/.debug/lib568 /usr/lib/curl/ptest/tests/libtest/.debug/lib569 /usr/lib/curl/ptest/tests/libtest/.debug/lib560 /usr/lib/curl/ptest/tests/libtest/.debug/lib562 /usr/lib/curl/ptest/tests/libtest/.debug/lib564 /usr/lib/curl/ptest/tests/libtest/.debug/lib565 /usr/lib/curl/ptest/tests/libtest/.debug/lib566 /usr/lib/curl/ptest/tests/libtest/.debug/lib567 /usr/lib/curl/ptest/tests/libtest/.debug/lib1559 /usr/lib/curl/ptest/tests/libtest/.debug/lib1558 /usr/lib/c
- url/ptest/tests/libtest/.debug/lib1555 /usr/lib/curl/ptest/tests/libtest/.debug/lib1554 /usr/lib/curl/ptest/tests/libtest/.debug/lib1557 /usr/lib/curl/ptest/tests/libtest/.debug/lib1556 /usr/lib/curl/ptest/tests/libtest/.debug/lib1551 /usr/lib/curl/ptest/tests/libtest/.debug/lib1550 /usr/lib/curl/ptest/tests/libtest/.debug/lib1553 /usr/lib/curl/ptest/tests/libtest/.debug/lib1552 /usr/lib/curl/ptest/tests/libtest/.debug/lib3027 /usr/lib/curl/ptest/tests/libtest/.debug/lib3026 /usr/lib/curl/ptest/tests/libtest/.debug/lib3025", added "/usr/lib/curl/ptest/tests/server/.debug/servers /usr/lib/curl/ptest/tests/libtest/.debug/libtests"
-packages/core2-64-poky-linux/curl/curl-dbg: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl/curl-dbg: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl/curl-dbg: PKGSIZE changed from 15843656 to 5907680 (-63%)
-packages/core2-64-poky-linux/curl/curl-dev: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl/curl-dev: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl/curl-dev: PKGSIZE changed from 266876 to 264395 (-1%)
-packages/core2-64-poky-linux/curl/curl-doc: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl/curl-doc: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl/curl-doc: PKGSIZE changed from 1638705 to 1636480 (-0%)
-packages/core2-64-poky-linux/curl/curl-locale: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl/curl-locale: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/libtest/libntlmconnect /usr/lib/curl/ptest/tests/libtest/lib695 /usr/lib/curl/ptest/tests/libtest/lib694 /usr/lib/curl/ptest/tests/libtest/lib696 /usr/lib/curl/ptest/tests/libtest/lib509 /usr/lib/curl/ptest/tests/libtest/lib508 /usr/lib/curl/ptest/tests/libtest/lib651 /usr/lib/curl/ptest/tests/libtest/lib501 /usr/lib/curl/ptest/tests/libtest/lib500 /usr/lib/curl/ptest/tests/libtest/lib503 /usr/lib/curl/ptest/tests/libtest/lib502 /usr/lib/curl/ptest/tests/libtest/lib3101 /usr/lib/curl/ptest/tests/libtest/lib1301 /usr/lib/curl/ptest/tests/libtest/lib1501 /usr/lib/curl/ptest/tests/libtest/lib505 /usr/lib/curl/ptest/tests/libtest/lib504 /usr/lib/curl/ptest/tests/libtest/lib507 /usr/lib/curl/ptest/tests/libtest/lib506 /usr/lib/curl/ptest/tests/libtest/lib1511 /usr/lib/curl/ptest/tests/libtest/lib1521 /usr/lib/curl/ptest/tests/libtest/lib1531 /usr/lib/curl/ptest/tests/libtest/lib653 /usr/lib/curl/pte
- st/tests/libtest/lib652 /usr/lib/curl/ptest/tests/libtest/lib590 /usr/lib/curl/ptest/tests/libtest/lib591 /usr/lib/curl/ptest/tests/libtest/lib1510 /usr/lib/curl/ptest/tests/libtest/lib1520 /usr/lib/curl/ptest/tests/libtest/lib1530 /usr/lib/curl/ptest/tests/libtest/lib1540 /usr/lib/curl/ptest/tests/libtest/lib1550 /usr/lib/curl/ptest/tests/libtest/lib597 /usr/lib/curl/ptest/tests/libtest/lib598 /usr/lib/curl/ptest/tests/libtest/lib599 /usr/lib/curl/ptest/tests/server/resolve /usr/lib/curl/ptest/tests/libtest/lib650 /usr/lib/curl/ptest/tests/libtest/lib1593 /usr/lib/curl/ptest/tests/libtest/lib1903 /usr/lib/curl/ptest/tests/libtest/lib1913 /usr/lib/curl/ptest/tests/libtest/lib1933 /usr/lib/curl/ptest/tests/libtest/lib1973 /usr/lib/curl/ptest/tests/libtest/lib3103 /usr/lib/curl/ptest/tests/libtest/lib1513 /usr/lib/curl/ptest/tests/libtest/lib1523 /usr/lib/curl/ptest/tests/libtest/lib1533 /usr/lib/curl/ptest/tests/libtest/lib1543 /usr/lib/curl/ptest/tests/server/sockfilt /usr/lib/curl/
- ptest/tests/libtest/lib1972 /usr/lib/curl/ptest/tests/libtest/lib2302 /usr/lib/curl/ptest/tests/libtest/lib1502 /usr/lib/curl/ptest/tests/libtest/lib3102 /usr/lib/curl/ptest/tests/libtest/lib1512 /usr/lib/curl/ptest/tests/libtest/lib1522 /usr/lib/curl/ptest/tests/libtest/lib1532 /usr/lib/curl/ptest/tests/libtest/lib1542 /usr/lib/curl/ptest/tests/libtest/lib1552 /usr/lib/curl/ptest/tests/libtest/lib543 /usr/lib/curl/ptest/tests/libtest/lib542 /usr/lib/curl/ptest/tests/libtest/lib583 /usr/lib/curl/ptest/tests/libtest/lib582 /usr/lib/curl/ptest/tests/libtest/lib585 /usr/lib/curl/ptest/tests/libtest/lib1565 /usr/lib/curl/ptest/tests/libtest/lib584 /usr/lib/curl/ptest/tests/libtest/lib587 /usr/lib/curl/ptest/tests/libtest/lib586 /usr/lib/curl/ptest/tests/libtest/lib589 /usr/lib/curl/ptest/tests/libtest/libprereq /usr/lib/curl/ptest/tests/libtest/lib1905 /usr/lib/curl/ptest/tests/libtest/lib1485 /usr/lib/curl/ptest/tests/libtest/lib1505 /usr/lib/curl/ptest/tests/libtest/lib1541 /usr/lib/c
- url/ptest/tests/libtest/lib1551 /usr/lib/curl/ptest/tests/libtest/lib1515 /usr/lib/curl/ptest/tests/libtest/lib1525 /usr/lib/curl/ptest/tests/libtest/lib1535 /usr/lib/curl/ptest/tests/libtest/lib1545 /usr/lib/curl/ptest/tests/libtest/lib1555 /usr/lib/curl/ptest/tests/libtest/lib549 /usr/lib/curl/ptest/tests/libtest/lib548 /usr/lib/curl/ptest/tests/server/tftpd /usr/lib/curl/ptest/tests/libtest/lib569 /usr/lib/curl/ptest/tests/libtest/lib568 /usr/lib/curl/ptest/tests/libtest/lib567 /usr/lib/curl/ptest/tests/libtest/lib566 /usr/lib/curl/ptest/tests/libtest/lib565 /usr/lib/curl/ptest/tests/libtest/lib564 /usr/lib/curl/ptest/tests/libtest/lib1934 /usr/lib/curl/ptest/tests/libtest/lib562 /usr/lib/curl/ptest/tests/libtest/lib1504 /usr/lib/curl/ptest/tests/libtest/lib560 /usr/lib/curl/ptest/tests/libtest/lib1514 /usr/lib/curl/ptest/tests/libtest/lib1534 /usr/lib/curl/ptest/tests/libtest/lib1554 /usr/lib/curl/ptest/tests/libtest/lib1947 /usr/lib/curl/ptest/tests/libtest/lib1957 /usr/lib/cur
- l/ptest/tests/libtest/lib1977 /usr/lib/curl/ptest/tests/libtest/lib3027 /usr/lib/curl/ptest/tests/libtest/lib3207 /usr/lib/curl/ptest/tests/libtest/lib1507 /usr/lib/curl/ptest/tests/libtest/lib1517 /usr/lib/curl/ptest/tests/libtest/lib1527 /usr/lib/curl/ptest/tests/libtest/lib1537 /usr/lib/curl/ptest/tests/libtest/lib1557 /usr/lib/curl/ptest/tests/server/socksd /usr/lib/curl/ptest/tests/libtest/lib1946 /usr/lib/curl/ptest/tests/libtest/lib1956 /usr/lib/curl/ptest/tests/libtest/lib2306 /usr/lib/curl/ptest/tests/libtest/lib1156 /usr/lib/curl/ptest/tests/libtest/lib1506 /usr/lib/curl/ptest/tests/libtest/lib3026 /usr/lib/curl/ptest/tests/libtest/lib1526 /usr/lib/curl/ptest/tests/libtest/lib518 /usr/lib/curl/ptest/tests/libtest/lib519 /usr/lib/curl/ptest/tests/libtest/lib1536 /usr/lib/curl/ptest/tests/libtest/lib512 /usr/lib/curl/ptest/tests/libtest/lib513 /usr/lib/curl/ptest/tests/libtest/lib510 /usr/lib/curl/ptest/tests/libtest/lib511 /usr/lib/curl/ptest/tests/libtest/lib516 /usr/lib/c
- url/ptest/tests/libtest/lib517 /usr/lib/curl/ptest/tests/libtest/lib514 /usr/lib/curl/ptest/tests/libtest/lib515 /usr/lib/curl/ptest/tests/libtest/lib677 /usr/lib/curl/ptest/tests/libtest/lib676 /usr/lib/curl/ptest/tests/libtest/lib674 /usr/lib/curl/ptest/tests/libtest/lib1509 /usr/lib/curl/ptest/tests/libtest/lib1919 /usr/lib/curl/ptest/tests/libtest/lib1939 /usr/lib/curl/ptest/tests/libtest/lib1959 /usr/lib/curl/ptest/tests/libtest/lib2309 /usr/lib/curl/ptest/tests/libtest/lib1529 /usr/lib/curl/ptest/tests/libtest/lib1539 /usr/lib/curl/ptest/tests/libtest/lib673 /usr/lib/curl/ptest/tests/libtest/lib672 /usr/lib/curl/ptest/tests/libtest/lib671 /usr/lib/curl/ptest/tests/libtest/lib670 /usr/lib/curl/ptest/tests/libtest/lib678 /usr/lib/curl/ptest/tests/libtest/lib1564 /usr/lib/curl/ptest/tests/mk-bundle.pl /usr/lib/curl/ptest/tests/libtest/lib1594 /usr/lib/curl/ptest/tests/libtest/lib1938 /usr/lib/curl/ptest/tests/libtest/lib1948 /usr/lib/curl/ptest/tests/libtest/lib1958 /usr/lib/curl
- /ptest/tests/libtest/lib1978 /usr/lib/curl/ptest/tests/libtest/lib2308 /usr/lib/curl/ptest/tests/libtest/lib3208 /usr/lib/curl/ptest/tests/libtest/lib1558 /usr/lib/curl/ptest/tests/libtest/lib1568 /usr/lib/curl/ptest/tests/libtest/lib1578 /usr/lib/curl/ptest/tests/libtest/lib1598 /usr/lib/curl/ptest/tests/libtest/libauthretry /usr/lib/curl/ptest/tests/libtest/lib545 /usr/lib/curl/ptest/tests/libtest/lib544 /usr/lib/curl/ptest/tests/libtest/lib547 /usr/lib/curl/ptest/tests/libtest/lib659 /usr/lib/curl/ptest/tests/libtest/lib658 /usr/lib/curl/ptest/tests/libtest/lib541 /usr/lib/curl/ptest/tests/libtest/lib540 /usr/lib/curl/ptest/tests/libtest/lib655 /usr/lib/curl/ptest/tests/libtest/lib654 /usr/lib/curl/ptest/tests/libtest/lib1911 /usr/lib/curl/ptest/tests/libtest/lib1591 /usr/lib/curl/ptest/tests/libtest/lib1901 /usr/lib/curl/ptest/tests/libtest/lib1971 /usr/lib/curl/ptest/tests/libtest/lib2301 /usr/lib/curl/ptest/tests/libtest/lib1970 /usr/lib/curl/ptest/tests/libtest/lib2700 /usr/l
- ib/curl/ptest/tests/libtest/lib3010 /usr/lib/curl/ptest/tests/libtest/lib3100 /usr/lib/curl/ptest/tests/libtest/lib1960 /usr/lib/curl/ptest/tests/server/rtspd /usr/lib/curl/ptest/tests/libtest/lib1560 /usr/lib/curl/ptest/tests/libtest/lib1500 /usr/lib/curl/ptest/tests/libtest/lib1503 /usr/lib/curl/ptest/tests/server/mqttd /usr/lib/curl/ptest/tests/libtest/lib2402 /usr/lib/curl/ptest/tests/libtest/lib2502 /usr/lib/curl/ptest/tests/libtest/lib1592 /usr/lib/curl/ptest/tests/libtest/lib1662 /usr/lib/curl/ptest/tests/libtest/lib1912 /usr/lib/curl/ptest/tests/libtest/lib1915 /usr/lib/curl/ptest/tests/libtest/lib1935 /usr/lib/curl/ptest/tests/libtest/lib1571 /usr/lib/curl/ptest/tests/libtest/lib1900 /usr/lib/curl/ptest/tests/libtest/lib1910 /usr/lib/curl/ptest/tests/libtest/lib1940 /usr/lib/curl/ptest/tests/libtest/lib1945 /usr/lib/curl/ptest/tests/libtest/lib1955 /usr/lib/curl/ptest/tests/libtest/lib1975 /usr/lib/curl/ptest/tests/libtest/lib2405 /usr/lib/curl/ptest/tests/libtest/lib3025 /
- usr/lib/curl/ptest/tests/libtest/lib3105 /usr/lib/curl/ptest/tests/libtest/lib1964 /usr/lib/curl/ptest/tests/libtest/lib1974 /usr/lib/curl/ptest/tests/libtest/lib2304 /usr/lib/curl/ptest/tests/libtest/lib2404 /usr/lib/curl/ptest/tests/libtest/lib3104 /usr/lib/curl/ptest/tests/libtest/lib1907 /usr/lib/curl/ptest/tests/libtest/lib1917 /usr/lib/curl/ptest/tests/libtest/lib1937 /usr/lib/curl/ptest/tests/libtest/lib1576 /usr/lib/curl/ptest/tests/libtest/lib1596 /usr/lib/curl/ptest/tests/libtest/lib1906 /usr/lib/curl/ptest/tests/libtest/lib1916 /usr/lib/curl/ptest/tests/libtest/lib1936 /usr/lib/curl/ptest/tests/libtest/lib1559 /usr/lib/curl/ptest/tests/libtest/lib1569 /usr/lib/curl/ptest/tests/libtest/lib1908 /usr/lib/curl/ptest/tests/libtest/lib1918 /usr/lib/curl/ptest/tests/libtest/lib1308 /usr/lib/curl/ptest/tests/libtest/lib1508 /usr/lib/curl/ptest/tests/libtest/lib1518 /usr/lib/curl/ptest/tests/libtest/lib1528 /usr/lib/curl/ptest/tests/libtest/lib1538 /usr/lib/curl/ptest/tests/libtes
- t/lib570 /usr/lib/curl/ptest/tests/libtest/lib571 /usr/lib/curl/ptest/tests/libtest/lib572 /usr/lib/curl/ptest/tests/libtest/lib573 /usr/lib/curl/ptest/tests/libtest/lib574 /usr/lib/curl/ptest/tests/libtest/lib575 /usr/lib/curl/ptest/tests/libtest/lib576 /usr/lib/curl/ptest/tests/libtest/lib668 /usr/lib/curl/ptest/tests/libtest/lib578 /usr/lib/curl/ptest/tests/libtest/lib579 /usr/lib/curl/ptest/tests/libtest/lib661 /usr/lib/curl/ptest/tests/libtest/lib666 /usr/lib/curl/ptest/tests/libtest/lib667 /usr/lib/curl/ptest/tests/server/sws /usr/lib/curl/ptest/tests/libtest/lib1567 /usr/lib/curl/ptest/tests/libtest/lib1597 /usr/lib/curl/ptest/tests/libtest/lib1553 /usr/lib/curl/ptest/tests/libtest/lib536 /usr/lib/curl/ptest/tests/libtest/lib537 /usr/lib/curl/ptest/tests/libtest/lib530 /usr/lib/curl/ptest/tests/libtest/lib532 /usr/lib/curl/ptest/tests/libtest/lib533 /usr/lib/curl/ptest/tests/libtest/lib539 /usr/lib/curl/ptest/tests/libtest/lib751 /usr/lib/curl/ptest/tests/server/dnsd /usr/lib
- /curl/ptest/tests/libtest/lib556 /usr/lib/curl/ptest/tests/libtest/lib557 /usr/lib/curl/ptest/tests/libtest/lib554 /usr/lib/curl/ptest/tests/libtest/lib555 /usr/lib/curl/ptest/tests/libtest/lib552 /usr/lib/curl/ptest/tests/libtest/lib553 /usr/lib/curl/ptest/tests/libtest/lib645 /usr/lib/curl/ptest/tests/libtest/lib643 /usr/lib/curl/ptest/tests/libtest/lib558 /usr/lib/curl/ptest/tests/libtest/lib559 /usr/lib/curl/ptest/tests/libtest/lib523 /usr/lib/curl/ptest/tests/libtest/lib521 /usr/lib/curl/ptest/tests/libtest/lib520 /usr/lib/curl/ptest/tests/libtest/lib527 /usr/lib/curl/ptest/tests/libtest/lib526 /usr/lib/curl/ptest/tests/libtest/lib525 /usr/lib/curl/ptest/tests/libtest/lib524 /usr/lib/curl/ptest/tests/libtest/lib529 /usr/lib/curl/ptest/tests/libtest/lib1556", added "/usr/lib/curl/ptest/tests/libtest/libtests /usr/lib/curl/ptest/tests/data/test1599 /usr/lib/curl/ptest/tests/data/test1499 /usr/lib/curl/ptest/tests/data/test3214 /usr/lib/curl/ptest/tests/data/test1547 /usr/lib/curl
- /ptest/tests/server/servers /usr/lib/curl/ptest/tests/data/test752 /usr/lib/curl/ptest/tests/data/test753 /usr/lib/curl/ptest/tests/data/test754 /usr/lib/curl/ptest/tests/data/test2103 /usr/lib/curl/ptest/tests/data/test792 /usr/lib/curl/ptest/tests/data/test793"
-packages/core2-64-poky-linux/curl/curl-ptest: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl/curl-ptest: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl/curl-ptest: PKGSIZE changed from 7348139 to 3803414 (-48%)
-packages/core2-64-poky-linux/curl/curl-src: FILELIST: directory renamed /usr/src/debug/curl/8.14.1/src -> /usr/src/debug/curl/8.15.0/src, removed "/usr/src/debug/curl/8.14.1/tests/libtest/lib1521.c", added "/usr/src/debug/curl/8.15.0/tests/libtest/lib1521.c /usr/src/debug/curl/8.15.0/tests/libtest/libtests.c"
-packages/core2-64-poky-linux/curl/curl-src: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl/curl-src: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl/curl-src: PKGSIZE changed from 223335 to 235418 (+5%)
-packages/core2-64-poky-linux/curl/curl-staticdev: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl/curl-staticdev: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl/curl: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl/curl: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl: SRC_URI changed from "https://curl.se/download/curl-8.14.1.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch" to "https://curl.se/download/curl-8.15.0.tar.xz file://run-ptest file://disable-tests file://no-test-timeout.patch"
-packages/core2-64-poky-linux/curl: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl/libcurl: PV changed from "8.14.1" to "8.15.0"
-packages/core2-64-poky-linux/curl/libcurl: PKGV changed from 8.14.1 [default] to 8.15.0 [default]
-packages/core2-64-poky-linux/curl/libcurl: PKGSIZE changed from 671776 to 675856 (+1%)
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-dbg: PKGSIZE changed from 74488256 to 74490696 (+0%)
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-dbg: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-dbg: PV changed from "2.1.1" to "2.1.2"
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-dev: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-dev: PV changed from "2.1.1" to "2.1.2"
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-doc: PKGSIZE changed from 424839 to 425589 (+0%)
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-doc: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-doc: PV changed from "2.1.1" to "2.1.2"
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-locale: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-locale: PV changed from "2.1.1" to "2.1.2"
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: PKGSIZE changed from 25560786 to 25556820 (-0%)
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: FILELIST: added "/usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/index/channel0_2.idx /usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/metadata /usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/channel0_2"
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: PV changed from "2.1.1" to "2.1.2"
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-src: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-src: PV changed from "2.1.1" to "2.1.2"
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-staticdev: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-staticdev: PV changed from "2.1.1" to "2.1.2"
+packages/core2-64-poky-linux/babeltrace2/babeltrace2: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
+packages/core2-64-poky-linux/babeltrace2/babeltrace2: PV changed from "2.1.1" to "2.1.2"
+packages/core2-64-poky-linux/babeltrace2: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
+packages/core2-64-poky-linux/babeltrace2: PV changed from "2.1.1" to "2.1.2"
+packages/core2-64-poky-linux/babeltrace2: SRC_URI changed from "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=https;tag=v2.1.1 file://run-ptest file://0001-Make-manpages-multilib-identical.patch file://0001-tests-fix-test-applications-in-cpp-common.patch file://0001-tests-set-the-correct-plugin-directory.patch file://0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch" to "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=https;tag=v2.1.2 file://run-ptest file://0001-Make-manpages-multilib-identical.patch file://0001-tests-fix-test-applications-in-cpp-common.patch file://0001-tests-set-the-correct-plugin-directory.patch file://0001-Make-bt_field_blob_get_length-return-size_t-instead-.patch"
 
---===============5422412529295120486==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-curl-upgrade-8.14.1-8.15.0.patch"
-
-RnJvbSA3NWM4NzNhMDJjYWJiYjZmYTI1N2Y1ZmI0MTYzODZiMmIwYmJlZjg0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMzozNDowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGN1
-cmw6IHVwZ3JhZGUgOC4xNC4xIC0+IDguMTUuMAoKLS0tCiBtZXRhL3JlY2lwZXMtc3VwcG9ydC9j
-dXJsL2N1cmwvbm8tdGVzdC10aW1lb3V0LnBhdGNoICAgICAgICB8IDYgKysrLS0tCiAuLi4vcmVj
-aXBlcy1zdXBwb3J0L2N1cmwve2N1cmxfOC4xNC4xLmJiID0+IGN1cmxfOC4xNS4wLmJifSB8IDIg
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwve2N1cmxfOC4xNC4xLmJiID0+IGN1cmxfOC4x
-NS4wLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3Vy
-bC9uby10ZXN0LXRpbWVvdXQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmwv
-bm8tdGVzdC10aW1lb3V0LnBhdGNoCmluZGV4IDViOTAxYTZmZTkuLmViMTVmZmZiMTEgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybC9uby10ZXN0LXRpbWVvdXQucGF0
-Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsL25vLXRlc3QtdGltZW91dC5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDJjZGRiNTJlODIxY2ZjMmYwOWYxOTc0NzQyNzE0
-ZTVmMmYxODU2ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZjExYTE2ZGEyN2JmYTAw
-ZDk4ZmZhZTNlN2E0OWQwOTM2ZTQxMTQ0MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogRGF0ZTogRnJpLCAxNSBNYXIgMjAy
-NCAxNDozNzozNyArMDAwMAogU3ViamVjdDogW1BBVENIXSBTZXQgdGhlIG1heC10aW1lIHRpbWVv
-dXQgdG8gNjAwIHNvIHRoZSB0aW1lb3V0IGlzIDEwIG1pbnV0ZXMKQEAgLTExLDEwICsxMSwxMCBA
-QCBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBh
-L3Rlc3RzL3NlcnZlcnMucG0gYi90ZXN0cy9zZXJ2ZXJzLnBtCi1pbmRleCBkNDQ3MmQ1Li45OTk5
-OTM4IDEwMDY0NAoraW5kZXggZGYzMmNhNy4uOTMzZTI1MCAxMDA2NDQKIC0tLSBhL3Rlc3RzL3Nl
-cnZlcnMucG0KICsrKyBiL3Rlc3RzL3NlcnZlcnMucG0KLUBAIC0xMjQsNyArMTI0LDcgQEAgbXkg
-JHNzaGR2ZXJzdHI7ICAjIGZvciBzb2NrcyBzZXJ2ZXIsIHNzaCBkYWVtb24gdmVyc2lvbiBzdHJp
-bmcKK0BAIC0xMjUsNyArMTI1LDcgQEAgbXkgJHNzaGR2ZXJzdHI7ICAjIGZvciBzb2NrcyBzZXJ2
-ZXIsIHNzaCBkYWVtb24gdmVyc2lvbiBzdHJpbmcKICBteSAkc3NoZGVycm9yOyAgICMgZm9yIHNv
-Y2tzIHNlcnZlciwgc3NoIGRhZW1vbiB2ZXJzaW9uIGVycm9yCiAgbXkgJWRvZXNudHJ1bjsgICAg
-IyBzZXJ2ZXJzIHRoYXQgZG9uJ3Qgd29yaywgaWRlbnRpZmllZCBieSBwaWRmaWxlCiAgbXkgJVBP
-UlQgPSAobm9saXN0ZW4gPT4gNDcpOyAjIHBvcnQgd2UgdXNlIGZvciBhIGxvY2FsIG5vbi1saXN0
-ZW5pbmcgc2VydmljZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJs
-XzguMTQuMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF84LjE1LjAuYmIKc2lt
-aWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9j
-dXJsXzguMTQuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsXzgu
-MTUuMC5iYgppbmRleCAwOGFkOWNkYjE3Li44MDlhYWM4YmVjIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfOC4xNC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2N1cmwvY3VybF84LjE1LjAuYmIKQEAgLTIwLDcgKzIwLDcgQEAgU1JDX1VSSTphcHBlbmQ6
-Y2xhc3MtbmF0aXZlc2RrID0gIiBcCiAgICAgICAgICAgIGZpbGU6Ly9lbnZpcm9ubWVudC5kLWN1
-cmwuc2ggXAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjQ2MTlhMWUyNDc0YzRiYmZlZGM4
-OGE3YzIxOTEyMDljODMzNGI0OGZhMWY0ZTUzZmQ1ODRjYzEyZTkxMjBkZCIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICI2Y2QwYThhNWIxMjZkZGZkYTYxYzk0ZGMyYzNmYzUzNDgxYmE3YTM1NDYxY2Y3
-YzVhYjY2YWE5ZDY3NzViNjA5IgogCiAjIEN1cmwgaGFzIHVzZWQgbWFueSBuYW1lcyBvdmVyIHRo
-ZSB5ZWFycy4uLgogQ1ZFX1BST0RVQ1QgPSAiaGF4eDpjdXJsIGhheHg6bGliY3VybCBjdXJsOmN1
-cmwgY3VybDpsaWJjdXJsIGxpYmN1cmw6bGliY3VybCBkYW5pZWxfc3RlbmJlcmc6Y3VybCIKLS0g
-CjIuNDcuMQoK
-
---===============5422412529295120486==
+--===============6635158919615260508==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/curl/curl-dbg: PKGSIZE changed from 15843656 to 5907680 (-63%)
-packages/core2-64-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/libtest/lib2700 /usr/lib/curl/ptest/tests/libtest/lib3010 /usr/lib/curl/ptest/tests/libtest/lib3100 /usr/lib/curl/ptest/tests/libtest/lib1550 /usr/lib/curl/ptest/tests/libtest/lib1560 /usr/lib/curl/ptest/tests/libtest/lib1900 /usr/lib/curl/ptest/tests/libtest/lib1910 /usr/lib/curl/ptest/tests/libtest/lib1940 /usr/lib/curl/ptest/tests/libtest/lib1960 /usr/lib/curl/ptest/tests/libtest/lib1970 /usr/lib/curl/ptest/tests/libtest/lib575 /usr/lib/curl/ptest/tests/libtest/lib574 /usr/lib/curl/ptest/tests/libtest/lib576 /usr/lib/curl/ptest/tests/libtest/lib1551 /usr/lib/curl/ptest/tests/libtest/lib1592 /usr/lib/curl/ptest/tests/libtest/lib1662 /usr/lib/curl/ptest/tests/libtest/lib1593 /usr/lib/curl/ptest/tests/libtest/lib1903 /usr/lib/curl/ptest/tests/libtest/lib1913 /usr/lib/curl/ptest/tests/libtest/lib1912 /usr/lib/curl/ptest/tests/libtest/lib1594 /usr/lib/curl/ptest/tests/libtest/lib1934 /usr/lib/cur
- l/ptest/tests/libtest/lib1964 /usr/lib/curl/ptest/tests/libtest/lib1974 /usr/lib/curl/ptest/tests/libtest/lib1933 /usr/lib/curl/ptest/tests/libtest/lib1905 /usr/lib/curl/ptest/tests/libtest/lib1915 /usr/lib/curl/ptest/tests/libtest/lib1935 /usr/lib/curl/ptest/tests/libtest/lib1945 /usr/lib/curl/ptest/tests/libtest/lib1955 /usr/lib/curl/ptest/tests/libtest/lib1975 /usr/lib/curl/ptest/tests/libtest/lib2405 /usr/lib/curl/ptest/tests/libtest/lib3025 /usr/lib/curl/ptest/tests/libtest/lib645 /usr/lib/curl/ptest/tests/libtest/lib3105 /usr/lib/curl/ptest/tests/libtest/lib643 /usr/lib/curl/ptest/tests/libtest/lib1906 /usr/lib/curl/ptest/tests/libtest/lib1916 /usr/lib/curl/ptest/tests/libtest/lib1936 /usr/lib/curl/ptest/tests/libtest/lib1946 /usr/lib/curl/ptest/tests/libtest/lib1907 /usr/lib/curl/ptest/tests/libtest/lib1917 /usr/lib/curl/ptest/tests/libtest/lib1937 /usr/lib/curl/ptest/tests/libtest/lib1947 /usr/lib/curl/ptest/tests/libtest/lib1957 /usr/lib/curl/ptest/tests/libtest/lib1918 /us
- r/lib/curl/ptest/tests/libtest/lib1938 /usr/lib/curl/ptest/tests/libtest/lib1948 /usr/lib/curl/ptest/tests/libtest/lib1958 /usr/lib/curl/ptest/tests/libtest/lib1978 /usr/lib/curl/ptest/tests/libtest/lib1559 /usr/lib/curl/ptest/tests/libtest/lib1569 /usr/lib/curl/ptest/tests/libtest/lib1919 /usr/lib/curl/ptest/tests/libtest/lib1939 /usr/lib/curl/ptest/tests/libtest/lib1959 /usr/lib/curl/ptest/tests/libtest/lib672 /usr/lib/curl/ptest/tests/libtest/lib673 /usr/lib/curl/ptest/tests/libtest/lib670 /usr/lib/curl/ptest/tests/libtest/lib671 /usr/lib/curl/ptest/tests/libtest/lib676 /usr/lib/curl/ptest/tests/libtest/lib677 /usr/lib/curl/ptest/tests/libtest/lib674 /usr/lib/curl/ptest/tests/server/dnsd /usr/lib/curl/ptest/tests/libtest/lib589 /usr/lib/curl/ptest/tests/libtest/lib678 /usr/lib/curl/ptest/tests/libtest/lib582 /usr/lib/curl/ptest/tests/libtest/lib583 /usr/lib/curl/ptest/tests/libtest/lib584 /usr/lib/curl/ptest/tests/libtest/lib585 /usr/lib/curl/ptest/tests/libtest/lib586 /usr/lib/c
- url/ptest/tests/libtest/lib500 /usr/lib/curl/ptest/tests/libtest/lib501 /usr/lib/curl/ptest/tests/libtest/lib502 /usr/lib/curl/ptest/tests/libtest/lib503 /usr/lib/curl/ptest/tests/libtest/lib504 /usr/lib/curl/ptest/tests/libtest/lib505 /usr/lib/curl/ptest/tests/libtest/lib506 /usr/lib/curl/ptest/tests/libtest/lib507 /usr/lib/curl/ptest/tests/libtest/lib508 /usr/lib/curl/ptest/tests/libtest/lib509 /usr/lib/curl/ptest/tests/libtest/lib571 /usr/lib/curl/ptest/tests/libtest/lib694 /usr/lib/curl/ptest/tests/libtest/lib695 /usr/lib/curl/ptest/tests/libtest/lib696 /usr/lib/curl/ptest/tests/libtest/lib570 /usr/lib/curl/ptest/tests/libtest/lib573 /usr/lib/curl/ptest/tests/server/tftpd /usr/lib/curl/ptest/tests/libtest/lib572 /usr/lib/curl/ptest/tests/libtest/lib1510 /usr/lib/curl/ptest/tests/libtest/lib1520 /usr/lib/curl/ptest/tests/libtest/lib1530 /usr/lib/curl/ptest/tests/libtest/lib1540 /usr/lib/curl/ptest/tests/server/sockfilt /usr/lib/curl/ptest/tests/libtest/lib661 /usr/lib/curl/ptest/
- tests/libtest/lib599 /usr/lib/curl/ptest/tests/libtest/lib598 /usr/lib/curl/ptest/tests/libtest/lib667 /usr/lib/curl/ptest/tests/libtest/lib666 /usr/lib/curl/ptest/tests/libtest/lib668 /usr/lib/curl/ptest/tests/libtest/lib597 /usr/lib/curl/ptest/tests/libtest/lib579 /usr/lib/curl/ptest/tests/libtest/lib1571 /usr/lib/curl/ptest/tests/libtest/lib517 /usr/lib/curl/ptest/tests/libtest/lib516 /usr/lib/curl/ptest/tests/libtest/lib515 /usr/lib/curl/ptest/tests/libtest/lib514 /usr/lib/curl/ptest/tests/libtest/lib513 /usr/lib/curl/ptest/tests/libtest/lib512 /usr/lib/curl/ptest/tests/libtest/lib511 /usr/lib/curl/ptest/tests/libtest/lib510 /usr/lib/curl/ptest/tests/libtest/lib1591 /usr/lib/curl/ptest/tests/server/resolve /usr/lib/curl/ptest/tests/libtest/lib578 /usr/lib/curl/ptest/tests/libtest/lib519 /usr/lib/curl/ptest/tests/libtest/lib518 /usr/lib/curl/ptest/tests/libtest/lib1972 /usr/lib/curl/ptest/tests/libtest/lib2302 /usr/lib/curl/ptest/tests/libtest/lib2402 /usr/lib/curl/ptest/tests/li
- btest/lib2502 /usr/lib/curl/ptest/tests/libtest/lib3102 /usr/lib/curl/ptest/tests/libtest/lib1512 /usr/lib/curl/ptest/tests/libtest/lib1522 /usr/lib/curl/ptest/tests/libtest/lib1532 /usr/lib/curl/ptest/tests/libtest/lib1542 /usr/lib/curl/ptest/tests/libtest/lib1552 /usr/lib/curl/ptest/tests/libtest/libprereq /usr/lib/curl/ptest/tests/libtest/lib1973 /usr/lib/curl/ptest/tests/libtest/lib3103 /usr/lib/curl/ptest/tests/libtest/lib1513 /usr/lib/curl/ptest/tests/libtest/lib1523 /usr/lib/curl/ptest/tests/libtest/lib1533 /usr/lib/curl/ptest/tests/libtest/lib1543 /usr/lib/curl/ptest/tests/libtest/lib1553 /usr/lib/curl/ptest/tests/libtest/lib751 /usr/lib/curl/ptest/tests/libtest/lib529 /usr/lib/curl/ptest/tests/server/sws /usr/lib/curl/ptest/tests/libtest/lib523 /usr/lib/curl/ptest/tests/libtest/lib520 /usr/lib/curl/ptest/tests/libtest/lib521 /usr/lib/curl/ptest/tests/libtest/lib526 /usr/lib/curl/ptest/tests/libtest/lib527 /usr/lib/curl/ptest/tests/libtest/lib524 /usr/lib/curl/ptest/tests/li
- btest/lib525 /usr/lib/curl/ptest/tests/libtest/lib1500 /usr/lib/curl/ptest/tests/libtest/lib1301 /usr/lib/curl/ptest/tests/libtest/lib1501 /usr/lib/curl/ptest/tests/libtest/lib1502 /usr/lib/curl/ptest/tests/libtest/lib1503 /usr/lib/curl/ptest/tests/libtest/lib1485 /usr/lib/curl/ptest/tests/libtest/lib1156 /usr/lib/curl/ptest/tests/libtest/lib1504 /usr/lib/curl/ptest/tests/libtest/lib1308 /usr/lib/curl/ptest/tests/libtest/lib1505 /usr/lib/curl/ptest/tests/libtest/lib1506 /usr/lib/curl/ptest/tests/libtest/lib1507 /usr/lib/curl/ptest/tests/libtest/lib1508 /usr/lib/curl/ptest/tests/libtest/lib1509 /usr/lib/curl/ptest/tests/libtest/lib1517 /usr/lib/curl/ptest/tests/libtest/lib1518 /usr/lib/curl/ptest/tests/libtest/lib1528 /usr/lib/curl/ptest/tests/libtest/lib1529 /usr/lib/curl/ptest/tests/libtest/lib1539 /usr/lib/curl/ptest/tests/libtest/lib1515 /usr/lib/curl/ptest/tests/libtest/lib1525 /usr/lib/curl/ptest/tests/libtest/lib1535 /usr/lib/curl/ptest/tests/libtest/lib1545 /usr/lib/curl/ptes
- t/tests/libtest/lib1555 /usr/lib/curl/ptest/tests/libtest/lib1565 /usr/lib/curl/ptest/tests/libtest/lib1956 /usr/lib/curl/ptest/tests/libtest/lib2306 /usr/lib/curl/ptest/tests/libtest/lib3026 /usr/lib/curl/ptest/tests/libtest/lib1526 /usr/lib/curl/ptest/tests/libtest/lib539 /usr/lib/curl/ptest/tests/libtest/lib1536 /usr/lib/curl/ptest/tests/libtest/lib1556 /usr/lib/curl/ptest/tests/libtest/lib1576 /usr/lib/curl/ptest/tests/libtest/lib1596 /usr/lib/curl/ptest/tests/libtest/lib530 /usr/lib/curl/ptest/tests/libtest/lib533 /usr/lib/curl/ptest/tests/libtest/lib532 /usr/lib/curl/ptest/tests/libtest/lib537 /usr/lib/curl/ptest/tests/libtest/lib536 /usr/lib/curl/ptest/tests/libtest/lib1977 /usr/lib/curl/ptest/tests/libtest/lib3027 /usr/lib/curl/ptest/tests/libtest/lib3207 /usr/lib/curl/ptest/tests/libtest/lib1527 /usr/lib/curl/ptest/tests/libtest/lib1537 /usr/lib/curl/ptest/tests/libtest/lib1557 /usr/lib/curl/ptest/tests/libtest/lib1567 /usr/lib/curl/ptest/tests/libtest/lib1597 /usr/lib/curl
- /ptest/tests/server/socksd /usr/lib/curl/ptest/tests/libtest/lib1578 /usr/lib/curl/ptest/tests/libtest/lib1598 /usr/lib/curl/ptest/tests/libtest/lib1908 /usr/lib/curl/ptest/tests/libtest/lib591 /usr/lib/curl/ptest/tests/libtest/lib2308 /usr/lib/curl/ptest/tests/libtest/lib3208 /usr/lib/curl/ptest/tests/libtest/lib1538 /usr/lib/curl/ptest/tests/libtest/lib1558 /usr/lib/curl/ptest/tests/libtest/lib1568 /usr/lib/curl/ptest/tests/libtest/lib2304 /usr/lib/curl/ptest/tests/libtest/lib2404 /usr/lib/curl/ptest/tests/libtest/lib3104 /usr/lib/curl/ptest/tests/libtest/lib1514 /usr/lib/curl/ptest/tests/libtest/lib1534 /usr/lib/curl/ptest/tests/libtest/lib1554 /usr/lib/curl/ptest/tests/libtest/lib1564 /usr/lib/curl/ptest/tests/libtest/lib590 /usr/lib/curl/ptest/tests/libtest/lib1521 /usr/lib/curl/ptest/tests/libtest/lib1531 /usr/lib/curl/ptest/tests/libtest/lib1541 /usr/lib/curl/ptest/tests/libtest/lib548 /usr/lib/curl/ptest/tests/libtest/lib549 /usr/lib/curl/ptest/tests/libtest/lib2309 /usr/lib
- /curl/ptest/tests/libtest/lib544 /usr/lib/curl/ptest/tests/libtest/lib545 /usr/lib/curl/ptest/tests/server/mqttd /usr/lib/curl/ptest/tests/libtest/lib547 /usr/lib/curl/ptest/tests/libtest/lib540 /usr/lib/curl/ptest/tests/libtest/lib541 /usr/lib/curl/ptest/tests/libtest/lib542 /usr/lib/curl/ptest/tests/libtest/lib543 /usr/lib/curl/ptest/tests/server/rtspd /usr/lib/curl/ptest/tests/libtest/libntlmconnect /usr/lib/curl/ptest/tests/libtest/libauthretry /usr/lib/curl/ptest/tests/libtest/lib553 /usr/lib/curl/ptest/tests/libtest/lib552 /usr/lib/curl/ptest/tests/libtest/lib557 /usr/lib/curl/ptest/tests/libtest/lib556 /usr/lib/curl/ptest/tests/libtest/lib555 /usr/lib/curl/ptest/tests/libtest/lib554 /usr/lib/curl/ptest/tests/libtest/lib559 /usr/lib/curl/ptest/tests/libtest/lib558 /usr/lib/curl/ptest/tests/mk-bundle.pl /usr/lib/curl/ptest/tests/libtest/lib566 /usr/lib/curl/ptest/tests/libtest/lib567 /usr/lib/curl/ptest/tests/libtest/lib564 /usr/lib/curl/ptest/tests/libtest/lib565 /usr/lib/curl
- /ptest/tests/libtest/lib562 /usr/lib/curl/ptest/tests/libtest/lib560 /usr/lib/curl/ptest/tests/libtest/lib1901 /usr/lib/curl/ptest/tests/libtest/lib1911 /usr/lib/curl/ptest/tests/libtest/lib568 /usr/lib/curl/ptest/tests/libtest/lib569 /usr/lib/curl/ptest/tests/libtest/lib658 /usr/lib/curl/ptest/tests/libtest/lib659 /usr/lib/curl/ptest/tests/libtest/lib1971 /usr/lib/curl/ptest/tests/libtest/lib2301 /usr/lib/curl/ptest/tests/libtest/lib3101 /usr/lib/curl/ptest/tests/libtest/lib1511 /usr/lib/curl/ptest/tests/libtest/lib587 /usr/lib/curl/ptest/tests/libtest/lib650 /usr/lib/curl/ptest/tests/libtest/lib651 /usr/lib/curl/ptest/tests/libtest/lib652 /usr/lib/curl/ptest/tests/libtest/lib653 /usr/lib/curl/ptest/tests/libtest/lib654 /usr/lib/curl/ptest/tests/libtest/lib655", added "/usr/lib/curl/ptest/tests/data/test753 /usr/lib/curl/ptest/tests/data/test752 /usr/lib/curl/ptest/tests/libtest/libtests /usr/lib/curl/ptest/tests/data/test793 /usr/lib/curl/ptest/tests/data/test792 /usr/lib/curl/pte
- st/tests/data/test1547 /usr/lib/curl/ptest/tests/data/test754 /usr/lib/curl/ptest/tests/data/test3214 /usr/lib/curl/ptest/tests/server/servers /usr/lib/curl/ptest/tests/data/test1599 /usr/lib/curl/ptest/tests/data/test2103 /usr/lib/curl/ptest/tests/data/test1499"
-packages/core2-64-poky-linux/curl/curl-ptest: PKGSIZE changed from 7348139 to 3803414 (-48%)
+packages/core2-64-poky-linux/babeltrace2/babeltrace2-ptest: FILELIST: added "/usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/index/channel0_2.idx /usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/channel0_2 /usr/lib/babeltrace2/ptest/tests/data/ctf-traces/1/succeed/meta-trailing-byte/metadata"
 
---===============5422412529295120486==--
+--===============6635158919615260508==--
 
