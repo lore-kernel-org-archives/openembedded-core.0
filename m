@@ -1,234 +1,261 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E10C87FCB
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 12:59:38 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.59])
- by mx.groups.io with SMTP id smtpd.web11.86810.1754053176343280402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06426C87FCA
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 13:58:19 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.88561.1754056692017339245
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 05:59:36 -0700
+ Fri, 01 Aug 2025 06:58:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=Nk6ArhI/;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=Nk6ArhI/;
- spf=pass (domain: arm.com, ip: 52.101.70.59, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=cIH/7P6/D73LBcVNrDuHgFN2i7edrakgU2unkAR5BjN8JcYaAG/TAd4hJSC8QQDmLgyE+eMRubrpgOh9600xMFdgVFngJ0zS0UQMUyVuHGdooUTCtd5u3cG7YpFCkxB55gj6BSIansE0coAoyRhRseNhlb5aX9BR+KN9PgSmmMdxo8N9UhMGs2811Z8kglu9SW9O6XxdI3zfGfh4T6lzwoYUt+Oe2TkLBvsf7u44ngFXhX932tg833jLwT78SjL2HmnSdrWKmJfTNLVCJDIy8u0xIbwZ4HDjm/RQJ3JvpzZYsw/qgUhB/OT+6vYUqbfV9pCkQqoscauO4jaAMMe58Q==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iix1n+3/79UQrCYvyexJEJFL1LWELX3fQbWuITYUMP0=;
- b=G624weTfewcqIb4EzMdzwGNbKP64RlCMr7cWVSHVqisHhfKizhBXoRyb0CHiolo8szpbJ82bK5TDhmaq7BW8B2qHkiCNRAbOqvgyPU00Kka6S9zpmdbOpKLUeXle5Pna9trq2s3Uwiq4UC+MyjQvZuiZ6ljZxwZu0ozZIL3OFaUrXDyBUCmUO7NDAETrLYZZW738lYDIDHaeJ9JsmzmWtig8yr/nRTnmV6SOQUuGN2sY9rbLwfeP5ZXEYAyEmdSzPtNXAVd4/P98oKvwHsczlpO/gNj1xYQzF5PAS9kdM7cCdng2fBiS5XOVPXE6z6y7u6ey2OLJJ7pQd1oojJcHPg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iix1n+3/79UQrCYvyexJEJFL1LWELX3fQbWuITYUMP0=;
- b=Nk6ArhI/oLoZj2CXija+u6DGOr38MDSBcTizwGe0dJLZ8kYt1T3UssfjpCocvjnCPK4yc+BbsjN4CBi1xGuj7CmoS6PEQberLpLlbFBpxEcaGjuytvyoJdP7/sT0Nb3Dg5CRhcCbN4zH6lj/FJHrMGePdI2uvefwXG6G6Lp1e+4=
-Received: from CWXP123CA0009.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:73::21)
- by AS8PR08MB6005.eurprd08.prod.outlook.com (2603:10a6:20b:298::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.16; Fri, 1 Aug
- 2025 12:59:31 +0000
-Received: from AMS0EPF00000198.eurprd05.prod.outlook.com
- (2603:10a6:401:73:cafe::5c) by CWXP123CA0009.outlook.office365.com
- (2603:10a6:401:73::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8989.16 via Frontend Transport; Fri,
- 1 Aug 2025 12:59:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF00000198.mail.protection.outlook.com (10.167.16.244) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9009.8
- via Frontend Transport; Fri, 1 Aug 2025 12:59:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D4eLXTwqEhMPg9G5Wr2q1yGGfWx7PXDckc8gFKHhbANlXWyNyx7oIDOB+06WfNKbml1VA8qtNLag53quWKc/9tnEw5GAzBu8BIrlh+IFiaksHjdIBxwgtcAcMorTaq44l+jblhc8TdaPK6RxfnLfQj+Ad7abySf1QUqNNrkDlL1K66s5HMiW4MZjmBHIz3+nOgquUcCaI8l8xjDIvMHaCGEliCUqaeYHZwWzl8R+orDmce9/0Bk0InXfdDQwVnkZZyCKNO39J09BNBNtG2sCcJauLI3laTCLUB7WNGa9ps8vXrvy3MC6JqaPG6IlPCRlRwAKGtUvha9KJbcJSW92jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iix1n+3/79UQrCYvyexJEJFL1LWELX3fQbWuITYUMP0=;
- b=azc0TSZOgYLIu1GmwjHoyqVDTXmDCOXIyUMN/Z5yoYIURAZ1WnoULk8Val29j7/PG0V9/wp1aWE33M5kSLEHMyW3c1tdcQuyIITPAhvu15KKomjLBpslP80DRdakq6c7ehq2Rw0k4X4c6obzO8wx9Qa2QwVqlKxg0IWoK1m2seBvtPQJ2mPBEMaPou4dB5DGjpazww8jkZzTIaIWHWlpunPtaQIdDeEhuXpRGhgrYODnrT1jcqrnWd5wIr1uXQiA1hLY3fgL7fhjAp/DHTZhJS1E+OO9/YyO0Kivp07qtBvKwW0OgFz9ko4+sy+qiqAdKRZkJps0Roi1EBFfb1AM0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iix1n+3/79UQrCYvyexJEJFL1LWELX3fQbWuITYUMP0=;
- b=Nk6ArhI/oLoZj2CXija+u6DGOr38MDSBcTizwGe0dJLZ8kYt1T3UssfjpCocvjnCPK4yc+BbsjN4CBi1xGuj7CmoS6PEQberLpLlbFBpxEcaGjuytvyoJdP7/sT0Nb3Dg5CRhcCbN4zH6lj/FJHrMGePdI2uvefwXG6G6Lp1e+4=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by GV2PR08MB8437.eurprd08.prod.outlook.com (2603:10a6:150:c3::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.13; Fri, 1 Aug
- 2025 12:58:54 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8989.015; Fri, 1 Aug 2025
- 12:58:54 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libclc: Set LDFLAGS to BUILD_LDFLAGS in
- do_build_prepare_builtins
-Thread-Topic: [PATCH] libclc: Set LDFLAGS to BUILD_LDFLAGS in
- do_build_prepare_builtins
-Thread-Index: AQHcARm8uPZEVgzV9E2xpt2MQ2bZ+rRNxdIA
-Date: Fri, 1 Aug 2025 12:58:54 +0000
-Message-ID: <1CB5D038-8F5F-4FE8-88F6-602717B1657B@arm.com>
-References: <20250730061807.1642753-1-raj.khem@gmail.com>
-In-Reply-To: <20250730061807.1642753-1-raj.khem@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.600.51.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|GV2PR08MB8437:EE_|AMS0EPF00000198:EE_|AS8PR08MB6005:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8dc16525-5270-47dc-5705-08ddd0fb4153
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?ZHZxeEhhc1pPMHJFQVU0VGxhMTVwNVNOV3lBTGpBTXdYcW5hRjZCSGR1YitJ?=
- =?utf-8?B?d1hCUTB4MzV6aWIvOFlrTS92bFJSTGlLTXlSN0xKRTBRYlgvMXVYcU8yN0N5?=
- =?utf-8?B?Y3NuTE5JRWs1ZFV5bDJzb0NnbkRxUEYxZU5qR1BuTktLNTl2czlTYVBFTmdq?=
- =?utf-8?B?NDM1ZllDODFZK1ZsVFVqYlgzRTdoS29JaWNIRC9SeXlhV0hGaHdNK1RUWWdv?=
- =?utf-8?B?d2JIR1B1TjlQNmpmbjBvdUNFUU1MUFV6SnJqUFZiYTBLVzBnVGpQWWpjODZn?=
- =?utf-8?B?bFI3aWtsbjJqd1l3MU5GdVgwdnhqb0RwWkdIQkdGSWk3UlRsOXhqQ2sxcmFC?=
- =?utf-8?B?YzBDWDd3Z2tJUGZtbWJ1SllPZ0lkMytJYytQdEZ3a1R2SkozNzlCTXdxaUVT?=
- =?utf-8?B?N3AyZE5aY21JS2ZTZ2VlVEgrTGZkVlAwbDRSM0k1bDRIYUFiVkp0WnArUzIz?=
- =?utf-8?B?YTkyd3BVaHFXTFFyMzVqVkV5bnRqWTZQa1BtcExGVXR4WitlZVRpQkkvZzhK?=
- =?utf-8?B?R2krOFRRRjJEZkpxdlpOeFVyTU5wUnkxd0I3UTZqUWR3bDAzRVJNNE16Nlp0?=
- =?utf-8?B?N0lrQWtDZmxnOXRwZFV0SkU1VUExb294T3FVMXcvdWR5SVFyTHhsd2tQaFpt?=
- =?utf-8?B?KzFFK2J6NVNrS0M1STQyRER4NEdRT1ZweW9IQW5Jc3RRVnZMeTY4dDJBQkkv?=
- =?utf-8?B?d09wMFNBNXpyb0pna0VWRXJLQWJVZ0NtQU10YVdRdTlBRHMyYnM3VWlFNE1Z?=
- =?utf-8?B?MGh0TFluTFd3QkNLaURFOFA4VmRFQ1NJV1pCVkJFZGk1RVBUUWttaWFGY0dQ?=
- =?utf-8?B?TnZ6UXpvV0VvZ09aU2dGOFRuZ29IK0w3U0RQL2xiU1Rxa2FWdlpGcmJOd2tF?=
- =?utf-8?B?SW9hTGRIbkN1ckNPNmhxbGJzNXZNbUR4b0cxdVBqcUpkZ0dlbXAwM2VmQmhN?=
- =?utf-8?B?bU1LZHZrTU53VTZtS0h4V3h5aFFRaHQyQmljQnJLZGJTQy9JQ1VPRTY4NWcy?=
- =?utf-8?B?T3EyTHUyV3RWTVBLRmt3TlVhYzFYeVhYWlhNdFFBR3VCUDY4dDVrZW5MVHI5?=
- =?utf-8?B?ZDNKR3lhSEZSM3pqeG84aVlDbStMVGExUUtOYlA0MkoxL1ptVHZyRURQQjZm?=
- =?utf-8?B?bW93ZlZvMmJ0ZXIyelZ0SkR6dnBHSEJRVWFBbUlMZVQzT0c1SjU5WUN2cGMy?=
- =?utf-8?B?M09nV2V2d1drQmRFdU9TbExLbjVrTXBQREpwRDljNWlTd3RXQktGdE1kTnZr?=
- =?utf-8?B?OEFRTFgvVCtxVzhUajVEMldiS0pKeTRIVzhFeTFtZXdvU1JkZWh5UnB4dnlK?=
- =?utf-8?B?bXdkL2xEMWZEamNPd2YxM2pDbGlYZDRiWXl4MFc4aFFHWk83WllwOThFUDFx?=
- =?utf-8?B?amt5bnluZlJDRmd0b1F2WlMyYnFLRzd0YlFEalRodjVpMlVXY25sSXY0Z1M3?=
- =?utf-8?B?elFHa3dLQmxVN2lWWkEyVHBHRDRPa0JJN3g2Sk9BWXV1YkxDbW5KUG5LbHNY?=
- =?utf-8?B?MnBTMWVHUFFJRjdTMTl6dGVUazM3WGdzMlB2Wmt5Ny96RERpRW1jS2IzeVEz?=
- =?utf-8?B?QUVuZXh5UEJoS0RNZUdjbUhuVzYyTTdSL1hZWW5lT2dyWFYvYTliVEpEK3dr?=
- =?utf-8?B?VkhRWmpWRUpmNU1HRTRkbkpEbVZ4cU5zbWhyZ1A3LzVPcGh5Z0tmSStLMDZn?=
- =?utf-8?B?VDNJcXQvaXFtN2FzWHk5eXZEYlcrMnFtZFdvaGJNMFJubGZZV3lFVFE2NjFu?=
- =?utf-8?B?eXRKVW1KV3VEWlMrdGpxUWZ6emt4OEdvUmltUW1RUWIxcXJ2SjVzOVV1Rkcv?=
- =?utf-8?B?UmR3WC9pZXBxa2h3Ung0aWpuSkxpMWhOUUlQZHgwRkY5SnBwTUhhQmhCanM1?=
- =?utf-8?B?citGY3NiYWZFTWpFMmVlL053REw0M1ZJb2NsTVdMZXZ4aXVKR1FJK05ad3ZQ?=
- =?utf-8?B?WE4rVVJDRUFqbjAwOUpmWkVac0kzS1M2UkNYdXlxOElHNFBZTDh0eThyVnpT?=
- =?utf-8?B?SDg1T1NPb21BPT0=?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6FE040907FE3B846A2B18EAA11393A6F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=fISoup7Z;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5719g6KF006262
+	for <openembedded-core@lists.openembedded.org>; Fri, 1 Aug 2025 13:58:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FkCQWVJw67Ll/uTeu/FrZ8Dy+cbDCRlp8MplRo+crlY=; b=fISoup7ZLbInV7cH
+	2x1V1vO+3xJXy4aOpSs7BTOP2d0FDRKk07Ha5VeNbulO066MquhVv/W49Qqeh62X
+	og75AE119J6BHou8DxRjuUbxDUyn6m3Iilb6+9Iw5EPcOKb2yf3i6TsW/xx7AKwy
+	WaSKiE0zwc0EgRPJnRm4QtaFkllXgJZ5kxbSzxfdQpfntWu8Z3tshLVLfnNgrZ06
+	IMHzMFWty3LD7Dv5yGMD2YvOQdASL2QeTieXjoWrxGCV3hTIqKuCOrCO5PYYLii8
+	ERF7HTqyddDhDeQbHDluAS1h45AealeMoKzq0KqFZvZm8lfxHELu2MvnjC/FHTjU
+	Ye+/Sg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 488u650q6w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 13:58:10 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4ab69fff4deso38275211cf.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 06:58:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754056689; x=1754661489;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FkCQWVJw67Ll/uTeu/FrZ8Dy+cbDCRlp8MplRo+crlY=;
+        b=Wv80J/MSqz+MgbqC4M3SepF0ELdyxybo2DNRnD273TtSVlPKlBVIW5QLIUKrlMHd9c
+         UdqFY1MaWVRgb+OdiDxsqUrMLz0cyscfOl0xhH2W7+ElPftbxtpLQU/Nk2Pkr0EdGmJJ
+         8w3sgCg9bqYIlrLUs8Wn2ZMGJ950XJSxykhv6LBigJEqcJsepYKeGxagueOParIU5754
+         gwkeGuY+86KdhLzl+V9sNZ773bJJ/ZxC42S5Scexnzg+yokeIfV/Gn3nF93zl1MUWL6S
+         jF8hAaLt40EIK55bY++VCmCM3zcK5HYWpxiZkGXub6o4e71BVZEnhAjYQ/JtdB2FV2rV
+         Jdcw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6gP4O901dwipIRPQWqbEwgDlw/gIynQzzf/ZoM3PhWzPGN6aLIbHQG/IhbFki//33+qIpIWpwWIGTvYn8ey/0fA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzqRog2Kn4Yt75GnC1EiYtYoIekUqxMNXOdrp1MVBnfTaerAz76
+	TGyjWBLs8pdD9AQOV4PtURpW01feB6dpjpdEuCmY2ZX/vZ2mgxu03FcGVuhLloN89cxZ84nDRAD
+	oxwcKjZe7T1VIZdlzzIxAlYE+uqBGou5Is85QSYVcOpQ91EnGTzUSxIEPyjwacsfNX3bH8Ony6N
+	gJgzFSyug=
+X-Gm-Gg: ASbGncuCuY6j/lOWaAj3aLwdnZ8hwelC7SbhH+iCFPE15bs8QuD2NkjxGGffgFqoGoX
+	Aop1eZkPYSLFAquN/UtQa5++xpg1VbTLfdD5SbXN3+w2J0nq6yiHTHjkIoiQuvDitBW7zRN/+cC
+	iJhaExyGcwL6LEuW+t2OOXgDjY4/1YTsi4P0fir2gevCJzqp6hi3Nczm4fMQm9MUhDQ050NKbuX
+	R9nza5LcImgRpGCwAi4TeMxKS0POAQ+w8qIEBsO2ISc0lVbSj/TR9WvBR7WKoyhrIRMcu5/dQLj
+	7YHFFG9q+lgjKCalxcMG0OK8ycJ+XFPnbY5pNz0hAK/mpO3osYU1LZNGACCsL8Vje+ffgoQu2wM
+	AaHI1iGnhCOAByOjTJRMQwrrMBJTAcOnvbng8nXmpXRSJfN8ZSS2P6ix6O78LsRGg1RZPzMOYpg
+	7F4EgTQ8FGNNa6ARVijC4lcg==
+X-Received: by 2002:ac8:594f:0:b0:4ab:5941:a919 with SMTP id d75a77b69052e-4aedbc36cdbmr167271181cf.40.1754056689047;
+        Fri, 01 Aug 2025 06:58:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGLVqn4CudBc2FWm0VgeY3PLgHHKC4B1rDVQeEm3IByjZ3hdPeR3MYeuWC6pdYhB+JV2q0qng==
+X-Received: by 2002:ac8:594f:0:b0:4ab:5941:a919 with SMTP id d75a77b69052e-4aedbc36cdbmr167270841cf.40.1754056688374;
+        Fri, 01 Aug 2025 06:58:08 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:11f:12ba:7035:8684:db73:a472? (2001-14bb-11f-12ba-7035-8684-db73-a472.rev.dnainternet.fi. [2001:14bb:11f:12ba:7035:8684:db73:a472])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55b88c9aeafsm591863e87.109.2025.08.01.06.58.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Aug 2025 06:58:07 -0700 (PDT)
+Message-ID: <8537d025-56bd-4712-9af3-20af63399866@oss.qualcomm.com>
+Date: Fri, 1 Aug 2025 16:58:06 +0300
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8437
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF00000198.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	f90ae752-d4f2-402c-41c7-08ddd0fb2be3
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|1800799024|376014|35042699022|14060799003|36860700013|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?c0QyNUtNQ0s1c3duY04waG5OMEkyU2tlb2ltNTVUOGhxeHJ0LzNpejJSakxr?=
- =?utf-8?B?SDEwbzhQa0JjeDdqc1BhRCtlTWMveWZiKzZMZ3lGc28wWDBiS0VEM0NVNVVn?=
- =?utf-8?B?ZnZ5dlBCOGZ5MjBHZlRPZlhMUTJlVlVWSHZjNk9wSmNubGVreWVzUlZFTVps?=
- =?utf-8?B?RXlGYkZBSmpwdStweDN2WTA0QnprZldydGpxTk9zd3phUFVQWTlDdE03K1Av?=
- =?utf-8?B?Zm8zS2VtY3JVajRHN1JPc3pjdTc4bFBmeGdOSTRZRXMyRnVsTXJKbldhN2xh?=
- =?utf-8?B?aHpka2ZOd1RDUkRjY05yR1hDek14bnZzM0lRbG0zUk44Y3B4eERTa250N3dC?=
- =?utf-8?B?QTRuMmRIZ2ZUMExneE9KRXFIV000WjM2U1FYYnVYa1VSQ3BhNjl3bFMrZlV1?=
- =?utf-8?B?eWRXRWhOTXNQUWdvTkhXZVdET0RXdUVvSGFxVmZBbVE3b2VjOVJlaEI4dnFY?=
- =?utf-8?B?eC84REtBNURXVHI0TDB1MlByd3g0MVNwa2NpdndQU01EZEgvamtiSXcvbzZV?=
- =?utf-8?B?TnZTZXdOMG9xdDJIaVBxWFBFclFmZ3BjVHpmTTRSOWM5cVhSS1BsQmZINDJq?=
- =?utf-8?B?ekFJRmZVcmdZVFJjQXFENnJMK1ByQ2pSMWVOY3FZV0V5bUNXVUs2aEpjdXZN?=
- =?utf-8?B?UGNaNXB1LzlSU0JRU1VBRVBHVEoyYU1BZXdhczByZ2t3TVp1R2V5WUt2SHRU?=
- =?utf-8?B?ZzBERFBIcVpKM1BPOUwvZWJ4Nm4zVkQ5Y0xBRWFrLzVWMXYrUmNBOU1rT0JY?=
- =?utf-8?B?bjhLOEE0R2VibDJyckltcUFHb1NtUlFZcnNLMnNtS201cmxoQnFnRENUZEtN?=
- =?utf-8?B?QzNJaGJ6d2xkdW9OS1lFWWxvWm1hNnV6c0xTbmlYYmxQRjZEZy9XRVU2d1cx?=
- =?utf-8?B?clhjOUk3Y3NDMTBjazY0RkpyVGEwSG5DWHhpdG4rT2JwS1VuWGVGcHRRa28w?=
- =?utf-8?B?NWpZbUxjR01tdmh4cUJwUFZGUEJMUUVOUThiZVR0T3VuKzliUndYQVZXM1RV?=
- =?utf-8?B?QmxZTkkyU3Voc3ZWT2pURXJvTU5rL3BzejRHQzBNeVB5NlNWUzkxemhkUVk0?=
- =?utf-8?B?WWlsRE5IZHhhNTVuamd0L1podVB6UGhVaUJ2RnViYnVBVWdQQktyelQ2dEt1?=
- =?utf-8?B?eHlaekdQZ3hPdmdiamJlWnRhSTJ3S3NDZkhPTTVNeEhTa1JEdVBaU3ZzVTRG?=
- =?utf-8?B?dkZLbWVjSi9uRkRWYlVMcElVblF1emRSdnBpbkQydVNaaTdoTm5jUFZQV1hM?=
- =?utf-8?B?NFYrWGJYVkZzOXdFUTU2NlVHMENubGZybnZZOGhGdTRPT1dsYXJqdEx0QmhB?=
- =?utf-8?B?OVFlK2F0aXB5MVJuVEpvRmcyQlBvN1pwcXdwdi94WXZRREQxMWYvanlrbVVB?=
- =?utf-8?B?K0JSeVJ1YXhCZjFEcWJ6UEkxUk05NUNKMndEdWFUa0VwMGhGQjFFTkNFa2Fy?=
- =?utf-8?B?c1RPczFhbVdud3B0YVRKOVVDSXZDSFNHb09JK2RyZU15NlFvV2YrV1pjZGc0?=
- =?utf-8?B?cUd1dEY3SEV4alV5eStGb1lUaTRjMmhsUXBLYmVvVVdmQnJaRDFjZVBrT1dO?=
- =?utf-8?B?bUNDTFVXU1UyMEFyc2pwSWk2YnpEaXYrUE1ZTXdWUm5lTXJsRnJjQ092RnpQ?=
- =?utf-8?B?dGNSeGV2NmsyMEFXT0xtNHBlQzV0clh2MGRMK0FxamVEMXYvS3ZMQm9uUldZ?=
- =?utf-8?B?RVJVTDMxVHVITFR0UnJ5MnEySVRjSU5TclV6NThPVzdZeENjV3ppWkxQRlhM?=
- =?utf-8?B?R0szV3Y1VCs5b2NNQ05FeitKKzdvNDZNaWVPS28zZm4vZi9oWFVJUStiWU16?=
- =?utf-8?B?RUwvNktrbG9Yb2NUOCtTOFJCL1o0bzJJM2t0QjZoMnB3SWFtMEtlT1hDa0l2?=
- =?utf-8?B?RWRmNVgwNFhoTWZFalpGSFc2ZWVnb0FyNDk2VWwwQmg4RUR3elFINWVRMGxq?=
- =?utf-8?B?SktXLzdFc09wVTZYeldpc1l4YnJvQU05MG1GbkNVVFJJcnB0QldIMloybkhk?=
- =?utf-8?B?UFMzYWs5cnBCQkdxc3k0MlFiQUhKWHRUemVaZ2RPY1FxY1padkFMWXE3dVdL?=
- =?utf-8?Q?9YP0Cb?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(35042699022)(14060799003)(36860700013)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2025 12:59:30.7457
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8dc16525-5270-47dc-5705-08ddd0fb4153
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF00000198.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6005
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v4 0/9] mesa: lighten up target's libclc dependencies
+ and fix panfrost support
+To: Quentin Schulz <foss+yocto@0leil.net>,
+        openembedded-core@lists.openembedded.org
+Cc: Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>,
+        Ross Burton <ross.burton@arm.com>,
+        Otavio Salvador <otavio.salvador@ossystems.com.br>,
+        Quentin Schulz <quentin.schulz@cherry.de>
+References: <20250801-mesa-libclc-panfrost-v4-0-101c6dcf564f@cherry.de>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20250801-mesa-libclc-panfrost-v4-0-101c6dcf564f@cherry.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: j1_HoiuIQsvzj1oSzuySH8YTTiV45Zwo
+X-Proofpoint-GUID: j1_HoiuIQsvzj1oSzuySH8YTTiV45Zwo
+X-Authority-Analysis: v=2.4 cv=f+RIBPyM c=1 sm=1 tr=0 ts=688cc7f2 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=e5mUnYsNAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=9B6jaAhKy-Zsr8waVqIA:9 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+ a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAxMDEwNSBTYWx0ZWRfX1F1mCwfx9VT1
+ ufqREIV15e908MpEQFJQaAy24HamDgIeliVH47wGrol14f2amGUJ9JDrqSbG84eegiX7QqUsI9i
+ RKahVg5P6zSsHhgl6wGsgJzdbkmJgTcXT2X3LgCnsYSJkJReSRJGQB/DuLxi/tbbb7ZzVdxi2zq
+ qJ5ah/xmD7fY3+M1kmZwwu+2HfCvVF0VaRSSvFjkkK3wF8A7JjRohhzJm+saNoStcDCoqE/pklm
+ MxmEVxQFoUuRsCnpKP8bkUr+GnGpOrChZTyKbhNNsWp9epKi0ioEIRdpF7UaeZ5Y6a9kn6GGHTI
+ aJULOFpN24OfR/wbN2OxhHMtQBuZJFJvOtI9VZUSLoPGIntdtwf+CN2fyYfvfDUlimHNL8B2/k7
+ Lp8B4nC4bVlokBRFN5n4hvg+QzemWtgKy1OjP1Z2XfBFY1GweY4Fc3NmkJBONFJficmlp8Px
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-01_04,2025-08-01_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2508010105
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 12:59:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221244
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 13:58:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221245
 
-T24gMzAgSnVsIDIwMjUsIGF0IDA3OjE4LCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPiB3
-cm90ZToNCj4gDQo+IFRoaXMgZnVuY3Rpb24gaXMgY29tcGlsaW5nIGEgbmF0aXZlIGJpbmFyeSwg
-aG93ZXZlciBpdHMgb3BlcmF0aW5nDQo+IGxhcmdlbHkgaW5zaWRlIGEgdGFyZ2V0IG9yIG5hdGl2
-ZXNkayBzaGVsbCBlbnZpcm9ubWVudC4gSXQgZG9lcw0KPiB0cmlja3MgYnkgcGFzc2luZyB0b29s
-Y2hhaW4tbmF0aXZlLmNtYWtlIHRvIHByb3ZpZGUgbmF0aXZlDQo+IG92ZXJyaWRlcyBmb3IgY21h
-a2UsIHdoaWNoIHdvcmtzIGZvciBtb3N0IG9mIHZhcmlhYmxlcyBvZiBpbnRlcmVzdA0KPiBiZXNp
-ZGVzIExERkxBR1MuIEluIHRoZSB0b29sY2hhaW4uY21ha2UgZmlsZXMgb24gT0Ugd2UgZG8gbm90
-DQo+IG92ZXJyaWRlIExERkxBR1MgYnV0IGFwcGVuZCB0byBpdCB2aWEgQ01BS0VfQ1hYX0xJTktf
-RkxBR1MgIG9yDQo+IENNQUtFX0NfTElOS19GTEFHUywgd2hpY2ggY2F1c2VzIHByb2JsZW1zIGJl
-Y2F1c2UgTERGTEFHUyBmb3INCj4gbmF0aXZlc2RrIHdpbGwgY29udGFpbiAtLWR5bmFtaWMtbGlu
-a2VyIG9wdGlvbiBwb2ludGluZyBpbnRvDQo+IG5hdGl2ZXNkayBzdHJpbmcgYW5kIHdoZW4gZG9p
-bmcgdGFyZ2V0IGJ1aWxkIGl0IHdpbGwgdXNlIHRoZQ0KPiBMREZMQUdTIGZyb20gdGFyZ2V0IGVu
-dmlyb25tZW50IHdoaWNoIG1pZ2h0IHdvcmsgaWYgaXQgZG9lcw0KPiBub3QgY29udGFpbiBjb25m
-bGljdGluZyBmbGFncy4NCg0KSXMgdGhlIHByb2JsZW0gdGhhdCB0aGUgZW52aXJvbm1lbnQgY29u
-dGFpbnMgdmFyaWFibGVzIGxpa2UgTERGTEFHUyB3aGljaCBhcmUgZm9yIHRoZSB0YXJnZXQsIGFu
-ZCBjbWFrZSBpcyByZXNwZWN0aW5nIHRoZW0gd2hlbiB3ZeKAmXJlIGRvaW5nIGEgbmF0aXZlIGJ1
-aWxkPw0KDQpQb3NzaWJseSwgb3VyIHRvb2xjaGFpbiBmaWxlcyBzaG91bGQgYmUgc2V0dGluZyBD
-TUFLRV9TSEFSRURfTElOS0VSX0ZMQUdTX0lOSVQgdG8gdGhlIHZhcmlhYmxlcyBkb27igJl0IGdl
-dCB1c2VkIGF0IGFsbC4gIEJ1dCB1bnRpbCB3ZSBjaGFuZ2UgdGhlIGNtYWtlIGNsYXNzLCBJIHdv
-bmRlciBpZiB3ZSBzaG91bGQganVzdCBudWtlIHRoZSBlbnZpcm9ubWVudCB3aGVuIHJ1bm5pbmcg
-Q01ha2UgYXMgdGhlcmXigJlzIG1vcmUgdmFyaWFibGVzIHRoYW4gTERGTEFHUyB0byBjYXVzZSB0
-cm91YmxlPyBJIGNhbuKAmXQgcmVwbGljYXRlIHlvdXIgZmFpbHVyZSwgYnV0IHRoaXMgc2VlbXMg
-dG8gd29yayBpbiBsaWJjbGM6DQoNCmRvX2J1aWxkX3ByZXBhcmVfYnVpbHRpbnMoKSB7DQogIGVu
-diAtaSBQQVRIPSRQQVRIIGNtYWtlIOKApg0KDQpJ4oCZdmUganVzdCBzZW50IGEgcGF0Y2gsIGNh
-biB5b3UgdGVzdCBpdD8NCg0KUm9zcw==
+On 01/08/2025 14:03, Quentin Schulz wrote:
+> @Otavio, can I add the new mesa-tools-native recipe under your
+> maintainership in meta/conf/distro/include/maintainers.inc, it is after
+> all still mesa?
+> 
+> Panfrost support has been broken for a while already because it now
+> requires libclc which isn't enforced by default. This fixes this
+> oversight.
+> 
+> While re-adding support for panfrost, the build time for libclc were a
+> bit too much to my taste and I tried to figure out if we could lighten
+> up the dependencies for the target recipe and it seems to be the case.
+> 
+> libclc brings very expensive dependencies such as llvm and clang.
+> Building clang and llvm for each target architecture is very expensive,
+> but mesa allows to depend on prebuilt host binaries (mesa-clc and
+> precomp-compiler). Those are built by mesa as well, but can be compiled
+> in mesa-native instead of mesa, making the dependency expensive but only
+> once regardless of the number of target architectures to build for.
+> Ideally the mesa-clc and precomp-compiler would only be compiled in
+> mesa-native if target mesa requires libclc support, however this is not
+> possible as a target recipe cannot impact or depend on a native recipe's
+> configuration. We thus have two choices, always build libclc in
+> mesa-native with its heavy dependencies and impact every build or force
+> the user to modify the mesa-native recipe in a custom layer (as a native
+> recipe cannot use target's OVERRIDES). The latter is unacceptable so the
+> former seems to be the only option. Another big downside is that
+> mesa-native currently builds drivers (amd, nouveau, svga) which we may
+> have absolutely no interest in building, increasing the build time and
+> possibly dependencies list).
+> 
+> A third choice is to spin-off the native mesa recipe with libclc support
+> into a new recipe without drivers and only what's necessary to build
+> mesa-clc and precomp-compiler binaries.
+> This allows to keep a "clean" mesa-native recipe for whoever needs those
+> drivers built-in (e.g. for testing, for qemu-native, or whatever else)
+> and only bring the libclc dependency when required by the target recipe.
+> 
+> Because libclc is now only built for the host, opencl support now needs
+> to explicitly bring libclc and others to build as libclc won't bring it
+> in the build environment anymore.
+> 
+> Note that this was essentially only build tested (run tested on RK3588
+> with panfrost though).
+> 
+> I tried to enable OpenCL support but it triggers a buildpaths QA error,
+> which can be worked around with the following patch:
+> 
+>    commit f5508086477eb900bb0bcfa1a65f46c8d853595a
+>    Author: Quentin Schulz <quentin.schulz@cherry.de>
+>    Date:   Mon Jul 21 11:15:54 2025 +0200
+>    
+>        clc: avoid host path poisoning
+>        
+>        LLVM_LIB_DIR is derived from llvm_libdir meson variable. The latter is
+>        required to figure out where the clang/llvm libraries are for the
+>        cross-compiler but the former is only useful for debugging purposes
+>        while running on the target. When in a cross-compiling environment,
+>        LLVM_LIB_DIR would actually point at a non-existing path (the sysroot
+>        path on the build host) instead of the target path.
+>        
+>        I don't know how to fix this properly so I just hardcode it for now to
+>        silence build warnings.
+>        
+>        Upstream-Status: Inappropriate [proper fix sent to mesa stripping the sysroot would be much better]
+>        Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+>    
+>    diff --git a/src/compiler/clc/clc_helpers.cpp b/src/compiler/clc/clc_helpers.cpp
+>    index 3c0c9db653f..fbc3b2b3d21 100644
+>    --- a/src/compiler/clc/clc_helpers.cpp
+>    +++ b/src/compiler/clc/clc_helpers.cpp
+>    @@ -936,7 +936,7 @@ clc_compile_to_llvm_module(LLVMContext &llvm_ctx,
+>                                         false, false);
+>     
+>        auto clang_install_res_path =
+>    -      fs::path(LLVM_LIB_DIR) / "clang" / std::to_string(LLVM_VERSION_MAJOR) / "include";
+>    +      fs::path("/usr/lib/clang") / std::to_string(LLVM_VERSION_MAJOR) / "include";
+>        c->getHeaderSearchOpts().AddPath(clang_install_res_path.string(),
+>                                         clang::frontend::Angled,
+>                                         false, false);
+> 
+> However, building OpenCL support with Asahi enabled triggers a bunch of
+> other buildpaths QA errors and I believe those are triggered by:
+> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/compiler/libcl/assert.h#L33
+> with __FILE__ pointing at the path on the build host. This should have
+> been mitigated by DEBUG_PREFIX_MAP (-ffile-prefix-map=) but it probably
+> isn't propagated by mesa's build system to the LLVM-only parts of the
+> build?
+> 
+> Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+> ---
+> Changes in v4:
+> - revamped patch removing egl/gles from mesa-gl by making the native and
+>    nativesdk PACKAGECONFIG use = instead of ??= (see patch 1),
+> - added "No intended change in behavior" wherever it is expected,
+> - Link to v3: https://lore.kernel.org/r/20250729-mesa-libclc-panfrost-v3-0-42559ddc93ef@cherry.de
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+Thank you!
+
+> 
+> Changes in v3:
+> - added patch to move S into mesa.inc,
+> - added patch to remove egl/gles from mesa-gl,
+> - added patch to make mesa-gl a target-only recipe,
+> - updated comment for PACKAGECONFIG[opencl] dependency on other
+>    PACKAGECONFIG,
+> - added clarification in commit log of commit adding asahi to TOOLS,
+> - Link to v2: https://lore.kernel.org/r/20250721-mesa-libclc-panfrost-v2-0-f713d0858949@cherry.de
+> 
+> Changes in v2:
+> - spin-off mesa-clc/precomp-compiler host binary building into a
+>    mesa-tools-native recipe to lighten the dependency even more (no
+>    native mesa drivers to build),
+> - make libclc's target mesa depend on mesa-tools-native instead of
+>    mesa-native,
+> - Link to v1: https://lore.kernel.org/r/20250624-mesa-libclc-panfrost-v1-0-9ed8ca980e21@cherry.de
+> 
+> ---
+> Quentin Schulz (8):
+>        mesa-gl: make mesa-gl really openGL-only
+>        mesa: move PACKAGECONFIG defaults to recipes
+>        mesa: move PROVIDES out of include file
+>        mesa: move BBCLASSEXTEND out of the include file
+>        mesa-gl: make recipe target only
+>        mesa: add asahi to TOOLS when selected in PACKAGECONFIG
+>        mesa: use simpler mesa-tools-native recipe as dependency for libclc
+>        mesa: fix panfrost driver build
+> 
+> Ross Burton (1):
+>        mesa: assign S in include file
+> 
+>   meta/recipes-graphics/mesa/mesa-gl.bb           |  8 ++---
+>   meta/recipes-graphics/mesa/mesa-tools-native.bb | 19 ++++++++++
+>   meta/recipes-graphics/mesa/mesa.bb              | 25 +++++++++++++
+>   meta/recipes-graphics/mesa/mesa.inc             | 47 +++++--------------------
+>   4 files changed, 57 insertions(+), 42 deletions(-)
+> ---
+> base-commit: d1afce3aa07898c30aad314e17405994053df3d6
+> change-id: 20250624-mesa-libclc-panfrost-108d62e1899b
+> 
+> Best regards,
+
+
+-- 
+With best wishes
+Dmitry
 
