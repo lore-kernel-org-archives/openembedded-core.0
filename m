@@ -2,608 +2,341 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DABCA0EC1
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:00 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.88800.1754057267128198881
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B966CA0EDD
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:01 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.88632.1754057270748679038
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:07:57 -0700
+ Fri, 01 Aug 2025 07:07:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=LW1Zt2Qf;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=MlgtvEYY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019865f5fe0c-66573682-7dcd-45be-a8e3-5209bd970a4b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=k/To5/s+;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VOAsaTHu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019865f5fbd0-6563308d-83ad-4970-a119-358e6d73c802-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754057277;
+	t=1754057276;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Gs1NE6wecgfu+1rKoqG2OME+hkK599RjyAnnz0Mv5yA=;
-	b=LW1Zt2QfgLqxKUYRgZYKI2XQKbs0EMHkVdZ8GzS3yxSimfWjRThmpwkxugCSfYHU
-	mc3+qar6rDCJfoa0thn5oX+0P2h0HC+/R1Lu7LtnEccSyQPeUfiJ6eHIQV/MAXAWyN0
-	nECPT/LZz/EWRwozfNk9FdmV0ocjB2saUb3jug7s=
+	bh=LBQsaGPUmx2P3gIgE/08hpJpIrm0vBe0bBV9EGKsTX8=;
+	b=k/To5/s+3t087W5UC6dXaNuc/x/w06X4moL3TYXm6BtvlkKkcoFJvIzG0qRGCE59
+	qV0z3YSXWrydl0aMjubUzObA5btdgQRGAATRGJhYkvokvbGx4oS5fB3CofjgGJxuY9m
+	d9x+U75Ze/ehoLIXHbjcoGUYEGbgEn6q2ZZHyLcY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057277;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057276;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Gs1NE6wecgfu+1rKoqG2OME+hkK599RjyAnnz0Mv5yA=;
-	b=MlgtvEYYwK7In/fwVC/hKnpG7NGL1BXcPniyCSKop969tNjyh5VF/4u2XsL4Z2TU
-	7bJ9A68FRgrzfiJ5NnuPutsfxld9NLi+zAzlHvpNqe4SF3EyaVJl9Tq99Y+5+TCvNVk
-	Bj36xj6aachpG+rvqral47qzx9WsNdV2s14q+DeI=
-Content-Type: multipart/mixed; boundary="===============0731578135666812709=="
+	bh=LBQsaGPUmx2P3gIgE/08hpJpIrm0vBe0bBV9EGKsTX8=;
+	b=VOAsaTHuPql521Z2LlAgEQQLrF8a3qY8do369AgYsy0VHRM1jJQw+O/LJ7/ggMBP
+	EjLOD1oQyzAy7oFZzAcB00O2InMPyev2jMuIMxApsBRxHv93txqiIpb/iNX6tWEk1N4
+	4EWv+ogiPBtQ3kEu/m78WlaG0r6nrycCfh0BMwBU=
+Content-Type: multipart/mixed; boundary="===============5175846519864692561=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ruby: upgrading to 3.4.5 SUCCEEDED
-Message-ID: <0101019865f5fe0c-66573682-7dcd-45be-a8e3-5209bd970a4b-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-zipp: upgrading to 3.23.0 FAILED
+Message-ID: <0101019865f5fbd0-6563308d-83ad-4970-a119-358e6d73c802-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Aug 2025 14:07:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.45
+X-SES-Outgoing: 2025.08.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221291
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221289
 
---===============0731578135666812709==
-Content-Type: text/plain; charset="utf-8"
+--===============5175846519864692561==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpydWJ5KiB0byAqMy40LjUqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAgLSBh
-cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLXJ1YnktdXBncmFkZS0zLjQuNC0zLjQuNS5wYXRj
-aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
-emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
-dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
-c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
-LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
-YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
-dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
-VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
-IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
-ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
-IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
-ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
-bSBhYTdhNzBlYWU2NWM2MTQ4ZTkzMDk0NzYwZTUzNDIwZDZhNDVmNTNhIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
-dGU6IEZyaSwgMSBBdWcgMjAyNSAxMDoyNjowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1Ynk6
-IHVwZ3JhZGUgMy40LjQgLT4gMy40LjUKCi0tLQogLi4uMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21w
-aWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoIHwgNCArKy0tCiAuLi5tX2R1bXAuYy1EZWZp
-bmUtUkVHX1MxLWFuZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggfCA0ICsrLS0KIC4uLi9y
-dWJ5LzAwMDItT2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoICB8IDIg
-Ky0KIC4uLi9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlvbi5w
-YXRjaCB8IDggKysrKy0tLS0KIC4uLm1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1p
-bi1nZW5lcmF0ZWQtTS5wYXRjaCB8IDQgKystLQogLi4ucmstR2Vtc3BlYy1yZXByb2R1Y2libGUt
-Y2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIHwgMiArLQogLi4uL3J1YnkvcnVieS8wMDA2
-LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoICAgICAgIHwgNCArKy0tCiAuLi4wNy1T
-a2lwLXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2ggfCA1ICst
-LS0tCiAuLi4vcnVieS97cnVieV8zLjQuNC5iYiA9PiBydWJ5XzMuNC41LmJifSAgICAgICAgICAg
-ICAgICAgfCAyICstCiA5IGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDE5IGRlbGV0
-aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3tydWJ5XzMuNC40LmJi
-ID0+IHJ1YnlfMy40LjUuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5h
-bC1nZW1zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1r
-LWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCmluZGV4IGYxNzk3
-MGU5YzkuLjJjMzY5M2RjYzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vtcy5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtZXh0bWstZml4
-LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0Y2gKQEAgLTEsNCArMSw0IEBA
-Ci1Gcm9tIDAzNzAwZWMyNTY3ODllMDJkZTIwYjU4YmNhMDgwYzZmZWY1OTIzMzYgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCitGcm9tIDQyMzM5OTQxYTQ3MDJjMTk2YjZjN2JmOTVmMDc4YmY3OTNl
-MzMwMTcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiA9P1VURi04P3E/QW5kcj1DMz1B
-OT0yMERyYXN6aWs/PSA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgogRGF0ZTogTW9uLCAzMCBTZXAg
-MjAxOSAxNjo1NzowMSArMDEwMAogU3ViamVjdDogW1BBVENIXSBleHRtazogZml4IGNyb3NzLWNv
-bXBpbGF0aW9uIG9mIGV4dGVybmFsIGdlbXMKQEAgLTE2LDcgKzE2LDcgQEAgU2lnbmVkLW9mZi1i
-eTogQW5kcsOpIERyYXN6aWsgPGFuZHJlLmRyYXN6aWtAamNpLmNvbT4KICAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2V4dC9leHRt
-ay5yYiBiL2V4dC9leHRtay5yYgotaW5kZXggOGI2YjM2NS4uMzA0OGY3NSAxMDA3NTUKK2luZGV4
-IDFkMTY1NDUuLmFkOTcxZWEgMTAwNzU1CiAtLS0gYS9leHQvZXh0bWsucmIKICsrKyBiL2V4dC9l
-eHRtay5yYgogQEAgLTQzNCw4ICs0MzQsOCBAQCBlbHNlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJF
-R19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1
-YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2
-LnBhdGNoCmluZGV4IDc5OTMyNGNhZWEuLjkwZGExZDMzYjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQt
-UkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNs
-LXJpc2N2LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmOTkyZDc4MWUwNWI2MTQ4OWJkZjVh
-MmE5YWVlNmNjNjE2ZjE3NDJhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmYmRlZDBk
-ZjM1ZWZhN2E2ZTM4MGQ3ZTYyMDcxYTg5MjZkOTI0ZDBjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgMjUgSmFu
-IDIwMjIgMjA6Mjk6MTQgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdm1fZHVtcC5jOiBEZWZpbmUg
-UkVHX1MxIGFuZCBSRUdfUzIgZm9yIG11c2wvcmlzY3YKQEAgLTE0LDcgKzE0LDcgQEAgU2lnbmVk
-LW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwg
-NSBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS92bV9kdW1wLmMgYi92bV9kdW1wLmMKLWlu
-ZGV4IDU4NzNlNTIuLjllYjRkYjEgMTAwNjQ0CitpbmRleCA5OTMzOWZkLi44YzViYjAzIDEwMDY0
-NAogLS0tIGEvdm1fZHVtcC5jCiArKysgYi92bV9kdW1wLmMKIEBAIC00MCw2ICs0MCwxMSBAQApk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERG
-TEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0
-Y2gKaW5kZXggODRmZTlhZWUzZC4uMGFhNzM0MGVmYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGli
-cnVieS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDItT2Jl
-eS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
-RnJvbSAyNjI1ZjZjMTU1MTA1ZDM1MmQ2YTFmZjNhNzIyZTc4OTY0MzFmZjkxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQorRnJvbSA1ODk3NTA2NTJlMzk0ZjA4MTQ2Y2MxMDFkNTlkNWVhNjFmMTU5
-MWM3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQ2hyaXN0b3BoZXIgTGFyc29uIDxj
-aHJpc19sYXJzb25AbWVudG9yLmNvbT4KIERhdGU6IFRodSwgNSBNYXkgMjAxNiAxMDo1OTowNyAt
-MDcwMAogU3ViamVjdDogW1BBVENIXSBPYmV5IExERkxBR1MgZm9yIHRoZSBsaW5rIG9mIGxpYnJ1
-YnkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMy1yZG9j
-LWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRp
-b24ucGF0Y2gKaW5kZXggODdhMWU4MjUxNi4uMDRhN2IzZjY3MiAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRv
-Y3VtZW50YXRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8w
-MDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2gKQEAgLTEsNCAr
-MSw0IEBACi1Gcm9tIDk4MDcxYzBiMjhhNDVjZDIxYTJjYmU2NzQ2Y2UzOTA2NzkzMmI2MmYgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGY5N2Q0YjgwNDU5MDczOWU0NmU4NmQwMDE3M2My
-NDM4YzhmODYzM2MgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDaHJpc3RpYW4gSG9m
-c3RhZWR0bGVyIDx6ZWhhQGRlYmlhbi5vcmc+CiBEYXRlOiBUdWUsIDEwIE9jdCAyMDE3IDE1OjA0
-OjM0IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHJkb2M6IGJ1aWxkIHJlcHJvZHVjaWJsZSBkb2N1
-bWVudGF0aW9uCkBAIC0xNCwxMCArMTQsMTAgQEAgU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEhv
-ZnN0YWVkdGxlciA8emVoYUBkZWJpYW4ub3JnPgogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
-bnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvcmRvYy9nZW5lcmF0b3Iv
-anNvbl9pbmRleC5yYiBiL2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4LnJiCi1pbmRleCBj
-NDU0OTEwLi4yNGZlYWIwIDEwMDY0NAoraW5kZXggMDY1Y2FhNC4uY2ZhMWYzMyAxMDA2NDQKIC0t
-LSBhL2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4LnJiCiArKysgYi9saWIvcmRvYy9nZW5l
-cmF0b3IvanNvbl9pbmRleC5yYgotQEAgLTE3OCw3ICsxNzgsNyBAQCBjbGFzcyBSRG9jOjpHZW5l
-cmF0b3I6Okpzb25JbmRleAorQEAgLTE3Niw3ICsxNzYsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0
-b3I6Okpzb25JbmRleAogICAgICBkZWJ1Z19tc2cgIldyaXRpbmcgZ3ppcHBlZCBzZWFyY2ggaW5k
-ZXggdG8gJXMiICUgb3V0ZmlsZQogIAogICAgICBabGliOjpHemlwV3JpdGVyLm9wZW4ob3V0Zmls
-ZSkgZG8gfGd6fApAQCAtMjYsNyArMjYsNyBAQCBpbmRleCBjNDU0OTEwLi4yNGZlYWIwIDEwMDY0
-NAogICAgICAgIGd6Lm9yaWdfbmFtZSA9IHNlYXJjaF9pbmRleF9maWxlLmJhc2VuYW1lLnRvX3MK
-ICAgICAgICBnei53cml0ZSBzZWFyY2hfaW5kZXgKICAgICAgICBnei5jbG9zZQotQEAgLTE5Niw3
-ICsxOTYsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0b3I6Okpzb25JbmRleAorQEAgLTE5NCw3ICsx
-OTQsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0b3I6Okpzb25JbmRleAogICAgICAgICAgZGVidWdf
-bXNnICJXcml0aW5nIGd6aXBwZWQgZmlsZSB0byAlcyIgJSBvdXRmaWxlCiAgCiAgICAgICAgICBa
-bGliOjpHemlwV3JpdGVyLm9wZW4ob3V0ZmlsZSkgZG8gfGd6fApkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1v
-YmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1n
-ZW5lcmF0ZWQtTS5wYXRjaAppbmRleCA0YjY3NzFmZDI2Li5kOGEyOGEyMGI5IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1s
-aXN0LW9mLW9iamVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVj
-dC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDg4N2Zh
-Y2M0Y2E1YmNiMDI4MGIwMjViMzViYmMxODUyOGU1MjkxNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gM2M1MjE3OTA4NmI1NGVjN2FlNDBmMTEyOTE5NGQ1OGExZWUwN2E4MyBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJlaW5lciBIZXJybWFubiA8cmVpbmVyQHJlaW5lci1o
-LmRlPgogRGF0ZTogVHVlLCAxMCBPY3QgMjAxNyAxNTowNjoxMyAtMDMwMAogU3ViamVjdDogW1BB
-VENIXSBsaWIvbWttZi5yYjogc29ydCBsaXN0IG9mIG9iamVjdCBmaWxlcyBpbiBnZW5lcmF0ZWQg
-TWFrZWZpbGUKQEAgLTE3LDcgKzE3LDcgQEAgU2lnbmVkLW9mZi1ieTogUmVpbmVyIEhlcnJtYW5u
-IDxyZWluZXJAcmVpbmVyLWguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvbWttZi5yYiBiL2xpYi9ta21mLnJiCi1p
-bmRleCA3NjhhMTUyLi5mMTZjZGQ4IDEwMDY0NAoraW5kZXggOTlmMzc2NC4uNjIzNzdiNiAxMDA2
-NDQKIC0tLSBhL2xpYi9ta21mLnJiCiArKysgYi9saWIvbWttZi5yYgogQEAgLTI0ODAsNyArMjQ4
-MCw3IEBAIExPQ0FMX0xJQlMgPSAjeyRMT0NBTF9MSUJTfQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hh
-bmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1Ynkv
-cnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQyMjUt
-dG9vLnBhdGNoCmluZGV4IDE5MGViN2Q3MjguLmI3MTdhMTEwNTYgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxl
-LWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJlcHJvZHVjaWJsZS1jaGFuZ2UtZml4aW5n
-LTc4NDIyNS10b28ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk3MDUxYmU5Y2I5MzE3ZDJj
-NGQ2MWE4MmQ2ZDk1MzgwOWU5NjJmMTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDZh
-ZTBkY2VjN2Q5NmJkMTFkYTg0MTk1ZDM4OGM5NGY1MzA1MmExN2QgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5hc2hpcm8gPGthbmFzaGlyb0BkZWJpYW4ub3JnPgogRGF0
-ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1OjE3IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2Ug
-Z2Vtc3BlY3MgcmVwcm9kdWNpYmxlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUu
-cGF0Y2gKaW5kZXggMTIxYmRjZjNhYi4uNmFhNjk2OWU2MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBh
-dGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNi1NYWtlLWdlbXNw
-ZWNzLXJlcHJvZHVjaWJsZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDU4YmRhY2EzZDUz
-NzlhZmNiOTU0YmI1N2M2OTBjNzczNjgwN2VjNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gYjAzMTQzNWVhZGJiZGFmNTFhOGYxZDU3MDQ2YzJlZGI5ZDUxMjk0MyBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IEx1Y2FzIEthbmFzaGlybyA8a2FuYXNoaXJvQGRlYmlhbi5vcmc+
-CiBEYXRlOiBGcmksIDEgTm92IDIwMTkgMTU6MjU6MTcgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0g
-TWFrZSBnZW1zcGVjcyByZXByb2R1Y2libGUKQEAgLTY0LDcgKzY0LDcgQEAgaW5kZXggNTcxOWY4
-My4uZmU3NjI2MCAxMDA2NDQKICAgIHNwZWMuZW1haWwgICAgICAgICA9IFsia251QGlkYWVtb25z
-Lm9yZyIsICJ1bWVAbWFob3JvYmEub3JnIl0KICAKIGRpZmYgLS1naXQgYS9saWIvcmRvYy9yZG9j
-LmdlbXNwZWMgYi9saWIvcmRvYy9yZG9jLmdlbXNwZWMKLWluZGV4IDMxNDRkZjUuLjY1YzMxM2Yg
-MTAwNjQ0CitpbmRleCA0N2Y0ODAyLi5jZjBiNWY3IDEwMDY0NAogLS0tIGEvbGliL3Jkb2MvcmRv
-Yy5nZW1zcGVjCiArKysgYi9saWIvcmRvYy9yZG9jLmdlbXNwZWMKIEBAIC03LDYgKzcsNyBAQCBl
-bmQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1Ta2lw
-LXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDctU2tpcC10ZXN0X3JtX3Jfbm9fcGVybWlzc2lv
-bnMtdGVzdC11bmRlci1yb290LnBhdGNoCmluZGV4IGUzNTc0ZjFhODEuLmRiYzgyZjIxZjUgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1Ta2lwLXRlc3Rf
-cm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA3LVNraXAtdGVzdF9ybV9yX25vX3Blcm1pc3Npb25z
-LXRlc3QtdW5kZXItcm9vdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOWM0NzQ4YWFlNGY2
-OTM5MGEzNjg3NWFhMjdkNzBjM2M2MzJhZTk0NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gZTQxNjYyNmM4MTcyZjYzNTllODQwOTEwYTE1Mjc4NzlmY2NlN2FhZSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IEppYXlpbmcgU29uZyA8amlheWluZy5zb25nLmNuQHdpbmRyaXZl
-ci5jb20+CiBEYXRlOiBNb24sIDcgSnVsIDIwMjUgMTU6MDU6NTcgKzA4MDAKIFN1YmplY3Q6IFtQ
-QVRDSF0gU2tpcCB0ZXN0X3JtX3Jfbm9fcGVybWlzc2lvbnMgdGVzdCB1bmRlciByb290CkBAIC0y
-Nyw2ICsyNywzIEBAIGluZGV4IGQyMDk2YTAuLjgwZTMzNjggMTAwNjQ0CiAgCiAgICAgIG1rZGly
-ICd0bXBkYXRhZGlyJwogICAgICB0b3VjaCAndG1wZGF0YWRpci90bXBkYXRhJwotLS0gCi0yLjM0
-LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQuNC5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjUuYmIKc2ltaWxhcml0eSBp
-bmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQu
-NC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQuNS5iYgpp
-bmRleCBjNTMyNDAzMzM5Li5iNzdkNzY1NzhlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcnVieS9ydWJ5XzMuNC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnlfMy40LjUuYmIKQEAgLTQ5LDcgKzQ5LDcgQEAgZG9fY29uZmlndXJlOnByZXBlbmQoKSB7
-CiAKIERFUEVORFM6YXBwZW5kOmxpYmMtbXVzbCA9ICIgbGlidWNvbnRleHQiCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICJhMDU5N2JmZGYzMTJlMDEwZWZkMWVmZmFhOGQ3ZjFkNzgzMzE0NmZkYzE3
-OTUwY2FhODE1OGZmYTNkY2JmYTg1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFkODhkOGEyN2I0
-NDJmZGRlNGFhMDZkYzk5ZTg2YjBiYmYwYjI4ODk2M2Q4NDMzMTEyZGQ1ZmFjNzk4ZmQ1ZWUiCiAK
-IFBBQ0tBR0VDT05GSUcgPz89ICIiCiBQQUNLQUdFQ09ORklHICs9ICIke0BiYi51dGlscy5maWx0
-ZXIoJ0RJU1RST19GRUFUVVJFUycsICdpcHY2JywgZCl9IgotLSAKMi40Ny4xCgo=
+Hello,
 
---===============0731578135666812709==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-zipp* to *3.23.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-python3-zipp-upgrade-3.21.0-3.23.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 9a0d44f93b17e7d4b42640cf63cdc8de5c9eb60f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Aug 2025 10:08:27 +0000
+Subject: [PATCH] python3-zipp: upgrade 3.21.0 -> 3.23.0
+
+---
+ ...-zipp_3.21.0.bb => python3-zipp_3.23.0.bb} | 51 ++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-zipp_3.21.0.bb => python3-zipp_3.23.0.bb} (10%)
+
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.21.0.bb b/meta/recipes-devtools/python/python3-zipp_3.23.0.bb
+similarity index 10%
+rename from meta/recipes-devtools/python/python3-zipp_3.21.0.bb
+rename to meta/recipes-devtools/python/python3-zipp_3.23.0.bb
+index 135a1ae533..10ce36680b 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.21.0.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.23.0.bb
+@@ -1,9 +1,56 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,17 +1,18 @@
++# -Permission is hereby granted, free of charge, to any person obtaining a copy
++# -of this software and associated documentation files (the "Software"), to
++# -deal in the Software without restriction, including without limitation the
++# -rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
++# -sell copies of the Software, and to permit persons to whom the Software is
++# -furnished to do so, subject to the following conditions:
++# +MIT License
++#  
++# -The above copyright notice and this permission notice shall be included in
++# -all copies or substantial portions of the Software.
++# +Copyright (c) 2025 <copyright holders>
++#  
++# -THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# -IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# -FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++# -AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++# -LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++# -FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
++# -IN THE SOFTWARE.
++# +Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
++# +associated documentation files (the "Software"), to deal in the Software without restriction, including
++# +without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++# +copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
++# +following conditions:
++# +
++# +The above copyright notice and this permission notice shall be included in all copies or substantial
++# +portions of the Software.
++# +
++# +THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
++# +LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
++# +EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
++# +IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++# +USE OR OTHER DEALINGS IN THE SOFTWARE.
++# 
++#
++
+ SUMMARY = "Backport of pathlib-compatible object wrapper for zip files"
+ HOMEPAGE = "https://github.com/jaraco/zipp"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1aeae65f25a15b1e46d4381f2f094e0a"
+ 
+-SRC_URI[sha256sum] = "2c9958f6430a2040341a52eb608ed6dd93ef4392e02ffe219417c1b28b5dd1f4"
++SRC_URI[sha256sum] = "a07157588a12518c9d4034df3fbbee09c814741a33ff63c05fa29d26a2404166"
+ 
+ DEPENDS += "python3-setuptools-scm-native"
+ 
+-- 
+2.47.1
+
+
+--===============5175846519864692561==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1935 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 942 .bb files complete (941 cached, 1 parsed). 1933 targets, 42 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-b1a859f8e15181364789baec5ad8ebc1e73f019c"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:b1a859f8e15181364789baec5ad8ebc1e73f019c"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 281 Local 271 Mirrors 0 Missed 10 Current 372 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 382 of 653 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 577 of 653 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-zipp-3.23.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 653 of 653 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1853 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_fetch)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_fetch: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1854 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_unpack)
+NOTE: Running task 1855 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_unpack: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1856 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_patch)
+NOTE: Running task 1857 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_collect_spdx_deps)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_patch: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-zipp-3.23.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-zipp-3.23.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1859 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_configure)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_configure: Started
+NOTE: recipe python3-zipp-3.23.0-r0: task do_configure: Succeeded
+NOTE: Running task 1861 of 1872 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_compile)
+NOTE: recipe python3-zipp-3.23.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| running egg_info
+| writing zipp.egg-info/PKG-INFO
+| writing dependency_links to zipp.egg-info/dependency_links.txt
+| writing requirements to zipp.egg-info/requires.txt
+| writing top-level names to zipp.egg-info/top_level.txt
+| ERROR setuptools_scm._file_finders.git listing git files failed - pretending there aren't any
+| reading manifest file 'zipp.egg-info/SOURCES.txt'
+| adding license file 'LICENSE'
+| writing manifest file 'zipp.egg-info/SOURCES.txt'
+| 
+| ERROR Missing dependencies:
+| 	coherent.licensed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.1878615:158 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/sources/zipp-3.23.0'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.1878615, line 158
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.1878615, line 153
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.1878615, line 169
+NOTE: recipe python3-zipp-3.23.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1861 tasks of which 1854 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801100814.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801100814.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/log.do_compile.1878615
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-zipp-3.23.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/run.do_compile.1878615' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-zipp/3.23.0/temp/log.do_compile.1878615
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.23.0.bb:do_compile) failed with exit code '1'
+
+--===============5175846519864692561==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ruby-upgrade-3.4.4-3.4.5.patch"
+ filename="0001-python3-zipp-upgrade-3.21.0-3.23.0.patch"
 
-RnJvbSBhYTdhNzBlYWU2NWM2MTQ4ZTkzMDk0NzYwZTUzNDIwZDZhNDVmNTNhIE1vbiBTZXAgMTcg
+RnJvbSA5YTBkNDRmOTNiMTdlN2Q0YjQyNjQwY2Y2M2NkYzhkZTVjOWViNjBmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMDoyNjowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1
-Ynk6IHVwZ3JhZGUgMy40LjQgLT4gMy40LjUKCi0tLQogLi4uMDAxLWV4dG1rLWZpeC1jcm9zcy1j
-b21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoIHwgNCArKy0tCiAuLi5tX2R1bXAuYy1E
-ZWZpbmUtUkVHX1MxLWFuZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggfCA0ICsrLS0KIC4u
-Li9ydWJ5LzAwMDItT2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoICB8
-IDIgKy0KIC4uLi9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlv
-bi5wYXRjaCB8IDggKysrKy0tLS0KIC4uLm1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxl
-cy1pbi1nZW5lcmF0ZWQtTS5wYXRjaCB8IDQgKystLQogLi4ucmstR2Vtc3BlYy1yZXByb2R1Y2li
-bGUtY2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIHwgMiArLQogLi4uL3J1YnkvcnVieS8w
-MDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoICAgICAgIHwgNCArKy0tCiAuLi4w
-Ny1Ta2lwLXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2ggfCA1
-ICstLS0tCiAuLi4vcnVieS97cnVieV8zLjQuNC5iYiA9PiBydWJ5XzMuNC41LmJifSAgICAgICAg
-ICAgICAgICAgfCAyICstCiA5IGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDE5IGRl
-bGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3tydWJ5XzMuNC40
-LmJiID0+IHJ1YnlfMy40LjUuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRl
-cm5hbC1nZW1zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4
-dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCmluZGV4IGYx
-Nzk3MGU5YzkuLjJjMzY5M2RjYzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vt
-cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtZXh0bWst
-Zml4LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0Y2gKQEAgLTEsNCArMSw0
-IEBACi1Gcm9tIDAzNzAwZWMyNTY3ODllMDJkZTIwYjU4YmNhMDgwYzZmZWY1OTIzMzYgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDQyMzM5OTQxYTQ3MDJjMTk2YjZjN2JmOTVmMDc4YmY3
-OTNlMzMwMTcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiA9P1VURi04P3E/QW5kcj1D
-Mz1BOT0yMERyYXN6aWs/PSA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgogRGF0ZTogTW9uLCAzMCBT
-ZXAgMjAxOSAxNjo1NzowMSArMDEwMAogU3ViamVjdDogW1BBVENIXSBleHRtazogZml4IGNyb3Nz
-LWNvbXBpbGF0aW9uIG9mIGV4dGVybmFsIGdlbXMKQEAgLTE2LDcgKzE2LDcgQEAgU2lnbmVkLW9m
-Zi1ieTogQW5kcsOpIERyYXN6aWsgPGFuZHJlLmRyYXN6aWtAamNpLmNvbT4KICAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2V4dC9l
-eHRtay5yYiBiL2V4dC9leHRtay5yYgotaW5kZXggOGI2YjM2NS4uMzA0OGY3NSAxMDA3NTUKK2lu
-ZGV4IDFkMTY1NDUuLmFkOTcxZWEgMTAwNzU1CiAtLS0gYS9leHQvZXh0bWsucmIKICsrKyBiL2V4
-dC9leHRtay5yYgogQEAgLTQzNCw4ICs0MzQsOCBAQCBlbHNlCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5k
-LVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJp
-c2N2LnBhdGNoCmluZGV4IDc5OTMyNGNhZWEuLjkwZGExZDMzYjEgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1h
-bmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1t
-dXNsLXJpc2N2LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmOTkyZDc4MWUwNWI2MTQ4OWJk
-ZjVhMmE5YWVlNmNjNjE2ZjE3NDJhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmYmRl
-ZDBkZjM1ZWZhN2E2ZTM4MGQ3ZTYyMDcxYTg5MjZkOTI0ZDBjIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgMjUg
-SmFuIDIwMjIgMjA6Mjk6MTQgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdm1fZHVtcC5jOiBEZWZp
-bmUgUkVHX1MxIGFuZCBSRUdfUzIgZm9yIG11c2wvcmlzY3YKQEAgLTE0LDcgKzE0LDcgQEAgU2ln
-bmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdl
-ZCwgNSBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS92bV9kdW1wLmMgYi92bV9kdW1wLmMK
-LWluZGV4IDU4NzNlNTIuLjllYjRkYjEgMTAwNjQ0CitpbmRleCA5OTMzOWZkLi44YzViYjAzIDEw
-MDY0NAogLS0tIGEvdm1fZHVtcC5jCiArKysgYi92bV9kdW1wLmMKIEBAIC00MCw2ICs0MCwxMSBA
-QApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXkt
-TERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1Ynku
-cGF0Y2gKaW5kZXggODRmZTlhZWUzZC4uMGFhNzM0MGVmYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2Yt
-bGlicnVieS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDIt
-T2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoCkBAIC0xLDQgKzEsNCBA
-QAotRnJvbSAyNjI1ZjZjMTU1MTA1ZDM1MmQ2YTFmZjNhNzIyZTc4OTY0MzFmZjkxIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1ODk3NTA2NTJlMzk0ZjA4MTQ2Y2MxMDFkNTlkNWVhNjFm
-MTU5MWM3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQ2hyaXN0b3BoZXIgTGFyc29u
-IDxjaHJpc19sYXJzb25AbWVudG9yLmNvbT4KIERhdGU6IFRodSwgNSBNYXkgMjAxNiAxMDo1OTow
-NyAtMDcwMAogU3ViamVjdDogW1BBVENIXSBPYmV5IExERkxBR1MgZm9yIHRoZSBsaW5rIG9mIGxp
-YnJ1YnkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMy1y
-ZG9jLWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50
-YXRpb24ucGF0Y2gKaW5kZXggODdhMWU4MjUxNi4uMDRhN2IzZjY3MiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxl
-LWRvY3VtZW50YXRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVi
-eS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIDk4MDcxYzBiMjhhNDVjZDIxYTJjYmU2NzQ2Y2UzOTA2NzkzMmI2MmYg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGY5N2Q0YjgwNDU5MDczOWU0NmU4NmQwMDE3
-M2MyNDM4YzhmODYzM2MgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDaHJpc3RpYW4g
-SG9mc3RhZWR0bGVyIDx6ZWhhQGRlYmlhbi5vcmc+CiBEYXRlOiBUdWUsIDEwIE9jdCAyMDE3IDE1
-OjA0OjM0IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHJkb2M6IGJ1aWxkIHJlcHJvZHVjaWJsZSBk
-b2N1bWVudGF0aW9uCkBAIC0xNCwxMCArMTQsMTAgQEAgU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFu
-IEhvZnN0YWVkdGxlciA8emVoYUBkZWJpYW4ub3JnPgogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
-dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvcmRvYy9nZW5lcmF0
-b3IvanNvbl9pbmRleC5yYiBiL2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4LnJiCi1pbmRl
-eCBjNDU0OTEwLi4yNGZlYWIwIDEwMDY0NAoraW5kZXggMDY1Y2FhNC4uY2ZhMWYzMyAxMDA2NDQK
-IC0tLSBhL2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4LnJiCiArKysgYi9saWIvcmRvYy9n
-ZW5lcmF0b3IvanNvbl9pbmRleC5yYgotQEAgLTE3OCw3ICsxNzgsNyBAQCBjbGFzcyBSRG9jOjpH
-ZW5lcmF0b3I6Okpzb25JbmRleAorQEAgLTE3Niw3ICsxNzYsNyBAQCBjbGFzcyBSRG9jOjpHZW5l
-cmF0b3I6Okpzb25JbmRleAogICAgICBkZWJ1Z19tc2cgIldyaXRpbmcgZ3ppcHBlZCBzZWFyY2gg
-aW5kZXggdG8gJXMiICUgb3V0ZmlsZQogIAogICAgICBabGliOjpHemlwV3JpdGVyLm9wZW4ob3V0
-ZmlsZSkgZG8gfGd6fApAQCAtMjYsNyArMjYsNyBAQCBpbmRleCBjNDU0OTEwLi4yNGZlYWIwIDEw
-MDY0NAogICAgICAgIGd6Lm9yaWdfbmFtZSA9IHNlYXJjaF9pbmRleF9maWxlLmJhc2VuYW1lLnRv
-X3MKICAgICAgICBnei53cml0ZSBzZWFyY2hfaW5kZXgKICAgICAgICBnei5jbG9zZQotQEAgLTE5
-Niw3ICsxOTYsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0b3I6Okpzb25JbmRleAorQEAgLTE5NCw3
-ICsxOTQsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0b3I6Okpzb25JbmRleAogICAgICAgICAgZGVi
-dWdfbXNnICJXcml0aW5nIGd6aXBwZWQgZmlsZSB0byAlcyIgJSBvdXRmaWxlCiAgCiAgICAgICAg
-ICBabGliOjpHemlwV3JpdGVyLm9wZW4ob3V0ZmlsZSkgZG8gfGd6fApkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1v
-Zi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1p
-bi1nZW5lcmF0ZWQtTS5wYXRjaAppbmRleCA0YjY3NzFmZDI2Li5kOGEyOGEyMGI5IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29y
-dC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9i
-amVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDg4
-N2ZhY2M0Y2E1YmNiMDI4MGIwMjViMzViYmMxODUyOGU1MjkxNCBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb20gM2M1MjE3OTA4NmI1NGVjN2FlNDBmMTEyOTE5NGQ1OGExZWUwN2E4MyBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJlaW5lciBIZXJybWFubiA8cmVpbmVyQHJlaW5l
-ci1oLmRlPgogRGF0ZTogVHVlLCAxMCBPY3QgMjAxNyAxNTowNjoxMyAtMDMwMAogU3ViamVjdDog
-W1BBVENIXSBsaWIvbWttZi5yYjogc29ydCBsaXN0IG9mIG9iamVjdCBmaWxlcyBpbiBnZW5lcmF0
-ZWQgTWFrZWZpbGUKQEAgLTE3LDcgKzE3LDcgQEAgU2lnbmVkLW9mZi1ieTogUmVpbmVyIEhlcnJt
-YW5uIDxyZWluZXJAcmVpbmVyLWguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvbWttZi5yYiBiL2xpYi9ta21mLnJi
-Ci1pbmRleCA3NjhhMTUyLi5mMTZjZGQ4IDEwMDY0NAoraW5kZXggOTlmMzc2NC4uNjIzNzdiNiAx
-MDA2NDQKIC0tLSBhL2xpYi9ta21mLnJiCiArKysgYi9saWIvbWttZi5yYgogQEAgLTI0ODAsNyAr
-MjQ4MCw3IEBAIExPQ0FMX0xJQlMgPSAjeyRMT0NBTF9MSUJTfQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUt
-Y2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1
-YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQy
-MjUtdG9vLnBhdGNoCmluZGV4IDE5MGViN2Q3MjguLmI3MTdhMTEwNTYgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNp
-YmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJlcHJvZHVjaWJsZS1jaGFuZ2UtZml4
-aW5nLTc4NDIyNS10b28ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk3MDUxYmU5Y2I5MzE3
-ZDJjNGQ2MWE4MmQ2ZDk1MzgwOWU5NjJmMTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDZhZTBkY2VjN2Q5NmJkMTFkYTg0MTk1ZDM4OGM5NGY1MzA1MmExN2QgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5hc2hpcm8gPGthbmFzaGlyb0BkZWJpYW4ub3JnPgog
-RGF0ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1OjE3IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1h
-a2UgZ2Vtc3BlY3MgcmVwcm9kdWNpYmxlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2li
-bGUucGF0Y2gKaW5kZXggMTIxYmRjZjNhYi4uNmFhNjk2OWU2MSAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxl
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNi1NYWtlLWdl
-bXNwZWNzLXJlcHJvZHVjaWJsZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDU4YmRhY2Ez
-ZDUzNzlhZmNiOTU0YmI1N2M2OTBjNzczNjgwN2VjNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gYjAzMTQzNWVhZGJiZGFmNTFhOGYxZDU3MDQ2YzJlZGI5ZDUxMjk0MyBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IEx1Y2FzIEthbmFzaGlybyA8a2FuYXNoaXJvQGRlYmlhbi5v
-cmc+CiBEYXRlOiBGcmksIDEgTm92IDIwMTkgMTU6MjU6MTcgLTAzMDAKIFN1YmplY3Q6IFtQQVRD
-SF0gTWFrZSBnZW1zcGVjcyByZXByb2R1Y2libGUKQEAgLTY0LDcgKzY0LDcgQEAgaW5kZXggNTcx
-OWY4My4uZmU3NjI2MCAxMDA2NDQKICAgIHNwZWMuZW1haWwgICAgICAgICA9IFsia251QGlkYWVt
-b25zLm9yZyIsICJ1bWVAbWFob3JvYmEub3JnIl0KICAKIGRpZmYgLS1naXQgYS9saWIvcmRvYy9y
-ZG9jLmdlbXNwZWMgYi9saWIvcmRvYy9yZG9jLmdlbXNwZWMKLWluZGV4IDMxNDRkZjUuLjY1YzMx
-M2YgMTAwNjQ0CitpbmRleCA0N2Y0ODAyLi5jZjBiNWY3IDEwMDY0NAogLS0tIGEvbGliL3Jkb2Mv
-cmRvYy5nZW1zcGVjCiArKysgYi9saWIvcmRvYy9yZG9jLmdlbXNwZWMKIEBAIC03LDYgKzcsNyBA
-QCBlbmQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1T
-a2lwLXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDctU2tpcC10ZXN0X3JtX3Jfbm9fcGVybWlz
-c2lvbnMtdGVzdC11bmRlci1yb290LnBhdGNoCmluZGV4IGUzNTc0ZjFhODEuLmRiYzgyZjIxZjUg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1Ta2lwLXRl
-c3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA3LVNraXAtdGVzdF9ybV9yX25vX3Blcm1pc3Np
-b25zLXRlc3QtdW5kZXItcm9vdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOWM0NzQ4YWFl
-NGY2OTM5MGEzNjg3NWFhMjdkNzBjM2M2MzJhZTk0NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gZTQxNjYyNmM4MTcyZjYzNTllODQwOTEwYTE1Mjc4NzlmY2NlN2FhZSBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IEppYXlpbmcgU29uZyA8amlheWluZy5zb25nLmNuQHdpbmRy
-aXZlci5jb20+CiBEYXRlOiBNb24sIDcgSnVsIDIwMjUgMTU6MDU6NTcgKzA4MDAKIFN1YmplY3Q6
-IFtQQVRDSF0gU2tpcCB0ZXN0X3JtX3Jfbm9fcGVybWlzc2lvbnMgdGVzdCB1bmRlciByb290CkBA
-IC0yNyw2ICsyNywzIEBAIGluZGV4IGQyMDk2YTAuLjgwZTMzNjggMTAwNjQ0CiAgCiAgICAgIG1r
-ZGlyICd0bXBkYXRhZGlyJwogICAgICB0b3VjaCAndG1wZGF0YWRpci90bXBkYXRhJwotLS0gCi0y
-LjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQu
-NC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjUuYmIKc2ltaWxhcml0
-eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8z
-LjQuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQuNS5i
-YgppbmRleCBjNTMyNDAzMzM5Li5iNzdkNzY1NzhlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcnVieS9ydWJ5XzMuNC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnlfMy40LjUuYmIKQEAgLTQ5LDcgKzQ5LDcgQEAgZG9fY29uZmlndXJlOnByZXBlbmQo
-KSB7CiAKIERFUEVORFM6YXBwZW5kOmxpYmMtbXVzbCA9ICIgbGlidWNvbnRleHQiCiAKLVNSQ19V
-Uklbc2hhMjU2c3VtXSA9ICJhMDU5N2JmZGYzMTJlMDEwZWZkMWVmZmFhOGQ3ZjFkNzgzMzE0NmZk
-YzE3OTUwY2FhODE1OGZmYTNkY2JmYTg1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFkODhkOGEy
-N2I0NDJmZGRlNGFhMDZkYzk5ZTg2YjBiYmYwYjI4ODk2M2Q4NDMzMTEyZGQ1ZmFjNzk4ZmQ1ZWUi
-CiAKIFBBQ0tBR0VDT05GSUcgPz89ICIiCiBQQUNLQUdFQ09ORklHICs9ICIke0BiYi51dGlscy5m
-aWx0ZXIoJ0RJU1RST19GRUFUVVJFUycsICdpcHY2JywgZCl9IgotLSAKMi40Ny4xCgo=
+CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMDowODoyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtemlwcDogdXBncmFkZSAzLjIxLjAgLT4gMy4yMy4wCgotLS0KIC4uLi16aXBwXzMuMjEu
+MC5iYiA9PiBweXRob24zLXppcHBfMy4yMy4wLmJifSB8IDUxICsrKysrKysrKysrKysrKysrKy0K
+IDEgZmlsZSBjaGFuZ2VkLCA0OSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtemlwcF8zLjIxLjAuYmIgPT4g
+cHl0aG9uMy16aXBwXzMuMjMuMC5iYn0gKDEwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjIxLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjIzLjAuYmIKc2ltaWxhcml0eSBpbmRleCAxMCUK
+cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4y
+MS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlw
+cF8zLjIzLjAuYmIKaW5kZXggMTM1YTFhZTUzMy4uMTBjZTM2NjgwYiAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4yMS4wLmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMjMuMC5iYgpAQCAtMSw5
+ICsxLDU2IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVu
+IHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRp
+ZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxl
+YXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhl
+IGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0
+YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVk
+LicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRQorIyArKysgTElDRU5TRQor
+IyBAQCAtMSwxNyArMSwxOCBAQAorIyAtUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJl
+ZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEgY29weQorIyAtb2YgdGhpcyBz
+b2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJl
+IiksIHRvCisjIC1kZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNs
+dWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZQorIyAtcmlnaHRzIHRvIHVzZSwgY29weSwgbW9k
+aWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29yCisjIC1z
+ZWxsIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0byB3aG9t
+IHRoZSBTb2Z0d2FyZSBpcworIyAtZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBm
+b2xsb3dpbmcgY29uZGl0aW9uczoKKyMgK01JVCBMaWNlbnNlCisjICAKKyMgLVRoZSBhYm92ZSBj
+b3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIHNoYWxsIGJlIGluY2x1
+ZGVkIGluCisjIC1hbGwgY29waWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZSBTb2Z0
+d2FyZS4KKyMgK0NvcHlyaWdodCAoYykgMjAyNSA8Y29weXJpZ2h0IGhvbGRlcnM+CisjICAKKyMg
+LVRIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFO
+WSBLSU5ELCBFWFBSRVNTIE9SCisjIC1JTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVE
+IFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElUWSwKKyMgLUZJVE5FU1MgRk9SIEEg
+UEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuIElOIE5PIEVWRU5UIFNIQUxM
+IFRIRQorIyAtQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBD
+TEFJTSwgREFNQUdFUyBPUiBPVEhFUgorIyAtTElBQklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElP
+TiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcKKyMgLUZST00sIE9VVCBP
+RiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIg
+REVBTElOR1MKKyMgLUlOIFRIRSBTT0ZUV0FSRS4KKyMgK1Blcm1pc3Npb24gaXMgaGVyZWJ5IGdy
+YW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhIGNvcHkgb2Yg
+dGhpcyBzb2Z0d2FyZSBhbmQKKyMgK2Fzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhl
+ICJTb2Z0d2FyZSIpLCB0byBkZWFsIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9u
+LCBpbmNsdWRpbmcKKyMgK3dpdGhvdXQgbGltaXRhdGlvbiB0aGUgcmlnaHRzIHRvIHVzZSwgY29w
+eSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29y
+IHNlbGwKKyMgK2NvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0
+byB3aG9tIHRoZSBTb2Z0d2FyZSBpcyBmdXJuaXNoZWQgdG8gZG8gc28sIHN1YmplY3QgdG8gdGhl
+CisjICtmb2xsb3dpbmcgY29uZGl0aW9uczoKKyMgKworIyArVGhlIGFib3ZlIGNvcHlyaWdodCBu
+b3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ugc2hhbGwgYmUgaW5jbHVkZWQgaW4gYWxs
+IGNvcGllcyBvciBzdWJzdGFudGlhbAorIyArcG9ydGlvbnMgb2YgdGhlIFNvZnR3YXJlLgorIyAr
+CisjICtUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBP
+RiBBTlkgS0lORCwgRVhQUkVTUyBPUiBJTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVAorIyArTElN
+SVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksIEZJVE5FU1MgRk9SIEEg
+UEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuIElOIE5PCisjICtFVkVOVCBT
+SEFMTCBUSEUgQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBD
+TEFJTSwgREFNQUdFUyBPUiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIKKyMgK0lOIEFOIEFDVElP
+TiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcgRlJPTSwgT1VUIE9GIE9S
+IElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFCisjICtVU0UgT1IgT1RIRVIg
+REVBTElOR1MgSU4gVEhFIFNPRlRXQVJFLgorIyAKKyMKKwogU1VNTUFSWSA9ICJCYWNrcG9ydCBv
+ZiBwYXRobGliLWNvbXBhdGlibGUgb2JqZWN0IHdyYXBwZXIgZm9yIHppcCBmaWxlcyIKIEhPTUVQ
+QUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9qYXJhY28vemlwcCIKIExJQ0VOU0UgPSAiTUlUIgot
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MTQxNjQzZTExYzQ4ODk4MTUw
+ZGFhODM4MDJkYmM2NWYiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0x
+YWVhZTY1ZjI1YTE1YjFlNDZkNDM4MWYyZjA5NGUwYSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0g
+IjJjOTk1OGY2NDMwYTIwNDAzNDFhNTJlYjYwOGVkNmRkOTNlZjQzOTJlMDJmZmUyMTk0MTdjMWIy
+OGI1ZGQxZjQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTA3MTU3NTg4YTEyNTE4YzlkNDAzNGRm
+M2ZiYmVlMDljODE0NzQxYTMzZmY2M2MwNWZhMjlkMjZhMjQwNDE2NiIKIAogREVQRU5EUyArPSAi
+cHl0aG9uMy1zZXR1cHRvb2xzLXNjbS1uYXRpdmUiCiAKLS0gCjIuNDcuMQoK
 
---===============0731578135666812709==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/ruby: SRC_URI changed from "http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.4.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch" to "http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.5.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixin
- g-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch"
-packages/core2-64-poky-linux/ruby: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-dbg: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0/debug/.debug -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0/debug/.debug, removed "/usr/lib/.debug/libruby.so.3.4.4", added "/usr/lib/.debug/libruby.so.3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-dbg: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby-dbg: PKGSIZE changed from 11977784 to 11986040 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-dbg: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-dev: FILELIST: added "/usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h"
-packages/core2-64-poky-linux/ruby/ruby-dev: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby-dev: PKGSIZE changed from 1588846 to 1590267 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-dev: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-doc: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby-doc: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-locale: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby-locale: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-ptest: FILELIST: removed "/usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rubygems_hook.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_class_module.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_store.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_c.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_table_of_contents.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_single_class.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_pre_process.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_cross_reference.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_top_level.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_attributes.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_ri_driver.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_comment.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_context.rb /usr/lib/ruby/ptest/test/rdoc/
- test_rdoc_rd_inline.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_include.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_any_method.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_task.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_verbatim.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_formatter.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_options.rb /usr/lib/ruby/ptest/lib/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_tt_only.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_context_section.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_markup.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot_po.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_ri.rb /usr/lib/ruby/ptest/lib/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_attribute_manager.rb /usr/lib/ruby/ptest/te
- st/rdoc/test_rdoc_parser_changelog.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html_crossref.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_hard_break.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot_po_entry.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_json_index.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rdoc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_attr.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_encoding.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_document.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_label.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_simple.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_joined_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_i18n_locale.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_heading.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd_block_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_extend.rb /usr/lib/ruby/ptest/test/rdoc/test
- _rdoc_text.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_i18n_text.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_ruby.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_ri_paths.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_raw.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd_inline_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html_snippet.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_rd.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_code_object.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_token_stream.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_normal_module.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_rdoc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_ansi.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_method_attr.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_stats.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_alias.rb /usr/lib/ruby/ptest/test/rdoc/test_rdo
- c_constant.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_darkfish.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_require.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_tom_doc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_prism_ruby.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_include.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_indented_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_bs.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_servlet.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_normal_class.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_markdown.rb", added "/usr/lib/ruby/ptest/test/rdoc/rdoc_any_method_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_simple_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_inline_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rubygems_hook_test.rb /usr/lib/ruby/ptest/test/r
- doc/rdoc_markup_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_hard_break_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_po_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_context_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_inline_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_include_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_formatter_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_document_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_tom_doc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_include_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_context_section_test.rb /usr/lib/ruby/ptest/lib/rdoc/markdown/.document /usr/lib/ruby/ptest/lib/rdoc/rd/.document /usr/lib/ruby/ptest/test/prism/errors/defined_empty.txt /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_indented_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_test.rb /usr/lib/ruby/ptes
- t/test/rdoc/rdoc_comment_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_top_level_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_prism_ruby_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_c_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_rdoc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_snippet_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_i18n_locale_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_crossref_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_alias_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_stats_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_store_test.rb /usr/lib/ruby/include/ruby/internal/attr/nonstring.h /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_ruby_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_po_entry_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_ri_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_changelog_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_code_object_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_table_of_conten
- ts_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_normal_class_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_normal_module_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_tt_only_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_attr_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rdoc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_task_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_cross_reference_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_text_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_servlet_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_attributes_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_rd_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_ansi_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_extend_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_bs_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_label_test.rb
-  /usr/lib/ruby/ptest/test/rdoc/rdoc_constant_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_method_attr_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_raw_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_single_class_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_joined_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_verbatim_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markdown_test_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_i18n_text_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_block_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_options_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_darkfish_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_json_index_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_heading_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_encoding_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_attribute_manager_test.rb /usr/lib/ruby/p
- test/test/rdoc/rdoc_class_module_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_token_stream_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_ri_driver_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_ri_paths_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_markup_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_pre_process_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_require_test.rb"
-packages/core2-64-poky-linux/ruby/ruby-ptest: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby-ptest: PKGSIZE changed from 13654579 to 13682044 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-ptest: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-rdoc: FILELIST: removed "/usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml"
-packages/core2-64-poky-linux/ruby/ruby-rdoc: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby-rdoc: PKGSIZE changed from 1931342 to 1934879 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-rdoc: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-ri-docs: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby-ri-docs: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-src: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby-src: PKGSIZE changed from 4256123 to 4263485 (+0%)
-packages/core2-64-poky-linux/ruby/ruby-src: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby-staticdev: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby-staticdev: PV changed from "3.4.4" to "3.4.5"
-packages/core2-64-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/misc -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/misc, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/ext/debug -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/ext/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib/debug/dap_custom -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib/debug/dap_custom, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib/debug -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib/debug, directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0/debug -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0, directory renamed /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7/exe -> /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9/exe, directory renamed /u
- sr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/exe -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/exe, directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib, directory renamed /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0/exe -> /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0/exe, removed "/usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec /usr/lib/ruby/3.4.0/rubygems/shellwords.rb /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec /usr/lib/libruby.so.3.4.4 /usr/lib/ruby/gems/3.4.0/specifications/
- default/io-nonblock-0.3.1.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec", added "/usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec /usr/lib/libruby.so.3.4.5 /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec"
-packages/core2-64-poky-linux/ruby/ruby: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/core2-64-poky-linux/ruby/ruby: PKGSIZE changed from 30763788 to 30780066 (+0%)
-packages/core2-64-poky-linux/ruby/ruby: PV changed from "3.4.4" to "3.4.5"
-Changes to packages/core2-64-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so.3.4.4 moved to /usr/lib/libruby.so.3.4.5
-  /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem
-  /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7 moved to /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9
-  /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.5 moved to /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.6
-  /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.0 moved to /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.1
-  /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0
-  /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.0 moved to /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.2
-  /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec
-  /usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb was added
-  /usr/lib/ruby/include/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml was removed
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml was removed
-  /usr/lib/ruby/3.4.0/rubygems/shellwords.rb was removed
-Changes to packages/x86_64-linux/ruby-native (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so.3.4.4 moved to /usr/lib/libruby.so.3.4.5
-  /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem
-  /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7 moved to /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9
-  /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.5 moved to /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.6
-  /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.0 moved to /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.1
-  /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0
-  /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.0 moved to /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.2
-  /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec
-  /usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb was added
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml was removed
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml was removed
-  /usr/lib/ruby/3.4.0/rubygems/shellwords.rb was removed
-
---===============0731578135666812709==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/ruby/ruby-dev: FILELIST: added "/usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h"
-packages/core2-64-poky-linux/ruby/ruby-ptest: FILELIST: removed "/usr/lib/ruby/ptest/test/rdoc/test_rdoc_i18n_locale.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_any_method.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_text.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_json_index.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_store.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_class_module.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_servlet.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_joined_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd_inline.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot_po_entry.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_indented_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_ri.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_simple.rb /usr/l
- ib/ruby/ptest/test/rdoc/test_rdoc_parser_ruby.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_ri_driver.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_token_stream.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_options.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_method_attr.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_heading.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_constant.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_formatter.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html_crossref.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_task.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_normal_class.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_raw.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_top_level.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_attribute_manager.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_include.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_context_section.rb /usr/
- lib/ruby/ptest/test/rdoc/test_rdoc_rd_block_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_tt_only.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_table_of_contents.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_ri_paths.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rdoc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd.rb /usr/lib/ruby/ptest/lib/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml /usr/lib/ruby/ptest/test/rdoc/test_rdoc_i18n_text.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_require.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_stats.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_attr.rb /usr/lib/ruby/ptest/lib/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml /usr/lib/ruby/ptest/test/rdoc/test_rdoc_tom_doc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd_inline_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rubygems_hook.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_normal_module.rb /usr/lib/ruby/ptes
- t/test/rdoc/test_rdoc_single_class.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_include.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_bs.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_code_object.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_alias.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_changelog.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_hard_break.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_attributes.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_darkfish.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_prism_ruby.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html_snippet.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_verbatim.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_c.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_ansi.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html.rb /usr/lib/ruby/ptest/test/rdoc
- /test_rdoc_markup_to_rdoc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_cross_reference.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_rd.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_extend.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_comment.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_context.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_document.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_label.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_markup.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot_po.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_pre_process.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_encoding.rb", added "/usr/lib/ruby/ptest/test/rdoc/rdoc_markup_attributes_test.rb /usr/lib/ruby/ptest/lib/rdoc/rd/.document /usr/lib/ruby/ptest/test/rdoc/rdoc_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_encoding_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_darkfish_test.rb /usr/lib/ruby/ptest/test
- /rdoc/rdoc_generator_markup_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_table_of_contents_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_context_section_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_require_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_constant_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_attr_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_i18n_locale_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rdoc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_task_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_text_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_rdoc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_comment_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_tom_doc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_inline_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_verbatim_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_pre_process_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_normal_module_test.rb /usr/lib/ruby/ptest/test/r
- doc/rdoc_parser_c_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_inline_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_block_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_context_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_any_method_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_test.rb /usr/lib/ruby/ptest/lib/rdoc/markdown/.document /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_tt_only_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_po_entry_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_changelog_test.rb /usr/lib/ruby/ptest/test/prism/errors/defined_empty.txt /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_crossref_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_token_stream_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_class_module_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_joined_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rubygems_h
- ook_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_indented_paragraph_test.rb /usr/lib/ruby/include/ruby/internal/attr/nonstring.h /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_include_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_document_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markdown_test_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_bs_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_cross_reference_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_i18n_text_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_ri_paths_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_prism_ruby_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_method_attr_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_normal_class_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_ruby_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_servlet_test.rb /usr/lib/ruby/ptest/test/r
- doc/rdoc_markup_to_html_snippet_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_top_level_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_options_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_single_class_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_code_object_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_raw_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_heading_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_attribute_manager_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_include_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_po_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_label_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_hard_break_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_ri_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_rd_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_simple_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_json_index_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_formatter_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_extend
- _test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_ri_driver_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_stats_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_store_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_alias_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_ansi_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_test.rb"
-packages/core2-64-poky-linux/ruby/ruby-rdoc: FILELIST: removed "/usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml"
-packages/core2-64-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7/exe -> /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9/exe, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib/debug/dap_custom -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib/debug/dap_custom, directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0/debug -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/exe -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/exe, directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11
- .0, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/ext/debug -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/ext/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib/debug -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/misc -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/misc, directory renamed /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0/exe -> /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0/exe, removed "/usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec /usr/lib/libruby.so.3.4.4 /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.
- gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem /usr/lib/ruby/3.4.0/rubygems/shellwords.rb", added "/usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec /usr/lib/libruby.so.3.4.5 /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec"
-Changes to packages/core2-64-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so.3.4.4 moved to /usr/lib/libruby.so.3.4.5
-  /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem
-  /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7 moved to /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9
-  /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.5 moved to /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.6
-  /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.0 moved to /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.1
-  /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0
-  /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.0 moved to /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.2
-  /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec
-  /usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb was added
-  /usr/lib/ruby/include/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml was removed
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml was removed
-  /usr/lib/ruby/3.4.0/rubygems/shellwords.rb was removed
-Changes to packages/x86_64-linux/ruby-native (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so.3.4.4 moved to /usr/lib/libruby.so.3.4.5
-  /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem
-  /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7 moved to /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9
-  /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.5 moved to /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.6
-  /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.0 moved to /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.1
-  /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0
-  /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.0 moved to /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.2
-  /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec
-  /usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb was added
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml was removed
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml was removed
-  /usr/lib/ruby/3.4.0/rubygems/shellwords.rb was removed
-
---===============0731578135666812709==--
+--===============5175846519864692561==--
 
