@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 640ADC87FD2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72096CA0EC0
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 04:22:55 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.80416.1754022167228490299
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.80417.1754022168589032273
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Jul 2025 21:22:47 -0700
+ Thu, 31 Jul 2025 21:22:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=N5uY/2A+;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-76bc68cc9e4so1284204b3a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 21:22:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=b9uGqN1e;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7682560a2f2so1756009b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 21:22:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754022166; x=1754626966; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754022167; x=1754626967; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ouwtue/IihJDZJSowYSsr/k2+/4nrGUx6JhwrXBwo/Q=;
-        b=N5uY/2A+6PqqEIjvuOtFmpk1k97dKxyxhTDmk9AqAGA3POvYC8dJj6gpls3ZPt0L/T
-         6n6/m6rxodFqTqOolatwQvmc+UvepwM7RP0+FPGVwGUk9d/pfEytiEK2N5aQiSbfPT05
-         SXNI/52Ieig1M3onU+hlBGB/LfsP+y3vt2uT5BqjkNTqR0PJ2+F5bJb+Coq+0CIDk2GW
-         OBvDUUrruuUpOq4slGGAVA1f7dRMmvdRTsA+ho5AKl4h984zKqb6aYngHTsaPzUg5hBh
-         Dtygt95V48YIn3UNvUl/tDk4J9JCXfiJTXMOpmcE9Pe56sFeXiJ/+mu9eVpBJZZeCP3w
-         8wxw==
+        bh=2hGkO/AheyuLFnBp3fUjRNlke079oEBwexo18EcMk34=;
+        b=b9uGqN1e+uOz0WRv3GZ1Buqruua13XNKZtVZj2ji04QqgkOAU+TAe0ppwkoHvLzOp9
+         23VFioZr+V56RC5MJqPydUGR0Ys4VUVz7/nGv/QHBaxKYk7/N3mlh/HWbv0Hwyj6aXmK
+         Nu4+Zb3qf//4Nswtj/b4X7NAbIhAjC6tumVwsBQA/jue9gS73u+q04S5DExJID9AxAc4
+         RG+4MrF2ot9dzuswIziM9f7J7wZnI8GXTE8ygCadre7HEBxVp9zA8M/msI00hnGtUP52
+         07IUZhquyt2giog5q6WOap7s8maQiiwrWNu6xrSHMWEEye0mMqOspbl4GeDhlJlMlxIM
+         yfcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754022166; x=1754626966;
+        d=1e100.net; s=20230601; t=1754022167; x=1754626967;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ouwtue/IihJDZJSowYSsr/k2+/4nrGUx6JhwrXBwo/Q=;
-        b=Lb2erCDrfOSU4aP63PdnSwIIqOIAlNoig+b8cx4paGAbU3RMZf6WBWd+tN08/QC7Iy
-         Yrby9N9njHG0EyBxZ/Ws9GF+njf4wACW6LjkiSgGgRYpHiqO14LS4mL6uiGo2nOxORyo
-         kuZHxtd2b3Va/nD+K5Dy8sOeXdosOgo8m+qPDL8rdYrXzRGQOjFxPD5SuFctStVjp1L1
-         YfdeES0Apcin/xtacSmgZ8MQXUOYOhJvY95rWAM15ihadwykDomRx0DS2B1Tt2hHINnr
-         MwVFbLGGTyj0V1yTgiPcnC2JYbQuTX59v5MYXbwQIQWQT/vydn80T6fVYTwM+OyaJpdk
-         +QzA==
-X-Gm-Message-State: AOJu0YytbUY0BytbV0zx9/xyV/BqflgPd8t+VQEsR/RJ+r24fIkZIh2v
-	5bWuU7XZFVhtOeD60cB2kFNyvdYKWZ9FJlFNIQvuViVWyA86LH/8tou+L8AsQycwVzM=
-X-Gm-Gg: ASbGncsbJXn3K5lmf1PAtsJnCokmazljmGJWwKzCxE4a8PMTC+jhBOmQmQGULhC09a3
-	3DjB7zTZsbZpz6ksvzZcnvgmVrn2F5FB2ALfCTe4c6RLWxIXUSqwJgZOcusecMGzLW/8z23Mm21
-	0ktpycX2P+NZyMIpQp67GsDEVzIhW4jDl6LY18FR/dZEu00UkvLyTh/c9OEl2aSMYkUvEQnSdND
-	ETcS+wmEne3VbVzUmvWVBhAUcPjPyBj3QtW9JgyRs8hIi2z0/pmAJ1j/qRJwnYNGddLPKik3BTj
-	GblSbv++thnV058t/B1ydYnResHtbRGIdoBbZ1C50EENRj6L+0aENNzije0GMXPMNGOxrUpFs7a
-	BS6qIC1yxJD7Yl5qvc6CzmA0O
-X-Google-Smtp-Source: AGHT+IGfvUFRUGRN0x0iTW3hMDISOmoKRQ2N7BS0BZdmZK0Shs1xIxPtshzvhCTe9Zf25RaO6sjUEg==
-X-Received: by 2002:a05:6a20:734c:b0:220:9e54:d5cc with SMTP id adf61e73a8af0-23de81c6194mr2293728637.31.1754022166336;
-        Thu, 31 Jul 2025 21:22:46 -0700 (PDT)
+        bh=2hGkO/AheyuLFnBp3fUjRNlke079oEBwexo18EcMk34=;
+        b=RDikHoyjEZ53Q6sXcCkHNAmuJnOdt8ruRrf57TWhUYu5Rl8YrZWO5lcjdYPQv/9BhP
+         Pkd8SNwv17QcLMC37LSN/tR0a5GGfBpNbvRjVJEBOlc4xuCaZJ/lPPzPspRE43lM7WTR
+         cR3jA8PTslV13CP7ohfIpY0diDQL0fpGQp0b7egRxYLcE9gh8zhjIT+W2fRVwrmLuL1H
+         SXyGwizso4XVWlFqMgZIwGfuG28wXfOQew5YHmud54Fxnj9Oh9257HMNXD9TIZwrHk1H
+         nFIIMffj/4ZjYHGXdgg3aPeWAtMHp26a6vIJrqUiVSUie21pZ1LR0mV8z4rQbOkv+Xa6
+         ItyA==
+X-Gm-Message-State: AOJu0YzrskTyYs3Uv7XlOfQ2AcXdTyavRk599RfoJIRqB83HPB3TZmO2
+	esUqudFeq7Oq9jYWj4mH85yIKykV/E5p+NzW4Rh2GwQ3uKrPQtGcwrCE5BOmcizQNMI=
+X-Gm-Gg: ASbGncuM7ri3KtZbPW0JHCKEai/JdHMZ2wsymibZlMuYOum9gNVWRvmZd832ONAl7l1
+	L/umC/69pghp5q8d2jMRhHjGgZpInPrMwcVzQa4QLCY9KVCayd1P41vmUBbzpFfcWMUY+Z3HVqa
+	G00v8+ZMaNc9sIyszWfhkbxD7k/zcvoTipWoXU03V7zGop1EkLEoPh1OPIM5942Cxe6jKcj2T0i
+	UTwfshKQR3Oi2Tyt5MUhU4Oi0wY/0eSbDh9fuLbfmGNBnT232lUhLI6DHv8ine+9lqyeS2mwZWT
+	B1l8NJD1W45VFdeFKyH5eQV5AfnRR2u3J6zfpfzcYNXQp75pgCx0gwtZPTfW2GM1Vix/0dCjYzd
+	ze/QR6xsUaqZXQw==
+X-Google-Smtp-Source: AGHT+IEFiyvUBCZsyLmW18TZhoG3KKLnjzX6Do6XmACPcWtTnGMEa5B6l1TOkNqsPoUZgLeB4i4Zsw==
+X-Received: by 2002:aa7:888c:0:b0:74e:aaca:c32d with SMTP id d2e1a72fcca58-76bcd0b6789mr6868132b3a.10.1754022167381;
+        Thu, 31 Jul 2025 21:22:47 -0700 (PDT)
 Received: from apollo.localdomain ([2601:646:8201:fd20::a237])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfe9003sm2950780b3a.125.2025.07.31.21.22.45
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfe9003sm2950780b3a.125.2025.07.31.21.22.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 21:22:45 -0700 (PDT)
+        Thu, 31 Jul 2025 21:22:46 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/7] libxcrypt: Allow undefined symbols in version scripts with lld linker
-Date: Thu, 31 Jul 2025 21:22:37 -0700
-Message-ID: <20250801042242.3076232-3-raj.khem@gmail.com>
+Subject: [PATCH 4/7] libtirpc: Allow undefined symbols in version scripts with lld linker
+Date: Thu, 31 Jul 2025 21:22:38 -0700
+Message-ID: <20250801042242.3076232-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250801042242.3076232-1-raj.khem@gmail.com>
 References: <20250801042242.3076232-1-raj.khem@gmail.com>
@@ -67,32 +67,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 04:22:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221215
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221216
 
-Unlike GNU ld, LLD defaults to erroring about undefined version symbols
-add commandline parameter to sush lld here
+Fixes link errors with lld
 
-Fixes
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'crypt_gensalt_r' failed: symbol not defined
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt' failed: symbol not defined
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt_gensalt' failed: symbol not defined
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt_gensalt_r' failed: symbol not defined
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt_r' failed: symbol not defined
-| x86_64-yoesdk-linux-clang: error: linker command failed with exit code 1 (use -v to see invocation)
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol '_svcauth_gss' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_create' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_create_default' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_free_private_data' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_get_private_data' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_service' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'cbc_crypt' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'ecb_crypt' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'endrpcent' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'getrpcent' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'getrpcbynumber' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'getrpcbyname' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'gss_log_debug' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'gss_log_hexdump' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'gss_log_status' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_error' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_mech_info' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_mechanisms' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_principal_name' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_versions' failed: symbol not defined
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/libxcrypt/libxcrypt.inc | 2 ++
+ meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 77fec832348..10f6cd921d8 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -24,3 +24,5 @@ API = "--disable-obsolete-api"
- EXTRA_OECONF += "${API}"
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb
+index 6ea9a725dbf..98bb1128c00 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb
+@@ -27,6 +27,8 @@ PACKAGECONFIG ??= "\
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6"
+ PACKAGECONFIG[gssapi] = "--enable-gssapi,--disable-gssapi,krb5"
  
- BBCLASSEXTEND = "native nativesdk"
-+
 +LDFLAGS:append:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++
+ do_install:append() {
+ 	test -e ${D}${sysconfdir}/netconfig && chown root:root ${D}${sysconfdir}/netconfig
+ }
 
