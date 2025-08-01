@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 500DACA0ED2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE97CA0EC4
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:00 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.88809.1754057270484144697
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.88630.1754057268498571489
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Aug 2025 07:07:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=k72KYXzP;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=U6FMi9ih;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019865f5fe32-ccc1624f-6552-464a-8207-52d209eadafb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=E7PO+UYo;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=J3qnhhsM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019865f5fd75-ed8b97d0-38cd-4cf1-9990-7c6253e21ea9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754057277;
+	t=1754057276;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=JqvVlc/CWUbJ1JsZtZLPDodD1dA4YEFzjfS3l0qO6Xk=;
-	b=k72KYXzPUf5/gj8JC+WxQNaVHljbVwvI3wel/SA0VCcl4oaTrI/47ZKnP82Xm4oE
-	XAR3S9a3j+V5CsCN/Qb64V2+LTAVaOl8Dc4/AT8YiCXqj69RLIol7zQobfurRHvlBr7
-	FZ48kgBFH3I3tHAq2UTZbD0EcWcdhLU6jC5uQBjk=
+	bh=Pqg7HDHD4lKKMN8yb0ppC9GgNqxgG3ID+jPr1D3IxWg=;
+	b=E7PO+UYoJKWjGLHXjuGbuutLe6BCTA9QIIClUkxxhwCbdONivIkGJyAcLirz9reW
+	Lx6eAF9h+auiOpB7M/hIa0ESfA39ptn/HuoxX8B4fLvuL/tOSUeM8IdAPROF/jqCF58
+	jOIRDGzNG5WvkvLYyKaKCg1lUe+OewTyTeookXHs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057277;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057276;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=JqvVlc/CWUbJ1JsZtZLPDodD1dA4YEFzjfS3l0qO6Xk=;
-	b=U6FMi9ihHV2E9KMZn3V9+EGLigc0Bh32HQ6bojxDTnvwsIl0Q1o8BB2M7diWjOhI
-	WZPnQC2OWTouVq86eExAm9tbhfpHzPKWAdMy/K4q3wO63i3I11Ox9w9Fr1XinyD2Vo4
-	6Z1qFUHLYFE4FQjyKwqq9kewJFKvvgKJDh4bQDlQ=
-Content-Type: multipart/mixed; boundary="===============7370488394332446301=="
+	bh=Pqg7HDHD4lKKMN8yb0ppC9GgNqxgG3ID+jPr1D3IxWg=;
+	b=J3qnhhsMheJmx1ZZmwIhpMD/mkqmZKZ1WHdGKphWdTOGgnxyHFlfCCanz1Q5SXQQ
+	GI2YzcNVIDQ76Box7a+WfvFJtJGPGJJYEiJRUr4Q8zLLxS6fFXpJ4StLbNHSRVoEqAE
+	NFDQgAOApHaalUu9OvaQVPf8ftGicER2InwQwfz4=
+Content-Type: multipart/mixed; boundary="===============6135439294588078318=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] gperf: upgrading to 3.3 FAILED
-Message-ID: <0101019865f5fe32-ccc1624f-6552-464a-8207-52d209eadafb-000000@us-west-2.amazonses.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] tcf-agent: upgrading to 1.9.0 FAILED
+Message-ID: <0101019865f5fd75-ed8b97d0-38cd-4cf1-9990-7c6253e21ea9-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Aug 2025 14:07:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.33
+X-SES-Outgoing: 2025.08.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221293
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221290
 
---===============7370488394332446301==
+--===============6135439294588078318==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,91 +51,270 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gperf* to *3.3* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *tcf-agent* to *1.9.0* has Failed(do_compile).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gperf -V 3.3
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1933 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-f68a56f4625d15f161df0be87acbe589a58430a4"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f68a56f4625d15f161df0be87acbe589a58430a4"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 23 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 943 .bb files complete (0 cached, 943 parsed). 1934 targets, 42 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-f68a56f4625d15f161df0be87acbe589a58430a4"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f68a56f4625d15f161df0be87acbe589a58430a4"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  33% |############                        | ETA:  0:00:00
-Adding changed files:  66% |########################            | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftpmirror.gnu.org/gnu/gperf/gperf-3.3.tar.gz...
-INFO: Rebasing devtool onto 23468a409632e0eac52bd2c56ef4aaed16f2ee08
-WARNING: Command 'git rebase 23468a409632e0eac52bd2c56ef4aaed16f2ee08' failed:
-CONFLICT (modify/delete): lib/getline.cc deleted in HEAD and modified in d33830d (Make the code C++17 compliant.).  Version d33830d (Make the code C++17 compliant.) of lib/getline.cc left in tree.
-
-ERROR: Execution of 'git checkout devtool' failed with exit code 1:
-error: you need to resolve your current index first
-lib/getline.cc: needs merge
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-tcf-agent-upgrade-1.8.0-1.9.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7370488394332446301==--
+
+-- >8 --
+From 724fcf6c5a5df06e748dd89289a952f0bbda7370 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Aug 2025 10:27:33 +0000
+Subject: [PATCH] tcf-agent: upgrade 1.8.0 -> 1.9.0
+
+---
+ .../tcf-agent/tcf-agent/ldflags.patch         | 22 +++++++++----------
+ ...{tcf-agent_1.8.0.bb => tcf-agent_1.9.0.bb} |  2 +-
+ 2 files changed, 11 insertions(+), 13 deletions(-)
+ rename meta/recipes-devtools/tcf-agent/{tcf-agent_1.8.0.bb => tcf-agent_1.9.0.bb} (98%)
+
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+index d701e8dec0..f1c392f1c6 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+@@ -1,29 +1,27 @@
++From 12793ff42091d20c84bea0220f530a46e2cf100b Mon Sep 17 00:00:00 2001
++From: Abdur Rehman <abdur_rehman@mentor.com>
++Date: Wed, 26 Aug 2015 19:18:11 +0500
++Subject: [PATCH] tcf-agent: obey LDFLAGS
++
+ We need LDFLAGS to be respected otherwise there are QA warnings as the right
+ flags don't get used.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ 
+-From d92af0483c20365fd0af740d0baef8870b4aa374 Mon Sep 17 00:00:00 2001
+-From: Abdur Rehman <abdur_rehman@mentor.com>
+-Date: Wed, 26 Aug 2015 19:18:11 +0500
+-Subject: [PATCH] tcf-agent: obey LDFLAGS
+-
+ Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
+ 
+ Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
+ 
+ Signed-off-by: Mark hatle <mark.hatle@amd.com>
+-
+-
+ ---
+- Makefile.inc |    2 +-
++ agent/Makefile.inc | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-Index: agent/Makefile.inc
+-===================================================================
+---- agent.orig/Makefile.inc
+-+++ agent/Makefile.inc
++diff --git a/agent/Makefile.inc b/agent/Makefile.inc
++index 76b88618..6dce28f5 100644
++--- a/agent/Makefile.inc
+++++ b/agent/Makefile.inc
+ @@ -111,7 +111,7 @@ NO_LINK_F   ?= -c
+  # Linker definition and flags
+  
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb
+rename to meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+index f008c0c6de..e0a215fa26 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
+ LICENSE = "EPL-1.0 | BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+ 
+-SRCREV = "1f11747e83ebf4f53e8d17f430136f92ec378709"
++SRCREV = "9076423f959d53aafa4000d6bb8bf2a1485971b9"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=master \
+-- 
+2.47.1
+
+
+--===============6135439294588078318==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1933 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 942 .bb files complete (941 cached, 1 parsed). 1933 targets, 42 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-42eae5f959310afc2cf161c1caa7df3558113361"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:42eae5f959310afc2cf161c1caa7df3558113361"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 186 Local 174 Mirrors 0 Missed 12 Current 350 (93% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 530 of 536 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_recipe_qa_setscene)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1525 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_fetch)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_fetch: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1526 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_unpack)
+NOTE: Running task 1527 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_unpack: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_unpack: Succeeded
+NOTE: recipe tcf-agent-1.9.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1528 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_patch)
+NOTE: Running task 1529 of 1544 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_collect_spdx_deps)
+NOTE: recipe tcf-agent-1.9.0-r0: task do_patch: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe tcf-agent-1.9.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe tcf-agent-1.9.0-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1529 tasks of which 1524 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801102721.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801102721.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/temp/log.do_patch.2023976
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: tcf-agent-1.9.0-r0 do_patch: Applying patch 'ldflags.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/sources/tcf-agent-1.9.0/agent'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/recipe-sysroot-native/etc/quiltrc push', 0, "stdout: Applying patch ldflags.patch
+can't find file to patch at input line 25
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|From 12793ff42091d20c84bea0220f530a46e2cf100b Mon Sep 17 00:00:00 2001
+|From: Abdur Rehman <abdur_rehman@mentor.com>
+|Date: Wed, 26 Aug 2015 19:18:11 +0500
+|Subject: [PATCH] tcf-agent: obey LDFLAGS
+|
+|We need LDFLAGS to be respected otherwise there are QA warnings as the right
+|flags don't get used.
+|
+|Upstream-Status: Inappropriate [oe-core specific]
+|Signed-off-by: Ross Burton <ross.burton@arm.com>
+|
+|Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
+|
+|Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
+|
+|Signed-off-by: Mark hatle <mark.hatle@amd.com>
+|---
+| agent/Makefile.inc | 2 +-
+| 1 file changed, 1 insertion(+), 1 deletion(-)
+|
+|diff --git a/agent/Makefile.inc b/agent/Makefile.inc
+|index 76b88618..6dce28f5 100644
+|--- a/agent/Makefile.inc
+|+++ b/agent/Makefile.inc
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+Patch ldflags.patch does not apply (enforce with -f)
+
+stderr: ")
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/tcf-agent/1.9.0/temp/log.do_patch.2023976
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb:do_patch) failed with exit code '1'
+
+--===============6135439294588078318==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-tcf-agent-upgrade-1.8.0-1.9.0.patch"
+
+RnJvbSA3MjRmY2Y2YzVhNWRmMDZlNzQ4ZGQ4OTI4OWE5NTJmMGJiZGE3MzcwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMDoyNzozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHRj
+Zi1hZ2VudDogdXBncmFkZSAxLjguMCAtPiAxLjkuMAoKLS0tCiAuLi4vdGNmLWFnZW50L3RjZi1h
+Z2VudC9sZGZsYWdzLnBhdGNoICAgICAgICAgfCAyMiArKysrKysrKystLS0tLS0tLS0tCiAuLi57
+dGNmLWFnZW50XzEuOC4wLmJiID0+IHRjZi1hZ2VudF8xLjkuMC5iYn0gfCAgMiArLQogMiBmaWxl
+cyBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3t0Y2YtYWdlbnRfMS44LjAuYmIgPT4gdGNmLWFn
+ZW50XzEuOS4wLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90
+Y2YtYWdlbnQvdGNmLWFnZW50L2xkZmxhZ3MucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+dGNmLWFnZW50L3RjZi1hZ2VudC9sZGZsYWdzLnBhdGNoCmluZGV4IGQ3MDFlOGRlYzAuLmYxYzM5
+MmYxYzYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFn
+ZW50L2xkZmxhZ3MucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90
+Y2YtYWdlbnQvbGRmbGFncy5wYXRjaApAQCAtMSwyOSArMSwyNyBAQAorRnJvbSAxMjc5M2ZmNDIw
+OTFkMjBjODRiZWEwMjIwZjUzMGE0NmUyY2YxMDBiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
+RnJvbTogQWJkdXIgUmVobWFuIDxhYmR1cl9yZWhtYW5AbWVudG9yLmNvbT4KK0RhdGU6IFdlZCwg
+MjYgQXVnIDIwMTUgMTk6MTg6MTEgKzA1MDAKK1N1YmplY3Q6IFtQQVRDSF0gdGNmLWFnZW50OiBv
+YmV5IExERkxBR1MKKwogV2UgbmVlZCBMREZMQUdTIHRvIGJlIHJlc3BlY3RlZCBvdGhlcndpc2Ug
+dGhlcmUgYXJlIFFBIHdhcm5pbmdzIGFzIHRoZSByaWdodAogZmxhZ3MgZG9uJ3QgZ2V0IHVzZWQu
+CiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbb2UtY29yZSBzcGVjaWZpY10KIFNp
+Z25lZC1vZmYtYnk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogCi1Gcm9tIGQ5
+MmFmMDQ4M2MyMDM2NWZkMGFmNzQwZDBiYWVmODg3MGI0YWEzNzQgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCi1Gcm9tOiBBYmR1ciBSZWhtYW4gPGFiZHVyX3JlaG1hbkBtZW50b3IuY29tPgotRGF0
+ZTogV2VkLCAyNiBBdWcgMjAxNSAxOToxODoxMSArMDUwMAotU3ViamVjdDogW1BBVENIXSB0Y2Yt
+YWdlbnQ6IG9iZXkgTERGTEFHUwotCiBTaWduZWQtb2ZmLWJ5OiBBYmR1ciBSZWhtYW4gPGFiZHVy
+X3JlaG1hbkBtZW50b3IuY29tPgogCiBSZWJhc2VkIHRvIDRhMmM0YmFhY2NiYzhjMjljZTAyOTc3
+MDVkZTlhNGUwOTZkNTdjZTUgdmVyc2lvbgogCiBTaWduZWQtb2ZmLWJ5OiBNYXJrIGhhdGxlIDxt
+YXJrLmhhdGxlQGFtZC5jb20+Ci0KLQogLS0tCi0gTWFrZWZpbGUuaW5jIHwgICAgMiArLQorIGFn
+ZW50L01ha2VmaWxlLmluYyB8IDIgKy0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
+IDEgZGVsZXRpb24oLSkKIAotSW5kZXg6IGFnZW50L01ha2VmaWxlLmluYwotPT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQot
+LS0tIGFnZW50Lm9yaWcvTWFrZWZpbGUuaW5jCi0rKysgYWdlbnQvTWFrZWZpbGUuaW5jCitkaWZm
+IC0tZ2l0IGEvYWdlbnQvTWFrZWZpbGUuaW5jIGIvYWdlbnQvTWFrZWZpbGUuaW5jCitpbmRleCA3
+NmI4ODYxOC4uNmRjZTI4ZjUgMTAwNjQ0CistLS0gYS9hZ2VudC9NYWtlZmlsZS5pbmMKKysrKyBi
+L2FnZW50L01ha2VmaWxlLmluYwogQEAgLTExMSw3ICsxMTEsNyBAQCBOT19MSU5LX0YgICA/PSAt
+YwogICMgTGlua2VyIGRlZmluaXRpb24gYW5kIGZsYWdzCiAgCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2VudF8xLjguMC5iYiBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFnZW50XzEuOS4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFnZW50
+XzEuOC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1h
+Z2VudF8xLjkuMC5iYgppbmRleCBmMDA4YzBjNmRlLi5lMGEyMTVmYTI2IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2VudF8xLjguMC5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2VudF8xLjkuMC5iYgpAQCAtNiw3
+ICs2LDcgQEAgQlVHVFJBQ0tFUiA9ICJodHRwczovL2J1Z3MuZWNsaXBzZS5vcmcvYnVncy8iCiBM
+SUNFTlNFID0gIkVQTC0xLjAgfCBCU0QtMy1DbGF1c2UiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZp
+bGU6Ly9lZGwtdjEwLmh0bWw7bWQ1PTUyMmEzOTBhODNkYzE4NjUxM2YwNTAwNTQzYWQzNjc5Igog
+Ci1TUkNSRVYgPSAiMWYxMTc0N2U4M2ViZjRmNTNlOGQxN2Y0MzAxMzZmOTJlYzM3ODcwOSIKK1NS
+Q1JFViA9ICI5MDc2NDIzZjk1OWQ1M2FhZmE0MDAwZDZiYjhiZjJhMTQ4NTk3MWI5IgogCiBVUFNU
+UkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICIoP1A8cHZlcj4oXGQrKFwuXGQrKSspKSIKIFNSQ19V
+UkkgPSAiZ2l0Oi8vZ2l0bGFiLmVjbGlwc2Uub3JnL2VjbGlwc2UvdGNmL3RjZi5hZ2VudC5naXQ7
+cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3RlciBcCi0tIAoyLjQ3LjEKCg==
+
+--===============6135439294588078318==--
 
