@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F72CCA0EF9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 104F0CA0EF7
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:13 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.88618.1754057264357149762
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.88803.1754057268190854943
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:08:03 -0700
+ Fri, 01 Aug 2025 07:08:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vBDp6MNY;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=qBbhm2bm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019865f616ee-fb09479e-c8ea-4afe-a9c4-4521efe815ee-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fZ1/Fh0Q;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Ou05OtH3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019865f62275-0bdd8ac8-18bc-4d42-ac5c-e43a1987dfec-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754057283;
+	t=1754057286;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yFpR+4R5XlKs+sBroxYmxWPwF5KLdBzhqdk+0EhcL2A=;
-	b=vBDp6MNYy7pafsmmYGd/H1IMxftWQetq+nxvvqqWOKArbArXNbxfxuzs3brDzdce
-	lZCuaXE8W50i+Yi18PFWI1QiOvB6nFWEvAxRrucfjEy/+zPwttNZAVBXPg/nneTNtTf
-	+ReH0j9J2ZOubSZ5mauCfIwzQYWHt7ITJWENPIWw=
+	bh=slmhjSdty3ztE/thUympmH7cYi7WTirTKT+06RECN7E=;
+	b=fZ1/Fh0Q7wVpfWTj5R8hVoTOgRWW8tUEoTO4ntfJI6v4cM6XRTQ2U/P3LiYoo6i/
+	ZqCzQvU+Zs6lFG43Hc8ygjlToQyNhc8ig9rcINjAjcShOvTGR0+24YRorCOJwZDElra
+	UjLt5mjvwpWYr/rbQ3zQCv6pYZb8m+8cjMTnYY1s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057283;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057286;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yFpR+4R5XlKs+sBroxYmxWPwF5KLdBzhqdk+0EhcL2A=;
-	b=qBbhm2bmiSLbRyM7HQBEs3TOGPU/jWpozBCcC29NNh4ge6n28BovQ7nuGJ/nvhBw
-	xA7gYrE9gU8U6OAOT2u6fKXacP66AjhmGjYXLb/QaKP4mlHK9E38HXDpj9HFoJWCv+Z
-	NO/gCIshwnOTzMSrbwqgb64ndmzbLAFjkaHzBuAU=
-Content-Type: multipart/mixed; boundary="===============0345163080913107802=="
+	bh=slmhjSdty3ztE/thUympmH7cYi7WTirTKT+06RECN7E=;
+	b=Ou05OtH3vBwCg156LzRavCMQL59wF+XxnnWgOaDSVMSe03hOdN6mi1qJn7S1W1Pv
+	FazU4wUO1vUwEQeKYnqjGwLNHVKRvyz27Mn3+OeMNW6BnQfXhLRp1cTJjimgbUB0wcX
+	nRdM2UD4FGhGWEImaAe3Lwg0///BJN6voLSs6zGY=
+Content-Type: multipart/mixed; boundary="===============0077377910913243687=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-headers: upgrading to 1.4.321.0 SUCCEEDED
-Message-ID: <0101019865f616ee-fb09479e-c8ea-4afe-a9c4-4521efe815ee-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Aug 2025 14:08:03 +0000
+Subject: [AUH] libinput: upgrading to 1.29.0 SUCCEEDED
+Message-ID: <0101019865f62275-0bdd8ac8-18bc-4d42-ac5c-e43a1987dfec-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Aug 2025 14:08:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.191
+X-SES-Outgoing: 2025.08.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221313
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221321
 
---===============0345163080913107802==
+--===============0077377910913243687==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *vulkan-headers* to *1.4.321.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libinput* to *1.29.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-headers-upgrade-1.4.313.0-1.4.321.0.patch
+    - apply the patch: git am 0001-libinput-upgrade-1.28.1-1.29.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,111 +72,120 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 78a5a4a88b74be9b8824351af206dbaf3d173375 Mon Sep 17 00:00:00 2001
+From a396856b410c0d03111a49af6aa0ba2fc87da1b3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Aug 2025 11:47:59 +0000
-Subject: [PATCH] vulkan-headers: upgrade 1.4.313.0 -> 1.4.321.0
+Date: Fri, 1 Aug 2025 12:10:26 +0000
+Subject: [PATCH] libinput: upgrade 1.28.1 -> 1.29.0
 
 ---
- ...{vulkan-headers_1.4.313.0.bb => vulkan-headers_1.4.321.0.bb} | 2 +-
+ .../wayland/{libinput_1.28.1.bb => libinput_1.29.0.bb}          | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/vulkan/{vulkan-headers_1.4.313.0.bb => vulkan-headers_1.4.321.0.bb} (95%)
+ rename meta/recipes-graphics/wayland/{libinput_1.28.1.bb => libinput_1.29.0.bb} (97%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.313.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.321.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/vulkan/vulkan-headers_1.4.313.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-headers_1.4.321.0.bb
-index 1136e4795a..b3413b0e6b 100644
---- a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.313.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.321.0.bb
-@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0 & MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
- SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
+diff --git a/meta/recipes-graphics/wayland/libinput_1.28.1.bb b/meta/recipes-graphics/wayland/libinput_1.29.0.bb
+similarity index 97%
+rename from meta/recipes-graphics/wayland/libinput_1.28.1.bb
+rename to meta/recipes-graphics/wayland/libinput_1.29.0.bb
+index 521a7f9a09..f38532a0c2 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.28.1.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.29.0.bb
+@@ -15,7 +15,7 @@ DEPENDS = "libevdev udev mtdev"
+ SRC_URI = "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=main;tag=${PV} \
+            file://run-ptest \
+            "
+-SRCREV = "4f7b4ef0e4eb5d569df36be387579858eba349bb"
++SRCREV = "936cee224267a7d21c87c06203cd866c1572df20"
  
--SRCREV = "409c16be502e39fe70dd6fe2d9ad4842ef2c9a53"
-+SRCREV = "2cd90f9d20df57eac214c148f3aed885372ddcfe"
- 
- inherit cmake
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
  
 -- 
 2.47.1
 
 
---===============0345163080913107802==
+--===============0077377910913243687==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libinput-upgrade-1.28.1-1.29.0.patch"
+
+RnJvbSBhMzk2ODU2YjQxMGMwZDAzMTExYTQ5YWY2YWEwYmEyZmM4N2RhMWIzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMjoxMDoyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YmlucHV0OiB1cGdyYWRlIDEuMjguMSAtPiAxLjI5LjAKCi0tLQogLi4uL3dheWxhbmQve2xpYmlu
+cHV0XzEuMjguMS5iYiA9PiBsaWJpbnB1dF8xLjI5LjAuYmJ9ICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQve2xpYmlucHV0XzEuMjguMS5iYiA9PiBsaWJpbnB1dF8x
+LjI5LjAuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxh
+bmQvbGliaW5wdXRfMS4yOC4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvbGli
+aW5wdXRfMS4yOS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy93YXlsYW5kL2xpYmlucHV0XzEuMjguMS5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvbGliaW5wdXRfMS4yOS4wLmJiCmluZGV4IDUyMWE3Zjlh
+MDkuLmYzODUzMmEwYzIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5k
+L2xpYmlucHV0XzEuMjguMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC9s
+aWJpbnB1dF8xLjI5LjAuYmIKQEAgLTE1LDcgKzE1LDcgQEAgREVQRU5EUyA9ICJsaWJldmRldiB1
+ZGV2IG10ZGV2IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2xpYmlu
+cHV0L2xpYmlucHV0LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbjt0YWc9JHtQVn0gXAog
+ICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjRm
+N2I0ZWYwZTRlYjVkNTY5ZGYzNmJlMzg3NTc5ODU4ZWJhMzQ5YmIiCitTUkNSRVYgPSAiOTM2Y2Vl
+MjI0MjY3YTdkMjFjODdjMDYyMDNjZDg2NmMxNTcyZGYyMCIKIAogVVBTVFJFQU1fQ0hFQ0tfUkVH
+RVggPSAibGliaW5wdXQtKD9QPHB2ZXI+XGQrXC5cZCtcLig/ITlcZCspXGQrKSIKIAotLSAKMi40
+Ny4xCgo=
+
+--===============0077377910913243687==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/vulkan-headers: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
-packages/core2-64-poky-linux/vulkan-headers: PV changed from "1.4.313.0" to "1.4.321.0"
-Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
-  /usr/share/vulkan/registry/vk.xml changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h was added
-  /usr/include/vk_video/vulkan_video_codec_vp9std.h was added
-  /usr/include/vulkan/vulkan_ohos.h was added
-  /usr/include/vulkan/vulkan_video.cppm was added
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PV changed from "1.4.313.0" to "1.4.321.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vk_video/vulkan_video_codec_vp9std_decode.h /usr/include/vulkan/vulkan_video.cppm /usr/include/vulkan/vulkan_ohos.h /usr/include/vk_video/vulkan_video_codec_vp9std.h"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGSIZE changed from 18496847 to 19343148 (+5%)
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PV changed from "1.4.313.0" to "1.4.321.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PV changed from "1.4.313.0" to "1.4.321.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PV changed from "1.4.313.0" to "1.4.321.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PV changed from "1.4.313.0" to "1.4.321.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PV changed from "1.4.313.0" to "1.4.321.0"
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGSIZE changed from 13896032 to 14305242 (+3%)
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PV changed from "1.4.313.0" to "1.4.321.0"
+packages/core2-64-poky-linux/libinput: SRC_URI changed from "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=main;tag=1.28.1 file://run-ptest" to "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=main;tag=1.29.0 file://run-ptest"
+packages/core2-64-poky-linux/libinput: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput-bin: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput/libinput-bin: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput-dbg: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput/libinput-dbg: FILELIST: added "/usr/libexec/libinput/.debug/libinput-debug-tablet-pad"
+packages/core2-64-poky-linux/libinput/libinput-dbg: RRECOMMENDS: added "systemd-dbg"
+packages/core2-64-poky-linux/libinput/libinput-dbg: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 7738000 to 8731992 (+13%)
+packages/core2-64-poky-linux/libinput/libinput-dev: RDEPENDS: added "systemd-dev"
+packages/core2-64-poky-linux/libinput/libinput-dev: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput/libinput-dev: RRECOMMENDS: added "systemd-dev"
+packages/core2-64-poky-linux/libinput/libinput-dev: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput-dev: PKGSIZE changed from 228925 to 236020 (+3%)
+packages/core2-64-poky-linux/libinput/libinput-doc: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput/libinput-doc: FILELIST: added "/usr/share/man/man1/libinput-debug-tablet-pad.1"
+packages/core2-64-poky-linux/libinput/libinput-doc: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput-doc: PKGSIZE changed from 47709 to 49110 (+3%)
+packages/core2-64-poky-linux/libinput/libinput-locale: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput/libinput-locale: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput-ptest: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput/libinput-ptest: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput-ptest: PKGSIZE changed from 1156022 to 1188614 (+3%)
+packages/core2-64-poky-linux/libinput/libinput-src: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput/libinput-src: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput/libinput-staticdev: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput: RDEPENDS: added "libsystemd (['>= 257.6'])"
+packages/core2-64-poky-linux/libinput/libinput: PKGV changed from 1.28.1 [default] to 1.29.0 [default]
+packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/libexec/libinput/libinput-debug-tablet-pad"
+packages/core2-64-poky-linux/libinput/libinput: PV changed from "1.28.1" to "1.29.0"
+packages/core2-64-poky-linux/libinput/libinput: PKGSIZE changed from 1437839 to 1645185 (+14%)
 
---===============0345163080913107802==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-vulkan-headers-upgrade-1.4.313.0-1.4.321.0.patch"
-
-RnJvbSA3OGE1YTRhODhiNzRiZTliODgyNDM1MWFmMjA2ZGJhZjNkMTczMzc1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMTo0Nzo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
-bGthbi1oZWFkZXJzOiB1cGdyYWRlIDEuNC4zMTMuMCAtPiAxLjQuMzIxLjAKCi0tLQogLi4ue3Z1
-bGthbi1oZWFkZXJzXzEuNC4zMTMuMC5iYiA9PiB2dWxrYW4taGVhZGVyc18xLjQuMzIxLjAuYmJ9
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi97dnVsa2FuLWhlYWRlcnNfMS40LjMx
-My4wLmJiID0+IHZ1bGthbi1oZWFkZXJzXzEuNC4zMjEuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zMTMuMC5i
-YiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS40LjMyMS4w
-LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGlj
-cy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS40LjMxMy4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zMjEuMC5iYgppbmRleCAxMTM2
-ZTQ3OTVhLi5iMzQxM2IwZTZiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVs
-a2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zMTMuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zMjEuMC5iYgpAQCAtMTEsNyArMTEsNyBAQCBM
-SUNFTlNFID0gIkFwYWNoZS0yLjAgJiBNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
-SUNFTlNFLm1kO21kNT0xYmMzNTVkOGM0MTk2Zjc3NGM4Yjg3ZWQxYThkZDYyNSIKIFNSQ19VUkkg
-PSAiZ2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvVnVsa2FuLUhlYWRlcnMuZ2l0O2JyYW5j
-aD1tYWluO3Byb3RvY29sPWh0dHBzIgogCi1TUkNSRVYgPSAiNDA5YzE2YmU1MDJlMzlmZTcwZGQ2
-ZmUyZDlhZDQ4NDJlZjJjOWE1MyIKK1NSQ1JFViA9ICIyY2Q5MGY5ZDIwZGY1N2VhYzIxNGMxNDhm
-M2FlZDg4NTM3MmRkY2ZlIgogCiBpbmhlcml0IGNtYWtlCiAKLS0gCjIuNDcuMQoK
-
---===============0345163080913107802==
+--===============0077377910913243687==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
-  /usr/share/vulkan/registry/vk.xml changed permissions from rwxr-xr-x to rw-r--r--
-  /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h was added
-  /usr/include/vk_video/vulkan_video_codec_vp9std.h was added
-  /usr/include/vulkan/vulkan_ohos.h was added
-  /usr/include/vulkan/vulkan_video.cppm was added
-packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vulkan/vulkan_video.cppm /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h /usr/include/vk_video/vulkan_video_codec_vp9std.h /usr/include/vulkan/vulkan_ohos.h"
+packages/core2-64-poky-linux/libinput/libinput-dbg: RRECOMMENDS: added "systemd-dbg"
+packages/core2-64-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 7738000 to 8731992 (+13%)
+packages/core2-64-poky-linux/libinput/libinput-dev: RRECOMMENDS: added "systemd-dev"
+packages/core2-64-poky-linux/libinput/libinput-dev: RDEPENDS: added "systemd-dev"
+packages/core2-64-poky-linux/libinput/libinput-doc: FILELIST: added "/usr/share/man/man1/libinput-debug-tablet-pad.1"
+packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/libexec/libinput/libinput-debug-tablet-pad"
+packages/core2-64-poky-linux/libinput/libinput: RDEPENDS: added "libsystemd (['>= 257.6'])"
+packages/core2-64-poky-linux/libinput/libinput: PKGSIZE changed from 1437839 to 1645185 (+14%)
 
---===============0345163080913107802==--
+--===============0077377910913243687==--
 
