@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79EDDCA0ED4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0861CA0ED8
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:00 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.88616.1754057261605930845
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.88810.1754057271036723123
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:07:54 -0700
+ Fri, 01 Aug 2025 07:07:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=qJ+Vc1qC;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RYDQlLKi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019865f5f27d-79b16175-1aea-4d72-9c7f-57900d7185d1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DR+gxq52;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=tzzIfpJd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019865f5e544-19e40fb7-c9ec-4760-9b64-2cdd1369dfaa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754057274;
+	t=1754057270;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=bnXvyjD8nLCf2VYX97a5tvrH6eRd9JBWqY2+o3KzHCE=;
-	b=qJ+Vc1qCpsw5NY4URdyugH38sArSSF70hBDuZBHxI0FHDGjawOj6q7gNSLCIfgO2
-	FPGeeRVxwxv9iUEGZB/6Jm6ozg+SeOAy2jOkgkonPukYys5Oppel+GxY6t3TD8umRZh
-	SPbzTJIcS77HVjVvwxjy3aLjlkiDUPshSFdf/opc=
+	bh=6CDZPV8iPHGqqysW5Tfdq1aNeoVIfFxxbShzEDnyzSU=;
+	b=DR+gxq52ejnORB7RBpKffym7/9gwYfT+/rN5NxcTHYH91ea0X/A2sgrJ8hWGGdpC
+	hcTwqEGglPK3IsTjJl6o4Qm8f4ibACcDafKf1rMGTa61ENQkD2217fz2kRLx5+a0hcH
+	7ED7nknzU2vNXEt2mg73CaA6iIXl4pDRy5e4XMoU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057274;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057270;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=bnXvyjD8nLCf2VYX97a5tvrH6eRd9JBWqY2+o3KzHCE=;
-	b=RYDQlLKighZgg7P2JRxN5q4DhSt6ipaErvRFNhztkakO2y35NAfxZwCm4OoGZhzA
-	seLwU7cMlCItUa3lTmLds3u6Ouoxkq0avPg3xdqToa8E8rKQCUEk9o8WHeUG/NSu2Z1
-	SAuJYrf6YRO14whc6xAXedvr60dKln5Jl7YHsnZs=
-Content-Type: multipart/mixed; boundary="===============9141766477143251414=="
+	bh=6CDZPV8iPHGqqysW5Tfdq1aNeoVIfFxxbShzEDnyzSU=;
+	b=tzzIfpJdizDHcjChOes5ZWtcMdM17qrUdD3/GUJArrDneLXP9Mb8y+0oHMHSpMFu
+	XtxhLGgC+C3ymQ43x2W68NG346zddkaoS17zqBkQbxS7dWpHnU1KEJKmJfGIMBVRRO/
+	73zzVRHknDaEQuSBt11xTUasgyK6KKpRK7Zoo7E8=
+Content-Type: multipart/mixed; boundary="===============0669614522154228766=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-unittest-automake-output: upgrading to 0.3 FAILED
-Message-ID: <0101019865f5f27d-79b16175-1aea-4d72-9c7f-57900d7185d1-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Aug 2025 14:07:53 +0000
+Subject: [AUH] meson: upgrading to 1.8.3 SUCCEEDED
+Message-ID: <0101019865f5e544-19e40fb7-c9ec-4760-9b64-2cdd1369dfaa-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Aug 2025 14:07:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.31
+X-SES-Outgoing: 2025.08.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221286
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221270
 
---===============9141766477143251414==
+--===============0669614522154228766==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-unittest-automake-output* to *0.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *meson* to *1.8.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch
+    - apply the patch: git am 0001-meson-upgrade-1.8.2-1.8.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,162 +72,250 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 80c2ca800ffbf73d95e58f257f4db0c0ccf61fb7 Mon Sep 17 00:00:00 2001
+From 49b403700d0997144c735256b54b2fcd01b004ec Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Aug 2025 10:07:02 +0000
-Subject: [PATCH] python3-unittest-automake-output: upgrade 0.2 -> 0.3
+Date: Fri, 1 Aug 2025 09:11:21 +0000
+Subject: [PATCH] meson: upgrade 1.8.2 -> 1.8.3
 
 ---
- ...ke-output_0.2.bb => python3-unittest-automake-output_0.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-unittest-automake-output_0.2.bb => python3-unittest-automake-output_0.3.bb} (90%)
+ .../meson/meson/0001-Make-CPU-family-warnings-fatal.patch     | 4 ++--
+ ...python-module-do-not-manipulate-the-environment-when.patch | 2 +-
+ .../meson/0002-Support-building-allarch-recipes-again.patch   | 2 +-
+ .../recipes-devtools/meson/{meson_1.8.2.bb => meson_1.8.3.bb} | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_1.8.2.bb => meson_1.8.3.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
-rename to meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
-index 216fea2b93..4054385935 100644
---- a/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
-+++ b/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f6f16008d9fb7349f06609329f1ab93b"
- SRC_URI = "git://gitlab.com/rossburton/python-unittest-automake-output;protocol=https;branch=main \
-            file://0001-Update-__version__-to-match-the-tag-version.patch"
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+index 98ca08c2ca..f9ed744ea2 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+@@ -1,4 +1,4 @@
+-From c01e5e29953e0302988f2d60adc50ebfa0e5d670 Mon Sep 17 00:00:00 2001
++From 9a91c9d2eb8e25396be68cbb6ea1830402639609 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -26,7 +26,7 @@ index 43fad0c..27be871 100644
+          endian = literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index 2a9cf16..6b2bd6b 100644
++index c20390f..c8eabf0 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+ @@ -436,10 +436,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+index f654447013..b67cd5dd4e 100644
+--- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
++++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+@@ -1,4 +1,4 @@
+-From 6c3734f533ee7ad493188c8fc17bb1c65b65f0bd Mon Sep 17 00:00:00 2001
++From 5a871ed48aee8f943df4eca2731a9498b6de8157 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Nov 2018 14:24:26 +0100
+ Subject: [PATCH] python module: do not manipulate the environment when calling
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+index ed35498c30..8265be459b 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+@@ -1,4 +1,4 @@
+-From e123195e5990c3071385defd96dfab1211e98c08 Mon Sep 17 00:00:00 2001
++From dd797af634508edce05697e1d90b0bc6962d5a19 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+diff --git a/meta/recipes-devtools/meson/meson_1.8.2.bb b/meta/recipes-devtools/meson/meson_1.8.3.bb
+similarity index 98%
+rename from meta/recipes-devtools/meson/meson_1.8.2.bb
+rename to meta/recipes-devtools/meson/meson_1.8.3.bb
+index bfeaab0a79..e306471244 100644
+--- a/meta/recipes-devtools/meson/meson_1.8.2.bb
++++ b/meta/recipes-devtools/meson/meson_1.8.3.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/meson-${PV}.tar.gz \
+            file://0001-Make-CPU-family-warnings-fatal.patch \
+            file://0002-Support-building-allarch-recipes-again.patch \
+            "
+-SRC_URI[sha256sum] = "c105816d8158c76b72adcb9ff60297719096da7d07f6b1f000fd8c013cd387af"
++SRC_URI[sha256sum] = "f118aa910fc0a137cc2dd0122232dbf82153d9a12fb5b0f5bb64896f6a157abf"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)$"
  
--SRCREV = "aebdfb188e368c690ea55cf6c9c9ffa1a52def65"
-+SRCREV = "3376ff9bc319f8338849b7b9f63b9325d7b7663a"
- 
- inherit python_flit_core
- 
+ inherit python_setuptools_build_meta github-releases
 -- 
 2.47.1
 
 
---===============9141766477143251414==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1935 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 942 .bb files complete (941 cached, 1 parsed). 1933 targets, 42 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-12b21ad6b0c352a1932916027af906046763df23"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:12b21ad6b0c352a1932916027af906046763df23"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 281 Local 269 Mirrors 0 Missed 12 Current 357 (95% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 493 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 547 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.13.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 991 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_fetch)
-NOTE: recipe python3-3.13.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 601 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_fetch: Succeeded
-NOTE: recipe gcc-runtime-15.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1207 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_unpack)
-NOTE: Running setscene task 612 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_create_spdx_setscene)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Started
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.41+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 618 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 629 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1309 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-15.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 635 of 638 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.45.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1671 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1807 of 1826 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_collect_spdx_deps)
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.3-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1811 tasks of which 1806 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801100650.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801100650.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.1873254
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-unittest-automake-output-0.3-r0 do_patch: Applying patch '0001-Update-__version__-to-match-the-tag-version.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/sources/python3-unittest-automake-output-0.3'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-Update-__version__-to-match-the-tag-version.patch
-patching file src/putao/__init__.py
-Hunk #1 FAILED at 5.
-1 out of 1 hunk FAILED -- rejects in file src/putao/__init__.py
-Patch 0001-Update-__version__-to-match-the-tag-version.patch does not apply (enforce with -f)
-
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.3/temp/log.do_patch.1873254
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.3.bb:do_patch) failed with exit code '1'
-
---===============9141766477143251414==
+--===============0669614522154228766==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-unittest-automake-output-upgrade-0.2-0.3.patch"
+ filename="0001-meson-upgrade-1.8.2-1.8.3.patch"
 
-RnJvbSA4MGMyY2E4MDBmZmJmNzNkOTVlNThmMjU3ZjRkYjBjMGNjZjYxZmI3IE1vbiBTZXAgMTcg
+RnJvbSA0OWI0MDM3MDBkMDk5NzE0NGM3MzUyNTZiNTRiMmZjZDAxYjAwNGVjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMDowNzowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0OiB1cGdyYWRlIDAuMiAtPiAwLjMKCi0tLQog
-Li4ua2Utb3V0cHV0XzAuMi5iYiA9PiBweXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dF8w
-LjMuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy11bml0dGVz
-dC1hdXRvbWFrZS1vdXRwdXRfMC4yLmJiID0+IHB5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0
-cHV0XzAuMy5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMi5iYiBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXRfMC4zLmJi
-CnNpbWlsYXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXRfMC4yLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0
-cHV0XzAuMy5iYgppbmRleCAyMTZmZWEyYjkzLi40MDU0Mzg1OTM1IDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0
-XzAuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdW5pdHRl
-c3QtYXV0b21ha2Utb3V0cHV0XzAuMy5iYgpAQCAtNiw3ICs2LDcgQEAgTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZjZmMTYwMDhkOWZiNzM0OWYwNjYwOTMyOWYxYWI5M2Ii
-CiBTUkNfVVJJID0gImdpdDovL2dpdGxhYi5jb20vcm9zc2J1cnRvbi9weXRob24tdW5pdHRlc3Qt
-YXV0b21ha2Utb3V0cHV0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIFwKICAgICAgICAgICAg
-ZmlsZTovLzAwMDEtVXBkYXRlLV9fdmVyc2lvbl9fLXRvLW1hdGNoLXRoZS10YWctdmVyc2lvbi5w
-YXRjaCIKIAotU1JDUkVWID0gImFlYmRmYjE4OGUzNjhjNjkwZWE1NWNmNmM5YzlmZmExYTUyZGVm
-NjUiCitTUkNSRVYgPSAiMzM3NmZmOWJjMzE5ZjgzMzg4NDliN2I5ZjYzYjkzMjVkN2I3NjYzYSIK
-IAogaW5oZXJpdCBweXRob25fZmxpdF9jb3JlCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAwOToxMToyMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
+c29uOiB1cGdyYWRlIDEuOC4yIC0+IDEuOC4zCgotLS0KIC4uLi9tZXNvbi9tZXNvbi8wMDAxLU1h
+a2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaCAgICAgfCA0ICsrLS0KIC4uLnB5dGhv
+bi1tb2R1bGUtZG8tbm90LW1hbmlwdWxhdGUtdGhlLWVudmlyb25tZW50LXdoZW4ucGF0Y2ggfCAy
+ICstCiAuLi4vbWVzb24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fp
+bi5wYXRjaCAgIHwgMiArLQogLi4uL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24ve21lc29uXzEuOC4y
+LmJiID0+IG1lc29uXzEuOC4zLmJifSB8IDIgKy0KIDQgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRp
+b25zKCspLCA1IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNv
+bi97bWVzb25fMS44LjIuYmIgPT4gbWVzb25fMS44LjMuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtTWFrZS1DUFUtZmFtaWx5LXdh
+cm5pbmdzLWZhdGFsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAw
+MDEtTWFrZS1DUFUtZmFtaWx5LXdhcm5pbmdzLWZhdGFsLnBhdGNoCmluZGV4IDk4Y2EwOGMyY2Eu
+LmY5ZWQ3NDRlYTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNv
+bi8wMDAxLU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaAorKysgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1NYWtlLUNQVS1mYW1pbHktd2FybmluZ3Mt
+ZmF0YWwucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGMwMWU1ZTI5OTUzZTAzMDI5ODhmMmQ2
+MGFkYzUwZWJmYTBlNWQ2NzAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDlhOTFjOWQy
+ZWI4ZTI1Mzk2YmU2OGNiYjZlYTE4MzA0MDI2Mzk2MDkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CiBGcm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogRGF0ZTogVHVlLCAz
+IEp1bCAyMDE4IDEzOjU5OjA5ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2UgQ1BVIGZhbWls
+eSB3YXJuaW5ncyBmYXRhbApAQCAtMjYsNyArMjYsNyBAQCBpbmRleCA0M2ZhZDBjLi4yN2JlODcx
+IDEwMDY0NAogICAgICAgICAgZW5kaWFuID0gbGl0ZXJhbFsnZW5kaWFuJ10KICAgICAgICAgIGlm
+IGVuZGlhbiBub3QgaW4gKCdsaXR0bGUnLCAnYmlnJyk6CiBkaWZmIC0tZ2l0IGEvbWVzb25idWls
+ZC9lbnZpcm9ubWVudC5weSBiL21lc29uYnVpbGQvZW52aXJvbm1lbnQucHkKLWluZGV4IDJhOWNm
+MTYuLjZiMmJkNmIgMTAwNjQ0CitpbmRleCBjMjAzOTBmLi5jOGVhYmYwIDEwMDY0NAogLS0tIGEv
+bWVzb25idWlsZC9lbnZpcm9ubWVudC5weQogKysrIGIvbWVzb25idWlsZC9lbnZpcm9ubWVudC5w
+eQogQEAgLTQzNiwxMCArNDM2LDggQEAgZGVmIGRldGVjdF9jcHVfZmFtaWx5KGNvbXBpbGVyczog
+Q29tcGlsZXJzRGljdCkgLT4gc3RyOgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L21lc29uL21lc29uLzAwMDEtcHl0aG9uLW1vZHVsZS1kby1ub3QtbWFuaXB1bGF0ZS10aGUtZW52
+aXJvbm1lbnQtd2hlbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8w
+MDAxLXB5dGhvbi1tb2R1bGUtZG8tbm90LW1hbmlwdWxhdGUtdGhlLWVudmlyb25tZW50LXdoZW4u
+cGF0Y2gKaW5kZXggZjY1NDQ0NzAxMy4uYjY3Y2Q1ZGQ0ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtcHl0aG9uLW1vZHVsZS1kby1ub3QtbWFuaXB1
+bGF0ZS10aGUtZW52aXJvbm1lbnQtd2hlbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvbWVzb24vbWVzb24vMDAwMS1weXRob24tbW9kdWxlLWRvLW5vdC1tYW5pcHVsYXRlLXRoZS1l
+bnZpcm9ubWVudC13aGVuLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA2YzM3MzRmNTMzZWU3
+YWQ0OTMxODhjOGZjMTdiYjFjNjViNjVmMGJkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
+bSA1YTg3MWVkNDhhZWU4Zjk0M2RmNGVjYTI3MzFhOTQ5OGI2ZGU4MTU3IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
+b20+CiBEYXRlOiBNb24sIDE5IE5vdiAyMDE4IDE0OjI0OjI2ICswMTAwCiBTdWJqZWN0OiBbUEFU
+Q0hdIHB5dGhvbiBtb2R1bGU6IGRvIG5vdCBtYW5pcHVsYXRlIHRoZSBlbnZpcm9ubWVudCB3aGVu
+IGNhbGxpbmcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8w
+MDAyLVN1cHBvcnQtYnVpbGRpbmctYWxsYXJjaC1yZWNpcGVzLWFnYWluLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDItU3VwcG9ydC1idWlsZGluZy1hbGxhcmNo
+LXJlY2lwZXMtYWdhaW4ucGF0Y2gKaW5kZXggZWQzNTQ5OGMzMC4uODI2NWJlNDU5YiAxMDA2NDQK
+LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDItU3VwcG9ydC1idWls
+ZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdhaW4ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL21lc29uL21lc29uLzAwMDItU3VwcG9ydC1idWlsZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdh
+aW4ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGUxMjMxOTVlNTk5MGMzMDcxMzg1ZGVmZDk2
+ZGZhYjEyMTFlOThjMDggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGRkNzk3YWY2MzQ1
+MDhlZGNlMDU2OTdlMWQ5MGIwYmM2OTYyZDVhMTkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBQZXRlciBLamVsbGVyc3RlZHQgPHBrakBheGlzLmNvbT4KIERhdGU6IFRodSwgMjYgSnVs
+IDIwMTggMTY6MzI6NDkgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gU3VwcG9ydCBidWlsZGluZyBh
+bGxhcmNoIHJlY2lwZXMgYWdhaW4KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9t
+ZXNvbi9tZXNvbl8xLjguMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8x
+LjguMy5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvbWVzb24vbWVzb25fMS44LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9tZXNvbi9tZXNvbl8xLjguMy5iYgppbmRleCBiZmVhYWIwYTc5Li5lMzA2NDcxMjQ0IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb25fMS44LjIuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uXzEuOC4zLmJiCkBAIC0xNSw3ICsxNSw3
+IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7UFZ9L21lc29uLSR7
+UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLU1ha2UtQ1BVLWZhbWlseS13YXJu
+aW5ncy1mYXRhbC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAyLVN1cHBvcnQtYnVpbGRp
+bmctYWxsYXJjaC1yZWNpcGVzLWFnYWluLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImMxMDU4MTZkODE1OGM3NmI3MmFkY2I5ZmY2MDI5NzcxOTA5NmRhN2QwN2Y2
+YjFmMDAwZmQ4YzAxM2NkMzg3YWYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZjExOGFhOTEwZmMw
+YTEzN2NjMmRkMDEyMjIzMmRiZjgyMTUzZDlhMTJmYjViMGY1YmI2NDg5NmY2YTE1N2FiZiIKIFVQ
+U1RSRUFNX0NIRUNLX1JFR0VYID0gIig/UDxwdmVyPlxkKyhcLlxkKykrKSQiCiAKIGluaGVyaXQg
+cHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YSBnaXRodWItcmVsZWFzZXMKLS0gCjIuNDcuMQoK
 
---===============9141766477143251414==--
+--===============0669614522154228766==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/meson: PV changed from "1.8.2" to "1.8.3"
+packages/core2-64-poky-linux/meson: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
+packages/core2-64-poky-linux/meson: SRC_URI changed from "https://github.com/mesonbuild/meson/releases//download/1.8.2/meson-1.8.2.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch" to "https://github.com/mesonbuild/meson/releases//download/1.8.3/meson-1.8.3.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch"
+packages/core2-64-poky-linux/meson/meson-dbg: PV changed from "1.8.2" to "1.8.3"
+packages/core2-64-poky-linux/meson/meson-dbg: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
+packages/core2-64-poky-linux/meson/meson-dev: PV changed from "1.8.2" to "1.8.3"
+packages/core2-64-poky-linux/meson/meson-dev: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
+packages/core2-64-poky-linux/meson/meson-doc: PV changed from "1.8.2" to "1.8.3"
+packages/core2-64-poky-linux/meson/meson-doc: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
+packages/core2-64-poky-linux/meson/meson-locale: PV changed from "1.8.2" to "1.8.3"
+packages/core2-64-poky-linux/meson/meson-locale: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
+packages/core2-64-poky-linux/meson/meson-src: PV changed from "1.8.2" to "1.8.3"
+packages/core2-64-poky-linux/meson/meson-src: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
+packages/core2-64-poky-linux/meson/meson-staticdev: PV changed from "1.8.2" to "1.8.3"
+packages/core2-64-poky-linux/meson/meson-staticdev: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
+packages/core2-64-poky-linux/meson/meson: PV changed from "1.8.2" to "1.8.3"
+packages/core2-64-poky-linux/meson/meson: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
+packages/core2-64-poky-linux/meson/meson: PKGSIZE changed from 8748389 to 8758687 (+0%)
+Changes to packages/core2-64-poky-linux/meson (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info moved to /usr/lib/python3.13/site-packages/meson-1.8.3.dist-info
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.2-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.2-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.2-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.2-gdb.py was removed
+Changes to packages/x86_64-linux/meson-native (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info moved to /usr/lib/python3.13/site-packages/meson-1.8.3.dist-info
+
+--===============0669614522154228766==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/meson (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info moved to /usr/lib/python3.13/site-packages/meson-1.8.3.dist-info
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.2-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.2-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.2-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.2/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.2-gdb.py was removed
+Changes to packages/x86_64-linux/meson-native (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info moved to /usr/lib/python3.13/site-packages/meson-1.8.3.dist-info
+
+--===============0669614522154228766==--
 
