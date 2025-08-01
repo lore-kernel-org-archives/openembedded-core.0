@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A373DC87FD2
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 02:18:14 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web10.78712.1754014685962726302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A59D2C87FD2
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 02:18:34 +0000 (UTC)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web11.78542.1754014705199068458
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Jul 2025 19:18:06 -0700
+ Thu, 31 Jul 2025 19:18:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=QfDcDbej;
- spf=pass (domain: underview.tech, ip: 209.85.222.179, mailfrom: vince@underview.tech)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7e6817653d0so43181685a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 19:18:05 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=InpzvN8e;
+ spf=pass (domain: underview.tech, ip: 209.85.222.174, mailfrom: vince@underview.tech)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7e6817653d0so43198785a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Jul 2025 19:18:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1754014684; x=1754619484; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1754014704; x=1754619504; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zcYx03FBNEwn7FltsdhhnIp7vDUmTuUeVt5PB6uiM7o=;
-        b=QfDcDbejEBuRHp6ZlOlVJR8oz6p5qTAJZQhwUDbD0S/i5KgOtkj7Na6FaZb5682XLp
-         YLS4tRT3lvCXESkfKMVQqTOlskYC+q14J9tZNd84KFT+Z9H/Ar4hGiv3kSO9k+sbmzTb
-         a15T9bOcrBbGsy02SLfQ2Nu2pyVExPfTD9TAqXgBE3DQugLqyezUp7iv/npFZE0Zzcc5
-         dVG8xb63gx91HeEBuIC6IGI+W2Z72Y6bu7yOWlEPWibJmXsjOiO9g9/qVntCpoO3bFWQ
-         PcfiY99WjgBLtj7CSc1dxoZxlwjpwsB485HlCce/4JYOAmJ53QBgPhgun02JZSPgOChx
-         N2Pw==
+        bh=bGLy1iMR67fvn+6SuMga8KLU1s1FK38i/nCe0V5V9Y8=;
+        b=InpzvN8e0/vQuxEzUGfVkyIBXoml3mQ9WhTFU6cY6UUNrFJeg9iKt5bxhFMTU9PDSf
+         Muod32cvI3CyxtFjcn16f5eThD76kEv2Mc81g8VSG8XEX8a4tGW/2sJW5XN6zEdc5VJT
+         c0utC2okNdmGD8A2SRPayCLaxJsRjin+wwGsdyK0sAoZwwdsHw0SaB9cNzTKL/9lYYbB
+         oXav8hYliVNAfJpBUYbXauDK/6jFxNmUyVcGnVIDsQolBPQ5iI6TdDyBZGdVlmjfbFVW
+         sda1mnF0iwxy9kjiX5tbTjpp7tFsTUW0JdXg15uKD9n3VLyqbj/2HEn3QeFYpYDQrqf2
+         uLWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754014684; x=1754619484;
+        d=1e100.net; s=20230601; t=1754014704; x=1754619504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zcYx03FBNEwn7FltsdhhnIp7vDUmTuUeVt5PB6uiM7o=;
-        b=qZt8fuAs3YaK7bBGd8VYvfRVnyIdM6bZD4QhRyFGu9PH3CvyGTGMboGOEoXsKLCKw1
-         OYOAy+PaebCNphL4kEXI+NOM1PQB6hSt9D08a01gjHMKsrKdYK00NAEQ6RWcgh7KUVy7
-         8jHWMAASrATPavBl9CKOVv6oU2cRQ2QCIhvjal7Su0vya3iFlEkV/01cNC2p9eoZFgv1
-         l3RnPzD9lrmap6nBzdhF23uJBefPUzsNZ165aNIhrytx+ZSU1ul3hrHd1hnIB2I3Jqun
-         G4KUcMSSVVkDIIzYERoYM2IvjSdkarmfT5KCHlJcvUs2VJ+d+MyF6NGr+VLDbw5Acnpa
-         NR6w==
-X-Gm-Message-State: AOJu0YyAz1ehRg/hcv/ByHDbVssoyQ9UDrpseei2np7wH+UJZniKHhRx
-	h5ktndlAFT3jphkj7nvLjms8pBqpyhQWg6R9nSSJBsGnRvyfh231OVKEnpcS2HQAf4OL0T9tjul
-	7wzu3
-X-Gm-Gg: ASbGnctuuSVgR2lMfUZQ1ZeEw97K0KpyUFqUc+K1p0rg0kVdSxaYaI0bq+7WsorGrpn
-	tHJFLIaEcEHe+x6vGL0ExNi+e8JDU+hKTZiQFA66jYoUUvwacFnlUQIOwCdH2ZYAegGb/sbBcMG
-	CWAsbwGqFumfenZ5ZI14PG7VmdqAAhkk1GkzQSzmOBMdh0gr0Ctics5rNhE6F3skvQSR0r8PAZZ
-	Y2e6Pw1LhipZZtYT4d5LfpiJkwvzD1vQ5vOhBMenilpyi+zyvlDWXnoDFgj1Y3GOYpZxOb4qqup
-	qdURFP3zis+/Z37Wp2KToIb8E+IDwo7MwiNoWtCMr8uKoJSttSyYcpM7Q1ytUs4Lz2pDWPBBI6j
-	Zsth+pdkYMIg=
-X-Google-Smtp-Source: AGHT+IHOBmOuVX53NZyuhchsvy1ZCZbNFs6W7XQeH1USI8srK5kRYQ+8+Cbm2oCnw++XlDtv09I/Zw==
-X-Received: by 2002:a05:620a:6193:b0:7e3:17dc:d1e4 with SMTP id af79cd13be357-7e66f3c46c9mr1169699085a.58.1754014684373;
-        Thu, 31 Jul 2025 19:18:04 -0700 (PDT)
+        bh=bGLy1iMR67fvn+6SuMga8KLU1s1FK38i/nCe0V5V9Y8=;
+        b=Xav83dLWkYh6341B4n1EiePXXbuUfK9qWPiUv28LDKWTqEpJaCdljTPJI5jKgUUwPR
+         Qcl+OtccxihEVrYfmv8gzZe9pIKFvagnVh94k9u+h0ZMV1V2df+TThGY6YJ+kD55PxK8
+         7+vGTm01k4LqXe+bXKISV8h8nR7AHBYIoUVmCwVFXuq7GK9NN2RAj2MOH0b5q4EUM61T
+         ehQ6z+CKwO8nD5PwxHmxBm139fEfo8FXjIJxYlwhux2Iclw/qbq+nYndYz0Txdikj18m
+         Cfu8+SE/CSNaFDXvxmfFopwS797zhhSf+/KJOdIDF05P6naBdlWYsGBvBJlKJZ0d7bAL
+         YnPg==
+X-Gm-Message-State: AOJu0YzR5XSctikMYdKosZjC/8AEmS4LZs+DC1IDUm5DCsX8eisr0BXj
+	CTsyRofsxJRGfZd/HKH+sjfo08p7PweR7ElM0vzkd+ssjifQo5IJmsm5ZgaLbb9+Aw3rDFFKb76
+	ssB6M
+X-Gm-Gg: ASbGncsAs80W9JoMgK9GL/ViN1/7N9k//PwgWqJdq8/PUrN6RsBB1xKRIDkhqm9OjCj
+	TKefgJNQREv9WNerjiFZGOd8AGSt8mK9QvD0SirY2PigpLQIQ8JmiyWZjUnWOUVw9duEKUiigge
+	/vgVOJxRsh1x5YgA4NdyMVzg2hWD3hnKhh4oUE2+RlHWq+KwHSl+izakGZsppBnTlKOOlFAEgHe
+	XHEng033vGNbmTXMATls4Ew4OSBeABiFcOTmFV3zJyqKe4i4XoqQWfq2t3R561HpAI42JD9XO/4
+	cmBudKqfchN8n6GFptieS0WVEQYnrjnpJzD+b13DycSZckhNIeRcdQjpXnTMKqd9e94CqBW7U8q
+	qrBk6BV91y20WbWMzvDCzyQ==
+X-Google-Smtp-Source: AGHT+IGR1CAp53Dn/QBiSsp9j4X1LAEfMyDm9n6lhiKKRhcKVT3QBk2cdNgCzQ2JlujlK7bJm5IDYA==
+X-Received: by 2002:a05:620a:2a01:b0:7e6:2929:6b88 with SMTP id af79cd13be357-7e66f3581b3mr1379985785a.41.1754014703877;
+        Thu, 31 Jul 2025 19:18:23 -0700 (PDT)
 Received: from vince-server.. ([2601:406:4d01:1820::71f9])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e6877517dcsm101220585a.67.2025.07.31.19.18.03
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e6877517dcsm101220585a.67.2025.07.31.19.18.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 19:18:04 -0700 (PDT)
+        Thu, 31 Jul 2025 19:18:23 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v5 2/3] bootimg_pcbios: final import of grub legacy boot
-Date: Thu, 31 Jul 2025 22:16:08 -0400
-Message-ID: <20250801021607.511597-4-vince@underview.tech>
+Subject: [PATCH v5 3/3] oe-selftest: add wic.Wic.test_grub_install_pcbios
+Date: Thu, 31 Jul 2025 22:16:10 -0400
+Message-ID: <20250801021607.511597-6-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250801021607.511597-2-vince@underview.tech>
 References: <20250801021607.511597-2-vince@underview.tech>
@@ -67,218 +67,76 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 02:18:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221211
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 02:18:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221212
 
-Due to the bootimg_biosplusefi source_params['loader']
-had to be named source_params['loader-bios'] so not
-to create conflict in the wics plugin
+wic.Wic.test_grub_install_pcbios test
 
-Removes old syslinux implementation as it
-was copied into seperate functions and
-adds ability to set and or not set
-source_params. If source_params set check
-for both
-	* syslinux
-	* grub
+Test updates to the bootimg_pcbios plugin that
+enables support for installing grub directly
+to the resulting wic image.
 
-if not set default to using syslinux
+The test checks to see if the wics plugin
+generates a wic image. Then see's if normal.mod
+and grub.cfg are located in the boot partition.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- .../lib/wic/plugins/source/bootimg_pcbios.py  | 156 ++++--------------
- 1 file changed, 30 insertions(+), 126 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 41 +++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg_pcbios.py b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-index f74075ed79..3c403f4ec2 100644
---- a/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-@@ -94,27 +94,19 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         Called after all partitions have been prepared and assembled into a
-         disk image.  In this case, we install the MBR.
-         """
--        bootimg_dir = cls._get_bootimg_dir(bootimg_dir, 'syslinux')
--        mbrfile = "%s/syslinux/" % bootimg_dir
--        if creator.ptable_format == 'msdos':
--            mbrfile += "mbr.bin"
--        elif creator.ptable_format == 'gpt':
--            mbrfile += "gptmbr.bin"
--        else:
--            raise WicError("Unsupported partition table: %s" %
--                           creator.ptable_format)
--
--        if not os.path.exists(mbrfile):
--            raise WicError("Couldn't find %s.  If using the -e option, do you "
--                           "have the right MACHINE set in local.conf?  If not, "
--                           "is the bootimg_dir path correct?" % mbrfile)
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 680f99d381..44442e402d 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -215,6 +215,47 @@ class Wic(WicTestCase):
+                     found, "The kernel image '{}' was not found in the boot partition".format(kimgtype)
+                 )
  
-         full_path = creator._full_path(workdir, disk_name, "direct")
-         logger.debug("Installing MBR on disk %s as %s with size %s bytes",
-                      disk_name, full_path, disk.min_size)
- 
--        dd_cmd = "dd if=%s of=%s conv=notrunc" % (mbrfile, full_path)
--        exec_cmd(dd_cmd, native_sysroot)
-+        if cls.loader == 'grub':
-+            cls._do_install_grub(creator, kernel_dir,
-+                            native_sysroot, full_path)
-+        elif cls.loader == 'syslinux':
-+            cls._do_install_syslinux(creator, bootimg_dir,
-+                            native_sysroot, full_path)
-+        else:
-+            raise WicError("boot loader some how not specified check do_prepare_partition")
- 
-     @classmethod
-     def do_configure_partition(cls, part, source_params, creator, cr_workdir,
-@@ -123,56 +115,16 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         """
-         Called before do_prepare_partition(), creates syslinux config
-         """
--        hdddir = "%s/hdd/boot" % cr_workdir
--
--        install_cmd = "install -d %s" % hdddir
--        exec_cmd(install_cmd)
--
--        bootloader = creator.ks.bootloader
--
--        custom_cfg = None
--        if bootloader.configfile:
--            custom_cfg = get_custom_config(bootloader.configfile)
--            if custom_cfg:
--                # Use a custom configuration for grub
--                syslinux_conf = custom_cfg
--                logger.debug("Using custom configuration file %s "
--                             "for syslinux.cfg", bootloader.configfile)
--            else:
--                raise WicError("configfile is specified but failed to "
--                               "get it from %s." % bootloader.configfile)
- 
--        if not custom_cfg:
--            # Create syslinux configuration using parameters from wks file
--            splash = os.path.join(cr_workdir, "/hdd/boot/splash.jpg")
--            if os.path.exists(splash):
--                splashline = "menu background splash.jpg"
-+        try:
-+            if source_params['loader-bios'] == 'grub':
-+                cls._do_configure_grub_cfg(creator, cr_workdir)
-+            elif source_params['loader-bios'] == 'syslinux':
-+                cls._do_configure_syslinux_cfg(creator, cr_workdir, bootimg_dir)
-             else:
--                splashline = ""
--
--            syslinux_conf = ""
--            syslinux_conf += "PROMPT 0\n"
--            syslinux_conf += "TIMEOUT " + str(bootloader.timeout) + "\n"
--            syslinux_conf += "\n"
--            syslinux_conf += "ALLOWOPTIONS 1\n"
--            syslinux_conf += "SERIAL 0 115200\n"
--            syslinux_conf += "\n"
--            if splashline:
--                syslinux_conf += "%s\n" % splashline
--            syslinux_conf += "DEFAULT boot\n"
--            syslinux_conf += "LABEL boot\n"
--
--            kernel = "/" + get_bitbake_var("KERNEL_IMAGETYPE")
--            syslinux_conf += "KERNEL " + kernel + "\n"
--
--            syslinux_conf += "APPEND label=boot root=%s %s\n" % \
--                             (creator.rootdev, bootloader.append)
--
--        logger.debug("Writing syslinux config %s/hdd/boot/syslinux.cfg",
--                     cr_workdir)
--        cfg = open("%s/hdd/boot/syslinux.cfg" % cr_workdir, "w")
--        cfg.write(syslinux_conf)
--        cfg.close()
-+                raise WicError("unrecognized bootimg_pcbios loader: %s" % source_params['loader-bios'])
-+        except KeyError:
-+            cls._do_configure_syslinux_cfg(creator, cr_workdir, bootimg_dir)
- 
-     @classmethod
-     def do_prepare_partition(cls, part, source_params, creator, cr_workdir,
-@@ -183,70 +135,22 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         'prepares' the partition to be incorporated into the image.
-         In this case, prepare content for legacy bios boot partition.
-         """
--        bootimg_dir = cls._get_bootimg_dir(bootimg_dir, 'syslinux')
--
--        staging_kernel_dir = kernel_dir
- 
--        hdddir = "%s/hdd/boot" % cr_workdir
--
--        kernel = get_bitbake_var("KERNEL_IMAGETYPE")
--        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
--            if get_bitbake_var("INITRAMFS_IMAGE"):
--                kernel = "%s-%s.bin" % \
--                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
--
--        cmds = ("install -m 0644 %s/%s %s/%s" %
--                (staging_kernel_dir, kernel, hdddir, get_bitbake_var("KERNEL_IMAGETYPE")),
--                "install -m 444 %s/syslinux/ldlinux.sys %s/ldlinux.sys" %
--                (bootimg_dir, hdddir),
--                "install -m 0644 %s/syslinux/vesamenu.c32 %s/vesamenu.c32" %
--                (bootimg_dir, hdddir),
--                "install -m 444 %s/syslinux/libcom32.c32 %s/libcom32.c32" %
--                (bootimg_dir, hdddir),
--                "install -m 444 %s/syslinux/libutil.c32 %s/libutil.c32" %
--                (bootimg_dir, hdddir))
--
--        for install_cmd in cmds:
--            exec_cmd(install_cmd)
--
--        du_cmd = "du -bks %s" % hdddir
--        out = exec_cmd(du_cmd)
--        blocks = int(out.split()[0])
--
--        extra_blocks = part.get_extra_block_count(blocks)
--
--        if extra_blocks < BOOTDD_EXTRA_SPACE:
--            extra_blocks = BOOTDD_EXTRA_SPACE
--
--        blocks += extra_blocks
--
--        logger.debug("Added %d extra blocks to %s to get to %d total blocks",
--                     extra_blocks, part.mountpoint, blocks)
--
--        # dosfs image, created by mkdosfs
--        bootimg = "%s/boot%s.img" % (cr_workdir, part.lineno)
--
--        label = part.label if part.label else "boot"
--
--        dosfs_cmd = "mkdosfs -n %s -i %s -S 512 -C %s %d" % \
--                    (label, part.fsuuid, bootimg, blocks)
--        exec_native_cmd(dosfs_cmd, native_sysroot)
--
--        mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
--        exec_native_cmd(mcopy_cmd, native_sysroot)
--
--        syslinux_cmd = "syslinux %s" % bootimg
--        exec_native_cmd(syslinux_cmd, native_sysroot)
--
--        chmod_cmd = "chmod 644 %s" % bootimg
--        exec_cmd(chmod_cmd)
--
--        du_cmd = "du -Lbks %s" % bootimg
--        out = exec_cmd(du_cmd)
--        bootimg_size = out.split()[0]
-+        try:
-+            if source_params['loader-bios'] == 'grub':
-+                cls._do_prepare_grub(part, cr_workdir, oe_builddir,
-+                                kernel_dir, rootfs_dir, native_sysroot)
-+            elif source_params['loader-bios'] == 'syslinux':
-+                cls._do_prepare_syslinux(part, cr_workdir, oe_builddir,
-+                                    bootimg_dir, kernel_dir, native_sysroot)
-+            else:
-+                raise WicError("unrecognized bootimg_pcbios loader: %s" % source_params['loader-bios'])
- 
--        part.size = int(bootimg_size)
--        part.source_file = bootimg
-+            # Required by do_install_disk
-+            cls.loader = source_params['loader-bios']
-+        except KeyError:
-+            # Required by do_install_disk
-+            cls.loader = 'syslinux'
- 
-     @classmethod
-     def _get_staging_libdir(cls):
++    @skipIfNotArch(['x86_64'])
++    def test_grub_install_pcbios(self):
++        """
++        Test the installation of the grub modules + config
++        into the boot directory in the resulting wic image.
++        """
++
++        # create a temporary file for the WKS content
++        with NamedTemporaryFile("w", suffix=".wks") as wks:
++            wks.write(
++                'part --source bootimg_pcbios --sourceparams="loader-bios=grub" '
++                '--offset 1024 --fixed-size 78M --label boot --active\n'
++                'bootloader --ptable msdos --source bootimg_pcbios\n'
++            )
++            wks.flush()
++            # create a temporary directory to extract the disk image to
++            with TemporaryDirectory() as tmpdir:
++                img = "core-image-minimal"
++                config = 'DEPENDS:pn-%s += "grub-native grub"' % (img)
++
++                self.append_config(config)
++                bitbake(img)
++                self.remove_config(config)
++
++                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
++                runCmd(cmd)
++
++                wksname = os.path.splitext(os.path.basename(wks.name))[0]
++                out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
++                self.assertEqual(1, len(out))
++
++                sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
++
++                # Check if grub.cfg is installed
++                result = runCmd("wic ls %s:1/boot/grub -n %s" % (out[0], sysroot))
++                self.assertIn('grub', result.output)
++
++                # Check if normal.mod is installed
++                result = runCmd("wic ls %s:1/boot/grub/i386-pc -n %s" % (out[0], sysroot))
++                self.assertIn('normal', result.output)
++
+     def test_build_image_name(self):
+         """Test wic create wictestdisk --image-name=core-image-minimal"""
+         cmd = "wic create wictestdisk --image-name=core-image-minimal -o %s" % self.resultdir
 -- 
 2.43.0
 
