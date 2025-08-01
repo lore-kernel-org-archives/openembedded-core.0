@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D31A4CA0EDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBFB9CA0EC8
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:00 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.88634.1754057271312997460
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.88633.1754057271163826812
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:07:54 -0700
+ Fri, 01 Aug 2025 07:07:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YqgOz0t1;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=qYRCPiar;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019865f5f150-6bd55c34-f288-486d-abdb-7884301e32cc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UuQqkQ5e;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=p79Zug91;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019865f5e50a-6dc98d5d-8d8d-4bdc-b851-fac56c72a85d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754057273;
+	t=1754057270;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nnRk/EgWSzRfd1ZmH3UmdLK0TVg6a42k5pKXEpYOE6Y=;
-	b=YqgOz0t1WvGlBHfgTinJjXQpH6SGuolMTcZyiRZ858GEVj/LBZ5wiEjLgNx1EM2A
-	2pWURj7UM55fh1BPe+IUvYilhhr5XEA/DvbaDH85Tpx/U+VJXyeTiqvAoZlvmtQpabl
-	iaeITRMmzghh5d8heR0JtaBw+tiwfHRd3C8FFBbI=
+	bh=9tzT+KdPJD/yyFpIaZ/DzNP9iY8VdGVEVQNeszVXD+k=;
+	b=UuQqkQ5eKrjYeDbJDM56YpNuTLUtiurJdxmlTvzBi5P+9KNTCq40inwK2uAV38g5
+	lc9QBAzF5eyaczRnBqIB2/EL6KgOGiL1IiCsQvNL01qB8SAkFad+j5pIHp9Njln9Gw/
+	4pxMpM6EFm8u4PE9ST3tUouUDEXyTLLmdTs4eJcg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057273;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057270;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nnRk/EgWSzRfd1ZmH3UmdLK0TVg6a42k5pKXEpYOE6Y=;
-	b=qYRCPiarrHFoSDfFeiFq8qLJGpCm1/1vsTd805LN0Vo6lRBiTyd3gficczKl8SrC
-	6cwt6oGwev7UDCi+uWpEoSXIMhZwVSECowYtLRzRXKuFMC8licQjChRZsz7Fp/csdIP
-	7hEl8ATgl5GjWp4Q3WDCgwQvQTq154OtYnBgqIpo=
-Content-Type: multipart/mixed; boundary="===============4827129194576703580=="
+	bh=9tzT+KdPJD/yyFpIaZ/DzNP9iY8VdGVEVQNeszVXD+k=;
+	b=p79Zug91BUkWF0hobY71p7aa5KFTDwQxWv3LeEVT3H5NGVKy56tP/Q/yonMZI9/j
+	v0fOVDd6W/aMTO5XJ5rznWw56SuZSUmj1Hm3KCe0rF0u7PiyewIatvlVgEglauUBZQf
+	P2oqU7jlkBceDVZEoIEbxyY6GUJS/3SUDGYwSqIs=
+Content-Type: multipart/mixed; boundary="===============2096356380271955055=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: "zhengrq.fnst" <zhengrq.fnst@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pdm: upgrading to 2.25.5 SUCCEEDED
-Message-ID: <0101019865f5f150-6bd55c34-f288-486d-abdb-7884301e32cc-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Aug 2025 14:07:53 +0000
+Subject: [AUH] python3-booleanpy: upgrading to 5.0 FAILED
+Message-ID: <0101019865f5e50a-6dc98d5d-8d8d-4bdc-b851-fac56c72a85d-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Aug 2025 14:07:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.29
+X-SES-Outgoing: 2025.08.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221279
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221271
 
---===============4827129194576703580==
+--===============2096356380271955055==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,122 +51,86 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pdm* to *2.25.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-booleanpy* to *5.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-pdm-upgrade-2.25.4-2.25.5.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade python3-booleanpy -V 5.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1933 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-2880ec5cc1099da0ce9f60012110fcac51263241"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:2880ec5cc1099da0ce9f60012110fcac51263241"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 23 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 943 .bb files complete (0 cached, 943 parsed). 1934 targets, 42 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-2880ec5cc1099da0ce9f60012110fcac51263241"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:2880ec5cc1099da0ce9f60012110fcac51263241"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801091441.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801091441.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-qr8y5d97/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-qr8y5d97/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-qr8y5d97/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-qr8y5d97/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
+ cipetool-qr8y5d97/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-qr8y5d97/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget --tries=2 --timeout=100 --output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/boolean.py-5.0.tar.gz.tmp --continue --directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz' --progress=dot --verbose failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-qr8y5d97/work/temp/log.do_fetch.1563718
+ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 0cb7d3a0f1a9d2d674c22d66a5daeee41c286fbd Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Aug 2025 10:02:10 +0000
-Subject: [PATCH] python3-pdm: upgrade 2.25.4 -> 2.25.5
-
----
- .../python/{python3-pdm_2.25.4.bb => python3-pdm_2.25.5.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pdm_2.25.4.bb => python3-pdm_2.25.5.bb} (82%)
-
-diff --git a/meta/recipes-devtools/python/python3-pdm_2.25.4.bb b/meta/recipes-devtools/python/python3-pdm_2.25.5.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-pdm_2.25.4.bb
-rename to meta/recipes-devtools/python/python3-pdm_2.25.5.bb
-index 1e25e18974..53a966e150 100644
---- a/meta/recipes-devtools/python/python3-pdm_2.25.4.bb
-+++ b/meta/recipes-devtools/python/python3-pdm_2.25.5.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
- 
--SRC_URI[sha256sum] = "bd655d789429928d6e27ff6693c19c82bc81aa75ba51d7b1c6102d039c8f211c"
-+SRC_URI[sha256sum] = "063fa211dd6b062d3ca87b722e4010b802093d8b437486bfcf07ced802c544ea"
- 
- inherit pypi python_setuptools_build_meta
- 
--- 
-2.47.1
-
-
---===============4827129194576703580==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-pdm: PKGV changed from 2.25.4 [default] to 2.25.5 [default]
-packages/core2-64-poky-linux/python3-pdm: PV changed from "2.25.4" to "2.25.5"
-packages/core2-64-poky-linux/python3-pdm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.25.4.tar.gz;downloadfilename=pdm-2.25.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.25.5.tar.gz;downloadfilename=pdm-2.25.5.tar.gz"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dbg: PKGV changed from 2.25.4 [default] to 2.25.5 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dbg: PV changed from "2.25.4" to "2.25.5"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dev: PKGV changed from 2.25.4 [default] to 2.25.5 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-dev: PV changed from "2.25.4" to "2.25.5"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-doc: PKGV changed from 2.25.4 [default] to 2.25.5 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-doc: PV changed from "2.25.4" to "2.25.5"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-locale: PKGV changed from 2.25.4 [default] to 2.25.5 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-locale: PV changed from "2.25.4" to "2.25.5"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-src: PKGV changed from 2.25.4 [default] to 2.25.5 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-src: PV changed from "2.25.4" to "2.25.5"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-staticdev: PKGV changed from 2.25.4 [default] to 2.25.5 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm-staticdev: PV changed from "2.25.4" to "2.25.5"
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: PKGV changed from 2.25.4 [default] to 2.25.5 [default]
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: PKGSIZE changed from 2239953 to 2240640 (+0%)
-packages/core2-64-poky-linux/python3-pdm/python3-pdm: PV changed from "2.25.4" to "2.25.5"
-Changes to packages/core2-64-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.13/site-packages/pdm-2.25.4.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.25.5.dist-info
-
---===============4827129194576703580==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.13/site-packages/pdm-2.25.4.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.25.5.dist-info
-
---===============4827129194576703580==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pdm-upgrade-2.25.4-2.25.5.patch"
-
-RnJvbSAwY2I3ZDNhMGYxYTlkMmQ2NzRjMjJkNjZhNWRhZWVlNDFjMjg2ZmJkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMDowMjoxMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcGRtOiB1cGdyYWRlIDIuMjUuNCAtPiAyLjI1LjUKCi0tLQogLi4uL3B5dGhvbi97cHl0
-aG9uMy1wZG1fMi4yNS40LmJiID0+IHB5dGhvbjMtcGRtXzIuMjUuNS5iYn0gICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1wZG1fMi4yNS40LmJiID0+IHB5dGhv
-bjMtcGRtXzIuMjUuNS5iYn0gKDgyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuNC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1wZG1fMi4yNS41LmJiCnNpbWlsYXJpdHkgaW5kZXggODIlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wZG1fMi4yNS40LmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuNS5i
-YgppbmRleCAxZTI1ZTE4OTc0Li41M2E5NjZlMTUwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuNS5iYgpAQCAtNCw3ICs0LDcgQEAgTElD
-RU5TRSA9ICJNSVQiCiBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIKIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTJlYjMxYTJjYzFhNzU4YzM0YjQ5OWYyODdkZDA0ZWYyIgog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYmQ2NTVkNzg5NDI5OTI4ZDZlMjdmZjY2OTNjMTljODJi
-YzgxYWE3NWJhNTFkN2IxYzYxMDJkMDM5YzhmMjExYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIw
-NjNmYTIxMWRkNmIwNjJkM2NhODdiNzIyZTQwMTBiODAyMDkzZDhiNDM3NDg2YmZjZjA3Y2VkODAy
-YzU0NGVhIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YQogCi0t
-IAoyLjQ3LjEKCg==
-
---===============4827129194576703580==--
+--===============2096356380271955055==--
 
