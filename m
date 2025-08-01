@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEBD1CA0FE7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5680CA0FE8
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:14 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.88616.1754057261605930845
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.88802.1754057268084825453
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:08:02 -0700
+ Fri, 01 Aug 2025 07:08:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jIB/11+0;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dLJln86b;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019865f611a1-55c543fb-42f8-48eb-8474-723c6b69687b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=iemnKRjh;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=UU2O5Lgf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019865f61963-f2ec6f40-6409-4609-b94d-b7a8f02a8faa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754057282;
+	t=1754057284;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iR+wH96Lupu1VJCTO4loCL2cWVl+yJ44r5MObZaHwJQ=;
-	b=jIB/11+0cruk/Dv5aV5swyAR+0nKY5nlBd47ZaaEtqBNrtfM5MM+2VkIN1NDH1SN
-	Dg/M2+f23r/kzvPygh7GKDPoPEKh2ByoZIn1pGNoi6HvWdpvo9DpiLmkkyyQ+CMWJs8
-	5VLun29dTqSZ0gtIBpHXcmpfBHKb0VJjYbrP92EA=
+	bh=MxhpWXBZPXxVIhe0Tkzuex7LE241UhQgWfhlT5Pc9/8=;
+	b=iemnKRjhMykafcTsbmivdlZeocRYcvQf0pXP1fALI2iobslsNz5L9YqcnjRYjMB/
+	L3fNdzYEMSWE+XMTrTcaZ3q2kxx87s1v2Hp0RmSZNO+XvPuhAJeQeUt5sIY2Sh3B+1T
+	2jocURqSvE1EbtPJw1vNFM8D4PhgjRp0OCOQw1Ww=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057282;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057284;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iR+wH96Lupu1VJCTO4loCL2cWVl+yJ44r5MObZaHwJQ=;
-	b=dLJln86bT8r0wHeILDDDhqN4Y5bGwfkUdY4vyqUy0tehx9FVbaBIXoQISk7VT2VH
-	I5vD3upL51miy0RnZg/NwCYK0IbfNPN14HwRmUux9/sNNKfh+9K+/FX7NWY8hg0qcvF
-	FuttPW0McZtLN2dll3c6b2PCAazN9WNS84efeLdE=
-Content-Type: multipart/mixed; boundary="===============7292891166195082539=="
+	bh=MxhpWXBZPXxVIhe0Tkzuex7LE241UhQgWfhlT5Pc9/8=;
+	b=UU2O5LgfRn68M4JH/1rWDFxBvE/4/Lob1DJRYU0gp/VOMkNnUi+U7a4gQ8/P54tv
+	n92YGe0eQUwdoS4y8vHQJBHsKg+ngKBHG0oPam8b5qSe/nZvPm+qObKIXSY+MD/aVSg
+	R0pzGCqz9aCGiPgvfzO4H13iG8ws0CsJlIszXirk=
+Content-Type: multipart/mixed; boundary="===============5448179866221054664=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] igt-gpu-tools: upgrading to 2.1 FAILED
-Message-ID: <0101019865f611a1-55c543fb-42f8-48eb-8474-723c6b69687b-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Aug 2025 14:08:01 +0000
+Subject: [AUH] vulkan-samples: upgrading to
+ fb5c2f323a5e15880a21a18497110cfae5c301d3 FAILED
+Message-ID: <0101019865f61963-f2ec6f40-6409-4609-b94d-b7a8f02a8faa-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Aug 2025 14:08:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.31
+X-SES-Outgoing: 2025.08.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221310
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221316
 
---===============7292891166195082539==
+--===============5448179866221054664==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +52,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *igt-gpu-tools* to *2.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *vulkan-samples* to *fb5c2f323a5e15880a21a18497110cfae5c301d3* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe igt-gpu-tools failed.
+The following devtool command failed:  upgrade vulkan-samples -S fb5c2f323a5e15880a21a18497110cfae5c301d3
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1933 entries from dependency cache.
@@ -68,13 +69,13 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-d0b1bdbd4f2db54177b9abf6dd3e186fd3c37ca5"
+DISTRO_VERSION       = "5.2.99+snapshot-94ca4ff153ee90808fed9cc181f1c9d096c3998e"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:d0b1bdbd4f2db54177b9abf6dd3e186fd3c37ca5"
+workspace            = "tmp-auh-upgrades:94ca4ff153ee90808fed9cc181f1c9d096c3998e"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 23 (100% match, 100% complete)
@@ -83,16 +84,16 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 4871829d8b7117553eb2dc1bdb9a0d18de428a98
-WARNING: Command 'git rebase 4871829d8b7117553eb2dc1bdb9a0d18de428a98' failed:
-Auto-merging lib/igt_aux.c
-CONFLICT (content): Merge conflict in lib/igt_aux.c
+INFO: Rebasing devtool onto fb5c2f323a5e15880a21a18497110cfae5c301d3
+WARNING: Command 'git rebase fb5c2f323a5e15880a21a18497110cfae5c301d3' failed:
+CONFLICT (modify/delete): third_party/glslang deleted in HEAD and modified in 4e28ce4 (Add changes from do_patch).  Version 4e28ce4 (Add changes from do_patch) of third_party/glslang left in tree.
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/igt-gpu-tools
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/igt-gpu-tools/igt-gpu-tools_2.1.bb
+ERROR: Execution of 'git checkout devtool' failed with exit code 1:
+error: you need to resolve your current index first
+third_party/glslang: needs merge
 
 
 
@@ -101,5 +102,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7292891166195082539==--
+--===============5448179866221054664==--
 
