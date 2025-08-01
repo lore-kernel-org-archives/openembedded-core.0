@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDD55CA0ED1
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:12 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.88802.1754057268084825453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F72CCA0EF9
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:08:13 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.88618.1754057264357149762
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:08:09 -0700
+ Fri, 01 Aug 2025 07:08:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GLbbE6z6;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=GVvl1QGj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019865f62e06-e78d4d3d-1649-4bd1-ae65-be09b405e54c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vBDp6MNY;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=qBbhm2bm;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019865f616ee-fb09479e-c8ea-4afe-a9c4-4521efe815ee-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754057289;
+	t=1754057283;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2u38ssHdB1ZADSIXhedN+11gel0A0mn69jV63Msl6BM=;
-	b=GLbbE6z68nfBhTgKhdLw/7/be2+IxP7aMK68Hkc1/DSBvq4hUzr9bzRI/HsZUqUH
-	oGuGPzgpXA3QeXpAIPPU7akKFxprUQ63fJDapMtqG/KkKpPQl7HtJdp4gRJ84dXGhRS
-	Ts3BZya9Ut5Btraq02jrtgEEsA7M9lrTVxz9MHCo=
+	bh=yFpR+4R5XlKs+sBroxYmxWPwF5KLdBzhqdk+0EhcL2A=;
+	b=vBDp6MNYy7pafsmmYGd/H1IMxftWQetq+nxvvqqWOKArbArXNbxfxuzs3brDzdce
+	lZCuaXE8W50i+Yi18PFWI1QiOvB6nFWEvAxRrucfjEy/+zPwttNZAVBXPg/nneTNtTf
+	+ReH0j9J2ZOubSZ5mauCfIwzQYWHt7ITJWENPIWw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057289;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057283;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2u38ssHdB1ZADSIXhedN+11gel0A0mn69jV63Msl6BM=;
-	b=GVvl1QGjJgocYt8EL8XC5GavLdc5UffukjMT8TG/PYpQuQ2AULlhRMHO2hzVG0IN
-	qSQbRKSyOC4UgPMUeSPkslkN/6a8K0Cm9e/Qo2z19GkSthOkp4Fo2aUiUnHiXbQLkVB
-	hqZxS1tIQpg+FvMlrbKEO3hJwxNhY3b/sMdUbr9o=
-Content-Type: multipart/mixed; boundary="===============7229700167668879003=="
+	bh=yFpR+4R5XlKs+sBroxYmxWPwF5KLdBzhqdk+0EhcL2A=;
+	b=qBbhm2bmiSLbRyM7HQBEs3TOGPU/jWpozBCcC29NNh4ge6n28BovQ7nuGJ/nvhBw
+	xA7gYrE9gU8U6OAOT2u6fKXacP66AjhmGjYXLb/QaKP4mlHK9E38HXDpj9HFoJWCv+Z
+	NO/gCIshwnOTzMSrbwqgb64ndmzbLAFjkaHzBuAU=
+Content-Type: multipart/mixed; boundary="===============0345163080913107802=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-vaapi: upgrading to 1.26.4 SUCCEEDED
-Message-ID: <0101019865f62e06-e78d4d3d-1649-4bd1-ae65-be09b405e54c-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Aug 2025 14:08:09 +0000
+Subject: [AUH] vulkan-headers: upgrading to 1.4.321.0 SUCCEEDED
+Message-ID: <0101019865f616ee-fb09479e-c8ea-4afe-a9c4-4521efe815ee-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Aug 2025 14:08:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.193
+X-SES-Outgoing: 2025.08.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221331
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:08:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221313
 
---===============7229700167668879003==
+--===============0345163080913107802==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-vaapi* to *1.26.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *vulkan-headers* to *1.4.321.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-vaapi-upgrade-1.26.3-1.26.4.patch
+    - apply the patch: git am 0001-vulkan-headers-upgrade-1.4.313.0-1.4.321.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,95 +72,111 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 845205139ebdfc350eb8cd01f8dc4d85e2431393 Mon Sep 17 00:00:00 2001
+From 78a5a4a88b74be9b8824351af206dbaf3d173375 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Aug 2025 12:35:01 +0000
-Subject: [PATCH] gstreamer1.0-vaapi: upgrade 1.26.3 -> 1.26.4
+Date: Fri, 1 Aug 2025 11:47:59 +0000
+Subject: [PATCH] vulkan-headers: upgrade 1.4.313.0 -> 1.4.321.0
 
 ---
- ...streamer1.0-vaapi_1.26.3.bb => gstreamer1.0-vaapi_1.26.4.bb} | 2 +-
+ ...{vulkan-headers_1.4.313.0.bb => vulkan-headers_1.4.321.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.26.3.bb => gstreamer1.0-vaapi_1.26.4.bb} (95%)
+ rename meta/recipes-graphics/vulkan/{vulkan-headers_1.4.313.0.bb => vulkan-headers_1.4.321.0.bb} (95%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.4.bb
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.313.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.321.0.bb
 similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.3.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.4.bb
-index 98eba8bcdb..eb3f54bfc2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.26.4.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+rename from meta/recipes-graphics/vulkan/vulkan-headers_1.4.313.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-headers_1.4.321.0.bb
+index 1136e4795a..b3413b0e6b 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.313.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.321.0.bb
+@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0 & MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
+ SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+-SRCREV = "409c16be502e39fe70dd6fe2d9ad4842ef2c9a53"
++SRCREV = "2cd90f9d20df57eac214c148f3aed885372ddcfe"
  
--SRC_URI[sha256sum] = "2d643fbd1420297da5a4d6945d11f0a5b4f82feea54ea6aec9368d42995d8b03"
-+SRC_URI[sha256sum] = "0d51b6323327c1c44692a0364df4b9cbed549dd594b71791644dae95790ebbd7"
+ inherit cmake
  
- S = "${UNPACKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.47.1
 
 
---===============7229700167668879003==
+--===============0345163080913107802==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dbg: PV changed from "1.26.3" to "1.26.4"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dbg: PKGV changed from 1.26.3 [default] to 1.26.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dev: PV changed from "1.26.3" to "1.26.4"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-dev: PKGV changed from 1.26.3 [default] to 1.26.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-doc: PV changed from "1.26.3" to "1.26.4"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-doc: PKGV changed from 1.26.3 [default] to 1.26.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-locale: PV changed from "1.26.3" to "1.26.4"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-locale: PKGV changed from 1.26.3 [default] to 1.26.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-src: PV changed from "1.26.3" to "1.26.4"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-src: PKGV changed from 1.26.3 [default] to 1.26.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-staticdev: PV changed from "1.26.3" to "1.26.4"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-staticdev: PKGV changed from 1.26.3 [default] to 1.26.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-tests: PV changed from "1.26.3" to "1.26.4"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi-tests: PKGV changed from 1.26.3 [default] to 1.26.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi: PV changed from "1.26.3" to "1.26.4"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi/gstreamer1.0-vaapi: PKGV changed from 1.26.3 [default] to 1.26.4 [default]
-packages/core2-64-poky-linux/gstreamer1.0-vaapi: PV changed from "1.26.3" to "1.26.4"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gstreamer-vaapi/gstreamer-vaapi-1.26.3.tar.xz" to "https://gstreamer.freedesktop.org/src/gstreamer-vaapi/gstreamer-vaapi-1.26.4.tar.xz"
-packages/core2-64-poky-linux/gstreamer1.0-vaapi: PKGV changed from 1.26.3 [default] to 1.26.4 [default]
+packages/core2-64-poky-linux/vulkan-headers: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
+packages/core2-64-poky-linux/vulkan-headers: PV changed from "1.4.313.0" to "1.4.321.0"
+Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
+  /usr/share/vulkan/registry/vk.xml changed permissions from rwxr-xr-x to rw-r--r--
+  /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h was added
+  /usr/include/vk_video/vulkan_video_codec_vp9std.h was added
+  /usr/include/vulkan/vulkan_ohos.h was added
+  /usr/include/vulkan/vulkan_video.cppm was added
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PV changed from "1.4.313.0" to "1.4.321.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vk_video/vulkan_video_codec_vp9std_decode.h /usr/include/vulkan/vulkan_video.cppm /usr/include/vulkan/vulkan_ohos.h /usr/include/vk_video/vulkan_video_codec_vp9std.h"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGSIZE changed from 18496847 to 19343148 (+5%)
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PV changed from "1.4.313.0" to "1.4.321.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PV changed from "1.4.313.0" to "1.4.321.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PV changed from "1.4.313.0" to "1.4.321.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PV changed from "1.4.313.0" to "1.4.321.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PV changed from "1.4.313.0" to "1.4.321.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGV changed from 1.4.313.0 [default] to 1.4.321.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGSIZE changed from 13896032 to 14305242 (+3%)
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PV changed from "1.4.313.0" to "1.4.321.0"
 
---===============7229700167668879003==
+--===============0345163080913107802==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-vaapi-upgrade-1.26.3-1.26.4.patch"
+ filename="0001-vulkan-headers-upgrade-1.4.313.0-1.4.321.0.patch"
 
-RnJvbSA4NDUyMDUxMzllYmRmYzM1MGViOGNkMDFmOGRjNGQ4NWUyNDMxMzkzIE1vbiBTZXAgMTcg
+RnJvbSA3OGE1YTRhODhiNzRiZTliODgyNDM1MWFmMjA2ZGJhZjNkMTczMzc1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMjozNTowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC12YWFwaTogdXBncmFkZSAxLjI2LjMgLT4gMS4yNi40CgotLS0KIC4uLnN0cmVh
-bWVyMS4wLXZhYXBpXzEuMjYuMy5iYiA9PiBnc3RyZWFtZXIxLjAtdmFhcGlfMS4yNi40LmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVhbWVyMS4wLXZhYXBp
-XzEuMjYuMy5iYiA9PiBnc3RyZWFtZXIxLjAtdmFhcGlfMS4yNi40LmJifSAoOTUlKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtdmFh
-cGlfMS4yNi4zLmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
-cjEuMC12YWFwaV8xLjI2LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC12YWFwaV8xLjI2LjMu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIx
-LjAtdmFhcGlfMS4yNi40LmJiCmluZGV4IDk4ZWJhOGJjZGIuLmViM2Y1NGJmYzIgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtdmFhcGlf
-MS4yNi4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
-ZXIxLjAtdmFhcGlfMS4yNi40LmJiCkBAIC0xMSw3ICsxMSw3IEBAIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkcuTElCO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2
-YyIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjLyR7
-UkVBTFBOfS8ke1JFQUxQTn0tJHtQVn0udGFyLnh6IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-MmQ2NDNmYmQxNDIwMjk3ZGE1YTRkNjk0NWQxMWYwYTViNGY4MmZlZWE1NGVhNmFlYzkzNjhkNDI5
-OTVkOGIwMyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwZDUxYjYzMjMzMjdjMWM0NDY5MmEwMzY0
-ZGY0YjljYmVkNTQ5ZGQ1OTRiNzE3OTE2NDRkYWU5NTc5MGViYmQ3IgogCiBTID0gIiR7VU5QQUNL
-RElSfS8ke1JFQUxQTn0tJHtQVn0iCiBERVBFTkRTID0gImxpYnZhIGdzdHJlYW1lcjEuMCBnc3Ry
-ZWFtZXIxLjAtcGx1Z2lucy1iYXNlIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZCIKLS0gCjIuNDcu
-MQoK
+CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAxMTo0Nzo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
+bGthbi1oZWFkZXJzOiB1cGdyYWRlIDEuNC4zMTMuMCAtPiAxLjQuMzIxLjAKCi0tLQogLi4ue3Z1
+bGthbi1oZWFkZXJzXzEuNC4zMTMuMC5iYiA9PiB2dWxrYW4taGVhZGVyc18xLjQuMzIxLjAuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi97dnVsa2FuLWhlYWRlcnNfMS40LjMx
+My4wLmJiID0+IHZ1bGthbi1oZWFkZXJzXzEuNC4zMjEuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zMTMuMC5i
+YiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS40LjMyMS4w
+LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGlj
+cy92dWxrYW4vdnVsa2FuLWhlYWRlcnNfMS40LjMxMy4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zMjEuMC5iYgppbmRleCAxMTM2
+ZTQ3OTVhLi5iMzQxM2IwZTZiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVs
+a2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zMTMuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuNC4zMjEuMC5iYgpAQCAtMTEsNyArMTEsNyBAQCBM
+SUNFTlNFID0gIkFwYWNoZS0yLjAgJiBNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
+SUNFTlNFLm1kO21kNT0xYmMzNTVkOGM0MTk2Zjc3NGM4Yjg3ZWQxYThkZDYyNSIKIFNSQ19VUkkg
+PSAiZ2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvVnVsa2FuLUhlYWRlcnMuZ2l0O2JyYW5j
+aD1tYWluO3Byb3RvY29sPWh0dHBzIgogCi1TUkNSRVYgPSAiNDA5YzE2YmU1MDJlMzlmZTcwZGQ2
+ZmUyZDlhZDQ4NDJlZjJjOWE1MyIKK1NSQ1JFViA9ICIyY2Q5MGY5ZDIwZGY1N2VhYzIxNGMxNDhm
+M2FlZDg4NTM3MmRkY2ZlIgogCiBpbmhlcml0IGNtYWtlCiAKLS0gCjIuNDcuMQoK
 
---===============7229700167668879003==--
+--===============0345163080913107802==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
+  /usr/share/vulkan/registry/vk.xml changed permissions from rwxr-xr-x to rw-r--r--
+  /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h was added
+  /usr/include/vk_video/vulkan_video_codec_vp9std.h was added
+  /usr/include/vulkan/vulkan_ohos.h was added
+  /usr/include/vulkan/vulkan_video.cppm was added
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: FILELIST: added "/usr/include/vulkan/vulkan_video.cppm /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h /usr/include/vk_video/vulkan_video_codec_vp9std.h /usr/include/vulkan/vulkan_ohos.h"
+
+--===============0345163080913107802==--
 
