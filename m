@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9104ACA0EC7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C90CA0EC5
 	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:07:49 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.88808.1754057268481398641
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.88629.1754057268399332155
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Aug 2025 07:07:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=d9btQjgk;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WbDmAEvt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019865f5d98a-daeb615e-1426-4bdf-8893-a0d34969c3c8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=j9JQOBCh;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=f0DYJmFH;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019865f5d9b7-0984db27-b5ef-41d5-9630-be42ec84478b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1754057267;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=WZWrR827ENxTWSxYF6qkQUvyCNih5KgPhN7kOvpIwGs=;
-	b=d9btQjgkLjEoK5dNiX5Ijpfi+EGj2miPc6FPEViGksBUqudhNPuWd1DTHMbfaE9r
-	tGJew2sCvswoX9zvl60TaWHS5EvIfAKjeyW7eG+pO62cPoWyAu5sIsz+k/v82keY/qq
-	F62nDoc8hku23D2rqfs5XJL0e+yOJBu8A/KloBLg=
+	bh=ad4NvTWULg8kJBokfGiKzP/dQjnlpoh3oC200TaRC5Y=;
+	b=j9JQOBChDIeiJQ2FZfdQYOmRvQqnfWhwdQf/p9tm80Bbb/+ZP1qyI6hqrzCp6o2U
+	DRlm21mfBsBbv4jafSYiFoXBSC4/ntVD5rIDy03SVGo3w466Cl6C/apZMCxfoJjmtt5
+	dNjrMVbms6dc59iWRUwvjX913Ypi0SBwym5FpS+Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754057267;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=WZWrR827ENxTWSxYF6qkQUvyCNih5KgPhN7kOvpIwGs=;
-	b=WbDmAEvtTH5EkfPY9qK2iSraxzYNDwqaV+oILVsQVhYAkfFHA1zYEH8gdyYqdgeE
-	CVvDQ2LR26A3xvbR+PDfMTraOiJZ9WAMs7rzpCRlWwqglL9OiZJbjUhYVNYU8R3Sir3
-	PRzXSg9Gaj9XvIeyx9zVQ2i1k/vF8MDQ+LdA+oKU=
-Content-Type: multipart/mixed; boundary="===============7489445217976318673=="
+	bh=ad4NvTWULg8kJBokfGiKzP/dQjnlpoh3oC200TaRC5Y=;
+	b=f0DYJmFHLXJznCn65YduYSmUBOWZKpcqi6/3DGdKZTc+IPjCc41J/wkeYDZ+rcQg
+	7n65FXVKxLlXru9OfCqE9m+x4E5/CZSG9+cJO0kz4kogptdYcRkPSoJf9ArrN52bKOs
+	vKQmbWPlAPVoxblHSvnjS1uiUlntE5pCrRUnBvHA=
+Content-Type: multipart/mixed; boundary="===============4133422508841823185=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ofono: upgrading to 2.18 FAILED
-Message-ID: <0101019865f5d98a-daeb615e-1426-4bdf-8893-a0d34969c3c8-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] bind: upgrading to 9.20.11 SUCCEEDED
+Message-ID: <0101019865f5d9b7-0984db27-b5ef-41d5-9630-be42ec84478b-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Aug 2025 14:07:47 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.01-54.240.27.23
+X-SES-Outgoing: 2025.08.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:07:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221263
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221262
 
---===============7489445217976318673==
+--===============4133422508841823185==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ofono* to *2.18* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *bind* to *9.20.11* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ofono-upgrade-2.17-2.18.patch
+    - apply the patch: git am 0001-bind-upgrade-9.20.10-9.20.11.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,321 +72,305 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From da7088707a8349dc47e54884b443204fc497decf Mon Sep 17 00:00:00 2001
+From 3de2db783625bbc5d1e4847a3e5f956122cbea22 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Aug 2025 08:43:15 +0000
-Subject: [PATCH] ofono: upgrade 2.17 -> 2.18
+Date: Fri, 1 Aug 2025 08:26:15 +0000
+Subject: [PATCH] bind: upgrade 9.20.10 -> 9.20.11
 
 ---
- .../recipes-connectivity/ofono/{ofono_2.17.bb => ofono_2.18.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/ofono/{ofono_2.17.bb => ofono_2.18.bb} (95%)
+ .../bind/bind/0001-avoid-start-failure-with-bind-user.patch   | 2 +-
+ ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 4 ++--
+ ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 4 ++--
+ meta/recipes-connectivity/bind/bind/conf.patch                | 2 +-
+ .../bind/bind/init.d-add-support-for-read-only-rootfs.patch   | 2 +-
+ .../bind/bind/make-etc-initd-bind-stop-work.patch             | 2 +-
+ .../bind/{bind_9.20.10.bb => bind_9.20.11.bb}                 | 2 +-
+ 7 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.20.10.bb => bind_9.20.11.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono_2.17.bb b/meta/recipes-connectivity/ofono/ofono_2.18.bb
-similarity index 95%
-rename from meta/recipes-connectivity/ofono/ofono_2.17.bb
-rename to meta/recipes-connectivity/ofono/ofono_2.18.bb
-index 36bbe9439a..e2666b3e7e 100644
---- a/meta/recipes-connectivity/ofono/ofono_2.17.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_2.18.bb
-@@ -10,7 +10,7 @@ DEPENDS = "dbus glib-2.0 udev mobile-broadband-provider-info ell"
- SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-            file://ofono \
+diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
+index 78ab6b87fc..afb09f40a2 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
+@@ -1,4 +1,4 @@
+-From c70f74164bea8a8c54c03becffb2f21103dd1f31 Mon Sep 17 00:00:00 2001
++From f7e8be34d49cf4bcf5b44eb9c8c9c3e3304eec0f Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 15 Oct 2018 16:55:09 +0800
+ Subject: [PATCH] avoid start failure with bind user
+diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+index 53e439721f..c1f2291b4b 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+@@ -1,4 +1,4 @@
+-From 0dd67d85705cbcfa9a2759c46f3cdf3d0d6375de Mon Sep 17 00:00:00 2001
++From 085f8c4bebfbbd0ec5a68d8cbc1d8ada78db36da Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Mon, 27 Aug 2018 21:24:20 +0800
+ Subject: [PATCH] `named/lwresd -V' and start log hide build options
+@@ -20,7 +20,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index f9cf4a4..0ce3d26 100644
++index 8700f81..102d8fa 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTRA]["], [BIND 9 Extra par
+diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+index 38d208fc1c..d6480dbd37 100644
+--- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
++++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+@@ -1,4 +1,4 @@
+-From 8c9c817933eef20328f10237bbd964580db0a3ad Mon Sep 17 00:00:00 2001
++From 456b454e0456a11ab118084ef2311c7b1cd8ba8b Mon Sep 17 00:00:00 2001
+ From: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Date: Tue, 9 Jun 2015 11:22:00 -0400
+ Subject: [PATCH] bind: ensure searching for json headers searches sysroot
+@@ -32,7 +32,7 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 334b551..f9cf4a4 100644
++index f25c368..8700f81 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -863,7 +863,7 @@ AS_CASE([$with_lmdb],
+diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
+index 102fe46ffe..f8f978dec9 100644
+--- a/meta/recipes-connectivity/bind/bind/conf.patch
++++ b/meta/recipes-connectivity/bind/bind/conf.patch
+@@ -1,4 +1,4 @@
+-From 83a892af19bf1455ce7132350332ed6d7f1e2b94 Mon Sep 17 00:00:00 2001
++From 94a9914a6c2b7ca9dac5be9600e83d68ed6d03c5 Mon Sep 17 00:00:00 2001
+ From: Qing He <qing.he@intel.com>
+ Date: Tue, 30 Nov 2010 13:35:42 +0800
+ Subject: [PATCH] bind: add new recipe
+diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
+index 984d401c70..f4b1281532 100644
+--- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
++++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
+@@ -1,4 +1,4 @@
+-From 1393cbf6b0084128fdfc9b5afb3bcc307265d094 Mon Sep 17 00:00:00 2001
++From 142b1a5dbf2935c848c49becfa71421a3ab0fd20 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Thu, 27 Mar 2014 02:34:41 +0000
+ Subject: [PATCH] init.d: add support for read-only rootfs
+diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+index 74f2ef83a0..b883fd1402 100644
+--- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
++++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
+@@ -1,4 +1,4 @@
+-From ce06506bb3fe661e03161af3a603bd228590a254 Mon Sep 17 00:00:00 2001
++From 9438376167b00a3b4ecda093e956eee47c97e7ef Mon Sep 17 00:00:00 2001
+ From: Roy Li <rongqing.li@windriver.com>
+ Date: Thu, 15 Nov 2012 02:27:54 +0000
+ Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
+diff --git a/meta/recipes-connectivity/bind/bind_9.20.10.bb b/meta/recipes-connectivity/bind/bind_9.20.11.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.20.10.bb
+rename to meta/recipes-connectivity/bind/bind_9.20.11.bb
+index 32f0bdf7b5..8d230f6e95 100644
+--- a/meta/recipes-connectivity/bind/bind_9.20.10.bb
++++ b/meta/recipes-connectivity/bind/bind_9.20.11.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
             "
--SRC_URI[sha256sum] = "70bb50997d3a7657edf133355677f8e04b2158bcb031118a67b296107f6ea73e"
-+SRC_URI[sha256sum] = "f74c3bba7ebac488fed7bcfa6113b0e39e723d2e1a24b53f79c9f18a1c85dd00"
  
- inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
+-SRC_URI[sha256sum] = "0fb3ba2c337bb488ca68f5df296c435cd255058fb63d0822e91db0235c905716"
++SRC_URI[sha256sum] = "4da2d532e668bc21e883f6e6d9d3d81794d9ec60b181530385649a56f46ee17a"
  
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
 2.47.1
 
 
---===============7489445217976318673==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1933 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 942 .bb files complete (941 cached, 1 parsed). 1933 targets, 42 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-84ebfc0a0c9edef127eda3d0f4e587919bb10093"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:84ebfc0a0c9edef127eda3d0f4e587919bb10093"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 420 Local 406 Mirrors 0 Missed 14 Current 620 (96% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 779 of 1040 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.78.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 824 of 1040 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.83.bb:do_create_spdx_setscene)
-NOTE: recipe ell-0.78-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bluez5-5.83-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ell-0.78-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bluez5-5.83-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 931 of 1040 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_257.6.bb:do_create_spdx_setscene)
-NOTE: recipe systemd-1_257.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe systemd-1_257.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1686 of 2850 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_recipe_qa)
-NOTE: Setscene tasks completed
-NOTE: recipe ofono-2.18-r0: task do_recipe_qa: Started
-NOTE: recipe ofono-2.18-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2822 of 2850 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_fetch)
-NOTE: recipe ofono-2.18-r0: task do_fetch: Started
-NOTE: recipe ofono-2.18-r0: task do_fetch: Succeeded
-NOTE: Running task 2832 of 2850 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_unpack)
-NOTE: Running task 2833 of 2850 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ofono-2.18-r0: task do_unpack: Started
-NOTE: recipe ofono-2.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ofono-2.18-r0: task do_unpack: Succeeded
-NOTE: Running task 2834 of 2850 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_patch)
-NOTE: Running task 2835 of 2850 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_collect_spdx_deps)
-NOTE: recipe ofono-2.18-r0: task do_patch: Started
-NOTE: recipe ofono-2.18-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ofono-2.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ofono-2.18-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ofono-2.18-r0: task do_patch: Succeeded
-NOTE: Running task 2836 of 2850 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2837 of 2850 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_populate_lic)
-NOTE: recipe ofono-2.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ofono-2.18-r0: task do_populate_lic: Started
-NOTE: recipe ofono-2.18-r0: task do_populate_lic: Succeeded
-NOTE: recipe ofono-2.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2838 of 2850 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_configure)
-NOTE: recipe ofono-2.18-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.83.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_20250613.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.78.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.84.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.41.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd-systemctl-native_257.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd
- /systemd_257.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-native_2.5.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf_2.72.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/automake/automake_1.17.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/
- build/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.8.1.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['bluez5', 'mobile-broadband-provider-info', 'openssl', 'base-files', 'base-passwd', 'dbus', 'ell', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd-systemctl-native', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-cross', 'libtool-native', 'm4-native', 'opkg-utils', 'python3-setuptools', 'python3', 'quilt-native', 'vala', 'bzip2', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gobject-introspection', 'wayland-protocols', 'wayland', 'libice', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdmcp', 'libxkbcommon', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'acl', 'attr', 'bash-completion', 'gdbm', 'icu', 'libcap-ng', 'libcap', 'libffi
- ', 'libical', 'libpcre2', 'libseccomp', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'autoconf-native', 'automake-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-jinja2-native', 'python3-markupsafe-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libcap-ng-native', 'libcap-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing python function autotools_sitefiles
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Python function autotools_sitefiles finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Removing existing aclocal.m4
-| NOTE: Executing ACLOCAL="aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot/usr/share/aclocal/" autoreconf -Wcross --verbose --install --force --exclude=autopoint
-| autoreconf: export WARNINGS=cross,no-obsolete
-| autoreconf: Entering directory '.'
-| autoreconf: configure.ac: not using Gettext
-| autoreconf: running: aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot/usr/share/aclocal/ --force -I build-aux
-| autoreconf: configure.ac: tracing
-| autoreconf: running: libtoolize --copy --force
-| libtoolize: putting auxiliary files in AC_CONFIG_AUX_DIR, 'build-aux'.
-| libtoolize: copying file 'build-aux/ltmain.sh'
-| libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'build-aux'.
-| libtoolize: copying file 'build-aux/libtool.m4'
-| libtoolize: copying file 'build-aux/ltoptions.m4'
-| libtoolize: copying file 'build-aux/ltsugar.m4'
-| libtoolize: copying file 'build-aux/ltversion.m4'
-| libtoolize: copying file 'build-aux/lt~obsolete.m4'
-| autoreconf: configure.ac: not using Intltool
-| autoreconf: configure.ac: not using Gtkdoc
-| autoreconf: running: aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot/usr/share/aclocal/ --force -I build-aux
-| autoreconf: running: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot-native/usr/bin/autoconf --force
-| autoreconf: running: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot-native/usr/bin/autoheader --force
-| autoreconf: running: automake --add-missing --copy --force-missing
-| configure.ac:25: installing 'build-aux/compile'
-| configure.ac:10: installing 'build-aux/missing'
-| Makefile.am: installing 'build-aux/depcomp'
-| autoreconf: 'build-aux/config.sub' is updated
-| autoreconf: 'build-aux/config.guess' is updated
-| autoreconf: Leaving directory '.'
-| NOTE: Running ../sources/ofono-2.18/configure  --build=x86_64-linux 		  --host=x86_64-poky-linux 		  --target=x86_64-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking  --enable-test --enable-external-ell --disable-static  --enable-bluetooth --with-systemdunitdir=/usr/lib/systemd/system/
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/endian-little
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/common-linux
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/common-glibc
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/x86_64-linux
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/common
-| checking for a BSD-compatible install... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c
-| checking whether sleep supports fractional seconds... yes
-| checking filesystem timestamp resolution... 0.01
-| checking whether build environment is sane... yes
-| checking for x86_64-poky-linux-strip... x86_64-poky-linux-strip
-| checking for a race-free mkdir -p... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p
-| checking for gawk... gawk
-| checking whether make sets $(MAKE)... yes
-| checking whether make supports nested variables... yes
-| checking xargs -n works... yes
-| checking how to create a pax tar archive... gnutar
-| checking whether to enable maintainer-specific portions of Makefiles... no
-| checking for x86_64-poky-linux-pkg-config... no
-| checking for pkg-config... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot-native/usr/bin/pkg-config
-| configure: WARNING: using cross tools not prefixed with host triplet
-| checking pkg-config is at least version 0.9.0... yes
-| checking whether make supports the include directive... yes (GNU style)
-| checking for x86_64-poky-linux-gcc... x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot
-| checking whether the C compiler works... yes
-| checking for C compiler default output file name... a.out
-| checking for suffix of executables...
-| checking whether we are cross compiling... yes
-| checking for suffix of object files... o
-| checking whether the compiler supports GNU C... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot accepts -g... yes
-| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot option to enable C11 features... none needed
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot understands -c and -o together... yes
-| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot... none
-| checking for C/C++ restrict keyword... __restrict__
-| checking for x86_64-poky-linux-gcc... (cached) x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot
-| checking whether the compiler supports GNU C... (cached) yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot accepts -g... (cached) yes
-| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot option to enable C11 features... (cached) none needed
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot understands -c and -o together... (cached) yes
-| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot... (cached) none
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot accepts -fPIE... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot accepts -fsanitize=address... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot accepts -fsanitize=leak... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot accepts -fsanitize=undefined... yes
-| checking for gawk... (cached) gawk
-| checking build system type... x86_64-pc-linux-gnu
-| checking host system type... x86_64-poky-linux-gnu
-| checking how to print strings... printf
-| checking for a sed that does not truncate output... (cached) sed
-| checking for grep that handles long lines and -e... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep
-| checking for egrep... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -E
-| checking for fgrep... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -F
-| checking for ld used by x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot... x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot
-| checking if the linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot  ) is GNU ld... yes
-| checking for BSD- or MS-compatible name lister (nm)... x86_64-poky-linux-gcc-nm
-| checking the name lister (x86_64-poky-linux-gcc-nm) interface... BSD nm
-| checking whether ln -s works... yes
-| checking the maximum length of command line arguments... 1572864
-| checking how to convert x86_64-pc-linux-gnu file names to x86_64-poky-linux-gnu format... func_convert_file_noop
-| checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-| checking for x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot   option to reload object files... -r
-| checking for file... file
-| checking for x86_64-poky-linux-objdump... x86_64-poky-linux-objdump
-| checking how to recognize dependent libraries... pass_all
-| checking for x86_64-poky-linux-dlltool... no
-| checking for dlltool... no
-| checking how to associate runtime and link libraries... printf %s\n
-| checking for x86_64-poky-linux-ranlib... x86_64-poky-linux-gcc-ranlib
-| checking for x86_64-poky-linux-ar... x86_64-poky-linux-gcc-ar
-| checking for archiver @FILE support... @
-| checking for x86_64-poky-linux-strip... (cached) x86_64-poky-linux-strip
-| checking command to parse x86_64-poky-linux-gcc-nm output from x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot object... ok
-| checking for sysroot... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot
-| checking for a working dd... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd
-| checking how to truncate binary pipes... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd bs=4096 count=1
-| checking for x86_64-poky-linux-mt... no
-| checking for mt... no
-| checking if : is a manifest tool... no
-| checking for stdio.h... yes
-| checking for stdlib.h... yes
-| checking for string.h... yes
-| checking for inttypes.h... yes
-| checking for stdint.h... yes
-| checking for strings.h... yes
-| checking for sys/stat.h... yes
-| checking for sys/types.h... yes
-| checking for unistd.h... yes
-| checking for dlfcn.h... yes
-| checking for objdir... .libs
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot supports -fno-rtti -fno-exceptions... no
-| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot option to produce PIC... -fPIC -DPIC
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot PIC flag -fPIC -DPIC works... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot static flag -static works... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot supports -c -o file.o... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot supports -c -o file.o... (cached) yes
-| checking whether the x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/recipe-sysroot   -m elf_x86_64) supports shared libraries... yes
-| checking whether -lc should be explicitly linked in... no
-| checking dynamic linker characteristics... GNU/Linux ld.so
-| checking how to hardcode library paths into programs... immediate
-| checking whether stripping libraries is possible... yes
-| checking if libtool supports shared libraries... yes
-| checking whether to build shared libraries... yes
-| checking whether to build static libraries... no
-| checking for _init in -lasan... no
-| checking for _init in -llsan... no
-| checking for _init in -lubsan... no
-| checking for explicit_bzero... yes
-| checking for rawmemchr... yes
-| checking for signalfd... yes
-| checking for dlopen in -ldl... yes
-| checking for glib-2.0 >= 2.68... yes
-| checking for dbus-1 >= 1.6... yes
-| checking for libudev >= 143... yes
-| checking for ell >= 0.79... no
-| configure: error: Embedded Linux library >= 0.72 is required
-| NOTE: The following config.log files may provide further information.
-| NOTE: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/build/config.log
-| ERROR: configure failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/temp/run.do_configure.1119691:267 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/temp/run.do_configure.1119691, line 267
-| 	#2: oe_runconf, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/temp/run.do_configure.1119691, line 243
-| 	#3: autotools_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/temp/run.do_configure.1119691, line 216
-| 	#4: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/temp/run.do_configure.1119691, line 151
-| 	#5: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/temp/run.do_configure.1119691, line 271
-NOTE: recipe ofono-2.18-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2838 tasks of which 2829 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801084256.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250801084256.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/temp/log.do_configure.1119691
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: ofono-2.18-r0 do_configure: configure failed
-ERROR: ofono-2.18-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/temp/run.do_configure.1119691' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ofono/2.18/temp/log.do_configure.1119691
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.18.bb:do_configure) failed with exit code '1'
-
---===============7489445217976318673==
+--===============4133422508841823185==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ofono-upgrade-2.17-2.18.patch"
+Content-Disposition: attachment;
+ filename="0001-bind-upgrade-9.20.10-9.20.11.patch"
 
-RnJvbSBkYTcwODg3MDdhODM0OWRjNDdlNTQ4ODRiNDQzMjA0ZmM0OTdkZWNmIE1vbiBTZXAgMTcg
+RnJvbSAzZGUyZGI3ODM2MjViYmM1ZDFlNDg0N2EzZTVmOTU2MTIyY2JlYTIyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAwODo0MzoxNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9m
-b25vOiB1cGdyYWRlIDIuMTcgLT4gMi4xOAoKLS0tCiAuLi4vcmVjaXBlcy1jb25uZWN0aXZpdHkv
-b2Zvbm8ve29mb25vXzIuMTcuYmIgPT4gb2Zvbm9fMi4xOC5iYn0gfCAyICstCiAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
-Y29ubmVjdGl2aXR5L29mb25vL3tvZm9ub18yLjE3LmJiID0+IG9mb25vXzIuMTguYmJ9ICg5NSUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18yLjE3
-LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18yLjE4LmJiCnNpbWls
-YXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zv
-bm8vb2Zvbm9fMi4xNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9u
-by9vZm9ub18yLjE4LmJiCmluZGV4IDM2YmJlOTQzOWEuLmUyNjY2YjNlN2UgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMi4xNy5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vXzIuMTguYmIKQEAgLTEwLDcgKzEwLDcg
-QEAgREVQRU5EUyA9ICJkYnVzIGdsaWItMi4wIHVkZXYgbW9iaWxlLWJyb2FkYmFuZC1wcm92aWRl
-ci1pbmZvIGVsbCIKIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC9uZXR3b3Jr
-LyR7QlBOfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vb2Zvbm8gXAogICAgICAg
-ICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzBiYjUwOTk3ZDNhNzY1N2VkZjEzMzM1NTY3
-N2Y4ZTA0YjIxNThiY2IwMzExMThhNjdiMjk2MTA3ZjZlYTczZSIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICJmNzRjM2JiYTdlYmFjNDg4ZmVkN2JjZmE2MTEzYjBlMzllNzIzZDJlMWEyNGI1M2Y3OWM5
-ZjE4YTFjODVkZDAwIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgdXBkYXRlLXJjLmQg
-c3lzdGVtZCBnb2JqZWN0LWludHJvc3BlY3Rpb24tZGF0YQogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IEZyaSwgMSBBdWcgMjAyNSAwODoyNjoxNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJp
+bmQ6IHVwZ3JhZGUgOS4yMC4xMCAtPiA5LjIwLjExCgotLS0KIC4uLi9iaW5kL2JpbmQvMDAwMS1h
+dm9pZC1zdGFydC1mYWlsdXJlLXdpdGgtYmluZC11c2VyLnBhdGNoICAgfCAyICstCiAuLi4wMDAx
+LW5hbWVkLWx3cmVzZC1WLWFuZC1zdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoIHwg
+NCArKy0tCiAuLi5iaW5kLWVuc3VyZS1zZWFyY2hpbmctZm9yLWpzb24taGVhZGVycy1zZWFyY2hl
+cy1zeXNyLnBhdGNoIHwgNCArKy0tCiBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmlu
+ZC9jb25mLnBhdGNoICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL2JpbmQvYmluZC9pbml0LmQt
+YWRkLXN1cHBvcnQtZm9yLXJlYWQtb25seS1yb290ZnMucGF0Y2ggICB8IDIgKy0KIC4uLi9iaW5k
+L2JpbmQvbWFrZS1ldGMtaW5pdGQtYmluZC1zdG9wLXdvcmsucGF0Y2ggICAgICAgICAgICAgfCAy
+ICstCiAuLi4vYmluZC97YmluZF85LjIwLjEwLmJiID0+IGJpbmRfOS4yMC4xMS5iYn0gICAgICAg
+ICAgICAgICAgIHwgMiArLQogNyBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDkgZGVs
+ZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL3tiaW5kXzku
+MjAuMTAuYmIgPT4gYmluZF85LjIwLjExLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtYXZvaWQtc3RhcnQtZmFpbHVyZS13aXRo
+LWJpbmQtdXNlci5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAw
+MDEtYXZvaWQtc3RhcnQtZmFpbHVyZS13aXRoLWJpbmQtdXNlci5wYXRjaAppbmRleCA3OGFiNmI4
+N2ZjLi5hZmIwOWY0MGEyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Jp
+bmQvYmluZC8wMDAxLWF2b2lkLXN0YXJ0LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2gKKysr
+IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1hdm9pZC1zdGFydC1m
+YWlsdXJlLXdpdGgtYmluZC11c2VyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjNzBmNzQx
+NjRiZWE4YThjNTRjMDNiZWNmZmIyZjIxMTAzZGQxZjMxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSBmN2U4YmUzNGQ0OWNmNGJjZjViNDRlYjljOGM5YzNlMzMwNGVlYzBmIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
+RGF0ZTogTW9uLCAxNSBPY3QgMjAxOCAxNjo1NTowOSArMDgwMAogU3ViamVjdDogW1BBVENIXSBh
+dm9pZCBzdGFydCBmYWlsdXJlIHdpdGggYmluZCB1c2VyCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW5hbWVkLWx3cmVzZC1WLWFuZC1zdGFydC1s
+b2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9i
+aW5kL2JpbmQvMDAwMS1uYW1lZC1sd3Jlc2QtVi1hbmQtc3RhcnQtbG9nLWhpZGUtYnVpbGQtb3B0
+aW9ucy5wYXRjaAppbmRleCA1M2U0Mzk3MjFmLi5jMWYyMjkxYjRiIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW5hbWVkLWx3cmVzZC1WLWFuZC1z
+dGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25u
+ZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFtZWQtbHdyZXNkLVYtYW5kLXN0YXJ0LWxvZy1oaWRl
+LWJ1aWxkLW9wdGlvbnMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDBkZDY3ZDg1NzA1Y2Jj
+ZmE5YTI3NTljNDZmM2NkZjNkMGQ2Mzc1ZGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDA4NWY4YzRiZWJmYmJkMGVjNWE2OGQ4Y2JjMWQ4YWRhNzhkYjM2ZGEgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiBE
+YXRlOiBNb24sIDI3IEF1ZyAyMDE4IDIxOjI0OjIwICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGBu
+YW1lZC9sd3Jlc2QgLVYnIGFuZCBzdGFydCBsb2cgaGlkZSBidWlsZCBvcHRpb25zCkBAIC0yMCw3
+ICsyMCw3IEBAIFNpZ25lZC1vZmYtYnk6IEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEuY29t
+PgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZm
+IC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCBmOWNmNGE0Li4wY2Uz
+ZDI2IDEwMDY0NAoraW5kZXggODcwMGY4MS4uMTAyZDhmYSAxMDA2NDQKIC0tLSBhL2NvbmZpZ3Vy
+ZS5hYwogKysrIGIvY29uZmlndXJlLmFjCiBAQCAtMzUsNyArMzUsNyBAQCBBQ19ERUZJTkUoW1BB
+Q0tBR0VfVkVSU0lPTl9FWFRSQV0sIFsiXVtiaW5kX1ZFUlNJT05fRVhUUkFdWyJdLCBbQklORCA5
+IEV4dHJhIHBhcgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2Jp
+bmQvYmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNoZXMtc3lzci5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJlLXNl
+YXJjaGluZy1mb3ItanNvbi1oZWFkZXJzLXNlYXJjaGVzLXN5c3IucGF0Y2gKaW5kZXggMzhkMjA4
+ZmMxYy4uZDY0ODBkYmQzNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9i
+aW5kL2JpbmQvYmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNoZXMt
+c3lzci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9iaW5k
+LWVuc3VyZS1zZWFyY2hpbmctZm9yLWpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoCkBA
+IC0xLDQgKzEsNCBAQAotRnJvbSA4YzljODE3OTMzZWVmMjAzMjhmMTAyMzdiYmQ5NjQ1ODBkYjBh
+M2FkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0NTZiNDU0ZTA0NTZhMTFhYjExODA4
+NGVmMjMxMWM3YjFjZDhiYThiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUGF1bCBH
+b3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDkgSnVu
+IDIwMTUgMTE6MjI6MDAgLTA0MDAKIFN1YmplY3Q6IFtQQVRDSF0gYmluZDogZW5zdXJlIHNlYXJj
+aGluZyBmb3IganNvbiBoZWFkZXJzIHNlYXJjaGVzIHN5c3Jvb3QKQEAgLTMyLDcgKzMyLDcgQEAg
+U2lnbmVkLW9mZi1ieTogUGF1bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZlci5j
+b20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRp
+ZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDMzNGI1NTEuLmY5
+Y2Y0YTQgMTAwNjQ0CitpbmRleCBmMjVjMzY4Li44NzAwZjgxIDEwMDY0NAogLS0tIGEvY29uZmln
+dXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKIEBAIC04NjMsNyArODYzLDcgQEAgQVNfQ0FTRShb
+JHdpdGhfbG1kYl0sCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQv
+YmluZC9jb25mLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvY29u
+Zi5wYXRjaAppbmRleCAxMDJmZTQ2ZmZlLi5mOGY5NzhkZWM5IDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9jb25mLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2NvbmYucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
+IDgzYTg5MmFmMTliZjE0NTVjZTcxMzIzNTAzMzJlZDZkN2YxZTJiOTQgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCitGcm9tIDk0YTk5MTRhNmMyYjdjYTlkYWM1YmU5NjAwZTgzZDY4ZWQ2ZDAzYzUg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBRaW5nIEhlIDxxaW5nLmhlQGludGVsLmNv
+bT4KIERhdGU6IFR1ZSwgMzAgTm92IDIwMTAgMTM6MzU6NDIgKzA4MDAKIFN1YmplY3Q6IFtQQVRD
+SF0gYmluZDogYWRkIG5ldyByZWNpcGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvYmluZC9iaW5kL2luaXQuZC1hZGQtc3VwcG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rmcy5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2luaXQuZC1hZGQtc3Vw
+cG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rmcy5wYXRjaAppbmRleCA5ODRkNDAxYzcwLi5mNGIxMjgx
+NTMyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9pbml0
+LmQtYWRkLXN1cHBvcnQtZm9yLXJlYWQtb25seS1yb290ZnMucGF0Y2gKKysrIGIvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvaW5pdC5kLWFkZC1zdXBwb3J0LWZvci1yZWFkLW9u
+bHktcm9vdGZzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxMzkzY2JmNmIwMDg0MTI4ZmRm
+YzliNWFmYjNiY2MzMDcyNjVkMDk0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAxNDJi
+MWE1ZGJmMjkzNWM4NDhjNDliZWNmYTcxNDIxYTNhYjBmZDIwIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQogRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogVGh1LCAy
+NyBNYXIgMjAxNCAwMjozNDo0MSArMDAwMAogU3ViamVjdDogW1BBVENIXSBpbml0LmQ6IGFkZCBz
+dXBwb3J0IGZvciByZWFkLW9ubHkgcm9vdGZzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L2JpbmQvYmluZC9tYWtlLWV0Yy1pbml0ZC1iaW5kLXN0b3Atd29yay5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL21ha2UtZXRjLWluaXRkLWJpbmQt
+c3RvcC13b3JrLnBhdGNoCmluZGV4IDc0ZjJlZjgzYTAuLmI4ODNmZDE0MDIgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL21ha2UtZXRjLWluaXRkLWJpbmQt
+c3RvcC13b3JrLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5k
+L21ha2UtZXRjLWluaXRkLWJpbmQtc3RvcC13b3JrLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
+bSBjZTA2NTA2YmIzZmU2NjFlMDMxNjFhZjNhNjAzYmQyMjg1OTBhMjU0IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQorRnJvbSA5NDM4Mzc2MTY3YjAwYTNiNGVjZGEwOTNlOTU2ZWVlNDdjOTdlN2Vm
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm95IExpIDxyb25ncWluZy5saUB3aW5k
+cml2ZXIuY29tPgogRGF0ZTogVGh1LCAxNSBOb3YgMjAxMiAwMjoyNzo1NCArMDAwMAogU3ViamVj
+dDogW1BBVENIXSBiaW5kOiBtYWtlICIvZXRjL2luaXQuZC9iaW5kIHN0b3AiIHdvcmsKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kXzkuMjAuMTAuYmIgYi9t
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjIwLjExLmJiCnNpbWlsYXJpdHkg
+aW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5k
+XzkuMjAuMTAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5k
+XzkuMjAuMTEuYmIKaW5kZXggMzJmMGJkZjdiNS4uOGQyMzBmNmU5NSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmRfOS4yMC4xMC5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjIwLjExLmJiCkBAIC0yMCw3ICsyMCw3IEBA
+IFNSQ19VUkkgPSAiaHR0cHM6Ly9mdHAuaXNjLm9yZy9pc2MvYmluZDkvJHtQVn0vJHtCUE59LSR7
+UFZ9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWF2b2lkLXN0YXJ0LWZhaWx1cmUt
+d2l0aC1iaW5kLXVzZXIucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICIwZmIzYmEyYzMzN2JiNDg4Y2E2OGY1ZGYyOTZjNDM1Y2QyNTUwNThmYjYzZDA4MjJlOTFk
+YjAyMzVjOTA1NzE2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjRkYTJkNTMyZTY2OGJjMjFlODgz
+ZjZlNmQ5ZDNkODE3OTRkOWVjNjBiMTgxNTMwMzg1NjQ5YTU2ZjQ2ZWUxN2EiCiAKIFVQU1RSRUFN
+X0NIRUNLX1VSSSA9ICJodHRwczovL2Z0cC5pc2Mub3JnL2lzYy9iaW5kOS8iCiAjIGZvbGxvdyB0
+aGUgRVNWIHZlcnNpb25zIGRpdmlzaWJsZSBieSAyCi0tIAoyLjQ3LjEKCg==
 
---===============7489445217976318673==--
+--===============4133422508841823185==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/bind/bind-dbg: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind/bind-dbg: FILELIST: removed "/usr/lib/.debug/libns-9.20.10.so /usr/lib/.debug/libisccc-9.20.10.so /usr/lib/.debug/libisc-9.20.10.so /usr/lib/.debug/libdns-9.20.10.so /usr/lib/.debug/libisccfg-9.20.10.so", added "/usr/lib/.debug/libisccc-9.20.11.so /usr/lib/.debug/libisccfg-9.20.11.so /usr/lib/.debug/libisc-9.20.11.so /usr/lib/.debug/libns-9.20.11.so /usr/lib/.debug/libdns-9.20.11.so"
+packages/core2-64-poky-linux/bind/bind-dbg: PKGSIZE changed from 15074176 to 15076960 (+0%)
+packages/core2-64-poky-linux/bind/bind-dbg: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind/bind-dev: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind/bind-dev: PKGSIZE changed from 1589444 to 1589947 (+0%)
+packages/core2-64-poky-linux/bind/bind-dev: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind/bind-doc: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind/bind-doc: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind/bind-libs: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind/bind-libs: FILES: removed "/usr/lib/*-9.20.10.so", added "/usr/lib/*-9.20.11.so"
+packages/core2-64-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libdns-9.20.10.so /usr/lib/libisccfg-9.20.10.so /usr/lib/libisc-9.20.10.so /usr/lib/libns-9.20.10.so /usr/lib/libisccc-9.20.10.so", added "/usr/lib/libdns-9.20.11.so /usr/lib/libisccc-9.20.11.so /usr/lib/libisc-9.20.11.so /usr/lib/libisccfg-9.20.11.so /usr/lib/libns-9.20.11.so"
+packages/core2-64-poky-linux/bind/bind-libs: PKGSIZE changed from 3507928 to 3512024 (+0%)
+packages/core2-64-poky-linux/bind/bind-libs: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind/bind-locale: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind/bind-locale: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind/bind-src: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind/bind-src: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind/bind-staticdev: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind/bind-staticdev: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind/bind-utils: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind/bind-utils: PKGSIZE changed from 479736 to 483832 (+1%)
+packages/core2-64-poky-linux/bind/bind-utils: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind/bind: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind/bind: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind: PV changed from "9.20.10" to "9.20.11"
+packages/core2-64-poky-linux/bind: PKGV changed from 9.20.10 [default] to 9.20.11 [default]
+packages/core2-64-poky-linux/bind: SRC_URI changed from "https://ftp.isc.org/isc/bind9/9.20.10/bind-9.20.10.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch" to "https://ftp.isc.org/isc/bind9/9.20.11/bind-9.20.11.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch"
+Changes to packages/core2-64-poky-linux/bind (sysroot):
+  /usr/lib/libdns.so changed symlink target from libdns-9.20.10.so to libdns-9.20.11.so
+  /usr/lib/libisccc.so changed symlink target from libisccc-9.20.10.so to libisccc-9.20.11.so
+  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.20.10.so to libisccfg-9.20.11.so
+  /usr/lib/libisc.so changed symlink target from libisc-9.20.10.so to libisc-9.20.11.so
+  /usr/lib/libns.so changed symlink target from libns-9.20.10.so to libns-9.20.11.so
+  /usr/lib/libdns-9.20.10.so moved to /usr/lib/libdns-9.20.11.so
+  /usr/lib/libisc-9.20.10.so moved to /usr/lib/libisc-9.20.11.so
+  /usr/lib/libisccc-9.20.10.so moved to /usr/lib/libisccc-9.20.11.so
+  /usr/lib/libisccfg-9.20.10.so moved to /usr/lib/libisccfg-9.20.11.so
+  /usr/lib/libns-9.20.10.so moved to /usr/lib/libns-9.20.11.so
+
+--===============4133422508841823185==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libns-9.20.10.so /usr/lib/libisccfg-9.20.10.so /usr/lib/libisccc-9.20.10.so /usr/lib/libdns-9.20.10.so /usr/lib/libisc-9.20.10.so", added "/usr/lib/libisccc-9.20.11.so /usr/lib/libns-9.20.11.so /usr/lib/libdns-9.20.11.so /usr/lib/libisc-9.20.11.so /usr/lib/libisccfg-9.20.11.so"
+Changes to packages/core2-64-poky-linux/bind (sysroot):
+  /usr/lib/libdns.so changed symlink target from libdns-9.20.10.so to libdns-9.20.11.so
+  /usr/lib/libisccc.so changed symlink target from libisccc-9.20.10.so to libisccc-9.20.11.so
+  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.20.10.so to libisccfg-9.20.11.so
+  /usr/lib/libisc.so changed symlink target from libisc-9.20.10.so to libisc-9.20.11.so
+  /usr/lib/libns.so changed symlink target from libns-9.20.10.so to libns-9.20.11.so
+  /usr/lib/libdns-9.20.10.so moved to /usr/lib/libdns-9.20.11.so
+  /usr/lib/libisc-9.20.10.so moved to /usr/lib/libisc-9.20.11.so
+  /usr/lib/libisccc-9.20.10.so moved to /usr/lib/libisccc-9.20.11.so
+  /usr/lib/libisccfg-9.20.10.so moved to /usr/lib/libisccfg-9.20.11.so
+  /usr/lib/libns-9.20.10.so moved to /usr/lib/libns-9.20.11.so
+
+--===============4133422508841823185==--
 
