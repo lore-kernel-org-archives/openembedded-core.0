@@ -1,159 +1,226 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A003CC87FCA
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:27:55 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.89121.1754058467470545012
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A39C87FCA
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:38:35 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.51])
+ by mx.groups.io with SMTP id smtpd.web11.89345.1754059105826392228
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:27:47 -0700
+ Fri, 01 Aug 2025 07:38:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V0lEl0+G;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ae0bde4d5c9so386522566b.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 07:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754058466; x=1754663266; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jV5QhRYUk9VruCxkVo6BAYrehNJRfesCbAkRjrZuCJg=;
-        b=V0lEl0+G4msc7MfJ0wJA6VQIB3Yy1sh8kwW5L9vA2Ej4NGQ+c8zMfn5yzPzAuEzKIm
-         y/emh3m0Bvb+GMPhExsgzaZ1OQ2t0OFUfpU5BoPickaB1pxdye/YL3D4Qa5fbVM/QHTF
-         d+oGW5x5dyDD5RwgOYjcdlAiwKtT4MKXoA6Xv9HbZZrUUy3pzWAta9pTDjFo5WXrCagO
-         KI+cInE9K3DbOfRLLaREsylnVm9nK8uayHMGsoUAr9u779zs1de6BR6iTwE6E/mm1pHd
-         pOL40EXOcw2J6XvEdPiMCklnpIvN2fwOQNeo+Al+vGy1lfeYJEx4kwTwFmeA2yj1EP3L
-         /9TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754058466; x=1754663266;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jV5QhRYUk9VruCxkVo6BAYrehNJRfesCbAkRjrZuCJg=;
-        b=EzmY1rGpUlovxmygmW2Wv7IxAfjnM27r+xRuzth9DOfeNfPxla9ZXuSUDIecGXFekl
-         LEugyJByQTks/ADvZ9PUPVgeSHn82y6m1S7ZTjhGWqi+i3u1APVaj/7Teaq3ZvT29Hos
-         CzgGgGaibw70YOH8N56/Ep6SQ4pOAgDcfqvCvY5Yf1Rwi4/b7WWiTsieGUUtzVH0bWvL
-         87Gl8zCr4Q1BDnEA38vKhKKmaw74ZzrsWJYaXoHuQS7riRS1Byg73b9UsZhWoSoBQNVg
-         K9lj7ZsEthIDv9lHZJMQHMIx98vhcnkrb9D4d3s+VnQs8r0WvZ9GUGSeYI7FA9iSYZ/S
-         +oIA==
-X-Gm-Message-State: AOJu0YzK/5egBnSDfJ1g7akzuxCx1zuqL1v8QLc5wwm6qghGsut/smzZ
-	ZjwyzavhzLIQoBPTwRqyrwZlRF1CKPX9dfjoEPxNyi98g5SeUN1DanY9EbbnGQ==
-X-Gm-Gg: ASbGncucmsBnQq31pNCtzceQX3ORuWcf/OLvWqIDor0a4qJGJmTo0Ie9shD7s6pW+m4
-	eoaJNAxRekC8G1avebvHCsjuB0HZVzplAXacuEDBnDIDa9mjO9fsTaUNAqdLV1uFqsGBBsWx0dQ
-	UzY5y5vjpwknp72DF+fpXTDbaqkFmXodfIqUD+EEdABDy9kvkBDU8lNYiSqGmj3aVmdM3qb6JcX
-	yJZW9d8w6wsMI0JC7peX12MNe/id1+GB72k0ZVYlMbc/HRRY52Lkpk+5ZncGme/ytQmDzaCl+hv
-	SEqmPCOWeofCcSV/OnvWRWANkGIKnPy8sDx+mPm+DQVAUNG9wYVxxMo2ZtWCINppYFfJcLmuEHQ
-	dAPM3/5qTHCdP9kutk/tPVFoGGnCv1g==
-X-Google-Smtp-Source: AGHT+IH1/V+ummdz1p5moO5siFjnz7WZAlLtha2bPPCpq2RduDBJlauHE7HoJqeB/QmZnHLFvYtCsw==
-X-Received: by 2002:a17:907:60cc:b0:ad8:a329:b490 with SMTP id a640c23a62f3a-af8fd6e4f45mr1286730566b.23.1754058465417;
-        Fri, 01 Aug 2025 07:27:45 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c050sm291688266b.104.2025.08.01.07.27.44
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Aug 2025 07:27:44 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] nettle: upgrade 3.10.1 -> 3.10.2
-Date: Fri,  1 Aug 2025 16:27:44 +0200
-Message-ID: <20250801142744.1551451-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=DLcNKieD;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=DLcNKieD;
+ spf=pass (domain: arm.com, ip: 52.101.84.51, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=wZ/Tt7Hsk4czvkkAbw+jOlw6wX3McEo+hjY98c6h9SiWPGMr9Hj2HhIAskGH3w5vbthV7xOsDdsgIe5kFu+JVqEkGl3YY+OWXpT1LDZ9+gOwU1GozqDABxK26D3mbPlbrobHAh2Hw+inPufx5aFWqeoqicCiYZK9qdlKTIx5sQinlstd7zj/Z5fJz2E5sLmH9UVWdsGvJHSdSu/AWghsoytmzjwCH1MpXnwweE7i//cjkiny6l4QKJnXkL4gMyWxLUjLsR7thrLds07v4iT3CW3MHkDQldU61ebTSUCt7fH9RhbVBjyL/jI4cEOSg3KfntSp9lJO1nnVAhcbpqEWKg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RH/QLEMSGwRCVPmaPFNQMngQ7cnUgkOUiOrSvxKIlWM=;
+ b=W8KM8a0IErH2BYbSl5ctrYjRURcLRRESwQ1Fz2D0XZR2yl2aiaf3nH5niSaLZGLLE8twHl7Sywse3iHwBGDIypUXvFB0FaKqMOlEGvEDwhc6y5kmytwQ9daiaUr4pmrZuizIuCL8y+AmY1JgZBc9t1cjfFEvWNU7Uu+mIiIuqTkeEfNUWkXZsMn/jEmz9T45tHXri2THZYD24K2o2CO5eRnTP/E5yjQgULlBkPcnzlypzK31Tr5Go/o78/6VKuxFbH99p2QSOIJ+1vipEsNjVO+TJHlk+V/2ZN4XNbzgRx8SuYTqJhC0sSuQriN2tfJXhtBqt2ncqLNZ2t3akjD/6A==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RH/QLEMSGwRCVPmaPFNQMngQ7cnUgkOUiOrSvxKIlWM=;
+ b=DLcNKieDeG89j6Q0l7gp3/utSMVm147EfMHFmSAVXuGnDNIWK0D5O9jM8vk4eWOHXmuaOOgFgN4cYwUQQgjnART0BRlaB2vepL6umArLNkO0mmWN06TnLURAwhn8D5s+Y0waZ1YcUOLDITQJK6BnyTCb2OI/m6MW65uGRwAsjRs=
+Received: from DU2PR04CA0199.eurprd04.prod.outlook.com (2603:10a6:10:28d::24)
+ by AM9PR08MB6003.eurprd08.prod.outlook.com (2603:10a6:20b:2d4::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.16; Fri, 1 Aug
+ 2025 14:38:21 +0000
+Received: from DU6PEPF00009524.eurprd02.prod.outlook.com
+ (2603:10a6:10:28d:cafe::dd) by DU2PR04CA0199.outlook.office365.com
+ (2603:10a6:10:28d::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8989.16 via Frontend Transport; Fri,
+ 1 Aug 2025 14:38:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU6PEPF00009524.mail.protection.outlook.com (10.167.8.5) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9009.8 via
+ Frontend Transport; Fri, 1 Aug 2025 14:38:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s5SkalfCNlTiIrDo7O9sqYU0IvM87Cz4eZ8icwz/6Zo9uoaYvIpteaOVm/BhMAxt9jujqlIfoLNXAnaFJrX1ijVERJQoeQ+PLsgYKnEWGj3j4QSfzSeokZ8hw1WUD3ytmX/eeiYypIyfBeNuU3fTD9x0HRain00wIM5gnuD+Y3L4kwFd6fPDgPjNmifDNT6ceabmvC9rEGkIpJNChOUtekG+joSanduptLdQgcvN/Y65qFOrIThC0b9ZmetXXnxi8RFiPpY5cPLZe53Ppju4sXKaunZpLk7dF/qXPOUVza6F4IrBLeNznH9HQpHFKeRI4X348ZSGNVBC58g6SDXKtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RH/QLEMSGwRCVPmaPFNQMngQ7cnUgkOUiOrSvxKIlWM=;
+ b=yntxeNyNdk4fdMCbfKZdZ44IiuCF564opqMbSyx1hm326/0pQsoSv8Iyul31Qa3g8IICfsmebyqjOyn40/CASQZag2fEK6vFeiyycA9UvU/kwEXb4Vl5IBiYdHPT8eRrNFs3K/xsOMLIX7Syjzpj8ek2aO+r9EFjzjBBXcjnHfqeQF3uH+SLV82Gme9CUXukxdNG39jOn9s5ueRRAuvPWI3n1tnCAhFjIqANwMG/WOKFk/qzhTfvE2Z8IOQYwYFoEzyM3L3RnwIY/6VBv7a7dH1ti8cqZWuMiC7Wq4/micioMzxJSTX1JvgmTQqrVKHXThE5/pybQ1y6mquEMWUmYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RH/QLEMSGwRCVPmaPFNQMngQ7cnUgkOUiOrSvxKIlWM=;
+ b=DLcNKieDeG89j6Q0l7gp3/utSMVm147EfMHFmSAVXuGnDNIWK0D5O9jM8vk4eWOHXmuaOOgFgN4cYwUQQgjnART0BRlaB2vepL6umArLNkO0mmWN06TnLURAwhn8D5s+Y0waZ1YcUOLDITQJK6BnyTCb2OI/m6MW65uGRwAsjRs=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PAVPR08MB9061.eurprd08.prod.outlook.com (2603:10a6:102:325::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Fri, 1 Aug
+ 2025 14:37:48 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%5]) with mapi id 15.20.8989.015; Fri, 1 Aug 2025
+ 14:37:48 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] libclc: Fix absolute symlinks in sysroot
+Thread-Topic: [OE-core] [PATCH 1/2] libclc: Fix absolute symlinks in sysroot
+Thread-Index: AQHcAQvJJQja9yZOAUK1JRqvwQm4n7RN4Y+A
+Date: Fri, 1 Aug 2025 14:37:47 +0000
+Message-ID: <0B0BA0A1-CC33-43C9-ADE5-41CA6878621C@arm.com>
+References: <20250730043809.1486481-1-raj.khem@gmail.com>
+In-Reply-To: <20250730043809.1486481-1-raj.khem@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|PAVPR08MB9061:EE_|DU6PEPF00009524:EE_|AM9PR08MB6003:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3761b21-df09-4c0c-7744-08ddd1090f8d
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?QUF4azEwRFNDbko4ZVV6bVBWUVRzVlR5REFxNGE4eG9DZFlYVjZVQzhXVnls?=
+ =?utf-8?B?aCttcEh5aFJqamVUYUFFbk1BZUNETGVRaURIU2ZwT2xQT3FZeU1xNmY1NUVn?=
+ =?utf-8?B?QUNiVkVmUUVpcW1MUExTZW1wZHNJZ0pYQjgxbEYyOHNoR2g0bkpiNlpvZm5s?=
+ =?utf-8?B?ajVkbVYyZ3EvZDdGZWcrSUY3SmhPaVN5cDd3NlU1cmxzUzlNeGNaTzNlSlVs?=
+ =?utf-8?B?MXlqSnYybFhXQlFQaEhQNERVNHJEaVFWZS95ZWh6SlZZRG9ReDJzaXlPN0Nz?=
+ =?utf-8?B?ZHV0UUFEMGc3VFMwMWx2RG42Tk9OTmN5OFhiWEQ5QW4yZ0tyZUs3ek5QTGlO?=
+ =?utf-8?B?ekxSK2M0SzRkQXVuaisrK2pvaEdSc2ZIL3YyY2tveEp3N1Y5YnFicFVCOGFq?=
+ =?utf-8?B?cVNFdUVDNkkrZFVZV2dxQUxFRmMzbE5TN1ZxV2pHTzR3NDdwaWlCQzN1VGlE?=
+ =?utf-8?B?S3NYcloyRlhMYlF4ZFJmRnVDdlRqWmxxQUYwcGoyZWlyZG9hWEpXd2JwTjcv?=
+ =?utf-8?B?M0tsaFV5alNlbkU1c3U4NHJqYWh4Qjk1Nmxmbms5NHpGUjNCWU5jU2xzUXh1?=
+ =?utf-8?B?WWJ1V2xvbHlkWVRyMyt3dWNoZ1FpcURNaTVjcTl2QVg1Mnl2amhDQ0ZjTm5M?=
+ =?utf-8?B?NzMrRkFsLzVoNzl1L21ydlc2NGVaaDlNSHJnUGdSMmhubWJFSHNaWUtxNVlv?=
+ =?utf-8?B?MTF0c2pzUXA3ZHlPWFBvWFVjZHlHUG9XMi9oaXMyeXZvUS95Y21qVTQramV5?=
+ =?utf-8?B?cnpEMDQwYXdZYytscERlNHREeW51NW14Y1ZlMFFKZHNVUk0yd0dKNm5qSFpR?=
+ =?utf-8?B?dVZxOEtKYTZLZjJPNFhnME12bmxnWHVDaDRoYWpvUTUrbWViUkZGeCt1aUFQ?=
+ =?utf-8?B?bHcvL2NPQ1JFSktSYUFzRTF0b3ZJSXZUU2xSUThkbytYdENpWTI0cUMrdHJ0?=
+ =?utf-8?B?TXBiQ2c5MVFGWmRMLzc5Rlg1WDg2a3pOWElKbVlYbW9ldnV6Rzk1elltWUt0?=
+ =?utf-8?B?VDQvdmtRNmY2cGk4N3pxQlk2eGVoYzBXVUlBdjdPK0RHdnRxajVZTk5xZFNi?=
+ =?utf-8?B?Nk1hRDZReUIzL3ZQak9Bc1RlakhNeGFjNG9FM0ZXd2lrQ1N1T0NFcEIxR3JC?=
+ =?utf-8?B?aHE0ck5udE0wbkZxeWpuRXRvOG5EYzVnS3dqTm9Ta1dNK2FYZXJ4ZFZKNG1P?=
+ =?utf-8?B?SGROZDM1emhsTm94NlFSREtIeWdOYnJwUXQ5cEV1UmwxM1VZY3BTV091TnBv?=
+ =?utf-8?B?enJ1eGk5WkVXdEFLVzBhRmV5R3paVEFqTW5tWGoyUXJEQlNkZlVrcVM3TENN?=
+ =?utf-8?B?Qm5LckYwbW5xVnRHd3l6bE9wbFhqTzlWTjBBRW9OVzgvNVFUVGpxWStRRlU3?=
+ =?utf-8?B?WjE5ekw3Sk9NUm9yUWJlUHVzOHhhZDIvUkVmeHo1MTdaL0ZTbHVid3FIRXlv?=
+ =?utf-8?B?Mk5VVllRRWJZVXFWM25KZEZkT20raGxCQXVuZmN5VlBPMUFuZEZISzJBOEY3?=
+ =?utf-8?B?Qkpsa2RoQWFnZFBtdytkTXRMdzJGZjlHQXhSdXdYeThMSUJFNHBQbWpxZElJ?=
+ =?utf-8?B?dnA1bEc5V3N3V3NndmZDaDdtRUVBaFJWQis1dGhXMW02SGN5Nnc4bDJOU0hT?=
+ =?utf-8?B?dkFEOThwNHZIQXhnTlNKNmZUNkpvM1JsTE83b1RUYk8rVTdIeEhQTFZRZHZl?=
+ =?utf-8?B?R04xQWl4N0JMYnc1bldpNndEajBwMlZDVnJLRnphMUZkRXpUMlpGY0dSM2RR?=
+ =?utf-8?B?bjBDUVFuNzF6b0E3SUZaWG16UC9ZSmh0eFh3MTNYckxlckhkRmxyMkpHN3RS?=
+ =?utf-8?B?YjA2alFKR1hQcXo0KzVBUHZjeGhqQ0l2cjRkZWJUa2dJY3lzbkl3RGIyQ0xT?=
+ =?utf-8?B?Mi8zS3hzUkQ4WlNTM3hkYmJxR3Uwb1BBUnhiNnM1bXVyUEVoTXlpSGZxZHg0?=
+ =?utf-8?B?SUcyK3hLb0dKMTk1UEdPODVWU2VSNnVLQWRaTytoUm95UFY3cVZZS2tuLzcv?=
+ =?utf-8?B?OUVDTVU0MlBBPT0=?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <297343B8638F1449A5975C639FFBF9C4@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9061
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU6PEPF00009524.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	4fc2c559-3359-4a8f-ecb8-08ddd108fc53
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|35042699022|1800799024|376014|82310400026|36860700013|14060799003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?dFdBWEdaOXh2R3lxQUYzelozb21BOVdGSzY4WGF2S25KdzFubUJkaTRjQ0Fw?=
+ =?utf-8?B?ckRsdU1NanNva25mMTVWcXBiR1ZsMzVJYlpLMHRabWN6Y25EL3piell1bG9W?=
+ =?utf-8?B?TXpGTU4zUlVaWEtoZnpPVzlkV2JlYXdlU205dVZhVXdUZGZSRWVKbmNVYXVy?=
+ =?utf-8?B?Q3BzL0xhOUw5Y3ZLTGtKbk9zZnFSLytJUVVPL2xsTDRJRGhYT2NpZDZ2VnBH?=
+ =?utf-8?B?eThYWXd2ZjVVOWErRWZrSGNkUFZ1aTVHZ2phQTE0QTV0c3VFVTQva0R4d1Ro?=
+ =?utf-8?B?cEZKYWpMVnFLaEtXS3pSWm54dzZWYjNEa0tiVHArV3BvRXVsM3NYTHEyYzhT?=
+ =?utf-8?B?RWpMdHNzYlJLZ2tQTG1WZ0o4eEJaMmFZSm42WVczYVUyNlc3bGRJbUQxSWxL?=
+ =?utf-8?B?RkJoVnVWa2d2dDgySG9ndlBOaVB4clZUdGltcXh3dVl0N0RZTWJQNFB6RHFt?=
+ =?utf-8?B?aDhhcldFcUlMcnFjOStZQjZScDd6TnJtUHhlWVNOUnZPQUNMY3RudGErSVB1?=
+ =?utf-8?B?UDVPVUNuQjVCMjliQ0c2NDJnY0I4akVrSTdmc00rR29KVWdVN29wVFZVTlhN?=
+ =?utf-8?B?K1I2OHd4RnFneDhhL3VmTVBJWC95aEVscU1vbUVxSUlYM0pRYWtzYUpjZ2hB?=
+ =?utf-8?B?QW4vaXlMWXVEUFhaTzVHUThSZGlaYW5SK3JOVzRoU21iaklYQlFDWjAvOEww?=
+ =?utf-8?B?UVZpNHJ1aVA2VUhzaVhRajZLeURYVENkZXZrSEpuM0owbmNNRHd2ejQrNWNK?=
+ =?utf-8?B?M3R1emxzeE4yUllyY1BFS0NtRDVhTjlYc2RNSFVyMzVvR1ZUdnRTVVJLZnQ1?=
+ =?utf-8?B?REtmeWdESWdNa0tDZzEzUndZSythUGVyUGpnc2ExdWJFY2JMcXlNOVRkYytB?=
+ =?utf-8?B?dnRZMS9xQXNYeWVmcVZNMXVwQzBKcThCY0pGR2wzMURQMGRKb0p0VVQxbmdI?=
+ =?utf-8?B?RDNUS1VBa1JoMm5xWk5xREFsMHlZbWxxWTh2UCtJQmRpTWVuMUd5SGxXczVo?=
+ =?utf-8?B?aEt3T2lKLzdlWWJsZzF5T3dEeitmZGQ5L3ltSmlzclBIdXFsUHE2SkNsZkZM?=
+ =?utf-8?B?Wmwvb2hOZktBdnBSVFFnQk4vSkpLdXFKcjNBK0hOMGppeTRsSldqTEhsWXBm?=
+ =?utf-8?B?aFh1bWhXWU9NbXhZSytEVmJRVjdGKzlxTHZvTVpxcllxbnNxL2ZuVytiWlRG?=
+ =?utf-8?B?VlEwTkpEL3FuZndCR3hPczV2d0JmWHdKbjVuUkRkR2lSME9QZnM4MmRlekZy?=
+ =?utf-8?B?VzZoYzByOGRTWnV0Qis0WXNYWXZ5N2hKKzlnTE1GeCs5SHhUNDd1ejBnNUxP?=
+ =?utf-8?B?cWZwREY2TjBjNzNQaTYrdkRTa3BSb3VSWXdZWThTeklsMGxuMitwOHpNMXBC?=
+ =?utf-8?B?bmxGdEFYcWw5RC9wdHZSRlIxVXM5dXJVa0dwZmM2dEx1c2hra0d1VS82R1lG?=
+ =?utf-8?B?NUZpVUtjZk1TVXFxd1JXc1pzZmw3V3czTUhJblpTNnlTYTRhQUR1QWZKZ1g4?=
+ =?utf-8?B?VzRzRFhHYi9tZEFNOXR1bU5WNTBjS0lBd0VlUzlCU04yRTZpbWl2ZlRLNG83?=
+ =?utf-8?B?K2l5YWZRMlMrRUZpdGJZanlLMTlRdTJXVzdLZXNrVnRKME5JNzZKU3Bmb0NF?=
+ =?utf-8?B?b3JzMGM1QXdIZXdOMWpwUUpzUldJUDhia3hhbEdzUkNJSHUreXk3R04zVk5w?=
+ =?utf-8?B?c2xxQng0R0JneG5jVTBnR0pLMS9YckRPSXpSVndjemZPd2dqeTVCUHAwWENQ?=
+ =?utf-8?B?Tlh2UTJ3KzFqOUNDc3lFTVhjS0ZzUk1ISUZsS1lvNDJFNy9YTUx1OHlpeWg3?=
+ =?utf-8?B?VE14MytvSnhNWnZsYmp6ZHRkYll6QjFVcHpJS042K2FSR0tqNnp0ZXV6N3Aw?=
+ =?utf-8?B?ZEZ0NnRjbmJPcVhBblNoMXFJeUwrMVRLZWl3VTdURXBLdWpkSzl0NUpsWXE4?=
+ =?utf-8?B?QVdzT3lxOUlocEZ2WDlTczB0d082SG5OWlNIRDRXeDM5SjlKa2tkQlBGNldm?=
+ =?utf-8?B?NlBvb2kxU3FKOG1jVktOc1g5ZjZlRDNGcWQyQm1SMTBITWNRZjFHeUpPOFZW?=
+ =?utf-8?Q?40f7ur?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(1800799024)(376014)(82310400026)(36860700013)(14060799003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2025 14:38:20.1763
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3761b21-df09-4c0c-7744-08ddd1090f8d
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF00009524.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6003
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:27:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221358
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:38:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221359
 
-dropped 0001-getopt-Fix-getopt-getenv-signatures-in-declarations.patch, as
-it is fixed in this release.
-
-Changelog:
-https://git.lysator.liu.se/nettle/nettle/-/blob/master/ChangeLog
-
-ptests passed:
-All 116 tests passed
-DURATION: 2
-END: /usr/lib/nettle/ptest
-2025-08-01T14:21
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
----
- ...pt-getenv-signatures-in-declarations.patch | 44 -------------------
- .../{nettle_3.10.1.bb => nettle_3.10.2.bb}    |  3 +-
- 2 files changed, 1 insertion(+), 46 deletions(-)
- delete mode 100644 meta/recipes-support/nettle/nettle/0001-getopt-Fix-getopt-getenv-signatures-in-declarations.patch
- rename meta/recipes-support/nettle/{nettle_3.10.1.bb => nettle_3.10.2.bb} (94%)
-
-diff --git a/meta/recipes-support/nettle/nettle/0001-getopt-Fix-getopt-getenv-signatures-in-declarations.patch b/meta/recipes-support/nettle/nettle/0001-getopt-Fix-getopt-getenv-signatures-in-declarations.patch
-deleted file mode 100644
-index c6f75e9150..0000000000
---- a/meta/recipes-support/nettle/nettle/0001-getopt-Fix-getopt-getenv-signatures-in-declarations.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 20eb61eded3bf2ef03e1f37c8c1535b9c246d0f7 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 22 Mar 2025 13:48:29 -0700
--Subject: [PATCH] getopt: Fix getopt/getenv signatures in declarations
--
--GCC-15 complains about this when trying to build on musl
--
--| ../nettle-3.10.1/getopt.c:139:14: error: conflicting types for 'getenv'; have 'char *(void)'
--|   139 | extern char *getenv ();
--|       |              ^~~~~~
--
--Upstream-Status: Submitted [https://lists.lysator.liu.se/mailman/hyperkitty/list/nettle-bugs@lists.lysator.liu.se/thread/R6BDHRO44KSRDAOZQAREYICI2RG5PVNC/]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- getopt.c | 2 +-
-- getopt.h | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/getopt.c b/getopt.c
--index 9d29de7..5b89302 100644
----- a/getopt.c
--+++ b/getopt.c
--@@ -136,7 +136,7 @@ static struct _getopt_data getopt_data;
--    whose names are inconsistent.  */
-- 
-- #ifndef getenv
---extern char *getenv ();
--+extern char *getenv (const char *);
-- #endif
-- 
-- #endif /* not __GNU_LIBRARY__ */
--diff --git a/getopt.h b/getopt.h
--index da1a01f..ab50792 100644
----- a/getopt.h
--+++ b/getopt.h
--@@ -166,7 +166,7 @@ extern int __posix_getopt (int ___argc, char *const *___argv,
-- #  endif
-- # endif
-- #else /* not __GNU_LIBRARY__ */
---extern int getopt ();
--+extern int getopt(int, char * const [], const char *);
-- #endif /* __GNU_LIBRARY__ */
-- 
-- #ifndef __need_getopt
-diff --git a/meta/recipes-support/nettle/nettle_3.10.1.bb b/meta/recipes-support/nettle/nettle_3.10.2.bb
-similarity index 94%
-rename from meta/recipes-support/nettle/nettle_3.10.1.bb
-rename to meta/recipes-support/nettle/nettle_3.10.2.bb
-index 267a6ed449..e651f68cb9 100644
---- a/meta/recipes-support/nettle/nettle_3.10.1.bb
-+++ b/meta/recipes-support/nettle/nettle_3.10.2.bb
-@@ -18,10 +18,9 @@ SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
-            file://Add-target-to-only-build-tests-not-run-them.patch \
-            file://run-ptest \
-            file://check-header-files-of-openssl-only-if-enable_.patch \
--           file://0001-getopt-Fix-getopt-getenv-signatures-in-declarations.patch \
-            "
- 
--SRC_URI[sha256sum] = "b0fcdd7fc0cdea6e80dcf1dd85ba794af0d5b4a57e26397eee3bc193272d9132"
-+SRC_URI[sha256sum] = "fe9ff51cb1f2abb5e65a6b8c10a92da0ab5ab6eaf26e7fc2b675c45f1fb519b5"
- 
- UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
- 
+T24gMzAgSnVsIDIwMjUsIGF0IDA1OjM4LCBLaGVtIFJhaiB2aWEgbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyA8cmFqLmtoZW09Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0K
+PiANCj4gVGhpcyBoZWxwcyBpbiBjcmVhdGluZyByZWxhdGl2ZSBzeW1saW5rcw0KPiANCj4gRml4
+ZXMgc3N0YXRlIGVycm9ycyBlLmcuDQo+IEVSUk9SOiBzc3RhdGUgZm91bmQgYW4gYWJzb2x1dGUg
+cGF0aCBzeW1saW5rIC9ob21lL2toZW0veW9lL2J1aWxkL3RtcC93b3JrL2FhcmNoNjQtbGludXgv
+bGliY2xjLW5hdGl2ZS8yMS4xLjAvc3lzcm9vdC1kZXN0ZGlyL2hvbWUva2hlbS95b2UvYnVpbGQv
+dG1wL3dvcmsvYWFyY2g2NC1saW51eC9saWJjbGMtbmF0aXZlLzIxLjEuMC9yZWNpcGUtc3lzcm9v
+dC1uYXRpdmUvdXNyL3NoYXJlL2NsYy9nZng5MGMtYW1kZ2NuLW1lc2EtbWVzYTNkLmJjIHBvaW50
+aW5nIGF0IC9ob21lL2toZW0veW9lL2J1aWxkL3RtcC93b3JrL2FhcmNoNjQtbGludXgvbGliY2xj
+LW5hdGl2ZS8yMS4xLjAvYnVpbGQvdGFoaXRpLWFtZGdjbi1tZXNhLW1lc2EzZC5iYy4gUGxlYXNl
+IHJlcGxhY2UgdGhpcyB3aXRoIGEgcmVsYXRpdmUgbGluay4NCg0KVGhpcyBzZWVtcyB1bmV4cGVj
+dGVkLg0KDQokIHB3ZA0KL3dvcmsvcm9zcy9idWlsZC90bXAvd29yay9hYXJjaDY0LWxpbnV4L2xp
+YmNsYy1uYXRpdmUvMjAuMS44L3N5c3Jvb3QtZGVzdGRpci93b3JrL3Jvc3MvYnVpbGQvdG1wL3dv
+cmsvYWFyY2g2NC1saW51eC9saWJjbGMtbmF0aXZlLzIwLjEuOC9yZWNpcGUtc3lzcm9vdC1uYXRp
+dmUvdXNyL3NoYXJlL2NsYw0KDQokIGxzIC1sIGdmeDkwYy1hbWRnY24tbWVzYS1tZXNhM2QuYmMN
+Cmxyd3hyd3hyd3ggMSByb3NidXIwMSByb3NidXIwMSAyOCBBdWcgIDEgMTM6MzQgZ2Z4OTBjLWFt
+ZGdjbi1tZXNhLW1lc2EzZC5iYyAtPiB0YWhpdGktYW1kZ2NuLW1lc2EtbWVzYTNkLmJjDQoNCkFu
+eSBpZGVhIHdoeSB5b3XigJlyZSBoaXR0aW5nIHRoaXMsIGJ1dCBub3QgdGhlIGF1dG9idWlsZGVy
+IG9yIG15c2VsZj8NCg0KUm9zcw==
 
