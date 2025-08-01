@@ -1,99 +1,87 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1C38C87FCB
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 14:45:15 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web11.89525.1754059509978287233
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA70C87FCA
+	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 15:03:55 +0000 (UTC)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.web11.90078.1754060630848975344
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 07:45:10 -0700
+ Fri, 01 Aug 2025 08:03:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mHaUYW/f;
- spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-71b737ec362so6641837b3.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 07:45:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hPpgPTEK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.178, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-71b6ad2d6fcso11484247b3.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 08:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754059509; x=1754664309; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1754060630; x=1754665430; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MA+eID0G1slr1AYPppvpBQ71kSvFFcWUtw5fk6TVwdI=;
-        b=mHaUYW/f5RDIkHwunN6V8Um6WzX4/ARjPDp8k2J6jV2BwIFdpLDwpNMo19+dmv2voA
-         aVVFdV8F1npK8C/5Yd9rFvI+pf3KN6Fg1G8K39iDOKi7ezLxHY1/3AJTbgA4xv3vh3Ro
-         AzSoeJ+a4KkRqTm/UYTUZskJTEJtaVtelcnpYLPPcAuzGjDBD9MzTtr2/LmbmMACIepF
-         yCDKiLJKU7cDPiv8Fn+eahTc6QESe4i3lkjauhq20nZhP1rE907Jnk9k5NYf3F/ob9T9
-         nBAnPEHL7YiMaLdFw3O7CJ9Zc5ssWkEa/CuxQRyeMGqLR/nGu3BrSGyJsOorXKLxoXfc
-         hRzg==
+        bh=0wo68TAm/kIZ2wZfjMQxFreMeMDns9w/OmZo2bIBtPA=;
+        b=hPpgPTEK/LCE9iSbtg2BWd5AknHJb77er/o2kf65H+zqlRMpbkOklYNCWqJ0bnXaWs
+         ChjDeaFqjjopRF6w5wgjy69CElfcTJ1EhujBLRBMs6nDdiMGPHKuRzWEj1nIPsF75d8N
+         Mm/24zQPGUZEJtI/VjuiAIatUP4bTF1+3KT60X5JyDZu1Ebn6t6EqULvFkVMCMXHQxdK
+         JO1uJnlP9t+qfwnbllfQfrG4aJlmyea/Gj36O3oKcaBxvX9vJv/asEiOSG8kRawtTKr5
+         h6W6BJ8TJMKYgRxNQKkteeGxwacgwUq5zcRU5tg3KYRdbUls6ZvFMjh+bS0kkBV30wDB
+         Iu8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754059509; x=1754664309;
+        d=1e100.net; s=20230601; t=1754060630; x=1754665430;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MA+eID0G1slr1AYPppvpBQ71kSvFFcWUtw5fk6TVwdI=;
-        b=mg7pFZymgCILOUCzSqZdT3EkFehZwfsDLuVGU3gHNV+X3vDyvp2IULM1Vs0XKw/1l6
-         WydxbkaDe2xVnVPa/yMxRr7TZxhZZ1m51Ws9QxzwZWBeHuxpjh4I6lXO+OvGFUqlVhms
-         7lUld9DAzJN/M2iXe2etaeo+YQxKKEvY6gVdVbCv3FJQc9Ci0NwLscNv0Poiu59q3btf
-         59FXxofHUH3rz9knIP0I/leD2ZLjHTMpCikOSPXSiNpeVkK7RUbN6MnWL8cwzti7CXrG
-         /C1AX6YVtkX0c9CQ8Se+AWqt2UqxoNt4iYXjFm2fe5DVJuPcFEP3d5T888Eg0CCLR8vR
-         eWuA==
-X-Gm-Message-State: AOJu0YzYscBMm+96W/UgXqosthOUi8UMktRBoG0k0LUNFQXv2rAR3Xdk
-	EJTvDH6ku99mmio76x+qlC8Sm4aYk82nqhHQ/LYSbtaPQvKiAIJXZ/55DhHzooR61wLMs8Jh6IW
-	0NSoHyk/2VSV8ktvEpIO5mb9UJ6g15dLYmlPQAS0=
-X-Gm-Gg: ASbGncvFO17GGHIuXuMfVayYOBgLYnm0SeZmiNqA0XCRZ1Wfh3WXU6TmIB24Wtd5rJ7
-	OJ1AnqM5Gei7O5o1t93yrfd5N+qjO21rsfn9GEt0R7L0WijpvrfbXfrw2CyTi1rO6z/QcZlG/wX
-	SehsDtr/6Zdh56XQ5a9oo4axRZeoLzVyvHVK+jWWyzFTMjv1XqvQN/F3duv33PcrgJ3DEaf7KxN
-	dXm/ZCCrOMmewI+8zHcRQ==
-X-Google-Smtp-Source: AGHT+IHhryot0rq/QftQHBw8h+VT1/e6FFNNIOCEnFvveIZeKo19u+Phf8S7zFVVAznNKWKg7NUO3j9ZR76Y4MvKaH4=
-X-Received: by 2002:a05:690c:f10:b0:71a:20b7:44f6 with SMTP id
- 00721157ae682-71a465edab2mr169050507b3.6.1754059508943; Fri, 01 Aug 2025
- 07:45:08 -0700 (PDT)
+        bh=0wo68TAm/kIZ2wZfjMQxFreMeMDns9w/OmZo2bIBtPA=;
+        b=hlwUQ1RVta/ztd0BvSSOfbIkRgrnm+H9ifYf9lgePx7tX6lqGLe0fBdxAGT6Mmd9Gg
+         J2+hsLJLIMAjDz5Yf5X1YJ5wDAUXteHn1Ja2PbMaLZQxslDcosf9gS+dsdhfXe9zm3zR
+         q23nDcWREm9Rd+zIhbVRItDta/K64uxsI1O+WyhvaQDiX6gPl0QC9vrlKd/h88ivrttt
+         IOc/wtPNOP2fD7dDA6H9oAXwk/888PCV+c4s3GE74AnfaFpiyNcsPNj44PlgrKgNzlUU
+         RF6zyyZWWRtsq+DzWeJMDf4h3qi8q7iLY6v5u3CM+mTNifiDJvtAd9t3M2EIAiQwJYOF
+         CJVw==
+X-Gm-Message-State: AOJu0Yz+A3CRRo6GwOsSAr0IRwGEEAn7GAmKoSDOpODR1bycJWsBZ+o/
+	eMiE0+uqjvlFSKcw6N4LsZd0IWFkeNcMKOPX6Iyx/uBvoSFoY7apbsgv8UX3NazvNKgkX6nDorj
+	u0uhH2WTgyuGP/kmuXkZcaNWRKt1iXptfYoaXR+pGHA==
+X-Gm-Gg: ASbGncuVcArjlV1/tmcKSByZc9TgFRE/K26IKILLRauEUBmEpkRtLDR1koeoKGoNvMn
+	Dq0hYr8lxZEzgLATUxfaLM4IsNVOcPg6O6Ic7d+2ZRzZ8tgYOxcyltIycxUFBPOjEQHqvvHYiGB
+	oHoWyHbHFopMYik5lVG4pSIHY7fjHK9JY5DCo+tTOJIln9CKP+zUJkIWbIwR0trIm2JNFgIIv6g
+	G32SNY09PKVrDQdPclzvYtT6J+y4JEou/W4C3g=
+X-Google-Smtp-Source: AGHT+IGvJLjKDrbz6MOuxPl3jo6P5OIUf6lRN+8SnvRCKLQKWNrasRzXZxrWoXQ+zKjnvoZ66yqUTZnZJ5oMfml56Zo=
+X-Received: by 2002:a05:690c:6401:b0:719:3e4f:60f7 with SMTP id
+ 00721157ae682-71b6d78ffaemr39417787b3.26.1754060629892; Fri, 01 Aug 2025
+ 08:03:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250730043809.1486481-1-raj.khem@gmail.com> <0B0BA0A1-CC33-43C9-ADE5-41CA6878621C@arm.com>
- <B7693480-3AFD-484C-9AA1-D1866646736D@arm.com>
-In-Reply-To: <B7693480-3AFD-484C-9AA1-D1866646736D@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 1 Aug 2025 07:44:42 -0700
-X-Gm-Features: Ac12FXyCtdBKsWImJ4K6QpFlnk0svy2ZhHBhhNhajlY6W213pd946RGvzc_YUtc
-Message-ID: <CAMKF1srG4sn43KTzc7QvAZp=FEZtq5sD_S=E5Q+Jhk61KKMGOg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] libclc: Fix absolute symlinks in sysroot
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20250801100708.2925411-1-martin.jansa@gmail.com>
+ <CAOSpxdbjrwU2N-qYdy8+o2K3Q+XH9dn0VquQe0YSyass_PxYcA@mail.gmail.com> <CA+chaQcVit+vwWQny5N-uAsCHD4YFbU1RSrVfNuPqkJW_ii8BA@mail.gmail.com>
+In-Reply-To: <CA+chaQcVit+vwWQny5N-uAsCHD4YFbU1RSrVfNuPqkJW_ii8BA@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 1 Aug 2025 08:03:39 -0700
+X-Gm-Features: Ac12FXxQqbrh1NvSHO5b06JdK4TD2a2qu3KLhRYWOrEuIpcqguVGteTpkqNHCnU
+Message-ID: <CAOSpxdYWyrg-A84eUjcXH5gdPZH+FvMtxE8hzJM68BONmBbNeQ@mail.gmail.com>
+Subject: Re: [scarthgap][PATCH] libpam: re-add missing libgen include
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, hprajapati@mvista.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 14:45:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221363
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 15:03:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221364
 
-On Fri, Aug 1, 2025 at 7:41=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
-ote:
+On Fri, Aug 1, 2025 at 7:43=E2=80=AFAM Martin Jansa <martin.jansa@gmail.com=
+> wrote:
 >
-> On 1 Aug 2025, at 15:37, Ross Burton via lists.openembedded.org <ross.bur=
-ton=3Darm.com@lists.openembedded.org> wrote:
+> On Fri, Aug 1, 2025 at 4:42=E2=80=AFPM Steve Sakoman <steve@sakoman.com> =
+wrote:
 > >
-> > On 30 Jul 2025, at 05:38, Khem Raj via lists.openembedded.org <raj.khem=
-=3Dgmail.com@lists.openembedded.org> wrote:
-> >>
-> >> This helps in creating relative symlinks
-> >>
-> >> Fixes sstate errors e.g.
-> >> ERROR: sstate found an absolute path symlink /home/khem/yoe/build/tmp/=
-work/aarch64-linux/libclc-native/21.1.0/sysroot-destdir/home/khem/yoe/build=
-/tmp/work/aarch64-linux/libclc-native/21.1.0/recipe-sysroot-native/usr/shar=
-e/clc/gfx90c-amdgcn-mesa-mesa3d.bc pointing at /home/khem/yoe/build/tmp/wor=
-k/aarch64-linux/libclc-native/21.1.0/build/tahiti-amdgcn-mesa-mesa3d.bc. Pl=
-ease replace this with a relative link.
+> > Thanks Martin!
 > >
-> > This seems unexpected.
+> > Any theories on why I didn't see this error on local or autobuilder tes=
+ting?
 >
-> Oh, it=E2=80=99s because you=E2=80=99re testing a new llvm.
+> I've seen it in build with clang which is more strict than older gcc
+> used in scarthgap.
 
-This is seen with upcoming clang-21, I do not remember seeing with clang-20
+Makes sense, thanks!
 
->
-> Backport abe93d9d7e891a2a6596ddb0c6324280137c89dc.
->
-> Ross
+Steve
 
