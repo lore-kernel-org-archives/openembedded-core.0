@@ -2,63 +2,63 @@ Return-Path: <anakin@childerhose.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CD65C87FD3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB948C88CB9
 	for <webhook@archiver.kernel.org>; Sat,  2 Aug 2025 21:13:12 +0000 (UTC)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web10.6142.1754169187838101088
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web10.6138.1754169185685723317
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Aug 2025 14:13:08 -0700
+ Sat, 02 Aug 2025 14:13:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@childerhose-ca.20230601.gappssmtp.com header.s=20230601 header.b=Vwe7A1v3;
- spf=none, err=permanent DNS error (domain: childerhose.ca, ip: 209.85.160.169, mailfrom: anakin@childerhose.ca)
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ab5aec969eso41605051cf.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 14:13:07 -0700 (PDT)
+ dkim=pass header.i=@childerhose-ca.20230601.gappssmtp.com header.s=20230601 header.b=f/DDeTb/;
+ spf=none, err=permanent DNS error (domain: childerhose.ca, ip: 209.85.160.181, mailfrom: anakin@childerhose.ca)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4af156685e2so9707031cf.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 14:13:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=childerhose-ca.20230601.gappssmtp.com; s=20230601; t=1754169186; x=1754773986; darn=lists.openembedded.org;
+        d=childerhose-ca.20230601.gappssmtp.com; s=20230601; t=1754169184; x=1754773984; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yiBVCm3kHuI0cgqd/pUxZ4FQ9wbP5vfgW9pyekiWoog=;
-        b=Vwe7A1v3AU7z0DHHo37bfoGAYdVLlxfeOyN9CpNi+4skaZXmnK1j25Jl73KNH9WpZ+
-         BIeCtj6gPXHIL2WJ5zFAYuFz0+AR9rCYdNYkG+Qdwy9D1r0xwtYTcDMYkbOKm7jU+roV
-         aA7QEpo4w2LlgUMEfvAmqHhXBX8DF2K0gTyOVYk9jlIOby1N4GSuX5bnLSBkqkN5op52
-         zpJ/3T+E0cPXnaXv8gqMFmxWROz92uhUo3ydS3mCtEn9cOrfbc4gICS4EXOOvydJ/1kU
-         URNleLYWgyAsxvIlxr0WyKjYwxaPDwUhvflUV0CWaklMgRsPtJSCJZ6Kd5WWxofyZa8s
-         FZLA==
+        bh=TFzI1GhtoGzGxWfOCRVGa0hQbVpLeuVYULB/CYC5MNo=;
+        b=f/DDeTb/AHvssV6LfinuxHgPJfxVryIp+LJZWlWTHqYx1jdPH0Le9W6ZX/F3MeUCIz
+         iy9ssIe4Mm5Nuz1I47Q+8OrJQwJV6hOOUh6nMWHIKwwwlZgvdgPv3h0aE2/np2CbDgt9
+         9ovl6xW8K+AFxpKn4O9coPNkzNXn+/nnIbf3deYxLTZYsJ02xwF6SP8nszriiNp9WQMK
+         V2yffrrYgUA5OJTkKVvHsQY7kxwuPhaD7JxWELrXQP1yBwZIT5TejY2fy8ECj/1J68O8
+         OizkHCojSGCTfNucWiVBuipmSvnHB+o+ugz+z+jXSxex2sBGBtCaWBAhWoFzdwtD5smf
+         JDtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754169186; x=1754773986;
+        d=1e100.net; s=20230601; t=1754169184; x=1754773984;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yiBVCm3kHuI0cgqd/pUxZ4FQ9wbP5vfgW9pyekiWoog=;
-        b=G+FOyxtcYHrpCiJYcH81Tztu1LeW/a6Qk6nNqFqntLwuV8L676LRkq27qWyh/k74x+
-         OvSHw2Jrrg6DO0ufwC+vINCEw+Zk+BB44NkZfhoAFnxbhix70NGDAr75nA0Cyp6X+uGz
-         Ow2fFS/ua2F4rHWMdafmgh8mtWw30VBU5z32ADAr/Pn1ZsJ9MnTSMsMQ4MBoUFbvFbMU
-         bZ7T4BnR/GlSdQp+UQiguS0kMa1FHQ2pv5gY7HzkD6rq0/QjY/WyGJGJs9Qv58igtgmy
-         KZSaP2fx7Qx1Z9QU13K6ozUc+8USliyKU24m51fvctYjYbTlJbrRQyEnulbpGUTT5yqV
-         QQAg==
-X-Gm-Message-State: AOJu0YxWBG8mZ4zPJKjlW72Pj+r+CrgFx2Fbjmpe1GWTepNHwvchOGmi
-	tnLfuhXTPDeJvVucaZrOwifBmdnNFKBSZPKAlNq0Gw2Vv6qUOhOxt6m/F//raHeeuU4LH+n14dd
-	Ivhy52GHACA==
-X-Gm-Gg: ASbGnct7UGQIu70rC5eq3SrHQDXYslLUfSaBzBqbaPTIOAqJuKurxNpAVm20FMEon2J
-	6Xw9eyR9Rf7zfxMqi0PD4iEUoP4nNsQzesW3E86qkoqTLDfXcD03klCMg/PtUch7ZTJNxebKgE8
-	2D9J7wuapI4+Sb+KBhkNOCtaT8QgZz6Sv+VUWhO5Re3TJIRbU+xkIp2BEmtSFloNnXmYMIlghzx
-	6rrtzz7Ks5WzD/moH+2x7ZqRlLm96K3bdru3PuAA5vyKFVac5SjFxhsht1a0WP5eq6RlFx5EhyC
-	cRl2IHkTrpm+3o6rnU+PyV//xtlaiidHDht8/hQNfdXBO/MWehqnlzmUUxZLZ1zrwk9zgx0HD7x
-	81POkWtg4F4qlkRMw
-X-Google-Smtp-Source: AGHT+IHiPqGaF5Wvuhycl/+8UNHvMBwWqyYy9JbECqPZ959+TaLcHALPZZKJKgdd5dHtQA9lpv+gVw==
-X-Received: by 2002:a05:622a:2cc:b0:4ab:95a7:cfa1 with SMTP id d75a77b69052e-4af10d5b0bemr83807731cf.56.1754169186539;
-        Sat, 02 Aug 2025 14:13:06 -0700 (PDT)
+        bh=TFzI1GhtoGzGxWfOCRVGa0hQbVpLeuVYULB/CYC5MNo=;
+        b=VBFckOgNxz/ltXTYxooRgMyB6o2SMc8HdJ+KPNFxQob0Ly2ao+/UIbVtTyuy8SV5a6
+         h1qeOxJ3/DXO2zW7AaTAvHF+yNzqDPg4nlMej/slEPNG5bDlyAhyTG0iq47BwLis70WP
+         Mxn1wKtZ3LcsJlQEw+7K1iCBaJgUBYk7PzTtNcZg1T+Qfn0ACZsYaOGNLjk3PUUd0sd3
+         pGG68gec49IYjHwwmc11IyKJPbQceO79oyZuwUXjoram7zVmfVe8zNGOIzavlTMnNvYc
+         FXoRvSs7QCxKsF2kN+f/VX9nMFBx5b3AKwYRZAajo8LKwaAtdlK/c/Sy+DR+hZWisDe9
+         +FYg==
+X-Gm-Message-State: AOJu0YxlSEa8aimpB0o0KQSY/vqp8qyVKs3jFQ/l7AJBNi7uTILzqUxI
+	SdjhdDp2Im3j9tYyyMYgnxiXErrsrWD6r8yKlwtmPYelVf2N/cvJm/xkNJGZdc2z2jgCldf4/PC
+	qJPLdd7NWJg==
+X-Gm-Gg: ASbGncuPUjH8G3p92+GFckv/iqm/HdL9m4Au1zSnxom6Ijb/rqdWwzMM7i/nPZjuS9g
+	RpJhF4cYCHveK1Yk2DnVXP3aE61pKUHNxMaW2/yjeeAyiNE2u6US32YZ+pLkhYIINsy65rqG8K2
+	+OlqvKvtzus1CdY7fYm+aki1xW601sa7gvGvDgjxqgcM7pN32N9U3tMOxYZj/evTdFmoyTqUaBu
+	W4mudx5f9QQ8KjRJHsSjM1TPYwKG8rfIO23dsmny3xbwD3YJpc3dDKOxs1cZvweFY3H72+PFZVm
+	Keh7Ubem2r4sFHgZmCVL+cEn+yrJSaoo7B4W0NpsWLAPM9u8z3aRGLu8UXsR83vAlG49KDXbBJ5
+	uf7AKV9onruSB2mrqVOSFBxC89JY=
+X-Google-Smtp-Source: AGHT+IFUv+zdqwSGZ/AlKPuNanEm0kPETb7SScOpXHXL8tw6Gy8bXBuZSCeFg9bO1s0rL1JpoHQLPA==
+X-Received: by 2002:ac8:7d43:0:b0:494:9d34:fca5 with SMTP id d75a77b69052e-4af110a5885mr73880771cf.13.1754169184279;
+        Sat, 02 Aug 2025 14:13:04 -0700 (PDT)
 Received: from vader ([198.16.184.245])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4af230d8a21sm4955651cf.51.2025.08.02.14.13.05
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4af230d8a21sm4955651cf.51.2025.08.02.14.13.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Aug 2025 14:13:05 -0700 (PDT)
+        Sat, 02 Aug 2025 14:13:03 -0700 (PDT)
 From: Anakin Childerhose <anakin@childerhose.ca>
 To: openembedded-core@lists.openembedded.org
 Cc: Anakin Childerhose <anakin@childerhose.ca>
-Subject: [PATCH 3/3] meson.bbclass: inherit compile_commands.bbclass
-Date: Sat,  2 Aug 2025 17:13:19 -0400
-Message-ID: <20250802211319.20060-4-anakin@childerhose.ca>
+Subject: [PATCH 1/2] cmake.bbclass: inherit compile_commands.bbclass
+Date: Sat,  2 Aug 2025 17:13:17 -0400
+Message-ID: <20250802211319.20060-2-anakin@childerhose.ca>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250802211319.20060-1-anakin@childerhose.ca>
 References: <20250802211319.20060-1-anakin@childerhose.ca>
@@ -68,29 +68,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 21:13:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221391
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221389
 
-meson.bbclass generates a compile_commands.json file by default in ${B}.
+cmake.bbclass generates a compile_commands.json file by default in ${B}.
 To automatically configure the clangd language server, link the
 compile_commands.json file to ${S} via compile_commands.bbclass.
 
 Signed-off-by: Anakin Childerhose <anakin@childerhose.ca>
 ---
- meta/classes-recipe/meson.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/cmake.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
-index c8b3e1ec29..4f5d7b9e5e 100644
---- a/meta/classes-recipe/meson.bbclass
-+++ b/meta/classes-recipe/meson.bbclass
-@@ -4,7 +4,7 @@
+diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
+index 1488d744d4..2da4a9a6c5 100644
+--- a/meta/classes-recipe/cmake.bbclass
++++ b/meta/classes-recipe/cmake.bbclass
+@@ -4,6 +4,8 @@
  # SPDX-License-Identifier: MIT
  #
  
--inherit python3native meson-routines qemu
-+inherit python3native meson-routines qemu compile_commands
- 
- DEPENDS:append = " meson-native ninja-native"
++inherit compile_commands
++
+ # Path to the CMake file to process.
+ OECMAKE_SOURCEPATH ??= "${S}"
  
 -- 
 2.50.1
