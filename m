@@ -1,244 +1,120 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF3FEC87FD2
-	for <webhook@archiver.kernel.org>; Sat,  2 Aug 2025 09:29:13 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web11.3383.1754126952045563893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3431C87FC9
+	for <webhook@archiver.kernel.org>; Sat,  2 Aug 2025 13:12:34 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web11.6437.1754140350298187038
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Aug 2025 02:29:12 -0700
+ Sat, 02 Aug 2025 06:12:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
-Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
-	by mailout11.t-online.de (Postfix) with SMTP id CB7091BD94
-	for <openembedded-core@lists.openembedded.org>; Sat,  2 Aug 2025 11:29:06 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.154.172.51]) by fwd72.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1ui8Y2-3YNb9t0; Sat, 2 Aug 2025 11:29:02 +0200
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k1h5ts/Z;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-af93381a1d2so261793766b.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 06:12:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754140349; x=1754745149; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/G7D3xNyGyT6IebT+/cZtlenDMd/UReaKT+YZms2Gm0=;
+        b=k1h5ts/ZjsEIAO7IAvv3ivhBla/HGX1HSjyfjOxmcAcAQb+0aBFk9rh2RE/LPkFXbY
+         8VaN2IPo+Ec17EOPMOlfPlwClCM3TK5PzZ3sPkniNd2cdHu0ZS7Adsq4uoHhuS39bkX8
+         MNCfk+Ee3l6J/FXq3iKeBohH2gBpZIzRS1Y1Ll32nMPb9Ak+gxkUKMo9zIQlgcBa9TfZ
+         5Tnk0WeD8mQgg4ueNNDApXt4FwdQViXQixkPHP4TSeaKuDFc4NPqnUoscHDHE0SKEnGe
+         FredT3Vd2g92mQDVyliqOBt86APhcxPDO8FGA+MI0/y522cjeSAtbIOHL1wDn5AoLQQk
+         tu3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754140349; x=1754745149;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/G7D3xNyGyT6IebT+/cZtlenDMd/UReaKT+YZms2Gm0=;
+        b=hmRIdf8qcSFwZ2I7GaRm8CnLgIhYYSPz01JqJSzFKIPDaXbpQjd/em1sEfWZ05nQ14
+         s/nSERkziviicQqxiExlNTDb5FErTrj6g/+C9bJIfum1cmqLriTLjtr4/+k4GRCmZVVt
+         Xtg0Bxaf4jmko+Eu5S+lVjDCK75UMJeQ5usTmVaSf7PVEl7a+iCwqWMrCqfmb4Zv5+xI
+         lqHtV7HkTC64QFAsfjEsmPeOeqev98jJ/eZf8Wnzl3llPIgcE0kFBTiIrw321soIhCTh
+         NTrjnibAqvfnW3rbtkdQxLU7LcISkfNMxqObHEjQG88HACsqoFGiVRSMFt+vpzfjBGw+
+         f3qw==
+X-Gm-Message-State: AOJu0YyNLrX8ZT4Zud40QBdMQUXqUCH3wEi4Z1m96hSgh7riZpaOxiPd
+	O3AoN4RnaUDOf2FT8R0bVT9m91jBhp4kQ6NCfUdKEW9hMwpldtdSA1Ze5FTkVQ==
+X-Gm-Gg: ASbGncszZ3WGXqoxM3E1Nrkc6n0YCxJOv0xfu99UGCNZqcUZg5dXTe7xz52c3gA0ho9
+	mNHHabhUbwZtz8uunUnjwW1drQTzFdUnBNch9Gf0BKA25747riWIKukIj+UyFdhncqYdp26hbib
+	82Ud2b/Wb/MZZW7ZRLvJvT+44Lk2XQrXe5A1k2MoieMDrdroLHID2oKVstvBRuonlXprXSeNvSz
+	ESvW5bP2unF07hr9TPOOKJXlQrUvrtr0n/PVE2U6TFNzUAJa38/caB2ERdKpFvDZCsfYRmbdRcq
+	PaKx6vb9lq9nHevR9ies4nXD6PoGjuiwgFoYTcwle0exBuZBVThlFjg6IKZr0Ho8Lro57xOVe6+
+	uHuU24qAppJhxyWv38AE=
+X-Google-Smtp-Source: AGHT+IHO2pqiAkRQyJwIWw8esNg/NrZlKLTopHZbj4rhpnY4mR7WO1AxCB9f3w8KHSLXvIQgdtaAQQ==
+X-Received: by 2002:a17:907:3f90:b0:af8:f58f:89dc with SMTP id a640c23a62f3a-af9401f80afmr383332066b.41.1754140348400;
+        Sat, 02 Aug 2025 06:12:28 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af937214cf1sm217963866b.143.2025.08.02.06.12.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Aug 2025 06:12:27 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv3] autoconf-archive: add backport patches to fix gl and glx detection
-Date: Sat,  2 Aug 2025 11:28:50 +0200
-Message-ID: <20250802092850.1678997-1-f_l_k@t-online.de>
+Subject: [PATCH 1/2] dpkg: upgrade 1.22.11 -> 1.22.21
+Date: Sat,  2 Aug 2025 15:12:26 +0200
+Message-ID: <20250802131227.677594-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1754126943-A37EC6D2-61687161/0/0 CLEAN NORMAL
-X-TOI-MSGID: ca30942a-c990-4b83-8eff-e96f8bccb72b
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 09:29:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221380
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 13:12:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221381
 
-Detecting opengl using autoconf-archive currently fails:
-| aclocal: warning: couldn't open directory 'm4': No such file or directo=
-ry
-| configure.ac:306: error: _AX_CHECK_GL_MANUAL_LIBS_GENERIC: argument mus=
-t not be empty
-| ../sources/autoconf-2.72/lib/m4sugar/m4sh.m4:690: _AS_IF_ELSE is expand=
-ed from...
-| ../sources/autoconf-2.72/lib/m4sugar/m4sh.m4:697: AS_IF is expanded fro=
-m...
-| /home/flk/poky/build/tmp/work/corei7-64-poky-linux/cava/0.10.4/recipe-s=
-ysroot-native/usr/share/aclocal/ax_check_gl.m4:187: _AX_CHECK_GL_MANUAL_L=
-IBS_GENERIC is expanded from...
-| ../sources/autoconf-2.72/lib/m4sugar/m4sh.m4:595: AS_CASE is expanded f=
-rom...
-| /home/flk/poky/build/tmp/work/corei7-64-poky-linux/cava/0.10.4/recipe-s=
-ysroot-native/usr/share/aclocal/ax_check_gl.m4:253: AX_CHECK_GL is expand=
-ed from...
-| ../sources/autoconf-2.72/lib/m4sugar/m4sh.m4:697: AS_IF is expanded fro=
-m...
-| ../sources/autoconf-2.72/lib/m4sugar/m4sh.m4:697: AS_IF is expanded fro=
-m...
-| configure.ac:306: the top level
-| autom4te: error: m4 failed with exit status: 1
+All executables and scripts (except for start-stop-daemon script)
+were moved from sbin to bin after the following commit:
+https://salsa.debian.org/dpkg-team/dpkg/-/commit/12e3bc2991ac27f73545a246bb95b84fb8d262c9
 
-This issue has already been fixed upstream, but there has been no new rel=
-ease since then.
+Changelog: https://salsa.debian.org/dpkg-team/dpkg/-/blob/main/debian/changelog
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- ...daa3da0eb1a256fda631867e19345d5f6e3a.patch | 33 ++++++++++++++++
- ...226a2fe3980388abffd6de25ed6b9591cce3.patch | 39 +++++++++++++++++++
- ...8d9e3ead52f998535b86c763065c5b45cc59.patch | 38 ++++++++++++++++++
- .../autoconf-archive_2024.10.16.bb            |  3 ++
- 4 files changed, 113 insertions(+)
- create mode 100644 meta/recipes-devtools/autoconf-archive/autoconf-archi=
-ve/3a23daa3da0eb1a256fda631867e19345d5f6e3a.patch
- create mode 100644 meta/recipes-devtools/autoconf-archive/autoconf-archi=
-ve/427e226a2fe3980388abffd6de25ed6b9591cce3.patch
- create mode 100644 meta/recipes-devtools/autoconf-archive/autoconf-archi=
-ve/e25f8d9e3ead52f998535b86c763065c5b45cc59.patch
+ meta/recipes-devtools/dpkg/dpkg.inc                          | 4 ++--
+ .../dpkg/{dpkg_1.22.11.bb => dpkg_1.22.21.bb}                | 5 ++---
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/dpkg/{dpkg_1.22.11.bb => dpkg_1.22.21.bb} (91%)
 
-diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive/3a23=
-daa3da0eb1a256fda631867e19345d5f6e3a.patch b/meta/recipes-devtools/autoco=
-nf-archive/autoconf-archive/3a23daa3da0eb1a256fda631867e19345d5f6e3a.patc=
-h
-new file mode 100644
-index 0000000000..64d73781d3
---- /dev/null
-+++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive/3a23daa3da0=
-eb1a256fda631867e19345d5f6e3a.patch
-@@ -0,0 +1,33 @@
-+From 3a23daa3da0eb1a256fda631867e19345d5f6e3a Mon Sep 17 00:00:00 2001
-+From: Eli Schwartz <eschwartz93@gmail.com>
-+Date: Sat, 19 Oct 2024 21:58:52 -0400
-+Subject: [PATCH] ax_switch_flags.m4: properly quote m4_fatal
-+
-+It needs to only run as an argument of m4_if, not all the time.
-+
-+Fixes: 2adff78e224c908fd58df91852c8301c25777a8f
-+
-+Upstream-Status: Backport [https://github.com/autoconf-archive/autoconf-=
-archive/commit/3a23daa3da0eb1a256fda631867e19345d5f6e3a]
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+---
-+ m4/ax_switch_flags.m4 | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/m4/ax_switch_flags.m4 b/m4/ax_switch_flags.m4
-+index dc79d1e9..777aeb0b 100644
-+--- a/m4/ax_switch_flags.m4
-++++ b/m4/ax_switch_flags.m4
-+@@ -36,10 +36,10 @@
-+ #   and this notice are preserved. This file is offered as-is, without =
-any
-+ #   warranty.
-+=20
-+-#serial 5
-++#serial 6
-+=20
-+ AC_DEFUN([AX_SWITCH_FLAGS], [
-+-  m4_if($1, [], m4_fatal([$0: namespace is empty]))
-++  m4_if($1, [], [m4_fatal([$0: namespace is empty])])
-+   AC_REQUIRE(AX_SAVE_FLAGS)
-+   AC_REQUIRE(AX_RESTORE_FLAGS)
-+   AX_SAVE_FLAGS($1[])
-diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive/427e=
-226a2fe3980388abffd6de25ed6b9591cce3.patch b/meta/recipes-devtools/autoco=
-nf-archive/autoconf-archive/427e226a2fe3980388abffd6de25ed6b9591cce3.patc=
-h
-new file mode 100644
-index 0000000000..8a86d0a4d8
---- /dev/null
-+++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive/427e226a2fe=
-3980388abffd6de25ed6b9591cce3.patch
-@@ -0,0 +1,39 @@
-+From 427e226a2fe3980388abffd6de25ed6b9591cce3 Mon Sep 17 00:00:00 2001
-+From: Eli Schwartz <eschwartz93@gmail.com>
-+Date: Sat, 19 Oct 2024 21:51:30 -0400
-+Subject: [PATCH] ax_check_gl.m4: properly quote m4_fatal
-+
-+It needs to only run as an argument of m4_if, not all the time.
-+
-+Fixes: 753493bf7e251997f02559b98fc599d4a337d8cd
-+Bug: https://bugs.gentoo.org/941845
-+
-+Upstream-Status: Backport [https://github.com/autoconf-archive/autoconf-=
-archive/commit/427e226a2fe3980388abffd6de25ed6b9591cce3]
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+---
-+ m4/ax_check_gl.m4 | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/m4/ax_check_gl.m4 b/m4/ax_check_gl.m4
-+index 850d407d..4c2e4efb 100644
-+--- a/m4/ax_check_gl.m4
-++++ b/m4/ax_check_gl.m4
-+@@ -85,7 +85,7 @@
-+ #   modified version of the Autoconf Macro, you may extend this special
-+ #   exception to the GPL to apply to your modified version as well.
-+=20
-+-#serial 23
-++#serial 24
-+=20
-+ # example gl program
-+ m4_define([_AX_CHECK_GL_PROGRAM],
-+@@ -187,7 +187,7 @@ AC_DEFUN([_AX_CHECK_GL_LINK_CV],
-+ AC_DEFUN([_AX_CHECK_GL_MANUAL_LIBS_GENERIC], [
-+   AS_IF([test -n "$GL_LIBS"],[], [
-+     ax_check_gl_manual_libs_generic_extra_libs=3D"$1"
-+-    m4_if($1, [], m4_fatal([$0: argument must not be empty]))
-++    m4_if($1, [], [m4_fatal([$0: argument must not be empty])])
-+=20
-+     _AX_CHECK_GL_SAVE_FLAGS([CFLAGS])
-+     AC_SEARCH_LIBS([glBegin],[$ax_check_gl_manual_libs_generic_extra_li=
-bs], [
-diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive/e25f=
-8d9e3ead52f998535b86c763065c5b45cc59.patch b/meta/recipes-devtools/autoco=
-nf-archive/autoconf-archive/e25f8d9e3ead52f998535b86c763065c5b45cc59.patc=
-h
-new file mode 100644
-index 0000000000..9e2689010f
---- /dev/null
-+++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive/e25f8d9e3ea=
-d52f998535b86c763065c5b45cc59.patch
-@@ -0,0 +1,38 @@
-+From e25f8d9e3ead52f998535b86c763065c5b45cc59 Mon Sep 17 00:00:00 2001
-+From: Eli Schwartz <eschwartz93@gmail.com>
-+Date: Sat, 19 Oct 2024 21:57:16 -0400
-+Subject: [PATCH] ax_check_glx.m4: properly quote m4_fatal
-+
-+It needs to only run as an argument of m4_if, not all the time.
-+
-+Fixes: 40ca66e7e52bb63e3eee2514855fcf3ad2df7673
-+
-+Upstream-Status: Backport [https://github.com/autoconf-archive/autoconf-=
-archive/commit/e25f8d9e3ead52f998535b86c763065c5b45cc59]
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+---
-+ m4/ax_check_glx.m4 | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/m4/ax_check_glx.m4 b/m4/ax_check_glx.m4
-+index c7890d9c..b5027f9b 100644
-+--- a/m4/ax_check_glx.m4
-++++ b/m4/ax_check_glx.m4
-+@@ -61,7 +61,7 @@
-+ #   modified version of the Autoconf Macro, you may extend this special
-+ #   exception to the GPL to apply to your modified version as well.
-+=20
-+-#serial 9
-++#serial 10
-+=20
-+ # example program
-+ m4_define([_AX_CHECK_GLX_PROGRAM],
-+@@ -183,7 +183,7 @@ AC_DEFUN([_AX_CHECK_GLX_HEADERS],
-+ AC_DEFUN([_AX_CHECK_GLX_MANUAL_LIBS_GENERIC],
-+ [dnl
-+  ax_check_glx_manual_libs_generic_extra_libs=3D"$1"
-+- m4_if($1, [], m4_fatal([$0: argument must not be empty]))
-++ m4_if($1, [], [m4_fatal([$0: argument must not be empty])])
-+=20
-+  AC_LANG_PUSH([C])
-+  _AX_CHECK_GLX_SAVE_FLAGS()
-diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2024=
-.10.16.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2024.=
-10.16.bb
-index 11708de1c8..46d1b91d65 100644
---- a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2024.10.16.=
-bb
-+++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2024.10.16.=
-bb
-@@ -6,6 +6,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D11cc2d3ee574f9=
-d6b7ee797bdce4d423 \
-     file://COPYING.EXCEPTION;md5=3Dfdef168ebff3bc2f13664c365a5fb515"
-=20
- SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
-+SRC_URI +=3D "file://427e226a2fe3980388abffd6de25ed6b9591cce3.patch"
-+SRC_URI +=3D "file://3a23daa3da0eb1a256fda631867e19345d5f6e3a.patch"
-+SRC_URI +=3D "file://e25f8d9e3ead52f998535b86c763065c5b45cc59.patch"
- SRC_URI[sha256sum] =3D "7bcd5d001916f3a50ed7436f4f700e3d2b1bade3ed803219=
-c592d62502a57363"
-=20
- inherit autotools allarch texinfo
---=20
-2.50.1
-
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index f87d0739ad..dea1894a4c 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -50,9 +50,9 @@ do_install:append () {
+ 	if [ "${PN}" = "dpkg-native" ]; then
+ 		# update-alternatives doesn't have an offline mode
+ 		rm ${D}${bindir}/update-alternatives
+-		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env nativeperl|' ${D}${bindir}/dpkg-* ${D}${sbindir}/dpkg-*
++		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env nativeperl|' ${D}${bindir}/dpkg-*
+ 	else
+-		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-* ${D}${sbindir}/dpkg-*
++		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-*
+ 	fi
+ }
+ 
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.22.11.bb b/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb
+similarity index 91%
+rename from meta/recipes-devtools/dpkg/dpkg_1.22.11.bb
+rename to meta/recipes-devtools/dpkg/dpkg_1.22.21.bb
+index adceebf8e6..cc30b71109 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.22.11.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb
+@@ -1,7 +1,7 @@
+ require dpkg.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main \
++SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=1.22.x;tag=${PV} \
+            file://noman.patch \
+            file://remove-tar-no-timestamp.patch \
+            file://arch_pm.patch \
+@@ -17,5 +17,4 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
+ 
+ SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
+ 
+-SRCREV = "ee7e9118d0a9581cb00c5ce02dccd561b3096387"
+-
++SRCREV = "d72b038fd2113cb62972e4071db03dd1388394d8"
 
