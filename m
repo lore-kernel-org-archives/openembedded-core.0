@@ -1,143 +1,108 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC873C87FD2
-	for <webhook@archiver.kernel.org>; Sat,  2 Aug 2025 22:05:22 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web10.6932.1754172312722346491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F05FC87FC9
+	for <webhook@archiver.kernel.org>; Sat,  2 Aug 2025 23:22:43 +0000 (UTC)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+ by mx.groups.io with SMTP id smtpd.web10.8000.1754176958001719300
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Aug 2025 15:05:12 -0700
+ Sat, 02 Aug 2025 16:22:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=Uq4a0M+/;
- spf=pass (domain: underview.tech, ip: 209.85.222.176, mailfrom: vince@underview.tech)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7e34493ecb4so236474785a.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 15:05:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gm4OEbKJ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e8fe5f3f340so1387027276.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 16:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1754172311; x=1754777111; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1754176957; x=1754781757; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bGLy1iMR67fvn+6SuMga8KLU1s1FK38i/nCe0V5V9Y8=;
-        b=Uq4a0M+/Xrd3CoKkLVVipzTWR4NBa4x6MSG5OuFaYEJdOT2q3FuM8dPLy7uTaIDwWf
-         MkxIRYQJYMbaOJJb/sSL3AINzspe50cyzykr2dW/45cla0xWgtrAxYA567FnKJFJtath
-         rwI0b3M+cwVWjWA5rHV94A7k8gpM8q66eR1ETBPb0lKMbeercyvWvHrc6Ss+RACsm/xG
-         LYXIJziH6YdObkDD/wLTCHIkvr4633pZ0J4isYTW9wywj2eSc2JEzG2dQNqt9w80bF4t
-         IbJ2gdN0n/Yf25FEcotrpFzccPQtobeNlS9B+se9slecWCk12RHp6IR1EXebaLM+GddP
-         /Xvg==
+        bh=/HR4gRLCnDnlhbChWvJC2thG8fqmuju/hLg2lhf12Fs=;
+        b=gm4OEbKJczIXOdAABWP/qHSdzqMelplLSc2ORmDUvcVbuQtbabb5X4Enkr5YxJZjS1
+         gZnDMBAKHUNui1qM2o7AGyePIPX6wHG7ldufevy2q4HXq8A41IdAiqSqDyLpGMYlA+Ae
+         ONr17g7AYKx26IecvdZ0BHYMgzTILT9sUKxJJSizJSB9nVoHCuqNfdsFvwxAjldafzN9
+         DEqZ0QT/mDX63StKdkuROouBtY0/4xgTmHEXU1LK0Ud/W0qZnHQneOXrOp+22zLmhpFO
+         w07a6g1ZF7F1sKERIZW8z/4josgjjhLPOl871yTwkJ/4PfC0vCOvsWZ971SfVnGedBV2
+         nQYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754172311; x=1754777111;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1754176957; x=1754781757;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bGLy1iMR67fvn+6SuMga8KLU1s1FK38i/nCe0V5V9Y8=;
-        b=Q5/6xP7DjLaxPt6qqF79YZ6VhnehXNdSohdSMKiTNJNRvuNYz64QHeU9hprI8f/ELq
-         Pcm+G/9uqk4DL/gJEZMco7KOhiGQupzdfB6nrP31l/UfjlV8+kve1wWQ1M7lXZndiDbu
-         kQ8ne6NQ1EC+YVOPKQ1oWc2VsB5Jyn7doHxPPDaW3ARRJ7XKXGCFJ8SOTJni0kfST6x2
-         6mbgBAwzTcebfvdLpTR5UNYv+9UXO+PHDIM2b754cig7tfAF+oGQY5V1RRyjGbcYCzhT
-         XnwTW2Zrt90xNfHngMyjSXvcCBFY83IuU5KF/lRchvStT3h/etRdK0sUuShAo5SXfjaC
-         M4pw==
-X-Gm-Message-State: AOJu0Yw8Sr49EdO+upAQzBF5h+b0iGXlANH4OSPcnc+IBoHAInC+14+2
-	iXEJNwE+LtNfuDWGYDfpcl/LT8FgqQdXSR1gDcYbpInvyapwvp9lExAO9jQnXWwoF1ivMw+kk3k
-	e0ntF
-X-Gm-Gg: ASbGnctbObRiA1L2IWAMroDrj73BCtO+49zfnVhNGMMh+0yqGAqo3jEl7/hlFp6Wcq9
-	aIgknQ7jRozvl10IsMVSyVIZSCDr7DvKuixIEc9ZGjeMADxgVmOuIMjwgoplS5jBKy4zRzU31qv
-	atzouOheNE9YFOYwPx8KtfZxkIBVbI1Nab+KhVGqMDjFR8L5wqRdVYTR2tgqgvNZFzvsIaesgtM
-	qri2LiCW+kum2hVCZggqLAzPY8aBJQ9si1Y9bEnbcdh/0IULNlqIojC6fe1qCQVdBRgdf7jBrN3
-	ueovu9Ll1QB2OauC2MTtgjgsVdLJzHsB0CMvR3HLKvE2zZQyPyGan4KGOxOA5oLz40+XTdkO7I7
-	9iacAO44lMGk=
-X-Google-Smtp-Source: AGHT+IEowuWfpeKvgWx7okJd+IfBPK4rJMDHgcuvqsd+KSibpgV3wmRT867xRE8dZdtbPs4rHNnF6w==
-X-Received: by 2002:a05:620a:7005:b0:7e7:f84c:9d6a with SMTP id af79cd13be357-7e7f84ca068mr21074185a.32.1754172311164;
-        Sat, 02 Aug 2025 15:05:11 -0700 (PDT)
-Received: from vince-server.. ([2601:406:4d01:1820::71f9])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e67f706406sm373028385a.49.2025.08.02.15.05.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Aug 2025 15:05:10 -0700 (PDT)
-From: Vincent Davis Jr <vince@underview.tech>
-To: openembedded-core@lists.openembedded.org
-Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v6 3/3] oe-selftest: add wic.Wic.test_grub_install_pcbios
-Date: Sat,  2 Aug 2025 18:02:32 -0400
-Message-ID: <20250802220229.2826203-6-vince@underview.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250802220229.2826203-2-vince@underview.tech>
-References: <20250802220229.2826203-2-vince@underview.tech>
+        bh=/HR4gRLCnDnlhbChWvJC2thG8fqmuju/hLg2lhf12Fs=;
+        b=ipULthxozBK2/QK3Q424z3jtzjSdfCGZoHC2IMDFesX0xV25Yokt/Yfi9JgFwOSWoL
+         drS5mjRMY2EIDo4XO/C/lRhICZiNiYZzbZoS8fluugAmGsBVidWYRKDhMbjTfajWSiaM
+         FPHg1dbuqewCI+SFnyWo5YenMLkDQflxLs99IjCdA+shNxpHa4b60Oy8dCi/o3AOgU1Z
+         XjPh8XJI9uD+kOE3tuk6JgXzrYo8UfpIlyKlVe+juwH99M8sN0k+IqjazQtFNlXJxX07
+         NVo9PRATtaUbqGbKpAOlC3vwmE+DV+BxNbI8iJpfx/v0xICjJbkL6fky91FAnn/m5JVh
+         Vf7Q==
+X-Gm-Message-State: AOJu0YzfKYc70I2wKb2rghIkYxW15Suq3D3qDP2uBgB58RJAbIyfwoVz
+	nnSKCBqj55PED9R7lYWt8QswFSSFwygVFxwDOLtwvx8KtwBRf0V6qa+aEER20hj28KMYEWmM36u
+	qgSxxL+/fX0WwKTVgwggxkuzBWSRB448=
+X-Gm-Gg: ASbGncsghOE67OnSLsJec/chW9lO/NMHKeCK6O5KWnk7spSAB/Yk3f/HKA0M/rFKJPZ
+	wJXEZR49/KDuK5HQ9NoGTtWuIYOC4iEx/UYenPmohf8RuBQ6gxOhgoSLxvzo1KMXf6BpYYXFSpf
+	xm3X9AICcQefYeGeA2LW6JBiO/2tY/EmfDyvOw2t8LPmQeBPbP3yxxByVLdDsl8zslVCfj7S0x0
+	O9OIcKyA316GohovSEK8cyPl6fKkBq9EoBh/7YL
+X-Google-Smtp-Source: AGHT+IHXpHNEWTDH//G00/4C7GsZ9213hJCtxmata1BxdKlefwb/TYfE+1ln0jZAPRCc2J1ZIlYyIxVQcLAv0h74GoY=
+X-Received: by 2002:a05:690c:288a:b0:719:f37e:e675 with SMTP id
+ 00721157ae682-71b7f08dcbfmr43433587b3.17.1754176956920; Sat, 02 Aug 2025
+ 16:22:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250802211319.20060-1-anakin@childerhose.ca>
+In-Reply-To: <20250802211319.20060-1-anakin@childerhose.ca>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 2 Aug 2025 16:22:10 -0700
+X-Gm-Features: Ac12FXxItljeGhWNwHeBR-fUQSBJYhXWudsc_Wan238gBO54w2GXzo5ldkQKGok
+Message-ID: <CAMKF1sqU_Pf8n4jQKiQUKFXhq+Ezpq_yjzwc7NQeao25pBadQQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/3] Automatically add compile_commands.json to ${S}
+To: anakin@childerhose.ca
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 22:05:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221394
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 23:22:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221395
 
-wic.Wic.test_grub_install_pcbios test
+On Sat, Aug 2, 2025 at 2:13=E2=80=AFPM Anakin Childerhose via
+lists.openembedded.org <anakin=3Dchilderhose.ca@lists.openembedded.org>
+wrote:
+>
+> To better take advantage of Meson and Cmake's automatic generation of a
+> compile_commands.json file for the clangd language server, link the
+> ${B}/compile_commands.json to ${S}/compile_commands.json.
+>
+> I accidentally missed the initial commit which provided the
+> compile_commands.bbclass. This corrects the previous submission.
+>
+> Anakin Childerhose (3):
+>   clangd: add compile_commands.bbclass
 
-Test updates to the bootimg_pcbios plugin that
-enables support for installing grub directly
-to the resulting wic image.
+I do not see a patch adding this bbclass in this series. Did you forget ?
 
-The test checks to see if the wics plugin
-generates a wic image. Then see's if normal.mod
-and grub.cfg are located in the boot partition.
-
-Signed-off-by: Vincent Davis Jr <vince@underview.tech>
----
- meta/lib/oeqa/selftest/cases/wic.py | 41 +++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 680f99d381..44442e402d 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -215,6 +215,47 @@ class Wic(WicTestCase):
-                     found, "The kernel image '{}' was not found in the boot partition".format(kimgtype)
-                 )
- 
-+    @skipIfNotArch(['x86_64'])
-+    def test_grub_install_pcbios(self):
-+        """
-+        Test the installation of the grub modules + config
-+        into the boot directory in the resulting wic image.
-+        """
-+
-+        # create a temporary file for the WKS content
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.write(
-+                'part --source bootimg_pcbios --sourceparams="loader-bios=grub" '
-+                '--offset 1024 --fixed-size 78M --label boot --active\n'
-+                'bootloader --ptable msdos --source bootimg_pcbios\n'
-+            )
-+            wks.flush()
-+            # create a temporary directory to extract the disk image to
-+            with TemporaryDirectory() as tmpdir:
-+                img = "core-image-minimal"
-+                config = 'DEPENDS:pn-%s += "grub-native grub"' % (img)
-+
-+                self.append_config(config)
-+                bitbake(img)
-+                self.remove_config(config)
-+
-+                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+                runCmd(cmd)
-+
-+                wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+                out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
-+                self.assertEqual(1, len(out))
-+
-+                sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+
-+                # Check if grub.cfg is installed
-+                result = runCmd("wic ls %s:1/boot/grub -n %s" % (out[0], sysroot))
-+                self.assertIn('grub', result.output)
-+
-+                # Check if normal.mod is installed
-+                result = runCmd("wic ls %s:1/boot/grub/i386-pc -n %s" % (out[0], sysroot))
-+                self.assertIn('normal', result.output)
-+
-     def test_build_image_name(self):
-         """Test wic create wictestdisk --image-name=core-image-minimal"""
-         cmd = "wic create wictestdisk --image-name=core-image-minimal -o %s" % self.resultdir
--- 
-2.43.0
-
+>   cmake.bbclass: inherit compile_commands.bbclass
+>   meson.bbclass: inherit compile_commands.bbclass
+>
+>  meta/classes-recipe/cmake.bbclass            |  2 ++
+>  meta/classes-recipe/compile_commands.bbclass | 18 ++++++++++++++++++
+>  meta/classes-recipe/meson.bbclass            |  2 +-
+>  3 files changed, 21 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/classes-recipe/compile_commands.bbclass
+>
+> --
+> 2.50.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#221388): https://lists.openembedded.org/g/openembedde=
+d-core/message/221388
+> Mute This Topic: https://lists.openembedded.org/mt/114507103/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
