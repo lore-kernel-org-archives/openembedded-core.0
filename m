@@ -1,179 +1,109 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EB0DC87FCB
-	for <webhook@archiver.kernel.org>; Fri,  1 Aug 2025 22:17:38 +0000 (UTC)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
- by mx.groups.io with SMTP id smtpd.web10.100031.1754086653773118982
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0EA0C87FC9
+	for <webhook@archiver.kernel.org>; Sat,  2 Aug 2025 06:46:32 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.1926.1754117184465366568
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Aug 2025 15:17:33 -0700
+ Fri, 01 Aug 2025 23:46:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HdZUU7jz;
- spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e8e2b50f8f1so1387854276.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 15:17:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k+RCUYc1;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ae0dd7ac1f5so446980066b.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 23:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754086653; x=1754691453; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I92Can9vunbM+Z8VnVfYmeDI6dXzxdO8YhG5Yms6ttw=;
-        b=HdZUU7jzFcnoJy8u153fCqAMquq5Dfs0/CwFLeHCaQxU2btdnkOqUo8/RSR1+7JM50
-         yxIQAmHrshL1lNmCQBH4b4QEjFfKAsJbrCJ83hMr8SI5VGhCIUUwbF+01+uHPj3wh3BI
-         MIU4/73uT+eKPZCEC/Ri2coPJJXQm0WaoJKbAu1bOEzPtPYgJU8ihzRgEqIW7hI/ibHW
-         RbhPYvOkdbYZTpvkGrzMi0OBU3Qw3C9FuQ5dS7j051t4QuJg2PRgUCnbUnDh7xmdQNIC
-         eb/YDY3zS/UOc8ZmERSiN+nblaa8Hc/nC+X/F8pPja2gQKOQ7cy4zga+YPim7W2a78Un
-         FUlA==
+        d=gmail.com; s=20230601; t=1754117183; x=1754721983; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yvY0TnMLtOPB0tdizTSFEoab6WbCxWnKbDsjkbpeD9s=;
+        b=k+RCUYc1zjZydeY77NB0EI0+G76D6A93dzwqLpuQo/JucbZWiNkgo1DR1isDu7DTXy
+         /ILaX33A6VxHtBF4T2gODymWODi2ajx1Z2OCBfn1rhKTvMR4rmY5tmmJYAxa8Yxpwip4
+         jZ7dFIIjGRAdZNucIJXnrJXLBbecO81UatXGXhkxUJyV++HtBXCYFSmQQPtyi/vanEzV
+         TSBB6giAFS3DxyVrZqm16ZMl3VuH5MxXrI2eC8Ikc9Ka2wbi85VVethcCpfOkVK72qOf
+         FvAkHD81KHwYoi4tkepOyVClQnhe1q/fgEYKAQuX9dEJVqvHyr8h+e05PehtE0pZcPNY
+         kHWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754086653; x=1754691453;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I92Can9vunbM+Z8VnVfYmeDI6dXzxdO8YhG5Yms6ttw=;
-        b=HreosrrTuHx9bz20TjzoCHBMWjRcEQTB3k4nRm19gy6MWaAG4v+GSrhtDG6i21tWiR
-         LAUdTqftyPsY8iQh5TPvP8m5BOdWg2VgnmzjfCn9eyw1/9IayP1Bz9eoEa5IL50mrSL6
-         8j7ytqI9wlJRg6L3lj+L2HxJ85w2xcgb7J43gEWcX32qIWc4bFCQtorZQ3viTZxp4RLn
-         NRpGXe5VMWjFy9Wm5oWcRY8et0zo0mDC+E+PmB+nn4yJV0JSSXTEuBNAF3TkCZ32zCNz
-         3aEih8Wh3LTgRgxiKpt/5hFN2uRKPtCzVhrT4Jc933I4u1ODrN0HDHEJjI6BmwaS0yLi
-         Z1wg==
-X-Gm-Message-State: AOJu0YweSvGGWWjK4GxIvJacq04ktFeyD7hD3giUTd3TRwyvesZlPuhn
-	/aEgcOsui7vse0F4BJUUwtys9Zb7S53pq2UFFKJ35HR9LOIff8nqBsoUqjO9PAeIpn4EMqRwIGM
-	euWBLZbPlXtCOMM7IAHbEyVRlaKUaNtE=
-X-Gm-Gg: ASbGnctlaMEnP19gpLnnSS/y/yy2xJG1TnTOZ3ENbrDGkjc9rqzBYaBrWPdroVLfevA
-	SyNlykzgDWY+JVBBPOPxM17wJoRO8NS6lnvIXxclNwn+Q0JhRQ6k4ht98PkR7WiSIcnw1O276Fh
-	zpUAPXZ6sYKQi7VA6AY0jis/NS9u2sgKLXLA+Q0V5Uq9rSc76L5etqk2xydfOSSqiY59nlfxG6B
-	A974yz6km/cXEgoP4eHZIxbSHQUZ1qXKNPXvecT
-X-Google-Smtp-Source: AGHT+IFnEaK7pXc5g0QCCwl6zy48Rtc2r93mnXviElBhEGPO3yGGRQ2rGwOFSdJvmoou1ZbSI/9Ge2vAPsljt59xSOs=
-X-Received: by 2002:a05:690c:4481:b0:71a:2cb:db1c with SMTP id
- 00721157ae682-71b7ef6619fmr18886697b3.25.1754086652694; Fri, 01 Aug 2025
- 15:17:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754117183; x=1754721983;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yvY0TnMLtOPB0tdizTSFEoab6WbCxWnKbDsjkbpeD9s=;
+        b=rjvpRikJ8k0fMAVI4zwRKIph8mJCFAJsyWv0GujE/j8wiugvs0xogA+eZA2ecBY5BX
+         LE+EUoL/EuEEawZIkf01qdHkQypHUBpzTe7xaCJwq99Y7op6I4/lOS/L9z/bud3ltwM3
+         sPlgdgP6zVKZhdD58/J/UGIfWgKZKsmRXpQLCwJL8nuZZOXQvhoxuN8LwFoVYYtd51PZ
+         6eLBC1aInq4gkac/ojU/8XSctlqFBglQsxP2TnHJSvg9mF/0VZNqaS5zDJSESPwN5I2Y
+         YycKTXIi4z7hfC0J0DhtVHg2rV0pFXO89rZCoKv7RB/C9LqSHquPBxJHo9quLdUF0Haz
+         f2Kg==
+X-Gm-Message-State: AOJu0YytAnNDQPpFK5m5pF/U35ej+0LJb/1HoQmM34o4LmPuZKhF4Din
+	7Y1JguK/smQ4BF4VFdk9MyhZtJqIrNBKcr9SFSIPedgM6ZZNLN8q1vs8/W6lWQ==
+X-Gm-Gg: ASbGncsQUuyJS45ul3bmA1yBp6o1tqMGk0X4pkhvewx6tz+AZDTYSvZHbOlYJcAtqLU
+	J91zg2Nll1Wj2MwoskwRFwicl89YwozoBuUdQklSI8mkkqRdIMNVrXoJDs4RuQ7jOz5KBpSCTTt
+	s230VaEeerlp/UbOLjSMiKy7ykflom+71zn9NOz79OmFfYw0d8PBDK9HBNbxrEIwEwTzVBKkwyN
+	O4p/QgUdAlgR/0LacyvKGT4fWNPQSSIjDf2HEWC06lvN7X+PXIACgua8V6dEdHCl7tI8nC7HH98
+	jKHa4QKlriKcWyQSnSnxJ6GLdFCJN9vLEf356FGlZdhJWntSshWAoB6ML3rLnKdTDjiA85raFWl
+	Qs+ETd6I4kNj391nYsBA=
+X-Google-Smtp-Source: AGHT+IEmXoadvvgvTXJD1QhqPbZj14xnKvz8U/Mwehwygrw+de0J3p0V0285v/SjP6yI5yBatscu0Q==
+X-Received: by 2002:a17:907:709:b0:ae0:c8b2:3fc0 with SMTP id a640c23a62f3a-af93ffa4079mr302364066b.10.1754117182393;
+        Fri, 01 Aug 2025 23:46:22 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a078bcbsm398701966b.13.2025.08.01.23.46.21
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 23:46:21 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gnutls: upgrade 3.8.9 -> 3.8.10
+Date: Sat,  2 Aug 2025 08:46:21 +0200
+Message-ID: <20250802064621.3981469-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <20250724170600.1113476-1-raj.khem@gmail.com> <d4128d48-9dda-461c-a932-d31edfe1f43c@cherry.de>
- <CAMKF1sqWyUx78Nqc=LsMPq4nLGMzSstV1XePH1hNs8b=vr+JjA@mail.gmail.com> <0bb1a924-2288-4034-a468-bbf358ff28b8@cherry.de>
-In-Reply-To: <0bb1a924-2288-4034-a468-bbf358ff28b8@cherry.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 1 Aug 2025 15:17:06 -0700
-X-Gm-Features: Ac12FXyEH7mfNdo2bfTHRd0LRhS1yFzDWreCXuJkAHSYv_HR7ncj55TnY5MEdro
-Message-ID: <CAMKF1sopDpP_ayPbJJ2A3VmVixJeSQBXU95PqPcLg8KGttOaUA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4] feature-arm-crypto: Add +nocrypto to -mcpu
- when crypto not in features
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Aug 2025 22:17:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221377
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 06:46:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221378
 
-On Fri, Aug 1, 2025 at 3:49=E2=80=AFAM Quentin Schulz <quentin.schulz@cherr=
-y.de> wrote:
->
-> Hi Khem,
->
-> On 7/24/25 8:32 PM, Khem Raj via lists.openembedded.org wrote:
-> > On Thu, Jul 24, 2025 at 10:10=E2=80=AFAM Quentin Schulz
-> > <quentin.schulz@cherry.de> wrote:
-> >>
-> >> Hi Khem
-> >>
-> >> On 7/24/25 7:06 PM, Khem Raj wrote:
-> >>> When crypto is not in tune features then add +nocryto to
-> >>> -mcpu explicitly. This makes the behavior between clang
-> >>> and gcc match. Currently -mcpu=3Dcortex-a72 has different
-> >>> behavior in clang and gcc in terms of what features are
-> >>> considered default. Clang enables different set of common
-> >>> features than gcc on other hand. For example clang
-> >>> enables crypto with default set but gcc
-> >>> does not, gcc recommends to disable unavailable extensions
-> >>> in -mcpu [1] explicitly. crypto is optional on cortex-a53
-> >>> and cortex-a72. This is not as common but Broadcom
-> >>> SOCs in raspberrypi3/4 have dropped crypto for cost
-> >>> reasons [2]. This results in illegal instruction
-> >>> traps [3] [4] when building components e.g. chromium,
-> >>> qtwebengine, weston etc. with clang using -mcpu=3Dcortex-a72
-> >>> for rpi4 target.
-> >>>
-> >>> Adding +nocrypto makes clang behave like gcc does today. We
-> >>> do have separate tune if crypto enabled cortex-a72 cores
-> >>> are to be targeted (cortexa72-cryto) as DEFAULTTUNE
-> >>>
-> >>> They are added to default feature file since crypto extension
-> >>> is available in multiple arm architecture versions e.g. armv8,
-> >>> armv9. It is optional extension as per spec [5]
-> >>>
-> >>> Extensions can be enabled and disabled with -mcpu using the same
-> >>> syntax as with -march, and have same effect thats why it is
-> >>> intrumented via TUNE_CCARGS_MARCH_OPTS
-> >>>
-> >>
-> >> I believe this is incorrect. TUNE_CCARGS_MARCH_OPTS applies to -march,
-> >> not -mcpu.
-> >
-> > Well, it applied to both in cpu specific tune files ( e.g.
-> > tune-cortexa55.inc ) we override
-> > arch specific TUNE_FEATURES and replace with then CPU specific TUNE_FEA=
-TURES
-> >   This results in  TUNE_CCARGS_MARCH being empty and TUNE_CCARGS_MARCH_=
-OPTS
-> > are still valid and they can appended to TUNE_CCARGS
-> >
-> > in conf/machine/include/arm/arch-arm.inc we have
-> > TUNE_CCARGS .=3D "${TUNE_CCARGS_MARCH}${TUNE_CCARGS_MARCH_OPTS
-> > }"
-> >
-> > Due to include order this append appears after the TUNE_CCARGS is
-> > appended with -mcpu option in a mcpu tune file e.g. tune-cortexa55.inc
-> >
-> > TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa55', '
-> > -mcpu=3Dcortex-a55', '', d)}"
-> >
-> > so in the end we get -mcpu=3Dcortex-a55+nocrypto or
-> > -mcpu=3Dcortex-a55+crypto in this case
-> > if you were optimizing widely for an arch then the effect will be via
-> > TUNE_CCARGS_MARCH and
-> > TUNE_CCARGS_MARCH_OPTS
-> >
->
-> And there's no world where we could have both cortexa55 AND armv8-a in
-> TUNE_FEATURES?
+Skip compress-cert-conf test when running ptests, because it requires
+gnutls to be compiled with brotli PACKAGECONFIG, however brotli is not
+part of oe-core.
 
-cortexa55 tune files overwrite TUNE_FEATURES and armv8a will be gone
-from it. In the unlikely case of such inclusion
--march then becomes ineffective.
+Changelog: https://gitlab.com/gnutls/gnutls/-/blob/master/NEWS
 
-I assume this doesn't make sense? If it does, then we
-> could have -mcpu without the +crypto and -march with the +crypto, I
-> assume this could be an issue? I'm probably overthinking this though,
-> aren't I?
->
-> > I do wonder whether renaming both TUNE_CCARGS_MARCH and
-> > TUNE_CCARGS_MARCH_OPTS to something more generic could help lessen the
-> > confusion. It's there because we have -march and
-> > introduced -mcpu options later on.
-> >
->
-> It depends. If there are some scenario where we can have both -mcpu and
-> -march specified, then:
-> - if they can have different options (I doubt this is legal), then each
-> have their own _OPTS is desirable,
-> - if they cannot, then the options likely need to be repeated for both
-> mcpu and march
->
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ meta/recipes-support/gnutls/gnutls/run-ptest                    | 1 +
+ .../gnutls/{gnutls_3.8.9.bb => gnutls_3.8.10.bb}                | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+ rename meta/recipes-support/gnutls/{gnutls_3.8.9.bb => gnutls_3.8.10.bb} (97%)
 
-internally all these extensions translate on top of some -march, it
-could come via
--march or -mcpu.
-
-
-> If we can have one or the other (mcpu/march), then renaming the variable
-> so its name is more generic would be nice indeed :)
-
-Yeah, although a mechanical change, it must be done carefully.
-
->
-> Cheers,
-> Quentin
+diff --git a/meta/recipes-support/gnutls/gnutls/run-ptest b/meta/recipes-support/gnutls/gnutls/run-ptest
+index 17e26eae70..b7827e1358 100644
+--- a/meta/recipes-support/gnutls/gnutls/run-ptest
++++ b/meta/recipes-support/gnutls/gnutls/run-ptest
+@@ -37,6 +37,7 @@ is_disallowed() {
+ # currently not exported to target.
+ 
+ test_disallowlist=""
++test_disallowlist="${test_disallowlist} compress-cert-conf"
+ test_disallowlist="${test_disallowlist} dtls-stress"
+ test_disallowlist="${test_disallowlist} handshake-large-cert"
+ test_disallowlist="${test_disallowlist} id-on-xmppAddr"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.9.bb b/meta/recipes-support/gnutls/gnutls_3.8.10.bb
+similarity index 97%
+rename from meta/recipes-support/gnutls/gnutls_3.8.9.bb
+rename to meta/recipes-support/gnutls/gnutls_3.8.10.bb
+index f2b7ac7bb8..600f23683e 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.9.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.10.bb
+@@ -25,7 +25,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://Add-ptest-support.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "69e113d802d1670c4d5ac1b99040b1f2d5c7c05daec5003813c049b5184820ed"
++SRC_URI[sha256sum] = "db7fab7cce791e7727ebbef2334301c821d79a550ec55c9ef096b610b03eb6b7"
+ 
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
+ 
 
