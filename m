@@ -1,108 +1,91 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <anakin@childerhose.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F05FC87FC9
-	for <webhook@archiver.kernel.org>; Sat,  2 Aug 2025 23:22:43 +0000 (UTC)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
- by mx.groups.io with SMTP id smtpd.web10.8000.1754176958001719300
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3CE5C87FD2
+	for <webhook@archiver.kernel.org>; Sun,  3 Aug 2025 01:04:53 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web10.9363.1754183092002649140
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Aug 2025 16:22:38 -0700
+ Sat, 02 Aug 2025 18:04:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gm4OEbKJ;
- spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e8fe5f3f340so1387027276.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 16:22:37 -0700 (PDT)
+ dkim=pass header.i=@childerhose-ca.20230601.gappssmtp.com header.s=20230601 header.b=Dv0JtNE3;
+ spf=none, err=permanent DNS error (domain: childerhose.ca, ip: 209.85.222.182, mailfrom: anakin@childerhose.ca)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7e33d36491dso326855585a.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 18:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754176957; x=1754781757; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/HR4gRLCnDnlhbChWvJC2thG8fqmuju/hLg2lhf12Fs=;
-        b=gm4OEbKJczIXOdAABWP/qHSdzqMelplLSc2ORmDUvcVbuQtbabb5X4Enkr5YxJZjS1
-         gZnDMBAKHUNui1qM2o7AGyePIPX6wHG7ldufevy2q4HXq8A41IdAiqSqDyLpGMYlA+Ae
-         ONr17g7AYKx26IecvdZ0BHYMgzTILT9sUKxJJSizJSB9nVoHCuqNfdsFvwxAjldafzN9
-         DEqZ0QT/mDX63StKdkuROouBtY0/4xgTmHEXU1LK0Ud/W0qZnHQneOXrOp+22zLmhpFO
-         w07a6g1ZF7F1sKERIZW8z/4josgjjhLPOl871yTwkJ/4PfC0vCOvsWZ971SfVnGedBV2
-         nQYA==
+        d=childerhose-ca.20230601.gappssmtp.com; s=20230601; t=1754183091; x=1754787891; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SurNLxKASI4TMPfHPdAgF6EJHmhp71PYTyaxC0fr3LU=;
+        b=Dv0JtNE33eutTcLNfYnRgQ+6zDVJXN7baFkHaae8/30JYPCd80KStdEoK5q5ynq4IV
+         9/P981hcH2tHX+n8Ct/PWFjPlW5l+eUpPSAXYn5McGjW2odxbuSaC+JdY/UXEqxM11zO
+         pn4Bk1/+ZJMV9B04Tx7SoNlL/GxeFX7OSBg0KNyDjdbHobZl/z0e8G7s+6Nhkfuh1lxa
+         ndT0Zn13zKnvkcl3g2G+7ZXN+6Bxcwra5ChupdJbdhbcwCpSJgDRn1nLKPX+DrxWImWa
+         M2ywUUXeUIjm8FUG4Nrppki0+b8wB/3xrvSN6FsBSLA3gEnCOdG0+fdnwoUsmOI4flfi
+         k7Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754176957; x=1754781757;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/HR4gRLCnDnlhbChWvJC2thG8fqmuju/hLg2lhf12Fs=;
-        b=ipULthxozBK2/QK3Q424z3jtzjSdfCGZoHC2IMDFesX0xV25Yokt/Yfi9JgFwOSWoL
-         drS5mjRMY2EIDo4XO/C/lRhICZiNiYZzbZoS8fluugAmGsBVidWYRKDhMbjTfajWSiaM
-         FPHg1dbuqewCI+SFnyWo5YenMLkDQflxLs99IjCdA+shNxpHa4b60Oy8dCi/o3AOgU1Z
-         XjPh8XJI9uD+kOE3tuk6JgXzrYo8UfpIlyKlVe+juwH99M8sN0k+IqjazQtFNlXJxX07
-         NVo9PRATtaUbqGbKpAOlC3vwmE+DV+BxNbI8iJpfx/v0xICjJbkL6fky91FAnn/m5JVh
-         Vf7Q==
-X-Gm-Message-State: AOJu0YzfKYc70I2wKb2rghIkYxW15Suq3D3qDP2uBgB58RJAbIyfwoVz
-	nnSKCBqj55PED9R7lYWt8QswFSSFwygVFxwDOLtwvx8KtwBRf0V6qa+aEER20hj28KMYEWmM36u
-	qgSxxL+/fX0WwKTVgwggxkuzBWSRB448=
-X-Gm-Gg: ASbGncsghOE67OnSLsJec/chW9lO/NMHKeCK6O5KWnk7spSAB/Yk3f/HKA0M/rFKJPZ
-	wJXEZR49/KDuK5HQ9NoGTtWuIYOC4iEx/UYenPmohf8RuBQ6gxOhgoSLxvzo1KMXf6BpYYXFSpf
-	xm3X9AICcQefYeGeA2LW6JBiO/2tY/EmfDyvOw2t8LPmQeBPbP3yxxByVLdDsl8zslVCfj7S0x0
-	O9OIcKyA316GohovSEK8cyPl6fKkBq9EoBh/7YL
-X-Google-Smtp-Source: AGHT+IHXpHNEWTDH//G00/4C7GsZ9213hJCtxmata1BxdKlefwb/TYfE+1ln0jZAPRCc2J1ZIlYyIxVQcLAv0h74GoY=
-X-Received: by 2002:a05:690c:288a:b0:719:f37e:e675 with SMTP id
- 00721157ae682-71b7f08dcbfmr43433587b3.17.1754176956920; Sat, 02 Aug 2025
- 16:22:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754183091; x=1754787891;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SurNLxKASI4TMPfHPdAgF6EJHmhp71PYTyaxC0fr3LU=;
+        b=VyALwHp4YSHs3Zn0TcNdzHuQQDb3CZvQZaIwew1gNFKCH4QTq5pn/uwcLmFa7dqwpj
+         jHtiXXCEQI+qt+S+EXVNZpA2SMRryh0WJj5MOB0LWXD18SrINPDO0Qlks593VLz9OEiV
+         Zc4BipDmN7B4Rm+a+ZNMuUvtDzXc4czXzgyCVyVevQOQjWg7yJG4OkuhylNJs3cwx4Xb
+         vTOwGFme2kMdNXHi0XOWAC3ia0A/vYYeRyuzqMqMTtaD2wVTUjXgpQNYAKTIaKY5U/4+
+         9Ae9gL0ZygILMFM2M2mlaAh8PGkB+DfRd3/rrJuD+QW10hKUqjjHeIXXL1WeuCQApred
+         ejYw==
+X-Gm-Message-State: AOJu0Yy7aAuL6OekYynR018BJifwGncYhmjwSct53mAQxY3Yz9G8AK+r
+	+RqC9BkQFvIEQ44lKHlIMCr5VvtefI81LZXBsi812f1gueFHBhgD90jAFhkWBrV5tFDfMTOseqL
+	0kEqO2rAl5w==
+X-Gm-Gg: ASbGncsIoQpRAsv5o6K/C37B/Q2f/O7s1ndXt7issn/07o5jntwqmB5cDJNhiO4dhmI
+	OOE6pdg2lzmdmsBD70ZVrtShiD09v8S9fmtlKR4AcgqT/mDNlORQMgTdUHJXx3tCX7wqMaGMwvC
+	IgiUbUERvmaLD//wjFngwKU+NMx1c3Sb3QcmeBoWcxvqASWEg8DDVKVdcvfj5XqAyezKOZNiuzN
+	ldmldhcEWLUNVaVjgd0l8txeEX4UYtyk8DGUOk555s4cGl3/nYSTC4daChctdoYB9A/Ln+bZQ+9
+	ohk579IJou9E+c1Jhx8a7oQ8Gew+ETSnL4LmC7cB55myoVrsgjn+2KAHL3WTRVm5lhgvQtmy1Zw
+	V+pjS2EaRK59HW/CL
+X-Google-Smtp-Source: AGHT+IG+040tPpSEZabYJeNUGFotc3aoVG9ADLTSNkn5T2HdZN9DUPUa+RR1lhZRJOnmnTylItop1w==
+X-Received: by 2002:a05:620a:5601:b0:7e6:5ef5:c7e4 with SMTP id af79cd13be357-7e69639d1c1mr639953285a.64.1754183090651;
+        Sat, 02 Aug 2025 18:04:50 -0700 (PDT)
+Received: from vader ([198.16.184.245])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e67f594206sm389169685a.4.2025.08.02.18.04.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Aug 2025 18:04:50 -0700 (PDT)
+From: Anakin Childerhose <anakin@childerhose.ca>
+To: openembedded-core@lists.openembedded.org
+Cc: Anakin Childerhose <anakin@childerhose.ca>
+Subject: [PATCH 0/3] Automatically add compile_commands.json to ${S}
+Date: Sat,  2 Aug 2025 21:04:20 -0400
+Message-ID: <20250803010422.21838-2-anakin@childerhose.ca>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <20250802211319.20060-1-anakin@childerhose.ca>
-In-Reply-To: <20250802211319.20060-1-anakin@childerhose.ca>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 2 Aug 2025 16:22:10 -0700
-X-Gm-Features: Ac12FXxItljeGhWNwHeBR-fUQSBJYhXWudsc_Wan238gBO54w2GXzo5ldkQKGok
-Message-ID: <CAMKF1sqU_Pf8n4jQKiQUKFXhq+Ezpq_yjzwc7NQeao25pBadQQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/3] Automatically add compile_commands.json to ${S}
-To: anakin@childerhose.ca
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Aug 2025 23:22:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221395
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Aug 2025 01:04:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221396
 
-On Sat, Aug 2, 2025 at 2:13=E2=80=AFPM Anakin Childerhose via
-lists.openembedded.org <anakin=3Dchilderhose.ca@lists.openembedded.org>
-wrote:
->
-> To better take advantage of Meson and Cmake's automatic generation of a
-> compile_commands.json file for the clangd language server, link the
-> ${B}/compile_commands.json to ${S}/compile_commands.json.
->
-> I accidentally missed the initial commit which provided the
-> compile_commands.bbclass. This corrects the previous submission.
->
-> Anakin Childerhose (3):
->   clangd: add compile_commands.bbclass
+To better take advantage of Meson and Cmake's automatic generation of a
+compile_commands.json file for the clangd language server, link the
+${B}/compile_commands.json to ${S}/compile_commands.json.
 
-I do not see a patch adding this bbclass in this series. Did you forget ?
+I accidentally missed the initial commit which provided the
+compile_commands.bbclass. This corrects the previous submission.
 
->   cmake.bbclass: inherit compile_commands.bbclass
->   meson.bbclass: inherit compile_commands.bbclass
->
->  meta/classes-recipe/cmake.bbclass            |  2 ++
->  meta/classes-recipe/compile_commands.bbclass | 18 ++++++++++++++++++
->  meta/classes-recipe/meson.bbclass            |  2 +-
->  3 files changed, 21 insertions(+), 1 deletion(-)
->  create mode 100644 meta/classes-recipe/compile_commands.bbclass
->
-> --
-> 2.50.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#221388): https://lists.openembedded.org/g/openembedde=
-d-core/message/221388
-> Mute This Topic: https://lists.openembedded.org/mt/114507103/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Anakin Childerhose (3):
+  clangd: add compile_commands.bbclass
+  cmake.bbclass: inherit compile_commands.bbclass
+  meson.bbclass: inherit compile_commands.bbclass
+
+ meta/classes-recipe/cmake.bbclass            |  2 ++
+ meta/classes-recipe/compile_commands.bbclass | 18 ++++++++++++++++++
+ meta/classes-recipe/meson.bbclass            |  2 +-
+ 3 files changed, 21 insertions(+), 1 deletion(-)
+ create mode 100644 meta/classes-recipe/compile_commands.bbclass
+
+--
+2.50.1
+
 
