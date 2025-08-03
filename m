@@ -1,136 +1,208 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED427C87FCA
-	for <webhook@archiver.kernel.org>; Sun,  3 Aug 2025 07:35:45 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.13078.1754206544358518322
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54D5CC87FCB
+	for <webhook@archiver.kernel.org>; Sun,  3 Aug 2025 08:53:06 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.14150.1754211178759838609
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Aug 2025 00:35:44 -0700
+ Sun, 03 Aug 2025 01:53:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nEVO9k3V;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-60c9d8a169bso4286286a12.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 Aug 2025 00:35:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754206542; x=1754811342; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ua6DPVxgGD+7YV7WDmWAcZpFe4Ovdz56db6tYvGa53E=;
-        b=nEVO9k3Vd0xeVV+hc4ZUquhpupHM9WoJyvtMahUZGNlR4/M9qry/lso5bEnyHO3A8I
-         M5wxNRILAz0kgz2m9vW0BFIw5VD8YOJwJ5VZJORC3lHVkCPHEMVh4FaD7cy5BsxXBNNK
-         VBt5y+bkXQ5l+V5/REM3dQFKPBCBvbHc38lycnmYV8nBswq19e39xnB/TkfGuSvpl1G6
-         kK8yuYl+APbOlG3H4wrNf7Z/1e9N66El5rdv/tmC0zvcrc25nOdXkTW1GKqVYYdMaySf
-         1dA7RyGCq5ZKMbd/NMmuIUH2tTR5lXF9sio+SrzOnwF8ijt1TfRxyb1n5rmx1ZK89UXM
-         cy7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754206542; x=1754811342;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ua6DPVxgGD+7YV7WDmWAcZpFe4Ovdz56db6tYvGa53E=;
-        b=BQBx9ppnj6gcF0/5jX4QOIL8dXdgEZcbXXNlTS6AMpq/5HlOIx3hah8DEfdUAjTvC7
-         0cqGUY5aruNWDr60iMLa6kcKmSz60CmHtTkpuj+6zkveJKh29MBT7+DUhK8uwDCF6FAR
-         0L42yNwR+VgazgNAqPNTRvBHfBTe2p6Y3FlARZFHj/TApUiAfXPuBskMAkPPRpztEPHd
-         N9iKxX634XOBCPIKi+SZ1OD466iktaEZG3HvTObpmIPgIOJNAxfhqc+BGKjUE/XfZ8jt
-         NW2SthajUlWVmS28oY99zAJMcYj6hUZOBJjmoY0Dylcw+conGEJbCYNJBGPI2R9v6zPg
-         lYjA==
-X-Gm-Message-State: AOJu0YzAsSt0+jS89HV8YYp0Rrqf2/fg4X8vl8SZN9MNGhl/IGvxKuQo
-	qyzc7gN80g8smt7Kg3CxUfeX9hjncVzoTtg3/1s3gLFe5Db4NGXiVGuRPcRS9A==
-X-Gm-Gg: ASbGnct5TzswPz26jpxXWBBlJfT2NOUIX0aW3M088zw9fYk0CUqRL2i26VPutpSAZru
-	yApFplL8e0v0R+4X1eMmzBSCXCPpnI7NK5DHjwHD+y1Akf8PC8rWGfWgJ5L9I8Qu5giEQ29uyOW
-	5Pe34KRLO8pU8owG0g+kSkuX/3WI23BSkowbPmmtl5dDsQtbthGjDiaSSxbSF6OREDYGfWAK4Xh
-	mQg1jET6YmtLnOqIuRTsH8tNjT4RWB7l6kCa8H5ms4g0pE9+kG10bXiv5zLQc3gsqw1t73e671L
-	tz2c1zR4cvU0LxNzBPhEnxtn7MmaE3kqJZVsEf/LUTZs9fN4vnplMqbgmQPcbeyZXEgG+bN8Swo
-	v3ciKS8m2AK3bF3d9AdPAFlnCvFMXng==
-X-Google-Smtp-Source: AGHT+IGsyDIBMuKWS3YVLafMJxWzCPiD9cVDEYCNilJ1RtuGvS1D8SiEp2aPjnIaqN+XznP+82Orpw==
-X-Received: by 2002:a17:907:7fa8:b0:af1:428f:dcb2 with SMTP id a640c23a62f3a-af94015602cmr518998366b.35.1754206541997;
-        Sun, 03 Aug 2025 00:35:41 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c0afsm549673066b.117.2025.08.03.00.35.41
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Aug 2025 00:35:41 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=BzHCDr+/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20250803085253fa5cc0d83002347391-4cdevl@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250803085253fa5cc0d83002347391
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 03 Aug 2025 10:52:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=29Nwj3wGEiFNE4Bmdc2Ori1rwpEi4YuyX9EsI3Tiqys=;
+ b=BzHCDr+/BYIBsW7HCvileGEh9Kik3m90Ytg6hy92k2PVENTCuCfPqkYbey7Rk/E8904v8y
+ 0B7SAc+jqPTmLCGDsP65fLXfsmMbq3Ea5wWFe3Sv6Xuzs/CVcwRtBX4RgBWXeLdew5lacud+
+ LvGxRq8gC6TT69PzsnsTkAvPr/LeL5ofRLzcBrldC7Ng4PwuphOEwcU9zDiInNHp+/YR2TrV
+ wmet6odq0MH7h9VSfU5uSNl9dLOhfH722ejzXgnAtmGootUChFlj4hPToMdFJ7XmI/BGGBtk
+ sT6P7B/ZXmU0eaRab/gFBMClVbgx92Czt9MdDVo7v09KxwFWwZz8xjxg==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] webkitgtk: upgrade 2.48.2 -> 2.48.5
-Date: Sun,  3 Aug 2025 09:35:41 +0200
-Message-ID: <20250803073541.2210769-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.50.1
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] sqlite3: patch CVE-2025-7458
+Date: Sun,  3 Aug 2025 10:52:07 +0200
+Message-Id: <20250803085207.2273326-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Aug 2025 07:35:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221406
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Aug 2025 08:53:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221407
 
-Changelog:
-2.48.5:
-Fix several crashes.
+From: Peter Marko <peter.marko@siemens.com>
 
-2.48.4:
-Improve emoji font selection with USE_SKIA=ON.
-Improve playback of multimedia streams from blob URLs.
-Fix the build with USE_SKIA_OPENTYPE_SVG=ON and USE_SYSPROF_CAPTURE=ON.
-Fix the build on LoongArch with USE_SKIA=ON.
-Fix crash when using a WebKitWebView widget in an offscreen window.
-Fix several crashes and rendering issues.
+Pick patch [1] listed in [2].
+Also pick another patch which is precondition to this one introducing
+variable needed for the check.
 
-2.48.3:
-Fix a crash introduced by the new threaded rendering implementation using Skia API.
-Improve rendering performance by recording layers once and replaying every dirty region in different worker threads.
-Fix a crash when setting WEBKIT_SKIA_GPU_PAINTING_THREADS=0.
-Fix a reference cycle in webkitmediastreamsrc preventing its disposal.
+[1] https://sqlite.org/src/info/12ad822d9b827777
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-7458
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...1-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch | 2 +-
- meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch        | 2 +-
- .../webkit/{webkitgtk_2.48.2.bb => webkitgtk_2.48.5.bb}         | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.48.2.bb => webkitgtk_2.48.5.bb} (98%)
+ ...mpts-to-improve-the-detection-of-cov.patch | 91 +++++++++++++++++++
+ .../sqlite/files/CVE-2025-7458.patch          | 32 +++++++
+ meta/recipes-support/sqlite/sqlite3_3.38.5.bb |  2 +
+ 3 files changed, 125 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-improve-the-detection-of-cov.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-7458.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-index 8376ee8472..f990384511 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-@@ -60,7 +60,7 @@ diff --git a/Source/cmake/WebKitCompilerFlags.cmake b/Source/cmake/WebKitCompile
- index f5ec0a55..dfd741e7 100644
- --- a/Source/cmake/WebKitCompilerFlags.cmake
- +++ b/Source/cmake/WebKitCompilerFlags.cmake
--@@ -492,3 +492,10 @@ endif ()
-+@@ -503,3 +503,10 @@ endif ()
-  
-  # FIXME: Enable pre-compiled headers for all ports <https://webkit.org/b/139438>
-  set(CMAKE_DISABLE_PRECOMPILE_HEADERS ON)
-diff --git a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-index 82d20758c2..4b0cf364d8 100644
---- a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-@@ -24,7 +24,7 @@ diff --git a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp b/Source/JavaSc
- index 76c46889..500be433 100644
- --- a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
- +++ b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
--@@ -334,8 +334,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void* executableAddress, VM* vm,
-+@@ -336,8 +336,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void* executableAddress, VM* vm,
-      UNUSED_VARIABLE(t2);
-      UNUSED_VARIABLE(t3);
-      UNUSED_VARIABLE(t5);
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-index 75a39558db..947996450d 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-@@ -19,7 +19,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch \
-            file://fix-ftbfs-riscv64.patch \
+diff --git a/meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-improve-the-detection-of-cov.patch b/meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-improve-the-detection-of-cov.patch
+new file mode 100644
+index 0000000000..8fb037bb0f
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-improve-the-detection-of-cov.patch
+@@ -0,0 +1,91 @@
++From f55a7dad195994f2bb24db7df0a0515502386fe2 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Sat, 22 Oct 2022 14:16:02 +0000
++Subject: [PATCH] This branch attempts to improve the detection of covering
++ indexes.  This first check-in merely improves a parameter name to
++ sqlite3WhereBegin() to be more descriptive of what it contains, and ensures
++ that a subroutine is not inlines so that sqlite3WhereBegin() runs slightly
++ faster.
++
++FossilOrigin-Name: cadf5f6bb1ce0492ef858ada476288e8057afd3609caa18b09c818d3845d7244
++
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/f55a7dad195994f2bb24db7df0a0515502386fe2]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ sqlite3.c | 28 +++++++++++++---------------
++ 1 file changed, 13 insertions(+), 15 deletions(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 4cbc2d0..b7ed991 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -147371,9 +147371,7 @@ struct WhereInfo {
++   ExprList *pOrderBy;       /* The ORDER BY clause or NULL */
++   ExprList *pResultSet;     /* Result set of the query */
++   Expr *pWhere;             /* The complete WHERE clause */
++-#ifndef SQLITE_OMIT_VIRTUALTABLE
++-  Select *pLimit;           /* Used to access LIMIT expr/registers for vtabs */
++-#endif
+++  Select *pSelect;          /* The entire SELECT statement containing WHERE */
++   int aiCurOnePass[2];      /* OP_OpenWrite cursors for the ONEPASS opt */
++   int iContinue;            /* Jump here to continue with next record */
++   int iBreak;               /* Jump here to break out of the loop */
++@@ -149070,9 +149068,9 @@ SQLITE_PRIVATE Bitmask sqlite3WhereCodeOneLoopStart(
++          && pLoop->u.vtab.bOmitOffset
++         ){
++           assert( pTerm->eOperator==WO_AUX );
++-          assert( pWInfo->pLimit!=0 );
++-          assert( pWInfo->pLimit->iOffset>0 );
++-          sqlite3VdbeAddOp2(v, OP_Integer, 0, pWInfo->pLimit->iOffset);
+++          assert( pWInfo->pSelect!=0 );
+++          assert( pWInfo->pSelect->iOffset>0 );
+++          sqlite3VdbeAddOp2(v, OP_Integer, 0, pWInfo->pSelect->iOffset);
++           VdbeComment((v,"Zero OFFSET counter"));
++         }
++       }
++@@ -151830,10 +151828,10 @@ static void whereAddLimitExpr(
++ ** exist only so that they may be passed to the xBestIndex method of the
++ ** single virtual table in the FROM clause of the SELECT.
++ */
++-SQLITE_PRIVATE void sqlite3WhereAddLimit(WhereClause *pWC, Select *p){
++-  assert( p==0 || (p->pGroupBy==0 && (p->selFlags & SF_Aggregate)==0) );
++-  if( (p && p->pLimit)                                          /* 1 */
++-   && (p->selFlags & (SF_Distinct|SF_Aggregate))==0             /* 2 */
+++SQLITE_PRIVATE void SQLITE_NOINLINE sqlite3WhereAddLimit(WhereClause *pWC, Select *p){
+++  assert( p!=0 && p->pLimit!=0 );                 /* 1 -- checked by caller */
+++  assert( p->pGroupBy==0 && (p->selFlags & SF_Aggregate)==0 );
+++  if( (p->selFlags & (SF_Distinct|SF_Aggregate))==0             /* 2 */
++    && (p->pSrc->nSrc==1 && IsVirtual(p->pSrc->a[0].pTab))       /* 3 */
++   ){
++     ExprList *pOrderBy = p->pOrderBy;
++@@ -157427,7 +157425,7 @@ SQLITE_PRIVATE WhereInfo *sqlite3WhereBegin(
++   Expr *pWhere,           /* The WHERE clause */
++   ExprList *pOrderBy,     /* An ORDER BY (or GROUP BY) clause, or NULL */
++   ExprList *pResultSet,   /* Query result set.  Req'd for DISTINCT */
++-  Select *pLimit,         /* Use this LIMIT/OFFSET clause, if any */
+++  Select *pSelect,        /* The entire SELECT statement */
++   u16 wctrlFlags,         /* The WHERE_* flags defined in sqliteInt.h */
++   int iAuxArg             /* If WHERE_OR_SUBCLAUSE is set, index cursor number
++                           ** If WHERE_USE_LIMIT, then the limit amount */
++@@ -157504,9 +157502,7 @@ SQLITE_PRIVATE WhereInfo *sqlite3WhereBegin(
++   pWInfo->wctrlFlags = wctrlFlags;
++   pWInfo->iLimit = iAuxArg;
++   pWInfo->savedNQueryLoop = pParse->nQueryLoop;
++-#ifndef SQLITE_OMIT_VIRTUALTABLE
++-  pWInfo->pLimit = pLimit;
++-#endif
+++  pWInfo->pSelect = pSelect;
++   memset(&pWInfo->nOBSat, 0,
++          offsetof(WhereInfo,sWC) - offsetof(WhereInfo,nOBSat));
++   memset(&pWInfo->a[0], 0, sizeof(WhereLoop)+nTabList*sizeof(WhereLevel));
++@@ -157575,7 +157571,9 @@ SQLITE_PRIVATE WhereInfo *sqlite3WhereBegin(
++ 
++   /* Analyze all of the subexpressions. */
++   sqlite3WhereExprAnalyze(pTabList, &pWInfo->sWC);
++-  sqlite3WhereAddLimit(&pWInfo->sWC, pLimit);
+++  if( pSelect && pSelect->pLimit ){
+++    sqlite3WhereAddLimit(&pWInfo->sWC, pSelect);
+++  }
++   if( db->mallocFailed ) goto whereBeginError;
++ 
++   /* Special case: WHERE terms that do not refer to any tables in the join
+diff --git a/meta/recipes-support/sqlite/files/CVE-2025-7458.patch b/meta/recipes-support/sqlite/files/CVE-2025-7458.patch
+new file mode 100644
+index 0000000000..6b041d9332
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/CVE-2025-7458.patch
+@@ -0,0 +1,32 @@
++From b816ca9994e03a8bc829b49452b8158a731e81a9 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Thu, 16 Mar 2023 20:54:29 +0000
++Subject: [PATCH] Correctly handle SELECT DISTINCT ... ORDER BY when all of the
++ result set terms are constant and there are more result set terms than ORDER
++ BY terms. Fix for these tickets: [c36cdb4afd504dc1], [4051a7f931d9ba24],
++ [d6fd512f50513ab7].
++
++FossilOrigin-Name: 12ad822d9b827777526ca5ed5bf3e678d600294fc9b5c25482dfff2a021328a4
++
++CVE: CVE-2025-7458
++Upstream-Status: Backport [github.com/sqlite/sqlite/commit/b816ca9994e03a8bc829b49452b8158a731e81a9]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ sqlite3.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 19d0438..6d92184 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -156989,6 +156989,10 @@ static int wherePathSolver(WhereInfo *pWInfo, LogEst nRowEst){
++       if( pFrom->isOrdered==pWInfo->pOrderBy->nExpr ){
++         pWInfo->eDistinct = WHERE_DISTINCT_ORDERED;
++       }
+++      if( pWInfo->pSelect->pOrderBy
+++       && pWInfo->nOBSat > pWInfo->pSelect->pOrderBy->nExpr ){
+++        pWInfo->nOBSat = pWInfo->pSelect->pOrderBy->nExpr;
+++      }
++     }else{
++       pWInfo->nOBSat = pFrom->isOrdered;
++       pWInfo->revMask = pFrom->revLoop;
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+index 656e2d8bd8..86d9b4b33b 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+@@ -10,6 +10,8 @@ SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://CVE-2023-7104.patch \
+            file://CVE-2025-29088.patch \
+            file://CVE-2025-6965.patch \
++           file://0001-This-branch-attempts-to-improve-the-detection-of-cov.patch \
++           file://CVE-2025-7458.patch \
             "
--SRC_URI[sha256sum] = "ec58f6dfc25d3b360388e192f865068d69aab09b4d7df021f90e314d2fa54f37"
-+SRC_URI[sha256sum] = "bb64ed9d1cfd58e8b5e89ccad71dd31adfed56336bad7695031ad0b668e1987c"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+ SRC_URI[sha256sum] = "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
  
 
