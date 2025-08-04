@@ -1,197 +1,124 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81506CA0EC0
-	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 13:46:35 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.18144.1754315191600495558
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27EC3C87FCF
+	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 15:52:56 +0000 (UTC)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+ by mx.groups.io with SMTP id smtpd.web10.21842.1754322768236585665
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Aug 2025 06:46:31 -0700
+ Mon, 04 Aug 2025 08:52:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Fts3PEUm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-458bece40fcso9444865e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 06:46:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KoNCkc/+;
+ spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-88189f28701so22857639f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 08:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1754315189; x=1754919989; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nbGMXdpHmzw898yzv148hsbFQ/n09JJCdcBVMEuKuCU=;
-        b=Fts3PEUmoW8mCP3ULoLc3RWuE/fuk/2yMMw7NXIKyPWnVwhWzD30+KTgOJfwbxQpZt
-         1HO88Rbf9ksi84F1eke8gPIuOkz79wwVXpNClMHzIOCLG0NhFG7isJFI++ONFSDLLdQR
-         4Px4cf11Ev66DmP8Wy9P5S36a6wR6Ma/U75Pg=
+        d=gmail.com; s=20230601; t=1754322767; x=1754927567; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7HiTfm1p2aYuWaQLbxGYxXanDcF6C5D+mYPKd7vbI44=;
+        b=KoNCkc/+lcDIf3+N6qFQH5JKwNNs/OgZrEUHY4WFNQKVTnKFB4yF/jPSwOchzF4b4d
+         AUaQT6F1Xh/DDPZNhDO4sewDqRhMCHKDmSbOvjJ3f92f1JyGuY25sepW3O7uHj86gXKC
+         wddv+M3GuzV2vEwST2wi+l6KKHMeR8aKxvN2Lco+vKcX7qMtFiyA8aonKYAOWlw/HPNy
+         nAyOA6dBbpYZhYRDDH9vv+i6x7e96PAA5cIJJzihvV2CgYtEdPSS9EHLYMle9rYf/bkS
+         k/a7YK2KaQdmiHSDguNX1az7PQE4ojVn1jb5zuzfrRwreILM3V7cZ+uUFJtPwX39kz4S
+         mkWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754315189; x=1754919989;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nbGMXdpHmzw898yzv148hsbFQ/n09JJCdcBVMEuKuCU=;
-        b=O7SBoBGpM73sPTzL3uwX0I/JIU79qm5rbjbEMnA7DTYXLmUz7Yz/iJ0AImMHfqMruR
-         CoNEX1f2SBHd6zC6GmXOpNmDtFEQoPMR7ahiwqYUZ3FdVwGG4G8BrQ2c4JADIgPeuXry
-         Q+BWYJI5nQSqhQI+nU25Io/owT7F840C+IgdN/oqcMGSFv/JO+dH8HschiPkT/zDBRbd
-         jZoN5zZlZAgkTUrIxMbJXffbcgcmVgurb78dV8Xj53oATxkIsFKKh2dK5Ch0KnLVsW7q
-         DtoLr+MgLwjHsAAbU6i41yOQjcq8eEMNY0v0I+JkqGnCPy9wk4AptUxZRW8EI76EAmCS
-         mSVw==
-X-Gm-Message-State: AOJu0YyMohnRH6TG9Zx10sZ43m1LiZuyRCiNK5VqTVxwLrhrkovrr1IC
-	kLYd6VWBg0ReA9brURC3jpbUHgmTYho0+fn8Ft+g3LBWbAo0Bcc5bCEfa5ioooc1VSDnE5niGvx
-	kWBWD
-X-Gm-Gg: ASbGncu40Q0rxr7ZpxHW+3sR7d3Menk4TyW1k2BEOFN8Si6LJg7hhSDK/qM8UyzDORN
-	IsAN+MwV4NI/xZmJchZieMg7/SgiVKLoBt+jOoDvysgCGlfAQsFu+2SlfaaPOTLJsrIM0SOrMcE
-	URWDCDsttpVP7viaqZ5k+wmbQZSczGHv2LJyHmd44fokUCM7+1eIRootXqosp6uuAZNUh4Q0AbU
-	unBkW/JPwDGsxi3YProLMr6+qpcnfhAMVmpw12wuDjQ4YgpMmHA4opyplA9SAe59Z6z9ZXzPW3T
-	iw1xkj+XZkfUGLYNru9z14znv2EhK/7vk/EpDMyxPfK6kzPTDoBz2fGXzqHV13QYxvrBfNkO62i
-	+sdblxU6pJW5Lbo+xj2fXO/DoZDklNnr1cQ83uyZbGcR1L4qVaY4=
-X-Google-Smtp-Source: AGHT+IHtGmFcXQqJz3qUo0kR6aZqB7UO6n+ZEP0HwvODspqFGjgXL2Rw1Njw65l7wC+4m/lWfZIJdA==
-X-Received: by 2002:a05:600c:17d8:b0:453:5c30:a1fd with SMTP id 5b1f17b1804b1-458b71903edmr46945815e9.8.1754315189436;
-        Mon, 04 Aug 2025 06:46:29 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2c76:58bb:66fc:3164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458b4f9e952sm104869005e9.9.2025.08.04.06.46.28
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 06:46:28 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] bitbake/conf: Default to zstd compressed image output
-Date: Mon,  4 Aug 2025 14:46:24 +0100
-Message-ID: <20250804134624.1412716-4-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250804134624.1412716-1-richard.purdie@linuxfoundation.org>
-References: <20250804134624.1412716-1-richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1754322767; x=1754927567;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7HiTfm1p2aYuWaQLbxGYxXanDcF6C5D+mYPKd7vbI44=;
+        b=pu6Ndc4h9SPKb8N4Y6Oy/WbUaRSqpKbcNSlpSuSfm7KnJs94nFqhUfIx5ZVVNFmIB6
+         x9kutPOsLlmYKGAg4Qne2ygLJwrX1LuGPqJpipvIsNLo+Nb7TXZES/guX2pRdSFxJXKx
+         zIi9wcAlv8thdMiOZ907qkUGtxw8/02bnb3OH8Folk+lWWmPjZ2HIqBLKokUfaY3GkXf
+         oNRfopHueMleAlFmGCimRMlafZGil99/rDMQRkTAjH4X6apuC3Dmn/Z/bCvQkcQgHEQk
+         eC8C1CIUf1XgRkKKzk+hkxLf8NI0zTtXHkrfijm5OC+zarMR2vF+XBwBCp67nxVVE808
+         LY8w==
+X-Gm-Message-State: AOJu0Yz26MIXF5qbgz+H9ARKYtNv3GQZmmKh0IzNfD3yPPJvLsLholfi
+	G65GBv1IjV3ulknHLNq26IshbTykU3gVCdW/4QrqqL79L3yt6nv/1jLX0Z0Xb5UhdEc=
+X-Gm-Gg: ASbGncvKPS8nRtksM47xx5QLqtW5IgG4jKLauRW32oiwnOWivuHrI00zLFNcgJW3m1K
+	z7WSNgoD6RnuH7OlIn23gSnBGrMRxz5wnt+a4Y3ILy71mfsEZ6wRzgbiL90jWBsOuWEPYHL0fJx
+	+rIqoEgmnRDLQY+DE2oGWJPd5Tu1wCdpO3dRMnukrfHgFlFvBIv9Ju3nP7lxFaPK9heVq6wqtH0
+	0sSNkWQGxKZlXezHIwPEctFD7ZMWxnwLn2TnaodDuLULUPGbjlN/mHzBXT2gncOQMr3bJVqhqAe
+	vic1HCvJOus3ay2zgSuQiKSPdpPM92LtTHSLLQSzjGjTzWS/jVGQK5iRzUUc2KEYWVBKalhcobv
+	T4Iv6DeKKHNBwoWMmCK0XnBpDeI/pMil+PG6flPwRxaBrQeyYEITsWgad4HfNsTh2aUxO2yEFAq
+	4bGv54VbkM9hGyFa5lPeeI
+X-Google-Smtp-Source: AGHT+IG54/yVKnmNid9n9zyncaU4OxbwtcrfBI/bfgxDh1z2kz8S/BJ2RxV4ZcJ184qLGu7gGDMz+Q==
+X-Received: by 2002:a05:6602:2cd2:b0:861:6f49:626 with SMTP id ca18e2360f4ac-8816834f432mr1718016539f.6.1754322767182;
+        Mon, 04 Aug 2025 08:52:47 -0700 (PDT)
+Received: from ?IPV6:2601:646:8201:fd20:99a1:9f7d:46fa:d7cd? ([2601:646:8201:fd20:99a1:9f7d:46fa:d7cd])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8814dfb8e41sm334823539f.33.2025.08.04.08.52.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Aug 2025 08:52:46 -0700 (PDT)
+Message-ID: <decc4bbb-0dd5-4473-b4e0-1d6eb2edeeb4@gmail.com>
+Date: Mon, 4 Aug 2025 08:52:45 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/3] clangd: add compile_commands.bbclass
+To: alex.kanavin@gmail.com, anakin@childerhose.ca
+Cc: openembedded-core@lists.openembedded.org
+References: <20250803010422.21838-2-anakin@childerhose.ca>
+ <20250803010422.21838-3-anakin@childerhose.ca>
+ <CANNYZj9fC5=jD_-UAmrGdv+rSrF_L968jaHK3_xwZ6o=Xbu9vw@mail.gmail.com>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CANNYZj9fC5=jD_-UAmrGdv+rSrF_L968jaHK3_xwZ6o=Xbu9vw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 13:46:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221431
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 15:52:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221432
 
-Switch our default qemu images to use .zst compressed images by default
-since this is the output format we release during the release process
-and is the one that users would prefer to download. This makes the release
-process use the actual generated output from the system and avoids post
-processing.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../multiconfig/multiconfig-image-packager_0.1.bb           | 2 +-
- meta/classes-recipe/qemuboot.bbclass                        | 2 +-
- meta/conf/bitbake.conf                                      | 4 ++--
- meta/conf/machine/include/qemu.inc                          | 2 +-
- meta/conf/machine/include/riscv/qemuriscv.inc               | 2 +-
- meta/conf/machine/include/x86/x86-base.inc                  | 2 +-
- meta/lib/oeqa/selftest/cases/gdbserver.py                   | 1 +
- meta/lib/oeqa/selftest/cases/runqemu.py                     | 6 ++++++
- 8 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
-index d7785cee2e1..f6cf0a47c89 100644
---- a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
-+++ b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
-@@ -3,7 +3,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
- 
- MCMACHINE:virtclass-mcextend-musl = "qemux86-64"
- MCMACHINE:virtclass-mcextend-tiny = "qemux86"
--MCIMGTYPE:virtclass-mcextend-musl = "ext4"
-+MCIMGTYPE:virtclass-mcextend-musl = "ext4.zst"
- MCIMGTYPE:virtclass-mcextend-tiny = "cpio.gz"
- 
- MC_DEPLOY_DIR_IMAGE = "${TOPDIR}/tmp-mc-${MCNAME}/deploy/images/${MCMACHINE}"
-diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
-index 0f80c60ab58..69cd12ec545 100644
---- a/meta/classes-recipe/qemuboot.bbclass
-+++ b/meta/classes-recipe/qemuboot.bbclass
-@@ -97,7 +97,7 @@ QB_MEM ?= "-m 256"
- QB_SMP ?= ""
- QB_SERIAL_OPT ?= "-serial mon:stdio -serial null"
- QB_DEFAULT_KERNEL ?= "${@bb.utils.contains("INITRAMFS_IMAGE_BUNDLE", "1", "${KERNEL_IMAGETYPE}-${INITRAMFS_LINK_NAME}.bin", "${KERNEL_IMAGETYPE}", d)}"
--QB_DEFAULT_FSTYPE ?= "ext4"
-+QB_DEFAULT_FSTYPE ?= "ext4.zst"
- QB_RNG ?= "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
- QB_OPT_APPEND ?= ""
- QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index fb26e72669c..fad397776e0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -839,8 +839,8 @@ include conf/bblock.conf
- 
- DL_DIR ?= "${TOPDIR}/downloads"
- SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
--IMAGE_FSTYPES ?= "tar.gz"
--IMAGE_FSTYPES_DEBUGFS ?= "tar.gz"
-+IMAGE_FSTYPES ?= "tar.zst"
-+IMAGE_FSTYPES_DEBUGFS ?= "tar.zst"
- 
- INITRAMFS_FSTYPES ?= "cpio.gz"
- # The maximum size in Kbytes for the generated initramfs image size.
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index c143e37f710..79016ad9cce 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -8,7 +8,7 @@ MACHINE_FEATURES = "alsa bluetooth usbgadget screen vfat"
- 
- MACHINEOVERRIDES =. "qemuall:"
- 
--IMAGE_FSTYPES += "tar.bz2 ext4"
-+IMAGE_FSTYPES += "tar.zst ext4.zst"
- 
- # Don't include kernels in standard images
- RDEPENDS:${KERNEL_PACKAGE_NAME}-base = ""
-diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
-index 65cbfd66ee4..35961272022 100644
---- a/meta/conf/machine/include/riscv/qemuriscv.inc
-+++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-@@ -11,7 +11,7 @@ KEEPUIMAGE = "no"
- 
- SERIAL_CONSOLES ?= "115200;ttyS0 115200;hvc0"
- 
--IMAGE_FSTYPES += "ext4 wic.qcow2"
-+IMAGE_FSTYPES += "ext4.zst wic.qcow2"
- 
- WKS_FILE ?= "qemuriscv.wks"
- 
-diff --git a/meta/conf/machine/include/x86/x86-base.inc b/meta/conf/machine/include/x86/x86-base.inc
-index fc6c39148db..fc8200d8f09 100644
---- a/meta/conf/machine/include/x86/x86-base.inc
-+++ b/meta/conf/machine/include/x86/x86-base.inc
-@@ -8,7 +8,7 @@
- MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
-                      acpi serial usbgadget alsa"
- 
--IMAGE_FSTYPES ?= "wic"
-+IMAGE_FSTYPES ?= "wic.zst"
- 
- KERNEL_IMAGETYPE ?= "bzImage"
- 
-diff --git a/meta/lib/oeqa/selftest/cases/gdbserver.py b/meta/lib/oeqa/selftest/cases/gdbserver.py
-index b6b7c5c4733..1c713331900 100644
---- a/meta/lib/oeqa/selftest/cases/gdbserver.py
-+++ b/meta/lib/oeqa/selftest/cases/gdbserver.py
-@@ -19,6 +19,7 @@ class GdbServerTest(OESelftestTestCase):
- 
-         features = """
- IMAGE_GEN_DEBUGFS = "1"
-+IMAGE_FSTYPES += "tar.bz2"
- IMAGE_FSTYPES_DEBUGFS = "tar.bz2"
- CORE_IMAGE_EXTRA_INSTALL = "gdbserver"
-         """
-diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
-index 74d47a6db1b..7ed89e80de8 100644
---- a/meta/lib/oeqa/selftest/cases/runqemu.py
-+++ b/meta/lib/oeqa/selftest/cases/runqemu.py
-@@ -195,6 +195,12 @@ class QemuTest(OESelftestTestCase):
-         cls.cmd_common = "runqemu nographic snapshot"
-         cls.qemuboot_conf = "%s.qemuboot.conf" % (cls.image_link_name)
-         cls.qemuboot_conf = os.path.join(cls.deploy_dir_image, cls.qemuboot_conf)
-+
-+        cls.write_config(cls,
-+"""
-+IMAGE_FSTYPES += "tar.bz2"
-+""")
-+
-         bitbake(cls.recipe)
- 
-     def _start_qemu_shutdown_check_if_shutdown_succeeded(self, qemu, timeout):
+On 8/4/25 3:42 AM, Alexander Kanavin via lists.openembedded.org wrote:
+> On Sun, 3 Aug 2025 at 03:04, Anakin Childerhose via
+> lists.openembedded.org <anakin=childerhose.ca@lists.openembedded.org>
+> wrote:
+>> Add a class to link the ${B}/compile_commands.json file to
+>> ${S}/compile_commands.json to automatically configure the clangd
+>> language server for build systems that generate a compile_commands.json
+>> file.
+> 
+> I don't understand this description. What does this json file do, what
+> does clangd language server do,
+
+It will be good to summarize that it implements LSP for C/C++ and 
+reference to https://microsoft.github.io/language-server-protocol/
+
+  why can't it find the original file in
+> ${S} and should that be fixed instead? Having different directories
+> for source and build artefacts is common, and we shouldn't be fixing
+> it up for others.
+> 
+
+Clangd tries several search paths in S and B as well, but perhaps
+something is unique about OE build structure that it is not able to
+find it ?
+
+clangd has --compile-commands-dir=<...> option which might be of 
+interest here
+
+Aside from this, I think it will be good to add 
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON via cmake.bbclass if someone wants
+LSP at distro level.
+
+> Alex
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#221424): https://lists.openembedded.org/g/openembedded-core/message/221424
+> Mute This Topic: https://lists.openembedded.org/mt/114509177/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
