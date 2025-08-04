@@ -1,187 +1,363 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A714C87FCF
-	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 16:41:59 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.218.1754325715616421539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 063D0C87FCF
+	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 16:47:39 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.382.1754326049980110193
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Aug 2025 09:41:56 -0700
+ Mon, 04 Aug 2025 09:47:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=VwbFR1F+;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20250804164149843629df9ce72b9ec8-2ubgqf@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250804164149843629df9ce72b9ec8
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 04 Aug 2025 18:41:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=CpeWWo6R2hJ3XRF3VYkglAkkSsUsi/XyHJrX3UV2O28=;
- b=VwbFR1F+MD0kiO23f/t1N+VInUpLZqjRE2nJdep5ylzuNpx3ePFfjpW70GGjjxRsqsADLV
- 34+jsPVKHTyrqrSIiu7VKiYvJjKY/qq4D+naEmyubtG4SrUTC9G3AG91zmaFEm0ys6GHxZbe
- MycPSDiwx/UkYC7g6+cdmk8dBIYo0JdsqZdL3kMHdlzhNb7nMe6gBuxXRsxIFDamiBZYEPr7
- Ii7kyeTRD5JWp1XVPH/soAy4XtBuQ0LEoRdOeNqKV3l6CoPIV1FLhfbikcOWKL3WEqAM1Vvt
- tJCY1WT6mR364bksyzFQxpcKMEihRUuu3dtl8r9P2FRqzi1jdfYwVhaA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][walnascar][PATCH] sqlite3: patch CVE-2025-6965
-Date: Mon,  4 Aug 2025 18:41:00 +0200
-Message-Id: <20250804164100.9355-1-peter.marko@siemens.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=03117c3097=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 574GJhXO2779194
+	for <openembedded-core@lists.openembedded.org>; Mon, 4 Aug 2025 09:47:29 -0700
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12on2055.outbound.protection.outlook.com [40.107.244.55])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 489dy11qjj-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 09:47:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZUR6xDsXcE8NqgBDkjPoRQy636vLMBqAkgIytFBuYSTCz8rig55G8h8Z8HbFJydSZBTmEUgt3s6Q4ZxxnPqcXj9paEgTXIpm8EzNYdtH78e1mVckjzKcLuayNCCpsPIdWthfIb9+Iz0N9uu0+//vQY+OcGno/83/S0GdwxU4m/KSRD+Yp77XOyU75q9fC3EMlXZDLD0mqY3IbFpTVxLHG230JGNnlnW0uQJO8lUP7mE6VL1Qk6HlGsi2Cu+PAd0Kg8Dqs/de8Uf2LO/Jhme06r6cTahpdbqP7NTHuglQNVs1SWRHu/ZxwU48XnAbHxTmmSf6GwRBgyjyVHbqMR2ceg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d9QKA83GcpeDJwOig9t1GgKJgEFPfcdkdpXsYy7qfYo=;
+ b=jcO3pCbQNRUHQdDnShIA59EaTWGTnxOsJJsctBET7MtD+nzyhJolxKunx5lPjFBU8vcnvskCJuvK54Bo4Q0uLm4k5gY5cIcE0C3rJUaTMigCm2MaLo3yl2wNr4oz3czEN2Ui7kvfOtkvUuaTfqEtHo21yuFQUVRlum6yz81uKQudpHFS5qIoomZNI1Nld6hJ/0WofuSgvQkH/8pD/oXhL2CsetQUyemSO/C8jmVBa0ejKq6OUbP5UeL9/ET72gDbWGgAPgiK8zoCh9jOaTQXFHnQSEnD2x2YbZLjFucTYOFLyy9qvJUOW4iY7JxWsKOzembiaC2rAjLWc/1CM3lcLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by CY5PR11MB6535.namprd11.prod.outlook.com (2603:10b6:930:41::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.20; Mon, 4 Aug
+ 2025 16:47:25 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552%4]) with mapi id 15.20.8989.020; Mon, 4 Aug 2025
+ 16:47:23 +0000
+Content-Type: multipart/alternative;
+ boundary="------------0aHjYwGNuU1msmzFVgrpCII9"
+Message-ID: <baffe880-1bd3-4552-8067-671642b5619f@windriver.com>
+Date: Mon, 4 Aug 2025 12:47:21 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] vulkan-validation-layers: fix compile failure
+ with DEBUG_BUILD = 1
+To: hongxu.jia@eng.windriver.com, openembedded-core@lists.openembedded.org
+References: <20250716073233.3020439-1-hongxu.jia@windriver.com>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <20250716073233.3020439-1-hongxu.jia@windriver.com>
+X-ClientProxiedBy: SJ0PR05CA0073.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::18) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|CY5PR11MB6535:EE_
+X-MS-Office365-Filtering-Correlation-Id: a36708e3-77e8-42ef-48c8-08ddd3769645
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|4022899009|366016|376014|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?YWxyWnF1eWpMZ1JoejNodURqampxT0lsR3pZcnlNY24yMzZkQk9uWVFPWGRG?=
+ =?utf-8?B?VkExb21DdUN4S1pmWktRYmtIMlhOelhDRlBiQnY3aGpOd1dKQjJMd1grVDV5?=
+ =?utf-8?B?MzlTWk9hZTE4QTZZV0JHMkp3WmhPaDcrVVVPbjR6aURsbFpJTkZKRHkvWWhw?=
+ =?utf-8?B?bjlnQmZRV0pBZCtJZnF5cXVzUElFeS9Ta0xKZFAvZmc3MlgxdHBRd0x2MDV3?=
+ =?utf-8?B?NG5Wd2hzRTIxZ1gzNmJuR081ekcrY3ltN0l3NTRqSVB2TjNCT3pkbG1MUW1w?=
+ =?utf-8?B?VjFpUmJlK1IzaXpHZlR5Si9jaElyaElYdmdLWkFId1plSS9lNlZGYWpveWxq?=
+ =?utf-8?B?SzRtbVBuOWxSNkpDS0RqRjVZVzh0VEovTCtwMDhZOUFLNmNIKzg4STNPVTUw?=
+ =?utf-8?B?WVM5ZDVkSzJMVk8xZGxvamhTNWt0QVdjbHF1ZXB5dkprQkhvcncvb3l3RFpP?=
+ =?utf-8?B?c0k5dnBBNFlCcThlR09ZL1ovZEcveGRwRVROWFB5WStaRjhac0FQaHFIWmVO?=
+ =?utf-8?B?THJaNlVCcWxFVXZQTHcyQmd6a2FxUVIyZFBzRmtKZklaTGxZYXVYbmVlZ2R5?=
+ =?utf-8?B?Z1BuOXp1YUNOOFYvQm5NeEowM2dQT3BBOStuOUd2R0hFdzRFZ3JaUFNaQi9h?=
+ =?utf-8?B?ZXpyL1Y0UXptWEJ0SHRZdXhucXlHTjNLenREcitNM0NoUVY2SWYvbWRGcFc5?=
+ =?utf-8?B?WkdHTHdyYVloV3lpMGw2OGJoVTVoZEEvYlR4ZUlZQTFYcXhCeXo3LzZuM0ty?=
+ =?utf-8?B?VzEzQnJZSXZTczU5S0VHK1JkYXkrNkpoZVJUYUdvZE9VdURqa2dZdXc3TUI4?=
+ =?utf-8?B?UERkMUJEVXJtV3g1OUpuL1FsdW82d0pPZzhUdGE0eklmTXd0NGwvRU5VYU9I?=
+ =?utf-8?B?dmd1QmFpbmNiY2JBZGFGVmlFWlo4a0p2aEduOTJCbDZNeENUWUxUMks1enlv?=
+ =?utf-8?B?VmdyNjFNOXQ2c0xNWjc5dDFNZ2szUnhuYzU4YTZ2OXRWbDVnM1ltVlBleERR?=
+ =?utf-8?B?SXI3VjhtbnVTRGhUU2toV2RwVWZicjUzL1ZZeXVPWFlrbkdFSXR1eDd1NW9Q?=
+ =?utf-8?B?RnFHY1B4amtHUTJzaUx0N0dTRmRYRU1FMTI5TTZ1d3ZNcHNFWENYU0lOTTBo?=
+ =?utf-8?B?OU5MNVpYaWFtdGtGN29BYzByNldaYnJrb3FOY2FzSUpWVnFiUDE4V2xBbmVS?=
+ =?utf-8?B?NGpWbytoYVNJVEZsVEZsRitKUThMVWxVSHNZSWJ3WWcvRGRSSTIvamE2VTJz?=
+ =?utf-8?B?VG55V2hVRnYzcVRqbE1vcGVkZWpGdURma3luWWRCOUlaT2Y3VVovY3pIeEFM?=
+ =?utf-8?B?bGUwRVRSMTNPaEw0NUtiT1NmbXlGbHhVWk5OMFNZaDZkU0t2MjI2NlVJbllT?=
+ =?utf-8?B?SmNPVE1zU1hwdHE2QmJtczlIdHVITXJ3QjNKMUkzbGtYeStpWFF1ZWxFNEg1?=
+ =?utf-8?B?b0lPVURQKzVEblVMa011R3dYUERnWmJRRU5lTTVmem0xMmRIQzQ2UllrUlZp?=
+ =?utf-8?B?TjMxZU1hMmg4dC9yY3I5MW1Cd1VxRlZ2L1BzMmV1Z2liME9mV01Oby9MeUs1?=
+ =?utf-8?B?cGRXNWFia2JSUFV6SkpNaFg4Y1ZrYnFzU0wyOU16SmR4SnVZRlBsUE5FQUM0?=
+ =?utf-8?B?c0x4VW9QODNwNnNvZnNWR2JGaW03djM5TUhMY1BLOEZBN21PTmpNL0s1U01w?=
+ =?utf-8?B?Wm5MTTlqNzYxdndvL0I1K1lzbWZENVFodUlrYzRIcGl0UHF6UEphM3FOUHRa?=
+ =?utf-8?B?ZWx1UlhoUG94d0hYaUE5OURDRWZJcXhDYnJBRE9kc1RKdi9SUEwxcExSNkg4?=
+ =?utf-8?B?TFR6TDVJT3VheFNtSWYwREZjcVljYzBkYmZFVFY2MDRGaEM4ZW9YNUVFTmxi?=
+ =?utf-8?Q?DNnyGEi2UFaLf?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(4022899009)(366016)(376014)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?WkF4ZmVMNlkxVWN6Q0FMVWhSL01KRWozQ0o2UjJLR2gvWnI2SXpobE8rZUtY?=
+ =?utf-8?B?M3NIS2dudVM3QWNYMnFNenNLQ3J0VlN4d1luSVZXdEUyL0padVBHNVYyVWc4?=
+ =?utf-8?B?ZzJldWVKTEVwNHBFcWozME9OVXlZYlR3MzRyZ0ZNSTY3YStqVUNJcll6Q1Nl?=
+ =?utf-8?B?WEMwSHBKNkJFeGZjTk5kT0FKa0ErUkpsZ0dDT05wZTFBSWxTRWJMME1NMGdy?=
+ =?utf-8?B?RHZQQUlSdDkySmsrRFl6VlRlTkE3bWNOUjZETXp6UTh0UTBibkV4KzFNWUlF?=
+ =?utf-8?B?Y1hLek1wS2tOak5FYklaQ2MwVUVLZVdlUWgwMHdwTy94WlNqZjh3TUhBdzFm?=
+ =?utf-8?B?RHFjdmc1RWN5NkJlWUozNkdwclkvcXFYOVJzMml0VXJIUjFPMnM5dXRSSGQw?=
+ =?utf-8?B?N2FTZGZhbExwNE4vVGgreWxnTlczaWdhbkQveE1YL2F2dE4yRHdEZndCOWFP?=
+ =?utf-8?B?TUlobUEzNC9oRzcyOWhaV0FRWWF3LzZHVDZyVFlGUnZNOXpSazNHbGhJaW9p?=
+ =?utf-8?B?Vk9jT3lROEhTVEpkSVJHR0t4TVNUaDBwY0YrclBkSk9HTjdpYXAzQUppbkxQ?=
+ =?utf-8?B?MytMeGNuOE0vbld1V1hyUEZyNjZWdTBVMWk2VlVGQkxYWkgwdjhDOU1TTHF6?=
+ =?utf-8?B?eEZ5a3l1U0NIVzdYZENNTFdHLzJPenpyYkdHNDdxVHNqNHdNT1B0b2NCc1JM?=
+ =?utf-8?B?YTB1WGdvVVBsK0tJSTh2SGwzU0puODdsTThVUjhzNzJuY29yeGZOb29ORTBD?=
+ =?utf-8?B?RFBibkxvU0tvT1hkM2V4S084WGFwMTRJMmNKcEpXZU5Qemg3YUZ5UHNvM3NN?=
+ =?utf-8?B?Q29uYnV2QTZvWmZ0aU1wN05PR3d0Y0VTdENHVWExcDU5eG9MWm5pYUtyTmNX?=
+ =?utf-8?B?eXVhRjFWQVdLQWxIL1o4b1JSNWpsenIvOEVLbEtxcC92U2Y2NUVLUG5FQk9h?=
+ =?utf-8?B?eFIxTXI4RHYwRVFiWWxtNlk0cERRcmFrLzZJNGJOWkJ6ZjQ5ZTdxTHZZUHdi?=
+ =?utf-8?B?SmN2WmpKZ3dpa0RKN1FWaWhpdk5xdys5YVpuWS8xWkRoL0U2ZVE5L0pGeXJT?=
+ =?utf-8?B?eVJlSzZoRVdiS0NVV2Y1THJwSDg3NWt4enpjcUpPeDFkYmtQR25zMWFwSFNs?=
+ =?utf-8?B?ei85Y0FES2RHbTdxWmFBQVZiS2FIR05EbUxIYTJSdHdFUFg1WSt0RXFITFZz?=
+ =?utf-8?B?b1JVR0tVLzloK2hsempqUXhLYzNmOWRNSkczcVBJRXdrOUhRdHB3aGQxU0da?=
+ =?utf-8?B?ZmpOVXZsakpOeWJQQ0ttNlJOaVdLaXU5WDhWY1EvRWEwMUY3SWo0MExOM2t3?=
+ =?utf-8?B?RVlMM1F0WXFzVXNFNnl2c2liVnhKMmNMNGlzc2w3UUVHRUtkQmc0ZXM4VGFW?=
+ =?utf-8?B?ZXZaUWloSGp3cVFqbEtwNXNET2kvRlp6T2x3dVVRMEc2b3lla3ZlWi8xeHQ0?=
+ =?utf-8?B?MGNMa3FVQnlOcWRiYzlQVXRGSUkreEtwd1MzTXBKc0dIaFdNV1FkOXQ2MlhX?=
+ =?utf-8?B?aWlRWUR2aDFhdEVKeE1nRDVxYWwzOE1RaVpIS0xRT1ZKWk5HbFBaMkhXb0hJ?=
+ =?utf-8?B?eTF4UEtxVXNLMVl6bzdLN00zeC95WEN1YzRIdFFWb3pQeEp4bE1SUW8rdzlS?=
+ =?utf-8?B?NHpScUFFWEFSZTZEdG53aHhnZ0ViaWlJY0VzWTdIKzU4S09IWmtkbjFwQlJZ?=
+ =?utf-8?B?U1FvK1pVUzEzNFlzWG1vdVp4T1BZM3g5dFU0QktZbGFNM2pWQ3Q2cjVXYzNr?=
+ =?utf-8?B?RzhkcDlDVUlFaTljaWpYNFpXMnpSVWxDVlJMVHBKT2pPV1Z2VXI4K04xZ0Js?=
+ =?utf-8?B?enU3TjVabHg3bzFsOUN1Qk9naEJEbjRrUmoxMlB4WkpwWkE0SUo4OVBaYnJS?=
+ =?utf-8?B?dnN2QlA4a3RVYWIzelM3L1N1V1pteHlZSjZuak1iV2dicUk3M3FPZDhuL2Yw?=
+ =?utf-8?B?U2RZcGZVc3VNVFhEVkg4cWZnYjVNNGM5Tm9acVkxcUp3VUVkYmJRQW5ubGFR?=
+ =?utf-8?B?MjM3dW5oTmtFWlJxMFR1MTFTRUpSbjlEUUdhTSswNUgxd21uOS95bEJRYjFx?=
+ =?utf-8?B?ckI5UFAvYTMvNGZweGZEWmFyTXMzVHM4angyM2dwV08zVlU5SVdBRmxHa0lv?=
+ =?utf-8?B?VWRqZ3hRcW5DUzlFZzRTTmJCdFA0a0krSThwVEpoVW5NZjVjSHljcms4c3FH?=
+ =?utf-8?B?Q3c9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a36708e3-77e8-42ef-48c8-08ddd3769645
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2025 16:47:23.9000
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /s9oprl6Ane/TcOWmh4sHKPCNfjvlIy7+0zImqTpcAIdqAgDMm4sqn933gQDSwqrVoO9eKMMm9GZJ9SKNRBBUMtjpnedG/vI9Pl6fY/mQTI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6535
+X-Proofpoint-ORIG-GUID: MOPyIVXtMJA6ryXoNlLgNSDo73GPcxob
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDA5NCBTYWx0ZWRfX1VluNptGtHFQ
+ peeJSy1kupFGKXLAho/CzVJxvJ9TX9d4mdUybK08gEZ/DRYGkHE3Rcyix/kEaXIA2Y8FBX0bQ/Y
+ aFTJXCK8XiFkf2CEiNKq+B/+xcS5/QjHmV6iglJboZMkFavcmpBuK/NcfC9D55lMJ/llb6Eol5C
+ 4Cq88TkCRluWtKRK9Ve+d5asuifWvstfxBOzzpnduZMEm6xVpES4+LfvZpn0ZGgyip1Gak2hVc4
+ cLRobjlQL8dkyfT6ltn2/GNL+udS/WSxy+pMqW2pFfMoh2clDiuOV6ud9HVZz3W/yAghUMlli3T
+ lMOfFvjpCp8/+FOOj/hKTor6h9YoM0kOB4tJRsfJLeegg707LbV8mKy3niAlKN+I8mNp6z52ukn
+ X9YvxlkK
+X-Proofpoint-GUID: MOPyIVXtMJA6ryXoNlLgNSDo73GPcxob
+X-Authority-Analysis: v=2.4 cv=LtOSymdc c=1 sm=1 tr=0 ts=6890e421 cx=c_pps
+ a=2GB9L8dNip6y3bDgyjjg1g==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10 a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8
+ a=t7CeM3EgAAAA:8 a=5mNhgPiPsN5K-zSXBaMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=86TALEUNG43LT7YjXBUA:9 a=GMpSkYfKasG-pmkm:21 a=_W_S_7VecoQA:10
+ a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-04_07,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 impostorscore=0 spamscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507210000 definitions=main-2508020059
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 16:41:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221433
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 16:47:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221434
 
-From: Peter Marko <peter.marko@siemens.com>
+--------------0aHjYwGNuU1msmzFVgrpCII9
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 574GJhXO2779194
 
-Pick patch [1] mentioned in NVD report [2] from github mirror [3].
+On 2025-07-16 3:32 a.m., hongxu via lists.openembedded.org wrote:
+> When building with GCC 14+ using -Og (DEBUG_BUILD =3D 1), got
+> the following errors:
+>
+> $ echo 'DEBUG_BUILD =3D "1"' >> conf/local.conf
+> $ echo 'DISTRO_FEATURES:append =3D " vulkan"' >> conf/local.conf
+> $ bitbake vulkan-validation-layers
+> ...
+> |tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.4.313.0/source=
+s/
+> vulkan-validation-layers-1.4.313.0/layers/./external/xxhash.h:4822:1: e=
+rror:
+> inlining failed in call to 'always_inline' 'void XXH3_scrambleAcc_sse2(=
+void*,
+> const void*)': function not considered for inlining
+> ...
+>
+> Refer [1], using XXH_NO_INLINE_HINTS when compiling with -Og (DEBUG_BUI=
+LD =3D 1)
+>
+> [1]https://github.com/Cyan4973/xxHash/issues/943
+>
+> Signed-off-by: Hongxu Jia<hongxu.jia@windriver.com>
+> ---
+>   .../vulkan/vulkan-validation-layers_1.4.313.0.bb                | 2 +=
++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.=
+313.0.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.=
+0.bb
+> index 63a3aa4ae64..c05a1d87007 100644
+> --- a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.0.b=
+b
+> +++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.0.b=
+b
+> @@ -26,6 +26,8 @@ EXTRA_OECMAKE =3D "\
+>       -DSPIRV_HEADERS_INSTALL_DIR=3D${STAGING_EXECPREFIXDIR} \
+>       "
+>  =20
+> +CXXFLAGS:append =3D " ${@oe.utils.vartrue('DEBUG_BUILD', '-DXXH_NO_INL=
+INE_HINTS=3D1', '', d)}"
+> +
+>   PACKAGECONFIG[x11] =3D "-DBUILD_WSI_XLIB_SUPPORT=3DON -DBUILD_WSI_XCB=
+_SUPPORT=3DON, -DBUILD_WSI_XLIB_SUPPORT=3DOFF -DBUILD_WSI_XCB_SUPPORT=3DO=
+FF, libxcb libx11 libxrandr"
+>   PACKAGECONFIG[wayland] =3D "-DBUILD_WSI_WAYLAND_SUPPORT=3DON, -DBUILD=
+_WSI_WAYLAND_SUPPORT=3DOFF, wayland"
+>  =20
+>
+Hi Hongxu,
 
-[1] https://www.sqlite.org/src/info/5508b56fd24016c13981ec280ecdd833007c9d8dd595edb295b984c2b487b5c8
-[2] https://nvd.nist.gov/vuln/detail/CVE-2025-6965
-[3] https://github.com/sqlite/sqlite/commit/c52e9d97d485a3eb168e3f8f3674a7bc4b419703
+The issue was resolved upstream but fixed in a slightly different way.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Rather than carry this change in oe-core and have to remember to remove=20
+it or rather forgetting about it for a release or two,
+can you=C2=A0 get upstream vulkan to update to pull in the xxHash change =
+and=20
+then update vulkan for oe-core/master?
+
+Meanwhile, we should carry this in WR Linux until the vulkan update gets=20
+into oe-core.
+
+This is probably a good approach for DEBUG_BUILD issues in general=20
+unless other people
+on this list speak up and explain why they are also interested in the=20
+DEBUG_BUILD working.
+
+../Randy
+
+
+
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#220435):https://lists.openembedded.org/g/openembedd=
+ed-core/message/220435
+> Mute This Topic:https://lists.openembedded.org/mt/114181365/3616765
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [r=
+andy.macleod@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+--=20
+# Randy MacLeod
+# Wind River Linux
+
+--------------0aHjYwGNuU1msmzFVgrpCII9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 2025-07-16 3:32 a.m., hongxu via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20250716073233.3020439-1-hongxu.jia@windriver.com">
+      <pre wrap="" class="moz-quote-pre">When building with GCC 14+ using -Og (DEBUG_BUILD = 1), got
+the following errors:
+
+$ echo 'DEBUG_BUILD = &quot;1&quot;' &gt;&gt; conf/local.conf
+$ echo 'DISTRO_FEATURES:append = &quot; vulkan&quot;' &gt;&gt; conf/local.conf
+$ bitbake vulkan-validation-layers
+...
+|tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.4.313.0/sources/
+vulkan-validation-layers-1.4.313.0/layers/./external/xxhash.h:4822:1: error:
+inlining failed in call to 'always_inline' 'void XXH3_scrambleAcc_sse2(void*,
+const void*)': function not considered for inlining
+...
+
+Refer [1], using XXH_NO_INLINE_HINTS when compiling with -Og (DEBUG_BUILD = 1)
+
+[1] <a class="moz-txt-link-freetext" href="https://github.com/Cyan4973/xxHash/issues/943">https://github.com/Cyan4973/xxHash/issues/943</a>
+
+Signed-off-by: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
 ---
- .../sqlite/sqlite3/CVE-2025-6965.patch        | 112 ++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.48.0.bb |   1 +
- 2 files changed, 113 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch
+ .../vulkan/vulkan-validation-layers_1.4.313.0.bb                | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch
-new file mode 100644
-index 0000000000..9b2f4409b3
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch
-@@ -0,0 +1,112 @@
-+From c52e9d97d485a3eb168e3f8f3674a7bc4b419703 Mon Sep 17 00:00:00 2001
-+From: drh <>
-+Date: Fri, 27 Jun 2025 19:02:21 +0000
-+Subject: [PATCH] Raise an error right away if the number of aggregate terms in
-+ a query exceeds the maximum number of columns.
-+
-+FossilOrigin-Name: 5508b56fd24016c13981ec280ecdd833007c9d8dd595edb295b984c2b487b5c8
-+
-+CVE: CVE-2025-6965
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/c52e9d97d485a3eb168e3f8f3674a7bc4b419703]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ sqlite3.c | 30 ++++++++++++++++++++++++++----
-+ 1 file changed, 26 insertions(+), 4 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 146047d..c78f58b 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -15257,6 +15257,14 @@ typedef INT16_TYPE LogEst;
-+ #define LARGEST_UINT64 (0xffffffff|(((u64)0xffffffff)<<32))
-+ #define SMALLEST_INT64 (((i64)-1) - LARGEST_INT64)
-+ 
-++/*
-++** Macro SMXV(n) return the maximum value that can be held in variable n,
-++** assuming n is a signed integer type.  UMXV(n) is similar for unsigned
-++** integer types.
-++*/
-++#define SMXV(n) ((((i64)1)<<(sizeof(n)*8-1))-1)
-++#define UMXV(n) ((((i64)1)<<(sizeof(n)*8))-1)
-++
-+ /*
-+ ** Round up a number to the next larger multiple of 8.  This is used
-+ ** to force 8-byte alignment on 64-bit architectures.
-+@@ -19046,7 +19054,7 @@ struct AggInfo {
-+                           ** from source tables rather than from accumulators */
-+   u8 useSortingIdx;       /* In direct mode, reference the sorting index rather
-+                           ** than the source table */
-+-  u16 nSortingColumn;     /* Number of columns in the sorting index */
-++  u32 nSortingColumn;     /* Number of columns in the sorting index */
-+   int sortingIdx;         /* Cursor number of the sorting index */
-+   int sortingIdxPTab;     /* Cursor number of pseudo-table */
-+   int iFirstReg;          /* First register in range for aCol[] and aFunc[] */
-+@@ -19055,8 +19063,8 @@ struct AggInfo {
-+     Table *pTab;             /* Source table */
-+     Expr *pCExpr;            /* The original expression */
-+     int iTable;              /* Cursor number of the source table */
-+-    i16 iColumn;             /* Column number within the source table */
-+-    i16 iSorterColumn;       /* Column number in the sorting index */
-++    int iColumn;             /* Column number within the source table */
-++    int iSorterColumn;       /* Column number in the sorting index */
-+   } *aCol;
-+   int nColumn;            /* Number of used entries in aCol[] */
-+   int nAccumulator;       /* Number of columns that show through to the output.
-+@@ -116445,7 +116453,9 @@ static void findOrCreateAggInfoColumn(
-+ ){
-+   struct AggInfo_col *pCol;
-+   int k;
-++  int mxTerm = pParse->db->aLimit[SQLITE_LIMIT_COLUMN];
-+ 
-++  assert( mxTerm <= SMXV(i16) );
-+   assert( pAggInfo->iFirstReg==0 );
-+   pCol = pAggInfo->aCol;
-+   for(k=0; k<pAggInfo->nColumn; k++, pCol++){
-+@@ -116463,6 +116473,10 @@ static void findOrCreateAggInfoColumn(
-+     assert( pParse->db->mallocFailed );
-+     return;
-+   }
-++  if( k>mxTerm ){
-++    sqlite3ErrorMsg(pParse, "more than %d aggregate terms", mxTerm);
-++    k = mxTerm;
-++  }
-+   pCol = &pAggInfo->aCol[k];
-+   assert( ExprUseYTab(pExpr) );
-+   pCol->pTab = pExpr->y.pTab;
-+@@ -116496,6 +116510,7 @@ fix_up_expr:
-+   if( pExpr->op==TK_COLUMN ){
-+     pExpr->op = TK_AGG_COLUMN;
-+   }
-++  assert( k <= SMXV(pExpr->iAgg) );
-+   pExpr->iAgg = (i16)k;
-+ }
-+ 
-+@@ -116580,13 +116595,19 @@ static int analyzeAggregate(Walker *pWalker, Expr *pExpr){
-+         ** function that is already in the pAggInfo structure
-+         */
-+         struct AggInfo_func *pItem = pAggInfo->aFunc;
-++        int mxTerm = pParse->db->aLimit[SQLITE_LIMIT_COLUMN];
-++        assert( mxTerm <= SMXV(i16) );
-+         for(i=0; i<pAggInfo->nFunc; i++, pItem++){
-+           if( NEVER(pItem->pFExpr==pExpr) ) break;
-+           if( sqlite3ExprCompare(0, pItem->pFExpr, pExpr, -1)==0 ){
-+             break;
-+           }
-+         }
-+-        if( i>=pAggInfo->nFunc ){
-++        if( i>mxTerm ){
-++          sqlite3ErrorMsg(pParse, "more than %d aggregate terms", mxTerm);
-++          i = mxTerm;
-++          assert( i<pAggInfo->nFunc );
-++        }else if( i>=pAggInfo->nFunc ){
-+           /* pExpr is original.  Make a new entry in pAggInfo->aFunc[]
-+           */
-+           u8 enc = ENC(pParse->db);
-+@@ -116640,6 +116661,7 @@ static int analyzeAggregate(Walker *pWalker, Expr *pExpr){
-+         */
-+         assert( !ExprHasProperty(pExpr, EP_TokenOnly|EP_Reduced) );
-+         ExprSetVVAProperty(pExpr, EP_NoReduce);
-++        assert( i <= SMXV(pExpr->iAgg) );
-+         pExpr->iAgg = (i16)i;
-+         pExpr->pAggInfo = pAggInfo;
-+         return WRC_Prune;
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-index 11f103dddc..6c9f1ed5d9 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
- SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-     file://CVE-2025-3277.patch \
-     file://CVE-2025-29088.patch \
-+    file://CVE-2025-6965.patch \
- "
- SRC_URI[sha256sum] = "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.0.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.0.bb
+index 63a3aa4ae64..c05a1d87007 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.0.bb
+@@ -26,6 +26,8 @@ EXTRA_OECMAKE = &quot;\
+     -DSPIRV_HEADERS_INSTALL_DIR=${STAGING_EXECPREFIXDIR} \
+     &quot;
  
++CXXFLAGS:append = &quot; ${@oe.utils.vartrue('DEBUG_BUILD', '-DXXH_NO_INLINE_HINTS=1', '', d)}&quot;
++
+ PACKAGECONFIG[x11] = &quot;-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON, -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_XCB_SUPPORT=OFF, libxcb libx11 libxrandr&quot;
+ PACKAGECONFIG[wayland] = &quot;-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland&quot;
+ 
+</pre>
+      <br>
+    </blockquote>
+    <p>Hi Hongxu,<br>
+    </p>
+    <p>The issue was resolved upstream but fixed in a slightly different
+      way.<br>
+      <br>
+      Rather than carry this change in oe-core and have to remember to
+      remove it or rather forgetting about it for a release or two,<br>
+      can you&nbsp; get upstream vulkan to update to pull in the xxHash
+      change and then update vulkan for oe-core/master?<br>
+      <br>
+      Meanwhile, we should carry this in WR Linux until the vulkan
+      update gets into oe-core.</p>
+    <p>This is probably a good approach for DEBUG_BUILD issues in
+      general unless other people<br>
+      on this list speak up and explain why they are also interested in
+      the DEBUG_BUILD working.<br>
+    </p>
+    <p>../Randy</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite" cite="mid:20250716073233.3020439-1-hongxu.jia@windriver.com">
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre wrap="" class="moz-quote-pre">-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#220435): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/220435">https://lists.openembedded.org/g/openembedded-core/message/220435</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/114181365/3616765">https://lists.openembedded.org/mt/114181365/3616765</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------0aHjYwGNuU1msmzFVgrpCII9--
 
