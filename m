@@ -1,184 +1,79 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45743C87FCF
-	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 17:37:39 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.1770.1754329057582699024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBF51C87FD1
+	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 19:52:49 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.5443.1754337162752387425
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Aug 2025 10:37:37 -0700
+ Mon, 04 Aug 2025 12:52:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FD362Q5U;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3b790dbb112so2564350f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 10:37:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754329056; x=1754933856; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lbyv1bUbg3AGQLZ5UC3NQa8tNB6gxW4NY+2DPlBOafk=;
-        b=FD362Q5UitAAC72YIRDB+VARmR7FcqlkjN18cWWGlXjkhIBfHOUc358quEVURlGf8H
-         8UAocFr0256C25SnkWn0kYFRgqhvxYsMWkQg0J24iTlBv7KyZnq+V7SvJSN8UY48O18p
-         GT250v4k9PiTVjmqNtCFbSTFqldZg9eJ5IQwVsTB3Hw8+GGMh0gISjn0twnyuSBXmKCl
-         1wKkUieN7KPEWnunwbpjL2TzVcWpew/DuaBz9enJP0Iy80GWIecQd1kumdnPbQvQtnNu
-         v3f+BwR1WTxoURRLLdosYkH7ZXxgeP0PhCjOyme14EtJEosQDcNNPSNqmFwHax7r786v
-         8hYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754329056; x=1754933856;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lbyv1bUbg3AGQLZ5UC3NQa8tNB6gxW4NY+2DPlBOafk=;
-        b=csKU0UGID8DGrhLYuoDWltQykBL4I4CM0RcM9UeOxduxKS+vw5jWaVfzvpWW98Av5C
-         uVNlHk2TkBMqi5yn3CrrMtOL4SHIqwvBbfxXZ+SIZotkCAaoV9Zk3R4Rtpk347YP/AM9
-         ELgWhgqWwR6GQlQBTdEY1Pxg9eYSyXwGlqDzJ1YvONYMToNae0qKWhDe2e/VEpflMgIo
-         iX+0bZNUkWq+o+BzAVvyyPHNtkyIDLBT3nfR7XHE0FzLpadA6QU8wq0R6PVNSj+vba+s
-         ln6kOnYyeK6roY42s14zbykuNFzojnUOJPyxSj5Xtxb1P/0efiHbnw9C5xExaWAQMGgO
-         WzRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCms1/qxpVE5jb+IO/WjQqLVzhk2B81scV9wbr2QEYlHVYkHWdym1z5aj9YM92Dcj25df9OJHb/1aeTFx/4hy5Wg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyT+hRsL/atPUVH0ZWv69k4NJXSC89qcQrvUaCPi2P9xWl3OsfM
-	Rh2F73CboNg3UGhOfni4evKwS65aBnMO4INOVj/O9cPJpWIIfyP4aAHU
-X-Gm-Gg: ASbGnctG92rr2xizaUO6Z3P5Ebgj3n/axumOet5ia7mkyAmzBK8yn6GACKYpXBWNGHA
-	f5SoCucteahaH0i4Ga3jBplC4Yf+tSKvXm0v3/QYBfBnFWmFrSYyOofroCeYfnFdYfxj32+VHI5
-	TvgzhDFEP0BTUrpdUlJrJ/OXGKjoIE7GqpI6Rlm9KXJ5ME0yG2d1YY4CNHowbizAotZERo9tWNU
-	1JdgbBUQk25ARLVRpwSKAqtQKzdp6etoP/D2f9JgxaTKLtN6cT1CO8a5WhJhcc/NYTejIN90ok7
-	CNaivOngn50eitQt4W1jcS/gF7BSPheZsrQjQ5mjMpKmkVyScYXrsg0rh4fQ9g5y32mLiDaGAlr
-	2nA45nlhLboOQWpF6oWh6uamK6wsXgyrCvLVH938EcK2XtX+ufzEpD0Z3PlhtAqij1PdfdoY=
-X-Google-Smtp-Source: AGHT+IGiIhJgdHIuO0kOQtl52rYmV6u6xUbE6YHjxsP+J+TS4pW4yIE+c79UH36hhputgn8YrzqBxg==
-X-Received: by 2002:a05:6000:2910:b0:3b7:99a8:bf6e with SMTP id ffacd0b85a97d-3b8d94c9fe1mr8550967f8f.51.1754329054836;
-        Mon, 04 Aug 2025 10:37:34 -0700 (PDT)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c45346asm16360655f8f.39.2025.08.04.10.37.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Aug 2025 10:37:34 -0700 (PDT)
-Message-ID: <7a1f740b67752d7e8b60baa426c3c2ef7f026124.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH v2] runqemu: Add support for running
- compressed .zst rootfs images
-From: adrian.freihofer@gmail.com
-To: lamine.rehahlia@smile.fr, openembedded-core@lists.openembedded.org
-Date: Mon, 04 Aug 2025 19:37:33 +0200
-In-Reply-To: <20250725143019.2189728-1-lamine.rehahlia@smile.fr>
-References: <20250725143019.2189728-1-lamine.rehahlia@smile.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42app2) 
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5D821E4D
+	for <openembedded-core@lists.openembedded.org>; Mon,  4 Aug 2025 12:52:33 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9028E3F5A1
+	for <openembedded-core@lists.openembedded.org>; Mon,  4 Aug 2025 12:52:41 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/7] dbus-glib: package the binding tool into PN-tools, enable nativesdk
+Date: Mon,  4 Aug 2025 20:52:31 +0100
+Message-ID: <20250804195237.149379-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 17:37:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221436
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 19:52:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221437
 
-T24gRnJpLCAyMDI1LTA3LTI1IGF0IDE2OjMwICswMjAwLCBsYW1pbmUucmVoYWhsaWEgdmlhCmxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6Cj4gRnJvbTogTGFtaW5lIFJFSEFITElBIDxsYW1p
-bmUucmVoYWhsaWFAc21pbGUuZnI+Cj4gCj4gRW5oYW5jZSBydW5xZW11IHRvIGRldGVjdCBhbmQg
-ZGVjb21wcmVzcyAuenN0LWNvbXByZXNzZWQgcm9vdGZzCj4gaW1hZ2VzCj4gKGUuZy4gZXh0NC56
-c3QsIHdpYy56c3QpIGF1dG9tYXRpY2FsbHkuIElmIGEgZGVjb21wcmVzc2VkIGltYWdlCj4gYWxy
-ZWFkeQo+IGV4aXN0cyBpbiB0aGUgb3JpZ2luYWwgZGlyZWN0b3J5LCBpdCB3aWxsIGJlIHJldXNl
-ZCB0byBhdm9pZAo+IG92ZXJ3cml0aW5nCj4gYnVpbGQgYXJ0aWZhY3RzLiBPdGhlcndpc2UsIHRo
-ZSBpbWFnZSBpcyBkZWNvbXByZXNzZWQgYW5kIHJlbW92ZWQKPiBhZnRlcgo+IHRoZSBRRU1VIHNl
-c3Npb24gZW5kcy4KPiAKPiBUaGlzIGFsbG93cyBydW5xZW11IHRvIGJlIHVzZWQgc2VhbWxlc3Ns
-eSB3aXRoIGNvbXByZXNzZWQgaW1hZ2UKPiBmb3JtYXRzCj4gZ2VuZXJhdGVkIGJ5IHRoZSBidWls
-ZCBzeXN0ZW0gb3IgZHVyaW5nIHJlbGVhc2VzLgo+IAo+IE5vdGU6IHN1cHBvcnQgZm9yIC56c3Qg
-aW1hZ2VzIGlzIG9ubHkgYXZhaWxhYmxlIHdoZW4gc25hcHNob3QgbW9kZSBpcwo+IGVuYWJsZWQK
-PiAKPiBJTVBPUlRBTlQ6Cj4gVGhpcyBwYXRjaCBhc3N1bWVzIHRoYXQgdGhlIG9yaWdpbmFsIGRp
-cmVjdG9yeSBvZiB0aGUgLnpzdC1jb21wcmVzc2VkCj4gaW1hZ2UgaXMgd3JpdGFibGUuIElmLCBm
-b3Igc29tZSByZWFzb24sIHRoZSBwYXRoIHBhc3NlZCBmcm9tIENJIG9yCj4gYW5vdGhlciBzeXN0
-ZW0gdG8gdGhlIHNjcmlwdCBpcyByZWFkLW9ubHksIHRoZSBkZWNvbXByZXNzaW9uIHN0ZXAKPiB3
-aWxsCj4gZmFpbCB3aGVuIHRyeWluZyB0byB3cml0ZSB0aGUgdW5jb21wcmVzc2VkIGltYWdlIHRv
-IHRoZSBzYW1lCj4gZGlyZWN0b3J5Lgo+IAo+IFNpZ25lZC1vZmYtYnk6IExhbWluZSBSRUhBSExJ
-QSA8bGFtaW5lLnJlaGFobGlhQHNtaWxlLmZyPgo+IC0tLQo+IMKgc2NyaXB0cy9ydW5xZW11IHwg
-NDAgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQo+IMKgMSBmaWxlIGNo
-YW5nZWQsIDM5IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEv
-c2NyaXB0cy9ydW5xZW11IGIvc2NyaXB0cy9ydW5xZW11Cj4gaW5kZXggM2Q3NzA0Njk3Mi4uMzA5
-NTRiYTMzMiAxMDA3NTUKPiAtLS0gYS9zY3JpcHRzL3J1bnFlbXUKPiArKysgYi9zY3JpcHRzL3J1
-bnFlbXUKPiBAQCAtMzc2LDcgKzM3Niw0NSBAQCBjbGFzcyBCYXNlQ29uZmlnKG9iamVjdCk6Cj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmUuc2VhcmNoKCdmaXRJbWFnZScsIHApIG9yIHJl
-LnNlYXJjaCgndUltYWdlJywgcCk6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNlbGYua2Vy
-bmVsID3CoCBwCj4gwqDCoMKgwqDCoMKgwqDCoCBlbGlmIG9zLnBhdGguaXNmaWxlKHApIGFuZCAo
-Jy1pbWFnZS0nIGluIG9zLnBhdGguYmFzZW5hbWUocCkKPiBvciAnLnJvb3Rmcy4nIGluIG9zLnBh
-dGguYmFzZW5hbWUocCkpOgo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNlbGYucm9vdGZzID0g
-cAo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAjIERlY29tcHJlc3MgWlNUIGltYWdlIGlm
-IG5lZWRlZAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIHAuZW5kc3dpdGgoJy56c3QnKToK
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgRW5zdXJlIHNuYXBzaG90IG1vZGUg
-aXMgYWN0aXZlIGJlZm9yZSBhbGxvd2luZwo+IGRlY29tcHJlc3Npb24uCj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBub3Qgc2VsZi5zbmFwc2hvdDoKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByYWlzZSBSdW5RZW11RXJyb3IoIi56
-c3QgaW1hZ2VzIGFyZSBvbmx5Cj4gc3VwcG9ydGVkIHdoZW4gc25hcHNob3QgbW9kZSBpcyBlbmFi
-bGVkLiAiKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBHZXQgdGhlIHJlYWwg
-cGF0aCB0byB0aGUgaW1hZ2UgdG8gYXZvaWQgaXNzdWVzCj4gd2hlbiBhIHN5bWJvbGljIGxpbmsg
-aXMgcGFzc2VkLgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBUaGlzIGVuc3Vy
-ZXMgd2UgYWx3YXlzIG9wZXJhdGUgb24gdGhlIGFjdHVhbCBmaWxlLgo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgaW1hZ2VfcGF0aCA9IG9zLnBhdGgucmVhbHBhdGgocCkKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgRXh0cmFjdCB0YXJnZXQgZmlsZW5hbWUgYnkg
-cmVtb3ZpbmcgLnpzdAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW1hZ2VfZGly
-ID0gb3MucGF0aC5kaXJuYW1lKGltYWdlX3BhdGgpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCB1bmNvbXByZXNzZWRfbmFtZSA9Cj4gb3MucGF0aC5iYXNlbmFtZShpbWFnZV9wYXRo
-KS5yZXBsYWNlKCIuenN0IiwgIiIpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1
-bmNvbXByZXNzZWRfcGF0aCA9IG9zLnBhdGguam9pbihpbWFnZV9kaXIsCj4gdW5jb21wcmVzc2Vk
-X25hbWUpCj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBJZiB0aGUgZGVj
-b21wcmVzc2VkIGltYWdlIGFscmVhZHkgZXhpc3RzIChlLmcuLCBpbgo+IHRoZSBkZXBsb3kgZGly
-ZWN0b3J5KSwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgd2UgdXNlIGl0IGRp
-cmVjdGx5IHRvIGF2b2lkIG92ZXJ3cml0aW5nIGFydGlmYWN0cwo+IGdlbmVyYXRlZCBieSB0aGUg
-YnVpbGQgc3lzdGVtLgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBUaGlzIHBy
-ZXZlbnRzIHJlZHVuZGFudCBkZWNvbXByZXNzaW9uIGFuZAo+IHByZXNlcnZlcyBidWlsZCBvdXRw
-dXRzLgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgb3MucGF0aC5leGlzdHMo
-dW5jb21wcmVzc2VkX3BhdGgpOgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBsb2dnZXIud2FybmluZyhmIkZvdW5kIGV4aXN0aW5nIGRlY29tcHJlc3NlZAo+IGltYWdl
-OiB7dW5jb21wcmVzc2VkX3BhdGh9LCBVc2luZyBpdCBkaXJlY3RseS4iKQo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgZWxzZToKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgbG9nZ2VyLmluZm8oZiJEZWNvbXByZXNzaW5nIHtwfSB0bwo+IHt1bmNvbXBy
-ZXNzZWRfcGF0aH0iKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAj
-IEVuc3VyZSB0aGUgJ3pzdGQnIHRvb2wgaXMgaW5zdGFsbGVkIGJlZm9yZQo+IGF0dGVtcHRpbmcg
-dG8gZGVjb21wcmVzcy4KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-aWYgbm90IHNodXRpbC53aGljaCgnenN0ZCcpOgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJhaXNlIFJ1blFlbXVFcnJvcihmIid6c3RkJyBpcyByZXF1
-aXJlZCB0bwo+IGRlY29tcHJlc3Mge3B9IGJ1dCB3YXMgbm90IGZvdW5kIGluIFBBVEgiKQo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0cnk6Cj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgd2l0aCBvcGVuKHVuY29tcHJlc3Nl
-ZF9wYXRoLCAnd2InKSBhcwo+IG91dF9maWxlOgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3VicHJvY2Vzcy5jaGVja19jYWxsKFsnenN0
-ZCcsICctZCcsICctCj4gYycsIGltYWdlX3BhdGhdLCBzdGRvdXQ9b3V0X2ZpbGUpCgpVc3VhbGx5
-LCB0aGVzZSBpbWFnZSBmaWxlcyBhcmUgc3BhcnNlIGZpbGVzLiBXaGVuIHlvdSBjb21wcmVzcyBh
-bmQgdGhlbgpkZWNvbXByZXNzIHRoZW0sIHRoZXkgbWF5IGJlY29tZSByZWd1bGFyIGZpbGVzLCB3
-aGljaCBjYW4gYmUKc2lnbmlmaWNhbnRseSBsYXJnZXIgdGhhbiB0aGUgb3JpZ2luYWwgc3BhcnNl
-IGZpbGVzLiBUaGlzIGNhbgpuZWdhdGl2ZWx5IGltcGFjdCBwZXJmb3JtYW5jZSBhbmQgaW5jcmVh
-c2UgdGhlIHJlcXVpcmVkIHN0b3JhZ2UuCgpBY2MuIHRvIHRoZSBtYW4gcGFnZSBvZiB6c3RkLCBz
-cGFyc2UgZmlsZXMgYXJlIHN1cHBvcnRlZDoKLS1bbm8tXXNwYXJzZQogIGVuYWJsZSAvIGRpc2Fi
-bGUgc3BhcnNlIEZTIHN1cHBvcnQsIHRvIG1ha2UgZmlsZXMgd2l0aCBtYW55CiAgemVyb2VzIHNt
-YWxsZXIgb24gZGlzay4gQ3JlYXRpbmcgc3BhcnNlIGZpbGVzIG1heSBzYXZlIGRpc2sKICBzcGFj
-ZSBhbmQgc3BlZWQgdXAgZGVjb21wcmVzc2lvbiBieSByZWR1Y2luZyB0aGUgYW1vdW50IG9mIGRp
-c2sKICBJL08uIGRlZmF1bHQ6IGVuYWJsZWQgd2hlbiBvdXRwdXQgaXMgaW50byBhIGZpbGUsIGFu
-ZCBkaXNhYmxlZAogIHdoZW4gb3V0cHV0IGlzIHN0ZG91dC4gVGhpcyBzZXR0aW5nIG92ZXJyaWRl
-cyBkZWZhdWx0IGFuZCBjYW4KICBmb3JjZSBzcGFyc2UgbW9kZSBvdmVyIHN0ZG91dC4KClRvIGFk
-ZHJlc3MgdGhpcywgdGhlIGNvZGUgbWF5IG5lZWQgaW1wcm92ZW1lbnRzLiBZb3UgY291bGQgcGFz
-cyBgLS0Kc3BhcnNlYCB0byBlbnN1cmUgYSBzcGFyc2UgZmlsZSBpcyB3cml0dGVuIHRvIHN0ZG91
-dCwgb3IsIHByZWZlcmFibHksCnVzZSB0aGUgYC1vYCBvcHRpb24gdG8gd3JpdGUgZGlyZWN0bHkg
-dG8gYSBmaWxlLgoKQWRyaWFuCgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBleGNlcHQgc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3IgYXMgZToKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzZWxmLmNsZWFudXBfZmls
-ZXMuYXBwZW5kKHVuY29tcHJlc3NlZF9wYXRoKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJhaXNlIFJ1blFlbXVFcnJvcihmIkZhaWxlZCB0byBkZWNv
-bXByZXNzCj4ge3B9OiB7ZX0iKQo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgIyBNYXJrIGZvciBkZWxldGlvbiBhdCB0aGUgZW5kCj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNlbGYuY2xlYW51cF9maWxlcy5hcHBlbmQodW5jb21w
-cmVzc2VkX3BhdGgpCj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBVc2Ug
-dGhlIGRlY29tcHJlc3NlZCBpbWFnZSBhcyB0aGUgcm9vdGZzCj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBzZWxmLnJvb3RmcyA9IHVuY29tcHJlc3NlZF9wYXRoCj4gKwo+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGVsc2U6Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBzZWxmLnJvb3RmcyA9IHAKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBDaGVjayBmaWxl
-bmFtZSBhZ2FpbnN0IHNlbGYuZnN0eXBlcyBjYW4gaGFuZGxlCj4gPGZpbGU+LmNwaW8uZ3osCj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgb3RoZXJ3aXNlLCBpdHMgdHlwZSB3b3VsZCBiZSAi
-Z3oiLCB3aGljaCBpcyBpbmNvcnJlY3QuCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZzdCA9
-ICIiCj4gCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0KPiBMaW5rczogWW91IHJlY2VpdmUgYWxs
-IG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4KPiBWaWV3L1JlcGx5IE9ubGluZSAoIzIyMDkx
-NCk6Cj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUv
-bWVzc2FnZS8yMjA5MTQKPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZy9tdC8xMTQzMzg0MzEvNDQ1NDU4Mgo+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQt
-Y29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnCj4gVW5zdWJzY3JpYmU6Cj4gaHR0cHM6
-Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWLCoFsKPiBh
-ZHJpYW4uZnJlaWhvZmVyQGdtYWlsLmNvbV0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQo=
+In a SDK environment we need a nativesdk build of dbus-glib for the
+dbus-binding-tool binary.  Add a nativesdk variation and put the tool int=
+o
+a -tools subpackage so it can be installed if needed.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-core/dbus/dbus-glib_0.114.bb | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-core/dbus/dbus-glib_0.114.bb b/meta/recipes-cor=
+e/dbus/dbus-glib_0.114.bb
+index 28a9d4a4fc7..ff3d282ac6f 100644
+--- a/meta/recipes-core/dbus/dbus-glib_0.114.bb
++++ b/meta/recipes-core/dbus/dbus-glib_0.114.bb
+@@ -29,16 +29,19 @@ PACKAGECONFIG ??=3D ""
+ PACKAGECONFIG[tests] =3D "--enable-tests,,,"
+=20
+ EXTRA_OECONF:class-target =3D "--with-dbus-binding-tool=3D${STAGING_BIND=
+IR_NATIVE}/dbus-binding-tool"
++EXTRA_OECONF:class-nativesdk =3D "--with-dbus-binding-tool=3D${STAGING_B=
+INDIR_NATIVE}/dbus-binding-tool"
+=20
+-PACKAGES +=3D "${PN}-tests"
++PACKAGES +=3D "${PN}-tests ${PN}-tools"
+=20
+ FILES:${PN} =3D "${libdir}/lib*${SOLIBS}"
+ FILES:${PN}-bash-completion +=3D "${libexecdir}/dbus-bash-completion-hel=
+per"
+ LICENSE:${PN}-bash-completion =3D "GPL-2.0-or-later"
+-FILES:${PN}-dev +=3D "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-too=
+l"
+-FILES:${PN}-dev +=3D "${bindir}/dbus-binding-tool"
++
++RDEPENDS:${PN}-dev +=3D "${PN}-tools"
+=20
+ RDEPENDS:${PN}-tests =3D "${PN}"
+ FILES:${PN}-tests =3D "${datadir}/${BPN}/tests"
+=20
+-BBCLASSEXTEND =3D "native"
++FILES:${PN}-tools =3D "${bindir}"
++
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.43.0
 
 
