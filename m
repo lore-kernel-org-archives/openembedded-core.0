@@ -1,500 +1,309 @@
-Return-Path: <nikhil.r@kpit.com>
+Return-Path: <sundeep.kokkonda@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32912C87FDA
-	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 04:42:42 +0000 (UTC)
-Received: from MA0PR01CU012.outbound.protection.outlook.com (MA0PR01CU012.outbound.protection.outlook.com [40.107.57.69])
- by mx.groups.io with SMTP id smtpd.web10.10804.1754282554035027769
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37DAEC87FD3
+	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 04:53:22 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.10934.1754283189033976198
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Aug 2025 21:42:34 -0700
+ Sun, 03 Aug 2025 21:53:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=oBaYOTYx;
- spf=pass (domain: kpit.com, ip: 40.107.57.69, mailfrom: nikhil.r@kpit.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=03119b9b16=sundeep.kokkonda@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 5744P28N1834410
+	for <openembedded-core@lists.openembedded.org>; Sun, 3 Aug 2025 21:53:08 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 489j6gs1kj-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 03 Aug 2025 21:53:08 -0700 (PDT)
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5744r76h1879883
+	for <openembedded-core@lists.openembedded.org>; Sun, 3 Aug 2025 21:53:08 -0700
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12on2074.outbound.protection.outlook.com [40.107.243.74])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 489j6gs1kg-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Sun, 03 Aug 2025 21:53:07 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NIDbzhjKkR3TRnOoEgciT9rMClM9Q0KZNf4ti+miP9mnRjp6ednTaaw9xnYizEAC47Adkvponr5FPSTRop3xih26jmRg3YO+GGs8OdHdTWr8HSqgJeyBlZZh5SGb75o1edcRVmqka5p2EZ8fVnSNYxSC3TwtTRpJPMQP3LwdNisKppfkGrmxyC0wRue/2793Z92xGfKJxqHvoY10XO7TnMyZQVq3RVMgeB+sqPqztcBPGIsGE3LANgcpwZVRfYiTMdcNU9Z1dzVsdOLVcWasoywL9EqIqhm/JUiX1StWHhQH7wHX9Fc2yKcP7rMb5OCFUHYx3tnoXsUFNu9DRYkwCA==
+ b=C2Q2R5r4Q8811vr2m8ztJoqAkDI+BioyPT/TXehlXSnklZWSCjnAV0IUVKkhlV5YrCR1cSlXpgSZsTGKxUEMgBETNZlfowyUm+BfcELP8lhHuvFI5PdvF9EP1RMZFw2lw0AKGwn/m/oxSiHQFzxVcBt/sIVx7btPZs97D0emORcGVMHG2i8ojTobPhjcJ1EbCEdUA+h9cjKQWZqHHPcpD43lkY8hv5hNMAbXKqmdIIKMi6XXKIyaRD9HSvNgCoDX+gqgfASNuy+0sZ1oPwZQ5tC784Bh8YpXgLgrlO9Fg4RZBSlXMvVY1pVwBZ47t8hdEVtfQIeUQsTYz3bmchfSwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F0iVcEOtwmWtz3Y1bC9yQzJMvFHpQdweDSzO9uD6wDU=;
- b=fojId2q23T0dKzBOotWzQKW7uv7oJEw8xmrW5NaIzbwwQQx/lz+JoGfx12ksUnM/QYzGeoFQHh+h+I5+KAHs4xi9t04lmruSjgkMZ0fQ+Vs6XDkpP5vEI6hJUhHvXWp4YgexYCJ2PfoodI34HKlH5ungyU82gR0oIzGdbgq5d2hRdunWhOI2T/ytzZJbLMItw+t7coHrWBBISYdN9EbbjgPrU2pPbTqhgVS89ijsU0Cbr0v0737vUiTPNBXvSNONjQXbPAaGaCotHv9/4bFkawE7Bes7ifpEUilQ8cczIWapUsHyXMsF/qsDtJbw6nXXjQ8qg82kexYoQK1f+lZ0Jw==
+ bh=5oLtyrceFSpOYAz8UixgmtLwoUgHBjWeEayI+6SPzHc=;
+ b=NTO0aBQ2UrvrIj1lqB11A2nvch9psi0iuLHbbkbo+cPUkvcbmuH/18+wWqutgiBwZRsqGNF3qMwzv5Bet3u+t4UyRB7q/niU+f/mkReSH/W68UMKPhe0AhDHMQos4rBJJNNDNmHX76qt+KG+PhA8iFqzZ9QAxuf4IY62kslF1RNtjmn5QoY+V6wIKYpJM/0oWKau7VweTfiPwcasgECZaWKhEUpAvIYPA/+yIvVg886pM6tbIezDKw7itOYOq8M1klNOT6w953O9Udha/2RWOkdyggKWrligOr3lzBwulUT/4nUMrZ7XItZjbEXUa6/w1y6Zyr+qh9Cwm5avEvQvlQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
- dkim=pass header.d=kpit.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F0iVcEOtwmWtz3Y1bC9yQzJMvFHpQdweDSzO9uD6wDU=;
- b=oBaYOTYxoeajYjxGrYtcGs0BMIPHCtyCH/V7w++8hU0xSOXxWqVzoXe7psAQ53dtMijBu8f6fy+HrpL7eeHauZSKiXrSO5iDsuN96Ada0/FhFcZEoBS2OZo+9Wetsf6NwNSWfxPfZ1LCnUubZQYWd7AlmO/RjE/4dMrrio6F2fE=
-Received: from MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:d1::12)
- by MAZPR01MB7480.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:53::6) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8443.namprd11.prod.outlook.com (2603:10b6:610:1bd::15)
+ by DM4PR11MB6528.namprd11.prod.outlook.com (2603:10b6:8:8f::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.20; Mon, 4 Aug
- 2025 04:42:25 +0000
-Received: from MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d793:8439:6db7:9272]) by MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::d793:8439:6db7:9272%4]) with mapi id 15.20.8989.018; Mon, 4 Aug 2025
- 04:42:25 +0000
-From: Nikhil R <Nikhil.R@kpit.com>
-To: Steve Sakoman <steve@sakoman.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: 
- =?Windows-1252?Q?Re:_[oe-core][ltp]_LTP_20250130_fails_to_run_due_to_miss?=
- =?Windows-1252?Q?ing_kirk_=96_should_kirk_be_packaged_separately=3F?=
-Thread-Topic: 
- =?Windows-1252?Q?[oe-core][ltp]_LTP_20250130_fails_to_run_due_to_missing_?=
- =?Windows-1252?Q?kirk_=96_should_kirk_be_packaged_separately=3F?=
-Thread-Index: AQHcAiPtZhslxtHV+06ypYe/0O0xErRR7zDB
-Date: Mon, 4 Aug 2025 04:42:25 +0000
-Message-ID: 
- <MAZPR01MB89508173F18D95C17C741C98EE23A@MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM>
-References: 
- <MAZPR01MB8950AA2D5C8F86D05817FDB9EE27A@MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM>
-In-Reply-To: 
- <MAZPR01MB8950AA2D5C8F86D05817FDB9EE27A@MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kpit.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MAZPR01MB8950:EE_|MAZPR01MB7480:EE_
-x-ms-office365-filtering-correlation-id: e882df00-3749-4d45-663e-08ddd3114f0c
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|31052699007|39142699007|366016|376014|1800799024|8096899003|38070700018|13003099007;
-x-microsoft-antispam-message-info: 
- =?Windows-1252?Q?p9RlHiO1eqITDP+Vv0yzuKv94v25PKx1fptrmB2jdIumowS9/CpbwCMw?=
- =?Windows-1252?Q?CTVijL7YE+rWGR+AoYzWrcyPezeDfh9xXjRN7jnDxY+3y7youHuidNWY?=
- =?Windows-1252?Q?Xg+nu8YOApLigjsd45quPjusSdEoUty/w5iSt24qxRNrL3UQUFYmSLQK?=
- =?Windows-1252?Q?7MbXVCfup+SeRL65rjIWsokUYAnglhZeWVh76v3By2hZGo1+P5+bDgdS?=
- =?Windows-1252?Q?cuPDDfDnImUQntloMzdrp7I/FnH/A0q3jxnEGmBLFDUBkNwifTiEtuV4?=
- =?Windows-1252?Q?J5+uwCrPcyL34W8IKIE9hUYMEDXEF2XdaEPO2K3hOcxONRSds3dvbRyc?=
- =?Windows-1252?Q?3vbLglbSue+NV/M8u+9WDTU6GQ3Kr2rHs3hOKyZK0k2f3hZqQALIpbcC?=
- =?Windows-1252?Q?GAJ7zIr4Ts0Ygdm4nzQeI8LLblhAijq/pZfE0j4AyUJ0HRg1fRqg/JaP?=
- =?Windows-1252?Q?sB5CWI6aMhylbhK1//aJk32MSp/0TeFfAfdD/d+Lwc21DuPtyIHphCGQ?=
- =?Windows-1252?Q?/hauU6czHYN1nUMUj7T+Y1kCguV1ahg1QlnNu3xFlpBjdD/fdxHaWlMv?=
- =?Windows-1252?Q?7Rq7Eiak1VcZ/cfHw7ac7ds68s5wNY+QzEUFhIPS7mqn6a2DSaJZY1/3?=
- =?Windows-1252?Q?CVv03OSJiwZVo3WiGFxTBxYDp2e8F5tFYM2i95AMFLwK84x7sNa/YQHp?=
- =?Windows-1252?Q?vRQQ5cne+hjslMrjYzx2SfCih7nGcutZEiuDayGgVeasu+dMbyc9xB29?=
- =?Windows-1252?Q?7LzilSxifeajj2Ycxv80lAPqvMnc/BIIY25iQ22F+7OGG/arQ3KFXs8w?=
- =?Windows-1252?Q?NdcxIirt+nZgC6YaI9s0Lzko/y5KPgyIEpSQqZJS7rZ/EsWYlrXkf3YR?=
- =?Windows-1252?Q?fJgWFgdHYDn1+Nsbz8QI8Pe11D5apBaHL10quxkaDfVcEjOgf82SLy0M?=
- =?Windows-1252?Q?kgAcG0Le4kHuXH323x5L5Re9kodOii6qhxyYZld7i8j75SdBHWiclo7g?=
- =?Windows-1252?Q?dZ4LF0BvobCyVQ7iKPziNOTzqnoKV6pNgeeNs3Z3GSrj6xd0nxTgjdV7?=
- =?Windows-1252?Q?//UtYMQHO1GNhOcpx7g99+rnTOm3Ig6BDZGcNq9fBm5r8JzMQYlkNx71?=
- =?Windows-1252?Q?kG9H0KP5xyL8XeMEa5eFbUFrwEIRVaTeTQN9pNTUFR/c3U2io6vSsvFF?=
- =?Windows-1252?Q?kmQ0YtsrTrlsq5DkKapdEmGda7D46796VY2SC+7F1LVF6fIX4usA0YJ/?=
- =?Windows-1252?Q?yZwxGyB912rxpPlAwVimFACbRgf3glw/NoB7aaV3v+6cBkiRbCBaKvK4?=
- =?Windows-1252?Q?WE/fSdFkZJdQZDz4QwubXVVJCKadIMXGvX/ESkQYItUuFvwkqtJwe7of?=
- =?Windows-1252?Q?spKiIruyKXP5JSXbQPiepIeGG114M6tZeJkhysAcnmS0lIl1JojqBQOh?=
- =?Windows-1252?Q?0KakvruW4Wx1di1KwerCUwZhK8+TMUQWx9AdYmcjnTAaO/+F4vJok3ST?=
- =?Windows-1252?Q?msWhJnG5Ga3LQVQH5peBWEptY8wj+wJscYgzOKk/Y7O2xAweG9ErzHxN?=
- =?Windows-1252?Q?kcEskT+g4PpeDu+rvbucJwGZ836MOLZp3P9FDGJY6EPXxuVydfR7bG/b?=
- =?Windows-1252?Q?2c8=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(31052699007)(39142699007)(366016)(376014)(1800799024)(8096899003)(38070700018)(13003099007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?Windows-1252?Q?kjE/K+rD8NrL9Y1AcW5uDaJYB0FOfgGUNy2KgcsmjByMVhZmtIpsPhvP?=
- =?Windows-1252?Q?XG0aa1ze5LhTmIFfh4PyOF3fyI+ukkMXuiO7ucw4ooHThy4r5JtUbEsw?=
- =?Windows-1252?Q?F3CEPMjQ6hOFpYSzCZS2AON9iJ2yxbDyaPUCL9oPmJL4njxqD+TGFXVx?=
- =?Windows-1252?Q?lOrzEGGs0g/CMaCHqzOR5Ua0+S7TcfONiaM+NkzvozneemeZQ9icjEz9?=
- =?Windows-1252?Q?eCBZE8bl8GD4Eq7QL/WvxA5fRSt/pXDoyPiFJt98LCWpAdxziVhUtyeH?=
- =?Windows-1252?Q?bHn1LJMMYnF5GF1wa6/TfzHi3oEtBne8DA35JzLT/BhboGeIOm+jDgoI?=
- =?Windows-1252?Q?wOyccsCTxz/U4NmuXgKktLm4uV3c92aqtyuQUOJjRpyx9xUkWvfZPMwY?=
- =?Windows-1252?Q?fvUTrEN/EdygWkHqoSHnUDzRSIfREOf8nZ/BGTEtSsldZ0ALC4sBlVbo?=
- =?Windows-1252?Q?zby/d55I7prKaYI7Emk22yZvxyrBF46jygAd1HkuAYxbPkxAZdlj7We2?=
- =?Windows-1252?Q?/ngiJ+DfuuNhU+cL+QTrV2hIqyalIJnX3dULZSTwRcCjUgTgTkCa1RIJ?=
- =?Windows-1252?Q?iBkhre3eGvkNTCwLg+u4adLx3xTsHvlh/+pBRJVwUkIadCU0qMl0STsQ?=
- =?Windows-1252?Q?6n2/nNeZKQz7VSKX7sQ2NPtlPFG7o4FSs0eTILgwHxhbUkInga25sAhe?=
- =?Windows-1252?Q?XiUO+Q+Cf2ZJCPOQGOxPkJVwPhVQrYX6i2hVu/+9oVEKd1sJNw2+Av4W?=
- =?Windows-1252?Q?eayxNPkgLC0WEMF2GEwCqscuoHlRX07A34AIAI0lswAdvZShF9m3tv8s?=
- =?Windows-1252?Q?dOiGR9jCdgCM4oQMe1bP494Ad8Vi/tUX8+BuL2gGY8va57fbPeYVU8R3?=
- =?Windows-1252?Q?WU0hjtaWveDm7X9cKSr4koULupRj4AfIsVsfPKeCXkB7YZIqFS/EAqz7?=
- =?Windows-1252?Q?mHQWDMcDboUZVgVcZ8UdBqLc2mtdplU15fwFfek3EC3uNJZ0jPaxJtPf?=
- =?Windows-1252?Q?k+Z/ixGVKfq0AEDVZ+wHd6ht7uGnzNMihjqks+FFtMN4F3pMP2Rrq3Su?=
- =?Windows-1252?Q?N642RXVRBk8y5kMWYcszYtneY2+KKtllwYs211sW9tZHwQtyZv/vBx6u?=
- =?Windows-1252?Q?z61gCAPZaXIZ9x5QNZHUfwyIoKRFwyYKIcOQkwxjWenb1h8NvlMlx7eH?=
- =?Windows-1252?Q?PzmM7+4BObXUsKq2GPa3e4zKPt9OL0dMEopj8HApuQzQ8EqOncZqzvjR?=
- =?Windows-1252?Q?U+zrpGQCykoCSx9kT8wl2Ob6gLlHxastz7rmfgoP33P971pGx1o0nEXQ?=
- =?Windows-1252?Q?3DMBTPW7C9lZ8bhQumk4jw3Qq4Ink+AX1h4r9UMs15u4RDavOGUZBZPJ?=
- =?Windows-1252?Q?TSszoilVssO8h7K1lcJ0yXesQjFo4qBg1eNrsveEsuTmmAbmF3igeQXp?=
- =?Windows-1252?Q?T0G+b5Li2GiD6yMtl1McjgKgtPSIG28to52Yu2WboUor76y0Nlu19GJh?=
- =?Windows-1252?Q?9XyYaW5UhhaQL+fI5X6pAPDpfNJQ8meWaHCgsV6IbQ2B1IlIgQHnn4PN?=
- =?Windows-1252?Q?+JWXmS2eq6IZA33KOJtJKo69+cRUa47nwT5dXkqFmmMv9lIEuXYzvqz+?=
- =?Windows-1252?Q?kr9+zDdk05l6M01IZbu/ZXlvjSP0LR7QSg2REk8Rl3GADtON//8SnooH?=
- =?Windows-1252?Q?2IsUo/ai4sA=3D?=
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.18; Mon, 4 Aug
+ 2025 04:53:05 +0000
+Received: from CH3PR11MB8443.namprd11.prod.outlook.com
+ ([fe80::7cb0:dd30:85d3:8f69]) by CH3PR11MB8443.namprd11.prod.outlook.com
+ ([fe80::7cb0:dd30:85d3:8f69%4]) with mapi id 15.20.8989.018; Mon, 4 Aug 2025
+ 04:53:04 +0000
 Content-Type: multipart/alternative;
-	boundary="_000_MAZPR01MB89508173F18D95C17C741C98EE23AMAZPR01MB8950INDP_"
+ boundary="------------ByXfpaD4sAzhmjAKwYC30hB2"
+Message-ID: <8b79c84e-99df-4b5b-a43a-467dc65364bc@windriver.com>
+Date: Mon, 4 Aug 2025 10:22:54 +0530
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+        Khem Raj <raj.khem@gmail.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Randy MacLeod <Randy.MacLeod@windriver.com>
+From: Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>
+Subject: =?UTF-8?Q?Clang_Testsuite_Integration_=E2=80=93_Initial_Progress_an?=
+ =?UTF-8?Q?d_Next_Steps?=
+X-ClientProxiedBy: MA1PR01CA0178.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:d::7) To CH3PR11MB8443.namprd11.prod.outlook.com
+ (2603:10b6:610:1bd::15)
 MIME-Version: 1.0
-X-OriginatorOrg: kpit.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8443:EE_|DM4PR11MB6528:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6572e950-b545-4445-aac4-08ddd312cc37
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|10070799003|366016|52116014|376014|1800799024|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?ZlQ0NkU5SVUyMUlLdUd3b1p4TForRkVCcitkUHJYYnJuKzVYa1p1ZUhBWHU4?=
+ =?utf-8?B?ak1nQ2I3RlI4QkZ1R0lqOGV3Rk9XR0RQU0lTSEFMTEVrYXFFUVhSWXVnWE5Q?=
+ =?utf-8?B?aFdGTWJhdEJMcmxkc2xUeXYzblJ5QWRjMTRhRDFpS3hHLzV2WXNPa0c3Mng1?=
+ =?utf-8?B?K280L3ZyYjRZTlU1dVdONjRNL2taY3FHcEtmdVJCY3FNZVVablU2azF6aFNE?=
+ =?utf-8?B?VXNEemV4dW9objFLUUNFSGJRUU5ONHIvOUJHU2tHVXJkbE5UaDVkeXh3cGxp?=
+ =?utf-8?B?NGw2MTVXK1RHcmJlVVhEZGcySm1ZOXR2WWdFZDROWEk1WEllZXRZWk5TVHVJ?=
+ =?utf-8?B?QkI1TkxMK2J4Rml0WDV5WXVmNWd6REkxbUlaVDRIVVN1b2c0ajZaYkFBUVls?=
+ =?utf-8?B?KzRVNC80OEg2bmJoNTdEbUcwK1N2aEpRS1NIYTF6aWNULzhqbEFMOWFQWStt?=
+ =?utf-8?B?WUUxSHlHbVZJOU9RTjc3UkF5a2FXemdtbW5CbFJsWU82NWp4cVNxOFZVWXYw?=
+ =?utf-8?B?NW5zSlNxU1lERkhScVQ0MjJJMVpCVW5ia29pajdIUmF1MFZya0FIeGtNaGN1?=
+ =?utf-8?B?OG42cVdTTTNwQ1R1bElaMEkwNFJ0TUhMYkl1S0JBYTdybktNdnFVQzVlWm9a?=
+ =?utf-8?B?Q0ZJNWhyS0c5d25uNzcrUUp1OEdUL2hpeTYvaEFGK3ZPa01lSGtnRzNlTElZ?=
+ =?utf-8?B?T3dPTE83bWJveUFDWE1nSGRxVTJHUWRwN01sZmVLWnZTYzdKS2NHT0N4eHV4?=
+ =?utf-8?B?OWdlYnZOMUZzVEdEYkhqT0xvdTNCNVJlSFpxS2FXc2svOFpteWZuSXEydmVM?=
+ =?utf-8?B?d1M2dkgrN2toc0ZvTWlaSWpjVEZZY3BKeFhNc0RiWU1oNHFpYnkzUnFPNXpL?=
+ =?utf-8?B?ZjJHdW8vUmNpSjM0dXpkQW4zdlJJYkZOVXRoZklnN2xVNkgwRy9iQlNkWmpk?=
+ =?utf-8?B?WGd3VWwvMU5HMmVXVTNydW12OWNNVU1wVkRFT1ZKdmo2dzlKbERJWEV4TFdT?=
+ =?utf-8?B?aks3NmVlYmpaSXowVWswQ05vdTVCeU1iLzl1bTlUZGRXeVFna1E5c3JLWnU1?=
+ =?utf-8?B?Ni9jRVdZeUhJdXZnQ1lSczgxWU0ybWhuTXlWNXJOV3Y3V3dlODNRRE02WGpG?=
+ =?utf-8?B?b3l0dzBvbXZqVFJ4Q25iUnZYVTJzUkdaNnVjT1VucU9DckZIQUdxcXdadUlU?=
+ =?utf-8?B?SW8yb3ljZHBnQjkzS0EwaWdlYlpLdnp0NExyRFpOTGJaRXRqaDllTFF0UVlY?=
+ =?utf-8?B?L1V4ZktFZnBmZ1FxS250RTVzYlIrRmhQdGEwb0pzZ0tlUUxoZ3lFSFAwa1lO?=
+ =?utf-8?B?amYrc2t2RDBUTjJKeXQyWDArZVJqWWdPcFNTMjVIMSs4dkpCWmlkdUV5dTE1?=
+ =?utf-8?B?b0h3bEtBVDFaVVdZSXNSZXNZcExhbTBzSU5mbXB3bEI0ZW9SSitsU25ndEFP?=
+ =?utf-8?B?WWRKcEdieUcrYlhUbmVwNXZTVHpWVEtCN2FWSDl6TEkyMTRSNWlZWWQ2TkVq?=
+ =?utf-8?B?VElrMTNlck9HQW0weXB2VHlqZDc4SUJFU0kzdEdwSEpVd2pndGFmV0ZkTlda?=
+ =?utf-8?B?S3BVajhKenk1SktwazU5dXVieWYyL1cxUFFhcHB4MVdRZWo1S0lNS0tQSVVP?=
+ =?utf-8?B?cCs2aFEzZGVSTGpBT3JXcnZGZ3ZGMkpkSzUwWHFISlQySnhRUm9RTTRRYWNp?=
+ =?utf-8?B?a1ZZbWpXSWZ4bE9sYm11NGpQbldGTUVjNnpBVzQzZkZzbWFNVGVwTTJ2cGhT?=
+ =?utf-8?B?WW8zV3plMzFMZERiM1RvWVVsS2MzWWJkanJZRndUWWV3bkF4d0VFYWVGd296?=
+ =?utf-8?B?dUNHSTd4aVJiR1VoMlM1WndoRjg0U0RJcG9uMnl4eStDQXJUYVFZS0NUSkcy?=
+ =?utf-8?Q?rLF20rzLYQC+Q?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8443.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(52116014)(376014)(1800799024)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?U1dYR0V4MFVub0tzdi9RUUFXNHoxYmxXZDVITU9rZjVpSXprL2pyQWsyYllS?=
+ =?utf-8?B?RDk0Q2NpUFRCOFQzZDJlWUUwRnhBTERTRU53WHkydU5wM242d21TcE9vZjBQ?=
+ =?utf-8?B?RlBZSU1RU1ZzVjV4eUFuRms2R256R3VwU1VBUVU4eTZtMXI1eWNJaXY2Vm1X?=
+ =?utf-8?B?UnVNYkNnT3RRVkZrTngxZGxmYXNGRDJZVEMxeE5pSnp0MGhmYnQzSHFxVHNp?=
+ =?utf-8?B?Q3FsaWp1UWcvZFBlblZyQ2syaDhialNFRUR3MWJjNnovMDVWWXduVWJSOVZF?=
+ =?utf-8?B?YXMxbDNQWEpxbDhzOGxGNmpaTkZmdGVuNW9CMzRnSmJLUGJleWxLTGpOT2V3?=
+ =?utf-8?B?anZoTWhvZ2JJcTJMbjN6ckp2RHlHK1dxQ0RNQUdrV3ZwaU1oZ0ttSzA1RnZu?=
+ =?utf-8?B?TTBNamZsUncrbVJ4T2wzZlpaWm1JZEVZZlBWbERjcTVOVk9BTkhiKy96K1l4?=
+ =?utf-8?B?T3k5NGZ4MndNL3VQQnd1THFSV0dUbktrUjR2dmNlbzJKTUJrRGN1MFMwMkpl?=
+ =?utf-8?B?dG5TbWtmcFlxN1NacFBjSUVteksybVl1VGY4TDVwUE1hVHVkQzhoc3BELzE2?=
+ =?utf-8?B?a2xUNWtiY0ovZ25CL0w5cEF0c2kzaDJ4c0NJajRKek94U0Jid2tSWWFSZXND?=
+ =?utf-8?B?cmF3eTNzSU0vWDFwZDgyMnpDY1MyRlE3UlhNQVJHaStxdzFkekE1emI5SHlS?=
+ =?utf-8?B?VGw2bHRLUUNTYVFWb0ZpeWk1M0xrSUxqTlRmU2xJMnR4cjVUZWZjSU5yR0x0?=
+ =?utf-8?B?YzlLM2RIcTE3Q0RtRUZ4ejRERVZ2eUQzQ2UyaU96aDFiK25PZ09RUEMxTVRx?=
+ =?utf-8?B?YWNyeW10Skw5OGp2VGxFOHpaWG05NW1tRm5SdVYwRXpsdXVNZ1IxTk5ZSXdx?=
+ =?utf-8?B?cm1xbVRZR3hkdjZFN0lkbExRa3RKcytNS1BVc0tSTDRYY01yNUwzU2g1LzBr?=
+ =?utf-8?B?MTMrMWcxNkJ2TjZrSnk4bmlkdzBVa2xocW5GbFpHTDNpdDdzMEZQY2YzMDk4?=
+ =?utf-8?B?S2FGK2R6aUNvTWtiSE82RVJuTXowNjFzTmZZQ2xVb3VNNjd1cTYzVG5XTFRj?=
+ =?utf-8?B?Ry9JNE5tZ1dXd1J0cFEyYWozRlVtTGZFTmdXNjM2MG5DM3gyczM0Qk4wS3VV?=
+ =?utf-8?B?K2t0ZzlBL1FyZjl0QVc2bUNUWEp5TnFzZTJ3NkpVOSsvT3ZRVmVxYWJVK1JU?=
+ =?utf-8?B?NjZ1dks2a1ZPRjkvK3ZFWC9pbDhLRHU4ZE1tUDJEbUI2dU9hbnhZMktaQjNu?=
+ =?utf-8?B?eEpQWUFWN0p6eXZSTHdiL1BDREVnZ0F5NUt3L21pREhrT0x4M0tDdlc0dU1q?=
+ =?utf-8?B?MCsvcWlubGM0RkwwbUxyZ3o3TFV3b2JrUm15R0c3aGRzczhuK3VrZHBZOW9K?=
+ =?utf-8?B?V1hmV1RqOXg2WmdUcW10NlFuMXJMNm1QaFJ6S2VmcnlYRFVZUEgvelY3Umxz?=
+ =?utf-8?B?bHkvNm52cmg0V1hzamdkMk5XNzRML2wrcm5qc1EyS0JNakxhQVFFc1l5RFJj?=
+ =?utf-8?B?R2p6dSt1Q1pGOWgzOUtDcFAzN1VxdTRuelZ2L0F4MjBoQVJlbTAxdThVZktS?=
+ =?utf-8?B?K0JKNDdtR2FQRXJxWlhXT2RmbzRreWlJQmhpQXJoSkZGWUNCb212TGNaNWdV?=
+ =?utf-8?B?OElVOW9sM1BaNkJqUk9pYzJjQ211TGdNVHpzTC9FalNXNEJKcm9mZVZ0S0FZ?=
+ =?utf-8?B?U1NyVUdwdHRueXZhTmREcENMOHhOWlVJdzlTVDBxNHlNRlFNQ25yR2QwNEVZ?=
+ =?utf-8?B?Y0JRVldNNUtTV1VNRU14SFl4Q1ZOVllERk9hRlBVQmliYW9wT00ydWtOa1dj?=
+ =?utf-8?B?QjRKancwTFdqU2F4dTgxR2ZFcTJKWHN2MXJOcEsyOTZlMVdPSlFOeERFREV5?=
+ =?utf-8?B?STkzbzVIN0tCTWpYdEpmTjhqNVp3SUsvTHhjV0g0aXRJNTBJTDUrMTVPbGhY?=
+ =?utf-8?B?MmhzNkZqZm5OcjJnYWdpUnFQUGY4Z3p6cVh4MTA3WTE2SzFnNnlYS3lDVGlX?=
+ =?utf-8?B?TlJIZkxZV2JHYkJ0eU41bmpYTk5lZ2JtNWtDM3FPRjJ3UzNvd3JKK1orNStu?=
+ =?utf-8?B?VFl2eHljZ2E4RnJFNTVjRHRkeUFxb3Y2NzlaSjNIbkpPRlNscFVJTGZBalA3?=
+ =?utf-8?B?S3VyVDZMeUVvaHBQQnU5aTVOd2JSd3JQL1JCSjd1UEk2aGpOVDR3cE0yS1JC?=
+ =?utf-8?B?cVlEVXNVK3N2QzlKb2V5WmdTTXJaNU05T3NKdEVLVTFwekM0bWRrMjZrSGIy?=
+ =?utf-8?Q?YfXIhgw2YcOZxA/BKXyPsObLccNwq8Q85AJJDGgkww=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6572e950-b545-4445-aac4-08ddd312cc37
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8443.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e882df00-3749-4d45-663e-08ddd3114f0c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2025 04:42:25.0160
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2025 04:53:04.6748
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 21/wVbQD2Cyso/JLu4e575/Bn2qqXZNh7MZQ0PWLwYutDLqXnLNUipxwgXqmFMT8PITzJQYoVu1F69Vpt4hIaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB7480
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mOIczHM3e/0muh7Cx3xBrIc+K/PWj8pjzBYUpXmVQ2hqEkIw6S+DIAoV73gcy065iDnqGd6KqZXzlyptJzYHwY+POh5quu/5kqjCcsBZW4o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6528
+X-Authority-Analysis: v=2.4 cv=d5n1yQjE c=1 sm=1 tr=0 ts=68903cb4 cx=c_pps
+ a=2SqP+K/7gXR7M5QT5t26og==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10 a=5KLPUuaC_9wA:10 a=iGHA9ds3AAAA:8
+ a=qBKthHf6GWBdHUZyjXgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=nyo9WNU9cn-gMt32H5UA:9 a=woRWHz7kBrH8sWWz:21 a=_W_S_7VecoQA:10
+ a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-GUID: M49jWLlku3owpkQlrBTfOrAPSl01OiWl
+X-Proofpoint-ORIG-GUID: aWORwwCadwBliOMxohF5T0yOv197Y2li
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDAyMyBTYWx0ZWRfX3Wb3K9XhbxaN
+ s/FvwdAa7//fys6plzdqrqjTq9VlnQIm9qY9DYbEtya7i4/GpuWsdBoURBZp1lm34ujWu+U6N9e
+ +DeVwdyqYj5vTsBNGCOJPL7RAB4IFeEYP/ECiXXmTZlub6xBlTRxR9ztiT3mvjHizPDSRqpptix
+ MQt1UpLyd8eJnDArzB6c+/Tul1fr3Xr3LfpSYxgHnMF5JhenbmFsZpMPefEJIcqzGBJx1BHechB
+ UJFOIVlt9kY7w15OafD3Ckz8pwc7QNPTcPm6Audl9aOaON7FiPpmLs9xkz1gfgjZK4qZMoTb4h+
+ q/3cOLUOIn2p7LxjdYEJ9JiofU1B+hqVA1t1MHvIhZ6DXAdMHWa6Hc9QQJoVYrY8S/818tCrAKJ
+ J/TaibT7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-04_02,2025-08-01_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 suspectscore=0 malwarescore=0 phishscore=0
+ spamscore=0 priorityscore=1501 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507210000 definitions=main-2508020100
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 04:42:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221413
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 04:53:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221414
 
---_000_MAZPR01MB89508173F18D95C17C741C98EE23AMAZPR01MB8950INDP_
-Content-Type: text/plain; charset="Windows-1252"
+--------------ByXfpaD4sAzhmjAKwYC30hB2
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5744P28N1834410
+
+Hello,
+
+We're currently working on integrating the Clang testsuite into the=20
+Yocto Project. As a first step, we've implemented an |oe-selftest| for=20
+|clang-native| (we understand this isn't the final goal).
+
+The changes are available here:
+=F0=9F=94=97 https://git.yoctoproject.org/poky-contrib/log/?h=3Dskokkonda=
+/clang-native
+
+_We are now working on enabling support for testing on target systems.=20
+Based on our initial analysis:_
+
+  *
+
+    The |lit| framework used by Clang doesn't natively support SSH-based
+    remote execution, unlike DejaGnu which provides built-in support for
+    remote testing. So, additional customization is required to enable
+    remote test execution.
+
+  *
+
+    To enable remote testing, a |lit.site.cfg| file must be generated
+    and configured with SSH access details and target-specific parameters.
+
+  *
+
+    Currently, QEMU is not launching after the build completes within
+    |oe-selftest|, which is a blocker we=E2=80=99re investigating.
+
+  *
+
+    Once QEMU is successfully launched, we'll establish SSH connectivity
+    and begin running tests on the target. This will help identify any
+    missing runtime dependencies or other causes of test failures.
 
 
-Hi Steve,
-
-Could you please help here?
-
-
- Regards,
-
- Nikhil R
-
- KPIT Technologies Limited
-
-________________________________
-From: Nikhil R
-Sent: Thursday, July 31, 2025 7:38 PM
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Subject: [oe-core][ltp] LTP 20250130 fails to run due to missing kirk =96 s=
-hould kirk be packaged separately?
-
-I=92m using the LTP 20250130 recipe from Poky (meta/recipes-extended/ltp) m=
-aster branch, and running into an issue where the test framework doesn=92t =
-work as expected.
-
-While run the ltp tests via 'runltp', we get the following messages:
-
-sh-5.1# ./runltp
--------------------------------------------
-INFO: runltp script is deprecated, try kirk
-https://github.com/linux-test-project/kirk
+We welcome any suggestions or guidance from the community on this approac=
+h.
 
 
-./runltp: line 804: /var/data/opt/ltp/bin/ltp-pan: No such file or director=
+Thanks,
+
+Sundeep KOKKONDA.
+
+--------------ByXfpaD4sAzhmjAKwYC30hB2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5744P28N1834410
+
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <p data-start=3D"208" data-end=3D"214">Hello,</p>
+    <p data-start=3D"216" data-end=3D"421">We're currently working on
+      integrating the Clang testsuite into the Yocto Project. As a first
+      step, we've implemented an <code data-start=3D"337" data-end=3D"350=
+">oe-selftest</code>
+      for <code data-start=3D"355" data-end=3D"369">clang-native</code> (=
+we
+      understand this isn't the final goal).</p>
+    <p data-start=3D"423" data-end=3D"606">The changes are available here=
+:<br data-start=3D"454" data-end=3D"457">
+      =F0=9F=94=97 <a class=3D"moz-txt-link-freetext" rel=3D"noopener" ta=
+rget=3D"_new" data-start=3D"460" data-end=3D"606" href=3D"https://git.yoc=
+toproject.org/poky-contrib/log/?h=3Dskokkonda/clang-native">https://git.y=
+octoproject.org/poky-contrib/log/?h=3Dskokkonda/clang-native</a></p>
+    <p data-start=3D"608" data-end=3D"708"><u>We are now working on enabl=
+ing
+        support for testing on target systems. Based on our initial
+        analysis:</u></p>
+    <ul data-start=3D"710" data-end=3D"1402">
+      <li data-start=3D"710" data-end=3D"939">
+        <p data-start=3D"712" data-end=3D"939">The <code data-start=3D"71=
+6" data-end=3D"721">lit</code> framework used by Clang doesn't
+          natively support SSH-based remote execution, unlike DejaGnu
+          which provides built-in support for remote testing. So,
+          additional customization is required to enable remote test
+          execution.</p>
+      </li>
+      <li data-start=3D"940" data-end=3D"1078">
+        <p data-start=3D"942" data-end=3D"1078">To enable remote testing,=
+ a
+          <code data-start=3D"970" data-end=3D"984">lit.site.cfg</code> f=
+ile
+          must be generated and configured with SSH access details and
+          target-specific parameters.</p>
+      </li>
+      <li data-start=3D"1079" data-end=3D"1201">
+        <p data-start=3D"1081" data-end=3D"1201">Currently, QEMU is not
+          launching after the build completes within <code data-start=3D"=
+1147" data-end=3D"1160">oe-selftest</code>, which
+          is a blocker we=E2=80=99re investigating.</p>
+      </li>
+      <li data-start=3D"1202" data-end=3D"1402">
+        <p data-start=3D"1204" data-end=3D"1402">Once QEMU is successfull=
 y
-INFO: ltp-pan reported some tests FAIL
-LTP Version: 20250130
-
-       ###############################################################
-
-            Done executing testcases.
-            LTP Version:  20250130
-       ###############################################################
-
--------------------------------------------
-INFO: runltp script is deprecated, try kirk
-https://github.com/linux-test-project/kirk
--------------------------------------------
-
-
-It appears that the 'kirk' binary is expected for running the test scenario=
-s, but it is not present in the installed in current LTP package
-
-Do we need to add a separate recipe for 'kirk' support for ltp in Yocto?
-Or is there a plan to integrate kirk directly into the existing LTP recipe?
-
-Looking forward to your guidance.
-
- Regards,
-
- Nikhil R
-
- KPIT Technologies Limited
-
-This message contains information that may be privileged or confidential an=
-d is the property of the KPIT Technologies Ltd. It is intended only for the=
- person to whom it is addressed. If you are not the intended recipient, you=
- are not authorized to read, print, retain copy, disseminate, distribute, o=
-r use this message or any part thereof. If you receive this message in erro=
-r, please notify the sender immediately and delete all copies of this messa=
-ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
- mails.
-
---_000_MAZPR01MB89508173F18D95C17C741C98EE23AMAZPR01MB8950INDP_
-Content-Type: text/html; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
-252">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-<div class=3D"elementToProof" id=3D"Signature">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Hi Steve,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Could you please help here?</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-<div style=3D"direction: ltr; text-align: left; text-indent: 0px; backgroun=
-d-color: white; margin: 0px; font-family: Arial, sans-serif; font-size: 10p=
-t; color: rgb(0, 51, 102);" class=3D"elementToProof">
-<span style=3D"background-color: white;">&nbsp;Regards,</span></div>
-<div style=3D"background-color: white; margin: 0px;" class=3D"elementToProo=
-f">
-<p style=3D"direction: ltr; text-align: left; text-indent: 0px; margin: 0px=
-; font-family: Calibri, sans-serif; font-size: 11pt;" class=3D"elementToPro=
-of">
-<span style=3D"font-family: Arial, sans-serif; font-size: 10pt; color: blac=
-k; background-color: white;">&nbsp;Nikhil R</span></p>
-<p style=3D"direction: ltr; text-align: left; text-indent: 0px; margin: 0px=
-; font-family: Calibri, sans-serif; font-size: 11pt;" class=3D"elementToPro=
-of">
-<span style=3D"font-family: Arial, sans-serif; font-size: 10pt; color: rgb(=
-0, 51, 102); background-color: white;">&nbsp;KPIT Technologies Limited</spa=
-n></p>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-<br>
-</div>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Nikhil R<br>
-<b>Sent:</b> Thursday, July 31, 2025 7:38 PM<br>
-<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Subject:</b> [oe-core][ltp] LTP 20250130 fails to run due to missing kir=
-k =96 should kirk be packaged separately?</font>
-<div>&nbsp;</div>
-</div>
-<style type=3D"text/css" style=3D"display:none">
-<!--
-p
-	{margin-top:0;
-	margin-bottom:0}
--->
-</style>
-<div dir=3D"ltr">
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-I=92m using the LTP 20250130 recipe from Poky (meta/recipes-extended/ltp) m=
-aster branch, and running into an issue where the test framework doesn=92t =
-work as expected.</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-While run the ltp tests via 'runltp', we get the following messages:</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-sh-5.1# ./runltp</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
--------------------------------------------</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-INFO: runltp script is deprecated, try kirk</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-https://github.com/linux-test-project/kirk</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-./runltp: line 804: /var/data/opt/ltp/bin/ltp-pan: No such file or director=
-y</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-INFO: ltp-pan reported some tests FAIL</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-LTP Version: 20250130</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-&nbsp; &nbsp; &nbsp; &nbsp;################################################=
-###############</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Done executing testcases.</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LTP Version: &nbsp;20250130</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-&nbsp; &nbsp; &nbsp; &nbsp;################################################=
-###############</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
--------------------------------------------</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-INFO: runltp script is deprecated, try kirk</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-https://github.com/linux-test-project/kirk</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
--------------------------------------------</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-It appears that the 'kirk' binary is expected for running the test scenario=
-s, but it is not present in the installed in current LTP package</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-Do we need to add a separate recipe for 'kirk' support for ltp in Yocto? &n=
-bsp;</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-Or is there a plan to integrate kirk directly into the existing LTP recipe?=
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-Looking forward to your guidance.</div>
-<div class=3D"x_elementToProof" id=3D"x_Signature">
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-<div class=3D"x_elementToProof" style=3D"direction:ltr; text-align:left; te=
-xt-indent:0px; background-color:white; margin:0px; font-family:Arial,sans-s=
-erif; font-size:10pt; color:rgb(0,51,102)">
-<span style=3D"background-color:white">&nbsp;Regards,</span></div>
-<div class=3D"x_elementToProof" style=3D"background-color:white; margin:0px=
-">
-<p class=3D"x_elementToProof" style=3D"direction:ltr; text-align:left; text=
--indent:0px; margin:0px; font-family:Calibri,sans-serif; font-size:11pt">
-<span style=3D"font-family:Arial,sans-serif; font-size:10pt; color:black; b=
-ackground-color:white">&nbsp;Nikhil R</span></p>
-<p class=3D"x_elementToProof" style=3D"direction:ltr; text-align:left; text=
--indent:0px; margin:0px; font-family:Calibri,sans-serif; font-size:11pt">
-<span style=3D"font-family:Arial,sans-serif; font-size:10pt; color:rgb(0,51=
-,102); background-color:white">&nbsp;KPIT Technologies Limited</span></p>
-</div>
-<div class=3D"x_elementToProof" style=3D"font-family:Aptos,Aptos_EmbeddedFo=
-nt,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:12pt; color:=
-rgb(0,0,0)">
-<br>
-</div>
-</div>
-</div>
-This message contains information that may be privileged or confidential an=
-d is the property of the KPIT Technologies Ltd. It is intended only for the=
- person to whom it is addressed. If you are not the intended recipient, you=
- are not authorized to read, print,
- retain copy, disseminate, distribute, or use this message or any part ther=
-eof. If you receive this message in error, please notify the sender immedia=
-tely and delete all copies of this message. KPIT Technologies Ltd. does not=
- accept any liability for virus
- infected mails.
-</body>
+          launched, we'll establish SSH connectivity and begin running
+          tests on the target. This will help identify any missing
+          runtime dependencies or other causes of test failures.</p>
+      </li>
+    </ul>
+    <p data-start=3D"1404" data-end=3D"1479"><br>
+    </p>
+    <p data-start=3D"1404" data-end=3D"1479">We welcome any suggestions o=
+r
+      guidance from the community on this approach.</p>
+    <p><br>
+    </p>
+    <p>Thanks,</p>
+    <p>Sundeep KOKKONDA.</p>
+  </body>
 </html>
 
---_000_MAZPR01MB89508173F18D95C17C741C98EE23AMAZPR01MB8950INDP_--
+--------------ByXfpaD4sAzhmjAKwYC30hB2--
 
