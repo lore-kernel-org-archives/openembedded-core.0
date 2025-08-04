@@ -1,147 +1,122 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8982FC87FCF
-	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 11:07:34 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.15296.1754305654135804179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACC55C87FCB
+	for <webhook@archiver.kernel.org>; Mon,  4 Aug 2025 11:16:14 +0000 (UTC)
+Received: from relay16.mail.gandi.net (relay16.mail.gandi.net [217.70.178.236])
+ by mx.groups.io with SMTP id smtpd.web10.15435.1754306174059395279
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Aug 2025 04:07:34 -0700
+ Mon, 04 Aug 2025 04:16:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=J6EYAWoK;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ae401ebcbc4so733864566b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 04:07:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754305652; x=1754910452; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TnJCtAgrfXTpC4E/h2jZtKAF3Zqjzlot79qw0Cwcg14=;
-        b=J6EYAWoKCXUQkdZ0ba2A3Xoc+05l1ZijZuZIsnXuq9+lEA2OD4jl05XnN9aGAE1gAs
-         yMtlzBeEF2cJ53Lq/0yEkpSVRthEcE09hv9BYfHUIULn+zeCQcP74yZqGYWupDpACVcE
-         l/rZ9PVBCsznVzHgAjnYxtn1+a2as0iu7UOZsUtBUtrZK9NVEVJq3uvQByRfDUZdd60T
-         brRomWKl1K0ZUaFq4Xc7mQUnv7WWtHlOh1Pzj0mx1ldatEFI3fTPod6oYTA7XCOXdXzs
-         /hG9Vc/FcRpp8bKBeO1QvvuMlKes6Hgz1SdE6KNzsDFAjbaMYn95savUQzFvGrA+8JXJ
-         W4Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754305652; x=1754910452;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TnJCtAgrfXTpC4E/h2jZtKAF3Zqjzlot79qw0Cwcg14=;
-        b=u4Txuth0xXWkgQfep/seFbTCPw+xwErcoOK0vt/ngGgf/wUdC12cmrEqEwjuPNW/yN
-         eg85BPjpXPYHpPmX++vmpJBbbdugazXNQrn7fDWj7M/S26dbCcT9xxPNpRouv0g4oJzq
-         QU02E9X2BCDhe9lLwvG15MMogD8PsFHxBw7GNj5iqSf2iyOPRkb+/18qv3VTDsBLtIcN
-         /V7IDw5DOgurTA67oMT08puNi8KH/iT+84XhDvlVlldL1rdihV2S2193mPErKHLTKKq/
-         XNWKYdfcnoN6PFtWWMcsXtKdyKLd0oJ3f4Uz6ED3uaFpVRWvIwIDKdGwWaNIf1QGl0KK
-         kTsw==
-X-Forwarded-Encrypted: i=1; AJvYcCWICkT0zJ+xFVWKbU46FwYDN1L44/v4wZiNaL49DOTcEyKEG2M6ZIt9U5mE/jkBZQKCBsIwruZS1gE7KQPd+ZcPXw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwcRTmNun/Rkc5CTTva2p5kyvl0EqA5EUZq2r9BAILL+7xh9jH3
-	+talyXbxBflWfPw27vcFNJ/vB9GlmLJK95xWBLNEMspBySzbPIsPsXTr
-X-Gm-Gg: ASbGncsrd0wck4f1pC7bNwKNBoL6Axjtf1TBhYgXe6/8g3zSjexx8p2000LlRdFHR++
-	mp8YH5EvzMDTceXFuzHyUYCe+y5WImEQONYfI53bFOKZfzMvkdUqiu6aBxOMA81t0ZQAFiQ9HDi
-	CymR3rCB/8Qm4bx1rFK294/fskFbxIuwErX/6K84We+k6Iy4bRnSyJ4PmKoWoAjko7sf5E3eBYe
-	6OvdvtQjW3nKrocuaE/7ZrxkgkpaA3ia8ko6xBXufADF8q5+Z/xCwKCSdK1TZ4PAdrTTZcnrw/R
-	SC45GNtFmF413AfSJ3nFmn3uYcQlJBjirC4i+8XWW0SgubPQXxtk0MnMsgIXIsuNuG6aDs4LlMk
-	F1yG4dLqpLNDZDLtQZpjHw2jJZftoknbBOb/o9A/o
-X-Google-Smtp-Source: AGHT+IHbosW2RCSN2HLKApXthwoDSgUy33jEUnpycA8UtuvG3bYJq55lbq/xlKmKI1Q4pYZ8CtkV3w==
-X-Received: by 2002:a17:907:9712:b0:ae0:a590:bc64 with SMTP id a640c23a62f3a-af94000e2d0mr980637566b.18.1754305652128;
-        Mon, 04 Aug 2025 04:07:32 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c157sm708222866b.100.2025.08.04.04.07.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Aug 2025 04:07:31 -0700 (PDT)
-Message-ID: <b8b9f95c-5149-45e2-8276-20ac9259f6b4@gmail.com>
-Date: Mon, 4 Aug 2025 13:07:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?Q?Re=3A_=5Boe-core=5D=5Bltp=5D_LTP_20250130_fails_to_run_du?=
- =?UTF-8?Q?e_to_missing_kirk_=E2=80=93_should_kirk_be_packaged_separately=3F?=
-To: nikhil.r@kpit.com,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <MAZPR01MB8950AA2D5C8F86D05817FDB9EE27A@MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <MAZPR01MB8950AA2D5C8F86D05817FDB9EE27A@MAZPR01MB8950.INDPRD01.PROD.OUTLOOK.COM>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=CqbSMMYk;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.236, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6243544969;
+	Mon,  4 Aug 2025 11:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1754306172;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fFnNc2kMcMt/pjpXxV2trZNt/HGy2hdEi9a2j4Ru5bg=;
+	b=CqbSMMYknaZBLYjWN0ZW9GRYxzw3/gvWvhIroWASDDfX08otd40I9S1/sKu6U/ac9Co5mg
+	9IVWgRJKaqhTJj4pTalY3eRiLCI7nwharyGfGvctRvcZKt0EJmDPUY5krtBbFMJ91limvi
+	36JjQB7KsQCX5TIkeYuw3YQbx5N1RprFD4/UnyY7yM04UyOF4lJ2B8N2lqZeS8ieWk3HcY
+	ZV1pP1B409kOWAnaBepH8QrDLFXsthUIMZinK+g9sOFM9YJwMJ08qUP3NigrTVI2Vd4MSN
+	q6VP7ILYcAgU0+/jJ1CNsf2kX30cXsc8xvrKYVtCMX+h08JFmySZbwggGhZC4w==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Mon, 04 Aug 2025 13:16:08 +0200
+Message-Id: <DBTLMW67VA4J.1SLQL19874U9U@bootlin.com>
+Cc: <mingli.yu@eng.windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Mikko Rapeli" <mikko.rapeli@linaro.org>
+Subject: Re: [OE-core] [PATCH] ovmf: Don't define bool type if building in
+ C23 mode
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250801102912.3219302-1-mingli.yu@eng.windriver.com>
+ <DBTI0WV2IOR5.3A1LDH28GH3BS@bootlin.com> <aJB56yIIFrSvRX0e@nuoska>
+In-Reply-To: <aJB56yIIFrSvRX0e@nuoska>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduuddvudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpegggfgtfffkvefhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehheduuedvtdegfefgjeeklefggffhgfffhfejtdejudffleegleetgeffjeelteenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhgihhthhhusgdrtghomhdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedprhgtphhtthhopehmi
+ hhkkhhordhrrghpvghliheslhhinhgrrhhordhorhhgpdhrtghpthhtohepmhhinhhglhhirdihuhesvghnghdrfihinhgurhhivhgvrhdrtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 11:07:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221425
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 11:16:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221426
 
-On 7/31/25 16:08, Nikhil via lists.openembedded.org wrote:
-> I’m using the LTP 20250130 recipe from Poky
-> (meta/recipes-extended/ltp) master branch, and running into an issue
-> where the test framework doesn’t work as expected.
+On Mon Aug 4, 2025 at 11:14 AM CEST, Mikko Rapeli wrote:
+> Hi,
 >
-> While run the ltp tests via 'runltp', we get the following messages:
+> On Mon, Aug 04, 2025 at 10:26:23AM +0200, Mathieu Dubois-Briand via lists=
+.openembedded.org wrote:
+>> On Fri Aug 1, 2025 at 12:29 PM CEST, Mingli via lists.openembedded.org Y=
+u wrote:
+>> > From: Mingli Yu <mingli.yu@windriver.com>
+>> >
+>> > Backport a patch [1] to fix the below build failure:
+>> >  /buildarea/tmp/work/corei7-64-wrs-linux/ovmf/edk2-stable202502/source=
+s/ovmf-edk2-stable202502/SecurityPkg/DeviceSecurity/SpdmLib/Include/hal/Lib=
+spdmStdBoolAlt.h:13:17: error: two or more data types in declaration specif=
+iers
+>> >  13 | typedef BOOLEAN bool;
+>> >  | ^~~~
+>> >   /buildarea/tmp/work/corei7-64-wrs-linux/ovmf/edk2-stable202502/sourc=
+es/ovmf-edk2-stable202502/SecurityPkg/DeviceSecurity/SpdmLib/Include/hal/Li=
+bspdmStdBoolAlt.h:13:1: error: useless type name in empty declaration [-Wer=
+ror]
+>> >   13 | typedef BOOLEAN bool;
+>> >
+>> > [1] https://github.com/tianocore/edk2/commit/772fa11ac82579a8f6fa171e6=
+b835f68af3f64be
+>> >
+>> > Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+>> > ---
+>>=20
+>> Hi,
+>>=20
+>> Thanks for the patch, but it looks like the embedded patch does not
+>> apply cleanly:
+>>=20
+>> ERROR: ovmf-native-edk2-stable202502-r0 do_patch: Applying patch '0001-S=
+ecurityPkg-Don-t-define-bool-type-if-building-in-C2.patch' on target direct=
+ory '/srv/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/x86=
+_64-linux/ovmf-native/edk2-stable202502/sources/ovmf-edk2-stable202502'
+>> CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/qemux86-world-alt/=
+build/build/tmp/work/x86_64-linux/ovmf-native/edk2-stable202502/recipe-sysr=
+oot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-SecurityPkg-D=
+on-t-define-bool-type-if-building-in-C2.patch
+>> patching file SecurityPkg/DeviceSecurity/SpdmLib/Include/hal/LibspdmStdB=
+oolAlt.h
+>> Hunk #1 FAILED at 10 (different line endings).
+>> 1 out of 1 hunk FAILED -- rejects in file SecurityPkg/DeviceSecurity/Spd=
+mLib/Include/hal/LibspdmStdBoolAlt.h
+>> Patch 0001-SecurityPkg-Don-t-define-bool-type-if-building-in-C2.patch do=
+es not apply (enforce with -f)
+>>=20
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/1998
+>>=20
+>> Can you have a look at this issue please?
 >
-> sh-5.1# ./runltp
-> -------------------------------------------
-> INFO: runltp script is deprecated, try kirk
-> https://github.com/linux-test-project/kirk
+> ovmf and edk2 are notorious for using Windows newlines so patches over
+> mailing lists may break when applying. I suggest using git to pull the
+> changes or manually applying simple changes.
 >
+> Cheers,
 >
-> ./runltp: line 804: /var/data/opt/ltp/bin/ltp-pan: No such file or
-> directory
+> -Mikko
 
-It seems that this error is failing the execution, not the missing
-"kirk" binary (which is at this time only a warning, displayed with each
-execution).
-You should debug this part - runltp is a reasonably readable shell script.
+Makes sense. I believe I managed to fix the new line issues, so the
+patch is back in testing queue.
 
-> INFO: ltp-pan reported some tests FAIL
-> LTP Version: 20250130
->
->        ###############################################################
->
->             Done executing testcases.
->             LTP Version:  20250130
->        ###############################################################
->
-> -------------------------------------------
-> INFO: runltp script is deprecated, try kirk
-> https://github.com/linux-test-project/kirk
-> -------------------------------------------
->
->
-> It appears that the 'kirk' binary is expected for running the test
-> scenarios, but it is not present in the installed in current LTP package
->
-> Do we need to add a separate recipe for 'kirk' support for ltp in Yocto?  
-> Or is there a plan to integrate kirk directly into the existing LTP
-> recipe?
->
-> Looking forward to your guidance.
->
->  Regards,
->
->  Nikhil R
->
->  KPIT Technologies Limited
->
->
-> This message contains information that may be privileged or
-> confidential and is the property of the KPIT Technologies Ltd. It is
-> intended only for the person to whom it is addressed. If you are not
-> the intended recipient, you are not authorized to read, print, retain
-> copy, disseminate, distribute, or use this message or any part
-> thereof. If you receive this message in error, please notify the
-> sender immediately and delete all copies of this message. KPIT
-> Technologies Ltd. does not accept any liability for virus infected mails.
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#221196): https://lists.openembedded.org/g/openembedded-core/message/221196
-> Mute This Topic: https://lists.openembedded.org/mt/114467214/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
