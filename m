@@ -1,90 +1,101 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <nikhilar2410@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04E02C87FCB
-	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 06:55:24 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web10.16226.1754376921789847315
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07922C87FCB
+	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 06:57:34 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web11.15949.1754377046443286048
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Aug 2025 23:55:22 -0700
+ Mon, 04 Aug 2025 23:57:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=M/Tdu636;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-af967835d0aso300991566b.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 23:55:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ODHUopyp;
+ spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: nikhilar2410@gmail.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b4245235a77so2779156a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Aug 2025 23:57:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754376920; x=1754981720; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gqdwIDqezgv6MucdFrqz+tpplDAKcIDPShLup7gIiQE=;
-        b=M/Tdu636ARM7rjTF6tgGHUlrSCcC95sbjjvfDbUH0aHX2zxYp9/hk7CpCAMCmv7fh8
-         6iPyw3De/MIXWXqCaS0x8XrjbDrcYpfXU7hNNDSfgebZL4HSEANlA5hvggFtQckvS0Z9
-         mGw61uCFl1GskFjO6YAIs0qOFwSOpLJgCwJrjiEK7rDtykpREB//g+eFxML2r2jT6r9T
-         /79BEHPy4KmnuQ6AmM0ENtRhElhtUiXV6LSm9eTBjEvsNJWjDykfoWxRTQw6LIpHCKgL
-         wfIk1UzLZXPMnlDV8DvEj2jDl6X6FcPk2O7F0Vw7Go/EbxTTEzrrHXvcggcPAlAnzD5R
-         WrCw==
+        d=gmail.com; s=20230601; t=1754377045; x=1754981845; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VngkvXy0ReqaVBHHWMr4TK4Qe/6Jbcz0GjoOJeR3cgw=;
+        b=ODHUopyp5y1PUnu2j3sP6aCMZlpdycS/j8p6Ww7bsTvKrBCns9AYljbb7XxYyktADy
+         yMa84qaV/yoEteNzmtGphD6WCrRzBj4QFYFAXW/CybH6+Q5E5HJrLUT9989t4VIR0heK
+         k7fPy7sOZRrlEIszLnOtAIraG/taxcd08TBCpUusd9o2sxrG6P2/nruQpqmwA/IW8shY
+         oG5lKKo5YGHWig7GvCNuvBKN4AoniQkZ/NNDzzRKmblsueHkAYwwU/K3KOJ7YRW4NM/x
+         uy5qldDb/ara4GMiJLks6ALVd0ppKxUqIqhSBdjspS955d3/R8CEXllCzgx03ajN5HkK
+         UC8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754376920; x=1754981720;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gqdwIDqezgv6MucdFrqz+tpplDAKcIDPShLup7gIiQE=;
-        b=FnZL7yp5Vh2XjjF35UpkKKI0t7BmYE43TjRoB/BT6LeJxi5sBYw5j71H/3HTwr0aMb
-         rHghx51bP6HV1YIpIBJYqpH4eVsKmb3cRRu4CP2UvaYMf0bJFfDjR7D2MwHQ2rwtfZiz
-         LrXgo26rARcJeFJX5i4f9gF98sP50SzggTTslqVoPWQTrfmRQk+l0J7+PiHsFfiNtjnr
-         A2KekWNEkVXLHhk7UGo3zY3KtGGSwQxIhAS/WF3XgajmoGcOAegZMC+x2UqyETvY74Au
-         4hob35kAfLN3p1uuv+hVWxgJIvTWarA5BbkvjbfrD0/EuLKK0UCrZ/hz2VYlenV2kF2r
-         Id+A==
-X-Gm-Message-State: AOJu0YzWNNNhMDVoHkafbh4taNTPg3jn98QNHWp3SBocsuUv/MeiIrOu
-	PTnw0fdfT8ltTdmBC5grzxbBuftll+xgFR9klBau4ywJjjhF/dKi2zbtAmeT4A==
-X-Gm-Gg: ASbGncsLAfEFxOQW447WPrq1NQTC8QhDuAprnfwZ2FZWtZZbTUz3W9qv5MwK7l2qdY9
-	4mWfPo2jp4HacJblJsbmbr2OfaIIjJZHzdZkuWeWPk85+Zn1m1YV/n6lcHfKMX/4QwwN8GfS81/
-	g9yPH5bYtDv/9M2YUG7G8DHVsdaJKdS8zP2KLiSPiV5zYyuBf/qqoPUkZr8Z6vSZcE5DkHo/zju
-	kM623S8/B73W17Oni6BOms0DKQGfgONQQsoA5iv74ytjnaIrkcger7vjPtxI6Q8uZzV440OVdco
-	CngseKi0nrcvELYwpW1xfVWFHi+/f5beVSI6pLmQTplxR/I6PavgGER6622xIdjEWNgWh78a2U1
-	6uR1q7ntxe3amuNQursakSG2ATFGAJQ==
-X-Google-Smtp-Source: AGHT+IHNbLg8YmyHGNC5mtEEmpFyL7Z4YA/FZTUhHRmdH7LZIxxh4C/KXUZETe3XGliypQj37UDbkQ==
-X-Received: by 2002:a17:907:7247:b0:ae0:df46:abd1 with SMTP id a640c23a62f3a-af9401c783emr1302966966b.45.1754376920036;
-        Mon, 04 Aug 2025 23:55:20 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c022sm833533266b.101.2025.08.04.23.55.19
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Aug 2025 23:55:19 -0700 (PDT)
-Message-ID: <c4ea2f00-dd8b-47f8-8c3d-cea3ecd65daf@gmail.com>
-Date: Tue, 5 Aug 2025 08:55:19 +0200
+        d=1e100.net; s=20230601; t=1754377045; x=1754981845;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VngkvXy0ReqaVBHHWMr4TK4Qe/6Jbcz0GjoOJeR3cgw=;
+        b=eWc4Yy21ikPQZArLaL1Sdx8KaKFeRW4fGOThaIW0StH5DhdsKySMHix4QGIqA15RKn
+         tl9ri1lDblbIFvYw4UcjsjHAleHdTYj8na3DbHR7ABccRuMP9i0KgiE45XtxGPN9eco7
+         2MYub5xUolgCWNGpzbE6g/5VMyKM0aZhkEe12oXyzn3RCKtnBQ1+ftLuqIlCkz9dUw7g
+         JBcf1cF9CYXMJvD/3IVC7DebSZlSE1ce9kpUxcBFXsPvvN4JCFhN6oqZE/Uo9wSWncmJ
+         L4XcvVGALwW+bUWHUaodjrOffJbCbPVaJBEu4BeGHkIzZ2TdqcJuN0LIZ6KPbxw2I8kV
+         edQg==
+X-Gm-Message-State: AOJu0YxCuqkcDZFkvXZkaQeyUG22g+DrctLO9SntMe1sAilaG6Xlmy04
+	6tjuxhDXpjUQWKwd39xXHgFVhaW4/8NeeZBwtL6+M4rw8fr+nS5j98CenW3ls50=
+X-Gm-Gg: ASbGncuTgkX9ytdGhTxAOsehKWZl7yA1c62B83azsdqZ/5Cd1HcNBB/Jbg7jSlTxZES
+	UROmjcWelBQR83AnhmR5qf9e0zUO5I9fUen3TEg2PsPVHT/aRnLKnIgm+WoSqrxxza6gtJfCVYK
+	WcgUlizQMIWqcXi7sVitD+ho5WG3k9S4utr92SfH/j2TltzSN3OkQSBXZ498OI4ZOQXrH/u2LA0
+	6c3YsLyOOnE9fjEAAI7IYwhcP6jz4IqLgSiwy9nRIm8CgzWhFP5Qc2kmn8sqtFU/Z/ldZKZUNAL
+	vMkjIaATU4O7YavK4W33UFlcELoohumsEZRyZkPvHuLgFBg8Xrn5ZiNdXyQ3X6vwqGYrmj9PrY1
+	569tT4iJA0a1gb6BsNm0H1fjG66bd
+X-Google-Smtp-Source: AGHT+IH9vTg4DQbX6cHgPw5qcVGpFQ4v5Ou2L3sz1tU8q0szzdzABezxAfYQF1LmekqTG4Za6mUMGQ==
+X-Received: by 2002:a17:903:1a67:b0:23f:f3e1:7363 with SMTP id d9443c01a7336-24246f6cb8bmr196181175ad.23.1754377045183;
+        Mon, 04 Aug 2025 23:57:25 -0700 (PDT)
+Received: from L-16657L.. ([103.189.135.113])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899b5e5sm123903145ad.124.2025.08.04.23.57.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Aug 2025 23:57:24 -0700 (PDT)
+From: Nikhil R <nikhilar2410@gmail.com>
+X-Google-Original-From: Nikhil R <nikhil.r@kpit.com>
+To: openembedded-core@lists.openembedded.org,
+	nikhil.r@kpit.com
+Cc: Nikhil R <nikhilr5@kpit.com>
+Subject: [OE-core][master][PATCH v2] cmake: Add PACKAGECONFIG option for debugger support
+Date: Tue,  5 Aug 2025 12:27:16 +0530
+Message-Id: <20250805065716.614266-1-nikhil.r@kpit.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Patchtest results for [PATCH 1/2] librsvg: upgrade 2.59.2 ->
- 2.60.0
-Cc: openembedded-core@lists.openembedded.org
-References: <20250805063925.771875-1-skandigraun@gmail.com>
- <0101019878fb2bd0-debd8cf0-fe59-4214-ab18-a9e34fcca3b4-000000@us-west-2.amazonses.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <0101019878fb2bd0-debd8cf0-fe59-4214-ab18-a9e34fcca3b4-000000@us-west-2.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 06:55:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221456
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 06:57:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221457
 
-On 8/5/25 08:46, patchtest@automation.yoctoproject.org wrote:
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->
-> ---
-> Testing patch /home/patchtest/share/mboxes/1-2-librsvg-upgrade-2.59.2---2.60.0.patch
->
-> FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
-> FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-I think both are false negatives. The license checksum didn't change,
-only small formatting happened in the recipe.
-A small CVE cleanup was also misidentified as a CVE patch, but only an
-outdated CVE exception was removed.
+From: Nikhil R <nikhilr5@kpit.com>
+
+Starting from CMake version 2.27 support for interactive debugging of CMake
+scripts and configurations was added. However, by default the `nativesdk-cmake`
+is compiled with debugger support turned off.
+
+This change adds debugger support for cmake
+
+Signed-off-by: Nikhil R <nikhilr5@kpit.com>
+---
+ meta/recipes-devtools/cmake/cmake_4.0.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-devtools/cmake/cmake_4.0.3.bb b/meta/recipes-devtools/cmake/cmake_4.0.3.bb
+index 7d8b8cac65..b47494f274 100644
+--- a/meta/recipes-devtools/cmake/cmake_4.0.3.bb
++++ b/meta/recipes-devtools/cmake/cmake_4.0.3.bb
+@@ -46,6 +46,9 @@ EXTRA_OECMAKE = " \
+     -DCMake_ENABLE_DEBUGGER=0 \
+ "
+ 
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[debugger] = "-DCMake_ENABLE_DEBUGGER=1,-DCMake_ENABLE_DEBUGGER=0,"
++
+ do_install:append:class-nativesdk() {
+     mkdir -p ${D}${datadir}/cmake
+     install -m 644 ${UNPACKDIR}/OEToolchainConfig.cmake ${D}${datadir}/cmake/
+-- 
+2.34.1
+
 
