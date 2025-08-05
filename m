@@ -1,100 +1,131 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E6AC87FD1
-	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 08:43:54 +0000 (UTC)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web10.17438.1754383434072559388
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C7C2C87FCB
+	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 08:52:14 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.17560.1754383926565228170
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Aug 2025 01:43:54 -0700
+ Tue, 05 Aug 2025 01:52:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=X/q6G49I;
- spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4b075cd3cdbso22216691cf.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 01:43:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aVzEZYUJ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ae6f8d3bcd4so1079750466b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 01:52:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754383433; x=1754988233; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bWRInjGJydluDdSXu0xki6Nucx9NOP+PPAkUrqcBeQQ=;
-        b=X/q6G49I07XmzWl4vlppCImwF87itnu3qTG3w8lxjEzLbJubIxmjYmhes3KKZCGKMN
-         H1SxBojKArQiL/JPeQnT2QHBkd9M/LDcVVmmh3v3HMo2FcyjnbVxbmiHV7z7vOuwkzua
-         /RqBPkvY+/oBgyo/vCccgO16o8E1jqyAKkPCld/uJ6VNa+Rkt3vXCLyoAFUSVB1Wj0a8
-         fB2aeLKs1zNbCJjuYrO/7l5X5WnGu/RdpSXPScTHyUuicQTSWJprYHUH5O4SBnXoqJpU
-         N0NsOEXLTGAOlc4EefTAxFqAOhOhVJ+ku0Ez1cMFqx4ZA5Q0vfkPbQeJpWxneu3vjES2
-         o73g==
+        d=gmail.com; s=20230601; t=1754383925; x=1754988725; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=L87+48rHVwJ6mf96F0y3gFyZRVgkbsGhrRJ5LkfTHEU=;
+        b=aVzEZYUJwtkHPcd501u4RAUw+CdfswSFTldrN0iCYPp73xasX4shieB+BSbJN11f8Y
+         YOra2gnDZ88ETWSc/MxeWL7cxAZ8OvnyIkh+Ho6FOfRWEPSIEhLX7cJ64UqOJzrnWpk7
+         8F5GmlqnvvxbLYPR7cCyloxDxFGBxo0o53//yLKh8JHX35aiboF5x8DRkDeMxqBcIp+c
+         57NbuNtXF1TFGC6A5pqhoIds/tb9qoz4BcsS5eZvfSJS/WY4OhUchfUCqNqZh+LtJ0I6
+         woCBEqgJqPqTiQF9aHxqFOa1PkUK8BpibwYbKykcdzlahxpdUAd9NqUth1WeTOeTyTnd
+         PlKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754383433; x=1754988233;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bWRInjGJydluDdSXu0xki6Nucx9NOP+PPAkUrqcBeQQ=;
-        b=NncX7K8clErWIJxrQYs2NmKuSf6DZ1dffpL2o/XO8gtfjzQQ30aRgjRw4Z69eaAvDv
-         M7wWaLRuAKnj75vbv0m9r6B9RCMepj0MKUnIfDIwlkwgTsYu6oX9hpkzCMLLIemGzVOL
-         XjDwq2R9Lil27jjpt2ylJdHG/JfQrFCbke3UE8VtCLaZ7wq4sWrSdXSDbfPs49BdtJeH
-         js1OTaV4RHkQ5XPappllWLD+MdvDeOR7mxk/wGVf1g/7+SJFXO+wA3hU2gCzpv/q9xyt
-         u6ko8vGQlvWZs6F4/5ac/Wjai7/ogCbynQeio0ni4RTEQmA5UHluKJwm7Tf8CRw9BC32
-         qCsw==
-X-Gm-Message-State: AOJu0YzOXEYOltosh6GX/4zlij9cXlAmmuNk/v4mlStcbp8gKez4mNc2
-	Opo7rOktddHj5njWCSaoAQDPAP+SHSVBMkDCnMwmguZLTjcy1u4xMciFQEx/6LI3mlk+4Xf7yUY
-	gFaPWY4rp7lHEJcpCH54DrRyHaZjV5OpMh4Gv
-X-Gm-Gg: ASbGnctFwncNxkueWalZoND7iAHOY52L4fCeS2kBzSaTBUL5lHjXKFvliE181npUObY
-	7SyQ37EFLPk2D5kmBcE7lcm1P7KYHP8EYFgaoQXx+b9+z6FmXC9MDtIyQbJA6nz4YxsCVN0rhVR
-	T9cWE51nP59Z2FkBo4PfDJPz/EP14Kg7RsPDm8kn4znwZLUYbNQ6zdlxFifBotMv/3+Tnt54IS8
-	sWBXkBUygeQH31UxquVOz9K/Z320Os130vtEBXQypb8WUWMnKuP
-X-Google-Smtp-Source: AGHT+IEMNnuXZModouvVz/R16/iEQdg4WlBsm128gzRsWskzAf3JB0iwEj3xWvG3MGxVOk91jIk4gVTkhsZZ+o+oSxs=
-X-Received: by 2002:a05:622a:2a17:b0:4b0:7ff2:5558 with SMTP id
- d75a77b69052e-4b07ff25a23mr36905721cf.60.1754383432909; Tue, 05 Aug 2025
- 01:43:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754383925; x=1754988725;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L87+48rHVwJ6mf96F0y3gFyZRVgkbsGhrRJ5LkfTHEU=;
+        b=vzC4sUVP/mZ5qClASjbRbey1gGIq4lG2Ta9LZSeWLpsooWYIh5aavhsJeCD+b/mJcz
+         7EeNgm5M8Cl3Hl/gqNVDDEEeeQR9Xg1HBPI/paI2Q6D8ll+YZDsb8PbBY1TJwRRzeXF4
+         NBj4LiMNUUdL2ClnZleZO6jYPEmmV0WwmITXaSoMoeWNp60hrh6CGiVYOecLTnCF4Tu9
+         yYgqHNXn1ZhC6MQis/nkO6omYNsqHlhX/M7pqltzmYvrj06aeJ2fSSwT6HL4bb/8wKBj
+         BQLSPo25cylvzctiGMDrKjKIbyoGgSovEGiKjpHLi97HU98BK/wr07gByddi3BJpGmXQ
+         BTvg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTaQwXpMHaAI3hpVhjcisXy9djP+ykGD7YJmlub6Je2MUX+s9xk8wqPYMLorVNCfyKp92m9U7MX0NlhFoUV3LHUQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwQf3ZDimi8hWd/z0fbUEq3bEVEWnAbcq0/9u++cZ7j9FG2E9er
+	jdBh+xWyQUGvl59TxVuFnvKSCGFZXmr6yWkdo0hGF/tfHDKfAaNYCtLY
+X-Gm-Gg: ASbGncup5NhImRDsnO5JE+vFQ0B1N2xpPcQGbGPSCOr0xs82yzYagcHmBrgJZbh4orB
+	VCzUFudbS2lbO+X/C+80Wqtzs1miH+zh/XDTOwbZwiDrf6neKjH2jyumoCdt5GB3GfwXYIEEY0U
+	VrdwU9KHUYJXsueP1WsoADj/3tES0wmjjwmOJxMNv7o37xsKOp3Xx5jlhr7x5AJmSrmiELJ3JhO
+	5mxMih7yVlpQum2ty5OVRXjLd+0lSRprAHmn6KdIaAbuSXVUg7s5kHxUU3Ooi56pwWMFevxqMri
+	y5pky5iNsgfdfrR5hjLdcmNteIlraeoTHuexRDTdoUJGwdHIJv+FbwHYWfnOuP42NlJaawtR8Um
+	Gu0OeVlPzsdD3inl2MJl4lPnUBxql7w==
+X-Google-Smtp-Source: AGHT+IHN1bZI6TkZ/MlyKVP62frKoJxlrtw4jQfd5YhfHx6FTI+n+3ehF6jEnrCVYVpnrGXpIJjW2g==
+X-Received: by 2002:a17:907:944f:b0:ad5:7bc4:84be with SMTP id a640c23a62f3a-af94021d61cmr1309216566b.52.1754383924516;
+        Tue, 05 Aug 2025 01:52:04 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8ffbc39sm8138786a12.51.2025.08.05.01.52.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Aug 2025 01:52:04 -0700 (PDT)
+Message-ID: <9e734e6d-fd12-4ac6-a51c-b422d8d024b2@gmail.com>
+Date: Tue, 5 Aug 2025 10:52:03 +0200
 MIME-Version: 1.0
-References: <20250805063925.771875-1-skandigraun@gmail.com> <20250805063925.771875-2-skandigraun@gmail.com>
-In-Reply-To: <20250805063925.771875-2-skandigraun@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 5 Aug 2025 10:43:42 +0200
-X-Gm-Features: Ac12FXw6mTQCy9DU-z0izeC5921Ka1kGTQNQVZYfWO4NYlVksLoccDyVl1d7Tew
-Message-ID: <CANNYZj9zXWjmUkrP_hVVQtAZbWp9mZVUsVQ7CWbH4UxjD50ZxQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] librsvg: add ptest support
-To: skandigraun@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 2/2] dpkg: add ptest support
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+References: <20250802131227.677594-1-skandigraun@gmail.com>
+ <20250802131227.677594-2-skandigraun@gmail.com>
+ <DBUCE9OCATK0.3SAJACOFJ2I7Z@bootlin.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <DBUCE9OCATK0.3SAJACOFJ2I7Z@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 08:43:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221463
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 08:52:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221464
 
-On Tue, 5 Aug 2025 at 08:39, Gyorgy Sarvari via lists.openembedded.org
-<skandigraun=gmail.com@lists.openembedded.org> wrote:
-> +do_install_ptest(){
-> +       install -d  ${D}${PTEST_PATH}/tests/bin \
-> +                   ${D}${PTEST_PATH}/rsvg/tests/fixtures/api \
-> +                   ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions \
-> +                   ${D}${PTEST_PATH}/rsvg/tests/fixtures/loading
-> +
-> +       install ${B}/librsvg-c/tests-c/api ${D}${PTEST_PATH}/tests/bin/
-> +       install ${S}/rsvg/tests/fixtures/api/* ${D}${PTEST_PATH}/rsvg/tests/fixtures/api/
-> +
-> +       install ${S}/rsvg/tests/fixtures/dimensions/bug608102.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
-> +       install ${S}/rsvg/tests/fixtures/dimensions/bug612951.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
-> +       install ${S}/rsvg/tests/fixtures/dimensions/bug614018.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
-> +       install ${S}/rsvg/tests/fixtures/dimensions/sub-rect-no-unit.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
-> +       install ${S}/rsvg/tests/fixtures/dimensions/bug521-with-viewbox.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
-> +       install ${S}/rsvg/tests/fixtures/dimensions/bug823-position-sub.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
-> +
-> +       install ${S}/rsvg/tests/fixtures/loading/bar.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/loading/
-> +       install ${S}/rsvg/tests/fixtures/loading/gnome-cool.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/loading/
-> +       install ${S}/rsvg/tests/fixtures/loading/gnome-cool.svgz ${D}${PTEST_PATH}/rsvg/tests/fixtures/loading/
-> +}
-
-Cherry-picking particular files from tests/ is prone to regressions
-(for example if new tests are added, they won't be installed). Is it
-possible to just install all of ${S}/rsvg/tests/ ?
-
-Better yet, add a patch to install tests to upstream. Gnome components
-are generally doing that already, and there are examples (e.g.
-installed_tests option in glib or gstreamer that is used by respective
-recipes).
-
-Alex
+On 8/5/25 10:14, Mathieu Dubois-Briand wrote:
+> On Sat Aug 2, 2025 at 3:12 PM CEST, Gyorgy Sarvari via lists.openembedded.org wrote:
+>> Added it to slow tests, as it takes betwen 165 and 190 seconds on my
+>> machine to execute (qemux86-64 + kvm).
+>>
+>> The test folder's Makefile contains a list of passing, failing and manual
+>> tests. By default, only the expected-to-pass tests are executed by the
+>> Makefile (unless magic environment variable is set).
+>>
+>> The run-ptest script mimics the default behavior of executing the
+>> expected-to-pass tests, however they are executed one by one, instead of
+>> running them as one batch - that way it is easier to determine exactly
+>> which tests pass and which fail.
+>>
+>> One other thing that might worth a note, is that the tests folder that needs to be
+>> installed contains a number of subfolders called "DEBIAN". When packaging them
+>> at least with rpm, these folders are omitted from the package. 
+>> However these are essential for the tests, as they contain test data. As a 
+>> workaround, these folders are renamed during installation to DEBIAN-ptest, 
+>> and before execution the run-ptest script restores their names.
+>>
+>> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+>> ---
+> Hi Gyorgy,
+>
+> Thanks for your patch.
+>
+> It looks like some of these ptests are failing:
+>
+> WARNING: core-image-ptest-dpkg-1.0-r0 do_testimage: There were failing ptests.
+> ...
+> AssertionError:
+> ptests which had no test results:
+> ['dpkg']
+>
+> Cannot run ptests without @expectedFailure as ptests are expected to fail
+>
+> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/3164697/raw_inline
+> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/3164752/raw_inline
+> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/3164788/raw_inline
+>
+> Ptest results can be found here:
+>
+> https://valkyrie.yocto.io/pub/non-release/20250805-32/testresults/qemuarm64-ptest/core-image-ptest-dpkg/
+> https://valkyrie.yocto.io/pub/non-release/20250805-32/testresults/qemuriscv64-ptest/core-image-ptest-dpkg/
+> https://valkyrie.yocto.io/pub/non-release/20250805-32/testresults/qemux86-64-ptest/core-image-ptest-dpkg/
+>
+> Best regards,
+> Mathieu
+>
+I think I see the problem, the output format of the run-ptest seems to
+be incorrect. I'm afraid I made the same mistake with librsvg ptests
+too. Thanks for the heads up, will send a v2 for both dpkg and librsvg
+ptest patches.
 
