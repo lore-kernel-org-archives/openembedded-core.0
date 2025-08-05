@@ -1,115 +1,153 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F58C87FCB
-	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 09:03:04 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web10.17685.1754384579476696099
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D41C87FCB
+	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 09:04:54 +0000 (UTC)
+Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
+ by mx.groups.io with SMTP id smtpd.web11.17291.1754384686378597460
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Aug 2025 02:02:59 -0700
+ Tue, 05 Aug 2025 02:04:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TutOzKVE;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-af9180a11bcso1118474066b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 02:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754384578; x=1754989378; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JWrCTyHmnku17FHN7dkVSBYB7wjxhshd0albAAaOsLw=;
-        b=TutOzKVEqX+vniLYi4WVNMTwCiEgo2rdxSDKE40KXBb9zeKRTPhVaqDnJO33N7TaU6
-         wcU4vTgcB7xY6dpakHO4DAAwGMZ5M6YwVFKTNa/wkhMHikv8GRKXYAB5aUTjJrOOhJtd
-         qXb9oYIZ8DPdeZ/McC0wj/lUSHswmXiuvmkTQ6DhFE9a7nMoNY1gwbFA2TVza+6xHc1Y
-         07miNX08u1iX8aA/ZJ9AtLpbDrTroFE4BAqgTe3FWO5RbeJfUqWSyBEgErZwNdVS8qaS
-         ANBm1/mzctK0dpOQm3ZXIX6pqqXicxI8cIAAqGYqIVMA+Bktk54CyyrvfZNRTJ1NE5pk
-         xUuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754384578; x=1754989378;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JWrCTyHmnku17FHN7dkVSBYB7wjxhshd0albAAaOsLw=;
-        b=sXk1JcCFac0VkR6KBc7niL8aH5zYu4axPUYbDzy7k/aO6KHXNsXKWpLeJ/03RlSHZi
-         Zz0lNCcXVDpHquoNv98YjfF78FYdg2fB8Hw6wEvQgpw9kXmTPLjmX2gUjzEjg9M/wl6p
-         HhoJpuJH1pAu0D66A1ozo25t0xv1xR20pEfdXHLVnPz/Smsr3k02S2rXotLf6ZrG52jI
-         K1p2s5s5eATohwDDxK9LIYah73RAK1Df9t2RTazkIAdxGIp9Vs+L2F6TADj9eP++QMwi
-         uHdVPnkIxFcKxN0pVnad1R4psk7CGe6hwaMf/U4WMRqTBkeNYV/TIAOFQIsYtEPlAEyp
-         WarQ==
-X-Gm-Message-State: AOJu0Yz7EIHUAL7smvEj808WQIoaOnSAjHGo2miWZvSIRdS2SvAR5a4A
-	iG5v8MWpoxyfGX+zHQYbPTYHLRDoln35SvwmSTGwjwNj5ZlfkJVY+PEu
-X-Gm-Gg: ASbGncvbQKs4zP/vHa79jjUWnZt/sPs0LTUOR9Wn00KcvCl6PszguvvVnP+Mh/av4Ax
-	uJnyr6MZgBXtz9sopqoi8Qg3RSsCTZShs7hxhA2HDUL35WgRLkpsxoIiZaD+F+Odu7rLTTS3eNp
-	u2Xthx5RQog0dlXh0lo/HAkdrKaGnXGHP/l7xsQLPJJlTjWflKLySrC94xHRL/inv5qkJ369vLH
-	KFij/rbv/moOMHH8NhKn0V9Y+hg4ZBBHgSncfqlLSiNzSPHlF9cfkp5RPoyUR5K0ibyT6fwmXJ+
-	3edwYEU7SAscn+8+2zfyZRcAdtPkjRopAtFBk+YC+4XjtP9t1DDWWwALj/wdLT63ZSzLIxSxNBH
-	50l442TcfkWCBY5qS0pWBXNVPRBRNBw==
-X-Google-Smtp-Source: AGHT+IHrkHX/DHSunMO6CUmlUpqyRFhZ693pV9K7g3rW7gNNNKOfw4agNu66wfsaCn+2EWWal7T7fw==
-X-Received: by 2002:a17:907:e895:b0:af9:6d09:74ab with SMTP id a640c23a62f3a-af97d588a71mr285791166b.25.1754384577492;
-        Tue, 05 Aug 2025 02:02:57 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a07670bsm882078066b.8.2025.08.05.02.02.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Aug 2025 02:02:56 -0700 (PDT)
-Message-ID: <97a3cb4a-d573-42d9-b6f0-a0d57a00fc67@gmail.com>
-Date: Tue, 5 Aug 2025 11:02:56 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 2/2] librsvg: add ptest support
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20250805063925.771875-1-skandigraun@gmail.com>
- <20250805063925.771875-2-skandigraun@gmail.com>
- <CANNYZj9zXWjmUkrP_hVVQtAZbWp9mZVUsVQ7CWbH4UxjD50ZxQ@mail.gmail.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <CANNYZj9zXWjmUkrP_hVVQtAZbWp9mZVUsVQ7CWbH4UxjD50ZxQ@mail.gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BTnHCPYw;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.235, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1140B4317F;
+	Tue,  5 Aug 2025 09:04:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1754384684;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hW5SL3n8gdepZa7qWOtHz4EatFVWpcDTIfk7/gwz1nQ=;
+	b=BTnHCPYwSe8OhznZfkiYuCpwK5Krn5cOjBPmCczShVpdI7rQe4A06yNIMGf+/1I62RfgB/
+	9c+JQHG41cy5rB8C98moyei9BQN1qcvlqR8SPSRfm6OzMirXUxHQPKCYSC3cqwWnjQtrhx
+	vY20HvcyHByPSvjjnYVaBIzU6g25YrW81a1D/qZHOib6CWg3LrRuRK0YKqCrWT/K8ukHgu
+	GF6TeAxWBB58mpf1P5PyoJgprHWRfSrZCSp4iYsr9TFmQmaGgSceqXzHakY0MXsOXY2pjb
+	bkjz6QZCSrEUiV4IcP9ik2uZAStKPH7u1tAVClA6u2wk0Mn+n/IpC/UF8gMqCg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Tue, 05 Aug 2025 11:04:43 +0200
+Message-Id: <DBUDGTFZM43O.22SQN5VKTB6Y9@bootlin.com>
+Subject: Re: [OE-core] [PATCH 1/2] librsvg: upgrade 2.59.2 -> 2.60.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <skandigraun@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250805063925.771875-1-skandigraun@gmail.com>
+In-Reply-To: <20250805063925.771875-1-skandigraun@gmail.com>
+X-GND-State: clean
+X-GND-Score: -6
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduudegjeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecufghrlhcuvffnffculddqiedmnecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeelvddtgfffudduhfejleffteffieehvdejvdejkedtgeffleetgeekvdehledtjeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhgnhhomhgvrdhorhhgpdhnihhsthdrghhovhdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehsk
+ hgrnhguihhgrhgruhhnsehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 09:03:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221466
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 09:04:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221467
 
-On 8/5/25 10:43, Alexander Kanavin wrote:
-> On Tue, 5 Aug 2025 at 08:39, Gyorgy Sarvari via lists.openembedded.org
-> <skandigraun=gmail.com@lists.openembedded.org> wrote:
->> +do_install_ptest(){
->> +       install -d  ${D}${PTEST_PATH}/tests/bin \
->> +                   ${D}${PTEST_PATH}/rsvg/tests/fixtures/api \
->> +                   ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions \
->> +                   ${D}${PTEST_PATH}/rsvg/tests/fixtures/loading
->> +
->> +       install ${B}/librsvg-c/tests-c/api ${D}${PTEST_PATH}/tests/bin/
->> +       install ${S}/rsvg/tests/fixtures/api/* ${D}${PTEST_PATH}/rsvg/tests/fixtures/api/
->> +
->> +       install ${S}/rsvg/tests/fixtures/dimensions/bug608102.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
->> +       install ${S}/rsvg/tests/fixtures/dimensions/bug612951.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
->> +       install ${S}/rsvg/tests/fixtures/dimensions/bug614018.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
->> +       install ${S}/rsvg/tests/fixtures/dimensions/sub-rect-no-unit.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
->> +       install ${S}/rsvg/tests/fixtures/dimensions/bug521-with-viewbox.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
->> +       install ${S}/rsvg/tests/fixtures/dimensions/bug823-position-sub.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/dimensions
->> +
->> +       install ${S}/rsvg/tests/fixtures/loading/bar.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/loading/
->> +       install ${S}/rsvg/tests/fixtures/loading/gnome-cool.svg ${D}${PTEST_PATH}/rsvg/tests/fixtures/loading/
->> +       install ${S}/rsvg/tests/fixtures/loading/gnome-cool.svgz ${D}${PTEST_PATH}/rsvg/tests/fixtures/loading/
->> +}
-> Cherry-picking particular files from tests/ is prone to regressions
-> (for example if new tests are added, they won't be installed). Is it
-> possible to just install all of ${S}/rsvg/tests/ ?
+On Tue Aug 5, 2025 at 8:39 AM CEST, Gyorgy Sarvari via lists.openembedded.o=
+rg wrote:
+> 0001-gdk-pixbuf-loader-meson.build-do-not-look-for-gdk-pi.patch and
+> 0001-meson.build-do-not-force-disable-introspection-and-v.patch
+> patches were dropped, because they are included in this release.
+>
+> Removed the CVE exception for CVE-2018-1000041, because it has been
+> fixed in 2017[1].
+>
+> During the do_configure step, the following error popped up:
+>
+> | Program meson/query-rustc.py found: YES (/home/meeee/stuff/ptest-images=
+/build/tmp/work/core2-64-poky-linux/librsvg/2.60.0/sources/librsvg-2.60.0/m=
+eson/query-rustc.py)
+> |
+> | ../sources/librsvg-2.60.0/meson.build:357:4: ERROR: Problem encountered=
+: error[E0463]: can't find crate for `std`
+> |   |
+> |   =3D note: the `x86_64-poky-linux-gnu` target may not be installed
+> |   =3D help: consider downloading the target with `rustup target add x86=
+_64-poky-linux-gnu`
+> |
+> | error: aborting due to 1 previous error
+> |
+> | For more information about this error, try `rustc --explain E0463`.
+>
+> The meson script is trying to gather the static native libraries for the
+> target from rust, to link with them later. However it invokes rustc binar=
+y
+> directly without cargo, and the RUSTFLAGS environment variable is ignored=
+,
+> which makes it to fail to find the Yocto targets.
+>
+> To avoid this error, add a patch to append the RUSTFLAGS to the command
+> that calls rustc. (0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.=
+patch)
+>
+> Changelog:
+>
+> - The minimum supported Rust version (MSRV) is 1.77.2.
+> - Many build fixes for various platforms (Amyspark, Alexander Kanavin,
+>   Colin Sane).
+> - #414 - Basic support for the dominant-baseline property (Paul Melis).
+> - #1146 - Parse the white-space property.  It is not processed yet;
+>   this is part of the work to support SVG2 text layout (Adetoye Anointing=
+).
+> - #1138 - Report errors correctly from the parsers for attribute values.
+> - Portability fixes to the C header files.
+>
+> Version 2.59.91
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> - #1147 - Fix linkage on Illumos.
+> - #1143 - Fix the build of the static library on MinGW (Amyspark).
+> - Fix versioning of library name (Amyspark).
+> - Enable cross-compilation of the gdk-pixbuf loader if meson/qemu can
+>   handle it (Colin Sane).
+>
+> Version 2.59.90
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> - #414 - Basic support for the dominant-baseline property (Paul Melis).
+> - #1138 - Report errors correctly from the parsers for attribute values.
+> - #951 - Slightly improved test coverage (Vaishnavi Nawghare).
+> - #1136 - Don't use defined() in C macro definitions, since it is not
+>   portable.
+> - #1146 - Parse the white-space property.  It is not processed yet;
+>   this will come after the Outreachy internship (Adetoye Anointing).
+> - Documentation fixes (Kleis Auke Wolthuizen).
+> - Many build fixes (Amyspark).
+> - Improvements for cross builds (Alexander Kanavin).
+> - Fix CRLF characters in Python sources (sulincix).
+>
+> [1]: https://gitlab.gnome.org/GNOME/librsvg/-/commit/c6ddf2ed4d768fd88adb=
+ea2b63f575cd523022ea
+> (this fixed the CVE according to https://nvd.nist.gov/vuln/detail/CVE-201=
+8-1000041 )
+>
+> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+> ---
 
-I think this shouldn't be a problem. Will include that in v2, at least.
+Hi Gyorgy,
 
-> Better yet, add a patch to install tests to upstream. Gnome components
-> are generally doing that already, and there are examples (e.g.
-> installed_tests option in glib or gstreamer that is used by respective
-> recipes).
-I have take a look at this during the day. Looking at what the gstreamer
-patches do, it looks doable - will take a stab at it, and see if I can
-make it get anywhere.
+It looks like the build is failing with this patch:
 
-> Alex
+ERROR: librsvg-2.60.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-w=
+orker/qemuarm64-alt/build/build/tmp/work/cortexa57-poky-linux/librsvg/2.60.=
+0/temp/run.do_configure.832057' failed with exit code 1
+...
+| Program /usr/bin/gdk-pixbuf-query-loaders found: NO
+|
+| ../sources/librsvg-2.60.0/gdk-pixbuf-loader/meson.build:40:29: ERROR: Pro=
+gram '/usr/bin/gdk-pixbuf-query-loaders' not found or not executable
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/2147
+
+Now, as this is in the configure step, it might be related with the
+gdk-pixbuf commits from Ross, but they look like fairly straightforward.
+
+I will first drop this series and keep you up-to-date.
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
