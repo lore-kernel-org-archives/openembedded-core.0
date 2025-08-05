@@ -1,153 +1,221 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D41C87FCB
-	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 09:04:54 +0000 (UTC)
-Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
- by mx.groups.io with SMTP id smtpd.web11.17291.1754384686378597460
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4054BC87FD1
+	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 11:10:15 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.19254.1754392210906649740
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Aug 2025 02:04:46 -0700
+ Tue, 05 Aug 2025 04:10:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BTnHCPYw;
- spf=pass (domain: bootlin.com, ip: 217.70.178.235, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1140B4317F;
-	Tue,  5 Aug 2025 09:04:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1754384684;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hW5SL3n8gdepZa7qWOtHz4EatFVWpcDTIfk7/gwz1nQ=;
-	b=BTnHCPYwSe8OhznZfkiYuCpwK5Krn5cOjBPmCczShVpdI7rQe4A06yNIMGf+/1I62RfgB/
-	9c+JQHG41cy5rB8C98moyei9BQN1qcvlqR8SPSRfm6OzMirXUxHQPKCYSC3cqwWnjQtrhx
-	vY20HvcyHByPSvjjnYVaBIzU6g25YrW81a1D/qZHOib6CWg3LrRuRK0YKqCrWT/K8ukHgu
-	GF6TeAxWBB58mpf1P5PyoJgprHWRfSrZCSp4iYsr9TFmQmaGgSceqXzHakY0MXsOXY2pjb
-	bkjz6QZCSrEUiV4IcP9ik2uZAStKPH7u1tAVClA6u2wk0Mn+n/IpC/UF8gMqCg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 05 Aug 2025 11:04:43 +0200
-Message-Id: <DBUDGTFZM43O.22SQN5VKTB6Y9@bootlin.com>
-Subject: Re: [OE-core] [PATCH 1/2] librsvg: upgrade 2.59.2 -> 2.60.0
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <skandigraun@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250805063925.771875-1-skandigraun@gmail.com>
-In-Reply-To: <20250805063925.771875-1-skandigraun@gmail.com>
-X-GND-State: clean
-X-GND-Score: -6
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduudegjeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecufghrlhcuvffnffculddqiedmnecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeelvddtgfffudduhfejleffteffieehvdejvdejkedtgeffleetgeekvdehledtjeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhgnhhomhgvrdhorhhgpdhnihhsthdrghhovhdphihotghtohhprhhojhgvtghtrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemfehftghfmehfsgdtugemuddviedvmedvvgejiedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehsk
- hgrnhguihhgrhgruhhnsehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=031295e941=divya.chellam@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 575AV1C8622729
+	for <openembedded-core@lists.openembedded.org>; Tue, 5 Aug 2025 04:10:10 -0700
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 489j6gtdbp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 04:10:10 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Tue, 5 Aug 2025 04:10:08 -0700
+From: dchellam <divya.chellam@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][walnascar][PATCH 1/1] sqlite3: fix CVE-2025-6965
+Date: Tue, 5 Aug 2025 16:39:38 +0530
+Message-ID: <20250805110938.1612112-1-divya.chellam@windriver.com>
+X-Mailer: git-send-email 2.40.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.11.232.110]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (10.11.224.121) To
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121)
+X-Authority-Analysis: v=2.4 cv=d5n1yQjE c=1 sm=1 tr=0 ts=6891e692 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=gmxlzscTznEA:10 a=2OwXVqhp2XgA:10 a=xNf9USuDAAAA:8 a=NEAV23lmAAAA:8
+ a=mLKua8RHAAAA:8 a=t7CeM3EgAAAA:8 a=cBZIqdlC0Zup8oHfoQ0A:9
+ a=ewTM_9iNE6a0vsrYD_ou:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: TqFLskjAOm9JoPOWy8mdAxpGNdLw0gnI
+X-Proofpoint-ORIG-GUID: TqFLskjAOm9JoPOWy8mdAxpGNdLw0gnI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDA4MSBTYWx0ZWRfX6aMusn3ycNSG
+ Wf5edJJDHlUzk+sbS0y0ayoV8YgNtd/ARgg2/KaymSfikV3aOioAPXo54E2MPScfwRbP4BxjYI1
+ FE/0wjoDWpLe7AWhfl+ZtcL3eaLcENVWw3MZg2+lwIRKcfKnF2RbRnVi8knJldv9mCXnShAup6T
+ Lyqov4idWhy1EvgsWwuwts2FdaEVoZV+Wzsxow0UmE29GxZ9gN2DqAZFR4h6ggnDMi0CLGdTWYB
+ F7kNKuOiepxqGu3l9GEOYZOaXXIiR+nSRgI/iRc+TArT5oTH8f+EBwEe/C2uh80b/Gh9PDapp25
+ xGsusYqVsUxXwncx2kAGtGvEXD+3elKkPrfYnaWmZUkNS5UTZL+womzKKMGJ06ZnR929I8uvw86
+ UxADQWUN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-05_03,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 suspectscore=0 malwarescore=0 phishscore=0
+ spamscore=0 priorityscore=1501 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507210000 definitions=main-2508020100
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 09:04:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221467
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 11:10:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221468
 
-On Tue Aug 5, 2025 at 8:39 AM CEST, Gyorgy Sarvari via lists.openembedded.o=
-rg wrote:
-> 0001-gdk-pixbuf-loader-meson.build-do-not-look-for-gdk-pi.patch and
-> 0001-meson.build-do-not-force-disable-introspection-and-v.patch
-> patches were dropped, because they are included in this release.
->
-> Removed the CVE exception for CVE-2018-1000041, because it has been
-> fixed in 2017[1].
->
-> During the do_configure step, the following error popped up:
->
-> | Program meson/query-rustc.py found: YES (/home/meeee/stuff/ptest-images=
-/build/tmp/work/core2-64-poky-linux/librsvg/2.60.0/sources/librsvg-2.60.0/m=
-eson/query-rustc.py)
-> |
-> | ../sources/librsvg-2.60.0/meson.build:357:4: ERROR: Problem encountered=
-: error[E0463]: can't find crate for `std`
-> |   |
-> |   =3D note: the `x86_64-poky-linux-gnu` target may not be installed
-> |   =3D help: consider downloading the target with `rustup target add x86=
-_64-poky-linux-gnu`
-> |
-> | error: aborting due to 1 previous error
-> |
-> | For more information about this error, try `rustc --explain E0463`.
->
-> The meson script is trying to gather the static native libraries for the
-> target from rust, to link with them later. However it invokes rustc binar=
-y
-> directly without cargo, and the RUSTFLAGS environment variable is ignored=
-,
-> which makes it to fail to find the Yocto targets.
->
-> To avoid this error, add a patch to append the RUSTFLAGS to the command
-> that calls rustc. (0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.=
-patch)
->
-> Changelog:
->
-> - The minimum supported Rust version (MSRV) is 1.77.2.
-> - Many build fixes for various platforms (Amyspark, Alexander Kanavin,
->   Colin Sane).
-> - #414 - Basic support for the dominant-baseline property (Paul Melis).
-> - #1146 - Parse the white-space property.  It is not processed yet;
->   this is part of the work to support SVG2 text layout (Adetoye Anointing=
-).
-> - #1138 - Report errors correctly from the parsers for attribute values.
-> - Portability fixes to the C header files.
->
-> Version 2.59.91
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> - #1147 - Fix linkage on Illumos.
-> - #1143 - Fix the build of the static library on MinGW (Amyspark).
-> - Fix versioning of library name (Amyspark).
-> - Enable cross-compilation of the gdk-pixbuf loader if meson/qemu can
->   handle it (Colin Sane).
->
-> Version 2.59.90
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> - #414 - Basic support for the dominant-baseline property (Paul Melis).
-> - #1138 - Report errors correctly from the parsers for attribute values.
-> - #951 - Slightly improved test coverage (Vaishnavi Nawghare).
-> - #1136 - Don't use defined() in C macro definitions, since it is not
->   portable.
-> - #1146 - Parse the white-space property.  It is not processed yet;
->   this will come after the Outreachy internship (Adetoye Anointing).
-> - Documentation fixes (Kleis Auke Wolthuizen).
-> - Many build fixes (Amyspark).
-> - Improvements for cross builds (Alexander Kanavin).
-> - Fix CRLF characters in Python sources (sulincix).
->
-> [1]: https://gitlab.gnome.org/GNOME/librsvg/-/commit/c6ddf2ed4d768fd88adb=
-ea2b63f575cd523022ea
-> (this fixed the CVE according to https://nvd.nist.gov/vuln/detail/CVE-201=
-8-1000041 )
->
-> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-> ---
+From: Divya Chellam <divya.chellam@windriver.com>
 
-Hi Gyorgy,
+There exists a vulnerability in SQLite versions before 3.50.2 where the
+number of aggregate terms could exceed the number of columns available.
+This could lead to a memory corruption issue.
 
-It looks like the build is failing with this patch:
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2025-6965
 
-ERROR: librsvg-2.60.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-w=
-orker/qemuarm64-alt/build/build/tmp/work/cortexa57-poky-linux/librsvg/2.60.=
-0/temp/run.do_configure.832057' failed with exit code 1
-...
-| Program /usr/bin/gdk-pixbuf-query-loaders found: NO
-|
-| ../sources/librsvg-2.60.0/gdk-pixbuf-loader/meson.build:40:29: ERROR: Pro=
-gram '/usr/bin/gdk-pixbuf-query-loaders' not found or not executable
+Upstream-patch:
+https://github.com/sqlite/sqlite/commit/c52e9d97d485a3eb168e3f8f3674a7bc4b419703
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/2147
+Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+---
+ .../sqlite/sqlite3/CVE-2025-6965.patch        | 117 ++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.48.0.bb |   1 +
+ 2 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch
 
-Now, as this is in the configure step, it might be related with the
-gdk-pixbuf commits from Ross, but they look like fairly straightforward.
-
-I will first drop this series and keep you up-to-date.
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch
+new file mode 100644
+index 0000000000..42fb31ed5c
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch
+@@ -0,0 +1,117 @@
++From c52e9d97d485a3eb168e3f8f3674a7bc4b419703 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Fri, 27 Jun 2025 19:02:21 +0000
++Subject: [PATCH] Raise an error right away if the number of aggregate terms in
++ a query exceeds the maximum number of columns.
++
++FossilOrigin-Name: 5508b56fd24016c13981ec280ecdd833007c9d8dd595edb295b984c2b487b5c8
++
++CVE: CVE-2025-6965
++
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/c52e9d97d485a3eb168e3f8f3674a7bc4b419703]
++
++Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
++---
++ sqlite3.c | 30 ++++++++++++++++++++++++++----
++ 1 file changed, 26 insertions(+), 4 deletions(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 146047d..c78f58b 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -15257,6 +15257,14 @@ typedef INT16_TYPE LogEst;
++ #define LARGEST_UINT64 (0xffffffff|(((u64)0xffffffff)<<32))
++ #define SMALLEST_INT64 (((i64)-1) - LARGEST_INT64)
++ 
+++/*
+++** Macro SMXV(n) return the maximum value that can be held in variable n,
+++** assuming n is a signed integer type.  UMXV(n) is similar for unsigned
+++** integer types.
+++*/
+++#define SMXV(n) ((((i64)1)<<(sizeof(n)*8-1))-1)
+++#define UMXV(n) ((((i64)1)<<(sizeof(n)*8))-1)
+++
++ /*
++ ** Round up a number to the next larger multiple of 8.  This is used
++ ** to force 8-byte alignment on 64-bit architectures.
++@@ -19046,7 +19054,7 @@ struct AggInfo {
++                           ** from source tables rather than from accumulators */
++   u8 useSortingIdx;       /* In direct mode, reference the sorting index rather
++                           ** than the source table */
++-  u16 nSortingColumn;     /* Number of columns in the sorting index */
+++  u32 nSortingColumn;     /* Number of columns in the sorting index */
++   int sortingIdx;         /* Cursor number of the sorting index */
++   int sortingIdxPTab;     /* Cursor number of pseudo-table */
++   int iFirstReg;          /* First register in range for aCol[] and aFunc[] */
++@@ -19055,8 +19063,8 @@ struct AggInfo {
++     Table *pTab;             /* Source table */
++     Expr *pCExpr;            /* The original expression */
++     int iTable;              /* Cursor number of the source table */
++-    i16 iColumn;             /* Column number within the source table */
++-    i16 iSorterColumn;       /* Column number in the sorting index */
+++    int iColumn;             /* Column number within the source table */
+++    int iSorterColumn;       /* Column number in the sorting index */
++   } *aCol;
++   int nColumn;            /* Number of used entries in aCol[] */
++   int nAccumulator;       /* Number of columns that show through to the output.
++@@ -116445,7 +116453,9 @@ static void findOrCreateAggInfoColumn(
++ ){
++   struct AggInfo_col *pCol;
++   int k;
+++  int mxTerm = pParse->db->aLimit[SQLITE_LIMIT_COLUMN];
++ 
+++  assert( mxTerm <= SMXV(i16) );
++   assert( pAggInfo->iFirstReg==0 );
++   pCol = pAggInfo->aCol;
++   for(k=0; k<pAggInfo->nColumn; k++, pCol++){
++@@ -116463,6 +116473,10 @@ static void findOrCreateAggInfoColumn(
++     assert( pParse->db->mallocFailed );
++     return;
++   }
+++  if( k>mxTerm ){
+++    sqlite3ErrorMsg(pParse, "more than %d aggregate terms", mxTerm);
+++    k = mxTerm;
+++  }
++   pCol = &pAggInfo->aCol[k];
++   assert( ExprUseYTab(pExpr) );
++   pCol->pTab = pExpr->y.pTab;
++@@ -116496,6 +116510,7 @@ fix_up_expr:
++   if( pExpr->op==TK_COLUMN ){
++     pExpr->op = TK_AGG_COLUMN;
++   }
+++  assert( k <= SMXV(pExpr->iAgg) );
++   pExpr->iAgg = (i16)k;
++ }
++ 
++@@ -116580,13 +116595,19 @@ static int analyzeAggregate(Walker *pWalker, Expr *pExpr){
++         ** function that is already in the pAggInfo structure
++         */
++         struct AggInfo_func *pItem = pAggInfo->aFunc;
+++        int mxTerm = pParse->db->aLimit[SQLITE_LIMIT_COLUMN];
+++        assert( mxTerm <= SMXV(i16) );
++         for(i=0; i<pAggInfo->nFunc; i++, pItem++){
++           if( NEVER(pItem->pFExpr==pExpr) ) break;
++           if( sqlite3ExprCompare(0, pItem->pFExpr, pExpr, -1)==0 ){
++             break;
++           }
++         }
++-        if( i>=pAggInfo->nFunc ){
+++        if( i>mxTerm ){
+++          sqlite3ErrorMsg(pParse, "more than %d aggregate terms", mxTerm);
+++          i = mxTerm;
+++          assert( i<pAggInfo->nFunc );
+++        }else if( i>=pAggInfo->nFunc ){
++           /* pExpr is original.  Make a new entry in pAggInfo->aFunc[]
++           */
++           u8 enc = ENC(pParse->db);
++@@ -116640,6 +116661,7 @@ static int analyzeAggregate(Walker *pWalker, Expr *pExpr){
++         */
++         assert( !ExprHasProperty(pExpr, EP_TokenOnly|EP_Reduced) );
++         ExprSetVVAProperty(pExpr, EP_NoReduce);
+++        assert( i <= SMXV(pExpr->iAgg) );
++         pExpr->iAgg = (i16)i;
++         pExpr->pAggInfo = pAggInfo;
++         return WRC_Prune;
++-- 
++2.40.0
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+index 11f103dddc..6c9f1ed5d9 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
+ SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+     file://CVE-2025-3277.patch \
+     file://CVE-2025-29088.patch \
++    file://CVE-2025-6965.patch \
+ "
+ SRC_URI[sha256sum] = "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
+ 
+-- 
+2.40.0
 
 
