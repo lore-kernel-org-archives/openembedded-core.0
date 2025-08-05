@@ -1,100 +1,65 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 264AAC87FD1
-	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 19:31:07 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.8180.1754422262233731100
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B792C87FCB
+	for <webhook@archiver.kernel.org>; Tue,  5 Aug 2025 19:32:57 +0000 (UTC)
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+ by mx.groups.io with SMTP id smtpd.web10.8046.1754422369706873656
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Aug 2025 12:31:02 -0700
+ Tue, 05 Aug 2025 12:32:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=k5sMarId;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Sh1HbNlf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101987bb735e0-b891e194-22cf-4ec9-98b3-8b9cde5d19a6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754422261; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=tlnILpVFXRuX8Fy8HKzJQmmFEa46Ynglvf3dIw9RbQI=;
-	b=k5sMarIdoXRe+WQAK8F6MoRXO+Pua5nqhzDU00K7DgyBGScCvcYBSRUowooItf+r
-	rvZlaFbvLzpzA2n45uWpXjrIJ0qopAdsygyEmaaRsZrMalc1iZlpvAEBbqa7bxrd0+9
-	w9eRTW1ZafoCCoVqkS9crIGaQIBVxKsdbA+T02YA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754422261;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=tlnILpVFXRuX8Fy8HKzJQmmFEa46Ynglvf3dIw9RbQI=;
-	b=Sh1HbNlf+LrJqXZ1JsW6N8nyfJ012vyQv8R1XRBtLg70/I+3jKNOs7SfjsZNTtmm
-	E4Sjq78WYbK9OsQN3SlULt48+ro4pQKGQaaAi0jxwbdwiv38yWwJKjA3endpy6yaFSu
-	QrGfcIn6EMDQwCPU4pGxABr5qfLXHZzy/epENe0c=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [RFC PATCH] clang: split llvm out into a separate recipe again
-In-Reply-To: <20250805191115.608912-1-ross.burton@arm.com>
-References: <20250805191115.608912-1-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101987bb735e0-b891e194-22cf-4ec9-98b3-8b9cde5d19a6-000000@us-west-2.amazonses.com>
-Date: Tue, 5 Aug 2025 19:31:01 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.05-54.240.27.31
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
+Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
+	by mailout12.t-online.de (Postfix) with SMTP id 22F2BE75C;
+	Tue,  5 Aug 2025 21:32:47 +0200 (CEST)
+Received: from [192.168.178.36] ([79.219.225.228]) by fwd72.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1ujNOr-0GFG9A0; Tue, 5 Aug 2025 21:32:41 +0200
+Date: Tue, 05 Aug 2025 21:32:35 +0200
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [OE-core] [PATCH 1/2] librsvg: upgrade 2.59.2 -> 2.60.0
+To: skandigraun@gmail.com
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	openembedded-core@lists.openembedded.org,
+	"Gyorgy Sarvari via lists.openembedded.org"
+	<skandigraun=gmail.com@lists.openembedded.org>
+Message-Id: <BYCJ0T.GXT9VE7CNT592@t-online.de>
+In-Reply-To: <dc1d93ac-23b0-4d79-b8b6-73b0d22720e9@gmail.com>
+References: <20250805063925.771875-1-skandigraun@gmail.com>
+	<1858D393D35BC4B4.28357@lists.openembedded.org>
+	<DBUIS9SGNETD.1OJZHA0Y17QRS@bootlin.com>
+	<dc1d93ac-23b0-4d79-b8b6-73b0d22720e9@gmail.com>
+X-Mailer: geary/46.0
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-3PLjrdwKaYobfuQ/syW5"
+X-TOI-EXPURGATEID: 150726::1754422361-45D2E9EC-B41937DE/0/0 CLEAN NORMAL
+X-TOI-MSGID: 8811e47a-08dc-4849-a6d1-6e0dc54dabe3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 19:31:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221493
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Aug 2025 19:32:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221494
 
---NextPart
-Content-Type: text/plain
+--=-3PLjrdwKaYobfuQ/syW5
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On Tue, Aug 5 2025 at 21:23:48 +02:00:00, Gyorgy Sarvari via 
+lists.openembedded.org <skandigraun=gmail.com@lists.openembedded.org> 
+wrote:
+> Indeed, the bug is here - it is trying to use the build machine's
+> gdk-pixbuf-query-loaders
 
----
-Testing patch /home/patchtest/share/mboxes/RFC-clang-split-llvm-out-into-a-separate-recipe-again.patch
-
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+I wouldn't call it a bug ... seems to be intended because find_program 
+is used and the dependeny is explicitly added only, if meson can use 
+hosttools
 
 
---NextPart--
+--=-3PLjrdwKaYobfuQ/syW5
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto">On Tue, Aug 5 2025 at 21:23:48 +02:00:00, Gyorgy Sarvari via lists.openembedded.org &lt;skandigraun=gmail.com@lists.openembedded.org&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Indeed, the bug is here - it is trying to use the build machine's
+gdk-pixbuf-query-loaders</div></blockquote><div><br></div><div>I wouldn't call it a bug ... seems to be intended because find_program is used and the dependeny is explicitly added only, if meson can use hosttools</div></div>
+--=-3PLjrdwKaYobfuQ/syW5--
+
 
