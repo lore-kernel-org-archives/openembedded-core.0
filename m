@@ -1,102 +1,115 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1432DC87FCB
-	for <webhook@archiver.kernel.org>; Wed,  6 Aug 2025 08:56:21 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web11.20653.1754470573163271147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4541CC87FCB
+	for <webhook@archiver.kernel.org>; Wed,  6 Aug 2025 09:07:41 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web11.20817.1754471258766233901
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Aug 2025 01:56:13 -0700
+ Wed, 06 Aug 2025 02:07:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=NVEDcJg+;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: liuyd.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1754470573; x=1786006573;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hzKEAf8V8q+j36ChYzCQhp6Y5m9BhwfcK/oi285ln9E=;
-  b=NVEDcJg+X2EbyLyvMYouQeYslr5kXz6NCSpzXl3/4DC7dt01oWMi8HOc
-   5iIGYNw+k1DwlJyxqdwJyb0V3HnHGzKXZ+8E9LsrzzgMjZK6P09KPdXCG
-   g8x9za5qTl8jLBEe9NomKm7Yv5PfmdeFfufVIDk6jEXKgeksrgsW18wyH
-   Y6cDM8O1Z9KwULPB7amvyJRBzGdno7nnMZdAfI2Zr2cZPlBJYOuAw4Cwf
-   IpkcOhIda1nfILnqHb3cjGKU+VPHQ/y6/ZXjPBFew4Mg/wpb3+zPzON/Z
-   yieF4j0Wqb96xb3Zjcd0kvHKETgTOGigxd7UJwAyMmQews2sE3h83lsRy
-   g==;
-X-CSE-ConnectionGUID: hCQKX6kxSgCt+ndFO0me3w==
-X-CSE-MsgGUID: pAfkDVWYQJycrGOUGcz8cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="208548157"
-X-IronPort-AV: E=Sophos;i="6.17,268,1747666800"; 
-   d="scan'208";a="208548157"
-Received: from unknown (HELO az2nlsmgr4.o.css.fujitsu.com) ([51.138.80.169])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2025 17:56:11 +0900
-Received: from az2nlsmgm3.fujitsu.com (unknown [10.150.26.205])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id 4ABBA42A31E
-	for <openembedded-core@lists.openembedded.org>; Wed,  6 Aug 2025 08:56:11 +0000 (UTC)
-Received: from az2uksmom4.o.css.fujitsu.com (az2uksmom4.o.css.fujitsu.com [10.151.22.204])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm3.fujitsu.com (Postfix) with ESMTPS id 00EBE1803201
-	for <openembedded-core@lists.openembedded.org>; Wed,  6 Aug 2025 08:56:11 +0000 (UTC)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by az2uksmom4.o.css.fujitsu.com (Postfix) with ESMTPS id E7370402603
-	for <openembedded-core@lists.openembedded.org>; Wed,  6 Aug 2025 08:56:08 +0000 (UTC)
-Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5FA501A016E;
-	Wed,  6 Aug 2025 16:39:48 +0800 (CST)
-From: Liu Yiding <liuyd.fnst@fujitsu.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Liu Yiding <liuyd.fnst@fujitsu.com>
-Subject: [OE-core] [PATCH 5/9] vulkan-validation-layers: upgrade 1.4.313 -> 1.4.321
-Date: Wed,  6 Aug 2025 16:39:25 +0800
-Message-ID: <20250806083929.747-5-liuyd.fnst@fujitsu.com>
-X-Mailer: git-send-email 2.49.0.windows.1
-In-Reply-To: <20250806083929.747-1-liuyd.fnst@fujitsu.com>
-References: <20250806083929.747-1-liuyd.fnst@fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mm/fhEmL;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-7077a1563b5so61138766d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 02:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754471258; x=1755076058; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4zZxVp4+3hkei/MwCEcvf0VczMLMzfjhCp0LCrxkJ7Q=;
+        b=Mm/fhEmL4JOMYLeHC1iQUaDRx49JZuB7thlfOmY14G4ew/+Vq9g4GbwFFO+YQeo80H
+         VAB6hwXzmzH2toJVz/DO54wjzUKlP5rJqLSc5uh/Ze3JHFUnf50Ju49QZsD82RuUaQQP
+         NFMGIudvOm00wPeM00doOaIP+K9W0+H4jUtvSOaWhDvo1rNV/DUPUuEnsiq76qr8iqLt
+         Pi2vC62EmggR+cJRtlmHcwdW5ZEmmxEzbjyeOjH6pE5oG4Tc8t83hJXO0S2fzmoacdER
+         xtIBaHWQvABoXj5hxjx5BR6nfIlCW6rJ2oWG07+KZuYcNo628+M0eH9jFMVZc9gGjeI2
+         U5Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754471258; x=1755076058;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4zZxVp4+3hkei/MwCEcvf0VczMLMzfjhCp0LCrxkJ7Q=;
+        b=Y0JwO45DrUOZRfSZKYqN/nANktC2hNAePlKXdp0abMlFObPZoMOWN62jIEuaPK/4+k
+         E40z+LUzHoqSqKYMyrVxAxzk82cNGB4n0gSRsZZOpyHob/34GUgZxsPwAxpcowRBFeE7
+         0FaM7ug+IMcTWL3mZ4cTxndEPRM14y6bFcavmiLnphfcGcPSNueJ8LZd0T41EcC4KwXK
+         mkBQBO+jXjprU2kUP7TS3steSjw9EPDzgskBRTQmvjxxzbFQI2ZQSIeG0BDClOjLzY6E
+         bd58+MtoQeVZIfJp9o509djFrJKAIsaKknSRfBlkoiPhjWg0bNbZAw2dyPBNyY/U6HF2
+         phfQ==
+X-Gm-Message-State: AOJu0Yy5L6Vd/O4P3P4pxjwhplHLlSmVRlqqjsXdX8D6Y3nwQnMO6pP4
+	N6Tmj3njNSBCSksK7xCYDIdn7xMph3I1slYrW/D3EK8P4O2wJVHKFX8bhB0wov0CvK3672UiAFL
+	f/FgNrRfdrQLEIjsyU65RyG2u18/9QZM=
+X-Gm-Gg: ASbGncu9ErnPs2IH/Ytk5etgG4c64Uyu3unODIQG5lu1wBXstRc+S9gXyjVLYTDrMJY
+	hzV3vqjutPCRsxjbWrEv6av7Uc40Bg9OyGY/+PPXJb87qWRZ8ldlt+sesp2z0zZ9nV4LEUha2A/
+	NunYswwXpK2HoCn8uDHh4uIBjJPSVcHDyEdds4BVmgbtRLd28TC1GqqT8zMlO5p2xRJHbb2tjtS
+	CAZ7GLS7jRwi4gMS2P2BAmBPj+YbrrMpLHjsXzdlQ==
+X-Google-Smtp-Source: AGHT+IFrKmTYp16q6ePssu6Qkr/bZkKDqPELXMxMgCKpYPFgtT0rfpM5xdWI8meeUtvAFJ31iVnvIrIweM3Y5W00JIw=
+X-Received: by 2002:a05:6214:2586:b0:704:f7d8:edfe with SMTP id
+ 6a1803df08f44-7097969e480mr25113566d6.51.1754471257540; Wed, 06 Aug 2025
+ 02:07:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250806083929.747-1-liuyd.fnst@fujitsu.com>
+In-Reply-To: <20250806083929.747-1-liuyd.fnst@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 6 Aug 2025 11:07:26 +0200
+X-Gm-Features: Ac12FXyfos0cXEap7AhkOuLL-VFOUN6W3tEmvAJYZapxs50HHlt5z_9Zg_VLZ0g
+Message-ID: <CANNYZj_Tws5Pd6mJhXWfsJuJ2gPYWzs3kDG19YWgvOM2jSJPHw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/9] vulkan-headers: upgrade 1.4.313 -> 1.4.321
+To: liuyd.fnst@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 08:56:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221508
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 09:07:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221512
 
-Changelog:
-https://github.com/KhronosGroup/Vulkan-ValidationLayers/compare/vulkan-sdk-1.4.313.0...vulkan-sdk-1.4.321.0
+The patches are numbered 1 to 9, but I only see six patches?
 
-Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
----
- ...ers_1.4.313.0.bb => vulkan-validation-layers_1.4.321.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/vulkan/{vulkan-validation-layers_1.4.313.0.bb => vulkan-validation-layers_1.4.321.0.bb} (95%)
+It's also preferred to update vulkan items as a single patch to
+preserve bisectability.
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.0.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.321.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.321.0.bb
-index 63a3aa4ae6..fa7873b62d 100644
---- a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.313.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.321.0.bb
-@@ -8,8 +8,8 @@ SECTION = "libs"
- LICENSE = "Apache-2.0 & MIT & BSL-1.0 "
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b1a17d548e004bfbbfaa0c40988b6b31"
- 
--SRC_URI = "git://github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=vulkan-sdk-1.4.313;protocol=https"
--SRCREV = "50b87dd4be883b63c10e3c4f7b9c5aac0c82efd3"
-+SRC_URI = "git://github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=vulkan-sdk-1.4.321;protocol=https"
-+SRCREV = "fee7b2b4a926355e48668e29570be129eb82cb36"
- 
- REQUIRED_DISTRO_FEATURES = "vulkan"
- 
--- 
-2.43.0
+Alex
 
+On Wed, 6 Aug 2025 at 10:56, Yiding Liu (Fujitsu) via
+lists.openembedded.org <liuyd.fnst=fujitsu.com@lists.openembedded.org>
+wrote:
+>
+> Changelog:
+> https://github.com/KhronosGroup/Vulkan-Headers/compare/vulkan-sdk-1.4.313.0...vulkan-sdk-1.4.321.0
+>
+> Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+> ---
+>  ...{vulkan-headers_1.4.313.0.bb => vulkan-headers_1.4.321.0.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-graphics/vulkan/{vulkan-headers_1.4.313.0.bb => vulkan-headers_1.4.321.0.bb} (95%)
+>
+> diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.313.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.321.0.bb
+> similarity index 95%
+> rename from meta/recipes-graphics/vulkan/vulkan-headers_1.4.313.0.bb
+> rename to meta/recipes-graphics/vulkan/vulkan-headers_1.4.321.0.bb
+> index 1136e4795a..b3413b0e6b 100644
+> --- a/meta/recipes-graphics/vulkan/vulkan-headers_1.4.313.0.bb
+> +++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.4.321.0.bb
+> @@ -11,7 +11,7 @@ LICENSE = "Apache-2.0 & MIT"
+>  LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
+>  SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
+>
+> -SRCREV = "409c16be502e39fe70dd6fe2d9ad4842ef2c9a53"
+> +SRCREV = "2cd90f9d20df57eac214c148f3aed885372ddcfe"
+>
+>  inherit cmake
+>
+> --
+> 2.43.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#221507): https://lists.openembedded.org/g/openembedded-core/message/221507
+> Mute This Topic: https://lists.openembedded.org/mt/114562930/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
