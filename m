@@ -1,100 +1,115 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <joaohf@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F120AC87FD3
-	for <webhook@archiver.kernel.org>; Wed,  6 Aug 2025 19:16:14 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.33791.1754507772861632191
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41841C87FD3
+	for <webhook@archiver.kernel.org>; Wed,  6 Aug 2025 23:44:06 +0000 (UTC)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+ by mx.groups.io with SMTP id smtpd.web10.38808.1754523845699031114
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Aug 2025 12:16:12 -0700
+ Wed, 06 Aug 2025 16:44:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lMgPankZ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Ky/ciWjV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019880cfffab-07384336-6e4d-4ec1-a084-68c22fe3fea8-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754507772; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=+Pt2JWbGJU1yjx+5jRx7u51MCtFqM9Zy8yZkYaBFT4U=;
-	b=lMgPankZcwnZp5U+NgTf2V8sb1bWEqnqT5q1KwIChyYgmWjwZiomi4og59wphfYw
-	HdgX3lceujM6vQiT7uuCF3Fpcmq2c/ALUZJC6WP6rzcbEqD/Pk5PHl4tkpwyk+5uKFA
-	PeAouVluB32PYJ8m1glqFb6y8U67Vjvb65x7jv68=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754507772;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=+Pt2JWbGJU1yjx+5jRx7u51MCtFqM9Zy8yZkYaBFT4U=;
-	b=Ky/ciWjV1Tm/8yP3DZCRNWJjeX0GrNpm261xHveoGuoN61hMl0kV6W7a/g54s+HS
-	vza9fFx8nwCxMagw2oSZkfk5JfhU3LEMhii3NXykIzoYvj8lrNYazqq86ZLhR96GEzl
-	wddEJ4KriWUKucXH3qKlLu1mTKTAy5v8AaFx9v+E=
-From: patchtest@automation.yoctoproject.org
-To: Michael Halstead <mhalstead@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH 1/1] yocto-uninative: Update to 4.9 for glibc 2.42
-In-Reply-To: <20250806185718.20832-2-mhalstead@linuxfoundation.org>
-References: <20250806185718.20832-2-mhalstead@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019880cfffab-07384336-6e4d-4ec1-a084-68c22fe3fea8-000000@us-west-2.amazonses.com>
-Date: Wed, 6 Aug 2025 19:16:11 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.06-54.240.27.31
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=E+LpZEvv;
+ spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: joaohf@gmail.com)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e903e5c24e5so478276.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 16:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754523844; x=1755128644; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=frrSf2KvRy4jWiTRr5ncWpj42dLtAhGJ12uTrmB9qa8=;
+        b=E+LpZEvvixss78C/wqz6UBSG0GoYwL5IMprJ7xxeAf/NFQsWG0Priblsb11bEfObgl
+         oCbGlPPfNoQ02CI1Ic2AYxd4UaPodDaJ/NUQOup/p7vPm1FX04Q4ZqIRVWxeTMFY+dvX
+         MFXwCCctZZHXnfQ2bBxKm63PKuN8/ZYU6cV2hFnxbSB73Le/oGMolAjelrE+qK7sWyM7
+         vj5Wa34KFgmFgzJDelAMMDOT4+lB2K5yGtY+LpzOq1tmACOBE+bowLJHqYz4ig/l2pDd
+         AyHkcAEHl/nQQ83fsD5n30FMx6EBSHE2bbWNuNAQg4vAMILr8aN+sXNSo46LtsUyrmWy
+         RXQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754523844; x=1755128644;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=frrSf2KvRy4jWiTRr5ncWpj42dLtAhGJ12uTrmB9qa8=;
+        b=JRRvOjbJslPDVERJyaPriCIwiJfun+gaVO2WdXO4LFdznUT/BZKsyAp1lwQNxineEN
+         79nR3CTbFmTW64/pQuMCWr0UUSreWT7d9Evbzyfn8BeByzN5cL+PoK5xYu3GRgWWxw0Y
+         7K72Fb3YS908xN+Eu+Z0yELleI9XTt9CFEVYA4l6uPSXyr1UNRtc7TLN+rqpDD28bH8E
+         8eJu+VLDzqJ6iLAeA6zp2S2cT0l4egvx7zNdTsgXM8eUHBnvR+3b7WOCsRqUUuNsZ8b7
+         732lM8b9rlRgZYkP7LQ+4b08hjoXga1ZvvCHR3E5fcwa8rVAQxBY0olSK/Uylvb6rMTK
+         5hgw==
+X-Gm-Message-State: AOJu0YxGEMjkSNv3vqmCpvC7yC9CE/rxgtJMaCexla1mFVJ+bp/Q7ICk
+	QwcQNQt99UjiM+N7A3u/35S/4wDDSClx2cuSqlc9zAqdZenDl8MWEurenrfSmUQZ7MHHzGqoC97
+	CwXVznuQwGx3cVGNd6tHGU4fPtQrXXtRk3XOH
+X-Gm-Gg: ASbGncsd5qJ9K6cyzSgPNWmbd6zczxb8kKR9/Cw+w7MDdPj+L1GGditl3Ko7fEv7nq9
+	/4da0BnrFKK91TQo3jk8BvgD0UDEIxTDk3URexgEgxtEPCl1eSqAUsGM69nk8LObCF9VxSlMZLF
+	+hHxshbTT+9Jy0A6RV1FLPg7fA6G44cD6ugj6xDS7x4z8lL4FIhhaeL/ECXiQtaQOaCzBTekdGE
+	HTYRG9HYcGtxAUWCrI=
+X-Google-Smtp-Source: AGHT+IH23LJdaiOnS5lw73VofjK4PmxxjyUXBDPGoEDCJJwvB+6niVdYCCaKDc4WvLqevzUzlSrsXtuBHP+lcdNIGZA=
+X-Received: by 2002:a05:690c:d92:b0:71a:2961:e2ce with SMTP id
+ 00721157ae682-71bc959d322mr38317327b3.0.1754523844377; Wed, 06 Aug 2025
+ 16:44:04 -0700 (PDT)
+MIME-Version: 1.0
+From: =?UTF-8?Q?Jo=C3=A3o_Henrique_Freitas?= <joaohf@gmail.com>
+Date: Wed, 6 Aug 2025 20:43:53 -0300
+X-Gm-Features: Ac12FXx4f2zoUcymbOSE_hFfTnspy7rJpy_308uaR0d5onGujicMTIh5hcbSYY8
+Message-ID: <CANFVK7-QA8RwRZX7tOdTz-sL+HMvmadDg4Q-1tOLzMk9WVdMYw@mail.gmail.com>
+Subject: Adding oeqa runtime decorators to custom layers
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000007e8286063bbaea3f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 19:16:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221550
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 23:44:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221551
 
---NextPart
-Content-Type: text/plain
+--0000000000007e8286063bbaea3f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi,
 
----
-Testing patch /home/patchtest/share/mboxes/1-1-yocto-uninative-Update-to-4.9-for-glibc-2.42.patch
+In my layer I have some oeqa runtime tests. That is ok and well documented
+in Yocto Project documentation. However, I also want to define my custom
+oeqa runtime decorators. Is that possible ?
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+I tried to add the following in my layer.conf:
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+BBFILES +=3D "${LAYERDIR}/lib/oeqa/**/*.py"
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+No success, so far.
 
----
+I'm using master branch and could not find any other layer that adds its
+own decorators. Any ideas ?
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Thanks.
 
---NextPart
+--=20
+Jo=C3=A3o Henrique Ferreira de Freitas - joaohf_at_gmail.com
+Campinas-SP-Brasil
 
+--0000000000007e8286063bbaea3f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---NextPart--
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>In my layer I have some =
+oeqa runtime tests. That is ok and well documented in Yocto Project documen=
+tation. However, I also want to define my custom oeqa runtime decorators. I=
+s that possible ?</div><div><br></div><div>I tried to add the following in =
+my layer.conf:</div><div><br></div><div><div style=3D"color:rgb(204,204,204=
+);background-color:rgb(31,31,31);font-family:&quot;Droid Sans Mono&quot;,&q=
+uot;monospace&quot;,monospace;font-weight:normal;font-size:16px;line-height=
+:22px;white-space:pre"><div><span style=3D"color:rgb(156,220,254)">BBFILES<=
+/span><span style=3D"color:rgb(204,204,204)"> </span><span style=3D"color:r=
+gb(212,212,212)">+=3D</span><span style=3D"color:rgb(204,204,204)"> </span>=
+<span style=3D"color:rgb(206,145,120)">&quot;</span><span style=3D"color:rg=
+b(86,156,214)">${</span><span style=3D"color:rgb(156,220,254)">LAYERDIR</sp=
+an><span style=3D"color:rgb(86,156,214)">}</span><span style=3D"color:rgb(2=
+06,145,120)">/lib/oeqa/**/*.py&quot;</span></div></div><br></div><div>No su=
+ccess, so far.</div><div><br></div><div>I&#39;m using master branch and cou=
+ld not find any other layer that adds its own decorators. Any ideas ?</div>=
+<div><br></div><div>Thanks.</div><div><br></div><div><span class=3D"gmail_s=
+ignature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" d=
+ata-smartmail=3D"gmail_signature"><div dir=3D"ltr">Jo=C3=A3o Henrique Ferre=
+ira de Freitas - <a href=3D"http://joaohf_at_gmail.com" target=3D"_blank">j=
+oaohf_at_gmail.com</a><br>Campinas-SP-Brasil</div></div></div></div>
+
+--0000000000007e8286063bbaea3f--
 
