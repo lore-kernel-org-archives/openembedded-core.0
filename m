@@ -1,99 +1,80 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <mhalstead@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A67C87FCB
-	for <webhook@archiver.kernel.org>; Wed,  6 Aug 2025 15:56:23 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.29049.1754495778278607614
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D21E8C87FCB
+	for <webhook@archiver.kernel.org>; Wed,  6 Aug 2025 18:57:44 +0000 (UTC)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web11.33391.1754506659084631349
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Aug 2025 08:56:18 -0700
+ Wed, 06 Aug 2025 11:57:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=P98ocD7h;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b7961cf660so5673661f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 08:56:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JNZru8Mp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.160.176, mailfrom: mhalstead@linuxfoundation.org)
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4b070e57254so2202961cf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 11:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1754495776; x=1755100576; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/TYIraSn5e4mf6MQm4i3i9cwUo1jZnYx+sr6EwrRTA0=;
-        b=P98ocD7hvLGlDxZ3JlkfO/sXAs/cuPDYZNhK/DdFltskYafh7nquL8IUnVBSEmgfFC
-         0tGMBje7ljDmthVuQhkK+f9+Q9z8MpygJzbQAbwh1hGw1FW1h8KRNYcCpc8Z0x0Jn9um
-         xa/rH08GrHKoQvgBZ3wt/VcIU58IIVa217gzs=
+        d=linuxfoundation.org; s=google; t=1754506657; x=1755111457; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mx9r+U54pIIMX3KGxeQSob5TPUH+uzob3EqwAWg18RA=;
+        b=JNZru8MpoAbYvLLopOuIlgAaWZhQviNpDt3BYUfmRPaIMkD3EdV6jxF3UG0R1m1cxf
+         N4aH5l+V68cKWsvirXKZYEPh/H/EpSwipPEd+o8Ocn4vONHpvvJW4mmFY8JiBUL2oq+j
+         khNdBmUFYLRb77IJXas2wlSPbA0PiIovDLRko=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754495776; x=1755100576;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/TYIraSn5e4mf6MQm4i3i9cwUo1jZnYx+sr6EwrRTA0=;
-        b=XtpZFqXj6mg9dFGEvTvHCmMlkO8CuY26cFDF9FXFuJ+SSlVGL/oLjzNmadRUsUneKC
-         bpOC00I68OR7FDvHumQnMneJ3D3kHr8E7MPYjcBP4XIMFLjbg2/QG39LC1NXCfrzCEUI
-         dHyZt44e0L9Oag6ukkvXny/uSn7HUmeSa+IjQx+9BrBcmG08BAf6V1+wNySUJsPvX0kk
-         HnwD/MVxIFU14GLBoHBAZ5dtDF5707blRa2U9SuRJofv7EiEC1iI6+Q1/V8pPXbTC4yk
-         EnOedGsREE/lt+MKaZWlssmZ6p8lLHd1ABTB+1/FpYp3u35Ox1F9y0oFeBUdmeScIj6W
-         MynQ==
-X-Gm-Message-State: AOJu0Yxa26u/lMBz06/7hiPA89BDZmn8M6dDr1rKBtWDyI97OHUcI/WX
-	RkJVkWItsxQjxtYbPlSHtiYDq8dUI5OeVGHpjpISaAxq4lVwrS1c9HggoScPx71yylyTFJoH7Fz
-	vEv/K67EGTw==
-X-Gm-Gg: ASbGncuBE9Bd8sg6ZotCX/fos1G05S7K3YvBcmAaq7t3I71Y0eQ/WkvkEUS2zCNVgyB
-	AL6yZk+V7tcw6qlTHEEb/rJGkE/gVzjIQ1a53q92howi4wKW/M0JAXSI+6sngIT4ZWfgzlzSyld
-	MCJXYDKKeuw4MhPb4P7LP6+j2WkC1VLMJROyhp0YxKZqvsd4LNM52UHLAXhxPo/tHrEajlsSqG7
-	BNA77xom/dtMZuhQ/7EV2P2FzrD0lWaDi80hYV/sg5/m+kWUcA6iQngzY9FJdv3cnN+lRFlYbYu
-	EH5U06SZ/AIlrSlFUJLnXGfkuYNJDTvwmE2VrovjmeIZU1dIkatGINe6nzfB4ITp62DFMY4zEZZ
-	rkY5Ov3+leiY7c0AHh2cN+lpSSO26y6rbRg9nokJcQSs=
-X-Google-Smtp-Source: AGHT+IHXTVWhc/vKdHB7lkxfSzh4qtcsgE4v1lZLSk4iTzwDgp5zCm4yCIIgl13RNaPOiKIpMiC0FA==
-X-Received: by 2002:a05:6000:2389:b0:3b8:d30c:885f with SMTP id ffacd0b85a97d-3b8f49434aamr2953434f8f.53.1754495776330;
-        Wed, 06 Aug 2025 08:56:16 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.local ([2a01:e0a:c98:1830:6f9b:f71f:aebe:8ae2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c3bc12csm24010476f8f.28.2025.08.06.08.56.15
+        d=1e100.net; s=20230601; t=1754506657; x=1755111457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mx9r+U54pIIMX3KGxeQSob5TPUH+uzob3EqwAWg18RA=;
+        b=H6qj3yJ3p7N1PFGLUJgSve+Us2Hj7SlweN6JcsrijCtEFlrpcV6TJ8KggIIq/ZRA4b
+         Kol3NoMhWvitWSCbK38XJF8lW0m0kKsKgx+nquvIo/5+GiV+EV1QhktHWil8xZqidG6d
+         mO8OBjt5x2u5YKL3skqTBuyD+sAnNlRefsCyfST13gG9A8w+N37Zcmp1VHZqnO67gFnG
+         fcaDoPgFN74GksM/xRHAzL6Vy+CsyvQ30tn1pVoNnsoEgY3TafxxGWz00kXL9hN//1xu
+         ttcqob3EzfICmHzmx1bOduj3rYbetGFsqCvHiKGh4t2XuPBnN45O02rzWayixnxZab1c
+         DGPQ==
+X-Gm-Message-State: AOJu0YxRlywDpf7brgShZWspSgzTrqpti+cH3Hz6Y0aGyrncXVeFGbFa
+	gJD7oFwnozQ3D1H+/opk6mIfRyLRPhUf3c6GXiZ8g+HXh9EhNOWhtOU5PrftCe+3IrTiAAD1mJ6
+	AzMHb
+X-Gm-Gg: ASbGncvqZ1JvLi/k5bK3Oxf64cmIwDDcCWBdn3NX9h/ihulQkRNOkEA9xAhtlljjFTY
+	MiQmruMOv37PUt7ZuKkBn0bzC3mMxKWKRkaQEx75H3ay89jmYtWQkFW9EFueqt/0TrbezIitO5k
+	ry8L85DGoL9yb0nh1Yckwr/Pd2RGlvcZv8WOeSgwyywPchLViigPROoF/pYtHGnY3HOkL+UJgYr
+	zo1yQ/lXOCTlvt8m7xpxy9j2P0WQmw7REWfptNa30z4ze78lv+y2obhVXO3NwJbPlTSgGAuamUa
+	7ND9l6S/P2B4yIzxe4gxv8Pet4PUgEGudmb0MVBtjC3eu+I+3H/ZTxobXoHIFGl/n4uQtzVZ1Gf
+	2zYayZr3Zjjr1ScvqKsoG641OJcLvHqYVtmqyxqpkbUsWGWQyPHL953g2WZQarvG4aJGJ
+X-Google-Smtp-Source: AGHT+IHqHvFytKAuY1plculpYraL44rzunHiafwMXoItf1FA8jY5QH+8Tv6YSFpKW9IymFSfsUO+pw==
+X-Received: by 2002:ac8:5d12:0:b0:4b0:81f7:109f with SMTP id d75a77b69052e-4b091609cd2mr53151101cf.57.1754506656917;
+        Wed, 06 Aug 2025 11:57:36 -0700 (PDT)
+Received: from yoctolap (static-23-234-102-24.cust.tzulo.com. [23.234.102.24])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b069ca56e5sm42048241cf.40.2025.08.06.11.57.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 08:56:15 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
+        Wed, 06 Aug 2025 11:57:35 -0700 (PDT)
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [master-next][PATCH 2/2] runqemu: refactor a duplicated cleanup statement
-Date: Wed,  6 Aug 2025 17:55:49 +0200
-Message-Id: <20250806155549.3395012-2-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250806155549.3395012-1-yoann.congal@smile.fr>
-References: <20250806155549.3395012-1-yoann.congal@smile.fr>
+Cc: richard.purdie@linuxfoundation.org,
+	Michael Halstead <mhalstead@linuxfoundation.org>
+Subject: [OE-core][PATCH 0/1] uninative 4.9-rc2
+Date: Wed,  6 Aug 2025 11:57:17 -0700
+Message-ID: <20250806185718.20832-1-mhalstead@linuxfoundation.org>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 15:56:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221547
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 18:57:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221548
 
-From: Yoann Congal <yoann.congal@smile.fr>
+Here is an rc2 for testing if the ncurses failure in buildtools-extended is not blocking.
+Built from https://autobuilder.yoctoproject.org/valkyrie/#/builders/43/builds/2193.
 
-Refactor using a "finally:" instead of a duplicated statement inside and
-outside of the try/except block.
+Michael Halstead (1):
+  yocto-uninative: Update to 4.9 for glibc 2.42
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- scripts/runqemu | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 4fb85177e3..3a339acc2a 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -450,11 +450,10 @@ class BaseConfig(object):
-             try:
-                 subprocess.check_call(['zstd', '-d', image_path, '-o', uncompressed_path])
-             except subprocess.CalledProcessError as e:
--                self.cleanup_files.append(uncompressed_path)
-                 raise RunQemuError(f"Failed to decompress {self.rootfs}: {e}")
--    
--            # Mark for deletion at the end
--            self.cleanup_files.append(uncompressed_path)
-+            finally:
-+                # Mark temporary file for deletion
-+                self.cleanup_files.append(uncompressed_path)
-     
-         # Use the decompressed image as the rootfs
-         self.rootfs = uncompressed_path
+-- 
+2.50.1
+
 
