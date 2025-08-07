@@ -1,205 +1,141 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 805C0C87FCA
-	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 20:14:03 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.5771.1754597633983433453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 825EFC87FCF
+	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 20:18:33 +0000 (UTC)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+ by mx.groups.io with SMTP id smtpd.web10.5898.1754597912738155977
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Aug 2025 13:13:54 -0700
+ Thu, 07 Aug 2025 13:18:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GDigElg2;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-615c29fc31eso2650937a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 13:13:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bold1uNi;
+ spf=pass (domain: gmail.com, ip: 209.85.219.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e8fd38cb2abso1237267276.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 13:18:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754597632; x=1755202432; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X9keGd0BGFir4QAnKCwO1S9HBliuMeLPDbV5+oYJBSI=;
-        b=GDigElg28d7NS/PSyeJ4O6MKirjOkYtIyKLjuLhVfkCu3dQvnwOUn1JINu5iiovI81
-         4XPoveKKfBlIbiPHhJ7W5Y6g/Ck78J3DjbpSy8NLm1iZ3DipL0PFbPfo8QkPE3YvR/8F
-         a/+EiMwzSLX/7SuwcvbKpLJtagJRLi/0TsHrVv2qTjEL4jJ4r2/XO199/tkoJnDQGTpV
-         7ck5PD1sGL4lwhnQiPW7p/MMk9pIISeflYTW12iFHpAyFcnDVyHWd5T1mBPQw9SXQEos
-         rvtMkqrBIhZ0x9xy5Yr9tqfGMfcrtfhxknIKEj1fMOeCXPVCBfCohZx4yqyxpho1lyOM
-         izZA==
+        d=gmail.com; s=20230601; t=1754597912; x=1755202712; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VISUNiWsulAeQfEh7UR7v8ApOUQ3mCDjIPzf4/Oelbg=;
+        b=Bold1uNiq65xDhLZLAfuGc+HzyLTdj0VpZrKIDbcvzbp7uJxs0Hxz7DERXB8biA9J3
+         H69LBsFinr4Wb8pqVtWA4Tsp59EaM3Q76FcRuirsnKMhWLTjf4kpQ609G9Mvj5VRck1Z
+         61evxqbW38Df1b1ZFqWnh7kYwjkNO7IndAF0j6/R5wN/ZiL/wIinkKO3nXiuW9EYwglE
+         cKmBVDzo6pH5ZfF/e+tzfYf9jz6gY50OmfyXPqnewPyQX8eihRs2LCkyjdB+jBHePHRc
+         KwMIAdJRWUj3jxIk/o8B3UGdKrYJyYAseC4noBK0oUV16esagESUpQ1DNT5jNiSKNGIa
+         3q0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754597632; x=1755202432;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X9keGd0BGFir4QAnKCwO1S9HBliuMeLPDbV5+oYJBSI=;
-        b=NW/FHHydi3TNoW+OjgbxbouYDpyiqWFjUEnNvp2FrrTR3Ccw8dMKPHjWS6f7ThAzE3
-         T+tkFpFhXs40AfRygBXFZFRdf5Im6nMD2CGFm8SSyONw/5vdFkf1s3zMSzhvghX35QMd
-         NlJKc2n33lhakTjGjg+3AXdVQM5E6XPnPlWNSTUH7AVHnSL8jmEpGH8uT/NRLOej5E0F
-         ojJd/WFBBjgcml4Ow4p+4O3MkdCK6elKA0AJu7wSZs6VKg2PXlqIlAjff9HZwtcbGfzW
-         EB8vTH86vrXZwtXV7csnOOGmdkHP/Qe3ORU67YBXNJpcr0yZkufDdpK5SpE/id1/Speb
-         6tJA==
-X-Gm-Message-State: AOJu0Yzx/IeB2BgJ/qxqnWeyksnbjZRFnTMknUCAvrC0IjviMp+/Uf2J
-	iTVNe4ZgpVYUMaGmLurcYSA2Ihdti7x+A75ABxcu24N0FU4tTE9ZCECZ9pOGwA==
-X-Gm-Gg: ASbGncuDPjWlVYUCdwQl51k0sbXkr6Sf6qSBXYcTdfjFbthzKxWDPeJHNx2yj/IZm/G
-	1v2y8ImpAaLv8wm8YX0JcIPCqVOsBRSaOGNSCKvUhy1IsyZuvgjjyjmkK+TuK211/rUWUnjS1v9
-	aksGEUds/N1B4GvtZK4QjmpASZ7SIFuLuLKVbWVU5uTJmKQgQt8+1bgKyQ8GcGkjjeZvqy7Yjn7
-	8rsikk4gwgMcv5/fT9/w3lq7FhWqK/ZK1u6YJUV/npnc4eIxSVM7E7k8/mQn76XCPkA+ZBBXYf7
-	Pqhvvltn7JppaFeV+qzTFW4sdhYvzBbuB+9Ep3yLFv50rijOqjeUrZ0AhkeO8ZR5wJruz3jhM4P
-	PK1vdYGnAvyP9GPcuH1A=
-X-Google-Smtp-Source: AGHT+IGeLNOv2i3r+OqCnrcLpA8ahhtdEZACOTLcPE/pwuVg7QRbrYH9sTtcLtlyr46T0GwfGu/l/A==
-X-Received: by 2002:a17:907:c1c:b0:af9:71c2:9c3 with SMTP id a640c23a62f3a-af9c647bce8mr24266266b.35.1754597631575;
-        Thu, 07 Aug 2025 13:13:51 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0757b7sm1361091866b.19.2025.08.07.13.13.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Aug 2025 13:13:51 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] dpkg: add ptest support
-Date: Thu,  7 Aug 2025 22:13:50 +0200
-Message-ID: <20250807201350.4026659-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20230601; t=1754597912; x=1755202712;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VISUNiWsulAeQfEh7UR7v8ApOUQ3mCDjIPzf4/Oelbg=;
+        b=ql4TByGtuiQG4XzyaBQo3aqh7HWsp3R3dr7Jtbt9owSvQYI14NpSQTNIyCrmDy8utA
+         tHOe/yUfI+Rq9NAEOXEyyN/n5iVvDcKXg7nuihVa0uKvmFbbGQA6ORvEUzlZ5+scZpJv
+         D7i6o94X5d99aKIeNNfjFNXvqIjxWpZ4qE2wPLvvq+shHzU5O2HPE6AAAvZsaGXgY7wL
+         MiXFmx/FUCiF1EF9xiuIh/qAGCqGMeIiIQc7aoqjZXwZlMzuiCu1Nbcmi9Gp68J+ZT8X
+         zinPwSCgSCset7hJUj0YhI9kUjLb/eTXQGH58dOm6sucYwFhphCGwKdC/HGra2g0w9nH
+         ozDg==
+X-Gm-Message-State: AOJu0Ywoyk1fEWCnbF0m1ooE4zWQZEgAY2Efy8+2FwQwlmfUpV3Jj/Fi
+	tF2o4t6+UwquBlvEeVVPH2MfvSzyxKd4H5ErgbjAOsU69n2Z4dXNNAW0grFwCozjqpd+ufyYCVs
+	ojovFjyanlgDD/2lhDLnLJth8arVKqng=
+X-Gm-Gg: ASbGnctBFXPlmHsYPZ2yCleou69uUKsmcLHAMqwVGqc47xfC/9M8SgJohDb3MjY8LPy
+	Kyry1k8sYpGKzKW/P5QNxfHnUl87vzL2XB8CWv1JgisRRYKMh9Co1U1cZrSRpCO1ARfLcoaKRKw
+	gkKaoGX8EFgPu2Fg114/R+9ah3UAz0aOKVnuXbZw36T6jVz6/ocl3oeot4Oz/rxdYANrDj3qn3R
+	uvbn3+SHsGhEzKJG2Hgv+z761EfF3nO9Aj0
+X-Google-Smtp-Source: AGHT+IFSVtIxVW28ZI3N0fdZlu/1T1yt74T42tGtQdhiTcYSgVlufoxzFidVmWZekVx5zpJwXEvqMACZc3EaFPPGWGo=
+X-Received: by 2002:a05:6902:6c12:b0:e90:39b7:6085 with SMTP id
+ 3f1490d57ef6-e904b57acdfmr686761276.17.1754597911296; Thu, 07 Aug 2025
+ 13:18:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250801042242.3076232-1-raj.khem@gmail.com> <20250801042242.3076232-3-raj.khem@gmail.com>
+ <CANNYZj_aGce4mmz2P+LUHZdDYGVYQ1sOSkdcOdn6-mTY_USk2A@mail.gmail.com>
+In-Reply-To: <CANNYZj_aGce4mmz2P+LUHZdDYGVYQ1sOSkdcOdn6-mTY_USk2A@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Aug 2025 13:18:04 -0700
+X-Gm-Features: Ac12FXz3SYp3OImfN6Gidn44PzeKZDARA-nRR117itk3F-n-rnOAwnPbmDbRmCk
+Message-ID: <CAMKF1spXxqp=U+430dTzHnTiQzJg5M4TWXGBeyuM51rOaPv88A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/7] libxcrypt: Allow undefined symbols in
+ version scripts with lld linker
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 20:14:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221584
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 20:18:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221585
 
-Added it to slow tests, as it takes betwen 165 and 190 seconds on my
-machine to execute (qemux86-64 + kvm).
+On Thu, Aug 7, 2025 at 2:57=E2=80=AFAM Alexander Kanavin <alex.kanavin@gmai=
+l.com> wrote:
+>
+> On Fri, 1 Aug 2025 at 06:22, Khem Raj via lists.openembedded.org
+> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > Unlike GNU ld, LLD defaults to erroring about undefined version symbols
+> > add commandline parameter to sush lld here
+> >
+> > Fixes
+> > | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRY=
+PT_2.0' to symbol 'crypt_gensalt_r' failed: symbol not defined
+> > | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRY=
+PT_2.0' to symbol 'xcrypt' failed: symbol not defined
+> > | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRY=
+PT_2.0' to symbol 'xcrypt_gensalt' failed: symbol not defined
+> > | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRY=
+PT_2.0' to symbol 'xcrypt_gensalt_r' failed: symbol not defined
+> > | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRY=
+PT_2.0' to symbol 'xcrypt_r' failed: symbol not defined
+> > | x86_64-yoesdk-linux-clang: error: linker command failed with exit cod=
+e 1 (use -v to see invocation)
+>
+> > +LDFLAGS:append:toolchain-clang =3D "${@bb.utils.contains('DISTRO_FEATU=
+RES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
+>
+> Wait. Why is there an undefined symbol error in the first place?
+> Shouldn't we address the error, rather than silence it?
 
-The test folder's Makefile contains a list of passing, failing and manual
-tests. By default, only the expected-to-pass tests are executed by the
-Makefile (unless magic environment variable is set).
+LLD has stricter defaults and strict symbol versioning enforcement.
+LLD requires that all symbols
+referenced in version scripts actually exist in the object files being
+linked Same errors/behavior can be
+seen with GNU linker as well if we add -Wl,--undefined-version to LDFLAGS
+GNU linker chooses to be a bit lenient with defaults. It is a common
+pattern with new vs old tools.
 
-The run-ptest script mimics the default behavior of executing the
-expected-to-pass tests, however they are executed one by one, instead of
-running them as one batch - that way it is easier to determine exactly
-which tests pass and which fail.
+libxcrypt uses version scripts to manage symbol versioning, but LLD
+requires that all symbols referenced
+in version scripts actually exist in the object files being linked.
+The symbols might be:
 
-One other thing that might worth a note, is that the tests folder that needs to be
-installed contains a number of subfolders called "DEBIAN". When packaging them
-at least with rpm, these folders are omitted from the package.
-However these are essential for the tests, as they contain test data. As a
-workaround, these folders are renamed during installation to DEBIAN-ptest,
-and before execution the run-ptest script restores their names.
+- Conditionally compiled out based on configuration
+- Defined with different names/prefixes
+- Missing due to build configuration issues
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
----
-v2: fix the output of the run-ptest script
-v1: https://lists.openembedded.org/g/openembedded-core/message/221382
+Having LLD to lower its barrier does not change the output it
+produces, it's the same as GNU ld,
+There is no difference - both .so files work identically at runtime
+since the symbols are exported into .dynstr sections so old binaries
+needing these versioned symbols can still
+link to them at runtime.
 
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-devtools/dpkg/dpkg.inc           | 16 ++++++++-
- meta/recipes-devtools/dpkg/dpkg/run-ptest     | 35 +++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.22.21.bb    |  1 +
- 4 files changed, 52 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/run-ptest
+Should the version script be fixed ? maybe, I am not sure where all
+libxcypt is used in legacy systems
+to qualify this. Current assumption is to have these symbols. This
+patch makes LLD behave like GNU LD
+does.
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 85c0350161..e3099439f4 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -101,6 +101,7 @@ PTESTS_SLOW = "\
-     curl \
-     dbus \
-     dosfstools \
-+    dpkg \
-     e2fsprogs \
-     elfutils \
-     gettext \
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index dea1894a4c..b4e9667107 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -11,7 +11,7 @@ RDEPENDS:${PN}:class-native = ""
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- 
--inherit autotools gettext perlnative pkgconfig perl-version update-alternatives bash-completion
-+inherit autotools gettext perlnative pkgconfig perl-version ptest update-alternatives bash-completion
- 
- PERL:class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
- 
-@@ -56,6 +56,18 @@ do_install:append () {
- 	fi
- }
- 
-+do_install_ptest () {
-+        install -d ${D}${PTEST_PATH}/tests ${D}${PTEST_PATH}/src/sh
-+        install -m 0755 ${S}/src/sh/dpkg-error.sh ${D}${PTEST_PATH}/src/sh/
-+        cp --preserve=mode,timestamps -R ${S}/tests/* ${D}${PTEST_PATH}/tests
-+
-+        # The folder has a number of test folders called DEBIAN, but these are
-+        # explicitly omitted from some packages, e.g. from rpm.
-+        # However these are essential for the tests, so rename them to DEBIAN-ptest, and at runtime
-+        # from the run-ptest script restore their names
-+        find ${D}${PTEST_PATH}/tests -name DEBIAN -type d | xargs -n1 -I{} mv "{}" "{}-ptest"
-+}
-+
- PROV = "virtual/update-alternatives"
- PROV:class-native = ""
- PROV:class-nativesdk = ""
-@@ -90,6 +102,8 @@ RDEPENDS:${PN}-perl += "perl-module-carp perl-module-constant \
-                         perl-module-time-hires perl-module-time-piece \
-                         perl-module-xsloader"
- 
-+RDEPENDS:${PN}-ptest += "make coreutils findutils"
-+
- # Split out start-stop-daemon to its own package.  Note that it
- # is installed in a different directory than the one used for
- # the bitbake version.
-diff --git a/meta/recipes-devtools/dpkg/dpkg/run-ptest b/meta/recipes-devtools/dpkg/dpkg/run-ptest
-new file mode 100644
-index 0000000000..8c4739ab66
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/run-ptest
-@@ -0,0 +1,35 @@
-+#!/bin/sh
-+
-+rm -f dpkg-test.log
-+cd tests
-+
-+FAILED_TESTS=0
-+ALL_TESTS=0
-+
-+# During installation the "DEBIAN" folders are renamed to avoid
-+# problems with packaging. Restore their names here.
-+for d in $(find . -name DEBIAN-ptest -type d); do
-+        dname=$(dirname "$d")
-+        mv ${d} ${dname}/DEBIAN
-+done
-+
-+# This allows running tests that require root access (which we have)
-+export DPKG_AS_ROOT=1
-+
-+for test in $(grep "TESTS_PASS +=" Makefile | cut -f3 -d" "); do
-+    ALL_TESTS=$((ALL_TESTS + 1))
-+    make ${test}-test >> ../dpkg-test.log 2>&1
-+
-+    if [ $? -eq 0 ]; then
-+        echo PASS: $test
-+    else
-+        echo FAIL: $test
-+        FAILED_TESTS=$((FAILED_TESTS + 1))
-+    fi
-+done
-+
-+if [ $FAILED_TESTS -eq 0 ]; then
-+    echo All $ALL_TESTS tests passed
-+else
-+    echo $FAILED_TESTS of $ALL_TESTS tests failed
-+fi
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb b/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb
-index cc30b71109..d793c26d57 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb
-@@ -6,6 +6,7 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=1.22.
-            file://remove-tar-no-timestamp.patch \
-            file://arch_pm.patch \
-            file://add_armeb_triplet_entry.patch \
-+           file://run-ptest \
-            file://0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch \
-            file://0001-script.c-avoid-use-of-chroot.patch \
-            file://0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch \
+Hope this helps you understand what's going on. Feel free to ask if
+you have more doubts.
+
+>
+> The same question stands for similar patches for libtirpc, gzip and
+> binutils-cross-canadian.
+
+They all have the same issue underneath.
+
+>
+> Alex
 
