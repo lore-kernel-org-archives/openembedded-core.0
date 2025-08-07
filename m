@@ -1,115 +1,109 @@
-Return-Path: <joaohf@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41841C87FD3
-	for <webhook@archiver.kernel.org>; Wed,  6 Aug 2025 23:44:06 +0000 (UTC)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
- by mx.groups.io with SMTP id smtpd.web10.38808.1754523845699031114
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A31BC87FD3
+	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 00:44:36 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.40241.1754527469955796889
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Aug 2025 16:44:05 -0700
+ Wed, 06 Aug 2025 17:44:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=E+LpZEvv;
- spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: joaohf@gmail.com)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e903e5c24e5so478276.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 16:44:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SfVS9+D9;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76bf3dafaa5so1565151b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 17:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754523844; x=1755128644; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=frrSf2KvRy4jWiTRr5ncWpj42dLtAhGJ12uTrmB9qa8=;
-        b=E+LpZEvvixss78C/wqz6UBSG0GoYwL5IMprJ7xxeAf/NFQsWG0Priblsb11bEfObgl
-         oCbGlPPfNoQ02CI1Ic2AYxd4UaPodDaJ/NUQOup/p7vPm1FX04Q4ZqIRVWxeTMFY+dvX
-         MFXwCCctZZHXnfQ2bBxKm63PKuN8/ZYU6cV2hFnxbSB73Le/oGMolAjelrE+qK7sWyM7
-         vj5Wa34KFgmFgzJDelAMMDOT4+lB2K5yGtY+LpzOq1tmACOBE+bowLJHqYz4ig/l2pDd
-         AyHkcAEHl/nQQ83fsD5n30FMx6EBSHE2bbWNuNAQg4vAMILr8aN+sXNSo46LtsUyrmWy
-         RXQA==
+        d=gmail.com; s=20230601; t=1754527468; x=1755132268; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PTaqZB0XNyUEq0Ma51qNtpIxA0bRuoR6vCewYLfR9VY=;
+        b=SfVS9+D9qvmIie6wb/BbAm2k/qEZEnAxnrfJF34ni7xLXg/hp5f8xULpixRU43mB2F
+         CCYGFGPKB38scvO7KBvuEqvAlbu6uTLQOFzoJoAlf6sx8e9COfmQaMxCV7FtW38faCgG
+         T6U2ZFxyYtxA0ashDK+z6UpZ6J2Vu6P5KPUOwmHoVPyRW6456c++G3QB+cTK4NN+9nQC
+         JaTed4+5h37n0vwudz/5+wfQDtsFzpG6/zUl4Cisg4P/PQ9LlfuSMxwORctG7og6Wug+
+         AIeDy6nTfQFlLtFjxeT2zVbOVsE0m7EDe3qPY0oLKikU8cuhcPzAM0EFMQbKAQss4+rJ
+         Y75A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754523844; x=1755128644;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=frrSf2KvRy4jWiTRr5ncWpj42dLtAhGJ12uTrmB9qa8=;
-        b=JRRvOjbJslPDVERJyaPriCIwiJfun+gaVO2WdXO4LFdznUT/BZKsyAp1lwQNxineEN
-         79nR3CTbFmTW64/pQuMCWr0UUSreWT7d9Evbzyfn8BeByzN5cL+PoK5xYu3GRgWWxw0Y
-         7K72Fb3YS908xN+Eu+Z0yELleI9XTt9CFEVYA4l6uPSXyr1UNRtc7TLN+rqpDD28bH8E
-         8eJu+VLDzqJ6iLAeA6zp2S2cT0l4egvx7zNdTsgXM8eUHBnvR+3b7WOCsRqUUuNsZ8b7
-         732lM8b9rlRgZYkP7LQ+4b08hjoXga1ZvvCHR3E5fcwa8rVAQxBY0olSK/Uylvb6rMTK
-         5hgw==
-X-Gm-Message-State: AOJu0YxGEMjkSNv3vqmCpvC7yC9CE/rxgtJMaCexla1mFVJ+bp/Q7ICk
-	QwcQNQt99UjiM+N7A3u/35S/4wDDSClx2cuSqlc9zAqdZenDl8MWEurenrfSmUQZ7MHHzGqoC97
-	CwXVznuQwGx3cVGNd6tHGU4fPtQrXXtRk3XOH
-X-Gm-Gg: ASbGncsd5qJ9K6cyzSgPNWmbd6zczxb8kKR9/Cw+w7MDdPj+L1GGditl3Ko7fEv7nq9
-	/4da0BnrFKK91TQo3jk8BvgD0UDEIxTDk3URexgEgxtEPCl1eSqAUsGM69nk8LObCF9VxSlMZLF
-	+hHxshbTT+9Jy0A6RV1FLPg7fA6G44cD6ugj6xDS7x4z8lL4FIhhaeL/ECXiQtaQOaCzBTekdGE
-	HTYRG9HYcGtxAUWCrI=
-X-Google-Smtp-Source: AGHT+IH23LJdaiOnS5lw73VofjK4PmxxjyUXBDPGoEDCJJwvB+6niVdYCCaKDc4WvLqevzUzlSrsXtuBHP+lcdNIGZA=
-X-Received: by 2002:a05:690c:d92:b0:71a:2961:e2ce with SMTP id
- 00721157ae682-71bc959d322mr38317327b3.0.1754523844377; Wed, 06 Aug 2025
- 16:44:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754527468; x=1755132268;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PTaqZB0XNyUEq0Ma51qNtpIxA0bRuoR6vCewYLfR9VY=;
+        b=vkvY720WgX3W24Iej7IYFNwzTJowrgKdOs5RTqSX4w4ABRfjYJ2+WRN6n9VoZMpqxe
+         +OGPA0REzDQ5zVJQrSFKiSjXt/cOb+bywW2I1lqZFgx+3dXh8M+RzbJZe7bzgLZmAW6p
+         scxYMZEFpYVOrWXO34kQtgmVjF3Q9ZA3T6lOiXOSBGF8GFswW0w1mvJj1Axg+T94vp2D
+         7LNahULVmTD4itPUKAHfBkUtPJp9VoFG5SuIIquqxNxl/VRuLxTr1ya6t9H9n0gVlV2j
+         AryBmElzr0gGCHKgLRU8GMhNnxisYVj39sNRKnyMM5kkLk5j9OEdqF7fRrqbD8qNy7Ob
+         YPgQ==
+X-Gm-Message-State: AOJu0Yw0bQWcNWJPh01JeaizkbHoBAN8afLn8dQeZ/L+jdfTCSDksaaV
+	0t0p07jpmBITX5BsMNb7madk4iE1twhQA0ReAxFAFQ2T3+zo3rhfPSYfdP+CkNGmDF8=
+X-Gm-Gg: ASbGncvbDMe6YegiBtpfcs9dX+PhrKlx01uh6TDNIqSl1Cc9GJlMiRHmLbapfA6CAee
+	bexh2Dgfi01UQPGJoSYQGJJaMJLzvKnHENj73HRFCTPe7kvJgUi3BUeVk97E6ITAEz34uOYB5VQ
+	ZRD6ILayesK8SEkdo3PQ+Z3h09C/wIbedADbSDbYTPtMKBffoq4N2+BskTLaDslKPwycQt4DSWU
+	CQzWhVX2NnB5LmdCYmDv9eAmrzxEwCQ0yr1ooS3GEo3j8F9V0o8QzGkMe2N9jbtlnYTCQIQyE0J
+	H0hOMHQn3bsEnk26vh5mRXA216V7TSb7C1QudKsGIjxEka6ieHycNTW0MLazgU8nnStQxPfoNnU
+	26kPBJM6jiD5j8agabcZ50w==
+X-Google-Smtp-Source: AGHT+IFwvn3aL1o4flZ8aXu49SzeC1J0QoePl+O62bLKdTUHkzL77xHmUj0GIDQO1GS9sb6naZZebg==
+X-Received: by 2002:a17:902:c943:b0:240:8381:45b9 with SMTP id d9443c01a7336-242b0640515mr24149595ad.8.1754527468142;
+        Wed, 06 Aug 2025 17:44:28 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::ccc5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899a909sm167910355ad.123.2025.08.06.17.44.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Aug 2025 17:44:27 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] libcxx: Create packageconfig for cross unwinder support
+Date: Wed,  6 Aug 2025 17:44:24 -0700
+Message-ID: <20250807004425.1768854-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-From: =?UTF-8?Q?Jo=C3=A3o_Henrique_Freitas?= <joaohf@gmail.com>
-Date: Wed, 6 Aug 2025 20:43:53 -0300
-X-Gm-Features: Ac12FXx4f2zoUcymbOSE_hFfTnspy7rJpy_308uaR0d5onGujicMTIh5hcbSYY8
-Message-ID: <CANFVK7-QA8RwRZX7tOdTz-sL+HMvmadDg4Q-1tOLzMk9WVdMYw@mail.gmail.com>
-Subject: Adding oeqa runtime decorators to custom layers
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000007e8286063bbaea3f"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 23:44:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221551
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 00:44:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221552
 
---0000000000007e8286063bbaea3f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+cross-unwinding can pass exception across runtimes e.g.
+Multi-language applications ( nodejs native modules, python C extensions )
 
-Hi,
+However, cross-unwinding is not default in libcxx for sometime [1]
+it requires special handling at runtime by apps who use it
+Switch recipe defaults to upstream defaults, which is to turn it off
 
-In my layer I have some oeqa runtime tests. That is ok and well documented
-in Yocto Project documentation. However, I also want to define my custom
-oeqa runtime decorators. Is that possible ?
+This means native unwinding ( with in same runtime )
+is build by default which is the most common case.
 
-I tried to add the following in my layer.conf:
+This also fixes libcxx/libunwind build errors
+when enabling TC_CXX_RUNTIME = "llvm" on aarch64 particularly
 
-BBFILES +=3D "${LAYERDIR}/lib/oeqa/**/*.py"
+[1] https://github.com/llvm/llvm-project/commit/85624c5de3e831ffa01fdc2d159e3d69c30de08d
 
-No success, so far.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/clang/libcxx_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm using master branch and could not find any other layer that adds its
-own decorators. Any ideas ?
-
-Thanks.
-
---=20
-Jo=C3=A3o Henrique Ferreira de Freitas - joaohf_at_gmail.com
-Campinas-SP-Brasil
-
---0000000000007e8286063bbaea3f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>In my layer I have some =
-oeqa runtime tests. That is ok and well documented in Yocto Project documen=
-tation. However, I also want to define my custom oeqa runtime decorators. I=
-s that possible ?</div><div><br></div><div>I tried to add the following in =
-my layer.conf:</div><div><br></div><div><div style=3D"color:rgb(204,204,204=
-);background-color:rgb(31,31,31);font-family:&quot;Droid Sans Mono&quot;,&q=
-uot;monospace&quot;,monospace;font-weight:normal;font-size:16px;line-height=
-:22px;white-space:pre"><div><span style=3D"color:rgb(156,220,254)">BBFILES<=
-/span><span style=3D"color:rgb(204,204,204)"> </span><span style=3D"color:r=
-gb(212,212,212)">+=3D</span><span style=3D"color:rgb(204,204,204)"> </span>=
-<span style=3D"color:rgb(206,145,120)">&quot;</span><span style=3D"color:rg=
-b(86,156,214)">${</span><span style=3D"color:rgb(156,220,254)">LAYERDIR</sp=
-an><span style=3D"color:rgb(86,156,214)">}</span><span style=3D"color:rgb(2=
-06,145,120)">/lib/oeqa/**/*.py&quot;</span></div></div><br></div><div>No su=
-ccess, so far.</div><div><br></div><div>I&#39;m using master branch and cou=
-ld not find any other layer that adds its own decorators. Any ideas ?</div>=
-<div><br></div><div>Thanks.</div><div><br></div><div><span class=3D"gmail_s=
-ignature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" d=
-ata-smartmail=3D"gmail_signature"><div dir=3D"ltr">Jo=C3=A3o Henrique Ferre=
-ira de Freitas - <a href=3D"http://joaohf_at_gmail.com" target=3D"_blank">j=
-oaohf_at_gmail.com</a><br>Campinas-SP-Brasil</div></div></div></div>
-
---0000000000007e8286063bbaea3f--
+diff --git a/meta/recipes-devtools/clang/libcxx_git.bb b/meta/recipes-devtools/clang/libcxx_git.bb
+index d6bacc33d6b..b0ee3925f43 100644
+--- a/meta/recipes-devtools/clang/libcxx_git.bb
++++ b/meta/recipes-devtools/clang/libcxx_git.bb
+@@ -20,6 +20,7 @@ PACKAGECONFIG[exceptions] = "-DLIBCXXABI_ENABLE_EXCEPTIONS=ON -DLIBCXX_ENABLE_EX
+ PACKAGECONFIG[no-atomics] = "-D_LIBCXXABI_HAS_ATOMIC_BUILTINS=OFF -DCMAKE_SHARED_LINKER_FLAGS='-latomic',,"
+ PACKAGECONFIG[compiler-rt] = "-DLIBCXX_USE_COMPILER_RT=ON -DLIBCXXABI_USE_COMPILER_RT=ON -DLIBUNWIND_USE_COMPILER_RT=ON,,compiler-rt"
+ PACKAGECONFIG[unwind-shared] = "-DLIBUNWIND_ENABLE_SHARED=ON,-DLIBUNWIND_ENABLE_SHARED=OFF,,"
++PACKAGECONFIG[unwind-cross] = "-DLIBUNWIND_ENABLE_CROSS_UNWINDING=ON,-DLIBUNWIND_ENABLE_CROSS_UNWINDING=OFF,,"
+ 
+ DEPENDS:append:class-target = " virtual/cross-c++ ${MLPREFIX}clang-cross-${TARGET_ARCH} virtual/${MLPREFIX}libc virtual/${MLPREFIX}compilerlibs"
+ DEPENDS:append:class-nativesdk = " virtual/cross-c++ clang-crosssdk-${SDK_SYS} nativesdk-compiler-rt"
+@@ -64,7 +65,6 @@ EXTRA_OECMAKE += "\
+                   -DCMAKE_CROSSCOMPILING=ON \
+                   -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON \
+                   -DLLVM_ENABLE_RTTI=ON \
+-                  -DLIBUNWIND_ENABLE_CROSS_UNWINDING=ON \
+                   -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON \
+                   -DLIBCXXABI_INCLUDE_TESTS=OFF \
+                   -DLIBCXXABI_ENABLE_SHARED=ON \
 
