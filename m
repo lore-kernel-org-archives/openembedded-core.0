@@ -2,112 +2,97 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0897AC87FCB
-	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 02:46:27 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.41794.1754534782769828257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CBFEC87FD2
+	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 04:14:07 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.42882.1754540043887777987
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Aug 2025 19:46:22 -0700
+ Wed, 06 Aug 2025 21:14:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZAlqU8x3;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24014cd385bso5984125ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 19:46:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LOMLfwZY;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-313bb9b2f5bso768225a91.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 21:14:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754534782; x=1755139582; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754540043; x=1755144843; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=msdGuGknfy4+AtP8k9UqOCMUsWkSD7JlK2Y9v4+99Hg=;
-        b=ZAlqU8x3MUTex7ZRlbH/iNJpjGZKx+OVY24o71SCq7fpNKDIoB/XJ2bDzWRqqJsj7w
-         613zE0FNsDBOnW/CTJ6b6PpdIbyybOtSbxfS3Iy+DT98bbbyOkpFWSDs1aodNY+SN5DK
-         glNxOvxedBq2IeYzBjtpUR/LstZp+w8XyJAprSE1kzR+sP+mQqfJZof1ObiZXDQMZx9Y
-         ZBurBdANKlNbzCk0HINzzsp+UzGcqYDvQyIpLa/b0HMwec4h2OvjhxBO8psafe2BfyEi
-         rJsd7/9+Xyq0RRLi1DnzLSQGfAhgy43n2qbGrZKriuwxpGBRIlw37lBl/bDShXF4islH
-         m6JA==
+        bh=sTm3Y3mW6qJKM3k5mw0ZUMVwHxOkPAvERIsL80+UdCA=;
+        b=LOMLfwZYCKRDzWZI6Y+rQqNRRKiZSWDgiuHBOAomn769wl2E8hg7dhKbd03sd2cjjY
+         mZ7hE2LfmAPDuGqGcBCPPxe888YxK78hMqfn+xbp/Xz/arzWy4sD3cJTwPmwsVEZZqBc
+         8yCvKGruL7r1DTKOvnE10vf0/C4TJ4/fbrEiyt31PajtMxhOajn21SZQcdlrnysGeWVl
+         Fg1fNsJaEOHL0BBptArdj9jR+YcF+/rf5JLeXb/5AhSpNvf+x32XagUJM0myPajW51K3
+         G5nIzZaW2cW/QXFNnEf/MpXHDPRprzqqE3LzakzuCKjg4WJHk7KxHHbasped30YXsC9J
+         cFmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754534782; x=1755139582;
+        d=1e100.net; s=20230601; t=1754540043; x=1755144843;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=msdGuGknfy4+AtP8k9UqOCMUsWkSD7JlK2Y9v4+99Hg=;
-        b=wdepVV68K7+ZwMQViiz+vUWcFO9TWjlZg6WV1sYhU9n8QjXBoVxGQNCQpr9qrRW3uK
-         M+HwJV6Na7MwZPw4a1C+UeZBPmGvpk1U+Z+oBmOhIV2Us4bQD+1gvORfvihu3FkO8MXl
-         5hji5QpRi/5lq7JZrK4fYqNw5dDMVLnn9+g+P7XCZFnVwprb7dON+4dOszgiq8yzAAvy
-         x10Dp7tK4BHygk5Za5agg3Em6D6ia/cqKoXSgStH4JL7LfktvseDq9rH81Myt9uQZgwc
-         SIBlaqQcKoAQVRG/k0tB8SEjZneVO1/puDhEQZ6PiGefWPFcox07rPgXDWRASFbXOveP
-         FlcQ==
-X-Gm-Message-State: AOJu0YzT5PGy4GFaXk7cyVVgKjT8WgBNA43L8hI+h9fIBUPodwc+T1He
-	QQGTjpYZf2GMUjJSRIqvvT3MZ4iiArgSF9aACvD60KCJ8whBRwD2lcL6KVkKRViI9rQ=
-X-Gm-Gg: ASbGnctRPrEwNF+169fsRevruS7mW84PckYsi9LxQ5S73elBawpy/48ImP9bRCrj4DN
-	Z1/JfRoxfIWCXiy2T3/QvL8N3np7uLqtdkmxoLcU4NEj7h5cFI4CxsTMeZTJzaEo4lmNjh3SLkW
-	km/oeS/y22pDKEI68FydjY4RyQaLh4XKfCu/9brJuXumFVFtSHmbzvz8U2bgG/mC6lEbD0s5Ubj
-	jW2YjkQWpR40jLO4ALMjZeR/JXrynTCPlib/ZHGH03iJTUyTHcYA8Wj7FLCqEALWjL6b0+vPjl9
-	prOIKDDCBarDbCbPfJAouNQGdu1ZNQyo5CsZs/+7d0fi+462uMirMwlqhuCJl6CJMhwIl/UeAky
-	CTu1fBUwi7g+eyTuqFNN2WA==
-X-Google-Smtp-Source: AGHT+IFcDS9kSYw3YMHUsdRyGCOihgar1VWz891a7ufkxZx4JfBRARwfNDeT7fqEEzn8aJeaJPB85g==
-X-Received: by 2002:a17:902:f612:b0:240:469d:beb0 with SMTP id d9443c01a7336-242a0b6fc4cmr78757395ad.31.1754534781799;
-        Wed, 06 Aug 2025 19:46:21 -0700 (PDT)
+        bh=sTm3Y3mW6qJKM3k5mw0ZUMVwHxOkPAvERIsL80+UdCA=;
+        b=KMi8ub6XDNJxkIqgEBGA567Jq3v0bymKm8CCfT1pTm4rHLtg4824Fjp5kMf2DvnqfF
+         avVREWjqFrNefIbR6GJQqP5UmqJsMjQvoqWJP2o2NIzrPDuoq8RGHfJ2HmW0vncQb4/l
+         h8GV1adJVvp6POdCbX5e+kP41JkYzu2DLx1m1LMx0kpWq5X3OD1lgH9HHNyPhVIO8HRC
+         Z8ldckWYki95bRfqbCjrK5I6nYwryD5Jqw6oU5+9X5eCU5D6k3Xy79h/V8CrOzcaSS4d
+         mifRQ0RTsDrBNTx+XZwdCusJnhNu/lpD4oV9jBalTGP5lTD2x7I9QUetVTvjmD7GXLqn
+         C/iQ==
+X-Gm-Message-State: AOJu0Yw+N5IuJnP1W6YRP8lcMOjBkcmXRdC8Piox1XjMx1j80LJIzroJ
+	pZGZZQOGl9qLdHE398cW+4qRHIpaYLBWTqj1ng1cKmePeiX9qb0pn/IddfTjmCgKe00=
+X-Gm-Gg: ASbGncvU//sOzdPLoOJTfbcf8VSuH7J+/FJcHyz1sNElZoZjXc+Wr8qJm+5bAccv2My
+	tdApdAjPoagCsFt6NlWZwF2jvq6LzrGQ1K8YWYGkLZzyU+mIuSH+8skvFSoAfC0uqANL68ilngt
+	H0CgPx5JCbsCm3TYqDomDiaqZyLVGMRFDa/+CD6uvRYs4dkyAHUOd8Ckdzvm6w1+HPDME2+pOJb
+	mQOKI4js24ZiziN0B1vgJETqQ1meeVcRniuR6VVcL1lbjuH6V/LwAm3kE3pXU1ZfYkhRbO6jhYt
+	muuoI0ORdRnDj94aRtApUeYsp1s44SA76VFJ1y+3IWl9gr5qKvEbrPCsraE9jMTizx9U/iNnG+J
+	NBfm/bmIo8lsXfz1V6DVPIQ==
+X-Google-Smtp-Source: AGHT+IEtiNlQGXcKAUpokxFdOMm2NlzNRHUZ9CEOfrzOjoI2zjlj7mdqJrbZs9ejY2ei3D622SROhg==
+X-Received: by 2002:a17:90b:1d4c:b0:321:75c1:65b2 with SMTP id 98e67ed59e1d1-32175c165dfmr2664113a91.18.1754540042835;
+        Wed, 06 Aug 2025 21:14:02 -0700 (PDT)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::ccc5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1ef48fbsm171325225ad.36.2025.08.06.19.46.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32102a7949bsm9603981a91.2.2025.08.06.21.14.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 19:46:21 -0700 (PDT)
+        Wed, 06 Aug 2025 21:14:02 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] systemd: Disable linker GCS warning on aarch64 when using compiler-rt
-Date: Wed,  6 Aug 2025 19:46:18 -0700
-Message-ID: <20250807024618.1819516-1-raj.khem@gmail.com>
+Subject: [PATCH] perl: Disable strict aliasing with clang
+Date: Wed,  6 Aug 2025 21:14:00 -0700
+Message-ID: <20250807041400.1823402-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 02:46:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221555
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 04:14:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221556
 
-when Distros set TC_RUNTIME_CXX = 'llvm', it will use LLVM provided
-runtime libraries for unwinding/Compiler-builtins and C++ runtime
-( compiler-rt/libunwind/libc++ ), systemd -> libc++ -> compiler-rt,
-assembly routines in compiler-rt are not GCS compliant so the link step
-for libc++.so does not emit this into .note.gnu.property section
+clang-21+ compiled perl ends up with segfults in
+various places if this optimization is enabled
 
-Displaying notes found in: .note.gnu.property
-Owner                Data size        Description
-GNU                  0x00000010       NT_GNU_PROPERTY_TYPE_0
-Properties: AArch64 feature: BTI, PAC
+panic: del_backref, svp=0 at /usr/lib/perl5/5.40.2/warnings.pm line 622.
+Compilation failed in require at /usr/lib/perl5/5.40.2/Getopt/Std.pm line 4.
 
-it should have been
-
-Properties: AArch64 feature: BTI, PAC, GCS
-
-if it has GCS support.
-
-When libsystemd links the C++ standard library then it also does not
-get the GCS flags and it gets reported when some tests in systemd
-tries to link with libsystemd. The reason for warning-as-error is same
-as [1]
-
-[1] https://git.openembedded.org/openembedded-core/commit/meta/recipes-core/systemd?id=295e30eac69e152778246c7271b72f7e8498a40a
+The crash starts at frame #0 in Perl_sv_kill_backrefs() at sv.c:6420
+called during magic cleanup (Perl_magic_killbackrefs)
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_257.6.bb | 4 ++++
+ meta/recipes-devtools/perl/perl_5.40.2.bb | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_257.6.bb b/meta/recipes-core/systemd/systemd_257.6.bb
-index adc27f6cff1..b487683f5f8 100644
---- a/meta/recipes-core/systemd/systemd_257.6.bb
-+++ b/meta/recipes-core/systemd/systemd_257.6.bb
-@@ -240,6 +240,10 @@ RESOLV_CONF ??= ""
- # the eBPFs, so that it can find needed system includes in there.
- CFLAGS:append = " --sysroot=${STAGING_DIR_TARGET}"
- LDFLAGS:append:aarch64 = " ${@bb.utils.contains('PACKAGECONFIG', 'openssl', '-Wl,-z,gcs-report-dynamic=none', '', d)}"
-+# compiler-rt assembly routines do not yet support GCS
-+# see - https://github.com/llvm/llvm-project/issues/152427
-+# check again when this gets implemented in compiler-rt to remove it
-+LDFLAGS:append:aarch64 = "${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', ' -Wl,-z,gcs-report-dynamic=none', '', d)}"
+diff --git a/meta/recipes-devtools/perl/perl_5.40.2.bb b/meta/recipes-devtools/perl/perl_5.40.2.bb
+index c3bcbf053d9..1df1467d424 100644
+--- a/meta/recipes-devtools/perl/perl_5.40.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.40.2.bb
+@@ -50,6 +50,10 @@ export ENC2XS_NO_COMMENTS = "1"
  
- EXTRA_OEMESON += "-Dnobody-user=nobody \
-                   -Dnobody-group=nogroup \
+ CFLAGS += "-D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+ 
++# Perl built with clang runs into sefaults with clang-21+
++# https://github.com/llvm/llvm-project/issues/152241
++CFLAGS:append:toolchain-clang = " -fno-strict-aliasing"
++
+ do_configure:prepend() {
+     rm -rf ${B}
+     cp -rfp ${S} ${B}
 
