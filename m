@@ -2,60 +2,60 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3030C87FCF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C05C87FCA
 	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 18:45:02 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.3720.1754592295027219986
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.3813.1754592297209568940
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Aug 2025 11:44:55 -0700
+ Thu, 07 Aug 2025 11:44:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=tlgWn51w;
- spf=pass (domain: konsulko.com, ip: 209.85.210.180, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-76bde897110so1213598b3a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 11:44:54 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=U+WaS1M8;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.171, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76bee58e01cso1774525b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 11:44:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1754592294; x=1755197094; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1754592296; x=1755197096; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GoMuI5zAEmP/ZPpMOFIb4jzg5PtENWvCCNbnn5dzrE0=;
-        b=tlgWn51wMD6031YyFM86X6KLODlVLAJKgW2h6L86nlAqOtlbLSH77qqtXDYpItgVrz
-         /GwAiRNVUfXxfjeMf6m/e+1lka2QVlKZWe37+ifuDOO419/5WKxnwU0yl7GqXvSHO+UQ
-         qdUFrL6YYuFILHYir9H/xfGg0Y7MR4dmumFJQ=
+        bh=dfKM5xNfEZ6R6L/DftIhn+AAsa9cVJt6OiIWQmUHAXU=;
+        b=U+WaS1M8ximAjiXP+kpmRiBG8ZqiT7Phk4MmbxBJLwuVzEwPf4+nEPmGJpNEYt4M2a
+         fYuHRD4PGdG8+SMPpgrgNtYHUhLhfLXTQOVkiuN+WXad/3skpwK2x/b/VDEgKzEpnfCb
+         FwiFEY4OMKgQwC3ty7DR7dnisqgOsURxdxQIU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754592294; x=1755197094;
+        d=1e100.net; s=20230601; t=1754592296; x=1755197096;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GoMuI5zAEmP/ZPpMOFIb4jzg5PtENWvCCNbnn5dzrE0=;
-        b=p4h0wwxfmLsFT6Zkv1M/nnNZRHp7/I9RTEv6hHRaPMRuMGlP2zwNZQfXXzEXSStP1T
-         MrtHg1LSc5WQKcv/DNPNsyz68Tpo65PvdxHZeUn1PvJ799pbgmZCEQvsUQrvJjgWj4fR
-         Bs1EqvcmdRAG8oEw9BtYhS7dBltwlI0NE8Q4cjwEZxvvmy6FfllK72k91uLx0YcL6/dU
-         dGld9bPTiZFAoj3CS5CA/fUbLy7i/CPdSlICpJexNhg4Ftj9Ia0QRXUfWkGGYCS3n3Ww
-         c+wmdOle1yJgBIzUpwFcyBj3RFe7WlrrJPEk0MjdqlnY65SQXzr49L096A5cji++kwAf
-         jXgA==
-X-Gm-Message-State: AOJu0YwVh2svL2ScjmGWrH5uDk4NYghjHy9xUjAapqxWhpUNIkdUJjqD
-	WRjo33ykXls7b+ZZiLqtKp3JiFcIOFNC4rhDuRqQ6eP6aeh7A/swKf1eByLJFhr7huK2zpWgdl2
-	N9HJc46w=
-X-Gm-Gg: ASbGnctqBUYFQ9yCKvrVzk74/0FWGshiJ9RT2HgTHlxXc0Bk9/vvPOo4SnrEeI47zC/
-	XZcKa3+JBfdSaCTrHyIMj+Ujz2CXV14IoiZHD+OlL5vfP9oD+44Eymz7JFCsCjhGC265xja/gQA
-	o9T7+WiC+arzWlRTlW7rk0XvLM0Yt0jxHfC7CvdNX8EUGjwa3f9N6+YO3wqxDt9/fanwV5N+Lc2
-	d+QTaQD0nEimeMcPZ5jlqZIhzV2rrxPT9EOTYkc+/K7lSTj7uK8ylFRdKY45Nt854pq9ZQVnPas
-	v2jeoYauGqVpdKuSUzKH8GvDvuayoEb+iYYSNUqeRr6rlTzIqbuAYWITY2IUc3wgh2Ou2ARu8TS
-	R8/MbcHvkB6ksOWopVdR1i46/Txd9i4FKrFp66Zf8Y6K6egoplCd25pu3MxsSEvn0ixSs1RfI
-X-Google-Smtp-Source: AGHT+IFDPCV9hiQyLlZag/pMo1PQpvcz8RzkRI792zr20VQz4cuymjjffdZK4aVhUxnQy1Zuq/9Fbg==
-X-Received: by 2002:a05:6a00:181c:b0:736:5f75:4a3b with SMTP id d2e1a72fcca58-76c460fe787mr247534b3a.7.1754592293751;
-        Thu, 07 Aug 2025 11:44:53 -0700 (PDT)
+        bh=dfKM5xNfEZ6R6L/DftIhn+AAsa9cVJt6OiIWQmUHAXU=;
+        b=eTeTga1FaT2Jr2Z/WfP27CPvdFJ+OB1dbLYlAvci5wHBAlbiUTfSiAdjqYbrd1oue/
+         Mj5qH69QERPwUg1mbJkJ7HxvJa3dscVG536BdaGNPdxIm8+LQwuKkFAAX5jKmHLyHoU7
+         QwyPysidTQzYnu+kO8YG0I1+e29AesfBy6lU92NRIhE1z5DUfyNnWQJib08iAtMG+l2N
+         plgszbnpZFEWIWpqsxa4m8e2gW22iksipH5Uac40CZ/5lvqs2hTmhyrNSc5PETEeRfbU
+         aTfXTX+jfw2/bOVOs/n9Ua9rqB+ReQ4bBr1ahUbgjojf9MNxgngWXrpbj/Lp70jDWjPJ
+         XkwA==
+X-Gm-Message-State: AOJu0YxINKbh7neGSOnR9cTTw95ZoO9Tz2kJ4QXb0v2/+2GdHWliLV00
+	FMGDSWMf7BY7umbi45T+E323oQR5ZK8Ms9ucU5BB/X9XO8QhXZIV1tlq5xYdGnBNlXYtK8aZmLh
+	UBgwszNU=
+X-Gm-Gg: ASbGnctZdDzYZlpscmvRSOqSIMIFnBAe96qQC5CKkQx2wCD2Or6t7Cjx8rfh4b4bjPw
+	u/sHzRRqiZQH0OhwIshYp2lKhGR3tFISKSJeSV6Z2TfVdHwaiiBsNLalyNhyABBn7DUwtHKn2PG
+	6Id6hEzoNDSNLW6lLruu/ptfbS6lm4ubp6bAkUqXld/FI6wAY+cGhCSWnRRSZeywenwPIsp8x1z
+	dgOiFX5zhUVZgOfrqDznJ8P+VwgmpLnK88Z/LK3PtCvl08i8RrGSmVmPVmesqpGMSTTtEHPwS8D
+	V1c3qxX1PI+DdDaG+5VhX9bmG8/D1ko66+0OX2cAtpNK3/NW+vitfMLUgAXzivOsHUChIhhGp8y
+	uhgIY0HOy/ubSfwpzFh7sA39XIgSpkVt/CAXWaN1l8hPyPgGq9YCMiy1EVI03/w==
+X-Google-Smtp-Source: AGHT+IG4OPqqNh+wFt/QzA29YtAyseiM3hqh+5w2hYssF2BHGeNzgdrRSUaFtI1nd5ERDLVHm2q6Ow==
+X-Received: by 2002:a05:6a20:1591:b0:240:2421:b912 with SMTP id adf61e73a8af0-2403314251cmr11776130637.37.1754592296176;
+        Thu, 07 Aug 2025 11:44:56 -0700 (PDT)
 Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfbcef6sm18746087b3a.85.2025.08.07.11.44.53
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce8960dsm18625818b3a.34.2025.08.07.11.44.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Aug 2025 11:44:53 -0700 (PDT)
+        Thu, 07 Aug 2025 11:44:55 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] python3-cryptography{-vectors}: upgrade to  45.0.6
-Date: Thu,  7 Aug 2025 11:44:39 -0700
-Message-ID: <e658a1dfd002a5273bc9d1491c2674e607df0689.1754591996.git.tim.orling@konsulko.com>
+Subject: [PATCH 3/4] python3-certifi: upgrade 2025.7.9 -> 2025.8.3
+Date: Thu,  7 Aug 2025 11:44:40 -0700
+Message-ID: <6eeb03c45f5237af6f3450af8bba06aa73c1be0b.1754591996.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1754591996.git.tim.orling@konsulko.com>
 References: <cover.1754591996.git.tim.orling@konsulko.com>
@@ -65,89 +65,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 18:45:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221580
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221581
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-* Refresh 0001-pyproject.toml-remove-benchmark-disable-option.patch
+2025.08.03:
+https://github.com/certifi/python-certifi/pull/362
+https://github.com/certifi/python-certifi/pull/362/commits/4c1bfa53ef5aad0339d9ae7bbcefc32872a95f6d
 
-45.0.6 - 2025-08-05
-* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL 3.5.2.
-
-45.0.5 - 2025-07-02
-* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL 3.5.1.
-
-https://cryptography.io/en/latest/changelog/#v45-0-6
-https://cryptography.io/en/latest/changelog/#v45-0-5
+2025.07.14:
+https://github.com/certifi/python-certifi/pull/359
+https://github.com/certifi/python-certifi/pull/359/commits/1c50d2bb6a10403300c0f1c17cff1b6277cb88d1
 
 Comparing changes:
-https://github.com/pyca/cryptography/compare/45.0.4...45.0.6
+https://github.com/certifi/python-certifi/compare/2025.07.09...2025.08.03
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-All ptests pass on qemux86-64 for core-image-ptest-python3-cryptography
+ ...{python3-certifi_2025.7.9.bb => python3-certifi_2025.8.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-certifi_2025.7.9.bb => python3-certifi_2025.8.3.bb} (87%)
 
- meta/recipes-devtools/python/python3-cryptography-common.inc  | 2 +-
- meta/recipes-devtools/python/python3-cryptography-vectors.bb  | 2 +-
- meta/recipes-devtools/python/python3-cryptography.bb          | 2 +-
- .../0001-pyproject.toml-remove-benchmark-disable-option.patch | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python3-cryptography-common.inc b/meta/recipes-devtools/python/python3-cryptography-common.inc
-index 5ce2485ed56..874f60bf834 100644
---- a/meta/recipes-devtools/python/python3-cryptography-common.inc
-+++ b/meta/recipes-devtools/python/python3-cryptography-common.inc
-@@ -3,4 +3,4 @@
- #
- # Additionally AUH will detect that they share this .inc file and
- # perform a lockstep upgrade for both.
--PV = "45.0.4"
-+PV = "45.0.6"
-diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-index 3df61315ea9..b6b0e38f2e9 100644
---- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
- #       Upgrade both recipes at the same time
- require python3-cryptography-common.inc
--SRC_URI[sha256sum] = "fbb0408df8ff2d2b3dbd2928bc5b7feebfdd36fb092fa8790d5778a9b9a1f9ef"
-+SRC_URI[sha256sum] = "068cee15423f3f1633ca04f12284385ac404c19366e7ccb3b680156c1aa9c573"
+diff --git a/meta/recipes-devtools/python/python3-certifi_2025.7.9.bb b/meta/recipes-devtools/python/python3-certifi_2025.8.3.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-certifi_2025.7.9.bb
+rename to meta/recipes-devtools/python/python3-certifi_2025.8.3.bb
+index 709346486aa..d3e842b4bd6 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2025.7.9.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2025.8.3.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = " http://certifi.io/"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=11618cb6a975948679286b1211bd573c"
  
- PYPI_PACKAGE = "cryptography_vectors"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
-diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
-index 5963064b724..c4204712f23 100644
---- a/meta/recipes-devtools/python/python3-cryptography.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography.bb
-@@ -11,7 +11,7 @@ LDSHARED += "-pthread"
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography-vectors
- #       Upgrade both recipes at the same time
- require python3-cryptography-common.inc
--SRC_URI[sha256sum] = "7405ade85c83c37682c8fe65554759800a4a8c54b2d96e0f8ad114d31b808d57"
-+SRC_URI[sha256sum] = "5c966c732cf6e4a276ce83b6e4c729edda2df6929083a952cc7da973c539c719"
+-SRC_URI[sha256sum] = "c1d2ec05395148ee10cf672ffc28cd37ea0ab0d99f9cc74c43e588cbd111b079"
++SRC_URI[sha256sum] = "e564105f78ded564e3ae7c923924435e1daa7463faeab5bb932bc53ffae63407"
  
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-             file://check-memfree.py \
-diff --git a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
-index e2387172084..16681e80a87 100644
---- a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
-+++ b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
-@@ -1,4 +1,4 @@
--From baa3c56b87ceaea331811a0a4642991cbb12e6ea Mon Sep 17 00:00:00 2001
-+From b033cd32813a104fb216135cdca7da7180912e56 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Tue, 17 May 2022 17:22:48 +0800
- Subject: [PATCH] pyproject.toml: remove --benchmark-disable option
-@@ -26,7 +26,7 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ inherit pypi python_setuptools_build_meta
  
- diff --git a/pyproject.toml b/pyproject.toml
--index d9ef704..878b720 100644
-+index 4746201..df98351 100644
- --- a/pyproject.toml
- +++ b/pyproject.toml
- @@ -129,7 +129,7 @@ exclude = [
 -- 
 2.43.0
 
