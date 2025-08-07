@@ -2,101 +2,174 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0619C87FCF
-	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 04:36:07 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.43381.1754541357715088868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 497F0C87FD2
+	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 07:02:08 +0000 (UTC)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.web10.45194.1754550123292665501
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Aug 2025 21:35:57 -0700
+ Thu, 07 Aug 2025 00:02:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IgoS7k1E;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23fc5aedaf0so3697355ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Aug 2025 21:35:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iSZzoMju;
+ spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-71a4742d81aso6622827b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 00:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754541357; x=1755146157; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SaeW7t61kM6P7zGTvLxomsrmh+q4gJZHH7NAqLGcL7g=;
-        b=IgoS7k1EkHJUy0RyrdpBQCi1qqhAor3UT5XfqDMDjbqYB9p2z4z/ohZ3s8614Q2Ff4
-         EqTkKVSNMkKSQkrjNzjynGt+NbMbdjq7R+s3Hj7yYUiGacAFPQRXxumV5dJLsi0T0rac
-         upUqqbnzmzGVBV7+HUvZbmNpGIqSm83s6sDNtt0oa1pm0E2V/YYjwVDoGWQrtve90wuj
-         mC41glhVkdEXFjAGv7Ipfv+ajxPs7FAtkFdxl5rLkzpoYtNCM6hnIaWAyMeuwM9qR1DT
-         Q8oM5heAys6tPKjiaJ/MRfxP3RgDxnyu47y2Jz2Pn5b8AxpyW0q1Szcwr0A8kbZjYQjS
-         Bhqg==
+        d=gmail.com; s=20230601; t=1754550122; x=1755154922; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BJtwmm2yCWUur5p0MgcFpY3hiCY9QyYoRJc1gkymRw8=;
+        b=iSZzoMjuVdoJiGfpqLx8v2HhlLkq4CFGytYIfmh/ovUb9crpaBh295gWInY2EgEKcJ
+         We5Dkq/Oqc2wCy5UDubFmgetg6Ufj7k1BwqGoQ93d9FrweLFoqX4QBG/MBqb3ks6v5rz
+         aUfcsqL9r2+oVFikUhDviih8Mzb/hcmCih0nKWon/wVHtXlJZfnnq/iEiYLBMAkrUFg3
+         5C7p7FnlnKopwET81oiE+kr38W3GXwnqfcaZ+ZAjlh/3GCufDu4eo3O9pSZHPX599iB6
+         cxx+y8bBnOq7I3gr1ttezzrtKIwbha7res42Q81TJUAnVRgah+daMjNSv1LmqCEbw7uu
+         +3jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754541357; x=1755146157;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SaeW7t61kM6P7zGTvLxomsrmh+q4gJZHH7NAqLGcL7g=;
-        b=UE0tVRsyzUDYHfDvajRTY8UDYgdr5uvmFTCcPH3A/n8vh7NJSVdP95mf0vDXs/C+F1
-         7Jmpkdcg5WBNxyjnfRkBtyXy9iKdy6aKPwov5iV86xaHi6Ug0fzDkLwP0hqaqBQXElM6
-         Sd01TOGY5J8PjiW79jhbgFP9JQPuPM8VxImlcfp+FTwOK6oP6mMytuKkRTRtlhUt9+Z+
-         E1u9T1reSd35g2B5TroANHMaPm6a20J+qKOW9qwns9VYOWF52981s7yJ90uiOLdU9Er0
-         zFz+KxsJMcRE0uuv3RtcAVGBov7sGhl+KKJnnmMHW7PkoQ+b650UCg0im3JJfSTVF+Kj
-         BaaQ==
-X-Gm-Message-State: AOJu0YxBbraVvgV9raIn0HJ4B/3thhVO+gWo/nIZSDFEXde2k/54tVz9
-	neJwf40pDx8XDU0VuknmEI+eGLPxjp38oETOS4l60PoT96cg2xxS6nSJf7ca3UlO514=
-X-Gm-Gg: ASbGncvPMB7IAvVN1wOmZWr7dffOvE5PYF+xYGFqon8afffbObxu4ij//wWtzyjt8Ar
-	GlRrLF4+V8kl75FpK0c+IBdszWcenIWUJE1DgNAxrsrM7TmwXWpeegBxG8EN4VQIuQdrSnaZwGh
-	H+WWjikQ9pge25BWU5G7HLtIDSKO4Pyhx9kO3/WrS6B1eZwj8dCZ9UWkmV09/ucp8yRu8gY1HAn
-	WFD6gE2EY6M18xLUpcaZehFhZqFW87siufgLaUXkNnQFppW2tmTr5MsiHQOUPiQvuRkOkCoDeKz
-	q8Zzo93UcoV0300j1vcvOKuGIIi2s8vXjf3IuRTqZ4Zh99p4QjDBnANjjbZBTS/FvXGnW+eWCQQ
-	kbmWjHmlNNcEqCTosn1Ggaw==
-X-Google-Smtp-Source: AGHT+IHCuK2xGP5WHmySxG2yxgbORu4sEtirkjjEMq0MBr6/K/aqA02ZiCUFQxiXapSMUXP0PFv4dg==
-X-Received: by 2002:a17:902:f54f:b0:235:c9a7:d5f5 with SMTP id d9443c01a7336-2429f559139mr64997685ad.13.1754541356788;
-        Wed, 06 Aug 2025 21:35:56 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::ccc5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e8aab0ffsm174926735ad.166.2025.08.06.21.35.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 21:35:56 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] python3-numpy: Always use libgcc for unwinder on aarch64
-Date: Wed,  6 Aug 2025 21:35:54 -0700
-Message-ID: <20250807043554.1825077-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20230601; t=1754550122; x=1755154922;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BJtwmm2yCWUur5p0MgcFpY3hiCY9QyYoRJc1gkymRw8=;
+        b=qA9kO5IfRtCZN5cp7NlBMtEThdsqUsk4uHXi8cw2EZQYQW6h1OgcMtplzc6uWbO4n/
+         3kdnkVHLYlX6UEYFxSxhwPD01CmvPaN1u6NXrOQwPfe+VzvIaMNwjV5uhaar3nYyWHnS
+         gXvB+LNvzWwhPlx8r6QWWGGsxkW3Kz+PDhNvmt918HUenHUxosrmKCfzLdvXg9pTeZIR
+         1EmawFQSimce1f7BFljloE0UQK25pTSuaiMWFlBziRkUGbsGg7zQhjp9ZvwZtFe26Hx7
+         3Ny6AFlF/zMW8wcNLkVgKphE0C29F0FYsE4nO433vgjK4aMyJvgeVEsPlNTkornWZXp6
+         nwCw==
+X-Gm-Message-State: AOJu0YwPXlz0r77wWOYEHMP/SOjJ49qN1RF30yp7nN2BUETyY6Yqu/fm
+	gQMqm6xAyOv0d3XeHsR31irNvAV+2VLmLrauQK+y6pSU2RNfVoPe3DjO+QTFSjRPtaf4U3WM7tX
+	CJ932aGFeeTSfEKQszZUOfyGmY/cU+9kCZiwbAnjq+A==
+X-Gm-Gg: ASbGncsdJMCjd2Bn/vx0Vts7w61pqxUDPpUTQusPydKNjE3sBLo66mJOUAI8i19uS18
+	fJAACs/KuaNIGkIxzx1KSwN3EWkdGD6SCIlcYDstqx8Nf30DLrxfD5EOplEzWmTWLHAsRwEdzb7
+	ddB6RBPCYAOBPlmBmB2NOe/W5uGiVyrVVWFH7JaAev/BOgjhQhvWigcGZ8Zra1Gz3+eseK3as3N
+	gly0g==
+X-Google-Smtp-Source: AGHT+IEQ3D5h4zcadzwIP6N5KY3f8fLy4w4Z2/p8+brDXd3uPdta1KCpngQ9AeUohQ3WLmfwDi4ik0jGYe2AzXc5Wwk=
+X-Received: by 2002:a05:690c:9c07:b0:70e:923:2173 with SMTP id
+ 00721157ae682-71bcc6c04a0mr58169797b3.5.1754550122212; Thu, 07 Aug 2025
+ 00:02:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250803073541.2210769-1-skandigraun@gmail.com>
+In-Reply-To: <20250803073541.2210769-1-skandigraun@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Aug 2025 00:01:35 -0700
+X-Gm-Features: Ac12FXyzKnXnFtZ4ySZuKmvtnGIgC52Yr2tKpnV1LKR5kzgncLb5BWNsD6Gma2s
+Message-ID: <CAMKF1sr2zYyuzewOE+miSNdfpE2haU4iAbybpzmxRvXtX6pGbA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] webkitgtk: upgrade 2.48.2 -> 2.48.5
+To: skandigraun@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 04:36:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221557
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 07:02:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221558
 
-With libgcc (working):
+Not a blocking issue but Interestingly it fails build with
+clang/qemuarm - https://errors.yoctoproject.org/Errors/Details/874909/
 
-Result: inf
-Warnings: ['overflow encountered in cast']
-
-With compiler-rt (failing):
-
-Result: inf (probably still correct)
-Warnings: [] (no warnings generated)
-
-The issue is likely that compiler-rt on AArch64 doesn't trigger
-the floating-point exceptions that NumPy expects for overflow
-detection in type casting operations.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/python/python3-numpy_2.3.1.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-devtools/python/python3-numpy_2.3.1.bb b/meta/recipes-devtools/python/python3-numpy_2.3.1.bb
-index c6ab326990d..7ecb9521ca1 100644
---- a/meta/recipes-devtools/python/python3-numpy_2.3.1.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.3.1.bb
-@@ -26,6 +26,9 @@ PACKAGECONFIG[svml] = "-Ddisable-svml=false,-Ddisable-svml=true"
- TOOLCHAIN_OPTIONS:append:toolchain-clang:riscv64 = " -march=rv64gcv"
- TOOLCHAIN_OPTIONS:append:toolchain-clang:riscv32 = " -march=rv32gcv"
- 
-+# the overflow tests fail with compiler-rt on aarch64
-+LDFLAGS:append:toolchain-clang:aarch64 = " -rtlib=libgcc -unwindlib=libgcc"
-+
- # Remove references to buildpaths from numpy's __config__.py
- do_install:append() {
-     sed -i \
+On Sun, Aug 3, 2025 at 12:35=E2=80=AFAM Gyorgy Sarvari via
+lists.openembedded.org <skandigraun=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> Changelog:
+> 2.48.5:
+> Fix several crashes.
+>
+> 2.48.4:
+> Improve emoji font selection with USE_SKIA=3DON.
+> Improve playback of multimedia streams from blob URLs.
+> Fix the build with USE_SKIA_OPENTYPE_SVG=3DON and USE_SYSPROF_CAPTURE=3DO=
+N.
+> Fix the build on LoongArch with USE_SKIA=3DON.
+> Fix crash when using a WebKitWebView widget in an offscreen window.
+> Fix several crashes and rendering issues.
+>
+> 2.48.3:
+> Fix a crash introduced by the new threaded rendering implementation using=
+ Skia API.
+> Improve rendering performance by recording layers once and replaying ever=
+y dirty region in different worker threads.
+> Fix a crash when setting WEBKIT_SKIA_GPU_PAINTING_THREADS=3D0.
+> Fix a reference cycle in webkitmediastreamsrc preventing its disposal.
+>
+> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+> ---
+>  ...1-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch | 2 +-
+>  meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch        | 2 +-
+>  .../webkit/{webkitgtk_2.48.2.bb =3D> webkitgtk_2.48.5.bb}         | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>  rename meta/recipes-sato/webkit/{webkitgtk_2.48.2.bb =3D> webkitgtk_2.48=
+.5.bb} (98%)
+>
+> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable=
+-to-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk=
+/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
+> index 8376ee8472..f990384511 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-con=
+trol-macro-__PAS_ALWAYS_I.patch
+> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-con=
+trol-macro-__PAS_ALWAYS_I.patch
+> @@ -60,7 +60,7 @@ diff --git a/Source/cmake/WebKitCompilerFlags.cmake b/S=
+ource/cmake/WebKitCompile
+>  index f5ec0a55..dfd741e7 100644
+>  --- a/Source/cmake/WebKitCompilerFlags.cmake
+>  +++ b/Source/cmake/WebKitCompilerFlags.cmake
+> -@@ -492,3 +492,10 @@ endif ()
+> +@@ -503,3 +503,10 @@ endif ()
+>
+>   # FIXME: Enable pre-compiled headers for all ports <https://webkit.org/=
+b/139438>
+>   set(CMAKE_DISABLE_PRECOMPILE_HEADERS ON)
+> diff --git a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch b/m=
+eta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
+> index 82d20758c2..4b0cf364d8 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
+> +++ b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
+> @@ -24,7 +24,7 @@ diff --git a/Source/JavaScriptCore/llint/LowLevelInterp=
+reter.cpp b/Source/JavaSc
+>  index 76c46889..500be433 100644
+>  --- a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
+>  +++ b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
+> -@@ -334,8 +334,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void*=
+ executableAddress, VM* vm,
+> +@@ -336,8 +336,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void*=
+ executableAddress, VM* vm,
+>       UNUSED_VARIABLE(t2);
+>       UNUSED_VARIABLE(t3);
+>       UNUSED_VARIABLE(t5);
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.2.bb b/meta/recipes-=
+sato/webkit/webkitgtk_2.48.5.bb
+> similarity index 98%
+> rename from meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
+> rename to meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
+> index 75a39558db..947996450d 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.48.2.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
+> @@ -19,7 +19,7 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}-=
+${PV}.tar.xz \
+>             file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-s=
+how.patch \
+>             file://fix-ftbfs-riscv64.patch \
+>             "
+> -SRC_URI[sha256sum] =3D "ec58f6dfc25d3b360388e192f865068d69aab09b4d7df021=
+f90e314d2fa54f37"
+> +SRC_URI[sha256sum] =3D "bb64ed9d1cfd58e8b5e89ccad71dd31adfed56336bad7695=
+031ad0b668e1987c"
+>
+>  inherit cmake pkgconfig gobject-introspection perlnative features_check =
+upstream-version-is-even gi-docgen
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#221406): https://lists.openembedded.org/g/openembedde=
+d-core/message/221406
+> Mute This Topic: https://lists.openembedded.org/mt/114511480/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
