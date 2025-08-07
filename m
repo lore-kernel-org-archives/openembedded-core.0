@@ -1,133 +1,85 @@
-Return-Path: <max.oss.09@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0558EC87FCF
-	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 12:37:50 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.50928.1754570261847006257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C3BC87FCA
+	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 17:18:12 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.1562.1754587082019240056
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Aug 2025 05:37:42 -0700
+ Thu, 07 Aug 2025 10:18:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=a7AoYBi8;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: max.oss.09@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3b78d337dd9so562535f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 05:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754570260; x=1755175060; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S9E+0v2ucxe8Rl9qk5gSyFwvJkXSz4CfWc5Tz+6MmVw=;
-        b=a7AoYBi825oFL+9GuHcbBf9qhnaHVQiS1R+VoozHxLVgk3GgpkO1YJGW1zxrFVD+ZT
-         4ypqGkW26iG3yaMinXwAB+bQrEHzk2H4y5b+Ev9efbO7c/qhUo5n29yYRYLigPZWuT61
-         tSUO+yIgiH/O0sxZPi8Mv6FlibDkZMWgAuCK/if5aTqq/uhl6rv/GNId22Od0Wwls5ct
-         TjENHBG318Sa65x5RfA6VjiNnFKFwhEEKTAN7g4x6QkwrXqEyM/DGGrEh4rMc9v3Qgsf
-         UhnulHnaWLldKA9xxE6yw4BjYXRm/leQOLmEaAzlwouwEwGDhlptJmQy86lRlJdqta0f
-         QPaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754570260; x=1755175060;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S9E+0v2ucxe8Rl9qk5gSyFwvJkXSz4CfWc5Tz+6MmVw=;
-        b=G43ZlTWqRcTNfaZpHaimqQ0Uiclnrb9GDBUltjV3dlaOO9FjLqoTPtRbJRdn0DlyZW
-         wPFDhKH+bUXIeJPzhWEbph6Spm0YSCaGo3qFjzi+MTTklX90Vkas4pMslBplt1Ja8ncF
-         OMWLXdSeVKY3EKl4q9S2WkV5hi3+vcslzLIBdruAChSd+jJXHU7t25fHfvnX4a/cMSsA
-         KtNwwdsupq4+1DFjbnKswquGKQpabr7u8Vn5md1kHoW7oPC4Ubqr1xwgcFN+aFoAnAfz
-         RSy9y6COzl4HaDYpDNf9ZfKK6S8yO5toPP9Jd3m1uwaNYYNAXHN/W9+Dp9TOnXuSYXRo
-         WUYw==
-X-Forwarded-Encrypted: i=1; AJvYcCWvPbTSamRX1Em0460siNkhoabUBhfeIHbp0dGpuX/ohwxm5ZMAVs0f6MFOfD/Kdl0qzLxGhexCNIv8X9r8sxQAow==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwwmR7ggBH1E0VJNAf7kqMnO+YQGeBnq4hirsRdd4gvT7ikx5Ev
-	LTlzji5SA2Ntfmo6nOCNxCNc3fAXpu/1aU7u/df3lPG4w8otUL4qppH15YNQSbYAITrmhGxyOHl
-	iKYyOD1IL06P6SN5AFFiv0usTNX993Mk=
-X-Gm-Gg: ASbGncuLswiM0Q30/nW3DcY71FneFc0AoF+X3SuyfOjHPmBVmPeZDKORt+1/yUaAMhQ
-	+0npqDRhYrj1uFnHee5qp9rcETjxmKpe3X7zAlnlLXBN/KtH9qd6feH4FaPQvZkQrck50PBdUk0
-	2tezjomjSTTHR2XcvYXB+gg0kBkIz3WlLM2mWvPE5h4eEpojGwOg2Y6jS0Bz6zmboKgNIIX6pC0
-	rRUicnf
-X-Google-Smtp-Source: AGHT+IHG2vbg8/PaH9vqypac3aVBsxX8Kv7+ZqlVsuihwH5IvfXYDilds1ypcKsaqiuDxuqRQEscDQ9kxCGCUtAABhw=
-X-Received: by 2002:a05:6000:2308:b0:3a4:dc93:1e87 with SMTP id
- ffacd0b85a97d-3b8f48d5a80mr5282269f8f.1.1754570260022; Thu, 07 Aug 2025
- 05:37:40 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Ly4pCouX;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2025080717175783e9c119c8252e313a-xbipnu@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2025080717175783e9c119c8252e313a
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 07 Aug 2025 19:17:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=Q0PEmBlNR3MFMQUp8NeGRUQNBmHGkUavX/wboTNsDzo=;
+ b=Ly4pCouXkZyM2qeDdf1xD8FqGSNQPqQE+JQV/KpU/4rp8aiATfYclDvq9tXrGHDLUiBxzm
+ tROSpRfeO1776pqM0JNmdwsqR9eCIcwFXd6L3DbOE8iAfCFFNPlTT/M4tgQuEHktYEbW8rx8
+ 10ooRh94PA3YRKnlH1337fQ2u8jFhRABJdRpT1U3GwnvVWN0+E65Unr7Bwr46lwgMDkG3nOH
+ bbEzwWORvLxqlIqoUAvBSom7rmQgAGCfZorBPhBVMUMGzrEABknw0C4FP7J9bZajJAGURBiq
+ H1RJmezecR7mOhxOX/QvuLUXbUn6gBFhSPDCoBo4ZZnh9jCL/L9JB/TA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][walnascar][PATCH v2] glibc: stable 2.41 branch updates
+Date: Thu,  7 Aug 2025 19:17:02 +0200
+Message-Id: <20250807171702.11890-1-peter.marko@siemens.com>
+In-Reply-To: <20250730220952.14457-1-peter.marko@siemens.com>
+References: <20250730220952.14457-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20250724170600.1113476-1-raj.khem@gmail.com> <CAEHkU3V3tOfwAimXsEtj1vfKynQUB_+Ydq+x+ow5--pTYbrmHw@mail.gmail.com>
- <DBW6F58396OI.1148NBNN3G87Z@bootlin.com>
-In-Reply-To: <DBW6F58396OI.1148NBNN3G87Z@bootlin.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
-Date: Thu, 7 Aug 2025 14:37:29 +0200
-X-Gm-Features: Ac12FXycKCZjTY0LUnusGYa3SwjMC_V-K5qmNEwRq7ZM5gxb2WvFKFjmghoEH6A
-Message-ID: <CAEHkU3VBhgMO-DBWV9ToJzw3Q14T70zUx42mDe=7agaB_BukeQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4] feature-arm-crypto: Add +nocrypto to -mcpu
- when crypto not in features
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org, 
-	Quentin Schulz <quentin.schulz@cherry.de>, Ryan Eatmon <reatmon@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 12:37:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221568
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 17:18:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221569
 
-Hi Mathieu
+From: Peter Marko <peter.marko@siemens.com>
 
-On Thu, Aug 7, 2025 at 1:58=E2=80=AFPM Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
->
-> On Thu Aug 7, 2025 at 1:49 PM CEST, Max Krummenacher via lists.openembedd=
-ed.org wrote:
-> > This breaks machines which set `DEFAULTTUNE ?=3D "aarch64"` and use gcc
-> > as e.g. done for TI SoC [1].
-> > For that tune the `TUNE_CCARGS_MARCH` is not set at all resulting in a
-> > lone `+nocrypto`
-> > in the compiler arguments. Note that for gcc additionally
-> > `-march=3Daarch64` is not an allowed argument.
-> >
-> > I don't really know what is a good way forward. Of course one could
-> > not use aarch64 as a default tune
-> > to work around the issue.
-> >
-> > Any ideas?
-> >
-> > Regards
-> > Max
-> >
-> > | checking for aarch64-tdx-linux-gcc... aarch64-tdx-linux-gcc
-> > +nocrypto -mbranch-protection=3Dstandard -fstack-protector-strong  -O2
-> > -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-secur=
-ity
-> > --sysroot=3D...aarch64-tdx-linux/libgcc-initial/15.1.0/recipe-sysroot
-> > | checking for suffix of object files... configure: error: in
-> > `...aarch64-tdx-linux/libgcc-initial/15.1.0/gcc-15.1.0/build.aarch64-td=
-x-linux.aarch64-tdx-linux/libgcc':
-> > | configure: error: cannot compute suffix of object files: cannot compi=
-le
-> >
-> > [1] https://git.yoctoproject.org/meta-ti/tree/meta-ti-bsp/conf/machine/=
-include/k3.inc#n6
->
-> Hi Max,
->
-> Can you try this fix commit?
->
-> https://lists.openembedded.org/g/openembedded-core/message/221498
+$ git log --oneline 6e489c17f827317bcf8544efefa65f13b5a079dc..e7c419a2957590fb657900fc92a89708f41abd9d
+e7c419a295 (origin/release/2.41/master, release/2.41/master) iconv: iconv -o should not create executable files (bug 33164)
+1e16d0096d posix: Fix double-free after allocation failure in regcomp (bug 33185)
 
-This fixes the issue in our setup as well.
-Thanks for the pointer and sorry for the noise.
+Add CVE-2025-8058 to CVE ignore list as this is (bug 33185) commit.
 
-Regards
-Max
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+v2: fixed glibc version in commit title
 
->
-> It will probably land in master in the coming days.
->
-> Best regards,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ meta/recipes-core/glibc/glibc_2.41.bb     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index a2cfd0f308..881a9cce2c 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.41/master"
+ PV = "2.41+git"
+-SRCREV_glibc ?= "6e489c17f827317bcf8544efefa65f13b5a079dc"
++SRCREV_glibc ?= "e7c419a2957590fb657900fc92a89708f41abd9d"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-core/glibc/glibc_2.41.bb
+index 7ddf7f9127..8a65e8ce9f 100644
+--- a/meta/recipes-core/glibc/glibc_2.41.bb
++++ b/meta/recipes-core/glibc/glibc_2.41.bb
+@@ -17,7 +17,7 @@ Allows for ASLR bypass so can bypass some hardening, not an exploit in itself, m
+ easier access for another. 'ASLR bypass itself is not a vulnerability.'"
+ 
+ CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
+-CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-4802 CVE-2025-5702 CVE-2025-5745"
++CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-4802 CVE-2025-5702 CVE-2025-5745 CVE-2025-8058"
+ CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
+ 
+ DEPENDS += "gperf-native bison-native"
 
