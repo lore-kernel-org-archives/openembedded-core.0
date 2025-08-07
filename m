@@ -2,77 +2,78 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FAEC87FCA
-	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 10:01:29 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web10.47631.1754560888531143112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CDB0C87FCA
+	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 10:05:59 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web11.48008.1754561154836038752
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Aug 2025 03:01:28 -0700
+ Thu, 07 Aug 2025 03:05:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eIlvRXNn;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-704c5464aecso9086696d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 03:01:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DGcMNzTJ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-7094f298dc3so7412886d6.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 03:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754560887; x=1755165687; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754561154; x=1755165954; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/8RE+7+LGOcthELTqPbl/LECl3D3XTxMSztJ1Myo5Q4=;
-        b=eIlvRXNnjsw3ByPuerO3P7cG9QbO5nYwe6GzQjZdxH/ra+W2b5wNVIg7CekLpQ/7uY
-         Yqk6NEQMGi2ZZrNNiQtr4xkdCkkdKP00swC7vUTYpreoNTqGJoXWxX5aYqC5oqj4OdZQ
-         +qSkXmPB8PmQiWPtgEAw50r7SFHPtXbLvvgvURbsKc1TEZQp8dBZoBadNBz0ifxCQgVK
-         5ItoVlLMdysUitRNPGi/IF7+EcZ7+RqrRD8O97cJ8hHIPSWaZBGUd/PdHI63npS4vro9
-         LFL7XLKWHHFBN5DATbpFLnZLvvZlpyx3+7ZEn/lH5pSU95hhF5XvMQfGIeQccueHv+gR
-         KSLg==
+        bh=1r2DDu2nUDsdRSBnxg+BKGW5kSYFsgRhNtl/zTHGvbU=;
+        b=DGcMNzTJFrNj68IBhGJ+25ZXPnNA05c1mGJvqxAFlY5beeZOq3bab0kzSV4kvcI69+
+         bl6LfE8aHpZYcwjCHPtHtQnFr86bSX4m9ech10qCyXPdi/IVNHQtkpp4/lmkWzmWoTG2
+         YmSD5EkDnarlPBDbLkHHbp0bvIcq0GfO4JR+xyYH7D6uEq5L0iXhr85PceecxvoOJ2G7
+         tYA0zYfUH0dVdjs4ZDrH3Ms4unPFsuA3z6lqV88txiboP9mympr5zE3n1AFokflhbEQS
+         uLdHFf7W9Y1gomZgfD5v4tbDSzSDk9UGP5WaCQPzy/vRS+X2w265hSdBjBUobljAnF9V
+         IMBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754560887; x=1755165687;
+        d=1e100.net; s=20230601; t=1754561154; x=1755165954;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/8RE+7+LGOcthELTqPbl/LECl3D3XTxMSztJ1Myo5Q4=;
-        b=JRghwmXW9tKbEKrhQrT2u8araZnBJmVnf6OuRo+u2xwXjSY7ZVEMe2gQcrlO4PQ+Wi
-         9edF/wn+Sl3aEhfRQywjWAXnL/0KI21yhsBp4dA3LB3ebZy+GJ1Y4/mu0QBoRtWEiho5
-         iWBbAVASCkgtt+MhVi1ttAvclHt/LvjNuCLEuEuV0ANwkPGhH943md8hNs+k5zkC2DOD
-         dIdjiIItUqkX3qO5RGt9bmvniUBpDKmLAq6fCAsS+4001eLhxxaVOXpScReHGWIAkhCk
-         8y2zfMKZZDOLgDxfLQ2rTxq49Oi5ZD1iooNim9IUGpGxZsmYVD3nsYsNwwM0P6rOqhz+
-         sMQQ==
-X-Gm-Message-State: AOJu0Yw0liDVet7ZyLndMc7yiMqssPgslVWVzSF82+9HGiXHV6HTeooh
-	MZIIj/EV2G/dhbruR3r+0HX0sOcAplRoUrm1IHXCOE/5BnES+F65wiZHoRGa0oGSxIqChThzsWc
-	XNjtvceL4ZEPFtQ5gRr6qIZgh1yUpzOiINQ==
-X-Gm-Gg: ASbGncuJzi1cIJVAIv13lkJdQaAA1PfpqMEWbR3FsexHNOgv/ymJmhVaYrlnve+v+Ca
-	h1dcF8ihDc9WuxJ2m71WtNxzH08cBPrPG//BF1xvwCKnCwXB6G5f7dqM9oYMgB7vWLNnp+jSBsh
-	3S1JY+QwEAAueaX9YUMve78nqIbS+WG41GStU+r8hlQOM1JqCTu9WBZJ1jL8hKU4awhh4c8rP5S
-	vBlsWIsyu6eypkzmztA4Jhm2mWugG/tvbOYTapHbA==
-X-Google-Smtp-Source: AGHT+IGWSlT1PkiI1ptwQ6UxsYmYJjWuWi3ZuxTfEffkdhkLtm72rkq4gDVFWNhS7AgP7xKHkptjVtYNBRVamEnUf8w=
-X-Received: by 2002:a05:6214:5294:b0:707:55b2:2376 with SMTP id
- 6a1803df08f44-709795218bbmr87787396d6.15.1754560887473; Thu, 07 Aug 2025
- 03:01:27 -0700 (PDT)
+        bh=1r2DDu2nUDsdRSBnxg+BKGW5kSYFsgRhNtl/zTHGvbU=;
+        b=uAgv3YSiqbpRL/S9qrdWfrLcJwDmcxyyEJbkfA78fQNXpOvZihiIGh7OfKCmGPhmw0
+         i+HFCh4q1ldZYhcbyMwfQgm6Ksf0pgthtvj1ADLx12joFPYRCHNBnDzqA/b/MhL7IF+s
+         1NjOM99cAYKr6WKNij6Sdpax1HJAuSfac8CjZiLBNA0h4l8hui2Qk6HBiAV966QXPS5d
+         5ZhSR0VYne185xfIIAQkafyD43RXRXgOtxttnRzaZ3IuwmSVySm9OuvZfTEsDeu7xoPE
+         C/HPJtOzb0zrYxvbWn2dgVph5uToc1km1XeV8de4vPyQ38KsHUttqR0MtFD7z6mtB/Lc
+         vP8Q==
+X-Gm-Message-State: AOJu0YyQ20U0oFzXw/+s953NUyjY6ZPbphq/xjC1iqWRpL+KyW0mHwg1
+	GWK0AYhoX9QWKxlQO2Py0ZP2KHdtdEDDYyIkUyRRPTF9/id0xWhgl55+Tcb5Gs1AiMBAChppb3G
+	vRrVjsas1GydKAc5qmQlkid8+NJDgVL9ghQ==
+X-Gm-Gg: ASbGnctMAGMn0WPPbvMxky5LGZDaZpw6rLlnTNNpIT5SkXgSZf8QEiTRpk7WwCzrspl
+	yaknbtY2rLf276XviSlIwvWTvnAPgYVfBGOUm6LFpg9vDgNRjrDzbFznb9ZV5ADJQm2gpJvsWVH
+	H1PFJMIP5ei+Zkt1NjtTJIv4bHwXSwD+ZpzKsE0EnaPpaH3gheiG6QQlrYY1+ghfaf4TC7uQigG
+	tVCIlDjbB5H56iizc91Tbju+1Rh86at5v70HH1m9Q==
+X-Google-Smtp-Source: AGHT+IEGIp1Xt9naLvGvIJU2gU8aOtX6eXovfrKrn56zwhQhOpke/tVLZR3teIMy4hARnzNUwAxGf/lROoH4kxLNC+M=
+X-Received: by 2002:a05:6214:2269:b0:707:5a23:7382 with SMTP id
+ 6a1803df08f44-70979605a5bmr101920306d6.23.1754561153410; Thu, 07 Aug 2025
+ 03:05:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250801102912.3219302-1-mingli.yu@eng.windriver.com>
-In-Reply-To: <20250801102912.3219302-1-mingli.yu@eng.windriver.com>
+References: <20250804084809.2797941-1-pierre-loup.gosse@smile.fr>
+In-Reply-To: <20250804084809.2797941-1-pierre-loup.gosse@smile.fr>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 7 Aug 2025 12:01:16 +0200
-X-Gm-Features: Ac12FXzE6_QXiu5iBsp_K58QMgTlL47Z9QnBEXz5i95aoFvAAUgU_k3oUYEdJgw
-Message-ID: <CANNYZj-x-gHZcKa7cpTx_SNydaU9HKAGeD8SSmNwx2-2WArE9Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ovmf: Don't define bool type if building in C23 mode
-To: mingli.yu@eng.windriver.com
+Date: Thu, 7 Aug 2025 12:05:41 +0200
+X-Gm-Features: Ac12FXx9srKyvxQeWQXI70ryqw-IB2B3DPqQVcTY2sJ6uDupHR9XmFy_-35Eyow
+Message-ID: <CANNYZj_7gVF6ZsWN2Qfj1kG75SnUZqcfrwh2M5niiBmELh-tmA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] wic: add --keep-free option to set unused space
+To: pierre-loup.gosse@smile.fr
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 10:01:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221561
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 10:05:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221562
 
-On Fri, 1 Aug 2025 at 12:29, Yu, Mingli via lists.openembedded.org
-<mingli.yu=eng.windriver.com@lists.openembedded.org> wrote:
-> +Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/772fa11ac82579a8f6fa171e6b835f68af3f64be]
-> +           file://0001-SecurityPkg-Don-t-define-bool-type-if-building-in-C2.patch \
->  PV = "edk2-stable202502"
+On Mon, 4 Aug 2025 at 10:48, pierre-loup.gosse via
+lists.openembedded.org
+<pierre-loup.gosse=smile.fr@lists.openembedded.org> wrote:
+>          part.add_argument("--extra-space", type=sizetype("M"))
+> +        part.add_argument('--keep-free', type=sizetype("M"))
 
-There's already a newer 202505 version (and 202508 will come out
-soon). Can you work on the version update please? Yocto master can
-take backports up to a point, but not for much longer.
+There has to be a better name, as --extra-space and --keep-free are
+basically the same thing.
+
+Also, wic has an extensive test suite, and the new option should be tested.
 
 Alex
 
