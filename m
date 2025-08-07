@@ -2,90 +2,77 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B26C87FCF
-	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 09:57:39 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web10.47566.1754560649001695104
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FAEC87FCA
+	for <webhook@archiver.kernel.org>; Thu,  7 Aug 2025 10:01:29 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web10.47631.1754560888531143112
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Aug 2025 02:57:29 -0700
+ Thu, 07 Aug 2025 03:01:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ToecZWfc;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-7075ccb168bso8080506d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 02:57:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eIlvRXNn;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-704c5464aecso9086696d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 03:01:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754560648; x=1755165448; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754560887; x=1755165687; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DxbaTJ9nHWFKoaz8dKBwKGaDlIDCtZtbv1dmAU0dQhg=;
-        b=ToecZWfcqKecd1X/sGrjiw/BNwO/9RMexvbdsJHB9qCmo3AgCTa0eAW0fTWA4RHxNe
-         F+8gAXUOq8KASR7GZf1eZtF93HjxpBm/6RjPLJhJ8dQffFDcef/GuhFWK6zuZ5/IrS7A
-         YeFjjo9r6UQqClJXzjLZiA2Or+f59d+uQUvb54kC6/ntMwPx5CYocZIWXCURKADmiS2a
-         aEIcdfPjTtcHl40yTDln9pg6mPH1D9Nw2fWkq2kErVW4g5IPX9CTE1+ybRbE2+LKQQ4H
-         MuMw6MLYCniEBV5JDOq5xO0ez1skrNuU9YdAABF+8bV4xQv+6K7w9naLrfvyoernXycO
-         27lg==
+        bh=/8RE+7+LGOcthELTqPbl/LECl3D3XTxMSztJ1Myo5Q4=;
+        b=eIlvRXNnjsw3ByPuerO3P7cG9QbO5nYwe6GzQjZdxH/ra+W2b5wNVIg7CekLpQ/7uY
+         Yqk6NEQMGi2ZZrNNiQtr4xkdCkkdKP00swC7vUTYpreoNTqGJoXWxX5aYqC5oqj4OdZQ
+         +qSkXmPB8PmQiWPtgEAw50r7SFHPtXbLvvgvURbsKc1TEZQp8dBZoBadNBz0ifxCQgVK
+         5ItoVlLMdysUitRNPGi/IF7+EcZ7+RqrRD8O97cJ8hHIPSWaZBGUd/PdHI63npS4vro9
+         LFL7XLKWHHFBN5DATbpFLnZLvvZlpyx3+7ZEn/lH5pSU95hhF5XvMQfGIeQccueHv+gR
+         KSLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754560648; x=1755165448;
+        d=1e100.net; s=20230601; t=1754560887; x=1755165687;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DxbaTJ9nHWFKoaz8dKBwKGaDlIDCtZtbv1dmAU0dQhg=;
-        b=MQHDWVXP+iF3Kyf6TmK8iaURUQNveWYpjLU39dai3WiGJfZRlg6IH476dxLJCm9+HF
-         /P3WFSZfoXmoPWnxKvvpb2i+D/a9+DVg+T8p0f2FKBM5G3An6ndAdGTgmR8gTQTTtBn2
-         vPgdNZRrm+pNsXGUtlGokHi+OzJvjn5SWyYU2CS7SYw+ptLyVsA3jW3PvPSN60m6MBEY
-         nygP05hKYFGJzzSpTnOj2UdVMtjh/NdxKh0FogRb1Ax0EhWW1oxSkHbFkq9A9HWajsLH
-         bhrUypLLpM+DgWL1+jr8BRqFCHWHnZsjM8Qvl1QNwtY8VGfg8hf4SqtszSmNhJsCYdXT
-         dsFA==
-X-Gm-Message-State: AOJu0YzFRtAhoe2aoCLxA3Sh10bTd7qMDa5gETnza10OgsSKh42XDQf7
-	qX95yo2by6VSp6oRct/TCZsq9pHZptMO/7kBaAhM4vbgSgGT8VYD3Oh81YSBc9zwjzK4kPukCCa
-	r/54E+WDQA0QsmwdePcV3epZzr35hVL8=
-X-Gm-Gg: ASbGncvMhgDNgn6I7Mb4ycFFh3i8UisbfSFI/rDWlUYj0t2CADufxHbpd5Q/IUOgA0Y
-	BDh3FwoBoN1Edc3x7216YqEc8k+zkcemvRGhTJD0g+LtfRBrJMDQC38Wc6E74wWohMqYMiA0G/s
-	AX2cF2q2HdYKk3Xh6oF4mO+63S0V00SNzcaIji1dAB0bb+3DtHvmL4dujnJoKtbKQziBsEO+cwh
-	I5T4fUkpRO6AQOmOI6jHHQq3kiBHqbCwlhrkgTk1g==
-X-Google-Smtp-Source: AGHT+IHGzXTYoxfnE0wndKfqqIRT8TbwaQDMGyY+p9zSPl4H67fW3DzJWppC5OG0lD1OSuAbWIHOpNJbRGVOtm/10tk=
-X-Received: by 2002:a05:6214:246f:b0:707:7cee:4fd with SMTP id
- 6a1803df08f44-7097ae10932mr82040676d6.3.1754560647984; Thu, 07 Aug 2025
- 02:57:27 -0700 (PDT)
+        bh=/8RE+7+LGOcthELTqPbl/LECl3D3XTxMSztJ1Myo5Q4=;
+        b=JRghwmXW9tKbEKrhQrT2u8araZnBJmVnf6OuRo+u2xwXjSY7ZVEMe2gQcrlO4PQ+Wi
+         9edF/wn+Sl3aEhfRQywjWAXnL/0KI21yhsBp4dA3LB3ebZy+GJ1Y4/mu0QBoRtWEiho5
+         iWBbAVASCkgtt+MhVi1ttAvclHt/LvjNuCLEuEuV0ANwkPGhH943md8hNs+k5zkC2DOD
+         dIdjiIItUqkX3qO5RGt9bmvniUBpDKmLAq6fCAsS+4001eLhxxaVOXpScReHGWIAkhCk
+         8y2zfMKZZDOLgDxfLQ2rTxq49Oi5ZD1iooNim9IUGpGxZsmYVD3nsYsNwwM0P6rOqhz+
+         sMQQ==
+X-Gm-Message-State: AOJu0Yw0liDVet7ZyLndMc7yiMqssPgslVWVzSF82+9HGiXHV6HTeooh
+	MZIIj/EV2G/dhbruR3r+0HX0sOcAplRoUrm1IHXCOE/5BnES+F65wiZHoRGa0oGSxIqChThzsWc
+	XNjtvceL4ZEPFtQ5gRr6qIZgh1yUpzOiINQ==
+X-Gm-Gg: ASbGncuJzi1cIJVAIv13lkJdQaAA1PfpqMEWbR3FsexHNOgv/ymJmhVaYrlnve+v+Ca
+	h1dcF8ihDc9WuxJ2m71WtNxzH08cBPrPG//BF1xvwCKnCwXB6G5f7dqM9oYMgB7vWLNnp+jSBsh
+	3S1JY+QwEAAueaX9YUMve78nqIbS+WG41GStU+r8hlQOM1JqCTu9WBZJ1jL8hKU4awhh4c8rP5S
+	vBlsWIsyu6eypkzmztA4Jhm2mWugG/tvbOYTapHbA==
+X-Google-Smtp-Source: AGHT+IGWSlT1PkiI1ptwQ6UxsYmYJjWuWi3ZuxTfEffkdhkLtm72rkq4gDVFWNhS7AgP7xKHkptjVtYNBRVamEnUf8w=
+X-Received: by 2002:a05:6214:5294:b0:707:55b2:2376 with SMTP id
+ 6a1803df08f44-709795218bbmr87787396d6.15.1754560887473; Thu, 07 Aug 2025
+ 03:01:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250801042242.3076232-1-raj.khem@gmail.com> <20250801042242.3076232-3-raj.khem@gmail.com>
-In-Reply-To: <20250801042242.3076232-3-raj.khem@gmail.com>
+References: <20250801102912.3219302-1-mingli.yu@eng.windriver.com>
+In-Reply-To: <20250801102912.3219302-1-mingli.yu@eng.windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 7 Aug 2025 11:57:16 +0200
-X-Gm-Features: Ac12FXxVRNaTdSsrJejrIDLbUXGcDKSLyrNrw4oLif2FQ4SWWanQzTbSwOl4_c8
-Message-ID: <CANNYZj_aGce4mmz2P+LUHZdDYGVYQ1sOSkdcOdn6-mTY_USk2A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/7] libxcrypt: Allow undefined symbols in
- version scripts with lld linker
-To: raj.khem@gmail.com
+Date: Thu, 7 Aug 2025 12:01:16 +0200
+X-Gm-Features: Ac12FXzE6_QXiu5iBsp_K58QMgTlL47Z9QnBEXz5i95aoFvAAUgU_k3oUYEdJgw
+Message-ID: <CANNYZj-x-gHZcKa7cpTx_SNydaU9HKAGeD8SSmNwx2-2WArE9Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ovmf: Don't define bool type if building in C23 mode
+To: mingli.yu@eng.windriver.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 09:57:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221560
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Aug 2025 10:01:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221561
 
-On Fri, 1 Aug 2025 at 06:22, Khem Raj via lists.openembedded.org
-<raj.khem=gmail.com@lists.openembedded.org> wrote:
->
-> Unlike GNU ld, LLD defaults to erroring about undefined version symbols
-> add commandline parameter to sush lld here
->
-> Fixes
-> | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'crypt_gensalt_r' failed: symbol not defined
-> | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt' failed: symbol not defined
-> | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt_gensalt' failed: symbol not defined
-> | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt_gensalt_r' failed: symbol not defined
-> | x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt_r' failed: symbol not defined
-> | x86_64-yoesdk-linux-clang: error: linker command failed with exit code 1 (use -v to see invocation)
+On Fri, 1 Aug 2025 at 12:29, Yu, Mingli via lists.openembedded.org
+<mingli.yu=eng.windriver.com@lists.openembedded.org> wrote:
+> +Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/772fa11ac82579a8f6fa171e6b835f68af3f64be]
+> +           file://0001-SecurityPkg-Don-t-define-bool-type-if-building-in-C2.patch \
+>  PV = "edk2-stable202502"
 
-> +LDFLAGS:append:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
-
-Wait. Why is there an undefined symbol error in the first place?
-Shouldn't we address the error, rather than silence it?
-
-The same question stands for similar patches for libtirpc, gzip and
-binutils-cross-canadian.
+There's already a newer 202505 version (and 202508 will come out
+soon). Can you work on the version update please? Yocto master can
+take backports up to a point, but not for much longer.
 
 Alex
 
