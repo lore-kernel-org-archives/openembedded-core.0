@@ -2,62 +2,63 @@ Return-Path: <akash.hadke27@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D55C87FD3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D90C87FDA
 	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 08:50:47 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.17953.1754643040395765932
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.17694.1754643038311462121
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 01:50:40 -0700
+ Fri, 08 Aug 2025 01:50:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FnTF+BN/;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: akash.hadke27@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2400f746440so15071455ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:50:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NCWUCq7X;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: akash.hadke27@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-24014cd385bso20642535ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:50:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754643039; x=1755247839; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754643037; x=1755247837; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SL7Nq93SL1rXHkLsyteZmXDVJ6IrYtk6+gjnqxApHdM=;
-        b=FnTF+BN/3D2DZ67J6qABl/QPnW6Yu+kogVJ/mSh//+M8uheIb3244nqX0+YCc9O9Aw
-         e9D1sZiCFR6CKkE9N7IWSjg0vl5e/hSbLld7douK5DzGoj0kkspOTGsW6oYpeHst2bAK
-         +LtPTv5Q8G21Pc7dsP3lwH/lvjlX5Ltc3cgvF5tBVInMJU6FaZ3vPU9jwdOIJaG1AXOe
-         wusRlxCfQPhdgYlGPDUQZdN9LgMD/Styw+Fh9HpApwlxx4tkviPX5YRqu8+MZAb+RFzr
-         EAnaL7D34XuWMRWfCz3kpcqXpMtuvuoJkP9u8I3+ktetHePsVAmGpwSHprRWSixXu7tO
-         4SOA==
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4mK3/9Ohtbj4n0nl7V8n0G82kH9pv7Al6B/pJQG37lI=;
+        b=NCWUCq7Xaw/V9mn2xID52LGLF6spUiyWTxJYYcHYdklC9Ofqexol7lToh1a/GXwnxr
+         MysYuJIFM/hk35r8X44a3IV+fsM3DQXDuZvTy+xU/mvce8DALd8oL0ixMzwjKgGPq3y+
+         g4RJhpaILSYCqIljVtZTkO91xsSOeEUjlxNZLpzeUa7qSG+KH0gqu6JSAJ3DuYAxtfTd
+         qu3DY8LN39ufUuecRh1mhCWPFTiLTDk89O1ardL0q7t9/CO3AqP7kI6fUEE3ynnXdi1M
+         sbczGJHcKOAa65DjnePdVFFeHM6fDKcBVIfHyLRRgtnu560ZcRkSGjP9K/991llCU8Nh
+         5xVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754643039; x=1755247839;
+        d=1e100.net; s=20230601; t=1754643037; x=1755247837;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SL7Nq93SL1rXHkLsyteZmXDVJ6IrYtk6+gjnqxApHdM=;
-        b=Cf6yi76487soFu6uIOOV3CXakOb1mdsklmai1BaSKAfW6q4qVwyRkUeite/B+L3YEr
-         dIkcQrm4TS5/9pgFivAyNlER7438h3AlwNugQmGPIWWfCR6Dur+mufQ/S+m5s0mKHUyv
-         ceqvIZsjI8RRdNgC2adCxkN31gIDIv129mkrPMXQU/v6j8rGrQNub6zxTNhDGWEnGdG6
-         UXv7zmOhIqJic3X6w+z7Jas82CfgTGtUiadPZAlqi3I80J4oiynXx6pYugtWnVo+ZxAK
-         rfl8Iq0l2d4/F2njzLOggEh3cM+dTTJYT9VChuBiQtuF7bLCgbwie695m7c/URT0sAmr
-         Op+Q==
-X-Gm-Message-State: AOJu0YxYZsEcw+pFQEwcsimQoXu0F29PUoXdTgV+nqao77ES/m0fQ52T
-	nKIqvxkBZ1V0xZ8e7ZKDS1bgR7m8oCYPBw2MThuL1lSUgG39oPKdLrgTXjAz7Q==
-X-Gm-Gg: ASbGnctUKZ3MCV3lHmlDBHi3WO65DTPm9w6FJd17Et/yCUXtFO+smKSDQaa3WqEyBx4
-	j8yitGgs0JrXOaOLMxAnSK3mnIXY8dOdXlpfgG4MtCUSlyfRhnz8eCfjRZydqvmLrJ63hEjn0zi
-	NNTpqiRN8740E5ld5RnyVA5DtiV9lBuS4Rjkj7fDuMc9OFKrl52I1toF/qyGtzYLTaGhSqddmSA
-	iGQM/MWGSx2siZ8xdPfPvnvj18SYICzrVGeRYtLnDzFMHbBYMYGlE52s+N239ETP3N8uwq2fjvo
-	sW6eG57WJiu1fuuK/asw2nz5/1PYHehXdVdQVS0JdmpIBl7A75B62Xb6FB9QdGuKJihbeDPWyCn
-	4DD5hQIsGTqkw+K9UikEOZfqeUIi1gr5PKbB3hw==
-X-Google-Smtp-Source: AGHT+IFJRDAdBgMyjveUSqYqoc4vwPIsEGsejePeir5ZZ3+vqUKKTENO1Rtl3nn3/ZIPEWBv4ThkJw==
-X-Received: by 2002:a17:903:4b47:b0:240:8704:fb9 with SMTP id d9443c01a7336-242c22fb175mr28304075ad.53.1754643039371;
-        Fri, 08 Aug 2025 01:50:39 -0700 (PDT)
+        bh=4mK3/9Ohtbj4n0nl7V8n0G82kH9pv7Al6B/pJQG37lI=;
+        b=A5X9nr3CT70R6dmLZuY1HRaJzb/7ZjgHIq2sZ33Siz8RicW8ZJF1AY/WDzij71AoA6
+         IFOZj6axuG7ZOLitpVZozsmeT84a97nvuqRfDZO99zijf+3mRz+w3rLotxJIcpLQl+wa
+         LzmwV93xzTNjEfsI/h3VW+cLV7Ak9lzOFdpsu91SA9giXeiI/tTJyM4+yXcjS90WXewj
+         Yo5HxJPPEzH1uOemytnHrxMhJ6MRJZYjxrYroeLpTsCHuv9AO4DjdGgimGx5uSPNrjT6
+         ua+2e89ep9kGnOpQ3yia+0msnxor/4TTGxkWqjWAZ6Q3gb8+1Hoc86LuQcErqGZ4sMmy
+         RPMA==
+X-Gm-Message-State: AOJu0Yws6ycdK1npre+se9ZiBakyrH89b3i02kvLTHP04b1qiG7ZK7FJ
+	IUPSN0K5XcmKOc/FfPjUQUj9bjm/oiwdIX7cJZkuEjNg9TilAh6zwoIq+EiWEw==
+X-Gm-Gg: ASbGnctZwyU78JRj3QugX+Dqy7cgLyeQf+XUsU0oaaJZDnkXYXaMVd4gM8uaE3M+hCJ
+	KEtn9BG9IAUgER3gmeXyczmsXcAb8dqCP/E4VV/ZOwaBnRdEopuzuo0M76AKk98wUXaazUwkBtN
+	BPQfz4O1Opb2cSpNRKFwCjThnHSkrZxDMr1gVdk1jaoHpZ6J/5xULQbUMb79W4UM8Mso4Z9RCyj
+	U5GJvPQFRp2k9JVI5JDQUsZnF5Js9EaMh+aABhjBhGpJIZ+m+EVfbDqkN4at7Sb/k8caoD0EaIp
+	dFLd7mMWXNUPGTtE70q3YQMdH6uYj7fXfht0SykynOd89mO3haOFVbdys/8Wekvcsbvl2cscTCf
+	T7OoWyOnzoIZpJFtaFEw/t7R9zLrySUjS2TfvnTx6YcU=
+X-Google-Smtp-Source: AGHT+IHenumyEIVo1yN1gJ6PGhvo8ZesrMIONdPgsH6LDHsELDVEW4G9AfGG+iHtWPz/BSO33Q7zZQ==
+X-Received: by 2002:a17:902:f683:b0:235:f078:4746 with SMTP id d9443c01a7336-242c224b697mr37714075ad.42.1754643037354;
+        Fri, 08 Aug 2025 01:50:37 -0700 (PDT)
 Received: from L-18010L.kpit.com ([49.36.49.248])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.50.37
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.50.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 01:50:38 -0700 (PDT)
+        Fri, 08 Aug 2025 01:50:37 -0700 (PDT)
 From: Akash Hadke <akash.hadke27@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [poky][scarthgap][PATCH 23/23] bitbake: fetch2/git: Add multiple revision support
-Date: Fri,  8 Aug 2025 14:19:31 +0530
-Message-Id: <20250808084931.2156763-23-akash.hadke27@gmail.com>
+Cc: Stefan Koch <stefan-koch@siemens.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [poky][scarthgap][PATCH 22/23] bitbake: fetch2: Ensure a valid symlink in `PREMIRRORS` case when using shallow cloning
+Date: Fri,  8 Aug 2025 14:19:30 +0530
+Message-Id: <20250808084931.2156763-22-akash.hadke27@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250808084931.2156763-1-akash.hadke27@gmail.com>
 References: <20250808084931.2156763-1-akash.hadke27@gmail.com>
@@ -67,83 +68,70 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 08:50:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221620
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221619
 
-In scarthgap single SRC_URI can still have multiple revisions
-update the code in order to iterate over these revisions and
-do the fetch.
+From: Stefan Koch <stefan-koch@siemens.com>
 
+- Since `ud.path` contains in that case the `PREMIRRORS` prefix path,
+  this change ensures that a correct symlink is set up.
+
+(Bitbake rev: 37ed18e45aa17406162efc5ee3ddb2d6b33d07b9)
+
+Signed-off-by: Stefan Koch <stefan-koch@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f5ae37fbd86c1328ebd81166573fbad3028abe5b)
 Signed-off-by: Akash Hadke <akash.hadke27@gmail.com>
 ---
- bitbake/lib/bb/fetch2/git.py | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ bitbake/lib/bb/fetch2/__init__.py | 10 +++++++++-
+ bitbake/lib/bb/fetch2/git.py      |  7 +++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
+diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__init__.py
+index 49dca75025..9b1aa8858b 100644
+--- a/bitbake/lib/bb/fetch2/__init__.py
++++ b/bitbake/lib/bb/fetch2/__init__.py
+@@ -1093,7 +1093,10 @@ def try_mirror_url(fetch, origud, ud, ld, check = False):
+                     origud.method.build_mirror_data(origud, ld)
+             return origud.localpath
+         # Otherwise the result is a local file:// and we symlink to it
+-        ensure_symlink(ud.localpath, origud.localpath)
++        # This may also be a link to a shallow archive
++        # When using shallow mode, add a symlink to the original fullshallow
++        # path to ensure a valid symlink even in the `PREMIRRORS` case
++        origud.method.update_mirror_links(ud, origud)
+         update_stamp(origud, ld)
+         return ud.localpath
+ 
+@@ -1633,6 +1636,11 @@ class FetchMethod(object):
+             except FileExistsError:
+                 pass
+ 
++    def update_mirror_links(self, ud, origud):
++        # For local file:// results, create a symlink to them
++        # This may also be a link to a shallow archive
++        self.ensure_symlink(ud.localpath, origud.localpath)
++
+     def try_premirror(self, urldata, d):
+         """
+         Should premirrors be used?
 diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
-index 390d9ddafc..88fa119e1d 100644
+index 764e34ccc2..390d9ddafc 100644
 --- a/bitbake/lib/bb/fetch2/git.py
 +++ b/bitbake/lib/bb/fetch2/git.py
-@@ -513,12 +513,13 @@ class Git(FetchMethod):
-                 raise bb.fetch2.FetchError("Unable to find revision %s even from upstream" % missing_rev)
+@@ -371,6 +371,13 @@ class Git(FetchMethod):
+     def tarball_need_update(self, ud):
+         return ud.write_tarballs and not os.path.exists(ud.fullmirror)
  
-         if self.lfs_need_update(ud, d):
--            self.lfs_fetch(ud, d, ud.clonedir, ud.revision)
-+            for name in ud.names:
-+                self.lfs_fetch(ud, d, name, ud.clonedir, ud.revisions[name])
- 
--    def lfs_fetch(self, ud, d, clonedir, revision, fetchall=False, progresshandler=None):
-+    def lfs_fetch(self, ud, d, name, clonedir, revision, fetchall=False, progresshandler=None):
-         """Helper method for fetching Git LFS data"""
-         try:
--            if self._need_lfs(ud) and self._contains_lfs(ud, d, clonedir) and len(revision):
-+            if self._need_lfs(ud) and self._contains_lfs(ud, d, name, clonedir) and len(revision):
-                 self._ensure_git_lfs(d, ud)
- 
-                 # Using worktree with the revision because .lfsconfig may exists
-@@ -649,7 +650,7 @@ class Git(FetchMethod):
-             runfetchcmd(fetch_cmd, d, workdir=dest)
-             runfetchcmd("%s update-ref %s %s" % (ud.basecmd, ref, revision), d, workdir=dest)
-             # Fetch Git LFS data
--            self.lfs_fetch(ud, d, dest, ud.revisions[ud.names[0]])
-+            self.lfs_fetch(ud, d, name, dest, ud.revisions[ud.names[0]])
- 
-         # Apply extra ref wildcards
-         all_refs_remote = runfetchcmd("%s ls-remote origin 'refs/*'" % ud.basecmd, \
-@@ -738,7 +739,7 @@ class Git(FetchMethod):
-         repourl = self._get_repo_url(ud)
-         runfetchcmd("%s remote set-url origin %s" % (ud.basecmd, shlex.quote(repourl)), d, workdir=destdir)
- 
--        if self._contains_lfs(ud, d, destdir):
-+        if any(self._contains_lfs(ud, d, name, destdir) for name in ud.names):
-             if not need_lfs:
-                 bb.note("Repository %s has LFS content but it is not being fetched" % (repourl))
-             else:
-@@ -806,8 +807,9 @@ class Git(FetchMethod):
-         Verifies whether the LFS objects for requested revisions have already been downloaded
-         """
-         # Bail out early if this repository doesn't use LFS
--        if not self._contains_lfs(ud, d, wd):
--            return True
-+        for name in ud.names:
-+            if not self._contains_lfs(ud, d, name, wd):
-+                return True
- 
-         self._ensure_git_lfs(d, ud)
- 
-@@ -835,12 +837,12 @@ class Git(FetchMethod):
-     def _need_lfs(self, ud):
-         return ud.parm.get("lfs", "1") == "1"
- 
--    def _contains_lfs(self, ud, d, wd):
-+    def _contains_lfs(self, ud, d, name, wd):
-         """
-         Check if the repository has 'lfs' (large file) content
-         """
-         cmd = "%s grep lfs %s:.gitattributes | wc -l" % (
--            ud.basecmd, ud.revision)
-+            ud.basecmd, ud.revisions[name])
- 
-         try:
-             output = runfetchcmd(cmd, d, quiet=True, workdir=wd)
++    def update_mirror_links(self, ud, origud):
++        super().update_mirror_links(ud, origud)
++        # When using shallow mode, add a symlink to the original fullshallow
++        # path to ensure a valid symlink even in the `PREMIRRORS` case
++        if ud.shallow and not os.path.exists(origud.fullshallow):
++            self.ensure_symlink(ud.localpath, origud.fullshallow)
++
+     def try_premirror(self, ud, d):
+         # If we don't do this, updating an existing checkout with only premirrors
+         # is not possible
 -- 
 2.25.1
 
