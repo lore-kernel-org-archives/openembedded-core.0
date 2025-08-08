@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C95CA0EC6
-	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 09:10:28 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.18178.1754644220787750603
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1644DC87FDA
+	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 09:10:38 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.17901.1754644214708853166
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 02:10:20 -0700
+ Fri, 08 Aug 2025 02:10:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=V+lH0b+G;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ob0Lz6Pp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019888f207c9-ff750fbc-836f-4340-8890-53125de0ea25-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=I9d4kod2;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Teohobil;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019888f22686-1be3a008-d48c-4321-861b-90d650588551-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754644220; i=@automation.yoctoproject.org;
+	t=1754644227; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=9yW/0E7/LvV5KHSvDQSQmKpoq0fFpojYQugXoh1pVNE=;
-	b=V+lH0b+G5Tn6CHPeRo29QscUExmdXQRjd6VwrDaCag95vFq/yl2EDKn3x7RShBZ4
-	RWlS6BNpAD2936pRVrORsAi/5ohr/Aq7gf11xuIIY8RQgNd5BwhdAN+Gaxm15X4zTcF
-	2e6TwCUHsTLzlv2p3/7WuE2gaByQjuIVxYkyiaAQ=
+	bh=XIf6Qb4UfDLAIytS/LdxtJTLAsidNWAPoaai0si70us=;
+	b=I9d4kod2c4GeRRG3Pj2Cmi59PymcW5GHvWCRuM+ufRSdX88p5N3KVHMQZYSZcCIK
+	PExk6s4JqP+x7ExOEn/bbs4BVJrzB0RjnDbFstmCCzRgHb1i5aOsDn3HFfz3XP1TaUL
+	Z0AtfkgPCBXZzrS/kpFKbUww/r+gEdAWxRcly8PQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644220;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644227;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=9yW/0E7/LvV5KHSvDQSQmKpoq0fFpojYQugXoh1pVNE=;
-	b=ob0Lz6PpPzOolpJJcQHDgIOYuh/xW0l/cLDFCs2HkLMK/3irVskFSlEM3NMr480b
-	BnPFRDSvgpDaBVIbjl/AivJH3ZWfl8SPFKKXKQ0podQPLMiWwMq1oK1SXh0q0XN+Jh+
-	17dC1Yqney8ef7ERYjfcHCI4AOmudOXxV7il3/Rg=
+	bh=XIf6Qb4UfDLAIytS/LdxtJTLAsidNWAPoaai0si70us=;
+	b=Teohobil92hHizaWaVZbdH5LG1x/CvNqNmGoSs8ZYOWxW0cCjtq+pKkBCpfRIRwK
+	7R00TRpykLi60gHNn71Bg/f4ncnxCMU3kjR6ENPmTgBn+dPMGuaIseaq2F+Bxg0qZzm
+	zxLlJVch6S51AOHeSuGn/YvV40KB+mZPNLSoH4n0=
 From: patchtest@automation.yoctoproject.org
 To: Akash Hadke <akash.hadke27@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [poky][scarthgap][PATCH 10/23] bitbake: tests/fetch: Adapt test cases
- for fast shallow fetches
-In-Reply-To: <20250808084931.2156763-10-akash.hadke27@gmail.com>
-References: <20250808084931.2156763-10-akash.hadke27@gmail.com>
+Subject: Patchtest results for [poky][scarthgap][PATCH 20/23] bitbake: fetch2/git: fix shallow clone
+ for tag containing slash
+In-Reply-To: <20250808084931.2156763-20-akash.hadke27@gmail.com>
+References: <20250808084931.2156763-20-akash.hadke27@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019888f207c9-ff750fbc-836f-4340-8890-53125de0ea25-000000@us-west-2.amazonses.com>
-Date: Fri, 8 Aug 2025 09:10:19 +0000
+Message-ID: <0101019888f22686-1be3a008-d48c-4321-861b-90d650588551-000000@us-west-2.amazonses.com>
+Date: Fri, 8 Aug 2025 09:10:27 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.08-54.240.27.192
+X-SES-Outgoing: 2025.08.08-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 09:10:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221631
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 09:10:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221641
 
 --NextPart
 Content-Type: text/plain
@@ -54,13 +54,14 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/poky-scarthgap-10-23-bitbake-tests-fetch-Adapt-test-cases-for-fast-shallow-fetches.patch
+Testing patch /home/patchtest/share/mboxes/poky-scarthgap-20-23-bitbake-fetch2-git-fix-shallow-clone-for-tag-containing-slash.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
 PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test bugzilla entry format (test_mbox.TestMbox.test_bugzilla_entry_format)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
@@ -75,7 +76,6 @@ SKIP: test CVE check ignore: No modified recipes or older target branch, skippin
 SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
 SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
 SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
 SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
