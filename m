@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 215A9C87FD2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19DE7CA0EC0
 	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 09:10:38 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.17911.1754644230528141807
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.17899.1754644213626319250
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 02:10:30 -0700
+ Fri, 08 Aug 2025 02:10:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KOxGzFKU;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Q6NtgbYa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019888f22f96-c4c81421-6a84-4154-b1d3-ad3ff4e40065-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=y665VFGu;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AT7YLfMw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019888f22c9c-8e7e8616-a553-478b-8d7e-f34599c26828-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754644230; i=@automation.yoctoproject.org;
+	t=1754644229; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=gp0itmJj2bNLGuUIuVNz4wWOUyz7+EVprVF73Cwv9dA=;
-	b=KOxGzFKUIAl2lISii6tPGzGij7mci3GskfD+RF2TmH3XKAV0sRJYr+VZ/CrvTuqM
-	xMqM9QY7mYIfDQJ3lsclhbze1elc90uqU/wK6H7zrRTWiRWl1U5yxWY8jYRJq+FFlrS
-	CpZxT9WBNyaRAwH2gwy7BVfCWN4nAvI8HS0shXQI=
+	bh=F9/jI3g5cy0KiMb7hkpqbgtK2ACyoscPIgHT1aTaz1Y=;
+	b=y665VFGusqJJ28SJL7Kbv1Z6chWdx+ikZeGyYX8Pox3eoA0BLGDcaYV445KSIB93
+	fk0Vghg6GTtT87AUmbA5xZZN7PTSq+QWMDUpK6MF2K1x+KRitkJ95hjKWIikf1jomwe
+	Wd83bYMYaB6CavI1x+uawIPsvfEZEpPK1A7ZYhVw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644230;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644229;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=gp0itmJj2bNLGuUIuVNz4wWOUyz7+EVprVF73Cwv9dA=;
-	b=Q6NtgbYath0mi9ic8F0TINUCF6P3Ck9i3VtuDPCux/DAYyuD5bRFAiLuq/yyg9IZ
-	rr+InHuRJHToZHfHlKzO1lyUr7zZuOsyTd0wJUd6lsYRvlKF+0iijxNEkYZdYwTL30B
-	eRMxNEtqFnRkmTtGWy9wrYsBWXRk0019qIYovzCI=
+	bh=F9/jI3g5cy0KiMb7hkpqbgtK2ACyoscPIgHT1aTaz1Y=;
+	b=AT7YLfMw3faYhN7giILgOPl0MugN0HFhvL/Vy3i2vQq6QWTn2rx8Z8+zd/lhIiVt
+	t7QJwrwbyQ2N93NCRmuot4e5zNoePck/OpShwEdPBt6D7QjSzv6L7uDOTDcACph2W2q
+	B4raL/OHTbVKZ67Cnv9HknVnpT8CvUnz8Sy1HiuY=
 From: patchtest@automation.yoctoproject.org
 To: Akash Hadke <akash.hadke27@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [poky][scarthgap][PATCH 23/23] bitbake: fetch2/git: Add multiple
- revision support
-In-Reply-To: <20250808084931.2156763-23-akash.hadke27@gmail.com>
-References: <20250808084931.2156763-23-akash.hadke27@gmail.com>
+Subject: Patchtest results for [poky][scarthgap][PATCH 22/23] bitbake: fetch2: Ensure a valid
+ symlink in `PREMIRRORS` case when using shallow cloning
+In-Reply-To: <20250808084931.2156763-22-akash.hadke27@gmail.com>
+References: <20250808084931.2156763-22-akash.hadke27@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019888f22f96-c4c81421-6a84-4154-b1d3-ad3ff4e40065-000000@us-west-2.amazonses.com>
-Date: Fri, 8 Aug 2025 09:10:30 +0000
+Message-ID: <0101019888f22c9c-8e7e8616-a553-478b-8d7e-f34599c26828-000000@us-west-2.amazonses.com>
+Date: Fri, 8 Aug 2025 09:10:29 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.08-54.240.27.33
+X-SES-Outgoing: 2025.08.08-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 09:10:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221644
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221643
 
 --NextPart
 Content-Type: text/plain
@@ -54,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/poky-scarthgap-23-23-bitbake-fetch2-git-Add-multiple-revision-support.patch
+Testing patch /home/patchtest/share/mboxes/poky-scarthgap-22-23-bitbake-fetch2-Ensure-a-valid-symlink-in-PREMIRRORS-case-when-using-shallow-cloning.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
