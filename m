@@ -2,63 +2,63 @@ Return-Path: <akash.hadke27@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66DFCCA0EC0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61993C87FD3
 	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 08:50:37 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.17952.1754643035670431370
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.17693.1754643033209480045
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 01:50:35 -0700
+ Fri, 08 Aug 2025 01:50:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VDIwFJx8;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: akash.hadke27@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76bd041c431so1837037b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:50:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=W8jI3nlQ;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: akash.hadke27@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b4209a0d426so1932398a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754643035; x=1755247835; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754643032; x=1755247832; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Cw+E5rg6VQSrLCUOHoi5NkEzNglUKjgkX55lA8tYBHU=;
-        b=VDIwFJx8EFH9JPflyPTFLIjXsWo2aN5XxQ+TZlqvazqncJ6gygprcyrdfhoSRuUVLH
-         BfflEs86gUuA9FiHrlQqU0jBndmW3TiLKk042dTMa7APvI82htCNVRePhrkGuPGs6OB0
-         FhULdFEmA/Z60uNSnxeMoy3juaqBD+Kb8/ZujxPOEahMxp72OYS88ChU6yOS5NKQYXWi
-         6nEjhTviVooRWcWJ8S8gsAx7UCpVyovAnkJ7ck9GhkZ/WXaFbRFjja/F1zxBsA98T1CH
-         EkLAwMxcO2LerMeD1wFvGM3VLpCo9+AI4nCuifVD6qdrS4scSv5eXTDoGaiZymVyja+m
-         t1EA==
+        bh=AL2WkQaHXSacRiHRpk5kDaah6EYWRRp3/8aLrZ8f3Xg=;
+        b=W8jI3nlQUVpjjmufCotC/UQmg7jrOKFbihvnJRnbTsH0u+kGaqnV0Qz0I647V9vXhJ
+         4Hahq9sXN5c6LwzTPsp7FKYaQWRstIHUxaBd1wq3EYRw4ersWuM3MVCWNnQE8mvm6OHs
+         /om5kGr/jXgGzvSUxYlTRVEFVTRzlki+8Ii1vFsXoIbG7O2wNSB6WRiD3XE2gfdYBqgc
+         ubrP9BhtZ6b7LKNtZ8N4dFmQUdB4q2IYjl8V/DUpzSeCWoZuMURjT4yXoIOa6TwWxuKZ
+         HrLJ6d16QBAAzPtIPJRpqgdYqLaJaSh7ydWP9wKFrSW70PMob+ulIXHkyZ3iY5WtztWH
+         W21w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754643035; x=1755247835;
+        d=1e100.net; s=20230601; t=1754643032; x=1755247832;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Cw+E5rg6VQSrLCUOHoi5NkEzNglUKjgkX55lA8tYBHU=;
-        b=HBnFe052E/TuN3ouWx4BVqB00IVXiVBiyDpDiqSvT7hS5MtZghwJRNlybSqFCy/cVR
-         MAjhUXtOt/HuOV/+EpTJBq/HLOoFRhII+QCGCY/wOEJPNyOz+GtjoPLejSB1srVDgMwQ
-         k1UHpwqk+15CrVdbBTM3/ac3nSqz5ZzzE5WW1ouo9RiwwEQtBXH3pWdglSzSWdE2oqnz
-         +SUz5C2Uq48i1I6Id/1y5ePH8ih+35K967rJaF1JDx0lFIexMPYeNSeOwGh89eCI4M91
-         uEtCZh0MyJ8oV6XOPhiX/ekvtpflut9kES+9v+lgxgIPEe5OLyO7/HX61z3JCSIzu3wZ
-         Nj8Q==
-X-Gm-Message-State: AOJu0YyDzZrcNgISNsifB46njY9zaAfGpfl+QSvNZ6NjAtsMihuDLHoG
-	iV9fB2Mh2LqUAP6/li2UiEQqvNBQbfjOXKKRX3QOSIaftanzERrHZCbyAQBcWg==
-X-Gm-Gg: ASbGncthAyqZO4En9WsPT44HbngEHQaWbFRYFPUGK2kFUkZNBaiYYBtEnV9ToOm9rNX
-	8sWqzFZK1a0AYoenxMF1VZBjEAD1G0WfOkEWNmJnm2wyWgLNUrhj0w8lI5kKkL0H0YmVLMvEsPX
-	ycjo4b+YKNXEpPhY8n65aaZ5IBtj4DLlRusKCySlWWgyFICC21vOR4uJlBk4s7Yiq0xf1vZ+NHp
-	aBXvqZR+giS3gNOoFxJ9KPwmrPv1dJoonG+P3RAnf/K90Q5oTISjwYrgbvNvVRFwXkMtcIONVbg
-	JbAZpsnjlcC0+v110bp8d+7ZdRFQGFXuQ4yBuIlBl1jC1RlXT1s/g6pi8FrSplcP8dYlUUaARpk
-	X3ALZNwhrNRw2EU0WsUiOezez/pA2Q3/4E2oCFwqfHx8Lbqrb
-X-Google-Smtp-Source: AGHT+IG4oCkz3XTtdWgQwyQf+H5un9WGTxRvXmLGOfoxbwI3zfc6HBqYLGNbly2/ilJgS/Gg+Ie8Hg==
-X-Received: by 2002:a17:902:f544:b0:240:c9b6:f8ee with SMTP id d9443c01a7336-242c225f966mr31040815ad.50.1754643034754;
-        Fri, 08 Aug 2025 01:50:34 -0700 (PDT)
+        bh=AL2WkQaHXSacRiHRpk5kDaah6EYWRRp3/8aLrZ8f3Xg=;
+        b=keHKon6Oi6APgfTcOkqbpdDwhUUszuRUc8mk3WjW1s759sGCKHYndE3LW4rSc5yZwU
+         HOQtlN6pw1Eaa++dJvuy0GphRXxe5kb2rr6SSyAiQ/H0pxAqSIjcoos8IcvVF81+5XBN
+         8T02el9ElVEM27O2aYp9h9RglaeKY8YsDjP7qmH7AfJIQ0fQPCO00XHL54ttHCHQ7c/P
+         KPjUAJPTamb7L5wCfKtjLG4Y4Exj7PX5A1TyLnu1dfp883azZk1AFGQXpQXIgrnj4WQJ
+         akg1cy9DXO/ugwf0pVS+hm6Y1hF0SpSDcC8CoAAcOdZkpnlANykL8mrtYciPabGCoNGN
+         nRlw==
+X-Gm-Message-State: AOJu0YzJdVjlBkDiw744jZPM65pmZudqdhXXmKzwTv+yOaDJy57MP5IK
+	6PYA0hH5jd+NoKfZKqliWcPmdGuSuFd6TkXO13CSJG4B9llBfYblM6Byklx7cw==
+X-Gm-Gg: ASbGncv3fqKf1mIE5KkpokebecS81i/J2Iw+T11X05GFkqUJeipXldD+b1zjMRjJiRV
+	kbBV+B/g6DpDMRanOrJSR72By+SjnSyY2zsphLZ5t+h3sdCpIQomjjnH3c7PUjM3rBgS6x7Lm/b
+	gno/fEny3Fm72WGauupGEjWX5n9Jr7PW1xohyxn2oTUynJAPxWZV222Jh5yVm0BweZKSmGnygHw
+	xy073pfY58mlcbgm+KR08nFN2Lmd82w9bRJ5Ue+yavq4cK9rr0uiHGXngRmACd2ckbwieZc8Iu2
+	ajbJmNzgQBL+yROU2yb9KqjbV76ITDIxJuspLRlaxCml5TT1hyww6hllLWQq/yFpIJUeSOGXFk1
+	wsKrKAI8qYgIDSrhoLJMizFuDU8lT9l+W
+X-Google-Smtp-Source: AGHT+IGOqWy4JS3H+LdBVia2o5xTPTN5p4air7Egt52BjxpGDc7M4SX3r9AvYO8Q1vvP3jofCFRFFg==
+X-Received: by 2002:a17:903:110f:b0:23f:df36:5f0c with SMTP id d9443c01a7336-242c21dda3emr32084925ad.29.1754643032317;
+        Fri, 08 Aug 2025 01:50:32 -0700 (PDT)
 Received: from L-18010L.kpit.com ([49.36.49.248])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.50.32
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.50.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 01:50:34 -0700 (PDT)
+        Fri, 08 Aug 2025 01:50:31 -0700 (PDT)
 From: Akash Hadke <akash.hadke27@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Stefan Koch <stefan-koch@siemens.com>,
+Cc: Chen Qi <Qi.Chen@windriver.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [poky][scarthgap][PATCH 21/23] bitbake: fetch2: Move the `ensure_symlink()` function into the `FetchMethod` class
-Date: Fri,  8 Aug 2025 14:19:29 +0530
-Message-Id: <20250808084931.2156763-21-akash.hadke27@gmail.com>
+Subject: [poky][scarthgap][PATCH 20/23] bitbake: fetch2/git: fix shallow clone for tag containing slash
+Date: Fri,  8 Aug 2025 14:19:28 +0530
+Message-Id: <20250808084931.2156763-20-akash.hadke27@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250808084931.2156763-1-akash.hadke27@gmail.com>
 References: <20250808084931.2156763-1-akash.hadke27@gmail.com>
@@ -68,74 +68,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 08:50:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221618
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221617
 
-From: Stefan Koch <stefan-koch@siemens.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-(Bitbake rev: d934763f91b9bda85f273a44f12a04a3ca19fc28)
+If a tag contains slash, e.g., debian/5.22, then shallow clone
+fails because it's using a wrong ref.
 
-Signed-off-by: Stefan Koch <stefan-koch@siemens.com>
+To reproduce the issue, add the following lines in local.conf:
+
+  BB_GIT_SHALLOW = "1"
+  BB_GENERATE_SHALLOW_TARBALLS = "1"
+
+And then run 'bitbake debianutils -c fetch'.
+
+What the original os.path.basename(ref) wanted to do is to remove
+the strings such as refs/heads/. So we do it explitly to fix this
+issue.
+
+Fixes: [YOCTO #15862]
+
+(Bitbake rev: c6d6999f1ed01e7445b8f177a888038edacf555c)
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0e9ce41a1cc0e1158f84d5c5c08cf23b5c161155)
+(cherry picked from commit 07f08063c1d6eff52fe95d0b6c1239cb1336c7a7)
 Signed-off-by: Akash Hadke <akash.hadke27@gmail.com>
 ---
- bitbake/lib/bb/fetch2/__init__.py | 36 +++++++++++++++----------------
- 1 file changed, 17 insertions(+), 19 deletions(-)
+ bitbake/lib/bb/fetch2/git.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__init__.py
-index 1a6ff25d4d..49dca75025 100644
---- a/bitbake/lib/bb/fetch2/__init__.py
-+++ b/bitbake/lib/bb/fetch2/__init__.py
-@@ -1127,25 +1127,6 @@ def try_mirror_url(fetch, origud, ud, ld, check = False):
-         if ud.lockfile and ud.lockfile != origud.lockfile:
-             bb.utils.unlockfile(lf)
+diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
+index 2b6e49362f..764e34ccc2 100644
+--- a/bitbake/lib/bb/fetch2/git.py
++++ b/bitbake/lib/bb/fetch2/git.py
+@@ -662,7 +662,7 @@ class Git(FetchMethod):
+                 extra_refs.append(r)
  
--
--def ensure_symlink(target, link_name):
--    if not os.path.exists(link_name):
--        dirname = os.path.dirname(link_name)
--        bb.utils.mkdirhier(dirname)
--        if os.path.islink(link_name):
--            # Broken symbolic link
--            os.unlink(link_name)
--
--        # In case this is executing without any file locks held (as is
--        # the case for file:// URLs), two tasks may end up here at the
--        # same time, in which case we do not want the second task to
--        # fail when the link has already been created by the first task.
--        try:
--            os.symlink(target, link_name)
--        except FileExistsError:
--            pass
--
--
- def try_mirrors(fetch, d, origud, mirrors, check = False):
-     """
-     Try to use a mirrored version of the sources.
-@@ -1635,6 +1616,23 @@ class FetchMethod(object):
-         """
-         bb.utils.remove(urldata.localpath)
- 
-+    def ensure_symlink(self, target, link_name):
-+        if not os.path.exists(link_name):
-+            dirname = os.path.dirname(link_name)
-+            bb.utils.mkdirhier(dirname)
-+            if os.path.islink(link_name):
-+                # Broken symbolic link
-+                os.unlink(link_name)
-+
-+            # In case this is executing without any file locks held (as is
-+            # the case for file:// URLs), two tasks may end up here at the
-+            # same time, in which case we do not want the second task to
-+            # fail when the link has already been created by the first task.
-+            try:
-+                os.symlink(target, link_name)
-+            except FileExistsError:
-+                pass
-+
-     def try_premirror(self, urldata, d):
-         """
-         Should premirrors be used?
+         for ref in extra_refs:
+-            ref_fetch = os.path.basename(ref)
++            ref_fetch = ref.replace('refs/heads/', '').replace('refs/remotes/origin/', '').replace('refs/tags/', '')
+             runfetchcmd("%s fetch origin --depth 1 %s" % (ud.basecmd, ref_fetch), d, workdir=dest)
+             revision = runfetchcmd("%s rev-parse FETCH_HEAD" % ud.basecmd, d, workdir=dest)
+             runfetchcmd("%s update-ref %s %s" % (ud.basecmd, ref, revision), d, workdir=dest)
 -- 
 2.25.1
 
