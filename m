@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA38ECA0EC1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7373C87FD3
 	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 09:10:27 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.17899.1754644213626319250
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.18176.1754644219313458524
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 02:10:24 -0700
+ Fri, 08 Aug 2025 02:10:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=xnhKxDKm;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=blCtNQBb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019888f21a5a-d081d158-b848-4a03-a1af-0ab2eb7d8b10-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=k3uSKdXn;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=m3A6teBJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019888f21d72-ae6ce7ab-85c6-45e9-9ab8-6735a4f8df5c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754644224; i=@automation.yoctoproject.org;
+	t=1754644225; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=tvD8dsSuBj/s+e3x3fBJBAocgP+OFJgN6IWKu5Hoxp0=;
-	b=xnhKxDKmDbgoDHRUY3kVRXjBV8ktDxmUejMfuwsp2JveI8sDOtIO6aKNboJbfwhd
-	KYe8DyiicKM7BEB/0V2mB6ERCLuYaMet/p7LFCCQ8LFpqhbeciR1n6srzeIdQ/NUiaS
-	pckQQ4UXQqcSKFyYMI6WeuzW68dDQuas880pBqNM=
+	bh=v4KCgyI4ScEfc4Ku7bR+kl4dndmd1BEckz9Eq1+B/yY=;
+	b=k3uSKdXnxDOa/mUeNvSMvmTRuGKa4hYiBCQOMWzO/7YWOWwvQaRySMNuJGDm6REg
+	Oe9lCktx+UL7ilNIlVQYDQLJ6sDk5Q2st8k/0GusWGZrMm1ABYa/XjVYTTeJzFlyfVB
+	gUnedM0ICXfF99Uy3fTe5sO8bEzkBqCaYhiyW//A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644224;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644225;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=tvD8dsSuBj/s+e3x3fBJBAocgP+OFJgN6IWKu5Hoxp0=;
-	b=blCtNQBbSoS5u0AEA57vmezCHbelQdHSFk0S/qogk2LqmVlgAMCpzh8GC/RHpVkC
-	O5lArqdOj8QjN9B2rZ8SyRP828c+lHSgrERDOG3kn89CoC4UvGn9U+yg7c9p8bav+hp
-	dzO8v7NXP4faoFQphfoYqH0Ew5Fwg4a9JarvXXCY=
+	bh=v4KCgyI4ScEfc4Ku7bR+kl4dndmd1BEckz9Eq1+B/yY=;
+	b=m3A6teBJJ5MZSubbfLA0z0S9NLhhig2l/XSnQ/vbxuLb2s6oRefwSLE1SjV3zyCv
+	BYVni4H1Qu4Uj6tSprreEnTjnaW3ZJg0snBKjKRUZRiMKZjifAH4CgExHEsuIv/E3rQ
+	0FxdPOt+vOPIAEKgc6NJ91LiBiTj2Y+7U5mXqQAQ=
 From: patchtest@automation.yoctoproject.org
 To: Akash Hadke <akash.hadke27@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [poky][scarthgap][PATCH 16/23] bitbake: fetch2: Use git-lfs fetch to
- download objects
-In-Reply-To: <20250808084931.2156763-16-akash.hadke27@gmail.com>
-References: <20250808084931.2156763-16-akash.hadke27@gmail.com>
+Subject: Patchtest results for [poky][scarthgap][PATCH 17/23] bitbake: fetch2: Fix incorrect lfs
+ parametrization for submodules
+In-Reply-To: <20250808084931.2156763-17-akash.hadke27@gmail.com>
+References: <20250808084931.2156763-17-akash.hadke27@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019888f21a5a-d081d158-b848-4a03-a1af-0ab2eb7d8b10-000000@us-west-2.amazonses.com>
-Date: Fri, 8 Aug 2025 09:10:24 +0000
+Message-ID: <0101019888f21d72-ae6ce7ab-85c6-45e9-9ab8-6735a4f8df5c-000000@us-west-2.amazonses.com>
+Date: Fri, 8 Aug 2025 09:10:25 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.08-54.240.27.191
+X-SES-Outgoing: 2025.08.08-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 09:10:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221637
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221638
 
 --NextPart
 Content-Type: text/plain
@@ -54,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/poky-scarthgap-16-23-bitbake-fetch2-Use-git-lfs-fetch-to-download-objects.patch
+Testing patch /home/patchtest/share/mboxes/poky-scarthgap-17-23-bitbake-fetch2-Fix-incorrect-lfs-parametrization-for-submodules.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
