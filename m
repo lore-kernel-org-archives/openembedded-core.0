@@ -2,122 +2,96 @@ Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D377C87FD2
-	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 13:32:19 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web10.22366.1754659938219777051
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8803C87FD2
+	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 14:04:49 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.23051.1754661882182955890
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 06:32:18 -0700
+ Fri, 08 Aug 2025 07:04:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=X9lnvs/4;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-617f89a3dccso170304a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 06:32:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cnJwetLa;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-af967835d0aso319301866b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 07:04:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754659936; x=1755264736; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754661880; x=1755266680; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TxjW9Vpz+ewgeRqw2Yb933qSsbG8KxxDfUm17Kw7mE0=;
-        b=X9lnvs/4mJWU18dfVXV4eCQ0kvvCQK+2cktPi1QRUNsYc/bFNynaMckP2CRzY/+eZP
-         cqTdQKHf7I+oOs9nq+tE50glQy3j56vL0bs60ZtikttkcMDzjBc7OErzCY3KQnQNzZq+
-         IMJ+mYYKo+b6kFEDCEi9sCQrH45tMs//XGgvnTH6bXk8JI40fd/jd/Z28bl8YfHexbcy
-         LQJhgAmQ+0rB5+Sr8ATAJuJUgd+cZMEbyOfCgsv9P8O319Lj3Y9bTS1Bcbz25hwkML8e
-         49p/uko6VD8TVmFyHKnQ6cIUL5Oy3ZugNZlURJ7Twqugh0nxbHSxs2VQ97/3crlfK/5Q
-         S1Pg==
+        bh=O7TOUl08/P5OR8ToLTUa7WGUbDmZAT87SSlbl+xuyrs=;
+        b=cnJwetLat1KWcvTPthURlhGAKKN5QaMpLTWXhHvvSey3mtGkvB9Lg5w4S4KuaUtmuI
+         enOmqZOtc63/hReBAlwqom7Fhipz2avjprD/MXzTxSl2jiBb0gSZrC3xP31iTq+7paFW
+         7AYH8ep6/+i0C0WRAzxUwOirJa+uH6MhXjbcM7zJzVs8x4SYs+sTDJx7YNkyg0uuQIFY
+         SmcPwpeWXm54euroW0PBhYKfWXXNlz8IIhG5IbTl3aQ1yo1rGyoG+nZSdYb9ZjETjH0W
+         /uQ9sU4yc66DphYIuIq5z5CMOCC4XBM/DP6jwV9VRZGeLddeGsvzKKueJYXnjO6eKXsi
+         sJRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754659936; x=1755264736;
+        d=1e100.net; s=20230601; t=1754661880; x=1755266680;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TxjW9Vpz+ewgeRqw2Yb933qSsbG8KxxDfUm17Kw7mE0=;
-        b=K+OrqttyatjfEE3Sk1onHKfBL9pN6psGoVyR/bGAs9AY2Z4vGel6md8mFUppzssoPa
-         InAr2wm6oEEW1H0rN9XNnS2q7Cn/VEZgdJL/bsOvucL+V0/B1lWYbSFJDlTJXSWgCAFz
-         LnHqFNq7jaad1DHzj5ZEUG5RYB2dmF4w7RP8JpFRTwlgH0DLw8lUiAhwmf+Oc1gj0mn1
-         plln3PIiLSeCxCHoia3+3dS1yHoSE0bOWfYA3NHeWyV5waG7k+6gZnn9hS7Jo/hV/efA
-         +eD+9pZFxEBKN5OF3rFw57RtlRVogDu3DxyHiHBzZirxevkXNUmbgIuWOlPJQEaFT9r7
-         H6Lw==
-X-Gm-Message-State: AOJu0YwnfDTOWKheSpwYKMusWgWD4Grki4miZDNovN8xxcVNt/cLIXLZ
-	Cu+WDYO/kPEMzAF/2oxG+mewES1VqfcPRhaC2+j2kq79p4ic4UTJ8qR2ipdgEA==
-X-Gm-Gg: ASbGncthn/e0Cxw6nhQQLMzVqjfXFjHqRDiywyv9ThwKWjnYGIZUAtrSz+U7KGHTD3b
-	XCecrVu3FvFaBQPoXglZpWvpeyIzVMuRvRQ42eVmhkKcgLE7YCGYTqeecTPJS1dbMYDjgx9HMZ6
-	WE+AgPLj6oR5bk8pZeO0T3wMwXbSF/nfP4a68bFkAmkAohwbtq4Rpd3tTPJlo9x89LSjGj/ouZi
-	URHSHc7XrHWwnKXyRifgvgkzDq7+kCEDFv+w6gV0xsTHBORCDy5xP9BRxiQkrjySb7OZ9Qrewo6
-	EJ6WhpJhvAnyhTWWJ/UjsS2hK5BuG1hg4Gx4wgk7bIZ3na0wJtbD7aSVtxL8AoBUiXUzSC0JiAU
-	FCDpJ2Vn2InIj6J5foMQ=
-X-Google-Smtp-Source: AGHT+IHbC04QYECgelR5bZaxm1f4DT2f/+HkVeyuG1/xl+qbd3hPUQGbnlZhc6iw3TiJgAfC8zUn/g==
-X-Received: by 2002:a17:907:9482:b0:ae3:7255:ba53 with SMTP id a640c23a62f3a-af9c6517e01mr265780066b.53.1754659935232;
-        Fri, 08 Aug 2025 06:32:15 -0700 (PDT)
+        bh=O7TOUl08/P5OR8ToLTUa7WGUbDmZAT87SSlbl+xuyrs=;
+        b=gpdgdK1Ny9IodmTyfTSZ60p/iq4Rqu2mWSkyR/ZFqDHUxGV3SBbAdEfpNarWl0QBNu
+         2iW4psWNN2DywFFmVNl9iFQ0TY/2iGbPjOa3j/QvFrpeo+rI/CFRY6AMrqwKDR6dhnEj
+         SofP1jRk08VM7BK5NvNXGbAKONJjcU8mJIa6N6wxhiQPudvKL/4P191Nuskifko1Krog
+         qkIf0LOgVaP6tFqePeixdGb1pKaRWHOOH80sCbOxfOKtRUkkYXWuI2MrtvEkhvRD3ld8
+         VvKALSlHveAjj34xxMx4YPgzETA34EDSzuQ5D5vyyTQd8PAmLOrSSxXUkEq9YkWwnQsF
+         U+Bg==
+X-Gm-Message-State: AOJu0YywlEq/8wvq0n4fy+FuCQSBjPX65dJG2n037aqiUuqAA+Y/Jika
+	8LCY0Lx9kePWlhLAsM5t356kyA4smQbxofRva18rYYrjCo/nbfLUW+xcNI8Pdw==
+X-Gm-Gg: ASbGncuboSd34owheXmhh7HwtDMrpmGkziOt4GRVT6VaDS3RlH6HEg1MS7/vK/nF/Fy
+	xTkMGWTU3Cq2zi9Ee3+U7oEXYAlrWFCW54x1UPH5NbkoPGLkbnvtAEzkPtgJ65Y4ts3CL++oGkJ
+	TjEzPVSfTT7Tu7iIvEcpNwCpCPt3xhJGgodw7kPGb74FZ8ZxchavamoJCO+Q+5tipczdUYttBBu
+	SpgFn7ICNBRGPKwl9q63toh17BQIIH9FSNPRBxy8C+boMj991K1CZ/5D04aKzK5EJD4O4gN2SSs
+	1ci+1FLkQxsNelwOU4Iy8l3kOC82oULoWDH46egZa6L9ojo8UltmNjF3K+uo3OIBPcBD1SHcP7U
+	J+KJB1Z54trHLiWCz5URuLWoQIy8fGA==
+X-Google-Smtp-Source: AGHT+IHXBldQQS3SVU+ZgnqM6qqEmwFOG+0c9R08BA5/pVgG5j4m7YDOnY5wjAWVYU0BqEWKAjvbtQ==
+X-Received: by 2002:a17:907:e98a:b0:af9:24e7:1c85 with SMTP id a640c23a62f3a-af9c64fde5fmr269441266b.55.1754661880294;
+        Fri, 08 Aug 2025 07:04:40 -0700 (PDT)
 Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a2437desm1502508966b.127.2025.08.08.06.32.14
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a076aecsm1490849666b.9.2025.08.08.07.04.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 06:32:14 -0700 (PDT)
+        Fri, 08 Aug 2025 07:04:39 -0700 (PDT)
 From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libsecret: upgrade 0.21.6 -> 0.21.7
-Date: Fri,  8 Aug 2025 15:32:14 +0200
-Message-ID: <20250808133214.224830-1-skandigraun@gmail.com>
+Subject: [PATCH] tcf-agent: upgrade 1.8.0 -> 1.9.0
+Date: Fri,  8 Aug 2025 16:04:38 +0200
+Message-ID: <20250808140438.1260509-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 13:32:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221653
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 14:04:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221654
 
 Changelog:
-- docs: Fix return comment of secret_value_get_text
-- bash-completion: Fix man section number in secret-tool completion file
-- bash-completion: Integrate external extended bash-completion script
-- bash-completion: Require minimal version for bash-completion
-- meson: Use newlines for build options
+https://gitlab.eclipse.org/eclipse/tcf/tcf.agent/-/compare/1.8...1.9
 
 Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- ...001-meson-add-option-to-disable-pam-tests.patch | 14 +++++++++-----
- .../{libsecret_0.21.6.bb => libsecret_0.21.7.bb}   |  2 +-
- 2 files changed, 10 insertions(+), 6 deletions(-)
- rename meta/recipes-gnome/libsecret/{libsecret_0.21.6.bb => libsecret_0.21.7.bb} (92%)
+ .../tcf-agent/{tcf-agent_1.8.0.bb => tcf-agent_1.9.0.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/tcf-agent/{tcf-agent_1.8.0.bb => tcf-agent_1.9.0.bb} (96%)
 
-diff --git a/meta/recipes-gnome/libsecret/libsecret/0001-meson-add-option-to-disable-pam-tests.patch b/meta/recipes-gnome/libsecret/libsecret/0001-meson-add-option-to-disable-pam-tests.patch
-index da5ed1fd32..e0a5737eab 100644
---- a/meta/recipes-gnome/libsecret/libsecret/0001-meson-add-option-to-disable-pam-tests.patch
-+++ b/meta/recipes-gnome/libsecret/libsecret/0001-meson-add-option-to-disable-pam-tests.patch
-@@ -15,11 +15,15 @@ diff --git a/meson_options.txt b/meson_options.txt
- index 936eff8..2ae14f2 100644
- --- a/meson_options.txt
- +++ b/meson_options.txt
--@@ -8,3 +8,4 @@ option('bashcompdir', type: 'string', value: '', description: 'Override default
-- option('bash_completion', type: 'feature', value: 'auto', description: 'Install bash completion files')
-- option('tpm2', type: 'boolean', value: false, description: 'With TPM2 Software Stack')
-- option('pam', type: 'boolean', value: false, description: 'Build PAM module')
--+option('pam-tests', type: 'boolean', value: true, description: 'Build PAM Tests')
-+@@ -61,3 +61,8 @@
-+   description: 'Build PAM module',
-+ )
-+
-++option('pam-tests',
-++  type: 'boolean',
-++  value: true,
-++  description: 'Build PAM Tests'
-++)
- diff --git a/pam/meson.build b/pam/meson.build
- index 8413b58..5155329 100644
- --- a/pam/meson.build
-diff --git a/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb b/meta/recipes-gnome/libsecret/libsecret_0.21.7.bb
-similarity index 92%
-rename from meta/recipes-gnome/libsecret/libsecret_0.21.6.bb
-rename to meta/recipes-gnome/libsecret/libsecret_0.21.7.bb
-index f40b1159eb..e77f83e92f 100644
---- a/meta/recipes-gnome/libsecret/libsecret_0.21.6.bb
-+++ b/meta/recipes-gnome/libsecret/libsecret_0.21.7.bb
-@@ -13,7 +13,7 @@ inherit gnomebase gi-docgen vala gobject-introspection manpages
- DEPENDS += "glib-2.0 libgcrypt gettext-native"
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+similarity index 96%
+rename from meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb
+rename to meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+index f008c0c6de..132b3d7dee 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_1.8.0.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+@@ -6,10 +6,10 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
+ LICENSE = "EPL-1.0 | BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
  
- SRC_URI += "file://0001-meson-add-option-to-disable-pam-tests.patch"
--SRC_URI[archive.sha256sum] = "747b8c175be108c880d3adfb9c3537ea66e520e4ad2dccf5dce58003aeeca090"
-+SRC_URI[archive.sha256sum] = "6b452e4750590a2b5617adc40026f28d2f4903de15f1250e1d1c40bfd68ed55e"
+-SRCREV = "1f11747e83ebf4f53e8d17f430136f92ec378709"
++SRCREV = "9076423f959d53aafa4000d6bb8bf2a1485971b9"
  
- EXTRA_OEMESON += "-Dpam-tests=false"
- 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+-SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=master \
++SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=master;tag=${PV} \
+            file://ldflags.patch \
+            file://tcf-agent.init \
+            file://tcf-agent.service \
 
