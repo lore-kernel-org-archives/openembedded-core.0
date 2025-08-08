@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2238CA0EC2
-	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 09:10:27 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.18177.1754644219634666604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA2CCA0ECA
+	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 09:10:28 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.17906.1754644223396209644
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 02:10:19 -0700
+ Fri, 08 Aug 2025 02:10:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=0gSvYCS3;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BnyxRjXm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019888f2047d-d6670694-c3f1-4cb0-8858-fd3ebb57248d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=quyduQBi;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=CrRfxwwU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019888f210ee-6fbbf00b-6c2a-4fd3-8227-d09012a124e8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754644219; i=@automation.yoctoproject.org;
+	t=1754644222; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=kM4FaY67QPU1cKMV+wxHEaQOOXTlBkWGttoM/ce+vQM=;
-	b=0gSvYCS3GEUbcPXhsRpx5RU2x9tozJ3hZ35rtLVYTJSkbmcBucHZO+HKE5gzgNjL
-	hQcJP4dsLmeW8OmrO4JPRtw0ctDkLCJiXW4zupVzH94/X4e9Ycjdb5bhDC+OuWf6Pl6
-	h1vnozVECQ23n0hXx5/hMt6x3tKOcmkTi2bXkGK4=
+	bh=JhcYPYwgZsqB6vTyIqzqFlwpmXoDu1xALe0gnbXnG/Q=;
+	b=quyduQBiUZv1tdY1qoJDy1j3bewDxy17Mj0qifhOqqHy/oNdpPhFFA0QgAzSm12s
+	v425eDsWf3vaw6w36sQbkhqpM3dpkebRo7fhhpNLB73WYzGdSQyIfdVXhykPmEJ87t+
+	bO/4FSIZVrrv6qDdhsQ7dIiu1MUjiN/1suPRtPg0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644219;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644222;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=kM4FaY67QPU1cKMV+wxHEaQOOXTlBkWGttoM/ce+vQM=;
-	b=BnyxRjXmHRoiLLCprtybwoaOBMDYs2lakeNiy4suwhrJv5Q/1tVEbtvI0BPcJllI
-	WeGEr+e9jtwE1XS4cq7z/sqhtwcjmZB+5J8mSIM7yUZVud/jyJvDg7YjzvvvddqNry/
-	B+Gn6RE4AZ2coXi6FUbviiLKqsHtvYxfvyFUex4k=
+	bh=JhcYPYwgZsqB6vTyIqzqFlwpmXoDu1xALe0gnbXnG/Q=;
+	b=CrRfxwwUX2tDaiyFRcUUt0VD24nqHSaUbYKV7kJGuDT4clhxGXgcJI8514Kko6oP
+	m+zCO09Y++TM4M8aj5nIthn7snd6sZboezWMvNbGavVxeMcz82vpfY/aF7anHLIerCc
+	erfnqarEek6NxovZ8h8nK8ZINuL557VUP5fqCPR0=
 From: patchtest@automation.yoctoproject.org
 To: Akash Hadke <akash.hadke27@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [poky][scarthgap][PATCH 09/23] bitbake: fetch2/gitsm: Unpack even
- when `ud.clonedir` is not available
-In-Reply-To: <20250808084931.2156763-9-akash.hadke27@gmail.com>
-References: <20250808084931.2156763-9-akash.hadke27@gmail.com>
+Subject: Patchtest results for [poky][scarthgap][PATCH 13/23] bitbake: tests/fetch: Move commonly
+ used imports to top
+In-Reply-To: <20250808084931.2156763-13-akash.hadke27@gmail.com>
+References: <20250808084931.2156763-13-akash.hadke27@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019888f2047d-d6670694-c3f1-4cb0-8858-fd3ebb57248d-000000@us-west-2.amazonses.com>
-Date: Fri, 8 Aug 2025 09:10:19 +0000
+Message-ID: <0101019888f210ee-6fbbf00b-6c2a-4fd3-8227-d09012a124e8-000000@us-west-2.amazonses.com>
+Date: Fri, 8 Aug 2025 09:10:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.08-54.240.27.33
+X-SES-Outgoing: 2025.08.08-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 09:10:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221630
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 09:10:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221634
 
 --NextPart
 Content-Type: text/plain
@@ -54,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/poky-scarthgap-09-23-bitbake-fetch2-gitsm-Unpack-even-when-ud.clonedir-is-not-available.patch
+Testing patch /home/patchtest/share/mboxes/poky-scarthgap-13-23-bitbake-tests-fetch-Move-commonly-used-imports-to-top.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
