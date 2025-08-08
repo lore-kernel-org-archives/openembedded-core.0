@@ -1,250 +1,215 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FA41C87FCB
-	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 06:00:56 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.20])
- by mx.groups.io with SMTP id smtpd.web10.15202.1754632849559033297
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 874D2C87FCB
+	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 06:21:26 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.15753.1754634078167728701
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Aug 2025 23:00:50 -0700
+ Thu, 07 Aug 2025 23:21:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=N9OsP+hT;
- spf=pass (domain: siemens.com, ip: 40.107.162.20, mailfrom: peter.marko@siemens.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=031539778e=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 5785xGtW3235153
+	for <openembedded-core@lists.openembedded.org>; Fri, 8 Aug 2025 06:21:17 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10on2047.outbound.protection.outlook.com [40.107.93.47])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48bpyfat6c-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 06:21:16 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YRLkCaEM24TfrpOT2h0axGUA5cSQZjyDrN35NkkIVNqW9CvzdPaOATS91YQI7eMpRJtGKkO1u37QOxoo/QHndsWZHcqZarkoSl+6wwMmhBo7hohU+YTmgPYBS6s0kH1jBFBl53cQwlpXu12BGFVcDY4kq4oZs3FbcbBZ9+dHdya5rP8SzuQMy/yUys0sKGkYiNZV3aKOJP1OgHji4XoeMn1F50Ju1ONEL8uZJ1UTh0fG9API9zId1+91tJQwEi91il2AwlNXvXki7qcKtC8bfZNnBIyZ2imT9UVY4xM+mYDWpeMmov+R1wzN1Azu75YjkkCauU0doUKa7KKT3uXVQQ==
+ b=l5VbZ8TnMHtAg5N5CNzP1qA+Xbc38ymSlLYeveHENkUtufX6/1MICCdBo1CDeIl34ShFlBMLT12SkYm+lplOUUPDdNNpz2cgmSjnRG2nTQIChg4lj8PMwwFqirYcKfFg6VSQ3eLfcxkUCud+bQM49TyJuXv3OL9BR+qEhxI2Xa+ZuE78P7kvfpFCVB5fbJhqrShLo00kajDCBtKxmvbnECbv+QNQjZApDXgVkhwkDB9cVEJsnJIE1xfvliAURDWm82IDXTcJ1rFG48AYqUZBMeqPnorkCzzvYMFIqYHepYcvW47xprUPBitmUv17qlCxyZgKMHAgCM38bP+Pv4bx8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kcb0misUA8yXBo8BYF4Zcz8vCpv/I/tFZka7v2/tivM=;
- b=ApztqG3Km54R00txV+8kkEb4nfapTN5v3rcipEiNLlXz4LYV9qEcKahiyB1coD5OVsBgtfJTqBiYsiB7TjvB/5mR1bf6ZFuFPWUgGcEAMp4k+owepTSW8oVMkH2g0I2vQlFif3ZB7shmCrS1YotCeu9oszzREbytP4VWNxMFNjjI/YQ7F0Jiq3XPjM7K32LO1DbnDwsyUjtFi6yWOKjpgZFeQ9bx962YF3lyAyc1sMyCiJkoixxZsJkVkp6M+eThKvFexrq8K81hoLmE5RWRxpQUGfANIGbNYo+8PL37ZDjqqg2cYOJ+ew+P3cqU5u1TkObjjKR1iOLbhznpZLhTbQ==
+ bh=L2sxTFASSUXExESoacz5eZDvRNKAXKCm4Io3cFCLwfI=;
+ b=ZjfLKPgB12lt61HuLJcGca61On46hNcEdNQfiNk1DlU8NkrzKSrkt9XJLIjbwyWT7zKQ0jFJlKXJ3gjRTp/i5jBaNiB8rfjHpMcii7KDhw385A5BnksoCnJ7zxUJBal6/MnysWNhArHxW5GLaC+7nBnoWotoS0XrSYNBp1DYa+LWJPGR2yUtqt3xklGYGWp7VrbY1u1F0xvUbNMmH8XH49d7/QbHlbov8EE5a7IXQ5oZrIepasOOlB35W8DltHhYAeSTpzJSITa4V6xZ8nCckia81dK5gKTLxjOYz7hFIcrD2ji4e8u2oAjVdSB4j8xDO7H+Ux6KZ6JsXTsikdPQig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kcb0misUA8yXBo8BYF4Zcz8vCpv/I/tFZka7v2/tivM=;
- b=N9OsP+hTzJKKzRfvfd5H/Vn+F9/ln/U/OVoauXrd/UvAS6n3dqGk2OsGetzvCFXNThMReTDaVikrodQ7Gr4NFMLCMKJgkJ6PclV+Ci574cUb9VcSNni4ESw8JJ/ZBKQpM3DKfulHDiDbBhEv3EwrQSgZcFDdAmkf6rLKg6Usa+zW/r6chAspirwhsMjS+u9oQH6V6c/2KxcEJhbDtgT4/vPy8JDTZ0q9K4RjVyRajGSTE5WGjlUJaAolgTWtz6V+hbcLiGFvV/t7vRyXbmeZced0X2CiH3I0lJ5TeTjHCrUTL6P/cHA/tIPcH7SKO7RMxu88+uymDV6Uavm8r7Vc5g==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by PRAPR10MB5228.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:290::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.18; Fri, 8 Aug
- 2025 06:00:46 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.9009.013; Fri, 8 Aug 2025
- 06:00:45 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH 1/3] oe/utils: extract method for parallel_make
- without d context
-Thread-Topic: [OE-core][PATCH 1/3] oe/utils: extract method for parallel_make
- without d context
-Thread-Index: AQHcCCiEOy2HXpGez0SG7w8EVmaqTLRYQcpA
-Date: Fri, 8 Aug 2025 06:00:45 +0000
-Message-ID: 
- <AS1PR10MB56979F115CE1DEEFD2A6977EFD2FA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250808055059.8851-1-peter.marko@siemens.com>
-In-Reply-To: <20250808055059.8851-1-peter.marko@siemens.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=c7ab3698-cd07-4131-b796-f681b4fe3464;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-08-08T05:55:33Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PRAPR10MB5228:EE_
-x-ms-office365-filtering-correlation-id: e07fa2ec-5b7f-46e1-7e44-08ddd640ea8b
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?//yMXImI9+lI3GmjWfQuJPdMphUSqlC6lFtITlHj1plO9HnpjUwIlw8ap5pd?=
- =?us-ascii?Q?7zF3gkE6OuAQ2nQZFtLkKISH8ekHkxzj8a+QU7Tng9FnwCsBgLp899Xli4XZ?=
- =?us-ascii?Q?KrQW7jJ+3UoZgihIYLuRZyltB3ParLus9JnQNRqunHZ9hZoQJQbiBw4ol6Ym?=
- =?us-ascii?Q?isbrchAjKa/2aDcLHeG7hMxVqimGUdc9uYbIweO0T0CQMRU3/0jbKJBo1QK2?=
- =?us-ascii?Q?nIr4axd5MmVUFV4OUa12tPIg2h+pZq0lBnBCtnkRxuCpGO3cU/oLxMJ/EtlT?=
- =?us-ascii?Q?klcJJ7ZpDZQNFb3E7s692245fRm5tOId+wJWK5BZgVZUFn9S/pxoU6mExXM/?=
- =?us-ascii?Q?AKMV28m7pRzYjrxySu+jbmCympPyB3pbFeepN5ySn4zzHdAH0C0BU/J0Qw1h?=
- =?us-ascii?Q?J6mfEZrRm9yJpHSDDkfxSXtVoRiHszC/baYifMq4OKMQjfilfuhml4GX4RoI?=
- =?us-ascii?Q?BpOwiZOxCMBuhl7rQkB3tFvHn0Mkk3s+z8e9ogjQZAabrVqAyPjAkmuYgWs7?=
- =?us-ascii?Q?7nEX9YgToiNKccDs1ZzeMar8bXWHs61nrcZ9CCSqnNziLeZ2mZ+6sww6XDCb?=
- =?us-ascii?Q?Hv5PUPebH8xk17926Uzgdo6SFEvkCF5VMY/MY1rvL+qE0DnF+ZvOJ4QhGM/Q?=
- =?us-ascii?Q?Kc11aaV5bICYoisWobMR+mmOTR3AszSx2+DG+AG3habrSED/INXnpa0ggz6a?=
- =?us-ascii?Q?rGj8l+MyumwnF2RraOrN7Jlh5pmEKBNk6F+poM4MkYyj8fuCaNRsXYNpaB+J?=
- =?us-ascii?Q?NKdXOg//Fg4gf9GahgKe+3TY+hqyVNNPpFO9RYEQThcxeu/YpyxBeV3rPi/t?=
- =?us-ascii?Q?U4/VJZo6P0RzQIUe3bdFOWRPKq2TCPFNMmVgpzdYe10FnAl9fSNRbWGTvXTS?=
- =?us-ascii?Q?fTbjJosUMgEDhMicEmGzrPvSJ9QecyYDKaZi1g3H+zlUHazkAvLdzvGiOK5c?=
- =?us-ascii?Q?TuF4jO9NAzRrazUyMjrzCo2Gx3V/Qv1E5D9oGPBWIMqT0NY/FW+mwydLsFtv?=
- =?us-ascii?Q?DahbetBeFzTux/HkBJhxwckpnSmmds8W3IrQlcQLO4wYw76PBZBCKak9+NM3?=
- =?us-ascii?Q?tvh5ZE4EV4WDTYENAv4EVIgYeDj5IteWqHNV74qIMJTDIsxI1V3fJ+awwFEv?=
- =?us-ascii?Q?zVhuybul9vDOBiZ5NgkRi5cTVz/OUsaVSwz3qODY4Z77jsKUZbB8ilj/Csy2?=
- =?us-ascii?Q?7Qclq6B7SO4gtTKJV+ggC53VTo2WdVSGVH6qbPvNgINKDDaMLihGALcjNisS?=
- =?us-ascii?Q?KeVXCtHqOgOS6ifRwOPAB4nWdrc3yZtwZdRvhHS1812qvFWHtMoZYnrjyYuW?=
- =?us-ascii?Q?6lvb8V4ZlH7487NiPHPdRivbh3+xFf052hsYQRrTbBhhqwosc1dzdILe2Mea?=
- =?us-ascii?Q?qfC4pz3Tx2Ja13b5+v+fpdHiqYH3ElRPoRJ4pi/xhWMJrzUMPG4wcdT1i9Nl?=
- =?us-ascii?Q?Sf/ymNXYMZA8NWuwh3YleiyLIBb+0TJkRki4n8AkoOQ5yz4ck5K8Qw=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?LOkiN3YOixQLDo2iLab0A/FUaDyGonROmiK/e4fMxRZ/aGI7GkFSe9R6OONj?=
- =?us-ascii?Q?EQFDZKJWiBqZV3leUJM6PngHSvcg9Hh6NYglSzY4tdhqWfrNuImBSB4+bbCX?=
- =?us-ascii?Q?DiXCE+Nqj/UL01QwbVmyc5Zn0QUrfLuhgF7K8IquiZui8wcc+Uqz1EIlc29T?=
- =?us-ascii?Q?zhcJwlD88gxygCERjYMHaVL2AMoXMh6PebbGsDu3CLPSMup0pN88Zb+ETbbO?=
- =?us-ascii?Q?HdvAiQVT9wp3aKzTU+DwIjUTeDbSstm80bg0pcLBeGBQv24N8GlQqrm338tO?=
- =?us-ascii?Q?Y5Km13QGeoKZRqa8PHrN6KSYB/HgsqSUqiN/22mGkeOJQPbPCMKuTctN81Ns?=
- =?us-ascii?Q?yiM7Wi8PYKpnIzGgKcP8g/mrIkpdwjCIfg+iXOyhKwfR0Crmdq+yo1UMCNNK?=
- =?us-ascii?Q?h8SAEMTPgBBGTST7ykKRu5aQobBdpQgoHc4SvOyLD+IC9dhgnKQJjQS9KHf/?=
- =?us-ascii?Q?YLUNZlhCfZ5QQeHXa/m4Fhl33T9f+pjknYVAUltU0IMnOMDeKMFraH1RFyon?=
- =?us-ascii?Q?VjwC65HRHKyEk1GkDur6ZdWF47Vp+Gl/B/h2abm0AL/DP41psV6X44VT3/IR?=
- =?us-ascii?Q?dpTH5H432qw/arLhiiSIULtMIxjm96TJeoR39h8G3jZJTpwG4a7k/uwMjl+S?=
- =?us-ascii?Q?4kHG+KUzOobQb1996iaoRBi4lX6qnJa+rQAVlGI+lOMZe7l4XbC24rHALqD2?=
- =?us-ascii?Q?IPN7qxVrG6ADSax+tneiCVBIkPBTJpBvA+zKvVVfm+Mco0PaDE9SAVGFpqea?=
- =?us-ascii?Q?enRYmrwWmnRs7XRAkA5fjoY4FhjoEcisyKfIJHd7Q/34MTA/hU66qcC81gRY?=
- =?us-ascii?Q?hGZuIPRPXrbZFpMDfW1xtJ38IuFaDOB9mWc87l/rmBTs1i6iHgwnQM4i15zc?=
- =?us-ascii?Q?lN2t/HpF44G6kA+5+jNMJzpK36egHcwOSJkeI/5bdNwMIqNpeeBDovS6d/du?=
- =?us-ascii?Q?00mFanini2ef8fcnE+XGvaTOl1h5WVP3ulPVP/edjuhYk0gIvUXmn3ev1JUE?=
- =?us-ascii?Q?uZD+2BLqeCjQXYkufKxK084oC+lGdIBd1FpiCcdlUcGKsRlmQy6UbclDsTLm?=
- =?us-ascii?Q?+TPbxMkBh7jTfPDQ2tgYTGWJmFslLUyJADAkjVEHSkbiaKR+1OBxlEKuDieL?=
- =?us-ascii?Q?ZG652Q6SKlipuu3CofPdqZxX1GGpvsvOw95XSjmJKqm4rrmj2x8H53Dw034z?=
- =?us-ascii?Q?QSQ3d7TvTQMbznSZia0mEZnbdHaJU795ExBL9ayp01TnamikQVtVr081zEor?=
- =?us-ascii?Q?36bHjYxEjgjQgnh0s6f4ipUXrzYsGAjPFe4lwzmLxrbA5tdRjAr5W9oTUVTr?=
- =?us-ascii?Q?2FXmuK2vUG3qpZsm9ZOD78/MJX/j217kF6wK/GTPPkCbApZhSUwP/vO5QAvF?=
- =?us-ascii?Q?WYN+EvRYiNz2EYOdTChA3csClQd2GG2CZAaut3yawOTiOchAGUa98wuRA/pb?=
- =?us-ascii?Q?Anso0DdVXYBltE/aRfN/gSn6ot70i8gYAFgHrZ+XeDm9lUl/IbzzlSD4ssZ2?=
- =?us-ascii?Q?lUWQCwl+uVkvq1Ta56RxvRizXiFUWP8rRdnZkcbwi0hyC6DHiST6IG98RzYd?=
- =?us-ascii?Q?I0HcLs6LqSymgnWIoXHHGm7i3eEqzwXIoCmse3ej?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
+ by DS7PR11MB7930.namprd11.prod.outlook.com (2603:10b6:8:da::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9009.16; Fri, 8 Aug 2025 06:21:15 +0000
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f%7]) with mapi id 15.20.9009.016; Fri, 8 Aug 2025
+ 06:21:15 +0000
+From: Deepesh.Varatharajan@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com, SunilKumar.Dora@windriver.com,
+        Deepesh.Varatharajan@windriver.com
+Subject: [walnascar][PATCH 1/2] glibc: Forward -ffile-prefix-map option to assembler flags
+Date: Thu,  7 Aug 2025 23:21:00 -0700
+Message-ID: <20250808062101.640198-1-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR04CA0023.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::28) To SJ0PR11MB5648.namprd11.prod.outlook.com
+ (2603:10b6:a03:302::11)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|DS7PR11MB7930:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9eab769f-c86f-4260-993f-08ddd643c72b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?5CKx0kSPjLRn9p4cd5/LjThYBClxiMNF8707psTbakoF+VCOAAjp6TgIkRWc?=
+ =?us-ascii?Q?/quyu8YQQVvgFxEfHD4lhlKBGb2ZJRh0qGunRphmw52KzBnsd9VbNosCNIcB?=
+ =?us-ascii?Q?MZgH+QpXS7z7E4rngOgc0i1MlVoT9nr17c3lzbrSHY7cHx1Oxts27dfG4b0f?=
+ =?us-ascii?Q?bumjL4Bou4b03c0fzau10ksr2Y2yADNIjV+3RMtyhXDhEma4iatNB1452F+S?=
+ =?us-ascii?Q?zezmwDbPA3eINbEwOZhTMxSaWJM1+gh8P6Ioc5/9PaoZ8b7dgK50QQPHa7mC?=
+ =?us-ascii?Q?qWH/OEHM6gEbA2LcO/ZROffnihSkDsTu4ELMe6aB1L2sBYRREcjnrCoFVVWp?=
+ =?us-ascii?Q?A40SolFeBlvY+49N7oZ6zBB/1r3pPSQF398HOTSnJF2BZGZKQ9k2Uhi3vMzJ?=
+ =?us-ascii?Q?ci7roaj6uF+8LVaglGRHnvnCFAhIT2qftRZxWDVa80sxWULqP5G6FPR8wOex?=
+ =?us-ascii?Q?Igl58w/kEVFJWScZ6RPk+Ej+GDVuiA2uEwZSuJwQcAyTPJsCPeRFc3TqYgrE?=
+ =?us-ascii?Q?u8UWlDm5hPp04PFvq+j70fgXr/nyr8NtoTYGJBUqho8oMkBNstYhZ0d5Mg1H?=
+ =?us-ascii?Q?XOj7U95FLID0r5jhc7dzuvbn8HGH216Skk8ZCyh+M1vv94Gc4vgFXvbfSMEP?=
+ =?us-ascii?Q?YeO5mAT+gSDc57Jckw95tI+kygGsXPupurATJPZHXgbQTKMxXvsPRAWKSe0v?=
+ =?us-ascii?Q?Eaa2TtafxL5LqdPyPKm2zLRZJ9QH3WEGZbcdKYU0sOIPlgL8q3T+eBVgXo9c?=
+ =?us-ascii?Q?TEfvEPgIJ8d7cWymMfyUdCU7Xt9gBdpHAqFaJJtS2NIDo6V98Z4TVPK0MSc+?=
+ =?us-ascii?Q?lrvG4x3P7o1CgF2BQMY1l7wuBBJUJbJQ9f6AssKhAypk9W4vpcqd6lBtsLf7?=
+ =?us-ascii?Q?E94zUgvWFqu5c/3nJdIsgWJ1MtxAdShydxf7dY7TTCgakkVz/fIcx10KthCK?=
+ =?us-ascii?Q?R9Xw/6CSiyZ5Il6PcqyuzrzQOSILUAn2RKiWA9I19VjLQn3e5/6PcEP7UU5u?=
+ =?us-ascii?Q?rohRD+4ZT6vfpNAPsI8KHksCcvV7X31AHpHnveVJxHfXdgmWX7PmpvTwXGdr?=
+ =?us-ascii?Q?5Zc2QfryWq8E3lDeKEDwQNfYT8nOSChpkdOvsr14+77qaVpi/nS+x6EltC7U?=
+ =?us-ascii?Q?rimT3NyfoSirqZE6UXxYFrs7qf/6h4FJPhI9huK13LpZ77cjnaDYLGb9fRsB?=
+ =?us-ascii?Q?/uQiRu4xU7F/87NFCjUwxC5rIJ9/hqD0WnzuYxnZjycZAsBAzotekmI1Bjnp?=
+ =?us-ascii?Q?B5rd/Seuq5/p0mhNs9gPxKkxEBxUrsPSUiVX7BBoLI2dzNVAFtFT0V2FD64m?=
+ =?us-ascii?Q?5A1SLzczHyuykh5d8Rq8I4euVm2S54jYTQDLQARhueph2IqGeJ3+GA6+hs8q?=
+ =?us-ascii?Q?aKh0uCmix19yrEytqEmpwTb7Ho5+7wa+lKiuoR7ZJS1yiGC39IPSezZztS3M?=
+ =?us-ascii?Q?oiKu+7sBE4bkQbro8uyyP55bWram4Ds3HebesySIB4NjAfQq+RQ2d+R1XmNx?=
+ =?us-ascii?Q?aEqwd9rPbJH7PMM=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?vK1J8iDEw2zF+OnzkTmwO2HkpkJ6APRr83eey8PVaGEg1ZREf4a1/kPm2Dcq?=
+ =?us-ascii?Q?oox99N0gFhErYHoTFhvGA1vW9D+sQIu59cni+DBTeE2aNsmx1FVgNHK+G4g+?=
+ =?us-ascii?Q?AlbpZ4zD5L/EIeKWhKBO+5t7dTJ9LQAVGz7acRnJ9aKMJPXXFses3jbzxPud?=
+ =?us-ascii?Q?hEcj6sU6vnvh+RB5JA1cRgs6Ttryl4dNavJRMDpTRfoYjl1AHj6fbKQil2U8?=
+ =?us-ascii?Q?9SNIyAvcP+SZSKguntWabB5PKNNHYsIjp/9fTL+rq1ZuB+KC6AiD1kA2IMPL?=
+ =?us-ascii?Q?p/ZItzABnzUPNxjV0TAXEb3YU6fvFtWv0uKnQ58EAipeviabSnaKlb9m+pz6?=
+ =?us-ascii?Q?j3c3iakZpwTbCg2XkjW4emaA4uk64etryVwojlzXFbqx+CbgaTLumj8W1oDG?=
+ =?us-ascii?Q?1BKoY0SrBOfWuj1O0oOLDWwPIGwVe9crKHgDUFQuJao19kpr0cCpw4VZvnps?=
+ =?us-ascii?Q?ndxdf4AVcfTD2lIhBV1fqxbDoTdkJwWAwSQFTgTxnzTEqCML94VictQgk4br?=
+ =?us-ascii?Q?lafTJL7lS6sw9kjD5ACjvwGhXUdnWxmAJcXODL2d09HKrJVIWCwDgcPwuCA/?=
+ =?us-ascii?Q?jroXFK2ISWexD+4pYy2EsNDLEnj9CyxOLKEczRwiVvnjRJjpaJXcA17O9v1j?=
+ =?us-ascii?Q?980VJ15ayA8A5JjuWCBzZn3YOD9/OoygkUEgz+dotYC82KOefws1VRbn/C0b?=
+ =?us-ascii?Q?R5mxW48vxV/wZeQSSIJFi7rlIxuJa3Zk/0DXMjCdFkh+BGkL6pfPt4yzKbKc?=
+ =?us-ascii?Q?xF3Xfd/mbGa1Ehn7WOyf451h8YiZEiervuEFSYNMIuPAUML/Q6Ea6m6IeCET?=
+ =?us-ascii?Q?aQyQ+TosTnMSXswgrospdSFuu1fDqHfBeqp71/pIk6e9KpWY9Ckw82dpO8c2?=
+ =?us-ascii?Q?/OXY9TqqH+6Uiq5sKlJpg/qFvnEgmlNWd88TScTL8eUyIyoHY9ZStQAdsU6S?=
+ =?us-ascii?Q?zEv0k152l5gELBLc2nAluXyVhm1DGspZgQPl4hocHVn7r23GXm4vnJWNxhZN?=
+ =?us-ascii?Q?0UH/5A6k2WTPE0xA5rJLWQyjp2bHphbrD4xYsomscMb9RinT8Uo4Q5bc8Vvj?=
+ =?us-ascii?Q?0T21Nyz14paMRpWt+rIK8ll6NyWVCS5B8FBvCsZcdH7/3cNofzFiCcB/Qzg9?=
+ =?us-ascii?Q?qgMpKMa2fDF/DkgxmmFtSpeIr2dK/uh52y6SJGeoT5HN85t2Z2QY8kaanB31?=
+ =?us-ascii?Q?zelqrSj+fSXtoOvnh+/ZZloEkJFFnqA5A7Ddl721QD5SmIvQWhms+S2xwHzC?=
+ =?us-ascii?Q?FzXTcBRNbyZjXN34Tc+zrYIccPELfN9uXZVFFDLjJD4wx1IZtMlfZsnjBIDa?=
+ =?us-ascii?Q?UspZJw22U9pw64De8VOm/sI/S28IUbLf19o6XtxZOPv5VlcOqR7U23leZrRl?=
+ =?us-ascii?Q?Q3YMTWbUFrtFe8+Xlrshj9X5qEBsVj9Tl8+Z80W9Mx1CL+789U1sCrc2rtJi?=
+ =?us-ascii?Q?q+9u4xN1+mguNKiSwCdefFVZp+8pzfkcTKUn8S3fv8fo6bGruvpCvRP5J8iP?=
+ =?us-ascii?Q?F8OLV0LqUDJ7Coa2EKuic/PXEmCGb4BVQ8LLimR+gpQLS412PElSc3/UA8Bq?=
+ =?us-ascii?Q?Zr3D16LeVbvnqR5ZV9RlBNfiWkSq2k6VhTtIpQv5YhlI4liqnTdHy74RHJrF?=
+ =?us-ascii?Q?logYvLVCYnHl1d7ZdPycDEI=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9eab769f-c86f-4260-993f-08ddd643c72b
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e07fa2ec-5b7f-46e1-7e44-08ddd640ea8b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2025 06:00:45.7647
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2025 06:21:15.0636
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Z7Dre9dLTn+8kNrHhjJq9YKkbOHpU+u/wV57vN3/4PhPnHzpIcLkDM+++ZZAyFw1/eCJoxkf/4XxVDKsZTzONQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAPR10MB5228
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: b1v5xexE0BuDNMUsP9/4ud4cRO2FFgPpBgunuXnQQMjGDjbFAjY/IAH+m/a/K0Ja9KFN6T+CpH2tN21l1tE+O+slf+UYn4PlOc8YsA8JtManxMiFw2TqLM1VUbP+eS0v
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7930
+X-Proofpoint-GUID: cqxIbrxiV3bq-tFZ5jFAmwAlZKZLr1vz
+X-Proofpoint-ORIG-GUID: cqxIbrxiV3bq-tFZ5jFAmwAlZKZLr1vz
+X-Authority-Analysis: v=2.4 cv=ZpHtK87G c=1 sm=1 tr=0 ts=6895975d cx=c_pps
+ a=7lZyNaC2F/ThP7FyJEKG4w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10 a=CCpqsmhAAAAA:8 a=pGLkceISAAAA:8
+ a=t7CeM3EgAAAA:8 a=r2z26tNrudXxuRAnXlwA:9 a=aH9sc-IdxHcA:10
+ a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA4MDA1MCBTYWx0ZWRfX8jvUJN8KltuD
+ BeXy7NqdwjQwixwVNxZhviDXnF0enxZ4S6IuVnhZI92G1Xkq9/fNOmhMT9XD6dI3GrLu2KV+cQs
+ roqQO4d/fw4E/K5pidylj1JNqznZkrhqdc2D7vSOM+/X2c/JMgiXaaE3RqtQ+akrBB3IBK6yQ+E
+ Bbf5AblOvR5DeVh8p7w7udQdZP3uMdOIt0Mbw9Tm0iBBqgVWfrol1fQN25rlLMKyAGswucf41h6
+ FiluIV0vveKRfIc6Vv4IX2jKF/jQOYAC+vH++RmnesktphBlS3nc7Hc/WJT6J1CtZ0BIFvoxTOh
+ DqckRsRlK85yM7U+HqtMoexjaqNP8v4UCL2ryPtpOFo/FgeIJOmuYlqHq3FEOc=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-08_01,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 spamscore=0 phishscore=0 clxscore=1015
+ bulkscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 06:00:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221594
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 06:21:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221595
 
-Note that this change rebuilds from scratch (with rn_work or empty tmpdir).
-So the patch verification took me most of the day.
-Although the value of PARALLEL_MAKE does not change and hashes of configure=
-/compile stay the same,
-hash of populate_sysroot changes although it does not evaluate parallel_mak=
-e at all.
-Is this a bug or a feature?
+From: Khem Raj <raj.khem@gmail.com>
 
-[poky]/home/projects/build/work-ccp7$ bitbake-diffsigs {/tmp,projects/poky/=
-tmp}/stamps/x86_64-linux/quilt-native/0.69.do_populate_sysroot.sigdata.*
-NOTE: Starting bitbake server...
-basehash changed from 3e355b49fe002160af197c4418d78fe5e6e3f5ee2bbd294bc5ebe=
-2f6cd62c93a to 13cd423267171f8ba581c9bf6c59a2380690daa9fa5dba3f14f33852d0c1=
-38fc
-Variable oe.utils.get_bb_number_threads value changed from '7789d42c55d3455=
-966829336c3431581e91ea7f90daff00c90ba0bbc747625ac' to '3c2db6724598a1d5fdce=
-f41fbb3e0971256afed3a3e1f891cd4b360864802a3f'
-Variable oe.utils.multiprocess_launch_mp value changed from '6fcecddf5f515a=
-fff9d1970920f983978d2e68da9ef052ec5e434062795d61ff' to '3a7bc5ba90a4b7dcaae=
-29af22611269610cad86f9ad8f3db6a27234d046239c3'
+(From OE-Core rev: a85cccc80aa7e6d6a5850c2d730cba5e1cb60cb3)
 
-Peter
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+---
+ ...le-prefix-map-from-CFLAGS-to-ASFLAGS.patch | 24 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.41.bb         |  1 +
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
 
-> -----Original Message-----
-> From: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> Sent: Friday, August 8, 2025 7:51
-> To: openembedded-core@lists.openembedded.org
-> Cc: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> Subject: [OE-core][PATCH 1/3] oe/utils: extract method for parallel_make =
-without d
-> context
->=20
-> From: Peter Marko <peter.marko@siemens.com>
->=20
-> oeqa does not have general access to d variable context and needs to
-> determine parallel make settings.
-> Extract the code from parallel_make into reusable parallel_make_value.
->=20
-> Also correct function description of return value from None to empty
-> string.
->=20
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  meta/lib/oe/utils.py | 26 ++++++++++++++++++--------
->  1 file changed, 18 insertions(+), 8 deletions(-)
->=20
-> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-> index 779c5e593f..8aa15373f1 100644
-> --- a/meta/lib/oe/utils.py
-> +++ b/meta/lib/oe/utils.py
-> @@ -174,18 +174,14 @@ def any_distro_features(d, features, truevalue=3D"1=
-",
-> falsevalue=3D""):
->      """
->      return bb.utils.contains_any("DISTRO_FEATURES", features, truevalue,
-> falsevalue, d)
->=20
-> -def parallel_make(d, makeinst=3DFalse):
-> +def parallel_make_value(pm):
->      """
->      Return the integer value for the number of parallel threads to use w=
-hen
-> -    building, scraped out of PARALLEL_MAKE. If no parallelization option=
- is
-> -    found, returns None
-> +    building, scraped out of given string. If no parallelization option =
-is
-> +    found, returns empty string
->=20
-> -    e.g. if PARALLEL_MAKE =3D "-j 10", this will return 10 as an integer=
-.
-> +    e.g. if string is "-j 10", this will return 10 as an integer.
->      """
-> -    if makeinst:
-> -        pm =3D (d.getVar('PARALLEL_MAKEINST') or '').split()
-> -    else:
-> -        pm =3D (d.getVar('PARALLEL_MAKE') or '').split()
->      # look for '-j' and throw other options (e.g. '-l') away
->      while pm:
->          opt =3D pm.pop(0)
-> @@ -200,6 +196,20 @@ def parallel_make(d, makeinst=3DFalse):
->=20
->      return ''
->=20
-> +def parallel_make(d, makeinst=3DFalse):
-> +    """
-> +    Return the integer value for the number of parallel threads to use w=
-hen
-> +    building, scraped out of PARALLEL_MAKE. If no parallelization option=
- is
-> +    found, returns empty string
-> +
-> +    e.g. if PARALLEL_MAKE =3D "-j 10", this will return 10 as an integer=
-.
-> +    """
-> +    if makeinst:
-> +        pm =3D (d.getVar('PARALLEL_MAKEINST') or '').split()
-> +    else:
-> +        pm =3D (d.getVar('PARALLEL_MAKE') or '').split()
-> +    return parallel_make_value(pm)
-> +
->  def parallel_make_argument(d, fmt, limit=3DNone, makeinst=3DFalse):
->      """
->      Helper utility to construct a parallel make argument from the number=
- of
+diff --git a/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch b/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
+new file mode 100644
+index 0000000000..96140c625b
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
+@@ -0,0 +1,24 @@
++From 603e50d6b8ccadb32d59b0497f76629665c1794b Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 16 Apr 2025 19:51:01 -0700
++Subject: [PATCH] Propagate -ffile-prefix-map from CFLAGS to ASFLAGS.
++
++Upstream-Status: Submitted [https://sourceware.org/pipermail/libc-alpha/2025-April/165969.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
++---
++ Makeconfig | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makeconfig b/Makeconfig
++index e35c5cfe4e..7a19c731c6 100644
++--- a/Makeconfig
+++++ b/Makeconfig
++@@ -1176,7 +1176,7 @@ endif
++ 
++ # The assembler can generate debug information too.
++ ifndef ASFLAGS
++-ASFLAGS := $(filter -g% -fdebug-prefix-map=%,$(CFLAGS))
+++ASFLAGS := $(filter -g% -fdebug-prefix-map=% -ffile-prefix-map=%,$(CFLAGS))
++ endif
++ override ASFLAGS += -Werror=undef $(ASFLAGS-config) $(asflags-cpu)
+diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-core/glibc/glibc_2.41.bb
+index 7ddf7f9127..731b9ee255 100644
+--- a/meta/recipes-core/glibc/glibc_2.41.bb
++++ b/meta/recipes-core/glibc/glibc_2.41.bb
+@@ -54,6 +54,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
+            file://0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
+            file://0001-stdlib-Add-single-threaded-fast-path-to-rand.patch \
++           file://0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch \
+ "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+2.49.0
+
 
