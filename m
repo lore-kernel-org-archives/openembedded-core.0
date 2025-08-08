@@ -2,63 +2,63 @@ Return-Path: <akash.hadke27@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29F12C87FD2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4426ECA0EC0
 	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 08:49:57 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.17936.1754642989923380453
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.17679.1754642995009838659
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 01:49:49 -0700
+ Fri, 08 Aug 2025 01:49:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cc2xPS5r;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: akash.hadke27@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-23636167afeso15961385ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:49:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J6Zpsbwf;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: akash.hadke27@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2402bbb4bf3so22959505ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:49:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754642989; x=1755247789; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754642994; x=1755247794; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hXw8G6/lBiPMqvhA39b+1TweWZYLKsxhExx0liOHVz4=;
-        b=Cc2xPS5rmBExOgWX9eAIWEejrrviQC7uMcu9+U6PiIEN7sALD3OL54TTEgh+l3MLjS
-         HKOoRUdncGJMLJYwKzqIr1XqNMU8lWp4YkAtJLgmdeRd4IzCVk1SLlfE5OmcnfIVhNeW
-         emWxnZCYRr8dYpGV8o+AaCO1xNvLEISelI6s/Dn6u84gcfbPNSMKRhtd5jiy0OXU2R4r
-         WvprOJI62zziBipOAFlOqUfKx5sNjf0SS3RvcqtCO5k/SiTQ07+Ch4HFCCd7M2Tsc5no
-         dB/1eaBvfE55z80bhSpiaMNfcwt8Dbo4jdD3MhJN7hhqxiknxwptxiJNftRSrlme3IMN
-         H3Fw==
+        bh=7TZofw14SzG1UPmEVIWyW9VjhjZBe54YMK3FzEUSST4=;
+        b=J6ZpsbwfGbDArczGEglyTlwJRnnNHZkffFgchzKhRrJJZPp6Ox4jx2GSxnUSG2Mc/L
+         AGKRsQ7CIzZ4ic2ThIOXql3f9ZLygv3ZqIW3nlWyngVEIeXeR/4o4l7HUJacNtwvQBlR
+         NFApCLRqOhvxCR7uSaCw6PoEfHWgb16+YebxvDBuYxVVMmADX3b0QOgS5uu26QYko7wA
+         TCg/DFF1xu2DiZDKrOLyhNDLmgLvWqSkDuttipM2QfRN8kA7K8CFwxaap0VNrAB2P10r
+         bfm6Gsy93ynQE+sSmp/7TC/JkZEOxtaJtFSYWHlOfkrMpsXqlPM+b5jDkVOTJgczNSf0
+         YK5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754642989; x=1755247789;
+        d=1e100.net; s=20230601; t=1754642994; x=1755247794;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hXw8G6/lBiPMqvhA39b+1TweWZYLKsxhExx0liOHVz4=;
-        b=GOSbkzsWZvChcLj7TPUW/S4A0zA6HFR9KxwwRFKffH89KGvdLK835zWEnic2gXwBJb
-         OcErMYAvamXN5vzx9RErDBo/G675Qkxzu6aTeKq2W5uHl2ikYwOayCo5o2Q2NuHu5co8
-         +vstbNTJOPc5VZnOHJ6jzG6Ds2yGoHWab1NNNAr1AQh+uTZ8WGBAw9rHtySp+BSc/aEt
-         r3SAexRHC14WS7kIDbhQl5wmeK1yESdJejZet1zvvg4uD5UKCn/3H9ElRmZGkHfs3RXT
-         dwn24VJJonVHN1994OBsf87cWzXsDkTLvgYOnlUEkKkqbmrROSKIiBa4JMRIsR9BF69F
-         29yg==
-X-Gm-Message-State: AOJu0YzxfVDqXX1aAXlq8oyFFI7ahEm6WXAgIVigkJ0UPoLpSIUp2O2B
-	nRB88MOsor3aInimbsr5YkMBqbS3q/hqSRQ94MUBLdYTr10V+NqyD743XkBIBg==
-X-Gm-Gg: ASbGncurJD6urfMQD5yo68RShFm6fxvgFbWMkW3qaejNtNrZMOg5gIm/zXXayGOX3/6
-	Jr3dRyRzUvRdrg8TZEl9+TsmPmup1SjkGr4Iw9zdHpF7EJSiktMD/rquK3dLi2YD4HyxTIxqN02
-	h6CDTANf7r9Zo9od/as61cpYwMoc9nR7idvFJGVVmOjWVVgyf9OhrPy0ZF/IOYoNyKFnxxsBuXB
-	WDkwP57x3MqO52gozugi4W2WSDnz046nRAYJ/kLrBkR6Y3DWaBEfePcrFs3r5FOSHg6JaeXD+CY
-	pfc1Wsit+2dzrmJ+HpokQSAXUJ3MEmuA405D1dXOQyJ25PFhAMdeEilA5Fq/HXkGULx4rSKPG6s
-	Spgj+znyBs88E+hBux4kY30DxRcldgNtF
-X-Google-Smtp-Source: AGHT+IFI+MPUCvd35hp+nuBr+K43YPwTPMOTeurusIYvVngvc2eNA9ax9+BNfZUHdyizX5UOXqkFpA==
-X-Received: by 2002:a17:902:ea11:b0:240:3239:21c7 with SMTP id d9443c01a7336-242c21dcd0bmr32476785ad.37.1754642988824;
-        Fri, 08 Aug 2025 01:49:48 -0700 (PDT)
+        bh=7TZofw14SzG1UPmEVIWyW9VjhjZBe54YMK3FzEUSST4=;
+        b=MSZHpuoMZmXsT3rHFSeeyHoTyGIFyBWcTo+jdZ0V/eFUYC+pxSkKheC8Blo+ShajIE
+         66mHDG857phGE8qKjDdQWB8zptcRyggFBm3+KGz2ZJueurRuVIa3liYjgVQR+OpY3TaF
+         wWVn05IIU6f6Z2imzj8eQ2GrM00c8gdVLl6jckrfvfdKo1uNuSLlUhkaTc3Td50zIV1t
+         W3GSaqpo1L5VFvT18LBlpx2CMhu4V11952WqYHecap//bh3+qE+ciWqq3Pt3gj980puh
+         OYJ2Qg1OLbjh8Gej7BUxp9KnynE5zzNHersamPwKiNcY/yuKJsLeU8XhQ36iiO4+wZc4
+         KfKg==
+X-Gm-Message-State: AOJu0Yy7xAujEO9TsGun49A3wDjsN80e5CqP/50G5pfkw4P0T/ORyaBF
+	j8o02T9fXO7hnrrFwCUqpT8GUj1rL0pJrFNTuavP6V23vpHtSTFuZ0Unyl40Cg==
+X-Gm-Gg: ASbGnct61nAAJe03cRel+c/ShUKjt8cvcIgwpvVkBCAIaYGpo+HKYjC/A0Y8MTIkpm5
+	11VUEJIQ83AiR70Ffo9EtqsvS2pF3vePA8X75HnK2Lr6tFws2sQdlLf6+zhmwjjfWgjAJjwuz26
+	2oRu1Fhdl8yI+vEcVq4gHGA2fKndJ0S6avGR9vETZvVB2vgIFElQpEOiCR/XOjXdgKuxO1koPFe
+	RRYPmFpsHsD+JTtKMw/IKmKQoRoz8hDEcBfHe7JdiS62rI+7zsGm35VXXuFD7l0yW4cGy3SxLhs
+	eIu7jvCtaOKfHZ0NluvMysfegOOPBP6K5oHPhxVxT9LD2Rv0JniItTDF69A/ow3hi4pighZZXOV
+	01CXa6fOdQc1omSZ8IbyK51hNE6L4WLMA
+X-Google-Smtp-Source: AGHT+IH55Sa2kiIA7bfXMafeTFUniznALH7rU0FRmu9qx8s8K5CEJDbz8hHx+3Kx2IlxL1Ws/H9dAA==
+X-Received: by 2002:a17:903:2a8b:b0:240:2a0:c449 with SMTP id d9443c01a7336-242c1fdc1b2mr29844735ad.8.1754642993961;
+        Fri, 08 Aug 2025 01:49:53 -0700 (PDT)
 Received: from L-18010L.kpit.com ([49.36.49.248])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.49.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.49.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 01:49:48 -0700 (PDT)
+        Fri, 08 Aug 2025 01:49:53 -0700 (PDT)
 From: Akash Hadke <akash.hadke27@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Robert Yang <liezhi.yang@windriver.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [poky][scarthgap][PATCH 04/23] bitbake: gitsm: Add clean function
-Date: Fri,  8 Aug 2025 14:19:12 +0530
-Message-Id: <20250808084931.2156763-4-akash.hadke27@gmail.com>
+Subject: [poky][scarthgap][PATCH 06/23] bitbake: git: Clean broken symlink
+Date: Fri,  8 Aug 2025 14:19:14 +0530
+Message-Id: <20250808084931.2156763-6-akash.hadke27@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250808084931.2156763-1-akash.hadke27@gmail.com>
 References: <20250808084931.2156763-1-akash.hadke27@gmail.com>
@@ -68,49 +68,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 08:49:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221601
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221603
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
-Fixed:
-$ bitbake utfcpp -cfetch && bitbake utfcpp -ccleanall
+The file may be a symlink when mirror from local disk, and the symlink will be
+broken when the linked file is removed, use os.path.islink() to check and
+remove the broken symlink.
 
-The downloads/git2/github.com.nemtrif.ftest won't be cleaned without this fix.
-
-(Bitbake rev: 79f25fc5c1b8d0e08540f4aa07875309f5325f47)
+(Bitbake rev: d0deb5fe6e7a84b07b49ef685b209729d2fdc780)
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5bce38fbaea0a7d1228740e2cb313957c914cfdf)
+(cherry picked from commit 0a45ba64adbc279928a4347c5073eb78da1bf00a)
 Signed-off-by: Akash Hadke <akash.hadke27@gmail.com>
 ---
- bitbake/lib/bb/fetch2/gitsm.py | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ bitbake/lib/bb/fetch2/git.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/bitbake/lib/bb/fetch2/gitsm.py b/bitbake/lib/bb/fetch2/gitsm.py
-index fab4b1164c..ba62517f08 100644
---- a/bitbake/lib/bb/fetch2/gitsm.py
-+++ b/bitbake/lib/bb/fetch2/gitsm.py
-@@ -249,6 +249,19 @@ class GitSM(Git):
-             # should also be skipped as these files were already smudged in the fetch stage if lfs
-             # was enabled.
-             runfetchcmd("GIT_LFS_SKIP_SMUDGE=1 %s submodule update --recursive --no-fetch" % (ud.basecmd), d, quiet=True, workdir=ud.destdir)
-+    def clean(self, ud, d):
-+        def clean_submodule(ud, url, module, modpath, workdir, d):
-+            url += ";bareclone=1;nobranch=1"
-+            try:
-+                newfetch = Fetch([url], d, cache=False)
-+                newfetch.clean()
-+            except Exception as e:
-+                logger.warning('gitsm: submodule clean failed: %s %s' % (type(e).__name__, str(e)))
-+
-+        self.call_process_submodules(ud, d, True, clean_submodule)
-+
-+        # Clean top git dir
-+        Git.clean(self, ud, d)
+diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
+index 0ea55e139d..6badda5972 100644
+--- a/bitbake/lib/bb/fetch2/git.py
++++ b/bitbake/lib/bb/fetch2/git.py
+@@ -733,7 +733,7 @@ class Git(FetchMethod):
+             to_remove.append(ud.fullshallow + ".done")
  
-     def implicit_urldata(self, ud, d):
-         import shutil, subprocess, tempfile
+         for r in to_remove:
+-            if os.path.exists(r):
++            if os.path.exists(r) or os.path.islink(r):
+                 bb.note('Removing %s' % r)
+                 bb.utils.remove(r, True)
+ 
 -- 
 2.25.1
 
