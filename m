@@ -2,63 +2,63 @@ Return-Path: <akash.hadke27@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D3DC87FDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B9D4C87FD2
 	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 08:50:07 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.17937.1754642997708249122
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.17682.1754643000566462320
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 01:49:57 -0700
+ Fri, 08 Aug 2025 01:50:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WZP/cDAS;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: akash.hadke27@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2401b855980so13626235ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:49:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SAGboEpp;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: akash.hadke27@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24031a3e05cso13504015ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754642997; x=1755247797; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754642999; x=1755247799; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Trb7PFGlellBbTNTlVhpdaNZn34qoReBUU2I/Htc0K4=;
-        b=WZP/cDASnYZYE4dk6NUkWlKMmeMs6dkNykEHf2Pou28GgKfTw80RsPPV1gelv63Emr
-         FtqCRH+O060iTiTcrcMD5tL7Sc0qxPazHj21LQO4k3cMohxN9/jXUDeBQjWHNfjWm+VR
-         pPMRjvY9xtigxCaAD2a5faTS3uLJ68KShrgzgV4IV868oRZxBEj/OcFAOz2bP/kLi30o
-         SL3vbQqBE9Z8St047+T1hUYRXVW90ZfNyqdk29KJT0RRUag9nEE18uzLJ2gbNJaJ791O
-         WLi5Qhd1ALBZyiYahvUkWD3JS9Tgf+cqAoH/vgLYfTHTJAzhtArfYfY9eBS9mAhtUGMI
-         ubdw==
+        bh=jrzoX/joTffAl1MPQX3ffgHU0uU261I4cyTWCxNEwXs=;
+        b=SAGboEpp/xuA7JoCbudWWYTMoHehTIeSh3CKUTMR3anJAdisewpvvxQ4QuQ8hR/ldf
+         dph12u6dHPv1rasKm2fJwhZvxXHk5bSb5GyD64FL8PobLRUMLKbPbcU5fWtkVBjv2/xh
+         CwoHFwfBTTl0fGpnZFoUYtqdt0O0cWcaGWTPj6ZqRFzz2sTgJ/ZxB6R98r5/f02plYkH
+         v2wjeDhYC6oQBu4raOljOfydVwATIt2SCtBK8BdTWqQJWTL0IS4AetzEHkvW/PRQ6mwU
+         M9u+WyVXxxBZJ/UpMKLDhXTTHAPuja/aM4bs87w5nSeWrXKf0oJ6X1fA7mbuNqpx9eGn
+         onjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754642997; x=1755247797;
+        d=1e100.net; s=20230601; t=1754642999; x=1755247799;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Trb7PFGlellBbTNTlVhpdaNZn34qoReBUU2I/Htc0K4=;
-        b=gtouZzpjwwMEiBtX+f7GuMThBpjwFZaccOdv8prfGUzBRD7rASMLPHVkSb37BPMYy6
-         JsLH05oW71EQ4agssQALQ29FKvGeuajPh/gpu3SP5IjKQXYt66ihumTf/XVtgFZmMMah
-         zUz8BOjoJRIRHV4PimqQY/qtTbqp+Wavcu3J/HU5w+0wqnBQH+bZLV86lr6DBjiuZ/ME
-         N0JVdf/DrDSDJHmTP6HuUzRgHc37C0dt51x/tqC4kq3yWfiJ29kXtPHoerk4Uvj8BazV
-         a36ExZcMSUfmCxpW2avB1J1JXQp95UUkKdFKwwGaLx6lXk3tdTkoMe5VPMyjCMICiSuT
-         wXeg==
-X-Gm-Message-State: AOJu0Yw4Ljriy2ojRc4pC+vIVOrQ5qMCazzkhM1ta6UHKY4jdl4JM6sV
-	AsOoJkb41b5rmViNnolRKfI8OgDWT30/OgUXb8GRw8+n42Ez/nLaysTM/Hptlg==
-X-Gm-Gg: ASbGncsSX++I7UdsM5CHG8iupwbj45DFwHzVFnhJsMq/AlBcOKAGXt+YcXd/2pK8PF/
-	SD2VzuXmWCWGmcU2qnNZkN998fXtlYDF+CZcCZct++184wJri76KxCMbH3WV5Qv3qs2qucFUqOL
-	vOt+qdx2CudDYKSwhvlO13YFLvUX3zj63doCc4hSL7CkjDKGyTl3kwPIztU/lPGf2IN4/GFv9KB
-	Gs8sjWsiIPLbc7HYWmmhMjGMmRrVl02GBljmj9552+2y6eZAaScewlhjaQ8bPAnXnBG2h/8Ec/x
-	xgldtjI8HrN+wrG3G8msvFzQQ5k/I+G5b8PWOHqMGT4wN6AbgDOdqRpF7W+qrUgxI9pvkkb/h1h
-	sSTB4BGE1EDlVxoHhDuWUHJxJQW2mGDqB
-X-Google-Smtp-Source: AGHT+IHQbENPBBAZ1HKCB6TqPzJ2zt8xwoj0Sar1zA+iM8mBv5V+DivNi+kz1z4+9jQu+uj1MYvexQ==
-X-Received: by 2002:a17:902:d550:b0:234:1163:ff99 with SMTP id d9443c01a7336-242c222c806mr32410155ad.43.1754642996652;
-        Fri, 08 Aug 2025 01:49:56 -0700 (PDT)
+        bh=jrzoX/joTffAl1MPQX3ffgHU0uU261I4cyTWCxNEwXs=;
+        b=D6l+SqcBx0nQYUg8XWXAt9GIFfbSqW6JYokIm9Cq1Rqud+03Z6P2lWkAl6nyvKU7By
+         FYlD3RbDObndFhXYo8IXQsm7ujHI70EXrBw1TRJxdqDko/1N1Tf5C6D2Gx4TyT1L2WFG
+         tq8MWsxqcNLlC5cNqBXpMN68viKnb9DyxR+v06l5WAQAHHjWqyNVSurLCIz85+D8fNZS
+         JIPQYtMANkq3hvlamhWiWVpdl/sKyZpfJSnJ9gqtcxMYOkXg5hCZ8kaGZFNQa0Kn7/6y
+         ofhm6ZbZTEZqPPM5fBwdHR7rS0blDleXfSM0mRm1MsAJwBHv5voJbaatCbUG0VpR7PUp
+         0d+Q==
+X-Gm-Message-State: AOJu0YyaJO1yILO8yyl7joIuL/etb8/MwM2+QnLUUnj6Myi6n0WAo5CG
+	wxpxupfzfYUeq/ATmPeFNFYNFFbpAumHCzldKSymhOBxHBcVaRmYs1LGlbqLgA==
+X-Gm-Gg: ASbGncusLXjuRPDJpPfYxB/rNKbZtHTSbH59tlsivowZWlVvzjkST+H+SEcMJNqsvRm
+	G14NpzcRZIf/tEVEic3h0XqzU2GWlqjyUALxvRaM165dzyErJ2zeJXibpyRjRlHdnDXt/4IJ8Fg
+	pDNAPSnYkeoGlQLbYqRsFI5AdDvvDeTwjgYgXf+6DkjEkWCukAlf+tv6L6jRPihlEbqvPzk4c1G
+	Yq3rdC85w3y/V9lK2b63Kf9u5VVd5eUJ68ovfIu7aaQBVa8tM1cqVR1D2Ma9LYPiHsNyYNHjl27
+	ZiYax9uepQJ/PmfUCIhL5U2gyw6ctKDIfvWW3PEVyQC+57E5xkdOayMJfngaMihjyvtTEs/bdoe
+	qwwmtlb8ugM3nq80pL/P9IAx0dwuEzfjr
+X-Google-Smtp-Source: AGHT+IHgpQbO9Dehk2Kcwx+Yhtn16RwqTCyDCC9JZFnJrqdswJ0M/3jS4qllO90OsPPukrMuaR/iXQ==
+X-Received: by 2002:a17:902:d505:b0:234:9fe1:8fc6 with SMTP id d9443c01a7336-242b072bbb4mr97586895ad.18.1754642999210;
+        Fri, 08 Aug 2025 01:49:59 -0700 (PDT)
 Received: from L-18010L.kpit.com ([49.36.49.248])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.49.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.49.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 01:49:56 -0700 (PDT)
+        Fri, 08 Aug 2025 01:49:58 -0700 (PDT)
 From: Akash Hadke <akash.hadke27@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Estner <michaelestner@web.de>,
+Cc: Stefan Koch <stefan-koch@siemens.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [poky][scarthgap][PATCH 07/23] bitbake: lib: Remove double imports
-Date: Fri,  8 Aug 2025 14:19:15 +0530
-Message-Id: <20250808084931.2156763-7-akash.hadke27@gmail.com>
+Subject: [poky][scarthgap][PATCH 08/23] bitbake: fetch2/git: Add support for fast initial shallow fetch
+Date: Fri,  8 Aug 2025 14:19:16 +0530
+Message-Id: <20250808084931.2156763-8-akash.hadke27@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250808084931.2156763-1-akash.hadke27@gmail.com>
 References: <20250808084931.2156763-1-akash.hadke27@gmail.com>
@@ -68,195 +68,221 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 08:50:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221604
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221605
 
-From: Michael Estner <michaelestner@web.de>
+From: Stefan Koch <stefan-koch@siemens.com>
 
-* Remove double imports mentioned by pylint
+When `ud.shallow == 1`:
+- Prefer an initial shallow clone over an initial full bare clone,
+  while still utilizing any already existing full bare clones.
+- If the Git error "Server does not allow request for unadvertised object"
+  occurs, the initial full bare clone is fetched automatically.
+  This may happen if the Git server does not allow the request
+  or if the Git client has issues with this functionality,
+  especially with the Git client from Ubuntu 20.04.
 
-(Bitbake rev: 741db6719efca5aa9ef2c15e60cdd624e4aa1a8d)
+This improves:
+- Resolve timeout issues during initial clones on slow internet connections
+  by reducing the amount of data transferred.
+- Eliminate the need to use an HTTPS tarball `SRC_URI`
+  to reduce data transfer.
+- Allow SSH-based authentication (e.g. cert and agent-based) when
+  using non-public repos, so additional HTTPS tokens may not be required.
 
-Signed-off-by: Michael Estner <michaelestner@web.de>
+(Bitbake rev: 457288b2fda86fd00cdcaefac616129b0029e1f9)
+
+Signed-off-by: Stefan Koch <stefan-koch@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e1836b205a2716e85f36346762805e2e505a5eb6)
+(cherry picked from commit 65ae50cd16a3989699bea845566d38476f2ae9a7)
 Signed-off-by: Akash Hadke <akash.hadke27@gmail.com>
 ---
- bitbake/lib/bb/__init__.py                                 | 1 -
- bitbake/lib/bb/acl.py                                      | 2 --
- bitbake/lib/bb/fetch2/git.py                               | 1 -
- bitbake/lib/bb/fetch2/gitsm.py                             | 2 +-
- bitbake/lib/bb/runqueue.py                                 | 1 -
- bitbake/lib/bs4/__init__.py                                | 1 -
- bitbake/lib/bs4/diagnose.py                                | 1 -
- bitbake/lib/ply/yacc.py                                    | 1 -
- bitbake/lib/toaster/orm/models.py                          | 3 +--
- bitbake/lib/toaster/toastergui/templatetags/projecttags.py | 1 -
- bitbake/lib/toaster/toastergui/views.py                    | 2 --
- bitbake/lib/toaster/toastermain/settings.py                | 1 -
- 12 files changed, 2 insertions(+), 15 deletions(-)
+ bitbake/lib/bb/fetch2/git.py | 114 ++++++++++++++++++++++++++---------
+ 1 file changed, 85 insertions(+), 29 deletions(-)
 
-diff --git a/bitbake/lib/bb/__init__.py b/bitbake/lib/bb/__init__.py
-index cdec9e4d6c..a3c259479a 100644
---- a/bitbake/lib/bb/__init__.py
-+++ b/bitbake/lib/bb/__init__.py
-@@ -214,7 +214,6 @@ def deprecated(func, name=None, advice=""):
- # For compatibility
- def deprecate_import(current, modulename, fromlist, renames = None):
-     """Import objects from one module into another, wrapping them with a DeprecationWarning"""
--    import sys
- 
-     module = __import__(modulename, fromlist = fromlist)
-     for position, objname in enumerate(fromlist):
-diff --git a/bitbake/lib/bb/acl.py b/bitbake/lib/bb/acl.py
-index 0f41b275cf..e9dbdb617f 100755
---- a/bitbake/lib/bb/acl.py
-+++ b/bitbake/lib/bb/acl.py
-@@ -195,8 +195,6 @@ class ACL(object):
- 
- def main():
-     import argparse
--    import pwd
--    import grp
-     from pathlib import Path
- 
-     parser = argparse.ArgumentParser()
 diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
-index 6badda5972..168f14d0c8 100644
+index 168f14d0c8..9a15abaa79 100644
 --- a/bitbake/lib/bb/fetch2/git.py
 +++ b/bitbake/lib/bb/fetch2/git.py
-@@ -817,7 +817,6 @@ class Git(FetchMethod):
+@@ -207,6 +207,7 @@ class Git(FetchMethod):
+         if ud.bareclone:
+             ud.cloneflags += " --mirror"
+ 
++        ud.shallow_skip_fast = False
+         ud.shallow = d.getVar("BB_GIT_SHALLOW") == "1"
+         ud.shallow_extra_refs = (d.getVar("BB_GIT_SHALLOW_EXTRA_REFS") or "").split()
+ 
+@@ -446,6 +447,24 @@ class Git(FetchMethod):
+             if ud.proto.lower() != 'file':
+                 bb.fetch2.check_network_access(d, clone_cmd, ud.url)
+             progresshandler = GitProgressHandler(d)
++
++            # Try creating a fast initial shallow clone
++            # Enabling ud.shallow_skip_fast will skip this
++            # If the Git error "Server does not allow request for unadvertised object"
++            # occurs, shallow_skip_fast is enabled automatically.
++            # This may happen if the Git server does not allow the request
++            # or if the Git client has issues with this functionality.
++            if ud.shallow and not ud.shallow_skip_fast:
++                try:
++                    self.clone_shallow_with_tarball(ud, d)
++                    # When the shallow clone has succeeded, use the shallow tarball
++                    ud.localpath = ud.fullshallow
++                    return
++                except:
++                    logger.warning("Creating fast initial shallow clone failed, try initial regular clone now.")
++
++            # When skipping fast initial shallow or the fast inital shallow clone failed:
++            # Try again with an initial regular clone
+             runfetchcmd(clone_cmd, d, log=progresshandler)
+ 
+         # Update the checkout if needed
+@@ -508,48 +527,74 @@ class Git(FetchMethod):
+                 if os.path.exists(os.path.join(ud.destdir, ".git", "lfs")):
+                     runfetchcmd("tar -cf - lfs | tar -xf - -C %s" % ud.clonedir, d, workdir="%s/.git" % ud.destdir)
+ 
+-    def build_mirror_data(self, ud, d):
+-
+-        # Create as a temp file and move atomically into position to avoid races
+-        @contextmanager
+-        def create_atomic(filename):
+-            fd, tfile = tempfile.mkstemp(dir=os.path.dirname(filename))
+-            try:
+-                yield tfile
+-                umask = os.umask(0o666)
+-                os.umask(umask)
+-                os.chmod(tfile, (0o666 & ~umask))
+-                os.rename(tfile, filename)
+-            finally:
+-                os.close(fd)
++    def lfs_fetch(self, ud, d, clonedir, revision, fetchall=False, progresshandler=None):
++        """Helper method for fetching Git LFS data"""
++        try:
++            if self._need_lfs(ud) and self._contains_lfs(ud, d, clonedir) and self._find_git_lfs(d) and len(revision):
++                # Using worktree with the revision because .lfsconfig may exists
++                worktree_add_cmd = "%s worktree add wt %s" % (ud.basecmd, revision)
++                runfetchcmd(worktree_add_cmd, d, log=progresshandler, workdir=clonedir)
++                lfs_fetch_cmd = "%s lfs fetch %s" % (ud.basecmd, "--all" if fetchall else "")
++                runfetchcmd(lfs_fetch_cmd, d, log=progresshandler, workdir=(clonedir + "/wt"))
++                worktree_rem_cmd = "%s worktree remove -f wt" % ud.basecmd
++                runfetchcmd(worktree_rem_cmd, d, log=progresshandler, workdir=clonedir)
++        except:
++            logger.warning("Fetching LFS did not succeed.")
++
++    @contextmanager
++    def create_atomic(self, filename):
++        """Create as a temp file and move atomically into position to avoid races"""
++        fd, tfile = tempfile.mkstemp(dir=os.path.dirname(filename))
++        try:
++            yield tfile
++            umask = os.umask(0o666)
++            os.umask(umask)
++            os.chmod(tfile, (0o666 & ~umask))
++            os.rename(tfile, filename)
++        finally:
++            os.close(fd)
+ 
++    def build_mirror_data(self, ud, d):
+         if ud.shallow and ud.write_shallow_tarballs:
+             if not os.path.exists(ud.fullshallow):
+                 if os.path.islink(ud.fullshallow):
+                     os.unlink(ud.fullshallow)
+-                tempdir = tempfile.mkdtemp(dir=d.getVar('DL_DIR'))
+-                shallowclone = os.path.join(tempdir, 'git')
+-                try:
+-                    self.clone_shallow_local(ud, shallowclone, d)
+-
+-                    logger.info("Creating tarball of git repository")
+-                    with create_atomic(ud.fullshallow) as tfile:
+-                        runfetchcmd("tar -czf %s ." % tfile, d, workdir=shallowclone)
+-                    runfetchcmd("touch %s.done" % ud.fullshallow, d)
+-                finally:
+-                    bb.utils.remove(tempdir, recurse=True)
++                self.clone_shallow_with_tarball(ud, d)
+         elif ud.write_tarballs and not os.path.exists(ud.fullmirror):
+             if os.path.islink(ud.fullmirror):
+                 os.unlink(ud.fullmirror)
+ 
+             logger.info("Creating tarball of git repository")
+-            with create_atomic(ud.fullmirror) as tfile:
++            with self.create_atomic(ud.fullmirror) as tfile:
+                 mtime = runfetchcmd("{} log --all -1 --format=%cD".format(ud.basecmd), d,
+                         quiet=True, workdir=ud.clonedir)
+                 runfetchcmd("tar -czf %s --owner oe:0 --group oe:0 --mtime \"%s\" ."
+                         % (tfile, mtime), d, workdir=ud.clonedir)
+             runfetchcmd("touch %s.done" % ud.fullmirror, d)
+ 
++    def clone_shallow_with_tarball(self, ud, d):
++        ret = False
++        tempdir = tempfile.mkdtemp(dir=d.getVar('DL_DIR'))
++        shallowclone = os.path.join(tempdir, 'git')
++        try:
++            try:
++                self.clone_shallow_local(ud, shallowclone, d)
++            except:
++                logger.warning("Fash shallow clone failed, try to skip fast mode now.")
++                bb.utils.remove(tempdir, recurse=True)
++                os.mkdir(tempdir)
++                ud.shallow_skip_fast = True
++                self.clone_shallow_local(ud, shallowclone, d)
++            logger.info("Creating tarball of git repository")
++            with self.create_atomic(ud.fullshallow) as tfile:
++                runfetchcmd("tar -czf %s ." % tfile, d, workdir=shallowclone)
++            runfetchcmd("touch %s.done" % ud.fullshallow, d)
++            ret = True
++        finally:
++            bb.utils.remove(tempdir, recurse=True)
++
++        return ret
++
+     def clone_shallow_local(self, ud, dest, d):
          """
-         Return True if git-lfs can be found, False otherwise.
+         Shallow fetch from ud.clonedir (${DL_DIR}/git2/<gitrepo> by default):
+@@ -557,12 +602,20 @@ class Git(FetchMethod):
+         - For BB_GIT_SHALLOW_REVS: git fetch --shallow-exclude=<revs> rev
          """
--        import shutil
-         return shutil.which("git-lfs", path=d.getVar('PATH')) is not None
  
-     def _get_repo_url(self, ud):
-diff --git a/bitbake/lib/bb/fetch2/gitsm.py b/bitbake/lib/bb/fetch2/gitsm.py
-index ba62517f08..bab1bf2580 100644
---- a/bitbake/lib/bb/fetch2/gitsm.py
-+++ b/bitbake/lib/bb/fetch2/gitsm.py
-@@ -264,7 +264,7 @@ class GitSM(Git):
-         Git.clean(self, ud, d)
++        progresshandler = GitProgressHandler(d)
++        repourl = self._get_repo_url(ud)
+         bb.utils.mkdirhier(dest)
+         init_cmd = "%s init -q" % ud.basecmd
+         if ud.bareclone:
+             init_cmd += " --bare"
+         runfetchcmd(init_cmd, d, workdir=dest)
+-        runfetchcmd("%s remote add origin %s" % (ud.basecmd, ud.clonedir), d, workdir=dest)
++        # Use repourl when creating a fast initial shallow clone
++        # Prefer already existing full bare clones if available
++        if not ud.shallow_skip_fast and not os.path.exists(ud.clonedir):
++            remote = shlex.quote(repourl)
++        else:
++            remote = ud.clonedir
++        runfetchcmd("%s remote add origin %s" % (ud.basecmd, remote), d, workdir=dest)
  
-     def implicit_urldata(self, ud, d):
--        import shutil, subprocess, tempfile
-+        import subprocess
+         # Check the histories which should be excluded
+         shallow_exclude = ''
+@@ -600,10 +653,14 @@ class Git(FetchMethod):
+             # The ud.clonedir is a local temporary dir, will be removed when
+             # fetch is done, so we can do anything on it.
+             adv_cmd = 'git branch -f advertise-%s %s' % (revision, revision)
+-            runfetchcmd(adv_cmd, d, workdir=ud.clonedir)
++            if ud.shallow_skip_fast:
++                runfetchcmd(adv_cmd, d, workdir=ud.clonedir)
  
-         urldata = []
-         def add_submodule(ud, url, module, modpath, workdir, d):
-diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
-index db68f97e68..809324d3fd 100644
---- a/bitbake/lib/bb/runqueue.py
-+++ b/bitbake/lib/bb/runqueue.py
-@@ -476,7 +476,6 @@ class RunQueueData:
-         self.runtaskentries = {}
+             runfetchcmd(fetch_cmd, d, workdir=dest)
+             runfetchcmd("%s update-ref %s %s" % (ud.basecmd, ref, revision), d, workdir=dest)
++            # Fetch Git LFS data for fast shallow clones
++            if not ud.shallow_skip_fast:
++                self.lfs_fetch(ud, d, dest, ud.revisions[ud.names[0]])
  
-     def runq_depends_names(self, ids):
--        import re
-         ret = []
-         for id in ids:
-             nam = os.path.basename(id)
-diff --git a/bitbake/lib/bs4/__init__.py b/bitbake/lib/bs4/__init__.py
-index e35725b86e..e226b9cf4a 100644
---- a/bitbake/lib/bs4/__init__.py
-+++ b/bitbake/lib/bs4/__init__.py
-@@ -463,6 +463,5 @@ class FeatureNotFound(ValueError):
+         # Apply extra ref wildcards
+         all_refs_remote = runfetchcmd("%s ls-remote origin 'refs/*'" % ud.basecmd, \
+@@ -629,7 +686,6 @@ class Git(FetchMethod):
+             runfetchcmd("%s update-ref %s %s" % (ud.basecmd, ref, revision), d, workdir=dest)
  
- #By default, act as an HTML pretty-printer.
- if __name__ == '__main__':
--    import sys
-     soup = BeautifulSoup(sys.stdin)
-     print(soup.prettify())
-diff --git a/bitbake/lib/bs4/diagnose.py b/bitbake/lib/bs4/diagnose.py
-index 083395fb46..8d6ce8f87e 100644
---- a/bitbake/lib/bs4/diagnose.py
-+++ b/bitbake/lib/bs4/diagnose.py
-@@ -16,7 +16,6 @@ import tempfile
- import time
- import traceback
- import sys
--import cProfile
+         # The url is local ud.clonedir, set it to upstream one
+-        repourl = self._get_repo_url(ud)
+         runfetchcmd("%s remote set-url origin %s" % (ud.basecmd, shlex.quote(repourl)), d, workdir=dest)
  
- def diagnose(data):
-     """Diagnostic suite for isolating common problems."""
-diff --git a/bitbake/lib/ply/yacc.py b/bitbake/lib/ply/yacc.py
-index 381b50cf0b..529f85b081 100644
---- a/bitbake/lib/ply/yacc.py
-+++ b/bitbake/lib/ply/yacc.py
-@@ -1122,7 +1122,6 @@ class LRParser:
- # manipulate the rules that make up a grammar. 
- # -----------------------------------------------------------------------------
- 
--import re
- 
- # regex matching identifiers
- _is_identifier = re.compile(r'^[a-zA-Z0-9_-]+$')
-diff --git a/bitbake/lib/toaster/orm/models.py b/bitbake/lib/toaster/orm/models.py
-index 19c9686206..e2f488ed89 100644
---- a/bitbake/lib/toaster/orm/models.py
-+++ b/bitbake/lib/toaster/orm/models.py
-@@ -79,7 +79,6 @@ if 'sqlite' in settings.DATABASES['default']['ENGINE']:
-     # end of HACK
- 
- class GitURLValidator(validators.URLValidator):
--    import re
-     regex = re.compile(
-         r'^(?:ssh|git|http|ftp)s?://'  # http:// or https://
-         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
-@@ -1500,7 +1499,7 @@ class Layer_Version(models.Model):
-     # code lifted, with adaptations, from the layerindex-web application
-     # https://git.yoctoproject.org/cgit/cgit.cgi/layerindex-web/
-     def _handle_url_path(self, base_url, path):
--        import re, posixpath
-+        import posixpath
-         if base_url:
-             if self.dirpath:
-                 if path:
-diff --git a/bitbake/lib/toaster/toastergui/templatetags/projecttags.py b/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
-index bd398f0012..aee9bbcd14 100644
---- a/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
-+++ b/bitbake/lib/toaster/toastergui/templatetags/projecttags.py
-@@ -233,7 +233,6 @@ def filter_sizeovertotal(package_object, total_size):
- 
-     return '{:.1%}'.format(float(size)/float(total_size))
- 
--from django.utils.safestring import mark_safe
- @register.filter
- def format_vpackage_rowclass(size):
-     if size == -1:
-diff --git a/bitbake/lib/toaster/toastergui/views.py b/bitbake/lib/toaster/toastergui/views.py
-index 40aed265dc..061e6436c8 100644
---- a/bitbake/lib/toaster/toastergui/views.py
-+++ b/bitbake/lib/toaster/toastergui/views.py
-@@ -372,7 +372,6 @@ def _get_parameters_values(request, default_count, default_order):
- # set cookies for parameters. this is usefull in case parameters are set
- # manually from the GET values of the link
- def _set_parameters_values(pagesize, orderby, request):
--    from django.urls import resolve
-     current_url = resolve(request.path_info).url_name
-     request.session['%s_count' % current_url] = pagesize
-     request.session['%s_orderby' % current_url] =orderby
-@@ -699,7 +698,6 @@ class LazyEncoder(json.JSONEncoder):
-         return super(LazyEncoder, self).default(obj)
- 
- from toastergui.templatetags.projecttags import filtered_filesizeformat
--import os
- def _get_dir_entries(build_id, target_id, start):
-     node_str = {
-         Target_File.ITYPE_REGULAR   : '-',
-diff --git a/bitbake/lib/toaster/toastermain/settings.py b/bitbake/lib/toaster/toastermain/settings.py
-index e06adc5a93..d2a449627f 100644
---- a/bitbake/lib/toaster/toastermain/settings.py
-+++ b/bitbake/lib/toaster/toastermain/settings.py
-@@ -298,7 +298,6 @@ SOUTH_TESTS_MIGRATE = False
- 
- # We automatically detect and install applications here if
- # they have a 'models.py' or 'views.py' file
--import os
- currentdir = os.path.dirname(__file__)
- for t in os.walk(os.path.dirname(currentdir)):
-     modulename = os.path.basename(t[0])
+     def unpack(self, ud, destdir, d):
 -- 
 2.25.1
 
