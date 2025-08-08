@@ -2,35 +2,36 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96037C87FD3
-	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 10:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E2B7C87FD3
+	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 10:25:18 +0000 (UTC)
 Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.18804.1754648699474262141
+ by mx.groups.io with SMTP id smtpd.web11.19026.1754648715380809690
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 03:25:00 -0700
+ Fri, 08 Aug 2025 03:25:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=cM3qs0uq;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2025080810245489be6d05cd0482c245-peuzs5@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2025080810245489be6d05cd0482c245
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=O2kftGfM;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2025080810251303be47719e487d901b-8yqyhq@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2025080810251303be47719e487d901b
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 08 Aug 2025 12:24:55 +0200
+        Fri, 08 Aug 2025 12:25:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=ced5+T2bqmp2+LTGj2sXLnySG/Rd/jjNHgRlUlBaAw0=;
- b=cM3qs0uqIi0fYooePqoSnkLC+x23Ktad2yzcKNj60t47INhe/v8f0Eic8wFZJ5y/n/RQ5v
- /gKHAx12O9dqkUgESpDYSyVEPYtiTq7DvM6qb0sNLl7mjMeOVC0R2U38WpcGFtCMDLt8fYhb
- CZKH2bHqFDrH3brtZxkdodFyqqq1wFe5o9tsVYH1q0J8hH2SJemIzgp9xZNWP4+woMf/0bDu
- QUk6PYCW4hTdYSsAbSlHW7NkRa2S0I7pFNq3XrMeFWTadIOPWmVpUH32pOmuu0+1VwpkWQeR
- qzkx++v3iG3DstzmRH08sDc0FeFuLVBlalv5d0yMcKJkRM/JYyUufTrw==;
+ bh=jLjtK3zBj2WwCFmzSrCE3BfudIQC84vy0eyozRxZkE8=;
+ b=O2kftGfM4NcAHaI7SyQsRQ4jLbPQNuzsd4bZupnMfRf3oWCVOgxldf8/qkyYQ2fNy0YsPD
+ FGREzBJZ8uvGti8M2KGt9iug1x4ygVhmvudm+eIy8buG1/0ZNmExmxQhIUZ5vN9W5P3Aalhr
+ zH1frN+04DJtMo15EYbFsc4Ad45u5ANac9IAxY63oh0pboE9Ch1KkFQbThBDzCkKMFYu7MyQ
+ 0qHYRhcrK5fTsvlgJpD3rI8HStHJUVh2AI55zw4oxbdQLdHx1RtYGDICotF7Qox0r/nu5Cbw
+ EzLRs7EqctzmqvsYXz26xvgYSA9bxWuh309Nk0t7hOBc07DLmUe7EvbA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH v2 1/3] oe/utils: extract method for parallel_make without d context
-Date: Fri,  8 Aug 2025 12:24:11 +0200
-Message-Id: <20250808102413.10446-1-peter.marko@siemens.com>
-In-Reply-To: <20250808055059.8851-1-peter.marko@siemens.com>
+Subject: [OE-core][PATCH v2 2/3] oeqa: rename variable dirs to opts is cases with parallel make
+Date: Fri,  8 Aug 2025 12:24:12 +0200
+Message-Id: <20250808102413.10446-2-peter.marko@siemens.com>
+In-Reply-To: <20250808102413.10446-1-peter.marko@siemens.com>
 References: <20250808055059.8851-1-peter.marko@siemens.com>
+ <20250808102413.10446-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -38,69 +39,133 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 10:25:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221647
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 10:25:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221648
 
 From: Peter Marko <peter.marko@siemens.com>
 
-oeqa does not have general access to d variable context and needs to
-determine parallel make settings.
-Extract the code from parallel_make into reusable parallel_make_value.
+This is a refactoring commit so that next commit which is fixing
+parallel make settings is readable.
 
-Also correct function description of return value from None to empty
-string.
+Rename makes sense as the variable will contain not only directories but
+also parallel make settings afterwards.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/lib/oe/utils.py | 26 ++++++++++++++++++--------
- 1 file changed, 18 insertions(+), 8 deletions(-)
+ meta/lib/oeqa/sdk/cases/autotools.py | 22 +++++++++++-----------
+ meta/lib/oeqa/sdk/cases/cmake.py     | 22 +++++++++++-----------
+ meta/lib/oeqa/sdk/cases/makefile.py  | 20 ++++++++++----------
+ 3 files changed, 32 insertions(+), 32 deletions(-)
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 779c5e593f..8aa15373f1 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -174,18 +174,14 @@ def any_distro_features(d, features, truevalue="1", falsevalue=""):
-     """
-     return bb.utils.contains_any("DISTRO_FEATURES", features, truevalue, falsevalue, d)
+diff --git a/meta/lib/oeqa/sdk/cases/autotools.py b/meta/lib/oeqa/sdk/cases/autotools.py
+index ee6c522551..f641d66015 100644
+--- a/meta/lib/oeqa/sdk/cases/autotools.py
++++ b/meta/lib/oeqa/sdk/cases/autotools.py
+@@ -26,23 +26,23 @@ class AutotoolsTest(OESDKTestCase):
+         with tempfile.TemporaryDirectory(prefix="cpio-", dir=self.tc.sdk_dir) as testdir:
+             tarball = self.fetch(testdir, self.td["DL_DIR"], "https://ftp.gnu.org/gnu/cpio/cpio-2.15.tar.gz")
  
--def parallel_make(d, makeinst=False):
-+def parallel_make_value(pm):
-     """
-     Return the integer value for the number of parallel threads to use when
--    building, scraped out of PARALLEL_MAKE. If no parallelization option is
--    found, returns None
-+    building, scraped out of given string. If no parallelization option is
-+    found, returns empty string
+-            dirs = {}
+-            dirs["source"] = os.path.join(testdir, "cpio-2.15")
+-            dirs["build"] = os.path.join(testdir, "build")
+-            dirs["install"] = os.path.join(testdir, "install")
++            opts = {}
++            opts["source"] = os.path.join(testdir, "cpio-2.15")
++            opts["build"] = os.path.join(testdir, "build")
++            opts["install"] = os.path.join(testdir, "install")
  
--    e.g. if PARALLEL_MAKE = "-j 10", this will return 10 as an integer.
-+    e.g. if string is "-j 10", this will return 10 as an integer.
-     """
--    if makeinst:
--        pm = (d.getVar('PARALLEL_MAKEINST') or '').split()
--    else:
--        pm = (d.getVar('PARALLEL_MAKE') or '').split()
-     # look for '-j' and throw other options (e.g. '-l') away
-     while pm:
-         opt = pm.pop(0)
-@@ -200,6 +196,20 @@ def parallel_make(d, makeinst=False):
+             subprocess.check_output(["tar", "xf", tarball, "-C", testdir], stderr=subprocess.STDOUT)
+-            self.assertTrue(os.path.isdir(dirs["source"]))
+-            os.makedirs(dirs["build"])
++            self.assertTrue(os.path.isdir(opts["source"]))
++            os.makedirs(opts["build"])
  
-     return ''
+-            self._run("cd {build} && {source}/configure CFLAGS='-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration' $CONFIGURE_FLAGS".format(**dirs))
++            self._run("cd {build} && {source}/configure CFLAGS='-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration' $CONFIGURE_FLAGS".format(**opts))
  
-+def parallel_make(d, makeinst=False):
-+    """
-+    Return the integer value for the number of parallel threads to use when
-+    building, scraped out of PARALLEL_MAKE. If no parallelization option is
-+    found, returns empty string
-+
-+    e.g. if PARALLEL_MAKE = "-j 10", this will return 10 as an integer.
-+    """
-+    if makeinst:
-+        pm = (d.getVar('PARALLEL_MAKEINST') or '').split()
-+    else:
-+        pm = (d.getVar('PARALLEL_MAKE') or '').split()
-+    return parallel_make_value(pm)
-+
- def parallel_make_argument(d, fmt, limit=None, makeinst=False):
-     """
-     Helper utility to construct a parallel make argument from the number of
+             # Check that configure detected the target correctly
+-            with open(os.path.join(dirs["build"], "config.log")) as f:
++            with open(os.path.join(opts["build"], "config.log")) as f:
+                 host_sys = self.td["HOST_SYS"]
+                 self.assertIn(f"host_alias='{host_sys}'\n", f.readlines())
+ 
+-            self._run("cd {build} && make CFLAGS='-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration' -j".format(**dirs))
+-            self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
++            self._run("cd {build} && make CFLAGS='-std=gnu17 -Dbool=int -Dtrue=1 -Dfalse=0 -Wno-error=implicit-function-declaration' -j".format(**opts))
++            self._run("cd {build} && make install DESTDIR={install}".format(**opts))
+ 
+-            self.check_elf(os.path.join(dirs["install"], "usr", "local", "bin", "cpio"))
++            self.check_elf(os.path.join(opts["install"], "usr", "local", "bin", "cpio"))
+diff --git a/meta/lib/oeqa/sdk/cases/cmake.py b/meta/lib/oeqa/sdk/cases/cmake.py
+index 070682ef08..32b951c0f8 100644
+--- a/meta/lib/oeqa/sdk/cases/cmake.py
++++ b/meta/lib/oeqa/sdk/cases/cmake.py
+@@ -29,19 +29,19 @@ class CMakeTest(OESDKTestCase):
+         with tempfile.TemporaryDirectory(prefix="assimp", dir=self.tc.sdk_dir) as testdir:
+             tarball = self.fetch(testdir, self.td["DL_DIR"], "https://github.com/assimp/assimp/archive/v5.4.1.tar.gz")
+ 
+-            dirs = {}
+-            dirs["source"] = os.path.join(testdir, "assimp-5.4.1")
+-            dirs["build"] = os.path.join(testdir, "build")
+-            dirs["install"] = os.path.join(testdir, "install")
++            opts = {}
++            opts["source"] = os.path.join(testdir, "assimp-5.4.1")
++            opts["build"] = os.path.join(testdir, "build")
++            opts["install"] = os.path.join(testdir, "install")
+ 
+             subprocess.check_output(["tar", "xf", tarball, "-C", testdir], stderr=subprocess.STDOUT)
+-            self.assertTrue(os.path.isdir(dirs["source"]))
++            self.assertTrue(os.path.isdir(opts["source"]))
+             # Apply the zlib patch https://github.com/madler/zlib/commit/a566e156b3fa07b566ddbf6801b517a9dba04fa3
+             # this sed wont be needed once assimp moves its zlib copy to v1.3.1+
+-            self._run("sed -i '/#  ifdef _FILE_OFFSET_BITS/I,+2 d' {source}/contrib/zlib/gzguts.h".format(**dirs))
+-            os.makedirs(dirs["build"])
++            self._run("sed -i '/#  ifdef _FILE_OFFSET_BITS/I,+2 d' {source}/contrib/zlib/gzguts.h".format(**opts))
++            os.makedirs(opts["build"])
+ 
+-            self._run("cd {build} && cmake -DASSIMP_WARNINGS_AS_ERRORS=OFF -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DASSIMP_BUILD_ZLIB=ON {source}".format(**dirs))
+-            self._run("cmake --build {build} -- -j".format(**dirs))
+-            self._run("cmake --build {build} --target install -- DESTDIR={install}".format(**dirs))
+-            self.check_elf(os.path.join(dirs["install"], "usr", "local", "lib", "libassimp.so.5.4.1"))
++            self._run("cd {build} && cmake -DASSIMP_WARNINGS_AS_ERRORS=OFF -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DASSIMP_BUILD_ZLIB=ON {source}".format(**opts))
++            self._run("cmake --build {build} -- -j".format(**opts))
++            self._run("cmake --build {build} --target install -- DESTDIR={install}".format(**opts))
++            self.check_elf(os.path.join(opts["install"], "usr", "local", "lib", "libassimp.so.5.4.1"))
+diff --git a/meta/lib/oeqa/sdk/cases/makefile.py b/meta/lib/oeqa/sdk/cases/makefile.py
+index e1e2484820..0dcf94c6d7 100644
+--- a/meta/lib/oeqa/sdk/cases/makefile.py
++++ b/meta/lib/oeqa/sdk/cases/makefile.py
+@@ -23,14 +23,14 @@ class MakefileTest(OESDKTestCase):
+         with tempfile.TemporaryDirectory(prefix="lzip", dir=self.tc.sdk_dir) as testdir:
+             tarball = self.fetch(testdir, self.td["DL_DIR"], "http://downloads.yoctoproject.org/mirror/sources/lzip-1.19.tar.gz")
+ 
+-            dirs = {}
+-            dirs["source"] = os.path.join(testdir, "lzip-1.19")
+-            dirs["build"] = os.path.join(testdir, "build")
+-            dirs["install"] = os.path.join(testdir, "install")
++            opts = {}
++            opts["source"] = os.path.join(testdir, "lzip-1.19")
++            opts["build"] = os.path.join(testdir, "build")
++            opts["install"] = os.path.join(testdir, "install")
+ 
+             subprocess.check_output(["tar", "xf", tarball, "-C", testdir], stderr=subprocess.STDOUT)
+-            self.assertTrue(os.path.isdir(dirs["source"]))
+-            os.makedirs(dirs["build"])
++            self.assertTrue(os.path.isdir(opts["source"]))
++            os.makedirs(opts["build"])
+ 
+             cmd = """cd {build} && \
+                      {source}/configure --srcdir {source} \
+@@ -39,7 +39,7 @@ class MakefileTest(OESDKTestCase):
+                      CXXFLAGS="$CXXFLAGS" \
+                      LDFLAGS="$LDFLAGS" \
+                   """
+-            self._run(cmd.format(**dirs))
+-            self._run("cd {build} && make -j".format(**dirs))
+-            self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
+-            self.check_elf(os.path.join(dirs["install"], "usr", "local", "bin", "lzip"))
++            self._run(cmd.format(**opts))
++            self._run("cd {build} && make -j".format(**opts))
++            self._run("cd {build} && make install DESTDIR={install}".format(**opts))
++            self.check_elf(os.path.join(opts["install"], "usr", "local", "bin", "lzip"))
 
