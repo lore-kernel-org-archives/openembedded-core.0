@@ -2,63 +2,64 @@ Return-Path: <akash.hadke27@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D0E8CA0EC1
-	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 08:50:07 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.17686.1754643005805613109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48794C87FD2
+	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 08:50:17 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.17943.1754643011353013658
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 01:50:05 -0700
+ Fri, 08 Aug 2025 01:50:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DhQLZyEo;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: akash.hadke27@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76bf3dafaa5so2969814b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:50:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OkUpfEDN;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: akash.hadke27@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b26f7d2c1f1so2017530a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 01:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754643005; x=1755247805; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1754643010; x=1755247810; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3S4/nMDbpKsHyrer8rYv5NE5Ste4bP4b8delBGYI+o4=;
-        b=DhQLZyEo0XDaBQE3kaDhQvn3O5/IOF5ZWTin6fGeGWfgWEMvzsns9JHmdojacACvsZ
-         vM+jbzxCljhj44Y/hkLYyT+bu4ywFbv/6qcrJHG55uQfw55i/YOg8MNbERJwL7SVACFL
-         8OS4ZxgK1oS7WYjc0Pu5UoZCQDtfvAUQE25yoq6ibwYsPvErdodx0cj48U4HWFUSw07M
-         vbjfQCKQRDu/89iaYUNjW5HdC3kp9huw8q3x6+3NulcG1JDvK0CQ34K7AWr95cHFqXo2
-         IhyFOz1habEj2ymdNqU5IavVGd88IP+zjQz67tiWCs7o50kC8NdJkePGqvnvCV/x7s9t
-         PzAg==
+        bh=gYO7nTzdW7nDfJdfr7C9/s1jRijsiBXL8Ore6KODz9A=;
+        b=OkUpfEDNEu+0EIUPUhnxCLtSsm3SYWxaJuQdClu1Lm873QCpAe6muK3bweag904KuX
+         kbtnH8+QpZZXBm96D2uqDluQZI5K+y1GTg1JwEucgU61WBHiutCTtdHR4rGWzjk1Kz2H
+         ZxWMpQtP2nCMt4WLtTk1XHqtq8uCH/czjEzpqMPDpLVUi3JXdnKAeRx8JcEkb62W7mDE
+         tx4Tkf+nPnioY676kSoP18IgYekOKeztzf+UgArI3sJhUaDyUo7ABTbHTwyYVCreQt5p
+         YXUNhLtzC+W8k92Xx2lKKGOGyzZJyRf1YLc0edzg8PnA3ueIkRPTE/mcOjfP+R0MMNf+
+         zMHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754643005; x=1755247805;
+        d=1e100.net; s=20230601; t=1754643010; x=1755247810;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3S4/nMDbpKsHyrer8rYv5NE5Ste4bP4b8delBGYI+o4=;
-        b=DaC4cTacoBDBBGHPdsud88ExsL7HkiByFAQyQ9sEV0QdIEg0OqThCtSbrZP9SYkJoP
-         +VGEor9TEohD5vNKZmPZrWoMM/ZYWQjvTa7J0FQLDrkFesrzQVU7TLxMbEBMsePDW4EL
-         nw1Lajcknn1eKW9ZQqGMrgF6O+R/4fuUXaVwThCIjJUsH4viBrx5IxVCp0JQuJhzsSJx
-         IHMQNTOKnIqbytKQz7Rv0pS4Waqm2FOEwBbrKhtmDctnQRcYkDso1zaxFax/qfZkC/R4
-         E3iOFVkiV5uvkvCRPl2WsoTrBBD/LZjNNWG86VKpL83E79B4ORgOnyR2Lq3Z0rwbGlB4
-         08Cg==
-X-Gm-Message-State: AOJu0YyvPxTSUlU8zEZCHTmyT/v14Vr1DsSRIoJsb8jI4mB9tqseD0ox
-	cxu9qhInQ7+++yod4ZTET5ytml2hqsCCG1sxhltWSD3WWhaVHiynqRty4C+yig==
-X-Gm-Gg: ASbGncvxwvFbQ1rbdh694DqSjkXZObk0pc/7gN0YxxJJ8Lk3cfrQLdEMhr4aXW64aY6
-	T0lYafTes+Cy70AD5v1qIXJKdVUjG7m2HCAeVb6Zk+nyEqq1DcIExw6kTcjwyBINFd/5rcqQzYs
-	PF3Fn7iheKwluhrsbcJIPruWhM7tYpSnTFaAV/mVMdVixCuW/e/y6dIqMuVz8cTP4XI2ZgpJZ4d
-	TAjdLBLl8g0aYpK5gtii0lcE4gi0ihGTrQ+rAlwsobIaGhGaRyPuhGQG/JXdX9TmcuQRybjBnYS
-	GHIfZS5ECQdi79n4eCGae7lRZW4cwc7H69UqRjeNYbfEmZKkLqciw1J5nvz748DFsH0U/N+gy+u
-	I6u/DArkT8sEDdJef/08s0UwWew8m9bUY
-X-Google-Smtp-Source: AGHT+IGi+eN0taqq0mPgmEXA+O36f1Pdr/HDRjBJTvCBgVwgx2dRuEANYNEUf9X8Ys4w0q3vT4yq6Q==
-X-Received: by 2002:a17:903:187:b0:240:8381:45b9 with SMTP id d9443c01a7336-242c2afb941mr37249075ad.8.1754643004605;
-        Fri, 08 Aug 2025 01:50:04 -0700 (PDT)
+        bh=gYO7nTzdW7nDfJdfr7C9/s1jRijsiBXL8Ore6KODz9A=;
+        b=DEBUN2ugb9tA+mq74y/Oc5cGam15IoL7TRVh5xmbnYyCaCebrF2iHwcvvuUFanbS3t
+         ONsZFGe4+mLGsTm8qfj9Gef6JKsS/N3QLvskdsEtFRY7tP/VGkGg4lvL3+8pBksu8+CS
+         8g6SO/wiRFq+4aMZCSpmvWESq6lAZMZS5m+/SULD3iLVpPNIMfTD7xpMVYYlqIvGmh+z
+         /i4As9Sdy/gl/CrVOokDZaclDBLmnqdF3ZYPzGaselcv4F3hE3TxXO5e9mCddH3uimpa
+         nmSNQaUtcBe7mIdnPhoX2axQZDr3TKDPZDqJppW1dOMxMn/aL9yZtjCv5zfpc84AvePN
+         HklQ==
+X-Gm-Message-State: AOJu0YzFT2ZMQpc6Nmty4AXjD9merMmR9q4lc9alIyDHtyMT9JkU46oW
+	4djPwQHoB/wrAg2tZ3mMEnOPtZwCEtjR/WTbaUQffcTyOs/WLDLdgOtAak600g==
+X-Gm-Gg: ASbGncumYwsqBGku+oiPsgFS6jp9f7xmuuPG4SnFRY9z2ph5P70moaPDbddhaW5jbOn
+	0Q5CaAM7sLeUV6eqcZhk7lXyhxNY+f7HD/yQFkq5qBvGm/n5m5okLkX2G/VKPGlrXuyos82wJSb
+	eSdc+FZXcCQzq+Hr43hw1RPFL3RbhW3zFIM/PwBOdFtkH/sPzQCDbLJEsbaU5Bu13YaZ7dNBwif
+	U96jz6+XPZJFYTQkTRbhFIax1PBw4R7EGtQQ672KK4Ae8qi7YjVDinUPSA/rQ+x+DOezRRDqATl
+	TiY0SF5SZZ/jsikSsQj4Hzp8ecCAtHQCJrrNTKRTAf1RoGUdu5W21a9AnPvZ7eTx8uLLefv5eIB
+	Waj77b6oWN7XQ0svjpnST74wOjMRc/MhEfegmFw==
+X-Google-Smtp-Source: AGHT+IHqU067G3gWaCeYyNyH5SfRmAOhRdOEMUmJW6v2fpwDn9a/585DAazk1c1JHaCiuA4MQcGJPw==
+X-Received: by 2002:a17:902:ec89:b0:235:15f3:ef16 with SMTP id d9443c01a7336-242c20a1558mr31658315ad.13.1754643010396;
+        Fri, 08 Aug 2025 01:50:10 -0700 (PDT)
 Received: from L-18010L.kpit.com ([49.36.49.248])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.50.02
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm188782455ad.63.2025.08.08.01.50.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 01:50:04 -0700 (PDT)
+        Fri, 08 Aug 2025 01:50:10 -0700 (PDT)
 From: Akash Hadke <akash.hadke27@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Stefan Koch <stefan-koch@siemens.com>,
+Cc: Peter Marko <peter.marko@siemens.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [poky][scarthgap][PATCH 10/23] bitbake: tests/fetch: Adapt test cases for fast shallow fetches
-Date: Fri,  8 Aug 2025 14:19:18 +0530
-Message-Id: <20250808084931.2156763-10-akash.hadke27@gmail.com>
+Subject: [poky][scarthgap][PATCH 12/23] bitbake: fetch/git: always fetch lfs when creating shallow tarball
+Date: Fri,  8 Aug 2025 14:19:20 +0530
+Message-Id: <20250808084931.2156763-12-akash.hadke27@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250808084931.2156763-1-akash.hadke27@gmail.com>
 References: <20250808084931.2156763-1-akash.hadke27@gmail.com>
@@ -67,108 +68,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 08:50:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221607
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 08:50:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221609
 
-From: Stefan Koch <stefan-koch@siemens.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-- Address the absence of an initial full bare clone
-- Utilize the initial shallow clone
-- Modify existing test cases for this behavior
-- Remove incompatible test cases
+Before fast shallow tarballs the shallow tarball with lfs worked only
+if the original .../downloads/git2/... directory existed. Once it was
+not there, do_unpack on shallow tarball without lfs files failed due to
+disabled network.
+It was fixed for fast shallow tarballs and this commit fixes the other
+scenarios, too.
 
-(Bitbake rev: 599fedacd7782dcb52825c22200f35344c102548)
+This can happen when such shallow tarball is put to mirror or if
+someone does cleanup to reclaim disk space.
 
-Signed-off-by: Stefan Koch <stefan-koch@siemens.com>
+(Bitbake rev: 4e6fb31a88448cdacf4e9f84cf0a8a8035f84d63)
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit db267f2c94ec86e4a7c046c49d3a2260760ccbfa)
+(cherry picked from commit d1dae30b7932c2e6c6829a04b19a7f9e440cdd5c)
 Signed-off-by: Akash Hadke <akash.hadke27@gmail.com>
 ---
- bitbake/lib/bb/tests/fetch.py | 31 ++++++++++++-------------------
- 1 file changed, 12 insertions(+), 19 deletions(-)
+ bitbake/lib/bb/fetch2/git.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/bitbake/lib/bb/tests/fetch.py b/bitbake/lib/bb/tests/fetch.py
-index eed92ad6ea..ea91d20d1f 100644
---- a/bitbake/lib/bb/tests/fetch.py
-+++ b/bitbake/lib/bb/tests/fetch.py
-@@ -1763,7 +1763,6 @@ class GitShallowTest(FetcherTest):
-     def fetch_shallow(self, uri=None, disabled=False, keepclone=False):
-         """Fetch a uri, generating a shallow tarball, then unpack using it"""
-         fetcher, ud = self.fetch_and_unpack(uri)
--        assert os.path.exists(ud.clonedir), 'Git clone in DLDIR (%s) does not exist for uri %s' % (ud.clonedir, uri)
+diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
+index a73fb79ac8..9e0950006e 100644
+--- a/bitbake/lib/bb/fetch2/git.py
++++ b/bitbake/lib/bb/fetch2/git.py
+@@ -659,9 +659,8 @@ class Git(FetchMethod):
  
-         # Confirm that the unpacked repo is unshallow
-         if not disabled:
-@@ -1771,9 +1770,10 @@ class GitShallowTest(FetcherTest):
+             runfetchcmd(fetch_cmd, d, workdir=dest)
+             runfetchcmd("%s update-ref %s %s" % (ud.basecmd, ref, revision), d, workdir=dest)
+-            # Fetch Git LFS data for fast shallow clones
+-            if not ud.shallow_skip_fast:
+-                self.lfs_fetch(ud, d, dest, ud.revisions[ud.names[0]])
++            # Fetch Git LFS data
++            self.lfs_fetch(ud, d, dest, ud.revisions[ud.names[0]])
  
-         # fetch and unpack, from the shallow tarball
-         bb.utils.remove(self.gitdir, recurse=True)
--        bb.process.run('chmod u+w -R "%s"' % ud.clonedir)
--        bb.utils.remove(ud.clonedir, recurse=True)
--        bb.utils.remove(ud.clonedir.replace('gitsource', 'gitsubmodule'), recurse=True)
-+        if os.path.exists(ud.clonedir):
-+            bb.process.run('chmod u+w -R "%s"' % ud.clonedir)
-+            bb.utils.remove(ud.clonedir, recurse=True)
-+            bb.utils.remove(ud.clonedir.replace('gitsource', 'gitsubmodule'), recurse=True)
- 
-         # confirm that the unpacked repo is used when no git clone or git
-         # mirror tarball is available
-@@ -1856,7 +1856,12 @@ class GitShallowTest(FetcherTest):
-         self.add_empty_file('c')
-         self.assertRevCount(3, cwd=self.srcdir)
- 
-+        # Clone without tarball
-+        self.d.setVar('BB_GIT_SHALLOW', '0')
-+        fetcher, ud = self.fetch()
-+
-         # Clone and generate mirror tarball
-+        self.d.setVar('BB_GIT_SHALLOW', '1')
-         fetcher, ud = self.fetch()
- 
-         # Ensure we have a current mirror tarball, but an out of date clone
-@@ -1868,6 +1873,7 @@ class GitShallowTest(FetcherTest):
-         fetcher, ud = self.fetch()
-         fetcher.unpack(self.d.getVar('WORKDIR'))
-         self.assertRevCount(1)
-+        assert os.path.exists(os.path.join(self.d.getVar('WORKDIR'), 'git', 'c'))
- 
-     def test_shallow_single_branch_no_merge(self):
-         self.add_empty_file('a')
-@@ -2065,11 +2071,12 @@ class GitShallowTest(FetcherTest):
-         self.add_empty_file('b')
- 
-         # Fetch once to generate the shallow tarball
-+        self.d.setVar('BB_GIT_SHALLOW', '0')
-         fetcher, ud = self.fetch()
--        assert os.path.exists(os.path.join(self.dldir, ud.mirrortarballs[0]))
- 
-         # Fetch and unpack with both the clonedir and shallow tarball available
-         bb.utils.remove(self.gitdir, recurse=True)
-+        self.d.setVar('BB_GIT_SHALLOW', '1')
-         fetcher, ud = self.fetch_and_unpack()
- 
-         # The unpacked tree should *not* be shallow
-@@ -2244,20 +2251,6 @@ class GitShallowTest(FetcherTest):
-         self.assertIn("No up to date source found", context.exception.msg)
-         self.assertIn("clone directory not available or not up to date", context.exception.msg)
- 
--    @skipIfNoNetwork()
--    def test_that_unpack_does_work_when_using_git_shallow_tarball_but_tarball_is_not_available(self):
--        self.d.setVar('SRCREV', 'e5939ff608b95cdd4d0ab0e1935781ab9a276ac0')
--        self.d.setVar('BB_GIT_SHALLOW', '1')
--        self.d.setVar('BB_GENERATE_SHALLOW_TARBALLS', '1')
--        fetcher = bb.fetch.Fetch(["git://git.yoctoproject.org/fstests;branch=master;protocol=https"], self.d)
--        fetcher.download()
--
--        bb.utils.remove(self.dldir + "/*.tar.gz")
--        fetcher.unpack(self.unpackdir)
--
--        dir = os.listdir(self.unpackdir + "/git/")
--        self.assertIn("fstests.doap", dir)
--
- class GitLfsTest(FetcherTest):
-     def skipIfNoGitLFS():
-         import shutil
+         # Apply extra ref wildcards
+         all_refs_remote = runfetchcmd("%s ls-remote origin 'refs/*'" % ud.basecmd, \
 -- 
 2.25.1
 
