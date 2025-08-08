@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AEAEC87FD2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0684CA0EC3
 	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 09:10:17 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.18175.1754644215742815400
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.17902.1754644216341789086
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 02:10:15 -0700
+ Fri, 08 Aug 2025 02:10:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IfmQw3H7;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=U8Re0qFu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019888f1f495-7f2dba07-6fe2-49fb-b788-5f21e1e7d6cf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=3QGNSFsa;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ZWgov48m;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019888f1faee-2d12d3d2-1c42-472e-97c5-dd741556f1be-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754644215; i=@automation.yoctoproject.org;
+	t=1754644216; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=NRGx9WmIUVbl5BE8aEKSbNILkOKNxgIf+Lrkjyp2weI=;
-	b=IfmQw3H7RxQpofgiotLELafF7t/kZ6hBAPxDVplOn0hfTYdbZhKnJPloog43M7k0
-	LHSgEJMumkusR8S2xA/hDSCnP4QYWUP+5a4abOQiWuPH4umXB6XZEuiWBEP+16EgNZL
-	A4fK74s31vvkeP3vpvs6gqC/GEtEYaeZ0JO3w8X8=
+	bh=5FBNh3/XL7Zxj0MuiZ0LTn0NdqA2dpGybctJMTDRHA8=;
+	b=3QGNSFsaC/yRE1MxBFArhUhwrW9eBH4tBVWV2/G2nlDyYIuX1lHDA/qWE1g1SZbu
+	b7JjVxdqwrVnziA2V+U806B7mMHIET21LK4w3EeKNmREE7DKisHR/tGfpLo3ImSb1Sy
+	0NiDhIlLtJfG0yJzCD9YqkgJoA59wcPqGbj/QXP8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644215;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644216;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=NRGx9WmIUVbl5BE8aEKSbNILkOKNxgIf+Lrkjyp2weI=;
-	b=U8Re0qFuHT6PdTKz1Tmi/LMnVu6aWK1D3EmWLCpTwIypEBYQ6zTFjtkqNjMTT+Sr
-	HEYmPXuVzjggaea8QPAb/Z9LohEs0SaWtrpCxyDjV9abMMzqNui3tNjoRsgRRAPeHiF
-	gog7UpY0uXdIC/9qLMqI+mkKiyUbi7iphPgnObLY=
+	bh=5FBNh3/XL7Zxj0MuiZ0LTn0NdqA2dpGybctJMTDRHA8=;
+	b=ZWgov48m56CjQcn6MIQDIfJHxCqBsGc4QdEe9H5zZwE7uF45G0KD3K7GRrjdLTzr
+	RP1HmInBT3caa9Bq6ZdYCNZxBnO8A4Jj9zqhSkBllW4JvXa9KXXLreRCAaBYtv1CLi/
+	vaznpUw1C/5VwlYWhzZDJ4P/AsI+r6u6vC0CfOEA=
 From: patchtest@automation.yoctoproject.org
 To: Akash Hadke <akash.hadke27@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [poky][scarthgap][PATCH 04/23] bitbake: gitsm: Add clean function
-In-Reply-To: <20250808084931.2156763-4-akash.hadke27@gmail.com>
-References: <20250808084931.2156763-4-akash.hadke27@gmail.com>
+Subject: Patchtest results for [poky][scarthgap][PATCH 06/23] bitbake: git: Clean broken symlink
+In-Reply-To: <20250808084931.2156763-6-akash.hadke27@gmail.com>
+References: <20250808084931.2156763-6-akash.hadke27@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019888f1f495-7f2dba07-6fe2-49fb-b788-5f21e1e7d6cf-000000@us-west-2.amazonses.com>
-Date: Fri, 8 Aug 2025 09:10:14 +0000
+Message-ID: <0101019888f1faee-2d12d3d2-1c42-472e-97c5-dd741556f1be-000000@us-west-2.amazonses.com>
+Date: Fri, 8 Aug 2025 09:10:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.08-54.240.27.29
+X-SES-Outgoing: 2025.08.08-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 09:10:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221625
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221627
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/poky-scarthgap-04-23-bitbake-gitsm-Add-clean-function.patch
+Testing patch /home/patchtest/share/mboxes/poky-scarthgap-06-23-bitbake-git-Clean-broken-symlink.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
