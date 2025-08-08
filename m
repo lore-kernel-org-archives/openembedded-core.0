@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84030C87FDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F23C87FD3
 	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 09:10:17 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.17900.1754644214188988946
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.17899.1754644213626319250
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 02:10:14 -0700
+ Fri, 08 Aug 2025 02:10:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=q3s01Iel;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=CoIttRxE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019888f1ee4b-cc38d514-78fb-4aca-9f45-ecb0353583f2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KTB0RXWU;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=j0P6thwy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019888f1eb20-1ff69365-c9c7-486c-b1ff-e028b46f6722-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1754644213; i=@automation.yoctoproject.org;
+	t=1754644212; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=CNl6yO7+Qz7ri48lq1iRUhSxTDRX19k2IlnS/Y07Tr0=;
-	b=q3s01IelRZxqSh0P+ds/EmjqLkh6rJY7/gaSZCsNI5Bm3txReKxbkoetJAykz4/E
-	n1zd0JbSyY+IYxwxHSZlBphuLz2liwLQ+c2zo2oNe3R+o7DB5V2jSx1vAvvEg0P9RLa
-	W/KUMNZju+vaVJaSX54ARlelgxCXzE6MV5B0Y5Lk=
+	bh=pI8V1Y0UfKuibEshu5LXvkwIBzE55v0bfvJoSXvu5is=;
+	b=KTB0RXWUACmubkTc1b5igMEtt/DeS23doFWBdXvkuEhUPXnkM/mERBxI4Y7ieCYc
+	hkqsInPS4PDHUdDPLBJ9AunkpxE2vdH0OaizUMGPaYwdOFVtWxCgXV9rTCRMlK9NwZJ
+	TAa0QcpFNQAbNLBk1UHeKBYdq3fOLQ3OiGy8W0Hw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644213;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1754644212;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=CNl6yO7+Qz7ri48lq1iRUhSxTDRX19k2IlnS/Y07Tr0=;
-	b=CoIttRxEk2aQuWxcosXTP+5WWFEbHrs/IeNKKOh6XuWtEn7/iUH/LH3iS+TT0FeV
-	4RzOS5OgTX2VdXT9ApTz/AQZ8Qtaw7DY++NBiy+nKqnB6F4epZYSNJkKDzhM50Eltoe
-	wUReKl9Cq9OF7DKCpMuduhROo3ZDoBZsL9EBQ5yI=
+	bh=pI8V1Y0UfKuibEshu5LXvkwIBzE55v0bfvJoSXvu5is=;
+	b=j0P6thwyWnwpN7bYgJumlvFD868vIoWJb14ADTYF2pwId5YfmU93Vo8+KGEr1v67
+	dSHkHEibU3oyzFE4Bl2+lMWc+x58yQye4hTB4kXzqmN5FP/HM7VIG01RsGgJGz35KOj
+	XTAROBe34uaWPfARmwHsj9HWpmQO+SgBFu8e0UlE=
 From: patchtest@automation.yoctoproject.org
 To: Akash Hadke <akash.hadke27@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [poky][scarthgap][PATCH 02/23] bitbake: bitbake: tests/fetch: Update
- GitShallowTest for clone_shallow_local()
-In-Reply-To: <20250808084931.2156763-2-akash.hadke27@gmail.com>
-References: <20250808084931.2156763-2-akash.hadke27@gmail.com>
+Subject: Patchtest results for [poky][scarthgap][PATCH 01/23] bitbake: fetch2/git: Use git shallow
+ fetch to implement clone_shallow_local()
+In-Reply-To: <20250808084931.2156763-1-akash.hadke27@gmail.com>
+References: <20250808084931.2156763-1-akash.hadke27@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019888f1ee4b-cc38d514-78fb-4aca-9f45-ecb0353583f2-000000@us-west-2.amazonses.com>
-Date: Fri, 8 Aug 2025 09:10:13 +0000
+Message-ID: <0101019888f1eb20-1ff69365-c9c7-486c-b1ff-e028b46f6722-000000@us-west-2.amazonses.com>
+Date: Fri, 8 Aug 2025 09:10:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.08-54.240.27.29
+X-SES-Outgoing: 2025.08.08-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 09:10:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221623
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221622
 
 --NextPart
 Content-Type: text/plain
@@ -54,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/poky-scarthgap-02-23-bitbake-bitbake-tests-fetch-Update-GitShallowTest-for-clone_shallow_local.patch
+Testing patch /home/patchtest/share/mboxes/poky-scarthgap-01-23-bitbake-fetch2-git-Use-git-shallow-fetch-to-implement-clone_shallow_local.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
