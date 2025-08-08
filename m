@@ -1,103 +1,76 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DCA6C87FDA
-	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 17:48:41 +0000 (UTC)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
- by mx.groups.io with SMTP id smtpd.web10.28637.1754675317692319724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8419C87FDA
+	for <webhook@archiver.kernel.org>; Fri,  8 Aug 2025 19:06:21 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.30566.1754679971556706440
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Aug 2025 10:48:37 -0700
+ Fri, 08 Aug 2025 12:06:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZOVQ7GTL;
- spf=pass (domain: gmail.com, ip: 209.85.219.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e9033498768so2545990276.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 10:48:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754675317; x=1755280117; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zpkIgUflVk347A9VVOsn9fK6i88eUmFfMPL1uHG13Xs=;
-        b=ZOVQ7GTLGdJDtpKoYlYh1UEBCMTlun7BNaTHQHP10FEo0YTv2XcLve/LIr4udwSkcT
-         TMUbormdWDyAcUhqCZxV6XwGHOIl77xs6bBI4R47CjYKUCtM2/hN0kgz4w7rJaYysbFX
-         sLbz/zT8ZGCQ7spO7EqYyfBrtQu2LlWgRP4+B6oHYAqXdV8CTIjU/icKpN+2fgh5Nqkc
-         u9kQdIfoqRuTRvNz+6u+vr35NovD80+w5V3+1Fm5MunA5qs1OpgAoqMukcU47C5MZjX4
-         UTFICXwyQ+XpB/NtSYJizHbpmc8N9ytqKsUzgdTILDhMOIvItTIhdtuDRYekVNAhxuL8
-         ntBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754675317; x=1755280117;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zpkIgUflVk347A9VVOsn9fK6i88eUmFfMPL1uHG13Xs=;
-        b=rZ1WlONjDFC7Eky+c0vYNzofnbddcHUSZn6sv5ZGtlBsu22LIfUahElejhbVcC2Q5i
-         7+3HDdJ6Gf32WtRTdhoFmFA/VK8PuZ+/EfSqHmMZKEKSJDFKVBf+7vCLD3lJcQdrjLWn
-         FFn8yVxsLvNRAEeGx+UCgWjmUs8GkpUxH5Ezz/W86MMthM+osTw7OJ0mBgakupU1D094
-         CHSu5kB3km6REoolFK2jzEp1CQIiynDvol468FroFvAo3hM661jcpltI1qGoUc1OKLg+
-         Mzw/J7yzGGbCktN//yE4ubgtTEeHGprWg0Pfbd6DIUE/qpSxzp2Kgm78Fl/rNE5ipnk3
-         0GoQ==
-X-Gm-Message-State: AOJu0YzbfmDwaqpTO81GTSw9cBpD7/VuPWNaqIAp2mZUZQ4dobJk5Np0
-	wkzLA8Y18IZHnCA1+yyQFpSsyUj9+1OVl9ySKSp4hWvndP9450oFOVt7ROc/eW58Gf/PPmKcZnW
-	gheIkIn+QDutk+FguQJijQYxUejqTMfE=
-X-Gm-Gg: ASbGncudHngi9Gfu97h8+8HGo+IFgjs+5cd5OTr8qAqrhAwE+wMmZHfzt0vdaSy1Ume
-	yeC7xCo/n3AriJY+X4/wWFyMDQ7iKKKZTueOcLvYnw3wV0jDpp8kLUhPjtL5lHATCt1dDElXbfh
-	f8fttjnvDTkTdi7rS1lF9+ltO2rnfNZ0i2/CqMoki2A2ljUhGY1aSdfz/J/JQXP0bDiPyR5HF/m
-	AEI5A==
-X-Google-Smtp-Source: AGHT+IGp27XfL9KKVDpQYkYU/yu5+iyPRTWFrloRAaglv5EGchPAoHPK9TOLCq4Qt7JS5xQvY4rHNAkyKr8R51lWhFo=
-X-Received: by 2002:a05:6902:154d:b0:e8f:ec13:20fb with SMTP id
- 3f1490d57ef6-e904b5f7769mr3687060276.48.1754675316604; Fri, 08 Aug 2025
- 10:48:36 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=EHkz0mgU;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202508081906076fe50b7104f52863e2-cgewqx@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202508081906076fe50b7104f52863e2
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 08 Aug 2025 21:06:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=gZQmjOc9xGlj8TGSVzAqdZOtab5B7sa3sFymnSh+8+Q=;
+ b=EHkz0mgU2pErv/4rKB7sg3Y5WfIGGxAgnrb8odm2uClALTfqvg/4qr6uxcTui10HtAlQM4
+ OOLc0l6ngvqjHelhxtbTjmxM/7zM0RfwyvHFhOFM8l2KYXPfrYTym7jk/aeH6bIkgwxiaxNj
+ pGjsN/CyvgWBbajrQ5OfKn3zrovANVprzgivEwzyhCfXpbbazQ4lUVyp1zGcs1rnVkQoge+L
+ X0qxZGTojPkYpOAI1GLu8l2aK6CzwBEI2ckPdAPdf88eYkMafifLDQC2VZc2c2EV+h8fz0b+
+ X28LLFcs0NfOgtQa/Ujjfw0OfP7Jps7Hry+KVEIVVzJSwO6chCzWwqMQ==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] openssl: upgrade 3.5.1 -> 3.5.2
+Date: Fri,  8 Aug 2025 21:05:20 +0200
+Message-Id: <20250808190520.3174881-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <f9092d37-56a3-47c7-bb04-396d7ba61691@ti.com>
-In-Reply-To: <f9092d37-56a3-47c7-bb04-396d7ba61691@ti.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 8 Aug 2025 10:48:10 -0700
-X-Gm-Features: Ac12FXw16WNM3cNCW3pZ3V5OXhg_Q9IfHrYO9X3Lr2FcCVbGPLVALJjhLuEhOQg
-Message-ID: <CAMKF1spicyRpN1EYdDMJPn8e8He1qdCgbB1pKrCS0U+nfR-2oQ@mail.gmail.com>
-Subject: Re: clang package sizes
-To: Ryan Eatmon <reatmon@ti.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 17:48:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221666
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Aug 2025 19:06:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221667
 
-On Fri, Aug 8, 2025 at 7:24=E2=80=AFAM Ryan Eatmon <reatmon@ti.com> wrote:
->
->
-> I've been noticing that the master final build sizes have increased a
-> lot from scarthgap to master.  Some increase is inevitable, but I was
-> seeing an almost 10gig increase in size.  So I started comparing our
-> scarthgap builds against our master builds and I tracked down the
-> biggest offender to the packages (.ipk).
->
-> So I dug further, wrote a perl script to compare the two directories and
-> found two very big offenders.
->
-> INC:   94M -> 4.1G  4366.38%  clang-staticdev
-> INC:   18M -> 3.4G  19242.22%  clang-dbg
->
->  From the meta-clang setup in scarthgap to the oe-core versions of the
-> packages I'm seeing a huge blow up.  Can anyone with some knowledge of
-> the differences between the two approaches verify that this is expected
-> and not just something overlooked in the new setup?
+From: Peter Marko <peter.marko@siemens.com>
 
-If you are using poky then you will notice
+Release information:
+https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md#major-changes-between-openssl-351-and-openssl-352-5-aug-2025
 
-require conf/distro/include/yocto-space-optimize.inc
+OpenSSL 3.5.2 is a bug fix release.
 
-which should have helped, are you comparing this with poky or poky
-derived distro ?
+This release incorporates the following bug fixes and mitigations:
+* Miscellaneous minor bug fixes.
+* The FIPS provider now performs a PCT on key import for RSA, EC and ECX.
+  This is mandated by FIPS 140-3 IG 10.3.A additional comment 1.
 
->
->
-> --
-> Ryan Eatmon                reatmon@ti.com
-> -----------------------------------------
-> Texas Instruments, Inc.  -  LCPD  -  MGTS
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../openssl/{openssl_3.5.1.bb => openssl_3.5.2.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.1.bb => openssl_3.5.2.bb} (99%)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.1.bb b/meta/recipes-connectivity/openssl/openssl_3.5.2.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.5.1.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.5.2.bb
+index 7c40b6cf52..396e69d7e7 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.2.bb
+@@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "529043b15cffa5f36077a4d0af83f3de399807181d607441d734196d889b641f"
++SRC_URI[sha256sum] = "c53a47e5e441c930c3928cf7bf6fb00e5d129b630e0aa873b08258656e7345ec"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 
