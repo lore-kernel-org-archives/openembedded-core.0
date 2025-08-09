@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA3EC87FCF
-	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 20:38:23 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web11.14211.1754771898848729052
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 972D5C87FCF
+	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 20:38:33 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web10.13953.1754771905810784347
  for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Aug 2025 13:38:20 -0700
+ Sat, 09 Aug 2025 13:38:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=csKXMRj9;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202508092038123cbd7d59af8553af29-ik3x_k@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202508092038123cbd7d59af8553af29
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Hrb/LUPf;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250809203823af45211de8ca586436-a_or8l@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250809203823af45211de8ca586436
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 09 Aug 2025 22:38:13 +0200
+        Sat, 09 Aug 2025 22:38:23 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=vscJzoZY6qsS24BzugarStNQFnzPyrN8O3haCb5KnfU=;
- b=csKXMRj91h9yYCoswMdtJgFiQAvcjTwRxCz72yvDHw7bpiD9OjDKFf5NV3b/8Q6gwD1HJ0
- cjkj7V2Tkll5DRKefdT4diYKSjO9HTYjb023ynhaB9lX6q/Zu2s+ErjTAa4DdBPQar3iM7mp
- DL3QOQPBHoGbGTMW3rolhDFN2dkCp76Hco9o3bg7NG3liDkMnVTsjTRHzyulHIBEfNVBvKzn
- WnXfc+GQuULqpsOvkc3bMg1UJOh1pKCHqE4Woqlb92w9JlfpgWdOy/Wyrvn0V40cMA7E2rkd
- fwkKWEVB7wOh1DJ7ulB55/IxbbG9Whh9dd6JGSOlW0PpCwiuY++4eobw==;
+ bh=yqQOQRbiQOt6H4fTGdnVMzxHDdjO69tK/aWcDTZLVsk=;
+ b=Hrb/LUPfl1GvmAVSFpVFRt+D4TjrpyEflbStQRcPkWduq+8NPeWt/GJDraBhxtJSywSr8H
+ /jjLvHnXghsK5bGZVU7pXrMnHW61dipbeoZC1uNF7ySP1BQogaz/H1wmi2X7lDbV3VERoLVJ
+ YtoNVl8fPilSdmCsWr6NUh2dJFP+nKIhjv38pc280LSskoFX0NQRDFgHpbhiCzmET46QXQTv
+ +LeOjl/QTxP4zWiblIq6ncMldgpgpliyQMR2HLWXfW0qygC7bl312LAdOuIXIPuVdQO7jJLi
+ nchXhoUtqRtWu3DfYV9oWvvmzopwOOwGni66p7YYQITkU1+jQVEr2NxA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] python3: patch CVE-2025-8194
-Date: Sat,  9 Aug 2025 22:37:21 +0200
-Message-Id: <20250809203721.4027355-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] python3: patch CVE-2025-8194
+Date: Sat,  9 Aug 2025 22:37:35 +0200
+Message-Id: <20250809203735.4028060-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 20:38:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221689
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 20:38:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221690
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -47,13 +47,13 @@ https://nvd.nist.gov/vuln/detail/CVE-2025-8194
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../python/python3/CVE-2025-8194.patch        | 219 ++++++++++++++++++
- .../python/python3_3.12.11.bb                 |   9 +-
- 2 files changed, 224 insertions(+), 4 deletions(-)
+ .../python/python3_3.10.18.bb                 |   7 +-
+ 2 files changed, 223 insertions(+), 3 deletions(-)
  create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-8194.patch
 
 diff --git a/meta/recipes-devtools/python/python3/CVE-2025-8194.patch b/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
 new file mode 100644
-index 0000000000..b8243a67f6
+index 0000000000..44ada01133
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
 @@ -0,0 +1,219 @@
@@ -83,7 +83,7 @@ index 0000000000..b8243a67f6
 +index 9999a99d54..59d3f6e5cc 100755
 +--- a/Lib/tarfile.py
 ++++ b/Lib/tarfile.py
-+@@ -1615,6 +1615,9 @@ class TarInfo(object):
++@@ -1613,6 +1613,9 @@ class TarInfo(object):
 +         """Round up a byte count by BLOCKSIZE and return it,
 +            e.g. _block(834) => 1024.
 +         """
@@ -97,7 +97,7 @@ index 0000000000..b8243a67f6
 +index a184ba75a8..759fa03ead 100644
 +--- a/Lib/test/test_tarfile.py
 ++++ b/Lib/test/test_tarfile.py
-+@@ -50,6 +50,7 @@ bz2name = os.path.join(TEMPDIR, "testtar.tar.bz2")
++@@ -49,6 +49,7 @@ bz2name = os.path.join(TEMPDIR, "testtar.tar.bz2")
 + xzname = os.path.join(TEMPDIR, "testtar.tar.xz")
 + tmpname = os.path.join(TEMPDIR, "tmp.tar")
 + dotlessname = os.path.join(TEMPDIR, "testtar")
@@ -105,8 +105,8 @@ index 0000000000..b8243a67f6
 + 
 + sha256_regtype = (
 +     "e09e4bc8b3c9d9177e77256353b36c159f5f040531bbd4b024a8f9b9196c71ce"
-+@@ -4488,6 +4489,161 @@ class OverwriteTests(archiver_tests.OverwriteTests, unittest.TestCase):
-+         ar.extractall(self.testdir, filter='fully_trusted')
++@@ -4273,6 +4274,161 @@ class TestExtractionFilters(unittest.TestCase):
++             self.expect_exception(TypeError)  # errorlevel is not int
 + 
 + 
 ++class OffsetValidationTests(unittest.TestCase):
@@ -276,19 +276,19 @@ index 0000000000..b8243a67f6
 ++:mod:`tarfile` now validates archives to ensure member offsets are
 ++non-negative.  (Contributed by Alexander Enrique Urieles Nieto in
 ++:gh:`130577`.)
-diff --git a/meta/recipes-devtools/python/python3_3.12.11.bb b/meta/recipes-devtools/python/python3_3.12.11.bb
-index 84c4f74158..1c31077320 100644
---- a/meta/recipes-devtools/python/python3_3.12.11.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.11.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- 	   file://0001-test_deadlock-skip-problematic-test.patch \
- 	   file://0001-test_active_children-skip-problematic-test.patch \
-            file://0001-test_readline-skip-limited-history-test.patch \
+diff --git a/meta/recipes-devtools/python/python3_3.10.18.bb b/meta/recipes-devtools/python/python3_3.10.18.bb
+index 875b52cde9..89036ff3b8 100644
+--- a/meta/recipes-devtools/python/python3_3.10.18.bb
++++ b/meta/recipes-devtools/python/python3_3.10.18.bb
+@@ -37,6 +37,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
+            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
 +           file://CVE-2025-8194.patch \
             "
  
  SRC_URI:append:class-native = " \
-@@ -184,14 +185,14 @@ do_install:append:class-native() {
+@@ -170,7 +171,7 @@ do_install:append:class-native() {
          # when they're only used for python called with -O or -OO.
          #find ${D} -name *opt-*.pyc -delete
          # Remove all pyc files. There are a ton of them and it is probably faster to let
@@ -297,15 +297,7 @@ index 84c4f74158..1c31077320 100644
          # tarballs and sysroot creation.
          find ${D} -name *.pyc -delete
  
-         # Nothing should be looking into ${B} for python3-native
-         sed -i -e 's:${B}:/build/path/unavailable/:g' \
-                 ${D}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile
--        
-+
-         # disable the lookup in user's site-packages globally
-         sed -i 's#ENABLE_USER_SITE = None#ENABLE_USER_SITE = False#' ${D}${libdir}/python${PYTHON_MAJMIN}/site.py
- 
-@@ -226,7 +227,7 @@ do_install:append() {
+@@ -206,7 +207,7 @@ do_install:append() {
          rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_range.cpython*
          rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_xml_etree.cpython*
  
@@ -314,7 +306,7 @@ index 84c4f74158..1c31077320 100644
          # /usr/lib/python3.10/__pycache__/traceback.cpython-310.pyc
          # so remove it too
          rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.cpython*
-@@ -303,7 +304,7 @@ py_package_preprocess () {
+@@ -266,7 +267,7 @@ py_package_preprocess () {
          cd -
  
          mv ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}
