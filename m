@@ -1,132 +1,326 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B093C87FCB
-	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 19:14:13 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web11.12614.1754766849439032881
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA3EC87FCF
+	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 20:38:23 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web11.14211.1754771898848729052
  for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Aug 2025 12:14:09 -0700
+ Sat, 09 Aug 2025 13:38:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=McrEa2Td;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-61568fbed16so4982076a12.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 12:14:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754766848; x=1755371648; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ezqXjaGoVPsjINRWVcykQIFSrCVft9L2hdXTMnvdqxg=;
-        b=McrEa2TdVlI1KaswQk8ob+VkDakVOaxuxIJDKGWl/SCTh620CuaoWT1URuB1YnX4WU
-         /q94zosWSSiw3sOnPXzcKKFyDU1zM3ksBDZTPDF2FrpBN320z8tu9LrwDkj07LkXinlh
-         cTJ11rFnrnxmVJk/REA4vqRiChh7JkkgIVY9mW4wPmX+rV2u5NmFgFcCyr5vVJ5gAuqT
-         f+gO5Os4zrHacUxaYhorbLNR9IzK/TeKs3RruDTCbS4DcdXydvn2UG21BS0aHAGC+x8o
-         95hd5ryu3MUC/vYXkey6nt9SElZOTEa7Wn9ERwzL3xC//NJQ4tImZpI2EoIFl+pekJNq
-         YoBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754766848; x=1755371648;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ezqXjaGoVPsjINRWVcykQIFSrCVft9L2hdXTMnvdqxg=;
-        b=PkRnXCFGsAkL1tA1o/jFEDNKdj03d84bgCJGQWLuAgMNmChlcuilrjaJZUpgRNMdsg
-         KpFcUSBQGosAufZdaKomql699vLwW+KuQ0zZT3T92X0EC+yyvX3TRLvU+EiWqfvMYOJY
-         7VV2epxrnpeCsrex0/HbEAB62KvO5gRU3LGG7SOikjqsEaofiqsqPTttqIHwHzkWUQaZ
-         l4bjBsxCjWgFNZReXzET5304WAbOv287f8ASjMdqao+ker9zYlhGAuoOa048343GPjD/
-         v5SVq8UtcHWfsNNTfP+gri/X/aZ07ig3eDxDL+rgqH/31xCCDtvNaN8PIaq31cPwtZS5
-         SGTw==
-X-Gm-Message-State: AOJu0YwB3+izoS/vLfRavVV/9aVSxSGTFZB6xM7nToup62rHSXbz6L+o
-	c1pTzUbFd3riR5dPTdR3UkVKIuZyojyQ31uTcSBhdB9lfHAir+rhzkccjnDFhA==
-X-Gm-Gg: ASbGncu4YDhrf2dm5mhKwUIEdQWTWD268PgWzKABiYvPZjrZHSjtCYcXRcLY7oWuMRJ
-	hfaIMfnmO8YGEumKa73LWkN4ZYKMU2oCGFWXE9/eumb67jRgMG5JRnN0UeYY/ZVNz8Zt6HVIglG
-	pnMojEtNzwKgYgIY8Umy2xh0HTRU4Lv/4vhEKWoCNMnahymnuIhE9u7N7BddJfpqo6jNDzl5Gf7
-	sY39uWDBAEkDZ4ii1taKz2KwrkodQD3cJErWr2gmL5v0OySZCGzxj0nHmXYSpR+ARodps05DcmG
-	CdqYAKwIaBazIjduLV2F5/7GNIv3S1Rhh8vVVLkPev7L5YJTJkqa0zl1U2/uXw7IbDnKgCqrRY1
-	C7S/IkTqEPPBFMuV958Y=
-X-Google-Smtp-Source: AGHT+IEad01AFFzAJl1vuK9QHhGl+59kZyoz/G3tQMdU1jb6NzLwc0GlNYjjFre7q7YN5kzQRLGmWA==
-X-Received: by 2002:a05:6402:2551:b0:615:a231:e5c with SMTP id 4fb4d7f45d1cf-617e2b7090dmr4942705a12.6.1754766847480;
-        Sat, 09 Aug 2025 12:14:07 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8f15fa5sm15261780a12.14.2025.08.09.12.14.06
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Aug 2025 12:14:07 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=csKXMRj9;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202508092038123cbd7d59af8553af29-ik3x_k@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202508092038123cbd7d59af8553af29
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 09 Aug 2025 22:38:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=vscJzoZY6qsS24BzugarStNQFnzPyrN8O3haCb5KnfU=;
+ b=csKXMRj91h9yYCoswMdtJgFiQAvcjTwRxCz72yvDHw7bpiD9OjDKFf5NV3b/8Q6gwD1HJ0
+ cjkj7V2Tkll5DRKefdT4diYKSjO9HTYjb023ynhaB9lX6q/Zu2s+ErjTAa4DdBPQar3iM7mp
+ DL3QOQPBHoGbGTMW3rolhDFN2dkCp76Hco9o3bg7NG3liDkMnVTsjTRHzyulHIBEfNVBvKzn
+ WnXfc+GQuULqpsOvkc3bMg1UJOh1pKCHqE4Woqlb92w9JlfpgWdOy/Wyrvn0V40cMA7E2rkd
+ fwkKWEVB7wOh1DJ7ulB55/IxbbG9Whh9dd6JGSOlW0PpCwiuY++4eobw==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] webkitgtk: fix compiling for 32-bit Arm
-Date: Sat,  9 Aug 2025 21:14:06 +0200
-Message-ID: <20250809191406.59132-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.50.1
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] python3: patch CVE-2025-8194
+Date: Sat,  9 Aug 2025 22:37:21 +0200
+Message-Id: <20250809203721.4027355-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 19:14:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221688
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 20:38:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221689
 
-When compiling for 32-bit Arm target, the compilation fails with the
-following error:
+From: Peter Marko <peter.marko@siemens.com>
 
-| .../webkitgtk/2.48.5/sources/webkitgtk-2.48.5/Source/JavaScriptCore/offlineasm/ast.rb:1004:in 'Instruction#lowerDefault': Unhandled opcode addq at WebAssembly.asm:739 (due to WebAssembly.asm:739) (LoweringError)
+Pick commit from 3.12 branch mentioned in NVD report.
+https://nvd.nist.gov/vuln/detail/CVE-2025-8194
 
-Add backported patch to fix this error.
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../webkitgtk/fix-armv7-compilation.patch     | 32 +++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.48.5.bb  |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-armv7-compilation.patch
+ .../python/python3/CVE-2025-8194.patch        | 219 ++++++++++++++++++
+ .../python/python3_3.12.11.bb                 |   9 +-
+ 2 files changed, 224 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-8194.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-armv7-compilation.patch b/meta/recipes-sato/webkit/webkitgtk/fix-armv7-compilation.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-8194.patch b/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
 new file mode 100644
-index 0000000000..a857d55ae4
+index 0000000000..b8243a67f6
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/fix-armv7-compilation.patch
-@@ -0,0 +1,32 @@
-+From 7999ecd5ee4ea3123f7e75634d2bc57f57ca7070 Mon Sep 17 00:00:00 2001
-+From: Justin Michaud <jmichaud@igalia.com>
-+Date: Wed, 6 Aug 2025 21:14:26 +0300
-+Subject: [PATCH] REGRESSION(2.48.5): [WPE][GTK] Does not compile on ARMv7
-+ https://bugs.webkit.org/show_bug.cgi?id=296921
++++ b/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
+@@ -0,0 +1,219 @@
++From c9d9f78feb1467e73fd29356c040bde1c104f29f Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Mon, 4 Aug 2025 13:45:06 +0200
++Subject: [PATCH] [3.12] gh-130577: tarfile now validates archives to ensure
++ member offsets are non-negative (GH-137027) (#137171)
 +
-+Unreviewed build fix.
++(cherry picked from commit 7040aa54f14676938970e10c5f74ea93cd56aa38)
 +
-+* Source/JavaScriptCore/llint/WebAssembly.asm: Replace addq with addp
-+  for sp on armv7
++Co-authored-by: Alexander Urieles <aeurielesn@users.noreply.github.com>
++Co-authored-by: Gregory P. Smith <greg@krypto.org>
 +
-+Canonical link: https://commits.webkit.org/290945.344@webkitglib/2.48
-+
-+Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/7999ecd5ee4ea3123f7e75634d2bc57f57ca7070]
-+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
++CVE: CVE-2025-8194
++Upstream-Status: Backport [https://github.com/python/cpython/commit/c9d9f78feb1467e73fd29356c040bde1c104f29f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ Source/JavaScriptCore/llint/WebAssembly.asm | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Lib/tarfile.py                                |   3 +
++ Lib/test/test_tarfile.py                      | 156 ++++++++++++++++++
++ ...-07-23-00-35-29.gh-issue-130577.c7EITy.rst |   3 +
++ 3 files changed, 162 insertions(+)
++ create mode 100644 Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst
 +
-+diff --git a/Source/JavaScriptCore/llint/WebAssembly.asm b/Source/JavaScriptCore/llint/WebAssembly.asm
-+index 1ac3e2accf3c..bd9041404eb1 100644
-+--- a/Source/JavaScriptCore/llint/WebAssembly.asm
-++++ b/Source/JavaScriptCore/llint/WebAssembly.asm
-+@@ -736,7 +736,7 @@ if JSVALUE64
-+     storep memoryBase, Callee[cfr]
-+ else
-+     loadp [sp], ws0
-+-    addq 2 * SlotSize, sp
-++    addp 2 * SlotSize, sp
-+     storep ws0, Callee[cfr]
-+ end
++diff --git a/Lib/tarfile.py b/Lib/tarfile.py
++index 9999a99d54..59d3f6e5cc 100755
++--- a/Lib/tarfile.py
+++++ b/Lib/tarfile.py
++@@ -1615,6 +1615,9 @@ class TarInfo(object):
++         """Round up a byte count by BLOCKSIZE and return it,
++            e.g. _block(834) => 1024.
++         """
+++        # Only non-negative offsets are allowed
+++        if count < 0:
+++            raise InvalidHeaderError("invalid offset")
++         blocks, remainder = divmod(count, BLOCKSIZE)
++         if remainder:
++             blocks += 1
++diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
++index a184ba75a8..759fa03ead 100644
++--- a/Lib/test/test_tarfile.py
+++++ b/Lib/test/test_tarfile.py
++@@ -50,6 +50,7 @@ bz2name = os.path.join(TEMPDIR, "testtar.tar.bz2")
++ xzname = os.path.join(TEMPDIR, "testtar.tar.xz")
++ tmpname = os.path.join(TEMPDIR, "tmp.tar")
++ dotlessname = os.path.join(TEMPDIR, "testtar")
+++SPACE = b" "
 + 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-index 947996450d..35b8ee2a90 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-@@ -18,6 +18,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://sys_futex.patch \
-            file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch \
-            file://fix-ftbfs-riscv64.patch \
-+           file://fix-armv7-compilation.patch \
++ sha256_regtype = (
++     "e09e4bc8b3c9d9177e77256353b36c159f5f040531bbd4b024a8f9b9196c71ce"
++@@ -4488,6 +4489,161 @@ class OverwriteTests(archiver_tests.OverwriteTests, unittest.TestCase):
++         ar.extractall(self.testdir, filter='fully_trusted')
++ 
++ 
+++class OffsetValidationTests(unittest.TestCase):
+++    tarname = tmpname
+++    invalid_posix_header = (
+++        # name: 100 bytes
+++        tarfile.NUL * tarfile.LENGTH_NAME
+++        # mode, space, null terminator: 8 bytes
+++        + b"000755" + SPACE + tarfile.NUL
+++        # uid, space, null terminator: 8 bytes
+++        + b"000001" + SPACE + tarfile.NUL
+++        # gid, space, null terminator: 8 bytes
+++        + b"000001" + SPACE + tarfile.NUL
+++        # size, space: 12 bytes
+++        + b"\xff" * 11 + SPACE
+++        # mtime, space: 12 bytes
+++        + tarfile.NUL * 11 + SPACE
+++        # chksum: 8 bytes
+++        + b"0011407" + tarfile.NUL
+++        # type: 1 byte
+++        + tarfile.REGTYPE
+++        # linkname: 100 bytes
+++        + tarfile.NUL * tarfile.LENGTH_LINK
+++        # magic: 6 bytes, version: 2 bytes
+++        + tarfile.POSIX_MAGIC
+++        # uname: 32 bytes
+++        + tarfile.NUL * 32
+++        # gname: 32 bytes
+++        + tarfile.NUL * 32
+++        # devmajor, space, null terminator: 8 bytes
+++        + tarfile.NUL * 6 + SPACE + tarfile.NUL
+++        # devminor, space, null terminator: 8 bytes
+++        + tarfile.NUL * 6 + SPACE + tarfile.NUL
+++        # prefix: 155 bytes
+++        + tarfile.NUL * tarfile.LENGTH_PREFIX
+++        # padding: 12 bytes
+++        + tarfile.NUL * 12
+++    )
+++    invalid_gnu_header = (
+++        # name: 100 bytes
+++        tarfile.NUL * tarfile.LENGTH_NAME
+++        # mode, null terminator: 8 bytes
+++        + b"0000755" + tarfile.NUL
+++        # uid, null terminator: 8 bytes
+++        + b"0000001" + tarfile.NUL
+++        # gid, space, null terminator: 8 bytes
+++        + b"0000001" + tarfile.NUL
+++        # size, space: 12 bytes
+++        + b"\xff" * 11 + SPACE
+++        # mtime, space: 12 bytes
+++        + tarfile.NUL * 11 + SPACE
+++        # chksum: 8 bytes
+++        + b"0011327" + tarfile.NUL
+++        # type: 1 byte
+++        + tarfile.REGTYPE
+++        # linkname: 100 bytes
+++        + tarfile.NUL * tarfile.LENGTH_LINK
+++        # magic: 8 bytes
+++        + tarfile.GNU_MAGIC
+++        # uname: 32 bytes
+++        + tarfile.NUL * 32
+++        # gname: 32 bytes
+++        + tarfile.NUL * 32
+++        # devmajor, null terminator: 8 bytes
+++        + tarfile.NUL * 8
+++        # devminor, null terminator: 8 bytes
+++        + tarfile.NUL * 8
+++        # padding: 167 bytes
+++        + tarfile.NUL * 167
+++    )
+++    invalid_v7_header = (
+++        # name: 100 bytes
+++        tarfile.NUL * tarfile.LENGTH_NAME
+++        # mode, space, null terminator: 8 bytes
+++        + b"000755" + SPACE + tarfile.NUL
+++        # uid, space, null terminator: 8 bytes
+++        + b"000001" + SPACE + tarfile.NUL
+++        # gid, space, null terminator: 8 bytes
+++        + b"000001" + SPACE + tarfile.NUL
+++        # size, space: 12 bytes
+++        + b"\xff" * 11 + SPACE
+++        # mtime, space: 12 bytes
+++        + tarfile.NUL * 11 + SPACE
+++        # chksum: 8 bytes
+++        + b"0010070" + tarfile.NUL
+++        # type: 1 byte
+++        + tarfile.REGTYPE
+++        # linkname: 100 bytes
+++        + tarfile.NUL * tarfile.LENGTH_LINK
+++        # padding: 255 bytes
+++        + tarfile.NUL * 255
+++    )
+++    valid_gnu_header = tarfile.TarInfo("filename").tobuf(tarfile.GNU_FORMAT)
+++    data_block = b"\xff" * tarfile.BLOCKSIZE
+++
+++    def _write_buffer(self, buffer):
+++        with open(self.tarname, "wb") as f:
+++            f.write(buffer)
+++
+++    def _get_members(self, ignore_zeros=None):
+++        with open(self.tarname, "rb") as f:
+++            with tarfile.open(
+++                mode="r", fileobj=f, ignore_zeros=ignore_zeros
+++            ) as tar:
+++                return tar.getmembers()
+++
+++    def _assert_raises_read_error_exception(self):
+++        with self.assertRaisesRegex(
+++            tarfile.ReadError, "file could not be opened successfully"
+++        ):
+++            self._get_members()
+++
+++    def test_invalid_offset_header_validations(self):
+++        for tar_format, invalid_header in (
+++            ("posix", self.invalid_posix_header),
+++            ("gnu", self.invalid_gnu_header),
+++            ("v7", self.invalid_v7_header),
+++        ):
+++            with self.subTest(format=tar_format):
+++                self._write_buffer(invalid_header)
+++                self._assert_raises_read_error_exception()
+++
+++    def test_early_stop_at_invalid_offset_header(self):
+++        buffer = self.valid_gnu_header + self.invalid_gnu_header + self.valid_gnu_header
+++        self._write_buffer(buffer)
+++        members = self._get_members()
+++        self.assertEqual(len(members), 1)
+++        self.assertEqual(members[0].name, "filename")
+++        self.assertEqual(members[0].offset, 0)
+++
+++    def test_ignore_invalid_archive(self):
+++        # 3 invalid headers with their respective data
+++        buffer = (self.invalid_gnu_header + self.data_block) * 3
+++        self._write_buffer(buffer)
+++        members = self._get_members(ignore_zeros=True)
+++        self.assertEqual(len(members), 0)
+++
+++    def test_ignore_invalid_offset_headers(self):
+++        for first_block, second_block, expected_offset in (
+++            (
+++                (self.valid_gnu_header),
+++                (self.invalid_gnu_header + self.data_block),
+++                0,
+++            ),
+++            (
+++                (self.invalid_gnu_header + self.data_block),
+++                (self.valid_gnu_header),
+++                1024,
+++            ),
+++        ):
+++            self._write_buffer(first_block + second_block)
+++            members = self._get_members(ignore_zeros=True)
+++            self.assertEqual(len(members), 1)
+++            self.assertEqual(members[0].name, "filename")
+++            self.assertEqual(members[0].offset, expected_offset)
+++
+++
++ def setUpModule():
++     os_helper.unlink(TEMPDIR)
++     os.makedirs(TEMPDIR)
++diff --git a/Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst b/Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst
++new file mode 100644
++index 0000000000..342cabbc86
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst
++@@ -0,0 +1,3 @@
+++:mod:`tarfile` now validates archives to ensure member offsets are
+++non-negative.  (Contributed by Alexander Enrique Urieles Nieto in
+++:gh:`130577`.)
+diff --git a/meta/recipes-devtools/python/python3_3.12.11.bb b/meta/recipes-devtools/python/python3_3.12.11.bb
+index 84c4f74158..1c31077320 100644
+--- a/meta/recipes-devtools/python/python3_3.12.11.bb
++++ b/meta/recipes-devtools/python/python3_3.12.11.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+ 	   file://0001-test_deadlock-skip-problematic-test.patch \
+ 	   file://0001-test_active_children-skip-problematic-test.patch \
+            file://0001-test_readline-skip-limited-history-test.patch \
++           file://CVE-2025-8194.patch \
             "
- SRC_URI[sha256sum] = "bb64ed9d1cfd58e8b5e89ccad71dd31adfed56336bad7695031ad0b668e1987c"
  
+ SRC_URI:append:class-native = " \
+@@ -184,14 +185,14 @@ do_install:append:class-native() {
+         # when they're only used for python called with -O or -OO.
+         #find ${D} -name *opt-*.pyc -delete
+         # Remove all pyc files. There are a ton of them and it is probably faster to let
+-        # python create the ones it wants at runtime rather than manage in the sstate 
++        # python create the ones it wants at runtime rather than manage in the sstate
+         # tarballs and sysroot creation.
+         find ${D} -name *.pyc -delete
+ 
+         # Nothing should be looking into ${B} for python3-native
+         sed -i -e 's:${B}:/build/path/unavailable/:g' \
+                 ${D}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile
+-        
++
+         # disable the lookup in user's site-packages globally
+         sed -i 's#ENABLE_USER_SITE = None#ENABLE_USER_SITE = False#' ${D}${libdir}/python${PYTHON_MAJMIN}/site.py
+ 
+@@ -226,7 +227,7 @@ do_install:append() {
+         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_range.cpython*
+         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_xml_etree.cpython*
+ 
+-        # Similar to the above, we're getting reproducibility issues with 
++        # Similar to the above, we're getting reproducibility issues with
+         # /usr/lib/python3.10/__pycache__/traceback.cpython-310.pyc
+         # so remove it too
+         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.cpython*
+@@ -303,7 +304,7 @@ py_package_preprocess () {
+         cd -
+ 
+         mv ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}
+-        
++
+         #Remove the unneeded copy of target sysconfig data
+         rm -rf ${PKGD}/${libdir}/python-sysconfigdata
+ }
 
