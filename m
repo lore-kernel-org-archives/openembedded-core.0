@@ -1,304 +1,221 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CC91C87FCB
-	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 15:08:42 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web10.7911.1754752120277166585
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D19C87FCB
+	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 15:34:12 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.8415.1754753651364703154
  for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Aug 2025 08:08:41 -0700
+ Sat, 09 Aug 2025 08:34:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=SEM2AC8l;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20250809150836281723998dc7d173fc-rr9ahh@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20250809150836281723998dc7d173fc
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 09 Aug 2025 17:08:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=4hn59TlvTomN9ZLnILHRmtbwQRQIfdsOcoeXx6f84vw=;
- b=SEM2AC8l7ofO9NDywGxUPPdYno6feGVBNNf2EY/SOCYaAx8uXkMeURvwi7scdc5Tt0iLKp
- 7zWcOFIqfknLmL1hZZQtOLuXwf2/7/Mb26CEOrS1zhzxKz0pewoAaQmrw9cYq5Ovv4dsjcEL
- hZmBeS+NfT8HXCMYYR+ShJfqPm4JKnFFc43QMVfqmIIu0MygfsQUb6Ld2FrOo9WXwy/NCUru
- 1gtsADFrnOHCRvX4hObI9R1unplZwxlyL77WScvXsSPA6OTKsqkSnavmeIhW5LC4nZfbtPwr
- Vg5ZM1BfMEX1z7nulCy6YScf2stuMn2ZQSOhZTSVZXILMrfZwL06bo8A==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] python3: Upgrade 3.13.5 -> 3.13.6
-Date: Sat,  9 Aug 2025 17:07:49 +0200
-Message-Id: <20250809150749.2203058-1-peter.marko@siemens.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=EHazojat;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-459d7726ee6so15105955e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 08:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1754753650; x=1755358450; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lm7aLcEqwe8YM6nBm44TzJOy4Up8XiwxJuKdnl/c00M=;
+        b=EHazojatw9Wtt2ZwalI9jNGV+qtLijGQQLVDoyRAd7foisV9LueGhw7bv4VTM8NjvV
+         9bg4drC5WA7wWoG8c+7q8qMqb1o9F0ANDKcYolOvmtFUj+ob/uugXMAniTrQmiw6OW2Q
+         qTk5r8K/kxAAe7s6gmRyJqDzXCuuiuOjhQ7P8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754753650; x=1755358450;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Lm7aLcEqwe8YM6nBm44TzJOy4Up8XiwxJuKdnl/c00M=;
+        b=O2Z5wtMcryJve8SvESePFmDznC3HL0AP/AVmSpmQIas/cCasxsePaaIpHvWEDSKCD2
+         TCBKhPOKNYy9DdsPjhMO39jFjixZxAGkhEZnZFrt7N08At+JbLtQbYCaTOke8mkZt62R
+         OD+bk3DbRrxf78wvPQTizdq9mgiVGLbucYFvyjRVRumMnnFMsu6TNIfhs8H8mM60AE+j
+         YKwJ1usJNL+LTgKN9ADiqclsaJpHZ42B+cLNBt3d6Bj9qcogkZvAQgsjo8a7otEWH5Rz
+         7yW7kLqWFZ7mMIL8Rw2GYf3IKOT/QlAEFhcgxwpLpjs3fj8TxmedO5hXCIkEMzIhGL5b
+         ySDA==
+X-Gm-Message-State: AOJu0YxluLJa1h8bEGnPmTULr8p2pqckBPl4u+fxKpDURL0XbiYBqh/u
+	nJlWRFw6SO9RskU/dUBwBTbB5uqlu5zI2L9YLNzSMBcMaqB4AzDBcIgaqzeMRGrXRXB7Rv8mzMW
+	junhPc/76vweSEzMiMk3qZN9vmtyR81/i/ZVBROdKDQ==
+X-Gm-Gg: ASbGncvoy4y5xjZXJo5uJZFaFIFSbznCGx1YOIXW9dSmskgj6EjEtp/O/TzklzmzyEJ
+	XSg2fNwL+R9s5IQHKDhw2TnH7GkOUl13KTrLsOVyqmKXgTpWM81prPkJbOMekI6CMm9haRA9cbb
+	o/cLZ3clY2ujGKOW1gkNDGxxTSqYlXqxgd/Po/RLTrN8QwAi2c+BXFHEsfDkzklfTlZCuzrHjDn
+	pPRWsNkruSIKL9jG/kNg4DmOBKU8IO2qJCg/kY=
+X-Google-Smtp-Source: AGHT+IFWywr0u3dI3akIOkaeP7Qnog7rC41YgbcQKY+XfN2nhzny66+syECGrgLxl+0XRJl8x+JlYe8RfjRb5yK8/1w=
+X-Received: by 2002:a05:600c:b86:b0:458:ba04:fe6d with SMTP id
+ 5b1f17b1804b1-459f4f52553mr62209785e9.14.1754753649616; Sat, 09 Aug 2025
+ 08:34:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20250809071200.4017253-1-skandigraun@gmail.com>
+ <CAMSfU+7fZMF6E4sJyjPwT8x=T3fB1_JK-k8Y-irAq13Y04xQoA@mail.gmail.com> <94194d86-7dda-4080-b484-cf30da04ad65@gmail.com>
+In-Reply-To: <94194d86-7dda-4080-b484-cf30da04ad65@gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Sat, 9 Aug 2025 17:33:43 +0200
+X-Gm-Features: Ac12FXwrRtg_aoZF9HENkMuh_fMXKsOEaMaiXdPBcy9Cw2hdvY7XDdJqFecjghk
+Message-ID: <CAMSfU+5wfM9ZY2O_yraQnORg=S-edhw+Xd1FBoWbG5u5i_BcCQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] rpm-sequoia: upgrade 1.7.0 -> 1.9.0
+To: Gyorgy Sarvari <skandigraun@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f440d3063bf06b90"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 15:08:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221682
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 15:34:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221683
 
-From: Peter Marko <peter.marko@siemens.com>
+--000000000000f440d3063bf06b90
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Changelog: https://docs.python.org/3/whatsnew/changelog.html#python-3-13-6-final
+Le samedi 9 ao=C3=BBt 2025, Gyorgy Sarvari <skandigraun@gmail.com> a =C3=A9=
+crit :
+>
+>
+> On 8/9/25 16:10, Yoann Congal wrote:
+>> Hi,
+>>
+> <snip>
+>>
+>>      require ${BPN}-crates.inc
+>>
+>>     @@ -64,6 +63,11 @@ do_install:append () {
+>>      do_install_ptest:append () {
+>>             install -d ${D}${PTEST_PATH}/src
+>>             install -m 644 ${S}/src/symbols.txt
+>>     ${D}${PTEST_PATH}/src/symbols.txt
+>>     +
+>>     +       echo "#!/bin/sh" > ${D}${PTEST_PATH}/run-ptest
+>>     +       echo "rc=3D0" >> ${D}${PTEST_PATH}/run-ptest
+>>     +       echo "export TEST_DONT_BUILD_LIB=3D1" >>
+>>     ${D}${PTEST_PATH}/run-ptest
+>>     +       chmod 755 ${D}${PTEST_PATH}/run-ptest
+>>
+>>
+>> Wouldn't that make run-ptest basically a no-op?
+>>
+>
+> Thanks for reviewing.
+> It looks like a no-op, but it isn't. cargo-ptest checks if run-ptest
+> script exist[1], and if it does, it appends its own content to it, so
+> both are kept.
+> What came to my mind after sending it is to add this script simply as a
+> file to SRC_URI instead of echoing it, but didn't want a v3 without
+> someone asking for it.
+>
+> [1]:
+>
+https://git.yoctoproject.org/poky/tree/meta/classes-recipe/ptest-cargo.bbcl=
+ass#n102
 
-Handles CVE-2025-8194 and 4 other vulnerabilities without CVE numbers.
+D'oh! You're right!
+Since that is easy to miss, maybe add a comment stating that cargo-ptest
+will fill the rest of the script?
+Also, I'm in favour of the run-ptest in SRC_URI instead of echoing it in
+do_install.
 
-Refresh patches via devtool.
+Thanks!
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- ...shebang-overflow-on-python-config.py.patch |  2 +-
- ...-use-prefix-value-from-build-configu.patch |  2 +-
- ...sts-due-to-load-variability-on-YP-AB.patch |  6 ++---
- ..._fileno-test-due-to-load-variability.patch |  2 +-
- ...ctive_children-skip-problematic-test.patch |  2 +-
- ...le.py-correct-the-test-output-format.patch |  2 +-
- ...t_readline-skip-limited-history-test.patch | 12 +++++----
- ...orlines-skip-due-to-load-variability.patch |  2 +-
- .../python/python3/makerace.patch             |  2 +-
- .../python/python3/valid-dists.patch          | 26 +++++++++++--------
- .../{python3_3.13.5.bb => python3_3.13.6.bb}  |  2 +-
- 11 files changed, 33 insertions(+), 27 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.13.5.bb => python3_3.13.6.bb} (99%)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-index 81a613c151..eaf5ea5049 100644
---- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-@@ -19,7 +19,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index 9ec3a71..f7d5382 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2578,6 +2578,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-+@@ -2585,6 +2585,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-  	@ # Substitution happens here, as the completely-expanded BINDIR
-  	@ # is not available in configure
-  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-index ca72ebc899..ffdf9affd9 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-@@ -17,7 +17,7 @@ diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
- index f8e1c7d..0882526 100644
- --- a/Lib/sysconfig/__init__.py
- +++ b/Lib/sysconfig/__init__.py
--@@ -494,6 +494,11 @@ def _init_config_vars():
-+@@ -501,6 +501,11 @@ def _init_config_vars():
-          _CONFIG_VARS['VPATH'] = sys._vpath
-      if os.name == 'posix':
-          _init_posix(_CONFIG_VARS)
-diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-index c8537db1fd..8fa794b5e7 100644
---- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-@@ -26,7 +26,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
- index 5dae370..23eb971 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -688,6 +688,7 @@ class _TestProcess(BaseTestCase):
-+@@ -701,6 +701,7 @@ class _TestProcess(BaseTestCase):
-          close_queue(q)
-  
-      @support.requires_resource('walltime')
-@@ -34,7 +34,7 @@ index 5dae370..23eb971 100644
-      def test_many_processes(self):
-          if self.TYPE == 'threads':
-              self.skipTest('test not appropriate for {}'.format(self.TYPE))
--@@ -2211,6 +2212,7 @@ class _TestBarrier(BaseTestCase):
-+@@ -2232,6 +2233,7 @@ class _TestBarrier(BaseTestCase):
-          except threading.BrokenBarrierError:
-              results.append(True)
-  
-@@ -42,7 +42,7 @@ index 5dae370..23eb971 100644
-      def test_timeout(self):
-          """
-          Test wait(timeout)
--@@ -5299,6 +5301,7 @@ class TestWait(unittest.TestCase):
-+@@ -5320,6 +5322,7 @@ class TestWait(unittest.TestCase):
-          time.sleep(period)
-  
-      @support.requires_resource('walltime')
-diff --git a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-index ea103bc834..9bc8b091cc 100644
---- a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-+++ b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-@@ -19,7 +19,7 @@ diff --git a/Lib/test/test_builtin.py b/Lib/test/test_builtin.py
- index c5394de..ed17fb6 100644
- --- a/Lib/test/test_builtin.py
- +++ b/Lib/test/test_builtin.py
--@@ -2435,6 +2435,7 @@ class PtyTests(unittest.TestCase):
-+@@ -2474,6 +2474,7 @@ class PtyTests(unittest.TestCase):
-                           "byte 0xe9 in position 4: ordinal not in "
-                           "range(128)")
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-index 5f60c60b5b..08ac5861b3 100644
---- a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-@@ -17,7 +17,7 @@ diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.
- index 23eb971..b1295b2 100644
- --- a/Lib/test/_test_multiprocessing.py
- +++ b/Lib/test/_test_multiprocessing.py
--@@ -585,6 +585,7 @@ class _TestProcess(BaseTestCase):
-+@@ -594,6 +594,7 @@ class _TestProcess(BaseTestCase):
-          self.assertTrue(type(cpus) is int)
-          self.assertTrue(cpus >= 1)
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-index 2cca004b57..f672ee7ad7 100644
---- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-@@ -34,7 +34,7 @@ diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
- index da4bd79..fd9e67d 100644
- --- a/Lib/test/test_locale.py
- +++ b/Lib/test/test_locale.py
--@@ -572,7 +572,7 @@ class TestMiscellaneous(unittest.TestCase):
-+@@ -576,7 +576,7 @@ class TestMiscellaneous(unittest.TestCase):
-              self.skipTest('test needs Turkish locale')
-          loc = locale.getlocale(locale.LC_CTYPE)
-          if verbose:
-diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-index 862a7f5ea7..a619d51c10 100644
---- a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-@@ -13,12 +13,14 @@ Upstream-Status: Inappropriate [OE-specific]
- 
- Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
- ---
-- Lib/test/test_readline.py | 2 ++
-- 1 file changed, 2 insertions(+)
-+ Lib/test/test_readline.py | 3 +++
-+ 1 file changed, 3 insertions(+)
- 
-+diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
-+index 537a9fb..ddf0323 100644
- --- a/Lib/test/test_readline.py
- +++ b/Lib/test/test_readline.py
--@@ -70,6 +70,7 @@ class TestHistoryManipulation (unittest.
-+@@ -71,6 +71,7 @@ class TestHistoryManipulation (unittest.TestCase):
-  
-      @unittest.skipUnless(hasattr(readline, "append_history_file"),
-                           "append_history not available")
-@@ -26,7 +28,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-      def test_write_read_append(self):
-          hfile = tempfile.NamedTemporaryFile(delete=False)
-          hfile.close()
--@@ -141,6 +142,7 @@ class TestHistoryManipulation (unittest.
-+@@ -142,6 +143,7 @@ class TestHistoryManipulation (unittest.TestCase):
-          self.assertEqual(readline.get_history_item(1), "entrée 1")
-          self.assertEqual(readline.get_history_item(2), "entrée 22")
-  
-@@ -34,7 +36,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-      def test_write_read_limited_history(self):
-          previous_length = readline.get_history_length()
-          self.addCleanup(readline.set_history_length, previous_length)
--@@ -382,6 +384,7 @@ readline.write_history_file(history_file
-+@@ -390,6 +392,7 @@ readline.write_history_file(history_file)
-          self.assertIn(b"done", output)
-  
-  
-diff --git a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-index b4f873fd72..b452c6556f 100644
---- a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-@@ -19,7 +19,7 @@ diff --git a/Lib/test/test_ftplib.py b/Lib/test/test_ftplib.py
- index bed0e6d..36602be 100644
- --- a/Lib/test/test_ftplib.py
- +++ b/Lib/test/test_ftplib.py
--@@ -627,6 +627,7 @@ class TestFTPClass(TestCase):
-+@@ -630,6 +630,7 @@ class TestFTPClass(TestCase):
-              self.client.storbinary('stor', f, rest=r)
-              self.assertEqual(self.server.handler_instance.rest, str(r))
-  
-diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
-index b115a6fa65..bf73135e09 100644
---- a/meta/recipes-devtools/python/python3/makerace.patch
-+++ b/meta/recipes-devtools/python/python3/makerace.patch
-@@ -20,7 +20,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index be1b9ea..9ec3a71 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2485,7 +2485,7 @@ COMPILEALL_OPTS=-j0
-+@@ -2492,7 +2492,7 @@ COMPILEALL_OPTS=-j0
-  TEST_MODULES=@TEST_MODULES@
-  
-  .PHONY: libinstall
-diff --git a/meta/recipes-devtools/python/python3/valid-dists.patch b/meta/recipes-devtools/python/python3/valid-dists.patch
-index 1b2c078c21..38b6ebc5cb 100644
---- a/meta/recipes-devtools/python/python3/valid-dists.patch
-+++ b/meta/recipes-devtools/python/python3/valid-dists.patch
-@@ -8,12 +8,16 @@ Closes python/importlib_metadata#489
- 
- Upstream-Status: Backport [https://github.com/python/importlib_metadata/commit/a65c29adc027b3615154cab73aaedd58a6aa23da]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ Lib/importlib/metadata/__init__.py   | 14 +++-
-+ Lib/importlib/metadata/_itertools.py | 98 ++++++++++++++++++++++++++++
-+ 2 files changed, 110 insertions(+), 2 deletions(-)
- 
--diff --git i/Lib/importlib/metadata/__init__.py w/Lib/importlib/metadata/__init__.py
--index 8ce62dd864f..085378caabc 100644
----- i/Lib/importlib/metadata/__init__.py
--+++ w/Lib/importlib/metadata/__init__.py
--@@ -21,7 +21,7 @@
-+diff --git a/Lib/importlib/metadata/__init__.py b/Lib/importlib/metadata/__init__.py
-+index 8ce62dd..085378c 100644
-+--- a/Lib/importlib/metadata/__init__.py
-++++ b/Lib/importlib/metadata/__init__.py
-+@@ -21,7 +21,7 @@ import collections
-  from . import _meta
-  from ._collections import FreezableDefaultDict, Pair
-  from ._functools import method_cache, pass_none
-@@ -22,7 +26,7 @@ index 8ce62dd864f..085378caabc 100644
-  from ._meta import PackageMetadata, SimplePath
-  
-  from contextlib import suppress
--@@ -404,7 +404,7 @@ def from_name(cls, name: str) -> Distribution:
-+@@ -404,7 +404,7 @@ class Distribution(DeprecatedNonAbstract):
-          if not name:
-              raise ValueError("A distribution name is required.")
-          try:
-@@ -31,7 +35,7 @@ index 8ce62dd864f..085378caabc 100644
-          except StopIteration:
-              raise PackageNotFoundError(name)
-  
--@@ -428,6 +428,16 @@ def discover(
-+@@ -428,6 +428,16 @@ class Distribution(DeprecatedNonAbstract):
-              resolver(context) for resolver in cls._discover_resolvers()
-          )
-  
-@@ -48,10 +52,10 @@ index 8ce62dd864f..085378caabc 100644
-      @staticmethod
-      def at(path: str | os.PathLike[str]) -> Distribution:
-          """Return a Distribution for the indicated metadata path.
--diff --git i/Lib/importlib/metadata/_itertools.py w/Lib/importlib/metadata/_itertools.py
--index d4ca9b9140e..79d37198ce7 100644
----- i/Lib/importlib/metadata/_itertools.py
--+++ w/Lib/importlib/metadata/_itertools.py
-+diff --git a/Lib/importlib/metadata/_itertools.py b/Lib/importlib/metadata/_itertools.py
-+index d4ca9b9..79d3719 100644
-+--- a/Lib/importlib/metadata/_itertools.py
-++++ b/Lib/importlib/metadata/_itertools.py
- @@ -1,3 +1,4 @@
- +from collections import defaultdict, deque
-  from itertools import filterfalse
-diff --git a/meta/recipes-devtools/python/python3_3.13.5.bb b/meta/recipes-devtools/python/python3_3.13.6.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.13.5.bb
-rename to meta/recipes-devtools/python/python3_3.13.6.bb
-index dde03dc0e7..184d71bdce 100644
---- a/meta/recipes-devtools/python/python3_3.13.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.6.bb
-@@ -36,7 +36,7 @@ SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            "
- 
--SRC_URI[sha256sum] = "93e583f243454e6e9e4588ca2c2662206ad961659863277afcdb96801647d640"
-+SRC_URI[sha256sum] = "17ba5508819d8736a14fbfc47d36e184946a877851b2e9c4b6c43acb44a3b104"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+
+>
+>
+>> Maybe you can, either:
+>> * rename the run-ptest generated by cargo-ptest and exec'ing it from
+>> your script to keep the envvar
+>> * overwrite the run-ptest generated by cargo-ptest (but keep its
+>> current content: e.g calling the test binaries in sequence, printing
+>> "PASS:" ...)
+>>
+>> Best regards,
+>>
+>>
+>>      }
+>>
+>>      # Tests need objdump
+>>
+>>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>     Links: You receive all messages sent to this group.
+>>     View/Reply Online (#221671):
+>>     https://lists.openembedded.org/g/openembedded-core/message/221671
+>>     Mute This Topic: https://lists.openembedded.org/mt/114612984/4316185
+>>     Group Owner: openembedded-core+owner@lists.openembedded.org
+>>     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+>>     Unsubscribe:
+>>     https://lists.openembedded.org/g/openembedded-core/unsub
+>>     [yoann.congal@smile.fr]
+>>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
+>>
+>> --
+>> Yoann Congal
+>> Smile ECS
+>
+>
+
+--000000000000f440d3063bf06b90
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>Le samedi 9 ao=C3=BBt 2025, Gyorgy Sarvari &lt;<a =
+href=3D"mailto:skandigraun@gmail.com" target=3D"_blank">skandigraun@gmail.c=
+om</a>&gt; a =C3=A9crit=C2=A0:<br>&gt;<br>&gt;<br>&gt; On 8/9/25 16:10, Yoa=
+nn Congal wrote:<br>&gt;&gt; Hi,<br>&gt;&gt;<br>&gt; &lt;snip&gt;<br>&gt;&g=
+t;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0require ${BPN}-crates.inc<br>&gt;&g=
+t;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0@@ -64,6 +63,11 @@ do_install:append () {=
+<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0do_install_ptest:append () {<br>&gt;&=
+gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${PTEST_P=
+ATH}/src<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 install=
+ -m 644 ${S}/src/symbols.txt<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0${D}${PTEST_PAT=
+H}/src/symbols.txt<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0+<br>&gt;&gt;=C2=A0 =C2=
+=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;#!/bin/sh&quot; &gt; ${D}$=
+{PTEST_PATH}/run-ptest<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0echo &quot;rc=3D0&quot; &gt;&gt; ${D}${PTEST_PATH}/run-ptest<br>&gt;=
+&gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;export TEST_=
+DONT_BUILD_LIB=3D1&quot; &gt;&gt;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0${D}${PTES=
+T_PATH}/run-ptest=C2=A0 =C2=A0 =C2=A0<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0+=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0chmod 755 ${D}${PTEST_PATH}/run-ptest<br>&gt;&gt;<b=
+r>&gt;&gt;<br>&gt;&gt; Wouldn&#39;t=C2=A0that make run-ptest basically a no=
+-op?<br>&gt;&gt;<br>&gt;<br>&gt; Thanks for reviewing.<br>&gt; It looks lik=
+e a no-op, but it isn&#39;t. cargo-ptest checks if run-ptest<br>&gt; script=
+ exist[1], and if it does, it appends its own content to it, so<br>&gt; bot=
+h are kept.<br>&gt; What came to my mind after sending it is to add this sc=
+ript simply as a<br>&gt; file to SRC_URI instead of echoing it, but didn&#3=
+9;t want a v3 without<br>&gt; someone asking for it.<br>&gt;<br>&gt; [1]:<b=
+r>&gt; <a href=3D"https://git.yoctoproject.org/poky/tree/meta/classes-recip=
+e/ptest-cargo.bbclass#n102" target=3D"_blank">https://git.yoctoproject.org/=
+poky/tree/meta/classes-recipe/ptest-cargo.bbclass#n102</a><br><br>D&#39;oh!=
+ You&#39;re right!<br><div>Since that is easy to miss, maybe add a comment =
+stating that cargo-ptest will fill the rest of the script?</div><div>Also, =
+I&#39;m in favour of the run-ptest in SRC_URI instead of echoing it in do_i=
+nstall.</div><div><br></div><div>Thanks!</div><div><br></div></div><br><br>=
+&gt;<br>&gt;<br>&gt;&gt; Maybe you can, either:<br>&gt;&gt; * rename the ru=
+n-ptest generated by cargo-ptest and exec&#39;ing it from<br>&gt;&gt; your =
+script to keep the envvar<br>&gt;&gt; * overwrite the run-ptest generated b=
+y cargo-ptest (but keep its<br>&gt;&gt; current content: e.g calling the te=
+st binaries in sequence, printing<br>&gt;&gt; &quot;PASS:&quot; ...)<br>&gt=
+;&gt;<br>&gt;&gt; Best regards,<br>&gt;&gt; =C2=A0<br>&gt;&gt;<br>&gt;&gt;=
+=C2=A0 =C2=A0 =C2=A0=C2=A0}<br>&gt;&gt;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0=C2=
+=A0# Tests need objdump<br>&gt;&gt;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0-=3D-=3D=
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0Links:=
+ You receive all messages sent to this group.<br>&gt;&gt;=C2=A0 =C2=A0 =C2=
+=A0View/Reply Online (#221671):<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/221671" target=3D=
+"_blank">https://lists.openembedded.org/g/openembedded-core/message/221671<=
+/a><br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0Mute This Topic: <a href=3D"https://list=
+s.openembedded.org/mt/114612984/4316185" target=3D"_blank">https://lists.op=
+enembedded.org/mt/114612984/4316185</a><br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0Grou=
+p Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded.org=
+" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><br>&=
+gt;&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:openembedded-core%2=
+52Bowner@lists.openembedded.org" target=3D"_blank">openembedded-core%2Bowne=
+r@lists.openembedded.org</a>&gt;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0Unsubscribe=
+:<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/=
+g/openembedded-core/unsub" target=3D"_blank">https://lists.openembedded.org=
+/g/openembedded-core/unsub</a><br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0[<a href=3D"m=
+ailto:yoann.congal@smile.fr" target=3D"_blank">yoann.congal@smile.fr</a>]<b=
+r>&gt;&gt;=C2=A0 =C2=A0 =C2=A0-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
+<br>&gt;&gt;<br>&gt;&gt;<br>&gt;&gt;<br>&gt;&gt; --<br>&gt;&gt; Yoann Conga=
+l<br>&gt;&gt; Smile ECS<br>&gt;<br>&gt;
+
+--000000000000f440d3063bf06b90--
 
