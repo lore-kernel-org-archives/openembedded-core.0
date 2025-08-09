@@ -1,221 +1,141 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D19C87FCB
-	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 15:34:12 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.8415.1754753651364703154
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43FD3C87FCF
+	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 15:45:52 +0000 (UTC)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+ by mx.groups.io with SMTP id smtpd.web10.8659.1754754346427251028
  for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Aug 2025 08:34:11 -0700
+ Sat, 09 Aug 2025 08:45:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=EHazojat;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-459d7726ee6so15105955e9.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 08:34:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=L2ppQH5u;
+ spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e7311e66a8eso2802155276.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 08:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1754753650; x=1755358450; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lm7aLcEqwe8YM6nBm44TzJOy4Up8XiwxJuKdnl/c00M=;
-        b=EHazojatw9Wtt2ZwalI9jNGV+qtLijGQQLVDoyRAd7foisV9LueGhw7bv4VTM8NjvV
-         9bg4drC5WA7wWoG8c+7q8qMqb1o9F0ANDKcYolOvmtFUj+ob/uugXMAniTrQmiw6OW2Q
-         qTk5r8K/kxAAe7s6gmRyJqDzXCuuiuOjhQ7P8=
+        d=gmail.com; s=20230601; t=1754754345; x=1755359145; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L1CjaeaJzu0NTP/132N3Q+GutLxvpbLaOdsGu+Y/Dd0=;
+        b=L2ppQH5u0s0ENGn3jlY1nVDKtrVUCaGDz/tXTNPw+VDrr4jQmRUmnjHJ8PPWC+WFBV
+         chatF65b4ut0RY6ktW1x3rtu+c13fVPJtHho4sGtyg+TZYNeXxKdOn3XlRu8nPriSqkB
+         y1zcqI95P4Suu62CGig1z96INS8Z872FclMVKvF25QMHQC7A2YCyzOZdDP33j71NJKw/
+         Qjy2/vw6Fu1o/FAVmD+YfrYGL+6mtNqWBjBL7h7PwWRkWO00MboRThb8CvKAsy+C8RhL
+         Or2IWSdaJ94k0PiUTl2NDuqyeES/WzkFkGt1l0fLWG/R/HWp0HhdecrjPgvbV/NIFC1C
+         3EZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754753650; x=1755358450;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lm7aLcEqwe8YM6nBm44TzJOy4Up8XiwxJuKdnl/c00M=;
-        b=O2Z5wtMcryJve8SvESePFmDznC3HL0AP/AVmSpmQIas/cCasxsePaaIpHvWEDSKCD2
-         TCBKhPOKNYy9DdsPjhMO39jFjixZxAGkhEZnZFrt7N08At+JbLtQbYCaTOke8mkZt62R
-         OD+bk3DbRrxf78wvPQTizdq9mgiVGLbucYFvyjRVRumMnnFMsu6TNIfhs8H8mM60AE+j
-         YKwJ1usJNL+LTgKN9ADiqclsaJpHZ42B+cLNBt3d6Bj9qcogkZvAQgsjo8a7otEWH5Rz
-         7yW7kLqWFZ7mMIL8Rw2GYf3IKOT/QlAEFhcgxwpLpjs3fj8TxmedO5hXCIkEMzIhGL5b
-         ySDA==
-X-Gm-Message-State: AOJu0YxluLJa1h8bEGnPmTULr8p2pqckBPl4u+fxKpDURL0XbiYBqh/u
-	nJlWRFw6SO9RskU/dUBwBTbB5uqlu5zI2L9YLNzSMBcMaqB4AzDBcIgaqzeMRGrXRXB7Rv8mzMW
-	junhPc/76vweSEzMiMk3qZN9vmtyR81/i/ZVBROdKDQ==
-X-Gm-Gg: ASbGncvoy4y5xjZXJo5uJZFaFIFSbznCGx1YOIXW9dSmskgj6EjEtp/O/TzklzmzyEJ
-	XSg2fNwL+R9s5IQHKDhw2TnH7GkOUl13KTrLsOVyqmKXgTpWM81prPkJbOMekI6CMm9haRA9cbb
-	o/cLZ3clY2ujGKOW1gkNDGxxTSqYlXqxgd/Po/RLTrN8QwAi2c+BXFHEsfDkzklfTlZCuzrHjDn
-	pPRWsNkruSIKL9jG/kNg4DmOBKU8IO2qJCg/kY=
-X-Google-Smtp-Source: AGHT+IFWywr0u3dI3akIOkaeP7Qnog7rC41YgbcQKY+XfN2nhzny66+syECGrgLxl+0XRJl8x+JlYe8RfjRb5yK8/1w=
-X-Received: by 2002:a05:600c:b86:b0:458:ba04:fe6d with SMTP id
- 5b1f17b1804b1-459f4f52553mr62209785e9.14.1754753649616; Sat, 09 Aug 2025
- 08:34:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754754345; x=1755359145;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L1CjaeaJzu0NTP/132N3Q+GutLxvpbLaOdsGu+Y/Dd0=;
+        b=Vz1AVdO1jB/QhCixGMxPF66nzamcVTrlZyusUVvxab+Wwhw2qi2sstXV7btH4NQs+8
+         cQ8v407y12w13bzTZexXcNOjjySWutBf0KIDHp5y6ucu/rDaBL8pNQcl3lij3xEI8Ogx
+         Rm3c0oIlpzc28XX6xSjJhIBLznTFf+QN8T4H8p/2TD7k5vmIWrfVoNeLzgy0F2Xh7PND
+         +8oQupR6qQOwPlnqeopOrMMCUSwarSP8iH5QpqaKTyA1R/jbU+p2zwWqBdxcRy7HdEtR
+         v9wnBk1ljB5pmO+XQk6LG3MFe4nHglcTMHE/jxLk+EpcOMuXMxHn0OWoiLTbx9PF4lXD
+         F9wg==
+X-Gm-Message-State: AOJu0YxbwGtvDzvLYsPiBxJLIr+QI6aR+zGUZho60cv4of7NmpddLhOX
+	cfj9PvRWT67ibpDtykqGupK1O0c8TtZ5UFq4rymJ0gkRGOcoJUZ0Irmp8XQEX9ulEQ/K9r7Eyrd
+	dDdJQA1+/By/Du0UcL5hmRN+lEB+sg0hDWmxiZFg=
+X-Gm-Gg: ASbGnct3rA/qM10i6MOPA838o7gk/Erd1XGxVMM7Z8OLw5X6FNEaypjVntPegJ4s6yN
+	8aMvY2JE5PMDa2lqY/RAh54x1PmUz2hSPBblneADUwJCvEeWqC9GSNGEdQ1ac+IyFX38aT6BZR3
+	HUTQGUZmYjLGD33fBUykuwDsxT3fCxVq/PndfWUCyrWO/4o+2gtmIch/WjXti+higTDehFLKpY4
+	9xciw==
+X-Google-Smtp-Source: AGHT+IGQNUJjblGwk1dnMy4dhfS0br27hfvoX6hs6ydn+pgAPeBkJObnAOJgl/TRmQ3RQdA6qO6+i9wGfSdL53ATA1I=
+X-Received: by 2002:a05:690c:6c89:b0:718:96c2:b426 with SMTP id
+ 00721157ae682-71bf0d4038cmr84822537b3.15.1754754345282; Sat, 09 Aug 2025
+ 08:45:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250809071200.4017253-1-skandigraun@gmail.com>
- <CAMSfU+7fZMF6E4sJyjPwT8x=T3fB1_JK-k8Y-irAq13Y04xQoA@mail.gmail.com> <94194d86-7dda-4080-b484-cf30da04ad65@gmail.com>
-In-Reply-To: <94194d86-7dda-4080-b484-cf30da04ad65@gmail.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Sat, 9 Aug 2025 17:33:43 +0200
-X-Gm-Features: Ac12FXwrRtg_aoZF9HENkMuh_fMXKsOEaMaiXdPBcy9Cw2hdvY7XDdJqFecjghk
-Message-ID: <CAMSfU+5wfM9ZY2O_yraQnORg=S-edhw+Xd1FBoWbG5u5i_BcCQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] rpm-sequoia: upgrade 1.7.0 -> 1.9.0
-To: Gyorgy Sarvari <skandigraun@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f440d3063bf06b90"
+References: <cover.1754750560.git.steve@sakoman.com> <af3e5e432d9bf1e5811ea92f3e29c0874b6b9405.1754750560.git.steve@sakoman.com>
+In-Reply-To: <af3e5e432d9bf1e5811ea92f3e29c0874b6b9405.1754750560.git.steve@sakoman.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 9 Aug 2025 08:45:19 -0700
+X-Gm-Features: Ac12FXx-IclPhugmJyIKAf1pLEOEVxOuJOayZUhbcofA7JKTqJAD-ACxYnRFxyM
+Message-ID: <CAMKF1srEOsPHQf1wnJNWrUWqB22UJ6iGrFrxJdYeOVwEAhF2yg@mail.gmail.com>
+Subject: Re: [OE-core][walnascar 4/6] glibc: stable 2.41 branch updates
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 15:34:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221683
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 15:45:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221684
 
---000000000000f440d3063bf06b90
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le samedi 9 ao=C3=BBt 2025, Gyorgy Sarvari <skandigraun@gmail.com> a =C3=A9=
-crit :
+On Sat, Aug 9, 2025 at 7:44=E2=80=AFAM Steve Sakoman via
+lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
+wrote:
 >
+> From: Peter Marko <peter.marko@siemens.com>
 >
-> On 8/9/25 16:10, Yoann Congal wrote:
->> Hi,
->>
-> <snip>
->>
->>      require ${BPN}-crates.inc
->>
->>     @@ -64,6 +63,11 @@ do_install:append () {
->>      do_install_ptest:append () {
->>             install -d ${D}${PTEST_PATH}/src
->>             install -m 644 ${S}/src/symbols.txt
->>     ${D}${PTEST_PATH}/src/symbols.txt
->>     +
->>     +       echo "#!/bin/sh" > ${D}${PTEST_PATH}/run-ptest
->>     +       echo "rc=3D0" >> ${D}${PTEST_PATH}/run-ptest
->>     +       echo "export TEST_DONT_BUILD_LIB=3D1" >>
->>     ${D}${PTEST_PATH}/run-ptest
->>     +       chmod 755 ${D}${PTEST_PATH}/run-ptest
->>
->>
->> Wouldn't that make run-ptest basically a no-op?
->>
+> $ git log --oneline 6e489c17f827317bcf8544efefa65f13b5a079dc..e7c419a2957=
+590fb657900fc92a89708f41abd9d
+> e7c419a295 (origin/release/2.41/master, release/2.41/master) iconv: iconv=
+ -o should not create executable files (bug 33164)
+> 1e16d0096d posix: Fix double-free after allocation failure in regcomp (bu=
+g 33185)
 >
-> Thanks for reviewing.
-> It looks like a no-op, but it isn't. cargo-ptest checks if run-ptest
-> script exist[1], and if it does, it appends its own content to it, so
-> both are kept.
-> What came to my mind after sending it is to add this script simply as a
-> file to SRC_URI instead of echoing it, but didn't want a v3 without
-> someone asking for it.
->
-> [1]:
->
-https://git.yoctoproject.org/poky/tree/meta/classes-recipe/ptest-cargo.bbcl=
-ass#n102
-
-D'oh! You're right!
-Since that is easy to miss, maybe add a comment stating that cargo-ptest
-will fill the rest of the script?
-Also, I'm in favour of the run-ptest in SRC_URI instead of echoing it in
-do_install.
-
-Thanks!
-
-
-
->
->
->> Maybe you can, either:
->> * rename the run-ptest generated by cargo-ptest and exec'ing it from
->> your script to keep the envvar
->> * overwrite the run-ptest generated by cargo-ptest (but keep its
->> current content: e.g calling the test binaries in sequence, printing
->> "PASS:" ...)
->>
->> Best regards,
->>
->>
->>      }
->>
->>      # Tests need objdump
->>
->>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>     Links: You receive all messages sent to this group.
->>     View/Reply Online (#221671):
->>     https://lists.openembedded.org/g/openembedded-core/message/221671
->>     Mute This Topic: https://lists.openembedded.org/mt/114612984/4316185
->>     Group Owner: openembedded-core+owner@lists.openembedded.org
->>     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->>     Unsubscribe:
->>     https://lists.openembedded.org/g/openembedded-core/unsub
->>     [yoann.congal@smile.fr]
->>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
->>
->> --
->> Yoann Congal
->> Smile ECS
->
+> Add CVE-2025-8058 to CVE ignore list as this is (bug 33185) commit.
 >
 
---000000000000f440d3063bf06b90
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Steve
 
-<div dir=3D"ltr"><br><br>Le samedi 9 ao=C3=BBt 2025, Gyorgy Sarvari &lt;<a =
-href=3D"mailto:skandigraun@gmail.com" target=3D"_blank">skandigraun@gmail.c=
-om</a>&gt; a =C3=A9crit=C2=A0:<br>&gt;<br>&gt;<br>&gt; On 8/9/25 16:10, Yoa=
-nn Congal wrote:<br>&gt;&gt; Hi,<br>&gt;&gt;<br>&gt; &lt;snip&gt;<br>&gt;&g=
-t;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0require ${BPN}-crates.inc<br>&gt;&g=
-t;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0@@ -64,6 +63,11 @@ do_install:append () {=
-<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0do_install_ptest:append () {<br>&gt;&=
-gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${PTEST_P=
-ATH}/src<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 install=
- -m 644 ${S}/src/symbols.txt<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0${D}${PTEST_PAT=
-H}/src/symbols.txt<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0+<br>&gt;&gt;=C2=A0 =C2=
-=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;#!/bin/sh&quot; &gt; ${D}$=
-{PTEST_PATH}/run-ptest<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0=
- =C2=A0echo &quot;rc=3D0&quot; &gt;&gt; ${D}${PTEST_PATH}/run-ptest<br>&gt;=
-&gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;export TEST_=
-DONT_BUILD_LIB=3D1&quot; &gt;&gt;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0${D}${PTES=
-T_PATH}/run-ptest=C2=A0 =C2=A0 =C2=A0<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0+=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0chmod 755 ${D}${PTEST_PATH}/run-ptest<br>&gt;&gt;<b=
-r>&gt;&gt;<br>&gt;&gt; Wouldn&#39;t=C2=A0that make run-ptest basically a no=
--op?<br>&gt;&gt;<br>&gt;<br>&gt; Thanks for reviewing.<br>&gt; It looks lik=
-e a no-op, but it isn&#39;t. cargo-ptest checks if run-ptest<br>&gt; script=
- exist[1], and if it does, it appends its own content to it, so<br>&gt; bot=
-h are kept.<br>&gt; What came to my mind after sending it is to add this sc=
-ript simply as a<br>&gt; file to SRC_URI instead of echoing it, but didn&#3=
-9;t want a v3 without<br>&gt; someone asking for it.<br>&gt;<br>&gt; [1]:<b=
-r>&gt; <a href=3D"https://git.yoctoproject.org/poky/tree/meta/classes-recip=
-e/ptest-cargo.bbclass#n102" target=3D"_blank">https://git.yoctoproject.org/=
-poky/tree/meta/classes-recipe/ptest-cargo.bbclass#n102</a><br><br>D&#39;oh!=
- You&#39;re right!<br><div>Since that is easy to miss, maybe add a comment =
-stating that cargo-ptest will fill the rest of the script?</div><div>Also, =
-I&#39;m in favour of the run-ptest in SRC_URI instead of echoing it in do_i=
-nstall.</div><div><br></div><div>Thanks!</div><div><br></div></div><br><br>=
-&gt;<br>&gt;<br>&gt;&gt; Maybe you can, either:<br>&gt;&gt; * rename the ru=
-n-ptest generated by cargo-ptest and exec&#39;ing it from<br>&gt;&gt; your =
-script to keep the envvar<br>&gt;&gt; * overwrite the run-ptest generated b=
-y cargo-ptest (but keep its<br>&gt;&gt; current content: e.g calling the te=
-st binaries in sequence, printing<br>&gt;&gt; &quot;PASS:&quot; ...)<br>&gt=
-;&gt;<br>&gt;&gt; Best regards,<br>&gt;&gt; =C2=A0<br>&gt;&gt;<br>&gt;&gt;=
-=C2=A0 =C2=A0 =C2=A0=C2=A0}<br>&gt;&gt;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0=C2=
-=A0# Tests need objdump<br>&gt;&gt;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0-=3D-=3D=
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0Links:=
- You receive all messages sent to this group.<br>&gt;&gt;=C2=A0 =C2=A0 =C2=
-=A0View/Reply Online (#221671):<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"h=
-ttps://lists.openembedded.org/g/openembedded-core/message/221671" target=3D=
-"_blank">https://lists.openembedded.org/g/openembedded-core/message/221671<=
-/a><br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0Mute This Topic: <a href=3D"https://list=
-s.openembedded.org/mt/114612984/4316185" target=3D"_blank">https://lists.op=
-enembedded.org/mt/114612984/4316185</a><br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0Grou=
-p Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded.org=
-" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><br>&=
-gt;&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:openembedded-core%2=
-52Bowner@lists.openembedded.org" target=3D"_blank">openembedded-core%2Bowne=
-r@lists.openembedded.org</a>&gt;<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0Unsubscribe=
-:<br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/=
-g/openembedded-core/unsub" target=3D"_blank">https://lists.openembedded.org=
-/g/openembedded-core/unsub</a><br>&gt;&gt;=C2=A0 =C2=A0 =C2=A0[<a href=3D"m=
-ailto:yoann.congal@smile.fr" target=3D"_blank">yoann.congal@smile.fr</a>]<b=
-r>&gt;&gt;=C2=A0 =C2=A0 =C2=A0-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
-<br>&gt;&gt;<br>&gt;&gt;<br>&gt;&gt;<br>&gt;&gt; --<br>&gt;&gt; Yoann Conga=
-l<br>&gt;&gt; Smile ECS<br>&gt;<br>&gt;
+Should we wait for WRT to report back on glibc regression test results ?
 
---000000000000f440d3063bf06b90--
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-core/glibc/glibc-version.inc | 2 +-
+>  meta/recipes-core/glibc/glibc_2.41.bb     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
+e/glibc/glibc-version.inc
+> index a2cfd0f308..881a9cce2c 100644
+> --- a/meta/recipes-core/glibc/glibc-version.inc
+> +++ b/meta/recipes-core/glibc/glibc-version.inc
+> @@ -1,6 +1,6 @@
+>  SRCBRANCH ?=3D "release/2.41/master"
+>  PV =3D "2.41+git"
+> -SRCREV_glibc ?=3D "6e489c17f827317bcf8544efefa65f13b5a079dc"
+> +SRCREV_glibc ?=3D "e7c419a2957590fb657900fc92a89708f41abd9d"
+>  SRCREV_localedef ?=3D "fab74f31b3811df543e24b6de47efdf45b538abc"
+>
+>  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
+> diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-core/gl=
+ibc/glibc_2.41.bb
+> index 7ddf7f9127..8a65e8ce9f 100644
+> --- a/meta/recipes-core/glibc/glibc_2.41.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.41.bb
+> @@ -17,7 +17,7 @@ Allows for ASLR bypass so can bypass some hardening, no=
+t an exploit in itself, m
+>  easier access for another. 'ASLR bypass itself is not a vulnerability.'"
+>
+>  CVE_STATUS_GROUPS +=3D "CVE_STATUS_STABLE_BACKPORTS"
+> -CVE_STATUS_STABLE_BACKPORTS =3D "CVE-2025-4802 CVE-2025-5702 CVE-2025-57=
+45"
+> +CVE_STATUS_STABLE_BACKPORTS =3D "CVE-2025-4802 CVE-2025-5702 CVE-2025-57=
+45 CVE-2025-8058"
+>  CVE_STATUS_STABLE_BACKPORTS[status] =3D "cpe-stable-backport: fix availa=
+ble in used git hash"
+>
+>  DEPENDS +=3D "gperf-native bison-native"
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#221679): https://lists.openembedded.org/g/openembedde=
+d-core/message/221679
+> Mute This Topic: https://lists.openembedded.org/mt/114616374/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
