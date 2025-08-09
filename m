@@ -1,144 +1,122 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D315EC87FCF
-	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 14:41:01 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web11.7528.1754750452210861111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D763DC87FCB
+	for <webhook@archiver.kernel.org>; Sat,  9 Aug 2025 14:44:31 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.7399.1754750667435905311
  for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Aug 2025 07:40:52 -0700
+ Sat, 09 Aug 2025 07:44:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Sek/T3ta;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6180ce2197cso850440a12.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 07:40:51 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WK76ZnW8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-76bd9d723bfso2760697b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 07:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754750450; x=1755355250; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=l1VC2x0b+hMHNPeXzGNlzz7uYYLoC2/EMl0DRqP4y5E=;
-        b=Sek/T3taUf2uTDRbUs/WFNFEYZCgsSNNvIOzKuuux2qwucUcOiJ/Cm2C0gujvdsMgx
-         4eyiXXlGETezbexvPQ1XP11uJjLKjgcgeAQ5yeHD+7d7Eqdt/mxvfsZO6p4mFOQ8so+H
-         jCan9fikw7oybPmcMYicMkAGUKdMWSC8ya9wV3TzmcBJ5yFz6GP7+bvyYmbPb+FGoi9T
-         2rta2kUN/FaWN8XdDMYZcPArzc7k78LOhu35hK2nT/41Pd1mHdtsVoO1VcXwTFfmhhPD
-         8sQr6tr9xrll0ml4djh3H7hDNKwJWwXyyr/yoCIQABTJq9kP2qqMWVEXNQoWfZOOhXp8
-         KkfQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1754750667; x=1755355467; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jmzvEi0d1vPikxnXRwDVtQn3BF6AuqgPgL9c0aZgim0=;
+        b=WK76ZnW8c7opPCyHiW+thSdSEUAx/mdwjhlV7uVyFM8GiJzTVQDvxRhtSFMDwkAic9
+         3PsYblnTanBj+Wb8y7V5rPQrB+o+Ff25Kq0urpEREds0Jeee42ffAohETbmMBN1aTSFg
+         IGx4m209KH7u0fInr18ZUmAh/uf4115Ymyl3EjWLMfXyI4hyn4x9BUmWtaDkcU3xifl/
+         r2rJySANVrNm+SvSXJVpZa6pRZb4siwLgHdm+GiRzKq/4X3tyT90EOpk8Ci5RwzbG8/X
+         RJ7j4jSXUxZfOcgGjP2NuozYv3uS8zxwrE71EXxX9cgPbFD6+btX0KaYeG3PO+7JdS7F
+         Bx9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754750450; x=1755355250;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l1VC2x0b+hMHNPeXzGNlzz7uYYLoC2/EMl0DRqP4y5E=;
-        b=bpVRlRaucWZfJOZCkFY/uSgI3TO4B6jvmKSOVrSTiwr6IlaoObVSSoAm5LklRk0c6a
-         gwn9+3wgg/2x5v0ZqlMHVovh0/qHOcl1p2cIa7BE2oCnjHJCuQeTTAQStcddmKbq+mMI
-         Z+HrdhnKGmLBh8QMe/3dnFscRncRFuQM4tUuYa8hDlrl67QOZVkU0NNQc6iocuW6y/x/
-         b0MoN8DJFTLLqZkl4ogc4xs8bN3v49uvqE6iQmZgvmVEk0xeUcZU8k0P8If9DLUKXMNm
-         7Oi3p+RjFQY4dEOsmysmLTE7DVMRYnULbdjjn6LMkQAyjP+PEoQTHt2a1uulJdnh76I+
-         llrw==
-X-Gm-Message-State: AOJu0YwEDrLzsUQrYXA1cOPX0YqLhWNjwtHWv9eVsJNUBSk7VEkjZV4D
-	b/D8YlF5ILWAOzezYtmBN1vNL6E5P18TA+/09fS0GThZmE100NntL3lJ
-X-Gm-Gg: ASbGncuBTOTqeDt63qLPZH36nKw5vBMqlljgt8/FZnBCD8d2+qfBgHBpr8zt4JN+l9E
-	hZvhEx8gVgQ+6Ou4H5yhA6IaGgMHL1tqLU35FHHN3lXu9p2t/IXtRe7iZoxuF2tWlzimpnCn11U
-	YmwADIyodkWReAXF+V6iPSRAaaXo60aj1mdAhSrZl113qpQx2OWhx517tjry/zNErJwsulFMJ6h
-	AnEANdmCJfKkb02JEsVQSK6uh8pAXu79K/XghVMNhgpxiA/a5xn6kaxqHcNXv7ZadFst0Y7nwBZ
-	RY8Wk1Ev58teZIJcUw7KYiy5ZssJUSIiG8alZDjbXJHhWG80Y/mQnzZVF19R3z5DUf1GYyf74oe
-	Ng5RJ0vFRZrgn7CDIfcCl1i+QTtVKHl5qug1oI6lF
-X-Google-Smtp-Source: AGHT+IGRNJFVd2e30rD1zBTsNGYmEVLOdWpmUPjYWkP1VOSb2ely64R1j2OtSbxwPnaYBT1MMbn9PA==
-X-Received: by 2002:a17:907:928e:b0:af9:c119:3b4 with SMTP id a640c23a62f3a-af9c6453233mr558684366b.13.1754750450260;
-        Sat, 09 Aug 2025 07:40:50 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0771f9sm1692426466b.16.2025.08.09.07.40.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Aug 2025 07:40:49 -0700 (PDT)
-Message-ID: <94194d86-7dda-4080-b484-cf30da04ad65@gmail.com>
-Date: Sat, 9 Aug 2025 16:40:49 +0200
+        d=1e100.net; s=20230601; t=1754750667; x=1755355467;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jmzvEi0d1vPikxnXRwDVtQn3BF6AuqgPgL9c0aZgim0=;
+        b=h/IRKU3Gh3BSUXuuwN/7/FS5K96ychFNd1/l6MwmMD+wDAbGtea9uS5nIrBuoOHe4N
+         ACFViI9Vya9P8WA/6hITDbm72QR9L9NVESLYtAD88Zc3Ue2v/AZ1+LYAfzBM2J3ABoz5
+         yuqAu7vR2hqitsNig0CklOGlaiQjmF3XBu6YI52dnksvnXAhoqMQKSmLaIoAwT+JaJcW
+         quCZZsvg2y+sTnKz+qbcQbEOT2zUzJZ69urKYOwsw5rVPaSa1bu9dcd8YwNVp3JyEbOj
+         V8WJiIRXVD5H+1ZTACS+OWL8I3tzekSIoe6oWOdMh10KF8uqWMwHHHXJ5LsSf36ZRD0E
+         EfQg==
+X-Gm-Message-State: AOJu0Yws1GgFyRLSXCG00NLSnC09muypgDzuawZ77Bwm2eujG5dTLrn3
+	gGB3UGFaNznhWHCnLx8sMvJ6uAoR89hJY3CDOL5ucBVGe8Gt3GMEaoD3DkxtYCFPxMFnxoEHzXt
+	EwPqv
+X-Gm-Gg: ASbGncuO2rlFkotCIl1ls4n/GEj8zP57kcM6aim8CLfXExB9Ndp6T+zoY8NAkqjkGmZ
+	WGGY0IGUPLP07iRCzvpdp1C+G/QMVgK154iXN274Bdpko8MMraRClRpYu6QhCuVQjXvuHCoY+ov
+	bN5KUcXeJvNKNzwU06tCf/EjNQPsiSMlOGtC5wXixq61JSiA1WzJyxU45G1Flj2j9IoHYnxvb1B
+	FhWd4rcLmvmlVEOZyT7J21/YanyDA+XhaUWb9HNGAo/z/cEtt6cEJlUPGZFaLd4xlHQ6MLaGq83
+	Pnga24tx/6CdAicuwcidAy08uzXGzMtnUWPV/1I/HpARzEVpWERi4rC2XR9+MkF5xZqGrkGMWTJ
+	5sQNe790hSzQZ9A==
+X-Google-Smtp-Source: AGHT+IGtzINr2KlXIJsCBprd2ZiFcnnacPIr+Al5neZUT6nI0F+Siju2EmmjCyuEEMp+SRYgyIDKAw==
+X-Received: by 2002:a17:903:3bcc:b0:242:e0f1:f4b9 with SMTP id d9443c01a7336-242e0f1f781mr3387965ad.20.1754750666483;
+        Sat, 09 Aug 2025 07:44:26 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:e40b:779f:346e:b2b1])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b428f4c8639sm5736428a12.43.2025.08.09.07.44.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Aug 2025 07:44:26 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][walnascar 0/6] Patch review
+Date: Sat,  9 Aug 2025 07:44:16 -0700
+Message-ID: <cover.1754750560.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2] rpm-sequoia: upgrade 1.7.0 -> 1.9.0
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-References: <20250809071200.4017253-1-skandigraun@gmail.com>
- <CAMSfU+7fZMF6E4sJyjPwT8x=T3fB1_JK-k8Y-irAq13Y04xQoA@mail.gmail.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <CAMSfU+7fZMF6E4sJyjPwT8x=T3fB1_JK-k8Y-irAq13Y04xQoA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 14:41:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221674
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Aug 2025 14:44:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221675
 
+Please review this set of changes for walnascar and have comments back by
+end of day Tuesday, August 12
 
+Passed a-full on autobuilder:
 
-On 8/9/25 16:10, Yoann Congal wrote:
-> Hi,
->
-<snip>
->
->      require ${BPN}-crates.inc
->
->     @@ -64,6 +63,11 @@ do_install:append () {
->      do_install_ptest:append () {
->             install -d ${D}${PTEST_PATH}/src
->             install -m 644 ${S}/src/symbols.txt
->     ${D}${PTEST_PATH}/src/symbols.txt
->     +
->     +       echo "#!/bin/sh" > ${D}${PTEST_PATH}/run-ptest
->     +       echo "rc=0" >> ${D}${PTEST_PATH}/run-ptest
->     +       echo "export TEST_DONT_BUILD_LIB=1" >>
->     ${D}${PTEST_PATH}/run-ptest     
->     +       chmod 755 ${D}${PTEST_PATH}/run-ptest
->
->
-> Wouldn't that make run-ptest basically a no-op?
->
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2166
 
-Thanks for reviewing.
-It looks like a no-op, but it isn't. cargo-ptest checks if run-ptest
-script exist[1], and if it does, it appends its own content to it, so
-both are kept.
-What came to my mind after sending it is to add this script simply as a
-file to SRC_URI instead of echoing it, but didn't want a v3 without
-someone asking for it.
+The following changes since commit 8bea495b4945e24b43398f40d634d7fdb73e981a:
 
-[1]:
-https://git.yoctoproject.org/poky/tree/meta/classes-recipe/ptest-cargo.bbclass#n102
+  ltp: Skip semctl08 when __USE_TIME64_REDIRECTS is defined (2025-07-30 09:01:16 -0700)
 
+are available in the Git repository at:
 
-> Maybe you can, either:
-> * rename the run-ptest generated by cargo-ptest and exec'ing it from
-> your script to keep the envvar
-> * overwrite the run-ptest generated by cargo-ptest (but keep its
-> current content: e.g calling the test binaries in sequence, printing
-> "PASS:" ...)
->
-> Best regards,
->  
->
->      }
->
->      # Tests need objdump
->
->     -=-=-=-=-=-=-=-=-=-=-=-
->     Links: You receive all messages sent to this group.
->     View/Reply Online (#221671):
->     https://lists.openembedded.org/g/openembedded-core/message/221671
->     Mute This Topic: https://lists.openembedded.org/mt/114612984/4316185
->     Group Owner: openembedded-core+owner@lists.openembedded.org
->     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->     Unsubscribe:
->     https://lists.openembedded.org/g/openembedded-core/unsub
->     [yoann.congal@smile.fr]
->     -=-=-=-=-=-=-=-=-=-=-=-
->
->
->
-> -- 
-> Yoann Congal
-> Smile ECS
+  https://git.openembedded.org/openembedded-core-contrib stable/walnascar-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/walnascar-nut
+
+Gyorgy Sarvari (1):
+  gnutls: upgrade 3.8.9 -> 3.8.10
+
+Jiaying Song (1):
+  ca-certificates: correct the SRC_URI
+
+Peter Marko (2):
+  sqlite3: patch CVE-2025-6965
+  glibc: stable 2.41 branch updates
+
+Praveen Kumar (1):
+  python3: fix CVE-2025-8194
+
+Zhang Peng (1):
+  avahi: fix CVE-2024-52615
+
+ meta/recipes-connectivity/avahi/avahi_0.8.bb  |   1 +
+ .../avahi/files/CVE-2024-52615.patch          | 228 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ meta/recipes-core/glibc/glibc_2.41.bb         |   2 +-
+ .../python/python3/CVE-2025-8194.patch        | 224 +++++++++++++++++
+ .../recipes-devtools/python/python3_3.13.4.bb |   1 +
+ .../ca-certificates_20241223.bb               |   2 +-
+ meta/recipes-support/gnutls/gnutls/run-ptest  |   1 +
+ .../{gnutls_3.8.9.bb => gnutls_3.8.10.bb}     |   2 +-
+ .../sqlite/sqlite3/CVE-2025-6965.patch        | 112 +++++++++
+ meta/recipes-support/sqlite/sqlite3_3.48.0.bb |   1 +
+ 11 files changed, 572 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2024-52615.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-8194.patch
+ rename meta/recipes-support/gnutls/{gnutls_3.8.9.bb => gnutls_3.8.10.bb} (97%)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch
+
+-- 
+2.43.0
 
 
