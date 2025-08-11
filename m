@@ -1,133 +1,95 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AFE3C87FD2
-	for <webhook@archiver.kernel.org>; Mon, 11 Aug 2025 12:49:46 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.47276.1754916577233972002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65DF2C87FDB
+	for <webhook@archiver.kernel.org>; Mon, 11 Aug 2025 12:58:46 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.47051.1754917121436266622
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Aug 2025 05:49:37 -0700
+ Mon, 11 Aug 2025 05:58:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=J/m1Nef8;
- spf=pass (domain: mvista.com, ip: 209.85.210.182, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-76bd7676e60so3564762b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 05:49:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PPSwo/Ru;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6182b3218aeso1660932a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 05:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1754916576; x=1755521376; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ENQkbfGY6G8uKK/flRMnSJPcSVy5bGx+aeFR7YgAqLE=;
-        b=J/m1Nef83k78ryUiocTcaxPAyHRt6R5gyKH2no95qY/l6RTpyTmRMv4n5zyvNakKHF
-         3VqWLaSqPDrFg5uahXkzWh5OLa05V8DyGivkGj1DSS1RNUKgPd4U6QxGnHkWLsJY0V5R
-         gCy0z8B1TGYPEvhq+9ziNUzHYH7rGrAER6MzQ=
+        d=gmail.com; s=20230601; t=1754917120; x=1755521920; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L7l5Sfm8GTAxlza8KsWxZIRQsfA67MX8p1vPXcpbGu8=;
+        b=PPSwo/Ruq+5H7zPoEaQmzz21GGuQFq68oh2Gxnt62B5laZr4dEi+3feCQmMnm9Ubrz
+         kwypGvNIdNXO1d+w2IjyCHbqRZDlQNlA0gUEH7GtDdmEYfuw/uaN0iqrlNkWJu7cwo6s
+         AhMmsYXR6kQ64DbAVrxqu18cIskD+OhI0NYoTqZiyj/knn2RQT5ttZQ/6QjUIXKklZRm
+         LZTH6LqX+FBqG3LnyjFZGH3UvvWaKqPqFIX/G4DjL9txyzQN1AljU8d7I1q73TZrGZwW
+         18O6m/3CgkBQd+dhSc8K3hj3F4eVUeZMxYHzTSVaX4D2yLckYm5EzDEWKY738KQ7ONFX
+         VdSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754916576; x=1755521376;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ENQkbfGY6G8uKK/flRMnSJPcSVy5bGx+aeFR7YgAqLE=;
-        b=t6VtghCjyrZq0k287G2OtAC2wZ5vP5/c4Gk/2ko7Bs3xUnevCnRu/2INZZEQADGJNZ
-         5sdb63uwnADzoDnODi0aWyQM4/5s8YfYjz5rFzOhzpzftugDKU8q6Pl0Mt41XZlSSE/D
-         iFJTVNXrKMPQ50tMnSyAUbWOP8Bk6ok6Pm90ZKW7VDOGimlHlH4znIRQEgMCZcdCnxor
-         MVM+PzM5KEL4j/DEh/jIvzpnhVRL4zu9VYJ8fs6qEy2VK38XBsqSPZ1TZN7Y17NfZUKY
-         LPAHLVfM64uuT+/ePvtp1iHyazKDLpCz34ahVaM5ICXwrLGIaI5m+awGqIlj+5bhwaSc
-         Ssqw==
-X-Gm-Message-State: AOJu0Yz7r4RZz7znDT9Ajc2yeC21PMyKRaWjKh2nC2Tpjifuph2kf9hj
-	Z1uQVwfUWGlePYKSNcCg2nwFhYR86g0QUJlX6wvNqO/CMs6WCOxRv0GF2I8cjhitDjxVL/IoplO
-	yrE61
-X-Gm-Gg: ASbGncuaNMITmZLNds5gRNRo25krgHAcFENndiAyLYK+XeoGPHrEVLT23iQxpjAq/Bt
-	MNeh+jGcLJ3LqabX+YYZY3R/fETaxYK9WcssvFd99MgKoFcChyWXlro5gFAzPCLJJ9fF1B7+Kv9
-	xOFNs8cNwcrUApMt1vPkmes4d7p6JZYXSIb2rKBZbCKdVelucboUUxAy62UbyIHGp17HsEx5twg
-	B72K2RjIuEu26NOOeJ37lyZL3E5tKJB3CCpomnsY8ndyKu5jSHsUReKQy4UX/OtjbfVo088GEmA
-	JKJHvnPycttlDG7fx48Yxg86r7Xu8sGESW0ddqW0Xsulh5f2PWlPdWplS8tIbFkzuhngA2AHKNg
-	qvgyYh2o6zekZVq06XN/3rlK0wF5Rbh9gAozO
-X-Google-Smtp-Source: AGHT+IH4ow8BhuK9YbTXtNfP7UIAXePgnfXlxtr/sRfZUXWHFfl6vVbKEX8lLyC8Tu36ZpRZGwN8Pw==
-X-Received: by 2002:a05:6a21:998b:b0:23d:ac50:3339 with SMTP id adf61e73a8af0-24055160436mr20143862637.29.1754916576315;
-        Mon, 11 Aug 2025 05:49:36 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([103.250.136.211])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b422b7b2700sm23366809a12.15.2025.08.11.05.49.34
+        d=1e100.net; s=20230601; t=1754917120; x=1755521920;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L7l5Sfm8GTAxlza8KsWxZIRQsfA67MX8p1vPXcpbGu8=;
+        b=uSWhWK6n4W2EibQ4jGVN+2f9DUhFz4sbYioIsUdbkv/JhVNzFl7eoGkWs4ksB/whMD
+         58EZJpv5MPfOxer2JKcfhyXqS4+6WVva8AVFnWPy8GIm/6UdFWGDktz24HaDc7gwvAau
+         6KYIRWQmyhDIl4AmLLvq8NeYIeV4FeK1um28CSZy7ouSY6P+jdxec5/pL31u71Hnhre1
+         jzNYvbi3Bg65C3QKUtpAUyf8O/SwAk17RlWY907OhyvHyhGAoEtKXYYLu4g/IvpDCAfC
+         c4wmbtN2tGRzEAhYoQGo9rIieeoMmyJXviadbMOHFYQHodVad0duse0E/ftEEhtut7LG
+         favw==
+X-Gm-Message-State: AOJu0Yx+LXLcD2o4s2BnRQvMOnCBE1ASZ/MWkqhBqFDubXG92r/jzOal
+	1YP5Ub4nvD6ItkQqyWvrkk4anXupD1PfTj5/mbNpKBtEHE+H+tL5C8MQvAuZ3A==
+X-Gm-Gg: ASbGncvDSv4O/RqQAbZbPaL8htsMRpqSlnWeVdXmppCuVqydthYL//zdrutzamwK3HS
+	cLghsnfXymVnq6RtV2X46ReCc2T9sC5XG1MNeIWSML0F1954agE8u8HHJMnvIQpUzzrUujN4eoK
+	QGETpJI/Z3C+gEuew45PCxOm8mSvUIkaXTS1IDcCL7UwRZeX9sasQiqyoX28HYwU2c2n466uZ92
+	voEp7fnRV2Q37AwP34+Dui2ZxUd82s2b28ZZWcZgzjNL9tloC3/H5GehfFknAmVFDPFpM79EF8h
+	1DB7i3zNr+bLlhZG5gp4C3jc+I/mGXYvRNObLJPJ6BFn1laRk2T09fSffkDe4W3cNRS22ygxJ7H
+	h1PHo3nHwfYqUp2alWJI=
+X-Google-Smtp-Source: AGHT+IHWtiDA+prd7zN3Iw9KiKRP72Q3p0GX8uI6HF5Zph7ktnXjeBNd+u/E1bR4C08fjCJuGh/+xg==
+X-Received: by 2002:a05:6402:2683:b0:618:1bdb:8515 with SMTP id 4fb4d7f45d1cf-6181bdb8cd2mr4968609a12.29.1754917119524;
+        Mon, 11 Aug 2025 05:58:39 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8fe7a32sm18452915a12.37.2025.08.11.05.58.38
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 05:49:35 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Mon, 11 Aug 2025 05:58:39 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] gstreamer1.0-plugins-base: fix CVE-2025-47808
-Date: Mon, 11 Aug 2025 18:19:24 +0530
-Message-ID: <20250811124924.170002-1-hprajapati@mvista.com>
+Subject: [PATCH] go-helloworld: update to latest revision
+Date: Mon, 11 Aug 2025 14:58:38 +0200
+Message-ID: <20250811125838.952671-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 12:49:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221737
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 12:58:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221738
 
-Upstream-Status: Backport from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/6b19f117518a765a25c99d1c4b09f2838a8ed0c9
+Shortlog:
+- go.mod: update golang.org/x dependencies
+- weave: fix %include parsing, add highlighting
+- example/slog-handler-guide: run `make`
+- example/weave: update TOC anchors to remove **, _, and `
+- slog-handler-guide: remove doubled word
+- slog-handler-guide: warn against embedding
+- slog-handler-guide: fix typo, tweak phrasing
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- .../CVE-2025-47808.patch                      | 36 +++++++++++++++++++
- .../gstreamer1.0-plugins-base_1.22.12.bb      |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47808.patch
+ meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47808.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47808.patch
-new file mode 100644
-index 0000000000..5b9fefc321
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47808.patch
-@@ -0,0 +1,36 @@
-+From 6b19f117518a765a25c99d1c4b09f2838a8ed0c9 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Thu, 8 May 2025 09:04:52 +0300
-+Subject: [PATCH] tmplayer: Don't append NULL + 1 to the string buffer when
-+ parsing lines without text
-+
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4417
-+Fixes CVE-2025-47808
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/9132>
-+
-+CVE: CVE-2025-47808
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/6b19f117518a765a25c99d1c4b09f2838a8ed0c9]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ gst/subparse/tmplayerparse.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/gst/subparse/tmplayerparse.c b/gst/subparse/tmplayerparse.c
-+index 807e332..a9225d3 100644
-+--- a/gst/subparse/tmplayerparse.c
-++++ b/gst/subparse/tmplayerparse.c
-+@@ -125,7 +125,9 @@ tmplayer_parse_line (ParserState * state, const gchar * line, guint line_num)
-+        * durations from the start times anyway, so as long as the parser just
-+        * forwards state->start_time by duration after it pushes the line we
-+        * are about to return it will all be good. */
-+-      g_string_append (state->buf, text_start + 1);
-++      if (text_start) {
-++        g_string_append (state->buf, text_start + 1);
-++      }
-+     } else if (line_num > 0) {
-+       GST_WARNING ("end of subtitle unit but no valid start time?!");
-+     }
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
-index 05cb956815..44ecdc0b55 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
-@@ -19,6 +19,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0010-id3v2-Don-t-try-parsing-extended-header-if-not-enoug.patch \
-            file://0011-discoverer-Don-t-print-channel-layout-for-more-than-.patch \
-            file://0012-subparse-Check-for-NULL-return-of-strchr-when-parsin.patch \
-+           file://CVE-2025-47808.patch \
-            "
- SRC_URI[sha256sum] = "73cfadc3a6ffe77ed974cfd6fb391c605e4531f48db21dd6b9f42b8cb69bd8c1"
+diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+index f21cfbdf27..e12dcb15f6 100644
+--- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
++++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+@@ -6,7 +6,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
  
--- 
-2.50.1
-
+ SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX}"
+-SRCREV = "d7b0ac1278591aea848a99258ccfdee8e4d454c1"
++SRCREV = "8b405629c4a5215871be932097e099c05ec5cb2e"
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+ GO_IMPORT = "golang.org/x/example"
 
