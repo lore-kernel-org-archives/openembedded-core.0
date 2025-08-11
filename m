@@ -1,485 +1,344 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE71C87FD2
-	for <webhook@archiver.kernel.org>; Mon, 11 Aug 2025 11:24:45 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.45554.1754911479580481658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14EACC87FDB
+	for <webhook@archiver.kernel.org>; Mon, 11 Aug 2025 11:50:06 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.45905.1754912995756709089
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Aug 2025 04:24:39 -0700
+ Mon, 11 Aug 2025 04:49:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=hbcFY2LQ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: vpuar@qti.qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57B9dIwb005398
-	for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 11:24:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=roVcpgG4AiaWyiLzGD0N/S
-	AEvyvmRaYfzXXzvpJoHI8=; b=hbcFY2LQmq73ZAwUtkyhWvfzZc9vL4ykFZDjtM
-	uzthw8A93N2bBbAu9G53ayuo0TwDlSh6tDLKQKTtghc/L/9LvqBrh371oswZLza9
-	BxtcP027pVJpl6ZKZ7eon1Y3KvsGEYQJy+HnelIFuWdxFPt959rvRke/ut25kkvu
-	OOXnSrCyFO+5hE5cJWIZ6WtG9yUStBWHH+Ui6GCgXvFXl+GpJkDEjq3BRN9h4BL3
-	mrx24+nTbK4Hs8d6OGelcarop6n/2nzG3fAMYRzl16pfHs1S1wInuVbwI4Ho7fwC
-	tLdiiHVLjuj0WdPIL3DqodC3Ht7NRPUW+n4RQ1tdr7pDCjwQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48eqhx2dx8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 11:24:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57BBObS0017255
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 11:24:37 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 11 Aug 2025 04:24:35 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH] linux-firmware: upgrade 20250708 -> 20250808
-Date: Mon, 11 Aug 2025 16:54:20 +0530
-Message-ID: <20250811112420.2834013-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=br1jLbu8;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-615d1865b2dso6263373a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 04:49:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754912994; x=1755517794; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BoNB/FGVEikx3fGnJeY9hnoiiQxjNthEwn7i8zHWNOg=;
+        b=br1jLbu8KOcQkMHtO3RmQctKjg8v/Zfnm76IhKx6Z/LDYE4jcPhCY6h732V/Rsx7uD
+         jtF/TVeCrdkhpyiGAi2L7yFIlDKYcX/lc6OkEyBDQkVIpyPOECw7l6fhAoHHvsBqoJZB
+         dZbUFr9bxd3GJMJuB2XRzRdoAM9ZboGUVI+0/sE6FizOECHg0vZFuWqpyz46FnjmBaul
+         X3tvmzbot1qxmXiarLvSsbPe80hZegex5aVJl/jDze5Ux6B0SFdfzib1VOYcYILS27T+
+         gsioqIxoqnA4omjWpU79KqYuNHQ1vYGyvWtyf1CJKBwnIuEifIW0q8+kAoWGU58pukZN
+         0auQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754912994; x=1755517794;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BoNB/FGVEikx3fGnJeY9hnoiiQxjNthEwn7i8zHWNOg=;
+        b=Ugxv5yuKb1hnXOUMfPMg3aZWDY9e3HKgSX/72h8JhXkYmvE9LuV2Wvpc8VOW1iMz4s
+         aw4z8SNM1pneBcs32treHNF/fpetgOA88cwAc2TnWx84wBPl5C1qxQztEOQQleRo1Je1
+         LDzaJ8WrOMI1bMSAWN5W676MpiAtkT9wl2ISBbGTy6NueLQW7QPWbK8XJ0n8JdYZ6epJ
+         vEgoG5B17jwyTeXwUre4iBcZN3vp7hmKj4yhfsTx/ndwPDOlaLQOFEUnP4amxkEEVvKS
+         WMt9+JvIJoMhqXSnokC0aEtTrhtkbMbq+Gzu2BSdY4eSMQH56vqVDKFCTaJuPh+MDX2a
+         MOIg==
+X-Gm-Message-State: AOJu0YyKPaTTIaA7CSip8re4wmnfv6ifY9u14sI0+6hFyBmU4hyawPnw
+	nOTMKuTm1i2MiktXQ+C9WiukU/kswZFfITOaZUkxaJgcScVM5Xb7Nsn0QYhT0Q==
+X-Gm-Gg: ASbGnctTF198Uan/ZeabVRPkXoYOgGM9Ey0zA1GTMwuCO5qwSVNyPSE4o9OlBgL33gH
+	wteNCs9hFoI6LR+5+AoPcPjEQE01321bu5pRf7NG+OGK5M60FaFJErUxHRx9Gmb2y9Qmx5bKBzr
+	WIUvWFhulQ/YFsCLoVysVcJ0LsAXUM7W6rAq//oCIQSBFCkRTdm1qhxZQB7AzQXl7g3tj1YKZhC
+	gOPVnSr6KWfa76hdO67/KFJAPpxwCPtP4m4kuOiAyAs6KyvYW6CH6PPrgMnJ1SF0xQKJqn8sUJ0
+	K4B4PUIy+GdPwxSYAZ1fHvGvBqEQScl2ank/DgaVbspJFsV9FGMrjhXz34jmK/oGSUaL0JiMAMr
+	TjoxC9deu8oUz6w26xRY=
+X-Google-Smtp-Source: AGHT+IH8iah+yciYvRGBn2aNNv/XDMXsOx9HVuDghaxl2zJY2b1j/hWwE51GCh+sFn4FGSihtDIeZA==
+X-Received: by 2002:a17:906:d54b:b0:af3:9676:e9ec with SMTP id a640c23a62f3a-af9c64a9220mr1084688166b.39.1754912993539;
+        Mon, 11 Aug 2025 04:49:53 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21e44csm1990475266b.113.2025.08.11.04.49.52
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 04:49:53 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/1] gperf: upgrade 3.1 -> 3.3
+Date: Mon, 11 Aug 2025 13:49:52 +0200
+Message-ID: <20250811114952.19565-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEwMDA1NyBTYWx0ZWRfX+uMJk2mcTWUi
- zt7D3LIqaZDDnxTBJFbP9C2Tud5+IPOHYe6YXEoQTa8nxzTecjLDYtMg7vB3nAjrdzWdzzcKe+b
- dwkWr8nIVfDUUK/THerI3VFsY58Gr6Q7e1WYzJGeTOZNxDusiJx5Vx0fjqgtBUfFPso7O8LMkvx
- 7sxx6M92ayGSVuIrJHDOl33KkhFjTze8znuXZdPeQhEARODu79vDudlgywlz4HJj66l/tu6SoyI
- PXpWju/ZzlO/0iGvpP1e2oCGGCcjXeolESTbizg1CjeuHNnYWggFiec0BWKHPR2rLZk3cizOaER
- 7kJQhj67he4WWbGmMvqybif1oaktKxwFg2OmC8ee26CkADcCDdYyQW9ATiIZ4uy44EOr0LosOb4
- V5bfxsW2
-X-Proofpoint-GUID: CtvlB3oUqsvFMDMRlUJubkZ0prIszRMM
-X-Authority-Analysis: v=2.4 cv=aYNhnQot c=1 sm=1 tr=0 ts=6899d2f6 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
- a=vYqJRkuJn2O_YXXrUJoA:9
-X-Proofpoint-ORIG-GUID: CtvlB3oUqsvFMDMRlUJubkZ0prIszRMM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-11_02,2025-08-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0 phishscore=0
- impostorscore=0 bulkscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508100057
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 11:24:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221733
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 11:50:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221734
 
-Add package ${PN}-qcom-adreno-a612 to include RGMU firmware for QCS615
-chipset. Extend QCS6490 RB3Gen2 firmware to include audio topology.
+Both patches were dropped, because they are included in this release.
 
-Add new LICENSE files.
+License-Update: copyright date Update
 
-License-Update: additional files
+Changelog:
+3.3:
+* Speedup: gperf is now between 2x and 2.5x faster.
 
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+3.2:
+* The generated code avoids several types of warnings:
+  - "implicit fallthrough" warnings in 'switch' statements.
+  - "unused parameter" warnings regarding 'str' or 'len'.
+  - "missing initializer for field ..." warnings.
+  - "zero as null pointer constant" warnings.
+
+* The input file may now use Windows line terminators (CR/LF) instead of
+  Unix line terminators (LF).
+  Note: This is an incompatible change. If you want to use a keyword that
+  ends in a CR byte, such as xyz<CR>, write it as "xyz\r".
+
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- ...20250708.bb => linux-firmware_20250808.bb} | 84 +++++++++++++++++--
- 1 file changed, 78 insertions(+), 6 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250708.bb => linux-firmware_20250808.bb} (96%)
+ .../0001-Make-the-code-C-17-compliant.patch   |  29 ---
+ ...c6e57a308a05889c80c048dbc58bdc378dcb.patch | 181 ------------------
+ .../gperf/{gperf_3.1.bb => gperf_3.3.bb}      |   9 +-
+ 3 files changed, 3 insertions(+), 216 deletions(-)
+ delete mode 100644 meta/recipes-extended/gperf/gperf/0001-Make-the-code-C-17-compliant.patch
+ delete mode 100644 meta/recipes-extended/gperf/gperf/1862c6e57a308a05889c80c048dbc58bdc378dcb.patch
+ rename meta/recipes-extended/gperf/{gperf_3.1.bb => gperf_3.3.bb} (68%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250708.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb
-similarity index 96%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250708.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb
-index fd7fa09d61..7c413e2b7c 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250708.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb
-@@ -23,6 +23,7 @@ LICENSE = "\
-     & Firmware-amphion_vpu \
-     & Firmware-atheros_firmware \
-     & Firmware-atmel \
-+    & Firmware-bfa \
-     & Firmware-bmi260 \
-     & Firmware-bnx2 \
-     & Firmware-bnx2x \
-@@ -32,22 +33,27 @@ LICENSE = "\
-     & Firmware-chelsio_firmware \
-     & Firmware-cirrus \
-     & Firmware-cnm \
-+    & Firmware-conexant \
-     & Firmware-cw1200 \
-     & Firmware-cw1200-sdd \
-     & Firmware-cxgb3 \
-     & Firmware-cypress \
-     & Firmware-dabusb \
-     & Firmware-dib0700 \
-+    & Firmware-drxk \
-     & Firmware-e100 \
-     & Firmware-emi26 \
-     & Firmware-ene_firmware \
-     & Firmware-fw_sst_0f28 \
-     & Firmware-go7007 \
-+    & Firmware-go7007-s2250 \
-     & Firmware-hfi1_firmware \
-     & Firmware-i915 \
-+    & Firmware-ib_qib \
-     & Firmware-ibt_firmware \
-     & Firmware-ice \
-     & Firmware-ice_enhanced \
-+    & Firmware-inside-secure \
-     & Firmware-intel \
-     & Firmware-intel_vpu \
-     & Firmware-ipu3_firmware \
-@@ -63,6 +69,8 @@ LICENSE = "\
-     & Firmware-mali_csffw \
-     & Firmware-Marvell \
-     & Firmware-mediatek \
-+    & Firmware-mellanox \
-+    & Firmware-mga \
-     & Firmware-microchip \
-     & Firmware-montage \
-     & Firmware-moxa \
-@@ -79,25 +87,34 @@ LICENSE = "\
-     & Firmware-qcom \
-     & Firmware-qcom-2 \
-     & Firmware-qcom-yamato \
-+    & Firmware-qed \
-     & Firmware-qla1280 \
-     & Firmware-qla2xxx \
-     & Firmware-qualcommAthos_ar3k \
-     & Firmware-qualcommAthos_ath10k \
-+    & Firmware-r8169 \
-     & Firmware-r8a779x_usb3 \
-     & Firmware-radeon \
-     & Firmware-ralink_a_mediatek_company_firmware \
-     & Firmware-ralink-firmware \
-     & Firmware-rockchip \
-+    & Firmware-rp2 \
-+    & Firmware-rsi \
-+    & Firmware-rt1320 \
-     & Firmware-rtlwifi_firmware \
-     & Firmware-imx-sdma_firmware \
-+    & Firmware-s5p-mfc \
-     & Firmware-siano \
-+    & Firmware-tehuti \
-     & Firmware-ti-connectivity \
-     & Firmware-ti-keystone \
-     & Firmware-ti-tspa \
-     & Firmware-tigon \
-+    & Firmware-tlg2300 \
-     & Firmware-typhoon \
-     & Firmware-ueagle-atm4-firmware \
-     & Firmware-via_vt6656 \
-+    & Firmware-vxge \
-     & Firmware-wfx \
-     & Firmware-wl1251 \
-     & Firmware-xc4000 \
-@@ -125,6 +142,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENSE.amphion_vpu;md5=2bcdc00527b2d0542bd92b52aaec2b60 \
-                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-                     file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3 \
-+                    file://LICENSE.bfa;md5=ff822aa5edf56d0159acfe5a49a5be2c \
-                     file://LICENSE.bmi260;md5=0008c039ec4281e382bd0cb41b66866c \
-                     file://LICENCE.bnx2;md5=d156fb810e162c4b0065ec8316efcd38 \
-                     file://LICENCE.bnx2x;md5=9494ec1462e461dec5322d1a1f0adf81 \
-@@ -135,22 +153,27 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
-                     file://LICENSE.cirrus;md5=662ea2c1a8888f7d79ed7f27c27472e1 \
-                     file://LICENCE.cnm;md5=df3992006621b797e36de43f36336e36 \
-+                    file://LICENSE.conexant;md5=768b10e3fc2bbc0725174a7d9e164c26 \
-                     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
-                     file://LICENCE.cw1200-sdd;md5=7e99e5e15c3668e96504a82ebd532ee4 \
-                     file://LICENCE.cxgb3;md5=1cf82d9e2a4b301e20c7936e61cd0e45 \
-                     file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
-                     file://LICENCE.dabusb;md5=fd785fc5f935c950a3423e4b1b996657 \
-                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-+                    file://LICENSE.drxk;md5=87a325e2e9740837036af3f04efa0d0f \
-                     file://LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8 \
-                     file://LICENCE.emi26;md5=2d1cd6e732b81824fe2f0fbf595b1413 \
-                     file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921 \
-                     file://LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293 \
-                     file://LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb \
-+                    file://LICENCE.go7007-s2250;md5=2273a7fed8223f6d3ef3e65f508f22eb \
-                     file://LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444 \
-                     file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570 \
-+                    file://LICENSE.ib_qib;md5=b909c90fca84c507766601ecb6f3b9d9 \
-                     file://LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b \
-                     file://LICENSE.ice;md5=742ab4850f2670792940e6d15c974b2f \
-                     file://LICENSE.ice_enhanced;md5=f305cfc31b64f95f774f9edd9df0224d \
-+                    file://LICENCE.inside-secure;md5=71f2eb7c1d10ccbd198e2459adef6afa \
-                     file://LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062 \
-                     file://LICENSE.intel;md5=5c22a4ab607349c89ffcbb1595e493f8 \
-                     file://LICENSE.intel_vpu;md5=1e231b7287d5a5018740041c352eb58e \
-@@ -166,6 +189,8 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.mali_csffw;md5=e064aaec4d21ef856e1b76a6f5dc435f \
-                     file://LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
-                     file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
-+                    file://LICENSE.mellanox;md5=646741eee66a7925edc538650895b80c \
-+                    file://LICENSE.mga;md5=6191fc1ff8183b00515c36351ec24150 \
-                     file://LICENCE.microchip;md5=db753b00305675dfbf120e3f24a47277 \
-                     file://LICENSE.montage;md5=12a9f2b351f60fc9374da61c8b2f11ed \
-                     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
-@@ -183,25 +208,34 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
-                     file://LICENSE.qcom-2;md5=165287851294f2fb8ac8cbc5e24b02b0 \
-                     file://LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
-+                    file://LICENSE.qed;md5=939ee0945e6efa0ce21f6d8a21c6564c \
-                     file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
-                     file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0 \
-                     file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5 \
-                     file://LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8 \
-+                    file://LICENSE.r8169;md5=a9909160e6bd81b8770711918b418ef2 \
-                     file://LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498 \
-                     file://LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16 \
-                     file://LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435 \
-                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
-                     file://LICENCE.rockchip;md5=5fd70190c5ed39734baceada8ecced26 \
-+                    file://LICENSE.rp2;md5=de5109226a643a1cdf706a633e993514 \
-+                    file://LICENSE.rsi;md5=a560f4b285f0733de1a3986ae847675d \
-+                    file://LICENSE.rt1320;md5=b44dab4314655e8f015009548dc4f962 \
-                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-+                    file://LICENSE.s5p-mfc;md5=5bdad20069b5c0268245609045374639 \
-                     file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9 \
-                     file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5 \
-+                    file://LICENSE.tehuti;md5=2b0ebf8cdc4a1c4a49b8ad18c7cb2492 \
-                     file://LICENCE.ti-connectivity;md5=3b1e9cf54aba8146dad4b735777d406f \
-                     file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c \
-                     file://LICENCE.ti-tspa;md5=d1a0eb27d0020752040190b9d51ad9be \
-                     file://LICENCE.tigon;md5=49d104a32337f4a4c89478a86ce9ae4f \
-+                    file://LICENSE.tlg2300;md5=4b23ec9ced919a0bf2f7c56dac31b2b7 \
-                     file://LICENCE.typhoon;md5=43b30243a6bda91f54c8e00600c4add5 \
-                     file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118 \
-                     file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
-+                    file://LICENSE.vxge;md5=91e196370d9927bdf7f566e47ea2c558 \
-                     file://LICENCE.wl1251;md5=ad3f81922bb9e197014bb187289d3b5b \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-@@ -212,7 +246,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "ac8541e9e1a952358f245afd478ce317"
-+WHENCE_CHKSUM  = "8417bc58fbaf0ae741a2bc8214db61f4"
+diff --git a/meta/recipes-extended/gperf/gperf/0001-Make-the-code-C-17-compliant.patch b/meta/recipes-extended/gperf/gperf/0001-Make-the-code-C-17-compliant.patch
+deleted file mode 100644
+index 96e70cdb36..0000000000
+--- a/meta/recipes-extended/gperf/gperf/0001-Make-the-code-C-17-compliant.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 6194f0027045433598a61965758b4531a3d06d1f Mon Sep 17 00:00:00 2001
+-From: Bruno Haible <bruno@clisp.org>
+-Date: Sun, 30 Aug 2020 12:36:15 +0200
+-Subject: [PATCH] Make the code C++17 compliant.
+-
+-* lib/getline.cc (getstr): Don't use the 'register' keyword.
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/gitweb/?p=gperf.git;a=commit;h=a63b830554920476881837eeacd4a6b507632b19]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- lib/getline.cc | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/lib/getline.cc b/lib/getline.cc
+-index c57c633..0984a7c 100644
+---- a/lib/getline.cc
+-+++ b/lib/getline.cc
+-@@ -55,7 +55,7 @@ getstr (char **lineptr, size_t *n, FILE *stream, char terminator, size_t offset)
+- 
+-   for (;;)
+-     {
+--      register int c = getc (stream);
+-+      int c = getc (stream);
+- 
+-       /* We always want at least one char left in the buffer, since we
+-          always (unless we get an error while reading the first char)
+--- 
+-2.39.0
+-
+diff --git a/meta/recipes-extended/gperf/gperf/1862c6e57a308a05889c80c048dbc58bdc378dcb.patch b/meta/recipes-extended/gperf/gperf/1862c6e57a308a05889c80c048dbc58bdc378dcb.patch
+deleted file mode 100644
+index 98959db0a8..0000000000
+--- a/meta/recipes-extended/gperf/gperf/1862c6e57a308a05889c80c048dbc58bdc378dcb.patch
++++ /dev/null
+@@ -1,181 +0,0 @@
+-From 1862c6e57a308a05889c80c048dbc58bdc378dcb Mon Sep 17 00:00:00 2001
+-From: Bruno Haible <bruno@clisp.org>
+-Date: Tue, 5 Jul 2022 07:51:46 +0200
+-Subject: [PATCH] Add support for reproducible builds.
+-
+-Suggested by Richard Purdie <richard.purdie@linuxfoundation.org> in
+-<https://lists.gnu.org/archive/html/bug-gperf/2022-07/msg00000.html>.
+-
+-* autogen.sh: Import also lib/filename.h.
+-* Makefile.in (IMPORTED_FILES): Add lib/filename.h.
+-* src/options.cc: Include filename.h.
+-(Options::print_options): Print only the base name of the program name.
+-* tests/*.exp: Update.
+-
+-Upstream-Status: Backport
+-
+-Index: gperf-3.1/ChangeLog
+-===================================================================
+---- gperf-3.1.orig/ChangeLog
+-+++ gperf-3.1/ChangeLog
+-@@ -1,3 +1,14 @@
+-+2022-07-05  Bruno Haible  <bruno@clisp.org>
+-+
+-+	Add support for reproducible builds.
+-+	Suggested by Richard Purdie <richard.purdie@linuxfoundation.org> in
+-+	<https://lists.gnu.org/archive/html/bug-gperf/2022-07/msg00000.html>.
+-+	* autogen.sh: Import also lib/filename.h.
+-+	* Makefile.in (IMPORTED_FILES): Add lib/filename.h.
+-+	* src/options.cc: Include filename.h.
+-+	(Options::print_options): Print only the base name of the program name.
+-+	* tests/*.exp: Update.
+-+
+- 2017-01-02  Marcel Schaible <marcel.schaible@studium.fernuni-hagen.de>
+- 	
+- 	* gperf-3.1 released.
+-Index: gperf-3.1/src/options.cc
+-===================================================================
+---- gperf-3.1.orig/src/options.cc
+-+++ gperf-3.1/src/options.cc
+-@@ -26,6 +26,7 @@
+- #include <string.h> /* declares strcmp() */
+- #include <ctype.h>  /* declares isdigit() */
+- #include <limits.h> /* defines CHAR_MAX */
+-+#include "filename.h"
+- #include "getopt.h"
+- #include "version.h"
+- 
+-@@ -280,6 +281,16 @@ Options::print_options () const
+-     {
+-       const char *arg = _argument_vector[i];
+- 
+-+      if (i == 0)
+-+        {
+-+          /* _argument_vector[0] is the program name.  Print only its base name.
+-+             This is useful for reproducible builds.  */
+-+          const char *p = arg + strlen (arg);
+-+          while (p > arg && ! ISSLASH (p[-1]))
+-+            p--;
+-+          arg = p;
+-+        }
+-+
+-       /* Escape arg if it contains shell metacharacters.  */
+-       if (*arg == '-')
+-         {
+-Index: gperf-3.1/lib/filename.h
+-===================================================================
+---- /dev/null
+-+++ gperf-3.1/lib/filename.h
+-@@ -0,0 +1,112 @@
+-+/* Basic filename support macros.
+-+   Copyright (C) 2001-2022 Free Software Foundation, Inc.
+-+   This file is part of the GNU C Library.
+-+
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
+-+
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
+-+
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, see
+-+   <https://www.gnu.org/licenses/>.  */
+-+
+-+/* From Paul Eggert and Jim Meyering.  */
+-+
+-+#ifndef _FILENAME_H
+-+#define _FILENAME_H
+-+
+-+#include <string.h>
+-+
+-+#ifdef __cplusplus
+-+extern "C" {
+-+#endif
+-+
+-+
+-+/* Filename support.
+-+   ISSLASH(C)                  tests whether C is a directory separator
+-+                               character.
+-+   HAS_DEVICE(Filename)        tests whether Filename contains a device
+-+                               specification.
+-+   FILE_SYSTEM_PREFIX_LEN(Filename)  length of the device specification
+-+                                     at the beginning of Filename,
+-+                                     index of the part consisting of
+-+                                     alternating components and slashes.
+-+   FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE
+-+                               1 when a non-empty device specification
+-+                               can be followed by an empty or relative
+-+                               part,
+-+                               0 when a non-empty device specification
+-+                               must be followed by a slash,
+-+                               0 when device specification don't exist.
+-+   IS_ABSOLUTE_FILE_NAME(Filename)
+-+                               tests whether Filename is independent of
+-+                               any notion of "current directory".
+-+   IS_RELATIVE_FILE_NAME(Filename)
+-+                               tests whether Filename may be concatenated
+-+                               to a directory filename.
+-+   Note: On native Windows, OS/2, DOS, "c:" is neither an absolute nor a
+-+   relative file name!
+-+   IS_FILE_NAME_WITH_DIR(Filename)  tests whether Filename contains a device
+-+                                    or directory specification.
+-+ */
+-+#if defined _WIN32 || defined __CYGWIN__ \
+-+    || defined __EMX__ || defined __MSDOS__ || defined __DJGPP__
+-+  /* Native Windows, Cygwin, OS/2, DOS */
+-+# define ISSLASH(C) ((C) == '/' || (C) == '\\')
+-+  /* Internal macro: Tests whether a character is a drive letter.  */
+-+# define _IS_DRIVE_LETTER(C) \
+-+    (((C) >= 'A' && (C) <= 'Z') || ((C) >= 'a' && (C) <= 'z'))
+-+  /* Help the compiler optimizing it.  This assumes ASCII.  */
+-+# undef _IS_DRIVE_LETTER
+-+# define _IS_DRIVE_LETTER(C) \
+-+    (((unsigned int) (C) | ('a' - 'A')) - 'a' <= 'z' - 'a')
+-+# define HAS_DEVICE(Filename) \
+-+    (_IS_DRIVE_LETTER ((Filename)[0]) && (Filename)[1] == ':')
+-+# define FILE_SYSTEM_PREFIX_LEN(Filename) (HAS_DEVICE (Filename) ? 2 : 0)
+-+# ifdef __CYGWIN__
+-+#  define FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE 0
+-+# else
+-+   /* On native Windows, OS/2, DOS, the system has the notion of a
+-+      "current directory" on each drive.  */
+-+#  define FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE 1
+-+# endif
+-+# if FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE
+-+#  define IS_ABSOLUTE_FILE_NAME(Filename) \
+-+     ISSLASH ((Filename)[FILE_SYSTEM_PREFIX_LEN (Filename)])
+-+# else
+-+#  define IS_ABSOLUTE_FILE_NAME(Filename) \
+-+     (ISSLASH ((Filename)[0]) || HAS_DEVICE (Filename))
+-+# endif
+-+# define IS_RELATIVE_FILE_NAME(Filename) \
+-+    (! (ISSLASH ((Filename)[0]) || HAS_DEVICE (Filename)))
+-+# define IS_FILE_NAME_WITH_DIR(Filename) \
+-+    (strchr ((Filename), '/') != NULL || strchr ((Filename), '\\') != NULL \
+-+     || HAS_DEVICE (Filename))
+-+#else
+-+  /* Unix */
+-+# define ISSLASH(C) ((C) == '/')
+-+# define HAS_DEVICE(Filename) ((void) (Filename), 0)
+-+# define FILE_SYSTEM_PREFIX_LEN(Filename) ((void) (Filename), 0)
+-+# define FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE 0
+-+# define IS_ABSOLUTE_FILE_NAME(Filename) ISSLASH ((Filename)[0])
+-+# define IS_RELATIVE_FILE_NAME(Filename) (! ISSLASH ((Filename)[0]))
+-+# define IS_FILE_NAME_WITH_DIR(Filename) (strchr ((Filename), '/') != NULL)
+-+#endif
+-+
+-+/* Deprecated macros.  For backward compatibility with old users of the
+-+   'filename' module.  */
+-+#define IS_ABSOLUTE_PATH IS_ABSOLUTE_FILE_NAME
+-+#define IS_PATH_WITH_DIR IS_FILE_NAME_WITH_DIR
+-+
+-+
+-+#ifdef __cplusplus
+-+}
+-+#endif
+-+
+-+#endif /* _FILENAME_H */
+diff --git a/meta/recipes-extended/gperf/gperf_3.1.bb b/meta/recipes-extended/gperf/gperf_3.3.bb
+similarity index 68%
+rename from meta/recipes-extended/gperf/gperf_3.1.bb
+rename to meta/recipes-extended/gperf/gperf_3.3.bb
+index 7a79c07042..7af2130114 100644
+--- a/meta/recipes-extended/gperf/gperf_3.1.bb
++++ b/meta/recipes-extended/gperf/gperf_3.3.bb
+@@ -3,13 +3,10 @@ HOMEPAGE = "http://www.gnu.org/software/gperf"
+ SUMMARY  = "Generate a perfect hash function from a set of keywords"
+ LICENSE  = "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://src/main.cc;beginline=8;endline=19;md5=dec8f611845d047387ed56b5b85fa99b"
++                    file://src/main.cc;beginline=8;endline=19;md5=ca1c43fa02be95aa2e10d567684e6fd5"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -233,6 +267,7 @@ NO_GENERIC_LICENSE[Firmware-amlogic_vdec] = "LICENSE.amlogic_vdec"
- NO_GENERIC_LICENSE[Firmware-amphion_vpu] = "LICENSE.amphion_vpu"
- NO_GENERIC_LICENSE[Firmware-atheros_firmware] = "LICENCE.atheros_firmware"
- NO_GENERIC_LICENSE[Firmware-atmel] = "LICENSE.atmel"
-+NO_GENERIC_LICENSE[Firmware-bfa] = "LICENSE.bfa"
- NO_GENERIC_LICENSE[Firmware-bmi260] = "LICENSE.bmi260"
- NO_GENERIC_LICENSE[Firmware-bnx2] = "LICENCE.bnx2"
- NO_GENERIC_LICENSE[Firmware-bnx2x] = "LICENCE.bnx2x"
-@@ -243,22 +278,27 @@ NO_GENERIC_LICENSE[Firmware-cavium] = "LICENCE.cavium"
- NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
- NO_GENERIC_LICENSE[Firmware-cirrus] = "LICENSE.cirrus"
- NO_GENERIC_LICENSE[Firmware-cnm] = "LICENCE.cnm"
-+NO_GENERIC_LICENSE[Firmware-conexant] = "LICENSE.conexant"
- NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENCE.cw1200"
- NO_GENERIC_LICENSE[Firmware-cw1200-sdd] = "LICENCE.cw1200-sdd"
- NO_GENERIC_LICENSE[Firmware-cxgb3] = "LICENCE.cxgb3"
- NO_GENERIC_LICENSE[Firmware-cypress] = "LICENCE.cypress"
- NO_GENERIC_LICENSE[Firmware-dabusb] = "LICENCE.dabusb"
- NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSE.dib0700"
-+NO_GENERIC_LICENSE[Firmware-drxk] = "LICENSE.drxk"
- NO_GENERIC_LICENSE[Firmware-e100] = "LICENCE.e100"
- NO_GENERIC_LICENSE[Firmware-emi26] = "LICENCE.emi26"
- NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENCE.ene_firmware"
- NO_GENERIC_LICENSE[Firmware-fw_sst_0f28] = "LICENCE.fw_sst_0f28"
- NO_GENERIC_LICENSE[Firmware-go7007] = "LICENCE.go7007"
-+NO_GENERIC_LICENSE[Firmware-go7007-s2250] = "LICENCE.go7007-s2250"
- NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENSE.hfi1_firmware"
- NO_GENERIC_LICENSE[Firmware-i915] = "LICENSE.i915"
-+NO_GENERIC_LICENSE[Firmware-ib_qib] = "LICENSE.ib_qib"
- NO_GENERIC_LICENSE[Firmware-ibt_firmware] = "LICENCE.ibt_firmware"
- NO_GENERIC_LICENSE[Firmware-ice] = "LICENSE.ice"
- NO_GENERIC_LICENSE[Firmware-ice_enhanced] = "LICENSE.ice_enhanced"
-+NO_GENERIC_LICENSE[Firmware-inside-secure] = "LICENCE.inside-secure"
- NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENCE.IntcSST2"
- NO_GENERIC_LICENSE[Firmware-intel] = "LICENSE.intel"
- NO_GENERIC_LICENSE[Firmware-intel_vpu] = "LICENSE.intel_vpu"
-@@ -274,6 +314,8 @@ NO_GENERIC_LICENSE[Firmware-Lontium] = "LICENSE.Lontium"
- NO_GENERIC_LICENSE[Firmware-mali_csffw] = "LICENCE.mali_csffw"
- NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENCE.Marvell"
- NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENCE.mediatek"
-+NO_GENERIC_LICENSE[Firmware-mellanox] = "LICENSE.mellanox"
-+NO_GENERIC_LICENSE[Firmware-mga] = "LICENSE.mga"
- NO_GENERIC_LICENSE[Firmware-microchip] = "LICENCE.microchip"
- NO_GENERIC_LICENSE[Firmware-montage] = "LICENSE.montage"
- NO_GENERIC_LICENSE[Firmware-moxa] = "LICENCE.moxa"
-@@ -290,25 +332,34 @@ NO_GENERIC_LICENSE[Firmware-qat] = "LICENCE.qat_firmware"
- NO_GENERIC_LICENSE[Firmware-qcom] = "LICENSE.qcom"
- NO_GENERIC_LICENSE[Firmware-qcom-2] = "LICENSE.qcom-2"
- NO_GENERIC_LICENSE[Firmware-qcom-yamato] = "LICENSE.qcom_yamato"
-+NO_GENERIC_LICENSE[Firmware-qed] = "LICENSE.qed"
- NO_GENERIC_LICENSE[Firmware-qla1280] = "LICENCE.qla1280"
- NO_GENERIC_LICENSE[Firmware-qla2xxx] = "LICENCE.qla2xxx"
- NO_GENERIC_LICENSE[Firmware-qualcommAthos_ar3k] = "LICENSE.QualcommAtheros_ar3k"
- NO_GENERIC_LICENSE[Firmware-qualcommAthos_ath10k] = "LICENSE.QualcommAtheros_ath10k"
-+NO_GENERIC_LICENSE[Firmware-r8169] = "LICENSE.r8169"
- NO_GENERIC_LICENSE[Firmware-r8a779x_usb3] = "LICENCE.r8a779x_usb3"
- NO_GENERIC_LICENSE[Firmware-radeon] = "LICENSE.radeon"
- NO_GENERIC_LICENSE[Firmware-ralink_a_mediatek_company_firmware] = "LICENCE.ralink_a_mediatek_company_firmware"
- NO_GENERIC_LICENSE[Firmware-ralink-firmware] = "LICENCE.ralink-firmware.txt"
- NO_GENERIC_LICENSE[Firmware-rockchip] = "LICENCE.rockchip"
-+NO_GENERIC_LICENSE[Firmware-rp2] = "LICENSE.rp2"
-+NO_GENERIC_LICENSE[Firmware-rsi] = "LICENSE.rsi"
-+NO_GENERIC_LICENSE[Firmware-rt1320] = "LICENSE.rt1320"
- NO_GENERIC_LICENSE[Firmware-rtlwifi_firmware] = "LICENCE.rtlwifi_firmware.txt"
-+NO_GENERIC_LICENSE[Firmware-s5p-mfc] = "LICENSE.s5p-mfc"
- NO_GENERIC_LICENSE[Firmware-siano] = "LICENCE.siano"
- NO_GENERIC_LICENSE[Firmware-imx-sdma_firmware] = "LICENSE.sdma_firmware"
-+NO_GENERIC_LICENSE[Firmware-tehuti] = "LICENSE.tehuti"
- NO_GENERIC_LICENSE[Firmware-ti-connectivity] = "LICENCE.ti-connectivity"
- NO_GENERIC_LICENSE[Firmware-ti-keystone] = "LICENCE.ti-keystone"
- NO_GENERIC_LICENSE[Firmware-ti-tspa] = "LICENCE.ti-tspa"
- NO_GENERIC_LICENSE[Firmware-tigon] = "LICENCE.tigon"
-+NO_GENERIC_LICENSE[Firmware-tlg2300] = "LICENSE.tlg2300"
- NO_GENERIC_LICENSE[Firmware-typhoon] = "LICENCE.typhoon"
- NO_GENERIC_LICENSE[Firmware-ueagle-atm4-firmware] = "LICENCE.ueagle-atm4-firmware"
- NO_GENERIC_LICENSE[Firmware-via_vt6656] = "LICENCE.via_vt6656"
-+NO_GENERIC_LICENSE[Firmware-vxge] = "LICENSE.vxge"
- NO_GENERIC_LICENSE[Firmware-wfx] = "wfx/LICENCE.wf200"
- NO_GENERIC_LICENSE[Firmware-wl1251] = "LICENCE.wl1251"
- NO_GENERIC_LICENSE[Firmware-xc4000] = "LICENCE.xc4000"
-@@ -328,7 +379,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+-SRC_URI  = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
+-            file://0001-Make-the-code-C-17-compliant.patch"
+-SRC_URI[sha256sum] = "588546b945bba4b70b6a3a616e80b4ab466e3f33024a352fc2198112cdbb3ae2"
+-
+-SRC_URI += "file://1862c6e57a308a05889c80c048dbc58bdc378dcb.patch"
++SRC_URI  = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz"
++SRC_URI[sha256sum] = "fd87e0aba7e43ae054837afd6cd4db03a3f2693deb3619085e6ed9d8d9604ad8"
  
--SRC_URI[sha256sum] = "6f3efee7f600c201f9b2d675889a4ccdb8cfe56e0d283641796ed10e64c72047"
-+SRC_URI[sha256sum] = "c029551b45a15926c9d7a5df1a0b540044064f19157c57fc11d91fd0aade837f"
+ inherit autotools
  
- inherit allarch
- 
-@@ -551,8 +602,9 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 ${PN}-qcom-venus-6.0 \
-              ${PN}-qcom-vpu \
-              ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
--             ${PN}-qcom-adreno-a623 ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 \
--             ${PN}-qcom-adreno-a663 ${PN}-qcom-adreno-a702 ${PN}-qcom-adreno-g715 ${PN}-qcom-adreno-g750 \
-+             ${PN}-qcom-adreno-a612 ${PN}-qcom-adreno-a623 ${PN}-qcom-adreno-a630 \
-+             ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 ${PN}-qcom-adreno-a663 \
-+             ${PN}-qcom-adreno-a702 ${PN}-qcom-adreno-g715 ${PN}-qcom-adreno-g750 \
-              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
-              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
-              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
-@@ -1876,6 +1928,7 @@ LICENSE:${PN}-qcom-adreno-a2xx = "Firmware-qcom Firmware-qcom-yamato"
- LICENSE:${PN}-qcom-adreno-a3xx = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a4xx = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a530 = "Firmware-qcom"
-+LICENSE:${PN}-qcom-adreno-a612 = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a623 = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a630 = "Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-a650 = "Firmware-qcom"
-@@ -1965,6 +2018,7 @@ FILES:${PN}-qcom-adreno-a2xx = "${nonarch_base_libdir}/firmware/qcom/leia_*.fw*
- FILES:${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a3*_*.fw* ${nonarch_base_libdir}/firmware/a300_*.fw*"
- FILES:${PN}-qcom-adreno-a4xx = "${nonarch_base_libdir}/firmware/qcom/a4*_*.fw*"
- FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.fw*"
-+FILES:${PN}-qcom-adreno-a612 = "${nonarch_base_libdir}/firmware/qcom/a612*.*"
- FILES:${PN}-qcom-adreno-a623 = "${nonarch_base_libdir}/firmware/qcom/a623*.*"
- FILES:${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.*"
- FILES:${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.*"
-@@ -1983,11 +2037,11 @@ FILES:${PN}-qcom-qcm2290-audio = "${nonarch_base_libdir}/firmware/qcom/qcm2290/a
- FILES:${PN}-qcom-qcm2290-modem = "${nonarch_base_libdir}/firmware/qcom/qcm2290/modem*.*"
- FILES:${PN}-qcom-qcm2290-wifi = "${nonarch_base_libdir}/firmware/qcom/qcm2290/wlanmdsp.mbn* ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/qcm2290/*"
- FILES:${PN}-qcom-qcm6490-adreno = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/a660_zap.mbn*"
--FILES:${PN}-qcom-qcm6490-audio = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/battmgr.jsn"
-+FILES:${PN}-qcom-qcm6490-audio = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/battmgr.jsn ${nonarch_base_libdir}/firmware/qcom/qcs6490/QCS6490-RB3Gen2-tplg.bin*"
- FILES:${PN}-qcom-qcm6490-compute = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/cdsp*.*"
- FILES:${PN}-qcom-qcm6490-ipa = "${nonarch_base_libdir}/firmware/qcom/qcm6490/ipa_fws.mbn"
- FILES:${PN}-qcom-qcm6490-wifi = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/wpss.mbn*"
--FILES:${PN}-qcom-qcm6490-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qcm6490/qupv3fw.elf*"
-+FILES:${PN}-qcom-qcm6490-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/qupv3fw.elf*"
- FILES:${PN}-qcom-qcs615-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs615/a612_zap.mbn*"
- FILES:${PN}-qcom-qcs8300-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs8300/a623_zap.mbn*"
- FILES:${PN}-qcom-qcs8300-audio = "${nonarch_base_libdir}/firmware/qcom/qcs8300/adsp*.*"
-@@ -2048,6 +2102,7 @@ RDEPENDS:${PN}-qcom-adreno-a2xx = "${PN}-qcom-license ${PN}-qcom-yamato-license"
- RDEPENDS:${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a4xx = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-adreno-a612 = "${PN}-qcom-license ${PN}-qcom-adreno-a630"
- RDEPENDS:${PN}-qcom-adreno-a623 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
-@@ -2166,6 +2221,7 @@ LICENSE:${PN} = "\
-     & Firmware-amlogic \
-     & Firmware-amlogic_vdec \
-     & Firmware-atmel \
-+    & Firmware-bfa \
-     & Firmware-bmi260 \
-     & Firmware-bnx2 \
-     & Firmware-bnx2x \
-@@ -2174,18 +2230,23 @@ LICENSE:${PN} = "\
-     & Firmware-chelsio_firmware \
-     & Firmware-cirrus \
-     & Firmware-cnm \
-+    & Firmware-conexant \
-     & Firmware-cw1200 \
-     & Firmware-cw1200-sdd \
-     & Firmware-cxgb3 \
-     & Firmware-dabusb \
-     & Firmware-dib0700 \
-+    & Firmware-drxk \
-     & Firmware-e100 \
-     & Firmware-emi26 \
-     & Firmware-ene_firmware \
-     & Firmware-fw_sst_0f28 \
-     & Firmware-go7007 \
-+    & Firmware-go7007-s2250 \
-     & Firmware-hfi1_firmware \
-+    & Firmware-ib_qib \
-     & Firmware-ibt_firmware \
-+    & Firmware-inside-secure \
-     & Firmware-intel \
-     & Firmware-intel_vpu \
-     & Firmware-ipu3_firmware \
-@@ -2195,6 +2256,8 @@ LICENSE:${PN} = "\
-     & Firmware-IntcSST2 \
-     & Firmware-kaweth \
-     & Firmware-keyspan \
-+    & Firmware-mellanox \
-+    & Firmware-mga \
-     & Firmware-montage \
-     & Firmware-moxa \
-     & Firmware-myri10ge_firmware \
-@@ -2205,20 +2268,29 @@ LICENSE:${PN} = "\
-     & Firmware-phanfw \
-     & Firmware-qat \
-     & Firmware-qcom \
-+    & Firmware-qed \
-     & Firmware-qla1280 \
-     & Firmware-qla2xxx \
-+    & Firmware-r8169 \
-     & Firmware-r8a779x_usb3 \
-     & Firmware-radeon \
-     & Firmware-ralink_a_mediatek_company_firmware \
-     & Firmware-ralink-firmware \
-+    & Firmware-rp2 \
-+    & Firmware-rsi \
-+    & Firmware-rt1320 \
-     & Firmware-imx-sdma_firmware \
-+    & Firmware-s5p-mfc \
-     & Firmware-siano \
-+    & Firmware-tehuti \
-     & Firmware-ti-connectivity \
-     & Firmware-ti-keystone \
-     & Firmware-ti-tspa \
-     & Firmware-tigon \
-+    & Firmware-tlg2300 \
-     & Firmware-typhoon \
-     & Firmware-ueagle-atm4-firmware \
-+    & Firmware-vxge \
-     & Firmware-wl1251 \
-     & Firmware-xc4000 \
-     & Firmware-xc5000 \
--- 
-2.34.1
-
 
