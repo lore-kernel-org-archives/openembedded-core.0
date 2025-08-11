@@ -1,95 +1,183 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <osama.abdelkader@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06C81CA0EC4
-	for <webhook@archiver.kernel.org>; Mon, 11 Aug 2025 19:54:49 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.57317.1754942083374796215
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B940BCA0EC4
+	for <webhook@archiver.kernel.org>; Mon, 11 Aug 2025 22:22:19 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.60614.1754950934642780263
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Aug 2025 12:54:43 -0700
+ Mon, 11 Aug 2025 15:22:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KxAxs43r;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b26f7d2c1f1so5073848a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 12:54:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HYkdRbX8;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: osama.abdelkader@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-31ecd40352fso4297359a91.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 15:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754942082; x=1755546882; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=u0YPhqcgcaeae6hM/eg/5N4iijPdM+3px+fMo0aVNWI=;
-        b=KxAxs43rSmLGwbKsH/zuW8JS1p4rq7/tn0EmNhVA3r595pTWjawYU4s6/X30LFFpYy
-         bYHwFWAG/ZId14RO885DZ5anbbheDL7dGQDWDsNucxoMTO8eEXOS2VaZBHXDij5Ia7bB
-         ghZtYun/ziR7e4yPo2I4fAi2ihYFi5ukFjZZTkgHTmWONx3FVbSNVLdgd5HgOEdKPkjA
-         4O0gKym9xs0sOTtDV68tFNBPCd8qpbYTk+hXNGgovFY18wVh9nazYByjhT+5zvcZi5uF
-         JCA5/E1b+w+O28q1dyYqDZc71fZr8WbBLFRXaOr7ak90w1SVUouTqv/Hd7G7eLlZp4qe
-         3HpA==
+        d=gmail.com; s=20230601; t=1754950934; x=1755555734; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jFsHogUX9rCzp9tVDaoj4H5Al1FXu+zP3tquC04/6VA=;
+        b=HYkdRbX8PWwttSHXg0kDuaACYfJLhJMwxhJssmmMTwyCZ6WldjwMhGTYUvww/nVrC2
+         +0Bcklw9gyiInbQO76oWmGtHShJfkYjyiZknRJ8Z6JCzNv6DZdtDUr8CxaH8JqYVyjbQ
+         3hb3QCbvJpMyGDT/LUKuvykbkWgeOpT4dSLfClOyftuiPQZ0FEWLSI2wPomF6BUGCzTD
+         0QuY9yWUWFu//e3PWNh5EdYdC7N6juzDH+TocELS4e9sKdfiF1zS8fTShsvjStNd6y4/
+         FZmBj2pP3DHVeMUVdM4Swk3e3o8juIT0vR4yshpcyJvB0Tx9UJJHagns9UNLqJRkVWC0
+         ghOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754942082; x=1755546882;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1754950934; x=1755555734;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=u0YPhqcgcaeae6hM/eg/5N4iijPdM+3px+fMo0aVNWI=;
-        b=uWBTE6SBhnGCRB+/MSP0WxiMI9mnzn36fayP5RGu9dsJ+f/4oS1S4j55J4Gf/mENpw
-         32YbOk3vd7GrGNWv0J87ubLodKxVcBYxdYvKYV3aIJfckRuVp7+Hx66aOx0oZdwBExIe
-         j74tymBXpViM704KzH4Te36its2M2SKGjGBg6t6henDaNt8bkWw7y3sY6Te5Q5tV5nkM
-         N5PPDycT0x8nevC50EFM+y7xdVASAYWl7jyMNppx96ceyiMJc3OfgsGR11lXfmX9TICU
-         T5BX13sOSFL5YpflzNJLMul0xTeSjR0McNxDI/+2PQ2hflhhJeRCZDTVpgCX7hpRRDRX
-         U3RA==
-X-Gm-Message-State: AOJu0YxRcl9cfpfuiOVH0FVutCIJOhDoqhgH3cfTvZx8VAmJWcTNzRCv
-	7IksIXrWeTw/dWQzA5iBcW5sVhoO3O6p3Mko6pVqAcE6evnWN3nYr8liZiJlehgLbDw=
-X-Gm-Gg: ASbGncspc6UnM+qfzxE995Wxx17C0NtDLRWR9bvaGmfd8HspE57l+SYgP6GKtqMdqT2
-	ewRK5qC0jz2ldep71oJ9THAebKl0BbUqRgtlsPfMFNv1XDzVtX8xjVkjU8MD59WLaID0vjL5Rw8
-	49aJTowRB5G5Y6JHjfZ/903l7SsgjmscQx9voj/WfC/ZIa3y+Ek9f1JcrUK8Fs0Oxc3Kv8BIUlK
-	yGdrZcBouOUIEMKMl9SWtJkU8NY+WxiFfG+y094k/zlGTSHx6BkSROX7sxmWLD74/BMXHBDQmce
-	WcZS27isY3VM+KjMyijmYQ2jtXfiuy+fivD7ca5X6762K9bMhgHApbg8sbokkA3tt993X3YqyOZ
-	eYRSb/mw6EEFM9Vdst2ql3A==
-X-Google-Smtp-Source: AGHT+IEl9A9bnyypNrXjoeufFVeMSB+KrdN43nLmHH+/qJUKtfl6g8IanUV8ZoKG8pKz8Z4No7bH/g==
-X-Received: by 2002:a17:902:e54d:b0:240:1953:f9a with SMTP id d9443c01a7336-242fc208196mr12266755ad.2.1754942082217;
-        Mon, 11 Aug 2025 12:54:42 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::ee1b])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b42857d1dc0sm12215457a12.61.2025.08.11.12.54.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 12:54:41 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] python3-numpy: Skip running test_validate_transcendentals ptest
-Date: Mon, 11 Aug 2025 12:54:37 -0700
-Message-ID: <20250811195437.602308-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        bh=jFsHogUX9rCzp9tVDaoj4H5Al1FXu+zP3tquC04/6VA=;
+        b=piw5Fge+wK2I2hW8ajhbmlfr0PMUSeNX25/hPH/I8/Vp79K8BZyNpXeeRBzfNyY4vo
+         MEpTX2FKWDU2oojYMwMLxeOF1Kbm/TKppFCPoBDElnH2wes3LH3HOZvL1s1rxB13dRwc
+         hkuUcMNG+N4UA6AaFanAotSHXY9ceRnk3R2HeDezTun7nPYapoBtlgBGmlKHC5OJ/DsV
+         eCblOGYXAAWxJeX0xxbbLPLSS7Z/B21T+INE7G3uT1lCZvid/guV8Kz0Y8lKQwBCtjuj
+         pE00YnJct+P3lY4dPsKOor48N9ASNHVTr4suhHJqUls6wYO/5AVaGZLLK2Tb4G+ARlqw
+         aW4w==
+X-Gm-Message-State: AOJu0YyPIOlfyi98uPwp9woCLDduW5+KFFydjh5k+3CmXTtMfDIcJec+
+	4tLk/ZEikHMYgHvTPF70QXm6dm0dN1Q92bR5QVEtRcW3dNhKDAJ3LtjT7smYHIqPp4uwt6+9Rcd
+	Sq3DtLCJ5pNgLtx9pkyfegPD3+B5ReD0=
+X-Gm-Gg: ASbGncu2SfLwpym+pemP/o5rcOUy1YfL3EmNPvTFYI4Fw5rZwTBAJrsch2luyEmSO9b
+	J2r0g5g1hCDD2/421iSOy3GhxrgVzMYPp8t2UoizbF4EwEfmx4fQuHNot32UYgx6dDQsCyIQzxT
+	O61svrI0tHFg1G8DuMWNyntNjFcsesE6q6yh5QxOwrgdAOe86VLxh/ZZjrtdM/fR6+jSzrp8nZ4
+	UhlYLJlxFjRatvS3e8AohjzZ1P3Rsp7Alsto9c=
+X-Google-Smtp-Source: AGHT+IERkUrua9irzjft8NwDl8Knw8aTqG/uJv+JvC6XrdPE+d4BPeXFzJJpOrXhgDT9CuqJEV0PJLRgsDpuJDSBd/s=
+X-Received: by 2002:a17:90b:4fc5:b0:311:9c9a:58d7 with SMTP id
+ 98e67ed59e1d1-321c0a83035mr1632417a91.19.1754950933695; Mon, 11 Aug 2025
+ 15:22:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANNYZj8_EA6U=o8fR98TA6upx9AzmSh+bf11bKfAuXJhY2G9xQ@mail.gmail.com>
+ <14837.1754686511622096879@lists.openembedded.org> <CANNYZj88MnY2QDEuK6cZtQt1xyBMeCB6LPp2xqLQzd0OgwB4Cg@mail.gmail.com>
+In-Reply-To: <CANNYZj88MnY2QDEuK6cZtQt1xyBMeCB6LPp2xqLQzd0OgwB4Cg@mail.gmail.com>
+From: Osama Ahmed <osama.abdelkader@gmail.com>
+Date: Tue, 12 Aug 2025 00:22:02 +0200
+X-Gm-Features: Ac12FXzFfIxKsXmQO3CLdXyn7Zv-qBq9cdNHyAx493cOVEOZptMleN-C2f5oSYo
+Message-ID: <CAEWn9yvzWa+bruBTrM62QuMDosecDrYviY6mbTsE3uR294Y+hg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] go-cross-canadian: fix binaries install and GOARCH
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000000052a2063c1e5b9e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 19:54:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221749
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 22:22:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221750
 
-This test fails [1] with x86-64-v3, surfaces when we switch default
-tune for qemux86-64 to be x86-64-v3 or newer
+--0000000000000052a2063c1e5b9e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Test seems to compare exact floating point numbers but it might not be
-precise enough and comparison may fail.
+If you set MACHINE to qemuriscv64 it will be go-cross-canadian-riscv64, the
+bugs were reported for arm/arm64 not riscv64
 
-[1] https://github.com/numpy/numpy/issues/27460
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15204
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15775
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/python/python3-numpy/run-ptest | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Also, the majority of Yocto SDK users run on *x86_64* workstations, so
+SDKMACHINE=3Dx86_64 is the primary supported path
+and go-cross-canadian-aarch64 is supposed to work for any supported
+SDKMACHINE, as long as the host architecture is valid.
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/run-ptest b/meta/recipes-devtools/python/python3-numpy/run-ptest
-index 6e76dffc59b..a1c80323d60 100644
---- a/meta/recipes-devtools/python/python3-numpy/run-ptest
-+++ b/meta/recipes-devtools/python/python3-numpy/run-ptest
-@@ -11,5 +11,7 @@ mkdir -p "$PYTEST_DEBUG_TEMPROOT"
- # test_mem_policy fails if there's no C compiler present, but we don't want to
- # include gcc as a ptest dependency, so skip that. test_big_arrays uses up a
- # large amount of storage, so skip that too.
--pytest --automake -m "not slow" -k "not test_mem_policy and not test_big_arrays" /usr/lib/python3.*/site-packages/numpy
-+# remove test_validate_transcendentals if
-+# https://github.com/numpy/numpy/issues/27460 is resolved
-+pytest --automake -m "not slow" -k "not test_mem_policy and not test_big_arrays and not test_validate_transcendentals" /usr/lib/python3.*/site-packages/numpy
- rm -rf "$PYTEST_DEBUG_TEMPROOT"
+Currently, if SDKMACHINE=3Dx86_64 (the default for x86 PCs) building
+go-cross-canadian-aarch64 fails,
+with this patch build pass for both SDKMACHINE=3Dx86_64 or aarch64.
+
+Osama
+
+On Mon, Aug 11, 2025 at 10:47=E2=80=AFAM Alexander Kanavin <alex.kanavin@gm=
+ail.com>
+wrote:
+
+> You need to show what you did, and what didn't work. I am unable to
+> commit time to come up with exact steps that I verified myself. But I
+> can correct your steps if you show them.
+>
+> Alex
+>
+> On Fri, 8 Aug 2025 at 22:55, Osama Abdelkader via
+> lists.openembedded.org
+> <osama.abdelkader=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > setting SDKMACHINE and MACHINE didn't work for me.
+> > If it did work for you, can you type the exact command(s) to try?
+> >
+> > Osama
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#221668):
+> https://lists.openembedded.org/g/openembedded-core/message/221668
+> > Mute This Topic: https://lists.openembedded.org/mt/114603001/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+
+--0000000000000052a2063c1e5b9e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div di=
+r=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"lt=
+r"><div dir=3D"ltr"><div>If you set MACHINE to qemuriscv64 it will be go-cr=
+oss-canadian-riscv64, the bugs were reported for arm/arm64 not riscv64</div=
+><div><br></div><div><a href=3D"https://bugzilla.yoctoproject.org/show_bug.=
+cgi?id=3D15204" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bu=
+g.cgi?id=3D15204</a></div><div><a href=3D"https://bugzilla.yoctoproject.org=
+/show_bug.cgi?id=3D15775" target=3D"_blank">https://bugzilla.yoctoproject.o=
+rg/show_bug.cgi?id=3D15775</a></div><div><br></div><div>Also, the majority =
+of Yocto SDK users run on <strong>x86_64</strong> workstations, so SDKMACHI=
+NE=3Dx86_64=C2=A0is the primary supported path</div><div><code>and go-cross=
+-canadian-aarch64</code> is supposed to work for any=C2=A0supported SDKMACH=
+INE, as long as the host architecture is valid.</div><div><br></div><div>Cu=
+rrently, if SDKMACHINE=3Dx86_64 (the default for x86 PCs) building go-cross=
+-canadian-aarch64 fails,</div><div>with this patch build pass for both SDKM=
+ACHINE=3Dx86_64 or aarch64.</div><div><br></div><div>Osama</div></div></div=
+></div></div></div></div></div></div></div></div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 11, 2025 at 10:47=E2=
+=80=AFAM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">You need to show what you did, and wh=
+at didn&#39;t work. I am unable to<br>
+commit time to come up with exact steps that I verified myself. But I<br>
+can correct your steps if you show them.<br>
+<br>
+Alex<br>
+<br>
+On Fri, 8 Aug 2025 at 22:55, Osama Abdelkader via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a><br>
+&lt;osama.abdelkader=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" =
+target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; setting SDKMACHINE and MACHINE didn&#39;t work for me.<br>
+&gt; If it did work for you, can you type the exact command(s) to try?<br>
+&gt;<br>
+&gt; Osama<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#221668): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/221668" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/221668</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/11460300=
+1/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/114603001/1686489</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.co=
+m" target=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</blockquote></div>
+
+--0000000000000052a2063c1e5b9e--
 
