@@ -2,127 +2,94 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3482ACA0ED3
-	for <webhook@archiver.kernel.org>; Mon, 11 Aug 2025 18:09:38 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.web10.55097.1754935772531471198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06C81CA0EC4
+	for <webhook@archiver.kernel.org>; Mon, 11 Aug 2025 19:54:49 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.57317.1754942083374796215
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Aug 2025 11:09:32 -0700
+ Mon, 11 Aug 2025 12:54:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QAFkzZB/;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-71bce78e14fso48559567b3.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 11:09:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KxAxs43r;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b26f7d2c1f1so5073848a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 12:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754935772; x=1755540572; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P3wIIz3YtsRNGPEZXXbKWgsmaLUMVy/J9F6Os+C/B1k=;
-        b=QAFkzZB/dI01F1GFhGek6LuAc2SoYsr6gYofd9rjEfYqQkTA24uPu4+FBfowWUG8RB
-         m+UTEK7a6riXuTs9/k+OtElk3LaPs32ioVFplSjvHuCFWezDXHH2encWiGpvmSaU8dX5
-         2GI5ewF7Eunq4B29osH6obHaodea5qeAR51Hw/Pr3cKeT7HHBCN/M/PT7tE7tA7HaX46
-         7Y96L3N9M4fZkiQ9amSKyZjolVVrd/5Mo/H5TlbLLyolqhWuNW+sANbcpAFPpHAVPfQp
-         XUb13MxGNJOfiglP4H1N2DIC4NR29q4mUTizFOhU7/8DFn7ClPNOzm9u/FumHUWLB0Tx
-         HCOA==
+        d=gmail.com; s=20230601; t=1754942082; x=1755546882; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u0YPhqcgcaeae6hM/eg/5N4iijPdM+3px+fMo0aVNWI=;
+        b=KxAxs43rSmLGwbKsH/zuW8JS1p4rq7/tn0EmNhVA3r595pTWjawYU4s6/X30LFFpYy
+         bYHwFWAG/ZId14RO885DZ5anbbheDL7dGQDWDsNucxoMTO8eEXOS2VaZBHXDij5Ia7bB
+         ghZtYun/ziR7e4yPo2I4fAi2ihYFi5ukFjZZTkgHTmWONx3FVbSNVLdgd5HgOEdKPkjA
+         4O0gKym9xs0sOTtDV68tFNBPCd8qpbYTk+hXNGgovFY18wVh9nazYByjhT+5zvcZi5uF
+         JCA5/E1b+w+O28q1dyYqDZc71fZr8WbBLFRXaOr7ak90w1SVUouTqv/Hd7G7eLlZp4qe
+         3HpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754935772; x=1755540572;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P3wIIz3YtsRNGPEZXXbKWgsmaLUMVy/J9F6Os+C/B1k=;
-        b=lFDEDzw//JNBMFdlI4FNVLvjOOoblVczmHobWXUGHqbpuKzm4JgXavodhw1cmILahM
-         tATtVeqebTh0WHPEONI7ujgl0CY8Sucni0Oofo3iL/vxEwBJGhxAXcddoI+AFfLmBab4
-         fko5tI9xkKCn9pNK/Lbn23gqZJ+/1yRu0ig6SHXJe627c7nODKaI9BrByphHsfBzzdew
-         2FPPoHzia7zS3HyUbypg4HaFf7M1VhEQOJfTMR1LJ7MeK9Zn9ZJk/lQqbeIWzCRJs/MF
-         xAIYob/5vfBho6yW/3COVr29EgFb/sPT9g+yhHhSWEUK5qNk5ethKNhQHyPiXaCZmQvC
-         MY5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWL0q3VQbDVE04EoVosRWkEo/1IKGWM9/zabzK7lS3a4ZOqM0L4mJP6ixPbYszuk/lHwtvUUzEsw43XcCZRWc8Qrw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyK5Ent4WIs0HrJ4/OYQ/swcr6rWj0Sl/IjDUTd5XQEFWarISiu
-	49/jiubyp4SV14m3uPkulf/achFIwi3cx8uXnO0YIYqGA8He5trVIx4iSR5r7mup1yWwl5d2TuQ
-	nzuHbV+cHS0KRN+urF3avMZkl5PqcqgM=
-X-Gm-Gg: ASbGncv7txqejeiVqWt6x7/y7SJupJaCWXIKRjKG2QayraSAGHJXTjEqG4XXIoDNaRO
-	BGxYrNBGF5Cl9HPf4/mYw4Mk07j5O+0gi3Bn0gch3wdam7DafodANIYA2HGhkL6HTyniGyg5aGI
-	ijLEAU/TfGCiONLDD9UyOPSgORXs7PUwYwsNBkeSlyg5aredxNoj1UxVeZEGGt1hbjRTzuhmwRj
-	QppD7SE0CGmc1+KKalwUd1m2oYJgK0Av1Ki
-X-Google-Smtp-Source: AGHT+IHlwHNw6bgng50www271k87NLgwUqDZIXJeCabjcaDHb/6DB/f0Rj/mpu/edHsAoVdUG582YVZvw8CqBu4QIxY=
-X-Received: by 2002:a05:690c:9691:b0:71a:41be:133 with SMTP id
- 00721157ae682-71bf0d3d579mr173552647b3.14.1754935771436; Mon, 11 Aug 2025
- 11:09:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250810222523.2487072-1-richard.purdie@linuxfoundation.org> <DBZLWMNEMBSO.1REVKMRL4CMZO@bootlin.com>
-In-Reply-To: <DBZLWMNEMBSO.1REVKMRL4CMZO@bootlin.com>
+        d=1e100.net; s=20230601; t=1754942082; x=1755546882;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u0YPhqcgcaeae6hM/eg/5N4iijPdM+3px+fMo0aVNWI=;
+        b=uWBTE6SBhnGCRB+/MSP0WxiMI9mnzn36fayP5RGu9dsJ+f/4oS1S4j55J4Gf/mENpw
+         32YbOk3vd7GrGNWv0J87ubLodKxVcBYxdYvKYV3aIJfckRuVp7+Hx66aOx0oZdwBExIe
+         j74tymBXpViM704KzH4Te36its2M2SKGjGBg6t6henDaNt8bkWw7y3sY6Te5Q5tV5nkM
+         N5PPDycT0x8nevC50EFM+y7xdVASAYWl7jyMNppx96ceyiMJc3OfgsGR11lXfmX9TICU
+         T5BX13sOSFL5YpflzNJLMul0xTeSjR0McNxDI/+2PQ2hflhhJeRCZDTVpgCX7hpRRDRX
+         U3RA==
+X-Gm-Message-State: AOJu0YxRcl9cfpfuiOVH0FVutCIJOhDoqhgH3cfTvZx8VAmJWcTNzRCv
+	7IksIXrWeTw/dWQzA5iBcW5sVhoO3O6p3Mko6pVqAcE6evnWN3nYr8liZiJlehgLbDw=
+X-Gm-Gg: ASbGncspc6UnM+qfzxE995Wxx17C0NtDLRWR9bvaGmfd8HspE57l+SYgP6GKtqMdqT2
+	ewRK5qC0jz2ldep71oJ9THAebKl0BbUqRgtlsPfMFNv1XDzVtX8xjVkjU8MD59WLaID0vjL5Rw8
+	49aJTowRB5G5Y6JHjfZ/903l7SsgjmscQx9voj/WfC/ZIa3y+Ek9f1JcrUK8Fs0Oxc3Kv8BIUlK
+	yGdrZcBouOUIEMKMl9SWtJkU8NY+WxiFfG+y094k/zlGTSHx6BkSROX7sxmWLD74/BMXHBDQmce
+	WcZS27isY3VM+KjMyijmYQ2jtXfiuy+fivD7ca5X6762K9bMhgHApbg8sbokkA3tt993X3YqyOZ
+	eYRSb/mw6EEFM9Vdst2ql3A==
+X-Google-Smtp-Source: AGHT+IEl9A9bnyypNrXjoeufFVeMSB+KrdN43nLmHH+/qJUKtfl6g8IanUV8ZoKG8pKz8Z4No7bH/g==
+X-Received: by 2002:a17:902:e54d:b0:240:1953:f9a with SMTP id d9443c01a7336-242fc208196mr12266755ad.2.1754942082217;
+        Mon, 11 Aug 2025 12:54:42 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::ee1b])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b42857d1dc0sm12215457a12.61.2025.08.11.12.54.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Aug 2025 12:54:41 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 11 Aug 2025 11:09:04 -0700
-X-Gm-Features: Ac12FXwi1KY2AyWLI8B5gIZf2RVmavlohb7UV4ITwYxaaSlUVnTRwmIfPmtSlC8
-Message-ID: <CAMKF1sphaxR5Ywvtx5NcqnW6Xs4cEZJNQjSz3bLt-GNh8A4r=Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] Revert "qemux86-64: Reduce tuning to core2-64"
-To: mathieu.dubois-briand@bootlin.com
-Cc: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3-numpy: Skip running test_validate_transcendentals ptest
+Date: Mon, 11 Aug 2025 12:54:37 -0700
+Message-ID: <20250811195437.602308-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 18:09:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221748
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 19:54:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221749
 
-On Mon, Aug 11, 2025 at 5:44=E2=80=AFAM Mathieu Dubois-Briand via
-lists.openembedded.org
-<mathieu.dubois-briand=3Dbootlin.com@lists.openembedded.org> wrote:
->
-> On Mon Aug 11, 2025 at 12:25 AM CEST, Richard Purdie via lists.openembedd=
-ed.org wrote:
-> > This was originally applied as our autobuilder had older hardware and c=
-ouldn't
-> > cope with the newer settings. This has been resolved in the new cluster=
- so we
-> > can go back to the newer tuning, which software is now more likely to n=
-eed.
-> >
-> > This reverts commit 369b1dfa28b1791d45f068acc765190defecd460.
-> > ---
->
-> Hi Richard,
->
-> I believe this is breaking numpy ptests. I'm not sure to understand why,
-> but git bisect points on this change and it is confirmed by only failing
-> on x86-64.
->
-> Failed ptests:
-> {'python3-numpy': ['python3.13/site-packages/numpy/_core/tests/test_umath=
-_accuracy.py:TestAccuracy.test_validate_transcendentals']}
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2067
-> https://valkyrie.yocto.io/pub/non-release/20250811-33/testresults/qemux86=
--64-ptest/core-image-ptest-python3-numpy/
->
+This test fails [1] with x86-64-v3, surfaces when we switch default
+tune for qemux86-64 to be x86-64-v3 or newer
 
-The failure is certainly due to this change, There is a known defect
-upstream [1], It has not yet been resolved. We can skip this test
-until
-then. I am testing a patch to do so and will send out shortly
+Test seems to compare exact floating point numbers but it might not be
+precise enough and comparison may fail.
 
 [1] https://github.com/numpy/numpy/issues/27460
 
-> Best regards,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#221736): https://lists.openembedded.org/g/openembedde=
-d-core/message/221736
-> Mute This Topic: https://lists.openembedded.org/mt/114638379/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/python/python3-numpy/run-ptest | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/python/python3-numpy/run-ptest b/meta/recipes-devtools/python/python3-numpy/run-ptest
+index 6e76dffc59b..a1c80323d60 100644
+--- a/meta/recipes-devtools/python/python3-numpy/run-ptest
++++ b/meta/recipes-devtools/python/python3-numpy/run-ptest
+@@ -11,5 +11,7 @@ mkdir -p "$PYTEST_DEBUG_TEMPROOT"
+ # test_mem_policy fails if there's no C compiler present, but we don't want to
+ # include gcc as a ptest dependency, so skip that. test_big_arrays uses up a
+ # large amount of storage, so skip that too.
+-pytest --automake -m "not slow" -k "not test_mem_policy and not test_big_arrays" /usr/lib/python3.*/site-packages/numpy
++# remove test_validate_transcendentals if
++# https://github.com/numpy/numpy/issues/27460 is resolved
++pytest --automake -m "not slow" -k "not test_mem_policy and not test_big_arrays and not test_validate_transcendentals" /usr/lib/python3.*/site-packages/numpy
+ rm -rf "$PYTEST_DEBUG_TEMPROOT"
 
