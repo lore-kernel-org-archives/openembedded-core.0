@@ -1,129 +1,109 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D49DC87FCB
-	for <webhook@archiver.kernel.org>; Tue, 12 Aug 2025 13:09:14 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.73654.1755004147210022241
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48A42C87FCB
+	for <webhook@archiver.kernel.org>; Tue, 12 Aug 2025 13:29:24 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.74808.1755005360394588410
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Aug 2025 06:09:07 -0700
+ Tue, 12 Aug 2025 06:29:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ux7W93kX;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-af96524c5a9so707847966b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 06:09:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=CIDqz2S+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-76b36e6b9ddso4652730b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 06:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755004145; x=1755608945; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755005360; x=1755610160; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WseUrvUxD2XFZGMKZfteLk0q8/vbTABICSyv0ZLkU1k=;
-        b=Ux7W93kXpGswCfVfN581lUOLP9DuyDQEFmZFO/Z0YHgOWUEd+Ep7ngPJd2CUzt+g05
-         VZ2hpPrefs0Dk41TfxrBAX621qgyIuGeQagIFoW89+M97kGfrQwNkJ6Ifv7k0BXdxCI8
-         bRrfAZzZOsYzQtFuk6tw9tqzkzSvSLlXf1Vm7yw/daIqoEbb4gzPXKYXgOwtMHOklf5Q
-         KmYpOrix887w+Dqjv+ixIN8/el02YlnjekEg7R4bNb2QL0YgahNbjTQNPAXePx3xb5iB
-         IP6lyg2cRgoGfvynCOH3n2V61/Q55a97hMEjSVIRJt4oqiVtciwsZleGRun6KQ66aNuK
-         ChpA==
+        bh=OhGwxeFcQVrHO+Rw/aMnCsaqMmhUsrTYmYCzsQXTEgc=;
+        b=CIDqz2S+ZdN1+4oZeSGQxThHEeoFnKfQP2NCu9ifpQ5p8T3G3T3ghHN8fTf8RSZLsK
+         N0+iqNnlMWpVJLUMlNsdKvhJDpJm/uKcSz4G/Rhx4XN247InxFcw8xFkCnsbgn/etGsG
+         d7D0P5MXKWh4chUHTvFE6DUjqiLVUwNqAk4PE8y3IX5zvGVMvw6ljgsSRdI5jFKiMPbn
+         OL2fTpPjW6xbJmNBhkMl0DU2sly7GrKlBRI0BbjGgVLUK4ikJx7OtBbhhErMbNSjBoHf
+         QpuoktTPWCKBxEL4tp4BQX+GXIryZS6g2nMN1H/TVcQlU8FxCNedC5GQ3IiU303DYrkj
+         6INg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755004145; x=1755608945;
+        d=1e100.net; s=20230601; t=1755005360; x=1755610160;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WseUrvUxD2XFZGMKZfteLk0q8/vbTABICSyv0ZLkU1k=;
-        b=Bm/r/DAr/9AFAJeG0nqEaO3eHjFItiz96Er9VnUrG0ghmEFhjWqa84/ZFP+VYebHKM
-         xa9eeBLHDS17yRFDPGvC9PRskCP/+zuWkV/59pEp9b40JN+eMDJpRCT1/pTa4i5z8oEf
-         3e2kZT4WV03DSkMc4KQ4WS1+26PwJ+XrltZHxwNrajcgkEWKOREL/1lxLfYned0hdSoO
-         ov2vXFu3IAH6UFVdwnaAexf9CHl9tOl5VkYWPxVIObwNimkt1XOWlFlmpqBVaAg9jRSe
-         22H4Yo0hJGQ22265WBiwPAT8Q6Jt/JKdDzg6rAmP4ex0w3D7esFGHDn6W7SwIXXlgltX
-         HFwA==
-X-Gm-Message-State: AOJu0Yz+KzB5J42ltOaWoeo35q42JMA+WjwN2jTkLWGXr4zd97mo3FBH
-	Z4BRFjorDz9LTjWuhRSaKO7fh0+q+0v+Py9BPMto6LBBdNP4onq1B+Rada/T6w==
-X-Gm-Gg: ASbGnctdmAK6KMwR4f/Rp2tEWTY6Z/if99pJSX4YmPcQQd4OgRbWvCpFKuuILJrYLg+
-	amZLaRRqyXPh4wnSrRsSrUEGVp7yeXjC+TodLdTPDrdeMOn1NbSNpl0AlZRumfCqWEwOOtwA+MB
-	uL83HNcHhpvpKM7dQGYpsNanNcx+JTu+8IteGj5cLbjGeoNgf6Gzl8sCJSfatOWEW4rxHKQZI1i
-	GoK9CyiOA1GPq7ty/tcgRGpi8vEfsnHzvMg2F0HLTuHnT2dBzuwZPDOWP5t27/dppd1kDLCxVyR
-	LPwoG6U0+TpIT7HTSPGr9ZhTOlfuNyovzo9JF6bsdHHrgi4ON4MD4w7F0+gKKHNHMDFjm+BBSOd
-	16/mGvzyTZkqU9OefE6Q=
-X-Google-Smtp-Source: AGHT+IGJb9sTbK50Aj8VUoLkcXq5FxAOOIFVO70fnTt8cDKhaXpE7iSufJIglexXxmiqrs+uqPH9MA==
-X-Received: by 2002:a17:907:72c3:b0:af9:14cf:d820 with SMTP id a640c23a62f3a-af9c634f015mr1448002066b.12.1755004145064;
-        Tue, 12 Aug 2025 06:09:05 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91dfd4b31sm2171154866b.85.2025.08.12.06.09.04
+        bh=OhGwxeFcQVrHO+Rw/aMnCsaqMmhUsrTYmYCzsQXTEgc=;
+        b=sWFpI4pSybjrwCCQewGOPIS7W6lHrb/mSUpLYJvzkrZzucU9NZWyGqGdEdRpi2B1g3
+         +3eAGZbEI/sZN8m5Pt826rUr0Y90Iud1t77beExlTFPRuvT9rfpYYICT0IHWkmypEoxG
+         ibs5Luslxh2h0CvwXKYv4rJoF8pt94xNkU2Iy9yoP4gnik0waM/Uvi5cJClyRKkRaREs
+         iOXduWlX8HKpiQpfyej1IefRLljTkeDjiHiu2sth8nmEcbYnbuJhCgSJCRlNDBdmfJ3A
+         eu6RgVziju/NVhiW4eVr3FHaqWfrVDOT/O1pG2VqAWg2FWJeQkV/zD5SqbQMX2ougdfs
+         0QnA==
+X-Gm-Message-State: AOJu0YzL8BlRuqRYCACA5Ylf/bvlzg6GDoV+y2UMWyaPRoln1TnMFBWo
+	qCHlACgalqEIxVQexV4x5e1g9X0uWSPR/VAx4DPtizxNWAwHiDftUUiVLpEpnH4HbgG4ftmQ1ca
+	7zGPK
+X-Gm-Gg: ASbGnct6oiHuc+rCP+crzwD9MN1uG+yBigRREcXSLWyiqY71ulMkjINnbfUQ+/QvZyA
+	7kzp/fvKk9H8Cp2Su56RrmIZYKuyqzDuE1MIBK/ytTVKlKiCtHaAKvCg2yM6fOAq/wTBEUHPGmh
+	4fAJvEb4id05hNGPJgfZKGQQq+Yy29axXTWlApHA6GZ6Zq+OiGYu9ge6q6rxvzrkP7wa3+G9XTO
+	ntyn5fJ6sKt4LqmTIqXYZ0LvmrBryPFI2SheGwnDZzr7lwcvMbiqvPXqAtDOyHDSKLz2h2bmlOI
+	nLfOL0RxHRgxljCz2tSUXzqD9axV64nLXjKl1zqf52nABv2/uSFN3+54XZzm2wUPCY+a8MRD2ZF
+	n3NfWVYJWR646Kw==
+X-Google-Smtp-Source: AGHT+IFBLNFbTJ/lYoRELYAAu0XH/VyEL2oDLayzvQ4N6DgIE11jwhddWGsEhuZlWuEy8kXKTt2evQ==
+X-Received: by 2002:a05:6a00:b8c:b0:76b:ef44:1fa6 with SMTP id d2e1a72fcca58-76e0ddf82d2mr4540810b3a.4.1755005359300;
+        Tue, 12 Aug 2025 06:29:19 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:43a9:39c9:3131:3b8a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bf067e310sm24664635b3a.25.2025.08.12.06.29.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 06:09:04 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+        Tue, 12 Aug 2025 06:29:18 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] logrotate: avoid testing localized strings
-Date: Tue, 12 Aug 2025 15:09:03 +0200
-Message-ID: <20250812130903.3924399-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.50.1
+Subject: [OE-core][walnascar 0/3] Patch review
+Date: Tue, 12 Aug 2025 06:29:12 -0700
+Message-ID: <cover.1755005205.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 13:09:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221768
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 13:29:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221769
 
-During running ptests, the test suite checks for a localized error string
-which is different between libc and musl, making this test to fail.
+Please review this set of changes for walnascar and have comments back by
+end of day Thursday, August 14
 
-Backport an upstream patch that fixes this by not checking for this particular
-error message.
+Passed a-full on autobuilder:
 
-This fixes partially https://bugzilla.yoctoproject.org/show_bug.cgi?id=15811
-[YOCTO #15811]
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2180
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
----
- ...-avoid-locale-dependent-errno-string.patch | 27 +++++++++++++++++++
- .../logrotate/logrotate_3.22.0.bb             |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-extended/logrotate/logrotate/0001-test-avoid-locale-dependent-errno-string.patch
+The following changes since commit 69090e41eb0a8b92e0684d391966f9627bfe5195:
 
-diff --git a/meta/recipes-extended/logrotate/logrotate/0001-test-avoid-locale-dependent-errno-string.patch b/meta/recipes-extended/logrotate/logrotate/0001-test-avoid-locale-dependent-errno-string.patch
-new file mode 100644
-index 0000000000..efee91252d
---- /dev/null
-+++ b/meta/recipes-extended/logrotate/logrotate/0001-test-avoid-locale-dependent-errno-string.patch
-@@ -0,0 +1,27 @@
-+From 04b21743980c4e236ca5e8de18173fbd3848573b Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>
-+Date: Sat, 8 Jun 2024 17:59:40 +0200
-+Subject: [PATCH] test: avoid locale dependent errno string
-+
-+String representations of errno values are locale dependent, thus avoid
-+using them.
-+
-+Upstream-Status: Backport [https://github.com/logrotate/logrotate/commit/04b21743980c4e236ca5e8de18173fbd3848573b]
-+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-+---
-+ test/test-0112.sh | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/test/test-0112.sh b/test/test-0112.sh
-+index 812632b..fa9eed6 100755
-+--- a/test/test-0112.sh
-++++ b/test/test-0112.sh
-+@@ -23,7 +23,7 @@ test_reg.log.1.gz 1 zero
-+ test_reg.log.2.gz 1 first
-+ EOF
-+ 
-+-grep "test_fifo.log.1 (read-only) for compression: Operation not supported" error.log >/dev/null
-++grep "^error: unable to open .*/test_fifo\.log\.1 (read-only) for compression: " error.log >/dev/null
-+ if [ $? != 0 ]; then
-+ 	echo "No error printed, but there should be one."
-+ 	exit 3
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.22.0.bb b/meta/recipes-extended/logrotate/logrotate_3.22.0.bb
-index 5c4a0a9807..7995438408 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.22.0.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.22.0.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.xz \
-            file://run-ptest \
-+           file://0001-test-avoid-locale-dependent-errno-string.patch \
-            "
- 
- SRC_URI[sha256sum] = "42b4080ee99c9fb6a7d12d8e787637d057a635194e25971997eebbe8d5e57618"
+  ca-certificates: correct the SRC_URI (2025-08-07 12:35:30 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/walnascar-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/walnascar-nut
+
+Khem Raj (2):
+  glibc: Forward -ffile-prefix-map option to assembler flags
+  bitbake.conf: Switch prefix mapping to use -ffile-prefix-map
+
+Peter Marko (1):
+  dropbear: patch CVE-2025-47203
+
+ meta/classes-recipe/kernel-arch.bbclass       |   6 +-
+ meta/conf/bitbake.conf                        |  14 +-
+ meta/lib/oe/package.py                        |   2 +-
+ .../dropbear/dropbear/CVE-2025-47203.patch    | 373 ++++++++++++++++++
+ .../recipes-core/dropbear/dropbear_2024.86.bb |   1 +
+ ...le-prefix-map-from-CFLAGS-to-ASFLAGS.patch |  24 ++
+ meta/recipes-core/glibc/glibc_2.41.bb         |   1 +
+ meta/recipes-devtools/gcc/libgfortran.inc     |   2 +-
+ .../python/python3-maturin_1.8.3.bb           |   2 +-
+ meta/recipes-devtools/rust/cargo_1.84.1.bb    |   2 +-
+ 10 files changed, 410 insertions(+), 17 deletions(-)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-47203.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
+
+-- 
+2.43.0
+
 
