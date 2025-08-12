@@ -2,110 +2,930 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8980CA0EDB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5CB4C87FCB
 	for <webhook@archiver.kernel.org>; Tue, 12 Aug 2025 05:13:21 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.67672.1754975595584657646
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.67185.1754975598075800529
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Aug 2025 22:13:15 -0700
+ Mon, 11 Aug 2025 22:13:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=B4wxbtPE;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23fe2be6061so32083755ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 22:13:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ufop6MXh;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-24063eac495so39196925ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Aug 2025 22:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754975595; x=1755580395; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=shBZtF+ImRuFqQgOD/6D+YzXPxJEGKgUsm2eGjjwiF4=;
-        b=B4wxbtPEXK23lc1yNyDh1we+gDpIjoIUjQ66iGkS+JynREHzERbztYQCVpf0BN1Qw9
-         CODv6na6ccQLaVg7OrXWLRXfAFj5dEIfOZnzHURLyVIKf9HEL+jow60GfRSbTpFau7MO
-         VDIQKQ8gHtESvXdbhIMNZxpwJR8II3o+DLTEsNxGcsIjZeJxJj8bTBVMxHhsR9EXN8UM
-         xk9IiJ1VeC2jGc5Rg56CqQw/IbyYz9IFCzeiQlm2kEZfnVtqrPENjk0jKzkB+UOLey1A
-         ZU7QOYiA6tykGxgjehk1sP8jmkzEzfW3i008jsQLQKr3J88ss1aAidtIG54iCcZx4g5e
-         oM0A==
+        d=gmail.com; s=20230601; t=1754975597; x=1755580397; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MAmvEBLE7AvMts7RlzW+GyZHGhKFUCaPblxgV3q19NI=;
+        b=Ufop6MXha6ezt8d+Qv6oEa84tMI7kWNxCctldGK3836DIb4PNC+uooHFuXyPGeaTvF
+         i/9tn97CLz23HE+wxeaHBakvrvlaOHsJUTJviCBEjtiu9Y7Nhj7WRvrDMPS/gp0nJlMA
+         xoUN55LkmGjIXwWG4KB7TZ6x3s5ihs/qZ8fmiDbgFaIWlGGtQRWGpB1z+mfWDnI7nLqe
+         bHNaHiq87JnQacxlJTZDlkLrE4bwVWWWMf+K/9yM7FIFE9ybyBPFSBnfmFSlWNF3kbHD
+         1furXGzQdX4zl1f3dgCmgI3h/AG258vukNQdVIzApFSQM6GslSgeNb2350u/yMPlchOn
+         cWRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754975595; x=1755580395;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=shBZtF+ImRuFqQgOD/6D+YzXPxJEGKgUsm2eGjjwiF4=;
-        b=G9drBQQ8hQi/nRQiQOWjXF/lSqzZDM2PapCMSSm+ezMfywSmYerLJGrdVyRYbwUfm9
-         0r5acKw+LS8C/00IXvx1wTovy8pE2BOu7WoiSONPZj5+mR4AiUfLBQsHUibKxOZZ99n3
-         avPRmiawjQKfcK8RsrqU4peTggy9AlhbHtKkecTN2J9/o4voN517iquxFQ/spEqFI7MC
-         Ffs0HGwNXceqDAaPvjnzevpgL9QfjnJNq82o1Nm1atRY7gzEw8UOtTX1MKxm8+oUidSG
-         2JX1td3ii/dpGMokzbijwwebuvryls0TmXxoVASOdI/dhp/8u1wASAyWAdMtLsk/LXZF
-         aMag==
-X-Gm-Message-State: AOJu0Yy2KfaZrmnU6bCTPRu0xyZjRCvSrVNX9Pu3C9Qsy4uRLYpX/g9+
-	30RBKei4FXSfegAWaLrlGiPMC6vucOhqigPmClJVc/Fzt3iFm00gc9L4p3woKG4EUkU=
-X-Gm-Gg: ASbGnct66GUnKo9/1/0wjAKnp6DCa51m8FXb++XIq3e/CUgPiaffUnoBc/hiO6JUToh
-	LpOA1cJ7kGqCmk06YDfEGAhEAHDmSV4FgtQbyZKwJgk5hq0KZ12D8YukzVumNRFSIXZ47cy+BBB
-	61uT92Cfd0FIrjQK/m3Qu3pwP1cl/P+lII3W9KSTzzo1NhghKSi9EWhvuSAQUtQnWeQUq6QeDMf
-	o7sfYLmIQkPAaiQHgK6BWn8KAlIa+bLJ8+GXyifCB+jrbFLqYBYyyMYF9atIx0l9+9u7bj6Nx2/
-	vuSlgZ12qxKAB0/i+G0qN/+bjlx0JBKDNfnYjIWDso7uFqjkblyNWwJz/9YVMKpQquDTGUB/mER
-	zXobfx9alvhBrGDgBuIKAaw==
-X-Google-Smtp-Source: AGHT+IHiCCfLX1lyO7ErQrDrB9xpBzkDam7wKm6pCQ77XX1N1e7dyfgfIuDWez90EFVCCsgVI/md5Q==
-X-Received: by 2002:a17:902:f544:b0:240:1ed3:fc28 with SMTP id d9443c01a7336-242fc341b6fmr32518195ad.12.1754975594572;
-        Mon, 11 Aug 2025 22:13:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754975597; x=1755580397;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MAmvEBLE7AvMts7RlzW+GyZHGhKFUCaPblxgV3q19NI=;
+        b=JO7YmX1XWg3RREfj6fzzXgjmo4fZi0AYvMF/Q0lde0SjgNyVNZU21bjZ6aenc+Y6yX
+         mq4bQy8IO7QCfktmjyvxhTt69JGrss8jyG3JCSMyNCjQweU9xBuBzWSA8Kzj+wY6Ozau
+         IwowSsi+PnMkUXroAHwwvqT3Z3wGtnQS1FTJi/jhkoLLjJ9Ce5xkyaYqCDiOLm9UAWRJ
+         6jjRDf3PTT2gX1cmRlIQ+n+d14CnhXcMT1DsFAd/xyND+eikj8kJIz/QmYfBzMruMTpg
+         06O5CHuRCpsbD3Tbm1FCrz4roXesGJYsFS+G57h5Cj/E81iKwcOeID+FOVienD483ci0
+         c6zw==
+X-Gm-Message-State: AOJu0YxSQbYJWbi1i0dc/4zGNw6Ja9IqMGDv2+nMrRPRtZ7OURJmm4IH
+	Hy51LH+lOkPf+kYrUCEJmDg74hRnbrZFljGPxmKr260uJzhqtiLhIuqyEbJqMfQquE4=
+X-Gm-Gg: ASbGncuXfksTsBvpSI00/JDTIr4PeQsNbCvEB41KQNipLKmk8Ma2hFTa9xhlegQlrPT
+	g+AiFdl5kGGnee2WP4ImDz1A7l/oiNQdv//CJU8w7fGNDAF59Zqh9B9aKprrUVTxmx/Q/cH54CN
+	in9/jRt0TLNjlfNgYVS9iAlyB2XnnZ6EmV3U3XKcixnWjjs3Kb2kNKC7tYUx6qtRypD0iDHhWdp
+	rOWeSldnGIECNhIsjPDnHYE+3CNpCTU6NUa811iu3cG1uNs6jjPe90ozOjzqAnF1q0shuPmDBy3
+	fF7OlKJ52p/HxhpgKctpMdtpfX2IzqXOfj0DelmOq0PI1u6z3XFS2XT1Zh07Vwe6B4eWqXyOg3H
+	fDfqIKBejE6mMnTes2F64bnUJtXCnazWl
+X-Google-Smtp-Source: AGHT+IEpEt0Zd0QGwvaq+UXKyk5awyXr2kx4XJZX1BvuHiiP8AeAL9q3MK9zQJVCY3bmsK1gD/coqA==
+X-Received: by 2002:a17:903:4407:b0:240:1f19:d35c with SMTP id d9443c01a7336-242c2209b65mr244525615ad.39.1754975596861;
+        Mon, 11 Aug 2025 22:13:16 -0700 (PDT)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::ee1b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2423783a84bsm257016805ad.51.2025.08.11.22.13.13
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2423783a84bsm257016805ad.51.2025.08.11.22.13.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 22:13:14 -0700 (PDT)
+        Mon, 11 Aug 2025 22:13:16 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 1/3] libxcrypt: Allow undefined symbols in version scripts with lld linker
-Date: Mon, 11 Aug 2025 22:13:10 -0700
-Message-ID: <20250812051312.4067998-1-raj.khem@gmail.com>
+Subject: [PATCH 3/3] libtirpc: Fix version scripts to work with lld linker
+Date: Mon, 11 Aug 2025 22:13:12 -0700
+Message-ID: <20250812051312.4067998-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250812051312.4067998-1-raj.khem@gmail.com>
+References: <20250812051312.4067998-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 05:13:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221752
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221754
 
-Unlike GNU ld, LLD defaults to erroring about undefined version symbols
-add commandline parameter to sush lld here
+Since bfd linker does not enable string checking for versioned symbols, build is generating
+undefined versioned symbols, which LLD does not allow by default. Actually these symbols
+should not be generated at all when given features are not enabled
 
-Fixes
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'crypt_gensalt_r' failed: symbol not defined
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt' failed: symbol not defined
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt_gensalt' failed: symbol not defined
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt_gensalt_r' failed: symbol not defined
-| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'XCRYPT_2.0' to symbol 'xcrypt_r' failed: symbol not defined
-| x86_64-yoesdk-linux-clang: error: linker command failed with exit code 1 (use -v to see invocation)
+Fixes link errors with lld
 
-LLD has stricter defaults and strict symbol versioning enforcement.
-LLD requires that all symbols
-referenced in version scripts actually exist in the object files being
-linked Same errors/behavior can be
-seen with GNU linker as well if we add -Wl,--undefined-version to LDFLAGS
-GNU linker chooses to be a bit lenient with defaults.
-
-Having LLD to lower its barrier does not change the output it
-produces, it's the same as GNU ld
-
-This is known issue seen with other distros e.g. NixOS upstream [1]
-
-[1] https://github.com/besser82/libxcrypt/issues/181
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol '_svcauth_gss' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_create' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_create_default' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_free_private_data' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_get_private_data' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'authgss_service' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'cbc_crypt' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'ecb_crypt' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'endrpcent' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'getrpcent' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'getrpcbynumber' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'getrpcbyname' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'gss_log_debug' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'gss_log_hexdump' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'gss_log_status' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_error' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_mech_info' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_mechanisms' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_principal_name' failed: symbol not defined
+aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0.3.0' to symbol 'rpc_gss_get_versions' failed: symbol not defined
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: Add upstream defect information
+v2: Add a fix to tidy up linker map
 
- meta/recipes-core/libxcrypt/libxcrypt.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ ...d-conditional-version-script-support.patch | 805 ++++++++++++++++++
+ .../libtirpc/libtirpc_1.3.6.bb                |   1 +
+ 2 files changed, 806 insertions(+)
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-Add-conditional-version-script-support.patch
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 77fec832348..da515d19270 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -24,3 +24,5 @@ API = "--disable-obsolete-api"
- EXTRA_OECONF += "${API}"
- 
- BBCLASSEXTEND = "native nativesdk"
-+# Needed until https://github.com/besser82/libxcrypt/issues/181 is addressed
-+LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-Wl,--undefined-version', '', d)}"
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-Add-conditional-version-script-support.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-Add-conditional-version-script-support.patch
+new file mode 100644
+index 00000000000..fdb166b9aba
+--- /dev/null
++++ b/meta/recipes-extended/libtirpc/libtirpc/0001-Add-conditional-version-script-support.patch
+@@ -0,0 +1,805 @@
++From 8ae9a335d56fc4aba8454159b326d809efca597f Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 11 Aug 2025 21:13:59 -0700
++Subject: [PATCH] Add conditional version script support
++
++This patch adds conditional symbol versioning to libtirpc, allowing
++GSS-API, DES crypto, and RPC database symbols to be conditionally
++included in the version script based on build configuration.
++
++LLD is strict about undefined symbols referenced in a version script.
++Some libtirpc symbols (rpcsec_gss, old DES helpers, rpc database
++helpers) are optional and may not be built depending on configure
++options or missing deps. GNU ld tolerated this; LLD errors out.
++
++This change keeps the canonical symbol map in src/libtirpc.map, but
++adds a make-time rule to generate a filtered copy
++where names from disabled features are deleted. The lib is then linked
++against the generated linker map file.
++
++Fixes linking errors when these features are not available.
++
++Upstream-Status: Submitted [https://lore.kernel.org/linux-nfs/20250812041944.2767074-1-raj.khem@gmail.com/T/#u]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure.ac                          | 50 +++++++++++++++++++++++++++
++ src/Makefile.am                       | 21 +++++++++--
++ src/{libtirpc.map => libtirpc.map.in} | 48 +++++--------------------
++ 3 files changed, 77 insertions(+), 42 deletions(-)
++ rename src/{libtirpc.map => libtirpc.map.in} (84%)
++
++--- a/configure.ac
+++++ b/configure.ac
++@@ -77,6 +77,20 @@ if test "x$enable_ipv6" != xno; then
++ 	AC_DEFINE(INET6, 1, [Define to 1 if IPv6 is available])
++ fi
++ 
+++# RPC database support
+++AC_ARG_ENABLE(rpcdb,
+++    [AS_HELP_STRING([--enable-rpcdb], [Enable RPC Database support @<:@default=no@:>@])],
+++    [], [enable_rpcdb=no],
+++    [enable_rpcdb=auto])
+++if test "x$enable_rpcdb" != "xno"; then
+++    AC_CHECK_FUNCS([getrpcent getrpcbyname getrpcbynumber], [have_rpcdb=yes])
+++
+++    if test "x$have_rpcdb" = "xyes"; then
+++        AC_DEFINE([RPCDB], [1], [Define if RPC database support is available])
+++    fi
+++fi
+++AM_CONDITIONAL(RPCDB, test "x$enable_rpcdb" != xno)
+++
++ AC_ARG_ENABLE(symvers,
++ 	[AS_HELP_STRING([--disable-symvers],[Disable symbol versioning @<:@default=no@:>@])],
++       [],[enable_symvers=maybe])
++@@ -97,6 +111,33 @@ fi
++ 
++ AM_CONDITIONAL(SYMVERS, test "x$enable_symvers" = xyes)
++ 
+++# Generate symbol lists for version script
+++if test "x$enable_gssapi" = "xyes"; then
+++    GSS_SYMBOLS="_svcauth_gss; authgss_create; authgss_create_default; authgss_free_private_data; authgss_get_private_data; authgss_service; gss_log_debug; gss_log_hexdump; gss_log_status; rpc_gss_get_error; rpc_gss_get_mech_info; rpc_gss_get_mechanisms; rpc_gss_get_principal_name; rpc_gss_get_versions; rpc_gss_qop_to_num; rpc_gss_seccreate; rpc_gss_set_callback; rpc_gss_set_defaults; rpc_gss_set_svc_name; rpc_gss_svc_max_data_length;"
+++
+++    GSS_SYMBOLS_031="svcauth_gss_get_principal; svcauth_gss_set_svc_name;"
+++else
+++    GSS_SYMBOLS=""
+++    GSS_SYMBOLS_031=""
+++fi
+++
+++if test "x$enable_authdes" = "xyes"; then
+++    DES_SYMBOLS="cbc_crypt; ecb_crypt; xdr_authdes_cred; xdr_authdes_verf; xdr_rpc_gss_cred; xdr_rpc_gss_data; xdr_rpc_gss_init_args; xdr_rpc_gss_init_res;"
+++else
+++    DES_SYMBOLS=""
+++fi
+++
+++if test "x$enable_rpcdb" = "xyes"; then
+++    RPCDB_SYMBOLS="endrpcent; getrpcent; getrpcbynumber; getrpcbyname; setrpcent;"
+++else
+++    RPCDB_SYMBOLS=""
+++fi
+++
+++AC_SUBST([GSS_SYMBOLS])
+++AC_SUBST([GSS_SYMBOLS_031])
+++AC_SUBST([DES_SYMBOLS])
+++AC_SUBST([RPCDB_SYMBOLS])
+++
++ AC_CANONICAL_BUILD
++ # Check for which host we are on and setup a few things
++ # specifically based on the host
++@@ -167,7 +208,16 @@ AC_CHECK_FUNCS([getpeereid getrpcbyname
++ AC_CHECK_TYPES(struct rpcent,,, [
++       #include <netdb.h>])
++ AC_CONFIG_FILES([Makefile src/Makefile man/Makefile doc/Makefile])
+++AC_CONFIG_FILES([src/libtirpc.map])
++ AC_CONFIG_FILES([libtirpc.pc])
++ AC_OUTPUT
++ 
+++# Configuration summary
+++AC_MSG_NOTICE([
+++libtirpc configuration summary:
+++  GSS-API support: $enable_gssapi
+++  DES crypto support: $enable_authdes
+++  RPC database support: $enable_rpcdb
+++  Symbol versioning: $enable_symvers
+++])
++ 
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -6,6 +6,9 @@
++ ## anything like that.
++ 
++ noinst_HEADERS = rpc_com.h debug.h
+++EXTRA_DIST = libtirpc.map.in
+++# Generated files
+++BUILT_SOURCES = libtirpc.map
++ 
++ AM_CPPFLAGS = -I$(top_srcdir)/tirpc -include config.h -DPORTMAP -DINET6 \
++ 		-D_GNU_SOURCE -Wall -pipe
++@@ -15,10 +18,19 @@ lib_LTLIBRARIES = libtirpc.la
++ libtirpc_la_LDFLAGS = @LDFLAG_NOUNDEFINED@ -no-undefined @PTHREAD_LIBS@
++ libtirpc_la_LDFLAGS += -version-info @LT_VERSION_INFO@
++ 
+++# Generate version script from template
+++libtirpc.map: $(srcdir)/libtirpc.map.in
+++	$(AM_V_GEN)$(SED) \
+++		-e 's|@GSS_SYMBOLS@|$(GSS_SYMBOLS)|g' \
+++		-e 's|@GSS_SYMBOLS_031@|$(GSS_SYMBOLS_031)|g' \
+++		-e 's|@DES_SYMBOLS@|$(DES_SYMBOLS)|g' \
+++		-e 's|@RPCDB_SYMBOLS@|$(RPCDB_SYMBOLS)|g' \
+++		< $(srcdir)/libtirpc.map.in > $@ || rm -f $@
+++
++ libtirpc_la_SOURCES = auth_none.c auth_unix.c authunix_prot.c \
++         binddynport.c bindresvport.c \
++         clnt_bcast.c clnt_dg.c clnt_generic.c clnt_perror.c clnt_raw.c clnt_simple.c \
++-        clnt_vc.c rpc_dtablesize.c getnetconfig.c getnetpath.c getrpcent.c \
+++        clnt_vc.c rpc_dtablesize.c getnetconfig.c getnetpath.c \
++         getrpcport.c mt_misc.c pmap_clnt.c pmap_getmaps.c pmap_getport.c \
++         pmap_prot.c pmap_prot2.c pmap_rmt.c rpc_prot.c rpc_commondata.c \
++         rpc_callmsg.c rpc_generic.c rpc_soc.c rpcb_clnt.c rpcb_prot.c \
++@@ -34,7 +46,7 @@ endif
++ libtirpc_la_SOURCES += xdr.c xdr_rec.c xdr_array.c xdr_float.c xdr_mem.c xdr_reference.c xdr_stdio.c xdr_sizeof.c
++ 
++ if SYMVERS
++-    libtirpc_la_LDFLAGS += -Wl,--version-script=$(srcdir)/libtirpc.map
+++    libtirpc_la_LDFLAGS += -Wl,--version-script=$(builddir)/libtirpc.map
++ endif
++ 
++ ## Secure-RPC
++@@ -45,8 +57,13 @@ if GSS
++     libtirpc_la_CFLAGS = -DHAVE_RPCSEC_GSS $(GSSAPI_CFLAGS)
++ endif
++ 
+++# Conditionally add RPC database sources
+++if RPCDB
+++		libtirpc_la_SOURCES += getrpcent.c
+++endif
+++
++ libtirpc_la_SOURCES += key_call.c key_prot_xdr.c getpublickey.c
++ libtirpc_la_SOURCES += netname.c netnamer.c rpcdname.c rtime.c
++ 
++-CLEANFILES	       = cscope.* *~
+++CLEANFILES	       = cscope.* libtirpc.map *~
++ DISTCLEANFILES	       = Makefile.in
++--- a/src/libtirpc.map
+++++ /dev/null
++@@ -1,335 +0,0 @@
++-TIRPC_0.3.0 {
++-  global:
++-    # __*
++-    __rpc_createerr;
++-    __rpc_dtbsize;
++-    __rpc_endconf;
++-    __rpc_fd2sockinfo;
++-    __rpc_fixup_addr;
++-    __rpc_get_a_size;
++-    __rpc_get_local_uid;
++-    __rpc_get_t_size;
++-    __rpc_getconf;
++-    __rpc_getconfip;
++-    __rpc_nconf2fd;
++-    __rpc_nconf2fd_flags;
++-    __rpc_nconf2sockinfo;
++-    __rpc_rawcombuf;
++-    __rpc_seman2socktype;
++-    __rpc_setconf;
++-    __rpc_sockinfo2netid;
++-    __rpc_sockisbound;
++-    __rpc_socktype2seman;
++-    __rpc_taddr2uaddr_af;
++-    __rpc_uaddr2taddr_af;
++-    __rpcgettp;
++-
++-    # _*
++-    _authenticate;
++-    _get_next_token;
++-    _gss_authenticate;
++-    _null_auth;
++-    _rpc_dtablesize;
++-    _seterr_reply;
++-    _svcauth_none;
++-    _svcauth_short;
++-    _svcauth_unix;
++-    _svcauth_gss;
++-
++-    # a*
++-    authdes_create;
++-    authdes_seccreate;
++-    authgss_create;
++-    authgss_create_default;
++-    authgss_free_private_data;
++-    authgss_get_private_data;
++-    authgss_service;
++-    authnone_create;
++-    authunix_create;
++-    authunix_create_default;
++-
++-    # b*
++-    bindresvport;
++-    bindresvport_sa;
++-
++-    # c*
++-    callrpc;
++-    cbc_crypt;
++-    clnt_broadcast;
++-    clnt_create;
++-    clnt_create_timed;
++-    clnt_create_vers;
++-    clnt_create_vers_timed;
++-    clnt_dg_create;
++-    clnt_pcreateerror;
++-    clnt_perrno;
++-    clnt_perror;
++-    clnt_raw_create;
++-    clnt_spcreateerror;
++-    clnt_sperrno;
++-    clnt_sperror;
++-    clnt_tli_create;
++-    clnt_tp_create;
++-    clnt_tp_create_timed;
++-    clnt_vc_create;
++-    clntraw_create;
++-    clnttcp_create;
++-    clntudp_bufcreate;
++-    clntudp_create;
++-    clntunix_create;
++-
++-    # e*
++-    ecb_crypt;
++-    endnetconfig;
++-    endnetpath;
++-    endrpcent;
++-
++-    # f*
++-    freenetconfigent;
++-
++-    # g*
++-    get_myaddress;
++-    getnetconfig;
++-    getnetconfigent;
++-    getnetpath;
++-    getrpcent;
++-    getrpcbynumber;
++-    getrpcbyname;
++-    getrpcport;
++-    gss_log_debug;
++-    gss_log_hexdump;
++-    gss_log_status;
++-
++-    # n*
++-    nc_perror;
++-    nc_sperror;
++-
++-    # p*
++-    pmap_getmaps;
++-    pmap_getport;
++-    pmap_rmtcall;
++-    pmap_set;
++-    pmap_unset;
++-
++-    # r*
++-    registerrpc;
++-    rpc_broadcast;
++-    rpc_broadcast_exp;
++-    rpc_call;
++-    rpc_control;
++-    rpc_createerr;
++-    rpc_gss_get_error;
++-    rpc_gss_get_mech_info;
++-    rpc_gss_get_mechanisms;
++-    rpc_gss_get_principal_name;
++-    rpc_gss_get_versions;
++-    rpc_gss_getcred;
++-    rpc_gss_is_installed;
++-    rpc_gss_max_data_length;
++-    rpc_gss_mech_to_oid;
++-    rpc_gss_qop_to_num;
++-    rpc_gss_seccreate;
++-    rpc_gss_set_callback;
++-    rpc_gss_set_defaults;
++-    rpc_gss_set_svc_name;
++-    rpc_gss_svc_max_data_length;
++-    rpc_nullproc;
++-    rpc_reg;
++-    rpcb_getaddr;
++-    rpcb_getmaps;
++-    rpcb_gettime;
++-    rpcb_rmtcall;
++-    rpcb_set;
++-    rpcb_taddr2uaddr;
++-    rpcb_uaddr2taddr;
++-    rpcb_unset;
++-
++-    # s*
++-    setnetconfig;
++-    setnetpath;
++-    setrpcent;
++-    svc_auth_reg;
++-    svc_create;
++-    svc_dg_create;
++-    svc_dg_enablecache;
++-    svc_exit;
++-    svc_fd_create;
++-    svc_fdset;
++-    svc_getreq;
++-    svc_getreq_common;
++-    svc_getreq_poll;
++-    svc_getreqset;
++-    svc_maxfd;
++-    svc_raw_create;
++-    svc_reg;
++-    svc_register;
++-    svc_run;
++-    svc_sendreply;
++-    svc_tli_create;
++-    svc_tp_create;
++-    svc_unreg;
++-    svc_unregister;
++-    svc_vc_create;
++-    svcerr_auth;
++-    svcerr_decode;
++-    svcerr_noproc;
++-    svcerr_noprog;
++-    svcerr_progvers;
++-    svcerr_systemerr;
++-    svcerr_weakauth;
++-    svcfd_create;
++-    svcraw_create;
++-    svctcp_create;
++-    svcudp_bufcreate;
++-    svcudp_create;
++-    svcunix_create;
++-    svcunixfd_create;
++-
++-    # t*
++-    taddr2uaddr;
++-
++-    # u*
++-    uaddr2taddr;
++-
++-    # x*
++-    xdr_accepted_reply;
++-    xdr_array;
++-    xdr_authdes_cred;
++-    xdr_authdes_verf;
++-    xdr_authunix_parms;
++-    xdr_bool;
++-    xdr_bytes;
++-    xdr_callhdr; xdr_callmsg;
++-    xdr_char;
++-    xdr_des_block;
++-    xdr_double;
++-    xdr_enum;
++-    xdr_float;
++-    xdr_free;
++-    xdr_hyper;
++-    xdr_int16_t;
++-    xdr_int32_t;
++-    xdr_int64_t;
++-    xdr_int8_t;
++-    xdr_int;
++-    xdr_long;
++-    xdr_longlong_t;
++-    xdr_netbuf;
++-    xdr_netobj;
++-    xdr_opaque;
++-    xdr_opaque_auth;
++-    xdr_pmap;
++-    xdr_pmaplist;
++-    xdr_pmaplist_ptr;
++-    xdr_pointer;
++-    xdr_quad_t;
++-    xdr_reference;
++-    xdr_rejected_reply;
++-    xdr_replymsg;
++-    xdr_rmtcall_args;
++-    xdr_rmtcallres;
++-    xdr_rpc_gss_cred;
++-    xdr_rpc_gss_data;
++-    xdr_rpc_gss_init_args;
++-    xdr_rpc_gss_init_res;
++-    xdr_rpcb;
++-    xdr_rpcb_entry;
++-    xdr_rpcb_entry_list_ptr;
++-    xdr_rpcb_rmtcallargs;
++-    xdr_rpcb_rmtcallres;
++-    xdr_rpcb_stat;
++-    xdr_rpcb_stat_byvers;
++-    xdr_rpcblist;
++-    xdr_rpcblist_ptr;
++-    xdr_rpcbs_addrlist;
++-    xdr_rpcbs_addrlist_ptr;
++-    xdr_rpcbs_proc;
++-    xdr_rpcbs_rmtcalllist;
++-    xdr_rpcbs_rmtcalllist_ptr;
++-    xdr_short;
++-    xdr_string;
++-    xdr_u_char;
++-    xdr_u_hyper;
++-    xdr_u_int16_t;
++-    xdr_u_int32_t;
++-    xdr_u_int64_t;
++-    xdr_u_int8_t;
++-    xdr_u_int;
++-    xdr_u_long;
++-    xdr_u_longlong_t;
++-    xdr_u_quad_t;
++-    xdr_u_short;
++-    xdr_uint16_t;
++-    xdr_uint32_t;
++-    xdr_uint64_t;
++-    xdr_uint8_t;
++-    xdr_union;
++-    xdr_vector;
++-    xdr_void;
++-    xdr_wrapstring;
++-    xdrmem_create;
++-    xdrrec_create;
++-    xdrrec_endofrecord;
++-    xdrrec_eof;
++-    xdrrec_skiprecord;
++-    xdrstdio_create;
++-    xprt_register;
++-    xprt_unregister;
++-
++-  local:
++-    *;
++-};
++-
++-TIRPC_0.3.1 {
++-    svcauth_gss_get_principal;
++-    svcauth_gss_set_svc_name;
++-} TIRPC_0.3.0;
++-
++-TIRPC_0.3.2 {
++-    getnetname;
++-    getpublicandprivatekey;
++-    getpublickey;
++-    host2netname;
++-    key_call_destroy;
++-    key_decryptsession;
++-    key_decryptsession_pk;
++-    key_encryptsession;
++-    key_encryptsession_pk;
++-    key_gendes;
++-    key_get_conv;
++-    key_setsecret;
++-    key_secretkey_is_set;
++-    key_setnet;
++-    netname2host;
++-    netname2user;
++-    rtime;
++-    user2netname;
++-    xdr_cryptkeyarg;
++-    xdr_cryptkeyarg2;
++-    xdr_cryptkeyres;
++-    xdr_getcredres;
++-    xdr_key_netstarg;
++-    xdr_key_netstres;
++-    xdr_keybuf;
++-    xdr_keystatus;
++-    xdr_netnamestr;
++-    xdr_unixcred;
++-} TIRPC_0.3.1;
++-
++-TIRPC_0.3.3 {
++-    __getpublickey_LOCAL;
++-    __key_decryptsession_pk_LOCAL;
++-    __key_encryptsession_pk_LOCAL;
++-    __key_gendes_LOCAL;
++-    xdr_sizeof;
++-    authdes_pk_create;
++-    svc_pollfd;
++-    svc_max_pollfd;
++-} TIRPC_0.3.2;
++-
++-TIRPC_PRIVATE {
++-  global:
++-    __libc_clntudp_bufcreate;
++-  # private, but used by rpcbind:
++-    __svc_clean_idle; svc_auth_none; libtirpc_set_debug;
++-};
++--- /dev/null
+++++ b/src/libtirpc.map.in
++@@ -0,0 +1,303 @@
+++TIRPC_0.3.0 {
+++  global:
+++    # __*
+++    __rpc_createerr;
+++    __rpc_dtbsize;
+++    __rpc_endconf;
+++    __rpc_fd2sockinfo;
+++    __rpc_fixup_addr;
+++    __rpc_get_a_size;
+++    __rpc_get_local_uid;
+++    __rpc_get_t_size;
+++    __rpc_getconf;
+++    __rpc_getconfip;
+++    __rpc_nconf2fd;
+++    __rpc_nconf2fd_flags;
+++    __rpc_nconf2sockinfo;
+++    __rpc_rawcombuf;
+++    __rpc_seman2socktype;
+++    __rpc_setconf;
+++    __rpc_sockinfo2netid;
+++    __rpc_sockisbound;
+++    __rpc_socktype2seman;
+++    __rpc_taddr2uaddr_af;
+++    __rpc_uaddr2taddr_af;
+++    __rpcgettp;
+++
+++    # _*
+++    _authenticate;
+++    _get_next_token;
+++    _gss_authenticate;
+++    _null_auth;
+++    _rpc_dtablesize;
+++    _seterr_reply;
+++    _svcauth_none;
+++    _svcauth_short;
+++    _svcauth_unix;
+++
+++    # a*
+++    authdes_create;
+++    authdes_seccreate;
+++    authnone_create;
+++    authunix_create;
+++    authunix_create_default;
+++
+++    # b*
+++    bindresvport;
+++    bindresvport_sa;
+++
+++    # c*
+++    callrpc;
+++    clnt_broadcast;
+++    clnt_create;
+++    clnt_create_timed;
+++    clnt_create_vers;
+++    clnt_create_vers_timed;
+++    clnt_dg_create;
+++    clnt_pcreateerror;
+++    clnt_perrno;
+++    clnt_perror;
+++    clnt_raw_create;
+++    clnt_spcreateerror;
+++    clnt_sperrno;
+++    clnt_sperror;
+++    clnt_tli_create;
+++    clnt_tp_create;
+++    clnt_tp_create_timed;
+++    clnt_vc_create;
+++    clntraw_create;
+++    clnttcp_create;
+++    clntudp_bufcreate;
+++    clntudp_create;
+++    clntunix_create;
+++
+++    # e*
+++    endnetconfig;
+++    endnetpath;
+++
+++    # f*
+++    freenetconfigent;
+++
+++    # g*
+++    get_myaddress;
+++    getnetconfig;
+++    getnetconfigent;
+++    getnetpath;
+++    getrpcport;
+++
+++    # n*
+++    nc_perror;
+++    nc_sperror;
+++
+++    # p*
+++    pmap_getmaps;
+++    pmap_getport;
+++    pmap_rmtcall;
+++    pmap_set;
+++    pmap_unset;
+++
+++    # r*
+++    registerrpc;
+++    rpc_broadcast;
+++    rpc_broadcast_exp;
+++    rpc_call;
+++    rpc_control;
+++    rpc_createerr;
+++    rpc_nullproc;
+++    rpc_reg;
+++    rpcb_getaddr;
+++    rpcb_getmaps;
+++    rpcb_gettime;
+++    rpcb_rmtcall;
+++    rpcb_set;
+++    rpcb_taddr2uaddr;
+++    rpcb_uaddr2taddr;
+++    rpcb_unset;
+++
+++    # s*
+++    setnetconfig;
+++    setnetpath;
+++    svc_auth_reg;
+++    svc_create;
+++    svc_dg_create;
+++    svc_dg_enablecache;
+++    svc_exit;
+++    svc_fd_create;
+++    svc_fdset;
+++    svc_getreq;
+++    svc_getreq_common;
+++    svc_getreq_poll;
+++    svc_getreqset;
+++    svc_maxfd;
+++    svc_raw_create;
+++    svc_reg;
+++    svc_register;
+++    svc_run;
+++    svc_sendreply;
+++    svc_tli_create;
+++    svc_tp_create;
+++    svc_unreg;
+++    svc_unregister;
+++    svc_vc_create;
+++    svcerr_auth;
+++    svcerr_decode;
+++    svcerr_noproc;
+++    svcerr_noprog;
+++    svcerr_progvers;
+++    svcerr_systemerr;
+++    svcerr_weakauth;
+++    svcfd_create;
+++    svcraw_create;
+++    svctcp_create;
+++    svcudp_bufcreate;
+++    svcudp_create;
+++    svcunix_create;
+++    svcunixfd_create;
+++
+++    # t*
+++    taddr2uaddr;
+++
+++    # u*
+++    uaddr2taddr;
+++
+++    # x*
+++    xdr_accepted_reply;
+++    xdr_array;
+++    xdr_authunix_parms;
+++    xdr_bool;
+++    xdr_bytes;
+++    xdr_callhdr; xdr_callmsg;
+++    xdr_char;
+++    xdr_des_block;
+++    xdr_double;
+++    xdr_enum;
+++    xdr_float;
+++    xdr_free;
+++    xdr_hyper;
+++    xdr_int16_t;
+++    xdr_int32_t;
+++    xdr_int64_t;
+++    xdr_int8_t;
+++    xdr_int;
+++    xdr_long;
+++    xdr_longlong_t;
+++    xdr_netbuf;
+++    xdr_netobj;
+++    xdr_opaque;
+++    xdr_opaque_auth;
+++    xdr_pmap;
+++    xdr_pmaplist;
+++    xdr_pmaplist_ptr;
+++    xdr_pointer;
+++    xdr_quad_t;
+++    xdr_reference;
+++    xdr_rejected_reply;
+++    xdr_replymsg;
+++    xdr_rmtcall_args;
+++    xdr_rmtcallres;
+++    xdr_rpcb;
+++    xdr_rpcb_entry;
+++    xdr_rpcb_entry_list_ptr;
+++    xdr_rpcb_rmtcallargs;
+++    xdr_rpcb_rmtcallres;
+++    xdr_rpcb_stat;
+++    xdr_rpcb_stat_byvers;
+++    xdr_rpcblist;
+++    xdr_rpcblist_ptr;
+++    xdr_rpcbs_addrlist;
+++    xdr_rpcbs_addrlist_ptr;
+++    xdr_rpcbs_proc;
+++    xdr_rpcbs_rmtcalllist;
+++    xdr_rpcbs_rmtcalllist_ptr;
+++    xdr_short;
+++    xdr_string;
+++    xdr_u_char;
+++    xdr_u_hyper;
+++    xdr_u_int16_t;
+++    xdr_u_int32_t;
+++    xdr_u_int64_t;
+++    xdr_u_int8_t;
+++    xdr_u_int;
+++    xdr_u_long;
+++    xdr_u_longlong_t;
+++    xdr_u_quad_t;
+++    xdr_u_short;
+++    xdr_uint16_t;
+++    xdr_uint32_t;
+++    xdr_uint64_t;
+++    xdr_uint8_t;
+++    xdr_union;
+++    xdr_vector;
+++    xdr_void;
+++    xdr_wrapstring;
+++    xdrmem_create;
+++    xdrrec_create;
+++    xdrrec_endofrecord;
+++    xdrrec_eof;
+++    xdrrec_skiprecord;
+++    xdrstdio_create;
+++    xprt_register;
+++    xprt_unregister;
+++    # GSS-API symbols (conditionally included)
+++@GSS_SYMBOLS@
+++    # DES crypto symbols (conditionally included)
+++@DES_SYMBOLS@
+++    # RPC database symbols (conditionally included)
+++@RPCDB_SYMBOLS@
+++
+++  local:
+++    *;
+++};
+++
+++TIRPC_0.3.1 {
+++# GSS-API symbols (conditionally included)
+++@GSS_SYMBOLS_031@
+++} TIRPC_0.3.0;
+++
+++TIRPC_0.3.2 {
+++    getnetname;
+++    getpublicandprivatekey;
+++    getpublickey;
+++    host2netname;
+++    key_decryptsession;
+++    key_decryptsession_pk;
+++    key_encryptsession;
+++    key_encryptsession_pk;
+++    key_gendes;
+++    key_get_conv;
+++    key_setsecret;
+++    key_secretkey_is_set;
+++    key_setnet;
+++    netname2host;
+++    netname2user;
+++    rtime;
+++    user2netname;
+++    xdr_cryptkeyarg;
+++    xdr_cryptkeyarg2;
+++    xdr_cryptkeyres;
+++    xdr_getcredres;
+++    xdr_key_netstarg;
+++    xdr_key_netstres;
+++    xdr_keybuf;
+++    xdr_keystatus;
+++    xdr_netnamestr;
+++    xdr_unixcred;
+++} TIRPC_0.3.1;
+++
+++TIRPC_0.3.3 {
+++    __getpublickey_LOCAL;
+++    __key_decryptsession_pk_LOCAL;
+++    __key_encryptsession_pk_LOCAL;
+++    __key_gendes_LOCAL;
+++    xdr_sizeof;
+++    authdes_pk_create;
+++    svc_pollfd;
+++    svc_max_pollfd;
+++} TIRPC_0.3.2;
+++
+++TIRPC_PRIVATE {
+++  global:
+++    __libc_clntudp_bufcreate;
+++  # private, but used by rpcbind:
+++    __svc_clean_idle; svc_auth_none; libtirpc_set_debug;
+++};
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb
+index 6ea9a725dbf..184c43031a5 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.6.bb
+@@ -12,6 +12,7 @@ PROVIDES = "virtual/librpc"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
+            file://0001-Update-declarations-to-allow-compile-with-gcc-15.patch \
+            file://0002-update-signal-and-key_call-declarations-to-allow-com.patch \
++           file://0001-Add-conditional-version-script-support.patch \
+           "
+ UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
 
