@@ -1,131 +1,189 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 325ADCA0EDC
-	for <webhook@archiver.kernel.org>; Tue, 12 Aug 2025 13:29:34 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.74116.1755005365293613206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF7FCA0EDF
+	for <webhook@archiver.kernel.org>; Tue, 12 Aug 2025 13:54:34 +0000 (UTC)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+ by mx.groups.io with SMTP id smtpd.web10.75389.1755006870008097974
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Aug 2025 06:29:25 -0700
+ Tue, 12 Aug 2025 06:54:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uCXS++Q/;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-76b8d289f73so5083632b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 06:29:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PTkWwakv;
+ spf=pass (domain: gmail.com, ip: 209.85.219.179, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e8da9b7386dso5431456276.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 06:54:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755005364; x=1755610164; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dlzwLM6hRfPjqE4oQmCtut717HsFmmt3hthuL5ePWeo=;
-        b=uCXS++Q/PJLUhSbgFecGPEeRjh0SVQ79bfKGodC3PpWYlidaYN+YCgzHJu38LCdbXy
-         j3o8RxzackwNlIO87K3dZ7aRAavKhddgT90agW349buTWyHebJ66FWo1QhI/tWuJRclG
-         AJAqD2Pj5mOak8QtxSCQ01FY4j5Ji34VKqGbZVI1VZFNrtaPzzj8QQiAma4iPpyQT/uL
-         KYU1kBCucIyNpeIaRYWxmv62xdHAryCb6YKWiWaTLWovpGXP1Sb/lRHAnggW8Ut9NbQe
-         +Zl9PoZU+Ch+g2tHoGEwL7VeZffrbnIEMUnUyg84IJZpYuuuIEO4enveiajc7FKlag+u
-         MnOg==
+        d=gmail.com; s=20230601; t=1755006869; x=1755611669; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mYSDKxWeBnrU4v2NwEP5RxdwwOXOA+YOl3le6eqTt1s=;
+        b=PTkWwakvA8Kzhqm0C399srfu2tmIMqex3qSOT0Ys82k6rWVJAAX/Ahg9XeThAedfTO
+         zZv2kceIEpPnC6GA+63lIdE5cXzB2FCoU6tgoSDlsv7Y9laBzn6M9zL/e8lIRct3zHiB
+         itD8a08R5pb5WG6FU/HkyoNvyrBUjS+2oZMAoLuozuP7j9wV/DhnD1a5ibgR1GG5vjlG
+         ylWLoqCWkvsXw4M+0FWhbYA1mliCJ4bgezaHV/tiCVDbgHV9SYH29OHXlKCDCmi5s5se
+         eqAwYbDjHSXt+GZBQhW2IphIDwaeqiT+tVbaPIikh0Smn2Qko/FMubnoa7QV/S71aDqb
+         3HEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755005364; x=1755610164;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dlzwLM6hRfPjqE4oQmCtut717HsFmmt3hthuL5ePWeo=;
-        b=jb0jekigGBosFuh/iCOP+vlLa5PMkPpIPYia2k4kVuFdf3iCjbRpzquceO7gNhEx1w
-         SvpfqTZvHZBGtS+pS0vUHf1LcRqVfPIBZ/tigW2kyYs8x0NNpkA3uxtf15mzwggeNc3d
-         D2K8sAGjKDlRl82zxoVJ03p7dWAUGVZHr1arlOnPzI5jtPCKASevENa9c4H+4wDJmUpB
-         NENQ+dq/oy43z/tC+LaC0PAvM4/A2cKu9SuN/HgB3XPLbRiN5m3zyA9/QiHEgom/vRpU
-         jEds+5CPUljCEqMMIdpWJMB90hj3WDauOCEF42WmjYRE0YsQ2wIzWj2vCsOHnBjzSgJj
-         /FRg==
-X-Gm-Message-State: AOJu0Yzf77kOwSga8owID2W4+8hUB6QEB7Oo/AUW5urDj/OiyjAYB7nq
-	BxQwyGF/BOBczcUEtColZiZRggdbpmivAfBTWK52VV9w8WjONFWIbH01DMS+Inn9IgyAVXMty8q
-	wHAs9
-X-Gm-Gg: ASbGncu3Pdr4EuYUXfG0ZLVxGCf6Ja4O+Oj7FxsLzUj4xwvxP8mw3oMgp7yNYBswQA7
-	+Xz3z9K71QzJIoMEiazOjRfbHD66cjf38pb1tC7sAv33SoRfFBWWodxUoAqkNbXKZMpUls+GI2Z
-	k9m67nCqbRV1AoOgZxIBC/4i8HSBgq/0LCQNz2JahXSAJmH2IovYuqaogRJFEQ1WHaTzSx1UbYZ
-	1XWXW6DuCUBIV3TXWa59gIqpQOALMGykNdIyVa8Ibt94E/wX1/7ym3udrUUEdZJ+tHTVM+6zfo8
-	duEx3Op+wZ9uwsp8exyqfsGvxmLLmxFTfSEEhl5OD2DG3MYW8GE2iG9aGE4s6hsnKBUD4Mf+3Nk
-	8R+XoljDQEgzSFw==
-X-Google-Smtp-Source: AGHT+IHaayE/e53QfQvYEeJto1LC1K15v3SDDfIlDSN9lPA8c9r6SHMBr7hHS0b8wEfWHscuXZaC/g==
-X-Received: by 2002:a05:6a00:1ad4:b0:736:3ea8:4805 with SMTP id d2e1a72fcca58-76e0de1023cmr4693225b3a.7.1755005364511;
-        Tue, 12 Aug 2025 06:29:24 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:43a9:39c9:3131:3b8a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bf067e310sm24664635b3a.25.2025.08.12.06.29.23
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 06:29:24 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 2/3] glibc: Forward -ffile-prefix-map option to assembler flags
-Date: Tue, 12 Aug 2025 06:29:14 -0700
-Message-ID: <35a25a6c4818eea40507581a9b600cbb388103d5.1755005205.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1755005205.git.steve@sakoman.com>
-References: <cover.1755005205.git.steve@sakoman.com>
+        d=1e100.net; s=20230601; t=1755006869; x=1755611669;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mYSDKxWeBnrU4v2NwEP5RxdwwOXOA+YOl3le6eqTt1s=;
+        b=F6U3+mwgFwQLuhxckBfT/138QFXUi4RzWRL1tc5Nn2JFuxSWs28uwHANJWHZ/qRmNH
+         W6MOncoiBU5imI05e0AO3bnL7hwOKyfoHOy2lVGgKhIDXzSSG7XDwKDxFn15Zotda1ZL
+         qi1kwCT2LK0vs2HSwzWLXqgpjlSG7z9LfjIr1Ubqj1sMIECKO1ujRJSJ7hVv2DiU6nN3
+         Qv8zuZ+m7/iD6sekIcmym7NKmyoTJBiX8a3vJ8ngv5qjMKEEy630nV7S7PXqlBQdhGTS
+         R63yzMu+hDouQ9gARP/YT+kbufwwa5vSY+Ess5w3+GWOrp/wip2sz5UDz4LvJIeIJGfM
+         o5sw==
+X-Gm-Message-State: AOJu0YzFXjowTDSEwlPocRW6bntaeohtri6CnSngNshaGtxzbK5+jMn7
+	RhVk45DvN+tkMCxnEkgTa35DHuAjlXuXEwJPRcKKKa2qm628VI53DdJyL07RNlHSX6ZEPJDQPMa
+	alWJMAsyb2E5aZYnSp0zwtZYitTCWLZU=
+X-Gm-Gg: ASbGnctBtHQ+KLD6f83DhHtbv26fUzAyu3U3EKh6S+IwXq+EhB/fnFNRq0pPhzFlFi7
+	xJDeNTZBaw7zBa/kdpfaTWWR1qpDsfaid1lYntvp0Oy8DfFkgJUYQP/qu4DBEAP5MxEFDpLbker
+	ZYGKynDCQSrxq1wVmCkl3OroHdnsbpDEIgZLnbkZ4R43xm4mdY54Dq7erLn0BH37tOQIH0rvYxi
+	sDy4H+bMdvKh7STCCB88w==
+X-Google-Smtp-Source: AGHT+IFpC/HMjn5GH/1IdtXCSwb6O2XXiR4/6jJnE6NPaAVE/ku2hR4vS6mFeMuMJcw8eCYK+16vQG+TE+oDgOYW3WU=
+X-Received: by 2002:a05:6902:4205:b0:e90:68fc:cb3d with SMTP id
+ 3f1490d57ef6-e917a6a6f76mr4038666276.2.1755006868789; Tue, 12 Aug 2025
+ 06:54:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250812093943.1499454-1-martin.jansa@gmail.com>
+In-Reply-To: <20250812093943.1499454-1-martin.jansa@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 12 Aug 2025 07:54:16 -0600
+X-Gm-Features: Ac12FXzS8IJL4PnFNxeMDZ3CWG4vsq1NhqJOwulmfDC_G_g_z1gU8AV5G_Srq6o
+Message-ID: <CAJdd5GZSiTfoGSYoS3P+7GhvTxp0D9=RTA2Kxt1HOqT22YMq1w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] utils.py: use multiprocessing from bb
+To: martin.jansa@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000fe1b5b063c2b601e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 13:29:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221771
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 13:54:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221773
 
-From: Khem Raj <raj.khem@gmail.com>
+--000000000000fe1b5b063c2b601e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-(From OE-Core rev: a85cccc80aa7e6d6a5850c2d730cba5e1cb60cb3)
+LGTM
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...le-prefix-map-from-CFLAGS-to-ASFLAGS.patch | 24 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.41.bb         |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
-diff --git a/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch b/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
-new file mode 100644
-index 0000000000..96140c625b
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch
-@@ -0,0 +1,24 @@
-+From 603e50d6b8ccadb32d59b0497f76629665c1794b Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 16 Apr 2025 19:51:01 -0700
-+Subject: [PATCH] Propagate -ffile-prefix-map from CFLAGS to ASFLAGS.
-+
-+Upstream-Status: Submitted [https://sourceware.org/pipermail/libc-alpha/2025-April/165969.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+---
-+ Makeconfig | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makeconfig b/Makeconfig
-+index e35c5cfe4e..7a19c731c6 100644
-+--- a/Makeconfig
-++++ b/Makeconfig
-+@@ -1176,7 +1176,7 @@ endif
-+ 
-+ # The assembler can generate debug information too.
-+ ifndef ASFLAGS
-+-ASFLAGS := $(filter -g% -fdebug-prefix-map=%,$(CFLAGS))
-++ASFLAGS := $(filter -g% -fdebug-prefix-map=% -ffile-prefix-map=%,$(CFLAGS))
-+ endif
-+ override ASFLAGS += -Werror=undef $(ASFLAGS-config) $(asflags-cpu)
-diff --git a/meta/recipes-core/glibc/glibc_2.41.bb b/meta/recipes-core/glibc/glibc_2.41.bb
-index 8a65e8ce9f..e770c3e275 100644
---- a/meta/recipes-core/glibc/glibc_2.41.bb
-+++ b/meta/recipes-core/glibc/glibc_2.41.bb
-@@ -54,6 +54,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
-            file://0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
-            file://0001-stdlib-Add-single-threaded-fast-path-to-rand.patch \
-+           file://0001-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch \
- "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.43.0
+On Tue, Aug 12, 2025 at 3:39=E2=80=AFAM Martin Jansa via lists.openembedded=
+.org
+<martin.jansa=3Dgmail.com@lists.openembedded.org> wrote:
 
+> From: Martin Jansa <martin.jansa@gmail.com>
+>
+> Fixes build with python-3.14
+>
+> It was added to bitbake in 62be9113d98fccb347c6aa0a10d5c4ee2857f8b6
+> and oe-core now requires latest bitbake already, so we can use this.
+>
+> [YOCTO #15858]
+>
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> ---
+>  meta/lib/oe/utils.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+> index 8aa15373f1..0128ee411d 100644
+> --- a/meta/lib/oe/utils.py
+> +++ b/meta/lib/oe/utils.py
+> @@ -5,11 +5,11 @@
+>  #
+>
+>  import subprocess
+> -import multiprocessing
+>  import traceback
+>  import errno
+>
+>  import bb.parse
+> +from bb import multiprocessing
+>
+>  def read_file(filename):
+>      try:
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#221758):
+> https://lists.openembedded.org/g/openembedded-core/message/221758
+> Mute This Topic: https://lists.openembedded.org/mt/114662985/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> JPEWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000fe1b5b063c2b601e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>LGTM</div><div><br></div><div>Reviewed-by: Joshua Wat=
+t &lt;<a href=3D"mailto:JPEWhacker@gmail.com">JPEWhacker@gmail.com</a>&gt;<=
+/div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Tue, Aug 12, 2025 at 3:39=E2=80=AFAM Martin Jansa v=
+ia <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt=
+;martin.jansa=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.c=
+om@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">From: Martin Jansa &lt;<a href=3D"mailto:martin.ja=
+nsa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
+<br>
+Fixes build with python-3.14<br>
+<br>
+It was added to bitbake in 62be9113d98fccb347c6aa0a10d5c4ee2857f8b6<br>
+and oe-core now requires latest bitbake already, so we can use this.<br>
+<br>
+[YOCTO #15858]<br>
+<br>
+Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" t=
+arget=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oe/utils.py | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py<br>
+index 8aa15373f1..0128ee411d 100644<br>
+--- a/meta/lib/oe/utils.py<br>
++++ b/meta/lib/oe/utils.py<br>
+@@ -5,11 +5,11 @@<br>
+=C2=A0#<br>
+<br>
+=C2=A0import subprocess<br>
+-import multiprocessing<br>
+=C2=A0import traceback<br>
+=C2=A0import errno<br>
+<br>
+=C2=A0import bb.parse<br>
++from bb import multiprocessing<br>
+<br>
+=C2=A0def read_file(filename):<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#221758): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/221758" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/221758</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/114662985/361=
+6693" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/114662985/3616693</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:JPEWhacker@gmail.com" targ=
+et=3D"_blank">JPEWhacker@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000fe1b5b063c2b601e--
 
