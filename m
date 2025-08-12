@@ -1,137 +1,89 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8318C87FCB
-	for <webhook@archiver.kernel.org>; Tue, 12 Aug 2025 11:41:43 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web11.71640.1754998895557204476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2FF1CA0EC4
+	for <webhook@archiver.kernel.org>; Tue, 12 Aug 2025 12:20:23 +0000 (UTC)
+Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [45.157.188.10])
+ by mx.groups.io with SMTP id smtpd.web10.73176.1755001218421595738
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Aug 2025 04:41:36 -0700
+ Tue, 12 Aug 2025 05:20:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=pSAIYtFy;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6F72043B0B;
-	Tue, 12 Aug 2025 11:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1754998893;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/Ykp4ALabyvLo5bSq105z/Yu8TpX/sBLyIaqUu2xWFg=;
-	b=pSAIYtFyg66rTw44DmWQ7qWphL5RAT7bZuuM3GOekxIgMsU2EtIT7BOuiEZPSUC/+QwsfF
-	NzM3L5PVfc5HU6w62RP6DnhboY6RvJVSyZVxuoe2GQfrBjeuW2nljS/LFRIg1AXpwOcfBR
-	HW2JQZ1hobgmGedXiVcUCZNTyUlHhkBBEieYw7yLTvt20dBf+meERxt9uGOjbzLby4KioK
-	s6ji1/9V/BMLuIV5yz9WfCQMUNr4zDaXK7RUhr0jI38JEYnFaJSMGe5tb5Il4CmkPAF7tf
-	uOfQKEsZyZ+AWGLYPVAWR2elxq2qgVe2OYp/RvJajn08LR3HlLsLBiJLUnvHKw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 12 Aug 2025 13:41:33 +0200
-Message-Id: <DC0F6PAWLK7U.MDD78DHJC5D@bootlin.com>
-Subject: Re: [OE-core] [PATCH 3/3] libtirpc: Fix version scripts to work
- with lld linker
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250812051312.4067998-1-raj.khem@gmail.com>
- <20250812051312.4067998-3-raj.khem@gmail.com>
-In-Reply-To: <20250812051312.4067998-3-raj.khem@gmail.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddufeehvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffuhffvofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevvddvhfehgeetgfehteejuedvieevfeehhfeikeehfedvjeelleetjeeigfetieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtoheprhgrjhdrkhhhvghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhpvghnvghms
- ggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 45.157.188.10, mailfrom: foss+yocto@0leil.net)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c1VvN1kQ5zv9D;
+	Tue, 12 Aug 2025 14:20:16 +0200 (CEST)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4c1VvM4qQ0zwZS;
+	Tue, 12 Aug 2025 14:20:15 +0200 (CEST)
+From: Quentin Schulz <foss+yocto@0leil.net>
+Date: Tue, 12 Aug 2025 14:20:05 +0200
+Subject: [PATCH kirkstone] go-helloworld: fix license
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250812-go-helloworld-lic-kirkstone-v1-1-3e84c8ddec61@cherry.de>
+X-B4-Tracking: v=1; b=H4sIAHQxm2gC/z3MwQqDMAyA4VeRnA1oMVD2KmOHajMNlmakww3Ed
+ 7d48PjBz79DYRMu8Gh2MN6kiOaKvm1gWkKeGSVWg+scdb53OCsunJL+1FLEJBOuYmv5amYciMb
+ oRyIfAtTDx/gt/+v+hDuD13GcqCma2XgAAAA=
+X-Change-ID: 20250812-go-helloworld-lic-kirkstone-455bd8b558aa
+To: openembedded-core@lists.openembedded.org
+Cc: Quentin Schulz <quentin.schulz@cherry.de>
+X-Mailer: b4 0.14.2
+X-Infomaniak-Routing: alpha
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 11:41:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221766
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 12:20:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221767
 
-On Tue Aug 12, 2025 at 7:13 AM CEST, Khem Raj via lists.openembedded.org wr=
-ote:
-> Since bfd linker does not enable string checking for versioned symbols, b=
-uild is generating
-> undefined versioned symbols, which LLD does not allow by default. Actuall=
-y these symbols
-> should not be generated at all when given features are not enabled
->
-> Fixes link errors with lld
->
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol '_svcauth_gss' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'authgss_create' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'authgss_create_default' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'authgss_free_private_data' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'authgss_get_private_data' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'authgss_service' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'cbc_crypt' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'ecb_crypt' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'endrpcent' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'getrpcent' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'getrpcbynumber' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'getrpcbyname' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'gss_log_debug' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'gss_log_hexdump' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'gss_log_status' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'rpc_gss_get_error' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'rpc_gss_get_mech_info' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'rpc_gss_get_mechanisms' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'rpc_gss_get_principal_name' failed: symbol not defined
-> aarch64-yoesdk-linux-ld.lld: error: version script assignment of 'TIRPC_0=
-.3.0' to symbol 'rpc_gss_get_versions' failed: symbol not defined
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
+From: Quentin Schulz <quentin.schulz@cherry.de>
 
-Hi Khem,
+The example repo doesn't seem to have ever been under MIT to begin with
+but rather Apache-2.0.
 
-Thanks for the v2, but I believe it breaks the build with musl, on both
-quota and nfs-utils:
+The license file exists in the sources, so use that one instead of
+taking it from the OE-Core license directory.
 
-ERROR: quota-4.10-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/=
-musl-qemuarm64/build/build/tmp/work/cortexa57-poky-linux-musl/quota/4.10/te=
-mp/run.do_compile.1692753' failed with exit code 1
-...
-| /usr/src/debug/quota/4.10/svc_socket.c:39:(.text+0x30): undefined referen=
-ce to `getrpcbynumber'
-| collect2: error: ld returned 1 exit status
-...
-ERROR: nfs-utils-2.8.3-r0 do_configure: Execution of '/srv/pokybuild/yocto-=
-worker/musl-qemuarm64/build/build/tmp/work/cortexa57-poky-linux-musl/nfs-ut=
-ils/2.8.3/temp/run.do_configure.2602719' failed with exit code 1
-...
-| configure: error: Neither getrpcbynumber_r nor getrpcbynumber are availab=
-le
+License-Update: Incorrect license is now proper
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/942
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/2224
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/2254
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+---
+This differs from master and walnascar[1] due to the recipe pointing to
+SRCREV before changes to the LICENSE file in commit 39e772fc2670
+("LICENSE: update per Google Legal").
 
-Can you have a look at these errors please?
+This differs from scarthgap[2] due to the recipe pointing to SRCREV
+before changes to the LICENSE file in commit 00c7068f9d83 ("all: update
+to Go license") where it was changed from Apache-2.0 to BSD-3-Clause.
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+[1] https://lore.kernel.org/openembedded-core/20250812-go-helloworld-lic-v1-1-07ce00a0f252@cherry.de/
+[2] https://lore.kernel.org/openembedded-core/20250812-go-helloworld-lic-scarthgap-v1-1-d3bdbc34e7f8@cherry.de/
+---
+ meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+index 0055b32d602b4513eb9f98aa075ea47fb453d93e..5a9d138b9c9f93eb1a6fa6d89731f29be54308c7 100644
+--- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
++++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+@@ -2,8 +2,8 @@ DESCRIPTION = "This is a simple example recipe that cross-compiles a Go program.
+ SECTION = "examples"
+ HOMEPAGE = "https://golang.org/"
+ 
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+ SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https"
+ SRCREV = "787a929d5a0dfb8bbfcdd2c4a62e0fd89466113f"
+
+---
+base-commit: 81ab000fa437ca04f584a3327b076f7a512dc6d0
+change-id: 20250812-go-helloworld-lic-kirkstone-455bd8b558aa
+
+Best regards,
+-- 
+Quentin Schulz <quentin.schulz@cherry.de>
 
 
