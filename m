@@ -2,101 +2,111 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62448C87FCF
-	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 05:14:29 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web11.93696.1755062067554374105
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB85DC87FCF
+	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 06:24:39 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.94886.1755066270530078199
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Aug 2025 22:14:27 -0700
+ Tue, 12 Aug 2025 23:24:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VXdxVCPM;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-31efc10bb03so5357565a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 22:14:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ai9U6NzY;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7682560a2f2so605837b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 23:24:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755062067; x=1755666867; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1755066269; x=1755671069; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=09X3XvHgpEiI59pu+ZMTUq3IDA2Q7+V5hIEvpjJ8ATY=;
-        b=VXdxVCPMc8HSxYcJMZeGESi+hSkBfRazuMLLPlNSZCN2Nd7NnXKTGnDdamwKp35vpY
-         NuVyA/vh6ZEomHSFP6j1NdPO1TkhIeDZ2v04lK+uv3wVtXIwFgYrxAjlwxCZmunzlLnd
-         YEjGbGf/kcUGa6h7qJH+pZenm/2XkKRuku58VAtPRNL5p4QhzRbeZnIgCrHzzYqqHukW
-         DzCsfDf3MvUt0rqPFRXpiDMwaAyQHDiDaIcgfL+iHcyXV1+TuWFygu6Vf/j9wUXF+msj
-         2aGQTaJiZpKSKSwD0ecnM6mv3EgrpohHHJ2PAkFIxTZrRp8v28THyQiySN6izgkPv5SC
-         qSww==
+        bh=EwpiPJoKzez7LsPqxO9CvA64e9uNstb+hlk+/l26FF0=;
+        b=Ai9U6NzYpHkqMmWDGv+K+R6jN7oXLUIctFEKwoLZLqNba5v9M/n9eMNSb66MhBv+1S
+         +9Hhuw4586YjbrEX+p8sTv5W56wJ8oliNbjjFsSDoEF7UEhLkuMgRRHGSl5dtgyTJLoI
+         ATDKGHsPEcdfqdjeTMrfXIq/QD6pTCAV0/h7PYj7zStzkzLmYocd3G8edKq75f01j1CM
+         Fhaaq22M6a2v/7AD+o7byPfXus/VQduHkuEuC4zA/7TLoio9rj5AJTb8oxqnW9g5uc8W
+         e//Qng8ENex4UISGoHHnPTxgNlQOaoJ0lwQbx7SrfrmJiTdfWHQZJ2nO/CU60GAoaWM6
+         RgXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755062067; x=1755666867;
+        d=1e100.net; s=20230601; t=1755066269; x=1755671069;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=09X3XvHgpEiI59pu+ZMTUq3IDA2Q7+V5hIEvpjJ8ATY=;
-        b=d2HtUp9oZiwn2Hk5eIi7tHcGLT+NyNYO3qtmOh0EZo7OEtrwd8Tk9IwPj0ClZKyeCW
-         TFDj0b1gYyLn2nPiu9xKONFShbICyTJIv6Qzse76bTyb7a9E3od4G3nj6FPjNliXjhNX
-         siwK4F/ZeMgR1Vk1pqyRJtFsb8Zaa5wPZW9TLT1gJVc7OL37nrR3mLv6tHuT5KJ7fejB
-         tCZSDzNLZbduBrLCCdsKCAlQX3XnFE+D0iPMRQ7NmqYwlQ5ji3d27t/PMpF81LoRVcI1
-         Y06Q5Y1x7PzNm17atte2n8O7+rGIUG3ovC45U7JJ6zUp+M6WQyoJKAkKJuUiLan7EKpL
-         jGog==
-X-Gm-Message-State: AOJu0Yy44wTbBSnT2Wd+p9SrH2fS6H14IkaMSvxIsLvgP+8kjScNJWWJ
-	dXgH/CR8A0MKfQJ0xk6C4ZsgYQ2aG5wcOJw0A/aG3OHfM0irkDRH5W7rFECWkeEhkq4=
-X-Gm-Gg: ASbGncui4NMJf3kW3YmnWeZE9+TuBwl5plB3+j0L8tW1OJ8BEFruXoVwGtzawqOWciN
-	au0LCKSdhKdNtkmWaFcX8M7EIT6rMqhAgXrmSGPzBwMssj8r45EUe4gRpf+RH0ynpGPKZTCJHlU
-	P7Grw2RfaZPubzNiRd6LGOCuU98b5W4cwivZXOOzazPaVHjG6U1slN3EfJYU8k3qPSltLzx5mMz
-	vBeo4TB5BWTu+0cE/fvlIqN52DarPaKiFNW/cBMSIQ9hKS+RfrwNbigS16nPIPkMOZYYkH9K4Gk
-	BBVo20og9dZkJERe316qyQdeFHyubQ/Uua6oaDj/3ncI9l6n3ZDqlRud2JqHh7YkxRtFt0IyxWt
-	DyxK7NCpA92/Nhk+6cfd8v8WwiWaXyho=
-X-Google-Smtp-Source: AGHT+IGji5egPfdc0DkU17XK8vb9jskP+L3q2GDikIOsAhqgRXQ2bGWocD5//ps/gfyRWRMUkkaUrA==
-X-Received: by 2002:a17:90b:51cd:b0:313:2206:adf1 with SMTP id 98e67ed59e1d1-321d0d68aa5mr2669796a91.4.1755062066415;
-        Tue, 12 Aug 2025 22:14:26 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::209])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-321d1d78894sm883367a91.6.2025.08.12.22.14.25
+        bh=EwpiPJoKzez7LsPqxO9CvA64e9uNstb+hlk+/l26FF0=;
+        b=vvHL8xl4+0UurxBcINhQQ5MwbyQ7QueHxCXgMGXxgJGfg2zMf1NHFCChMoxEwZUVL8
+         LcgDVFe1RBXiCjzKhFe8AGbBUFCKtC13brSzTYDs8flY658mZwHkWEt0CVePEnpfrG3L
+         31fv4Z+wtsACBWi8/PbnFlly6fXUgooqO71j99NXddssSwC4flBzwUvT+Tv+DXBFqi06
+         pszF1fP5ih6O0CsTNJgWJLFrRP46W6+FgZyg3XcxpaLLncmceJsmuLlho+r9IhvcXLGP
+         8UQU3GwIYPCnckD78nKIfkFkCNX5F+Qt1dOAz3joGt1BHCrD4Clv5JwLRRncB1pjQ5DD
+         J4CQ==
+X-Gm-Message-State: AOJu0YwqBaQbqLssR4xrvUCSbDZQyZ086P2cv55zXjnXBrsrQAnGNScL
+	op+zpj1Xjp5J8bqyvMrNpyCjZ4C4iiBMEj187dLuKb6R+/2o7q2UPUWnV8EY2kmfSkU=
+X-Gm-Gg: ASbGnct1Jr6UV3wFlT29zSvzLaw70uU8FGey12azvXeSfBz6hc5LurZO9KQk0vzx5W/
+	336xZ09BsqOvNs/wfLof/q8dxqzbFZKuwHE9JHX9xAYUYjmG+oJ0RW8R1Zf7Bt8YU+OdG6aqfEa
+	oWYWTyNkyty9RaAoWTDCE/AVFztx1FOHa/8zRezeZ/ccm0adZC2mSvR+rwzZMfkxrfSvAFNsca2
+	34KPboTOJLKtdb7Pa92xiltkuGPiSJROPpnSR6D32M2a47hGo5i2fab/KLm+elgqJY33ctQnPLu
+	9F46jfuvKIRozxwqguXtLZNdfYqzfDwH4z2ZO+vmaKe7GnUHX7P5JvD93WXorjE2oxZQ1m2FwIK
+	NJgJeGRbWbIpeXx5KoJbIQg==
+X-Google-Smtp-Source: AGHT+IEV9D1cyy+O8uyx4eTx9ovH7Ypxiy5lGv4zLIgwAbDCbCqK/YJtKjA6AEnyQEGV+L8p8iRwyQ==
+X-Received: by 2002:a05:6a00:2789:b0:76b:fdac:d884 with SMTP id d2e1a72fcca58-76e229845c9mr1943047b3a.3.1755066269324;
+        Tue, 12 Aug 2025 23:24:29 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::b44f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bccfcf523sm31004004b3a.90.2025.08.12.23.24.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 22:14:25 -0700 (PDT)
+        Tue, 12 Aug 2025 23:24:28 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Jon Mason <jon.mason@arm.com>
-Subject: [PATCH] tune-cortexa53: Add nocrypto tune variant
-Date: Tue, 12 Aug 2025 22:14:23 -0700
-Message-ID: <20250813051423.325405-1-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] elfutils: Add provisions for marking XFAILS in ptests
+Date: Tue, 12 Aug 2025 23:24:26 -0700
+Message-ID: <20250813062427.884193-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 05:14:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221787
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 06:24:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221788
 
-crypto is optional on armv8a and Broadcom BCM2837 SoC found on
-rpi3 does not have hardware acceleration for cryptographic operations.
+elfuitls testsuites do not pass on all kind of distro features e.g.
+with musl there are failures and with ld-is-lld less numer but it shows
+failures too. Make run-ptest treat these as known failures.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Jon Mason <jon.mason@arm.com>
 ---
- meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/elfutils/elfutils_0.193.bb | 5 +++++
+ meta/recipes-devtools/elfutils/files/run-ptest   | 2 +-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
-index a88575eb156..198eead906a 100644
---- a/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
-+++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa53.inc
-@@ -6,13 +6,17 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=corte
- require conf/machine/include/arm/arch-armv8a.inc
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.193.bb b/meta/recipes-devtools/elfutils/elfutils_0.193.bb
+index 4ccea2bea3b..e700c415be9 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.193.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.193.bb
+@@ -63,6 +63,10 @@ do_compile_ptest() {
+ }
+ PTEST_PARALLEL_MAKE = ""
  
- # Little Endian base configs
--AVAILTUNES += "cortexa53 cortexa53-crypto"
-+AVAILTUNES += "cortexa53 cortexa53-crypto cortexa53-nocrypto"
- ARMPKGARCH:tune-cortexa53             = "cortexa53"
- ARMPKGARCH:tune-cortexa53-crypto      = "cortexa53-crypto"
-+ARMPKGARCH:tune-cortexa53-nocrypto    = "cortexa53-nocrypto"
- # We do not want -march since -mcpu is added above to cover for it
- TUNE_FEATURES:tune-cortexa53          = "aarch64 crc cortexa53"
- TUNE_FEATURES:tune-cortexa53-crypto   = "${TUNE_FEATURES:tune-cortexa53} crypto"
-+TUNE_FEATURES:tune-cortexa53-nocrypto = "${TUNE_FEATURES:tune-cortexa53} nocrypto"
- PACKAGE_EXTRA_ARCHS:tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc} cortexa53"
- PACKAGE_EXTRA_ARCHS:tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
-+PACKAGE_EXTRA_ARCHS:tune-cortexa53-nocrypto    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc} cortexa53 cortexa53-nocrypto"
- BASE_LIB:tune-cortexa53               = "lib64"
- BASE_LIB:tune-cortexa53-crypto        = "lib64"
-+BASE_LIB:tune-cortexa53-nocrypto      = "lib64"
++PTEST_XFAILS ?= ""
++# See - https://sourceware.org/bugzilla/show_bug.cgi?id=32232
++PTEST_XFAILS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' run-strip-strmerge.sh run-elflint-self.sh run-backtrace-data.sh run-reverse-sections-self.sh', '', d)}"
++
+ do_install_ptest() {
+ 	# copy the files which needed by the cases
+ 	TEST_FILES="strip strip.o addr2line elfcmp objdump readelf size.o nm.o nm elflint elfcompress elfclassify stack unstrip srcfiles"
+@@ -100,6 +104,7 @@ do_install_ptest() {
+ 	cp -r ${B}/debuginfod                   ${D}${PTEST_PATH}
+ 	sed -i '/^Makefile:/c Makefile:'        ${D}${PTEST_PATH}/tests/Makefile
+ 	find ${D}${PTEST_PATH} -type f -name *.[hoc] | xargs -i rm {}
++	sed -i -e 's|@XFAIL_TESTS@|${PTEST_XFAILS}|' ${D}${PTEST_PATH}/run-ptest
+ }
+ 
+ EXTRA_OEMAKE:class-native = ""
+diff --git a/meta/recipes-devtools/elfutils/files/run-ptest b/meta/recipes-devtools/elfutils/files/run-ptest
+index d5776fdb538..3c6c14e47f9 100644
+--- a/meta/recipes-devtools/elfutils/files/run-ptest
++++ b/meta/recipes-devtools/elfutils/files/run-ptest
+@@ -3,4 +3,4 @@
+ #This script is used to run elfutils test suites
+ cd tests
+ 
+-make -k installcheck-local CC=gcc abs_srcdir=$PWD abs_builddir=$PWD srcdir=$PWD top_srcdir=$PWD/../ abs_top_builddir=$PWD/../ elfutils_testrun=installed elfutils_tests_rpath=no program_transform_name=s,^,eu-,
++make -k installcheck-local CC=gcc abs_srcdir=$PWD abs_builddir=$PWD srcdir=$PWD top_srcdir=$PWD/../ abs_top_builddir=$PWD/../ elfutils_testrun=installed elfutils_tests_rpath=no program_transform_name=s,^,eu-, XFAIL_TESTS="@XFAIL_TESTS@"
 
