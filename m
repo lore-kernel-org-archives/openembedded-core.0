@@ -1,158 +1,149 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C1CBC87FCF
-	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 12:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E067CA0EE4
+	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 12:11:21 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.99006.1755086524405788988
+ by mx.groups.io with SMTP id smtpd.web10.99649.1755087080545889547
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Aug 2025 05:02:04 -0700
+ Wed, 13 Aug 2025 05:11:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=03204bc308=archana.polampalli@windriver.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0320ba7ade=soumya.sambu@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57DAtnCc3347042
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 12:02:03 GMT
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48fv001t8t-1
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57DAtpBH3347053
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 12:11:19 GMT
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48fv001tk4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 12:02:03 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 12:11:19 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Wed, 13 Aug 2025 05:02:00 -0700
+ 15.1.2507.57; Wed, 13 Aug 2025 05:11:16 -0700
 Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.57 via Frontend Transport; Wed, 13 Aug 2025 05:01:58 -0700
-From: <archana.polampalli@windriver.com>
+ 15.1.2507.57 via Frontend Transport; Wed, 13 Aug 2025 05:11:14 -0700
+From: ssambu <soumya.sambu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][walnascar][PATCH 1/1] go: upgrade 1.24.5 -> 1.24.6
-Date: Wed, 13 Aug 2025 17:31:52 +0530
-Message-ID: <20250813120152.767800-1-archana.polampalli@windriver.com>
+Subject: [OE-core][walnascar][PATCH 3/6] elfutils: Fix CVE-2025-1371
+Date: Wed, 13 Aug 2025 17:40:59 +0530
+Message-ID: <20250813121102.779009-3-soumya.sambu@windriver.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20250813121102.779009-1-soumya.sambu@windriver.com>
+References: <20250813121102.779009-1-soumya.sambu@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=JKQ7s9Kb c=1 sm=1 tr=0 ts=689c7ebb cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=2OwXVqhp2XgA:10 a=NEAV23lmAAAA:8 a=1XWaLZrsAAAA:8 a=plf8rDjJAAAA:8
- a=pM9yUfARAAAA:8 a=a_U1oVfrAAAA:8 a=P-IC7800AAAA:8 a=t7CeM3EgAAAA:8
- a=Fo_BUA3C_gjuc6PtYlgA:9 a=rDGJdTlHWfUGzjU4:21 a=JWTSs7K9Rhv-lrTctFka:22
- a=YH-7kEGJnRg4CV3apUU-:22 a=d3PnA9EDa4IxuAV0gXij:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: TaK99DHgtlVA4uYGmV4kiamFtOklXMBK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEzMDExNCBTYWx0ZWRfXz5xAw3Q49dA4
- Fh+Jl5vahzAPLgVZRyVRJIeKYc5LAaQlBy+unmqF+5WX7RviLdbTna6pT4yflPZlmg2elLlqOBN
- R2EjFbch9B8BmELGQIsrTLreICfGsdgMAxTsnVtK4tJlweXeVqO2FQm1VBB/qazsqbH862+SKxH
- je3Th9QZ+4OLRCNTuu3faO0o2BbRHGjaQd03oPnS4WCTwuKayRaUYEQepF0v4i2112Pm5KIkHDQ
- r0WMbe06J4VFN9tiGM35FKYFFmBDqpfzUX1ThoATm5kYhnUEjKAWk1cvbLFj58nwZX17WkHU3js
- w4E2BOz+HGdl06bF9ySDRRfNER+/Wn+rwJdzb7tQiuOVgl28FqOI4u/N4JaZMc=
-X-Proofpoint-GUID: TaK99DHgtlVA4uYGmV4kiamFtOklXMBK
+X-Authority-Analysis: v=2.4 cv=JKQ7s9Kb c=1 sm=1 tr=0 ts=689c80e7 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=2OwXVqhp2XgA:10 a=PYnjg3YJAAAA:8 a=fxJcL_dCAAAA:8 a=CCpqsmhAAAAA:8
+ a=t7CeM3EgAAAA:8 a=n9Nvxce8AAAA:8 a=oY9sVq7jc0uHDv3kPFoA:9
+ a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22 a=V4tbcg9hxeXQX3VEsxKP:22
+X-Proofpoint-ORIG-GUID: RC-gp0Dz-iIpf2JfqSFd3ogxJP-ZTK5C
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEzMDExNSBTYWx0ZWRfX7RaNooxL0bla
+ uxHyFkTcQd+3q0q7JCOa5EBL1Sy6V8SE2w/8hJ1MqAH2/luncVdh0AlPzuyOraLPA5okwwVRGPm
+ MPGIxCuO3rxRYfVs97vXkGWXyff+Qtc7qxzM3/gXw4IN3fW55pt8d2CLtKmECGzU8TqHrKJyxSo
+ ZXhLV1Lk5TQcKYPFIUUegnv/Kyq/v4zO2Ptz3DpoC6XFwtSDSQA2OoKIPNzTnu2ZFyuMSLUn6SP
+ ZtmFWUbHnEzw18vAQOCt02SAEqIa8jILLa3MCq6tmnI427j5VDjrPurshDarX3Z6aPClJlH1DRi
+ 1uA1OBAQcLmXX16Uud0N3qCxSY3Xp5PvXDwQKs5xghXUU+aiEUJQX+H9netrBk=
+X-Proofpoint-GUID: RC-gp0Dz-iIpf2JfqSFd3ogxJP-ZTK5C
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0 clxscore=1015 suspectscore=0 phishscore=0
+ adultscore=0 malwarescore=0 clxscore=1011 suspectscore=0 phishscore=0
  priorityscore=1501 spamscore=0 impostorscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 12:02:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221806
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 12:11:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221809
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Upgrade to latest 1.24.x release [1]:
+A vulnerability has been found in GNU elfutils 0.192 and classified as problematic.
+This vulnerability affects the function handle_dynamic_symtab of the file readelf.c
+of the component eu-read. The manipulation leads to null pointer dereference.
+Attacking locally is a requirement. The exploit has been disclosed to the public and
+may be used. The patch is identified as b38e562a4c907e08171c76b8b2def8464d5a104a. It
+is recommended to apply a patch to fix this issue.
 
-$ git --no-pager log --oneline go1.24.5..go1.24.6
-7f36edc26d [release-branch.go1.24] go1.24.6
-83b4a5db24 [release-branch.go1.24] database/sql: avoid closing Rows while scan is in progress
-0f5133b742 [release-branch.go1.24] os/exec: fix incorrect expansion of "", "." and ".." in LookPath
-6e1c4529e4 [release-branch.go1.24] cmd/compile: for arm64 epilog, do SP increment with a single instruction
-731de13dc3 [release-branch.go1.24] os/user: user random name for the test user account
-390ffce7d6 [release-branch.go1.24] runtime: prevent unnecessary zeroing of large objects with pointers
-b454859a8a [release-branch.go1.24] runtime: stash allpSnapshot on the M
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2025-1371
+https://ubuntu.com/security/CVE-2025-1371
 
-Fixes CVE-2025-47906 and CVE-2025-47907 [2].
+Upstream patch:
+https://sourceware.org/git/?p=elfutils.git;a=commit;h=b38e562a4c907e08171c76b8b2def8464d5a104a
 
-[1] https://github.com/golang/go/compare/go1.24.5...go1.24.6
-[2] https://groups.google.com/g/golang-announce/c/x5MKroML2yM
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit f3072c210ac0a1e4d8046d920c3ebc29f9916b72)
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- meta/recipes-devtools/go/{go-1.24.5.inc => go-1.24.6.inc}   | 2 +-
- ...o-binary-native_1.24.5.bb => go-binary-native_1.24.6.bb} | 6 +++---
- ...cross-canadian_1.24.5.bb => go-cross-canadian_1.24.6.bb} | 0
- .../go/{go-cross_1.24.5.bb => go-cross_1.24.6.bb}           | 0
- .../go/{go-crosssdk_1.24.5.bb => go-crosssdk_1.24.6.bb}     | 0
- .../go/{go-runtime_1.24.5.bb => go-runtime_1.24.6.bb}       | 0
- meta/recipes-devtools/go/{go_1.24.5.bb => go_1.24.6.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.24.5.inc => go-1.24.6.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.24.5.bb => go-binary-native_1.24.6.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.24.5.bb => go-cross-canadian_1.24.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.24.5.bb => go-cross_1.24.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.24.5.bb => go-crosssdk_1.24.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.24.5.bb => go-runtime_1.24.6.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.24.5.bb => go_1.24.6.bb} (100%)
+ .../elfutils/elfutils_0.192.bb                |  1 +
+ .../elfutils/files/CVE-2025-1371.patch        | 41 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.24.5.inc b/meta/recipes-devtools/go/go-1.24.6.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.24.5.inc
-rename to meta/recipes-devtools/go/go-1.24.6.inc
-index fae0d3f333..a3933c2a61 100644
---- a/meta/recipes-devtools/go/go-1.24.5.inc
-+++ b/meta/recipes-devtools/go/go-1.24.6.inc
-@@ -17,4 +17,4 @@ SRC_URI += "\
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
-     file://6d265b008e3d106b2706645e5a88cd8e2fb98953.patch \
- "
--SRC_URI[main.sha256sum] = "74fdb09f2352e2b25b7943e56836c9b47363d28dec1c8b56c4a9570f30b8f59f"
-+SRC_URI[main.sha256sum] = "e1cb5582aab588668bc04c07de18688070f6b8c9b2aaf361f821e19bd47cfdbd"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.24.5.bb b/meta/recipes-devtools/go/go-binary-native_1.24.6.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.24.5.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.24.6.bb
-index 3de63060c7..86a3ad8556 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.24.5.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.24.6.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "10ad9e86233e74c0f6590fe5426895de6bf388964210eac34a6d83f38918ecdc"
--SRC_URI[go_linux_arm64.sha256sum] = "0df02e6aeb3d3c06c95ff201d575907c736d6c62cfa4b6934c11203f1d600ffa"
--SRC_URI[go_linux_ppc64le.sha256sum] = "00bdfb16d1094e78473b681d2d09d42c19c886d4dfed743853769f1665c7a552"
-+SRC_URI[go_linux_amd64.sha256sum] = "bbca37cc395c974ffa4893ee35819ad23ebb27426df87af92e93a9ec66ef8712"
-+SRC_URI[go_linux_arm64.sha256sum] = "124ea6033a8bf98aa9fbab53e58d134905262d45a022af3a90b73320f3c3afd5"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "63fc9559a3d6dfd63aa902f714375b879bbc848466181c035c122489b9646e27"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.24.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.24.5.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.24.6.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.24.5.bb b/meta/recipes-devtools/go/go-cross_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.24.5.bb
-rename to meta/recipes-devtools/go/go-cross_1.24.6.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.24.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.24.5.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.24.6.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.24.5.bb b/meta/recipes-devtools/go/go-runtime_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.24.5.bb
-rename to meta/recipes-devtools/go/go-runtime_1.24.6.bb
-diff --git a/meta/recipes-devtools/go/go_1.24.5.bb b/meta/recipes-devtools/go/go_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.24.5.bb
-rename to meta/recipes-devtools/go/go_1.24.6.bb
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.192.bb b/meta/recipes-devtools/elfutils/elfutils_0.192.bb
+index ff40ba64ec..2f34bfeebb 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.192.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.192.bb
+@@ -24,6 +24,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://0001-libelf-Add-libeu-objects-to-libelf.a-static-archive.patch \
+            file://CVE-2025-1352.patch \
+            file://CVE-2025-1365.patch \
++           file://CVE-2025-1371.patch \
+            "
+ SRC_URI:append:libc-musl = " \
+            file://0003-musl-utils.patch \
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch b/meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch
+new file mode 100644
+index 0000000000..9ecb045f82
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/CVE-2025-1371.patch
+@@ -0,0 +1,41 @@
++From b38e562a4c907e08171c76b8b2def8464d5a104a Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Sun, 9 Feb 2025 00:07:13 +0100
++Subject: [PATCH] readelf: Handle NULL phdr in handle_dynamic_symtab
++
++A corrupt ELF file can have broken program headers, in which case
++gelf_getphdr returns NULL. This could crash handle_dynamic_symtab
++while searching for the PT_DYNAMIC phdr. Fix this by checking whether
++gelf_phdr returns NULL.
++
++	  * src/readelf.c (handle_dynamic_symtab): Check whether
++          gelf_getphdr returns NULL.
++
++https://sourceware.org/bugzilla/show_bug.cgi?id=32655
++
++CVE: CVE-2025-1371
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=b38e562a4c907e08171c76b8b2def8464d5a104a]
++
++Signed-off-by: Mark Wielaard <mark@klomp.org>
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ src/readelf.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/readelf.c b/src/readelf.c
++index 105cddf..a526fa8 100644
++--- a/src/readelf.c
+++++ b/src/readelf.c
++@@ -2912,7 +2912,7 @@ handle_dynamic_symtab (Ebl *ebl)
++   for (size_t i = 0; i < phnum; ++i)
++     {
++       phdr = gelf_getphdr (ebl->elf, i, &phdr_mem);
++-      if (phdr->p_type == PT_DYNAMIC)
+++      if (phdr == NULL || phdr->p_type == PT_DYNAMIC)
++ 	break;
++     }
++   if (phdr == NULL)
++-- 
++2.43.2
++
 -- 
 2.40.0
 
