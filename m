@@ -1,1181 +1,242 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <osama.abdelkader@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1175CA0EE7
-	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 21:29:13 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.7858.1755120547456392817
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02480C87FCF
+	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 22:12:44 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.8708.1755123157008658150
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Aug 2025 14:29:07 -0700
+ Wed, 13 Aug 2025 15:12:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EhiIWXU9;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b47173a03ffso121741a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 14:29:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OKm0fJ8G;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: osama.abdelkader@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6188b733bbaso552410a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 15:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755120547; x=1755725347; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5H3yHh8HuatqV8q4RenVPfmxzgd/JjPQsq8uWMy+jvc=;
-        b=EhiIWXU9i7MEXj2zGtyXFEwh3HuXyGEcRkYrKTORvx7eTTM4uWjvVTOJY6cwh9Mop8
-         Gqo57R9NmmW0ctWfQSuttAHp7/WxLSorDCjmA+GkGKx+sWuVCLoAu6Tv5bdYfEvZsjTc
-         9qxfVlXsw2NW6bsLwWyea3EcvGWi0KxD0ANAnRYJ1qQI80i934x0T5ST0XVoO3wmsN29
-         n4GZG3HhT6FEiTeq5Z48/+OBTSt49mzxOjnjzsCB7pvaZqgEpM6DBFkAgjqJF0FTySWz
-         xqjNtdoU+WzVKV9Jy7+iHmqfm/CVMnNq0OnvjJ6J/IecPXo6uuQz2HD0TmgK6ptwo97W
-         sxlg==
+        d=gmail.com; s=20230601; t=1755123155; x=1755727955; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fEJsrcq1pY658QbVqgiptQISBoYX7tFWRWSsL4PzmN4=;
+        b=OKm0fJ8GQTpkVU6kQK27CQLVWlXZvid0MtuCJVpWLlIKEf1+6qHFhZOp+Bc4xhi8oJ
+         AcxTvcihTZSq2fUQv/kY3lDq1J0oMMNxR+AemUeRE7sysmE6/YqgopbkcKIIEB2HagXa
+         6Mp0o5K0jTF2tZ6E0x9aT8J+ucoSHm3SM242aIdVal0NeQnYnikg33wpXIux9zCF7X2V
+         GteKcbSZlmE/65+khcVD80by17bie1Gva6LM4PWrg3CFvtvuFVeQU0HBbXJ0T06VinPu
+         ECIuh/wYUH+HWpwBql0rqyCzXXf560jaM6QoCmPszxOHQNRNjLCIecoF6WiV9EZtB+jy
+         g0/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755120547; x=1755725347;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5H3yHh8HuatqV8q4RenVPfmxzgd/JjPQsq8uWMy+jvc=;
-        b=nLqHuqH6Zp3PpZxniRWM+WjGcllc7Y7FpKISiA6R3LwfFGQXyOO4sl8F4SCMgEFpXR
-         LPKvyI/A4sovkIpGZHTyTnZWiy3MHcINDuGq2aaMsEWzJHvPAn79I4v0vBoGZDeIsdKU
-         Q5gTAsbLpnpol/GzUCAsROQdHEmjqTMEVy6wvsCzXEw8lSteCXLXGi0yhtHZ2RzJocLa
-         DKJrvblS7Z/qv3zbzUf/c4ZA2YxogTeZHsCH2hMoWpIDXxI7klw/YgaMSalbkXGi4lmd
-         KtdVCN9nnR7jA13ppFhQTKmcy9nEUJxV10KBetyWG1RWu+LJRtN0PElkInqEuh3qb2C7
-         AUPg==
-X-Gm-Message-State: AOJu0Yx8wOItsZfGhpxWdNCc5scULXyEemLXrV0RxHyumt/108PsnJD/
-	02yFEWQVJmQ/P8Y/DmU87QQAzhZCXzjZU4HiTNrin6vB2pd62EzvuuixDNp20yCVR1WWm+HUUpy
-	jszrf
-X-Gm-Gg: ASbGncvrrT4xNaRnjVpFQlKFtoHO2tgIDAY2sSw+ZyykRqpOkJNRNEeyAHP6zcQQMlt
-	4+RAzfWY9rN9e7srjub8DL3J1XxlJR1x3nRmSOn3kz1arK98fCEoouA80YzjaXTitmmT+cMSWE6
-	jqHNDPzQPWQzcXrhbZvKtfqqgbcQYQEKrL7HzQukMG3hWlOset1B+WGkX2Ve1I5hbzcE9XjByEu
-	TzfUsJHJpgzl/Yl3pz0wk+dV0/Kr6Xdjre+rRJZqqm9Y+MwzV/AAnELNxKy0MlNgZNq9h1rdqeg
-	8UG1j++9j2Wu2zhnbO3uiSfR2T6Z3OJxDPCH9PWqymeJ6T+qr7jSYY7Lmpd1Q3GKvChN++uHNl0
-	KuPlMbRalpNDksg==
-X-Google-Smtp-Source: AGHT+IHecn+KWcQ8pwWZCZi5K1i5HFtH2gNQ0M8pm3msg5vtpZIf31jS5AVWjwfIk8EuHpJUEEWHhA==
-X-Received: by 2002:a17:902:c94d:b0:240:96a:b812 with SMTP id d9443c01a7336-24458a51258mr7487215ad.24.1755120546207;
-        Wed, 13 Aug 2025 14:29:06 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:38b9:9a51:8a43:9529])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e899a48esm336178545ad.114.2025.08.13.14.29.05
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1755123155; x=1755727955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fEJsrcq1pY658QbVqgiptQISBoYX7tFWRWSsL4PzmN4=;
+        b=ChmtAw2d2GI4URTOcQM3qseYWhA09dncTCZzECXL7wha0RsGMjPHb++f2yLffRmUas
+         CTxBX28XKnflof/oIdDBOCZBQc/+UUqNQ7IVj72Fq2yzH9CZFkHwnJ2UUHmmhEPFhjzu
+         shljKnlMwPFWDamUoK0e0KmCE51zJCjyPkjb//OhvMqhtvW0eHUe0x1rftD4qc6mnTWR
+         Q+tS5u4qFA8tb1IKniLVWWDS5uVWuWooAY9JbUKNqy0G3C6RDAJyrOy/W15+T8D/gj0O
+         Vq10TkYAGTRFTthYKqu0CpCJEL2NzLotLfDOWhxGZGIFd8lzufTtIhWB4Vq9yNPkxRyg
+         wtew==
+X-Gm-Message-State: AOJu0Yw8poph5NCqu+aAl42cGIo7YycPtjdbExm/K2r3IznXlhzHX3gA
+	7kN3z2/Nh7G0A8g1/NlE9B9zVOGL9aiD33sp/50sJIwUy6IbXxz2dmsGthecPRt/foY=
+X-Gm-Gg: ASbGnctkPYKM8WkwfzndAPCghf6W7IEGpVh8NMDThlW/MmRSJ04+gAXHJNvNhlxnQfB
+	Bwfol4rliV6h7gVYBqurvMBShqKdh/PoVtax7efGb1JM1zM+0kJ+70i3UmMkExgXBuqEA+9pMcI
+	fH4Z14xuzwI1OLHRTMp/I/TEyfi0qnkiADSoMzgZ7EYstBxGuU6Ep9J3Oyut3tOd12XGZZDr9Va
+	Mab3gqGQA2XVCuXtzAOQ16xPBE7x6oVvfBZbdCUTsXUobSm+AJIS9xHyyNVredTniUyyQ8a53MC
+	eDTfwjfsLT6kAIp9zXDGSKwZ6X8DhiRly7jg4zv1MW0A9JbkqxPbZ97qV37vKhW6440QN0cyIBZ
+	jetQbaRSR8n7TOqIKsbnF1KUjaszNtboIFb68yH/nC1Ryick3Zjc0j9ECDsG3Mj9CECtlp+IepX
+	0ua51bDRbqoEyZ+cAnBevw3HRfe643g56OZoGj2w==
+X-Google-Smtp-Source: AGHT+IHu0h+QdBiGkjyRFy36DZoApX8d8SmAhKpFAY2TMwM1/E3FeqP+lhd/39UgyCPWxaVtHIZOVw==
+X-Received: by 2002:a05:6402:40c3:b0:615:979c:e8b2 with SMTP id 4fb4d7f45d1cf-6188c217f75mr484297a12.29.1755123155027;
+        Wed, 13 Aug 2025 15:12:35 -0700 (PDT)
+Received: from DESKTOP-RK42V0R.localdomain (ipservice-092-210-202-008.092.210.pools.vodafone-ip.de. [92.210.202.8])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8f28374sm23005386a12.24.2025.08.13.15.12.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 14:29:05 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Wed, 13 Aug 2025 15:12:34 -0700 (PDT)
+From: Osama Abdelkader <osama.abdelkader@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 6/8] libxslt: fix CVE-2023-40403
-Date: Wed, 13 Aug 2025 14:28:47 -0700
-Message-ID: <b77845d6fed5385de5789f8864fc399f82209ea1.1755102550.git.steve@sakoman.com>
+Cc: liezhi.yang@windriver.com,
+	Osama Abdelkader <osama.abdelkader@gmail.com>
+Subject: [PATCH] strace: upgrade 6.15 -> 6.16
+Date: Thu, 14 Aug 2025 00:12:27 +0200
+Message-ID: <20250813221227.519186-1-osama.abdelkader@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1755102550.git.steve@sakoman.com>
-References: <cover.1755102550.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 21:29:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221837
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 22:12:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221840
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+Upgrade to the latest upstream release (2025-08-05), which includes:
+- Added new -N/--arg-names option to show syscall argument names
+- Implemented PTRACE_SET_SYSCALL_INFO ptrace API support from Linux 6.16
+- Decoding updates for SO_RCVPRIORITY, SO_PASSRIGHTS, RTA_NH_ID, RTA_FLOWLABEL
+- Enhanced statx syscall decoding and numerous new constant/ioctl updates
 
-Upstream-Status: Backport from  https://gitlab.gnome.org/GNOME/libxslt/-/commit/adebe45f6ef9f9d036acacd8aec7411d4ea84e25 && https://gitlab.gnome.org/GNOME/libxslt/-/commit/1d9820635c271b35f88431f33ea78dc8be349e5b && https://gitlab.gnome.org/GNOME/libxslt/-/commit/ccec6fa31d11ab0a5299f15ea184c7a457e92940 && https://gitlab.gnome.org/GNOME/libxslt/-/commit/82f6cbf8ca61b1f9e00dc04aa3b15d563e7bbc6d && https://gitlab.gnome.org/GNOME/libxslt/-/commit/452fb4ca9b9803448826008b9573987c615912a1
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
 ---
- .../libxslt/libxslt/CVE-2023-40403-001.patch  | 257 +++++++++++++
- .../libxslt/libxslt/CVE-2023-40403-002.patch  | 147 ++++++++
- .../libxslt/libxslt/CVE-2023-40403-003.patch  | 231 ++++++++++++
- .../libxslt/libxslt/CVE-2023-40403-004.patch  | 349 ++++++++++++++++++
- .../libxslt/libxslt/CVE-2023-40403-005.patch  |  55 +++
- .../recipes-support/libxslt/libxslt_1.1.35.bb |   5 +
- 6 files changed, 1044 insertions(+)
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2023-40403-001.patch
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2023-40403-002.patch
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2023-40403-003.patch
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2023-40403-004.patch
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2023-40403-005.patch
+ ...figure-Use-autoconf-macro-to-detect-largefile-sup.patch | 6 +++---
+ .../strace/0001-strace-fix-reproducibilty-issues.patch     | 6 +++---
+ .../strace/0002-tests-Replace-off64_t-with-off_t.patch     | 2 +-
+ meta/recipes-devtools/strace/strace/Makefile-ptest.patch   | 7 +++----
+ meta/recipes-devtools/strace/strace/ptest-spacesave.patch  | 6 +++---
+ meta/recipes-devtools/strace/strace/skip-load.patch        | 2 +-
+ .../recipes-devtools/strace/strace/update-gawk-paths.patch | 2 +-
+ .../strace/{strace_6.15.bb => strace_6.16.bb}              | 2 +-
+ 8 files changed, 16 insertions(+), 17 deletions(-)
+ rename meta/recipes-devtools/strace/{strace_6.15.bb => strace_6.16.bb} (96%)
 
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-001.patch b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-001.patch
-new file mode 100644
-index 0000000000..044e100373
---- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-001.patch
-@@ -0,0 +1,257 @@
-+From 4f26166f9e253aa62f8c121a6a25c76df5aa8142 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Wed, 31 Aug 2022 15:29:57 +0200
-+Subject: [PATCH] Infrastructure to store extra data in source nodes
-+
-+Provide a mechanism to store bit flags in nodes from the source
-+document. This will later be used to store key and id status.
-+
-+Provide a function to find the psvi member of a node.
-+
-+Revert any changes to the source document after the transformation.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/commit/adebe45f6ef9f9d036acacd8aec7411d4ea84e25]
-+CVE: CVE-2023-40403
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+---
-+ libxslt/transform.c     |  34 ++++++++++
-+ libxslt/xsltInternals.h |   1 +
-+ libxslt/xsltutils.c     | 135 ++++++++++++++++++++++++++++++++++++++++
-+ libxslt/xsltutils.h     |  13 ++++
-+ 4 files changed, 183 insertions(+)
-+
-+diff --git a/libxslt/transform.c b/libxslt/transform.c
-+index 57f05bf..40ab810 100644
-+--- a/libxslt/transform.c
-++++ b/libxslt/transform.c
-+@@ -5747,6 +5747,37 @@ xsltCountKeys(xsltTransformContextPtr ctxt)
-+     return(ctxt->nbKeys);
-+ }
-+ 
-++/**
-++ * xsltCleanupSourceDoc:
-++ * @doc:  Document
-++ *
-++ * Resets source node flags and ids stored in 'psvi' member.
-++ */
-++static void
-++xsltCleanupSourceDoc(xmlDocPtr doc) {
-++    xmlNodePtr cur = (xmlNodePtr) doc;
-++    void **psviPtr;
-++
-++    while (1) {
-++        xsltClearSourceNodeFlags(cur, XSLT_SOURCE_NODE_MASK);
-++        psviPtr = xsltGetPSVIPtr(cur);
-++        if (psviPtr)
-++            *psviPtr = NULL;
-++
-++        if (cur->children != NULL && cur->type != XML_ENTITY_REF_NODE) {
-++            cur = cur->children;
-++        } else {
-++            while (cur->next == NULL) {
-++                cur = cur->parent;
-++                if (cur == (xmlNodePtr) doc)
-++                    return;
-++            }
-++
-++            cur = cur->next;
-++        }
-++    }
-++}
-++
-+ /**
-+  * xsltApplyStylesheetInternal:
-+  * @style:  a parsed XSLT stylesheet
-+@@ -6145,6 +6176,9 @@ xsltApplyStylesheetInternal(xsltStylesheetPtr style, xmlDocPtr doc,
-+     printf("# Reused variables     : %d\n", ctxt->cache->dbgReusedVars);
-+ #endif
-+ 
-++    if (ctxt->sourceDocDirty)
-++        xsltCleanupSourceDoc(doc);
-++
-+     if ((ctxt != NULL) && (userCtxt == NULL))
-+ 	xsltFreeTransformContext(ctxt);
-+ 
-+diff --git a/libxslt/xsltInternals.h b/libxslt/xsltInternals.h
-+index 14343d2..b0125c2 100644
-+--- a/libxslt/xsltInternals.h
-++++ b/libxslt/xsltInternals.h
-+@@ -1786,6 +1786,7 @@ struct _xsltTransformContext {
-+     int maxTemplateVars;
-+     unsigned long opLimit;
-+     unsigned long opCount;
-++    int sourceDocDirty;
-+ };
-+ 
-+ /**
-+diff --git a/libxslt/xsltutils.c b/libxslt/xsltutils.c
-+index 9faa6b2..a879aa8 100644
-+--- a/libxslt/xsltutils.c
-++++ b/libxslt/xsltutils.c
-+@@ -1835,6 +1835,141 @@ xsltSaveResultToString(xmlChar **doc_txt_ptr, int * doc_txt_len,
-+     return 0;
-+ }
-+ 
-++/**
-++ * xsltGetSourceNodeFlags:
-++ * @node:  Node from source document
-++ *
-++ * Returns the flags for a source node.
-++ */
-++int
-++xsltGetSourceNodeFlags(xmlNodePtr node) {
-++    /*
-++     * Squeeze the bit flags into the upper bits of
-++     *
-++     * - 'int properties' member in struct _xmlDoc
-++     * - 'xmlAttributeType atype' member in struct _xmlAttr
-++     * - 'unsigned short extra' member in struct _xmlNode
-++     */
-++    switch (node->type) {
-++        case XML_DOCUMENT_NODE:
-++        case XML_HTML_DOCUMENT_NODE:
-++            return ((xmlDocPtr) node)->properties >> 27;
-++
-++        case XML_ATTRIBUTE_NODE:
-++            return ((xmlAttrPtr) node)->atype >> 27;
-++
-++        case XML_ELEMENT_NODE:
-++        case XML_TEXT_NODE:
-++        case XML_CDATA_SECTION_NODE:
-++        case XML_PI_NODE:
-++        case XML_COMMENT_NODE:
-++            return node->extra >> 12;
-++
-++        default:
-++            return 0;
-++    }
-++}
-++
-++/**
-++ * xsltSetSourceNodeFlags:
-++ * @node:  Node from source document
-++ * @flags:  Flags
-++ *
-++ * Sets the specified flags to 1.
-++ *
-++ * Returns 0 on success, -1 on error.
-++ */
-++int
-++xsltSetSourceNodeFlags(xsltTransformContextPtr ctxt, xmlNodePtr node,
-++                       int flags) {
-++    if (node->doc == ctxt->initialContextDoc)
-++        ctxt->sourceDocDirty = 1;
-++
-++    switch (node->type) {
-++        case XML_DOCUMENT_NODE:
-++        case XML_HTML_DOCUMENT_NODE:
-++            ((xmlDocPtr) node)->properties |= flags << 27;
-++            return 0;
-++
-++        case XML_ATTRIBUTE_NODE:
-++            ((xmlAttrPtr) node)->atype |= flags << 27;
-++            return 0;
-++
-++        case XML_ELEMENT_NODE:
-++        case XML_TEXT_NODE:
-++        case XML_CDATA_SECTION_NODE:
-++        case XML_PI_NODE:
-++        case XML_COMMENT_NODE:
-++            node->extra |= flags << 12;
-++            return 0;
-++
-++        default:
-++            return -1;
-++    }
-++}
-++
-++/**
-++ * xsltClearSourceNodeFlags:
-++ * @node:  Node from source document
-++ * @flags:  Flags
-++ *
-++ * Sets the specified flags to 0.
-++ *
-++ * Returns 0 on success, -1 on error.
-++ */
-++int
-++xsltClearSourceNodeFlags(xmlNodePtr node, int flags) {
-++    switch (node->type) {
-++        case XML_DOCUMENT_NODE:
-++        case XML_HTML_DOCUMENT_NODE:
-++            ((xmlDocPtr) node)->properties &= ~(flags << 27);
-++            return 0;
-++
-++        case XML_ATTRIBUTE_NODE:
-++            ((xmlAttrPtr) node)->atype &= ~(flags << 27);
-++            return 0;
-++
-++        case XML_ELEMENT_NODE:
-++        case XML_TEXT_NODE:
-++        case XML_CDATA_SECTION_NODE:
-++        case XML_PI_NODE:
-++        case XML_COMMENT_NODE:
-++            node->extra &= ~(flags << 12);
-++            return 0;
-++
-++        default:
-++            return -1;
-++    }
-++}
-++
-++/**
-++ * xsltGetPSVIPtr:
-++ * @cur:  Node
-++ *
-++ * Returns a pointer to the psvi member of a node or NULL on error.
-++ */
-++void **
-++xsltGetPSVIPtr(xmlNodePtr cur) {
-++    switch (cur->type) {
-++        case XML_DOCUMENT_NODE:
-++        case XML_HTML_DOCUMENT_NODE:
-++            return &((xmlDocPtr) cur)->psvi;
-++
-++        case XML_ATTRIBUTE_NODE:
-++            return &((xmlAttrPtr) cur)->psvi;
-++
-++        case XML_ELEMENT_NODE:
-++        case XML_TEXT_NODE:
-++        case XML_CDATA_SECTION_NODE:
-++        case XML_PI_NODE:
-++        case XML_COMMENT_NODE:
-++            return &cur->psvi;
-++
-++        default:
-++            return NULL;
-++    }
-++}
-++
-+ #ifdef WITH_PROFILER
-+ 
-+ /************************************************************************
-+diff --git a/libxslt/xsltutils.h b/libxslt/xsltutils.h
-+index ea6c374..202694f 100644
-+--- a/libxslt/xsltutils.h
-++++ b/libxslt/xsltutils.h
-+@@ -247,6 +247,19 @@ XSLTPUBFUN xmlXPathCompExprPtr XSLTCALL
-+ 						 const xmlChar *str,
-+ 						 int flags);
-+ 
-++#ifdef IN_LIBXSLT
-++#define XSLT_SOURCE_NODE_MASK       15
-++int
-++xsltGetSourceNodeFlags(xmlNodePtr node);
-++int
-++xsltSetSourceNodeFlags(xsltTransformContextPtr ctxt, xmlNodePtr node,
-++                       int flags);
-++int
-++xsltClearSourceNodeFlags(xmlNodePtr node, int flags);
-++void **
-++xsltGetPSVIPtr(xmlNodePtr cur);
-++#endif
-++
-+ /*
-+  * Profiling.
-+  */
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-002.patch b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-002.patch
-new file mode 100644
-index 0000000000..0d815c1090
---- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-002.patch
-@@ -0,0 +1,147 @@
-+From b392a3d0265f190d86cc122d86769a23ddb1fe66 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Wed, 31 Aug 2022 15:34:47 +0200
-+Subject: [PATCH] Store key status of source nodes as bit flag
-+
-+This frees up the psvi member.
-+
-+CVE: CVE-2023-40403
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/commit/1d9820635c271b35f88431f33ea78dc8be349e5b]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+---
-+ libxslt/keys.c      | 19 +------------------
-+ libxslt/pattern.c   | 37 ++-----------------------------------
-+ libxslt/xsltutils.h |  1 +
-+ 3 files changed, 4 insertions(+), 53 deletions(-)
-+
-+diff --git a/libxslt/keys.c b/libxslt/keys.c
-+index ecef538..3a134ab 100644
-+--- a/libxslt/keys.c
-++++ b/libxslt/keys.c
-+@@ -834,24 +834,7 @@ fprintf(stderr, "xsltInitCtxtKey %s : %d\n", keyDef->name, ctxt->keyInitLevel);
-+ 		*/
-+ 		xmlXPathNodeSetAdd(keylist, cur);
-+ 	    }
-+-	    switch (cur->type) {
-+-		case XML_ELEMENT_NODE:
-+-		case XML_TEXT_NODE:
-+-		case XML_CDATA_SECTION_NODE:
-+-		case XML_PI_NODE:
-+-		case XML_COMMENT_NODE:
-+-		    cur->psvi = keyDef;
-+-		    break;
-+-		case XML_ATTRIBUTE_NODE:
-+-		    ((xmlAttrPtr) cur)->psvi = keyDef;
-+-		    break;
-+-		case XML_DOCUMENT_NODE:
-+-		case XML_HTML_DOCUMENT_NODE:
-+-		    ((xmlDocPtr) cur)->psvi = keyDef;
-+-		    break;
-+-		default:
-+-		    break;
-+-	    }
-++            xsltSetSourceNodeFlags(ctxt, cur, XSLT_SOURCE_NODE_HAS_KEY);
-+ 	    xmlFree(str);
-+ 	    str = NULL;
-+ 
-+diff --git a/libxslt/pattern.c b/libxslt/pattern.c
-+index 1944661..9372bc3 100644
-+--- a/libxslt/pattern.c
-++++ b/libxslt/pattern.c
-+@@ -2283,7 +2283,6 @@ xsltGetTemplate(xsltTransformContextPtr ctxt, xmlNodePtr node,
-+     const xmlChar *name = NULL;
-+     xsltCompMatchPtr list = NULL;
-+     float priority;
-+-    int keyed = 0;
-+ 
-+     if ((ctxt == NULL) || (node == NULL))
-+ 	return(NULL);
-+@@ -2361,37 +2360,25 @@ xsltGetTemplate(xsltTransformContextPtr ctxt, xmlNodePtr node,
-+ 		    list = curstyle->rootMatch;
-+ 		else
-+ 		    list = curstyle->elemMatch;
-+-		if (node->psvi != NULL) keyed = 1;
-+ 		break;
-+ 	    case XML_ATTRIBUTE_NODE: {
-+-	        xmlAttrPtr attr;
-+-
-+ 		list = curstyle->attrMatch;
-+-		attr = (xmlAttrPtr) node;
-+-		if (attr->psvi != NULL) keyed = 1;
-+ 		break;
-+ 	    }
-+ 	    case XML_PI_NODE:
-+ 		list = curstyle->piMatch;
-+-		if (node->psvi != NULL) keyed = 1;
-+ 		break;
-+ 	    case XML_DOCUMENT_NODE:
-+ 	    case XML_HTML_DOCUMENT_NODE: {
-+-	        xmlDocPtr doc;
-+-
-+ 		list = curstyle->rootMatch;
-+-		doc = (xmlDocPtr) node;
-+-		if (doc->psvi != NULL) keyed = 1;
-+ 		break;
-+ 	    }
-+ 	    case XML_TEXT_NODE:
-+ 	    case XML_CDATA_SECTION_NODE:
-+ 		list = curstyle->textMatch;
-+-		if (node->psvi != NULL) keyed = 1;
-+ 		break;
-+ 	    case XML_COMMENT_NODE:
-+ 		list = curstyle->commentMatch;
-+-		if (node->psvi != NULL) keyed = 1;
-+ 		break;
-+ 	    case XML_ENTITY_REF_NODE:
-+ 	    case XML_ENTITY_NODE:
-+@@ -2461,7 +2448,7 @@ xsltGetTemplate(xsltTransformContextPtr ctxt, xmlNodePtr node,
-+ 	}
-+ 
-+ keyed_match:
-+-	if (keyed) {
-++        if (xsltGetSourceNodeFlags(node) & XSLT_SOURCE_NODE_HAS_KEY) {
-+ 	    list = curstyle->keyMatch;
-+ 	    while ((list != NULL) &&
-+                    ((ret == NULL) ||
-+@@ -2489,27 +2476,7 @@ keyed_match:
-+ 	    if (xsltComputeAllKeys(ctxt, node) == -1)
-+ 		goto error;
-+ 
-+-	    switch (node->type) {
-+-		case XML_ELEMENT_NODE:
-+-		    if (node->psvi != NULL) keyed = 1;
-+-		    break;
-+-		case XML_ATTRIBUTE_NODE:
-+-		    if (((xmlAttrPtr) node)->psvi != NULL) keyed = 1;
-+-		    break;
-+-		case XML_TEXT_NODE:
-+-		case XML_CDATA_SECTION_NODE:
-+-		case XML_COMMENT_NODE:
-+-		case XML_PI_NODE:
-+-		    if (node->psvi != NULL) keyed = 1;
-+-		    break;
-+-		case XML_DOCUMENT_NODE:
-+-		case XML_HTML_DOCUMENT_NODE:
-+-		    if (((xmlDocPtr) node)->psvi != NULL) keyed = 1;
-+-		    break;
-+-		default:
-+-		    break;
-+-	    }
-+-	    if (keyed)
-++            if (xsltGetSourceNodeFlags(node) & XSLT_SOURCE_NODE_HAS_KEY)
-+ 		goto keyed_match;
-+ 	}
-+ 	if (ret != NULL)
-+diff --git a/libxslt/xsltutils.h b/libxslt/xsltutils.h
-+index 202694f..dcfd139 100644
-+--- a/libxslt/xsltutils.h
-++++ b/libxslt/xsltutils.h
-+@@ -249,6 +249,7 @@ XSLTPUBFUN xmlXPathCompExprPtr XSLTCALL
-+ 
-+ #ifdef IN_LIBXSLT
-+ #define XSLT_SOURCE_NODE_MASK       15
-++#define XSLT_SOURCE_NODE_HAS_KEY    1
-+ int
-+ xsltGetSourceNodeFlags(xmlNodePtr node);
-+ int
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-003.patch b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-003.patch
-new file mode 100644
-index 0000000000..0b9ab5829e
---- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-003.patch
-@@ -0,0 +1,231 @@
-+From 8986995b07126852762e8a59eaee83be0b8de9a3 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Wed, 31 Aug 2022 15:35:37 +0200
-+Subject: [PATCH] Store RVT ownership in 'compression' member
-+
-+'compression' is another unused member in struct _xmlDoc which is even
-+better suited to store ownership status. More importantly, this frees up
-+the 'psvi' member.
-+
-+This changes the public API but this feature is only required to
-+implement EXSLT functions.
-+
-+CVE: CVE-2023-40403
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/commit/ccec6fa31d11ab0a5299f15ea184c7a457e92940]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+---
-+ libexslt/functions.c    |  2 +-
-+ libxslt/transform.c     |  8 ++++----
-+ libxslt/variables.c     | 44 ++++++++++++++++++++---------------------
-+ libxslt/variables.h     |  6 +++---
-+ libxslt/xsltInternals.h |  2 +-
-+ 5 files changed, 31 insertions(+), 31 deletions(-)
-+
-+diff --git a/libexslt/functions.c b/libexslt/functions.c
-+index 958bf60..859a992 100644
-+--- a/libexslt/functions.c
-++++ b/libexslt/functions.c
-+@@ -775,7 +775,7 @@ exsltFuncResultElem (xsltTransformContextPtr ctxt,
-+ 	}
-+         /* Mark as function result. */
-+         xsltRegisterLocalRVT(ctxt, container);
-+-        container->psvi = XSLT_RVT_FUNC_RESULT;
-++        container->compression = XSLT_RVT_FUNC_RESULT;
-+ 
-+ 	oldInsert = ctxt->insert;
-+ 	ctxt->insert = (xmlNodePtr) container;
-+diff --git a/libxslt/transform.c b/libxslt/transform.c
-+index 40ab810..19d7326 100644
-+--- a/libxslt/transform.c
-++++ b/libxslt/transform.c
-+@@ -2276,17 +2276,17 @@ xsltReleaseLocalRVTs(xsltTransformContextPtr ctxt, xmlDocPtr base)
-+     do {
-+         tmp = cur;
-+         cur = (xmlDocPtr) cur->next;
-+-        if (tmp->psvi == XSLT_RVT_LOCAL) {
-++        if (tmp->compression == XSLT_RVT_LOCAL) {
-+             xsltReleaseRVT(ctxt, tmp);
-+-        } else if (tmp->psvi == XSLT_RVT_GLOBAL) {
-++        } else if (tmp->compression == XSLT_RVT_GLOBAL) {
-+             xsltRegisterPersistRVT(ctxt, tmp);
-+-        } else if (tmp->psvi == XSLT_RVT_FUNC_RESULT) {
-++        } else if (tmp->compression == XSLT_RVT_FUNC_RESULT) {
-+             /*
-+              * This will either register the RVT again or move it to the
-+              * context variable.
-+              */
-+             xsltRegisterLocalRVT(ctxt, tmp);
-+-            tmp->psvi = XSLT_RVT_FUNC_RESULT;
-++            tmp->compression = XSLT_RVT_FUNC_RESULT;
-+         } else {
-+             xmlGenericError(xmlGenericErrorContext,
-+                     "xsltReleaseLocalRVTs: Unexpected RVT flag %p\n",
-+diff --git a/libxslt/variables.c b/libxslt/variables.c
-+index 4c972a4..dab0bab 100644
-+--- a/libxslt/variables.c
-++++ b/libxslt/variables.c
-+@@ -123,7 +123,7 @@ xsltRegisterTmpRVT(xsltTransformContextPtr ctxt, xmlDocPtr RVT)
-+ 	return(-1);
-+ 
-+     RVT->prev = NULL;
-+-    RVT->psvi = XSLT_RVT_LOCAL;
-++    RVT->compression = XSLT_RVT_LOCAL;
-+ 
-+     /*
-+     * We'll restrict the lifetime of user-created fragments
-+@@ -163,7 +163,7 @@ xsltRegisterLocalRVT(xsltTransformContextPtr ctxt,
-+ 	return(-1);
-+ 
-+     RVT->prev = NULL;
-+-    RVT->psvi = XSLT_RVT_LOCAL;
-++    RVT->compression = XSLT_RVT_LOCAL;
-+ 
-+     /*
-+     * When evaluating "select" expressions of xsl:variable
-+@@ -255,7 +255,7 @@ xsltExtensionInstructionResultRegister(
-+  * Returns 0 in case of success and -1 in case of error.
-+  */
-+ int
-+-xsltFlagRVTs(xsltTransformContextPtr ctxt, xmlXPathObjectPtr obj, void *val) {
-++xsltFlagRVTs(xsltTransformContextPtr ctxt, xmlXPathObjectPtr obj, int val) {
-+     int i;
-+     xmlNodePtr cur;
-+     xmlDocPtr doc;
-+@@ -302,34 +302,34 @@ xsltFlagRVTs(xsltTransformContextPtr ctxt, xmlXPathObjectPtr obj, void *val) {
-+ 	    return(-1);
-+ 	}
-+ 	if (doc->name && (doc->name[0] == ' ') &&
-+-            doc->psvi != XSLT_RVT_GLOBAL) {
-++            doc->compression != XSLT_RVT_GLOBAL) {
-+ 	    /*
-+ 	    * This is a result tree fragment.
-+-	    * We store ownership information in the @psvi field.
-++	    * We store ownership information in the @compression field.
-+ 	    * TODO: How do we know if this is a doc acquired via the
-+ 	    *  document() function?
-+ 	    */
-+ #ifdef WITH_XSLT_DEBUG_VARIABLE
-+             XSLT_TRACE(ctxt,XSLT_TRACE_VARIABLES,xsltGenericDebug(xsltGenericDebugContext,
-+-                "Flagging RVT %p: %p -> %p\n", doc, doc->psvi, val));
-++                "Flagging RVT %p: %d -> %d\n", doc, doc->compression, val));
-+ #endif
-+ 
-+             if (val == XSLT_RVT_LOCAL) {
-+-                if (doc->psvi == XSLT_RVT_FUNC_RESULT)
-+-                    doc->psvi = XSLT_RVT_LOCAL;
-++                if (doc->compression == XSLT_RVT_FUNC_RESULT)
-++                    doc->compression = XSLT_RVT_LOCAL;
-+             } else if (val == XSLT_RVT_GLOBAL) {
-+-                if (doc->psvi != XSLT_RVT_LOCAL) {
-++                if (doc->compression != XSLT_RVT_LOCAL) {
-+ 		    xmlGenericError(xmlGenericErrorContext,
-+-                            "xsltFlagRVTs: Invalid transition %p => GLOBAL\n",
-+-                            doc->psvi);
-+-                    doc->psvi = XSLT_RVT_GLOBAL;
-++                            "xsltFlagRVTs: Invalid transition %d => GLOBAL\n",
-++                            doc->compression);
-++                    doc->compression = XSLT_RVT_GLOBAL;
-+                     return(-1);
-+                 }
-+ 
-+                 /* Will be registered as persistant in xsltReleaseLocalRVTs. */
-+-                doc->psvi = XSLT_RVT_GLOBAL;
-++                doc->compression = XSLT_RVT_GLOBAL;
-+             } else if (val == XSLT_RVT_FUNC_RESULT) {
-+-	        doc->psvi = val;
-++	        doc->compression = val;
-+             }
-+ 	}
-+     }
-+@@ -382,7 +382,7 @@ xsltReleaseRVT(xsltTransformContextPtr ctxt, xmlDocPtr RVT)
-+ 	/*
-+ 	* Reset the ownership information.
-+ 	*/
-+-	RVT->psvi = NULL;
-++	RVT->compression = 0;
-+ 
-+ 	RVT->next = (xmlNodePtr) ctxt->cache->RVT;
-+ 	ctxt->cache->RVT = RVT;
-+@@ -421,7 +421,7 @@ xsltRegisterPersistRVT(xsltTransformContextPtr ctxt, xmlDocPtr RVT)
-+ {
-+     if ((ctxt == NULL) || (RVT == NULL)) return(-1);
-+ 
-+-    RVT->psvi = XSLT_RVT_GLOBAL;
-++    RVT->compression = XSLT_RVT_GLOBAL;
-+     RVT->prev = NULL;
-+     RVT->next = (xmlNodePtr) ctxt->persistRVT;
-+     if (ctxt->persistRVT != NULL)
-+@@ -580,15 +580,15 @@ xsltFreeStackElem(xsltStackElemPtr elem) {
-+ 	    cur = elem->fragment;
-+ 	    elem->fragment = (xmlDocPtr) cur->next;
-+ 
-+-            if (cur->psvi == XSLT_RVT_LOCAL) {
-++            if (cur->compression == XSLT_RVT_LOCAL) {
-+ 		xsltReleaseRVT(elem->context, cur);
-+-            } else if (cur->psvi == XSLT_RVT_FUNC_RESULT) {
-++            } else if (cur->compression == XSLT_RVT_FUNC_RESULT) {
-+                 xsltRegisterLocalRVT(elem->context, cur);
-+-                cur->psvi = XSLT_RVT_FUNC_RESULT;
-++                cur->compression = XSLT_RVT_FUNC_RESULT;
-+             } else {
-+                 xmlGenericError(xmlGenericErrorContext,
-+-                        "xsltFreeStackElem: Unexpected RVT flag %p\n",
-+-                        cur->psvi);
-++                        "xsltFreeStackElem: Unexpected RVT flag %d\n",
-++                        cur->compression);
-+             }
-+ 	}
-+     }
-+@@ -989,7 +989,7 @@ xsltEvalVariable(xsltTransformContextPtr ctxt, xsltStackElemPtr variable,
-+ 		* the Result Tree Fragment.
-+ 		*/
-+ 		variable->fragment = container;
-+-                container->psvi = XSLT_RVT_LOCAL;
-++                container->compression = XSLT_RVT_LOCAL;
-+ 
-+ 		oldOutput = ctxt->output;
-+ 		oldInsert = ctxt->insert;
-+diff --git a/libxslt/variables.h b/libxslt/variables.h
-+index 039288f..e2adee0 100644
-+--- a/libxslt/variables.h
-++++ b/libxslt/variables.h
-+@@ -43,7 +43,7 @@ extern "C" {
-+  *
-+  * RVT is destroyed after the current instructions ends.
-+  */
-+-#define XSLT_RVT_LOCAL       ((void *)1)
-++#define XSLT_RVT_LOCAL       1
-+ 
-+ /**
-+  * XSLT_RVT_FUNC_RESULT:
-+@@ -52,14 +52,14 @@ extern "C" {
-+  * destroyed after exiting a template and will be reset to XSLT_RVT_LOCAL or
-+  * XSLT_RVT_VARIABLE in the template that receives the return value.
-+  */
-+-#define XSLT_RVT_FUNC_RESULT ((void *)2)
-++#define XSLT_RVT_FUNC_RESULT 2
-+ 
-+ /**
-+  * XSLT_RVT_GLOBAL:
-+  *
-+  * RVT is part of a global variable.
-+  */
-+-#define XSLT_RVT_GLOBAL      ((void *)3)
-++#define XSLT_RVT_GLOBAL      3
-+ 
-+ /*
-+  * Interfaces for the variable module.
-+diff --git a/libxslt/xsltInternals.h b/libxslt/xsltInternals.h
-+index b0125c2..74a2b64 100644
-+--- a/libxslt/xsltInternals.h
-++++ b/libxslt/xsltInternals.h
-+@@ -1916,7 +1916,7 @@ XSLTPUBFUN int XSLTCALL
-+ 			xsltFlagRVTs(
-+ 						 xsltTransformContextPtr ctxt,
-+ 						 xmlXPathObjectPtr obj,
-+-						 void *val);
-++						 int val);
-+ XSLTPUBFUN void XSLTCALL
-+ 			xsltFreeRVTs		(xsltTransformContextPtr ctxt);
-+ XSLTPUBFUN void XSLTCALL
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-004.patch b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-004.patch
-new file mode 100644
-index 0000000000..59e7c1bad3
---- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-004.patch
-@@ -0,0 +1,349 @@
-+From 91c9c56dcca01bfe3f9dae74fb75dcf792ebe58b Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Wed, 31 Aug 2022 13:35:23 +0200
-+Subject: [PATCH] Make generate-id() deterministic
-+
-+Rework the generate-id() function to return deterministic values. We use
-+a simple incrementing counter and store ids in the 'psvi' member of
-+nodes which was freed up by previous commits. The presence of an id is
-+indicated by a new "source node" flag.
-+
-+This fixes long-standing problems with reproducible builds, see
-+https://bugzilla.gnome.org/show_bug.cgi?id=751621
-+
-+This also hardens security, as the old implementation leaked the
-+difference between a heap and a global pointer, see
-+https://bugs.chromium.org/p/chromium/issues/detail?id=1356211
-+
-+The old implementation could also generate the same id for dynamically
-+created nodes which happened to reuse the same memory. Ids for namespace
-+nodes were completely broken. They now use the id of the parent element
-+together with the hex-encoded namespace prefix.
-+
-+CVE: CVE-2023-40403
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/commit/82f6cbf8ca61b1f9e00dc04aa3b15d563e7bbc6d]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+---
-+ libxslt/functions.c               | 107 +++++++++++++++++++++++++-----
-+ libxslt/xsltInternals.h           |   1 +
-+ libxslt/xsltutils.h               |   1 +
-+ tests/REC/test-12.4-1.out         |  11 +++
-+ tests/REC/test-12.4-1.xml         |   6 ++
-+ tests/REC/test-12.4-1.xsl         |  38 +++++++++++
-+ tests/exslt/common/dynamic-id.out |  13 ++++
-+ tests/exslt/common/dynamic-id.xml |   1 +
-+ tests/exslt/common/dynamic-id.xsl |  29 ++++++++
-+ 9 files changed, 191 insertions(+), 16 deletions(-)
-+ create mode 100644 tests/REC/test-12.4-1.out
-+ create mode 100644 tests/REC/test-12.4-1.xml
-+ create mode 100644 tests/REC/test-12.4-1.xsl
-+ create mode 100644 tests/exslt/common/dynamic-id.out
-+ create mode 100644 tests/exslt/common/dynamic-id.xml
-+ create mode 100644 tests/exslt/common/dynamic-id.xsl
-+
-+diff --git a/libxslt/functions.c b/libxslt/functions.c
-+index 7887dda..da25c24 100644
-+--- a/libxslt/functions.c
-++++ b/libxslt/functions.c
-+@@ -693,11 +693,16 @@ xsltFormatNumberFunction(xmlXPathParserContextPtr ctxt, int nargs)
-+  */
-+ void
-+ xsltGenerateIdFunction(xmlXPathParserContextPtr ctxt, int nargs){
-+-    static char base_address;
-++    xsltTransformContextPtr tctxt;
-+     xmlNodePtr cur = NULL;
-+     xmlXPathObjectPtr obj = NULL;
-+-    long val;
-+-    xmlChar str[30];
-++    char *str;
-++    const xmlChar *nsPrefix = NULL;
-++    void **psviPtr;
-++    unsigned long id;
-++    size_t size, nsPrefixSize;
-++
-++    tctxt = xsltXPathGetTransformContext(ctxt);
-+ 
-+     if (nargs == 0) {
-+ 	cur = ctxt->context->node;
-+@@ -707,16 +712,15 @@ xsltGenerateIdFunction(xmlXPathParserContextPtr ctxt, int nargs){
-+ 
-+ 	if ((ctxt->value == NULL) || (ctxt->value->type != XPATH_NODESET)) {
-+ 	    ctxt->error = XPATH_INVALID_TYPE;
-+-	    xsltTransformError(xsltXPathGetTransformContext(ctxt), NULL, NULL,
-++	    xsltTransformError(tctxt, NULL, NULL,
-+ 		"generate-id() : invalid arg expecting a node-set\n");
-+-	    return;
-++            goto out;
-+ 	}
-+ 	obj = valuePop(ctxt);
-+ 	nodelist = obj->nodesetval;
-+ 	if ((nodelist == NULL) || (nodelist->nodeNr <= 0)) {
-+-	    xmlXPathFreeObject(obj);
-+ 	    valuePush(ctxt, xmlXPathNewCString(""));
-+-	    return;
-++	    goto out;
-+ 	}
-+ 	cur = nodelist->nodeTab[0];
-+ 	for (i = 1;i < nodelist->nodeNr;i++) {
-+@@ -725,22 +729,93 @@ xsltGenerateIdFunction(xmlXPathParserContextPtr ctxt, int nargs){
-+ 	        cur = nodelist->nodeTab[i];
-+ 	}
-+     } else {
-+-	xsltTransformError(xsltXPathGetTransformContext(ctxt), NULL, NULL,
-++	xsltTransformError(tctxt, NULL, NULL,
-+ 		"generate-id() : invalid number of args %d\n", nargs);
-+ 	ctxt->error = XPATH_INVALID_ARITY;
-+-	return;
-++	goto out;
-++    }
-++
-++    size = 30; /* for "id%lu" */
-++
-++    if (cur->type == XML_NAMESPACE_DECL) {
-++        xmlNsPtr ns = (xmlNsPtr) cur;
-++
-++        nsPrefix = ns->prefix;
-++        if (nsPrefix == NULL)
-++            nsPrefix = BAD_CAST "";
-++        nsPrefixSize = xmlStrlen(nsPrefix);
-++        /* For "ns" and hex-encoded string */
-++        size += nsPrefixSize * 2 + 2;
-++
-++        /* Parent is stored in 'next'. */
-++        cur = (xmlNodePtr) ns->next;
-++    }
-++
-++    psviPtr = xsltGetPSVIPtr(cur);
-++    if (psviPtr == NULL) {
-++        xsltTransformError(tctxt, NULL, NULL,
-++                "generate-id(): invalid node type %d\n", cur->type);
-++        ctxt->error = XPATH_INVALID_TYPE;
-++        goto out;
-+     }
-+ 
-+-    if (obj)
-+-        xmlXPathFreeObject(obj);
-++    if (xsltGetSourceNodeFlags(cur) & XSLT_SOURCE_NODE_HAS_ID) {
-++        id = (unsigned long) *psviPtr;
-++    } else {
-++        if (cur->type == XML_TEXT_NODE && cur->line == USHRT_MAX) {
-++            /* Text nodes store big line numbers in psvi. */
-++            cur->line = 0;
-++        } else if (*psviPtr != NULL) {
-++            xsltTransformError(tctxt, NULL, NULL,
-++                    "generate-id(): psvi already set\n");
-++            ctxt->error = XPATH_MEMORY_ERROR;
-++            goto out;
-++        }
-++
-++        if (tctxt->currentId == ULONG_MAX) {
-++            xsltTransformError(tctxt, NULL, NULL,
-++                    "generate-id(): id overflow\n");
-++            ctxt->error = XPATH_MEMORY_ERROR;
-++            goto out;
-++        }
-++
-++        id = ++tctxt->currentId;
-++        *psviPtr = (void *) id;
-++        xsltSetSourceNodeFlags(tctxt, cur, XSLT_SOURCE_NODE_HAS_ID);
-++    }
-+ 
-+-    val = (long)((char *)cur - (char *)&base_address);
-+-    if (val >= 0) {
-+-      snprintf((char *)str, sizeof(str), "idp%ld", val);
-++    str = xmlMalloc(size);
-++    if (str == NULL) {
-++        xsltTransformError(tctxt, NULL, NULL,
-++                "generate-id(): out of memory\n");
-++        ctxt->error = XPATH_MEMORY_ERROR;
-++        goto out;
-++    }
-++    if (nsPrefix == NULL) {
-++        snprintf(str, size, "id%lu", id);
-+     } else {
-+-      snprintf((char *)str, sizeof(str), "idm%ld", -val);
-++        size_t i, j;
-++
-++        snprintf(str, size, "id%luns", id);
-++
-++        /*
-++         * Only ASCII alphanumerics are allowed, so we hex-encode the prefix.
-++         */
-++        j = strlen(str);
-++        for (i = 0; i < nsPrefixSize; i++) {
-++            int v;
-++
-++            v = nsPrefix[i] >> 4;
-++            str[j++] = v < 10 ? '0' + v : 'A' + (v - 10);
-++            v = nsPrefix[i] & 15;
-++            str[j++] = v < 10 ? '0' + v : 'A' + (v - 10);
-++        }
-++        str[j] = '\0';
-+     }
-+-    valuePush(ctxt, xmlXPathNewString(str));
-++    valuePush(ctxt, xmlXPathWrapString(BAD_CAST str));
-++
-++out:
-++    xmlXPathFreeObject(obj);
-+ }
-+ 
-+ /**
-+diff --git a/libxslt/xsltInternals.h b/libxslt/xsltInternals.h
-+index 74a2b64..2fd1f68 100644
-+--- a/libxslt/xsltInternals.h
-++++ b/libxslt/xsltInternals.h
-+@@ -1787,6 +1787,7 @@ struct _xsltTransformContext {
-+     unsigned long opLimit;
-+     unsigned long opCount;
-+     int sourceDocDirty;
-++    unsigned long currentId; /* For generate-id() */
-+ };
-+ 
-+ /**
-+diff --git a/libxslt/xsltutils.h b/libxslt/xsltutils.h
-+index dcfd139..6c14ecf 100644
-+--- a/libxslt/xsltutils.h
-++++ b/libxslt/xsltutils.h
-+@@ -250,6 +250,7 @@ XSLTPUBFUN xmlXPathCompExprPtr XSLTCALL
-+ #ifdef IN_LIBXSLT
-+ #define XSLT_SOURCE_NODE_MASK       15
-+ #define XSLT_SOURCE_NODE_HAS_KEY    1
-++#define XSLT_SOURCE_NODE_HAS_ID     2
-+ int
-+ xsltGetSourceNodeFlags(xmlNodePtr node);
-+ int
-+diff --git a/tests/REC/test-12.4-1.out b/tests/REC/test-12.4-1.out
-+new file mode 100644
-+index 0000000..237a9f2
-+--- /dev/null
-++++ b/tests/REC/test-12.4-1.out
-+@@ -0,0 +1,11 @@
-++<?xml version="1.0"?>
-++<result>
-++  <document>id1</document>
-++  <element>id2</element>
-++  <attribute>id3</attribute>
-++  <namespace>id2ns</namespace>
-++  <namespace>id2nsC3A4C3B6C3BC</namespace>
-++  <text>id4</text>
-++  <comment>id5</comment>
-++  <processing-instruction>id6</processing-instruction>
-++</result>
-+diff --git a/tests/REC/test-12.4-1.xml b/tests/REC/test-12.4-1.xml
-+new file mode 100644
-+index 0000000..84484f6
-+--- /dev/null
-++++ b/tests/REC/test-12.4-1.xml
-+@@ -0,0 +1,6 @@
-++<doc xmlns="s:def">
-++    <elem attr="value" xmlns:äöü="uri"/>
-++    <text>text</text>
-++    <!-- comment -->
-++    <?pi content?>
-++</doc>
-+diff --git a/tests/REC/test-12.4-1.xsl b/tests/REC/test-12.4-1.xsl
-+new file mode 100644
-+index 0000000..5cf5dd3
-+--- /dev/null
-++++ b/tests/REC/test-12.4-1.xsl
-+@@ -0,0 +1,38 @@
-++<xsl:stylesheet
-++    version="1.0"
-++    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-++    xmlns:d="s:def"
-++    exclude-result-prefixes="d">
-++
-++<xsl:output indent="yes"/>
-++
-++<xsl:template match="/">
-++    <result>
-++        <document>
-++            <xsl:value-of select="generate-id(/)"/>
-++        </document>
-++        <element>
-++            <xsl:value-of select="generate-id(/d:doc/d:elem)"/>
-++        </element>
-++        <attribute>
-++            <xsl:value-of select="generate-id(d:doc/d:elem/@attr)"/>
-++        </attribute>
-++        <namespace>
-++            <xsl:value-of select="generate-id(d:doc/d:elem/namespace::*[local-name()=''])"/>
-++        </namespace>
-++        <namespace>
-++            <xsl:value-of select="generate-id(d:doc/d:elem/namespace::äöü)"/>
-++        </namespace>
-++        <text>
-++            <xsl:value-of select="generate-id(d:doc/d:text/text())"/>
-++        </text>
-++        <comment>
-++            <xsl:value-of select="generate-id(d:doc/comment())"/>
-++        </comment>
-++        <processing-instruction>
-++            <xsl:value-of select="generate-id(d:doc/processing-instruction())"/>
-++        </processing-instruction>
-++    </result>
-++</xsl:template>
-++
-++</xsl:stylesheet>
-+diff --git a/tests/exslt/common/dynamic-id.out b/tests/exslt/common/dynamic-id.out
-+new file mode 100644
-+index 0000000..1b7b7ba
-+--- /dev/null
-++++ b/tests/exslt/common/dynamic-id.out
-+@@ -0,0 +1,13 @@
-++<?xml version="1.0"?>
-++<result xmlns:exsl="http://exslt.org/common">
-++  <id>id1</id>
-++  <id>id2</id>
-++  <id>id3</id>
-++  <id>id4</id>
-++  <id>id5</id>
-++  <id>id6</id>
-++  <id>id7</id>
-++  <id>id8</id>
-++  <id>id9</id>
-++  <id>id10</id>
-++</result>
-+diff --git a/tests/exslt/common/dynamic-id.xml b/tests/exslt/common/dynamic-id.xml
-+new file mode 100644
-+index 0000000..69d62f2
-+--- /dev/null
-++++ b/tests/exslt/common/dynamic-id.xml
-+@@ -0,0 +1 @@
-++<doc/>
-+diff --git a/tests/exslt/common/dynamic-id.xsl b/tests/exslt/common/dynamic-id.xsl
-+new file mode 100644
-+index 0000000..8478f6a
-+--- /dev/null
-++++ b/tests/exslt/common/dynamic-id.xsl
-+@@ -0,0 +1,29 @@
-++<xsl:stylesheet
-++    version="1.0"
-++    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-++    xmlns:exsl="http://exslt.org/common">
-++
-++<xsl:output indent="yes"/>
-++
-++<xsl:template name="dynamic-id">
-++    <id>
-++        <xsl:value-of select="generate-id(exsl:node-set('string'))"/>
-++    </id>
-++</xsl:template>
-++
-++<xsl:template match="/">
-++    <result>
-++        <xsl:call-template name="dynamic-id"/>
-++        <xsl:call-template name="dynamic-id"/>
-++        <xsl:call-template name="dynamic-id"/>
-++        <xsl:call-template name="dynamic-id"/>
-++        <xsl:call-template name="dynamic-id"/>
-++        <xsl:call-template name="dynamic-id"/>
-++        <xsl:call-template name="dynamic-id"/>
-++        <xsl:call-template name="dynamic-id"/>
-++        <xsl:call-template name="dynamic-id"/>
-++        <xsl:call-template name="dynamic-id"/>
-++    </result>
-++</xsl:template>
-++
-++</xsl:stylesheet>
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-005.patch b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-005.patch
-new file mode 100644
-index 0000000000..e27034a0ec
---- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2023-40403-005.patch
-@@ -0,0 +1,55 @@
-+From 3014af50b22f1be89b5514faea284de7b63fa5dc Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Wed, 31 Aug 2022 21:37:44 +0200
-+Subject: [PATCH] Clean up attributes in source doc
-+
-+Also make bit flag constants unsigned to avoid implicit-conversion
-+warnings.
-+
-+CVE: CVE-2023-40403
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/-/commit/452fb4ca9b9803448826008b9573987c615912a1]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+---
-+ libxslt/transform.c | 10 ++++++++++
-+ libxslt/xsltutils.h |  6 +++---
-+ 2 files changed, 13 insertions(+), 3 deletions(-)
-+
-+diff --git a/libxslt/transform.c b/libxslt/transform.c
-+index 19d7326..7299eb5 100644
-+--- a/libxslt/transform.c
-++++ b/libxslt/transform.c
-+@@ -5764,6 +5764,16 @@ xsltCleanupSourceDoc(xmlDocPtr doc) {
-+         if (psviPtr)
-+             *psviPtr = NULL;
-+ 
-++        if (cur->type == XML_ELEMENT_NODE) {
-++            xmlAttrPtr prop = cur->properties;
-++
-++            while (prop) {
-++                prop->atype &= ~(XSLT_SOURCE_NODE_MASK << 27);
-++                prop->psvi = NULL;
-++                prop = prop->next;
-++            }
-++        }
-++
-+         if (cur->children != NULL && cur->type != XML_ENTITY_REF_NODE) {
-+             cur = cur->children;
-+         } else {
-+diff --git a/libxslt/xsltutils.h b/libxslt/xsltutils.h
-+index 6c14ecf..2af4282 100644
-+--- a/libxslt/xsltutils.h
-++++ b/libxslt/xsltutils.h
-+@@ -248,9 +248,9 @@ XSLTPUBFUN xmlXPathCompExprPtr XSLTCALL
-+ 						 int flags);
-+ 
-+ #ifdef IN_LIBXSLT
-+-#define XSLT_SOURCE_NODE_MASK       15
-+-#define XSLT_SOURCE_NODE_HAS_KEY    1
-+-#define XSLT_SOURCE_NODE_HAS_ID     2
-++#define XSLT_SOURCE_NODE_MASK       15u
-++#define XSLT_SOURCE_NODE_HAS_KEY    1u
-++#define XSLT_SOURCE_NODE_HAS_ID     2u
-+ int
-+ xsltGetSourceNodeFlags(xmlNodePtr node);
-+ int
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-index 3df372b267..2291ed2cad 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-@@ -16,6 +16,11 @@ DEPENDS = "libxml2"
- SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz \
-            file://CVE-2024-55549.patch \
-            file://CVE-2025-24855.patch \
-+           file://CVE-2023-40403-001.patch \
-+           file://CVE-2023-40403-002.patch \
-+           file://CVE-2023-40403-003.patch \
-+           file://CVE-2023-40403-004.patch \
-+           file://CVE-2023-40403-005.patch \
-           "
+diff --git a/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
+index 86dcd97713..46894cd9d0 100644
+--- a/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
++++ b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
+@@ -1,4 +1,4 @@
+-From ec543417b8e1df7c71dfc4728313849d9ab669a6 Mon Sep 17 00:00:00 2001
++From 267989559370a9f34646bf8a02001755bf64fb25 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 15 Dec 2022 15:54:27 -0800
+ Subject: [PATCH] configure: Use autoconf macro to detect largefile support
+@@ -13,10 +13,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 2 insertions(+)
  
- SRC_URI[sha256sum] = "8247f33e9a872c6ac859aa45018bc4c4d00b97e2feac9eebc10c93ce1f34dd79"
+ diff --git a/configure.ac b/configure.ac
+-index 36fff90..9e40ab5 100644
++index ad12d20..a760789 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -42,6 +42,8 @@ AC_PROG_INSTALL
++@@ -43,6 +43,8 @@ AC_PROG_INSTALL
+  AC_PROG_RANLIB
+  AC_PROG_LN_S
+  
+diff --git a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
+index 9cdb7c6134..ee379688bf 100644
+--- a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
++++ b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
+@@ -1,4 +1,4 @@
+-From d5f681c2de834110de260f4d071c7bc1fb0d7564 Mon Sep 17 00:00:00 2001
++From 59077f39cce499d11de5b0a9c23c9ded67ddb22e Mon Sep 17 00:00:00 2001
+ From: Jeremy Puhlman <jpuhlman@mvista.com>
+ Date: Wed, 11 Mar 2020 19:56:55 +0000
+ Subject: [PATCH] strace: fix reproducibilty issues
+@@ -13,7 +13,7 @@ Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/tests/gen_tests.sh b/tests/gen_tests.sh
+-index 8f47651..65267db 100755
++index 3c6228a..43b94ea 100755
+ --- a/tests/gen_tests.sh
+ +++ b/tests/gen_tests.sh
+ @@ -46,7 +46,7 @@ while read -r name arg0 args; do {
+@@ -25,7 +25,7 @@ index 8f47651..65267db 100755
+  
+  	case "$arg0" in
+  		+*)
+-@@ -91,7 +91,7 @@ while read -r name arg0 args; do {
++@@ -102,7 +102,7 @@ while read -r name arg0 args; do {
+  
+  if [ -n "$names" ]; then
+  	{
+diff --git a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
+index fc6ed7ac4d..ca909d573d 100644
+--- a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
++++ b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
+@@ -1,4 +1,4 @@
+-From 1891db87da3b204c512f47155aaa4e692008f1bf Mon Sep 17 00:00:00 2001
++From 69083e93e92437e8d9d4225fca71a053906a4af0 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 15 Dec 2022 15:56:13 -0800
+ Subject: [PATCH] tests: Replace off64_t with off_t
+diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
+index 9520aa8842..212eea8618 100644
+--- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
++++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
+@@ -1,4 +1,4 @@
+-From 593bea35a044b55222a71737ca8455c2359817d1 Mon Sep 17 00:00:00 2001
++From 9d40d293ff73dea734f1353c354f51e51992a813 Mon Sep 17 00:00:00 2001
+ From: Gabriel Barbu <gabriel.barbu@enea.com>
+ Date: Thu, 25 Jul 2013 15:28:33 +0200
+ Subject: [PATCH] strace: Add ptest
+@@ -12,9 +12,8 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+  tests/Makefile.am | 20 ++++++++++++++++++++
+  1 file changed, 20 insertions(+)
+ 
+-
+ diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index b29471f..b8b66f0 100644
++index 6e942b1..7a707d7 100644
+ --- a/tests/Makefile.am
+ +++ b/tests/Makefile.am
+ @@ -18,6 +18,7 @@ SIZEOF_LONG = @SIZEOF_LONG@
+@@ -25,7 +24,7 @@ index b29471f..b8b66f0 100644
+  AM_CFLAGS = $(WARN_CFLAGS) $(TEST_WARN_CFLAGS)
+  bundled_CPPFLAGS =
+  if USE_BUNDLED_HEADERS
+-@@ -932,3 +933,22 @@ BUILT_SOURCES = ksysent.h
++@@ -937,3 +938,22 @@ BUILT_SOURCES = ksysent.h
+  CLEANFILES = ksysent.h
+  
+  include ../src/scno.am
+diff --git a/meta/recipes-devtools/strace/strace/ptest-spacesave.patch b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
+index 14ea469c59..661ed2c7bb 100644
+--- a/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
++++ b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
+@@ -1,4 +1,4 @@
+-From cf77d301faf96cc892c6df0e19fccbf5853f249d Mon Sep 17 00:00:00 2001
++From 8bd827339ae72eab99dc9ad6a68b0ae98e5bbb49 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 29 May 2019 00:10:32 +0100
+ Subject: [PATCH] strace: Tweak ptest disk space management
+@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate [specific to OE image space issues]
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/tests/gen_tests.sh b/tests/gen_tests.sh
+-index ce1467e..8f47651 100755
++index f22ad08..3c6228a 100755
+ --- a/tests/gen_tests.sh
+ +++ b/tests/gen_tests.sh
+-@@ -73,6 +73,7 @@ while read -r name arg0 args; do {
++@@ -84,6 +84,7 @@ while read -r name arg0 args; do {
+  		$hdr
+  		. "\${srcdir=.}/init.sh"
+  		run_strace_match_diff $arg0 $args
+diff --git a/meta/recipes-devtools/strace/strace/skip-load.patch b/meta/recipes-devtools/strace/strace/skip-load.patch
+index fe737d8f9a..6b3a6cdde4 100644
+--- a/meta/recipes-devtools/strace/strace/skip-load.patch
++++ b/meta/recipes-devtools/strace/strace/skip-load.patch
+@@ -1,4 +1,4 @@
+-From 3af7272a3435fc79e5da729155480a346ccf2d44 Mon Sep 17 00:00:00 2001
++From d0c5cb43f0d1760323a20abb62cb8cf3113d3fff Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Mon, 31 Jan 2022 17:40:13 +0000
+ Subject: [PATCH] strace: skip a number of load-sensitive tests
+diff --git a/meta/recipes-devtools/strace/strace/update-gawk-paths.patch b/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
+index 429588d218..193a4819ef 100644
+--- a/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
++++ b/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
+@@ -1,4 +1,4 @@
+-From 920ff2e0e838fae4fe49bf8e8fa093d5b2485677 Mon Sep 17 00:00:00 2001
++From c11380609788ff9c802d6527adc6b2c756d5f715 Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Mon, 18 Jan 2016 11:01:00 -0800
+ Subject: [PATCH] update gawk paths, /bin/gawk -> /usr/bin/gawk
+diff --git a/meta/recipes-devtools/strace/strace_6.15.bb b/meta/recipes-devtools/strace/strace_6.16.bb
+similarity index 96%
+rename from meta/recipes-devtools/strace/strace_6.15.bb
+rename to meta/recipes-devtools/strace/strace_6.16.bb
+index fdc79bcf85..3e6b855df0 100644
+--- a/meta/recipes-devtools/strace/strace_6.15.bb
++++ b/meta/recipes-devtools/strace/strace_6.16.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
+            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
+            file://0002-tests-Replace-off64_t-with-off_t.patch \
+            "
+-SRC_URI[sha256sum] = "8552dfab08abc22a0f2048c98fd9541fd4d71b6882507952780dab7c7c512f51"
++SRC_URI[sha256sum] = "3d7aee7e4f044b2f67f3d51a8a76eda18076e9fb2774de54ac351d777d4ebffa"
+ 
+ inherit autotools github-releases ptest
+ 
 -- 
 2.43.0
 
