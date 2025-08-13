@@ -1,113 +1,134 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82118CA0EE0
-	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 16:48:11 +0000 (UTC)
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
- by mx.groups.io with SMTP id smtpd.web10.1439.1755103689057177801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17EE8C87FCF
+	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 20:49:33 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web10.7048.1755118171038410872
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Aug 2025 09:48:09 -0700
+ Wed, 13 Aug 2025 13:49:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=X+iKaGB+;
- spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: danismostlikely@gmail.com)
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3e56ffcec58so333565ab.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 09:48:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A74u3WK2;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-70a9f5d4d97so3886776d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 13:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755103688; x=1755708488; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QNbIW2IpSLbsPHhY/eg9kSOCLjNvn0KDiQom0WUd1/g=;
-        b=X+iKaGB+dgwKmvDkZ+yDq8aFOCFDl6iEf5PwE50CiDXnryKkqmFUlUvnB6rFVQcYKU
-         dWOMf6OGsaeTwrj/efF0WZE5lCD2ro0bXGVNVN13biGT6B+jnXGIKXlJJNd4kzJ0fOE2
-         Jtt940O/nIO+9zQjiDz3CAtj0BsYGN5L0nyH24vG73r/5edpseUqirTpwiFnrM+34yz2
-         R2hRShGT3WNlpSqueO3HQTlfr9m/PX/TKz/CLx54N7nFqpljsU9+HMCea3LKGfC/lH+J
-         Gvi/cw7gEreYcUYX0WmsgAjRCTRQB7D/b3gG1Gvq5rvY6AvwD3ZG5T4rkpNHExHB7ADW
-         Mluw==
+        d=gmail.com; s=20230601; t=1755118170; x=1755722970; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2G/rbx13N32uOtjBXB5kevlP1DexzAZWbsavpv/uSs0=;
+        b=A74u3WK2X/zO5A9h0fqbIRgXgn8OGep/hI96qzLS3ynizO+yhjYq9CzRnEkFBojrrn
+         sRGGddtD6tW8qJ3ttnFkVLJCUxn2B8ctPdROEIvHYT2GryInwv58yJBIhLjLm9ogCfU0
+         AWjsYKqFkgT+2TGZpVeUYvXKfsekOYt4ow59DcSdx6VjhkeSbcYi93KrZW/Re81eC0kG
+         nUpwdQ7U46L1MOkd4vn8rQbEAJKfV+o36LFX3W+9QFyp/SSTTO4d4+BZjauKd4UxP43x
+         YwFg5zeyu5Xl9lslwlsRyeLldmbpqLwQHgZtFpig3UK+FfS9cx+JK49Q9eM7yltIA5pe
+         ge1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755103688; x=1755708488;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QNbIW2IpSLbsPHhY/eg9kSOCLjNvn0KDiQom0WUd1/g=;
-        b=jh5DVnBoquDWfWJE6jhDQVSaNXdOo0DS1uJeBlnzme9gwV70QU1H243wsJiEoeY+3r
-         8H8oZIdQCacwMS+mZ76WiT4RU79KMFbIix6KsB81NBbacAMSHUEm1CR3G/TgFnGWBbGP
-         N2OBte3PmMkpFXfw4VkxR2xGnCI0pUYRQdhdUugwEV/MTKdAc41BpLGAUkLcCouwC3Eu
-         AomVf1/AOjXf5VGpJ+1gXHm8DlD5KlmzvExLiNRO6Omolhi1DWNTz97fHi9x/Iz1g2Xq
-         M/XApfSMPFd1ug8P3Q8Ncp54pCPhE/uzD4zOaY5oXGWLWuutJTL08RBlvZecvR4pua0u
-         lyvQ==
-X-Gm-Message-State: AOJu0YyLb40etFGm7xFpDV7xuBaAXazzvGg4tNpkvFCR7k+psGWkDXiW
-	kSQ0P0ZSW4yemb5uSjRA1l6mm+su1XrpD/CXoWpuVOpX+/V5Ymj8T353f1Tyww==
-X-Gm-Gg: ASbGncup2G00bpXzcKMZERV7VhpSzU+ZsqU8wDKg45jgZlv2Y0LoN5I+pLqV5aEyPD8
-	pflosaHCrrBYkCmcOustw4Ndzy0tVfADKNfQm9mwEwvVKJzEF6kjQzDBxuQpkGo9fUkhCdG7oO3
-	gaROr++FSpUWZgZeOrIdRJFlFJINvDsx+UvTEklQxv/JWNmR/UrGUPIwfulo8EXLPFaX3eFwDgT
-	d+1UX6dhEN2LJCYoGF1pBofQsCEBS2AIDZsmyF8T9vvJ2/YZEN7C0XBvmV5vKffNkzhul8ivZ47
-	rCBzrdI4MSdVcPDedHJwTXERlLyVQMmL3/WCm+TSDbcoq+OqLY0GnTsDjbl46l/8ixNRCHjnUQ/
-	zzGRAYkNSsFnQaUtLk8atTyHMcmd506ipibe5e/TX/7N33nWyY/kBKhE=
-X-Google-Smtp-Source: AGHT+IEIjZCf2ec0rtDhXGPeobXKUrm0g229NV7POmNm1UUkGxL13iNPNCWdJNNrppPdeN3EcqwoNQ==
-X-Received: by 2002:a05:6e02:1a4b:b0:3e5:4942:88dc with SMTP id e9e14a558f8ab-3e5673c0809mr55006255ab.9.1755103687874;
-        Wed, 13 Aug 2025 09:48:07 -0700 (PDT)
-Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3e5594c1991sm23980675ab.38.2025.08.13.09.48.07
+        d=1e100.net; s=20230601; t=1755118170; x=1755722970;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2G/rbx13N32uOtjBXB5kevlP1DexzAZWbsavpv/uSs0=;
+        b=ekFdbsskr45oOnKVn6W9PWdIgO6jsiRkn7zA0CMJjzltBz8cCz2+Go9Xx1O0ZyBlhj
+         zt+gHrIPybDDhevOXVdMTvxbE9hhclkOGzs7ok884N+miZNa6gZ/CIZPtJM8kznONOKx
+         JkCoT9hf2Fe1+pDyKNwFkY/jBZ4ffl0c15r2KszTJRKbmqC/aXUNtxPo1w5/vSwIcQRT
+         FFFMtXZ49fdZWfO+OgWeGQKQxQmxRs3RC9nRtMl3HYOfiidkYUzd/0u+RCogcN1J5Joe
+         0GdE5w28E/g7DPfDevtL1xOJfI/YF8oci0HVCl0AF2iQae1oEq+1P47qGrLjkkVJaTV7
+         HTfA==
+X-Gm-Message-State: AOJu0YzZc/R+lzmLS4EC4SXGnpSubAghvInBK5uxhD5znXJSeagGb08M
+	3KzBLY4UrGhJnCfg9r3qUMFzYkmYALFtonrNfPT8UvKgHe/Bsch+Ynor
+X-Gm-Gg: ASbGncsqpJ0liu1T+U/AHnfi17flqTV3JeXVrQYKAit0eZzKEk0q4OB9uaZPL0kQd26
+	YUGUgfmErkb51V6yiY9C7ZXSEvtRrNPVhDGSP6kp9lTaKfdrODImBgKBZqJuxoTcImxfQdDXodp
+	l+OZ7Y4s+gmlyH/H4REd36xa8qmoraxypYactbswey9VwiDdh7lZI1B7ouM6UYj0qT2vJbv1LHe
+	Sj0SuP1lrYLqZF3kWuPpbwQjYdxu4gK8yDOGkMkNtMWQRoSdVZiX79VRziTEjS9+17pj40t/VGK
+	wPuRmvs5sN1Q8YyQ+8mAffnIAohKIAaYJahFRoix0rNVObsfFC5cPcBmV2h2BBQ0nmIgfop2uar
+	q3XWs2k33kv9a+YElDHduZuXFt5NmghQszbZ1l7hKmXajyERbs0zgRIxB2JyQm4HYSmfsc36BN1
+	+nJWm4S9tmz+RbcZ+MYw96/BI=
+X-Google-Smtp-Source: AGHT+IEGZRRFQOaxfJH1ceA0Cv2cdREzSVtoHkpd06YP6BphzeraA9rKxxU0xmFDubAaBTdHfvotKw==
+X-Received: by 2002:a05:6214:500a:b0:702:daca:9049 with SMTP id 6a1803df08f44-70ae6d37321mr13484666d6.7.1755118169950;
+        Wed, 13 Aug 2025 13:49:29 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70af5b07658sm3326516d6.43.2025.08.13.13.49.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 09:48:07 -0700 (PDT)
-From: Daniel McGregor <danismostlikely@gmail.com>
-X-Google-Original-From: Daniel McGregor <daniel.mcgregor@vecima.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
-Subject: [kirkstone][PATCH] systemd: Fix manpage build after CVE-2025-4598
-Date: Wed, 13 Aug 2025 10:46:50 -0600
-Message-ID: <20250813164652.1053976-1-daniel.mcgregor@vecima.com>
-X-Mailer: git-send-email 2.48.1
+        Wed, 13 Aug 2025 13:49:29 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 4/8] linux-yocto/6.12: update CVE exclusions (6.12.40)
+Date: Wed, 13 Aug 2025 16:49:18 -0400
+Message-Id: <1167278d1e94e749b48f3ed1d10dba8115c0ed4b.1755118020.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1755118020.git.bruce.ashfield@gmail.com>
+References: <cover.1755118020.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 16:48:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221819
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 20:49:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221824
 
-The previous fix missed another cherry-pick that fixed building
-manpages after the coredump patch. The version-info.xml file doesn't
-exist in 250. It was introduced later, so remove the reference to
-it.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+Data pulled from: https://github.com/CVEProject/cvelistV5
+
+    1/1 [
+        Author: cvelistV5 Github Action
+        Email: github_action@example.com
+        Subject: 4 changes (1 new | 3 updated): - 1 new CVEs: CVE-2025-8126 - 3 updated CVEs: CVE-2025-31952, CVE-2025-31953, CVE-2025-31955
+        Date: Fri, 25 Jul 2025 02:18:30 +0000
+
+    ]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-core/systemd/systemd/CVE-2025-4598-0003.patch | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-kernel/linux/cve-exclusion_6.12.inc | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2025-4598-0003.patch b/meta/recipes-core/systemd/systemd/CVE-2025-4598-0003.patch
-index 737121af12..a3337b9108 100644
---- a/meta/recipes-core/systemd/systemd/CVE-2025-4598-0003.patch
-+++ b/meta/recipes-core/systemd/systemd/CVE-2025-4598-0003.patch
-@@ -33,16 +33,16 @@ Upstream-Status: Backport [https://github.com/systemd/systemd-stable/commit/2eb4
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.12.inc b/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
+index e428258bb1..ee2f30b3db 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
+@@ -1,11 +1,11 @@
  
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
- ---
-- man/systemd-coredump.xml     | 12 ++++++++++++
-+ man/systemd-coredump.xml     | 11 +++++++++++
-  src/coredump/coredump.c      | 21 ++++++++++++++++++---
-  sysctl.d/50-coredump.conf.in |  2 +-
-- 3 files changed, 31 insertions(+), 4 deletions(-)
-+ 3 files changed, 30 insertions(+), 4 deletions(-)
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2025-07-18 14:17:49.367230+00:00 for kernel version 6.12.39
+-# From linux_kernel_cves cve_2025-07-18_1400Z
++# Generated at 2025-07-25 02:49:32.259439+00:00 for kernel version 6.12.40
++# From linux_kernel_cves cve_2025-07-25_0100Z-1-g854b2f05e2c
  
- diff --git a/man/systemd-coredump.xml b/man/systemd-coredump.xml
- index cb9f47745b..ba7cad12bc 100644
- --- a/man/systemd-coredump.xml
- +++ b/man/systemd-coredump.xml
--@@ -259,6 +259,18 @@ COREDUMP_FILENAME=/var/lib/systemd/coredump/core.Web….552351.….zst
-+@@ -259,6 +259,17 @@ COREDUMP_FILENAME=/var/lib/systemd/coredump/core.Web….552351.….zst
-          </listitem>
-        </varlistentry>
-  
-@@ -54,7 +54,6 @@ index cb9f47745b..ba7cad12bc 100644
- +        project='man-pages'><refentrytitle>prctl</refentrytitle><manvolnum>2</manvolnum></citerefentry>.
- +        </para>
- +
--+        <xi:include href="version-info.xml" xpointer="v258"/>
- +        </listitem>
- +      </varlistentry>
- +
+ 
+ python check_kernel_cve_status_version() {
+-    this_version = "6.12.39"
++    this_version = "6.12.40"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+@@ -12938,7 +12938,7 @@ CVE_STATUS[CVE-2025-22112] = "cpe-stable-backport: Backported in 6.12.35"
+ 
+ CVE_STATUS[CVE-2025-22114] = "fixed-version: only affects 6.14 onwards"
+ 
+-# CVE-2025-22115 needs backporting (fixed from 6.15)
++CVE_STATUS[CVE-2025-22115] = "cpe-stable-backport: Backported in 6.12.40"
+ 
+ # CVE-2025-22116 needs backporting (fixed from 6.15)
+ 
+@@ -14236,6 +14236,12 @@ CVE_STATUS[CVE-2025-38348] = "cpe-stable-backport: Backported in 6.12.35"
+ 
+ CVE_STATUS[CVE-2025-38349] = "cpe-stable-backport: Backported in 6.12.39"
+ 
++CVE_STATUS[CVE-2025-38350] = "cpe-stable-backport: Backported in 6.12.37"
++
++# CVE-2025-38351 needs backporting (fixed from 6.16rc6)
++
++CVE_STATUS[CVE-2025-38352] = "cpe-stable-backport: Backported in 6.12.34"
++
+ CVE_STATUS[CVE-2025-38479] = "cpe-stable-backport: Backported in 6.12.23"
+ 
+ CVE_STATUS[CVE-2025-38575] = "cpe-stable-backport: Backported in 6.12.23"
+-- 
+2.39.2
+
 
