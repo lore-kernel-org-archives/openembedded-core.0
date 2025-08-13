@@ -1,120 +1,93 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE2D0CA0EE0
-	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 10:15:00 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.97919.1755080098948246978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC2ADCA0EE0
+	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 10:33:30 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.98160.1755081205255807630
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Aug 2025 03:14:59 -0700
+ Wed, 13 Aug 2025 03:33:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=N2wlfj/k;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EB7EA430D7;
-	Wed, 13 Aug 2025 10:14:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1755080097;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F365sLbixYoEEDyVkgx/+PnKpCyqosVkeADqiIxXGRk=;
-	b=N2wlfj/kIrEfJyQdfQZBbKL9Sic/wiU4EfdGwTRouW3rGcgQqnnyVWvcmuQ6fBXBDIWIfw
-	2IWuL4r0elyDKvEBpjO/ZWRE8FY1G8rHgdP8EnD75EVGvkguWJgSO4IlOG6rUzx5KrqPdv
-	CgXNxgE8xZwbSpUhrhISPAcuU1cDOTzjwD3W9wOHa+yY85TvthGZKeuS9YGfH66/Gd+zZt
-	BrfZypZtEYbRiLJL28s/gdx1MpfQZ+rwq9XlozTcwZxgCfYKRywtcMd5RPzKQJq6ni6T5d
-	BV1AhpOzVR47mJQ4Uio7cY3ACD4SWdmsy/K4YB84xtqbQzpO/s3kwh3yRX9Zjw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 13 Aug 2025 12:14:56 +0200
-Message-Id: <DC17YXMZE1EK.38MQXWDL5WLTI@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <peter.kjellerstedt@axis.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] systemd.bbclass: Make systemd_postinst run as
- intended
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250812211424.76559-1-pkj@axis.com>
- <DC17VPQRAFV5.XZL8KUA3Y7RK@bootlin.com>
-In-Reply-To: <DC17VPQRAFV5.XZL8KUA3Y7RK@bootlin.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddufeejleegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedtgfeuvdfghfegtdehvdegvefhkeegheeikeelfeefffetheeitdduudeludduleenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeffhgtfhemfhgstdgumeduvdeivdemvdgvjeeipdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepphgvthgvrhdrkhhjvghllhgvrhhsthgvughtsegrgihishdrtghomhdprhgtphhtt
- hhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=K9YSCdra;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-615622ed70fso10351944a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 03:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755081203; x=1755686003; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dlUD7JEfdxn6G53GCeE9izSXmwA30W7ARNPUwTqZMrk=;
+        b=K9YSCdraUmFx101C9DVQ3axHa+/bL63IdiH26VZ+qeS04hLLeG1PJlmp5zK08pUF6r
+         CWCPu9wVsxKd5Zfh2+tjx9dInyJD+WD7IVg0GhIevoXgMxOVQIyZN74Do+20xsB9x3MC
+         GkDjUqPnedOBbTlRWRnMhdtmGOOmU+MrcAwcWVuPT2JzNjZfRDgwc74lo19eKU6fPzVa
+         vCc1Mk9W78v5w6ZzrGMi6wBHMRJ4aY16W3MrZfMeXCTar8rEV+OdCAWI9wZyCFz/bkVU
+         1v67eNReLhjH44ICFrOpKiabd6+2m+Tgssz10FbY4znhYY/PKCVMQT85+ghoOfFHefA6
+         2DkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755081203; x=1755686003;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dlUD7JEfdxn6G53GCeE9izSXmwA30W7ARNPUwTqZMrk=;
+        b=SmGW/tCqTjsbfjC98NuArXQvnwXbdlyVai6xTuxpdJfMSBVCJbSsCmVYiO1bk7cM0H
+         lBLrofKxAHF8cErdwgp2nBONcY3yD+9Cbgwcjzin5R6ZhqiCeCvcEdUT2VSlRcm846qe
+         WwuND2tGzpYJvqg6/pzVZNGAq/RTpqrudB1cCBfBlizPpG+gP+Msieq+K4XNzRzlLdl5
+         Kumy2cs8VMoYFBUowcuOdYl70Z4f0JzOiETgePOo+2QLwQB6XrREfQYfR4E6oooie4mQ
+         SlovdUDwZ16RgDG2l71r16aKOyysmvn7A6ufINucvR6GOIRBfzFlNHIvhZ6MUMO777j0
+         Trkg==
+X-Gm-Message-State: AOJu0YzSF7afz7XMMO1hfrpvzr853Zt8z7o+POROnOOzwaTi5PltDx0u
+	g8HRBa0ZfhZaeUM1yKaO9ygnzX1lo6K3WM6cNyU0i/qBYREn0Z1JyKWdYg3zsg==
+X-Gm-Gg: ASbGncunkie4nkNX1WklBSAGBcWSo8tXGDFT+Q9zYLFlx+IMx/v4E6T1XDSbSHtvngi
+	qx0J+Um61ArPVUfojk8yZQorDBAe191sxT4HsZI3z/5lWW1XrWPEUdzsj0GYAlYnj9GNseSXNN8
+	8guaWWKyKQ3IyXs3utn5CmpkNbHre0hKp6dE7wNsAK21nCK3j4z8OMT+FWh8arTW28gnjRMm9yq
+	lVPYh84pTdCEDecjJma0KFw1I4nDxJ/vpCjrmmGIewZ5+Sge/zLCuNDAqTmUG4v4ehAnL6uKHby
+	JUc/Jx+xPUEEgA6Rgom6uwr0YBWivBIi+DYK8DqW+uFqBr9YVge2OVwTgu9CNr4K0y0qCDaVXTp
+	cnicVWx1xjsg6Du7Cp82q3mJX6Uh5bw==
+X-Google-Smtp-Source: AGHT+IGPigDKBBUXRqX6S+CNFrR8ltn2J88GKoSvvv1fg1Dlaab23aJNZuX/WyolO8+L6TrQGNRVdQ==
+X-Received: by 2002:a05:6402:5252:b0:618:6a0:69b0 with SMTP id 4fb4d7f45d1cf-6186bf87c26mr1915074a12.14.1755081203165;
+        Wed, 13 Aug 2025 03:33:23 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6182b1e51f8sm5341883a12.10.2025.08.13.03.33.22
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Aug 2025 03:33:22 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] bind: upgrade 9.20.10 -> 9.20.11
+Date: Wed, 13 Aug 2025 12:33:21 +0200
+Message-ID: <20250813103321.291681-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 10:15:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221801
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 10:33:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221802
 
-On Wed Aug 13, 2025 at 12:10 PM CEST, Mathieu Dubois-Briand wrote:
-> On Tue Aug 12, 2025 at 11:14 PM CEST, Peter Kjellerstedt via lists.openem=
-bedded.org wrote:
->> After the switch from using a systemctl written in Python to using the
->> official version of systemctl from the systemd project, the
->> systemd_postinst function has effectively not been executed during the
->> rootfs creation. The reason is that systemctl provided by
->> systemctl-native fails if run without argument (as systemd_postinst
->> does):
->>
->>   Failed to connect to system scope bus via local transport: Operation
->>   not permitted (consider using --machine=3D<user>@.host --user to conne=
-ct
->>   to bus of other user)
->>
->> This is not seen in the logs since stderr is sent to /dev/null, and the
->> only way to tell that there is a problem is because systemd services
->> that are expected to be enabled aren't running.
->>
->> The reason this has gone unnoticed is because systemd_handle_machine_id
->> in rootfs-postcommands.bbclass will call systemctl preset-all, which in
->> most cases will create the missing links to enable the systemd services.
->>
->> This change effectively reverts commit
->> a52e66762c0c51918b1ba3d4622759637b6e920a (systemd.bbclass: update
->> command to check systemctl available) and instead only runs systemctl
->> without arguments (to determine that it can communicate with systemd)
->> when executed on target.
->>
->> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->> ---
->
-> Hi Peter,
->
-> It looks like this is breaking the build in some configurations:
->
-> ERROR: core-image-sato-1.0-r0 do_rootfs: Postinstall scriptlets of ['blue=
-z5', 'ofono', 'connman', 'xserver-nodm-init', 'avahi-daemon', 'rpcbind', 'r=
-un-postinsts'] have failed. If the intention is to defer them to first boot=
-,
-> then please place them into pkg_postinst_ontarget:${PN} ().
-> Deferring to first boot via 'exit 1' is no longer supported.
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/26/builds/2193
->
-> Can you have a look at these errors please?
->
-> Best regards,
-> Mathieu
+Changelog:
+https://downloads.isc.org/isc/bind9/9.20.11/doc/arm/html/changelog.html#bind-9-20-11
 
-I just saw selftests are also failing for the same reason:
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ .../bind/{bind_9.20.10.bb => bind_9.20.11.bb}                   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind_9.20.10.bb => bind_9.20.11.bb} (97%)
 
-2025-08-13 08:15:22,377 - oe-selftest - INFO - overlayfs.OverlayFSTests.tes=
-t_not_all_units_installed (subunit.RemotedTestCase)
-2025-08-13 08:15:22,388 - oe-selftest - INFO -  ... FAIL
-...
-ERROR: core-image-minimal-1.0-r0 do_rootfs: Postinstall scriptlets of ['run=
--postinsts'] have failed. If the intention is to defer them to first boot,
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2141
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2069
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/recipes-connectivity/bind/bind_9.20.10.bb b/meta/recipes-connectivity/bind/bind_9.20.11.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.20.10.bb
+rename to meta/recipes-connectivity/bind/bind_9.20.11.bb
+index 32f0bdf7b5..8d230f6e95 100644
+--- a/meta/recipes-connectivity/bind/bind_9.20.10.bb
++++ b/meta/recipes-connectivity/bind/bind_9.20.11.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "0fb3ba2c337bb488ca68f5df296c435cd255058fb63d0822e91db0235c905716"
++SRC_URI[sha256sum] = "4da2d532e668bc21e883f6e6d9d3d81794d9ec60b181530385649a56f46ee17a"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 
