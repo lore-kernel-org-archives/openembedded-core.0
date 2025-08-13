@@ -1,223 +1,287 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <praveen.kumar@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F7AC87FCF
-	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 16:14:11 +0000 (UTC)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
- by mx.groups.io with SMTP id smtpd.web11.643.1755101645337269886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C68BC87FCF
+	for <webhook@archiver.kernel.org>; Wed, 13 Aug 2025 16:32:21 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.1095.1755102731517635795
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Aug 2025 09:14:05 -0700
+ Wed, 13 Aug 2025 09:32:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=UCmJavcy;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.176, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-71d601859f5so539797b3.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 09:14:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755101644; x=1755706444; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bIPbZ17ucBOR82xzuBb7BnkZMaZAYIrXL+gQ7JD2Snw=;
-        b=UCmJavcyynP0+Sb8Dbv/qmnHFWTWaawETotoxDs/zmaVblnaUYXgu1XadkELRPxlZ7
-         q3YbCAQ3LQmXKxjBz0PG58BUqfQblqfwhoRl0worz/dAgP523NaLJU55KleNnAjHTiMT
-         Dmv+aZJCfeMPotrwjt0aavFeNISWkLqiUPiOFXvnB5lxDzLL7eojZYH9qzDM13DQSvEK
-         b8v6c+eE3HwSB6z/NKLv8uxdpsFrlNmxU3C4wN8HeNag2C0ssd+HaLYJljWsue3h3wX9
-         7DXPCRyeBp1IG4LjHFP7OvUfdvyIskr2+9pYDSB6hp/xZ7SwZ3x9uriYCH8FC/lmhANf
-         g+HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755101644; x=1755706444;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bIPbZ17ucBOR82xzuBb7BnkZMaZAYIrXL+gQ7JD2Snw=;
-        b=sqSe/+Ikzn9L7uzth3FhLmnl2bnXvFIS1X6eutQxIpggqTp2B4FBAQauFsv7MsZwKT
-         4cPVCwKEUFzbptutDnBgQNgRkxS1vh52Kyy8xah25t/1tzy77utSM7BDwfxpGB6kznGY
-         gyxd+HXo0WfQA5cUk24x8eGu50dtcWt9JTsyPRyZwTsJ1A9fCdxbUknNG8iZnpE6JKYm
-         vZwnctCs9ZuWI2FNm4JgXXjKNJ8h3tTAUmiPsMzSndkGNWtdK96Bl/0snCPtpjhcJbz4
-         FYbsFbKZ8MFPhvOirpfhngWH/z5NCLNkxTmVqegh70bgQwhfFhseOVOtoWrypMzPg/Or
-         Jz3Q==
-X-Gm-Message-State: AOJu0YxQJNueC9+lt6KrdTKRVY9ODlIS0qlwjfIKUmzpPzurcCHLVNDn
-	55cGbV0B3Z33DawZTv5+ajISSfRIFFVjzNwhQm9vl+x95KVN6BLiq2mEPjBQJvDTuZyZNfuRM0p
-	X3oQ0w9UdlB2NroRQFr4FkyszXlm1qQ8Fkct7X2MuhvGD7qR+yEt1
-X-Gm-Gg: ASbGncsvBY5KVkkI3TycR+MLGu+Ryg3rlPck4qrqhqkjwAAMr8DSdIyXv5ejJyv5FUS
-	n8NhlUEReEumIKdIuKEDVFpOuk0bn32Ox/smo0lKyewSY0cJPSl0xUouNXOgkM5A+8jEYkEOQdV
-	X3CZ1Oygh03FWMIeYnjStFTvp84T0hoPgKNsYiLo2v9Cc3yOFPXLO6llosNOqeFKB42/WCqZspH
-	0eUDn+oqviBerrxHeD1HUSIwKu1XIlxtVEvmvNBu6lj/gmO5A==
-X-Google-Smtp-Source: AGHT+IF+AcM2xcDaDoLPTYjVipsnt6m0SvFE+wWZ7yBk9dKaFqUVb5YDrh3lKXKPsv6oGSRVVlBO5IPu3QoeS8b1wJA=
-X-Received: by 2002:a05:690c:6e0a:b0:71a:2d5f:49b1 with SMTP id
- 00721157ae682-71d4e3fd798mr42577247b3.4.1755101644287; Wed, 13 Aug 2025
- 09:14:04 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0320f648ca=praveen.kumar@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57DCinYa3992881;
+	Wed, 13 Aug 2025 09:32:10 -0700
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48fvchj09t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 13 Aug 2025 09:32:09 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Wed, 13 Aug 2025 09:31:57 -0700
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Wed, 13 Aug 2025 09:31:54 -0700
+From: Praveen Kumar <praveen.kumar@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Markus Volk <f_l_k@t-online.de>,
+        Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+        Praveen Kumar
+	<praveen.kumar@windriver.com>
+Subject: [oe-core][walnascar][PATCH 1/2] glib-2.0: update 2.84.0 -> 2.84.1
+Date: Wed, 13 Aug 2025 22:01:40 +0530
+Message-ID: <20250813163141.120945-1-praveen.kumar@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <cover.1755005205.git.steve@sakoman.com> <1a8f58b2e7c2005757fcf1a5d4b57f7239925133.1755005205.git.steve@sakoman.com>
- <ebdeab05-86f3-41b8-8611-43318652b7e6@gmail.com>
-In-Reply-To: <ebdeab05-86f3-41b8-8611-43318652b7e6@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 13 Aug 2025 09:13:53 -0700
-X-Gm-Features: Ac12FXy4-T3TBYPkAmh41jsrtRO-nlGVuAlhWyuY6YUW7e6p5dkgA2hJoZVxjuk
-Message-ID: <CAOSpxdZqxpHaCGdLeuRux+JW5TBK+iWstL+nduTSpUp0rWDDhw@mail.gmail.com>
-Subject: Re: [OE-core][walnascar 3/3] bitbake.conf: Switch prefix mapping to
- use -ffile-prefix-map
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Gyorgy Sarvari <skandigraun@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-GUID: h7IEOFCFESMy8WxQ5QguV9s5iM3NAfq6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEzMDE1NSBTYWx0ZWRfXwryAZeFnQzBd
+ PNuu7uUgZzfcNWrkTqLpoMCJY5IU0wGqpA5IFNuJtjuj7PH95FPwp49tN7ZPhcXYMFkVfhCz91d
+ DsLuh0MHIk1WmwnK7RPBCxC/TaCLquGaur88fbFNi7bzc/XJAICD/yKh4wdOYV/DkXVDwpxvDnb
+ 6lkBUoumRyMMxtC2+a/Twx7FyW0vwumKr9gDtMGry30EEnKASZaBhgwB/qST6WNiOkaN3SJuXuj
+ 3eJFQrfKH12TL6jkPqUBLe8iE+E16WOHUedqDMAvwRG/uUVL4bYVEVPZy54PgO/iFehlkgkQQ0g
+ mxxz7GsyIEb6+r766qzwcONt/p7a1REtFrGNBewV0orbnglKKyOEN+ADZL1M54=
+X-Proofpoint-ORIG-GUID: h7IEOFCFESMy8WxQ5QguV9s5iM3NAfq6
+X-Authority-Analysis: v=2.4 cv=RPGzH5i+ c=1 sm=1 tr=0 ts=689cbe0a cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=GHR8O2WEAAAA:20 a=ag1SF4gXAAAA:8
+ a=t7CeM3EgAAAA:8 a=aiIX5UjjAAAA:8 a=QX4gbG5DAAAA:8 a=iQbgzQUOMq_IBnEbN_sA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=Yupwre4RP9_Eg_Bd0iYG:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 57DCinYa3992881
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 16:14:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221816
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 16:32:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221817
 
-On Wed, Aug 13, 2025 at 9:11=E2=80=AFAM Gyorgy Sarvari <skandigraun@gmail.c=
-om> wrote:
->
-> Is this more than cosmetic in walnascar? If it isn't, than should this
-> really go into a stable branch? In my understanding this will require a
-> brand new sstate cache.
+From: Markus Volk <f_l_k@t-online.de>
 
-Khem,
+- remove backport patch
 
-Can you comment on this?
+Overview of changes in GLib 2.84.1, 2025-04-03
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Thanks!
+* Fix test failure when building against gobject-introspection =E2=89=A51=
+.83.4 (#3634,
+  work by Philip Withnall)
 
-Steve
+* Bugs fixed:
+  - #3630 2.84.0 build failure on Linux: ../gio/gnetworkmonitornetlink.c:=
+47:10:
+    fatal error: netlink/netlink_route.h: No such file or directory (Phil=
+ip
+    Withnall)
+  - #3634 test failure with gobject-introspection 1.83.4: warning: elemen=
+t
+    doc:format from state 3 is unknown, ignoring (Philip Withnall)
+  - #3636 gio/trash does not handle special characters well
+  - #3642 `g_cancellable_connect()` documentation incorrect (Marco Trevis=
+an
+    (Trevi=C3=B1o))
+  - #3643 g_cancellable_connect(): is it safe to unref cancellable from
+    callback? (Marco Trevisan (Trevi=C3=B1o))
+  - #3649 Crash with some registry key values in GWin32AppInfo (Philip Wi=
+thnall)
+  - !4484 Memory sanitizer fixes
+  - !4489 gobject: Be consistent in using atomic logic to handle the
+    GParamSpecPool
+  - !4541 gsettings: Port docs to gi-docgen format, add missing annotatio=
+ns and
+    make various improvements
+  - !4544 tests: Don't install runner scripts without installed_tests
+  - !4545 Update French translation
+  - !4547 Update Catalan translation
+  - !4548 Update Turkish translation
+  - !4551 Updated Danish translation
+  - !4552 Update Persian translation
+  - !4553 docs: Document GSignalFlags members added after 2.0
+  - !4554 Update Indonesian translation
+  - !4555 tests: Add a test for g_object_freeze_notify() being called too=
+ often
+  - !4557 gfileinfo: Slightly expand docs for
+    g_file_info_get_attribute_as_string()
+  - !4558 gi: Dynamically set doc-format
+  - !4561 tests: Various fixes to create temporary files in /tmp rather t=
+han the
+    build directory
+  - !4562 gdbusnameowning: Convert docs to gi-docgen linking syntax
+  - !4563 giounix-private: Fix macro for checking for epoll_create1()
+  - !4565 Fix LGPL in header
+  - !4567 gutils: make documentation of g_set_prgname() clearer
+  - !4568 docs: Add some detail
+  - !4569 Update Romanian translation
+  - !4570 gspawn-win32: Fix potential integer overflows in argv handling
+  - !4571 gvarianttype: Improve docs on type validation
 
->
-> On 8/12/25 15:29, Steve Sakoman via lists.openembedded.org wrote:
-> > From: Khem Raj <raj.khem@gmail.com>
-> >
-> > -ffile-prefix map is more comprehensive when it comes to reproducible
-> > builds and its superset of all prefix-mapping options in compilers
-> >
-> > (From OE-Core rev: ff73fa7ef7666a6dbe34f15515bc3ab6e574c5b0)
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com=
->
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  meta/classes-recipe/kernel-arch.bbclass            |  6 ++----
-> >  meta/conf/bitbake.conf                             | 14 +++++---------
-> >  meta/lib/oe/package.py                             |  2 +-
-> >  meta/recipes-devtools/gcc/libgfortran.inc          |  2 +-
-> >  .../python/python3-maturin_1.8.3.bb                |  2 +-
-> >  meta/recipes-devtools/rust/cargo_1.84.1.bb         |  2 +-
-> >  6 files changed, 11 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-rec=
-ipe/kernel-arch.bbclass
-> > index 36a6e0a60a..749a266ea3 100644
-> > --- a/meta/classes-recipe/kernel-arch.bbclass
-> > +++ b/meta/classes-recipe/kernel-arch.bbclass
-> > @@ -73,10 +73,8 @@ HOST_OBJCOPY_KERNEL_ARCH ?=3D "${TARGET_OBJCOPY_KERN=
-EL_ARCH}"
-> >
-> >  KERNEL_CC =3D "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} \
-> >   -fuse-ld=3Dbfd ${DEBUG_PREFIX_MAP} \
-> > - -fdebug-prefix-map=3D${STAGING_KERNEL_DIR}=3D${KERNEL_SRC_PATH} \
-> > - -fmacro-prefix-map=3D${STAGING_KERNEL_DIR}=3D${KERNEL_SRC_PATH} \
-> > - -fdebug-prefix-map=3D${STAGING_KERNEL_BUILDDIR}=3D${KERNEL_SRC_PATH} =
-\
-> > - -fmacro-prefix-map=3D${STAGING_KERNEL_BUILDDIR}=3D${KERNEL_SRC_PATH} =
-\
-> > + -ffile-prefix-map=3D${STAGING_KERNEL_DIR}=3D${KERNEL_SRC_PATH} \
-> > + -ffile-prefix-map=3D${STAGING_KERNEL_BUILDDIR}=3D${KERNEL_SRC_PATH} \
-> >  "
-> >  KERNEL_LD =3D "${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
-> >  KERNEL_AR =3D "${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index 501808204e..b1dae17267 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -652,15 +652,11 @@ EXTRA_OEMAKE:prepend:task-install =3D "${PARALLEL=
-_MAKEINST} "
-> >  ##################################################################
-> >  TARGET_DBGSRC_DIR ?=3D "/usr/src/debug/${PN}/${PV}"
-> >  # Beware: applied last to first
-> > -DEBUG_PREFIX_MAP ?=3D "-fcanon-prefix-map \
-> > - -fmacro-prefix-map=3D${S}=3D${TARGET_DBGSRC_DIR} \
-> > - -fdebug-prefix-map=3D${S}=3D${TARGET_DBGSRC_DIR} \
-> > - -fmacro-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} \
-> > - -fdebug-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} \
-> > - -fdebug-prefix-map=3D${STAGING_DIR_HOST}=3D \
-> > - -fmacro-prefix-map=3D${STAGING_DIR_HOST}=3D \
-> > - -fdebug-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
-> > - -fmacro-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
-> > +DEBUG_PREFIX_MAP ?=3D "\
-> > + -ffile-prefix-map=3D${S}=3D${TARGET_DBGSRC_DIR} \
-> > + -ffile-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} \
-> > + -ffile-prefix-map=3D${STAGING_DIR_HOST}=3D \
-> > + -ffile-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
-> >  "
-> >  DEBUG_LEVELFLAG ?=3D "-g"
-> >
-> > diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-> > index 0db14f2164..0bcc04ea54 100644
-> > --- a/meta/lib/oe/package.py
-> > +++ b/meta/lib/oe/package.py
-> > @@ -991,7 +991,7 @@ def copydebugsources(debugsrcdir, sources, d):
-> >
-> >          prefixmap =3D {}
-> >          for flag in cflags.split():
-> > -            if not flag.startswith("-fdebug-prefix-map"):
-> > +            if not flag.startswith("-ffile-prefix-map"):
-> >                  continue
-> >              if "recipe-sysroot" in flag:
-> >                  continue
-> > diff --git a/meta/recipes-devtools/gcc/libgfortran.inc b/meta/recipes-d=
-evtools/gcc/libgfortran.inc
-> > index 4560421ed1..fa6aecaaa3 100644
-> > --- a/meta/recipes-devtools/gcc/libgfortran.inc
-> > +++ b/meta/recipes-devtools/gcc/libgfortran.inc
-> > @@ -8,7 +8,7 @@ EXTRA_OECONF_PATHS =3D "\
-> >  # An arm hard float target like raspberrypi4 won't build
-> >  # as CFLAGS don't make it to the fortran compiler otherwise
-> >  # (the configure script sets FC to $GFORTRAN unconditionally)
-> > -export GFORTRAN =3D "${FC} -fcanon-prefix-map -fdebug-prefix-map=3D${S=
-}=3D${TARGET_DBGSRC_DIR} -fdebug-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} -=
-gno-record-gcc-switches"
-> > +export GFORTRAN =3D "${FC} -ffile-prefix-map=3D${S}=3D${TARGET_DBGSRC_=
-DIR} -ffile-prefix-map=3D${B}=3D${TARGET_DBGSRC_DIR} -gno-record-gcc-switch=
-es"
-> >
-> >  do_configure () {
-> >       for target in libbacktrace libgfortran
-> > diff --git a/meta/recipes-devtools/python/python3-maturin_1.8.3.bb b/me=
-ta/recipes-devtools/python/python3-maturin_1.8.3.bb
-> > index 17c8fb7083..ad61aac856 100644
-> > --- a/meta/recipes-devtools/python/python3-maturin_1.8.3.bb
-> > +++ b/meta/recipes-devtools/python/python3-maturin_1.8.3.bb
-> > @@ -9,7 +9,7 @@ SRC_URI[sha256sum] =3D "304762f86fd53a8031b1bf006d12572=
-a2aa0a5235485031113195cc015
-> >
-> >  S =3D "${WORKDIR}/maturin-${PV}"
-> >
-> > -CFLAGS +=3D "-fdebug-prefix-map=3D${CARGO_HOME}=3D${TARGET_DBGSRC_DIR}=
-/cargo_home"
-> > +CFLAGS +=3D "-ffile-prefix-map=3D${CARGO_HOME}=3D${TARGET_DBGSRC_DIR}/=
-cargo_home"
-> >
-> >  DEPENDS +=3D "\
-> >      python3-setuptools-rust-native \
-> > diff --git a/meta/recipes-devtools/rust/cargo_1.84.1.bb b/meta/recipes-=
-devtools/rust/cargo_1.84.1.bb
-> > index db18ecfda9..150c2d2b80 100644
-> > --- a/meta/recipes-devtools/rust/cargo_1.84.1.bb
-> > +++ b/meta/recipes-devtools/rust/cargo_1.84.1.bb
-> > @@ -19,7 +19,7 @@ CARGO_VENDORING_DIRECTORY =3D "${RUSTSRC}/vendor"
-> >
-> >  inherit cargo pkgconfig
-> >
-> > -DEBUG_PREFIX_MAP +=3D "-fdebug-prefix-map=3D${RUSTSRC}/vendor=3D${TARG=
-ET_DBGSRC_DIR}"
-> > +DEBUG_PREFIX_MAP +=3D "-ffile-prefix-map=3D${RUSTSRC}/vendor=3D${TARGE=
-T_DBGSRC_DIR}"
-> >
-> >  do_cargo_setup_snapshot () {
-> >       ${UNPACKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.s=
-h --prefix=3D"${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
-> >
->
+* Translation updates:
+  - Catalan (Jordi Mas)
+  - Danish (Ask Hjorth Larsen)
+  - French (Vincent Chatelain)
+  - Indonesian (Andika Triwidada)
+  - Persian (Danial Behzadi)
+  - Romanian (Antonio Marin)
+  - Turkish (Sabri =C3=9Cnal)
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 676b9acbe94f055a351da3bdcfbe457411e1877c)
+
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+---
+ ...664e6f1a29e0d5f301979f6d168b08435a61.patch | 75 -------------------
+ ...l_2.84.0.bb =3D> glib-2.0-initial_2.84.1.bb} |  0
+ ...{glib-2.0_2.84.0.bb =3D> glib-2.0_2.84.1.bb} |  0
+ meta/recipes-core/glib-2.0/glib.inc           |  3 +-
+ 4 files changed, 1 insertion(+), 77 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f3=
+01979f6d168b08435a61.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.84.0.bb =3D> glib-=
+2.0-initial_2.84.1.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.84.0.bb =3D> glib-2.0_2.84=
+.1.bb} (100%)
+
+diff --git a/meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f301979f6=
+d168b08435a61.patch b/meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5=
+f301979f6d168b08435a61.patch
+deleted file mode 100644
+index 28bce02dc3e..00000000000
+--- a/meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f301979f6d168b08=
+435a61.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From aee0664e6f1a29e0d5f301979f6d168b08435a61 Mon Sep 17 00:00:00 2001
+-From: Philip Withnall <pwithnall@gnome.org>
+-Date: Mon, 10 Mar 2025 15:21:15 +0000
+-Subject: [PATCH] girparser: Ignore new doc:format element in GIR files
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-As of gobject-introspection 1.83.2, a new `<doc:format name=3D"=E2=80=A6=
+"/>`
+-element is supported (as a child of `<repository>`) in GIR files.
+-
+-For the moment, this information isn=E2=80=99t needed in libgirepository=
+ =E2=80=94 but
+-the GIR parser does have to know about the element in order to not throw
+-an error claiming it=E2=80=99s invalid.
+-
+-This is a slightly tweaked version of the code added to
+-gobject-introspection.git in commit
+-9544cd6c962fab2c3203898779948309833e2439 by Corentin No=C3=ABl
+-<corentin.noel@collabora.com>, reformatted slightly to fit in with
+-GLib=E2=80=99s style guidelines.
+-
+-This is backwards compatible and does not require a new
+-gobject-introspection version.
+-
+-Signed-off-by: Philip Withnall <pwithnall@gnome.org>
+-
+-Fixes: #3634
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
+aee0664e6f1a29e0d5f301979f6d168b08435a61.patch]
+-
+-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+----
+- girepository/girparser.c | 12 +++++++++++-
+- 1 file changed, 11 insertions(+), 1 deletion(-)
+-
+-diff --git a/girepository/girparser.c b/girepository/girparser.c
+-index 63143718d9..be88d871a4 100644
+---- a/girepository/girparser.c
+-+++ b/girepository/girparser.c
+-@@ -107,7 +107,8 @@ typedef enum
+-   STATE_ALIAS,
+-   STATE_TYPE,
+-   STATE_ATTRIBUTE,
+--  STATE_PASSTHROUGH
+-+  STATE_PASSTHROUGH,
+-+  STATE_DOC_FORMAT,  /* 35 */
+- } ParseState;
+-=20
+- typedef struct _ParseContext ParseContext;
+-@@ -3159,6 +3160,11 @@ start_element_handler (GMarkupParseContext  *cont=
+ext,
+-           state_switch (ctx, STATE_PASSTHROUGH);
+-           goto out;
+-         }
+-+      else if (strcmp ("doc:format", element_name) =3D=3D 0)
+-+        {
+-+          state_switch (ctx, STATE_DOC_FORMAT);
+-+          goto out;
+-+        }
+-       break;
+-=20
+-     case 'e':
+-@@ -3843,6 +3849,10 @@ end_element_handler (GMarkupParseContext  *contex=
+t,
+-           state_switch (ctx, ctx->prev_state);
+-         }
+-       break;
+-+    case STATE_DOC_FORMAT:
+-+      if (require_end_element (context, ctx, "doc:format", element_name=
+, error))
+-+        state_switch (ctx, STATE_REPOSITORY);
+-+      break;
+-=20
+-     case STATE_PASSTHROUGH:
+-       ctx->unknown_depth -=3D 1;
+---=20
+-GitLab
+-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.0.bb b/meta=
+/recipes-core/glib-2.0/glib-2.0-initial_2.84.1.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.0.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.1.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.84.1.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.84.1.bb
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
+-2.0/glib.inc
+index 61e1a3ef173..4368e51df85 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -229,13 +229,12 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-=
+${PV}.tar.xz \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
+ly-.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.pa=
+tch \
+            file://skip-timeout.patch \
+-           file://aee0664e6f1a29e0d5f301979f6d168b08435a61.patch \
+            "
+ SRC_URI:append:class-native =3D " file://relocate-modules.patch \=20
+                                 file://0001-meson.build-do-not-enable-pi=
+dfd-features-on-native-g.patch \
+                               "
+=20
+-SRC_URI[sha256sum] =3D "f8823600cb85425e2815cfad82ea20fdaa538482ab74e729=
+3d58b3f64a5aff6a"
++SRC_URI[sha256sum] =3D "2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab=
+6bb73396bf30789a"
+=20
+ # Find any meson cross files in FILESPATH that are relevant for the curr=
+ent
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
+--=20
+2.40.0
+
 
