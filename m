@@ -1,100 +1,120 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43920CA0EE4
-	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 21:31:05 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.33638.1755207058873503892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFFECA0EE4
+	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 21:38:45 +0000 (UTC)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+ by mx.groups.io with SMTP id smtpd.web11.33788.1755207524074633270
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Aug 2025 14:30:58 -0700
+ Thu, 14 Aug 2025 14:38:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vUThAHYA;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=STgLixy1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010198aa7e41a9-814c52de-29a3-4673-8e75-6a141439e497-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755207058; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=WsdoAh6pRHy/RMgWAvZMLWGhfqVVUBdsCuhz6kkq+tQ=;
-	b=vUThAHYAYsDeDaRsmTMHnxvBr0+I3EArqc3t3pFVdrGn5lqSVpP/bf+iVrNsxD5k
-	THiwm8k8aQhe/yvaktJQfcCE06g+z8kzQTTLDAgni2RNY3gtAAvfBnXv8y437824qW0
-	fmIZwJ7pAblptmDFaFYQLXsBDlMoJABqPpfP9P8A=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755207058;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=WsdoAh6pRHy/RMgWAvZMLWGhfqVVUBdsCuhz6kkq+tQ=;
-	b=STgLixy1ThXnnx05xJKgLErrJ4RMnD5lo0HPcknK+G3rXn3feyHUZAKr0K/eQZFe
-	0Fj4mcyVaBnNHMCQDSng2JStI/pbAbrWoAGWSEnYTPys8gDrC7S8Odenu2/tBnDIRN2
-	BpHq+562zrVvZsuSlq3a+9IHXsHytcMeJ9EfOc3U=
-From: patchtest@automation.yoctoproject.org
-To: Daniel Schultz <d.schultz@phytec.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] meta-networking: mbedtls: Remove branch and tag from SRC_URI
-In-Reply-To: <20250814212650.3003016-1-d.schultz@phytec.de>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PG+Z3sla;
+ spf=pass (domain: gmail.com, ip: 209.85.219.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e931c866031so1462300276.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 14:38:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755207523; x=1755812323; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QOm56nWKyAt0SttREFGcHInTv29fH4FTgo0T5i2qyxE=;
+        b=PG+Z3slaKHHekIHk/eJae4U95BSVnkUFRxH/Ptyqf6Fx07WnCLpe4TPZ+sfEBrslcC
+         Vb5K/Y1kupSKehDL8gLPEBeopFTz6iiyvJfxFlk20YXGr7kTnczMW1H0oOyPYc/XGFSS
+         LLozH/96gB6fohmJUlU/tsJyFlL5MzCdPEQxF4A5NZPIdJaA4UZszZj9mRNe5ZCbNe/V
+         Dqj1j7PsX5Onu+nN0Riodox8vJboAAXjkbRDxXKvld92ZkDqtjdDRsrb1+Yeifc/LRJe
+         jxJDL3tJ4JT4F8upiboTW92peUj/HO1fbXTyIadWavzjl0cuw/7a5AKDIb8c0b3k6jnk
+         vKbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755207523; x=1755812323;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QOm56nWKyAt0SttREFGcHInTv29fH4FTgo0T5i2qyxE=;
+        b=FmFFw1V2sjKHTaT71QIzhIrVE3EYC8XN63bOkMLTB/nbyc6uw7apS+2MolWMHtolzE
+         ZvOC9AqD5FzuTJQZGaTunlwKsRsBbleu+skcmZC6TNAHFTMNGXDd7SDfTuG6zop3ZfrG
+         FYS6SfntzoAGKV11r/h6/5Y/0vR4LqGWyHqmdBDXfh5x0zEEtGQzP3d19bEBpwxn5iM3
+         i5nf7jq6NebNudhOKV/RCDvH7DIBseiVboxc+8zMAfG8OZRAZZJOJo//fh7KdokhaFV2
+         LLbLM29wdZxcSxT16C6KdBuUrGk4tya56C0p66aqOAbMdyQQNKdd5vYNMtmB6RaVydOQ
+         43rw==
+X-Gm-Message-State: AOJu0Yyjm8zO0P3Bj2T3rBZbiUKD4kZTR7326RpUdVzXuHc9hkkYHaZm
+	HQxfUHNd3HqOZMZBqkOthteuDOhQ3EBByeoq3FLeh15u0JmyBLurFFkfNHyX8wJjmuMHWi2qvBT
+	aHPxWmP2wsbpD2hmIhh8mvXM9nKoJHQ2r6sxp
+X-Gm-Gg: ASbGncsMrQERhZQbGHkajjAkN91WzQHqYNBzSR2k4XO1fXUXlzLHqDBe2FyZ8i1roWw
+	Yu15SMrSjIGsPS7K78bpxEB52WzWFxbzFsfNSepAGKbHwYEZO8Y99gMB9SfOb4hQoyU+Fn2QPoH
+	kxyi0GCPHDOpjFnZ2B55dBlfjfxi+FPWX0k7LCW40PMAdbsVo2VpWfZus9fbyNfzZ+CAFdljofA
+	JE+z7vEbeA5wdwe7lSDasdrOSw0ClQrtwqH
+X-Google-Smtp-Source: AGHT+IHvdnb3q3LWW9lKXnc0PZ8m2RFRVUFiI1S/rGTmnBeLBShE+Lcxa1wqBELdRlB/5C6638XPGIMZEuFxuDDidns=
+X-Received: by 2002:a05:6902:5405:b0:e90:6a88:ea9e with SMTP id
+ 3f1490d57ef6-e931e20b8dbmr6028324276.24.1755207523128; Thu, 14 Aug 2025
+ 14:38:43 -0700 (PDT)
+MIME-Version: 1.0
 References: <20250814212650.3003016-1-d.schultz@phytec.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198aa7e41a9-814c52de-29a3-4673-8e75-6a141439e497-000000@us-west-2.amazonses.com>
-Date: Thu, 14 Aug 2025 21:30:57 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.14-54.240.27.29
+In-Reply-To: <20250814212650.3003016-1-d.schultz@phytec.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 14 Aug 2025 14:38:16 -0700
+X-Gm-Features: Ac12FXwDK27Lp-UNhJW85xP89mFDC-1Ys_jGR7-EaIrEllRWAOprqR0fjozqPv4
+Message-ID: <CAMKF1soqz-Nq1UoMiArmc_Wkgb29M0vF-opwZC4Xb4JZcyudxw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] meta-networking: mbedtls: Remove branch and tag
+ from SRC_URI
+To: d.schultz@phytec.de
+Cc: openembedded-core@lists.openembedded.org, upstream@lists.phytec.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 21:31:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221872
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 21:38:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221873
 
---NextPart
-Content-Type: text/plain
+On Thu, Aug 14, 2025 at 2:27=E2=80=AFPM Daniel Schultz via
+lists.openembedded.org <d.schultz=3Dphytec.de@lists.openembedded.org>
+wrote:
+>
+> This recipe uses SRCREV as well as defines a tag in the SRC_URI.
+> Only use SRCREV since defining both will generate an error.
+>
+> Fix following error:
+>   [...] FetchError: Fetcher failure: Conflicting revisions
+>   (c765c831e5c2a0971410692f92f7a81d6ec65ec2 from SRCREV and v3.6.4
+>   from the url) found, please specify one valid value
+>
+> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
+> ---
+>  meta-networking/recipes-connectivity/mbedtls/mbedtls_3.6.4.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta-networking/recipes-connectivity/mbedtls/mbedtls_3.6.4.b=
+b b/meta-networking/recipes-connectivity/mbedtls/mbedtls_3.6.4.bb
+> index 88b50a406b..3788b05838 100644
+> --- a/meta-networking/recipes-connectivity/mbedtls/mbedtls_3.6.4.bb
+> +++ b/meta-networking/recipes-connectivity/mbedtls/mbedtls_3.6.4.bb
+> @@ -23,7 +23,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D379d5819937a=
+6c2f1ef1630d341e026d"
+>  SECTION =3D "libs"
+>
+>  S =3D "${WORKDIR}/git"
+> -SRC_URI =3D "gitsm://github.com/Mbed-TLS/mbedtls.git;protocol=3Dhttps;br=
+anch=3Dmbedtls-3.6;tag=3Dv${PV} \
+> +SRC_URI =3D "gitsm://github.com/Mbed-TLS/mbedtls.git;protocol=3Dhttps \
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Don't we need branch atleast ?
 
----
-Testing patch /home/patchtest/share/mboxes/meta-networking-mbedtls-Remove-branch-and-tag-from-SRC_URI.patch
-
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+>             file://run-ptest \
+>             "
+>
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#221871): https://lists.openembedded.org/g/openembedde=
+d-core/message/221871
+> Mute This Topic: https://lists.openembedded.org/mt/114708405/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
