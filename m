@@ -2,70 +2,69 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23D60CA0EDC
-	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 05:17:10 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web11.16009.1755148626926240215
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8D9CA0ED1
+	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 05:21:50 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.16173.1755148900431445732
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Aug 2025 22:17:07 -0700
+ Wed, 13 Aug 2025 22:21:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=ECW6VFcm;
- spf=pass (domain: mvista.com, ip: 209.85.216.42, mailfrom: hprajapati@mvista.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-323267bc0a8so1072535a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 22:17:06 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=fwI3fwQs;
+ spf=pass (domain: mvista.com, ip: 209.85.215.181, mailfrom: hprajapati@mvista.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b47173749dbso294796a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 22:21:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1755148626; x=1755753426; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1755148900; x=1755753700; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4rU9C3Icv2HM1oMWxCRwtKRbEiMmYRBOgOQ/ycV5PXM=;
-        b=ECW6VFcmgziHuO7AJbp3DzfjkOnYYh4w1pCd37ivvSgXsYGHVda0rFpb7nDain1HCc
-         mJWx+jzH76+mUmFuOwULXRFJ4uZdTpnVS60J9HjdcV28Q1qcM9IY+nr2M6rvVSwwQev+
-         n2DImSI8RdSJShH3n7sJtFz4HKJww37hc+u0o=
+        bh=EoM3LBJQTiMWtIGmxWZwJjgMas//3G/99C/ijnffYyY=;
+        b=fwI3fwQscYRns8I5ugjnG5y42+gMfbxh2VKlwoxd8bISzAfhdLnU+ewexTzbSgDgnj
+         9u424od6edFcju1O25Sy3PLpOBJatzRR3/1/yuQCm51m1/h09lBwe08GmC7NEgtCwt6b
+         DzcsLiRLPKJFakGTikBq3dYobTC2rXFDWlOUI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755148626; x=1755753426;
+        d=1e100.net; s=20230601; t=1755148900; x=1755753700;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4rU9C3Icv2HM1oMWxCRwtKRbEiMmYRBOgOQ/ycV5PXM=;
-        b=Pcnm9LofbRJxMpTDYW8w8of7iGQcBr5jyQOC9WO8rfDFNIlDrjKF4vekpG1Zpc03nJ
-         KxQDlq4NNSnEp33yP1dWc2agvbEv2l9QNMLZYfMwJdXXvc5MeoGmeBJNW5RLvFG5jrFB
-         AO4bKWvNcqT4N/cWSE7GukgHhogwKKNhesCxi2keCQwe1nPoh0TCEYAbu363/czaP8xS
-         1UCM4dApkxBSUI/7SPE7I9bQXWyBG9whW0z1TOpy4QiCGggzBrLkBlpUw94fFcJ4+JY2
-         1x++nplbhxz4fSoF9S/+zutWueo0o5X6VcAcAB4Hjy82WXrYeSSaBLRUPul4UcZ0E3E5
-         KE8A==
-X-Gm-Message-State: AOJu0Yzm+t+cKfkgjlK9jk1pVlqJddES4s8ib560MGzzw7ywhBPAQXu5
-	lPpYu2mGnLRiEYTmdaSStW+oJu364Yh/2lFEF28OHs9T7vO47L7v38tjEiJTg8RqW0Giu8FJY6N
-	5SeHY
-X-Gm-Gg: ASbGncsBkomukhrh23hqDfw6CZ6BlQ4KqLm0TdwJGQStiApGimV2ILAJMcLp+a9FnWO
-	nRsD+kKo4FTD+yokSsBvf4uqB02PxnaL1CXaKtwthdaSA5remx8vzZWhiWceRzgUF/B211lnwq+
-	q5LEcNOTWQmRcX8/wWnjg3pk5z0Cs/8noZb+2j958Gqy+6CIJL/xLnfCOXqWJ3TG3vEqr6Zo1+h
-	evGeEXIhNUYS+hslZM1GuQgN75Dx+dY6DkSUT9ddAadclElVVL3eG5p9vS1q9iYgLzYTf+Z4zb4
-	BCT8SYJUCyRfRKI+EeSSoadqA0Qv89mm2Jtn/evFBmrdU4lmJD14CA4Fx3uZPDnToz2TLVpmGvl
-	LBHY05yKtRG/mrgewT52qxTeL+917LlvZpLo=
-X-Google-Smtp-Source: AGHT+IF89ZupYqck2sXWQ8Kkt6D5ycRNriGIW6W8EZMn+Z+/y7inHPPFQDfpO0a8eAmIRyM+pX2jgg==
-X-Received: by 2002:a17:90b:3945:b0:323:2607:f5a5 with SMTP id 98e67ed59e1d1-32327a89f71mr2821080a91.26.1755148625955;
-        Wed, 13 Aug 2025 22:17:05 -0700 (PDT)
+        bh=EoM3LBJQTiMWtIGmxWZwJjgMas//3G/99C/ijnffYyY=;
+        b=riS/iTEQMqhM2hj2czrETGUmNxXwlQRgLZ/lrSVHVC7obahkKyixaWZtofvoQ/vZnN
+         8qDpyB7moPOp08liLR11M3Risjj3NanmT6bllcDTk1OxDk41iSXFf6RXd5Bz1RltWF3q
+         gO3GZnJ/C2CANDgboJ5Tq/UYsThFrE1VVo3vbl7Q69B2Lrsp5+j46fUOQV+3wnGd/Dzi
+         xNKTXTtm6iED8AdjFNdWRVOW0/PZIXjhFi5PooUWqfzpacmLxa7mjoeLDYLiqWozjdeM
+         6arxrlvCp0yJblN6tR3l8V+icbnxifWA0j9fndl1eduZEwCcNBC8aANGN9Y4r0tvvBDe
+         udRg==
+X-Gm-Message-State: AOJu0YwUbzW9Xw/kiOteliyP9PuhKt0QVUZiPDt+OEE0MhkrWI0RUDNB
+	JZ9VrWD4NJ+R77L4ArQxLCNwMbF/nPC/rCt3i7j+fqs3G329T25PxpVOPZjHClq2F7qRdbatD6F
+	mLUvZ
+X-Gm-Gg: ASbGncvoOzlnipU+K7mvofH8io5rBeNFi4yHASQG8TjSmQtX6pDzzIyTPC6bXW/OlJv
+	yMYoZOJ309r9Srj9PVubmFbNV4+ZmX2HKVzfnDaaS6IzXXrzrJfWrON69Xnz3Qi65jP0dD1AoPL
+	Zat8W/uUMhht2yut3BKQ2v0/5feIPoGyhUlR/SkJaYV+LGV9bhw4Smpw9TON+020ugW1VJDByhH
+	iK4A7rSKXpsyNn/CuHzn4SCAwzJ8mB1zTBu6VTIzshfFne9cbq5/jvMZAilh0r0DQzOUpX/Xt/e
+	21WfoB4UjLQtZkgcf2pEYl3PcvI94Bv0xFl5miHVZ0aRvE4ejxVerR9+1I64cMp7MXyZyk335CG
+	GHogqaoNE0f3//CwTGqz4TmKb6c0tTvRaHBo=
+X-Google-Smtp-Source: AGHT+IENWCRl0Z1ac3vGDJiOEJJhYAycWbLYeD3GdRXxMyJ8XiltFve/3/Y0Tn1xW+1zkPLzMYgjjA==
+X-Received: by 2002:a17:902:cf03:b0:242:a3fc:5900 with SMTP id d9443c01a7336-2445849f706mr25732325ad.8.1755148899469;
+        Wed, 13 Aug 2025 22:21:39 -0700 (PDT)
 Received: from MVIN00016.mvista.com ([43.249.234.253])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b422bb1133fsm29160559a12.56.2025.08.13.22.16.58
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e8977896sm340439895ad.79.2025.08.13.22.21.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 22:17:05 -0700 (PDT)
+        Wed, 13 Aug 2025 22:21:39 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] gstreamer1.0-plugins-good: fix multiple CVEs
-Date: Thu, 14 Aug 2025 10:46:45 +0530
-Message-ID: <20250814051645.173650-1-hprajapati@mvista.com>
+Subject: [scarthgap][PATCHv2] gstreamer1.0-plugins-good: fix multiple CVEs
+Date: Thu, 14 Aug 2025 10:51:20 +0530
+Message-ID: <20250814052121.204791-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 05:17:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221851
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 05:21:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221852
 
-* CVE-2025-47183 - Upstream-Status: Backport from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/c4d0f4bbd9a8e97f119a4528b9f4662a6b80922c
-                                               && https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/d76cae74dad89994bfcdad83da6ef1ad69074332
+* CVE-2025-47183 - Upstream-Status: Backport from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/c4d0f4bbd9a8e97f119a4528b9f4662a6b80922c && https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/d76cae74dad89994bfcdad83da6ef1ad69074332
 * CVE-2025-47219 - Upstream-Status: Backport from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/b80803943388050cb870c95934fc52feeffb94ac
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
