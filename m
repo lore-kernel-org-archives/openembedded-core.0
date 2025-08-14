@@ -2,22 +2,22 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8852BCA0EE8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9628BCA0EEA
 	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 19:05:54 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.59])
- by mx.groups.io with SMTP id smtpd.web11.28645.1755193171581537146
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.10])
+ by mx.groups.io with SMTP id smtpd.web11.28617.1755193118606371115
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Aug 2025 10:39:31 -0700
+ Thu, 14 Aug 2025 10:38:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=tT2pKl3d;
- spf=pass (domain: ericsson.com, ip: 40.107.159.59, mailfrom: etxtrex@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=fxjMzQiu;
+ spf=pass (domain: ericsson.com, ip: 52.101.72.10, mailfrom: etxtrex@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JtmVkas/5312vnq9HCJlmOzEjP/QqTLumBckMQHi1noPilPkSkYzRWwNekRB7H1FLquSzuV9C454MRNQlsYScAdPQs/sITjwZVFqbZXYlCTL/N/Abk2k3n7g+OXGYDqH9+Rm+QOqqxEo/bSMPlrE7FVhbEJkuYkljhLeVU/Tr/RA6BYkyV+FDd1ARVd7ERhIq19Yy530ayEcYb6ovFBwkEIKQNkoM3XPa7wfPXvXDHuhcT+jOxSjDilNbIdv1bNoD0hMU8NtjwEAgc84D7ZOlgShANMpMOfzLOi/p/RJSjTr1k0BbGvXFLnjsU99LG6q3653mLTRbdaXhLSLOAMa8w==
+ b=bpQZQ928AIw9/vRZ1XCbiVOG0YmuKFI9vjU5Q4PoR7hErN0mUc+gD0+qr0wKwoMazil7oRrglc0rFlOQNmpC40Bc9AMyoaQfsHxc9ezAFXFKp3O3VlUQe97BcDHEd9byrpJgjxBAe5cbRw6XL32ICLDFhbAO9NNq8/ea66srBWtUr8DvmaaYYOVVEvWPHOuSWU0h7AsNlu/Cp6NQSqPIWmK7uUHf1wSRFx41zOLLw6o3/BUDGn1Mg+nIxQ9ix1zzt0e0WikRE0CKB5HwW+NlxDiOMhTgHF4FznVQ8wb80QHJphpDmzc9W8v3adV2Bbk5YhkbHGxEPPJG48Nj7KcbBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QDeZQPTTCRQOUM5570QQDz5TYJkK5GvDp/cj6G17TGY=;
- b=cMnbzUTwe33d4weGov1Oxrjx4GWz4VgMAeFfOz5DzjNe43eTp73XoGmrPSLjjcxwN8xsB5A61qcswv8dglCHDP62GGGEuiYuEAE0Yl+IbI1AphbmXMbyhk9yt0kVdiTzgiQeSIqzBUepczHGbGMHj+B7ReJsNF6r2kL8cwoa4o8Qvy7PkjEwt26Uhihn2Vx9iwFh/IQoFI1Ss7lo5Jl32IGv5sa5RTT0wmBxpxa4jwBC5hqJiI/GURIrRk0e2iq3mPFtvDR/6JSD/5Hn9ACAPNzWWQ+dokSzERBbXXq7HYPao5FuTBqg2hkxyVh3JJ5xItTkGhxBEF4EYsGV8AVr8A==
+ bh=2UsxuxqSGcDvY9Hoo6/6+Aq/Ods4kDkd7sZWH3XVlqc=;
+ b=NdqHigwpIhQBfh2sAISlrEOky6vmpJnP3uWX76SwbD50ohA4hHveoQmVaHB0upmQCTiCVoRxkCyh40UqnLZTEH6/LEOMMrKLo9LSz0o8nTz0MeTktp8PunOvltPEBNXDKiATGcCju9Esfsty7juNf1M86BHcnjF+eScRHw8dMytFo3xnRCTmPahzy9XAoJn3KvyYKc0zPxGqJ6AS7U4JqahbZQTno9Hjqu3E+hQrb1gTUEarWES1zvIWUp6TgZmBTFfA64M/pcS8dQohMcAwyEcv+V1qK3k/YxsEBCCPHpIVPRNPsR+9GBaT2aKhmgK9kX74HM/VTXS4yVmCwvYTmQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -26,18 +26,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QDeZQPTTCRQOUM5570QQDz5TYJkK5GvDp/cj6G17TGY=;
- b=tT2pKl3d6cnpK3x1f6uijKrMem2VcPZhvfPo6tyfbdALeXt3jKQs15qGY47vd+ThMqZDtcQLskVLQmVRsnQIISiCloMbg12t6g9tsWB5fBm2XPGI0LuX+ntMapAVWELejFw1VItKlJcUrnzvT9vm1mwJXf9QHMhZFHQa6RjiVWgSnDBJAilTaL3KBGh3bx9/H8ZrZUD/dNPksyyOAPQs9hFErM0158j7sNMf49yBSITfhSBJ0UHWCmvB8yiq8PiJC4NtR3zufs9IPij9mG7xMY8lkhL+TDcO+rju/sxYd4pQm5CYJ6YtYPWQZRy7KTolFGv26o+72rAHBU3dawNoJg==
-Received: from DU2PR04CA0013.eurprd04.prod.outlook.com (2603:10a6:10:3b::18)
- by AM9PR07MB7171.eurprd07.prod.outlook.com (2603:10a6:20b:2c9::8) with
+ bh=2UsxuxqSGcDvY9Hoo6/6+Aq/Ods4kDkd7sZWH3XVlqc=;
+ b=fxjMzQiugMMIld6ZTQj1Gl3g2vmEpPJweo3B49xJzU1uL/AKiPKeHq0+QnzSPoruFu/3yzXTuQxWqksxjqYV7Ywga1i0hEbEuSp9jZLK9iuUlY++rHOaxtnnbXeu1TU/Y5FtZA+Z/Q9zhmVHxY/fhS2CnrH3O3KZaLYt72adexieqMJ67YETRCj3zVnTU/JEbrw2ujoewuydCy+9tKTWSCnh7OzvRWwxCq6bZvhandjuBmcZ+dpaO1bG08A59QRKCzqLkQmmpCPWdrMgGPw+IsVP0356pes98v8lEPh4+GXyFL7mxSbE6Rpjt0iuswM2bhUjdixCNubuHJHngQ+8UQ==
+Received: from AM0PR10CA0099.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::16)
+ by GV1PR07MB8381.eurprd07.prod.outlook.com (2603:10a6:150:24::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.15; Thu, 14 Aug
- 2025 17:24:05 +0000
-Received: from DB5PEPF00014B88.eurprd02.prod.outlook.com
- (2603:10a6:10:3b:cafe::71) by DU2PR04CA0013.outlook.office365.com
- (2603:10a6:10:3b::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.17; Thu, 14 Aug
+ 2025 17:23:53 +0000
+Received: from AMS0EPF00000195.eurprd05.prod.outlook.com
+ (2603:10a6:208:e6:cafe::64) by AM0PR10CA0099.outlook.office365.com
+ (2603:10a6:208:e6::16) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.17 via Frontend Transport; Thu,
- 14 Aug 2025 17:24:05 +0000
+ 14 Aug 2025 17:23:53 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -45,113 +45,109 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- DB5PEPF00014B88.mail.protection.outlook.com (10.167.8.196) with Microsoft
+ AMS0EPF00000195.mail.protection.outlook.com (10.167.16.215) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9031.11 via Frontend Transport; Thu, 14 Aug 2025 17:24:05 +0000
-Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.69) with Microsoft SMTP Server
+ 15.20.9031.11 via Frontend Transport; Thu, 14 Aug 2025 17:23:53 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Thu, 14 Aug 2025 19:24:04 +0200
+ 15.2.1748.26; Thu, 14 Aug 2025 19:23:52 +0200
 Received: from seroiuts01755.sero.gic.ericsson.se (seroiuts01755.sero.gic.ericsson.se [10.63.162.68])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTPS id 831CE4020DD3;
-	Thu, 14 Aug 2025 19:24:04 +0200 (CEST)
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTPS id 92E4295683;
+	Thu, 14 Aug 2025 19:23:52 +0200 (CEST)
 Received: by seroiuts01755.sero.gic.ericsson.se (Postfix, from userid 3150)
-	id 683222C11DB; Thu, 14 Aug 2025 19:24:04 +0200 (CEST)
+	id 715732C11DB; Thu, 14 Aug 2025 19:23:52 +0200 (CEST)
 From: Tony Rex <tony.rex@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Tony Rex <tony.rex@ericsson.com>
-Subject: [PATCH 1/1] base.bbclass: Fix the recipe parsing race issue
-Date: Thu, 14 Aug 2025 19:23:09 +0200
-Message-ID: <20250814172348.3882586-2-tony.rex@ericsson.com>
+Subject: [PATCH 0/1] base.bbclass: Fix the recipe parsing race issue
+Date: Thu, 14 Aug 2025 19:23:08 +0200
+Message-ID: <20250814172348.3882586-1-tony.rex@ericsson.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250814172348.3882586-1-tony.rex@ericsson.com>
-References: <20250814172348.3882586-1-tony.rex@ericsson.com>
 MIME-Version: 1.0
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B88:EE_|AM9PR07MB7171:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e15c5a0-1902-4ee3-0521-08dddb575e93
+X-MS-TrafficTypeDiagnostic: AMS0EPF00000195:EE_|GV1PR07MB8381:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed88ef35-446f-4861-73b9-08dddb57577f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
+	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?GiQH2UfA3NyKhaSaCNUx3pu3n5f+P0mxR0CN/jcBIAV7xgDqiIOzd6qravFI?=
- =?us-ascii?Q?C/igq8uXd6A6k4+rm06nMdgPUfv/Bj+GbbPCXlnHJDYfHQQRpxGp6egLc2Rf?=
- =?us-ascii?Q?XQI3M4k5CwRdokeDZQyinx8gayKb+5sL3dS8wG8I0l/kaFUBWnzx59gZofAw?=
- =?us-ascii?Q?A8FAmjWwo73TK3YG7VXE25o3MLY5InC4NdJp87ueEoO21iQAg7kZXdUKU/n9?=
- =?us-ascii?Q?dfXQS+mH3NQcRloFjB9/ZBWKNJ9DwU/ISXEeFIZXxLzng0cm1a4pBTUggSID?=
- =?us-ascii?Q?SblnHoykv1dBDFKXrvL/zkiu94ale+fu0nNC8ixKNRzMx+qBtPLPUmhPGsOy?=
- =?us-ascii?Q?JKiW1w7SiXh6/xW/WkyfobQ0pZnC1/u7yLvutNHsUD4HE2LNA9rLL9KX+GM6?=
- =?us-ascii?Q?FjOf3S7aF+/zOyOnvOyZ2ceF5YlFJ1EhDPfNfmQCI0F7Qq3DehdBabyErju0?=
- =?us-ascii?Q?mw7Esd5b3Prg2MxCgkOv6mcEllt0PZD0yHvCiTshPbDYEnfVIA8UlMeax7LH?=
- =?us-ascii?Q?k5t5o2j3YGybpHWRpJtgsxqi6lIn+7xOJsm0ANuQTgJFoftyY8I+VOFt9XgT?=
- =?us-ascii?Q?6v6UY3A8sDclJXnM0tio+/VY3yz7jz/m1n/zev7Ri0XuVbT9EnPOuWTVsGc2?=
- =?us-ascii?Q?4LynPw7gla93f3BwAwewMtTEYthTak3TedI2G1Wj15I6pAOgQe7vdtbatyPx?=
- =?us-ascii?Q?1Rp18TNsChgpmRgIPkZMSnxTzvgHIs1OMz8Xvp+nCyEby3a1Ufg1JvNkTKIO?=
- =?us-ascii?Q?4Wu0y7mvvpfeSPg7WOAuTuK//P/RIKcTrz29IpL4aD5ICRsf3V0miTmPmPdG?=
- =?us-ascii?Q?lK/enVPFTvh2f8+2uO6xwg5WAOL+81vpbMOhx8S+nmdudeye/BooA+UQawVg?=
- =?us-ascii?Q?vBNCoZ2R/YkPmyODkXbURIzRynCL9dyYwQvN0LzpSCZYkvUm7qVH6A3hvcq7?=
- =?us-ascii?Q?8vzXz4CMfvMXBdCKzxRptvSLuYE5eVFEe8vmn2pIgsk8tioFTDJTVhZBBEGi?=
- =?us-ascii?Q?XQl6JOL2B05kLmRCGg7QnGjgKARbyhBsiYzghHXP2nFY7a//5ApAjXXNpjLt?=
- =?us-ascii?Q?3ChyhBsXDG9N+VidgccPDzY6zq02ysWV9gsO1X6rUlXfV/BN+gli4Wjv+sBW?=
- =?us-ascii?Q?bCq2kTYpc/UEhGj03At5MaQ53lxg/x+hEnfqdcVu40ksyBKVTMNSwfEBFgVS?=
- =?us-ascii?Q?FTZZjNueBIEL8o6GSRCK+Usv/l4gKv6SeoCApr33335Rtx0IUNZGv1hMmCj1?=
- =?us-ascii?Q?9O7A8uwh4ybw4m9dS6RsnMI6PVdnFv1SPI+giGsKVTG7q9LWNnzzue+PU1MD?=
- =?us-ascii?Q?DTGnudak9HjbzJD+Mo4PMzLGjuQ5FgBdtEi8oDvbh/Bakf5QEmeNzWeHnLr2?=
- =?us-ascii?Q?lCldQdoRhrL5ktnhE09gN6fjk11jgKGe7yqEIDK7E95UT2s+6uxc5NfMLVXx?=
- =?us-ascii?Q?UMmRlKrf3cRPB/1N7N09EjnTSQKiNtuoGD/ZQI7aV0G1rjaR4k+/o9DgTB7j?=
- =?us-ascii?Q?+H16cvGlBlYvYEXgtVaH1FpkjYZJ4xNjeL0w?=
+	=?us-ascii?Q?d2WCLo5+RmKBtwu6EDo8ssE6UipJ5DgUOc5i88op6Aef16C0S0J9Eo97A1ib?=
+ =?us-ascii?Q?Uv3aN2io+byEWUg/fuaqD2TeK7ZzaajliYip8lg/9heTnQ3XUivTpFeau3hB?=
+ =?us-ascii?Q?Fd5F3eKPgwsBp+kv4iF+FWwKwfj6zSSi2+X9A76gotSKZxKqy66bA+i4oIf1?=
+ =?us-ascii?Q?41JcytA4EI3De8Hb/QARUfZZDTGpBWBl0K3mSygWun44gym74RPP26+XLxXe?=
+ =?us-ascii?Q?lxm1QGsufeDdhmVWjdmuAxxB2ZDplMZiYUHnG7uugD/i1u80eeiR1DcTzOQW?=
+ =?us-ascii?Q?fLviOCkiQQRESTPw+DR1PSTPOwTpQgqrBFULIJx1SCRRKp0+Brt3J7TpDTi2?=
+ =?us-ascii?Q?v50Mc9q2maywB7JnquEfcvjWOvDX75zZPKkhIkg2LtypV5jrJlJCWJh+3zfn?=
+ =?us-ascii?Q?ttveqIsZ9ZxIWIheHurvt9J2h7ACm6vD9AYBJtAyfaYGV5F7zI2g2V3g3ZkX?=
+ =?us-ascii?Q?45ZbP7tuqZcFWxb+E2t+9YZUPAREzKh7bLv5uumpOkdG0clpPqyQxQ6qHSep?=
+ =?us-ascii?Q?FNOIbafU4Q8JXdbOvQcMwpbpBiOPKOOx9Qs6KN6jzJ+o9tpKeFdesBP/Hewh?=
+ =?us-ascii?Q?JTK7aLIfdmLB1NkNVSPfOuR4H/J3PfRu5PKUZhjufZYAYHCSsZ+w+BofvISg?=
+ =?us-ascii?Q?K+X0Ubu4FH0RI+ZDrAxeN1ZemkNSgrXD7lvzMwaMvmAMLZzme5UID0Od/DtG?=
+ =?us-ascii?Q?9L50LYs227mKxoq5g3XRe9cbk/Ioz4Y6vcBSOxgXVEfoWwl9ntqpn8Rmmg1O?=
+ =?us-ascii?Q?Yjh/0TtuW0Y2VyhZHYDxn/ydacZbZC2bWNIB24xWX0qzqPu3wCGX20YRvyyP?=
+ =?us-ascii?Q?Dttwv97gW5wQfzDVcKpSWG4BCuWdsjwV88dsbM/RNKbWynOJQswdGKhJd2hl?=
+ =?us-ascii?Q?O0CjSsuTfPizITcqvE6QzQ0XkPIwJiauWPKHhLNguRjiRQYSCUu+0V7502mg?=
+ =?us-ascii?Q?0MT+9O99wi2c35nnfgq4+NGxwu+ePpjvhmORhpaOOfubLTOpqHsOCBfoolHP?=
+ =?us-ascii?Q?QgnQ3OZmdDCaPI36kKSu3WYufkfSB0TTCbCsiTP6JZka4rrXfAb9EY4xWEoD?=
+ =?us-ascii?Q?LnbGjxii8o0e6/Dkxl5GtDyOBYYNqn0I8acKT9NUv0mQJlJqh86Mfz+NBI3v?=
+ =?us-ascii?Q?Xv+VM//GuIxwIgSkjH8dXR5UQwEVZKLnYUVITgYsNaT+wZau0rKt74kl2cjY?=
+ =?us-ascii?Q?MutzRBPvBY8I1kMopdpxD7o4MXl8YiEafkGsuxBSTg5Vw5mJalOwHytPb7pg?=
+ =?us-ascii?Q?tj3IMti+YTUNGr0YQ+FnutPgJekDSavatEU5ygQ0dXkhmEBCzqqpcfQNCe6C?=
+ =?us-ascii?Q?+8TnXJnEkhm4vXD8BtJtqCUeXl1PO9TTf4q5/mA6IIV1v+PRTi81emk7ddrx?=
+ =?us-ascii?Q?mPNznJ8MLb6dZjO91iqa72ZfLBrUzT4eMBtmuNM76//J3JZow2wogTFTYP7/?=
+ =?us-ascii?Q?QEC7O+kM9WlnFy2pxIpcNULF6VPpZPtsCYv6jabJruh2/2i8yu4mbuJ89xv2?=
+ =?us-ascii?Q?vdzyoJ1gWZPFyvqIm2mAj8/+sxTL5XSUn08R?=
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 17:24:05.1063
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 17:23:53.2430
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e15c5a0-1902-4ee3-0521-08dddb575e93
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed88ef35-446f-4861-73b9-08dddb57577f
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B88.eurprd02.prod.outlook.com
+	AMS0EPF00000195.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR07MB7171
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR07MB8381
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 19:05:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221870
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221869
 
-There seems to be some settings that are not done in time in
-base.bbclass when setting up the do_fetch function which leads
-to parsing issues of the recipes:
+It seems that the race condition happens when doing do_fetch on really smal=
+l repos
+and it can be difficult to reproduce so below the other case with floating =
+tag/branch
+that is easier to verify.
 
-bb.data_smart.ExpansionError: Failure expanding variable
-fetcher_hashes_dummyfunc[vardepvalue]
+To verify the floating tag/branch issue have s simple recipe hello_1.0.bb a=
+nd set the SRC_URI to
+SRC_URI =3D "git://<repository>;protocol=3Dhttps;user=3D${USER};branch=3Dma=
+ster;tag=3Dv1.0"
 
-Also by fixing the build error the floating tag/branch build error
-is taking effect again:
-FetchError("Recipe uses a floating tag/branch
+run command bitbake hello everything builds.
+=20
+Apply the patch
 
-Signed-off-by: Tony Rex <tony.rex@ericsson.com>
----
+run command bitbake hello
+ERROR: hello-1.0-r1 do_fetch: Bitbake Fetcher Error: FetchError("Recipe use=
+s a floating tag/branch 'v1.0' for repo '<repository>' without a fixed SRCR=
+EV yet doesn't call bb.fetch2.get_srcrev() (use SRCPV in PV for OE).", None=
+)
+ERROR: Logfile of failure stored in: hello/1.0/temp/log.do_fetch.3289932
+ERROR: Task (hello/hello_1.0.bb:do_fetch) failed with exit code '1'
+
+Tony Rex (1):
+  base.bbclass: Fix the recipe parsing race issue
+
  meta/classes-global/base.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bb=
-class
-index 6be1f5c2df..c955bb861f 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -147,7 +147,7 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTrue=
-):
- python fetcher_hashes_dummyfunc() {
-     return
- }
--fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(d)}"
-+fetcher_hashes_dummyfunc[vardepvalue] :=3D "${@bb.fetch.get_hashvalue(d)}"
-=20
- addtask fetch
- do_fetch[dirs] =3D "${DL_DIR}"
 
