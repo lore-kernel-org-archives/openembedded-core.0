@@ -2,150 +2,141 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C61FDCA0EDC
-	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 04:25:59 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web10.15466.1755145558480650395
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2297CA0EDC
+	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 04:26:09 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web11.15407.1755145567883970657
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Aug 2025 21:25:58 -0700
+ Wed, 13 Aug 2025 21:26:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=JO2dEO0p;
- spf=pass (domain: underview.tech, ip: 209.85.219.41, mailfrom: vince@underview.tech)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-70a88ddb1a2so6438286d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 21:25:58 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=GP9GALVc;
+ spf=pass (domain: underview.tech, ip: 209.85.219.48, mailfrom: vince@underview.tech)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-70a928ad710so5558436d6.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 21:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1755145557; x=1755750357; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tP9J796JFWiAJbWiRJ9fxIQtNdlshPEiVGR7i1hl5kg=;
-        b=JO2dEO0pukVD4uTzpY+/KclcgKq7p+VPsZ3HxO1vS/6Q1PZri3PYP5o8LG52B0xt0g
-         kTDsgBtFZvKT/1ruFyofaQPn0jPVgkRuPrm5qOp84gCtKlf9v+3HEq6w5MT+7xAjp1ij
-         uetMZ6G7I7IM/jHlYL8IvbMpK2to5xJk4wgkrnqxMOZAdkAKwb7a4oiN2G4G2q2BJxNs
-         73Aq1tgkE+QXLu3fMFKDnSg9iOsBa85sJ/zyV0sPqzcf3AFyPKoFiIOxr9mywNm09Yty
-         XlwqIHR8+Du25WBGG6Dp0Iia58b7P20GkMO8y6sCGw0DQDCENPeuVuFOLO22LAi5QO/y
-         19vA==
+        d=underview.tech; s=google; t=1755145566; x=1755750366; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fY2EWCWOrRqghnf+n2KE3YOARzOkxsT1AF2Fqu6fdiY=;
+        b=GP9GALVcDTl50StKjhirexY/xt4aL36R4EuNTPmI4wcMsnTnDgn+iAIpGt1wQiRLle
+         DYLMYo0LpWnAMQ6p0h629zafUy860Uc0zqz6pGV5Xnw4uFLvJhSceNI8EHSlGbaE3gBL
+         VxOBkV8UItPjpMMS+fok83mqCqo/M2qv5XuaA8ygtWfNjtjqoKLZtj4VgXBMBF5SlexZ
+         yj0HlaWDzZy5ckq4+xIErvFnb/f/9zO3pk3Ym2btQFVWIGZ6ATh59JHy8jaUgtbnTI0m
+         SVyJOsAm3fusPAiC4Jgxdl64UjUL9Cv2Pn9zbpzqb2DTA41kdiBUO7nCQIQw6bwFwNEk
+         F+MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755145557; x=1755750357;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tP9J796JFWiAJbWiRJ9fxIQtNdlshPEiVGR7i1hl5kg=;
-        b=J9dCzVDXsc6z2Wm7t0Yxq9gJx1craFRpImP6GzVgoIV0oN/j9SlqiWRANURU/8M1JG
-         Ih5bD3D0QhEgwz6obDlu7+sFQJv0qdFgwxsHZoKENz0HuHxdiOdpd176acE7QDFbzITp
-         z5y+JTlrCNVSYH68TAR6hCsBmRGITgfbTO8eAbuo8n040mR2f5EBdRUe/2C15CwWGRLk
-         LX1ZPyu/vuovAXNYWCI0Ls+e132maZ+LyUJm9fKWwQNYC6x11xfJ3vx+/GGUqPpgLk4u
-         fDc/C9nt1gOCfQy9abvJL4Xba8IHcfV5twC/SZ/kuy8lp/BOnqGVyhgQ/D4mYUheCKkr
-         LUNw==
-X-Gm-Message-State: AOJu0YxzOGnyEDMhD+BBVuSPe9WQmUvoH28PqJIg5hDrflEfgx37CF3Z
-	iqT4tlgRWGA6EgNCRokPtkVlCU9aXkbr+Mo/rHPIsvv3lXne61JQ4E3x8VIcvJ2eCj4kQo73/kj
-	nisg6ztg=
-X-Gm-Gg: ASbGncuSbJ4M+qaZ0CHXv07sGOytXIPwIXSyjGdK2E1IIt4OUAjOoQFCqWgrjlI+X6q
-	VbWJOoOqwv3lMAT27YYADomnGAfRqFprMBIUSiu+GRp/f/aDYeYVFPPUJLgjGk7cFyqHWZn44uj
-	IsVDI705Gu3FhfX7fkzpRbDKzB6Udm/cpoMNQrY5f+wA0dnc14rZVFfDJrYCRDIyA0CY3eFYSxs
-	chm8A9U/XHXNLtOzJ9DvX//rgyUNrznfTb1n3YOycq5dAz+1Kv67HiuojMM35jPRDYFQQ0fjoic
-	eUIUbCtnExhB2XyAH5AFx6Gw3koz9OG0QD4oOqFLHuJD2R8jvB/2eOTYIqtDbFE5Bu72UyNjjcR
-	BfvqIWLAfEsiaF1+uQEpMSDxJptU6yod3rN8+FzN7nOA5rw==
-X-Google-Smtp-Source: AGHT+IGxDXPJ/ccIL1V6a77DlnZPbwM/w2PsG5IxWYykTVBxBnUGaHm5JoNmGxOEwwf993Kiwts9Og==
-X-Received: by 2002:a05:6214:1d23:b0:707:5046:6a1e with SMTP id 6a1803df08f44-70b9821b51amr18220106d6.10.1755145556982;
-        Wed, 13 Aug 2025 21:25:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755145566; x=1755750366;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fY2EWCWOrRqghnf+n2KE3YOARzOkxsT1AF2Fqu6fdiY=;
+        b=ZQnC6LmVOmmAWDrXgdZb0PzuUlRcd7C9S/B/m0NDyCb5+kPL9NyguV8xxaI3heQqSw
+         cARaAjbFAqZ/bu8un8lK4Ng7yCecAsLQi+ARg6VzhbxSfeAS25iyBPat4L7znqYtdeXM
+         DlpEy3NgA0Kei5uoKo8O0d1T/QS4r84M+TtwwAFdJHpU/d3Lm8RkQ08vCoRqNpq6mlUR
+         fatr1J8769uIrBVA+ypH7PCOv6D8QkXJQZ6QAnvZpvmIRFMpDrJQLK2am/SZ8+6SvMMu
+         gCwZKtnTyRq9U361dPlGAxSXS7RZusB2MchcGVGs8Qv/n6HTSKb2qm4Qua4hsOBTu61q
+         NP3w==
+X-Gm-Message-State: AOJu0YwjA5OHl01bb1jJZKHjnSyrF44DCzCZa3oMnajVbl4pd/dc3Ayz
+	Tr+Z7Fa0V2xBqeI8x1HFFl1VyYJ+5IvMjyNkRdm4vheNBvekEE+60fSovR1w9zRr4Q44Z7QNaDS
+	NlTPma64=
+X-Gm-Gg: ASbGncsGvyj5LkNqOtHxisHqZl4cI83kxjN3fpoeef9bz3/qoW1RIiwnT8hOWZbw4Ya
+	7izI4J4vFaKUFExohUFahO8KS69cTIoOsL/FzXkteT8UlsJ44k94Hxcmk1XOnf1U+L61PAPpD94
+	70QVbgGp1evQDd9C4+SOOpcXpTVhpmGcoplkq9tXW3zGHOnPWHUgjuv3DZDhAN/DfbjIvO04TSf
+	AzSxQUXhDc64WgG7SsKMFHnAGVIuN4vERR9XgVos6TkgqOvSeJLivLtxIHhfgGJHsR7G4fgnhst
+	4CmfkOISnOBtJhhhAZjeqc7hZiVLZffch+sTJkkrk4daqCcuKx265iA9SZsbAJ8h2KbaqgEMCFP
+	99Viw8ky6DcO+yR8KD/R1gGLLABwejAoQXyeWnhE+UbljgQ==
+X-Google-Smtp-Source: AGHT+IHpfor4ZS7TvhMFwBuMlNJApfF9I7hSrgqiU2TyrisdyOK1/P4RRHKwB9trlFAkrC3Hd3M+1w==
+X-Received: by 2002:a05:6214:1bcc:b0:707:4c29:c53b with SMTP id 6a1803df08f44-70af5f4106bmr25392476d6.51.1755145566519;
+        Wed, 13 Aug 2025 21:26:06 -0700 (PDT)
 Received: from vince-B550I-AORUS-PRO-AX.. ([2601:406:4d01:1820:e358:dd1a:4ea0:986c])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70ae6cb6cc2sm8322816d6.22.2025.08.13.21.25.56
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70ae6cb6cc2sm8322816d6.22.2025.08.13.21.26.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 21:25:56 -0700 (PDT)
+        Wed, 13 Aug 2025 21:26:06 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v8 1/9] bootimg_pcbios: move syslinux install into seperate functions
-Date: Thu, 14 Aug 2025 00:25:44 -0400
-Message-Id: <20250814042552.21887-1-vince@underview.tech>
+Subject: [PATCH v8 3/9] bootimg_pcbios: seperate bootloader config creation
+Date: Thu, 14 Aug 2025 00:25:46 -0400
+Message-Id: <20250814042552.21887-3-vince@underview.tech>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250814042552.21887-1-vince@underview.tech>
+References: <20250814042552.21887-1-vince@underview.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 04:25:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221841
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 04:26:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221843
 
-Current oe-core bootimg_pcbios wics plugin
-only supports installing syslinux directly
-into the resulting wic image.
+Most bootloaders that will be included in this
+wics plugin will require a configuration file
+to define kernel params, execute custom
+modules, or enable the ability to select
+one of multiple boot entries.
 
-This commit seperates syslinux installation from
-class BootimgPcbiosPlugin(SourcePlugin) override
-functions in preparation of supporting the installation
-of other bootloaders to the resulting wics plugin
-such as:
-	* grub
-	* extlinux
+Create a seperate generic function to facilitate
+finding if a bootloader config file passed through
+bootloader --configfile flag. So, that other functions
+that are used to create/install a bootloader boot
+configuration file can leverage the function.
 
-Being moved now to make it easier to include
-future bootloaders.
-
-Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+Signed-off-by: Vincent Davis Jr. <vince@underview.tech>
 ---
- .../lib/wic/plugins/source/bootimg_pcbios.py  | 27 +++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ .../lib/wic/plugins/source/bootimg_pcbios.py  | 31 +++++++++++--------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
 diff --git a/scripts/lib/wic/plugins/source/bootimg_pcbios.py b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-index 21f41e00bb..6bde7a67d3 100644
+index 9ad301b008..47fd4b9415 100644
 --- a/scripts/lib/wic/plugins/source/bootimg_pcbios.py
 +++ b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-@@ -50,10 +50,18 @@ class BootimgPcbiosPlugin(SourcePlugin):
-     @classmethod
-     def do_install_disk(cls, disk, disk_name, creator, workdir, oe_builddir,
-                         bootimg_dir, kernel_dir, native_sysroot):
-+
-+        cls._do_install_syslinux(disk, disk_name, creator, workdir, oe_builddir,
-+                                 bootimg_dir, kernel_dir, native_sysroot)
-+
-+    @classmethod
-+    def _do_install_syslinux(cls, disk, disk_name, creator, workdir, oe_builddir,
-+                             bootimg_dir, kernel_dir, native_sysroot):
-         """
-         Called after all partitions have been prepared and assembled into a
-         disk image.  In this case, we install the MBR.
-         """
-+
-         bootimg_dir = cls._get_bootimg_dir(bootimg_dir, 'syslinux')
-         mbrfile = "%s/syslinux/" % bootimg_dir
-         if creator.ptable_format == 'msdos':
-@@ -80,9 +88,19 @@ class BootimgPcbiosPlugin(SourcePlugin):
-     def do_configure_partition(cls, part, source_params, creator, cr_workdir,
-                                oe_builddir, bootimg_dir, kernel_dir,
-                                native_sysroot):
-+
-+        cls._do_configure_syslinux(part, source_params, creator, cr_workdir,
-+                                   oe_builddir, bootimg_dir, kernel_dir,
-+                                   native_sysroot)
-+
-+    @classmethod
-+    def _do_configure_syslinux(cls, part, source_params, creator, cr_workdir,
-+                               oe_builddir, bootimg_dir, kernel_dir,
-+                               native_sysroot):
-         """
-         Called before do_prepare_partition(), creates syslinux config
-         """
-+
-         hdddir = "%s/hdd/boot" % cr_workdir
+@@ -72,6 +72,22 @@ class BootimgPcbiosPlugin(SourcePlugin):
+                                  oe_builddir, bootimg_dir, kernel_dir,
+                                  rootfs_dir, native_sysroot)
  
-         install_cmd = "install -d %s" % hdddir
-@@ -138,6 +156,15 @@ class BootimgPcbiosPlugin(SourcePlugin):
-     def do_prepare_partition(cls, part, source_params, creator, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
-+
-+        cls._do_prepare_syslinux(part, source_params, creator, cr_workdir,
-+                                 oe_builddir, bootimg_dir, kernel_dir,
-+                                 rootfs_dir, native_sysroot)
-+
 +    @classmethod
-+    def _do_prepare_syslinux(cls, part, source_params, creator, cr_workdir,
-+                             oe_builddir, bootimg_dir, kernel_dir,
-+                             rootfs_dir, native_sysroot):
-         """
-         Called to do the actual content population for a partition i.e. it
-         'prepares' the partition to be incorporated into the image.
++    def _get_bootloader_config(cls, bootloader, loader):
++        custom_cfg = None
++
++        if bootloader.configfile:
++            custom_cfg = get_custom_config(bootloader.configfile)
++            if custom_cfg:
++                logger.debug("Using custom configuration file %s "
++                             "for %s.cfg", bootloader.configfile,
++                             loader)
++                return custom_cfg
++            else:
++                raise WicError("configfile is specified but failed to "
++                               "get it from %s." % bootloader.configfile)
++        return custom_cfg
++
+     @classmethod
+     def _do_configure_syslinux(cls, part, source_params, creator, cr_workdir,
+                                oe_builddir, bootimg_dir, kernel_dir,
+@@ -86,20 +102,9 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         exec_cmd(install_cmd)
+ 
+         bootloader = creator.ks.bootloader
++        syslinux_conf = cls._get_bootloader_config(bootloader, 'syslinux')
+ 
+-        custom_cfg = None
+-        if bootloader.configfile:
+-            custom_cfg = get_custom_config(bootloader.configfile)
+-            if custom_cfg:
+-                # Use a custom configuration for grub
+-                syslinux_conf = custom_cfg
+-                logger.debug("Using custom configuration file %s "
+-                             "for syslinux.cfg", bootloader.configfile)
+-            else:
+-                raise WicError("configfile is specified but failed to "
+-                               "get it from %s." % bootloader.configfile)
+-
+-        if not custom_cfg:
++        if not syslinux_conf:
+             # Create syslinux configuration using parameters from wks file
+             splash = os.path.join(cr_workdir, "/hdd/boot/splash.jpg")
+             if os.path.exists(splash):
 -- 
 2.34.1
 
