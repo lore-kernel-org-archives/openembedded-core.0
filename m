@@ -2,91 +2,101 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD947CA0EDC
-	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 10:03:41 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.19121.1755165817604311553
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D02CA0EDC
+	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 10:56:22 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.19658.1755168971959305019
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Aug 2025 03:03:37 -0700
+ Thu, 14 Aug 2025 03:56:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RHNwplVZ;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45a1b0c82eeso5123045e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 03:03:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=koBgAvQc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45a1b0bde14so3832745e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 03:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755165816; x=1755770616; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6w7nkDWPdBroRoJzdVLA6Q1RWbrVxxjgcRoLZJ5W/mA=;
-        b=RHNwplVZGUt/HPpx6KiT74eZNQP3ebv+NsRl6qjFX90PvRKr3lVNKffIaavp8DFHwe
-         Hw6Xy+y8EHehge03j+bL+ZKwUv8+jCFqbVUZEQlaOt1IiuqBomKGk0bsrFRCoOttt45N
-         z0DLfuuFAW0ZcDsnDuZbekRp+liTa5eL9wfgGCILwb4za3X8C0Pl38NlegUaWdlqBdnS
-         EoiHtnfr+qhi8/UIU9x5ASc9Us5op9G3//e+L/wSyHMjMGvA9dnx77qTvOc9OehCD/1a
-         EavFcH/O8EmnU2dySO5Gr1M4JpBEMlaKcsWSFQExg7WU9uS1aElHsIkrojY5uDK3YJTT
-         djRw==
+        d=gmail.com; s=20230601; t=1755168970; x=1755773770; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=msQVRBT72D5ZrIOvXtRWC7tW0X0ELTBu/FzMBr4iYQE=;
+        b=koBgAvQcQmMKm9Om8ml5dBuXZtBFtO4bxeE+1Asg+s64P2UaPeCRTPjcpn5Lnb4MiD
+         0lnAr30yGrD0U99w7W7311SYrLj7RAPGYGSNts3Ax/ly+6biCS6VeG2CwRCDNpy7TG+k
+         8+MkmpIuj3DdIsxwDNQZ0b99K2dorAr262MQNQx1UbwDCR34s8+Vx1f1FSSzlujyCMNp
+         Xmv9KGlHtttPijABScd0qeSYdxwFt6+oPh2DWnFtfrgkQNaukHMruNKw8eQ9JLjdOppz
+         ulDdqE7qz7qYMmNxQMOlE8EF9pSbo3yRVXeyuKXb94gjBPatx4eS9jpdw9QPnXiut8A1
+         naiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755165816; x=1755770616;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6w7nkDWPdBroRoJzdVLA6Q1RWbrVxxjgcRoLZJ5W/mA=;
-        b=OSump+ZRauvvKFGvncqv3s6c0XAh20z8Sk8m5B9pAN7iJi78EwEewh0OQmayfXu8Bj
-         gGXJxeZ2wra57M1vuOcXc0EP2J6lH1yHBc0DZv7Q4pyl9e6Bqfjc4gOVWuKw4cLyGaPP
-         LEyvJPi8vWbLZ/4JqQP45pHBKnGBTLKo7FdQl/7x5a0iMv/bKYVZOCQgg8bpXlRGCuF9
-         qv4UwfvexMqL3Ahu6G/FTjclvjDXOVAJBL4Jk9oehgJL0ov9TtXoE2lkc73HAc7k3TBP
-         7koYPkoA39QOhK4qdyfSsh/LSSflHGIZmAsLotoCVvxOaD/zpxehmCc5Sy6Hq/q0FZ5c
-         UE0w==
-X-Gm-Message-State: AOJu0Yx7tkyBJt3bqz4FEEwrDbggN+Zphku2opJtDBkF4YzegVvaufbv
-	iPMjejz6fu02qY1Z3hYHXOkZqZ7yIqd8OXT77ZKexCHziZbDdPq6Qnl+SSJLwA==
-X-Gm-Gg: ASbGncvmvwYKWG3T1riAops1/FtBBFHalb+khuPYPer9R5OW1MuPp20n7+rPr3H2iiQ
-	9R2WZms/4mNKL2ryYz3CX1BiGyCRXRhmOye/vv3ifAhXvxtTkRquA9+vl/NEU4nmH1mt/jkebpC
-	Tkvut/Eg0vwvonuRPr0N/+LiLqD2xo9Y9tFSXFrVM/flTXyiKPjH5ZEh1DPS0+Zf34nf30F4Zha
-	ITnIV8zQ76VCD8HGVZAD8CiHdODLK/Gm+z358BqDN1uEQCHp6CggpeY1k0eSBA9ULl/xwoXBMaE
-	7RJVuMzq+Uh+qnGAx+9OACUuDi48y5r8V6hB1FP0UEcso2XfgCU4nKCqLhulJ5R/S1snq3qEfax
-	p85W4Srp9SwcwtDxffq6sTR3n1veE15VGkEGlocgzfG199U71yeVM8iCNh30=
-X-Google-Smtp-Source: AGHT+IFO32lTPshJVJ2t1dj/9o2nJBffPA667lL8pd8VoD1cIbO/bFHbXz2N2daWt7ZTEht2TiyAdg==
-X-Received: by 2002:a05:600c:3b1f:b0:459:e025:8c40 with SMTP id 5b1f17b1804b1-45a1b61ea8cmr21794995e9.10.1755165815842;
-        Thu, 14 Aug 2025 03:03:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755168970; x=1755773770;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=msQVRBT72D5ZrIOvXtRWC7tW0X0ELTBu/FzMBr4iYQE=;
+        b=TUn/WMh51XJXmvuPAmnVslCktRRx05x4iBi+i7e/NVSpCxFiNuUJoPu4L2F1MsJddh
+         8JnmZiiYKbcgelSJG0OH6lImWHGt5A0yiQr4t6XFAYJjWhkgKLxz0rHfgEXSi92Pg1+J
+         fFpZ46wo/l+szx8q7ZSpXdEq3W6U7uigP5F5jPQXpXReblrGJvw7kVyrMu2EIToaa3lf
+         CEJR9K3ulvXKWpJ1kaGO7ogHmKfeQObLsPhcHegCxDTtdXkRy1HQEByY78QHq/7fhZpr
+         PmuSoabjLwoxcaWQA0stuCNMEoWpQGMP/I4SUCSAD0fmyh7byc8Yvt2tVkHBqNZ+qlM3
+         EfkA==
+X-Gm-Message-State: AOJu0YwWrdWviHa03a9HNQEQtDN7gHIMwHYPWlp/YS/H66qC9yl6z93H
+	4p9qXnd9Yy/aephGVmywhoEydFhuc9oZXXjVzGeRi00TU7QgNKHSgNcuXLRZGA==
+X-Gm-Gg: ASbGncuf5hcNsLha9GcdnQ9ZHjfYabkzReGWbuowySKFXwAhsywvl7HviowPkWz+hms
+	HSafu0Rkk1mxqApn91qOnxLyMBSrboHQv0zsE52s/upGVJLqOg58lqlBdlKfL3N5XSHoBTAwP+p
+	HGtYBXFbyMY+P0F8h9EDwA5qwojE0vzrpeu0YpvzAhlU8jiCH6F/1AONIOJQXOYMnxlC05c0yIL
+	hLCwx3V0eEUzv5rISAs7XMXn8kHzYy4ToVleWSltwC7UMoC+V3YyNVGQDqx3tDrx0t6JHvPb3Gu
+	+KwaAexPdBCx7vp4IySd2iUzXQeHnNTj38cKUEXSjVbwOGSPAY++iqevtmkOWdPT/YZbwyX6KrU
+	DxZ0mPMf++O+cZcBu10hFrbmgjqbbI7/Zw1HoFkpiym4ah9jiIj1QVlg9Negw8VB2w/USUOfCDW
+	0DBKWY
+X-Google-Smtp-Source: AGHT+IG9TSz2VShg+nyB9lY0LigzYtNyYv7xm/D0TXBWap1YRUvzFn94jJxwTwRBimXDt4n4Ce2rhg==
+X-Received: by 2002:a05:600c:19d1:b0:459:dfde:332e with SMTP id 5b1f17b1804b1-45a1b668446mr19360955e9.29.1755168970033;
+        Thu, 14 Aug 2025 03:56:10 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b90fdc85a4sm11217235f8f.60.2025.08.14.03.03.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1b793f37sm12937605e9.2.2025.08.14.03.56.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 03:03:35 -0700 (PDT)
+        Thu, 14 Aug 2025 03:56:09 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/2] python3-coherent-licensed: fix upstream version check
-Date: Thu, 14 Aug 2025 12:03:30 +0200
-Message-Id: <20250814100330.2163083-2-alex.kanavin@gmail.com>
+Subject: [PATCH] fragments/autobuilder: add go to SDK_TOOLCHAIN_LANGS
+Date: Thu, 14 Aug 2025 12:56:04 +0200
+Message-Id: <20250814105604.3586651-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250814100330.2163083-1-alex.kanavin@gmail.com>
-References: <20250814100330.2163083-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 10:03:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221856
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 10:56:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221857
 
 From: Alexander Kanavin <alex@linutronix.de>
 
+For reasons unknown, only rust was listed, which means
+nativesdk-go was not built or tested, which lead to
+breakage like one fixed in
+https://git.yoctoproject.org/poky/commit/?id=a669cd2e0c760da9d7e872daea9590fc9e86d766
+
+Note that with this change only building and installing go
+into SDKsis tested, but no tests are performed with the
+toolchain itself in testsdk/testimage.
+
+For that, a bug has been filed:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15953
+
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/python/python3-coherent-licensed_0.5.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/fragments/yocto-autobuilder/autobuilder.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-coherent-licensed_0.5.2.bb b/meta/recipes-devtools/python/python3-coherent-licensed_0.5.2.bb
-index 9148fe4e36a..538154118f4 100644
---- a/meta/recipes-devtools/python/python3-coherent-licensed_0.5.2.bb
-+++ b/meta/recipes-devtools/python/python3-coherent-licensed_0.5.2.bb
-@@ -11,5 +11,6 @@ SRC_URI[sha256sum] = "d8071403ce742d3ac3592ddc4fb7057a46caffb415b928b4d52802e5f2
- inherit pypi python_flit_core
+diff --git a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+index e3bac343390..85987b08995 100644
+--- a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
++++ b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+@@ -9,5 +9,5 @@ IMAGE_CLASSES += 'testimage'
+ SDK_EXT_TYPE = 'minimal'
+ SDK_INCLUDE_TOOLCHAIN = '1'
+ ESDK_LOCALCONF_REMOVE:append = 'BB_HASHSERVE'
+-SDK_TOOLCHAIN_LANGS += 'rust'
++SDK_TOOLCHAIN_LANGS += 'go rust'
  
- PYPI_PACKAGE = "coherent_licensed"
-+UPSTREAM_CHECK_PYPI_PACKAGE = "coherent_licensed"
- 
- BBCLASSEXTEND = "native nativesdk"
 -- 
 2.39.5
 
