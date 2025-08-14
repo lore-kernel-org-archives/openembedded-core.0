@@ -2,147 +2,156 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFE4CA0EDC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8852BCA0EE8
 	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 19:05:54 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.70959.1754993610378907755
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.59])
+ by mx.groups.io with SMTP id smtpd.web11.28645.1755193171581537146
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Aug 2025 03:13:30 -0700
+ Thu, 14 Aug 2025 10:39:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=IXC3+jKe;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: kavinaya@qti.qualcomm.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57C5ZM4Q022388
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 09:15:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	opKXVRkO3/h+kyQxHctMvPPUhyjg0IZmXJTewGVtw4g=; b=IXC3+jKedrSKiZA3
-	PxTJGHHPWFNtsfZfII7VE93jUYTe1L1nYFONRmFiqRw5S+96eNeP7rdVtLj9TaJ/
-	aTG5+SEVZCohHRk3kRiR64n4t/zG2KoBI3lPbTTc7kwTcDlA42xIcqcyDTzfn9Jr
-	Cn/MHcoPIuVEjJpeBmXzbQb2QCrjbV7nmb4V5BTA4PI9BLX14RysLpHo5/muyOJF
-	JtLo2AHeJyZHTIbuKElsykG6Roq4EltaHcgramLXKUKz33FQA0Xe3rtPObyzXjs8
-	jE/+HVCstEIsiEoV7SHJks/F/BMLQVpYeCtqQW0v6rMHwmk1tLE1iWt3QtK3QnMr
-	68XfpA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fm3vje0h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 09:15:22 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57C9FLDd018348
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 Aug 2025 09:15:21 GMT
-Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=tT2pKl3d;
+ spf=pass (domain: ericsson.com, ip: 40.107.159.59, mailfrom: etxtrex@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JtmVkas/5312vnq9HCJlmOzEjP/QqTLumBckMQHi1noPilPkSkYzRWwNekRB7H1FLquSzuV9C454MRNQlsYScAdPQs/sITjwZVFqbZXYlCTL/N/Abk2k3n7g+OXGYDqH9+Rm+QOqqxEo/bSMPlrE7FVhbEJkuYkljhLeVU/Tr/RA6BYkyV+FDd1ARVd7ERhIq19Yy530ayEcYb6ovFBwkEIKQNkoM3XPa7wfPXvXDHuhcT+jOxSjDilNbIdv1bNoD0hMU8NtjwEAgc84D7ZOlgShANMpMOfzLOi/p/RJSjTr1k0BbGvXFLnjsU99LG6q3653mLTRbdaXhLSLOAMa8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QDeZQPTTCRQOUM5570QQDz5TYJkK5GvDp/cj6G17TGY=;
+ b=cMnbzUTwe33d4weGov1Oxrjx4GWz4VgMAeFfOz5DzjNe43eTp73XoGmrPSLjjcxwN8xsB5A61qcswv8dglCHDP62GGGEuiYuEAE0Yl+IbI1AphbmXMbyhk9yt0kVdiTzgiQeSIqzBUepczHGbGMHj+B7ReJsNF6r2kL8cwoa4o8Qvy7PkjEwt26Uhihn2Vx9iwFh/IQoFI1Ss7lo5Jl32IGv5sa5RTT0wmBxpxa4jwBC5hqJiI/GURIrRk0e2iq3mPFtvDR/6JSD/5Hn9ACAPNzWWQ+dokSzERBbXXq7HYPao5FuTBqg2hkxyVh3JJ5xItTkGhxBEF4EYsGV8AVr8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=ericsson.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QDeZQPTTCRQOUM5570QQDz5TYJkK5GvDp/cj6G17TGY=;
+ b=tT2pKl3d6cnpK3x1f6uijKrMem2VcPZhvfPo6tyfbdALeXt3jKQs15qGY47vd+ThMqZDtcQLskVLQmVRsnQIISiCloMbg12t6g9tsWB5fBm2XPGI0LuX+ntMapAVWELejFw1VItKlJcUrnzvT9vm1mwJXf9QHMhZFHQa6RjiVWgSnDBJAilTaL3KBGh3bx9/H8ZrZUD/dNPksyyOAPQs9hFErM0158j7sNMf49yBSITfhSBJ0UHWCmvB8yiq8PiJC4NtR3zufs9IPij9mG7xMY8lkhL+TDcO+rju/sxYd4pQm5CYJ6YtYPWQZRy7KTolFGv26o+72rAHBU3dawNoJg==
+Received: from DU2PR04CA0013.eurprd04.prod.outlook.com (2603:10a6:10:3b::18)
+ by AM9PR07MB7171.eurprd07.prod.outlook.com (2603:10a6:20b:2c9::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.15; Thu, 14 Aug
+ 2025 17:24:05 +0000
+Received: from DB5PEPF00014B88.eurprd02.prod.outlook.com
+ (2603:10a6:10:3b:cafe::71) by DU2PR04CA0013.outlook.office365.com
+ (2603:10a6:10:3b::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.17 via Frontend Transport; Thu,
+ 14 Aug 2025 17:24:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DB5PEPF00014B88.mail.protection.outlook.com (10.167.8.196) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9031.11 via Frontend Transport; Thu, 14 Aug 2025 17:24:05 +0000
+Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.69) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Tue, 12 Aug 2025 02:15:19 -0700
-From: Kavinaya S <kavinaya@qti.qualcomm.com>
+ 15.2.1748.26; Thu, 14 Aug 2025 19:24:04 +0200
+Received: from seroiuts01755.sero.gic.ericsson.se (seroiuts01755.sero.gic.ericsson.se [10.63.162.68])
+	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTPS id 831CE4020DD3;
+	Thu, 14 Aug 2025 19:24:04 +0200 (CEST)
+Received: by seroiuts01755.sero.gic.ericsson.se (Postfix, from userid 3150)
+	id 683222C11DB; Thu, 14 Aug 2025 19:24:04 +0200 (CEST)
+From: Tony Rex <tony.rex@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Kavinaya S <kavinaya@qti.qualcomm.com>
-Subject: [meta][PATCH 1/1] kernel-fit-image: skip kernel section if linux.bin is missing
-Date: Tue, 12 Aug 2025 14:44:53 +0530
-Message-ID: <20250812091453.1760880-2-kavinaya@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250812091453.1760880-1-kavinaya@qti.qualcomm.com>
-References: <20250812091453.1760880-1-kavinaya@qti.qualcomm.com>
+CC: Tony Rex <tony.rex@ericsson.com>
+Subject: [PATCH 1/1] base.bbclass: Fix the recipe parsing race issue
+Date: Thu, 14 Aug 2025 19:23:09 +0200
+Message-ID: <20250814172348.3882586-2-tony.rex@ericsson.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250814172348.3882586-1-tony.rex@ericsson.com>
+References: <20250814172348.3882586-1-tony.rex@ericsson.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDEwNyBTYWx0ZWRfXxNYixGZXcl89
- n2lLfIGO5zZ5cBBn+abYgBJ0h7vjZG8mpACPOEo9UZ3HXJvLB80TBmSvDur1NksA9PMaJrYi1Ru
- hF7oibI4N3iD2a0sKxQSqMhQeQ3DeKs68LGZMBCoTAqLktVmPUkrrolXL+tb/JrYQHoUpKkrAmM
- +zUK9Z9LDg1ijn6yFxawPiUTf0NhnoacTEVTkFB0rPc989hG5uBKLwPACl+cad4T/6x0Gwnkt3J
- LnMEh4gNTgQTHV9i4j7ydmymyxmjEU1smPSfIKFBBhlDMyrRIwmCjB2oIIevFMPDdzogqWxKaiE
- C4rI1kQtoOwCjYuaDfgKH0BlpgL17TiFb4VCfEAer6IEW3sO1Ytn0lL7exLaM6MTaP/AtovtGd3
- 40MX/Xvk
-X-Proofpoint-GUID: KAh_dqMXYXX7iQMpy4Zp2W93e14rFsbI
-X-Authority-Analysis: v=2.4 cv=A+1sP7WG c=1 sm=1 tr=0 ts=689b062a cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=5N9VRYQZFolNiC6LJuUA:9
-X-Proofpoint-ORIG-GUID: KAh_dqMXYXX7iQMpy4Zp2W93e14rFsbI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-12_04,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- phishscore=0 clxscore=1011 adultscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508110107
-Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B88:EE_|AM9PR07MB7171:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e15c5a0-1902-4ee3-0521-08dddb575e93
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?GiQH2UfA3NyKhaSaCNUx3pu3n5f+P0mxR0CN/jcBIAV7xgDqiIOzd6qravFI?=
+ =?us-ascii?Q?C/igq8uXd6A6k4+rm06nMdgPUfv/Bj+GbbPCXlnHJDYfHQQRpxGp6egLc2Rf?=
+ =?us-ascii?Q?XQI3M4k5CwRdokeDZQyinx8gayKb+5sL3dS8wG8I0l/kaFUBWnzx59gZofAw?=
+ =?us-ascii?Q?A8FAmjWwo73TK3YG7VXE25o3MLY5InC4NdJp87ueEoO21iQAg7kZXdUKU/n9?=
+ =?us-ascii?Q?dfXQS+mH3NQcRloFjB9/ZBWKNJ9DwU/ISXEeFIZXxLzng0cm1a4pBTUggSID?=
+ =?us-ascii?Q?SblnHoykv1dBDFKXrvL/zkiu94ale+fu0nNC8ixKNRzMx+qBtPLPUmhPGsOy?=
+ =?us-ascii?Q?JKiW1w7SiXh6/xW/WkyfobQ0pZnC1/u7yLvutNHsUD4HE2LNA9rLL9KX+GM6?=
+ =?us-ascii?Q?FjOf3S7aF+/zOyOnvOyZ2ceF5YlFJ1EhDPfNfmQCI0F7Qq3DehdBabyErju0?=
+ =?us-ascii?Q?mw7Esd5b3Prg2MxCgkOv6mcEllt0PZD0yHvCiTshPbDYEnfVIA8UlMeax7LH?=
+ =?us-ascii?Q?k5t5o2j3YGybpHWRpJtgsxqi6lIn+7xOJsm0ANuQTgJFoftyY8I+VOFt9XgT?=
+ =?us-ascii?Q?6v6UY3A8sDclJXnM0tio+/VY3yz7jz/m1n/zev7Ri0XuVbT9EnPOuWTVsGc2?=
+ =?us-ascii?Q?4LynPw7gla93f3BwAwewMtTEYthTak3TedI2G1Wj15I6pAOgQe7vdtbatyPx?=
+ =?us-ascii?Q?1Rp18TNsChgpmRgIPkZMSnxTzvgHIs1OMz8Xvp+nCyEby3a1Ufg1JvNkTKIO?=
+ =?us-ascii?Q?4Wu0y7mvvpfeSPg7WOAuTuK//P/RIKcTrz29IpL4aD5ICRsf3V0miTmPmPdG?=
+ =?us-ascii?Q?lK/enVPFTvh2f8+2uO6xwg5WAOL+81vpbMOhx8S+nmdudeye/BooA+UQawVg?=
+ =?us-ascii?Q?vBNCoZ2R/YkPmyODkXbURIzRynCL9dyYwQvN0LzpSCZYkvUm7qVH6A3hvcq7?=
+ =?us-ascii?Q?8vzXz4CMfvMXBdCKzxRptvSLuYE5eVFEe8vmn2pIgsk8tioFTDJTVhZBBEGi?=
+ =?us-ascii?Q?XQl6JOL2B05kLmRCGg7QnGjgKARbyhBsiYzghHXP2nFY7a//5ApAjXXNpjLt?=
+ =?us-ascii?Q?3ChyhBsXDG9N+VidgccPDzY6zq02ysWV9gsO1X6rUlXfV/BN+gli4Wjv+sBW?=
+ =?us-ascii?Q?bCq2kTYpc/UEhGj03At5MaQ53lxg/x+hEnfqdcVu40ksyBKVTMNSwfEBFgVS?=
+ =?us-ascii?Q?FTZZjNueBIEL8o6GSRCK+Usv/l4gKv6SeoCApr33335Rtx0IUNZGv1hMmCj1?=
+ =?us-ascii?Q?9O7A8uwh4ybw4m9dS6RsnMI6PVdnFv1SPI+giGsKVTG7q9LWNnzzue+PU1MD?=
+ =?us-ascii?Q?DTGnudak9HjbzJD+Mo4PMzLGjuQ5FgBdtEi8oDvbh/Bakf5QEmeNzWeHnLr2?=
+ =?us-ascii?Q?lCldQdoRhrL5ktnhE09gN6fjk11jgKGe7yqEIDK7E95UT2s+6uxc5NfMLVXx?=
+ =?us-ascii?Q?UMmRlKrf3cRPB/1N7N09EjnTSQKiNtuoGD/ZQI7aV0G1rjaR4k+/o9DgTB7j?=
+ =?us-ascii?Q?+H16cvGlBlYvYEXgtVaH1FpkjYZJ4xNjeL0w?=
+X-Forefront-Antispam-Report: 
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 17:24:05.1063
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e15c5a0-1902-4ee3-0521-08dddb575e93
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B88.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR07MB7171
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 19:05:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221868
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221870
 
-Avoids errors during image generation by checking for the
-presence of linux.bin before attempting to copy and emit the
-kernel section. This ensures that the build process continues
-gracefully when the kernel binary is not available.
+There seems to be some settings that are not done in time in
+base.bbclass when setting up the do_fetch function which leads
+to parsing issues of the recipes:
 
-A clean separation between firmware (including DTBs) and the
-HLOS (Linux Kernel) is highly recommended and often necessary
-to enable independent firmware updates, enforce trust boundaries,
-and support running the same kernel across different hardware
-platforms by simply swapping DTBs. One effective way to achieve
-this separation is by using a Unified Kernel Image (UKI) that
-contains only the Linux kernel and initramfs, while keeping the
-DTBs in a separate FIT image, such as dtb.bin.
+bb.data_smart.ExpansionError: Failure expanding variable
+fetcher_hashes_dummyfunc[vardepvalue]
 
-To support this setup, it's important to ensure that a FIT image
-can be generated without requiring the Linux kernel binary,
-allowing the build process to continue gracefully even when the
-kernel is unavailable.
+Also by fixing the build error the floating tag/branch build error
+is taking effect again:
+FetchError("Recipe uses a floating tag/branch
 
-Additionally, this approach is very useful when the kernel-fit-
-extra-artifacts class is not set, as it enables the creation of
-an .its file without depending on the kernel.
-
-Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
+Signed-off-by: Tony Rex <tony.rex@ericsson.com>
 ---
- meta/classes-recipe/kernel-fit-image.bbclass | 22 ++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ meta/classes-global/base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index fd4c6a30fe..c0f925d90e 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -59,12 +59,26 @@ python do_compile() {
-     )
- 
-     # Prepare a kernel image section.
--    shutil.copyfile(os.path.join(kernel_deploydir, "linux.bin"), "linux.bin")
--    with open(os.path.join(kernel_deploydir, "linux_comp")) as linux_comp_f:
--        linux_comp = linux_comp_f.read()
--    root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
-+    # Construct the full path to linux.bin
-+    linux_bin_path = os.path.join(kernel_deploydir, "linux.bin")
-+
-+    # Check if linux.bin exists
-+    if os.path.exists(linux_bin_path):
-+        # Copy linux.bin to current directory
-+        shutil.copyfile(linux_bin_path, "linux.bin")
-+
-+        # Read linux_comp file
-+        linux_comp_path = os.path.join(kernel_deploydir, "linux_comp")
-+        with open(linux_comp_path, 'r') as linux_comp_f:
-+            linux_comp = linux_comp_f.read()
-+
-+        # Emit kernel image section
-+        root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
-         d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
-         d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
-+    else:
-+        bb.note("linux.bin not found. Skipping kernel image preparation. ")
-+
- 
-     # Prepare a DTB image section
-     kernel_devicetree = d.getVar('KERNEL_DEVICETREE')
--- 
-2.34.1
-
+diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bb=
+class
+index 6be1f5c2df..c955bb861f 100644
+--- a/meta/classes-global/base.bbclass
++++ b/meta/classes-global/base.bbclass
+@@ -147,7 +147,7 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3DTrue=
+):
+ python fetcher_hashes_dummyfunc() {
+     return
+ }
+-fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(d)}"
++fetcher_hashes_dummyfunc[vardepvalue] :=3D "${@bb.fetch.get_hashvalue(d)}"
+=20
+ addtask fetch
+ do_fetch[dirs] =3D "${DL_DIR}"
 
