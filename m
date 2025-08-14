@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B355CCA0EE6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCEBFCA0EE7
 	for <webhook@archiver.kernel.org>; Thu, 14 Aug 2025 04:26:19 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.15477.1755145573672869345
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web11.15409.1755145578425894356
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Aug 2025 21:26:13 -0700
+ Wed, 13 Aug 2025 21:26:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=FqR3NSW3;
- spf=pass (domain: underview.tech, ip: 209.85.219.49, mailfrom: vince@underview.tech)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-70a88db0bd8so6104096d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 21:26:13 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=gHQJV/4D;
+ spf=pass (domain: underview.tech, ip: 209.85.219.47, mailfrom: vince@underview.tech)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-70a88dcb665so7477006d6.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Aug 2025 21:26:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1755145572; x=1755750372; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1755145577; x=1755750377; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E53GO5l3Hd8eM4ap4AumPBduB+XTyY1FxcPASVl0VY4=;
-        b=FqR3NSW3z9ppcDEKpRX3WtIO6ANrcU/fdLZ3XLRmT8D78WUW0T8VXEPx3ASXh/up2d
-         gwsRvZ9Ahj7OAQy0mtHqf3gTu1iCvDlyXHIKLnDwDxQJZy2yPZcDIJ2joVVRBW6yeH7V
-         oZ5uAFohtKtuIdg/DXuvJeN3EJrjE6Q/lghvb1GYPD/XxPjrMYb6gcOdWwsv8SYCszLB
-         TeGxX6+mseqkhRNsxkJNHOOS1dMO2kAdYlrwXOfVVgvtYEJKCovd4VA0bczwtjk87z1j
-         DhmQe4EV0Dro1Yk0o4u5cwPpIV4+7+sJPkxANjYh9nGnnEFtSZm+CpKmMcE3h4mZtsqi
-         Trjg==
+        bh=bUgW/Dohl1eu3VTBxdIh947IqoJcytGLntlsQO7Jxzo=;
+        b=gHQJV/4D7KdbsJOaJNMYsz1zy1/2Mw5cjuxk9emhMZOMXqzPWvHCCTbU1mFpV0pj+1
+         yz7sQBXi/9hDjELRjpXsR6h9TyNzgHAyQjBsetmXFPGgRBZV/4gbvB/XfqdjZtmEuyOR
+         EaPJo5uQYPRMl3SnV9IvX8ktVxJ/MeFbW0/a/YDZklkGQnD8fDQtMt5Cti5FGPjRbm+7
+         GBAKFRjoFg8sVbC+PWjzfvL2W2UstqMXrLT5jQPS81cqDXUJDp6qejkENvctz4vRhd10
+         sFEJ3AJSJYgJueC1BcZdlTZtGIoC0LQ5St/c9jx5IbdoFRf8Q7IcecJWmyZrR3WrhnLr
+         XO7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755145572; x=1755750372;
+        d=1e100.net; s=20230601; t=1755145577; x=1755750377;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E53GO5l3Hd8eM4ap4AumPBduB+XTyY1FxcPASVl0VY4=;
-        b=Fd69fSIgNR02tWJ9igZF0tCCOtqhGaY2OPmnvsAiQBdcWcz+CI/RGJKvSkERHv5g79
-         Qz5ZVf7pmlRu1PdtWhsrxWSp6Zi7SRqfNlgUVRHOrWs2CcRTAhxnzmmZxabH3J5b38Ar
-         wOSZoWNeWx74KIdHBLq5mHeaFfmeRSA8Dbl6mplp//Kesm7UadyEI5HsTFNP71WGkubb
-         xNpyy2rNl/Uroj4aU2U5o/QqptIBd05ABgGAsWVvjDucDxDiUVAyZDQ82/20xMdhsOZk
-         iFY8Reo9pjPu1bLzLuHtTlEVwIrCmG9SBvHCGVJHlx31SPon11ZnMYIcHqRfiF5+Mv+M
-         U4yw==
-X-Gm-Message-State: AOJu0YxXR/sVrDUcy/R5H0OPkDzO04n1gAaaD52dQIMI+BzFhZRfz5bT
-	eNJ4lI0UxkVOi7FYx6XtcS79VlHsg/a1ci3oDChQ7MYng9JCgVnLzuevOY/xn4i2n9gVupoQ2+A
-	F/1d8l9E=
-X-Gm-Gg: ASbGnctRzsmHlDWVWOtAaibOB3Y2hc+djeTj8LBVYQN+QiUiszO19kClM5XYuG4cLkt
-	ORQNvXHsXfYLFoamb50o9N2m61f2TjvfRIHeCQnUT0fPZPMBg6RbAA6KCqy2FLve5EMdMQIx+AT
-	2fXefnUaNdSRuwM+JpLJFrLMh+quPUl0aNINZ/KJeVtttFtRqXXmcjt5XbWn7M2XwgC8ouErfKo
-	Z2crZ4J3z8QeaWUk8wPHtDim4uk1MUFad3W4JyiLznONYUuLesK9NfKRNZijxnhk4Q7aadppjUS
-	q8VPjD87GXWc+mqaPfb7Bs+xrcI+3eY2FBZNaXQUAn8I1PGoEUeLmwaMl16X0jsxoYhHQ5OGG+a
-	/XDB85gUAdmrs0P45jEAoU9fFHi6WrRIgk98Stim6+4CeHw==
-X-Google-Smtp-Source: AGHT+IH5sYIJC2zXcg7kWdjdkwwmDo5LRxzkItT3X4bcGccUoZxMDcpvvqC+ZkSniSb9xdZpglQdpw==
-X-Received: by 2002:ad4:5d41:0:b0:6fa:d956:243b with SMTP id 6a1803df08f44-70af5e95f6emr24878386d6.37.1755145572127;
-        Wed, 13 Aug 2025 21:26:12 -0700 (PDT)
+        bh=bUgW/Dohl1eu3VTBxdIh947IqoJcytGLntlsQO7Jxzo=;
+        b=tIhds8C/FL2CyoXr9dLWZe/scyydSBedKZXN3cE1XfBb/LorqBfB12ftWmd6i+6BwP
+         WOIbZ/IpYuoy8C6xIL24KsIfeYGE5WoFiM0DAkW8oPvN28mBf883dsmJ3sSIbNRwYcfv
+         hZwa5NCTcwNn9fN5U0aALBciOs/t8S0MNw238hHjdGAmLadHfrv8N3BIaHtU5WEFhGzA
+         +0rYFKzENE9DbLyYmkcPOGHSJLWf4sae6M8rwUEURpT7/7Lbi8nQ44cypxi0111GLZ6l
+         AKyr9VQcsH/qL1fqq3FmDbUtgLuMH/uWP/M1AG4btjzzulzgtCRh4HSQe00vo/+dcMuC
+         adkA==
+X-Gm-Message-State: AOJu0YypbreL7rwnHcFcZECpFcVw9QpGyDo92u0vHO7F/W9/AIe5+vKZ
+	jAN/9ymejRKQzHspkyPALldVc4+tRfEWxD2a59utYtxAnRsleN+QEc3sXdMrGbueJ+YVQOER9Bf
+	EBZsVBpg=
+X-Gm-Gg: ASbGnctIGXWrmyJJU7HxGffEArzILzucTEPULhfDBcBtPP3pozPFDaMmVdoXmkkxkuv
+	IhEa2LSI75wRWRvdIR+NsWsZwCfl2gqJC2QaF2HJDDDPc7x/Z/je0OsDnecT4a4TCWfFyjasG90
+	RPNECNmPMeKa18ejCuV0Hzp4eeZapp6lgOfdSTRFKr20WLihG7NDvjcImoA5SsGPQPBdGOrKCSY
+	dpWcFAT84QIF5CWPW+EyZ8McGNb+1kAwGIOV+WtI+bjuPT5QV702b0YMPtLgv+02SU5UPKAXvWX
+	OFWp+K+Fx7rA2B7j/40fbXWXREygmbNRcEq1uSW0CkCXvkff8OGOT9x6HW3xxnTvfgUAdp3G+VQ
+	oCBIrYMwzSYdqQPKmcLKQw2qNgMYozNT29S5ZvpLFdsvJww==
+X-Google-Smtp-Source: AGHT+IFbe5jsEsO9iZd09B4YyjGvK5v8D6Fk9IKt7rFvlRVnZKNwY93D0TtOF1fGCdrXFfZMXK0KPQ==
+X-Received: by 2002:ad4:5946:0:b0:702:c4d8:ec02 with SMTP id 6a1803df08f44-70af5f57928mr24126186d6.40.1755145576942;
+        Wed, 13 Aug 2025 21:26:16 -0700 (PDT)
 Received: from vince-B550I-AORUS-PRO-AX.. ([2601:406:4d01:1820:e358:dd1a:4ea0:986c])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70ae6cb6cc2sm8322816d6.22.2025.08.13.21.26.11
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70ae6cb6cc2sm8322816d6.22.2025.08.13.21.26.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 21:26:11 -0700 (PDT)
+        Wed, 13 Aug 2025 21:26:16 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v8 6/9] bootimg_pcbios: add funcs to configure booting with grub
-Date: Thu, 14 Aug 2025 00:25:49 -0400
-Message-Id: <20250814042552.21887-6-vince@underview.tech>
+Subject: [PATCH v8 9/9] oe-selftest: add wic.Wic.test_grub_install_pcbios
+Date: Thu, 14 Aug 2025 00:25:52 -0400
+Message-Id: <20250814042552.21887-9-vince@underview.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250814042552.21887-1-vince@underview.tech>
 References: <20250814042552.21887-1-vince@underview.tech>
@@ -68,257 +68,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Aug 2025 04:26:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221846
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221849
 
-Functions added, but not executed during
-wic image creation include:
+wic.Wic.test_grub_install_pcbios test
 
-_get_staging_libdir
-	* Finds target lib directory if for some
-	  reason STAGING_LIBDIR isn't set.
+Test updates to the bootimg_pcbios plugin that
+enables support for installing grub directly
+to the resulting wic image.
 
-_do_configure_grub
-	* Will search for a grub configuration passed via
-	  bootloader --configfile. If not found build a
-	  default one which searches for partition that
-	  contains the given the kernel name via grub
-	  search module.
-
-_do_prepare_grub
-	1. Sets default values for GRUB_MKIMAGE_FORMAT_PC
-	   and GRUB_PREFIX_PATH if none specified. Both
-	   variables are required by grub-mkimage.
-	   * GRUB_MKIMAGE_FORMAT_PC is used to define
-	     target platform.
-	   * GRUB_PREFIX_PATH is used to define which
-	     directory grub config and modules are going
-	     to reside in.
-	2. Generates grub config to embed into core.img.
-	   This config is used to search for partition
-	   containing grub config.
-	3. Creates a custom core.img or grub stage 1.5
-	   with an embedded grub config.
-	4. Copies all the target built grub modules into
-	   GRUB_PREFIX_PATH directory.
-	5. Creates boot partition
-
-_do_install_grub
-	1. dd target platform specific boot.img to the first
-	   0-440 bytes of the resulting wic image. dd grub
-	   stage 1 to wic image. If this wics plugin is used
-	   with GPT as partition table format and grub selected
-	   as bootloader it's more than likely for grub hybrid
-	   booting because bootimg_efi plugin should and more
-	   than likely will be used in that case. So, boot.img
-	   may be dd regardless if partition table format is
-	   GPT or MBR.
-	2. dd custom core.img (grub stage 1.5) with embedded
-	   configuration to the resulting wic image starting
-	   at byte 512 up to sizeof(core.img).
-	3. Both boot.img and core.img are required for legacy
-	   bios boot. See grub Wiki for more details on
-	   boot.img and core.img.
-
-	   https://en.wikipedia.org/wiki/GNU_GRUB
-
-Commit also imports python modules required by the
-above implemented functions.
+The test checks to see if the wics plugin
+generates a wic image. Then see's if normal.mod
+and grub.cfg are located in the boot partition.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- .../lib/wic/plugins/source/bootimg_pcbios.py  | 167 ++++++++++++++++++
- 1 file changed, 167 insertions(+)
+ meta/lib/oeqa/selftest/cases/wic.py | 41 +++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg_pcbios.py b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-index a4fabec0ae..f50a5ae0e2 100644
---- a/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
-@@ -13,7 +13,9 @@
- import logging
- import os
- import re
-+import shutil
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 680f99d381..44442e402d 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -215,6 +215,47 @@ class Wic(WicTestCase):
+                     found, "The kernel image '{}' was not found in the boot partition".format(kimgtype)
+                 )
  
-+from glob import glob
- from wic import WicError
- from wic.engine import get_custom_config
- from wic.pluginbase import SourcePlugin
-@@ -72,6 +74,27 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         cls._do_prepare_syslinux(part, cr_workdir, bootimg_dir,
-                                  kernel_dir, native_sysroot)
- 
-+    @classmethod
-+    def _get_staging_libdir(cls):
++    @skipIfNotArch(['x86_64'])
++    def test_grub_install_pcbios(self):
 +        """
-+        For unknown reasons when running test with poky
-+        STAGING_LIBDIR gets unset when wic create is executed.
-+        Bellow is a hack to determine what STAGING_LIBDIR should
-+        be if not specified.
++        Test the installation of the grub modules + config
++        into the boot directory in the resulting wic image.
 +        """
 +
-+        staging_libdir = get_bitbake_var('STAGING_LIBDIR')
-+        staging_dir_target = get_bitbake_var('STAGING_DIR_TARGET')
++        # create a temporary file for the WKS content
++        with NamedTemporaryFile("w", suffix=".wks") as wks:
++            wks.write(
++                'part --source bootimg_pcbios --sourceparams="loader-bios=grub" '
++                '--offset 1024 --fixed-size 78M --label boot --active\n'
++                'bootloader --ptable msdos --source bootimg_pcbios\n'
++            )
++            wks.flush()
++            # create a temporary directory to extract the disk image to
++            with TemporaryDirectory() as tmpdir:
++                img = "core-image-minimal"
++                config = 'DEPENDS:pn-%s += "grub-native grub"' % (img)
 +
-+        if not staging_libdir:
-+            staging_libdir = '%s/usr/lib64' % staging_dir_target
-+            if not os.path.isdir(staging_libdir):
-+                staging_libdir = '%s/usr/lib32' % staging_dir_target
-+                if not os.path.isdir(staging_libdir):
-+                    staging_libdir = '%s/usr/lib' % staging_dir_target
++                self.append_config(config)
++                bitbake(img)
++                self.remove_config(config)
 +
-+        return staging_libdir
++                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
++                runCmd(cmd)
 +
-     @classmethod
-     def _get_bootloader_config(cls, bootloader, loader):
-         custom_cfg = None
-@@ -243,3 +266,147 @@ class BootimgPcbiosPlugin(SourcePlugin):
- 
-         dd_cmd = "dd if=%s of=%s conv=notrunc" % (mbrfile, full_path)
-         exec_cmd(dd_cmd, native_sysroot)
++                wksname = os.path.splitext(os.path.basename(wks.name))[0]
++                out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
++                self.assertEqual(1, len(out))
 +
-+    @classmethod
-+    def _do_configure_grub(cls, part, creator, cr_workdir):
-+        hdddir = "%s/hdd" % cr_workdir
-+        bootloader = creator.ks.bootloader
++                sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
 +
-+        grub_conf = cls._get_bootloader_config(bootloader, 'grub')
++                # Check if grub.cfg is installed
++                result = runCmd("wic ls %s:1/boot/grub -n %s" % (out[0], sysroot))
++                self.assertIn('grub', result.output)
 +
-+        grub_prefix_path = get_bitbake_var('GRUB_PREFIX_PATH')
-+        if not grub_prefix_path:
-+            grub_prefix_path = '/boot/grub'
++                # Check if normal.mod is installed
++                result = runCmd("wic ls %s:1/boot/grub/i386-pc -n %s" % (out[0], sysroot))
++                self.assertIn('normal', result.output)
 +
-+        grub_path = "%s/%s" %(hdddir, grub_prefix_path)
-+        install_cmd = "install -d %s" % grub_path
-+        exec_cmd(install_cmd)
-+
-+        if not grub_conf:
-+            # Set a default timeout if none specified to avoid
-+            # 'None' being the value placed within the configuration
-+            # file.
-+            if not bootloader.timeout:
-+                bootloader.timeout = 500
-+
-+            # Set a default kernel params string if none specified
-+            # to avoid 'None' being the value placed within the
-+            # configuration file.
-+            if not bootloader.append:
-+                bootloader.append = "rootwait rootfstype=%s " % (part.fstype)
-+                bootloader.append += "console=ttyS0,115200 console=tty0"
-+
-+            kernel = "/boot/" + get_bitbake_var("KERNEL_IMAGETYPE")
-+
-+            grub_conf = 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n'
-+            grub_conf += 'set gfxmode=auto\n'
-+            grub_conf += 'set gfxpayload=keep\n\n'
-+            grub_conf += 'set default=0\n\n'
-+            grub_conf += '# Boot automatically after %d secs.\n' % (bootloader.timeout)
-+            grub_conf += 'set timeout=%d\n\n' % (bootloader.timeout)
-+            grub_conf += 'menuentry \'default\' {\n'
-+            grub_conf += '\tsearch --no-floppy --set=root --file %s\n' % (kernel)
-+            grub_conf += '\tprobe --set partuuid --part-uuid ($root)\n'
-+            grub_conf += '\tlinux %s root=PARTUUID=$partuuid %s\n}\n' % \
-+                            (kernel, bootloader.append)
-+
-+        logger.debug("Writing grub config %s/grub.cfg", grub_path)
-+        cfg = open("%s/grub.cfg" % grub_path, "w")
-+        cfg.write(grub_conf)
-+        cfg.close()
-+
-+    @classmethod
-+    def _do_prepare_grub(cls, part, cr_workdir, oe_builddir,
-+                         kernel_dir, rootfs_dir, native_sysroot):
-+        """
-+        1. Generate embed.cfg that'll later be embedded into core.img.
-+           So, that core.img knows where to search for grub.cfg.
-+        2. Generate core.img or grub stage 1.5.
-+        3. Copy modules into partition.
-+        4. Create partition rootfs file.
-+        """
-+
-+        hdddir = "%s/hdd" % cr_workdir
-+
-+        copy_types = [ '*.mod', '*.o', '*.lst' ]
-+
-+        builtin_modules = 'boot linux ext2 fat serial part_msdos part_gpt \
-+        normal multiboot probe biosdisk msdospart configfile search loadenv test'
-+
-+        staging_libdir = cls._get_staging_libdir()
-+
-+        grub_format = get_bitbake_var('GRUB_MKIMAGE_FORMAT_PC')
-+        if not grub_format:
-+            grub_format = 'i386-pc'
-+
-+        grub_prefix_path = get_bitbake_var('GRUB_PREFIX_PATH')
-+        if not grub_prefix_path:
-+            grub_prefix_path = '/boot/grub'
-+
-+        grub_path = "%s/%s" %(hdddir, grub_prefix_path)
-+        core_img = '%s/grub-bios-core.img' % (kernel_dir)
-+        grub_mods_path = '%s/grub/%s' % (staging_libdir, grub_format)
-+
-+        # Generate embedded grub config
-+        embed_cfg_str = 'search.file %s/grub.cfg root\n' % (grub_prefix_path)
-+        embed_cfg_str += 'set prefix=($root)%s\n' % (grub_prefix_path)
-+        embed_cfg_str += 'configfile ($root)%s/grub.cfg\n' % (grub_prefix_path)
-+        cfg = open('%s/embed.cfg' % (kernel_dir), 'w+')
-+        cfg.write(embed_cfg_str)
-+        cfg.close()
-+
-+        # core.img doesn't get included into boot partition
-+        # it's later dd onto the resulting wic image.
-+        grub_mkimage = 'grub-mkimage \
-+        --prefix=%s \
-+        --format=%s \
-+        --config=%s/embed.cfg \
-+        --directory=%s \
-+        --output=%s %s' % \
-+        (grub_prefix_path, grub_format, kernel_dir,
-+         grub_mods_path, core_img, builtin_modules)
-+        exec_native_cmd(grub_mkimage, native_sysroot)
-+
-+        # Copy grub modules
-+        install_dir = '%s/%s/%s' % (hdddir, grub_prefix_path, grub_format)
-+        os.makedirs(install_dir, exist_ok=True)
-+
-+        for ctype in copy_types:
-+            files = glob('%s/grub/%s/%s' % \
-+                (staging_libdir, grub_format, ctype))
-+            for file in files:
-+                shutil.copy2(file, install_dir, follow_symlinks=True)
-+
-+        # Create boot partition
-+        logger.debug('Prepare partition using rootfs in %s', hdddir)
-+        part.prepare_rootfs(cr_workdir, oe_builddir, hdddir,
-+                            native_sysroot, False)
-+
-+    @classmethod
-+    def _do_install_grub(cls, creator, kernel_dir,
-+                         native_sysroot, full_path):
-+        core_img = '%s/grub-bios-core.img' % (kernel_dir)
-+
-+        staging_libdir = cls._get_staging_libdir()
-+
-+        grub_format = get_bitbake_var('GRUB_MKIMAGE_FORMAT_PC')
-+        if not grub_format:
-+            grub_format = 'i386-pc'
-+
-+        boot_img = '%s/grub/%s/boot.img' % (staging_libdir, grub_format)
-+        if not os.path.exists(boot_img):
-+            raise WicError("Couldn't find %s. Did you include "
-+                           "do_image_wic[depends] += \"grub:do_populate_sysroot\" "
-+                           "in your image recipe" % boot_img)
-+
-+        # Install boot.img or grub stage 1
-+        dd_cmd = "dd if=%s of=%s conv=notrunc bs=1 seek=0 count=440" % (boot_img, full_path)
-+        exec_cmd(dd_cmd, native_sysroot)
-+
-+        if creator.ptable_format == 'msdos':
-+            # Install core.img or grub stage 1.5
-+            dd_cmd = "dd if=%s of=%s conv=notrunc bs=1 seek=512" % (core_img, full_path)
-+            exec_cmd(dd_cmd, native_sysroot)
-+        else:
-+            raise WicError("Unsupported partition table: %s" %
-+                           creator.ptable_format)
+     def test_build_image_name(self):
+         """Test wic create wictestdisk --image-name=core-image-minimal"""
+         cmd = "wic create wictestdisk --image-name=core-image-minimal -o %s" % self.resultdir
 -- 
 2.34.1
 
