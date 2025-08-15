@@ -1,100 +1,133 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5861CA0EE4
-	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 16:31:06 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.16037.1755275459321457480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B21C5CA0ED1
+	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 16:45:06 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.16480.1755276305979578912
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 09:30:59 -0700
+ Fri, 15 Aug 2025 09:45:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OSUtccoc;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=s1PGy6iU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010198ae91f7dc-1300a50c-01a0-4ee0-b1e9-2f664c6a1b7b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755275458; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=pZPZiO+xwuM67IOmz85AqihwrJD0AkxEzu/6tcR4OFA=;
-	b=OSUtccocyq3XyEFKe2Bwf/VMgSzwt/9B50Jur1CPf89okjTo5guOWjbwy3zHq0AA
-	xCmFQCLIxmeKAN7sYlayI4WfEOYbT5VicacyJcHLfH4sNr3TuxnHOVvR1u291BMyPcz
-	nGfZhKYUF7CmWtzzG/9SO3YCYaAbftRDNXcej7YQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755275458;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=pZPZiO+xwuM67IOmz85AqihwrJD0AkxEzu/6tcR4OFA=;
-	b=s1PGy6iUl1h1w0KttqxOwqoDB59C0NwC+8/pK54yjArnyKh1/gxygxR+z4euUVre
-	5LiFofj+uZ3TFF9ISsuZRtNvXhPEjNpKgeko0l/lvIwheepaS8dUnU1YvTbjCeqOvep
-	T5NK9cy4EKFaRDs062qQEJ6FzrUjj1hKOTF9beNo=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] spirv-llvm-translator: Upgrade to 21.1.0
-In-Reply-To: <20250815162502.3092192-1-raj.khem@gmail.com>
-References: <20250815162502.3092192-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198ae91f7dc-1300a50c-01a0-4ee0-b1e9-2f664c6a1b7b-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Aug 2025 16:30:58 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.15-54.240.27.30
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FxN2O3JI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b471740e488so2053791a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:45:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755276305; x=1755881105; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7L3enAN7g0zok3EYqqPNfwDBatVUsUKUkqGOvF3GWA=;
+        b=FxN2O3JIXvkN4jd1FlOkdzdq85YoDcj3w1n+02gXoq9OhuHaWBJfDy9JcXuaaD2uZj
+         EDwdG/ZVO7VoGpt5RWiLJp/gIh1hQjUPExFYJ3OxCVJQY+pCi8SKWyVyGgDh38XmYu9r
+         Kkdg7Bfu9wzqktz/JZ19W65NK8s520/BbBs3hXOukn1jiORiijfK81GFNaTIhoIVUBHC
+         19El1BId/yTSBPZ8esUYOmtOxTeWU8tFKk7/fETGz9vSfggEboSuMKjuraJiERF6BGvm
+         2Ok713iwUbsrmvGggbuTuggcdacGPKX4F8pnhI072/QQfgtAjqJoOsiWD3R6cFNtts7S
+         tKxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755276305; x=1755881105;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7L3enAN7g0zok3EYqqPNfwDBatVUsUKUkqGOvF3GWA=;
+        b=vlGxBWT6N8wzrZjxgh7SA4hsDEwIbh36OemGQWAbDFYXgsQMVIHXisBn5qeZzHqKSX
+         a/JJnVYjJ2eSKEk51NmlfCPH7XNplNOZrbqb+ecOpTB3wsDGh2FUYLVLX7Ez21Y/x2YB
+         Ar1EUJaK4rLbUJTAgPtzRksvjwjoqZfu96Od94c1oA0SzhU4iqjbkNLRvExNe+v1pyY4
+         3hA+3RKcJCAWU0D9Iyz5UqjgY0KrhzP7Ip+KY5wi5leJ6ID0Q4wZoHLD3Vq5a/P8zuEw
+         HbXKcMquNsmtY5hsVOZaFXoW1jhRR2dH5COj/z4Km3EMQBBHx2/NhQNZa/WrzkthUH6R
+         etrA==
+X-Gm-Message-State: AOJu0YyVr0Nr4gTbH2Nn9benNisqXYuTeqCDpURO+tgwhKKgjuaJNo0B
+	oi8cS6NE41yu+d5VS4qMPWxfGyi96MMzDS+n/DpUXeUoiTIk/+9/iQAKsJ94BVazV6hV4SttQxQ
+	LAqJM
+X-Gm-Gg: ASbGncudlrPOPQ+GLJ6vBsj6pceUg52EcmxUVpVqZ91kq/HGH93NG3SBNxsfHU/B956
+	Ig/JEt9R5GbzL6BvTeUug7Rc2Mz/f9ck+WlSxOSVJnDH91NQnfpG7J1fJzdjTNZUqNT+OVyOEKb
+	ldCYa5FKRwo6qzJ60uSjb4wPxRQQg2CZADyOVL4bsT+1zUKH41+Iu6Mtha+/L/CCdxuwJ1EtDfc
+	oZskKzlujyIQQ0C76L063TAeEHDPsYNweEehAwTHpWu4T5zuvj5TZYWJoScGrBbeu7nFAAqvQRN
+	Ln4M94UVvaNLigOi+ecbT19VcUe8YvNlqsYGnpSAqtsRYbTWqdT48WgYYRNX6nVPSmTYXAeyooY
+	FMWWQEoLTMeFOKndJuqbPvZe8
+X-Google-Smtp-Source: AGHT+IHWHSMejJhzXIUVPa3wNyEWmxbTcSjTdQvrdNvoT6cVkyKnoZIbCBApcQTQEj5ivItxCm5Lug==
+X-Received: by 2002:a17:90b:4b10:b0:312:51a9:5d44 with SMTP id 98e67ed59e1d1-32341df8dfemr4011413a91.5.1755276305043;
+        Fri, 15 Aug 2025 09:45:05 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:3ec5:7840:3390:1caa])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343c9ab2asm1554476a91.30.2025.08.15.09.45.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Aug 2025 09:45:04 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 0/9] Patch review
+Date: Fri, 15 Aug 2025 09:44:51 -0700
+Message-ID: <cover.1755276097.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 16:31:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221979
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 16:45:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221980
 
---NextPart
-Content-Type: text/plain
+Please review this set of changes for scarthgap and have comments back by
+end of day Tuesday, August 19
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Passed a-full on autobuilder:
 
----
-Testing patch /home/patchtest/share/mboxes/spirv-llvm-translator-Upgrade-to-21.1.0.patch
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2203
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+The following changes since commit f023779af6c0e5c838bdacbd6d9765d1c6740575:
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+  linux-libc-headers: Fix invalid conversion in cn_proc.h (2025-07-30 08:54:31 -0700)
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+are available in the Git repository at:
 
----
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Hitendra Prajapati (3):
+  gstreamer1.0-plugins-base: fix CVE-2025-47808
+  gstreamer1.0-plugins-base: fix CVE-2025-47806
+  gstreamer1.0-plugins-good: fix multiple CVEs
 
---NextPart
+Martin Jansa (1):
+  libpam: re-add missing libgen include
 
+Nikhil R (1):
+  cmake: Add PACKAGECONFIG option for debugger support
 
---NextPart--
+Peter Marko (2):
+  python3: patch CVE-2025-8194
+  go: ignore CVE-2025-0913
+
+Quentin Schulz (1):
+  go-helloworld: fix license
+
+Zhang Peng (1):
+  avahi: fix CVE-2024-52615
+
+ meta/recipes-connectivity/avahi/avahi_0.8.bb  |   1 +
+ .../avahi/files/CVE-2024-52615.patch          | 228 ++++++++++++++++++
+ meta/recipes-devtools/cmake/cmake_3.28.3.bb   |   4 +-
+ meta/recipes-devtools/go/go-1.22.12.inc       |   2 +
+ .../python/python3/CVE-2025-8194.patch        | 219 +++++++++++++++++
+ .../python/python3_3.12.11.bb                 |   9 +-
+ .../go-examples/go-helloworld_0.1.bb          |   4 +-
+ .../libpam/0002-pam-namespace-rebase.patch    |   4 +-
+ .../CVE-2025-47806.patch                      |  50 ++++
+ .../CVE-2025-47808.patch                      |  36 +++
+ .../gstreamer1.0-plugins-base_1.22.12.bb      |   2 +
+ .../CVE-2025-47183-001.patch                  | 151 ++++++++++++
+ .../CVE-2025-47183-002.patch                  |  80 ++++++
+ .../CVE-2025-47219.patch                      |  40 +++
+ .../gstreamer1.0-plugins-good_1.22.12.bb      |   3 +
+ 15 files changed, 824 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2024-52615.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-8194.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47806.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47808.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-001.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-002.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47219.patch
+
+-- 
+2.43.0
+
 
