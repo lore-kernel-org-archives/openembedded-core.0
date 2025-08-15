@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B63ECA0EE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A516FCA0EEB
 	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 16:45:16 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.16347.1755276307806942908
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.16348.1755276311948673006
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 09:45:07 -0700
+ Fri, 15 Aug 2025 09:45:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DD6hAJiW;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-323266cdf64so1819353a91.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:45:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wur9612N;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2445806e03cso22851885ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:45:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755276307; x=1755881107; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755276311; x=1755881111; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kkIFkkdkEDRJZoyQyiUuFQevjuglI2pen6Gh27nd7vQ=;
-        b=DD6hAJiWSNrTlYF+tP59q3WIWOQJT1T7b+HIxPLkxYUY9LupA29dAqp2hVQb8SA9K1
-         sn+hw7tbfxDaSBQuTM9mOgG3qaIB+GaMRkF6VUTsx6zj11Lxygp3FoM043Mpb/S6Uipl
-         qLVqWNX3Mg4dkWJoPOr+D9hAl2XLkL+A10rJCvLiyZwcTcO8wSZsyrXFN9mDX/dRRiSX
-         lLaBvdWjj/opRnSrJpESR/VTA0Kt/hjare7z05uTAKzlmSflh10OBJHToEvcRtlqDLRd
-         J2cbGkMXXeDl8qS3aKgPSIlbErDBVMe6Glmg3qGm7RVJUjhbNrS0AHYEcyhxQT6Y4aS7
-         8DfA==
+        bh=jI50m1BKZJ4m3KEIEye9dblXWJ/oF4p6wUacctuPAx4=;
+        b=wur9612NGql+hWvQrz5qag4xsN53gxkjPSqe9AFWulRx5s/thF7vpGRxZXIQZO7Qwe
+         nB4yfRGAgDQ0PD+YMlMFrIIEFn6GSoPHKLwyqkFtcyb3Q58Sna49ejhCgU2KeIpi7Moi
+         BqyaDFF4roQu7eqMk/z0u8Dy0Ch/khV6+mKqDHSYIJEC5mLD5ZB32z7r/AzcMSRGjbGg
+         KFuXmhTAl2TWNQqzQN/xZQZiA/4XBWODeypnNDJodA7RenOe2Y9AgWd2kPHJPs/hZpFy
+         kETim0+R3NPdPrIrJHXhTjOOwUHsYBeJEeMXm3WaYNdOlWzYoMd5ygpqABxYXzHC7CNI
+         0Xfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755276307; x=1755881107;
+        d=1e100.net; s=20230601; t=1755276311; x=1755881111;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kkIFkkdkEDRJZoyQyiUuFQevjuglI2pen6Gh27nd7vQ=;
-        b=iiNa+PA1mPUp6cULVX7Ca+rrDy8f/C/cxQOWQMAQP3i02Fzsb2FaXOmTa1WcqFO/BZ
-         cO1wBVEeJhVN16z8GCC5sTTH+z+Fph48jaTvLv1PHHRJU4rqazzuXD5CUTkTzbdZfIE+
-         SBioVXyKRMz1I8FUZYfAx9RmT1dlMg699ouiaePFVjZxOjWLPybKJv8E+UqNIh/gwS5V
-         fPrtTuDaBW0fLQeP7mMJrPSFKAt7jkW5gIcYRUFwhKxlg1iYOGVLqlNNIsaZp4DL+puU
-         +wZ6LkeEGOvNBdL56nwtL2QOAeWHQda+GfhRGrLinS7VxShAhaITf01GidocyjO7/pOa
-         LKyg==
-X-Gm-Message-State: AOJu0YwKcO7rnC1K2tIXYufTFlwsctSyfYW9dGbgFbD9KU2yx7V0t812
-	w9Cj1u8O749ZgHrfWHOVHJy5dXD9j2pHw0yx511pYYmYUSo+JaRHGdeIHqUhhBlcwwlakexcGus
-	5NG+e
-X-Gm-Gg: ASbGncsImTOezE+5e7vCREgvSaQ7cRQQjFgSf36HYN9jY7kKhPMpy+se9D/nrCrQ/Ow
-	tWqirV/2hq2ISoIbj27hzCZRzCzH/F76EaH8kVP0oOb6/n7DRkghXlatZPP4fNNM81POxO2fdBs
-	Tboqy8PnAJ5w8/JUdYY1SVVrgEg5yzaai9Nuv6ziQAo02OW01ryk349JDaJZsSiiwcU2YU9rnUR
-	BLDzqWq4sofBk7CxIyvYo1F7DRbQea+nom7sX/AL7jd9a/gmWUXuTVhlUIMHkFr42XtCSU8Gk9G
-	gilrEQMXh8Floa4/s+cdWwws7i82nEZ4UkT6VQsBDXQbSjAGv6BG3ZUEFC6pJv0ZPm4HSHShAzN
-	ChrWcrjrCGDVMfA==
-X-Google-Smtp-Source: AGHT+IFH801jSOEkbGJ4py+ELQswktS+r7N5mXIe8Me1thMg9Q5BTp6TovgGTxvrOVBw1XUlXAm33A==
-X-Received: by 2002:a17:90a:d44d:b0:321:c9e7:d9ef with SMTP id 98e67ed59e1d1-32341ee9181mr3937382a91.21.1755276306976;
-        Fri, 15 Aug 2025 09:45:06 -0700 (PDT)
+        bh=jI50m1BKZJ4m3KEIEye9dblXWJ/oF4p6wUacctuPAx4=;
+        b=tjD+Nuj9bLVG4fH461/fj+gPPWdVwvWB/XPZVsa6fjw0sT/6k3E9ft2udFDNculFHV
+         DF5WSzmFXKI5t/MgKck2jxMs+sdCa+OuXwlB+eP1+BKDLW1gKOH521PAS+IRTntfVzQ7
+         ebQ/pYu5Nfk8nST9uNLzbhwDMj/MfPt0m5jeHbLDJp8YU1BeskWsZjbWydahV8H74t5i
+         nOs6zMDXWz8vX8g/KNJYKo3zdrhokFmzpWs2ZGhXODZ+tiNk6gTLc0yLtVM9qFLQBKrx
+         v7+/aTbKwrbG5piNdRVpN8nKVnHAyobfXs8DVNJRg2EsYfDMdO5BMzL4bvFu1GrFmA94
+         PNtg==
+X-Gm-Message-State: AOJu0YzmgyNK7U7Yn1RaTmoBFLbUNUPiUVjJWhdSBrWE26g596az03W0
+	n0D5ppBIyfcAujpzrzKWPS/zxm8SisNXtqXGENIByk4bFB3pUtMPWhwvzTBGwyjmq214gIUoHIx
+	lu/xN
+X-Gm-Gg: ASbGnctH1v6L1UX+XKt+BcZGhXDzjoepQY6cOSYZzW5k6/awe5LgW5/1M0XSv52qnAq
+	7OEo36dcKV9FYiV7uRyUD0gEsP2fyaB05+Rydg8MN384cWFXj0IS5X4vm5yloWR4IoO9mbGmGnZ
+	EzwZ/zwQFyXi6xIowIQzA8ellkxx+N6LmZzDXDvwI0dSbPIrLtNnAS7IE2yc7svaq34oFNJUnPH
+	cIotvypV6fE35YRTkmO4XLdG07PbjwY8xHAr21VsDsVeu53KI/fXSqv781zYbfOFlQhQ5kC9THc
+	yoD4bUZSfWM0ynlcHtxDoFbPKcnSngvaeNxaIQtZ/MpIqr3jyeeaT607iARy0LJJw42Yjy2oj1/
+	kYwJfSyqpOmAsTw==
+X-Google-Smtp-Source: AGHT+IEOQgt8b6939eRVUAoctF58m5eFrApKtyROUy6ciYyMJAxWpHYOdjrUVbMxTy/CECBeaQeX/w==
+X-Received: by 2002:a17:903:1af0:b0:243:ba7:66ed with SMTP id d9443c01a7336-2446d8f30fbmr39904415ad.31.1755276311144;
+        Fri, 15 Aug 2025 09:45:11 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3ec5:7840:3390:1caa])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343c9ab2asm1554476a91.30.2025.08.15.09.45.06
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343c9ab2asm1554476a91.30.2025.08.15.09.45.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Aug 2025 09:45:06 -0700 (PDT)
+        Fri, 15 Aug 2025 09:45:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 1/9] avahi: fix CVE-2024-52615
-Date: Fri, 15 Aug 2025 09:44:52 -0700
-Message-ID: <ec22ec26b3f40ed5e0d84d60c29d8c315cf72e23.1755276097.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 4/9] gstreamer1.0-plugins-base: fix CVE-2025-47808
+Date: Fri, 15 Aug 2025 09:44:55 -0700
+Message-ID: <2611a16cad53d2bf0cda2946678e7d31e3ffa007.1755276097.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1755276097.git.steve@sakoman.com>
 References: <cover.1755276097.git.steve@sakoman.com>
@@ -68,275 +68,74 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 16:45:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221981
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221984
 
-From: Zhang Peng <peng.zhang1.cn@windriver.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-CVE-2024-52615:
-A flaw was found in Avahi-daemon, which relies on fixed source ports for wide-area
-DNS queries. This issue simplifies attacks where malicious DNS responses are injected.
+Upstream-Status: Backport from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/6b19f117518a765a25c99d1c4b09f2838a8ed0c9
 
-Reference:
-[https://nvd.nist.gov/vuln/detail/CVE-2024-52615]
-[https://github.com/avahi/avahi/security/advisories/GHSA-x6vp-f33h-h32g]
-
-Upstream patches:
-[https://github.com/avahi/avahi/commit/4e2e1ea0908d7e6ad7f38ae04fdcdf2411f8b942]
-
-Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   1 +
- .../avahi/files/CVE-2024-52615.patch          | 228 ++++++++++++++++++
- 2 files changed, 229 insertions(+)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2024-52615.patch
+ .../CVE-2025-47808.patch                      | 36 +++++++++++++++++++
+ .../gstreamer1.0-plugins-base_1.22.12.bb      |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47808.patch
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index 1163c17e20..7930bd3037 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -36,6 +36,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
-            file://CVE-2023-38472.patch \
-            file://CVE-2023-38473.patch \
-            file://CVE-2024-52616.patch \
-+           file://CVE-2024-52615.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/avahi/avahi/releases/"
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2024-52615.patch b/meta/recipes-connectivity/avahi/files/CVE-2024-52615.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47808.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47808.patch
 new file mode 100644
-index 0000000000..9737f52837
+index 0000000000..5b9fefc321
 --- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2024-52615.patch
-@@ -0,0 +1,228 @@
-+From 4e2e1ea0908d7e6ad7f38ae04fdcdf2411f8b942 Mon Sep 17 00:00:00 2001
-+From: Michal Sekletar <msekleta@redhat.com>
-+Date: Wed, 27 Nov 2024 18:07:32 +0100
-+Subject: [PATCH] core/wide-area: fix for CVE-2024-52615
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47808.patch
+@@ -0,0 +1,36 @@
++From 6b19f117518a765a25c99d1c4b09f2838a8ed0c9 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Thu, 8 May 2025 09:04:52 +0300
++Subject: [PATCH] tmplayer: Don't append NULL + 1 to the string buffer when
++ parsing lines without text
 +
-+CVE: CVE-2024-52615
-+Upstream-Status: Backport [https://github.com/avahi/avahi/commit/4e2e1ea0908d7e6ad7f38ae04fdcdf2411f8b942]
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4417
++Fixes CVE-2025-47808
 +
-+Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/9132>
++
++CVE: CVE-2025-47808
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/6b19f117518a765a25c99d1c4b09f2838a8ed0c9]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ avahi-core/wide-area.c | 128 ++++++++++++++++++++++-------------------
-+ 1 file changed, 69 insertions(+), 59 deletions(-)
++ gst/subparse/tmplayerparse.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/avahi-core/wide-area.c b/avahi-core/wide-area.c
-+index 00a15056e..06df7afc6 100644
-+--- a/avahi-core/wide-area.c
-++++ b/avahi-core/wide-area.c
-+@@ -81,6 +81,10 @@ struct AvahiWideAreaLookup {
-+ 
-+     AvahiAddress dns_server_used;
-+ 
-++    int fd;
-++    AvahiWatch *watch;
-++    AvahiProtocol proto;
-++
-+     AVAHI_LLIST_FIELDS(AvahiWideAreaLookup, lookups);
-+     AVAHI_LLIST_FIELDS(AvahiWideAreaLookup, by_key);
-+ };
-+@@ -88,9 +92,6 @@ struct AvahiWideAreaLookup {
-+ struct AvahiWideAreaLookupEngine {
-+     AvahiServer *server;
-+ 
-+-    int fd_ipv4, fd_ipv6;
-+-    AvahiWatch *watch_ipv4, *watch_ipv6;
-+-
-+     /* Cache */
-+     AVAHI_LLIST_HEAD(AvahiWideAreaCacheEntry, cache);
-+     AvahiHashmap *cache_by_key;
-+@@ -125,35 +126,67 @@ static AvahiWideAreaLookup* find_lookup(AvahiWideAreaLookupEngine *e, uint16_t i
-+     return l;
-+ }
-+ 
-++static void socket_event(AVAHI_GCC_UNUSED AvahiWatch *w, int fd, AVAHI_GCC_UNUSED AvahiWatchEvent events, void *userdata);
-++
-+ static int send_to_dns_server(AvahiWideAreaLookup *l, AvahiDnsPacket *p) {
-++    AvahiWideAreaLookupEngine *e;
-+     AvahiAddress *a;
-++    AvahiServer *s;
-++    AvahiWatch *w;
-++    int r;
-+ 
-+     assert(l);
-+     assert(p);
-+ 
-+-    if (l->engine->n_dns_servers <= 0)
-++    e = l->engine;
-++    assert(e);
-++
-++    s = e->server;
-++    assert(s);
-++
-++    if (e->n_dns_servers <= 0)
-+         return -1;
-+ 
-+-    assert(l->engine->current_dns_server < l->engine->n_dns_servers);
-++    assert(e->current_dns_server < e->n_dns_servers);
-+ 
-+-    a = &l->engine->dns_servers[l->engine->current_dns_server];
-++    a = &e->dns_servers[e->current_dns_server];
-+     l->dns_server_used = *a;
-+ 
-+-    if (a->proto == AVAHI_PROTO_INET) {
-++    if (l->fd >= 0) {
-++        /* We are reusing lookup object and sending packet to another server so let's cleanup before we establish connection to new server. */
-++        s->poll_api->watch_free(l->watch);
-++        l->watch = NULL;
-+ 
-+-        if (l->engine->fd_ipv4 < 0)
-+-            return -1;
-++        close(l->fd);
-++        l->fd = -EBADF;
-++    }
-+ 
-+-        return avahi_send_dns_packet_ipv4(l->engine->fd_ipv4, AVAHI_IF_UNSPEC, p, NULL, &a->data.ipv4, AVAHI_DNS_PORT);
-++    assert(a->proto == AVAHI_PROTO_INET || a->proto == AVAHI_PROTO_INET6);
-+ 
-+-    } else {
-+-        assert(a->proto == AVAHI_PROTO_INET6);
-++    if (a->proto == AVAHI_PROTO_INET)
-++        r = s->config.use_ipv4 ? avahi_open_unicast_socket_ipv4() : -1;
-++    else
-++        r = s->config.use_ipv6 ? avahi_open_unicast_socket_ipv6() : -1;
-+ 
-+-        if (l->engine->fd_ipv6 < 0)
-+-            return -1;
-++    if (r < 0) {
-++        avahi_log_error(__FILE__ ": Failed to create socket for wide area lookup");
-++        return -1;
-++    }
-+ 
-+-        return avahi_send_dns_packet_ipv6(l->engine->fd_ipv6, AVAHI_IF_UNSPEC, p, NULL, &a->data.ipv6, AVAHI_DNS_PORT);
-++    w = s->poll_api->watch_new(s->poll_api, r, AVAHI_WATCH_IN, socket_event, l);
-++    if (!w) {
-++        close(r);
-++        avahi_log_error(__FILE__ ": Failed to create socket watch for wide area lookup");
-++        return -1;
++diff --git a/gst/subparse/tmplayerparse.c b/gst/subparse/tmplayerparse.c
++index 807e332..a9225d3 100644
++--- a/gst/subparse/tmplayerparse.c
+++++ b/gst/subparse/tmplayerparse.c
++@@ -125,7 +125,9 @@ tmplayer_parse_line (ParserState * state, const gchar * line, guint line_num)
++        * durations from the start times anyway, so as long as the parser just
++        * forwards state->start_time by duration after it pushes the line we
++        * are about to return it will all be good. */
++-      g_string_append (state->buf, text_start + 1);
+++      if (text_start) {
+++        g_string_append (state->buf, text_start + 1);
+++      }
++     } else if (line_num > 0) {
++       GST_WARNING ("end of subtitle unit but no valid start time?!");
 +     }
-++
-++    l->fd = r;
-++    l->watch = w;
-++    l->proto = a->proto;
-++
-++    return a->proto == AVAHI_PROTO_INET ?
-++                avahi_send_dns_packet_ipv4(l->fd, AVAHI_IF_UNSPEC, p, NULL, &a->data.ipv4, AVAHI_DNS_PORT):
-++                avahi_send_dns_packet_ipv6(l->fd, AVAHI_IF_UNSPEC, p, NULL, &a->data.ipv6, AVAHI_DNS_PORT);
-+ }
-+ 
-+ static void next_dns_server(AvahiWideAreaLookupEngine *e) {
-+@@ -246,6 +279,9 @@ AvahiWideAreaLookup *avahi_wide_area_lookup_new(
-+     l->dead = 0;
-+     l->key = avahi_key_ref(key);
-+     l->cname_key = avahi_key_new_cname(l->key);
-++    l->fd = -EBADF;
-++    l->watch = NULL;
-++    l->proto = AVAHI_PROTO_UNSPEC;
-+     l->callback = callback;
-+     l->userdata = userdata;
-+ 
-+@@ -314,6 +350,12 @@ static void lookup_destroy(AvahiWideAreaLookup *l) {
-+     if (l->cname_key)
-+         avahi_key_unref(l->cname_key);
-+ 
-++    if (l->watch)
-++            l->engine->server->poll_api->watch_free(l->watch);
-++
-++    if (l->fd >= 0)
-++        close(l->fd);
-++
-+     avahi_free(l);
-+ }
-+ 
-+@@ -572,14 +614,20 @@ static void handle_packet(AvahiWideAreaLookupEngine *e, AvahiDnsPacket *p) {
-+ }
-+ 
-+ static void socket_event(AVAHI_GCC_UNUSED AvahiWatch *w, int fd, AVAHI_GCC_UNUSED AvahiWatchEvent events, void *userdata) {
-+-    AvahiWideAreaLookupEngine *e = userdata;
-++    AvahiWideAreaLookup *l = userdata;
-++    AvahiWideAreaLookupEngine *e = l->engine;
-+     AvahiDnsPacket *p = NULL;
-+ 
-+-    if (fd == e->fd_ipv4)
-+-        p = avahi_recv_dns_packet_ipv4(e->fd_ipv4, NULL, NULL, NULL, NULL, NULL);
-++    assert(l);
-++    assert(e);
-++    assert(l->fd == fd);
-++
-++    if (l->proto == AVAHI_PROTO_INET)
-++        p = avahi_recv_dns_packet_ipv4(l->fd, NULL, NULL, NULL, NULL, NULL);
-+     else {
-+-        assert(fd == e->fd_ipv6);
-+-        p = avahi_recv_dns_packet_ipv6(e->fd_ipv6, NULL, NULL, NULL, NULL, NULL);
-++        assert(l->proto == AVAHI_PROTO_INET6);
-++
-++        p = avahi_recv_dns_packet_ipv6(l->fd, NULL, NULL, NULL, NULL, NULL);
-+     }
-+ 
-+     if (p) {
-+@@ -598,32 +646,6 @@ AvahiWideAreaLookupEngine *avahi_wide_area_engine_new(AvahiServer *s) {
-+     e->server = s;
-+     e->cleanup_dead = 0;
-+ 
-+-    /* Create sockets */
-+-    e->fd_ipv4 = s->config.use_ipv4 ? avahi_open_unicast_socket_ipv4() : -1;
-+-    e->fd_ipv6 = s->config.use_ipv6 ? avahi_open_unicast_socket_ipv6() : -1;
-+-
-+-    if (e->fd_ipv4 < 0 && e->fd_ipv6 < 0) {
-+-        avahi_log_error(__FILE__": Failed to create wide area sockets: %s", strerror(errno));
-+-
-+-        if (e->fd_ipv6 >= 0)
-+-            close(e->fd_ipv6);
-+-
-+-        if (e->fd_ipv4 >= 0)
-+-            close(e->fd_ipv4);
-+-
-+-        avahi_free(e);
-+-        return NULL;
-+-    }
-+-
-+-    /* Create watches */
-+-
-+-    e->watch_ipv4 = e->watch_ipv6 = NULL;
-+-
-+-    if (e->fd_ipv4 >= 0)
-+-        e->watch_ipv4 = s->poll_api->watch_new(e->server->poll_api, e->fd_ipv4, AVAHI_WATCH_IN, socket_event, e);
-+-    if (e->fd_ipv6 >= 0)
-+-        e->watch_ipv6 = s->poll_api->watch_new(e->server->poll_api, e->fd_ipv6, AVAHI_WATCH_IN, socket_event, e);
-+-
-+     e->n_dns_servers = e->current_dns_server = 0;
-+ 
-+     /* Initialize cache */
-+@@ -651,18 +673,6 @@ void avahi_wide_area_engine_free(AvahiWideAreaLookupEngine *e) {
-+     avahi_hashmap_free(e->lookups_by_id);
-+     avahi_hashmap_free(e->lookups_by_key);
-+ 
-+-    if (e->watch_ipv4)
-+-        e->server->poll_api->watch_free(e->watch_ipv4);
-+-
-+-    if (e->watch_ipv6)
-+-        e->server->poll_api->watch_free(e->watch_ipv6);
-+-
-+-    if (e->fd_ipv6 >= 0)
-+-        close(e->fd_ipv6);
-+-
-+-    if (e->fd_ipv4 >= 0)
-+-        close(e->fd_ipv4);
-+-
-+     avahi_free(e);
-+ }
-+ 
-+@@ -680,7 +690,7 @@ void avahi_wide_area_set_servers(AvahiWideAreaLookupEngine *e, const AvahiAddres
-+ 
-+     if (a) {
-+         for (e->n_dns_servers = 0; n > 0 && e->n_dns_servers < AVAHI_WIDE_AREA_SERVERS_MAX; a++, n--)
-+-            if ((a->proto == AVAHI_PROTO_INET && e->fd_ipv4 >= 0) || (a->proto == AVAHI_PROTO_INET6 && e->fd_ipv6 >= 0))
-++            if (a->proto == AVAHI_PROTO_INET || a->proto == AVAHI_PROTO_INET6)
-+                 e->dns_servers[e->n_dns_servers++] = *a;
-+     } else {
-+         assert(n == 0);
++-- 
++2.50.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
+index 05cb956815..44ecdc0b55 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
+@@ -19,6 +19,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0010-id3v2-Don-t-try-parsing-extended-header-if-not-enoug.patch \
+            file://0011-discoverer-Don-t-print-channel-layout-for-more-than-.patch \
+            file://0012-subparse-Check-for-NULL-return-of-strchr-when-parsin.patch \
++           file://CVE-2025-47808.patch \
+            "
+ SRC_URI[sha256sum] = "73cfadc3a6ffe77ed974cfd6fb391c605e4531f48db21dd6b9f42b8cb69bd8c1"
+ 
 -- 
 2.43.0
 
