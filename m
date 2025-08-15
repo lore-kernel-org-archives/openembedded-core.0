@@ -1,82 +1,119 @@
-Return-Path: <philip.lorenz@bmw.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D057CA0EE4
-	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 10:01:09 +0000 (UTC)
-Received: from esa4.hc324-48.eu.iphmx.com (esa4.hc324-48.eu.iphmx.com [207.54.71.48])
- by mx.groups.io with SMTP id smtpd.web10.8329.1755252059860742024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABCC4CA0EE4
+	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 10:20:39 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.8510.1755253231947495219
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 03:01:00 -0700
+ Fri, 15 Aug 2025 03:20:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=R1LXdBa5;
- spf=pass (domain: bmw.de, ip: 207.54.71.48, mailfrom: prvs=315bbc237=philip.lorenz@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c5baHz5Y;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3b9a342e8ffso1302317f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 03:20:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1755252059; x=1786788059;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XdMgp9KmGdNZHKeyw2VMKZdfUygWT6ZoesSQeefR9ko=;
-  b=R1LXdBa5P9o/JfaZN8UDTSRpgYVD4NYnPDvQIwHSf4UjA5DWGsnabeXN
-   avZfwHtoB2OKf2fgjPSWamsUMqRhETYhNxhBnwopSAdRFD8/1Xx3xC7vc
-   +pl5SG1sHQ1c2G5fQPKcFhPX/X/kebWH4mb60yMNBZMGmX+1VUWYYAVdy
-   E=;
-X-CSE-ConnectionGUID: QrMnCxf5QKisuHgDqPa3Og==
-X-CSE-MsgGUID: BTDuP+hiTHyKc9O4UrJ8xg==
-Received: from 160.46.252.49.spf.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
- esa4.hc324-48.eu.iphmx.com with ESMTP/TLS; 15 Aug 2025 12:00:57 +0200
-Received: from unknown (HELO esabb5.muc) ([10.31.187.136]) by esagw6.muc with
- ESMTP/TLS; 15 Aug 2025 12:00:58 +0200
-Received: from smucmp19d.bmwgroup.net (HELO smucmp19d.europe.bmw.corp)
- ([10.30.13.170]) by esabb5.muc with ESMTP/TLS; 15 Aug 2025 12:00:58 +0200
-Received: from marvin-ws (10.30.85.203) by smucmp19d.europe.bmw.corp
- (2a03:1e80:a15:58f::205d) with Microsoft SMTP Server (version=TLS;
- Fri, 15 Aug 2025 12:00:57 +0200
-X-CSE-ConnectionGUID: OIdrOjekTZmBC1ODSDVK7A==
-X-CSE-MsgGUID: iLvv86gNTMGPvGpJ5pW7SA==
-X-CSE-ConnectionGUID: OVAotCy6R/+pauD2x1Yqow==
-X-CSE-MsgGUID: Cse7UdzpSeu1E+p3ABCXNA==
-From: Philip Lorenz <philip.lorenz@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: <steve@sakoman.com>, Philip Lorenz <philip.lorenz@bmw.de>
-Subject: [scarthgap][PATCH] cve-check: Add missing call to exit_if_errors
-Date: Fri, 15 Aug 2025 11:53:06 +0200
-Message-ID: <20250815095306.3034821-1-philip.lorenz@bmw.de>
-X-Mailer: git-send-email 2.50.1
+        d=gmail.com; s=20230601; t=1755253230; x=1755858030; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MEJ+e9eQyjdLBRLfx0W9hG+FAHdgquAQK9yw1y5aVwk=;
+        b=c5baHz5Y13qLWF3eRrCekaBduzsXPOm02Rfd8EUWVIaXiWUsieVgMBVut9VOhoPn0a
+         s3E69QmEJIWujUwF7wX7IHXqbLMpg5WqVc+OmM/vgEcBlpU0TZc6bdULJuDfpksBhS64
+         sDQ0ffmR8P3Izvtm2TATd2UfV17B1b2lE88zfMRzY7jPGyfGki97up1S4GahHu01D5g6
+         ciEPc5uTqfM/HTHlWPhd1jgXyWPOVDe21FBL1Y5KV1OvuVzX0Mc/KgsSPaW/oo3KO3S1
+         u4aYWpHM0EXEoNSHqsokkeCWHP7TVAxNU2MSrG5ChxyuHzewpaAJO45DEnqWPdVHRLRB
+         xy3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755253230; x=1755858030;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MEJ+e9eQyjdLBRLfx0W9hG+FAHdgquAQK9yw1y5aVwk=;
+        b=Z7W5xT6y4Nz50i4exQcFeKXvWgZRB7U/a7nLQG7YvvA6pUiOqkgVGIf2rxeb3UBgVL
+         pboSlk0RvglsJ4FiQzk8e5ZqDtY22X4Kwtplicmde3Nsv4tL/w9+kNU7myz1cRBTQinJ
+         JANC34CZ5gQcTs0XY66gszkEt3PeDHbg80c88XBRhSAYhlUIaT7jYukmbNq23EdWZLF7
+         q7c+nac5LXKD8vY5QUG/DZnktT4q6cFnDySHvTrz2ZNQk0PwMUh0AO7jPlKRz7GagICd
+         Rez64nPwJIJxky+vH0yMmSZSyKTW5L8M83z/Z5geEUCTT0fSMtHV3dmy5SA7g0TzcwOl
+         CVUw==
+X-Gm-Message-State: AOJu0YxD4Typ828AbZH6LaJCJXd98xywvapCXB1f9GkO4rjhejP0yDLV
+	VCl64l8ZzFG5PlntRmo3+DVF6Zxeit2W0oodqPfRSp4IYib19FjF+sKXsOFKvQ==
+X-Gm-Gg: ASbGncuvu4UP1F8jgpAA1Sy4Z7bgO5rYBX8W/hNrS0VcLkAhWz7puzfu+pjGO0z105H
+	o324TSrSXlYG6YpIqQiTF7QL23pOdBAi4oAn+KIhPjKZ0vE493bkZ/qsYMcrtPLGlfc8f7UTLzf
+	mfxKICWwEhIlOrvZzzq0hQzuJSpV9ciSOddqI89/zGyzeSvNJp48j34zJoZkdhBncLLnJXY2ZL6
+	LoViapQg987KM6Yd8sAMVWK3XeB6XjgHasHaT8pVr678oBkDKdQPY7wUtCcOBM7zu1NzcB86Z12
+	nTk19DR//J+GJIdB5Id8PDuK6CE9Rx1UX2orMj0EFuObSvwU9sgpsAYFuiQfSIjh1OXBS9sUTHW
+	beQIY7GxapnJyKdFH91vvjbsfBWccQQ3B62uxEYhrqQ/lXpuJPs9NiXbsLMoBAuZ9qIdgOg==
+X-Google-Smtp-Source: AGHT+IEgAQlNSqgK/GjkzlW6i7QvJ7B3ZUa1k0C3YnTfuAifaJ02sZPTYIj0s9tO8l76aEOaJKV0VQ==
+X-Received: by 2002:a05:6000:2302:b0:3b7:8acf:1887 with SMTP id ffacd0b85a97d-3ba508ec36amr4987914f8f.13.1755253230137;
+        Fri, 15 Aug 2025 03:20:30 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a22328b5fsm13559275e9.20.2025.08.15.03.20.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Aug 2025 03:20:29 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH v2] fragments/autobuilder: add go to SDK_TOOLCHAIN_LANGS
+Date: Fri, 15 Aug 2025 12:20:24 +0200
+Message-Id: <20250815102024.1664011-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SMUCMP10H.europe.bmw.corp (2a03:1e80:a15:58f::2047) To
- smucmp19d.europe.bmw.corp (2a03:1e80:a15:58f::205d)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 10:01:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221880
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 10:20:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221881
 
-check_cves may raise the cve_status_not_in_db QA check. Call
-exit_if_errors to make sure that the task is marked as failed when the
-check is categorized as an error.
+From: Alexander Kanavin <alex@linutronix.de>
 
-cve_status_not_in_db was in the meantime dropped in OE-Core
-452e605b55ad61c08f4af7089a5a9c576ca28f7d so this change is only required
-on scarthgap.
+For reasons unknown, only rust was listed, which means
+nativesdk-go was not built or tested, which lead to
+breakage like one fixed in
+https://git.yoctoproject.org/poky/commit/?id=a669cd2e0c760da9d7e872daea9590fc9e86d766
 
-Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
+Note that with this change only building and installing go
+into SDKsis tested, but no tests are performed with the
+toolchain itself in testsdk/testimage.
+
+For that, a bug has been filed:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15953
+
+Remove go from x32 targets as it will not build for them.
+(next to similar removals for rust)
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes/cve-check.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-recipe/populate_sdk_base.bbclass          | 2 ++
+ meta/conf/fragments/yocto-autobuilder/autobuilder.conf | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 6b8376bf17e..d08c6ac670c 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -196,6 +196,7 @@ python do_cve_check () {
-         else:
-             bb.note("No CVE database found, skipping CVE check")
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+index e6685cde97b..a87e3c49eb1 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -62,6 +62,8 @@ SDK_TOOLCHAIN_LANGS ??= ""
+ SDK_TOOLCHAIN_LANGS:remove:sdkmingw32 = "rust"
+ # libstd-rs doesn't build for mips n32 with compiler constraint errors
+ SDK_TOOLCHAIN_LANGS:remove:mipsarchn32 = "rust"
++# go will not build for x86-x32
++SDK_TOOLCHAIN_LANGS:remove:linux-gnux32 = "go"
  
-+    oe.qa.exit_if_errors(d)
- }
+ TOOLCHAIN_HOST_TASK ?= " \
+     nativesdk-packagegroup-sdk-host \
+diff --git a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+index e3bac343390..85987b08995 100644
+--- a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
++++ b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+@@ -9,5 +9,5 @@ IMAGE_CLASSES += 'testimage'
+ SDK_EXT_TYPE = 'minimal'
+ SDK_INCLUDE_TOOLCHAIN = '1'
+ ESDK_LOCALCONF_REMOVE:append = 'BB_HASHSERVE'
+-SDK_TOOLCHAIN_LANGS += 'rust'
++SDK_TOOLCHAIN_LANGS += 'go rust'
  
- addtask cve_check before do_build
+-- 
+2.39.5
+
 
