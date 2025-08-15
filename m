@@ -1,113 +1,84 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <philip.lorenz@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 617C9CA0EE4
-	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 09:25:59 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web11.7924.1755249951217510532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8505DCA0ED1
+	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 09:53:19 +0000 (UTC)
+Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com [207.54.71.60])
+ by mx.groups.io with SMTP id smtpd.web11.8198.1755251592701889376
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 02:25:51 -0700
+ Fri, 15 Aug 2025 02:53:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BGuvaza2;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 079D443208;
-	Fri, 15 Aug 2025 09:25:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1755249949;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6aoDJ70G1DOBoTSYENFdO4aZweq6bH4zb/FFutLQaZ8=;
-	b=BGuvaza2XYnjzwFBKGBnuaeb1Cs170ebKjwvOEU1txhkiFDeAIX9RtxAsYrq28rKyvrG+c
-	mQLZi50BZykjwHNbf8/b+g6j1MMw2WWIlXbGpzqA1lP7oJHf5CbA0TQDX+y6tKwHovyzfa
-	dvv7zbsT5khnlxqt4aXqvXj5SKeplxHvn3nB5xu9v+121LBJwre381pCc3plL5SEIU2xFT
-	MLbVuEWUNMIJgdljI8T7Cy2wVgOy/XT00kvtJqIQSIPJK7DAj6XXiTSH7Q4hOhSD63cql3
-	oVl5ML5h8lmL5q12q4Lxx8QF2eiruwzDhF9Q4ezswwN5E9iaBpZp97OFisAwGA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 15 Aug 2025 11:25:48 +0200
-Message-Id: <DC2W6ED7YCUS.1V4VLCIHMFF17@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <tony.rex@ericsson.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe parsing race
- issue
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250814172348.3882586-1-tony.rex@ericsson.com>
-In-Reply-To: <20250814172348.3882586-1-tony.rex@ericsson.com>
-X-GND-State: clean
-X-GND-Score: 0
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddugeefiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffhvffuofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedtgfeuvdfghfegtdehvdegvefhkeegheeikeelfeefffetheeitdduudeludduleenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegvtdgrmegrieeimeefudektdemkeefhegvmeegheegieemiegusgekmegrheekjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemrgeiieemfedukedtmeekfeehvgemgeehgeeimeeiuggskeemrgehkeejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtohepthhonhihrdhrvgigsegvrhhitghsshhonhdrtghomhdprhgtphhtthhopehophgvnhgvm
- hgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=n9lhEftR;
+ spf=pass (domain: bmw.de, ip: 207.54.71.60, mailfrom: prvs=315bbc237=philip.lorenz@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1755251592; x=1786787592;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=6a71G2MuaEdm2xq41hnd/Id8/anmIcH2+5UPxqn5yYI=;
+  b=n9lhEftR8GK9zjLpuZZPH54/ngAT58CVwokAj04n/JVnz0RLHm+8d2dS
+   A85030Sy/nq5kocjW3Z54pm8CAgAFtuKfT5rZn3TMBvnC6GOlwo44SvsI
+   jMR9d41ufyQ/1XD3cQCrdz2jcodWW/19+fXfTtGEWP5voGghb6aRt8L28
+   w=;
+X-CSE-ConnectionGUID: KzqGiYIST92i5gPA0Y/b4g==
+X-CSE-MsgGUID: wH+fvo5NS1e+KxX4+I5LaA==
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+ esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 15 Aug 2025 11:53:08 +0200
+Received: from unknown (HELO esabb3.muc) ([10.31.187.134]) by esagw2.muc with
+ ESMTP/TLS; 15 Aug 2025 11:53:08 +0200
+Received: from smucmp19d.bmwgroup.net (HELO smucmp19d.europe.bmw.corp)
+ ([10.30.13.170]) by esabb3.muc with ESMTP/TLS; 15 Aug 2025 11:53:08 +0200
+Received: from marvin-ws (10.30.85.200) by smucmp19d.europe.bmw.corp
+ (2a03:1e80:a15:58f::205d) with Microsoft SMTP Server (version=TLS;
+ Fri, 15 Aug 2025 11:53:08 +0200
+X-CSE-ConnectionGUID: CSltbA2VRM2tqEEXPI7EQQ==
+X-CSE-MsgGUID: ucXuBAqLRNOPwpmrU63+Qw==
+X-CSE-ConnectionGUID: y0gXKNDzReWENwe0zSCQjQ==
+X-CSE-MsgGUID: QtyKMm9uSZG5wsjoeNMIEQ==
+From: Philip Lorenz <philip.lorenz@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: <steve@sakoman.com>, Philip Lorenz <philip.lorenz@bmw.de>
+Subject: [kirkstone][PATCH 2/2] insane: Ensure that `src-uri-bad` fails correctly
+Date: Fri, 15 Aug 2025 11:45:09 +0200
+Message-ID: <20250815094509.3034151-2-philip.lorenz@bmw.de>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250815094509.3034151-1-philip.lorenz@bmw.de>
+References: <20250815094509.3034151-1-philip.lorenz@bmw.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: smucmp16e.europe.bmw.corp (2a03:1e80:a15:58f::1:147) To
+ smucmp19d.europe.bmw.corp (2a03:1e80:a15:58f::205d)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:25:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221877
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:53:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221878
 
-On Thu Aug 14, 2025 at 7:23 PM CEST, Tony Rex via lists.openembedded.org wr=
-ote:
-> It seems that the race condition happens when doing do_fetch on really sm=
-all repos
-> and it can be difficult to reproduce so below the other case with floatin=
-g tag/branch
-> that is easier to verify.
->
-> To verify the floating tag/branch issue have s simple recipe hello_1.0.bb=
- and set the SRC_URI to
-> SRC_URI =3D "git://<repository>;protocol=3Dhttps;user=3D${USER};branch=3D=
-master;tag=3Dv1.0"
->
-> run command bitbake hello everything builds.
-> =20
-> Apply the patch
->
-> run command bitbake hello
-> ERROR: hello-1.0-r1 do_fetch: Bitbake Fetcher Error: FetchError("Recipe u=
-ses a floating tag/branch 'v1.0' for repo '<repository>' without a fixed SR=
-CREV yet doesn't call bb.fetch2.get_srcrev() (use SRCPV in PV for OE).", No=
-ne)
-> ERROR: Logfile of failure stored in: hello/1.0/temp/log.do_fetch.3289932
-> ERROR: Task (hello/hello_1.0.bb:do_fetch) failed with exit code '1'
->
-> Tony Rex (1):
->   base.bbclass: Fix the recipe parsing race issue
->
->  meta/classes-global/base.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+`src-uri-bad` is missing the required call to `oe.qa.exit_if_errors` so
+the corresponding task is not marked as failed when the QA check is
+classified as an error.
 
-Hi Tony,
+This issue was fixed by the introduction of the do_recipe_qa task in
+OE-core (e0c71367ab59021fc430ef215bbfc3b525036ba4) which is not part
+of kirkstone yet.
 
-Thanks for your patch.
+Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
+---
+ meta/classes/insane.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-It looks like this is breaking some builds with the following error:
-
-oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/pokybu=
-ild/yocto-worker/qemux86-64/build/build/tmp/work/qemux86_64-poky-linux/core=
--image-sato/1.0/testsdkext/environment-setup-core2-64-poky-linux > /dev/nul=
-l; devtool add kernel-module-hello-world https://git.yoctoproject.org/git/k=
-ernel-module-hello-world;' returned non-zero exit status 1.
-...
-ERROR: Bitbake Fetcher Error: FetchError("Recipe uses a floating tag/branch=
- 'master' for repo 'git.yoctoproject.org/git/kernel-module-hello-world' wit=
-hout a fixed SRCREV yet doesn't call bb.fetch2.get_srcrev() (use SRCPV in P=
-V for OE).", None)
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/68/builds/2284
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/2199
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/2247
-
-Can you have a look at this error please?
-
-Best regards,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 495bdda652c..67de65287f6 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1339,6 +1339,7 @@ python do_qa_unpack() {
+         bb.warn('%s: the directory %s (%s) pointed to by the S variable doesn\'t exist - please set S within the recipe to point to where the source has been unpacked to' % (d.getVar('PN'), d.getVar('S', False), s_dir))
+ 
+     unpack_check_src_uri(d.getVar('PN'), d)
++    oe.qa.exit_if_errors(d)
+ }
+ 
+ # The Staging Func, to check all staging
 
