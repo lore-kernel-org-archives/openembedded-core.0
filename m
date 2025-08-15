@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC10CA1001
-	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 13:07:24 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.11426.1755263238035640408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E08CA100D
+	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 13:07:25 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.11335.1755263226705909782
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 06:07:18 -0700
+ Fri, 15 Aug 2025 06:07:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=vGBKtsiy;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=tLmnEIiJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010198add77ca7-fa515b5a-3e49-498e-be85-e31015af274a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=S3Sv1WaI;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WGn8nOC9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010198add791db-021ec647-5e6d-4e82-98c0-3a104b390c6c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755263237;
+	t=1755263242;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Kv5zbzFvwgrCfbfkbBbPKrypMYWbiZOwEdz3LFopR9o=;
-	b=vGBKtsiymcF/8ifSScw781EIsihZoODUdB4qfFZrjPTErxKo4Ai+ec70YjoSrzYD
-	sCMZaQ//+UOpowpz3ZBlAP5I6f6AcqaNR80E+HsLomdxky+7UMbPmuXEu/IhluLS+nV
-	xv4po9sxb7ntIaycwf3OKna238eUNz/Jfg/d3r/A=
+	bh=o0/WEh2yuN2x2sDOOv/JZaPrSV6a0ZT0SfkWX+trtws=;
+	b=S3Sv1WaI31zzUuZgkxZwmqzduBuZs4L3ZfVBktiTgszB89kpLsEK+FXlWNxI5mGo
+	7SpcJkAC0k/hwnsYd0FVOlogsYed4PiQPc1OfSLCz3ru8VgkD+utZ+bopmOc+07856C
+	vCfgQP0w+sCOGr7uCkzMYJcEgm5oSZuT5i4lDIOg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263237;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263242;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Kv5zbzFvwgrCfbfkbBbPKrypMYWbiZOwEdz3LFopR9o=;
-	b=tLmnEIiJS+oGWS8DvEh3IS9IRGpwgbWeYDPWOsOzeMHwpnyNJmDkObMmG0cnMRGq
-	saGvqu666KoLql9JlzFN86TWUrM9uRXb+dTx5uMV7q0e/zHe7xdVI4ogK44QN50I1n2
-	0EPQis3wiP1FL8Rstalm0YH4sJyEc4IW7f5d5Z5o=
-Content-Type: multipart/mixed; boundary="===============1565072695922795226=="
+	bh=o0/WEh2yuN2x2sDOOv/JZaPrSV6a0ZT0SfkWX+trtws=;
+	b=WGn8nOC99wn1zkgMI00z/TJRoqD9/tBr1MrUIzL2aXeyuIu5oSnQHwCTRhODSNAZ
+	83uGMli0ytOAUUlvWKFaC7I3f0ZWwanMNtWX8vlu/76Y/LryS1QCsg6z9weBm/MYLxv
+	37bl36T8WywG9NUTgQjSB5HYTs60hdOkMH+T7Qp0=
+Content-Type: multipart/mixed; boundary="===============3579770879365834050=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] libxkbcommon: upgrading to 1.11.0 SUCCEEDED
-Message-ID: <01010198add77ca7-fa515b5a-3e49-498e-be85-e31015af274a-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Aug 2025 13:07:17 +0000
+Subject: [AUH] libffi: upgrading to 3.5.2 SUCCEEDED
+Message-ID: <01010198add791db-021ec647-5e6d-4e82-98c0-3a104b390c6c-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Aug 2025 13:07:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.15-54.240.27.30
+X-SES-Outgoing: 2025.08.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 13:07:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221949
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 13:07:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221966
 
---===============1565072695922795226==
+--===============3579770879365834050==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxkbcommon* to *1.11.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libffi* to *3.5.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxkbcommon-upgrade-1.10.0-1.11.0.patch
+    - apply the patch: git am 0001-libffi-upgrade-3.5.1-3.5.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,56 +72,117 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 639d2be76193611a54c881461d44042870011fd6 Mon Sep 17 00:00:00 2001
+From 2a245487863007ee1f5e9aaf987bd25f802fcbf7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Aug 2025 11:41:43 +0000
-Subject: [PATCH] libxkbcommon: upgrade 1.10.0 -> 1.11.0
+Date: Fri, 15 Aug 2025 13:01:11 +0000
+Subject: [PATCH] libffi: upgrade 3.5.1 -> 3.5.2
 
 ---
- .../xorg-lib/{libxkbcommon_1.10.0.bb => libxkbcommon_1.11.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_1.10.0.bb => libxkbcommon_1.11.0.bb} (96%)
+ meta/recipes-support/libffi/libffi/not-win32.patch          | 6 +++---
+ .../libffi/{libffi_3.5.1.bb => libffi_3.5.2.bb}             | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/libffi/{libffi_3.5.1.bb => libffi_3.5.2.bb} (94%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.10.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.11.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_1.10.0.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.11.0.bb
-index 79c95cb8ed..c953058275 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.10.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.11.0.bb
-@@ -9,7 +9,7 @@ DEPENDS = "flex-native bison-native"
+diff --git a/meta/recipes-support/libffi/libffi/not-win32.patch b/meta/recipes-support/libffi/libffi/not-win32.patch
+index 26263731f3..3417e16789 100644
+--- a/meta/recipes-support/libffi/libffi/not-win32.patch
++++ b/meta/recipes-support/libffi/libffi/not-win32.patch
+@@ -1,4 +1,4 @@
+-From 28d0fd6b73163fc2dbc10c7dc838a8222671f88c Mon Sep 17 00:00:00 2001
++From a2648f110e3c640614032a1405aca4054a85cc23 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Thu, 4 Feb 2016 16:22:50 +0000
+ Subject: [PATCH] libffi: ensure sysroot paths are not in libffi.pc
+@@ -20,10 +20,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI = "git://github.com/xkbcommon/libxkbcommon;protocol=https;branch=master;tag=xkbcommon-${PV}"
+ diff --git a/configure.ac b/configure.ac
+-index 258107d..ef1a285 100644
++index dcfc7b2..d4a8a66 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -403,7 +403,7 @@ AC_ARG_ENABLE(multi-os-directory,
++@@ -411,7 +411,7 @@ AC_ARG_ENABLE(multi-os-directory,
+  
+  # These variables are only ever used when we cross-build to X86_WIN32.
+  # And we only support this with GCC, so...
+diff --git a/meta/recipes-support/libffi/libffi_3.5.1.bb b/meta/recipes-support/libffi/libffi_3.5.2.bb
+similarity index 94%
+rename from meta/recipes-support/libffi/libffi_3.5.1.bb
+rename to meta/recipes-support/libffi/libffi_3.5.2.bb
+index be16008e0f..f648a33a46 100644
+--- a/meta/recipes-support/libffi/libffi_3.5.1.bb
++++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ce4763670c5b7756000561f9af1ab178"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
+            file://not-win32.patch \
+            "
+-SRC_URI[sha256sum] = "f99eb68a67c7d54866b7706af245e87ba060d419a062474b456d3bc8d4abdbd1"
++SRC_URI[sha256sum] = "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc"
  
--SRCREV = "7888474d0296dcad50c9ba4adfdfdf2be02d35e1"
-+SRCREV = "0f9cefb1fedb23433666fa5d9045e48ff030c006"
- 
- inherit meson pkgconfig bash-completion
- 
+ EXTRA_OECONF += "--disable-builddir --disable-exec-static-tramp"
+ EXTRA_OECONF:class-native += "--with-gcc-arch=generic"
 -- 
 2.47.1
 
 
---===============1565072695922795226==
+--===============3579770879365834050==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libffi-upgrade-3.5.1-3.5.2.patch"
+
+RnJvbSAyYTI0NTQ4Nzg2MzAwN2VlMWY1ZTlhYWY5ODdiZDI1ZjgwMmZjYmY3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgQXVnIDIwMjUgMTM6MDE6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJmZmk6IHVwZ3JhZGUgMy41LjEgLT4gMy41LjIKCi0tLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+bGliZmZpL2xpYmZmaS9ub3Qtd2luMzIucGF0Y2ggICAgICAgICAgfCA2ICsrKy0tLQogLi4uL2xp
+YmZmaS97bGliZmZpXzMuNS4xLmJiID0+IGxpYmZmaV8zLjUuMi5iYn0gICAgICAgICAgICAgfCAy
+ICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkve2xpYmZmaV8zLjUuMS5iYiA9PiBsaWJm
+ZmlfMy41LjIuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
+ZmZpL2xpYmZmaS9ub3Qtd2luMzIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkv
+bGliZmZpL25vdC13aW4zMi5wYXRjaAppbmRleCAyNjI2MzczMWYzLi4zNDE3ZTE2Nzg5IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZpL25vdC13aW4zMi5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZpL25vdC13aW4zMi5wYXRj
+aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMjhkMGZkNmI3MzE2M2ZjMmRiYzEwYzdkYzgzOGE4MjIy
+NjcxZjg4YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTI2NDhmMTEwZTNjNjQwNjE0
+MDMyYTE0MDVhY2E0MDU0YTg1Y2MyMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJv
+c3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBUaHUsIDQgRmViIDIwMTYg
+MTY6MjI6NTAgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gbGliZmZpOiBlbnN1cmUgc3lzcm9vdCBw
+YXRocyBhcmUgbm90IGluIGxpYmZmaS5wYwpAQCAtMjAsMTAgKzIwLDEwIEBAIFNpZ25lZC1vZmYt
+Ynk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQs
+IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUu
+YWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDI1ODEwN2QuLmVmMWEyODUgMTAwNjQ0CitpbmRleCBk
+Y2ZjN2IyLi5kNGE4YTY2IDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1
+cmUuYWMKLUBAIC00MDMsNyArNDAzLDcgQEAgQUNfQVJHX0VOQUJMRShtdWx0aS1vcy1kaXJlY3Rv
+cnksCitAQCAtNDExLDcgKzQxMSw3IEBAIEFDX0FSR19FTkFCTEUobXVsdGktb3MtZGlyZWN0b3J5
+LAogIAogICMgVGhlc2UgdmFyaWFibGVzIGFyZSBvbmx5IGV2ZXIgdXNlZCB3aGVuIHdlIGNyb3Nz
+LWJ1aWxkIHRvIFg4Nl9XSU4zMi4KICAjIEFuZCB3ZSBvbmx5IHN1cHBvcnQgdGhpcyB3aXRoIEdD
+Qywgc28uLi4KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9saWJmZmlf
+My41LjEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZpXzMuNS4yLmJiCnNp
+bWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZm
+aS9saWJmZmlfMy41LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmZmaS9s
+aWJmZmlfMy41LjIuYmIKaW5kZXggYmUxNjAwOGUwZi4uZjY0OGEzM2E0NiAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZmZpL2xpYmZmaV8zLjUuMS5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9saWJmZmkvbGliZmZpXzMuNS4yLmJiCkBAIC0xMyw3ICsxMyw3IEBAIExJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWNlNDc2MzY3MGM1Yjc3NTYwMDA1
+NjFmOWFmMWFiMTc4IgogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7
+UFZ9LyR7QlBOfS0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICBmaWxlOi8vbm90LXdpbjMyLnBh
+dGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImY5OWViNjhhNjdjN2Q1
+NDg2NmI3NzA2YWYyNDVlODdiYTA2MGQ0MTlhMDYyNDc0YjQ1NmQzYmM4ZDRhYmRiZDEiCitTUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiZjNhMzA4MmEyM2IzN2MyOTNhNGZjZDEwNTMxNDdiMzcxZjJmZjkx
+ZmE3ZWExYjJhNTJlMzM1Njc2YmFjODJkYyIKIAogRVhUUkFfT0VDT05GICs9ICItLWRpc2FibGUt
+YnVpbGRkaXIgLS1kaXNhYmxlLWV4ZWMtc3RhdGljLXRyYW1wIgogRVhUUkFfT0VDT05GOmNsYXNz
+LW5hdGl2ZSArPSAiLS13aXRoLWdjYy1hcmNoPWdlbmVyaWMiCi0tIAoyLjQ3LjEKCg==
+
+--===============3579770879365834050==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 1747088 to 2185408 (+25%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PKGSIZE changed from 12813 to 16083 (+26%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: FILELIST: removed "/usr/lib/libxkbcommon-x11.so.0.10.0", added "/usr/lib/libxkbcommon-x11.so.0.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: FILELIST: removed "/usr/lib/libxkbcommon.so.0.10.0", added "/usr/lib/libxkbcommon.so.0.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: FILELIST: removed "/usr/lib/libxkbregistry.so.0.10.0", added "/usr/lib/libxkbregistry.so.0.11.0"
-Changes to packages/core2-64-poky-linux/libxkbcommon (sysroot):
-  /usr/lib/libxkbcommon.so.0 changed symlink target from libxkbcommon.so.0.10.0 to libxkbcommon.so.0.11.0
-  /usr/lib/libxkbcommon-x11.so.0 changed symlink target from libxkbcommon-x11.so.0.10.0 to libxkbcommon-x11.so.0.11.0
-  /usr/lib/libxkbregistry.so.0 changed symlink target from libxkbregistry.so.0.10.0 to libxkbregistry.so.0.11.0
-  /usr/lib/libxkbcommon.so.0.10.0 moved to /usr/lib/libxkbcommon.so.0.11.0
-  /usr/lib/libxkbcommon-x11.so.0.10.0 moved to /usr/lib/libxkbcommon-x11.so.0.11.0
-  /usr/lib/libxkbregistry.so.0.10.0 moved to /usr/lib/libxkbregistry.so.0.11.0
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-interactive /usr/libexec/xkbcommon/xkbcli-dump-keymap"
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: PKGSIZE changed from 281864 to 418800 (+49%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2045,60 +2106,29 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============1565072695922795226==
+--===============3579770879365834050==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libxkbcommon: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon: SRC_URI changed from "git://github.com/xkbcommon/libxkbcommon;protocol=https;branch=master;tag=xkbcommon-1.10.0" to "git://github.com/xkbcommon/libxkbcommon;protocol=https;branch=master;tag=xkbcommon-1.11.0"
-packages/core2-64-poky-linux/libxkbcommon: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-bash-completion: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-bash-completion: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: FILELIST: removed "/usr/lib/.debug/libxkbregistry.so.0.10.0 /usr/lib/.debug/libxkbcommon.so.0.10.0 /usr/lib/.debug/libxkbcommon-x11.so.0.10.0", added "/usr/lib/.debug/libxkbcommon-x11.so.0.11.0 /usr/lib/.debug/libxkbregistry.so.0.11.0 /usr/libexec/xkbcommon/.debug/xkbcli-interactive /usr/lib/.debug/libxkbcommon.so.0.11.0 /usr/libexec/xkbcommon/.debug/xkbcli-dump-keymap"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 1747088 to 2185408 (+25%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-dev: PKGSIZE changed from 382968 to 401197 (+5%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-doc: PKGSIZE changed from 12813 to 16083 (+26%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-locale: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-locale: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: FILELIST: directory renamed /usr/src/debug/libxkbcommon/1.10.0/src/xkbcomp -> /usr/src/debug/libxkbcommon/1.11.0/src/xkbcomp, directory renamed /usr/src/debug/libxkbcommon/1.10.0/libxkbcommon.so.0.10.0.p -> /usr/src/debug/libxkbcommon/1.11.0/libxkbcommon.so.0.11.0.p, removed "/usr/src/debug/libxkbcommon/1.10.0/xkbcli-dump-keymap-wayland.p/xdg-shell-protocol.c /usr/src/debug/libxkbcommon/1.10.0/xkbcli-interactive-wayland.p/xdg-shell-protocol.c /usr/src/debug/libxkbcommon/1.10.0/xkbcli-interactive-wayland.p/xdg-shell-client-protocol.h /usr/src/debug/libxkbcommon/1.10.0/xkbcli-dump-keymap-wayland.p/xdg-shell-client-protocol.h", added "/usr/src/debug/libxkbcommon/1.11.0/xkbcli-interactive-wayland.p/xdg-shell-client-protocol.h /usr/src/debug/libxkbcommon/1.11.0/xkbcli-interactive-wayland.p/xdg-decoration-unstable-v1-protocol.c /usr/src/debug/libxkbcommon/1.11.0/xkbcli-dump-keymap-wayland.p/xdg-shell-client-protocol.h /usr/src/deb
- ug/libxkbcommon/1.11.0/xkbcli-interactive-wayland.p/xdg-decoration-unstable-v1-client-protocol.h /usr/src/debug/libxkbcommon/1.11.0/xkbcli-dump-keymap-wayland.p/xdg-shell-protocol.c /usr/src/debug/libxkbcommon/1.11.0/xkbcli-dump-keymap-wayland.p/xdg-decoration-unstable-v1-client-protocol.h /usr/src/debug/libxkbcommon/1.11.0/xkbcli-interactive-wayland.p/xdg-shell-protocol.c /usr/src/debug/libxkbcommon/1.11.0/xkbcli-dump-keymap-wayland.p/xdg-decoration-unstable-v1-protocol.c"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 356471 to 390893 (+10%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-staticdev: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-staticdev: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: FILES: removed "/usr/lib/libxkbcommon-x11.so.0.10.0", added "/usr/lib/libxkbcommon-x11.so.0.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon-x11: FILELIST: removed "/usr/lib/libxkbcommon-x11.so.0.10.0", added "/usr/lib/libxkbcommon-x11.so.0.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: FILES: removed "/usr/lib/libxkbcommon.so.0.10.0", added "/usr/lib/libxkbcommon.so.0.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: FILELIST: removed "/usr/lib/libxkbcommon.so.0.10.0", added "/usr/lib/libxkbcommon.so.0.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbcommon: PKGSIZE changed from 350422 to 370902 (+6%)
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: FILES: removed "/usr/lib/libxkbregistry.so.0.10.0", added "/usr/lib/libxkbregistry.so.0.11.0"
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/libxkbregistry: FILELIST: removed "/usr/lib/libxkbregistry.so.0.10.0", added "/usr/lib/libxkbregistry.so.0.11.0"
-Changes to packages/core2-64-poky-linux/libxkbcommon (sysroot):
-  /usr/lib/libxkbcommon.so.0 changed symlink target from libxkbcommon.so.0.10.0 to libxkbcommon.so.0.11.0
-  /usr/lib/libxkbcommon-x11.so.0 changed symlink target from libxkbcommon-x11.so.0.10.0 to libxkbcommon-x11.so.0.11.0
-  /usr/lib/libxkbregistry.so.0 changed symlink target from libxkbregistry.so.0.10.0 to libxkbregistry.so.0.11.0
-  /usr/lib/libxkbcommon.so.0.10.0 moved to /usr/lib/libxkbcommon.so.0.11.0
-  /usr/lib/libxkbcommon-x11.so.0.10.0 moved to /usr/lib/libxkbcommon-x11.so.0.11.0
-  /usr/lib/libxkbregistry.so.0.10.0 moved to /usr/lib/libxkbregistry.so.0.11.0
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: PV changed from "1.10.0" to "1.11.0"
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: PKGV changed from 1.10.0 [default] to 1.11.0 [default]
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: FILELIST: added "/usr/libexec/xkbcommon/xkbcli-dump-keymap /usr/libexec/xkbcommon/xkbcli-interactive"
-packages/core2-64-poky-linux/libxkbcommon/xkbcli: PKGSIZE changed from 281864 to 418800 (+49%)
+packages/core2-64-poky-linux/libffi: SRC_URI changed from "https://github.com/libffi/libffi/releases//download/v3.5.1/libffi-3.5.1.tar.gz file://not-win32.patch" to "https://github.com/libffi/libffi/releases//download/v3.5.2/libffi-3.5.2.tar.gz file://not-win32.patch"
+packages/core2-64-poky-linux/libffi: PV changed from "3.5.1" to "3.5.2"
+packages/core2-64-poky-linux/libffi: PKGV changed from 3.5.1 [default] to 3.5.2 [default]
+packages/core2-64-poky-linux/libffi/libffi-dbg: PV changed from "3.5.1" to "3.5.2"
+packages/core2-64-poky-linux/libffi/libffi-dbg: PKGV changed from 3.5.1 [default] to 3.5.2 [default]
+packages/core2-64-poky-linux/libffi/libffi-dev: PV changed from "3.5.1" to "3.5.2"
+packages/core2-64-poky-linux/libffi/libffi-dev: PKGV changed from 3.5.1 [default] to 3.5.2 [default]
+packages/core2-64-poky-linux/libffi/libffi-doc: PV changed from "3.5.1" to "3.5.2"
+packages/core2-64-poky-linux/libffi/libffi-doc: PKGV changed from 3.5.1 [default] to 3.5.2 [default]
+packages/core2-64-poky-linux/libffi/libffi-locale: PV changed from "3.5.1" to "3.5.2"
+packages/core2-64-poky-linux/libffi/libffi-locale: PKGV changed from 3.5.1 [default] to 3.5.2 [default]
+packages/core2-64-poky-linux/libffi/libffi-src: PV changed from "3.5.1" to "3.5.2"
+packages/core2-64-poky-linux/libffi/libffi-src: PKGV changed from 3.5.1 [default] to 3.5.2 [default]
+packages/core2-64-poky-linux/libffi/libffi-staticdev: PV changed from "3.5.1" to "3.5.2"
+packages/core2-64-poky-linux/libffi/libffi-staticdev: PKGV changed from 3.5.1 [default] to 3.5.2 [default]
+packages/core2-64-poky-linux/libffi/libffi: PV changed from "3.5.1" to "3.5.2"
+packages/core2-64-poky-linux/libffi/libffi: PKGV changed from 3.5.1 [default] to 3.5.2 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4022,34 +4052,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============1565072695922795226==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxkbcommon-upgrade-1.10.0-1.11.0.patch"
-
-RnJvbSA2MzlkMmJlNzYxOTM2MTFhNTRjODgxNDYxZDQ0MDQyODcwMDExZmQ2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgQXVnIDIwMjUgMTE6NDE6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4a2Jjb21tb246IHVwZ3JhZGUgMS4xMC4wIC0+IDEuMTEuMAoKLS0tCiAuLi4veG9yZy1saWIv
-e2xpYnhrYmNvbW1vbl8xLjEwLjAuYmIgPT4gbGlieGtiY29tbW9uXzEuMTEuMC5iYn0gfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhrYmNvbW1vbl8xLjEwLjAuYmIgPT4g
-bGlieGtiY29tbW9uXzEuMTEuMC5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuMTAuMC5iYiBiL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS4xMS4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
-OTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21t
-b25fMS4xMC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGli
-eGtiY29tbW9uXzEuMTEuMC5iYgppbmRleCA3OWM5NWNiOGVkLi5jOTUzMDU4Mjc1IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuMTAuMC5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuMTEu
-MC5iYgpAQCAtOSw3ICs5LDcgQEAgREVQRU5EUyA9ICJmbGV4LW5hdGl2ZSBiaXNvbi1uYXRpdmUi
-CiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS94a2Jjb21tb24vbGlieGtiY29tbW9uO3By
-b3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXI7dGFnPXhrYmNvbW1vbi0ke1BWfSIKIAotU1JDUkVW
-ID0gIjc4ODg0NzRkMDI5NmRjYWQ1MGM5YmE0YWRmZGZkZjJiZTAyZDM1ZTEiCitTUkNSRVYgPSAi
-MGY5Y2VmYjFmZWRiMjM0MzM2NjZmYTVkOTA0NWU0OGZmMDMwYzAwNiIKIAogaW5oZXJpdCBtZXNv
-biBwa2djb25maWcgYmFzaC1jb21wbGV0aW9uCiAKLS0gCjIuNDcuMQoK
-
---===============1565072695922795226==--
+--===============3579770879365834050==--
 
