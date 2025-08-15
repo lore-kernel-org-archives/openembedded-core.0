@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD03CA0FE1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E07C3CA0FE4
 	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 13:07:11 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.11320.1755263215402384407
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.11328.1755263222545878663
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 06:07:04 -0700
+ Fri, 15 Aug 2025 06:07:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=m6Hqugb9;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=djzfz83a;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010198add74b4b-a634d63b-b09a-4d4d-bd6b-03bef413adb3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=yL8rqPIs;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=a12K3qFx;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010198add74039-aed7626b-b148-40b5-b0cd-e4048ff42e2c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755263224;
+	t=1755263221;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yWE/KsRIqGWugM1zUzwXjTaSiqbAb0EJgARoe2cQP1I=;
-	b=m6Hqugb9Dlhugumid/k9PDxovfrThBGAFqiJJ6hZQI3HHzsKY1m7YM/6hpgBHLUf
-	Py4Abe8k5s58eWHSVmlPMzpXMgGClhcUimanfk9c+7O2p/vFXvmCvuZ95GKosPoosrH
-	9dZZrDhwEF+Ny7mEmnsQDhTdcBVRuHytVaQtEij0=
+	bh=b3uiw1H1fKsUrXMNgYYLmN6fD0qzhaRlJqh5QPAKbck=;
+	b=yL8rqPIs1RGcD9STbkhz2jrSNBGtjkqqEQdl2Oq3C5SXjXE9Da6IBXta0RcCf77s
+	eFwIH9xyfz7uNmbuHRksqUDbzZEVXCt4mmJ6rjnz2YlSdWs6GPw+3tL2GcpJ3A730wz
+	5PNhg8YevLZGL2mOafjkyVd3sTBdevZdYLfcj3LI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263224;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263221;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yWE/KsRIqGWugM1zUzwXjTaSiqbAb0EJgARoe2cQP1I=;
-	b=djzfz83a1CPDwk+ku+5sCQROqmVaoAYmigB4wiJK8Ubs2q717nMLZxL+cNICdPn5
-	0aVvBEAjPiVTMsoHWtMb/B89MKexSaDhBwQjhr3ZxngUo0X0dBDskfQh29ToJjueqN1
-	EmkeSFgkaEWXUmfbE0AAmWLFbJwSH7PozzdzYnN4=
-Content-Type: multipart/mixed; boundary="===============6712011220940456595=="
+	bh=b3uiw1H1fKsUrXMNgYYLmN6fD0qzhaRlJqh5QPAKbck=;
+	b=a12K3qFx3hlgK2fl4rs0Orsy8IRERmiTyQ8jGWAYw4153nK+BfZ2joSErKSbkyAQ
+	poFTz/vxalk6llMs9AXNDlDsIEOevtWK6s9Y9rJteTuJ/HHemreX0r19ncChBRujaLj
+	8dc5HzNgo8T+X11dpyZmrE4TZ33DGh/gVLmnttlg=
+Content-Type: multipart/mixed; boundary="===============2660581132564226993=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-click: upgrading to 8.2.2 SUCCEEDED
-Message-ID: <01010198add74b4b-a634d63b-b09a-4d4d-bd6b-03bef413adb3-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Aug 2025 13:07:04 +0000
+Subject: [AUH] btrfs-tools: upgrading to 6.16 SUCCEEDED
+Message-ID: <01010198add74039-aed7626b-b148-40b5-b0cd-e4048ff42e2c-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Aug 2025 13:07:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.15-54.240.27.192
+X-SES-Outgoing: 2025.08.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 13:07:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221905
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221900
 
---===============6712011220940456595==
+--===============2660581132564226993==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-click* to *8.2.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *btrfs-tools* to *6.16* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-click-upgrade-8.2.1-8.2.2.patch
+    - apply the patch: git am 0001-btrfs-tools-upgrade-6.15-6.16.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,108 +72,150 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 89d9a4da883e4fa86883f365026cf0e2fe3bc015 Mon Sep 17 00:00:00 2001
+From aa9d5d9a0645718c093345521cbd17e9f9e9f97d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Aug 2025 08:55:34 +0000
-Subject: [PATCH] python3-click: upgrade 8.2.1 -> 8.2.2
+Date: Fri, 15 Aug 2025 08:32:22 +0000
+Subject: [PATCH] btrfs-tools: upgrade 6.15 -> 6.16
 
 ---
- .../python/{python3-click_8.2.1.bb => python3-click_8.2.2.bb}   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-click_8.2.1.bb => python3-click_8.2.2.bb} (91%)
+ ...d-a-possibility-to-specify-where-python-modules-ar.patch | 6 +++---
+ .../{btrfs-tools_6.15.bb => btrfs-tools_6.16.bb}            | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.15.bb => btrfs-tools_6.16.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-click_8.2.1.bb b/meta/recipes-devtools/python/python3-click_8.2.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-click_8.2.1.bb
-rename to meta/recipes-devtools/python/python3-click_8.2.2.bb
-index 0bbc7e8488..9710e8a71c 100644
---- a/meta/recipes-devtools/python/python3-click_8.2.1.bb
-+++ b/meta/recipes-devtools/python/python3-click_8.2.2.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "http://click.pocoo.org/"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1fa98232fd645608937a0fdc82e999b8"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index 2cd66d2722..a254d1c955 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+@@ -1,4 +1,4 @@
+-From 030ec81c0dac1e067faf49924d5631bb22ccc90d Mon Sep 17 00:00:00 2001
++From 474b007dc961d3e6e283edfe3574ef7b4e535c5e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "27c491cc05d968d271d5a1db13e3b5a184636d9d930f148c50b038f0d0646202"
-+SRC_URI[sha256sum] = "068616e6ef9705a07b6db727cb9c248f4eb9dae437a30239f56fa94b18b852ef"
+ diff --git a/Makefile b/Makefile
+-index 7e36aa42..edff7d5b 100644
++index 7bc22466..0c4b0a88 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -996,7 +996,7 @@ endif
++@@ -997,7 +997,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.15.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.16.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.15.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.16.bb
+index 88a6d11354..ef809d384b 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.15.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.16.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v${PV} \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "3da67f1c78bcbd7556f04d89e31aa4621face50b"
++SRCREV = "54694de98fdc4ea5678cdd77b920c044bbf64f26"
  
- inherit pypi python_flit_core ptest-python-pytest
- 
+ PACKAGECONFIG ??= " \
+     programs \
 -- 
 2.47.1
 
 
---===============6712011220940456595==
+--===============2660581132564226993==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-click/python3-click-ptest: FILELIST: removed "/usr/lib/python3-click/ptest/docs/contrib.rst /usr/lib/python3-click/ptest/docs/make.bat /usr/lib/python3-click/ptest/docs/virtualenv.rst /usr/lib/python3-click/ptest/docs/_static/click-icon.png /usr/lib/python3-click/ptest/docs/parameters.rst /usr/lib/python3-click/ptest/docs/_static/click-logo.png /usr/lib/python3-click/ptest/docs/documentation.rst /usr/lib/python3-click/ptest/docs/unicode-support.rst /usr/lib/python3-click/ptest/docs/why.rst /usr/lib/python3-click/ptest/docs/utils.rst /usr/lib/python3-click/ptest/docs/wincmd.rst /usr/lib/python3-click/ptest/docs/Makefile /usr/lib/python3-click/ptest/docs/_static/click-logo-sidebar.png", added "/usr/lib/python3-click/ptest/docs/_static/click-icon.svg /usr/lib/python3-click/ptest/docs/unicode-support.md /usr/lib/python3-click/ptest/docs/why.md /usr/lib/python3-click/ptest/docs/support-multiple-versions.md /usr/lib/python3-click/ptest/docs/wincmd.md /u
- sr/lib/python3-click/ptest/docs/_static/click-name.svg /usr/lib/python3-click/ptest/docs/virtualenv.md /usr/lib/python3-click/ptest/docs/documentation.md /usr/lib/python3-click/ptest/docs/contrib.md /usr/lib/python3-click/ptest/docs/utils.md /usr/lib/python3-click/ptest/docs/_static/click-logo.svg /usr/lib/python3-click/ptest/docs/parameters.md"
-Changes to packages/core2-64-poky-linux/python3-click (sysroot):
-  /usr/lib/python3.13/site-packages/click-8.2.1.dist-info moved to /usr/lib/python3.13/site-packages/click-8.2.2.dist-info
+Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.13/site-packages/btrfsutil-6.15-py3.13.egg-info moved to /usr/lib/python3.13/site-packages/btrfsutil-6.16-py3.13.egg-info
 
---===============6712011220940456595==
+--===============2660581132564226993==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-click: PV changed from "8.2.1" to "8.2.2"
-packages/core2-64-poky-linux/python3-click: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/click/click-8.2.1.tar.gz;downloadfilename=click-8.2.1.tar.gz" to "https://files.pythonhosted.org/packages/source/c/click/click-8.2.2.tar.gz;downloadfilename=click-8.2.2.tar.gz"
-packages/core2-64-poky-linux/python3-click: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
-packages/core2-64-poky-linux/python3-click/python3-click-dbg: PV changed from "8.2.1" to "8.2.2"
-packages/core2-64-poky-linux/python3-click/python3-click-dbg: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
-packages/core2-64-poky-linux/python3-click/python3-click-dev: PV changed from "8.2.1" to "8.2.2"
-packages/core2-64-poky-linux/python3-click/python3-click-dev: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
-packages/core2-64-poky-linux/python3-click/python3-click-doc: PV changed from "8.2.1" to "8.2.2"
-packages/core2-64-poky-linux/python3-click/python3-click-doc: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
-packages/core2-64-poky-linux/python3-click/python3-click-locale: PV changed from "8.2.1" to "8.2.2"
-packages/core2-64-poky-linux/python3-click/python3-click-locale: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
-packages/core2-64-poky-linux/python3-click/python3-click-ptest: PV changed from "8.2.1" to "8.2.2"
-packages/core2-64-poky-linux/python3-click/python3-click-ptest: PKGSIZE changed from 418448 to 411734 (-2%)
-packages/core2-64-poky-linux/python3-click/python3-click-ptest: FILELIST: removed "/usr/lib/python3-click/ptest/docs/why.rst /usr/lib/python3-click/ptest/docs/_static/click-logo-sidebar.png /usr/lib/python3-click/ptest/docs/documentation.rst /usr/lib/python3-click/ptest/docs/virtualenv.rst /usr/lib/python3-click/ptest/docs/parameters.rst /usr/lib/python3-click/ptest/docs/make.bat /usr/lib/python3-click/ptest/docs/contrib.rst /usr/lib/python3-click/ptest/docs/wincmd.rst /usr/lib/python3-click/ptest/docs/Makefile /usr/lib/python3-click/ptest/docs/unicode-support.rst /usr/lib/python3-click/ptest/docs/_static/click-logo.png /usr/lib/python3-click/ptest/docs/utils.rst /usr/lib/python3-click/ptest/docs/_static/click-icon.png", added "/usr/lib/python3-click/ptest/docs/why.md /usr/lib/python3-click/ptest/docs/_static/click-icon.svg /usr/lib/python3-click/ptest/docs/wincmd.md /usr/lib/python3-click/ptest/docs/virtualenv.md /usr/lib/python3-click/ptest/docs/contrib.md /usr/lib/python3-click/pt
- est/docs/parameters.md /usr/lib/python3-click/ptest/docs/support-multiple-versions.md /usr/lib/python3-click/ptest/docs/utils.md /usr/lib/python3-click/ptest/docs/_static/click-name.svg /usr/lib/python3-click/ptest/docs/unicode-support.md /usr/lib/python3-click/ptest/docs/documentation.md /usr/lib/python3-click/ptest/docs/_static/click-logo.svg"
-packages/core2-64-poky-linux/python3-click/python3-click-ptest: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
-packages/core2-64-poky-linux/python3-click/python3-click-src: PV changed from "8.2.1" to "8.2.2"
-packages/core2-64-poky-linux/python3-click/python3-click-src: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
-packages/core2-64-poky-linux/python3-click/python3-click-staticdev: PV changed from "8.2.1" to "8.2.2"
-packages/core2-64-poky-linux/python3-click/python3-click-staticdev: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
-packages/core2-64-poky-linux/python3-click/python3-click: PV changed from "8.2.1" to "8.2.2"
-packages/core2-64-poky-linux/python3-click/python3-click: PKGSIZE changed from 801292 to 809363 (+1%)
-packages/core2-64-poky-linux/python3-click/python3-click: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
-Changes to packages/core2-64-poky-linux/python3-click (sysroot):
-  /usr/lib/python3.13/site-packages/click-8.2.1.dist-info moved to /usr/lib/python3.13/site-packages/click-8.2.2.dist-info
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.15" to "6.16"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 27101024 to 27071488 (-0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.15 [default] to 6.16 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.15" to "6.16"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.15 [default] to 6.16 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.15" to "6.16"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.15 [default] to 6.16 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.15" to "6.16"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.15 [default] to 6.16 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.15" to "6.16"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4256376 to 4256836 (+0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.15 [default] to 6.16 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.15" to "6.16"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.15 [default] to 6.16 [default]
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.15" to "6.16"
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 5885439 to 5869055 (-0%)
+packages/core2-64-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.15 [default] to 6.16 [default]
+packages/core2-64-poky-linux/btrfs-tools: SRC_URI changed from "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v6.15 file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch" to "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v6.16 file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch"
+packages/core2-64-poky-linux/btrfs-tools: PV changed from "6.15" to "6.16"
+packages/core2-64-poky-linux/btrfs-tools: PKGV changed from 6.15 [default] to 6.16 [default]
+Changes to packages/core2-64-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.13/site-packages/btrfsutil-6.15-py3.13.egg-info moved to /usr/lib/python3.13/site-packages/btrfsutil-6.16-py3.13.egg-info
 
---===============6712011220940456595==
+--===============2660581132564226993==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-click-upgrade-8.2.1-8.2.2.patch"
+ filename="0001-btrfs-tools-upgrade-6.15-6.16.patch"
 
-RnJvbSA4OWQ5YTRkYTg4M2U0ZmE4Njg4M2YzNjUwMjZjZjBlMmZlM2JjMDE1IE1vbiBTZXAgMTcg
+RnJvbSBhYTlkNWQ5YTA2NDU3MThjMDkzMzQ1NTIxY2JkMTdlOWY5ZTlmOTdkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgQXVnIDIwMjUgMDg6NTU6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWNsaWNrOiB1cGdyYWRlIDguMi4xIC0+IDguMi4yCgotLS0KIC4uLi9weXRob24ve3B5
-dGhvbjMtY2xpY2tfOC4yLjEuYmIgPT4gcHl0aG9uMy1jbGlja184LjIuMi5iYn0gICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY2xpY2tfOC4yLjEuYmIgPT4gcHl0
-aG9uMy1jbGlja184LjIuMi5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tfOC4yLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tfOC4yLjIuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNsaWNrXzguMi4x
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tf
-OC4yLjIuYmIKaW5kZXggMGJiYzdlODQ4OC4uOTcxMGU4YTcxYyAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNsaWNrXzguMi4xLmJiCisrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jbGlja184LjIuMi5iYgpAQCAtOCw3ICs4
-LDcgQEAgSE9NRVBBR0UgPSAiaHR0cDovL2NsaWNrLnBvY29vLm9yZy8iCiBMSUNFTlNFID0gIkJT
-RC0zLUNsYXVzZSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT0x
-ZmE5ODIzMmZkNjQ1NjA4OTM3YTBmZGM4MmU5OTliOCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjI3YzQ5MWNjMDVkOTY4ZDI3MWQ1YTFkYjEzZTNiNWExODQ2MzZkOWQ5MzBmMTQ4YzUwYjAzOGYw
-ZDA2NDYyMDIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDY4NjE2ZTZlZjk3MDVhMDdiNmRiNzI3
-Y2I5YzI0OGY0ZWI5ZGFlNDM3YTMwMjM5ZjU2ZmE5NGIxOGI4NTJlZiIKIAogaW5oZXJpdCBweXBp
-IHB5dGhvbl9mbGl0X2NvcmUgcHRlc3QtcHl0aG9uLXB5dGVzdAogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IEZyaSwgMTUgQXVnIDIwMjUgMDg6MzI6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+dHJmcy10b29sczogdXBncmFkZSA2LjE1IC0+IDYuMTYKCi0tLQogLi4uZC1hLXBvc3NpYmlsaXR5
+LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggfCA2ICsrKy0tLQogLi4u
+L3tidHJmcy10b29sc182LjE1LmJiID0+IGJ0cmZzLXRvb2xzXzYuMTYuYmJ9ICAgICAgICAgICAg
+fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMve2J0cmZzLXRvb2xzXzYu
+MTUuYmIgPT4gYnRyZnMtdG9vbHNfNi4xNi5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJp
+bGl0eS10by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxp
+dHktdG8tc3BlY2lmeS13aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaAppbmRleCAyY2Q2NmQy
+NzIyLi5hMjU0ZDFjOTU1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMt
+dG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10by1zcGVjaWZ5LXdoZXJl
+LXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJm
+cy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hl
+cmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDAzMGVjODFj
+MGRhYzFlMDY3ZmFmNDk5MjRkNTYzMWJiMjJjY2M5MGQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CitGcm9tIDQ3NGIwMDdkYzk2MWQzZTZlMjgzZWRmZTM1NzRlZjdiNGU1MzVjNWUgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
+YWlsLmNvbT4KIERhdGU6IFdlZCwgMjMgTWF5IDIwMTggMjE6MjA6MzUgKzAzMDAKIFN1YmplY3Q6
+IFtQQVRDSF0gQWRkIGEgcG9zc2liaWxpdHkgdG8gc3BlY2lmeSB3aGVyZSBweXRob24gbW9kdWxl
+cyBhcmUKQEAgLTExLDEwICsxMSwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZp
+biA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKLWlu
+ZGV4IDdlMzZhYTQyLi5lZGZmN2Q1YiAxMDA2NDQKK2luZGV4IDdiYzIyNDY2Li4wYzRiMGE4OCAx
+MDA2NDQKIC0tLSBhL01ha2VmaWxlCiArKysgYi9NYWtlZmlsZQotQEAgLTk5Niw3ICs5OTYsNyBA
+QCBlbmRpZgorQEAgLTk5Nyw3ICs5OTcsNyBAQCBlbmRpZgogIGlmZXEgKCQoUFlUSE9OX0JJTkRJ
+TkdTKSwxKQogIGluc3RhbGxfcHl0aG9uOiBsaWJidHJmc3V0aWxfcHl0aG9uCiAgCSQoUSljZCBs
+aWJidHJmc3V0aWwvcHl0aG9uOyBcCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+YnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4xNS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9i
+dHJmcy10b29scy9idHJmcy10b29sc182LjE2LmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc182LjE1
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9v
+bHNfNi4xNi5iYgppbmRleCA4OGE2ZDExMzU0Li5lZjgwOWQzODRiIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4xNS5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4xNi5iYgpAQCAt
+MTgsNyArMTgsNyBAQCBERVBFTkRTID0gInV0aWwtbGludXggemxpYiIKIFNSQ19VUkkgPSAiZ2l0
+Oi8vZ2l0aHViLmNvbS9rZGF2ZS9idHJmcy1wcm9ncy5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2Nv
+bD1odHRwczt0YWc9diR7UFZ9IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtQWRkLWEtcG9zc2li
+aWxpdHktdG8tc3BlY2lmeS13aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaCBcCiAgICAgICAg
+ICAgICIKLVNSQ1JFViA9ICIzZGE2N2YxYzc4YmNiZDc1NTZmMDRkODllMzFhYTQ2MjFmYWNlNTBi
+IgorU1JDUkVWID0gIjU0Njk0ZGU5OGZkYzRlYTU2NzhjZGQ3N2I5MjBjMDQ0YmJmNjRmMjYiCiAK
+IFBBQ0tBR0VDT05GSUcgPz89ICIgXAogICAgIHByb2dyYW1zIFwKLS0gCjIuNDcuMQoK
 
---===============6712011220940456595==--
+--===============2660581132564226993==--
 
