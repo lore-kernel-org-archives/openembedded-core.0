@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B20B8CA0EEC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2BFDCA0EEA
 	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 16:45:16 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.16483.1755276314948431437
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.16481.1755276309442744294
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 09:45:15 -0700
+ Fri, 15 Aug 2025 09:45:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GggML/q9;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24457f43981so14617085ad.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:45:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OLoxpJWx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b4717554c29so1433996a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:45:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755276314; x=1755881114; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755276309; x=1755881109; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9aJwfwtOT8T5/Imq+AOyntxf2wO3RqTrRCcth32Abvs=;
-        b=GggML/q9uxsY9houFGIeGaY7uwEoThJEN2KvYDqOOk/ZYipjvT2QxWUAklCTMpCb1X
-         oPwisSIEtT3gZwF03MJypFUxRcc9bnq1YlpwB7UloyZ6hUsCCWflVHEe+teuGRcKQ8t5
-         b/lQqZUq6PCvHaRKdE2z375TSUk480BrwD4FveKqgtAdOUpOqBpuCTfqIzwj61oRwoPM
-         C885wY60EfeifQffxlV4AK+VzWmJmlJQYXSn6wSdHIhyozfWBOLmDPzlLDUX8fHGenCs
-         ntWZ04UT/FCEs/JcFqM/BohLyyXVlXOj1Lue7h7Dz6rWSDqnRtdBxQ3dKupu1dgzY12/
-         deDA==
+        bh=WNwT7REF/tu8fEsiVJn196VkxgidXV3Am0oUbsvVXVQ=;
+        b=OLoxpJWx4wyO6tWhU4Eo4fsbOcb0lU05FZp7zhKWVMn/ouSODCby+Hibrcoio8QAfP
+         4lGUKdFlfwhZt08B53+cgkJ2ERdhO8ZWXxkgQNoGsbXvunooipK27PmlXKOtA0eFTOhq
+         czeIl79L2pJkgCap5CyGIGck12TxLKN+LcrW+rRm59KoFr03yRFNMOyCkc82+y612Fij
+         YVnQ5JGTVitPVYmygs6TMh96QOoWKXZAQ23yCSneK/0OFOV/acj4LIIjsoqrFC8TMc+I
+         qXQsJSCIfkhfQPc2I3GtFiuwjUJb8auOKY4SCPpNN2ce4ngvraqHvyU+VyI25qxvdShJ
+         PYWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755276314; x=1755881114;
+        d=1e100.net; s=20230601; t=1755276309; x=1755881109;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9aJwfwtOT8T5/Imq+AOyntxf2wO3RqTrRCcth32Abvs=;
-        b=mV7wDkJ5U0Aum5ZMP9MnaWx5vdinh0YuR9WmXwXn6y9+3NS7qwGvKzMqTEmD3PEm8y
-         1BXDDQXYheoQ1t2DdVRei5TA4Qz+wi7Hi8XQ3iqVIU1nA8tb0/kuzK2bBdTlvgzUPTw2
-         5ioIVdzW/QNutakgVoUYnPGDkpUYaCerYFGVDC6EGIt7Tzf2RG8RBNe5T/wXATae2BMm
-         Qhn+/y3/5yqVjkI4Ycjl1QPw+g+3ftYTeMjwZ7Anz/Jike+MGFpIH8Yx7mhiZY4nl0ka
-         BhWkDCmYJFFzYSWfk3lVx6MfpuIam2D9j8J4Dw8gj5sUUmX4Y1saxamfKNNXjSBCkydL
-         9EAQ==
-X-Gm-Message-State: AOJu0YxlER4eADSxjovAP2CFnMiqxleUcljxLVy0Qc6ybAptgiTGdCqD
-	x/Ld5puIDGog5WuqeF1QZgY41YTfP2klaBX4hfaad+GyyCKlvc95Pw/SD+EId7j5AJKA19zlREE
-	ZtqZV
-X-Gm-Gg: ASbGncsenKataQKqDcqpXiErAxQqXh/p7hgy0ytDsVYcCMPOW1nmPqbRBcd++dAPwO8
-	tP5mrr9Isop8af/F7o4p47QbZK/buOQuJPBCfujjVWovFtBADXyvDejUyhG91lQ8MyL360H9tro
-	3PsmTS0UfF6sr2KWoqf0ezUd/bcDlaJvTkH9KSIp1/4UXdIYLUcOzgVWByvOe++SjZjR6Emizsu
-	yfU42f9uNkmUPl069RrK67BEJ+jq+nM0R4zqAki2YmGuDSMA8BQVnvoz9FVULEEcLRRQPJKOjX9
-	TiJMVSe+sdXfpE4DKZtHFnskkpR6e1DCt8JYtFM7xJuFLWoJnpQJ1Z1DHSRCoENcgSSAv8zETGR
-	A2+dorXkKDJz77td4GYulOXBd
-X-Google-Smtp-Source: AGHT+IHQAhaSjOf6W4FkgP3KY4ro+oH3dKEWO4IU6E26hbPupaQLvTII6bNudHKG99UUn2E3Rq9OfA==
-X-Received: by 2002:a17:903:1b6f:b0:240:e9d:6c43 with SMTP id d9443c01a7336-2446d9426a4mr43266575ad.51.1755276313951;
-        Fri, 15 Aug 2025 09:45:13 -0700 (PDT)
+        bh=WNwT7REF/tu8fEsiVJn196VkxgidXV3Am0oUbsvVXVQ=;
+        b=FvR0VCmr9QJonGGizOC2GKlI9XaaImTgQe7kMUd3z1OTWwz3uzHtB/sJ8mbeFPEDBC
+         AUFwUURoKxeK7XNpe0DbDC+W7+YldywO0So8erTuvyLN+EZoWLTwVEhJp3L9kfR6wnfs
+         bpn3g8su4ygc9PlQf5zoLqdIal4E+j3nNiEj30ixe//2hccdGa5zu+j3LT8EmNiFDNr8
+         tX+3azaVoV86CUAuOoYIUEwHVjHNzVqBKn0YynVXdRFfZ3mD+WmByYHQM0qie3OR9Xlj
+         50icJD0AlUfPsMejUSI6BBZjlDjbgsA6e5RT1FMNkjE+Hrxm+wlw5+EAoMIoHZvJflg1
+         FE4w==
+X-Gm-Message-State: AOJu0YxfXjWnJ0rqG0l3HB7ndRZNPfoOJApIacL7oTr4+juWmdWaQJzL
+	FgjEXV6NIQgMeFRFFrVm9Zqww26hD8hUPYO3kGsCz0B5cX6JYBhGYG/7JJO3KLLxu+RaYByyvr7
+	bhBlK
+X-Gm-Gg: ASbGnctqX5LTqktPvToo67bI3zqVZfIChqQzJByoTHSWmfjLWZou1eTBy/FmuY5nwBl
+	zhs7ngimdfET+oEgWGYa3j77WgfnOhWj1mblU3I7a3N0O+1Ky50n5l4Binp89dR4kYjrfPVvQ0P
+	g0a5fbSy0h0T6tRWj/XDxDEgyAdCMr4vrKqPkKVmtBgJWr9nISnIM86tkrIJ6XnEujw0sRFU0In
+	3adIH4BcNIQgdG+eV58EV4UQaDiSkrn0UdyyNqDZPqfSypt4GUHFFUZerUhcM4WqdjYgiOTWOtk
+	+btMkRQS1x37XOY7/dmUywbaj+uNOXvae3SOpL7JNElsdTjTKNI7U8lf4se26DhPV9Ucy9k5Nub
+	MdkWRaGGC98OUReebwX93rjl/
+X-Google-Smtp-Source: AGHT+IHnA6CLyvq9FdF8UDmj3rAN2TBQcH361BrqU4IsV+PtkIuK6TszeofVIBsr8dpTGV7xZboJDw==
+X-Received: by 2002:a17:90b:1c02:b0:31e:3d06:739c with SMTP id 98e67ed59e1d1-3234218472fmr3629999a91.31.1755276308487;
+        Fri, 15 Aug 2025 09:45:08 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3ec5:7840:3390:1caa])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343c9ab2asm1554476a91.30.2025.08.15.09.45.13
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343c9ab2asm1554476a91.30.2025.08.15.09.45.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Aug 2025 09:45:13 -0700 (PDT)
+        Fri, 15 Aug 2025 09:45:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 6/9] gstreamer1.0-plugins-good: fix multiple CVEs
-Date: Fri, 15 Aug 2025 09:44:57 -0700
-Message-ID: <3e82483c777d0a59a9d93e7c41f8fe88a9d75b22.1755276097.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 2/9] python3: patch CVE-2025-8194
+Date: Fri, 15 Aug 2025 09:44:53 -0700
+Message-ID: <34f1b4877a0601d2057453c159c76a54754f229a.1755276097.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1755276097.git.steve@sakoman.com>
 References: <cover.1755276097.git.steve@sakoman.com>
@@ -68,328 +68,293 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 16:45:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221986
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221982
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-* CVE-2025-47183 - Upstream-Status: Backport from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/c4d0f4bbd9a8e97f119a4528b9f4662a6b80922c && https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/d76cae74dad89994bfcdad83da6ef1ad69074332
-* CVE-2025-47219 - Upstream-Status: Backport from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/b80803943388050cb870c95934fc52feeffb94ac
+Pick commit from 3.12 branch mentioned in NVD report.
+https://nvd.nist.gov/vuln/detail/CVE-2025-8194
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../CVE-2025-47183-001.patch                  | 151 ++++++++++++++++++
- .../CVE-2025-47183-002.patch                  |  80 ++++++++++
- .../CVE-2025-47219.patch                      |  40 +++++
- .../gstreamer1.0-plugins-good_1.22.12.bb      |   3 +
- 4 files changed, 274 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-001.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-002.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47219.patch
+ .../python/python3/CVE-2025-8194.patch        | 219 ++++++++++++++++++
+ .../python/python3_3.12.11.bb                 |   9 +-
+ 2 files changed, 224 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-8194.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-001.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-001.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-8194.patch b/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
 new file mode 100644
-index 0000000000..bd25c5f1ed
+index 0000000000..b8243a67f6
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-001.patch
-@@ -0,0 +1,151 @@
-+From c4d0f4bbd9a8e97f119a4528b9f4662a6b80922c Mon Sep 17 00:00:00 2001
-+From: Jochen Henneberg <jochen@centricular.com>
-+Date: Tue, 10 Dec 2024 21:34:48 +0100
-+Subject: [PATCH] qtdemux: Use mvhd transform matrix and support for flipping
++++ b/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
+@@ -0,0 +1,219 @@
++From c9d9f78feb1467e73fd29356c040bde1c104f29f Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Mon, 4 Aug 2025 13:45:06 +0200
++Subject: [PATCH] [3.12] gh-130577: tarfile now validates archives to ensure
++ member offsets are non-negative (GH-137027) (#137171)
 +
-+The mvhd matrix is now combined with the tkhd matrix. The combined
-+matrix is then checked if it matches one of the standard values for
-+GST_TAG_IMAGE_ORIENTATION.
-+This check now includes matrices with flipping.
++(cherry picked from commit 7040aa54f14676938970e10c5f74ea93cd56aa38)
 +
-+Fixes #4064
++Co-authored-by: Alexander Urieles <aeurielesn@users.noreply.github.com>
++Co-authored-by: Gregory P. Smith <greg@krypto.org>
 +
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8127>
-+
-+CVE: CVE-2025-47183
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/c4d0f4bbd9a8e97f119a4528b9f4662a6b80922c]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++CVE: CVE-2025-8194
++Upstream-Status: Backport [https://github.com/python/cpython/commit/c9d9f78feb1467e73fd29356c040bde1c104f29f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ gst/isomp4/qtdemux.c | 53 ++++++++++++++++++++++++++++++++++++++++----
-+ 1 file changed, 49 insertions(+), 4 deletions(-)
++ Lib/tarfile.py                                |   3 +
++ Lib/test/test_tarfile.py                      | 156 ++++++++++++++++++
++ ...-07-23-00-35-29.gh-issue-130577.c7EITy.rst |   3 +
++ 3 files changed, 162 insertions(+)
++ create mode 100644 Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst
 +
-+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-+index 10b21a6..e708ef4 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -10861,6 +10861,23 @@ qtdemux_parse_transformation_matrix (GstQTDemux * qtdemux,
-+   return TRUE;
-+ }
++diff --git a/Lib/tarfile.py b/Lib/tarfile.py
++index 9999a99d54..59d3f6e5cc 100755
++--- a/Lib/tarfile.py
+++++ b/Lib/tarfile.py
++@@ -1615,6 +1615,9 @@ class TarInfo(object):
++         """Round up a byte count by BLOCKSIZE and return it,
++            e.g. _block(834) => 1024.
++         """
+++        # Only non-negative offsets are allowed
+++        if count < 0:
+++            raise InvalidHeaderError("invalid offset")
++         blocks, remainder = divmod(count, BLOCKSIZE)
++         if remainder:
++             blocks += 1
++diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
++index a184ba75a8..759fa03ead 100644
++--- a/Lib/test/test_tarfile.py
+++++ b/Lib/test/test_tarfile.py
++@@ -50,6 +50,7 @@ bz2name = os.path.join(TEMPDIR, "testtar.tar.bz2")
++ xzname = os.path.join(TEMPDIR, "testtar.tar.xz")
++ tmpname = os.path.join(TEMPDIR, "tmp.tar")
++ dotlessname = os.path.join(TEMPDIR, "testtar")
+++SPACE = b" "
 + 
-++static void
-++qtdemux_mul_transformation_matrix (GstQTDemux * qtdemux,
-++    guint32 * a, guint32 * b, guint32 * c)
-++{
-++#define QTMUL_MATRIX(_a,_b) (((_a) == 0 || (_b) == 0) ? 0 : \
-++      ((_a) == (_b) ? 1 : -1))
-++#define QTADD_MATRIX(_a,_b) ((_a) + (_b) > 0 ? (1U << 16) : \
-++      ((_a) + (_b) < 0) ? (G_MAXUINT16 << 16) : 0u)
++ sha256_regtype = (
++     "e09e4bc8b3c9d9177e77256353b36c159f5f040531bbd4b024a8f9b9196c71ce"
++@@ -4488,6 +4489,161 @@ class OverwriteTests(archiver_tests.OverwriteTests, unittest.TestCase):
++         ar.extractall(self.testdir, filter='fully_trusted')
++ 
++ 
+++class OffsetValidationTests(unittest.TestCase):
+++    tarname = tmpname
+++    invalid_posix_header = (
+++        # name: 100 bytes
+++        tarfile.NUL * tarfile.LENGTH_NAME
+++        # mode, space, null terminator: 8 bytes
+++        + b"000755" + SPACE + tarfile.NUL
+++        # uid, space, null terminator: 8 bytes
+++        + b"000001" + SPACE + tarfile.NUL
+++        # gid, space, null terminator: 8 bytes
+++        + b"000001" + SPACE + tarfile.NUL
+++        # size, space: 12 bytes
+++        + b"\xff" * 11 + SPACE
+++        # mtime, space: 12 bytes
+++        + tarfile.NUL * 11 + SPACE
+++        # chksum: 8 bytes
+++        + b"0011407" + tarfile.NUL
+++        # type: 1 byte
+++        + tarfile.REGTYPE
+++        # linkname: 100 bytes
+++        + tarfile.NUL * tarfile.LENGTH_LINK
+++        # magic: 6 bytes, version: 2 bytes
+++        + tarfile.POSIX_MAGIC
+++        # uname: 32 bytes
+++        + tarfile.NUL * 32
+++        # gname: 32 bytes
+++        + tarfile.NUL * 32
+++        # devmajor, space, null terminator: 8 bytes
+++        + tarfile.NUL * 6 + SPACE + tarfile.NUL
+++        # devminor, space, null terminator: 8 bytes
+++        + tarfile.NUL * 6 + SPACE + tarfile.NUL
+++        # prefix: 155 bytes
+++        + tarfile.NUL * tarfile.LENGTH_PREFIX
+++        # padding: 12 bytes
+++        + tarfile.NUL * 12
+++    )
+++    invalid_gnu_header = (
+++        # name: 100 bytes
+++        tarfile.NUL * tarfile.LENGTH_NAME
+++        # mode, null terminator: 8 bytes
+++        + b"0000755" + tarfile.NUL
+++        # uid, null terminator: 8 bytes
+++        + b"0000001" + tarfile.NUL
+++        # gid, space, null terminator: 8 bytes
+++        + b"0000001" + tarfile.NUL
+++        # size, space: 12 bytes
+++        + b"\xff" * 11 + SPACE
+++        # mtime, space: 12 bytes
+++        + tarfile.NUL * 11 + SPACE
+++        # chksum: 8 bytes
+++        + b"0011327" + tarfile.NUL
+++        # type: 1 byte
+++        + tarfile.REGTYPE
+++        # linkname: 100 bytes
+++        + tarfile.NUL * tarfile.LENGTH_LINK
+++        # magic: 8 bytes
+++        + tarfile.GNU_MAGIC
+++        # uname: 32 bytes
+++        + tarfile.NUL * 32
+++        # gname: 32 bytes
+++        + tarfile.NUL * 32
+++        # devmajor, null terminator: 8 bytes
+++        + tarfile.NUL * 8
+++        # devminor, null terminator: 8 bytes
+++        + tarfile.NUL * 8
+++        # padding: 167 bytes
+++        + tarfile.NUL * 167
+++    )
+++    invalid_v7_header = (
+++        # name: 100 bytes
+++        tarfile.NUL * tarfile.LENGTH_NAME
+++        # mode, space, null terminator: 8 bytes
+++        + b"000755" + SPACE + tarfile.NUL
+++        # uid, space, null terminator: 8 bytes
+++        + b"000001" + SPACE + tarfile.NUL
+++        # gid, space, null terminator: 8 bytes
+++        + b"000001" + SPACE + tarfile.NUL
+++        # size, space: 12 bytes
+++        + b"\xff" * 11 + SPACE
+++        # mtime, space: 12 bytes
+++        + tarfile.NUL * 11 + SPACE
+++        # chksum: 8 bytes
+++        + b"0010070" + tarfile.NUL
+++        # type: 1 byte
+++        + tarfile.REGTYPE
+++        # linkname: 100 bytes
+++        + tarfile.NUL * tarfile.LENGTH_LINK
+++        # padding: 255 bytes
+++        + tarfile.NUL * 255
+++    )
+++    valid_gnu_header = tarfile.TarInfo("filename").tobuf(tarfile.GNU_FORMAT)
+++    data_block = b"\xff" * tarfile.BLOCKSIZE
 ++
-++  c[2] = c[5] = c[6] = c[7] = 0;
-++  c[0] = QTADD_MATRIX (QTMUL_MATRIX (a[0], b[0]), QTMUL_MATRIX (a[1], b[3]));
-++  c[1] = QTADD_MATRIX (QTMUL_MATRIX (a[0], b[1]), QTMUL_MATRIX (a[1], b[4]));
-++  c[3] = QTADD_MATRIX (QTMUL_MATRIX (a[3], b[0]), QTMUL_MATRIX (a[4], b[3]));
-++  c[4] = QTADD_MATRIX (QTMUL_MATRIX (a[3], b[1]), QTMUL_MATRIX (a[4], b[4]));
-++  c[8] = a[8];
-++}
+++    def _write_buffer(self, buffer):
+++        with open(self.tarname, "wb") as f:
+++            f.write(buffer)
 ++
-+ static void
-+ qtdemux_inspect_transformation_matrix (GstQTDemux * qtdemux,
-+     QtDemuxStream * stream, guint32 * matrix, GstTagList ** taglist)
-+@@ -10889,6 +10906,14 @@ qtdemux_inspect_transformation_matrix (GstQTDemux * qtdemux,
-+       rotation_tag = "rotate-180";
-+     } else if (QTCHECK_MATRIX (matrix, 0, G_MAXUINT16, 1, 0)) {
-+       rotation_tag = "rotate-270";
-++    } else if (QTCHECK_MATRIX (matrix, G_MAXUINT16, 0, 0, 1)) {
-++      rotation_tag = "flip-rotate-0";
-++    } else if (QTCHECK_MATRIX (matrix, 0, G_MAXUINT16, 1, 0)) {
-++      rotation_tag = "flip-rotate-90";
-++    } else if (QTCHECK_MATRIX (matrix, 1, 0, 0, G_MAXUINT16)) {
-++      rotation_tag = "flip-rotate-180";
-++    } else if (QTCHECK_MATRIX (matrix, 0, 1, 1, 0)) {
-++      rotation_tag = "flip-rotate-270";
-+     } else {
-+       GST_FIXME_OBJECT (qtdemux, "Unhandled transformation matrix values");
-+     }
-+@@ -11175,7 +11200,7 @@ qtdemux_parse_stereo_svmi_atom (GstQTDemux * qtdemux, QtDemuxStream * stream,
-+  * traks that do not decode to something (like strm traks) will not have a pad.
-+  */
-+ static gboolean
-+-qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-++qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak, guint32 * mvhd_matrix)
-+ {
-+   GstByteReader tkhd;
-+   int offset;
-+@@ -11347,15 +11372,21 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+ 
-+   /* parse rest of tkhd */
-+   if (stream->subtype == FOURCC_vide) {
-++    guint32 tkhd_matrix[9];
-+     guint32 matrix[9];
-+ 
-+     /* version 1 uses some 64-bit ints */
-+     if (!gst_byte_reader_skip (&tkhd, 20 + value_size))
-+       goto corrupt_file;
-+ 
-+-    if (!qtdemux_parse_transformation_matrix (qtdemux, &tkhd, matrix, "tkhd"))
-++    if (!qtdemux_parse_transformation_matrix (qtdemux, &tkhd, tkhd_matrix,
-++            "tkhd"))
-+       goto corrupt_file;
-+ 
-++    /* calculate the final matrix from the mvhd_matrix and the tkhd matrix */
-++    qtdemux_mul_transformation_matrix (qtdemux, mvhd_matrix, tkhd_matrix,
-++        matrix);
+++    def _get_members(self, ignore_zeros=None):
+++        with open(self.tarname, "rb") as f:
+++            with tarfile.open(
+++                mode="r", fileobj=f, ignore_zeros=ignore_zeros
+++            ) as tar:
+++                return tar.getmembers()
 ++
-+     if (!gst_byte_reader_get_uint32_be (&tkhd, &w)
-+         || !gst_byte_reader_get_uint32_be (&tkhd, &h))
-+       goto corrupt_file;
-+@@ -14198,11 +14229,14 @@ qtdemux_parse_tree (GstQTDemux * qtdemux)
-+   guint64 creation_time;
-+   GstDateTime *datetime = NULL;
-+   gint version;
-++  GstByteReader mvhd_reader;
-++  guint32 matrix[9];
-+ 
-+   /* make sure we have a usable taglist */
-+   qtdemux->tag_list = gst_tag_list_make_writable (qtdemux->tag_list);
-+ 
-+-  mvhd = qtdemux_tree_get_child_by_type (qtdemux->moov_node, FOURCC_mvhd);
-++  mvhd = qtdemux_tree_get_child_by_type_full (qtdemux->moov_node,
-++      FOURCC_mvhd, &mvhd_reader);
-+   if (mvhd == NULL) {
-+     GST_LOG_OBJECT (qtdemux, "No mvhd node found, looking for redirects.");
-+     return qtdemux_parse_redirects (qtdemux);
-+@@ -14213,15 +14247,26 @@ qtdemux_parse_tree (GstQTDemux * qtdemux)
-+     creation_time = QT_UINT64 ((guint8 *) mvhd->data + 12);
-+     qtdemux->timescale = QT_UINT32 ((guint8 *) mvhd->data + 28);
-+     qtdemux->duration = QT_UINT64 ((guint8 *) mvhd->data + 32);
-++    if (!gst_byte_reader_skip (&mvhd_reader, 4 + 8 + 8 + 4 + 8))
-++      return FALSE;
-+   } else if (version == 0) {
-+     creation_time = QT_UINT32 ((guint8 *) mvhd->data + 12);
-+     qtdemux->timescale = QT_UINT32 ((guint8 *) mvhd->data + 20);
-+     qtdemux->duration = QT_UINT32 ((guint8 *) mvhd->data + 24);
-++    if (!gst_byte_reader_skip (&mvhd_reader, 4 + 4 + 4 + 4 + 4))
-++      return FALSE;
-+   } else {
-+     GST_WARNING_OBJECT (qtdemux, "Unhandled mvhd version %d", version);
-+     return FALSE;
-+   }
-+ 
-++  if (!gst_byte_reader_skip (&mvhd_reader, 4 + 2 + 2 + 2 * 4))
-++    return FALSE;
+++    def _assert_raises_read_error_exception(self):
+++        with self.assertRaisesRegex(
+++            tarfile.ReadError, "file could not be opened successfully"
+++        ):
+++            self._get_members()
 ++
-++  if (!qtdemux_parse_transformation_matrix (qtdemux, &mvhd_reader, matrix,
-++          "mvhd"))
-++    return FALSE;
+++    def test_invalid_offset_header_validations(self):
+++        for tar_format, invalid_header in (
+++            ("posix", self.invalid_posix_header),
+++            ("gnu", self.invalid_gnu_header),
+++            ("v7", self.invalid_v7_header),
+++        ):
+++            with self.subTest(format=tar_format):
+++                self._write_buffer(invalid_header)
+++                self._assert_raises_read_error_exception()
 ++
-+   /* Moving qt creation time (secs since 1904) to unix time */
-+   if (creation_time != 0) {
-+     /* Try to use epoch first as it should be faster and more commonly found */
-+@@ -14290,7 +14335,7 @@ qtdemux_parse_tree (GstQTDemux * qtdemux)
-+   /* parse all traks */
-+   trak = qtdemux_tree_get_child_by_type (qtdemux->moov_node, FOURCC_trak);
-+   while (trak) {
-+-    qtdemux_parse_trak (qtdemux, trak);
-++    qtdemux_parse_trak (qtdemux, trak, matrix);
-+     /* iterate all siblings */
-+     trak = qtdemux_tree_get_sibling_by_type (trak, FOURCC_trak);
-+   }
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-002.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-002.patch
-new file mode 100644
-index 0000000000..77127dd466
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47183-002.patch
-@@ -0,0 +1,80 @@
-+From d76cae74dad89994bfcdad83da6ef1ad69074332 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Tue, 29 Apr 2025 09:43:58 +0300
-+Subject: [PATCH] qtdemux: Use byte reader to parse mvhd box
-+
-+This avoids OOB reads.
-+
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4394
-+Fixes CVE-2025-47183
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/9133>
-+
-+CVE: CVE-2025-47183
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/d76cae74dad89994bfcdad83da6ef1ad69074332]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ gst/isomp4/qtdemux.c | 36 ++++++++++++++++++++++++++----------
-+ 1 file changed, 26 insertions(+), 10 deletions(-)
-+
-+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-+index e708ef4..0d29869 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -14228,7 +14228,7 @@ qtdemux_parse_tree (GstQTDemux * qtdemux)
-+   GNode *pssh;
-+   guint64 creation_time;
-+   GstDateTime *datetime = NULL;
-+-  gint version;
-++  guint8 version;
-+   GstByteReader mvhd_reader;
-+   guint32 matrix[9];
-+ 
-+@@ -14242,19 +14242,35 @@ qtdemux_parse_tree (GstQTDemux * qtdemux)
-+     return qtdemux_parse_redirects (qtdemux);
-+   }
-+ 
-+-  version = QT_UINT8 ((guint8 *) mvhd->data + 8);
-++  if (!gst_byte_reader_get_uint8 (&mvhd_reader, &version))
-++    return FALSE;
-++  /* flags */
-++  if (!gst_byte_reader_skip (&mvhd_reader, 3))
-++    return FALSE;
-+   if (version == 1) {
-+-    creation_time = QT_UINT64 ((guint8 *) mvhd->data + 12);
-+-    qtdemux->timescale = QT_UINT32 ((guint8 *) mvhd->data + 28);
-+-    qtdemux->duration = QT_UINT64 ((guint8 *) mvhd->data + 32);
-+-    if (!gst_byte_reader_skip (&mvhd_reader, 4 + 8 + 8 + 4 + 8))
-++    if (!gst_byte_reader_get_uint64_be (&mvhd_reader, &creation_time))
-++      return FALSE;
-++    /* modification time */
-++    if (!gst_byte_reader_skip (&mvhd_reader, 8))
-++      return FALSE;
-++    if (!gst_byte_reader_get_uint32_be (&mvhd_reader, &qtdemux->timescale))
-++      return FALSE;
-++    if (!gst_byte_reader_get_uint64_be (&mvhd_reader, &qtdemux->duration))
-+       return FALSE;
-+   } else if (version == 0) {
-+-    creation_time = QT_UINT32 ((guint8 *) mvhd->data + 12);
-+-    qtdemux->timescale = QT_UINT32 ((guint8 *) mvhd->data + 20);
-+-    qtdemux->duration = QT_UINT32 ((guint8 *) mvhd->data + 24);
-+-    if (!gst_byte_reader_skip (&mvhd_reader, 4 + 4 + 4 + 4 + 4))
-++    guint32 tmp;
+++    def test_early_stop_at_invalid_offset_header(self):
+++        buffer = self.valid_gnu_header + self.invalid_gnu_header + self.valid_gnu_header
+++        self._write_buffer(buffer)
+++        members = self._get_members()
+++        self.assertEqual(len(members), 1)
+++        self.assertEqual(members[0].name, "filename")
+++        self.assertEqual(members[0].offset, 0)
 ++
-++    if (!gst_byte_reader_get_uint32_be (&mvhd_reader, &tmp))
-++      return FALSE;
-++    creation_time = tmp;
-++    /* modification time */
-++    if (!gst_byte_reader_skip (&mvhd_reader, 4))
-++      return FALSE;
-++    if (!gst_byte_reader_get_uint32_be (&mvhd_reader, &qtdemux->timescale))
-++      return FALSE;
-++    if (!gst_byte_reader_get_uint32_be (&mvhd_reader, &tmp))
-+       return FALSE;
-++    qtdemux->duration = tmp;
-+   } else {
-+     GST_WARNING_OBJECT (qtdemux, "Unhandled mvhd version %d", version);
-+     return FALSE;
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47219.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47219.patch
-new file mode 100644
-index 0000000000..0d7e02ec1e
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2025-47219.patch
-@@ -0,0 +1,40 @@
-+From b80803943388050cb870c95934fc52feeffb94ac Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Sat, 3 May 2025 09:43:32 +0300
-+Subject: [PATCH] qtdemux: Check if enough bytes are available for each stsd
-+ entry
-+
-+There must be at least 8 bytes for the length / fourcc of each entry. After
-+reading those, the length is already validated against the remaining available
-+bytes.
-+
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4407
-+Fixes CVE-2025-47219
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/9137>
-+
-+CVE: CVE-2025-47219
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/b80803943388050cb870c95934fc52feeffb94ac]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ gst/isomp4/qtdemux.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-+index 10b21a6..b40aa81 100644
-+--- a/gst/isomp4/qtdemux.c
-++++ b/gst/isomp4/qtdemux.c
-+@@ -11399,6 +11399,10 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
-+     gchar *codec = NULL;
-+     QtDemuxStreamStsdEntry *entry = &stream->stsd_entries[stsd_index];
-+ 
-++    /* needs at least length and fourcc */
-++    if (remaining_stsd_len < 8)
-++      goto corrupt_file;
+++    def test_ignore_invalid_archive(self):
+++        # 3 invalid headers with their respective data
+++        buffer = (self.invalid_gnu_header + self.data_block) * 3
+++        self._write_buffer(buffer)
+++        members = self._get_members(ignore_zeros=True)
+++        self.assertEqual(len(members), 0)
 ++
-+     /* and that entry should fit within stsd */
-+     len = QT_UINT32 (stsd_entry_data);
-+     if (len > remaining_stsd_len)
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
-index 608c3030ba..31bc8af015 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
-@@ -38,6 +38,9 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
-            file://0029-wavparse-Check-that-at-least-32-bytes-are-available-.patch \
-            file://0030-wavparse-Fix-clipping-of-size-to-the-file-size.patch \
-            file://0031-wavparse-Check-size-before-reading-ds64-chunk.patch \
-+           file://CVE-2025-47183-001.patch \
-+           file://CVE-2025-47183-002.patch \
-+           file://CVE-2025-47219.patch \
-           "
+++    def test_ignore_invalid_offset_headers(self):
+++        for first_block, second_block, expected_offset in (
+++            (
+++                (self.valid_gnu_header),
+++                (self.invalid_gnu_header + self.data_block),
+++                0,
+++            ),
+++            (
+++                (self.invalid_gnu_header + self.data_block),
+++                (self.valid_gnu_header),
+++                1024,
+++            ),
+++        ):
+++            self._write_buffer(first_block + second_block)
+++            members = self._get_members(ignore_zeros=True)
+++            self.assertEqual(len(members), 1)
+++            self.assertEqual(members[0].name, "filename")
+++            self.assertEqual(members[0].offset, expected_offset)
+++
+++
++ def setUpModule():
++     os_helper.unlink(TEMPDIR)
++     os.makedirs(TEMPDIR)
++diff --git a/Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst b/Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst
++new file mode 100644
++index 0000000000..342cabbc86
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Library/2025-07-23-00-35-29.gh-issue-130577.c7EITy.rst
++@@ -0,0 +1,3 @@
+++:mod:`tarfile` now validates archives to ensure member offsets are
+++non-negative.  (Contributed by Alexander Enrique Urieles Nieto in
+++:gh:`130577`.)
+diff --git a/meta/recipes-devtools/python/python3_3.12.11.bb b/meta/recipes-devtools/python/python3_3.12.11.bb
+index 84c4f74158..1c31077320 100644
+--- a/meta/recipes-devtools/python/python3_3.12.11.bb
++++ b/meta/recipes-devtools/python/python3_3.12.11.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+ 	   file://0001-test_deadlock-skip-problematic-test.patch \
+ 	   file://0001-test_active_children-skip-problematic-test.patch \
+            file://0001-test_readline-skip-limited-history-test.patch \
++           file://CVE-2025-8194.patch \
+            "
  
- SRC_URI[sha256sum] = "9c1913f981900bd8867182639b20907b28ed78ef7a222cfbf2d8ba9dab992fa7"
+ SRC_URI:append:class-native = " \
+@@ -184,14 +185,14 @@ do_install:append:class-native() {
+         # when they're only used for python called with -O or -OO.
+         #find ${D} -name *opt-*.pyc -delete
+         # Remove all pyc files. There are a ton of them and it is probably faster to let
+-        # python create the ones it wants at runtime rather than manage in the sstate 
++        # python create the ones it wants at runtime rather than manage in the sstate
+         # tarballs and sysroot creation.
+         find ${D} -name *.pyc -delete
+ 
+         # Nothing should be looking into ${B} for python3-native
+         sed -i -e 's:${B}:/build/path/unavailable/:g' \
+                 ${D}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile
+-        
++
+         # disable the lookup in user's site-packages globally
+         sed -i 's#ENABLE_USER_SITE = None#ENABLE_USER_SITE = False#' ${D}${libdir}/python${PYTHON_MAJMIN}/site.py
+ 
+@@ -226,7 +227,7 @@ do_install:append() {
+         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_range.cpython*
+         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_xml_etree.cpython*
+ 
+-        # Similar to the above, we're getting reproducibility issues with 
++        # Similar to the above, we're getting reproducibility issues with
+         # /usr/lib/python3.10/__pycache__/traceback.cpython-310.pyc
+         # so remove it too
+         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.cpython*
+@@ -303,7 +304,7 @@ py_package_preprocess () {
+         cd -
+ 
+         mv ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}
+-        
++
+         #Remove the unneeded copy of target sysconfig data
+         rm -rf ${PKGD}/${libdir}/python-sysconfigdata
+ }
 -- 
 2.43.0
 
