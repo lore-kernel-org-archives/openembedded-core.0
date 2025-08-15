@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C88E4CA0EEB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB488CA0EE9
 	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 13:07:00 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.11322.1755263219041506620
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.11320.1755263215402384407
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 06:06:59 -0700
+ Fri, 15 Aug 2025 06:06:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nSxMvxNE;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FKYlYokE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010198add7327d-7bade317-057b-44a3-a6f9-0cbbca6e5696-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=2ojkBweX;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=g5H0iDIh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010198add73025-c44edf63-3cf2-4792-8a98-0aae4b1354c5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755263218;
+	t=1755263217;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VZuma/pYebZa4liYaVR5AnuxOTVNvKET+GdveoZVG2E=;
-	b=nSxMvxNEsFxSbuwE/1lPwVHbqnEZfHeYcQECY4EyASMtjHVXfWdx3+QBclOJS5LN
-	MU6h542lSRWTerCLqP8vkY2J7YDX8zWyWo1iWkO1iqVZJBz0QzA+xZIHJ6+KOKJ21Lo
-	fC9xo9NfFl8h+3RzTBgFb/6TwXCd6fEPeuJHv6HU=
+	bh=Ay/Ax+vKvdtXrdPetQw83gSjk7Ugf0EWg99U0XTUSXU=;
+	b=2ojkBweXVoo0cVQyAks69Og84TCB1IQII1G19QaZCN/0JafHzSezd9xnCN/vQ4gt
+	+eIiPfo1s4aKSKSoy7v1K0VWfdZsNuYMGD8tPDrLOgqFR087287v0LJIndIqVb3KLMf
+	7wLj/BZA12QNrxvCh4xRsXvJOIorfu9FTnoQSwK4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263218;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263217;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VZuma/pYebZa4liYaVR5AnuxOTVNvKET+GdveoZVG2E=;
-	b=FKYlYokENt3PkCJqeso1RdLVwgw/5DxRZmRodeh/Wi4A3fS/7yiZSlq9vo4Z5n3Z
-	AhL/EPwTPGKbMstkxcJzqY3+FOlQaAfMHCiEltwflvawyBX9xfdpFXrJDnUtURL3s9I
-	MIgAu49Jz072kD0CjOexPHMxOx0emZ1o4yflKTvo=
-Content-Type: multipart/mixed; boundary="===============2224816124263372622=="
+	bh=Ay/Ax+vKvdtXrdPetQw83gSjk7Ugf0EWg99U0XTUSXU=;
+	b=g5H0iDIhD62wbt7xZ58aOquwHGMXagTmt9jtJaZ5lyVQFA4iLW2WaRAswBZS+62F
+	zfHfVj/cs1PHDBIN+oeq0VbxA7iyLuHTzQQwG/rEiifOhsR2fDZFCIAI/DWt0SuBlHz
+	EpR9oydCd+mnwP5qWG792TGY5fwhz0Uq90r/NeaA=
+Content-Type: multipart/mixed; boundary="===============5271352982351639227=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] xf86-input-mouse: upgrading to 2.0.0 FAILED
-Message-ID: <01010198add7327d-7bade317-057b-44a3-a6f9-0cbbca6e5696-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Aug 2025 13:06:58 +0000
+Subject: [AUH] xdpyinfo,xeyes: upgrading to 1.4.0,1.3.1 SUCCEEDED
+Message-ID: <01010198add73025-c44edf63-3cf2-4792-8a98-0aae4b1354c5-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Aug 2025 13:06:57 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.15-54.240.27.23
+X-SES-Outgoing: 2025.08.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 13:07:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221888
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221887
 
---===============2224816124263372622==
+--===============5271352982351639227==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *xf86-input-mouse* to *2.0.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *xdpyinfo,xeyes* to *1.4.0,1.3.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xf86-input-mouse-upgrade-1.9.5-2.0.0.patch
+    - apply the patch: git am 0001-xdpyinfo-xeyes-upgrade-1.3.4-1.4.0-1.3.0-1.3.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,333 +72,233 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dbe56bbb060092d0a58e2e8b98abf0d9f864e8a2 Mon Sep 17 00:00:00 2001
+From c5fc91884cba9435adc93eefb68eac88f7e01e8e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Aug 2025 07:10:57 +0000
-Subject: [PATCH] xf86-input-mouse: upgrade 1.9.5 -> 2.0.0
+Date: Fri, 15 Aug 2025 07:08:41 +0000
+Subject: [PATCH] xdpyinfo,xeyes: upgrade 1.3.4 -> 1.4.0,1.3.0 -> 1.3.1
 
 ---
- .../{xf86-input-mouse_1.9.5.bb => xf86-input-mouse_2.0.0.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-mouse_1.9.5.bb => xf86-input-mouse_2.0.0.bb} (84%)
+ .../xorg-app/xdpyinfo/disable-xkb.patch       | 18 +++++++++++----
+ .../{xdpyinfo_1.3.4.bb => xdpyinfo_1.4.0.bb}  |  2 +-
+ .../{xeyes_1.3.0.bb => xeyes_1.3.1.bb}        | 23 +++++++++++++++++--
+ 3 files changed, 35 insertions(+), 8 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xdpyinfo_1.3.4.bb => xdpyinfo_1.4.0.bb} (88%)
+ rename meta/recipes-graphics/xorg-app/{xeyes_1.3.0.bb => xeyes_1.3.1.bb} (29%)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb
-similarity index 84%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb
-index 92e54d9701..7b10a2a487 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb
-@@ -10,5 +10,5 @@ driver."
+diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo/disable-xkb.patch b/meta/recipes-graphics/xorg-app/xdpyinfo/disable-xkb.patch
+index 1e8199cc66..aa1cc270d4 100644
+--- a/meta/recipes-graphics/xorg-app/xdpyinfo/disable-xkb.patch
++++ b/meta/recipes-graphics/xorg-app/xdpyinfo/disable-xkb.patch
+@@ -1,10 +1,18 @@
++From 7b6400bb4682edda43561a0f2ab692e9d05f0ebb Mon Sep 17 00:00:00 2001
++From: Chris Larson <kergoth@openedhand.com>
++Date: Tue, 15 Aug 2006 11:58:37 +0000
++Subject: [PATCH] Numerous new xorg package versions from upstream OE.  Pester
++
+ Upstream-Status: Pending
++---
++ configure.ac | 4 ++++
++ 1 file changed, 4 insertions(+)
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=d213a69053dffe9bcab94abf60013d33"
+-Index: xdpyinfo-1.3.0/configure.ac
+-===================================================================
+---- xdpyinfo-1.3.0.orig/configure.ac	2011-10-21 21:34:21.000000000 -0700
+-+++ xdpyinfo-1.3.0/configure.ac	2011-11-28 20:06:56.554056935 -0800
+-@@ -47,11 +47,15 @@
++diff --git a/configure.ac b/configure.ac
++index 9d03e8b..eef369b 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -49,11 +49,15 @@ PKG_CHECK_MODULES(DPY_XEXT, xext,
+  	AC_CHECK_HEADERS([X11/extensions/multibuf.h X11/extensions/XShm.h],,,[#include <X11/Xlib.h>])
+  	CPPFLAGS="$SAVE_CPPFLAGS"],[echo "not found"])
+  
+diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.4.bb b/meta/recipes-graphics/xorg-app/xdpyinfo_1.4.0.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-app/xdpyinfo_1.3.4.bb
+rename to meta/recipes-graphics/xorg-app/xdpyinfo_1.4.0.bb
+index 3becd40281..804b284352 100644
+--- a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.4.bb
++++ b/meta/recipes-graphics/xorg-app/xdpyinfo_1.4.0.bb
+@@ -15,6 +15,6 @@ PE = "1"
+ SRC_URI += "file://disable-xkb.patch"
  
--SRC_URI[sha256sum] = "4fde8ae9b44352e2a208584c36528ee3ed13cf5fe4417208a9785daccefd9968"
-+SRC_URI[sha256sum] = "7b1f9d06111d49d257778da46e264a69851f3c7e2f5034fc2c25c7f03876f989"
- XORG_DRIVER_COMPRESSOR = ".tar.xz"
+ SRC_URI_EXT = "xz"
+-SRC_URI[sha256sum] = "a8ada581dbd7266440d7c3794fa89edf6b99b8857fc2e8c31042684f3af4822b"
++SRC_URI[sha256sum] = "dc1de6e6e091ed46c4837b0ae9811e8182f7be0d2af638cab3e530ff081a48b6"
+ 
+ EXTRA_OECONF = "--disable-xkb"
+diff --git a/meta/recipes-graphics/xorg-app/xeyes_1.3.0.bb b/meta/recipes-graphics/xorg-app/xeyes_1.3.1.bb
+similarity index 29%
+rename from meta/recipes-graphics/xorg-app/xeyes_1.3.0.bb
+rename to meta/recipes-graphics/xorg-app/xeyes_1.3.1.bb
+index 3d1a7063ea..1ded6d8e16 100644
+--- a/meta/recipes-graphics/xorg-app/xeyes_1.3.0.bb
++++ b/meta/recipes-graphics/xorg-app/xeyes_1.3.1.bb
+@@ -1,3 +1,22 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING
++# +++ COPYING
++# @@ -1,4 +1,5 @@
++#  Copyright (c) 1991  X Consortium
++# +Copyright (c) 2023  q3k
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining
++#  a copy of this software and associated documentation files (the
++# 
++#
++
+ require xorg-app-common.inc
+ 
+ SUMMARY = "X11 eyes that follow the mouse cursor demo"
+@@ -6,9 +25,9 @@ follow the location of the mouse cursor around the screen."
+ 
+ PE = "1"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3ea51b365051ac32d1813a7dbaa4bfc6"
++LIC_FILES_CHKSUM = "file://COPYING;md5=29277094da1ef0646d5634a79cb0c1c5"
+ 
+ SRC_URI_EXT = "xz"
+-SRC_URI[sha256sum] = "0950c600bf33447e169a539ee6655ef9f36d6cebf2c1be67f7ab55dacb753023"
++SRC_URI[sha256sum] = "5608d76b7b1aac5ed7f22f1b6b5ad74ef98c8693220f32b4b87dccee4a956eaa"
+ 
+ DEPENDS += "libxau libxt libxext libxmu libxrender libxi"
 -- 
 2.47.1
 
 
---===============2224816124263372622==
+--===============5271352982351639227==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1941 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (934 cached, 10 parsed). 1941 targets, 42 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/xdpyinfo: PV changed from "1.3.4" to "1.4.0"
+packages/core2-64-poky-linux/xdpyinfo: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/core2-64-poky-linux/xdpyinfo: SRC_URI changed from "https://www.x.org/releases//individual/app/xdpyinfo-1.3.4.tar.xz file://disable-xkb.patch" to "https://www.x.org/releases//individual/app/xdpyinfo-1.4.0.tar.xz file://disable-xkb.patch"
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-dbg: PKGSIZE changed from 85936 to 86440 (+1%)
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-dbg: PV changed from "1.3.4" to "1.4.0"
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-dbg: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-dev: PV changed from "1.3.4" to "1.4.0"
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-dev: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-doc: PKGSIZE changed from 2876 to 3064 (+7%)
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-doc: PV changed from "1.3.4" to "1.4.0"
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-doc: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-locale: PV changed from "1.3.4" to "1.4.0"
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-locale: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-src: PV changed from "1.3.4" to "1.4.0"
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-src: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-staticdev: PV changed from "1.3.4" to "1.4.0"
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo-staticdev: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo: PV changed from "1.3.4" to "1.4.0"
+packages/core2-64-poky-linux/xdpyinfo/xdpyinfo: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/core2-64-poky-linux/xeyes: PV changed from "1.3.0" to "1.3.1"
+packages/core2-64-poky-linux/xeyes: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-64-poky-linux/xeyes: SRC_URI changed from "https://www.x.org/releases//individual/app/xeyes-1.3.0.tar.xz" to "https://www.x.org/releases//individual/app/xeyes-1.3.1.tar.xz"
+packages/core2-64-poky-linux/xeyes/xeyes-dbg: PV changed from "1.3.0" to "1.3.1"
+packages/core2-64-poky-linux/xeyes/xeyes-dbg: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-64-poky-linux/xeyes/xeyes-dev: PV changed from "1.3.0" to "1.3.1"
+packages/core2-64-poky-linux/xeyes/xeyes-dev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-64-poky-linux/xeyes/xeyes-doc: PKGSIZE changed from 1864 to 1885 (+1%)
+packages/core2-64-poky-linux/xeyes/xeyes-doc: PV changed from "1.3.0" to "1.3.1"
+packages/core2-64-poky-linux/xeyes/xeyes-doc: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-64-poky-linux/xeyes/xeyes-locale: PV changed from "1.3.0" to "1.3.1"
+packages/core2-64-poky-linux/xeyes/xeyes-locale: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-64-poky-linux/xeyes/xeyes-src: PV changed from "1.3.0" to "1.3.1"
+packages/core2-64-poky-linux/xeyes/xeyes-src: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-64-poky-linux/xeyes/xeyes-staticdev: PV changed from "1.3.0" to "1.3.1"
+packages/core2-64-poky-linux/xeyes/xeyes-staticdev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/core2-64-poky-linux/xeyes/xeyes: PV changed from "1.3.0" to "1.3.1"
+packages/core2-64-poky-linux/xeyes/xeyes: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
 
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-040695a87b6c4c49e34d7b4c80de9b37303c910a"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:040695a87b6c4c49e34d7b4c80de9b37303c910a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 533 Local 520 Mirrors 0 Missed 13 Current 677 (97% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 2989 of 3340 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_recipe_qa)
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_recipe_qa: Started
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 3321 of 3340 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_fetch)
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_fetch: Started
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_fetch: Succeeded
-NOTE: Running task 3322 of 3340 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_unpack)
-NOTE: Running task 3323 of 3340 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_unpack: Started
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_unpack: Succeeded
-NOTE: Running task 3324 of 3340 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_patch)
-NOTE: Running task 3325 of 3340 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_collect_spdx_deps)
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_patch: Started
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_patch: Succeeded
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 3326 of 3340 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3327 of 3340 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_populate_lic)
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_populate_lic: Started
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3328 of 3340 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_configure)
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-native_2.5.4.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-xserver/xserver-xorg
- _21.1.18.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf_2.72.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/automake/automake_1.17.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.8.1.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'binutils', 'clang', 'libclc', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-cross', 'libtool-native', 'm4-native', 'opkg-utils', 'python3-setuptools', 'python3', 'quilt-native', 'bzip2', 'libarchive', 'libidn2', 'libtirpc', 'lzlib', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gobject-introspection', 'libdrm', 'freetype', 'libepoxy', 'mesa', 'spirv-headers', 'spirv-llvm-translator', 'spirv-tools', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'encodings', 'font-util', 'libfontenc', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcvt', 'libx
- damage', 'libxdmcp', 'libxext', 'libxfixes', 'libxfont2', 'libxkbcommon', 'libxkbfile', 'libxrandr', 'libxrender', 'libxshmfence', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'xserver-xorg', 'kmod', 'linux-libc-headers', 'libpng', 'acl', 'attr', 'bash-completion', 'curl', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libmicrohttpd', 'libpcre2', 'libseccomp', 'libunistring', 'nettle', 'shared-mime-info', 'sqlite3', 'zlib-native', 'autoconf-native', 'automake-native', 'flex-native', 'gnu-config-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'shadow-native', 'xz-native', 'zstd-native', 'attr-native', 'gmp-native', 'libbsd-native', 'libmd-native', 'libmpc-native', 'mpfr-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing python function autotools_sitefiles
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Python function autotools_sitefiles finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Removing existing aclocal.m4
-| NOTE: Executing ACLOCAL="aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot/usr/share/aclocal/" autoreconf -Wcross --verbose --install --force --exclude=autopoint
-| autoreconf: export WARNINGS=cross,no-obsolete
-| autoreconf: Entering directory '.'
-| autoreconf: configure.ac: not using Gettext
-| autoreconf: running: aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot/usr/share/aclocal/ --force
-| autoreconf: configure.ac: tracing
-| autoreconf: running: libtoolize --copy --force
-| libtoolize: putting auxiliary files in AC_CONFIG_AUX_DIR, '.'.
-| libtoolize: copying file './ltmain.sh'
-| libtoolize: Consider adding 'AC_CONFIG_MACRO_DIRS([m4])' to configure.ac,
-| libtoolize: and rerunning libtoolize and aclocal.
-| libtoolize: Consider adding '-I m4' to ACLOCAL_AMFLAGS in Makefile.am.
-| autoreconf: configure.ac: not using Intltool
-| autoreconf: configure.ac: not using Gtkdoc
-| autoreconf: running: aclocal --aclocal-path=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot/usr/share/aclocal/ --force
-| autoreconf: running: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot-native/usr/bin/autoconf --force
-| configure.ac:44: warning: cannot check for file existence when cross compiling
-| ../sources/autoconf-2.72/lib/autoconf/general.m4:3008: AC_CHECK_FILE is expanded from...
-| aclocal.m4:9592: XORG_MANPAGE_SECTIONS is expanded from...
-| aclocal.m4:11300: XORG_DEFAULT_NOCODE_OPTIONS is expanded from...
-| aclocal.m4:11316: XORG_DEFAULT_OPTIONS is expanded from...
-| configure.ac:44: the top level
-| autoreconf: running: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot-native/usr/bin/autoheader --force
-| autoreconf: running: automake --add-missing --copy --force-missing
-| configure.ac:32: installing './compile'
-| configure.ac:35: installing './missing'
-| src/Makefile.am: installing './depcomp'
-| autoreconf: './config.sub' is updated
-| autoreconf: './config.guess' is updated
-| autoreconf: Leaving directory '.'
-| NOTE: Running ../sources/xf86-input-mouse-2.0.0/configure  --build=x86_64-linux 		  --host=x86_64-poky-linux 		  --target=x86_64-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking  --disable-static
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/endian-little
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/common-linux
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/common-glibc
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/x86_64-linux
-| configure: loading site script /srv/pokybuild/yocto-worker/auh/build/meta/site/common
-| checking for x86_64-poky-linux-gcc... x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot
-| checking whether the C compiler works... yes
-| checking for C compiler default output file name... a.out
-| checking for suffix of executables...
-| checking whether we are cross compiling... yes
-| checking for suffix of object files... o
-| checking whether the compiler supports GNU C... yes
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot accepts -g... yes
-| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot option to enable C11 features... none needed
-| checking whether x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot understands -c and -o together... yes
-| checking for stdio.h... yes
-| checking for stdlib.h... yes
-| checking for string.h... yes
-| checking for inttypes.h... yes
-| checking for stdint.h... yes
-| checking for strings.h... yes
-| checking for sys/stat.h... yes
-| checking for sys/types.h... yes
-| checking for unistd.h... yes
-| checking for wchar.h... yes
-| checking for minix/config.h... no
-| checking whether it is safe to define __EXTENSIONS__... yes
-| checking whether _XOPEN_SOURCE should be defined... no
-| checking for a BSD-compatible install... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c
-| checking whether sleep supports fractional seconds... yes
-| checking filesystem timestamp resolution... 0.01
-| checking whether build environment is sane... yes
-| checking for x86_64-poky-linux-strip... x86_64-poky-linux-strip
-| checking for a race-free mkdir -p... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p
-| checking for gawk... gawk
-| checking whether make sets $(MAKE)... yes
-| checking whether make supports the include directive... yes (GNU style)
-| checking whether make supports nested variables... yes
-| checking xargs -n works... yes
-| checking dependency style of x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot... none
-| checking build system type... x86_64-pc-linux-gnu
-| checking host system type... x86_64-poky-linux-gnu
-| checking how to print strings... printf
-| checking for a sed that does not truncate output... (cached) sed
-| checking for grep that handles long lines and -e... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep
-| checking for egrep... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -E
-| checking for fgrep... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/grep -F
-| checking for ld used by x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot... x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot
-| checking if the linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot  ) is GNU ld... yes
-| checking for BSD- or MS-compatible name lister (nm)... x86_64-poky-linux-gcc-nm
-| checking the name lister (x86_64-poky-linux-gcc-nm) interface... BSD nm
-| checking whether ln -s works... yes
-| checking the maximum length of command line arguments... 1572864
-| checking how to convert x86_64-pc-linux-gnu file names to x86_64-poky-linux-gnu format... func_convert_file_noop
-| checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-| checking for x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot   option to reload object files... -r
-| checking for file... file
-| checking for x86_64-poky-linux-objdump... x86_64-poky-linux-objdump
-| checking how to recognize dependent libraries... pass_all
-| checking for x86_64-poky-linux-dlltool... no
-| checking for dlltool... no
-| checking how to associate runtime and link libraries... printf %s\n
-| checking for x86_64-poky-linux-ranlib... x86_64-poky-linux-gcc-ranlib
-| checking for x86_64-poky-linux-ar... x86_64-poky-linux-gcc-ar
-| checking for archiver @FILE support... @
-| checking for x86_64-poky-linux-strip... (cached) x86_64-poky-linux-strip
-| checking command to parse x86_64-poky-linux-gcc-nm output from x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot object... ok
-| checking for sysroot... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot
-| checking for a working dd... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd
-| checking how to truncate binary pipes... /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/dd bs=4096 count=1
-| checking for x86_64-poky-linux-mt... no
-| checking for mt... no
-| checking if : is a manifest tool... no
-| checking for dlfcn.h... yes
-| checking for objdir... .libs
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -fno-rtti -fno-exceptions... no
-| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot option to produce PIC... -fPIC -DPIC
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot PIC flag -fPIC -DPIC works... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot static flag -static works... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -c -o file.o... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -c -o file.o... (cached) yes
-| checking whether the x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot linker (x86_64-poky-linux-ld --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot   -m elf_x86_64) supports shared libraries... yes
-| checking whether -lc should be explicitly linked in... no
-| checking dynamic linker characteristics... GNU/Linux ld.so
-| checking how to hardcode library paths into programs... immediate
-| checking whether stripping libraries is possible... yes
-| checking if libtool supports shared libraries... yes
-| checking whether to build shared libraries... yes
-| checking whether to build static libraries... no
-| checking for x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot options needed to detect all undeclared functions... none needed
-| checking whether __clang__ is declared... no
-| checking whether __INTEL_COMPILER is declared... no
-| checking whether __SUNPRO_C is declared... no
-| checking for x86_64-poky-linux-pkg-config... no
-| checking for pkg-config... /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot-native/usr/bin/pkg-config
-| configure: WARNING: using cross tools not prefixed with host triplet
-| checking pkg-config is at least version 0.9.0... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=unknown-warning-option... no
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=unused-command-line-argument... no
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wall... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wpointer-arith... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wmissing-declarations... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wformat=2... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wstrict-prototypes... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wmissing-prototypes... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wnested-externs... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wbad-function-cast... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wold-style-definition... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wunused... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wuninitialized... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wshadow... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wmissing-noreturn... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wmissing-format-attribute... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wredundant-decls... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Wlogical-op... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=implicit... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=nonnull... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=init-self... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=main... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=missing-braces... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=sequence-point... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=return-type... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=trigraphs... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=array-bounds... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=write-strings... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=address... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=int-to-pointer-cast... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=pointer-to-int-cast... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -pedantic... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror... yes
-| checking if x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/recipe-sysroot supports -Werror=attributes... yes
-| checking for asprintf... yes
-| checking for timingsafe_memcmp... no
-| checking for xorg-server >= 1.10 xproto >= 7.0.27 inputproto... yes
-| configure: error: This is not the mouse driver you are looking for. Use evdev or libinput.
-| NOTE: The following config.log files may provide further information.
-| NOTE: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/build/config.log
-| ERROR: configure failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/temp/run.do_configure.1681558:267 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/temp/run.do_configure.1681558, line 267
-| 	#2: oe_runconf, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/temp/run.do_configure.1681558, line 243
-| 	#3: autotools_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/temp/run.do_configure.1681558, line 216
-| 	#4: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/temp/run.do_configure.1681558, line 151
-| 	#5: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/temp/run.do_configure.1681558, line 271
-NOTE: recipe xf86-input-mouse-2_2.0.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3328 tasks of which 3319 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250815071037.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250815071037.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/temp/log.do_configure.1681558
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: xf86-input-mouse-2_2.0.0-r0 do_configure: configure failed
-ERROR: xf86-input-mouse-2_2.0.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/temp/run.do_configure.1681558' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/xf86-input-mouse/2.0.0/temp/log.do_configure.1681558
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-driver/xf86-input-mouse_2.0.0.bb:do_configure) failed with exit code '1'
-
---===============2224816124263372622==
+--===============5271352982351639227==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-xf86-input-mouse-upgrade-1.9.5-2.0.0.patch"
+ filename="0001-xdpyinfo-xeyes-upgrade-1.3.4-1.4.0-1.3.0-1.3.1.patch"
 
-RnJvbSBkYmU1NmJiYjA2MDA5MmQwYTU4ZTJlOGI5OGFiZjBkOWY4NjRlOGEyIE1vbiBTZXAgMTcg
+RnJvbSBjNWZjOTE4ODRjYmE5NDM1YWRjOTNlZWZiNjhlYWM4OGY3ZTAxZThlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgQXVnIDIwMjUgMDc6MTA6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
-Zjg2LWlucHV0LW1vdXNlOiB1cGdyYWRlIDEuOS41IC0+IDIuMC4wCgotLS0KIC4uLi97eGY4Ni1p
-bnB1dC1tb3VzZV8xLjkuNS5iYiA9PiB4Zjg2LWlucHV0LW1vdXNlXzIuMC4wLmJifSAgICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWRyaXZlci97eGY4Ni1pbnB1dC1tb3VzZV8xLjku
-NS5iYiA9PiB4Zjg2LWlucHV0LW1vdXNlXzIuMC4wLmJifSAoODQlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWRyaXZlci94Zjg2LWlucHV0LW1vdXNlXzEuOS41LmJi
-IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctZHJpdmVyL3hmODYtaW5wdXQtbW91c2VfMi4w
-LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL3hvcmctZHJpdmVyL3hmODYtaW5wdXQtbW91c2VfMS45LjUuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy94b3JnLWRyaXZlci94Zjg2LWlucHV0LW1vdXNlXzIuMC4wLmJiCmlu
-ZGV4IDkyZTU0ZDk3MDEuLjdiMTBhMmE0ODcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy94b3JnLWRyaXZlci94Zjg2LWlucHV0LW1vdXNlXzEuOS41LmJiCisrKyBiL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy94b3JnLWRyaXZlci94Zjg2LWlucHV0LW1vdXNlXzIuMC4wLmJiCkBAIC0x
-MCw1ICsxMCw1IEBAIGRyaXZlci4iCiAKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJ
-Tkc7bWQ1PWQyMTNhNjkwNTNkZmZlOWJjYWI5NGFiZjYwMDEzZDMzIgogCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiNGZkZThhZTliNDQzNTJlMmEyMDg1ODRjMzY1MjhlZTNlZDEzY2Y1ZmU0NDE3MjA4
-YTk3ODVkYWNjZWZkOTk2OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3YjFmOWQwNjExMWQ0OWQy
-NTc3NzhkYTQ2ZTI2NGE2OTg1MWYzYzdlMmY1MDM0ZmMyYzI1YzdmMDM4NzZmOTg5IgogWE9SR19E
-UklWRVJfQ09NUFJFU1NPUiA9ICIudGFyLnh6IgotLSAKMi40Ny4xCgo=
+CkRhdGU6IEZyaSwgMTUgQXVnIDIwMjUgMDc6MDg6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
+ZHB5aW5mbyx4ZXllczogdXBncmFkZSAxLjMuNCAtPiAxLjQuMCwxLjMuMCAtPiAxLjMuMQoKLS0t
+CiAuLi4veG9yZy1hcHAveGRweWluZm8vZGlzYWJsZS14a2IucGF0Y2ggICAgICAgfCAxOCArKysr
+KysrKysrKy0tLS0KIC4uLi97eGRweWluZm9fMS4zLjQuYmIgPT4geGRweWluZm9fMS40LjAuYmJ9
+ICB8ICAyICstCiAuLi4ve3hleWVzXzEuMy4wLmJiID0+IHhleWVzXzEuMy4xLmJifSAgICAgICAg
+fCAyMyArKysrKysrKysrKysrKysrKy0tCiAzIGZpbGVzIGNoYW5nZWQsIDM1IGluc2VydGlvbnMo
+KyksIDggZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBw
+L3t4ZHB5aW5mb18xLjMuNC5iYiA9PiB4ZHB5aW5mb18xLjQuMC5iYn0gKDg4JSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAve3hleWVzXzEuMy4wLmJiID0+IHhleWVzXzEu
+My4xLmJifSAoMjklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFw
+cC94ZHB5aW5mby9kaXNhYmxlLXhrYi5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
+LWFwcC94ZHB5aW5mby9kaXNhYmxlLXhrYi5wYXRjaAppbmRleCAxZTgxOTljYzY2Li5hYTFjYzI3
+MGQ0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGRweWluZm8v
+ZGlzYWJsZS14a2IucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hk
+cHlpbmZvL2Rpc2FibGUteGtiLnBhdGNoCkBAIC0xLDEwICsxLDE4IEBACitGcm9tIDdiNjQwMGJi
+NDY4MmVkZGE0MzU2MWEwZjJhYjY5MmU5ZDA1ZjBlYmIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CitGcm9tOiBDaHJpcyBMYXJzb24gPGtlcmdvdGhAb3BlbmVkaGFuZC5jb20+CitEYXRlOiBUdWUs
+IDE1IEF1ZyAyMDA2IDExOjU4OjM3ICswMDAwCitTdWJqZWN0OiBbUEFUQ0hdIE51bWVyb3VzIG5l
+dyB4b3JnIHBhY2thZ2UgdmVyc2lvbnMgZnJvbSB1cHN0cmVhbSBPRS4gIFBlc3RlcgorCiBVcHN0
+cmVhbS1TdGF0dXM6IFBlbmRpbmcKKy0tLQorIGNvbmZpZ3VyZS5hYyB8IDQgKysrKworIDEgZmls
+ZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKIAotSW5kZXg6IHhkcHlpbmZvLTEuMy4wL2NvbmZp
+Z3VyZS5hYwotPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PQotLS0tIHhkcHlpbmZvLTEuMy4wLm9yaWcvY29uZmlndXJlLmFj
+CTIwMTEtMTAtMjEgMjE6MzQ6MjEuMDAwMDAwMDAwIC0wNzAwCi0rKysgeGRweWluZm8tMS4zLjAv
+Y29uZmlndXJlLmFjCTIwMTEtMTEtMjggMjA6MDY6NTYuNTU0MDU2OTM1IC0wODAwCi1AQCAtNDcs
+MTEgKzQ3LDE1IEBACitkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCitp
+bmRleCA5ZDAzZThiLi5lZWYzNjliIDEwMDY0NAorLS0tIGEvY29uZmlndXJlLmFjCisrKysgYi9j
+b25maWd1cmUuYWMKK0BAIC00OSwxMSArNDksMTUgQEAgUEtHX0NIRUNLX01PRFVMRVMoRFBZX1hF
+WFQsIHhleHQsCiAgCUFDX0NIRUNLX0hFQURFUlMoW1gxMS9leHRlbnNpb25zL211bHRpYnVmLmgg
+WDExL2V4dGVuc2lvbnMvWFNobS5oXSwsLFsjaW5jbHVkZSA8WDExL1hsaWIuaD5dKQogIAlDUFBG
+TEFHUz0iJFNBVkVfQ1BQRkxBR1MiXSxbZWNobyAibm90IGZvdW5kIl0pCiAgCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGRweWluZm9fMS4zLjQuYmIgYi9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGRweWluZm9fMS40LjAuYmIKc2ltaWxhcml0eSBp
+bmRleCA4OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hkcHlp
+bmZvXzEuMy40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGRw
+eWluZm9fMS40LjAuYmIKaW5kZXggM2JlY2Q0MDI4MS4uODA0YjI4NDM1MiAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hkcHlpbmZvXzEuMy40LmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94ZHB5aW5mb18xLjQuMC5iYgpAQCAtMTUsNiAr
+MTUsNiBAQCBQRSA9ICIxIgogU1JDX1VSSSArPSAiZmlsZTovL2Rpc2FibGUteGtiLnBhdGNoIgog
+CiBTUkNfVVJJX0VYVCA9ICJ4eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhOGFkYTU4MWRiZDcy
+NjY0NDBkN2MzNzk0ZmE4OWVkZjZiOTliODg1N2ZjMmU4YzMxMDQyNjg0ZjNhZjQ4MjJiIgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gImRjMWRlNmU2ZTA5MWVkNDZjNDgzN2IwYWU5ODExZTgxODJmN2Jl
+MGQyYWY2MzhjYWIzZTUzMGZmMDgxYTQ4YjYiCiAKIEVYVFJBX09FQ09ORiA9ICItLWRpc2FibGUt
+eGtiIgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hleWVzXzEu
+My4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hleWVzXzEuMy4xLmJiCnNp
+bWlsYXJpdHkgaW5kZXggMjklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
+LWFwcC94ZXllc18xLjMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
+YXBwL3hleWVzXzEuMy4xLmJiCmluZGV4IDNkMWE3MDYzZWEuLjFkZWQ2ZDhlMTYgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94ZXllc18xLjMuMC5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGV5ZXNfMS4zLjEuYmIKQEAgLTEsMyArMSwy
+MiBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRh
+dGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJl
+bmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1
+cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFu
+Z2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgor
+IyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQor
+IworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcKKyMgKysrIENPUFlJTkcKKyMgQEAg
+LTEsNCArMSw1IEBACisjICBDb3B5cmlnaHQgKGMpIDE5OTEgIFggQ29uc29ydGl1bQorIyArQ29w
+eXJpZ2h0IChjKSAyMDIzICBxM2sKKyMgIAorIyAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRl
+ZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nCisjICBhIGNvcHkgb2Yg
+dGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUKKyMg
+CisjCisKIHJlcXVpcmUgeG9yZy1hcHAtY29tbW9uLmluYwogCiBTVU1NQVJZID0gIlgxMSBleWVz
+IHRoYXQgZm9sbG93IHRoZSBtb3VzZSBjdXJzb3IgZGVtbyIKQEAgLTYsOSArMjUsOSBAQCBmb2xs
+b3cgdGhlIGxvY2F0aW9uIG9mIHRoZSBtb3VzZSBjdXJzb3IgYXJvdW5kIHRoZSBzY3JlZW4uIgog
+CiBQRSA9ICIxIgogCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0zZWE1
+MWIzNjUwNTFhYzMyZDE4MTNhN2RiYWE0YmZjNiIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
+L0NPUFlJTkc7bWQ1PTI5Mjc3MDk0ZGExZWYwNjQ2ZDU2MzRhNzljYjBjMWM1IgogCiBTUkNfVVJJ
+X0VYVCA9ICJ4eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwOTUwYzYwMGJmMzM0NDdlMTY5YTUz
+OWVlNjY1NWVmOWYzNmQ2Y2ViZjJjMWJlNjdmN2FiNTVkYWNiNzUzMDIzIgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjU2MDhkNzZiN2IxYWFjNWVkN2YyMmYxYjZiNWFkNzRlZjk4Yzg2OTMyMjBmMzJi
+NGI4N2RjY2VlNGE5NTZlYWEiCiAKIERFUEVORFMgKz0gImxpYnhhdSBsaWJ4dCBsaWJ4ZXh0IGxp
+YnhtdSBsaWJ4cmVuZGVyIGxpYnhpIgotLSAKMi40Ny4xCgo=
 
---===============2224816124263372622==--
+--===============5271352982351639227==--
 
