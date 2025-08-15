@@ -1,91 +1,102 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E7D8CA0ED1
-	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 16:03:46 +0000 (UTC)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
- by mx.groups.io with SMTP id smtpd.web11.15436.1755273823844828080
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9794BCA0ED1
+	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 16:25:16 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.15903.1755275108229079554
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 09:03:44 -0700
+ Fri, 15 Aug 2025 09:25:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VvWkFnOJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.175, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-71d605a70bdso17108027b3.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:03:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IT0H3nO0;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2445818eb6eso17005965ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755273823; x=1755878623; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j9SvrDFHs9uX/Kl1eTIeDK+YkD87bbK/H3I46SArp7E=;
-        b=VvWkFnOJQLzZS1PQzGnu/pcYPFKELpi4GaOuzOXNSKTHMJuldW57/VXNYmSwfYumzj
-         +slQf6HAKpZXnE9LiyRo8F47gVeyFGm8ZE3hoooW3HpuVETSVgpAzHiBO3w+hYF6m8a5
-         +u55vtn1047lSbAvIFtdI485qPTG1TrZMU4F09ovY3PQlkj18QTu1X9ugurRXaiVasKa
-         eUVBptpvmwlw8XYa9Wc4tmsd4Eha4pg50KpUHarsjYI92kV3k7mUwZhoYi0hl9k38viL
-         L/ezF4eVYN2yEYN1cvG1cbG9frLDktWRr4sYi7v/Y2iR6EcrwUO8yWwuFuXKJHhBfABN
-         LYxQ==
+        d=gmail.com; s=20230601; t=1755275107; x=1755879907; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s4l8cQdOJsgwEkAKs9Zp3kd2YbpmXAVM5e1o4NRk7eE=;
+        b=IT0H3nO0Q1V49pDNSIkTvjsXjtZ9xcfBjMrqry/O3FHKDgn+Lu/Lfob130lW/0xE0E
+         9G1KMfijPs9x70xCDhZLBo/beOTbnwP1DTab7EnLi1BcdZbroanWVFX6HKDwfuSGU4fH
+         frjcCzHTSNbvnHSBqDtNnIl5pXL0UZzA6e58C3+3F1htABxT5+p9BKzP8v4ax0ay7Mbb
+         VQB/TSgtib55ove8etLeV7AZxJKenHMsG2Abhm+ZqpfJpc9fnSEp57zcv+dGZL8rqjLh
+         7ULYGHyfuHqhsgQLPlNnDrG61hZcHNtqIRPhl4efWd9CNsLqxFri4yLkk1PdbqwquInq
+         3naQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755273823; x=1755878623;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j9SvrDFHs9uX/Kl1eTIeDK+YkD87bbK/H3I46SArp7E=;
-        b=G3T7imUoID1Q5Nn9F8oPN+nObIMaO6wU/qnLxNqVjjhrL0Gysp8KXdP2/x9JYnxpey
-         UZO703HT1m7kvfKqAbPxiYKR6jBVSWqHctT0p/mY89i6IAT14lGnRTI+n/bgLOPNroma
-         tsqzrOHterEz4ZaNSkAs7+OrOZJZ77J3FMYzzNv6801cHGJG/P4V7e8YzuDLYnzSquSh
-         oTWOMb2X5zF0IgqbzKKMLYO3bbY6ltw2HDwgWbQhRJLhnZn0okK/ZiCutsJUg0IWjtEw
-         CNkavKuVGSLg798yd+UucBJzI+4zZkocjo4MYgAzwDz7ZWrd6xaXhls5Biwa+nv4uZKf
-         /rDA==
-X-Gm-Message-State: AOJu0YzlGMFQE+frv8F1gm/JXuOAGwXyxS3FpI90Y54RRygo5VI8KEUg
-	jTa+zd63LDDWgoZHHo+v283YX95tSHIV8jdeR/WmN1s6EZ3ejGjI5INWggBt1TcoFf5rkw242ak
-	JaIab0X7NB6ALWuu3E48vqVVaeA/9V1Cte+VFBp+yrg==
-X-Gm-Gg: ASbGnct9nk+TbizYav7kiUbCWpk2TzO+AwHbId6dHkTo6Y0WZi2FK1/ztPrCZSPF2m6
-	USgmku2r6PtaRvjOVyHWUwXq4X5+oFFzzWJxTw8cQmOcOwwVa5AypfETJS+cpT9uzioPjC3WZs0
-	l71yLIz/S6HDSasnxp3ZbXYvoltQkHYsBzVe8xZ/+3qMtk8FOIN4tlOExijaE5S481ANJ55Sw8G
-	5orHmQIKJwJS6OTmgoUli9Qsu9nFB0b6gtyLzE=
-X-Google-Smtp-Source: AGHT+IECp71Ox3Ipw/Ducht0vA7msnDKQLvhHQvHap2w14dpq6jPySaQhegbIKCXE8bbBR3mALtJd09D5Z/7ECfEJVo=
-X-Received: by 2002:a05:690c:9a91:b0:70d:f15d:b18f with SMTP id
- 00721157ae682-71e6deacfcemr30950427b3.26.1755273822323; Fri, 15 Aug 2025
- 09:03:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755275107; x=1755879907;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s4l8cQdOJsgwEkAKs9Zp3kd2YbpmXAVM5e1o4NRk7eE=;
+        b=sE7jsNYgoskyw/pIn9/qpwn98Kczoy6MWde5/C2aMRoPNy6uXKF3tbpip7XMsLlAz4
+         kIQp+7LWvDzI7mBAT5UyPLUAz+ExdvAF1NF/gAn5z7/FKVdsmZ+sIzY6Meii23vr6FO0
+         JKVilJi+rj2PuvrqPmfOCVfpG5aTgdwBTi2T/1Zg6JFKXbn9hGkuu+t+Uf+ppL0p7OX3
+         xb3W3Niuqfepkkl5llTRGCgaoJe5OdHganB6ppS/A92NOzYwU+MdfuCKErmebcdtFpwV
+         mpCuwHIuoDlxaEMGVb1KNfiDj5uCG/JPNMoia1m0988cwaileQsxdAzRFHw0vTspKpWm
+         pqdw==
+X-Gm-Message-State: AOJu0YzEyEy4gLntOde/jTUnjwMeoNbsxhCFZHAV6rgFLuNEMD+cKy/F
+	D1B56i8eR/aCeHfVAWWpGj8tfjBDF7qPf0lx5CWKSu2RTZySzP+BtzyOrAIUV8g9
+X-Gm-Gg: ASbGncsyjyEbmAR/FRLHX9RTJXVqPXeC8wvLMz+k9LLPqPGB7nX5DX6eD5YVwAq2L/b
+	WAY/9vWJIAm5jqo7XM9R9HiTkzjIBIsc0x0ZY4CipSZgGtgveJSdbEBsekTtCDMBiAppPimgxxX
+	oowjOAjqXUxYTN2jM/Pd1fnBI+BjNyavOMho5/PTXe0D0NwSOFFDiCzolv6sU1/259A2roQAGDs
+	1JQNIfEbSEG8DeaXH/SAjwArjYJzQJaOJ+GRwuiY+6OvAC24MajZiT14VnRgocsKI7mCOGaQ8mr
+	80u72qSkZq1An80W+sdcAYKVIxONJY8DEtDoteu8jIiU+ZJbWhA3CRduH5YRIrbb24WNDgYFuAA
+	d2KnInFDvf4mZP9pBxBME
+X-Google-Smtp-Source: AGHT+IGMbGj1ON789eg6K/9kHfq/9fDtpzkeotDp71FJl0RxWl6QtsKRFgsC6lzmSRSNbwTdJ8HK/g==
+X-Received: by 2002:a17:903:1ae6:b0:240:25f3:211b with SMTP id d9443c01a7336-2446d980b96mr39557505ad.51.1755275106595;
+        Fri, 15 Aug 2025 09:25:06 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::209])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343c4d57bsm1551595a91.20.2025.08.15.09.25.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Aug 2025 09:25:05 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] spirv-llvm-translator: Upgrade to 21.1.0
+Date: Fri, 15 Aug 2025 09:25:02 -0700
+Message-ID: <20250815162502.3092192-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <cover.1755005205.git.steve@sakoman.com> <1a8f58b2e7c2005757fcf1a5d4b57f7239925133.1755005205.git.steve@sakoman.com>
- <ebdeab05-86f3-41b8-8611-43318652b7e6@gmail.com> <185B5FA5D8F47DA2.29447@lists.openembedded.org>
-In-Reply-To: <185B5FA5D8F47DA2.29447@lists.openembedded.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 15 Aug 2025 09:03:31 -0700
-X-Gm-Features: Ac12FXz05m58UHzMzguRTdvVaJb9IDriAMqb7eNNfAmiqxDAmQWJpFN7KF0zLl8
-Message-ID: <CAOSpxdbPQMZPWfc6CVkF-Ew0WeQwaQp6n-c8w=CShBVFmnaPOA@mail.gmail.com>
-Subject: Re: [OE-core][walnascar 3/3] bitbake.conf: Switch prefix mapping to
- use -ffile-prefix-map
-To: Khem Raj <raj.khem@gmail.com>, Gyorgy Sarvari <skandigraun@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 16:03:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221977
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 16:25:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221978
 
-On Wed, Aug 13, 2025 at 9:14=E2=80=AFAM Steve Sakoman via
-lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
-wrote:
->
-> On Wed, Aug 13, 2025 at 9:11=E2=80=AFAM Gyorgy Sarvari <skandigraun@gmail=
-.com> wrote:
-> >
-> > Is this more than cosmetic in walnascar? If it isn't, than should this
-> > really go into a stable branch? In my understanding this will require a
-> > brand new sstate cache.
->
-> Khem,
->
-> Can you comment on this?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...-translator_20.1.4.bb => spirv-llvm-translator_21.1.0.bb} | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/spir/{spirv-llvm-translator_20.1.4.bb => spirv-llvm-translator_21.1.0.bb} (88%)
 
-I need to wrap up the changeset for the walnascar release, so I'm
-going to remove these two patches until we reach some consensus on the
-need for them.
-
-Steve
+diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+similarity index 88%
+rename from meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+rename to meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+index 64a73ce55aa..6a6c6ac77c4 100644
+--- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
++++ b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+@@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
+ 
+ # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
+ SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
+-SRCREV = "74843f2186bb63b6802758222084da17fcbe603c"
++SRCREV = "acb023b63a4bafd53d0ba6a1a452b1f0e5671458"
+ SRC_URI = " \
+-    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
++    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;branch=${SPIRV_BRANCH} \
+ "
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+@@ -20,6 +20,7 @@ inherit cmake pkgconfig python3native
+ # Specify any options you want to pass to cmake using EXTRA_OECMAKE:
+ # for CMAKE_SHARED_LIBS=OFF see https://github.com/KhronosGroup/SPIRV-LLVM-Translator/issues/1868
+ EXTRA_OECMAKE = "\
++    -DBASE_LLVM_VERSION='${@oe.utils.trim_version('${PV}', 3)}' \
+     -DBUILD_SHARED_LIBS=ON \
+     -DCMAKE_BUILD_TYPE=Release \
+     -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
 
