@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A521DCA0EE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A44DCCA0ED1
 	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 13:07:00 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
  by mx.groups.io with SMTP id smtpd.web11.11318.1755263214708443277
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 06:06:54 -0700
+ Fri, 15 Aug 2025 06:06:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=j+nc35tK;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=rpcgFOee;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010198add7216d-045e5779-01d1-4530-8d48-019e00369b93-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=U5iUXo0z;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jyNaBDDK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010198add72f81-a1fc8296-068e-4648-b086-390a976dd504-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755263214;
+	t=1755263217;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3/PAql9ja3GfN8MNuCRc+aORt4s7y1H1PJ5pvQi8NJs=;
-	b=j+nc35tK9aRkMIVMXHNE1OyCTggfyjaK3/Tpj1AmXcIaz2PIT/qBwaNLMM3KypaT
-	RtkXVbHSQLXIKNhg4mWqC47FS6KzbaNcEfZAV5KHNu/XIUZDkLm1hSm1lwu5YyoNrlN
-	YvJfW0zCnupHrHFyVWy2XydjhfuMksvuUA6OLgjo=
+	bh=eARtRZQgn/M7Ecnv3G3Hje1XoSXSNoAwCQtTBZGLg6A=;
+	b=U5iUXo0zg1+TaqR0LuQA+6DToj/rL9MY6AS4ZErB8/XkZFNnozy70sdOjZjVlABs
+	RK5TzlqLOyBl1q+PAZmueketKC7LuaS7WrkoQyNMio+LlleGlox0tb/tdbR3Mv5h9rp
+	UGO7rvrO8xlIMF4u3ry82/rRn7B73MJldgxMioO0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263214;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263217;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3/PAql9ja3GfN8MNuCRc+aORt4s7y1H1PJ5pvQi8NJs=;
-	b=rpcgFOee/GYurBA7xqjHCfpIjlKMS4sipzlGAQFEQO9FnNAvvsxlPTT92w6hdOzn
-	wVn3K+CokdT5iBzQYAdSP5c+v5F0HiqfdkG8kYIFQyZxdYL8hdwvzTI3wpTnS0YzqPO
-	bkYhIvGqYUSIDv9MbDIUJpX+QzbADRRAkuuv5Dy4=
-Content-Type: multipart/mixed; boundary="===============1629187318466427135=="
+	bh=eARtRZQgn/M7Ecnv3G3Hje1XoSXSNoAwCQtTBZGLg6A=;
+	b=jyNaBDDKY7ljlUGLWKoT7ROG2WPXeV8XGJmZn3cqc3Qg4gyDcz1SgdqQR2ACAhB+
+	B8r2pLyRFzlmrX8y7KCaoxHXtKe0yKPQB5/awlWBwRV8EL7HlD889EaFmX5zj1WkfEG
+	GaYQsjGUHpgSbzawYdLUWdQCFDnIIE4fzVJHGTBU=
+Content-Type: multipart/mixed; boundary="===============8696727755919284002=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	Robert Yang <liezhi.yang@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gettext-minimal-native,gettext: upgrading to 0.26,0.26 FAILED
-Message-ID: <01010198add7216d-045e5779-01d1-4530-8d48-019e00369b93-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Aug 2025 13:06:53 +0000
+Subject: [AUH] llvm-project-source-20.1.8: upgrading to 21.1.0 FAILED
+Message-ID: <01010198add72f81-a1fc8296-068e-4648-b086-390a976dd504-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Aug 2025 13:06:57 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.08.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 13:07:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221883
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221886
 
---===============1629187318466427135==
+--===============8696727755919284002==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,17 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gettext-minimal-native,gettext* to *0.26,0.26* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *llvm-project-source-20.1.8* to *21.1.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gettext-minimal-native -V 0.26
-NOTE: Reconnecting to bitbake server...
+The following devtool command failed:  upgrade llvm-project-source-20.1.8 -V 21.1.0
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (0 cached, 944 parsed). 1941 targets, 42 skipped, 0 masked, 0 errors.
+Loaded 1941 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -72,36 +68,30 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-f9e0afedea37edeabc7dcb03bddd7a60fe8d6945"
+DISTRO_VERSION       = "5.2.99+snapshot-c6296eeb3e297cad60d5ce7a8afd40a1e5ee0690"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f9e0afedea37edeabc7dcb03bddd7a60fe8d6945"
+workspace            = "tmp-auh-upgrades:c6296eeb3e297cad60d5ce7a8afd40a1e5ee0690"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
 done.
-NOTE: No setscene tasks
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 112 tasks of which 110 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250815052632.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250815052632.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
 INFO: Extracting current version source...
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/scripts/devtool", line 352, in <module>
-    ret = main()
-  File "/srv/pokybuild/yocto-worker/auh/build/scripts/devtool", line 338, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/srv/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/upgrade.py", line 605, in upgrade
-    old_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-  File "/srv/pokybuild/yocto-worker/auh/build/scripts/lib/devtool/upgrade.py", line 509, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gettext-minimal-native/0.23.1/sources/COPYING'
+ERROR: S should be set relative to UNPACKDIR, e.g. replace WORKDIR with UNPACKDIR in "S = ${WORKDIR}/llvm-project-20.1.8.src"
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work-shared/llvm-project-source-20.1.8-r0/devtooltmp-ijoo7x1p/temp/log.do_unpack.4110647
+ERROR: Extracting source for llvm-project-source-20.1.8 failed
 
 
 Please review the attached files for further information and build/update failures.
@@ -109,5 +99,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1629187318466427135==--
+--===============8696727755919284002==--
 
