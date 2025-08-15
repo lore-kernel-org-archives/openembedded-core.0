@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F5F2CA0EED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33FB9CA0EF1
 	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 13:07:11 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.11318.1755263214708443277
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.11332.1755263225403276004
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 06:07:01 -0700
+ Fri, 15 Aug 2025 06:07:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YYGKOgBo;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=oZHxINYV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010198add73ea2-68b33d2d-5360-449c-9768-e4fe8808ec84-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=gp8KngIb;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FKszsJJE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010198add7582d-b92c2bf1-0e3e-450d-a7d6-ce8b7cb5ce63-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755263221;
+	t=1755263228;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=An19Dmb3i9qoKX9r7dNKGEr8ANOdCk/te8oEL92aTdc=;
-	b=YYGKOgBoK6nXl+mot4+TBICytBqb9piWBduXNYtrXqmTUPTpU2oIKv/4X2XL2xOS
-	nW3ZLKNpz/1Pc+b0maZl9SDHCGIz98zrieA2si1QZihR3awmuvZpYTteZc++PqMoj4o
-	IKEQf//cIIrvFZLBKkwtyi18n8IlsVZa6B4p+HAM=
+	bh=hCkWqHc+pVjpGfQyj6P7FXjdoPSOr4nNH93tYDsNCfg=;
+	b=gp8KngIbb4apNZqNf3GGXEHIfJ2hE8Kvu5CniUAjzHBneZbAjJsQ51Ft23b8HJsQ
+	VETo6l5NZ3rwBGiV8CrAyXf7L08vo27yhpXw0hRYvD9lTjs4koZMqGUEQB3U4+9IayQ
+	NZOEAdHYwWk+UbxRPuMdwdPMVlmrTrE1g/dV/TRA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263221;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755263228;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=An19Dmb3i9qoKX9r7dNKGEr8ANOdCk/te8oEL92aTdc=;
-	b=oZHxINYV3WYPDof/yxHEE4d1jejvSQ6a1P0JYcL0m+D5Vv7KC5t7eZkfBx+vjver
-	WLJxmmAYP2CIcqOeKq75Hcfcldrcrwh8sv8ZC2Ndy0sXQ9JCbMjskul85PD5aeL9PFf
-	+u/VN8VCKRIzZKzRiLvujeXAT6x2Syf7BsW+0GQk=
-Content-Type: multipart/mixed; boundary="===============3552681700536288140=="
+	bh=hCkWqHc+pVjpGfQyj6P7FXjdoPSOr4nNH93tYDsNCfg=;
+	b=FKszsJJEXSlFcwui+DpGTW9S1xuJ3pVX4/u4x2qSdRstdyLDHo1ghJHSm2c2e0k9
+	kujeBSTroFuzjqXPbCFq2VBOUb/Y5HaTIpnp6B/KQ7xMph8xleDRLdR2zB9nh2OsaFe
+	OMaC2PJ8aOwGx/rNeGvDY8e7cnIL4AtrBzC7Btqk=
+Content-Type: multipart/mixed; boundary="===============8717991662575946580=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] ovmf: upgrading to edk2-stable202505 FAILED
-Message-ID: <01010198add73ea2-68b33d2d-5360-449c-9768-e4fe8808ec84-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Aug 2025 13:07:01 +0000
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-sphinx: upgrading to 8.3.0 SUCCEEDED
+Message-ID: <01010198add7582d-b92c2bf1-0e3e-450d-a7d6-ce8b7cb5ce63-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Aug 2025 13:07:07 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.15-54.240.27.29
+X-SES-Outgoing: 2025.08.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 13:07:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221894
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221919
 
---===============3552681700536288140==
+--===============8717991662575946580==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,70 +51,122 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ovmf* to *edk2-stable202505* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-sphinx* to *8.3.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-sphinx-upgrade-8.2.1-8.3.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe ovmf failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1941 entries from dependency cache.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-30d3ec7ab6c980e7fe25760be1834b680d5914ab"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:30d3ec7ab6c980e7fe25760be1834b680d5914ab"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 6951dfe7d59d144a3a980bd7eda699db2d8554ac
-WARNING: Command 'git rebase 6951dfe7d59d144a3a980bd7eda699db2d8554ac' failed:
-Auto-merging BaseTools/Conf/tools_def.template
-CONFLICT (content): Merge conflict in BaseTools/Conf/tools_def.template
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool onto f4153a09f87cbb9c826d8fc12c74642bb2d879ea
-INFO: Rebasing devtool onto 8c89224991adff88d53cd380f42a2baa36f91454
-INFO: Rebasing devtool onto a26d85337dbdcd33c971f38eb3fa5150e75cea87
-INFO: Rebasing devtool onto f4153a09f87cbb9c826d8fc12c74642bb2d879ea
-INFO: Rebasing devtool onto abfc8ff81df4067f309032467785e06975678f0d
-INFO: Rebasing devtool onto cfff805481bdea27f900c32698171286542b8d3c
-INFO: Rebasing devtool onto 370b5944c046bab043dd8b133727b2135af7747a
-INFO: Rebasing devtool onto e9ebfa7e77a6bee77df44e096b100e7131044059
-INFO: Rebasing devtool onto 98ef964e1e9a0c39c7efb67143d3a13a819432e0
-INFO: Rebasing devtool onto 1cc9cde3448cdd2e000886a26acf1caac2db7cf1
-INFO: Rebasing devtool onto 86add13493e5c881d7e4ba77fb91c1f57752b3a4
-INFO: Rebasing devtool onto 83d4e1ebef3588fae48b69a7352cc21801cb70bc
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/ovmf
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/ovmf/ovmf_git.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3552681700536288140==--
+
+-- >8 --
+From 9dbf053a163d7a9ba564528c05c915a14364faad Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 15 Aug 2025 09:30:03 +0000
+Subject: [PATCH] python3-sphinx: upgrade 8.2.1 -> 8.3.0
+
+---
+ .../python/{python3-sphinx_8.2.1.bb => python3-sphinx_8.3.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-sphinx_8.2.1.bb => python3-sphinx_8.3.0.bb} (91%)
+
+diff --git a/meta/recipes-devtools/python/python3-sphinx_8.2.1.bb b/meta/recipes-devtools/python/python3-sphinx_8.3.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-sphinx_8.2.1.bb
+rename to meta/recipes-devtools/python/python3-sphinx_8.3.0.bb
+index 614566b8f4..25bbc1bff8 100644
+--- a/meta/recipes-devtools/python/python3-sphinx_8.2.1.bb
++++ b/meta/recipes-devtools/python/python3-sphinx_8.3.0.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "BSD-2-Clause & MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=e30c37a2b7fb0afa3adc0d72b85e8b04"
+ 
+-SRC_URI[sha256sum] = "e4b932951b9c18b039f73b72e4e63afe967d90408700ec222b981ac24647c01e"
++SRC_URI[sha256sum] = "3bad4314a7fa72ce92344eaaa14c42ddf3177ee6a79c227e4ff8ae07d416f584"
+ 
+ inherit python_flit_core pypi
+ 
+-- 
+2.47.1
+
+
+--===============8717991662575946580==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/python3-sphinx (sysroot):
+  /usr/lib/python3.13/site-packages/sphinx-8.2.1.dist-info moved to /usr/lib/python3.13/site-packages/sphinx-8.3.0.dist-info
+
+--===============8717991662575946580==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-sphinx: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/sphinx/sphinx-8.2.1.tar.gz;downloadfilename=sphinx-8.2.1.tar.gz" to "https://files.pythonhosted.org/packages/source/s/sphinx/sphinx-8.3.0.tar.gz;downloadfilename=sphinx-8.3.0.tar.gz"
+packages/core2-64-poky-linux/python3-sphinx: PV changed from "8.2.1" to "8.3.0"
+packages/core2-64-poky-linux/python3-sphinx: PKGV changed from 8.2.1 [default] to 8.3.0 [default]
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-dbg: PV changed from "8.2.1" to "8.3.0"
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-dbg: PKGV changed from 8.2.1 [default] to 8.3.0 [default]
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-dev: PV changed from "8.2.1" to "8.3.0"
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-dev: PKGV changed from 8.2.1 [default] to 8.3.0 [default]
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-doc: PV changed from "8.2.1" to "8.3.0"
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-doc: PKGV changed from 8.2.1 [default] to 8.3.0 [default]
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-locale: PV changed from "8.2.1" to "8.3.0"
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-locale: PKGV changed from 8.2.1 [default] to 8.3.0 [default]
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-src: PV changed from "8.2.1" to "8.3.0"
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-src: PKGV changed from 8.2.1 [default] to 8.3.0 [default]
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-staticdev: PV changed from "8.2.1" to "8.3.0"
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx-staticdev: PKGV changed from 8.2.1 [default] to 8.3.0 [default]
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx: PV changed from "8.2.1" to "8.3.0"
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx: PKGSIZE changed from 16966169 to 16967764 (+0%)
+packages/core2-64-poky-linux/python3-sphinx/python3-sphinx: PKGV changed from 8.2.1 [default] to 8.3.0 [default]
+Changes to packages/core2-64-poky-linux/python3-sphinx (sysroot):
+  /usr/lib/python3.13/site-packages/sphinx-8.2.1.dist-info moved to /usr/lib/python3.13/site-packages/sphinx-8.3.0.dist-info
+
+--===============8717991662575946580==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-sphinx-upgrade-8.2.1-8.3.0.patch"
+
+RnJvbSA5ZGJmMDUzYTE2M2Q3YTliYTU2NDUyOGMwNWM5MTVhMTQzNjRmYWFkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgQXVnIDIwMjUgMDk6MzA6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNwaGlueDogdXBncmFkZSA4LjIuMSAtPiA4LjMuMAoKLS0tCiAuLi4vcHl0aG9uL3tw
+eXRob24zLXNwaGlueF84LjIuMS5iYiA9PiBweXRob24zLXNwaGlueF84LjMuMC5iYn0gfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXNwaGlueF84LjIuMS5iYiA9PiBw
+eXRob24zLXNwaGlueF84LjMuMC5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54XzguMi4xLmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXNwaGlueF84LjMuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkx
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54
+XzguMi4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+c3BoaW54XzguMy4wLmJiCmluZGV4IDYxNDU2NmI4ZjQuLjI1YmJjMWJmZjggMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGhpbnhfOC4yLjEuYmIKKysr
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNwaGlueF84LjMuMC5iYgpA
+QCAtNCw3ICs0LDcgQEAgU0VDVElPTiA9ICJkZXZlbC9weXRob24iCiBMSUNFTlNFID0gIkJTRC0y
+LUNsYXVzZSAmIE1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UucnN0O21k
+NT1lMzBjMzdhMmI3ZmIwYWZhM2FkYzBkNzJiODVlOGIwNCIKIAotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gImU0YjkzMjk1MWI5YzE4YjAzOWY3M2I3MmU0ZTYzYWZlOTY3ZDkwNDA4NzAwZWMyMjJiOTgx
+YWMyNDY0N2MwMWUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2JhZDQzMTRhN2ZhNzJjZTkyMzQ0
+ZWFhYTE0YzQyZGRmMzE3N2VlNmE3OWMyMjdlNGZmOGFlMDdkNDE2ZjU4NCIKIAogaW5oZXJpdCBw
+eXRob25fZmxpdF9jb3JlIHB5cGkKIAotLSAKMi40Ny4xCgo=
+
+--===============8717991662575946580==--
 
