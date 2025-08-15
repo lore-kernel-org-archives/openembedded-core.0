@@ -1,109 +1,63 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1BB4CA0EE9
-	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 16:45:26 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.16486.1755276319046036323
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1A5BCA0ED1
+	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 17:06:16 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.16875.1755277569968341369
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 09:45:19 -0700
+ Fri, 15 Aug 2025 10:06:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oA73ZBnD;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-32326e66dbaso1625188a91.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755276318; x=1755881118; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EgunYcJp8Ik1U7XoIgkfESNl0RRUJO/u/xE+MOOgRp4=;
-        b=oA73ZBnD0IwuGYDnO+cQU53G6GRtF1qvXSoMzH6H3mHCnwdjzn6Eff55zLUEAAEOBS
-         0hXQmKrZOlereE18ff/nXCw6w8ltq7wJBDIzFJ8YJAs85oYdzWdBjP/9GxYK29D+jQ3M
-         w+5w3cokM+zX8lc3aIaHCm0vDqPjpBUspXxHwGgEeNv7gsoAh+iQVh80ZYDNB7asoWQ1
-         eTJTYmeZK35HF38luKTAQ15kPBDfR+maFFJ+2XFZxuUMnt7X49uSA5MAJawREYx+COSb
-         02KnSNkYcBnj5xKJqNlEVl8pkfBgWOw6cZWrJ1eEEVS92u9ncNOiLmLL58OU5gd7r1CG
-         qkww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755276318; x=1755881118;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EgunYcJp8Ik1U7XoIgkfESNl0RRUJO/u/xE+MOOgRp4=;
-        b=QiC88Oa4NINhi+MPyo/aBvkMj9L4bLprqYJLgPb9BNNY3+bEhBM8S1LhipUUNNJ9lN
-         7kqXbRc9J5YXRoDHzaTslq8K0rcO4oeblx9H+AbsC5G8KjC2nEt/IXBDZgIQ9pwqvYbu
-         SgaOSm7lVxw/3mIekE8JPGL7Tk8TTY0vTJXIJ+zoS6Bunzrmmfj/jiBG/bzwciuMXetL
-         HgiseUIpk8Hv6mneJZpiNJNL3GMQrQxGb/bRABTge9qRymVkN0nvQyzPf8pN8WY+NV+K
-         Kv06TVVJKWZO3A7Bu/2mPINhMcqeF4KZ5rUthUon9XhuyeF5JMY6zG5NaUXAW+/ppyiD
-         oc1Q==
-X-Gm-Message-State: AOJu0YxI/0pYpH1AaZ/9rHB+yl/PAy+/RgPTjiuordtJ1n2kyccXI/Qz
-	2lTYEtugt/x462rw+peYccDFGYZT11K124P2NSZVhyDRSDUuxnxxMVRGWtEKo8h/QHY4JtqH209
-	jG0+B
-X-Gm-Gg: ASbGncuAngbWAlVSZ0W+4lZ85iS9gGAjxVRBTnJ7w9arA6JXKlD8LQIy+ScNstat2we
-	I3iK6oRhNk0HBje12t+47cnM1NqXDx4nP+F9DqD+atLKJvJKYo4LQqNPAPOPlYZClwSPbro2zen
-	+hwINE8PD44f8TWJD1Sw5qgn0nyrD4qrnlutcWn+mOR8RGJHapsUL28lTL9woeJcqtprxA9S4i1
-	beiwNpB3uRNw2q2xMarRC9zRX7kDAgLOiCOP4YnC4jdbkVRZEYQNPSD7BwwBNefTB9EalgNQqtb
-	FG08MWdQZqoqEz6eTGH9Il9nExaJ+Ff8IzdkioXCKcSyRQ3uaHpt6fR4s0b2jfz4ISyLzQLsQVm
-	2bGwdLv3pMGEv5v+2n9UW67UP
-X-Google-Smtp-Source: AGHT+IEJoQz1zKTrDpf+VQpcHGlQsjK0h++KmJuSH3m4WKKKuTdVftYruYHuCkYgOHN8gUUka9Qnvw==
-X-Received: by 2002:a17:90b:4c0c:b0:321:38a:229a with SMTP id 98e67ed59e1d1-32341e12681mr3703610a91.7.1755276318235;
-        Fri, 15 Aug 2025 09:45:18 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:3ec5:7840:3390:1caa])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343c9ab2asm1554476a91.30.2025.08.15.09.45.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Aug 2025 09:45:17 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=RuZVFbNh;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20250815170605802dd506b21db37aff-8ijrdg@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250815170605802dd506b21db37aff
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 15 Aug 2025 19:06:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=VjmZl63Xv5yDqJTpMWMmj1QIO6RKblG6uIOhvOBd410=;
+ b=RuZVFbNhErjhWeHIBaUBSgAOE38XVlfQWaaMWhWiT49Azl3x8mQd/wiAkklIfqGSe2oGZE
+ NF0RmaYuQXiS9pIMSQuV0S5O76KbZa0DuldpFXWfK5MJZO+CbYfVh7H2e0VZSIIUxCxAZ+au
+ 9sbJBAL3JSGDNHUjZuK3ltlGcIcjEW1UYMxrqfQmhMtEfT/Oy6ZMePAwZZ5v//XiIZRz8Pfp
+ 57jWjgXpj6WN3F4xvrFVI3iLdSQ3sNrDw9a4igO9ic7ZMgWIPqxRnf27wHOBywcPFpUwQG5a
+ r/zpgypvjmqryErdxZ4ysKwgZIQHDbMj2oWp4sbHnWrxJO2WAvsUhPwQ==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 9/9] go-helloworld: fix license
-Date: Fri, 15 Aug 2025 09:45:00 -0700
-Message-ID: <fa45d6d5bec8fe503ff6b9166a3b4af31ea95369.1755276097.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1755276097.git.steve@sakoman.com>
-References: <cover.1755276097.git.steve@sakoman.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] dpkg: set status for CVE-2025-6297
+Date: Fri, 15 Aug 2025 19:05:17 +0200
+Message-Id: <20250815170517.12674-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 16:45:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221989
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 17:06:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221990
 
-From: Quentin Schulz <quentin.schulz@cherry.de>
+From: Peter Marko <peter.marko@siemens.com>
 
-The example repo doesn't seem to have ever been under MIT to begin with
-but rather Apache-2.0. It was then changed to the license used by the
-goland projectm that is BSD-3-Clause, 2 years ago in commit 00c7068f9d83
-("all: update to Go license").
+NVD tracks this CVE as "Up to (excluding) 2025-06-30"
+(which is fix commit date, not dpkg version)
 
-The license file exists in the sources, so use that one instead of
-taking it from the OE-Core license directory.
-
-License-Update: Incorrect license is now proper
-
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/dpkg/dpkg_1.22.21.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-index 98cd4d8103..6f0214aa60 100644
---- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-+++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-@@ -2,8 +2,8 @@ SUMMARY = "This is a simple example recipe that cross-compiles a Go program."
- SECTION = "examples"
- HOMEPAGE = "https://golang.org/"
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb b/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb
+index d793c26d57..69b3c3d880 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.22.21.bb
+@@ -19,3 +19,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=1.22.
+ SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
  
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- 
- SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https"
- SRCREV = "d9923f6970e9ba7e0d23aa9448ead71ea57235ae"
--- 
-2.43.0
-
+ SRCREV = "d72b038fd2113cb62972e4071db03dd1388394d8"
++
++# NVD tracks this CVE as "Up to (excluding) 2025-06-30" (which is fix commit date, not dpkg version)
++CVE_STATUS[CVE-2025-6297] = "cpe-incorrect: this is fixed in 1.22.21"
 
