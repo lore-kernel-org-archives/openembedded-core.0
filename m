@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B7BCA0ED1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1BB4CA0EE9
 	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 16:45:26 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.16356.1755276317525880905
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web10.16486.1755276319046036323
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 09:45:17 -0700
+ Fri, 15 Aug 2025 09:45:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LPt/pPzz;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b47156b3b79so1654672a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:45:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oA73ZBnD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-32326e66dbaso1625188a91.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 09:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755276317; x=1755881117; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755276318; x=1755881118; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Wb+4SKsEfgCD8dp+c45eCD23qZi/uChr+4JlO0tg0Ok=;
-        b=LPt/pPzzZkBHRYl9KYUdsiq5JL5qjWCM9XjnF62zfsY3j14SDs0OrfpTselEvycmoU
-         f9L+BISYqEp94XTet1mns7Qf3PpGPDQK2WHHKeLCsJtgXsNz3qEUrvD4KrfKPMqWNuXB
-         GHvqUT9P0gNdtINnQHI2YdUJDpeMO/ICES/vrJ2S3U2ccBYFi5kZUXTk10hZGuj7flEn
-         M/BWIPcSoVr4qhLQLcYizBD4eov1oPXQIkC2SFWUkoGCS/eLQIADk85FEFTdea6W/7rs
-         GFHU95h5LDlhm47xYDhm8hub7OBybdJUySHXSVavK5FzbZ23U8kNYGcOyQ2Lzho3FjnG
-         pc3g==
+        bh=EgunYcJp8Ik1U7XoIgkfESNl0RRUJO/u/xE+MOOgRp4=;
+        b=oA73ZBnD0IwuGYDnO+cQU53G6GRtF1qvXSoMzH6H3mHCnwdjzn6Eff55zLUEAAEOBS
+         0hXQmKrZOlereE18ff/nXCw6w8ltq7wJBDIzFJ8YJAs85oYdzWdBjP/9GxYK29D+jQ3M
+         w+5w3cokM+zX8lc3aIaHCm0vDqPjpBUspXxHwGgEeNv7gsoAh+iQVh80ZYDNB7asoWQ1
+         eTJTYmeZK35HF38luKTAQ15kPBDfR+maFFJ+2XFZxuUMnt7X49uSA5MAJawREYx+COSb
+         02KnSNkYcBnj5xKJqNlEVl8pkfBgWOw6cZWrJ1eEEVS92u9ncNOiLmLL58OU5gd7r1CG
+         qkww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755276317; x=1755881117;
+        d=1e100.net; s=20230601; t=1755276318; x=1755881118;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Wb+4SKsEfgCD8dp+c45eCD23qZi/uChr+4JlO0tg0Ok=;
-        b=sHwe7JMOmswd1NBqBu7QSVB6v/dzCKL7U0MvxP/z2sV0oAu0IH8PA9MEPWGLWNMW0s
-         KNl+wgnAIvHuzInjK2D4nbuEOmHAImj/ZV7SWp3BSGNgs71pnIp+F8soe8iD8LnL7O0L
-         cqJviwpnlHqxqvqiP7kTUrbduDxmfZNNnlG44BdTxNzPzl/3gW3AGqOzSCIoE918cxhm
-         g1fZwJYDZadFamtlGxeVEQWpf/ahm70QErnWmaKu4DIqQrXG2dUpYL/5DyRW2bWzmE+V
-         H4QPfXB2w3M+FcVJKytl0hMDIJY7ow5Jlh6IkWvdsEDs4pUZmCbBLhU58z1C+wTOjbvv
-         Xb5w==
-X-Gm-Message-State: AOJu0YzlT0emAvD+x4wQQVxuzsf/wh8bzVbXlK3QOeypFKpSAX7b8AA3
-	jp6i5wPNf3j803amj/ep9/BnD7DRMRgGi1SeiJBfHV6wfPNO59xney40Qp9+25d1F4vdRbwuNeX
-	CFzFg
-X-Gm-Gg: ASbGnculrnF9WcaxoMTgVa4RL2CTZ8W9Ho+4YqP59IAdsybpYGqvmtp4w3duoNeW6BN
-	1hVl9BkFiBUluAYn1ucYh3f82zrpDeSORhX+vVuLRptmEqax/JAn9rash+jnl/JR5d7PGLQLgox
-	w4/nAMusHpsE6FLddpxEJUiJw0kavWSQY8d2XMbfeJMAV9zQGeMJL6eJpJW5MPyj37kUdirpNuG
-	XePw+lYNoi0f+46Dyqmk2FxIQDOP8lasAb4UCgGXLYzGRMwPF11izbdT3j0QqpQyFrJq1kGXrwv
-	JF8h2QX7Gc3mKb9TeHeBLe+SYn/4mltyuaNsbUkfH+XVRC9NQ5nmM/Itz9KGc8AXCZ+Z9u4yv24
-	LEAfH1F5jrZC2eMzM8xqj3btL
-X-Google-Smtp-Source: AGHT+IH+iKgcfuHfyz3+KesDITQk7DQwfOvpcJD4hZV9B8tvzh0jRmBOFpt+9YyeEDRba6zQRmao4w==
-X-Received: by 2002:a17:902:ea06:b0:237:f757:9ad8 with SMTP id d9443c01a7336-24459486714mr116128485ad.1.1755276316691;
-        Fri, 15 Aug 2025 09:45:16 -0700 (PDT)
+        bh=EgunYcJp8Ik1U7XoIgkfESNl0RRUJO/u/xE+MOOgRp4=;
+        b=QiC88Oa4NINhi+MPyo/aBvkMj9L4bLprqYJLgPb9BNNY3+bEhBM8S1LhipUUNNJ9lN
+         7kqXbRc9J5YXRoDHzaTslq8K0rcO4oeblx9H+AbsC5G8KjC2nEt/IXBDZgIQ9pwqvYbu
+         SgaOSm7lVxw/3mIekE8JPGL7Tk8TTY0vTJXIJ+zoS6Bunzrmmfj/jiBG/bzwciuMXetL
+         HgiseUIpk8Hv6mneJZpiNJNL3GMQrQxGb/bRABTge9qRymVkN0nvQyzPf8pN8WY+NV+K
+         Kv06TVVJKWZO3A7Bu/2mPINhMcqeF4KZ5rUthUon9XhuyeF5JMY6zG5NaUXAW+/ppyiD
+         oc1Q==
+X-Gm-Message-State: AOJu0YxI/0pYpH1AaZ/9rHB+yl/PAy+/RgPTjiuordtJ1n2kyccXI/Qz
+	2lTYEtugt/x462rw+peYccDFGYZT11K124P2NSZVhyDRSDUuxnxxMVRGWtEKo8h/QHY4JtqH209
+	jG0+B
+X-Gm-Gg: ASbGncuAngbWAlVSZ0W+4lZ85iS9gGAjxVRBTnJ7w9arA6JXKlD8LQIy+ScNstat2we
+	I3iK6oRhNk0HBje12t+47cnM1NqXDx4nP+F9DqD+atLKJvJKYo4LQqNPAPOPlYZClwSPbro2zen
+	+hwINE8PD44f8TWJD1Sw5qgn0nyrD4qrnlutcWn+mOR8RGJHapsUL28lTL9woeJcqtprxA9S4i1
+	beiwNpB3uRNw2q2xMarRC9zRX7kDAgLOiCOP4YnC4jdbkVRZEYQNPSD7BwwBNefTB9EalgNQqtb
+	FG08MWdQZqoqEz6eTGH9Il9nExaJ+Ff8IzdkioXCKcSyRQ3uaHpt6fR4s0b2jfz4ISyLzQLsQVm
+	2bGwdLv3pMGEv5v+2n9UW67UP
+X-Google-Smtp-Source: AGHT+IEJoQz1zKTrDpf+VQpcHGlQsjK0h++KmJuSH3m4WKKKuTdVftYruYHuCkYgOHN8gUUka9Qnvw==
+X-Received: by 2002:a17:90b:4c0c:b0:321:38a:229a with SMTP id 98e67ed59e1d1-32341e12681mr3703610a91.7.1755276318235;
+        Fri, 15 Aug 2025 09:45:18 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:3ec5:7840:3390:1caa])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343c9ab2asm1554476a91.30.2025.08.15.09.45.16
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32343c9ab2asm1554476a91.30.2025.08.15.09.45.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Aug 2025 09:45:16 -0700 (PDT)
+        Fri, 15 Aug 2025 09:45:17 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 8/9] cmake: Add PACKAGECONFIG option for debugger support
-Date: Fri, 15 Aug 2025 09:44:59 -0700
-Message-ID: <776846eb8aa2f5f8c1ec8842cdbaff6b6bcdfa65.1755276097.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 9/9] go-helloworld: fix license
+Date: Fri, 15 Aug 2025 09:45:00 -0700
+Message-ID: <fa45d6d5bec8fe503ff6b9166a3b4af31ea95369.1755276097.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1755276097.git.steve@sakoman.com>
 References: <cover.1755276097.git.steve@sakoman.com>
@@ -68,43 +68,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 16:45:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221988
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221989
 
-From: Nikhil R <nikhilr5@kpit.com>
+From: Quentin Schulz <quentin.schulz@cherry.de>
 
-Starting from CMake version 2.27 support for interactive debugging of CMake
-scripts and configurations was added. However, by default the `nativesdk-cmake`
-is compiled with debugger support turned off.
+The example repo doesn't seem to have ever been under MIT to begin with
+but rather Apache-2.0. It was then changed to the license used by the
+goland projectm that is BSD-3-Clause, 2 years ago in commit 00c7068f9d83
+("all: update to Go license").
 
-This change adds debugger support for cmake
+The license file exists in the sources, so use that one instead of
+taking it from the OE-Core license directory.
 
-(From OE-Core rev: 8acfca456c3502f0d097ba01a2d08f83fb75ab60)
+License-Update: Incorrect license is now proper
 
-Signed-off-by: Nikhil R <nikhilr5@kpit.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/cmake/cmake_3.28.3.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.28.3.bb b/meta/recipes-devtools/cmake/cmake_3.28.3.bb
-index 63d483801a..2d47b4c027 100644
---- a/meta/recipes-devtools/cmake/cmake_3.28.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake_3.28.3.bb
-@@ -44,9 +44,11 @@ EXTRA_OECMAKE=" \
-     -DKWSYS_CHAR_IS_SIGNED=1 \
-     -DBUILD_CursesDialog=0 \
-     -DKWSYS_LFS_WORKS=1 \
--    -DCMake_ENABLE_DEBUGGER=0 \
- "
+diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+index 98cd4d8103..6f0214aa60 100644
+--- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
++++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+@@ -2,8 +2,8 @@ SUMMARY = "This is a simple example recipe that cross-compiles a Go program."
+ SECTION = "examples"
+ HOMEPAGE = "https://golang.org/"
  
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[debugger] = "-DCMake_ENABLE_DEBUGGER=1,-DCMake_ENABLE_DEBUGGER=0,"
-+
- do_install:append:class-nativesdk() {
-     mkdir -p ${D}${datadir}/cmake
-     install -m 644 ${WORKDIR}/OEToolchainConfig.cmake ${D}${datadir}/cmake/
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+ 
+ SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https"
+ SRCREV = "d9923f6970e9ba7e0d23aa9448ead71ea57235ae"
 -- 
 2.43.0
 
