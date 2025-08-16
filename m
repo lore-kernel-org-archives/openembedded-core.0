@@ -1,677 +1,144 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02721CA0EE4
-	for <webhook@archiver.kernel.org>; Fri, 15 Aug 2025 20:28:47 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.21034.1755289719053100453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B89ECA0EE4
+	for <webhook@archiver.kernel.org>; Sat, 16 Aug 2025 07:18:21 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.29933.1755328692156354562
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Aug 2025 13:28:40 -0700
+ Sat, 16 Aug 2025 00:18:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=YkIqM5Ga;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20250815202834cb050de152b01adf77-qpze6v@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20250815202834cb050de152b01adf77
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 15 Aug 2025 22:28:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=GR1vqArMF/YWoN4xSQudM9MWS/bNKiRNZbVeIuXAivg=;
- b=YkIqM5GaX+PGi3hkM8XdLc/MPWy9/qsY1oyKoUm7Z8VIuRjesIJCzHjiYkhaZZuqaKcSJd
- B3ed/vKh5Jw48cwUUvoIXGJHGzrYEvDjQ//ctN/aOH8g+N5rFopPZ+EyrK/hUMKeRsSmXbpi
- WptTT1LN+n49Fp6jKfpHqrgXPUd1NMBcpirK8EyAIcjt8PkehHdrWLYFz1PoXMyF6RO9naA1
- d8nVdOlAkV70VG85HkToay3p+ZbR5dCTgPPaJj0sz0v7KHx2uKldTy8If0bl/T/stfJVqDxu
- TFf+90VVG+GOWtyuoncf3QSUoS0x6Vo5azCBSnoqHraILI+8m1NxhwJQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] dropbear: patch CVE-2025-47203
-Date: Fri, 15 Aug 2025 22:27:47 +0200
-Message-Id: <20250815202747.102439-1-peter.marko@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NfV7KIEr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45a1b0bd237so19315145e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 16 Aug 2025 00:18:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1755328690; x=1755933490; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=19hZcXIZR1Xj+SYp/jAidJfZp6K6bTmPz3LrMkNsU3U=;
+        b=NfV7KIEr8HG3i4REIlwf5A0EYsWA/LBc61RrtWuFDicf2SvDZ16euPrWOoCooJx2Dr
+         uhL6ZTtFXDw77onSO9b0XeGOhITxbVhgIk2j6F0prQamLBZbeERnqRlroD5OeFysihp3
+         YHBj21X+IwyYJvXcFCVU3AWJh3Y8DIhYST+E0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755328690; x=1755933490;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=19hZcXIZR1Xj+SYp/jAidJfZp6K6bTmPz3LrMkNsU3U=;
+        b=aDoM10mf/exBh3L+po7kmJkRK5En1RCMJItD+vfVyHacPPQwHOUxzW7VsnkYpSWKSw
+         n61tGBKqep3BH03brh0Ooi2UreVfpQSpmHhM13lWtmJ0lqY3Rcb+jc8Wnjd82qUc1NqO
+         ezKtrGcnPDGxLU1QUkF9OAk1Mbvl1SU3/x4Kauy7AAmY9qJfH64OlDtoTaPmxW+VIAQa
+         sCGMH6fJMFcfq4GeKXgp71J+xnowKzLcmxR4t+HgB+seqpb5wYQ54YviY0bqxLTUlQRD
+         l8z+XFSyHRfx8IJOhfixu5NMl+47eZoEHEva3rVgwqT3eBp/w8fwNQSWqeC945hPp6Pm
+         Q67A==
+X-Forwarded-Encrypted: i=1; AJvYcCXGzleewlcpnR3+xBu1gXrqXNusFbkExeksWZ6XHKrmciNGnwkWr/Ac1Yjx0sOw8++tdJZYtV9ZxLXDExJmSzgzMw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwFtxN0A9x20Ud5TvCNdnCi77f4FKtvigvwcBrRzuhbA50vAr4u
+	gF8SU5aZB7XuoMCXuJYH1kFSFiy7jZpI/hzqWWldjaG2YIoiCyma38XbNU3F4zDLs5Y=
+X-Gm-Gg: ASbGncupwVKf1GiuSfrtJQu5IjsypxfJvuiXIJdEHfmsEBJ33f2IQkIwJDBGK7xm1if
+	12JBIlPgtnI6UIPMDi2jt/yYt4xNx2qa1PVnzFoq9FydQXBiEA7c/6O/4oqhTi46HNH9iQInrfd
+	dgnRzeJfB7cI2pAxb0WrtfRDqixP20JKuMDmOq+UFBpzYTnjxMTatJMvTUbZuds/ULgsydeZvDf
+	TyEiSqvGhWnVfztFu1eeqqOhQaWL/94sMlQV56ppoboL/kgRj+YK+o2I2IFAYM97CEbvC5bCYbj
+	oB8lp7LBni+HRyj6nwprM7exRa7oNJi0gnUxP+Ab0a+GImd9gFB1EF6Nqkm/Edy5srT69iNmipS
+	cXA2mp4kGes/KBjwhj0+mJrcaEq4JU31274Wak9N0vxxwdjYd3FsxJKG6HwSrBHxT2l99juOnoi
+	51WEKi7ttK29dzpOtnyBoSCQ==
+X-Google-Smtp-Source: AGHT+IHkNOPcBPQqZSqrevzaWl+Y4FJVZ+m+cWP+ZIFfYXOdk0RStWwXF+q6IBd49bsTbnH9GLr2Nw==
+X-Received: by 2002:a05:600c:1c96:b0:459:dfa8:b881 with SMTP id 5b1f17b1804b1-45a217f1b0cmr30880335e9.7.1755328689944;
+        Sat, 16 Aug 2025 00:18:09 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e595:3934:6d31:4d26? ([2001:8b0:aba:5f3c:e595:3934:6d31:4d26])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a2232e21bsm45145505e9.27.2025.08.16.00.18.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Aug 2025 00:18:08 -0700 (PDT)
+Message-ID: <24dbb765a2f26ed125154af3993d4b56490165c3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] fragments/autobuilder: add go to
+ SDK_TOOLCHAIN_LANGS
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Sat, 16 Aug 2025 08:18:07 +0100
+In-Reply-To: <20250815102024.1664011-1-alex.kanavin@gmail.com>
+References: <20250815102024.1664011-1-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Aug 2025 20:28:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221993
+ <openembedded-core@lists.openembedded.org>; Sat, 16 Aug 2025 07:18:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221994
 
-From: Peter Marko <peter.marko@siemens.com>
+On Fri, 2025-08-15 at 12:20 +0200, Alexander Kanavin via lists.openembedded=
+.org wrote:
+> From: Alexander Kanavin <alex@linutronix.de>
+>=20
+> For reasons unknown, only rust was listed, which means
+> nativesdk-go was not built or tested, which lead to
+> breakage like one fixed in
+> https://git.yoctoproject.org/poky/commit/?id=3Da669cd2e0c760da9d7e872daea=
+9590fc9e86d766
+>=20
+> Note that with this change only building and installing go
+> into SDKsis tested, but no tests are performed with the
+> toolchain itself in testsdk/testimage.
+>=20
+> For that, a bug has been filed:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15953
+>=20
+> Remove go from x32 targets as it will not build for them.
+> (next to similar removals for rust)
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+> =C2=A0meta/classes-recipe/populate_sdk_base.bbclass=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 ++
+> =C2=A0meta/conf/fragments/yocto-autobuilder/autobuilder.conf | 2 +-
+> =C2=A02 files changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes=
+-recipe/populate_sdk_base.bbclass
+> index e6685cde97b..a87e3c49eb1 100644
+> --- a/meta/classes-recipe/populate_sdk_base.bbclass
+> +++ b/meta/classes-recipe/populate_sdk_base.bbclass
+> @@ -62,6 +62,8 @@ SDK_TOOLCHAIN_LANGS ??=3D ""
+> =C2=A0SDK_TOOLCHAIN_LANGS:remove:sdkmingw32 =3D "rust"
+> =C2=A0# libstd-rs doesn't build for mips n32 with compiler constraint err=
+ors
+> =C2=A0SDK_TOOLCHAIN_LANGS:remove:mipsarchn32 =3D "rust"
+> +# go will not build for x86-x32
+> +SDK_TOOLCHAIN_LANGS:remove:linux-gnux32 =3D "go"
+> =C2=A0
+> =C2=A0TOOLCHAIN_HOST_TASK ?=3D " \
+> =C2=A0=C2=A0=C2=A0=C2=A0 nativesdk-packagegroup-sdk-host \
+> diff --git a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf b/met=
+a/conf/fragments/yocto-autobuilder/autobuilder.conf
+> index e3bac343390..85987b08995 100644
+> --- a/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+> +++ b/meta/conf/fragments/yocto-autobuilder/autobuilder.conf
+> @@ -9,5 +9,5 @@ IMAGE_CLASSES +=3D 'testimage'
+> =C2=A0SDK_EXT_TYPE =3D 'minimal'
+> =C2=A0SDK_INCLUDE_TOOLCHAIN =3D '1'
+> =C2=A0ESDK_LOCALCONF_REMOVE:append =3D 'BB_HASHSERVE'
+> -SDK_TOOLCHAIN_LANGS +=3D 'rust'
+> +SDK_TOOLCHAIN_LANGS +=3D 'go rust'
 
-Based on Debian patch for this CVE, pick the same commits as mentioned
-in kirkstone for this CVE except those already included in 2022.83.
+Thanks for the x32 tweak. I worked through the failures in my builds
+(from multiple sources) and I think there are a couple more from this.
 
-https://salsa.debian.org/debian/dropbear/-/commit/7f48e75892c40cfc6336137d62581d2c4ca7d84c
+An easy fix for mingw:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/7/builds/2272
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- ...iable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch |  27 ++
- ...-length-paths-and-commands-in-multih.patch |  63 +++
- ...and-also-forward-this-when-multihop-.patch |  81 ++++
- ...add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch |  29 ++
- .../dropbear/dropbear/CVE-2025-47203.patch    | 367 ++++++++++++++++++
- .../recipes-core/dropbear/dropbear_2022.83.bb |   5 +
- 6 files changed, 572 insertions(+)
- create mode 100644 meta/recipes-core/dropbear/dropbear/0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/0001-Handle-arbitrary-length-paths-and-commands-in-multih.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/0001-add-o-BatchMode-and-also-forward-this-when-multihop-.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2025-47203.patch
+A hash instability this is indefiying once it is included in the SDK:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2303
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2154
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2082
 
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch b/meta/recipes-core/dropbear/dropbear/0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch
-new file mode 100644
-index 0000000000..fbe200151e
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch
-@@ -0,0 +1,27 @@
-+From d59436a4d56de58b856142a5d489a4a8fc7382ed Mon Sep 17 00:00:00 2001
-+From: Matt Johnston <matt@ucc.asn.au>
-+Date: Mon, 8 Apr 2024 22:01:21 +0800
-+Subject: [PATCH] Avoid unused variable with DROPBEAR_CLI_PUBKEY_AUTH 0
-+
-+Fixes PR #291
-+
-+Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/d59436a4d56de58b856142a5d489a4a8fc7382ed]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ cli-runopts.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/cli-runopts.c b/cli-runopts.c
-+index b853a13..6668aee 100644
-+--- a/cli-runopts.c
-++++ b/cli-runopts.c
-+@@ -533,7 +533,9 @@ static void loadidentityfile(const char* filename, int warnfail) {
-+ static char* multihop_passthrough_args(void) {
-+ 	char *args = NULL;
-+ 	unsigned int len, total;
-++#if DROPBEAR_CLI_PUBKEY_AUTH
-+ 	m_list_elem *iter;
-++#endif
-+ 	/* Sufficient space for non-string args */
-+ 	len = 100;
-+ 
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-Handle-arbitrary-length-paths-and-commands-in-multih.patch b/meta/recipes-core/dropbear/dropbear/0001-Handle-arbitrary-length-paths-and-commands-in-multih.patch
-new file mode 100644
-index 0000000000..062f215398
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/0001-Handle-arbitrary-length-paths-and-commands-in-multih.patch
-@@ -0,0 +1,63 @@
-+From 697b1f86c0b2b0caf12e9e32bab29161093ab5d4 Mon Sep 17 00:00:00 2001
-+From: Matt Johnston <matt@ucc.asn.au>
-+Date: Mon, 1 Apr 2024 11:50:26 +0800
-+Subject: [PATCH] Handle arbitrary length paths and commands in
-+ multihop_passthrough_args()
-+
-+Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/697b1f86c0b2b0caf12e9e32bab29161093ab5d4]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ cli-runopts.c | 30 +++++++++++++++++++++---------
-+ 1 file changed, 21 insertions(+), 9 deletions(-)
-+
-+diff --git a/cli-runopts.c b/cli-runopts.c
-+index 37ea61d..219fc53 100644
-+--- a/cli-runopts.c
-++++ b/cli-runopts.c
-+@@ -528,15 +528,29 @@ static void loadidentityfile(const char* filename, int warnfail) {
-+ 
-+ #if DROPBEAR_CLI_MULTIHOP
-+ 
-+-static char*
-+-multihop_passthrough_args() {
-+-	char *ret, args[256];
-++/* Fill out -i, -y, -W options that make sense for all
-++ * the intermediate processes */
-++static char* multihop_passthrough_args(void) {
-++	char *args = NULL;
-+ 	unsigned int len, total;
-+ 	m_list_elem *iter;
-+-	/* Fill out -i, -y, -W options that make sense for all
-+-         * the intermediate processes */
-++	/* Sufficient space for non-string args */
-++	len = 100;
-++
-++	/* String arguments have arbitrary length, so determine space required */
-++	if (cli_opts.proxycmd) {
-++		len += strlen(cli_opts.proxycmd);
-++	}
-++	for (iter = cli_opts.privkeys->first; iter; iter = iter->next)
-++	{
-++		sign_key * key = (sign_key*)iter->item;
-++		len += 4 + strlen(key->filename);
-++	}
-++
-++	args = m_malloc(len);
-+ 	total = 0;
-+-	len = 255;
-++
-++	/* Create new argument string */
-+ 
-+ 	if (cli_opts.quiet) {
-+ 		total += m_snprintf(args+total, len-total, "-q ");
-+@@ -564,9 +578,7 @@ multihop_passthrough_args() {
-+ 	}
-+ #endif /* DROPBEAR_CLI_PUBKEY_AUTH */
-+ 
-+-	ret = m_malloc(total + 1);
-+-	strcpy(ret,args);
-+-	return ret;
-++	return args;
-+ }
-+ 
-+ /* Sets up 'onion-forwarding' connections. This will spawn
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-add-o-BatchMode-and-also-forward-this-when-multihop-.patch b/meta/recipes-core/dropbear/dropbear/0001-add-o-BatchMode-and-also-forward-this-when-multihop-.patch
-new file mode 100644
-index 0000000000..c15da6e099
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/0001-add-o-BatchMode-and-also-forward-this-when-multihop-.patch
-@@ -0,0 +1,81 @@
-+From 2f1177e55f33afd676e08c9449ab7ab517fc3b30 Mon Sep 17 00:00:00 2001
-+From: HansH111 <hans@atbas.org>
-+Date: Sat, 24 Feb 2024 08:29:30 +0000
-+Subject: [PATCH] add -o BatchMode and also forward this when multihop
-+ destination is used
-+
-+Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/2f1177e55f33afd676e08c9449ab7ab517fc3b30]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ cli-runopts.c | 33 +++++++++++----------------------
-+ 1 file changed, 11 insertions(+), 22 deletions(-)
-+
-+diff --git a/cli-runopts.c b/cli-runopts.c
-+index 38a73f7..37ea61d 100644
-+--- a/cli-runopts.c
-++++ b/cli-runopts.c
-+@@ -530,53 +530,42 @@ static void loadidentityfile(const char* filename, int warnfail) {
-+ 
-+ static char*
-+ multihop_passthrough_args() {
-+-	char *ret;
-++	char *ret, args[256];
-+ 	unsigned int len, total;
-+ 	m_list_elem *iter;
-+ 	/* Fill out -i, -y, -W options that make sense for all
-+-	 * the intermediate processes */
-+-	len = 30; /* space for "-q -y -y -W <size>\0" */
-+-#if DROPBEAR_CLI_PUBKEY_AUTH
-+-	for (iter = cli_opts.privkeys->first; iter; iter = iter->next)
-+-	{
-+-		sign_key * key = (sign_key*)iter->item;
-+-		len += 3 + strlen(key->filename);
-+-	}
-+-#endif /* DROPBEAR_CLI_PUBKEY_AUTH */
-+-	if (cli_opts.proxycmd) {
-+-		/* "-J 'cmd'" */
-+-		len += 6 + strlen(cli_opts.proxycmd);
-+-	}
-+-
-+-	ret = m_malloc(len);
-++         * the intermediate processes */
-+ 	total = 0;
-++	len = 255;
-+ 
-+ 	if (cli_opts.quiet) {
-+-		total += m_snprintf(ret+total, len-total, "-q ");
-++		total += m_snprintf(args+total, len-total, "-q ");
-+ 	}
-+ 
-+ 	if (cli_opts.no_hostkey_check) {
-+-		total += m_snprintf(ret+total, len-total, "-y -y ");
-++		total += m_snprintf(args+total, len-total, "-y -y ");
-+ 	} else if (cli_opts.always_accept_key) {
-+-		total += m_snprintf(ret+total, len-total, "-y ");
-++		total += m_snprintf(args+total, len-total, "-y ");
-+ 	}
-+ 
-+ 	if (cli_opts.proxycmd) {
-+-		total += m_snprintf(ret+total, len-total, "-J '%s' ", cli_opts.proxycmd);
-++		total += m_snprintf(args+total, len-total, "-J '%s' ", cli_opts.proxycmd);
-+ 	}
-+ 
-+ 	if (opts.recv_window != DEFAULT_RECV_WINDOW) {
-+-		total += m_snprintf(ret+total, len-total, "-W %u ", opts.recv_window);
-++		total += m_snprintf(args+total, len-total, "-W %u ", opts.recv_window);
-+ 	}
-+ 
-+ #if DROPBEAR_CLI_PUBKEY_AUTH
-+ 	for (iter = cli_opts.privkeys->first; iter; iter = iter->next)
-+ 	{
-+ 		sign_key * key = (sign_key*)iter->item;
-+-		total += m_snprintf(ret+total, len-total, "-i %s ", key->filename);
-++		total += m_snprintf(args+total, len-total, "-i %s ", key->filename);
-+ 	}
-+ #endif /* DROPBEAR_CLI_PUBKEY_AUTH */
-+ 
-++	ret = m_malloc(total + 1);
-++	strcpy(ret,args);
-+ 	return ret;
-+ }
-+ 
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch b/meta/recipes-core/dropbear/dropbear/0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch
-new file mode 100644
-index 0000000000..da7de00389
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch
-@@ -0,0 +1,29 @@
-+From dd03da772bfad6174425066ff9752b60e25ed183 Mon Sep 17 00:00:00 2001
-+From: Sergey Ponomarev <stokito@gmail.com>
-+Date: Sun, 7 Apr 2024 21:16:50 +0300
-+Subject: [PATCH] cli-runopts.c add missing DROPBEAR_CLI_PUBKEY_AUTH
-+
-+Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/dd03da772bfad6174425066ff9752b60e25ed183]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ cli-runopts.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/cli-runopts.c b/cli-runopts.c
-+index 219fc53..b853a13 100644
-+--- a/cli-runopts.c
-++++ b/cli-runopts.c
-+@@ -541,11 +541,13 @@ static char* multihop_passthrough_args(void) {
-+ 	if (cli_opts.proxycmd) {
-+ 		len += strlen(cli_opts.proxycmd);
-+ 	}
-++#if DROPBEAR_CLI_PUBKEY_AUTH
-+ 	for (iter = cli_opts.privkeys->first; iter; iter = iter->next)
-+ 	{
-+ 		sign_key * key = (sign_key*)iter->item;
-+ 		len += 4 + strlen(key->filename);
-+ 	}
-++#endif
-+ 
-+ 	args = m_malloc(len);
-+ 	total = 0;
-diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2025-47203.patch b/meta/recipes-core/dropbear/dropbear/CVE-2025-47203.patch
-new file mode 100644
-index 0000000000..513fbafce0
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/CVE-2025-47203.patch
-@@ -0,0 +1,367 @@
-+From e5a0ef27c227f7ae69d9a9fec98a056494409b9b Mon Sep 17 00:00:00 2001
-+From: Matt Johnston <matt@ucc.asn.au>
-+Date: Mon, 5 May 2025 23:14:19 +0800
-+Subject: [PATCH] Execute multihop commands directly, no shell
-+
-+This avoids problems with shell escaping if arguments contain special
-+characters.
-+
-+CVE: CVE-2025-47203
-+Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/e5a0ef27c227f7ae69d9a9fec98a056494409b9b]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ cli-main.c    |  59 +++++++++++++++++++----------
-+ cli-runopts.c | 100 +++++++++++++++++++++++++++++---------------------
-+ dbutil.c      |   9 ++++-
-+ dbutil.h      |   1 +
-+ runopts.h     |   5 +++
-+ 5 files changed, 112 insertions(+), 62 deletions(-)
-+
-+diff --git a/cli-main.c b/cli-main.c
-+index 065fd76..2fafa88 100644
-+--- a/cli-main.c
-++++ b/cli-main.c
-+@@ -77,9 +77,8 @@ int main(int argc, char ** argv) {
-+ 	}
-+ 
-+ #if DROPBEAR_CLI_PROXYCMD
-+-	if (cli_opts.proxycmd) {
-++	if (cli_opts.proxycmd || cli_opts.proxyexec) {
-+ 		cli_proxy_cmd(&sock_in, &sock_out, &proxy_cmd_pid);
-+-		m_free(cli_opts.proxycmd);
-+ 		if (signal(SIGINT, kill_proxy_sighandler) == SIG_ERR ||
-+ 			signal(SIGTERM, kill_proxy_sighandler) == SIG_ERR ||
-+ 			signal(SIGHUP, kill_proxy_sighandler) == SIG_ERR) {
-+@@ -101,7 +100,8 @@ int main(int argc, char ** argv) {
-+ }
-+ #endif /* DBMULTI stuff */
-+ 
-+-static void exec_proxy_cmd(const void *user_data_cmd) {
-++#if DROPBEAR_CLI_PROXYCMD
-++static void shell_proxy_cmd(const void *user_data_cmd) {
-+ 	const char *cmd = user_data_cmd;
-+ 	char *usershell;
-+ 
-+@@ -110,41 +110,62 @@ static void exec_proxy_cmd(const void *user_data_cmd) {
-+ 	dropbear_exit("Failed to run '%s'\n", cmd);
-+ }
-+ 
-+-#if DROPBEAR_CLI_PROXYCMD
-++static void exec_proxy_cmd(const void *unused) {
-++	(void)unused;
-++	run_command(cli_opts.proxyexec[0], cli_opts.proxyexec, ses.maxfd);
-++	dropbear_exit("Failed to run '%s'\n", cli_opts.proxyexec[0]);
-++}
-++
-+ static void cli_proxy_cmd(int *sock_in, int *sock_out, pid_t *pid_out) {
-+-	char * ex_cmd = NULL;
-+-	size_t ex_cmdlen;
-++	char * cmd_arg = NULL;
-++	void (*exec_fn)(const void *user_data) = NULL;
-+ 	int ret;
-+ 
-++	/* exactly one of cli_opts.proxycmd or cli_opts.proxyexec should be set */
-++
-+ 	/* File descriptor "-j &3" */
-+-	if (*cli_opts.proxycmd == '&') {
-++	if (cli_opts.proxycmd && *cli_opts.proxycmd == '&') {
-+ 		char *p = cli_opts.proxycmd + 1;
-+ 		int sock = strtoul(p, &p, 10);
-+ 		/* must be a single number, and not stdin/stdout/stderr */
-+ 		if (sock > 2 && sock < 1024 && *p == '\0') {
-+ 			*sock_in = sock;
-+ 			*sock_out = sock;
-+-			return;
-++			goto cleanup;
-+ 		}
-+ 	}
-+ 
-+-	/* Normal proxycommand */
-++	if (cli_opts.proxycmd) {
-++		/* Normal proxycommand */
-++		size_t shell_cmdlen;
-++		/* So that spawn_command knows which shell to run */
-++		fill_passwd(cli_opts.own_user);
-+ 
-+-	/* So that spawn_command knows which shell to run */
-+-	fill_passwd(cli_opts.own_user);
-++		shell_cmdlen = strlen(cli_opts.proxycmd) + 6; /* "exec " + command + '\0' */
-++		cmd_arg = m_malloc(shell_cmdlen);
-++		snprintf(cmd_arg, shell_cmdlen, "exec %s", cli_opts.proxycmd);
-++		exec_fn = shell_proxy_cmd;
-++	} else {
-++		/* No shell */
-++		exec_fn = exec_proxy_cmd;
-++	}
-+ 
-+-	ex_cmdlen = strlen(cli_opts.proxycmd) + 6; /* "exec " + command + '\0' */
-+-	ex_cmd = m_malloc(ex_cmdlen);
-+-	snprintf(ex_cmd, ex_cmdlen, "exec %s", cli_opts.proxycmd);
-+-
-+-	ret = spawn_command(exec_proxy_cmd, ex_cmd,
-+-			sock_out, sock_in, NULL, pid_out);
-+-	DEBUG1(("cmd: %s  pid=%d", ex_cmd,*pid_out))
-+-	m_free(ex_cmd);
-++	ret = spawn_command(exec_fn, cmd_arg, sock_out, sock_in, NULL, pid_out);
-+ 	if (ret == DROPBEAR_FAILURE) {
-+ 		dropbear_exit("Failed running proxy command");
-+ 		*sock_in = *sock_out = -1;
-+ 	}
-++
-++cleanup:
-++	m_free(cli_opts.proxycmd);
-++	m_free(cmd_arg);
-++	if (cli_opts.proxyexec) {
-++		char **a = NULL;
-++		for (a = cli_opts.proxyexec; *a; a++) {
-++			m_free_direct(*a);
-++		}
-++		m_free(cli_opts.proxyexec);
-++	}
-+ }
-+ 
-+ static void kill_proxy_sighandler(int UNUSED(signo)) {
-+diff --git a/cli-runopts.c b/cli-runopts.c
-+index 6668aee..b9add84 100644
-+--- a/cli-runopts.c
-++++ b/cli-runopts.c
-+@@ -530,58 +530,81 @@ static void loadidentityfile(const char* filename, int warnfail) {
-+ 
-+ /* Fill out -i, -y, -W options that make sense for all
-+  * the intermediate processes */
-+-static char* multihop_passthrough_args(void) {
-+-	char *args = NULL;
-+-	unsigned int len, total;
-++static char** multihop_args(const char* argv0, const char* prior_hops) {
-++	/* null terminated array */
-++	char **args = NULL;
-++	size_t max_args = 14, pos = 0, len;
-+ #if DROPBEAR_CLI_PUBKEY_AUTH
-+ 	m_list_elem *iter;
-+ #endif
-+-	/* Sufficient space for non-string args */
-+-	len = 100;
-+ 
-+-	/* String arguments have arbitrary length, so determine space required */
-+-	if (cli_opts.proxycmd) {
-+-		len += strlen(cli_opts.proxycmd);
-+-	}
-+ #if DROPBEAR_CLI_PUBKEY_AUTH
-+ 	for (iter = cli_opts.privkeys->first; iter; iter = iter->next)
-+ 	{
-+-		sign_key * key = (sign_key*)iter->item;
-+-		len += 4 + strlen(key->filename);
-++		/* "-i file" for each */
-++		max_args += 2;
-+ 	}
-+ #endif
-+ 
-+-	args = m_malloc(len);
-+-	total = 0;
-++	args = m_malloc(sizeof(char*) * max_args);
-++	pos = 0;
-+ 
-+-	/* Create new argument string */
-++	args[pos] = m_strdup(argv0);
-++	pos++;
-+ 
-+ 	if (cli_opts.quiet) {
-+-		total += m_snprintf(args+total, len-total, "-q ");
-++		args[pos] = m_strdup("-q");
-++		pos++;
-+ 	}
-+ 
-+ 	if (cli_opts.no_hostkey_check) {
-+-		total += m_snprintf(args+total, len-total, "-y -y ");
-++		args[pos] = m_strdup("-y");
-++		pos++;
-++		args[pos] = m_strdup("-y");
-++		pos++;
-+ 	} else if (cli_opts.always_accept_key) {
-+-		total += m_snprintf(args+total, len-total, "-y ");
-++		args[pos] = m_strdup("-y");
-++		pos++;
-+ 	}
-+ 
-+ 	if (cli_opts.proxycmd) {
-+-		total += m_snprintf(args+total, len-total, "-J '%s' ", cli_opts.proxycmd);
-++		args[pos] = m_strdup("-J");
-++		pos++;
-++		args[pos] = m_strdup(cli_opts.proxycmd);
-++		pos++;
-+ 	}
-+ 
-+ 	if (opts.recv_window != DEFAULT_RECV_WINDOW) {
-+-		total += m_snprintf(args+total, len-total, "-W %u ", opts.recv_window);
-++		args[pos] = m_strdup("-W");
-++		pos++;
-++		args[pos] = m_malloc(11);
-++		m_snprintf(args[pos], 11, "%u", opts.recv_window);
-++		pos++;
-+ 	}
-+ 
-+ #if DROPBEAR_CLI_PUBKEY_AUTH
-+ 	for (iter = cli_opts.privkeys->first; iter; iter = iter->next)
-+ 	{
-+ 		sign_key * key = (sign_key*)iter->item;
-+-		total += m_snprintf(args+total, len-total, "-i %s ", key->filename);
-++		args[pos] = m_strdup("-i");
-++		pos++;
-++		args[pos] = m_strdup(key->filename);
-++		pos++;
-+ 	}
-+ #endif /* DROPBEAR_CLI_PUBKEY_AUTH */
-+ 
-++	/* last hop */
-++	args[pos] = m_strdup("-B");
-++	pos++;
-++	len = strlen(cli_opts.remotehost) + strlen(cli_opts.remoteport) + 2;
-++	args[pos] = m_malloc(len);
-++	snprintf(args[pos], len, "%s:%s", cli_opts.remotehost, cli_opts.remoteport);
-++	pos++;
-++
-++	/* hostnames of prior hops */
-++	args[pos] = m_strdup(prior_hops);
-++	pos++;
-++
-+ 	return args;
-+ }
-+ 
-+@@ -596,7 +619,7 @@ static char* multihop_passthrough_args(void) {
-+  * etc for as many hosts as we want.
-+  *
-+  * Note that "-J" arguments aren't actually used, instead
-+- * below sets cli_opts.proxycmd directly.
-++ * below sets cli_opts.proxyexec directly.
-+  *
-+  * Ports for hosts can be specified as host/port.
-+  */
-+@@ -604,7 +627,7 @@ static void parse_multihop_hostname(const char* orighostarg, const char* argv0)
-+ 	char *userhostarg = NULL;
-+ 	char *hostbuf = NULL;
-+ 	char *last_hop = NULL;
-+-	char *remainder = NULL;
-++	char *prior_hops = NULL;
-+ 
-+ 	/* both scp and rsync parse a user@host argument
-+ 	 * and turn it into "-l user host". This breaks
-+@@ -622,6 +645,8 @@ static void parse_multihop_hostname(const char* orighostarg, const char* argv0)
-+ 	}
-+ 	userhostarg = hostbuf;
-+ 
-++	/* Split off any last hostname and use that as remotehost/remoteport.
-++	 * That is used for authorized_keys checking etc */
-+ 	last_hop = strrchr(userhostarg, ',');
-+ 	if (last_hop) {
-+ 		if (last_hop == userhostarg) {
-+@@ -629,35 +654,28 @@ static void parse_multihop_hostname(const char* orighostarg, const char* argv0)
-+ 		}
-+ 		*last_hop = '\0';
-+ 		last_hop++;
-+-		remainder = userhostarg;
-++		prior_hops = userhostarg;
-+ 		userhostarg = last_hop;
-+ 	}
-+ 
-++	/* Update cli_opts.remotehost and cli_opts.remoteport */
-+ 	parse_hostname(userhostarg);
-+ 
-+-	if (last_hop) {
-+-		/* Set up the proxycmd */
-+-		unsigned int cmd_len = 0;
-+-		char *passthrough_args = multihop_passthrough_args();
-+-		if (cli_opts.remoteport == NULL) {
-+-			cli_opts.remoteport = "22";
-++	/* Construct any multihop proxy command. Use proxyexec to
-++	 * avoid worrying about shell escaping. */
-++	if (prior_hops) {
-++		cli_opts.proxyexec = multihop_args(argv0, prior_hops);
-++		/* Any -J argument has been copied to proxyexec */
-++		if (cli_opts.proxycmd) {
-++			m_free(cli_opts.proxycmd);
-+ 		}
-+-		cmd_len = strlen(argv0) + strlen(remainder)
-+-			+ strlen(cli_opts.remotehost) + strlen(cli_opts.remoteport)
-+-			+ strlen(passthrough_args)
-+-			+ 30;
-+-		/* replace proxycmd. old -J arguments have been copied
-+-		   to passthrough_args */
-+-		cli_opts.proxycmd = m_realloc(cli_opts.proxycmd, cmd_len);
-+-		m_snprintf(cli_opts.proxycmd, cmd_len, "%s -B %s:%s %s %s",
-+-				argv0, cli_opts.remotehost, cli_opts.remoteport,
-+-				passthrough_args, remainder);
-++
-+ #ifndef DISABLE_ZLIB
-+-		/* The stream will be incompressible since it's encrypted. */
-++		/* This outer stream will be incompressible since it's encrypted. */
-+ 		opts.compress_mode = DROPBEAR_COMPRESS_OFF;
-+ #endif
-+-		m_free(passthrough_args);
-+ 	}
-++
-+ 	m_free(hostbuf);
-+ }
-+ #endif /* !DROPBEAR_CLI_MULTIHOP */
-+diff --git a/dbutil.c b/dbutil.c
-+index bd66454..910fa27 100644
-+--- a/dbutil.c
-++++ b/dbutil.c
-+@@ -371,7 +371,6 @@ int spawn_command(void(*exec_fn)(const void *user_data), const void *exec_data,
-+ void run_shell_command(const char* cmd, unsigned int maxfd, char* usershell) {
-+ 	char * argv[4];
-+ 	char * baseshell = NULL;
-+-	unsigned int i;
-+ 
-+ 	baseshell = basename(usershell);
-+ 
-+@@ -393,6 +392,12 @@ void run_shell_command(const char* cmd, unsigned int maxfd, char* usershell) {
-+ 		argv[1] = NULL;
-+ 	}
-+ 
-++	run_command(usershell, argv, maxfd);
-++}
-++
-++void run_command(const char* argv0, char** args, unsigned int maxfd) {
-++	unsigned int i;
-++
-+ 	/* Re-enable SIGPIPE for the executed process */
-+ 	if (signal(SIGPIPE, SIG_DFL) == SIG_ERR) {
-+ 		dropbear_exit("signal() error");
-+@@ -404,7 +409,7 @@ void run_shell_command(const char* cmd, unsigned int maxfd, char* usershell) {
-+ 		m_close(i);
-+ 	}
-+ 
-+-	execv(usershell, argv);
-++	execv(argv0, args);
-+ }
-+ 
-+ #if DEBUG_TRACE
-+diff --git a/dbutil.h b/dbutil.h
-+index 64af170..bfc1f1f 100644
-+--- a/dbutil.h
-++++ b/dbutil.h
-+@@ -63,6 +63,7 @@ char * stripcontrol(const char * text);
-+ int spawn_command(void(*exec_fn)(const void *user_data), const void *exec_data,
-+ 		int *writefd, int *readfd, int *errfd, pid_t *pid);
-+ void run_shell_command(const char* cmd, unsigned int maxfd, char* usershell);
-++void run_command(const char* argv0, char** args, unsigned int maxfd);
-+ #if ENABLE_CONNECT_UNIX
-+ int connect_unix(const char* addr);
-+ #endif
-+diff --git a/runopts.h b/runopts.h
-+index 1675836..11c3ef2 100644
-+--- a/runopts.h
-++++ b/runopts.h
-+@@ -188,7 +188,12 @@ typedef struct cli_runopts {
-+ 	unsigned int netcat_port;
-+ #endif
-+ #if DROPBEAR_CLI_PROXYCMD
-++	/* A proxy command to run via the user's shell */
-+ 	char *proxycmd;
-++#endif
-++#if DROPBEAR_CLI_MULTIHOP
-++	/* Similar to proxycmd, but is arguments for execve(), not shell */
-++	char **proxyexec;
-+ #endif
-+ 	char *bind_address;
-+ 	char *bind_port;
-diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
-index 772e08eaed..2ed8d2c2a1 100644
---- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
-@@ -24,6 +24,11 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
-            file://CVE-2023-36328.patch \
-            file://CVE-2023-48795.patch \
-+           file://0001-add-o-BatchMode-and-also-forward-this-when-multihop-.patch \
-+           file://0001-Handle-arbitrary-length-paths-and-commands-in-multih.patch \
-+           file://0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch \
-+           file://0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch \
-+           file://CVE-2025-47203.patch \
-            "
- 
- SRC_URI[sha256sum] = "bc5a121ffbc94b5171ad5ebe01be42746d50aa797c9549a4639894a16749443b"
+Cheers,
+
+Richard
+
+
+
 
