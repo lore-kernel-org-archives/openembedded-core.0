@@ -1,84 +1,92 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E39D2CA0EE9
-	for <webhook@archiver.kernel.org>; Sat, 16 Aug 2025 15:44:03 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web11.36420.1755359036789295170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 495E6CA0EE6
+	for <webhook@archiver.kernel.org>; Sat, 16 Aug 2025 20:24:15 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web10.41275.1755375848818998283
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Aug 2025 08:43:57 -0700
+ Sat, 16 Aug 2025 13:24:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=S9OQ+WXc;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20250816154350d2eb6504facdb65230-r4omru@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20250816154350d2eb6504facdb65230
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 16 Aug 2025 17:43:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=dW2Eco/ooC+maHSvx+s/ZxrjM0iQ2y/h4ksusGFBnYc=;
- b=S9OQ+WXcD0nfRRlbjEdQ94+WsYgTvO6oa+TXDghqxyIsP4K85f5OQun/5Ju6lXaEhFR6O/
- Y3o5GR8IZLt+ULqV8jMHU0xRgtzCsMvQckFBZ1H8okBvdX0b7AeI244HpsN6t3tXfsDjl1lT
- zijt4g0Jue8l+cWMYwHU6ZheikXxC5ecyjU0JtrMEX8vXqP9q8MYvFhnQvXOmwd7cQHHXw3k
- Q7BF8yZG9l7yvBorQIwcaGAJ5ZU2lHj2EynCkHGK41LQawm5RETFBsz5GIItMSunlKkYnLGH
- gA87zrOni1tefj1XAkUHLdYayBu9ViA0y1oEbhFuc5qtIhGm3lssShoQ==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=G2nDJw3B;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 0A6A3240027
+	for <openembedded-core@lists.openembedded.org>; Sat, 16 Aug 2025 22:24:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.com; s=2017;
+	t=1755375847; bh=gI1BTCzHST6KhwsOoWQUi+ZBbL3kG+TfCVfJvlXFjC0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=G2nDJw3Bk14GtgfqJuLk6ke/tHUslYu6QehB1+J/q0anFOqlO+oGnzNpRZvbKKDRG
+	 UyNit50F3MFNocHwypg24Q2InHI6lhRX17+yEQ4dPxZfWMBng6AlOwicjPMYH/m2G1
+	 qEsJ+lsed40E66xAy1yImt+O5SUriG2KGwIgbsdaJ7GpwoPCnnCfFQCgQ5xT+3bGXN
+	 vjE5hAIYpNf+WHNAldg1T1vLeAwx+BTGrwxOamFgdx+wGhbSKNtEXdoYpLhpY9Mmgk
+	 a0YcCLIBTPy7u3HBSOZuCjLMxtZz2b7wzN/uXHPha3oGGEEuGNrcgd53BaBVhpwYC2
+	 M5+VahrPSs3nw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4c49Rp12KCz6tsg;
+	Sat, 16 Aug 2025 22:24:05 +0200 (CEST)
+From: simone.p.weiss@posteo.com
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] python3: upgrade 3.13.6 -> 3.13.7
-Date: Sat, 16 Aug 2025 17:43:03 +0200
-Message-Id: <20250816154303.309306-1-peter.marko@siemens.com>
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH] libadwaita: upgrade 1.7.5 -> 1.7.6
+Date: Sat, 16 Aug 2025 20:24:06 +0000
+Message-Id: <20250816202358.2700355-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Aug 2025 15:44:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221998
+ <openembedded-core@lists.openembedded.org>; Sat, 16 Aug 2025 20:24:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221999
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-Changelog: https://docs.python.org/3/whatsnew/changelog.html#python-3-13-7-final
+Changes:
+- AdwAlertDialog/AdwMessageDialog
+  - Emit ::response when cancelled after calling choose()
+- AdwDialog
+  - Fix widget activation in window-backed dialogs
+  - Fix set_focus() in window-backed dialogs
+- AdwLayoutSlot
+  - Error out if ID is not set
+- AdwNavigationView
+ - Defer swipe start to ::begin-swipe
+- AdwTabOverview
+  - Make button hitboxes larger
+- AdwWrapLayout
+  - Fix a memory leak
+- Various fixes
 
-Refresh patches via devtool.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 ---
- .../0001-test_locale.py-correct-the-test-output-format.patch    | 2 +-
- .../python/{python3_3.13.6.bb => python3_3.13.7.bb}             | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.13.6.bb => python3_3.13.7.bb} (99%)
+ .../libadwaita/{libadwaita_1.7.5.bb =3D> libadwaita_1.7.6.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/libadwaita/{libadwaita_1.7.5.bb =3D> libadwait=
+a_1.7.6.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-index f672ee7ad7..3fc3a7e8ce 100644
---- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-@@ -34,7 +34,7 @@ diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
- index da4bd79..fd9e67d 100644
- --- a/Lib/test/test_locale.py
- +++ b/Lib/test/test_locale.py
--@@ -576,7 +576,7 @@ class TestMiscellaneous(unittest.TestCase):
-+@@ -502,7 +502,7 @@ class TestRealLocales(unittest.TestCase):
-              self.skipTest('test needs Turkish locale')
-          loc = locale.getlocale(locale.LC_CTYPE)
-          if verbose:
-diff --git a/meta/recipes-devtools/python/python3_3.13.6.bb b/meta/recipes-devtools/python/python3_3.13.7.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.13.6.bb
-rename to meta/recipes-devtools/python/python3_3.13.7.bb
-index 184d71bdce..e9eb610949 100644
---- a/meta/recipes-devtools/python/python3_3.13.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.7.bb
-@@ -36,7 +36,7 @@ SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            "
- 
--SRC_URI[sha256sum] = "17ba5508819d8736a14fbfc47d36e184946a877851b2e9c4b6c43acb44a3b104"
-+SRC_URI[sha256sum] = "5462f9099dfd30e238def83c71d91897d8caa5ff6ebc7a50f14d4802cdaaa79a"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb b/meta/rec=
+ipes-gnome/libadwaita/libadwaita_1.7.6.bb
+similarity index 88%
+rename from meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb
+rename to meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb
+index e8a8d21f02..6e5eca38de 100644
+--- a/meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb
++++ b/meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb
+@@ -11,7 +11,7 @@ DEPENDS =3D " \
+=20
+ inherit gnomebase gobject-introspection gi-docgen vala features_check
+=20
+-SRC_URI[archive.sha256sum] =3D "c2c1813c967d45c0f49e907f8c26e66f68fe49de=
+c6436e2d3349350ac9efbd2e"
++SRC_URI[archive.sha256sum] =3D "5eacc5550f0bdbba6a1568aebf25a3d88f5ee07d=
+6b558becc6fd9487579c9a29"
+=20
+ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES =3D "opengl"
+--=20
+2.39.5
+
 
