@@ -1,131 +1,100 @@
-Return-Path: <philip@balister.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84119CA0EDC
-	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 17:06:31 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web11.56148.1755449781093488351
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 921D7CA0EE4
+	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 17:16:01 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.56887.1755450959234960500
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Aug 2025 09:56:21 -0700
+ Sun, 17 Aug 2025 10:15:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aPQg8trl;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: mroj4n@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-618b62dba1aso2511005a12.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 09:56:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755449779; x=1756054579; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+V75mzFSB+F3+RuWtFUWL9aD9UL5O+3KlyLFNIDeDs8=;
-        b=aPQg8trlsR5kdiRNeJAGaL5fObQbLSiTEuDUXVHsybV7IHr9xFo8Zc4MH2QFGj1wPz
-         XTj6XQkZMHdXqnftSUICXzLSbGrBjLE0SIbT83tdrGm/XBKYsWRxrNdzMcIik1uoXgIA
-         McN8R7sZYalPpkxwXjn75jRXB8o2Oe2bHqrzE5gwS3o2ujR2hmiPMnK6jmoZ4aIHbFzC
-         Ys/kOZmz9dMObP6ZLQ1RVjX7FuZnyCSdHUAGdlyyjgkVoSRZtsP5Av97lXIkV3/GPCex
-         tkCaOktRnIn7GnovHM7JJHrZbFq4URRpHFXpyc4VWCfyibnv4wWGAeXuJ5s9oI2v50ei
-         1G2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755449779; x=1756054579;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+V75mzFSB+F3+RuWtFUWL9aD9UL5O+3KlyLFNIDeDs8=;
-        b=E4OfDC7L8BIYPn9Iwv4kvlgAm0a9v4MMkulTjLByAH3R18wH95Vv9fYKdDPsENmBI7
-         R41/jcLOPZUeVjQmFfTIs3xlRlTQNAZa5w/s/pkDQRvNeSIbv4zVOpMpqXGrHdJk09zw
-         zA5/HfNNhy75XKWJHY/k/wC3C9sFE8S0WDFA4D0GxhPN2WYNZTdkeUA0S3IN/av5OhDq
-         qz6CJ6U/cEWbdmWgFaPYX5CvWYiT6KgCY8DGetMD52dzzMta7TsDJeIPJxgkQmo//KZD
-         9+teCSBNxDZq4J5f6oddyCJcq8OaEwQDYr6726U62B+Pr9KrrvqCLeDAeX6/YKycioFb
-         dTIg==
-X-Gm-Message-State: AOJu0YwvyCZI+PuWx7FmeIG7jnHKW3PJWqZ8r3SkE1QJ7z6E+d4eTtlU
-	uIfhcqMCwwzsT94D+c3Qe7LjVUHwhzgIwUoxIUMD1ZXKdhQhcIL9Ge0Z8BpKmjLy
-X-Gm-Gg: ASbGncsQk0rX1/3wKzleOjzkwhxokMzyL7E2zknitwpIiXJBtg2EL/Ex58ZbKDfPfKy
-	20TjcU01TxBRui7Sr1ghdkG6Ms49/plc5/BKLLrjkuAk4eeelM99JA6b7eapvGgSVVR74i3ymag
-	HquIxA2wKt1q78GiEZrW6gliQKhFUpegqDsmM6fJCDHiqMdaQq0Cuw/W+QD4AXcICcKvm7xQMIW
-	G13Dk3URMYOrQScRQlHXrQXY5qQX3fX5GvmgNO4IfN6bOxbto6YV7XvogvLJ2zzB4gqVD8bp4CU
-	tq4OX5DgASsYTYZYGGeWecpRN3Tl3Itw/LVuYYrvBrfFj5WLhEowZdaUCfMTfN3Q6fb+9lJK4kP
-	qkERFrlh7LdR9sDw6+CeV1gxh02LePmmWrADs32CXlXBizhlTTtgG1g==
-X-Google-Smtp-Source: AGHT+IHLpwaYRxdDlEI5+uX6dRSwa4jEKZ5IynOpN+2EUIoC432ZjUzH0P6b+E7VlYOiOdlLkMPXdA==
-X-Received: by 2002:a17:907:9414:b0:ad5:777d:83d8 with SMTP id a640c23a62f3a-afcdc3793b7mr831717566b.29.1755449354126;
-        Sun, 17 Aug 2025 09:49:14 -0700 (PDT)
-Received: from MROJ4N.localdomain (89-64-15-146.dynamic.play.pl. [89.64.15.146])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdcfce50dsm634530866b.71.2025.08.17.09.49.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 09:49:13 -0700 (PDT)
-From: Mohammed <mroj4n@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mohammed <mroj4n@gmail.com>
-Subject: [PATCH] wic: add attribute parameter to parted
-Date: Sun, 17 Aug 2025 18:49:08 +0200
-Message-ID: <20250817164908.88234-1-mroj4n@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=yz8YuhvB;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DAbPnBW2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010198b907e244-216aa48a-eccb-4980-b81a-e1b85d1fabbc-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1755450958; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=FIYLFsZXyvqGBo51w51bdNKx318HfC8TPRyrvo+Q+Ws=;
+	b=yz8YuhvBzrrRvHpQRdVQeMK8O3AcU7q5IRDp5cSyZUfYCLiZRBvT6Qt5SFYYdqt5
+	rhzE6QeQBJKwtdl/octKpoJ4g0pKHvYdO14u9t/OMnxk+EavbCbJOo2yLyc7SjxFJbY
+	UQs6fJpEywHHLr4RAwEX2nsZhOfWGlwLfYurlVS4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755450958;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=FIYLFsZXyvqGBo51w51bdNKx318HfC8TPRyrvo+Q+Ws=;
+	b=DAbPnBW2TuTiWyjCIOWUvvstfC76YINXbuQP/Sfzp3d83iRfbEF3sSb/sr/lwnyc
+	ibEbvg/X+R3SMzAZvzDKIpWSLEmZOsdGl7WWuvwuNyE124OwO0cSDk/gS2BomdyDnca
+	8DnLWs5g3sV2KCWRG/WQQwOU1w0ME7bjcGJ/GkWY=
+From: patchtest@automation.yoctoproject.org
+To: Mohammed <mroj4n@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] wic: add attribute parameter to parted
+In-Reply-To: <20250817164908.88234-1-mroj4n@gmail.com>
+References: <20250817164908.88234-1-mroj4n@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010198b907e244-216aa48a-eccb-4980-b81a-e1b85d1fabbc-000000@us-west-2.amazonses.com>
+Date: Sun, 17 Aug 2025 17:15:58 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.08.17-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 17:06:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222005
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 17:16:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222006
 
-Signed-off-by: Mohammed <mroj4n@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- scripts/lib/wic/help.py                  | 3 +++
- scripts/lib/wic/ksparser.py              | 1 +
- scripts/lib/wic/partition.py             | 1 +
- scripts/lib/wic/plugins/imager/direct.py | 5 +++++
- 4 files changed, 10 insertions(+)
+Testing patch /home/patchtest/share/mboxes/wic-add-attribute-parameter-to-parted.patch
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 2e3061f343..fef856dbbb 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -1070,6 +1070,9 @@ DESCRIPTION
-                 an MBR header. Partitions with this flag will be included in
-                 this MBR header.
- 
-+        --attribute: This option is specific to wic. This option is used to set
-+                      the partition attribute.
-+
-     * bootloader
- 
-       This command allows the user to specify various bootloader
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 7ef3dc83dd..af4fb91d58 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -189,6 +189,7 @@ class KickStart():
-         part.add_argument('--fsuuid')
-         part.add_argument('--no-fstab-update', action='store_true')
-         part.add_argument('--mbr', action='store_true')
-+        part.add_argument('--attribute')
- 
-         bootloader = subparsers.add_parser('bootloader')
-         bootloader.add_argument('--append')
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index b34691d313..cf5c51f105 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -61,6 +61,7 @@ class Partition():
-         self.update_fstab_in_rootfs = False
-         self.hidden = args.hidden
-         self.mbr = args.mbr
-+        self.attribute = args.attribute
- 
-         self.lineno = lineno
-         self.source_file = ""
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 6e1f1c8cba..877a5d2a97 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -664,6 +664,11 @@ class PartitionedImage():
-                 exec_native_cmd("sfdisk --sector-size %s --part-attrs %s %s RequiredPartition" % \
-                                 (self.sector_size, self.path, part.num),
-                                 self.native_sysroot)
-+            
-+            if part.attribute:
-+                logger.debug("Set attribute:'%s' for partition '%s' on disk '%s'", part.attribute ,part.num, self.path)
-+                exec_native_cmd("sgdisk -A %s:=:%s %s" % (part.num, part.attribute, self.path), \
-+                self.native_sysroot)
- 
-         if self.ptable_format == "gpt-hybrid":
-             # Write a protective GPT partition
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
