@@ -1,92 +1,107 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 495E6CA0EE6
-	for <webhook@archiver.kernel.org>; Sat, 16 Aug 2025 20:24:15 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web10.41275.1755375848818998283
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D99ECA0EDC
+	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 05:53:38 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.48225.1755410016138266285
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Aug 2025 13:24:09 -0700
+ Sat, 16 Aug 2025 22:53:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=G2nDJw3B;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 0A6A3240027
-	for <openembedded-core@lists.openembedded.org>; Sat, 16 Aug 2025 22:24:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.com; s=2017;
-	t=1755375847; bh=gI1BTCzHST6KhwsOoWQUi+ZBbL3kG+TfCVfJvlXFjC0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=G2nDJw3Bk14GtgfqJuLk6ke/tHUslYu6QehB1+J/q0anFOqlO+oGnzNpRZvbKKDRG
-	 UyNit50F3MFNocHwypg24Q2InHI6lhRX17+yEQ4dPxZfWMBng6AlOwicjPMYH/m2G1
-	 qEsJ+lsed40E66xAy1yImt+O5SUriG2KGwIgbsdaJ7GpwoPCnnCfFQCgQ5xT+3bGXN
-	 vjE5hAIYpNf+WHNAldg1T1vLeAwx+BTGrwxOamFgdx+wGhbSKNtEXdoYpLhpY9Mmgk
-	 a0YcCLIBTPy7u3HBSOZuCjLMxtZz2b7wzN/uXHPha3oGGEEuGNrcgd53BaBVhpwYC2
-	 M5+VahrPSs3nw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4c49Rp12KCz6tsg;
-	Sat, 16 Aug 2025 22:24:05 +0200 (CEST)
-From: simone.p.weiss@posteo.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IKfdpBZu;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76e2e5c0d4fso2384944b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 16 Aug 2025 22:53:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755410015; x=1756014815; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fjteT9FLYkdQ6z5RVYHECT9H/G/0IPqhHJRa4E98p94=;
+        b=IKfdpBZuIY4p8kgo1g9WGazm1c1DTw26Ys+64yK6tWn8JxGMOLLwmXDG+NCnlf/25G
+         3nw+Vn426bSxZLYw6lC7E2U7iMHtZzFAGVT9COjE6o2vdEuO6S7Z6TCsxt/apYcc6iR/
+         vTw4extf+1chF19/J8wqyKtxklYx/thndkdFWznt2GZPv90dcGKsRnIK7oJ8WHfMZUMm
+         J5wmUskNtKnZwvGZmTHnixw3IGcA/ynq3wBNpzZWMvlPx36pcSGwsuT15F2ZmWgCsYst
+         rnqyRozg+GhTSrLzLkUKzymG1XMUsHHNbXrXk/Y5xmNQEIZprWIIdpHUyDdWrAvbc0Vf
+         AYbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755410015; x=1756014815;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fjteT9FLYkdQ6z5RVYHECT9H/G/0IPqhHJRa4E98p94=;
+        b=eX5nZSUpjQ3ItbhqgDyZ+0ulRI4TLvaRbLP72DP6WeqoNYzlOE/ItkSLSsXTvgSDwl
+         bgChPlWsa2nNgbU6pfqpSeVhtYi9tkbrky/O8Lmw79ZcQCgXXMSjfTziUPoTDVL/oLON
+         ie1nN20EstzNK5vN5l0gr9fWScAwoV+SjQI8prhFqM69N51RBhlIli7SvkeuqOZ5oRpA
+         +/uFBEtZ0cS88tc07wQDdR77OdB1H1po5/Xn8PX84J0jiQle0tGO+2b10ezjmuwUGdey
+         oEv9JwWn+4B0jZM99v8tZYjFj/eHvWbeY6eUVb8cOnDJBMlK28zDOW3Evir1moQOwdc3
+         6EOw==
+X-Gm-Message-State: AOJu0YzstkfIu/ci+1mcNTBwyT2KILOpDCR/9u/aS6bN1u99FSdBzhvh
+	Mqb62O8oAxfmPwMpoaR8l1OI0tn+MOWu5IlF9KJY//RvjXn3S93N8hq0dDwPCPSv
+X-Gm-Gg: ASbGncsdTySvQaf7lwU/fJdoxB7ah2V4ogtcVVJ/7CpYSYrxegdV6HSiLTHiBYHF6zG
+	pnPimq0OOOFDughzasByyjj60+tobo3SqI8LTJgJGbNps4wHO9phK7m5LTqg1D33dp44dBn26mV
+	VDPErdaFpglcX/DbjCNAwybRIEUcewnWIIZiqG0R5K35gbG5zBHkmdDyKjmWn1RavZhs/T69tHH
+	k9gqY716kBNBpcma2BfMW0snxAHVuaSnYPJr27vRPb7N8an7sBCTTTcAurLjiJA1lkAHyK8/lpX
+	Ypg+l2tlneEvTt4ipxhYMbqHGqaUSQl6S1QLpeeeEM4vgh3SadFW9/YTaHxN9r47vkcjp+QH2y+
+	u51hty078ftBC7YDblBc7LA==
+X-Google-Smtp-Source: AGHT+IEp16Wxb0uRo6u4MdC5Gd+2BkkCGwmtksmeQ3bWYCllW2ScXdeJjBEMvRZQvTNIit4cMn60tA==
+X-Received: by 2002:a17:902:e88d:b0:240:5bde:532d with SMTP id d9443c01a7336-24478f9da45mr89456095ad.38.1755410014797;
+        Sat, 16 Aug 2025 22:53:34 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::d38b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d53ee6bsm47845715ad.119.2025.08.16.22.53.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Aug 2025 22:53:34 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
-Subject: [PATCH] libadwaita: upgrade 1.7.5 -> 1.7.6
-Date: Sat, 16 Aug 2025 20:24:06 +0000
-Message-Id: <20250816202358.2700355-1-simone.p.weiss@posteo.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] perl: Disable builtin memcpy & string inlines with gcc/x86-64-v3
+Date: Sat, 16 Aug 2025 22:53:31 -0700
+Message-ID: <20250817055331.3475136-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Aug 2025 20:24:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/221999
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 05:53:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222000
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+PERL built with GCC 15 and -march=x86-64-v3 fails several
+op/pack.t cases due to aggressive lowering of __builtin_memcpy
+and inlined/fortified string ops. In pp_pack, some in-place copies
+can overlap, treating memcpy as non-overlapping yields corrupted
+bytes (zeros or wrong prefixes).
 
-Changes:
-- AdwAlertDialog/AdwMessageDialog
-  - Emit ::response when cancelled after calling choose()
-- AdwDialog
-  - Fix widget activation in window-backed dialogs
-  - Fix set_focus() in window-backed dialogs
-- AdwLayoutSlot
-  - Error out if ID is not set
-- AdwNavigationView
- - Defer swipe start to ::begin-swipe
-- AdwTabOverview
-  - Make button hitboxes larger
-- AdwWrapLayout
-  - Fix a memory leak
-- Various fixes
+The issue does not reproduce with -march=core2.
 
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+When using x86-64-v3 memcpy gets emitted very aggressively
+(vectorized / reordered) and assumes no overlap.
+
+The flags force calls through libc (overlap-safe behavior),
+restoring deterministic pack/unpack and fixing the test failures.
+
+Inline functions could be faster in execution but correctness is
+more important
+
+Fixes [YOCTO #15950]
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libadwaita/{libadwaita_1.7.5.bb =3D> libadwaita_1.7.6.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.7.5.bb =3D> libadwait=
-a_1.7.6.bb} (88%)
+ meta/recipes-devtools/perl/perl_5.40.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb b/meta/rec=
-ipes-gnome/libadwaita/libadwaita_1.7.6.bb
-similarity index 88%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb
-index e8a8d21f02..6e5eca38de 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.7.5.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb
-@@ -11,7 +11,7 @@ DEPENDS =3D " \
-=20
- inherit gnomebase gobject-introspection gi-docgen vala features_check
-=20
--SRC_URI[archive.sha256sum] =3D "c2c1813c967d45c0f49e907f8c26e66f68fe49de=
-c6436e2d3349350ac9efbd2e"
-+SRC_URI[archive.sha256sum] =3D "5eacc5550f0bdbba6a1568aebf25a3d88f5ee07d=
-6b558becc6fd9487579c9a29"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES =3D "opengl"
---=20
-2.39.5
-
+diff --git a/meta/recipes-devtools/perl/perl_5.40.2.bb b/meta/recipes-devtools/perl/perl_5.40.2.bb
+index 1df1467d424..a78d2ed0be9 100644
+--- a/meta/recipes-devtools/perl/perl_5.40.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.40.2.bb
+@@ -54,6 +54,9 @@ CFLAGS += "-D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+ # https://github.com/llvm/llvm-project/issues/152241
+ CFLAGS:append:toolchain-clang = " -fno-strict-aliasing"
+ 
++# Needed with -march=x86-64-v3
++CFLAGS:append:toolchain-gcc:class-target:x86-64 = " -fno-builtin-memcpy -D__NO_STRING_INLINES -U_FORTIFY_SOURCE"
++
+ do_configure:prepend() {
+     rm -rf ${B}
+     cp -rfp ${S} ${B}
 
