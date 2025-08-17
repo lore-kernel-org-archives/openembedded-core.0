@@ -1,100 +1,103 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20728CA0EE9
-	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 21:04:03 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.60833.1755464635449953119
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6B82CA0EE9
+	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 22:58:33 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.62769.1755471506507825985
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Aug 2025 14:03:55 -0700
+ Sun, 17 Aug 2025 15:58:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jtmWZKGQ;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YG+mA4p2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010198b9d88f49-ee7e905f-befd-408c-bca7-deb04f78ec0d-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755464634; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=mkxEj3sK1sS19tfXTlUBoqa8EQkcKfXzczluGZde0XY=;
-	b=jtmWZKGQefXN2PD9hktDYkaxf9UWRFRyk6LJlt/wkaZ+34u0i/TK5RT/kiV7yrVJ
-	jjjZRkPgWNPDZ2Z78XZzwsJvmxw70AcKs/cAWcjoQIbWZAevOsVQtyKjmzl21N00mPg
-	9mG+4LhOfLeL7++V2kbQBS3wXyc4mIH0NL/YbIrk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755464634;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=mkxEj3sK1sS19tfXTlUBoqa8EQkcKfXzczluGZde0XY=;
-	b=YG+mA4p22EF2aWIS3TeakTpWFIXycMQyeQIQ6HMnPzn0mEetBpOlngxtsDdq1v8W
-	Ghw3Wz0x6h7cxkEcZDnwPd/IndnbMb1Cmmc4toeiI8grAaOhmCJZzQioSCE7JIuXmnh
-	vmdNX1BbCpJ9oBYfUeIVFpgv+0sfXLzHuLVgTOPA=
-From: patchtest@automation.yoctoproject.org
-To: martin.jansa@gmail.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [scarthgap][PATCH 3/3] cairo: fix build with gcc-15 on host
-In-Reply-To: <20250817205033.3845672-3-martin.jansa@gmail.com>
-References: <20250817205033.3845672-3-martin.jansa@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198b9d88f49-ee7e905f-befd-408c-bca7-deb04f78ec0d-000000@us-west-2.amazonses.com>
-Date: Sun, 17 Aug 2025 21:03:54 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.17-54.240.27.31
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CQPqCU/0;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3bb2fb3a48aso1180054f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 15:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755471505; x=1756076305; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oCcg3IVObnHZeF9oqbJQkhNuPDy+Y7X+ckWzFkLtfJM=;
+        b=CQPqCU/0aqsTcmFxmJWSwY1jvbBO5u9rZajjPo49annAClUSb29kFrAOW8KUDB4S5s
+         +XiACOGkzUmIUCuGKzYPtYWdIutJWRXa/nlAeiXDiLTyw1dFkLbhpP4ugsR8ZNtVL3Bd
+         L5zQXP+UGu4yC2YuxSSRqYRxtn2dZ/NosADcSpKWTi0qh9OndxClX19AlhJ96tFy1TPw
+         CYWvO3qkB6tZXhbrE398Ysod0gxecLfnk1sH/o8LbGU6htLLYuPrZeSt8uNSv/Anc6Am
+         fsQDZ9Hbw2msnAdbo8sCXZYYmAxd4ULVNsslSNYz5TTGElLRINgSfkIVzJhlLZ2gSCwu
+         BYDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755471505; x=1756076305;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oCcg3IVObnHZeF9oqbJQkhNuPDy+Y7X+ckWzFkLtfJM=;
+        b=JPmbyTWdFWbRxTGr7D5bwwcA3NkFisWYJAO0g6ikAtqIqeN34kF6+zPqJqDkZYoJqh
+         Ui+IxVTSlTfTbzk29BT2ntAt7U+eH7Ut4GODk5+Fnvsj1wGargkUxuD1u95crxHROBB9
+         MZKFuhea2LXPkPr3bPbFFOWnfW1cO5Kj7274zUXpK2Ijiqn1eVftD/YC+JSgRz/FqU4o
+         5rsQ9qbKYaP6ItpmdHP6zlmf+80WaPy/ykk1GO2zaYlw1LO7xryIP2C1XBrTJv9xEYkj
+         VhiXUK7ypfxM+BGEeUU58IE0IEaWSCK8F1nuZ0TXLVpLeicHCdwF6x15C3MxvlhndjDh
+         wAQA==
+X-Gm-Message-State: AOJu0YzVq59V2ROaJJv8gD3jooBKHbroz4+6Pr0V8PH7TaLrvTb2i2US
+	7EBTSMdG1357QLPy5xKu+sSPD0tEmOVqARRcVf98Ej0pyHXgWm3thTcrjq89Dw==
+X-Gm-Gg: ASbGncsYbgW1bASLd8CoDJRrYC04Oyrr1XSkRa/Fc1GGb+iPnATVG7owgdjtfZ4qWjw
+	sCCbV53BfSy04gi8BhhtWoREd4YcgeLpHfQDzm96dNtQfrZK9MrT46buJcENsrn0V9va8L6i+By
+	Yf4ca/T6NpmcRsMImjTjNXX4D5vpXOn8gx0pzgxq8EN9zJGmjdpRuLoJfMxPqjuuFETapnyfEqB
+	KNVKxWcajjtflun5zxEioS7yX8tN8Secj2l3kRkfAV90Ol+fFpq6PvhcATqPzT+dt4iakX2ifCT
+	2urVxV94MCkF38qChyTXNpPfLw4/LadstdKdYtSWsA0HB0ukTondK9Kce4UF78iw2uLpLNsnY8y
+	YB9YAsNvAB0Nr7APvc88jSKE3pw==
+X-Google-Smtp-Source: AGHT+IGcSIQMRZytxh6vfXM6ypYvYxTnQ342HYYy62hDEsN9hklV9e4pze0viwCiY5YMnUu4qdLxqQ==
+X-Received: by 2002:a05:6000:2406:b0:3b8:d893:524c with SMTP id ffacd0b85a97d-3bb6969a919mr6434066f8f.53.1755471504545;
+        Sun, 17 Aug 2025 15:58:24 -0700 (PDT)
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb655e3773sm10647762f8f.30.2025.08.17.15.58.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Aug 2025 15:58:24 -0700 (PDT)
+From: martin.jansa@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Martin Jansa <martin.jansa@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [scarthgap][PATCH 2/2] bash: use -std=gnu17 also for native CFLAGS
+Date: Mon, 18 Aug 2025 00:58:16 +0200
+Message-ID: <20250817225816.2089232-2-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250817225816.2089232-1-martin.jansa@gmail.com>
+References: <20250817225816.2089232-1-martin.jansa@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 21:04:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222027
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 22:58:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222029
 
---NextPart
-Content-Type: text/plain
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+* fixes builds on host with gcc-15:
+  http://errors.yoctoproject.org/Errors/Details/853016/
 
+../../bash-5.2.37/builtins/mkbuiltins.c:268:29: error: too many arguments to function ‘xmalloc’; expected 0, have 1
+  268 |           error_directory = xmalloc (2 + strlen (argv[arg_index]));
+      |                             ^~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Testing patch /home/patchtest/share/mboxes/scarthgap-3-3-cairo-fix-build-with-gcc-15-on-host.patch
+ meta/recipes-extended/bash/bash_5.2.21.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-Require-C11.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-extended/bash/bash_5.2.21.bb b/meta/recipes-extended/bash/bash_5.2.21.bb
+index 42ab02c440..7652e7d87a 100644
+--- a/meta/recipes-extended/bash/bash_5.2.21.bb
++++ b/meta/recipes-extended/bash/bash_5.2.21.bb
+@@ -23,5 +23,8 @@ DEBUG_OPTIMIZATION:append:armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb
+ DEBUG_OPTIMIZATION:append:armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+ 
+ CFLAGS += "-std=gnu17"
++# mkbuiltins.c is built with native toolchain and needs gnu17 as well:
++# http://errors.yoctoproject.org/Errors/Details/853016/
++BUILD_CFLAGS += "-std=gnu17"
+ 
+ BBCLASSEXTEND = "nativesdk"
 
