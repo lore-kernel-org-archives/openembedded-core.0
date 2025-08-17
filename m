@@ -1,100 +1,145 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B31CA0EDC
-	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 20:32:22 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.60467.1755462737819132758
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11944CA0EE4
+	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 20:50:43 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.60585.1755463839555623486
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Aug 2025 13:32:17 -0700
+ Sun, 17 Aug 2025 13:50:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=LvAFK9D5;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=HzhAYMzT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010198b9bb9c15-46681797-1805-4cf1-8ca8-e310753c00e6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755462737; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Deag5NAQO0pA/53PsWDitxqzmd1T3Q3ID6kpS5OqPfo=;
-	b=LvAFK9D5Yx2/BOUzt0kviPlopO9gsdfqVbxrdzNbmn15gOyDhnT+WwJamgxtrlgx
-	56BUO+XhniBiGhHPpfkhaDYLI5O8NQl7iASsSDBiiWy6vBzkDofRK0A+EJr6h4OGZNg
-	IGVU8os1OnMwhITrrEMRKjzeFQM/qItBW7YrPShA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755462737;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Deag5NAQO0pA/53PsWDitxqzmd1T3Q3ID6kpS5OqPfo=;
-	b=HzhAYMzTqXR9GTUNp5TZ9qPAwTUflqlPm5Ou1wc6siAz7avj/YzoLgA+GB8C95Yh
-	/BuRING354K0zmvJSAkbxxbfi+Ub42UwsxuqeAJTIaQLGPoAwQpnrQ8t/rCEEaz7Sy5
-	bemaufkoRAqNQmQD/mGEfkGnq0zRWslHcUdJNM0k=
-From: patchtest@automation.yoctoproject.org
-To: Peter Kjellerstedt <pkj@axis.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCHv3 1/2] systemd-systemctl-native: Install systemd-sysv-install
-In-Reply-To: <20250817201458.2461468-1-pkj@axis.com>
-References: <20250817201458.2461468-1-pkj@axis.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198b9bb9c15-46681797-1805-4cf1-8ca8-e310753c00e6-000000@us-west-2.amazonses.com>
-Date: Sun, 17 Aug 2025 20:32:16 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.17-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dNJParXE;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45a1b05fe23so19881035e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 13:50:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755463838; x=1756068638; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=haHlDiB2C4DbL+ctmFTKki/dSJZv/BKf+xzdjoAt+NM=;
+        b=dNJParXE4zQoCopWBquK+/ok9HZuoySG418lmQO3vePDGo+gOfNJvTKUowe+DOir2Y
+         EflMRzBoOlMsrYLtsRp6v+NhxX28KmIM9k+4OKvypOTzy3OqGYJ9awZelDZcArVZDB3C
+         p5pBmVmF515IGytKXMvUlfuntCzj/h+G/2aPwVx00TT+QUq8+MWCkmDqg1yl3pZIIOgr
+         rhwoVCR1/jPVUBiLvgYkSvnFzO5Qj7MGPJZRJ6WKprDygp2eRdRADEQJhtGjqrks5JFP
+         jgD5Q97UPT795IMRc1YgXjiZuGUUtNiyuYNE2X0EIVo7k8QsU9F7F+Vaq3me3RqXE8m1
+         6rQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755463838; x=1756068638;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=haHlDiB2C4DbL+ctmFTKki/dSJZv/BKf+xzdjoAt+NM=;
+        b=gBTNaN/L+TtFCls3ZpqAbNjOuRamYRfk2BS312+QHtGriqI22Mta30N1OFE3ILNr/g
+         t5KVmlPTa2NcJkxku7z53OviYCv7EVUKkkNr3qmndGxMn2Vfqz1CxrYiEqZmoBr8nIuj
+         /RrxOrLrftCzCPWSoRK12vl0WGod7sPU1qttFsov9pM1ODpbhhumJmoWbBFRg9rNQNh3
+         FX/QtmRnlQuRE395PXjUROKhccs8+a8o3YPBzbNXhYpb+lX4SLORuVAlOz7hfJ94/8hr
+         z401BfSjisSq72w9FcIR/EkcovgU5zIXh4/sTl0B1Zg0RJR+xcofyjnHpg/EBvV33T+S
+         Pu2w==
+X-Gm-Message-State: AOJu0Yz4FFdh6OiEl59TkyzNWzzONX/GzRNjB/IXGkX10qGWdduVNJVd
+	XGdwoo/68R3jXJRFwQtaGJLY/fXSl7TyW84d0h95rPIOZEx+5DKN60r+NEhw1g==
+X-Gm-Gg: ASbGncvtK0CPGVICmZCSyWUDZDGQhmYG57wfNkgj+rG5W/cwrtMhbGsuTxmZdCZaI9p
+	yLLDYQPThGOCcx7tjcJ5eqlcsScea0aUSGFRq27Nu4/AjZFLxWKbAj59N25OxqrN0jYtqbK6vKE
+	5jYmWoIDrxh1fuyjhoMwwkl1FFzgcxAe2DBEr7C0fFe7boOC0rD4AgE950Yp6FoJBdGPcEMMtLI
+	+ibr7pofZ313o0SsmDYyJFIqRs/JRPBobN/ePZcZyaQEhyDR4utQubI7rpmWvjruYguxmSsfOEs
+	AwtGDrrnAJn78dQPEG+lsKrabZkBYZdr5SIlUQErlnrhoAMVrukdFSERGuiF668K0l4THuN2cPo
+	ZJ7cbtGJzZ/M3OHQ5sThfTZDzfQ==
+X-Google-Smtp-Source: AGHT+IGGjU7PBZrvrHnLNf5obKj5kBUB8XFB1rd4PE+sHNfAWE9hvO3yrhYZmNlmnVSym+rgcrTvpw==
+X-Received: by 2002:a05:600c:4f84:b0:456:25aa:e9c0 with SMTP id 5b1f17b1804b1-45a2180d6b0mr58856545e9.14.1755463837641;
+        Sun, 17 Aug 2025 13:50:37 -0700 (PDT)
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3bb7f02578dsm10592058f8f.62.2025.08.17.13.50.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Aug 2025 13:50:37 -0700 (PDT)
+From: martin.jansa@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Martin Jansa <martin.jansa@gmail.com>
+Subject: [scarthgap][PATCH 1/3] e2fsprogs: Fix build failure with gcc 15
+Date: Sun, 17 Aug 2025 22:50:31 +0200
+Message-ID: <20250817205033.3845672-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 20:32:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222017
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 20:50:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222018
 
---NextPart
-Content-Type: text/plain
+From: Khem Raj <raj.khem@gmail.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Backport a needed fix
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/PATCHv3-1-2-systemd-systemctl-native-Install-systemd-sysv-install.patch
+ ...-libext2fs-fix-std-c23-build-failure.patch | 42 +++++++++++++++++++
+ .../e2fsprogs/e2fsprogs_1.47.0.bb             |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-systemctl-Add-sysv-install-to-specify-path-to-system.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch
+new file mode 100644
+index 0000000000..01ab9d5afb
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-libext2fs-fix-std-c23-build-failure.patch
+@@ -0,0 +1,42 @@
++From 72dcef02bee9924c4d5b3dc6e7ef4d07becebcc6 Mon Sep 17 00:00:00 2001
++From: Rudi Heitbaum <rudi@heitbaum.com>
++Date: Fri, 22 Nov 2024 12:36:32 +0000
++Subject: [PATCH] libext2fs: fix -std=c23 build failure
++
++gcc-15 switched to -std=c23 by default:
++
++    https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=55e3bd376b2214e200fa76d12b67ff259b06c212
++
++As a result `e2fsprogs` fails the build so only typedef int bool
++for __STDC_VERSION__ <= 201710L (C17)
++
++    ../../../lib/ext2fs/tdb.c:113:13: error: two or more data types in declaration specifiers
++    ../../../lib/ext2fs/tdb.c:113:1: warning: useless type name in empty declaration
++      113 | typedef int bool;
++          | ^~~~~~~
++
++https://github.com/tytso/e2fsprogs/issues/202
++
++Upstream-Status: Backport [https://github.com/tytso/e2fsprogs/commit/49fd04d77b3244c6c6990be41142168eef373aef]
++Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
++Link: https://lore.kernel.org/r/Z0B60JhdvT9bpSQ6@6f91903e89da
++Signed-off-by: Theodore Ts'o <tytso@mit.edu>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ lib/ext2fs/tdb.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/lib/ext2fs/tdb.c b/lib/ext2fs/tdb.c
++index b07b2917..98dc95d8 100644
++--- a/lib/ext2fs/tdb.c
+++++ b/lib/ext2fs/tdb.c
++@@ -110,7 +110,9 @@ static char *rep_strdup(const char *s)
++ #endif
++ #endif
++ 
+++#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ <= 201710L
++ typedef int bool;
+++#endif
++ 
++ #include "tdb.h"
++ 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+index 940b47c155..0288854527 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
+@@ -4,6 +4,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
+            file://run-ptest \
+            file://ptest.patch \
+            file://mkdir_p.patch \
++           file://0001-libext2fs-fix-std-c23-build-failure.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
 
