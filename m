@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F0E1CA0EDC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20728CA0EE9
 	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 21:04:03 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.61093.1755464634466079926
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.60833.1755464635449953119
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Aug 2025 14:03:54 -0700
+ Sun, 17 Aug 2025 14:03:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=e0AMTSJv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=lbTzuv6w;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010198b9d88ab5-cd70e6bd-fc5f-41b3-b06f-f87ba801538a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jtmWZKGQ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=YG+mA4p2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010198b9d88f49-ee7e905f-befd-408c-bca7-deb04f78ec0d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755464633; i=@automation.yoctoproject.org;
+	t=1755464634; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=DM9wzqkdZ7xXlg/Kqd3Nx2L3t7OuNvGhKVWWIPH0w34=;
-	b=e0AMTSJvXmgEHijb3elOjZtLQw3BAkYXx68oVpDwGeN3074V2/42d9JHVq4cDGdN
-	G5Xvsfcok2TVQ7ddNZK4MW0n/mDz2RW5UKEKChORsDTc22dT6GOWIZQg6bh23/rU2iy
-	3hx63iyb59AFBeW9Xe41FK9EjGTzMczXkc0ESsn0=
+	bh=mkxEj3sK1sS19tfXTlUBoqa8EQkcKfXzczluGZde0XY=;
+	b=jtmWZKGQefXN2PD9hktDYkaxf9UWRFRyk6LJlt/wkaZ+34u0i/TK5RT/kiV7yrVJ
+	jjjZRkPgWNPDZ2Z78XZzwsJvmxw70AcKs/cAWcjoQIbWZAevOsVQtyKjmzl21N00mPg
+	9mG+4LhOfLeL7++V2kbQBS3wXyc4mIH0NL/YbIrk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755464633;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755464634;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=DM9wzqkdZ7xXlg/Kqd3Nx2L3t7OuNvGhKVWWIPH0w34=;
-	b=lbTzuv6wAB+pxYt43DA7gNRMAuvjXj1IoHFh4FwJn31RBuWjkTYfHsnBxH5kwnq0
-	XQ+6KijD0g0wvcPoNpSBzUaIV+LAIz4NfrZQ32NNRXof5JR7TRg+hVk1PvsnmFzbUEF
-	75SmarAOXyTIiISbi4phrbJSP95TXjJgahTKdu+I=
+	bh=mkxEj3sK1sS19tfXTlUBoqa8EQkcKfXzczluGZde0XY=;
+	b=YG+mA4p22EF2aWIS3TeakTpWFIXycMQyeQIQ6HMnPzn0mEetBpOlngxtsDdq1v8W
+	Ghw3Wz0x6h7cxkEcZDnwPd/IndnbMb1Cmmc4toeiI8grAaOhmCJZzQioSCE7JIuXmnh
+	vmdNX1BbCpJ9oBYfUeIVFpgv+0sfXLzHuLVgTOPA=
 From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: martin.jansa@gmail.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 3/5] babeltrace2: Fix python bindings ptests
-In-Reply-To: <20250817205124.3384337-3-richard.purdie@linuxfoundation.org>
-References: <20250817205124.3384337-3-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [scarthgap][PATCH 3/3] cairo: fix build with gcc-15 on host
+In-Reply-To: <20250817205033.3845672-3-martin.jansa@gmail.com>
+References: <20250817205033.3845672-3-martin.jansa@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198b9d88ab5-cd70e6bd-fc5f-41b3-b06f-f87ba801538a-000000@us-west-2.amazonses.com>
-Date: Sun, 17 Aug 2025 21:03:53 +0000
+Message-ID: <01010198b9d88f49-ee7e905f-befd-408c-bca7-deb04f78ec0d-000000@us-west-2.amazonses.com>
+Date: Sun, 17 Aug 2025 21:03:54 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.17-54.240.27.192
+X-SES-Outgoing: 2025.08.17-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 21:04:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222026
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222027
 
 --NextPart
 Content-Type: text/plain
@@ -53,9 +53,9 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/3-5-babeltrace2-Fix-python-bindings-ptests.patch
+Testing patch /home/patchtest/share/mboxes/scarthgap-3-3-cairo-fix-build-with-gcc-15-on-host.patch
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'external-python-tests.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-Require-C11.patch' (test_patch.TestPatch.test_signed_off_by_presence)
 
 PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
 PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
