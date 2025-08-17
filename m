@@ -1,152 +1,131 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D96A8CA0EDC
-	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 11:47:19 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.51307.1755431230806219829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84119CA0EDC
+	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 17:06:31 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web11.56148.1755449781093488351
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Aug 2025 04:47:10 -0700
+ Sun, 17 Aug 2025 09:56:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NgmGAj9V;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b471738daabso3153827a12.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 04:47:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aPQg8trl;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: mroj4n@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-618b62dba1aso2511005a12.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 09:56:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755431230; x=1756036030; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3AHjObmRD3q8fC2XpKlMIaxyolAiwT8OuKVeG9geZM4=;
-        b=NgmGAj9VjEL41Qeac1cgAWT9q3cVCBprz9R234rU8y5FLe5LUQY2Wua+KkMuTicxyt
-         uMeo5cc7uyNoaZo0z7/PHtF06jt6Y7Cv+GZAixmsB8F73nWDSva3t1F9JNcL+OCPc86d
-         V4ee5IvM/IJrP2Nv1fZBjgawZosl7k+Lo+eg1W55a7rNIIS+ZgyPGyRW7Q74Dhk6mHJR
-         E78rXtQCYfuWYyThE+weSBmG7Mt6gxQ78gX4F84Ttin2JOToDKHnMA6f5VP6kr07d/vd
-         vsYwyM3ogkD2ppUUTHySQtBpnGhqW91o9VKpMMvnjAYInxGEmUkEqf6yWpWdwkZenU3a
-         3eGw==
+        d=gmail.com; s=20230601; t=1755449779; x=1756054579; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+V75mzFSB+F3+RuWtFUWL9aD9UL5O+3KlyLFNIDeDs8=;
+        b=aPQg8trlsR5kdiRNeJAGaL5fObQbLSiTEuDUXVHsybV7IHr9xFo8Zc4MH2QFGj1wPz
+         XTj6XQkZMHdXqnftSUICXzLSbGrBjLE0SIbT83tdrGm/XBKYsWRxrNdzMcIik1uoXgIA
+         McN8R7sZYalPpkxwXjn75jRXB8o2Oe2bHqrzE5gwS3o2ujR2hmiPMnK6jmoZ4aIHbFzC
+         Ys/kOZmz9dMObP6ZLQ1RVjX7FuZnyCSdHUAGdlyyjgkVoSRZtsP5Av97lXIkV3/GPCex
+         tkCaOktRnIn7GnovHM7JJHrZbFq4URRpHFXpyc4VWCfyibnv4wWGAeXuJ5s9oI2v50ei
+         1G2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755431230; x=1756036030;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3AHjObmRD3q8fC2XpKlMIaxyolAiwT8OuKVeG9geZM4=;
-        b=xLLUG47oe5H7/LmvGX2QnXJRD7fHCExmp5ldwOXK6mGRATaJmAL9V26O++w+vCzMpm
-         Ju+kxTuUZvXTx4h5CJOSX3aVD70URTju+Uu+vvWX695QatjIrVBeXw3Rmsg60zAOmkyv
-         XT2SSwXEj1RpDNM7golDOmpa0dpWIe8Y+9TTWYhhbk1wPKgcEZQNLTF7L/voriy1MjvX
-         J/0HIdAo2AI2M7oPa6s+qGNJWyrUqkWTUilSLqUNSMnNAn81ry79Cp4J8V18GQR0AqF4
-         E8DQriJJWIYffvSd7HTW/6RbF396fIXcGGlApmMq7+1mRj3sycVeFuWhh5C60VXzytJV
-         vv/Q==
-X-Gm-Message-State: AOJu0YwSujVAJGWuITPifOpl6UiFW8UgvL9L5qHma/i3TEj/d09DWqss
-	Uvnu/t5fA1jNc2CUo2fTj/oIYabNTXLKqlaHTAi37cVEDzqSjvdCY9BPByY1AqWyDcf5OQjTCGE
-	9gcf6k5k=
-X-Gm-Gg: ASbGncuShSix9u1oCVC5sIYdlTeqRinlo2ghU6kOkCD+Dfv3zjK1yUb6Zn9I+P7T5fL
-	0mH61pFjDYaJrzxQnIiCGxLpCUibjgXn2pBvybHnSURos6hr2ipoi2Ucq7KmWd8VSr8xouidrUM
-	MMfbFCu4HuOqd3mM6yTwAgv7aAmLggoSlXNnrjS137P/fMEw8laSpu9Dm3YlkV5O8SYZEmWjxRx
-	CEpJD5oLDKWjaWBzS8zi24o60ubwe+Nz8zsn/NjOlAJQVC1pua5rJAhGt+Gulw6FPGZzeoh5V2/
-	3ruqqmK+Rhdtjl640hy7YjOOsp2tulHMRnOQ8wjdIkeGxsyD5MLaqLEwiaxv0H/LJKrXGcJsQ4Q
-	LCCF6cndlRVevJFNUcOeoIml9fZ5qetRzzyThIA==
-X-Google-Smtp-Source: AGHT+IFhKgEGg/3xK5h5g7BOLgYUFpKuuHGs38He80boVn7ord0jz80JUNTPaewAWYHCpWHUhg/U9w==
-X-Received: by 2002:a17:902:d58f:b0:240:5c38:756b with SMTP id d9443c01a7336-2446d710a8fmr103858845ad.14.1755431229980;
-        Sun, 17 Aug 2025 04:47:09 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d54e2a3sm53912175ad.125.2025.08.17.04.47.09
+        d=1e100.net; s=20230601; t=1755449779; x=1756054579;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+V75mzFSB+F3+RuWtFUWL9aD9UL5O+3KlyLFNIDeDs8=;
+        b=E4OfDC7L8BIYPn9Iwv4kvlgAm0a9v4MMkulTjLByAH3R18wH95Vv9fYKdDPsENmBI7
+         R41/jcLOPZUeVjQmFfTIs3xlRlTQNAZa5w/s/pkDQRvNeSIbv4zVOpMpqXGrHdJk09zw
+         zA5/HfNNhy75XKWJHY/k/wC3C9sFE8S0WDFA4D0GxhPN2WYNZTdkeUA0S3IN/av5OhDq
+         qz6CJ6U/cEWbdmWgFaPYX5CvWYiT6KgCY8DGetMD52dzzMta7TsDJeIPJxgkQmo//KZD
+         9+teCSBNxDZq4J5f6oddyCJcq8OaEwQDYr6726U62B+Pr9KrrvqCLeDAeX6/YKycioFb
+         dTIg==
+X-Gm-Message-State: AOJu0YwvyCZI+PuWx7FmeIG7jnHKW3PJWqZ8r3SkE1QJ7z6E+d4eTtlU
+	uIfhcqMCwwzsT94D+c3Qe7LjVUHwhzgIwUoxIUMD1ZXKdhQhcIL9Ge0Z8BpKmjLy
+X-Gm-Gg: ASbGncsQk0rX1/3wKzleOjzkwhxokMzyL7E2zknitwpIiXJBtg2EL/Ex58ZbKDfPfKy
+	20TjcU01TxBRui7Sr1ghdkG6Ms49/plc5/BKLLrjkuAk4eeelM99JA6b7eapvGgSVVR74i3ymag
+	HquIxA2wKt1q78GiEZrW6gliQKhFUpegqDsmM6fJCDHiqMdaQq0Cuw/W+QD4AXcICcKvm7xQMIW
+	G13Dk3URMYOrQScRQlHXrQXY5qQX3fX5GvmgNO4IfN6bOxbto6YV7XvogvLJ2zzB4gqVD8bp4CU
+	tq4OX5DgASsYTYZYGGeWecpRN3Tl3Itw/LVuYYrvBrfFj5WLhEowZdaUCfMTfN3Q6fb+9lJK4kP
+	qkERFrlh7LdR9sDw6+CeV1gxh02LePmmWrADs32CXlXBizhlTTtgG1g==
+X-Google-Smtp-Source: AGHT+IHLpwaYRxdDlEI5+uX6dRSwa4jEKZ5IynOpN+2EUIoC432ZjUzH0P6b+E7VlYOiOdlLkMPXdA==
+X-Received: by 2002:a17:907:9414:b0:ad5:777d:83d8 with SMTP id a640c23a62f3a-afcdc3793b7mr831717566b.29.1755449354126;
+        Sun, 17 Aug 2025 09:49:14 -0700 (PDT)
+Received: from MROJ4N.localdomain (89-64-15-146.dynamic.play.pl. [89.64.15.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdcfce50dsm634530866b.71.2025.08.17.09.49.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 04:47:09 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 43BAF10038E; Sun, 17 Aug 2025 01:47:09 -1000 (HST)
-Subject: OE-core CVE metrics for walnascar on Sun 17 Aug 2025 01:44:35 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 17 Aug 2025 01:47:09 -1000
-Message-Id: <20250817114709.43BAF10038E@builder.sakoman.com>
+        Sun, 17 Aug 2025 09:49:13 -0700 (PDT)
+From: Mohammed <mroj4n@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mohammed <mroj4n@gmail.com>
+Subject: [PATCH] wic: add attribute parameter to parted
+Date: Sun, 17 Aug 2025 18:49:08 +0200
+Message-ID: <20250817164908.88234-1-mroj4n@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 11:47:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222004
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 17:06:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222005
 
-Branch: walnascar
+Signed-off-by: Mohammed <mroj4n@gmail.com>
+---
+ scripts/lib/wic/help.py                  | 3 +++
+ scripts/lib/wic/ksparser.py              | 1 +
+ scripts/lib/wic/partition.py             | 1 +
+ scripts/lib/wic/plugins/imager/direct.py | 5 +++++
+ 4 files changed, 10 insertions(+)
 
-New this week: 15 CVEs
-CVE-2025-2759 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-2759 *
-CVE-2025-32989 (CVSS3: N/A): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-32989 *
-CVE-2025-32990 (CVSS3: N/A): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-32990 *
-CVE-2025-3887 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-3887 *
-CVE-2025-4056 (CVSS3: N/A): glib-2.0:glib-2.0-initial:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-4056 *
-CVE-2025-47183 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47183 *
-CVE-2025-47219 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47219 *
-CVE-2025-47806 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47806 *
-CVE-2025-47807 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47807 *
-CVE-2025-47808 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47808 *
-CVE-2025-53905 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-53905 *
-CVE-2025-53906 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-53906 *
-CVE-2025-5916 (CVSS3: N/A): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-5916 *
-CVE-2025-5917 (CVSS3: N/A): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-5917 *
-CVE-2025-5918 (CVSS3: N/A): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-5918 *
-
-Removed this week: 1 CVEs
-CVE-2025-6965 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-6965 *
-
-Full list:  Found 47 unpatched CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
-CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
-CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-4458 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4458 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-56738 (CVSS3: N/A): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56738 *
-CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
-CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
-CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
-CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
-CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
-CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
-CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
-CVE-2025-2759 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-2759 *
-CVE-2025-32989 (CVSS3: N/A): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-32989 *
-CVE-2025-32990 (CVSS3: N/A): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-32990 *
-CVE-2025-37803 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37803 *
-CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
-CVE-2025-37925 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37925 *
-CVE-2025-3887 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-3887 *
-CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
-CVE-2025-4056 (CVSS3: N/A): glib-2.0:glib-2.0-initial:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-4056 *
-CVE-2025-47183 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47183 *
-CVE-2025-47219 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47219 *
-CVE-2025-47806 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47806 *
-CVE-2025-47807 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47807 *
-CVE-2025-47808 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47808 *
-CVE-2025-53905 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-53905 *
-CVE-2025-53906 (CVSS3: N/A): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-53906 *
-CVE-2025-5916 (CVSS3: N/A): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-5916 *
-CVE-2025-5917 (CVSS3: N/A): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-5917 *
-CVE-2025-5918 (CVSS3: N/A): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-5918 *
-CVE-2025-8224 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-8224 *
-CVE-2025-8225 (CVSS3: N/A): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-8225 *
-
-Summary of CVE counts by recipe:
-  linux-yocto: 26
-  gstreamer1.0: 7
-  libarchive:libarchive-native: 3
-  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 2
-  gnutls:gnutls-native: 2
-  qemu:qemu-native:qemu-system-native: 2
-  vim: 2
-  glib-2.0:glib-2.0-initial:glib-2.0-native: 1
-  grub:grub-efi:grub-native: 1
-  libsndfile1: 1
-
-For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index 2e3061f343..fef856dbbb 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -1070,6 +1070,9 @@ DESCRIPTION
+                 an MBR header. Partitions with this flag will be included in
+                 this MBR header.
+ 
++        --attribute: This option is specific to wic. This option is used to set
++                      the partition attribute.
++
+     * bootloader
+ 
+       This command allows the user to specify various bootloader
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 7ef3dc83dd..af4fb91d58 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -189,6 +189,7 @@ class KickStart():
+         part.add_argument('--fsuuid')
+         part.add_argument('--no-fstab-update', action='store_true')
+         part.add_argument('--mbr', action='store_true')
++        part.add_argument('--attribute')
+ 
+         bootloader = subparsers.add_parser('bootloader')
+         bootloader.add_argument('--append')
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index b34691d313..cf5c51f105 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -61,6 +61,7 @@ class Partition():
+         self.update_fstab_in_rootfs = False
+         self.hidden = args.hidden
+         self.mbr = args.mbr
++        self.attribute = args.attribute
+ 
+         self.lineno = lineno
+         self.source_file = ""
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 6e1f1c8cba..877a5d2a97 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -664,6 +664,11 @@ class PartitionedImage():
+                 exec_native_cmd("sfdisk --sector-size %s --part-attrs %s %s RequiredPartition" % \
+                                 (self.sector_size, self.path, part.num),
+                                 self.native_sysroot)
++            
++            if part.attribute:
++                logger.debug("Set attribute:'%s' for partition '%s' on disk '%s'", part.attribute ,part.num, self.path)
++                exec_native_cmd("sgdisk -A %s:=:%s %s" % (part.num, part.attribute, self.path), \
++                self.native_sysroot)
+ 
+         if self.ptable_format == "gpt-hybrid":
+             # Write a protective GPT partition
 
