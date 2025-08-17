@@ -1,100 +1,89 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 921D7CA0EE4
-	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 17:16:01 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.56887.1755450959234960500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 969BCCA0EE4
+	for <webhook@archiver.kernel.org>; Sun, 17 Aug 2025 17:26:21 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.56734.1755451578734570097
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Aug 2025 10:15:59 -0700
+ Sun, 17 Aug 2025 10:26:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=yz8YuhvB;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=DAbPnBW2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010198b907e244-216aa48a-eccb-4980-b81a-e1b85d1fabbc-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755450958; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=FIYLFsZXyvqGBo51w51bdNKx318HfC8TPRyrvo+Q+Ws=;
-	b=yz8YuhvBzrrRvHpQRdVQeMK8O3AcU7q5IRDp5cSyZUfYCLiZRBvT6Qt5SFYYdqt5
-	rhzE6QeQBJKwtdl/octKpoJ4g0pKHvYdO14u9t/OMnxk+EavbCbJOo2yLyc7SjxFJbY
-	UQs6fJpEywHHLr4RAwEX2nsZhOfWGlwLfYurlVS4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755450958;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=FIYLFsZXyvqGBo51w51bdNKx318HfC8TPRyrvo+Q+Ws=;
-	b=DAbPnBW2TuTiWyjCIOWUvvstfC76YINXbuQP/Sfzp3d83iRfbEF3sSb/sr/lwnyc
-	ibEbvg/X+R3SMzAZvzDKIpWSLEmZOsdGl7WWuvwuNyE124OwO0cSDk/gS2BomdyDnca
-	8DnLWs5g3sV2KCWRG/WQQwOU1w0ME7bjcGJ/GkWY=
-From: patchtest@automation.yoctoproject.org
-To: Mohammed <mroj4n@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] wic: add attribute parameter to parted
-In-Reply-To: <20250817164908.88234-1-mroj4n@gmail.com>
-References: <20250817164908.88234-1-mroj4n@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198b907e244-216aa48a-eccb-4980-b81a-e1b85d1fabbc-000000@us-west-2.amazonses.com>
-Date: Sun, 17 Aug 2025 17:15:58 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.17-54.240.27.191
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=NJHFzwz7;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 02FF444346;
+	Sun, 17 Aug 2025 17:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1755451576;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oJyB8okoltx/zHOOQ/UPHtFwuIrlIxzlVBPMQe7VPrM=;
+	b=NJHFzwz7UnDhkRJYD0gdhL46Bpv1DJCCaQdD9jVPfeHlj93i3bBqV+LIkaZFgU6EDsTsgd
+	HAc/LyLvumtmaByhCh84XbJfg4ECPyhuDT4jVT6zLYTEGlp85z0f5O845QQt+o5E1u28Ho
+	KNJqS3CNdPVYOJT6zcWJsYrEnJP/FLH3CvLQ5H7F9NRZVD998BZq24PIqWleUR5dIBf4Nz
+	5bInQc1qrQXY9wijawqkSuOBe9vAwMJrs0WD6MvcNCcZVNIsSXqDnSjbQafKYYr/LWljrK
+	q7QHoKRHEbz78TxiIxlOFeOJzEEU2AGzA7yPPcRB3GaS/qtaV6GQp28WPEMyEw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 17 Aug 2025 19:26:14 +0200
+Message-Id: <DC4VNCG1YJSI.EVHDCRSBIBIS@bootlin.com>
+To: <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] spirv-llvm-translator: Upgrade to 21.1.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250815162502.3092192-1-raj.khem@gmail.com>
+In-Reply-To: <20250815162502.3092192-1-raj.khem@gmail.com>
+X-GND-State: clean
+X-GND-Score: 0
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduhedtfeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecunecujfgurhepggfgtgffkffvuffhofhfjgesthhqredtredtjeenucfhrhhomhepfdforghthhhivghuucffuhgsohhishdquehrihgrnhgufdcuoehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeettdejvdefudegueejjeehkeejueetudejvddvgeelgeegkeeigeduvdejtdfggeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdihohgtthhophhrohhjvggtthdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeekgeegtdemhedugedtmegvfeekvgemmedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeekgeegtdemhedugedtmegvfeekvgemmedupdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehmrghthhhivghurdguuhgsohhishdqsghrihgrnhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvpdhrtghpthhtoheprhgrjhdrkhhhvghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhor
+ hhg
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 17:16:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222006
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 17:26:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222007
 
---NextPart
-Content-Type: text/plain
+On Fri Aug 15, 2025 at 6:25 PM CEST, Khem Raj via lists.openembedded.org wr=
+ote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Khem,
 
----
-Testing patch /home/patchtest/share/mboxes/wic-add-attribute-parameter-to-parted.patch
+It looks like this is breaking the build:
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+ERROR: spirv-llvm-translator-native-21.1.0-r0 do_configure: Execution of '/=
+srv/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64-linux=
+/spirv-llvm-translator-native/21.1.0/temp/run.do_configure.97313' failed wi=
+th exit code 1
+...
+| CMake Error at CMakeLists.txt:82 (find_package):
+|   Could not find a configuration file for package "LLVM" that is compatib=
+le
+|   with requested version "21.1.0".
+|
+|   The following configuration files were considered but not accepted:
+|=20
+|     /srv/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_6=
+4-linux/spirv-llvm-translator-native/21.1.0/recipe-sysroot-native/usr/lib/c=
+make/llvm/LLVMConfig.cmake, version: 20.1.8
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/2207
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/2253
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/63/builds/2058
 
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Can you have a look at this please?
 
----
+Best regards,
+Mathieu
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
---NextPart
-
-
---NextPart--
 
