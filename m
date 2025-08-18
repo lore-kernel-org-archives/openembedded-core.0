@@ -2,102 +2,146 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6D5CA0ED1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C5CCCA0EEB
 	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 14:39:38 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.77030.1755527973095042710
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web10.77029.1755527968758073862
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 07:39:33 -0700
+ Mon, 18 Aug 2025 07:39:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CH3TnBiF;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-afcb61f6044so710526266b.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 07:39:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jylMn9IM;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6188b690517so6220587a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 07:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755527971; x=1756132771; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xSVASLGXVeyQtFFX+hKAKgoEx4pQZpi+cw+YEQkrPFY=;
-        b=CH3TnBiFUl6NlaZt8+l8+cDgp0W1v1AjVsdhfb0bH/Kk8NaJYHjMLl4rwnTpXz9aJ5
-         UelfHRuXkU4z9cxg2NxE19Tcxr0Anqpd31BioKJcwKBDYpsUGwG+/68+318/kfTcvQvG
-         xGZik0myEqQ9Cq98ODP52ILSdHeZ/fVKkUFgsI5z3VLkO0ciDMYZsHnJq5KH75kw+ft5
-         8dI8QpA5i8nToimlkmID7W8EoBmVv7U0wBzD+/bwh2FfOsrdCtf9iUe0u+PkEawDyh8s
-         NqUX7AwKkk05Oq/VyKX3dbZ5ZiU01NPKD21KrRjcW4U1J/ofMNCTGDroZhWAXvlaaPL0
-         ls+Q==
+        d=gmail.com; s=20230601; t=1755527967; x=1756132767; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AwsR03Uue8dsaQ4uKW0J7Xrx2OmNjBgu/8RuQqw7h3M=;
+        b=jylMn9IMKfKFVxqD/WkSCtpFrGOfi0k2mj8Y+U5nSDHWzENl40zg8h1G19UmtJwITr
+         nsWNPpL0+mbGL2iIN82oQY4H/qlE19mefw/pe7XRaqywZrbckl+dIol7n/hsrQYatSAu
+         EaZAOczdFnrAf/6p7yFdkrA+FuHSjw5XJt09b5+4cohBAee3Wc1OEXD/CST+GUeg9O1W
+         3fHPCoEhUZrQwMMy3QRMlLaSTE+BqaWoilL2rXtG6yOobnxsHIVo9Be0pdxyIJVOFYLR
+         7LCzL4OtlR44gaBt1v5DOhRry6ExIdTRw2Sufr9FsJtb/6w4TifsQcvrq3aR+7CDa31i
+         u0wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755527971; x=1756132771;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xSVASLGXVeyQtFFX+hKAKgoEx4pQZpi+cw+YEQkrPFY=;
-        b=U3OPn6gStm2J+ic1Hvf0scr3l0tkLFuyW/au5odi3lVjkYdmXqwviBkLM9uQxRv5Ck
-         gYZbD7LYgQYhu9/YTSy3xo20MofWESxPG2CeMasgfxOhCH5QFX1aqvywF8WmuzRv+vWB
-         bfdRWQ4qchnrSsjspccWXbkyZ97XhYnnAwYVJCwDqu6lZVdUROz1bVTBD2EVFY6FLPJi
-         LWCT94vCIZK1yD6t++COdeyo9g0nJ1VH4sQx4LepB8OOKYXMxQH76s8qrMuvuY9lgZxg
-         LcfkvQBMA2o8EZOqMSjQrwWToHmIro8mAm5WmYoSULGc0facFa+P9089fCBxGPT5y46n
-         lz3g==
-X-Gm-Message-State: AOJu0YxVYicUAIBM1/ZJfX3zQa3fwtdaDNAF74riuQ0K9mWrh2Hpf8Ys
-	qNcSfiodGT8gqNxLjZERjsHC1INBeiz5tuABqzFpMQ4aats0atv7Z3DJAAUsDA==
-X-Gm-Gg: ASbGncu7W7VxERoeTX+AVnS9mOo2nVpD9O/DMbtbsrcIYHoDurL8sX1Z/RuIznC5mjN
-	P6wNduEH6KMnzhUQJffIGxMiTGVELGfJYY1LKrzTnKD2JH89mRCflA5GkAmeEBRa1beXV3fE6OO
-	P+BDwW5XdntIMrbmkTGrTx2ZxIYTHw1Z0t+GGJFn6tOa5UZio0sxeWW/lS7+tyngKkfc8ba/w0n
-	FGO+qzBdcnP7Hri5kaj9NO34pqLEkzX0Pm0s2RJn/cTGXhictuXyuvrdr0v8fnkahC6iTAcft8G
-	h4KvyfPszBhw4YxK6tzNGVESknDDpeNZHB3H/jzCooIxqP85BqgvsrXmD3EePTx3jxJxvb+C+Xp
-	56AnlTvy1dBMbET4EzGUh+SdnA2p3LVWRtx75ekt+jNEp7YWzARWmp5IW
-X-Google-Smtp-Source: AGHT+IGnbweXBuPU+aezo65xYtbdqzG+FusWW315Fq10j96n7ALulP+hDj2E+6wQLerKDq/94D3C+Q==
-X-Received: by 2002:a17:907:2da3:b0:ae6:c334:af3a with SMTP id a640c23a62f3a-afcbd5cbffbmr1811224266b.6.1755527971346;
-        Mon, 18 Aug 2025 07:39:31 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-afcdcfce50dsm829557266b.71.2025.08.18.07.39.30
+        d=1e100.net; s=20230601; t=1755527967; x=1756132767;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AwsR03Uue8dsaQ4uKW0J7Xrx2OmNjBgu/8RuQqw7h3M=;
+        b=LLSNiuYo6XmcxIYDFq5VDgPYszY663Z+E4NnhU3ONKDWDQ3v/6NKaa5fUybPqJ7fvU
+         fuzKaEayZtIuRLzYe1AE9AF2GL2b6Amd0Ty+/fSQz/l0M63ZRxLwXrRxYijYzrmafMcl
+         OZqJPjDXT7Ibv9oy4KCb2dPJ4+oUSs1CTx9Bbp450piluQegho0tgrC5S7g9rzhNHStC
+         LhR0VIdgrk+DyUsEzSr6bc9cbmeWfcFudvrZvpgxsLDvj/4XSmYxwBewpYxfUyDjcWVi
+         C4T7o8K6K1OKgWEGEGB4nqRfLJFpTyRo8XztgljNm27OYOpnznGnsctHxVePYAja4FcW
+         g2sQ==
+X-Gm-Message-State: AOJu0YzSROtx95RfTzGKFvUvhZWlZmRB9cbLzfd+UYM8lBYQMPaKQVJx
+	MHCrDhZyq0ediKkGRuIQVooxJ11PVs41dMfsy9VYhUsf7xwGqyR5jRMdzFDTGA==
+X-Gm-Gg: ASbGncsEV7jh6u7ToxnqCFxEw4V6dHjREySTngomBYoaEQ2tqR6/GDMdyLYmL08NkIb
+	zOwLsO5jUMiNv+7G2tsxFAtD4WfhtbIFZgA/XXcYgxigspMGPZV7RStoQ8GEc7gSeQNCF1rofj8
+	CapnAh3Q7M3PbJVV6syWkxnWemwkYUmgtdGg0SOzRfSwuC8ZnEQz6actpRC4W0e5QJEOnlKylxb
+	UtUM3dPAbXqej1wL7Geo7gLagwJvrFuBlwq/E4JMImB2caK7pVtLjjZ4L8FFbrP/fF7FVuaTfJT
+	bhWNXCyi13bJ9ZBMu8FYEOyI17DS0MS6XyXt3bNYpSVGMRM+70Zk5YtZcl2N12iRHcyLzMHXHAA
+	D9iEb7wCMdK4JopWJtvhV4vLZzw==
+X-Google-Smtp-Source: AGHT+IG0MkM+u4yACNRwoBicHwjkhllIZKSl6nE9m4QnSvnIOnCLlg/0fkfPnrc2rkFDNShKF+UBCA==
+X-Received: by 2002:a05:6402:3508:b0:618:5f4c:894e with SMTP id 4fb4d7f45d1cf-618b0514d34mr9907360a12.8.1755527966756;
+        Mon, 18 Aug 2025 07:39:26 -0700 (PDT)
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-618b01ae593sm7303092a12.32.2025.08.18.07.39.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 07:39:30 -0700 (PDT)
+        Mon, 18 Aug 2025 07:39:26 -0700 (PDT)
 From: martin.jansa@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	Martin Jansa <martin.jansa@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [walnascar][PATCH 2/2] bash: use -std=gnu17 also for native CFLAGS
-Date: Mon, 18 Aug 2025 16:39:23 +0200
-Message-ID: <20250818143923.908157-2-martin.jansa@gmail.com>
+Subject: [walnascar][PATCH 1/2] pkgconfig: fix build with gcc-15
+Date: Mon, 18 Aug 2025 16:39:22 +0200
+Message-ID: <20250818143923.908157-1-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250818143923.908157-1-martin.jansa@gmail.com>
-References: <20250818143923.908157-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 14:39:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222039
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222038
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-* fixes builds on host with gcc-15:
-  http://errors.yoctoproject.org/Errors/Details/853016/
+* on hosts with gcc-15 or whenever glib PACKAGECONFIG isn't enabled
+  and pkgconfig uses own old bundled glib
 
-../../bash-5.2.37/builtins/mkbuiltins.c:268:29: error: too many arguments to function ‘xmalloc’; expected 0, have 1
-  268 |           error_directory = xmalloc (2 + strlen (argv[arg_index]));
-      |                             ^~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* fixes:
+  http://errors.yoctoproject.org/Errors/Details/853015/
+../../../git/glib/glib/goption.c:169:14: error: two or more data types in declaration specifiers
+  169 |     gboolean bool;
+      |              ^~~~
+../../../git/glib/glib/goption.c:169:18: warning: declaration does not declare anything
+  169 |     gboolean bool;
+      |                  ^
 
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/bash/bash_5.2.37.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ ...0001-Do-not-use-bool-as-a-field-name.patch | 36 +++++++++++++++++++
+ .../pkgconfig/pkgconfig_git.bb                |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
 
-diff --git a/meta/recipes-extended/bash/bash_5.2.37.bb b/meta/recipes-extended/bash/bash_5.2.37.bb
-index 9f02ea17b5..2c0645cbd9 100644
---- a/meta/recipes-extended/bash/bash_5.2.37.bb
-+++ b/meta/recipes-extended/bash/bash_5.2.37.bb
-@@ -21,5 +21,8 @@ DEBUG_OPTIMIZATION:append:armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb
- DEBUG_OPTIMIZATION:append:armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
+new file mode 100644
+index 0000000000..bcb7e94d69
+--- /dev/null
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
+@@ -0,0 +1,36 @@
++From b3b26a7e125e5e4f5b69975cc17eb6d33198ebaa Mon Sep 17 00:00:00 2001
++From: Emmanuele Bassi <ebassi@gnome.org>
++Date: Thu, 11 Apr 2024 14:40:21 +0100
++Subject: [PATCH] Do not use bool as a field name
++
++C99 aliases `bool` to `_Bool`, and C23 introduces `bool` as a reserved
++keyword. Let's avoid using `bool` as a field name.
++
++Upstream-Status: Backport [Backport from glib to bunlded version in pkg-config https://github.com/GNOME/glib/commit/9e320e1c43a4770ed1532248fe5416eb0c618120]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ glib/glib/goption.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/glib/glib/goption.c b/glib/glib/goption.c
++index 0a22f6f..f439fd4 100644
++--- a/glib/glib/goption.c
+++++ b/glib/glib/goption.c
++@@ -166,7 +166,7 @@ typedef struct
++   gpointer arg_data;
++   union
++   {
++-    gboolean bool;
+++    gboolean boolean;
++     gint integer;
++     gchar *str;
++     gchar **array;
++@@ -1600,7 +1600,7 @@ free_changes_list (GOptionContext *context,
++           switch (change->arg_type)
++             {
++             case G_OPTION_ARG_NONE:
++-              *(gboolean *)change->arg_data = change->prev.bool;
+++              *(gboolean *)change->arg_data = change->prev.boolean;
++               break;
++             case G_OPTION_ARG_INT:
++               *(gint *)change->arg_data = change->prev.integer;
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+index baf37b0a9b..af512a42b4 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+@@ -15,6 +15,7 @@ SRC_URI = "git://gitlab.freedesktop.org/pkg-config/pkg-config.git;branch=master;
+            file://pkg-config-esdk.in \
+            file://pkg-config-native.in \
+            file://0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch \
++           file://0001-Do-not-use-bool-as-a-field-name.patch \
+            "
  
- CFLAGS += "-std=gnu17"
-+# mkbuiltins.c is built with native toolchain and needs gnu17 as well:
-+# http://errors.yoctoproject.org/Errors/Details/853016/
-+BUILD_CFLAGS += "-std=gnu17"
- 
- BBCLASSEXTEND = "nativesdk"
+ S = "${WORKDIR}/git"
 
