@@ -1,147 +1,162 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C5CCCA0EEB
-	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 14:39:38 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web10.77029.1755527968758073862
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 077B2CA0ED1
+	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 16:37:43 +0000 (UTC)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+ by mx.groups.io with SMTP id smtpd.web11.112.1755535055889965589
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 07:39:29 -0700
+ Mon, 18 Aug 2025 09:37:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jylMn9IM;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6188b690517so6220587a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 07:39:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IJ7F4ukv;
+ spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e934c8f9657so1239805276.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 09:37:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755527967; x=1756132767; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AwsR03Uue8dsaQ4uKW0J7Xrx2OmNjBgu/8RuQqw7h3M=;
-        b=jylMn9IMKfKFVxqD/WkSCtpFrGOfi0k2mj8Y+U5nSDHWzENl40zg8h1G19UmtJwITr
-         nsWNPpL0+mbGL2iIN82oQY4H/qlE19mefw/pe7XRaqywZrbckl+dIol7n/hsrQYatSAu
-         EaZAOczdFnrAf/6p7yFdkrA+FuHSjw5XJt09b5+4cohBAee3Wc1OEXD/CST+GUeg9O1W
-         3fHPCoEhUZrQwMMy3QRMlLaSTE+BqaWoilL2rXtG6yOobnxsHIVo9Be0pdxyIJVOFYLR
-         7LCzL4OtlR44gaBt1v5DOhRry6ExIdTRw2Sufr9FsJtb/6w4TifsQcvrq3aR+7CDa31i
-         u0wg==
+        d=gmail.com; s=20230601; t=1755535055; x=1756139855; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+96cJu94ppMMSTzrPLwzbz+IfdR7Qwa/JOaocwmhx3w=;
+        b=IJ7F4ukvNOSg8ZKDh4lbwv6BGuVb07NTKFTDt6VEkDx+xyQOgk64wpGV260/ntuyrj
+         8IOONmhu6MMKnT4TAqOJ3JJ7l7ybJBorPO0wfPGijocQW5ScL5Ez+B+5Y85DMK4T2vFl
+         aMeXHyoK/khqUtbq2ys4U4XX+uemcLrSTBcENcGVSucrXLfnLzh50EL2gYdyTM+NCbnL
+         kip5tLEgBWDnVFzb37flkImjpHQvC7aCADeRmo1vclxL4+qxx05Vvw/+tKOesIKCHcHo
+         p6eGgp7iP3/f9wpbM7S1cZnK6mwW6vcuiVcJ860fQigilyMfXd1NO3vIatmJhkqNz4+w
+         Lvlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755527967; x=1756132767;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AwsR03Uue8dsaQ4uKW0J7Xrx2OmNjBgu/8RuQqw7h3M=;
-        b=LLSNiuYo6XmcxIYDFq5VDgPYszY663Z+E4NnhU3ONKDWDQ3v/6NKaa5fUybPqJ7fvU
-         fuzKaEayZtIuRLzYe1AE9AF2GL2b6Amd0Ty+/fSQz/l0M63ZRxLwXrRxYijYzrmafMcl
-         OZqJPjDXT7Ibv9oy4KCb2dPJ4+oUSs1CTx9Bbp450piluQegho0tgrC5S7g9rzhNHStC
-         LhR0VIdgrk+DyUsEzSr6bc9cbmeWfcFudvrZvpgxsLDvj/4XSmYxwBewpYxfUyDjcWVi
-         C4T7o8K6K1OKgWEGEGB4nqRfLJFpTyRo8XztgljNm27OYOpnznGnsctHxVePYAja4FcW
-         g2sQ==
-X-Gm-Message-State: AOJu0YzSROtx95RfTzGKFvUvhZWlZmRB9cbLzfd+UYM8lBYQMPaKQVJx
-	MHCrDhZyq0ediKkGRuIQVooxJ11PVs41dMfsy9VYhUsf7xwGqyR5jRMdzFDTGA==
-X-Gm-Gg: ASbGncsEV7jh6u7ToxnqCFxEw4V6dHjREySTngomBYoaEQ2tqR6/GDMdyLYmL08NkIb
-	zOwLsO5jUMiNv+7G2tsxFAtD4WfhtbIFZgA/XXcYgxigspMGPZV7RStoQ8GEc7gSeQNCF1rofj8
-	CapnAh3Q7M3PbJVV6syWkxnWemwkYUmgtdGg0SOzRfSwuC8ZnEQz6actpRC4W0e5QJEOnlKylxb
-	UtUM3dPAbXqej1wL7Geo7gLagwJvrFuBlwq/E4JMImB2caK7pVtLjjZ4L8FFbrP/fF7FVuaTfJT
-	bhWNXCyi13bJ9ZBMu8FYEOyI17DS0MS6XyXt3bNYpSVGMRM+70Zk5YtZcl2N12iRHcyLzMHXHAA
-	D9iEb7wCMdK4JopWJtvhV4vLZzw==
-X-Google-Smtp-Source: AGHT+IG0MkM+u4yACNRwoBicHwjkhllIZKSl6nE9m4QnSvnIOnCLlg/0fkfPnrc2rkFDNShKF+UBCA==
-X-Received: by 2002:a05:6402:3508:b0:618:5f4c:894e with SMTP id 4fb4d7f45d1cf-618b0514d34mr9907360a12.8.1755527966756;
-        Mon, 18 Aug 2025 07:39:26 -0700 (PDT)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-618b01ae593sm7303092a12.32.2025.08.18.07.39.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 07:39:26 -0700 (PDT)
-From: martin.jansa@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Martin Jansa <martin.jansa@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [walnascar][PATCH 1/2] pkgconfig: fix build with gcc-15
-Date: Mon, 18 Aug 2025 16:39:22 +0200
-Message-ID: <20250818143923.908157-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20230601; t=1755535055; x=1756139855;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+96cJu94ppMMSTzrPLwzbz+IfdR7Qwa/JOaocwmhx3w=;
+        b=Fjn2RGywRUogKN/epDqkfplyHKHyeDcpNgDzIcMZ0Oi5R5TqQCWrqWhMRB3165XBEa
+         7p32bKUQi1YOd4oZzH42X1FAWznJG5XghhFnlwS7A56uUeyT5fPeSebOjkYuNl0ovcko
+         veVg2aN3wb7OTin6v2FYq4C5pA3/J6pM3gjEiLu/Ev9qI3R8u660dh9Hg567WHcC2OXP
+         Cp/idL+6qTmiFcE9v/LwRUmmARu8RoIkoGou+IYnjMHW3rvgfk+gW32kwWUue1dQYONL
+         XDDqZIYytMRaytD58AtsqJ5xSpTQD2bF06NxzSkpCNXYs7Ga+KGY43GwecK+jHXi0lt2
+         NZVg==
+X-Gm-Message-State: AOJu0Yxvrb9eW9ttoT7j6fMK8B1RfKU3OEPh8izTrpQpNzT9fOXK+ofe
+	fv1UA1gAKDnFs2HgSyS009yXT/mnSR3L5h2/hV70dt011o6b/HEw7ZwUzloLZVJg8lvxXRZrcG+
+	eWPXNh5MMOtL/0BhGlPEWhkDHM2KaHX8=
+X-Gm-Gg: ASbGnct3h8Krl26HJ653Msa1mO+oxvWM41UGmpsxlIM4DF82+qxxPDKSfAflBzVtSnM
+	p729FC4yg4735ZadvyIlauizqmp8Q985T58R3cIVYtMFm7AmzT9IsxPvd+BuHzcOjkVI7KA+HO5
+	hyw5J07ziuJYQT4OMSyxmb/NrDY+cJtQqv7Gi0NLJqSJWAkFZYrHHkY/2u/3oAWuAwqaQpmwf3a
+	Q0TZv8he0z1j8z/2QYgZHzec+trpPDEPGXaGEFB
+X-Google-Smtp-Source: AGHT+IHZkDSKNwdJVldwIrb2DM1XrTipv5/RJoyXFI2FJpvAQ3I23B9wTVS5qW1z0YA8ubdgzgQcF5B1HkdBWulba9Y=
+X-Received: by 2002:a05:6902:2010:b0:e90:6c17:7e03 with SMTP id
+ 3f1490d57ef6-e933df07298mr11379725276.31.1755535054777; Mon, 18 Aug 2025
+ 09:37:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250817164908.88234-1-mroj4n@gmail.com>
+In-Reply-To: <20250817164908.88234-1-mroj4n@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 18 Aug 2025 09:37:08 -0700
+X-Gm-Features: Ac12FXwSpvbPeBhdBP8lR1GToJqsCUzVSLuxEaG86peRja30FSH-7fnq7Ymkm5w
+Message-ID: <CAMKF1soEqqU7GLCsQtm4RUAjy4ptVVbBaA+FQ2FesO1UpJ87YA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] wic: add attribute parameter to parted
+To: mroj4n@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 14:39:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222038
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 16:37:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222040
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On Sun, Aug 17, 2025 at 10:06=E2=80=AFAM Mohammed via lists.openembedded.or=
+g
+<mroj4n=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> Signed-off-by: Mohammed <mroj4n@gmail.com>
+> ---
+>  scripts/lib/wic/help.py                  | 3 +++
+>  scripts/lib/wic/ksparser.py              | 1 +
+>  scripts/lib/wic/partition.py             | 1 +
+>  scripts/lib/wic/plugins/imager/direct.py | 5 +++++
+>  4 files changed, 10 insertions(+)
+>
+> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+> index 2e3061f343..fef856dbbb 100644
+> --- a/scripts/lib/wic/help.py
+> +++ b/scripts/lib/wic/help.py
+> @@ -1070,6 +1070,9 @@ DESCRIPTION
+>                  an MBR header. Partitions with this flag will be include=
+d in
+>                  this MBR header.
+>
+> +        --attribute: This option is specific to wic. This option is used=
+ to set
+> +                      the partition attribute.
+> +
 
-* on hosts with gcc-15 or whenever glib PACKAGECONFIG isn't enabled
-  and pkgconfig uses own old bundled glib
+There is no point of mentioning its specific to wic, the help message is
+coming out of wic help.
 
-* fixes:
-  http://errors.yoctoproject.org/Errors/Details/853015/
-../../../git/glib/glib/goption.c:169:14: error: two or more data types in declaration specifiers
-  169 |     gboolean bool;
-      |              ^~~~
-../../../git/glib/glib/goption.c:169:18: warning: declaration does not declare anything
-  169 |     gboolean bool;
-      |                  ^
+>      * bootloader
+>
+>        This command allows the user to specify various bootloader
+> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+> index 7ef3dc83dd..af4fb91d58 100644
+> --- a/scripts/lib/wic/ksparser.py
+> +++ b/scripts/lib/wic/ksparser.py
+> @@ -189,6 +189,7 @@ class KickStart():
+>          part.add_argument('--fsuuid')
+>          part.add_argument('--no-fstab-update', action=3D'store_true')
+>          part.add_argument('--mbr', action=3D'store_true')
+> +        part.add_argument('--attribute')
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...0001-Do-not-use-bool-as-a-field-name.patch | 36 +++++++++++++++++++
- .../pkgconfig/pkgconfig_git.bb                |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
+Tabs/Spaces, use the existing formatting.
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
-new file mode 100644
-index 0000000000..bcb7e94d69
---- /dev/null
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
-@@ -0,0 +1,36 @@
-+From b3b26a7e125e5e4f5b69975cc17eb6d33198ebaa Mon Sep 17 00:00:00 2001
-+From: Emmanuele Bassi <ebassi@gnome.org>
-+Date: Thu, 11 Apr 2024 14:40:21 +0100
-+Subject: [PATCH] Do not use bool as a field name
-+
-+C99 aliases `bool` to `_Bool`, and C23 introduces `bool` as a reserved
-+keyword. Let's avoid using `bool` as a field name.
-+
-+Upstream-Status: Backport [Backport from glib to bunlded version in pkg-config https://github.com/GNOME/glib/commit/9e320e1c43a4770ed1532248fe5416eb0c618120]
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+---
-+ glib/glib/goption.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/glib/glib/goption.c b/glib/glib/goption.c
-+index 0a22f6f..f439fd4 100644
-+--- a/glib/glib/goption.c
-++++ b/glib/glib/goption.c
-+@@ -166,7 +166,7 @@ typedef struct
-+   gpointer arg_data;
-+   union
-+   {
-+-    gboolean bool;
-++    gboolean boolean;
-+     gint integer;
-+     gchar *str;
-+     gchar **array;
-+@@ -1600,7 +1600,7 @@ free_changes_list (GOptionContext *context,
-+           switch (change->arg_type)
-+             {
-+             case G_OPTION_ARG_NONE:
-+-              *(gboolean *)change->arg_data = change->prev.bool;
-++              *(gboolean *)change->arg_data = change->prev.boolean;
-+               break;
-+             case G_OPTION_ARG_INT:
-+               *(gint *)change->arg_data = change->prev.integer;
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-index baf37b0a9b..af512a42b4 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://gitlab.freedesktop.org/pkg-config/pkg-config.git;branch=master;
-            file://pkg-config-esdk.in \
-            file://pkg-config-native.in \
-            file://0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch \
-+           file://0001-Do-not-use-bool-as-a-field-name.patch \
-            "
- 
- S = "${WORKDIR}/git"
+>
+>          bootloader =3D subparsers.add_parser('bootloader')
+>          bootloader.add_argument('--append')
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index b34691d313..cf5c51f105 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -61,6 +61,7 @@ class Partition():
+>          self.update_fstab_in_rootfs =3D False
+>          self.hidden =3D args.hidden
+>          self.mbr =3D args.mbr
+> +        self.attribute =3D args.attribute
+>
+>          self.lineno =3D lineno
+>          self.source_file =3D ""
+> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/p=
+lugins/imager/direct.py
+> index 6e1f1c8cba..877a5d2a97 100644
+> --- a/scripts/lib/wic/plugins/imager/direct.py
+> +++ b/scripts/lib/wic/plugins/imager/direct.py
+> @@ -664,6 +664,11 @@ class PartitionedImage():
+>                  exec_native_cmd("sfdisk --sector-size %s --part-attrs %s=
+ %s RequiredPartition" % \
+>                                  (self.sector_size, self.path, part.num),
+>                                  self.native_sysroot)
+> +
+> +            if part.attribute:
+> +                logger.debug("Set attribute:'%s' for partition '%s' on d=
+isk '%s'", part.attribute ,part.num, self.path)
+> +                exec_native_cmd("sgdisk -A %s:=3D:%s %s" % (part.num, pa=
+rt.attribute, self.path), \
+> +                self.native_sysroot)
+>
+
+It would be good to add a testcase for this as well.
+
+>          if self.ptable_format =3D=3D "gpt-hybrid":
+>              # Write a protective GPT partition
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#222005): https://lists.openembedded.org/g/openembedde=
+d-core/message/222005
+> Mute This Topic: https://lists.openembedded.org/mt/114750349/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
