@@ -1,230 +1,122 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CBC3CA0EE4
-	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 17:25:53 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web10.1486.1755537948738982683
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E34CA0ED1
+	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 17:38:23 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.1875.1755538694625039440
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 10:25:49 -0700
+ Mon, 18 Aug 2025 10:38:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=YDCSoTcz;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202508181725446660edbef2e1f2e395-zp6aqy@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202508181725446660edbef2e1f2e395
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 18 Aug 2025 19:25:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=X3LQFOPX9GS/v7uvGzGJswcT1YaR15ISMC89fKw/SBE=;
- b=YDCSoTczQ2r7jueccaGRJxSl9DiM3aS/tURfENkaMdumEI/wRmyDHydYmSu+6hcq6s4lKx
- tpGezySypCYLtcs3jGGw0ql7oeaTQNTJ4CvzRD0m3tUE37EbHP7GA5ghofNV5CWGwQQvEx8j
- UHkhml+daG8LvNz/0FdHUhSlP/6wxhkkZybuJeZeNqhwxswHR0gaqASrD476huPJsTJrLlfP
- iN8zd0T5inFfKfb21KHXH3WwUSIA6lLg+6gMAYPG0HaD5vjqcrxPwLsj6LedIkIZ8VLoNxID
- hAcDJd6CFzNf0SdZOsfvHOJjl2ejlTq/OXSowBts06mLpCt5+agmxr1w==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][walnascar][PATCH 1/2] glib-2.0: update 2.84.0 -> 2.84.1
-Date: Mon, 18 Aug 2025 19:24:56 +0200
-Message-Id: <20250818172457.1683617-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FE+MI8dq;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45a1b0becf5so23472795e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 10:38:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755538693; x=1756143493; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EPLlOT7edRQFAqqYgm7p2VchQGgvynnWitnAAx2UWdE=;
+        b=FE+MI8dqUI3IcgYz97JoE1Vzv7eyzlzar/+HzThjZV+Ky+grtG+dJPjM3q5W6+444i
+         jMoIeHYdJeHDyY6fOgZTslGKUxt20VZTIex2fXCHXXX5qdLXmFyyKuQj/b2jqZ4KHX53
+         cOL/JY7QBSarpBjVosUtW1+R9DEMjqDOM3rD/nKvavV6EclYlywMMbHcNxpYF8DW74Ow
+         yyrDDDoDOSrE+Eaeqcj6h66MROWZHuVlBy2CnjixNlK7NaSkC5Oduyy50MQ6xrxBe2NZ
+         WoE315Hj+wVbtmUemrLERyBYu6mF5V/nDmzPrCcb50ESRkZ10uh++TW7/GdLYvj4UvlL
+         geiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755538693; x=1756143493;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EPLlOT7edRQFAqqYgm7p2VchQGgvynnWitnAAx2UWdE=;
+        b=YDokK9+P15RShm57cKr8hv5dh+h7cRfeJvvlScvhJCTAgXvYikjWD5jwNqGvma8y5B
+         q9+88HwyZmApBezkc8VV9Fu68GFs3w3sOstHPv4UY6JT4KmwRDcV8ByoMPG1u3ZDiTlq
+         Re/OuXr5ojVCWbBRlK5VYeTApyJ1+LtfPSg1Wfp8jt7GnJSDI2flN80/sK5qkbNKZIDw
+         grdtnLb/pN0mfe7Zx1jjJ0pXP7HlKIEnn8MQVM2OXXxX8PoQ7+X3RLNbaAAtHJVqk1a7
+         wOczpxlnlNK/vmnMjhDL9ybfe2zxMKnvbi1cpfxa1Pz8J503nHlbcEu+1DKRTHKYNdIf
+         AJTw==
+X-Forwarded-Encrypted: i=1; AJvYcCWQRaH/l5jhnHphmLETkyx+MytVJAdhcM2PkNDOctNwiglHmivtzSXZLnxVw6566CCAWx5ZpSJSzHiRMDkfDmwprQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzuTrUo223vqbsVfsJvIXjYOKBx1thOTS2oMeKfXMkhtUu85t59
+	oGcXCEGl+JgmjNBhb75KQpXeSLJY4ODBB9/2a5eYG9AKP1WfJcqqS5J3
+X-Gm-Gg: ASbGncsbn0c3PEig7TLjJigwOuE9Kwg1WQDkQzvMTYTVnfOM23qQlFzsGmaOqt75Cui
+	p9pgyNLAc1KuUd16McNxIvLN2SWDIBbOHfpPV5yaE0UjWg4BuhoWgWcbQQoyA8eD8mnVmPapsfV
+	1VepnEqIY7h7QR/XsLkno7GOm/6QKMeFnKA0ydQHtScuGDu435xTUw5a8pbJcaTI2cuW26QZHPO
+	ENbNN2ggLBHE+eHpzGMdNQb5aiXJat3scIng1CirBvaHgdIEAy8RvJ3Q0CkeZSfWoVeCX5jzD+K
+	kV6FIno/8aGv9P7HIWLWCh1QBK6Kfk04G0D8ZzwTnhl9Mku0cqdxcOS/sCFuutD94NUn2MaCJ9Z
+	r+TxsppMcuxe0O7moZNB6G569WlcXk4nx/5mRpJP/Hg==
+X-Google-Smtp-Source: AGHT+IF4Vh8GJOX+O6oP7Vvb5RY3EmccgHfYhgZt0oeU//Yce49I4jff+xNGzFQjYc6Xuisx8dzHBA==
+X-Received: by 2002:a05:6000:4a1e:b0:3c0:7e30:a962 with SMTP id ffacd0b85a97d-3c07e30acd8mr258904f8f.63.1755538692734;
+        Mon, 18 Aug 2025 10:38:12 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1b7ed5edsm107250155e9.3.2025.08.18.10.38.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Aug 2025 10:38:12 -0700 (PDT)
+Message-ID: <154c9823-5637-4b77-8488-a4f218e68f2c@gmail.com>
+Date: Mon, 18 Aug 2025 19:38:10 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/2] boost-build-native: upgrade 1.87 -> 1.89
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+References: <20250816102229.55627-1-skandigraun@gmail.com>
+ <DC5BU6ME8H5L.1TRS1N5LYWRWN@bootlin.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <DC5BU6ME8H5L.1TRS1N5LYWRWN@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 17:25:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222042
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 17:38:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222044
 
-From: Markus Volk <f_l_k@t-online.de>
 
-- remove backport patch
 
-Overview of changes in GLib 2.84.1, 2025-04-03
-==============================================
+On 8/18/25 08:07, Mathieu Dubois-Briand wrote:
+> On Sat Aug 16, 2025 at 12:22 PM CEST, Gyorgy Sarvari via lists.openembedded.org wrote:
+>> Changelog: https://www.boost.org/releases/1.89.0/
+>>
+>> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+>> ---
+> Hi Gyorgy,
+>
+> Thanks for your patch.
+>
+> It looks like this is breaking the build of kea:
+>
+> ERROR: kea-2.6.3-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/core2-64-poky-linux/kea/2.6.3/temp/run.do_configure.25537' failed with exit code 1
+> ...
+> | checking for Boost system library... no
+> | configure: error: Linking with -lboost_system -lboost_system is not enough: please make sure libboost_system is installed in an expected location; Check config.log for details, you may be missing other libraries.
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/2074
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/2231
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/2253
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/2288
+>
+> Can you fix it please?
+>
+> Best regards,
+> Mathieu
+>
+>
+>
 
-* Fix test failure when building against gobject-introspection ≥1.83.4 (#3634,
-  work by Philip Withnall)
+Thanks for the note and the logs - maybe updating boost wasn't a good
+idea from me.
 
-* Bugs fixed:
-  - #3630 2.84.0 build failure on Linux: ../gio/gnetworkmonitornetlink.c:47:10:
-    fatal error: netlink/netlink_route.h: No such file or directory (Philip
-    Withnall)
-  - #3634 test failure with gobject-introspection 1.83.4: warning: element
-    doc:format from state 3 is unknown, ignoring (Philip Withnall)
-  - #3636 gio/trash does not handle special characters well
-  - #3642 `g_cancellable_connect()` documentation incorrect (Marco Trevisan
-    (Treviño))
-  - #3643 g_cancellable_connect(): is it safe to unref cancellable from
-    callback? (Marco Trevisan (Treviño))
-  - #3649 Crash with some registry key values in GWin32AppInfo (Philip Withnall)
-  - !4484 Memory sanitizer fixes
-  - !4489 gobject: Be consistent in using atomic logic to handle the
-    GParamSpecPool
-  - !4541 gsettings: Port docs to gi-docgen format, add missing annotations and
-    make various improvements
-  - !4544 tests: Don't install runner scripts without installed_tests
-  - !4545 Update French translation
-  - !4547 Update Catalan translation
-  - !4548 Update Turkish translation
-  - !4551 Updated Danish translation
-  - !4552 Update Persian translation
-  - !4553 docs: Document GSignalFlags members added after 2.0
-  - !4554 Update Indonesian translation
-  - !4555 tests: Add a test for g_object_freeze_notify() being called too often
-  - !4557 gfileinfo: Slightly expand docs for
-    g_file_info_get_attribute_as_string()
-  - !4558 gi: Dynamically set doc-format
-  - !4561 tests: Various fixes to create temporary files in /tmp rather than the
-    build directory
-  - !4562 gdbusnameowning: Convert docs to gi-docgen linking syntax
-  - !4563 giounix-private: Fix macro for checking for epoll_create1()
-  - !4565 Fix LGPL in header
-  - !4567 gutils: make documentation of g_set_prgname() clearer
-  - !4568 docs: Add some detail
-  - !4569 Update Romanian translation
-  - !4570 gspawn-win32: Fix potential integer overflows in argv handling
-  - !4571 gvarianttype: Improve docs on type validation
+Boost has switched the system module to headers-only, which makes kea
+unhappy. While kea can also compile with headers only, there is a scary
+warning about it causing runtime errors, in general saying it "is NOT
+recommended".
 
-* Translation updates:
-  - Catalan (Jordi Mas)
-  - Danish (Ask Hjorth Larsen)
-  - French (Vincent Chatelain)
-  - Indonesian (Andika Triwidada)
-  - Persian (Danial Behzadi)
-  - Romanian (Antonio Marin)
-  - Turkish (Sabri Ünal)
+kea 3.0 still tries to link with this module. I wanted to submit a bug
+upstream, however unfortunately they don't accept gmail addresses for
+registration. 
 
-(From OE-Core rev: 676b9acbe94f055a351da3bdcfbe457411e1877c)
+For now I will drop this - but maybe someone else will have better luck.
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-This upgrade fixes CVE-2025-4056
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- ...664e6f1a29e0d5f301979f6d168b08435a61.patch | 75 -------------------
- ...l_2.84.0.bb => glib-2.0-initial_2.84.1.bb} |  0
- ...{glib-2.0_2.84.0.bb => glib-2.0_2.84.1.bb} |  0
- meta/recipes-core/glib-2.0/glib.inc           |  3 +-
- 4 files changed, 1 insertion(+), 77 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f301979f6d168b08435a61.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.84.0.bb => glib-2.0-initial_2.84.1.bb} (100%)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.84.0.bb => glib-2.0_2.84.1.bb} (100%)
-
-diff --git a/meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f301979f6d168b08435a61.patch b/meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f301979f6d168b08435a61.patch
-deleted file mode 100644
-index 28bce02dc3..0000000000
---- a/meta/recipes-core/glib-2.0/files/aee0664e6f1a29e0d5f301979f6d168b08435a61.patch
-+++ /dev/null
-@@ -1,75 +0,0 @@
--From aee0664e6f1a29e0d5f301979f6d168b08435a61 Mon Sep 17 00:00:00 2001
--From: Philip Withnall <pwithnall@gnome.org>
--Date: Mon, 10 Mar 2025 15:21:15 +0000
--Subject: [PATCH] girparser: Ignore new doc:format element in GIR files
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--As of gobject-introspection 1.83.2, a new `<doc:format name="…"/>`
--element is supported (as a child of `<repository>`) in GIR files.
--
--For the moment, this information isn’t needed in libgirepository — but
--the GIR parser does have to know about the element in order to not throw
--an error claiming it’s invalid.
--
--This is a slightly tweaked version of the code added to
--gobject-introspection.git in commit
--9544cd6c962fab2c3203898779948309833e2439 by Corentin Noël
--<corentin.noel@collabora.com>, reformatted slightly to fit in with
--GLib’s style guidelines.
--
--This is backwards compatible and does not require a new
--gobject-introspection version.
--
--Signed-off-by: Philip Withnall <pwithnall@gnome.org>
--
--Fixes: #3634
--
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/aee0664e6f1a29e0d5f301979f6d168b08435a61.patch]
--
--Signed-off-by: Markus Volk <f_l_k@t-online.de>
-----
-- girepository/girparser.c | 12 +++++++++++-
-- 1 file changed, 11 insertions(+), 1 deletion(-)
--
--diff --git a/girepository/girparser.c b/girepository/girparser.c
--index 63143718d9..be88d871a4 100644
----- a/girepository/girparser.c
--+++ b/girepository/girparser.c
--@@ -107,7 +107,8 @@ typedef enum
--   STATE_ALIAS,
--   STATE_TYPE,
--   STATE_ATTRIBUTE,
---  STATE_PASSTHROUGH
--+  STATE_PASSTHROUGH,
--+  STATE_DOC_FORMAT,  /* 35 */
-- } ParseState;
-- 
-- typedef struct _ParseContext ParseContext;
--@@ -3159,6 +3160,11 @@ start_element_handler (GMarkupParseContext  *context,
--           state_switch (ctx, STATE_PASSTHROUGH);
--           goto out;
--         }
--+      else if (strcmp ("doc:format", element_name) == 0)
--+        {
--+          state_switch (ctx, STATE_DOC_FORMAT);
--+          goto out;
--+        }
--       break;
-- 
--     case 'e':
--@@ -3843,6 +3849,10 @@ end_element_handler (GMarkupParseContext  *context,
--           state_switch (ctx, ctx->prev_state);
--         }
--       break;
--+    case STATE_DOC_FORMAT:
--+      if (require_end_element (context, ctx, "doc:format", element_name, error))
--+        state_switch (ctx, STATE_REPOSITORY);
--+      break;
-- 
--     case STATE_PASSTHROUGH:
--       ctx->unknown_depth -= 1;
---- 
--GitLab
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.0.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.1.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.0.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.1.bb
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.84.1.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.84.0.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.84.1.bb
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 61e1a3ef17..4368e51df8 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -229,13 +229,12 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
-            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
-            file://skip-timeout.patch \
--           file://aee0664e6f1a29e0d5f301979f6d168b08435a61.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch \ 
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
-                               "
- 
--SRC_URI[sha256sum] = "f8823600cb85425e2815cfad82ea20fdaa538482ab74e7293d58b3f64a5aff6a"
-+SRC_URI[sha256sum] = "2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab6bb73396bf30789a"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
 
