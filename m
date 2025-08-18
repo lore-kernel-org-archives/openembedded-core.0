@@ -2,161 +2,115 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 077B2CA0ED1
-	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 16:37:43 +0000 (UTC)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
- by mx.groups.io with SMTP id smtpd.web11.112.1755535055889965589
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1897ECA0EE4
+	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 16:51:53 +0000 (UTC)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+ by mx.groups.io with SMTP id smtpd.web10.462.1755535910041662547
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 09:37:36 -0700
+ Mon, 18 Aug 2025 09:51:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IJ7F4ukv;
- spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e934c8f9657so1239805276.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 09:37:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HhMTl93u;
+ spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e931c858dbbso3424757276.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 09:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755535055; x=1756139855; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1755535909; x=1756140709; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+96cJu94ppMMSTzrPLwzbz+IfdR7Qwa/JOaocwmhx3w=;
-        b=IJ7F4ukvNOSg8ZKDh4lbwv6BGuVb07NTKFTDt6VEkDx+xyQOgk64wpGV260/ntuyrj
-         8IOONmhu6MMKnT4TAqOJ3JJ7l7ybJBorPO0wfPGijocQW5ScL5Ez+B+5Y85DMK4T2vFl
-         aMeXHyoK/khqUtbq2ys4U4XX+uemcLrSTBcENcGVSucrXLfnLzh50EL2gYdyTM+NCbnL
-         kip5tLEgBWDnVFzb37flkImjpHQvC7aCADeRmo1vclxL4+qxx05Vvw/+tKOesIKCHcHo
-         p6eGgp7iP3/f9wpbM7S1cZnK6mwW6vcuiVcJ860fQigilyMfXd1NO3vIatmJhkqNz4+w
-         Lvlg==
+        bh=0/a6yTbiWmZf3j8uWCu6aoSF/H7QYP0Xz2w/Pt1gGC0=;
+        b=HhMTl93uZs99L1gSJYQ0UaNX/48zh2QaIl47E9d1SkOczkT4pmB+pOi1IUraW41ng1
+         yRJ8MPCP89OeEHa+SxvV+l+U82avlhEFPfSyIFZ6CtA0G5Yi2OCDS+ZeHQJs+cT7nC9J
+         YTJuGsjhOGGCXZ6vLH/W49yTAKmoERaPRfEYxurDk+UGqeYt2q0lQVuR6+tn0DR6mNQU
+         9G8iiHIi3mbweTOii3O6RcGsWKUqZ+6Ku0hgMBKfR6j7WCyTHaP/dayIur4nLolTlT4G
+         VShXFMZngXYaxZ0O64Abz679O1sXR2twTFkcmhj5kt491ndAPVsOFPb+qj+lpgongo4v
+         U58g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755535055; x=1756139855;
+        d=1e100.net; s=20230601; t=1755535909; x=1756140709;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+96cJu94ppMMSTzrPLwzbz+IfdR7Qwa/JOaocwmhx3w=;
-        b=Fjn2RGywRUogKN/epDqkfplyHKHyeDcpNgDzIcMZ0Oi5R5TqQCWrqWhMRB3165XBEa
-         7p32bKUQi1YOd4oZzH42X1FAWznJG5XghhFnlwS7A56uUeyT5fPeSebOjkYuNl0ovcko
-         veVg2aN3wb7OTin6v2FYq4C5pA3/J6pM3gjEiLu/Ev9qI3R8u660dh9Hg567WHcC2OXP
-         Cp/idL+6qTmiFcE9v/LwRUmmARu8RoIkoGou+IYnjMHW3rvgfk+gW32kwWUue1dQYONL
-         XDDqZIYytMRaytD58AtsqJ5xSpTQD2bF06NxzSkpCNXYs7Ga+KGY43GwecK+jHXi0lt2
-         NZVg==
-X-Gm-Message-State: AOJu0Yxvrb9eW9ttoT7j6fMK8B1RfKU3OEPh8izTrpQpNzT9fOXK+ofe
-	fv1UA1gAKDnFs2HgSyS009yXT/mnSR3L5h2/hV70dt011o6b/HEw7ZwUzloLZVJg8lvxXRZrcG+
-	eWPXNh5MMOtL/0BhGlPEWhkDHM2KaHX8=
-X-Gm-Gg: ASbGnct3h8Krl26HJ653Msa1mO+oxvWM41UGmpsxlIM4DF82+qxxPDKSfAflBzVtSnM
-	p729FC4yg4735ZadvyIlauizqmp8Q985T58R3cIVYtMFm7AmzT9IsxPvd+BuHzcOjkVI7KA+HO5
-	hyw5J07ziuJYQT4OMSyxmb/NrDY+cJtQqv7Gi0NLJqSJWAkFZYrHHkY/2u/3oAWuAwqaQpmwf3a
-	Q0TZv8he0z1j8z/2QYgZHzec+trpPDEPGXaGEFB
-X-Google-Smtp-Source: AGHT+IHZkDSKNwdJVldwIrb2DM1XrTipv5/RJoyXFI2FJpvAQ3I23B9wTVS5qW1z0YA8ubdgzgQcF5B1HkdBWulba9Y=
-X-Received: by 2002:a05:6902:2010:b0:e90:6c17:7e03 with SMTP id
- 3f1490d57ef6-e933df07298mr11379725276.31.1755535054777; Mon, 18 Aug 2025
- 09:37:34 -0700 (PDT)
+        bh=0/a6yTbiWmZf3j8uWCu6aoSF/H7QYP0Xz2w/Pt1gGC0=;
+        b=GXkEMTqUNTmCCqo4xjaYwz3r0kozCQceK3IEXeYnMghTVaB+Ej52mOXKsgESDOvktW
+         5RaHb0n8V/0VjHLhNGpgmTeUioeZ14/DeZfNW1azw/8TGDiRn0qESnDc0EslRCI/skj3
+         UBh24i3lWJX1/vY18aTqlrVGLR8a6wUUAVhDO2CpXH8Ar04fGB5nbhNyyk47WP8psgQb
+         Pgp0Am4GRfQcSsAaWYa8PafdbM4dSkOA1dKeGxDuLQDY9Ni09PFek5x/L5VMa/kDewLm
+         I1dW7itWnqwtLrlCZQSuuic5hrues4aMyaO86WNuxHriG95U4C3IOCSpu6vqJjJCYV13
+         q95A==
+X-Gm-Message-State: AOJu0YxXhpHPsUkrhBbb0g0KCUD3oSb2DFb59hHOr84fB5geJOGIvZ7W
+	UQ6GGqWgmHJyevIAaqHZ0QelAzxOATdMlkCsMa4SbNeFSVENn/U4fY2I20mFj67p5/AztgZb34Q
+	rRZ17E2P/KwNLcD+afc4ZUSb5lxMLLdM=
+X-Gm-Gg: ASbGncuYpP92hwLRORZSpOdGTqoJBJ2lDcJefX0vGlzXNHAvb/AJ48IVBQ8TpZpdBef
+	Ilhf+ct6DR76eXcNOZ7+iDRES7Zx2Ow3e4RE4u7mcIdFWP7RGUL5HPRlTK0eIq2TTPm8T/EyppO
+	FKEwBniq5cfJmM7D6LOhC+8ZONvtBYg65clK72Ai/x1sU6Iy9sUrgZHOjI0ocNxUys7bUMtYhKJ
+	XigyKIWlf8xYqDBQgIczBBPhpkMqGo6C2b0lmdp
+X-Google-Smtp-Source: AGHT+IG37BNRMkbrKT9eEJAx/0W+mHfEK43r2R8Y9/sms/MKJBaPhURYsKZ2wbMj3ejcqgZvDN7QjzfC4mL5c/Rl0Sk=
+X-Received: by 2002:a05:6902:f84:b0:e93:4496:a2c7 with SMTP id
+ 3f1490d57ef6-e94e40cddcbmr156460276.15.1755535908879; Mon, 18 Aug 2025
+ 09:51:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250817164908.88234-1-mroj4n@gmail.com>
-In-Reply-To: <20250817164908.88234-1-mroj4n@gmail.com>
+References: <20250815162502.3092192-1-raj.khem@gmail.com> <DC4VNCG1YJSI.EVHDCRSBIBIS@bootlin.com>
+In-Reply-To: <DC4VNCG1YJSI.EVHDCRSBIBIS@bootlin.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 18 Aug 2025 09:37:08 -0700
-X-Gm-Features: Ac12FXwSpvbPeBhdBP8lR1GToJqsCUzVSLuxEaG86peRja30FSH-7fnq7Ymkm5w
-Message-ID: <CAMKF1soEqqU7GLCsQtm4RUAjy4ptVVbBaA+FQ2FesO1UpJ87YA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] wic: add attribute parameter to parted
-To: mroj4n@gmail.com
+Date: Mon, 18 Aug 2025 09:51:22 -0700
+X-Gm-Features: Ac12FXzjOZCJeXR12jEBxY2eH6KBiGjf7IL4sVLiYsdrS5GsWzYZdbQKgRwrHAQ
+Message-ID: <CAMKF1sou6fS7oV5RQGoGAAAiM6qbD+mx+VeTY_Fo8UJ+kJEYeQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] spirv-llvm-translator: Upgrade to 21.1.0
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 16:37:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222040
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 16:51:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222041
 
-On Sun, Aug 17, 2025 at 10:06=E2=80=AFAM Mohammed via lists.openembedded.or=
-g
-<mroj4n=3Dgmail.com@lists.openembedded.org> wrote:
+On Sun, Aug 17, 2025 at 10:26=E2=80=AFAM Mathieu Dubois-Briand
+<mathieu.dubois-briand@bootlin.com> wrote:
 >
-> Signed-off-by: Mohammed <mroj4n@gmail.com>
-> ---
->  scripts/lib/wic/help.py                  | 3 +++
->  scripts/lib/wic/ksparser.py              | 1 +
->  scripts/lib/wic/partition.py             | 1 +
->  scripts/lib/wic/plugins/imager/direct.py | 5 +++++
->  4 files changed, 10 insertions(+)
+> On Fri Aug 15, 2025 at 6:25 PM CEST, Khem Raj via lists.openembedded.org =
+wrote:
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
 >
-> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-> index 2e3061f343..fef856dbbb 100644
-> --- a/scripts/lib/wic/help.py
-> +++ b/scripts/lib/wic/help.py
-> @@ -1070,6 +1070,9 @@ DESCRIPTION
->                  an MBR header. Partitions with this flag will be include=
-d in
->                  this MBR header.
+> Hi Khem,
 >
-> +        --attribute: This option is specific to wic. This option is used=
- to set
-> +                      the partition attribute.
-> +
+> It looks like this is breaking the build:
+>
+> ERROR: spirv-llvm-translator-native-21.1.0-r0 do_configure: Execution of =
+'/srv/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64-lin=
+ux/spirv-llvm-translator-native/21.1.0/temp/run.do_configure.97313' failed =
+with exit code 1
+> ...
+> | CMake Error at CMakeLists.txt:82 (find_package):
+> |   Could not find a configuration file for package "LLVM" that is compat=
+ible
+> |   with requested version "21.1.0".
+> |
+> |   The following configuration files were considered but not accepted:
+> |
+> |     /srv/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86=
+_64-linux/spirv-llvm-translator-native/21.1.0/recipe-sysroot-native/usr/lib=
+/cmake/llvm/LLVMConfig.cmake, version: 20.1.8
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/11/builds/2207
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/2253
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/63/builds/2058
+>
+> Can you have a look at this please?
 
-There is no point of mentioning its specific to wic, the help message is
-coming out of wic help.
-
->      * bootloader
->
->        This command allows the user to specify various bootloader
-> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> index 7ef3dc83dd..af4fb91d58 100644
-> --- a/scripts/lib/wic/ksparser.py
-> +++ b/scripts/lib/wic/ksparser.py
-> @@ -189,6 +189,7 @@ class KickStart():
->          part.add_argument('--fsuuid')
->          part.add_argument('--no-fstab-update', action=3D'store_true')
->          part.add_argument('--mbr', action=3D'store_true')
-> +        part.add_argument('--attribute')
-
-Tabs/Spaces, use the existing formatting.
+Let's wait for it. I will send it when LLVM 21.1 releases, it just
+makes sense to
+send them in lockstep.
 
 >
->          bootloader =3D subparsers.add_parser('bootloader')
->          bootloader.add_argument('--append')
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index b34691d313..cf5c51f105 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -61,6 +61,7 @@ class Partition():
->          self.update_fstab_in_rootfs =3D False
->          self.hidden =3D args.hidden
->          self.mbr =3D args.mbr
-> +        self.attribute =3D args.attribute
+> Best regards,
+> Mathieu
 >
->          self.lineno =3D lineno
->          self.source_file =3D ""
-> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/p=
-lugins/imager/direct.py
-> index 6e1f1c8cba..877a5d2a97 100644
-> --- a/scripts/lib/wic/plugins/imager/direct.py
-> +++ b/scripts/lib/wic/plugins/imager/direct.py
-> @@ -664,6 +664,11 @@ class PartitionedImage():
->                  exec_native_cmd("sfdisk --sector-size %s --part-attrs %s=
- %s RequiredPartition" % \
->                                  (self.sector_size, self.path, part.num),
->                                  self.native_sysroot)
-> +
-> +            if part.attribute:
-> +                logger.debug("Set attribute:'%s' for partition '%s' on d=
-isk '%s'", part.attribute ,part.num, self.path)
-> +                exec_native_cmd("sgdisk -A %s:=3D:%s %s" % (part.num, pa=
-rt.attribute, self.path), \
-> +                self.native_sysroot)
->
-
-It would be good to add a testcase for this as well.
-
->          if self.ptable_format =3D=3D "gpt-hybrid":
->              # Write a protective GPT partition
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#222005): https://lists.openembedded.org/g/openembedde=
-d-core/message/222005
-> Mute This Topic: https://lists.openembedded.org/mt/114750349/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 >
 
