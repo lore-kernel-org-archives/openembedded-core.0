@@ -1,97 +1,219 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 460A5CA0ED1
-	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 19:55:52 +0000 (UTC)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
- by mx.groups.io with SMTP id smtpd.web10.705.1755546950943042574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F003CA0ED1
+	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 19:57:02 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web10.732.1755547016240113324
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 12:55:51 -0700
+ Mon, 18 Aug 2025 12:56:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gb/a6W9K;
- spf=pass (domain: gmail.com, ip: 209.85.166.180, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-3e61c51f1d6so29434935ab.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 12:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755546950; x=1756151750; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DMhodwJ8s5W9dFHow0oYxsg7NYEOvjHpXBP8zYsTf/U=;
-        b=Gb/a6W9KesK8sOcvruklfipyB/56P5SduAUDRj2z4kf9xWPDZAgM0kOTO+Rfj1IBXF
-         6l6Hv2yd0H9HBHcD/LxuV6uXvAO/5eteCfrMye8vtw/WN4XUAwLSrGS44BCrRyAYkfy3
-         u2GJPIporsEIWontsztZHZK11jZOwCeUNM/os8nXXBRXwVNfwDURIU5BMkZTobUHN3pm
-         Kr787Kw4im9KoF2i+/fm+BQfJHyv1ZwZCidWP7ZDnRVNDz5LR+/efhCbj7C+VLCNdCzs
-         EE2pJlxcllVDs3g6i8duduGBYAGv2SnkJYrpytiwvX2SSPSGzQDv38F1MCCo2YOyJ8Jb
-         q7MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755546950; x=1756151750;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DMhodwJ8s5W9dFHow0oYxsg7NYEOvjHpXBP8zYsTf/U=;
-        b=T01hoggvuTQKmpU7UNVpdfaoFvEecMDzur75D9fhcg8i9BnG94U3fy+EcROo/Kc3R8
-         OPzmoApr3vMQyLXbOh2dTLSmO/AoQaVk3OGNrQCFEGLJbZpIe5+Q1O9JxWAHGfjbZBrW
-         o6YMDZaEWPSrzIPnYd3ZFks3wYRpwJ6BGvR9sBFp1vDxoh9fB0fFnQ0CkTwzYoc66ZZe
-         /W3d7+nbX/A9I1yaOYGOy7D/zCIJRivQPMO8AhKzPlIqw1fseLwiNlrwNSWzlFLCTrPK
-         scxtqQMXoZg45XRzOfMpOJwpElyfkyJFPBVbzPaI3LOqD8jmUZOLHcyBsTVAi5EfpXVd
-         yqSw==
-X-Gm-Message-State: AOJu0Yw0DjrgJ6Ru29lVz6XeXnMW4IKLDM/SvcmUpvdFoOzz9cBbT2qe
-	2ILWsvd8UUtIoaDr1PbpMUsu6LNmQM3co23cmcG7uM3XXTL2igOjbd2fBpE1MQ==
-X-Gm-Gg: ASbGncuOVH/5UMzNzB3pgZdNWpIWmfssW9FjDByGI+zC4tZurGX6O/m725ikZ866Qzc
-	0Mbta2lXGdENAe/3qvh54ZlOwByUY8RddLTPSF+/4XNY8P0BrBB3rVbM/M8EZBVgvIMk3ANV7yy
-	ko0Q97aVYjl4FnDbEn8etdC2poJbtcLIdQSfO8N+ePqJbi9cM2rS3vacSzAecth0j5gMQcZsX07
-	20hB1YF3L52f7WEjRxHn615JBvkXhZShWQUnHEkZM8u56QqKX/HJ1fbdcSHrDos2eaWhZ5VDn39
-	8koUirVHINCUbpHx2YOrIJQCcvi24H6CMs9c986102mttfg3wFFiuygTwx/K+DI7GSphjEkIj4/
-	sFiZ1xw3n9O74RevvoLCN
-X-Google-Smtp-Source: AGHT+IHUWhXSGwsr/yhWsgWn016likj2Y7LzOQhuSvuMcfdY1KroKsP1xSWHM1rWppeEoEvApCsVAA==
-X-Received: by 2002:a05:6e02:1b01:b0:3e5:4351:ad0a with SMTP id e9e14a558f8ab-3e6765e2e0fmr311625ab.7.1755546949902;
-        Mon, 18 Aug 2025 12:55:49 -0700 (PDT)
-Received: from localhost.localdomain ([2601:282:4300:19e0::e100])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-50c94781d01sm2794161173.4.2025.08.18.12.55.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 12:55:49 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=e47FGRfa;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202508181956541f8bf76d154337d616-00eysh@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202508181956541f8bf76d154337d616
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 18 Aug 2025 21:56:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=L1Icqv/taP2zVVo1V0DOMfYUH+ePrueYC4EOPwKwz44=;
+ b=e47FGRfanCC9NFaEWvq7h7YYaPkkrsCY2CyDmBBh90BRCxAC8vQrgfhgcrqYElrEcTe3cv
+ h5xeoUA9E2tb2SCsy7axRKlDQeZNlX8XSw6CWiZJtWaUxUFMY7IOJq6/NXQiG1LaFRrNsRBF
+ cqGLs5sDBbdc8JvqfPFx5wqbaL/TiBn1ohvzEIf6zvFP2NfJKmu1+qjSDbiKwD7decwMChVL
+ OuSEdL8xiTsCsDXa59vpbZZkBnAMFjHp0Lywh6VY+oM4+XKnCIbFBkrsrYAnGSGI1EstkFXv
+ xrVnKeZ7jcsHyKQVRPRY+TcKQ91gtHa2iHPHPNl3R2KBYFEQNnNPEZmg==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] spdx30_tasks: Change package license to declared
-Date: Mon, 18 Aug 2025 13:55:43 -0600
-Message-ID: <20250818195543.1428606-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH 2/2] glib-2.0: patch CVE-2025-6052
+Date: Mon, 18 Aug 2025 21:56:03 +0200
+Message-Id: <20250818195603.2459636-2-peter.marko@siemens.com>
+In-Reply-To: <20250818195603.2459636-1-peter.marko@siemens.com>
+References: <20250818195603.2459636-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 19:55:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222047
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 19:57:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222049
 
-Per discussion with SPDX licensing group, the package license statements
-classify as declared licenses, not concluded licenses.
+From: Peter Marko <peter.marko@siemens.com>
 
-Note that this is the same as a change made to the recipe licenses, just
-for packages.
+Backport commits from [1] which references this CVE.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+[1] https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4681
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/lib/oe/spdx30_tasks.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../glib-2.0/files/CVE-2025-6052-1.patch      | 97 +++++++++++++++++++
+ .../glib-2.0/files/CVE-2025-6052-2.patch      | 35 +++++++
+ meta/recipes-core/glib-2.0/glib.inc           |  4 +-
+ 3 files changed, 135 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch
+ create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index c352dab1520..f2f133005d8 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -696,7 +696,7 @@ def create_spdx(d):
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch b/meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch
+new file mode 100644
+index 0000000000..a344735ee4
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch
+@@ -0,0 +1,97 @@
++From 6aa97beda32bb337370858862f4efe2f3372619f Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Mon, 7 Jul 2025 20:52:24 +0200
++Subject: [PATCH] gstring: Fix g_string_sized_new segmentation fault
++
++If glib is compiled with -Dglib_assert=false, i.e. no asserts
++enabled, then g_string_sized_new(G_MAXSIZE) leads to a segmentation
++fault due to an out of boundary write.
++
++This happens because the overflow check was moved into
++g_string_maybe_expand which is not called by g_string_sized_new.
++
++By assuming that string->allocated_len is always larger than
++string->len (and the code would be in huge trouble if that is not true),
++the G_UNLIKELY check in g_string_maybe_expand can be rephrased to
++avoid a potential G_MAXSIZE overflow.
++
++This in turn leads to 150-200 bytes smaller compiled library
++depending on gcc and clang versions, and one less check for the most
++common code paths.
++
++Reverts https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4655 and
++reorders internal g_string_maybe_expand check to still fix
++CVE-2025-6052.
++
++CVE: CVE-2025-6052
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/6aa97beda32bb337370858862f4efe2f3372619f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ glib/gstring.c      | 10 +++++-----
++ glib/tests/string.c | 18 ++++++++++++++++++
++ 2 files changed, 23 insertions(+), 5 deletions(-)
++
++diff --git a/glib/gstring.c b/glib/gstring.c
++index 010a8e976..24c4bfb40 100644
++--- a/glib/gstring.c
+++++ b/glib/gstring.c
++@@ -68,6 +68,10 @@ static void
++ g_string_expand (GString *string,
++                  gsize    len)
++ {
+++  /* Detect potential overflow */
+++  if G_UNLIKELY ((G_MAXSIZE - string->len - 1) < len)
+++    g_error ("adding %" G_GSIZE_FORMAT " to string would overflow", len);
+++
++   string->allocated_len = g_nearest_pow (string->len + len + 1);
++   /* If the new size is bigger than G_MAXSIZE / 2, only allocate enough
++    * memory for this string and don't over-allocate.
++@@ -82,11 +86,7 @@ static inline void
++ g_string_maybe_expand (GString *string,
++                        gsize    len)
++ {
++-  /* Detect potential overflow */
++-  if G_UNLIKELY ((G_MAXSIZE - string->len - 1) < len)
++-    g_error ("adding %" G_GSIZE_FORMAT " to string would overflow", len);
++-
++-  if (G_UNLIKELY (string->len + len >= string->allocated_len))
+++  if (G_UNLIKELY (len >= string->allocated_len - string->len))
++     g_string_expand (string, len);
++ }
++ 
++diff --git a/glib/tests/string.c b/glib/tests/string.c
++index aa363c57a..e3bc4a02e 100644
++--- a/glib/tests/string.c
+++++ b/glib/tests/string.c
++@@ -767,6 +767,23 @@ test_string_new_take_null (void)
++   g_string_free (g_steal_pointer (&string), TRUE);
++ }
++ 
+++static void
+++test_string_sized_new (void)
+++{
+++
+++  if (g_test_subprocess ())
+++    {
+++      GString *string = g_string_sized_new (G_MAXSIZE);
+++      g_string_free (string, TRUE);
+++    }
+++  else
+++    {
+++      g_test_trap_subprocess (NULL, 0, G_TEST_SUBPROCESS_DEFAULT);
+++      g_test_trap_assert_failed ();
+++      g_test_trap_assert_stderr ("*string would overflow*");
+++    }
+++}
+++
++ int
++ main (int   argc,
++       char *argv[])
++@@ -796,6 +813,7 @@ main (int   argc,
++   g_test_add_func ("/string/test-string-steal", test_string_steal);
++   g_test_add_func ("/string/test-string-new-take", test_string_new_take);
++   g_test_add_func ("/string/test-string-new-take/null", test_string_new_take_null);
+++  g_test_add_func ("/string/sized-new", test_string_sized_new);
++ 
++   return g_test_run();
++ }
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch b/meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch
+new file mode 100644
+index 0000000000..703dfdf46c
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch
+@@ -0,0 +1,35 @@
++From 3752760c5091eaed561ec11636b069e529533514 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Mon, 7 Jul 2025 20:57:41 +0200
++Subject: [PATCH] gstring: Improve g_string_append_len_inline checks
++
++Use the same style for the G_LIKELY check here as in g_string_sized_new.
++The check could overflow on 32 bit systems.
++
++Also improve the memcpy/memmove check to use memcpy if val itself is
++adjacent to end + len_unsigned, which means that no overlapping exists.
++
++CVE: CVE-2025-6052
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/3752760c5091eaed561ec11636b069e529533514]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ glib/gstring.h | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/glib/gstring.h b/glib/gstring.h
++index e817176c9..c5e64b33a 100644
++--- a/glib/gstring.h
+++++ b/glib/gstring.h
++@@ -232,10 +232,10 @@ g_string_append_len_inline (GString    *gstring,
++   else
++     len_unsigned = (gsize) len;
++ 
++-  if (G_LIKELY (gstring->len + len_unsigned < gstring->allocated_len))
+++  if (G_LIKELY (len_unsigned < gstring->allocated_len - gstring->len))
++     {
++       char *end = gstring->str + gstring->len;
++-      if (G_LIKELY (val + len_unsigned <= end || val > end + len_unsigned))
+++      if (G_LIKELY (val + len_unsigned <= end || val >= end + len_unsigned))
++         memcpy (end, val, len_unsigned);
++       else
++         memmove (end, val, len_unsigned);
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index c0044b4cf9..c80396a0f1 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -231,8 +231,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+            file://skip-timeout.patch \
++           file://CVE-2025-6052-1.patch \
++           file://CVE-2025-6052-2.patch \
+            "
+-SRC_URI:append:class-native = " file://relocate-modules.patch \ 
++SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+                               "
  
-             pkg_objset.new_relationship(
-                 [spdx_package],
--                oe.spdx30.RelationshipType.hasConcludedLicense,
-+                oe.spdx30.RelationshipType.hasDeclaredLicense,
-                 [oe.sbom30.get_element_link_id(package_spdx_license)],
-             )
- 
--- 
-2.49.0
-
 
