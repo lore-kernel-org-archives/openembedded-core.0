@@ -2,134 +2,323 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C503DCA0EE6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC485CA0EED
 	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 13:20:33 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web10.58035.1755454642840308703
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by mx.groups.io with SMTP id smtpd.web10.69036.1755498411192230803
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Aug 2025 11:17:23 -0700
+ Sun, 17 Aug 2025 23:26:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=j/6tDu0E;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: mroj4n@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6188b690517so5011128a12.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Aug 2025 11:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755454641; x=1756059441; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HadvtnxowLUPxUG9Up7yqvIv62yvotgw0+6EG5iP6RI=;
-        b=j/6tDu0E4GB12XqNczdIRhxjCLwJuNGgYHngIurNdTowZ17yr7na6+OoUT8WEZ5dA2
-         A46kH+LrA9I8tbnbsLdZp5ul2XG+XMdihtG7UVDy/o+PPefUVL/btXlbW3ZoSfsHDfLr
-         yj7d3/ZzhvNL1obeEW5YXZLQQUiK0/FH0k4OBUqjqIajozuU8m3evC+XN9Hjx85+RLug
-         +FAVoWSV0Onuu7FviPIyH/YIo+Bk7+xd/h50XRT9OfqnxBgEZ8TMFOFjw2rVFEGo6UpQ
-         qNvTqIaE6FHwY6tDwEWJoXZjGnimhHbQhLxEToUYc2U2Y4Dt035X5EcnykHxrlRLE1fj
-         jKUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755454641; x=1756059441;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HadvtnxowLUPxUG9Up7yqvIv62yvotgw0+6EG5iP6RI=;
-        b=Bx+kzdeaQZP0wYhJ1++Pq6LMjKOBDx/arvtJxkOEwLJpUi4LQGah51Z6aXP23x0bl9
-         j+oetGmsNKnlGLrXPEgSHCKt3MJUK3qWuBGkbsP80mpKcN4kXHUag1g7j5QIdf2lUw99
-         7eM5KYob1Bf0fPFnXmPGrQ4puQgc96HM+YI7Jq+KPhPdtotV9s6QQE8FUn8zkOaXDRCX
-         BnmMZhPhsPIw4gaXrA6pxcI3pGSsLkirvbm16qAE/EtuTaRFvbCGS8Ra3YCsUQrt9gmv
-         ETXGvpSU06n7xbDetvMZN34doOETHcvMOt0IwgoKyQXDLa2eIaI39Vn3WGsKZi3NImQq
-         /l+g==
-X-Gm-Message-State: AOJu0Yxt1xDxD19fSVI2BAUL0vKFn4XwIwTOM0Rp9ws2PChLkibQccex
-	SN1srwaBAVAq3dizWkKqRB/ye9MkwJWOGrQKeFPYvMhupoSHszrHikIR40HLGTQc
-X-Gm-Gg: ASbGncvXEV5lFJHsr9+u1rt5YzxaQSH67vycxuh5A87xG55eIbILLgKqLXOQ5cCCXPl
-	3K/KYWx4CCouDymcGGhdqZSbP7Ne/RzWOMdOwA+rJbySiT2Y1Q6OOzTjpA/8MnNC/hMjv8IPR6W
-	6pavhgFstBm7CW9GqJDma58VcsQsQvnAmge+p2iB00csMbGqvN2peSDtHy/qUvhewrZ2Krrx8O/
-	g3+3EsrwUH0xzAFuCxtbeRAN4LMY5kwqrqFWFpFv8bbaIstW2ZvsVkMkAJGw5wqCaxwgkcdyzsX
-	lPAJFVP6Y9HjYUBvhufKFRKoCOayWIjdamiwdP8kPRmusrAGxsmLgtZ6n2fi+Pl3FjGjXxsuzwc
-	VpgK2OM0DU9KtHKHctYtKH3gY29zVrY4M/YkCtV3KJ3By30r8OgOImg==
-X-Google-Smtp-Source: AGHT+IHpfVDbRc/Vn9ZkLFnmpQnPOHo535osZ8E5FYOkawX3zFXpRYbqrMDG0SkGHVKOZvcO+Rp2sA==
-X-Received: by 2002:a05:6402:1e8a:b0:618:7585:be40 with SMTP id 4fb4d7f45d1cf-618b054b91fmr7526537a12.17.1755454640805;
-        Sun, 17 Aug 2025 11:17:20 -0700 (PDT)
-Received: from MROJ4N.localdomain (89-64-15-146.dynamic.play.pl. [89.64.15.146])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-618b01b5fa1sm5397800a12.46.2025.08.17.11.17.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 11:17:19 -0700 (PDT)
-From: Mohammed <mroj4n@gmail.com>
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.51, mailfrom: youngseok1.jeong@lge.com)
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+	by 156.147.23.51 with ESMTP; 18 Aug 2025 15:26:49 +0900
+X-Original-SENDERIP: 156.147.1.126
+X-Original-MAILFROM: youngseok1.jeong@lge.com
+Received: from unknown (HELO ys-server..) (10.177.121.106)
+	by 156.147.1.126 with ESMTP; 18 Aug 2025 15:26:49 +0900
+X-Original-SENDERIP: 10.177.121.106
+X-Original-MAILFROM: youngseok1.jeong@lge.com
+From: youngseok1.jeong@lge.com
 To: openembedded-core@lists.openembedded.org
-Cc: Mohammed <mroj4n@gmail.com>
-Subject: [PATCH] wic: add attribute parameter to parted
-Date: Sun, 17 Aug 2025 20:16:30 +0200
-Message-ID: <20250817181630.3234-1-mroj4n@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Youngseok Jeong <youngseok1.jeong@lge.com>
+Subject: [meta-oe][kirkstone][PATCH] json-schema-validator: backport v2.2.0
+Date: Mon, 18 Aug 2025 15:26:47 +0900
+Message-Id: <20250818062647.11831-1-youngseok1.jeong@lge.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 13:20:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222110
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222111
 
-Add argument parameter which will use sgdisk to set argument
-Certain bootloaders use attribute to recognize correct boot partitions
-and having the option via wic tool would remove the need to do via external scripts
+From: Youngseok Jeong <youngseok1.jeong@lge.com>
 
-Signed-off-by: Mohammed <mroj4n@gmail.com>
+The v2.1.0 has issues related sysroot when some recipes DEPENDS it.
+For details, when CMakeList in some recipes has the line like
+find_package(nlohmann_json_schema_validator REQUIRED),
+that issue is occurred.
+
+See error log:
+The imported target "nlohmann_json_schema_validator" references the file
+"/usr/lib/libnlohmann_json_schema_validator.so.2.1.0"
+but this file does not exist.
+
+A patch to fix this sysroot issue exists and was included in v2.2.0:
+https://github.com/pboettch/json-schema-validator/pull/128/commits/63406ef87f23c55d8a03a0ac6e3149a59edf037e
+So backporting the 2.2.0 from scarthgap is better way rather than
+applied that patch to kirkstone.
+
+Signed-off-by: Youngseok Jeong <youngseok1.jeong@lge.com>
 ---
- scripts/lib/wic/help.py                  | 3 +++
- scripts/lib/wic/ksparser.py              | 1 +
- scripts/lib/wic/partition.py             | 1 +
- scripts/lib/wic/plugins/imager/direct.py | 5 +++++
- 4 files changed, 10 insertions(+)
+ ...or-Install-off-if-it-finds-it-via-li.patch | 29 ++++++++
+ .../0002-Fix-assumed-signed-char.patch        | 71 +++++++++++++++++++
+ ...003-For-root-value-use-empty-pointer.patch | 41 +++++++++++
+ ...ch => 0004-cmake-Use-GNUInstallDirs.patch} | 23 +++---
+ .../json-schema-validator_2.1.0.bb            | 16 -----
+ .../json-schema-validator_2.2.0.bb            | 19 +++++
+ 6 files changed, 170 insertions(+), 29 deletions(-)
+ create mode 100644 meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0001-Set-Json_validator-Install-off-if-it-finds-it-via-li.patch
+ create mode 100644 meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0002-Fix-assumed-signed-char.patch
+ create mode 100644 meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0003-For-root-value-use-empty-pointer.patch
+ rename meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/{0001-cmake-Use-GNUInstallDirs.patch => 0004-cmake-Use-GNUInstallDirs.patch} (60%)
+ delete mode 100644 meta-oe/recipes-devtools/json-schema-validator/json-schema-validator_2.1.0.bb
+ create mode 100644 meta-oe/recipes-devtools/json-schema-validator/json-schema-validator_2.2.0.bb
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 2e3061f343..fef856dbbb 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -1070,6 +1070,9 @@ DESCRIPTION
-                 an MBR header. Partitions with this flag will be included in
-                 this MBR header.
- 
-+        --attribute: This option is specific to wic. This option is used to set
-+                      the partition attribute.
+diff --git a/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0001-Set-Json_validator-Install-off-if-it-finds-it-via-li.patch b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0001-Set-Json_validator-Install-off-if-it-finds-it-via-li.patch
+new file mode 100644
+index 0000000000..6e6a4b93e8
+--- /dev/null
++++ b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0001-Set-Json_validator-Install-off-if-it-finds-it-via-li.patch
+@@ -0,0 +1,29 @@
++From 35939115142db6cd366ab11b29692a0179338ddf Mon Sep 17 00:00:00 2001
++From: Parian Golchin <Parian.Golchin@iris-sensing.com>
++Date: Fri, 18 Aug 2023 15:54:25 +0200
++Subject: [PATCH 1/3] Set Json_validator Install off if it finds it via linking
 +
-     * bootloader
++Upstream-Status: Inappropriate [newer version of cmake in main branch]
++
++Signed-off-by: Parian Golchin <Parian.Golchin@iris-sensing.com>
++---
++ CMakeLists.txt | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index f636734..9e4587f 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -55,6 +55,9 @@ option(JSON_VALIDATOR_BUILD_EXAMPLES "Build examples" ${JSON_VALIDATOR_IS_TOP_LE
++ 
++ if(NOT TARGET nlohmann_json::nlohmann_json)
++     find_package(nlohmann_json REQUIRED)
+++else()
+++    message(STATUS "Found nlohmann_json::nlohmann_json-target - linking with it")
+++    set(JSON_VALIDATOR_INSTALL OFF)
++ endif()
++ 
++ target_link_libraries(
++-- 
++2.25.1
++
+diff --git a/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0002-Fix-assumed-signed-char.patch b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0002-Fix-assumed-signed-char.patch
+new file mode 100644
+index 0000000000..1c4b871bb6
+--- /dev/null
++++ b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0002-Fix-assumed-signed-char.patch
+@@ -0,0 +1,71 @@
++From 2065015da40cf79dd8ec9e3f186538e17c3b592f Mon Sep 17 00:00:00 2001
++From: Robert Joslyn <robert.joslyn@redrectangle.org>
++Date: Wed, 30 Nov 2022 13:07:29 -0800
++Subject: [PATCH 2/3] Fix assumed signed char
++
++The code assumes that char is signed, but whether char is signed or
++unsigned is implementation defined. On some architectures like PowerPC,
++GCC treats char as unsigned resulting in compile errors:
++
++	smtp-address-validator.cpp:213:1: error: narrowing conversion of '-32' from 'int' to 'char' [-Wnarrowing]
++
++Fix this by specifying signed char.
++
++Upstream-Status: Backport [https://github.com/pboettch/json-schema-validator/commit/491ac44026e08f31790f5cacffa62e168bb35e32]
++
++Signed-off-by: Parian Golchin <Parian.Golchin@iris-sensing.com>
++---
++ src/smtp-address-validator.cpp | 16 ++++++++--------
++ 1 file changed, 8 insertions(+), 8 deletions(-)
++
++diff --git a/src/smtp-address-validator.cpp b/src/smtp-address-validator.cpp
++index a63ead0..3903b51 100644
++--- a/src/smtp-address-validator.cpp
+++++ b/src/smtp-address-validator.cpp
++@@ -63,7 +63,7 @@ static const short _address_key_offsets[] = {
++ 	1363, 1365, 1367, 1368, 1370, 1388, 0
++ };
++ 
++-static const char _address_trans_keys[] = {
+++static const signed char _address_trans_keys[] = {
++ 	-32, -19, -16, -12, 34, 45, 61, 63,
++ 	-62, -33, -31, -17, -15, -13, 33, 39,
++ 	42, 43, 47, 57, 65, 90, 94, 126,
++@@ -711,7 +711,7 @@ bool is_address(const char* p, const char* pe)
++ 	{
++ 		int _klen;
++ 		unsigned int _trans = 0;
++-		const char * _keys;
+++		const signed char * _keys;
++ 		const signed char * _acts;
++ 		unsigned int _nacts;
++ 		_resume: {}
++@@ -728,9 +728,9 @@ bool is_address(const char* p, const char* pe)
++ 			
++ 			_klen = (int)_address_single_lengths[cs];
++ 			if ( _klen > 0 ) {
++-				const char *_lower = _keys;
++-				const char *_upper = _keys + _klen - 1;
++-				const char *_mid;
+++				const signed char *_lower = _keys;
+++				const signed char *_upper = _keys + _klen - 1;
+++				const signed char *_mid;
++ 				while ( 1 ) {
++ 					if ( _upper < _lower ) {
++ 						_keys += _klen;
++@@ -752,9 +752,9 @@ bool is_address(const char* p, const char* pe)
++ 			
++ 			_klen = (int)_address_range_lengths[cs];
++ 			if ( _klen > 0 ) {
++-				const char *_lower = _keys;
++-				const char *_upper = _keys + (_klen<<1) - 2;
++-				const char *_mid;
+++				const signed char *_lower = _keys;
+++				const signed char *_upper = _keys + (_klen<<1) - 2;
+++				const signed char *_mid;
++ 				while ( 1 ) {
++ 					if ( _upper < _lower ) {
++ 						_trans += (unsigned int)_klen;
++-- 
++2.25.1
++
+diff --git a/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0003-For-root-value-use-empty-pointer.patch b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0003-For-root-value-use-empty-pointer.patch
+new file mode 100644
+index 0000000000..eac997ae58
+--- /dev/null
++++ b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0003-For-root-value-use-empty-pointer.patch
+@@ -0,0 +1,41 @@
++From fa49c29942763285c51b7d2dea417d9f51e4961f Mon Sep 17 00:00:00 2001
++From: Sven Fink <sven.fink@wipotec.com>
++Date: Fri, 13 Jan 2023 09:15:42 +0100
++Subject: [PATCH 3/3] For root value, use empty pointer
++
++Upstream-Status: Backport [https://github.com/pboettch/json-schema-validator/commit/59c9d6200bf3cd54b4fc717ec1660c91eddb4d1a]
++
++Signed-off-by: Parian Golchin <Parian.Golchin@iris-sensing.com>
++---
++ src/json-validator.cpp | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/src/json-validator.cpp b/src/json-validator.cpp
++index 7f34553..3c73d98 100644
++--- a/src/json-validator.cpp
+++++ b/src/json-validator.cpp
++@@ -553,6 +553,9 @@ class type_schema : public schema
++ 					else_->validate(ptr, instance, patch, e);
++ 			}
++ 		}
+++		if (instance.is_null()) {
+++			patch.add(nlohmann::json::json_pointer{}, default_value_);
+++		}
++ 	}
++ 
++ protected:
++@@ -1134,6 +1137,11 @@ public:
++ 			propertyNames_ = schema::make(attr.value(), root, {"propertyNames"}, uris);
++ 			sch.erase(attr);
++ 		}
+++
+++		attr = sch.find("default");
+++		if (attr != sch.end()) {
+++			set_default_value(*attr);
+++		}
++ 	}
++ };
++ 
++-- 
++2.25.1
++
+diff --git a/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0001-cmake-Use-GNUInstallDirs.patch b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0004-cmake-Use-GNUInstallDirs.patch
+similarity index 60%
+rename from meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0001-cmake-Use-GNUInstallDirs.patch
+rename to meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0004-cmake-Use-GNUInstallDirs.patch
+index 4b1184a394..8199e4f8d4 100644
+--- a/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0001-cmake-Use-GNUInstallDirs.patch
++++ b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator/0004-cmake-Use-GNUInstallDirs.patch
+@@ -1,4 +1,4 @@
+-From e0b1ad02c678513412aba95a1b2fb4005c3c0452 Mon Sep 17 00:00:00 2001
++From a42d374aa260caec5f683c75d0db322811e51ab9 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 19 Mar 2022 22:40:49 -0700
+ Subject: [PATCH] cmake: Use GNUInstallDirs
+@@ -13,10 +13,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 5 insertions(+), 3 deletions(-)
  
-       This command allows the user to specify various bootloader
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 7ef3dc83dd..af4fb91d58 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -189,6 +189,7 @@ class KickStart():
-         part.add_argument('--fsuuid')
-         part.add_argument('--no-fstab-update', action='store_true')
-         part.add_argument('--mbr', action='store_true')
-+        part.add_argument('--attribute')
- 
-         bootloader = subparsers.add_parser('bootloader')
-         bootloader.add_argument('--append')
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index b34691d313..cf5c51f105 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -61,6 +61,7 @@ class Partition():
-         self.update_fstab_in_rootfs = False
-         self.hidden = args.hidden
-         self.mbr = args.mbr
-+        self.attribute = args.attribute
- 
-         self.lineno = lineno
-         self.source_file = ""
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 6e1f1c8cba..877a5d2a97 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -664,6 +664,11 @@ class PartitionedImage():
-                 exec_native_cmd("sfdisk --sector-size %s --part-attrs %s %s RequiredPartition" % \
-                                 (self.sector_size, self.path, part.num),
-                                 self.native_sysroot)
-+            
-+            if part.attribute:
-+                logger.debug("Set attribute:'%s' for partition '%s' on disk '%s'", part.attribute ,part.num, self.path)
-+                exec_native_cmd("sgdisk -A %s:=:%s %s" % (part.num, part.attribute, self.path), \
-+                self.native_sysroot)
- 
-         if self.ptable_format == "gpt-hybrid":
-             # Write a protective GPT partition
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index c4cc218..594dc5f 100644
++index 9e4587f..3eff234 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -122,11 +122,13 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
++@@ -93,11 +93,13 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+      endif()
+  endif()
+  
+@@ -32,15 +32,12 @@ index c4cc218..594dc5f 100644
+              RUNTIME DESTINATION bin)
+  
+      install(FILES src/nlohmann/json-schema.hpp
+-@@ -155,7 +157,7 @@ if(JSON_VALIDATOR_INSTALL)
+-     # Set Up the Project Targets and Config Files for CMake
++@@ -129,7 +131,7 @@ endif()
+  
+-     # Set the install path to the cmake config files
+--    set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME})
+-+    set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
++ if(JSON_VALIDATOR_INSTALL)
++     # Set the install path to the cmake config files (Relative, so install works correctly under Hunter as well)
++-    set(INSTALL_CMAKE_DIR "lib/cmake/${PROJECT_NAME}")
+++    set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
++     set(INSTALL_CMAKEDIR_ROOT share/cmake)
+  
+-     # Create the ConfigVersion file
+-     include(CMakePackageConfigHelpers) # write_basic_package_version_file
+--- 
+-2.35.1
+-
++     # Install Targets
+diff --git a/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator_2.1.0.bb b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator_2.1.0.bb
+deleted file mode 100644
+index 00d26d7b34..0000000000
+--- a/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator_2.1.0.bb
++++ /dev/null
+@@ -1,16 +0,0 @@
+-SUMMARY = "JSON schema validator for JSON for Modern C++"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=c441d022da1b1663c70181a32225d006"
+-
+-SRC_URI = "git://github.com/pboettch/json-schema-validator;branch=master;protocol=https \
+-           file://0001-cmake-Use-GNUInstallDirs.patch \
+-          "
+-SRCREV = "27fc1d094503623dfe39365ba82581507524545c"
+-
+-S = "${WORKDIR}/git"
+-
+-DEPENDS += "nlohmann-json"
+-
+-inherit cmake
+-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF"
+-
+diff --git a/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator_2.2.0.bb b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator_2.2.0.bb
+new file mode 100644
+index 0000000000..02dcdb2696
+--- /dev/null
++++ b/meta-oe/recipes-devtools/json-schema-validator/json-schema-validator_2.2.0.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "JSON schema validator for JSON for Modern C++"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=c441d022da1b1663c70181a32225d006"
++
++SRC_URI = "git://github.com/pboettch/json-schema-validator;branch=main;protocol=https \
++           file://0001-Set-Json_validator-Install-off-if-it-finds-it-via-li.patch \
++           file://0002-Fix-assumed-signed-char.patch \
++           file://0003-For-root-value-use-empty-pointer.patch \
++           file://0004-cmake-Use-GNUInstallDirs.patch \
++           "
++
++SRCREV = "6b17782d6a5d1dee5d2c4fc5d25ffb1123913431"
++
++S = "${WORKDIR}/git"
++
++DEPENDS += "nlohmann-json"
++
++inherit cmake
++EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS=ON -DJSON_VALIDATOR_BUILD_TESTS=OFF -DJSON_VALIDATOR_BUILD_EXAMPLES=OFF"
 
