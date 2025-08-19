@@ -1,197 +1,260 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 437BFCA0EE6
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 06:02:51 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.10])
- by mx.groups.io with SMTP id smtpd.web10.7351.1755583362881565616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92A6CCA0EF5
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 07:17:51 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by mx.groups.io with SMTP id smtpd.web11.8190.1755587866912494362
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 23:02:43 -0700
+ Tue, 19 Aug 2025 00:17:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=oVmMOsRh;
- spf=pass (domain: siemens.com, ip: 52.101.69.10, mailfrom: peter.marko@siemens.com)
+ dkim=pass header.i=@intel.com header.s=Intel header.b=FA7EBYm8;
+ spf=pass (domain: intel.com, ip: 192.198.163.8, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755587867; x=1787123867;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=NqrJTMLR8sSBeAANRJEiVNDAqp23foH1fzGjCdJp5z0=;
+  b=FA7EBYm8OeyGke/w9/sJuN4hJ114ppRCysPWUNtS0XpqOUDVaZxpByFD
+   ZfP5Y0yD2ivDo/to4kiiDJ10bEM/PrqlB4yaLpFGKt/d3XoUtlA5SSLQD
+   Q1p6A6HX6PMCdIpG4vYysuEHh1eHqxVkWMAsTvKWO8+k+OYC+h8+rxBBL
+   90DyPUopm+xg+tbrWDLlVA+GW/1+DJvo/HusnRmpAfpTGAII0A6o1VzwM
+   uGKH9wT6nwvaTlS8Ss5rXgl5ohULqDygB2wxM6F9O2hFlAqxsg2JlpWlo
+   GRXrZxDsMCbqaJiFrXmesQQzJUT6Av+D5Oi6M37GkGSZBjLNLHo0KaWIy
+   A==;
+X-CSE-ConnectionGUID: RUWkPFxuQH2G6NxOLWL9QQ==
+X-CSE-MsgGUID: 8Mvn2o83Rte4RzuS4EvcjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="75394368"
+X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
+   d="scan'208";a="75394368"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 00:17:46 -0700
+X-CSE-ConnectionGUID: Db6BVkXjQVeeOsff3DMNBQ==
+X-CSE-MsgGUID: NDf0GCRiQ06zC7adHwwN4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; 
+   d="scan'208";a="198796049"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 00:17:47 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 19 Aug 2025 00:17:46 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Tue, 19 Aug 2025 00:17:46 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.60)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 19 Aug 2025 00:17:45 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BWKc64X2hbKNqyJy1mEsqKkO8eh5CsGX7xnafM0/LwCi4ncfG41tGUxEmONlLTXEiSCdLJwNtz6dOWi0Amw1oySXXriRBeiBTZt9L7e/byJfbXDbPDPUSNV9Ejq1zPjQZcTGWlCG5C2RrHKArX4DfDurjmJHNdUILMC41AI4l+t6bij+RXrzTOCwqn0K9mj8e9TbMNOoowVLDW3I904DhEK38h8LYFXOcio5waWRmqMUd3zNiiGje+9MRPaAQTGc8I3yL1QVEEV8J9VkmSe7I58smSWcjVx8imOSIXW6TZpS64q+Bnfmts4xpBe7Ou3fRYqnT+3dnI53xyFvKiz1VA==
+ b=r1AA0BwFrHkW3bWOqM1v98AqthahGswOjRK/Xb3dWgsgUTkG3qSFtLDfa2LpKC+NTd34pg9SApUO6ISz2zm876aK1l5UiNQJZTJUNMvc3eFsKLk4yvyL+5k/elteRZe7gi4QHozPME9onlsD/sMlRobc9SvUauJpUFxpldVVrBAB3tvXGzMd63beLh1Ywj+BSnIQDTeI/lwC9r6iryWUZ4Z0yJC9j1anB1/c8Tt/RIWqZM8hJYnPxZSKAcM0/kkMtOx3xo9CednF1FihNUjAtdVj2SrF+lThPwxBZFhp6Ct9xW0m3pwTSyq/OHZvjoWY+RZsx4CjltURdUpMWgRnxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/HDy1bfZwFpKFx9/GBrmbncZdUOJqNpnps4VmPA5xL8=;
- b=r4Gt2iKi18Ov2Hog+ocrNS5g//YRtKquTmCqvY5aNd7D50Q4sNdLi95v/vpzwROWL3d1dBGZ3Q4zw0hzieuSBoPYufLn3qVGZifRFH8TjuNaUtQ1QyYRLIE9p/8cVjXcSUN9p3yPPvemtF2axbB6IowzJ2sltWiac1L97ozP6uxtlbSxXuiZm1RnOnby3om/3pGUbe+hf7wi5SJF8abjPr5IK6xyU+vtDK9iDLc2ZeVvbSlblGqRfQMJGeJ/omLa22DPJvwiHPKmm3T1k8CmzjxvItlL7tIeKBMrNKUMd8KPGCvLAUGHuG70tyFkJAph+swL0NNU9W3Mw1n3y0u8fQ==
+ bh=09XMQHAWbykWf2aQw6gIk4OmyO3JnIGI4Uj472UOaTM=;
+ b=szF/XF1B3hmQkS799is+ueqV4B39QpJ+Nsv7D12Fn9GDcxL+5THBtOd/axQ7UBveGqETXcdIkaBUiiE2MnaRJMsVYdc5mmqJbxeZ8jbUQSciUeh21VEvP35ByQ1YET19Xoi4OnI7cX1GIdN3Ea1MqKIJ1lhaOv4yCLmKOC9ojYHOOSPAkemaMuahLkmnU79ev3/g+/DrDgAjX1i/R7JCUL9LDOt3YT4hnIoX6goNm/43/v1oJEHHEB+PZ3WbV17hFBJD78vDzJXOqdkSbaMHbqRjuC+on8eHrVeDF/urbIvrH4Gtb44sX/gJshw2CZnl+EC1XcIwgHz4/a4gc8iQBQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/HDy1bfZwFpKFx9/GBrmbncZdUOJqNpnps4VmPA5xL8=;
- b=oVmMOsRhrFcylZgMSnUC9+3pwu3PtFOK2SD1MeNaTyBECLgw1I+lDuildUI/5rzcip3Y5MCW4hrbSoJgdMFC64dVy8VP3la8r/9xpnLutG/G5WKpcEYVA5uhFSof0aw1/DH2v3GjO0cQ5wnODCS/9gxmUAzu6ZHuGIg6VQWt5Jab5BfM1XJHK+pBybryCOXOU5+7NuvZO313eqvdl91lK+cRACDb1ZT6uiD8EZehOIBtdTlPD5JXHvE1Yc183XB0WIYzzGNGFk0to2YHbxvt9lO9uA2ASBTAol6nyb3ZHdMq8ayKDicFO/xzpTLCfg0oUH94/Yl60wAdVgJEKJy7wg==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by DB8PR10MB3577.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:139::12) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
+ by CY5PR11MB6185.namprd11.prod.outlook.com (2603:10b6:930:27::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Tue, 19 Aug
- 2025 06:02:39 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
- 06:02:39 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "osama.abdelkader@gmail.com" <osama.abdelkader@gmail.com>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.23; Tue, 19 Aug
+ 2025 07:17:43 +0000
+Received: from DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
+ ([fe80::e210:b6a3:f037:f49a%3]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
+ 07:17:43 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
 	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "anuj.mittal@intel.com" <anuj.mittal@intel.com>
-Subject: RE: [OE-core] [PATCH] init-system-helpers: upgrade 1.68 -> 1.69
-Thread-Topic: [OE-core] [PATCH] init-system-helpers: upgrade 1.68 -> 1.69
-Thread-Index: AQHcEJNaF5XH1H3j+UK2KY/SuvRDALRpfEuA
-Date: Tue, 19 Aug 2025 06:02:39 +0000
-Message-ID: 
- <AS1PR10MB569772ECAEE32EA29F069717FD30A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20250818225622.1057866-1-osama.abdelkader@gmail.com>
-In-Reply-To: <20250818225622.1057866-1-osama.abdelkader@gmail.com>
+	<openembedded-core@lists.openembedded.org>, Pokybuild User
+	<pokybuild@yoctoproject.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-5.2.3.rc2)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-5.2.3.rc2)
+Thread-Index: AQHcDkpDY1ZEicWvn0a9AsqPjUiv/rRplVkQ
+Date: Tue, 19 Aug 2025 07:17:43 +0000
+Message-ID: <DM4PR11MB77609439B333EBF7C2354B60A130A@DM4PR11MB7760.namprd11.prod.outlook.com>
+References: <01010198b06b7c42-51779eb9-71a7-412c-b303-16a3ba0a4eb1-000000@us-west-2.amazonses.com>
+In-Reply-To: <01010198b06b7c42-51779eb9-71a7-412c-b303-16a3ba0a4eb1-000000@us-west-2.amazonses.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=1987dace-2874-4ad7-afd8-5bc296c083b8;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-08-19T06:01:37Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
+ header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB8PR10MB3577:EE_
-x-ms-office365-filtering-correlation-id: dee87b9c-8d48-4b51-bb7b-08dddee600e9
-x-ms-exchange-atpmessageproperties: SA
+x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|CY5PR11MB6185:EE_
+x-ms-office365-filtering-correlation-id: 2b578cb6-4e94-42fe-c7ed-08dddef07d6f
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?dnUeVJwLR64zpaDGIVtWkcBsWfFeuS/v3W5DWxGO5K1JUPKWknp+4wjZs2Z4?=
- =?us-ascii?Q?vDE8+M7fpX85TRA6HeNovsLIDfDtBWIoQAAGNH6RGwdBU9UWxkMD09pG3HNG?=
- =?us-ascii?Q?R+c8K1kimoTNcpGLh8LwHbmSUM/+PoPWL85Xnefveh/vzTiS6ZPCwOKVaUka?=
- =?us-ascii?Q?I0NwL2q6h8To3YDT0K3iiWV3UX8ohCgJ0mQek6IFivw9n7t7m/7n1jpK9Kx9?=
- =?us-ascii?Q?hgIC5VXwibZUXoyyUvN7XLktJMXXCGY0gtFDoSD9K3fh3NdzMkfUG6DkqHea?=
- =?us-ascii?Q?7Q617kX075RLrVpWEH6IFJxFV2JJqCuqksvBqm/3GkGJqlbJeMRLKKXPvaAi?=
- =?us-ascii?Q?P8U7Bk1AGRBNl4Ggdz5kljrFWDGJWJbUNVrb8dt1pcUbjPG24Ju9lkfYAOl0?=
- =?us-ascii?Q?W+zMk2OC5pk1PtlyU7p8mDlK5OzJkN14IWoiinrf+GHhN1adz0cIx1UanmY/?=
- =?us-ascii?Q?nbkcyFC49w4YyPej2ti5+NdAMkAcnjQU9nadFnVZC/dnPViSgPUZGvCy3Hgi?=
- =?us-ascii?Q?5PEL91o5AfyvAmU8K74RhWCQClQitY89n8L067PtVahwbp6iVZlUrqgG3tM5?=
- =?us-ascii?Q?D42SesBDiIeURscSExETt+rS2ur5pIq/Jna0SAD4JJIQ8DpH9+teVXMqcEKd?=
- =?us-ascii?Q?8ZBKk6NJqdaXjHFkUGFUQ9sGhGUBJ0itecS9y1v7GEf2kefYfdXpMDJu1xju?=
- =?us-ascii?Q?LOmU6/C+lmAEEHahCBrC7HYePWxFa/8tgbE6M5/YJlYX6lSzaNZBvZdYAfyY?=
- =?us-ascii?Q?eX6ZlU9GSnoenAuQT8QfBzDhRPUgiRwtKiemaiGmiTRaAQCGlzyZgg+fjy2k?=
- =?us-ascii?Q?NX1CwEzMRj72Y/oJBw39U4oa38HZUHZkr9bnsZlmjCQ6FMC0/bVFY6LE5xvA?=
- =?us-ascii?Q?+nd4itllsahevImXCG7TLjjY08Ell0qaATXZ84Nq4RT0sTRHMpX0/RfJlA2M?=
- =?us-ascii?Q?HRYOQRalADfuKwqIogYpPUrAY0HvZrwZjDHtbcQzE1QrkpAQDwyiuFXSQCH8?=
- =?us-ascii?Q?LKP/b71gXZMU1Vv5jzgIsxUEXDJbNGQuwrjtH1LgzM2/zTeYjhVZO59Fv9fc?=
- =?us-ascii?Q?DOe1DuAWfTIcAqLo7KWrZ9P6VDJdSv42FTWJZDVRDAOXvTWn+6KPF3+Wi3aP?=
- =?us-ascii?Q?G8TZGfbCDIhm6GwNpmJGSMjRflmBn2Y8i0ox3SMqTXArD9qH+z2yOZ68tHM2?=
- =?us-ascii?Q?sXdw/W48qXd1ImTjuabG9iqSBodyRPmeKWLjEB+uTa4SCRFPzUc6/CiDGWVf?=
- =?us-ascii?Q?GiZKVwsjMNe2R1nIm4l6xjY/g3pDMWtX7r0b+LCMfhUDef4OdIJmQI2kqMZY?=
- =?us-ascii?Q?7eKXMhzpGyJ6sRAVeMRAA7pZHRwhdR/I3F9t9b+IV1SOJ2jzjoJzW2A8e0ST?=
- =?us-ascii?Q?yQRZbsrbTug6G8lFuBX6kTn9RydbNtzaVtaqTmxwP7TdH9pPi9DFPqpUNEpC?=
- =?us-ascii?Q?7R7CnCHnvPU=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|4022899009|1800799024|366016|38070700018|7053199007|13003099007;
+x-microsoft-antispam-message-info: =?us-ascii?Q?Ers/B1s+pTP1rAlmmTzErZPYpNZI8tZ0KgfgIVPwhpjoQvc6PgxCkk7jD0X9?=
+ =?us-ascii?Q?meKFoZZQKBQkhcnUVVEUdOJ2O0IUmQ/FM4m1Hkop3lx/6l01FpbGhdzqAABe?=
+ =?us-ascii?Q?NHdhAETjakMEGMXQ4oAxyqwkvL1SdkmHkWqJEc77szoUkj3AuxVC6mt0ZRoA?=
+ =?us-ascii?Q?x97lrtx5Ct1iA7U1HZjynYz+T8Ms/Aur262uNCu9dyIByMftw7C0sXftb6MY?=
+ =?us-ascii?Q?vz0si2ZDKkum1xkmZqTfl3hYZid0kduPGO255T3O6JwsthGxEywziSni0lu2?=
+ =?us-ascii?Q?eK7faFqe+1MxAbXxcQN4ADDHTRDx6y0ZdkTdpuBgkyG9gzG6u7qnriumyyzq?=
+ =?us-ascii?Q?wgu9+2k4EozGVuQ5ikZ4G8nHlKhybKCVA325woaH33P58O9nqc/s93Yj2oCc?=
+ =?us-ascii?Q?9fDgSLnqGtGoQgEKMCjK4SQUl7RWp18Axoz5vwPo0CiXHbr8hiTKNsrVOlPs?=
+ =?us-ascii?Q?c78oKa4ZdXf2oxWWxztAhY082WFkTo4okVP/zN1tmGpwX7bgRIljtVPAQ/Ls?=
+ =?us-ascii?Q?jXnMBCN/Vfw7WYhvQ7eXdhMn1hUFBvOvSLnXIZulvXn/ahmIXnXaYtBQiLgb?=
+ =?us-ascii?Q?TfDIKvu1q2QVq3GSfDrvRaBBNSfv0+9LB/n1pV4ldsEw49/7jgyzMTHXJA3w?=
+ =?us-ascii?Q?GsQoiS5x0GWLeyLnBxvarauSS3VAYEBtky4Z/IvHMAI5KE80F812ED+Ot/vE?=
+ =?us-ascii?Q?F1udiNSDpuzsC3W5J7PcRef1RJphSm1s8GB9Gg13iEVWfSuOyEyxOayfdkTi?=
+ =?us-ascii?Q?jl95bWA05t0SBjPfnZY08TD0Y/yBDoAhWv7lxlhgvpWtZyP6ynhGKL3gSqxW?=
+ =?us-ascii?Q?mnBlFmXTht1OskDIIgT1KbsDtb2BUjcGTR15aObl5Av+WD5TkK6BZphO7/br?=
+ =?us-ascii?Q?YD5maPsB1PQ84HrRmylvmwRYHWfADyYFmekU2haBZr49y4ghvj2ZTuIf3wUp?=
+ =?us-ascii?Q?N+nO9rDZ7g3G4GwXLqTLwHncRkt6cCVHY/dVWCOZq8f097YzUbF73LTA6aj+?=
+ =?us-ascii?Q?o0f7ocCKavQFw/U2l7OmyGu/5Q/ahV4YbBpLJ3rP801lSeMd+R0Yec2P2o6W?=
+ =?us-ascii?Q?iNx5dCGyke5XDc7kIdVA+4bj5wDGs5b6dEpjEqyoFJp6SdBod9XQLYzFvOKI?=
+ =?us-ascii?Q?yDrk0uNU2OmOnBaghJFAwc1GPXw9fGEVhet3H3fWuor77AzESlM0JODkEWKg?=
+ =?us-ascii?Q?FnRi+I9sR+50feZw/wIPcou0Y6F/4vwYvGft5+BdgldlrLFT/C3zRBuc3Epq?=
+ =?us-ascii?Q?+x0fsJPKHEpehKXsusD/jXTzxMy483mQONkalhgiUvV40VXMeMlhfhQoW+wo?=
+ =?us-ascii?Q?cV42OHpWu3neTikKMoKi7oQN3X+ilVlTC8eHqmluo92yXfLKp7THblCOaDic?=
+ =?us-ascii?Q?OhnmK6tne4B0FYqORsz5t22hX6X9yLrn1QKMIPXp2oGbek3pi8b87m6iLtYQ?=
+ =?us-ascii?Q?F1KB5CQqU0Q=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(4022899009)(1800799024)(366016)(38070700018)(7053199007)(13003099007);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?njX4/Mq2rBselbDbWsLnaf+1z+Ek2iW4X5Kea/NLqVlfH+1E+gU+0eGYjNYq?=
- =?us-ascii?Q?Odpmn14mZqOLqWI8ZFDSiLQZQWw6+zlHzCuGOMWKEu2/0OiCLNA0OVA4f7GG?=
- =?us-ascii?Q?zEYABfciHQGCJUl8gnbf7CHRKs35DVK8i+rpeHP+g1AwltwriTxPK7wW0sTM?=
- =?us-ascii?Q?bNhtnqokBCOrYI6ufzHukgupi9ckcqFiw9xEcgCHXMvNRln9cp0CLYuDuY9Q?=
- =?us-ascii?Q?qisYZZ4SaDeVrl+F38G8RlPIxUavMA9YixE1Kmdc5k96/4SPv3azA6dU3B/l?=
- =?us-ascii?Q?TKwbhmVMpAcGegERP1SS7+S5J4yPGB+g+Rruli248EbCLe5EqhOCBE571ehs?=
- =?us-ascii?Q?r52IEwLVkdvCDBugNOcmqSmeXetUeKWS6zvbn/JMnrl+m5u3EgWaOSSt5qeI?=
- =?us-ascii?Q?6GUJ+9CH6H4NiU79SsK+OX5yuZOST7JBdOzLfiKzhcOUCp+fQ98VWq4aoPN6?=
- =?us-ascii?Q?aquOatxUvNdnuypqdRTJcVpq3kZJzUUWnb3wpWLs3Boh+Vsz1UocsmLXgmpD?=
- =?us-ascii?Q?HySxXFszyiHcc1Wi9/mvf7nM3DeqdNYplLLNOu2zYTHEofSvpjRNX2BPcb9A?=
- =?us-ascii?Q?gEwfRn1yW415/zb/SCAKxDvaQ7Di6SOB0vOGVE3cejmCfFt3hIHrKIo8iTr7?=
- =?us-ascii?Q?4VtCMtgdr1N7CfRErqQt+QvyWgSy3BYQ1Zwr00PXczGH0/c2cgx1CrlVXeKl?=
- =?us-ascii?Q?3WemFlivuBBHjoA3nDQStcvj0ZoiOGzcflJn5KhKeukVndLaw+Z+mHSUWNAY?=
- =?us-ascii?Q?5M3CkwittTAEWiBOZcEQcGkTMg7tz5THDG5rnWAx/rZtId0SpdNDNyPB924n?=
- =?us-ascii?Q?LznrrGbs9Tnv2jM6pOY42HRNeWKPszLJYeamqpLLPdsw8Rkq4OlMhD+5OiFa?=
- =?us-ascii?Q?aFMgN0OmfIryg3EWE1M9utv6a9GVohq41N3bellSmgQt9c0qnCNsMngiDLzJ?=
- =?us-ascii?Q?cTwDLy5AcZGsbI4tWnAFlRwW63Y3LHpMqZgv53K2anA8MdGYbGiXBL50qDZi?=
- =?us-ascii?Q?bRTST85+E9FbWzZ6AslB8gN9kPo06nSvSCoblx/VMGz6BU53uC5VQT7C6tL8?=
- =?us-ascii?Q?EV1d5HGUYTgf9XvOLV8IIvfDc+m5OqXBd8g+d4h032geFMY3E+MQz80TB/mx?=
- =?us-ascii?Q?G3mxe8a9IixjQGLW1m7i7vlU0DfjBzfkxa8tRDQFje0RwmATeoSqWz7y2hVp?=
- =?us-ascii?Q?xH8enbHuA/Gz9ZbmXIl2urEXyQBBFPEBnjOn8sIeSDV6nHt038uUmFVQ7RWQ?=
- =?us-ascii?Q?b4Pkyso6qmSMlqnUyk1YkEQGZu+F8nPAIzrFW704oy4MucmdM5OrqsoDVnXN?=
- =?us-ascii?Q?kPG/DHPJOOsBTntC4mNwkWZAFHQi8mVYgWdKTb38YMAYRhAlp4rK8IJcDRpH?=
- =?us-ascii?Q?ol98TehMeBvBs1iszNfQBG7kUQqoKLU3idc9qxGUWGls+Hsg7mUJT7/Zws8s?=
- =?us-ascii?Q?churG9wFEyE/q7A+uMX2t8Bih0jVqKm1EFxZ1RdE1qPVBt8B6tvSe2GjOLJm?=
- =?us-ascii?Q?L0ZywI/u/URKdJ7pn+d47LOW6EF9p/rriV73JRWs61QXnfEf+b2BvscBKmDv?=
- =?us-ascii?Q?DO8xQHQGeOjipWEmQCpIyojv4/li9qqEwoM5zi+2?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VTiX7jsJRNT/Qx6NEHW8TXoxEHILgyGbx7w8FewV/I5WVe8OPO3g5jvDPtac?=
+ =?us-ascii?Q?MVYF+zScSxw8ITbd3nsgXYIzSVRYUg+XYN0Nuz2iFkI0AJ+ysyitE+Qu2ypD?=
+ =?us-ascii?Q?BH5iDVc4+Te5gZSvbufBgNSZ4kx5rGN/3Ae4Sam7db4KlZeU7WIvWR8VGbkH?=
+ =?us-ascii?Q?+jt703jQ0Bd6Upe3KWr543DhOXiJjh1vJJ2kLCordgWd27EyEDLH8mAie0Wi?=
+ =?us-ascii?Q?/Ps8nTRBGr6lJGi4jerj/ZaZBUy2LZrMjUtVO+VMia5SPAEjkfMJzF0w1CLq?=
+ =?us-ascii?Q?yVJFMf+yc5zliEklcv8XlgiKbvBMAF9zBQq9c/9EwL2MQYjEsMtEc8GFuLPv?=
+ =?us-ascii?Q?xNjaNmEI62fPGW6HDo4i+jlgPtTTpin3GaO3zaZzuqqsBwmlmZdxBCoVa/cN?=
+ =?us-ascii?Q?G08j+21VR7LLySKEepg+DvRVqCGqEy5U5OCJ9G8DYucPhWuse6vr1Xjs5BDX?=
+ =?us-ascii?Q?56BeEuHuyop6r88LlQRfAE+l+gCmNUsGD3zF5YK9GGLfxdWzv4y5fzV9iyiC?=
+ =?us-ascii?Q?9fZA18B+1Qf5OsT4d52wzy8SF1QSEOHXaH2NhNfQXrfyk5z5cDrnEC8E70eA?=
+ =?us-ascii?Q?YvDdBRCUTNAV9o98I5aJQXx8L2JKsaJm73/oH+naTIIfj8Dfz/xFmD8A4mJt?=
+ =?us-ascii?Q?CQ5PdW6N/67HlN/BXdMDkG8J1vIhMgzNDsKaC3owxWeh1K+O3AIqJ7kfXZ6l?=
+ =?us-ascii?Q?TdmCExLL0VrRKSD2YpJlLPH4zM99E+wDvPdAksYg4STROKe9p4uRb+m0t+aE?=
+ =?us-ascii?Q?3I2DpJI9HUXCCx/w2AouQ8Apf74l2K582diM0OPMDxTuq8GHWlMSGvKqg7rF?=
+ =?us-ascii?Q?OcZ0OV4r6ZS9X9UaGhq9yzqlTtvJeXuU+KKu0DUCmJd3IFmWn51XqkI95JwG?=
+ =?us-ascii?Q?uK4dhN5/V/BjzMAWr80spnshu9fPWAe0EmIDUcZGkncDeXPmgSX9fL9j/670?=
+ =?us-ascii?Q?2l9KoZb0V7XMzL9t5AHapH9MPxPWTjuQ6BuJ1JMKA1EknLsjovk2+8GARHtB?=
+ =?us-ascii?Q?qEdyVyGet9pdVfjmcdaQ1bqe0++BNlsjUa3ch3dShlX97HVEX8cl0XjUTHMT?=
+ =?us-ascii?Q?C6GGkpx5logM6s9Pm8zlG+Ki7prnACE9dpQib7QKa7yG4uRd5BDMSp21eytd?=
+ =?us-ascii?Q?GjS+3l87/K/T9FW/K7e0lpr+rWX9eDqWQSjb+u8m9Gl8kr41kK9oyJkdswMl?=
+ =?us-ascii?Q?XOIeoyj2TGbZXZ7RhmOmYHJq4vJUXMGNnOq3GJsziFbyoT2s/f4XZdYFHApB?=
+ =?us-ascii?Q?hht+35qwLqRuL30Wm3jw7d7lyEOcELjaR1zOHIYvokRVkiphfTg32/0DFqw3?=
+ =?us-ascii?Q?uCNzYLEpbutTdfNhZj1O7mub6cHY/2TRfGez3z5MKYM4309fsFKHiOOyl1DY?=
+ =?us-ascii?Q?1tApDs3eXxccCsjWn90l1xWY8TEzSbu31ylbxzu80vVHHLSA+J+thGGhT/xM?=
+ =?us-ascii?Q?iyTVFkptPgnygOI7ZuErMqrfnJXYruoMMtsz3j5DydUfnCx+m4G54uNKOcpN?=
+ =?us-ascii?Q?yYLqZ1zvZL14TbylbN1W0a+DIN/6VhXWtxaF13ALbjvKZ+oHih0jHCy53BBd?=
+ =?us-ascii?Q?Z9ILOJab3aZtVtIol2OBEK7phPbun0rWKL4wpmzm?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: dee87b9c-8d48-4b51-bb7b-08dddee600e9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2025 06:02:39.5377
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b578cb6-4e94-42fe-c7ed-08dddef07d6f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2025 07:17:43.4267
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ToyGNmonY0SSnfz14S0CpdGqBHPU2mwc0BIpECUEYKZ63nQ9agktPtl9wBbPkDkfsuWJay3I++rydGF9lDGBMw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3577
+X-MS-Exchange-CrossTenant-userprincipalname: bLP3zPf/Dwp3BX13Vn92QSwCi+uZ9r9eGChx4CyrPz1oqADDKeBcE3UFgcdguxS9h7VApl7hrujnXbZXM4S9cA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6185
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 06:02:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222074
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 07:17:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222075
 
+Hi all,
+=20
+Intel and WR YP QA is planning for QA execution for YP build yocto-5.2.3.rc=
+2. We are planning to execute following tests for this cycle:
+=20
+OEQA-manual tests for following module:
+1. OE-Core
+2. BSP-hw
+=20
+Runtime auto test for following platforms:
+	1. MinnowBoard Turbot - 32bit
+	2. Alder Lake-S=20
+	3. Arrow Lake=20
+	4. Meteor Lake-P=20
+	5. Amston Lake
+	6. Bartlett lake-S
+	7. Twin Lake
+	8. Beaglebone
+	9. BeaglePlay
+=20
+=20
+ETA for completion: Wednesday, 27 Aug 2025.
+=20
+Best regards,
+Jing Hui
 
 
 > -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Osama Abdelkader via
-> lists.openembedded.org
-> Sent: Tuesday, August 19, 2025 0:56
-> To: openembedded-core@lists.openembedded.org
-> Cc: anuj.mittal@intel.com; Osama Abdelkader <osama.abdelkader@gmail.com>
-> Subject: [OE-core] [PATCH] init-system-helpers: upgrade 1.68 -> 1.69
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User via
+> lists.yoctoproject.org
+> Sent: Saturday, August 16, 2025 9:08 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuilde=
+r
+> build (yocto-5.2.3.rc2)
 >=20
-> Changes:
-> Add postinst to hotfix an upgrade bug on certain newly live-installed
-> systems built using Trixie's live-build (Closes: #1111039)
 >=20
-> full changelog:
-> https://salsa.debian.org/debian/init-system-helpers/-
-> /blob/debian/1.69/debian/changelog
+>     A build flagged for QA (yocto-5.2.3.rc2) was completed on the autobui=
+lder
+> and is available at:
 >=20
-> Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
-> ---
->  ...{init-system-helpers_1.68.bb =3D> init-system-helpers_1.69.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-core/initscripts/{init-system-helpers_1.68.bb =3D> i=
-nit-system-
-> helpers_1.69.bb} (96%)
 >=20
-> diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.68.bb b/=
-meta/recipes-
-> core/initscripts/init-system-helpers_1.69.bb
-> similarity index 96%
-> rename from meta/recipes-core/initscripts/init-system-helpers_1.68.bb
-> rename to meta/recipes-core/initscripts/init-system-helpers_1.69.bb
-> index 48ac7792d3..83320e6877 100644
-> --- a/meta/recipes-core/initscripts/init-system-helpers_1.68.bb
-> +++ b/meta/recipes-core/initscripts/init-system-helpers_1.69.bb
-> @@ -16,7 +16,7 @@ SECTION =3D "base"
->  LICENSE =3D "BSD-3-Clause & GPL-2.0-only"
->  LIC_FILES_CHKSUM =3D
-> "file://debian/copyright;md5=3Dc4ec20aa158fa9de26ee1accf78dcaae"
+>         https://valkyrie.yocto.io/pub/releases/yocto-5.2.3.rc2
 >=20
-> -SRCREV =3D "78486a4a2a305170b66ce4d907bedadbaed10daf"
-> +SRCREV =3D "592518fcedf96c9b763f214a9acbdc1109aaa385"
->  SRC_URI =3D "git://salsa.debian.org/debian/init-system-
-> helpers.git;protocol=3Dhttps;branch=3Dmaster"
-
-Could you also add ";tag=3Ddebian/${PV}" to SRC_URI?
-
->  UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))(?!_exp)"
 >=20
-> --
-> 2.43.0
+>     Build URL:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2213
+>=20
+>     Build hash information:
+>=20
+>     bitbake: 710f98844ae30416bdf6a01b655df398b49574ec
+> meta-agl: 435a9b13b8486cf7d51a86cebaa72ee382202a50
+> meta-arm: 2de04c3d31e119d4bedbea24b9c63a8c113a1ce3
+> meta-aws: 3cd3b809390120059d89cde45b21615bb8948be2
+> meta-clang: 003cba92e982bdd565a6889f28799f8bba14957e
+> meta-intel: 5640f6592c984f4832ff5f2ed1a35a607e5d21c5
+> meta-mingw: edce693e1b8fabd84651aa6c0888aafbcf238577
+> meta-openembedded: dca497d728792e3cb655c78455c2d649af312ce8
+> meta-virtualization: 898239e810acbb7db93299f20deec8afe434f11b
+> oecore: 347cb0861dde58613541ce692778f907943a60ea
+> poky: db04028d9070f05c3b5dee728473fb234bd24f05
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#586): https://lists.yoctoproject.org/g/qa-build-
+> notification/message/586
+> Mute This Topic: https://lists.yoctoproject.org/mt/114728690/6424044
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
+> notification/leave/13581802/6424044/1746813897/xyzzy
+> [jing.hui.tham@intel.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
 
