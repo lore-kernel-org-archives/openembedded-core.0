@@ -2,26 +2,26 @@ Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2134CA0EED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E11A4CA0EF5
 	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 08:16:21 +0000 (UTC)
-Received: from smtp-42ac.mail.infomaniak.ch (smtp-42ac.mail.infomaniak.ch [84.16.66.172])
- by mx.groups.io with SMTP id smtpd.web11.8802.1755591377501788072
+Received: from smtp-42a8.mail.infomaniak.ch (smtp-42a8.mail.infomaniak.ch [84.16.66.168])
+ by mx.groups.io with SMTP id smtpd.web10.8637.1755591378731730937
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Aug 2025 01:16:18 -0700
+ Tue, 19 Aug 2025 01:16:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 84.16.66.172, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c5j8c0JSzz5dF;
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 84.16.66.168, mailfrom: foss+yocto@0leil.net)
+Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c5j8d25QPz7gd;
+	Tue, 19 Aug 2025 10:16:17 +0200 (CEST)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4c5j8c4kZ2zRyS;
 	Tue, 19 Aug 2025 10:16:16 +0200 (CEST)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4c5j8b3RT1zSVb;
-	Tue, 19 Aug 2025 10:16:15 +0200 (CEST)
 From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Tue, 19 Aug 2025 10:16:01 +0200
-Subject: [PATCH v5 1/9] mesa-gl: make mesa-gl really openGL-only
+Date: Tue, 19 Aug 2025 10:16:03 +0200
+Subject: [PATCH v5 3/9] mesa: move PROVIDES out of include file
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250819-mesa-libclc-panfrost-v5-1-b8b89e6af908@cherry.de>
+Message-Id: <20250819-mesa-libclc-panfrost-v5-3-b8b89e6af908@cherry.de>
 References: <20250819-mesa-libclc-panfrost-v5-0-b8b89e6af908@cherry.de>
 In-Reply-To: <20250819-mesa-libclc-panfrost-v5-0-b8b89e6af908@cherry.de>
 To: openembedded-core@lists.openembedded.org
@@ -36,39 +36,67 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 08:16:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222077
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222080
 
 From: Quentin Schulz <quentin.schulz@cherry.de>
 
-The ??= operator for PACKAGECONFIG doesn't actually do anything because
-the recipe includes mesa.inc which already sets this variable (with the
-= operator).
+There currently are two recipes including mesa.inc: mesa-gl and mesa.
 
-This probably wasn't noticed until now because mesa-gl is likely only
-ever built in its target flavor which was already set correctly thanks
-to the :class-target override.
+Because mesa-gl.bb already sets PROVIDES, overriding the value it should
+be getting from mesa.inc, move PROVIDES from mesa.inc to mesa.bb,
+keeping the value in mesa-gl.bb intact.
 
-This essentially only make mesa-gl-native and nativesdk-mesa-gl follow
-the same configuration as the target.
+Because GLPROVIDES is not used in mesa-gl.bb, it also is only moved to
+mesa.bb.
 
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+No intended change in behavior.
+
 Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- meta/recipes-graphics/mesa/mesa-gl.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-graphics/mesa/mesa.bb  | 11 +++++++++++
+ meta/recipes-graphics/mesa/mesa.inc | 10 ----------
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl.bb b/meta/recipes-graphics/mesa/mesa-gl.bb
-index e2f03c81c4588c6257ffec2892fef7fcbe9f82bf..35d6dc854cf4dfac7a757e333e25e4ddeab10b6e 100644
---- a/meta/recipes-graphics/mesa/mesa-gl.bb
-+++ b/meta/recipes-graphics/mesa/mesa-gl.bb
-@@ -9,6 +9,4 @@ S = "${UNPACKDIR}/mesa-${PV}"
- TARGET_CFLAGS = "-I${STAGING_INCDIR}/drm"
+diff --git a/meta/recipes-graphics/mesa/mesa.bb b/meta/recipes-graphics/mesa/mesa.bb
+index 305b18070d6a47a53f204906a16bc8d4833fd9d6..51d0384ef5930f36ff2f5c20ebad2d7ad8b817a9 100644
+--- a/meta/recipes-graphics/mesa/mesa.bb
++++ b/meta/recipes-graphics/mesa/mesa.bb
+@@ -12,3 +12,14 @@ PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
+ PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
+ PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
+ PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
++
++GLPROVIDES = " \
++    ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 virtual/libgles2 virtual/libgles3', '', d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
++"
++PROVIDES = " \
++    ${@bb.utils.contains('PACKAGECONFIG', 'glvnd', '', d.getVar('GLPROVIDES'), d)} \
++    ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)} \
++    virtual/mesa \
++"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 387f954789c603dac767ccf18ad60acb6731d35a..46fe465cd84ae9e799571d8c519a1d7933c716a6 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -40,16 +40,6 @@ do_install:append() {
  
- # At least one DRI rendering engine is required to build mesa.
--PACKAGECONFIG ??= "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
--PACKAGECONFIG:class-target = "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
--
-+PACKAGECONFIG = "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib chrpath-replacement-native python3-mako-native gettext-native python3-pyyaml-native"
+ EXTRANATIVEPATH += "chrpath-native"
+-GLPROVIDES = " \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'gles', 'virtual/libgles1 virtual/libgles2 virtual/libgles3', '', d)} \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
+-"
+-PROVIDES = " \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'glvnd', '', d.getVar('GLPROVIDES'), d)} \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'virtual/libgbm', '', d)} \
+-    virtual/mesa \
+-    "
+ 
+ inherit meson pkgconfig python3native gettext features_check rust
+ 
 
 -- 
 2.50.1
