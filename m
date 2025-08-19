@@ -1,100 +1,100 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 762CDCA0EF5
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 01:16:59 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.3528.1755566210348671724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 274F3CA0EF8
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 03:35:50 +0000 (UTC)
+Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
+ by mx.groups.io with SMTP id smtpd.web10.5629.1755574541006345691
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 18:16:50 -0700
+ Mon, 18 Aug 2025 20:35:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=egPtQhC0;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=G5zOIpWi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010198bfe67921-2ad832a6-a409-4817-b7a4-93e611813f58-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755566209; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=lbbhNmNZjQU25/Pof7IoL5c6iW1T6yPLv7EEvgnKaI0=;
-	b=egPtQhC07IMBw7VvFgvHstbMqeYHlnEDKLoc1pab1TdANVOoQvNWe/sKjsIgcYpv
-	Tel54XMdymH2CXuoGO9g1jtbPOlcFqsK9Q7TRFai0eRAgKpnwly2OHq5qp5kOhsbWBA
-	veXvGCjWrfZcUiJNey1XDnpjMbhXxLtC+e4tYJUg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755566209;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=lbbhNmNZjQU25/Pof7IoL5c6iW1T6yPLv7EEvgnKaI0=;
-	b=G5zOIpWiSW4SFetwgUnwAH1mnbKWAzRoywRaFlOIDaV+RmfQXD8QWPaRbR/7+NRX
-	MZohZZr9LPSUlQUnrf/XYtDEQxdjS0/HlKL58DgBLuSWAW5y3KzPPvRWIBFG7ccH0V7
-	EWMGZPjvKJp7VA6OMXAuYDe+9pdLojfih7NAm+sM=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/3] spirv-headers: Add SPV_INTEL_function_variants
-In-Reply-To: <20250819010128.3519760-1-raj.khem@gmail.com>
-References: <20250819010128.3519760-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198bfe67921-2ad832a6-a409-4817-b7a4-93e611813f58-000000@us-west-2.amazonses.com>
-Date: Tue, 19 Aug 2025 01:16:49 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.19-54.240.27.30
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Gs8B50C+;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1755574545; x=1787110545;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=jfzBxXQaPMvxQpukhmr8QcyI3rQGiqQ/uz8sACbCD+4=;
+  b=Gs8B50C+qpwxtYB3KZqYlBlf+X3zVMXP0FdfrhRlmzDUyIDRc0ptA6SB
+   ybvudJjPm3FC5TA3scejskMx2K+jJon/FdfCJPRDyyyJyEIpQ7u4cH0PA
+   Qrm9ziYwN+sHtk2xxzL5YV9pGuLI9Gu/66iUrq8iZnmnNoFs2M2l9GD5V
+   u+erUq5QzRV5E+aeeWewAPHcq9mCA9nosKBJTrlMJamN1gBJZYogq9yFY
+   JGz7/M12D2C8pwV32H4Hmzf7f5PPxPsmEzMUMxs8yf50HuAQj688T+p+T
+   2nfR122jJm2y/iFD+Z7kSs2tf0mzrf5HzXrEzNcGr+g78W+fkwknqRgJW
+   w==;
+X-CSE-ConnectionGUID: 1KMWCXteSh+7tBOFj85ASw==
+X-CSE-MsgGUID: z/SI67oIRUyVCa1s0Q9dgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="197097630"
+X-IronPort-AV: E=Sophos;i="6.17,300,1747666800"; 
+   d="scan'208";a="197097630"
+Received: from unknown (HELO az2nlsmgr1.o.css.fujitsu.com) ([20.61.8.234])
+  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 12:35:44 +0900
+Received: from az2nlsmgm2.o.css.fujitsu.com (unknown [10.150.26.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id C97F41C00087
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:44 +0000 (UTC)
+Received: from az2uksmom4.o.css.fujitsu.com (az2uksmom4.o.css.fujitsu.com [10.151.22.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 842A01C01DDD
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:44 +0000 (UTC)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by az2uksmom4.o.css.fujitsu.com (Postfix) with ESMTPS id 670A540552D
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:42 +0000 (UTC)
+Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id CB4911A008B;
+	Tue, 19 Aug 2025 11:35:38 +0800 (CST)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Liu Yiding <liuyd.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH 10/11] gstreamer1.0-plugins-ugly: upgrade 1.26.3 -> 1.26.5
+Date: Tue, 19 Aug 2025 11:34:31 +0800
+Message-ID: <20250819033433.390-10-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
+In-Reply-To: <20250819033433.390-1-liuyd.fnst@fujitsu.com>
+References: <20250819033433.390-1-liuyd.fnst@fujitsu.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 01:16:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222060
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222068
 
---NextPart
-Content-Type: text/plain
+Refer to release note, no changes this time
+https://gstreamer.freedesktop.org/releases/1.26/#1.26.5
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
-Testing patch /home/patchtest/share/mboxes/1-3-spirv-headers-Add-SPV_INTEL_function_variants.patch
+ ...ugins-ugly_1.26.3.bb => gstreamer1.0-plugins-ugly_1.26.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.26.3.bb => gstreamer1.0-plugins-ugly_1.26.5.bb} (94%)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.5.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.5.bb
+index cc3da89556..5583c2f128 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.26.5.bb
+@@ -15,7 +15,7 @@ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             "
+ 
+-SRC_URI[sha256sum] = "417f5ee895f734ac0341b3719c175fff16b4c8eae8806e29e170b3bcb3d9dba5"
++SRC_URI[sha256sum] = "3dfc43435be97e110816bac6d602b0f206a038546279683d9d25372ff127db52"
+ 
+ S = "${UNPACKDIR}/gst-plugins-ugly-${PV}"
+ 
+-- 
+2.43.0
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
