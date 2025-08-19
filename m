@@ -1,146 +1,255 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CD0FCA0EFA
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 08:16:32 +0000 (UTC)
-Received: from smtp-42a8.mail.infomaniak.ch (smtp-42a8.mail.infomaniak.ch [84.16.66.168])
- by mx.groups.io with SMTP id smtpd.web10.8641.1755591381834373431
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCB8CA0EF5
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 08:50:12 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.35])
+ by mx.groups.io with SMTP id smtpd.web11.9228.1755593409755404760
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Aug 2025 01:16:22 -0700
+ Tue, 19 Aug 2025 01:50:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 84.16.66.168, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c5j8h2RBKz8Cc;
-	Tue, 19 Aug 2025 10:16:20 +0200 (CEST)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4c5j8g5Z6fzQTV;
-	Tue, 19 Aug 2025 10:16:19 +0200 (CEST)
-From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Tue, 19 Aug 2025 10:16:08 +0200
-Subject: [PATCH v5 8/9] mesa: use simpler mesa-tools-native recipe as
- dependency for libclc
-MIME-Version: 1.0
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=lk5IzEh9;
+ spf=pass (domain: siemens.com, ip: 52.101.66.35, mailfrom: adrian.freihofer@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ogJBGIbQUvKnb+9iuVLP2fokdIO0H5BxZ/uUsKTePhw4QRrUbdYlH6l/80hZ3+Dkb7ZZhDgyiQoJnxX8/facemogwY4NZLtBb0cN6LEKlux2vPnTOke3bFqx6hKXYL0VCWTJNbstj0knjXW1wJnSg9YNmWVlNExt+bZoRoVtH7Q6e5Ev+Ovo2qEcgIarPo5JQaaoyGehxCI9m6J79ndHV+hLtnW6ZsYdYXte6tg2jaA5CWSOKt0tFbpFlK5ZlYTuK0BBGamXScJU5HgiYrqLjRdwUBqn0mbf6beGaNUgHw8dVGwt1SSliSp6qT6ftEGZhAnsZ99kuXpaca1INtuuiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ki3BU0nxE6ojTLc813CvIt7DsrZPtyKNRKe9GXTBzc0=;
+ b=pUG67ExwbMOfWWA4nqqUjmBTDUo1D/D01camidJTnnQPJQQVCNTlkWeeEXgDKYfW6ymR90mPaWJEVGorG0H6CVacUKh5Ym8X4bTjJ1A4JqCWlGYgjYRui4cfyjjq0cQD0IJRTz4LLDRydtnW7KIqmqL7oF4GZH0sgIOW1tqVCqM2H7Xb3YH6JvynlDSqXuKouzGSWCW0OOz4ZDULc8djnuquun4IRKwvUDffOSRl1wdMIfGz9tJiN9eHuGdZ6UUtCOvd7IwFu5Fcn/nTsNf96s21cZKS7zewE0TZqfOIE8zzRQ6mssZ3bnt6oEbXxQJY1tsEirToMnJEsf/BYzmaPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ki3BU0nxE6ojTLc813CvIt7DsrZPtyKNRKe9GXTBzc0=;
+ b=lk5IzEh9svsEpWPPWtaLCY4pvh/F2pFWUOvQ+uPxyklffb43gnfDGHOTETpkWPEpRFgMUwVYXjjAp9IYLRSxm5amKhaGbK2gcDwHVAXBH3dqKCpBE2YQYvqPCSuB0LVJZ4RE6vFhegs2JRkJmFHheh5K6U4uE9xljHh39Hm02+4zOUjFF7zizH3pTuMx/lTaNzZ4CTcC0jG1P8FqFosQQzjZHUESiFarKN49f4AUDPxW5gDYEW+df51jVRnYJQ9zlTcrqrc44V2qld1xrJVNBcxuJYtek8YX2ee8SG1vUkz/wI4iqQop5NAN9vb0K/GoFrIpImBLrFnnLLwoMv4Ozg==
+Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:13e::17)
+ by VI1PR10MB8229.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:1dd::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Tue, 19 Aug
+ 2025 08:50:06 +0000
+Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e586:9cf8:7696:cbda]) by DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e586:9cf8:7696:cbda%5]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
+ 08:50:06 +0000
+From: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
+To: "kavinaya@qti.qualcomm.com" <kavinaya@qti.qualcomm.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [meta][PATCH 1/1] kernel-fit-image: skip kernel section
+ if linux.bin is missing
+Thread-Topic: [OE-core] [meta][PATCH 1/1] kernel-fit-image: skip kernel
+ section if linux.bin is missing
+Thread-Index: AQHcDU6B1vAHjSb6PUqnHNQsda91X7RpseaA
+Date: Tue, 19 Aug 2025 08:50:06 +0000
+Message-ID: <bbfb4e294eff66d62a81a2cf875d9d6940e2792f.camel@siemens.com>
+References: <20250812091453.1760880-1-kavinaya@qti.qualcomm.com>
+	 <20250812091453.1760880-2-kavinaya@qti.qualcomm.com>
+In-Reply-To: <20250812091453.1760880-2-kavinaya@qti.qualcomm.com>
+Accept-Language: en-US, de-CH
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB8PR10MB3529:EE_|VI1PR10MB8229:EE_
+x-ms-office365-filtering-correlation-id: dec3116e-733b-47b3-9fe3-08dddefd655b
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|4022899009|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?MjlzbTh0UzR1OEVPU3VubGRYMVJyM3hGM1pXOG9WMG1WdFBZR1pBTHJkSDZT?=
+ =?utf-8?B?VDltdXM2c0JVYmVqYzd2NzY1MzIrN3VVcm03dTIyNGhYek43cEVOeldnVUZN?=
+ =?utf-8?B?Z1VNdGtZM1NGOGdnNWtDckRKb3RxRFdBc0tkRmx3R1kxL0tJQmlHV0VEdFR3?=
+ =?utf-8?B?WUpqNFBicnQrRGNrWFl1TFFidVdwRlRuMHk1bnNrMUhNWWZoMHE5Ujd2NEU5?=
+ =?utf-8?B?UVdzbGVLNHRSb0ozUnZHUHc4RXJYZHhaS2REaldHb2tJbXkxYU5sOUlpUGkv?=
+ =?utf-8?B?cmZBVzdFWXVFUUkrOGkvVDg2a3EyMlVUbFF0VE1uQ2R1TkdUaCtlQkQ3Vjdy?=
+ =?utf-8?B?ZWJEYTZqNWNUTG5wb082cmlYeG01ODBkMlI4SEZlak0yVi9XOTI3ejF6djVu?=
+ =?utf-8?B?WG9hU1VhVWxZUms0RTNYVEZyZXBlNUwvb2hKR2NiUTd5RGNLSGkxT1AxVHR4?=
+ =?utf-8?B?OHNjc2w2VEg3RkxTcXZLb00wUEtseUwwNE12Yk8vYjN6R3RCaDJ0dThTMVE1?=
+ =?utf-8?B?L2MyWFFidnYyM0Y4NW5hNk5LcndEVUhqbCtVOHdsbVJiK0NLNXF4STB4REF6?=
+ =?utf-8?B?eFRMTnlrcEJGUHRQVkRHQ1Z6blQ5TFRFQkk3eEpPbVVMMHJMV3hmWk1CUFRN?=
+ =?utf-8?B?aG1LLzZQVkc5YUV6UTdiUlpRU0t0WVUzM3BSSUIzUTZIQUs2ZFVYRmh6aFp5?=
+ =?utf-8?B?Nm5KOC9kWmU3emR4SUxWRE9jbi9URUJ5WDN1NXNTVlhuaFVwQW90Q2NPU1VH?=
+ =?utf-8?B?eGVtdjJzS3RWRjJma1pWUllGSkp0aUhiS0RuVWwrVmcxYXNaWnAwSkVMZHl5?=
+ =?utf-8?B?dVlEMGxsRFh3dHRIR1JaTWtxa09sYWZ5dlRUL1Y5Rm5paHVDei9EclQ3RWtU?=
+ =?utf-8?B?czJpV295NWNaQXk5MVBHQlEwb2VmL2tvZ2lCRGxYM2t3VnpURmsrZ3VzWlFl?=
+ =?utf-8?B?anUvT2JTWFBETEIyTDVPT3hTMlRpZFhxbjRZUWZEbTlBTWgvYU1RZGF0UmZ4?=
+ =?utf-8?B?NXFZakhoSTE0TFU1WW1Ba0lhMEk0Ym9obW8zN3NpdHFIdko2ZHNyNHArNE9Q?=
+ =?utf-8?B?bHFGTjRWaStVeXduVXJEWXhIaVJyc1RCUFRMZHlyZXpZcURjd0FSWWZLVXZP?=
+ =?utf-8?B?QTdIdFhGNWFIZjk1d0FWUzFMMWpGYk53T052S0gzNmhCYzhVWCtSRWZTNmJJ?=
+ =?utf-8?B?TmJYTEFDU3pINDRSdWloZHZoYlVmSXF2MGxFdFdnQ1pRdVBIRUx1M0VjSmZk?=
+ =?utf-8?B?NlFpOURnUnViVnJsZGc4V2JZY1JSZUN1WmpUT21GVzZhbmFHczE0MnhnMWVh?=
+ =?utf-8?B?bDBNM2UrSlFwbHNyUDRoTVpQOThPV1N5a2c0b1JmeDVPYmNhNS81TUxSenB2?=
+ =?utf-8?B?czRpcHVacXdKQ0hJR2g5WjhQN21INHFqdkw5ZkpyektudjB1cys1QnZUZnFF?=
+ =?utf-8?B?ZHhHV0I1V3ZhMERyVmxvZGwrUzhqSWNicDhRWEdPeS9kZ2IzTU4wYXNuT1Rh?=
+ =?utf-8?B?RDZoM2FqOERUekNjeXE2OUxoOG04L1lXNnVRY1ZxeERNTGtHV3lWTldsdkg2?=
+ =?utf-8?B?bWdMdUkzeCs5dytOa05ON25kVUZXY3hGTkFPaWs3VVZnZTArNVRiVU82M1lP?=
+ =?utf-8?B?Tm5kc0JMZnhtbnpZN1pXdXpDUjNDZXRQRndKeVRGWnVBTHJuQTBDeXkyRmJF?=
+ =?utf-8?B?RGNIbG9iWlRNdXd3R2Q3ZzdQbTcxVU5ROS9IMEo2dENMUVIxSzIrS1diTEpY?=
+ =?utf-8?B?emp1QURvb05ZRldSeS9Ocm1SajhzcDhJbU9YNmt4OFNUN09NRVFSaGhwdzNE?=
+ =?utf-8?B?MnloQ053UEdtOHNYS2U5R2c2cXJEV2xTVk1kc2RXUnJ0cm1sRWx5SFBTS1ds?=
+ =?utf-8?B?b3pySlQyWVN1ZDBrZ29rU2o5dDRvOFgwTW9jc3VwZnZOWnJSb2R5czF4amJE?=
+ =?utf-8?Q?B3eXOosjnvQ=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(4022899009)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?bDRRb1lseHpBb3A5UmxiNUVCMDBxamY4M1RUeVRva21hWDBNY0FEMDZsaS9G?=
+ =?utf-8?B?Y2s3akV5TTBGRHdTOUpBWTZpYUF5Mkh6Q2E4cWlHZExabDhnT2JHQVB1YUhK?=
+ =?utf-8?B?bzI0YzhRTWpnOTc3My95SlZxVklWc0lGTjJNa1ZySlFmcVErQnpsS3ZuMnpu?=
+ =?utf-8?B?azByanVZK082NVhhYk9pZW1DOEpEY0hMNDNTeUFkTTJMY20wVlVyZ2w2MlNi?=
+ =?utf-8?B?N0FTejNSOXRiTm9zT05BUDYyZnJMZ3V1YzlGVDZUVnlYeSt5VmpGK2tkaVBK?=
+ =?utf-8?B?RG81dmlucUFwemo0RDV2azB3b2dKVFpYZHBBMDhVdkNDanJrM2RBUFpXNnlN?=
+ =?utf-8?B?TExWdjZ1RzA3eCtscjczMGo2VGhYN2o4MlJGYzBTYnBJZ0ZMUGlqRVNoMXpj?=
+ =?utf-8?B?ZGw5ckJiTWNBUzNFeU9sbjVXcTZ1WmdMODlINDVDWCt6VlhjZGI5MWVMRUhq?=
+ =?utf-8?B?RHp3VU9PWTJ0c1E0WVRIaG5RZFJ6VFJySFJNNWlwVzZlQTRKZDNpUloyaUky?=
+ =?utf-8?B?Zy9KWlNia0VrVTIvQjgzWXZmUlN3UGlKUGhnRHRXLzZ4WXNXL3RRR3plNG9m?=
+ =?utf-8?B?VHl6Q1laNXd4RVV4ZDc4MER6WjNCaVRvWWl1a0gzOENHY3o0T1pBa2MrUmZq?=
+ =?utf-8?B?Q0pwV010dmVxd3RvL2dHcG9TdEIwSkp1aDBIU0UwNWZ6aTNZVmg0eVRKeEFG?=
+ =?utf-8?B?c0tjY0IvRmY4WmZvWFFpdUNKdkc1a0MydWNPM0VBVUtPbFRvSlYvTU9DSlAw?=
+ =?utf-8?B?WmlXRDJtNzZuQkluYzlMeG8wWE4vWHpFT3dMVU1kd0tDdlI3a01LV3ZrcVpD?=
+ =?utf-8?B?ZU5oTHByL0YrdDF3N3VHNlhvM3lubjZFU2NTeEp4Y3Z3eWdwUkxJdzFrNUtN?=
+ =?utf-8?B?VWcrVy9LaTVQTWZXZmJ2N3pCWk9zNytaM0lXUkU2UHRyVlIwMnd4R002KytL?=
+ =?utf-8?B?ZzBVMUMvV2lxNXRidHcrWFlSWDcrZ1NSMWcwdjJjSXNMMDZocVVSMnFvRnRI?=
+ =?utf-8?B?NTBtUFBtVjNKaU00ZGpMTzdvOHhBRlNSMys1ZlpMMk5rYVAvVEpLdVIwU3Vw?=
+ =?utf-8?B?d2oxUkhLT3NBQkx0MVBHRVVmemVFdlUrVCtmenVBWGF3Z3FFS0N3SmZQaU1P?=
+ =?utf-8?B?ZUJyWHR5WERYRy9WNUk0NTl0NVhZN3pwYUhEc0p2bnliMmFTQnBoQUNCckNI?=
+ =?utf-8?B?bE0vVjNpbzAySmtUSkZoelRtMUx4M0s0U2JXQVZNRjJsZ1BJMWRPLzlsR3ZN?=
+ =?utf-8?B?bWJ4WUlPMmg0Z2pjWHYvYmF5cGpTYUdNRm5LWHd3VzRGYUIzYUE4MGFkTUUz?=
+ =?utf-8?B?Z3l4MjdkaThSVGFBWFEyZUI3M3pCTkQ2OFpGZW9kdlhMN1dlYk82Y3ljWG04?=
+ =?utf-8?B?dzJueWNSVWxIUHBEYmFUVUJLa2xLbG9xaVVlUlNhNE4ydEI2YVRJRjB3dVEz?=
+ =?utf-8?B?OE04SHJXY2hnaFhZOWhlcFF4WVp5RjBhSjJmNzM1bEhvSVpCNUNncmV3cG0w?=
+ =?utf-8?B?eUpQU2U0UHU2V3o3Nk9QRy9sdHJ3RVR1WUJ5OU1aU3Mrb2dLYVR1K1lkdk84?=
+ =?utf-8?B?S2NQVXBRVnlHRExzWjZoYU9VSFRlZDVPMGVacC9RS3ROQkU5OTRCcm15SXk5?=
+ =?utf-8?B?UjR1M1JJTG1zcW9WM3RhcTJBWVRKRFdrSmVkK0QvRWFKRFpvcHFDbEttd01U?=
+ =?utf-8?B?eVRZT0xORzE5MFhFM2t0UVZJYUVHWUZXTTZoWEhuTDJFVVNKME0zdTYvbUJu?=
+ =?utf-8?B?dndrWTdQUmovcVgzVC94YkNFT1gvNGxQVzdGSjlIUEErd0dxbmF2dDg4MFJN?=
+ =?utf-8?B?bSt0bk1HZUpDbTlzZkQ0Y00wRmFSek9pckdSQ0Z5QjZHQWtqYlVhWFI5Nmw1?=
+ =?utf-8?B?N2ZXbDlOa2k5dlg2enRLWUdzUndqdnhQZWtoTlNzYmN2L0syR05XalR4Q3F3?=
+ =?utf-8?B?TmJpa3ZmM2o2QjMwOXBlRUdOWTFXOTI4V2VLTFZyWFZUWExFdUFjOEd4YXE3?=
+ =?utf-8?B?bjY5anRUMG15K1pHNGQ5ZVluZ0tOREphZFBGUFpIanhkOEQ2UWg0dFRJWnRt?=
+ =?utf-8?B?bXRYTHBtQnA0NUdtL0tIblVrbndWVm9MdEZrL0dEb1ZWMytxN2FFclJnK0tS?=
+ =?utf-8?B?eldydGdSZTdOSnpQbEVJLzN6NEljeHQrWkxZMytpL1hiOE9PaWpwZ1pLUC9u?=
+ =?utf-8?B?Y0E9PQ==?=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250819-mesa-libclc-panfrost-v5-8-b8b89e6af908@cherry.de>
-References: <20250819-mesa-libclc-panfrost-v5-0-b8b89e6af908@cherry.de>
-In-Reply-To: <20250819-mesa-libclc-panfrost-v5-0-b8b89e6af908@cherry.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>, 
- Ross Burton <ross.burton@arm.com>, 
- Otavio Salvador <otavio.salvador@ossystems.com.br>, 
- Quentin Schulz <quentin.schulz@cherry.de>
-X-Mailer: b4 0.14.2
-X-Infomaniak-Routing: alpha
+Content-ID: <6360D7D94D2F1A4C97FB21CCAA77775D@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: dec3116e-733b-47b3-9fe3-08dddefd655b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2025 08:50:06.5054
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eq6bSreTmEB3MsSC+b+iCe8lEHnYbXJSeDMB5ZJ8KYz7WzAHddQZihiddhc9Q57q0z248lRcHynIOboDbLWDhA0epSACAVrBO++XdFHtbTg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB8229
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 08:16:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222085
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 08:50:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222087
 
-From: Quentin Schulz <quentin.schulz@cherry.de>
-
-libclc is required for some drivers (asahi, panfrost and intel at the
-very least).
-libclc brings very expensive dependencies such as llvm and clang.
-Building clang and llvm for each target architecture is very expensive,
-but mesa allows to depend on prebuilt host binaries (mesa-clc and
-precomp-compiler). Those are built by mesa as well, but can be compiled
-in mesa-native instead of mesa, making the dependency expensive but only
-once regardless of the number of target architectures to build for.
-Ideally the mesa-clc and precomp-compiler would only be compiled in
-mesa-native if target mesa requires libclc support, however this is not
-possible as a target recipe cannot impact or depend on a native recipe's
-configuration. We thus have two choices, always build libclc in
-mesa-native with its heavy dependencies and impact every build or force
-the user to modify the mesa-native recipe in a custom layer (as a native
-recipe cannot use target's OVERRIDES). The latter is unacceptable so the
-former seems to be the only option. Another big downside is that
-mesa-native currently builds drivers (amd, nouveau, svga) which we may
-have absolutely no interest in building, increasing the build time and
-possibly dependencies list).
-
-A third choice is to spin-off the native mesa recipe with libclc support
-into a new recipe without drivers and only what's necessary to build
-mesa-clc and precomp-compiler binaries.
-This allows to keep a "clean" mesa-native recipe for whoever needs those
-drivers built-in (e.g. for testing, for qemu-native, or whatever else)
-and only bring the libclc dependency when required by the target recipe.
-
-Because libclc is now only built for the host, opencl support now needs
-to explicitly bring libclc and others to build as libclc won't bring it
-in the build environment anymore.
-
-Suggested-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
----
- meta/recipes-graphics/mesa/mesa-tools-native.bb | 19 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc             | 15 ++++-----------
- 2 files changed, 23 insertions(+), 11 deletions(-)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-new file mode 100644
-index 0000000000000000000000000000000000000000..144b5101f155c4be9fca9f72add4aa41c8b80e59
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-@@ -0,0 +1,19 @@
-+require mesa.inc
-+inherit native
-+
-+SUMMARY += " (tools only)"
-+
-+PACKAGECONFIG = "tools asahi intel panfrost"
-+# llvm required for libclc
-+PACKAGECONFIG += "gallium-llvm"
-+# Doesn't compile without wayland-scanner if PLATFORMS has wayland in, and,
-+# doesn't compile at all if PLATFORMS is empty so add x11 and wayland
-+# to PACKAGECONFIG like in mesa.inc
-+PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
-+
-+DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
-+
-+EXTRA_OEMESON += " \
-+    -Dmesa-clc=enabled -Dinstall-mesa-clc=true -Dmesa-clc-bundle-headers=enabled \
-+    -Dprecomp-compiler=enabled -Dinstall-precomp-compiler=true \
-+"
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 81b099bf6e5fe624e91e6a780f8bb55854580c2d..e4c606e4a253a5c2b0d641fbae7156665dc447a2 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -125,9 +125,9 @@ PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2
- # "egl" requires "opengl"
- PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
- 
--# "opencl" also requires libclc and gallium-llvm to be present in PKGCONFIG!
--# Be sure to enable them both for the target and for the native build.
--PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true, -Dgallium-rusticl=false, bindgen-cli-native"
-+# "opencl" also requires gallium-llvm to be present in PACKAGECONFIG!
-+# Be sure to enable it for the target and for the native build.
-+PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true, -Dgallium-rusticl=false, bindgen-cli-native libclc spirv-tools spirv-llvm-translator"
- 
- PACKAGECONFIG[broadcom] = ""
- PACKAGECONFIG[etnaviv] = ",,python3-pycparser-native"
-@@ -166,16 +166,9 @@ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', '
- GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'amd', ',r600', '', d)}"
- GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
- 
--MESA_CLC = "system"
--MESA_CLC:class-native = "enabled"
--INSTALL_MESA_CLC = "false"
--INSTALL_MESA_CLC:class-native = "true"
--MESA_NATIVE = "mesa-native"
--MESA_NATIVE:class-native = ""
--
- PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}, -Dgallium-drivers='', libdrm"
- PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm llvm-native elfutils"
--PACKAGECONFIG[libclc] = "-Dmesa-clc=${MESA_CLC} -Dinstall-mesa-clc=${INSTALL_MESA_CLC} -Dmesa-clc-bundle-headers=enabled,,libclc spirv-tools spirv-llvm-translator ${MESA_NATIVE}"
-+PACKAGECONFIG[libclc] = "-Dmesa-clc=system -Dprecomp-compiler=system,,mesa-tools-native"
- PACKAGECONFIG[va] = "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
- PACKAGECONFIG[vdpau] = "-Dgallium-vdpau=enabled,-Dgallium-vdpau=disabled,libvdpau"
- 
-
--- 
-2.50.1
-
+SGkgS2F2aW5heWEKCk9uIFR1ZSwgMjAyNS0wOC0xMiBhdCAxNDo0NCArMDUzMCwgS2F2aW5heWEg
+UyB2aWEKbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToKPiBBdm9pZHMgZXJyb3JzIGR1cmlu
+ZyBpbWFnZSBnZW5lcmF0aW9uIGJ5IGNoZWNraW5nIGZvciB0aGUKPiBwcmVzZW5jZSBvZiBsaW51
+eC5iaW4gYmVmb3JlIGF0dGVtcHRpbmcgdG8gY29weSBhbmQgZW1pdCB0aGUKPiBrZXJuZWwgc2Vj
+dGlvbi4gVGhpcyBlbnN1cmVzIHRoYXQgdGhlIGJ1aWxkIHByb2Nlc3MgY29udGludWVzCj4gZ3Jh
+Y2VmdWxseSB3aGVuIHRoZSBrZXJuZWwgYmluYXJ5IGlzIG5vdCBhdmFpbGFibGUuCgpTbyBmYXIs
+IHRoZSBwcmltYXJ5IHB1cnBvc2Ugb2YgdGhpcyBjb2RlIGlzIHRvIGNyZWF0ZSBhIEZJVCBpbWFn
+ZQpjb250YWluaW5nIGEgc2luZ2xlIGtlcm5lbCBhbmQgbW9yZSBhcnRpZmFjdHMuIElmIG5vIGtl
+cm5lbCBpcyBmb3VuZCwKdGhlIHByb2Nlc3Mgc2hvdWxkIGZhaWwgaW1tZWRpYXRlbHksIGFzIHRo
+aXMgaXMgcmVxdWlyZWQgZm9yIGFsbApjdXJyZW50IHVzZSBjYXNlcy4gQWRoZXJpbmcgdG8gdGhp
+cyBhcHByb2FjaCBlbnN1cmVzIHRoZSBjb2RlIHJlbWFpbnMKcm9idXN0IGFuZCByZWxpYWJsZSBm
+b3IgaXRzIGludGVuZGVkIGZ1bmN0aW9uLgoKVG8gYWRkcmVzcyB5b3VyIHVzZSBjYXNlLCBvbmUg
+YXBwcm9hY2ggY291bGQgYmUgdG8gaW50cm9kdWNlIGEgdmFyaWFibGUKaW4gaW1hZ2UtZml0aW1h
+Z2UuY29uZiB3aGljaCBhbGxvd3MgdG8gY29uZmlndXJlIHlvdXIgdXNlIGNhc2UKZXhwbGljaXRs
+eS4gRm9yIGV4YW1wbGU6CiAgRklUX0xJTlVYX0JJTiA/PSAibGludXguYmluIgoKVGhlbiB0aGUg
+a2VybmVsLWZpdC1pbWFnZS5iYmNsYXNzIGNvdWxkOgoKICBsaW51eF9iaW4gPSBkLmdldFZhcign
+RklUX0xJTlVYX0JJTicpCiAgaWYgbGludXhfYmluOiAgICAKICAgICAgc2h1dGlsLmNvcHlmaWxl
+Li4uIGFsbCB0aGUgZXhpc3RpbmcgY29kZQoKRm9yIHlvdXIgdXNlIGNhc2UgeW91IGNvdWxkIHRo
+ZW4gb3ZlcnJpZGUgaXQgdG86CiAgRklUX0xJTlVYX0JJTiA9ICIiCgpXb3VsZCB0aGF0IHdvcms/
+Cgo+IAo+IEEgY2xlYW4gc2VwYXJhdGlvbiBiZXR3ZWVuIGZpcm13YXJlIChpbmNsdWRpbmcgRFRC
+cykgYW5kIHRoZQo+IEhMT1MgKExpbnV4IEtlcm5lbCkgaXMgaGlnaGx5IHJlY29tbWVuZGVkIGFu
+ZCBvZnRlbiBuZWNlc3NhcnkKPiB0byBlbmFibGUgaW5kZXBlbmRlbnQgZmlybXdhcmUgdXBkYXRl
+cywgZW5mb3JjZSB0cnVzdCBib3VuZGFyaWVzLAo+IGFuZCBzdXBwb3J0IHJ1bm5pbmcgdGhlIHNh
+bWUga2VybmVsIGFjcm9zcyBkaWZmZXJlbnQgaGFyZHdhcmUKPiBwbGF0Zm9ybXMgYnkgc2ltcGx5
+IHN3YXBwaW5nIERUQnMuIE9uZSBlZmZlY3RpdmUgd2F5IHRvIGFjaGlldmUKPiB0aGlzIHNlcGFy
+YXRpb24gaXMgYnkgdXNpbmcgYSBVbmlmaWVkIEtlcm5lbCBJbWFnZSAoVUtJKSB0aGF0Cj4gY29u
+dGFpbnMgb25seSB0aGUgTGludXgga2VybmVsIGFuZCBpbml0cmFtZnMsIHdoaWxlIGtlZXBpbmcg
+dGhlCj4gRFRCcyBpbiBhIHNlcGFyYXRlIEZJVCBpbWFnZSwgc3VjaCBhcyBkdGIuYmluLgo+IAo+
+IFRvIHN1cHBvcnQgdGhpcyBzZXR1cCwgaXQncyBpbXBvcnRhbnQgdG8gZW5zdXJlIHRoYXQgYSBG
+SVQgaW1hZ2UKPiBjYW4gYmUgZ2VuZXJhdGVkIHdpdGhvdXQgcmVxdWlyaW5nIHRoZSBMaW51eCBr
+ZXJuZWwgYmluYXJ5LAo+IGFsbG93aW5nIHRoZSBidWlsZCBwcm9jZXNzIHRvIGNvbnRpbnVlIGdy
+YWNlZnVsbHkgZXZlbiB3aGVuIHRoZQo+IGtlcm5lbCBpcyB1bmF2YWlsYWJsZS4KPiAKPiBBZGRp
+dGlvbmFsbHksIHRoaXMgYXBwcm9hY2ggaXMgdmVyeSB1c2VmdWwgd2hlbiB0aGUga2VybmVsLWZp
+dC0KPiBleHRyYS1hcnRpZmFjdHMgY2xhc3MgaXMgbm90IHNldCwgYXMgaXQgZW5hYmxlcyB0aGUg
+Y3JlYXRpb24gb2YKPiBhbiAuaXRzIGZpbGUgd2l0aG91dCBkZXBlbmRpbmcgb24gdGhlIGtlcm5l
+bC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBLYXZpbmF5YSBTIDxrYXZpbmF5YUBxdGkucXVhbGNvbW0u
+Y29tPgo+IC0tLQo+IMKgbWV0YS9jbGFzc2VzLXJlY2lwZS9rZXJuZWwtZml0LWltYWdlLmJiY2xh
+c3MgfCAyMiArKysrKysrKysrKysrKysrLS0KPiAtLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDE4IGlu
+c2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nl
+cy1yZWNpcGUva2VybmVsLWZpdC1pbWFnZS5iYmNsYXNzCj4gYi9tZXRhL2NsYXNzZXMtcmVjaXBl
+L2tlcm5lbC1maXQtaW1hZ2UuYmJjbGFzcwo+IGluZGV4IGZkNGM2YTMwZmUuLmMwZjkyNWQ5MGUg
+MTAwNjQ0Cj4gLS0tIGEvbWV0YS9jbGFzc2VzLXJlY2lwZS9rZXJuZWwtZml0LWltYWdlLmJiY2xh
+c3MKPiArKysgYi9tZXRhL2NsYXNzZXMtcmVjaXBlL2tlcm5lbC1maXQtaW1hZ2UuYmJjbGFzcwo+
+IEBAIC01OSwxMiArNTksMjYgQEAgcHl0aG9uIGRvX2NvbXBpbGUoKSB7Cj4gwqDCoMKgwqAgKQo+
+IMKgCj4gwqDCoMKgwqAgIyBQcmVwYXJlIGEga2VybmVsIGltYWdlIHNlY3Rpb24uCj4gLcKgwqDC
+oCBzaHV0aWwuY29weWZpbGUob3MucGF0aC5qb2luKGtlcm5lbF9kZXBsb3lkaXIsICJsaW51eC5i
+aW4iKSwKPiAibGludXguYmluIikKPiAtwqDCoMKgIHdpdGggb3Blbihvcy5wYXRoLmpvaW4oa2Vy
+bmVsX2RlcGxveWRpciwgImxpbnV4X2NvbXAiKSkgYXMKPiBsaW51eF9jb21wX2Y6Cj4gLcKgwqDC
+oMKgwqDCoMKgIGxpbnV4X2NvbXAgPSBsaW51eF9jb21wX2YucmVhZCgpCj4gLcKgwqDCoCByb290
+X25vZGUuZml0aW1hZ2VfZW1pdF9zZWN0aW9uX2tlcm5lbCgia2VybmVsLTEiLCAibGludXguYmlu
+IiwKPiBsaW51eF9jb21wLAo+ICvCoMKgwqAgIyBDb25zdHJ1Y3QgdGhlIGZ1bGwgcGF0aCB0byBs
+aW51eC5iaW4KPiArwqDCoMKgIGxpbnV4X2Jpbl9wYXRoID0gb3MucGF0aC5qb2luKGtlcm5lbF9k
+ZXBsb3lkaXIsICJsaW51eC5iaW4iKQo+ICsKPiArwqDCoMKgICMgQ2hlY2sgaWYgbGludXguYmlu
+IGV4aXN0cwo+ICvCoMKgwqAgaWYgb3MucGF0aC5leGlzdHMobGludXhfYmluX3BhdGgpOgo+ICvC
+oMKgwqDCoMKgwqDCoCAjIENvcHkgbGludXguYmluIHRvIGN1cnJlbnQgZGlyZWN0b3J5CgpQbGVh
+c2UgZG8gbm90IHBvbGx1dGUgdGhlIGNvZGUgd2l0aCB1c2VsZXNzIGNvbW1lbnRzLiBTb21ldGhp
+bmcgbGlrZQp0aGF0IGxvb2tzIGNvdW50ZXIgcHJvZHVjdGl2ZSB0byBtZToKCiAgIyBDYWxsaW5n
+IGZvbyBiYXIKICBmb29fYmFyKCk7CgpCdXQgcmVhc29uYWJsZSBjb21tZW50cyBmb3IgZXhhbXBs
+ZSBsaWtlIHRoaXMgYXJlIGVzc2VudGlhbDoKCiAgI8KgU3VwcG9ydCBzcGVjaWFsIHVzZSBjYXNl
+cyB3aGVyZSB0aGUga2VybmVsIGJpbmFyeSBpcyBub3QgaW5jbHVkZWQKICAjIGluIHRoZSBGSVQg
+aW1hZ2UgaXRzZWxmIG9yIGhhcyBhIGRpZmZlcmVudCBuYW1lLgogICMgRm9yIGV4YW1wbGUsIGlm
+IHRoZSBrZXJuZWwgaXMgcHJvdmlkZWQgYXMgYSB1a2kgaW1hZ2UsIHRoaXMKICAjIHZhcmlhYmxl
+IGNhbiBiZSBzZXQgdG8gZW1wdHkgc3RyaW5nLgogIEZJVF9MSU5VWF9CSU4gPz0gImxpbnV4LmJp
+biIKCj4gK8KgwqDCoMKgwqDCoMKgIHNodXRpbC5jb3B5ZmlsZShsaW51eF9iaW5fcGF0aCwgImxp
+bnV4LmJpbiIpCj4gKwo+ICvCoMKgwqDCoMKgwqDCoCAjIFJlYWQgbGludXhfY29tcCBmaWxlCj4g
+K8KgwqDCoMKgwqDCoMKgIGxpbnV4X2NvbXBfcGF0aCA9IG9zLnBhdGguam9pbihrZXJuZWxfZGVw
+bG95ZGlyLAo+ICJsaW51eF9jb21wIikKPiArwqDCoMKgwqDCoMKgwqAgd2l0aCBvcGVuKGxpbnV4
+X2NvbXBfcGF0aCwgJ3InKSBhcyBsaW51eF9jb21wX2Y6Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgbGludXhfY29tcCA9IGxpbnV4X2NvbXBfZi5yZWFkKCkKPiArCj4gK8KgwqDCoMKgwqDCoMKg
+ICMgRW1pdCBrZXJuZWwgaW1hZ2Ugc2VjdGlvbgo+ICvCoMKgwqDCoMKgwqDCoCByb290X25vZGUu
+Zml0aW1hZ2VfZW1pdF9zZWN0aW9uX2tlcm5lbCgia2VybmVsLTEiLAo+ICJsaW51eC5iaW4iLCBs
+aW51eF9jb21wLAo+IMKgwqDCoMKgwqDCoMKgwqAgZC5nZXRWYXIoJ1VCT09UX0xPQURBRERSRVNT
+JyksIGQuZ2V0VmFyKCdVQk9PVF9FTlRSWVBPSU5UJyksCj4gwqDCoMKgwqDCoMKgwqDCoCBkLmdl
+dFZhcignVUJPT1RfTUtJTUFHRV9LRVJORUxfVFlQRScpLAo+IGQuZ2V0VmFyKCJVQk9PVF9FTlRS
+WVNZTUJPTCIpKQo+ICvCoMKgwqAgZWxzZToKPiArwqDCoMKgwqDCoMKgwqAgYmIubm90ZSgibGlu
+dXguYmluIG5vdCBmb3VuZC4gU2tpcHBpbmcga2VybmVsIGltYWdlCj4gcHJlcGFyYXRpb24uICIp
+Cj4gKwo+IMKgCj4gwqDCoMKgwqAgIyBQcmVwYXJlIGEgRFRCIGltYWdlIHNlY3Rpb24KPiDCoMKg
+wqDCoCBrZXJuZWxfZGV2aWNldHJlZSA9IGQuZ2V0VmFyKCdLRVJORUxfREVWSUNFVFJFRScpCgpU
+aGUgRklUIGltYWdlIGFuZCB0aGUgdWtpIGNvZGUgaGFzIHBsZW50eSBvZiB0ZXN0IGNhc2VzIGlu
+IApodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL3Bva3kvdHJlZS9tZXRhL2xpYi9vZXFhL3Nl
+bGZ0ZXN0L2Nhc2VzL2ZpdGltYWdlLnB5Cmh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvcG9r
+eS90cmVlL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvdWtpLnB5CldvdWxkIGl0IGJlIHBv
+c3NpYmxlIHRvIGFkZCBhIHRlc3QgY2FzZSBmb3IgeW91ciB1c2UgY2FzZSBhcyB3ZWxsPwoKClRo
+YW5rIHlvdSBmb3IgdGhlIHBhdGNoCkFkcmlhbgoKCj4gCj4gLT0tPS09LT0tPS09LT0tPS09LT0t
+PS0KPiBMaW5rczogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4K
+PiBWaWV3L1JlcGx5IE9ubGluZSAoIzIyMTg2OCk6Cj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
+ZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMjE4NjgKPiBNdXRlIFRoaXMgVG9w
+aWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMTQ3MDYxOTYvMzYxNjg1OAo+
+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnCj4gVW5zdWJzY3JpYmU6Cj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3Bl
+bmVtYmVkZGVkLWNvcmUvdW5zdWLCoFsKPiBhZHJpYW4uZnJlaWhvZmVyQHNpZW1lbnMuY29tXQo+
+IC09LT0tPS09LT0tPS09LT0tPS09LT0tCj4gCgo=
 
