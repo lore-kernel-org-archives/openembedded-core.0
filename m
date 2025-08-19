@@ -2,221 +2,155 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A12DCA0EEB
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 16:42:56 +0000 (UTC)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
- by mx.groups.io with SMTP id smtpd.web11.819.1755621769476223236
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48875CA0EE6
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 16:53:26 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.web11.1045.1755622404212042511
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Aug 2025 09:42:49 -0700
+ Tue, 19 Aug 2025 09:53:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=IHHLuKvc;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.174, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-71d603658e3so47935587b3.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 09:42:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=24yjpZgg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.177, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-71d601859f5so44590487b3.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 09:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755621768; x=1756226568; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755622403; x=1756227203; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=75gPBgyo+p8HDncqFUODzDqYDwCmGZSrXDt7iwP70/A=;
-        b=IHHLuKvc75d1OgEmKEpdFyGruGE9M24WE1FLGE69XGoKWnG3gy/DYuG8fz5DyQQu3L
-         XBbS0L15OurhFeeyob2eAZrCnTQjrslUxANoyAx7yDsWRiY4MIGDx0vQgWSbmXP4PBOM
-         Cg+lCSfINcPHE2C4MFhkPxSDGv2Am2myWvEHd46M7R1r+N0k8HBQssGz7FcrOg9FMBjz
-         cQvDxpQgrHLzJTn7nO9+h6puiaopdUo4VSvgu6cmdnEEX0VKgTNrQaA17xiZx1O2dJIy
-         9WJRYWaSwmRXZIwpZW9TQLbC5sAgnf6MLidh+PiIJelq/3QZjX2h71H28r3Qb8eQbGDV
-         1rlA==
+        bh=/lcM+y3swvOwnu6ITS5YpyROXLfOeVyuuMX+ODnpHPg=;
+        b=24yjpZggmjGkVyt5DTu9n5GrjRjEyW6ksNUVtLMhiTyznvGddIitSNTkx+5GxVJkmY
+         4nZojZOd0njbKUYNiJ6q7Q9As0iAgRN/g6Pu2VmKueECfWPUgOvj6Cjk9/iZX6JGnJwT
+         SB1pS2ic/ZxipFxcM7Qh/eb0mQgqi+ggQkB7LjE49ywlpcXSAbJ18AmpGRJMEcZqpU+9
+         hed7WyCS+mv1kYCpolC0wqa2aT/giG5ZF8PMFYeUo4i3YYuMv0PnwNu3xkZq+aRle1Aj
+         4JrDb+FoX8aJH7rZqg+kZa9QMopXZR8yOERmeNmwvODkYLTVwTa0/c7HZmindrsvO692
+         jPBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755621768; x=1756226568;
+        d=1e100.net; s=20230601; t=1755622403; x=1756227203;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=75gPBgyo+p8HDncqFUODzDqYDwCmGZSrXDt7iwP70/A=;
-        b=c8VUHEi+bCvzf6AsmOk+dsu0J7xLDWd9vo+toK1ixIlab3xj03In2qIQgYmk/nu5hJ
-         yshsyr3LCSIf5oSQbdaTI07IIRo7OKMunblpXz7gOZWv1bEb0FaBtCQYGGC8/UOLUkx7
-         HlDVeHeYzpRvOceaVm9IJ58LoSSI3xw0A7V3fiw2lAvWNE+poX00hKZ6MvfrO2GUN0mb
-         vvotC4lhxqlXnkGS7WRAeOQIUD8QO08Yltgyr1BPXEd7eqPILoS8rvDDaih5bJvUFqb2
-         neb+0BleY6tdbWKw4SGlwk3ExXQUvQ4zFrHSFPyzy6NvgutExC+v+bFGcTpYtmhoZ9GC
-         BTXg==
-X-Gm-Message-State: AOJu0Yzytp+Udy3hguTM0X/xsftx+ctKujQR/7M6t2v8vqCJ0W40NaQX
-	DTpvSJ+cA0ViDbL5GAqMM9izDSUDordUmHrsnfiqiqOBJdmi5xBLtVP58rSwcUpcgBdGutQTApd
-	bxw7lh0oQwtGw2kcWcp6mZsDt7/d8Kaq5UO4N3+x1Aw==
-X-Gm-Gg: ASbGncsn15lUUrSyz6hbov80XEylU2D6KtDxwStTYk+TiLU4ETXEjSpKsJMAs9AojSd
-	R5vFifekJiZPUpFGbQeFovccNIOl1G7jiQxUOlVftThLv/0EJqO0cQw75+eOnN07sXinsRWDHfi
-	Z8AMzLnM2mfNIjTv9MTip6NLur1YVLw9Z93AeLPvbyEH6FZ+hPWec+opRXZo2jXkAdjXGD6vcq4
-	uK1ki43Cf5rEnjd0t05wU1dAR/p4H8hvodpUIs=
-X-Google-Smtp-Source: AGHT+IHTBJktjI5DVGR90Evdvnn+G1TgeITRlIPyYlWso50fOvflogSaRvaCJxueL/SwncvRfBzLt1E7zIjUuJmlkh8=
-X-Received: by 2002:a05:690c:7108:b0:71b:f9db:2725 with SMTP id
- 00721157ae682-71f9d4dd5c7mr37881097b3.8.1755621768462; Tue, 19 Aug 2025
- 09:42:48 -0700 (PDT)
+        bh=/lcM+y3swvOwnu6ITS5YpyROXLfOeVyuuMX+ODnpHPg=;
+        b=ejr+kpTB/uj+YeGa9IKHxg9MIWc5t6E2BQPVPrsxnBnx13luQVLRfTOjpeS0eNEM5i
+         HDzGN7Rpnomgy87qFt8VxSVj8up87+ZQD6iHztiwF+EoEMmMD4Rf9PI3GMH2U5mj2b6p
+         CVXvgX6E1lypdlN+vfB1NJoI8hU9va4tKgsSdIwWv9axypTYy/U1YRfjSdcYC7+VE7VG
+         Xyc8+rHb2lTuo969OLWdLpCcJuj72cRx4MIC1VTFgWqQZWzNX7Hn9lXhE4IBxolDQMFd
+         TMyK+dGmzkzAGAd2WSCpHdC7+3q/IxeEGhfJ3UoTUTLQ7wZS0lbI7vd9XvwmaJrQMnJi
+         6omQ==
+X-Gm-Message-State: AOJu0Yz1hnwkMst1+91Urybzb3hBnluQ6CE70KojFy3c+5UMVJ7PNhvp
+	HBtNRn02GbfrH7d7+6wjq440u4sn9GYIu8X9/0/tKMEw8o8l18kB+5jqRjU3ng8M5nZ8SEjYEfa
+	WG3+i6gPuCOFCzE8d3waJ5N91MChaA+bZ/VNgcm0Nww==
+X-Gm-Gg: ASbGncueqrS+AHigf8roIIPCtOGQ2rB8/MAKv10DKtcfkuGjwioQZkd23Ly+6i/qTcz
+	UZ24y7m4JAxTSjUkwuG8isE6TqMfDWbszzP1lNvoqAtE/X+JZcCwS7A1wsJOiAReJIjeBnGgo9Q
+	PfaIwT3vgf9SSL0GcFi1vG34fdqfsB0gU7lEfDYTbjk+rduqkj56QBc9te5dWv6tBGOOLwIOGGl
+	GTTcZgj8b94Zb2V1tjXRNGAQ3/WTEjvF58XHro=
+X-Google-Smtp-Source: AGHT+IG9CpBI0NxkqfpYXz5fb7hnR37vJ1ZNPpOeR4rqxDj0cyikrSHvf/IyLgG1brFO3dXvFPgL1V/1DZji17pQmjs=
+X-Received: by 2002:a05:690c:8:b0:71a:476a:ab5d with SMTP id
+ 00721157ae682-71f9d64d4acmr43102327b3.20.1755622403111; Tue, 19 Aug 2025
+ 09:53:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250815094509.3034151-1-philip.lorenz@bmw.de>
-In-Reply-To: <20250815094509.3034151-1-philip.lorenz@bmw.de>
+References: <20250817205033.3845672-1-martin.jansa@gmail.com>
+ <8d5f70ac-7a0e-4c1b-b1c3-3949412843c8@cherry.de> <CA+chaQeo_Fa9G-4rNRuihvsnHbGJFZx_8JS7CHV83KY1w9uFBw@mail.gmail.com>
+ <905aedea-e2b1-4b07-8f6d-f68863f60f0d@cherry.de> <CA+chaQek-wO5DvPanFJpC+hCgMH2FLn_EeStsgvXDy8LBb4Acg@mail.gmail.com>
+ <dd63bc2f1d4d51e76550b2653fef3f35a0adee6b.camel@linuxfoundation.org>
+In-Reply-To: <dd63bc2f1d4d51e76550b2653fef3f35a0adee6b.camel@linuxfoundation.org>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 19 Aug 2025 09:42:37 -0700
-X-Gm-Features: Ac12FXzCwFw99M_2bBuAGKQrrQ5j9OnqgdZ0bW_8bVuXTzkM4z-3b_RAeC5q3TM
-Message-ID: <CAOSpxdbT1VigkVchb3SroTCYA0kPhMGDiKd179zJf7o6Ku6tMQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH 1/2] insane: Improve patch
- warning/error handling
-To: philip.lorenz@bmw.de
-Cc: openembedded-core@lists.openembedded.org, 
+Date: Tue, 19 Aug 2025 09:53:12 -0700
+X-Gm-Features: Ac12FXwi_ycmRKuVAQbibDqftpWR5FI-8XrmX6JQs5lgfgBJBIZLBUnaXUvFhME
+Message-ID: <CAOSpxdaTNWxO6EuCOJ_yfBmcHKOCQvtTAaJLOb_5ihHi=Xfm4w@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH 1/3] e2fsprogs: Fix build failure
+ with gcc 15
+To: Martin Jansa <martin.jansa@gmail.com>, Quentin Schulz <quentin.schulz@cherry.de>
+Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>, 
 	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 16:42:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222121
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 16:53:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222122
 
-This patch set is causing warnings for various non-oe-core layers used
-in autobuilder testing:
+On Tue, Aug 19, 2025 at 9:31=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2025-08-19 at 13:36 +0200, Martin Jansa wrote:
+> > On Tue, Aug 19, 2025 at 11:57=E2=80=AFAM Quentin Schulz
+> > <quentin.schulz@cherry.de> wrote:
+> > >
+> > > Hi Martin,
+> > >
+> > > On 8/19/25 11:24 AM, Martin Jansa wrote:
+> > > > On Tue, Aug 19, 2025 at 11:21=E2=80=AFAM Quentin Schulz
+> > > > <quentin.schulz@cherry.de> wrote:
+> > > > >
+> > > > > Hi Martin,
+> > > > >
+> > > > > Do we actually support any distribution for Scarthgap that has
+> > > > > gcc 15 in
+> > > > > its package feed?
+> > > >
+> > > > I haven't built the whole world, but these changes allowed me to
+> > > > build
+> > > > our images with gcc-15 from ubuntu-25.10 with scarthgap (and 2
+> > > > more
+> > > > changes sent for walnascar).
+> > > >
+> > > > So even when it's not officially supported (or tested on AB),
+> > > > these
+> > > > changes are safe enough, right?
+> > >
+> > > My opinion is if you want to build an old branch on an unsupported
+> > > distro, you maintain a fork yourself. Otherwise use containers
+> > > (kas,
+> > > CROPS, ...) to build old branches on unsupported distros. Master of
+> > > course is a different topic, and patches to support new
+> > > GCC/glibc/musl/clang/cmake/whatever on yet-unsupported distros is
+> > > *very
+> > > much* welcome.
+> >
+> > I use containers, this one with ubuntu-25.10, I can switch to older
+> > ubuntu if needed, but it's useful to catch issues early (by someone
+> > who can also provided patches where needed, instead of random people
+> > reporting that LTS versions don't work on their new system).
+> >
+> > All of these changes are backports from master where it was already
+> > fixed by Khem or me before (with the exception of cairo where I've
+> > backported just 2 fixes from upstream instead of whole minor upgrade
+> > as the rest of the upgrade isn't needed for LTS).
+> >
+> > > I'm not sure we need to add on maintainer load by patching Yocto
+> > > for
+> > > unsupported distros. But that's a call the maintainer(s) and or TSC
+> > > to make.
+> >
+> > Agreed, Steve already queued the patches in scarthgap-nut, similar
+> > fixes were already merged in meta-clang and meta-tensorflow, so
+> > hopefully these small changes to keep the LTS buildable on newer OS
+> > versions don't add too much trouble for them.
+> >
+> > I am not asking anyone to regularly validate that older LTS work on
+> > newer OS then what was originally tested, but if small already tested
+> > fix is identified, sent and doesn't break anything on older supported
+> > OSes, then is it too much to ask for it being applied?
+>
+> Our policy has been to accept simple changes to keep the releases
+> building on newer distros as long as they're not too invasive/risky. As
+> the releases age, the barrier to entry increases.
+>
+> Where a distro is known to work, we also have been known to enable
+> testing on it. It really has to be on a case by case basis though, not
+> all distro changes are equal and we can't know in advance what they
+> are.
 
-meta-intel
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/41/builds/2086/st=
-eps/12/logs/warnings
+Richard took the words right out of my mouth :-)
 
-meta-virtualization
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/89/builds/2099/st=
-eps/12/logs/warnings
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/89/builds/2099/st=
-eps/16/logs/warnings
+An additional factor for supporting newer releases when feasible is
+that older releases on autobuilder workers are phased out over time,
+leaving a smaller and smaller pool available for LTS testing.
 
-meta-agl
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/55/builds/2088/st=
-eps/13/logs/warnings
-
-meta-gplv2
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/33/builds/1299/st=
-eps/11/logs/warnings
-
-I'm not inclined to take this patch set since it is adding a lot of
-noise to my testing.
-
-If you submit patches for those layers to deal with the above issues,
-or work with the layer maintainers to fix them I am happy to
-reconsider.
-
-Thanks!
+Being able to add newer releases to the LTS worker pool is definitely
+a good thing!
 
 Steve
-
-On Fri, Aug 15, 2025 at 2:53=E2=80=AFAM Philip Lorenz via
-lists.openembedded.org <philip.lorenz=3Dbmw.de@lists.openembedded.org>
-wrote:
->
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> Currently, whilst patch errors or warnings are shown, the errors don't st=
-op builds.
-> The configuration isn't very configurable from WARN_QA and ERROR_QA eithe=
-r.
->
-> This patch:
->  * Uses the standard mechanisms to handle the patch fuzz warnings/errors
->  * Makes Upstream-Status checking configurable from WARN/ERROR_QA
->  * Allows that checking to be used with non-core layers
->  * Makes patch-fuzz an error by default
->
-> (From OE-Core rev: 76a685bfcf927593eac67157762a53259089ea8a)
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 3c3fd6a65e8103f74ae382d196d486b31a168b39)
->
-> The backported commit was modified to not mark "patch-fuzz" as an error
-> by default (which retains compatibility with kirkstone behaviour).
->
-> Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
-> ---
->  meta/classes/insane.bbclass | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index f4b4c05e3d8..495bdda652c 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -28,6 +28,7 @@ WARN_QA ?=3D " libdir xorg-driver-abi \
->              missing-update-alternatives native-last missing-ptest \
->              license-exists license-no-generic license-syntax license-for=
-mat \
->              license-incompatible license-file-missing obsolete-license \
-> +            patch-status-noncore \
->              "
->  ERROR_QA ?=3D "dev-so debug-deps dev-deps debug-files arch pkgconfig la =
-\
->              perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-> @@ -1182,24 +1183,27 @@ python do_qa_patch() {
->              msg +=3D "    devtool modify %s\n" % d.getVar('PN')
->              msg +=3D "    devtool finish --force-patch-refresh %s <layer=
-_path>\n\n" % d.getVar('PN')
->              msg +=3D "Don't forget to review changes done by devtool!\n"
-> -            if bb.utils.filter('ERROR_QA', 'patch-fuzz', d):
-> -                bb.error(msg)
-> -            elif bb.utils.filter('WARN_QA', 'patch-fuzz', d):
-> -                bb.warn(msg)
-> -            msg =3D "Patch log indicates that patches do not apply clean=
-ly."
-> +            msg +=3D "\nPatch log indicates that patches do not apply cl=
-eanly."
->              oe.qa.handle_error("patch-fuzz", msg, d)
->
->      # Check if the patch contains a correctly formatted and spelled Upst=
-ream-Status
->      import re
->      from oe import patch
->
-> +    allpatches =3D False
-> +    if bb.utils.filter('ERROR_QA', 'patch-status-noncore', d) or bb.util=
-s.filter('WARN_QA', 'patch-status-noncore', d):
-> +        allpatches =3D True
-> +
->      coremeta_path =3D os.path.join(d.getVar('COREBASE'), 'meta', '')
->      for url in patch.src_patches(d):
->         (_, _, fullpath, _, _, _) =3D bb.fetch.decodeurl(url)
->
->         # skip patches not in oe-core
-> +       patchtype =3D "patch-status-core"
->         if not os.path.abspath(fullpath).startswith(coremeta_path):
-> -           continue
-> +           patchtype =3D "patch-status-noncore"
-> +           if not allpatches:
-> +               continue
->
->         kinda_status_re =3D re.compile(r"^.*upstream.*status.*$", re.IGNO=
-RECASE | re.MULTILINE)
->         strict_status_re =3D re.compile(r"^Upstream-Status: (Pending|Subm=
-itted|Denied|Accepted|Inappropriate|Backport|Inactive-Upstream)( .+)?$", re=
-.MULTILINE)
-> @@ -1212,9 +1216,13 @@ python do_qa_patch() {
->
->             if not match_strict:
->                 if match_kinda:
-> -                   bb.error("Malformed Upstream-Status in patch\n%s\nPle=
-ase correct according to %s :\n%s" % (fullpath, guidelines, match_kinda.gro=
-up(0)))
-> +                   msg =3D "Malformed Upstream-Status in patch\n%s\nPlea=
-se correct according to %s :\n%s" % (fullpath, guidelines, match_kinda.grou=
-p(0))
-> +                   oe.qa.handle_error(patchtype, msg, d)
->                 else:
-> -                   bb.error("Missing Upstream-Status in patch\n%s\nPleas=
-e add according to %s ." % (fullpath, guidelines))
-> +                   msg =3D "Missing Upstream-Status in patch\n%s\nPlease=
- add according to %s ." % (fullpath, guidelines)
-> +                   oe.qa.handle_error(patchtype, msg, d)
-> +
-> +    oe.qa.exit_if_errors(d)
->  }
->
->  python do_qa_configure() {
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#221879): https://lists.openembedded.org/g/openembedde=
-d-core/message/221879
-> Mute This Topic: https://lists.openembedded.org/mt/114715380/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
