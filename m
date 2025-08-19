@@ -1,100 +1,81 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC18BCA0EE6
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 13:31:43 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.14069.1755610299761911676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1E9CA0EE6
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 14:04:24 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.web10.14995.1755612254132440516
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Aug 2025 06:31:39 -0700
+ Tue, 19 Aug 2025 07:04:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SKUcWBa6;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=n3ty9Byp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010198c28738a5-4ee5455a-353e-4b01-8f6b-eb8e8dcf9f20-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755610298; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=zVdWYEqPOquV4DIVbfoNkdh52OL99eX24ZSwSpJMpTU=;
-	b=SKUcWBa6i0Foo5JKOESC+dfpSAfwBoZIPREIxXtOZSSdD34VtpOxPrtcqFk9TDFE
-	7sFQlL7S2UNq7kKIkKAAO0q+ZlkwjvmxFH0p3cOBB8CFTS0uCe9EC7zSKwE4jjtSa9O
-	pSD7Z9Crmn/gUdzBe4nAi2UHAaBZZ3K8SX4mmfJw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755610298;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=zVdWYEqPOquV4DIVbfoNkdh52OL99eX24ZSwSpJMpTU=;
-	b=n3ty9BypgRNUwaIGGSyVKhZuokddJTxgpdplEABrhOcURoPREnU/+zGPkSMz89Yu
-	lqf1e/V5+XQbeQdJqudLjWL88EycOj2X/z/iYDZeuM/aYg5Ae98Vc6TOmmgXdjS7nQK
-	EM9aAqZvWASSW5wN2JutGUWYu7+oosjaR8zF7aw4=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] babeltrace: Remove in favour of babeltrace2
-In-Reply-To: <20250819131550.3646165-1-richard.purdie@linuxfoundation.org>
-References: <20250819131550.3646165-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198c28738a5-4ee5455a-353e-4b01-8f6b-eb8e8dcf9f20-000000@us-west-2.amazonses.com>
-Date: Tue, 19 Aug 2025 13:31:38 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.19-54.240.27.23
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=Icg27RWT;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id DA460C6B393;
+	Tue, 19 Aug 2025 14:03:57 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4410860697;
+	Tue, 19 Aug 2025 14:04:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DA6851C228AF3;
+	Tue, 19 Aug 2025 16:03:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1755612250; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Iw2SgqrPtjrHSFFzYrdCQrpQ8hWEvCht/y1noEQMMBk=;
+	b=Icg27RWTtQifsaEOHVOdM5QVTNq962s5LWlDSmvsy0PRC8EN+liE5VOxoTnI9/kl/Pjxow
+	i7IRTMLWqd/A4dWjsuDxBqq/a3ZfZiiNgZnuqqmQ8Yi3mE6mM44VKVGRqww3F5v5QKjMvz
+	BbTab2oxhsX71NiYWc+rBavdftv0y98hFY/T6qOzrqfwgwKHRX/l5f2D3a7mhhwsKfIrnE
+	rkm5YTn1EHSg0Yc+fyMnxexRlEwPCAKfUApp9Y4IZF/84CcOWz7nvEvDgJqdOMgFo6a2rH
+	IM9nVbHySeILnqCQLQiBQJhC6JUZPOv1LQNfrMKQWi1tLblN/jaWPyerRwKziA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 19 Aug 2025 16:03:46 +0200
+Message-Id: <DC6GLEVBVKZW.28X2L6NT5YP7V@bootlin.com>
+Subject: Re: [OE-core] [PATCH v5 0/9] mesa: lighten up target's libclc
+ dependencies and fix panfrost support
+Cc: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Markus Volk"
+ <f_l_k@t-online.de>, "Trevor Woerner" <twoerner@gmail.com>, "Ross Burton"
+ <ross.burton@arm.com>, "Otavio Salvador"
+ <otavio.salvador@ossystems.com.br>, "Quentin Schulz"
+ <quentin.schulz@cherry.de>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Quentin Schulz" <foss@0leil.net>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250819-mesa-libclc-panfrost-v5-0-b8b89e6af908@cherry.de>
+In-Reply-To: <20250819-mesa-libclc-panfrost-v5-0-b8b89e6af908@cherry.de>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 13:31:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222114
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 14:04:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222115
 
---NextPart
-Content-Type: text/plain
+Hi Quentin,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Thanks for your patch.
 
----
-Testing patch /home/patchtest/share/mboxes/1-2-babeltrace-Remove-in-favour-of-babeltrace2.patch
+It looks like this is causing some issue:
+ERROR: libepoxy-native-1.5.10-r0 do_prepare_recipe_sysroot: The file /usr/s=
+hare/drirc.d/00-mesa-defaults.conf is installed by both mesa-native and mes=
+a-tools-native, aborting
+ERROR: libsdl2-native-2.32.8-r0 do_prepare_recipe_sysroot: The file /usr/sh=
+are/drirc.d/00-mesa-defaults.conf is installed by both mesa-native and mesa=
+-tools-native, aborting
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2135
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/63/builds/2073
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+Can you have a loot at it please?
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Best regards,
+Mathieu
 
----
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
