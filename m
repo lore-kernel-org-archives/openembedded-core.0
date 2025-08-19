@@ -1,104 +1,76 @@
-Return-Path: <youngseok1.jeong@lge.com>
+Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A27CA0EE6
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 07:43:21 +0000 (UTC)
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by mx.groups.io with SMTP id smtpd.web11.8440.1755589395351660266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2134CA0EED
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 08:16:21 +0000 (UTC)
+Received: from smtp-42ac.mail.infomaniak.ch (smtp-42ac.mail.infomaniak.ch [84.16.66.172])
+ by mx.groups.io with SMTP id smtpd.web11.8802.1755591377501788072
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Aug 2025 00:43:15 -0700
+ Tue, 19 Aug 2025 01:16:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.51, mailfrom: youngseok1.jeong@lge.com)
-Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
-	by 156.147.23.51 with ESMTP; 19 Aug 2025 16:43:12 +0900
-X-Original-SENDERIP: 156.147.1.126
-X-Original-MAILFROM: youngseok1.jeong@lge.com
-Received: from unknown (HELO ys-server..) (10.177.121.106)
-	by 156.147.1.126 with ESMTP; 19 Aug 2025 16:43:12 +0900
-X-Original-SENDERIP: 10.177.121.106
-X-Original-MAILFROM: youngseok1.jeong@lge.com
-From: youngseok1.jeong@lge.com
-To: openembedded-core@lists.openembedded.org
-Cc: Youngseok Jeong <youngseok1.jeong@lge.com>
-Subject: [kirkstone][PATCH] libubootenv: backport patch to fix unknown type name 'size_t'
-Date: Tue, 19 Aug 2025 16:43:10 +0900
-Message-Id: <20250819074310.473119-1-youngseok1.jeong@lge.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 84.16.66.172, mailfrom: foss+yocto@0leil.net)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246c])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c5j8c0JSzz5dF;
+	Tue, 19 Aug 2025 10:16:16 +0200 (CEST)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4c5j8b3RT1zSVb;
+	Tue, 19 Aug 2025 10:16:15 +0200 (CEST)
+From: Quentin Schulz <foss+yocto@0leil.net>
+Date: Tue, 19 Aug 2025 10:16:01 +0200
+Subject: [PATCH v5 1/9] mesa-gl: make mesa-gl really openGL-only
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250819-mesa-libclc-panfrost-v5-1-b8b89e6af908@cherry.de>
+References: <20250819-mesa-libclc-panfrost-v5-0-b8b89e6af908@cherry.de>
+In-Reply-To: <20250819-mesa-libclc-panfrost-v5-0-b8b89e6af908@cherry.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>, 
+ Ross Burton <ross.burton@arm.com>, 
+ Otavio Salvador <otavio.salvador@ossystems.com.br>, 
+ Quentin Schulz <quentin.schulz@cherry.de>
+X-Mailer: b4 0.14.2
+X-Infomaniak-Routing: alpha
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 07:43:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222076
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 08:16:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222077
 
-From: Youngseok Jeong <youngseok1.jeong@lge.com>
+From: Quentin Schulz <quentin.schulz@cherry.de>
 
-Fix:
-../recipe-sysroot/usr/include/libuboot.h:29:2: error: unknown type name 'size_t'
-size_t          envsize;
-^
+The ??= operator for PACKAGECONFIG doesn't actually do anything because
+the recipe includes mesa.inc which already sets this variable (with the
+= operator).
 
-This error can be avoided by using CXXFLAGS:append = " -include cstddef"
-but this way would be needed in all recipes that use libuboot.h.
-Therefore, Backport the patch to include <cstddef> in C++ builds.
+This probably wasn't noticed until now because mesa-gl is likely only
+ever built in its target flavor which was already set correctly thanks
+to the :class-target override.
 
-Signed-off-by: Youngseok Jeong <youngseok1.jeong@lge.com>
+This essentially only make mesa-gl-native and nativesdk-mesa-gl follow
+the same configuration as the target.
+
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- ...-Include-cstddef-in-the-header-for-C.patch | 27 +++++++++++++++++++
- meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb  |  6 ++++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/0001-Include-cstddef-in-the-header-for-C.patch
+ meta/recipes-graphics/mesa/mesa-gl.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/files/0001-Include-cstddef-in-the-header-for-C.patch b/meta/recipes-bsp/u-boot/files/0001-Include-cstddef-in-the-header-for-C.patch
-new file mode 100644
-index 0000000000..9a006e2cfd
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/0001-Include-cstddef-in-the-header-for-C.patch
-@@ -0,0 +1,27 @@
-+From 10c9a571f1c0472799f72b1924b039aab231e95f Mon Sep 17 00:00:00 2001
-+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-+Date: Thu, 16 Dec 2021 16:19:50 +0100
-+Subject: [PATCH] Include cstddef in the header for C++
-+
-+So C++ compiler always has access to the definition of size_t.
-+
-+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-+Signed-off-by: Youngseok Jeong <youngseok1.jeong@lge.com>
-+Upstream-Status: Backport [v0.3.3 https://github.com/sbabic/libubootenv/pull/19/commits/764226a7de2ea79b182d92829922489537c766fa]
-+---
-+ src/libuboot.h | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/libuboot.h b/src/libuboot.h
-+index 88f0558..1f305f4 100644
-+--- a/src/libuboot.h
-++++ b/src/libuboot.h
-+@@ -6,6 +6,8 @@
-+  */
-+ 
-+ #ifdef __cplusplus
-++#include <cstddef>
-++
-+ extern "C" {
-+ #endif
-+ 
-diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-index e8f58941cf..7ff57ae157 100644
---- a/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-+++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.2.bb
-@@ -10,7 +10,11 @@ LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
+diff --git a/meta/recipes-graphics/mesa/mesa-gl.bb b/meta/recipes-graphics/mesa/mesa-gl.bb
+index e2f03c81c4588c6257ffec2892fef7fcbe9f82bf..35d6dc854cf4dfac7a757e333e25e4ddeab10b6e 100644
+--- a/meta/recipes-graphics/mesa/mesa-gl.bb
++++ b/meta/recipes-graphics/mesa/mesa-gl.bb
+@@ -9,6 +9,4 @@ S = "${UNPACKDIR}/mesa-${PV}"
+ TARGET_CFLAGS = "-I${STAGING_INCDIR}/drm"
  
--SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https;branch=master"
-+SRC_URI = " \
-+    git://github.com/sbabic/libubootenv;protocol=https;branch=master \
-+    file://0001-Include-cstddef-in-the-header-for-C.patch \
-+"
-+
- SRCREV = "ba7564f5006d09bec51058cf4f5ac90d4dc18b3c"
- 
- S = "${WORKDIR}/git"
+ # At least one DRI rendering engine is required to build mesa.
+-PACKAGECONFIG ??= "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+-PACKAGECONFIG:class-target = "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+-
++PACKAGECONFIG = "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+
+-- 
+2.50.1
+
 
