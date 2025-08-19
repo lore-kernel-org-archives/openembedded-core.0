@@ -1,100 +1,101 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF87CA0EE6
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 11:57:03 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.12184.1755604616931909877
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EB72CA0EEB
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 12:01:43 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.12275.1755604893567678175
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Aug 2025 04:56:57 -0700
+ Tue, 19 Aug 2025 05:01:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c0uWYfDB;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b9ba300cb9so3259235f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 04:56:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755604615; x=1756209415; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qyjoIfjTAr746JTqxQT1GBCIbXbzpCsZ7ugpn7eeR+A=;
-        b=c0uWYfDBYOJ6H3Wl6P7HNoPKyNVDYqFqQ5EpRGutnxFZ0wvgfqCezZE3MeGseIzy1W
-         6CZWLHuKiYHtAg7C6NlruFATT9WP7BuxbLlTXLvMj3KgDZ5F+LQmRI43agmju7b6squl
-         vGfaRcp2suLktRUox4a+tpfYFvt/GYLlNYRGRf6QUzW2x3XIhu2eHCpiUY0sFDPVmeu8
-         Rhdr7iU8NQyLzseqohQKQoJT47bQzJvO/+4y0qTwlpgM8poTP+WxrFxQJbL8ebQ1ncDv
-         Be8seMtNVezT8m5AATFRa/oeUrW2OaRdT8PscDBzi5IQd/gL7JUpgfO/0Fbjlmxflah2
-         We8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755604615; x=1756209415;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qyjoIfjTAr746JTqxQT1GBCIbXbzpCsZ7ugpn7eeR+A=;
-        b=ASfpzuujm0vWgzxMDm5JgGXH4lumYMSalTQW/zu5n+kiX5OOwZH5mk/kz5bOZxFtLl
-         cjRomB011kcGjJtEnr+YzVEwyj24EcCe/fZFGtgpzNUKP3C+cIocMYD/Jccdhhn4TQr2
-         fDHdncXGKugl+u7/VUhITky8392pqbLYqRERh18RffuHFR08YSyECVOryDtGoyiTcijX
-         3Fm93wBTtk+doKCyeKHp0eE6t+Ayl52QHb5dvAyT/dRUoe8hA8pJefEIOi5T99dcDDVk
-         7p16xvd8Cg4gksS1qlETMoUCy+VivCGWCj76fXz17zyy3AdZMw8E8M/X0k0XAX9g9t14
-         wkLQ==
-X-Gm-Message-State: AOJu0YxbDwPVnq/JJYDMPYvAapXC3hFr4b0PGVijzeK11xJBsgDGP6ns
-	YXy0/I7bH894h6EWH+OvsSlqXufbQ5cBiSAsTPELzWhXX2bweeXADvktRkpFqg==
-X-Gm-Gg: ASbGncupZ2nW5hlG+XlBiQBr1ROW2kdsms2iRPAUTHw1n4sdGTTeavUcynQQgxDlSPL
-	TLM2KxCIT9/jBxPbrL92EOyAtBhqlebzUAvYOr5HxKzhSEyGOLX2s91ga59K2ncV/PILBABAYI3
-	XrWVaQzivHWOSwe6d6TnwPfozyi6ztLiiIpftPRiodskxcwLxbtKqjHuDf8xdHeAejk3n+OCReE
-	7wRU0fYJDxnO7uJV21eXvY87lW+K1BLxVfo0c2QQx719/fV58VMuE5Vdf7FM9kkjLQ/sdxYmATv
-	SXRKCGNOR1SHwxZzJTHERzvXScLIMiO0eOhxQGfZcHFtDkyV47W0YKfikstdo6TtLKKH421grls
-	oupCCvfc1czGOYKE83p9xf0i3AOBe2aYHg1fmEFFno/3IhpJZRVPWrPRCESc=
-X-Google-Smtp-Source: AGHT+IFDzXERktir0Gk+jzJTGYTwT5wdRO/vel51jCTZtcFsO388ZEh+s9fsU2oIrxnFw9Dt2g1QFQ==
-X-Received: by 2002:a05:6000:2909:b0:3b6:d0d:79c1 with SMTP id ffacd0b85a97d-3c12add3401mr1854599f8f.10.1755604615036;
-        Tue, 19 Aug 2025 04:56:55 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c6cd044sm223676985e9.9.2025.08.19.04.56.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 04:56:54 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH v3 1/2] goarch.bbclass: do not leak TUNE_FEATURES into crosssdk task signatures
-Date: Tue, 19 Aug 2025 13:56:50 +0200
-Message-Id: <20250819115651.3725293-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RN7FYUHH;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=XRnmHeJK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010198c234bb55-00e7538f-92f2-4390-aaa6-6bd7ba031149-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1755604892; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=LgpTNMrXj7UDNqBV53jROFeejX5XG0vMB9VT5qdaO+U=;
+	b=RN7FYUHHY4mALtzbzmkw6iCjDjVdVkdnWJ8Nm4SX7LB7Op+3rBupAkRjeuXAhcSt
+	X5Stw+TE4NyFM55iPzr1IPgkZBleiW90iK6CS6Hl4tdexVCb0aqu04VJG6y6jjJEMnA
+	TAOm7pHq1yISIKjlcfruAbtcftiawX2X0QEuWzm0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755604892;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=LgpTNMrXj7UDNqBV53jROFeejX5XG0vMB9VT5qdaO+U=;
+	b=XRnmHeJKLYNejHeNk7c+bpL1NzgttFzRjyo1bewrDAPrHdfjRFsIjhbC/a8D1C4R
+	P09JHUmBAZuYz9NLBUT0wc6hTXgDedRBCjtFQS01A1st+Fjd5vEWDTLbIadisfTlJUa
+	LCQ/1FOWYZVLnZwu52LfhfZTNCtOq+GmUc7/GAGI=
+From: patchtest@automation.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v3 1/2] goarch.bbclass: do not leak TUNE_FEATURES into
+ crosssdk task signatures
+In-Reply-To: <20250819115651.3725293-1-alex.kanavin@gmail.com>
+References: <20250819115651.3725293-1-alex.kanavin@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010198c234bb55-00e7538f-92f2-4390-aaa6-6bd7ba031149-000000@us-west-2.amazonses.com>
+Date: Tue, 19 Aug 2025 12:01:32 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.08.19-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 11:57:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222104
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 12:01:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222106
 
-From: Alexander Kanavin <alex@linutronix.de>
+--NextPart
+Content-Type: text/plain
 
-The default assignments look like this:
-TARGET_GO386 = "${@go_map_386(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-TUNE_FEATURES is a target-specific variable, and so should be used
-only for target builds. The change is similar to what is already done
-for native packages.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes-recipe/goarch.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+Testing patch /home/patchtest/share/mboxes/v3-1-2-goarch.bbclass-do-not-leak-TUNE_FEATURES-into-crosssdk-task-signatures.patch
 
-diff --git a/meta/classes-recipe/goarch.bbclass b/meta/classes-recipe/goarch.bbclass
-index 1ebe03864fe..0e9ef3a6ec6 100644
---- a/meta/classes-recipe/goarch.bbclass
-+++ b/meta/classes-recipe/goarch.bbclass
-@@ -24,6 +24,9 @@ TARGET_GOMIPS = "${@go_map_mips(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES
- TARGET_GOARM:class-native = "7"
- TARGET_GO386:class-native = "sse2"
- TARGET_GOMIPS:class-native = "hardfloat"
-+TARGET_GOARM:class-crosssdk = "7"
-+TARGET_GO386:class-crosssdk = "sse2"
-+TARGET_GOMIPS:class-crosssdk = "hardfloat"
- TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
- GO_BUILD_BINDIR = "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') == d.getVar('HOST_GOTUPLE')]}"
- 
--- 
-2.39.5
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
