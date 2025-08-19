@@ -1,108 +1,162 @@
-Return-Path: <osama.abdelkader@gmail.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EACE1CA0EED
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 10:35:32 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.10931.1755599732341924413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E34A6CA0EEB
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 10:47:52 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.36])
+ by mx.groups.io with SMTP id smtpd.web10.10831.1755600469541333384
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Aug 2025 03:35:32 -0700
+ Tue, 19 Aug 2025 03:47:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YXapvfDD;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: osama.abdelkader@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-afca3e71009so906991366b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755599731; x=1756204531; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yu8y8TFfgXhz6nNjudGmibdiLw2VMTm5EtoO3UMIecI=;
-        b=YXapvfDD9ZgBsQwj7I8TCqDv6bLE5jd8dnUdwxyDcmD/FIXbqCtdDc+6pFmDx7Cdq+
-         a2EaFJKelagZIcQQsVRKnxgprnjLHg4z5/lD+c/UmTtV33MqCynjX8UtJs7f890MmEyc
-         pNG6dW1GRmAlbTb0qbQM2p8V45b9sb1Uz/0NSAhXFS6/dg80y9yB952DZoLpeNhUcZl4
-         hMUwfeEPgcA6jDQcZ9LnN6gRB64HHdbqXV6AbMe1tmyZivvh+uYxVs3T3YONifowvR9v
-         E4iZ9CMDqoI/LpyfRBpbFu7o5LNLAcgeDb9h7eSvFMyOAJdW/6jx1ZjR2SRFAnpUvFGk
-         TYHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755599731; x=1756204531;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yu8y8TFfgXhz6nNjudGmibdiLw2VMTm5EtoO3UMIecI=;
-        b=st25QgpdKNL8HQs9AlF42hYZ0QvON5ki+vKwsGC/r6AE0h7Pj+7rrfgKL4v8FhQ/6a
-         UfoBh2MEYPo6GfuBnCade9XC0DieodYHqLmil4dlpTU6kNCXWiTQogwptMurvT5binWW
-         IJU27Gc7Fk8jYx/5sRwiXdrZutDDlVejXf3ZPx7lagdRFxMPCTLymOB1LUmKoDl4BBph
-         hPFJVaiCz8UIhAX8EDnMihR8qDLrRCO7IbJSfBEiwA2+qQGTsjOT6yKCfLdul/8i/IKm
-         Y3PLxiJv8b7hHtbJbuK4eMvKz7MBAOqBYnGTsi2cKWSA3zoZYu09T34d1KpL9mOv/nIM
-         j8Og==
-X-Gm-Message-State: AOJu0YyZC93pC+5eqa+838eOluuOygsu6bATi20lARvQ7SHj7LOLecTg
-	NXh5tH8j05QZWkd06K8QOXnFGmnSd8oE6zQroWCLhAJ1YMLbb+kmB8bMElCG5NiP5SA=
-X-Gm-Gg: ASbGnctGoBdPjQMx2o3kMM1G2cYs3tnouLW1MF/k2c2ReaNeyqRqoR+EByge/nZFFbE
-	UU6zmZgoWlTmRmGB3sEm6vRcl6lj2cCanKhwwvAqWzdgv1Pd71suSe+Qken+6GI25ZWs53gU0nY
-	8Owv1ONFPuBgVEM1EzyjMEaNhU5TMGl7uf5YIuDcfjDRIBtYXr++IUzz6b5IiGoTlKPBGNIoGTs
-	5n7U/cTtvd57kZ4H1GI4N+v2ZqaddcZVJ5kpKnLNipmTD84IGoTcpvUmahv47WHMxGGILyPV8C2
-	5smF5oGzs7/DTjhMD6JwQOwq8SZGFKyDs53Nb3syvjHgdkg8c64V3WUtOINevbURcavvC9Q2qnk
-	phvjGLRehru0Hyu+BaOxcGor7GID7bRuS9PqkLpCwFE47OcJdKlZs2sGY0bPH6LN5TSWbSD8Qn1
-	Zzx+aS2Co9+VznOkhV6r7atazUI4X96OMweNKCBA==
-X-Google-Smtp-Source: AGHT+IG8q/ItbMoboWCAMRLwbOKRohYizjumnizmns3rv64jesRSQYpxQigxCJP7fTaYP395IOEX1g==
-X-Received: by 2002:a17:906:f5a3:b0:af9:70f0:62e3 with SMTP id a640c23a62f3a-afddecf0d5fmr181445566b.15.1755599730382;
-        Tue, 19 Aug 2025 03:35:30 -0700 (PDT)
-Received: from DESKTOP-RK42V0R.localdomain (ipservice-092-210-202-008.092.210.pools.vodafone-ip.de. [92.210.202.8])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce72ce4sm979367666b.32.2025.08.19.03.35.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 03:35:29 -0700 (PDT)
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: anuj.mittal@intel.com,
-	Peter.Marko@siemens.com,
-	Osama Abdelkader <osama.abdelkader@gmail.com>
-Subject: [PATCH v2] init-system-helpers: upgrade 1.68 -> 1.69
-Date: Tue, 19 Aug 2025 12:35:27 +0200
-Message-ID: <20250819103527.8497-1-osama.abdelkader@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=VES93dWn;
+ spf=pass (domain: ericsson.com, ip: 52.101.66.36, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JgOy5FwWx4WG1LT30wz1vdSzLuyTjSBJWvN6aIiSf5LGS8KeGPALof8TwSJ0Q6uIlFVzbICqllRZAOnecKrKM9CGA6Yj4to8H47G9J3LavhtoO8aU7Ml8qEmEIzBTUevnV46CF6CVxV3QsLwWTunVPH8RWjtEMF5R7p4PfWMzXxICzaOnNiFF5YSAKh2UQBLz8UlSvVZZxUxQiqNOMmfNBZ6yLLOWwNtOt/VokzJSlC0YTr++6tkidRWM0ulunZv7MEpjAu0aoJGY66wp1zE4g5+jgqGeOOAB6FM9Ku307APzK3kk0PjyiMwYSHqOvTwJ/HadrH4oqXUeYR17OFi/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EMQVJlAR5oxEIPt/ayEOMSz3Ux82IRMDnoJXFAuLifw=;
+ b=ZiTj1n6/eBfKxsDb86cIDqORdMx21mIJhepwIoPGakGaVd9a+1+s5R0E5EeCBfk0/uCmXIWayH8w3b0N32KwK1WyajEKEZLrp1Cl6RkccoHHPEekhYY2g2eFHqF9la0rJDuYiJHpMCpi3oaQ2y5ZolpNDtOyXDOrwEaFVtD4sq45wDvetkXay1tDqNBXNHfWhrFAjc9CLiwM1Wo3f+nJK2OmptR8U35lisCZSP6CDGCJplSzJVHVCCTSEVZne/Sqz+96k32Yj49o84AButoZZ0IUuSt7eMBQ0ikh3pit9FRv2KZm6MgOIvGr1qbZ+8tSFoAsFA+yau2bWTgzC02/mA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=ericsson.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EMQVJlAR5oxEIPt/ayEOMSz3Ux82IRMDnoJXFAuLifw=;
+ b=VES93dWnkg/XJ7/IMvM6+S2CHGsyY/M/uVO9C36k4P8FzNwe66K3aRtPCCUJLQBizx+oSgTb7VbW1X8n8ZWJKu9xSU4pcne/XfGzsXpdw2fysFhTNmYQlpkswR0Jp6EZKm1mwbaaxavg8Rf3gjuHQ2/vwWxQJI5Up6bOfodgYL4tcy/8x/ogzNMyN7Gc3HPDVqCBLGx+bMdLg3Ecdr6v5w3RxtvBISZHchhTZ/1swck40zGMO2jVAPOtvrl9dhjrVikDuFYgCCYs8jsNRktB6tzi0lNTYcJOkVcrKU5HTDnkpp7lsh60oJtuscPDE74UJFe7D9e3hVRm/AXpeSJHDA==
+Received: from DU7P251CA0003.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:551::33)
+ by AM7PR07MB6392.eurprd07.prod.outlook.com (2603:10a6:20b:13a::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Tue, 19 Aug
+ 2025 10:47:44 +0000
+Received: from DB5PEPF00014B9F.eurprd02.prod.outlook.com
+ (2603:10a6:10:551:cafe::81) by DU7P251CA0003.outlook.office365.com
+ (2603:10a6:10:551::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.24 via Frontend Transport; Tue,
+ 19 Aug 2025 10:47:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DB5PEPF00014B9F.mail.protection.outlook.com (10.167.8.169) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9052.8 via Frontend Transport; Tue, 19 Aug 2025 10:47:44 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Tue, 19 Aug 2025 12:47:43 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 8AED395683;
+	Tue, 19 Aug 2025 12:47:43 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 6EDBE700456E; Tue, 19 Aug 2025 12:47:43 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Daniel Turull <daniel.turull@ericsson.com>
+Subject: [scarthgap][PATCH] libxml2: ignore CVE-2025-8732
+Date: Tue, 19 Aug 2025 12:47:24 +0200
+Message-ID: <20250819104724.2283206-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.44.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B9F:EE_|AM7PR07MB6392:EE_
+X-MS-Office365-Filtering-Correlation-Id: 780765c8-ffb3-467b-dfd4-08dddf0dd40e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?yE5c8vZr72P2PMAfkyAGLYSsqV7jq+vT4bneXOgSzg8xG7PLiFfulH0RWGWH?=
+ =?us-ascii?Q?PgE50tQ+oXVfYg0rUxm+r6iJ88okQ4IEbcMyCDxc3MwhQm2z7kNasoivoHH1?=
+ =?us-ascii?Q?pkz8nHn+KINq59QLHJBSNRjs62u8wWan6BM5ITcBf1TfIsArXGum6p8X6mVJ?=
+ =?us-ascii?Q?JQctEjvbqjMHp7e5IhG039TJH8SxJKpxxa34P3zrgY9BnBFPj33Ln+MIBoBB?=
+ =?us-ascii?Q?aMuSDXxEYHHomCYhDieDdodCPaV2RRFjFfaVEHMvAlrxMtBkoFaCwOR2wsSr?=
+ =?us-ascii?Q?jWhhewXYa34rartMw2ZzzvI4YsIncNfL76lQsdSRWQFb853JArttbL1McbyA?=
+ =?us-ascii?Q?dgSkqAkVYPHe6nmAL4kE9W134ExWBN/UB6TTt9n8R3C/2Zj5MJUK8Gc5CUFC?=
+ =?us-ascii?Q?pPphVjCSDgGXClGPo8+6HoKIN1QFhLk9lAZnmdiN20SroTiu/ioZ7eCJ2TQa?=
+ =?us-ascii?Q?SaKx3ENzaIremGVRL+0VwoTj0m0pXsRqkttAjyuou3opf/f8k7NCQ5n5KPo4?=
+ =?us-ascii?Q?w8wKgRczPmSyqAqbOvtBdi2PPkAyToKwwbI5xA50rjXfEDI7/GDTg5TTBbS1?=
+ =?us-ascii?Q?Cqe54Tbm7bfqs8NioT2W/Afrk94bSPnRq+HN1hPuNmjBW4t9wFt4lR3o1JMu?=
+ =?us-ascii?Q?hEUKJQBzWxrTd7yn2eFjNorVz929ZGDTy915nfcYXo0eQbQBbmzd7kGkrp8u?=
+ =?us-ascii?Q?xcfIuaGWPxQCa4xy2feNnFF2vL8aLQUji2IYcXSQnyHEwjgAvoH5NJZdr4hu?=
+ =?us-ascii?Q?Eaknaagz5g2hN4GLzyChMLDzhgtWMnypYVaaZcLHCqY9e37tRjEXCfCuzQSd?=
+ =?us-ascii?Q?DKqo/qpwSyyJBJFYuJ/5EcBfCR2ALUiAkiERorWBnQcPXsS89e+21PYFhXoL?=
+ =?us-ascii?Q?ARTT0y5u4eMFibzAweBoHraWoynxZ5Td8d5a6pRkDtzxvBFjdOwZeSSGDcu0?=
+ =?us-ascii?Q?aJZXd6Rvq4f8cPAkaWdcbDzFC04sUI+oQpKzDVgDtqbW78Acti0OKbYt5AU7?=
+ =?us-ascii?Q?/Ws33EaknsHnngugnt4Y6puXO30LXCreQWkZRzRYJDh84F7VjPT4pRT7KCyh?=
+ =?us-ascii?Q?C44Sj7K5kWg4I01DirPQUYfawpPCZcLb4HEE8puuZhTv13+u15jVkg+JMWL2?=
+ =?us-ascii?Q?ejdjLKG9gNqRvsu2oYtMN0FqL6IxyR2tgNkKFVFjpGV+GLy5E77p1I/jZNtW?=
+ =?us-ascii?Q?nHDyE6SVASIv67VmxGayw1MnJACayKOaVQFtqn1EDPQKt+r4q1kSarfMK7gJ?=
+ =?us-ascii?Q?OsfG6NS/ol4+BsLy6doEZ9jZZC9cKg0xGh3olX5k+QHkQ0U5wOUQD9JGNzLH?=
+ =?us-ascii?Q?5bdk+D+Jh7PJcK6Yi3/OZE3jFpg0Iblwc3a5ZH1V2XLQAc2EoFAJLkxzn9If?=
+ =?us-ascii?Q?kIhmiO7zhTZ3ePcYRTe2p8hXgKvSjZErMedj4JoHvtTiMShYkj6+vDEeVtFG?=
+ =?us-ascii?Q?0AEg/k4CK3/OD26hcp082MZ9oX76GzVrktmkVsaSmW/yEEggb9bZS2xDEyVE?=
+ =?us-ascii?Q?dYt6QqrWi+m2ftNNYd3gw7WhmHDmWfsNeZQl?=
+X-Forefront-Antispam-Report: 
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 10:47:44.1070
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 780765c8-ffb3-467b-dfd4-08dddf0dd40e
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B9F.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6392
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 10:35:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222100
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 10:47:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222101
 
-Changes:
-Add postinst to hotfix an upgrade bug on certain newly live-installed
-systems built using Trixie's live-build (Closes: #1111039)
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-Full changelog:
-https://salsa.debian.org/debian/init-system-helpers/-/blob/debian/1.69/debian/changelog
+The code maintainer disputes the CVE as the issue can only be triggered wit=
+h
+untrusted SGML catalogs and it makes absolutely no sense to use untrusted
+catalogs.
 
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+The issue triggers a crash if an invalid file is provided.
+Source: https://gitlab.gnome.org/GNOME/libxml2/-/issues/958"
+
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
-v2: add ";tag=debian/${PV}"
----
- ...nit-system-helpers_1.68.bb => init-system-helpers_1.69.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/initscripts/{init-system-helpers_1.68.bb => init-system-helpers_1.69.bb} (93%)
+ meta/recipes-core/libxml/libxml2_2.12.10.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.68.bb b/meta/recipes-core/initscripts/init-system-helpers_1.69.bb
-similarity index 93%
-rename from meta/recipes-core/initscripts/init-system-helpers_1.68.bb
-rename to meta/recipes-core/initscripts/init-system-helpers_1.69.bb
-index 48ac7792d3..c4843747b7 100644
---- a/meta/recipes-core/initscripts/init-system-helpers_1.68.bb
-+++ b/meta/recipes-core/initscripts/init-system-helpers_1.69.bb
-@@ -16,8 +16,8 @@ SECTION = "base"
- LICENSE = "BSD-3-Clause & GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=c4ec20aa158fa9de26ee1accf78dcaae"
- 
--SRCREV = "78486a4a2a305170b66ce4d907bedadbaed10daf"
--SRC_URI = "git://salsa.debian.org/debian/init-system-helpers.git;protocol=https;branch=master"
-+SRCREV = "592518fcedf96c9b763f214a9acbdc1109aaa385"
-+SRC_URI = "git://salsa.debian.org/debian/init-system-helpers.git;protocol=https;branch=master;tag=debian/${PV}"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))(?!_exp)"
- 
- do_configure[noexec] = "1"
--- 
-2.43.0
-
+diff --git a/meta/recipes-core/libxml/libxml2_2.12.10.bb b/meta/recipes-cor=
+e/libxml/libxml2_2.12.10.bb
+index 078988286a..a155c3708e 100644
+--- a/meta/recipes-core/libxml/libxml2_2.12.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.12.10.bb
+@@ -32,6 +32,10 @@ SRC_URI[testtar.sha256sum] =3D "c6b2d42ee50b8b236e711a97=
+d68e6c4b5c8d83e69a2be47223
+ # Disputed as a security issue, but fixed in d39f780
+ CVE_STATUS[CVE-2023-45322] =3D "disputed: issue requires memory allocation=
+ to fail"
+=20
++# Disputed as a security issue, if attempts to process an invalid file, it=
+ fails
++# https://gitlab.gnome.org/GNOME/libxml2/-/issues/958
++CVE_STATUS[CVE-2025-8732] =3D "disputed: the code maintainer explains, tha=
+t the issue can only be triggered with untrusted SGML catalogs and it makes=
+ absolutely no sense to use untrusted catalogs. The issue triggers a crash =
+if an invalid file is provided.  https://gitlab.gnome.org/GNOME/libxml2/-/i=
+ssues/958"
++
+ BINCONFIG =3D "${bindir}/xml2-config"
+=20
+ PACKAGECONFIG ??=3D "python \
 
