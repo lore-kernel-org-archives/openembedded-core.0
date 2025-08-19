@@ -1,196 +1,153 @@
-Return-Path: <osama.abdelkader@gmail.com>
+Return-Path: <ricardo@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DED1CCA0EF1
-	for <webhook@archiver.kernel.org>; Mon, 18 Aug 2025 23:20:48 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.1134.1755559243351050944
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62520CA0EF5
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 00:56:29 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.3054.1755564987897145888
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 16:20:43 -0700
+ Mon, 18 Aug 2025 17:56:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SHZbNNor;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: osama.abdelkader@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-afcb78d5e74so799383766b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 16:20:43 -0700 (PDT)
+ dkim=pass header.i=@foundries.io header.s=google header.b=IS7MvONL;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: foundries.io, ip: 205.220.168.131, mailfrom: ricardo@foundries.io)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57ILfbR3025278
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 00:56:27 GMT
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48mca5gaqm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 00:56:27 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-b4716f9dad2so8633263a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 17:56:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755559242; x=1756164042; darn=lists.openembedded.org;
+        d=foundries.io; s=google; t=1755564986; x=1756169786; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yGFYjUUBXzGLlawweGpnjyYNu2bPeBIpQpSrreh8bKs=;
-        b=SHZbNNorCJkGS4VfAU9lPGmAwS/RNVNEJUSvL9311wXF7/4SCw90Rn7zjM1r9hgXa0
-         SJAPP5CLpwHx3NQ5BMNTqBAlYMnvtyoUdAPCAT8TmG+ouEAD4OuIvpnZ/idiKmn9A8cJ
-         +lzSB77A+SZrJBCmZOQ58I0mjyF4HcD4ehDykHvXQQ966iPcXZUCsCIsazl6Pi4Q0Ygx
-         NGx9piZu5JSUwp1hHSk43GmljHX0sIhiTyrWcTbmIxgznPV6uHt4APVadE8Emz9Xn6Qj
-         AksdZBaRnWJNspQzhP7Id9b43NYSnLpudy0zbVNIvTUdW4xxPvQKRgKRl+sjpQt+oint
-         psaw==
+        bh=x0bR49VYg3w1WaaoCrJt9DjLanSLRo3t34to/yfNS4w=;
+        b=IS7MvONLjOnphmYwYpO1idq/1R+YApevYNOfXddEh6HeXhhJvQ5EcebAKuE/VOxbqb
+         BPQ3KuxVhEe1zyFiJy7IceE23f+N7OFAv48SUpv83NZYxVEsCik3jxxRpf9Qh4BV9VBf
+         wOjGQrI97p8kzeDQBpdFtjQAkQXydvWTtNcP3hnsEGI4XxgroXtzRLlzst3YXPApBNVw
+         BXazzl8idaOrP4i/1S+YvrHpSDU4axXyRnNuXY5M4AH1Mxnz2mJ5Mbd1lABkKqauPtei
+         +F7+cjPTejtAMWhkYZV0AlCyqR02RMFEUArB5zvd2tP6eWuTfUAVZKJWSYyOjARM1GbG
+         pn6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755559242; x=1756164042;
+        d=1e100.net; s=20230601; t=1755564986; x=1756169786;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yGFYjUUBXzGLlawweGpnjyYNu2bPeBIpQpSrreh8bKs=;
-        b=TqOOYXLim2LYY2g8t6oQ84vdJaCT8u6W9UlJsOPh9PUYiHhv0tTm5+ltYAFZavEcs9
-         oACFs0BXxqnOPKZi7wpfiKJyxHqJv2Saed4tL5LRHALJ+p+qdamWmFNc2e2pyGxYaSmV
-         zotcYBG8bcoVnoQiJY/VlHeaBUHkBrhtFEnj1q4NMo6432r0z2T8JtptZ7oCid6HnNaL
-         dKhSJ948guOkEViEFIaBTvcKM1LsLFOTYt2eBMzY8Tz2T0YYgTi0FPDAAVODWkID0MOC
-         UB1m+l0/KeWeJe7Wyc+ER67A+AuMskpytfeOOMqOTSI1W8gUTq8BVfwtq+E/YLwDI2Dy
-         fnPA==
-X-Gm-Message-State: AOJu0Yz7G0bVZflHb5wYoLPWHpHr9gVQ1FpBKDFAHFuU4yXId+rlei/o
-	9qoexlC7ZDDVj8FfMTUZyoLMBSq2LY647yuKz24plYdnpSPIyIgcrbSfedMK7o5TBoc=
-X-Gm-Gg: ASbGncuXlNqb1zLFRB/0oHnBF28X4VvkPGKAPLGExgS3Ak+eiaim76vNydN1GQpRMwY
-	p+sn3dorpEm8spMHMaICrV8dJbpJSgFHrgpGXa/JbXPoLJY+u0LivNjF+rHcAdUHK4g7NgraybR
-	C+zk6tZu4DopwHHg1uQVip+MgobRbsQ9eNV1i7eQjNxb8G/M9lY9RODF7ZXqrkPVWtYs4SzZ/mq
-	ahMTMRDlLqdwqxOEBTV3syyMuhIq9hMeeHAZSRtnRg6bSe8eQRFUt3PE+iPi4UhKkMZt4rcjzeY
-	1QgTypBv/d62J8HXVm+K9FiTeFQGg00VGh7BIBIRdnJt68hLS5i3gV6H9ClzHkmuXzHFySGzqoj
-	lf2d0Hi4as3gOpSktmniBjp1Jgf5d7BdhC+PVO4GWxjZfg7nAgaPrMV05kNwOrC48yWY2lgRmxy
-	JvzjN48+FIwamq4d9UMGPQGfQohKDOMNV6rfcE2w==
-X-Google-Smtp-Source: AGHT+IFjGK6zCt49mnaP6Z8OOm7LzZwxq3L26G51jMq5dEbr1JtL2klVU+Pqt3K0/13dxQ2H5jtGLg==
-X-Received: by 2002:a17:907:803:b0:ae0:bd4d:4d66 with SMTP id a640c23a62f3a-afddccda53emr54104666b.27.1755559241611;
-        Mon, 18 Aug 2025 16:20:41 -0700 (PDT)
-Received: from DESKTOP-RK42V0R.localdomain (ipservice-092-210-202-008.092.210.pools.vodafone-ip.de. [92.210.202.8])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce9ed8fsm893857166b.53.2025.08.18.16.20.40
+        bh=x0bR49VYg3w1WaaoCrJt9DjLanSLRo3t34to/yfNS4w=;
+        b=tF7vgO/EzNyB2mwTptHRMaqa700pYvQHXyGw3UuoaZugb6/f+kcF1GaBUGTD9PVvht
+         ej1xh2FbQzyY/8Vj8baZBfxThH3zfLxs2EaQ9nPoPYS9sOtm3O7h7wwdHwYYwvZag0mL
+         u4MmW+i2ADu8brHIl6f7lf4ISo0d2La3u7U+I8aJkaNyckuvuYv5WyQjLBdZt51FVYx4
+         +ZTjp+YKgQsY3NQoqMCCFXn9LWzNhuLOMW0wTMOLO5QOhSWuFQdkLtnFINbAuBG4hRKQ
+         ndS7r5qkH0SrGEuhK6KEjoHa4KeHrqHM4ydpmHZ45xFJ2uryD0qzHBcmAn752ll58gGy
+         APaA==
+X-Gm-Message-State: AOJu0YygYhD2NrREqZaoiBF2njNNdD+7y8hN2l/XG+bIFQabhRrfe95a
+	356v5rXaCNBb9RAhn0EdqJ/dO6W8lHiKDQbeOMZHaim0plbYYJwYD85k8zM/DWrjKFnZGGgKIiJ
+	R7xUTCzo+xEKP9wI8E6OoN2exreNASdCkBxj+vEzo5wUlHnTIcISjw9GQ+nS4UFxKRQ3cCM4whB
+	YMDz+05C8+0bIJ
+X-Gm-Gg: ASbGncvl2qs5h/NVZHAG9S3PFGJ5fWI6+jAWB4l/TpYEvOmE4nRluiMYXt4teBankhH
+	DpTnRVRiteuV0HdU+e9b3wx/ni/kn4/gj7GzRM3nJIFV8r1IfarqF7t1CCn0FqlZFN7kDblcMty
+	dTOqGKWjcfL6AD7mhn+obwOceGd9OwRaKK8DtJibnDKVA3YfO3H2IuZW/nN23goVhShzlE/6PPb
+	KpxBsC/gPUiMibbfRSRca4Z+JPDOsbvD3Bi8EYWe/Ki95xc5w19bAdTqCmwYnVCC0pUnQ4GntqU
+	H4E0dQDKmkNyPE7FQt0GYq31iVucRJmu1g==
+X-Received: by 2002:a05:6a21:9992:b0:21f:bdd5:d71b with SMTP id adf61e73a8af0-2430d337f71mr804536637.2.1755564985985;
+        Mon, 18 Aug 2025 17:56:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHdaT9Tl48jRmsrJxgEY6ZaQ9b58Y9Wo2MM9JNTQgBEsJttuv7Rq86k2ikkMCzwaD9O7KqmUg==
+X-Received: by 2002:a05:6a21:9992:b0:21f:bdd5:d71b with SMTP id adf61e73a8af0-2430d337f71mr804514637.2.1755564985465;
+        Mon, 18 Aug 2025 17:56:25 -0700 (PDT)
+Received: from evatuf.. ([187.65.199.47])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d73aa36sm9163240a12.35.2025.08.18.17.56.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 16:20:41 -0700 (PDT)
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
+        Mon, 18 Aug 2025 17:56:24 -0700 (PDT)
+From: Ricardo Salveti <ricardo@foundries.io>
 To: openembedded-core@lists.openembedded.org
-Cc: liezhi.yang@windriver.com,
-	Osama Abdelkader <osama.abdelkader@gmail.com>
-Subject: [PATCH] squashfs-tools: upgrade 4.7 -> 4.7.2
-Date: Tue, 19 Aug 2025 01:20:39 +0200
-Message-ID: <20250818232039.1315153-1-osama.abdelkader@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: jose.quaresma@foundries.io
+Subject: [PATCH] initramfs-framework: mount /run and move to rootfs before switch_root
+Date: Mon, 18 Aug 2025 21:56:05 -0300
+Message-Id: <20250819005605.2463139-1-ricardo@foundries.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=FdU3xI+6 c=1 sm=1 tr=0 ts=68a3cbbb cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=JEjW2rnyS3Y/5sYvBvSpBA==:17
+ a=2OwXVqhp2XgA:10 a=9UA2AVYIz8kA:10 a=myRPezaHG2k0NIEQnSQA:9
+ a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-ORIG-GUID: 1bpOa-NnN1VDyV4fPoJoP0N48bMUWzQQ
+X-Proofpoint-GUID: 1bpOa-NnN1VDyV4fPoJoP0N48bMUWzQQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE4MDIwMiBTYWx0ZWRfX59A9Ie+G2BkH
+ dDUl/WFgqeYUwatEHPj6RvrgOY3InA/VrrIvJnVFM1UKtt7EguO0UfjZfFlrIVFM2IDkXhU3JhR
+ V/d3yVohEwTlOPOENGkvV9tZSI6qaPM1cxmXyX0iKJDlOI2D7EpgwW+gztp9bvAStBgh7b7pbW1
+ azk+k8IGibwTzNFjbc6EDfR0bCykhiIxjkceswhXKFqBPqkKgdUYeHjWYPTlLabJGOrGZa+Wafs
+ 8PTrsQghd+mKkreE/CC66LQN6IM1R+J54lXs//yvJ1BzsmrlJ0IKX7ehC0nrt6vvXC+PnnZ78+2
+ AI6ckfadxebYtgF+n8Od9FxrebgG30bormru5R1AKKIUpGnQx+x0qH+UKBfHvo8WLJmHKyqtkXR
+ 2KcEZUqN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-19_01,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1011 phishscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508180202
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 23:20:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222055
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 00:56:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222056
 
-Changes:
-Fix build with non-static include
-print_pager: make inline quoted_bs_char() static
+Mount /run as tmpfs during early init and include it in the set of
+mounts moved to $ROOTFS_DIR prior to exec switch_root.
 
-Release notes:
-https://github.com/plougher/squashfs-tools/releases/tag/4.7.2
+Having /run available early lets initramfs modules stamp state that can
+later influence systemd service jobs, since systemd will reuse the mount
+point instead of creating a new one during boot.
 
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+This is particularly useful with ostree, as it uses /run/ostree-booted
+as way to describe that the rootfs comes from an ostree deployment.
+
+Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
 ---
- .../squashfs-tools/squashfs-tools/pid.patch   | 40 -------------------
- .../squashfs-tools/thread.patch               | 33 ---------------
- ...s-tools_4.7.bb => squashfs-tools_4.7.2.bb} |  6 +--
- 3 files changed, 2 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/pid.patch
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/thread.patch
- rename meta/recipes-devtools/squashfs-tools/{squashfs-tools_4.7.bb => squashfs-tools_4.7.2.bb} (90%)
+ meta/recipes-core/initrdscripts/initramfs-framework/finish | 3 ++-
+ meta/recipes-core/initrdscripts/initramfs-framework/init   | 4 +++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/pid.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/pid.patch
-deleted file mode 100644
-index a15b621124..0000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/pid.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 05a895b3f996d1ac157d95b04980f5f047e7dbf7 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Fri, 6 Jun 2025 15:23:07 +0100
--Subject: [PATCH] print_pager: add missing includes
--
--When building with musl:
--
--  print_pager.h:33:25: error: unknown type name 'pid_t'
--     33 | extern void wait_to_die(pid_t process);
--        |                         ^~~~~
--  print_pager.h:34:25: error: unknown type name 'pid_t'
--     34 | extern FILE *exec_pager(pid_t *process);
--        |                         ^~~~~
--
--print_pager.h uses pid_t and FILE, so add the required #includes to
--ensure that these are defined.
--
--Upstream-Status: Submitted [https://github.com/plougher/squashfs-tools/pull/314]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- squashfs-tools/print_pager.h | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/squashfs-tools/print_pager.h b/squashfs-tools/print_pager.h
--index c33d4d2e..f3e0da6c 100644
----- a/squashfs-tools/print_pager.h
--+++ b/squashfs-tools/print_pager.h
--@@ -30,6 +30,9 @@
-- #define MORE_PAGER 2
-- #define UNKNOWN_PAGER 3
-- 
--+#include <stdio.h>
--+#include <sys/types.h>
--+
-- extern void wait_to_die(pid_t process);
-- extern FILE *exec_pager(pid_t *process);
-- extern int get_column_width();
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/thread.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/thread.patch
-deleted file mode 100644
-index 01741639c0..0000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/thread.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From b6e9f4b62cc3e762ceeddc0fc099f7d65f7b7361 Mon Sep 17 00:00:00 2001
--From: Shiji Yang <yangshiji66@outlook.com>
--Date: Wed, 4 Jun 2025 19:53:39 +0800
--Subject: [PATCH] thread: add the missing pthread.h header
--
--Fix build error on macos:
--
--In file included from mksquashfs_help.c:35:
--./thread.h:46:39: error: unknown type name 'pthread_mutex_t'; did you mean 'pthread_attr_t'?
--   46 | extern void wait_thread_idle(int tid, pthread_mutex_t *mutex);
--      |                                       ^~~~~~~~~~~~~~~
--      |                                       pthread_attr_t
--
--Signed-off-by: Shiji Yang <yangshiji66@outlook.com>
--
--Upstream-Status: Backport [b6e9f4b62cc3e762ceeddc0fc099f7d65f7b7361]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- squashfs-tools/thread.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/squashfs-tools/thread.h b/squashfs-tools/thread.h
--index 5a22fc43..e56a58cf 100644
----- a/squashfs-tools/thread.h
--+++ b/squashfs-tools/thread.h
--@@ -22,6 +22,7 @@
--  *
--  * thread.h
--  */
--+#include <pthread.h>
-- 
-- #define TRUE 1
-- #define FALSE 0
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.2.bb
-similarity index 90%
-rename from meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb
-rename to meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.2.bb
-index 8006f80aee..8bca98f419 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.7.2.bb
-@@ -5,10 +5,8 @@ SECTION = "base"
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+index 716c2f44af..21eaa57393 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+@@ -35,10 +35,11 @@ finish_run() {
+ 			mount -n --move "$dir" "${ROOTFS_DIR}/media/${dir##*/}"
+ 		done
  
--SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=master;tag=${PV} \
--           file://pid.patch \
--           file://thread.patch"
--SRCREV = "2e87d42ed089dc31990d83eeb07437b9d085d6d1"
-+SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=master;tag=${PV}"
-+SRCREV = "99d23a31b471433c51e9c145aeba2ab1536e34df"
+-		debug "Moving /dev, /proc and /sys onto rootfs..."
++		debug "Moving /dev, /proc, /sys and /run onto rootfs..."
+ 		mount --move /dev $ROOTFS_DIR/dev
+ 		mount --move /proc $ROOTFS_DIR/proc
+ 		mount --move /sys $ROOTFS_DIR/sys
++		mount --move /run $ROOTFS_DIR/run
  
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ 		cd $ROOTFS_DIR
+ 		exec switch_root $ROOTFS_DIR ${bootparam_init:-/sbin/init}
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
+index a48b77e95e..5dd252219a 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/init
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+@@ -81,9 +81,11 @@ EFI_DIR=/sys/firmware/efi  # place to store device firmware information
+ touch /etc/fstab
  
+ # initialize /proc, /sys, /run/lock and /var/lock
+-mkdir -p /proc /sys /run/lock /var/lock
++mkdir -p /proc /sys /run /var/lock
+ mount -t proc proc /proc
+ mount -t sysfs sysfs /sys
++mount -t tmpfs tmpfs /run
++mkdir -p /run/lock
+ 
+ if [ -d $EFI_DIR ];then
+ 	mount -t efivarfs none /sys/firmware/efi/efivars
 -- 
-2.43.0
+2.34.1
 
 
