@@ -1,739 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67586CA0EE4
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 01:01:39 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web10.3280.1755565293811258316
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 762CDCA0EF5
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 01:16:59 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.3528.1755566210348671724
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 18:01:33 -0700
+ Mon, 18 Aug 2025 18:16:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nVSQAOHp;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-32326e06496so5309993a91.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Aug 2025 18:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755565293; x=1756170093; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RBOf7d2j0364LbJDKj2OY/uflT8Y3ld1qf+NGAlIjqU=;
-        b=nVSQAOHpiAIWFXK3sklDeNSCyafD/h3nBlTU29ULBGdtQRCOQi4rZX66ZklS7JaCwz
-         26r6RkBYZmWhyX48GBMJc72/ihIGTs1x6D4OMDWzqKOnqqwefvbPjxmcnNqfi9dIvTWw
-         wRLF+B+IGh47N+7za0m3/2QeBFYKsVKb8Oc0RM9y3N9RUdpjMSs88MXe/PHMNl7XhQIv
-         fsIoi0dDO+FHvFFuB5NLPUZBLPRggpGKn5Kc8joTPTfxVfdwOW6ozswIfx21r/Iwyo+m
-         kXgsmeZgQkDy7KwfXda1dQTbUqRLLtVeFDtBtGMSzqU1nT7l27FKbt1Mdh8RHCK7pH47
-         nR+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755565293; x=1756170093;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RBOf7d2j0364LbJDKj2OY/uflT8Y3ld1qf+NGAlIjqU=;
-        b=MByq3MACYL1MP/yah8hzmPtpYTKozkqgVr3PKY/d25ir4c+Qb8IDhmK8zhCMO5UMoj
-         nz64t3UMQ2tiJHYiSUIB358i4fhRPTseqxjy/gIXnlDE6PwRz591bMmm/RnP0T7RTW3P
-         RfXzQhkKI1Jfql1Jiyf4qN6oJFETYQjkKdLCyuxa3T67F2KgeK6T+NeCrYeiUuoQDyQz
-         oWMitTBk8DHMRDYB8Ek0hT8SzE7UXEGkrsjW/HoC8j8xE+k8gGpCVfUVT/XncVWMbvJu
-         InvIvYscFiSYQvhiePc2KsugnJ9Xhq3bgbG6CjojUqKxhOKj6OOT7KDDzOnYzy/sWMTa
-         H9Jg==
-X-Gm-Message-State: AOJu0YzJ85WxYeUFEDk8MxCQZraOE3Sv6MYbsxUfXsf22scZ7Aby7rqw
-	hLGK8elTI+YbpjKs2PtSMpLE7ykjN7n7rGsmCXqZQpQMzFbMcWhFzFxtvs4aerKI
-X-Gm-Gg: ASbGncuU3Xe85NIh++siLnfKSEgOi4X1Lx0zNmJykO7aR2byJR+kiE0OGRM9TV21Txt
-	vFjbmYqDozgRhP8LszX3mpQxZLWtZVq478HgYRxsv75PwrHh/iAzUFY1ce/6atccvW2pmV+hhKI
-	sdnE//TGjuuD0rru2Y7Ld8VNe4Oqwp09WkwuuTL8lFLsLjc/aI331flnHD/eAS7CkhEwke03QkS
-	8dtQkq1ohPsMt7Lx6p2pEKrdB4/SRkHAe0p62ZTHBxYiT/ReHm6dvx9F7zpQg/ww9/0LvssgXBN
-	kL5jLxBNywLLT3Lqw45Mk1NyZ4XgotTbFu8Ka+792zeKUugue4DIpyo4j7xsBlanniqqnM0OuzX
-	ufz0vp1N983TMLs237S99KA==
-X-Google-Smtp-Source: AGHT+IH5PkzJEZMf66DVTMvQLoq6ycUWEwAfehjLQi8nZJqi7ImY+4LwJRcPj7DHeiLtynkkwJ1KNA==
-X-Received: by 2002:a17:90b:2b48:b0:323:7e05:5a2d with SMTP id 98e67ed59e1d1-32476b0203bmr1127186a91.37.1755565292438;
-        Mon, 18 Aug 2025 18:01:32 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::adc2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e7d544de1sm777859b3a.94.2025.08.18.18.01.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 18:01:31 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] spirv-headers: Add SPV_INTEL_function_variants
-Date: Mon, 18 Aug 2025 18:01:26 -0700
-Message-ID: <20250819010128.3519760-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=egPtQhC0;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=G5zOIpWi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010198bfe67921-2ad832a6-a409-4817-b7a4-93e611813f58-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1755566209; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=lbbhNmNZjQU25/Pof7IoL5c6iW1T6yPLv7EEvgnKaI0=;
+	b=egPtQhC07IMBw7VvFgvHstbMqeYHlnEDKLoc1pab1TdANVOoQvNWe/sKjsIgcYpv
+	Tel54XMdymH2CXuoGO9g1jtbPOlcFqsK9Q7TRFai0eRAgKpnwly2OHq5qp5kOhsbWBA
+	veXvGCjWrfZcUiJNey1XDnpjMbhXxLtC+e4tYJUg=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755566209;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=lbbhNmNZjQU25/Pof7IoL5c6iW1T6yPLv7EEvgnKaI0=;
+	b=G5zOIpWiSW4SFetwgUnwAH1mnbKWAzRoywRaFlOIDaV+RmfQXD8QWPaRbR/7+NRX
+	MZohZZr9LPSUlQUnrf/XYtDEQxdjS0/HlKL58DgBLuSWAW5y3KzPPvRWIBFG7ccH0V7
+	EWMGZPjvKJp7VA6OMXAuYDe+9pdLojfih7NAm+sM=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/3] spirv-headers: Add SPV_INTEL_function_variants
+In-Reply-To: <20250819010128.3519760-1-raj.khem@gmail.com>
+References: <20250819010128.3519760-1-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010198bfe67921-2ad832a6-a409-4817-b7a4-93e611813f58-000000@us-west-2.amazonses.com>
+Date: Tue, 19 Aug 2025 01:16:49 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.08.19-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 01:01:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222057
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 01:16:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222060
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...-Add-SPV_INTEL_function_variants-532.patch | 642 ++++++++++++++++++
- .../spir/spirv-headers_1.4.321.0.bb           |   4 +-
- 2 files changed, 645 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/spir/spirv-headers/0001-Add-SPV_INTEL_function_variants-532.patch
+Testing patch /home/patchtest/share/mboxes/1-3-spirv-headers-Add-SPV_INTEL_function_variants.patch
 
-diff --git a/meta/recipes-graphics/spir/spirv-headers/0001-Add-SPV_INTEL_function_variants-532.patch b/meta/recipes-graphics/spir/spirv-headers/0001-Add-SPV_INTEL_function_variants-532.patch
-new file mode 100644
-index 00000000000..9a3ab153508
---- /dev/null
-+++ b/meta/recipes-graphics/spir/spirv-headers/0001-Add-SPV_INTEL_function_variants-532.patch
-@@ -0,0 +1,642 @@
-+From 9e3836d7d6023843a72ecd3fbf3f09b1b6747a9e Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Jakub=20=C5=BD=C3=A1dn=C3=ADk?= <jakub.zadnik@intel.com>
-+Date: Tue, 24 Jun 2025 15:35:27 +0300
-+Subject: [PATCH] Add SPV_INTEL_function_variants (#532)
-+
-+* Add tokens for SPV_INTEL_function_variants
-+
-+Add FunctionVariantXXX decorations
-+
-+Add SpecConditionalINTEL capability
-+
-+Change class of conditional copy to Composite
-+
-+Add new instructions; Update tokens
-+
-+Fix wrong op name
-+
-+Change spec const arch operand to integer
-+
-+Reassign tokens; Fix operand
-+
-+Remove old decorations
-+
-+* Generate headers
-+
-+* Add provisional entries and missing capability
-+
-+Co-authored-by: Victor Lomuller <victor@codeplay.com>
-+
-+---------
-+
-+Upstream-Status: Backport [https://github.com/KhronosGroup/SPIRV-Headers/commit/9e3836d7d6023843a72ecd3fbf3f09b1b6747a9e]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Co-authored-by: Victor Lomuller <victor@codeplay.com>
-+---
-+ include/spirv/unified1/spirv.bf               |  10 ++
-+ .../spirv/unified1/spirv.core.grammar.json    | 120 ++++++++++++++++++
-+ include/spirv/unified1/spirv.cs               |  10 ++
-+ include/spirv/unified1/spirv.h                |  27 ++++
-+ include/spirv/unified1/spirv.hpp              |  27 ++++
-+ include/spirv/unified1/spirv.hpp11            |  27 ++++
-+ include/spirv/unified1/spirv.json             |  10 ++
-+ include/spirv/unified1/spirv.lua              |  10 ++
-+ include/spirv/unified1/spirv.py               |  10 ++
-+ include/spirv/unified1/spv.d                  |  10 ++
-+ 10 files changed, 261 insertions(+)
-+
-+diff --git a/include/spirv/unified1/spirv.bf b/include/spirv/unified1/spirv.bf
-+index 1d5945a..630f2f4 100644
-+--- a/include/spirv/unified1/spirv.bf
-++++ b/include/spirv/unified1/spirv.bf
-+@@ -655,6 +655,7 @@ namespace Spv
-+             HostAccessINTEL = 6188,
-+             InitModeINTEL = 6190,
-+             ImplementInRegisterMapINTEL = 6191,
-++            ConditionalINTEL = 6247,
-+             CacheControlLoadINTEL = 6442,
-+             CacheControlStoreINTEL = 6443,
-+             Max = 0x7fffffff,
-+@@ -1312,6 +1313,8 @@ namespace Spv
-+             Subgroup2DBlockTransposeINTEL = 6230,
-+             SubgroupMatrixMultiplyAccumulateINTEL = 6236,
-+             TernaryBitwiseFunctionINTEL = 6241,
-++            SpecConditionalINTEL = 6245,
-++            FunctionVariantsINTEL = 6246,
-+             GroupUniformArithmeticKHR = 6400,
-+             TensorFloat32RoundingINTEL = 6425,
-+             MaskedGatherScatterINTEL = 6427,
-+@@ -2472,6 +2475,13 @@ namespace Spv
-+             OpSubgroup2DBlockStoreINTEL = 6235,
-+             OpSubgroupMatrixMultiplyAccumulateINTEL = 6237,
-+             OpBitwiseFunctionINTEL = 6242,
-++            OpConditionalExtensionINTEL = 6248,
-++            OpConditionalEntryPointINTEL = 6249,
-++            OpConditionalCapabilityINTEL = 6250,
-++            OpSpecConstantTargetINTEL = 6251,
-++            OpSpecConstantArchitectureINTEL = 6252,
-++            OpSpecConstantCapabilitiesINTEL = 6253,
-++            OpConditionalCopyObjectINTEL = 6254,
-+             OpGroupIMulKHR = 6401,
-+             OpGroupFMulKHR = 6402,
-+             OpGroupBitwiseAndKHR = 6403,
-+diff --git a/include/spirv/unified1/spirv.core.grammar.json b/include/spirv/unified1/spirv.core.grammar.json
-+index b197d9e..2470bfa 100644
-+--- a/include/spirv/unified1/spirv.core.grammar.json
-++++ b/include/spirv/unified1/spirv.core.grammar.json
-+@@ -10777,6 +10777,101 @@
-+       "capabilities" : [ "TernaryBitwiseFunctionINTEL" ],
-+       "version" : "None"
-+     },
-++    {
-++      "opname" : "OpConditionalExtensionINTEL",
-++      "class"  : "Extension",
-++      "opcode" : 6248,
-++      "operands" : [
-++        { "kind" : "IdRef",         "name" : "Condition" },
-++        { "kind" : "LiteralString", "name" : "Name" }
-++      ],
-++      "capabilities" : [ "SpecConditionalINTEL" ],
-++      "provisional" : true,
-++      "version" : "None"
-++    },
-++    {
-++      "opname" : "OpConditionalEntryPointINTEL",
-++      "class"  : "Mode-Setting",
-++      "opcode" : 6249,
-++      "operands" : [
-++        { "kind" : "IdRef",                              "name" : "Condition" },
-++        { "kind" : "ExecutionModel" },
-++        { "kind" : "IdRef",                              "name" : "Entry Point" },
-++        { "kind" : "LiteralString",                      "name" : "Name" },
-++        { "kind" : "IdRef",          "quantifier" : "*", "name" : "Interface" }
-++      ],
-++      "capabilities" : [ "SpecConditionalINTEL" ],
-++      "provisional" : true,
-++      "version" : "None"
-++    },
-++    {
-++      "opname" : "OpConditionalCapabilityINTEL",
-++      "class"  : "Mode-Setting",
-++      "opcode" : 6250,
-++      "operands" : [
-++        { "kind" : "IdRef",      "name" : "Condition" },
-++        { "kind" : "Capability", "name" : "Capability" }
-++      ],
-++      "capabilities" : [ "SpecConditionalINTEL" ],
-++      "provisional" : true,
-++      "version" : "None"
-++    },
-++    {
-++      "opname" : "OpSpecConstantTargetINTEL",
-++      "class"  : "Constant-Creation",
-++      "opcode" : 6251,
-++      "operands" : [
-++        { "kind" : "IdResultType" },
-++        { "kind" : "IdResult" },
-++        { "kind" : "LiteralInteger",                     "name" : "Target" },
-++        { "kind" : "LiteralInteger", "quantifier" : "*", "name" : "Features" }
-++      ],
-++      "capabilities" : [ "FunctionVariantsINTEL" ],
-++      "provisional" : true,
-++      "version": "None"
-++    },
-++    {
-++      "opname" : "OpSpecConstantArchitectureINTEL",
-++      "class"  : "Constant-Creation",
-++      "opcode" : 6252,
-++      "operands" : [
-++        { "kind" : "IdResultType" },
-++        { "kind" : "IdResult" },
-++        { "kind" : "LiteralInteger", "name" : "Category" },
-++        { "kind" : "LiteralInteger", "name" : "Family" },
-++        { "kind" : "LiteralInteger", "name" : "Opcode" },
-++        { "kind" : "LiteralInteger", "name" : "Architecture" }
-++      ],
-++      "capabilities" : [ "FunctionVariantsINTEL" ],
-++      "provisional" : true,
-++      "version": "None"
-++    },
-++    {
-++      "opname" : "OpSpecConstantCapabilitiesINTEL",
-++      "class"  : "Constant-Creation",
-++      "opcode" : 6253,
-++      "operands" : [
-++        { "kind" : "IdResultType" },
-++        { "kind" : "IdResult" },
-++        { "kind" : "Capability", "quantifier" : "*", "name" : "Capabilities" }
-++      ],
-++      "capabilities" : [ "FunctionVariantsINTEL" ],
-++      "provisional" : true,
-++      "version": "None"
-++    },
-++    {
-++      "opname" : "OpConditionalCopyObjectINTEL",
-++      "class"  : "Composite",
-++      "opcode" : 6254,
-++      "operands" : [
-++        { "kind" : "IdResultType" },
-++        { "kind" : "IdResult" },
-++        { "kind" : "IdRef", "quantifier" : "*", "name" : "Condition 0, Operand 0, +\nCondition 1, Operand 1, +\n..." }
-++      ],
-++      "capabilities" : [ "SpecConditionalINTEL" ],
-++      "provisional" : true,
-++      "version" : "None"
-++    },
-+     {
-+       "opname" : "OpGroupIMulKHR",
-+       "class"  : "Group",
-+@@ -14900,6 +14995,16 @@
-+           "capabilities" : [ "GlobalVariableFPGADecorationsINTEL" ],
-+           "version" : "None"
-+         },
-++        {
-++          "enumerant" : "ConditionalINTEL",
-++          "value" : 6247,
-++          "parameters": [
-++            { "kind" : "IdRef", "name" : "Condition" }
-++          ],
-++          "capabilities" : [ "SpecConditionalINTEL" ],
-++          "provisional" : true,
-++          "version" : "None"
-++        },
-+         {
-+           "enumerant" : "CacheControlLoadINTEL",
-+           "value" : 6442,
-+@@ -17563,6 +17668,21 @@
-+           "extensions" : [ "SPV_INTEL_ternary_bitwise_function"],
-+           "version" : "None"
-+         },
-++        {
-++          "enumerant" : "SpecConditionalINTEL",
-++          "value" : 6245,
-++          "extensions" : [ "SPV_INTEL_function_variants" ],
-++          "provisional" : true,
-++          "version": "None"
-++        },
-++        {
-++          "enumerant" : "FunctionVariantsINTEL",
-++          "value" : 6246,
-++          "capabilities" : [ "SpecConditionalINTEL" ],
-++          "extensions" : [ "SPV_INTEL_function_variants" ],
-++          "provisional" : true,
-++          "version": "None"
-++        },
-+         {
-+           "enumerant" : "GroupUniformArithmeticKHR",
-+           "value" : 6400,
-+diff --git a/include/spirv/unified1/spirv.cs b/include/spirv/unified1/spirv.cs
-+index b11a8b2..57e7216 100644
-+--- a/include/spirv/unified1/spirv.cs
-++++ b/include/spirv/unified1/spirv.cs
-+@@ -654,6 +654,7 @@ namespace Spv
-+             HostAccessINTEL = 6188,
-+             InitModeINTEL = 6190,
-+             ImplementInRegisterMapINTEL = 6191,
-++            ConditionalINTEL = 6247,
-+             CacheControlLoadINTEL = 6442,
-+             CacheControlStoreINTEL = 6443,
-+             Max = 0x7fffffff,
-+@@ -1311,6 +1312,8 @@ namespace Spv
-+             Subgroup2DBlockTransposeINTEL = 6230,
-+             SubgroupMatrixMultiplyAccumulateINTEL = 6236,
-+             TernaryBitwiseFunctionINTEL = 6241,
-++            SpecConditionalINTEL = 6245,
-++            FunctionVariantsINTEL = 6246,
-+             GroupUniformArithmeticKHR = 6400,
-+             TensorFloat32RoundingINTEL = 6425,
-+             MaskedGatherScatterINTEL = 6427,
-+@@ -2471,6 +2474,13 @@ namespace Spv
-+             OpSubgroup2DBlockStoreINTEL = 6235,
-+             OpSubgroupMatrixMultiplyAccumulateINTEL = 6237,
-+             OpBitwiseFunctionINTEL = 6242,
-++            OpConditionalExtensionINTEL = 6248,
-++            OpConditionalEntryPointINTEL = 6249,
-++            OpConditionalCapabilityINTEL = 6250,
-++            OpSpecConstantTargetINTEL = 6251,
-++            OpSpecConstantArchitectureINTEL = 6252,
-++            OpSpecConstantCapabilitiesINTEL = 6253,
-++            OpConditionalCopyObjectINTEL = 6254,
-+             OpGroupIMulKHR = 6401,
-+             OpGroupFMulKHR = 6402,
-+             OpGroupBitwiseAndKHR = 6403,
-+diff --git a/include/spirv/unified1/spirv.h b/include/spirv/unified1/spirv.h
-+index 005d451..84972da 100644
-+--- a/include/spirv/unified1/spirv.h
-++++ b/include/spirv/unified1/spirv.h
-+@@ -642,6 +642,7 @@ typedef enum SpvDecoration_ {
-+     SpvDecorationHostAccessINTEL = 6188,
-+     SpvDecorationInitModeINTEL = 6190,
-+     SpvDecorationImplementInRegisterMapINTEL = 6191,
-++    SpvDecorationConditionalINTEL = 6247,
-+     SpvDecorationCacheControlLoadINTEL = 6442,
-+     SpvDecorationCacheControlStoreINTEL = 6443,
-+     SpvDecorationMax = 0x7fffffff,
-+@@ -1282,6 +1283,8 @@ typedef enum SpvCapability_ {
-+     SpvCapabilitySubgroup2DBlockTransposeINTEL = 6230,
-+     SpvCapabilitySubgroupMatrixMultiplyAccumulateINTEL = 6236,
-+     SpvCapabilityTernaryBitwiseFunctionINTEL = 6241,
-++    SpvCapabilitySpecConditionalINTEL = 6245,
-++    SpvCapabilityFunctionVariantsINTEL = 6246,
-+     SpvCapabilityGroupUniformArithmeticKHR = 6400,
-+     SpvCapabilityTensorFloat32RoundingINTEL = 6425,
-+     SpvCapabilityMaskedGatherScatterINTEL = 6427,
-+@@ -2406,6 +2409,13 @@ typedef enum SpvOp_ {
-+     SpvOpSubgroup2DBlockStoreINTEL = 6235,
-+     SpvOpSubgroupMatrixMultiplyAccumulateINTEL = 6237,
-+     SpvOpBitwiseFunctionINTEL = 6242,
-++    SpvOpConditionalExtensionINTEL = 6248,
-++    SpvOpConditionalEntryPointINTEL = 6249,
-++    SpvOpConditionalCapabilityINTEL = 6250,
-++    SpvOpSpecConstantTargetINTEL = 6251,
-++    SpvOpSpecConstantArchitectureINTEL = 6252,
-++    SpvOpSpecConstantCapabilitiesINTEL = 6253,
-++    SpvOpConditionalCopyObjectINTEL = 6254,
-+     SpvOpGroupIMulKHR = 6401,
-+     SpvOpGroupFMulKHR = 6402,
-+     SpvOpGroupBitwiseAndKHR = 6403,
-+@@ -3225,6 +3235,13 @@ inline void SpvHasResultAndType(SpvOp opcode, bool *hasResult, bool *hasResultTy
-+     case SpvOpSubgroup2DBlockStoreINTEL: *hasResult = false; *hasResultType = false; break;
-+     case SpvOpSubgroupMatrixMultiplyAccumulateINTEL: *hasResult = true; *hasResultType = true; break;
-+     case SpvOpBitwiseFunctionINTEL: *hasResult = true; *hasResultType = true; break;
-++    case SpvOpConditionalExtensionINTEL: *hasResult = false; *hasResultType = false; break;
-++    case SpvOpConditionalEntryPointINTEL: *hasResult = false; *hasResultType = false; break;
-++    case SpvOpConditionalCapabilityINTEL: *hasResult = false; *hasResultType = false; break;
-++    case SpvOpSpecConstantTargetINTEL: *hasResult = true; *hasResultType = true; break;
-++    case SpvOpSpecConstantArchitectureINTEL: *hasResult = true; *hasResultType = true; break;
-++    case SpvOpSpecConstantCapabilitiesINTEL: *hasResult = true; *hasResultType = true; break;
-++    case SpvOpConditionalCopyObjectINTEL: *hasResult = true; *hasResultType = true; break;
-+     case SpvOpGroupIMulKHR: *hasResult = true; *hasResultType = true; break;
-+     case SpvOpGroupFMulKHR: *hasResult = true; *hasResultType = true; break;
-+     case SpvOpGroupBitwiseAndKHR: *hasResult = true; *hasResultType = true; break;
-+@@ -3765,6 +3782,7 @@ inline const char* SpvDecorationToString(SpvDecoration value) {
-+     case SpvDecorationHostAccessINTEL: return "HostAccessINTEL";
-+     case SpvDecorationInitModeINTEL: return "InitModeINTEL";
-+     case SpvDecorationImplementInRegisterMapINTEL: return "ImplementInRegisterMapINTEL";
-++    case SpvDecorationConditionalINTEL: return "ConditionalINTEL";
-+     case SpvDecorationCacheControlLoadINTEL: return "CacheControlLoadINTEL";
-+     case SpvDecorationCacheControlStoreINTEL: return "CacheControlStoreINTEL";
-+     default: return "Unknown";
-+@@ -4204,6 +4222,8 @@ inline const char* SpvCapabilityToString(SpvCapability value) {
-+     case SpvCapabilitySubgroup2DBlockTransposeINTEL: return "Subgroup2DBlockTransposeINTEL";
-+     case SpvCapabilitySubgroupMatrixMultiplyAccumulateINTEL: return "SubgroupMatrixMultiplyAccumulateINTEL";
-+     case SpvCapabilityTernaryBitwiseFunctionINTEL: return "TernaryBitwiseFunctionINTEL";
-++    case SpvCapabilitySpecConditionalINTEL: return "SpecConditionalINTEL";
-++    case SpvCapabilityFunctionVariantsINTEL: return "FunctionVariantsINTEL";
-+     case SpvCapabilityGroupUniformArithmeticKHR: return "GroupUniformArithmeticKHR";
-+     case SpvCapabilityTensorFloat32RoundingINTEL: return "TensorFloat32RoundingINTEL";
-+     case SpvCapabilityMaskedGatherScatterINTEL: return "MaskedGatherScatterINTEL";
-+@@ -5198,6 +5218,13 @@ inline const char* SpvOpToString(SpvOp value) {
-+     case SpvOpSubgroup2DBlockStoreINTEL: return "OpSubgroup2DBlockStoreINTEL";
-+     case SpvOpSubgroupMatrixMultiplyAccumulateINTEL: return "OpSubgroupMatrixMultiplyAccumulateINTEL";
-+     case SpvOpBitwiseFunctionINTEL: return "OpBitwiseFunctionINTEL";
-++    case SpvOpConditionalExtensionINTEL: return "OpConditionalExtensionINTEL";
-++    case SpvOpConditionalEntryPointINTEL: return "OpConditionalEntryPointINTEL";
-++    case SpvOpConditionalCapabilityINTEL: return "OpConditionalCapabilityINTEL";
-++    case SpvOpSpecConstantTargetINTEL: return "OpSpecConstantTargetINTEL";
-++    case SpvOpSpecConstantArchitectureINTEL: return "OpSpecConstantArchitectureINTEL";
-++    case SpvOpSpecConstantCapabilitiesINTEL: return "OpSpecConstantCapabilitiesINTEL";
-++    case SpvOpConditionalCopyObjectINTEL: return "OpConditionalCopyObjectINTEL";
-+     case SpvOpGroupIMulKHR: return "OpGroupIMulKHR";
-+     case SpvOpGroupFMulKHR: return "OpGroupFMulKHR";
-+     case SpvOpGroupBitwiseAndKHR: return "OpGroupBitwiseAndKHR";
-+diff --git a/include/spirv/unified1/spirv.hpp b/include/spirv/unified1/spirv.hpp
-+index f7a7bf8..a3d760a 100644
-+--- a/include/spirv/unified1/spirv.hpp
-++++ b/include/spirv/unified1/spirv.hpp
-+@@ -638,6 +638,7 @@ enum Decoration {
-+     DecorationHostAccessINTEL = 6188,
-+     DecorationInitModeINTEL = 6190,
-+     DecorationImplementInRegisterMapINTEL = 6191,
-++    DecorationConditionalINTEL = 6247,
-+     DecorationCacheControlLoadINTEL = 6442,
-+     DecorationCacheControlStoreINTEL = 6443,
-+     DecorationMax = 0x7fffffff,
-+@@ -1278,6 +1279,8 @@ enum Capability {
-+     CapabilitySubgroup2DBlockTransposeINTEL = 6230,
-+     CapabilitySubgroupMatrixMultiplyAccumulateINTEL = 6236,
-+     CapabilityTernaryBitwiseFunctionINTEL = 6241,
-++    CapabilitySpecConditionalINTEL = 6245,
-++    CapabilityFunctionVariantsINTEL = 6246,
-+     CapabilityGroupUniformArithmeticKHR = 6400,
-+     CapabilityTensorFloat32RoundingINTEL = 6425,
-+     CapabilityMaskedGatherScatterINTEL = 6427,
-+@@ -2402,6 +2405,13 @@ enum Op {
-+     OpSubgroup2DBlockStoreINTEL = 6235,
-+     OpSubgroupMatrixMultiplyAccumulateINTEL = 6237,
-+     OpBitwiseFunctionINTEL = 6242,
-++    OpConditionalExtensionINTEL = 6248,
-++    OpConditionalEntryPointINTEL = 6249,
-++    OpConditionalCapabilityINTEL = 6250,
-++    OpSpecConstantTargetINTEL = 6251,
-++    OpSpecConstantArchitectureINTEL = 6252,
-++    OpSpecConstantCapabilitiesINTEL = 6253,
-++    OpConditionalCopyObjectINTEL = 6254,
-+     OpGroupIMulKHR = 6401,
-+     OpGroupFMulKHR = 6402,
-+     OpGroupBitwiseAndKHR = 6403,
-+@@ -3221,6 +3231,13 @@ inline void HasResultAndType(Op opcode, bool *hasResult, bool *hasResultType) {
-+     case OpSubgroup2DBlockStoreINTEL: *hasResult = false; *hasResultType = false; break;
-+     case OpSubgroupMatrixMultiplyAccumulateINTEL: *hasResult = true; *hasResultType = true; break;
-+     case OpBitwiseFunctionINTEL: *hasResult = true; *hasResultType = true; break;
-++    case OpConditionalExtensionINTEL: *hasResult = false; *hasResultType = false; break;
-++    case OpConditionalEntryPointINTEL: *hasResult = false; *hasResultType = false; break;
-++    case OpConditionalCapabilityINTEL: *hasResult = false; *hasResultType = false; break;
-++    case OpSpecConstantTargetINTEL: *hasResult = true; *hasResultType = true; break;
-++    case OpSpecConstantArchitectureINTEL: *hasResult = true; *hasResultType = true; break;
-++    case OpSpecConstantCapabilitiesINTEL: *hasResult = true; *hasResultType = true; break;
-++    case OpConditionalCopyObjectINTEL: *hasResult = true; *hasResultType = true; break;
-+     case OpGroupIMulKHR: *hasResult = true; *hasResultType = true; break;
-+     case OpGroupFMulKHR: *hasResult = true; *hasResultType = true; break;
-+     case OpGroupBitwiseAndKHR: *hasResult = true; *hasResultType = true; break;
-+@@ -3761,6 +3778,7 @@ inline const char* DecorationToString(Decoration value) {
-+     case DecorationHostAccessINTEL: return "HostAccessINTEL";
-+     case DecorationInitModeINTEL: return "InitModeINTEL";
-+     case DecorationImplementInRegisterMapINTEL: return "ImplementInRegisterMapINTEL";
-++    case DecorationConditionalINTEL: return "ConditionalINTEL";
-+     case DecorationCacheControlLoadINTEL: return "CacheControlLoadINTEL";
-+     case DecorationCacheControlStoreINTEL: return "CacheControlStoreINTEL";
-+     default: return "Unknown";
-+@@ -4200,6 +4218,8 @@ inline const char* CapabilityToString(Capability value) {
-+     case CapabilitySubgroup2DBlockTransposeINTEL: return "Subgroup2DBlockTransposeINTEL";
-+     case CapabilitySubgroupMatrixMultiplyAccumulateINTEL: return "SubgroupMatrixMultiplyAccumulateINTEL";
-+     case CapabilityTernaryBitwiseFunctionINTEL: return "TernaryBitwiseFunctionINTEL";
-++    case CapabilitySpecConditionalINTEL: return "SpecConditionalINTEL";
-++    case CapabilityFunctionVariantsINTEL: return "FunctionVariantsINTEL";
-+     case CapabilityGroupUniformArithmeticKHR: return "GroupUniformArithmeticKHR";
-+     case CapabilityTensorFloat32RoundingINTEL: return "TensorFloat32RoundingINTEL";
-+     case CapabilityMaskedGatherScatterINTEL: return "MaskedGatherScatterINTEL";
-+@@ -5194,6 +5214,13 @@ inline const char* OpToString(Op value) {
-+     case OpSubgroup2DBlockStoreINTEL: return "OpSubgroup2DBlockStoreINTEL";
-+     case OpSubgroupMatrixMultiplyAccumulateINTEL: return "OpSubgroupMatrixMultiplyAccumulateINTEL";
-+     case OpBitwiseFunctionINTEL: return "OpBitwiseFunctionINTEL";
-++    case OpConditionalExtensionINTEL: return "OpConditionalExtensionINTEL";
-++    case OpConditionalEntryPointINTEL: return "OpConditionalEntryPointINTEL";
-++    case OpConditionalCapabilityINTEL: return "OpConditionalCapabilityINTEL";
-++    case OpSpecConstantTargetINTEL: return "OpSpecConstantTargetINTEL";
-++    case OpSpecConstantArchitectureINTEL: return "OpSpecConstantArchitectureINTEL";
-++    case OpSpecConstantCapabilitiesINTEL: return "OpSpecConstantCapabilitiesINTEL";
-++    case OpConditionalCopyObjectINTEL: return "OpConditionalCopyObjectINTEL";
-+     case OpGroupIMulKHR: return "OpGroupIMulKHR";
-+     case OpGroupFMulKHR: return "OpGroupFMulKHR";
-+     case OpGroupBitwiseAndKHR: return "OpGroupBitwiseAndKHR";
-+diff --git a/include/spirv/unified1/spirv.hpp11 b/include/spirv/unified1/spirv.hpp11
-+index b83ca46..e8479cb 100644
-+--- a/include/spirv/unified1/spirv.hpp11
-++++ b/include/spirv/unified1/spirv.hpp11
-+@@ -638,6 +638,7 @@ enum class Decoration : unsigned {
-+     HostAccessINTEL = 6188,
-+     InitModeINTEL = 6190,
-+     ImplementInRegisterMapINTEL = 6191,
-++    ConditionalINTEL = 6247,
-+     CacheControlLoadINTEL = 6442,
-+     CacheControlStoreINTEL = 6443,
-+     Max = 0x7fffffff,
-+@@ -1278,6 +1279,8 @@ enum class Capability : unsigned {
-+     Subgroup2DBlockTransposeINTEL = 6230,
-+     SubgroupMatrixMultiplyAccumulateINTEL = 6236,
-+     TernaryBitwiseFunctionINTEL = 6241,
-++    SpecConditionalINTEL = 6245,
-++    FunctionVariantsINTEL = 6246,
-+     GroupUniformArithmeticKHR = 6400,
-+     TensorFloat32RoundingINTEL = 6425,
-+     MaskedGatherScatterINTEL = 6427,
-+@@ -2402,6 +2405,13 @@ enum class Op : unsigned {
-+     OpSubgroup2DBlockStoreINTEL = 6235,
-+     OpSubgroupMatrixMultiplyAccumulateINTEL = 6237,
-+     OpBitwiseFunctionINTEL = 6242,
-++    OpConditionalExtensionINTEL = 6248,
-++    OpConditionalEntryPointINTEL = 6249,
-++    OpConditionalCapabilityINTEL = 6250,
-++    OpSpecConstantTargetINTEL = 6251,
-++    OpSpecConstantArchitectureINTEL = 6252,
-++    OpSpecConstantCapabilitiesINTEL = 6253,
-++    OpConditionalCopyObjectINTEL = 6254,
-+     OpGroupIMulKHR = 6401,
-+     OpGroupFMulKHR = 6402,
-+     OpGroupBitwiseAndKHR = 6403,
-+@@ -3221,6 +3231,13 @@ inline void HasResultAndType(Op opcode, bool *hasResult, bool *hasResultType) {
-+     case Op::OpSubgroup2DBlockStoreINTEL: *hasResult = false; *hasResultType = false; break;
-+     case Op::OpSubgroupMatrixMultiplyAccumulateINTEL: *hasResult = true; *hasResultType = true; break;
-+     case Op::OpBitwiseFunctionINTEL: *hasResult = true; *hasResultType = true; break;
-++    case Op::OpConditionalExtensionINTEL: *hasResult = false; *hasResultType = false; break;
-++    case Op::OpConditionalEntryPointINTEL: *hasResult = false; *hasResultType = false; break;
-++    case Op::OpConditionalCapabilityINTEL: *hasResult = false; *hasResultType = false; break;
-++    case Op::OpSpecConstantTargetINTEL: *hasResult = true; *hasResultType = true; break;
-++    case Op::OpSpecConstantArchitectureINTEL: *hasResult = true; *hasResultType = true; break;
-++    case Op::OpSpecConstantCapabilitiesINTEL: *hasResult = true; *hasResultType = true; break;
-++    case Op::OpConditionalCopyObjectINTEL: *hasResult = true; *hasResultType = true; break;
-+     case Op::OpGroupIMulKHR: *hasResult = true; *hasResultType = true; break;
-+     case Op::OpGroupFMulKHR: *hasResult = true; *hasResultType = true; break;
-+     case Op::OpGroupBitwiseAndKHR: *hasResult = true; *hasResultType = true; break;
-+@@ -3761,6 +3778,7 @@ inline const char* DecorationToString(Decoration value) {
-+     case Decoration::HostAccessINTEL: return "HostAccessINTEL";
-+     case Decoration::InitModeINTEL: return "InitModeINTEL";
-+     case Decoration::ImplementInRegisterMapINTEL: return "ImplementInRegisterMapINTEL";
-++    case Decoration::ConditionalINTEL: return "ConditionalINTEL";
-+     case Decoration::CacheControlLoadINTEL: return "CacheControlLoadINTEL";
-+     case Decoration::CacheControlStoreINTEL: return "CacheControlStoreINTEL";
-+     default: return "Unknown";
-+@@ -4200,6 +4218,8 @@ inline const char* CapabilityToString(Capability value) {
-+     case Capability::Subgroup2DBlockTransposeINTEL: return "Subgroup2DBlockTransposeINTEL";
-+     case Capability::SubgroupMatrixMultiplyAccumulateINTEL: return "SubgroupMatrixMultiplyAccumulateINTEL";
-+     case Capability::TernaryBitwiseFunctionINTEL: return "TernaryBitwiseFunctionINTEL";
-++    case Capability::SpecConditionalINTEL: return "SpecConditionalINTEL";
-++    case Capability::FunctionVariantsINTEL: return "FunctionVariantsINTEL";
-+     case Capability::GroupUniformArithmeticKHR: return "GroupUniformArithmeticKHR";
-+     case Capability::TensorFloat32RoundingINTEL: return "TensorFloat32RoundingINTEL";
-+     case Capability::MaskedGatherScatterINTEL: return "MaskedGatherScatterINTEL";
-+@@ -5194,6 +5214,13 @@ inline const char* OpToString(Op value) {
-+     case Op::OpSubgroup2DBlockStoreINTEL: return "OpSubgroup2DBlockStoreINTEL";
-+     case Op::OpSubgroupMatrixMultiplyAccumulateINTEL: return "OpSubgroupMatrixMultiplyAccumulateINTEL";
-+     case Op::OpBitwiseFunctionINTEL: return "OpBitwiseFunctionINTEL";
-++    case Op::OpConditionalExtensionINTEL: return "OpConditionalExtensionINTEL";
-++    case Op::OpConditionalEntryPointINTEL: return "OpConditionalEntryPointINTEL";
-++    case Op::OpConditionalCapabilityINTEL: return "OpConditionalCapabilityINTEL";
-++    case Op::OpSpecConstantTargetINTEL: return "OpSpecConstantTargetINTEL";
-++    case Op::OpSpecConstantArchitectureINTEL: return "OpSpecConstantArchitectureINTEL";
-++    case Op::OpSpecConstantCapabilitiesINTEL: return "OpSpecConstantCapabilitiesINTEL";
-++    case Op::OpConditionalCopyObjectINTEL: return "OpConditionalCopyObjectINTEL";
-+     case Op::OpGroupIMulKHR: return "OpGroupIMulKHR";
-+     case Op::OpGroupFMulKHR: return "OpGroupFMulKHR";
-+     case Op::OpGroupBitwiseAndKHR: return "OpGroupBitwiseAndKHR";
-+diff --git a/include/spirv/unified1/spirv.json b/include/spirv/unified1/spirv.json
-+index 0668c98..e0c0230 100644
-+--- a/include/spirv/unified1/spirv.json
-++++ b/include/spirv/unified1/spirv.json
-+@@ -661,6 +661,7 @@
-+                     "HostAccessINTEL": 6188,
-+                     "InitModeINTEL": 6190,
-+                     "ImplementInRegisterMapINTEL": 6191,
-++                    "ConditionalINTEL": 6247,
-+                     "CacheControlLoadINTEL": 6442,
-+                     "CacheControlStoreINTEL": 6443
-+                 }
-+@@ -1254,6 +1255,8 @@
-+                     "Subgroup2DBlockTransposeINTEL": 6230,
-+                     "SubgroupMatrixMultiplyAccumulateINTEL": 6236,
-+                     "TernaryBitwiseFunctionINTEL": 6241,
-++                    "SpecConditionalINTEL": 6245,
-++                    "FunctionVariantsINTEL": 6246,
-+                     "GroupUniformArithmeticKHR": 6400,
-+                     "TensorFloat32RoundingINTEL": 6425,
-+                     "MaskedGatherScatterINTEL": 6427,
-+@@ -2383,6 +2386,13 @@
-+                     "OpSubgroup2DBlockStoreINTEL": 6235,
-+                     "OpSubgroupMatrixMultiplyAccumulateINTEL": 6237,
-+                     "OpBitwiseFunctionINTEL": 6242,
-++                    "OpConditionalExtensionINTEL": 6248,
-++                    "OpConditionalEntryPointINTEL": 6249,
-++                    "OpConditionalCapabilityINTEL": 6250,
-++                    "OpSpecConstantTargetINTEL": 6251,
-++                    "OpSpecConstantArchitectureINTEL": 6252,
-++                    "OpSpecConstantCapabilitiesINTEL": 6253,
-++                    "OpConditionalCopyObjectINTEL": 6254,
-+                     "OpGroupIMulKHR": 6401,
-+                     "OpGroupFMulKHR": 6402,
-+                     "OpGroupBitwiseAndKHR": 6403,
-+diff --git a/include/spirv/unified1/spirv.lua b/include/spirv/unified1/spirv.lua
-+index a612e5c..410060b 100644
-+--- a/include/spirv/unified1/spirv.lua
-++++ b/include/spirv/unified1/spirv.lua
-+@@ -629,6 +629,7 @@ spv = {
-+         HostAccessINTEL = 6188,
-+         InitModeINTEL = 6190,
-+         ImplementInRegisterMapINTEL = 6191,
-++        ConditionalINTEL = 6247,
-+         CacheControlLoadINTEL = 6442,
-+         CacheControlStoreINTEL = 6443,
-+         Max = 0x7fffffff,
-+@@ -1269,6 +1270,8 @@ spv = {
-+         Subgroup2DBlockTransposeINTEL = 6230,
-+         SubgroupMatrixMultiplyAccumulateINTEL = 6236,
-+         TernaryBitwiseFunctionINTEL = 6241,
-++        SpecConditionalINTEL = 6245,
-++        FunctionVariantsINTEL = 6246,
-+         GroupUniformArithmeticKHR = 6400,
-+         TensorFloat32RoundingINTEL = 6425,
-+         MaskedGatherScatterINTEL = 6427,
-+@@ -2393,6 +2396,13 @@ spv = {
-+         OpSubgroup2DBlockStoreINTEL = 6235,
-+         OpSubgroupMatrixMultiplyAccumulateINTEL = 6237,
-+         OpBitwiseFunctionINTEL = 6242,
-++        OpConditionalExtensionINTEL = 6248,
-++        OpConditionalEntryPointINTEL = 6249,
-++        OpConditionalCapabilityINTEL = 6250,
-++        OpSpecConstantTargetINTEL = 6251,
-++        OpSpecConstantArchitectureINTEL = 6252,
-++        OpSpecConstantCapabilitiesINTEL = 6253,
-++        OpConditionalCopyObjectINTEL = 6254,
-+         OpGroupIMulKHR = 6401,
-+         OpGroupFMulKHR = 6402,
-+         OpGroupBitwiseAndKHR = 6403,
-+diff --git a/include/spirv/unified1/spirv.py b/include/spirv/unified1/spirv.py
-+index 5adfded..0b77b4f 100644
-+--- a/include/spirv/unified1/spirv.py
-++++ b/include/spirv/unified1/spirv.py
-+@@ -611,6 +611,7 @@ spv = {
-+         'HostAccessINTEL' : 6188,
-+         'InitModeINTEL' : 6190,
-+         'ImplementInRegisterMapINTEL' : 6191,
-++        'ConditionalINTEL' : 6247,
-+         'CacheControlLoadINTEL' : 6442,
-+         'CacheControlStoreINTEL' : 6443,
-+     },
-+@@ -1240,6 +1241,8 @@ spv = {
-+         'Subgroup2DBlockTransposeINTEL' : 6230,
-+         'SubgroupMatrixMultiplyAccumulateINTEL' : 6236,
-+         'TernaryBitwiseFunctionINTEL' : 6241,
-++        'SpecConditionalINTEL' : 6245,
-++        'FunctionVariantsINTEL' : 6246,
-+         'GroupUniformArithmeticKHR' : 6400,
-+         'TensorFloat32RoundingINTEL' : 6425,
-+         'MaskedGatherScatterINTEL' : 6427,
-+@@ -2336,6 +2339,13 @@ spv = {
-+         'OpSubgroup2DBlockStoreINTEL' : 6235,
-+         'OpSubgroupMatrixMultiplyAccumulateINTEL' : 6237,
-+         'OpBitwiseFunctionINTEL' : 6242,
-++        'OpConditionalExtensionINTEL' : 6248,
-++        'OpConditionalEntryPointINTEL' : 6249,
-++        'OpConditionalCapabilityINTEL' : 6250,
-++        'OpSpecConstantTargetINTEL' : 6251,
-++        'OpSpecConstantArchitectureINTEL' : 6252,
-++        'OpSpecConstantCapabilitiesINTEL' : 6253,
-++        'OpConditionalCopyObjectINTEL' : 6254,
-+         'OpGroupIMulKHR' : 6401,
-+         'OpGroupFMulKHR' : 6402,
-+         'OpGroupBitwiseAndKHR' : 6403,
-+diff --git a/include/spirv/unified1/spv.d b/include/spirv/unified1/spv.d
-+index 3c5130a..a5763e6 100644
-+--- a/include/spirv/unified1/spv.d
-++++ b/include/spirv/unified1/spv.d
-+@@ -657,6 +657,7 @@ enum Decoration : uint
-+     HostAccessINTEL = 6188,
-+     InitModeINTEL = 6190,
-+     ImplementInRegisterMapINTEL = 6191,
-++    ConditionalINTEL = 6247,
-+     CacheControlLoadINTEL = 6442,
-+     CacheControlStoreINTEL = 6443,
-+     Max = 0x7fffffff,
-+@@ -1314,6 +1315,8 @@ enum Capability : uint
-+     Subgroup2DBlockTransposeINTEL = 6230,
-+     SubgroupMatrixMultiplyAccumulateINTEL = 6236,
-+     TernaryBitwiseFunctionINTEL = 6241,
-++    SpecConditionalINTEL = 6245,
-++    FunctionVariantsINTEL = 6246,
-+     GroupUniformArithmeticKHR = 6400,
-+     TensorFloat32RoundingINTEL = 6425,
-+     MaskedGatherScatterINTEL = 6427,
-+@@ -2474,6 +2477,13 @@ enum Op : uint
-+     OpSubgroup2DBlockStoreINTEL = 6235,
-+     OpSubgroupMatrixMultiplyAccumulateINTEL = 6237,
-+     OpBitwiseFunctionINTEL = 6242,
-++    OpConditionalExtensionINTEL = 6248,
-++    OpConditionalEntryPointINTEL = 6249,
-++    OpConditionalCapabilityINTEL = 6250,
-++    OpSpecConstantTargetINTEL = 6251,
-++    OpSpecConstantArchitectureINTEL = 6252,
-++    OpSpecConstantCapabilitiesINTEL = 6253,
-++    OpConditionalCopyObjectINTEL = 6254,
-+     OpGroupIMulKHR = 6401,
-+     OpGroupFMulKHR = 6402,
-+     OpGroupBitwiseAndKHR = 6403,
-diff --git a/meta/recipes-graphics/spir/spirv-headers_1.4.321.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.4.321.0.bb
-index 5365d64a999..807e34abcc2 100644
---- a/meta/recipes-graphics/spir/spirv-headers_1.4.321.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-headers_1.4.321.0.bb
-@@ -5,7 +5,9 @@ LICENSE = "MIT & CC-BY-4.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a0dcaa512cc2dee95fe0fd791ee83a18"
- 
- SRCREV = "2a611a970fdbc41ac2e3e328802aed9985352dca"
--SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
-+SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main \
-+           file://0001-Add-SPV_INTEL_function_variants-532.patch \
-+		  "
- PE = "1"
- # These recipes need to be updated in lockstep with each other:
- # glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
