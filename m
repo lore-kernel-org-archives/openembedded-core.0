@@ -1,85 +1,85 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BAF9CA0EED
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 09:25:02 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.9510.1755595498939100642
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A395CCA0EF5
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 09:30:12 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web11.9994.1755595807937817560
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Aug 2025 02:24:59 -0700
+ Tue, 19 Aug 2025 02:30:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=d95sDXAm;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-55ce527ffbfso4510488e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 02:24:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kZylG+YG;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7e87055e1b6so726380585a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 02:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755595497; x=1756200297; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OaEkh5GCisDyHGwh/F6hq0hTau+Pfl12yB7mtBerxaI=;
-        b=d95sDXAm1XG6W/Sld/8mcXqZXmL5hl4yOWWiFPpYAvLskhW0r0npOXSuoqnnVBy6yl
-         VBfVHIim5VIPvBnZh1dFjEtZ7AKM27Hh1l/qe9qLcNiW3gzwVnA+IzGU6Qhz4jj8xxP8
-         wtQy3y3A9Ov/iCP+TkoByr0akF0SxoTuGl3cbsKL4YJVHD4pXZRUhRDNeCzQt4IzA1rL
-         62to3UJdaP01WcCsC3gvyOnj3prxXpdR8KjmwdcihGpJPw6j06b3mBQDB/CezijCaHJK
-         fIFhEaZg1lMAIKtuGqquqiOv1HJifQ2yYPP4zxhK5gi4nRhHvsi1F1XpCfH7kUduWQg9
-         nfhg==
+        d=gmail.com; s=20230601; t=1755595807; x=1756200607; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vdRGo5PSbpzQGqI4wLSZ7SRawMWE6rpA+iPwQos2Hao=;
+        b=kZylG+YGALXuizmKpm9vDnuHRC97Nc/IxlApHupRw7QEPyZsbJhBFBIYTsxZIKezBd
+         cBX0M9p0TDxk8wTlLRKfxOQRSDt9buHBgjN2tsEUl374s1BSHjKZfNjrqBHHl2X1hDjx
+         5A4UAZHuEeOytrYEz1xRJW+gW59jfWgKlqX0BrER+Byvm4qaVmUh7Nb0+69R4hM6z8FF
+         2NwxWsdVVQ308upmculAzhFIhziuCjEcjZ5/YwIGBzkJse0bAUDKAJzhAL8SGKlOszhV
+         FUy06UcMEUTLH4I+1dxkDNSAo0eQ4g7WQienjoswfhbGkcYeLJxMNDvcYVqBqiDtMETK
+         Fouw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755595497; x=1756200297;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OaEkh5GCisDyHGwh/F6hq0hTau+Pfl12yB7mtBerxaI=;
-        b=GLFsR6yobUbr5Xnc1OpHIDX/zsSsyC4l/+yZmT4PAqdNbncaQPUSGabA4Iix5eFQoM
-         smcncstsAB/kJefDUZ6JMxmfqZMuhl2Zh3HRefnNHZ74p60q3ozj+j2NriblMbf5vZOh
-         p7ZX+ChqnjnpSgefSPT6DCuc78rxdSBmC9gwdz8o1ylgl1v8GHk7jDJgPcKA+q/SKCIL
-         fA/LiD2x8TMzAYi8/idijJl0YkQ+XyzfUHhGarxIaNu6Qdqq8IzEuyywYgKUSODZTNIz
-         TIi5Q3zbOR8lvHc6C18WYkK2QgEqJQjrpa0+yFiMcors3K8BEtVA3oSwvf5zsocxryUc
-         dV2Q==
-X-Gm-Message-State: AOJu0YwKBr4ekirFOyk5bysGOxKIGOipbWAyUg97C6hcT1wCuurgbfKT
-	js1pjh95NuTd2uIkgtynix16d7iZReJzF+iwu70RAQnO9wTSxID3FVgZuFqGJ4eivcB1S/97VdO
-	WMsRtNoKCQVbHVwX6GewXwUO9tTu8SiQ=
-X-Gm-Gg: ASbGncsVFkZLxC3rQ9k6IBGL8oHxjmYyLjFjstkB7StTlbE0K0XuhyNWp12GpLDrlhB
-	LhgER0cWVwu46SdrYH71v8/ErIEVMMOnSnb8xjsgeVEMY1VyiBKGshh0Xq/HrRq+f34ImBgpi7F
-	5kdYwEYcLmeiMMPDRCNVYmh3ur9dJKe8b4C2leyFV0Jl4nHIKWGqACvKHCKipjXyyGrRb3nvnmi
-	gGcp9HfrHz6+0QUxvKv
-X-Google-Smtp-Source: AGHT+IHkVe7K5lpnLsIz+qLqDU/2xVf45E5i4cR8OU92Yqz7HMXwh2sUr1wtN7NFxxDYdUlRWSigQioW03sSdtCaJVA=
-X-Received: by 2002:a05:6512:b26:b0:553:297b:3d4e with SMTP id
- 2adb3069b0e04-55e00872c88mr521419e87.52.1755595496735; Tue, 19 Aug 2025
- 02:24:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755595807; x=1756200607;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vdRGo5PSbpzQGqI4wLSZ7SRawMWE6rpA+iPwQos2Hao=;
+        b=mQNhkdPYGrcPxDU5Vv+c4Yj7hmIdnK30EmB8ALFTUuBd/s8HYLJAbTdLBbPmbG+VcU
+         tf1HA38Psle5XEzYtl2nRdxn+n9zYST8FSQy/TYDfB1V6eWu/yi8/WIzy2yaVK+BVbuf
+         5Qcpjb6xjOMdDKux4s6H9kRu3DqtLZ0LiUv/A4SeBJuUiF9julKK2820qJXESGL6128a
+         PIKPT9YdruhfHa1Cntyqj4wSRdx/LcA0C89vDEfD9Qd3aV/UWqgvtVbJlvpxbVD8mN5+
+         UvQQhh+mAhLSqzMk9xBNW3bIcxIitP3snfG63mTJgbHJKqNq7yYX+SUBDhPP1pyKWFoa
+         wKBg==
+X-Gm-Message-State: AOJu0Yx/3ZfAIJ5DyPj8w7yl04COoah3zAKP/5LcqB60epL+D2jsC/mS
+	jPhoPfVavOC17G/NGAXORDXX44TTmh+qrQOc5kR8qsOviRyDOzhMEhNiFEA+nQQTkAG4xYdLAmA
+	pyJYj+zGWQ+iz82epPEJRLOmYV/sva6A=
+X-Gm-Gg: ASbGncvLFRPtChPw5VJOq5mDl4simcXFtumhU/4SX1vLLFvBOudVsff/QdaLcqw6jy1
+	9lEpQq1MysNZeA79xhTB6EJJkU4Q/WiReVgPFI6Y4Op59jgbKtyLxpKeYVao0rICIYAau4ZoRj9
+	lci2gY6WChx1trIyUTIe8kJufHSKROBpTkE/nafIf8SFza/0+Psiso/et5K0U3pvIEgupylZch9
+	9ei6fJ1mRAcdQr6tISm/vtUNhaNpFKiEO8oSxULJdr/9XGaGsCLznledcrji84=
+X-Google-Smtp-Source: AGHT+IGcYYGnpKk8B46n4XKRzMOdij6E/N1bplgGk8EGSWNiR6fpksXZCS/TMT6Q3BH34IDk8rb1ew0wC7kqCoKQnso=
+X-Received: by 2002:a05:620a:6914:b0:7e8:640a:ed18 with SMTP id
+ af79cd13be357-7e9f33e9351mr206756385a.31.1755595806693; Tue, 19 Aug 2025
+ 02:30:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250817205033.3845672-1-martin.jansa@gmail.com> <8d5f70ac-7a0e-4c1b-b1c3-3949412843c8@cherry.de>
-In-Reply-To: <8d5f70ac-7a0e-4c1b-b1c3-3949412843c8@cherry.de>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 19 Aug 2025 11:24:42 +0200
-X-Gm-Features: Ac12FXwRQ-cycvUWJ36fJe9Naz18oXmkokBUypBR9p7eAjM3gNrMkRVpN_YeqaA
-Message-ID: <CA+chaQeo_Fa9G-4rNRuihvsnHbGJFZx_8JS7CHV83KY1w9uFBw@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH 1/3] e2fsprogs: Fix build failure
- with gcc 15
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com, 
-	Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20250819054447.4003831-1-raj.khem@gmail.com>
+In-Reply-To: <20250819054447.4003831-1-raj.khem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 19 Aug 2025 11:29:55 +0200
+X-Gm-Features: Ac12FXx9MCfOVfPWEPx_LoxD-zNd5urQemwjBkBbbzfMagvKRMr0BcfSswmxkXU
+Message-ID: <CANNYZj_wpcNbg5HT0RG4DQDiEF-gDK-H2R-57qrjfcZ7Si9Ypw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] strace: Fix uio test and ignore
+ pwritev|pwrite64 tests on musl
+To: raj.khem@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 09:25:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222092
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 09:30:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222093
 
-On Tue, Aug 19, 2025 at 11:21=E2=80=AFAM Quentin Schulz
-<quentin.schulz@cherry.de> wrote:
->
-> Hi Martin,
->
-> Do we actually support any distribution for Scarthgap that has gcc 15 in
-> its package feed?
+On Tue, 19 Aug 2025 at 07:44, Khem Raj via lists.openembedded.org
+<raj.khem=gmail.com@lists.openembedded.org> wrote:
+> +musl uses wrappers for pwritev and pwrite64 using
+> +pwritev2 syscall [1], however the test exepcts that the
+> +program will call pwritev and pwrite64 ( glibc behavior )
+> +
+> +This can be fixed if the function calls are changed to
+> +use syscall() API directly, but that needs change upstream [2]
+> +
+> +[1] https://git.musl-libc.org/cgit/musl/commit/src?id=5370070fded61b569196764673a4fc8440aac79e
+> +[2] https://github.com/strace/strace/pull/347
 
-I haven't built the whole world, but these changes allowed me to build
-our images with gcc-15 from ubuntu-25.10 with scarthgap (and 2 more
-changes sent for walnascar).
+This needs a separate ticket, rather than a passing comment in a
+closed pull request.
+Better yet, rework the patch to a form suitable for upstream submission.
 
-So even when it's not officially supported (or tested on AB), these
-changes are safe enough, right?
+Alex
 
