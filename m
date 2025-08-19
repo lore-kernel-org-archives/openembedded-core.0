@@ -1,196 +1,176 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE63CA0EEB
-	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 16:02:54 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.18536.1755619372486113426
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27267CA0EEB
+	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 16:19:46 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.9])
+ by mx.groups.io with SMTP id smtpd.web11.205.1755620379826318418
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Aug 2025 09:02:52 -0700
+ Tue, 19 Aug 2025 09:19:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hMIn0sH8;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76e34c4ce54so50775b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 09:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755619371; x=1756224171; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kj9TiFvT8KXG2P2EfbcoN5ZXYXmme+j5VE3pI5nIIic=;
-        b=hMIn0sH8a1PockD/yVxT1eKDY3idEMXa7gjsjjD5iU4OViXRJV2lxnSvIM0IsUYqYY
-         uJ2WHwofBSxakUkv8aNRDa+JMv70LXkNZxI+r4HdYOw/00G6XmNEhSbUmkbT62Uykuq2
-         SxEy67u3CpITXgKDH+LedXFhqUiamLsOWsFCjLGX2KrtAsSFolPrWNhtYHZTgheELSK4
-         YCjip42WN9R53B2cfmND/UOXEnMEYnz1nW4f3Ese+8Ze1Kk7/1n1I1B9NrV8r80oE5pU
-         z4Au0ID1sRzRDPVp9A1e/KSIE+UUr2NhbvfkQfChJOvHj4nGry8dTIB+HCgetVgLQRdw
-         bOZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755619371; x=1756224171;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Kj9TiFvT8KXG2P2EfbcoN5ZXYXmme+j5VE3pI5nIIic=;
-        b=qWdafEGF5VB7oVLBCIU+Fb442v7DwYwU78WCXSBf7eyl9WeOc62rEIocqa4jegF1q5
-         0rz3NS1SWjkx4p8FdsxH+pPmsl9MFoD7RL6M2nSaDLTPgHv8zwR1ye0r6CPXlj1mydqa
-         zSvZsagHtYTCtCpQg/4j2USg6yvqa+m7Mu21Te+S5MC8L8i9wQS/YoD9I+lVnd6QVROf
-         g6yfYijvz+EjAwaZf5uD6kWKIPgMynOB6x0fc0lTA7kwjM7U9A9/G4YoCA6Nr1mGaX82
-         3C+u3z1OdFffSSbn1G6120PFOHczqiJbKFfc+8H1RtgNPT6zLyFNdEjiUiSpkbx6p6V0
-         jv0Q==
-X-Gm-Message-State: AOJu0Yzy+cfnN/5JO+hU514IgWk5kd3ssA1TxQEg1N+cmMFQuvBpIG4Q
-	T/81DL8lg4IYb3JykSMltEBRPWr9Zzx6GeqQdOTHYeJ++LQvKlxNZwH6e24O9MJ1
-X-Gm-Gg: ASbGncvIT6MLKIuzmpW0AyHgm9fE5b52Ov9yN/AImQYwoAWdq5ZlCsnV1fTyzGShzOH
-	x6NcWF4ErQlTHB/242N543GqRebpqV+Kn9RQmZkPPlq3jfKQYwJdAqHJfHMXuZUVuUj1kPWoYMC
-	XVRF2vFejCv+1a6tXg4j8jeeIryKfl0OHVsioVZkAuqYeL1Y6bfV/J6ZwRhmU0/FMzeSZhi1yH+
-	96SxcyKZ+iVtiF7Bk8WHM40e8PjqETtkmT9hdUDYeMxJkMxS1EtJCArPW+23qbOq7shV5PKpmHf
-	LiC4ATPvrqieFVpNT6Q/B94Ecj3f1o9O2S3I8ZUDEoBlhARp0ZnNU6MTLTvWXv95oeYuTC+9x1e
-	ua06A6F+iEoAGM1se2urarA==
-X-Google-Smtp-Source: AGHT+IEv9Il7Cw/pqFfARcDiiR7M84CxEzyJa2Dw2ekm7lUu7KoLAM7AoUCpqd88ufd15ZMvliaoKQ==
-X-Received: by 2002:a05:6a00:1988:b0:76c:44b5:4f62 with SMTP id d2e1a72fcca58-76e812cab1bmr3303058b3a.0.1755619371111;
-        Tue, 19 Aug 2025 09:02:51 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::adc2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e84756106sm1994899b3a.78.2025.08.19.09.02.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 09:02:47 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] strace: Fix uio test and ignore pwritev|pwrite64 tests on musl
-Date: Tue, 19 Aug 2025 09:02:44 -0700
-Message-ID: <20250819160244.1712340-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=piRZSpEF;
+ spf=pass (domain: siemens.com, ip: 52.101.72.9, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AufMgmrVP4RCH0tUTUjoZxv8CdAiVwVCUPrVdmpNyppdyZy1wDY1HmQWYYHRDD18M/KG59OpVggwOsHWOtRfIG/q+tYSpaEhhqmRQBLcxoeYr5K/SV9WqlNftjNSxGWgiwNCpDjzrvHW+RRzdjrRJoX33bd1BNH+yChaEBW2gjlF+S1XxAVVro+eNwonDCC1ZbISytUL+Eet2zHY6zT1jmcCDPzoV9lSTo7GzGdLEzHhC43ReTfzDOx+GMuNF+sIdtnSanhlWqYl6EQHXkmA08HRnd6YqFwSGS2WdSfPxSANHkye+JHug/lgHs0q0WqMeJhZwwsPji6zbQ/UkDLYSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BvnUOVb0JWwrBxFXWTJlil1Dma59hA21jAkhxGMyTdE=;
+ b=e1/u55ASbcIhEC8sVpVwxXGjhK3uMCAhwf7bhY5Fn1ZiQ4INJl0/xzV/xEzUzyq5ogMghjYkY3NDS2g0bQs2wVQjh7Nhkm8vkITasX7CeuvAON07j4rfIcPsENupxRL1zht3AmZliU9SyqK/2Y6tSsQoaHAHl51tuQdQVVczQ1289czG2ha33nbCMuZ655rHsJSFDH0OWWnvuORFggPOkgM07qBxSqf2tJobfS7BwLZfru71ZhIFfAJ4zY6lJPG4aWXXgMAu3oxu5o1XGl22iiyPoD+pb+B/Sr12meHNE3VCgW1RdXnM/ffdk14EkLA6aGaBwtmVCFte0UrzR4DxYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BvnUOVb0JWwrBxFXWTJlil1Dma59hA21jAkhxGMyTdE=;
+ b=piRZSpEFfd1d+SIK3xk1gN3uvFOUbPZfJcS+JMcEwDG+hTcA0llFeWq/wfHjfs2WUS3ydpuoOWjIT1KCG/nJMJY9+fVkRF5SIXvRszts8veMuPawEdqXmOwAVpeWtJMRiL5W8lef/agAWbqulSFTioj2Dj8J7pkK6tgrS1T4joL+DilRuzef/Gvd961NLEjmMMNTt2bc8qOn4jNoGBbnJMMp1zGD5DS9i1Mg2UE5s6fmJIQV32I2DWC7YenXLJbT7ty+bdk3FrMxRDhsAKKCeIF30sL9PNMZar6dxwcYnv01STgrZgKoKV3xBnaw8QSsRikDFaW3xwVfKHLRU3rQvQ==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by PAWPR10MB7913.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:35b::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Tue, 19 Aug
+ 2025 16:19:33 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
+ 16:19:33 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH] dpkg: set status for CVE-2025-6297
+Thread-Topic: [OE-core][PATCH] dpkg: set status for CVE-2025-6297
+Thread-Index: AQHcDgbkAyhHoquJ1ESCvQwitbdc67Rp9gIAgAA2npA=
+Date: Tue, 19 Aug 2025 16:19:32 +0000
+Message-ID: 
+ <AS1PR10MB5697BF898E03CB4B9A1AE739FD30A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20250815170517.12674-1-peter.marko@siemens.com>
+ <ECC125A2-DA09-44DD-8DB9-CB61F89A822B@arm.com>
+In-Reply-To: <ECC125A2-DA09-44DD-8DB9-CB61F89A822B@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=309744f9-0850-46b7-8b93-df83b89f334c;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-08-19T16:14:29Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PAWPR10MB7913:EE_
+x-ms-office365-filtering-correlation-id: 01cfb533-951a-4d13-0b0e-08dddf3c2eaf
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?U29uSDJxK0NuUVdnR0x5blZ3dzU5TnN2OXNaYmJISHZUWTlYcWw4cnkvQ2R6?=
+ =?utf-8?B?OEREbFRsS1RYWGU4VXJrSVMwV3pHSC90UGJLdjNWUVkxZElnMHV2b1QyNDcv?=
+ =?utf-8?B?SWRQU29LdmdMamlXTG9MSFBiTXFzcElwR094SDdYQVJSeExUVTlzcWJJSEMy?=
+ =?utf-8?B?ZGNzMnJRSlNoaHBzSk9hKzlrclllUzZqRjBVRzJzOFdmMFpQNUoxUEw2M2dV?=
+ =?utf-8?B?S1FleEhBQlRhbUxPQVBBcmpNZ3ZGT2hOYlpzWVJYdmpzaE9VNG1RWTdJRk4v?=
+ =?utf-8?B?K2RjY2cyTzczeEl2bFRJUFRlaksza0dyN0Vwa2V1ektrUFlHeTJCcC9CSDV3?=
+ =?utf-8?B?RUp3cWpIcld2Z0UxSkU2VWdpTm9QR0pKaEprK083L2JDSGFvZWxpSVRwVkIz?=
+ =?utf-8?B?bDB6dWtzK0lpTlMxSFpNeE55aWl1T21RWGhWaEVMOU1SYzFLUkZBK01paWsy?=
+ =?utf-8?B?K2ZudGhmTk1kb1VBbGMwOHpWSVlrbjMvVTBGQ29sY2tyQmg0Q0l0YXF5S2FD?=
+ =?utf-8?B?djJZR3VCbU92bUJ6TDc0aUhsN09ubUh1RlRvcVVjVlVFRU1uSE40VHBJMWs1?=
+ =?utf-8?B?eUxGdXpINWN4RjhzdkhOWHNPSEwzc0F5YWppZjB0S1F3aTZGajBST0FuaXFo?=
+ =?utf-8?B?bU1yVzZPUEdkQWJZb2s4bmpZaEwvSUlKQ09wdEJTRFZzTDRQTHNHbENKUWtQ?=
+ =?utf-8?B?RWcvekhTUjdodkFHZGZDM3hUbEpsMWVGZ1RERkJuUWVpRjZXSFZnZVBrUFZm?=
+ =?utf-8?B?WTNSKzI1NDdDUFdKeXdSWWF3ZDNIOURxc29aVjB6TXhCRHdmeTdhTVI5ekI3?=
+ =?utf-8?B?ZllXNXJ4TVRuczJXeGlST3dQeEQxd1UreFBZelZVdUdDZS9ZUXhsZHlNZkpS?=
+ =?utf-8?B?eVVNSjdiM09DVTlHMEZVa1BheE82UzNGYUJGNEpRQWVnTzNHd1dmdjcxZnBX?=
+ =?utf-8?B?Wmp4VzI0eHd0cHBRdmY2djk1TElGQndFOVFMOWRtelhGeEVkcytwbFEzSnFR?=
+ =?utf-8?B?R0J3Y242MUpRdzRuSEtKMVVZUGFJUGNGazUrT0x3UWRTKzFVQVZhaWlMOXEx?=
+ =?utf-8?B?dVNSbVhFWmVZMG1waTZFK09GcXNEbFZHNmhOd2V1SWhQbDlTMTBvSFFmZ2hv?=
+ =?utf-8?B?N2x5cjNLNE1NNTBYdzZ0UjZsSXVQNnc4bWlWUks2dVpJMkViTUllYU9QaEgr?=
+ =?utf-8?B?S1grT1cybGdMbHEzdngvelQwU2FtWVRWRU1xWU0rMUtMZXhkUFVNZFVzRFVO?=
+ =?utf-8?B?TU5PNVVJUjVWbVFhcWl6VjNhNGNWZGhDTmFpazREanVYQUk2YVovKzZTUVRM?=
+ =?utf-8?B?TjRyUjZ3azZod0JlSlR5L01haE1ZdnlXbWhHTHZYbnRPK2VTRTU3SUJ0UzEy?=
+ =?utf-8?B?UlJ3dmZ4QWNDbXhZOTlXZEphU3R1S2V1UlNWWWpJSTZ5WEFHaGx3VmFpMFJJ?=
+ =?utf-8?B?N01VdWJqdlZSWGh2NDFjd1M2MngyZURNT2swZ1VNYTMyTjlJT2ZHSVprRXh5?=
+ =?utf-8?B?SjNTV0w1TUpMOEw1Zldyd0ZqVHFRbzBtYWFkVDRIZ3NiSGZ1VWgwT0pUclhV?=
+ =?utf-8?B?bWZlenl0OTlQMlA1aXZGaktFdGpKQlhoZ0pkTXZkWkVRK3loT1RiTVBtL1FG?=
+ =?utf-8?B?dDBsSDNBcUZJOFRGWHB2WFkvZUhXaHltWEk2azF1UTMwZHo2Z1RnUnJVQVFM?=
+ =?utf-8?B?NFpjSFltWVpYaTJ1d2luK1B3U25mRVBxTXNNUjJtb291ci9uaTNVYldlVmNK?=
+ =?utf-8?B?cHhYWFNqMnNaZlBLVE56bGJOaXk4b2hUS1RGa2FZb3ZDN3BpZ1g1ZEkxazFC?=
+ =?utf-8?B?K2ZJTU10WlMwVllTck9EbHdUaTRETllFeFZMcjFxSUdQbmZIMGNrK1N4dmpo?=
+ =?utf-8?B?UnMwUkZTZkYyTzZyMnJEalRNVWcyUjZqWUVrSmN2QXk1L0Z0eG5URzNuTUow?=
+ =?utf-8?B?OW0yeXBEZVltSDRGWjhXZ29DVUlVTVRMWkR5MG9lbW9hQWx1dTVCam4yZXZN?=
+ =?utf-8?B?cGsxcU9lSHRRPT0=?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?MmZEUVJQQnB6UFhWNTVRdEppSmMrMU4xR1p4b2FRejdOc1FoaHNzaTNVemlx?=
+ =?utf-8?B?dEVlZ0VzNlZpNFhwTWdmV09EVWpGejhzV3N2Z2kxWVg4cTNQZUlMdk1IbVIv?=
+ =?utf-8?B?ZnhDVm96ZHNTSzlJZlB1N2RSRWZ6MkpURzhNRnFyT012N3Y0a2RQUXNjZHF2?=
+ =?utf-8?B?REEwUHdDVDJ3ZGpYTEhNeDVnV1VoTWF0ck9RZ2YwQThvQ2FSTmFtTjZkOHFF?=
+ =?utf-8?B?a3Z5WUhvZmRvdUsvNzV3VGc3cWFJWkdmc2FqaDV4eDZ0aElEc3pmazY5blpG?=
+ =?utf-8?B?L1NlSjY1a2prRWxjM3BvSFZra2NnTURCOU92THRTenhpRVlnaWFseUE3U2Vv?=
+ =?utf-8?B?a1hCdFVkNm5WeUlJYkQyWlZIY0k0UVByVkd0Z25vUTFQL2VJRGEyY3ZDdUNT?=
+ =?utf-8?B?WmRMMnA3bExsUjVFczhDbGQrMUtkSmMrWElZUTNOeUdaU3ZEbFlXNlhLZmlm?=
+ =?utf-8?B?L2VMZStobk1oUG1BS3hpbzl4RzFFTkVlYlN4S1pEN0luRW1Ibk4wY0hTb1FO?=
+ =?utf-8?B?NzZiZTk1NGhPdGlOZUhscm5tZWhLWE9CZlZ0c2JJcHNuWW9OUWJEWlVZRkVo?=
+ =?utf-8?B?TENsMG8rNzNVWUI3VUN3RXJSL2xqR2hLT1hOUzBmMnllYWQrMzBtdTNDMjBh?=
+ =?utf-8?B?WkpveU52ZE9DRlhOTDVIa2Z6dmkyZGpud3dVOGcyWVM0a2JibXpkSTRtcXIx?=
+ =?utf-8?B?K3FuNktyb0s2TE5QcnI2MWhvYlpXWVhWMUQ0bmVlOHpkUDh5NVVDNHBVNmtY?=
+ =?utf-8?B?V3VCRjJUWld0TFZzSVViOUYvaklKQWFrYlFSS3pyQ2J1Q3BTSW5HUE04dGps?=
+ =?utf-8?B?SlJWMHhtV25aVzB0d01sVzVEbHJ0TmZsbXZ0UnVtbFFSUFVSRmpRZXZlQ204?=
+ =?utf-8?B?TWhOUEFMMWdqTGtzTzlLZXFKK3B2R3RVdEZRd0FaNlowZGxhRkIrSlEvN3B6?=
+ =?utf-8?B?VTRWTCt1QVFPTGpEYkVSZHRQK21lSnFKVnB1bUVVWFU3MVRFMEIrNThuNmlD?=
+ =?utf-8?B?TVVreVRpSG0rZUNyeTRSc0pjQ0lweTZySExPL3lUaXI2UmlyRjVhSDBrT2wy?=
+ =?utf-8?B?WDlRSTNqeWtXQnNJUTZ0TkljeUViVjJYR1MrM0pNNk5ndmU4Mnovd1pGVkNX?=
+ =?utf-8?B?VXNiclU3MGtOdzcwSVNPV0JlbXRyQUNpblltZFlxSmlFcnoyb1ZkWFc3NndB?=
+ =?utf-8?B?ZEFVSWdvWTFIWXY1cHNzamlabnp2dzJ6bWhxRytIMDBrNGRHMWczeUZ4Z3Bw?=
+ =?utf-8?B?cDFYcEVnUTlHWmVGZldsSnZXQVYyWXVxV2FaS3U1NTlmcFRTb1grdExycFgz?=
+ =?utf-8?B?MzhjcWU3WGFtSmU5OUQxeGJHckhVWFdvVzR2YVdmMWxGMm9vem1FNkVCT0Vq?=
+ =?utf-8?B?YkZYQjJLOWRTWTdycWJHOGJoaGtSTDZTNjI1ajhRTzIvN0MyRGUxNXdOQm4y?=
+ =?utf-8?B?Ym1lWkxUU3NKTnJ5dFI1YXV5bmp4WGhYUXZUK3drQXZFb3h5WEx1RnV5cDR2?=
+ =?utf-8?B?RnBxMnJ3Zld6VDRGVFJ6NkZBbEk5a0RnMkNzR21FZ2R1dGRZVWlkN0NBaXBS?=
+ =?utf-8?B?MHBkK2xhRXVQaW14RUpGN2NSVWJZa0FCL3ZFemJzT2w1bjdhMHFFQlUrY0ty?=
+ =?utf-8?B?cFMzaUY3N1lCNmtNWm1NZFo4TXU5bHJKN2U3ak1SL29KYTJQVjVqOEF1WGNH?=
+ =?utf-8?B?VnJ3L1A4bDdIQWdoSE9WVHB2MERMRFJPWkFQdTQ1Q3ZsVVpOWUNuY0NJSWhH?=
+ =?utf-8?B?a3FDU09aL1hxREJrSTdaZ1FuUjYrcmRKNGUvRzd2OS81aWZ5L0Rpa3ZXT1hk?=
+ =?utf-8?B?ME9pR09HRTdONUhSMmZSWVVWVmNmWTJqQVpiK0cxeStKcGtvbGRFTFovaUMy?=
+ =?utf-8?B?SEVER2NyN1NDcDZ4dHpOaWJsRDUrcjJSa2IwRGZWNXVjTXVVaHVCQmMzQ1dq?=
+ =?utf-8?B?ZnRJMVJ4UEp0SGNsUmtlZXE0RnR2MWIwOGhTMzdYbXFLNjhqNXZIUVdRU0pm?=
+ =?utf-8?B?Rmc2T0gvOUZiUVRnQjhKdUp4enc0bUxsNm1Jb29CejFUWnNPZlZWZkdYZ3A5?=
+ =?utf-8?B?NFJvRG5tMTVmU282dWFvazk2S0hsMHAwdktlTHJEM1ErR1F0RlBsSFhEblN5?=
+ =?utf-8?Q?GMZ6Ao82DldoQiQJ4RG3u3/MX?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01cfb533-951a-4d13-0b0e-08dddf3c2eaf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2025 16:19:33.0132
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TN7OuPp09i/kV/ZRpC2AU22zqooRM2mh9+x4GmxfFkYzigNwyzg1L6SsSR+7Nk0A5JpWcq1ANeWjnC9ieBKYrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB7913
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 16:02:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222118
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 16:19:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222119
 
-The pwritev and pwrite64 are wrappers over pwritev2 syscall in
-musl but strace assumes glibc behavior, ignore them for now
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Add note about upstream issue
-
- ...gnore-pwritev-pwrite64-tests-on-musl.patch | 56 +++++++++++++++++++
- ...01-tests-fix-uio.test-with-musl-libc.patch | 30 ++++++++++
- meta/recipes-devtools/strace/strace_6.16.bb   |  4 ++
- 3 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
- create mode 100644 meta/recipes-devtools/strace/strace/0001-tests-fix-uio.test-with-musl-libc.patch
-
-diff --git a/meta/recipes-devtools/strace/strace/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch b/meta/recipes-devtools/strace/strace/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
-new file mode 100644
-index 00000000000..f21f68001f6
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
-@@ -0,0 +1,56 @@
-+From 13fd22ad0df5b80c428d3ecc0114fb340f3b3894 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 18 Aug 2025 22:18:58 -0700
-+Subject: [PATCH] Ignore pwritev/pwrite64 tests on musl
-+
-+musl uses wrappers for pwritev and pwrite64 using
-+pwritev2 syscall [1], however the test exepcts that the
-+program will call pwritev and pwrite64 ( glibc behavior )
-+
-+This can be fixed if the function calls are changed to
-+use syscall() API directly, but that needs change upstream [2]
-+
-+Issue is reported upstream [3]
-+
-+[1] https://git.musl-libc.org/cgit/musl/commit/src?id=5370070fded61b569196764673a4fc8440aac79e
-+[2] https://github.com/strace/strace/pull/347
-+[3] https://github.com/strace/strace/issues/349
-+
-+Upstream-Status: Inappropriate [Musl Specific]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ tests/pread64-pwrite64.gen.test | 2 ++
-+ tests/preadv-pwritev.gen.test   | 2 ++
-+ tests/pwritev.gen.test          | 2 ++
-+ 3 files changed, 6 insertions(+)
-+
-+--- a/tests/pread64-pwrite64.gen.test
-++++ b/tests/pread64-pwrite64.gen.test
-+@@ -1,4 +1,7 @@
-+ #!/bin/sh -efu
-+ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (pread64-pwrite64 -a21 -eread=0 -ewrite=1 -e trace=pread64,pwrite64 -P pread64-pwrite64-tmpfile -P /dev/zero -P /dev/null); do not edit.
-+ . "${srcdir=.}/init.sh"
-++
-++skip_ "Test not ported to musl, musl generates pwritev2"
-++
-+ run_strace_match_diff -a21 -eread=0 -ewrite=1 -e trace=pread64,pwrite64 -P pread64-pwrite64-tmpfile -P /dev/zero -P /dev/null
-+--- a/tests/preadv-pwritev.gen.test
-++++ b/tests/preadv-pwritev.gen.test
-+@@ -1,4 +1,7 @@
-+ #!/bin/sh -efu
-+ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (preadv-pwritev -a19 -eread=0 -ewrite=1 -e trace=preadv,pwritev); do not edit.
-+ . "${srcdir=.}/init.sh"
-++
-++skip_ "Test not ported to musl, musl generates pwritev2"
-++
-+ run_strace_match_diff -a19 -eread=0 -ewrite=1 -e trace=preadv,pwritev
-+--- a/tests/pwritev.gen.test
-++++ b/tests/pwritev.gen.test
-+@@ -1,4 +1,7 @@
-+ #!/bin/sh -efu
-+ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (pwritev -a22 -s7); do not edit.
-+ . "${srcdir=.}/init.sh"
-++
-++skip_ "Test not ported to musl, musl generates pwritev2"
-++
-+ run_strace_match_diff -a22 -s7
-diff --git a/meta/recipes-devtools/strace/strace/0001-tests-fix-uio.test-with-musl-libc.patch b/meta/recipes-devtools/strace/strace/0001-tests-fix-uio.test-with-musl-libc.patch
-new file mode 100644
-index 00000000000..a879ca50ca2
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-tests-fix-uio.test-with-musl-libc.patch
-@@ -0,0 +1,30 @@
-+From 7fadf6947761cc5248aa4a376bb9517481dbaa52 Mon Sep 17 00:00:00 2001
-+From: Gyorgy Sarvari <skandigraun@gmail.com>
-+Date: Tue, 12 Aug 2025 20:02:31 +0200
-+Subject: [PATCH] tests: fix uio.test with musl-libc
-+
-+musl-libc handles the pwrite calls differently than glibc, making
-+the uio test fail.  Using glibc, there are separated pwrite and pwritev
-+calls, however musl uses only pwritev2 for both pwrite and pwritev.
-+
-+To account to this difference, modify the expected matching regexp
-+to also match the musl output (append it with an OR).
-+
-+Upstream-Status: Backport [https://github.com/strace/strace/pull/347]
-+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ tests/uio.expected | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/tests/uio.expected b/tests/uio.expected
-+index 98d5c06..2a712a1 100644
-+--- a/tests/uio.expected
-++++ b/tests/uio.expected
-+@@ -1,4 +1,4 @@
-+ pread(64)?\(0, "\\0\\0\\0\\0", 4, 1004211379570065135\) += 4
-+ preadv\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4\}\], 1, 1004211379570065135\) += 4
-+-pwrite(64)?\(0, "\\0\\0\\0\\0", 4, 1004211379570065135\) += 4
-+-pwritev\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4\}\], 1, 1004211379570065135\) += 4
-++pwrite(64)?\(0, "\\0\\0\\0\\0", 4, 1004211379570065135\) += 4|pwritev2\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4}], 1, 1004211379570065135, RWF_NOAPPEND\) += 4
-++pwritev\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4\}\], 1, 1004211379570065135\) += 4|pwritev2\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4}], 1, 1004211379570065135, RWF_NOAPPEND\) += 4
-diff --git a/meta/recipes-devtools/strace/strace_6.16.bb b/meta/recipes-devtools/strace/strace_6.16.bb
-index 3e6b855df06..0552caa2b6d 100644
---- a/meta/recipes-devtools/strace/strace_6.16.bb
-+++ b/meta/recipes-devtools/strace/strace_6.16.bb
-@@ -14,6 +14,10 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
-            file://skip-load.patch \
-            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
-            file://0002-tests-Replace-off64_t-with-off_t.patch \
-+           file://0001-tests-fix-uio.test-with-musl-libc.patch \
-+           "
-+SRC_URI:append:libc-musl = "\
-+           file://0001-Ignore-pwritev-pwrite64-tests-on-musl.patch \
-            "
- SRC_URI[sha256sum] = "3d7aee7e4f044b2f67f3d51a8a76eda18076e9fb2774de54ac351d777d4ebffa"
- 
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUm9zcyBCdXJ0b24gPFJv
+c3MuQnVydG9uQGFybS5jb20+DQo+IFNlbnQ6IFR1ZXNkYXksIEF1Z3VzdCAxOSwgMjAyNSAxNDo1
+OQ0KPiBUbzogTWFya28sIFBldGVyIChGVCBEIEVVIFNLIEJGUzEpIDxQZXRlci5NYXJrb0BzaWVt
+ZW5zLmNvbT4NCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXVtQQVRDSF0gZHBrZzogc2V0IHN0YXR1cyBmb3IgQ1ZF
+LTIwMjUtNjI5Nw0KPiANCj4gT24gMTUgQXVnIDIwMjUsIGF0IDE4OjA1LCBQZXRlciBNYXJrbyB2
+aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA8cGV0ZXIubWFya289c2llbWVucy5jb21AbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+ID4gTlZEIHRyYWNrcyB0aGlzIENWRSBhcyAi
+VXAgdG8gKGV4Y2x1ZGluZykgMjAyNS0wNi0zMCINCj4gPiAod2hpY2ggaXMgZml4IGNvbW1pdCBk
+YXRlLCBub3QgZHBrZyB2ZXJzaW9uKQ0KPiANCj4gSGF2ZSB5b3UgdG9sZCB0aGUgTlZEIENQRSBt
+YWludGFpbmVycyBhYm91dCB0aGlzPyBJbiBteSBleHBlcmllbmNlIHRoZXnigJl2ZQ0KPiBiZWVu
+IHF1aXRlIGdvb2QgYXQgdXBkYXRpbmcgQ1BFcyBsaWtlIHRoaXMuDQo+IA0KDQpObywgSSdtIG5v
+dCBjb21mb3J0YWJsZSBjb21tdW5pY2F0aW5nIHdpdGggTlZELg0KDQpQZXRlcg0KDQo+IFJvc3MN
+Cg==
 
