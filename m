@@ -2,62 +2,62 @@ Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51ABCCA0EE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F7AFCA0EFD
 	for <webhook@archiver.kernel.org>; Tue, 19 Aug 2025 03:35:50 +0000 (UTC)
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
- by mx.groups.io with SMTP id smtpd.web10.5631.1755574542730048094
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.web11.5647.1755574545861835077
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Aug 2025 20:35:44 -0700
+ Mon, 18 Aug 2025 20:35:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Ih97ArLn;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: liuyd.fnst@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=RC3olMT3;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: liuyd.fnst@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
   t=1755574545; x=1787110545;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=xt3P46mMEeaTwPdtZCz+IyJCzwNK1HeYcCiFMKcqDVw=;
-  b=Ih97ArLnMEOsz0zJ/bukO19bLCYnSlViFqzWPQ3YN8rzfd2/REovuIoW
-   pR5YtC16UqHBtJzGVyJJQ1pcaEs0HYf7EuvnAqUeyBFVqjttYhy6vyVyr
-   xq/Sc0eAfDtR22eKzCKJE2VV0MsEcPgubrJ4hKDyDMtQi8kif9aoTjTfL
-   Bj+qfu0TJBFVAa0cs3dSdEuL8gN5/zFStvKIcJbk9PlO/+e2Ztwp7GpUB
-   LOw97bW9XX4r0fbfP9neMe1Sf9GgSILabP8nId1COkMxGEXAuTA8f7lm8
-   GY6qQvWOu7xtQB4PKA/vK0xw3Frs200Ip1ecJ54YZ/KM5V1lfpykIbn7Z
-   Q==;
-X-CSE-ConnectionGUID: 9KiVTPuXS3yAyuQbA6mbVg==
-X-CSE-MsgGUID: PtK5WlAST0CRpJIgE4G/Ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="209708783"
+  bh=//LdsEWT3YTKfyku25yW/5dUzXckxnKRHrWGgGPKQQw=;
+  b=RC3olMT3jLrdL0ly9zmIc7pejOB5B0lzLQdjo+NyGi6oR/R8R2Qvqb71
+   RdtZPS4CUT/GwKJk+eYwRME5pxLvN827MLCUKHIB9Q1Vnwi/AG5raxOBa
+   +PJmsOxEuSQBF311tlJtYeQR1zbEpETpw8ZHic1avGEStX6kqCpw9szSv
+   b5+Uw/FP66eLd8aZ5gcRZdYOFFKTzgOTDOLZBsdw+uYyU34HNEp3ImRpf
+   AZZbN0VBFKFVVEbD7zFhoZIuwbikWzfrhezbyfhGWRH6L4YH8laWxG7YN
+   YGZn2jW3W/xDfzZ+gPC5tDHe8NIPU9tQITic96Twl906gvtIIYZ6LsMMf
+   g==;
+X-CSE-ConnectionGUID: d9MEhk+tTBGaZautUpCwbg==
+X-CSE-MsgGUID: 0DdIpq2BQR69iD9eSK4hCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="210229224"
 X-IronPort-AV: E=Sophos;i="6.17,300,1747666800"; 
-   d="scan'208";a="209708783"
-Received: from unknown (HELO az2nlsmgr3.o.css.fujitsu.com) ([51.138.80.169])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 12:35:43 +0900
-Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
+   d="scan'208";a="210229224"
+Received: from unknown (HELO az2uksmgr4.o.css.fujitsu.com) ([52.151.125.19])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 12:35:44 +0900
+Received: from az2uksmgm4.o.css.fujitsu.com (unknown [10.151.22.201])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 427891000341
+	by az2uksmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id 05044C000B2
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:44 +0000 (UTC)
+Received: from az2uksmom4.o.css.fujitsu.com (az2uksmom4.o.css.fujitsu.com [10.151.22.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm4.o.css.fujitsu.com (Postfix) with ESMTPS id B92FA140123E
 	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:43 +0000 (UTC)
-Received: from az2nlsmom2.o.css.fujitsu.com (az2nlsmom2.o.css.fujitsu.com [10.150.26.200])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id F0A39C021E7
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:42 +0000 (UTC)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by az2nlsmom2.o.css.fujitsu.com (Postfix) with ESMTPS id D56F81800B16
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:40 +0000 (UTC)
+	by az2uksmom4.o.css.fujitsu.com (Postfix) with ESMTPS id BD19D405522
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:41 +0000 (UTC)
 Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 292521A008A;
-	Tue, 19 Aug 2025 11:35:37 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 4C0CB1A006C;
+	Tue, 19 Aug 2025 11:35:38 +0800 (CST)
 From: Liu Yiding <liuyd.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Liu Yiding <liuyd.fnst@fujitsu.com>
-Subject: [OE-core] [PATCH 07/11] gstreamer1.0-plugins-base: upgrade 1.26.3 -> 1.26.5
-Date: Tue, 19 Aug 2025 11:34:28 +0800
-Message-ID: <20250819033433.390-7-liuyd.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH 09/11] gstreamer1.0-plugins-bad: upgrade 1.26.3 -> 1.26.5
+Date: Tue, 19 Aug 2025 11:34:30 +0800
+Message-ID: <20250819033433.390-9-liuyd.fnst@fujitsu.com>
 X-Mailer: git-send-email 2.49.0.windows.1
 In-Reply-To: <20250819033433.390-1-liuyd.fnst@fujitsu.com>
 References: <20250819033433.390-1-liuyd.fnst@fujitsu.com>
@@ -67,78 +67,101 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Aug 2025 03:35:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222067
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222070
 
 Changelog:
-=================
-- audioconvert: Fix regression when using a mix matrix
-- audioconvert: mix-matrix causes caps negotiation failure
-- decodebin3: Don't error on an incoming ONVIF metadata stream
-- gloverlay: Recompute geometry when caps change, and load texture after stopping and starting again
-- uridecodebin3: Add missing locking and NULL checks when adding URIs to messages
-- uridecodebin3: segfault in update_message_with_uri() if no decoder available
-- videorate, imagefreeze: add support for JPEG XS
-- gst-device-monitor-1.0: Add shell quoting for launch lines
-- gst-device-monitor-1.0: Fix criticals, and also accept utf8 in launch lines
-- gst-device-monitor-1.0: Use gst_print instead of g_print
+===========
+- av1parse: Don't error out on "currently" undefined seq-level indices
+- av1parse: fails to parse AV1 bitstreams generated by FFmpeg using the av1_nvenc hardware encoder
+- d3d12screencapturedevice: Avoid false device removal on monitor reconfiguration
+- d3d12screencapturesrc: Fix OS handle leaks/random crash in WGC mode
+- meson: d3d12: Add support for MinGW DirectXMath package
+- va: Re-negotiate after FLUSH
+- vaXXXenc: calculate latency with corrected framerate
+- vaXXXenc: fix potential race condition
+- vkphysicaldevice: enable sampler ycbcr conversion, synchronization2 and timeline semaphore features
+- vulkan: ycbcr conversion extension got promoted in 1.1.0
+- wasapi2: Port to IMMDevice based device selection
 
-Refer to release note, no changes this time
+Release note:
 https://gstreamer.freedesktop.org/releases/1.26/#1.26.5
 
 Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
- ...001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch | 2 +-
- .../0002-ssaparse-enhance-SSA-text-lines-parsing.patch          | 2 +-
- .../0003-viv-fb-Make-sure-config.h-is-included.patch            | 2 +-
- ...ugins-base_1.26.3.bb => gstreamer1.0-plugins-base_1.26.5.bb} | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.26.3.bb => gstreamer1.0-plugins-base_1.26.5.bb} (98%)
+ ...x-maybe-uninitialized-warnings-when-compiling-with.patch | 6 +++---
+ .../0002-avoid-including-sys-poll.h-directly.patch          | 4 ++--
+ ...encv-resolve-missing-opencv-data-dir-in-yocto-buil.patch | 2 +-
+ ...ins-bad_1.26.3.bb => gstreamer1.0-plugins-bad_1.26.5.bb} | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.26.3.bb => gstreamer1.0-plugins-bad_1.26.5.bb} (98%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-index 7373bd3e26..719c73d3e3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
+index 4dd9febbf6..307d669645 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
 @@ -1,4 +1,4 @@
--From bd1436f0027bb09cdcf90386910a497422d9a871 Mon Sep 17 00:00:00 2001
-+From a37f0063103e98f5109132ea302b919b92e26a38 Mon Sep 17 00:00:00 2001
- From: zhouming <b42586@freescale.com>
- Date: Wed, 14 May 2014 10:16:20 +0800
- Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-index fc9ad474d9..bf1e2a89e3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-@@ -1,4 +1,4 @@
--From 1cc876662b7707eb5a2f668654f7921b5642e108 Mon Sep 17 00:00:00 2001
-+From f892f0be8ae88acc6482f4b9a9a4db5f03b7adf8 Mon Sep 17 00:00:00 2001
- From: Mingke Wang <mingke.wang@freescale.com>
- Date: Thu, 19 Mar 2015 14:17:10 +0800
- Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-index 06b5bc41ed..1a988b99de 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-@@ -1,4 +1,4 @@
--From c0c6944eca0c497477aa9f2cec2c83c4ea7a70e5 Mon Sep 17 00:00:00 2001
-+From 6f06f4b2f13f028250189225a46a39f402428930 Mon Sep 17 00:00:00 2001
- From: Carlos Rafael Giani <crg7475@mailbox.org>
- Date: Tue, 21 May 2019 14:01:11 +0200
- Subject: [PATCH] viv-fb: Make sure config.h is included
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.5.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.3.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.5.bb
-index 74eb1360f6..f12d81cda9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.26.5.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "4ef9f9ef09025308ce220e2dd22a89e4c992d8ca71b968e3c70af0634ec27933"
-+SRC_URI[sha256sum] = "f0c0e26cbedaa57732cb6a578e8cc13a1164bf18d737d55c333061c52f0c48d7"
+-From 9456674cea4a933d5fbc24230d307fe0f52588f3 Mon Sep 17 00:00:00 2001
++From d24bb949e547a0ad69f3f47e4cf262a75bb9fe73 Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Tue, 26 Jan 2016 15:16:01 -0800
+ Subject: [PATCH] fix maybe-uninitialized warnings when compiling with -Os
+@@ -11,10 +11,10 @@ Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- S = "${UNPACKDIR}/gst-plugins-base-${PV}"
+ diff --git a/gst-libs/gst/codecparsers/gstvc1parser.c b/gst-libs/gst/codecparsers/gstvc1parser.c
+-index f9af175..6661e2e 100644
++index ac8c378..3fc5298 100644
+ --- a/gst-libs/gst/codecparsers/gstvc1parser.c
+ +++ b/gst-libs/gst/codecparsers/gstvc1parser.c
+-@@ -1730,7 +1730,7 @@ gst_vc1_parse_sequence_layer (const guint8 * data, gsize size,
++@@ -1732,7 +1732,7 @@ gst_vc1_parse_sequence_layer (const guint8 * data, gsize size,
+      GstVC1SeqLayer * seqlayer)
+  {
+    guint32 tmp;
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
+index e6ae7f4bfe..7da8994e3d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
+@@ -1,4 +1,4 @@
+-From dd2b92fb70fed2799809c423fea79221a3e17108 Mon Sep 17 00:00:00 2001
++From 728238129a8a91cad857023d2e7131591321409d Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Wed, 3 Feb 2016 18:05:41 -0800
+ Subject: [PATCH] avoid including <sys/poll.h> directly
+@@ -13,7 +13,7 @@ Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/sys/dvb/gstdvbsrc.c b/sys/dvb/gstdvbsrc.c
+-index 33ee3ff..b8ddea9 100644
++index ef565f7..6254420 100644
+ --- a/sys/dvb/gstdvbsrc.c
+ +++ b/sys/dvb/gstdvbsrc.c
+ @@ -98,7 +98,7 @@
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
+index d49cf5bd89..1edcf07c14 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
+@@ -1,4 +1,4 @@
+-From 11a08e3f3135b649b68714c77670c37559f3a33c Mon Sep 17 00:00:00 2001
++From 8f7a1c5591e27681f294ae5edf0f32689198abff Mon Sep 17 00:00:00 2001
+ From: Andrey Zhizhikin <andrey.z@gmail.com>
+ Date: Mon, 27 Jan 2020 10:22:35 +0000
+ Subject: [PATCH] opencv: resolve missing opencv data dir in yocto build
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.5.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.5.bb
+index 12992057e7..c1d416c2bc 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.26.5.bb
+@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0002-avoid-including-sys-poll.h-directly.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+            "
+-SRC_URI[sha256sum] = "95c48dacaf14276f4e595f4cbca94b3cfebfc22285e765e2aa56d0a7275d7561"
++SRC_URI[sha256sum] = "9890f262f3b2a9564dcb629e9eb697d77b93d1f71897eda1a8170b7dcfe73294"
+ 
+ S = "${UNPACKDIR}/gst-plugins-bad-${PV}"
  
 -- 
 2.43.0
