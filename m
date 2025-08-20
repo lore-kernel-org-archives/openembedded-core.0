@@ -1,134 +1,183 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE79CA0EE4
-	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 17:17:54 +0000 (UTC)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
- by mx.groups.io with SMTP id smtpd.web11.2838.1755710269216416755
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5DD8CA0EE4
+	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 18:06:14 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.web11.4038.1755713163194757592
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Aug 2025 10:17:49 -0700
+ Wed, 20 Aug 2025 11:06:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HMNuQpgu;
- spf=pass (domain: gmail.com, ip: 209.85.219.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e95026b33eeso330759276.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 10:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755710268; x=1756315068; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jqiIwdEMsn3N+9/gjBOTfsHXkYAQhcaHKflIGFlShWY=;
-        b=HMNuQpguQZALsPWWQEAqeW7tNVD0hXr0lJnnxrzzYmTzjgcTqObC6Know48eXmjxx1
-         n22lJoFaLUQEvtw9u1rqX5WKw4fKYLxsNX9bqNCv7M+y+RxECu1UOLT/BM4EWbN2zfH8
-         s/grihHOu1HMnH9uz5QNFRaz0pMr7Fp86Ajwl+ZiTh4pwGE4Aw3JSoieZ1VGRBVXkSgb
-         6g4fLOawGvOyJcRZVfaAx1m6rqbqTInKhTsz+n9NVNWEz4QYpxLWgs4Scw2pPIUv8CqT
-         BKdSUc0fwnYGJQlRE1cOxO3k13eQ4/IyZDZZluO5rdIsnsfGJjiz5/y85na8sJCgKVh1
-         0Igw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755710268; x=1756315068;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jqiIwdEMsn3N+9/gjBOTfsHXkYAQhcaHKflIGFlShWY=;
-        b=kBX9zjrrpT9K1dbhJ5ia+JD6rtDTb8bORskGyDyZ7W/47IaTz+DkBn604CDVXRMCI/
-         /544tsh3EYZCAXlKHXFX7HZ/v9m2LTtxh3TCT03l8wsDLyip2oRRdrDYfyF6O5XiOTLS
-         pbE1IvCtRV0hIjolhlkIE8CYW8s66D6OTP5fdyIjN8fkJLm3+G+N6VmqlFSKRzI5vAvq
-         JsnXAy3d0dKVJlLVtdCKxkYZ6Qz6LaXOLTtcZJ7NzZDKWOZgi+HLjj2HJzjvZTq51ps0
-         KaEwMP4hURCavS8B/MphWVJAYxRgtkIpHzyGErdziiKURP8bCqE1SOlMHQF1twNHc5FP
-         PHdg==
-X-Gm-Message-State: AOJu0YwW9GzeHMhiCK6nJmo+tg6xppw508UFhjkU4L39rNdKdcUPZiKW
-	PhSKkrmAjgHs4kRd44QmrO3pqjAnIok7DtfUqgB+Ltl1gBAzFBxwKJVwGxi8t5QZr2QiHINb9ns
-	U9X+DhlvHF/Yzg9wRKCwJWl0axveGiYr0z/WK
-X-Gm-Gg: ASbGncvhqshVp5hmQhSOWG2Gl7gitrNDB2wBVOmIRR8NYhHZO1halr04eW1Y3ADDyai
-	f0pQkB8oHreHXbKkNvI8sSErK2jzKtbwKnFuJIzHNluzuSMe0SMVzfRVH9e1Dd+1+FAFRhfzH5p
-	6elEayIgGesK4mO8HeMjyVn5/K9iwry1mQrr5f8lK7Od7Gl0cOBP3yyn8x2pBVcmkFexsU9dopi
-	/oaNz7Quj8xOoxr6vyhtgUy2enp5vhogM3g
-X-Google-Smtp-Source: AGHT+IELmXxZODRYIJ8SAyx2NNY81PSLEGdOs2nLfO39EToHuXjE92Fcd3GwOFihLa4YOF3JLQiWftTaUGtLY0+Po+c=
-X-Received: by 2002:a05:6902:841:b0:e94:d1d0:7b29 with SMTP id
- 3f1490d57ef6-e95048f9e6dmr452993276.20.1755710268178; Wed, 20 Aug 2025
- 10:17:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250820132929.2644708-1-ross.burton@arm.com>
-In-Reply-To: <20250820132929.2644708-1-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 20 Aug 2025 10:17:20 -0700
-X-Gm-Features: Ac12FXzKkCZ006TBKbZXPb7Nr42Y7h2ha8IEZ5SeVN7Zq2n2b6a7NGNakcBg7V4
-Message-ID: <CAMKF1so0oZt04POpvabf3k1J0WNk_7eRW1wYQ5uwt4xOT61X2Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] spirv-llvm-translator: small recipe cleanup
-To: ross.burton@arm.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=Js8SVu8A;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 8C29F4E40C24
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 18:06:01 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4A676606A0;
+	Wed, 20 Aug 2025 18:06:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D2A7C1C22C87E;
+	Wed, 20 Aug 2025 20:05:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1755713160; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=6NYiQDCl0LU8JAM4LtZKWFNTuSMmoI/5uUV+FwPENyE=;
+	b=Js8SVu8A2A/vUANnAv00EGcKGZeNgalvoxt91xFKNbo8ysq3Z8NLrj9lU98YdmDYCNfWEA
+	Uj5cJVowOVcB7j8xifKDOYZbS7m7KaC1TLNWUAeRjBxHTKC4rfBRaW3gwLRWrgv1Bd3N/C
+	VBEqwcxO4ODADqGI7AzZxg1Uf9lMSGmcq8FlYpJB//f2n4sVCkTVcFlBd7b9vdK71IcmEP
+	27Bs+O6qeGZ9UPCkZPKesfRN5Cks+V0XqYB8H345ehIOPNxAlQ8x5qCzhD4hThRl1BRlPy
+	/qjtq2R9Kjx6Zem6JO47dTE3KRKCLJWvYCr/7xeYQbyRFFwFqOUjIcHCXCGxqw==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 20 Aug 2025 20:05:56 +0200
+Message-Id: <DC7GDD8QCOBP.3INL9UNR70EB0@bootlin.com>
+Subject: Re: [OE-core] [PATCH 3/3] m4: Fix ptest on musl
+Cc: "Ross Burton" <ross.burton@arm.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <raj.khem@gmail.com>, "Marko, Peter" <Peter.Marko@siemens.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250819010128.3519760-1-raj.khem@gmail.com>
+ <20250819010128.3519760-3-raj.khem@gmail.com>
+ <DC71FJJ2QC94.35CLO3OBAN1BF@bootlin.com>
+ <CAMKF1sqTdHQrCUYK3dGGzi+=mGZBogaR1TD2r+zMSkJWz3vWUg@mail.gmail.com>
+ <DC77JFI2499F.1BTYUM51QCASE@bootlin.com>
+ <CAMKF1spYCYK3PJ-Keauh1Z3n7i6xq1TUJMfSbCB_Gu9S_80FbQ@mail.gmail.com>
+ <AS1PR10MB5697C7D8E470853393F57036FD33A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM> <CAMKF1so-QpbXt39GbXJXsfhBWoeH8yAJ-Ub8HExrx5Ze2wwu9Q@mail.gmail.com>
+In-Reply-To: <CAMKF1so-QpbXt39GbXJXsfhBWoeH8yAJ-Ub8HExrx5Ze2wwu9Q@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 17:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222193
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 18:06:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222194
 
-On Wed, Aug 20, 2025 at 6:29=E2=80=AFAM Ross Burton via lists.openembedded.=
-org
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
+On Wed Aug 20, 2025 at 5:24 PM CEST, Khem Raj via lists.openembedded.org wr=
+ote:
+> On Wed, Aug 20, 2025 at 7:40=E2=80=AFAM Marko, Peter <Peter.Marko@siemens=
+.com> wrote:
+>>
+>>
+>>
+>> > -----Original Message-----
+>> > From: Khem Raj <raj.khem@gmail.com>
+>> > Sent: Wednesday, August 20, 2025 16:33
+>> > To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>; Marko, =
+Peter
+>> > (FT D EU SK BFS1) <Peter.Marko@siemens.com>; Ross Burton
+>> > <ross.burton@arm.com>
+>> > Cc: openembedded-core@lists.openembedded.org
+>> > Subject: Re: [OE-core] [PATCH 3/3] m4: Fix ptest on musl
+>> >
+>> > On Wed, Aug 20, 2025 at 4:10=E2=80=AFAM Mathieu Dubois-Briand
+>> > <mathieu.dubois-briand@bootlin.com> wrote:
+>> > >
+>> > > On Wed Aug 20, 2025 at 9:15 AM CEST, Khem Raj wrote:
+>> > > > On Tue, Aug 19, 2025 at 11:23=E2=80=AFPM Mathieu Dubois-Briand
+>> > > > <mathieu.dubois-briand@bootlin.com> wrote:
+>> > > >>
+>> > > >> On Tue Aug 19, 2025 at 3:01 AM CEST, Khem Raj via
+>> > lists.openembedded.org wrote:
+>> > > >> > Fixes
+>> > > >> > ../../sources/m4-1.4.20/tests/test-c32ispunct.c:261: assertion =
+'is =3D=3D 0' failed
+>> > > >> > ./test-c32ispunct.sh: line 36:   402 Aborted
+>> > > >> > (core dumped) LC_ALL=3D"$testlocale" ${CHECKER} ./test-
+>> > c32ispunct${EXEEXT} 3
+>> > > >> >
+>> > > >> > FAIL: test-c32ispunct.sh
+>> > > >> >
+>> > > >> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > > >> > ---
+>> > > >>
+>> > > >> Hi Khem,
+>> > > >>
+>> > > >> Thanks for your patch.
+>> > > >>
+>> > > >> It looks like this is breaking tests, specifically on qemuriscv64=
+:
+>> > > >>
+>> > > >> Traceback (most recent call last):
+>> > > >>   File "/srv/pokybuild/yocto-
+>> > worker/qemuriscv64/build/meta/lib/oeqa/sdk/cases/maturin.py", line 25,=
+ in
+>> > test_maturin_list_python
+>> > > >>     output =3D self._run("maturin list-python")
+>> > > >>              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>> > > >>   File "/srv/pokybuild/yocto-
+>> > worker/qemuriscv64/build/meta/lib/oeqa/sdk/case.py", line 17, in _run
+>> > > >>     return subprocess.check_output(". %s > /dev/null; %s;" % \
+>> > > >>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>> > > >>   File "/usr/lib/python3.12/subprocess.py", line 466, in check_ou=
+tput
+>> > > >>     return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, chec=
+k=3DTrue,
+>> > > >>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^
+>> > > >>   File "/usr/lib/python3.12/subprocess.py", line 571, in run
+>> > > >>     raise CalledProcessError(retcode, process.args,
+>> > > >> oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '.
+>> > /srv/pokybuild/yocto-worker/qemuriscv64/build/build/tmp/work/qemuriscv=
+64-poky-
+>> > linux/core-image-minimal/1.0/testsdkext/environment-setup-riscv64imafd=
+c-poky-
+>> > linux > /dev/null; maturin list-python;' died with <Signals.SIGSEGV: 1=
+1>.
+>> > > >>
+>> > > >
+>> > > > seems quite unrelated, I wonder if its finding some other bug
+>> > >
+>> > > Yes, I can't understand what happens here :(
+>> > > Yet this commit always triggers the failure.
+>> > >
+>> >
+>> > Looking at logs there is some more info  immediately after what you
+>> > posted above that is interesting
+>> >
+>> > Stdout:
+>> > Trying to install python3-maturin-native...
+>> >
+>> > its running lib/oeqa/sdk/cases/maturin.py and
+>> > it seems it needs python3-maturin-native in sstate cache and I wonder
+>> > if it's missing because m4/m4-native dependency will rebuild
+>> > python3-maturin-native or something is racing with it.
+>> >
+>> > There was a similar problem in recent past and a related fix was commi=
+tted
+>> > https://git.yoctoproject.org/poky/commit/?id=3D2239c2c91ab35c67ccd95af=
+e0573500
+>> > 37f7d0e59
+>> >
+>> > I now wonder if the test is exited when it does not find
+>> > python3-maturin-native correctly or not.
+>>
+>> The fact that maturin test is executed means that it was installed succe=
+ssfully, so code in mentioned commit was not active.
+>> Also segmentation fault suggests that the binary is installed, it just d=
+oes not work correctly.
 >
-> - There is no need for python3native, as this recipe doesn't depend on
->   other python modules.
+> Seems so, I would have expected SkipTest to execute if the install
+> failed. so it seems to be installed fine, but segfaulting on run
+> seems unrelated to above change which is modifying a testcase source
+> file in m4, its not changing anything even in m4,  there
+> was a possibility that modified m4-native is indirectly injecting some
+> bug into maturin but thats unlikely.
 >
-> - Inherit lib_package so the llvm-spirv binary is in a separate package
->   to the libLLVMSPIRVLib.so library.
+> maybe run a build with just this single patch applied on top of the
+> master branch.
 >
-> - Remove obsolete CMake options that no longer appear to be required.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  .../spir/spirv-llvm-translator_20.1.4.bb               | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
->
-> diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb b=
-/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> index 64a73ce55aa..3a090b7b5cb 100644
-> --- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> +++ b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> @@ -15,18 +15,10 @@ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+=
-)"
->
->  DEPENDS =3D "llvm spirv-tools spirv-headers"
->
-> -inherit cmake pkgconfig python3native
-> +inherit cmake pkgconfig lib_package
->
-> -# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
-> -# for CMAKE_SHARED_LIBS=3DOFF see https://github.com/KhronosGroup/SPIRV-=
-LLVM-Translator/issues/1868
->  EXTRA_OECMAKE =3D "\
->      -DBUILD_SHARED_LIBS=3DON \
-> -    -DCMAKE_BUILD_TYPE=3DRelease \
 
-Is Release already the default ? Usually this option reduces the debug
-info size, which may not matter
-for this but would be good to know.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/368
 
-Other changes look fine.
+Also failing :(
 
-> -    -DCMAKE_POSITION_INDEPENDENT_CODE=3DON \
-> -    -DCMAKE_SKIP_RPATH=3DON \
-> -    -DLLVM_EXTERNAL_LIT=3Dlit \
-> -    -DLLVM_INCLUDE_TESTS=3DON \
-> -    -Wno-dev \
->      -DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=3D${STAGING_INCDIR}/.. \
->  "
->
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#222179): https://lists.openembedded.org/g/openembedde=
-d-core/message/222179
-> Mute This Topic: https://lists.openembedded.org/mt/114799103/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
