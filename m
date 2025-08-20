@@ -1,216 +1,113 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <a-christidis@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A04B7CA0EDC
-	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 20:49:34 +0000 (UTC)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
- by mx.groups.io with SMTP id smtpd.web11.500.1755722970559472933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28050CA0EDC
+	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 22:09:15 +0000 (UTC)
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by mx.groups.io with SMTP id smtpd.web11.2273.1755727748470739071
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Aug 2025 13:49:30 -0700
+ Wed, 20 Aug 2025 15:09:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jt5RPVZb;
- spf=pass (domain: gmail.com, ip: 209.85.219.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e94f7232b30so347011276.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 13:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755722970; x=1756327770; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PqFH1eIv8EH2hHsVAgJKXxHeeKT5pqwuzf6Exb89x7c=;
-        b=jt5RPVZb0vzt+89fuSvRnhJWsw9hKZwszI8TGuOlGTGwqtZBy1QRLdK0vXCgkqoE30
-         sGbF2KB6SOyQWyXE5AwnK1MLWkKnXdtXDVtkWNGTC06De0QgoVo9w9NxufXGkWkHylyr
-         XfoDlL2fwPWYJAp3cwqz3RF7Llo9qg1jWd5lf9E3FJqGEsoGNMdAqag1QVwkrHHnWR7X
-         ecaCBVlcsPE9L1W74u40lEvZknRYJzRxhtPZ4PjHPDcrNSiygRNy4osNZYLxGTD10oxT
-         Wk2Ju840IAyuwhYP78j2dThA8hT6lTT5fwVkmV2nkmyhf+mMxFsfwfsee9Cuifxj8lRe
-         9kUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755722970; x=1756327770;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PqFH1eIv8EH2hHsVAgJKXxHeeKT5pqwuzf6Exb89x7c=;
-        b=vswRaEcNmlNwqiKvgehdJUAAHU8KDgcZPCBs0RucKn/qftQ0YIPX1l/1p9rz/++54G
-         WcO6+J1axf/F675ebFLEmhhIdJ2hX4/soeLYIluv2i2u3AspM13mP4UEgFcDRG7/VgA3
-         s4ACXmHrRuU8RPtfZ9F6bGxLLBUYg2b9asqKkMobhZmGOwZ5mUFxA/xt0ivyX+D6TMS4
-         ZgDKx3m6U9zj7rHkrc527XmaeZOz32gSUCwT7YBHfCU/BMKdv15CwZGtg4Zvf7/iN9MN
-         UWpgNw/csYzbJwiILKrEsM2lcgQKi9hWQB6WZE3ofutRVD4y6eb1HX/UhSaWvfm/O3f2
-         7bOg==
-X-Gm-Message-State: AOJu0YwYgZ/a+KVHFEFW33KeMv12ahGSkmoYGOc+iVjDTluHyafDEXCt
-	KCtLjnrJDWemkVbqxx9RkHM4LrrvwWdbD9FTv5alOSUkr29saxYGJS5HX0R9FYZZHoscdTIGyF4
-	JtoPVVYQm33ofjszh8rKgpmWfti22YTDn+3dR
-X-Gm-Gg: ASbGncv8ermf7GwL/m22KgEXpvmaSikTBwJRss+neSJqK/UkUfz/F204xhmVCbcx4ig
-	AClzgbcLPYabhOShR23868GexaTCYcwADJC5iaNpiJ4c7WtJxTeDmLWB3Ekw5zcD7toBu/D0BJm
-	RJTDbzjARBb9zG706seTIhJEkN3YLjdV9gY1R1qxZGxqf9Fdpnva0+SZtF4K1E/McBL+i0l23nl
-	CEzA6ljHpOWdff2QRuSVzUCqJZxoVMRB5AJ
-X-Google-Smtp-Source: AGHT+IEnI0QKcw9Ri3S5qAIpamJsEaTc7RE7bdTXnLUH4DFeJKKwaEqFyMi9xEaE97erMMB8437zmssZYokukpkLvSY=
-X-Received: by 2002:a05:6902:cc2:b0:e94:e537:22fa with SMTP id
- 3f1490d57ef6-e9509a6906dmr210171276.41.1755722969490; Wed, 20 Aug 2025
- 13:49:29 -0700 (PDT)
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=JqZe9jvf;
+ spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: a-christidis@ti.com)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57KM97li3291469;
+	Wed, 20 Aug 2025 17:09:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1755727747;
+	bh=hqK7vtPYnxjCOP2w39v1Om4pdDVsH4h+DV/9ZW1pHL4=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=JqZe9jvf2BIV4ntEWIqDelnDxV04UlBVKySQJCJUIgqmalBZMF/qE/zgBbgCguSSb
+	 IT89P9MM7q3KW+bMNG6oVj5y4M9PitB0x8/prbb2jD9ocUFP+9KYyU+zHmUOm3bbix
+	 P5akTzPfB6UdpXZmE0l1SecpI3tX7qBh1n8LrYZc=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57KM97Nj2353324
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Wed, 20 Aug 2025 17:09:07 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 20
+ Aug 2025 17:09:06 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 20 Aug 2025 17:09:06 -0500
+Received: from [128.247.81.112] (antonios-thinkstation-p3-tower.dhcp.ti.com [128.247.81.112])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57KM96vK1169225;
+	Wed, 20 Aug 2025 17:09:06 -0500
+Message-ID: <4bad79a6-56d8-42ee-b5ba-441a13cdb535@ti.com>
+Date: Wed, 20 Aug 2025 17:09:06 -0500
 MIME-Version: 1.0
-References: <20250820132929.2644708-1-ross.burton@arm.com> <CAMKF1so0oZt04POpvabf3k1J0WNk_7eRW1wYQ5uwt4xOT61X2Q@mail.gmail.com>
- <A3413038-010C-482D-8ECE-D501ADA44842@arm.com>
-In-Reply-To: <A3413038-010C-482D-8ECE-D501ADA44842@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 20 Aug 2025 13:49:16 -0700
-X-Gm-Features: Ac12FXznr-ue8govxgpnGjLZAdn0xmWkHbezbDK10mXtxd6oEzcFhB9viGgoHvg
-Message-ID: <CAMKF1sr1=vx9uB=8+70BDc=g5AomZKQTir5WOGRzb8qZDgcgzw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] spirv-llvm-translator: small recipe cleanup
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ebab34063cd21bfa"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [master][PATCH] libsdl2: Add PACKAGECONFIG option for
+ tests
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>,
+        <richard.purdie@linuxfoundation.org>, <rs@ti.com>
+References: <20250819221357.997067-1-a-christidis@ti.com>
+ <CANNYZj91HOj3joAHdT0Z_JSxxgMmCeXaLb7NOJXsHqAqVZ+eVg@mail.gmail.com>
+Content-Language: en-US
+From: Antonios Christidis <a-christidis@ti.com>
+In-Reply-To: <CANNYZj91HOj3joAHdT0Z_JSxxgMmCeXaLb7NOJXsHqAqVZ+eVg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 20:49:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222197
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 22:09:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222198
 
---000000000000ebab34063cd21bfa
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Dear Alex,
 
-On Wed, Aug 20, 2025 at 12:50=E2=80=AFPM Ross Burton <Ross.Burton@arm.com> =
-wrote:
+Thank you for the feedback. This is my first time working with ptest so 
+I have some implementation questions:
 
-> On 20 Aug 2025, at 18:17, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Wed, Aug 20, 2025 at 6:29=E2=80=AFAM Ross Burton via lists.openembed=
-ded.org
-> > <ross.burton=3Darm.com@lists.openembedded.org> wrote:
-> >>
-> >> - There is no need for python3native, as this recipe doesn't depend on
-> >>  other python modules.
-> >>
-> >> - Inherit lib_package so the llvm-spirv binary is in a separate packag=
-e
-> >>  to the libLLVMSPIRVLib.so library.
-> >>
-> >> - Remove obsolete CMake options that no longer appear to be required.
-> >>
-> >> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> >> ---
-> >> .../spir/spirv-llvm-translator_20.1.4.bb               | 10 +---------
-> >> 1 file changed, 1 insertion(+), 9 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.b=
-b
-> b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> >> index 64a73ce55aa..3a090b7b5cb 100644
-> >> --- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> >> +++ b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> >> @@ -15,18 +15,10 @@ UPSTREAM_CHECK_GITTAGREGEX =3D
-> "v(?P<pver>\d+(\.\d+)+)"
-> >>
-> >> DEPENDS =3D "llvm spirv-tools spirv-headers"
-> >>
-> >> -inherit cmake pkgconfig python3native
-> >> +inherit cmake pkgconfig lib_package
-> >>
-> >> -# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
-> >> -# for CMAKE_SHARED_LIBS=3DOFF see
-> https://github.com/KhronosGroup/SPIRV-LLVM-Translator/issues/1868
-> >> EXTRA_OECMAKE =3D "\
-> >>     -DBUILD_SHARED_LIBS=3DON \
-> >> -    -DCMAKE_BUILD_TYPE=3DRelease \
-> >
-> > Is Release already the default ? Usually this option reduces the debug
-> > info size, which may not matter
-> > for this but would be good to know.
+Texas Instrument does all of its testing without ptest, so what if the 
+recipe creates a PN-tests package ?
+
+In the above scenario, the recipe checks if PACKAGECONFIG includes tests 
+and DISTRO_FEATURES doesn't include ptest, if so create a package called 
+PN-tests.
+Use the do_install:append task I have included in the 1st version of 
+patch. Use FILES variable to package the right binaries.
+
+
+Now, I still want to introduce support for ptest, if that is the case 
+there should be a path to not create a PN-tests package and instead 
+create a PN-ptest package.
+
+I'll do that by introducing a do_install_ptest task, where files are 
+installed under PTEST_PATH variable as expected, and then packaged 
+automatically under PN-ptest package.
+I'll also add a conditional within PACKAGECONFIG ??= , to add "tests" 
+automatically if DISTRO_FEATURES includes ptest.
+
+Let me know what you think, and/or if I have see any flaws in 
+logic/assumptions.
+
+Kind Regards,
+Antonios
+
+On 8/20/25 2:14 AM, Alexander Kanavin wrote:
+> On Wed, 20 Aug 2025 at 00:14, Antonios Christidis via
+> lists.openembedded.org <a-christidis=ti.com@lists.openembedded.org>
+> wrote:
+>> +do_install:append() {
+>> +       if ${@bb.utils.contains('PACKAGECONFIG', 'tests', 'true', 'false', d)}; then
+>> +               install -d ${D}${bindir}/sdl2_tests
+>> +               cp -r ${B}/test/* ${D}${bindir}/sdl2_tests
+>> +
+>> +               # Delete any leftover cmake files within the sdl2_tests dir
+>> +               find ${D}${bindir}/sdl2_tests -type f -name "*.cmake" -delete
+>> +       fi
+>> +}
+> The PACKAGECONFIG is okay, but this isn't. If you want to install the
+> tests, you should also add run-ptest script, ptest package, and ensure
+> they pass. Ideally, you should also make a patch to sdl that does the
+> installation and offer that to upstream, rather than do it in a custom
+> do_install snippet.
 >
-> The upstream cmakelists don=E2=80=99t set it either way, and changing thi=
-s doesn=E2=80=99t
-> change the output.
->
-
-Ok
-
-
-> (I also need to finish off the branch which makes our class pass
-> RelWithDebInfo by default)
->
-> Ross
-
---000000000000ebab34063cd21bfa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote gmail_quote_container"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 20, 2025 at 12:50=E2=80=AFP=
-M Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 20 Aug 2025, at=
- 18:17, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank=
-">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; On Wed, Aug 20, 2025 at 6:29=E2=80=AFAM Ross Burton via <a href=3D"htt=
-p://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.open=
-embedded.org</a><br>
-&gt; &lt;ross.burton=3D<a href=3D"mailto:arm.com@lists.openembedded.org" ta=
-rget=3D"_blank">arm.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;&gt; <br>
-&gt;&gt; - There is no need for python3native, as this recipe doesn&#39;t d=
-epend on<br>
-&gt;&gt;=C2=A0 other python modules.<br>
-&gt;&gt; <br>
-&gt;&gt; - Inherit lib_package so the llvm-spirv binary is in a separate pa=
-ckage<br>
-&gt;&gt;=C2=A0 to the libLLVMSPIRVLib.so library.<br>
-&gt;&gt; <br>
-&gt;&gt; - Remove obsolete CMake options that no longer appear to be requir=
-ed.<br>
-&gt;&gt; <br>
-&gt;&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.c=
-om" target=3D"_blank">ross.burton@arm.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; .../spir/<a href=3D"http://spirv-llvm-translator_20.1.4.bb" rel=3D=
-"noreferrer" target=3D"_blank">spirv-llvm-translator_20.1.4.bb</a>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 10 +---------<br>
-&gt;&gt; 1 file changed, 1 insertion(+), 9 deletions(-)<br>
-&gt;&gt; <br>
-&gt;&gt; diff --git a/meta/recipes-graphics/spir/<a href=3D"http://spirv-ll=
-vm-translator_20.1.4.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-tr=
-anslator_20.1.4.bb</a> b/meta/recipes-graphics/spir/<a href=3D"http://spirv=
--llvm-translator_20.1.4.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm=
--translator_20.1.4.bb</a><br>
-&gt;&gt; index 64a73ce55aa..3a090b7b5cb 100644<br>
-&gt;&gt; --- a/meta/recipes-graphics/spir/<a href=3D"http://spirv-llvm-tran=
-slator_20.1.4.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translato=
-r_20.1.4.bb</a><br>
-&gt;&gt; +++ b/meta/recipes-graphics/spir/<a href=3D"http://spirv-llvm-tran=
-slator_20.1.4.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translato=
-r_20.1.4.bb</a><br>
-&gt;&gt; @@ -15,18 +15,10 @@ UPSTREAM_CHECK_GITTAGREGEX =3D &quot;v(?P&lt;p=
-ver&gt;\d+(\.\d+)+)&quot;<br>
-&gt;&gt; <br>
-&gt;&gt; DEPENDS =3D &quot;llvm spirv-tools spirv-headers&quot;<br>
-&gt;&gt; <br>
-&gt;&gt; -inherit cmake pkgconfig python3native<br>
-&gt;&gt; +inherit cmake pkgconfig lib_package<br>
-&gt;&gt; <br>
-&gt;&gt; -# Specify any options you want to pass to cmake using EXTRA_OECMA=
-KE:<br>
-&gt;&gt; -# for CMAKE_SHARED_LIBS=3DOFF see <a href=3D"https://github.com/K=
-hronosGroup/SPIRV-LLVM-Translator/issues/1868" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/KhronosGroup/SPIRV-LLVM-Translator/issues/1868<=
-/a><br>
-&gt;&gt; EXTRA_OECMAKE =3D &quot;\<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0-DBUILD_SHARED_LIBS=3DON \<br>
-&gt;&gt; -=C2=A0 =C2=A0 -DCMAKE_BUILD_TYPE=3DRelease \<br>
-&gt; <br>
-&gt; Is Release already the default ? Usually this option reduces the debug=
-<br>
-&gt; info size, which may not matter<br>
-&gt; for this but would be good to know.<br>
-<br>
-The upstream cmakelists don=E2=80=99t set it either way, and changing this =
-doesn=E2=80=99t change the output.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ok=C2=A0</div><d=
-iv dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-(I also need to finish off the branch which makes our class pass RelWithDeb=
-Info by default)<br>
-<br>
-Ross</blockquote></div></div>
-
---000000000000ebab34063cd21bfa--
+> Alex
 
