@@ -1,149 +1,135 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC2EBCA0EE4
-	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 14:33:42 +0000 (UTC)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
- by mx.groups.io with SMTP id smtpd.web11.311.1755700415570571288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2CEBCA0EDC
+	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 14:37:32 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.419.1755700647046546091
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Aug 2025 07:33:35 -0700
+ Wed, 20 Aug 2025 07:37:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HSK47YIh;
- spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e931c71a1baso6546870276.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 07:33:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755700415; x=1756305215; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QGN7gGpxA2bl9DqTjS9ThJsHRmRr2gP/7WAyUPi00Yg=;
-        b=HSK47YIh71E5VFzwH5zPf6y+3m1yAGLcSAtkjLC/a/Zhgol1wbvSVkz3Qfes++4VOT
-         EXeFeZFZQ7tQqMFe20Fs6Yeb6H4A1I/T3HdjOhFXHWczD2i3gnEqp3ZQuGYntBh3Z7lu
-         Mnim1hS7GyLbVWOb/8NMOTh97gGfzi2BiZpllDKMLiZ1ElCeei3egFw1okKcM76dPvMT
-         uLXJXPqwxIJe7WcDqNNpz+nDYwa4cgkIb2E55gUcOBRgNqsaYb6RuEC+UtzcuGO/3O/S
-         XuqDuzl7YYM4GM3Gulbm5dfpDsvYxcD4qU5z8p3pL4vAREZ0bllcDWg+pt06V0gIE9HK
-         jRNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755700415; x=1756305215;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QGN7gGpxA2bl9DqTjS9ThJsHRmRr2gP/7WAyUPi00Yg=;
-        b=Q5qbq8Aj+NVNRrnoCrsVcOpdOjlgKwUEmWfXlo/Ki1TUErBp0myF9PSZ3pOL+Opwh5
-         A5SMiuJ0xy6g7Sw6KAqfC+mDYzXRT9qF7O7AXoyI0u42MzQdqobJ/bp/Dq7S3OaJOsWZ
-         l2aCnvQ2qlWpeYsEwAwQl1wvwLY9Sy8Zr7Kwu0AlP3QjnYJ5N5z7CyHgUEFxuPF3EM+/
-         fI/9H9+B5m+UlbNw8cZAfrnz2IMMmOw0ULbQP9WJofZUvTMWwJbFDnx9eamhmz2pr/t1
-         WstukmAUrfwJnLRNQQP7QgdNbPQ3jT3G07Tvng9o/hnyXgDZx89JQ+KMSkrYNgeuDn4D
-         72BA==
-X-Gm-Message-State: AOJu0Yy1vECPgcZSBg7eQ4vyyk3QktS/4sekE1bTnyqZU5QcaJicbl6c
-	9ZjH2O/DIjef0k9z3gibwYDjD3BXs56vqZDYwLJEHPfQi2j4SnR5SqTgCBAAJQm2LByR/2Ysrrf
-	Oy3O2p0tJSoSZmGPhux2bNlI8kF+jUUQ=
-X-Gm-Gg: ASbGncs50SKJ5eFk+KoJSHSsOnTBlvYurRxMNpG/VEh91MzS5Uk2p19Iz99svdoMEZI
-	rIAqIWXAgXIWeRhhm6aRUEcv4RzaSe8mF8WSj4EvZk/0fEoHoI1FPEzqcMLZ+ET5hE6YeFbf+8W
-	ODPTCs/zf7bY+RgV9RDrhwVPOkPV1HYI4DHv5oSSdNQwrLHmq7K4mSMYZCjAKJV4P4Iw8JFvwtQ
-	+/dcPIy1Ab1V+sCP385OStl7IvaAqzOLDeZRt9s
-X-Google-Smtp-Source: AGHT+IH5tAM9BSRPBN5O5NLCGIAGJSiiKc/K3aq0RYqKrlFkl7sJX+HLmURGrc3dMG7tzKxRKsiQCbBZy/XqDSWp3uo=
-X-Received: by 2002:a05:6902:2a81:b0:e93:486f:b354 with SMTP id
- 3f1490d57ef6-e94f6678985mr3269597276.41.1755700414603; Wed, 20 Aug 2025
- 07:33:34 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=LpytK5Yy;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=032775ee6d=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57KCfoWk3885578
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 14:37:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=/wy2d/tsarfoDruP7Q4u
+	G+YY4xxgtPwHL983i/VKOj0=; b=LpytK5YypQb57ymHmLlNzCw6qKPWenYoeS/T
+	SnWXUjZa0nL5O+5IwDVABHLCiCPsYcrpC+0gc+nLTAtBnEC5QbpDZd3G31PKAIn8
+	WXY6uLImGMnRr/48iMxKzRx3f06rDR8gOl8vBVr2JU4Hcna0vQyJJMQ7w24IyZv4
+	BurWVrwhHqhPFi6ddoGcx5t1uCy57FntZjOvMLu74IV4HQ7kE3PPGcNExcr4XAJx
+	wSGH7GF6Ae1k2rj27q3AzT1v8Zpc46BuV3rKqpn1bx90+jmuDpmtxaPDPlBDUZcJ
+	oa/kfwe7ZlI3LRtrpZUzzQxUunliXGS3ErJ1yNndYpGBn2TWiQ==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48nekjr483-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 14:37:25 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Wed, 20 Aug 2025 07:37:15 -0700
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Wed, 20 Aug 2025 07:37:15 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] nativesdk-openssl: support multlib libdir
+Date: Wed, 20 Aug 2025 22:37:22 +0800
+Message-ID: <20250820143722.4153909-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250819010128.3519760-1-raj.khem@gmail.com> <20250819010128.3519760-3-raj.khem@gmail.com>
- <DC71FJJ2QC94.35CLO3OBAN1BF@bootlin.com> <CAMKF1sqTdHQrCUYK3dGGzi+=mGZBogaR1TD2r+zMSkJWz3vWUg@mail.gmail.com>
- <DC77JFI2499F.1BTYUM51QCASE@bootlin.com>
-In-Reply-To: <DC77JFI2499F.1BTYUM51QCASE@bootlin.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 20 Aug 2025 07:33:08 -0700
-X-Gm-Features: Ac12FXyfQ9JL4gFIPOTUXtjDDPByOmOyEI__ktAzNCrG0cLe89eLJbUaKZzSruk
-Message-ID: <CAMKF1spYCYK3PJ-Keauh1Z3n7i6xq1TUJMfSbCB_Gu9S_80FbQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] m4: Fix ptest on musl
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	Peter Marko <peter.marko@siemens.com>, Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDEyOSBTYWx0ZWRfX3DI8c8ZnStGN
+ AawVqQZZ5+4Dg+NYG1TUBacHf8pM4XkHDGJMdQRxfUw0wOveLJ+RhuAarELmjWPB/kuk52MjP+9
+ Hgdkc6z7VDfKO7VZlAt4TrDTj4M2F6424+FtTmjMUSBUyBKPDySxpmleT6WWoqEryg0bfPO3RvJ
+ gDJqUzx9cFywPwADUoy2h3IAxHWuPzIGTdF8mLSpFZdrirs5fOJSsFKb45tqaWeZ+y22ZzQjsn1
+ ijWJqBWEG5gR0k13Qpm4keUpwTNX+uwqpkS0CkNYAWwfNBu6XQD9bTQjQTUVfsJeXuiMZ9DTDm3
+ P3HANGulobbLjxCgD9KkguUqtWXgMzOnoHUXVdJ5I8chMlPUIiF61X9l/ru9YkBrTmLAzWv0E4a
+ 3HBus+EvuhSd0UjDLCM3kjdB1yGPcA==
+X-Proofpoint-ORIG-GUID: r8Hu7dtsOeeIpfYo6YR2QTggycS1hsPL
+X-Proofpoint-GUID: r8Hu7dtsOeeIpfYo6YR2QTggycS1hsPL
+X-Authority-Analysis: v=2.4 cv=L5pEg+T8 c=1 sm=1 tr=0 ts=68a5dda5 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=2OwXVqhp2XgA:10 a=t7CeM3EgAAAA:8 a=fsxV291xFtgljZ6ddgkA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-20_04,2025-08-20_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 priorityscore=1501 clxscore=1015 impostorscore=0
+ suspectscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2508110000 definitions=firstrun
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 14:33:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222186
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 14:37:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222187
 
-On Wed, Aug 20, 2025 at 4:10=E2=80=AFAM Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
->
-> On Wed Aug 20, 2025 at 9:15 AM CEST, Khem Raj wrote:
-> > On Tue, Aug 19, 2025 at 11:23=E2=80=AFPM Mathieu Dubois-Briand
-> > <mathieu.dubois-briand@bootlin.com> wrote:
-> >>
-> >> On Tue Aug 19, 2025 at 3:01 AM CEST, Khem Raj via lists.openembedded.o=
-rg wrote:
-> >> > Fixes
-> >> > ../../sources/m4-1.4.20/tests/test-c32ispunct.c:261: assertion 'is =
-=3D=3D 0' failed
-> >> > ./test-c32ispunct.sh: line 36:   402 Aborted
-> >> > (core dumped) LC_ALL=3D"$testlocale" ${CHECKER} ./test-c32ispunct${E=
-XEEXT} 3
-> >> >
-> >> > FAIL: test-c32ispunct.sh
-> >> >
-> >> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> > ---
-> >>
-> >> Hi Khem,
-> >>
-> >> Thanks for your patch.
-> >>
-> >> It looks like this is breaking tests, specifically on qemuriscv64:
-> >>
-> >> Traceback (most recent call last):
-> >>   File "/srv/pokybuild/yocto-worker/qemuriscv64/build/meta/lib/oeqa/sd=
-k/cases/maturin.py", line 25, in test_maturin_list_python
-> >>     output =3D self._run("maturin list-python")
-> >>              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >>   File "/srv/pokybuild/yocto-worker/qemuriscv64/build/meta/lib/oeqa/sd=
-k/case.py", line 17, in _run
-> >>     return subprocess.check_output(". %s > /dev/null; %s;" % \
-> >>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >>   File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
-> >>     return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, check=3DT=
-rue,
-> >>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >>   File "/usr/lib/python3.12/subprocess.py", line 571, in run
-> >>     raise CalledProcessError(retcode, process.args,
-> >> oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/p=
-okybuild/yocto-worker/qemuriscv64/build/build/tmp/work/qemuriscv64-poky-lin=
-ux/core-image-minimal/1.0/testsdkext/environment-setup-riscv64imafdc-poky-l=
-inux > /dev/null; maturin list-python;' died with <Signals.SIGSEGV: 11>.
-> >>
-> >
-> > seems quite unrelated, I wonder if its finding some other bug
->
-> Yes, I can't understand what happens here :(
-> Yet this commit always triggers the failure.
->
+Make nativesdk-openssl to support multlib libdir (such as
+sdk-relocation-dir/usr/lib64 or sdk-relocation-dir/usr/lib)
+other than hard code `relocation-dir/usr/lib', add environment
+variable OPENSSL_LIBDIR in environment-setup.d script for
+OPENSSL_CONF, OPENSSL_MODULES and OPENSSL_ENGINES
 
-Looking at logs there is some more info  immediately after what you
-posted above that is interesting
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../openssl/files/environment.d-openssl.sh             | 10 +++++-----
+ meta/recipes-connectivity/openssl/openssl_3.5.2.bb     |  4 +++-
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-Stdout:
-Trying to install python3-maturin-native...
+diff --git a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+index 71d378734c2..108937e2cd2 100644
+--- a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
++++ b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+@@ -1,6 +1,6 @@
+-export OPENSSL_CONF="$OECORE_NATIVE_SYSROOT/usr/lib/ssl-3/openssl.cnf"
+-export OPENSSL_MODULES="$OECORE_NATIVE_SYSROOT/usr/lib/ossl-modules/"
+-export OPENSSL_ENGINES="$OECORE_NATIVE_SYSROOT/usr/lib/engines-3"
++export OPENSSL_CONF="$OPENSSL_LIBDIR/ssl-3/openssl.cnf"
++export OPENSSL_MODULES="$OPENSSL_LIBDIR/ossl-modules/"
++export OPENSSL_ENGINES="$OPENSSL_LIBDIR/engines-3"
+ export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} OPENSSL_CONF OPENSSL_MODULES OPENSSL_ENGINES"
+ 
+ # Respect host env SSL_CERT_FILE/SSL_CERT_DIR first, then auto-detected host cert, then cert in buildtools
+@@ -9,7 +9,7 @@ if [ -z "$SSL_CERT_FILE" ]; then
+ 	if [ -n "$CAFILE" ];then
+ 		export SSL_CERT_FILE="$CAFILE"
+ 	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
+-		export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl-3/certs/ca-certificates.crt"
++		export SSL_CERT_FILE="$OPENSSL_LIBDIR/ssl-3/certs/ca-certificates.crt"
+ 	fi
+ fi
+ 
+@@ -17,7 +17,7 @@ if [ -z "$SSL_CERT_DIR" ]; then
+ 	if [ -n "$CAPATH" ];then
+ 		export SSL_CERT_DIR="$CAPATH"
+ 	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
+-		export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/usr/lib/ssl-3/certs"
++		export SSL_CERT_DIR="$OPENSSL_LIBDIR/ssl-3/certs"
+ 	fi
+ fi
+ 
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.2.bb b/meta/recipes-connectivity/openssl/openssl_3.5.2.bb
+index 396e69d7e7f..b650767f4c3 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.2.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.2.bb
+@@ -201,7 +201,9 @@ do_install:append:class-native () {
+ 
+ do_install:append:class-nativesdk () {
+ 	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
+-	install -m 644 ${UNPACKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++	echo "export OPENSSL_LIBDIR=\"${libdir}\"" > ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++	cat ${UNPACKDIR}/environment.d-openssl.sh >> ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++	chmod 0644 ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
+ }
+ 
+ PTEST_BUILD_HOST_FILES += "configdata.pm"
+-- 
+2.34.1
 
-its running lib/oeqa/sdk/cases/maturin.py and
-it seems it needs python3-maturin-native in sstate cache and I wonder
-if it's missing because m4/m4-native dependency will rebuild
-python3-maturin-native or something is racing with it.
-
-There was a similar problem in recent past and a related fix was committed
-https://git.yoctoproject.org/poky/commit/?id=3D2239c2c91ab35c67ccd95afe0573=
-50037f7d0e59
-
-I now wonder if the test is exited when it does not find
-python3-maturin-native correctly or not.
-
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
 
