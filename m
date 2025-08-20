@@ -1,205 +1,2903 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <Jiaying.Song.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3C39CA0EF8
-	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 09:08:50 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.3])
- by mx.groups.io with SMTP id smtpd.web10.15605.1755680922224615162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB49CCA0EF8
+	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 09:14:00 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.15663.1755681233529016192
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Aug 2025 02:08:42 -0700
+ Wed, 20 Aug 2025 02:13:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=HPNQGR9g;
- spf=pass (domain: axis.com, ip: 52.101.70.3, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k7GWuzRE3yivMcXOpy+eT9IcaZoP3RYCcIFYs2zpzU8BsRC6A58JbiIeLuB5u6P1RMdISB5sLsUCNje9p1jDfvthCBkF1UrkEreqJShgxkjLuwwabIX5wf9A+V6bHw33/0Prormw5+xCXoaaVgZWDISAhduR/JBTqA6xUAGV+Tzu2rt6cu1NCJ1EjI5PjDDBN5G2SGYm8oJv1z2qhlEyJf1EVjAuvTCKSyGsoVpw6hJeMwFDvrOp8m/syP5l2hmbCfqySzk2dhMUCuoSNEaCDnfQ5z4y694Ca4fnj54WTy7cVRDM8A1vrer4AQrOarPgoQopYuYC7m3HpU+cdDNe8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FRmnP1lcoJ2HgovRT5i/iJu0Y2Hfgj7ZwNiKhHIpkf0=;
- b=c+xWq4NEkmfShPWOPxB/1P8WB/eHEHzm2wsvC08fz5FVzsrsfbqpS3cnze8WM8iqX3zEuh6v06Z2K55a3wKuRxRGvLumG5Tm7iVkxVxgXpum2HUdpoxtvR1GmYkyahtymSJorKowBZ/zscuBM48xHDGan7rN424uiV3J2MGo5zgujjUCy97wr7vvotpDEx9XZVoDZo3xuN8UDNmb2yakYpdsRjAAofEvqJnxlUVdTl/0WuNHTPJPE2Qbdc/RqPJwmucQcxM9zbdsYPaCX8fwrq3GUySTvYoQ4SOUc6hvmP8aWPB1+/RYgaCBKvZBCX2hdXKmj6C0uW01DB4pODB6jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FRmnP1lcoJ2HgovRT5i/iJu0Y2Hfgj7ZwNiKhHIpkf0=;
- b=HPNQGR9gzslpgwcHFPYtLCFp/n3yGtoucV6XKzTmyY354v9FQrtZVsdG3dZulecwMJTv6fVk3bLZWsVisby6DdMjy7QdIS337Dng3glhQndXqHJn4GuLi5OTNuAooi7lnwl74kjz/Zr8B4mghBtKojJC7qBmKdh1DfKzvmt9NnQ=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by PR3PR02MB6428.eurprd02.prod.outlook.com (2603:10a6:102:74::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Wed, 20 Aug
- 2025 09:08:38 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9%3]) with mapi id 15.20.9052.013; Wed, 20 Aug 2025
- 09:08:38 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCHv4 1/2] systemd-systemctl-native: Install
- systemd-sysv-install
-Thread-Topic: [OE-core] [PATCHv4 1/2] systemd-systemctl-native: Install
- systemd-sysv-install
-Thread-Index: AQHcEMycF9WXsHvT4UOGMQ/YapscnLRrObsQ
-Date: Wed, 20 Aug 2025 09:08:37 +0000
-Message-ID: 
- <DB5PR02MB10213A1E35598F2EBC48B4F7AEF33A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20250817201832.2462509-1-pkj@axis.com>
- <DC660IEPZE9T.1VEW6S4PFZICU@bootlin.com>
-In-Reply-To: <DC660IEPZE9T.1VEW6S4PFZICU@bootlin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PR3PR02MB6428:EE_
-x-ms-office365-filtering-correlation-id: b99f15ba-e099-4b1f-f4ed-08dddfc9264d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?UEhkdHJhUXFRMXhlS0dTcGJjZUZzbUx1M2VlUTRRZFpiQTBOTzM4TFdDWHdt?=
- =?utf-8?B?TGtvcGZia0lNTmtWeFhBU1FiRW10SDY3RFArREViN1RlOVkrY3RkM1RKcXha?=
- =?utf-8?B?eUJSMXp4N3JLYTQyTnc3SEk2TnNtcFZ4aDg0QXVlVVZFK0RPbVpnTHZKZXBt?=
- =?utf-8?B?Yk0vZDc0S0JvT0trWmlsVDJYRjJKS2xCZlNrTnJkcDl5bHBpWDBzakZhK1hH?=
- =?utf-8?B?d2lTNWc5Qm9uZTNRVnRVQ3dkWmlzREZndkJseVIyWE5vVTR5VXBrNnNndTg5?=
- =?utf-8?B?aFRmUWFERHIrdkVCVnhEbjN6QVZnSlhXdEhlb00zdldlazhKb0g0TmRDd05u?=
- =?utf-8?B?cmNGTFhnVExDS3NlNUxJekxUV3paeWczNXk5R3RuMEhjSDNCRWkyM203MmF1?=
- =?utf-8?B?VmsrQ1d1aHdoNWFlT0NRQUtob0VzREFIOTJjQ0hNbWZRWkgvTCtyMlY5RVIv?=
- =?utf-8?B?K2lCeW1JVFdxNWkzNXZwNFZncTZGWHU4dGt5T0ZQaFFNV0I5OWVuQ2xvbXdN?=
- =?utf-8?B?NmpUTGtHQW9yZGI2TGErYmc2QjM0UEJ5VFB4REhaVmtHSTZXbzRKbU13YWJK?=
- =?utf-8?B?dDJ3NFVSU2NuMVBpLzJJNitsZUk4TExHT04xUFB6aFRSZEpKbUxmSlF2V1Bj?=
- =?utf-8?B?VFlyY0s4QkxzYS9Pd2pMOHc3RlU3RU5NeEJMZFIvV0FiTWZLOXJxK05GRk13?=
- =?utf-8?B?WlQ3b3p4MlhYYXhYODZFOG1oZG1uRnVwc3VVRXBJNFlKT2F6VWZpR3VGME1J?=
- =?utf-8?B?d0pvdlBBNCtkeW9IYmREZEtGNmdGUDMrRk5FTm1KUTlxMUtubFZTd1hmMDE4?=
- =?utf-8?B?c2Q4NFFreVlmY0ZKUFM3eUVMN0tmM1liY3RINHQ2cmpJUHY5VHhpbXFXbnR0?=
- =?utf-8?B?TlhQKzZjZVRLeiszdUgzY3luSDkvd1JBbVhHR2trVjFyVFBtdGhiTVFNU2Ur?=
- =?utf-8?B?S09qaDBoNmg2eWdEdmlHWmQzTkJZOUwwZDVVNDQwOHdPVUxMMWdMN1FwU1N2?=
- =?utf-8?B?bzFrY2ZrNFEwa3RiQkFrRm9ldDdoeE5yNm1wMGFjd1NHcWRzTTFFb2RVaW1Z?=
- =?utf-8?B?VWdyUjNheVRqU2cycnhsZ1pQak9UUWNyeXJkS0lSN3R5YjNWaTJ1LzE1S0N4?=
- =?utf-8?B?bGRRdkNRallOY2NsWlpiOWlnQ1RGSkdDdXhQWStnU3IzTHY2VXdscFFJdFpa?=
- =?utf-8?B?aERYTGhxQ0JSUW5VM0JzaXkyMXJjdjBoM2hjcjZ5Nyt1ZCtWZ2x2Wldqejdj?=
- =?utf-8?B?YlVDUE9yb3VJRk9QcHVZV3NtUm4zNHZKbXdtVk9MWURieGZKd2RrcHFtTWZ5?=
- =?utf-8?B?dUtYU1c4R1VuU1MzRlVHdzBmSGtDK1VYQUdhRlBMUjJlK2JkWjBodkZGUTkv?=
- =?utf-8?B?aDF4NFRtVkp1OWlaamJ4dGExQXlJS1lPNVdqTmFDMlh3cWJlNjlKbFhyRXZ2?=
- =?utf-8?B?b3c0a3lpQjdKZEtXcFk4OUt0U0V1ME1uQnlVbklidCtMUHJIcGlDcUtuTmFX?=
- =?utf-8?B?ZnFEazRHT1hxUThVZjVteTdkcCtPSGFBbHVWUG1tbVFJeTh6Rlk2bXB6Q1JV?=
- =?utf-8?B?NEp6NVdDQkNXcnIwWHcvS2cwUUZLQmcwNVZQbmc5cnBDdCt5VWkxRE5JOXBk?=
- =?utf-8?B?VHhpakRxaUVKaUNhM3VOUkhhTEhzRU5SL2svenpJL3lYQWlkOTdNYzA2V0tM?=
- =?utf-8?B?U2pnS0Y5Vm5lOEszdUpSUlQ3OVY4M2hBYk5BK0lJSCszYWRYZzFIYnBjUUlP?=
- =?utf-8?B?bi9tQTNNMjF0WlVPLzFVMlNrOVNLcHloekdXVTQ4Q1NhOVZ3eEZzL1FrQ0JM?=
- =?utf-8?B?WUdYY09WK1l3dWhjY3FmaWs4UEVBM2JYZmIxcXdHa3JpdjJGQ1htRHFhSktt?=
- =?utf-8?B?Vnp4UzJRb2tKbEMzNm1mZU5QSnBYYWZvUHVzYjhMb3N3SzMyUjIvdHV5c1VH?=
- =?utf-8?Q?8X78C+8tj5g=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?bUd0OTBRaFdZUkZaMUhBMGpIMkhtOXJlOEJ3VElPd0xnZDA0aWhhZ3JOYlNj?=
- =?utf-8?B?dVQwZDM0WGFHblAxWFdOSktyNDFOUDlFYzdSZ2diUXl1R0ZDb2M1SVE4OXE5?=
- =?utf-8?B?Q0NyaFBqdW9PUmx6ZTNxMkZTZ3I2MENMcDF5L2U2NS9HZlp6MVNaVkxKTU1x?=
- =?utf-8?B?UzJLcnBjMjBWWEVZZVBNVlQ4d0hTZ0tCdWU4MEZhMlEzZU0yUk5pOVUxNDlP?=
- =?utf-8?B?UEhvQ3B3WXFmWmNlVkI3YVZGZzk3cEFXajllclYvVUUyUzJVZWhBZHY4T2R5?=
- =?utf-8?B?eTF3a3NKZktKZFdTNjBwTm5VNmxoRGNqTVJpZVBtZFN5KzQ2dS95a2V0a2ZO?=
- =?utf-8?B?N3dsV0RCcGRSSnB6T2NPSmpzcll0YU50K3hhazU0NWFLMmY2QUZZU1BMd3lF?=
- =?utf-8?B?YzRGMjYzVXZmT0ZOWEpYUWo3N2FkNUsrUmZxRUQ2ajdEZEZhMzZCazlPZnQx?=
- =?utf-8?B?L2ZEaWgzT0ZkSU5ONWR1M2V2WllLaVFlQ2ZHTmRTSUJQcHRpT2NqTnpTQWRs?=
- =?utf-8?B?ZFZTRWtaczBrZkxGSUU4b2tWVVRFOTY4cExwTFd2Q3N5K095bjQrcmtEWnpT?=
- =?utf-8?B?M1IvWnNGdnE4dCtDT2hTeFhzSmNTYVphZW9Od2k0K3J0V1Qxbyt2dk1zT0I2?=
- =?utf-8?B?RXlYTTloT0N1ZXczQXFFVFU5cU9IempxNWRZbVR4NVNEc3YwN0Yya1pSdGpD?=
- =?utf-8?B?MmR0cDFKc2R3a3IyL2ZzMWVWbTh0UElzR3B5b29MTkNHZERyTU5mMkU4c01E?=
- =?utf-8?B?MlBMOFpVQ3dnNEpjZlNKdW1FZEhDaXVtR01TRTVCa0o0MWVvblliWWZKQ1pG?=
- =?utf-8?B?U3A5V0JTc0VwMlpYYWFRelppZytKa3YzeFBsSnd3MEJFaVRSZmNNaE5qUTlk?=
- =?utf-8?B?ZUc0WlJSU1F3MjVuMlJjMmx4ekl4cTdYNy9TcUxaSGN3eDZYa0JhbW1PUmlU?=
- =?utf-8?B?ZDllc2Zvb213ckcwWVpsdFBXV29CcW5WdjJpSS9ZZFpnYXlSWnYvRFRVZVRI?=
- =?utf-8?B?V1Z4SU1Hcy94NmRKajQxaStoQ0lHdmJwY1JjSTVXMkxaQVNSVmRpL2J0aC9L?=
- =?utf-8?B?YTkxc1RLejNKTk5UR0tPeXhHUnpNUTU5ZzlrT0NBRTlFNzAyS0hUU1IvNHdh?=
- =?utf-8?B?NWVHU1N6Z3R6djVaT2JOVytTZCt1RDZBK1BGdFdxcTdjMkU0KzNUd1RmdU1S?=
- =?utf-8?B?NkNoUTNnSW9DOUd3RUNIMmQ3WjFsd3VjYzV1c28vRWorNlA0ckpBTGZadUhY?=
- =?utf-8?B?Rlk2VFlCclFnb0h2TjRlRGJxbklTWjVYT2lVRW1QQUpKeUVuWlZvSkRrZFRC?=
- =?utf-8?B?bFdMdHpudzloYWR4SXMyVys2ekVQK1oxdHlWTXhJQ0hJQzNQMjExSWxXeTVV?=
- =?utf-8?B?cHp5YmNFY25hbW5UZENVdkZmdVNlYThJVnI3cGlnVmtYTFV1dHYxaFNUbWk4?=
- =?utf-8?B?SGVTY1VYRGxDUnNnUTVRLzlGd3ZEbFJoQUVRN3hWQjkySkt0dksxcEJ4R3dk?=
- =?utf-8?B?NnY4RlBxSTE1Yis2K2tYSEV5SFhDOVJremdoZ3k3OVUvZGwyaUpoelJua08z?=
- =?utf-8?B?b012ZGdUSnhQVTlJN0xkaEUzbThGR2NDY1hWT2t0VXJCOHdrNE1RVFN6RWdo?=
- =?utf-8?B?Q0dFZy9ianhUdUE5UmxSRXF1aGJUU2JkNC8vRzNEbjZ6WFhaYVN4Qm05T0ow?=
- =?utf-8?B?VTdaY0ZhWWtqTGNrenYyNlVEb2ltSDdtYUhoU0Vka3hEdVRLaDd1VzJCSzRR?=
- =?utf-8?B?Y1lTMnlDUjAzREFma1U4ZlQrbG9DNUJJQTFKQ09ZMkY5dXNHZ2tnUWhRbHBE?=
- =?utf-8?B?WWNXR29ZOWRwNUxTZno4SlgvRWwvdUE1b08xNXpxTVBWbmovSXFGYXhOV0lO?=
- =?utf-8?B?blRYcWwwdjZYeWN2L295UHJ0SFNJTlZhYzFoZHNDOVhjQWQySysxdk9hKzNY?=
- =?utf-8?B?S25ySk1qcFlYUm1uWFJPM2ZMaG45c0dDWVNaT3RMQnZyV0VIZlA5U29jNUt3?=
- =?utf-8?B?NitaWi9RU0tFVUxVN3JkNUhTd1BCUmhGeVBqUzlYb1hsOGRYOTZQT2F0ajJV?=
- =?utf-8?B?Y2xaQ0lOaGljME96YThNRmN6M0pnQmhXZ1NaUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=pGRERgap;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=03278d0a0b=jiaying.song.cn@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57K6e3cS3158730;
+	Wed, 20 Aug 2025 09:13:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=2Gdo/Gstapc7VVvNR4OJ
+	83QxpFRAwXDXyIf8bLIu/oo=; b=pGRERgapOp78UEoifkyrhbJ4CzraTNNbOw2S
+	G6xTk2pZAcHaTVNASq5AaoKyCI/weugoqeMIxuI3IEfqvx0yn/qK7uf6kg5WdA8P
+	smattLNBYLEEU7fUDYxqblmKhJRuS+wvrcYpryyfywdgIAT3L1PrQFzgfZxcaokg
+	e+vg6S0jfKP/En7JgmDmOeCzFZm/sBzxi1aD4P3rvLpTIWEwbbNQb6deimFL97sB
+	o6cpwocyAaYyUMOfB92lO0gLcD5uiV6z6IThLta8uil6YHGI/5HYGleWFhtsATZo
+	BdK5knG62QQCRXAerCiwNV6wE5LHM/yAV2nJmzu9XS8NPQSTDg==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48mydq0j03-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 20 Aug 2025 09:13:51 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Wed, 20 Aug 2025 02:13:44 -0700
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Wed, 20 Aug 2025 02:13:44 -0700
+From: <jiaying.song.cn@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <steve@sakoman.com>
+Subject: [kirkstone][PATCH v2] openssl: fix CVE-2023-50781
+Date: Wed, 20 Aug 2025 17:13:44 +0800
+Message-ID: <20250820091344.1870455-1-jiaying.song.cn@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b99f15ba-e099-4b1f-f4ed-08dddfc9264d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2025 09:08:38.0239
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ItLb4eiOgTaNI7OvHAAbljowpkvD5UX4P7lpENhv+aOkpHMch9jbAjwfrOQb0CbM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR02MB6428
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-ORIG-GUID: k-ugwmPzfoMNzMWhUm-_d5rQltAe9g0V
+X-Proofpoint-GUID: k-ugwmPzfoMNzMWhUm-_d5rQltAe9g0V
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDA4MCBTYWx0ZWRfX9gY+TWnEzPYt
+ BM6WzjwL0iTRWi3KBg2bq8DzJFJj08V8+dZ2lcrdjxPbdW5WeDBMQzlGI8s9utdt2FB3Cxwfg4r
+ qrpX2Kp/Uejl9NPAyIeTtkC0LPU1A3aNMuow7uOP2lqJcRTix1FOm/BLD5oLtq/fhsRG0xhLgAZ
+ yWzzB6NnSSo+2AjDzUmlzE/1RxmGvxM77iXydT1yP5aLY3+Q+wS4RuCLFsAYdRYY/e3bG18eF2V
+ 5dbjMuPubvZAZmHdIV4p/av0G+xrn+4hh2Pqsde3Xj1kBvVV0CCCtqWAiEAyCu3KI//gwF5MS4B
+ NZKL2s3d0TBAputOC+Yttu49gQxRIuwpfT4/w6EVy5XRY7DZsGSxDu7+5jK/1uRsFcsmZaw11xw
+ 8y1/RfH/zOHS5fJGwapYr0btwfI3gA==
+X-Authority-Analysis: v=2.4 cv=SPoblOvH c=1 sm=1 tr=0 ts=68a591d0 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8
+ a=bwGbKnmsAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=pGLkceISAAAA:8
+ a=Ntg_Zx-WAAAA:8 a=j_wYeDsNXzX0eLXVTLgA:9 a=jBT4sgKsbUXlsopr:21
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=nuVVIWbBudwLbAahYuja:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=RUfouJl5KNV7104ufCm4:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-20_03,2025-08-20_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 clxscore=1011 spamscore=0
+ priorityscore=1501 phishscore=0 suspectscore=0 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2508110000 definitions=firstrun
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 57K6e3cS3158730
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 09:08:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222162
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 09:14:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222163
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXRoaWV1IER1Ym9pcy1Ccmlh
-bmQgPG1hdGhpZXUuZHVib2lzLWJyaWFuZEBib290bGluLmNvbT4NCj4gU2VudDogZGVuIDE5IGF1
-Z3VzdGkgMjAyNSAwNzo0Ng0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVy
-c3RlZHRAYXhpcy5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIdjQgMS8yXSBzeXN0ZW1kLXN5c3RlbWN0
-bC1uYXRpdmU6IEluc3RhbGwgc3lzdGVtZC1zeXN2LWluc3RhbGwNCj4gDQo+IE9uIFN1biBBdWcg
-MTcsIDIwMjUgYXQgMTA6MTggUE0gQ0VTVCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHZpYSBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KPiA+IEl0IGlzIG5lZWRlZCB3aGVuIHN1cHBvcnQgZm9y
-IGJvdGggc3lzdGVtZCBhbmQgc3lzdmluaXQgYXJlIGVuYWJsZWQuDQo+ID4NCj4gPiBUaGlzIGFs
-c28gYWRkcyBhIHBhdGNoIGZvciBzeXN0ZW1jdGwgdG8gYWxsb3cgdGhlIHBhdGggdG8NCj4gPiBz
-eXN0ZW1kLXN5c3YtaW5zdGFsbCB0byBiZSBzcGVjaWZpZWQgaW4gcnVudGltZS4gVGhpcyBpcyBu
-ZWVkZWQgYmVjYXVzZQ0KPiA+IHRoZSBoYXJkY29kZWQgcGF0aCB0aGF0IGlzIGJ1aWx0IGludG8g
-c3lzdGVtY3RsIGRvZXMgbm90IG1hdGNoIHRoZSBwYXRoDQo+ID4gdG8gd2hlcmUgaXQgd2lsbCBl
-dmVudHVhbGx5IGJlIGV4ZWN1dGVkLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2pl
-bGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4gLS0tDQo+IA0KPiBI
-aSBQZXRlciwNCj4gDQo+IFRoYW5rcyBmb3IgdGhlIG5ldyB2ZXJzaW9uLiBIb3dldmVyLCBpdCBs
-b29rcyBsaWtlIEkgc3RpbGwgaGF2ZSBzaW1pbGFyDQo+IGZhaWx1cmVzOg0KPiANCj4gRVJST1I6
-IGNvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lLTEuMC1yMCBkb19yb290ZnM6IFBvc3RpbnN0YWxsIHNj
-cmlwdGxldHMgb2YNCj4gWydpcHRhYmxlcycsICdvcGVuc3NoLXNzaGQnLCAnc3lza2xvZ2QnLCAn
-dm9sYXRpbGUtYmluZHMnLCAnc3lzdGVtZC0NCj4gbmV0d29ya2QnLCAnYXQnLCAnY3JvbmllJywg
-J2xvZ3JvdGF0ZScsICdvbmx5LCBjb25maWd1cmF0aW9uIHJlcXVpcmVkIG9uDQo+IHRhcmdldCcs
-ICduZnMtdXRpbHMtY2xpZW50JywgJ25mcy11dGlscycsICdwc3BsYXNoJywgJ3J1bi1wb3N0aW5z
-dHMnXSBoYXZlDQo+IGZhaWxlZC4gSWYgdGhlIGludGVudGlvbiBpcyB0byBkZWZlciB0aGVtIHRv
-IGZpcnN0IGJvb3QsDQo+IHRoZW4gcGxlYXNlIHBsYWNlIHRoZW0gaW50byBwa2dfcG9zdGluc3Rf
-b250YXJnZXQ6JHtQTn0gKCkuDQo+IERlZmVycmluZyB0byBmaXJzdCBib290IHZpYSAnZXhpdCAx
-JyBpcyBubyBsb25nZXIgc3VwcG9ydGVkLg0KPiANCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0
-b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVpbGRlcnMvOS9idWlsZHMvMjIyMg0KPiBodHRwczov
-L2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWlsZGVycy8yMC9idWls
-ZHMvMjIwNg0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUv
-Iy9idWlsZGVycy8yMi9idWlsZHMvMjI2Nw0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJv
-amVjdC5vcmcvdmFsa3lyaWUvYXBpL3YyL2xvZ3MvMzI4MzM1Ni9yYXdfaW5saW5lDQo+IA0KPiBC
-ZXN0IHJlZ2FyZHMsDQo+IE1hdGhpZXUNCg0KSSBmYWlsIHRvIHJlcHJvZHVjZSB0aGlzLiBXaXRo
-IGJvdGggbXkgcGF0Y2hlcyBhcHBsaWVkIGFuZCBzeXN0ZW1kIGVuYWJsZWQsIA0KSSBjYW4gYnVp
-bGQgY29yZS1pbWFnZS1mdWxsLWNtZGxpbmUgYXMgZXhwZWN0ZWQuDQoNCkZpcnN0LCBJIHdvdWxk
-IGxpa2UgdG8gY29uZmlybSB0aGF0IHlvdSBhcmUgdGVzdGluZyB3aGF0IEkgYW0gdXNpbmcsIGJ1
-dCANCm1hdGhpZXUvbWFzdGVyLW5leHQgaGFzIGJlZW4gcmViYXNlZCBzaW5jZSB0aGUgdGVzdCB3
-YXMgcnVuIHNvIEkgY2Fubm90IA0KZmV0Y2ggNTEyYjRhZmEwODVlYjNiNzc1ZDgxODE5NTQ4OTAw
-OTU5ZDA4ZjYyNi4gTWF5YmUgeW91IHN0aWxsIGhhdmUgaXQgaW4gDQp5b3VyIGxvY2FsIHJlcG9z
-aXRvcnk/DQoNClNlY29uZCwgSSB3b3VsZCBuZWVkIHRoZSBsb2cuZG9fcm9vdGZzIGZyb20gb25l
-IG9mIHRoZSBmYWlsZWQgYnVpbGRzLg0KSXMgdGhpcyBzdG9yZWQgc29tZXdoZXJlIGFzIGFuIGFy
-dGlmYWN0PyBJZiBub3QsIHRoZW4gdGhpcyBpcyBzb21ldGhpbmcgSSANCndvdWxkIHJlYWxseSBy
-ZWNvbW1lbmQuIEluIG91ciBDSSwgd2hlbiBhIGJ1aWxkIGZhaWxzLCB3ZSBjcmVhdGUgYSB0YXIg
-YmFsbCANCndpdGggYWxsIHRoZSB0ZW1wIGRpcmVjdG9yaWVzIGFuZCBzdG9yZSBpdCB0b2dldGhl
-ciB3aXRoIHRoZSBvdGhlciBhcnRpZmFjdHMgDQpmcm9tIHRoZSBidWlsZC4gVGhpcyByZWFsbHkg
-aGVscHMgZGVidWdnaW5nIHdoYXQgY2F1c2VkIHRoZSBmYWlsdXJlLiBJZiANCnN0b3JpbmcgYWxs
-IHRoZSB0ZW1wIGRpcmVjdG9yaWVzIGlzIGNvbnNpZGVyZWQgdG9vIG11Y2gsIGF0IGxlYXN0IGFy
-Y2hpdmluZyANCnRoZSBsb2cuZG9fKiBmaWxlcyB0aGF0IGFyZSByZXBvcnRlZCBhdCB0aGUgZW5k
-IG9mIHRoZSBidWlsZCB3b3VsZCBiZSBvZiANCmdyZWF0IGhlbHAuDQoNCi8vUGV0ZXINCg0K
+From: Jiaying Song <jiaying.song.cn@windriver.com>
+
+A flaw was found in m2crypto. This issue may allow a remote attacker to
+decrypt captured messages in TLS servers that use RSA key exchanges,
+which may lead to exposure of confidential or sensitive data.
+
+The CVE-2023-50781 in M2Crypto is addressed by modifying OpenSSL because
+M2Crypto relies on OpenSSL for its cryptographic operations.The issue
+stems from OpenSSL=E2=80=99s RSA PKCS#1 v1.5 padding verification being
+vulnerable to Bleichenbacher-type attacks.To mitigate this, OpenSSL
+introduced an implicit rejection mechanism in the RSA PKCS#1 v1.5
+padding.Therefore, resolving the vulnerability requires changes within
+OpenSSL itself to ensure M2Crypto=E2=80=99s security.
+
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-50781
+https://github.com/openssl/openssl/pull/13817/commits
+https://todo.sr.ht/~mcepl/m2crypto/342?__goaway_challenge=3Dmeta-refresh&=
+__goaway_id=3D45a03d6accb7b343867110db1f7fb334
+
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+---
+ .../openssl/openssl/CVE-2023-50781-1.patch    | 618 ++++++++++++++++++
+ .../openssl/openssl/CVE-2023-50781-2.patch    | 358 ++++++++++
+ .../openssl/openssl/CVE-2023-50781-3.patch    |  41 ++
+ .../openssl/openssl/CVE-2023-50781-4.patch    | 441 +++++++++++++
+ .../openssl/openssl/CVE-2023-50781-5.patch    | 284 ++++++++
+ .../openssl/openssl/CVE-2023-50781-6.patch    |  57 ++
+ .../openssl/openssl_3.0.17.bb                 |   8 +-
+ 7 files changed, 1806 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-50=
+781-1.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-50=
+781-2.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-50=
+781-3.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-50=
+781-4.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-50=
+781-5.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-50=
+781-6.patch
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-1.p=
+atch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-1.patch
+new file mode 100644
+index 0000000000..234fe7b8aa
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-1.patch
+@@ -0,0 +1,618 @@
++From 24734088e1034392de981151dfe57e3a379ada18 Mon Sep 17 00:00:00 2001
++From: Hubert Kario <hkario@redhat.com>
++Date: Tue, 15 Mar 2022 13:58:08 +0100
++Subject: [PATCH 1/3] rsa: add implicit rejection in PKCS#1 v1.5
++
++The RSA decryption as implemented before required very careful handling
++of both the exit code returned by OpenSSL and the potentially returned
++ciphertext. Looking at the recent security vulnerabilities
++(CVE-2020-25659 and CVE-2020-25657) it is unlikely that most users of
++OpenSSL do it correctly.
++
++Given that correct code requires side channel secure programming in
++application code, we can classify the existing RSA decryption methods
++as CWE-676, which in turn likely causes CWE-208 and CWE-385 in
++application code.
++
++To prevent that, we can use a technique called "implicit rejection".
++For that we generate a random message to be returned in case the
++padding check fails. We generate the message based on static secret
++data (the private exponent) and the provided ciphertext (so that the
++attacker cannot determine that the returned value is randomly generated
++instead of result of decryption and de-padding). We return it in case
++any part of padding check fails.
++
++The upshot of this approach is that then not only is the length of the
++returned message useless as the Bleichenbacher oracle, so are the
++actual bytes of the returned message. So application code doesn't have
++to perform any operations on the returned message in side-channel free
++way to remain secure against Bleichenbacher attacks.
++
++Note: this patch implements a specific algorithm, shared with Mozilla
++NSS, so that the attacker cannot use one library as an oracle against th=
+e
++other in heterogeneous environments.
++
++CVE: CVE-2023-50781
++
++Upstream-Status: Backport
++[https://github.com/openssl/openssl/commit/7fc67e0a33102aa47bbaa56533eee=
+cb98c0450f7]
++
++Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
++Reviewed-by: Tim Hudson <tjh@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/13817)
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ crypto/rsa/rsa_ossl.c                     |  95 +++++++-
++ crypto/rsa/rsa_pk1.c                      | 252 ++++++++++++++++++++++
++ doc/man1/openssl-pkeyutl.pod.in           |   5 +
++ doc/man1/openssl-rsautl.pod.in            |   5 +
++ doc/man3/EVP_PKEY_CTX_ctrl.pod            |   7 +
++ doc/man3/EVP_PKEY_decrypt.pod             |  12 ++
++ doc/man3/RSA_padding_add_PKCS1_type_1.pod |   7 +-
++ doc/man3/RSA_public_encrypt.pod           |  11 +-
++ include/crypto/rsa.h                      |   4 +
++ 9 files changed, 393 insertions(+), 5 deletions(-)
++
++diff --git a/crypto/rsa/rsa_ossl.c b/crypto/rsa/rsa_ossl.c
++index 0fc642e777..330302ae55 100644
++--- a/crypto/rsa/rsa_ossl.c
+++++ b/crypto/rsa/rsa_ossl.c
++@@ -17,6 +17,9 @@
++ #include "crypto/bn.h"
++ #include "rsa_local.h"
++ #include "internal/constant_time.h"
+++#include <openssl/evp.h>
+++#include <openssl/sha.h>
+++#include <openssl/hmac.h>
++=20
++ static int rsa_ossl_public_encrypt(int flen, const unsigned char *from,
++                                   unsigned char *to, RSA *rsa, int padd=
+ing);
++@@ -377,8 +380,13 @@ static int rsa_ossl_private_decrypt(int flen, const=
+ unsigned char *from,
++     BIGNUM *f, *ret;
++     int j, num =3D 0, r =3D -1;
++     unsigned char *buf =3D NULL;
+++    unsigned char d_hash[SHA256_DIGEST_LENGTH] =3D {0};
+++    HMAC_CTX *hmac =3D NULL;
+++    unsigned int md_len =3D SHA256_DIGEST_LENGTH;
+++    unsigned char kdk[SHA256_DIGEST_LENGTH] =3D {0};
++     BN_CTX *ctx =3D NULL;
++     int local_blinding =3D 0;
+++    EVP_MD *md =3D NULL;
++     /*
++      * Used only if the blinding structure is shared. A non-NULL unblin=
+d
++      * instructs rsa_blinding_convert() and rsa_blinding_invert() to st=
+ore
++@@ -408,6 +416,11 @@ static int rsa_ossl_private_decrypt(int flen, const=
+ unsigned char *from,
++         goto err;
++     }
++=20
+++    if (flen < 1) {
+++        ERR_raise(ERR_LIB_RSA, RSA_R_DATA_TOO_SMALL);
+++        goto err;
+++    }
+++
++     /* make data into a big number */
++     if (BN_bin2bn(from, (int)flen, f) =3D=3D NULL)
++         goto err;
++@@ -472,13 +485,91 @@ static int rsa_ossl_private_decrypt(int flen, cons=
+t unsigned char *from,
++         if (!rsa_blinding_invert(blinding, ret, unblind, ctx))
++             goto err;
++=20
+++    /*
+++     * derive the Key Derivation Key from private exponent and public
+++     * ciphertext
+++     */
+++    if (!(rsa->flags & RSA_FLAG_EXT_PKEY)) {
+++        /*
+++         * because we use d as a handle to rsa->d we need to keep it lo=
+cal and
+++         * free before any further use of rsa->d
+++         */
+++        BIGNUM *d =3D BN_new();
+++        if (d =3D=3D NULL) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_MALLOC_FAILURE);
+++            goto err;
+++        }
+++        if (rsa->d =3D=3D NULL) {
+++            ERR_raise(ERR_LIB_RSA, RSA_R_MISSING_PRIVATE_KEY);
+++            BN_free(d);
+++            goto err;
+++        }
+++        BN_with_flags(d, rsa->d, BN_FLG_CONSTTIME);
+++        if (BN_bn2binpad(d, buf, num) < 0) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            BN_free(d);
+++            goto err;
+++        }
+++        BN_free(d);
+++
+++        /*
+++         * we use hardcoded hash so that migrating between versions tha=
+t use
+++         * different hash doesn't provide a Bleichenbacher oracle:
+++         * if the attacker can see that different versions return diffe=
+rent
+++         * messages for the same ciphertext, they'll know that the mess=
+age is
+++         * syntethically generated, which means that the padding check =
+failed
+++         */
+++        md =3D EVP_MD_fetch(rsa->libctx, "sha256", NULL);
+++        if (md =3D=3D NULL) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            goto err;
+++        }
+++
+++        if (EVP_Digest(buf, num, d_hash, NULL, md, NULL) <=3D 0) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            goto err;
+++        }
+++
+++        hmac =3D HMAC_CTX_new();
+++        if (hmac =3D=3D NULL) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_MALLOC_FAILURE);
+++            goto err;
+++        }
+++
+++        if (HMAC_Init_ex(hmac, d_hash, sizeof(d_hash), md, NULL) <=3D 0=
+) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            goto err;
+++        }
+++
+++        if (flen < num) {
+++            memset(buf, 0, num - flen);
+++            if (HMAC_Update(hmac, buf, num - flen) <=3D 0) {
+++                ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++                goto err;
+++            }
+++        }
+++        if (HMAC_Update(hmac, from, flen) <=3D 0) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            goto err;
+++        }
+++
+++        md_len =3D SHA256_DIGEST_LENGTH;
+++        if (HMAC_Final(hmac, kdk, &md_len) <=3D 0) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            goto err;
+++        }
+++    }
+++
++     j =3D BN_bn2binpad(ret, buf, num);
++     if (j < 0)
++         goto err;
++=20
++     switch (padding) {
++     case RSA_PKCS1_PADDING:
++-        r =3D RSA_padding_check_PKCS1_type_2(to, num, buf, j, num);
+++        if (rsa->flags & RSA_FLAG_EXT_PKEY)
+++            r =3D RSA_padding_check_PKCS1_type_2(to, num, buf, j, num);
+++        else
+++            r =3D ossl_rsa_padding_check_PKCS1_type_2(rsa->libctx, to, =
+num, buf, j, num, kdk);
++         break;
++     case RSA_PKCS1_OAEP_PADDING:
++         r =3D RSA_padding_check_PKCS1_OAEP(to, num, buf, j, num, NULL, =
+0);
++@@ -501,6 +592,8 @@ static int rsa_ossl_private_decrypt(int flen, const =
+unsigned char *from,
++ #endif
++=20
++  err:
+++    HMAC_CTX_free(hmac);
+++    EVP_MD_free(md);
++     BN_CTX_end(ctx);
++     BN_CTX_free(ctx);
++     OPENSSL_clear_free(buf, num);
++diff --git a/crypto/rsa/rsa_pk1.c b/crypto/rsa/rsa_pk1.c
++index 51507fc030..5cd2b26879 100644
++--- a/crypto/rsa/rsa_pk1.c
+++++ b/crypto/rsa/rsa_pk1.c
++@@ -21,10 +21,14 @@
++ #include <openssl/rand.h>
++ /* Just for the SSL_MAX_MASTER_KEY_LENGTH value */
++ #include <openssl/prov_ssl.h>
+++#include <openssl/evp.h>
+++#include <openssl/sha.h>
+++#include <openssl/hmac.h>
++ #include "internal/cryptlib.h"
++ #include "crypto/rsa.h"
++ #include "rsa_local.h"
++=20
+++
++ int RSA_padding_add_PKCS1_type_1(unsigned char *to, int tlen,
++                                  const unsigned char *from, int flen)
++ {
++@@ -273,6 +277,254 @@ int RSA_padding_check_PKCS1_type_2(unsigned char *=
+to, int tlen,
++     return constant_time_select_int(good, mlen, -1);
++ }
++=20
+++
+++static int ossl_rsa_prf(OSSL_LIB_CTX *ctx,
+++                        unsigned char *to, int tlen,
+++                        const char *label, int llen,
+++                        const unsigned char *kdk,
+++                        uint16_t bitlen)
+++{
+++    int pos;
+++    int ret =3D -1;
+++    uint16_t iter =3D 0;
+++    unsigned char be_iter[sizeof(iter)];
+++    unsigned char be_bitlen[sizeof(bitlen)];
+++    HMAC_CTX *hmac =3D NULL;
+++    EVP_MD *md =3D NULL;
+++    unsigned char hmac_out[SHA256_DIGEST_LENGTH];
+++    unsigned int md_len;
+++
+++    if (tlen * 8 !=3D bitlen) {
+++        ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++        return ret;
+++    }
+++
+++    be_bitlen[0] =3D (bitlen >> 8) & 0xff;
+++    be_bitlen[1] =3D bitlen & 0xff;
+++
+++    hmac =3D HMAC_CTX_new();
+++    if (hmac =3D=3D NULL) {
+++        ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++        goto err;
+++    }
+++
+++    /*
+++     * we use hardcoded hash so that migrating between versions that us=
+e
+++     * different hash doesn't provide a Bleichenbacher oracle:
+++     * if the attacker can see that different versions return different
+++     * messages for the same ciphertext, they'll know that the message =
+is
+++     * syntethically generated, which means that the padding check fail=
+ed
+++     */
+++    md =3D EVP_MD_fetch(ctx, "sha256", NULL);
+++    if (md =3D=3D NULL) {
+++        ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++        goto err;
+++    }
+++
+++    if (HMAC_Init_ex(hmac, kdk, SHA256_DIGEST_LENGTH, md, NULL) <=3D 0)=
+ {
+++        ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++        goto err;
+++    }
+++
+++    for (pos =3D 0; pos < tlen; pos +=3D SHA256_DIGEST_LENGTH, iter++) =
+{
+++        if (HMAC_Init_ex(hmac, NULL, 0, NULL, NULL) <=3D 0) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            goto err;
+++        }
+++
+++        be_iter[0] =3D (iter >> 8) & 0xff;
+++        be_iter[1] =3D iter & 0xff;
+++
+++        if (HMAC_Update(hmac, be_iter, sizeof(be_iter)) <=3D 0) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            goto err;
+++        }
+++        if (HMAC_Update(hmac, (unsigned char *)label, llen) <=3D 0) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            goto err;
+++        }
+++        if (HMAC_Update(hmac, be_bitlen, sizeof(be_bitlen)) <=3D 0) {
+++            ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++            goto err;
+++        }
+++
+++        /*
+++         * HMAC_Final requires the output buffer to fit the whole MAC
+++         * value, so we need to use the intermediate buffer for the las=
+t
+++         * unaligned block
+++         */
+++        md_len =3D SHA256_DIGEST_LENGTH;
+++        if (pos + SHA256_DIGEST_LENGTH > tlen) {
+++            if (HMAC_Final(hmac, hmac_out, &md_len) <=3D 0) {
+++                ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++                goto err;
+++            }
+++            memcpy(to + pos, hmac_out, tlen - pos);
+++        } else {
+++            if (HMAC_Final(hmac, to + pos, &md_len) <=3D 0) {
+++                ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++                goto err;
+++            }
+++        }
+++    }
+++
+++    ret =3D 0;
+++
+++err:
+++    HMAC_CTX_free(hmac);
+++    EVP_MD_free(md);
+++    return ret;
+++}
+++
+++/*
+++ * ossl_rsa_padding_check_PKCS1_type_2() checks and removes the PKCS#1 =
+type 2
+++ * padding from a decrypted RSA message. Unlike the
+++ * RSA_padding_check_PKCS1_type_2() it will not return an error in case=
+ it
+++ * detects a padding error, rather it will return a deterministically g=
+enerated
+++ * random message. In other words it will perform an implicit rejection
+++ * of an invalid padding. This means that the returned value does not i=
+ndicate
+++ * if the padding of the encrypted message was correct or not, making
+++ * side channel attacks like the ones described by Bleichenbacher impos=
+sible
+++ * without access to the full decrypted value and a brute-force search =
+of
+++ * remaining padding bytes
+++ */
+++int ossl_rsa_padding_check_PKCS1_type_2(OSSL_LIB_CTX *ctx,
+++                                        unsigned char *to, int tlen,
+++                                        const unsigned char *from, int =
+flen,
+++                                        int num, unsigned char *kdk)
+++{
+++/*
+++ * We need to generate a random length for the synthethic message, to a=
+void
+++ * bias towards zero and avoid non-constant timeness of DIV, we prepare
+++ * 128 values to check if they are not too large for the used key size,
+++ * and use 0 in case none of them are small enough, as 2^-128 is a good=
+ enough
+++ * safety margin
+++ */
+++#define MAX_LEN_GEN_TRIES 128
+++    unsigned char *synthetic =3D NULL;
+++    int synthethic_length;
+++    uint16_t len_candidate;
+++    unsigned char candidate_lengths[MAX_LEN_GEN_TRIES * sizeof(len_cand=
+idate)];
+++    uint16_t len_mask;
+++    uint16_t max_sep_offset;
+++    int synth_msg_index =3D 0;
+++    int ret =3D -1;
+++    int i, j;
+++    unsigned int good, found_zero_byte;
+++    int zero_index =3D 0, msg_index;
+++
+++    /*
+++     * If these checks fail then either the message in publicly invalid=
+, or
+++     * we've been called incorrectly. We can fail immediately.
+++     * Since this code is called only internally by openssl, those are =
+just
+++     * sanity checks
+++     */
+++    if (num !=3D flen || tlen <=3D 0 || flen <=3D 0) {
+++        ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++        return -1;
+++    }
+++
+++    /* Generate a random message to return in case the padding checks f=
+ail */
+++    synthetic =3D OPENSSL_malloc(flen);
+++    if (synthetic =3D=3D NULL) {
+++        ERR_raise(ERR_LIB_RSA, ERR_R_MALLOC_FAILURE);
+++        return -1;
+++    }
+++
+++    if (ossl_rsa_prf(ctx, synthetic, flen, "message", 7, kdk, flen * 8)=
+ < 0)
+++        goto err;
+++
+++    /* decide how long the random message should be */
+++    if (ossl_rsa_prf(ctx, candidate_lengths, sizeof(candidate_lengths),
+++                     "length", 6, kdk,
+++                     MAX_LEN_GEN_TRIES * sizeof(len_candidate) * 8) < 0=
+)
+++        goto err;
+++
+++    /*
+++     * max message size is the size of the modulus size less 2 bytes fo=
+r
+++     * version and padding type and a minimum of 8 bytes padding
+++     */
+++    len_mask =3D max_sep_offset =3D flen - 2 - 8;
+++    /*
+++     * we want a mask so lets propagate the high bit to all positions l=
+ess
+++     * significant than it
+++     */
+++    len_mask |=3D len_mask >> 1;
+++    len_mask |=3D len_mask >> 2;
+++    len_mask |=3D len_mask >> 4;
+++    len_mask |=3D len_mask >> 8;
+++
+++    synthethic_length =3D 0;
+++    for (i =3D 0; i < MAX_LEN_GEN_TRIES * (int)sizeof(len_candidate);
+++            i +=3D sizeof(len_candidate)) {
+++        len_candidate =3D (candidate_lengths[i] << 8) | candidate_lengt=
+hs[i + 1];
+++        len_candidate &=3D len_mask;
+++
+++        synthethic_length =3D constant_time_select_int(
+++            constant_time_lt(len_candidate, max_sep_offset),
+++            len_candidate, synthethic_length);
+++    }
+++
+++    synth_msg_index =3D flen - synthethic_length;
+++
+++    /* we have alternative message ready, check the real one */
+++    good =3D constant_time_is_zero(from[0]);
+++    good &=3D constant_time_eq(from[1], 2);
+++
+++    /* then look for the padding|message separator (the first zero byte=
+) */
+++    found_zero_byte =3D 0;
+++    for (i =3D 2; i < flen; i++) {
+++        unsigned int equals0 =3D constant_time_is_zero(from[i]);
+++        zero_index =3D constant_time_select_int(~found_zero_byte & equa=
+ls0,
+++                                              i, zero_index);
+++        found_zero_byte |=3D equals0;
+++    }
+++
+++    /*
+++     * padding must be at least 8 bytes long, and it starts two bytes i=
+nto
+++     * |from|. If we never found a 0-byte, then |zero_index| is 0 and t=
+he check
+++     * also fails.
+++     */
+++    good &=3D constant_time_ge(zero_index, 2 + 8);
+++
+++    /*
+++     * Skip the zero byte. This is incorrect if we never found a zero-b=
+yte
+++     * but in this case we also do not copy the message out.
+++     */
+++    msg_index =3D zero_index + 1;
+++
+++    /*
+++     * old code returned an error in case the decrypted message wouldn'=
+t fit
+++     * into the |to|, since that would leak information, return the syn=
+thethic
+++     * message instead
+++     */
+++    good &=3D constant_time_ge(tlen, num - msg_index);
+++
+++    msg_index =3D constant_time_select_int(good, msg_index, synth_msg_i=
+ndex);
+++
+++    /*
+++     * since at this point the |msg_index| does not provide the signal
+++     * indicating if the padding check failed or not, we don't have to =
+worry
+++     * about leaking the length of returned message, we still need to e=
+nsure
+++     * that we read contents of both buffers so that cache accesses don=
+'t leak
+++     * the value of |good|
+++     */
+++    for (i =3D msg_index, j =3D 0; i < flen && j < tlen; i++, j++)
+++        to[j] =3D constant_time_select_8(good, from[i], synthetic[i]);
+++    ret =3D j;
+++
+++err:
+++    /*
+++     * the only time ret < 0 is when the ciphertext is publicly invalid
+++     * or we were called with invalid parameters, so we don't have to p=
+erform
+++     * a side-channel secure raising of the error
+++     */
+++    if (ret < 0)
+++        ERR_raise(ERR_LIB_RSA, ERR_R_INTERNAL_ERROR);
+++    OPENSSL_free(synthetic);
+++    return ret;
+++}
+++
++ /*
++  * ossl_rsa_padding_check_PKCS1_type_2_TLS() checks and removes the PKC=
+S1 type 2
++  * padding from a decrypted RSA message in a TLS signature. The result =
+is stored
++diff --git a/doc/man1/openssl-pkeyutl.pod.in b/doc/man1/openssl-pkeyutl.=
+pod.in
++index 2f6ef0021d..015265a74d 100644
++--- a/doc/man1/openssl-pkeyutl.pod.in
+++++ b/doc/man1/openssl-pkeyutl.pod.in
++@@ -273,6 +273,11 @@ signed or verified directly instead of using a B<Di=
+gestInfo> structure. If a
++ digest is set, then the B<DigestInfo> structure is used and its length
++ must correspond to the digest type.
++=20
+++Note, for B<pkcs1> padding, as a protection against Bleichenbacher atta=
+ck,
+++the decryption will not fail in case of padding check failures. Use B<n=
+one>
+++and manual inspection of the decrypted message to verify if the decrypt=
+ed
+++value has correct PKCS#1 v1.5 padding.
+++
++ For B<oaep> mode only encryption and decryption is supported.
++=20
++ For B<x931> if the digest type is set it is used to format the block da=
+ta
++diff --git a/doc/man1/openssl-rsautl.pod.in b/doc/man1/openssl-rsautl.po=
+d.in
++index 0a32fd965b..4c462abc8c 100644
++--- a/doc/man1/openssl-rsautl.pod.in
+++++ b/doc/man1/openssl-rsautl.pod.in
++@@ -105,6 +105,11 @@ The padding to use: PKCS#1 v1.5 (the default), PKCS=
+#1 OAEP,
++ ANSI X9.31, or no padding, respectively.
++ For signatures, only B<-pkcs> and B<-raw> can be used.
++=20
+++Note: because of protection against Bleichenbacher attacks, decryption
+++using PKCS#1 v1.5 mode will not return errors in case padding check fai=
+led.
+++Use B<-raw> and inspect the returned value manually to check if the
+++padding is correct.
+++
++ =3Ditem B<-hexdump>
++=20
++ Hex dump the output data.
++diff --git a/doc/man3/EVP_PKEY_CTX_ctrl.pod b/doc/man3/EVP_PKEY_CTX_ctrl=
+.pod
++index 3075eaafd6..e788f38809 100644
++--- a/doc/man3/EVP_PKEY_CTX_ctrl.pod
+++++ b/doc/man3/EVP_PKEY_CTX_ctrl.pod
++@@ -386,6 +386,13 @@ this behaviour should be tolerated then
++ OSSL_ASYM_CIPHER_PARAM_TLS_NEGOTIATED_VERSION should be set to the actu=
+al
++ negotiated protocol version. Otherwise it should be left unset.
++=20
+++Similarly to the B<RSA_PKCS1_WITH_TLS_PADDING> above, since OpenSSL ver=
+sion
+++3.1.0, the use of B<RSA_PKCS1_PADDING> will return a randomly generated=
+ message
+++instead of padding errors in case padding checks fail. Applications tha=
+t
+++want to remain secure while using earlier versions of OpenSSL, still ne=
+ed to
+++handle both the error code from the RSA decryption operation and the
+++returned message in a side channel secure manner.
+++
++ =3Dhead2 DSA parameters
++=20
++ EVP_PKEY_CTX_set_dsa_paramgen_bits() sets the number of bits used for D=
+SA
++diff --git a/doc/man3/EVP_PKEY_decrypt.pod b/doc/man3/EVP_PKEY_decrypt.p=
+od
++index b6f9bad5f1..898535a7a2 100644
++--- a/doc/man3/EVP_PKEY_decrypt.pod
+++++ b/doc/man3/EVP_PKEY_decrypt.pod
++@@ -51,6 +51,18 @@ return 1 for success and 0 or a negative value for fa=
+ilure. In particular a
++ return value of -2 indicates the operation is not supported by the publ=
+ic key
++ algorithm.
++=20
+++=3Dhead1 WARNINGS
+++
+++In OpenSSL versions before 3.1.0, when used in PKCS#1 v1.5 padding,
+++both the return value from the EVP_PKEY_decrypt() and the B<outlen> pro=
+vided
+++information useful in mounting a Bleichenbacher attack against the
+++used private key. They had to processed in a side-channel free way.
+++
+++Since version 3.1.0, the EVP_PKEY_decrypt() method when used with PKCS#=
+1
+++v1.5 padding doesn't return an error in case it detects an error in pad=
+ding,
+++instead it returns a pseudo-randomly generated message, removing the ne=
+ed
+++of side-channel secure code from applications using OpenSSL.
+++
++ =3Dhead1 EXAMPLES
++=20
++ Decrypt data using OAEP (for RSA keys):
++diff --git a/doc/man3/RSA_padding_add_PKCS1_type_1.pod b/doc/man3/RSA_pa=
+dding_add_PKCS1_type_1.pod
++index 9f7025c497..36ae18563f 100644
++--- a/doc/man3/RSA_padding_add_PKCS1_type_1.pod
+++++ b/doc/man3/RSA_padding_add_PKCS1_type_1.pod
++@@ -121,8 +121,8 @@ L<ERR_get_error(3)>.
++=20
++ =3Dhead1 WARNINGS
++=20
++-The result of RSA_padding_check_PKCS1_type_2() is a very sensitive
++-information which can potentially be used to mount a Bleichenbacher
+++The result of RSA_padding_check_PKCS1_type_2() is exactly the
+++information which is used to mount a classical Bleichenbacher
++ padding oracle attack. This is an inherent weakness in the PKCS #1
++ v1.5 padding design. Prefer PKCS1_OAEP padding. If that is not
++ possible, the result of RSA_padding_check_PKCS1_type_2() should be
++@@ -137,6 +137,9 @@ as this would create a small timing side channel whi=
+ch could be
++ used to mount a Bleichenbacher attack against any padding mode
++ including PKCS1_OAEP.
++=20
+++You should prefer the use of EVP PKEY APIs for PKCS#1 v1.5 decryption
+++as they implement the necessary workarounds internally.
+++
++ =3Dhead1 SEE ALSO
++=20
++ L<RSA_public_encrypt(3)>,
++diff --git a/doc/man3/RSA_public_encrypt.pod b/doc/man3/RSA_public_encry=
+pt.pod
++index 1d38073aea..bd3f835ac6 100644
++--- a/doc/man3/RSA_public_encrypt.pod
+++++ b/doc/man3/RSA_public_encrypt.pod
++@@ -52,8 +52,8 @@ Encrypting user data directly with RSA is insecure.
++=20
++ =3Dback
++=20
++-B<flen> must not be more than RSA_size(B<rsa>) - 11 for the PKCS #1 v1.=
+5
++-based padding modes, not more than RSA_size(B<rsa>) - 42 for
+++When encrypting B<flen> must not be more than RSA_size(B<rsa>) - 11 for=
+ the
+++PKCS #1 v1.5 based padding modes, not more than RSA_size(B<rsa>) - 42 f=
+or
++ RSA_PKCS1_OAEP_PADDING and exactly RSA_size(B<rsa>) for RSA_NO_PADDING.
++ When a padding mode other than RSA_NO_PADDING is in use, then
++ RSA_public_encrypt() will include some random bytes into the ciphertext
++@@ -92,6 +92,13 @@ which can potentially be used to mount a Bleichenbach=
+er padding oracle
++ attack. This is an inherent weakness in the PKCS #1 v1.5 padding
++ design. Prefer RSA_PKCS1_OAEP_PADDING.
++=20
+++In OpenSSL before version 3.1.0, both the return value and the length o=
+f
+++returned value could be used to mount the Bleichenbacher attack.
+++Since version 3.1.0, OpenSSL does not return an error in case of paddin=
+g
+++checks failed. Instead it generates a random message based on used priv=
+ate
+++key and provided ciphertext so that application code doesn't have to im=
+plement
+++a side-channel secure error handling.
+++
++ =3Dhead1 CONFORMING TO
++=20
++ SSL, PKCS #1 v2.0
++diff --git a/include/crypto/rsa.h b/include/crypto/rsa.h
++index 949873d0ee..f267e5d9d1 100644
++--- a/include/crypto/rsa.h
+++++ b/include/crypto/rsa.h
++@@ -83,6 +83,10 @@ int ossl_rsa_param_decode(RSA *rsa, const X509_ALGOR =
+*alg);
++ RSA *ossl_rsa_key_from_pkcs8(const PKCS8_PRIV_KEY_INFO *p8inf,
++                              OSSL_LIB_CTX *libctx, const char *propq);
++=20
+++int ossl_rsa_padding_check_PKCS1_type_2(OSSL_LIB_CTX *ctx,
+++                                        unsigned char *to, int tlen,
+++                                        const unsigned char *from, int =
+flen,
+++                                        int num, unsigned char *kdk);
++ int ossl_rsa_padding_check_PKCS1_type_2_TLS(OSSL_LIB_CTX *ctx, unsigned=
+ char *to,
++                                             size_t tlen,
++                                             const unsigned char *from,
++--=20
++2.34.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-2.p=
+atch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-2.patch
+new file mode 100644
+index 0000000000..b336d9e850
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-2.patch
+@@ -0,0 +1,358 @@
++From e92f0cd3b03e5aca948b03df7e3d02e536700f68 Mon Sep 17 00:00:00 2001
++From: Hubert Kario <hkario@redhat.com>
++Date: Thu, 27 Oct 2022 19:16:58 +0200
++Subject: [PATCH 2/3] rsa: Add option to disable implicit rejection
++
++CVE: CVE-2023-50781
++
++Upstream-Status: Backport
++[https://github.com/openssl/openssl/commit/5ab3ec1bb1eaa795d775f5896818c=
+faa84d33a1a]
++
++Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
++Reviewed-by: Tim Hudson <tjh@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/13817)
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ crypto/cms/cms_env.c                          |  7 +++++
++ crypto/evp/ctrl_params_translate.c            |  6 +++++
++ crypto/rsa/rsa_ossl.c                         | 16 ++++++++----
++ crypto/rsa/rsa_pmeth.c                        | 20 +++++++++++++-
++ doc/man1/openssl-pkeyutl.pod.in               | 10 +++++++
++ doc/man3/EVP_PKEY_CTX_ctrl.pod                |  2 ++
++ doc/man7/provider-asym_cipher.pod             |  9 +++++++
++ include/openssl/core_names.h                  |  2 ++
++ include/openssl/rsa.h                         |  5 ++++
++ .../implementations/asymciphers/rsa_enc.c     | 26 +++++++++++++++++--
++ 10 files changed, 95 insertions(+), 8 deletions(-)
++
++diff --git a/crypto/cms/cms_env.c b/crypto/cms/cms_env.c
++index 445a16fb77..49b0289114 100644
++--- a/crypto/cms/cms_env.c
+++++ b/crypto/cms/cms_env.c
++@@ -581,6 +581,13 @@ static int cms_RecipientInfo_ktri_decrypt(CMS_Conte=
+ntInfo *cms,
++     if (!ossl_cms_env_asn1_ctrl(ri, 1))
++         goto err;
++=20
+++    if (EVP_PKEY_is_a(pkey, "RSA"))
+++        /* upper layer CMS code incorrectly assumes that a successful R=
+SA
+++         * decryption means that the key matches ciphertext (which neve=
+r
+++         * was the case, implicit rejection or not), so to make it work
+++         * disable implicit rejection for RSA keys */
+++        EVP_PKEY_CTX_ctrl_str(ktri->pctx, "rsa_pkcs1_implicit_rejection=
+", "0");
+++
++     if (EVP_PKEY_decrypt(ktri->pctx, NULL, &eklen,
++                          ktri->encryptedKey->data,
++                          ktri->encryptedKey->length) <=3D 0)
++diff --git a/crypto/evp/ctrl_params_translate.c b/crypto/evp/ctrl_params=
+_translate.c
++index 44d0895bcf..db7325439a 100644
++--- a/crypto/evp/ctrl_params_translate.c
+++++ b/crypto/evp/ctrl_params_translate.c
++@@ -2269,6 +2269,12 @@ static const struct translation_st evp_pkey_ctx_t=
+ranslations[] =3D {
++       EVP_PKEY_CTRL_GET_RSA_OAEP_LABEL, NULL, NULL,
++       OSSL_ASYM_CIPHER_PARAM_OAEP_LABEL, OSSL_PARAM_OCTET_PTR, NULL },
++=20
+++    { SET, EVP_PKEY_RSA, 0, EVP_PKEY_OP_TYPE_CRYPT,
+++      EVP_PKEY_CTRL_RSA_IMPLICIT_REJECTION, NULL,
+++      "rsa_pkcs1_implicit_rejection",
+++      OSSL_ASYM_CIPHER_PARAM_IMPLICIT_REJECTION, OSSL_PARAM_UNSIGNED_IN=
+TEGER,
+++      NULL },
+++
++     { SET, EVP_PKEY_RSA_PSS, 0, EVP_PKEY_OP_TYPE_GEN,
++       EVP_PKEY_CTRL_MD, "rsa_pss_keygen_md", NULL,
++       OSSL_ALG_PARAM_DIGEST, OSSL_PARAM_UTF8_STRING, fix_md },
++diff --git a/crypto/rsa/rsa_ossl.c b/crypto/rsa/rsa_ossl.c
++index 330302ae55..4bdacd5ed9 100644
++--- a/crypto/rsa/rsa_ossl.c
+++++ b/crypto/rsa/rsa_ossl.c
++@@ -395,6 +395,12 @@ static int rsa_ossl_private_decrypt(int flen, const=
+ unsigned char *from,
++     BIGNUM *unblind =3D NULL;
++     BN_BLINDING *blinding =3D NULL;
++=20
+++    /*
+++     * we need the value of the private exponent to perform implicit re=
+jection
+++     */
+++    if ((rsa->flags & RSA_FLAG_EXT_PKEY) && (padding =3D=3D RSA_PKCS1_P=
+ADDING))
+++        padding =3D RSA_PKCS1_NO_IMPLICIT_REJECT_PADDING;
+++
++     if ((ctx =3D BN_CTX_new_ex(rsa->libctx)) =3D=3D NULL)
++         goto err;
++     BN_CTX_start(ctx);
++@@ -489,7 +495,7 @@ static int rsa_ossl_private_decrypt(int flen, const =
+unsigned char *from,
++      * derive the Key Derivation Key from private exponent and public
++      * ciphertext
++      */
++-    if (!(rsa->flags & RSA_FLAG_EXT_PKEY)) {
+++    if (padding =3D=3D RSA_PKCS1_PADDING) {
++         /*
++          * because we use d as a handle to rsa->d we need to keep it lo=
+cal and
++          * free before any further use of rsa->d
++@@ -565,11 +571,11 @@ static int rsa_ossl_private_decrypt(int flen, cons=
+t unsigned char *from,
++         goto err;
++=20
++     switch (padding) {
+++    case RSA_PKCS1_NO_IMPLICIT_REJECT_PADDING:
+++        r =3D RSA_padding_check_PKCS1_type_2(to, num, buf, j, num);
+++        break;
++     case RSA_PKCS1_PADDING:
++-        if (rsa->flags & RSA_FLAG_EXT_PKEY)
++-            r =3D RSA_padding_check_PKCS1_type_2(to, num, buf, j, num);
++-        else
++-            r =3D ossl_rsa_padding_check_PKCS1_type_2(rsa->libctx, to, =
+num, buf, j, num, kdk);
+++        r =3D ossl_rsa_padding_check_PKCS1_type_2(rsa->libctx, to, num,=
+ buf, j, num, kdk);
++         break;
++     case RSA_PKCS1_OAEP_PADDING:
++         r =3D RSA_padding_check_PKCS1_OAEP(to, num, buf, j, num, NULL, =
+0);
++diff --git a/crypto/rsa/rsa_pmeth.c b/crypto/rsa/rsa_pmeth.c
++index 0bf5ac098a..81b031f81b 100644
++--- a/crypto/rsa/rsa_pmeth.c
+++++ b/crypto/rsa/rsa_pmeth.c
++@@ -52,6 +52,8 @@ typedef struct {
++     /* OAEP label */
++     unsigned char *oaep_label;
++     size_t oaep_labellen;
+++    /* if to use implicit rejection in PKCS#1 v1.5 decryption */
+++    int implicit_rejection;
++ } RSA_PKEY_CTX;
++=20
++ /* True if PSS parameters are restricted */
++@@ -72,6 +74,7 @@ static int pkey_rsa_init(EVP_PKEY_CTX *ctx)
++     /* Maximum for sign, auto for verify */
++     rctx->saltlen =3D RSA_PSS_SALTLEN_AUTO;
++     rctx->min_saltlen =3D -1;
+++    rctx->implicit_rejection =3D 1;
++     ctx->data =3D rctx;
++     ctx->keygen_info =3D rctx->gentmp;
++     ctx->keygen_info_count =3D 2;
++@@ -97,6 +100,7 @@ static int pkey_rsa_copy(EVP_PKEY_CTX *dst, const EVP=
+_PKEY_CTX *src)
++     dctx->md =3D sctx->md;
++     dctx->mgf1md =3D sctx->mgf1md;
++     dctx->saltlen =3D sctx->saltlen;
+++    dctx->implicit_rejection =3D sctx->implicit_rejection;
++     if (sctx->oaep_label) {
++         OPENSSL_free(dctx->oaep_label);
++         dctx->oaep_label =3D OPENSSL_memdup(sctx->oaep_label, sctx->oae=
+p_labellen);
++@@ -347,6 +351,7 @@ static int pkey_rsa_decrypt(EVP_PKEY_CTX *ctx,
++                             const unsigned char *in, size_t inlen)
++ {
++     int ret;
+++    int pad_mode;
++     RSA_PKEY_CTX *rctx =3D ctx->data;
++     /*
++      * Discard const. Its marked as const because this may be a cached =
+copy of
++@@ -367,7 +372,12 @@ static int pkey_rsa_decrypt(EVP_PKEY_CTX *ctx,
++                                                 rctx->oaep_labellen,
++                                                 rctx->md, rctx->mgf1md)=
+;
++     } else {
++-        ret =3D RSA_private_decrypt(inlen, in, out, rsa, rctx->pad_mode=
+);
+++        if (rctx->pad_mode =3D=3D RSA_PKCS1_PADDING &&
+++              rctx->implicit_rejection =3D=3D 0)
+++            pad_mode =3D RSA_PKCS1_NO_IMPLICIT_REJECT_PADDING;
+++        else
+++            pad_mode =3D rctx->pad_mode;
+++        ret =3D RSA_private_decrypt(inlen, in, out, rsa, pad_mode);
++     }
++     *outlen =3D constant_time_select_s(constant_time_msb_s(ret), *outle=
+n, ret);
++     ret =3D constant_time_select_int(constant_time_msb(ret), ret, 1);
++@@ -591,6 +601,14 @@ static int pkey_rsa_ctrl(EVP_PKEY_CTX *ctx, int typ=
+e, int p1, void *p2)
++         *(unsigned char **)p2 =3D rctx->oaep_label;
++         return rctx->oaep_labellen;
++=20
+++    case EVP_PKEY_CTRL_RSA_IMPLICIT_REJECTION:
+++        if (rctx->pad_mode !=3D RSA_PKCS1_PADDING) {
+++            ERR_raise(ERR_LIB_RSA, RSA_R_INVALID_PADDING_MODE);
+++            return -2;
+++        }
+++        rctx->implicit_rejection =3D p1;
+++        return 1;
+++
++     case EVP_PKEY_CTRL_DIGESTINIT:
++     case EVP_PKEY_CTRL_PKCS7_SIGN:
++ #ifndef OPENSSL_NO_CMS
++diff --git a/doc/man1/openssl-pkeyutl.pod.in b/doc/man1/openssl-pkeyutl.=
+pod.in
++index 015265a74d..5e62551d34 100644
++--- a/doc/man1/openssl-pkeyutl.pod.in
+++++ b/doc/man1/openssl-pkeyutl.pod.in
++@@ -305,6 +305,16 @@ explicitly set in PSS mode then the signing digest =
+is used.
++ Sets the digest used for the OAEP hash function. If not explicitly set =
+then
++ SHA1 is used.
++=20
+++=3Ditem B<rsa_pkcs1_implicit_rejection:>I<flag>
+++
+++Disables (when set to 0) or enables (when set to 1) the use of implicit
+++rejection with PKCS#1 v1.5 decryption. When enabled (the default), as a
+++protection against Bleichenbacher attack, the library will generate a
+++deterministic random plaintext that it will return to the caller in cas=
+e
+++of padding check failure.
+++When disabled, it's the callers' responsibility to handle the returned
+++errors in a side-channel free manner.
+++
++ =3Dback
++=20
++ =3Dhead1 RSA-PSS ALGORITHM
++diff --git a/doc/man3/EVP_PKEY_CTX_ctrl.pod b/doc/man3/EVP_PKEY_CTX_ctrl=
+.pod
++index e788f38809..3844aa2199 100644
++--- a/doc/man3/EVP_PKEY_CTX_ctrl.pod
+++++ b/doc/man3/EVP_PKEY_CTX_ctrl.pod
++@@ -392,6 +392,8 @@ instead of padding errors in case padding checks fai=
+l. Applications that
++ want to remain secure while using earlier versions of OpenSSL, still ne=
+ed to
++ handle both the error code from the RSA decryption operation and the
++ returned message in a side channel secure manner.
+++This protection against Bleichenbacher attacks can be disabled by setti=
+ng
+++the OSSL_ASYM_CIPHER_PARAM_IMPLICIT_REJECTION (an unsigned integer) to =
+0.
++=20
++ =3Dhead2 DSA parameters
++=20
++diff --git a/doc/man7/provider-asym_cipher.pod b/doc/man7/provider-asym_=
+cipher.pod
++index 0976a263a8..2a8426a6ed 100644
++--- a/doc/man7/provider-asym_cipher.pod
+++++ b/doc/man7/provider-asym_cipher.pod
++@@ -234,6 +234,15 @@ The TLS protocol version first requested by the cli=
+ent.
++=20
++ The negotiated TLS protocol version.
++=20
+++=3Ditem "implicit-rejection" (B<OSSL_PKEY_PARAM_IMPLICIT_REJECTION>) <u=
+nsigned integer>
+++
+++Gets of sets the use of the implicit rejection mechanism for RSA PKCS#1=
+ v1.5
+++decryption. When set (non zero value), the decryption API will return
+++a deterministically random value if the PKCS#1 v1.5 padding check fails.
+++This makes explotation of the Bleichenbacher significantly harder, even
+++if the code using the RSA decryption API is not implemented in side-cha=
+nnel
+++free manner. Set by default.
+++
++ =3Dback
++=20
++ OSSL_FUNC_asym_cipher_gettable_ctx_params() and OSSL_FUNC_asym_cipher_s=
+ettable_ctx_params()
++diff --git a/include/openssl/core_names.h b/include/openssl/core_names.h
++index 6bed5a8a67..5a350b537f 100644
++--- a/include/openssl/core_names.h
+++++ b/include/openssl/core_names.h
++@@ -292,6 +292,7 @@ extern "C" {
++ #define OSSL_PKEY_PARAM_DIST_ID             "distid"
++ #define OSSL_PKEY_PARAM_PUB_KEY             "pub"
++ #define OSSL_PKEY_PARAM_PRIV_KEY            "priv"
+++#define OSSL_PKEY_PARAM_IMPLICIT_REJECTION  "implicit-rejection"
++=20
++ /* Diffie-Hellman/DSA Parameters */
++ #define OSSL_PKEY_PARAM_FFC_P               "p"
++@@ -467,6 +468,7 @@ extern "C" {
++ #define OSSL_ASYM_CIPHER_PARAM_OAEP_LABEL               "oaep-label"
++ #define OSSL_ASYM_CIPHER_PARAM_TLS_CLIENT_VERSION       "tls-client-ver=
+sion"
++ #define OSSL_ASYM_CIPHER_PARAM_TLS_NEGOTIATED_VERSION   "tls-negotiated=
+-version"
+++#define OSSL_ASYM_CIPHER_PARAM_IMPLICIT_REJECTION       "implicit-rejec=
+tion"
++=20
++ /*
++  * Encoder / decoder parameters
++diff --git a/include/openssl/rsa.h b/include/openssl/rsa.h
++index a55c9727c6..247f9014e3 100644
++--- a/include/openssl/rsa.h
+++++ b/include/openssl/rsa.h
++@@ -183,6 +183,8 @@ int EVP_PKEY_CTX_get0_rsa_oaep_label(EVP_PKEY_CTX *c=
+tx, unsigned char **label);
++=20
++ # define EVP_PKEY_CTRL_RSA_KEYGEN_PRIMES  (EVP_PKEY_ALG_CTRL + 13)
++=20
+++# define EVP_PKEY_CTRL_RSA_IMPLICIT_REJECTION (EVP_PKEY_ALG_CTRL + 14)
+++
++ # define RSA_PKCS1_PADDING          1
++ # define RSA_NO_PADDING             3
++ # define RSA_PKCS1_OAEP_PADDING     4
++@@ -192,6 +194,9 @@ int EVP_PKEY_CTX_get0_rsa_oaep_label(EVP_PKEY_CTX *c=
+tx, unsigned char **label);
++ # define RSA_PKCS1_PSS_PADDING      6
++ # define RSA_PKCS1_WITH_TLS_PADDING 7
++=20
+++/* internal RSA_ only */
+++# define RSA_PKCS1_NO_IMPLICIT_REJECT_PADDING 8
+++
++ # define RSA_PKCS1_PADDING_SIZE    11
++=20
++ # define RSA_set_app_data(s,arg)         RSA_set_ex_data(s,0,arg)
++diff --git a/providers/implementations/asymciphers/rsa_enc.c b/providers=
+/implementations/asymciphers/rsa_enc.c
++index c8921acd6e..11a91e62b1 100644
++--- a/providers/implementations/asymciphers/rsa_enc.c
+++++ b/providers/implementations/asymciphers/rsa_enc.c
++@@ -75,6 +75,8 @@ typedef struct {
++     /* TLS padding */
++     unsigned int client_version;
++     unsigned int alt_version;
+++    /* PKCS#1 v1.5 decryption mode */
+++    unsigned int implicit_rejection;
++ } PROV_RSA_CTX;
++=20
++ static void *rsa_newctx(void *provctx)
++@@ -107,6 +109,7 @@ static int rsa_init(void *vprsactx, void *vrsa, cons=
+t OSSL_PARAM params[],
++     RSA_free(prsactx->rsa);
++     prsactx->rsa =3D vrsa;
++     prsactx->operation =3D operation;
+++    prsactx->implicit_rejection =3D 1;
++=20
++     switch (RSA_test_flags(prsactx->rsa, RSA_FLAG_TYPE_MASK)) {
++     case RSA_FLAG_TYPE_RSA:
++@@ -199,6 +202,7 @@ static int rsa_decrypt(void *vprsactx, unsigned char=
+ *out, size_t *outlen,
++ {
++     PROV_RSA_CTX *prsactx =3D (PROV_RSA_CTX *)vprsactx;
++     int ret;
+++    int pad_mode;
++     size_t len =3D RSA_size(prsactx->rsa);
++=20
++     if (!ossl_prov_is_running())
++@@ -276,8 +280,12 @@ static int rsa_decrypt(void *vprsactx, unsigned cha=
+r *out, size_t *outlen,
++         }
++         OPENSSL_free(tbuf);
++     } else {
++-        ret =3D RSA_private_decrypt(inlen, in, out, prsactx->rsa,
++-                                  prsactx->pad_mode);
+++        if ((prsactx->implicit_rejection =3D=3D 0) &&
+++                (prsactx->pad_mode =3D=3D RSA_PKCS1_PADDING))
+++            pad_mode =3D RSA_PKCS1_NO_IMPLICIT_REJECT_PADDING;
+++        else
+++            pad_mode =3D prsactx->pad_mode;
+++        ret =3D RSA_private_decrypt(inlen, in, out, prsactx->rsa, pad_m=
+ode);
++     }
++     *outlen =3D constant_time_select_s(constant_time_msb_s(ret), *outle=
+n, ret);
++     ret =3D constant_time_select_int(constant_time_msb(ret), 0, 1);
++@@ -401,6 +409,10 @@ static int rsa_get_ctx_params(void *vprsactx, OSSL_=
+PARAM *params)
++     if (p !=3D NULL && !OSSL_PARAM_set_uint(p, prsactx->alt_version))
++         return 0;
++=20
+++    p =3D OSSL_PARAM_locate(params, OSSL_ASYM_CIPHER_PARAM_IMPLICIT_REJ=
+ECTION);
+++    if (p !=3D NULL && !OSSL_PARAM_set_uint(p, prsactx->implicit_reject=
+ion))
+++        return 0;
+++
++     return 1;
++ }
++=20
++@@ -412,6 +424,7 @@ static const OSSL_PARAM known_gettable_ctx_params[] =
+=3D {
++                     NULL, 0),
++     OSSL_PARAM_uint(OSSL_ASYM_CIPHER_PARAM_TLS_CLIENT_VERSION, NULL),
++     OSSL_PARAM_uint(OSSL_ASYM_CIPHER_PARAM_TLS_NEGOTIATED_VERSION, NULL=
+),
+++    OSSL_PARAM_uint(OSSL_ASYM_CIPHER_PARAM_IMPLICIT_REJECTION, NULL),
++     OSSL_PARAM_END
++ };
++=20
++@@ -549,6 +562,14 @@ static int rsa_set_ctx_params(void *vprsactx, const=
+ OSSL_PARAM params[])
++             return 0;
++         prsactx->alt_version =3D alt_version;
++     }
+++    p =3D OSSL_PARAM_locate_const(params, OSSL_ASYM_CIPHER_PARAM_IMPLIC=
+IT_REJECTION);
+++    if (p !=3D NULL) {
+++        unsigned int implicit_rejection;
+++
+++        if (!OSSL_PARAM_get_uint(p, &implicit_rejection))
+++            return 0;
+++        prsactx->implicit_rejection =3D implicit_rejection;
+++    }
++=20
++     return 1;
++ }
++@@ -562,6 +583,7 @@ static const OSSL_PARAM known_settable_ctx_params[] =
+=3D {
++     OSSL_PARAM_octet_string(OSSL_ASYM_CIPHER_PARAM_OAEP_LABEL, NULL, 0)=
+,
++     OSSL_PARAM_uint(OSSL_ASYM_CIPHER_PARAM_TLS_CLIENT_VERSION, NULL),
++     OSSL_PARAM_uint(OSSL_ASYM_CIPHER_PARAM_TLS_NEGOTIATED_VERSION, NULL=
+),
+++    OSSL_PARAM_uint(OSSL_ASYM_CIPHER_PARAM_IMPLICIT_REJECTION, NULL),
++     OSSL_PARAM_END
++ };
++=20
++--=20
++2.34.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-3.p=
+atch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-3.patch
+new file mode 100644
+index 0000000000..0a1f63f30a
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-3.patch
+@@ -0,0 +1,41 @@
++From ba78f7b0599ba5bfb5032dd2664465c5b13388e3 Mon Sep 17 00:00:00 2001
++From: Hubert Kario <hkario@redhat.com>
++Date: Tue, 22 Nov 2022 18:25:49 +0100
++Subject: [PATCH 3/3] smime/pkcs7: disable the Bleichenbacher workaround
++
++CVE: CVE-2023-50781
++
++Upstream-Status: Backport
++[https://github.com/openssl/openssl/commit/056dade341d2589975a3aae71f81c=
+8d7061583c7]
++
++Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
++Reviewed-by: Tim Hudson <tjh@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/13817)
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ crypto/pkcs7/pk7_doit.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/crypto/pkcs7/pk7_doit.c b/crypto/pkcs7/pk7_doit.c
++index e9de097da1..6d3124da87 100644
++--- a/crypto/pkcs7/pk7_doit.c
+++++ b/crypto/pkcs7/pk7_doit.c
++@@ -170,6 +170,13 @@ static int pkcs7_decrypt_rinfo(unsigned char **pek,=
+ int *peklen,
++     if (EVP_PKEY_decrypt_init(pctx) <=3D 0)
++         goto err;
++=20
+++    if (EVP_PKEY_is_a(pkey, "RSA"))
+++        /* upper layer pkcs7 code incorrectly assumes that a successful=
+ RSA
+++         * decryption means that the key matches ciphertext (which neve=
+r
+++         * was the case, implicit rejection or not), so to make it work
+++         * disable implicit rejection for RSA keys */
+++        EVP_PKEY_CTX_ctrl_str(pctx, "rsa_pkcs1_implicit_rejection", "0"=
+);
+++
++     if (EVP_PKEY_decrypt(pctx, NULL, &eklen,
++                          ri->enc_key->data, ri->enc_key->length) <=3D 0=
+)
++         goto err;
++--=20
++2.34.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-4.p=
+atch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-4.patch
+new file mode 100644
+index 0000000000..c6dad3cbec
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-4.patch
+@@ -0,0 +1,441 @@
++From 8ae4f0e68ebb7435be494b58676827ae91695371 Mon Sep 17 00:00:00 2001
++From: Hubert Kario <hkario@redhat.com>
++Date: Tue, 12 Jan 2021 14:58:04 +0100
++Subject: [PATCH] rsa: add test vectors for the implicit rejection in RSA
++ PKCS#1 v1.5
++
++CVE: CVE-2023-50781
++
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/8ae=
+4f0e68ebb7435be494b58676827ae91695371]
++
++Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
++Reviewed-by: Tim Hudson <tjh@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/13817)
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ .../30-test_evp_data/evppkey_rsa_common.txt   | 408 ++++++++++++++++++
++ 1 file changed, 408 insertions(+)
++
++diff --git a/test/recipes/30-test_evp_data/evppkey_rsa_common.txt b/test=
+/recipes/30-test_evp_data/evppkey_rsa_common.txt
++index 080c4d02af..1405465098 100644
++--- a/test/recipes/30-test_evp_data/evppkey_rsa_common.txt
+++++ b/test/recipes/30-test_evp_data/evppkey_rsa_common.txt
++@@ -277,6 +277,414 @@ Derive =3D RSA-2048
++ Result =3D KEYOP_INIT_ERROR
++ Reason =3D operation not supported for this keytype
++=20
+++# Test vectors for the Bleichenbacher workaround
+++
+++PrivateKey =3D RSA-2048-2
+++-----BEGIN RSA PRIVATE KEY-----
+++MIIEowIBAAKCAQEAyMyDlxQJjaVsqiNkD5PciZfBY3KWj8Gwxt9RE8HJTosh5IrS
+++KX5lQZARtObY9ec7G3iyV0ADIdHva2AtTsjOjRQclJBetK0wZjmkkgZTS25/JgdC
+++Ppff/RM8iNchOZ3vvH6WzNy9fzquH+iScSv7SSmBfVEWZkQKH6y3ogj16hZZEK3Y
+++o/LUlyAjYMy2MgJPDQcWnBkY8xb3lLFDrvVOyHUipMApePlomYC/+/ZJwwfoGBm/
++++IQJY41IvZS+FStZ/2SfoL1inQ/6GBPDq/S1a9PC6lRl3/oUWJKSqdiiStJr5+4F
+++EHQbY4LUPIPVv6QKRmE9BivkRVF9vK8MtOGnaQIDAQABAoIBABRVAQ4PLVh2Y6Zm
+++pv8czbvw7dgQBkbQKgI5IpCJksStOeVWWSlybvZQjDpxFY7wtv91HTnQdYC7LS8G
+++MhBELQYD/1DbvXs1/iybsZpHoa+FpMJJAeAsqLWLeRmyDt8yqs+/Ua20vEthubfp
+++aMqk1XD3DvGNgGMiiJPkfUOe/KeTJZvPLNEIo9hojN8HjnrHmZafIznSwfUiuWlo
+++RimpM7quwmgWJeq4T05W9ER+nYj7mhmc9xAj4OJXsURBszyE07xnyoAx0mEmGBA6
+++egpAhEJi912IkM1hblH5A1SI/W4Jnej/bWWk/xGCVIB8n1jS+7qLoVHcjGi+NJyX
+++eiBOBMECgYEA+PWta6gokxvqRZuKP23AQdI0gkCcJXHpY/MfdIYColY3GziD7UWe
+++z5cFJkWe3RbgVSL1pF2UdRsuwtrycsf4gWpSwA0YCAFxY02omdeXMiL1G5N2MFSG
+++lqn32MJKWUl8HvzUVc+5fuhtK200lyszL9owPwSZm062tcwLsz53Yd0CgYEAznou
+++O0mpC5YzChLcaCvfvfuujdbcA7YUeu+9V1dD8PbaTYYjUGG3Gv2crS00Al5WrIaw
+++93Q+s14ay8ojeJVCRGW3Bu0iF15XGMjHC2cD6o9rUQ+UW+SOWja7PDyRcytYnfwF
+++1y2AkDGURSvaITSGR+xylD8RqEbmL66+jrU2sP0CgYB2/hXxiuI5zfHfa0RcpLxr
+++uWjXiMIZM6T13NKAAz1nEgYswIpt8gTB+9C+RjB0Q+bdSmRWN1Qp1OA4yiVvrxyb
+++3pHGsXt2+BmV+RxIy768e/DjSUwINZ5OjNalh9e5bWIh/X4PtcVXXwgu5XdpeYBx
+++sru0oyI4FRtHMUu2VHkDEQKBgQCZiEiwVUmaEAnLx9KUs2sf/fICDm5zZAU+lN4a
+++AA3JNAWH9+JydvaM32CNdTtjN3sDtvQITSwCfEs4lgpiM7qe2XOLdvEOp1vkVgeL
+++9wH2fMaz8/3BhuZDNsdrNy6AkQ7ICwrcwj0C+5rhBIaigkgHW06n5W3fzziC5FFW
+++FHGikQKBgGQ790ZCn32DZnoGUwITR++/wF5jUfghqd67YODszeUAWtnp7DHlWPfp
+++LCkyjnRWnXzvfHTKvCs1XtQBoaCRS048uwZITlgZYFEWntFMqi76bqBE4FTSYUTM
+++FinFUBBVigThM/RLfCRNrCW/kTxXuJDuSfVIJZzWNAT+9oWdz5da
+++-----END RSA PRIVATE KEY-----
+++
+++# corresponding public key
+++PublicKey =3D RSA-2048-2-PUBLIC
+++-----BEGIN PUBLIC KEY-----
+++MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyMyDlxQJjaVsqiNkD5Pc
+++iZfBY3KWj8Gwxt9RE8HJTosh5IrSKX5lQZARtObY9ec7G3iyV0ADIdHva2AtTsjO
+++jRQclJBetK0wZjmkkgZTS25/JgdCPpff/RM8iNchOZ3vvH6WzNy9fzquH+iScSv7
+++SSmBfVEWZkQKH6y3ogj16hZZEK3Yo/LUlyAjYMy2MgJPDQcWnBkY8xb3lLFDrvVO
+++yHUipMApePlomYC/+/ZJwwfoGBm/+IQJY41IvZS+FStZ/2SfoL1inQ/6GBPDq/S1
+++a9PC6lRl3/oUWJKSqdiiStJr5+4FEHQbY4LUPIPVv6QKRmE9BivkRVF9vK8MtOGn
+++aQIDAQAB
+++-----END PUBLIC KEY-----
+++
+++PrivPubKeyPair =3D RSA-2048-2:RSA-2048-2-PUBLIC
+++
+++# RSA decrypt
+++
+++# a random positive test case
+++Decrypt =3D RSA-2048-2
+++Input =3D 8bfe264e85d3bdeaa6b8851b8e3b956ee3d226fd3f69063a86880173a273d=
+9f283b2eebdd1ed35f7e02d91c571981b6737d5320bd8396b0f3ad5b019daec1b0aab3cbb=
+c026395f4fd14f13673f2dfc81f9b660ec26ac381e6db3299b4e460b43fab9955df2b3cfa=
+a20e900e19c856238fd371899c2bf2ce8c868b76754e5db3b036533fd603746be13c10d4e=
+3e6022ebc905d20c2a7f32b215a4cd53b3f44ca1c327d2c2b651145821c08396c89071f66=
+5349c25e44d2733cd9305985ceef6430c3cf57af5fa224089221218fa34737c79c446d28a=
+94c41c96e4e92ac53fbcf384dea8419ea089f8784445a492c812eb0d409467f75afd7d4d1=
+078886205a066
+++Output =3D "lorem ipsum dolor sit amet"
+++
+++# a random negative test case decrypting to empty
+++Decrypt =3D RSA-2048-2
+++Input =3D 20aaa8adbbc593a924ba1c5c7990b5c2242ae4b99d0fe636a19a4cf754edb=
+cee774e472fe028160ed42634f8864900cb514006da642cae6ae8c7d087caebcfa6dad155=
+1301e130344989a1d462d4164505f6393933450c67bc6d39d8f5160907cabc251b737925a=
+1cf21e5c6aa5781b7769f6a2a583d97cce008c0f8b6add5f0b2bd80bee60237aa39bb2071=
+9fe75749f4bc4e42466ef5a861ae3a92395c7d858d430bfe38040f445ea93fa2958b50353=
+9800ffa5ce5f8cf51fa8171a91f36cb4f4575e8de6b4d3f096ee140b938fd2f50ee13f0d0=
+50222e2a72b0a3069ff3a6738e82c87090caa5aed4fcbe882c49646aa250b98f12f83c8d5=
+28113614a29e7
+++Output =3D
+++
+++# invalid decrypting to max length message
+++Decrypt =3D RSA-2048-2
+++Input =3D 48cceab10f39a4db32f60074feea473cbcdb7accf92e150417f76b44756b1=
+90e843e79ec12aa85083a21f5437e7bad0a60482e601198f9d86923239c8786ee728285af=
+d0937f7dde12717f28389843d7375912b07b991f4fdb0190fced8ba665314367e8c5f9d29=
+81d0f5128feeb46cb50fc237e64438a86df198dd0209364ae3a842d77532b66b7ef263b83=
+b1541ed671b120dfd660462e2107a4ee7b964e734a7bd68d90dda61770658a3c242948532=
+da32648687e0318286473f675b412d6468f013f14d760a358dfcad3cda2afeec5e268a37d=
+250c37f722f468a70dfd92d7294c3c1ee1e7f8843b7d16f9f37ef35748c3ae93aa155cdcd=
+feb4e78567303
+++Output =3D 22d850137b9eebe092b24f602dc5bb7918c16bd89ddbf20467b119d205f9=
+c2e4bd7d2592cf1e532106e0f33557565923c73a02d4f09c0c22bea89148183e60317f702=
+8b3aa1f261f91c979393101d7e15f4067e63979b32751658ef769610fe97cf9cef3278b31=
+17d384051c3b1d82c251c2305418c8f6840530e631aad63e70e20e025bcd8efb54c92ec6d=
+3b106a2f8e64eeff7d38495b0fc50c97138af4b1c0a67a1c4e27b077b8439332edfa8608d=
+feae653cd6a628ac550395f7e74390e42c11682234870925eeaa1fa71b76cf1f2ee3bda69=
+f6717033ff8b7c95c9799e7a3bea5e7e4a1c359772fb6b1c6e6c516661dfe30c3
+++
+++# invalid decrypting to message with length specified by second to last=
+ value from PRF
+++Decrypt =3D RSA-2048-2
+++Input =3D 1439e08c3f84c1a7fec74ce07614b20e01f6fa4e8c2a6cffdc3520d8889e5=
+d9a950c6425798f85d4be38d300ea5695f13ecd4cb389d1ff5b82484b494d6280ab7fa78e=
+645933981cb934cce8bfcd114cc0e6811eefa47aae20af638a1cd163d2d3366186d0a07df=
+0c81f6c9f3171cf3561472e98a6006bf75ddb457bed036dcce199369de7d94ef2c68e8467=
+ee0604eea2b3009479162a7891ba5c40cab17f49e1c438cb6eaea4f76ce23cce0e483ff0e=
+96fa790ea15be67671814342d0a23f4a20262b6182e72f3a67cd289711503c85516a9ed22=
+5422f98b116f1ab080a80abd6f0216df88d8cfd67c139243be8dd78502a7aaf6bc99d7da7=
+1bcdf627e7354
+++Output =3D 0f9b
+++
+++# invalid decrypting to message with length specified by third to last =
+value from PRF
+++Decrypt =3D RSA-2048-2
+++Input =3D 1690ebcceece2ce024f382e467cf8510e74514120937978576caf684d4a02=
+ad569e8d76cbe365a060e00779de2f0865ccf0d923de3b4783a4e2c74f422e2f326086c39=
+0b658ba47f31ab013aa80f468c71256e5fa5679b24e83cd82c3d1e05e398208155de22129=
+93cd2b8bab6987cf4cc1293f19909219439d74127545e9ed8a706961b8ee2119f6bfacafb=
+ef91b75a789ba65b8b833bc6149cf49b5c4d2c6359f62808659ba6541e1cd24bf7f741048=
+6b5103f6c0ea29334ea6f4975b17387474fe920710ea61568d7b7c0a7916acf21665ad5a3=
+1c4eabcde44f8fb6120d8457afa1f3c85d517cda364af620113ae5a3c52a0488217319227=
+37307f77a1081
+++Output =3D 4f02
+++
+++# positive test with 11 byte long value
+++Decrypt =3D RSA-2048-2
+++Input =3D 6213634593332c485cef783ea2846e3d6e8b0e005cd8293eaebbaa5079712=
+fd681579bdfbbda138ae4d9d952917a03c92398ec0cb2bb0c6b5a8d55061fed0d0d8d7247=
+3563152648cfe640b335dc95331c21cb133a91790fa93ae44497c128708970d2beeb77e87=
+21b061b1c44034143734a77be8220877415a6dba073c3871605380542a9f25252a4babe83=
+31cdd53cf828423f3cc70b560624d0581fb126b2ed4f4ed358f0eb8065cf176399ac1a846=
+a31055f9ae8c9c24a1ba050bc20842125bc1753158f8065f3adb9cc16bfdf83816bdf38b6=
+24f12022c5a6fbfe29bc91542be8c0208a770bcd677dc597f5557dc2ce28a11bf3e3857f1=
+58717a33f6592
+++Output =3D "lorem ipsum"
+++
+++# positive test with 11 byte long value and zero padded ciphertext
+++Decrypt =3D RSA-2048-2
+++Input =3D 00a2e8f114ea8d05d12dc843e3cc3b2edc8229ff2a028bda29ba9d55e3cd0=
+2911902fef1f42a075bf05e8016e8567213d6f260fa49e360779dd81aeea3e04c2cb567e0=
+d72b98bf754014561b7511e083d20e0bfb9cd23f8a0d3c88900c49d2fcd5843ff0765607b=
+2026f28202a87aa94678aed22a0c20724541394cd8f44e373eba1d2bae98f516c1e2ba3d8=
+6852d064f856b1daf24795e767a2b90396e50743e3150664afab131fe40ea405dcf572dd1=
+079af1d3f0392ccadcca0a12740dbb213b925ca2a06b1bc1383e83a658c82ba2e74273423=
+79084d5f66b544579f07664cb26edd4f10fd913fdbc0de05ef887d4d1ec1ac95652397ea7=
+fd4e4759fda8b
+++Output =3D "lorem ipsum"
+++
+++# positive test with 11 byte long value and zero truncated ciphertext
+++Decrypt =3D RSA-2048-2
+++Input =3D a2e8f114ea8d05d12dc843e3cc3b2edc8229ff2a028bda29ba9d55e3cd029=
+11902fef1f42a075bf05e8016e8567213d6f260fa49e360779dd81aeea3e04c2cb567e0d7=
+2b98bf754014561b7511e083d20e0bfb9cd23f8a0d3c88900c49d2fcd5843ff0765607b20=
+26f28202a87aa94678aed22a0c20724541394cd8f44e373eba1d2bae98f516c1e2ba3d868=
+52d064f856b1daf24795e767a2b90396e50743e3150664afab131fe40ea405dcf572dd107=
+9af1d3f0392ccadcca0a12740dbb213b925ca2a06b1bc1383e83a658c82ba2e7427342379=
+084d5f66b544579f07664cb26edd4f10fd913fdbc0de05ef887d4d1ec1ac95652397ea7fd=
+4e4759fda8b
+++Output =3D "lorem ipsum"
+++
+++# positive test with 11 byte long value and double zero padded cipherte=
+xt
+++Decrypt =3D RSA-2048-2
+++Input =3D 00001f71879b426127f7dead621f7380a7098cf7d22173aa27991b143c46d=
+53383c209bd0c9c00d84078037e715f6b98c65005a77120070522ede51d472c87ef94b94e=
+ad4c5428ee108a345561658301911ec5a8f7dd43ed4a3957fd29fb02a3529bf63f8040d39=
+53490939bd8f78b2a3404b6fb5ff70a4bfdaac5c541d6bcce49c9778cc390be24cbef1d1e=
+ca7e870457241d3ff72ca44f9f56bdf31a890fa5eb3a9107b603ccc9d06a5dd911a664c82=
+b6abd4fe036f8db8d5a070c2d86386ae18d97adc1847640c211d91ff5c3387574a26f8ef2=
+7ca7f48d2dd1f0c7f14b81cc9d33ee6853031d3ecf10a914ffd90947909c8011fd3024921=
+9348ebff76bfc
+++Output =3D "lorem ipsum"
+++
+++# positive test with 11 byte long value and double zero truncated ciphe=
+rtext
+++Decrypt =3D RSA-2048-2
+++Input =3D 1f71879b426127f7dead621f7380a7098cf7d22173aa27991b143c46d5338=
+3c209bd0c9c00d84078037e715f6b98c65005a77120070522ede51d472c87ef94b94ead4c=
+5428ee108a345561658301911ec5a8f7dd43ed4a3957fd29fb02a3529bf63f8040d395349=
+0939bd8f78b2a3404b6fb5ff70a4bfdaac5c541d6bcce49c9778cc390be24cbef1d1eca7e=
+870457241d3ff72ca44f9f56bdf31a890fa5eb3a9107b603ccc9d06a5dd911a664c82b6ab=
+d4fe036f8db8d5a070c2d86386ae18d97adc1847640c211d91ff5c3387574a26f8ef27ca7=
+f48d2dd1f0c7f14b81cc9d33ee6853031d3ecf10a914ffd90947909c8011fd30249219348=
+ebff76bfc
+++Output =3D "lorem ipsum"
+++
+++# positive that generates a 0 byte long synthethic message internally
+++Decrypt =3D RSA-2048-2
+++Input =3D b5e49308f6e9590014ffaffc5b8560755739dd501f1d4e9227a7d291408cf=
+4b753f292322ff8bead613bf2caa181b221bc38caf6392deafb28eb21ad60930841ed02fd=
+6225cc9c463409adbe7d8f32440212fbe3881c51375bb09565efb22e62b071472fb38676e=
+5b4e23a0617db5d14d93519ac0007a30a9c822eb31c38b57fcb1be29608fcf1ca2abdcaf5=
+d5752bbc2b5ac7dba5afcff4a5641da360dd01f7112539b1ed46cdb550a3b1006559b9fe1=
+891030ec80f0727c42401ddd6cbb5e3c80f312df6ec89394c5a7118f573105e7ab00fe578=
+33c126141b50a935224842addfb479f75160659ba28877b512bb9a93084ad8bec540f9264=
+0f63a11a010e0
+++Output =3D "lorem ipsum"
+++
+++# positive that generates a 245 byte long synthethic message internally
+++Decrypt =3D RSA-2048-2
+++Input =3D 1ea0b50ca65203d0a09280d39704b24fe6e47800189db5033f202761a78ba=
+fb270c5e25abd1f7ecc6e7abc4f26d1b0cd9b8c648d529416ee64ccbdd7aa72a771d03532=
+62b543f0e436076f40a1095f5c7dfd10dcf0059ccb30e92dfa5e0156618215f1c3ff3aa99=
+7a9d999e506924f5289e3ac72e5e2086cc7b499d71583ed561028671155db4005bee01800=
+a7cdbdae781dd32199b8914b5d4011dd6ff11cd26d46aad54934d293b0bc403dd211bf13b=
+5a5c6836a5e769930f437ffd8634fb7371776f4bc88fa6c271d8aa6013df89ae647015449=
+7c4ac861be2a1c65ebffec139bf7aaba3a81c7c5cdd84da9af5d3edfb957848074686b583=
+7ecbcb6a41c50
+++Output =3D "lorem ipsum"
+++
+++# a random negative test that generates an 11 byte long message
+++Decrypt =3D RSA-2048-2
+++Input =3D 5f02f4b1f46935c742ebe62b6f05aa0a3286aab91a49b34780adde6410ab4=
+6f7386e05748331864ac98e1da63686e4babe3a19ed40a7f5ceefb89179596aab07ab1015=
+e03b8f825084dab028b6731288f2e511a4b314b6ea3997d2e8fe2825cef8897cbbdfb6c93=
+9d441d6e04948414bb69e682927ef8576c9a7090d4aad0e74c520d6d5ce63a154720f00b7=
+6de8cc550b1aa14f016d63a7b6d6eaa1f7dbe9e50200d3159b3d099c900116bf4eba3b942=
+04f18b1317b07529751abf64a26b0a0bf1c8ce757333b3d673211b67cc0653f2fe2620d57=
+c8b6ee574a0323a167eab1106d9bc7fd90d415be5f1e9891a0e6c709f4fc0404e8226f847=
+7b4e939b36eb2
+++Output =3D af9ac70191c92413cb9f2d
+++
+++# an otherwise correct plaintext, but with wrong first byte
+++# (0x01 instead of 0x00), generates a random 11 byte long plaintext
+++Decrypt =3D RSA-2048-2
+++Input =3D 9b2ec9c0c917c98f1ad3d0119aec6be51ae3106e9af1914d48600ab6a2c0c=
+0c8ae02a2dc3039906ff3aac904af32ec798fd65f3ad1afa2e69400e7c1de81f5728f3b32=
+91f38263bc7a90a0563e43ce7a0d4ee9c0d8a716621ca5d3d081188769ce1b131af7d35b1=
+3dea99153579c86db31fe07d5a2c14d621b77854e48a8df41b5798563af489a291e417b6a=
+334c63222627376118c02c53b6e86310f728734ffc86ef9d7c8bf56c0c841b24b82b59f51=
+aee4526ba1c4268506d301e4ebc498c6aebb6fd5258c876bf900bac8ca4d309dd522f6a63=
+43599a8bc3760f422c10c72d0ad527ce4af1874124ace3d99bb74db8d69d2528db22c3a37=
+644640f95c05f
+++Output =3D a1f8c9255c35cfba403ccc
+++
+++# an otherwise correct plaintext, but with wrong second byte
+++# (0x01 instead of 0x02), generates a random 11 byte long plaintext
+++Decrypt =3D RSA-2048-2
+++Input =3D 782c2b59a21a511243820acedd567c136f6d3090c115232a82a5efb0b1782=
+85f55b5ec2d2bac96bf00d6592ea7cdc3341610c8fb07e527e5e2d20cfaf2c7f23e375431=
+f45e998929a02f25fd95354c33838090bca838502259e92d86d568bc2cdb132fab2a39959=
+3ca60a015dc2bb1afcd64fef8a3834e17e5358d822980dc446e845b3ab4702b1ee41fe5db=
+716d92348d5091c15d35a110555a35deb4650a5a1d2c98025d42d4544f8b32aa6a5e02dc0=
+2deaed9a7313b73b49b0d4772a3768b0ea0db5846ace6569cae677bf67fb0acf3c255dc01=
+ec8400c963b6e49b1067728b4e563d7e1e1515664347b92ee64db7efb5452357a02fff7fc=
+b7437abc2e579
+++Output =3D e6d700309ca0ed62452254
+++
+++# an invalid ciphertext, with a zero byte in first byte of
+++# ciphertext, decrypts to a random 11 byte long synthethic
+++# plaintext
+++Decrypt =3D RSA-2048-2
+++Input =3D 0096136621faf36d5290b16bd26295de27f895d1faa51c800dafce73d001d=
+60796cd4e2ac3fa2162131d859cd9da5a0c8a42281d9a63e5f353971b72e36b5722e4ac44=
+4d77f892a5443deb3dca49fa732fe855727196e23c26eeac55eeced8267a209ebc0f92f46=
+56d64a6c13f7f7ce544ebeb0f668fe3a6c0f189e4bcd5ea12b73cf63e0c8350ee130dd62f=
+01e5c97a1e13f52fde96a9a1bc9936ce734fdd61f27b18216f1d6de87f49cf4f2ea821fb8=
+efd1f92cdad529baf7e31aff9bff4074f2cad2b4243dd15a711adcf7de900851fbd6bcb53=
+dac399d7c880531d06f25f7002e1aaf1722765865d2c2b902c7736acd27bc6cbd3e38b560=
+e2eecf7d4b576
+++Output =3D ba27b1842e7c21c0e7ef6a
+++
+++# an invalid ciphertext, with a zero byte removed from first byte of
+++# ciphertext, decrypts to a random 11 byte long synthethic
+++# plaintext
+++Decrypt =3D RSA-2048-2
+++Input =3D 96136621faf36d5290b16bd26295de27f895d1faa51c800dafce73d001d60=
+796cd4e2ac3fa2162131d859cd9da5a0c8a42281d9a63e5f353971b72e36b5722e4ac444d=
+77f892a5443deb3dca49fa732fe855727196e23c26eeac55eeced8267a209ebc0f92f4656=
+d64a6c13f7f7ce544ebeb0f668fe3a6c0f189e4bcd5ea12b73cf63e0c8350ee130dd62f01=
+e5c97a1e13f52fde96a9a1bc9936ce734fdd61f27b18216f1d6de87f49cf4f2ea821fb8ef=
+d1f92cdad529baf7e31aff9bff4074f2cad2b4243dd15a711adcf7de900851fbd6bcb53da=
+c399d7c880531d06f25f7002e1aaf1722765865d2c2b902c7736acd27bc6cbd3e38b560e2=
+eecf7d4b576
+++Output =3D ba27b1842e7c21c0e7ef6a
+++
+++# an invalid ciphertext, with two zero bytes in first bytes of
+++# ciphertext, decrypts to a random 11 byte long synthethic
+++# plaintext
+++Decrypt =3D RSA-2048-2
+++Input =3D 0000587cccc6b264bdfe0dc2149a988047fa921801f3502ea64624c510c60=
+33d2f427e3f136c26e88ea9f6519e86a542cec96aad1e5e9013c3cc203b6de15a69183050=
+813af5c9ad79703136d4b92f50ce171eefc6aa7988ecf02f319ffc5eafd6ee7a137f8fce6=
+4b255bb1b8dd19cfe767d64fdb468b9b2e9e7a0c24dae03239c8c714d3f40b7ee9c4e59ac=
+15b17e4d328f1100756bce17133e8e7493b54e5006c3cbcdacd134130c5132a1edebdbd01=
+a0c41452d16ed7a0788003c34730d0808e7e14c797a21f2b45a8aa1644357fd5e988f99b0=
+17d9df37563a354c788dc0e2f9466045622fa3f3e17db63414d27761f57392623a2bef646=
+7501c63e8d645
+++Output =3D d5cf555b1d6151029a429a
+++
+++# an invalid ciphertext, with two zero bytes removed from first bytes o=
+f
+++# ciphertext, decrypts to a random 11 byte long synthethic
+++# plaintext
+++Decrypt =3D RSA-2048-2
+++Input =3D 587cccc6b264bdfe0dc2149a988047fa921801f3502ea64624c510c6033d2=
+f427e3f136c26e88ea9f6519e86a542cec96aad1e5e9013c3cc203b6de15a69183050813a=
+f5c9ad79703136d4b92f50ce171eefc6aa7988ecf02f319ffc5eafd6ee7a137f8fce64b25=
+5bb1b8dd19cfe767d64fdb468b9b2e9e7a0c24dae03239c8c714d3f40b7ee9c4e59ac15b1=
+7e4d328f1100756bce17133e8e7493b54e5006c3cbcdacd134130c5132a1edebdbd01a0c4=
+1452d16ed7a0788003c34730d0808e7e14c797a21f2b45a8aa1644357fd5e988f99b017d9=
+df37563a354c788dc0e2f9466045622fa3f3e17db63414d27761f57392623a2bef6467501=
+c63e8d645
+++Output =3D d5cf555b1d6151029a429a
+++
+++# and invalid ciphertext, otherwise valid but starting with 000002, dec=
+rypts
+++# to random 11 byte long synthethic plaintext
+++Decrypt =3D RSA-2048-2
+++Input =3D 1786550ce8d8433052e01ecba8b76d3019f1355b212ac9d0f5191b023325a=
+7e7714b7802f8e9a17c4cb3cd3a84041891471b10ca1fcfb5d041d34c82e6d0011cf4dc76=
+b90e9c2e0743590579d55bcd7857057152c4a8040361343d1d22ba677d62b011407c652e2=
+34b1d663af25e2386251d7409190f19fc8ec3f9374fdf1254633874ce2ec2bff40ad0cb47=
+3f9761ec7b68da45a4bd5e33f5d7dac9b9a20821df9406b653f78a95a6c0ea0a4d57f867e=
+4db22c17bf9a12c150f809a7b72b6db86c22a8732241ebf3c6a4f2cf82671d917aba8bc61=
+052b40ccddd743a94ea9b538175106201971cca9d136d25081739aaf6cd18b2aecf9ad320=
+ea3f89502f955
+++Output =3D 3d4a054d9358209e9cbbb9
+++
+++# negative test with otherwise valid padding but a zero byte in first b=
+yte
+++# of padding
+++Decrypt =3D RSA-2048-2
+++Input =3D 179598823812d2c58a7eb50521150a48bcca8b4eb53414018b6bca19f4801=
+456c5e36a940037ac516b0d6412ba44ec6b4f268a55ef1c5ffbf18a2f4e3522bb7b6ed897=
+74b79bffa22f7d3102165565642de0d43a955e96a1f2e80e5430671d7266eb4f905dc8ff5=
+e106dc5588e5b0289e49a4913940e392a97062616d2bda38155471b7d360cfb94681c702f=
+60ed2d4de614ea72bf1c53160e63179f6c5b897b59492bee219108309f0b7b8cb2b136c34=
+6a5e98b8b4b8415fb1d713bae067911e3057f1c335b4b7e39101eafd5d28f0189037e4334=
+f4fdb9038427b1d119a6702aa8233319cc97d496cc289ae8c956ddc84042659a2d43d6aa2=
+2f12b81ab884e
+++Output =3D 1f037dd717b07d3e7f7359
+++
+++# negative test with otherwise valid padding but a zero byte at the eig=
+th
+++# byte of padding
+++Decrypt =3D RSA-2048-2
+++Input =3D a7a340675a82c30e22219a55bc07cdf36d47d01834c1834f917f18b517419=
+ce9de2a96460e745024436470ed85e94297b283537d52189c406a3f533cb405cc6a9dba46=
+b482ce98b6e3dd52d8fce2237425617e38c11fbc46b61897ef200d01e4f25f5f6c4c5b38c=
+d0de38ba11908b86595a8036a08a42a3d05b79600a97ac18ba368a08d6cf6ccb624f6e800=
+2afc75599fba4de3d4f3ba7d208391ebe8d21f8282b18e2c10869eb2702e68f9176b42b0d=
+dc9d763f0c86ba0ff92c957aaeab76d9ab8da52ea297ec11d92d770146faa1b300e0f91ef=
+969b53e7d2907ffc984e9a9c9d11fb7d6cba91972059b46506b035efec6575c46d7114a6b=
+935864858445f
+++Output =3D 63cb0bf65fc8255dd29e17
+++
+++# negative test with an otherwise valid plaintext but with missing sepa=
+rator
+++# byte
+++Decrypt =3D RSA-2048-2
+++Input =3D 3d1b97e7aa34eaf1f4fc171ceb11dcfffd9a46a5b6961205b10b302818c1f=
+cc9f4ec78bf18ea0cee7e9fa5b16fb4c611463b368b3312ac11cf9c06b7cf72b54e284848=
+a508d3f02328c62c2999d0fb60929f81783c7a256891bc2ff4d91df2af96a24fc5701a182=
+3af939ce6dbdc510608e3d41eec172ad2d51b9fc61b4217c923cadcf5bac321355ef8be5e=
+5f090cdc2bd0c697d9058247db3ad613fdce87d2955a6d1c948a5160f93da21f731d74137=
+f5d1f53a1923adb513d2e6e1589d44cc079f4c6ddd471d38ac82d20d8b1d21f8d65f3b690=
+7086809f4123e08d86fb38729585de026a485d8f0e703fd4772f6668febf67df947b82195=
+fa3867e3a3065
+++Output =3D 6f09a0b62699337c497b0b
+++
+++# Test vectors for the Bleichenbacher workaround (2049 bit key size)
+++
+++PrivateKey =3D RSA-2049
+++-----BEGIN RSA PRIVATE KEY-----
+++MIIEpQIBAAKCAQEBVfiJVWoXdfHHp3hqULGLwoyemG7eVmfKs5uEEk6Q66dcHbCD
+++rD5EO7qU3CNWD3XjqBaToqQ73HQm2MTq/mjIXeD+dX9uSbue1EfmAkMIANuwTOsi
+++5/pXoY0zj7ZgJs20Z+cMwEDn02fvQDx78ePfYkZQCUYx8h6v0vtbyRX/BDeazRES
+++9zLAtGYHwXjTiiD1LtpQny+cBAXVEGnoDM+UFVTQRwRnUFw89UHqCJffyfQAzssp
+++j/x1M3LZ9pM68XTMQO2W1GcDFzO5f4zd0/krw6A+qFdsQX8kAHteT3UBEFtUTen6
+++3N/635jftLsFuBmfP4Ws/ZH3qaCUuaOD9QSQlwIDAQABAoIBAQEZwrP1CnrWFSZ5
+++1/9RCVisLYym8AKFkvMy1VoWc2F4qOZ/F+cFzjAOPodUclEAYBP5dNCj20nvNEyl
+++omo0wEUHBNDkIuDOI6aUJcFf77bybhBu7/ZMyLnXRC5NpOjIUAjq6zZYWaIpT6OT
+++e8Jr5WMy59geLBYO9jXMUoqnvlXmM6cj28Hha6KeUrKa7y+eVlT9wGZrsPwlSsvo
+++DmOHTw9fAgeC48nc/CUg0MnEp7Y05FA/u0k+Gq/us/iL16EzmHJdrm/jmed1zV1M
+++8J/IODR8TJjasaSIPM5iBRNhWvqhCmM2jm17ed9BZqsWJznvUVpEAu4eBgHFpVvH
+++HfDjDt+BAoGBAYj2k2DwHhjZot4pUlPSUsMeRHbOpf97+EE99/3jVlI83JdoBfhP
+++wN3sdw3wbO0GXIETSHVLNGrxaXVod/07PVaGgsh4fQsxTvasZ9ZegTM5i2Kgg8D4
+++dlxa1A1agfm73OJSftfpUAjLECnLTKvR+em+38KGyWVSJV2n6rGSF473AoGBAN7H
+++zxHa3oOkxD0vgBl/If1dRv1XtDH0T+gaHeN/agkf/ARk7ZcdyFCINa3mzF9Wbzll
+++YTqLNnmMkubiP1LvkH6VZ+NBvrxTNxiWJfu+qx87ez+S/7JoHm71p4SowtePfC2J
+++qqok0s7b0GaBz+ZcNse/o8W6E1FiIi71wukUyYNhAoGAEgk/OnPK7dkPYKME5FQC
++++HGrMsjJVbCa9GOjvkNw8tVYSpq7q2n9sDHqRPmEBl0EYehAqyGIhmAONxVUbIsL
+++ha0m04y0MI9S0H+ZRH2R8IfzndNAONsuk46XrQU6cfvtZ3Xh3IcY5U5sr35lRn2c
+++ut3H52XIWJ4smN/cJcpOyoECgYEAjM5hNHnPlgj392wkXPkbtJXWHp3mSISQVLTd
+++G0MW8/mBQg3AlXi/eRb+RpHPrppk5jQLhgMjRSPyXXe2amb8PuWTqfGN6l32PtX3
+++3+udILpppb71Wf+w7JTbcl9v9uq7o9SVR8DKdPA+AeweSQ0TmqCnlHuNZizOSjwP
+++G16GF0ECgYEA+ZWbNMS8qM5IiHgbMbHptdit9dDT4+1UXoNn0/hUW6ZEMriHMDXv
+++iBwrzeANGAn5LEDYeDe1xPms9Is2uNxTpZVhpFZSNALR6Po68wDlTJG2PmzuBv5t
+++5mbzkpWCoD4fRU53ifsHgaTW+7Um74gWIf0erNIUZuTN2YrtEPTnb3k=3D
+++-----END RSA PRIVATE KEY-----
+++
+++# corresponding public key
+++PublicKey =3D RSA-2049-PUBLIC
+++-----BEGIN PUBLIC KEY-----
+++MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEBVfiJVWoXdfHHp3hqULGL
+++woyemG7eVmfKs5uEEk6Q66dcHbCDrD5EO7qU3CNWD3XjqBaToqQ73HQm2MTq/mjI
+++XeD+dX9uSbue1EfmAkMIANuwTOsi5/pXoY0zj7ZgJs20Z+cMwEDn02fvQDx78ePf
+++YkZQCUYx8h6v0vtbyRX/BDeazRES9zLAtGYHwXjTiiD1LtpQny+cBAXVEGnoDM+U
+++FVTQRwRnUFw89UHqCJffyfQAzsspj/x1M3LZ9pM68XTMQO2W1GcDFzO5f4zd0/kr
+++w6A+qFdsQX8kAHteT3UBEFtUTen63N/635jftLsFuBmfP4Ws/ZH3qaCUuaOD9QSQ
+++lwIDAQAB
+++-----END PUBLIC KEY-----
+++
+++PrivPubKeyPair =3D RSA-2049:RSA-2049-PUBLIC
+++
+++# RSA decrypt
+++
+++# malformed that generates length specified by 3rd last value from PRF
+++Decrypt =3D RSA-2049
+++Input =3D 00b26f6404b82649629f2704494282443776929122e279a9cf30b0c6fe812=
+2a0a9042870d97cc8ef65490fe58f031eb2442352191f5fbc311026b5147d32df914599f3=
+8b825ebb824af0d63f2d541a245c5775d1c4b78630e4996cc5fe413d38455a776cf4edcc0=
+aa7fccb31c584d60502ed2b77398f536e137ff7ba6430e9258e21c2db5b82f5380f566876=
+110ac4c759178900fbad7ab70ea07b1daf7a1639cbb4196543a6cbe8271f35dddb8120304=
+f6eef83059e1c5c5678710f904a6d760c4d1d8ad076be17904b9e69910040b47914a0176f=
+b7eea0c06444a6c4b86d674d19a556a1de5490373cb01ce31bbd15a5633362d3d2cd7d4af=
+1b4c5121288b894
+++Output =3D 42
+++
+++# simple positive test case
+++Decrypt =3D RSA-2049
+++Input =3D 013300edbf0bb3571e59889f7ed76970bf6d57e1c89bbb6d1c3991d9df8e6=
+5ed54b556d928da7d768facb395bbcc81e9f8573b45cf8195dbd85d83a59281cddf4163ae=
+c11b53b4140053e3bd109f787a7c3cec31d535af1f50e0598d85d96d91ea01913d07097d2=
+5af99c67464ebf2bb396fb28a9233e56f31f7e105d71a23e9ef3b736d1e80e713d1691713=
+df97334779552fc94b40dd733c7251bc522b673d3ec9354af3dd4ad44fa71c0662213a57a=
+da1d75149697d0eb55c053aaed5ffd0b815832f454179519d3736fb4faf808416071db0d0=
+f801aca8548311ee708c131f4be658b15f6b54256872c2903ac708bd43b017b073b5707bc=
+84c2cd9da70e967
+++Output =3D "lorem ipsum"
+++
+++# positive test case with null padded ciphertext
+++Decrypt =3D RSA-2049
+++Input =3D 0002aadf846a329fadc6760980303dbd87bfadfa78c2015ce4d6c5782fd9d=
+3f1078bd3c0a2c5bfbdd1c024552e5054d98b5bcdc94e476dd280e64d650089326542ce7c=
+61d4f1ab40004c2e6a88a883613568556a10f3f9edeab67ae8dddc1e6b0831c2793d2715d=
+e943f7ce34c5c05d1b09f14431fde566d17e76c9feee90d86a2c158616ec81dda0c642f58=
+c0ba8fa4495843124a7235d46fb4069715a51bf710fd024259131ba94da73597ace494856=
+c94e7a3ec261545793b0990279b15fa91c7fd13dbfb1df2f221dab9fa9f7c1d21e48aa49f=
+6aaecbabf5ee76dc6c2af2317ffb4e303115386a97f8729afc3d0c89419669235f1a3a695=
+70e0836c79fc162
+++Output =3D "lorem ipsum"
+++
+++# positive test case with null truncated ciphertext
+++Decrypt =3D RSA-2049
+++Input =3D 02aadf846a329fadc6760980303dbd87bfadfa78c2015ce4d6c5782fd9d3f=
+1078bd3c0a2c5bfbdd1c024552e5054d98b5bcdc94e476dd280e64d650089326542ce7c61=
+d4f1ab40004c2e6a88a883613568556a10f3f9edeab67ae8dddc1e6b0831c2793d2715de9=
+43f7ce34c5c05d1b09f14431fde566d17e76c9feee90d86a2c158616ec81dda0c642f58c0=
+ba8fa4495843124a7235d46fb4069715a51bf710fd024259131ba94da73597ace494856c9=
+4e7a3ec261545793b0990279b15fa91c7fd13dbfb1df2f221dab9fa9f7c1d21e48aa49f6a=
+aecbabf5ee76dc6c2af2317ffb4e303115386a97f8729afc3d0c89419669235f1a3a69570=
+e0836c79fc162
+++Output =3D "lorem ipsum"
+++
+++# positive test case with double null padded ciphertext
+++Decrypt =3D RSA-2049
+++Input =3D 0000f36da3b72d8ff6ded74e7efd08c01908f3f5f0de7b55eab92b5f87519=
+0809c39d4162e1e6649618f854fd84aeab03970d16bb814e999852c06de38d82b95c0f32e=
+2a7b5714021fe303389be9c0eac24c90a6b7210f929d390fabf903d44e04110bb7a7fd6c3=
+83c275804721efa6d7c93aa64c0bb2b18d97c5220a846c66a4895ae52adddbe2a9996825e=
+013585adcec4b32ba61d782737bd343e5fabd68e8a95b8b1340318559860792dd70dffbe0=
+5a1052b54cbfb48cfa7bb3c19cea52076bddac5c25ee276f153a610f6d06ed696d192d8ae=
+4507ffae4e5bdda10a625d6b67f32f7cffcd48dee2431fe66f6105f9d17e611cdcc674868=
+e81692a360f4052
+++Output =3D "lorem ipsum"
+++
+++# positive test case with double null truncated ciphertext
+++Decrypt =3D RSA-2049
+++Input =3D f36da3b72d8ff6ded74e7efd08c01908f3f5f0de7b55eab92b5f875190809=
+c39d4162e1e6649618f854fd84aeab03970d16bb814e999852c06de38d82b95c0f32e2a7b=
+5714021fe303389be9c0eac24c90a6b7210f929d390fabf903d44e04110bb7a7fd6c383c2=
+75804721efa6d7c93aa64c0bb2b18d97c5220a846c66a4895ae52adddbe2a9996825e0135=
+85adcec4b32ba61d782737bd343e5fabd68e8a95b8b1340318559860792dd70dffbe05a10=
+52b54cbfb48cfa7bb3c19cea52076bddac5c25ee276f153a610f6d06ed696d192d8ae4507=
+ffae4e5bdda10a625d6b67f32f7cffcd48dee2431fe66f6105f9d17e611cdcc674868e816=
+92a360f4052
+++Output =3D "lorem ipsum"
+++
+++# a random negative test case that generates an 11 byte long message
+++Decrypt =3D RSA-2049
+++Input =3D 00f910200830fc8fff478e99e145f1474b312e2512d0f90b8cef77f8001d0=
+9861688c156d1cbaf8a8957f7ebf35f724466952d0524cad48aad4fba1e45ce8ea27e8f3b=
+a44131b7831b62d60c0762661f4c1d1a88cd06263a259abf1ba9e6b0b172069afb86a7e88=
+387726f8ab3adb30bfd6b3f6be6d85d5dfd044e7ef052395474a9cbb1c3667a92780b43a2=
+2693015af6c513041bdaf87d43b24ddd244e791eeaea1066e1f4917117b3a468e22e0f735=
+8852bb981248de4d720add2d15dccba6280355935b67c96f9dcb6c419cc38ab9f6fba2d64=
+9ef2066e0c34c9f788ae49babd9025fa85b21113e56ce4f43aa134c512b030dd7ac7ce82e=
+76f0be9ce09ebca
+++Output =3D 1189b6f5498fd6df532b00
+++
+++# otherwise correct plaintext, but with wrong first byte (0x01 instead =
+of 0x00)
+++Decrypt =3D RSA-2049
+++Input =3D 002c9ddc36ba4cf0038692b2d3a1c61a4bb3786a97ce2e46a3ba74d03158a=
+eef456ce0f4db04dda3fe062268a1711250a18c69778a6280d88e133a16254e1f0e30ce8d=
+ac9b57d2e39a2f7d7be3ee4e08aec2fdbe8dadad7fdbf442a29a8fb40857407bf6be35596=
+b8eefb5c2b3f58b894452c2dc54a6123a1a38d642e23751746597e08d71ac92704adc1780=
+3b19e131b4d1927881f43b0200e6f95658f559f912c889b4cd51862784364896cd6e8618f=
+485a992f82997ad6a0917e32ae5872eaf850092b2d6c782ad35f487b79682333c1750c685=
+d7d32ab3e1538f31dcaa5e7d5d2825875242c83947308dcf63ba4bfff20334c9c140c837d=
+bdbae7a8dee72ff
+++Output =3D f6d0f5b78082fe61c04674
+++
+++# otherwise correct plaintext, but with wrong second byte (0x01 instead=
+ of 0x02)
+++Decrypt =3D RSA-2049
+++Input =3D 00c5d77826c1ab7a34d6390f9d342d5dbe848942e2618287952ba0350d7de=
+6726112e9cebc391a0fae1839e2bf168229e3e0d71d4161801509f1f28f6e1487ca52df05=
+c466b6b0a6fbbe57a3268a970610ec0beac39ec0fa67babce1ef2a86bf77466dc127d7d0d=
+2962c20e66593126f276863cd38dc6351428f884c1384f67cad0a0ffdbc2af16711fb68dc=
+559b96b37b4f04cd133ffc7d79c43c42ca4948fa895b9daeb853150c8a5169849b730cc77=
+d68b0217d6c0e3dbf38d751a1998186633418367e7576530566c23d6d4e0da9b038d0bb51=
+69ce40133ea076472d055001f0135645940fd08ea44269af2604c8b1ba225053d6db9ab43=
+577689401bdc0f3
+++Output =3D 1ab287fcef3ff17067914d
+++
+++# RSA decrypt with 3072 bit keys
+++PrivateKey =3D RSA-3072
+++-----BEGIN RSA PRIVATE KEY-----
+++MIIG5AIBAAKCAYEAr9ccqtXp9bjGw2cHCkfxnX5mrt4YpbJ0H7PE0zQ0VgaSotkJ
+++72iI7GAv9rk68ljudDA8MBr81O2+xDMR3cjdvwDdu+OG0zuNDiKxtEk23EiYcbhS
+++N7NM50etj9sMTk0dqnqt8HOFxchzLMt9Wkni5QyIPH16wQ7Wp02ayQ35EpkFoX1K
+++CHIQ/Hi20EseuWlILBGm7recUOWxbz8lT3VxUosvFxargW1uygcnveqYBZMpcw64
+++wzznHWHdSsOTtiVuB6wdEk8CANHD4FpMG8fx7S/IPlcZnP5ZCLEAh+J/vZfSwkIU
+++YZxxR8j778o5vCVnYqaCNTH34jTWjq56DZ+vEN0V6VI3gMfVrlgJStUlqQY7TDP5
+++XhAG2i6xLTdDaJSVwfICPkBzU8XrPkyhxIz/gaEJANFIIOuAGvTxpZbEuc6aUx/P
+++ilTZ/9ckJYtu7CAQjfb9/XbUrgO6fqWY3LDkooCElYcob01/JWzoXl61Z5sdrMH5
+++CVZJty5foHKusAN5AgMBAAECggGAJRfqyzr+9L/65gOY35lXpdKhVKgzaNjhWEKy
+++9Z7gn3kZe9LvHprdr4eG9rQSdEdAXjBCsh8vULeqc3cWgMO7y2wiWl1f9rVsRxwY
+++gqCjOwrxZaPtbCSdx3g+a8dYrDfmVy0z/jJQeO2VJlDy65YEkC75mlEaERnRPE/J
+++pDoXXc37+xoUAP4XCTtpzTzbiV9lQy6iGV+QURxzNrWKaF2s/y2vTF6S5WWxZlrm
+++DlErqplluAjV/xGc63zWksv5IAZ6+s2An2a+cG2iaBCseQ2xVslI5v5YG8mEkVf0
+++2kk/OmSwxuEZ4DGxB/hDbOKRYLRYuPnxCV/esZJjOE/1OHVXvE8QtANN6EFwO60s
+++HnacI4U+tjCjbRBh3UbipruvdDqX8LMsNvUMGjci3vOjlNkcLgeL8J15Xs3l5WuC
+++Avl0Am91/FbpoN1qiPLny3jvEpjMbGUgfKRb03GIgHtPzbHmDdjluFZI+376i2/d
+++RI85dBqNmAn+Fjrz3kW6wkpahByBAoHBAOSj2DDXPosxxoLidP/J/RKsMT0t0FE9
+++UFcNt+tHYv6hk+e7VAuUqUpd3XQqz3P13rnK4xvSOsVguyeU/WgmH4ID9XGSgpBP
+++Rh6s7izn4KAJeqfI26vTPxvyaZEqB4JxT6k7SerENus95zSn1v/f2MLBQ16EP8cJ
++++QSOVCoZfEhUK+srherQ9eZKpj0OwBUrP4VhLdymv96r8xddWX1AVj4OBi2RywKI
+++gAgv6fjwkb292jFu6x6FjKRNKwKK6c3jqQKBwQDE4c0Oz0KYYV4feJun3iL9UJSv
+++StGsKVDuljA4WiBAmigMZTii/u0DFEjibiLWcJOnH53HTr0avA6c6D1nCwJ2qxyF
+++rHNN2L+cdMx/7L1zLR11+InvRgpIGbpeGwHeIzJVUYG3b6llRJMZimBvAMr9ipM1
+++bkVvIjt1G9W1ypeuKzm6d/t8F0yC7AIYZWDV4nvxiiY8whLZzGawHR2iZz8pfUwb
+++7URbTvxdsGE27Kq9gstU0PzEJpnU1goCJ7/gA1ECgcBA8w5B6ZM5xV0H5z6nPwDm
+++IgYmw/HucgV1hU8exfuoK8wxQvTACW4B0yJKkrK11T1899aGG7VYRn9D4j4OLO48
+++Z9V8esseJXbc1fEezovvymGOci984xiFXtqAQzk44+lmQJJh33VeZApe2eLocvVH
+++ddEmc1kOuJWFpszf3LeCcG69cnKrXsrLrZ8Frz//g3aa9B0sFi5hGeWHWJxISVN2
+++c1Nr9IN/57i/GqVTcztjdCAcdM7Tr8phDg7OvRlnxGkCgcEAuYhMFBuulyiSaTff
+++/3ZvJKYOJ45rPkEFGoD/2ercn+RlvyCYGcoAEjnIYVEGlWwrSH+b0NlbjVkQsD6O
+++to8CeE/RpgqX8hFCqC7NE/RFp8cpDyXy3j/zqnRMUyhCP1KNuScBBZs9V8gikxv6
+++ukBWCk3PYbeTySHKRBbB8vmCrMfhM96jaBIQsQO1CcZnVceDo1/bnsAIwaREVMxr
+++Q8LmG7QOx/Z0x1MMsUFoqzilwccC09/JgxMZPh+h+Nv6jiCxAoHBAOEqQgFAfSdR
+++ya60LLH55q803NRFMamuKiPbVJLzwiKfbjOiiopmQOS/LxxqIzeMXlYV4OsSvxTo
+++G7mcTOFRtU5hKCK+t8qeQQpa/dsMpiHllwArnRyBjIVgL5lFKRpHUGLsavU/T1IH
+++mtgaxZo32dXvcAh1+ndCHVBwbHTOF4conA+g+Usp4bZSSWn5nU4oIizvSVpG7SGe
+++0GngdxH9Usdqbvzcip1EKeHRTZrHIEYmB+x0LaRIB3dwZNidK3TkKw=3D=3D
+++-----END RSA PRIVATE KEY-----
+++
+++PublicKey =3D RSA-3072-PUBLIC
+++-----BEGIN PUBLIC KEY-----
+++MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAr9ccqtXp9bjGw2cHCkfx
+++nX5mrt4YpbJ0H7PE0zQ0VgaSotkJ72iI7GAv9rk68ljudDA8MBr81O2+xDMR3cjd
+++vwDdu+OG0zuNDiKxtEk23EiYcbhSN7NM50etj9sMTk0dqnqt8HOFxchzLMt9Wkni
+++5QyIPH16wQ7Wp02ayQ35EpkFoX1KCHIQ/Hi20EseuWlILBGm7recUOWxbz8lT3Vx
+++UosvFxargW1uygcnveqYBZMpcw64wzznHWHdSsOTtiVuB6wdEk8CANHD4FpMG8fx
+++7S/IPlcZnP5ZCLEAh+J/vZfSwkIUYZxxR8j778o5vCVnYqaCNTH34jTWjq56DZ+v
+++EN0V6VI3gMfVrlgJStUlqQY7TDP5XhAG2i6xLTdDaJSVwfICPkBzU8XrPkyhxIz/
+++gaEJANFIIOuAGvTxpZbEuc6aUx/PilTZ/9ckJYtu7CAQjfb9/XbUrgO6fqWY3LDk
+++ooCElYcob01/JWzoXl61Z5sdrMH5CVZJty5foHKusAN5AgMBAAE=3D
+++-----END PUBLIC KEY-----
+++
+++PrivPubKeyPair =3D RSA-3072:RSA-3072-PUBLIC
+++
+++# a random invalid ciphertext that generates an empty synthethic one
+++Decrypt =3D RSA-3072
+++Input =3D 5e956cd9652f4a2ece902931013e09662b6a9257ad1e987fb75f73a0606df=
+2a4b04789770820c2e02322c4e826f767bd895734a01e20609c3be4517a7a2a589ea1cdc1=
+37beb73eb38dac781b52e863de9620f79f9b90fd5b953651fcbfef4a9f1cc07421d511a87=
+dd6942caab6a5a0f4df473e62defb529a7de1509ab99c596e1dff1320402298d8be73a896=
+cc86c38ae3f2f576e9ea70cc28ad575cb0f854f0be43186baa9c18e29c47c6ca77135db79=
+c811231b7c1730955887d321fdc06568382b86643cf089b10e35ab23e827d2e5aa7b4e99f=
+f2e914f302351819eb4d1693243b35f8bf1d42d08f8ec4acafa35f747a4a975a28643ec63=
+0d8e4fa5be59d81995660a14bb64c1fea5146d6b11f92da6a3956dd5cb5e0d747cf2ea23f=
+81617769185336263d46ef4c144b754de62a6337342d6c85a95f19f015724546ee3fc4823=
+eca603dbc1dc01c2d5ed50bd72d8e96df2dc048edde0081284068283fc5e73a6139851abf=
+2f29977d0b3d160c883a42a37efba1be05c1a0b1741d7ddf59
+++Output =3D
+++
+++# a random invalid that has PRF output with a length one byte too long
+++# in the last value
+++Decrypt =3D RSA-3072
+++Input =3D 7db0390d75fcf9d4c59cf27b264190d856da9abd11e92334d0e5f71005cfe=
+d865a711dfa28b791188374b61916dbc11339bf14b06f5f3f68c206c5607380e13da3129b=
+fb744157e1527dd6fdf6651248b028a496ae1b97702d44706043cdaa7a59c0f41367303f2=
+1f268968bf3bd2904db3ae5239b55f8b438d93d7db9d1666c071c0857e2ec37757463769c=
+54e51f052b2a71b04c2869e9e7049a1037b8429206c99726f07289bac18363e7eb2a5b417=
+f47c37a55090cda676517b3549c873f2fe95da9681752ec9864b069089a2ed2f340c8b04e=
+e00079055a817a3355b46ac7dc00d17f4504ccfbcfcadb0c04cb6b22069e179385ae1eafa=
+bad5521bac2b8a8ee1dfff59a22eb3fdacfc87175d10d7894cfd869d056057dd9944b869c=
+1784fcc27f731bc46171d39570fbffbadf082d33f6352ecf44aca8d9478e53f5a5b7c852b=
+401e8f5f74da49da91e65bdc97765a9523b7a0885a6f8afe5759d58009fbfa837472a968e=
+6ae92026a5e0202a395483095302d6c3985b5f5831c521a271
+++Output =3D 56a3bea054e01338be9b7d7957539c
+++
+++# a random invalid that generates a synthethic of maximum size
+++Decrypt =3D RSA-3072
+++Input =3D 1715065322522dff85049800f6a29ab5f98c465020467414b2a44127fe944=
+6da47fa18047900f99afe67c2df6f50160bb8e90bff296610fde632b3859d4d0d2e644f23=
+835028c46cca01b84b88231d7e03154edec6627bcba23de76740d839851fa12d74c8f92e5=
+40c73fe837b91b7d699b311997d5f0f7864c486d499c3a79c111faaacbe4799597a25066c=
+6200215c3d158f3817c1aa57f18bdaad0be1658da9da93f5cc6c3c4dd72788af57adbb6a0=
+c26f42d32d95b8a4f95e8c6feb2f8a5d53b19a50a0b7cbc25e055ad03e5ace8f3f7db13e5=
+7759f67b65d143f08cca15992c6b2aae643390483de111c2988d4e76b42596266005103c8=
+de6044fb7398eb3c28a864fa672de5fd8774510ff45e05969a11a4c7d3f343e331190d2dc=
+f24fb9154ba904dc94af98afc5774a9617d0418fe6d13f8245c7d7626c176138dd698a235=
+47c25f27c2b98ea4d8a45c7842b81888e4cc14e5b72e9cf91f56956c93dbf2e5f44a8282a=
+7813157fc481ff1371a0f66b31797e81ebdb09a673d4db96d6
+++Output =3D 7b036fcd6243900e4236c894e2462c17738acc87e01a76f4d95cb9a328d9=
+acde81650283b8e8f60a217e3bdee835c7b222ad4c85d0acdb9a309bd2a754609a65dec50=
+f3aa04c6d5891034566b9563d42668ede1f8992b17753a2132e28970584e255efc8b45a41=
+c5dbd7567f014acec5fe6fdb6d484790360a913ebb9defcd74ff377f2a8ba46d2ed85f733=
+c9a3da08eb57ecedfafda806778f03c66b2c5d2874cec1c291b2d49eb194c7b5d0dd2908a=
+e90f4843268a2c45563092ade08acb6ab481a08176102fc803fbb2f8ad11b0e1531bd37df=
+543498daf180b12017f4d4d426ca29b4161075534bfb914968088a9d13785d0adc0e2580d=
+3548494b2a9e91605f2b27e6cc701c796f0de7c6f471f6ab6cb9272a1ed637ca32a60d117=
+505d82af3c1336104afb537d01a8f70b510e1eebf4869cb976c419473795a66c7f5e6e20a=
+8094b1bb603a74330c537c5c0698c31538bd2e138c1275a1bdf24c5fa8ab3b7b526324e79=
+18a382d1363b3d463764222150e04
+++
+++# a positive test case that decrypts to 9 byte long value
+++Decrypt =3D RSA-3072
+++Input =3D 6c60845a854b4571f678941ae35a2ac03f67c21e21146f9db1f2306be9f13=
+6453b86ad55647d4f7b5c9e62197aaff0c0e40a3b54c4cde14e774b1c5959b6c2a2302896=
+ffae1f73b00b862a20ff4304fe06cea7ff30ecb3773ca9af27a0b54547350d7c07dfb0a39=
+629c7e71e83fc5af9b2adbaf898e037f1de696a3f328cf45af7ec9aff7173854087fb8fbf=
+34be981efbd8493f9438d1b2ba2a86af082662aa46ae9adfbec51e5f3d9550a4dd1dcb7c8=
+969c9587a6edc82a8cabbc785c40d9fbd12064559fb769450ac3e47e87bc046148130d7ea=
+a843e4b3ccef3675d0630500803cb7ffee3882378c1a404e850c3e20707bb745e42b13c18=
+786c4976076ed9fa8fd0ff15e571bef02cbbe2f90c908ac3734a433b73e778d4d17fcc28f=
+49185ebc6e8536a06d293202d94496453bfdf1c2c7833a3f99fa38ca8a81f42eaa529d603=
+b890308a319c0ab63a35ff8ebac965f6278f5a7e5d622be5d5fe55f0ca3ec993d55430d2b=
+f59c5d3e860e90c16d91a04596f6fdf60d89ed95d88c036dde
+++Output =3D "forty two"
+++
+++# a positive test case with null padded ciphertext
+++Decrypt =3D RSA-3072
+++Input =3D 00f4d565a3286784dbb85327db8807ae557ead229f92aba945cecda5225f6=
+06a7d6130edeeb6f26724d1eff1110f9eb18dc3248140ee3837e6688391e78796c5267913=
+84f045e21b6b853fb6342a11f309eb77962f37ce23925af600847fbd30e6e07e57de50b60=
+6e6b7f288cc777c1a6834f27e6edace508452128916eef7788c8bb227e3548c6a761cc4e9=
+dd1a3584176dc053ba3500adb1d5e1611291654f12dfc5722832f635db3002d73f9defc31=
+0ace62c63868d341619c7ee15b20243b3371e05078e11219770c701d9f341af35df1bc729=
+de294825ff2e416aa11526612852777eb131f9c45151eb144980d70608d2fc40434773683=
+69aa0fe487a48bd57e66b00c3c58f941549f5ec050fca64449debe7a0c4ac51e55cb71620=
+a70312aa4bd85fac1410c9c7f9d6ec610b7d11bf8faeffa20255d1a1bead9297d0aa8765c=
+d2805847d639bc439f4a6c896e2008f746f9590ff4596de5ddde000ed666c452c978043ff=
+4298461eb5a26d5e63d821438627f91201924bf7f2aeee1727
+++Output =3D "forty two"
+++
+++# a positive test case with null truncated ciphertext
+++Decrypt =3D RSA-3072
+++Input =3D f4d565a3286784dbb85327db8807ae557ead229f92aba945cecda5225f606=
+a7d6130edeeb6f26724d1eff1110f9eb18dc3248140ee3837e6688391e78796c526791384=
+f045e21b6b853fb6342a11f309eb77962f37ce23925af600847fbd30e6e07e57de50b606e=
+6b7f288cc777c1a6834f27e6edace508452128916eef7788c8bb227e3548c6a761cc4e9dd=
+1a3584176dc053ba3500adb1d5e1611291654f12dfc5722832f635db3002d73f9defc310a=
+ce62c63868d341619c7ee15b20243b3371e05078e11219770c701d9f341af35df1bc729de=
+294825ff2e416aa11526612852777eb131f9c45151eb144980d70608d2fc4043477368369=
+aa0fe487a48bd57e66b00c3c58f941549f5ec050fca64449debe7a0c4ac51e55cb71620a7=
+0312aa4bd85fac1410c9c7f9d6ec610b7d11bf8faeffa20255d1a1bead9297d0aa8765cd2=
+805847d639bc439f4a6c896e2008f746f9590ff4596de5ddde000ed666c452c978043ff42=
+98461eb5a26d5e63d821438627f91201924bf7f2aeee1727
+++Output =3D "forty two"
+++
+++# a positive test case with double null padded ciphertext
+++Decrypt =3D RSA-3072
+++Input =3D 00001ec97ac981dfd9dcc7a7389fdfa9d361141dac80c23a060410d472c16=
+094e6cdffc0c3684d84aa402d7051dfccb2f6da33f66985d2a259f5b7fbf39ac537e95c5b=
+7050eb18844a0513abef812cc8e74a3c5240009e6e805dcadf532bc1a2702d5acc9e585fa=
+d5b89d461fcc1397351cdce35171523758b171dc041f412e42966de7f94856477356d06f2=
+a6b40e3ff0547562a4d91bbf1338e9e049facbee8b20171164505468cd308997447d3dc4b=
+0acb49e7d368fedd8c734251f30a83491d2506f3f87318cc118823244a393dc7c5c739a27=
+33d93e1b13db6840a9429947357f47b23fbe39b7d2d61e5ee26f9946c4632f6c4699e452f=
+412a26641d4751135400713cd56ec66f0370423d55d2af70f5e7ad0adea8e4a0d904a01e4=
+ac272eba4af1a029dd53eb71f115bf31f7a6c8b19a6523adeecc0d4c3c107575e38572a8f=
+8474ccad163e46e2e8b08111132aa97a16fb588c9b7e37b3b3d7490381f3c55d1a9869a0f=
+d42cd86fed59ecec78cb6b2dfd06a497f5afe3419691314ba0
+++Output =3D "forty two"
+++
+++# a positive test case with double null truncated ciphertext
+++Decrypt =3D RSA-3072
+++Input =3D 1ec97ac981dfd9dcc7a7389fdfa9d361141dac80c23a060410d472c16094e=
+6cdffc0c3684d84aa402d7051dfccb2f6da33f66985d2a259f5b7fbf39ac537e95c5b7050=
+eb18844a0513abef812cc8e74a3c5240009e6e805dcadf532bc1a2702d5acc9e585fad5b8=
+9d461fcc1397351cdce35171523758b171dc041f412e42966de7f94856477356d06f2a6b4=
+0e3ff0547562a4d91bbf1338e9e049facbee8b20171164505468cd308997447d3dc4b0acb=
+49e7d368fedd8c734251f30a83491d2506f3f87318cc118823244a393dc7c5c739a2733d9=
+3e1b13db6840a9429947357f47b23fbe39b7d2d61e5ee26f9946c4632f6c4699e452f412a=
+26641d4751135400713cd56ec66f0370423d55d2af70f5e7ad0adea8e4a0d904a01e4ac27=
+2eba4af1a029dd53eb71f115bf31f7a6c8b19a6523adeecc0d4c3c107575e38572a8f8474=
+ccad163e46e2e8b08111132aa97a16fb588c9b7e37b3b3d7490381f3c55d1a9869a0fd42c=
+d86fed59ecec78cb6b2dfd06a497f5afe3419691314ba0
+++Output =3D "forty two"
+++
+++# a random negative test case that generates a 9 byte long message
+++Decrypt =3D RSA-3072
+++Input =3D 5c8555f5cef627c15d37f85c7f5fd6e499264ea4b8e3f9112023aeb722eb3=
+8d8eac2be3751fd5a3785ab7f2d59fa3728e5be8c3de78a67464e30b21ee23b5484bb3cd0=
+6d0e1c6ad25649c8518165653eb80488bfb491b20c04897a6772f69292222fc5ef50b5cf9=
+efc6d60426a449b6c489569d48c83488df629d695653d409ce49a795447fcec2c58a1a672=
+e4a391401d428baaf781516e11e323d302fcf20f6eab2b2dbe53a48c987e407c4d7e1cb41=
+131329138313d330204173a4f3ff06c6fadf970f0ed1005d0b27e35c3d11693e0429e272d=
+583e57b2c58d24315c397856b34485dcb077665592b747f889d34febf2be8fce66c265fd9=
+fc3575a6286a5ce88b4b413a08efc57a07a8f57a999605a837b0542695c0d189e678b5366=
+2ecf7c3d37d9dbeea585eebfaf79141118e06762c2381fe27ca6288edddc19fd67cd64f16=
+b46e06d8a59ac530f22cd83cc0bc4e37feb52015cbb2283043ccf5e78a4eb7146827d7a46=
+6b66c8a4a4826c1bad68123a7f2d00fc1736525ff90c058f56
+++Output =3D 257906ca6de8307728
+++
+++# a random negative test case that generates a 9 byte long message base=
+d on
+++# second to last value from PRF
+++Decrypt =3D RSA-3072
+++Input =3D 758c215aa6acd61248062b88284bf43c13cb3b3d02410be4238607442f1c0=
+216706e21a03a2c10eb624a63322d854da195c017b76fea83e274fa371834dcd2f3b7accf=
+433fc212ad76c0bac366e1ed32e25b279f94129be7c64d6e162adc08ccebc0cfe8e926f01=
+c33ab9c065f0e0ac83ae5137a4cb66702615ad68a35707d8676d2740d7c1a954680c83980=
+e19778ed11eed3a7c2dbdfc461a9bbef671c1bc00c882d361d29d5f80c42bdf5efec886c3=
+4138f83369c6933b2ac4e93e764265351b4a0083f040e14f511f09b22f96566138864e4e6=
+ff24da4810095da98e0585410951538ced2f757a277ff8e17172f06572c9024eeae503f17=
+6fd46eb6c5cd9ba07af11cde31dccac12eb3a4249a7bfd3b19797ad1656984bfcbf6f74e8=
+f99d8f1ac420811f3d166d87f935ef15ae858cf9e72c8e2b547bf16c3fb09a8c9bf88fd2e=
+5d38bf24ed610896131a84df76b9f920fe76d71fff938e9199f3b8cd0c11fd0201f9139d7=
+673a871a9e7d4adc3bbe360c8813617cd60a90128fbe34c9d5
+++Output =3D 043383c929060374ed
+++
+++# a random negative test that generates message based on 3rd last value=
+ from
+++# PRF
+++Decrypt =3D RSA-3072
+++Input =3D 7b22d5e62d287968c6622171a1f75db4b0fd15cdf3134a1895d235d56f8d8=
+fe619f2bf4868174a91d7601a82975d2255190d28b869141d7c395f0b8c4e2be2b2c1b4ff=
+c12ce749a6f6803d4cfe7fba0a8d6949c04151f981c0d84592aa2ff25d1bd3ce5d10cb03d=
+aca6b496c6ad40d30bfa8acdfd02cdb9326c4bdd93b949c9dc46caa8f0e5f429785bce641=
+36a429a3695ee674b647452bea1b0c6de9c5f1e8760d5ef6d5a9cfff40457b023d3c233c1=
+dcb323e7808103e73963b2eafc928c9eeb0ee3294955415c1ddd9a1bb7e138fecd79a3cb8=
+9c57bd2305524624814aaf0fd1acbf379f7f5b39421f12f115ba488d380586095bb53f174=
+fae424fa4c8e3b299709cd344b9f949b1ab57f1c645d7ed3c8f81d5594197355029fee896=
+0970ff59710dc0e5eb50ea6f4c3938e3f89ed7933023a2c2ddffaba07be147f686828bd7d=
+520f300507ed6e71bdaee05570b27bc92741108ac2eb433f028e138dd6d63067bc206ea2d=
+826a7f41c0d613daed020f0f30f4e272e9618e0a8c39018a83
+++Output =3D 70263fa6050534b9e0
+++
+++# an otherwise valid plaintext, but with wrong first byte (0x01 instead=
+ of 0x00)
+++Decrypt =3D RSA-3072
+++Input =3D 6db80adb5ff0a768caf1378ecc382a694e7d1bde2eff4ba12c48aaf794ded=
+7a994a5b2b57acec20dbec4ae385c9dd531945c0f197a5496908725fc99d88601a17d3bb0=
+b2d38d2c1c3100f39955a4cb3dbed5a38bf900f23d91e173640e4ec655c84fdfe71fcdb12=
+a386108fcf718c9b7af37d39703e882436224c877a2235e8344fba6c951eb7e2a4d1d1de8=
+1fb463ac1b880f6cc0e59ade05c8ce35179ecd09546731fc07b141d3d6b342a97ae747e61=
+a9130f72d37ac5a2c30215b6cbd66c7db893810df58b4c457b4b54f34428247d584e0fa71=
+062446210db08254fb9ead1ba1a393c724bd291f0cf1a7143f32df849051dc896d7d176fe=
+f3b57ab6dffd626d0c3044e9edb2e3d012ace202d2581df01bec7e9aa0727a6650dd373d3=
+74f0bc0f4a611f8139dfe97d63e70c6188f4df5b672e47c51d8aa567097293fbff127c75e=
+c690b43407578b73c85451710a0cece58fd497d7f7bd36a8a92783ef7dc6265dff52aac8b=
+70340b996508d39217f2783ce6fc91a1cc94bb2ac487b84f62
+++Output =3D 6d8d3a094ff3afff4c
+++
+++# an otherwise valid plaintext, but with wrong second byte (0x01 instea=
+d of 0x02)
+++Decrypt =3D RSA-3072
+++Input =3D 417328c034458563079a4024817d0150340c34e25ae16dcad690623f702e5=
+c748a6ebb3419ff48f486f83ba9df35c05efbd7f40613f0fc996c53706c30df6bba6dcd4a=
+40825f96133f3c21638a342bd4663dffbd0073980dac47f8c1dd8e97ce1412e4f91f2a8ad=
+b1ac2b1071066efe8d718bbb88ca4a59bd61500e826f2365255a409bece0f972df97c3a55=
+e09289ef5fa815a2353ef393fd1aecfc888d611c16aec532e5148be15ef1bf2834b8f75bb=
+26db08b66d2baad6464f8439d1986b533813321dbb180080910f233bcc4dd784fb21871ae=
+f41be08b7bfad4ecc3b68f228cb5317ac6ec1227bc7d0e452037ba918ee1da9fdb8393ae9=
+3b1e937a8d4691a17871d5092d2384b6190a53df888f65b951b05ed4ad57fe4b0c6a47b5b=
+22f32a7f23c1a234c9feb5d8713d949686760680da4db454f4acad972470033472b9864d6=
+3e8d23eefc87ebcf464ecf33f67fbcdd48eab38c5292586b36aef5981ed2fa07b2f9e23fc=
+57d9eb71bfff4111c857e9fff23ceb31e72592e70c874b4936
+++Output =3D c6ae80ffa80bc184b0
+++
+++# an otherwise valid plaintext, but with zero byte in first byte of pad=
+ding
+++Decrypt =3D RSA-3072
+++Input =3D 8542c626fe533467acffcd4e617692244c9b5a3bf0a215c5d64891ced4bf4=
+f9591b4b2aedff9843057986d81631b0acb3704ec2180e5696e8bd15b217a0ec36d2061b0=
+e2182faa3d1c59bd3f9086a10077a3337a3f5da503ec3753535ffd25b837a12f2541afefd=
+0cffb0224b8f874e4bed13949e105c075ed44e287c5ae03b155e06b90ed247d2c07f1ef33=
+23e3508cce4e4074606c54172ad74d12f8c3a47f654ad671104bf7681e5b061862747d9af=
+d37e07d8e0e2291e01f14a95a1bb4cbb47c304ef067595a3947ee2d722067e38a0f046f43=
+ec29cac6a8801c6e3e9a2331b1d45a7aa2c6af3205be382dd026e389614ee095665a611ab=
+2e8dced2ee1c9d08ac9de11aef5b3803fc9a9ce8231ec87b5fed386fb92ee3db995a89307=
+bcba844bd0a691c29ae51216e949dfc813133cb06a07265fd807bcb3377f6adb0a481d9b7=
+f442003115895939773e6b95371c4febef29edae946fa245e7c50729e2e558cfaad773d1f=
+d5f67b457a6d9d17a847c6fcbdb103a86f35f228cefc06cea0
+++Output =3D a8a9301daa01bb25c7
+++
+++# an otherwise valid plaintext, but with zero byte in eight byte of pad=
+ding
+++Decrypt =3D RSA-3072
+++Input =3D 449dfa237a70a99cb0351793ec8677882021c2aa743580bf6a0ea672055cf=
+fe8303ac42855b1d1f3373aae6af09cb9074180fc963e9d1478a4f98b3b4861d3e7f0aa85=
+60cf603711f139db77667ca14ba3a1acdedfca9ef4603d6d7eb0645bfc805304f9ad9d77d=
+34762ce5cd84bd3ec9d35c30e3be72a1e8d355d5674a141b5530659ad64ebb6082e6f73a8=
+0832ab6388912538914654d34602f4b3b1c78589b4a5d964b2efcca1dc7004c41f6cafcb5=
+a7159a7fc7c0398604d0edbd4c8f4f04067da6a153a05e7cbeea13b5ee412400ef7d4f310=
+6f4798da707ec37a11286df2b7a204856d5ff773613fd1e453a7114b78e347d3e8078e1cb=
+3276b3562486ba630bf719697e0073a123c3e60ebb5c7a1ccff4279faffa2402bc1109f8d=
+559d6766e73591943dfcf25ba10c3762f02af85187799b8b4b135c3990793a6fd32642f15=
+57405ba55cc7cf7336a0e967073c5fa50743f9cc5e3017c172d9898d2af83345e71b3e0c2=
+2ab791eacb6484a32ec60ebc226ec9deaee91b1a0560c2b571
+++Output =3D 6c716fe01d44398018
+++
+++# an otherwise valid plaintext, but with null separator missing
+++Decrypt =3D RSA-3072
+++Input =3D a7a5c99e50da48769ecb779d9abe86ef9ec8c38c6f43f17c7f2d7af608a4a=
+1bd6cf695b47e97c191c61fb5a27318d02f495a176b9fae5a55b5d3fabd1d8aae4957e387=
+9cb0c60f037724e11be5f30f08fc51c033731f14b44b414d11278cd3dba7e1c8bfe208d2b=
+2bb7ec36366dacb6c88b24cd79ab394adf19dbbc21dfa5788bacbadc6a62f79cf54fd8cf5=
+85c615b5c0eb94c35aa9de25321c8ffefb8916bbaa2697cb2dd82ee98939df9b6704cee77=
+793edd2b4947d82e00e5749664970736c59a84197bd72b5c71e36aae29cd39af6ac73a368=
+edbc1ca792e1309f442aafcd77c992c88f8e4863149f221695cb7b0236e75b2339a02c4ea=
+114854372c306b9412d8eedb600a31532002f2cea07b4df963a093185e4607732e46d753b=
+540974fb5a5c3f9432df22e85bb17611370966c5522fd23f2ad3484341ba7fd8885fc8e6d=
+379a611d13a2aca784fba2073208faad2137bf1979a0fa146c1880d4337db3274269493ba=
+b44a1bcd0681f7227ffdf589c2e925ed9d36302509d1109ba4
+++Output =3D aa2de6cde4e2442884
+++
++ # RSA PSS key tests
++=20
++ # PSS only key, no parameter restrictions
++--=20
++2.34.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-5.p=
+atch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-5.patch
+new file mode 100644
+index 0000000000..f4650de5de
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-5.patch
+@@ -0,0 +1,284 @@
++From c693522a96b6fb2bb4b55a53d86550811bc0d7df Mon Sep 17 00:00:00 2001
++From: Hubert Kario <hkario@redhat.com>
++Date: Thu, 3 Nov 2022 17:45:58 +0100
++Subject: [PATCH] rsa: Skip the synthethic plaintext test with old FIPS
++ provider
++
++since the 3.0.0 FIPS provider doesn't implement the Bleichenbacher
++workaround, the decryption fails instead of providing a synthetic
++plaintext, so skip them then
++
++CVE: CVE-2023-50781
++
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/dde=
+cbef6e389d263b728b7fa30fd3d9ce13feddb]
++
++Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
++Reviewed-by: Tim Hudson <tjh@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/13817)
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ .../30-test_evp_data/evppkey_rsa_common.txt   | 66 ++++++++++++++++++-
++ 1 file changed, 63 insertions(+), 3 deletions(-)
++
++diff --git a/test/recipes/30-test_evp_data/evppkey_rsa_common.txt b/test=
+/recipes/30-test_evp_data/evppkey_rsa_common.txt
++index d569e78..4bd7c72 100644
++--- a/test/recipes/30-test_evp_data/evppkey_rsa_common.txt
+++++ b/test/recipes/30-test_evp_data/evppkey_rsa_common.txt
++@@ -253,12 +253,12 @@ Decrypt =3D RSA-2048
++ Input =3D 550AF55A2904E7B9762352F8FB7FA235A9CB053AACB2D5FCB8CA48453CB2E=
+E3619746C701ABF2D4CC67003471A187900B05AA812BD25ED05C675DFC8C97A24A7BF49BD=
+6214992CAD766D05A9A2B57B74F26A737E0237B8B76C45F1F226A836D7CFBC75BA999BDBE=
+48DBC09227AA46C88F21DCCBA7840141AD5A5D71FD122E6BD6AC3E564780DFE623FC1CA9B=
+995A6037BF0BBD43B205A84AC5444F34202C05CE9113087176432476576DE6FFFF9A52EA5=
+7C08BE3EC2F49676CB8E12F762AC71FA3C321E00AC988910C85FF52F93825666CE0D40FFA=
+A0592078919D4493F46D95CCF76364C6D57760DD0B64805F9AFC76A2365A5575CA301D510=
+3F0EA76CB9A78
++ Output =3D "Hello World"
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # Corrupted ciphertext
++-FIPSversion =3D <3.2.0
++ Decrypt =3D RSA-2048
++ Input =3D 550AF55A2904E7B9762352F8FB7FA235A9CB053AACB2D5FCB8CA48453CB2E=
+E3619746C701ABF2D4CC67003471A187900B05AA812BD25ED05C675DFC8C97A24A7BF49BD=
+6214992CAD766D05A9A2B57B74F26A737E0237B8B76C45F1F226A836D7CFBC75BA999BDBE=
+48DBC09227AA46C88F21DCCBA7840141AD5A5D71FD122E6BD6AC3E564780DFE623FC1CA9B=
+995A6037BF0BBD43B205A84AC5444F34202C05CE9113087176432476576DE6FFFF9A52EA5=
+7C08BE3EC2F49676CB8E12F762AC71FA3C321E00AC988910C85FF52F93825666CE0D40FFA=
+A0592078919D4493F46D95CCF76364C6D57760DD0B64805F9AFC76A2365A5575CA301D510=
+3F0EA76CB9A79
++-Output =3D "Hello World"
++-Result =3D KEYOP_ERROR
+++Output =3D 4cbb988d6a46228379132b0b5f8c249b3860043848c93632fb982c807c7c=
+82fffc7a9ef83f4908f890373ac181ffea6381e103bcaa27e65638b6ecebef38b59ed4226=
+a9d12af675cfcb634d8c40e7a7aff
++=20
++ # OAEP padding
++ Decrypt =3D RSA-2048
++@@ -330,21 +330,29 @@ Decrypt =3D RSA-2048-2
++ Input =3D 8bfe264e85d3bdeaa6b8851b8e3b956ee3d226fd3f69063a86880173a273d=
+9f283b2eebdd1ed35f7e02d91c571981b6737d5320bd8396b0f3ad5b019daec1b0aab3cbb=
+c026395f4fd14f13673f2dfc81f9b660ec26ac381e6db3299b4e460b43fab9955df2b3cfa=
+a20e900e19c856238fd371899c2bf2ce8c868b76754e5db3b036533fd603746be13c10d4e=
+3e6022ebc905d20c2a7f32b215a4cd53b3f44ca1c327d2c2b651145821c08396c89071f66=
+5349c25e44d2733cd9305985ceef6430c3cf57af5fa224089221218fa34737c79c446d28a=
+94c41c96e4e92ac53fbcf384dea8419ea089f8784445a492c812eb0d409467f75afd7d4d1=
+078886205a066
++ Output =3D "lorem ipsum dolor sit amet"
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # a random negative test case decrypting to empty
++ Decrypt =3D RSA-2048-2
++ Input =3D 20aaa8adbbc593a924ba1c5c7990b5c2242ae4b99d0fe636a19a4cf754edb=
+cee774e472fe028160ed42634f8864900cb514006da642cae6ae8c7d087caebcfa6dad155=
+1301e130344989a1d462d4164505f6393933450c67bc6d39d8f5160907cabc251b737925a=
+1cf21e5c6aa5781b7769f6a2a583d97cce008c0f8b6add5f0b2bd80bee60237aa39bb2071=
+9fe75749f4bc4e42466ef5a861ae3a92395c7d858d430bfe38040f445ea93fa2958b50353=
+9800ffa5ce5f8cf51fa8171a91f36cb4f4575e8de6b4d3f096ee140b938fd2f50ee13f0d0=
+50222e2a72b0a3069ff3a6738e82c87090caa5aed4fcbe882c49646aa250b98f12f83c8d5=
+28113614a29e7
++ Output =3D
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # invalid decrypting to max length message
++ Decrypt =3D RSA-2048-2
++ Input =3D 48cceab10f39a4db32f60074feea473cbcdb7accf92e150417f76b44756b1=
+90e843e79ec12aa85083a21f5437e7bad0a60482e601198f9d86923239c8786ee728285af=
+d0937f7dde12717f28389843d7375912b07b991f4fdb0190fced8ba665314367e8c5f9d29=
+81d0f5128feeb46cb50fc237e64438a86df198dd0209364ae3a842d77532b66b7ef263b83=
+b1541ed671b120dfd660462e2107a4ee7b964e734a7bd68d90dda61770658a3c242948532=
+da32648687e0318286473f675b412d6468f013f14d760a358dfcad3cda2afeec5e268a37d=
+250c37f722f468a70dfd92d7294c3c1ee1e7f8843b7d16f9f37ef35748c3ae93aa155cdcd=
+feb4e78567303
++ Output =3D 22d850137b9eebe092b24f602dc5bb7918c16bd89ddbf20467b119d205f9=
+c2e4bd7d2592cf1e532106e0f33557565923c73a02d4f09c0c22bea89148183e60317f702=
+8b3aa1f261f91c979393101d7e15f4067e63979b32751658ef769610fe97cf9cef3278b31=
+17d384051c3b1d82c251c2305418c8f6840530e631aad63e70e20e025bcd8efb54c92ec6d=
+3b106a2f8e64eeff7d38495b0fc50c97138af4b1c0a67a1c4e27b077b8439332edfa8608d=
+feae653cd6a628ac550395f7e74390e42c11682234870925eeaa1fa71b76cf1f2ee3bda69=
+f6717033ff8b7c95c9799e7a3bea5e7e4a1c359772fb6b1c6e6c516661dfe30c3
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # invalid decrypting to message with length specified by second to last=
+ value from PRF
++ Decrypt =3D RSA-2048-2
++ Input =3D 1439e08c3f84c1a7fec74ce07614b20e01f6fa4e8c2a6cffdc3520d8889e5=
+d9a950c6425798f85d4be38d300ea5695f13ecd4cb389d1ff5b82484b494d6280ab7fa78e=
+645933981cb934cce8bfcd114cc0e6811eefa47aae20af638a1cd163d2d3366186d0a07df=
+0c81f6c9f3171cf3561472e98a6006bf75ddb457bed036dcce199369de7d94ef2c68e8467=
+ee0604eea2b3009479162a7891ba5c40cab17f49e1c438cb6eaea4f76ce23cce0e483ff0e=
+96fa790ea15be67671814342d0a23f4a20262b6182e72f3a67cd289711503c85516a9ed22=
+5422f98b116f1ab080a80abd6f0216df88d8cfd67c139243be8dd78502a7aaf6bc99d7da7=
+1bcdf627e7354
++ Output =3D 0f9b
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # invalid decrypting to message with length specified by third to last =
+value from PRF
++ Decrypt =3D RSA-2048-2
++ Input =3D 1690ebcceece2ce024f382e467cf8510e74514120937978576caf684d4a02=
+ad569e8d76cbe365a060e00779de2f0865ccf0d923de3b4783a4e2c74f422e2f326086c39=
+0b658ba47f31ab013aa80f468c71256e5fa5679b24e83cd82c3d1e05e398208155de22129=
+93cd2b8bab6987cf4cc1293f19909219439d74127545e9ed8a706961b8ee2119f6bfacafb=
+ef91b75a789ba65b8b833bc6149cf49b5c4d2c6359f62808659ba6541e1cd24bf7f741048=
+6b5103f6c0ea29334ea6f4975b17387474fe920710ea61568d7b7c0a7916acf21665ad5a3=
+1c4eabcde44f8fb6120d8457afa1f3c85d517cda364af620113ae5a3c52a0488217319227=
+37307f77a1081
++@@ -385,23 +393,31 @@ Decrypt =3D RSA-2048-2
++ Input =3D 1ea0b50ca65203d0a09280d39704b24fe6e47800189db5033f202761a78ba=
+fb270c5e25abd1f7ecc6e7abc4f26d1b0cd9b8c648d529416ee64ccbdd7aa72a771d03532=
+62b543f0e436076f40a1095f5c7dfd10dcf0059ccb30e92dfa5e0156618215f1c3ff3aa99=
+7a9d999e506924f5289e3ac72e5e2086cc7b499d71583ed561028671155db4005bee01800=
+a7cdbdae781dd32199b8914b5d4011dd6ff11cd26d46aad54934d293b0bc403dd211bf13b=
+5a5c6836a5e769930f437ffd8634fb7371776f4bc88fa6c271d8aa6013df89ae647015449=
+7c4ac861be2a1c65ebffec139bf7aaba3a81c7c5cdd84da9af5d3edfb957848074686b583=
+7ecbcb6a41c50
++ Output =3D "lorem ipsum"
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # a random negative test that generates an 11 byte long message
++ Decrypt =3D RSA-2048-2
++ Input =3D 5f02f4b1f46935c742ebe62b6f05aa0a3286aab91a49b34780adde6410ab4=
+6f7386e05748331864ac98e1da63686e4babe3a19ed40a7f5ceefb89179596aab07ab1015=
+e03b8f825084dab028b6731288f2e511a4b314b6ea3997d2e8fe2825cef8897cbbdfb6c93=
+9d441d6e04948414bb69e682927ef8576c9a7090d4aad0e74c520d6d5ce63a154720f00b7=
+6de8cc550b1aa14f016d63a7b6d6eaa1f7dbe9e50200d3159b3d099c900116bf4eba3b942=
+04f18b1317b07529751abf64a26b0a0bf1c8ce757333b3d673211b67cc0653f2fe2620d57=
+c8b6ee574a0323a167eab1106d9bc7fd90d415be5f1e9891a0e6c709f4fc0404e8226f847=
+7b4e939b36eb2
++ Output =3D af9ac70191c92413cb9f2d
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an otherwise correct plaintext, but with wrong first byte
++ # (0x01 instead of 0x00), generates a random 11 byte long plaintext
++ Decrypt =3D RSA-2048-2
++ Input =3D 9b2ec9c0c917c98f1ad3d0119aec6be51ae3106e9af1914d48600ab6a2c0c=
+0c8ae02a2dc3039906ff3aac904af32ec798fd65f3ad1afa2e69400e7c1de81f5728f3b32=
+91f38263bc7a90a0563e43ce7a0d4ee9c0d8a716621ca5d3d081188769ce1b131af7d35b1=
+3dea99153579c86db31fe07d5a2c14d621b77854e48a8df41b5798563af489a291e417b6a=
+334c63222627376118c02c53b6e86310f728734ffc86ef9d7c8bf56c0c841b24b82b59f51=
+aee4526ba1c4268506d301e4ebc498c6aebb6fd5258c876bf900bac8ca4d309dd522f6a63=
+43599a8bc3760f422c10c72d0ad527ce4af1874124ace3d99bb74db8d69d2528db22c3a37=
+644640f95c05f
++ Output =3D a1f8c9255c35cfba403ccc
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an otherwise correct plaintext, but with wrong second byte
++ # (0x01 instead of 0x02), generates a random 11 byte long plaintext
++ Decrypt =3D RSA-2048-2
++ Input =3D 782c2b59a21a511243820acedd567c136f6d3090c115232a82a5efb0b1782=
+85f55b5ec2d2bac96bf00d6592ea7cdc3341610c8fb07e527e5e2d20cfaf2c7f23e375431=
+f45e998929a02f25fd95354c33838090bca838502259e92d86d568bc2cdb132fab2a39959=
+3ca60a015dc2bb1afcd64fef8a3834e17e5358d822980dc446e845b3ab4702b1ee41fe5db=
+716d92348d5091c15d35a110555a35deb4650a5a1d2c98025d42d4544f8b32aa6a5e02dc0=
+2deaed9a7313b73b49b0d4772a3768b0ea0db5846ace6569cae677bf67fb0acf3c255dc01=
+ec8400c963b6e49b1067728b4e563d7e1e1515664347b92ee64db7efb5452357a02fff7fc=
+b7437abc2e579
++ Output =3D e6d700309ca0ed62452254
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an invalid ciphertext, with a zero byte in first byte of
++ # ciphertext, decrypts to a random 11 byte long synthethic
++ # plaintext
++@@ -409,6 +425,8 @@ Decrypt =3D RSA-2048-2
++ Input =3D 0096136621faf36d5290b16bd26295de27f895d1faa51c800dafce73d001d=
+60796cd4e2ac3fa2162131d859cd9da5a0c8a42281d9a63e5f353971b72e36b5722e4ac44=
+4d77f892a5443deb3dca49fa732fe855727196e23c26eeac55eeced8267a209ebc0f92f46=
+56d64a6c13f7f7ce544ebeb0f668fe3a6c0f189e4bcd5ea12b73cf63e0c8350ee130dd62f=
+01e5c97a1e13f52fde96a9a1bc9936ce734fdd61f27b18216f1d6de87f49cf4f2ea821fb8=
+efd1f92cdad529baf7e31aff9bff4074f2cad2b4243dd15a711adcf7de900851fbd6bcb53=
+dac399d7c880531d06f25f7002e1aaf1722765865d2c2b902c7736acd27bc6cbd3e38b560=
+e2eecf7d4b576
++ Output =3D ba27b1842e7c21c0e7ef6a
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an invalid ciphertext, with a zero byte removed from first byte of
++ # ciphertext, decrypts to a random 11 byte long synthethic
++ # plaintext
++@@ -416,6 +434,8 @@ Decrypt =3D RSA-2048-2
++ Input =3D 96136621faf36d5290b16bd26295de27f895d1faa51c800dafce73d001d60=
+796cd4e2ac3fa2162131d859cd9da5a0c8a42281d9a63e5f353971b72e36b5722e4ac444d=
+77f892a5443deb3dca49fa732fe855727196e23c26eeac55eeced8267a209ebc0f92f4656=
+d64a6c13f7f7ce544ebeb0f668fe3a6c0f189e4bcd5ea12b73cf63e0c8350ee130dd62f01=
+e5c97a1e13f52fde96a9a1bc9936ce734fdd61f27b18216f1d6de87f49cf4f2ea821fb8ef=
+d1f92cdad529baf7e31aff9bff4074f2cad2b4243dd15a711adcf7de900851fbd6bcb53da=
+c399d7c880531d06f25f7002e1aaf1722765865d2c2b902c7736acd27bc6cbd3e38b560e2=
+eecf7d4b576
++ Output =3D ba27b1842e7c21c0e7ef6a
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an invalid ciphertext, with two zero bytes in first bytes of
++ # ciphertext, decrypts to a random 11 byte long synthethic
++ # plaintext
++@@ -423,6 +443,8 @@ Decrypt =3D RSA-2048-2
++ Input =3D 0000587cccc6b264bdfe0dc2149a988047fa921801f3502ea64624c510c60=
+33d2f427e3f136c26e88ea9f6519e86a542cec96aad1e5e9013c3cc203b6de15a69183050=
+813af5c9ad79703136d4b92f50ce171eefc6aa7988ecf02f319ffc5eafd6ee7a137f8fce6=
+4b255bb1b8dd19cfe767d64fdb468b9b2e9e7a0c24dae03239c8c714d3f40b7ee9c4e59ac=
+15b17e4d328f1100756bce17133e8e7493b54e5006c3cbcdacd134130c5132a1edebdbd01=
+a0c41452d16ed7a0788003c34730d0808e7e14c797a21f2b45a8aa1644357fd5e988f99b0=
+17d9df37563a354c788dc0e2f9466045622fa3f3e17db63414d27761f57392623a2bef646=
+7501c63e8d645
++ Output =3D d5cf555b1d6151029a429a
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an invalid ciphertext, with two zero bytes removed from first bytes o=
+f
++ # ciphertext, decrypts to a random 11 byte long synthethic
++ # plaintext
++@@ -430,24 +452,32 @@ Decrypt =3D RSA-2048-2
++ Input =3D 587cccc6b264bdfe0dc2149a988047fa921801f3502ea64624c510c6033d2=
+f427e3f136c26e88ea9f6519e86a542cec96aad1e5e9013c3cc203b6de15a69183050813a=
+f5c9ad79703136d4b92f50ce171eefc6aa7988ecf02f319ffc5eafd6ee7a137f8fce64b25=
+5bb1b8dd19cfe767d64fdb468b9b2e9e7a0c24dae03239c8c714d3f40b7ee9c4e59ac15b1=
+7e4d328f1100756bce17133e8e7493b54e5006c3cbcdacd134130c5132a1edebdbd01a0c4=
+1452d16ed7a0788003c34730d0808e7e14c797a21f2b45a8aa1644357fd5e988f99b017d9=
+df37563a354c788dc0e2f9466045622fa3f3e17db63414d27761f57392623a2bef6467501=
+c63e8d645
++ Output =3D d5cf555b1d6151029a429a
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # and invalid ciphertext, otherwise valid but starting with 000002, dec=
+rypts
++ # to random 11 byte long synthethic plaintext
++ Decrypt =3D RSA-2048-2
++ Input =3D 1786550ce8d8433052e01ecba8b76d3019f1355b212ac9d0f5191b023325a=
+7e7714b7802f8e9a17c4cb3cd3a84041891471b10ca1fcfb5d041d34c82e6d0011cf4dc76=
+b90e9c2e0743590579d55bcd7857057152c4a8040361343d1d22ba677d62b011407c652e2=
+34b1d663af25e2386251d7409190f19fc8ec3f9374fdf1254633874ce2ec2bff40ad0cb47=
+3f9761ec7b68da45a4bd5e33f5d7dac9b9a20821df9406b653f78a95a6c0ea0a4d57f867e=
+4db22c17bf9a12c150f809a7b72b6db86c22a8732241ebf3c6a4f2cf82671d917aba8bc61=
+052b40ccddd743a94ea9b538175106201971cca9d136d25081739aaf6cd18b2aecf9ad320=
+ea3f89502f955
++ Output =3D 3d4a054d9358209e9cbbb9
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # negative test with otherwise valid padding but a zero byte in first b=
+yte
++ # of padding
++ Decrypt =3D RSA-2048-2
++ Input =3D 179598823812d2c58a7eb50521150a48bcca8b4eb53414018b6bca19f4801=
+456c5e36a940037ac516b0d6412ba44ec6b4f268a55ef1c5ffbf18a2f4e3522bb7b6ed897=
+74b79bffa22f7d3102165565642de0d43a955e96a1f2e80e5430671d7266eb4f905dc8ff5=
+e106dc5588e5b0289e49a4913940e392a97062616d2bda38155471b7d360cfb94681c702f=
+60ed2d4de614ea72bf1c53160e63179f6c5b897b59492bee219108309f0b7b8cb2b136c34=
+6a5e98b8b4b8415fb1d713bae067911e3057f1c335b4b7e39101eafd5d28f0189037e4334=
+f4fdb9038427b1d119a6702aa8233319cc97d496cc289ae8c956ddc84042659a2d43d6aa2=
+2f12b81ab884e
++ Output =3D 1f037dd717b07d3e7f7359
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # negative test with otherwise valid padding but a zero byte at the eig=
+th
++ # byte of padding
++ Decrypt =3D RSA-2048-2
++ Input =3D a7a340675a82c30e22219a55bc07cdf36d47d01834c1834f917f18b517419=
+ce9de2a96460e745024436470ed85e94297b283537d52189c406a3f533cb405cc6a9dba46=
+b482ce98b6e3dd52d8fce2237425617e38c11fbc46b61897ef200d01e4f25f5f6c4c5b38c=
+d0de38ba11908b86595a8036a08a42a3d05b79600a97ac18ba368a08d6cf6ccb624f6e800=
+2afc75599fba4de3d4f3ba7d208391ebe8d21f8282b18e2c10869eb2702e68f9176b42b0d=
+dc9d763f0c86ba0ff92c957aaeab76d9ab8da52ea297ec11d92d770146faa1b300e0f91ef=
+969b53e7d2907ffc984e9a9c9d11fb7d6cba91972059b46506b035efec6575c46d7114a6b=
+935864858445f
++ Output =3D 63cb0bf65fc8255dd29e17
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # negative test with an otherwise valid plaintext but with missing sepa=
+rator
++ # byte
++ Decrypt =3D RSA-2048-2
++@@ -501,6 +531,8 @@ PrivPubKeyPair =3D RSA-2049:RSA-2049-PUBLIC
++=20
++ # RSA decrypt
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # malformed that generates length specified by 3rd last value from PRF
++ Decrypt =3D RSA-2049
++ Input =3D 00b26f6404b82649629f2704494282443776929122e279a9cf30b0c6fe812=
+2a0a9042870d97cc8ef65490fe58f031eb2442352191f5fbc311026b5147d32df914599f3=
+8b825ebb824af0d63f2d541a245c5775d1c4b78630e4996cc5fe413d38455a776cf4edcc0=
+aa7fccb31c584d60502ed2b77398f536e137ff7ba6430e9258e21c2db5b82f5380f566876=
+110ac4c759178900fbad7ab70ea07b1daf7a1639cbb4196543a6cbe8271f35dddb8120304=
+f6eef83059e1c5c5678710f904a6d760c4d1d8ad076be17904b9e69910040b47914a0176f=
+b7eea0c06444a6c4b86d674d19a556a1de5490373cb01ce31bbd15a5633362d3d2cd7d4af=
+1b4c5121288b894
++@@ -531,16 +563,22 @@ Decrypt =3D RSA-2049
++ Input =3D f36da3b72d8ff6ded74e7efd08c01908f3f5f0de7b55eab92b5f875190809=
+c39d4162e1e6649618f854fd84aeab03970d16bb814e999852c06de38d82b95c0f32e2a7b=
+5714021fe303389be9c0eac24c90a6b7210f929d390fabf903d44e04110bb7a7fd6c383c2=
+75804721efa6d7c93aa64c0bb2b18d97c5220a846c66a4895ae52adddbe2a9996825e0135=
+85adcec4b32ba61d782737bd343e5fabd68e8a95b8b1340318559860792dd70dffbe05a10=
+52b54cbfb48cfa7bb3c19cea52076bddac5c25ee276f153a610f6d06ed696d192d8ae4507=
+ffae4e5bdda10a625d6b67f32f7cffcd48dee2431fe66f6105f9d17e611cdcc674868e816=
+92a360f4052
++ Output =3D "lorem ipsum"
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # a random negative test case that generates an 11 byte long message
++ Decrypt =3D RSA-2049
++ Input =3D 00f910200830fc8fff478e99e145f1474b312e2512d0f90b8cef77f8001d0=
+9861688c156d1cbaf8a8957f7ebf35f724466952d0524cad48aad4fba1e45ce8ea27e8f3b=
+a44131b7831b62d60c0762661f4c1d1a88cd06263a259abf1ba9e6b0b172069afb86a7e88=
+387726f8ab3adb30bfd6b3f6be6d85d5dfd044e7ef052395474a9cbb1c3667a92780b43a2=
+2693015af6c513041bdaf87d43b24ddd244e791eeaea1066e1f4917117b3a468e22e0f735=
+8852bb981248de4d720add2d15dccba6280355935b67c96f9dcb6c419cc38ab9f6fba2d64=
+9ef2066e0c34c9f788ae49babd9025fa85b21113e56ce4f43aa134c512b030dd7ac7ce82e=
+76f0be9ce09ebca
++ Output =3D 1189b6f5498fd6df532b00
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # otherwise correct plaintext, but with wrong first byte (0x01 instead =
+of 0x00)
++ Decrypt =3D RSA-2049
++ Input =3D 002c9ddc36ba4cf0038692b2d3a1c61a4bb3786a97ce2e46a3ba74d03158a=
+eef456ce0f4db04dda3fe062268a1711250a18c69778a6280d88e133a16254e1f0e30ce8d=
+ac9b57d2e39a2f7d7be3ee4e08aec2fdbe8dadad7fdbf442a29a8fb40857407bf6be35596=
+b8eefb5c2b3f58b894452c2dc54a6123a1a38d642e23751746597e08d71ac92704adc1780=
+3b19e131b4d1927881f43b0200e6f95658f559f912c889b4cd51862784364896cd6e8618f=
+485a992f82997ad6a0917e32ae5872eaf850092b2d6c782ad35f487b79682333c1750c685=
+d7d32ab3e1538f31dcaa5e7d5d2825875242c83947308dcf63ba4bfff20334c9c140c837d=
+bdbae7a8dee72ff
++ Output =3D f6d0f5b78082fe61c04674
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # otherwise correct plaintext, but with wrong second byte (0x01 instead=
+ of 0x02)
++ Decrypt =3D RSA-2049
++ Input =3D 00c5d77826c1ab7a34d6390f9d342d5dbe848942e2618287952ba0350d7de=
+6726112e9cebc391a0fae1839e2bf168229e3e0d71d4161801509f1f28f6e1487ca52df05=
+c466b6b0a6fbbe57a3268a970610ec0beac39ec0fa67babce1ef2a86bf77466dc127d7d0d=
+2962c20e66593126f276863cd38dc6351428f884c1384f67cad0a0ffdbc2af16711fb68dc=
+559b96b37b4f04cd133ffc7d79c43c42ca4948fa895b9daeb853150c8a5169849b730cc77=
+d68b0217d6c0e3dbf38d751a1998186633418367e7576530566c23d6d4e0da9b038d0bb51=
+69ce40133ea076472d055001f0135645940fd08ea44269af2604c8b1ba225053d6db9ab43=
+577689401bdc0f3
++@@ -603,17 +641,23 @@ ooCElYcob01/JWzoXl61Z5sdrMH5CVZJty5foHKusAN5AgMBAA=
+E=3D
++=20
++ PrivPubKeyPair =3D RSA-3072:RSA-3072-PUBLIC
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # a random invalid ciphertext that generates an empty synthethic one
++ Decrypt =3D RSA-3072
++ Input =3D 5e956cd9652f4a2ece902931013e09662b6a9257ad1e987fb75f73a0606df=
+2a4b04789770820c2e02322c4e826f767bd895734a01e20609c3be4517a7a2a589ea1cdc1=
+37beb73eb38dac781b52e863de9620f79f9b90fd5b953651fcbfef4a9f1cc07421d511a87=
+dd6942caab6a5a0f4df473e62defb529a7de1509ab99c596e1dff1320402298d8be73a896=
+cc86c38ae3f2f576e9ea70cc28ad575cb0f854f0be43186baa9c18e29c47c6ca77135db79=
+c811231b7c1730955887d321fdc06568382b86643cf089b10e35ab23e827d2e5aa7b4e99f=
+f2e914f302351819eb4d1693243b35f8bf1d42d08f8ec4acafa35f747a4a975a28643ec63=
+0d8e4fa5be59d81995660a14bb64c1fea5146d6b11f92da6a3956dd5cb5e0d747cf2ea23f=
+81617769185336263d46ef4c144b754de62a6337342d6c85a95f19f015724546ee3fc4823=
+eca603dbc1dc01c2d5ed50bd72d8e96df2dc048edde0081284068283fc5e73a6139851abf=
+2f29977d0b3d160c883a42a37efba1be05c1a0b1741d7ddf59
++ Output =3D
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # a random invalid that has PRF output with a length one byte too long
++ # in the last value
++ Decrypt =3D RSA-3072
++ Input =3D 7db0390d75fcf9d4c59cf27b264190d856da9abd11e92334d0e5f71005cfe=
+d865a711dfa28b791188374b61916dbc11339bf14b06f5f3f68c206c5607380e13da3129b=
+fb744157e1527dd6fdf6651248b028a496ae1b97702d44706043cdaa7a59c0f41367303f2=
+1f268968bf3bd2904db3ae5239b55f8b438d93d7db9d1666c071c0857e2ec37757463769c=
+54e51f052b2a71b04c2869e9e7049a1037b8429206c99726f07289bac18363e7eb2a5b417=
+f47c37a55090cda676517b3549c873f2fe95da9681752ec9864b069089a2ed2f340c8b04e=
+e00079055a817a3355b46ac7dc00d17f4504ccfbcfcadb0c04cb6b22069e179385ae1eafa=
+bad5521bac2b8a8ee1dfff59a22eb3fdacfc87175d10d7894cfd869d056057dd9944b869c=
+1784fcc27f731bc46171d39570fbffbadf082d33f6352ecf44aca8d9478e53f5a5b7c852b=
+401e8f5f74da49da91e65bdc97765a9523b7a0885a6f8afe5759d58009fbfa837472a968e=
+6ae92026a5e0202a395483095302d6c3985b5f5831c521a271
++ Output =3D 56a3bea054e01338be9b7d7957539c
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # a random invalid that generates a synthethic of maximum size
++ Decrypt =3D RSA-3072
++ Input =3D 1715065322522dff85049800f6a29ab5f98c465020467414b2a44127fe944=
+6da47fa18047900f99afe67c2df6f50160bb8e90bff296610fde632b3859d4d0d2e644f23=
+835028c46cca01b84b88231d7e03154edec6627bcba23de76740d839851fa12d74c8f92e5=
+40c73fe837b91b7d699b311997d5f0f7864c486d499c3a79c111faaacbe4799597a25066c=
+6200215c3d158f3817c1aa57f18bdaad0be1658da9da93f5cc6c3c4dd72788af57adbb6a0=
+c26f42d32d95b8a4f95e8c6feb2f8a5d53b19a50a0b7cbc25e055ad03e5ace8f3f7db13e5=
+7759f67b65d143f08cca15992c6b2aae643390483de111c2988d4e76b42596266005103c8=
+de6044fb7398eb3c28a864fa672de5fd8774510ff45e05969a11a4c7d3f343e331190d2dc=
+f24fb9154ba904dc94af98afc5774a9617d0418fe6d13f8245c7d7626c176138dd698a235=
+47c25f27c2b98ea4d8a45c7842b81888e4cc14e5b72e9cf91f56956c93dbf2e5f44a8282a=
+7813157fc481ff1371a0f66b31797e81ebdb09a673d4db96d6
++@@ -644,43 +688,59 @@ Decrypt =3D RSA-3072
++ Input =3D 1ec97ac981dfd9dcc7a7389fdfa9d361141dac80c23a060410d472c16094e=
+6cdffc0c3684d84aa402d7051dfccb2f6da33f66985d2a259f5b7fbf39ac537e95c5b7050=
+eb18844a0513abef812cc8e74a3c5240009e6e805dcadf532bc1a2702d5acc9e585fad5b8=
+9d461fcc1397351cdce35171523758b171dc041f412e42966de7f94856477356d06f2a6b4=
+0e3ff0547562a4d91bbf1338e9e049facbee8b20171164505468cd308997447d3dc4b0acb=
+49e7d368fedd8c734251f30a83491d2506f3f87318cc118823244a393dc7c5c739a2733d9=
+3e1b13db6840a9429947357f47b23fbe39b7d2d61e5ee26f9946c4632f6c4699e452f412a=
+26641d4751135400713cd56ec66f0370423d55d2af70f5e7ad0adea8e4a0d904a01e4ac27=
+2eba4af1a029dd53eb71f115bf31f7a6c8b19a6523adeecc0d4c3c107575e38572a8f8474=
+ccad163e46e2e8b08111132aa97a16fb588c9b7e37b3b3d7490381f3c55d1a9869a0fd42c=
+d86fed59ecec78cb6b2dfd06a497f5afe3419691314ba0
++ Output =3D "forty two"
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # a random negative test case that generates a 9 byte long message
++ Decrypt =3D RSA-3072
++ Input =3D 5c8555f5cef627c15d37f85c7f5fd6e499264ea4b8e3f9112023aeb722eb3=
+8d8eac2be3751fd5a3785ab7f2d59fa3728e5be8c3de78a67464e30b21ee23b5484bb3cd0=
+6d0e1c6ad25649c8518165653eb80488bfb491b20c04897a6772f69292222fc5ef50b5cf9=
+efc6d60426a449b6c489569d48c83488df629d695653d409ce49a795447fcec2c58a1a672=
+e4a391401d428baaf781516e11e323d302fcf20f6eab2b2dbe53a48c987e407c4d7e1cb41=
+131329138313d330204173a4f3ff06c6fadf970f0ed1005d0b27e35c3d11693e0429e272d=
+583e57b2c58d24315c397856b34485dcb077665592b747f889d34febf2be8fce66c265fd9=
+fc3575a6286a5ce88b4b413a08efc57a07a8f57a999605a837b0542695c0d189e678b5366=
+2ecf7c3d37d9dbeea585eebfaf79141118e06762c2381fe27ca6288edddc19fd67cd64f16=
+b46e06d8a59ac530f22cd83cc0bc4e37feb52015cbb2283043ccf5e78a4eb7146827d7a46=
+6b66c8a4a4826c1bad68123a7f2d00fc1736525ff90c058f56
++ Output =3D 257906ca6de8307728
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # a random negative test case that generates a 9 byte long message base=
+d on
++ # second to last value from PRF
++ Decrypt =3D RSA-3072
++ Input =3D 758c215aa6acd61248062b88284bf43c13cb3b3d02410be4238607442f1c0=
+216706e21a03a2c10eb624a63322d854da195c017b76fea83e274fa371834dcd2f3b7accf=
+433fc212ad76c0bac366e1ed32e25b279f94129be7c64d6e162adc08ccebc0cfe8e926f01=
+c33ab9c065f0e0ac83ae5137a4cb66702615ad68a35707d8676d2740d7c1a954680c83980=
+e19778ed11eed3a7c2dbdfc461a9bbef671c1bc00c882d361d29d5f80c42bdf5efec886c3=
+4138f83369c6933b2ac4e93e764265351b4a0083f040e14f511f09b22f96566138864e4e6=
+ff24da4810095da98e0585410951538ced2f757a277ff8e17172f06572c9024eeae503f17=
+6fd46eb6c5cd9ba07af11cde31dccac12eb3a4249a7bfd3b19797ad1656984bfcbf6f74e8=
+f99d8f1ac420811f3d166d87f935ef15ae858cf9e72c8e2b547bf16c3fb09a8c9bf88fd2e=
+5d38bf24ed610896131a84df76b9f920fe76d71fff938e9199f3b8cd0c11fd0201f9139d7=
+673a871a9e7d4adc3bbe360c8813617cd60a90128fbe34c9d5
++ Output =3D 043383c929060374ed
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # a random negative test that generates message based on 3rd last value=
+ from
++ # PRF
++ Decrypt =3D RSA-3072
++ Input =3D 7b22d5e62d287968c6622171a1f75db4b0fd15cdf3134a1895d235d56f8d8=
+fe619f2bf4868174a91d7601a82975d2255190d28b869141d7c395f0b8c4e2be2b2c1b4ff=
+c12ce749a6f6803d4cfe7fba0a8d6949c04151f981c0d84592aa2ff25d1bd3ce5d10cb03d=
+aca6b496c6ad40d30bfa8acdfd02cdb9326c4bdd93b949c9dc46caa8f0e5f429785bce641=
+36a429a3695ee674b647452bea1b0c6de9c5f1e8760d5ef6d5a9cfff40457b023d3c233c1=
+dcb323e7808103e73963b2eafc928c9eeb0ee3294955415c1ddd9a1bb7e138fecd79a3cb8=
+9c57bd2305524624814aaf0fd1acbf379f7f5b39421f12f115ba488d380586095bb53f174=
+fae424fa4c8e3b299709cd344b9f949b1ab57f1c645d7ed3c8f81d5594197355029fee896=
+0970ff59710dc0e5eb50ea6f4c3938e3f89ed7933023a2c2ddffaba07be147f686828bd7d=
+520f300507ed6e71bdaee05570b27bc92741108ac2eb433f028e138dd6d63067bc206ea2d=
+826a7f41c0d613daed020f0f30f4e272e9618e0a8c39018a83
++ Output =3D 70263fa6050534b9e0
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an otherwise valid plaintext, but with wrong first byte (0x01 instead=
+ of 0x00)
++ Decrypt =3D RSA-3072
++ Input =3D 6db80adb5ff0a768caf1378ecc382a694e7d1bde2eff4ba12c48aaf794ded=
+7a994a5b2b57acec20dbec4ae385c9dd531945c0f197a5496908725fc99d88601a17d3bb0=
+b2d38d2c1c3100f39955a4cb3dbed5a38bf900f23d91e173640e4ec655c84fdfe71fcdb12=
+a386108fcf718c9b7af37d39703e882436224c877a2235e8344fba6c951eb7e2a4d1d1de8=
+1fb463ac1b880f6cc0e59ade05c8ce35179ecd09546731fc07b141d3d6b342a97ae747e61=
+a9130f72d37ac5a2c30215b6cbd66c7db893810df58b4c457b4b54f34428247d584e0fa71=
+062446210db08254fb9ead1ba1a393c724bd291f0cf1a7143f32df849051dc896d7d176fe=
+f3b57ab6dffd626d0c3044e9edb2e3d012ace202d2581df01bec7e9aa0727a6650dd373d3=
+74f0bc0f4a611f8139dfe97d63e70c6188f4df5b672e47c51d8aa567097293fbff127c75e=
+c690b43407578b73c85451710a0cece58fd497d7f7bd36a8a92783ef7dc6265dff52aac8b=
+70340b996508d39217f2783ce6fc91a1cc94bb2ac487b84f62
++ Output =3D 6d8d3a094ff3afff4c
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an otherwise valid plaintext, but with wrong second byte (0x01 instea=
+d of 0x02)
++ Decrypt =3D RSA-3072
++ Input =3D 417328c034458563079a4024817d0150340c34e25ae16dcad690623f702e5=
+c748a6ebb3419ff48f486f83ba9df35c05efbd7f40613f0fc996c53706c30df6bba6dcd4a=
+40825f96133f3c21638a342bd4663dffbd0073980dac47f8c1dd8e97ce1412e4f91f2a8ad=
+b1ac2b1071066efe8d718bbb88ca4a59bd61500e826f2365255a409bece0f972df97c3a55=
+e09289ef5fa815a2353ef393fd1aecfc888d611c16aec532e5148be15ef1bf2834b8f75bb=
+26db08b66d2baad6464f8439d1986b533813321dbb180080910f233bcc4dd784fb21871ae=
+f41be08b7bfad4ecc3b68f228cb5317ac6ec1227bc7d0e452037ba918ee1da9fdb8393ae9=
+3b1e937a8d4691a17871d5092d2384b6190a53df888f65b951b05ed4ad57fe4b0c6a47b5b=
+22f32a7f23c1a234c9feb5d8713d949686760680da4db454f4acad972470033472b9864d6=
+3e8d23eefc87ebcf464ecf33f67fbcdd48eab38c5292586b36aef5981ed2fa07b2f9e23fc=
+57d9eb71bfff4111c857e9fff23ceb31e72592e70c874b4936
++ Output =3D c6ae80ffa80bc184b0
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an otherwise valid plaintext, but with zero byte in first byte of pad=
+ding
++ Decrypt =3D RSA-3072
++ Input =3D 8542c626fe533467acffcd4e617692244c9b5a3bf0a215c5d64891ced4bf4=
+f9591b4b2aedff9843057986d81631b0acb3704ec2180e5696e8bd15b217a0ec36d2061b0=
+e2182faa3d1c59bd3f9086a10077a3337a3f5da503ec3753535ffd25b837a12f2541afefd=
+0cffb0224b8f874e4bed13949e105c075ed44e287c5ae03b155e06b90ed247d2c07f1ef33=
+23e3508cce4e4074606c54172ad74d12f8c3a47f654ad671104bf7681e5b061862747d9af=
+d37e07d8e0e2291e01f14a95a1bb4cbb47c304ef067595a3947ee2d722067e38a0f046f43=
+ec29cac6a8801c6e3e9a2331b1d45a7aa2c6af3205be382dd026e389614ee095665a611ab=
+2e8dced2ee1c9d08ac9de11aef5b3803fc9a9ce8231ec87b5fed386fb92ee3db995a89307=
+bcba844bd0a691c29ae51216e949dfc813133cb06a07265fd807bcb3377f6adb0a481d9b7=
+f442003115895939773e6b95371c4febef29edae946fa245e7c50729e2e558cfaad773d1f=
+d5f67b457a6d9d17a847c6fcbdb103a86f35f228cefc06cea0
++ Output =3D a8a9301daa01bb25c7
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an otherwise valid plaintext, but with zero byte in eight byte of pad=
+ding
++ Decrypt =3D RSA-3072
++ Input =3D 449dfa237a70a99cb0351793ec8677882021c2aa743580bf6a0ea672055cf=
+fe8303ac42855b1d1f3373aae6af09cb9074180fc963e9d1478a4f98b3b4861d3e7f0aa85=
+60cf603711f139db77667ca14ba3a1acdedfca9ef4603d6d7eb0645bfc805304f9ad9d77d=
+34762ce5cd84bd3ec9d35c30e3be72a1e8d355d5674a141b5530659ad64ebb6082e6f73a8=
+0832ab6388912538914654d34602f4b3b1c78589b4a5d964b2efcca1dc7004c41f6cafcb5=
+a7159a7fc7c0398604d0edbd4c8f4f04067da6a153a05e7cbeea13b5ee412400ef7d4f310=
+6f4798da707ec37a11286df2b7a204856d5ff773613fd1e453a7114b78e347d3e8078e1cb=
+3276b3562486ba630bf719697e0073a123c3e60ebb5c7a1ccff4279faffa2402bc1109f8d=
+559d6766e73591943dfcf25ba10c3762f02af85187799b8b4b135c3990793a6fd32642f15=
+57405ba55cc7cf7336a0e967073c5fa50743f9cc5e3017c172d9898d2af83345e71b3e0c2=
+2ab791eacb6484a32ec60ebc226ec9deaee91b1a0560c2b571
++ Output =3D 6c716fe01d44398018
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
++ # an otherwise valid plaintext, but with null separator missing
++ Decrypt =3D RSA-3072
++ Input =3D a7a5c99e50da48769ecb779d9abe86ef9ec8c38c6f43f17c7f2d7af608a4a=
+1bd6cf695b47e97c191c61fb5a27318d02f495a176b9fae5a55b5d3fabd1d8aae4957e387=
+9cb0c60f037724e11be5f30f08fc51c033731f14b44b414d11278cd3dba7e1c8bfe208d2b=
+2bb7ec36366dacb6c88b24cd79ab394adf19dbbc21dfa5788bacbadc6a62f79cf54fd8cf5=
+85c615b5c0eb94c35aa9de25321c8ffefb8916bbaa2697cb2dd82ee98939df9b6704cee77=
+793edd2b4947d82e00e5749664970736c59a84197bd72b5c71e36aae29cd39af6ac73a368=
+edbc1ca792e1309f442aafcd77c992c88f8e4863149f221695cb7b0236e75b2339a02c4ea=
+114854372c306b9412d8eedb600a31532002f2cea07b4df963a093185e4607732e46d753b=
+540974fb5a5c3f9432df22e85bb17611370966c5522fd23f2ad3484341ba7fd8885fc8e6d=
+379a611d13a2aca784fba2073208faad2137bf1979a0fa146c1880d4337db3274269493ba=
+b44a1bcd0681f7227ffdf589c2e925ed9d36302509d1109ba4
++--=20
++2.34.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-6.p=
+atch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-6.patch
+new file mode 100644
+index 0000000000..75e1df4bba
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-50781-6.patch
+@@ -0,0 +1,57 @@
++From 455db0c94c0b83083ce8b792982c03aa56fc866f Mon Sep 17 00:00:00 2001
++From: Hubert Kario <hkario@redhat.com>
++Date: Tue, 22 Nov 2022 17:42:11 +0100
++Subject: [PATCH] rsa: add test for the option to disable implicit reject=
+ion
++
++CVE: CVE-2023-50781
++
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/455=
+db0c94c0b83083ce8b792982c03aa56fc866f]
++
++Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
++Reviewed-by: Tim Hudson <tjh@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/13817)
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ .../30-test_evp_data/evppkey_rsa_common.txt    | 18 ++++++++++++++++++
++ 1 file changed, 18 insertions(+)
++
++diff --git a/test/recipes/30-test_evp_data/evppkey_rsa_common.txt b/test=
+/recipes/30-test_evp_data/evppkey_rsa_common.txt
++index 0ad654fc60..a3d01eec45 100644
++--- a/test/recipes/30-test_evp_data/evppkey_rsa_common.txt
+++++ b/test/recipes/30-test_evp_data/evppkey_rsa_common.txt
++@@ -253,6 +253,14 @@ Decrypt =3D RSA-2048
++ Input =3D 550AF55A2904E7B9762352F8FB7FA235A9CB053AACB2D5FCB8CA48453CB2E=
+E3619746C701ABF2D4CC67003471A187900B05AA812BD25ED05C675DFC8C97A24A7BF49BD=
+6214992CAD766D05A9A2B57B74F26A737E0237B8B76C45F1F226A836D7CFBC75BA999BDBE=
+48DBC09227AA46C88F21DCCBA7840141AD5A5D71FD122E6BD6AC3E564780DFE623FC1CA9B=
+995A6037BF0BBD43B205A84AC5444F34202C05CE9113087176432476576DE6FFFF9A52EA5=
+7C08BE3EC2F49676CB8E12F762AC71FA3C321E00AC988910C85FF52F93825666CE0D40FFA=
+A0592078919D4493F46D95CCF76364C6D57760DD0B64805F9AFC76A2365A5575CA301D510=
+3F0EA76CB9A78
++ Output =3D "Hello World"
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
+++# Note: disable the Bleichenbacher workaround to see if it passes
+++Decrypt =3D RSA-2048
+++Ctrl =3D rsa_pkcs1_implicit_rejection:0
+++Input =3D 550AF55A2904E7B9762352F8FB7FA235A9CB053AACB2D5FCB8CA48453CB2E=
+E3619746C701ABF2D4CC67003471A187900B05AA812BD25ED05C675DFC8C97A24A7BF49BD=
+6214992CAD766D05A9A2B57B74F26A737E0237B8B76C45F1F226A836D7CFBC75BA999BDBE=
+48DBC09227AA46C88F21DCCBA7840141AD5A5D71FD122E6BD6AC3E564780DFE623FC1CA9B=
+995A6037BF0BBD43B205A84AC5444F34202C05CE9113087176432476576DE6FFFF9A52EA5=
+7C08BE3EC2F49676CB8E12F762AC71FA3C321E00AC988910C85FF52F93825666CE0D40FFA=
+A0592078919D4493F46D95CCF76364C6D57760DD0B64805F9AFC76A2365A5575CA301D510=
+3F0EA76CB9A78
+++Output =3D "Hello World"
+++
++ # The old FIPS provider doesn't include the workaround (#13817)
++ FIPSversion =3D >3.0.0
++ # Corrupted ciphertext
++@@ -261,6 +269,16 @@ Decrypt =3D RSA-2048
++ Input =3D 550AF55A2904E7B9762352F8FB7FA235A9CB053AACB2D5FCB8CA48453CB2E=
+E3619746C701ABF2D4CC67003471A187900B05AA812BD25ED05C675DFC8C97A24A7BF49BD=
+6214992CAD766D05A9A2B57B74F26A737E0237B8B76C45F1F226A836D7CFBC75BA999BDBE=
+48DBC09227AA46C88F21DCCBA7840141AD5A5D71FD122E6BD6AC3E564780DFE623FC1CA9B=
+995A6037BF0BBD43B205A84AC5444F34202C05CE9113087176432476576DE6FFFF9A52EA5=
+7C08BE3EC2F49676CB8E12F762AC71FA3C321E00AC988910C85FF52F93825666CE0D40FFA=
+A0592078919D4493F46D95CCF76364C6D57760DD0B64805F9AFC76A2365A5575CA301D510=
+3F0EA76CB9A79
++ Output =3D 4cbb988d6a46228379132b0b5f8c249b3860043848c93632fb982c807c7c=
+82fffc7a9ef83f4908f890373ac181ffea6381e103bcaa27e65638b6ecebef38b59ed4226=
+a9d12af675cfcb634d8c40e7a7aff
++=20
+++# The old FIPS provider doesn't include the workaround (#13817)
+++FIPSversion =3D >3.0.0
+++# Corrupted ciphertext
+++# Note: disable the Bleichenbacher workaround to see if it fails
+++Decrypt =3D RSA-2048
+++Ctrl =3D rsa_pkcs1_implicit_rejection:0
+++Input =3D 550AF55A2904E7B9762352F8FB7FA235A9CB053AACB2D5FCB8CA48453CB2E=
+E3619746C701ABF2D4CC67003471A187900B05AA812BD25ED05C675DFC8C97A24A7BF49BD=
+6214992CAD766D05A9A2B57B74F26A737E0237B8B76C45F1F226A836D7CFBC75BA999BDBE=
+48DBC09227AA46C88F21DCCBA7840141AD5A5D71FD122E6BD6AC3E564780DFE623FC1CA9B=
+995A6037BF0BBD43B205A84AC5444F34202C05CE9113087176432476576DE6FFFF9A52EA5=
+7C08BE3EC2F49676CB8E12F762AC71FA3C321E00AC988910C85FF52F93825666CE0D40FFA=
+A0592078919D4493F46D95CCF76364C6D57760DD0B64805F9AFC76A2365A5575CA301D510=
+3F0EA76CB9A79
+++Output =3D "Hello World"
+++Result =3D KEYOP_ERROR
+++
++ # OAEP padding
++ Decrypt =3D RSA-2048
++ Ctrl =3D rsa_padding_mode:oaep
++--=20
++2.34.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.17.bb b/meta/r=
+ecipes-connectivity/openssl/openssl_3.0.17.bb
+index ee0ab2e498..a50bd2edbf 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.17.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.17.bb
+@@ -13,7 +13,13 @@ SRC_URI =3D "https://github.com/openssl/openssl/releas=
+es/download/openssl-${PV}/op
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://CVE-2024-41996.patch \
+-           "
++           file://CVE-2023-50781-1.patch \
++           file://CVE-2023-50781-2.patch \
++           file://CVE-2023-50781-3.patch \
++           file://CVE-2023-50781-4.patch \
++           file://CVE-2023-50781-5.patch \
++           file://CVE-2023-50781-6.patch \
++          "
+=20
+ SRC_URI:append:class-nativesdk =3D " \
+            file://environment.d-openssl.sh \
+--=20
+2.34.1
+
 
