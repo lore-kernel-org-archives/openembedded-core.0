@@ -1,88 +1,129 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE313CA0EED
-	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 07:14:28 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web10.14287.1755674064886690872
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C73CA0EED
+	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 07:15:48 +0000 (UTC)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+ by mx.groups.io with SMTP id smtpd.web11.14382.1755674144953992932
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Aug 2025 00:14:25 -0700
+ Wed, 20 Aug 2025 00:15:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=l1WFDgkT;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-70a88db0bd8so53066796d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 00:14:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hBx0hs8w;
+ spf=pass (domain: gmail.com, ip: 209.85.219.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e934c8f9751so3288437276.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 00:15:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755674064; x=1756278864; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=I581cgvXQWdb0TN2/pEmWnpq1hKjR4c6QzDaOG2jl8U=;
-        b=l1WFDgkTmxN9ggAjNOoeJRI9nlTmw3YkdYARo1FRZcY6c1tu/bTcBSQy5qg0QEnS8H
-         vlh6tj2eL0kymS4Kmb2Ghh1kiIQ/sesfyc/iEbt1L8ibebjgK26QFGkqy53cjeC54MN6
-         Im4BelcEa5YFMur18YRa9iqxCU4TbWbeSyYZM2o4R5fK+u5uDJ6BXvvTEDHWBhHbFMeb
-         QPDauDnEke0zsqKryZGHY5BDxUs8IjNbIhYD3sxtUbMMYNBFhzd9BeW4+g3TdyLVHIEk
-         TJOpqZG/7C9G7c//IfVbJyuuAHEmhsDiM2IvB5tfZw+BYv7w+s7qorXa1LJcrOZTZ647
-         ex9g==
+        d=gmail.com; s=20230601; t=1755674144; x=1756278944; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N6sToUlN2xvk/uGt90y31gnE5U1Q8ZdCI44VcJDaahg=;
+        b=hBx0hs8w4//QVjvTahzVXmnwgVAPqBYUTDNEP3liBrIIAzfXhl4uOAg3OQXp5ouK42
+         7i2j1JQMYPWbxHFBKZ8eLdORkwua0WTBbhTU6i1SBYGW389Mgee+VlDIixQrNIkHFawe
+         3Fj7HUH7tif9QoqlnsX25CcBYn0LyWtj0kct5az0EaoQ14NAmCqWKIgWPxbuzYtx2QQS
+         ganWfN+rdzOwQ63sjl6I3OMiAZ4/QOwers2cXcW74bRBXBt4hDaUrvu8rI6DocdsGkWX
+         3wjcrzp94cy4noJVmY3KPRYYLcfNZIrfgCXeOe1Bl03Q51WJrVFTB6fFDS+a5f+C8SgP
+         3MnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755674064; x=1756278864;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I581cgvXQWdb0TN2/pEmWnpq1hKjR4c6QzDaOG2jl8U=;
-        b=BKi5t5LOqC9Av8zMCQkUlviVnpSXgCblCQo7YExWU9ouCnwlBDwCWmyDhVEAr44Jdx
-         ALREWxOl0wmFdrJwPALfcBNEDeZDanYBaZruGgtawDf8Xs3xJ3zCQQMbUBV1G6C2YRX+
-         gJyyj2BC+S0OPNzEVWi7xw8ak3aCS8QunPdmNJldaItZG15vwWt1+8A4kRosjM6TQLim
-         +YCeOuAPeiv+rodKJGt6VCcjww9w9DXtlppCBZkS5sYjs2PMDgf+nmfF9txypKbB885R
-         XUK7TNRT8Y6Egwf7qKNNv50L5kTNsywTr7Gr26fVGFwnm7jwPh777lq5ZQQ/y4P9WhI/
-         AoyA==
-X-Gm-Message-State: AOJu0YxdSztql9z6Tff+oAjjf/YAb8mF1vHkNWvTZzajDOw3MIJgO+Xe
-	BPCn3eeAJ0CxNkEBWEw3mzG2OObeaCviXlwheMI5S8+voxf3swn92ePbU9wqa+gZCAdbSuDWG1Z
-	HFbj3vfr45QUdpCHZrHXUfQFemCn+hsQ=
-X-Gm-Gg: ASbGncsazGioac2tKKc4mGLbFw9VapNDOtPPLs2J16Gqi2gRyKkZp+WruwKhiVY/1xi
-	F1wLBiMkarS2+P8eD3UobGjq3ePf5uyMqyyHEy5LMk4gtku0mLlMPHnLjImuFSnEjaZzpPB3Hnh
-	whDU84UBZqldueqt2G3GVcPgg1mjJhvu6HI0+T3YNzN5hp8GmIwQ3IBEK6lKRKIBqL+gnzb6scK
-	4T/6xtSHcm4tgYKTFsuj70cGew+NAShGRsy470QvewGhDnFsMcJ
-X-Google-Smtp-Source: AGHT+IGkTf8D5TCacVTnc7Du30bXyfiWI7Q72NF2hNd0VHunvRHK7PdZAuOsuBSYTtyJI/2SuUMHi+y5D6KSeMqpdAA=
-X-Received: by 2002:a05:6214:1cc8:b0:709:f5a9:d053 with SMTP id
- 6a1803df08f44-70d76fd242dmr17473636d6.18.1755674063849; Wed, 20 Aug 2025
- 00:14:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755674144; x=1756278944;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N6sToUlN2xvk/uGt90y31gnE5U1Q8ZdCI44VcJDaahg=;
+        b=r9zquI2s4ZZknUjmjuQ9ptYZWh70T8hmdEw9wB4cBO6+0mibir5q1nzogIxIaSSV1M
+         OcIBaddnngxF/9b9VvQLBnFVfGch7cAqqqbhPuui5/YGHez96Dnyz3vMJGhZm9Kyu2Ba
+         tM5hl8jBI3oFkGvXtnw0nBXyotBQP7ayN43WXZWXHeEiTCawsVzqyHDmSwsdA6Za1Zcp
+         6Czmz4c5DOhdb9JVW7anWP0DyPOUPVwYYc4uRS0eR+RFixfZlPF3kTQeXAA66PH9LzbC
+         RZrF7Rd1wvb/3OoOhk0YdnDum0/pygs82D+eYK24+YVMXsX7NoxJ49r7+WC42obs9wY3
+         r89g==
+X-Gm-Message-State: AOJu0Yy+33Dxzrr1g4Ff9O5k0X3ov1LUHGodZNef5lIQj4HSrUKqzclD
+	9HbMS87IZMYnJ8WEaVduJPREsXbxZTpctMMYLtY9+DioMA9NpUWJHr07pZZgXZCsOvOjEOVMyTd
+	C6RXdLwWQRAO+RC+32V8hmOwQvTs0tnQ=
+X-Gm-Gg: ASbGncvwzfJw95kUnrSD2jnmOG0AOYsaaYscQ41jKrBR7qqT+2xYRq0f4I/Bk68ayPt
+	NiC4GVK6BRFAMK31lAKeMomVEmBb17JcJIhFy7BdaDPcLar2FvJTbCC8ixlt1BmDiPcKqtHsT4K
+	1+D1jfPcCgxwD0l01fK4mrA8/WangFKR0s9qMxu4TGNqiQZxMcIdU7JizKuAeB600T1oNrWalVA
+	u9BZzaVHJOjX8YjN9a+40osM3AZAyF7MqgdH9roRWjuynNmwcM=
+X-Google-Smtp-Source: AGHT+IHzDbaqX2lVd/HYiJmK/zb78AJQgaiksC2bu8cap96u0Js2Jijh/pQcUfZIJcyEvuWRn7wF49/5dtFWJ7o1Sfg=
+X-Received: by 2002:a05:6902:1006:b0:e90:fd5d:d12c with SMTP id
+ 3f1490d57ef6-e94f659d10fmr2421005276.18.1755674143943; Wed, 20 Aug 2025
+ 00:15:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250819221357.997067-1-a-christidis@ti.com>
-In-Reply-To: <20250819221357.997067-1-a-christidis@ti.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 20 Aug 2025 09:14:12 +0200
-X-Gm-Features: Ac12FXxtFOb4YOgSuOV_AglLYjv4wt5ITLZSCofLDO7ymgUEjmyfw_6nzNNQ4uk
-Message-ID: <CANNYZj91HOj3joAHdT0Z_JSxxgMmCeXaLb7NOJXsHqAqVZ+eVg@mail.gmail.com>
-Subject: Re: [OE-core] [master][PATCH] libsdl2: Add PACKAGECONFIG option for tests
-To: a-christidis@ti.com
-Cc: openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org, rs@ti.com
+References: <20250819010128.3519760-1-raj.khem@gmail.com> <20250819010128.3519760-3-raj.khem@gmail.com>
+ <DC71FJJ2QC94.35CLO3OBAN1BF@bootlin.com>
+In-Reply-To: <DC71FJJ2QC94.35CLO3OBAN1BF@bootlin.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Aug 2025 00:15:17 -0700
+X-Gm-Features: Ac12FXw3VDsBOuxZBTjrr4CXe0c0NzGT1_xOK8SaOcaPzj2GnhdvUwxGYwb47E4
+Message-ID: <CAMKF1sqTdHQrCUYK3dGGzi+=mGZBogaR1TD2r+zMSkJWz3vWUg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] m4: Fix ptest on musl
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 07:14:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222157
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 07:15:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222158
 
-On Wed, 20 Aug 2025 at 00:14, Antonios Christidis via
-lists.openembedded.org <a-christidis=ti.com@lists.openembedded.org>
+On Tue, Aug 19, 2025 at 11:23=E2=80=AFPM Mathieu Dubois-Briand
+<mathieu.dubois-briand@bootlin.com> wrote:
+>
+> On Tue Aug 19, 2025 at 3:01 AM CEST, Khem Raj via lists.openembedded.org =
 wrote:
-> +do_install:append() {
-> +       if ${@bb.utils.contains('PACKAGECONFIG', 'tests', 'true', 'false', d)}; then
-> +               install -d ${D}${bindir}/sdl2_tests
-> +               cp -r ${B}/test/* ${D}${bindir}/sdl2_tests
-> +
-> +               # Delete any leftover cmake files within the sdl2_tests dir
-> +               find ${D}${bindir}/sdl2_tests -type f -name "*.cmake" -delete
-> +       fi
-> +}
+> > Fixes
+> > ../../sources/m4-1.4.20/tests/test-c32ispunct.c:261: assertion 'is =3D=
+=3D 0' failed
+> > ./test-c32ispunct.sh: line 36:   402 Aborted
+> > (core dumped) LC_ALL=3D"$testlocale" ${CHECKER} ./test-c32ispunct${EXEE=
+XT} 3
+> >
+> > FAIL: test-c32ispunct.sh
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+>
+> Hi Khem,
+>
+> Thanks for your patch.
+>
+> It looks like this is breaking tests, specifically on qemuriscv64:
+>
+> Traceback (most recent call last):
+>   File "/srv/pokybuild/yocto-worker/qemuriscv64/build/meta/lib/oeqa/sdk/c=
+ases/maturin.py", line 25, in test_maturin_list_python
+>     output =3D self._run("maturin list-python")
+>              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   File "/srv/pokybuild/yocto-worker/qemuriscv64/build/meta/lib/oeqa/sdk/c=
+ase.py", line 17, in _run
+>     return subprocess.check_output(". %s > /dev/null; %s;" % \
+>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
+>     return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, check=3DTrue=
+,
+>            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   File "/usr/lib/python3.12/subprocess.py", line 571, in run
+>     raise CalledProcessError(retcode, process.args,
+> oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/poky=
+build/yocto-worker/qemuriscv64/build/build/tmp/work/qemuriscv64-poky-linux/=
+core-image-minimal/1.0/testsdkext/environment-setup-riscv64imafdc-poky-linu=
+x > /dev/null; maturin list-python;' died with <Signals.SIGSEGV: 11>.
+>
 
-The PACKAGECONFIG is okay, but this isn't. If you want to install the
-tests, you should also add run-ptest script, ptest package, and ensure
-they pass. Ideally, you should also make a patch to sdl that does the
-installation and offer that to upstream, rather than do it in a custom
-do_install snippet.
-
-Alex
+seems quite unrelated, I wonder if its finding some other bug
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/354
+>
+> I've launched a few rebuilds, the issue does reproduce every times. Can
+> you have a look please?
+>
+> Best regards,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
 
