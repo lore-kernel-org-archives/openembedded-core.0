@@ -1,118 +1,120 @@
-Return-Path: <philip.lorenz@bmw.de>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 274FECA0EED
-	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 07:53:09 +0000 (UTC)
-Received: from esa7.hc324-48.eu.iphmx.com (esa7.hc324-48.eu.iphmx.com [207.54.71.126])
- by mx.groups.io with SMTP id smtpd.web10.14637.1755676380198800482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BACC5CA0EF8
+	for <webhook@archiver.kernel.org>; Wed, 20 Aug 2025 08:50:00 +0000 (UTC)
+Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
+ by mx.groups.io with SMTP id smtpd.web11.15528.1755679791130702609
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Aug 2025 00:53:01 -0700
+ Wed, 20 Aug 2025 01:49:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=W2Q1BrX+;
- spf=pass (domain: bmw.de, ip: 207.54.71.126, mailfrom: prvs=3209dcacb=philip.lorenz@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1755676380; x=1787212380;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=R7LDM8G41JxN67IXeVODi4BTeEAxHywUonaImgINGxY=;
-  b=W2Q1BrX+TikLFrMIlMmr2Q/Q9vLHEmcdBJYahH2flwDt9XnmkKDV9/zK
-   ETv7vhdl3QfUpTZ24oZt9Ij9HUlitt1lFR4BLgRBME6+JbPlOO9rFmoQP
-   bNypQ6U86tK74gToO4iVOVK0cRw82g2PxfYtOzWq/F6rmh8gD3VLe/DvK
-   M=;
-X-CSE-ConnectionGUID: U0n1iA8hRGeFRQ/0Xidgig==
-X-CSE-MsgGUID: XfsXKeQjRJahB5Vk9XsAYw==
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
- esa7.hc324-48.eu.iphmx.com with ESMTP/TLS; 20 Aug 2025 09:52:57 +0200
-Received: from unknown (HELO esabb6.muc) ([10.31.187.137]) by esagw2.muc with
- ESMTP/TLS; 20 Aug 2025 09:52:57 +0200
-Received: from smucmp19d.bmwgroup.net (HELO smucmp19d.europe.bmw.corp)
- ([10.30.13.170]) by esabb6.muc with ESMTP/TLS; 20 Aug 2025 09:52:57 +0200
-Received: from [10.242.8.36] (10.30.85.213) by smucmp19d.europe.bmw.corp
- (2a03:1e80:a15:58f::205d) with Microsoft SMTP Server (version=TLS;
- Wed, 20 Aug 2025 09:52:57 +0200
-X-CSE-ConnectionGUID: X1oeOVQeQNOCbCYDlzUM/Q==
-X-CSE-MsgGUID: qjCnJTDsTfKTNne/V6Piyg==
-X-CSE-ConnectionGUID: a4YB2UCdTG22dQsFd/u0LQ==
-X-CSE-MsgGUID: 1joT9NvER/isLN1jTOaBIQ==
-Message-ID: <878b5aca-397c-49db-b45b-c77de3627330@bmw.de>
-Date: Wed, 20 Aug 2025 09:52:50 +0200
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=IEuiKkw+;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1755679791; x=1787215791;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=c1Vegbyso1JXbPHKSO+/ZSGzCNDcY+X34YeByhy+jPA=;
+  b=IEuiKkw+89LmDjytiyY4c5jL5W/SiOXXe9UJFP1HCl9i7Xz98JQdpWFr
+   iwojDf6jPWItQSFk1r081Qv85vduM7D70GJ4dQVPWMZ2F2Xk6gU0MwGaF
+   hVyD8RWk0wDJ6NdC/Fu0b6qzG0R/y6TvyZa+A57miQIB4FIba7iPCmVw7
+   XjNlCCpgTIltkWzQCUEy3BuumC+VnRrxfLeLAuURyyHb24GaOJFYoy0uY
+   L3Z5IOxXEdpQIJsCNf1+snWwbeKsWKpxm2Akx2nlSX1h6mTJv4jvC8m5/
+   EJHKTyU3vf9QW2sc9tCuyVgyGNiT7RABUphH96lTvsa8SP7aH5+pAf5ge
+   Q==;
+X-CSE-ConnectionGUID: zJFNMkGySUeAxAtud+/aZw==
+X-CSE-MsgGUID: Vj8vaz1qSY6iUhQaEgyR2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="197444836"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747666800"; 
+   d="scan'208";a="197444836"
+Received: from unknown (HELO az2nlsmgr3.o.css.fujitsu.com) ([51.138.80.169])
+  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 17:49:49 +0900
+Received: from az2nlsmgm4.fujitsu.com (unknown [10.150.26.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 9BA521000344
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 08:49:49 +0000 (UTC)
+Received: from az2nlsmom4.fujitsu.com (az2nlsmom4.o.css.fujitsu.com [10.150.26.201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm4.fujitsu.com (Postfix) with ESMTPS id 597D51004172
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 08:49:49 +0000 (UTC)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by az2nlsmom4.fujitsu.com (Postfix) with ESMTPS id 5787B2000289
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 08:49:47 +0000 (UTC)
+Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 474C31A0071;
+	Wed, 20 Aug 2025 16:49:44 +0800 (CST)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Liu Yiding <liuyd.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH] nghttp2: remove nghttp2-proxy
+Date: Wed, 20 Aug 2025 16:49:37 +0800
+Message-ID: <20250820084937.447-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [kirkstone][PATCH 1/2] insane: Improve patch
- warning/error handling
-To: Steve Sakoman <steve@sakoman.com>
-CC: <openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <20250815094509.3034151-1-philip.lorenz@bmw.de>
- <CAOSpxdbT1VigkVchb3SroTCYA0kPhMGDiKd179zJf7o6Ku6tMQ@mail.gmail.com>
-Content-Language: en-US
-From: Philip Lorenz <philip.lorenz@bmw.de>
-In-Reply-To: <CAOSpxdbT1VigkVchb3SroTCYA0kPhMGDiKd179zJf7o6Ku6tMQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: smucmp16f.europe.bmw.corp (2a03:1e80:a15:58f::1:148) To
- smucmp19d.europe.bmw.corp (2a03:1e80:a15:58f::205d)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 07:53:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222160
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 08:50:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222161
 
-Hi Steve,
+fix issue that:
+ | nothing provides nghttp2-proxy >= 1.66.0 needed by nghttp2-1.66.0-r0.core2_64 from base
 
-On 19.08.25 18:42, Steve Sakoman wrote:
-> This patch set is causing warnings for various non-oe-core layers used
-> in autobuilder testing:
->
-> meta-intel
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/41/builds/2086/steps/12/logs/warnings
->
-> meta-virtualization
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/89/builds/2099/steps/12/logs/warnings
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/89/builds/2099/steps/16/logs/warnings
->
-> meta-agl
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/55/builds/2088/steps/13/logs/warnings
->
-> meta-gplv2
-> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/33/builds/1299/steps/11/logs/warnings
->
-> I'm not inclined to take this patch set since it is adding a lot of
-> noise to my testing.
->
-> If you submit patches for those layers to deal with the above issues,
-> or work with the layer maintainers to fix them I am happy to
-> reconsider.
+nghttp2-proxy is supposed to involve files ${bindir}/nghttpx and ${datadir}/${BPN}/fetch-ocsp-response
 
-One alternative idea: I can also drop the addition of 
-patch-status-noncore to WARN_QA which avoids raising these warnings for 
-layers (which would have been the better choice to begin with as this 
-ultimately avoids any behaviour changes in the default configuration). 
-Given that the warning merely informs about missing metadata in patch 
-files and this missing metadata was already added to the layers when the 
-QA check was merged to master I'd argue that patching all those layers 
-will just introduce noise with very limited benefit. Does removing it 
-from WARN_QA sound sensible to you?
+But now nghttp2-proxy will not be created because:
+1. ENABLE_APP=OFF in EXTRA_OECMAKE makes ${bindir}/nghttpx not be produced
+2. 1.66.0 version has removed fetch-ocsp-response-file according to the Changelog
 
-The rationale for backporting this to kirkstone is to make sure that 
-patch-fuzz QA issues, when classified as errors, actually abort the task 
-(and therefore no longer create a sstate cache entry). Otherwise the QA 
-issue will be bypassed as long as the sstate cache entry remains 
-available and only reappear once the offending recipe is rebuilt.
+| cat /tmp/work/aarch64-ubinux-linux/nghttp2/1.66.0/sources/nghttp2-1.66.0/ChangeLog
+| ....
+| nghttpx: Remove OCSP stapling
+|
+| This commit removes OCSP stapling features and the following options
+| are deprecated and have no effect:
+|
+| - fetch-ocsp-response-file
+| - no-ocsp
+| - no-verify-ocsp
+| - ocsp-update-interval
 
-Thanks,
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+---
+ meta/recipes-support/nghttp2/nghttp2_1.66.0.bb | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Philip
-
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
+index 2886681827..123ddb2d08 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
+@@ -14,15 +14,12 @@ PACKAGECONFIG[manpages] = ""
+ # first place
+ EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_APP=OFF -DENABLE_HPACK_TOOLS=OFF -DENABLE_PYTHON_BINDINGS=OFF"
+ 
+-PACKAGES =+ "lib${BPN} ${PN}-proxy "
++PACKAGES =+ "lib${BPN}"
+ 
+-RDEPENDS:${PN} = "${PN}-proxy (>= ${PV})"
+ RDEPENDS:${PN}:class-native = ""
+-RDEPENDS:${PN}-proxy = "openssl python3-core python3-io python3-shell"
+ 
+ ALLOW_EMPTY:${PN} = "1"
+ FILES:${PN} = ""
+ FILES:lib${BPN} = "${libdir}/*${SOLIBS}"
+-FILES:${PN}-proxy = "${bindir}/nghttpx ${datadir}/${BPN}/fetch-ocsp-response"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-Philip Lorenz
-BMW Car IT GmbH, Software-Plattform, -Integration Connected Company, Lise-Meitner-Straße 14, 89081 Ulm
--------------------------------------------------------------------------
-BMW Car IT GmbH
-Management: Michael Böttrich, Chris Brandt, Christian Salzmann
-Domicile and Court of Registry: München HRB 134810
--------------------------------------------------------------------------
+2.43.0
 
 
