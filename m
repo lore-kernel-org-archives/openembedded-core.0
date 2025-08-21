@@ -1,100 +1,125 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC46CA0EFA
-	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 22:50:05 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.2639.1755816605270405132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC9F3CA0EFA
+	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 23:04:35 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.2914.1755817465872746364
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Aug 2025 15:50:05 -0700
+ Thu, 21 Aug 2025 16:04:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Dw9Un8Gp;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VNCuMVNV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010198ced3323f-b83112fa-1b5d-4a08-b586-bc672ef60514-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1755816604; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=1vkEGYC4sfbTJHe1+nMXQBuqJU46of2NS0JAaJ+qU28=;
-	b=Dw9Un8GpthAxmHK6o2i5mrLJO7yWjq+xRM3bBq9nVk48FEiYP7baM/gS7c07TFm9
-	8JP0UExP8+aFZBlb10Tb2nSYyrYlox66WMG0/+fNVBJH9kPr4ebKP4kkBega9kjPp3r
-	fj3aeKTANl+y0UWN7yWpECDngpiX6m2RLQ4EAVTs=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755816604;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=1vkEGYC4sfbTJHe1+nMXQBuqJU46of2NS0JAaJ+qU28=;
-	b=VNCuMVNV7IX6c9XslUbUpqz6v+DYR7KnuNIc0VYpdLB7aH6sdYR6w5sazxsymwFU
-	Ys8pY1aj82rhBTPX34DUzGmmn9E/tcUh2nCS1STRLTzm6dciSfiGFf19VJlJTUlNM5S
-	C71v6MslXkHve4tM70VkgCd1NTu/GzawE0g9XNRM=
-From: patchtest@automation.yoctoproject.org
-To: martin.jansa@gmail.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [scarthgap][PATCH 01/15] unzip: Fix build with GCC-15
-In-Reply-To: <20250821224314.1690103-1-martin.jansa@gmail.com>
-References: <20250821224314.1690103-1-martin.jansa@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198ced3323f-b83112fa-1b5d-4a08-b586-bc672ef60514-000000@us-west-2.amazonses.com>
-Date: Thu, 21 Aug 2025 22:50:04 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.21-54.240.27.31
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BNq1Yvz5;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45b4d892175so6137485e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 16:04:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755817464; x=1756422264; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sYNZRj2bQThxIS/92tEZPTKV8mzt4xOYyi35E/+KoU0=;
+        b=BNq1Yvz5FzfumDnBJA05UumVXoFH7W2MPY10mJs9EkA3f9VbrytyiLSabk/lTyA8v4
+         yyEmWmn52ErxGONQWYPehtrQNQw20z6CCc9GkzVdoD+nCHbeLP+Be0F24G9HlVebQsIt
+         rS+rYyFpElpUiExa9SMT2XdQyHkWJ2JJluwBHlwaXfrMsztXEMv653udxaqNCZ3hzml5
+         PRaa9n2HsYvhDcDf5qC9e/rabpbRl/yJeNRkSlM5sqqrKktA/GZKIqWW1qHhqczCRUfn
+         UVoaaKlWiOEAvyeA8vSj3vrY7CVUZMRaGG23mgEia4LHDk3bdYcnlVqGaTOwn7xZggmM
+         o2dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755817464; x=1756422264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sYNZRj2bQThxIS/92tEZPTKV8mzt4xOYyi35E/+KoU0=;
+        b=GcVhp7X7ghTqUrTYk3SXpoDrGxndhfHNS1VfPBWwhGu6jwhj0eD+bdL/6+eBKy1LWX
+         QGWVEVFkbbUPswf8FlUQGzxRdCrDDCOupcDsR90Q2L5N4oQPEgPw7NopvniczctkNnt6
+         HJxp1au5TI8prXn4hQKnNBtoR+TERfawS22OnFZGCrZHdikzAuPuNOMc43mk2JsrhyFv
+         5h8vbRVbzUAYsHmTQm/YM44qfvCaH07tbgRwn4wcb+edmsraiN4Yk2ErQLBD9fjRx5iX
+         PPT8u9eusHet4fsW4vszUJRBZ4/8OTTSHnxZFM+ZAfA4Dnw66Rfx+iIkPfEHwc1eGCcV
+         fFKQ==
+X-Gm-Message-State: AOJu0YzPhTj9YcHAZY1PGx4tUKqiLBSupmB67pDd3wr4y8SSX74n1CAM
+	lDFVNw73D6/3GBWkhZ7MmtsdnVVJN2rNZtrxOauJB2LprijS/BENNDrI+Ab8JQ==
+X-Gm-Gg: ASbGncvNCHA3/qELpLNp0Bk4gEBzUFgP70FUbaX9BCHEujZRRO4ZIITeHbvJ0pKlBEd
+	gOcusXYDf4xYSA4du9JqwGu/i1ShmcCMZfLpRbCpRa8qask+rBU9I9U55O0/oKkdPnpvz47f++A
+	ylgUjRzQoebxmWB/P9/V1i+lwDAlSn/Tp6ItEZI2DO9aXP6hTyUH9+6cbeJ3JUPjijKgcPPNqKw
+	XY0ad0pVHQzzNmtSO3dfikHY1n5I+4XLNQ2cE3ssLSEHSfnyVEdQQ1i3jeMPlV+M3zGCRytI2Lt
+	DhxoK+7RjSA4e/Ppha3dVhFszkw7Yry6IMg55RZJ+74+0hM+nWGsQj1DARjUUbf77/+Y6VxvfyT
+	tHFqEZADwPX1N7sgOztaVt4Sd+B4p8bPQ8w2E3nbemQRdYEkLoW+TlxY6
+X-Google-Smtp-Source: AGHT+IGFAzA32W6B9mYw/dBONlhuiOsqAXpbTdY94mBpenXHtgdp4gmZsmu1XNhA9XwDEoBXnbbGlg==
+X-Received: by 2002:a05:600c:4509:b0:456:29ae:3dbe with SMTP id 5b1f17b1804b1-45b517d06d4mr5523075e9.24.1755817464054;
+        Thu, 21 Aug 2025 16:04:24 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c07778939bsm12614523f8f.46.2025.08.21.16.04.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Aug 2025 16:04:23 -0700 (PDT)
+From: martin.jansa@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Khem Raj <raj.khem@gmail.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Martin Jansa <martin.jansa@gmail.com>
+Subject: [scarthgap][PATCHv2 01/15] unzip: Fix build with GCC-15
+Date: Fri, 22 Aug 2025 01:04:14 +0200
+Message-ID: <20250821230414.2607657-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 22:50:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222301
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 23:04:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222302
 
---NextPart
-Content-Type: text/plain
+From: Khem Raj <raj.khem@gmail.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Add a patch to remove redundant declarations
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/scarthgap-01-15-unzip-Fix-build-with-GCC-15.patch
+v2: fix Signed-off-by tag from Khem inside the .patch file and add mine.
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'gcc15.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+ meta/recipes-extended/unzip/unzip/gcc15.patch | 18 ++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/gcc15.patch
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-extended/unzip/unzip/gcc15.patch b/meta/recipes-extended/unzip/unzip/gcc15.patch
+new file mode 100644
+index 0000000000..ab06a4713f
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/gcc15.patch
+@@ -0,0 +1,18 @@
++Do not redefine gmtime(), localtime()
++
++They are already provided by system time.h header
++
++Upstream-Status: Inactive-Upstream [need a new release]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++--- a/unix/unxcfg.h
+++++ b/unix/unxcfg.h
++@@ -117,7 +117,6 @@ typedef struct stat z_stat;
++ #  endif
++ #else
++ #  include <time.h>
++-   struct tm *gmtime(), *localtime();
++ #endif
++ 
++ #if (defined(BSD4_4) || (defined(SYSV) && defined(MODERN)))
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index c13e7a008e..0a88b4c092 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+         file://CVE-2022-0530.patch \
+         file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
+         file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
++        file://gcc15.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
 
