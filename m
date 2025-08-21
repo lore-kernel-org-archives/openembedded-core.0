@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B952CA0FE1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC50CA0FE4
 	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 06:45:39 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.3228.1755758734540430295
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.3229.1755758735738052473
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Aug 2025 23:45:34 -0700
+ Wed, 20 Aug 2025 23:45:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OBIHooRZ;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-24457f5b692so6804115ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 23:45:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aSeOJznw;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b471737b347so396541a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 23:45:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755758732; x=1756363532; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1755758735; x=1756363535; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V+DFe0v22BPxZL+WKHHFhqBj8d/ZgKcYCL+r7fdpH8M=;
-        b=OBIHooRZSShnXq9qS4lZswcJMBUnJa8iec0HIJXWSwh3WT2u3I0D8aKogRTcERlZ3P
-         8RULiQlY13anbfd/3isi/YRJng5tpqVaK7ioBA47Vlfm0i/NS84HPZfEYs2aeGNuLsGA
-         ZILfrhTQTx+vq8Kb3bM51VT/aAP54u9QSds9SNvzX1WLMA++PseNnK7CQfI61glL+mYe
-         Oak15WK57YePdOImny+h5zLJlTrfml0K1edXGtZMcdfAwOPeLFbkZeUPB/DzE6ND5S+k
-         xfrD1tyM3NgugLacpX1fvdeamc9KQSxTLEAt5Xctz3rbPdD+SIgZD+mnOnmVv6Y6au34
-         Xuuw==
+        bh=ZvukKaa2LAogSdBzY30Zp9BmoJJwEMw34HMlwv+eSCI=;
+        b=aSeOJznw8ZpfYR2daxNuBLTCzWYp9yPv47u8e+Qq0poCIxwOTFIOBjUwBLMuasbL54
+         d3KImcrZjkvVdVsQ2KDc2p/VQmjGM5hMb1Ed7CTyb1kAX7FPx6qmieSRHtccY0Vmfrak
+         n1Ou2r8QfudqDJF0wW4atalCuoK2wGR4BT2LfRZROwY0ppc6pJL9lzZU1BCgav+4fndF
+         3opbNeWBqD6lxbVg5Cp0gL8w0nZDstH6ckvVmFQC1GB7jCFfzLB8g+ZwKQw16k0Nn36P
+         dX8up8Idu4CPiU47YVi+kLtmaxLNGbiycJN+WuilnVPlxRXzeCsRnHWMtfBQCPBXg0xu
+         U9Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755758732; x=1756363532;
+        d=1e100.net; s=20230601; t=1755758735; x=1756363535;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V+DFe0v22BPxZL+WKHHFhqBj8d/ZgKcYCL+r7fdpH8M=;
-        b=Q/fQdT7dtvHJJikwrktm3ugo6g3Wk8BjaNYejxz5LPoTJet9K9D1s2R8xbBDXXIuqX
-         MxXWnQccHM170JjO+rv/VMJ/wYcZyk79zl3s/PyFqET4D4MM3b3NAfadNYQf8/OILeUb
-         r0vv/AxboQNHJmHqZKrsqSVeA9HI9sWLEwhjZ2dNEqOl3+vzTLeeNNil/u+sqiAa8kcl
-         ETUTLDnfK3xVkwQRqYeimjvSmwrae3RbXvIryR07h3ysBY/iK4If5mhkNI+vFu2ddUHK
-         ykj4ocREnAuRUa+M8m//BFGBbzTRlM23IXHMHvPE15qkyRdJfJXLd1SOhl8kTRilH/Os
-         XTqg==
-X-Gm-Message-State: AOJu0YxwsIgr/DGHCZ5iCWeClhjEtaFv/iQ8s2VB3j6faMRc6V0yTHS+
-	th/M5vQzOwjyHKmXXw3w1sdFMTJwZvCcgLheeGH/9xQgjMTiWXTvuz3T1cBXTYja
-X-Gm-Gg: ASbGnctxjzhOYWMT1dAC3VcqF7v+3uxq2Igl0H8URR7qpBR8H/+5rdn/vzADeGVBrzo
-	dAgcbUQqhcAJcNnWhEFaD2VwA2zDcuLDf8KgHV4hu3P655yEycB5rPLSlzY4pgelGPHWHGGFZlE
-	Jf0MSSXzMDA+FcP6owN5iRkRQSsSGArIYGu8hkSH7N/PsM4Vl2QXDbvKxPYZuu7zI9ThWRQm3gb
-	VaDV/mRFpxhRqD1MUCRvFw8kC+npEatyGOutK2qy7aWO3j8qkClpdwCP6wuTwUkQh/TGbNEvf/N
-	xTKLd8ILPXh/FrrCJdnarIAP67OMgHl+AXudWGOqagjCcm1njpAh3HvFMpxA5LjyMERwqj7ZbaA
-	7BC6J0iy/gSRKBRhUofyMGWmmTziht0AG
-X-Google-Smtp-Source: AGHT+IGQn69CW+1cbLEfMuxN0G4y/bsESsnMZ1yOvCEBb3XVFwL7EG+nWSVWGnxgmkY2xNkNCGd4fw==
-X-Received: by 2002:a17:902:c945:b0:246:61c:a67b with SMTP id d9443c01a7336-246061cab36mr14709015ad.58.1755758732252;
-        Wed, 20 Aug 2025 23:45:32 -0700 (PDT)
+        bh=ZvukKaa2LAogSdBzY30Zp9BmoJJwEMw34HMlwv+eSCI=;
+        b=sSQIHEISQ1zuxmR1nnddqeJneHmECQ6KfPUJq6vg+LgZS9k1RlIrWNM/P88eILbOU1
+         lFp8DCMBpZ04T9Vrap8QK/I2g9vwOaqLNJp+leH4LZqkvh7/JSZZsvVj85A+ZuIo5SAN
+         ycmIExJWqTZ5nD/KII4OBk0/xSKACeDWMLhlhPH8lkyGQmeTMUFnTIG2dLUjx1rhv8yZ
+         8Z2Wwr0J4xux6qrEQ+pq1qI0pOdLmVQPH1gNZwVHXb8ZnJWNLyF+AOJPfQG7U2TY3zwW
+         RIWqLpNwKTA2HESuePujdS+ouz9B1jiYOKB7QeCjtBv4fSJ6v4zj0lJPWnMABgixMtGX
+         leGQ==
+X-Gm-Message-State: AOJu0YzHfRnhTKheUu5ijIZsXbflNQh7gwQ52c2RgH8hzidIzOgfBY16
+	gtNoBNA+w365b8qvai/NCiagLN96qCAlgxL8z46j/ziJUwlojZcngwuY64yW/Zet
+X-Gm-Gg: ASbGncsb4BRzLqChB6BenxEXAdd3dHNx8dpZ1xwMjG3gO4ahfNb9h61vsoaoQN1nLvC
+	TeC1wpgdDxXP4t54VP5y4Pgija8+Pn/WIG7CqNEfHmd+kg3iQdbdFPjIM9yIFUY1g08lxihedq9
+	Gbk/hJzlaZI+QeBIhmypQdW6k5F+HoEoJ2bVzYEBEppM86vg/sxX5cTGCxJpIO36t/xIrhAsoiq
+	WJ8LQcDZhfkDhsz0LMRYUXIf2Ct+EBVamEpLXDq5bta6fIOwxaawlgvT42U7LL+CgZeNFfvsVJ5
+	/J+y9ku6MNLM8Lmb6yPVbEr2k6L2vxzVPlyiNk4HEaqgAUhATVAKTrONJROM4aTwf/RCGlKrmNu
+	jFpi/eM8juo+zWN8lb6ODpGMXdOZsCnkB
+X-Google-Smtp-Source: AGHT+IGWuppRF8qiQpd87O7uikcCVGaxxIrtlbjuwnQdAUng0jV/rGSR4z2/O9byxJzWcs/pKsnoTA==
+X-Received: by 2002:a17:903:198e:b0:242:a0b0:3c11 with SMTP id d9443c01a7336-245fed7d247mr21195655ad.31.1755758734489;
+        Wed, 20 Aug 2025 23:45:34 -0700 (PDT)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::adc2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed35d778sm45876685ad.49.2025.08.20.23.45.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed35d778sm45876685ad.49.2025.08.20.23.45.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 23:45:31 -0700 (PDT)
+        Wed, 20 Aug 2025 23:45:33 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/9] lltng-tools: Fix build with lld linker
-Date: Wed, 20 Aug 2025 23:45:19 -0700
-Message-ID: <20250821064528.754633-2-raj.khem@gmail.com>
+Subject: [PATCH 4/9] elfutils: Add run-backtrace-{native|data}.sh to known failures
+Date: Wed, 20 Aug 2025 23:45:21 -0700
+Message-ID: <20250821064528.754633-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250821064528.754633-1-raj.khem@gmail.com>
 References: <20250821064528.754633-1-raj.khem@gmail.com>
@@ -67,77 +67,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 06:45:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222211
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222212
 
-liblttng-ctl is exposting undefined symbols which are provided by
-libcommon-gpl.a and is not linked into liblttng-ctl.so
+musl's thread startup/teardown sequences and frame-pointer handling
+differ from glibc. elfutils can fail to terminate unwinds properly
+in multithreaded musl apps which leads to truncated or bogus traces
+and then the test's "must contain main" assertion fails.
+
+Skip this test on musl systems
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...p-index-allocator-symbols-from-versi.patch | 43 +++++++++++++++++++
- .../lttng/lttng-tools_2.14.0.bb               |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-liblttng-ctl-drop-index-allocator-symbols-from-versi.patch
+ meta/recipes-devtools/elfutils/elfutils_0.193.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-liblttng-ctl-drop-index-allocator-symbols-from-versi.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-liblttng-ctl-drop-index-allocator-symbols-from-versi.patch
-new file mode 100644
-index 00000000000..3a535470dae
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0001-liblttng-ctl-drop-index-allocator-symbols-from-versi.patch
-@@ -0,0 +1,43 @@
-+From adafa15a0ea145e1e98f68e2a56512e83f1f6798 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 19 Aug 2025 20:06:21 -0700
-+Subject: [PATCH] liblttng-ctl: drop index allocator symbols from version
-+ script
-+
-+The lttng_index_allocator_* functions are implemented in libcommon-gpl,
-+not in liblttng-ctl. Since liblttng-ctl does not link against
-+libcommon-gpl and does not export these symbols, referencing them in
-+liblttng-ctl.sym causes link failures with LLD:
-+
-+  ld.lld: error: version script assignment of 'global' to symbol
-+  'lttng_index_allocator_alloc' failed: symbol not defined
-+  ...
-+
-+Remove these entries from the version script to align the exported ABI
-+with the actual symbols provided by liblttng-ctl.
-+
-+This fixes builds with clang + lld.
-+
-+Upstream-Status: Submitted [https://review.lttng.org/c/lttng-tools/+/15156]
-+Change-Id: I27f40f3d38af7014cf5356230e06aa291c9a3c5f
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/lib/lttng-ctl/liblttng-ctl.sym | 5 -----
-+ 1 file changed, 5 deletions(-)
-+
-+diff --git a/src/lib/lttng-ctl/liblttng-ctl.sym b/src/lib/lttng-ctl/liblttng-ctl.sym
-+index 27900ca44..641084750 100644
-+--- a/src/lib/lttng-ctl/liblttng-ctl.sym
-++++ b/src/lib/lttng-ctl/liblttng-ctl.sym
-+@@ -336,11 +336,6 @@ lttng_health_state
-+ lttng_health_thread_name
-+ lttng_health_thread_state
-+ lttng_ht_seed
-+-lttng_index_allocator_alloc
-+-lttng_index_allocator_create
-+-lttng_index_allocator_destroy
-+-lttng_index_allocator_get_index_count
-+-lttng_index_allocator_release
-+ lttng_kernel_probe_location_address_create
-+ lttng_kernel_probe_location_address_get_address
-+ lttng_kernel_probe_location_destroy
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
-index a3faf1e758c..5bb6033b12c 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
-@@ -52,6 +52,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://0001-gen-ust-events-constructor-change-rpath-to-libdir-li.patch \
-            file://0001-eventfd.cpp-Remove-the-scope-resolution-operator.patch \
-            file://disable-tests2.patch \
-+           file://0001-liblttng-ctl-drop-index-allocator-symbols-from-versi.patch \
-            "
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.193.bb b/meta/recipes-devtools/elfutils/elfutils_0.193.bb
+index 3d98f1e2140..67ce3827827 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.193.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.193.bb
+@@ -66,7 +66,7 @@ PTEST_PARALLEL_MAKE = ""
+ PTEST_XFAILS ?= ""
+ # See - https://sourceware.org/bugzilla/show_bug.cgi?id=32232
+ PTEST_XFAILS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' run-strip-strmerge.sh run-elflint-self.sh run-backtrace-data.sh run-reverse-sections-self.sh', '', d)}"
+-PTEST_XFAILS:append:libc-musl = " run-large-elf-file.sh run-backtrace-dwarf.sh run-stack-d-test.sh run-stack-i-test.sh run-stack-demangled-test.sh run-deleted.sh run-compress-test.sh"
++PTEST_XFAILS:append:libc-musl = " run-large-elf-file.sh run-backtrace-data.sh run-backtrace-dwarf.sh run-backtrace-native.sh run-stack-d-test.sh run-stack-i-test.sh run-stack-demangled-test.sh run-deleted.sh run-compress-test.sh"
  
- SRC_URI[sha256sum] = "d8c39c26cec13b7bd82551cd52a22efc358b888e36ebcf9c1b60ef1c3a3c2fd3"
+ do_install_ptest() {
+ 	# copy the files which needed by the cases
 
