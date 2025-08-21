@@ -2,62 +2,62 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57CA0CA0FE0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A06CA0FE2
 	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 06:45:39 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.3230.1755758737416432251
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.3236.1755758734359101939
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Aug 2025 23:45:37 -0700
+ Wed, 20 Aug 2025 23:45:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lfY3Ml0I;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24457f5b692so6804485ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 23:45:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ikwwJeEB;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b4756244423so446303a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 23:45:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755758736; x=1756363536; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1755758733; x=1756363533; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QfVWmlFRYukTfTd61yIF+B2gmfwr6my8Ljq0lB5D11s=;
-        b=lfY3Ml0I981xJ254nEQFVeieo8ezNuClKSaSCX6hoDQ9HyHNJ9oZ5hm2bPEwmmBBTT
-         pYa20UdPoIzk97+02OxqLvLGMlY7MFC5/kf1AF8nse7/hRGIvi/Lo+Y3eDYOhiRFROl8
-         qGh8uVseuwMa4jjqNBxGEY5tPFa3TTUMm/Ahg7Jrw75VwXNkqb7Ckp5cAP4FEhABsA3W
-         tk5OFauI+DudPibOptos9Z6xoFXKEA4y8qzfwU5IwPPW13qnKfB8qLUh/8IK2LSej53l
-         urHg3Asu8JU66ggqJ5vR7pfagNCukSA2hBki8BYApzukHB0vkRTR945T8/pnS1ciWhyC
-         s/Yw==
+        bh=BpOn1fhrWYcMXeSkERDadtQwRb73Qv0EhwOY+3sBr9k=;
+        b=ikwwJeEBQ6kl+TpRvmsCNUdF/lwKhC6tCRcXmHXBoWXEOF8VcnJyWMgieYmqn9OfLF
+         hYAje1/m0SXFMlhrKujObcxXwczr5yzm/9nh9EFVqqn0vw6ZZwY/TnFQBZo8h7U67Kuf
+         J7yUBPHNGZgCrIcqOZma9NCkkiMF//0ntgIDcy5z9xvJBBQaqPeDTUjdnMH+KZbpATmd
+         jo0a9peVUcvf18Zd9VY2OLD6cUDxofq0LE9WCk4pyiTZpA3Ra4IofwjHbbxn3964YkNj
+         ITeqKm+p1pzc0K/lPe7YH4iN8FoKBSViKRu2nnEt8bpjbG5JzthL4a61r/Ca7iIrsTUW
+         lJ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755758736; x=1756363536;
+        d=1e100.net; s=20230601; t=1755758733; x=1756363533;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QfVWmlFRYukTfTd61yIF+B2gmfwr6my8Ljq0lB5D11s=;
-        b=HmsgxrPp3/5hQlNaRXD90tBA/uJU0a/4huh/iQR6RP0FZMa1QhqmOgqn0FkOPJ7imU
-         4R/dKgCCuQRjPsLfmbsk/HADWE5gnc7M6yDJXL/XSvnKa912tHYisVaXCo9YFkDijWzv
-         ybDktKJfoudSpGwtkhpTI+TQAKs6eRSfdMALtiR2AQf9jUaYgyaff8qbvv8qO2XsuoAd
-         7c+jeknI0PLzkjSsBXfHbGXJ4l1mgsibTYo7VEXstvbmdigxjtPjRikV84alTh0lnMqC
-         Cj8fU4K3d27OKtz8V57uwvNUJ4WfmVkWubnpYKvJ1kG4OEsBMR2XWe+y3HsgwDHZGgtk
-         04zg==
-X-Gm-Message-State: AOJu0Yz4kmyGY7rlMbPkyz6xhUw3g84qJM51FEhlVU/yOh69Sp+8Kyhw
-	X4wROW/htUnIV+6oWuUIz4vg8xZFhyuHJmwIcN2RcqPKsdbFUTxiLwzTklTBQWhK
-X-Gm-Gg: ASbGncvd7HvPWrCXR6WrB5n0Von+TwS7vwWZIOC54Jq9fYB9M9dZSg12gNK5HSszjni
-	fb8P5fCK6oDiHdAj4OEGjDWsdBrt0cPxlfBtw0cjAO/dmDJGZszSTnFuZHG5JxyCT1dHy+GcBdX
-	oo4SjWQWlNjikTgxSuYNlfqOBhx905peQAOQhwnSIrC9r0L9rc0p1Z/R40wzWDKnVBIEKq6JViV
-	ZtkfZVLou1A/zdJP/qjsnVENQ5FAheCUp+qhYqyQp6cJ9hpf+gO7Nnwq9DBReYSdZEH2+f4JXJc
-	4CMnBvmtf8GTMYJbDru7Fx4nrLLgUfFyLbhL9fvnFe8aSa41fdaW+S1aJeZoxW//V2tTUlGjbOj
-	B4Kp8CEzZ+9G2RMoPnjeo+g==
-X-Google-Smtp-Source: AGHT+IEXSIJXkIio39OxoS1UrE/Ne0vtUwNf7agE2TTShESrSxXGTApmaGlEgGemCgkEQvl28GrC+w==
-X-Received: by 2002:a17:902:dad0:b0:224:910:23f0 with SMTP id d9443c01a7336-245fedb88e9mr24135905ad.49.1755758736462;
-        Wed, 20 Aug 2025 23:45:36 -0700 (PDT)
+        bh=BpOn1fhrWYcMXeSkERDadtQwRb73Qv0EhwOY+3sBr9k=;
+        b=kbW6XgWnhDp6V4gP/sHJC4njbRROKTNDDFOelob9t4VPbc7SQA46vB42s52b9CWzNa
+         vYxrojEqeOpsq4HGPH0P6ZSI3exThQzTUn8T1QyLfK6mAjni1nx6XRuWiCm1lkOi3i41
+         tjLepPBNpKJNlQdySVeSq4XhYXoYGkltSb5ZpKE1Jb93cZw83ZDpRFl1WOfl9fJOTDfc
+         YMlUeIDb9uoGB0VXvX9/+86RMyG5vGijCPJX4YSUG62ZOyy1lA0utAU8xdBmzlmaKod/
+         uom888e8FSuYnsfVEcZhbZm6025EhJbVCdjjyDMskXug7TBCcQCZAJ/F+lhB1Z/HAx3Q
+         /xlw==
+X-Gm-Message-State: AOJu0Yz8ZQtM8hKK3UUrua7axFrTltZvoEdzQcN43yf8/gsVyHnbntSv
+	S3TzljHmbDm0p1I68H6vyTM5kRYkhshUSCDowY5LPlwbCRMas9gUxE/xZvmQgP2B
+X-Gm-Gg: ASbGnctencnxhExsgSUFYYNQjcptVu+jS/4AwbPgzqOl8ISDGiyKMzBkrLvp3fppaaN
+	8W4OF5REHG06AMclRxbO+1LmwfKeoIPZouiuEz+GTrl+5dG8YV4bxfyois53RTSGyAkYYMYXRyw
+	Pb3Fhd4rYo7SeVSVvGwgVXWEoebLEINUMJeHeWlSdXo7IXlE1xYR1a1t5z7X7SZscwKs+VsYYvV
+	Syt7/i3MJxccZAvPpBuJjCRkbPGC/T+rmI9tBZeGlcQb9lMWVVouUA8j54JDV0V7EiBvzIYsAvR
+	ikYnX5IHPyOa18LT+hNoJWUL1JwsJ1pTASOTEmkZVp+sQIN352Ukm5mjFfX0v2sulgJ7CxHRmmB
+	cTLv00SK2PnCdubrgBzB36ftJdIv0zQeK
+X-Google-Smtp-Source: AGHT+IEMOCef0MMhYDkNb1DPNyrWg/DaRWN9T7lm/IEt7M7WTHjpUIV4PdXXppOb5ug8X0ysUOsynw==
+X-Received: by 2002:a17:902:f54e:b0:240:92cc:8fcf with SMTP id d9443c01a7336-245fedcfab5mr22348705ad.49.1755758733290;
+        Wed, 20 Aug 2025 23:45:33 -0700 (PDT)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::adc2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed35d778sm45876685ad.49.2025.08.20.23.45.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed35d778sm45876685ad.49.2025.08.20.23.45.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 23:45:35 -0700 (PDT)
+        Wed, 20 Aug 2025 23:45:32 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 6/9] libc-test: Fix strptime and api/main tests
-Date: Wed, 20 Aug 2025 23:45:23 -0700
-Message-ID: <20250821064528.754633-6-raj.khem@gmail.com>
+Subject: [PATCH 3/9] lttng-tools: Fix build with libcxx runtime
+Date: Wed, 20 Aug 2025 23:45:20 -0700
+Message-ID: <20250821064528.754633-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250821064528.754633-1-raj.khem@gmail.com>
 References: <20250821064528.754633-1-raj.khem@gmail.com>
@@ -68,148 +68,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 06:45:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222214
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222210
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libc-test/0001-Fix-strptime-on-musl.patch | 53 +++++++++++++++++++
- ...-optional-obsolete-_PC-_SC-constants.patch | 44 +++++++++++++++
- meta/recipes-core/musl/libc-test_git.bb       |  4 ++
- 3 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-core/musl/libc-test/0001-Fix-strptime-on-musl.patch
- create mode 100644 meta/recipes-core/musl/libc-test/0001-api-unistd-guard-optional-obsolete-_PC-_SC-constants.patch
+ .../lttng/lttng-tools/libc++.patch            | 48 +++++++++++++++++++
+ .../lttng/lttng-tools_2.14.0.bb               |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/libc++.patch
 
-diff --git a/meta/recipes-core/musl/libc-test/0001-Fix-strptime-on-musl.patch b/meta/recipes-core/musl/libc-test/0001-Fix-strptime-on-musl.patch
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/libc++.patch b/meta/recipes-kernel/lttng/lttng-tools/libc++.patch
 new file mode 100644
-index 00000000000..4c3a2cb21f1
+index 00000000000..be793c76992
 --- /dev/null
-+++ b/meta/recipes-core/musl/libc-test/0001-Fix-strptime-on-musl.patch
-@@ -0,0 +1,53 @@
-+From df26c5206c3234fd2df924cff7ef540af1f2077c Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 19 Aug 2025 23:11:40 -0700
-+Subject: [PATCH libc-test] Fix strptime on musl
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-kernel/lttng/lttng-tools/libc++.patch
+@@ -0,0 +1,48 @@
++sessiond: avoid std::vector range-ctor on non-standard iterators (libc++)
 +
-+musl parses the digits for %s but does not populate struct tm
-+(it's "parse-only" and intentionally has no effect on tm).
-+That's why you get a zeroed-out date like 1900-01-00T00:00:00.
-+This is current upstream behavior:
++libc++ SFINAE-gates std::vector(It, It) behind standard iterator requirements.
++The events_view/channels_ht_view iterators don’t model Input/Forward, so the
++range constructor is not viable and the build fails under clang+libc++.
++Populate the vectors via a simple loop instead, which only relies on !=, ++,
++and dereference. No functional change; fixes clang/libc++ builds while keeping
++libstdc++ behavior unchanged.
 +
-+case 's': /* Parse only. Effect on tm is unspecified and presently no effect is implemented.. */
-+
-+musl's strptime only accepts ±hhmm for %z (e.g., -0600).
-+It does not accept ±hh or ±hh:mm. So '-06' fails by design.
-+It can be seen that upstream only checks 4 digits after the sign.
-+
-+Upstream-Status: Submitted [https://www.openwall.com/lists/musl/2025/08/20/2]
++Upstream-Status: Submitted [https://review.lttng.org/c/lttng-tools/+/15163]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ AUTHORS                   | 1 +
-+ src/functional/strptime.c | 4 +++-
-+ 2 files changed, 4 insertions(+), 1 deletion(-)
 +
-+diff --git a/AUTHORS b/AUTHORS
-+index cf2a394..5e78ef7 100644
-+--- a/AUTHORS
-++++ b/AUTHORS
-+@@ -6,3 +6,4 @@ Jens Gustedt
-+ Alexander Monakov
-+ Julien Ramseier
-+ Alyssa Ross
-++Khem Raj
-+diff --git a/src/functional/strptime.c b/src/functional/strptime.c
-+index b5f8977..f76fa68 100644
-+--- a/src/functional/strptime.c
-++++ b/src/functional/strptime.c
-+@@ -109,10 +109,12 @@ int main() {
++Index: lttng-tools-2.14.0/src/bin/lttng-sessiond/ust-registry-channel.cpp
++===================================================================
++--- lttng-tools-2.14.0.orig/src/bin/lttng-sessiond/ust-registry-channel.cpp
+++++ lttng-tools-2.14.0/src/bin/lttng-sessiond/ust-registry-channel.cpp
++@@ -529,8 +529,11 @@ void lsu::registry_channel::_accept_on_e
++ 		events_view(*_events->ht);
 + 
-+ 	/* Glibc */
-+ 	checkStrptime("1856-07-10", "%F", &tm4);
-++#ifdef __GLIBC__
-+ 	checkStrptime("683078400", "%s", &tm2);
-++#endif
-+ 	checkStrptimeTz("+0200", 2, 0);
-+ 	checkStrptimeTz("-0530", -5, -30);
-+-	checkStrptimeTz("-06", -6, 0);
-++	checkStrptimeTz("-0600", -6, 0);
++ 	/* Copy the event ptrs from the _events ht to this vector which we'll sort. */
++-	std::vector<const lttng::sessiond::ust::registry_event *> sorted_event_classes(
++-		events_view.begin(), events_view.end());
+++  std::vector<const lttng::sessiond::ust::registry_event *> sorted_event_classes;
+++  /* Avoid libc++’s range-ctor SFINAE on non-standard iterators. */
+++  for (auto it = events_view.begin(); it != events_view.end(); ++it) {
+++  	sorted_event_classes.push_back(*it);
+++  }
 + 
-+ 	return t_status;
-+ }
-diff --git a/meta/recipes-core/musl/libc-test/0001-api-unistd-guard-optional-obsolete-_PC-_SC-constants.patch b/meta/recipes-core/musl/libc-test/0001-api-unistd-guard-optional-obsolete-_PC-_SC-constants.patch
-new file mode 100644
-index 00000000000..f5685953192
---- /dev/null
-+++ b/meta/recipes-core/musl/libc-test/0001-api-unistd-guard-optional-obsolete-_PC-_SC-constants.patch
-@@ -0,0 +1,44 @@
-+From 90515d553d03d1f0bec8a4bdf03d02626d3968bb Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 19 Aug 2025 23:32:52 -0700
-+Subject: [PATCH] api/unistd: guard optional/obsolete *_PC/*_SC constants for
-+ musl
-+
-+musl does not define some POSIX option macros:
-+- _SC_XOPEN_UUCP is obsolete and absent on musl
-+- _PC_TIMESTAMP_RESOLUTION is optional and may be undefined
-+
-+Build currently fails when these are referenced unconditionally.
-+Wrap the checks in #ifdef so the test compiles on musl without
-+claiming support for unavailable names.
-+
-+Upstream-Status: Submitted [https://www.openwall.com/lists/musl/2025/08/20/3]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/api/unistd.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/api/unistd.c b/src/api/unistd.c
-+index 522ccdc..0de547b 100644
-+--- a/src/api/unistd.c
-++++ b/src/api/unistd.c
-+@@ -114,7 +114,9 @@ C(_PC_REC_MIN_XFER_SIZE)
-+ C(_PC_REC_XFER_ALIGN)
-+ C(_PC_SYMLINK_MAX)
-+ C(_PC_SYNC_IO)
-++#ifdef _PC_TIMESTAMP_RESOLUTION
-+ C(_PC_TIMESTAMP_RESOLUTION)
-++#endif
-+ C(_PC_VDISABLE)
-+ C(_SC_2_C_BIND)
-+ C(_SC_2_C_DEV)
-+@@ -235,7 +237,9 @@ C(_SC_XOPEN_REALTIME_THREADS)
-+ C(_SC_XOPEN_SHM)
-+ C(_SC_XOPEN_STREAMS)
-+ C(_SC_XOPEN_UNIX)
-++#ifdef _SC_XOPEN_UUCP
-+ C(_SC_XOPEN_UUCP)
-++#endif
-+ C(_SC_XOPEN_VERSION)
-+ C(STDERR_FILENO)
-+ C(STDIN_FILENO)
-diff --git a/meta/recipes-core/musl/libc-test_git.bb b/meta/recipes-core/musl/libc-test_git.bb
-index c3b562862ac..5ec307c25be 100644
---- a/meta/recipes-core/musl/libc-test_git.bb
-+++ b/meta/recipes-core/musl/libc-test_git.bb
-@@ -12,6 +12,8 @@ inherit ptest
- SRCREV = "f2bac7711bec93467b73bec1465579ea0b8d5071"
- SRC_URI = " \
-     git://repo.or.cz/libc-test;branch=master;protocol=https \
-+    file://0001-Fix-strptime-on-musl.patch \
-+    file://0001-api-unistd-guard-optional-obsolete-_PC-_SC-constants.patch \
-     file://run-ptest \
-     file://run-libc-ptests \
- "
-@@ -33,8 +35,10 @@ RDEPENDS:${PN} = " \
++ 	std::sort(sorted_event_classes.begin(),
++ 		  sorted_event_classes.end(),
++Index: lttng-tools-2.14.0/src/bin/lttng-sessiond/ust-registry-session.cpp
++===================================================================
++--- lttng-tools-2.14.0.orig/src/bin/lttng-sessiond/ust-registry-session.cpp
+++++ lttng-tools-2.14.0/src/bin/lttng-sessiond/ust-registry-session.cpp
++@@ -586,8 +586,11 @@ void lsu::registry_session::_accept_on_s
++ 						  decltype(lsu::registry_channel::_node),
++ 						  &lsu::registry_channel::_node>
++ 		channels_ht_view(*_channels->ht);
++-	std::vector<const lttng::sessiond::ust::registry_channel *> sorted_stream_classes(
++-		channels_ht_view.begin(), channels_ht_view.end());
+++  std::vector<const lttng::sessiond::ust::registry_channel *> sorted_stream_classes;
+++  /* Avoid libc++’s range-ctor SFINAE on non-standard iterators. */
+++  for (auto it = channels_ht_view.begin(); it != channels_ht_view.end(); ++it) {
+++  	sorted_stream_classes.push_back(*it);
+++  }
++ 
++ 	std::sort(sorted_stream_classes.begin(),
++ 		  sorted_stream_classes.end(),
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
+index 5bb6033b12c..89fcb6b60b1 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
+@@ -53,6 +53,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://0001-eventfd.cpp-Remove-the-scope-resolution-operator.patch \
+            file://disable-tests2.patch \
+            file://0001-liblttng-ctl-drop-index-allocator-symbols-from-versi.patch \
++           file://libc++.patch \
+            "
  
- RDEPENDS:${PN}-ptest = " \
-      ${PN} \
-+     locale-base-en-us \
-      musl-staticdev \
-      sed \
-+     tzdata \
- "
- 
- install_path = "/opt/${PN}"
+ SRC_URI[sha256sum] = "d8c39c26cec13b7bd82551cd52a22efc358b888e36ebcf9c1b60ef1c3a3c2fd3"
 
