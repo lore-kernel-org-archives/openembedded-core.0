@@ -2,151 +2,128 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ABCECA0EFC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AC2BCA0FE4
 	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 15:40:27 +0000 (UTC)
 Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.726.1755790827149874851
+ by mx.groups.io with SMTP id smtpd.web10.707.1755790817882586538
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Aug 2025 08:40:27 -0700
+ Thu, 21 Aug 2025 08:40:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Z1Ny/UTf;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=CoszVsz2;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2461864f7f8so5202305ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 08:40:27 -0700 (PDT)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-246151aefaaso5181575ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 08:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755790826; x=1756395626; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755790817; x=1756395617; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+WWxqp3vD8HqDl2oxZr+HimFyCmGEw89I0y/p8RIceI=;
-        b=Z1Ny/UTf58M51JQpoH2DjvhvizoJjm6cOdWLT40DYYaHFEjwweYku/40MArxEaxiO2
-         nwqDjZF1qqkAfaR2rme4kN9VIAcScaiDim9E8/TUps8iakqephsbDo2hlCQirdcUgsLQ
-         gz41mxkYnQ0s6isqIw//OYhhbZ00jfotpfvLHglq0WGnBAb0YjIZUKBtY8D4r6VleAuQ
-         dGRkX9EviGGtV5ttkFGzKzX57OhLJx8GGVdhmVaKkuV3ZuGF5+zGDP6HlPSrpiuO+P86
-         TSrb0zwOkgh6Lb6jBzqXxAeHWHJJ4M9VPJP6qhfhDTN+VmRn38GR5byxGGrgQOkn3/ki
-         GtOg==
+        bh=Ams4DOQu9Ln0Rs0orrwyk0xhVl9TdnfrLemi7D/gLcQ=;
+        b=CoszVsz22Hs38WMynkYs8TTRDY8YrJrb2tPd14LERX4/gqi7tHC4p2al7aiGiSTyeI
+         qXufiujxRTIFYccfR9o1EQSpTKnGntIFz6lGg3GFBv4CgWx97QK59ej7W1ie5zeZLIvj
+         nRdU3gexXYlUMoQugkW09SU4AfDYNk5aIbsC15C4RVjRUnDSXh4u/+RLOCWb6hw3EJ2V
+         gz3wAv1XQvTBjOL+DajnzI0Yd3fZ1K/ye4OBzeYoWi546v69SFMXDhkNQ4ARE2uBhNBV
+         BX+AWXmmm8IHKGDltkmGM0oKFtfG7r2uHsglqp0HW+Vx83i4k9gSm0uPcUScbhEWlkii
+         LMCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755790826; x=1756395626;
+        d=1e100.net; s=20230601; t=1755790817; x=1756395617;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+WWxqp3vD8HqDl2oxZr+HimFyCmGEw89I0y/p8RIceI=;
-        b=tMitsqGpiH3Yc7zs7tyxmuiw+3eL8ARi3vA7qVp2LGiu4khxjVab6uS3JV1OJATd70
-         iWkE0ZuygAo9mdtgaR1LJNlntuiEhL0LalqQaO/2RsiOwD7cJRAglaO3C2ykN5nrloHn
-         dgEIe402tgC2euUWCYrLpfAUlLzBWz5lChieqpDhXmrXNTXD1HFVbar/34YMbDSY/MPf
-         4A7Zh60qOJofmHS8yrTqkI6TYgC54fpeZGV81hT4BArwxLi7khQMP+PwZAxrPgipgN94
-         tCkDWTH6Vtw9MBbNshTXQVGdHBeMwo25URgkH/SYMbr7j/xQJaFdXHI1IeSIv50XX3AF
-         pOiQ==
-X-Gm-Message-State: AOJu0Yw6JQd70U4jj4hsBtKU50WBtLC8Q9El2VKwScCnSWpyDMcFUlUx
-	KA2mHpSP2erVsYWAPQ4N/iV//ETvOaIxg/ovRHlo9ZpQu78TEeOTpS2y10fAWuXPnp42sY3C6E1
-	YeOpY
-X-Gm-Gg: ASbGncvbuzxr9qCAfHeQdapr78fL+KbI96SYTO2oTgqvFmtDr5nVmZitinz8d8uvGG5
-	X9xeGSpbQtsES8ATCLNDQH4rw+uws8181T9yg02FaUPEM6G/b5UhgVQ7v/MNlqp8nSqdzyZdDkg
-	v1b8wgzdorn/tHCLmQRlPNli0zV9/SM/OdphVWkwx6+bZcMvkaXChrosD3tEtlZ0svOtGw4u1cK
-	Ky+rvc0OLPgrR0NL52pOsCSETg6BqYsNImmagMlpC+OlBCssKF64gjEM2cR1jejl7pKGL5oxQtY
-	EGQpJpNAfCdJ6AN6sh3MksXioB+W/oM7xdhF3sIeJMThpHm0PixQ8WcSpDKDlHbk5aXX9aM8quV
-	cDBJ/7dA7huCPuA==
-X-Google-Smtp-Source: AGHT+IFFv5mOVV0XPW5xT06LGYH10i4ceTzaE46OEebebzfJX1GNbeM0tcK4yM5nty2wTdYBxa2BRg==
-X-Received: by 2002:a17:903:1b26:b0:240:a889:554d with SMTP id d9443c01a7336-245fedaee4bmr45752715ad.45.1755790826362;
-        Thu, 21 Aug 2025 08:40:26 -0700 (PDT)
+        bh=Ams4DOQu9Ln0Rs0orrwyk0xhVl9TdnfrLemi7D/gLcQ=;
+        b=WtkVYbQa5r2jXNFJOMmeenDbI27ftqTMBay5iwkrQuM2Iy46ftY3qv/gs0PfdCMae9
+         DJ3QT+rFuHWS4HYe2CSB6/pl7lRTS8nCbbrJQkmFEPCAV7PsN2PKxKinK9S6G97DXuDC
+         munyRX+GqiRrBBR4MFvmy4tCHjw8r7pBbq/1BSfm5mkFqIm8HTgu7KZyNvwhTnHrpDy1
+         lQ3WQtDFF629r4oDizXD1wC7Tl+4idbT6F1oPnLuozJY5GluKOOffY4j+n0l+6eByIEy
+         i5k0E9fVNeweBZ1BMRRJQQAMN40JhU2GokIj8/WD+jOTS1dgeY0Xt1fy6NwAE4IHqQg6
+         BzLA==
+X-Gm-Message-State: AOJu0YxUiVN9JKr0iKmx034y+UzA8zdAuDAZyifu5BUKh+CudvOrzkA1
+	3196drlc3QUCFP0hgL2QQqeqIrGKiZqBgAPIT8FbFhgtWGUIdmk/lHwsZgA+9pSwIx7ylrIwjDT
+	V7cA8
+X-Gm-Gg: ASbGnct9JzIvnk+cBpaMEDU+wb+U7VTpddAcLliG+TCN9it7MER7piUl1t9OqWsw8hn
+	9X91RPlQlkeQUvIgQzyEx8D5X/xWyyzZvZMZOR3O1jS9coWpuz4JSNbO5gVHtwwDZw1MNnvoyiX
+	dcIg/e86YTw9JmZAGl0Vvq44RStWfiRd4qa9bKoXiusiIkL0puxKfsWBwvsSfTxeE+1yRAwlK0T
+	JCoujftXEFs9L+b48rHSob2Bd+EXOC4KHj7QDb5+ToOu7rSwR8D+LEQNDc6cLGLYdNpxJcJuC0x
+	OKpE0b1ZzPSAz/2XMSCL0f5PwBhdsEOnLvglZPKLa1fRZBRJh/FrZGMG7HGMsQbF6ZbRL4H92Kb
+	j7Akqf86mCCaDew==
+X-Google-Smtp-Source: AGHT+IFYj5Sf5hMahhwV/6Y7fATCDWTQeshY6IashlUV9ARim5rzdtxhJP73MeTx5NIgBb3DZ2dQmA==
+X-Received: by 2002:a17:903:166e:b0:23f:b00a:d4c with SMTP id d9443c01a7336-2460616a7f6mr37603455ad.2.1755790816905;
+        Thu, 21 Aug 2025 08:40:16 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:bc1c:6959:5ad5:d4f9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed51b3dfsm58901845ad.142.2025.08.21.08.40.25
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed51b3dfsm58901845ad.142.2025.08.21.08.40.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 08:40:26 -0700 (PDT)
+        Thu, 21 Aug 2025 08:40:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 13/15] pkgconfig: fix build with gcc-15
-Date: Thu, 21 Aug 2025 08:39:54 -0700
-Message-ID: <092ee1703d81b8aaed452189dd329320483087d3.1755790385.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 08/15] glib-2.0: update 2.84.1 -> 2.84.2
+Date: Thu, 21 Aug 2025 08:39:49 -0700
+Message-ID: <45419176357954027607c7f92fd5ad11b5e87a42.1755790385.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1755790385.git.steve@sakoman.com>
 References: <cover.1755790385.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 15:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222262
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222257
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Praveen Kumar <praveen.kumar@windriver.com>
 
-* on hosts with gcc-15 or whenever glib PACKAGECONFIG isn't enabled
-  and pkgconfig uses own old bundled glib
+Overview of changes in GLib 2.84.2, 2025-05-20
+==============================================
 
-* fixes:
-  http://errors.yoctoproject.org/Errors/Details/853015/
-../../../git/glib/glib/goption.c:169:14: error: two or more data types in declaration specifiers
-  169 |     gboolean bool;
-      |              ^~~~
-../../../git/glib/glib/goption.c:169:18: warning: declaration does not declare anything
-  169 |     gboolean bool;
-      |                  ^
+* Bugs fixed:
+  - !4576 Backport !4575 “gclosure: fix ATOMIC_CHANGE_FIELD to read vint
+    atomically” to glib-2-84
+  - !4595 Backport !4582 “Windows: fix wrong typelib path” to glib-2-84
+  - !4614 Backport "gstring: carefully handle gssize parameters"
+  - !4616 Backport !4613 “Update macOS job for new CI runner” to glib-2-84
+  - !4623 Backport !4617 “gdate: Call tzset before localtime_r” to glib-2-84
+  - !4639 Backport -Wsign-conversion fixes for g_get_locale_variants() from
+    !4590 to glib-2-84
+  - !4640 Backport !4620 “glocalfile: Disable faccessat()-based query_exists on
+    Android” to glib-2-84
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+(From OE-Core rev: 3deb6b59f3fa91d4fa755f49dad4ac62c3a518fb)
+
+Signed-off-by: Praveen Kumar <praveen.kumar@windriver.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...0001-Do-not-use-bool-as-a-field-name.patch | 36 +++++++++++++++++++
- .../pkgconfig/pkgconfig_git.bb                |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
+ .../{glib-2.0-initial_2.84.1.bb => glib-2.0-initial_2.84.2.bb}  | 0
+ .../glib-2.0/{glib-2.0_2.84.1.bb => glib-2.0_2.84.2.bb}         | 0
+ meta/recipes-core/glib-2.0/glib.inc                             | 2 +-
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.84.1.bb => glib-2.0-initial_2.84.2.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.84.1.bb => glib-2.0_2.84.2.bb} (100%)
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
-new file mode 100644
-index 0000000000..bcb7e94d69
---- /dev/null
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
-@@ -0,0 +1,36 @@
-+From b3b26a7e125e5e4f5b69975cc17eb6d33198ebaa Mon Sep 17 00:00:00 2001
-+From: Emmanuele Bassi <ebassi@gnome.org>
-+Date: Thu, 11 Apr 2024 14:40:21 +0100
-+Subject: [PATCH] Do not use bool as a field name
-+
-+C99 aliases `bool` to `_Bool`, and C23 introduces `bool` as a reserved
-+keyword. Let's avoid using `bool` as a field name.
-+
-+Upstream-Status: Backport [Backport from glib to bunlded version in pkg-config https://github.com/GNOME/glib/commit/9e320e1c43a4770ed1532248fe5416eb0c618120]
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+---
-+ glib/glib/goption.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/glib/glib/goption.c b/glib/glib/goption.c
-+index 0a22f6f..f439fd4 100644
-+--- a/glib/glib/goption.c
-++++ b/glib/glib/goption.c
-+@@ -166,7 +166,7 @@ typedef struct
-+   gpointer arg_data;
-+   union
-+   {
-+-    gboolean bool;
-++    gboolean boolean;
-+     gint integer;
-+     gchar *str;
-+     gchar **array;
-+@@ -1600,7 +1600,7 @@ free_changes_list (GOptionContext *context,
-+           switch (change->arg_type)
-+             {
-+             case G_OPTION_ARG_NONE:
-+-              *(gboolean *)change->arg_data = change->prev.bool;
-++              *(gboolean *)change->arg_data = change->prev.boolean;
-+               break;
-+             case G_OPTION_ARG_INT:
-+               *(gint *)change->arg_data = change->prev.integer;
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-index baf37b0a9b..af512a42b4 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://gitlab.freedesktop.org/pkg-config/pkg-config.git;branch=master;
-            file://pkg-config-esdk.in \
-            file://pkg-config-native.in \
-            file://0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch \
-+           file://0001-Do-not-use-bool-as-a-field-name.patch \
-            "
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.1.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.2.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.1.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.2.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.84.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.84.2.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.84.1.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.84.2.bb
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 4368e51df8..819f3ff50a 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -234,7 +234,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+                               "
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "2b4bc2ec49611a5fc35f86aca855f2ed0196e69e53092bab6bb73396bf30789a"
++SRC_URI[sha256sum] = "88e960dd937057407d61fcb3b45a860704b25923c37ae2478b85f2ecb5a4021f"
+ 
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 -- 
 2.43.0
 
