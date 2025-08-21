@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A70D5CA0FE2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1C5CA0FE9
 	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 15:40:27 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.723.1755790822843412923
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.715.1755790825390204373
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Aug 2025 08:40:22 -0700
+ Thu, 21 Aug 2025 08:40:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xvDF5zUK;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-24458194d83so9848175ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 08:40:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fAW4bPzu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-244582738b5so10543055ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 08:40:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755790822; x=1756395622; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755790825; x=1756395625; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ErCK+j8xVqJA1uAm9m8dtJBgEM7C6dieVgCEarLfaGg=;
-        b=xvDF5zUKZ82XRMgoR7m5vwUjze1d0or0nczgSHivgAYtQ9usDBpdgn0mb3ivdumVWr
-         cwzEWHtxBNs+aZvyUq88J2rIKvLQN49627/j1NrEYJR7PYCJpbMEGlqmcgrpfiNmjs2N
-         G3yxVumBolhV7RUS0iRCx1B2MpNWLMvDEFNx9XCdIMurOuj2duG2pLAaV1vkVWcf3v1x
-         a8W1kjU742LWKxPRfGQK+Xtk8kqmEiQujsh3gPZ8gg3XluAIkTIR638ZkO1tHk5KQWy/
-         ZNadeHRCX6e0EHGYWpy+t+dTRYfTigiTtXXGrYrwRkP0jEP9R7SD3kquIJ/Jl2aa2wWd
-         rniw==
+        bh=fo24Wo9EgjIluUSwNzrvBwc3hT0vZa5ULujJymc2DMU=;
+        b=fAW4bPzu4FufYMagnsPOszoIjz6FM+MLYI2HuJRdkyWvqA3tfz6na20NsYmAolqHYV
+         nq169q5rMbTFuBoSo5yeRpOt1KGDNtIA5EKZqIb4LlEVqylNCQqbrJqczHNSPVFwKHwN
+         sxZ8mFTCmfa1HBbFzbyTyfB2M8VwygiQvEXyseIOvtcOseEehUq3IuraII2u/akGYBde
+         mU6/iShHc88QoLHpjILwE55VCfAnq5jD4pfoYcTcfeQdkeuyedmS4cTIBw8amzuV7Sla
+         0WbRmTS51XGA7CDQEmH/HewOSMgvRkGIBoGv39FeGMZ7162YPgDxJdO0K2ozj+iR3Cim
+         kmrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755790822; x=1756395622;
+        d=1e100.net; s=20230601; t=1755790825; x=1756395625;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ErCK+j8xVqJA1uAm9m8dtJBgEM7C6dieVgCEarLfaGg=;
-        b=gjDojllqLz7sotcPWeIeo10Fv+n7Abb8I+nbc5kSYYtqRsb2v6Za3uOCVtgr1yPTxB
-         Lz33tq2Io6XkhVXv2Zt1+sd0oqE3toJxa5zEV04wxipS/GBZWOrh+2leaEs2No3SohCP
-         juUakyu7XqvNrch1ND28AoTxPncRHvAe9qf4fiYb1//RKtZgLfYqN4KvyoPHhAdhxDm5
-         rmb1RYBLlDvm860Jh4/aqA05udY1Ta5xMnKib2nBDdVoPk7lLgcIw5Iql8WeEhD5jRmk
-         kO7kHOBXkIm8ZOQ/wEh+EV6IWQqypWZ0HyM59FL+Mm61lb0pOz+Y7Cb/lrq8jP4XRFG1
-         qCDA==
-X-Gm-Message-State: AOJu0YxxxPcBpc939zkDv9buZ9/ymxCn/SwFA4YdIh/+iNrLCEfMWROY
-	Ih0GBFg8IN6A/hW6XQ0mRawZIvuzodqRSF7y4JQ3H4G4ci4Lkox6YRAlun3bXZzR24FirqrL2S2
-	cX0V+
-X-Gm-Gg: ASbGnctaRuFIuOeCGPdtU9YmN45rlAXP+iqPIroMTUQEE7vcaPp1Q1opnYPi2GjbRAR
-	rwazd89+ducVdbulsLpkMavHNcReqfYLJA0i05ALg9u/fNtmb5yF87K+hyM9uWMrQkq5ALL3xsN
-	rFDEZ0KqMw0pKJOTvP4ZMhy0HjPOcDGp7lnw6juYfL7LH8tPXbakUaARFiIOWlBIjX4UPKn1YAx
-	q5xE63S2XpECAnKUMbiMszf5q/5JxllXDyFoTk+oQnKe4wPbVJT9LEA5t1gV8rnOcuOy5ewWUn0
-	hS4zFmfj0feEs496KF4jnMuBT2u9ye3/nGB6ohwxyE4DrOYyy4tlDfPzmaeDkf+eb/RmfhIrR7J
-	Iv/9tyQTil3lYcQ==
-X-Google-Smtp-Source: AGHT+IFcTVbLrDx5Qs1HyJcUbbSEdTHt3wvF+9ut9A01fjAojNAj2At0Iby6cjB7V0EY1ufp7GdLig==
-X-Received: by 2002:a17:902:c942:b0:234:ba37:87ae with SMTP id d9443c01a7336-245febefa70mr40315905ad.4.1755790822000;
-        Thu, 21 Aug 2025 08:40:22 -0700 (PDT)
+        bh=fo24Wo9EgjIluUSwNzrvBwc3hT0vZa5ULujJymc2DMU=;
+        b=PJ5rH6oCkzWbLCbhSEFg0egRSLMZCF2786OfGNcEMgg5+xXvMwot6HovZpegojOhQe
+         mxvCHKtjpyK3IMrvA3OXSkVAn+BZ7a1R4ffuMwGX27Ud+UqBZ4T/Ne5H3GhnVJV8kGng
+         EOO/fJA5o2xqkcwifW/RYqCfiZxcQ7lpanVe4KkX2KW2ATJ/sP8dMudlqjBfzDRGp8XE
+         mnGfZDRfTj7IKOpdDdJuoO+QiIsgbvbKuVrGMMieYug6LD71TedQAN1hdVpUtj8NEm6p
+         k2bi6Ve1lFlS/wSctedC+DK490mJTb52Jsglfal0PPggCCuL342W9ch82m3l0D1pSaMc
+         zUmg==
+X-Gm-Message-State: AOJu0YyXDYKkFP7PsaaZusGRhNBj7kCDTjD7xhFg2Y9jdJrfcPPtEZ2H
+	/xove1c+Blgf/6MMTXsOlERKqhOQ6QjKYk70mLF/6l/jHQw0TwFNfB+GHPCS4a47dKjy8Rln96Y
+	Tjy3E
+X-Gm-Gg: ASbGnctg+q/l8nFmRbNbHWW6d2pfdqTDHzpIYr60xT3bs/d201mdl3PKsNr242Pj3dL
+	mWyQKRiQGIu+WmUddDsjnaLbIdv1fW4WfQIQuqbyXKxm7S16ZCpz1XWiENSMCqfzGzacjn5MBp5
+	6LXF3cWmxmKBKnsMpaFodpae35r+DmnFTGKUyhIQN3DnHN+9uwOjDCQhOT7LYE2mdnf2XJNPZXt
+	77u7PGV8JvHP7SIGwzDc+j/7WTeyl4v5759gyPLwzXk7u8y5FIZaQYJRyv3OZEnh5A3dyVTGZLV
+	zJGHeaLClBUvtDIm0g4dwGPNzoezHcG93uuGzFc7N/uwOjmkgn4SaVMSmNzpQbi/6brML9XBfAn
+	kYVgy54xDtokF0mo6Dgt76xkK
+X-Google-Smtp-Source: AGHT+IGrdtgMiV/VctZq/nhZy00CaxlICyLV3HZUg/TxE3y8MNqsTS2gVql4AGIR29uJxa1j4P+7bA==
+X-Received: by 2002:a17:903:2a8f:b0:242:9bbc:3644 with SMTP id d9443c01a7336-245ff878970mr46533065ad.54.1755790824047;
+        Thu, 21 Aug 2025 08:40:24 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:bc1c:6959:5ad5:d4f9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed51b3dfsm58901845ad.142.2025.08.21.08.40.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed51b3dfsm58901845ad.142.2025.08.21.08.40.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 08:40:21 -0700 (PDT)
+        Thu, 21 Aug 2025 08:40:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 11/15] go: upgrade 1.24.5 -> 1.24.6
-Date: Thu, 21 Aug 2025 08:39:52 -0700
-Message-ID: <a348c04d449c0ba36b2ef278bea08919f0e6d19f.1755790385.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 12/15] binutils: Fix gprofng broken symbolic link with gp-*
+Date: Thu, 21 Aug 2025 08:39:53 -0700
+Message-ID: <55684a63904365d8a6ab2a8ce9e091f29b0b7df5.1755790385.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1755790385.git.steve@sakoman.com>
 References: <cover.1755790385.git.steve@sakoman.com>
@@ -68,101 +68,111 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 15:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222260
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222261
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-Upgrade to latest 1.24.x release [1]:
+In binutils 2.44, application names were changed from the gp- prefix
+(e.g., gp-display-text, gp-archive) to the gprofng- prefix
+(e.g., gprofng-display-text, gprofng-archive). Temporary gp-*
+symlinks were added to maintain compatibility with the older
+gprofng-gui.
 
-$ git --no-pager log --oneline go1.24.5..go1.24.6
-7f36edc26d [release-branch.go1.24] go1.24.6
-83b4a5db24 [release-branch.go1.24] database/sql: avoid closing Rows while scan is in progress
-0f5133b742 [release-branch.go1.24] os/exec: fix incorrect expansion of "", "." and ".." in LookPath
-6e1c4529e4 [release-branch.go1.24] cmd/compile: for arm64 epilog, do SP increment with a single instruction
-731de13dc3 [release-branch.go1.24] os/user: user random name for the test user account
-390ffce7d6 [release-branch.go1.24] runtime: prevent unnecessary zeroing of large objects with pointers
-b454859a8a [release-branch.go1.24] runtime: stash allpSnapshot on the M
+However, these compatibility symlinks did not support cross-platform
+toolchain prefixes, which resulted in broken gp-* symbolic links.
 
-Fixes CVE-2025-47906 and CVE-2025-47907 [2].
+Support for cross-platform prefixes are added upstream in binutils 2.45,
+so this change backports that fix to resolve broken symlinks issue.
 
-[1] https://github.com/golang/go/compare/go1.24.5...go1.24.6
-[2] https://groups.google.com/g/golang-announce/c/x5MKroML2yM
+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=90803ffdcc4d8c3d17566bf8dccadbad312f07a9]
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit f3072c210ac0a1e4d8046d920c3ebc29f9916b72)
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/{go-1.24.5.inc => go-1.24.6.inc}   | 2 +-
- ...o-binary-native_1.24.5.bb => go-binary-native_1.24.6.bb} | 6 +++---
- ...cross-canadian_1.24.5.bb => go-cross-canadian_1.24.6.bb} | 0
- .../go/{go-cross_1.24.5.bb => go-cross_1.24.6.bb}           | 0
- .../go/{go-crosssdk_1.24.5.bb => go-crosssdk_1.24.6.bb}     | 0
- .../go/{go-runtime_1.24.5.bb => go-runtime_1.24.6.bb}       | 0
- meta/recipes-devtools/go/{go_1.24.5.bb => go_1.24.6.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.24.5.inc => go-1.24.6.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.24.5.bb => go-binary-native_1.24.6.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.24.5.bb => go-cross-canadian_1.24.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.24.5.bb => go-cross_1.24.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.24.5.bb => go-crosssdk_1.24.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.24.5.bb => go-runtime_1.24.6.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.24.5.bb => go_1.24.6.bb} (100%)
+ .../binutils/binutils-2.44.inc                |  1 +
+ .../0020-Fix-for-borken-symlinks.patch        | 62 +++++++++++++++++++
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0020-Fix-for-borken-symlinks.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.24.5.inc b/meta/recipes-devtools/go/go-1.24.6.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.24.5.inc
-rename to meta/recipes-devtools/go/go-1.24.6.inc
-index fae0d3f333..a3933c2a61 100644
---- a/meta/recipes-devtools/go/go-1.24.5.inc
-+++ b/meta/recipes-devtools/go/go-1.24.6.inc
-@@ -17,4 +17,4 @@ SRC_URI += "\
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
-     file://6d265b008e3d106b2706645e5a88cd8e2fb98953.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils-2.44.inc b/meta/recipes-devtools/binutils/binutils-2.44.inc
+index 32928ee167..26c2a413b8 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.44.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.44.inc
+@@ -45,5 +45,6 @@ SRC_URI = "\
+      file://0018-CVE-2025-5245.patch \
+      file://0019-CVE-2025-7545.patch \
+      file://0018-CVE-2025-7546.patch \
++     file://0020-Fix-for-borken-symlinks.patch \
  "
--SRC_URI[main.sha256sum] = "74fdb09f2352e2b25b7943e56836c9b47363d28dec1c8b56c4a9570f30b8f59f"
-+SRC_URI[main.sha256sum] = "e1cb5582aab588668bc04c07de18688070f6b8c9b2aaf361f821e19bd47cfdbd"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.24.5.bb b/meta/recipes-devtools/go/go-binary-native_1.24.6.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.24.5.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.24.6.bb
-index 3de63060c7..86a3ad8556 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.24.5.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.24.6.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "10ad9e86233e74c0f6590fe5426895de6bf388964210eac34a6d83f38918ecdc"
--SRC_URI[go_linux_arm64.sha256sum] = "0df02e6aeb3d3c06c95ff201d575907c736d6c62cfa4b6934c11203f1d600ffa"
--SRC_URI[go_linux_ppc64le.sha256sum] = "00bdfb16d1094e78473b681d2d09d42c19c886d4dfed743853769f1665c7a552"
-+SRC_URI[go_linux_amd64.sha256sum] = "bbca37cc395c974ffa4893ee35819ad23ebb27426df87af92e93a9ec66ef8712"
-+SRC_URI[go_linux_arm64.sha256sum] = "124ea6033a8bf98aa9fbab53e58d134905262d45a022af3a90b73320f3c3afd5"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "63fc9559a3d6dfd63aa902f714375b879bbc848466181c035c122489b9646e27"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.24.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.24.5.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.24.6.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.24.5.bb b/meta/recipes-devtools/go/go-cross_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.24.5.bb
-rename to meta/recipes-devtools/go/go-cross_1.24.6.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.24.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.24.5.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.24.6.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.24.5.bb b/meta/recipes-devtools/go/go-runtime_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.24.5.bb
-rename to meta/recipes-devtools/go/go-runtime_1.24.6.bb
-diff --git a/meta/recipes-devtools/go/go_1.24.5.bb b/meta/recipes-devtools/go/go_1.24.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.24.5.bb
-rename to meta/recipes-devtools/go/go_1.24.6.bb
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0020-Fix-for-borken-symlinks.patch b/meta/recipes-devtools/binutils/binutils/0020-Fix-for-borken-symlinks.patch
+new file mode 100644
+index 0000000000..b26cf8a83a
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0020-Fix-for-borken-symlinks.patch
+@@ -0,0 +1,62 @@
++From 90803ffdcc4d8c3d17566bf8dccadbad312f07a9 Mon Sep 17 00:00:00 2001
++From: Zheng Junjie <zhengjunjie@iscas.ac.cn>
++Date: Mon, 10 Feb 2025 17:04:55 +0800
++Subject: [PATCH] gprofng: Fix cross-compilation binary name.
++
++commit d25ba4596e85da6d8af78c88b5917e14763afbe1 create symbolic link
++no care cross-compilation prefix.
++
++(cherry picked from commit:90803ffdcc4d8c3d17566bf8dccadbad312f07a9)
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=90803ffdcc4d8c3d17566bf8dccadbad312f07a9]
++
++Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
++---
++ gprofng/src/Makefile.am | 12 +++++-------
++ gprofng/src/Makefile.in | 12 +++++-------
++ 2 files changed, 10 insertions(+), 14 deletions(-)
++
++diff --git a/gprofng/src/Makefile.am b/gprofng/src/Makefile.am
++index a132a9ddb05..0465cdb06e3 100644
++--- a/gprofng/src/Makefile.am
+++++ b/gprofng/src/Makefile.am
++@@ -179,10 +179,8 @@ $(srcdir)/DbeSession.cc: QLParser.tab.hh
++ .PHONY: install-exec-local
++ install-exec-local:
++ 	$(mkinstalldirs) $(DESTDIR)$(bindir)
++-	rm -f $(DESTDIR)$(bindir)/gp-{archive,collect-app,display-html,display-src,display-text}
++-	ln -s gprofng-archive $(DESTDIR)$(bindir)/gp-archive
++-	ln -s gprofng-collect-app $(DESTDIR)$(bindir)/gp-collect-app
++-	ln -s gprofng-display-html $(DESTDIR)$(bindir)/gp-display-html
++-	ln -s gprofng-display-src $(DESTDIR)$(bindir)/gp-display-src
++-	ln -s gprofng-display-text $(DESTDIR)$(bindir)/gp-display-text
++-
+++	for i in gp-{archive,collect-app,display-html,display-src,display-text}; do \
+++		oldname=`echo $$i | sed '$(transform)'`; \
+++		rm -f $(DESTDIR)$(bindir)/$$oldname ; \
+++		ln -s `echo $$oldname | sed 's&gp-&gprofng-&'` $(DESTDIR)$(bindir)/$$oldname; \
+++	done
++diff --git a/gprofng/src/Makefile.in b/gprofng/src/Makefile.in
++index d0dec12e244..d6f1f9438b6 100644
++--- a/gprofng/src/Makefile.in
+++++ b/gprofng/src/Makefile.in
++@@ -1119,13 +1119,11 @@ $(srcdir)/DbeSession.cc: QLParser.tab.hh
++ .PHONY: install-exec-local
++ install-exec-local:
++ 	$(mkinstalldirs) $(DESTDIR)$(bindir)
++-	rm -f $(DESTDIR)$(bindir)/gp-{archive,collect-app,display-html,display-src,display-text}
++-	ln -s gprofng-archive $(DESTDIR)$(bindir)/gp-archive
++-	ln -s gprofng-collect-app $(DESTDIR)$(bindir)/gp-collect-app
++-	ln -s gprofng-display-html $(DESTDIR)$(bindir)/gp-display-html
++-	ln -s gprofng-display-src $(DESTDIR)$(bindir)/gp-display-src
++-	ln -s gprofng-display-text $(DESTDIR)$(bindir)/gp-display-text
++-
+++	for i in gp-{archive,collect-app,display-html,display-src,display-text}; do \
+++		oldname=`echo $$i | sed '$(transform)'`; \
+++		rm -f $(DESTDIR)$(bindir)/$$oldname ; \
+++		ln -s `echo $$oldname | sed 's&gp-&gprofng-&'` $(DESTDIR)$(bindir)/$$oldname; \
+++	done
++ # Tell versions [3.59,3.63) of GNU make to not export all variables.
++ # Otherwise a system limit (for SysV at least) may be exceeded.
++ .NOEXPORT:
++-- 
++2.43.7
 -- 
 2.43.0
 
