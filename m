@@ -2,63 +2,66 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC69CA0EFF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E2ACA0FE2
 	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 22:43:35 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web11.2499.1755816210957105863
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.2525.1755816211806922758
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Aug 2025 15:43:31 -0700
+ Thu, 21 Aug 2025 15:43:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GfEFM7B9;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-618b83e5b27so1816640a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 15:43:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=b8AxpPeU;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-afcb7a3ee3cso228494166b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 15:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755816209; x=1756421009; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1755816210; x=1756421010; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BfzhpkuMm5N10RPGJEpL6L9GzHUivVU+m4Ov8CP9Xso=;
-        b=GfEFM7B9zjdTzP3LEJEhCampZFmWwSqVCdjGxWCY5gVkJqKYhgv9yNIAaMhMO1HTz3
-         UzEgOt5B+aiKk0kay0EAsEnijVFos8/Tvhry9/D3orXEOJuTZ1EgTN4gKTRPdrE+QGbR
-         k0h3vN6PCJ62OSepltK57ffneXbtPXMOqM4boTPxVnrfp8viSMqHsvVbof5/VpUhqhny
-         A0yYbNB70OIc2zmXfiYgDa3vqhE0h0cdKgL+pgugWN3K0ZQTT+/eMaHQ2Hn8c66oDk04
-         3w3z+Lh35g6Jg23Jceda6pvaNO8tboGU5nhjp5z85bHU/pjeT1T0xHhmCwoD9cRkcd1Y
-         xDEA==
+        bh=WfOeCtUwKaFPVC/P/pg/gnzgjG4uIZg+y8Aw825vz78=;
+        b=b8AxpPeUGc7esMj4GhW/36SzJnY2o/YoaNMH8pRy5xqhmvDwNtoVQONJ72tsdQYXfW
+         32svPr7Izf5rO4G9OykD9G4CtEqhmRAeEwJWMUExuvOpOAQTc+osSqWpS4E/dFHiPy6D
+         gmk8MxVeF9Bg/tXNlQ0Sd9zJApqtw2GH4LnyApD4fN2cqLOMOc6nhvGluDugc6+x9Rsl
+         +9yf/ltkV55e5X3w7cTq60lJbTYzzhScJVHOLNHslKzW0wNKpVvklPSYFenPacwPsgzB
+         cJZARdcmCvrixvd2FYHAyf33DEgYIwxDo4YjOiz4LjRw2laLdC+RD/7M4c2+xG4iAc9Z
+         fVJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755816209; x=1756421009;
+        d=1e100.net; s=20230601; t=1755816210; x=1756421010;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BfzhpkuMm5N10RPGJEpL6L9GzHUivVU+m4Ov8CP9Xso=;
-        b=bXfVW/89TlVuwTjOVislJwCmVuL+s0SLOs+33f1luqZKp0coT/j9ojPia7qoLZ6ss4
-         bPVWWZqfzQQAnM4/iWYDV4hHoYgPM2C+6Z4+HrKOYX+bb5dqnqtrkqV3uZ6bVwHF0kHY
-         l+3mIYedQMCCIhq1S7VQ+WZS+98JNlAFblP4QpckNbUNc1ABMrsYgfgdwHUsKT1PsJnj
-         J30obmOcFQUhX7su2a2zMSK/ObHow4/3wlT/JoDPQK1VSKhf8NG4U+VI7g1IzHoBBtsP
-         We3mgK1QmM85Ar3JAGTJTiqymNy8p9/qHoFu5EGimX9NNl3D9IFHEesspduQgXz/+fRc
-         kC0Q==
-X-Gm-Message-State: AOJu0YzLfIFW9H8urKv6g55v2gurK6K/Bj2sUKv8vMjOav+8m6sVxX+h
-	rzlWk09m036YTpUhpkHZqjsGAH2kyLKh/5py3Rvex4/EbB7ZkeDsS91BAWLBng==
-X-Gm-Gg: ASbGncvvg75387EdiYv/Ua8JfM0C2krtJ1DiBaFWSWC9HZZegkD3iTf1CkGeDERCXNO
-	sTuu9Npae9J8p0R/xj3CFkrNaadT0+6EK+7dcJhfoXGq4cLufL60WuVL+Tb9CnmkvkUGg/UgwUG
-	qWzURjfcBdMr0sLYRSmtkWFyXVXtBJZWNDiImxhGWEkU3guEn0bX8iCJG5L9mb7+cS0pRmSnRbK
-	w1agdHJ+V2ulaT4X7rxP5iim1XBtSQ3ULX3cm3c1OPU0pmLp33L9vQPySqBHibpuV1NiNN0W9h/
-	pavrW45tpdp2NEmzuqze7ASw5F+yBFtAgLVue384QQJdt62+ooI5QtdXoyiO6aCmsKaUy0HLyJe
-	aeFX2l+LZuOF07gx/pUBw26zANwX0MXPePk5IqTmae7aWNuJnJUgxznj98kBDV7+RPYc=
-X-Google-Smtp-Source: AGHT+IHU7LKJ+5CdvRxWecaSWjtzxqUEJaRahcEzUSS69SFjBK/9RsHMFqijpjngI9QIHeDHuPjmmw==
-X-Received: by 2002:a05:6402:5057:b0:61a:8c7c:a1f4 with SMTP id 4fb4d7f45d1cf-61c1b48f5e9mr503788a12.11.1755816209110;
-        Thu, 21 Aug 2025 15:43:29 -0700 (PDT)
+        bh=WfOeCtUwKaFPVC/P/pg/gnzgjG4uIZg+y8Aw825vz78=;
+        b=ocOh8ClkITejtl2J3x7ZZVOnZ7R/+ggpT+xFzA9ygLvLcyBX/W/Zsz9Ui41i/7Q9xf
+         5YIuELU8ChVaDlcEDhlSYblu7ye3CR0WEQInRfGmzLBVY5AspKgzKp0AiucCsiLkxZFx
+         gbDgqetDB7M69LjesSz/EXr3O1aAp/7xHDbB9URuvhoxt4O1xa2Jmch9QJVDy4X7iHf2
+         wnL7LLsiQb9CWf4KK1Ltrjf51VOzMIf8JhYUnUuRIa+gUyAncpY/C1m46SIu2dPAZ2vY
+         4mYyhCPQFHToSfugXRuzDGzkLMPUEuIO+yizqPVmrJXJ5RYMDBZm0+gGVjgU3eOwBLcN
+         1v/g==
+X-Gm-Message-State: AOJu0YzX1hVrF2apGKJXdNnJ7InPqymkrgV+fpDG8pat3y2PQyk74pIO
+	35ltPZTe2BmtQbvhePgUX3KhKL+Xq2PS90f4lCJVFQhAak/BahdvieAH9dyePg==
+X-Gm-Gg: ASbGncsUrlcI8B5qYycmUaqU3KzGzdcdtQVnf+xky5GCLb7GqFuvP5J3X9Y40GZBpze
+	mAoSCCeDP5eOmRHoNH82A5kjf6adRzUlC7u0z84cX/PsPwe0hrBZLlaAwDri5TruDhGexcGvQPt
+	ppnq4HThJYIkJrPfZT16iDyr5QlfDj5yhv+T5ZsZP8KysRM/v1QSf8S38JIs1Rbm97iHHsjhxz/
+	xhHME3V9Qwxs4aQl3AEQe3Y79kHYrlNxMJVnEmAZ20xZNHe3udhKtSWTUQIU4erfDKjXDS5PC6f
+	gxjI/A1zBMkTCzGisSFZg9a5YqNWJBdtP4LC5qv10pYJsFVOgpTBYYtYy5jRpFYTXzJvDIKH1St
+	TnuQ5faOVQfEZtMCp7HFKS97e0fcZTdrCK04jvUrH2G1gb430nqALWN/K
+X-Google-Smtp-Source: AGHT+IEY0Osf0fF/Yx1E3oCzYHdtZ4z/l0R0pwIuEZEVxQduTfs9KD9og6sHhMBeuQuHZ7Qg2T2Sjg==
+X-Received: by 2002:a17:906:eecc:b0:afa:1d2c:2dc7 with SMTP id a640c23a62f3a-afe296ec4acmr67028366b.57.1755816210000;
+        Thu, 21 Aug 2025 15:43:30 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-61a757a48e2sm5798978a12.40.2025.08.21.15.43.28
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-afded2bad79sm474115866b.9.2025.08.21.15.43.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 15:43:28 -0700 (PDT)
+        Thu, 21 Aug 2025 15:43:29 -0700 (PDT)
 From: martin.jansa@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
+	Khem Raj <raj.khem@gmail.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Martin Jansa <martin.jansa@gmail.com>
-Subject: [scarthgap][PATCH 09/15] rust-llvm: fix build with gcc-15
-Date: Fri, 22 Aug 2025 00:43:03 +0200
-Message-ID: <20250821224314.1690103-9-martin.jansa@gmail.com>
+Subject: [scarthgap][PATCH 10/15] libtirpc: Fix build with gcc-15/C23
+Date: Fri, 22 Aug 2025 00:43:04 +0200
+Message-ID: <20250821224314.1690103-10-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250821224314.1690103-1-martin.jansa@gmail.com>
 References: <20250821224314.1690103-1-martin.jansa@gmail.com>
@@ -68,142 +71,175 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 22:43:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222294
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222295
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-As in meta-clang for clang-native:
-https://github.com/kraj/meta-clang/commit/f915bbfc71f7b58c38607b8407718bd8b5cefa44
+Update declarations to allow building with gcc-15 with C23 std
+being default now.
 
+Fixes:
+error: conflicting types for 'xdr_opaque_auth
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- ...36-Add-cstdint-to-SmallVector-101761.patch | 28 ++++++++++++++++
- ...cstdint-in-AMDGPUMCTargetDesc-101766.patch | 23 +++++++++++++
- ...-include-to-X86MCTargetDesc.h-123320.patch | 32 +++++++++++++++++++
- .../recipes-devtools/rust/rust-llvm_1.75.0.bb |  8 +++--
- 4 files changed, 89 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/rust/rust-llvm/0036-Add-cstdint-to-SmallVector-101761.patch
- create mode 100644 meta/recipes-devtools/rust/rust-llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch
- create mode 100644 meta/recipes-devtools/rust/rust-llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch
+ ...rations-to-allow-compile-with-gcc-15.patch | 64 +++++++++++++++++++
+ ...d-key_call-declarations-to-allow-com.patch | 60 +++++++++++++++++
+ .../libtirpc/libtirpc_1.3.4.bb                |  2 +
+ 3 files changed, 126 insertions(+)
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-Update-declarations-to-allow-compile-with-gcc-15.patch
+ create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0002-update-signal-and-key_call-declarations-to-allow-com.patch
 
-diff --git a/meta/recipes-devtools/rust/rust-llvm/0036-Add-cstdint-to-SmallVector-101761.patch b/meta/recipes-devtools/rust/rust-llvm/0036-Add-cstdint-to-SmallVector-101761.patch
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-Update-declarations-to-allow-compile-with-gcc-15.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-Update-declarations-to-allow-compile-with-gcc-15.patch
 new file mode 100644
-index 0000000000..cf00eacbee
+index 0000000000..7bfe7c2924
 --- /dev/null
-+++ b/meta/recipes-devtools/rust/rust-llvm/0036-Add-cstdint-to-SmallVector-101761.patch
-@@ -0,0 +1,28 @@
-+From 9c9071480edd4093b28a9e9a9980c2426d27344c Mon Sep 17 00:00:00 2001
-+From: Sam James <sam@gentoo.org>
-+Date: Fri, 2 Aug 2024 23:07:21 +0100
-+Subject: [PATCH] Add `<cstdint>` to SmallVector (#101761)
++++ b/meta/recipes-extended/libtirpc/libtirpc/0001-Update-declarations-to-allow-compile-with-gcc-15.patch
+@@ -0,0 +1,64 @@
++From b526c0a90953f47d4cbf7ef01e9ac13e9e76904a Mon Sep 17 00:00:00 2001
++From: Rudi Heitbaum <rudi@heitbaum.com>
++Date: Thu, 12 Dec 2024 04:16:02 -0500
++Subject: [PATCH 1/2] Update declarations to allow compile with gcc-15
 +
-+SmallVector uses `uint32_t`, `uint64_t` without including `<cstdint>`
-+which fails to build w/ GCC 15 after a change in libstdc++ [0]
++This patch fixes some of the compile errors with gcc 15-20241117.
 +
-+[0] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=3a817a4a5a6d94da9127af3be9f84a74e3076ee2
++In addition the follow declarations need to be fixed:
++  sed -n 75,77p libtirpc-1.3.6/src/key_call.c
++  cryptkeyres *(*__key_encryptsession_pk_LOCAL)() = 0;
++  cryptkeyres *(*__key_decryptsession_pk_LOCAL)() = 0;
++  des_block *(*__key_gendes_LOCAL)() = 0;
 +
-+Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/7e44305041d96b064c197216b931ae3917a34ac1]
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/libtirpc.git;a=commit;h=d473f1e1f6ba80bfaee4daa058da159305167323]
++Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ llvm/include/llvm/ADT/SmallVector.h | 1 +
-+ 1 file changed, 1 insertion(+)
++ src/auth_none.c     | 2 +-
++ src/getpublickey.c  | 2 +-
++ src/svc_auth_none.c | 4 ++--
++ 3 files changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/llvm/include/llvm/ADT/SmallVector.h b/llvm/include/llvm/ADT/SmallVector.h
-+index 09676d792..17444147b 100644
-+--- a/llvm/include/llvm/ADT/SmallVector.h
-++++ b/llvm/include/llvm/ADT/SmallVector.h
-+@@ -19,6 +19,7 @@
-+ #include <algorithm>
-+ #include <cassert>
-+ #include <cstddef>
-++#include <cstdint>
-+ #include <cstdlib>
-+ #include <cstring>
-+ #include <functional>
-diff --git a/meta/recipes-devtools/rust/rust-llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch b/meta/recipes-devtools/rust/rust-llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch
++diff --git a/src/auth_none.c b/src/auth_none.c
++index 0b0bbd1..aca6e71 100644
++--- a/src/auth_none.c
+++++ b/src/auth_none.c
++@@ -62,7 +62,7 @@ static bool_t authnone_validate (AUTH *, struct opaque_auth *);
++ static bool_t authnone_refresh (AUTH *, void *);
++ static void authnone_destroy (AUTH *);
++ 
++-extern bool_t xdr_opaque_auth();
+++extern bool_t xdr_opaque_auth(XDR *, struct opaque_auth *);
++ 
++ static struct auth_ops *authnone_ops();
++ 
++diff --git a/src/getpublickey.c b/src/getpublickey.c
++index be37a24..4e96c7c 100644
++--- a/src/getpublickey.c
+++++ b/src/getpublickey.c
++@@ -52,7 +52,7 @@
++ /*
++  * Hack to let ypserv/rpc.nisd use AUTH_DES.
++  */
++-int (*__getpublickey_LOCAL)() = 0;
+++int (*__getpublickey_LOCAL)(const char *, char *) = 0;
++ 
++ /*
++  * Get somebody's public key
++diff --git a/src/svc_auth_none.c b/src/svc_auth_none.c
++index 887e809..5ca98e9 100644
++--- a/src/svc_auth_none.c
+++++ b/src/svc_auth_none.c
++@@ -37,8 +37,8 @@
++ 
++ #include <rpc/rpc.h>
++ 
++-static bool_t	svcauth_none_destroy();
++-static bool_t   svcauth_none_wrap();
+++static bool_t	svcauth_none_destroy(SVCAUTH *);
+++static bool_t   svcauth_none_wrap(SVCAUTH *, XDR *, bool_t (*)(XDR *, ...), char *);
++ 
++ struct svc_auth_ops svc_auth_none_ops = {
++ 	svcauth_none_wrap,
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/0002-update-signal-and-key_call-declarations-to-allow-com.patch b/meta/recipes-extended/libtirpc/libtirpc/0002-update-signal-and-key_call-declarations-to-allow-com.patch
 new file mode 100644
-index 0000000000..24e7e1234f
+index 0000000000..83e2105a1a
 --- /dev/null
-+++ b/meta/recipes-devtools/rust/rust-llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch
-@@ -0,0 +1,23 @@
-+From 422390b31680305ce6babcfbf65579b7dbe090a5 Mon Sep 17 00:00:00 2001
-+From: Sam James <sam@gentoo.org>
-+Date: Sat, 3 Aug 2024 06:36:43 +0100
-+Subject: [PATCH] Include `<cstdint>` in AMDGPUMCTargetDesc (#101766)
++++ b/meta/recipes-extended/libtirpc/libtirpc/0002-update-signal-and-key_call-declarations-to-allow-com.patch
+@@ -0,0 +1,60 @@
++From 55452e6ae71869880f8c85d5dba9aa24d7147d8b Mon Sep 17 00:00:00 2001
++From: Rudi Heitbaum <rudi@heitbaum.com>
++Date: Thu, 2 Jan 2025 08:46:24 -0500
++Subject: [PATCH 2/2] update signal and key_call declarations to allow compile
++ with gcc-15
 +
-+Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/8f39502b85d34998752193e85f36c408d3c99248]
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++Follow up patch addressing the following declarations:
++  sed -n 75,77p libtirpc-1.3.6/src/key_call.c
++  cryptkeyres *(*__key_encryptsession_pk_LOCAL)() = 0;
++  cryptkeyres *(*__key_decryptsession_pk_LOCAL)() = 0;
++  des_block *(*__key_gendes_LOCAL)() = 0;
++
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/libtirpc.git;a=commit;h=240ee6c774729c9c24812aa8912f1fcf8996b162]
++Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h | 1 +
-+ 1 file changed, 1 insertion(+)
++ src/auth_time.c | 4 ++--
++ src/key_call.c  | 6 +++---
++ 2 files changed, 5 insertions(+), 5 deletions(-)
 +
-+diff --git a/llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h b/llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h
-+index 3ef00f757..879dbe1b2 100644
-+--- a/llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h
-++++ b/llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h
-+@@ -15,6 +15,7 @@
-+ #ifndef LLVM_LIB_TARGET_AMDGPU_MCTARGETDESC_AMDGPUMCTARGETDESC_H
-+ #define LLVM_LIB_TARGET_AMDGPU_MCTARGETDESC_AMDGPUMCTARGETDESC_H
++diff --git a/src/auth_time.c b/src/auth_time.c
++index 936dd76..c21b1df 100644
++--- a/src/auth_time.c
+++++ b/src/auth_time.c
++@@ -248,7 +248,7 @@ __rpc_get_time_offset(td, srv, thost, uaddr, netid)
++ 	char			ut[64], ipuaddr[64];
++ 	endpoint		teps[32];
++ 	nis_server		tsrv;
++-	void			(*oldsig)() = NULL; /* old alarm handler */
+++	void			(*oldsig)(int) = NULL; /* old alarm handler */
++ 	struct sockaddr_in	sin;
++ 	int			s = RPC_ANYSOCK;
++ 	socklen_t len;
++@@ -417,7 +417,7 @@ __rpc_get_time_offset(td, srv, thost, uaddr, netid)
++ 		} else {
++ 			int res;
 + 
-++#include <cstdint>
-+ #include <memory>
++-			oldsig = (void (*)())signal(SIGALRM, alarm_hndler);
+++			oldsig = (void (*)(int))signal(SIGALRM, alarm_hndler);
++ 			saw_alarm = 0; /* global tracking the alarm */
++ 			alarm(20); /* only wait 20 seconds */
++ 			res = connect(s, (struct sockaddr *)&sin, sizeof(sin));
++diff --git a/src/key_call.c b/src/key_call.c
++index 9f4b1d2..43f990e 100644
++--- a/src/key_call.c
+++++ b/src/key_call.c
++@@ -72,9 +72,9 @@
++  * implementations of these functions, and to call those in key_call().
++  */
 + 
-+ namespace llvm {
-diff --git a/meta/recipes-devtools/rust/rust-llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch b/meta/recipes-devtools/rust/rust-llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch
-new file mode 100644
-index 0000000000..9bfbe9e2ed
---- /dev/null
-+++ b/meta/recipes-devtools/rust/rust-llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch
-@@ -0,0 +1,32 @@
-+From 72dc74c42eb9d9940b36c6804a4e4ac757370324 Mon Sep 17 00:00:00 2001
-+From: Stephan Hageboeck <stephan.hageboeck@cern.ch>
-+Date: Mon, 20 Jan 2025 17:52:47 +0100
-+Subject: [PATCH] Add missing include to X86MCTargetDesc.h (#123320)
-+
-+In gcc-15, explicit includes of `<cstdint>` are required when fixed-size
-+integers are used. In this file, this include only happened as a side
-+effect of including SmallVector.h
-+
-+Although llvm compiles fine, the root-project would benefit from
-+explicitly including it here, so we can backport the patch.
-+
-+Maybe interesting for @hahnjo and @vgvassilev
-+
-+Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/7abf44069aec61eee147ca67a6333fc34583b524]
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+---
-+ llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h b/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
-+index 437a7bd6f..fd7d79484 100644
-+--- a/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
-++++ b/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
-+@@ -13,6 +13,7 @@
-+ #ifndef LLVM_LIB_TARGET_X86_MCTARGETDESC_X86MCTARGETDESC_H
-+ #define LLVM_LIB_TARGET_X86_MCTARGETDESC_X86MCTARGETDESC_H
++-cryptkeyres *(*__key_encryptsession_pk_LOCAL)() = 0;
++-cryptkeyres *(*__key_decryptsession_pk_LOCAL)() = 0;
++-des_block *(*__key_gendes_LOCAL)() = 0;
+++cryptkeyres *(*__key_encryptsession_pk_LOCAL)(uid_t, char *) = 0;
+++cryptkeyres *(*__key_decryptsession_pk_LOCAL)(uid_t, char *) = 0;
+++des_block *(*__key_gendes_LOCAL)(uid_t, char *) = 0;
 + 
-++#include <cstdint>
-+ #include <memory>
-+ #include <string>
++ static int key_call( u_long, xdrproc_t, void *, xdrproc_t, void *);
 + 
-diff --git a/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
-index 292fc15c55..cba41c739e 100644
---- a/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
-+++ b/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
-@@ -10,8 +10,12 @@ require rust-source.inc
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
+index aa526e9e1c..198cefacfb 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
+@@ -11,6 +11,8 @@ PROVIDES = "virtual/librpc"
  
- SRC_URI += "file://0002-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-             file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
--	    file://0003-llvm-fix-include-benchmarks.patch;striplevel=2 \
--            file://0004-llvm-Fix-CVE-2024-0151.patch;striplevel=2"
-+            file://0003-llvm-fix-include-benchmarks.patch;striplevel=2 \
-+            file://0004-llvm-Fix-CVE-2024-0151.patch;striplevel=2 \
-+            file://0036-Add-cstdint-to-SmallVector-101761.patch;striplevel=2 \
-+            file://0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch;striplevel=2 \
-+            file://0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch;striplevel=2 \
-+"
- 
- S = "${RUSTSRC}/src/llvm-project/llvm"
- 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
+ 	file://ipv6.patch \
++        file://0001-Update-declarations-to-allow-compile-with-gcc-15.patch \
++        file://0002-update-signal-and-key_call-declarations-to-allow-com.patch \
+ "
+ UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
 
