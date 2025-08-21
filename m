@@ -1,96 +1,94 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CE80CA0EF8
-	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 08:59:50 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web11.4709.1755766781887294695
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E6DDCA0EEB
+	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 09:50:31 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.5350.1755769828073239258
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Aug 2025 01:59:43 -0700
+ Thu, 21 Aug 2025 02:50:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=Xgxz5NxQ;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 171D54E40B50
-	for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 08:59:40 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E452D60303;
-	Thu, 21 Aug 2025 08:59:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7355E1C22DAB5;
-	Thu, 21 Aug 2025 10:59:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1755766779; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Iwb/qCMasT3bObiZDPe20eORK9aEgee+NKpppIaZRmc=;
-	b=Xgxz5NxQLOOR/zNL4AQrW9GDgCcUqSwtYRrqdpv7pfOJwaXdAXaz5PCG8l/U/ryML42iV+
-	qNCmC26HP/JCC2WqXhaPCzCMim+imlh94nBov5NI5S5nMioBd4UpJXjIXAVol4Wf2UAIBq
-	f45USTTXr32iLyiLQ8HjtwoGWLdcvt85QhCfU9Ycj6nwr12qOzFHZg/z8+C2xDJaL12Lj0
-	8sMQC5RjhJA3tjxpymEC8uPG1VFPfgQM9SuCBf0WHTLbpIk5C9VcnTD4Gn0eYpzF1ZZGJl
-	zb+dmFsijXWOh9HE3T2wb4Q7SBpJSRtnEJC2WiMjTcprQPST9DDQZMNloRZRDA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 21 Aug 2025 10:59:35 +0200
-Message-Id: <DC7ZDLOTYSQS.1SA72YH1CS6UT@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/3] spirv-llvm-translator: small recipe
- cleanup
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250820132929.2644708-1-ross.burton@arm.com>
-In-Reply-To: <20250820132929.2644708-1-ross.burton@arm.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=f8u3Hvnz;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-70a928cca6aso4848796d6.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 02:50:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755769827; x=1756374627; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=imskiUeyPUI7o2OJ7eqsAeNI+O8EI5OMsdEvNQTQTjU=;
+        b=f8u3HvnzpbgienvPyWiPRaaA/+HPNFZwwOqmYALOQzrQP8wuUmiBXj3ERPkyxaRrNT
+         6wDEiu+tsoDQ6XeLq0O88H+EyQTE73E7OfSgQCZOZH3rPGjZ4IaDRxXeAEhgjWmFwR26
+         kNyBsMzPD/S/SCBlnC+0swhcScPcUSYK1G1YoZIn60rWQrIlOwlp9+nSaXOpYpwFp4F1
+         kjb4l7Vm1U5gNN+laKOqK7JoLUWuauckwDb41GN1vxxLDH8tmQC9w2R9IYIQ7X0cpmDg
+         i7dCjSzHeSCfd3r8GV2YJWjUgGGJfOccRAGQzpt06aDGIQvbxqgcLSbM22JyDW6udU/c
+         JQVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755769827; x=1756374627;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=imskiUeyPUI7o2OJ7eqsAeNI+O8EI5OMsdEvNQTQTjU=;
+        b=GElwR2DJJwoENKLZw8RgFKo9yLsaMfCXH4EKHeG0cnF5/Y6Fr2chVYSFlVoHcn8TX/
+         rfZ4boROCdkVhz+PZYHNzhfIhnemb7Q6l2Ke1Yad2J4zdY8OPPOlLtAiRaTUP/KWfPw+
+         tl8LhqRI4502brN5NE/DVm6wKa9zVqL6Qo8UE3nPqVAsFi4WBPpBCNT+V0xZ0N7l74b7
+         u0KVl6TPyY/ETG9ilINxSMKhY9QOroX57gYb9pboXXsgPTMa7JOYQNK8NBtdE119aQhX
+         8oQLgIDLrsJgWCfXwJuJbtXjhEx1gWUHu6ZI2DMHjkpb3OjaOI1SFUPLJ1rhtCjcRRNx
+         Jk7A==
+X-Gm-Message-State: AOJu0YxpJRCrFyusEiGxkgg66vmVR7Y4auxawrMcBy3Ekjb6qHuI3IsM
+	K+zf1J8nSMe+KRBRImt2qszHL1q5IN7TdoNKjMnhRCFQ7OPFmm5j8v/RIX0H1eIVK/OdUlr/ztH
+	Fpo0vPkPA5t+4TIQvZHtK3VATzWMUR9w=
+X-Gm-Gg: ASbGncsrvHJXb3aiKw8aBG/40Rgp3Ou92HNobkv4/7Mqbn+W++OFeomHzJqgz1kWexm
+	cb0tJDS8aWGlzWwqAwhAIubQb2iV8vhKXrXXFXonMLyB72Ac7rERB47fQVFrFLS+f/QwlKfHkIJ
+	c8+dzrL31v7JJot91AwIcif6T/Wu8YsSy9rudc86FWmPIuSDfVgt2ei38dfPnzBnCN3LMq+0UXc
+	aC08+Is33yclM7BKrvt6tYiLaiLwRHQOuBWDwi0DriVBYC4+B93
+X-Google-Smtp-Source: AGHT+IFIRWvQsNbNXZgav2hbEQa27s28y4wj2QdD/uv/lWCHcsJ3hEwwVcPwcw47LJS2dQWK87YynwCzxJMK85qSE/E=
+X-Received: by 2002:ad4:4ee9:0:b0:70b:b06f:3d47 with SMTP id
+ 6a1803df08f44-70d88e0a5fbmr16374186d6.1.1755769826895; Thu, 21 Aug 2025
+ 02:50:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250820061959.22598-1-r.gruenert@pironex.com> <04b5dbc353cf8c22eedc924d17bfcf0c64e6cae2.camel@linuxfoundation.org>
+In-Reply-To: <04b5dbc353cf8c22eedc924d17bfcf0c64e6cae2.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 21 Aug 2025 11:50:15 +0200
+X-Gm-Features: Ac12FXxh702ekJAh98VaWE00Yc3dWsWjzx_wzU6BTwmr77QCHKSCxAe9P5pFaxw
+Message-ID: <CANNYZj-H3DgPmBg7P-gVEXVBy_zEDdr=WkmbCEWvnS7t3HA4jA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] scripts/runqemu: raise an error when bitbake
+ was not found
+To: r.gruenert@pironex.com
+Cc: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 08:59:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222224
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 09:50:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222225
 
-On Wed Aug 20, 2025 at 3:29 PM CEST, Ross Burton via lists.openembedded.org=
- wrote:
-> - There is no need for python3native, as this recipe doesn't depend on
->   other python modules.
->
-> - Inherit lib_package so the llvm-spirv binary is in a separate package
->   to the libLLVMSPIRVLib.so library.
->
-> - Remove obsolete CMake options that no longer appear to be required.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
+On Wed, 20 Aug 2025 at 22:32, Richard Purdie via
+lists.openembedded.org
+<richard.purdie=linuxfoundation.org@lists.openembedded.org> wrote:
+> >          bitbake = shutil.which('bitbake')
+> >          if not bitbake:
+> > -            return
+> > +            raise RunQemuError("bitbake could not be found in your PATH. Did you forget to source oe-init-build-env?")
+> I'm wondering if we can detect that and/or put this error message onto
+> one of the later error paths to hint to the user the issue?
 
-Hi Ross,
+I took a closer look at the usage of bitbake in runqemu. Specifically
+what needs to be done is:
 
-It looks like we have a reproducibility issue:
+- take the above snippet
+- move it just before these lines in run_bitbake_env():
 
-AssertionError: The following deb packages are different and not in exclusi=
-on list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/deb/./x86-64-v3/libllvmspirvlib-dbg_20.1.4-r0_amd64.deb
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/deb/./x86-64-v3/libllvmspirvlib20.1_20.1.4-r0_amd64.deb
-The following ipk packages are different and not in exclusion list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/ipk/./x86-64-v3/libllvmspirvlib-dbg_20.1.4-r0_x86-64-v3.ipk
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/ipk/./x86-64-v3/libllvmspirvlib20.1_20.1.4-r0_x86-64-v3.ipk
-The following rpm packages are different and not in exclusion list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/rpm/./x86_64_v3/libllvmspirvlib-dbg-20.1.4-r0.x86_64_v3.rpm
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/rpm/./x86_64_v3/libllvmspirvlib20.1-20.1.4-r0.x86_64_v3.rpm
+        logger.info('Running %s...' % cmd)
+        try:
+            return subprocess.check_output(cmd, shell=True).decode('utf-8')
 
-http://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20250821-1clwvk91/p=
-ackages/diff-html/
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/2325
+- and only then change the 'return' into 'raise RunQemuError'
 
-Best regards,
-Mathieu
+Can you please send a v2 of the patch?
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Alex
 
