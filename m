@@ -1,146 +1,214 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A5DECA0EFA
-	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 06:45:49 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.3239.1755758739855272254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CC0ECA0EF8
+	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 06:50:59 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.3283.1755759055183849158
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Aug 2025 23:45:39 -0700
+ Wed, 20 Aug 2025 23:50:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VY79QFnh;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-24458263458so6240915ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 23:45:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755758739; x=1756363539; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4iQv02zNs012iJqYv8lpLKS3vZvlE+KdrjKKkXyVDGU=;
-        b=VY79QFnhAAZEDGcnhKdi+TFeWKQkNrTYEDlV8NnFD0wGbGsc+cGtZacFfmT9dptvJE
-         NcFluECTYl8YjsvhbtR6xDQ1KTpoJmgMyMGLFL+oyvD/w1g49eX3kbh0k5A72GFmD8Aq
-         +FZ3X0s6xVX0gUIlJMLz5aBLt9LoXKLOeWcs5iRXohmEiHUCBPC0ofZoXI1nKfZkfSxu
-         mkw6SqSvN2vZnaKzP7f4mHi95ztmCOAOe5lMxqU4LHPFXcYO29QfxRbLQjvNeHxOyuLE
-         Gyf3N6SuV7pR6zRIvjWaGqKWowCOl2JgvfGHq7cgJc5JnUBwaH1IVrHpKi67aln5IVE6
-         CLUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755758739; x=1756363539;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4iQv02zNs012iJqYv8lpLKS3vZvlE+KdrjKKkXyVDGU=;
-        b=lmiWA/smEvliRK3kDo/FHjpauxpiZX/av0jFW2spMuWNTbOPQZV16YOMm+o/jZ4qJU
-         Jlrm/jM2MXO+ObJv6vBTLV7AdTLo4LJnOY7jN5fjrnZVjscS3sLpgZwKr2XLV98pZh0s
-         77c9Fd2lGM+ZuF1scgjBH6v+wFyLoaWRYgz7uvGeIQy3PITgLW0WrDN11AwVOUWpaV1F
-         rKMYvNAq1yBXy7LkIca7GPSXUlkkKc9yVBy7SSstqsnb2QOqck8YuHFXMHXxQ8s6gNvR
-         qofi5Wl6WoCg4kV8jX2Yk3h4uE+kw77aIqRriXKaMT0mYsronY940X1/4ijwk6rW/Chp
-         bhLQ==
-X-Gm-Message-State: AOJu0YxmZvZndHrqYLdKJykSx+NPXSzZrlV1/BuZdjmkHFKJzb2diK1F
-	tqcI6n37v1I/MMXHw61m2Yoot/UexiOHiNoXuvymSVAVMI5Q25ULsHOTl1HRD8I/
-X-Gm-Gg: ASbGncu0tlH+iqZOX3UHNdVzROMOQ1E8g5he2k7HP9ZfJDcaelIR2Jkaoe5+xT/sCjg
-	LWBHbOK20TBl/TmW9pdefuzLMU2FfpDPCpnh9CU6/WpxMj8eNf/rn2CcT0H4O+bfcNErnL1bs/C
-	2oWArLA+HdhqkEN22h1+QOnCVtDB6Gxuzpxa1YiLadCB/DCMPHVyrBHyurcExt+SG3qJCtwzRDD
-	CFWuqLPGCKJ5oQvjzMSsj0qpm8hnkY5y1uqS/8b1Xh8GzxmScE1QYKffY3Alv9tHDcqGuyUKnPa
-	25D+QCEa0EnLjyASY09fcYa8YLAwU34xjHUy5AH3qXIR2edoEVcSN+GGIW4BDpRQ6zeMOD8hFOw
-	9lSLUEyBkBs+2qTZ3EL0aP3wmMSj2Z6XO
-X-Google-Smtp-Source: AGHT+IG8lIrWGrX4TCcEtaUthTVDUe6HLIj1/ckLv+SzZ5STv8Uxwmee+izvKYEeY6nE/8Rw1eSFqA==
-X-Received: by 2002:a17:902:c408:b0:243:6d9:aa2e with SMTP id d9443c01a7336-245ff87bd23mr18085685ad.53.1755758738934;
-        Wed, 20 Aug 2025 23:45:38 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::adc2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed35d778sm45876685ad.49.2025.08.20.23.45.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 23:45:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 8/9] python3: Pass PLATFORM_TRIPLET explicitly when cross compiling
-Date: Wed, 20 Aug 2025 23:45:25 -0700
-Message-ID: <20250821064528.754633-8-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250821064528.754633-1-raj.khem@gmail.com>
-References: <20250821064528.754633-1-raj.khem@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=AlpT94GU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0328589c10=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57L5Ysaj1787075
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 23:50:54 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=EEerTaX1FoL1Au0jCRIx
+	r2FRkWpJ26q1bg1BjH56rTA=; b=AlpT94GUtTeakK3lgfeTGP76tIZdST7iuljb
+	qAypCGXkN/q131i0493KPTHOVMmpNmUESaJq23tbpxxnT4Go1V7BqQEPIWZNOMiY
+	ME5LFMPM0gNjihMCM6WaT2QuaHR7ppgfFL0jhBmSX6VEm/LZ7ARPdzNThdIhaI7O
+	qsymz5ZCivDIldxdLJrhtRzPVRAqxpsyu0fd+HvVXLIQEPQ2l11sWbYWow9bfTKo
+	2EAgVpyFXq09k6qOXIYdrCewX8/Z6Gpjdfp5XVORQI7WI5ZaDMZdOQOmb+dGEJdG
+	GEfhI31T3Mte9XLtCeKT1Zz03cB9wpIIw84v6V/EEsI5NiQnZQ==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48mydq9srd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Aug 2025 23:50:54 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Wed, 20 Aug 2025 23:50:32 -0700
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.57 via Frontend Transport; Wed, 20 Aug 2025 23:50:31 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][scarthgap][PATCH 1/1] ffmpeg: fix CVE-2025-1594
+Date: Thu, 21 Aug 2025 12:20:43 +0530
+Message-ID: <20250821065043.2408702-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIxMDA1MSBTYWx0ZWRfX9k/zx8SIUm85
+ 63yDlJ5k8XPDvoGqP9j6jyg1fL77XVC4GlbOmmpEMFtOwQcL11cyd8X2qmG1OkTyPe1Hl5Gx7Yd
+ 01WhO/ga5oCruO27kpQ5wiffVZ3cP8sLsa51VyRgXnB+jGxivxPz1Zt4XzYUwKULBNl8rLe4dZQ
+ av0ND/fx18uaAuDThy7vkrz49X1Y5MwkBYMJb3u4WJLrwnkv8UeM4CGzFw7SETM5xZIxUwM8/du
+ Ocf5Y26Q1VuRS/X4+fxEZgHb0hN842FFtB09qOO4IeiDFoWTd21cMRjuBVYNkcSHiYpuHTfh4h0
+ 4qw8kr0/Qi851Xf5+2VT2V6v2EqITvRZ/evElZLblvPtAysE40iroxEjpSF+Co5SqKe9QLxav30
+ 7zG0Qu9QlnuSdc7KsU1i6x/hLffcqg==
+X-Proofpoint-GUID: mFYBt10VJLDi-sstO35B3Nr_7JwD9gmH
+X-Authority-Analysis: v=2.4 cv=aKupab9m c=1 sm=1 tr=0 ts=68a6c1ce cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=2OwXVqhp2XgA:10 a=emhf11hzAAAA:8 a=t7CeM3EgAAAA:8 a=Lc-MQgJufMy_30ze4IUA:9
+ a=HLUCug_QN4oeKp6PugZw:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: mFYBt10VJLDi-sstO35B3Nr_7JwD9gmH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-21_01,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2508110000 definitions=firstrun
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 06:45:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222216
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 06:50:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222218
 
-Do not rely on how python detects the platform triplet
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-We have been lucky to get it cross-compiling since our build hosts
-are also using glibc, so the headers and gcc install locations match
-and the values it detects are mostly what we will need for glibc
-based targets, but when we use musl e.g. the problems show up where
-python3 is not able to automitically discover python modules so any
-python package having compiled .so modules fail to load.
+A vulnerability, which was classified as critical, was found in FFmpeg up to 7.1.
+This affects the function ff_aac_search_for_tns of the file libavcodec/aacenc_tns.c
+of the component AAC Encoder. The manipulation leads to stack-based buffer overflow.
+It is possible to initiate the attack remotely. The exploit has been disclosed to the
+public and may be used.
 
-Example is ptest failures with TCLIBC = "musl"
-and running core-image-ptest-python3-rpds-py
-
-This is revamp of patch [1], currently its working for glibc
-based cross-compiling because we build on linux systems which are also
-glibc based, but python on musl shows the problem.
-When python was upgraded to 3.12 [2], this patch was wrongly dropped
-and sadly regression went unnoticed, without this patch
-Python's automatic module discovery does not work when it is cross-compiled
-this is because it tries host tools and compiler installation during configure
-to detect it. .so modules e.g. modulename.cpython-*.so are not seen as a result.
-
-This is seen when running python3-rpds-py ptests where it should load
-rpds.cpython-313-x86_64-linux-musl.so rpds.so but it does not and the module test
-fail.
-
-root@qemux86-64:/usr/lib/python3-rpds-py/ptest# python3 -c "
- import sysconfig
- import importlib.machinery
- print('Extension suffixes:', importlib.machinery.EXTENSION_SUFFIXES)
- print('Soabi:', sysconfig.get_config_var('SOABI'))
- print('Ext suffix:', sysconfig.get_config_var('EXT_SUFFIX'))
- print('Module suffix:', sysconfig.get_config_var('SO'))
- "
-Extension suffixes: ['.cpython-313.so', '.abi3.so', '.so']
-Soabi: cpython-313
-Ext suffix: .cpython-313.so
-Module suffix: None
-
-And after fix it is.
-
-root@qemux86-64:~# python3 -c "
- import sysconfig
- import importlib.machinery
- print('Extension suffixes:', importlib.machinery.EXTENSION_SUFFIXES)
- print('Soabi:', sysconfig.get_config_var('SOABI'))
- print('Ext suffix:', sysconfig.get_config_var('EXT_SUFFIX'))
- print('Module suffix:', sysconfig.get_config_var('SO'))
- "
-Extension suffixes: ['.cpython-313-x86_64-linux-musl.so', '.abi3.so', '.so']
-Soabi: cpython-313-x86_64-linux-musl
-Ext suffix: .cpython-313-x86_64-linux-musl.so
-Module suffix: None
-
-[1] https://git.openembedded.org/openembedded-core/commit/?id=407744b00d702e3133304e1b43064a5634ca02cf
-[2] https://git.openembedded.org/openembedded-core/commit/?id=716d82352545d3667a658b69d65d6127678dd150
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- meta/recipes-devtools/python/python3_3.13.7.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../ffmpeg/ffmpeg/CVE-2025-1594.patch         | 105 ++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb |   1 +
+ 2 files changed, 106 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.13.7.bb b/meta/recipes-devtools/python/python3_3.13.7.bb
-index e9eb6109490..81d034bec6b 100644
---- a/meta/recipes-devtools/python/python3_3.13.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.13.7.bb
-@@ -86,7 +86,7 @@ DEPENDS:append:class-nativesdk = " python3-native"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch
+new file mode 100644
+index 0000000000..af71055c02
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch
+@@ -0,0 +1,105 @@
++From bedfb6eca402037f5cbb115fa767d106b8c14f1c Mon Sep 17 00:00:00 2001
++From: Lynne <dev@lynne.ee>
++Date: Sat, 8 Feb 2025 04:35:31 +0100
++Subject: [PATCH] aacenc_tns: clamp filter direction energy measurement
++
++The issue is that:
++
++float en[2];
++...
++tns->n_filt[w] = is8 ? 1 : order != TNS_MAX_ORDER ? 2 : 3;
++for (g = 0; g < tns->n_filt[w]; g++) {
++    tns->direction[w][g] = slant != 2 ? slant : en[g] < en[!g];
++
++When using the AAC Main profile, n_filt = 3, and slant is by
++default 2 (normal long frames), g can go above 1.
++
++en is the evolution of energy in the frequency domain for every
++band at the given window. E.g. whether the energy is concentrated
++at the top of each band, or the bottom.
++
++For 2-pole filters, its straightforward.
++For 3-pole filters, we need more than 2 measurements.
++
++This commit properly implements support for 3-pole filters, by measuring
++the band energy across three areas.
++
++Do note that even xHE-AAC caps n_filt to 2, and only AAC Main allows
++n_filt == 3.
++
++Fixes https://trac.ffmpeg.org/ticket/11418
++
++CVE: CVE-2025-1594
++
++Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/bedfb6eca402037f5cbb115fa767d106b8c14f1c]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ libavcodec/aacenc_tns.c | 33 ++++++++++++++++++++++++---------
++ 1 file changed, 24 insertions(+), 9 deletions(-)
++
++diff --git a/libavcodec/aacenc_tns.c b/libavcodec/aacenc_tns.c
++index 8dc6dfc..9ea3506 100644
++--- a/libavcodec/aacenc_tns.c
+++++ b/libavcodec/aacenc_tns.c
++@@ -172,6 +172,7 @@ void ff_aac_search_for_tns(AACEncContext *s, SingleChannelElement *sce)
++                       sce->ics.window_sequence[0] == LONG_START_SEQUENCE ? 0 : 2;
++     const int sfb_len = sfb_end - sfb_start;
++     const int coef_len = sce->ics.swb_offset[sfb_end] - sce->ics.swb_offset[sfb_start];
+++    const int n_filt = is8 ? 1 : order != TNS_MAX_ORDER ? 2 : 3;
++ 
++     if (coef_len <= 0 || sfb_len <= 0) {
++         sce->tns.present = 0;
++@@ -179,16 +180,30 @@ void ff_aac_search_for_tns(AACEncContext *s, SingleChannelElement *sce)
++     }
++ 
++     for (w = 0; w < sce->ics.num_windows; w++) {
++-        float en[2] = {0.0f, 0.0f};
+++	float en[4] = {0.0f, 0.0f, 0.0f, 0.0f};
++         int oc_start = 0, os_start = 0;
++         int coef_start = sce->ics.swb_offset[sfb_start];
++ 
++-        for (g = sfb_start; g < sce->ics.num_swb && g <= sfb_end; g++) {
++-            FFPsyBand *band = &s->psy.ch[s->cur_channel].psy_bands[w*16+g];
++-            if (g > sfb_start + (sfb_len/2))
++-                en[1] += band->energy;
++-            else
++-                en[0] += band->energy;
+++	if (n_filt == 2) {
+++            for (g = sfb_start; g < sce->ics.num_swb && g <= sfb_end; g++) {
+++                FFPsyBand *band = &s->psy.ch[s->cur_channel].psy_bands[w*16+g];
+++                    if (g > sfb_start + (sfb_len/2))
+++                        en[1] += band->energy; /* End */
+++                    else
+++                        en[0] += band->energy; /* Start */
+++            }
+++            en[2] = en[0];
+++        } else {
+++            for (g = sfb_start; g < sce->ics.num_swb && g <= sfb_end; g++) {
+++                FFPsyBand *band = &s->psy.ch[s->cur_channel].psy_bands[w*16+g];
+++                    if (g > sfb_start + (sfb_len/2) + (sfb_len/4))
+++                        en[2] += band->energy; /* End */
+++                    else if (g > sfb_start + (sfb_len/2) - (sfb_len/4))
+++                        en[1] += band->energy; /* Middle */
+++                    else
+++                        en[0] += band->energy; /* Start */
+++            }
+++            en[3] = en[0];
++         }
++ 
++         /* LPC */
++@@ -198,9 +213,9 @@ void ff_aac_search_for_tns(AACEncContext *s, SingleChannelElement *sce)
++         if (!order || !isfinite(gain) || gain < TNS_GAIN_THRESHOLD_LOW || gain > TNS_GAIN_THRESHOLD_HIGH)
++             continue;
++ 
++-        tns->n_filt[w] = is8 ? 1 : order != TNS_MAX_ORDER ? 2 : 3;
+++	tns->n_filt[w] = n_filt;
++         for (g = 0; g < tns->n_filt[w]; g++) {
++-            tns->direction[w][g] = slant != 2 ? slant : en[g] < en[!g];
+++	    tns->direction[w][g] = slant != 2 ? slant : en[g] < en[g + 1];
++             tns->order[w][g] = g < tns->n_filt[w] ? order/tns->n_filt[w] : order - oc_start;
++             tns->length[w][g] = g < tns->n_filt[w] ? sfb_len/tns->n_filt[w] : sfb_len - os_start;
++             quantize_coefs(&coefs[oc_start], tns->coef_idx[w][g], tns->coef[w][g],
++-- 
++2.40.0
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb
+index c0112757f0..dbd0a3f270 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb
+@@ -34,6 +34,7 @@ SRC_URI = " \
+     file://CVE-2024-35369.patch \
+     file://CVE-2025-25473.patch \
+     file://CVE-2025-22921.patch \
++    file://CVE-2025-1594.patch \
+ "
  
- EXTRA_OECONF = " --without-ensurepip --enable-shared --with-platlibdir=${baselib} --with-system-expat"
- EXTRA_OECONF:append:class-native = " --bindir=${bindir}/${PN}"
--EXTRA_OECONF:append:class-target = " --with-build-python=nativepython3"
-+EXTRA_OECONF:append:class-target = " --with-build-python=nativepython3 PLATFORM_TRIPLET=${HOST_ARCH}-${HOST_OS}"
- EXTRA_OECONF:append:class-nativesdk = " --with-build-python=nativepython3"
- 
- export CROSSPYTHONPATH = "${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/"
+ SRC_URI[sha256sum] = "bc5f1e4a4d283a6492354684ee1124129c52293bcfc6a9169193539fbece3487"
+-- 
+2.40.0
+
 
