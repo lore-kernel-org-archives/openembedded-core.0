@@ -2,157 +2,208 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F6ECA0FE7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC69CA0EFF
 	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 22:43:35 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web10.2519.1755816206224886783
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web11.2499.1755816210957105863
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Aug 2025 15:43:26 -0700
+ Thu, 21 Aug 2025 15:43:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ctdebxlz;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-afcb78e70c5so225962766b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 15:43:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GfEFM7B9;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-618b83e5b27so1816640a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 15:43:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755816204; x=1756421004; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1755816209; x=1756421009; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bneBybsTx17V485lvpqQq70Pj3k6+sFDwfOdWT61grg=;
-        b=ctdebxlzAi8kl/txsNqXjhm4tGKZ7qzzhdRNeqE4ie4QCJK1iDvR6AKRqc8ewK7eC/
-         sGiAlDcRotWY2TYaR4ev/fGLWttSEFTSQqtelJR+izFywN5DXJWb6Mg7QwvD8zlWUhQy
-         DXVcfAbQeW3Z38p0Ez/fgpZZsSFYo7PNwy5pnIK2BBlaFew+PjSthm69A3aRlWKFvqDf
-         JOIj5YnyHG4ChtoLdoUBV76Gq3s/ctMXm/LnOc1p6+eEYuPYdzdBSTj1RQ8seAQlubUu
-         WyD54dvHxMXEWn6RSelauCMKfO5VRSQKhUkCXwV1XiLCwSw71+urSuGO++OHk6TVLuNL
-         y+dQ==
+        bh=BfzhpkuMm5N10RPGJEpL6L9GzHUivVU+m4Ov8CP9Xso=;
+        b=GfEFM7B9zjdTzP3LEJEhCampZFmWwSqVCdjGxWCY5gVkJqKYhgv9yNIAaMhMO1HTz3
+         UzEgOt5B+aiKk0kay0EAsEnijVFos8/Tvhry9/D3orXEOJuTZ1EgTN4gKTRPdrE+QGbR
+         k0h3vN6PCJ62OSepltK57ffneXbtPXMOqM4boTPxVnrfp8viSMqHsvVbof5/VpUhqhny
+         A0yYbNB70OIc2zmXfiYgDa3vqhE0h0cdKgL+pgugWN3K0ZQTT+/eMaHQ2Hn8c66oDk04
+         3w3z+Lh35g6Jg23Jceda6pvaNO8tboGU5nhjp5z85bHU/pjeT1T0xHhmCwoD9cRkcd1Y
+         xDEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755816204; x=1756421004;
+        d=1e100.net; s=20230601; t=1755816209; x=1756421009;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bneBybsTx17V485lvpqQq70Pj3k6+sFDwfOdWT61grg=;
-        b=DAlWNIA2/ygeNcflsqsofIkHARXuDxmGstcXrE5a1pcp7xcmfBS7/JeK6lMUCly55y
-         qquBHFloXtRJxkEq6Hkrp1SdxgF2UWBh1GM2GqDuGuC3Cu9XM612h64H2cvHKqYGxb0k
-         rHhef0+X+LOT2E+3/Sxr43VcJn/N/jvSOIah/nX+8BFvBPAA+fJyuE26ca/zW3SVkUT3
-         SWhp5gKst/bF1We9p4GzHdikq1iGHW4GqnmD/H1d4LbkAjNla14JVORuVKullQh610Dr
-         gX7kv8Pt+SroU8cBXglIu68ETn5FdqA+g7b/LB8KOwhfEjkhb6wv9BvVKj2GZGeqInzv
-         eAGQ==
-X-Gm-Message-State: AOJu0YxJddV/1gxYfvRgmjvKtJqrQo8Z5UEYI3vFTsU9CKaAUHBIo0qw
-	0V8f50dG9gKH7MY+yJDrMnV8MdsPGpV98t0iPfBz1si2ZclYRb/AL4LpM5Y8dQ==
-X-Gm-Gg: ASbGnctg2VZk5/JUsl+6aSqmzsmY/lSSXQ329XZoWtgEEdKmGukUtz/0xsZmbTCI7bN
-	x45QURxfFyP/eMNoYX18/z928Hm/nG/a03yFh5c4Ui7MUnOFq5QQO7B+YpOnD5rBPSFAbSmqbSh
-	bCwNEGJUsvg54G/6H70My1oOuRKkI+8C63h8fXIpjbZVFfEcGx92XaxfTECflGjGErtCjcYv7oS
-	qkpSGdd+Nl3DqAUxMuMHgtdS7jwvdVHIS3e5rKIX0H8Aq8q4YUvbd72S26TEQy42kXO1bhFI2v3
-	2WXcrmfF+M1rjfR0jh1w6/PNwmIKpLmn/o8pVHqNW5aGfoN8IWwF5TAtY1TRc0EAO6srrd0oxVS
-	OznGlRvDZesZlm9yLwui4yj6stqPzhsX65RC4qois67pS8e7jaq3gCP8V
-X-Google-Smtp-Source: AGHT+IExBfe97XdsLpUT1RAeUUPKd0dyA/7RdBFg2m8BF67dANA5w3zri/WK2qTLC3yVVIPNFBKObQ==
-X-Received: by 2002:a17:907:3cd5:b0:afc:d054:1706 with SMTP id a640c23a62f3a-afe297497b8mr65902666b.49.1755816204413;
-        Thu, 21 Aug 2025 15:43:24 -0700 (PDT)
+        bh=BfzhpkuMm5N10RPGJEpL6L9GzHUivVU+m4Ov8CP9Xso=;
+        b=bXfVW/89TlVuwTjOVislJwCmVuL+s0SLOs+33f1luqZKp0coT/j9ojPia7qoLZ6ss4
+         bPVWWZqfzQQAnM4/iWYDV4hHoYgPM2C+6Z4+HrKOYX+bb5dqnqtrkqV3uZ6bVwHF0kHY
+         l+3mIYedQMCCIhq1S7VQ+WZS+98JNlAFblP4QpckNbUNc1ABMrsYgfgdwHUsKT1PsJnj
+         J30obmOcFQUhX7su2a2zMSK/ObHow4/3wlT/JoDPQK1VSKhf8NG4U+VI7g1IzHoBBtsP
+         We3mgK1QmM85Ar3JAGTJTiqymNy8p9/qHoFu5EGimX9NNl3D9IFHEesspduQgXz/+fRc
+         kC0Q==
+X-Gm-Message-State: AOJu0YzLfIFW9H8urKv6g55v2gurK6K/Bj2sUKv8vMjOav+8m6sVxX+h
+	rzlWk09m036YTpUhpkHZqjsGAH2kyLKh/5py3Rvex4/EbB7ZkeDsS91BAWLBng==
+X-Gm-Gg: ASbGncvvg75387EdiYv/Ua8JfM0C2krtJ1DiBaFWSWC9HZZegkD3iTf1CkGeDERCXNO
+	sTuu9Npae9J8p0R/xj3CFkrNaadT0+6EK+7dcJhfoXGq4cLufL60WuVL+Tb9CnmkvkUGg/UgwUG
+	qWzURjfcBdMr0sLYRSmtkWFyXVXtBJZWNDiImxhGWEkU3guEn0bX8iCJG5L9mb7+cS0pRmSnRbK
+	w1agdHJ+V2ulaT4X7rxP5iim1XBtSQ3ULX3cm3c1OPU0pmLp33L9vQPySqBHibpuV1NiNN0W9h/
+	pavrW45tpdp2NEmzuqze7ASw5F+yBFtAgLVue384QQJdt62+ooI5QtdXoyiO6aCmsKaUy0HLyJe
+	aeFX2l+LZuOF07gx/pUBw26zANwX0MXPePk5IqTmae7aWNuJnJUgxznj98kBDV7+RPYc=
+X-Google-Smtp-Source: AGHT+IHU7LKJ+5CdvRxWecaSWjtzxqUEJaRahcEzUSS69SFjBK/9RsHMFqijpjngI9QIHeDHuPjmmw==
+X-Received: by 2002:a05:6402:5057:b0:61a:8c7c:a1f4 with SMTP id 4fb4d7f45d1cf-61c1b48f5e9mr503788a12.11.1755816209110;
+        Thu, 21 Aug 2025 15:43:29 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-afded4ca695sm465776266b.90.2025.08.21.15.43.23
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-61a757a48e2sm5798978a12.40.2025.08.21.15.43.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 15:43:24 -0700 (PDT)
+        Thu, 21 Aug 2025 15:43:28 -0700 (PDT)
 From: martin.jansa@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
-	Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Martin Jansa <martin.jansa@gmail.com>
-Subject: [scarthgap][PATCH 04/15] gmp: Fix build with older gcc versions
-Date: Fri, 22 Aug 2025 00:42:58 +0200
-Message-ID: <20250821224314.1690103-4-martin.jansa@gmail.com>
+Subject: [scarthgap][PATCH 09/15] rust-llvm: fix build with gcc-15
+Date: Fri, 22 Aug 2025 00:43:03 +0200
+Message-ID: <20250821224314.1690103-9-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250821224314.1690103-1-martin.jansa@gmail.com>
 References: <20250821224314.1690103-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 22:43:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222289
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222294
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-The fix to make this work with GCC15/C23 caused problems with older gcc versions.
-Add a fix for that.
+As in meta-clang for clang-native:
+https://github.com/kraj/meta-clang/commit/f915bbfc71f7b58c38607b8407718bd8b5cefa44
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- ...d-parameter-names-in-prototype-for-g.patch | 50 +++++++++++++++++++
- meta/recipes-support/gmp/gmp_6.3.0.bb         |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-support/gmp/gmp/0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch
+ ...36-Add-cstdint-to-SmallVector-101761.patch | 28 ++++++++++++++++
+ ...cstdint-in-AMDGPUMCTargetDesc-101766.patch | 23 +++++++++++++
+ ...-include-to-X86MCTargetDesc.h-123320.patch | 32 +++++++++++++++++++
+ .../recipes-devtools/rust/rust-llvm_1.75.0.bb |  8 +++--
+ 4 files changed, 89 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/rust/rust-llvm/0036-Add-cstdint-to-SmallVector-101761.patch
+ create mode 100644 meta/recipes-devtools/rust/rust-llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch
+ create mode 100644 meta/recipes-devtools/rust/rust-llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch
 
-diff --git a/meta/recipes-support/gmp/gmp/0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch b/meta/recipes-support/gmp/gmp/0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch
+diff --git a/meta/recipes-devtools/rust/rust-llvm/0036-Add-cstdint-to-SmallVector-101761.patch b/meta/recipes-devtools/rust/rust-llvm/0036-Add-cstdint-to-SmallVector-101761.patch
 new file mode 100644
-index 0000000000..ae2411fd1b
+index 0000000000..cf00eacbee
 --- /dev/null
-+++ b/meta/recipes-support/gmp/gmp/0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch
-@@ -0,0 +1,50 @@
-+From 1744e433a16fb39a55c4c771b8ecb02246aa5b99 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 15 Mar 2025 09:40:06 -0700
-+Subject: [PATCH] acinclude.m4: Add parameter names in prototype for g().
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/rust/rust-llvm/0036-Add-cstdint-to-SmallVector-101761.patch
+@@ -0,0 +1,28 @@
++From 9c9071480edd4093b28a9e9a9980c2426d27344c Mon Sep 17 00:00:00 2001
++From: Sam James <sam@gentoo.org>
++Date: Fri, 2 Aug 2024 23:07:21 +0100
++Subject: [PATCH] Add `<cstdint>` to SmallVector (#101761)
 +
-+This allows it to compile with older gcc e.g. gcc-10
-+which does not have allow parameter name omission, it results
-+in
++SmallVector uses `uint32_t`, `uint64_t` without including `<cstdint>`
++which fails to build w/ GCC 15 after a change in libstdc++ [0]
 +
-+a.c: In function ‘g’:
-+a.c:3:8: error: parameter name omitted
-+    3 | void g(int,t1 const*,t1,t2,t1 const*,int){}
-+      |        ^~~
++[0] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=3a817a4a5a6d94da9127af3be9f84a74e3076ee2
 +
-+this was added to gcc via [1] thats why it is supported in
-+newer gcc.
-+
-+Adding the parameter names make it compatible with
-+old and new gcc
-+
-+[1] https://gcc.gnu.org/pipermail/gcc-cvs/2020-October/336068.html
-+
-+Upstream-Status: Submitted [https://gmplib.org/list-archives/gmp-devel/2025-March/006294.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/7e44305041d96b064c197216b931ae3917a34ac1]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 +---
-+ChangeLog
++ llvm/include/llvm/ADT/SmallVector.h | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+2025-03-15  Khem Raj <raj.khem@gmail.com>
++diff --git a/llvm/include/llvm/ADT/SmallVector.h b/llvm/include/llvm/ADT/SmallVector.h
++index 09676d792..17444147b 100644
++--- a/llvm/include/llvm/ADT/SmallVector.h
+++++ b/llvm/include/llvm/ADT/SmallVector.h
++@@ -19,6 +19,7 @@
++ #include <algorithm>
++ #include <cassert>
++ #include <cstddef>
+++#include <cstdint>
++ #include <cstdlib>
++ #include <cstring>
++ #include <functional>
+diff --git a/meta/recipes-devtools/rust/rust-llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch b/meta/recipes-devtools/rust/rust-llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch
+new file mode 100644
+index 0000000000..24e7e1234f
+--- /dev/null
++++ b/meta/recipes-devtools/rust/rust-llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch
+@@ -0,0 +1,23 @@
++From 422390b31680305ce6babcfbf65579b7dbe090a5 Mon Sep 17 00:00:00 2001
++From: Sam James <sam@gentoo.org>
++Date: Sat, 3 Aug 2024 06:36:43 +0100
++Subject: [PATCH] Include `<cstdint>` in AMDGPUMCTargetDesc (#101766)
 +
-+   * acinclude.m4: Add parameter names to function prototype.
++Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/8f39502b85d34998752193e85f36c408d3c99248]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+ acinclude.m4 | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/acinclude.m4 b/acinclude.m4
-+index 4fca12de2..b9d1eacfe 100644
-+--- a/acinclude.m4
-++++ b/acinclude.m4
-+@@ -609,7 +609,7 @@ GMP_PROG_CC_WORKS_PART([$1], [long long reliability test 1],
++diff --git a/llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h b/llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h
++index 3ef00f757..879dbe1b2 100644
++--- a/llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h
+++++ b/llvm/lib/Target/AMDGPU/MCTargetDesc/AMDGPUMCTargetDesc.h
++@@ -15,6 +15,7 @@
++ #ifndef LLVM_LIB_TARGET_AMDGPU_MCTARGETDESC_AMDGPUMCTARGETDESC_H
++ #define LLVM_LIB_TARGET_AMDGPU_MCTARGETDESC_AMDGPUMCTARGETDESC_H
 + 
-+ #if defined (__GNUC__) && ! defined (__cplusplus)
-+ typedef unsigned long long t1;typedef t1*t2;
-+-void g(int,t1 const*,t1,t2,t1 const*,int){}
-++void g(int a,t1 const* b,t1 c,t2 d,t1 const* e,int f){}
-+ void h(){}
-+ static __inline__ t1 e(t2 rp,t2 up,int n,t1 v0)
-+ {t1 c,x,r;int i;if(v0){c=1;for(i=1;i<n;i++){x=up[i];r=x+1;rp[i]=r;}}return c;}
-diff --git a/meta/recipes-support/gmp/gmp_6.3.0.bb b/meta/recipes-support/gmp/gmp_6.3.0.bb
-index fd810a264d..1508744ef1 100644
---- a/meta/recipes-support/gmp/gmp_6.3.0.bb
-+++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
-            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
-            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
-            file://0001-Complete-function-prototype-in-acinclude.m4-for-C23-.patch \
-+           file://0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch \
-            "
- SRC_URI[sha256sum] = "ac28211a7cfb609bae2e2c8d6058d66c8fe96434f740cf6fe2e47b000d1c20cb"
+++#include <cstdint>
++ #include <memory>
++ 
++ namespace llvm {
+diff --git a/meta/recipes-devtools/rust/rust-llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch b/meta/recipes-devtools/rust/rust-llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch
+new file mode 100644
+index 0000000000..9bfbe9e2ed
+--- /dev/null
++++ b/meta/recipes-devtools/rust/rust-llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch
+@@ -0,0 +1,32 @@
++From 72dc74c42eb9d9940b36c6804a4e4ac757370324 Mon Sep 17 00:00:00 2001
++From: Stephan Hageboeck <stephan.hageboeck@cern.ch>
++Date: Mon, 20 Jan 2025 17:52:47 +0100
++Subject: [PATCH] Add missing include to X86MCTargetDesc.h (#123320)
++
++In gcc-15, explicit includes of `<cstdint>` are required when fixed-size
++integers are used. In this file, this include only happened as a side
++effect of including SmallVector.h
++
++Although llvm compiles fine, the root-project would benefit from
++explicitly including it here, so we can backport the patch.
++
++Maybe interesting for @hahnjo and @vgvassilev
++
++Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/7abf44069aec61eee147ca67a6333fc34583b524]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h b/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
++index 437a7bd6f..fd7d79484 100644
++--- a/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
+++++ b/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
++@@ -13,6 +13,7 @@
++ #ifndef LLVM_LIB_TARGET_X86_MCTARGETDESC_X86MCTARGETDESC_H
++ #define LLVM_LIB_TARGET_X86_MCTARGETDESC_X86MCTARGETDESC_H
++ 
+++#include <cstdint>
++ #include <memory>
++ #include <string>
++ 
+diff --git a/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
+index 292fc15c55..cba41c739e 100644
+--- a/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
++++ b/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
+@@ -10,8 +10,12 @@ require rust-source.inc
+ 
+ SRC_URI += "file://0002-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
+             file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
+-	    file://0003-llvm-fix-include-benchmarks.patch;striplevel=2 \
+-            file://0004-llvm-Fix-CVE-2024-0151.patch;striplevel=2"
++            file://0003-llvm-fix-include-benchmarks.patch;striplevel=2 \
++            file://0004-llvm-Fix-CVE-2024-0151.patch;striplevel=2 \
++            file://0036-Add-cstdint-to-SmallVector-101761.patch;striplevel=2 \
++            file://0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch;striplevel=2 \
++            file://0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch;striplevel=2 \
++"
+ 
+ S = "${RUSTSRC}/src/llvm-project/llvm"
  
 
