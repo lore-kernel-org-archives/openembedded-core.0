@@ -2,177 +2,163 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1C5CA0FE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE7E2CA0FE7
 	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 15:40:27 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.715.1755790825390204373
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.721.1755790819569098880
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Aug 2025 08:40:25 -0700
+ Thu, 21 Aug 2025 08:40:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fAW4bPzu;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-244582738b5so10543055ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 08:40:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=P8j+rbt+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b474d0f1d5eso791184a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 08:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755790825; x=1756395625; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1755790819; x=1756395619; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fo24Wo9EgjIluUSwNzrvBwc3hT0vZa5ULujJymc2DMU=;
-        b=fAW4bPzu4FufYMagnsPOszoIjz6FM+MLYI2HuJRdkyWvqA3tfz6na20NsYmAolqHYV
-         nq169q5rMbTFuBoSo5yeRpOt1KGDNtIA5EKZqIb4LlEVqylNCQqbrJqczHNSPVFwKHwN
-         sxZ8mFTCmfa1HBbFzbyTyfB2M8VwygiQvEXyseIOvtcOseEehUq3IuraII2u/akGYBde
-         mU6/iShHc88QoLHpjILwE55VCfAnq5jD4pfoYcTcfeQdkeuyedmS4cTIBw8amzuV7Sla
-         0WbRmTS51XGA7CDQEmH/HewOSMgvRkGIBoGv39FeGMZ7162YPgDxJdO0K2ozj+iR3Cim
-         kmrw==
+        bh=xSIVWc8ig0idkIf27VPU3O4BQPjtI4rjP0mzsKkjS1w=;
+        b=P8j+rbt+5Kr390UozS6dRvXgaXGExutt6Kj4mAV7vDefXrXR+nK7uHPZDA8hIxknby
+         tCQq+dzt41LT7s/VjR0d6EL4rtBkSdQn2d/FljqE3HJMBgo2gC3IhK08Mg5XThVUTQv4
+         FAMzVfzD3jZyelxw+dry/7rYTdPlGpLKWRoq0xCMiIQAN9ooJ0yrwLAKETxlCnxtnhqg
+         erQCozo+kaeeRtaF+AyMrK/yUJRQal+yCY6D/+veJl8WnRS6AVlYUyUwBoWbc3T643q3
+         eSDgvYcff9GYqNdu6KPs+zaO3QgxVUaqqaaYv9h+gYvHnflE0JstT11mJd88s0JgZw4g
+         OQMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755790825; x=1756395625;
+        d=1e100.net; s=20230601; t=1755790819; x=1756395619;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fo24Wo9EgjIluUSwNzrvBwc3hT0vZa5ULujJymc2DMU=;
-        b=PJ5rH6oCkzWbLCbhSEFg0egRSLMZCF2786OfGNcEMgg5+xXvMwot6HovZpegojOhQe
-         mxvCHKtjpyK3IMrvA3OXSkVAn+BZ7a1R4ffuMwGX27Ud+UqBZ4T/Ne5H3GhnVJV8kGng
-         EOO/fJA5o2xqkcwifW/RYqCfiZxcQ7lpanVe4KkX2KW2ATJ/sP8dMudlqjBfzDRGp8XE
-         mnGfZDRfTj7IKOpdDdJuoO+QiIsgbvbKuVrGMMieYug6LD71TedQAN1hdVpUtj8NEm6p
-         k2bi6Ve1lFlS/wSctedC+DK490mJTb52Jsglfal0PPggCCuL342W9ch82m3l0D1pSaMc
-         zUmg==
-X-Gm-Message-State: AOJu0YyXDYKkFP7PsaaZusGRhNBj7kCDTjD7xhFg2Y9jdJrfcPPtEZ2H
-	/xove1c+Blgf/6MMTXsOlERKqhOQ6QjKYk70mLF/6l/jHQw0TwFNfB+GHPCS4a47dKjy8Rln96Y
-	Tjy3E
-X-Gm-Gg: ASbGnctg+q/l8nFmRbNbHWW6d2pfdqTDHzpIYr60xT3bs/d201mdl3PKsNr242Pj3dL
-	mWyQKRiQGIu+WmUddDsjnaLbIdv1fW4WfQIQuqbyXKxm7S16ZCpz1XWiENSMCqfzGzacjn5MBp5
-	6LXF3cWmxmKBKnsMpaFodpae35r+DmnFTGKUyhIQN3DnHN+9uwOjDCQhOT7LYE2mdnf2XJNPZXt
-	77u7PGV8JvHP7SIGwzDc+j/7WTeyl4v5759gyPLwzXk7u8y5FIZaQYJRyv3OZEnh5A3dyVTGZLV
-	zJGHeaLClBUvtDIm0g4dwGPNzoezHcG93uuGzFc7N/uwOjmkgn4SaVMSmNzpQbi/6brML9XBfAn
-	kYVgy54xDtokF0mo6Dgt76xkK
-X-Google-Smtp-Source: AGHT+IGrdtgMiV/VctZq/nhZy00CaxlICyLV3HZUg/TxE3y8MNqsTS2gVql4AGIR29uJxa1j4P+7bA==
-X-Received: by 2002:a17:903:2a8f:b0:242:9bbc:3644 with SMTP id d9443c01a7336-245ff878970mr46533065ad.54.1755790824047;
-        Thu, 21 Aug 2025 08:40:24 -0700 (PDT)
+        bh=xSIVWc8ig0idkIf27VPU3O4BQPjtI4rjP0mzsKkjS1w=;
+        b=kPd90i1BQrhnmfK7dPbN0pXo+NIFk4AVhJfI6esyWWZoZzKvr4i608JV6UHdxR9n7G
+         jfF1Pc+RrROVR+8RGd2LUjgYeZWbIM3U1T7rGlfqMd80HaGfSoFD5xuu3P9EB3rXEeRY
+         k/b28XuVPl3deEZN7Wmh3CWLMhkPpv3JQQm2jizhwGftqrn0AoNQ9Rf8bk3FZdN6omAj
+         GSdZEpC3h/1BG2222cT+gbKk1ANit2QPMK8uVaCx4SgV7joycSDv4MEZle7S7axb9RhD
+         /XcSzP56lkJfCyDjY961y97Ja1DxJcOyuo4Yikld5oR5DEVv/O+9toNu1KwqHsEfdJlE
+         QJPA==
+X-Gm-Message-State: AOJu0YxxvZC9/XFzOjUMPGmfuLYaY7u1qsmwunily9mIoOi9ZD6jLsyG
+	Gmkwr8roN1aUfknjthG+37npWozemB/eljRwzp3+1ZFCChqhd8wm873K4cUZWaxLVrBPYMXLmtt
+	UuvRs
+X-Gm-Gg: ASbGncsAw+duQHGINzH9T3W0OVF/EiCrAk2iL70ru+3RdN3Hj7R4r3/utYuiRwGWnXx
+	D5d1wHkHCyZKM/uZTzDLR+3UAuldp4zqwoz6U7rY29gAVWWJHhkCGseVpa0k2/vFyJGIMfC6VLi
+	Q6BoL2d53pHY9U2cXwhtDVLHEdWeapEaG64Vz/d7vfUwuphtuYDcF0lkszLxFPqqoP3YV/thitP
+	KvICJQmlsl2GVvVBMaOreowgDOgmQo/IaiscAatwBkkpG3lyhRK2IYsdKt9riujg1weyb42y6Fw
+	GvCtcyqRu3R++nh+oJPlPYd3tWd7BAcgg5KPazrEgxnXyBOvimS1jy4hFBF276KmhUDQ8wCiqJJ
+	63TubRR8pEMtaRA==
+X-Google-Smtp-Source: AGHT+IGyAQ2sAGfBS6asz/A2i35YDG5D3ExTgpNsQW1lXZeYd5XfR6N3Y8wyNzzeh/prJki8HfaKMA==
+X-Received: by 2002:a17:902:db07:b0:234:9656:7db9 with SMTP id d9443c01a7336-245fedcc650mr38574605ad.32.1755790818717;
+        Thu, 21 Aug 2025 08:40:18 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:bc1c:6959:5ad5:d4f9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed51b3dfsm58901845ad.142.2025.08.21.08.40.23
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed51b3dfsm58901845ad.142.2025.08.21.08.40.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 08:40:23 -0700 (PDT)
+        Thu, 21 Aug 2025 08:40:18 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 12/15] binutils: Fix gprofng broken symbolic link with gp-*
-Date: Thu, 21 Aug 2025 08:39:53 -0700
-Message-ID: <55684a63904365d8a6ab2a8ce9e091f29b0b7df5.1755790385.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 09/15] glib-2.0: update 2.84.2 -> 2.84.4
+Date: Thu, 21 Aug 2025 08:39:50 -0700
+Message-ID: <8d5df566ef2c3d342ca0eb2421b4a583b02969da.1755790385.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1755790385.git.steve@sakoman.com>
 References: <cover.1755790385.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 15:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222261
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222258
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-In binutils 2.44, application names were changed from the gp- prefix
-(e.g., gp-display-text, gp-archive) to the gprofng- prefix
-(e.g., gprofng-display-text, gprofng-archive). Temporary gp-*
-symlinks were added to maintain compatibility with the older
-gprofng-gui.
+Overview of changes in GLib 2.84.4, 2025-08-08
+==============================================
+* Bugs fixed:
+  - #3716 (CVE-2025-7039) (#YWH-PGM9867-104) Buffer Under-read on GLib through
+    glib/gfileutils.c via get_tmp_file() (Michael Catanzaro)
+  - #3721 GFile leak in g_local_file_set_display_name during error handling
+    (Philip Withnall, Michael Catanzaro)
+  - !4668 Backport !4667 “Incorrect output parameter handling in closure helper
+    of g_settings_bind_with_mapping_closures” to glib-2-84
+  - !4675 Backport !4674 “gfileutils: fix computation of temporary file name” to
+    glib-2-84
+  - !4679 Backport !4677 and !4678 “Fix GFile leak in
+    g_local_file_set_display_name()” to glib-2-84
+  - !4697 Backport !4696 “gthreadpool: Catch pool_spawner creation failure” to
+    glib-2-84
+  - !4705 Backport !4702 “gio/filenamecompleter: Fix leaks” to glib-2-84
+  - !4711 Backport !4708 “gfilenamecompleter: Fix g_object_unref() of undefined
+    value” to glib-2-84
 
-However, these compatibility symlinks did not support cross-platform
-toolchain prefixes, which resulted in broken gp-* symbolic links.
+Overview of changes in GLib 2.84.3, 2025-06-13
+==============================================
+* Bugs fixed:
+  - !4656 Backport !4655 “gstring: Fix overflow check when expanding the string”
+    to glib-2-84
 
-Support for cross-platform prefixes are added upstream in binutils 2.45,
-so this change backports that fix to resolve broken symlinks issue.
+!4656 solves first half of CVE-2025-6052
 
-Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=90803ffdcc4d8c3d17566bf8dccadbad312f07a9]
-
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.44.inc                |  1 +
- .../0020-Fix-for-borken-symlinks.patch        | 62 +++++++++++++++++++
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0020-Fix-for-borken-symlinks.patch
+ .../files/0001-meson-Run-atomics-test-on-clang-as-well.patch    | 2 +-
+ ...1-meson.build-do-not-enable-pidfd-features-on-native-g.patch | 2 +-
+ .../{glib-2.0-initial_2.84.2.bb => glib-2.0-initial_2.84.4.bb}  | 0
+ .../glib-2.0/{glib-2.0_2.84.2.bb => glib-2.0_2.84.4.bb}         | 0
+ meta/recipes-core/glib-2.0/glib.inc                             | 2 +-
+ 5 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.84.2.bb => glib-2.0-initial_2.84.4.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.84.2.bb => glib-2.0_2.84.4.bb} (100%)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.44.inc b/meta/recipes-devtools/binutils/binutils-2.44.inc
-index 32928ee167..26c2a413b8 100644
---- a/meta/recipes-devtools/binutils/binutils-2.44.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.44.inc
-@@ -45,5 +45,6 @@ SRC_URI = "\
-      file://0018-CVE-2025-5245.patch \
-      file://0019-CVE-2025-7545.patch \
-      file://0018-CVE-2025-7546.patch \
-+     file://0020-Fix-for-borken-symlinks.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0020-Fix-for-borken-symlinks.patch b/meta/recipes-devtools/binutils/binutils/0020-Fix-for-borken-symlinks.patch
-new file mode 100644
-index 0000000000..b26cf8a83a
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0020-Fix-for-borken-symlinks.patch
-@@ -0,0 +1,62 @@
-+From 90803ffdcc4d8c3d17566bf8dccadbad312f07a9 Mon Sep 17 00:00:00 2001
-+From: Zheng Junjie <zhengjunjie@iscas.ac.cn>
-+Date: Mon, 10 Feb 2025 17:04:55 +0800
-+Subject: [PATCH] gprofng: Fix cross-compilation binary name.
-+
-+commit d25ba4596e85da6d8af78c88b5917e14763afbe1 create symbolic link
-+no care cross-compilation prefix.
-+
-+(cherry picked from commit:90803ffdcc4d8c3d17566bf8dccadbad312f07a9)
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=90803ffdcc4d8c3d17566bf8dccadbad312f07a9]
-+
-+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-+---
-+ gprofng/src/Makefile.am | 12 +++++-------
-+ gprofng/src/Makefile.in | 12 +++++-------
-+ 2 files changed, 10 insertions(+), 14 deletions(-)
-+
-+diff --git a/gprofng/src/Makefile.am b/gprofng/src/Makefile.am
-+index a132a9ddb05..0465cdb06e3 100644
-+--- a/gprofng/src/Makefile.am
-++++ b/gprofng/src/Makefile.am
-+@@ -179,10 +179,8 @@ $(srcdir)/DbeSession.cc: QLParser.tab.hh
-+ .PHONY: install-exec-local
-+ install-exec-local:
-+ 	$(mkinstalldirs) $(DESTDIR)$(bindir)
-+-	rm -f $(DESTDIR)$(bindir)/gp-{archive,collect-app,display-html,display-src,display-text}
-+-	ln -s gprofng-archive $(DESTDIR)$(bindir)/gp-archive
-+-	ln -s gprofng-collect-app $(DESTDIR)$(bindir)/gp-collect-app
-+-	ln -s gprofng-display-html $(DESTDIR)$(bindir)/gp-display-html
-+-	ln -s gprofng-display-src $(DESTDIR)$(bindir)/gp-display-src
-+-	ln -s gprofng-display-text $(DESTDIR)$(bindir)/gp-display-text
-+-
-++	for i in gp-{archive,collect-app,display-html,display-src,display-text}; do \
-++		oldname=`echo $$i | sed '$(transform)'`; \
-++		rm -f $(DESTDIR)$(bindir)/$$oldname ; \
-++		ln -s `echo $$oldname | sed 's&gp-&gprofng-&'` $(DESTDIR)$(bindir)/$$oldname; \
-++	done
-+diff --git a/gprofng/src/Makefile.in b/gprofng/src/Makefile.in
-+index d0dec12e244..d6f1f9438b6 100644
-+--- a/gprofng/src/Makefile.in
-++++ b/gprofng/src/Makefile.in
-+@@ -1119,13 +1119,11 @@ $(srcdir)/DbeSession.cc: QLParser.tab.hh
-+ .PHONY: install-exec-local
-+ install-exec-local:
-+ 	$(mkinstalldirs) $(DESTDIR)$(bindir)
-+-	rm -f $(DESTDIR)$(bindir)/gp-{archive,collect-app,display-html,display-src,display-text}
-+-	ln -s gprofng-archive $(DESTDIR)$(bindir)/gp-archive
-+-	ln -s gprofng-collect-app $(DESTDIR)$(bindir)/gp-collect-app
-+-	ln -s gprofng-display-html $(DESTDIR)$(bindir)/gp-display-html
-+-	ln -s gprofng-display-src $(DESTDIR)$(bindir)/gp-display-src
-+-	ln -s gprofng-display-text $(DESTDIR)$(bindir)/gp-display-text
-+-
-++	for i in gp-{archive,collect-app,display-html,display-src,display-text}; do \
-++		oldname=`echo $$i | sed '$(transform)'`; \
-++		rm -f $(DESTDIR)$(bindir)/$$oldname ; \
-++		ln -s `echo $$oldname | sed 's&gp-&gprofng-&'` $(DESTDIR)$(bindir)/$$oldname; \
-++	done
-+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
-+ # Otherwise a system limit (for SysV at least) may be exceeded.
-+ .NOEXPORT:
-+-- 
-+2.43.7
+diff --git a/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch b/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch
+index e5878a1428..5ad2a0375b 100644
+--- a/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch
++++ b/meta/recipes-core/glib-2.0/files/0001-meson-Run-atomics-test-on-clang-as-well.patch
+@@ -17,7 +17,7 @@ diff --git a/meson.build b/meson.build
+ index a8bcadc..041b68e 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -2075,7 +2075,7 @@ atomicdefine = '''
++@@ -2077,7 +2077,7 @@ atomicdefine = '''
+  # We know that we can always use real ("lock free") atomic operations with MSVC
+  if cc.get_id() == 'msvc' or cc.get_id() == 'clang-cl' or cc.links(atomictest, name : 'atomic ops')
+    have_atomic_lock_free = true
+diff --git a/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch b/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
+index e512940e34..aa098da379 100644
+--- a/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
++++ b/meta/recipes-core/glib-2.0/files/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
+@@ -17,7 +17,7 @@ diff --git a/meson.build b/meson.build
+ index 041b68e..155bfd4 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -1073,7 +1073,8 @@ if cc.links('''#include <sys/syscall.h>
++@@ -1075,7 +1075,8 @@ if cc.links('''#include <sys/syscall.h>
+                   waitid (P_PIDFD, 0, &child_info, WEXITED | WNOHANG);
+                   return 0;
+                 }''', name : 'pidfd_open(2) system call')
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.2.bb b/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.4.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.2.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.4.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.84.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.84.4.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.84.2.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.84.4.bb
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 819f3ff50a..c171598bed 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -234,7 +234,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+                               "
+ 
+-SRC_URI[sha256sum] = "88e960dd937057407d61fcb3b45a860704b25923c37ae2478b85f2ecb5a4021f"
++SRC_URI[sha256sum] = "8a9ea10943c36fc117e253f80c91e477b673525ae45762942858aef57631bb90"
+ 
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 -- 
 2.43.0
 
