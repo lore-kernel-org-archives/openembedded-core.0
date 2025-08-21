@@ -2,65 +2,63 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A6BCCA0EEB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C8E9CA0FE4
 	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 22:43:35 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.2496.1755816205310766568
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web11.2501.1755816212659003394
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Aug 2025 15:43:25 -0700
+ Thu, 21 Aug 2025 15:43:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cru69+Vt;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-afcb78ead12so215474366b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 15:43:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AoS9C+yD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-61a8c134609so2082058a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 15:43:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755816204; x=1756421004; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1755816211; x=1756421011; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qcXqTR6th3Dz/++1J/IytDc0NbJI/YCpVRK6p/dK0Rg=;
-        b=Cru69+VtOflLXglprBm5lzxDIE2JGc7f2NwDkKIR9SP0Zks2hnwXVWKBDdU+Tjg05S
-         p+F83ysDNIxVhEQYtAtJo3yu0M++iqqryooVKKp4iPlmt8374BiVx7ZWhzeFHT3t+0fN
-         d/a59yqvnzE3lmN068xMSHUQF79T/ijCmb/v9WtQYBEMb6kRbGUvqFi+DCP84WHv2VH5
-         MEv/ij+xGGrfvKGRY5H0xap8Sjtj8bV8QxYPAJOaSgpubn3shyEq6WJFgIjBfVv+hXq8
-         FVMkHlCKBasw05jfFg+M6G2pPb+rhELcIiT5nZX/SPXM2iMLiWUvG+IqFW6P9ZLxOiCy
-         HpMQ==
+        bh=ujTdbXD+4+W3nZeZVWZX97AMfej7AXyd2WFL95+en9A=;
+        b=AoS9C+yDBv0D2u6mwDBjyFRox1Bg/1YnhJP5+jGX6ZLlDZQMklWtHGLZXpHNrXcyFn
+         ci7gjAVm8YEqdtawAuHFHQYeoe9VPqC3tC5dY+dWflYs80ouE5bOpDmw9SVK9tN5iKHz
+         spGTi6YLGvWDTWrIcse4PTrfc1kmX/mJtoGaLjdrvnxzXIWhZgesBZoVOya6jxJOF7Gq
+         Y96RCxuUiXJ+cjO0dCBg0RGr7GKqfLkOKREKgihLkk7e+L4taYG0QBpO46ck7vdAvovY
+         R0AFoRDO/oF8sIL5797dovOhFbkEmz/1wZpD2y9cKTTdSFCLXuVtNYnPLtkbJ+TSiimG
+         H1Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755816204; x=1756421004;
+        d=1e100.net; s=20230601; t=1755816211; x=1756421011;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qcXqTR6th3Dz/++1J/IytDc0NbJI/YCpVRK6p/dK0Rg=;
-        b=YZngSn6zcma+fB1ZPdP96U4DEPsytxtvb1pkGlJEnmQs+bKcN34x51sducPSLWJr3e
-         p72fsZaESrr7KxQAf5FgCShpnjJ8qKsEsmQ0VMq5408zH4Lkx1ANlPyUaC0+D2R3GTWy
-         QNOGa3ReqycBSDmnnCw8rr09WUGqLW0FnlnmivQ3OBle4K8PTnPCj1KHyiDxTvK1rpdD
-         KFIrzJ+bUQADtRcwxLDjDz09twxc68J6K/wYeywHhOe3xqkgiTSvSLs39KpuW9nWcNEl
-         rrVmG7Ohb3anSLif/9pwbDLe+wnJEry1MPIRWnEeKsdnwFkQ8+IHNI3vC+N/623u+HDN
-         tz7Q==
-X-Gm-Message-State: AOJu0YwLd72txbaNwyua0JCUUHtabJwauTzHKg6hnpPszcMjGEFAq9Th
-	zerI/i+zC7xC4rJtcaPKpA51lePedVu1L1YW+ESMr+D5vIdHNY/uanuIe02V7A==
-X-Gm-Gg: ASbGncv6413RYvKtBpi7WGt5orfH1MuSv/zcD5yBcwGoTN9fwJ32NbzH7wTFZdMM1SE
-	PhGzLhjZbmSsfFPczngFFU/U3xEh1agDd38CyYnW2zubnWGtsW1Zn2A/IpmESf62+/E7diGNfwR
-	MuE84Xt+t2cVtUef6v0W69bckjiTOMjToMabZtBUMBavtaKDwWzS16e10s0o9V4ukJ3R1UA3fkp
-	l+hIvPDOKoxrDUpc6swBui7M/PPv3IP4mygOBB+/bX9Or9qKg8ELX9ySkmRnwHv98vsi6kLIw1B
-	bLnT7vhP2GiYM3YubIvb3ovtWYkKwwqEl7rFdqPT6AWZkorzyecPQOlNrp1Kqv2GzElE56mLxrL
-	tPEptGla9QVpnzT10l3aBKWt3QU93eyqprhPs3ZRrlgaQcNfi+7fvsqIC
-X-Google-Smtp-Source: AGHT+IHKnvoVwXvQ6vuCQd3rrpFHHyRWTktK9qk1iQ3DS9JYCRTXs537inRSRrMsuTtTpO7f9kaaPg==
-X-Received: by 2002:a17:907:7e9c:b0:af9:8c1f:b290 with SMTP id a640c23a62f3a-afe28f6a866mr68219766b.29.1755816203562;
-        Thu, 21 Aug 2025 15:43:23 -0700 (PDT)
+        bh=ujTdbXD+4+W3nZeZVWZX97AMfej7AXyd2WFL95+en9A=;
+        b=scDMQnjs34b4K1PcJ5pc60ptO2BCbcMyNpaSmT3bC5x3/nY4mwSyRTUMF0trtwhBzx
+         ZO5gQ9SFNGHC8Z07Ji22X5RMClAIGBbCnzdMFaj08+V6xHX04twvA8tz2BeuzJfgAtcP
+         KllCKxh34a8pJ/JFebgAOp7lQOyzEAW7ZhysIbWNzBSQuITsa3wtNfDsx36QYeEEJ8Y9
+         cx3QmQ7D1hhWvm/1CRnzeKZM1FTYOBm2tgPJ34iQ+kjo6PbBm3jM1JWtW+PXLbTbGSdr
+         1JghrLbmJreJ1c/hNFrhNVVBv8rJ3zXagwf9+TdAng/VKMH2bKqMOgBwNBbRInBbWg/d
+         AGcg==
+X-Gm-Message-State: AOJu0YwjYsp8NwJThmRXEKSuVnBTuwKAjhbLRDXBdm83tcTsq7jhB+Kc
+	ESV6XbkgTRde+HICaxlWJKixPvHlmIxA2EfjVQ++U8lOu2EOW/eBvABQ/hIclQ==
+X-Gm-Gg: ASbGnctlU597Nm3LxwQfYXwLRWbvjZttoVX8XLoWUDj4BM5VTNarZoquxy2Rn6nl9dR
+	R61hsH5sSX46LOQxV3BveFJmj9JOgA8ba9mC1XjcwC4JhwZXnD57ukrfFi8pl02HLJ/KNuTtBXH
+	HLphJXaTWC/Hi7PE91qmE9TG3y77xvNfZkMrMO8v550kixe3IkNKACwAMeCXEeY47Id2can0p5u
+	fygujagkY5Qcw0iMQld4hzML3TZq1+RoDHlsDwrcHzEQqmdja9y4NkZ/Vu1CTsG0Cr1TZSLsvMJ
+	25WEYVLvmTU2GyQK1KoubQXW9e1CiLgdgBc3CpUR8NyxndM/FwQ8e+YLtYn3rVHhg0a7aY/4c+K
+	zlxLxYD50pMw+g1UlJInZ4/PlWEApYs4wLNpnbxAZXHTGJXIXaL0w+XeTbm2KurTos+4=
+X-Google-Smtp-Source: AGHT+IH5BTrOhP+6zpdimhxpjln0JeMFt3dkKREoQr3KMe1i7BeWAZWpAwY4wx/qbu7B4+brByHI2w==
+X-Received: by 2002:a05:6402:1ed3:b0:618:40ef:fa47 with SMTP id 4fb4d7f45d1cf-61c1b3bb508mr616562a12.1.1755816210982;
+        Thu, 21 Aug 2025 15:43:30 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-afded2bc305sm467784766b.18.2025.08.21.15.43.23
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-61a761f2599sm5899062a12.5.2025.08.21.15.43.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 15:43:23 -0700 (PDT)
+        Thu, 21 Aug 2025 15:43:30 -0700 (PDT)
 From: martin.jansa@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
-	Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Martin Jansa <martin.jansa@gmail.com>
-Subject: [scarthgap][PATCH 03/15] gmp: Fix build with GCC15/C23
-Date: Fri, 22 Aug 2025 00:42:57 +0200
-Message-ID: <20250821224314.1690103-3-martin.jansa@gmail.com>
+Subject: [scarthgap][PATCH 11/15] elfutils: fix build with gcc-15
+Date: Fri, 22 Aug 2025 00:43:05 +0200
+Message-ID: <20250821224314.1690103-11-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250821224314.1690103-1-martin.jansa@gmail.com>
 References: <20250821224314.1690103-1-martin.jansa@gmail.com>
@@ -70,60 +68,105 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 22:43:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222288
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222296
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- ...n-prototype-in-acinclude.m4-for-C23-.patch | 25 +++++++++++++++++++
- meta/recipes-support/gmp/gmp_6.3.0.bb         |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-support/gmp/gmp/0001-Complete-function-prototype-in-acinclude.m4-for-C23-.patch
+ .../elfutils/elfutils_0.191.bb                |  1 +
+ .../files/0007-Fix-build-with-gcc-15.patch    | 72 +++++++++++++++++++
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/0007-Fix-build-with-gcc-15.patch
 
-diff --git a/meta/recipes-support/gmp/gmp/0001-Complete-function-prototype-in-acinclude.m4-for-C23-.patch b/meta/recipes-support/gmp/gmp/0001-Complete-function-prototype-in-acinclude.m4-for-C23-.patch
-new file mode 100644
-index 0000000000..ee199a8373
---- /dev/null
-+++ b/meta/recipes-support/gmp/gmp/0001-Complete-function-prototype-in-acinclude.m4-for-C23-.patch
-@@ -0,0 +1,25 @@
-+From 51a657c827422d2bc284d752dfbcfd2b1311a5bf Mon Sep 17 00:00:00 2001
-+From: Marc Glisse <marc.glisse@inria.fr>
-+Date: Wed, 29 Jan 2025 22:38:02 +0100
-+Subject: [PATCH] Complete function prototype in acinclude.m4 for C23
-+ compatibility
-+
-+Upstream-Status: Backport [https://gmplib.org/repo/gmp/rev/8e7bb4ae7a18]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ acinclude.m4 | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/acinclude.m4 b/acinclude.m4
-+index 9cf9483..787511f 100644
-+--- a/acinclude.m4
-++++ b/acinclude.m4
-+@@ -609,7 +609,7 @@ GMP_PROG_CC_WORKS_PART([$1], [long long reliability test 1],
-+ 
-+ #if defined (__GNUC__) && ! defined (__cplusplus)
-+ typedef unsigned long long t1;typedef t1*t2;
-+-void g(){}
-++void g(int,t1 const*,t1,t2,t1 const*,int){}
-+ void h(){}
-+ static __inline__ t1 e(t2 rp,t2 up,int n,t1 v0)
-+ {t1 c,x,r;int i;if(v0){c=1;for(i=1;i<n;i++){x=up[i];r=x+1;rp[i]=r;}}return c;}
-diff --git a/meta/recipes-support/gmp/gmp_6.3.0.bb b/meta/recipes-support/gmp/gmp_6.3.0.bb
-index fd4aec92fd..fd810a264d 100644
---- a/meta/recipes-support/gmp/gmp_6.3.0.bb
-+++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
-@@ -14,6 +14,7 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
-            file://use-includedir.patch \
-            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
-            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
-+           file://0001-Complete-function-prototype-in-acinclude.m4-for-C23-.patch \
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.191.bb b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
+index bab3d94d12..fcb91e41aa 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.191.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.191.bb
+@@ -27,6 +27,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://CVE-2025-1365.patch \
+            file://CVE-2025-1372.patch \
+            file://CVE-2025-1371.patch \
++           file://0007-Fix-build-with-gcc-15.patch \
             "
- SRC_URI[sha256sum] = "ac28211a7cfb609bae2e2c8d6058d66c8fe96434f740cf6fe2e47b000d1c20cb"
- 
+ SRC_URI:append:libc-musl = " \
+            file://0003-musl-utils.patch \
+diff --git a/meta/recipes-devtools/elfutils/files/0007-Fix-build-with-gcc-15.patch b/meta/recipes-devtools/elfutils/files/0007-Fix-build-with-gcc-15.patch
+new file mode 100644
+index 0000000000..8f5c7e4421
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/0007-Fix-build-with-gcc-15.patch
+@@ -0,0 +1,72 @@
++From 7508696d107ca01b65ce8273c881462a8658f90f Mon Sep 17 00:00:00 2001
++From: Sergei Trofimovich <slyich@gmail.com>
++Date: Wed, 17 Jul 2024 23:03:34 +0100
++Subject: [PATCH] backends: allocate enough stace for null terminator
++
++`gcc-15` added a new warning in https://gcc.gnu.org/PR115185:
++
++    i386_regs.c:88:11: error: initializer-string for array of 'char' is too long [-Werror=unterminated-string-initialization]
++       88 |           "ax", "cx", "dx", "bx", "sp", "bp", "si", "di", "ip"
++          |           ^~~~
++
++`elfutils` does not need to store '\0'. We could either initialize the
++arrays with individual bytes or allocate extra byte for null.
++
++This change initializes the array bytewise.
++
++	* backends/i386_regs.c (i386_register_info): Initialize the
++	array bytewise to fix gcc-15 warning.
++	* backends/x86_64_regs.c (x86_64_register_info): Ditto.
++
++Signed-off-by: Sergei Trofimovich <slyich@gmail.com>
++Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=7508696d107ca01b65ce8273c881462a8658f90f]
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ backends/i386_regs.c   | 10 +++++++++-
++ backends/x86_64_regs.c |  9 ++++++++-
++ 2 files changed, 17 insertions(+), 2 deletions(-)
++
++diff --git a/backends/i386_regs.c b/backends/i386_regs.c
++index 7ec93bb9..ead55ef7 100644
++--- a/backends/i386_regs.c
+++++ b/backends/i386_regs.c
++@@ -85,7 +85,15 @@ i386_register_info (Ebl *ebl __attribute__ ((unused)),
++     {
++       static const char baseregs[][2] =
++ 	{
++-	  "ax", "cx", "dx", "bx", "sp", "bp", "si", "di", "ip"
+++	  {'a', 'x'},
+++	  {'c', 'x'},
+++	  {'d', 'x'},
+++	  {'b', 'x'},
+++	  {'s', 'p'},
+++	  {'b', 'p'},
+++	  {'s', 'i'},
+++	  {'d', 'i'},
+++	  {'i', 'p'},
++ 	};
++ 
++     case 4:
++diff --git a/backends/x86_64_regs.c b/backends/x86_64_regs.c
++index ef987daf..dab8f27f 100644
++--- a/backends/x86_64_regs.c
+++++ b/backends/x86_64_regs.c
++@@ -82,7 +82,14 @@ x86_64_register_info (Ebl *ebl __attribute__ ((unused)),
++     {
++       static const char baseregs[][2] =
++ 	{
++-	  "ax", "dx", "cx", "bx", "si", "di", "bp", "sp"
+++	  {'a', 'x'},
+++	  {'d', 'x'},
+++	  {'c', 'x'},
+++	  {'b', 'x'},
+++	  {'s', 'i'},
+++	  {'d', 'i'},
+++	  {'b', 'p'},
+++	  {'s', 'p'},
++ 	};
++ 
++     case 6 ... 7:
++-- 
++2.43.7
++
 
