@@ -2,27 +2,27 @@ Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D924DCA0FEB
-	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 12:53:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00457CA0EFF
+	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 12:53:34 +0000 (UTC)
 Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [185.125.25.12])
- by mx.groups.io with SMTP id smtpd.web11.9378.1755867210985062121
+ by mx.groups.io with SMTP id smtpd.web11.9379.1755867211636222216
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Aug 2025 05:53:31 -0700
+ Fri, 22 Aug 2025 05:53:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.12, mailfrom: foss+yocto@0leil.net)
 Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c7g953xmGzBLp;
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c7g961RN2zCGn;
+	Fri, 22 Aug 2025 14:53:30 +0200 (CEST)
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4c7g954TvBzhRg;
 	Fri, 22 Aug 2025 14:53:29 +0200 (CEST)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4c7g9506m8zjs0;
-	Fri, 22 Aug 2025 14:53:28 +0200 (CEST)
 From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Fri, 22 Aug 2025 14:53:17 +0200
-Subject: [PATCH v6 11/14] mesa: avoid host path poisoning when enabling
- OpenCL
+Date: Fri, 22 Aug 2025 14:53:18 +0200
+Subject: [PATCH v6 12/14] mesa: use simpler mesa-tools-native recipe as
+ dependency for libclc
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250822-mesa-libclc-panfrost-v6-11-393cf47e2fa2@cherry.de>
+Message-Id: <20250822-mesa-libclc-panfrost-v6-12-393cf47e2fa2@cherry.de>
 References: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
 In-Reply-To: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
 To: openembedded-core@lists.openembedded.org
@@ -37,46 +37,108 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Aug 2025 12:53:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222326
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222327
 
 From: Quentin Schulz <quentin.schulz@cherry.de>
 
-When enabling rusticl (and the shared-llvm meson feature via the
-gallium-llvm PACKAGECONFIG documented dependency), the clc headers are
-looked on the filesystem at runtime. Unfortunately, part of the lookup
-path contains LLVM_LIB_DIR, a variable derived from llvm_libdir meson
-variable. The latter is required to figure out where the clang/llvm
-libraries are for the cross-compiler but the former is used when running
-on the target. When in a cross-compiling environment, LLVM_LIB_DIR would
-actually point at a non-existing path (the sysroot path on the build
-host) instead of the target path. This sadly triggers a buildpaths QA
-error in addition of being incorrect.
+libclc is required for some drivers (asahi, panfrost and intel at the
+very least).
+libclc brings very expensive dependencies such as llvm and clang.
+Building clang and llvm for each target architecture is very expensive,
+but mesa allows to depend on prebuilt host binaries (mesa-clc and
+precomp-compiler). Those are built by mesa as well, but can be compiled
+in mesa-native instead of mesa, making the dependency expensive but only
+once regardless of the number of target architectures to build for.
+Ideally the mesa-clc and precomp-compiler would only be compiled in
+mesa-native if target mesa requires libclc support, however this is not
+possible as a target recipe cannot impact or depend on a native recipe's
+configuration. We thus have two choices, always build libclc in
+mesa-native with its heavy dependencies and impact every build or force
+the user to modify the mesa-native recipe in a custom layer (as a native
+recipe cannot use target's OVERRIDES). The latter is unacceptable so the
+former seems to be the only option. Another big downside is that
+mesa-native currently builds drivers (amd, nouveau, svga) which we may
+have absolutely no interest in building, increasing the build time and
+possibly dependencies list).
 
-Another option is to bundle the clc headers directly inside the binary
-instead of looking them up at runtime, something we can do with
-mesa-clc-bundle-headers meson feature.
+A third choice is to spin-off the native mesa recipe with libclc support
+into a new recipe without drivers and only what's necessary to build
+mesa-clc and precomp-compiler binaries.
+This allows to keep a "clean" mesa-native recipe for whoever needs those
+drivers built-in (e.g. for testing, for qemu-native, or whatever else)
+and only bring the libclc dependency when required by the target recipe.
 
-So let's do that to fix the issue and buildpaths QA error.
+Because libclc is now only built for the host, opencl support now needs
+to explicitly bring libclc and others to build as libclc won't bring it
+in the build environment anymore.
 
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Suggested-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/mesa/mesa-tools-native.bb | 19 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc             | 15 ++++-----------
+ 2 files changed, 23 insertions(+), 11 deletions(-)
 
+diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
+new file mode 100644
+index 0000000000000000000000000000000000000000..dab1a037851cca6b33eae4b69a6a141fbbcd801b
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
+@@ -0,0 +1,19 @@
++require mesa.inc
++inherit native
++
++SUMMARY += " (tools only)"
++
++PACKAGECONFIG = "tools asahi panfrost"
++# llvm required for libclc
++PACKAGECONFIG += "gallium-llvm"
++# Doesn't compile without wayland-scanner if PLATFORMS has wayland in, and,
++# doesn't compile at all if PLATFORMS is empty so add x11 and wayland
++# to PACKAGECONFIG like in mesa.inc
++PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
++
++DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
++
++EXTRA_OEMESON += " \
++    -Dmesa-clc=enabled -Dinstall-mesa-clc=true -Dmesa-clc-bundle-headers=enabled \
++    -Dprecomp-compiler=enabled -Dinstall-precomp-compiler=true \
++"
 diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index beaf99b796f117ab4b7b10bf9c9ea57d65995ddb..54af134c77e90938534db1b0009ec08272f271e0 100644
+index 54af134c77e90938534db1b0009ec08272f271e0..b38386977da2a2fa2409afaef036cd2c09a0cdbf 100644
 --- a/meta/recipes-graphics/mesa/mesa.inc
 +++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -129,7 +129,7 @@ PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
+@@ -127,9 +127,9 @@ PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2
+ # "egl" requires "opengl"
+ PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
  
- # "opencl" also requires libclc and gallium-llvm to be present in PKGCONFIG!
- # Be sure to enable them both for the target and for the native build.
--PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true, -Dgallium-rusticl=false, bindgen-cli-native"
-+PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true -Dmesa-clc-bundle-headers=enabled, -Dgallium-rusticl=false, bindgen-cli-native"
+-# "opencl" also requires libclc and gallium-llvm to be present in PKGCONFIG!
+-# Be sure to enable them both for the target and for the native build.
+-PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true -Dmesa-clc-bundle-headers=enabled, -Dgallium-rusticl=false, bindgen-cli-native"
++# "opencl" also requires gallium-llvm to be present in PACKAGECONFIG!
++# Be sure to enable it for the target and for the native build.
++PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true -Dmesa-clc-bundle-headers=enabled, -Dgallium-rusticl=false, bindgen-cli-native libclc spirv-tools spirv-llvm-translator"
  
  PACKAGECONFIG[broadcom] = ""
  PACKAGECONFIG[etnaviv] = ",,python3-pycparser-native"
+@@ -168,16 +168,9 @@ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', '
+ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'amd', ',r600', '', d)}"
+ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
+ 
+-MESA_CLC = "system"
+-MESA_CLC:class-native = "enabled"
+-INSTALL_MESA_CLC = "false"
+-INSTALL_MESA_CLC:class-native = "true"
+-MESA_NATIVE = "mesa-native"
+-MESA_NATIVE:class-native = ""
+-
+ PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}, -Dgallium-drivers='', libdrm"
+ PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm llvm-native elfutils"
+-PACKAGECONFIG[libclc] = "-Dmesa-clc=${MESA_CLC} -Dinstall-mesa-clc=${INSTALL_MESA_CLC} -Dmesa-clc-bundle-headers=enabled,,libclc spirv-tools spirv-llvm-translator ${MESA_NATIVE}"
++PACKAGECONFIG[libclc] = "-Dmesa-clc=system -Dprecomp-compiler=system,,mesa-tools-native"
+ PACKAGECONFIG[va] = "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
+ PACKAGECONFIG[vdpau] = "-Dgallium-vdpau=enabled,-Dgallium-vdpau=disabled,libvdpau"
+ 
 
 -- 
 2.50.1
