@@ -2,27 +2,26 @@ Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00457CA0EFF
-	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 12:53:34 +0000 (UTC)
-Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [185.125.25.12])
- by mx.groups.io with SMTP id smtpd.web11.9379.1755867211636222216
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D91F4CA0FE9
+	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 12:53:33 +0000 (UTC)
+Received: from smtp-8fa8.mail.infomaniak.ch (smtp-8fa8.mail.infomaniak.ch [83.166.143.168])
+ by mx.groups.io with SMTP id smtpd.web11.9377.1755867210414417978
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Aug 2025 05:53:32 -0700
+ Fri, 22 Aug 2025 05:53:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.12, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c7g961RN2zCGn;
-	Fri, 22 Aug 2025 14:53:30 +0200 (CEST)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4c7g954TvBzhRg;
-	Fri, 22 Aug 2025 14:53:29 +0200 (CEST)
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 83.166.143.168, mailfrom: foss+yocto@0leil.net)
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c7g946szkzBHp;
+	Fri, 22 Aug 2025 14:53:28 +0200 (CEST)
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4c7g942tLJzksf;
+	Fri, 22 Aug 2025 14:53:28 +0200 (CEST)
 From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Fri, 22 Aug 2025 14:53:18 +0200
-Subject: [PATCH v6 12/14] mesa: use simpler mesa-tools-native recipe as
- dependency for libclc
+Date: Fri, 22 Aug 2025 14:53:16 +0200
+Subject: [PATCH v6 10/14] mesa: avoid host paths poisoning
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250822-mesa-libclc-panfrost-v6-12-393cf47e2fa2@cherry.de>
+Message-Id: <20250822-mesa-libclc-panfrost-v6-10-393cf47e2fa2@cherry.de>
 References: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
 In-Reply-To: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
 To: openembedded-core@lists.openembedded.org
@@ -37,108 +36,94 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Aug 2025 12:53:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222327
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222325
 
 From: Quentin Schulz <quentin.schulz@cherry.de>
 
-libclc is required for some drivers (asahi, panfrost and intel at the
-very least).
-libclc brings very expensive dependencies such as llvm and clang.
-Building clang and llvm for each target architecture is very expensive,
-but mesa allows to depend on prebuilt host binaries (mesa-clc and
-precomp-compiler). Those are built by mesa as well, but can be compiled
-in mesa-native instead of mesa, making the dependency expensive but only
-once regardless of the number of target architectures to build for.
-Ideally the mesa-clc and precomp-compiler would only be compiled in
-mesa-native if target mesa requires libclc support, however this is not
-possible as a target recipe cannot impact or depend on a native recipe's
-configuration. We thus have two choices, always build libclc in
-mesa-native with its heavy dependencies and impact every build or force
-the user to modify the mesa-native recipe in a custom layer (as a native
-recipe cannot use target's OVERRIDES). The latter is unacceptable so the
-former seems to be the only option. Another big downside is that
-mesa-native currently builds drivers (amd, nouveau, svga) which we may
-have absolutely no interest in building, increasing the build time and
-possibly dependencies list).
+At least panfrost and asahi drivers are prone to host paths poisoning
+due to unpatched __FILE__ macro in assert() of libcl.
 
-A third choice is to spin-off the native mesa recipe with libclc support
-into a new recipe without drivers and only what's necessary to build
-mesa-clc and precomp-compiler binaries.
-This allows to keep a "clean" mesa-native recipe for whoever needs those
-drivers built-in (e.g. for testing, for qemu-native, or whatever else)
-and only bring the libclc dependency when required by the target recipe.
+The compilation units for files including this file all are passed
+specific arguments via the cl_args meson variable which currently only
+contains one fmacro-prefix-map entry for relative paths. However, there
+are also absolute build and source paths that seem to make it to the
+generated files and libraries so this patches mesa to also strip those
+paths.
 
-Because libclc is now only built for the host, opencl support now needs
-to explicitly bring libclc and others to build as libclc won't bring it
-in the build environment anymore.
+Note that out of the four paths in the default DEBUG_PREFIX_MAP, only
+the source and build directories make it to the fmacro-prefix-map and
+they aren't mapped like they are when used with ffile-prefix-map in
+DEBUG_PREFIX_MAP as I'm not sure if it is at all possible for meson to
+fetch this Yocto-provided path we should be mapping to in the current
+mesa code base. I guess this is good enough for now.
 
-Suggested-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- meta/recipes-graphics/mesa/mesa-tools-native.bb | 19 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc             | 15 ++++-----------
- 2 files changed, 23 insertions(+), 11 deletions(-)
+ ...01-meson-fix-libcl-assert-reproducibility.patch | 43 ++++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc                |  1 +
+ 2 files changed, 44 insertions(+)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-fix-libcl-assert-reproducibility.patch b/meta/recipes-graphics/mesa/files/0001-meson-fix-libcl-assert-reproducibility.patch
 new file mode 100644
-index 0000000000000000000000000000000000000000..dab1a037851cca6b33eae4b69a6a141fbbcd801b
+index 0000000000000000000000000000000000000000..118b52a22714594999f9c8d38a56b47afe4e4e66
 --- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-@@ -0,0 +1,19 @@
-+require mesa.inc
-+inherit native
++++ b/meta/recipes-graphics/mesa/files/0001-meson-fix-libcl-assert-reproducibility.patch
+@@ -0,0 +1,43 @@
++From b9d43acde2d2e21d321e57d632cac199e41048ef Mon Sep 17 00:00:00 2001
++From: Quentin Schulz <quentin.schulz@cherry.de>
++Date: Thu, 21 Aug 2025 17:24:08 +0200
++Subject: [PATCH] meson: fix libcl assert() reproducibility
 +
-+SUMMARY += " (tools only)"
++The current -fmacro-prefix-map only handles removal of relative paths
++but we still need to handle absolute paths.
 +
-+PACKAGECONFIG = "tools asahi panfrost"
-+# llvm required for libclc
-+PACKAGECONFIG += "gallium-llvm"
-+# Doesn't compile without wayland-scanner if PLATFORMS has wayland in, and,
-+# doesn't compile at all if PLATFORMS is empty so add x11 and wayland
-+# to PACKAGECONFIG like in mesa.inc
-+PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)}"
++The following path can be found in libvulkan_panfrost.so when building
++with Yocto for example:
++/work/build/tmp/work/cortexa76-cortexa55-crypto-poky-linux/mesa/25.2.0/sources/mesa-25.2.0/src/panfrost/libpan/../../util/bitpack_helpers.h
 +
-+DEPENDS += "libclc-native spirv-tools-native spirv-llvm-translator-native"
++These paths currently seem to only appear in the binary in strings that
++start with "Shader assertion fail at " which seems to indicate there are
++calls to assert() with absolute paths as well as relative paths (which
++are already patched with fmacro-prefix-map).
 +
-+EXTRA_OEMESON += " \
-+    -Dmesa-clc=enabled -Dinstall-mesa-clc=true -Dmesa-clc-bundle-headers=enabled \
-+    -Dprecomp-compiler=enabled -Dinstall-precomp-compiler=true \
-+"
++By stripping the global source and build root directories from the paths
++with -fmacro-prefix-map, we get rid of this reproducibility issue (which
++incidentally makes the build fail due to buildpaths QA issue).
++
++Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36927]
++
++Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
++---
++ meson.build | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/meson.build b/meson.build
++index 9cc75f6636e..d4779905020 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -52,6 +52,8 @@ relative_dir = fs.relative_to(meson.global_source_root(), meson.global_build_roo
++ 
++ cl_args = [
++   '-fmacro-prefix-map=@0@/='.format(relative_dir),
+++  '-fmacro-prefix-map=@0@/='.format(meson.global_source_root()),
+++  '-fmacro-prefix-map=@0@/='.format(meson.global_build_root()),
++ 
++   # Set the OpenCL standard to CL 2.0, enabling everything at a frontend.
++   # Drivers may not actually support everything but that's ok.
 diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 54af134c77e90938534db1b0009ec08272f271e0..b38386977da2a2fa2409afaef036cd2c09a0cdbf 100644
+index 4b1c11be55f7b3f54b5244674263b83a8703bc25..beaf99b796f117ab4b7b10bf9c9ea57d65995ddb 100644
 --- a/meta/recipes-graphics/mesa/mesa.inc
 +++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -127,9 +127,9 @@ PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2
- # "egl" requires "opengl"
- PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
+@@ -17,6 +17,7 @@ PE = "2"
+ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
++           file://0001-meson-fix-libcl-assert-reproducibility.patch \
+ "
  
--# "opencl" also requires libclc and gallium-llvm to be present in PKGCONFIG!
--# Be sure to enable them both for the target and for the native build.
--PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true -Dmesa-clc-bundle-headers=enabled, -Dgallium-rusticl=false, bindgen-cli-native"
-+# "opencl" also requires gallium-llvm to be present in PACKAGECONFIG!
-+# Be sure to enable it for the target and for the native build.
-+PACKAGECONFIG[opencl] = "-Dgallium-rusticl=true -Dmesa-clc-bundle-headers=enabled, -Dgallium-rusticl=false, bindgen-cli-native libclc spirv-tools spirv-llvm-translator"
- 
- PACKAGECONFIG[broadcom] = ""
- PACKAGECONFIG[etnaviv] = ",,python3-pycparser-native"
-@@ -168,16 +168,9 @@ GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', '
- GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'amd', ',r600', '', d)}"
- GALLIUMDRIVERS:append = "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
- 
--MESA_CLC = "system"
--MESA_CLC:class-native = "enabled"
--INSTALL_MESA_CLC = "false"
--INSTALL_MESA_CLC:class-native = "true"
--MESA_NATIVE = "mesa-native"
--MESA_NATIVE:class-native = ""
--
- PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}, -Dgallium-drivers='', libdrm"
- PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm llvm-native elfutils"
--PACKAGECONFIG[libclc] = "-Dmesa-clc=${MESA_CLC} -Dinstall-mesa-clc=${INSTALL_MESA_CLC} -Dmesa-clc-bundle-headers=enabled,,libclc spirv-tools spirv-llvm-translator ${MESA_NATIVE}"
-+PACKAGECONFIG[libclc] = "-Dmesa-clc=system -Dprecomp-compiler=system,,mesa-tools-native"
- PACKAGECONFIG[va] = "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
- PACKAGECONFIG[vdpau] = "-Dgallium-vdpau=enabled,-Dgallium-vdpau=disabled,libvdpau"
- 
+ SRC_URI[sha256sum] = "7c726b21c074d14d31d253d638b741422f3c0a497ce7f1b4aaaa917d10bd8d4f"
 
 -- 
 2.50.1
