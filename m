@@ -1,125 +1,90 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC9F3CA0EFA
-	for <webhook@archiver.kernel.org>; Thu, 21 Aug 2025 23:04:35 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.2914.1755817465872746364
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2033CA0EEB
+	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 05:17:31 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.1980.1755839850401827647
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Aug 2025 16:04:26 -0700
+ Thu, 21 Aug 2025 22:17:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BNq1Yvz5;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45b4d892175so6137485e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 16:04:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dKov/697;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b47174b3429so1149191a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 22:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755817464; x=1756422264; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1755839849; x=1756444649; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sYNZRj2bQThxIS/92tEZPTKV8mzt4xOYyi35E/+KoU0=;
-        b=BNq1Yvz5FzfumDnBJA05UumVXoFH7W2MPY10mJs9EkA3f9VbrytyiLSabk/lTyA8v4
-         yyEmWmn52ErxGONQWYPehtrQNQw20z6CCc9GkzVdoD+nCHbeLP+Be0F24G9HlVebQsIt
-         rS+rYyFpElpUiExa9SMT2XdQyHkWJ2JJluwBHlwaXfrMsztXEMv653udxaqNCZ3hzml5
-         PRaa9n2HsYvhDcDf5qC9e/rabpbRl/yJeNRkSlM5sqqrKktA/GZKIqWW1qHhqczCRUfn
-         UVoaaKlWiOEAvyeA8vSj3vrY7CVUZMRaGG23mgEia4LHDk3bdYcnlVqGaTOwn7xZggmM
-         o2dg==
+        bh=rmXzRbaWlI2MentMmNb08B26rzXCatww2rKamwbkjTQ=;
+        b=dKov/697sucdO6nVFK54TiPtzPW8EX+H3Cb2556zHV4lWCEoBKU/9krvxOeko4kSPJ
+         RqApAFQI40GttY4Wf44LyH6AiJ5jtDp1hpYYav5Yx9jBuQaP8CjvaruGSauv7uXydrdT
+         dOc8WU+TkH/wPRhMPRf6x+qSn7y0lzAmRhRA4OLbL5VzehOJzopTAoIqhv2Y3cUdq+ld
+         OWLCcwB4n37wg898ATbri2MTDdLXhyu748ex48kw98TySIlo+mGIdTHK4UfucaeI4azg
+         S9LKlqpbu7HUP/f4maslJPfDJOsJefYtbNPN/y2YZdbHdUgkY5oSTerB6nxel9GkcwKi
+         5SYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755817464; x=1756422264;
+        d=1e100.net; s=20230601; t=1755839849; x=1756444649;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sYNZRj2bQThxIS/92tEZPTKV8mzt4xOYyi35E/+KoU0=;
-        b=GcVhp7X7ghTqUrTYk3SXpoDrGxndhfHNS1VfPBWwhGu6jwhj0eD+bdL/6+eBKy1LWX
-         QGWVEVFkbbUPswf8FlUQGzxRdCrDDCOupcDsR90Q2L5N4oQPEgPw7NopvniczctkNnt6
-         HJxp1au5TI8prXn4hQKnNBtoR+TERfawS22OnFZGCrZHdikzAuPuNOMc43mk2JsrhyFv
-         5h8vbRVbzUAYsHmTQm/YM44qfvCaH07tbgRwn4wcb+edmsraiN4Yk2ErQLBD9fjRx5iX
-         PPT8u9eusHet4fsW4vszUJRBZ4/8OTTSHnxZFM+ZAfA4Dnw66Rfx+iIkPfEHwc1eGCcV
-         fFKQ==
-X-Gm-Message-State: AOJu0YzPhTj9YcHAZY1PGx4tUKqiLBSupmB67pDd3wr4y8SSX74n1CAM
-	lDFVNw73D6/3GBWkhZ7MmtsdnVVJN2rNZtrxOauJB2LprijS/BENNDrI+Ab8JQ==
-X-Gm-Gg: ASbGncvNCHA3/qELpLNp0Bk4gEBzUFgP70FUbaX9BCHEujZRRO4ZIITeHbvJ0pKlBEd
-	gOcusXYDf4xYSA4du9JqwGu/i1ShmcCMZfLpRbCpRa8qask+rBU9I9U55O0/oKkdPnpvz47f++A
-	ylgUjRzQoebxmWB/P9/V1i+lwDAlSn/Tp6ItEZI2DO9aXP6hTyUH9+6cbeJ3JUPjijKgcPPNqKw
-	XY0ad0pVHQzzNmtSO3dfikHY1n5I+4XLNQ2cE3ssLSEHSfnyVEdQQ1i3jeMPlV+M3zGCRytI2Lt
-	DhxoK+7RjSA4e/Ppha3dVhFszkw7Yry6IMg55RZJ+74+0hM+nWGsQj1DARjUUbf77/+Y6VxvfyT
-	tHFqEZADwPX1N7sgOztaVt4Sd+B4p8bPQ8w2E3nbemQRdYEkLoW+TlxY6
-X-Google-Smtp-Source: AGHT+IGFAzA32W6B9mYw/dBONlhuiOsqAXpbTdY94mBpenXHtgdp4gmZsmu1XNhA9XwDEoBXnbbGlg==
-X-Received: by 2002:a05:600c:4509:b0:456:29ae:3dbe with SMTP id 5b1f17b1804b1-45b517d06d4mr5523075e9.24.1755817464054;
-        Thu, 21 Aug 2025 16:04:24 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c07778939bsm12614523f8f.46.2025.08.21.16.04.23
+        bh=rmXzRbaWlI2MentMmNb08B26rzXCatww2rKamwbkjTQ=;
+        b=eE5SQEpmML6Xh9/LPbqCCHaF8e28/jtFByMU0yvKvGLulBRbWYTScp+r9a37p3wVpx
+         QFNCi10hmtJJsu99FVeUqPNi/SWSZrySCuJTkaYRgfbOSvEgbDt23VVFS8OKipcowDQd
+         pJFuNpvMAWd5WhuMLC4ofBxVJ9Jr8+e5CofTvuhQ5cWRSZuaANHYMKg4Q8rnnoL+pIaZ
+         TrfirAXoRBsGdo3mX6PUL4A5B4sWfIwvHSF69oz4Zfq3MAww86ytpqJmMzpLbr2aIUAO
+         R7P2MKo9gZcwkfCaHyCzQKu1x/yEV0b76KWR5fK2JGFISjII7epIOUiDgJqZ+170gLr3
+         BCOQ==
+X-Gm-Message-State: AOJu0Yx9UDXc42NJS3fsCQHyHVMRPEBfh/pDtA479zTtk2ZD+rM0WGl+
+	uyRIelxt9+rPuDkeJTBlXxtD5ztAvUUwPdMBJVzxH+44ZrTorevpxEi/1c7FoOEt
+X-Gm-Gg: ASbGncvSKepQ/wihVt3ds4m30hWm9UkqxUet1+W+YA4ktFtROTnOjuT4h2nsmqg9JJV
+	yIgSwggiHmDEqpCZEXBuC63q94AHz/nkGZNsGYFF9eUsQE3y4BnBTF5af8+Q5IrGC3Yuo463XuY
+	Wgx6OfO0+iVs/3K0JKx+UptPfRtjQms7U4PKrjgwH39VLHK7rWl9F0YDU7MTWUE3GwFRSvmK/oq
+	kaI8LoHvR2llOz6v1oRRw9/uDr+8zgUJDh0lvGU8N2MJIz9pzvNkLnm5q7b7ozQVfdawgJQfUTf
+	yHvQ3s6WS1jtkyV+y3AspXS5+VYDrDX8fbCD8Uwvm6V/f3LjiaN5O/7WusMdK3R7S85W1xjqp5j
+	j6S6756ifjcRW1Art7O0SUO2AMl+muT2EVh9VqD3nz2IJ8xuGK51XwNcqP8D1T6S7Th+EXgUDJ3
+	NHsI178SiamzPMjo0axq6v7E/Z8rzBRX3ZVmG7gL0=
+X-Google-Smtp-Source: AGHT+IFABDIcokph2r1ksziCkTKdVr51Iy9xugW4/Z3s0tavOAaSKt1QFhiCjKnAFo12Prxog3Vcdw==
+X-Received: by 2002:a17:902:e542:b0:240:2eae:aecb with SMTP id d9443c01a7336-2462ef872cemr28338075ad.43.1755839849339;
+        Thu, 21 Aug 2025 22:17:29 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::adc2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed4ebf7dsm71631015ad.120.2025.08.21.22.17.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 16:04:23 -0700 (PDT)
-From: martin.jansa@gmail.com
+        Thu, 21 Aug 2025 22:17:28 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Khem Raj <raj.khem@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Martin Jansa <martin.jansa@gmail.com>
-Subject: [scarthgap][PATCHv2 01/15] unzip: Fix build with GCC-15
-Date: Fri, 22 Aug 2025 01:04:14 +0200
-Message-ID: <20250821230414.2607657-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.51.0
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/3] elfutils: Remove run-backtrace-dwarf from musl ptest XFAILs list
+Date: Thu, 21 Aug 2025 22:17:23 -0700
+Message-ID: <20250822051726.2429206-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Aug 2025 23:04:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222302
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Aug 2025 05:17:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222303
 
-From: Khem Raj <raj.khem@gmail.com>
-
-Add a patch to remove redundant declarations
+This is passing ok with gcc/libgcc on YP AB
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
-v2: fix Signed-off-by tag from Khem inside the .patch file and add mine.
+ meta/recipes-devtools/elfutils/elfutils_0.193.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/recipes-extended/unzip/unzip/gcc15.patch | 18 ++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
- 2 files changed, 19 insertions(+)
- create mode 100644 meta/recipes-extended/unzip/unzip/gcc15.patch
-
-diff --git a/meta/recipes-extended/unzip/unzip/gcc15.patch b/meta/recipes-extended/unzip/unzip/gcc15.patch
-new file mode 100644
-index 0000000000..ab06a4713f
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/gcc15.patch
-@@ -0,0 +1,18 @@
-+Do not redefine gmtime(), localtime()
-+
-+They are already provided by system time.h header
-+
-+Upstream-Status: Inactive-Upstream [need a new release]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+--- a/unix/unxcfg.h
-++++ b/unix/unxcfg.h
-+@@ -117,7 +117,6 @@ typedef struct stat z_stat;
-+ #  endif
-+ #else
-+ #  include <time.h>
-+-   struct tm *gmtime(), *localtime();
-+ #endif
-+ 
-+ #if (defined(BSD4_4) || (defined(SYSV) && defined(MODERN)))
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index c13e7a008e..0a88b4c092 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
-         file://CVE-2022-0530.patch \
-         file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
-         file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
-+        file://gcc15.patch \
- "
- UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.193.bb b/meta/recipes-devtools/elfutils/elfutils_0.193.bb
+index 67ce3827827..29a8ee5af63 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.193.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.193.bb
+@@ -66,7 +66,7 @@ PTEST_PARALLEL_MAKE = ""
+ PTEST_XFAILS ?= ""
+ # See - https://sourceware.org/bugzilla/show_bug.cgi?id=32232
+ PTEST_XFAILS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' run-strip-strmerge.sh run-elflint-self.sh run-backtrace-data.sh run-reverse-sections-self.sh', '', d)}"
+-PTEST_XFAILS:append:libc-musl = " run-large-elf-file.sh run-backtrace-data.sh run-backtrace-dwarf.sh run-backtrace-native.sh run-stack-d-test.sh run-stack-i-test.sh run-stack-demangled-test.sh run-deleted.sh run-compress-test.sh"
++PTEST_XFAILS:append:libc-musl = " run-large-elf-file.sh run-backtrace-data.sh run-backtrace-native.sh run-stack-d-test.sh run-stack-i-test.sh run-stack-demangled-test.sh run-deleted.sh run-compress-test.sh"
  
+ do_install_ptest() {
+ 	# copy the files which needed by the cases
 
