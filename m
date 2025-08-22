@@ -1,77 +1,101 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39B59CA0FF3
-	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 12:53:34 +0000 (UTC)
-Received: from smtp-42ae.mail.infomaniak.ch (smtp-42ae.mail.infomaniak.ch [84.16.66.174])
- by mx.groups.io with SMTP id smtpd.web10.9400.1755867208649379602
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B0C8CA0EEB
+	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 13:06:14 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.9688.1755867959155974713
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Aug 2025 05:53:28 -0700
+ Fri, 22 Aug 2025 06:05:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 84.16.66.174, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c7g931cHvzD0c;
-	Fri, 22 Aug 2025 14:53:27 +0200 (CEST)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4c7g924jP9zjv3;
-	Fri, 22 Aug 2025 14:53:26 +0200 (CEST)
-From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Fri, 22 Aug 2025 14:53:13 +0200
-Subject: [PATCH v6 07/14] mesa-gl: make recipe target only
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250822-mesa-libclc-panfrost-v6-7-393cf47e2fa2@cherry.de>
-References: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
-In-Reply-To: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>, 
- Ross Burton <ross.burton@arm.com>, 
- Otavio Salvador <otavio.salvador@ossystems.com.br>, 
- Quentin Schulz <quentin.schulz@cherry.de>
-X-Mailer: b4 0.14.2
-X-Infomaniak-Routing: alpha
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DbT4CMyn;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LI/+bXWU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010198d1e2cc6d-2373ec45-62af-4509-aa87-c860558da6d1-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1755867958; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=ZPs0vDHffDBzIC9tbs742Xhlef2soTfB8emb5iWl+z0=;
+	b=DbT4CMynTPff2LJQ029pGa2fvmfYA42H0kw0hif0gjfe5BNdCHK90lsUfpV+jzQa
+	Q9a2OngK7Hpky0aLmVo0XTimKH+QScuYL9qY8HXoYW4e1AHWpBBEb4qGoVZ8FFr3EXm
+	K9ogDEsJuqEGQQcJSVhFa/y/A+ilYCmCpUWUxWKU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1755867958;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=ZPs0vDHffDBzIC9tbs742Xhlef2soTfB8emb5iWl+z0=;
+	b=LI/+bXWUk2tWsGpHtlA1BK5AfT2zd6yeFq4913/T5JjwjdZ7BKUmBPxEX3uSZSQF
+	HcITN/F9FNpIxrDUqsvCWm42WVF0HpnVYoDhIe6mlR1L9RwbJiDtGXkIfsLjHlxp4fw
+	djduKbJ+MK6yAAn3DyHTN07mEFi99lIrRerqIRD8=
+From: patchtest@automation.yoctoproject.org
+To: Quentin Schulz <foss+yocto@0leil.net>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v6 02/14] mesa-gl: use bb.utils.filter to improve
+ readability
+In-Reply-To: <20250822-mesa-libclc-panfrost-v6-2-393cf47e2fa2@cherry.de>
+References: <20250822-mesa-libclc-panfrost-v6-2-393cf47e2fa2@cherry.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010198d1e2cc6d-2373ec45-62af-4509-aa87-c860558da6d1-000000@us-west-2.amazonses.com>
+Date: Fri, 22 Aug 2025 13:05:58 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.08.22-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Aug 2025 12:53:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222322
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Aug 2025 13:06:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222330
 
-From: Quentin Schulz <quentin.schulz@cherry.de>
+--NextPart
+Content-Type: text/plain
 
-According to the introducing commit log[1] and Dmitry's recollection[2],
-the whole point of mesa-gl recipe is to provide GL library in case there
-are vendor-provided GLES libraries.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Therefore, let's make this recipe target only by removing the
-BBCLASSEXTEND variable.
-
-No intended change in behavior for the target recipe.
-
-[1] https://git.yoctoproject.org/poky/commit/?id=015cb13a67c672de30f5384dab5ab4b8db305281
-[2] https://lore.kernel.org/openembedded-core/5ebxxyvkcur3zpef5krvyizomgdgtls4qau7s2i2mgcmvs2loy@ilcud37qk6sn/
-
-Suggested-by: Ross Burton <ross.burton@arm.com>
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- meta/recipes-graphics/mesa/mesa-gl.bb | 3 ---
- 1 file changed, 3 deletions(-)
+Testing patch /home/patchtest/share/mboxes/v6-02-14-mesa-gl-use-bb.utils.filter-to-improve-readability.patch
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl.bb b/meta/recipes-graphics/mesa/mesa-gl.bb
-index 7b283415dd26a4dc73713a8bed1f794b02c979a9..832137c8188f1253c9924e4c8410e5fae40f10fb 100644
---- a/meta/recipes-graphics/mesa/mesa-gl.bb
-+++ b/meta/recipes-graphics/mesa/mesa-gl.bb
-@@ -12,6 +12,3 @@ PACKAGECONFIG = "opengl gallium ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}
- PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
- PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
- PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
--PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
--
--BBCLASSEXTEND = "native nativesdk"
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
--- 
-2.50.1
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
