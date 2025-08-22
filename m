@@ -1,219 +1,202 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CE2FCA0EED
-	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 16:36:42 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.20])
- by mx.groups.io with SMTP id smtpd.web10.508.1755880595906970917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A533CA0EEB
+	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 18:20:53 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.30])
+ by mx.groups.io with SMTP id smtpd.web10.1192.1755886847889624856
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Aug 2025 09:36:36 -0700
+ Fri, 22 Aug 2025 11:20:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=FXGx1wBC;
- spf=pass (domain: cherry.de, ip: 40.107.162.20, mailfrom: quentin.schulz@cherry.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=eTopu66F;
+ spf=pass (domain: axis.com, ip: 40.107.130.30, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kDqov9hPjdixt3BF1qLK6gtfr1tN/wIskorxIWsGQE6kOMJeiuQWJ8IpXi0nula1wzWYX6DAae3FTs91yo+AHpnBD1th6oT737LO3+wBElyQeTnNSVoJJ9BsEu8dBIhSsvuD0i9vY4kvWeQExRbfcmv7lesazDeEuJjdMn1VZyTCb4hcHCME3sB8ozg6WkEBLPdGwLGbwG+KtmRfLN2t9IAEmTpMKBPkf+WxAn2IhELhQua4oBKK66LeemoNAFsDvLPv14SdtDQS7afHFg9HazeTV5h5sPgK73HuUixPT4B/+zD3Y/88hglqmglEuWUW/8aZ6q1jZJmMe8txfGCQ2Q==
+ b=JRg5HpBKhnUexh8AYGcRY9KIjTRUteBkW8825/CxuXMpnu7+Ry39hMhginxXftlPsfkm+hWvAZQtFDaiddE/+w/FxnNGfsPXe+vhgxUBmOh7JKMX9o/IR/qahuu3ZLpnwbNY+krik7d/1YRy60AX12Z9V5KBQMiit3x2zh0fK+/GEsE7esVZWpcZvDZ8pIhrsBeUwcTFtE14bZZHMTPjm51Od4vtIH2GgbaV1t1+8DMAx/hjgNKx4Rn5tiMR8hzMgl/tSNGDQoxD8HahyfSRX4/pMPFaawrSxD1f69y91Sloh1lXi1KRYY6nhf1PY3ke/DpdJ9HNVYZbkYR3Itk30g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gn2gjM6+L9VEIV6AF9Grov7qi5usKAYxP8+6RWukt90=;
- b=yElclOfeZCpzqCXTv/5HqK1XUmj2WX4BUqfdk2d+QEux0TvEbDwieV2IzVINfDv8XvzOCt7rMgr7mDRzPzK85+9r8ZYKgZEqXnZ82lI4yg2D9W76Qb+Iu1VDPNGC4GYA1nmaklSA6Zd+OhBaEzn51gt3HjBPeKWZZfAB01B8hcq8GsEAV+qk/XW/h7xC9PCUHnE/in9tFWkw5oIGmEDvZWS8uNHZh53soLZYb9fggCCIcObPvvXzElRYYC+zJKf71y7lLCPclXxx7/K666foB+qK7YHLdwfEU8tvAy1YxWjaZ3uaIUKiColtbyFnLl6kJ56g+z8ciiJnNBLj2jTSMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
+ bh=7ZZ1tG9G2eftgEzF+JwBSeSDQ2KDKKipf2hhO0OyXwU=;
+ b=rGcr8kk8gEF2XjIH7yDjH8h2W+7NgIqa1GhhaUgloQ5EVXxEdA2sWq3UV0x0pLcBiXxRKMnThJ4nBHJaZrpRJA0MjXUwxlG1CAICHT9HayHxAUbx0OCDSwcAf9eqcF4gCVpuQV/XuXe6L/d12HrBDkJ+pMQlKudMON0CJSglVL2PBcOhmrPfncwmoaG4+Y8Wuz3ylmQBc4vZ193QfYABVgDV0h59HVnesmbnXmt27hXRx1sxkKjfo6b9uOLjWTPb+YXBz+JYuv+8B8KvxXJzudQZ7mqUucK1CMPFWRxX2VSojSjw3f6n32He5rV43eeTJSqomteNrgo7xF7+c6gEsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gn2gjM6+L9VEIV6AF9Grov7qi5usKAYxP8+6RWukt90=;
- b=FXGx1wBCXNtV+4iCWYjlE18/c4ZVd0xDDOwoj54hUn8YXULxbcf0qgX7Vo+jGFCquoJ5h5FWP4OvJTVwt4yIAG8f7kdL3Sidszz/Bupt4vrdIpLacawcQW2S6jMNYIl06rYrAG0AW2foz6uJEZtl1BWfUDNNhpA7wRMH9zDqF80=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
- by AS1PR04MB9581.eurprd04.prod.outlook.com (2603:10a6:20b:470::14) with
+ bh=7ZZ1tG9G2eftgEzF+JwBSeSDQ2KDKKipf2hhO0OyXwU=;
+ b=eTopu66F8DN3fgkMa2NK+WnA14oDk43yNSfvZiCvh9fcXWbfTaDJNQvHSTDOeuCSgkS8HGmaROmvrfkM+IQJ/cuFcyUiwNPFjXC7kcY/pbkWj2IU8qPO4n5MuVJ0Acp+yh8bL3LIn3Uu1EAZmrlC/TJMoR3qAGk/kJ7OeqI6p/8=
+Received: from DB8PR03CA0021.eurprd03.prod.outlook.com (2603:10a6:10:be::34)
+ by DB9PR02MB7940.eurprd02.prod.outlook.com (2603:10a6:10:33a::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Fri, 22 Aug
- 2025 16:36:31 +0000
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1%4]) with mapi id 15.20.9052.014; Fri, 22 Aug 2025
- 16:36:30 +0000
-Message-ID: <eb12869f-c55c-4b5c-b1c3-bb7cc6b7ec98@cherry.de>
-Date: Fri, 22 Aug 2025 18:36:29 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 12/14] mesa: use simpler mesa-tools-native recipe as
- dependency for libclc
-To: Quentin Schulz <foss+yocto@0leil.net>,
- openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>,
- Ross Burton <ross.burton@arm.com>,
- Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
- <20250822-mesa-libclc-panfrost-v6-12-393cf47e2fa2@cherry.de>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20250822-mesa-libclc-panfrost-v6-12-393cf47e2fa2@cherry.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0247.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f5::10) To AS8PR04MB8897.eurprd04.prod.outlook.com
- (2603:10a6:20b:42c::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.17; Fri, 22 Aug
+ 2025 18:20:42 +0000
+Received: from DB5PEPF00014B92.eurprd02.prod.outlook.com
+ (2603:10a6:10:be:cafe::6a) by DB8PR03CA0021.outlook.office365.com
+ (2603:10a6:10:be::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.19 via Frontend Transport; Fri,
+ 22 Aug 2025 18:20:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB5PEPF00014B92.mail.protection.outlook.com (10.167.8.230) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9052.8 via Frontend Transport; Fri, 22 Aug 2025 18:20:42 +0000
+Received: from se-mail02w.axis.com (10.20.40.8) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Fri, 22 Aug
+ 2025 20:20:41 +0200
+Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
+ Transport; Fri, 22 Aug 2025 20:20:41 +0200
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 76FCD29B0
+	for <openembedded-core@lists.openembedded.org>; Fri, 22 Aug 2025 20:20:41 +0200 (CEST)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id 64273120094; Fri, 22 Aug 2025 20:20:41 +0200 (CEST)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCHv6 2/2] systemd.bbclass: Make systemd_postinst run as intended
+Date: Fri, 22 Aug 2025 20:20:38 +0200
+Message-ID: <20250822182038.1295769-2-pkj@axis.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250822182038.1295769-1-pkj@axis.com>
+References: <20250822182038.1295769-1-pkj@axis.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|AS1PR04MB9581:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca70d487-5398-45a9-1200-08dde19a0c19
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B92:EE_|DB9PR02MB7940:EE_
+X-MS-Office365-Filtering-Correlation-Id: dbf2260f-492a-4cc0-39c1-08dde1a89af0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|10070799003|366016;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?K2VyTUlMSW8yZ2RmSCtFaXpXSFREMWJNUmRGZFhzbDlPRVZDVGlNbUJoencz?=
- =?utf-8?B?dk51SWJ2MDJ3eFFTVjFWcHk1OEpJcnRoMFBCdENTR05kdkd5RnF0QXRKZ1Jp?=
- =?utf-8?B?aUU4dkVDN0dHUzZUOG5ZVGJiT2JkVk1CQTZnOU1ud0o3TGJxY2xiYW9CWXJP?=
- =?utf-8?B?LzJPa1VsekgrNTBFUUxGdk16R24wR2F4dTk2d1hUKy8xRTZ2blVaTDhNcDBP?=
- =?utf-8?B?aG1UeVhTN3AwSzZIQkdIVnF5VWNIMW5UbXh2L0lWOGJwZlNtN1MyRjkrNldY?=
- =?utf-8?B?RytUZWlsRkluSTdHcHhEL1RHeEhmaHM3UDRjaUdFUUZXeGhoY0RVOWxwSm1o?=
- =?utf-8?B?Q0c0REFSYnhxM3VsQWRwNmtUWGtzM0VtSE80Z2FYQmQzZTBOMFNZS05VWVhI?=
- =?utf-8?B?MGVxaW1xWE1USXgvUDB5aWgwY1NhVTVqU09COHkxV1ZZYlc4bE8wRkI5QnpH?=
- =?utf-8?B?QUF2VkNHM1VqSWlrdjdwMHJJUk1zU0pBcUZtM090WnhRTFE3Tkp5blZlOCtk?=
- =?utf-8?B?N3FlL3QyRUd3c1Y3TmNYRnFYek40Wm42TmYrYVpMUHJGV01pM0JYdXBaa2xk?=
- =?utf-8?B?VWdycWNKRVkzeDFZMXF2UmJhY21seWRuWDFrcmo2N1MyVkhlOFg2Q000SmZL?=
- =?utf-8?B?OURjb3BiekNHdTZzSzdBZXIvbW9vRVkrc2lwajBaVXJvRThZRnljanREaG9o?=
- =?utf-8?B?VjRHVnU3aFRKckpvYXpnSmZYNEhFZnZwbWJoVmx5d1Q0SE4yYkxhczJRbHlq?=
- =?utf-8?B?RzQ5dVg0N2ZJdDNZcVdUOG1sQWZaS3RmVmdneTl6OW1EYU1HS0o5UlUycXAy?=
- =?utf-8?B?ZTdWMXhpdktIVllyY1V4OUk2a2pJTE85Wit6UVErVW12RGZoanJPK0IyZkZW?=
- =?utf-8?B?cEl1SzlVVlZSUjcrRVlmUS9HazdMWWxLMGkyTGFwbXpSMHV6MFJZMjRSOHBB?=
- =?utf-8?B?S2MxaEpaU3VMZ2FPT2JKQlVubXM1eCtkZC8wbUJYVlhoL0daR2JNOVVpMjhL?=
- =?utf-8?B?UEUyU0VYQWhPazkzNjVUSWRHTVBTTXdQRm9IV0JPbkdscC8vWjFkWkJVNkVx?=
- =?utf-8?B?TGljdDhKWHY1N2V6emp5Rll1c2hMRkIvVFZ2NXdSSnIvazZSQWREN0lneE1E?=
- =?utf-8?B?OW0waHZnUUx5SnZ1MDljYnRmWUpEMkhpRHFPTDdtVjIzNFJ2T2xya0FSc2ZW?=
- =?utf-8?B?Nmx2OGpWQ1ZSdS95b3o4RHA5a3R6VVR0KzdzZWEzY2J4eCtlYjhNR01kYWtu?=
- =?utf-8?B?TlN4RHdLaWJLU05RYTRCVGdyOEM3YnZBQzcxU2ZaekVpQUdHQXJMaytWTlY3?=
- =?utf-8?B?V1dDMlM4MCtRUjVEWjhob0V3UW1lWm5NTm9hakJPV3lCZnlUcFAwZjVOdEFx?=
- =?utf-8?B?b0t1T3NiWG42d2RTcDBRTU1OUkZLaG5GWlRxY0txc1Zzbnd5OGZna2dXK2VJ?=
- =?utf-8?B?WGJjZFlpU08yZUM0cFdLZld2akxZQ1kwUjZnSjhhUmR4K0lPTTRLVXdHcVNR?=
- =?utf-8?B?U1dqSEtvbUpsUzEzdkgzbmlnU2c4M1N5SERnY29zU3g4T2J5dXMzZjZ6TG51?=
- =?utf-8?B?RjZXRGRWN3dnYmloMEdBZFpKcmI2OFJZZXlvYXNPc0ZZOU1jbXljV3BRRHJL?=
- =?utf-8?B?aWNGcUZtTFRvV0lhQlcwbTlWaVUvZzlPTDduRnV2enk1THZ3YmNsYTdkRC8v?=
- =?utf-8?B?OTl1dndhN1I4b3dmaFl0MDcyY2pLTjR0OHBCNE9pV0FPYUlrWnNNVkZNdHZS?=
- =?utf-8?B?WUlWb0JTRUtlMm1hSXVHN2NmRHJkZWFGSXFMdmxLUXBHVlBqT01BK1FzRVc0?=
- =?utf-8?B?c0hRZ25vM1VaVjJZTDc2SFRPN0o4M211aXBlZFNxK1MwWDdqTi9xMVR2M21y?=
- =?utf-8?B?dU82UzZXODNzQSt6V05DVUVZZE9GTFYrN056VkxZTDhSaUFGelNzK2R2S280?=
- =?utf-8?Q?KNSvQQT41xs=3D?=
+	=?us-ascii?Q?OQfvl7HD9qe4Pp3gUtpfOX/F5MQM5S7DWCvurvbYd0JOpqlzI2L+ZptrepT3?=
+ =?us-ascii?Q?aPJX3JwESsu33jEh8q+rH0JHGzvHqKiqJI/QLfg1gpNev/o2ZPZkk9ZGm2Ts?=
+ =?us-ascii?Q?DuEFSrtfTS1ruevPVKIOEugjz201NmhOA6nhnfZ6z4+0szJXnYVpBpSzliCt?=
+ =?us-ascii?Q?VJynxabZ4ZVCTl75YQB6oyS93PGwPKST5cF7uqD05hcAonyIy45H/QJ12ZAl?=
+ =?us-ascii?Q?ctKKMAY5E1+j4quV7K1Z/nmfFmfBYkemRGDq7IRSnOoexjci4MLyNGn3zK4V?=
+ =?us-ascii?Q?JL8GPLiNGhZu+G2gPyQAIVNEiNCF9kxsn91JjuQ3q8s02g89TS4q4CAcvU/I?=
+ =?us-ascii?Q?699UF6yJaNKDITzouSUTuT7t3OzuUDq27n0BGfsLusFKmx5YSZZdw3ILdRc9?=
+ =?us-ascii?Q?Rj3vUkEpVDSfDymfjatS8TlyLmWQZefUMzDfiGGQeqhmEwADLjWRBes3PVj0?=
+ =?us-ascii?Q?VOAWvrCh+gG0V9aaYaPtsXkDk90hxGM9koz2/Y8ilt1XEVSY2tq6rc3Vwktf?=
+ =?us-ascii?Q?pKGnLBdW/M9jGRb50h1wNM6pEVx6OWAreavzralODjPGrUy+e24okFxN7HwS?=
+ =?us-ascii?Q?eSVAqEHgGU+U8cuZhQqcPDPko9sW1lBDgbNlmInPlhYeiOfEUIKr/IYzviqp?=
+ =?us-ascii?Q?qVA05HaWKak1FF9PCI4eU/aw/y1OAKMyVK98c3TwysX7YF8HLqDDeJmBH5SB?=
+ =?us-ascii?Q?x212MF7xl07l4KBzJZaDYVYtj4E+lyyL90dAKjPcQ8YLRHwrA1Xw2yJDmirt?=
+ =?us-ascii?Q?dSuWA/C2ueV8JQqWzEh0ingWHk7CA5FUNGUTnYo094IDHVr/Cg3TnFFZ8M76?=
+ =?us-ascii?Q?LsfWM8qxfo5I8oLkXEb+n2SLDHfeTek2DAeWyRpzUMkasmvs7ZlnoZrRfQiB?=
+ =?us-ascii?Q?BaKJLjKvgdLGTD1nUKVOaroBGdy/dLobuEjm4MlCgrxPzvrWKevhqvWXMa/K?=
+ =?us-ascii?Q?VuXhl7r/PdkEyeOyWJzsLABQnvM8cGzkxT0IOroFdowise3dIIXvf7Zo2292?=
+ =?us-ascii?Q?I0H80Iqb66ruApj/qY7ZCWXvyoVaFeo9OM/VVTnhwB2/IzK8ulY0Ua3RKGAb?=
+ =?us-ascii?Q?YyBsPt6VUi5OdKR/XIvkBlioeDNWv2DvIBEu6aasBmxHFaLWLpM2tDZ1UcyC?=
+ =?us-ascii?Q?teSglCLm9+cx1QOL9ryzrM7F7YihKgSaJHL+CDQueWK6lIlWsM3e1z8VYJbF?=
+ =?us-ascii?Q?fk+t7KmgQt0s9H8dorS+pSKTlAbHO0MbFI9DVUoQeoPlaxfHS4isvrDY5kUD?=
+ =?us-ascii?Q?Pg+OLfoD4+nM3MOxfwP+UyCUaAu1IgDGF+DeFY6prTJm7gu/rPD2+6tCk5tr?=
+ =?us-ascii?Q?6b1hA6w5MAzoB9mDRzew8ogd3kywPPzzU1okty8Z5I+PD33vwKoeSC9BNEJR?=
+ =?us-ascii?Q?bZwK1QnfscWZu7POMYLrebfSDtWxaY5x+jWzE/YYHiSjC1iynXNDaqfednty?=
+ =?us-ascii?Q?PaX07ArXmV2WgoH7855q+2oWb0TFt+ZQyaEvo3L7J8gPSdTUfuMDvFjxWwqm?=
+ =?us-ascii?Q?fKXmNsvBF903bvdADTmVjwr730UR6Z0mN0Oj?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?QTQ1dWdsT3h3eENucFNlOTlZdURFZ1NLN0kxVjJWODlkcmdzYzc1WWlPNEVR?=
- =?utf-8?B?RHVxOEhnR2UwRTVWdEprY0w3d3VFMFB3TjJ4alVBblNmQXZ4bXVYQ2dQK000?=
- =?utf-8?B?VkgweTJza2JSNkQ5ZWc2SW5sdldDeldjOGlueFVDZDFBeEk5WXdRcllMVms4?=
- =?utf-8?B?SGxIbTFFVE42WWpCNm8vZ3d3ajZRRWNPZE9kWE9wWkRKL0JwVWQwdXk1ejhy?=
- =?utf-8?B?Vm1lTkFBbHdzZXN5U2kvSHJueXFwRzVqVzFmYjNRRVVwdG5XVmc1aW1Ub1Zk?=
- =?utf-8?B?bklONVQ0Tk96amdFcE1za3o3a0Zid21lWXBiQWJyempVOHFpZnJoTC9vTEVY?=
- =?utf-8?B?WEFhV2VTcDA0MmtGQUtvMHQxTFNDaUROSk1heDJCMDRWOWp1c3BjZnJKa0Vz?=
- =?utf-8?B?UWJVNlJGZmI5aTdwZnRlRHA2aEFSM2QyaGZnN3l3UWJMQUhCUDc1SVY5ZUNn?=
- =?utf-8?B?bDFnby9pU25DaXpLOGkvMmJidlVXNlZmN2xlSEtHVSs3d1p3SndkZUVCU1c1?=
- =?utf-8?B?Y0YvVkZHRjRHQ3lNbU1kMTgxVlR0WjZLUzRKMk9kVVhuRDQvaU5FeVRUUzlP?=
- =?utf-8?B?YmNZQUlPMWg0NTBzdnZqKzVCcG8rSEljQjRZNE9PVGxDMmQxbUJ5dy9WYVA0?=
- =?utf-8?B?ZHNIUWVrL3NQM1RMeFpGbXJBdnk1OWpmU3RJNmw5NEJoZHNERXlwZ3plYW1V?=
- =?utf-8?B?Wk42VVZrYThlK0RBY0w2TVZ1dTdRWUNjaGZ5V3UxbzVacWdZWll0ZXgvcXNu?=
- =?utf-8?B?U0tYSUNRYTZJQkNUNE1EOXhTcno1Y2FKUzVaeGVwRDEzaUtWOW5TVXMyeVZC?=
- =?utf-8?B?M0R2UVV2dEVTcUk2QVJKdVpCb0FDL1FjalIzb3lwcTlaTms3RlBlMTRtZ2Vx?=
- =?utf-8?B?WTlkSENOU1ZrOVQvOW80cmxlY1V0K1RKSDFheENJNGU2djdPY3Y2VjR0dm9X?=
- =?utf-8?B?WSt6SUFWY2xuNTYzR0NQeEc1S0QvTGNKVC9IcWMrcDRjVXk4WHRxdm1GVWdN?=
- =?utf-8?B?dEMwRzlaM29EUXN0ajRRVC8vdHZTOElESkI3S2tzZzdJVzdIR1F6ZVZUZ2t2?=
- =?utf-8?B?bjI2dnVyRmFkQ3daSWE4cXI0TnpCNmMvZHd3RmFramVENDFwdVZQV1lsdm80?=
- =?utf-8?B?Z3c3anpqZWJJTmNwcDB2VXJUVFlWK0xnWTZ6dlQrbCttS05NQ21sTUIvaWZO?=
- =?utf-8?B?MFk1aDlHWXFRVEdZS3N5bFdUTU84L0xFc3VMc3FycU9oVU5qSUcvSmxGb3pB?=
- =?utf-8?B?U2d2ZEg5bEg1ZkJKY2l5dUJYUkRGeW9sVWxJcW9kbTByVFVnT0Yycyt3Ri91?=
- =?utf-8?B?QXBIRktGYUJlOWtxdVVNRVoyZmpFWk9RWlVkOHk1Umh6ZThKL09tSkFDNnF2?=
- =?utf-8?B?Zk9IMzZqbWl0R296NzRHOTZPczFGMWxvZ3k1TUtQSVl3VEswcjJnUUYzTlBv?=
- =?utf-8?B?dEUvY282WE9iRS9PUW5FT3V6NWJhYnFIZEZDdVMyZzY3OGZiaEpCYVB5cWJn?=
- =?utf-8?B?UjlEblBrOFJXcDVDK2FMRGZaanM0eHhHQzJYRnRsRE0zcjVGeG53S2FLRmpY?=
- =?utf-8?B?b3VSTUloaHlJSDd4dngvRGU5YVNzaEY5WU1zU2VOck12dTlBc3lUeU5OZXpx?=
- =?utf-8?B?SDFmMTRmbUhUeUUwbWZjcks0YW5zZGVSVUxpUkMvT3BuYU0vaVhKZmUxeWVZ?=
- =?utf-8?B?cC96dWZKcTRoa0cwWFVibWpmdjhkenI5aGcySWlud3cycGZQVERnUE5USDFR?=
- =?utf-8?B?MTUybmQ1NG1JNGRQOTVraXRhRVF0QS9SL3VxL1VrczFJbWZOZ1pzMVo1aGM1?=
- =?utf-8?B?ankzU3UvUUpJS1VNUXlsa3F4aW5wYy9UNEdIaGlYblE1NmEyaGRnN1g4bitO?=
- =?utf-8?B?QWd1ZUw2eXhUSjJSMmRRbUE5MkVWRmJMY1hndlJCdm5HK0g3N3RiWnVOZGJo?=
- =?utf-8?B?MjRLUjBTVjRTcDlrN0R4TGtJUGFIT2tYZmhZbEdBbURLTGxRc29UZ3gzeFVq?=
- =?utf-8?B?RTREQlQ5eWZSbzN3RkRWZThIZW1paHJqU1RYZjFWOUY5UFUvSkxwM0lhSitF?=
- =?utf-8?B?ZzllV2JabXVNS3gwd25sM0Jka0t1cDNZQUcwVlNmbjFXWDcwdnJNdWRjRVNS?=
- =?utf-8?B?aHhsTzVRcUU0WVR5WnpwMk5XQ3pONjJMZDA4WnhxT1h2djdFWk1jTDNpdTBC?=
- =?utf-8?B?bnZQTU81NWxIbmhnYjN6UnJxb1N4RnVFNGJtUllKaUZzR0hyeGpDS0hUVVZO?=
- =?utf-8?B?V2llemEzbjkwZk5iQm5jWnZ3MzVBPT0=?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca70d487-5398-45a9-1200-08dde19a0c19
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2025 16:36:30.9444
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2025 18:20:42.6151
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L67vk6Vw2pgRYB48LmryjEpkwjUb0+3PfcDYO6LEOFGJxnVhHGguZ6s93kPNHRfmII654X0nfzr3HnQvYTzcPBy82dc7KwAiq9DaNwxhSWs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9581
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbf2260f-492a-4cc0-39c1-08dde1a89af0
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B92.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7940
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Aug 2025 16:36:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222339
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Aug 2025 18:20:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222340
 
-Hi all,
+After the switch from using a systemctl written in Python to using the
+official version of systemctl from the systemd project, the
+systemd_postinst function has effectively not been executed during the
+rootfs creation. The reason is that systemctl provided by
+systemctl-native fails if run without arguments (as systemd_postinst
+does):
 
-On 8/22/25 2:53 PM, Quentin Schulz wrote:
-> From: Quentin Schulz <quentin.schulz@cherry.de>
-> 
-> libclc is required for some drivers (asahi, panfrost and intel at the
-> very least).
-> libclc brings very expensive dependencies such as llvm and clang.
-> Building clang and llvm for each target architecture is very expensive,
-> but mesa allows to depend on prebuilt host binaries (mesa-clc and
-> precomp-compiler). Those are built by mesa as well, but can be compiled
-> in mesa-native instead of mesa, making the dependency expensive but only
-> once regardless of the number of target architectures to build for.
-> Ideally the mesa-clc and precomp-compiler would only be compiled in
-> mesa-native if target mesa requires libclc support, however this is not
-> possible as a target recipe cannot impact or depend on a native recipe's
-> configuration. We thus have two choices, always build libclc in
-> mesa-native with its heavy dependencies and impact every build or force
-> the user to modify the mesa-native recipe in a custom layer (as a native
-> recipe cannot use target's OVERRIDES). The latter is unacceptable so the
-> former seems to be the only option. Another big downside is that
-> mesa-native currently builds drivers (amd, nouveau, svga) which we may
-> have absolutely no interest in building, increasing the build time and
-> possibly dependencies list).
-> 
-> A third choice is to spin-off the native mesa recipe with libclc support
-> into a new recipe without drivers and only what's necessary to build
-> mesa-clc and precomp-compiler binaries.
-> This allows to keep a "clean" mesa-native recipe for whoever needs those
-> drivers built-in (e.g. for testing, for qemu-native, or whatever else)
-> and only bring the libclc dependency when required by the target recipe.
-> 
-> Because libclc is now only built for the host, opencl support now needs
-> to explicitly bring libclc and others to build as libclc won't bring it
-> in the build environment anymore.
-> 
-> Suggested-by: Ross Burton <ross.burton@arm.com>
-> Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-> ---
->   meta/recipes-graphics/mesa/mesa-tools-native.bb | 19 +++++++++++++++++++
->   meta/recipes-graphics/mesa/mesa.inc             | 15 ++++-----------
->   2 files changed, 23 insertions(+), 11 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/mesa/mesa-tools-native.bb b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..dab1a037851cca6b33eae4b69a6a141fbbcd801b
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/mesa-tools-native.bb
-> @@ -0,0 +1,19 @@
-> +require mesa.inc
-> +inherit native
+  Failed to connect to system scope bus via local transport: Operation
+  not permitted (consider using --machine=3D<user>@.host --user to connect
+  to bus of other user)
 
-I think I should have inherit_defer native here instead? To make sure 
-regardless of what the user does in a bbappend (well aside from using 
-another inherit_defer), native is always the last inherited class?
+This is not seen in the logs since stderr is sent to /dev/null, and the
+only way to tell that there is a problem is because systemd services
+that are expected to be enabled aren't running.
 
-Cheers,
-Quentin
+The reason this has gone unnoticed is because systemd_handle_machine_id
+in rootfs-postcommands.bbclass will call systemctl preset-all, which in
+most cases will create the missing links to enable the systemd services.
+
+This change effectively reverts commit
+a52e66762c0c51918b1ba3d4622759637b6e920a (systemd.bbclass: update
+command to check systemctl available) and instead only runs systemctl
+without arguments (to determine that it can communicate with systemd)
+when executed on target.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+
+PATCHv2: Add --sysv-install=3D to $OPTS to instruct systemctl where to
+         look for systemd-sysv-install.
+PATCHv3: No changes.
+PATCHv4: No changes.
+PATCHv5: No changes.
+PATCHv6: Removed the --sysv-install=3D parameter again.
+
+ meta/classes-recipe/systemd.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/syst=
+emd.bbclass
+index 0e9f7cfa33..4e687135f1 100644
+--- a/meta/classes-recipe/systemd.bbclass
++++ b/meta/classes-recipe/systemd.bbclass
+@@ -29,7 +29,7 @@ python __anonymous() {
+ }
+=20
+ systemd_postinst() {
+-if systemctl >/dev/null 2>/dev/null; then
++if type systemctl >/dev/null 2>/dev/null; then
+ 	OPTS=3D""
+=20
+ 	if [ -n "$D" ]; then
+@@ -46,7 +46,7 @@ if systemctl >/dev/null 2>/dev/null; then
+ 		done
+ 	fi
+=20
+-	if [ -z "$D" ]; then
++	if [ -z "$D" ] && systemctl >/dev/null 2>/dev/null; then
+ 		# Reload only system service manager
+ 		# --global for daemon-reload is not supported: https://github.com/system=
+d/systemd/issues/19284
+ 		systemctl daemon-reload
+@@ -66,8 +66,8 @@ fi
+ }
+=20
+ systemd_prerm() {
+-if systemctl >/dev/null 2>/dev/null; then
+-	if [ -z "$D" ]; then
++if type systemctl >/dev/null 2>/dev/null; then
++	if [ -z "$D" ] && systemctl >/dev/null 2>/dev/null; then
+ 		if [ -n "${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}", False,=
+ d)}" ]; then
+ 			systemctl stop ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED}",=
+ False, d)}
+ 			systemctl disable ${@systemd_filter_services("${SYSTEMD_SERVICE_ESCAPED=
+}", False, d)}
 
