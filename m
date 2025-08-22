@@ -2,26 +2,26 @@ Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D91F4CA0FE9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB9DFCA0FE8
 	for <webhook@archiver.kernel.org>; Fri, 22 Aug 2025 12:53:33 +0000 (UTC)
-Received: from smtp-8fa8.mail.infomaniak.ch (smtp-8fa8.mail.infomaniak.ch [83.166.143.168])
- by mx.groups.io with SMTP id smtpd.web11.9377.1755867210414417978
+Received: from smtp-1908.mail.infomaniak.ch (smtp-1908.mail.infomaniak.ch [185.125.25.8])
+ by mx.groups.io with SMTP id smtpd.web10.9397.1755867206463420680
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Aug 2025 05:53:30 -0700
+ Fri, 22 Aug 2025 05:53:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 83.166.143.168, mailfrom: foss+yocto@0leil.net)
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.8, mailfrom: foss+yocto@0leil.net)
 Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c7g946szkzBHp;
-	Fri, 22 Aug 2025 14:53:28 +0200 (CEST)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4c7g942tLJzksf;
-	Fri, 22 Aug 2025 14:53:28 +0200 (CEST)
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4c7g906S7gzB8Z;
+	Fri, 22 Aug 2025 14:53:24 +0200 (CEST)
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4c7g902Nj0zbVm;
+	Fri, 22 Aug 2025 14:53:24 +0200 (CEST)
 From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Fri, 22 Aug 2025 14:53:16 +0200
-Subject: [PATCH v6 10/14] mesa: avoid host paths poisoning
+Date: Fri, 22 Aug 2025 14:53:09 +0200
+Subject: [PATCH v6 03/14] mesa: move PACKAGECONFIG defaults to recipes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250822-mesa-libclc-panfrost-v6-10-393cf47e2fa2@cherry.de>
+Message-Id: <20250822-mesa-libclc-panfrost-v6-3-393cf47e2fa2@cherry.de>
 References: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
 In-Reply-To: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
 To: openembedded-core@lists.openembedded.org
@@ -36,94 +36,88 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Aug 2025 12:53:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222325
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222318
 
 From: Quentin Schulz <quentin.schulz@cherry.de>
 
-At least panfrost and asahi drivers are prone to host paths poisoning
-due to unpatched __FILE__ macro in assert() of libcl.
+We're planning on reusing mesa.inc for a new mesa-tools-native recipe
+which will require much less in terms of PACKAGECONFIG than the actual
+mesa recipes.
 
-The compilation units for files including this file all are passed
-specific arguments via the cl_args meson variable which currently only
-contains one fmacro-prefix-map entry for relative paths. However, there
-are also absolute build and source paths that seem to make it to the
-generated files and libraries so this patches mesa to also strip those
-paths.
+It also doesn't make a lot of sense to have a default PACKAGECONFIG in
+an include file inherited by multiple recipes (here mesa and mesa-gl)
+which is highlighted by the fact that the only other recipe that
+includes mesa.inc (mesa-gl) overrides PACKAGECONFIG (hence why mesa-gl
+only gets a partial migration of PACKAGECONFIG defaults.
 
-Note that out of the four paths in the default DEBUG_PREFIX_MAP, only
-the source and build directories make it to the fmacro-prefix-map and
-they aren't mapped like they are when used with ffile-prefix-map in
-DEBUG_PREFIX_MAP as I'm not sure if it is at all possible for meson to
-fetch this Yocto-provided path we should be mapping to in the current
-mesa code base. I guess this is good enough for now.
+No intended change in behavior.
 
 Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- ...01-meson-fix-libcl-assert-reproducibility.patch | 43 ++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc                |  1 +
- 2 files changed, 44 insertions(+)
+ meta/recipes-graphics/mesa/mesa-gl.bb |  5 +++++
+ meta/recipes-graphics/mesa/mesa.bb    | 12 ++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc   | 13 -------------
+ 3 files changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-fix-libcl-assert-reproducibility.patch b/meta/recipes-graphics/mesa/files/0001-meson-fix-libcl-assert-reproducibility.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..118b52a22714594999f9c8d38a56b47afe4e4e66
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-fix-libcl-assert-reproducibility.patch
-@@ -0,0 +1,43 @@
-+From b9d43acde2d2e21d321e57d632cac199e41048ef Mon Sep 17 00:00:00 2001
-+From: Quentin Schulz <quentin.schulz@cherry.de>
-+Date: Thu, 21 Aug 2025 17:24:08 +0200
-+Subject: [PATCH] meson: fix libcl assert() reproducibility
+diff --git a/meta/recipes-graphics/mesa/mesa-gl.bb b/meta/recipes-graphics/mesa/mesa-gl.bb
+index e11758767f02efd38e2d7b90738424b9ec825120..d27d606875a5e143276356b9844634082c7354cb 100644
+--- a/meta/recipes-graphics/mesa/mesa-gl.bb
++++ b/meta/recipes-graphics/mesa/mesa-gl.bb
+@@ -10,3 +10,8 @@ TARGET_CFLAGS = "-I${STAGING_INCDIR}/drm"
+ 
+ # At least one DRI rendering engine is required to build mesa.
+ PACKAGECONFIG = "opengl gallium ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
 +
-+The current -fmacro-prefix-map only handles removal of relative paths
-+but we still need to handle absolute paths.
++PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
+diff --git a/meta/recipes-graphics/mesa/mesa.bb b/meta/recipes-graphics/mesa/mesa.bb
+index 96e8aa38d61661c02d2228d825f70cf41f985382..305b18070d6a47a53f204906a16bc8d4833fd9d6 100644
+--- a/meta/recipes-graphics/mesa/mesa.bb
++++ b/meta/recipes-graphics/mesa/mesa.bb
+@@ -1,2 +1,14 @@
+ require ${BPN}.inc
+ 
++PACKAGECONFIG = " \
++	gallium \
++	video-codecs \
++	${@bb.utils.filter('DISTRO_FEATURES', 'x11 vulkan wayland glvnd', d)} \
++	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm virgl', '', d)} \
++	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
++"
 +
-+The following path can be found in libvulkan_panfrost.so when building
-+with Yocto for example:
-+/work/build/tmp/work/cortexa76-cortexa55-crypto-poky-linux/mesa/25.2.0/sources/mesa-25.2.0/src/panfrost/libpan/../../util/bitpack_helpers.h
-+
-+These paths currently seem to only appear in the binary in strings that
-+start with "Shader assertion fail at " which seems to indicate there are
-+calls to assert() with absolute paths as well as relative paths (which
-+are already patched with fmacro-prefix-map).
-+
-+By stripping the global source and build root directories from the paths
-+with -fmacro-prefix-map, we get rid of this reproducibility issue (which
-+incidentally makes the build fail due to buildpaths QA issue).
-+
-+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36927]
-+
-+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-+---
-+ meson.build | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/meson.build b/meson.build
-+index 9cc75f6636e..d4779905020 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -52,6 +52,8 @@ relative_dir = fs.relative_to(meson.global_source_root(), meson.global_build_roo
-+ 
-+ cl_args = [
-+   '-fmacro-prefix-map=@0@/='.format(relative_dir),
-++  '-fmacro-prefix-map=@0@/='.format(meson.global_source_root()),
-++  '-fmacro-prefix-map=@0@/='.format(meson.global_build_root()),
-+ 
-+   # Set the OpenCL standard to CL 2.0, enabling everything at a frontend.
-+   # Drivers may not actually support everything but that's ok.
++PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
++PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
 diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 4b1c11be55f7b3f54b5244674263b83a8703bc25..beaf99b796f117ab4b7b10bf9c9ea57d65995ddb 100644
+index a848a2ad8c73dad945039b5374c66e221b5b9a05..387f954789c603dac767ccf18ad60acb6731d35a 100644
 --- a/meta/recipes-graphics/mesa/mesa.inc
 +++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,6 +17,7 @@ PE = "2"
- SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
-+           file://0001-meson-fix-libcl-assert-reproducibility.patch \
- "
+@@ -80,22 +80,9 @@ EXTRA_OEMESON = " \
+ def strip_comma(s):
+     return s.strip(',')
  
- SRC_URI[sha256sum] = "7c726b21c074d14d31d253d638b741422f3c0a497ce7f1b4aaaa917d10bd8d4f"
+-PACKAGECONFIG = " \
+-	gallium \
+-	video-codecs \
+-	${@bb.utils.filter('DISTRO_FEATURES', 'x11 vulkan wayland glvnd', d)} \
+-	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm virgl', '', d)} \
+-	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
+-"
+-
+ # skip all Rust dependencies if we are not building OpenCL"
+ INHIBIT_DEFAULT_RUST_DEPS = "${@bb.utils.contains('PACKAGECONFIG', 'opencl', '', '1', d)}"
+ 
+-PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
+-PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
+-PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
+-PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
+-
+ # "gbm" requires "opengl"
+ PACKAGECONFIG[gbm] = "-Dgbm=enabled,-Dgbm=disabled"
+ 
 
 -- 
 2.50.1
