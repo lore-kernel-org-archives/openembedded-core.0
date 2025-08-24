@@ -2,115 +2,198 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB53CA0EFC
-	for <webhook@archiver.kernel.org>; Sun, 24 Aug 2025 19:09:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5809ECA0EFC
+	for <webhook@archiver.kernel.org>; Sun, 24 Aug 2025 20:20:33 +0000 (UTC)
 Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web10.22900.1756062538249554132
+ by mx.groups.io with SMTP id smtpd.web10.24080.1756066822840107736
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Aug 2025 12:08:58 -0700
+ Sun, 24 Aug 2025 13:20:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=WqOBjnLb;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20250824190856d08223831b7167e780-qxhtry@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250824190856d08223831b7167e780
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=T8JRt07f;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202508242020185f043c1684d7f38759-y3w745@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202508242020185f043c1684d7f38759
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 24 Aug 2025 21:08:56 +0200
+        Sun, 24 Aug 2025 22:20:19 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=/gFRMfFnqbMxcEN5wTxOQWq8vOUJRMKDnDki2u8knZs=;
- b=WqOBjnLb4rHnQcs9hVGVS+EME63o2BX+xM1vUsveUt1ntmJ1XtO57fFlZ/MxcYLEgJ0wUS
- TzR0pjzQo3oHZ1fmmHhsmHRZzyWPvQhA62TJD0j3OpUSxAfxxlYJae0QiB95+LpIZvLxJk7z
- kTM7XasRqqd0oYIanp71h3H4NKdg4+i1tYEfYfwv4QGW7STo206ZEPD/hVj5eKjUllL3WX3Y
- wUALAvvdQPsNkGCUhh2+Ndm52ZW4NiA028M79oaaCwgywQyz+Fg6ZQhjZ0efi9QxRh4LTuUF
- KHbFDwAztYOSCm9btGjdMpSJzkx9f27jD3582UBpAPiVK5DNWjFFJVow==;
+ bh=fuLbTYUZH3LETpchc5VJiVGw2v6aDcB9VMOIUnvnazE=;
+ b=T8JRt07fU8cgdhvy0AbS1WWBoPI5e5h2/VY/GLoVeyFi5ud+Eq4G5lvaM/mrxKajwHP0wx
+ 8YtG8HRb5mO2J4XbWtXMAkKk/TZfxzq9kISnGDFh6AWWMNoznUTENvyIbF9ZpEU5GJ60ZBJx
+ tz7ZqpUWja0vXlTUhJME3IlL0pIbSfO7Uuf+u9x3p2vGe4I9HuOVB3H9g3dJHn0SH9VFr0IZ
+ lEldaRqthize8uPH0xn7B+jXurNB1U9cUcHp4DA2v0tKyTqfX2yT43UXaRGs+GDYc49oLHjI
+ C6hIh7z4Sr7ZOgUsgJ9DZHjz8abHh+G8nuHa2n0yrpIuOQH0ulYRcIyw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH 1/2] glib-2.0: patch CVE-2025-7039
-Date: Sun, 24 Aug 2025 21:08:02 +0200
-Message-Id: <20250824190803.730828-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] dpkg: patch CVE-2025-6297
+Date: Sun, 24 Aug 2025 22:19:31 +0200
+Message-Id: <20250824201931.1386381-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Aug 2025 19:09:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222392
+ <openembedded-core@lists.openembedded.org>; Sun, 24 Aug 2025 20:20:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222394
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commit per [1].
+Pick commit per [1] from 1.22.x branch.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2025-7039
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-6297
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../glib-2.0/glib-2.0/CVE-2025-7039.patch     | 43 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039.patch
+ .../dpkg/dpkg/CVE-2025-6297.patch             | 125 ++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.22.0.bb     |   1 +
+ 2 files changed, 126 insertions(+)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039.patch
+diff --git a/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch b/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
 new file mode 100644
-index 0000000000..6e03700880
+index 0000000000..537f77643b
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039.patch
-@@ -0,0 +1,43 @@
-+From 61e963284889ddb4544e6f1d5261c16120f6fcc3 Mon Sep 17 00:00:00 2001
-+From: Michael Catanzaro <mcatanzaro@redhat.com>
-+Date: Tue, 1 Jul 2025 10:58:07 -0500
-+Subject: [PATCH] gfileutils: fix computation of temporary file name
++++ b/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
+@@ -0,0 +1,125 @@
++From 98c623c8d6814ae46a3b30ca22e584c77d47d86b Mon Sep 17 00:00:00 2001
++From: Guillem Jover <guillem@debian.org>
++Date: Sat, 7 Jun 2025 14:17:07 +0200
++Subject: [PATCH] dpkg-deb: Fix cleanup for control member with restricted
++ directories
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+We need to ensure that the value we use to index into the letters array
-+is always positive.
++When extracting a control member into a temporary directory, which is
++documented as being a safe operation even on untrusted data, the code
++in charge of the temporary directory cleanup does not sanitize the
++directory permissions, which is then unable to perform the «rm -rf»
++when running as a non-root user, leaving temporary files behind.
 +
-+Fixes #3716
++Given automated and repeated execution of dpkg-deb commands on
++adversarial .deb packages or with well compressible files, placed
++inside a directory with permissions not allowing removal by a non-root
++user, this can end up with a DoS scenario due to causing disk quota
++exhaustion or disk full conditions.
 +
-+CVE: CVE-2025-7039
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/61e963284889ddb4544e6f1d5261c16120f6fcc3]
++This is considered a minor issue, given the required conditions to
++trigger a problem with it, but an issue non the less given the
++documented security guarantees of the command. This has been an
++issue since the initial commit introducing dpkg-deb in C.
++
++We use an existing string for the error message to avoid new strings
++needing translation for stable branches, which make the error message
++less descriptive than what would be ideal. This will be improved in
++git HEAD.
++
++Reported-by: zhutyra on HackerOne
++Fixes: CVE-2025-6297
++Stable-Candidate: 1.20.x 1.21.x 1.22.x
++(cherry picked from commit ed6bbd445dd8800308c67236ba35d08004c98e82)
++(cherry picked from commit 02ad0532bd490cbc95b344f670e622a38eecfbf6)
++(cherry picked from commit d8a76551e22abe76eefd7fef5c7f51f4118eb40e)
++
++CVE: CVE-2025-6297
++Upstream-Status: Backport [https://git.dpkg.org/cgit/dpkg/dpkg.git/commit/?id=98c623c8d6814ae46a3b30ca22e584c77d47d86b]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ glib/gfileutils.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++ src/at/deb-content.at | 32 ++++++++++++++++++++++++++++++++
++ src/deb/info.c        | 20 ++++++++++++++++++++
++ 2 files changed, 52 insertions(+)
 +
-+diff --git a/glib/gfileutils.c b/glib/gfileutils.c
-+index c7d3339d1..286b1b154 100644
-+--- a/glib/gfileutils.c
-++++ b/glib/gfileutils.c
-+@@ -1532,9 +1532,9 @@ get_tmp_file (gchar            *tmpl,
-+   static const char letters[] =
-+     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-+   static const int NLETTERS = sizeof (letters) - 1;
-+-  gint64 value;
-+-  gint64 now_us;
-+-  static int counter = 0;
-++  guint64 value;
-++  guint64 now_us;
-++  static guint counter = 0;
++diff --git a/src/at/deb-content.at b/src/at/deb-content.at
++index a192c9493..d48eed72b 100644
++--- a/src/at/deb-content.at
+++++ b/src/at/deb-content.at
++@@ -127,3 +127,35 @@ newline'
++ ])
 + 
-+   g_return_val_if_fail (tmpl != NULL, -1);
++ AT_CLEANUP
+++
+++AT_SETUP([dpkg-deb .deb extraction cleanup])
+++AT_KEYWORDS([dpkg-deb deb extraction])
+++
+++DPKG_GEN_CONTROL([pkg-ctrl-dir-perms])
+++AT_CHECK([
+++dpkg-deb --root-owner-group -Znone -b pkg-ctrl-dir-perms
+++DPKG_AR_EXTRACT([pkg-ctrl-dir-perms.deb])
+++dpkg-deb -R pkg-ctrl-dir-perms.deb pkg-ctrl-dir-perms-bad
+++mkdir -p pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
+++touch pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner/file
+++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN
+++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir
+++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
+++$TAR cf control.tar --format=gnu --sort=name --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-ctrl-dir-perms-bad/DEBIAN .
+++DPKG_AR_GEN([pkg-ctrl-dir-perms.deb], [debian-binary control.tar data.tar])
+++], [0], [dpkg-deb: building package 'pkg-ctrl-dir-perms' in 'pkg-ctrl-dir-perms.deb'.
+++])
+++AT_CHECK([
+++dpkg-deb --ctrl-tarfile pkg-ctrl-dir-perms.deb | $TAR tvf -
+++], [0], [dr-xr-xr-x root/root         0 1970-01-01 00:00 ./
+++-rw-r--r-- root/root       176 1970-01-01 00:00 ./control
+++dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/
+++dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/inner/
+++-rw-r--r-- root/root         0 1970-01-01 00:00 ./rx-subdir/inner/file
+++])
+++# Check that we can cleanup the temporarily extracted control.tar member.
+++AT_CHECK([
+++dpkg-deb -I pkg-ctrl-dir-perms.deb
+++], [0], [ignore])
+++
+++AT_CLEANUP
++diff --git a/src/deb/info.c b/src/deb/info.c
++index f3d57e2ce..396ea4d14 100644
++--- a/src/deb/info.c
+++++ b/src/deb/info.c
++@@ -45,14 +45,34 @@
++ #include <dpkg/pkg-format.h>
++ #include <dpkg/buffer.h>
++ #include <dpkg/path.h>
+++#include <dpkg/treewalk.h>
++ #include <dpkg/options.h>
 + 
-+@@ -1553,7 +1553,7 @@ get_tmp_file (gchar            *tmpl,
++ #include "dpkg-deb.h"
 + 
-+   for (count = 0; count < 100; value += 7777, ++count)
-+     {
-+-      gint64 v = value;
-++      guint64 v = value;
+++static int
+++cu_info_treewalk_fixup_dir(struct treenode *node)
+++{
+++  const char *nodename;
+++
+++  if (!S_ISDIR(treenode_get_mode(node)))
+++    return 0;
+++
+++  nodename = treenode_get_pathname(node);
+++  if (chmod(nodename, 0755) < 0)
+++    ohshite(_("error setting permissions of '%.255s'"), nodename);
+++
+++  return 0;
+++}
+++
++ static void cu_info_prepare(int argc, void **argv) {
++   char *dir;
+++  struct treewalk_funcs cu_info_treewalk_funcs = {
+++    .visit = cu_info_treewalk_fixup_dir,
+++  };
 + 
-+       /* Fill in the random bits.  */
-+       XXXXXX[0] = letters[v % NLETTERS];
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index 53e0543045..c129be1328 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -29,6 +29,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2025-3360-06.patch \
-            file://CVE-2025-4373-01.patch \
-            file://CVE-2025-4373-02.patch \
-+           file://CVE-2025-7039.patch \
++   dir = argv[0];
+++  treewalk(dir, TREEWALK_NONE, &cu_info_treewalk_funcs);
++   path_remove_tree(dir);
++   free(dir);
++ }
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb b/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb
+index 7eaae9f22e..41f5123508 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb
+@@ -14,6 +14,7 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
+            file://0001-dpkg-Support-muslx32-build.patch \
+            file://pager.patch \
+            file://0001-Add-support-for-riscv32-CPU.patch \
++           file://CVE-2025-6297.patch \
             "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+ 
+ SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
 
