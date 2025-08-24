@@ -2,102 +2,82 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 386B6CA0EFC
-	for <webhook@archiver.kernel.org>; Sun, 24 Aug 2025 09:32:20 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web11.13745.1756027933199832374
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4894ECA0EFC
+	for <webhook@archiver.kernel.org>; Sun, 24 Aug 2025 09:45:20 +0000 (UTC)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.web11.13872.1756028710758992252
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Aug 2025 02:32:13 -0700
+ Sun, 24 Aug 2025 02:45:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MqPBEAjy;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-70d9f5bdf79so16221966d6.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 Aug 2025 02:32:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NoKS47DU;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-70bb007a821so46060456d6.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 24 Aug 2025 02:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756027932; x=1756632732; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tfnHdCC9DV4Iz5u2G5s0IqZMQ2RiWpit7KKMLR4yc64=;
-        b=MqPBEAjy2OLtsviVjaIdpYObx+RYCiCk2cPC8HBLaxu/OwK5/MT1UBtNAjh8o0Ib8C
-         BNVh7yMEz40l5+Je6Ic8hU2doiEFv0qxEXjv0+rFw/IWLFT7WDRYwuaS5oET6PeJw4/Y
-         3HMbIfF700nTfkIOdIKt5Y0KpxPt2I5srE22fT0MDCv9xw6l1D0izSZsNZt5qejVM8X7
-         fhw6pNVeXecoUxVfB6DWD53PFk5wqxI3maOBATPCjo7CRIIUtKOW3kDcJmLanrrwVBVm
-         a1/H9HomQRnm4ZpgLfATkMuuuG5friHmp+fBwhxP9OHjaW3x8zhBFfZDD7sayrdss83+
-         7LYA==
+        d=gmail.com; s=20230601; t=1756028710; x=1756633510; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=T45UY28xiFmCcBsucgHSV5jO4DJew7AXH4VE2KgCxTc=;
+        b=NoKS47DUvhUsH/DuDT+4UETVhlo/aD2gtgTfo1yoRfgUPZEJ9q7dwEDemNpRF38Fzh
+         +nn4I2aBTvOOvVlbVDelSx95Mi4DsK8EasCHXn3ZybJDwt0eQR61v5Gf1r4xDLRfkR9N
+         WK9bOWEjRB0sawGXlDoppCEwwGMv9b0ZuTHkMURpEGv9tRzTKzVBt5gIZEN9auhdI7PB
+         5BdHJhenKkSzN4+ptpaAiqRPqW9qZLaa4jpRVkENJGdpoKH4wwLy0OHF4KSFzmei7mAH
+         hDVl7x4aHCS132SY/JFTyOPABCMPMJx97hzV9DjpC38p0U3ToVolvWvMHPwLPS7ltC8P
+         05hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756027932; x=1756632732;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tfnHdCC9DV4Iz5u2G5s0IqZMQ2RiWpit7KKMLR4yc64=;
-        b=uvLgTKCnMAX3FtLtbAEwElOAJzse3qCnDobJkzLmDDAF55FzAoP6puwgVDQAfuBFqr
-         6MnRw2vRrQ6Q1/w2lwym07Z3UhCROnpzrPANLwgRrHdOPjmChvJfYX9daxuAp2RK8XIJ
-         w4H6gX9ut+/F6mmjlMYF5DFlU0Vqh9hbBf5T3vkyeYTLfXYEYSB71PjgWX78rPnu1Rz3
-         fpATXRSFnLqg8ZMi4ycsymWrjxb5YHf3fMfftUiq0gAesoQhPViSMLWbkJlEC5qtkdEZ
-         Y5vuc9DRiBfFMeWInf9h8pYCEg0R2t3fnQ4rr2O4BuZAQmbef+J0ubXHhPf1aPc6s2Wf
-         df5Q==
-X-Gm-Message-State: AOJu0YyQL22gbq0iS6rlARO7Oj+DMlZkCJ2EBhnMSNqX+JGeJv99wRa/
-	Fl4mWNRpiouCpAHqpVTLfJpS3tYtmNdaIxh3sYsOZ2xWP63sx6c8wgLQpo5R/wTRRRD04/RujIh
-	+r/eL4T8DeuOPbsBFSzHXSk1jA18+cSs=
-X-Gm-Gg: ASbGncsHYNnc5U7QClkHj/vDR5n8l0rCdnoDzg7M+p4Z7Zs96qZcHDH9gDvsYeCPZm7
-	yjyUn+iMvmYLi9PWNx5fqAhQ+q9jn2QkZQvLZWlTPZbiSQGQrcOMccgd4aDcmFAjhn0NcXKpCbq
-	VxXZVaX0k6S5xe2+F8Pz/rqZE54tK4sTOKCFqQlfhjzcVfhR62JBTmvY/lCgffLGSkI+wbwPZx6
-	Nm2SHY=
-X-Google-Smtp-Source: AGHT+IH1mfkRpKNONrnMRjmCPw/N0YqoKIcpRqOx4DCPR6KcE/TCjzMyufwGbGakjVCjZaz0v+55HPu0MeGwURm9tCE=
-X-Received: by 2002:a05:6214:5191:b0:709:b911:5f9a with SMTP id
- 6a1803df08f44-70d970fc23amr92351736d6.15.1756027932181; Sun, 24 Aug 2025
- 02:32:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756028710; x=1756633510;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T45UY28xiFmCcBsucgHSV5jO4DJew7AXH4VE2KgCxTc=;
+        b=eGi5aE6XH/Eg8dF2ULYEYMDQfRHHHQ1XIYGTSBOLnI7DZq7CXZItmjKFs1vwCt046T
+         eHGgn06mNuYMiza9c8k+vCLw0CIg9EST/uYFvu76ct6rdHJIH73nNqG2YQZGQ/Hdfxww
+         +yTujB9+WDy+CtJ0vbMPGoCtSccVPIuOomTMts/53XaMkvsmoKpkjO4gy8ZHx9qI830Z
+         YwVGQJ1lP2fbO/rWk9BsXrL2/SgqVJJWKFX1wIFH2NDeyon9Ilqcx2rm1paTQkEmzLMI
+         gSsqe8swxKA0udm1PZK0yB6VAEU/haXYm4atylrRk0SItxCvAa2NCBt1/heutORaik67
+         gHsA==
+X-Gm-Message-State: AOJu0YwRLaMioL7/kYz2BJkPSj/NKY/9A+/5Oj1eoM/0x9FFV7S5jx5S
+	cHsBz9cg4o2+Qirwj3on5Y9sLJ6X9s1lwCYg5hhHdclLSRX8sAGkTUYybDsAQFuOqUkbZwEL3gB
+	Ro61APHxpRo32HxwSjFm2PK8gCa5tIz0=
+X-Gm-Gg: ASbGncvdSIgw9jmauUKKC0zYOnpmF9m4DNWFg4+o0DPfmhNeh+libjDvrNiNBHpqev9
+	cM0EddxU1jk+z7cc4VttCEQ4Z5wGUsrnArtXWcbimFWSr33vnI+so+zFm8Riyn3c2vxhQz6BZ6g
+	BXcUUtDcuSBvfrH1GjdsFPwC7fF4Hg35FWd1S0V5w92ipKM3Xb5iMM4nYF3fmACQHfZVABlzS1K
+	aNizD2iPhBehgnbeA==
+X-Google-Smtp-Source: AGHT+IGVAHn/TvE8EoyDDXkn3qUwc/oGG/3XSzezH7T/Qd/UZxfqMT0EPJtQ872rQ8WvuMPe90FG38I9kcMMr59gM6s=
+X-Received: by 2002:a05:6214:2602:b0:70d:a3fa:2fb4 with SMTP id
+ 6a1803df08f44-70da3fa331cmr74377286d6.62.1756028709712; Sun, 24 Aug 2025
+ 02:45:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250821131006.831214-1-r.gruenert@pironex.com>
-In-Reply-To: <20250821131006.831214-1-r.gruenert@pironex.com>
+References: <20250822051726.2429206-1-raj.khem@gmail.com> <20250822051726.2429206-3-raj.khem@gmail.com>
+In-Reply-To: <20250822051726.2429206-3-raj.khem@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 24 Aug 2025 11:32:03 +0200
-X-Gm-Features: Ac12FXxYYTvgVa2JgwPYQKiYXU6-E4Nt-pol62TlEvFFb-H-QjOO33Uk1u5_pZQ
-Message-ID: <CANNYZj8ryACqE4A99AXuCPD+SMPUVXW2HjyjWTogOmyAn2H--A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] scripts/runqemu: raise an error when bitbake
- was not found
-To: r.gruenert@pironex.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sun, 24 Aug 2025 11:44:58 +0200
+X-Gm-Features: Ac12FXy5YipdkWD0WySqXpxaY_U2STZSC5jiMf8ONtKWrFwGLaciaeKH8CIUsAs
+Message-ID: <CANNYZj8vA2j2XgQ=ZDc9djNOTSBc3XVYTd=Miqmfsd0sz7gMpw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] gettext: Force UTF-8 runtime and skip
+ requiring ISO-8859-1
+To: raj.khem@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Aug 2025 09:32:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222364
+ <openembedded-core@lists.openembedded.org>; Sun, 24 Aug 2025 09:45:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222365
 
-On Thu, 21 Aug 2025 at 15:10, Richard Gr=C3=BCnert via
-lists.openembedded.org <r.gruenert=3Dpironex.com@lists.openembedded.org>
-wrote:
-> I am new to Yocto/OpenEmbedded and compiled poky by following the Yocto
-> "Quick Build" guide. I later tried to call runqemu
-> from a terminal different to the one I ran the compilation in
-> and runqemu was not found.
-> Wondering why it was not found, I ran it directly as `./scripts/runqemu`,
-> which was a misconception I had because you are supposed to have
-> `oe-init-build-env` sourced. However, there was no error that told me
-> this when running runqemu like I did. So I thought it would be
-> good to add this error message to notify the user that bitbake
-> was not found. At least it would have helped me and saved me
-> some minutes of head scratching.
+On Fri, 22 Aug 2025 at 07:17, Khem Raj via lists.openembedded.org
+<raj.khem=gmail.com@lists.openembedded.org> wrote:
+> +do_install_ptest:append:libc-musl() {
+> +        # Force UTF-8 runtime and skip legacy fr_FR subcases
+> +        sed -i '3i export LANG=fr_FR.UTF-8; export LC_ALL=fr_FR.UTF-8' \
+> +            ${D}${PTEST_PATH}/run-ptest
+> +        sed -i '3i export LOCALE_FR="none"; export LOCALE_FR_UTF8=fr_FR.UTF-8' \
+> +            ${D}${PTEST_PATH}/run-ptest
+> +        sed -i -e 's|^LOCALE_FR="fr_FR.ISO-8859-1"|LOCALE_FR="none"|g' \
+> +            ${D}${PTEST_PATH}/tests/init-env
 
-It's better to trim details of your skills and personal experience out
-of the commit message. Describe what the problem is and how the patch
-solves it.
-
-For example:
-- what happens if you run runqemu without having bitbake in PATH
-- how the patch solves or improves the issue: what happens when the
-patch is applied.
-
-> +            raise OEPathError("bitbake could not be found")
-
-This should be improved:
-
-"Bitbake is needed to run {cmd}, but it is not found in PATH. Please
-source the bitbake build environment."
+This hurts my eyes. Can we install a musl-specific run-ptest or raise
+the issue with upstream, or find some way to avoid all this sed?
 
 Alex
 
