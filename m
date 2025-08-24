@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5809ECA0EFC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F46CA0EEB
 	for <webhook@archiver.kernel.org>; Sun, 24 Aug 2025 20:20:33 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web10.24080.1756066822840107736
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.24084.1756066829657313364
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Aug 2025 13:20:24 -0700
+ Sun, 24 Aug 2025 13:20:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=T8JRt07f;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202508242020185f043c1684d7f38759-y3w745@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202508242020185f043c1684d7f38759
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=GtT20uJ7;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202508242020279c01bd615ea457247c-qsahwi@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202508242020279c01bd615ea457247c
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 24 Aug 2025 22:20:19 +0200
+        Sun, 24 Aug 2025 22:20:27 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=fuLbTYUZH3LETpchc5VJiVGw2v6aDcB9VMOIUnvnazE=;
- b=T8JRt07fU8cgdhvy0AbS1WWBoPI5e5h2/VY/GLoVeyFi5ud+Eq4G5lvaM/mrxKajwHP0wx
- 8YtG8HRb5mO2J4XbWtXMAkKk/TZfxzq9kISnGDFh6AWWMNoznUTENvyIbF9ZpEU5GJ60ZBJx
- tz7ZqpUWja0vXlTUhJME3IlL0pIbSfO7Uuf+u9x3p2vGe4I9HuOVB3H9g3dJHn0SH9VFr0IZ
- lEldaRqthize8uPH0xn7B+jXurNB1U9cUcHp4DA2v0tKyTqfX2yT43UXaRGs+GDYc49oLHjI
- C6hIh7z4Sr7ZOgUsgJ9DZHjz8abHh+G8nuHa2n0yrpIuOQH0ulYRcIyw==;
+ bh=H4tWisWxWFWMIHM8O0Aok7USTMpzXr1Yr2/Rd/WGqMA=;
+ b=GtT20uJ7qe9E7rHAjvDvI5p0ElmKO9UdGBtHtL+T8kuIyr/N670zY/p5GwNtaK3sPTqu+l
+ JounZDdxhLoeOpsLBa/RaugwrJgspw9eg3PX3cwWvzMrg3nJ73hbABuvy/GtaUK3/BuOf/x8
+ wFwrjXBGrseLIsNYZrkXTJ02PZskB+zMMeyBsp5VnU2rWOPU9zDh8e3ssatnWuF29j0Nnwet
+ frPAXrxQR9I6ZmaefW7dG5Tts3VmamnOBgg9oY1lyDIDYmC1kf2zGKcxJkhgSeZ0f+C5StJ6
+ dOt43GtZf/EI+s3pU+oAGdiqD2qR+vOMHXsbJ+djbJ4rt+4YhTm4Pn8A==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] dpkg: patch CVE-2025-6297
-Date: Sun, 24 Aug 2025 22:19:31 +0200
-Message-Id: <20250824201931.1386381-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] dpkg: patch CVE-2025-6297
+Date: Sun, 24 Aug 2025 22:19:40 +0200
+Message-Id: <20250824201940.1386435-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -38,7 +38,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 24 Aug 2025 20:20:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222394
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222395
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -49,7 +49,7 @@ Pick commit per [1] from 1.22.x branch.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../dpkg/dpkg/CVE-2025-6297.patch             | 125 ++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.22.0.bb     |   1 +
+ meta/recipes-devtools/dpkg/dpkg_1.21.4.bb     |   1 +
  2 files changed, 126 insertions(+)
  create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
 
@@ -184,14 +184,14 @@ index 0000000000..537f77643b
 +   path_remove_tree(dir);
 +   free(dir);
 + }
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb b/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb
-index 7eaae9f22e..41f5123508 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb
-@@ -14,6 +14,7 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
-            file://0001-dpkg-Support-muslx32-build.patch \
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
+index 7ef6233ee4..27e835a288 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
+@@ -15,6 +15,7 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
             file://pager.patch \
             file://0001-Add-support-for-riscv32-CPU.patch \
+            file://0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch \
 +           file://CVE-2025-6297.patch \
             "
  
