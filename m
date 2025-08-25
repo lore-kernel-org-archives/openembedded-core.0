@@ -1,100 +1,52 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 129B0CA0EFA
-	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 14:01:09 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.39602.1756130459244745728
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72866CA0EFA
+	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 15:16:39 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.41658.1756134993719145635
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Aug 2025 07:00:59 -0700
+ Mon, 25 Aug 2025 08:16:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=efGr1eIh;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VphSJ8WU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010198e1883b25-30a9cc24-f153-4275-b41f-5dd5f01b7a3b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756130458; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=wDKJflQcTXTXTB6bh3A+QqoyRBVzzLmW4s7USGCBel4=;
-	b=efGr1eIhCuY9vnU3C6wL6/ohOE46abBu5fdX/dTzxxV1k/nYlmfMaxLk31UKaTfM
-	LtaxYMza7wO+b6+7tZFwMyXVkCBEEdSZ9x0mQt5nJ3Pz3VVkVUGrrbvT2yk6TjKtbk0
-	toEwIKqFVOkk7NEXb4vpFONaBEYKGp+4rhjaskPc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756130458;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=wDKJflQcTXTXTB6bh3A+QqoyRBVzzLmW4s7USGCBel4=;
-	b=VphSJ8WUb3M4dt3wfDKw/2nTLm4fmhf6CiG1izRZmKnZlZ/zu3h4D+z94zHxwJYt
-	en8vkpjUHwzdGHBXyhlK8tUzsUZ/ltlhGzgLi+Yh0Xpys7DA/7hyfY1HcVlans83LGz
-	UhMCZ+qkfNvDLI1wqVrjs/yXb8p90G1FlxK5xqgU=
-From: patchtest@automation.yoctoproject.org
-To: Peter Marko <peter.marko@siemens.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][walnascar][PATCH] nginx: patch CVE-2025-53859
-In-Reply-To: <20250825135021.451414-1-peter.marko@siemens.com>
-References: <20250825135021.451414-1-peter.marko@siemens.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198e1883b25-30a9cc24-f153-4275-b41f-5dd5f01b7a3b-000000@us-west-2.amazonses.com>
-Date: Mon, 25 Aug 2025 14:00:58 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.25-54.240.27.29
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id B1C4C40CB8;
+	Mon, 25 Aug 2025 15:16:32 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id F4JkpzVHEOxG; Mon, 25 Aug 2025 15:16:32 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 77EB440C83;
+	Mon, 25 Aug 2025 15:16:29 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 7BF22171FE5; Mon, 25 Aug 2025 11:16:28 -0400 (EDT)
+Date: Mon, 25 Aug 2025 11:16:28 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@lists.yoctoproject.org>,
+	openembedded-members@lists.openembedded.org
+Subject: Cancel: OpenEmbedded Happy Hour August 27
+Message-ID: <20250825151628.GY24899@denix.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 14:01:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222410
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 15:16:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222411
 
---NextPart
-Content-Type: text/plain
+All,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Due to the Open Source Summit this week, the OE Board has decided to cancel 
+our regular Happy Hour this month.
 
----
-Testing patch /home/patchtest/share/mboxes/walnascar-nginx-patch-CVE-2025-53859.patch
-
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Best regards,
+Denys Dmytriyenko
+OpenEmbedded Board of Directors
 
