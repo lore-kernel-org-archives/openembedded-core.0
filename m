@@ -1,199 +1,128 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F46CA0EEB
-	for <webhook@archiver.kernel.org>; Sun, 24 Aug 2025 20:20:33 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web10.24084.1756066829657313364
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D8F1CA0FE1
+	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 03:51:35 +0000 (UTC)
+Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
+ by mx.groups.io with SMTP id smtpd.web10.31262.1756093889098033038
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Aug 2025 13:20:29 -0700
+ Sun, 24 Aug 2025 20:51:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=GtT20uJ7;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202508242020279c01bd615ea457247c-qsahwi@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202508242020279c01bd615ea457247c
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 24 Aug 2025 22:20:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=H4tWisWxWFWMIHM8O0Aok7USTMpzXr1Yr2/Rd/WGqMA=;
- b=GtT20uJ7qe9E7rHAjvDvI5p0ElmKO9UdGBtHtL+T8kuIyr/N670zY/p5GwNtaK3sPTqu+l
- JounZDdxhLoeOpsLBa/RaugwrJgspw9eg3PX3cwWvzMrg3nJ73hbABuvy/GtaUK3/BuOf/x8
- wFwrjXBGrseLIsNYZrkXTJ02PZskB+zMMeyBsp5VnU2rWOPU9zDh8e3ssatnWuF29j0Nnwet
- frPAXrxQR9I6ZmaefW7dG5Tts3VmamnOBgg9oY1lyDIDYmC1kf2zGKcxJkhgSeZ0f+C5StJ6
- dOt43GtZf/EI+s3pU+oAGdiqD2qR+vOMHXsbJ+djbJ4rt+4YhTm4Pn8A==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=qCugWW0K;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1756093889; x=1787629889;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8WmRDHNcYWQoyWlMrG6AOWusOOyBaCA9Zd+vgttxs7Y=;
+  b=qCugWW0K9Y0t6cpHCgBijdgi8CY9ltjBhFARkkhxNSgpTMKlncz8Isqm
+   wf8Mg/b8Yt6DNxUzHvjPDKi0XVqliy+rFeMolZkBM6VYR1or5tgwcNDqe
+   7QZnhQv/UpC4/9w0OCptaEAuif1mqiSupKEdOUsOWJCZKJMb/dT+wABtu
+   tt2xE9Iik/G/IEdhuBTdMhjjX4VMSAlcQnLCWQV0DLjKp4rmdcon9dS4X
+   WPEpRM5E2qt6zrWyyAPAivZU59wQdieSX9kjTpSWMLVoVO81erkFRcuVL
+   DmFkJEdvJ6p2Iy5HBFmZioTPXsN1zx4XHACbDDThEbVFdY0sqtGyab+ek
+   A==;
+X-CSE-ConnectionGUID: +yYfebEoQvOTC+DdfuPsMg==
+X-CSE-MsgGUID: IMr2A4wxTd6GNjcF+2ooxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="197870811"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747666800"; 
+   d="scan'208";a="197870811"
+Received: from unknown (HELO az2nlsmgr4.o.css.fujitsu.com) ([20.61.8.234])
+  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 12:51:27 +0900
+Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgr4.o.css.fujitsu.com (Postfix) with ESMTPS id 6EBD842A309
+	for <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 03:51:27 +0000 (UTC)
+Received: from az2uksmom4.o.css.fujitsu.com (az2uksmom4.o.css.fujitsu.com [10.151.22.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 272B6C00FDC
+	for <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 03:51:27 +0000 (UTC)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by az2uksmom4.o.css.fujitsu.com (Postfix) with ESMTPS id 0A8224045DB
+	for <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 03:51:25 +0000 (UTC)
+Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 130961A0074;
+	Mon, 25 Aug 2025 11:51:22 +0800 (CST)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] dpkg: patch CVE-2025-6297
-Date: Sun, 24 Aug 2025 22:19:40 +0200
-Message-Id: <20250824201940.1386435-1-peter.marko@siemens.com>
+Cc: Liu Yiding <liuyd.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH 01/10] harfbuzz: upgrade 11.2.1 -> 11.4.1
+Date: Mon, 25 Aug 2025 11:51:00 +0800
+Message-ID: <20250825035109.797-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Aug 2025 20:20:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222395
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 03:51:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222396
 
-From: Peter Marko <peter.marko@siemens.com>
+Changelog:
+=============
+- Speed up handling fonts with very large number of variations:
+  - Drawing by up to 40%.
+  - Calculating glyph extents by up to 15%.
+  - Getting horizontal glyph advances by up to 45%.
+  - Speed up getting horizontal and vertical glyph advances by up to 24%.
+- Significantly speed up vertical text shaping.
+- Various documentation improvements.
+- Various build improvements.
+- Various subsetting improvements.
+- Various improvements to Rust font functions (fontations integration) and shaper (HarfRust integration).
+- Rename harfruzz option and shaper to harfrust following upstream rename.
+- Implement hb_face_reference_blob() for DirectWrite font functions.
+- New API:
+  +hb_font_get_glyph_origins_func_t
+  +hb_font_get_glyph_h_origins_func_t
+  +hb_font_get_glyph_v_origins_func_t
+  +hb_font_funcs_set_glyph_h_origins_func()
+  +hb_font_funcs_set_glyph_v_origins_func()
+  +hb_font_get_glyph_h_origins()
+  +hb_font_get_glyph_v_origins()
+- Fix crasher in the glyph_v_origin function introduced in 11.3.0
+- Fix build with non-compliant C++11 compilers that don't recognize the "and" keyword
+- Fix bug in vertical shaping of fonts without the vmtx table
+- General shaping and subsetting speedups.
+- Fix in Graphite shaping backend when glyph advances became negative.
+- Subsetting improvements, pruning empty mark-attachment lookups.
+- Don't use the macro name _S, which is reserved by system liberaries.
+- Build fixes and speedup.
+- Add a kbts shaping backend that calls into the kb_text_shape
+  single-header shaping library.
 
-Pick commit per [1] from 1.22.x branch.
-
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-6297
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
- .../dpkg/dpkg/CVE-2025-6297.patch             | 125 ++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.21.4.bb     |   1 +
- 2 files changed, 126 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
+ .../harfbuzz/{harfbuzz_11.2.1.bb => harfbuzz_11.4.1.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_11.2.1.bb => harfbuzz_11.4.1.bb} (95%)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch b/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
-new file mode 100644
-index 0000000000..537f77643b
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
-@@ -0,0 +1,125 @@
-+From 98c623c8d6814ae46a3b30ca22e584c77d47d86b Mon Sep 17 00:00:00 2001
-+From: Guillem Jover <guillem@debian.org>
-+Date: Sat, 7 Jun 2025 14:17:07 +0200
-+Subject: [PATCH] dpkg-deb: Fix cleanup for control member with restricted
-+ directories
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+When extracting a control member into a temporary directory, which is
-+documented as being a safe operation even on untrusted data, the code
-+in charge of the temporary directory cleanup does not sanitize the
-+directory permissions, which is then unable to perform the «rm -rf»
-+when running as a non-root user, leaving temporary files behind.
-+
-+Given automated and repeated execution of dpkg-deb commands on
-+adversarial .deb packages or with well compressible files, placed
-+inside a directory with permissions not allowing removal by a non-root
-+user, this can end up with a DoS scenario due to causing disk quota
-+exhaustion or disk full conditions.
-+
-+This is considered a minor issue, given the required conditions to
-+trigger a problem with it, but an issue non the less given the
-+documented security guarantees of the command. This has been an
-+issue since the initial commit introducing dpkg-deb in C.
-+
-+We use an existing string for the error message to avoid new strings
-+needing translation for stable branches, which make the error message
-+less descriptive than what would be ideal. This will be improved in
-+git HEAD.
-+
-+Reported-by: zhutyra on HackerOne
-+Fixes: CVE-2025-6297
-+Stable-Candidate: 1.20.x 1.21.x 1.22.x
-+(cherry picked from commit ed6bbd445dd8800308c67236ba35d08004c98e82)
-+(cherry picked from commit 02ad0532bd490cbc95b344f670e622a38eecfbf6)
-+(cherry picked from commit d8a76551e22abe76eefd7fef5c7f51f4118eb40e)
-+
-+CVE: CVE-2025-6297
-+Upstream-Status: Backport [https://git.dpkg.org/cgit/dpkg/dpkg.git/commit/?id=98c623c8d6814ae46a3b30ca22e584c77d47d86b]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/at/deb-content.at | 32 ++++++++++++++++++++++++++++++++
-+ src/deb/info.c        | 20 ++++++++++++++++++++
-+ 2 files changed, 52 insertions(+)
-+
-+diff --git a/src/at/deb-content.at b/src/at/deb-content.at
-+index a192c9493..d48eed72b 100644
-+--- a/src/at/deb-content.at
-++++ b/src/at/deb-content.at
-+@@ -127,3 +127,35 @@ newline'
-+ ])
-+ 
-+ AT_CLEANUP
-++
-++AT_SETUP([dpkg-deb .deb extraction cleanup])
-++AT_KEYWORDS([dpkg-deb deb extraction])
-++
-++DPKG_GEN_CONTROL([pkg-ctrl-dir-perms])
-++AT_CHECK([
-++dpkg-deb --root-owner-group -Znone -b pkg-ctrl-dir-perms
-++DPKG_AR_EXTRACT([pkg-ctrl-dir-perms.deb])
-++dpkg-deb -R pkg-ctrl-dir-perms.deb pkg-ctrl-dir-perms-bad
-++mkdir -p pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
-++touch pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner/file
-++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN
-++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir
-++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
-++$TAR cf control.tar --format=gnu --sort=name --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-ctrl-dir-perms-bad/DEBIAN .
-++DPKG_AR_GEN([pkg-ctrl-dir-perms.deb], [debian-binary control.tar data.tar])
-++], [0], [dpkg-deb: building package 'pkg-ctrl-dir-perms' in 'pkg-ctrl-dir-perms.deb'.
-++])
-++AT_CHECK([
-++dpkg-deb --ctrl-tarfile pkg-ctrl-dir-perms.deb | $TAR tvf -
-++], [0], [dr-xr-xr-x root/root         0 1970-01-01 00:00 ./
-++-rw-r--r-- root/root       176 1970-01-01 00:00 ./control
-++dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/
-++dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/inner/
-++-rw-r--r-- root/root         0 1970-01-01 00:00 ./rx-subdir/inner/file
-++])
-++# Check that we can cleanup the temporarily extracted control.tar member.
-++AT_CHECK([
-++dpkg-deb -I pkg-ctrl-dir-perms.deb
-++], [0], [ignore])
-++
-++AT_CLEANUP
-+diff --git a/src/deb/info.c b/src/deb/info.c
-+index f3d57e2ce..396ea4d14 100644
-+--- a/src/deb/info.c
-++++ b/src/deb/info.c
-+@@ -45,14 +45,34 @@
-+ #include <dpkg/pkg-format.h>
-+ #include <dpkg/buffer.h>
-+ #include <dpkg/path.h>
-++#include <dpkg/treewalk.h>
-+ #include <dpkg/options.h>
-+ 
-+ #include "dpkg-deb.h"
-+ 
-++static int
-++cu_info_treewalk_fixup_dir(struct treenode *node)
-++{
-++  const char *nodename;
-++
-++  if (!S_ISDIR(treenode_get_mode(node)))
-++    return 0;
-++
-++  nodename = treenode_get_pathname(node);
-++  if (chmod(nodename, 0755) < 0)
-++    ohshite(_("error setting permissions of '%.255s'"), nodename);
-++
-++  return 0;
-++}
-++
-+ static void cu_info_prepare(int argc, void **argv) {
-+   char *dir;
-++  struct treewalk_funcs cu_info_treewalk_funcs = {
-++    .visit = cu_info_treewalk_fixup_dir,
-++  };
-+ 
-+   dir = argv[0];
-++  treewalk(dir, TREEWALK_NONE, &cu_info_treewalk_funcs);
-+   path_remove_tree(dir);
-+   free(dir);
-+ }
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-index 7ef6233ee4..27e835a288 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
-            file://pager.patch \
-            file://0001-Add-support-for-riscv32-CPU.patch \
-            file://0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch \
-+           file://CVE-2025-6297.patch \
-            "
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_11.2.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_11.4.1.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_11.2.1.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_11.4.1.bb
+index 2c8a1363d0..a43d88fd89 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_11.2.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_11.4.1.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+                     "
  
- SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "093714c8548a285094685f0bdc999e202d666b59eeb3df2ff921ab68b8336a49"
++SRC_URI[sha256sum] = "7aafab93115eb56cdc9a931ab7d19ff60d7f2937b599d140f17236f374e32698"
+ 
+ DEPENDS += "glib-2.0-native"
+ 
+-- 
+2.43.0
+
 
