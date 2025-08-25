@@ -1,186 +1,752 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF963C8303F
-	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 19:58:50 +0000 (UTC)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
- by mx.groups.io with SMTP id smtpd.web11.48518.1756151928285733023
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0718C8303F
+	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 20:14:10 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.48593.1756152846256881552
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Aug 2025 12:58:48 -0700
+ Mon, 25 Aug 2025 13:14:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=J+7xkQQG;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.178, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e951dfcbc5bso3140896276.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 12:58:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dYfEhwzB;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-afcb78da8a7so763014366b.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 13:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756151927; x=1756756727; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2lmBmGFhSW+gGf9t5sr3uL/Tq4bay7GEL/4bt17tji0=;
-        b=J+7xkQQG820SRLjbK2iRb25yxC9cYWlfRFG/N2D2FgYlIP8DQCHQLiSL2RoyJqM0on
-         v1RLRtP0VJc79zsqkU5H4LAAe/aGhPMYscF2LHUe2bttej2Qa6SiEId09mZPgeXJ5wdm
-         ++K9nI16XIL0ge3LegSym+BWthdspCH9aHfHzCKA3RO/fIX/eebTZbctjH5N4zQRnI6w
-         KOKYn2FB+viuG6VNOKVr5qXRJhzAgaaq37JvdhdCX/d0a5203c26w+LmdjeDEOLXnQk8
-         tRfji8PAL1JNhE/qwPsIHj5D+UftkuA6ur8m+FBih2WgMVJz29G1vTFkJKKXb6gc8Z1g
-         aAjg==
+        d=gmail.com; s=20230601; t=1756152845; x=1756757645; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=S1yRpym5tnCIS7WC5z1gpUMJn3s+gmO6FU6FCC1kTGQ=;
+        b=dYfEhwzBNgX8h4fFwziZoKMhFNVGdMzIQtTItJxEBnoD2FlWDCjO84XBwWYKU/K50k
+         f8W/H1NmEk3ft0AAfCIMcu55bfeFvJGEJTPHkw4jq3Jiwj4XLH16feWFaiiKgPh2DgJm
+         OAfKsnu5jk1B+cmh0BjPeb3YUSuviNQDCuXIFobE4oMq6dFIXVPjgCLun5ZAR/Og6stV
+         UuaaQykVJxsHIpWMv2jbluKbWcSn2FRM8WQVJPBlEHLs44QDM20Dl974S8Jet+E6QS8d
+         lXT0nC3guAXM+AcXvergmQ65OkZMi9WjiPBKu8eiCpcZNJQPadEa/p0y4KXdwu/sAiDq
+         HIvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756151927; x=1756756727;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2lmBmGFhSW+gGf9t5sr3uL/Tq4bay7GEL/4bt17tji0=;
-        b=SucPUgqeP7G5oVjuvOgUZfGTdfAgheR69+LjN+mhM5+0q/NFs0Y42NKf9ZFu/MGKMk
-         kj7MCaVw0R+Z+hIt8TCY25oibXsycNlzGVfUDxaYMLBY6ttrh0wHiEsq39rwIR3H8Ay5
-         WbiRrVJHjyHT4yvRe0+BR83drt8iGT8vsmqU3T2vfb6fhcg7hYLPyYlKiYAci1WXc1jh
-         +32uOxhotAb1f/Qv61PQncRtghyBHz0WG98FKPDHI4tqqnHd4G8hB9Z9Tn4zxc5w1AYT
-         TiJBFVYd14KB0jZw7RxN65+xPOishlcPMgBm7VMorUrLPMNMhG7whVXUcS6atPgZ90/e
-         miLQ==
-X-Gm-Message-State: AOJu0Yw9qWg1mtTrfKFeL2JLLCZbALw34TdEPiiXEzoA/hp2fOfnavpi
-	JpqdGE/QmzCAoueuv/8yeWUUdb8VwkkP+YD3yQ4xWN8GHqooHcVffy7GYgLLJvrMgM+pDNJa7OS
-	yLz2PZJNB3uaXPsNYqkdaOnFsOdJ/SAyMfBwjwAyBnw==
-X-Gm-Gg: ASbGnctYwdNh080MaF6X0rbmTdP2VNOmJ6qtKHSdXayPhA/CnvGhxgs7OqMQ+oOyJ7x
-	cL8okmEw0eHFhCAdJ7CkBNF5P27btESa0uZHFQ1UG3UD4vJ8yQkZD2QYH9Odl3oYLaK+YuDx4g/
-	DcZZ48AsZXpxVm7mp8K6Fap6HhfxIOmogx58ZKZtR8rmOq0fpIGpr/l/zZ8wu5R0vGqGdyNWsSo
-	HsBej9Bolb5aeOFR1YKKn39c+w6fUp68TIRW2M=
-X-Google-Smtp-Source: AGHT+IGc1BNgCsjuesVqdixTKOu1/61YsLZo0zaySBtCzSa694rE4VT3LWem6Zqk0MI1p8uzQ+6MLHwWL0LAm/ZcMgg=
-X-Received: by 2002:a05:690c:c8f:b0:71f:edb7:b465 with SMTP id
- 00721157ae682-7212b51a4dfmr1324367b3.32.1756151927256; Mon, 25 Aug 2025
- 12:58:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756152845; x=1756757645;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S1yRpym5tnCIS7WC5z1gpUMJn3s+gmO6FU6FCC1kTGQ=;
+        b=R867JEjkTs1FlP1dri2S1bbgVGVEXzLQbmlbwmgFi21wJ5vjkaNENCNOQnmoQx2Pee
+         BlF/vHvlrCP9xDnDCol5CPC2thS/tjhhUx03xq89NxhQJo9HcxmWJ5QsgJKxvMrot8/n
+         Q4x6CpP64lwhU/JcRf+lqb0+j/hehcuH9+t3NZyd6iAtyW651duP4N5LVplh61udlIUO
+         D6nIJlO0ltNZXatQz+Dch53AC3T70N5tCZbfhZR5H/TJyKu/musHiyaqEbPzxYN5+9+s
+         KmtacMxF7hMeaTAWfPkh26KIHmKrttuGCADFCC9WbgmJZ+Owpnq8QX5Y5wXvEbZFxbJ0
+         CCDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWR9ovSiFHgKG7sLLh88TDN3qzkPsEcdnOVGsrGBkHZANtBLkZcYU5ZC40kIvGOnIqdqIPDLYtqlTxos7cqFzjSZQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyTmi8hLZuxWQTsVjEd8IbdgTRsvUbXog6KY9D6QHlzJfr8HNAt
+	r+xbPfaMjN3xih5mTszvcx9SwPtFE/r43oMFMAdOK0BexURJKYrPzCYw
+X-Gm-Gg: ASbGncv4YUHaWR97kjSGZnDsHRU3ZAlo5VCpnQ+R9jsy6XOqogu+9uHcUdfomtfvGvM
+	EsK9PiATxwiW5pX1M22eII57G5wyxY3B0QjrF+7FTnp+ftLJMks0ghX0HmW+sZxi4qBcPDF+fcd
+	Qu2BYHv0zTi2ULB5v1Gi2aaum/j3ZCQZNVEBp0CgraQ8kpWhXE1eQyNAJiSzCMQnXuBAbVcOy1q
+	mKDaauhUoetnmZnaJici81z9Qxgow4Q7hi8Ugbung0lri9Tqm615OdY/bWek/XP7CESEVdgHhmr
+	6cnLIl+n+9wxAw7NMJ9b1r6pMSlVkgF1RBT1/eEpmh0qet0SuJ2Dsb6+Zu+q5SU8i3pmZVKSwzG
+	tKEM4iHuhLzabFhxcwXUBJjuoMqPlm/V1J5YALZA0Lw==
+X-Google-Smtp-Source: AGHT+IHAqWmZQJYKpl4iJl7r9KTMkC6gkbCuez47gwgSiq+KhtDRaIPZpH1sV/dEnVkXu4nRIhgZrg==
+X-Received: by 2002:a17:907:6e92:b0:af9:5b3f:2dfc with SMTP id a640c23a62f3a-afe2965ac9fmr1076665866b.47.1756152844110;
+        Mon, 25 Aug 2025 13:14:04 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe6fddf163sm391249366b.53.2025.08.25.13.14.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Aug 2025 13:14:03 -0700 (PDT)
+Message-ID: <cbfc27e0-6824-4a86-bbc3-0d89a52598dc@gmail.com>
+Date: Mon, 25 Aug 2025 22:14:02 +0200
 MIME-Version: 1.0
-References: <20250824124248.1093100-1-peter.marko@siemens.com> <20250824124248.1093100-2-peter.marko@siemens.com>
-In-Reply-To: <20250824124248.1093100-2-peter.marko@siemens.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 25 Aug 2025 12:58:36 -0700
-X-Gm-Features: Ac12FXyDxLTX5rQe6dChCk8XML_rbSvjY9TcAP7gr7g1XuvXKrTvBHNMPQ8rytU
-Message-ID: <CAOSpxdacNuW3wbrXDtWE7xDVyb1gpU+3mw3=f8zKdW4jUFY6-A@mail.gmail.com>
-Subject: Re: [OE-core][walnascar][PATCH 2/2] binutils: patch CVE-2025-8225
-To: peter.marko@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe parsing race
+ issue
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: Tony Rex <tony.rex@ericsson.com>,
+ Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20250814172348.3882586-1-tony.rex@ericsson.com>
+ <PAXPR07MB8470CECE924BE2127902BAF3E434A@PAXPR07MB8470.eurprd07.prod.outlook.com>
+ <CANNYZj_DaekmJt8W1g-nc+QsB7TnY-yyWwmGSR_GOYRORLhRCw@mail.gmail.com>
+ <PAXPR07MB847086B08E52F2405CB530B3E430A@PAXPR07MB8470.eurprd07.prod.outlook.com>
+ <2583ed72-5988-4d0c-8403-eab3eac4bcac@gmail.com>
+ <DB9PR07MB847431FEA99FEA8D6225C062E433A@DB9PR07MB8474.eurprd07.prod.outlook.com>
+ <185D8414DCE1B6A2.6947@lists.openembedded.org>
+ <2b78e257-858c-4f36-857a-37da1049360b@gmail.com>
+ <PAXPR07MB8470DD260278F69AF67061ABE432A@PAXPR07MB8470.eurprd07.prod.outlook.com>
+ <62995efc-cd6f-412e-bbde-2c5a90e1cf85@gmail.com>
+ <PAXPR07MB8470E5D2CBEC300F2B5F7866E432A@PAXPR07MB8470.eurprd07.prod.outlook.com>
+ <PAXPR07MB847086AE094116D316E3B4A0E43DA@PAXPR07MB8470.eurprd07.prod.outlook.com>
+ <12003df3-64b9-4333-bd18-5a69a1dc99c4@gmail.com>
+ <PAXPR07MB84705B5738FD248E245FC8C8E43EA@PAXPR07MB8470.eurprd07.prod.outlook.com>
+ <04c6893d-f69b-4fc5-ae6b-de17ee8a835e@gmail.com>
+Content-Language: en-US
+In-Reply-To: <04c6893d-f69b-4fc5-ae6b-de17ee8a835e@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 19:58:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222423
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 20:14:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222424
 
-The first patch in this series applies without issue, but this one fails wi=
-th:
+On 8/25/25 20:31, Gyorgy Sarvari wrote:
+> On 8/25/25 17:49, Tony Rex wrote:
+>> It is the full error output that is in the mail thread, there is nothing more I think.
+>>
+>> But can you please try to reproduce the error by doing the changes in meta-selftest layer described below and evaluate the outcome.
+>> I think the key is the +BBCLASSEXTEND="nativesdk" line.
+> I can confirm that I can reproduce it. I don't think that your proposed
+> patch is the correct solution, but your bug looks real.
 
-Applying: binutils: patch CVE-2025-8225
-error: sha1 information is lacking or useless
-(meta/recipes-devtools/binutils/binutils-2.44.inc).
-error: could not build fake ancestor
-Patch failed at 0001 binutils: patch CVE-2025-8225
-hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
+Looking at it it, I'm not 100% sure if it's a bug, but rather maybe a
+bit surprising behavior, by design?  I guess other people will share
+their opinion on this in the coming days - this a personal opinion after
+running it in a debugger. Your finding about the BBCLASSEXTEND seems to
+corroborate this too.
 
-Steve
+When you set an override with TAGNAME:pn-gitrepotest, that will be valid
+only for the gitrepotest package. But when you enable nativesdk, it will
+also check the nativesdk-gitrepotest package, for which this variable
+isn't defined - there is no default value, and the pn-girepotest
+override doesn't match. If you also define
+TAGNAME:pn-nativesdk-gitrepotest, then it is defined, and it seems to be
+resolved correctly.
 
-On Sun, Aug 24, 2025 at 5:43=E2=80=AFAM Peter Marko via lists.openembedded.=
-org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+
 >
-> From: Peter Marko <peter.marko@siemens.com>
->
-> Pick commit [1] mentioned in [2].
->
-> [1] https://gitlab.com/gnutools/binutils-gdb/-/commit/e51fdff7d2e538c0e5a=
-ccdd65649ac68e6e0ddd4
-> [2] https://nvd.nist.gov/vuln/detail/CVE-2025-8225
->
-> Testsuite did not show any changes in results:
->
->  =3D=3D=3D binutils Summary =3D=3D=3D
->
->  # of expected passes           310
->  # of unexpected failures       1
->  # of untested testcases        1
->  # of unsupported tests         9
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  .../binutils/binutils-2.44.inc                |  1 +
->  .../binutils/0019-CVE-2025-8225.patch         | 41 +++++++++++++++++++
->  2 files changed, 42 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/0019-CVE-2025=
--8225.patch
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.44.inc b/meta/reci=
-pes-devtools/binutils/binutils-2.44.inc
-> index 67ced2863b..20d9c2a6f2 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.44.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.44.inc
-> @@ -46,5 +46,6 @@ SRC_URI =3D "\
->       file://0018-CVE-2025-5245.patch \
->       file://0019-CVE-2025-7545.patch \
->       file://0018-CVE-2025-7546.patch \
-> +     file://0019-CVE-2025-8225.patch \
->  "
->  S  =3D "${WORKDIR}/git"
-> diff --git a/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-8225.p=
-atch b/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-8225.patch
-> new file mode 100644
-> index 0000000000..43bc4c56d8
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/0019-CVE-2025-8225.patch
-> @@ -0,0 +1,41 @@
-> +From e51fdff7d2e538c0e5accdd65649ac68e6e0ddd4 Mon Sep 17 00:00:00 2001
-> +From: Alan Modra <amodra@gmail.com>
-> +Date: Wed, 19 Feb 2025 22:45:29 +1030
-> +Subject: [PATCH] binutils/dwarf.c debug_information leak
-> +
-> +It is possible with fuzzed files to have num_debug_info_entries zero
-> +after allocating space for debug_information, leading to multiple
-> +allocations.
-> +
-> +       * dwarf.c (process_debug_info): Don't test num_debug_info_entries
-> +       to determine whether debug_information has been allocated,
-> +       test alloc_num_debug_info_entries.
-> +
-> +CVE: CVE-2025-8225
-> +Upstream-Status: Backport [https://gitlab.com/gnutools/binutils-gdb/-/co=
-mmit/e51fdff7d2e538c0e5accdd65649ac68e6e0ddd4]
-> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> +---
-> + binutils/dwarf.c | 8 +++-----
-> + 1 file changed, 3 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-> +index 8e004cea839..bfbf83ec9f4 100644
-> +--- a/binutils/dwarf.c
-> ++++ b/binutils/dwarf.c
-> +@@ -3807,13 +3807,11 @@ process_debug_info (struct dwarf_section * secti=
-on,
-> +     }
-> +
-> +   if ((do_loc || do_debug_loc || do_debug_ranges || do_debug_info)
-> +-      && num_debug_info_entries =3D=3D 0
-> +-      && ! do_types)
-> ++      && alloc_num_debug_info_entries =3D=3D 0
-> ++      && !do_types)
-> +     {
-> +-
-> +       /* Then allocate an array to hold the information.  */
-> +-      debug_information =3D (debug_info *) cmalloc (num_units,
-> +-                                                sizeof (* debug_informa=
-tion));
-> ++      debug_information =3D cmalloc (num_units, sizeof (*debug_informat=
-ion));
-> +       if (debug_information =3D=3D NULL)
-> +       {
-> +         error (_("Not enough memory for a debug info array of %u entrie=
-s\n"),
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#222371): https://lists.openembedded.org/g/openembedde=
-d-core/message/222371
-> Mute This Topic: https://lists.openembedded.org/mt/114864423/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+>> git diff
+>> diff --git a/meta-selftest/conf/layer.conf b/meta-selftest/conf/layer.conf
+>> index 48ca8464f9..3d83072fb0 100644
+>> --- a/meta-selftest/conf/layer.conf
+>> +++ b/meta-selftest/conf/layer.conf
+>> @@ -12,3 +12,6 @@ BBFILE_PRIORITY_selftest = "5"
+>>  addpylib ${LAYERDIR}/lib oeqa
+>>
+>>  LAYERSERIES_COMPAT_selftest = "scarthgap"
+>> +
+>> +TAGNAME:pn-gitrepotest="2"
+>> +PV:pn-gitrepotest="12"
+>> diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
+>> index f1b6c55833..10943584df 100644
+>> --- a/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
+>> +++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
+>> @@ -7,10 +7,12 @@ INHIBIT_DEFAULT_DEPS = "1"
+>>
+>>  PATCHTOOL="git"
+>>
+>> -SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https \
+>> +TAG="${TAGNAME}.${PV}"
+>> +SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https;tag=${TAG} \
+>>             file://0001-testpatch.patch \
+>>            "
+>>
+>> -SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
+>> +#SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
+>>
+>>  S = "${WORKDIR}/git"
+>> +BBCLASSEXTEND="nativesdk"
+>>
+>>
+>> You should get something like this:
+>> ERROR: ExpansionError during parsing .../oe-core/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb   | ETA:  0:00:35
+>> bb.data_smart.ExpansionError: Failure expanding variable fetcher_hashes_dummyfunc[vardepvalue], expression was ${@bb.fetch.get_hashvalue(d)} which triggered exception FetchError: Fetcher failure: Unable to resolve '${TAGNAME}.1.0' in upstream git repository in git ls-remote output for git.yoctoproject.org/git/matchbox-panel-2
+>> The variable dependency chain for the failure is: fetcher_hashes_dummyfunc[vardepvalue]
+>>
+>> ERROR: Parsing halted due to errors, see error messages above
+>>
+>>
+>> Tony
+>>
+>> -----Original Message-----
+>> From: Gyorgy Sarvari <skandigraun@gmail.com>
+>> Sent: Friday, 22 August 2025 16:10
+>> To: Tony Rex <tony.rex@ericsson.com>; Alexander Kanavin <alex.kanavin@gmail.com>
+>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>; openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe parsing race issue
+>>
+>> On 8/22/25 13:26, Tony Rex wrote:
+>>> So to me it looks like the fetcher_hashes_dummyfunc makes it possible to catch any faulty or unwanted setups in the parsing stage.
+>>>
+>>> It seems hard to reproduce and expose this error on a common target, but I can reproduce it easily in the local setup.
+>>> So I share my observations instead and hopefully you can make some sense out them.
+>>>
+>>> The error that I'm seeing is that when fetcher_hashes_dummyfunc[vardepvalue] = "${@bb.fetch.get_hashvalue(d)}" is executed the PV is not set, nor is the PN.
+>>> So it seems that if the git ls-remote check happens to quick and early all variables are not set properly.
+>>> The repo in this case is small (140K) and I believe that the access to
+>>> the git server is fast (don't know of it matters) the git ls-remote check does not contain the right information if for example, the tag in the SRC_URI contains the PV value.
+>>>
+>>> When doing printouts from get_hashvalue the revs variable is empty and
+>>> PN = defaultpkgname and PV = 1.0 has default values so the variables doesn't seem to be properly set yet and gives this error:
+>>>
+>>> ERROR: ExpansionError during parsing .../generic-if.bb################################   | ETA:  0:00:00
+>>> bb.data_smart.ExpansionError: Failure expanding variable fetcher_hashes_dummyfunc[vardepvalue], expression was ${@bb.fetch.get_hashvalue(d)} which triggered exception FetchError: Fetcher failure: Unable to resolve '${TAGNAME}-1.0' in upstream git repository in git ls-remote output for gerrit...
+>>> The variable dependency chain for the failure is:
+>>> fetcher_hashes_dummyfunc[vardepvalue]
+>>>
+>>> ERROR: Parsing halted due to errors, see error messages above
+>>>
+>>> The patch that is provided fixes this issue, but there might be other and/or maybe better solutions to this matter.
+>>> Another workaround for this problem that I have tested and that also
+>>> seems to get around this issue is to set the SRC_URI with := or ?=
+>>>
+>>> This is why I consider it to be a race condition during parsing and the git ls-remote check.
+>> Could you please share the _full_ error output, and the recipe that is causing it? Feel free to change confidential things to placeholders, but the more parts would be available, the better it would be.
+>>
+>>
+>>> Tony
+>>>
+>>> -----Original Message-----
+>>> From: Tony Rex
+>>> Sent: Thursday, 21 August 2025 17:48
+>>> To: Gyorgy Sarvari <skandigraun@gmail.com>; Alexander Kanavin
+>>> <alex.kanavin@gmail.com>
+>>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
+>>> openembedded-core@lists.openembedded.org
+>>> Subject: RE: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
+>>> parsing race issue
+>>>
+>>> I'm not sure how to run your (Gyorgy) code inside a recipe to test it, but in a bash script it works, of course.
+>>>
+>>> The thing that I'm looking at now is  a bit confusing, when commenting out the fetcher_hashes_dummyfunc function from the base.bbclass it seems to work properly.
+>>>
+>>> I don't know what the real purpose of this function is, am I missing something here, like a certain setup or a corner case?
+>>> It seems to work both on whinlatter and scarthgap. Can someone please help out and clarify.
+>>>
+>>> git diff classes-global/base.bbclass
+>>> diff --git a/meta/classes-global/base.bbclass
+>>> b/meta/classes-global/base.bbclass
+>>> index 6c08870571..83f82b2a4d 100644
+>>> --- a/meta/classes-global/base.bbclass
+>>> +++ b/meta/classes-global/base.bbclass
+>>> @@ -128,16 +128,16 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+>>>
+>>>  # We can't use vardepvalue against do_fetch directly since that would overwrite  # the other task dependencies so we use an indirect function.
+>>> -python fetcher_hashes_dummyfunc() {
+>>> -    return
+>>> -}
+>>> -fetcher_hashes_dummyfunc[vardepvalue] = "${@bb.fetch.get_hashvalue(d)}"
+>>> +#python fetcher_hashes_dummyfunc() {
+>>> +#    return
+>>> +#}
+>>> +#fetcher_hashes_dummyfunc[vardepvalue] = "${@bb.fetch.get_hashvalue(d)}"
+>>>
+>>>  addtask fetch
+>>>  do_fetch[dirs] = "${DL_DIR}"
+>>>  do_fetch[file-checksums] = "${@bb.fetch.get_checksum_file_list(d)}"
+>>>  do_fetch[file-checksums] += " ${@get_lic_checksum_file_list(d)}"
+>>> -do_fetch[prefuncs] += "fetcher_hashes_dummyfunc"
+>>> +#do_fetch[prefuncs] += "fetcher_hashes_dummyfunc"
+>>>  do_fetch[network] = "1"
+>>>  python base_do_fetch() {
+>>>
+>>> Tony
+>>>
+>>> -----Original Message-----
+>>> From: Gyorgy Sarvari <skandigraun@gmail.com>
+>>> Sent: Thursday, 21 August 2025 09:30
+>>> To: Tony Rex <tony.rex@ericsson.com>; Alexander Kanavin
+>>> <alex.kanavin@gmail.com>
+>>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
+>>> openembedded-core@lists.openembedded.org
+>>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
+>>> parsing race issue
+>>>
+>>> On 8/21/25 09:10, Tony Rex wrote:
+>>>> Yes, I get the same or similar error if the patch is not applied.
+>>>>
+>>>> ERROR: ExpansionError during parsing .../generic-if.bb################################   | ETA:  0:00:00
+>>>> bb.data_smart.ExpansionError: Failure expanding variable fetcher_hashes_dummyfunc[vardepvalue], expression was ${@bb.fetch.get_hashvalue(d)} which triggered exception FetchError: Fetcher failure: Unable to resolve '${TAGNAME}-1.0' in upstream git repository in git ls-remote output for gerrit...
+>>>> The variable dependency chain for the failure is:
+>>>> fetcher_hashes_dummyfunc[vardepvalue]
+>>>>
+>>>> ERROR: Parsing halted due to errors, see error messages above
+>>>>
+>>>> How does your mytest_get.bb look like? Since I have had problem with reproducing the error on in a common setup maybe it can be done with your bb file.
+>>>>
+>>>> Tony
+>>> The failure I reproduced is not recipe dependent. As some diagnostic test, try this script a few times with your failing git repo (change the repo placeholder):
+>>>
+>>> for i in `seq 50`; do
+>>>   git clone $GIT_REPO_URL target_folder
+>>>   git -C ./target_folder ls-remote
+>>>   if [ $? -ne 0 ]; then
+>>>     echo ls-remote failed, iteration: $i
+>>>     break
+>>>   fi
+>>>   rm -rf ./target_folder
+>>> done
+>>>
+>>> If I haven't made a typo, the script should clone your repo, do an ls-remote inside it, delete the folder, and do the same again.
+>>>
+>>> If your problem is the same that I reproduced, then I would expect the above script to fail sometimes - if it does, then the problem is with the infrastructure (network, remote git server, etc... something is flaky).
+>>>
+>>> Just for the record: the script generates a small amount of successive requests which some network admins might consider flooding.
+>>>
+>>>
+>>>
+>>>> -----Original Message-----
+>>>> From: Gyorgy Sarvari <skandigraun@gmail.com>
+>>>> Sent: Wednesday, 20 August 2025 18:12
+>>>> To: Tony Rex <tony.rex@ericsson.com>; Alexander Kanavin
+>>>> <alex.kanavin@gmail.com>
+>>>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
+>>>> openembedded-core@lists.openembedded.org
+>>>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
+>>>> parsing race issue
+>>>>
+>>>> [You don't often get email from skandigraun@gmail.com. Learn why this
+>>>> is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>>>
+>>>> On 8/20/25 17:44, Gyorgy Sarvari via lists.openembedded.org wrote:
+>>>>> On 8/20/25 13:53, Tony Rex wrote:
+>>>>>> It was introduced by this commit:
+>>>>>> https://git/
+>>>>>> .yoctoproject.org%2Fpoky%2Fcommit%2F%3Fid%3Debfa1700f41b3411aec0401
+>>>>>> 4
+>>>>>> 4
+>>>>>> 605166c35b8dd14&data=05%7C02%7Ctony.rex%40ericsson.com%7C7b5c099d17
+>>>>>> 0
+>>>>>> 0
+>>>>>> 43080cca08dde004478d%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C6
+>>>>>> 3
+>>>>>> 8
+>>>>>> 913031194171335%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlY
+>>>>>> i
+>>>>>> O
+>>>>>> iIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0
+>>>>>> %
+>>>>>> 7
+>>>>>> C%7C%7C&sdata=iYvLGK1DwJk78tEvmL%2FPOL2olj7iNL87eXqdsEraxLw%3D&rese
+>>>>>> r
+>>>>>> v
+>>>>>> ed=0
+>>>>>>
+>>>>>> Maybe "not allowed" is a strong wording, but that was how I interpreted it. Sorry, my bad if I misinterpreted it.
+>>>>> In my understanding (which could be wrong), this is more to avoid
+>>>>> working on a repository, where the exact work-revision can't be
+>>>>> determined. But in your example, it can be determined, if your patch
+>>>>> is not applied.
+>>>>>
+>>>>> Some extra ramblings, which may or may not be unadulterated garbage
+>>>>> from
+>>>>> me: Your initial commit message mentioned an expansion error. I
+>>>>> looked into that a bit, and is it possible that the repository that
+>>>>> is causing this issue has some access rate limit? The only thing
+>>>>> that can fail sometimes in that code path seems to be "git ls-remote".
+>>>>>
+>>>>> Now, when I noticed this, I compiled a git version for myself that
+>>>>> randomly throws an error with "git ls-remote" command, and when I
+>>>>> used it with bitbake, I got this:
+>>>>>
+>>>>> ERROR: ExpansionError during parsing
+>>>>> /home/meee/stuff/ptest-images/poky/meta/recipes-core/ell/mytest_get.
+>>>>> b
+>>>>> b
+>>>>> bb.data_smart.ExpansionError: Failure expanding variable
+>>>>> fetcher_hashes_dummyfunc[vardepvalue], expression was <etc etc etc>
+>>>>>
+>>>>> Is this the same error you got?
+>>>> Sorry for the spam, one thing I forgot - the error on my end also contains details about the command that failed, pointing to git. If it's not the same as you get, do you have a copy of the full bitbake output you get when you see this error?
+>>>>
+>>>>>> Tony
+>>>>>>
+>>>>>> -----Original Message-----
+>>>>>> From: Gyorgy Sarvari <skandigraun@gmail.com>
+>>>>>> Sent: Wednesday, 20 August 2025 12:18
+>>>>>> To: Tony Rex <tony.rex@ericsson.com>; Alexander Kanavin
+>>>>>> <alex.kanavin@gmail.com>
+>>>>>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
+>>>>>> openembedded-core@lists.openembedded.org
+>>>>>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
+>>>>>> parsing race issue
+>>>>>>
+>>>>>> [You don't often get email from skandigraun@gmail.com. Learn why
+>>>>>> this is important at https://aka.ms/LearnAboutSenderIdentification
+>>>>>> ]
+>>>>>>
+>>>>>> On 8/19/25 23:10, Tony Rex via lists.openembedded.org wrote:
+>>>>>>> Hi Alex and Mathieu!
+>>>>>>>
+>>>>>>> Ok, so the patch fixes a bug and then the floating tag/branch function is in place again.
+>>>>>>> The floating tag/branch function is broken due to the bug and the patch fixes it.
+>>>>>>>
+>>>>>>> The mail from Mathieu below might not fully reflect the issue here, since it seems to create a recipe with the help of devtool.
+>>>>>>>
+>>>>>>> To verify:
+>>>>>>> 1. add layers/oe-core/meta-selftest to conf/bblayers.conf 2. run
+>>>>>>> bitbake gitrepotest -c fetch
+>>>>>>> result:
+>>>>>>> NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+>>>>>>> 3. run bitbake gitrepotest -c cleanall 4. edit
+>>>>>>> ../layers/oe-core/meta-selftest/recipes-test/gitrepotest/gitrepote
+>>>>>>> s
+>>>>>>> t
+>>>>>>> .b
+>>>>>>> b
+>>>>>>> add tag=2.12 in SRC_URI
+>>>>>>> SRC_URI =
+>>>>>>> "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;tag
+>>>>>>> =
+>>>>>>> 2
+>>>>>>> .1 2;protocol=https \ and comment out SRCREV #SRCREV =
+>>>>>>> "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
+>>>>>>> 5. run bitbake gitrepotest -c fetch
+>>>>>>> result:
+>>>>>>> NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+>>>>>>> The fetch goes through although this is not allowed according to the floating tag/branch error statement if not d.getVar("__BBSRCREV_SEEN"): in git.py.
+>>>>>> Could you point to a commit/email/etc about this "no floating tags
+>>>>>> allowed" statement? AFAIK tags without specifying revision is
+>>>>>> allowed and supported. Not recommended, due to mandatory network
+>>>>>> access, and because git tags are not immutable, but I'm surprised
+>>>>>> to hear that they are not supposed to work (which of course can
+>>>>>> also mean that I just missed a memo)
+>>>>>>
+>>>>>>> 6. run bitbake gitrepotest -c cleanall 7. apply patch
+>>>>>>> 0001-base.bbclass-Fix-the-recipe-parsing-race-issue.patch
+>>>>>>> 8. run bitbake gitrepotest -c fetch
+>>>>>>> result:
+>>>>>>> ERROR: gitrepotest-1.0-r0 do_fetch: Bitbake Fetcher Error:
+>>>>>>> FetchError("Recipe uses a floating tag/branch '2.12' for repo
+>>>>>>> 'git.yoctoproject.org/git/matchbox-panel-2' without a fixed SRCREV
+>>>>>>> yet doesn't call bb.fetch2.get_srcrev() (use SRCPV in PV for
+>>>>>>> OE).",
+>>>>>>> None)
+>>>>>>> ERROR: Logfile of failure stored in:
+>>>>>>> .../build/tmp-glibc/work/cortexa53-wrs-linux/gitrepotest/1.0/temp/log.
+>>>>>>> do_fetch.1254999
+>>>>>>> ERROR: Task (.../layers/oe-core/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb:do_fetch) failed with exit code '1'
+>>>>>>> NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+>>>>>>>
+>>>>>>> Error is the expected result when only having a tag set.
+>>>>>>>
+>>>>>>> Tony
+>>>>>>>
+>>>>>>> -----Original Message-----
+>>>>>>> From: Alexander Kanavin <alex.kanavin@gmail.com>
+>>>>>>> Sent: Tuesday, 19 August 2025 10:53
+>>>>>>> To: Tony Rex <tony.rex@ericsson.com>
+>>>>>>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
+>>>>>>> openembedded-core@lists.openembedded.org
+>>>>>>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
+>>>>>>> parsing race issue
+>>>>>>>
+>>>>>>> [You don't often get email from alex.kanavin@gmail.com. Learn why
+>>>>>>> this is important at https://aka.ms/LearnAboutSenderIdentification
+>>>>>>> ]
+>>>>>>>
+>>>>>>> You need to make things a little bit easier for maintainers and try to save their time.
+>>>>>>>
+>>>>>>> I would suggest that you provide clear steps to observe the issue.
+>>>>>>> Attach the recipe file that would demonstrate the issue, and provide clear steps to trigger it. What is confusing right now is that you say here's a recipe that builds ok, but then you 'apply the patch' and then there's some kind of failure. So which patch needs to be applied?
+>>>>>>>
+>>>>>>> Alex
+>>>>>>>
+>>>>>>> On Fri, 15 Aug 2025 at 17:29, Tony Rex via lists.openembedded.org <tony.rex=ericsson.com@lists.openembedded.org> wrote:
+>>>>>>>> Hi Mathieu!
+>>>>>>>>
+>>>>>>>> I think that this is how it is intended to work, bitbake does not allow floating tag/branch anymore.
+>>>>>>>> Please correct me if I'm wrong @Richard Purdie (who implemented
+>>>>>>>> this for security reasons I think.)
+>>>>>>>>
+>>>>>>>> The patch that I have makes sure that the parsing and setting of
+>>>>>>>> the variables in the recipe are done before executing the do_fetch command, and as a side effect the floating tag/branch protection is working as intended again.
+>>>>>>>>
+>>>>>>>> How does the recipe look like?
+>>>>>>>> devtool add kernel-module-hello-world https://git/.
+>>>>>>>> yoctoproject.org%2Fgit%2Fkernel-module-hello-world&data=05%7C02%7
+>>>>>>>> C
+>>>>>>>> t
+>>>>>>>> on
+>>>>>>>> y
+>>>>>>>> .rex%40ericsson.com%7Cde1ae2aceeda470b381608dddefdd730%7C92e84ceb
+>>>>>>>> f
+>>>>>>>> b
+>>>>>>>> fd
+>>>>>>>> 4
+>>>>>>>> 7abbe52080c6b87953f%7C0%7C0%7C638911904005151487%7CUnknown%7CTWFp
+>>>>>>>> b
+>>>>>>>> G
+>>>>>>>> Zs
+>>>>>>>> b
+>>>>>>>> 3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIk
+>>>>>>>> F
+>>>>>>>> O
+>>>>>>>> Ij
+>>>>>>>> o
+>>>>>>>> iTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=jyCicRQT%2FLtb1YxiFH
+>>>>>>>> K
+>>>>>>>> g
+>>>>>>>> w5
+>>>>>>>> B
+>>>>>>>> nNktN4t9IciiyxtsEwO4%3D&reserved=0
+>>>>>>>> The one I get looks like this:
+>>>>>>>>
+>>>>>>>> cat
+>>>>>>>> build/workspace/recipes/kernel-module-hello-world/kernel-module-h
+>>>>>>>> e
+>>>>>>>> l
+>>>>>>>> lo
+>>>>>>>> -
+>>>>>>>> world_git.bb
+>>>>>>>> # Recipe created by recipetool
+>>>>>>>> # This is the basis of a recipe and may need further editing in order to be fully functional.
+>>>>>>>> # (Feel free to remove these comments when editing.)
+>>>>>>>>
+>>>>>>>> # WARNING: the following LICENSE and LIC_FILES_CHKSUM values are
+>>>>>>>> best guesses - it is # your responsibility to verify that the values are complete and correct.
+>>>>>>>> #
+>>>>>>>> # The following license files were not able to be identified and
+>>>>>>>> are # represented as "Unknown" below, you will need to check them yourself:
+>>>>>>>> #   LICENSE
+>>>>>>>> LICENSE = "Unknown"
+>>>>>>>> LIC_FILES_CHKSUM = "file://LICENSE;md5=7b785be6433a2e4af6a641cc7f0330d1"
+>>>>>>>>
+>>>>>>>> SRC_URI = "git://git.yoctoproject.org/git/kernel-module-hello-world;protocol=https;branch=master"
+>>>>>>>>
+>>>>>>>> # Modify these as desired
+>>>>>>>> PV = "1.0+git"
+>>>>>>>> SRCREV = "b66f0f2bd559a1df81fc1bda240eba07a2ecdd2b"
+>>>>>>>>
+>>>>>>>> S = "${WORKDIR}/git"
+>>>>>>>>
+>>>>>>>> inherit module
+>>>>>>>>
+>>>>>>>> EXTRA_OEMAKE:append:task-install = " -C ${STAGING_KERNEL_DIR} M=${S}"
+>>>>>>>> EXTRA_OEMAKE += "KERNEL_DIR=${STAGING_KERNEL_DIR}"
+>>>>>>>>
+>>>>>>>> And it contains SRCREV = "b66f0f2bd559a1df81fc1bda240eba07a2ecdd2b"
+>>>>>>>>
+>>>>>>>> Tony
+>>>>>>>>
+>>>>>>>> -----Original Message-----
+>>>>>>>> From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+>>>>>>>> Sent: Friday, 15 August 2025 11:26
+>>>>>>>> To: Tony Rex <tony.rex@ericsson.com>;
+>>>>>>>> openembedded-core@lists.openembedded.org
+>>>>>>>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
+>>>>>>>> parsing race issue
+>>>>>>>>
+>>>>>>>> [You don't often get email from mathieu.dubois-briand@bootlin.com.
+>>>>>>>> Learn why this is important at
+>>>>>>>> https://aka.ms/LearnAboutSenderIdentification ]
+>>>>>>>>
+>>>>>>>> On Thu Aug 14, 2025 at 7:23 PM CEST, Tony Rex via lists.openembedded.org wrote:
+>>>>>>>>> It seems that the race condition happens when doing do_fetch on
+>>>>>>>>> really small repos and it can be difficult to reproduce so below
+>>>>>>>>> the other case with floating tag/branch that is easier to verify.
+>>>>>>>>>
+>>>>>>>>> To verify the floating tag/branch issue have s simple recipe
+>>>>>>>>> hello_1.0.bb and set the SRC_URI to SRC_URI = "git://<repository>;protocol=https;user=${USER};branch=master;tag=v1.0"
+>>>>>>>>>
+>>>>>>>>> run command bitbake hello everything builds.
+>>>>>>>>>
+>>>>>>>>> Apply the patch
+>>>>>>>>>
+>>>>>>>>> run command bitbake hello
+>>>>>>>>> ERROR: hello-1.0-r1 do_fetch: Bitbake Fetcher Error:
+>>>>>>>>> FetchError("Recipe uses a floating tag/branch 'v1.0' for repo
+>>>>>>>>> '<repository>' without a fixed SRCREV yet doesn't call
+>>>>>>>>> bb.fetch2.get_srcrev() (use SRCPV in PV for OE).", None)
+>>>>>>>>> ERROR: Logfile of failure stored in:
+>>>>>>>>> hello/1.0/temp/log.do_fetch.3289932
+>>>>>>>>> ERROR: Task (hello/hello_1.0.bb:do_fetch) failed with exit code '1'
+>>>>>>>>>
+>>>>>>>>> Tony Rex (1):
+>>>>>>>>>   base.bbclass: Fix the recipe parsing race issue
+>>>>>>>>>
+>>>>>>>>>  meta/classes-global/base.bbclass | 2 +-
+>>>>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>>> Hi Tony,
+>>>>>>>>
+>>>>>>>> Thanks for your patch.
+>>>>>>>>
+>>>>>>>> It looks like this is breaking some builds with the following error:
+>>>>>>>>
+>>>>>>>> oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/testsdkext/environment-setup-core2-64-poky-linux > /dev/null; devtool add kernel-module-hello-world https://git.yoctoproject.org/git/kernel-module-hello-world;' returned non-zero exit status 1.
+>>>>>>>> ...
+>>>>>>>> ERROR: Bitbake Fetcher Error: FetchError("Recipe uses a floating
+>>>>>>>> tag/branch 'master' for repo
+>>>>>>>> 'git.yoctoproject.org/git/kernel-module-hello-world' without a
+>>>>>>>> fixed SRCREV yet doesn't call bb.fetch2.get_srcrev() (use SRCPV
+>>>>>>>> in PV for OE).", None)
+>>>>>>>>
+>>>>>>>> https://auto/
+>>>>>>>> builder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F68%2Fbuild
+>>>>>>>> s
+>>>>>>>> %
+>>>>>>>> 2F
+>>>>>>>> 2
+>>>>>>>> 284&data=05%7C02%7Ctony.rex%40ericsson.com%7Cde1ae2aceeda470b3816
+>>>>>>>> 0
+>>>>>>>> 8
+>>>>>>>> dd
+>>>>>>>> d
+>>>>>>>> efdd730%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C638911904005
+>>>>>>>> 2
+>>>>>>>> 0
+>>>>>>>> 90
+>>>>>>>> 0
+>>>>>>>> 3%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA
+>>>>>>>> w
+>>>>>>>> M
+>>>>>>>> CI
+>>>>>>>> s
+>>>>>>>> IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sda
+>>>>>>>> t
+>>>>>>>> a
+>>>>>>>> =m
+>>>>>>>> P
+>>>>>>>> UXMdb%2FYOyGIm0rnncaWgcqtwkUIh8364IP3eYDPe4%3D&reserved=0
+>>>>>>>> https://auto/
+>>>>>>>> builder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F30%2Fbuild
+>>>>>>>> s
+>>>>>>>> %
+>>>>>>>> 2F
+>>>>>>>> 2
+>>>>>>>> 199&data=05%7C02%7Ctony.rex%40ericsson.com%7Cde1ae2aceeda470b3816
+>>>>>>>> 0
+>>>>>>>> 8
+>>>>>>>> dd
+>>>>>>>> d
+>>>>>>>> efdd730%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C638911904005
+>>>>>>>> 2
+>>>>>>>> 2
+>>>>>>>> 74
+>>>>>>>> 3
+>>>>>>>> 2%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA
+>>>>>>>> w
+>>>>>>>> M
+>>>>>>>> CI
+>>>>>>>> s
+>>>>>>>> IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sda
+>>>>>>>> t
+>>>>>>>> a
+>>>>>>>> =R
+>>>>>>>> 0
+>>>>>>>> HFameGl2LmIVMT9ml%2BDMnj%2FMbG6SW0%2F3yNZHQu2js%3D&reserved=0
+>>>>>>>> https://auto/
+>>>>>>>> builder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F16%2Fbuild
+>>>>>>>> s
+>>>>>>>> %
+>>>>>>>> 2F
+>>>>>>>> 2
+>>>>>>>> 247&data=05%7C02%7Ctony.rex%40ericsson.com%7Cde1ae2aceeda470b3816
+>>>>>>>> 0
+>>>>>>>> 8
+>>>>>>>> dd
+>>>>>>>> d
+>>>>>>>> efdd730%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C638911904005
+>>>>>>>> 2
+>>>>>>>> 4
+>>>>>>>> 53
+>>>>>>>> 8
+>>>>>>>> 7%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA
+>>>>>>>> w
+>>>>>>>> M
+>>>>>>>> CI
+>>>>>>>> s
+>>>>>>>> IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sda
+>>>>>>>> t
+>>>>>>>> a
+>>>>>>>> =N
+>>>>>>>> S
+>>>>>>>> FhEupwMkgqUAhpRgFbKnyFl%2FsY%2B4UJMhVQHhqOaNM%3D&reserved=0
+>>>>>>>>
+>>>>>>>> Can you have a look at this error please?
+>>>>>>>>
+>>>>>>>> Best regards,
+>>>>>>>> Mathieu
+>>>>>>>>
+>>>>>>>> --
+>>>>>>>> Mathieu Dubois-Briand, Bootlin
+>>>>>>>> Embedded Linux and Kernel engineering https://boot/
+>>>>>>>> lin.com%2F&data=05%7C02%7Ctony.rex%40ericsson.com%7Cde1ae2aceeda4
+>>>>>>>> 7
+>>>>>>>> 0
+>>>>>>>> b3
+>>>>>>>> 8
+>>>>>>>> 1608dddefdd730%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C63891
+>>>>>>>> 1
+>>>>>>>> 9
+>>>>>>>> 04
+>>>>>>>> 0
+>>>>>>>> 05263327%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIw
+>>>>>>>> L
+>>>>>>>> j
+>>>>>>>> Au
+>>>>>>>> M
+>>>>>>>> DAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C
+>>>>>>>> %
+>>>>>>>> 7
+>>>>>>>> C&
+>>>>>>>> s
+>>>>>>>> data=oyi7YWsXDVHn7QB4fDdG1sBp7gQsfGWcJTWtX1CjAw4%3D&reserved=0
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>>> Links: You receive all messages sent to this group.
+>>>>> View/Reply Online (#222190):
+>>>>> https://list/
+>>>>> s.openembedded.org%2Fg%2Fopenembedded-core%2Fmessage%2F222190&data=0
+>>>>> 5
+>>>>> %
+>>>>> 7C02%7Ctony.rex%40ericsson.com%7C7b5c099d170043080cca08dde004478d%7C
+>>>>> 9
+>>>>> 2
+>>>>> e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C638913031194226137%7CUnknow
+>>>>> n
+>>>>> %
+>>>>> 7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW
+>>>>> 4
+>>>>> z
+>>>>> MiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=WbB87ExjlYOS
+>>>>> m
+>>>>> q
+>>>>> I0%2BEee6LbpupPfWxzk0vNYlbCUP5g%3D&reserved=0
+>>>>> Mute This Topic:
+>>>>> https://list/
+>>>>> s.openembedded.org%2Fmt%2F114706197%2F6084445&data=05%7C02%7Ctony.re
+>>>>> x
+>>>>> %
+>>>>> 40ericsson.com%7C7b5c099d170043080cca08dde004478d%7C92e84cebfbfd47ab
+>>>>> b
+>>>>> e
+>>>>> 52080c6b87953f%7C0%7C0%7C638913031194241729%7CUnknown%7CTWFpbGZsb3d8
+>>>>> e
+>>>>> y
+>>>>> JFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTW
+>>>>> F
+>>>>> p
+>>>>> bCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=bHfsli%2Fba3g8lov%2Bxmfovaal
+>>>>> 5
+>>>>> C
+>>>>> uBGuFnZVXs8AjHGIY%3D&reserved=0 Group Owner:
+>>>>> openembedded-core+owner@lists.openembedded.org
+>>>>> Unsubscribe:
+>>>>> https://list/
+>>>>> s.openembedded.org%2Fg%2Fopenembedded-core%2Funsub&data=05%7C02%7Cto
+>>>>> n
+>>>>> y
+>>>>> .rex%40ericsson.com%7C7b5c099d170043080cca08dde004478d%7C92e84cebfbf
+>>>>> d
+>>>>> 4
+>>>>> 7abbe52080c6b87953f%7C0%7C0%7C638913031194543958%7CUnknown%7CTWFpbGZ
+>>>>> s
+>>>>> b
+>>>>> 3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOI
+>>>>> j
+>>>>> o
+>>>>> iTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=gy4aai6oflVendGBp8nbYAL
+>>>>> 8
+>>>>> K
+>>>>> CGj77ObOMy2rYDnGN0%3D&reserved=0 [skandigraun@gmail.com]
+>>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>>>
+
 
