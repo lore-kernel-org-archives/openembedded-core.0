@@ -2,35 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99796CA0FE7
-	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 19:32:00 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web11.47904.1756150316319229191
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93FD7C8303F
+	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 19:32:50 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web10.47699.1756150361709610118
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Aug 2025 12:31:57 -0700
+ Mon, 25 Aug 2025 12:32:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=dO2Z/blb;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202508251931528ca155aa80337c8893-ylwr40@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202508251931528ca155aa80337c8893
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=UiCDfHTu;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202508251932394213ef40ef2345fe32-w0ojbn@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202508251932394213ef40ef2345fe32
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 25 Aug 2025 21:31:53 +0200
+        Mon, 25 Aug 2025 21:32:39 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=+4gboldRitML5+H0wGQQ7KpMg70BEto5+6UTnLPJubY=;
- b=dO2Z/blb5Vfng4XYkE443v5URCRDoH8dcMOj49wm0DJEMy7mkfYPXC7mAF+6Uul0CiTv0S
- vzwc/KeyfZQUWFmHPWMvTxZqGVtbqeS4OCUPc3JU/CP6ZLKaah8IbUobCReauw1bHZptACSF
- QjESyqcZB+RVwm6Eh2VQoWZvZq5+kUacRK++t7doMcWFbLKtIu7uD6VDDv3I+dUFq7xFncyq
- BgKtI8hDVRYyXOGjCsK6dkifF1LQcqAs90pN9Hb+cviQqp5LlSnTYE/+J872RBx2ViuvcXCn
- CkRha9uO0iHslP5emmwluLFUkH04hvWiNlT7Pj2P9qVCj+Q6DPZwxYaA==;
+ bh=PNAPbuQtUyyWWndEy0FFt5mQk8rht4DZ1Lxf2VIayBg=;
+ b=UiCDfHTuNQ9H/MlupNbrlsgb+FmaAqzrLm9kHmvdbZWKz1kQ6R2wEKK0Gf1/V02A6hqhxk
+ EHLjMcem2lHkuyb+Lv2Veep0i12JWLVkX7sZ+TYUoRrLZWm1o6nC3NJKAt4qJY1pynfDINil
+ F5bTFRvwmX6dKMV4r3Mkh0CFvlddbYXFAJzz+5w7LWoVcHlmWv/Op6yPZzLrwa+iSx3fOLTt
+ 5VbH8eJegDEGWfhuLDjbP6l7qSCLJ10KKXgC+prMnACEPLkQeQFfTrpXlpBIlIyRfyllXD9k
+ RE0j/dPgWVGpusS0b7FWP4hDwEHPtOpEt6GDczdQ7SPnElllsEFBksvA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][walnascar][PATCH] vim: upgrade 9.1.1198 -> 9.1.1652
-Date: Mon, 25 Aug 2025 21:31:05 +0200
-Message-Id: <20250825193105.813621-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] vim: upgrade 9.1.1198 -> 9.1.1652
+Date: Mon, 25 Aug 2025 21:31:51 +0200
+Message-Id: <20250825193151.813751-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -38,8 +38,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 19:32:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222419
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 19:32:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222420
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -135,7 +135,7 @@ index 908459a95e..1b380393d8 100644
   	      fi
   	-chmod $(FILEMOD) $(DEST_TOOLS)/*
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index b39cfadaad..c33cb09281 100644
+index c7f3987134..2a9fda5376 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
 @@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
