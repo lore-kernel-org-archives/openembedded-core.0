@@ -1,752 +1,253 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0718C8303F
-	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 20:14:10 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web10.48593.1756152846256881552
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A144CA0FE7
+	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 21:16:01 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.6])
+ by mx.groups.io with SMTP id smtpd.web11.50284.1756156555200391840
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Aug 2025 13:14:06 -0700
+ Mon, 25 Aug 2025 14:15:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dYfEhwzB;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-afcb78da8a7so763014366b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 13:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756152845; x=1756757645; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=S1yRpym5tnCIS7WC5z1gpUMJn3s+gmO6FU6FCC1kTGQ=;
-        b=dYfEhwzBNgX8h4fFwziZoKMhFNVGdMzIQtTItJxEBnoD2FlWDCjO84XBwWYKU/K50k
-         f8W/H1NmEk3ft0AAfCIMcu55bfeFvJGEJTPHkw4jq3Jiwj4XLH16feWFaiiKgPh2DgJm
-         OAfKsnu5jk1B+cmh0BjPeb3YUSuviNQDCuXIFobE4oMq6dFIXVPjgCLun5ZAR/Og6stV
-         UuaaQykVJxsHIpWMv2jbluKbWcSn2FRM8WQVJPBlEHLs44QDM20Dl974S8Jet+E6QS8d
-         lXT0nC3guAXM+AcXvergmQ65OkZMi9WjiPBKu8eiCpcZNJQPadEa/p0y4KXdwu/sAiDq
-         HIvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756152845; x=1756757645;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S1yRpym5tnCIS7WC5z1gpUMJn3s+gmO6FU6FCC1kTGQ=;
-        b=R867JEjkTs1FlP1dri2S1bbgVGVEXzLQbmlbwmgFi21wJ5vjkaNENCNOQnmoQx2Pee
-         BlF/vHvlrCP9xDnDCol5CPC2thS/tjhhUx03xq89NxhQJo9HcxmWJ5QsgJKxvMrot8/n
-         Q4x6CpP64lwhU/JcRf+lqb0+j/hehcuH9+t3NZyd6iAtyW651duP4N5LVplh61udlIUO
-         D6nIJlO0ltNZXatQz+Dch53AC3T70N5tCZbfhZR5H/TJyKu/musHiyaqEbPzxYN5+9+s
-         KmtacMxF7hMeaTAWfPkh26KIHmKrttuGCADFCC9WbgmJZ+Owpnq8QX5Y5wXvEbZFxbJ0
-         CCDw==
-X-Forwarded-Encrypted: i=1; AJvYcCWR9ovSiFHgKG7sLLh88TDN3qzkPsEcdnOVGsrGBkHZANtBLkZcYU5ZC40kIvGOnIqdqIPDLYtqlTxos7cqFzjSZQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyTmi8hLZuxWQTsVjEd8IbdgTRsvUbXog6KY9D6QHlzJfr8HNAt
-	r+xbPfaMjN3xih5mTszvcx9SwPtFE/r43oMFMAdOK0BexURJKYrPzCYw
-X-Gm-Gg: ASbGncv4YUHaWR97kjSGZnDsHRU3ZAlo5VCpnQ+R9jsy6XOqogu+9uHcUdfomtfvGvM
-	EsK9PiATxwiW5pX1M22eII57G5wyxY3B0QjrF+7FTnp+ftLJMks0ghX0HmW+sZxi4qBcPDF+fcd
-	Qu2BYHv0zTi2ULB5v1Gi2aaum/j3ZCQZNVEBp0CgraQ8kpWhXE1eQyNAJiSzCMQnXuBAbVcOy1q
-	mKDaauhUoetnmZnaJici81z9Qxgow4Q7hi8Ugbung0lri9Tqm615OdY/bWek/XP7CESEVdgHhmr
-	6cnLIl+n+9wxAw7NMJ9b1r6pMSlVkgF1RBT1/eEpmh0qet0SuJ2Dsb6+Zu+q5SU8i3pmZVKSwzG
-	tKEM4iHuhLzabFhxcwXUBJjuoMqPlm/V1J5YALZA0Lw==
-X-Google-Smtp-Source: AGHT+IHAqWmZQJYKpl4iJl7r9KTMkC6gkbCuez47gwgSiq+KhtDRaIPZpH1sV/dEnVkXu4nRIhgZrg==
-X-Received: by 2002:a17:907:6e92:b0:af9:5b3f:2dfc with SMTP id a640c23a62f3a-afe2965ac9fmr1076665866b.47.1756152844110;
-        Mon, 25 Aug 2025 13:14:04 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe6fddf163sm391249366b.53.2025.08.25.13.14.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Aug 2025 13:14:03 -0700 (PDT)
-Message-ID: <cbfc27e0-6824-4a86-bbc3-0d89a52598dc@gmail.com>
-Date: Mon, 25 Aug 2025 22:14:02 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe parsing race
- issue
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: Tony Rex <tony.rex@ericsson.com>,
- Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20250814172348.3882586-1-tony.rex@ericsson.com>
- <PAXPR07MB8470CECE924BE2127902BAF3E434A@PAXPR07MB8470.eurprd07.prod.outlook.com>
- <CANNYZj_DaekmJt8W1g-nc+QsB7TnY-yyWwmGSR_GOYRORLhRCw@mail.gmail.com>
- <PAXPR07MB847086B08E52F2405CB530B3E430A@PAXPR07MB8470.eurprd07.prod.outlook.com>
- <2583ed72-5988-4d0c-8403-eab3eac4bcac@gmail.com>
- <DB9PR07MB847431FEA99FEA8D6225C062E433A@DB9PR07MB8474.eurprd07.prod.outlook.com>
- <185D8414DCE1B6A2.6947@lists.openembedded.org>
- <2b78e257-858c-4f36-857a-37da1049360b@gmail.com>
- <PAXPR07MB8470DD260278F69AF67061ABE432A@PAXPR07MB8470.eurprd07.prod.outlook.com>
- <62995efc-cd6f-412e-bbde-2c5a90e1cf85@gmail.com>
- <PAXPR07MB8470E5D2CBEC300F2B5F7866E432A@PAXPR07MB8470.eurprd07.prod.outlook.com>
- <PAXPR07MB847086AE094116D316E3B4A0E43DA@PAXPR07MB8470.eurprd07.prod.outlook.com>
- <12003df3-64b9-4333-bd18-5a69a1dc99c4@gmail.com>
- <PAXPR07MB84705B5738FD248E245FC8C8E43EA@PAXPR07MB8470.eurprd07.prod.outlook.com>
- <04c6893d-f69b-4fc5-ae6b-de17ee8a835e@gmail.com>
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=PzEy2//P;
+ spf=pass (domain: siemens.com, ip: 52.101.84.6, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GBXTokaWVAOJdNkdShtSeJd2CbF2KoibyYLVLZJt0T5I970sqHF6qN94XlMpv4SFeQyaXyAhMAR4CXh4SxEXZFcpQl6wPiRrRVYyF1Fh+ThXSl+YIfeubjI6NXILsBsrHw4EMgHUkqIVvwgVwH1DowFOobD1XDg5DtCBnOJuyhs37Pkjxh//ZxwtGYpe1Zin4IP8bB2gz+/4s3EO6XOYGnPLPBalnugBORJbGxzX8EuVIaTCprL25YOgHWzDMLvDYMifpxPuAu9hYvtfMUxweTA/nupeJzl+kdk8l5xXv87v9zChFduWZ0gshubH9ptP6LYSveWipa91811WVLRitQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rx/Gc4/kqBqIRM6FpmHDxtGQycD3yht2H5Xt943o5GU=;
+ b=a/RQKlC6tb6OSbuAB+9fknMf0QZJDJxymQ73/DPI6PwMssZydFDc+af182iJ0SM0yRlrki9rzIrVbXdugiS7i9FPhp1ER//5tBnRkbNfbpfkDIRIv9skuOItd/Ja1C/Ty83nLkWsEYVW87nalAWHVvIp+V2+8G+40WmfC7fawl4aks+SE+4byWe3sIJdHQ9hz8oSou1rDqALb22JAqi4zOhTZcHIo7mFA+xJc5T8Jczu2IADElcvbV6fpFZ/dUtySUWeCnIyJlYprxuXOuuPOzU7suJ9UbwnOKwnDrighEjY7RADq5jLwsCR8ZbaM8Ln4eFd4WlK3/4SKMRIjI+inw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rx/Gc4/kqBqIRM6FpmHDxtGQycD3yht2H5Xt943o5GU=;
+ b=PzEy2//PaQb/eBAogDlQC6ixO8qKaCJ/pEZJYWoud007EM4wAUX3tD4VZmyounDW4IBXBtJn8/irgldSBH4PgoovJcBY5/IbbJD+NRjWZ323a4TLydDMayQSqbfb8pNrirOsBu8kTTtmszvLo3szx5Y5SSYhVmHmT58MiHJ3mz9BnAhXkQhANmFRJwj1UtMV6vbuD5h0zNR/VahAdJBiw+/9FiiayC2rrAhW5SuKNEs6NOjAEobNuj0XQySEp8mkA9URY9U5uQu2j3xV5XRTAEDzAM26e6XZD5iCBfff1lwjK3fXPommlSDDPkApz2nA8QLprIoLCuFmYe1wVXeHvg==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DU0PR10MB5994.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3b2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Mon, 25 Aug
+ 2025 21:15:51 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.9031.023; Mon, 25 Aug 2025
+ 21:15:51 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Steve Sakoman <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][walnascar][PATCH 2/2] binutils: patch CVE-2025-8225
+Thread-Topic: [OE-core][walnascar][PATCH 2/2] binutils: patch CVE-2025-8225
+Thread-Index: AQHcFPTAjzFISNDJJ0WEryJfonS0cLRzy18AgAAVY2A=
+Date: Mon, 25 Aug 2025 21:15:51 +0000
+Message-ID: 
+ <AS1PR10MB56975D5A44F8F954F3F5C261FD3EA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20250824124248.1093100-1-peter.marko@siemens.com>
+ <20250824124248.1093100-2-peter.marko@siemens.com>
+ <CAOSpxdacNuW3wbrXDtWE7xDVyb1gpU+3mw3=f8zKdW4jUFY6-A@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdacNuW3wbrXDtWE7xDVyb1gpU+3mw3=f8zKdW4jUFY6-A@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-In-Reply-To: <04c6893d-f69b-4fc5-ae6b-de17ee8a835e@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=3f392e2c-eda2-4113-882a-84aed6d65777;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-08-25T21:15:08Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DU0PR10MB5994:EE_
+x-ms-office365-filtering-correlation-id: f0080ffa-a4c4-49e9-8535-08dde41c9218
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|4022899009|376014|38070700018|13003099007;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?UnRoNDdiVWdvTHdSc1ozKzd5UDRwalJLc01KVTYxcjhsK1VFTmgxdHpCeUpC?=
+ =?utf-8?B?UW1qckVqaFRTTHkzS2d6SlJldm4rMDRRamw1aTN5am80eTFLWWlObU1Wb2M5?=
+ =?utf-8?B?YWgrMlpFZmw4elNRQUNTTHUvQVVJdGxsZXp2N1RpNmZ4Z2U2ZDJ6cDF1ejJ3?=
+ =?utf-8?B?RmtaRFB1aENhbnNCSHYwVTJLdG1XZG4rRDZ1Z1FQTmd4djk5OHNKVUxvc1Iy?=
+ =?utf-8?B?SDA3YzI0UDNETVdNMjZhS2xMVVVLYXVZM1NQQVpMOUUwRFRWQWp0U0duUTdB?=
+ =?utf-8?B?bVV0VWpyMDNiSGgxalRaUE5LN3h2YnVUSDFuck5sY08zQ3B4MndUQ2hYOVdT?=
+ =?utf-8?B?TW16Y2RWOG5udmpnVWtZalFxNGZWVDVzaW1HQnlDUW1OTzlNNXg4Q1JUU0p4?=
+ =?utf-8?B?RmhXU1pvZ0trcm5VRkRSMS84WUl3UjBWOU5hV3doT2VjZjBPOWVYazJxWlNv?=
+ =?utf-8?B?NlBra0hxUlF6UGxnQXB1di8ySlh0b2JYR2hxV2hHYWxyWG5LK1M4VjBUMThp?=
+ =?utf-8?B?Zm5iKzlqVm5NL2JtcHdjVTlWUDhKNFQ1Rm4rMWdXYzFsUFNxSCtDMmcrMFN3?=
+ =?utf-8?B?SWtRWkNFUEJReXp3OVQwNENjYU9TSTdId0RZakpyNDZkamhxZmNIL3VVOWNG?=
+ =?utf-8?B?bXJieHlqdDdwUjgwNVJaYm9KQ0gzWHoxRHlsSUZMMGNZakdDdWErUzhJRTk1?=
+ =?utf-8?B?YWJRL0NjSG8wQTVlV2M0UmxYVGJKeVpYMWZRaUZBempxSzgrYjJRSGZkVWhS?=
+ =?utf-8?B?K01odXJyZG1zcW1rRHpYZ0tSV1ZhSU0veFY3aDNBczNNMExVOWs2NytpRklL?=
+ =?utf-8?B?ZUdOUlNoV2JZWi8wOTZiUmxuOThYR2ZMSGkybVU4YmNmZmZHL3lhYnRGMEpO?=
+ =?utf-8?B?YkVDVWh3eDRIY0ZvcmJPQ3BSbERCVHlFallBY296QVo0MWZqaFRDTmREbjN4?=
+ =?utf-8?B?a0p0cjdobTRxa0pWbzJGTEZTR2d2aWdDcXplYzVLRkJSWThNVGR0UXIzWlFJ?=
+ =?utf-8?B?MU5tbUIzemZQV2hpdU5xQWN0L2ZsdEYwZElqQWFWdldzcjdTM1p4Y1M5Y3lN?=
+ =?utf-8?B?bVNjRUdFbUpYVEpVdURybW9FbC80eHhESVdwQ3VXUWNYa2dUdWMzTmtYa3Bw?=
+ =?utf-8?B?dDRYamRrNGhRcW1lUWZpTFQxd0RFeWVOL2dVY2o0dzRpb1d2TnhnWVpYaXVp?=
+ =?utf-8?B?SVJHQytjTjllN0V5WEFiaTR1cEZlNkNsRW9MbjFiN3lIamFYNERTUVNSRy9X?=
+ =?utf-8?B?ekE3WVIwR1RDd21GbEhJbVcrYlhleXVzUG9TbFlZWlRTWUhucENwK2U2elA5?=
+ =?utf-8?B?cWtrcnhOazZpeHhDT0xzR3M0THFpd3BpR01xc1l1RzZ6bTIzL0dBTWE5K28w?=
+ =?utf-8?B?MnM1aHFSL3ZRZzRuTndnRUVCMDhPVUsyeDNyc0ZMSWxrSGY5dUU2NFZ3UmRw?=
+ =?utf-8?B?RWExNTJKWWlYY0dDVmxsWWtuUkliRUo1K0JxSzI3dXZ6d1h2Wi9Yd3h3QWZo?=
+ =?utf-8?B?Q0RRaDFvYUdFbytrSVUwbDJEQjBJeEpBZFBnWURnSG9EMHM1RExQSVVtR2Q0?=
+ =?utf-8?B?TjQ1OTI0SDlRVHF4S0xqUVdKMjRvcGRmWFE5TzdvRkpkM0xCZWpqdUZLL0Uy?=
+ =?utf-8?B?NWl1YnNWb2Q2cXo3ZUwxcHZHTGE2cVFzOHFObWYybHBKb2hXR2taTVV5VndV?=
+ =?utf-8?B?K3ZHbTZ2N3dlY3BXVWE4RVM0Vy9sZnU0V3lsL2xWM253QmJUb2dXUkZZQlpi?=
+ =?utf-8?B?QVc1VUxvT25IeG1STmtUT1pXK1VlNGpmVlA0c0I2RFFpZXRJT05TNVlCaEty?=
+ =?utf-8?B?VVN5UzhDT0tXVWFjbkViK0VoNUlPdXFCSExSbytKRGRNZmRWWW9kRFhuWXBy?=
+ =?utf-8?B?L1Y2YXNYODdxUzJUdmRZL2grTFRtOHlYUStaOElUekNNSEovR3E0bDZyVlNS?=
+ =?utf-8?Q?EKx1uHfCZ1g=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(4022899009)(376014)(38070700018)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?aldHOUVYNXFkVVREV0p5QmtDN1VvMFhhV0VqRGk4UmY5TTgzekUyRHlwMVhs?=
+ =?utf-8?B?MGtlZEF4UDhJT2ZwVUYyeVIvM2NEYlc3a0VNWFdrWXlJSnpQbWpCV1E3Zk9i?=
+ =?utf-8?B?QVpIUzNvM3VDZVkzdHZFWUE0Vjk0Wkdla2JkUEVGa2ZiNnNYckNMbkhhRGpM?=
+ =?utf-8?B?YVN4cHd0YmxnV045d3MwdFpiYUxsZEdBUmhjand3alBnbzZQU0U0UWN0V1Jj?=
+ =?utf-8?B?QXF4ZkJRWUZDNDFzc01oZC9MZnNEeU90YlVpaW90SzkybFlJejdhdlp6Mnpw?=
+ =?utf-8?B?eGN4VU1BakwvR0VWT0xIY3RwYTdPLzFSZ0svV2p1ZDVxU1hIOTJYTFpGeE5M?=
+ =?utf-8?B?NEJ2MWoxUzdxWGo1a21lWEU1NUpyYUM3MGh1QTMzVU5qT0lDdjJ2ZC80c2Jt?=
+ =?utf-8?B?TU9wemZEVWdVRUpiajFEWjNzQU1uemE2TzFjQVV2b1dWRHlzdWxUYVByaUVo?=
+ =?utf-8?B?Rkdmb3l1ekdwRVVFb0c1WExlYjNQTWV1RFlOSWhLd1BRQ2ZldThjQ2VoWHdI?=
+ =?utf-8?B?N013LzJKWWtyZjJoUnBSV2VoM3BJSUw5RUlzeFkxMkhUVkdlVmpSb0RnS2po?=
+ =?utf-8?B?MVBKNHNmUzRWeUhlMXB3bWhKM0orMlBQeXdLMWNMR1l1ZVRabG80bGZqYllz?=
+ =?utf-8?B?Y1hTaFA0Z0tDYUhoeVMrTGNLQ2RDVWRUcnNVOHpmTndwaDZYZy9vOWN2ZkRu?=
+ =?utf-8?B?TmFDYmFvdDBZTWpvMTVYRVRWQW1vMllFYnVkd1E2WlRCRjlrS2tjVGNJTU1a?=
+ =?utf-8?B?dURsUUQwWUlObkVReTNaRkF3UU9pc05EeWllV2tnY251UmdSTm16S2FVMFNO?=
+ =?utf-8?B?TlVVM1lLVWwxVVRNQXR0eHBsY3dtSTJCcnhjc0Fkb1Z0OWlnbGFUdkZvbytN?=
+ =?utf-8?B?MGZhOFUyMzNLdU9ZVXlvZjBCZDJPcWxaQ0w3amVlekRjaUhQRTJ6bzNNOFEr?=
+ =?utf-8?B?aTN5OHNTK0RNUGZoMnFSdkE1d0pXZG4vV1dwdGhtTzFuYm0yOEp3QlN3aGs0?=
+ =?utf-8?B?NndRbDBpVExCVEwwR0tiVVJVVHhoNTlQNVAyaHR2akFaUGttazF2ZkdaZEx2?=
+ =?utf-8?B?ZERFejBUMWlnU0xNU2xyZXVUSXI2SWpOeDd4cHFvTnJZVnkxTXFOZ2NGNjIr?=
+ =?utf-8?B?eWN4Q3d1bFB2MWNNQ3JYRmIwZEdmTnVaU1R5Mkhrdmx5R1c3VHIvMnFaQWI0?=
+ =?utf-8?B?RFRBTVNrVVpPOGJlRmUzNStUaThvTlJIYWxPN2NTOS8zSjJOZDRlcGduRVJ6?=
+ =?utf-8?B?bUFqc0hxV3VBVFFScm8yNWFMeTZybDRialhJV0N6TEpaY0g2MjlxQk54dmxv?=
+ =?utf-8?B?RmhRRUhWOW5mMExFR1p0VWw0NDAydGtLdnlBTVFLemRYTmZVbDdlQ2tDVlAr?=
+ =?utf-8?B?OVBHM2xud0hvV1A2dHdqdWorcUtsWnpBOG9nZjlhc1kycjlLR25RZVZnUEFT?=
+ =?utf-8?B?d1pNYWtZbm5DSlloTHJ3YXkwZ0NZNVdXR09hM1c4U2pKaktvUzFFVUkxazlM?=
+ =?utf-8?B?OXQ4dkc3T0N6dS9USjBHWlZnS240d0JUdFE2SW9ISXkralZ3QVdaVVRRbWxU?=
+ =?utf-8?B?SkNwMTRaM0MxREYxWkFUdDRlSXI0UlNnTUJaSHFyS3NlQ2lsN0tFbHNmbVFY?=
+ =?utf-8?B?Zm5oTXhqai9EWldHOHAwQUlHMWxYWXAvczZUZGFscTFTSXdCUmRCV053c29o?=
+ =?utf-8?B?dTJrdlNMMXVxSmFNc3RxeERXQWhKeW1KSHpucUtobGVFbVBEeCtveU1FNXBo?=
+ =?utf-8?B?YUJUQXI1UVdjNm9BM3FvSUNjVU5ST2VjZ0tUc0VBNXBlQ0JMeXFKckhmdC80?=
+ =?utf-8?B?Ulc5LzFKYjNMMExkVkdXam5YYkMvODJualRIN0greWR6UjRpa2lybEZlYmlt?=
+ =?utf-8?B?T2xBYWJVSzNaajZFdDVPeWw4TnUwaDdkbnNjVmxNb29jRkFZclVHcGZ5cDgr?=
+ =?utf-8?B?MkZ5Y3UvOEMvd3NoL25IYytzNnpHMXB3NjJhbk1tMDVYbjBvdnVML2dLRUFN?=
+ =?utf-8?B?RnVWa21MRXFtcTlEbndVaTVsb1JEbEk0NU5pUUc5ek94NlY1NDhDcEpYUHhh?=
+ =?utf-8?B?WGhTbEI3cFVZV01tMFRSMGdEUHo1YWNRbi9OeHY1ZkU1b1NZNGc0eDNiU29K?=
+ =?utf-8?Q?eLK1jgi6Ca2uC2Apsp7NOs3Sn?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0080ffa-a4c4-49e9-8535-08dde41c9218
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Aug 2025 21:15:51.7728
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /mRokacLEEOM9gGIY3Y8B3vfTbVsOsCfMVj3hvuIOdPJC6iBKnEWHcMqEj4tnBIIWlRlUATMu6QUE+uS8izj5g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5994
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 20:14:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222424
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 21:16:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222426
 
-On 8/25/25 20:31, Gyorgy Sarvari wrote:
-> On 8/25/25 17:49, Tony Rex wrote:
->> It is the full error output that is in the mail thread, there is nothing more I think.
->>
->> But can you please try to reproduce the error by doing the changes in meta-selftest layer described below and evaluate the outcome.
->> I think the key is the +BBCLASSEXTEND="nativesdk" line.
-> I can confirm that I can reproduce it. I don't think that your proposed
-> patch is the correct solution, but your bug looks real.
-
-Looking at it it, I'm not 100% sure if it's a bug, but rather maybe a
-bit surprising behavior, by design?  I guess other people will share
-their opinion on this in the coming days - this a personal opinion after
-running it in a debugger. Your finding about the BBCLASSEXTEND seems to
-corroborate this too.
-
-When you set an override with TAGNAME:pn-gitrepotest, that will be valid
-only for the gitrepotest package. But when you enable nativesdk, it will
-also check the nativesdk-gitrepotest package, for which this variable
-isn't defined - there is no default value, and the pn-girepotest
-override doesn't match. If you also define
-TAGNAME:pn-nativesdk-gitrepotest, then it is defined, and it seems to be
-resolved correctly.
-
-
->
->> git diff
->> diff --git a/meta-selftest/conf/layer.conf b/meta-selftest/conf/layer.conf
->> index 48ca8464f9..3d83072fb0 100644
->> --- a/meta-selftest/conf/layer.conf
->> +++ b/meta-selftest/conf/layer.conf
->> @@ -12,3 +12,6 @@ BBFILE_PRIORITY_selftest = "5"
->>  addpylib ${LAYERDIR}/lib oeqa
->>
->>  LAYERSERIES_COMPAT_selftest = "scarthgap"
->> +
->> +TAGNAME:pn-gitrepotest="2"
->> +PV:pn-gitrepotest="12"
->> diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
->> index f1b6c55833..10943584df 100644
->> --- a/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
->> +++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
->> @@ -7,10 +7,12 @@ INHIBIT_DEFAULT_DEPS = "1"
->>
->>  PATCHTOOL="git"
->>
->> -SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https \
->> +TAG="${TAGNAME}.${PV}"
->> +SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https;tag=${TAG} \
->>             file://0001-testpatch.patch \
->>            "
->>
->> -SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
->> +#SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
->>
->>  S = "${WORKDIR}/git"
->> +BBCLASSEXTEND="nativesdk"
->>
->>
->> You should get something like this:
->> ERROR: ExpansionError during parsing .../oe-core/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb   | ETA:  0:00:35
->> bb.data_smart.ExpansionError: Failure expanding variable fetcher_hashes_dummyfunc[vardepvalue], expression was ${@bb.fetch.get_hashvalue(d)} which triggered exception FetchError: Fetcher failure: Unable to resolve '${TAGNAME}.1.0' in upstream git repository in git ls-remote output for git.yoctoproject.org/git/matchbox-panel-2
->> The variable dependency chain for the failure is: fetcher_hashes_dummyfunc[vardepvalue]
->>
->> ERROR: Parsing halted due to errors, see error messages above
->>
->>
->> Tony
->>
->> -----Original Message-----
->> From: Gyorgy Sarvari <skandigraun@gmail.com>
->> Sent: Friday, 22 August 2025 16:10
->> To: Tony Rex <tony.rex@ericsson.com>; Alexander Kanavin <alex.kanavin@gmail.com>
->> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>; openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe parsing race issue
->>
->> On 8/22/25 13:26, Tony Rex wrote:
->>> So to me it looks like the fetcher_hashes_dummyfunc makes it possible to catch any faulty or unwanted setups in the parsing stage.
->>>
->>> It seems hard to reproduce and expose this error on a common target, but I can reproduce it easily in the local setup.
->>> So I share my observations instead and hopefully you can make some sense out them.
->>>
->>> The error that I'm seeing is that when fetcher_hashes_dummyfunc[vardepvalue] = "${@bb.fetch.get_hashvalue(d)}" is executed the PV is not set, nor is the PN.
->>> So it seems that if the git ls-remote check happens to quick and early all variables are not set properly.
->>> The repo in this case is small (140K) and I believe that the access to
->>> the git server is fast (don't know of it matters) the git ls-remote check does not contain the right information if for example, the tag in the SRC_URI contains the PV value.
->>>
->>> When doing printouts from get_hashvalue the revs variable is empty and
->>> PN = defaultpkgname and PV = 1.0 has default values so the variables doesn't seem to be properly set yet and gives this error:
->>>
->>> ERROR: ExpansionError during parsing .../generic-if.bb################################   | ETA:  0:00:00
->>> bb.data_smart.ExpansionError: Failure expanding variable fetcher_hashes_dummyfunc[vardepvalue], expression was ${@bb.fetch.get_hashvalue(d)} which triggered exception FetchError: Fetcher failure: Unable to resolve '${TAGNAME}-1.0' in upstream git repository in git ls-remote output for gerrit...
->>> The variable dependency chain for the failure is:
->>> fetcher_hashes_dummyfunc[vardepvalue]
->>>
->>> ERROR: Parsing halted due to errors, see error messages above
->>>
->>> The patch that is provided fixes this issue, but there might be other and/or maybe better solutions to this matter.
->>> Another workaround for this problem that I have tested and that also
->>> seems to get around this issue is to set the SRC_URI with := or ?=
->>>
->>> This is why I consider it to be a race condition during parsing and the git ls-remote check.
->> Could you please share the _full_ error output, and the recipe that is causing it? Feel free to change confidential things to placeholders, but the more parts would be available, the better it would be.
->>
->>
->>> Tony
->>>
->>> -----Original Message-----
->>> From: Tony Rex
->>> Sent: Thursday, 21 August 2025 17:48
->>> To: Gyorgy Sarvari <skandigraun@gmail.com>; Alexander Kanavin
->>> <alex.kanavin@gmail.com>
->>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
->>> openembedded-core@lists.openembedded.org
->>> Subject: RE: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
->>> parsing race issue
->>>
->>> I'm not sure how to run your (Gyorgy) code inside a recipe to test it, but in a bash script it works, of course.
->>>
->>> The thing that I'm looking at now is  a bit confusing, when commenting out the fetcher_hashes_dummyfunc function from the base.bbclass it seems to work properly.
->>>
->>> I don't know what the real purpose of this function is, am I missing something here, like a certain setup or a corner case?
->>> It seems to work both on whinlatter and scarthgap. Can someone please help out and clarify.
->>>
->>> git diff classes-global/base.bbclass
->>> diff --git a/meta/classes-global/base.bbclass
->>> b/meta/classes-global/base.bbclass
->>> index 6c08870571..83f82b2a4d 100644
->>> --- a/meta/classes-global/base.bbclass
->>> +++ b/meta/classes-global/base.bbclass
->>> @@ -128,16 +128,16 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
->>>
->>>  # We can't use vardepvalue against do_fetch directly since that would overwrite  # the other task dependencies so we use an indirect function.
->>> -python fetcher_hashes_dummyfunc() {
->>> -    return
->>> -}
->>> -fetcher_hashes_dummyfunc[vardepvalue] = "${@bb.fetch.get_hashvalue(d)}"
->>> +#python fetcher_hashes_dummyfunc() {
->>> +#    return
->>> +#}
->>> +#fetcher_hashes_dummyfunc[vardepvalue] = "${@bb.fetch.get_hashvalue(d)}"
->>>
->>>  addtask fetch
->>>  do_fetch[dirs] = "${DL_DIR}"
->>>  do_fetch[file-checksums] = "${@bb.fetch.get_checksum_file_list(d)}"
->>>  do_fetch[file-checksums] += " ${@get_lic_checksum_file_list(d)}"
->>> -do_fetch[prefuncs] += "fetcher_hashes_dummyfunc"
->>> +#do_fetch[prefuncs] += "fetcher_hashes_dummyfunc"
->>>  do_fetch[network] = "1"
->>>  python base_do_fetch() {
->>>
->>> Tony
->>>
->>> -----Original Message-----
->>> From: Gyorgy Sarvari <skandigraun@gmail.com>
->>> Sent: Thursday, 21 August 2025 09:30
->>> To: Tony Rex <tony.rex@ericsson.com>; Alexander Kanavin
->>> <alex.kanavin@gmail.com>
->>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
->>> openembedded-core@lists.openembedded.org
->>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
->>> parsing race issue
->>>
->>> On 8/21/25 09:10, Tony Rex wrote:
->>>> Yes, I get the same or similar error if the patch is not applied.
->>>>
->>>> ERROR: ExpansionError during parsing .../generic-if.bb################################   | ETA:  0:00:00
->>>> bb.data_smart.ExpansionError: Failure expanding variable fetcher_hashes_dummyfunc[vardepvalue], expression was ${@bb.fetch.get_hashvalue(d)} which triggered exception FetchError: Fetcher failure: Unable to resolve '${TAGNAME}-1.0' in upstream git repository in git ls-remote output for gerrit...
->>>> The variable dependency chain for the failure is:
->>>> fetcher_hashes_dummyfunc[vardepvalue]
->>>>
->>>> ERROR: Parsing halted due to errors, see error messages above
->>>>
->>>> How does your mytest_get.bb look like? Since I have had problem with reproducing the error on in a common setup maybe it can be done with your bb file.
->>>>
->>>> Tony
->>> The failure I reproduced is not recipe dependent. As some diagnostic test, try this script a few times with your failing git repo (change the repo placeholder):
->>>
->>> for i in `seq 50`; do
->>>   git clone $GIT_REPO_URL target_folder
->>>   git -C ./target_folder ls-remote
->>>   if [ $? -ne 0 ]; then
->>>     echo ls-remote failed, iteration: $i
->>>     break
->>>   fi
->>>   rm -rf ./target_folder
->>> done
->>>
->>> If I haven't made a typo, the script should clone your repo, do an ls-remote inside it, delete the folder, and do the same again.
->>>
->>> If your problem is the same that I reproduced, then I would expect the above script to fail sometimes - if it does, then the problem is with the infrastructure (network, remote git server, etc... something is flaky).
->>>
->>> Just for the record: the script generates a small amount of successive requests which some network admins might consider flooding.
->>>
->>>
->>>
->>>> -----Original Message-----
->>>> From: Gyorgy Sarvari <skandigraun@gmail.com>
->>>> Sent: Wednesday, 20 August 2025 18:12
->>>> To: Tony Rex <tony.rex@ericsson.com>; Alexander Kanavin
->>>> <alex.kanavin@gmail.com>
->>>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
->>>> openembedded-core@lists.openembedded.org
->>>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
->>>> parsing race issue
->>>>
->>>> [You don't often get email from skandigraun@gmail.com. Learn why this
->>>> is important at https://aka.ms/LearnAboutSenderIdentification ]
->>>>
->>>> On 8/20/25 17:44, Gyorgy Sarvari via lists.openembedded.org wrote:
->>>>> On 8/20/25 13:53, Tony Rex wrote:
->>>>>> It was introduced by this commit:
->>>>>> https://git/
->>>>>> .yoctoproject.org%2Fpoky%2Fcommit%2F%3Fid%3Debfa1700f41b3411aec0401
->>>>>> 4
->>>>>> 4
->>>>>> 605166c35b8dd14&data=05%7C02%7Ctony.rex%40ericsson.com%7C7b5c099d17
->>>>>> 0
->>>>>> 0
->>>>>> 43080cca08dde004478d%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C6
->>>>>> 3
->>>>>> 8
->>>>>> 913031194171335%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlY
->>>>>> i
->>>>>> O
->>>>>> iIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0
->>>>>> %
->>>>>> 7
->>>>>> C%7C%7C&sdata=iYvLGK1DwJk78tEvmL%2FPOL2olj7iNL87eXqdsEraxLw%3D&rese
->>>>>> r
->>>>>> v
->>>>>> ed=0
->>>>>>
->>>>>> Maybe "not allowed" is a strong wording, but that was how I interpreted it. Sorry, my bad if I misinterpreted it.
->>>>> In my understanding (which could be wrong), this is more to avoid
->>>>> working on a repository, where the exact work-revision can't be
->>>>> determined. But in your example, it can be determined, if your patch
->>>>> is not applied.
->>>>>
->>>>> Some extra ramblings, which may or may not be unadulterated garbage
->>>>> from
->>>>> me: Your initial commit message mentioned an expansion error. I
->>>>> looked into that a bit, and is it possible that the repository that
->>>>> is causing this issue has some access rate limit? The only thing
->>>>> that can fail sometimes in that code path seems to be "git ls-remote".
->>>>>
->>>>> Now, when I noticed this, I compiled a git version for myself that
->>>>> randomly throws an error with "git ls-remote" command, and when I
->>>>> used it with bitbake, I got this:
->>>>>
->>>>> ERROR: ExpansionError during parsing
->>>>> /home/meee/stuff/ptest-images/poky/meta/recipes-core/ell/mytest_get.
->>>>> b
->>>>> b
->>>>> bb.data_smart.ExpansionError: Failure expanding variable
->>>>> fetcher_hashes_dummyfunc[vardepvalue], expression was <etc etc etc>
->>>>>
->>>>> Is this the same error you got?
->>>> Sorry for the spam, one thing I forgot - the error on my end also contains details about the command that failed, pointing to git. If it's not the same as you get, do you have a copy of the full bitbake output you get when you see this error?
->>>>
->>>>>> Tony
->>>>>>
->>>>>> -----Original Message-----
->>>>>> From: Gyorgy Sarvari <skandigraun@gmail.com>
->>>>>> Sent: Wednesday, 20 August 2025 12:18
->>>>>> To: Tony Rex <tony.rex@ericsson.com>; Alexander Kanavin
->>>>>> <alex.kanavin@gmail.com>
->>>>>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
->>>>>> openembedded-core@lists.openembedded.org
->>>>>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
->>>>>> parsing race issue
->>>>>>
->>>>>> [You don't often get email from skandigraun@gmail.com. Learn why
->>>>>> this is important at https://aka.ms/LearnAboutSenderIdentification
->>>>>> ]
->>>>>>
->>>>>> On 8/19/25 23:10, Tony Rex via lists.openembedded.org wrote:
->>>>>>> Hi Alex and Mathieu!
->>>>>>>
->>>>>>> Ok, so the patch fixes a bug and then the floating tag/branch function is in place again.
->>>>>>> The floating tag/branch function is broken due to the bug and the patch fixes it.
->>>>>>>
->>>>>>> The mail from Mathieu below might not fully reflect the issue here, since it seems to create a recipe with the help of devtool.
->>>>>>>
->>>>>>> To verify:
->>>>>>> 1. add layers/oe-core/meta-selftest to conf/bblayers.conf 2. run
->>>>>>> bitbake gitrepotest -c fetch
->>>>>>> result:
->>>>>>> NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
->>>>>>> 3. run bitbake gitrepotest -c cleanall 4. edit
->>>>>>> ../layers/oe-core/meta-selftest/recipes-test/gitrepotest/gitrepote
->>>>>>> s
->>>>>>> t
->>>>>>> .b
->>>>>>> b
->>>>>>> add tag=2.12 in SRC_URI
->>>>>>> SRC_URI =
->>>>>>> "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;tag
->>>>>>> =
->>>>>>> 2
->>>>>>> .1 2;protocol=https \ and comment out SRCREV #SRCREV =
->>>>>>> "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
->>>>>>> 5. run bitbake gitrepotest -c fetch
->>>>>>> result:
->>>>>>> NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
->>>>>>> The fetch goes through although this is not allowed according to the floating tag/branch error statement if not d.getVar("__BBSRCREV_SEEN"): in git.py.
->>>>>> Could you point to a commit/email/etc about this "no floating tags
->>>>>> allowed" statement? AFAIK tags without specifying revision is
->>>>>> allowed and supported. Not recommended, due to mandatory network
->>>>>> access, and because git tags are not immutable, but I'm surprised
->>>>>> to hear that they are not supposed to work (which of course can
->>>>>> also mean that I just missed a memo)
->>>>>>
->>>>>>> 6. run bitbake gitrepotest -c cleanall 7. apply patch
->>>>>>> 0001-base.bbclass-Fix-the-recipe-parsing-race-issue.patch
->>>>>>> 8. run bitbake gitrepotest -c fetch
->>>>>>> result:
->>>>>>> ERROR: gitrepotest-1.0-r0 do_fetch: Bitbake Fetcher Error:
->>>>>>> FetchError("Recipe uses a floating tag/branch '2.12' for repo
->>>>>>> 'git.yoctoproject.org/git/matchbox-panel-2' without a fixed SRCREV
->>>>>>> yet doesn't call bb.fetch2.get_srcrev() (use SRCPV in PV for
->>>>>>> OE).",
->>>>>>> None)
->>>>>>> ERROR: Logfile of failure stored in:
->>>>>>> .../build/tmp-glibc/work/cortexa53-wrs-linux/gitrepotest/1.0/temp/log.
->>>>>>> do_fetch.1254999
->>>>>>> ERROR: Task (.../layers/oe-core/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb:do_fetch) failed with exit code '1'
->>>>>>> NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
->>>>>>>
->>>>>>> Error is the expected result when only having a tag set.
->>>>>>>
->>>>>>> Tony
->>>>>>>
->>>>>>> -----Original Message-----
->>>>>>> From: Alexander Kanavin <alex.kanavin@gmail.com>
->>>>>>> Sent: Tuesday, 19 August 2025 10:53
->>>>>>> To: Tony Rex <tony.rex@ericsson.com>
->>>>>>> Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>;
->>>>>>> openembedded-core@lists.openembedded.org
->>>>>>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
->>>>>>> parsing race issue
->>>>>>>
->>>>>>> [You don't often get email from alex.kanavin@gmail.com. Learn why
->>>>>>> this is important at https://aka.ms/LearnAboutSenderIdentification
->>>>>>> ]
->>>>>>>
->>>>>>> You need to make things a little bit easier for maintainers and try to save their time.
->>>>>>>
->>>>>>> I would suggest that you provide clear steps to observe the issue.
->>>>>>> Attach the recipe file that would demonstrate the issue, and provide clear steps to trigger it. What is confusing right now is that you say here's a recipe that builds ok, but then you 'apply the patch' and then there's some kind of failure. So which patch needs to be applied?
->>>>>>>
->>>>>>> Alex
->>>>>>>
->>>>>>> On Fri, 15 Aug 2025 at 17:29, Tony Rex via lists.openembedded.org <tony.rex=ericsson.com@lists.openembedded.org> wrote:
->>>>>>>> Hi Mathieu!
->>>>>>>>
->>>>>>>> I think that this is how it is intended to work, bitbake does not allow floating tag/branch anymore.
->>>>>>>> Please correct me if I'm wrong @Richard Purdie (who implemented
->>>>>>>> this for security reasons I think.)
->>>>>>>>
->>>>>>>> The patch that I have makes sure that the parsing and setting of
->>>>>>>> the variables in the recipe are done before executing the do_fetch command, and as a side effect the floating tag/branch protection is working as intended again.
->>>>>>>>
->>>>>>>> How does the recipe look like?
->>>>>>>> devtool add kernel-module-hello-world https://git/.
->>>>>>>> yoctoproject.org%2Fgit%2Fkernel-module-hello-world&data=05%7C02%7
->>>>>>>> C
->>>>>>>> t
->>>>>>>> on
->>>>>>>> y
->>>>>>>> .rex%40ericsson.com%7Cde1ae2aceeda470b381608dddefdd730%7C92e84ceb
->>>>>>>> f
->>>>>>>> b
->>>>>>>> fd
->>>>>>>> 4
->>>>>>>> 7abbe52080c6b87953f%7C0%7C0%7C638911904005151487%7CUnknown%7CTWFp
->>>>>>>> b
->>>>>>>> G
->>>>>>>> Zs
->>>>>>>> b
->>>>>>>> 3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIk
->>>>>>>> F
->>>>>>>> O
->>>>>>>> Ij
->>>>>>>> o
->>>>>>>> iTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=jyCicRQT%2FLtb1YxiFH
->>>>>>>> K
->>>>>>>> g
->>>>>>>> w5
->>>>>>>> B
->>>>>>>> nNktN4t9IciiyxtsEwO4%3D&reserved=0
->>>>>>>> The one I get looks like this:
->>>>>>>>
->>>>>>>> cat
->>>>>>>> build/workspace/recipes/kernel-module-hello-world/kernel-module-h
->>>>>>>> e
->>>>>>>> l
->>>>>>>> lo
->>>>>>>> -
->>>>>>>> world_git.bb
->>>>>>>> # Recipe created by recipetool
->>>>>>>> # This is the basis of a recipe and may need further editing in order to be fully functional.
->>>>>>>> # (Feel free to remove these comments when editing.)
->>>>>>>>
->>>>>>>> # WARNING: the following LICENSE and LIC_FILES_CHKSUM values are
->>>>>>>> best guesses - it is # your responsibility to verify that the values are complete and correct.
->>>>>>>> #
->>>>>>>> # The following license files were not able to be identified and
->>>>>>>> are # represented as "Unknown" below, you will need to check them yourself:
->>>>>>>> #   LICENSE
->>>>>>>> LICENSE = "Unknown"
->>>>>>>> LIC_FILES_CHKSUM = "file://LICENSE;md5=7b785be6433a2e4af6a641cc7f0330d1"
->>>>>>>>
->>>>>>>> SRC_URI = "git://git.yoctoproject.org/git/kernel-module-hello-world;protocol=https;branch=master"
->>>>>>>>
->>>>>>>> # Modify these as desired
->>>>>>>> PV = "1.0+git"
->>>>>>>> SRCREV = "b66f0f2bd559a1df81fc1bda240eba07a2ecdd2b"
->>>>>>>>
->>>>>>>> S = "${WORKDIR}/git"
->>>>>>>>
->>>>>>>> inherit module
->>>>>>>>
->>>>>>>> EXTRA_OEMAKE:append:task-install = " -C ${STAGING_KERNEL_DIR} M=${S}"
->>>>>>>> EXTRA_OEMAKE += "KERNEL_DIR=${STAGING_KERNEL_DIR}"
->>>>>>>>
->>>>>>>> And it contains SRCREV = "b66f0f2bd559a1df81fc1bda240eba07a2ecdd2b"
->>>>>>>>
->>>>>>>> Tony
->>>>>>>>
->>>>>>>> -----Original Message-----
->>>>>>>> From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
->>>>>>>> Sent: Friday, 15 August 2025 11:26
->>>>>>>> To: Tony Rex <tony.rex@ericsson.com>;
->>>>>>>> openembedded-core@lists.openembedded.org
->>>>>>>> Subject: Re: [OE-core] [PATCH 0/1] base.bbclass: Fix the recipe
->>>>>>>> parsing race issue
->>>>>>>>
->>>>>>>> [You don't often get email from mathieu.dubois-briand@bootlin.com.
->>>>>>>> Learn why this is important at
->>>>>>>> https://aka.ms/LearnAboutSenderIdentification ]
->>>>>>>>
->>>>>>>> On Thu Aug 14, 2025 at 7:23 PM CEST, Tony Rex via lists.openembedded.org wrote:
->>>>>>>>> It seems that the race condition happens when doing do_fetch on
->>>>>>>>> really small repos and it can be difficult to reproduce so below
->>>>>>>>> the other case with floating tag/branch that is easier to verify.
->>>>>>>>>
->>>>>>>>> To verify the floating tag/branch issue have s simple recipe
->>>>>>>>> hello_1.0.bb and set the SRC_URI to SRC_URI = "git://<repository>;protocol=https;user=${USER};branch=master;tag=v1.0"
->>>>>>>>>
->>>>>>>>> run command bitbake hello everything builds.
->>>>>>>>>
->>>>>>>>> Apply the patch
->>>>>>>>>
->>>>>>>>> run command bitbake hello
->>>>>>>>> ERROR: hello-1.0-r1 do_fetch: Bitbake Fetcher Error:
->>>>>>>>> FetchError("Recipe uses a floating tag/branch 'v1.0' for repo
->>>>>>>>> '<repository>' without a fixed SRCREV yet doesn't call
->>>>>>>>> bb.fetch2.get_srcrev() (use SRCPV in PV for OE).", None)
->>>>>>>>> ERROR: Logfile of failure stored in:
->>>>>>>>> hello/1.0/temp/log.do_fetch.3289932
->>>>>>>>> ERROR: Task (hello/hello_1.0.bb:do_fetch) failed with exit code '1'
->>>>>>>>>
->>>>>>>>> Tony Rex (1):
->>>>>>>>>   base.bbclass: Fix the recipe parsing race issue
->>>>>>>>>
->>>>>>>>>  meta/classes-global/base.bbclass | 2 +-
->>>>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>> Hi Tony,
->>>>>>>>
->>>>>>>> Thanks for your patch.
->>>>>>>>
->>>>>>>> It looks like this is breaking some builds with the following error:
->>>>>>>>
->>>>>>>> oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/pokybuild/yocto-worker/qemux86-64/build/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/testsdkext/environment-setup-core2-64-poky-linux > /dev/null; devtool add kernel-module-hello-world https://git.yoctoproject.org/git/kernel-module-hello-world;' returned non-zero exit status 1.
->>>>>>>> ...
->>>>>>>> ERROR: Bitbake Fetcher Error: FetchError("Recipe uses a floating
->>>>>>>> tag/branch 'master' for repo
->>>>>>>> 'git.yoctoproject.org/git/kernel-module-hello-world' without a
->>>>>>>> fixed SRCREV yet doesn't call bb.fetch2.get_srcrev() (use SRCPV
->>>>>>>> in PV for OE).", None)
->>>>>>>>
->>>>>>>> https://auto/
->>>>>>>> builder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F68%2Fbuild
->>>>>>>> s
->>>>>>>> %
->>>>>>>> 2F
->>>>>>>> 2
->>>>>>>> 284&data=05%7C02%7Ctony.rex%40ericsson.com%7Cde1ae2aceeda470b3816
->>>>>>>> 0
->>>>>>>> 8
->>>>>>>> dd
->>>>>>>> d
->>>>>>>> efdd730%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C638911904005
->>>>>>>> 2
->>>>>>>> 0
->>>>>>>> 90
->>>>>>>> 0
->>>>>>>> 3%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA
->>>>>>>> w
->>>>>>>> M
->>>>>>>> CI
->>>>>>>> s
->>>>>>>> IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sda
->>>>>>>> t
->>>>>>>> a
->>>>>>>> =m
->>>>>>>> P
->>>>>>>> UXMdb%2FYOyGIm0rnncaWgcqtwkUIh8364IP3eYDPe4%3D&reserved=0
->>>>>>>> https://auto/
->>>>>>>> builder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F30%2Fbuild
->>>>>>>> s
->>>>>>>> %
->>>>>>>> 2F
->>>>>>>> 2
->>>>>>>> 199&data=05%7C02%7Ctony.rex%40ericsson.com%7Cde1ae2aceeda470b3816
->>>>>>>> 0
->>>>>>>> 8
->>>>>>>> dd
->>>>>>>> d
->>>>>>>> efdd730%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C638911904005
->>>>>>>> 2
->>>>>>>> 2
->>>>>>>> 74
->>>>>>>> 3
->>>>>>>> 2%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA
->>>>>>>> w
->>>>>>>> M
->>>>>>>> CI
->>>>>>>> s
->>>>>>>> IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sda
->>>>>>>> t
->>>>>>>> a
->>>>>>>> =R
->>>>>>>> 0
->>>>>>>> HFameGl2LmIVMT9ml%2BDMnj%2FMbG6SW0%2F3yNZHQu2js%3D&reserved=0
->>>>>>>> https://auto/
->>>>>>>> builder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuilders%2F16%2Fbuild
->>>>>>>> s
->>>>>>>> %
->>>>>>>> 2F
->>>>>>>> 2
->>>>>>>> 247&data=05%7C02%7Ctony.rex%40ericsson.com%7Cde1ae2aceeda470b3816
->>>>>>>> 0
->>>>>>>> 8
->>>>>>>> dd
->>>>>>>> d
->>>>>>>> efdd730%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C638911904005
->>>>>>>> 2
->>>>>>>> 4
->>>>>>>> 53
->>>>>>>> 8
->>>>>>>> 7%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA
->>>>>>>> w
->>>>>>>> M
->>>>>>>> CI
->>>>>>>> s
->>>>>>>> IlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sda
->>>>>>>> t
->>>>>>>> a
->>>>>>>> =N
->>>>>>>> S
->>>>>>>> FhEupwMkgqUAhpRgFbKnyFl%2FsY%2B4UJMhVQHhqOaNM%3D&reserved=0
->>>>>>>>
->>>>>>>> Can you have a look at this error please?
->>>>>>>>
->>>>>>>> Best regards,
->>>>>>>> Mathieu
->>>>>>>>
->>>>>>>> --
->>>>>>>> Mathieu Dubois-Briand, Bootlin
->>>>>>>> Embedded Linux and Kernel engineering https://boot/
->>>>>>>> lin.com%2F&data=05%7C02%7Ctony.rex%40ericsson.com%7Cde1ae2aceeda4
->>>>>>>> 7
->>>>>>>> 0
->>>>>>>> b3
->>>>>>>> 8
->>>>>>>> 1608dddefdd730%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C63891
->>>>>>>> 1
->>>>>>>> 9
->>>>>>>> 04
->>>>>>>> 0
->>>>>>>> 05263327%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIw
->>>>>>>> L
->>>>>>>> j
->>>>>>>> Au
->>>>>>>> M
->>>>>>>> DAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C
->>>>>>>> %
->>>>>>>> 7
->>>>>>>> C&
->>>>>>>> s
->>>>>>>> data=oyi7YWsXDVHn7QB4fDdG1sBp7gQsfGWcJTWtX1CjAw4%3D&reserved=0
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>> Links: You receive all messages sent to this group.
->>>>> View/Reply Online (#222190):
->>>>> https://list/
->>>>> s.openembedded.org%2Fg%2Fopenembedded-core%2Fmessage%2F222190&data=0
->>>>> 5
->>>>> %
->>>>> 7C02%7Ctony.rex%40ericsson.com%7C7b5c099d170043080cca08dde004478d%7C
->>>>> 9
->>>>> 2
->>>>> e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C638913031194226137%7CUnknow
->>>>> n
->>>>> %
->>>>> 7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW
->>>>> 4
->>>>> z
->>>>> MiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=WbB87ExjlYOS
->>>>> m
->>>>> q
->>>>> I0%2BEee6LbpupPfWxzk0vNYlbCUP5g%3D&reserved=0
->>>>> Mute This Topic:
->>>>> https://list/
->>>>> s.openembedded.org%2Fmt%2F114706197%2F6084445&data=05%7C02%7Ctony.re
->>>>> x
->>>>> %
->>>>> 40ericsson.com%7C7b5c099d170043080cca08dde004478d%7C92e84cebfbfd47ab
->>>>> b
->>>>> e
->>>>> 52080c6b87953f%7C0%7C0%7C638913031194241729%7CUnknown%7CTWFpbGZsb3d8
->>>>> e
->>>>> y
->>>>> JFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTW
->>>>> F
->>>>> p
->>>>> bCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=bHfsli%2Fba3g8lov%2Bxmfovaal
->>>>> 5
->>>>> C
->>>>> uBGuFnZVXs8AjHGIY%3D&reserved=0 Group Owner:
->>>>> openembedded-core+owner@lists.openembedded.org
->>>>> Unsubscribe:
->>>>> https://list/
->>>>> s.openembedded.org%2Fg%2Fopenembedded-core%2Funsub&data=05%7C02%7Cto
->>>>> n
->>>>> y
->>>>> .rex%40ericsson.com%7C7b5c099d170043080cca08dde004478d%7C92e84cebfbf
->>>>> d
->>>>> 4
->>>>> 7abbe52080c6b87953f%7C0%7C0%7C638913031194543958%7CUnknown%7CTWFpbGZ
->>>>> s
->>>>> b
->>>>> 3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOI
->>>>> j
->>>>> o
->>>>> iTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=gy4aai6oflVendGBp8nbYAL
->>>>> 8
->>>>> K
->>>>> CGj77ObOMy2rYDnGN0%3D&reserved=0 [skandigraun@gmail.com]
->>>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>>
-
+VGhlcmUgd2FzIGEgY29uZmxpY3Qgd2l0aCBhIHBhcmFsbGVsIHBhdGNoIGluIGJpbnV0aWxzLg0K
+SSBoYXZlIHJlYmFzZWQgYW5kIHJlc2VudCB0aGlzIGZhaWxpbmcgcGF0Y2guDQoNClBldGVyDQoN
+Cj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU3RldmUgU2Frb21hbiA8c3Rl
+dmVAc2Frb21hbi5jb20+DQo+IFNlbnQ6IE1vbmRheSwgQXVndXN0IDI1LCAyMDI1IDIxOjU5DQo+
+IFRvOiBNYXJrbywgUGV0ZXIgKEZUIEQgRVUgU0sgQkZTMSkgPFBldGVyLk1hcmtvQHNpZW1lbnMu
+Y29tPg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBT
+dWJqZWN0OiBSZTogW09FLWNvcmVdW3dhbG5hc2Nhcl1bUEFUQ0ggMi8yXSBiaW51dGlsczogcGF0
+Y2ggQ1ZFLTIwMjUtODIyNQ0KPiANCj4gVGhlIGZpcnN0IHBhdGNoIGluIHRoaXMgc2VyaWVzIGFw
+cGxpZXMgd2l0aG91dCBpc3N1ZSwgYnV0IHRoaXMgb25lIGZhaWxzIHdpdGg6DQo+IA0KPiBBcHBs
+eWluZzogYmludXRpbHM6IHBhdGNoIENWRS0yMDI1LTgyMjUNCj4gZXJyb3I6IHNoYTEgaW5mb3Jt
+YXRpb24gaXMgbGFja2luZyBvciB1c2VsZXNzDQo+IChtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmlu
+dXRpbHMvYmludXRpbHMtMi40NC5pbmMpLg0KPiBlcnJvcjogY291bGQgbm90IGJ1aWxkIGZha2Ug
+YW5jZXN0b3INCj4gUGF0Y2ggZmFpbGVkIGF0IDAwMDEgYmludXRpbHM6IHBhdGNoIENWRS0yMDI1
+LTgyMjUNCj4gaGludDogVXNlICdnaXQgYW0gLS1zaG93LWN1cnJlbnQtcGF0Y2g9ZGlmZicgdG8g
+c2VlIHRoZSBmYWlsZWQgcGF0Y2gNCj4gDQo+IFN0ZXZlDQo+IA0KPiBPbiBTdW4sIEF1ZyAyNCwg
+MjAyNSBhdCA1OjQz4oCvQU0gUGV0ZXIgTWFya28gdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+Cj4gPHBldGVyLm1hcmtvPXNpZW1lbnMuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3Rl
+Og0KPiA+DQo+ID4gRnJvbTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtvQHNpZW1lbnMuY29tPg0K
+PiA+DQo+ID4gUGljayBjb21taXQgWzFdIG1lbnRpb25lZCBpbiBbMl0uDQo+ID4NCj4gPiBbMV0g
+aHR0cHM6Ly9naXRsYWIuY29tL2dudXRvb2xzL2JpbnV0aWxzLWdkYi8tDQo+IC9jb21taXQvZTUx
+ZmRmZjdkMmU1MzhjMGU1YWNjZGQ2NTY0OWFjNjhlNmUwZGRkNA0KPiA+IFsyXSBodHRwczovL252
+ZC5uaXN0Lmdvdi92dWxuL2RldGFpbC9DVkUtMjAyNS04MjI1DQo+ID4NCj4gPiBUZXN0c3VpdGUg
+ZGlkIG5vdCBzaG93IGFueSBjaGFuZ2VzIGluIHJlc3VsdHM6DQo+ID4NCj4gPiAgPT09IGJpbnV0
+aWxzIFN1bW1hcnkgPT09DQo+ID4NCj4gPiAgIyBvZiBleHBlY3RlZCBwYXNzZXMgICAgICAgICAg
+IDMxMA0KPiA+ICAjIG9mIHVuZXhwZWN0ZWQgZmFpbHVyZXMgICAgICAgMQ0KPiA+ICAjIG9mIHVu
+dGVzdGVkIHRlc3RjYXNlcyAgICAgICAgMQ0KPiA+ICAjIG9mIHVuc3VwcG9ydGVkIHRlc3RzICAg
+ICAgICAgOQ0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtv
+QHNpZW1lbnMuY29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vYmludXRpbHMvYmludXRpbHMtMi40NC5p
+bmMgICAgICAgICAgICAgICAgfCAgMSArDQo+ID4gIC4uLi9iaW51dGlscy8wMDE5LUNWRS0yMDI1
+LTgyMjUucGF0Y2ggICAgICAgICB8IDQxICsrKysrKysrKysrKysrKysrKysNCj4gPiAgMiBmaWxl
+cyBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmludXRpbHMvMDAxOS1DVkUtMjAyNS0NCj4gODIy
+NS5wYXRjaA0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaW51
+dGlscy9iaW51dGlscy0yLjQ0LmluYyBiL21ldGEvcmVjaXBlcy0NCj4gZGV2dG9vbHMvYmludXRp
+bHMvYmludXRpbHMtMi40NC5pbmMNCj4gPiBpbmRleCA2N2NlZDI4NjNiLi4yMGQ5YzJhNmYyIDEw
+MDY0NA0KPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaW51dGlscy9iaW51dGlscy0y
+LjQ0LmluYw0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaW51dGlscy9iaW51dGls
+cy0yLjQ0LmluYw0KPiA+IEBAIC00Niw1ICs0Niw2IEBAIFNSQ19VUkkgPSAiXA0KPiA+ICAgICAg
+IGZpbGU6Ly8wMDE4LUNWRS0yMDI1LTUyNDUucGF0Y2ggXA0KPiA+ICAgICAgIGZpbGU6Ly8wMDE5
+LUNWRS0yMDI1LTc1NDUucGF0Y2ggXA0KPiA+ICAgICAgIGZpbGU6Ly8wMDE4LUNWRS0yMDI1LTc1
+NDYucGF0Y2ggXA0KPiA+ICsgICAgIGZpbGU6Ly8wMDE5LUNWRS0yMDI1LTgyMjUucGF0Y2ggXA0K
+PiA+ICAiDQo+ID4gIFMgID0gIiR7V09SS0RJUn0vZ2l0Ig0KPiA+IGRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmludXRpbHMvMDAxOS1DVkUtMjAyNS04MjI1LnBh
+dGNoDQo+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2JpbnV0aWxzL2JpbnV0aWxzLzAwMTktQ1ZF
+LTIwMjUtODIyNS5wYXRjaA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5kZXggMDAw
+MDAwMDAwMC4uNDNiYzRjNTZkOA0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmludXRpbHMvMDAxOS1DVkUtMjAyNS04MjI1LnBhdGNo
+DQo+ID4gQEAgLTAsMCArMSw0MSBAQA0KPiA+ICtGcm9tIGU1MWZkZmY3ZDJlNTM4YzBlNWFjY2Rk
+NjU2NDlhYzY4ZTZlMGRkZDQgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+ID4gK0Zyb206
+IEFsYW4gTW9kcmEgPGFtb2RyYUBnbWFpbC5jb20+DQo+ID4gK0RhdGU6IFdlZCwgMTkgRmViIDIw
+MjUgMjI6NDU6MjkgKzEwMzANCj4gPiArU3ViamVjdDogW1BBVENIXSBiaW51dGlscy9kd2FyZi5j
+IGRlYnVnX2luZm9ybWF0aW9uIGxlYWsNCj4gPiArDQo+ID4gK0l0IGlzIHBvc3NpYmxlIHdpdGgg
+ZnV6emVkIGZpbGVzIHRvIGhhdmUgbnVtX2RlYnVnX2luZm9fZW50cmllcyB6ZXJvDQo+ID4gK2Fm
+dGVyIGFsbG9jYXRpbmcgc3BhY2UgZm9yIGRlYnVnX2luZm9ybWF0aW9uLCBsZWFkaW5nIHRvIG11
+bHRpcGxlDQo+ID4gK2FsbG9jYXRpb25zLg0KPiA+ICsNCj4gPiArICAgICAgICogZHdhcmYuYyAo
+cHJvY2Vzc19kZWJ1Z19pbmZvKTogRG9uJ3QgdGVzdCBudW1fZGVidWdfaW5mb19lbnRyaWVzDQo+
+ID4gKyAgICAgICB0byBkZXRlcm1pbmUgd2hldGhlciBkZWJ1Z19pbmZvcm1hdGlvbiBoYXMgYmVl
+biBhbGxvY2F0ZWQsDQo+ID4gKyAgICAgICB0ZXN0IGFsbG9jX251bV9kZWJ1Z19pbmZvX2VudHJp
+ZXMuDQo+ID4gKw0KPiA+ICtDVkU6IENWRS0yMDI1LTgyMjUNCj4gPiArVXBzdHJlYW0tU3RhdHVz
+OiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRsYWIuY29tL2dudXRvb2xzL2JpbnV0aWxzLWdkYi8tDQo+
+IC9jb21taXQvZTUxZmRmZjdkMmU1MzhjMGU1YWNjZGQ2NTY0OWFjNjhlNmUwZGRkNF0NCj4gPiAr
+U2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtvQHNpZW1lbnMuY29tPg0KPiA+
+ICstLS0NCj4gPiArIGJpbnV0aWxzL2R3YXJmLmMgfCA4ICsrKy0tLS0tDQo+ID4gKyAxIGZpbGUg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPiA+ICsNCj4gPiArZGlm
+ZiAtLWdpdCBhL2JpbnV0aWxzL2R3YXJmLmMgYi9iaW51dGlscy9kd2FyZi5jDQo+ID4gK2luZGV4
+IDhlMDA0Y2VhODM5Li5iZmJmODNlYzlmNCAxMDA2NDQNCj4gPiArLS0tIGEvYmludXRpbHMvZHdh
+cmYuYw0KPiA+ICsrKysgYi9iaW51dGlscy9kd2FyZi5jDQo+ID4gK0BAIC0zODA3LDEzICszODA3
+LDExIEBAIHByb2Nlc3NfZGVidWdfaW5mbyAoc3RydWN0IGR3YXJmX3NlY3Rpb24gKg0KPiBzZWN0
+aW9uLA0KPiA+ICsgICAgIH0NCj4gPiArDQo+ID4gKyAgIGlmICgoZG9fbG9jIHx8IGRvX2RlYnVn
+X2xvYyB8fCBkb19kZWJ1Z19yYW5nZXMgfHwgZG9fZGVidWdfaW5mbykNCj4gPiArLSAgICAgICYm
+IG51bV9kZWJ1Z19pbmZvX2VudHJpZXMgPT0gMA0KPiA+ICstICAgICAgJiYgISBkb190eXBlcykN
+Cj4gPiArKyAgICAgICYmIGFsbG9jX251bV9kZWJ1Z19pbmZvX2VudHJpZXMgPT0gMA0KPiA+ICsr
+ICAgICAgJiYgIWRvX3R5cGVzKQ0KPiA+ICsgICAgIHsNCj4gPiArLQ0KPiA+ICsgICAgICAgLyog
+VGhlbiBhbGxvY2F0ZSBhbiBhcnJheSB0byBob2xkIHRoZSBpbmZvcm1hdGlvbi4gICovDQo+ID4g
+Ky0gICAgICBkZWJ1Z19pbmZvcm1hdGlvbiA9IChkZWJ1Z19pbmZvICopIGNtYWxsb2MgKG51bV91
+bml0cywNCj4gPiArLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHNpemVvZiAoKiBkZWJ1Z19pbmZvcm1hdGlvbikpOw0KPiA+ICsrICAgICAgZGVidWdfaW5m
+b3JtYXRpb24gPSBjbWFsbG9jIChudW1fdW5pdHMsIHNpemVvZiAoKmRlYnVnX2luZm9ybWF0aW9u
+KSk7DQo+ID4gKyAgICAgICBpZiAoZGVidWdfaW5mb3JtYXRpb24gPT0gTlVMTCkNCj4gPiArICAg
+ICAgIHsNCj4gPiArICAgICAgICAgZXJyb3IgKF8oIk5vdCBlbm91Z2ggbWVtb3J5IGZvciBhIGRl
+YnVnIGluZm8gYXJyYXkgb2YgJXUgZW50cmllc1xuIiksDQo+ID4NCj4gPiAtPS09LT0tPS09LT0t
+PS09LT0tPS09LQ0KPiA+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0
+aGlzIGdyb3VwLg0KPiA+IFZpZXcvUmVwbHkgT25saW5lICgjMjIyMzcxKTogaHR0cHM6Ly9saXN0
+cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLQ0KPiBjb3JlL21lc3NhZ2UvMjIyMzcx
+DQo+ID4gTXV0ZSBUaGlzIFRvcGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQv
+MTE0ODY0NDIzLzM2MjA2MDENCj4gPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3du
+ZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1Yg0KPiBbc3RldmVAc2Fr
+b21hbi5jb21dDQo+ID4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gPg0K
 
