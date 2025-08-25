@@ -1,154 +1,204 @@
-Return-Path: <perxjoh@axis.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB512CA0FE7
-	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 13:30:28 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.37])
- by mx.groups.io with SMTP id smtpd.web11.39125.1756128625808469175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E62B5CA0EFA
+	for <webhook@archiver.kernel.org>; Mon, 25 Aug 2025 13:51:18 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.39365.1756129869979853324
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Aug 2025 06:30:26 -0700
+ Mon, 25 Aug 2025 06:51:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=GSYOEmb5;
- spf=pass (domain: axis.com, ip: 52.101.84.37, mailfrom: per.x.johansson@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kyW4biuiyR4RI7+qvvVlMJ2KGLcHA9X3JVLEwc5BkuqRgIKfL/ZHvrpdxsh56j5WhVIzBYSIbMYFs09tb2wFrWBRP5OpmwcOlIHub6OXE14zWyN8WZkUWnZ8kf91vtXaPBfbajUHBJrNUI4lKvPLj0w1k1UHc18zZvwAo/MiiavoZ/7UOnlzdd23Ma2IzO3cqpvaVUWuT6L7FAXW3JIqC++UGuL8lQIK9nB3GDT6RrGvZcDlLAa1Yoz18nBJqeYp0gpu1x6/1ZWMRZYChnIRBX3THR7wm+pO/uekstDbFvYMYCthEcOkvRHm6KfLttIinQtpaUWas/NNXSwQh9apPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uu6ZxZUZMvHUdZhHUB9hrC21iP3KSURE6+7SaUvh3ow=;
- b=dbEU4QYQ4D2KUpFxor4cnk7HB0YHXRpras7V47eQCR/TIYWyZkWedKovFWn4RPcQYHHp3e7M4yEO8+gGO+1E+5nVqnr5Z5+ks+dspNbl+RGAchqPS3MTYI/osQKACuPuY9x/r20CXybK3oTeZp7LVr7ZmItobOx3fUtZSSnpxugdTxZlhm7jlYAA2Z9Yc7IIVY5PVGW0FfF0MUB+WEQHghbbzXnK+oRKEZJaMngS/6OOMOA2/Eww0xiXH4oOj8gAAnrCewtUvmOebXAYFNuE9vWDgcb0BEoKjCLE+r7K7jwQGpTWCZZjWoLPE/lwAPwgAP5AidR24P2W2W1ps2aF7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uu6ZxZUZMvHUdZhHUB9hrC21iP3KSURE6+7SaUvh3ow=;
- b=GSYOEmb5nz8iWsK629W1ljUEoQyXTLHvEsC9EWvPEQcHNFOjSDHasshuMQWoFNb48Grrp87QMcg0/laOPZnTt3MRjcLOo3YpvAdJ5f2/1swqtc281yk/cKZQM+mHm1e7jPU8oaUKOA7RGNzOs/poeldoXjNrA8Bnr/V1VkqxUSE=
-Received: from PAZP264CA0040.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1fc::22)
- by PA1PR02MB11379.eurprd02.prod.outlook.com (2603:10a6:102:4f1::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.20; Mon, 25 Aug
- 2025 13:30:23 +0000
-Received: from AMS0EPF000001B3.eurprd05.prod.outlook.com
- (2603:10a6:102:1fc:cafe::9f) by PAZP264CA0040.outlook.office365.com
- (2603:10a6:102:1fc::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.21 via Frontend Transport; Mon,
- 25 Aug 2025 13:30:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AMS0EPF000001B3.mail.protection.outlook.com (10.167.16.167) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9073.11 via Frontend Transport; Mon, 25 Aug 2025 13:30:21 +0000
-Received: from se-mail02w.axis.com (10.20.40.8) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.44; Mon, 25 Aug
- 2025 15:30:20 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Mon, 25 Aug 2025 15:30:20 +0200
-Received: from pc54064-2316.se.axis.com (pc54064-2316.se.axis.com [10.92.172.173])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id DECB6F05E;
-	Mon, 25 Aug 2025 15:30:20 +0200 (CEST)
-Received: by pc54064-2316.se.axis.com (Postfix, from userid 21198)
-	id D99F558C33C5; Mon, 25 Aug 2025 15:30:20 +0200 (CEST)
-From: Per x Johansson <perxjoh@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Per x Johansson <perxjoh@axis.com>
-Subject: [PATCH] rust-target-config: Add has-thread-local option
-Date: Mon, 25 Aug 2025 15:30:04 +0200
-Message-ID: <20250825133004.3154972-1-perxjoh@axis.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=drGz9x7n;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202508251351084c289f578cfcd7339d-54cjaz@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202508251351084c289f578cfcd7339d
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 25 Aug 2025 15:51:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=49uYHoVomAwBSQJhcGZgaAGrykoEgQJaR4PbYdjy5Wo=;
+ b=drGz9x7nBoK0WrBefQW2So6MdVQj1ZqZ70uCn4MD8EGaj72PWTjXNCtoENtd4yGibKIUov
+ oBtqV4T5ZxCcA7bRkTrR0FuP6b2/OPA/pxoOB4hg0e/8hLV0YOrGwQAqxLbRmSuME/kMlSaL
+ x5D7U2a+qScrnm0KXKLGWuI9U8g6ZYQezdvgRD4HMqFCk3fg2KGQZvxB8RWGJ5UhycAI2oWQ
+ YxC46ROOtaPWa6DZG+gaTQJImi9jCwVlVQ5OI6Qbrn8MgIsJ4VocV13NRLzNmhpXFm6GEA07
+ ak3sLaVocZ1nlHES18mhrVqvEuvcurlKLgTFQvua8DwYh7W9XS5PIg2A==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][walnascar][PATCH] nginx: patch CVE-2025-53859
+Date: Mon, 25 Aug 2025 15:50:21 +0200
+Message-Id: <20250825135021.451414-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001B3:EE_|PA1PR02MB11379:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8eaea51b-75d8-4570-2557-08dde3db8a44
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?0C77LIJlJqEI/gTI6n/G20CCzRC+7cMAk+n+9NA0s7jWUl1KKVSkRwoHdh7j?=
- =?us-ascii?Q?gSMs7xceEt8jjtCdMc3VcUfinPrYmWhk3cSXDF8KBv7kNUP0P8I+MAPb40aE?=
- =?us-ascii?Q?UDWCjHnAAhDjWIhF+MYR+LD+BoI7gi4Q3rI/+lXY0K/EQGWPR9VzZDrLCKPV?=
- =?us-ascii?Q?Rc1OD8bcFWTmVnXUooPtdeH9S35eF0ugCi7Ea4EC1W4ImrgZDj8z7cAYYe66?=
- =?us-ascii?Q?yQ+bkVROBZRY8SkFni/vFkxmupWbmuz8CcMOz0lpS6PsjdZxyZlO3KFZ+/Jn?=
- =?us-ascii?Q?vFNcQh2E9ht60imof3jOgU4h9avzzgGLEQSEINIa2/uzr82Sz8sGQh6Sf0Xa?=
- =?us-ascii?Q?+BwE7x8AU2eKa4zVJEEodrsnNUWpVA3/aLfb5uV2Qy4hv6HLDBEm7iVny9bk?=
- =?us-ascii?Q?csPpvfP95YDPImq3k7aCHQAnrKHDP3oeIFb6b0ipLzd2n7YanQefIVCdnzHK?=
- =?us-ascii?Q?bKPn82AWLAEKCvuBa/6LL8Win08JV/uLQcib2Mu/T2QhiNeeEJk/6lq3194e?=
- =?us-ascii?Q?mu/0S+820dvJP5yfmUzDiX6LuY5Uw1t6/dvqnaAMmEUC4lPXAvFl1MZ+gqqR?=
- =?us-ascii?Q?1X+jhSDKojBqGsP1GtMNCFvPqJs4FaKbg5EewDh0e2o5YJpry0DF8Y9AnKcT?=
- =?us-ascii?Q?/Rz8QEWeNzi6U7XrHuaxdssIIEhmxFsnIKBQgPvzr0mvATfYYmBvZSJwd/vb?=
- =?us-ascii?Q?/pAOfVi3gbzq7qRWau7uUdNQ0crTnMUU2Op4X1nUE1PqtVdJ2rJTnJs+Xr65?=
- =?us-ascii?Q?WaUYG5de2cESI1oHdzdDNEkRR0NCbXMy+tN7HHIUYwcW1eEQw96g3Km3h5Zl?=
- =?us-ascii?Q?g79c6YZvH+wCNENMC0FZSy+9dJ5amgOapTPZUXXzoX7HBVQ6CSncT/8+S21q?=
- =?us-ascii?Q?UmH1Nqc47CAWJa+nH6QjizGH9MgJhJydr9mBa5YDsBMoqufv7r50XgN004Yc?=
- =?us-ascii?Q?wJYG1KXq6Ps4xfZmkYkSJiYT/baJ84U+hLTbKfpAGsh/btaAl9yPdVv7QUaw?=
- =?us-ascii?Q?qhrsf9PuD6gi2PpGAgUZZ9+eJ5L75Vnm3tDoLOsQ09ZTobjfW7gETZvb8j7p?=
- =?us-ascii?Q?2EXoAwEZvWRm1UUzryHx7wvEhCzLvI/Z0yN7yDMTn+F5YewNt3o+0a0m+yUx?=
- =?us-ascii?Q?V3pdqRl2PuukG0c+zcaK6XYrJAOUkYJs/sIm+ozmQSpRYpFzLU4jdBDBKyvm?=
- =?us-ascii?Q?2pSrHsIVFl+pSOSxosj1GLddS9oQFZdxp+TRrutiqL3gPHr4Lmp1Kc4AIqyF?=
- =?us-ascii?Q?uAOGqlk1skW5fL/JQdKLO0/w8u5Ie4l/ZHtsUGc/eYCxRc1VEufchkogM6aD?=
- =?us-ascii?Q?VQW8L4rqdSzNGXLj6MnRCrsUnRXuSyjWIro/jvI1N6nfsSArIwy7+n0kfRU0?=
- =?us-ascii?Q?z5hU+d0pEm5A4s1wNmYkLEEPDLA8iw071BqfyFVYDJSxG0VocSPJRnqQnJCk?=
- =?us-ascii?Q?UiXl3ROtIj5Jh4FQbRg8yCpHNP141v3rPVclCJrleJfF6Z9DmsCeMglNVdtZ?=
- =?us-ascii?Q?L+hVX5tpU32ZoSsmftGMl2VCwBKap/oEb5Nf?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 13:30:21.3118
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8eaea51b-75d8-4570-2557-08dde3db8a44
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001B3.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR02MB11379
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 13:30:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222407
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Aug 2025 13:51:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222408
 
-The "has-elf-tls" option was removed by the commit
-8e1614a906086fb46c5dd7b7f2dffab91194165c. However is should have been
-renamed to "has-thread-local", since it was renamed and not removed in
-rust by this commit.
-https://github.com/rust-lang/rust/commit/391332c5d9d5a5e97a0d36e011a87ad430=
-45cfd3
+From: Peter Marko <peter.marko@siemens.com>
 
-Change-Id: Ia1fdf7698ebeef62a88052713645d5b499164353
-Signed-off-by: Per x Johansson <perxjoh@axis.com>
+Pick patch from nginx site which is also mentioned in [1].
+
+[1] https://security-tracker.debian.org/tracker/CVE-2025-53859
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/classes-recipe/rust-target-config.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ .../nginx/files/CVE-2025-53859.patch          | 131 ++++++++++++++++++
+ meta-webserver/recipes-httpd/nginx/nginx.inc  |   1 +
+ 2 files changed, 132 insertions(+)
+ create mode 100755 meta-webserver/recipes-httpd/nginx/files/CVE-2025-53859.patch
 
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-=
-recipe/rust-target-config.bbclass
-index cac6e90a9e..0df6f0904c 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -418,6 +418,7 @@ def rust_gen_target(d, thing, wd, arch):
-     tspec['linker-is-gnu'] =3D True
-     tspec['linker-flavor'] =3D "gcc"
-     tspec['has-rpath'] =3D True
-+    tspec['has-thread-local'] =3D True
-     tspec['position-independent-executables'] =3D True
-     tspec['panic-strategy'] =3D d.getVar("RUST_PANIC_STRATEGY")
-=20
---=20
-2.39.5
-
+diff --git a/meta-webserver/recipes-httpd/nginx/files/CVE-2025-53859.patch b/meta-webserver/recipes-httpd/nginx/files/CVE-2025-53859.patch
+new file mode 100755
+index 0000000000..6f689938f4
+--- /dev/null
++++ b/meta-webserver/recipes-httpd/nginx/files/CVE-2025-53859.patch
+@@ -0,0 +1,131 @@
++CVE: CVE-2025-53859
++Upstream-Status: Backport [https://nginx.org/download/patch.2025.smtp.txt]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++
++diff --git a/src/mail/ngx_mail_handler.c b/src/mail/ngx_mail_handler.c
++index 1167df3fb..d3be7f3b3 100644
++--- a/src/mail/ngx_mail_handler.c
+++++ b/src/mail/ngx_mail_handler.c
++@@ -523,7 +523,7 @@ ngx_mail_starttls_only(ngx_mail_session_t *s, ngx_connection_t *c)
++ ngx_int_t
++ ngx_mail_auth_plain(ngx_mail_session_t *s, ngx_connection_t *c, ngx_uint_t n)
++ {
++-    u_char     *p, *last;
+++    u_char     *p, *pos, *last;
++     ngx_str_t  *arg, plain;
++ 
++     arg = s->args.elts;
++@@ -555,7 +555,7 @@ ngx_mail_auth_plain(ngx_mail_session_t *s, ngx_connection_t *c, ngx_uint_t n)
++         return NGX_MAIL_PARSE_INVALID_COMMAND;
++     }
++ 
++-    s->login.data = p;
+++    pos = p;
++ 
++     while (p < last && *p) { p++; }
++ 
++@@ -565,7 +565,8 @@ ngx_mail_auth_plain(ngx_mail_session_t *s, ngx_connection_t *c, ngx_uint_t n)
++         return NGX_MAIL_PARSE_INVALID_COMMAND;
++     }
++ 
++-    s->login.len = p++ - s->login.data;
+++    s->login.len = p++ - pos;
+++    s->login.data = pos;
++ 
++     s->passwd.len = last - p;
++     s->passwd.data = p;
++@@ -583,24 +584,26 @@ ngx_int_t
++ ngx_mail_auth_login_username(ngx_mail_session_t *s, ngx_connection_t *c,
++     ngx_uint_t n)
++ {
++-    ngx_str_t  *arg;
+++    ngx_str_t  *arg, login;
++ 
++     arg = s->args.elts;
++ 
++     ngx_log_debug1(NGX_LOG_DEBUG_MAIL, c->log, 0,
++                    "mail auth login username: \"%V\"", &arg[n]);
++ 
++-    s->login.data = ngx_pnalloc(c->pool, ngx_base64_decoded_length(arg[n].len));
++-    if (s->login.data == NULL) {
+++    login.data = ngx_pnalloc(c->pool, ngx_base64_decoded_length(arg[n].len));
+++    if (login.data == NULL) {
++         return NGX_ERROR;
++     }
++ 
++-    if (ngx_decode_base64(&s->login, &arg[n]) != NGX_OK) {
+++    if (ngx_decode_base64(&login, &arg[n]) != NGX_OK) {
++         ngx_log_error(NGX_LOG_INFO, c->log, 0,
++             "client sent invalid base64 encoding in AUTH LOGIN command");
++         return NGX_MAIL_PARSE_INVALID_COMMAND;
++     }
++ 
+++    s->login = login;
+++
++     ngx_log_debug1(NGX_LOG_DEBUG_MAIL, c->log, 0,
++                    "mail auth login username: \"%V\"", &s->login);
++ 
++@@ -611,7 +614,7 @@ ngx_mail_auth_login_username(ngx_mail_session_t *s, ngx_connection_t *c,
++ ngx_int_t
++ ngx_mail_auth_login_password(ngx_mail_session_t *s, ngx_connection_t *c)
++ {
++-    ngx_str_t  *arg;
+++    ngx_str_t  *arg, passwd;
++ 
++     arg = s->args.elts;
++ 
++@@ -620,18 +623,19 @@ ngx_mail_auth_login_password(ngx_mail_session_t *s, ngx_connection_t *c)
++                    "mail auth login password: \"%V\"", &arg[0]);
++ #endif
++ 
++-    s->passwd.data = ngx_pnalloc(c->pool,
++-                                 ngx_base64_decoded_length(arg[0].len));
++-    if (s->passwd.data == NULL) {
+++    passwd.data = ngx_pnalloc(c->pool, ngx_base64_decoded_length(arg[0].len));
+++    if (passwd.data == NULL) {
++         return NGX_ERROR;
++     }
++ 
++-    if (ngx_decode_base64(&s->passwd, &arg[0]) != NGX_OK) {
+++    if (ngx_decode_base64(&passwd, &arg[0]) != NGX_OK) {
++         ngx_log_error(NGX_LOG_INFO, c->log, 0,
++             "client sent invalid base64 encoding in AUTH LOGIN command");
++         return NGX_MAIL_PARSE_INVALID_COMMAND;
++     }
++ 
+++    s->passwd = passwd;
+++
++ #if (NGX_DEBUG_MAIL_PASSWD)
++     ngx_log_debug1(NGX_LOG_DEBUG_MAIL, c->log, 0,
++                    "mail auth login password: \"%V\"", &s->passwd);
++@@ -674,24 +678,26 @@ ngx_int_t
++ ngx_mail_auth_cram_md5(ngx_mail_session_t *s, ngx_connection_t *c)
++ {
++     u_char     *p, *last;
++-    ngx_str_t  *arg;
+++    ngx_str_t  *arg, login;
++ 
++     arg = s->args.elts;
++ 
++     ngx_log_debug1(NGX_LOG_DEBUG_MAIL, c->log, 0,
++                    "mail auth cram-md5: \"%V\"", &arg[0]);
++ 
++-    s->login.data = ngx_pnalloc(c->pool, ngx_base64_decoded_length(arg[0].len));
++-    if (s->login.data == NULL) {
+++    login.data = ngx_pnalloc(c->pool, ngx_base64_decoded_length(arg[0].len));
+++    if (login.data == NULL) {
++         return NGX_ERROR;
++     }
++ 
++-    if (ngx_decode_base64(&s->login, &arg[0]) != NGX_OK) {
+++    if (ngx_decode_base64(&login, &arg[0]) != NGX_OK) {
++         ngx_log_error(NGX_LOG_INFO, c->log, 0,
++             "client sent invalid base64 encoding in AUTH CRAM-MD5 command");
++         return NGX_MAIL_PARSE_INVALID_COMMAND;
++     }
++ 
+++    s->login = login;
+++
++     p = s->login.data;
++     last = p + s->login.len;
++ 
+diff --git a/meta-webserver/recipes-httpd/nginx/nginx.inc b/meta-webserver/recipes-httpd/nginx/nginx.inc
+index bcc384bd8a..4a7be2f99a 100644
+--- a/meta-webserver/recipes-httpd/nginx/nginx.inc
++++ b/meta-webserver/recipes-httpd/nginx/nginx.inc
+@@ -23,6 +23,7 @@ SRC_URI = " \
+     file://nginx.service \
+     file://nginx-fix-pidfile.patch \
+     file://0001-configure-libxslt-conf.patch \
++    file://CVE-2025-53859.patch \
+ "
+ 
+ inherit siteinfo update-rc.d useradd systemd
 
