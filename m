@@ -1,298 +1,191 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81181CA0FE9
-	for <webhook@archiver.kernel.org>; Tue, 26 Aug 2025 07:53:04 +0000 (UTC)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web11.59451.1756194771049574093
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D904CA0FE9
+	for <webhook@archiver.kernel.org>; Tue, 26 Aug 2025 10:49:15 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.61773.1756205350204155125
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 00:52:51 -0700
+ Tue, 26 Aug 2025 03:49:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ncN2W+Pr;
- spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e96e3094fd9so187543276.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 00:52:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756194770; x=1756799570; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gC2tNjh8U2nbQqYHO3fQvu9/nuzTazLO2xEIk7Waofw=;
-        b=ncN2W+PrF2hnabaWgV39ZeLSkbm5XeKgMGu5HqK7g/6MIeRSyjADArv5EXLEflnoou
-         OUC0GpHjWX4dnY0CPwABnl0gM1pdLXrPi++kTzm6Xc3LXBMd6G/1QEXHwX+Jx4RFlNeD
-         qnu5yM0ZyhUADQZ2LLwTu8mOjdkEMxyfBfPdRD/6Fz122NjrYllTfPjsiOKsPHtuBfOY
-         qKuTX+mf8BIsj4FAlgVL+3UVebYHmLiwX314Q9M/hFOXNIqfbKhIKcodqCAQLfZS743k
-         sL9hp8123dCX2xBmjcdT9qqBrqBUHEdGD0sHx0a3noLrZ7hrsZuBaPDVtrQv8cIOy3UF
-         MGUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756194770; x=1756799570;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gC2tNjh8U2nbQqYHO3fQvu9/nuzTazLO2xEIk7Waofw=;
-        b=B5l0Rv75fE2HjUwpf0E6BcTOCkltaqvc+SDVrjfXPT8HbA7EkIV/yr+K0RPkbDhloH
-         kXEiow+zhUnSsneI/aqC7VOOaiFM744t3kBQK8BVQ+l0EzTIX0qzErdBU945+1Geef4d
-         hP2Odde4q2hF7oWA1HODDiimav2AHgK3XZfCSTmnCump80ZivLauDQYheRQCNxPi7dFy
-         6rrKVyBCCcjU49qtMuC+84GVqSGX6sV9YNSS3LZwIxrEsSq3D8kCCSFgW+4ZgYGqz9aE
-         I1zEba45qGCpPXC7AgyjBoM4p5qRX4A/xp0G1zxi37UBd9Pj5aGT37HsMLjc8Lly+l1D
-         TG6A==
-X-Gm-Message-State: AOJu0YwluoeXQPgsB6h7YqzyXTb7p4I6Qkt3NiVMhuxbwr0l5e/x7d0C
-	JPEKB++/vM3CIYSEuXmAz4rCPmjJCq5pJ7UdKT4qmy8aXuUdKY5uXOGTm33jNBVJITRkFnhCQmk
-	7bK2Xiq91tR5ydgS/QtjJ4tcRh3RwzpA=
-X-Gm-Gg: ASbGncuUy2IlL/Zm7fMq4z/Ea38v/p22nfcNDVsRMwkTrczjZ0BxZEW0WOxAq/54OrA
-	U7V+i44rfQETpWlXPlS6phQE5dzMvAaHlPb1yTLuRH54TYKBDGZUrfl6a7Lh1ArHQStAo4PNgxH
-	fOK8vk4bktfwKqbQDKHmyOWoJ//knPHFDSd2bphYNiyMWyowuuXr/Dj8KQVFmyMTaO0q3QoIC2p
-	PtMcDc2a/JIOAsWgQGM
-X-Google-Smtp-Source: AGHT+IHWHjHnQSNx3hE2/pLTz0FdeL+RPL74JCpKUVlwmwkdue0i7quHMMtH8KvZFppMd3a4M3JPEdodCCETG2p+ufE=
-X-Received: by 2002:a05:690c:a081:20b0:71f:eede:1fdb with SMTP id
- 00721157ae682-71feede3976mr103757497b3.35.1756194769910; Tue, 26 Aug 2025
- 00:52:49 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=S8kJWQL2;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=033363bb87=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57Q6vpcw2366497
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 03:49:09 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=h14PFiUa6m6TBpnF/+siEHLbgq66y3hzXxAswq1YOEQ=; b=S8kJWQL2mJSJ
+	s4C2HXMR0fdI0R5uMk8Qrhe8LlfB9kEM6gkQ1jKJaxOSxCS5slLbLHuMSAnFIMwd
+	hZa/6oIbbJnp+2aNU4oSbzWccsr2078rZbN0tz4gXfOhDLcmAH0pF9Oe3lVlI8Di
+	bXsx4QcjZgylNWoCsVTeM4cQUrp/NGg6zCwcedEdAYDPlPDZgpqQW3pgnDDnKtjg
+	kW7oguQeFeck0fn+k+SSRrBm0LEDz2T8/jXCL9xo+IAUD+m2mC4f+mUwdYKQzd8B
+	Ws6q1W9X0v6Cl4TVyJcdi7vTuH9In5NPXfB1iCU2Dx5RtS9nSa48nGHVcMtXv3Yx
+	XmDW9ZKDWw==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48q8x22s43-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 03:49:09 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Tue, 26 Aug 2025 03:49:07 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 3/3] tiff: fix CVE-2025-8851
+Date: Tue, 26 Aug 2025 16:18:34 +0530
+Message-ID: <20250826104834.2432179-3-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20250826104834.2432179-1-yogita.urade@windriver.com>
+References: <20250826104834.2432179-1-yogita.urade@windriver.com>
 MIME-Version: 1.0
-References: <20250821145438.2537767-1-kamel.bouhara@bootlin.com> <20250821145438.2537767-3-kamel.bouhara@bootlin.com>
-In-Reply-To: <20250821145438.2537767-3-kamel.bouhara@bootlin.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 26 Aug 2025 01:52:37 -0600
-X-Gm-Features: Ac12FXzhE_FFJJY02sMsoxEBGjbnzqaFe_hUrNHM81dt6byOk31sLNnQlaBCej0
-Message-ID: <CAJdd5GY6h7b_M2XisVOpt7uuh+umdf0w+R-wWjGUUXy0npNM2g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] spdx30_tasks: Add support for exporting
- PACKAGECONFIG to SPDX
-To: Kamel Bouhara <kamel.bouhara@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, thomas.petazzoni@bootlin.com, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, mathieu.dubois-briand@bootlin.com, 
-	antonin.godard@bootlin.com
-Content-Type: multipart/alternative; boundary="0000000000006ac0d1063d3ff528"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.11.232.110]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (10.11.224.121) To
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121)
+X-Proofpoint-ORIG-GUID: 5aH8VdcJO4QVfQyaQYJyNkSzIhie-VTg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI2MDA5NSBTYWx0ZWRfXy1LPtKDXJej6
+ fcklQj8bxpI6D+4M40R96Fw8NhVpq90XhLjWcjO6y8khZXQim68IsuFbik5AsRldmqHJv9QYjeH
+ rOU4G+sfmi1Fbrrvy/EOMwhCaZi+2jh0+exp6gFRPTT9vl4wSY1xvGVcoXInOc6ULjydG6moB8U
+ 2GZ5Zu997pB7ld8jGnC5tyYctRIAP7UqVEeXh0BsbkRgaQ4omUK51jejGq7v72OWbms2WGo/9I+
+ 0yWFhiMPhARkm5fRy+H2/aAecYX9WK6/XWaJw+pqOgE64RGyDcynAMzMY3/E30OJwW2XRTf4KQa
+ f9Ph7oIeXRRWBZHpNllezc197tz7oe33iQyVz1z2blhVb+02BCe9lvBckykTCo=
+X-Authority-Analysis: v=2.4 cv=JfW8rVKV c=1 sm=1 tr=0 ts=68ad9125 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=gmxlzscTznEA:10 a=2OwXVqhp2XgA:10 a=PYnjg3YJAAAA:8 a=p0WdMEafAAAA:8
+ a=Qs8GJauRAAAA:8 a=t7CeM3EgAAAA:8 a=5vSyN_hxAAAA:8 a=jJJpTqQTVEfwAdH8KjEA:9
+ a=-MsOl3yrPmtpHepMbiy1:22 a=FdTzh2GWekK77mhwV6Dw:22 a=1zBLIHEOKY9YwKILsQtb:22
+X-Proofpoint-GUID: 5aH8VdcJO4QVfQyaQYJyNkSzIhie-VTg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 spamscore=0 phishscore=0 malwarescore=0
+ adultscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 07:53:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222436
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 10:49:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222439
 
---0000000000006ac0d1063d3ff528
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Yogita Urade <yogita.urade@windriver.com>
 
-On Thu, Aug 21, 2025 at 8:54=E2=80=AFAM Kamel Bouhara <kamel.bouhara@bootli=
-n.com>
-wrote:
+A vulnerability was determined in LibTIFF up to 4.5.1. Affected
+by this issue is the function readSeparateStripsetoBuffer of the
+file tools/tiffcrop.c of the component tiffcrop. The manipulation
+leads to stack-based buffer overflow. Local access is required to
+approach this attack. The patch is identified as
+8a7a48d7a645992ca83062b3a1873c951661e2b3. It is recommended to
+apply a patch to fix this issue.
 
-> Introduce the SPDX_INCLUDE_PACKAGECONFIG variable, which when enabled
-> causes
-> PACKAGECONFIG features to be recorded in the SPDX document as build
-> parameters.
->
-> Each feature is recorded as a DictionaryEntry with key
-> PACKAGECONFIG:<feature>
-> and value enabled or disabled, depending on whether the feature is active
-> in
-> the current build.
->
-> This makes the build-time configuration more transparent in SPDX output a=
-nd
-> improves reproducibility tracking.
->
-> This makes the build-time configuration more transparent in SPDX output a=
-nd
-> improves reproducibility tracking. In particular, it allows consumers of
-> the
-> SBOM to identify enabled/disabled features that may affect security postu=
-re
-> or feature set.
->
-> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
-> ---
->  meta/classes/create-spdx-3.0.bbclass |  5 +++++
->  meta/lib/oe/spdx30_tasks.py          | 20 ++++++++++++++++++++
->  2 files changed, 25 insertions(+)
->
-> diff --git a/meta/classes/create-spdx-3.0.bbclass
-> b/meta/classes/create-spdx-3.0.bbclass
-> index 15c31ba9a3..6125e8b547 100644
-> --- a/meta/classes/create-spdx-3.0.bbclass
-> +++ b/meta/classes/create-spdx-3.0.bbclass
-> @@ -56,6 +56,11 @@ and each CONFIG_* value will be included in the
-> Build.build_parameter list as Di
->  items. Set to '0' to disable exporting kernel configuration to improve
-> performance or reduce \
->  SPDX document size."
->
-> +SPDX_INCLUDE_PACKAGECONFIG ??=3D "0"
-> +SPDX_INCLUDE_PACKAGECONFIG[doc] =3D "If set to '1', each PACKAGECONFIG
-> feature is recorded in the \
-> +build_Build object's build_parameter list as a DictionaryEntry with key =
-\
-> +'PACKAGECONFIG:<feature>' and value 'enabled' or 'disabled'"
-> +
->  SPDX_IMPORTS ??=3D ""
->  SPDX_IMPORTS[doc] =3D "SPDX_IMPORTS is the base variable that describes =
-how
-> to \
->      reference external SPDX ids. Each import is defined as a key in this=
- \
-> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-> index c352dab152..d708715981 100644
-> --- a/meta/lib/oe/spdx30_tasks.py
-> +++ b/meta/lib/oe/spdx30_tasks.py
-> @@ -815,6 +815,26 @@ def create_spdx(d):
->              sorted(list(build_inputs)) + sorted(list(debug_source_ids)),
->          )
->
-> +    if d.getVar("SPDX_INCLUDE_PACKAGECONFIG", True) !=3D "0":
-> +        packageconfig =3D (d.getVar("PACKAGECONFIG") or "").split()
-> +        all_features =3D (d.getVarFlags("PACKAGECONFIG") or {}).keys()
-> +
-> +        if all_features:
-> +            enabled =3D set(packageconfig)
-> +            all_features_set =3D set(all_features)
-> +            disabled =3D all_features_set - enabled
-> +
-> +            for feature in sorted(all_features):
-> +                status =3D "enabled" if feature in enabled else "disable=
-d"
-> +                build.build_parameter.append(
-> +                    oe.spdx30.DictionaryEntry(
-> +                        key=3Df"PACKAGECONFIG:{feature}",
-> +                        value=3Dstatus
-> +                    )
-> +                )
-> +
-> +            bb.note(f"Added PACKAGECONFIG entries: {len(enabled)}
-> enabled, {len(disabled)} disabled")
-> +
->
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-8851
 
-LGTM
+Upstream patch:
+https://gitlab.com/libtiff/libtiff/-/commit/8a7a48d7a645992ca83062b3a1873c951661e2b3
 
-Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../libtiff/tiff/CVE-2025-8851.patch          | 71 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8851.patch
 
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8851.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8851.patch
+new file mode 100644
+index 0000000000..29089ab833
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8851.patch
+@@ -0,0 +1,71 @@
++From 8a7a48d7a645992ca83062b3a1873c951661e2b3 Mon Sep 17 00:00:00 2001
++From: Lee Howard <faxguy@howardsilvan.com>
++Date: Sun, 11 Aug 2024 16:01:07 +0000
++Subject: [PATCH] Attempt to address tiffcrop Coverity scan issues 1605444, 
++ 1605445, and 1605449.
++
++CVE: CVE-2025-8851
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/8a7a48d7a645992ca83062b3a1873c951661e2b3]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ tools/tiffcrop.c | 17 ++++++++++++-----
++ 1 file changed, 12 insertions(+), 5 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index 1b072d4..e16bc2d 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -5024,7 +5024,14 @@ static int readSeparateStripsIntoBuffer (TIFF *in, uint8_t *obuf, uint32_t lengt
++       buff = srcbuffs[s];
++       strip = (s * strips_per_sample) + j; 
++       bytes_read = TIFFReadEncodedStrip (in, strip, buff, stripsize);
++-      rows_this_strip = (uint32_t)(bytes_read / src_rowsize);
+++      if (bytes_read < 0)
+++      {
+++         rows_this_strip = 0;
+++      }
+++      else
+++      {
+++         rows_this_strip = (uint32_t)(bytes_read / src_rowsize);
+++      }
++       if (bytes_read < 0 && !ignore)
++         {
++         TIFFError(TIFFFileName(in),
++@@ -5434,14 +5441,14 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++       rmargin = _TIFFClampDoubleToUInt32(crop->margins[3] * scale * xres);
++       }
++ 
++-    if ((lmargin + rmargin) > image->width)
+++    if (lmargin == 0xFFFFFFFFU || rmargin == 0xFFFFFFFFU || (lmargin + rmargin) > image->width)
++       {
++       TIFFError("computeInputPixelOffsets", "Combined left and right margins exceed image width");
++       lmargin = (uint32_t) 0;
++       rmargin = (uint32_t) 0;
++       return (-1);
++       }
++-    if ((tmargin + bmargin) > image->length)
+++    if (tmargin == 0xFFFFFFFFU || bmargin == 0xFFFFFFFFU || (tmargin + bmargin) > image->length)
++       {
++       TIFFError("computeInputPixelOffsets", "Combined top and bottom margins exceed image length"); 
++       tmargin = (uint32_t) 0;
++@@ -5977,14 +5984,14 @@ computeOutputPixelOffsets (struct crop_mask *crop, struct image_data *image,
++       vmargin = _TIFFClampDoubleToUInt32(page->vmargin * scale * ((image->bps + 7) / 8));
++       }
++ 
++-    if ((hmargin * 2.0) > (pwidth * page->hres))
+++    if (hmargin == 0xFFFFFFFFU || (hmargin * 2.0) > (pwidth * page->hres))
++       {
++       TIFFError("computeOutputPixelOffsets", 
++                 "Combined left and right margins exceed page width");
++       hmargin = (uint32_t) 0;
++       return (-1);
++       }
++-    if ((vmargin * 2.0) > (plength * page->vres))
+++    if (vmargin == 0xFFFFFFFFU || (vmargin * 2.0) > (plength * page->vres))
++       {
++       TIFFError("computeOutputPixelOffsets", 
++                 "Combined top and bottom margins exceed page length"); 
++-- 
++2.40.0
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 137dc7f478..6db4d80cdf 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -61,6 +61,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2025-8177.patch \
+            file://CVE-2024-13978.patch \
+            file://CVE-2025-8534.patch \
++           file://CVE-2025-8851.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+-- 
+2.40.0
 
->      oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "recipes",
-> deploydir)
->
->
-> --
-> 2.43.0
->
->
-
---0000000000006ac0d1063d3ff528
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 21,=
- 2025 at 8:54=E2=80=AFAM Kamel Bouhara &lt;<a href=3D"mailto:kamel.bouhara@=
-bootlin.com">kamel.bouhara@bootlin.com</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">Introduce the SPDX_INCLUDE_PACKAGECON=
-FIG variable, which when enabled causes<br>
-PACKAGECONFIG features to be recorded in the SPDX document as build paramet=
-ers.<br>
-<br>
-Each feature is recorded as a DictionaryEntry with key PACKAGECONFIG:&lt;fe=
-ature&gt;<br>
-and value enabled or disabled, depending on whether the feature is active i=
-n<br>
-the current build.<br>
-<br>
-This makes the build-time configuration more transparent in SPDX output and=
-<br>
-improves reproducibility tracking.<br>
-<br>
-This makes the build-time configuration more transparent in SPDX output and=
-<br>
-improves reproducibility tracking. In particular, it allows consumers of th=
-e<br>
-SBOM to identify enabled/disabled features that may affect security posture=
-<br>
-or feature set.<br>
-<br>
-Signed-off-by: Kamel Bouhara &lt;<a href=3D"mailto:kamel.bouhara@bootlin.co=
-m" target=3D"_blank">kamel.bouhara@bootlin.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/create-spdx-3.0.bbclass |=C2=A0 5 +++++<br>
-=C2=A0meta/lib/oe/spdx30_tasks.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 20 ++=
-++++++++++++++++++<br>
-=C2=A02 files changed, 25 insertions(+)<br>
-<br>
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spd=
-x-3.0.bbclass<br>
-index 15c31ba9a3..6125e8b547 100644<br>
---- a/meta/classes/create-spdx-3.0.bbclass<br>
-+++ b/meta/classes/create-spdx-3.0.bbclass<br>
-@@ -56,6 +56,11 @@ and each CONFIG_* value will be included in the Build.bu=
-ild_parameter list as Di<br>
-=C2=A0items. Set to &#39;0&#39; to disable exporting kernel configuration t=
-o improve performance or reduce \<br>
-=C2=A0SPDX document size.&quot;<br>
-<br>
-+SPDX_INCLUDE_PACKAGECONFIG ??=3D &quot;0&quot;<br>
-+SPDX_INCLUDE_PACKAGECONFIG[doc] =3D &quot;If set to &#39;1&#39;, each PACK=
-AGECONFIG feature is recorded in the \<br>
-+build_Build object&#39;s build_parameter list as a DictionaryEntry with ke=
-y \<br>
-+&#39;PACKAGECONFIG:&lt;feature&gt;&#39; and value &#39;enabled&#39; or &#3=
-9;disabled&#39;&quot;<br>
-+<br>
-=C2=A0SPDX_IMPORTS ??=3D &quot;&quot;<br>
-=C2=A0SPDX_IMPORTS[doc] =3D &quot;SPDX_IMPORTS is the base variable that de=
-scribes how to \<br>
-=C2=A0 =C2=A0 =C2=A0reference external SPDX ids. Each import is defined as =
-a key in this \<br>
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py<br>
-index c352dab152..d708715981 100644<br>
---- a/meta/lib/oe/spdx30_tasks.py<br>
-+++ b/meta/lib/oe/spdx30_tasks.py<br>
-@@ -815,6 +815,26 @@ def create_spdx(d):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sorted(list(build_inputs)) =
-+ sorted(list(debug_source_ids)),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-<br>
-+=C2=A0 =C2=A0 if d.getVar(&quot;SPDX_INCLUDE_PACKAGECONFIG&quot;, True) !=
-=3D &quot;0&quot;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 packageconfig =3D (d.getVar(&quot;PACKAGECONFI=
-G&quot;) or &quot;&quot;).split()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 all_features =3D (d.getVarFlags(&quot;PACKAGEC=
-ONFIG&quot;) or {}).keys()<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if all_features:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 enabled =3D set(packageconfig)<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 all_features_set =3D set(all_fea=
-tures)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 disabled =3D all_features_set - =
-enabled<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for feature in sorted(all_featur=
-es):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status =3D &quot;e=
-nabled&quot; if feature in enabled else &quot;disabled&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build.build_parame=
-ter.append(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.s=
-pdx30.DictionaryEntry(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 key=3Df&quot;PACKAGECONFIG:{feature}&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 value=3Dstatus<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(f&quot;Added PACKAGECONF=
-IG entries: {len(enabled)} enabled, {len(disabled)} disabled&quot;)<br>
-+<br></blockquote><div><br></div><div>LGTM</div><div><br></div><div>Reviewe=
-d-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com">JPEWhacker@gm=
-ail.com</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">
-=C2=A0 =C2=A0 =C2=A0oe.sbom30.write_recipe_jsonld_doc(d, build_objset, &quo=
-t;recipes&quot;, deploydir)<br>
-<br>
-<br>
--- <br>
-2.43.0<br>
-<br>
-</blockquote></div></div>
-
---0000000000006ac0d1063d3ff528--
 
