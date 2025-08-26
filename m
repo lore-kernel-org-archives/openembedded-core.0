@@ -1,103 +1,182 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <olani@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8641ACA0FF0
-	for <webhook@archiver.kernel.org>; Tue, 26 Aug 2025 13:41:46 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.64950.1756215700307118560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AEBACA0FE7
+	for <webhook@archiver.kernel.org>; Tue, 26 Aug 2025 13:41:56 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.19])
+ by mx.groups.io with SMTP id smtpd.web10.64612.1756215709758046320
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 06:41:40 -0700
+ Tue, 26 Aug 2025 06:41:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hUqfnA/L;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2445824dc27so54362065ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 06:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756215699; x=1756820499; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S7FiU9WkD+teXxbd7RIY7i0njOm5lkEpu8lFq3a+NFo=;
-        b=hUqfnA/LOUXgYTjNgL9QU9VOVngIupJ5l3qwB9BdXp2E/BRgu7RsiJdIyL96y+Fshq
-         PYBHyrtQ8AH4n5vNjB8X8lFlgeFF/CEHdwp/CDMJp82yQCc5f66NGhQANqAZghlN0gMl
-         xVt67iH4l0tKRVIMwWWV+EiWb82Q7PknhBLftthMVZ12k69mej1JTBNeqiQMYDcK8o3s
-         jnVnLXEnWJdSzCu2fpxs//7B2wyqhpnZP227THQKkXsJIR2sMEcqrEB6mr8XAtgv/qHx
-         tCvCwyAYBXWJXl+khKNsdtji/RsCRrXktc0tf0effEu5M/EFsWHhC+hfxTThzeZu4Nc5
-         oPHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756215699; x=1756820499;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S7FiU9WkD+teXxbd7RIY7i0njOm5lkEpu8lFq3a+NFo=;
-        b=NBUgwgxzp1oqcHRdHv4J38Cej9KZLaTQc4cR7aGbehQU11jop40kPOI6MS/gZjFswj
-         fM/CSpGX4kS5oQ0RGmBDqvrFJ6pgYGV81mbPPQN33O1NzpEsLfZcAj1ulQOgxzb9HRBz
-         T0/rS4ZK4bb9A1SJebg8p5QYlIkFaITfPUjDhHlCWqc8EC+O5ezyI7yPGx+hS/0WQ2Ii
-         UQVmbrE6jIXYPpI43/8p2tZNinZXHItb2Z3TxY3ZXLjfN5n9wF6EMfCgbnRMWgvNg0SM
-         lzogGnW6ey2luDT5IfJ7eQkGikca1H11Ry3NCaWkmz5KLnJ7j9i0yh9aThGomnPsikvh
-         vI/g==
-X-Gm-Message-State: AOJu0Yx/5LxFKBCdW9GM5jyQoLRyyI9M/tYJ0y2cfqBp98pENaZUV4V6
-	o7HiE5Oyto2Gbtc9QNsibowq84WIafM9X1knoKUsRUjFpV9Hx2Q+YPV6yNRA/bD+EpPJxEY4a73
-	R8Pz9
-X-Gm-Gg: ASbGnctgHXlbWSqdeiN7nnA3O5LDS8Tky/pZJUMbw7qh7SvlXU3XLcYZbnkchDE7U5P
-	f54+rqBPsk7uikGeyZP+XGivxkn7hwGtDSxWsIm+JK4DD/qg/4agFhY9xMN4Pd8zHsFTDr7XoE6
-	I0MHsU6HV7iKWXRVKni+wqqSlqtTMSFyFaLgn8GTl+qf4fAnJuVF39PvR0JxSAqBzLFiSemvveu
-	Rtr6eu/s1H9hSjXhnvu2BMTOrO0MxXV7g1FFKZ7fLRVd5ysxAibuqfXOSIWMjSuIcpO7PQdwuG3
-	B+evWDHn6UuoAefUEaZg6+IyK8XPO3pNDjKZCXxooMYHTFzgr12+BzjXxrciZqDHIx8DHOqDCQc
-	jCIQwrAZCls/57g==
-X-Google-Smtp-Source: AGHT+IG4YHU57nxWXaKY1ykaOma+EP7aUuwssFLgG3W3vKuqet5QWeKDNAAgQ6g7j3aMy3lPFGkrBg==
-X-Received: by 2002:a17:903:37cb:b0:240:763d:e999 with SMTP id d9443c01a7336-2462ef4c905mr211001855ad.29.1756215699334;
-        Tue, 26 Aug 2025 06:41:39 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:1687:ddce:d4c7:f578])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3274191c389sm1007414a91.4.2025.08.26.06.41.38
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 06:41:39 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 18/19] yocto-uninative: Update to 4.8 for GCC 15.1
-Date: Tue, 26 Aug 2025 06:40:52 -0700
-Message-ID: <ea3a60aabab3b7b456bd086f9e59b42d9ba62ce3.1756215509.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1756215509.git.steve@sakoman.com>
-References: <cover.1756215509.git.steve@sakoman.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=qfEOllwq;
+ spf=pass (domain: axis.com, ip: 52.101.65.19, mailfrom: ola.x.nilsson@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ru5tfusQtbLPq9w8elw5wLY3sGI83ucKUm4efsItMss8TSlUSoVQPFvPRMLEIfjUJrEoRLt/mRT/lKUtQuTbDNvtKdvB3XEnCqtsA4+PLMd9sdXFzcknPxrST37Di+CzzJcJzCZ0h51JECXxfuUvEZC6VzDPEX/F4cOQhSY9VNGAHjNgCC76Wsa2/WuRrlB/f95S5W1OES7gCujtCpVHR9A1ewApUEmofleRsJ0lGAfubmybJE+zhJK8XXAauVEfgUkA1EJobDZ2jmrU/hGgLtrbRTg8RNrJ9sb7PiLrsAGGzst+qv1DcQlStZ5DnGNY+UhcCTyharQJARODJcJvmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tz0fy17X66WssF5e1bWgAZ465GSp8aK5U1mIAzct32A=;
+ b=tAIewJfwRVEMFg8xhzF6udhEAP03dWjI+xlAUAvGr0qbmiP4NnohKCurLDDIqaqX70TbtftXwT2hT5iAknhT/hBTuFGlKU+hH9j9pjo02+ob+KasTerSEXOluAPnoNUTeGGa6uIJetUVQtBtCSNkcVnalvg/4eKAHPrWyt48d8G1uGkz+0JXoE1arU5TfD7Cl+YwMBJLS/FuYAF+RLDYA649hnP8Dz+TaWzwsh10k9eDRAeQT4qSnM2UOAa8qoo8482Py7TBMCPo3CJzeKa5NhibaKtwq+Vhxxp2sFb2g+6BPajgZKn7pUZu7KAqXVbKFZgYNQnqqHNtlZOPFVGu/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tz0fy17X66WssF5e1bWgAZ465GSp8aK5U1mIAzct32A=;
+ b=qfEOllwqg3z6tc3WwP8iLM5QWrgcLI8BgB2MK+2zc+K/LTTjeAM8Vx+jgSRDpfbBijRmNfVwkPJVfZMy8aa8M8Go6bNhSPmt5x0M2fGCku7/xatZZRQ3zPZNLzZwDCtcnlQwVOU2LPy8SwQiOG7OrlPkXWgRHfs9MCehCr/eayg=
+Received: from DU7P250CA0029.EURP250.PROD.OUTLOOK.COM (2603:10a6:10:54f::18)
+ by GVXPR02MB11013.eurprd02.prod.outlook.com (2603:10a6:150:21c::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.20; Tue, 26 Aug
+ 2025 13:41:44 +0000
+Received: from DB1PEPF000509FF.eurprd03.prod.outlook.com
+ (2603:10a6:10:54f:cafe::4c) by DU7P250CA0029.outlook.office365.com
+ (2603:10a6:10:54f::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.22 via Frontend Transport; Tue,
+ 26 Aug 2025 13:41:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB1PEPF000509FF.mail.protection.outlook.com (10.167.242.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9073.11 via Frontend Transport; Tue, 26 Aug 2025 13:41:44 +0000
+Received: from se-mail02w.axis.com (10.20.40.8) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Tue, 26 Aug
+ 2025 15:41:43 +0200
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Tue, 26 Aug 2025 15:41:43 +0200
+Received: from pc58073-2410.se.axis.com (pc58073-2410.se.axis.com [10.88.67.1])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 11C1439E1;
+	Tue, 26 Aug 2025 15:41:43 +0200 (CEST)
+From: <olani@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Ola x Nilsson <olani@axis.com>
+Subject: [PATCH] sstate.bbclass: Open file with context manager
+Date: Tue, 26 Aug 2025 15:41:34 +0200
+Message-ID: <20250826134134.2164051-1-olani@axis.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509FF:EE_|GVXPR02MB11013:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1051a798-2394-4e35-3347-08dde4a64be2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?vDEbPByWCa47ASWpnFRZc9kEi3IgZcjUYRzBJp4XZj4nqvrkztotdrcbTLi1?=
+ =?us-ascii?Q?waGxFDcUCLxgHcVGs83iFflQQEK1+2JuLgNmRrdMGQnpUDvoVfDPmz1snCO2?=
+ =?us-ascii?Q?0Og2teryZd8BmQtWnulzqkzpXBeIQS/rwDl+39Tr/uMACsYmWL9FSenSlS+C?=
+ =?us-ascii?Q?0AQYHueN5M+7UMuMj20lCyIdOPQYk3HH3TtIqmo3uKR/BTHQmCOktffvFbcf?=
+ =?us-ascii?Q?DCRIK9AZF/3RavK/oiVM+HxBV2KTbPHlK6fwzoRXKi1TtLJY3LtF+/f10tkw?=
+ =?us-ascii?Q?h42V9KOlXX7IY7lrf0iEepCYflYRY6GRf/MtDZI1zxoG+QN2wwUW7esf9VQN?=
+ =?us-ascii?Q?lQMYuWNRZGVODmyY7jF/UOHPBa0v9Vs8CoE/dlFNUGo39wgWECUQkM6uynbA?=
+ =?us-ascii?Q?8WozgSjZNu9wOixEDMOOQ1kJ/vX/6xm2hvq2Blq0lXT3jCbaGuB1R7xLMsBo?=
+ =?us-ascii?Q?aZYDv3EsAHW7j+Uv4BC0X+Us0P6vlC6J5L5ei78DYHEeJhHVf1uqfkFyoerw?=
+ =?us-ascii?Q?N3P8hcoJui55QigHMMWaIuk0AtY19pDmtm107tRIpjOTtHTZjO4hw/Ix6NK/?=
+ =?us-ascii?Q?LRAwrhxxgmo1NbMIQ7ZzyGyl7a0ClP34zMM9PLE7R1m2t+9f7QKv02/3Y5mL?=
+ =?us-ascii?Q?1iIgd0NRjH88YXo8YURV8XMxg/0sMXVMdeyO67srLhWLGDiEEL+lJTt0TlhN?=
+ =?us-ascii?Q?lTaDRZCq+/8bLjbZg0nypKGJGn0UqN05Hu6Q4RC3NM/n5vhnwIslI02QJmHQ?=
+ =?us-ascii?Q?pRhlWIlfNSmy6qie3ZuIh+MlBtJFlw6sFcCPri/HM/rL1Qlxs5UbR6hw0pLK?=
+ =?us-ascii?Q?5RnLdepT2n3wl45+mXzJYJ32d5UABSlpBjokIuaB9ppIxq6sgew8yNw+ib5T?=
+ =?us-ascii?Q?RBkWu2EVzSr+hLsBvPgz2Uu0aJh9Vxrx2DZ6HDfWT9If2ExE6i/k5Rt0CWMK?=
+ =?us-ascii?Q?nVKCSayPYPiC6OBfnT8wsWIhimAqDp70vfHdJ/8S3A3hgxPIPi7NiCj/5xdr?=
+ =?us-ascii?Q?Y3xU0olrpB99SM2w2XDfiec2DRgPM1YtEdFT3zQ9U2Wh/cyk+vPuuOeROPeh?=
+ =?us-ascii?Q?rPXXkQwJ2lAy91liCm33C8JzSdrD7Wr8nZ0OANZbU0RyK1e5t8hOkVFK5tPf?=
+ =?us-ascii?Q?neBhCN2x72Nvbtgm2ZUsKpwpQR5DvPuUJpn+iszQrylcUS36torbu22OK0eZ?=
+ =?us-ascii?Q?lmMUwrdRujmnDZIBRCk/zDTusuRAnNCuLL8kv92A2CBGRcWMnKnUoqMvy5XL?=
+ =?us-ascii?Q?RnKUpUWFm8WPrPLdIcBDJZ0LxnJtmED6n72xk+jM0bqWWUwp2QpFvsWaj61e?=
+ =?us-ascii?Q?DIKIKcXSe9EImFr/4p+RWnn2YEKMGAhdbgeMRIyyBQle6fVuyuXR5mF7xUlt?=
+ =?us-ascii?Q?yEvTISK1HFT1HXCKOAxUviQKqD3k02I8eFDDqp8nw74a+eiPy3InqWEarf3a?=
+ =?us-ascii?Q?KzgcCMERN5zidk0wr/Y1OmqQjPFtcIg3nj0KghCsb/yHQQoSMg/wkiVRwAKR?=
+ =?us-ascii?Q?BR0EcAslZvP/v4laay9VaTb2iw5M0YEI3izW?=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 13:41:44.4764
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1051a798-2394-4e35-3347-08dde4a64be2
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509FF.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR02MB11013
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 13:41:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222458
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 13:41:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222460
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Ola x Nilsson <olani@axis.com>
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+In sstat_install and sstate_clean_cache.
+
+Signed-off-by: Ola x Nilsson <olani@axis.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes-global/sstate.bbclass | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 3d0f1fdccd..dabd604e8e 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -7,9 +7,9 @@
- #
- 
- UNINATIVE_MAXGLIBCVERSION = "2.41"
--UNINATIVE_VERSION = "4.7"
-+UNINATIVE_VERSION = "4.8"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "ac440e4fc80665c79f9718c665c6e28d771e51609c088c3c97ba3ad5cfed197a"
--UNINATIVE_CHECKSUM[i686] ?= "c5efa31450f3bbd63ea961d4e7c747ae41317937d429f65e1d5cf2050338e27a"
--UNINATIVE_CHECKSUM[x86_64] ?= "5800d4e9a129d1be09cf548918d25f74e91a7c1193ae5239d5b0c9246c486d2c"
-+UNINATIVE_CHECKSUM[aarch64] ?= "0d75ae3cc6e8245be40f55d48612285248ad331896ca3f4c772ed2fb34239fcf"
-+UNINATIVE_CHECKSUM[i686] ?= "2cbfd7ad3e1362538764999dd4962eb2511211867ae17a327b65631f64f38e31"
-+UNINATIVE_CHECKSUM[x86_64] ?= "6d5e28258176c52b9eecf882d4553033fa700902e60ba80d4b7ce0edacbe41d6"
--- 
-2.43.0
-
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstat=
+e.bbclass
+index e3d6373b3f..2fd29d7323 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -306,18 +306,17 @@ def sstate_install(ss, d):
+         sharedfiles.append(ss['fixmedir'] + "/fixmepath")
+=20
+     # Write out the manifest
+-    f =3D open(manifest, "w")
+-    for file in sharedfiles:
+-        f.write(file + "\n")
++    with open(manifest, "w") as f:
++        for file in sharedfiles:
++            f.write(file + "\n")
+=20
+-    # We want to ensure that directories appear at the end of the manifest
+-    # so that when we test to see if they should be deleted any contents
+-    # added by the task will have been removed first.
+-    dirs =3D sorted(shareddirs, key=3Dlen)
+-    # Must remove children first, which will have a longer path than the p=
+arent
+-    for di in reversed(dirs):
+-        f.write(di + "\n")
+-    f.close()
++        # We want to ensure that directories appear at the end of the mani=
+fest
++        # so that when we test to see if they should be deleted any conten=
+ts
++        # added by the task will have been removed first.
++        dirs =3D sorted(shareddirs, key=3Dlen)
++        # Must remove children first, which will have a longer path than t=
+he parent
++        for di in reversed(dirs):
++            f.write(di + "\n")
+=20
+     # Append to the list of manifests for this PACKAGE_ARCH
+=20
+@@ -481,9 +480,8 @@ def sstate_clean_cachefiles(d):
+ def sstate_clean_manifest(manifest, d, canrace=3DFalse, prefix=3DNone):
+     import oe.path
+=20
+-    mfile =3D open(manifest)
+-    entries =3D mfile.readlines()
+-    mfile.close()
++    with open(manifest) as mfile:
++        entries =3D mfile.readlines()
+=20
+     for entry in entries:
+         entry =3D entry.strip()
 
