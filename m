@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B8CFCA0FF6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B681CA0FEB
 	for <webhook@archiver.kernel.org>; Tue, 26 Aug 2025 13:41:16 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.64941.1756215671045722883
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.64593.1756215673526014280
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 06:41:11 -0700
+ Tue, 26 Aug 2025 06:41:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=UjR8tVq7;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-323266cdf64so4147052a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 06:41:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YS/IA6GM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-24626e06f04so35429715ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 06:41:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756215670; x=1756820470; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756215673; x=1756820473; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UyL8EGLr3WGNTyJrd1taOf59WkrENEu74N9ENAg7f1o=;
-        b=UjR8tVq7UwCUWv53ien7/5ItuWw0Ut03FtVmhmVXv56NGQ3uyB4h5rnWXIHbzdx7uF
-         2L2wwd8l8mPMJnJNI+jfK4OkGU6ZXcaxn2Yl7mhYnJONC5wOuhmuxRh9Fw0ctMXA5nyr
-         8h9xPYGd54gt1uMA9QBvTqogLHyblLJkcSzTFEWT/t44o6MlugSbUP8K4ih4iB/2gQA4
-         R3iLuuo7M93Nw8xTRIuVen9j+T0OE6ncCoyw+1QC6fWjOuhZrNauKSMJ7p5lKDz1BFZF
-         vc38uJIJta8BmuphbJahXzLpR0ua6ErON10oRLKYxNyOAqUrAOAXhBP4Ic60Np95H1GO
-         1wVw==
+        bh=yE2R0bSaMTP4PQpx2gIajRI26/WN/4oL7AWZkb8K1h8=;
+        b=YS/IA6GMrwUmTKNsF6zZ0BFp/KdfUO5qFtfMlGGmU2NlxHn0b2jsnLznRJxJ3JzSXQ
+         aUj9LXYoqeugLI3B0xxualcLzouYIkG2enhTdFAKel9O9xajSsfLgEJ5SUeuKBHkZl1C
+         5wpmNap/ZVkywLOfPiQkDYW/b4ksCitYbeodYtCqqYpy98ncQf/iAtgW1GRIPkbm81cc
+         4VtmfzAKbmzfqyIwMxNpDKVaDrmwv5Ll6erw7TfOGmJ6PJ+aElpjA+ETVrlwOyZ7kBIr
+         3/1tQaUUvYEB8v1hax5CSoXH46LXiCYjouIDyLoad3Lpw784UjkiVGizgOJKc6c6+4nZ
+         X+wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756215670; x=1756820470;
+        d=1e100.net; s=20230601; t=1756215673; x=1756820473;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UyL8EGLr3WGNTyJrd1taOf59WkrENEu74N9ENAg7f1o=;
-        b=R/CHxUFgp60VFGwiVo0wutMazt+CdOf7VUzkLHUNV11PIT7RBhTnVU5Pbm8TRAFgd7
-         GBE6FMr7ppAufzCbYJoO/WuK+ZlD5Vh/F0X414qqzP+ja72IQk0TNCafw+CKd+gjCuaX
-         UAYVReim4Gksvzl2YA5dAe4dhA8h0uPJ1ERBHpCD0UYnpZxwduYXt0cyFc0b0ioChLN1
-         Lc4mAgxdYr8U4mjBxlv9p6WjUS1+1xeqPjBpbSw6AZjgKEJVNdXsxMDjVUPQzUe0hCBW
-         vs5nlL94vHnrbmyxcyManBT5YmNzhL6kWnh+4jAe1JPh7wq9O+uz0DlTS4BN+v2vk6Af
-         RBnQ==
-X-Gm-Message-State: AOJu0YxLrTlVshBg92FWfBKO4swnA/Qf4GUP5lnUimlrw9rK3+nSyIAQ
-	2QQkoWrKUuRoTEfbgsAZZeZFgNSBm97IOJIBexgJBhceHo5UnsjJe0ygOa8sCAtck38LMP4kff6
-	x9PTQ
-X-Gm-Gg: ASbGncvZGHrvekgUZm6rXuD3mD63qaaPL/YFVKeV8s7rVmcHsLJlDiLNiQzWHK8dcs/
-	rs3Iugh37kKPgdrfxqcRw2GULfZ/968qEXBSnLhHU6eKGNZHVyoHcAGZyNODBLIygqHHo63ZNrK
-	b+lFqv4QrQ01vS2tOO9dV0V86yMMZhDMtAotXxB0kLKIxL9PAvj6MFoRODhw1x5E1ulZVlvIx13
-	GkIceYXr57/zG+eGpKMyQyF/Ue6UjQiE3FZcGuksyaR6+DDMh95u3TUigt7zhDTKEV1a06Nh86z
-	/7uA1erFLDSa3sSVYZGaroH/6djWb/rk0qQsAbeMQfsgvsYfseU5wpyyHP/vv2JhDh8Xj3wKQmH
-	1g5GuFFhw4TKi3Q==
-X-Google-Smtp-Source: AGHT+IGt4uIaF7b4tV/3L5JloIZttEavensk59y0n7YjutiH7+NU+pmd5DElKwNeytj8eZW9NvPR7w==
-X-Received: by 2002:a17:90b:1d0f:b0:327:4d3b:fc46 with SMTP id 98e67ed59e1d1-3274d3bfcfamr2851002a91.17.1756215669811;
-        Tue, 26 Aug 2025 06:41:09 -0700 (PDT)
+        bh=yE2R0bSaMTP4PQpx2gIajRI26/WN/4oL7AWZkb8K1h8=;
+        b=lip0Fq3+sVHlLqCvtpUafl2jHaUHFp9cSgPXIJvsi+TRZWR9ybnu8ITqRtJ1jyANnn
+         So1DN8ati9q77DVhxsWCO2k7TqdRA9olMcvMW51NlUR/lqkNyc3ofJgtU5Y67Wtps5t9
+         q1LTtshlJvOBeXj9g+M79G6VCHMwht3jo2Bb1Ns7kr0+a3OOV5VLzhPfcp59t+8s4QgO
+         0BJD/2MqPIiTfh0HBcLDxK15rQaiWkSol855s0oVqbZ7RU08SaN0gL80ykKc07CsfhNs
+         qiji8AEVVo1+ZxkL+viN/G98t9dl21wT+1LyGSb2cW2UtpcZyfi7Ny2HFJzgRj5S2+Fe
+         wiZw==
+X-Gm-Message-State: AOJu0Yw8y+62PjXciQPtENR2ty6cF9bnsCxyKXH/XRnrbngYurD/slce
+	4Dm74g6yX7d/QWLPAUgPv4M64fjGZAkqOYMbzAMhipXwVdVixdZHp1Xsz+oxetvf4UPn0IQKsNX
+	Hef3C
+X-Gm-Gg: ASbGnctVHUseBhh/xfuADbUpGoXIcC2PAyAtWdumjeyQAtSg5ZbrIA+Fxp3YQwTe76K
+	LDpbA/w4bYiKlEe/qz50j+69/YrnzRvn8RkpGvLmBIfT5W4rqDSCxoCSnYi005PbrCfAw7tHSRl
+	PucOsLDp/s9elHxumTWP4CVioraIcZVPvefoizm39KJctAkAdcl1ddkuyk4H8+mCuGlB0unMxT1
+	1wAm0cUuxdq12VdD5hf4PLjXsayXbXLSsq/d0+dpe24uVE2uhLLOtdQsvaclXhC2+2SUYun+p7X
+	oJer+cR3rJ9fIv5Uu9mfNVSep556KvlWP35OCCx4Fg8MLD6qgeQSvloZouaneGQe9Y81n1/CRto
+	N92aFUHGgo66gsphomvZkgDxD
+X-Google-Smtp-Source: AGHT+IHRh5y5nDhT6EHQsO9N2B+Bhfmw/os81cqmt2X53EO4jA+adiGDnBgTKQQwrWnzevGNpJo7jw==
+X-Received: by 2002:a17:903:1c8:b0:244:9913:2fe2 with SMTP id d9443c01a7336-2462eec67a9mr201287365ad.27.1756215671982;
+        Tue, 26 Aug 2025 06:41:11 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:1687:ddce:d4c7:f578])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3274191c389sm1007414a91.4.2025.08.26.06.41.08
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3274191c389sm1007414a91.4.2025.08.26.06.41.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 06:41:09 -0700 (PDT)
+        Tue, 26 Aug 2025 06:41:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 03/19] libarchive: patch CVE-2025-5917
-Date: Tue, 26 Aug 2025 06:40:37 -0700
-Message-ID: <59b3c2f9dcf523a441bdaeac52c590d469b0b8ac.1756215509.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 04/19] libarchive: patch CVE-2025-5918
+Date: Tue, 26 Aug 2025 06:40:38 -0700
+Message-ID: <20687d6eed86003eacd5c91ebfd1101f6413ee3f.1756215509.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756215509.git.steve@sakoman.com>
 References: <cover.1756215509.git.steve@sakoman.com>
@@ -68,86 +68,644 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 13:41:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222443
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222444
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commit per [1]
+Pick commits per [1]
 
-[1] https://security-tracker.debian.org/tracker/CVE-2025-5917
+Additionally pick a commit needed to apply these cleanly.
+
+[1] https://security-tracker.debian.org/tracker/CVE-2025-5918
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libarchive/libarchive/CVE-2025-5917.patch | 49 +++++++++++++++++++
- .../libarchive/libarchive_3.7.9.bb            |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch
+ .../0001-Improve-lseek-handling-2564.patch    | 319 ++++++++++++++++++
+ .../libarchive/CVE-2025-5918-01.patch         | 217 ++++++++++++
+ .../libarchive/CVE-2025-5918-02.patch         |  51 +++
+ .../libarchive/libarchive_3.7.9.bb            |   3 +
+ 4 files changed, 590 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-Improve-lseek-handling-2564.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-01.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-02.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-Improve-lseek-handling-2564.patch b/meta/recipes-extended/libarchive/libarchive/0001-Improve-lseek-handling-2564.patch
 new file mode 100644
-index 0000000000..eb3f64d63d
+index 0000000000..484824659e
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5917.patch
-@@ -0,0 +1,49 @@
-+From 7c02cde37a63580cd1859183fbbd2cf04a89be85 Mon Sep 17 00:00:00 2001
-+From: Brian Campbell <Brian.Campbell@ed.ac.uk>
-+Date: Sat, 26 Apr 2025 05:11:19 +0100
-+Subject: [PATCH] Fix overflow in build_ustar_entry (#2588)
++++ b/meta/recipes-extended/libarchive/libarchive/0001-Improve-lseek-handling-2564.patch
+@@ -0,0 +1,319 @@
++From 89b8c35ff4b5addc08a85bf5df02b407f8af1f6c Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <stoeckmann@users.noreply.github.com>
++Date: Sun, 6 Apr 2025 22:34:37 +0200
++Subject: [PATCH] Improve lseek handling (#2564)
 +
-+The calculations for the suffix and prefix can increment the endpoint
-+for a trailing slash. Hence the limits used should be one lower than the
-+maximum number of bytes.
++The skip functions are limited to 1 GB for cases in which libarchive
++runs on a system with an off_t or long with 32 bits. This has negative
++impact on 64 bit systems.
 +
-+Without this patch, when this happens for both the prefix and the
-+suffix, we end up with 156 + 100 bytes, and the write of the null at the
-+end will overflow the 256 byte buffer. This can be reproduced by running
++Instead, make sure that _all_ subsequent functions truncate properly.
++Some of them already did and some had regressions for over 10 years.
++
++Tests pass on Debian 12 i686 configured with --disable-largefile, i.e.
++running with an off_t with 32 bits.
++
++Casts added where needed to still pass MSVC builds.
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/89b8c35ff4b5addc08a85bf5df02b407f8af1f6c]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---------
++
++Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
++---
++ libarchive/archive_read.c               |  6 ----
++ libarchive/archive_read_disk_posix.c    |  3 +-
++ libarchive/archive_read_open_fd.c       | 29 +++++++++++++------
++ libarchive/archive_read_open_file.c     | 35 ++++++++++++-----------
++ libarchive/archive_read_open_filename.c | 37 ++++++++++++++++++-------
++ libarchive/test/read_open_memory.c      |  2 +-
++ libarchive/test/test_sparse_basic.c     |  6 ++--
++ libarchive/test/test_tar_large.c        |  2 +-
++ 8 files changed, 75 insertions(+), 45 deletions(-)
++
++diff --git a/libarchive/archive_read.c b/libarchive/archive_read.c
++index 822c534b..50db8701 100644
++--- a/libarchive/archive_read.c
+++++ b/libarchive/archive_read.c
++@@ -176,15 +176,9 @@ client_skip_proxy(struct archive_read_filter *self, int64_t request)
++ 		return 0;
++ 
++ 	if (self->archive->client.skipper != NULL) {
++-		/* Seek requests over 1GiB are broken down into
++-		 * multiple seeks.  This avoids overflows when the
++-		 * requests get passed through 32-bit arguments. */
++-		int64_t skip_limit = (int64_t)1 << 30;
++ 		int64_t total = 0;
++ 		for (;;) {
++ 			int64_t get, ask = request;
++-			if (ask > skip_limit)
++-				ask = skip_limit;
++ 			get = (self->archive->client.skipper)
++ 				(&self->archive->archive, self->data, ask);
++ 			total += get;
++diff --git a/libarchive/archive_read_disk_posix.c b/libarchive/archive_read_disk_posix.c
++index 09965eb9..4839d62b 100644
++--- a/libarchive/archive_read_disk_posix.c
+++++ b/libarchive/archive_read_disk_posix.c
++@@ -778,7 +778,8 @@ _archive_read_data_block(struct archive *_a, const void **buff,
++ 	 */
++ 	if (t->current_sparse->offset > t->entry_total) {
++ 		if (lseek(t->entry_fd,
++-		    (off_t)t->current_sparse->offset, SEEK_SET) < 0) {
+++		    (off_t)t->current_sparse->offset, SEEK_SET) !=
+++		    t->current_sparse->offset) {
++ 			archive_set_error(&a->archive, errno, "Seek error");
++ 			r = ARCHIVE_FATAL;
++ 			a->archive.state = ARCHIVE_STATE_FATAL;
++diff --git a/libarchive/archive_read_open_fd.c b/libarchive/archive_read_open_fd.c
++index debfde20..3fd536d5 100644
++--- a/libarchive/archive_read_open_fd.c
+++++ b/libarchive/archive_read_open_fd.c
++@@ -131,7 +131,7 @@ static int64_t
++ file_skip(struct archive *a, void *client_data, int64_t request)
++ {
++ 	struct read_fd_data *mine = (struct read_fd_data *)client_data;
++-	int64_t skip = request;
+++	off_t skip = (off_t)request;
++ 	int64_t old_offset, new_offset;
++ 	int skip_bits = sizeof(skip) * 8 - 1;  /* off_t is a signed type. */
++ 
++@@ -140,15 +140,15 @@ file_skip(struct archive *a, void *client_data, int64_t request)
++ 
++ 	/* Reduce a request that would overflow the 'skip' variable. */
++ 	if (sizeof(request) > sizeof(skip)) {
++-		int64_t max_skip =
+++		const int64_t max_skip =
++ 		    (((int64_t)1 << (skip_bits - 1)) - 1) * 2 + 1;
++ 		if (request > max_skip)
++-			skip = max_skip;
+++			skip = (off_t)max_skip;
++ 	}
++ 
++-	/* Reduce request to the next smallest multiple of block_size */
++-	request = (request / mine->block_size) * mine->block_size;
++-	if (request == 0)
+++	/* Reduce 'skip' to the next smallest multiple of block_size */
+++	skip = (off_t)(((int64_t)skip / mine->block_size) * mine->block_size);
+++	if (skip == 0)
++ 		return (0);
++ 
++ 	if (((old_offset = lseek(mine->fd, 0, SEEK_CUR)) >= 0) &&
++@@ -178,11 +178,24 @@ static int64_t
++ file_seek(struct archive *a, void *client_data, int64_t request, int whence)
++ {
++ 	struct read_fd_data *mine = (struct read_fd_data *)client_data;
+++	off_t seek = (off_t)request;
++ 	int64_t r;
+++	int seek_bits = sizeof(seek) * 8 - 1;  /* off_t is a signed type. */
++ 
++ 	/* We use off_t here because lseek() is declared that way. */
++-	/* See above for notes about when off_t is less than 64 bits. */
++-	r = lseek(mine->fd, request, whence);
+++
+++	/* Reduce a request that would overflow the 'seek' variable. */
+++	if (sizeof(request) > sizeof(seek)) {
+++		const int64_t max_seek =
+++		    (((int64_t)1 << (seek_bits - 1)) - 1) * 2 + 1;
+++		const int64_t min_seek = ~max_seek;
+++		if (request > max_seek)
+++			seek = (off_t)max_seek;
+++		else if (request < min_seek)
+++			seek = (off_t)min_seek;
+++	}
+++
+++	r = lseek(mine->fd, seek, whence);
++ 	if (r >= 0)
++ 		return r;
++ 
++diff --git a/libarchive/archive_read_open_file.c b/libarchive/archive_read_open_file.c
++index ecd56dce..2829b9a5 100644
++--- a/libarchive/archive_read_open_file.c
+++++ b/libarchive/archive_read_open_file.c
++@@ -145,7 +145,7 @@ FILE_skip(struct archive *a, void *client_data, int64_t request)
++ 
++ 	/* If request is too big for a long or an off_t, reduce it. */
++ 	if (sizeof(request) > sizeof(skip)) {
++-		int64_t max_skip =
+++		const int64_t max_skip =
++ 		    (((int64_t)1 << (skip_bits - 1)) - 1) * 2 + 1;
++ 		if (request > max_skip)
++ 			skip = max_skip;
++@@ -176,39 +176,42 @@ FILE_seek(struct archive *a, void *client_data, int64_t request, int whence)
++ {
++ 	struct read_FILE_data *mine = (struct read_FILE_data *)client_data;
++ #if HAVE__FSEEKI64
++-	int64_t skip = request;
+++	int64_t seek = request;
++ #elif HAVE_FSEEKO
++-	off_t skip = (off_t)request;
+++	off_t seek = (off_t)request;
++ #else
++-	long skip = (long)request;
+++	long seek = (long)request;
++ #endif
++-	int skip_bits = sizeof(skip) * 8 - 1;
+++	int seek_bits = sizeof(seek) * 8 - 1;
++ 	(void)a; /* UNUSED */
++ 
++-	/* If request is too big for a long or an off_t, reduce it. */
++-	if (sizeof(request) > sizeof(skip)) {
++-		int64_t max_skip =
++-		    (((int64_t)1 << (skip_bits - 1)) - 1) * 2 + 1;
++-		if (request > max_skip)
++-			skip = max_skip;
+++	/* Reduce a request that would overflow the 'seek' variable. */
+++	if (sizeof(request) > sizeof(seek)) {
+++		const int64_t max_seek =
+++		    (((int64_t)1 << (seek_bits - 1)) - 1) * 2 + 1;
+++		const int64_t min_seek = ~max_seek;
+++		if (request > max_seek)
+++			seek = max_seek;
+++		else if (request < min_seek)
+++			seek = min_seek;
++ 	}
++ 
++ #ifdef __ANDROID__
++ 	/* Newer Android versions have fseeko...to meditate. */
++-	int64_t ret = lseek(fileno(mine->f), skip, whence);
+++	int64_t ret = lseek(fileno(mine->f), seek, whence);
++ 	if (ret >= 0) {
++ 		return ret;
++ 	}
++ #elif HAVE__FSEEKI64
++-	if (_fseeki64(mine->f, skip, whence) == 0) {
+++	if (_fseeki64(mine->f, seek, whence) == 0) {
++ 		return _ftelli64(mine->f);
++ 	}
++ #elif HAVE_FSEEKO
++-	if (fseeko(mine->f, skip, whence) == 0) {
+++	if (fseeko(mine->f, seek, whence) == 0) {
++ 		return ftello(mine->f);
++ 	}
++ #else
++-	if (fseek(mine->f, skip, whence) == 0) {
+++	if (fseek(mine->f, seek, whence) == 0) {
++ 		return ftell(mine->f);
++ 	}
++ #endif
++@@ -226,4 +229,4 @@ FILE_close(struct archive *a, void *client_data)
++ 	free(mine->buffer);
++ 	free(mine);
++ 	return (ARCHIVE_OK);
++-}
++\ No newline at end of file
+++}
++diff --git a/libarchive/archive_read_open_filename.c b/libarchive/archive_read_open_filename.c
++index 05f0ffbd..3894b15c 100644
++--- a/libarchive/archive_read_open_filename.c
+++++ b/libarchive/archive_read_open_filename.c
++@@ -479,20 +479,24 @@ file_skip_lseek(struct archive *a, void *client_data, int64_t request)
++ 	struct read_file_data *mine = (struct read_file_data *)client_data;
++ #if defined(_WIN32) && !defined(__CYGWIN__)
++ 	/* We use _lseeki64() on Windows. */
++-	int64_t old_offset, new_offset;
+++	int64_t old_offset, new_offset, skip = request;
++ #else
++-	off_t old_offset, new_offset;
+++	off_t old_offset, new_offset, skip = (off_t)request;
++ #endif
+++	int skip_bits = sizeof(skip) * 8 - 1;
++ 
++ 	/* We use off_t here because lseek() is declared that way. */
++ 
++-	/* TODO: Deal with case where off_t isn't 64 bits.
++-	 * This shouldn't be a problem on Linux or other POSIX
++-	 * systems, since the configuration logic for libarchive
++-	 * tries to obtain a 64-bit off_t.
++-	 */
+++	/* Reduce a request that would overflow the 'skip' variable. */
+++	if (sizeof(request) > sizeof(skip)) {
+++		const int64_t max_skip =
+++		    (((int64_t)1 << (skip_bits - 1)) - 1) * 2 + 1;
+++		if (request > max_skip)
+++			skip = max_skip;
+++	}
+++
++ 	if ((old_offset = lseek(mine->fd, 0, SEEK_CUR)) >= 0 &&
++-	    (new_offset = lseek(mine->fd, request, SEEK_CUR)) >= 0)
+++	    (new_offset = lseek(mine->fd, skip, SEEK_CUR)) >= 0)
++ 		return (new_offset - old_offset);
++ 
++ 	/* If lseek() fails, don't bother trying again. */
++@@ -540,11 +544,24 @@ static int64_t
++ file_seek(struct archive *a, void *client_data, int64_t request, int whence)
++ {
++ 	struct read_file_data *mine = (struct read_file_data *)client_data;
+++	off_t seek = (off_t)request;
++ 	int64_t r;
+++	int seek_bits = sizeof(seek) * 8 - 1;
++ 
++ 	/* We use off_t here because lseek() is declared that way. */
++-	/* See above for notes about when off_t is less than 64 bits. */
++-	r = lseek(mine->fd, request, whence);
+++
+++	/* Reduce a request that would overflow the 'seek' variable. */
+++	if (sizeof(request) > sizeof(seek)) {
+++		const int64_t max_seek =
+++		    (((int64_t)1 << (seek_bits - 1)) - 1) * 2 + 1;
+++		const int64_t min_seek = ~max_seek;
+++		if (request > max_seek)
+++			seek = (off_t)max_seek;
+++		else if (request < min_seek)
+++			seek = (off_t)min_seek;
+++	}
+++
+++	r = lseek(mine->fd, seek, whence);
++ 	if (r >= 0)
++ 		return r;
++ 
++diff --git a/libarchive/test/read_open_memory.c b/libarchive/test/read_open_memory.c
++index 6d2468cd..9262ab9d 100644
++--- a/libarchive/test/read_open_memory.c
+++++ b/libarchive/test/read_open_memory.c
++@@ -167,7 +167,7 @@ memory_read_skip(struct archive *a, void *client_data, int64_t skip)
++ 
++ 	(void)a; /* UNUSED */
++ 	/* We can't skip by more than is available. */
++-	if ((off_t)skip > (off_t)(mine->end - mine->p))
+++	if (skip > mine->end - mine->p)
++ 		skip = mine->end - mine->p;
++ 	/* Always do small skips by prime amounts. */
++ 	if (skip > 71)
++diff --git a/libarchive/test/test_sparse_basic.c b/libarchive/test/test_sparse_basic.c
++index 23cde567..93710cb6 100644
++--- a/libarchive/test/test_sparse_basic.c
+++++ b/libarchive/test/test_sparse_basic.c
++@@ -608,7 +608,8 @@ DEFINE_TEST(test_sparse_basic)
++ 	verify_sparse_file(a, "file2", sparse_file2, 20);
++ 	/* Encoded non sparse; expect a data block but no sparse entries. */
++ 	verify_sparse_file(a, "file3", sparse_file3, 0);
++-	verify_sparse_file(a, "file4", sparse_file4, 2);
+++	if (sizeof(off_t) > 4)
+++		verify_sparse_file(a, "file4", sparse_file4, 2);
++ 
++ 	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
++ 
++@@ -635,7 +636,8 @@ DEFINE_TEST(test_sparse_basic)
++ 	verify_sparse_file(a, "file1", sparse_file1, 0);
++ 	verify_sparse_file(a, "file2", sparse_file2, 0);
++ 	verify_sparse_file(a, "file3", sparse_file3, 0);
++-	verify_sparse_file(a, "file4", sparse_file4, 0);
+++	if (sizeof(off_t) > 4)
+++		verify_sparse_file(a, "file4", sparse_file4, 0);
++ 
++ 	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
++ 
++diff --git a/libarchive/test/test_tar_large.c b/libarchive/test/test_tar_large.c
++index c1f37916..1cde3218 100644
++--- a/libarchive/test/test_tar_large.c
+++++ b/libarchive/test/test_tar_large.c
++@@ -175,7 +175,7 @@ memory_read_skip(struct archive *a, void *_private, int64_t skip)
++ 	}
++ 	if (private->filebytes > 0) {
++ 		if (private->filebytes < skip)
++-			skip = (off_t)private->filebytes;
+++			skip = private->filebytes;
++ 		private->filebytes -= skip;
++ 	} else {
++ 		skip = 0;
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-01.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-01.patch
+new file mode 100644
+index 0000000000..98472d9173
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-01.patch
+@@ -0,0 +1,217 @@
++From dcbf1e0ededa95849f098d154a25876ed5754bcf Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <stoeckmann@users.noreply.github.com>
++Date: Tue, 15 Apr 2025 06:02:17 +0200
++Subject: [PATCH] Do not skip past EOF while reading (#2584)
++
++Make sure to not skip past end of file for better error messages. One
++such example is now visible with rar testsuite. You can see the
++difference already by an actually not useless use of cat:
++
 +```
-+mkdir -p foo/bar
-+bsdtar cvf test.tar foo////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////bar
++$ cat .../test_read_format_rar_ppmd_use_after_free.rar | bsdtar -t
++bsdtar: Archive entry has empty or unreadable filename ... skipping.
++bsdtar: Archive entry has empty or unreadable filename ... skipping.
++bsdtar: Truncated input file (needed 119 bytes, only 0 available)
++bsdtar: Error exit delayed from previous errors.
 +```
-+when bsdtar is compiled with Address Sanitiser, although I originally
-+noticed this by accident with a genuine filename on a CHERI capability
-+system, which faults immediately on the buffer overflow.
 +
-+CVE: CVE-2025-5917
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/7c02cde37a63580cd1859183fbbd2cf04a89be85]
++compared to
++
++```
++$ bsdtar -tf .../test_read_format_rar_ppmd_use_after_free.rar
++bsdtar: Archive entry has empty or unreadable filename ... skipping.
++bsdtar: Archive entry has empty or unreadable filename ... skipping.
++bsdtar: Error exit delayed from previous errors.
++```
++
++Since the former cannot lseek, the error is a different one
++(ARCHIVE_FATAL vs ARCHIVE_EOF). The piped version states explicitly that
++truncation occurred, while the latter states EOF because the skip past
++the end of file was successful.
++
++Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
++
++CVE: CVE-2025-5918
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/dcbf1e0ededa95849f098d154a25876ed5754bcf]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ libarchive/archive_write_set_format_pax.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ libarchive/archive_read_open_fd.c       | 13 +++++++---
++ libarchive/archive_read_open_file.c     | 33 +++++++++++++++++++------
++ libarchive/archive_read_open_filename.c | 16 +++++++++---
++ libarchive/test/test_read_format_rar.c  |  6 ++---
++ 4 files changed, 50 insertions(+), 18 deletions(-)
 +
-+diff --git a/libarchive/archive_write_set_format_pax.c b/libarchive/archive_write_set_format_pax.c
-+index 0db45344..66e6d751 100644
-+--- a/libarchive/archive_write_set_format_pax.c
-++++ b/libarchive/archive_write_set_format_pax.c
-+@@ -1571,7 +1571,7 @@ build_ustar_entry_name(char *dest, const char *src, size_t src_length,
-+ 	const char *filename, *filename_end;
-+ 	char *p;
-+ 	int need_slash = 0; /* Was there a trailing slash? */
-+-	size_t suffix_length = 99;
-++	size_t suffix_length = 98; /* 99 - 1 for trailing slash */
-+ 	size_t insert_length;
++diff --git a/libarchive/archive_read_open_fd.c b/libarchive/archive_read_open_fd.c
++index 3fd536d5..dc7c9e52 100644
++--- a/libarchive/archive_read_open_fd.c
+++++ b/libarchive/archive_read_open_fd.c
++@@ -52,6 +52,7 @@
++ struct read_fd_data {
++ 	int	 fd;
++ 	size_t	 block_size;
+++	int64_t	 size;
++ 	char	 use_lseek;
++ 	void	*buffer;
++ };
++@@ -95,6 +96,7 @@ archive_read_open_fd(struct archive *a, int fd, size_t block_size)
++ 	if (S_ISREG(st.st_mode)) {
++ 		archive_read_extract_set_skip_file(a, st.st_dev, st.st_ino);
++ 		mine->use_lseek = 1;
+++		mine->size = st.st_size;
++ 	}
++ #if defined(__CYGWIN__) || defined(_WIN32)
++ 	setmode(mine->fd, O_BINARY);
++@@ -151,9 +153,14 @@ file_skip(struct archive *a, void *client_data, int64_t request)
++ 	if (skip == 0)
++ 		return (0);
 + 
-+ 	/* Length of additional dir element to be added. */
-+@@ -1623,7 +1623,7 @@ build_ustar_entry_name(char *dest, const char *src, size_t src_length,
-+ 	/* Step 2: Locate the "prefix" section of the dirname, including
-+ 	 * trailing '/'. */
-+ 	prefix = src;
-+-	prefix_end = prefix + 155;
-++	prefix_end = prefix + 154 /* 155 - 1 for trailing / */;
-+ 	if (prefix_end > filename)
-+ 		prefix_end = filename;
-+ 	while (prefix_end > prefix && *prefix_end != '/')
++-	if (((old_offset = lseek(mine->fd, 0, SEEK_CUR)) >= 0) &&
++-	    ((new_offset = lseek(mine->fd, skip, SEEK_CUR)) >= 0))
++-		return (new_offset - old_offset);
+++	if ((old_offset = lseek(mine->fd, 0, SEEK_CUR)) >= 0) {
+++		if (old_offset >= mine->size ||
+++		    skip > mine->size - old_offset) {
+++			/* Do not seek past end of file. */
+++			errno = ESPIPE;
+++		} else if ((new_offset = lseek(mine->fd, skip, SEEK_CUR)) >= 0)
+++			return (new_offset - old_offset);
+++	}
++ 
++ 	/* If seek failed once, it will probably fail again. */
++ 	mine->use_lseek = 0;
++diff --git a/libarchive/archive_read_open_file.c b/libarchive/archive_read_open_file.c
++index 2829b9a5..6ed18a0c 100644
++--- a/libarchive/archive_read_open_file.c
+++++ b/libarchive/archive_read_open_file.c
++@@ -52,6 +52,7 @@
++ struct read_FILE_data {
++ 	FILE    *f;
++ 	size_t	 block_size;
+++	int64_t	 size;
++ 	void	*buffer;
++ 	char	 can_skip;
++ };
++@@ -91,6 +92,7 @@ archive_read_open_FILE(struct archive *a, FILE *f)
++ 		archive_read_extract_set_skip_file(a, st.st_dev, st.st_ino);
++ 		/* Enable the seek optimization only for regular files. */
++ 		mine->can_skip = 1;
+++		mine->size = st.st_size;
++ 	}
++ 
++ #if defined(__CYGWIN__) || defined(_WIN32)
++@@ -130,6 +132,7 @@ FILE_skip(struct archive *a, void *client_data, int64_t request)
++ #else
++ 	long skip = (long)request;
++ #endif
+++	int64_t old_offset, new_offset;
++ 	int skip_bits = sizeof(skip) * 8 - 1;
++ 
++ 	(void)a; /* UNUSED */
++@@ -153,19 +156,33 @@ FILE_skip(struct archive *a, void *client_data, int64_t request)
++ 
++ #ifdef __ANDROID__
++         /* fileno() isn't safe on all platforms ... see above. */
++-	if (lseek(fileno(mine->f), skip, SEEK_CUR) < 0)
+++	old_offset = lseek(fileno(mine->f), 0, SEEK_CUR);
++ #elif HAVE__FSEEKI64
++-	if (_fseeki64(mine->f, skip, SEEK_CUR) != 0)
+++	old_offset = _ftelli64(mine->f);
++ #elif HAVE_FSEEKO
++-	if (fseeko(mine->f, skip, SEEK_CUR) != 0)
+++	old_offset = ftello(mine->f);
++ #else
++-	if (fseek(mine->f, skip, SEEK_CUR) != 0)
+++	old_offset = ftell(mine->f);
++ #endif
++-	{
++-		mine->can_skip = 0;
++-		return (0);
+++	if (old_offset >= 0) {
+++		if (old_offset < mine->size &&
+++		    skip <= mine->size - old_offset) {
+++#ifdef __ANDROID__
+++			new_offset = lseek(fileno(mine->f), skip, SEEK_CUR);
+++#elif HAVE__FSEEKI64
+++			new_offset = _fseeki64(mine->f, skip, SEEK_CUR);
+++#elif HAVE_FSEEKO
+++			new_offset = fseeko(mine->f, skip, SEEK_CUR);
+++#else
+++			new_offset = fseek(mine->f, skip, SEEK_CUR);
+++#endif
+++			if (new_offset >= 0)
+++				return (new_offset - old_offset);
+++		}
++ 	}
++-	return (request);
+++
+++	mine->can_skip = 0;
+++	return (0);
++ }
++ 
++ /*
++diff --git a/libarchive/archive_read_open_filename.c b/libarchive/archive_read_open_filename.c
++index 3894b15c..5f5b3f1f 100644
++--- a/libarchive/archive_read_open_filename.c
+++++ b/libarchive/archive_read_open_filename.c
++@@ -74,6 +74,7 @@ struct read_file_data {
++ 	size_t	 block_size;
++ 	void	*buffer;
++ 	mode_t	 st_mode;  /* Mode bits for opened file. */
+++	int64_t	 size;
++ 	char	 use_lseek;
++ 	enum fnt_e { FNT_STDIN, FNT_MBS, FNT_WCS } filename_type;
++ 	union {
++@@ -400,8 +401,10 @@ file_open(struct archive *a, void *client_data)
++ 	mine->st_mode = st.st_mode;
++ 
++ 	/* Disk-like inputs can use lseek(). */
++-	if (is_disk_like)
+++	if (is_disk_like) {
++ 		mine->use_lseek = 1;
+++		mine->size = st.st_size;
+++	}
++ 
++ 	return (ARCHIVE_OK);
++ fail:
++@@ -495,9 +498,14 @@ file_skip_lseek(struct archive *a, void *client_data, int64_t request)
++ 			skip = max_skip;
++ 	}
++ 
++-	if ((old_offset = lseek(mine->fd, 0, SEEK_CUR)) >= 0 &&
++-	    (new_offset = lseek(mine->fd, skip, SEEK_CUR)) >= 0)
++-		return (new_offset - old_offset);
+++	if ((old_offset = lseek(mine->fd, 0, SEEK_CUR)) >= 0) {
+++		if (old_offset >= mine->size ||
+++		    skip > mine->size - old_offset) {
+++			/* Do not seek past end of file. */
+++			errno = ESPIPE;
+++		} else if ((new_offset = lseek(mine->fd, skip, SEEK_CUR)) >= 0)
+++			return (new_offset - old_offset);
+++	}
++ 
++ 	/* If lseek() fails, don't bother trying again. */
++ 	mine->use_lseek = 0;
++diff --git a/libarchive/test/test_read_format_rar.c b/libarchive/test/test_read_format_rar.c
++index dce567af..fce44a9d 100644
++--- a/libarchive/test/test_read_format_rar.c
+++++ b/libarchive/test/test_read_format_rar.c
++@@ -3829,8 +3829,8 @@ DEFINE_TEST(test_read_format_rar_ppmd_use_after_free)
++   assertA(ARCHIVE_OK == archive_read_next_header(a, &ae));
++   assertA(archive_read_data(a, buf, sizeof(buf)) <= 0);
++ 
++-  /* Test EOF */
++-  assertA(1 == archive_read_next_header(a, &ae));
+++  /* Test for truncation */
+++  assertA(ARCHIVE_FATAL == archive_read_next_header(a, &ae));
++ 
++   assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
++   assertEqualInt(ARCHIVE_OK, archive_read_free(a));
++@@ -3856,7 +3856,7 @@ DEFINE_TEST(test_read_format_rar_ppmd_use_after_free2)
++   assertA(archive_read_data(a, buf, sizeof(buf)) <= 0);
++ 
++   /* Test EOF */
++-  assertA(1 == archive_read_next_header(a, &ae));
+++  assertA(ARCHIVE_FATAL == archive_read_next_header(a, &ae));
++ 
++   assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
++   assertEqualInt(ARCHIVE_OK, archive_read_free(a));
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-02.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-02.patch
+new file mode 100644
+index 0000000000..bc6903d41c
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-02.patch
+@@ -0,0 +1,51 @@
++From 51b4c35bb38b7df4af24de7f103863dd79129b01 Mon Sep 17 00:00:00 2001
++From: Tobias Stoeckmann <tobias@stoeckmann.org>
++Date: Tue, 27 May 2025 17:09:12 +0200
++Subject: [PATCH] Fix FILE_skip regression
++
++The fseek* family of functions return 0 on success, not the new offset.
++This is only true for lseek.
++
++Fixes https://github.com/libarchive/libarchive/issues/2641
++Fixes dcbf1e0ededa95849f098d154a25876ed5754bcf
++
++Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
++
++CVE: CVE-2025-5918
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/51b4c35bb38b7df4af24de7f103863dd79129b01]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ libarchive/archive_read_open_file.c | 11 +++++++----
++ 1 file changed, 7 insertions(+), 4 deletions(-)
++
++diff --git a/libarchive/archive_read_open_file.c b/libarchive/archive_read_open_file.c
++index 6ed18a0c..742923ab 100644
++--- a/libarchive/archive_read_open_file.c
+++++ b/libarchive/archive_read_open_file.c
++@@ -132,7 +132,7 @@ FILE_skip(struct archive *a, void *client_data, int64_t request)
++ #else
++ 	long skip = (long)request;
++ #endif
++-	int64_t old_offset, new_offset;
+++	int64_t old_offset, new_offset = -1;
++ 	int skip_bits = sizeof(skip) * 8 - 1;
++ 
++ 	(void)a; /* UNUSED */
++@@ -170,11 +170,14 @@ FILE_skip(struct archive *a, void *client_data, int64_t request)
++ #ifdef __ANDROID__
++ 			new_offset = lseek(fileno(mine->f), skip, SEEK_CUR);
++ #elif HAVE__FSEEKI64
++-			new_offset = _fseeki64(mine->f, skip, SEEK_CUR);
+++			if (_fseeki64(mine->f, skip, SEEK_CUR) == 0)
+++				new_offset = _ftelli64(mine->f);
++ #elif HAVE_FSEEKO
++-			new_offset = fseeko(mine->f, skip, SEEK_CUR);
+++			if (fseeko(mine->f, skip, SEEK_CUR) == 0)
+++				new_offset = ftello(mine->f);
++ #else
++-			new_offset = fseek(mine->f, skip, SEEK_CUR);
+++			if (fseek(mine->f, skip, SEEK_CUR) == 0)
+++				new_offset = ftell(mine->f);
++ #endif
++ 			if (new_offset >= 0)
++ 				return (new_offset - old_offset);
 diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-index 1015de3fce..a0f5d67700 100644
+index a0f5d67700..6a5b99ff7f 100644
 --- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
 +++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-@@ -33,6 +33,7 @@ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://CVE-2025-5914.patch \
+@@ -34,6 +34,9 @@ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
             file://CVE-2025-5915.patch \
             file://CVE-2025-5916.patch \
-+           file://CVE-2025-5917.patch \
+            file://CVE-2025-5917.patch \
++           file://0001-Improve-lseek-handling-2564.patch \
++           file://CVE-2025-5918-01.patch \
++           file://CVE-2025-5918-02.patch \
             "
  
  UPSTREAM_CHECK_URI = "http://libarchive.org/"
