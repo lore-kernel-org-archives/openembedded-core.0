@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A90CA0FEB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC9B4CA0EFA
 	for <webhook@archiver.kernel.org>; Tue, 26 Aug 2025 13:44:56 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.64677.1756215890142346115
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web10.64676.1756215887112600139
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 06:44:50 -0700
+ Tue, 26 Aug 2025 06:44:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TFWTeLz+;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-24622df0d95so33209115ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 06:44:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=f7MXjgrV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b47173749dbso3926593a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 06:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756215889; x=1756820689; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756215886; x=1756820686; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CSOWViRyMXu/JY96W72SlciQf1bQbDL1ZNyUmGM05Vo=;
-        b=TFWTeLz++VssSCGpUZC4Xo3RmQtbZzaWQAfi7RKdWbxXFKtyGdPyuLInuWe4yjdkw5
-         mxH/GTjRUFfL/i5VPuJTaiG2+Z6lUEZ8p/Mq/30izv/FWa0hplNAiEiC1Cpn0N1vj9qI
-         13VNyPXq+oE7tdX/VUdVJMEnQhAK0N4oS+hr72lh0uhhcY9QXqQElOKEfAPTUc+ehWO9
-         tFhCdb74UjdUtVw7c37kLVi264wpqDwVGPHKwduyqD6dirjqc8bl4809sk+TTJ0fjI82
-         2ZxMUEIbM7ZyZXMekRMs7IyAqFvW/v9aTtg35PykhOFiAGuZNYEDnxt7Vbd3dF6/9OUT
-         dfOQ==
+        bh=/FQ7BE10iOq1+Twz43DUUFVt24UFKk5zf78xNTy9vRM=;
+        b=f7MXjgrVZAC6HKJwhvM7F4ddLZsVV9IC1NdNoUOUtOdvQTUwTfJyP9EVoYibpM2Cmu
+         oVLEIUDVJEwmknE95wQICc1zh8u2YpUGwI6mani99GBh6t2cTGpY/LzDgA0DyZiySLJ4
+         wcDS3s4P1jN181DdFpVutrq4XrG9tW9knm0GTCLBkA9JnDO7Qz/K+GLAU4+zWTwRf5zI
+         PnWPQGjVwbXgTTFZNRgX+fT9GmIvh7MDmuDPOl/UnDWxSHd5Rq7l7721Nzkri92X+vqr
+         DynXJOQTPgfDnU/sAANL0DERBwfoCLbd+KWlrGVlMGSoOOy01PW4YkVW/aV6+GyTlBOs
+         Wt5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756215889; x=1756820689;
+        d=1e100.net; s=20230601; t=1756215886; x=1756820686;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CSOWViRyMXu/JY96W72SlciQf1bQbDL1ZNyUmGM05Vo=;
-        b=Kr5SgVrmqEXU2beHeymyiGzh2Uwpyfr3zEV7e9mbd+9tW+RQiu2+UsAojMDzFlpaaX
-         +/NGii8A1Pgd5pkOFl3omFjJaaP+vRAF+HLXz/88cUWu6m+C9bGyrikr/60FY7aL4kRE
-         O092cqbgInEzUZV2wb2Cp+8l7JWVQRhU/4fgEKSuuVc5bjs9Ka3avyS3dNt9udABb+g8
-         Dk5QQzbImDHIFRkOtXj4Iffdk4yMJWA6rwFwZa08u2VOrq+Huc+aeZs04YmAp3jCokv9
-         NeFbYopGg7CQLmxQ1IfReP3MaL1f4teD8puz1CjG6YhAhjaMYIxGtQr/oNET3Yc4N52d
-         2FAA==
-X-Gm-Message-State: AOJu0YwovOhLFCpjrytHUHWrIEcUOPMWe9mFduzQLg09XvDEJNbn43sn
-	OlnOLES+TNDMF015r8PGzMh8CgAcf4cGUZIn6ZgQ0uxCFEEPiza8knsc5l9XafCE1r6PCMYz6Nk
-	AVccD
-X-Gm-Gg: ASbGnctIkPtIoRUbCpC8ltyAiNqjY6GR1ghqTCkcRrNsnuiInvvy3XQvcfjFB/IjU4I
-	SmfPjhJqBF2pNvksWZIG1ktC5d2PkzwvlREShyD8gKB4ADcOpg/TZqVPo6MvpN6CARqA7wgRkLc
-	cUG6Vg9nWx9AIWEM0n9xWAalpjoPlHK/6r5LyolavGkg5YJFoTg1WEtPKjQz+AsD5tX6pH0X8YO
-	79455AeuFyFCpbC5MtavU0gwaSC2b4s6Hny080rdY51mynhTVZqAq/WemVvsvnYKFrJ+TT0XtwQ
-	sswAsPnC3w1x3H+RP1nNtXS9dD3co6sg7II95ozKiuVCyfYabqWdZ6WwSyZRT8dpnQuE2zBf7x0
-	YrHqypW2Vrybk/A==
-X-Google-Smtp-Source: AGHT+IHAnhgsjEWcpYphxhBE8mvd9EglLh9HMfmPkZi2EJiaK7cbrsHmgi08vOfXQZre+FYRn1RhNQ==
-X-Received: by 2002:a17:903:fa6:b0:248:7bf8:8db0 with SMTP id d9443c01a7336-2487bf89b3bmr11995065ad.52.1756215889115;
-        Tue, 26 Aug 2025 06:44:49 -0700 (PDT)
+        bh=/FQ7BE10iOq1+Twz43DUUFVt24UFKk5zf78xNTy9vRM=;
+        b=gt+a2N2U+vbhtjLgwEDsJQBWRW10G+zc/WWD10ZscmoWYWzeu26W4Dzw+rDO37tkH2
+         PARyo8ViCLpQD0x3y3mxdw/61n0GPa7lImgNIEB6D+cDn23n6BcJDf1rJVFSGNg/y7LF
+         DuPK1IKcf3Vm7RjVDQh1+7MMSdauMUhLcgjoP229rUyQA72bV3dvSp6OPuOKnxEEVaRd
+         MjUneiQlwSdRwqBQ7pkFBB8WNRW9SvV0POUkonNZtHdJX6Q8KrGyEgbjIdFK7KYi8Yvj
+         B/QvzsYJ9gIyeC+UMa7rheoyj6XdwDHNLc3e5zQptxi57+W8QleUNaI0s7kAS52kAuQl
+         Rdiw==
+X-Gm-Message-State: AOJu0YzOP/qIN459w9c7J1M/Uk+kPsM5/fnHRK7Plg0hgrx1+AVk5gdp
+	zQmSldKjr0eZr95iEW1uozQOqlq3RQS336nRXf8YlaJTsYf2gZt2TGXUboIViAJxCKjJibkHgek
+	jU/Mm
+X-Gm-Gg: ASbGnctgn0EsI7myIfra/SiNq7i1OkJdm2pw5nPzVeZETG2W2Iog7NjMMGRqDIQ4oKj
+	4hf3wKSQRde/k0ukzIuwNiJTmX+8/3+Ev0+VcS72sovBzWCsr1WTUYuL+sEt6LLxFmKjDuGjG7m
+	SryhkrHyYgbulih9FfkTNZJo989ao8r/oNaJEOzXv9BgTXFE1wCgMor1tRXHxaZR69oGvr3fuM6
+	7OfD+6fWqBZMuSMRtkcr36jthiLtCXAYhdvm+r1eKoqfQA2TCvTyI9k75dG2ea/x3aPq1dWv7t8
+	J1HFcWyH8dI8xeCfkmHJhfTksr8wNO6MGcNqIwGgdRI2OQY/E8Q0vwDZtRwRa223mOuG9cTDjqs
+	Goal+eqJbkJL+UQ==
+X-Google-Smtp-Source: AGHT+IFWYEGl73bUawFto/VvLo6ksEnMs2p1RtZHzHlgN/XVYeptnSIHFjktMKzyO3xDa73+0NNiqA==
+X-Received: by 2002:a17:903:13c8:b0:248:6d1a:430f with SMTP id d9443c01a7336-2486d1a46b2mr24718465ad.25.1756215886288;
+        Tue, 26 Aug 2025 06:44:46 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:1687:ddce:d4c7:f578])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24668779fa9sm96941595ad.27.2025.08.26.06.44.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24668779fa9sm96941595ad.27.2025.08.26.06.44.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 06:44:48 -0700 (PDT)
+        Tue, 26 Aug 2025 06:44:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 7/9] glib-2.0: patch CVE-2025-7039
-Date: Tue, 26 Aug 2025 06:44:29 -0700
-Message-ID: <79355004da104587b2fb40dcb76053431c6a6182.1756215756.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 5/9] gstreamer1.0-plugins-base: fix CVE-2025-47807
+Date: Tue, 26 Aug 2025 06:44:27 -0700
+Message-ID: <8452fbdee00d27f2390dafa9d2ef14e7458baa70.1756215756.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756215756.git.steve@sakoman.com>
 References: <cover.1756215756.git.steve@sakoman.com>
@@ -68,132 +68,86 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 13:44:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222468
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222466
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Pick commit per [1].
-Also pick commit which changed the same code before to apply it cleanly.
+Upstream-Status: Backport from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/9e2238adc1cad1fba5aad23bc8c2a6c2a65794d2
 
-[1] https://security-tracker.debian.org/tracker/CVE-2025-7039
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../glib-2.0/glib-2.0/CVE-2025-7039-01.patch  | 40 +++++++++++++++++
- .../glib-2.0/glib-2.0/CVE-2025-7039-02.patch  | 43 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  2 +
- 3 files changed, 85 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039-02.patch
+ .../CVE-2025-47807.patch                      | 49 +++++++++++++++++++
+ .../gstreamer1.0-plugins-base_1.20.7.bb       |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47807.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039-01.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039-01.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47807.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47807.patch
 new file mode 100644
-index 0000000000..cb096fca42
+index 0000000000..03a5d938b5
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039-01.patch
-@@ -0,0 +1,40 @@
-+From 285db475ecaa4d2cc39ce326b4c63aacb87ca6ad Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 22 Aug 2023 19:57:48 +0200
-+Subject: [PATCH] glib/gfileutils.c: use 64 bits for value in get_tmp_file()
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47807.patch
+@@ -0,0 +1,49 @@
++From 9e2238adc1cad1fba5aad23bc8c2a6c2a65794d2 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Thu, 8 May 2025 09:14:15 +0300
++Subject: [PATCH] subparse: Check for valid UTF-8 before cleaning up lines and
++ check for regex replace errors
 +
-+On 32 bit systems 'long' value will overflow in 2038 and become negative.
-+As it is used to index into letters array, and % operation preserves signs,
-+data corruption will then occur.
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4418
++Fixes CVE-2025-47807
 +
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/9132>
 +
-+CVE: CVE-2025-7039
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/285db475ecaa4d2cc39ce326b4c63aacb87ca6ad]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++CVE: CVE-2025-47807
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/9e2238adc1cad1fba5aad23bc8c2a6c2a65794d2]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ glib/gfileutils.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ gst/subparse/gstsubparse.c | 10 ++++++++++
++ 1 file changed, 10 insertions(+)
 +
-+diff --git a/glib/gfileutils.c b/glib/gfileutils.c
-+index 9646c696e..bd3cc179a 100644
-+--- a/glib/gfileutils.c
-++++ b/glib/gfileutils.c
-+@@ -1475,7 +1475,7 @@ get_tmp_file (gchar            *tmpl,
-+   static const char letters[] =
-+     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-+   static const int NLETTERS = sizeof (letters) - 1;
-+-  glong value;
-++  gint64 value;
-+   gint64 now_us;
-+   static int counter = 0;
++diff --git a/gst/subparse/gstsubparse.c b/gst/subparse/gstsubparse.c
++index 81a7f65..5e8769c 100644
++--- a/gst/subparse/gstsubparse.c
+++++ b/gst/subparse/gstsubparse.c
++@@ -666,6 +666,12 @@ subrip_unescape_formatting (gchar * txt, gconstpointer allowed_tags_ptr,
++   res = g_regex_replace (tag_regex, txt, strlen (txt), 0,
++       replace_pattern, 0, NULL);
 + 
-+@@ -1496,7 +1496,7 @@ get_tmp_file (gchar            *tmpl,
-+ 
-+   for (count = 0; count < 100; value += 7777, ++count)
-+     {
-+-      glong v = value;
-++      gint64 v = value;
-+ 
-+       /* Fill in the random bits.  */
-+       XXXXXX[0] = letters[v % NLETTERS];
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039-02.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039-02.patch
-new file mode 100644
-index 0000000000..37e32fefc3
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039-02.patch
-@@ -0,0 +1,43 @@
-+From 61e963284889ddb4544e6f1d5261c16120f6fcc3 Mon Sep 17 00:00:00 2001
-+From: Michael Catanzaro <mcatanzaro@redhat.com>
-+Date: Tue, 1 Jul 2025 10:58:07 -0500
-+Subject: [PATCH] gfileutils: fix computation of temporary file name
+++  /* Replacing can fail. Return an empty string in that case. */
+++  if (!res) {
+++    strcpy (txt, "");
+++    return;
+++  }
+++
++   /* res will always be shorter than the input or identical, so this
++    * copy is OK */
++   strcpy (txt, res);
++@@ -1046,6 +1052,10 @@ parse_subrip (ParserState * state, const gchar * line)
++         g_string_append_c (state->buf, '\n');
++       g_string_append (state->buf, line);
++       if (strlen (line) == 0) {
+++        if (!g_utf8_validate (state->buf->str, state->buf->len, NULL)) {
+++          g_string_truncate (state->buf, 0);
+++          return NULL;
+++        }
++         ret = g_markup_escape_text (state->buf->str, state->buf->len);
++         g_string_truncate (state->buf, 0);
++         state->state = 0;
++-- 
++2.50.1
 +
-+We need to ensure that the value we use to index into the letters array
-+is always positive.
-+
-+Fixes #3716
-+
-+CVE: CVE-2025-7039
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/61e963284889ddb4544e6f1d5261c16120f6fcc3]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ glib/gfileutils.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/glib/gfileutils.c b/glib/gfileutils.c
-+index c7d3339d1..286b1b154 100644
-+--- a/glib/gfileutils.c
-++++ b/glib/gfileutils.c
-+@@ -1475,9 +1475,9 @@ get_tmp_file (gchar            *tmpl,
-+   static const char letters[] =
-+     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-+   static const int NLETTERS = sizeof (letters) - 1;
-+-  gint64 value;
-+-  gint64 now_us;
-+-  static int counter = 0;
-++  guint64 value;
-++  guint64 now_us;
-++  static guint counter = 0;
-+ 
-+   g_return_val_if_fail (tmpl != NULL, -1);
-+ 
-+@@ -1496,7 +1496,7 @@ get_tmp_file (gchar            *tmpl,
-+ 
-+   for (count = 0; count < 100; value += 7777, ++count)
-+     {
-+-      gint64 v = value;
-++      guint64 v = value;
-+ 
-+       /* Fill in the random bits.  */
-+       XXXXXX[0] = letters[v % NLETTERS];
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-index 31b6c1fe98..7ba52b5c79 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-@@ -62,6 +62,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2025-3360-06.patch \
-            file://CVE-2025-4373-01.patch \
-            file://CVE-2025-4373-02.patch \
-+           file://CVE-2025-7039-01.patch \
-+           file://CVE-2025-7039-02.patch \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
+index 05d58e83b0..6bffd2a872 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
+@@ -22,6 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://CVE-2024-47835.patch \
+            file://CVE-2025-47806.patch \
+            file://CVE-2025-47808.patch \
++           file://CVE-2025-47807.patch \
             "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
+ SRC_URI[sha256sum] = "fde6696a91875095d82c1012b5777c28ba926047ffce08508e12c1d2c66f0057"
  
 -- 
 2.43.0
