@@ -2,165 +2,232 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC537CA0FF8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7ED2CA0FF0
 	for <webhook@archiver.kernel.org>; Tue, 26 Aug 2025 13:44:56 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.64678.1756215893291954678
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.65035.1756215891619856485
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 06:44:53 -0700
+ Tue, 26 Aug 2025 06:44:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OA9Gcy4S;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b47052620a6so4765477a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 06:44:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=s8w0Cpve;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-246181827e9so46931805ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 06:44:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756215892; x=1756820692; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756215891; x=1756820691; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=84ZwvVYOLOR3YqXWmdHJtzOKhNrLA/jKB2FGvuweOxI=;
-        b=OA9Gcy4S+pABBLlrhNxElKku/aIG1/KiMSZr1Hn1Aq549db1P3f4/mDYoodHVBwhBZ
-         njlvU6Qh/raur9xxUs5ypuZCjSg5iVGWc7AkdQGu14ASTmJvIdRweGjgb/TYMXRKuOcP
-         LttpXkDC53jWj57X8NN/uNsORFlY1tUbUz+J/QawSYL965FHW/wFTMdly0KZvrYHfuIM
-         OoUMuCOoWHHitS77SjvvL1YrQHEJFYEAu7u2uDYrwnEMEGDWhr1O7+ydZ9JufirZtyPO
-         y6Wpkgj3Gys/PxEag7A20A2k+gr2UCaUr3dJMj+U+/PfZI+geRu5OFVUG37mJgLUMz2H
-         7zGQ==
+        bh=dTtTCizdLzpXXA1Hb3ysNHMVCySoUzceauVF2GPKoo0=;
+        b=s8w0Cpve4OEMyPwEHxfhPrzzxby9aT0UjD1FdVYec31AXEJO/yNPj9ROjUAUlgnOxx
+         XEW9pn3ViqkARdF4hwn17F6ObKZWg5aM5WpZZDjwpMRZFVD/2arggQIqFzBcDt9FnzYQ
+         5aWLw9kmuY71uXz5//3Lnjx/SV2j1442QO47z/K2yOUmGapVoRcskHgltOLHfnlZB2Gh
+         gkieRK7Q3CWQ49CQs0LPYCogdV4HlldgLiXRxehvdrsIAkMAEUqGnfVkwYVrNgnCt9NU
+         hQe42GiUXxYGsFIu3R8T5Aaic8KZekMip8DR4Oz3bZrR5hxzpVb3eOn8e/OF/x4LFba4
+         JSaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756215892; x=1756820692;
+        d=1e100.net; s=20230601; t=1756215891; x=1756820691;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=84ZwvVYOLOR3YqXWmdHJtzOKhNrLA/jKB2FGvuweOxI=;
-        b=krngE83cFCDySv7W8FGdeqQuNwSn3AHP3c8rfTfJyC4GkGYqxLV9/b9m/USQVgpJNx
-         tz7VS087mijBqt4bN8DOpfV55cgtkTBb8Dj3H2gwU9PeLM8wH7wybzubJOwAmT8WeBod
-         8liudugs1RAuYWTd9+zxIw1SuS/r8mvSt4L4QKk56LKby2jZO59PUp+KyM0DN6mXEGq3
-         O+Bp+cyuxO2q1sPltT16vtxDc9muK344qlS7JTZ4brd7YqV3+8rxVz87FNjSF1L20K3o
-         sWRhl86mwWmTA0M9a6TpSAYND8dW0fqgxl/CgNYTlb5P1N1FBr2/LvSJpVXge9jt2cWB
-         UdBA==
-X-Gm-Message-State: AOJu0YyM9UGvOEbKWvL987Cdjnd1iKEqTMFOassVyODuipznR+EdtV7t
-	0Z9W4J5zAx0xXKnJtp4cIzK0pNOiLsgVt3Dl5JJWT9gDbcjWDvslK2bKQUiR7y/UE0qtaWj0B4C
-	2AxzE
-X-Gm-Gg: ASbGnctfruiI+tHKKIw1F5xVldCuxY3zFKwAQizju6lJehd9LvGvcvB3uYb2sK69Ut+
-	D6/9caaOxoSg8CC+w2VnTh6OLtrParz6spgxXCTOhlPaj1A3pcbjj5sb+v5PzgulBjD9sqNkTOX
-	yM7R3KKKzV9N4ngfTXrYwKFSli9cFvqJOWO0yewNtIBNVYy061lS49X8s5XkkVTyB8e7zNxluix
-	7mMq0hCyvMjt2ekOxvyioejTpbN6QT2RqpZ3FhuNakDJUgDM4tWs3A+x7fFaeu91k9RY6fsqHww
-	+Wf5u2ZlWO8tPpEhV7pXj2D3wiZSTMK6ujonXIbzELuImHZh07NIB7OhoquBGVf5AZEu/nBngjJ
-	0b38p0/+0ujWL6IJzMtF7UuWw
-X-Google-Smtp-Source: AGHT+IGQekE+/NCnIi5Fryhy8jeXEB51xHoB/ftvVCmnBSxyEGca4wfjZnN5WZPV9m5duAU/52VADw==
-X-Received: by 2002:a17:902:f788:b0:234:325:500b with SMTP id d9443c01a7336-248753a2773mr16270235ad.22.1756215892378;
-        Tue, 26 Aug 2025 06:44:52 -0700 (PDT)
+        bh=dTtTCizdLzpXXA1Hb3ysNHMVCySoUzceauVF2GPKoo0=;
+        b=p7oHGUBHMYPS5d18Ui0SWtgkT3aauKBhXQ+pfk0PnrGDmys8ZYlIb2QMxuCq1ef0/3
+         xjDXW2P/uv07ZV6XHgU8OC6HNi/xR5ZQ1A2bW5JkkFAjtKnGQAEV8DH1EA3wW0utYJfV
+         9XB9hpZ80Cr5mBaNhqtUiq3nwxpTDsxncCqQjVvKdrMtgDB1/WgIliin/5w07RMHqZD/
+         XB2dqyiCaRPmaL9Rw2vEvrxl6Pgn44OXpdKesd/NLfdZ+EtGgkEik6azIW9Eu0CbTiN/
+         SiS6E309gMs6F84jvZ8CUiwVdWc2sjPc+SQPGYtiae/aRVRJGynj9h6XVpUKWyzM6jJU
+         SI0Q==
+X-Gm-Message-State: AOJu0Yw/Ja0DiX8ydyDQMAoXsSiCdUiXXdkAPo2RyXhe2UH4AdDip/LF
+	lTTEKAE9ZJ5ejU7qWh4Z9Z36B7+8zxxKxq+ZDDKpXm1crFuxvHUfV/SnfAe56rIa7nqPf3+PEhi
+	zNj1K
+X-Gm-Gg: ASbGncvq9xLHBrjCr32x0Vx+hAtmUW6v0DxwpLYEB0pUjqrGV7w0KhfxkVr4Thu86jo
+	MHEop7bqAlFWWlzKXBwpSynueBxwW5KmIr90r+MYGJHRO+o/1fvSmXjE31HPPJt2sI3C8TZqLJZ
+	BXaiwLnm8vLnhqHksZd0AGkzJLYSiE5FMkk6q+D8MtHlgp529WGpP6MX5PxC9fGKHiz9HhV6X5G
+	w9AZ0HhJeWiEoJ18RfhDPjKh6/zaOykHs3z81ywCBtlgPECjDL1dZ/eKP8qaCAyX0VuretwU4/N
+	m5Kdn9QZPauGVfqihj8+0bb7dR2V5KnX161lGJqZXeu74PGKGxrio5HQy4ELn0W67t6KqMWycb3
+	tWTx+PKorV8TgFQ==
+X-Google-Smtp-Source: AGHT+IEMJsJZE3nwlgWYangCPKiMSeEauPUsK1AUjo+GHzTUbTTBRIrCv5fM2YUsieWhFPWT0mJ+MA==
+X-Received: by 2002:a17:903:1b4e:b0:246:42eb:5795 with SMTP id d9443c01a7336-24642eb57f8mr198142135ad.30.1756215890692;
+        Tue, 26 Aug 2025 06:44:50 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:1687:ddce:d4c7:f578])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24668779fa9sm96941595ad.27.2025.08.26.06.44.51
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24668779fa9sm96941595ad.27.2025.08.26.06.44.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 06:44:51 -0700 (PDT)
+        Tue, 26 Aug 2025 06:44:50 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 9/9] libarchive: patch regression of patch for CVE-2025-5918
-Date: Tue, 26 Aug 2025 06:44:31 -0700
-Message-ID: <c947e01b3c27e9f08dc55ee4939d5537318f12e3.1756215756.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 8/9] dpkg: patch CVE-2025-6297
+Date: Tue, 26 Aug 2025 06:44:30 -0700
+Message-ID: <aaf58c4ad69203a6437362ef130e8ed3ce267e81.1756215756.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756215756.git.steve@sakoman.com>
 References: <cover.1756215756.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 13:44:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222470
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222469
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Picked commit per [1].
+Pick commit per [1] from 1.22.x branch.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2025-5918
+[1] https://nvd.nist.gov/vuln/detail/CVE-2025-6297
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...2025-5918.patch => CVE-2025-5918-01.patch} |  0
- .../libarchive/CVE-2025-5918-02.patch         | 51 +++++++++++++++++++
- .../libarchive/libarchive_3.6.2.bb            |  3 +-
- 3 files changed, 53 insertions(+), 1 deletion(-)
- rename meta/recipes-extended/libarchive/libarchive/{CVE-2025-5918.patch => CVE-2025-5918-01.patch} (100%)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-02.patch
+ .../dpkg/dpkg/CVE-2025-6297.patch             | 125 ++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.21.4.bb     |   1 +
+ 2 files changed, 126 insertions(+)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-01.patch
-similarity index 100%
-rename from meta/recipes-extended/libarchive/libarchive/CVE-2025-5918.patch
-rename to meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-01.patch
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-02.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-02.patch
+diff --git a/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch b/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
 new file mode 100644
-index 0000000000..223cd01c0d
+index 0000000000..537f77643b
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-02.patch
-@@ -0,0 +1,51 @@
-+From 51b4c35bb38b7df4af24de7f103863dd79129b01 Mon Sep 17 00:00:00 2001
-+From: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Date: Tue, 27 May 2025 17:09:12 +0200
-+Subject: [PATCH] Fix FILE_skip regression
++++ b/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
+@@ -0,0 +1,125 @@
++From 98c623c8d6814ae46a3b30ca22e584c77d47d86b Mon Sep 17 00:00:00 2001
++From: Guillem Jover <guillem@debian.org>
++Date: Sat, 7 Jun 2025 14:17:07 +0200
++Subject: [PATCH] dpkg-deb: Fix cleanup for control member with restricted
++ directories
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+The fseek* family of functions return 0 on success, not the new offset.
-+This is only true for lseek.
++When extracting a control member into a temporary directory, which is
++documented as being a safe operation even on untrusted data, the code
++in charge of the temporary directory cleanup does not sanitize the
++directory permissions, which is then unable to perform the «rm -rf»
++when running as a non-root user, leaving temporary files behind.
 +
-+Fixes https://github.com/libarchive/libarchive/issues/2641
-+Fixes dcbf1e0ededa95849f098d154a25876ed5754bcf
++Given automated and repeated execution of dpkg-deb commands on
++adversarial .deb packages or with well compressible files, placed
++inside a directory with permissions not allowing removal by a non-root
++user, this can end up with a DoS scenario due to causing disk quota
++exhaustion or disk full conditions.
 +
-+Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
++This is considered a minor issue, given the required conditions to
++trigger a problem with it, but an issue non the less given the
++documented security guarantees of the command. This has been an
++issue since the initial commit introducing dpkg-deb in C.
 +
-+CVE: CVE-2025-5918
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/51b4c35bb38b7df4af24de7f103863dd79129b01]
++We use an existing string for the error message to avoid new strings
++needing translation for stable branches, which make the error message
++less descriptive than what would be ideal. This will be improved in
++git HEAD.
++
++Reported-by: zhutyra on HackerOne
++Fixes: CVE-2025-6297
++Stable-Candidate: 1.20.x 1.21.x 1.22.x
++(cherry picked from commit ed6bbd445dd8800308c67236ba35d08004c98e82)
++(cherry picked from commit 02ad0532bd490cbc95b344f670e622a38eecfbf6)
++(cherry picked from commit d8a76551e22abe76eefd7fef5c7f51f4118eb40e)
++
++CVE: CVE-2025-6297
++Upstream-Status: Backport [https://git.dpkg.org/cgit/dpkg/dpkg.git/commit/?id=98c623c8d6814ae46a3b30ca22e584c77d47d86b]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ libarchive/archive_read_open_file.c | 11 +++++++----
-+ 1 file changed, 7 insertions(+), 4 deletions(-)
++ src/at/deb-content.at | 32 ++++++++++++++++++++++++++++++++
++ src/deb/info.c        | 20 ++++++++++++++++++++
++ 2 files changed, 52 insertions(+)
 +
-+diff --git a/libarchive/archive_read_open_file.c b/libarchive/archive_read_open_file.c
-+index 6ed18a0c..742923ab 100644
-+--- a/libarchive/archive_read_open_file.c
-++++ b/libarchive/archive_read_open_file.c
-+@@ -133,7 +133,7 @@ FILE_skip(struct archive *a, void *client_data, int64_t request)
-+ #else
-+ 	long skip = (long)request;
-+ #endif
-+-	int64_t old_offset, new_offset;
-++	int64_t old_offset, new_offset = -1;
-+ 	int skip_bits = sizeof(skip) * 8 - 1;
++diff --git a/src/at/deb-content.at b/src/at/deb-content.at
++index a192c9493..d48eed72b 100644
++--- a/src/at/deb-content.at
+++++ b/src/at/deb-content.at
++@@ -127,3 +127,35 @@ newline'
++ ])
 + 
-+ 	(void)a; /* UNUSED */
-+@@ -171,11 +171,14 @@ FILE_skip(struct archive *a, void *client_data, int64_t request)
-+ #ifdef __ANDROID__
-+ 			new_offset = lseek(fileno(mine->f), skip, SEEK_CUR);
-+ #elif HAVE__FSEEKI64
-+-			new_offset = _fseeki64(mine->f, skip, SEEK_CUR);
-++			if (_fseeki64(mine->f, skip, SEEK_CUR) == 0)
-++				new_offset = _ftelli64(mine->f);
-+ #elif HAVE_FSEEKO
-+-			new_offset = fseeko(mine->f, skip, SEEK_CUR);
-++			if (fseeko(mine->f, skip, SEEK_CUR) == 0)
-++				new_offset = ftello(mine->f);
-+ #else
-+-			new_offset = fseek(mine->f, skip, SEEK_CUR);
-++			if (fseek(mine->f, skip, SEEK_CUR) == 0)
-++				new_offset = ftell(mine->f);
-+ #endif
-+ 			if (new_offset >= 0)
-+ 				return (new_offset - old_offset);
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-index bfd4df8ad1..65b4649147 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-@@ -41,7 +41,8 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://CVE-2025-5917.patch \
-            file://0001-FILE-seeking-support-2539.patch \
-            file://0001-Improve-lseek-handling-2564.patch \
--           file://CVE-2025-5918.patch \
-+           file://CVE-2025-5918-01.patch \
-+           file://CVE-2025-5918-02.patch \
++ AT_CLEANUP
+++
+++AT_SETUP([dpkg-deb .deb extraction cleanup])
+++AT_KEYWORDS([dpkg-deb deb extraction])
+++
+++DPKG_GEN_CONTROL([pkg-ctrl-dir-perms])
+++AT_CHECK([
+++dpkg-deb --root-owner-group -Znone -b pkg-ctrl-dir-perms
+++DPKG_AR_EXTRACT([pkg-ctrl-dir-perms.deb])
+++dpkg-deb -R pkg-ctrl-dir-perms.deb pkg-ctrl-dir-perms-bad
+++mkdir -p pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
+++touch pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner/file
+++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN
+++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir
+++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
+++$TAR cf control.tar --format=gnu --sort=name --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-ctrl-dir-perms-bad/DEBIAN .
+++DPKG_AR_GEN([pkg-ctrl-dir-perms.deb], [debian-binary control.tar data.tar])
+++], [0], [dpkg-deb: building package 'pkg-ctrl-dir-perms' in 'pkg-ctrl-dir-perms.deb'.
+++])
+++AT_CHECK([
+++dpkg-deb --ctrl-tarfile pkg-ctrl-dir-perms.deb | $TAR tvf -
+++], [0], [dr-xr-xr-x root/root         0 1970-01-01 00:00 ./
+++-rw-r--r-- root/root       176 1970-01-01 00:00 ./control
+++dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/
+++dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/inner/
+++-rw-r--r-- root/root         0 1970-01-01 00:00 ./rx-subdir/inner/file
+++])
+++# Check that we can cleanup the temporarily extracted control.tar member.
+++AT_CHECK([
+++dpkg-deb -I pkg-ctrl-dir-perms.deb
+++], [0], [ignore])
+++
+++AT_CLEANUP
++diff --git a/src/deb/info.c b/src/deb/info.c
++index f3d57e2ce..396ea4d14 100644
++--- a/src/deb/info.c
+++++ b/src/deb/info.c
++@@ -45,14 +45,34 @@
++ #include <dpkg/pkg-format.h>
++ #include <dpkg/buffer.h>
++ #include <dpkg/path.h>
+++#include <dpkg/treewalk.h>
++ #include <dpkg/options.h>
++ 
++ #include "dpkg-deb.h"
++ 
+++static int
+++cu_info_treewalk_fixup_dir(struct treenode *node)
+++{
+++  const char *nodename;
+++
+++  if (!S_ISDIR(treenode_get_mode(node)))
+++    return 0;
+++
+++  nodename = treenode_get_pathname(node);
+++  if (chmod(nodename, 0755) < 0)
+++    ohshite(_("error setting permissions of '%.255s'"), nodename);
+++
+++  return 0;
+++}
+++
++ static void cu_info_prepare(int argc, void **argv) {
++   char *dir;
+++  struct treewalk_funcs cu_info_treewalk_funcs = {
+++    .visit = cu_info_treewalk_fixup_dir,
+++  };
++ 
++   dir = argv[0];
+++  treewalk(dir, TREEWALK_NONE, &cu_info_treewalk_funcs);
++   path_remove_tree(dir);
++   free(dir);
++ }
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
+index 7ef6233ee4..27e835a288 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
+@@ -15,6 +15,7 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
+            file://pager.patch \
+            file://0001-Add-support-for-riscv32-CPU.patch \
+            file://0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch \
++           file://CVE-2025-6297.patch \
             "
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
+ SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
 -- 
 2.43.0
 
