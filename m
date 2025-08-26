@@ -1,234 +1,305 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7ED2CA0FF0
-	for <webhook@archiver.kernel.org>; Tue, 26 Aug 2025 13:44:56 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.65035.1756215891619856485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CF17CA0EFA
+	for <webhook@archiver.kernel.org>; Tue, 26 Aug 2025 13:57:57 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.65571.1756216668673968237
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 06:44:51 -0700
+ Tue, 26 Aug 2025 06:57:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=s8w0Cpve;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-246181827e9so46931805ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 06:44:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hcVldjBi;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-32326e20aadso6561098a91.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 06:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756215891; x=1756820691; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dTtTCizdLzpXXA1Hb3ysNHMVCySoUzceauVF2GPKoo0=;
-        b=s8w0Cpve4OEMyPwEHxfhPrzzxby9aT0UjD1FdVYec31AXEJO/yNPj9ROjUAUlgnOxx
-         XEW9pn3ViqkARdF4hwn17F6ObKZWg5aM5WpZZDjwpMRZFVD/2arggQIqFzBcDt9FnzYQ
-         5aWLw9kmuY71uXz5//3Lnjx/SV2j1442QO47z/K2yOUmGapVoRcskHgltOLHfnlZB2Gh
-         gkieRK7Q3CWQ49CQs0LPYCogdV4HlldgLiXRxehvdrsIAkMAEUqGnfVkwYVrNgnCt9NU
-         hQe42GiUXxYGsFIu3R8T5Aaic8KZekMip8DR4Oz3bZrR5hxzpVb3eOn8e/OF/x4LFba4
-         JSaw==
+        d=gmail.com; s=20230601; t=1756216668; x=1756821468; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DrRu7OO2v9Ezjm5Pch8gnEp0f7v6IXv1wT8eykVFP1M=;
+        b=hcVldjBiCFoR7bKyQYLC6bOJIvWvDxd1PuNt0+nrc37y+2k0ztyDtPF/z7215GI8j5
+         ts29ZX6lIDGEtd762wM2i4ysUaq7BtrC7AktU7+SPx0h9mrau4lV+oaJCBRNCFmhEBEi
+         hLavwq5lIaDx+q+zqzheLpyBaHhb3X+XK4kVVGz2zkHAyCJsNHp9RoeFZMmm/UgMuAT0
+         WEFfZRHPeh2NHvcXAfDNAoJHRD7TYPvJK7Bshu9uDeFX/ruDFhSOJm65SbPgknGIJbRL
+         2+xuEFDh9C+3jyh0xMgyd9vqteZh19UaRzJNhMAyZZQi9SCZWmcp4z6n4uSvgLxzylik
+         fSeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756215891; x=1756820691;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dTtTCizdLzpXXA1Hb3ysNHMVCySoUzceauVF2GPKoo0=;
-        b=p7oHGUBHMYPS5d18Ui0SWtgkT3aauKBhXQ+pfk0PnrGDmys8ZYlIb2QMxuCq1ef0/3
-         xjDXW2P/uv07ZV6XHgU8OC6HNi/xR5ZQ1A2bW5JkkFAjtKnGQAEV8DH1EA3wW0utYJfV
-         9XB9hpZ80Cr5mBaNhqtUiq3nwxpTDsxncCqQjVvKdrMtgDB1/WgIliin/5w07RMHqZD/
-         XB2dqyiCaRPmaL9Rw2vEvrxl6Pgn44OXpdKesd/NLfdZ+EtGgkEik6azIW9Eu0CbTiN/
-         SiS6E309gMs6F84jvZ8CUiwVdWc2sjPc+SQPGYtiae/aRVRJGynj9h6XVpUKWyzM6jJU
-         SI0Q==
-X-Gm-Message-State: AOJu0Yw/Ja0DiX8ydyDQMAoXsSiCdUiXXdkAPo2RyXhe2UH4AdDip/LF
-	lTTEKAE9ZJ5ejU7qWh4Z9Z36B7+8zxxKxq+ZDDKpXm1crFuxvHUfV/SnfAe56rIa7nqPf3+PEhi
-	zNj1K
-X-Gm-Gg: ASbGncvq9xLHBrjCr32x0Vx+hAtmUW6v0DxwpLYEB0pUjqrGV7w0KhfxkVr4Thu86jo
-	MHEop7bqAlFWWlzKXBwpSynueBxwW5KmIr90r+MYGJHRO+o/1fvSmXjE31HPPJt2sI3C8TZqLJZ
-	BXaiwLnm8vLnhqHksZd0AGkzJLYSiE5FMkk6q+D8MtHlgp529WGpP6MX5PxC9fGKHiz9HhV6X5G
-	w9AZ0HhJeWiEoJ18RfhDPjKh6/zaOykHs3z81ywCBtlgPECjDL1dZ/eKP8qaCAyX0VuretwU4/N
-	m5Kdn9QZPauGVfqihj8+0bb7dR2V5KnX161lGJqZXeu74PGKGxrio5HQy4ELn0W67t6KqMWycb3
-	tWTx+PKorV8TgFQ==
-X-Google-Smtp-Source: AGHT+IEMJsJZE3nwlgWYangCPKiMSeEauPUsK1AUjo+GHzTUbTTBRIrCv5fM2YUsieWhFPWT0mJ+MA==
-X-Received: by 2002:a17:903:1b4e:b0:246:42eb:5795 with SMTP id d9443c01a7336-24642eb57f8mr198142135ad.30.1756215890692;
-        Tue, 26 Aug 2025 06:44:50 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:1687:ddce:d4c7:f578])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24668779fa9sm96941595ad.27.2025.08.26.06.44.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 06:44:50 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 8/9] dpkg: patch CVE-2025-6297
-Date: Tue, 26 Aug 2025 06:44:30 -0700
-Message-ID: <aaf58c4ad69203a6437362ef130e8ed3ce267e81.1756215756.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1756215756.git.steve@sakoman.com>
-References: <cover.1756215756.git.steve@sakoman.com>
+        d=1e100.net; s=20230601; t=1756216668; x=1756821468;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DrRu7OO2v9Ezjm5Pch8gnEp0f7v6IXv1wT8eykVFP1M=;
+        b=Qd3DOsjbuXhxA+yZbiexwGtUi4+4Yd0Bt4upOklvtCDP8GbJ53lyeULJdUlt7H0TH5
+         e21RBNyQkqgLBcOMSSKf4wwdlCcbRWRJcT51g62tbZXHWZ1gxFV/jKMSCiKfIsaL33X5
+         /hiaEwGYxgDHPNh8wGky9TgiwLhmCTxHvbtHiVmJVR57tUsZZaC18kAdPCIRlAWFGQz5
+         evqpwbtVdDCf1H/p+WK84p7zvw+jOyxZ/rLf4HM4VrnLtY+qTZy69cAjbQqkLJqW9Xgw
+         qAWla0X8WTh9tg1ZyaU7dRK2ux0kgZRg0qUpggFJhcQ5nrakaCTQg9spYoFrFq0/Lv20
+         XfnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIxn13+JbQKeJ5Ls1orajFCpsjRks/LhL1wW5AGQPF9GzQD2Fa097ELsnUciVNgopeEtjA9uQBD38Lg7sFnomVEg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxjoRbXEm3R3gztsEEXc/Yfe2lwi0Aerin/Pf13Ju2U5wqlKRh4
+	/ZNaEpVhtHdeVJE2eScBf9Zf/m0BA7Pf0PUrpx+a8qubpfckHwxyHPyTZ0/8SSPkHJ05dAU3EAE
+	lu5eakrDx+8wPWubwpLngRHFSRz+NLJY=
+X-Gm-Gg: ASbGncvs3kqgdjgHACrtJraN7PYKbTdnVSX26JzC2hktcLfRk0nXo3IkHuIMyo51lTq
+	rKQ06cc1KVLxqPtlUqvOubI5+LbG7gW5+UcseIMUJ+zCnwSDdDNq8D9x3izlOS4CIuu2h8uO0fv
+	DH5vxQ69ktBeAt8gutRmsN340jhMcSCMyU+B/gTeka+uFSPeElbR8cFmxcjDSOs+U7ncvRjIci4
+	v2wRuzDRo/22tOM1P9hzcdtEPjFWD+j9FwcQnFufo8haMBvSJY=
+X-Google-Smtp-Source: AGHT+IH5kiLe2bskQ5gE752bPtvECYUA59r4ajVOmJHMpWNz/uz4awmcAnWi3J6u3AuCMNxvMRHmNi0cMBhoJuQpGX0=
+X-Received: by 2002:a17:90b:4b:b0:325:245d:79a1 with SMTP id
+ 98e67ed59e1d1-325245d7a55mr17447530a91.31.1756216667869; Tue, 26 Aug 2025
+ 06:57:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1755784780.git.bruce.ashfield@gmail.com>
+ <DC92RWVBN7V4.30RLT0SCEWDPC@bootlin.com> <CADkTA4MVTtjd0bRyVHhS8AiWmN+zw7bj2QZcgoUEhcV9zhHVVQ@mail.gmail.com>
+ <5fabf7da2300b7efccd2f1403e7d4eb53e22d20b.camel@linuxfoundation.org>
+In-Reply-To: <5fabf7da2300b7efccd2f1403e7d4eb53e22d20b.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 26 Aug 2025 10:57:35 -0300
+X-Gm-Features: Ac12FXy92lJPvlpTxEHoHqbuwhIzLv5KyNT6TaLEJ2qm866JxjzeUFy5Z7xVrgg
+Message-ID: <CADkTA4N-NkDozeTqjCEAWdxrBcZzwcUfhcOychL4nsZcsL31ag@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/4] kernel-yocto: -stable and new reference kernel
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000a3160f063d450e08"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 13:44:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222469
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 13:57:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222471
 
-From: Peter Marko <peter.marko@siemens.com>
+--000000000000a3160f063d450e08
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Pick commit per [1] from 1.22.x branch.
+On Tue, Aug 26, 2025 at 4:15=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2025-6297
+> On Mon, 2025-08-25 at 23:03 -0300, Bruce Ashfield wrote:
+> >
+> >
+> > On Fri, Aug 22, 2025 at 12:52=E2=80=AFPM Mathieu Dubois-Briand <
+> mathieu.dubois-briand@bootlin.com> wrote:
+> > > On Thu Aug 21, 2025 at 4:03 PM CEST, Bruce Ashfield via
+> lists.openembedded.org wrote:
+> > > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > >
+> > > > Richard,
+> > > >
+> > > > Here's the next set of updates to the linux-yocto kernel.
+> > > >
+> > > > The plan is to introduce 6.16 as the latest reference kernel, and
+> keep
+> > > > 6.12 around (since it is a LTS).
+> > > >
+> > > > This isn't ready to be the default for builds, but it has passed my
+> > > > core-iamge-kernel-dev testing, so I wanted to make the recipes
+> available
+> > > > as visibility to where we are headed for the release (plus, I'm out
+> of
+> > > > the office on holidays until the first week of September, so making
+> it
+> > > > the default would be a bad idea from me being able to support
+> issues).
+> > > >
+> > >
+> > > Hi Bruce,
+> > >
+> > > Thanks for the series.
+> > >
+> > > I understand this isn't fully ready, but I did launch a full build
+> > > anyway: most builders succeed, we just have one warning on config
+> > > fragments:
+> > >
+> > > WARNING: linux-yocto-6.16.2+git-r0 do_kernel_configcheck: [kernel
+> config]: specified values did not make it into the kernel's final
+> configuration:
+> > > ...
+> > > [INFO]: config 'CONFIG_CRYPTO_LIB_CHACHA' was set, but it wasn't
+> assignable, check (parent) dependencies
+> > > ...
+> > > [INFO]: config 'CONFIG_CRYPTO_CHACHA20_NEON' was set, but it wasn't
+> assignable, check (parent) dependencies
+> > > ...
+> > > [INFO]: the following symbols were not found in the active
+> configuration:
+> > >      - CONFIG_CRYPTO_SHA2_ARM_CE
+> > >      - CONFIG_CRYPTO_CRC32_ARM_CE
+> > >
+> > >
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/2248
+> > >
+> >
+> > I always find it odd that I can't click on any of the AB tabs (in the
+> link you sent) and see what the MACHINE value is for that build.
+> >
+> > I looked at the writeconfig step of the build and it looks to be
+> qemuarm. Which is odd, since I'm not seeing the same warning for that her=
+e.
+> >
+> > When I'm back from holidays next week, I'll have a closer look.
+>
+> FWIW if you look for the "Write config" step (step 10 in the above
+> link) and expand that, it says MACHINE =3D "qemuarm".
+>
+> It is only hitting that build as it is a nodistro build and hence has a
+> floating kernel version.
+>
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../dpkg/dpkg/CVE-2025-6297.patch             | 125 ++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.21.4.bb     |   1 +
- 2 files changed, 126 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
+Hmm. I'm of course forcing 6.16 and the latest revs in all my builds, I'd
+think
+that in theory I should be able see the same thing even with the poky
+distro.
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch b/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
-new file mode 100644
-index 0000000000..537f77643b
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
-@@ -0,0 +1,125 @@
-+From 98c623c8d6814ae46a3b30ca22e584c77d47d86b Mon Sep 17 00:00:00 2001
-+From: Guillem Jover <guillem@debian.org>
-+Date: Sat, 7 Jun 2025 14:17:07 +0200
-+Subject: [PATCH] dpkg-deb: Fix cleanup for control member with restricted
-+ directories
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+When extracting a control member into a temporary directory, which is
-+documented as being a safe operation even on untrusted data, the code
-+in charge of the temporary directory cleanup does not sanitize the
-+directory permissions, which is then unable to perform the «rm -rf»
-+when running as a non-root user, leaving temporary files behind.
-+
-+Given automated and repeated execution of dpkg-deb commands on
-+adversarial .deb packages or with well compressible files, placed
-+inside a directory with permissions not allowing removal by a non-root
-+user, this can end up with a DoS scenario due to causing disk quota
-+exhaustion or disk full conditions.
-+
-+This is considered a minor issue, given the required conditions to
-+trigger a problem with it, but an issue non the less given the
-+documented security guarantees of the command. This has been an
-+issue since the initial commit introducing dpkg-deb in C.
-+
-+We use an existing string for the error message to avoid new strings
-+needing translation for stable branches, which make the error message
-+less descriptive than what would be ideal. This will be improved in
-+git HEAD.
-+
-+Reported-by: zhutyra on HackerOne
-+Fixes: CVE-2025-6297
-+Stable-Candidate: 1.20.x 1.21.x 1.22.x
-+(cherry picked from commit ed6bbd445dd8800308c67236ba35d08004c98e82)
-+(cherry picked from commit 02ad0532bd490cbc95b344f670e622a38eecfbf6)
-+(cherry picked from commit d8a76551e22abe76eefd7fef5c7f51f4118eb40e)
-+
-+CVE: CVE-2025-6297
-+Upstream-Status: Backport [https://git.dpkg.org/cgit/dpkg/dpkg.git/commit/?id=98c623c8d6814ae46a3b30ca22e584c77d47d86b]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/at/deb-content.at | 32 ++++++++++++++++++++++++++++++++
-+ src/deb/info.c        | 20 ++++++++++++++++++++
-+ 2 files changed, 52 insertions(+)
-+
-+diff --git a/src/at/deb-content.at b/src/at/deb-content.at
-+index a192c9493..d48eed72b 100644
-+--- a/src/at/deb-content.at
-++++ b/src/at/deb-content.at
-+@@ -127,3 +127,35 @@ newline'
-+ ])
-+ 
-+ AT_CLEANUP
-++
-++AT_SETUP([dpkg-deb .deb extraction cleanup])
-++AT_KEYWORDS([dpkg-deb deb extraction])
-++
-++DPKG_GEN_CONTROL([pkg-ctrl-dir-perms])
-++AT_CHECK([
-++dpkg-deb --root-owner-group -Znone -b pkg-ctrl-dir-perms
-++DPKG_AR_EXTRACT([pkg-ctrl-dir-perms.deb])
-++dpkg-deb -R pkg-ctrl-dir-perms.deb pkg-ctrl-dir-perms-bad
-++mkdir -p pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
-++touch pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner/file
-++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN
-++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir
-++chmod 0555 pkg-ctrl-dir-perms-bad/DEBIAN/rx-subdir/inner
-++$TAR cf control.tar --format=gnu --sort=name --mtime @0 --clamp-mtime --owner root:0 --group root:0 -C pkg-ctrl-dir-perms-bad/DEBIAN .
-++DPKG_AR_GEN([pkg-ctrl-dir-perms.deb], [debian-binary control.tar data.tar])
-++], [0], [dpkg-deb: building package 'pkg-ctrl-dir-perms' in 'pkg-ctrl-dir-perms.deb'.
-++])
-++AT_CHECK([
-++dpkg-deb --ctrl-tarfile pkg-ctrl-dir-perms.deb | $TAR tvf -
-++], [0], [dr-xr-xr-x root/root         0 1970-01-01 00:00 ./
-++-rw-r--r-- root/root       176 1970-01-01 00:00 ./control
-++dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/
-++dr-xr-xr-x root/root         0 1970-01-01 00:00 ./rx-subdir/inner/
-++-rw-r--r-- root/root         0 1970-01-01 00:00 ./rx-subdir/inner/file
-++])
-++# Check that we can cleanup the temporarily extracted control.tar member.
-++AT_CHECK([
-++dpkg-deb -I pkg-ctrl-dir-perms.deb
-++], [0], [ignore])
-++
-++AT_CLEANUP
-+diff --git a/src/deb/info.c b/src/deb/info.c
-+index f3d57e2ce..396ea4d14 100644
-+--- a/src/deb/info.c
-++++ b/src/deb/info.c
-+@@ -45,14 +45,34 @@
-+ #include <dpkg/pkg-format.h>
-+ #include <dpkg/buffer.h>
-+ #include <dpkg/path.h>
-++#include <dpkg/treewalk.h>
-+ #include <dpkg/options.h>
-+ 
-+ #include "dpkg-deb.h"
-+ 
-++static int
-++cu_info_treewalk_fixup_dir(struct treenode *node)
-++{
-++  const char *nodename;
-++
-++  if (!S_ISDIR(treenode_get_mode(node)))
-++    return 0;
-++
-++  nodename = treenode_get_pathname(node);
-++  if (chmod(nodename, 0755) < 0)
-++    ohshite(_("error setting permissions of '%.255s'"), nodename);
-++
-++  return 0;
-++}
-++
-+ static void cu_info_prepare(int argc, void **argv) {
-+   char *dir;
-++  struct treewalk_funcs cu_info_treewalk_funcs = {
-++    .visit = cu_info_treewalk_fixup_dir,
-++  };
-+ 
-+   dir = argv[0];
-++  treewalk(dir, TREEWALK_NONE, &cu_info_treewalk_funcs);
-+   path_remove_tree(dir);
-+   free(dir);
-+ }
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-index 7ef6233ee4..27e835a288 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
-            file://pager.patch \
-            file://0001-Add-support-for-riscv32-CPU.patch \
-            file://0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch \
-+           file://CVE-2025-6297.patch \
-            "
- 
- SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
--- 
-2.43.0
+I can inspect the configs and see the options in question, so I'm going to
+go about recreating it that way versus trying to do a different clone and
+distro configuration.
 
+As you guessed, I have very limited time at a keyboard this week, so it
+will take a bit for me to follow up.
+
+Bruce
+
+
+
+>
+> I somehow got the patches the wrong way around and merged the ones with
+> the warning but we'll manage with that for now until you're back.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000a3160f063d450e08
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 26, 2025 at 4:15=
+=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfounda=
+tion.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On Mon, 2025-08-25 at 23:03 -03=
+00, Bruce Ashfield wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Fri, Aug 22, 2025 at 12:52=E2=80=AFPM Mathieu Dubois-Briand &lt;<a =
+href=3D"mailto:mathieu.dubois-briand@bootlin.com" target=3D"_blank">mathieu=
+.dubois-briand@bootlin.com</a>&gt; wrote:<br>
+&gt; &gt; On Thu Aug 21, 2025 at 4:03 PM CEST, Bruce Ashfield via <a href=
+=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lis=
+ts.openembedded.org</a> wrote:<br>
+&gt; &gt; &gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gm=
+ail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Richard,<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Here&#39;s the next set of updates to the linux-yocto kernel=
+.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; The plan is to introduce 6.16 as the latest reference kernel=
+, and keep<br>
+&gt; &gt; &gt; 6.12 around (since it is a LTS).<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; This isn&#39;t ready to be the default for builds, but it ha=
+s passed my<br>
+&gt; &gt; &gt; core-iamge-kernel-dev testing, so I wanted to make the recip=
+es available<br>
+&gt; &gt; &gt; as visibility to where we are headed for the release (plus, =
+I&#39;m out of<br>
+&gt; &gt; &gt; the office on holidays until the first week of September, so=
+ making it<br>
+&gt; &gt; &gt; the default would be a bad idea from me being able to suppor=
+t issues).<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; Hi Bruce,<br>
+&gt; &gt; <br>
+&gt; &gt; Thanks for the series.<br>
+&gt; &gt; <br>
+&gt; &gt; I understand this isn&#39;t fully ready, but I did launch a full =
+build<br>
+&gt; &gt; anyway: most builders succeed, we just have one warning on config=
+<br>
+&gt; &gt; fragments:<br>
+&gt; &gt; <br>
+&gt; &gt; WARNING: linux-yocto-6.16.2+git-r0 do_kernel_configcheck: [kernel=
+ config]: specified values did not make it into the kernel&#39;s final conf=
+iguration:<br>
+&gt; &gt; ...<br>
+&gt; &gt; [INFO]: config &#39;CONFIG_CRYPTO_LIB_CHACHA&#39; was set, but it=
+ wasn&#39;t assignable, check (parent) dependencies<br>
+&gt; &gt; ...<br>
+&gt; &gt; [INFO]: config &#39;CONFIG_CRYPTO_CHACHA20_NEON&#39; was set, but=
+ it wasn&#39;t assignable, check (parent) dependencies<br>
+&gt; &gt; ...<br>
+&gt; &gt; [INFO]: the following symbols were not found in the active config=
+uration:<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0- CONFIG_CRYPTO_SHA2_ARM_CE<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0- CONFIG_CRYPTO_CRC32_ARM_CE<br>
+&gt; &gt; <br>
+&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builde=
+rs/40/builds/2248" rel=3D"noreferrer" target=3D"_blank">https://autobuilder=
+.yoctoproject.org/valkyrie/#/builders/40/builds/2248</a><br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; I always find it odd that I can&#39;t click on any of the AB tabs (in =
+the link you sent) and see what the MACHINE value is for that build.<br>
+&gt; <br>
+&gt; I looked at the writeconfig step of the build and it looks to be qemua=
+rm. Which is odd, since I&#39;m not seeing the same warning for that here.<=
+br>
+&gt; <br>
+&gt; When I&#39;m back from holidays next week, I&#39;ll have a closer look=
+.<br>
+<br>
+FWIW if you look for the &quot;Write config&quot; step (step 10 in the abov=
+e<br>
+link) and expand that, it says MACHINE =3D &quot;qemuarm&quot;.<br>
+<br>
+It is only hitting that build as it is a nodistro build and hence has a<br>
+floating kernel version.<br></blockquote><div><br></div><div><div class=3D"=
+gmail_default" style=3D"font-size:small">Hmm. I&#39;m of course forcing 6.1=
+6 and the latest revs in all my builds, I&#39;d think</div><div class=3D"gm=
+ail_default" style=3D"font-size:small">that in theory I should be able see =
+the same thing even with the poky distro.</div><div class=3D"gmail_default"=
+ style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"=
+font-size:small">I can inspect the configs and see the options in question,=
+ so I&#39;m going to</div><div class=3D"gmail_default" style=3D"font-size:s=
+mall">go about recreating it that way versus trying to do a different clone=
+ and</div><div class=3D"gmail_default" style=3D"font-size:small">distro con=
+figuration.</div><div class=3D"gmail_default" style=3D"font-size:small"><br=
+></div><div class=3D"gmail_default" style=3D"font-size:small">As you guesse=
+d, I have very limited time at a keyboard this week, so it</div><div class=
+=3D"gmail_default" style=3D"font-size:small">will take a bit for me to foll=
+ow up.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></di=
+v><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></d=
+iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+I somehow got the patches the wrong way around and merged the ones with<br>
+the warning but we&#39;ll manage with that for now until you&#39;re back.<b=
+r>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
+rek II<br><br></div></div>
+
+--000000000000a3160f063d450e08--
 
