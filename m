@@ -1,161 +1,101 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1CCECA0FF0
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 02:41:08 +0000 (UTC)
-Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.web11.6011.1756262458392810967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DF5CA0FF0
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 02:46:29 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.6082.1756262786015687408
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 19:40:58 -0700
+ Tue, 26 Aug 2025 19:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=lY21mNzD;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: liuyd.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1756262459; x=1787798459;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=c2jAezorpnCy9kwIkeYouA4YQjTRyIklezN303Gyz6s=;
-  b=lY21mNzDvvxYphFWTl9Vy8E72WtPbWyhXO2fV+8BvzrGDgOHjsx3WZ6d
-   G0UWQ9PjHP7w/usEz414P98CWMc2fxnG0QpTO950Z2YKQiqGCC+KbHG0d
-   gMB3R4C7uY+eOtpJSM6Jpuj9+rkM9dIgcbwLx7QNjHQDl8hhDxhvMnRPr
-   DxOrZNkMs5QL/Ep4zT+uxs0ZswEVB/l3wbpu5y1ew1ar6gk+hIOMJDNEK
-   MknrFp8aSlWYQubRVn9s/kZ4nvjrg7ovJaocH1yaqjH4bGTGzcBZ/05/h
-   yOSUWqkjbF0cZ7dJDJAlFMNIztQXU3DiNqpS2CJzASW+Tv2Rs0oMdQxEm
-   A==;
-X-CSE-ConnectionGUID: 5C0grjjuQvOxQ532K14OTw==
-X-CSE-MsgGUID: Ez/Xl6mTSS+413Q1Ck2gBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="210707658"
-X-IronPort-AV: E=Sophos;i="6.18,214,1751209200"; 
-   d="scan'208";a="210707658"
-Received: from unknown (HELO az2nlsmgr1.o.css.fujitsu.com) ([51.138.80.169])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 11:40:57 +0900
-Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id 833021C00096
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 02:40:56 +0000 (UTC)
-Received: from az2nlsmom2.o.css.fujitsu.com (az2nlsmom2.o.css.fujitsu.com [10.150.26.200])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 360CDC000AE
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 02:40:56 +0000 (UTC)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmom2.o.css.fujitsu.com (Postfix) with ESMTPS id 17C611803FF0;
-	Wed, 27 Aug 2025 02:40:54 +0000 (UTC)
-Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 8216D1A0071;
-	Wed, 27 Aug 2025 10:40:50 +0800 (CST)
-From: Liu Yiding <liuyd.fnst@fujitsu.com>
-To: Gyorgy Sarvari <skandigraun@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Liu Yiding <liuyd.fnst@fujitsu.com>
-Subject: [OE-core] [PATCH] readline: backport a patch to fix issue that readline can't work with samba
-Date: Wed, 27 Aug 2025 10:40:39 +0800
-Message-ID: <20250827024039.1377-1-liuyd.fnst@fujitsu.com>
-X-Mailer: git-send-email 2.49.0.windows.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=P6MXHdeA;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RqyTI8Qu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010198e96b6005-796f612e-355f-4eb0-b5ef-a4ac84d2ef0e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1756262785; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Gn4dUaAad6gru8eH5ev1Pfl3CCOaRsoZErErNIQUGtY=;
+	b=P6MXHdeA10U/FBUSoW2dUAUtEaK6SenVcOGSU7DbJR1ojnUnzWGmAFMwhyUplkht
+	4vVYv4jdybS/UW16Q1Xe0F5oc9YT1KX9/wsIa2h02SX7UNxjbd0gGhA0f68NkCFuOZk
+	OoANgqpf3RxvmhRciSFY8oojOEBEOgVvALHv9tck=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756262785;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Gn4dUaAad6gru8eH5ev1Pfl3CCOaRsoZErErNIQUGtY=;
+	b=RqyTI8QuhTuI+aE4poAD9/6qyer/PwXw3de7Nh/pxRcjffkq+i1ussA/dzKEUBSZ
+	xwL8+YX2jKKuX7Ot1EpvSk8bRfltWJLmXSERGfnHgkHHV226g8wyNWvfTGSPLetUlY1
+	eNCx7ILCDFo+OSj1ocpgpqZQfZ61WRBKczuf0Pt4=
+From: patchtest@automation.yoctoproject.org
+To: Liu Yiding <liuyd.fnst@fujitsu.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core] [PATCH] readline: backport a patch to fix issue that
+ readline can't work with samba
+In-Reply-To: <20250827024039.1377-1-liuyd.fnst@fujitsu.com>
+References: <20250827024039.1377-1-liuyd.fnst@fujitsu.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010198e96b6005-796f612e-355f-4eb0-b5ef-a4ac84d2ef0e-000000@us-west-2.amazonses.com>
+Date: Wed, 27 Aug 2025 02:46:25 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.08.27-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 02:41:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222482
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 02:46:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222483
 
-smbclient can't accept input after readline upgrade to 8.3
-| root # smbclient //192.168.2.16/test -N
-|       Try "help" to get a list of possible commands.
-|       smb: \>
+--NextPart
+Content-Type: text/plain
 
-similar issue has been reported:
-https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00011.html
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
- .../fix-for-readline-event-hook.patch         | 54 +++++++++++++++++++
- meta/recipes-core/readline/readline_8.3.bb    |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
+Testing patch /home/patchtest/share/mboxes/readline-backport-a-patch-to-fix-issue-that-readline-can-t-work-with-samba.patch
 
-diff --git a/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
-new file mode 100644
-index 0000000000..f3b9d88d15
---- /dev/null
-+++ b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
-@@ -0,0 +1,54 @@
-+From 15970c431517a046099d8294c91d778b1da9b29d Mon Sep 17 00:00:00 2001
-+From: Chet Ramey <chet.ramey@case.edu>
-+Date: Fri, 11 Jul 2025 11:51:15 -0400
-+Subject: Readline-8.3 patch 1: fix for readline event hook
-+
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/readline.git/commit/?id=15970c431517a046099d8294c91d778b1da9b29d]
-+---
-+ input.c    | 6 +++++-
-+ patchlevel | 2 +-
-+ 2 files changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/input.c b/input.c
-+index e6a39e2..3383edb 100644
-+--- a/input.c
-++++ b/input.c
-+@@ -261,13 +261,16 @@ rl_gather_tyi (void)
-+   input = 0;
-+   tty = fileno (rl_instream);
-+ 
-+-  /* Move this up here to give it first shot, but it can't set chars_avail */
-++  /* Move this up here to give it first shot, but it can't set chars_avail,
-++     so we assume a single character is available. */
-+   /* XXX - need rl_chars_available_hook? */
-+   if (rl_input_available_hook)
-+     {
-+       result = (*rl_input_available_hook) ();
-+       if (result == 0)
-+         result = -1;
-++      else
-++        chars_avail = 1;
-+     }
-+ 
-+ #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
-+@@ -285,6 +288,7 @@ rl_gather_tyi (void)
-+ #endif
-+       if (result <= 0)
-+ 	return 0;	/* Nothing to read. */
-++      result = -1;	/* there is something, so check how many chars below */
-+     }
-+ #endif
-+ 
-+diff --git a/patchlevel b/patchlevel
-+index d8c9df7..fdf4740 100644
-+--- a/patchlevel
-++++ b/patchlevel
-+@@ -1,3 +1,3 @@
-+ # Do not edit -- exists only for use by patch
-+ 
-+-0
-++1
-+-- 
-+cgit v1.2.3
-+
-diff --git a/meta/recipes-core/readline/readline_8.3.bb b/meta/recipes-core/readline/readline_8.3.bb
-index ff5dec6c0a..a2f23eb353 100644
---- a/meta/recipes-core/readline/readline_8.3.bb
-+++ b/meta/recipes-core/readline/readline_8.3.bb
-@@ -1,6 +1,7 @@
- require readline.inc
- 
- SRC_URI += "file://norpath.patch \
-+            file://fix-for-readline-event-hook.patch \
-             "
- 
- SRC_URI[archive.sha256sum] = "fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc"
--- 
-2.43.0
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'fix-for-readline-event-hook.patch' (test_patch.TestPatch.test_signed_off_by_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
