@@ -1,147 +1,162 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <a-christidis@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D6FCA0FF7
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 21:30:59 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.6622.1756330253142661124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B01ECA0FED
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 22:21:20 +0000 (UTC)
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by mx.groups.io with SMTP id smtpd.web11.7787.1756333278093749815
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 14:30:53 -0700
+ Wed, 27 Aug 2025 15:21:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=g4xsFWLL;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-327a27e0d6eso347716a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:30:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330252; x=1756935052; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=65g7QfRwoMNeoDR7USXzYAqii/ACTYRfwBvXmqNjqrA=;
-        b=g4xsFWLLI+Y8nT4euXuowtxJe5wrIGh4ZgS/WuYZmFfw5cbk75CxPPW5yQN3g5GenI
-         teiA0MPiKP9msa4qrGIAgp4ZPzSuDurEJU5roTKamMkoaMuLh3XmT+Et9sn8dJY3QnQs
-         wU0EHXUTld+kbKMS8TeLLFg4J9XfnnqbUyROA0u5eWocvOXJ4NJfoTsxiLHKQVBTbg3Q
-         Gbz4x+UxDkv6LKdruczvlRYowtTnZW0NS/x52npt3n3Avk3TeCAQ+FSkY/+wOUns/C4E
-         cXnl6yP0HYuCoL9HZraDxqlMoDTIYQJ1rk39tf+VEN35XFy5i/ASFepTqFx/ecMu+3eR
-         m/tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756330252; x=1756935052;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=65g7QfRwoMNeoDR7USXzYAqii/ACTYRfwBvXmqNjqrA=;
-        b=wkaQ9jjbx+/zjMH8HzUV0pt10ftmQGHAdb0PD+2cGx4grRE2L0K3Ou7yeUrgU6qjun
-         vc5CxbS6F2X/55VsQgQvOSRN6A2RkxsfS5ngkA8J3+Cvsb6wlX9/0pRDyhv7pHk3Oa7z
-         WKos7Z1VEf7sa3y9yp+CA+9Wx1NLkD+mnlRYto7bGdUY9npwNYu8+HMD5GGrFMsu6Gvg
-         ETHYs86qN3e+rlB1eq2afNupqRphJqN8HvRgIdJ1dYKUxu/NsTVW+MwiSl337xMd15KJ
-         cGX+l45nTFJTZHdKwLJcVrJbFHpKVneKV9U55N1YA/TwyMr82V2mTFis42a/JpUABU/B
-         Cyww==
-X-Gm-Message-State: AOJu0YytODewrWS+X5mTX90Sfw2a9nhpcJ3MRWw0vOHmMk4PI35YCdTd
-	Bb7vsghgU+Ns+Bqxn7Mba+2nKjponhBIRZqztXubEN1ma+ZcRysFyIq4+0SNtLoSurkwcIghzAD
-	AcvoA
-X-Gm-Gg: ASbGncvoCH1R71zHsmLlpvovTcONm/xEwV+zvDGaCc7QPoV0TBA5Sl1GmOyiVl7c7Dx
-	S4ZzGPilOSfMeGuE9MsfDOre2RFVXHKCOWpSbG+4Cm8H18GTKjAejnAHK+j30XypnGkUyY5/0Rg
-	ux2EhS7qEcL3eH4IVqCcHb8cY5WtJhjchbuD5Xoo77gnlAkagT1NzW3p0cxri9cQeG5PGaLkMNZ
-	KBqnRYvRarwxmtDqAk+VgEGz2xdrVRbFw/IVBI4+yZW2EJxTs//YYvpMY5UOnuG8hMsQvbccMdc
-	7mU2ZtFDNIGPowocEjpbV2AYRIbMPw9OjJ6e9W0wP1hgVEOq/VMiJ+UnsZw6UsJm+V8+G4hXcci
-	S/QWIZz54HSaZutt/tD6xsXtl
-X-Google-Smtp-Source: AGHT+IFpJh8sexeXoBEscyloT/0Jg/0Eq9oG2KDUFKrLPQtcKGUN2BLIGou+84d4+wwHDtjWFDLqkQ==
-X-Received: by 2002:a17:90b:1642:b0:31f:104f:e4b1 with SMTP id 98e67ed59e1d1-32515e3c8f4mr26427533a91.7.1756330252325;
-        Wed, 27 Aug 2025 14:30:52 -0700 (PDT)
-Received: from hexa.. ([2602:feb4:3b:2100:d0c9:1052:20fd:8423])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.30.51
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 14:30:51 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 33/33] sudo: remove devtool FIXME comment
-Date: Wed, 27 Aug 2025 14:29:40 -0700
-Message-ID: <a19afb7db1b9995ce433f8bfeb5406c9fd1fdc19.1756329972.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1756329972.git.steve@sakoman.com>
-References: <cover.1756329972.git.steve@sakoman.com>
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=TaCXsI9W;
+ spf=pass (domain: ti.com, ip: 198.47.19.245, mailfrom: a-christidis@ti.com)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57RMKqVw1374699;
+	Wed, 27 Aug 2025 17:20:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1756333252;
+	bh=twcW6r4Wng9Q87YVxA7vQigkpKlSLcG/t1Txdfn+T0Q=;
+	h=From:To:CC:Subject:Date;
+	b=TaCXsI9WIsuOmQzh+yypHk19F9Gi4g+OrCGd87RyNDmS7dcDQfjvPoS11WvACbY1R
+	 V8D/6vZ7ShUbRb/6ROxE2ZJDFZL8aDLs+qlprInYPE3Ba1r/CX/yoSuZHgiOA77EVd
+	 VFGAEWx1iY/nWpS8soY6v+a2oNYIQ9n69ue6eK84=
+Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57RMKqr52768133
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Wed, 27 Aug 2025 17:20:52 -0500
+Received: from DFLE203.ent.ti.com (10.64.6.61) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 27
+ Aug 2025 17:20:52 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE203.ent.ti.com
+ (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.2562.20; Wed, 27 Aug
+ 2025 17:20:51 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 27 Aug 2025 17:20:51 -0500
+Received: from antonios-ThinkStation-P3-Tower.dhcp.ti.com (antonios-thinkstation-p3-tower.dhcp.ti.com [128.247.81.112])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57RMKpVK3769821;
+	Wed, 27 Aug 2025 17:20:51 -0500
+From: <a-christidis@ti.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <mathieu.dubois-briand@bootlin.com>
+CC: <alex@linutronix.de>
+Subject: [master][PATCH] libsdl2: Add tests package and ptest support
+Date: Wed, 27 Aug 2025 17:20:51 -0500
+Message-ID: <20250827222051.367093-1-a-christidis@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 21:30:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222541
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 22:21:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222542
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Antonios Christidis <a-christidis@ti.com>
 
-This comment should not have been merged.
-It shows that the license did not change.
+The SDL2 software comes with its own set of tests. Following that
+introduce support for ptest.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Antonios Christidis <a-christidis@ti.com>
 ---
- meta/recipes-extended/sudo/sudo_1.9.17p1.bb | 52 ---------------------
- 1 file changed, 52 deletions(-)
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../libsdl2/libsdl2/run-ptest                 | 15 ++++++++++++++
+ .../libsdl2/libsdl2_2.32.8.bb                 | 20 +++++++++++++++++--
+ 3 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/run-ptest
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p1.bb b/meta/recipes-extended/sudo/sudo_1.9.17p1.bb
-index c5d57da9f0..5b9d73b33b 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.17p1.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.17p1.bb
-@@ -1,55 +1,3 @@
--# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
--# The following is the difference between the old and the new license text.
--# Please update the LICENSE value if needed, and summarize the changes in
--# the commit message via 'License-Update:' tag.
--# (example: 'License-Update: copyright years updated.')
--#
--# The changes:
--#
--# --- LICENSE.md
--# +++ LICENSE.md
--# @@ -1,6 +1,6 @@
--#  Sudo is distributed under the following license:
--#
--# -    Copyright (c) 1994-1996, 1998-2023
--# +    Copyright (c) 1994-1996, 1998-2025
--#          Todd C. Miller <Todd.Miller@sudo.ws>
--#
--#      Permission to use, copy, modify, and distribute this software for any
--# @@ -247,9 +247,9 @@
--#
--#  The file arc4random.c bears the following license:
--#
--# -    Copyright (c) 1996, David Mazieres <dm@uun.org>
--# -    Copyright (c) 2008, Damien Miller <djm@openbsd.org>
--# -    Copyright (c) 2013, Markus Friedl <markus@openbsd.org>
--# +    Copyright (c) 1996, David Mazieres <dm@uun.org>
--# +    Copyright (c) 2008, Damien Miller <djm@openbsd.org>
--# +    Copyright (c) 2013, Markus Friedl <markus@openbsd.org>
--#      Copyright (c) 2014, Theo de Raadt <deraadt@openbsd.org>
--#
--#      Permission to use, copy, modify, and distribute this software for any
--# @@ -282,7 +282,7 @@
--#
--#  The file getentropy.c bears the following license:
--#
--# -    Copyright (c) 2014 Theo de Raadt <deraadt@openbsd.org>
--# +    Copyright (c) 2014 Theo de Raadt <deraadt@openbsd.org>
--#      Copyright (c) 2014 Bob Beck <beck@obtuse.com>
--#
--#      Permission to use, copy, modify, and distribute this software for any
--# @@ -299,7 +299,7 @@
--#
--#  The embedded copy of zlib bears the following license:
--#
--# -    Copyright (C) 1995-2022 Jean-loup Gailly and Mark Adler
--# +    Copyright (C) 1995-2024 Jean-loup Gailly and Mark Adler
--#
--#      This software is provided 'as-is', without any express or implied
--#      warranty.  In no event will the authors be held liable for any damages
--#
--#
--
- require sudo.inc
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 9a7b25a916..a5476927b5 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -32,6 +32,7 @@ PTESTS_FAST = "\
+     libgpg-error\
+     libnl \
+     libpcre \
++    libsdl2 \
+     libssh2 \
+     libtest-fatal-perl \
+     libtest-needs-perl \
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/run-ptest b/meta/recipes-graphics/libsdl2/libsdl2/run-ptest
+new file mode 100644
+index 0000000000..1cd1f9ceaf
+--- /dev/null
++++ b/meta/recipes-graphics/libsdl2/libsdl2/run-ptest
+@@ -0,0 +1,15 @@
++#!/bin/sh
++
++test_array=("testdraw2" "testgeometry" "testsprite2" "testgles2" "testoffscreen")
++
++test_path="/usr/bin/sdl2_tests/"
++
++for test in "${test_array[@]}"
++do
++    timeout --preserve-status 10 "$test_path""$test"
++    if [ $? -eq 0 ]; then
++        echo "PASS: $test"
++    else
++        echo "FAIL: $test"
++    fi
++done
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb
+index 98291e0f80..5aeb333bc7 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb
+@@ -21,13 +21,15 @@ LIC_FILES_CHKSUM:append = " ${@bb.utils.contains('PACKAGECONFIG', 'arm-neon', 'f
  
- SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+ PROVIDES = "virtual/libsdl2"
+ 
+-SRC_URI = "https://www.libsdl.org/release/SDL2-${PV}.tar.gz"
++SRC_URI = "https://www.libsdl.org/release/SDL2-${PV}.tar.gz \
++	   file://run-ptest \
++	   "
+ 
+ S = "${UNPACKDIR}/SDL2-${PV}"
+ 
+ SRC_URI[sha256sum] = "0ca83e9c9b31e18288c7ec811108e58bac1f1bb5ec6577ad386830eac51c787e"
+ 
+-inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
++inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even ptest
+ UPSTREAM_CHECK_REGEX = "SDL2-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar"
+ 
+ BINCONFIG = "${bindir}/sdl2-config"
+@@ -48,6 +50,7 @@ EXTRA_OECMAKE = "-DSDL_OSS=OFF -DSDL_ESD=OFF -DSDL_ARTS=OFF \
+                  -DSDL_X11_XRANDR=OFF \
+                  -DSDL_X11_XSCRNSAVER=OFF \
+                  -DSDL_X11_XSHAPE=OFF \
++		 -DSDL_TESTS=ON \
+ "
+ 
+ # opengl packageconfig factored out to make it easy for distros
+@@ -80,8 +83,21 @@ PACKAGECONFIG[vulkan]    = "-DSDL_VULKAN=ON,-DSDL_VULKAN=OFF"
+ PACKAGECONFIG[wayland]    = "-DSDL_WAYLAND=ON,-DSDL_WAYLAND=OFF,wayland-native wayland wayland-protocols libxkbcommon"
+ PACKAGECONFIG[x11]        = "-DSDL_X11=ON,-DSDL_X11=OFF,virtual/libx11 libxext libxrandr libxrender"
+ 
++do_install:append() {
++	install -d ${D}${bindir}/sdl2_tests
++	cp -r ${B}/test/* ${D}${bindir}/sdl2_tests
++
++	# Delete any leftover cmake files within the sdl2_tests dir
++	find ${D}${bindir}/sdl2_tests -type f -name "*.cmake" -delete
++}
++
+ CFLAGS:append:class-native = " -DNO_SHARED_MEMORY"
+ 
++PACKAGE_BEFORE_PN = "${PN}-tests"
++
+ FILES:${PN} += "${datadir}/licenses/SDL2/LICENSE.txt"
++FILES:${PN}-tests += "${bindir}/sdl2_tests"
++
++RDEPENDS:${PN}-ptest = "${PN}-tests"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-2.43.0
+2.34.1
 
 
