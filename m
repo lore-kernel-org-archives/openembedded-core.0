@@ -1,100 +1,111 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D82BCA0EFF
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 04:47:09 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.7838.1756270025867764811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9FCCC8303F
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 05:18:59 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.7972.1756271936711999968
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 21:47:05 -0700
+ Tue, 26 Aug 2025 22:18:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BNILxzoD;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Uk+SxFc8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010198e9d9d988-de0199eb-afeb-4cfd-a18c-244abf12c184-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756270025; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Hm8R0EPDTmpJJonZYLqZqeNhnlwGJSa2WqtFYM6+Wpo=;
-	b=BNILxzoDrSX6JC+7cHAWL7TgF+lJhIjesSYJmuubhSN0DpOCP9YiB304JVt77DIg
-	P9sd8YkU/1MXh43wug9MADYOj7yszbzgeIvkCqJ2LvRzFaRqUAQn8PQzr9BYKoiZ3UW
-	3DPZlGoickDVTCZ50SkOPC0AgI1cETlg9wl0rXhQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756270025;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Hm8R0EPDTmpJJonZYLqZqeNhnlwGJSa2WqtFYM6+Wpo=;
-	b=Uk+SxFc8MykxUwKUqd9SLLPqQS8yytl2fmMS4oMfjlG7SAhb8Ap5DoBP64jxqlfa
-	vEB0qJiMnl1nsJVfkAS6zFl9ZejQCbUrjQIXs7KL76b+7/F0/FG3QKwpF8XlI+M62FY
-	YSj/sQyzfSQz1jxKUK3fmk0IePaxkcw8GjZ+mpvs=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] spirv-llvm-translator: Upgrade to 21.1.0
-In-Reply-To: <20250827043603.2833795-1-raj.khem@gmail.com>
-References: <20250827043603.2833795-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198e9d9d988-de0199eb-afeb-4cfd-a18c-244abf12c184-000000@us-west-2.amazonses.com>
-Date: Wed, 27 Aug 2025 04:47:05 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.27-54.240.27.191
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ihC2LmI4;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0334c62af5=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57R4vTML3449704
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 05:18:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=T2OzDg8xbsZoA2jrkGVlKM85x0INxd73z63E7Br0p5U=; b=ihC2LmI4A/3j
+	tyTqJKu0ZNyroiJmtvrCUhK4Fa3AIRktVDYjcIorSQMvNBGt6Ztvc3H95jyl0t9k
+	C3LV3NyO8LqPur6rj3sVzcuCTDKeO79RkeDoGOa56Cs5Tf10LOVIO6Qu7UX+hpHb
+	8AWxnhxsEauhOMhpeFm2u9oYI9JN2F1TE4LVu6IyJ0ICRnW8nsINpu4N0o6Z13to
+	w9TmPilTbmPlPD+D1GrUtNhi4zEczdGuruBt5SromPK9nPWjdwH3nz0XJbhQ/+5b
+	S3GS94TUf1MVSHDB5SwSOiPegxc1dhlsdvOkJWxjT2NtXIry8MWuDi5Wx+VZC7b2
+	Mwy0o/fnsQ==
+Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48q2v1c6w3-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 05:18:55 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Tue, 26 Aug 2025 22:18:54 -0700
+Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.58 via Frontend Transport; Tue, 26 Aug 2025 22:18:54 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 2/3] man-pages: 6.14 -> 6.15
+Date: Wed, 27 Aug 2025 13:18:51 +0800
+Message-ID: <20250827051852.3900650-2-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250827051852.3900650-1-hongxu.jia@windriver.com>
+References: <20250827051852.3900650-1-hongxu.jia@windriver.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: m1_Ww6l44MMJZ6c7fBdkS53TYZGkd9ZE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI3MDA0MSBTYWx0ZWRfX5KNT+R3KBxjY
+ f/unGm4T6hVoM5XoIJqkrS6Lw9w1FL9CD5icoKn9EFqJ8Ujscq+345RgrpkDnpiVZT/B73NGKFS
+ TfqUqBlDuAHt6QoX93b+NOE0y+ZrriM19AFxq0PaTu660Wp8p9tip3y9me77TDor9TySEMcPyqW
+ wylUQcgHpev4E03orCfcfuryHvfejIHFFjrSy9vzohwiI3S4ZXykjVQ9Z3yX+ZXCF96aSfWLQGs
+ KP1pyuKO0n49PVicfVIs/X5RbzhZzAjrtSUWx+sl1vxtmGCBYWT8vHonCDaLkWfgKVbOf5FsVF6
+ 0Rq17Bzoz2WdEs/Kd6q1G/hbj1rXFs/dShZCymxsl6Nf45iQr9Q4P3MVuCqkJw=
+X-Authority-Analysis: v=2.4 cv=T5GMT+KQ c=1 sm=1 tr=0 ts=68ae953f cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=vj_J6YrToZJJJULNLwsA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: m1_Ww6l44MMJZ6c7fBdkS53TYZGkd9ZE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 bulkscore=0 adultscore=0 impostorscore=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 04:47:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222491
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 05:18:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222493
 
---NextPart
-Content-Type: text/plain
+License-Update: No change, `README: Files: Update man/ path'
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/1-2-spirv-llvm-translator-Upgrade-to-21.1.0.patch
+ .../man-pages/{man-pages_6.14.bb => man-pages_6.15.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/man-pages/{man-pages_6.14.bb => man-pages_6.15.bb} (92%)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/recipes-extended/man-pages/man-pages_6.14.bb b/meta/recipes-extended/man-pages/man-pages_6.15.bb
+similarity index 92%
+rename from meta/recipes-extended/man-pages/man-pages_6.14.bb
+rename to meta/recipes-extended/man-pages/man-pages_6.15.bb
+index 92afff640d2..f01867d0f98 100644
+--- a/meta/recipes-extended/man-pages/man-pages_6.14.bb
++++ b/meta/recipes-extended/man-pages/man-pages_6.15.bb
+@@ -4,7 +4,7 @@ SECTION = "console/utils"
+ HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
+ LICENSE = "GPL-2.0-or-later & GPL-2.0-only & GPL-1.0-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause-UC & MIT"
+ 
+-LIC_FILES_CHKSUM = "file://README;md5=72cff06b7954222c24d38bc2c41b234e \
++LIC_FILES_CHKSUM = "file://README;md5=c2d6fa1a74bdd79c25de6f4db7332294 \
+                     file://LICENSES/BSD-2-Clause.txt;md5=9e16594a228301089d759b4f178db91f \
+                     file://LICENSES/BSD-3-Clause.txt;md5=407426fcc1a243b7b2eff6e35c56aca9 \
+                     file://LICENSES/BSD-4-Clause-UC.txt;md5=1da3cf8ad50cd8d5d1de3cfc53196d01 \
+@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://README;md5=72cff06b7954222c24d38bc2c41b234e \
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz \
+            "
+ 
+-SRC_URI[sha256sum] = "a298963d8baf37fa5ecd2b07c803e1f29ab0476add405a7e263e5c63baf43588"
++SRC_URI[sha256sum] = "f0ede747b98732cb6d5bd36e9ab54101ea7ae5f78a8b8d7289ced01c1a6ec937"
+ 
+ inherit manpages lib_package
+ 
+-- 
+2.34.1
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
