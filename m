@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6E7CA0FF7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E23ACA0FFB
 	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 21:30:29 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web10.6604.1756330219557881768
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.6605.1756330223121762547
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 14:30:19 -0700
+ Wed, 27 Aug 2025 14:30:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zIqSYsYm;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-32519b32b6cso193037a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:30:19 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uxKKFYx3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b4c3c36643aso216580a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330219; x=1756935019; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330222; x=1756935022; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=n+smTV1VwE4+FJ0GlBkv2qEM95XoN6PZBwIOVSjM5/c=;
-        b=zIqSYsYmvUfMLNvNrRI+3LaGyT4pga6dlHz/11qt6cxs5ogzpERBXGc0W0Yf8jOk9J
-         1Ffmrainbr7AZIA6GSFmmJLP830cJ0eugcHc1VqMQC1p8BwmPeIApIJCI67V14uE8fPt
-         yQsY3GtpJcUFqDj/Jj8psy4oR1ohZtXcRp6PuCpCm8HeDdp2V6sB1M3p/atbzOJ3mp7b
-         l4SSy9PZBYPwlBf8kxdIo66Jh4mN1KbtfrOaZQZqZKDphqTSXpSK8LCaJtgJaG2P0qjB
-         FYlvZtMmgbdIqOPIS6gyivGwgyF7JhMhSJslV8rzr04DwKFJfmbmiwKaW8S0hW5hVgMx
-         FGpQ==
+        bh=Z3eLs0spXINi/TSBo0uEssx6cITHA0DTvkk1K3WMLT8=;
+        b=uxKKFYx326Bp/3PMXEVDlCkuEv21IiY9IMXF/hm2RHcpc8KJv+jL2+dvQzcPyJRLxI
+         XrzsGqHQiLSDGg9xaC05zferNIyVZD0IrWga8cpsRBSW1n0pWEpK4LwVNUu3RFzewWr6
+         m7AOS/GlcTUM6X9YnYug8n7qCrLZsP04OyYVhYpSg01xy0CO6pWSCQEaV52Uf4HpDSFo
+         +ObfvF5rdVBZUovIaYqkP0YzTcbU6+/EDbs/r+txw4LmjWm6XpIldEhpNjH0hs6Vyt+O
+         WcX/kh8wRKiql4L+Sl/mIMHBgAyXuXbNxynXM/VSsjQO46z0PZ8ex7kgDwUgxICIehmR
+         qMVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756330219; x=1756935019;
+        d=1e100.net; s=20230601; t=1756330222; x=1756935022;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=n+smTV1VwE4+FJ0GlBkv2qEM95XoN6PZBwIOVSjM5/c=;
-        b=rlsXhdFEThS2I3oz8G9xqMj9ufGXO3zReGrX/Se6bPk/6CUhnd4o3qJbnXadOORd5t
-         XcRYaWFYDP62EOJlpqhcGQ8Gi1sh4C8APJXyOE70OFjNHDFeaO8192Amqw2CUHwQfk/R
-         ti5hbgVDJANWVZpu2FuWN8gHPKRpmio43OycW0dopzgp4UF8GiOuuNxxwAAYi7zRI957
-         QziAPxvyGwkxTYiYF4PsW0PYRszFvf0FznUmPMR51vk+BX9o72wCeQxxrIqryH5r8CN0
-         N3tkGCvcPizC/IAMBCVwsal7NJxYgst/vXxb1fyHvBGoAc9blMz3uJoYDLiBnBYnycmu
-         yigQ==
-X-Gm-Message-State: AOJu0YwrwhYS9qLOqW/Ip+W6QYyigra0OIe2vXMvZvGxIrMgSGs579kt
-	IZIiGICUTfnKjgcj4NnWYOLSvI5yAJU/bKSFTWaZ1oj+mYECDRMzCYavi3mCaDlbxeXtrviGEtE
-	+D8Dk
-X-Gm-Gg: ASbGncuNxHTR94/RpNXlfcFYQa+xU1eGC+e1NLjkXOO/V1BPQ8qn5++NN9AzZi9zYJF
-	GogvLfWqhxZrN/xAPg9pEqK7LTz/TkP4THqZGFTYCo0Bobzr8vylotDtIUopx/KeYsXOvPP5w2u
-	8m7LbBEXvmwE9Ggotv9yMEjZwMKN08k43JDBBWBFjni4RfrsgRjTSbTk/VSYkEiULrM2G1v7wyn
-	7uhWKJLOY2nXppu2fX1kOC9bIRxBcpcB+wonNBLeteBxwrq/3704EOHXWpDobErrXeAMaXW+EaV
-	gIAzIJS/BuywF1C+ngTvaE2uVuEh8/uPMd3tgT5alCANlB7F/X2q+inQQzcu0U6HjSnhSTXpVUh
-	vDL7gHdKUA6q23A==
-X-Google-Smtp-Source: AGHT+IGxxZ+SrNFho5vscG+R6A/V5PGF4ZKPngswZ+gFxsNx923J0f9bFbs+F8o+uibwzcxrOynjfA==
-X-Received: by 2002:a17:90b:2d81:b0:323:7e82:fcc with SMTP id 98e67ed59e1d1-32517b2c440mr21761241a91.36.1756330218759;
-        Wed, 27 Aug 2025 14:30:18 -0700 (PDT)
+        bh=Z3eLs0spXINi/TSBo0uEssx6cITHA0DTvkk1K3WMLT8=;
+        b=TOpTFs+JOJNiYyUki2bNJcR6240CVfwn3g1La5AnCPN5ycbiG5S4Rmx+pibvC+sk0B
+         fqQpB5va3MvMB3LahHwJ76z0XDOb+ZeSS4/kZ060wUrZS+WbNsTD/moxQ8gVjTmXe2FA
+         u1pop8OjAOvLssQpmhGKW6nMAv4HvJLx9qJwNRGZso3qgYi9yjvGx/1gK2WMBbsnIBUX
+         SgzygYSieISDxaCsKaMAmlYNaj22pfmU7cfS2+ae1fp7/LYfYZ15ywxv5+2UQ+YrEMIY
+         GqGSPe9cg8nEX6kRktKfoKmOhzufPss8CIzSDZv1skukpOIx9lt8TqGbFnenl9ZIri52
+         8Wvg==
+X-Gm-Message-State: AOJu0Ywyn+ULTbHUkIdhHxbf+wRhJk2U+g0tRGXqh2flzcI/xfRBN4v4
+	qs7Cl/ZQ0Y4W7IIJDmTLZtB+fRUTtti1Dbx34C9M/nqQyQOj8r5y4pqCHkcAzny5ZVn53/cVWu9
+	3M6pg
+X-Gm-Gg: ASbGncvKwA2FPs4FUN7mj0U+mZJkeTWhMmmjI/6TkRNLlXbJJMGxfIoQmI7f8ALvBCw
+	N1uGevYc0h4KVPOX9z243HDyTS6b8+oLpjOHuEWNaCI+PGpMHlDFmEDYpRXNcq/x9gQX59OX7qw
+	AggUmaWRyA7KGRclegppUxhOoe9P8twdZ7Zoe1SMitK9y9QSgFclpiKEK8/YcqY3SdrZubi6e/t
+	xSWt3AXD7snbL8JfRSSSjt7dhckiG2Oi30mn9MGq756S9JfZy2ooMFI05mbJOOZAEbrN4ZsKHcx
+	iZ6sFSF/3JHdBx60fzS9XCptSuZLiq9dlzx37eFmftwwJZQ4pIdlhD2q0wc29/gyLF4jw7U1nPx
+	i6Ho8Ps+e52+MfSv1jxxqZpBS
+X-Google-Smtp-Source: AGHT+IEoFb8xyF805OYeqUAxAnEjfSgoM9l8doWRPZ8MqsFYAFQyI3rhfc9hRi+R5KineNRZrujNag==
+X-Received: by 2002:a17:90b:3805:b0:31c:c661:e4e with SMTP id 98e67ed59e1d1-32518997f87mr26401349a91.33.1756330222353;
+        Wed, 27 Aug 2025 14:30:22 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:d0c9:1052:20fd:8423])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.30.17
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.30.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 14:30:17 -0700 (PDT)
+        Wed, 27 Aug 2025 14:30:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 14/33] cmake: fix build with gcc-15 on host
-Date: Wed, 27 Aug 2025 14:29:21 -0700
-Message-ID: <bdfccaa382c1669bff8788e09953c3a770243fab.1756329972.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 16/33] unzip: Fix build with GCC-15
+Date: Wed, 27 Aug 2025 14:29:23 -0700
+Message-ID: <b84d6ceb89277462d7069defaeb9ecfed9c30d56.1756329972.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756329972.git.steve@sakoman.com>
 References: <cover.1756329972.git.steve@sakoman.com>
@@ -68,66 +68,59 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 21:30:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222522
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222524
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
+Add a patch to remove redundant declarations
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/cmake/cmake.inc         |  1 +
- .../0001-cppdap-fix-build-with-gcc-15.patch   | 30 +++++++++++++++++++
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-devtools/cmake/cmake/0001-cppdap-fix-build-with-gcc-15.patch
+ meta/recipes-extended/unzip/unzip/gcc15.patch | 18 ++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/gcc15.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index a52506a8ea..b8667832e2 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -18,6 +18,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- 
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch \
-+           file://0001-cppdap-fix-build-with-gcc-15.patch \
-            "
- 
- SRC_URI[sha256sum] = "72b7570e5c8593de6ac4ab433b73eab18c5fb328880460c86ce32608141ad5c1"
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-cppdap-fix-build-with-gcc-15.patch b/meta/recipes-devtools/cmake/cmake/0001-cppdap-fix-build-with-gcc-15.patch
+diff --git a/meta/recipes-extended/unzip/unzip/gcc15.patch b/meta/recipes-extended/unzip/unzip/gcc15.patch
 new file mode 100644
-index 0000000000..1ff0764018
+index 0000000000..ab06a4713f
 --- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/0001-cppdap-fix-build-with-gcc-15.patch
-@@ -0,0 +1,30 @@
-+From f742c298a0d6b70059e5c98c89d301e62a3e2087 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Christoph=20Gr=C3=BCninger?= <foss@grueninger.de>
-+Date: Thu, 8 Aug 2024 20:26:35 +0200
-+Subject: [PATCH] cppdap: include/dap/network.h: add <stdint.h> include for GCC
-+ 15
++++ b/meta/recipes-extended/unzip/unzip/gcc15.patch
+@@ -0,0 +1,18 @@
++Do not redefine gmtime(), localtime()
 +
-+GCC 15 requires the include for the declaration of `uint32_t`.
-+Backport [cppdap PR 133](https://github.com/google/cppdap/pull/133).
++They are already provided by system time.h header
 +
-+Upstream-Status: Backport [https://gitlab.kitware.com/cmake/cmake/-/commit/f742c298a0d6b70059e5c98c89d301e62a3e2087]
++Upstream-Status: Inactive-Upstream [need a new release]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+---
-+ Utilities/cmcppdap/include/dap/network.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Utilities/cmcppdap/include/dap/network.h b/Utilities/cmcppdap/include/dap/network.h
-+index 9d14f6b70fa..dd3e0062407 100644
-+--- a/Utilities/cmcppdap/include/dap/network.h
-++++ b/Utilities/cmcppdap/include/dap/network.h
-+@@ -17,6 +17,7 @@
++--- a/unix/unxcfg.h
+++++ b/unix/unxcfg.h
++@@ -117,7 +117,6 @@ typedef struct stat z_stat;
++ #  endif
++ #else
++ #  include <time.h>
++-   struct tm *gmtime(), *localtime();
++ #endif
 + 
-+ #include <functional>
-+ #include <memory>
-++#include <stdint.h>
-+ 
-+ namespace dap {
-+ class ReaderWriter;
-+-- 
-+GitLab
-+
++ #if (defined(BSD4_4) || (defined(SYSV) && defined(MODERN)))
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index c13e7a008e..0a88b4c092 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+         file://CVE-2022-0530.patch \
+         file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
+         file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
++        file://gcc15.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
 -- 
 2.43.0
 
