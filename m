@@ -2,254 +2,440 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B471CA0FED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 563A1CA0FFE
 	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 21:29:59 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.6622.1756330189657844768
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.6623.1756330191816259408
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 14:29:49 -0700
+ Wed, 27 Aug 2025 14:29:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DY0XAWcF;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b4c5467617dso335853a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:29:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=P/kFdVYy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-77053017462so265655b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:29:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330189; x=1756934989; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EY43jGH6xDAN0IyTgevSfhzWHbB6QScc1DIBgPf9ma4=;
-        b=DY0XAWcFF4JvHdfPic4mhW+KEeYl5dNBDwfdkYrr7OSdAZT46U6aWvRNYuUEp0RreB
-         XHaYzdyQ2rsig1rewK6blR6YNK/575XtAayB2JGKtgRnMdGuA2Pz/XXsJZ8qQcwijGxd
-         yBnQfxXuOaYUTFRk3I880zxRm56FLblbg6k0tKDlcchBxlZb/OekWMah+brHVz3Fn1Rn
-         9eL6FdtyPfjsG1hXOOt24hplVxtUEp50X7N7v11E9lkP8VtOpAsoUXofVehzkJSAajtl
-         52hol9VV7uISNQYw5qJNMaxi2LlK0PjyM6KsZjoGaDs9AKI1NUyUnvI+Sd7s6YyKP2Rm
-         dPNw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330191; x=1756934991; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yjxpjleGmnPr60pufOiDp0/VurDkXXIbxNmPCFGrnAI=;
+        b=P/kFdVYyJo79xO/r3gio5yG5TgGqSfaWGAOB6cgQI9XaKIAvI+K/9inIbl19zHErDd
+         9oHMHRkA/N36a1+ZdCvTkGRiQCCv+8+x4AXVyICvEIlAjZI7LinLEiMw4/TZwMVOMptG
+         +muUN9B5g/AZadagEegmIBP3QoV+z23CLYZ1vP36Iq1gADg0Ppj/ZE4JdS8L2GmHG1WZ
+         cSbvzWW5Fju0QpldUufUe9BhvSrVYWdq3gwbtzb/PPYOJ24qmnS6VcH98f/ER7lUG0qy
+         rt+ZeZbR0pphLe74WcgT5o4//FQyHiO++e5WZMY3ww7iZFKBou59hD0aBuv2xF+sDEBA
+         mKTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756330189; x=1756934989;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EY43jGH6xDAN0IyTgevSfhzWHbB6QScc1DIBgPf9ma4=;
-        b=cwkEQblcstudD6nRzofTu6eBgYS8Yj2LVQeaSuBMr7/7vtUH2ESR7Ku3ppJ9vPuYi3
-         K4eV6jV2qDkJgIz64lr9s0pQH48aWsUXtMLaHIH9XMMcY995osc5gL4SUeUPrOxS7Gvg
-         HeTEFw6eU4lqUTB4Byp7V7/no0KtWoVkoVoAeYk+MkhxbjBd/ezN+lDkIF7Svf/oGP9Y
-         I7cjNQuCRPZTXsvcB1IdkOLj71tcEET8QOe+PjDYzaBneC68XQ10JbYc6opj28QDkcMi
-         FlaYE8GYMII8kylIkiEBg5th6vpiDR0Hmxsg1NYEFfLS7WWjKFeUeTf5RU+mBHVSGK/Q
-         705Q==
-X-Gm-Message-State: AOJu0Yw+0gVjSnYE83W8kKbF7im3/kiduInVYvEJ5pbunZ4FgJYWWS3Z
-	PXhGq3kFW7nJUCs8PXcm+wRv3Bm0eOmr+B+V8fH7bMDjWflt2ZZKNSvFZXi6i24VeHHiDIrt8IB
-	lYlDn
-X-Gm-Gg: ASbGncse5kUhcMBPxwmEnhE8FDUCPAug3zKQ9uDk0dvTQ0PkQJGp+QL1+cpqbT7n4bv
-	F1em9CDm2m80ICbprKh92vKXOuf7hwqDObgyKLY9KkDYJy0z1O3kSHISN4jk8FLr1QIc1LzOMa6
-	/TMzyjaZdmmimkR9q5YJQa4bUCvmmj9fvwqRIWrnWtkf3U0YD7VEbkJzaHtcaF0elX7v70cIMJ2
-	2vjwMISRGUbBpSIymeLRqcUmYK2ITNdI3ps7Evdf9jThzl6CatlZIT/deSOshHuKA7nqQo9qOmW
-	C+XT+GkZUaixiEtnM/N3nZFZmwjQ2qNaQMyQALChoEk8h2Mcgsb0QaTOL8RjniBPBjm0KB3ovgE
-	opu5bugIF6GpHkol6nlTmQSSo
-X-Google-Smtp-Source: AGHT+IFB3ueOGur75gPGtYw5+XgIx4JwjpC/K0LkCI/nHg8JfJ5FWo9JBPjUhKbKqDxbK/cQxZyjTw==
-X-Received: by 2002:a17:90b:3e4c:b0:327:ac8c:10af with SMTP id 98e67ed59e1d1-327ac8c126dmr214556a91.36.1756330188487;
-        Wed, 27 Aug 2025 14:29:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756330191; x=1756934991;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yjxpjleGmnPr60pufOiDp0/VurDkXXIbxNmPCFGrnAI=;
+        b=u88MpTzkysowFpc7P5Fcyn4tcdsQK88FRMtiVzhMidd960BV2RKMkF8wbm7xTFpxUj
+         hsVLv2G+kQuB3V3PbEt9q7b8IGCLrgQypltHX+sdC1DxTs4JvY3fYMJD41hK1gwcvkyd
+         2fiFApfXxAsq3ztwI6ZpYYkTC84VB6wX/55Lfg0OUECbCzureyZL737ZKuBmPJfSSppw
+         zyiWOR75Nkr9OAaX05uAHhH9R04pOjXK2QrbWv7C2VeIihmDRsSaLc23Nh9n+KY+f/tz
+         6bxOmdC5YfwFx+ROMn3jzrYXPW/9XwuEH708xm1n7y2OsNFOR+IryMfQY6L4h0qxnA/D
+         m1nQ==
+X-Gm-Message-State: AOJu0Yxp9PFp5BYTaL+UtaJNfW3YsuDNUII3C4U06d8U3VQPOC9p9S9B
+	C7nOWPxQEM+Rog9d5rDhF3usTzleIUIbJZDtgcwO2wZZoZpiQ/tl36+JOUFJGAlh3uhndI9mMr9
+	WHRgw
+X-Gm-Gg: ASbGncsYGqMhPrAtIIo0dVZCWZtWv4c16TE7CaHMYL15/BVHZrhtkPI9u5MYEPExBe3
+	bFBczHIpu/W8kq+aO50cj1c9GXeAlxMHbcOnmhqh590zjA5orMplWXdq+B1Jx/1IsfoZnX8I/5z
+	iYluwwb2MCaK9Z3BMF2C7+Qdo2GsHO18DfVcz5rTvX5x5XVhxboNF2ic3KxfTAkMQzT6y6pBCfp
+	TJpk+JFy9OOG5z1lwxgqTPW0jIf7QwClCLZuJ9T94o1gxZta3Cy6/sc7RddGr9tZJgQFXM8dY5f
+	vSGHucQyc0qBhkpZJnNcSgpUWAB770G+IlOzf4V4r9xN91kQMiK93lqEBoTjb2Fefo2PxC4GXRZ
+	CY2fdVx7PfEyTbw==
+X-Google-Smtp-Source: AGHT+IG4RsA6MM4REFbboksRKyeJ/1dogpPlXXwqLqAQdt2iCJozgzE0RQrlDbAahA7mwkmPdbTYxA==
+X-Received: by 2002:a05:6a20:3d1a:b0:23f:fec8:9ace with SMTP id adf61e73a8af0-24340bd0efcmr28778154637.11.1756330190580;
+        Wed, 27 Aug 2025 14:29:50 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:d0c9:1052:20fd:8423])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.29.47
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.29.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 14:29:48 -0700 (PDT)
+        Wed, 27 Aug 2025 14:29:50 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/33] Patch review
-Date: Wed, 27 Aug 2025 14:29:07 -0700
-Message-ID: <cover.1756329972.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 01/33] go: fix CVE-2025-4674
+Date: Wed, 27 Aug 2025 14:29:08 -0700
+Message-ID: <efdc4920571677c9051d4402eaa801672eeb24e3.1756329972.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1756329972.git.steve@sakoman.com>
+References: <cover.1756329972.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 21:29:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222508
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222509
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Friday, August 29
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Passed a-full on autobuilder:
+The go command may execute unexpected commands when operating in untrusted VCS repositories.
+This occurs when possibly dangerous VCS configuration is present in repositories.
+This can happen when a repository was fetched via one VCS (e.g. Git), but contains metadata
+for another VCS (e.g. Mercurial). Modules which are retrieved using the go command line,
+i.e. via "go get", are not affected.
 
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/2277
-
-The following changes since commit 93c7489d843a0e46fe4fc685b356d0ae885300d7:
-
-  build-appliance-image: Update to scarthgap head revision (2025-08-22 06:02:51 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Archana Polampalli (3):
-  go: fix CVE-2025-4674
-  ffmpeg: upgrade 6.1.2 -> 6.1.3
-  ffmpeg: fix CVE-2025-1594
-
-Hitendra Prajapati (1):
-  gstreamer1.0-plugins-base: fix CVE-2025-47807
-
-Jiaying Song (1):
-  ruby-ptest : some ptest fixes
-
-Khem Raj (9):
-  ncurses: Pin to C17 standard
-  unzip: Fix build with GCC-15
-  m4: Stick to C17 standard
-  gmp: Fix build with GCC15/C23
-  gmp: Fix build with older gcc versions
-  gdbm: Use C11 standard
-  unifdef: Don't use C23 constexpr keyword
-  libtirpc: Fix build with gcc-15/C23
-  cpio: Pin to use C17 std
-
-Martin Jansa (8):
-  cmake: fix build with gcc-15 on host
-  git: fix build with gcc-15 on host
-  pkgconfig: fix build with gcc-15
-  libgpg-error: fix build with gcc-15
-  rust-llvm: fix build with gcc-15
-  elfutils: fix build with gcc-15
-  binutils: fix build with gcc-15
-  dbus-glib: fix build with gcc-15
-
-Michael Halstead (2):
-  yocto-uninative: Update to 4.8 for GCC 15.1
-  yocto-uninative: Update to 4.9 for glibc 2.42
-
-Peter Marko (8):
-  qemu: set status of CVE-2024-7730 to fixed
-  go-binary-native: ignore CVE-2025-0913
-  glib-2.0: patch CVE-2025-7039
-  glib-2.0: patch CVE-2025-6052
-  dpkg: patch CVE-2025-6297
-  libarchive: patch regression of patch for CVE-2025-5918
-  vim: upgrade 9.1.1198 -> 9.1.1652
-  sudo: remove devtool FIXME comment
-
-Praveen Kumar (1):
-  go: fix CVE-2025-47907
-
- meta/conf/distro/include/yocto-uninative.inc  |  10 +-
- .../dbus-glib/fix-build-with-gcc-15.patch     |  37 +
- meta/recipes-core/dbus/dbus-glib_0.112.bb     |   1 +
- .../glib-2.0/glib-2.0/CVE-2025-6052-01.patch  |  69 ++
- .../glib-2.0/glib-2.0/CVE-2025-6052-02.patch  |  97 +++
- .../glib-2.0/glib-2.0/CVE-2025-6052-03.patch  |  35 +
- .../glib-2.0/glib-2.0/CVE-2025-7039.patch     |  43 +
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   4 +
- meta/recipes-core/ncurses/ncurses.inc         |   4 +
- .../binutils/binutils-2.42.inc                |   4 +
- ...nu23-compatibility-wrt-static_assert.patch |  89 ++
- ...ngs-when-building-gprofng-with-Clang.patch | 767 ++++++++++++++++++
- ...gnu23-compatibility-wrt-unprototyped.patch | 606 ++++++++++++++
- ...021-gprofng-fix-build-with-std-gnu23.patch | 196 +++++
- meta/recipes-devtools/cmake/cmake.inc         |   1 +
- .../0001-cppdap-fix-build-with-gcc-15.patch   |  30 +
- .../dpkg/dpkg/CVE-2025-6297.patch             | 125 +++
- meta/recipes-devtools/dpkg/dpkg_1.22.0.bb     |   1 +
- .../elfutils/elfutils_0.191.bb                |   1 +
- .../files/0007-Fix-build-with-gcc-15.patch    |  72 ++
- ...ndex-pack-rename-struct-thread_local.patch |  67 ++
- .../git/0001-reflog-rename-unreachable.patch  |  40 +
- meta/recipes-devtools/git/git_2.44.4.bb       |   2 +
- meta/recipes-devtools/go/go-1.22.12.inc       |   3 +
- .../go/go-binary-native_1.22.12.bb            |   1 +
- .../go/go/CVE-2025-4674.patch                 | 332 ++++++++
- .../go/go/CVE-2025-47907-pre.patch            | 233 ++++++
- .../go/go/CVE-2025-47907.patch                | 328 ++++++++
- meta/recipes-devtools/m4/m4-1.4.19.inc        |   3 +
- ...0001-Do-not-use-bool-as-a-field-name.patch |  36 +
- .../pkgconfig/pkgconfig_git.bb                |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   2 +
- ..._rm_r_no_permissions-test-under-root.patch |  30 +
- meta/recipes-devtools/ruby/ruby/run-ptest     |   2 +-
- meta/recipes-devtools/ruby/ruby_3.3.5.bb      |   7 +-
- ...36-Add-cstdint-to-SmallVector-101761.patch |  28 +
- ...cstdint-in-AMDGPUMCTargetDesc-101766.patch |  23 +
- ...-include-to-X86MCTargetDesc.h-123320.patch |  32 +
- .../recipes-devtools/rust/rust-llvm_1.75.0.bb |   8 +-
- ...0001-Don-t-use-C23-constexpr-keyword.patch |  57 ++
- meta/recipes-devtools/unifdef/unifdef_2.12.bb |   3 +-
- meta/recipes-extended/cpio/cpio_2.15.bb       |   3 +
- .../libarchive/CVE-2025-5918-0003.patch       |  51 ++
- .../libarchive/libarchive_3.7.9.bb            |   1 +
- ...rations-to-allow-compile-with-gcc-15.patch |  64 ++
- ...d-key_call-declarations-to-allow-com.patch |  60 ++
- .../libtirpc/libtirpc_1.3.4.bb                |   2 +
- meta/recipes-extended/sudo/sudo_1.9.17p1.bb   |  52 --
- meta/recipes-extended/unzip/unzip/gcc15.patch |  18 +
- meta/recipes-extended/unzip/unzip_6.0.bb      |   1 +
- .../ffmpeg/ffmpeg/CVE-2023-49501.patch        |  30 -
- .../ffmpeg/ffmpeg/CVE-2023-49502.patch        | 107 ---
- .../ffmpeg/ffmpeg/CVE-2023-50007.patch        |  78 --
- .../ffmpeg/ffmpeg/CVE-2023-50008.patch        |  29 -
- .../ffmpeg/ffmpeg/CVE-2024-31578.patch        |  49 --
- .../ffmpeg/ffmpeg/CVE-2024-31582.patch        |  34 -
- .../ffmpeg/ffmpeg/CVE-2024-35367.patch        |  47 --
- .../ffmpeg/ffmpeg/CVE-2024-35368.patch        |  41 -
- .../ffmpeg/ffmpeg/CVE-2025-0518.patch         |  34 -
- .../ffmpeg/ffmpeg/CVE-2025-1594.patch         | 105 +++
- .../ffmpeg/ffmpeg/CVE-2025-22919.patch        |  39 -
- .../{ffmpeg_6.1.2.bb => ffmpeg_6.1.3.bb}      |  13 +-
- .../CVE-2025-47807.patch                      |  49 ++
- .../gstreamer1.0-plugins-base_1.22.12.bb      |   1 +
- meta/recipes-support/gdbm/gdbm_1.23.bb        |   4 +
- ...n-prototype-in-acinclude.m4-for-C23-.patch |  25 +
- ...d-parameter-names-in-prototype-for-g.patch |  50 ++
- meta/recipes-support/gmp/gmp_6.3.0.bb         |   2 +
- ...oid-use-of-nullptr-for-an-identifier.patch |  52 ++
- .../libgpg-error/libgpg-error_1.48.bb         |   1 +
- ...src-Makefile-improve-reproducibility.patch |  10 +-
- .../vim/files/disable_acl_header_check.patch  |  12 +-
- .../vim/files/no-path-adjust.patch            |   2 +-
- meta/recipes-support/vim/vim.inc              |   7 +-
- 74 files changed, 3926 insertions(+), 577 deletions(-)
- create mode 100644 meta/recipes-core/dbus/dbus-glib/fix-build-with-gcc-15.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-6052-01.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-6052-02.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-6052-03.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2025-7039.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-opcodes-fix-std-gnu23-compatibility-wrt-static_assert.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0019-Fix-32097-Warnings-when-building-gprofng-with-Clang.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0020-gprofng-fix-std-gnu23-compatibility-wrt-unprototyped.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0021-gprofng-fix-build-with-std-gnu23.patch
- create mode 100644 meta/recipes-devtools/cmake/cmake/0001-cppdap-fix-build-with-gcc-15.patch
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2025-6297.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/0007-Fix-build-with-gcc-15.patch
- create mode 100644 meta/recipes-devtools/git/git/0001-index-pack-rename-struct-thread_local.patch
- create mode 100644 meta/recipes-devtools/git/git/0001-reflog-rename-unreachable.patch
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
+ .../go/go/CVE-2025-4674.patch                 | 332 ++++++++++++++++++
+ 2 files changed, 333 insertions(+)
  create mode 100644 meta/recipes-devtools/go/go/CVE-2025-4674.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-47907-pre.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-47907.patch
- create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
- create mode 100644 meta/recipes-devtools/rust/rust-llvm/0036-Add-cstdint-to-SmallVector-101761.patch
- create mode 100644 meta/recipes-devtools/rust/rust-llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch
- create mode 100644 meta/recipes-devtools/rust/rust-llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch
- create mode 100644 meta/recipes-devtools/unifdef/unifdef/0001-Don-t-use-C23-constexpr-keyword.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2025-5918-0003.patch
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-Update-declarations-to-allow-compile-with-gcc-15.patch
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0002-update-signal-and-key_call-declarations-to-allow-com.patch
- create mode 100644 meta/recipes-extended/unzip/unzip/gcc15.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49501.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49502.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50007.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50008.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31582.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35368.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-0518.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-1594.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-22919.patch
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_6.1.2.bb => ffmpeg_6.1.3.bb} (95%)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47807.patch
- create mode 100644 meta/recipes-support/gmp/gmp/0001-Complete-function-prototype-in-acinclude.m4-for-C23-.patch
- create mode 100644 meta/recipes-support/gmp/gmp/0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-Avoid-use-of-nullptr-for-an-identifier.patch
 
+diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
+index ea57b23c3e..12d7539017 100644
+--- a/meta/recipes-devtools/go/go-1.22.12.inc
++++ b/meta/recipes-devtools/go/go-1.22.12.inc
+@@ -17,6 +17,7 @@ SRC_URI += "\
+     file://CVE-2025-22870.patch \
+     file://CVE-2025-22871.patch \
+     file://CVE-2025-4673.patch \
++    file://CVE-2025-4674.patch \
+ "
+ SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
+ 
+diff --git a/meta/recipes-devtools/go/go/CVE-2025-4674.patch b/meta/recipes-devtools/go/go/CVE-2025-4674.patch
+new file mode 100644
+index 0000000000..bc6e438652
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/CVE-2025-4674.patch
+@@ -0,0 +1,332 @@
++From e9d2c032b14c17083be0f8f0c822565199d2994f Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Mon, 9 Jun 2025 11:23:46 -0700
++Subject: [PATCH] [release-branch.go1.23] cmd/go: disable support for multiple
++ vcs in one module
++
++Removes the somewhat redundant vcs.FromDir, "allowNesting" argument,
++which was always enabled, and disallow multiple VCS metadata folders
++being present in a single directory. This makes VCS injection attacks
++much more difficult.
++
++Also adds a GODEBUG, allowmultiplevcs, which re-enables this behavior.
++
++Thanks to RyotaK (https://ryotak.net) of GMO Flatt Security Inc for
++reporting this issue.
++
++Updates #74380
++Fixes #74382
++Fixes CVE-2025-4674
++
++CVE: CVE-2025-4674
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/e9d2c032b14c17083be0f8f0c822565199d2994f]
++
++Change-Id: I2db79f2baacfacfec331ee7c6978c4057d483eba
++Reviewed-on: https://go-review.googlesource.com/c/go/+/686337
++LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Reviewed-by: David Chase <drchase@google.com>
++Reviewed-by: Carlos Amedee <carlos@golang.org>
++Commit-Queue: Carlos Amedee <carlos@golang.org>
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ doc/godebug.md                                |  4 ++
++ src/cmd/go/internal/load/pkg.go               | 14 ++---
++ src/cmd/go/internal/vcs/vcs.go                | 28 ++++++----
++ src/cmd/go/internal/vcs/vcs_test.go           |  2 +-
++ src/cmd/go/testdata/script/test_multivcs.txt  | 54 +++++++++++++++++++
++ .../script/version_buildvcs_nested.txt        | 20 +++++--
++ src/internal/godebugs/godebugs_test.go        |  3 +-
++ src/internal/godebugs/table.go                |  1 +
++ src/runtime/metrics/doc.go                    |  5 ++
++ 9 files changed, 108 insertions(+), 23 deletions(-)
++ create mode 100644 src/cmd/go/testdata/script/test_multivcs.txt
++
++diff --git a/doc/godebug.md b/doc/godebug.md
++index fb3f32f..ae4f057 100644
++--- a/doc/godebug.md
+++++ b/doc/godebug.md
++@@ -126,6 +126,10 @@ for example,
++ see the [runtime documentation](/pkg/runtime#hdr-Environment_Variables)
++ and the [go command documentation](/cmd/go#hdr-Build_and_test_caching).
++
+++Go 1.23.11 disabled build information stamping when multiple VCS are detected due
+++to concerns around VCS injection attacks. This behavior can be renabled with the
+++setting `allowmultiplevcs=1`.
+++
++ ### Go 1.22
++
++ Go 1.22 adds a configurable limit to control the maximum acceptable RSA key size
++diff --git a/src/cmd/go/internal/load/pkg.go b/src/cmd/go/internal/load/pkg.go
++index f41fb2c..428780e 100644
++--- a/src/cmd/go/internal/load/pkg.go
+++++ b/src/cmd/go/internal/load/pkg.go
++@@ -2465,7 +2465,6 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
++	var repoDir string
++	var vcsCmd *vcs.Cmd
++	var err error
++-	const allowNesting = true
++
++	wantVCS := false
++	switch cfg.BuildBuildvcs {
++@@ -2485,7 +2484,7 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
++			// (so the bootstrap toolchain packages don't even appear to be in GOROOT).
++			goto omitVCS
++		}
++-		repoDir, vcsCmd, err = vcs.FromDir(base.Cwd(), "", allowNesting)
+++		repoDir, vcsCmd, err = vcs.FromDir(base.Cwd(), "")
++		if err != nil && !errors.Is(err, os.ErrNotExist) {
++			setVCSError(err)
++			return
++@@ -2508,10 +2507,11 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
++	}
++	if repoDir != "" && vcsCmd.Status != nil {
++		// Check that the current directory, package, and module are in the same
++-		// repository. vcs.FromDir allows nested Git repositories, but nesting
++-		// is not allowed for other VCS tools. The current directory may be outside
++-		// p.Module.Dir when a workspace is used.
++-		pkgRepoDir, _, err := vcs.FromDir(p.Dir, "", allowNesting)
+++		// repository. vcs.FromDir disallows nested VCS and multiple VCS in the
+++		// same repository, unless the GODEBUG allowmultiplevcs is set. The
+++		// current directory may be outside p.Module.Dir when a workspace is
+++		// used.
+++		pkgRepoDir, _, err := vcs.FromDir(p.Dir, "")
++		if err != nil {
++			setVCSError(err)
++			return
++@@ -2523,7 +2523,7 @@ func (p *Package) setBuildInfo(ctx context.Context, autoVCS bool) {
++			}
++			goto omitVCS
++		}
++-		modRepoDir, _, err := vcs.FromDir(p.Module.Dir, "", allowNesting)
+++		modRepoDir, _, err := vcs.FromDir(p.Module.Dir, "")
++		if err != nil {
++			setVCSError(err)
++			return
++diff --git a/src/cmd/go/internal/vcs/vcs.go b/src/cmd/go/internal/vcs/vcs.go
++index 8550f2a..89d9f0e 100644
++--- a/src/cmd/go/internal/vcs/vcs.go
+++++ b/src/cmd/go/internal/vcs/vcs.go
++@@ -8,6 +8,7 @@ import (
++	"bytes"
++	"errors"
++	"fmt"
+++	"internal/godebug"
++	"internal/lazyregexp"
++	"internal/singleflight"
++	"io/fs"
++@@ -831,11 +832,13 @@ type vcsPath struct {
++	schemelessRepo bool                                // if true, the repo pattern lacks a scheme
++ }
++
+++var allowmultiplevcs = godebug.New("allowmultiplevcs")
+++
++ // FromDir inspects dir and its parents to determine the
++ // version control system and code repository to use.
++ // If no repository is found, FromDir returns an error
++ // equivalent to os.ErrNotExist.
++-func FromDir(dir, srcRoot string, allowNesting bool) (repoDir string, vcsCmd *Cmd, err error) {
+++func FromDir(dir, srcRoot string) (repoDir string, vcsCmd *Cmd, err error) {
++	// Clean and double-check that dir is in (a subdirectory of) srcRoot.
++	dir = filepath.Clean(dir)
++	if srcRoot != "" {
++@@ -849,21 +852,28 @@ func FromDir(dir, srcRoot string, allowNesting bool) (repoDir string, vcsCmd *Cm
++	for len(dir) > len(srcRoot) {
++		for _, vcs := range vcsList {
++			if isVCSRoot(dir, vcs.RootNames) {
++-				// Record first VCS we find.
++-				// If allowNesting is false (as it is in GOPATH), keep looking for
++-				// repositories in parent directories and report an error if one is
++-				// found to mitigate VCS injection attacks.
++				if vcsCmd == nil {
+++					// Record first VCS we find.
++					vcsCmd = vcs
++					repoDir = dir
++-					if allowNesting {
+++					if allowmultiplevcs.Value() == "1" {
+++						allowmultiplevcs.IncNonDefault()
++						return repoDir, vcsCmd, nil
++					}
+++					// If allowmultiplevcs is not set, keep looking for
+++					// repositories in current and parent directories and report
+++					// an error if one is found to mitigate VCS injection
+++					// attacks.
+++					continue
+++				}
+++				if vcsCmd == vcsGit && vcs == vcsGit {
+++					// Nested Git is allowed, as this is how things like
+++					// submodules work. Git explicitly protects against
+++					// injection against itself.
++					continue
++				}
++-				// Otherwise, we have one VCS inside a different VCS.
++-				return "", nil, fmt.Errorf("directory %q uses %s, but parent %q uses %s",
++-					repoDir, vcsCmd.Cmd, dir, vcs.Cmd)
+++				return "", nil, fmt.Errorf("multiple VCS detected: %s in %q, and %s in %q",
+++					vcsCmd.Cmd, repoDir, vcs.Cmd, dir)
++			}
++		}
++
++diff --git a/src/cmd/go/internal/vcs/vcs_test.go b/src/cmd/go/internal/vcs/vcs_test.go
++index 2ce85ea..06e63c2 100644
++--- a/src/cmd/go/internal/vcs/vcs_test.go
+++++ b/src/cmd/go/internal/vcs/vcs_test.go
++@@ -239,7 +239,7 @@ func TestFromDir(t *testing.T) {
++			}
++
++			wantRepoDir := filepath.Dir(dir)
++-			gotRepoDir, gotVCS, err := FromDir(dir, tempDir, false)
+++			gotRepoDir, gotVCS, err := FromDir(dir, tempDir)
++			if err != nil {
++				t.Errorf("FromDir(%q, %q): %v", dir, tempDir, err)
++				continue
++diff --git a/src/cmd/go/testdata/script/test_multivcs.txt b/src/cmd/go/testdata/script/test_multivcs.txt
++new file mode 100644
++index 0000000..538cbf7
++--- /dev/null
+++++ b/src/cmd/go/testdata/script/test_multivcs.txt
++@@ -0,0 +1,54 @@
+++# To avoid VCS injection attacks, we should not accept multiple different VCS metadata
+++# folders within a single module (either in the same directory, or nested in different
+++# directories.)
+++#
+++# This behavior should be disabled by setting the allowmultiplevcs GODEBUG.
+++
+++[short] skip
+++[!git] skip
+++
+++cd samedir
+++
+++exec git init .
+++
+++# Without explicitly requesting buildvcs, the go command should silently continue
+++# without determining the correct VCS.
+++go test -c -o $devnull .
+++
+++# If buildvcs is explicitly requested, we expect the go command to fail
+++! go test -buildvcs -c -o $devnull .
+++stderr '^error obtaining VCS status: multiple VCS detected:'
+++
+++env GODEBUG=allowmultiplevcs=1
+++go test -buildvcs -c -o $devnull .
+++
+++env GODEBUG=
+++cd ../nested
+++exec git init .
+++# cd a
+++go test -c -o $devnull ./a
+++! go test -buildvcs -c -o $devnull ./a
+++stderr '^error obtaining VCS status: multiple VCS detected:'
+++# allowmultiplevcs doesn't disable the check that the current directory, package, and
+++# module are in the same repository.
+++env GODEBUG=allowmultiplevcs=1
+++! go test -buildvcs -c -o $devnull ./a
+++stderr '^error obtaining VCS status: main package is in repository'
+++
+++-- samedir/go.mod --
+++module example
+++
+++go 1.18
+++-- samedir/example.go --
+++package main
+++-- samedir/.bzr/test --
+++hello
+++
+++-- nested/go.mod --
+++module example
+++
+++go 1.18
+++-- nested/a/example.go --
+++package main
+++-- nested/a/.bzr/test --
+++hello
++diff --git a/src/cmd/go/testdata/script/version_buildvcs_nested.txt b/src/cmd/go/testdata/script/version_buildvcs_nested.txt
++index 6dab847..22cd71c 100644
++--- a/src/cmd/go/testdata/script/version_buildvcs_nested.txt
+++++ b/src/cmd/go/testdata/script/version_buildvcs_nested.txt
++@@ -9,25 +9,35 @@ cd root
++ go mod init example.com/root
++ exec git init
++
++-# Nesting repositories in parent directories are ignored, as the current
++-# directory main package, and containing main module are in the same repository.
++-# This is an error in GOPATH mode (to prevent VCS injection), but for modules,
++-# we assume users have control over repositories they've checked out.
+++
+++# Nesting repositories in parent directories are an error, to prevent VCS injection.
+++# This can be disabled with the allowmultiplevcs GODEBUG.
++ mkdir hgsub
++ cd hgsub
++ exec hg init
++ cp ../../main.go main.go
++ ! go build
+++stderr '^error obtaining VCS status: multiple VCS detected: hg in ".*hgsub", and git in ".*root"$'
+++stderr '^\tUse -buildvcs=false to disable VCS stamping.$'
+++env GODEBUG=allowmultiplevcs=1
+++! go build
++ stderr '^error obtaining VCS status: main module is in repository ".*root" but current directory is in repository ".*hgsub"$'
++ stderr '^\tUse -buildvcs=false to disable VCS stamping.$'
++ go build -buildvcs=false
+++env GODEBUG=
++ go mod init example.com/root/hgsub
+++! go build
+++stderr '^error obtaining VCS status: multiple VCS detected: hg in ".*hgsub", and git in ".*root"$'
+++stderr '^\tUse -buildvcs=false to disable VCS stamping.$'
+++env GODEBUG=allowmultiplevcs=1
++ go build
+++env GODEBUG=
++ cd ..
++
++ # It's an error to build a package from a nested Git repository if the package
++ # is in a separate repository from the current directory or from the module
++-# root directory.
+++# root directory. Otherwise nested Git repositories are allowed, as this is
+++# how Git implements submodules (and protects against Git based VCS injection.)
++ mkdir gitsub
++ cd gitsub
++ exec git init
++diff --git a/src/internal/godebugs/godebugs_test.go b/src/internal/godebugs/godebugs_test.go
++index a1cb8d4..b3784eb 100644
++--- a/src/internal/godebugs/godebugs_test.go
+++++ b/src/internal/godebugs/godebugs_test.go
++@@ -39,7 +39,8 @@ func TestAll(t *testing.T) {
++		if info.Old != "" && info.Changed == 0 {
++			t.Errorf("Name=%s has Old, missing Changed", info.Name)
++		}
++-		if !strings.Contains(doc, "`"+info.Name+"`") {
+++		if !strings.Contains(doc, "`"+info.Name+"`") &&
+++                       !strings.Contains(doc, "`"+info.Name+"=") {
++			t.Errorf("Name=%s not documented in doc/godebug.md", info.Name)
++		}
++	}
++diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/table.go
++index 11c5b7d..33dcd81 100644
++--- a/src/internal/godebugs/table.go
+++++ b/src/internal/godebugs/table.go
++@@ -25,6 +25,7 @@ type Info struct {
++ // Note: After adding entries to this table, update the list in doc/godebug.md as well.
++ // (Otherwise the test in this package will fail.)
++ var All = []Info{
+++	{Name: "allowmultiplevcs", Package: "cmd/go"},
++	{Name: "execerrdot", Package: "os/exec"},
++	{Name: "gocachehash", Package: "cmd/go"},
++	{Name: "gocachetest", Package: "cmd/go"},
++diff --git a/src/runtime/metrics/doc.go b/src/runtime/metrics/doc.go
++index 85f256d..517ec0e 100644
++--- a/src/runtime/metrics/doc.go
+++++ b/src/runtime/metrics/doc.go
++@@ -230,6 +230,11 @@ Below is the full list of supported metrics, ordered lexicographically.
++	/gc/stack/starting-size:bytes
++		The stack size of new goroutines.
++
+++	/godebug/non-default-behavior/allowmultiplevcs:events
+++               The number of non-default behaviors executed by the cmd/go
+++               package due to a non-default GODEBUG=allowmultiplevcs=...
+++               setting.
+++
++	/godebug/non-default-behavior/execerrdot:events
++		The number of non-default behaviors executed by the os/exec
++		package due to a non-default GODEBUG=execerrdot=... setting.
++--
++2.40.0
 -- 
 2.43.0
 
