@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D1B9CA0FFB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4888ACA0FF7
 	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 21:29:59 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web11.6625.1756330195104580540
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.6624.1756330192869050956
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 14:29:55 -0700
+ Wed, 27 Aug 2025 14:29:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rFXQjqOL;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b49dcdf018bso250482a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:29:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3BOCyx1m;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2449978aceaso2338505ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330194; x=1756934994; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330192; x=1756934992; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R8VaqqXEJiTHWCi6ExVSnKEFhfAWfSu1D+0gFq6wVno=;
-        b=rFXQjqOLeXP/5JES6g6DD/UA8erkHbz3qrY1OCK6UxTeLnThBQcHD7VOe5L5RkmDgj
-         qM8dP2nMqEfQRsjoEImpOHwTlMVjm9wKQCvgKR5yBzaile16w84k1TjJVWsVopeKkjF/
-         P+l/LtRKgZSbk31ktABnP8hhw2h5hE31lTXjqF9LvaBALf/G6rGKnA6NGWs1wnUU/EUL
-         +cT8i+WPzZb26eXR7alOh6L/HHGuSyo1QGS+uKrWbyPcQ+97LcdYiaedilfG9IhEGYf+
-         ppkgUCyPKjifRHRuKTiCtqKp27BemRLaZr+ytrWR5GqSp0eRztR2KrlBLhASCJlrGUVi
-         hTlQ==
+        bh=jy7uYL21o8BIuRvRldGJU5+7Fs6VfwtbXPBD9iW3z9Y=;
+        b=3BOCyx1m13Av6fugk0vjMdFbc7A5CxP4wU40CL4nxL92pEGFUNhkdBOltzHBwzO+/i
+         lx7OL4PGGq2yzPhL5g1G9uXE2G7WkQK/Arh9OsCQoRPSIg7wHd4Bx3E3vs4Yku/NmhHs
+         TJKezTkRaAuwUP0qziWaxCSagLxs9WWeTAOUqfE1QDz2NxOxj3mdhAffoKN6XToh+eXL
+         vKN8yNe/sAgI5YbAxqQKoQ2QBzKBlv86gLxRRv+YxqY9hiPzPiGckHhG0wtY03dss31F
+         XRZBVA2PIQ7gj9hr7Yf7+d+s171G2d1hHujddl3tVj/mPC3zPbZY1lOE9NRwXmT/vRHP
+         37Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756330194; x=1756934994;
+        d=1e100.net; s=20230601; t=1756330192; x=1756934992;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=R8VaqqXEJiTHWCi6ExVSnKEFhfAWfSu1D+0gFq6wVno=;
-        b=OSBPRCxilTjgEep6xbodkIa26jKnpAoUmsm1gj/B3mLROXgIaKSKBtxJ62QNxKnGpD
-         zR0m2Wu7IQZVzxS9SmMYOfpK14V+O9q130rqTXh6g+39ofszr9SXmAPIXAgCdKT5havM
-         rwtl9MWgxpaEoPmd27FQRUGHYSnNxq3f4d353pFL284+nw3q7dvIJXBc45vt52U72JMe
-         wnvJ+qirF+OWiBwxQF1EXjbQRcKuMQpNu5CYIIOhhWgF+swKXvbZ66X8Vf3sBMBKJlfM
-         R3j/l0fKhEwDagbBqxHkvJ6+udYxbsNkW4r9ulaXq6FZ3xSDJ7CBFEGDmfYLNLtL7YX7
-         3D6A==
-X-Gm-Message-State: AOJu0YyRMZqhvcOqHHpmMSeCJ4fVBpJ2VVqKnqjD8rksmhugiZAKHcgy
-	k8PnjaQ6ziDfHpu7LCmR5XMnNKSMLBv9LuBiEhnUnPFYiwrohjec7Y2+c9x7fb2SlT2sgK4LOmM
-	1stVh
-X-Gm-Gg: ASbGncs7KS0pjqAwXQKjx+ohBZaR7wi7c9+Im6kaQUeskHCOO8UWC07QhLjqKB/g3e1
-	vWv+LeSD75mMw0hk26K7JJOd8nOiWjsq6oH6KYieMQh836IaXSVSo+DXIxhRlpXnxvxAkKc//Kt
-	rwwDLlPVQU8MonMdjwrwOzpYtuMX8DvEmth8qEPh4VQE0xlrqMJO1L51ESpMW5SeQYg5QfOg7QP
-	1P2Rcv9AEUszvCDhqI+ZYiAcrnR337hTusEkCM1Na2SlHQCQ7dCpmdRNRZntiA2Yh57GWlCOLAl
-	eKkI0zn6A5sIHxicLtsTehE2GO9Hq3rrWr7eeifrI+2QQe9vkk4ePAJTABTwwnTI47/5bjBDmbU
-	nVnJgieVXt5rZeg==
-X-Google-Smtp-Source: AGHT+IFo6jokgky0no/tZDZAm69j3mHGdBY8CxR8lKkF8ySNdyjT27EtthZP7VvMYwBRZBp12mBqrg==
-X-Received: by 2002:a17:90b:3f88:b0:31c:36f5:d95 with SMTP id 98e67ed59e1d1-32515e2b881mr22908424a91.2.1756330194147;
-        Wed, 27 Aug 2025 14:29:54 -0700 (PDT)
+        bh=jy7uYL21o8BIuRvRldGJU5+7Fs6VfwtbXPBD9iW3z9Y=;
+        b=pmwrXmPdTqGQPj/vR1yO8Wd068GwZhPG5WyzOxZZujsPuRQoqv2x0HW9iYdKMTBf/o
+         5VXzJuEX9Okxwh4ltG8Zmi7TiFB2lxul/UikW/C/he/9orr4OuVHlBLdjduQH+0Q+dAP
+         SH8wA1+fnNwB1rvb8jFRyHM8aLUDBjHrP87cYg8wJtTJl6bfep7bjmnjDTO6Zz2++bkF
+         KT5h16goyPokhG+thO4Ve5PqH+F8INHZGQOvMaAJ36mafKZtUtFmeXCMb2XLOoQDnfuC
+         KDSH7ZIgBNyTcZH8PBn3a8U9qjU3x+5SA3XAo9T+Y7jZdmn4lcUpacIf+UXJtK3hGuLc
+         YSdg==
+X-Gm-Message-State: AOJu0YxkeppY7UboIjg/no6onGOmpMxZLKeQvMTMhOYAS4xdJXFAN+fH
+	6lwC6ElVGkZ3anhRMHdk97pO5DOvPq2esOgHVTSsXpxXn2EJGCaaTitzxcvrn4sJO5zYkTXFuT+
+	ZX0kV
+X-Gm-Gg: ASbGncsHboVaBooUG5Y4htnrtoopmJUo3tKJgExvC+4RR0bPOcO113oQxYS0rmzwuSI
+	HTpu5/1zVzr8DT91+jBdmf0BeBdFaHBSmTBrptGZ7e3P6Pi0SdpR5wV7P0RTKbnBjvlIVZsiwDW
+	juUYa5jvQ0KoS8H79rvFL0Rd33KwH/FUPMb9829n6F3plQaBzdFSvniDGPV7ShP1EpLBsLQy4Oe
+	ePAjForI1njO6BR20Zh45HxivnxF4AihaDRKzPHVbHr78ElCJGOE/I5G2F9toHoOXdypdyW+Ftx
+	5A/5CD/nqT8cHJ1HOQYHVBWJ0YUXUx2Ui7sec2C7yRQA0UULQSENbsXyUfNrclUcsX86OjgWKcZ
+	7y2gHbLTas2kBDw==
+X-Google-Smtp-Source: AGHT+IFHPBL3frXu8HAe/U5DBcWjTmfG3K34DJYlHk2kyMY1SX/gH/yKUAVYJBYIJaQOzOIefS6jtA==
+X-Received: by 2002:a17:902:ef06:b0:244:9c27:9829 with SMTP id d9443c01a7336-2462ee0c6edmr242385415ad.10.1756330192112;
+        Wed, 27 Aug 2025 14:29:52 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:d0c9:1052:20fd:8423])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.29.53
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.29.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 14:29:53 -0700 (PDT)
+        Wed, 27 Aug 2025 14:29:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/33] ffmpeg: upgrade 6.1.2 -> 6.1.3
-Date: Wed, 27 Aug 2025 14:29:10 -0700
-Message-ID: <901304a22413030b9744006ae18b587146b71953.1756329972.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/33] gstreamer1.0-plugins-base: fix CVE-2025-47807
+Date: Wed, 27 Aug 2025 14:29:09 -0700
+Message-ID: <19eca5d7373667dbacd02a2c1dd8c9de8101cd34.1756329972.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756329972.git.steve@sakoman.com>
 References: <cover.1756329972.git.steve@sakoman.com>
@@ -68,641 +68,87 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 21:29:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222511
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222510
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Fixes:
-CVE-2023-6604
-CVE-2023-6602
-CVE-2025-7700
+Upstream-Status: Backport from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/9e2238adc1cad1fba5aad23bc8c2a6c2a65794d2
 
-Changelog:
-https://github.com/FFmpeg/FFmpeg/blob/n6.1.3/Changelog
-
-Removed the CVE patches which are already fixed with this upgrade
-
-ref:
-https://github.com/FFmpeg/FFmpeg/commit/c104119c6b5e00496c5ff14071c85f95c98b7ae5
-https://github.com/FFmpeg/FFmpeg/commit/7d79d0a43b5533ff584249332bc1db7fedbab1d2
-https://github.com/FFmpeg/FFmpeg/commit/a4b6e37ad5f50454974fa22cc8f19d83cdaff0eb
-https://github.com/FFmpeg/FFmpeg/commit/efedc1d1b6aef2481cf613a11992b1dce6320055
-https://github.com/FFmpeg/FFmpeg/commit/dcf34f13f516aa0e214384f3185aff306feba01d
-https://github.com/FFmpeg/FFmpeg/commit/bed04417b4d38af7a1b477b24ea6e26547e32373
-https://github.com/FFmpeg/FFmpeg/commit/b43a12363c1fef0efa7eac15b6b830417656db15
-https://github.com/FFmpeg/FFmpeg/commit/e2b20632b8c71a4e174511f8ff6e8342e0c63bd3
-https://github.com/FFmpeg/FFmpeg/commit/43f64690ad9df72976bcbd6ea9e41b2542db2464
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ffmpeg/ffmpeg/CVE-2023-49501.patch        |  30 -----
- .../ffmpeg/ffmpeg/CVE-2023-49502.patch        | 107 ------------------
- .../ffmpeg/ffmpeg/CVE-2023-50007.patch        |  78 -------------
- .../ffmpeg/ffmpeg/CVE-2023-50008.patch        |  29 -----
- .../ffmpeg/ffmpeg/CVE-2024-31578.patch        |  49 --------
- .../ffmpeg/ffmpeg/CVE-2024-31582.patch        |  34 ------
- .../ffmpeg/ffmpeg/CVE-2024-35367.patch        |  47 --------
- .../ffmpeg/ffmpeg/CVE-2024-35368.patch        |  41 -------
- .../ffmpeg/ffmpeg/CVE-2025-0518.patch         |  34 ------
- .../ffmpeg/ffmpeg/CVE-2025-22919.patch        |  39 -------
- .../{ffmpeg_6.1.2.bb => ffmpeg_6.1.3.bb}      |  12 +-
- 11 files changed, 1 insertion(+), 499 deletions(-)
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49501.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49502.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50007.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50008.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31582.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35368.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-0518.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-22919.patch
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_6.1.2.bb => ffmpeg_6.1.3.bb} (95%)
+ .../CVE-2025-47807.patch                      | 49 +++++++++++++++++++
+ .../gstreamer1.0-plugins-base_1.22.12.bb      |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47807.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49501.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49501.patch
-deleted file mode 100644
-index 80d542952a..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49501.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 4adb93dff05dd947878c67784d98c9a4e13b57a7 Mon Sep 17 00:00:00 2001
--From: Paul B Mahol <onemda@gmail.com>
--Date: Thu, 23 Nov 2023 14:58:35 +0100
--Subject: [PATCH] avfilter/asrc_afirsrc: fix by one smaller allocation of
-- buffer
--
--CVE: CVE-2023-49501
--
--Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/4adb93dff05dd947878c67784d98c9a4e13b57a7]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavfilter/asrc_afirsrc.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/libavfilter/asrc_afirsrc.c b/libavfilter/asrc_afirsrc.c
--index e2359c1..ea04c35 100644
----- a/libavfilter/asrc_afirsrc.c
--+++ b/libavfilter/asrc_afirsrc.c
--@@ -480,7 +480,7 @@ static av_cold int config_eq_output(AVFilterLink *outlink)
--         if (ret < 0)
--             return ret;
--
---        s->magnitude = av_calloc(s->nb_magnitude, sizeof(*s->magnitude));
--+        s->magnitude = av_calloc(s->nb_magnitude + 1, sizeof(*s->magnitude));
--         if (!s->magnitude)
--             return AVERROR(ENOMEM);
--         memcpy(s->magnitude, eq_presets[s->preset].gains, sizeof(*s->magnitude) * s->nb_magnitude);
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49502.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49502.patch
-deleted file mode 100644
-index bc78a46d03..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-49502.patch
-+++ /dev/null
-@@ -1,107 +0,0 @@
--From 737ede405b11a37fdd61d19cf25df296a0cb0b75 Mon Sep 17 00:00:00 2001
--From: Cosmin Stejerean <cosmin@cosmin.at>
--Date: Wed, 6 Dec 2023 18:39:32 +0800
--Subject: [PATCH] avfilter/bwdif: account for chroma sub-sampling in min size
-- calculation
--
--The current logic for detecting frames that are too small for the
--algorithm does not account for chroma sub-sampling, and so a sample
--where the luma plane is large enough, but the chroma planes are not
--will not be rejected. In that event, a heap overflow will occur.
--
--This change adjusts the logic to consider the chroma planes and makes
--the change to all three bwdif implementations.
--
--Fixes #10688
--
--Signed-off-by: Cosmin Stejerean <cosmin@cosmin.at>
--Reviewed-by: Thomas Mundt <tmundt75@gmail.com>
--Signed-off-by: Philip Langdale <philipl@overt.org>
--
--CVE: CVE-2023-49502
--
--Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/737ede405b11a37f]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavfilter/vf_bwdif.c        |  9 +++++----
-- libavfilter/vf_bwdif_cuda.c   | 11 ++++++-----
-- libavfilter/vf_bwdif_vulkan.c | 11 +++++------
-- 3 files changed, 16 insertions(+), 15 deletions(-)
--
--diff --git a/libavfilter/vf_bwdif.c b/libavfilter/vf_bwdif.c
--index 137cd5e..353cd0b 100644
----- a/libavfilter/vf_bwdif.c
--+++ b/libavfilter/vf_bwdif.c
--@@ -191,13 +191,14 @@ static int config_props(AVFilterLink *link)
--         return ret;
--     }
--
---    if (link->w < 3 || link->h < 4) {
---        av_log(ctx, AV_LOG_ERROR, "Video of less than 3 columns or 4 lines is not supported\n");
--+    yadif->csp = av_pix_fmt_desc_get(link->format);
--+    yadif->filter = filter;
--+
--+    if (AV_CEIL_RSHIFT(link->w, yadif->csp->log2_chroma_w) < 3 || AV_CEIL_RSHIFT(link->h, yadif->csp->log2_chroma_h) < 4) {
--+        av_log(ctx, AV_LOG_ERROR, "Video with planes less than 3 columns or 4 lines is not supported\n");
--         return AVERROR(EINVAL);
--     }
--
---    yadif->csp = av_pix_fmt_desc_get(link->format);
---    yadif->filter = filter;
--     ff_bwdif_init_filter_line(&s->dsp, yadif->csp->comp[0].depth);
--
--     return 0;
--diff --git a/libavfilter/vf_bwdif_cuda.c b/libavfilter/vf_bwdif_cuda.c
--index a5ecfba..418f15f 100644
----- a/libavfilter/vf_bwdif_cuda.c
--+++ b/libavfilter/vf_bwdif_cuda.c
--@@ -296,15 +296,16 @@ static int config_output(AVFilterLink *link)
--         link->frame_rate = av_mul_q(ctx->inputs[0]->frame_rate,
--                                     (AVRational){2, 1});
--
---    if (link->w < 3 || link->h < 3) {
---        av_log(ctx, AV_LOG_ERROR, "Video of less than 3 columns or lines is not supported\n");
---        ret = AVERROR(EINVAL);
---        goto exit;
---    }
--
--     y->csp = av_pix_fmt_desc_get(output_frames->sw_format);
--     y->filter = filter;
--
--+    if (AV_CEIL_RSHIFT(link->w, y->csp->log2_chroma_w) < 3 || AV_CEIL_RSHIFT(link->h, y->csp->log2_chroma_h) < 3) {
--+        av_log(ctx, AV_LOG_ERROR, "Video with planes less than 3 columns or lines is not supported\n");
--+        ret = AVERROR(EINVAL);
--+        goto exit;
--+    }
--+
--     ret = CHECK_CU(cu->cuCtxPushCurrent(s->hwctx->cuda_ctx));
--     if (ret < 0)
--         goto exit;
--diff --git a/libavfilter/vf_bwdif_vulkan.c b/libavfilter/vf_bwdif_vulkan.c
--index 690a89c..c51df9a 100644
----- a/libavfilter/vf_bwdif_vulkan.c
--+++ b/libavfilter/vf_bwdif_vulkan.c
--@@ -362,15 +362,14 @@ static int bwdif_vulkan_config_output(AVFilterLink *outlink)
--         outlink->frame_rate = av_mul_q(avctx->inputs[0]->frame_rate,
--                                        (AVRational){2, 1});
--
---    if (outlink->w < 4 || outlink->h < 4) {
---        av_log(avctx, AV_LOG_ERROR, "Video of less than 4 columns or lines is not "
---               "supported\n");
---        return AVERROR(EINVAL);
---    }
---
--     y->csp = av_pix_fmt_desc_get(vkctx->frames->sw_format);
--     y->filter = bwdif_vulkan_filter_frame;
--
--+    if (AV_CEIL_RSHIFT(outlink->w, y->csp->log2_chroma_w) < 4 || AV_CEIL_RSHIFT(outlink->h, y->csp->log2_chroma_h) < 4) {
--+        av_log(avctx, AV_LOG_ERROR, "Video with planes less than 4 columns or lines is not supported\n");
--+        return AVERROR(EINVAL);
--+    }
--+
--     return init_filter(avctx);
-- }
--
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50007.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50007.patch
-deleted file mode 100644
-index d86e39707e..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50007.patch
-+++ /dev/null
-@@ -1,78 +0,0 @@
--From b1942734c7cbcdc9034034373abcc9ecb9644c47 Mon Sep 17 00:00:00 2001
--From: Paul B Mahol <onemda@gmail.com>
--Date: Mon, 27 Nov 2023 11:45:34 +0100
--Subject: [PATCH 2/3] avfilter/af_afwtdn: fix crash with EOF handling
--
--CVE: CVE-2023-50007
--
--Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/b1942734c7cbcdc9034034373abcc9ecb9644c47]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavfilter/af_afwtdn.c | 34 +++++++++++++++++++---------------
-- 1 file changed, 19 insertions(+), 15 deletions(-)
--
--diff --git a/libavfilter/af_afwtdn.c b/libavfilter/af_afwtdn.c
--index 0fcfa77..63b7f5f 100644
----- a/libavfilter/af_afwtdn.c
--+++ b/libavfilter/af_afwtdn.c
--@@ -408,6 +408,7 @@ typedef struct AudioFWTDNContext {
--
--     uint64_t sn;
--     int64_t eof_pts;
--+    int eof;
--
--     int wavelet_type;
--     int channels;
--@@ -1069,7 +1070,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
--         s->drop_samples = 0;
--     } else {
--         if (s->padd_samples < 0 && eof) {
---            out->nb_samples += s->padd_samples;
--+            out->nb_samples = FFMAX(0, out->nb_samples + s->padd_samples);
--             s->padd_samples = 0;
--         }
--         if (!eof)
--@@ -1208,23 +1209,26 @@ static int activate(AVFilterContext *ctx)
--
--     FF_FILTER_FORWARD_STATUS_BACK(outlink, inlink);
--
---    ret = ff_inlink_consume_samples(inlink, s->nb_samples, s->nb_samples, &in);
---    if (ret < 0)
---        return ret;
---    if (ret > 0)
---        return filter_frame(inlink, in);
--+    if (!s->eof) {
--+        ret = ff_inlink_consume_samples(inlink, s->nb_samples, s->nb_samples, &in);
--+        if (ret < 0)
--+            return ret;
--+        if (ret > 0)
--+            return filter_frame(inlink, in);
--+    }
--
--     if (ff_inlink_acknowledge_status(inlink, &status, &pts)) {
---        if (status == AVERROR_EOF) {
---            while (s->padd_samples != 0) {
---                ret = filter_frame(inlink, NULL);
---                if (ret < 0)
---                    return ret;
---            }
---            ff_outlink_set_status(outlink, status, pts);
---            return ret;
---        }
--+        if (status == AVERROR_EOF)
--+            s->eof = 1;
--     }
--+
--+    if (s->eof && s->padd_samples != 0) {
--+        return filter_frame(inlink, NULL);
--+    } else if (s->eof) {
--+        ff_outlink_set_status(outlink, AVERROR_EOF, s->eof_pts);
--+        return 0;
--+    }
--+
--     FF_FILTER_FORWARD_WANTED(outlink, inlink);
--
--     return FFERROR_NOT_READY;
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50008.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50008.patch
-deleted file mode 100644
-index 4b8935628f..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50008.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 5f87a68cf70dafeab2fb89b42e41a4c29053b89b Mon Sep 17 00:00:00 2001
--From: Paul B Mahol <onemda@gmail.com>
--Date: Mon, 27 Nov 2023 12:08:20 +0100
--Subject: [PATCH] avfilter/vf_colorcorrect: fix memory leaks
--
--CVE: CVE-2023-50008
--
--Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/5f87a68cf70dafeab2fb89b42e41a4c29053b89b]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavfilter/vf_colorcorrect.c | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/libavfilter/vf_colorcorrect.c b/libavfilter/vf_colorcorrect.c
--index 1c4dea5..6bdec2c 100644
----- a/libavfilter/vf_colorcorrect.c
--+++ b/libavfilter/vf_colorcorrect.c
--@@ -497,6 +497,8 @@ static av_cold void uninit(AVFilterContext *ctx)
--     ColorCorrectContext *s = ctx->priv;
--
--     av_freep(&s->analyzeret);
--+    av_freep(&s->uhistogram);
--+    av_freep(&s->vhistogram);
-- }
--
-- static const AVFilterPad colorcorrect_inputs[] = {
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch
-deleted file mode 100644
-index f8e7e1283b..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From edeeb35cecb5bc0d433b14dd0e544ae826b7ece5 Mon Sep 17 00:00:00 2001
--From: Zhao Zhili <zhilizhao@tencent.com>
--Date: Tue, 20 Feb 2024 20:08:55 +0800
--Subject: [PATCH] avutil/hwcontext: Don't assume frames_uninit is reentrant
--
--Fix heap use after free when vulkan_frames_init failed.
--
--Signed-off-by: Zhao Zhili <zhilizhao@tencent.com>
--
--CVE: CVE-2024-31578
--
--Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/3bb00c0a420c3ce83]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavutil/hwcontext.c | 8 ++------
-- 1 file changed, 2 insertions(+), 6 deletions(-)
--
--diff --git a/libavutil/hwcontext.c b/libavutil/hwcontext.c
--index 3650d46..0ef3479 100644
----- a/libavutil/hwcontext.c
--+++ b/libavutil/hwcontext.c
--@@ -363,7 +363,7 @@ int av_hwframe_ctx_init(AVBufferRef *ref)
--     if (ctx->internal->hw_type->frames_init) {
--         ret = ctx->internal->hw_type->frames_init(ctx);
--         if (ret < 0)
---            goto fail;
--+            return ret;
--     }
--
--     if (ctx->internal->pool_internal && !ctx->pool)
--@@ -373,14 +373,10 @@ int av_hwframe_ctx_init(AVBufferRef *ref)
--     if (ctx->initial_pool_size > 0) {
--         ret = hwframe_pool_prealloc(ref);
--         if (ret < 0)
---            goto fail;
--+            return ret;
--     }
--
--     return 0;
---fail:
---    if (ctx->internal->hw_type->frames_uninit)
---        ctx->internal->hw_type->frames_uninit(ctx);
---    return ret;
-- }
--
-- int av_hwframe_transfer_get_formats(AVBufferRef *hwframe_ref,
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31582.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31582.patch
-deleted file mode 100644
-index 2ade3ab6b1..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31582.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 1d1a05b393ece9fa3df825bfef3724b7370aefdc Mon Sep 17 00:00:00 2001
--From: Zhao Zhili <zhilizhao@tencent.com>
--Date: Fri, 29 Dec 2023 05:56:43 +0800
--Subject: [PATCH] avfilter/vf_codecview: fix heap buffer overflow
--
--And improve the performance by a little bit.
--
--Signed-off-by: Zhao Zhili <zhilizhao@tencent.com>
--
--CVE: CVE-2024-31582
--
--Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/99debe5f823f45a482e1dc08de35879aa9c74bd2]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavfilter/vf_codecview.c | 3 ---
-- 1 file changed, 3 deletions(-)
--
--diff --git a/libavfilter/vf_codecview.c b/libavfilter/vf_codecview.c
--index 55d9c8c..f65ccbd 100644
----- a/libavfilter/vf_codecview.c
--+++ b/libavfilter/vf_codecview.c
--@@ -216,9 +216,6 @@ static void draw_block_rectangle(uint8_t *buf, int sx, int sy, int w, int h, ptr
--         buf[sx + w - 1] = color;
--         buf += stride;
--     }
---
---    for (int x = sx; x < sx + w; x++)
---        buf[x] = color;
-- }
--
-- static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
-deleted file mode 100644
-index a1bec43c66..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35367.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From 09e6840cf7a3ee07a73c3ae88a020bf27ca1a667 Mon Sep 17 00:00:00 2001
--From: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
--Date: Wed, 13 Mar 2024 02:10:26 +0100
--Subject: [PATCH] avcodec/ppc/vp8dsp_altivec: Fix out-of-bounds access
--
--h_subpel_filters_inner[i] and h_subpel_filters_outer[i / 2]
--belong together and the former allows the range 0..6,
--so the latter needs to support 0..3. But it has only three
--elements. Add another one.
--The value for the last element has been guesstimated
--from subpel_filters in libavcodec/vp8dsp.c.
--
--This is also intended to fix FATE-failures with UBSan here:
--https://fate.ffmpeg.org/report.cgi?time=20240312011016&slot=ppc-linux-gcc-13.2-ubsan-altivec-qemu
--
--Tested-by: Sean McGovern <gseanmcg@gmail.com>
--Signed-off-by: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
--
--CVE: CVE-2024-35367
--
--Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/09e6840cf7a3ee07a73c3ae88a020bf27ca1a667]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavcodec/ppc/vp8dsp_altivec.c | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/libavcodec/ppc/vp8dsp_altivec.c b/libavcodec/ppc/vp8dsp_altivec.c
--index 12dac8b..061914f 100644
----- a/libavcodec/ppc/vp8dsp_altivec.c
--+++ b/libavcodec/ppc/vp8dsp_altivec.c
--@@ -50,11 +50,12 @@ static const vec_s8 h_subpel_filters_inner[7] =
-- // for 6tap filters, these are the outer two taps
-- // The zeros mask off pixels 4-7 when filtering 0-3
-- // and vice-versa
---static const vec_s8 h_subpel_filters_outer[3] =
--+static const vec_s8 h_subpel_filters_outer[4] =
-- {
--     REPT4(0, 0, 2, 1),
--     REPT4(0, 0, 3, 3),
--     REPT4(0, 0, 1, 2),
--+    REPT4(0, 0, 0, 0),
-- };
--
-- #define LOAD_H_SUBPEL_FILTER(i) \
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35368.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35368.patch
-deleted file mode 100644
-index 7b802762eb..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-35368.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 4513300989502090c4fd6560544dce399a8cd53c Mon Sep 17 00:00:00 2001
--From: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
--Date: Sun, 24 Sep 2023 13:15:48 +0200
--Subject: [PATCH] avcodec/rkmppdec: Fix double-free on error
--
--After having created the AVBuffer that is put into frame->buf[0],
--ownership of several objects (namely an AVDRMFrameDescriptor,
--an MppFrame and some AVBufferRefs framecontextref and decoder_ref)
--has passed to the AVBuffer and therefore to the frame.
--Yet it has nevertheless been freed manually on error
--afterwards, which would lead to a double-free as soon
--as the AVFrame is unreferenced.
--
--Signed-off-by: Andreas Rheinhardt <andreas.rheinhardt@outlook.com>
--
--CVE: CVE-2024-35368
--
--Upstream-Status: Backport [https://github.com/ffmpeg/ffmpeg/commit/4513300989502090c4fd6560544dce399a8cd53c]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavcodec/rkmppdec.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/libavcodec/rkmppdec.c b/libavcodec/rkmppdec.c
--index 5768568..2ca368e 100644
----- a/libavcodec/rkmppdec.c
--+++ b/libavcodec/rkmppdec.c
--@@ -462,8 +462,8 @@ static int rkmpp_retrieve_frame(AVCodecContext *avctx, AVFrame *frame)
--
--             frame->hw_frames_ctx = av_buffer_ref(decoder->frames_ref);
--             if (!frame->hw_frames_ctx) {
---                ret = AVERROR(ENOMEM);
---                goto fail;
--+                av_frame_unref(frame);
--+                return AVERROR(ENOMEM);
--             }
--
--             return 0;
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-0518.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-0518.patch
-deleted file mode 100644
-index d3e02bebe6..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-0518.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From b5b6391d64807578ab872dc58fb8aa621dcfc38a Mon Sep 17 00:00:00 2001
--From: Michael Niedermayer <michael@niedermayer.cc>
--Date: Mon, 6 Jan 2025 22:01:39 +0100
--Subject: [PATCH] avfilter/af_pan: Fix sscanf() use
--
--Fixes: Memory Data Leak
--
--Found-by: Simcha Kosman <simcha.kosman@cyberark.com>
--Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
--
--CVE: CVE-2025-0518
--
--Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/b5b6391d64807578ab872dc58fb8aa621dcfc38a]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavfilter/af_pan.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/libavfilter/af_pan.c b/libavfilter/af_pan.c
--index cfed9f1..ffcd214 100644
----- a/libavfilter/af_pan.c
--+++ b/libavfilter/af_pan.c
--@@ -165,7 +165,7 @@ static av_cold int init(AVFilterContext *ctx)
--         sign = 1;
--         while (1) {
--             gain = 1;
---            if (sscanf(arg, "%lf%n *%n", &gain, &len, &len))
--+            if (sscanf(arg, "%lf%n *%n", &gain, &len, &len) >= 1)
--                 arg += len;
--             if (parse_channel_name(&arg, &in_ch_id, &named)){
--                 av_log(ctx, AV_LOG_ERROR,
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-22919.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-22919.patch
-deleted file mode 100644
-index f895576de3..0000000000
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2025-22919.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 1446e37d3d032e1452844778b3e6ba2c20f0c322 Mon Sep 17 00:00:00 2001
--From: James Almer <jamrial@gmail.com>
--Date: Mon, 30 Dec 2024 00:25:41 -0300
--Subject: [PATCH] avfilter/buffersrc: check for valid sample rate
--
--A sample rate <= 0 is invalid.
--
--Fixes an assert in ffmpeg_enc.c that assumed a valid sample rate would be set.
--Fixes ticket #11385.
--
--Signed-off-by: James Almer <jamrial@gmail.com>
--
--CVE: CVE-2025-22919
--
--Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/1446e37d3d032e1452844778b3e6ba2c20f0c322]
--
--Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-----
-- libavfilter/buffersrc.c | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/libavfilter/buffersrc.c b/libavfilter/buffersrc.c
--index 453fc0f..f49aa91 100644
----- a/libavfilter/buffersrc.c
--+++ b/libavfilter/buffersrc.c
--@@ -401,6 +401,11 @@ FF_ENABLE_DEPRECATION_WARNINGS
--         av_channel_layout_describe(&s->ch_layout, buf, sizeof(buf));
--     }
--
--+    if (s->sample_rate <= 0) {
--+        av_log(ctx, AV_LOG_ERROR, "Sample rate not set\n");
--+        return AVERROR(EINVAL);
--+    }
--+
--     if (!s->time_base.num)
--         s->time_base = (AVRational){1, s->sample_rate};
--
----
--2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb
-similarity index 95%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.2.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb
-index a789980dde..c0112757f0 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb
-@@ -27,26 +27,16 @@ SRC_URI = " \
-     file://av1_ordering_info.patch \
-     file://vulkan_av1_stable_API.patch \
-     file://vulkan_fix_gcc14.patch \
--    file://CVE-2023-49502.patch \
--    file://CVE-2024-31578.patch \
--    file://CVE-2024-31582.patch \
--    file://CVE-2023-50008.patch \
--    file://CVE-2023-49501.patch \
-     file://CVE-2024-28661.patch \
--    file://CVE-2023-50007.patch \
-     file://CVE-2023-49528.patch \
--    file://CVE-2024-35367.patch \
--    file://CVE-2024-35368.patch \
-     file://CVE-2024-35365.patch \
-     file://CVE-2024-36618.patch \
-     file://CVE-2024-35369.patch \
-     file://CVE-2025-25473.patch \
--    file://CVE-2025-22919.patch \
-     file://CVE-2025-22921.patch \
--    file://CVE-2025-0518.patch \
- "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47807.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47807.patch
+new file mode 100644
+index 0000000000..11a4d49583
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2025-47807.patch
+@@ -0,0 +1,49 @@
++From 9e2238adc1cad1fba5aad23bc8c2a6c2a65794d2 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Thu, 8 May 2025 09:14:15 +0300
++Subject: [PATCH] subparse: Check for valid UTF-8 before cleaning up lines and
++ check for regex replace errors
++
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4418
++Fixes CVE-2025-47807
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/9132>
++
++CVE: CVE-2025-47807
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/9e2238adc1cad1fba5aad23bc8c2a6c2a65794d2]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ gst/subparse/gstsubparse.c | 10 ++++++++++
++ 1 file changed, 10 insertions(+)
++
++diff --git a/gst/subparse/gstsubparse.c b/gst/subparse/gstsubparse.c
++index 035068d..72bf104 100644
++--- a/gst/subparse/gstsubparse.c
+++++ b/gst/subparse/gstsubparse.c
++@@ -666,6 +666,12 @@ subrip_unescape_formatting (gchar * txt, gconstpointer allowed_tags_ptr,
++   res = g_regex_replace (tag_regex, txt, strlen (txt), 0,
++       replace_pattern, 0, NULL);
++ 
+++  /* Replacing can fail. Return an empty string in that case. */
+++  if (!res) {
+++    strcpy (txt, "");
+++    return;
+++  }
+++
++   /* res will always be shorter than the input or identical, so this
++    * copy is OK */
++   strcpy (txt, res);
++@@ -1046,6 +1052,10 @@ parse_subrip (ParserState * state, const gchar * line)
++         g_string_append_c (state->buf, '\n');
++       g_string_append (state->buf, line);
++       if (strlen (line) == 0) {
+++        if (!g_utf8_validate (state->buf->str, state->buf->len, NULL)) {
+++          g_string_truncate (state->buf, 0);
+++          return NULL;
+++        }
++         ret = g_markup_escape_text (state->buf->str, state->buf->len);
++         g_string_truncate (state->buf, 0);
++         state->state = 0;
++-- 
++2.50.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
+index bfc6bb65ef..2eff864022 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
+@@ -21,6 +21,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0012-subparse-Check-for-NULL-return-of-strchr-when-parsin.patch \
+            file://CVE-2025-47808.patch \
+            file://CVE-2025-47806.patch \
++           file://CVE-2025-47807.patch \
+            "
+ SRC_URI[sha256sum] = "73cfadc3a6ffe77ed974cfd6fb391c605e4531f48db21dd6b9f42b8cb69bd8c1"
  
--SRC_URI[sha256sum] = "3b624649725ecdc565c903ca6643d41f33bd49239922e45c9b1442c63dca4e38"
-+SRC_URI[sha256sum] = "bc5f1e4a4d283a6492354684ee1124129c52293bcfc6a9169193539fbece3487"
- 
- # https://nvd.nist.gov/vuln/detail/CVE-2023-39018
- # https://github.com/bramp/ffmpeg-cli-wrapper/issues/291
 -- 
 2.43.0
 
