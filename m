@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8379DCA0FF7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E378CA0FFB
 	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 21:30:39 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.6609.1756330232855330976
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.6611.1756330234131858181
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 14:30:32 -0700
+ Wed, 27 Aug 2025 14:30:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wZuUXkBy;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-248cb0b37dfso2685755ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:30:32 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1Lj8QjWD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-771e4378263so300684b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:30:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330232; x=1756935032; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330233; x=1756935033; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=H6yEYo3jr9hMgTKfHtIjgmWiehvxzw7aG7+rB5Xx5Mk=;
-        b=wZuUXkBymKsy3Fqe7V0QCUpHKUlXgPJG7Rve7u/ZA2+PV5xCrD4etoGV87I7jr41yI
-         7pPZi5/n58KKDRHWV3pxZN0X71yEEQusqd1cEh5KqRckhryfMI7Q3Wo8QgrE7OMHVo4d
-         1OLSanhktotk5Whbj2Xc7SpKyIklHS080OM9Go457bWW99Re2ZtC9kinFTkU6pS2Ganf
-         +sPtEbbSvXamDoRJrIu9a9CEYv1eLwykjqmAfvrXvD+ELduH8C4beV5pgWjTfGZIkDLa
-         X5HphTdRskVWx0DTWjKsGYgFRMr1IvmG/iIIoLoMbu5DWMid5KzXChRYwFaWja+m+ZMG
-         gmKg==
+        bh=RgxT5WlEMBGpdaOJJZF7VhP7y+Jv5n64WS4j1y9zrEo=;
+        b=1Lj8QjWDmntGa2lj2yk5fHtcYytUu5p4Y0WqJvhPaQbeZgqgAusg6z5hBQrG6Jzlz7
+         M/KW6d4Q88NTCkycCR3urYBNV351EyqTKjctKmxZwINjfajRSjWB9KTNTQKhyebCa6nx
+         9PhtU5BhEo9vMCs6qvWr8jblHmN9Ab305URMjtSBTwGveMV998Fudsrre1sQ+4jh+ed9
+         kuQf3FlLDlTWKSrEdmCc3h5KsGnsilXTHm6AGxgBgIDLg1LR0IDs4vnAuomteE4JLjkN
+         kBFU4Le7hToXB4i1bxPB+ppHljomKyQwf+bfbo1/6CjAp6PEheFQgikwTuvA6zHbZhWA
+         Gmqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756330232; x=1756935032;
+        d=1e100.net; s=20230601; t=1756330233; x=1756935033;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=H6yEYo3jr9hMgTKfHtIjgmWiehvxzw7aG7+rB5Xx5Mk=;
-        b=N3LsZovZzfe7OgkPSQNWg1WwFE+kELE0g6SoxVUPuuNyhPr0xg87YyU/ZGYq4MKnqe
-         tu2URuYka8bmf+0AAo+G9jCEGbiTwXTiqiEafYMlMlwThRUgiOQRGCOI9ZagvnB3FbIJ
-         SIDft45n4Nx8zvwqfnImyGtdMdT8z7LHEzTwboway8Rl0RpCwij7nsecY9M4LLRLUPim
-         RWOs7LnJRPPyws+qIS3Frgi0L+r/ut16n+UmkQFFpAZqANgblKqgbXKDae7APkI3lsXC
-         SsXUFAmLlPuRXbyO3HvrIBVzzGotbpZisi0CctGocQ9QyM0z20fBoNihVf9jAyzjJbu8
-         A0+Q==
-X-Gm-Message-State: AOJu0Yy9miD/dO/gF2qC6OQL+xxp6rUX8Yl9+dCTtlne+jiV1BVajoWI
-	080sXu8LjkZQXVkc+Vb30S02QdR9RChWCb7sSwMiZiV/UQ5LKowSjZTvlojfD9kEvfKyt/gNLkt
-	qp7OM
-X-Gm-Gg: ASbGnctnXoNpjmkt4xgCcVTLNnTMT1IdmWbF4Bocb6KyKRHEHg+NSoj2NNaGeObsmFV
-	2net3Bh7h0zaTi9SFNOqoLIdyRMURt2enHcuL3x6FFq//vPsK8lLVyqJmTFmtxXzRhkPAQSGciE
-	Oe2LmHtE0XHdGeqxhY0ynXIKYfak0W52qd+0ZMSBt/78hBOxRVsVnfdudoMViXR9Wm0Awpk7OeH
-	qNmpLOuQwphDxtZb0ZSiBpkNEOqM3Pl2JsXjKVx0MYDT4YW5/1YQtal7vQZtRQBV2y64xFPuVCe
-	/Eu93GrVLXl5RaURcJfeQjlF4JqQnESm51YFRKvJqUc+ObTD8c6z90G6r7dddu91VD51XCSzdQ2
-	poFMVT4sMCzj8dA==
-X-Google-Smtp-Source: AGHT+IHtwJ2uVJnVbf8/dLWRLqGaSUE03U/B/GT7iRiFxK0TVaIph3eqJxscom0Kai44k1GgLrwDgA==
-X-Received: by 2002:a17:903:32cb:b0:226:38ff:1d6a with SMTP id d9443c01a7336-2462edd7db5mr289072725ad.7.1756330232053;
-        Wed, 27 Aug 2025 14:30:32 -0700 (PDT)
+        bh=RgxT5WlEMBGpdaOJJZF7VhP7y+Jv5n64WS4j1y9zrEo=;
+        b=BpvLPZBYSgSSyuRPOdBewi17CuDx3phFZ4Bm9N0aLXslUvdY2cimsIZhOBXvj+VtjA
+         1+HN8KanOn7VaqlHEUw+651DKIZxek1wpOXa/wIitqxSUrscN5RlqI9q54dgcK9vPMpo
+         wX6Kjc7HdERbfNHMinF75fkiPZlepwkd4uKP0UZgTdCtyvILQKIcFFwMhnFPsOVrvhHp
+         PdpJz3R5pXSvj0okB/ZD0+90AVEyFPkhiptW5MZ4Tjo3MDCquHTzlYjctae04CGHwcJU
+         I1+B7k3ybpzUPAQJ4dVkFjHOMMOblxdedWblNhDMFpXRU/OVsTnvrPv4hg+drw6GFh8P
+         wjdw==
+X-Gm-Message-State: AOJu0YxKkJEcWKqFHbNC6IBJhZaeLICCsA/lfCz3KJBUX8swnwFCF+nr
+	G2s4+QHKMEkM8DYb8yZMO2h8z230ipXdmYNpDwvqpZBhAIvpWWdzizYG/+trUy1L6LmN6y/iWoA
+	FhfS4
+X-Gm-Gg: ASbGncukAJajdGfaFj9RjJXaNeHaRBnJEfr3BbzxS3pBdJ8iypyVfXc1TmLi5mf2A3t
+	awH9s3p44tTLAyaSFilsJLmnk6yu4MQKEcoHwB+UoSzEJ/vCjphyRKOVmmIYBFACa2+0AC9cQVm
+	7fjaK+EHQ10yZ8Iu78Ba5S7sVqSc9j/8UkDZFZ+qMzxB+8LB98ZAGuN6HxbwDWgf9WA+Xh46UAf
+	+Ey3tWpfpfIHSLRYRssGwzsLovzrLhvDhu7QorkPX0mWsJg3z4wbSPACFVhtlO5Y45o3RaRxJTu
+	+xDlwgretyDolOiUFP3BfInaD1Kh95tkT4wOFEje+Mk3Vq7iYgsWiWXEhA5HkoE2DT3rtJyjTm4
+	987ykio0S8294WA==
+X-Google-Smtp-Source: AGHT+IGlyAXp+krr3FucwXKMsgDw8P6WSYGChfp6OYSSmZfjiCKTysAZHGMiuwGhWlWupp4LgUGxNA==
+X-Received: by 2002:a05:6a20:a728:b0:243:a17b:6414 with SMTP id adf61e73a8af0-243a17b69a0mr3801253637.26.1756330233370;
+        Wed, 27 Aug 2025 14:30:33 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:d0c9:1052:20fd:8423])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.30.31
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.30.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 14:30:31 -0700 (PDT)
+        Wed, 27 Aug 2025 14:30:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 22/33] pkgconfig: fix build with gcc-15
-Date: Wed, 27 Aug 2025 14:29:29 -0700
-Message-ID: <948e0170d83949e2d5a676afb81edc44f07c5ba4.1756329972.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 23/33] libgpg-error: fix build with gcc-15
+Date: Wed, 27 Aug 2025 14:29:30 -0700
+Message-ID: <cef0a6c3245a2556614f7e009c2e00e1eb16e08e.1756329972.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756329972.git.steve@sakoman.com>
 References: <cover.1756329972.git.steve@sakoman.com>
@@ -68,86 +68,90 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 21:30:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222530
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222531
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-* on hosts with gcc-15 or whenever glib PACKAGECONFIG isn't enabled
-  and pkgconfig uses own old bundled glib
+Backport a fix for native build with gcc-15 on host
 
-* fixes:
-  http://errors.yoctoproject.org/Errors/Details/853015/
-../../../git/glib/glib/goption.c:169:14: error: two or more data types in declaration specifiers
-  169 |     gboolean bool;
-      |              ^~~~
-../../../git/glib/glib/goption.c:169:18: warning: declaration does not declare anything
-  169 |     gboolean bool;
-      |                  ^
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...0001-Do-not-use-bool-as-a-field-name.patch | 36 +++++++++++++++++++
- .../pkgconfig/pkgconfig_git.bb                |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
+ ...oid-use-of-nullptr-for-an-identifier.patch | 52 +++++++++++++++++++
+ .../libgpg-error/libgpg-error_1.48.bb         |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-Avoid-use-of-nullptr-for-an-identifier.patch
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0001-Avoid-use-of-nullptr-for-an-identifier.patch b/meta/recipes-support/libgpg-error/libgpg-error/0001-Avoid-use-of-nullptr-for-an-identifier.patch
 new file mode 100644
-index 0000000000..bcb7e94d69
+index 0000000000..11ab7a2a4e
 --- /dev/null
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-Do-not-use-bool-as-a-field-name.patch
-@@ -0,0 +1,36 @@
-+From b3b26a7e125e5e4f5b69975cc17eb6d33198ebaa Mon Sep 17 00:00:00 2001
-+From: Emmanuele Bassi <ebassi@gnome.org>
-+Date: Thu, 11 Apr 2024 14:40:21 +0100
-+Subject: [PATCH] Do not use bool as a field name
++++ b/meta/recipes-support/libgpg-error/libgpg-error/0001-Avoid-use-of-nullptr-for-an-identifier.patch
+@@ -0,0 +1,52 @@
++From d14c69a7f256a9444c5c64b808d8767e5a8ba68e Mon Sep 17 00:00:00 2001
++From: NIIBE Yutaka <gniibe@fsij.org>
++Date: Wed, 23 Oct 2024 08:48:06 +0900
++Subject: [PATCH] Avoid use of 'nullptr' for an identifier.
 +
-+C99 aliases `bool` to `_Bool`, and C23 introduces `bool` as a reserved
-+keyword. Let's avoid using `bool` as a field name.
++* tests/t-printf.c (check_fprintf_sf): Use 'null_ptr'
++as an identifier.
 +
-+Upstream-Status: Backport [Backport from glib to bunlded version in pkg-config https://github.com/GNOME/glib/commit/9e320e1c43a4770ed1532248fe5416eb0c618120]
++--
++
++GnuPG-bug-id: 7344
++Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
++
++Upstream-Status: Backport [libgpg-error-1.51 d14c69a7f256a9444c5c64b808d8767e5a8ba68e]
 +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 +---
-+ glib/glib/goption.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ tests/t-printf.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/glib/glib/goption.c b/glib/glib/goption.c
-+index 0a22f6f..f439fd4 100644
-+--- a/glib/glib/goption.c
-++++ b/glib/glib/goption.c
-+@@ -166,7 +166,7 @@ typedef struct
-+   gpointer arg_data;
-+   union
-+   {
-+-    gboolean bool;
-++    gboolean boolean;
-+     gint integer;
-+     gchar *str;
-+     gchar **array;
-+@@ -1600,7 +1600,7 @@ free_changes_list (GOptionContext *context,
-+           switch (change->arg_type)
-+             {
-+             case G_OPTION_ARG_NONE:
-+-              *(gboolean *)change->arg_data = change->prev.bool;
-++              *(gboolean *)change->arg_data = change->prev.boolean;
-+               break;
-+             case G_OPTION_ARG_INT:
-+               *(gint *)change->arg_data = change->prev.integer;
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-index 16e6c5b609..c67c526aa5 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://gitlab.freedesktop.org/pkg-config/pkg-config.git;branch=master;
-            file://pkg-config-esdk.in \
-            file://pkg-config-native.in \
-            file://0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch \
-+           file://0001-Do-not-use-bool-as-a-field-name.patch \
++diff --git a/tests/t-printf.c b/tests/t-printf.c
++index c1ad0b0..87c201d 100644
++--- a/tests/t-printf.c
+++++ b/tests/t-printf.c
++@@ -449,7 +449,7 @@ string_filter (const char *string, int no, void *opaque)
++ static void
++ check_fprintf_sf (void)
++ {
++-  volatile char *nullptr = NULL; /* Avoid compiler warning.  */
+++  volatile char *null_ptr = NULL; /* Avoid compiler warning.  */
++   struct sfstate_s sfstate = {NULL};
++   gpgrt_stream_t stream;
++   const char *expect;
++@@ -461,8 +461,8 @@ check_fprintf_sf (void)
++ 
++   gpgrt_fprintf_sf (stream, string_filter, &sfstate,
++                     "%s a=%d b=%s c=%d d=%.8s null=%s\n",
++-                    nullptr, 1, "foo\x01 bar", 2,
++-                    "a longer string", nullptr);
+++                    null_ptr, 1, "foo\x01 bar", 2,
+++                    "a longer string", null_ptr);
++   expect = "[==>Niente<==] a=1 b=foo\x01 bar c=2 d=a longer null=(null)\n";
++   result = stream_to_string (stream);
++   if (strcmp (result, expect))
++@@ -475,7 +475,7 @@ check_fprintf_sf (void)
++ 
++   gpgrt_fprintf_sf (stream, string_filter, &sfstate,
++                     "a=%d b=%s c=%d d=%.8s e=%s\n",
++-                    1, "foo\n bar", 2, nullptr, "");
+++                    1, "foo\n bar", 2, null_ptr, "");
++   expect = "a=1 b=foo\n bar c=2 d=[==>Nien e=\n";
++   result = stream_to_string (stream);
++   if (strcmp (result, expect))
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
+index 9f2b49209d..2106f3de85 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.48.bb
+@@ -17,6 +17,7 @@ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+            file://pkgconfig.patch \
+            file://0001-Do-not-fail-when-testing-config-scripts.patch \
++           file://0001-Avoid-use-of-nullptr-for-an-identifier.patch \
+            file://run-ptest \
             "
  
- S = "${WORKDIR}/git"
 -- 
 2.43.0
 
