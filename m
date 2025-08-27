@@ -1,159 +1,162 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AE80C8303F
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 09:39:01 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web11.10871.1756287540547436363
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F3B4CA0FED
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 09:54:01 +0000 (UTC)
+Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
+ by mx.groups.io with SMTP id smtpd.web10.11395.1756288432098211760
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 02:39:00 -0700
+ Wed, 27 Aug 2025 02:53:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fKWTA5zu;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-70ddbb81734so13886546d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 02:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756287539; x=1756892339; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yJX4TAymG7uJANjsgXP6RWdozOyVbsmTN9eSUF/VT9s=;
-        b=fKWTA5zuhGlGn/2jZWSiLRp3qJqnZh+inj16HCI6knr8krD8TPL3ejlGMPfV+VALkN
-         PXUgU73xTUXFGtBCHYpV3ZDtOPjNF2B/0/4AnINiivC3iMi8Z/U+qernuZeCeLuK+GXu
-         BWTYAqdjGLywfpX7/RPH2HfL/vjm+RV8m2tJ3fPieLZNstRetvdbJ6+fr+ZhkIt0Exgb
-         tbDtdvYAc+HHaj4yGiG8u/WrRiVNv9ARF6GFLCNmz4I5+11BbQnqadCqX+UetbKMton6
-         zpfm25n+n04ObO41arHWKm9W1vBZ/w9rXsGZmmdl9VHr71Wp5ERM6/BP0d0GF3Rr4vW0
-         mj/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756287539; x=1756892339;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yJX4TAymG7uJANjsgXP6RWdozOyVbsmTN9eSUF/VT9s=;
-        b=vAu2O8xv8MDYs/2HmMAzZuBeUjQDUsv4o0lK2WaI3Vw8atYq/uHCOPN8DnVLiZzZuX
-         G7O8/pHAvosQZlE8P8WxQRimlhukMraKAW5N0UMAXmsMmPi83R8BzP+Hsj08KGlJVfi5
-         C+CMtIu6AEbMLq4O4F6aEDbW1q2HDpitv+2skENmT1N3a3362+0i7basAYok3fqDC41Z
-         cXbEUTX4ekr933TNN9V8aCVepNL3GG2Y64uz9i0/YEk3bILZEnxQ9TnUgyBbvdxDU3p9
-         W9+yMw4Ok9xqbJRG+iod9eCcOo2hXTH2HbtrMNFDHzqGe/RbDo6QIIjHP1SkrXpOUbep
-         i/Cg==
-X-Gm-Message-State: AOJu0YxFqnO2xgFg7mWNyaVVrKV+ZvqJJtArVpqo2Pz98cwPacj4aJYx
-	UewN4VvCqbpgDRiOulg08euRE6FcVovP/BkS29i5FodEVdkbD+TKHw66i6mfE0An5vXiPsbE2Ah
-	FyXmHUT/AbnIUtGm07hU86+s1i+nKuVVDaEq1/4A=
-X-Gm-Gg: ASbGncvsr1X1WscZsv8vby3uGxsNYPnTyUg3gDnZck3PsHBiCyrtKrP+yt2IbFx1xIV
-	Rhcp0kV3VNREMwiog+U6V9WXl+VAi1SCUEINCEvIBrF+X0Xkav6wLg8gnzUNkw8iBpF8YQ+3B0h
-	mQ2PU6C6dQSIIkdo3t3rWQTG5UqLqKQBXfqn/0Fe1Us+lJfpdT+8ZqYoW6Put/Jjlhqzsanx6Yi
-	iM/Q21StRIps/s3H7iy/jVFaODpY3E=
-X-Google-Smtp-Source: AGHT+IGwNwO3WYqqHikCWUoB8HayaHQhjk8CqBu8ODbj8ko6JJ4zOj9kFFLOdfyPoOybhjjFNQ02kAMC/W1FPcjKRxk=
-X-Received: by 2002:ad4:5cad:0:b0:70d:774e:942a with SMTP id
- 6a1803df08f44-70d9710c391mr227177826d6.19.1756287539444; Wed, 27 Aug 2025
- 02:38:59 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Mq1ngmTD;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1756288432; x=1787824432;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IdPA3cYisuEis1XNiuBYtrzLsWvC5IEGDXJoj0P+eCM=;
+  b=Mq1ngmTDfaklateRqp+eUgg3mWW8xszeVSfIXvaODabYVsquMR/P/QJR
+   ocoXH55owV5ecw75UzNHD+yAQLCJf4dbG395Erq3XKh/SNgUVQLnGGcTE
+   0usnml6MUiVvoQ3pVDH0ZckzST8ADEBi/+aLkjnBagLguM4E/n2O43UhD
+   vc0egi9v0t57MLLwVaiGpJDoeyOkKsncAhbmv+EYHBgSMHLKpYDUC6Hut
+   IgK+x9mrn9EJa6VYJ+8ry052O/tJmUoy5wO/IDxI7VQCehiS+MCOxR0PM
+   mfBCp8EWFDlhEPGxWJVR4Kajwy9GRTxiIoTThTlMs9JXaM77B6Va1XAXm
+   w==;
+X-CSE-ConnectionGUID: FnZfWDRoRki+dHqWXgmUvg==
+X-CSE-MsgGUID: +f7IBfzMRru0xqqJysNzHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="214160782"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751209200"; 
+   d="scan'208";a="214160782"
+Received: from unknown (HELO az2nlsmgr3.o.css.fujitsu.com) ([20.61.8.234])
+  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 18:53:51 +0900
+Received: from az2nlsmgm3.fujitsu.com (unknown [10.150.26.205])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 8848B1000351
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 09:53:50 +0000 (UTC)
+Received: from az2uksmom3.o.css.fujitsu.com (az2uksmom3.o.css.fujitsu.com [10.151.22.205])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm3.fujitsu.com (Postfix) with ESMTPS id 3F3411800080
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 09:53:50 +0000 (UTC)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmom3.o.css.fujitsu.com (Postfix) with ESMTPS id 01EA51001CDC;
+	Wed, 27 Aug 2025 09:53:48 +0000 (UTC)
+Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id E02CD1A000B;
+	Wed, 27 Aug 2025 17:53:43 +0800 (CST)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Liu Yiding <liuyd.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH v3] readline: backport a patch to fix issue that readline can't work with samba
+Date: Wed, 27 Aug 2025 17:53:13 +0800
+Message-ID: <20250827095313.1915-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
-References: <20250827064940.16074-1-r.gruenert@pironex.com>
-In-Reply-To: <20250827064940.16074-1-r.gruenert@pironex.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 27 Aug 2025 11:38:48 +0200
-X-Gm-Features: Ac12FXzXG94PhYDJaIngtVrL0kzyqJNZz4mxnsf-kqr_nPs2IlSyxBp58tPcT8g
-Message-ID: <CANNYZj-Kfj+o1e6fpJhMujVtvSb3-9JCGKtfcfHwv5rjMnsH0Q@mail.gmail.com>
-Subject: Re: [PATCH v4] scripts/runqemu: raise an error when bitbake was not found
-To: =?UTF-8?Q?Richard_Gr=C3=BCnert?= <r.gruenert@pironex.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 09:39:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222501
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 09:54:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222502
 
-Thanks, I think this is good now.
+smbclient can't accept input after readline upgrade to 8.3
+| root # smbclient //192.168.2.16/test -N
+|       Try "help" to get a list of possible commands.
+|       smb: \>
 
-Alex
+similar issue has been reported:
+https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00011.html
 
-On Wed, 27 Aug 2025 at 08:50, Richard Gr=C3=BCnert <r.gruenert@pironex.com>=
- wrote:
->
-> Running 'scrupts/runqemu' without bitbake in PATH causes the
-> following error:
->
-> ```
-> Traceback (most recent call last):
->   File "/home/rg/temp_stuff/oe_2/./scripts/runqemu", line 1807, in main
->     config.check_args()
->     ~~~~~~~~~~~~~~~~~^^
->   File "/home/rg/temp_stuff/oe_2/./scripts/runqemu", line 624, in check_a=
-rgs
->     s =3D re.search('^DEPLOY_DIR_IMAGE=3D"(.*)"', self.bitbake_e, re.M)
->   File "/usr/lib/python3.13/re/__init__.py", line 177, in search
->     return _compile(pattern, flags).search(string)
->            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
-> TypeError: expected string or bytes-like object, got 'NoneType'
-> ```
->
-> This patch adds a more helpful error message to inform the user that
-> bitbake was not found, e.g. because oe-init-build-env was not sourced.
->
-> This is an example of the new error message after the patch:
->
-> ```
-> runqemu - ERROR - In order for this script to dynamically infer paths
->  kernels or filesystem images, you either need bitbake in your PATH
->  or to source oe-init-build-env before running this script.
->
->  Dynamic path inference can be avoided by passing a *.qemuboot.conf to
->  runqemu, i.e. `runqemu /path/to/my-image-name.qemuboot.conf`
->
->  Bitbake is needed to run 'bitbake -e', but it is not found in PATH. Plea=
-se source the bitbake build environment.
-> ```
->
-> CC: Richard Purdie <richard.purdie@linuxfoundation.org>
-> CC: Alexander Kanavin <alex.kanavin@gmail.com>
->
-> Signed-off-by: Richard Gr=C3=BCnert <r.gruenert@pironex.com>
-> ---
-> changes in v4:
-> Changed commit message and error message string according
-> to suggestions by Alexander Kanavin.
->
-> changes in v3:
-> Messed up the CC tag :)
->
-> changes in v2:
-> Changed the position according to suggestion by Alexander Kanavin.
-> I also changed the error to OEPathError as this seems to be made for
-> this exact situation.
-> ---
->  scripts/runqemu | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index c24528eac8..69872f6de8 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -1713,9 +1713,6 @@ to your build configuration.
->          self.cleaned =3D True
->
->      def run_bitbake_env(self, mach=3DNone, target=3D''):
-> -        bitbake =3D shutil.which('bitbake')
-> -        if not bitbake:
-> -            return
->
->          if not mach:
->              mach =3D self.get('MACHINE')
-> @@ -1732,6 +1729,10 @@ to your build configuration.
->          else:
->              cmd =3D 'bitbake -e %s %s' % (multiconfig, target)
->
-> +        bitbake =3D shutil.which('bitbake')
-> +        if not bitbake:
-> +            raise OEPathError("Bitbake is needed to run '%s', but it is =
-not found in PATH. Please source the bitbake build environment." % cmd.stri=
-p())
-> +
->          logger.info('Running %s...' % cmd)
->          try:
->              return subprocess.check_output(cmd, shell=3DTrue).decode('ut=
-f-8')
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+---
+ .../fix-for-readline-event-hook.patch         | 55 +++++++++++++++++++
+ meta/recipes-core/readline/readline_8.3.bb    |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
+
+diff --git a/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
+new file mode 100644
+index 0000000000..f2ec506f5c
+--- /dev/null
++++ b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
+@@ -0,0 +1,55 @@
++From 15970c431517a046099d8294c91d778b1da9b29d Mon Sep 17 00:00:00 2001
++From: Chet Ramey <chet.ramey@case.edu>
++Date: Fri, 11 Jul 2025 11:51:15 -0400
++Subject: Readline-8.3 patch 1: fix for readline event hook
++
++
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/readline.git/commit/?id=15970c431517a046099d8294c91d778b1da9b29d]
++Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
++---
++ input.c    | 6 +++++-
++ patchlevel | 2 +-
++ 2 files changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/input.c b/input.c
++index e6a39e2..3383edb 100644
++--- a/input.c
+++++ b/input.c
++@@ -261,13 +261,16 @@ rl_gather_tyi (void)
++   input = 0;
++   tty = fileno (rl_instream);
++ 
++-  /* Move this up here to give it first shot, but it can't set chars_avail */
+++  /* Move this up here to give it first shot, but it can't set chars_avail,
+++     so we assume a single character is available. */
++   /* XXX - need rl_chars_available_hook? */
++   if (rl_input_available_hook)
++     {
++       result = (*rl_input_available_hook) ();
++       if (result == 0)
++         result = -1;
+++      else
+++        chars_avail = 1;
++     }
++ 
++ #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
++@@ -285,6 +288,7 @@ rl_gather_tyi (void)
++ #endif
++       if (result <= 0)
++ 	return 0;	/* Nothing to read. */
+++      result = -1;	/* there is something, so check how many chars below */
++     }
++ #endif
++ 
++diff --git a/patchlevel b/patchlevel
++index d8c9df7..fdf4740 100644
++--- a/patchlevel
+++++ b/patchlevel
++@@ -1,3 +1,3 @@
++ # Do not edit -- exists only for use by patch
++ 
++-0
+++1
++-- 
++cgit v1.2.3
++
+diff --git a/meta/recipes-core/readline/readline_8.3.bb b/meta/recipes-core/readline/readline_8.3.bb
+index ff5dec6c0a..a2f23eb353 100644
+--- a/meta/recipes-core/readline/readline_8.3.bb
++++ b/meta/recipes-core/readline/readline_8.3.bb
+@@ -1,6 +1,7 @@
+ require readline.inc
+ 
+ SRC_URI += "file://norpath.patch \
++            file://fix-for-readline-event-hook.patch \
+             "
+ 
+ SRC_URI[archive.sha256sum] = "fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc"
+-- 
+2.43.0
+
 
