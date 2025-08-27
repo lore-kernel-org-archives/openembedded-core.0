@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB9D6CA0FFF
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 21:30:39 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.6644.1756330231484951487
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8BA1CA0FED
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 21:30:49 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.6651.1756330246135133116
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 14:30:31 -0700
+ Wed, 27 Aug 2025 14:30:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dVlgfUcx;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b49db86cac4so241065a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:30:31 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oH5/XOXi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b49cfd967b9so219770a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330231; x=1756935031; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330245; x=1756935045; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mZerscwBIRGWF3oFNtoL2m/ZMsKBCKTmECtaoMNqcF0=;
-        b=dVlgfUcxT1y5hkQAvzC2I2drHZMYeIF1WVRFAOiDjcRpRNi3uZI6Le2c0EwMqTHKkP
-         QQGHoR17x2/R6kXYbnelkWebluD+uqcX7lanZmtjhcQeNCwQYjbVV7kohDY4qMhcY+/J
-         mcBEf9QLRnEj6+Dv4fpsg8Omx60biw7lnYn4Yw8sKxJpenxkKdHKhVE4GzHZreWEKdSq
-         I9yCh0znolDKbYrDG557OsuMQRsuqSb0rJUjGx62r8lg9UvAD4YkHOAl1sW/Jggcu7HM
-         dJ0C0uHh6lpimiU0EBndvHJ+dno2AEkvUVVWx8kCXLaDzd3ZOqkcyhIX93dIb04qafOd
-         JGDg==
+        bh=MsJU1duKP3pFXtbs32K+zcWEL8T1/ccyAphMtH3J0zU=;
+        b=oH5/XOXiamff6IViBGW7A1SB9Q2DuYaf72oUlI/VBrNap95Wl8hbfcZUvCzKN7i7iK
+         jooxGZLOuxaEzMcgHY52AnSBhPqOUtBnHRnpdN4L6GsplSbKGNWYNP1wm38XQMnduoKJ
+         AZAMHEcFBOQnThsxcur/Mu9gyywopgwt+XpVsUY1yvuDZvnGe2xOa+mivGjZ1cKBxy3P
+         CeGhLSNYduXf4iNNa3j1sz0QebsFSdsgT+x5OWFby+x1OHk/7bdEN7GBcseBAVmBurVy
+         6osZJm0fGGbhOAlMXDNhpUNjzW9E8rm+voM3ZqUVuuEWf4ayFO7UcDWE9kqFHEvhW/k0
+         tGmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756330231; x=1756935031;
+        d=1e100.net; s=20230601; t=1756330245; x=1756935045;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mZerscwBIRGWF3oFNtoL2m/ZMsKBCKTmECtaoMNqcF0=;
-        b=geZJ/IYHeahCiXjxL2PvzArF5Fjap7zm1sZmVM1UHNYVxNxQdhvAGc2JDwnN3ib5Yy
-         /7YZ7NXdeGFGY8ZS4MnxdKOAhMP5bNOGSNXgTdzxY7DEgHnxPLsSartyjVBbgy2uvtLz
-         8066XcEnwPxsM8JxM2G8rjGq5jH2uak9mGs4UotAZJzoHg4S3x5xFrNo9Yvm+NktvAF7
-         L4TGr1z5Fhi5OjPn/pbdOvyJtwzSUtVLtbtxM4l6sZyf7R49m5ReUu1g0R8SyDBxhtNf
-         xs+fZtKF9n6g6wWyRxxTv8hgm9Ue0VXRHxdd3cPglfYidrcxjFF9ggnNTrvqlsz6KAFr
-         9Cwg==
-X-Gm-Message-State: AOJu0YzGVOz+lNHki95bNBn+R7aRi8Ss7DW+8G93YHSTBwV1FqdHXQqy
-	RTHBYYf7it5tLWVM3Mqn0OplKBx/9is1WJamG8/n/nYsRvctkHBWJaf89yRXXj98fj6qGWmkIkV
-	rpknb
-X-Gm-Gg: ASbGncutOu5oV9w5498L0RaXTCaP0AQL5OIw2GG+ZhfbAnBhSECI9uYm3DM5NAwodcx
-	5UiVbGQ0JTlassW2N5lcS8UmJ1r7uFiyIfbE/tQjICEKmlAjFiW2/BphEcWprB20cdxmkGE0Nn8
-	ZghBMgwTpIZdTJoK+LI9zSgEKH7H6VlGNJdNax2JTK7skjynsDQIj8+pEFdIgluIxZQ+XkhNMCU
-	ssZ/b1DE2QnK/k0qFtmA05QVJNYXpOmgIyZeyZJGa0LsnUqd1vV8/SmZl7h9a+z21tsEp1mKKyP
-	66xSoFkQQKGZbvb6FAoV508/AH6XThYGqPS0qDbHd+dw3WnMNeVhOQm4RPzKYYFIlpUulKYJE4f
-	8dbeUC7SWtEiQoBsJXAu1KkCw
-X-Google-Smtp-Source: AGHT+IH+oQVW1zV6GC30LkCXE1VOnb2YjEc9ihIfzwl4mt0v1EDWSdN1oJf3N3UcNjDJEaJjRcpH2w==
-X-Received: by 2002:a17:90b:350a:b0:327:75c9:bea9 with SMTP id 98e67ed59e1d1-32775c9bfeamr4639106a91.24.1756330230551;
-        Wed, 27 Aug 2025 14:30:30 -0700 (PDT)
+        bh=MsJU1duKP3pFXtbs32K+zcWEL8T1/ccyAphMtH3J0zU=;
+        b=bus16wVagUpTN1Lfl6QrGL+fuu+cde7EYGcCX96X6FI2O4nTKv1E9augVJybiextU+
+         pGH3lgmOIaApo+QgCsqGcedmjX7BBEFiN6CAwhyOeBunsYF3lo7etbZukJCMjuROM410
+         Po1F3gmMKghK9to9XsLgypTgVNEVKNUl8bye7WvdTKM5R+FAiJRH2zWtkF3f/Xnusjdg
+         IeoqsteV0F6X9ibOLEh/NVhpBN0p5Np2ljTcViP3d3pKLWOsqxhzCTKKyN4/ISWZH5Y4
+         yxnMJTiqBMhG5ea75sF7dcXEezyOllrcLdUoGIK2neO9uy9URj3CoJ8SrWnILYdDZtvP
+         leTQ==
+X-Gm-Message-State: AOJu0Yw+AkgdONVdz7Myyw7D3sdmQ7OKUCxBGLDAVyTDCJ8ZS4JHgz2B
+	tyolE4X+7NpV67szBO48Wjj6OLunh/WzQmi6JFhdFBdWpCiomkseOTwp5uAHSXz4ISrFP/7/gTz
+	ig8+B
+X-Gm-Gg: ASbGncsCfjp2c4Mc9ec5/P//NBZEmbH44GdirgiMcZpkPcQbxMfHdbHrRCb9qD+MJVc
+	g0qav67JYJs30EDebnfLBXC8mPpP7XDaHMeDYbki8Y+2emh3pDPfITlwFd9syhsyHnqL49UOF9G
+	Oo3kTNE09b86Oi228Kf0mIjTW99rTl6wXZSuOqOOFL1FzY/RvJvxNsugPEeUVXz6PcoeSqMFY0e
+	Nqgi0WhjQ54PsFc2MLVNgA3ob1nFtHlUcUODxMUIzaBUau48jdbt35qDqCXUd6VBMSQYX0GwXIj
+	3bGe3g25b2NP6PIg2UdWskAPOWgbrV5+21G0E6WxGjfNXNlfh/m03vlkMAtl/Xh2V1FV4+HXLfY
+	5OwnalrofFJ/5XNgZ6DrCAEwF
+X-Google-Smtp-Source: AGHT+IHL26blkLAhQUONWVWS/AYCEXv8xZk/3ySUjzqANf8IBGVlpqcq4kLmhGY15LsVMIl7tcvI4Q==
+X-Received: by 2002:a17:90b:3ec9:b0:327:5360:5b0e with SMTP id 98e67ed59e1d1-3275360615cmr7749804a91.30.1756330245374;
+        Wed, 27 Aug 2025 14:30:45 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:d0c9:1052:20fd:8423])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.30.29
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.30.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 14:30:30 -0700 (PDT)
+        Wed, 27 Aug 2025 14:30:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 21/33] unifdef: Don't use C23 constexpr keyword
-Date: Wed, 27 Aug 2025 14:29:28 -0700
-Message-ID: <3085783dd5585a85a3853858215689c362429c64.1756329972.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 30/33] yocto-uninative: Update to 4.9 for glibc 2.42
+Date: Wed, 27 Aug 2025 14:29:37 -0700
+Message-ID: <9f0cc5fe65f71cf1d28b7a34272f29db03dc6778.1756329972.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756329972.git.steve@sakoman.com>
 References: <cover.1756329972.git.steve@sakoman.com>
@@ -67,100 +67,38 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 21:30:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222529
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 21:30:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222538
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-Fixes build with GCC-15
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...0001-Don-t-use-C23-constexpr-keyword.patch | 57 +++++++++++++++++++
- meta/recipes-devtools/unifdef/unifdef_2.12.bb |  3 +-
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/unifdef/unifdef/0001-Don-t-use-C23-constexpr-keyword.patch
+ meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/unifdef/unifdef/0001-Don-t-use-C23-constexpr-keyword.patch b/meta/recipes-devtools/unifdef/unifdef/0001-Don-t-use-C23-constexpr-keyword.patch
-new file mode 100644
-index 0000000000..9d02183930
---- /dev/null
-+++ b/meta/recipes-devtools/unifdef/unifdef/0001-Don-t-use-C23-constexpr-keyword.patch
-@@ -0,0 +1,57 @@
-+From ca1ac9c8bde84dbdea972299b1a6e30e78c2d785 Mon Sep 17 00:00:00 2001
-+From: Sam James <sam@gentoo.org>
-+Date: Sun, 17 Nov 2024 01:26:27 +0000
-+Subject: [PATCH] Don't use C23 constexpr keyword
-+
-+This fixes building with upcoming GCC 15 which defaults to -std=gnu23.
-+
-+Upstream-Status: Submitted [https://github.com/fanf2/unifdef/pull/19]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ unifdef.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/unifdef.c b/unifdef.c
-+index dc145a2..4bd3bda 100644
-+--- a/unifdef.c
-++++ b/unifdef.c
-+@@ -202,7 +202,7 @@ static int              depth;			/* current #if nesting */
-+ static int              delcount;		/* count of deleted lines */
-+ static unsigned         blankcount;		/* count of blank lines */
-+ static unsigned         blankmax;		/* maximum recent blankcount */
-+-static bool             constexpr;		/* constant #if expression */
-++static bool             is_constexpr;		/* constant #if expression */
-+ static bool             zerosyms;		/* to format symdepth output */
-+ static bool             firstsym;		/* ditto */
-+ 
-+@@ -1086,7 +1086,7 @@ eval_unary(const struct ops *ops, long *valp, const char **cpp)
-+ 			*valp = (value[sym] != NULL);
-+ 			lt = *valp ? LT_TRUE : LT_FALSE;
-+ 		}
-+-		constexpr = false;
-++		is_constexpr = false;
-+ 	} else if (!endsym(*cp)) {
-+ 		debug("eval%d symbol", prec(ops));
-+ 		sym = findsym(&cp);
-+@@ -1103,7 +1103,7 @@ eval_unary(const struct ops *ops, long *valp, const char **cpp)
-+ 			lt = *valp ? LT_TRUE : LT_FALSE;
-+ 			cp = skipargs(cp);
-+ 		}
-+-		constexpr = false;
-++		is_constexpr = false;
-+ 	} else {
-+ 		debug("eval%d bad expr", prec(ops));
-+ 		return (LT_ERROR);
-+@@ -1170,10 +1170,10 @@ ifeval(const char **cpp)
-+ 	long val = 0;
-+ 
-+ 	debug("eval %s", *cpp);
-+-	constexpr = killconsts ? false : true;
-++	is_constexpr = killconsts ? false : true;
-+ 	ret = eval_table(eval_ops, &val, cpp);
-+ 	debug("eval = %d", val);
-+-	return (constexpr ? LT_IF : ret == LT_ERROR ? LT_IF : ret);
-++	return (is_constexpr ? LT_IF : ret == LT_ERROR ? LT_IF : ret);
-+ }
-+ 
-+ /*
-diff --git a/meta/recipes-devtools/unifdef/unifdef_2.12.bb b/meta/recipes-devtools/unifdef/unifdef_2.12.bb
-index 3e08b3a0a4..bf0f3e1b17 100644
---- a/meta/recipes-devtools/unifdef/unifdef_2.12.bb
-+++ b/meta/recipes-devtools/unifdef/unifdef_2.12.bb
-@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3498caf346f6b77934882101749ada23 \
-                     file://unifdef.c;endline=32;md5=6f4ee8085d6e6ab0f7cb4390e1a9c497 \
-                     "
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index dabd604e8e..3ced03d477 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,10 +6,10 @@
+ # to the distro running on the build machine.
+ #
  
--SRC_URI = "http://dotat.at/prog/${BPN}/${BP}.tar.xz"
-+SRC_URI = "http://dotat.at/prog/${BPN}/${BP}.tar.xz \
-+           file://0001-Don-t-use-C23-constexpr-keyword.patch"
- SRC_URI[md5sum] = "ae8c0b3b4c43c1f6bc5f32412a820818"
- SRC_URI[sha256sum] = "43ce0f02ecdcdc723b2475575563ddb192e988c886d368260bc0a63aee3ac400"
+-UNINATIVE_MAXGLIBCVERSION = "2.41"
+-UNINATIVE_VERSION = "4.8"
++UNINATIVE_MAXGLIBCVERSION = "2.42"
++UNINATIVE_VERSION = "4.9"
  
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "0d75ae3cc6e8245be40f55d48612285248ad331896ca3f4c772ed2fb34239fcf"
+-UNINATIVE_CHECKSUM[i686] ?= "2cbfd7ad3e1362538764999dd4962eb2511211867ae17a327b65631f64f38e31"
+-UNINATIVE_CHECKSUM[x86_64] ?= "6d5e28258176c52b9eecf882d4553033fa700902e60ba80d4b7ce0edacbe41d6"
++UNINATIVE_CHECKSUM[aarch64] ?= "812045d826b7fda88944055e8526b95a5a9440bfef608d5b53fd52faab49bf85"
++UNINATIVE_CHECKSUM[i686] ?= "5cc28efd0c15a75de4bcb147c6cce65f1c1c9d442173a220f08427f40a3ffa09"
++UNINATIVE_CHECKSUM[x86_64] ?= "4c03d1ed2b7b4e823aca4a1a23d8f2e322f1770fc10e859adcede5777aff4f3a"
 -- 
 2.43.0
 
