@@ -1,101 +1,146 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DF5CA0FF0
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 02:46:29 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.6082.1756262786015687408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1215CA0FED
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 02:47:08 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web10.6244.1756262821169700253
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 19:46:26 -0700
+ Tue, 26 Aug 2025 19:47:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=P6MXHdeA;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=RqyTI8Qu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010198e96b6005-796f612e-355f-4eb0-b5ef-a4ac84d2ef0e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756262785; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Gn4dUaAad6gru8eH5ev1Pfl3CCOaRsoZErErNIQUGtY=;
-	b=P6MXHdeA10U/FBUSoW2dUAUtEaK6SenVcOGSU7DbJR1ojnUnzWGmAFMwhyUplkht
-	4vVYv4jdybS/UW16Q1Xe0F5oc9YT1KX9/wsIa2h02SX7UNxjbd0gGhA0f68NkCFuOZk
-	OoANgqpf3RxvmhRciSFY8oojOEBEOgVvALHv9tck=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756262785;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Gn4dUaAad6gru8eH5ev1Pfl3CCOaRsoZErErNIQUGtY=;
-	b=RqyTI8QuhTuI+aE4poAD9/6qyer/PwXw3de7Nh/pxRcjffkq+i1ussA/dzKEUBSZ
-	xwL8+YX2jKKuX7Ot1EpvSk8bRfltWJLmXSERGfnHgkHHV226g8wyNWvfTGSPLetUlY1
-	eNCx7ILCDFo+OSj1ocpgpqZQfZ61WRBKczuf0Pt4=
-From: patchtest@automation.yoctoproject.org
-To: Liu Yiding <liuyd.fnst@fujitsu.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core] [PATCH] readline: backport a patch to fix issue that
- readline can't work with samba
-In-Reply-To: <20250827024039.1377-1-liuyd.fnst@fujitsu.com>
-References: <20250827024039.1377-1-liuyd.fnst@fujitsu.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010198e96b6005-796f612e-355f-4eb0-b5ef-a4ac84d2ef0e-000000@us-west-2.amazonses.com>
-Date: Wed, 27 Aug 2025 02:46:25 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.08.27-54.240.27.193
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=d9pOzohX;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7e8704b7a3dso673212385a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 19:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756262820; x=1756867620; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sOBaXj9suu3Dmd9g1eK9MijwwOP/wMy3vR7JYe9GHUM=;
+        b=d9pOzohX4Bx8EPH30d/EkxvZfUHQX+PhHibjesk6lJsebPD3l4ZUoCVMEBJJBh+pji
+         DEaVGdhjjkd1hXjyA/ZQmRvxbKnMcsS/1dPs8YKA5dclsNNW3vKElT+NuGHDhe0ofbwl
+         FQgXVMqTy4N35Ns/7tX/A4TsiDw+6BsSOy65EC5RApDa+VQqVxYQ60Oio27ZspXKGfXs
+         E0vTlmxwhqD1jhQgt/Xw7a3P8S5kJGJHch1K0+vAc5wMaZ0+gz0DZ0YADFISbCsJv3MG
+         cSySbVYdOSBPxAr0EEOMQfeNXQZwTa6EfZ890gcPwpd82IydLaRbAyW6IMPm0YiD2Vno
+         3KCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756262820; x=1756867620;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sOBaXj9suu3Dmd9g1eK9MijwwOP/wMy3vR7JYe9GHUM=;
+        b=peA6V+FwObqyuKJ8oZ56fIAz7GyLAfV7QT6JWiq9HoQP7gcMVcCiAX2BImaPkXuHx/
+         ZHYThr3lOTaOOHAGii+LTFVMM8FbYd2W1iacioO7rrUCbasaRRQfzyaDSg1WmjpH61e+
+         TbcEXkRVORmCHp9wvsed+LE3zsxNnPoTtoZJAobyg5Pjuk2PZMcwqiJl7HINSwqXMEr8
+         KB89C6OGali5uy/BHQ+Gqe8IXALuoeVDdXLR7KxP9urQwSoH6LKb/iGSDWS+Y7OxubGH
+         ADPcGRGoODORiYRiuQOPIpcNFOy4whtGzQBfiVOggQqT1+Q00AHhsThFRcz6k49+aSmb
+         rtUg==
+X-Gm-Message-State: AOJu0YyS94cNqEfjaGu+bQd7k50LDM12hVFb8cle8SHMuBBVW3J5Avno
+	LR+NaRKa2byVv2x3IwU+grTPNywFYnTO0+Jrqsir8FzCts6CwXGiZyTRP6N/5pFV
+X-Gm-Gg: ASbGncsc2IegIhwwQPd3HJ3htwNYzdeJ3MYyDOn5fW6Hr5TYTBw1Y7QHPHxOztXKhYM
+	ZlSGtS8OARux6WBdr4uzAwYEdrB+3qRuRGpvDz8uB20F/pi/8zjL/fjcZnWLeGbCKyrLoAMC5p/
+	84QHqQGOAYmXwXcmxoDaxd2upYYyq/Yo1EC34XpNeJEbCoCNBotbmfX4ZzLM3EVMWZflbxlFX3E
+	AAhFt4LCkqC+hTUynEFEwZrESDv9hpyNlZWhDYvY20qu2GDatIZrX2SO6wRKRwutkXgBurOzGNM
+	RJyeyaenFXIfz/HDsTL3pxkgaNYZPY74LbkL/dvwzWGzetLnJ+gVjVnw9389nJaxrnAdP9coq7C
+	73Kh6cViOpNIPumfl3fg2NguhVEHjvo4eV8Z7j+jsAC2sM7PpWmUIB4nqQ9p5ohtieA7HVIxrCr
+	pxEmEpdQmNjA2DNCeXSKrwOz2Xyh1WpuFrTvFtFSms2CB0tWNbED7imP5TH/a1+53R7g==
+X-Google-Smtp-Source: AGHT+IFnoSx+Gi3ubgC6LtLo+e9PB8rvpHJBVr2fHobRRZc0WW/pCofVLZegufy0O5ZVoxVO1B6yKg==
+X-Received: by 2002:a05:620a:294b:b0:7f2:d9d3:f5ae with SMTP id af79cd13be357-7f2d9d3fa53mr843027285a.85.1756262819996;
+        Tue, 26 Aug 2025 19:46:59 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ebecb1a86dsm782942185a.12.2025.08.26.19.46.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Aug 2025 19:46:59 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/6.16: cfg fix configuration audit warnings
+Date: Tue, 26 Aug 2025 22:46:58 -0400
+Message-Id: <20250827024658.2076887-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 02:46:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222483
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 02:47:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222484
 
---NextPart
-Content-Type: text/plain
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Integrating the following commit(s) to linux-yocto/.:
 
----
-Testing patch /home/patchtest/share/mboxes/readline-backport-a-patch-to-fix-issue-that-readline-can-t-work-with-samba.patch
+1/1 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: arm/6.16: remove unsettable and obsolete options
+    Date: Tue, 26 Aug 2025 22:43:01 -0400
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'fix-for-readline-event-hook.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+    These crypto options are only selected or have been dropped
+    from 6.16, so we drop them from our configs.
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Richard,
 
---NextPart
+I wasn't able to config these via a build, but by inspection
+and the autobuilder warning, the fix is obvious.
 
+Apply these after my 6.16 series and the warnings should be
+gone.
 
---NextPart--
+Bruce
+
+ meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.16.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+index a5046cb38e..06d4c51a70 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+@@ -15,7 +15,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "0efe352ff92817ba56a91bfe983e96cd55c76940"
+-SRCREV_meta ?= "1fedc277abf169c6032ea77d5d61be91dba9f0df"
++SRCREV_meta ?= "f7034ee0721badc73a0417aa324755c1e6c415e5"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.16;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+index df2b0a67b2..04fb3eef42 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "f6b5e4a67c21308265aabd3cb6cf00e329d930f6"
+-SRCREV_meta ?= "1fedc277abf169c6032ea77d5d61be91dba9f0df"
++SRCREV_meta ?= "f7034ee0721badc73a0417aa324755c1e6c415e5"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+index 4c070b0b2c..d19803cb6c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "f6b5e4a67c21308265aabd3cb6cf00e329d930f6"
+ SRCREV_machine:qemux86-64 ?= "f6b5e4a67c21308265aabd3cb6cf00e329d930f6"
+ SRCREV_machine:qemumips64 ?= "dea33382cd8394c214422ebead1a2e08a4832c90"
+ SRCREV_machine ?= "f6b5e4a67c21308265aabd3cb6cf00e329d930f6"
+-SRCREV_meta ?= "1fedc277abf169c6032ea77d5d61be91dba9f0df"
++SRCREV_meta ?= "f7034ee0721badc73a0417aa324755c1e6c415e5"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+-- 
+2.39.2
+
 
