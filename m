@@ -2,124 +2,157 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E23ACA0FFB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E25CA0FFC
 	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 21:30:29 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.6605.1756330223121762547
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.6606.1756330228408980672
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 14:30:23 -0700
+ Wed, 27 Aug 2025 14:30:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uxKKFYx3;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b4c3c36643aso216580a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:30:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QMZGccbH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e6cbb991aso337051b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 14:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330222; x=1756935022; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756330228; x=1756935028; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Z3eLs0spXINi/TSBo0uEssx6cITHA0DTvkk1K3WMLT8=;
-        b=uxKKFYx326Bp/3PMXEVDlCkuEv21IiY9IMXF/hm2RHcpc8KJv+jL2+dvQzcPyJRLxI
-         XrzsGqHQiLSDGg9xaC05zferNIyVZD0IrWga8cpsRBSW1n0pWEpK4LwVNUu3RFzewWr6
-         m7AOS/GlcTUM6X9YnYug8n7qCrLZsP04OyYVhYpSg01xy0CO6pWSCQEaV52Uf4HpDSFo
-         +ObfvF5rdVBZUovIaYqkP0YzTcbU6+/EDbs/r+txw4LmjWm6XpIldEhpNjH0hs6Vyt+O
-         WcX/kh8wRKiql4L+Sl/mIMHBgAyXuXbNxynXM/VSsjQO46z0PZ8ex7kgDwUgxICIehmR
-         qMVg==
+        bh=VXgtD0QrPyUFlP1oCsvVr7/qYKRH8bb14uys1zsOBp4=;
+        b=QMZGccbHLWa4csB2xoW9lj199806MQk/1Hi8ImJ55hQN+IcYRMX1TgVZX158gz7hQK
+         MCAv+gDyazc8h5q56whg/7raJuaguRm7HIDMwswonQ/9ONu7RMoK/30HImPqjinQwxiK
+         0j7fAioqgUGFva+HoZ37T7iNNXXp3Q8mV2a/bj/oRua4Vv+UWz01o2ISbQbeQvNkHm1w
+         0CsXr6fuhryXlxWdvEz5q5T0/a0yAwS9iFc+cpEuEVqF4wdjPeK+9uE624Rl6Qfa9lRg
+         cpYOM2rBO/Xqh9q4TjCl3TlSshRm2rmf4FRLk8zayIhMIRMDI6x6k1+beqOY3n/a7Soq
+         HtwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756330222; x=1756935022;
+        d=1e100.net; s=20230601; t=1756330228; x=1756935028;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Z3eLs0spXINi/TSBo0uEssx6cITHA0DTvkk1K3WMLT8=;
-        b=TOpTFs+JOJNiYyUki2bNJcR6240CVfwn3g1La5AnCPN5ycbiG5S4Rmx+pibvC+sk0B
-         fqQpB5va3MvMB3LahHwJ76z0XDOb+ZeSS4/kZ060wUrZS+WbNsTD/moxQ8gVjTmXe2FA
-         u1pop8OjAOvLssQpmhGKW6nMAv4HvJLx9qJwNRGZso3qgYi9yjvGx/1gK2WMBbsnIBUX
-         SgzygYSieISDxaCsKaMAmlYNaj22pfmU7cfS2+ae1fp7/LYfYZ15ywxv5+2UQ+YrEMIY
-         GqGSPe9cg8nEX6kRktKfoKmOhzufPss8CIzSDZv1skukpOIx9lt8TqGbFnenl9ZIri52
-         8Wvg==
-X-Gm-Message-State: AOJu0Ywyn+ULTbHUkIdhHxbf+wRhJk2U+g0tRGXqh2flzcI/xfRBN4v4
-	qs7Cl/ZQ0Y4W7IIJDmTLZtB+fRUTtti1Dbx34C9M/nqQyQOj8r5y4pqCHkcAzny5ZVn53/cVWu9
-	3M6pg
-X-Gm-Gg: ASbGncvKwA2FPs4FUN7mj0U+mZJkeTWhMmmjI/6TkRNLlXbJJMGxfIoQmI7f8ALvBCw
-	N1uGevYc0h4KVPOX9z243HDyTS6b8+oLpjOHuEWNaCI+PGpMHlDFmEDYpRXNcq/x9gQX59OX7qw
-	AggUmaWRyA7KGRclegppUxhOoe9P8twdZ7Zoe1SMitK9y9QSgFclpiKEK8/YcqY3SdrZubi6e/t
-	xSWt3AXD7snbL8JfRSSSjt7dhckiG2Oi30mn9MGq756S9JfZy2ooMFI05mbJOOZAEbrN4ZsKHcx
-	iZ6sFSF/3JHdBx60fzS9XCptSuZLiq9dlzx37eFmftwwJZQ4pIdlhD2q0wc29/gyLF4jw7U1nPx
-	i6Ho8Ps+e52+MfSv1jxxqZpBS
-X-Google-Smtp-Source: AGHT+IEoFb8xyF805OYeqUAxAnEjfSgoM9l8doWRPZ8MqsFYAFQyI3rhfc9hRi+R5KineNRZrujNag==
-X-Received: by 2002:a17:90b:3805:b0:31c:c661:e4e with SMTP id 98e67ed59e1d1-32518997f87mr26401349a91.33.1756330222353;
-        Wed, 27 Aug 2025 14:30:22 -0700 (PDT)
+        bh=VXgtD0QrPyUFlP1oCsvVr7/qYKRH8bb14uys1zsOBp4=;
+        b=RVknN0FUR80673G7u60hwjWZN3aFXyHeFHAUJo1fiMWfIKUO4tEPgddV3UZUXOcXZW
+         zluyYP6OaXf8i57gt8+0nUkGD2TV96mInITr9ECP+c6K+Ugkhms3evnZvdu7yWo5lEJt
+         YHI/zoVOyygjQccBfLH1eLflR/ZI3TGOfd92C+g6Gkutkro/T4KXQYm6zt7LnU/nM04W
+         5NqFBA+SIk1cVJhfgcn4OY56iIBDCGlD6FQEiy2f5h0YH4OvwS8g6YRr5h8MYF3ThxUf
+         ekDF/EFN93SOucA8R3WErL/OFvJSpwLxC31j7FXnjsp5bJ5jiK4LrI5nAH2pYlELpspA
+         1feQ==
+X-Gm-Message-State: AOJu0YyifWdEdBbCmcMvLF0vwce1m3FfINMSr3hw4Fp/KofCLiYEVRY+
+	LfVnZ5R9GSIjO+gguZJzb0Il8Y+2WNpGTwDVlgaQZLqol/3TwonWyA2yswl9rYz1Zw0pjIcDAa5
+	QC16S
+X-Gm-Gg: ASbGncsWMoT//nVN0RKAYpNHaXCPU0IlXfDini+VE88LzZCXt4nAxyICHGpXj5Br/yK
+	CSHoBsBVRivhgTo5qi4Vpx+tzOF7vpTYSg27OUX8ztMHx8/EQVZwiGfQEMGhCbh5raERTRGpQed
+	/GFrwSS+96fLVPQxRUaRYVpr9gthfqfQ/gR5OsYZ07TfnbR1JMY+GYJs2+vr95pbU4DHgRwJ19o
+	JKtB/UQaa++DMGmJmtNFnjtNnjwy5op8+rXp1WaRKV1t51mN5hC6HovdD37/ZQTn4ULwzOylNLY
+	/Gvse/RwgGtwM8Ob2T5VfC6u1xSFcPyZyv6M6JfbjyEg9Ldqf2ycsRLfu3kCpBWFiImTyllQXpR
+	svW9+eGZrR7WnUA==
+X-Google-Smtp-Source: AGHT+IFNGuCQhozP5i1nqGebLE470yMhqoZh+fQbPJdOsXRsJBHu7i97Kpekc/+vMAD+9OgG5Kd7cg==
+X-Received: by 2002:a05:6a21:7e87:b0:243:4eb0:5835 with SMTP id adf61e73a8af0-2434eb05a09mr22094235637.57.1756330227583;
+        Wed, 27 Aug 2025 14:30:27 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:d0c9:1052:20fd:8423])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.30.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce1f30sm2905857a91.23.2025.08.27.14.30.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 14:30:22 -0700 (PDT)
+        Wed, 27 Aug 2025 14:30:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 16/33] unzip: Fix build with GCC-15
-Date: Wed, 27 Aug 2025 14:29:23 -0700
-Message-ID: <b84d6ceb89277462d7069defaeb9ecfed9c30d56.1756329972.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 19/33] gmp: Fix build with older gcc versions
+Date: Wed, 27 Aug 2025 14:29:26 -0700
+Message-ID: <237085506a454fb927389d681f30c8c995bc7b2b.1756329972.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756329972.git.steve@sakoman.com>
 References: <cover.1756329972.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 21:30:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222524
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222527
 
 From: Khem Raj <raj.khem@gmail.com>
 
-Add a patch to remove redundant declarations
+The fix to make this work with GCC15/C23 caused problems with older gcc versions.
+Add a fix for that.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/unzip/unzip/gcc15.patch | 18 ++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
- 2 files changed, 19 insertions(+)
- create mode 100644 meta/recipes-extended/unzip/unzip/gcc15.patch
+ ...d-parameter-names-in-prototype-for-g.patch | 50 +++++++++++++++++++
+ meta/recipes-support/gmp/gmp_6.3.0.bb         |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-support/gmp/gmp/0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch
 
-diff --git a/meta/recipes-extended/unzip/unzip/gcc15.patch b/meta/recipes-extended/unzip/unzip/gcc15.patch
+diff --git a/meta/recipes-support/gmp/gmp/0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch b/meta/recipes-support/gmp/gmp/0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch
 new file mode 100644
-index 0000000000..ab06a4713f
+index 0000000000..ae2411fd1b
 --- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/gcc15.patch
-@@ -0,0 +1,18 @@
-+Do not redefine gmtime(), localtime()
++++ b/meta/recipes-support/gmp/gmp/0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch
+@@ -0,0 +1,50 @@
++From 1744e433a16fb39a55c4c771b8ecb02246aa5b99 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 15 Mar 2025 09:40:06 -0700
++Subject: [PATCH] acinclude.m4: Add parameter names in prototype for g().
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+They are already provided by system time.h header
++This allows it to compile with older gcc e.g. gcc-10
++which does not have allow parameter name omission, it results
++in
 +
-+Upstream-Status: Inactive-Upstream [need a new release]
++a.c: In function ‘g’:
++a.c:3:8: error: parameter name omitted
++    3 | void g(int,t1 const*,t1,t2,t1 const*,int){}
++      |        ^~~
 +
++this was added to gcc via [1] thats why it is supported in
++newer gcc.
++
++Adding the parameter names make it compatible with
++old and new gcc
++
++[1] https://gcc.gnu.org/pipermail/gcc-cvs/2020-October/336068.html
++
++Upstream-Status: Submitted [https://gmplib.org/list-archives/gmp-devel/2025-March/006294.html]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+--- a/unix/unxcfg.h
-++++ b/unix/unxcfg.h
-+@@ -117,7 +117,6 @@ typedef struct stat z_stat;
-+ #  endif
-+ #else
-+ #  include <time.h>
-+-   struct tm *gmtime(), *localtime();
-+ #endif
++---
++ChangeLog
++
++2025-03-15  Khem Raj <raj.khem@gmail.com>
++
++   * acinclude.m4: Add parameter names to function prototype.
++
++ acinclude.m4 | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/acinclude.m4 b/acinclude.m4
++index 4fca12de2..b9d1eacfe 100644
++--- a/acinclude.m4
+++++ b/acinclude.m4
++@@ -609,7 +609,7 @@ GMP_PROG_CC_WORKS_PART([$1], [long long reliability test 1],
 + 
-+ #if (defined(BSD4_4) || (defined(SYSV) && defined(MODERN)))
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index c13e7a008e..0a88b4c092 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
-         file://CVE-2022-0530.patch \
-         file://0001-configure-Add-correct-system-headers-and-prototypes-.patch \
-         file://0001-unix-configure-fix-detection-for-cross-compilation.patch \
-+        file://gcc15.patch \
- "
- UPSTREAM_VERSION_UNKNOWN = "1"
++ #if defined (__GNUC__) && ! defined (__cplusplus)
++ typedef unsigned long long t1;typedef t1*t2;
++-void g(int,t1 const*,t1,t2,t1 const*,int){}
+++void g(int a,t1 const* b,t1 c,t2 d,t1 const* e,int f){}
++ void h(){}
++ static __inline__ t1 e(t2 rp,t2 up,int n,t1 v0)
++ {t1 c,x,r;int i;if(v0){c=1;for(i=1;i<n;i++){x=up[i];r=x+1;rp[i]=r;}}return c;}
+diff --git a/meta/recipes-support/gmp/gmp_6.3.0.bb b/meta/recipes-support/gmp/gmp_6.3.0.bb
+index fd810a264d..1508744ef1 100644
+--- a/meta/recipes-support/gmp/gmp_6.3.0.bb
++++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
+@@ -15,6 +15,7 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
+            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
+            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
+            file://0001-Complete-function-prototype-in-acinclude.m4-for-C23-.patch \
++           file://0001-acinclude.m4-Add-parameter-names-in-prototype-for-g.patch \
+            "
+ SRC_URI[sha256sum] = "ac28211a7cfb609bae2e2c8d6058d66c8fe96434f740cf6fe2e47b000d1c20cb"
  
 -- 
 2.43.0
