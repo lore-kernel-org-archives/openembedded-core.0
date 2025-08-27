@@ -1,218 +1,121 @@
-Return-Path: <r.gruenert@pironex.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 311B7C8303F
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 06:50:20 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.105])
- by mx.groups.io with SMTP id smtpd.web10.9183.1756277414737811059
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CC4C8303F
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 07:24:30 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web11.9268.1756279463785455398
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 23:50:15 -0700
+ Wed, 27 Aug 2025 00:24:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@pironexGmbH.onmicrosoft.com header.s=selector2-pironexGmbH-onmicrosoft-com header.b=rnkZEzc/;
- spf=pass (domain: pironex.com, ip: 40.107.159.105, mailfrom: r.gruenert@pironex.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CEtjjM2fChX2AonyYtKvg4ZTWu2OcTKcSc2BgB+EuARXRxJLqjA3utyH52hdX0m9yk+Uc2ovT+Ws6Rkia3L9xIyIsFZOBkJsqIOLVJPPatLP/S/5PWhHiSGnZdizo6IVPi5AT+Zhjza8suTAiyvnPzOyRDDQT8zG4m8vLEaxwr26znX6BeMZCdH+Ca4AcPWOE2F0M0D6X9Ay6hRfaRA3Bjx9d9wSQ9JNdf9pOlv8qxFw5TAe626PfGUmLridZ5OlxNqyk0QimTUT0Tg/MxD2RevjxL41N2t8BMjY/LjLQypKPBsR+8Ivk9WUzhvjSG2metJ4qznqUhWAgQSzo+QEww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PWeMXqCkvVYl1G1PZAjv8Ks0YdVCwv2uLLP6jQsYwAY=;
- b=kCGrxipWljrDstsBFyWwTpkCRXFa9AsnCfX7HF+HXbGgzrONVD8TdSQnDVP7xgZD39g/RGTJhK8mzTdyW8iHVOR/KM92lsdemYfcRnkcQDgFY8wRIB1eivwcrAjkxs0QNxLpupzfCV26gOQkcTW5HRZRposWAr36GNStnywaXkCpfUQANkmexkpbk/cRCoJVNS30vMWzyC0oJgcdZZp+9LbheDzh0w5+Oa0Wnw8q6PSbC3yOEscmeTaK8bhpyt7M1Jzq+t0GZ9RSfE5HcFnR27lHOMce1+vxUqcxMWoP5+4E4vLYFGfFDguTsV+nu/ZoTzVpiRik5y4ATZPGj+sMNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=pironex.com; dmarc=pass action=none header.from=pironex.com;
- dkim=pass header.d=pironex.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nEXt6bSW;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-afec56519c4so36830666b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 00:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pironexGmbH.onmicrosoft.com; s=selector2-pironexGmbH-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PWeMXqCkvVYl1G1PZAjv8Ks0YdVCwv2uLLP6jQsYwAY=;
- b=rnkZEzc/3IOj42JKTSS1Mi3Rf20BTJGHBwV/ri175n6BVeiY0JqilX4Xu7iHfx+SFpjWa1MmWu+gamBmlVYTp2qXIKVhsWj4nqjnCgrd4RsZVpwOMDay8O+7SjRSrHMFgRWOtkDM4zkPULp3Z/BnfFUhSIjfArjHSeoEAyYlmms=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=pironex.com;
-Received: from DU0PR10MB6954.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:415::15)
- by AS8PR10MB7731.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:629::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.20; Wed, 27 Aug
- 2025 06:50:07 +0000
-Received: from DU0PR10MB6954.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9943:b0fe:660e:9e3b]) by DU0PR10MB6954.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9943:b0fe:660e:9e3b%5]) with mapi id 15.20.9052.019; Wed, 27 Aug 2025
- 06:50:06 +0000
-From: =?UTF-8?q?Richard=20Gr=C3=BCnert?= <r.gruenert@pironex.com>
-To: openembedded-core@lists.openembedded.org
-CC: =?UTF-8?q?Richard=20Gr=C3=BCnert?= <r.gruenert@pironex.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH v4] scripts/runqemu: raise an error when bitbake was not found
-Date: Wed, 27 Aug 2025 08:49:40 +0200
-Message-ID: <20250827064940.16074-1-r.gruenert@pironex.com>
-X-Mailer: git-send-email 2.50.1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: AS4P189CA0017.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5db::7) To DU0PR10MB6954.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:415::15)
+        d=gmail.com; s=20230601; t=1756279462; x=1756884262; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gNqRpTm1Z1k1iG9ltvm0XOZAWvkNCcqmPCrfesYLh8o=;
+        b=nEXt6bSWeuzUZ6ws/XvfAE6quRx6l7RMSbYdCbpXdVLSPgsvYWkgi/33GbBMwMMZ2+
+         VLJz/WNZtFBiuQ1m+Kl0PyYEG51vLraQsvgWBxmP5ZoywN6Dw2WCEq7jJG6W5L868TZn
+         oiaYPC+jSihTuFSVfiC1YseWeKnB3i6NwbmiXfvPQ+bH7k8mws/A9QzD9kMGBtjT8309
+         pE6Tfn158cNniVzuuhut7yaq0WJUgOWtottsV9ELoou79u+vGEMsKWANhpIKLgyWogPi
+         R18Zwwy/8W9TtTkfj05RALRNkDnmoq1y0JBiGbvWd4sV+/do/fRncugr/yqu9Nd48Gri
+         Dofg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756279462; x=1756884262;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gNqRpTm1Z1k1iG9ltvm0XOZAWvkNCcqmPCrfesYLh8o=;
+        b=hlFLyiFkSOrrnC2srZBSUSTAD+q8TfxX2RM0HuDhaOeakCYTFOUJ4DsTDhQ+E9rK9H
+         BERzCayjRKIceW8FX+3nZtY6mHaSqzLhGaXHtC6lRF3Zu7jJGvsQTeiFuD5MjDREHeVN
+         vIcm6KCT63KGx/EOha+u4qgtU92K5ASs2O619+KeSayP0k2Ht4HgktbVyO1SoEPCS6fZ
+         QB7mOhpQZYvJ3wZc/OmIXcxfug7ZWdtu+ZIbA1ZgaNIdmu/i4Y1ueYMavQI8qD1Z2ubf
+         g03/qk8oes0RvrYiZt7zlHOcI3/FskNu4K8/J//pxesKPBzuGLCHluXMmtO8WF65Ss/o
+         IFFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/OE0lMUpT5t3GARDBkC1KMBwIbTmryeyqCT9wbYJwfmI7U+4ozlssv+udGOCRX2A9NXB9lmkku4v3PK/gTKFhMA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzhC6iD0b4JnY+s8OnOFaeb5/Y6OtHlraT09AzZAMlsknzQ/ATl
+	pkOnVWttLtNAPHRhuvXlyBM+NMwCqswqFx8Rm8Ch8aMqw0M7Km9e8oUs
+X-Gm-Gg: ASbGncuWj/QwGygSePsDgge30F9Wg2STvI+tZzVVfh5Lp9fPgYUg3SU4K3soJgq1hsC
+	P6xEdWZQoCt855Dc5Z7vAoCnljdMozDP2g2Rsc8JqOSPLsk6Ap+SsdYQp9peAieqJ82YRMC/W+b
+	2O6CfAIlIYE7xnhZ/M8d35Lk68wJVWBW6j8QT3jYH1Esu+6YMFjvwv0f4dGcrwkrXgPqxmEcmYR
+	F+OwfB1YR4CupQy4v3aD5Loy8ttmMSsIA4KlCPaRFjnVMitTPFSBXc667Ms3B4SbfBYVjSyEH71
+	PAd0Px8WuVuDrtmwgihanR/j3FHPaXdqhM1sooMszQyXYr/NzWdUc+eMSrCkpnm4oIm22d0ml6Y
+	DkrNcxrsuUdXX1xAhutoygR04podOqFOXo7iUe39qHw==
+X-Google-Smtp-Source: AGHT+IHSTjrYE7mA0CkJls91Eaz6+IPYAStDDWK0OO//oRa+SL7NoRGZoc/0DyeuCRHYyrtKLpE8+A==
+X-Received: by 2002:a17:907:1c09:b0:af9:3341:8dd with SMTP id a640c23a62f3a-afe295c07dfmr1808142066b.31.1756279461769;
+        Wed, 27 Aug 2025 00:24:21 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cbbdac046sm251905a12.30.2025.08.27.00.24.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Aug 2025 00:24:21 -0700 (PDT)
+Message-ID: <689b7dfd-a379-41eb-889c-e680d03e55d3@gmail.com>
+Date: Wed, 27 Aug 2025 09:24:20 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR10MB6954:EE_|AS8PR10MB7731:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b5326e6-0324-46f2-4637-08dde535f4c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|10070799003|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?X+npTpi4P4e4b+fq6MoxS1qQlMR1YttfYCNFVbp7h2KaSEfG908LLZyLzRvO?=
- =?us-ascii?Q?lsE6LngDllzLiOE5Uf7ZttR4kbGG3hZYdhgf9JU5ngeXW93oxWZQGB0Rr+kT?=
- =?us-ascii?Q?qaDHxcE26sMXgbcrVuA6ScSUUj8tZtG4k+ZFctMuhzjESO8MtK/FjaByjDoo?=
- =?us-ascii?Q?6i0gLehIBYGdjI8nKSmusPI8IeukX81dSaum+bkyLAFyX9NyBDd3JiCnb9dN?=
- =?us-ascii?Q?IzvxbsG36FjPPxi20iQIK6K9IZjiG7CzGTdyyHss2bPpRVCYCSvY7kzDdnWI?=
- =?us-ascii?Q?Kn6MpGRQePaXVga4iWJxrVjMdTtKRYFyQ9SbOaaMfCz6Y0Ch4AZrkD9ZteGa?=
- =?us-ascii?Q?ymLjkLnrr69Zi3i0lAoWMkrolS2B2XeIJNQfU4RfUyhBMo2AzyEBUNX0IBWH?=
- =?us-ascii?Q?W1ipWQB+IzqcDc9a1MkBh7Vh2Jc1XERl/RfWwtdVjifWvTG/7uA3QGapEob0?=
- =?us-ascii?Q?exzs6nTtDPV/x3uUyI20UUNnVYHN8N81O9HTMbXC20UW4yr9Qedz9ZjhQ9vJ?=
- =?us-ascii?Q?LQ6LcxwEPf5hH3rEZEMWCWkRC/OqA54NPTBa+/iizyHARb9cdhz1GzZ54Kl2?=
- =?us-ascii?Q?YW+Ugyyq3m+ZNEP8X6Ag8o8wbwPa2c4pCi3hyc+TN4GDMmSh+k8l3ZnpAWUd?=
- =?us-ascii?Q?t/IxSpBGNPMgHjzA5XSnK7+XYQAPjndwDH9HWJ3lFp+kgNP4Y+nJaNKhjZpD?=
- =?us-ascii?Q?y444g0bzrrLB4uGMF/TfzMjZLuPCZBZd23MWrgWpIvauO9rdsPoks4NHU0BQ?=
- =?us-ascii?Q?BI7fNVeJISb/9JeOT/yAX8JE3TTJzf1Fh8UW/ZF6+y/10VUSY1VckUwG2doG?=
- =?us-ascii?Q?H2D8udhYveH00Exl9p/TytmdxH3Ceff9lN97e9ObCDdI8HxXs/DShZ4Brx7J?=
- =?us-ascii?Q?2fXt6EugEo3gCxMh/HJ/r7MsDJhIc2TB6XdnV/ywH+qP1YyQsjFfzOPM24lG?=
- =?us-ascii?Q?/kqMmpKiNT13TuOyHBfjTkDaV/oMNIp4S90Ewc0yJHRxulTAc50hpahhflek?=
- =?us-ascii?Q?fFZUFtREXqHM+3B0sXFYoAHzb1W83GIEoWs0GalxOrDavqDqayHQoEaQo2Zi?=
- =?us-ascii?Q?ksGmjv6YtlWXipnOytu1Hdl+6AI2zm9tZK95GW22tGv69xiZbDlM3Gphcoqk?=
- =?us-ascii?Q?v7Kt2wI26GLAQXE6g1DCHgG66+428vVN0pHFRY9UYCy1gBiSpoMcf94JU81o?=
- =?us-ascii?Q?E1QeEaOv1y3QHmWzBxvtSFj4uB+2xDGN1GCDtq71L1XU9lRJ0eNg8M9y5aBB?=
- =?us-ascii?Q?WtqFXT8hUSoB7hVWx9WQBygiRCs8+xjwfzk17TElgakAJFF9ojwtZPuP9G2u?=
- =?us-ascii?Q?vH9G46Iy2bbMmOqZNurrNutlyO4b0VaweITH86K39bylHrYxxdk8PhzB//ip?=
- =?us-ascii?Q?G+72wrpU/njYUVaywZxYWWC+8m2jkD3rlY7VdmBKp9IBynS4wGw9pfDb0Mnc?=
- =?us-ascii?Q?m+tkAEFBvfw=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR10MB6954.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(366016)(1800799024);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?vYFLxhCb+/iNgtnM9tWVkKPtSoq4WwdmeK6OngK93pjjygAZd3OyhjvX7Nnh?=
- =?us-ascii?Q?xODeUwZf1kuNOk+V62GS29Q1lisSy5SXYDCbzUKaXlw3eaq3VtUz+933xSRJ?=
- =?us-ascii?Q?+bOXkRMi1D6w5PJK8/9SgXeLgHJAhzxmuB2X5CqgQpVwGnZL3+QQtPhH55rc?=
- =?us-ascii?Q?YnbnFmu1Ko2DcZyz6iPGpuXi6YFbkaB/hIit1E1qXxBGoPweNbmMuxj2MlVr?=
- =?us-ascii?Q?ph37emmGMTtUybqj4+8R2SUtZGpL6m8pKb1CEmz2+QoZp1hyVfurpnl8GBJ1?=
- =?us-ascii?Q?JnrbZy/sbIwmBunF+L8jUaWghv7xdmid0EI2trm9A+z4bcUqipubcAW9nkE0?=
- =?us-ascii?Q?rgHeYNIVqP0K6LZaHMtvBwlCGGLNFgEpNRhTrD9vLjMbDBuBdnQFHrC2zRmc?=
- =?us-ascii?Q?hNdE08FLK5KwGQ8IZ+otA4clV+f8w01kiNt9Uhy3F/W1bUIsCsW+tG6RxCkB?=
- =?us-ascii?Q?oI64p3BDDOf6/onaWiLgw7Wl58A0KuSXfpz7bXoKIFh8OtE7Z4E7jEg9k76L?=
- =?us-ascii?Q?6kbPlypRyAwpN+83lipEzvt9sMt9Rh4MW9zFFvXhbamPTkIDdF21ZYNQfxou?=
- =?us-ascii?Q?2ytfu9Dcouf9/RdqZhvKkgeJIB59pV91vND/MjSQ+z1p/EQAfyBmL4LKyfzs?=
- =?us-ascii?Q?kg/tlGXlm6J8iTObrxOaEfGhOjyH+T4/SyVWhCYsldkYpwNQDgp76wz5u5RK?=
- =?us-ascii?Q?kIMKzDIx3HipJ+WwEl7KNEux32gVQuxhFEBl2fG7MBU6eDpvlhSheAiO2Jkl?=
- =?us-ascii?Q?B5Ar/CTsg/S+NVURTtl+lcm9DQ2pDiiEHBshdlkjsNZdQ2UHydo/ATq28LMG?=
- =?us-ascii?Q?LGq+2rWLPFst7PCgMP3tqDixaiBTi7+4WJGYjtXs9Q1IuWuwpRQ7CrevAc3/?=
- =?us-ascii?Q?psTrWh9Qs5E4pDDPoe+WlEVV/PmH9iTgdVfj0jmctVYB6ucb3uVRACFIW0jT?=
- =?us-ascii?Q?oUC1wPPMKO9LMeH9Yya9yruyMeyemPQRmw2FqDw302jq/sL37TpNH0vBWOaE?=
- =?us-ascii?Q?MXR6B0sm0WM3QFNlWf6r9tXHVXcr8EBtAgSY5+LRuDABB7ZcLAQzDLj/ZU3E?=
- =?us-ascii?Q?CAL9qmTqLNWk6vQoxrDrYpe55dPHjbk5VtECToZdu3pkabklSqasbBqItE0q?=
- =?us-ascii?Q?t1MsFP8VQJaWUza9NKjrEdQY+5QI7BTFpe9fUujUwbabBcOI9KUpOZ50TAAs?=
- =?us-ascii?Q?IhprbwQOpUpbw9oGpu7fC0SQLJ+JsKdSM3/OzUNfNz8PQS/DGs2XADo8boP6?=
- =?us-ascii?Q?lYApW0zev7LixHW9veZp5h5DJT2TXsoxpxFJdWDkgcNBYgUb/2d1otFtZivB?=
- =?us-ascii?Q?g9H6iq9qxU4yQdbj2hRAjzLnYJ1tQ46gAUUEJiWy4sZa59SNpeqWD8J/DObO?=
- =?us-ascii?Q?187gN7DCT7Md/i/4O0fZOMj6rUxMcIgL/EATGZXbm6dSwNt8NAam7WI4Y8Vb?=
- =?us-ascii?Q?C6kOclL4sf94KvGGJjMAgYMoJSni2BXmXzOqPJ7uEpeXmJf+6huqcY76WIJn?=
- =?us-ascii?Q?FgAY7RW8+GdF+noG6CL/1OASP86qVcrnob1AVVe/WvezMtsQFCNXM5o3nwL7?=
- =?us-ascii?Q?SHczwzLgo1sH73K5iztAWSr7hd8CVkUEpQUFk3hqjeTixsoUrThQZI1Dxini?=
- =?us-ascii?Q?fPPo9VTD6atD/npt9NfF6boBnAUJJH05VoTTCzeirbkA?=
-X-OriginatorOrg: pironex.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b5326e6-0324-46f2-4637-08dde535f4c3
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR10MB6954.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2025 06:50:06.8157
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00aa8e52-eebe-489a-8263-3195e0a468ca
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +fWftHER2ivuatJj3yGCrb511yPdzwFNEsq0YxRaWfoTjw53FDZ2T81ITQn/nL1871RbQ/QLCS/O05Kwq5nyyw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB7731
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/2] spirv-llvm-translator: Upgrade to 21.1.0
+To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+References: <20250827043603.2833795-1-raj.khem@gmail.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <20250827043603.2833795-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 06:50:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222496
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 07:24:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222497
 
-Running 'scrupts/runqemu' without bitbake in PATH causes the
-following error:
+On 8/27/25 06:36, Khem Raj via lists.openembedded.org wrote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  ...-translator_20.1.4.bb => spirv-llvm-translator_21.1.0.bb} | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/spir/{spirv-llvm-translator_20.1.4.bb => spirv-llvm-translator_21.1.0.bb} (88%)
+>
+> diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+> similarity index 88%
+> rename from meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+> rename to meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+> index 64a73ce55aa..6a6c6ac77c4 100644
+> --- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+> +++ b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+> @@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
+>  
+>  # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
+>  SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
+> -SRCREV = "74843f2186bb63b6802758222084da17fcbe603c"
+> +SRCREV = "acb023b63a4bafd53d0ba6a1a452b1f0e5671458"
+>  SRC_URI = " \
+> -    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
+> +    git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;branch=${SPIRV_BRANCH} \
 
-```
-Traceback (most recent call last):
-  File "/home/rg/temp_stuff/oe_2/./scripts/runqemu", line 1807, in main
-    config.check_args()
-    ~~~~~~~~~~~~~~~~~^^
-  File "/home/rg/temp_stuff/oe_2/./scripts/runqemu", line 624, in check_arg=
-s
-    s =3D re.search('^DEPLOY_DIR_IMAGE=3D"(.*)"', self.bitbake_e, re.M)
-  File "/usr/lib/python3.13/re/__init__.py", line 177, in search
-    return _compile(pattern, flags).search(string)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
-TypeError: expected string or bytes-like object, got 'NoneType'
-```
+I think the "tag=v${PV}" tag was removed accidentally
 
-This patch adds a more helpful error message to inform the user that
-bitbake was not found, e.g. because oe-init-build-env was not sourced.
+>  "
+>  
+>  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+> @@ -20,6 +20,7 @@ inherit cmake pkgconfig python3native
+>  # Specify any options you want to pass to cmake using EXTRA_OECMAKE:
+>  # for CMAKE_SHARED_LIBS=OFF see https://github.com/KhronosGroup/SPIRV-LLVM-Translator/issues/1868
+>  EXTRA_OECMAKE = "\
+> +    -DBASE_LLVM_VERSION='${@oe.utils.trim_version('${PV}', 3)}' \
+>      -DBUILD_SHARED_LIBS=ON \
+>      -DCMAKE_BUILD_TYPE=Release \
+>      -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#222489): https://lists.openembedded.org/g/openembedded-core/message/222489
+> Mute This Topic: https://lists.openembedded.org/mt/114912974/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-This is an example of the new error message after the patch:
-
-```
-runqemu - ERROR - In order for this script to dynamically infer paths
- kernels or filesystem images, you either need bitbake in your PATH
- or to source oe-init-build-env before running this script.
-
- Dynamic path inference can be avoided by passing a *.qemuboot.conf to
- runqemu, i.e. `runqemu /path/to/my-image-name.qemuboot.conf`
-
- Bitbake is needed to run 'bitbake -e', but it is not found in PATH. Please=
- source the bitbake build environment.
-```
-
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: Alexander Kanavin <alex.kanavin@gmail.com>
-
-Signed-off-by: Richard Gr=C3=BCnert <r.gruenert@pironex.com>
----
-changes in v4:
-Changed commit message and error message string according
-to suggestions by Alexander Kanavin.
-
-changes in v3:
-Messed up the CC tag :)
-
-changes in v2:
-Changed the position according to suggestion by Alexander Kanavin.
-I also changed the error to OEPathError as this seems to be made for
-this exact situation.
----
- scripts/runqemu | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index c24528eac8..69872f6de8 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -1713,9 +1713,6 @@ to your build configuration.
-         self.cleaned =3D True
-=20
-     def run_bitbake_env(self, mach=3DNone, target=3D''):
--        bitbake =3D shutil.which('bitbake')
--        if not bitbake:
--            return
-=20
-         if not mach:
-             mach =3D self.get('MACHINE')
-@@ -1732,6 +1729,10 @@ to your build configuration.
-         else:
-             cmd =3D 'bitbake -e %s %s' % (multiconfig, target)
-=20
-+        bitbake =3D shutil.which('bitbake')
-+        if not bitbake:
-+            raise OEPathError("Bitbake is needed to run '%s', but it is no=
-t found in PATH. Please source the bitbake build environment." % cmd.strip(=
-))
-+
-         logger.info('Running %s...' % cmd)
-         try:
-             return subprocess.check_output(cmd, shell=3DTrue).decode('utf-=
-8')
 
