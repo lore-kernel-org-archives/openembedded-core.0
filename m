@@ -1,162 +1,95 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C29CA0FF0
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 03:05:39 +0000 (UTC)
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
- by mx.groups.io with SMTP id smtpd.web10.6478.1756263929164513463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C7E6C8303F
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 04:02:39 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.7290.1756267352907990771
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 20:05:29 -0700
+ Tue, 26 Aug 2025 21:02:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Hbz/+oP/;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: liuyd.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1756263930; x=1787799930;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=FKDh1Cm5nwVpi4KSq3aYOAnZPQzNLKe0gcqBqz9jqW0=;
-  b=Hbz/+oP/rU4NAbNf7hM7nfk4/M7M25qXIwzHBC69RcycQigxVLjX5xcP
-   gInWWDzPZkmk+Da8QSqdLYbjP11JzXkTgRNlgxDo5DgGikCws2rMkDAFZ
-   c1IQZ7FGv7QtenQJv+7D3D378BIgcMHb/h6SJRET4aYIWSOuoR3y9aB8j
-   3g3bgQTo9CPCH/vId9J58Rw5PmQ1lvd5S8rEH1M78cUbk4GkXM4Np4Oxu
-   hYsDcXucZl8TxD0IB0UzugcVTqW3PIy0FHVl438aqTUkgYV/WxwUUKJu9
-   I6WX1MjcK+OIQGLFECrQ/ssPlGAYqeJcB/EyRbtMwnZl/nKlQwY27Pdub
-   Q==;
-X-CSE-ConnectionGUID: AglRVreBQWqt+s28e8g54g==
-X-CSE-MsgGUID: zPCb4j4ARH+p0PSHFzOWwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="210775013"
-X-IronPort-AV: E=Sophos;i="6.18,214,1751209200"; 
-   d="scan'208";a="210775013"
-Received: from unknown (HELO az2uksmgr3.o.css.fujitsu.com) ([52.151.125.128])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 12:05:28 +0900
-Received: from az2uksmgm2.o.css.fujitsu.com (unknown [10.151.22.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 871C81002B9D
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 03:05:27 +0000 (UTC)
-Received: from az2uksmom2.o.css.fujitsu.com (az2uksmom2.o.css.fujitsu.com [10.151.22.203])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 43816180025C
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 03:05:27 +0000 (UTC)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTPS id 3638014000A5;
-	Wed, 27 Aug 2025 03:05:25 +0000 (UTC)
-Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id C1ABF1A0096;
-	Wed, 27 Aug 2025 11:05:21 +0800 (CST)
-From: Liu Yiding <liuyd.fnst@fujitsu.com>
-To: Gyorgy Sarvari <skandigraun@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Liu Yiding <liuyd.fnst@fujitsu.com>
-Subject: [OE-core] [PATCH v2] readline: backport a patch to fix issue that readline can't work with samba
-Date: Wed, 27 Aug 2025 11:05:16 +0800
-Message-ID: <20250827030517.1402-1-liuyd.fnst@fujitsu.com>
-X-Mailer: git-send-email 2.49.0.windows.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TynHvjwV;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: festevam@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55f48d61ea2so3391099e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 21:02:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756267351; x=1756872151; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N9PtaK1cf6r86OGhpKIvQ2En7ZPkfra+BtkgR8nSeIo=;
+        b=TynHvjwVfIPc1B1jA7vSl8gDza2Vgznq6PK1ilGplwoaP62oXCWuItzbdF8O+v1zjl
+         SakzNcThooo7y6ka2R/S29LFOu3hesaWaLTVgD7925jT4oAc0PVr7Oss1J7h362KMPUm
+         GXI6uVDl3BYvyM0rLL1luzbCH4rpEjH9tN74Lr0dmhxf54cJp3iUfRcA4cNH2w/qAQFH
+         UhBUtdVC4nMs5qTYtL+luV1g4YUY41u5J/V+QAt1WQi4g692/xA7bygvr9vAW9w62VUl
+         OcxeMaMuZt/yWVXRf/8YdaInpsk0Mdn0YPYTmla1mS7L3BTgcF6L2PWd0tPxxMt8XNPG
+         yuaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756267351; x=1756872151;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N9PtaK1cf6r86OGhpKIvQ2En7ZPkfra+BtkgR8nSeIo=;
+        b=h/sGlDFQyebVFwYao6ykkfeqwRsCB9m55EewYHVOrnAytVu6CJGBeva8gZ9jYaPlWG
+         Fs/dSUhkOFcWdbJv26LrMAmuyp1BEaCGfBFMUEkmmVtXH4cjTnmHm9jGO3rFbeYxVjAA
+         THt3VKw0ZElGTuEPXHFaya9NW1vgr4TM/Y9ADmbaFSfROhZxolyhnPXVG5LVxOZ5tiaZ
+         yeaJSYQGMgrWutQH8NKDBIbck1B+MyHyhu+RUSpF41Kfr/KmqfIBEh6C4brn/UDdij8C
+         vQWqy+JyGbDPY1VUWdZNoR+uUORLSDkBvfIQQBTot5wmx8zgn9tJ2kOgTxj7JqzNy6Cx
+         EQBA==
+X-Forwarded-Encrypted: i=1; AJvYcCXmG5QOZ1LiUjGUXUE+F16pi2lXBcyHQJmveZW4BQKC5w0BI7qntbqLcz+/+KvYC9u9amjUFzWv7XLQdJ0/y42aPQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyPFYZu/2v7zjS5+wDAMOMguONcCsTA5lcFxK7jcapTPwS4oj4K
+	n89sp0ZWl9mBFyfC7Znm6tQROfKR4W7tymIzPOEHcTjvPg7XUyI5qasHqvxYUb0J2f1E/rWROgt
+	2jKEKIcQxTcKp8Ysz2xKaEKL6R7n4XL8sry0a
+X-Gm-Gg: ASbGncsA4uLBqhPmwrFVFkjOr4YRZ6dZyNvujE5HrrbapqfMKzSpLJnqCWWTZ/ImD7v
+	EE+Gj/zUexiCHtQLVGzyYPwCHOG31XHVSxYCyDiPq5QbSsHic3X8DIVOZxVpJgklkMcTqW/r/Jl
+	pgHjTgJN/KwIzY14mson3lOa+okstYJ2QzBppy0O9v2hgTh14LCn9C4yrx/y4xCJEL8vTTxHq3U
+	CSelmYBk5nU+Sv4GYa89g3ocej4JUkDPA2RyPA=
+X-Google-Smtp-Source: AGHT+IFkOGAOEkK9Ho3/udwUArq2fW/lkL+d6cTusUD8u1vVuhilzGgQxkRAvb+HGPtpqULLNcYelJ4VcsximCIsDvs=
+X-Received: by 2002:a05:6512:158e:b0:55f:3faa:7c30 with SMTP id
+ 2adb3069b0e04-55f3faa8465mr4019745e87.6.1756267350455; Tue, 26 Aug 2025
+ 21:02:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250827024658.2076887-1-bruce.ashfield@gmail.com>
+In-Reply-To: <20250827024658.2076887-1-bruce.ashfield@gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 27 Aug 2025 01:02:19 -0300
+X-Gm-Features: Ac12FXzMopllXZMzA0AP3IqcipG1Mvw-B9FaXuw0VzOSK6JX4AsNigbcWgZcTvw
+Message-ID: <CAOMZO5CtiiGcR58QckxY2MWDBwLL0JzFbiR2S-ZOq85R8xRO1g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-yocto/6.16: cfg fix configuration audit warnings
+To: bruce.ashfield@gmail.com
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 03:05:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222486
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 04:02:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222487
 
-smbclient can't accept input after readline upgrade to 8.3
-| root # smbclient //192.168.2.16/test -N
-|       Try "help" to get a list of possible commands.
-|       smb: \>
+On Tue, Aug 26, 2025 at 11:47=E2=80=AFPM Bruce Ashfield via
+lists.openembedded.org
+<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> Integrating the following commit(s) to linux-yocto/.:
+>
+> 1/1 [
+>     Author: Bruce Ashfield
+>     Email: bruce.ashfield@gmail.com
+>     Subject: arm/6.16: remove unsettable and obsolete options
+>     Date: Tue, 26 Aug 2025 22:43:01 -0400
+>
+>     These crypto options are only selected or have been dropped
+>     from 6.16, so we drop them from our configs.
 
-similar issue has been reported:
-https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00011.html
+If you still want to support CHACHA20 crypto, you should remove
+CONFIG_CRYPTO_CHACHA20_NEON and select CONFIG_CRYPTO_CHACHA20.
 
-Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
----
- .../fix-for-readline-event-hook.patch         | 55 +++++++++++++++++++
- meta/recipes-core/readline/readline_8.3.bb    |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
+Please see this commit for a proper fix:
 
-diff --git a/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
-new file mode 100644
-index 0000000000..f2ec506f5c
---- /dev/null
-+++ b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
-@@ -0,0 +1,55 @@
-+From 15970c431517a046099d8294c91d778b1da9b29d Mon Sep 17 00:00:00 2001
-+From: Chet Ramey <chet.ramey@case.edu>
-+Date: Fri, 11 Jul 2025 11:51:15 -0400
-+Subject: Readline-8.3 patch 1: fix for readline event hook
-+
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/readline.git/commit/?id=15970c431517a046099d8294c91d778b1da9b29d]
-+Signed-off-by: Chet Ramey <chet.ramey@case.edu>
-+---
-+ input.c    | 6 +++++-
-+ patchlevel | 2 +-
-+ 2 files changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/input.c b/input.c
-+index e6a39e2..3383edb 100644
-+--- a/input.c
-++++ b/input.c
-+@@ -261,13 +261,16 @@ rl_gather_tyi (void)
-+   input = 0;
-+   tty = fileno (rl_instream);
-+ 
-+-  /* Move this up here to give it first shot, but it can't set chars_avail */
-++  /* Move this up here to give it first shot, but it can't set chars_avail,
-++     so we assume a single character is available. */
-+   /* XXX - need rl_chars_available_hook? */
-+   if (rl_input_available_hook)
-+     {
-+       result = (*rl_input_available_hook) ();
-+       if (result == 0)
-+         result = -1;
-++      else
-++        chars_avail = 1;
-+     }
-+ 
-+ #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
-+@@ -285,6 +288,7 @@ rl_gather_tyi (void)
-+ #endif
-+       if (result <= 0)
-+ 	return 0;	/* Nothing to read. */
-++      result = -1;	/* there is something, so check how many chars below */
-+     }
-+ #endif
-+ 
-+diff --git a/patchlevel b/patchlevel
-+index d8c9df7..fdf4740 100644
-+--- a/patchlevel
-++++ b/patchlevel
-+@@ -1,3 +1,3 @@
-+ # Do not edit -- exists only for use by patch
-+ 
-+-0
-++1
-+-- 
-+cgit v1.2.3
-+
-diff --git a/meta/recipes-core/readline/readline_8.3.bb b/meta/recipes-core/readline/readline_8.3.bb
-index ff5dec6c0a..a2f23eb353 100644
---- a/meta/recipes-core/readline/readline_8.3.bb
-+++ b/meta/recipes-core/readline/readline_8.3.bb
-@@ -1,6 +1,7 @@
- require readline.inc
- 
- SRC_URI += "file://norpath.patch \
-+            file://fix-for-readline-event-hook.patch \
-             "
- 
- SRC_URI[archive.sha256sum] = "fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc"
--- 
-2.43.0
-
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+h=3Dv6.17-rc3&id=3D6c9ab811871bc9a08e9cd4b96371a60667fa9ec8
 
