@@ -1,180 +1,107 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EB8CA0EFF
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 11:30:11 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.12654.1756294211409418179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33329CA0EFF
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 16:19:23 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.19800.1756311558970697331
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 04:30:11 -0700
+ Wed, 27 Aug 2025 09:19:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MZ8qM7Yn;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3253f0c8788so5609472a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 04:30:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ka9E3ZMq;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-327705d0a9bso47436a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 09:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756294211; x=1756899011; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sS7yvDVhfN5e0NqCHJTGu60TAJ4OM3fzE4mJrAAW8as=;
-        b=MZ8qM7Ynym/wmkXJFVV7mazgljeUWjmd4pri5zdf1efT5XCKkZB5CGJ0xAThtjKxHI
-         H/1cGOc1agYlZ/1qjgYsGrDX+/izKRraCP6QUbDr+TqK0aMcPIkFMBXCnOkjzPdmY3cU
-         96sxHPeOI63YXgbYEJZKNFq5PN8o6gDUrxKKhw1LEgG5U17EDPo7dJsUsZNalXMtAs+o
-         rxNtUmxo8CTl9WEHD6+8KGnjM7MtnqIn/eWdDqHzetmpjyto7Rn9sFdUqOYH46KYAGNx
-         86iO6JdszPs0cruG4uj5Kjb7l7fqoW/UvnIG8eYt7Bktb1x+NxNaVXuqappU3iJqER/n
-         lV/A==
+        d=gmail.com; s=20230601; t=1756311558; x=1756916358; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8thpuHB/2oPjNGfX2K8cgYSHHil3TLz3CXazFq86PU=;
+        b=ka9E3ZMquIBZNKbSAtTRp/+OzA3VyEcRL1XVPGJ5jih7qEKeYy3c2C3g0e/ZbXRl/+
+         4NI7fLysj7jpYA1d28jMNxtVlaa6TuEnMLGEffRvhZXDX38mYikywQrbVZKu6WwwHIJG
+         CCJ+dhcQ7A5nR3TuYdmSx5IB7tZrk5Ce/TvayFUaFAT2+OxM6bwcEYYj2Jyjhg+i2lpd
+         y/gizUGoGoEUmfRPjDqoYAIFxN3IXNtKwiqbDpKmNAE86VZ8AQW5i19J/qpTQudcQbGh
+         lFxQxVYMN05LruR1lO8NUjQJOkIwUJ0UvrDxQvLIvNeznp4u/wpaaYXZNj3jOtu2HWXm
+         ITHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756294211; x=1756899011;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1756311558; x=1756916358;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sS7yvDVhfN5e0NqCHJTGu60TAJ4OM3fzE4mJrAAW8as=;
-        b=dUtYOaiLbfu1thyWZ185XfJUPu3HkCpoPJgcMcbmpRtlwkA3izWthL+2lTMQuLsC9y
-         d8BPMSsh4pezJXVZp2HFJooFgf/Z5TO3zJYnCWYrOVD0r9N7XpFo6F90/H+mLvciyGz2
-         NdBFrybz6PnonH7c8z7i3bPp3JF0HgJk4Mv8hwFunkB9fewsziEfJMJHlZVfAQKlFu7f
-         rkzcgl39d/RVST2gkQAjBcLk5aptzTihc+jy7gcKKTIaXPhH/H5+3LYYGZ401dnkr9jW
-         b+TWnrgt6ONt5HJE3Va3s28kS4vF8yTxlKwumb3xcWJKCQcSVJUyu7ai+/CLsFUeKa2X
-         +uGg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJg+ArRnKCMeph6dIJMB9iWy8xjc5jnFHsEo9Q2lb1Nrbsnrr037qhAgmOfyt+9ha2KF8TXSMDVqOB4fsYG/v1Ew==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YybGuwnW6EiZZ2YktH6LbKlF6HInhO9VJYiIp5hiPou3N6jZynR
-	ZnuQrFxU7N5VxZOu6DfqnguiBmVGi5O5Te4QA9jyrJ72+VKyiFf+rMUGc2lW7c28cVSPL9cUrju
-	E7FW0YQC3fv6Wax4fMMIV8WPT+RAe0Qw=
-X-Gm-Gg: ASbGnctsYE/Kc3yL+mvmcTRbxlk6Ec1YT9GjUPzMwEBKEyLOOfzocLl53uCsSBaow6J
-	7MUdwSVrMfxaTjsc6R1rAJp2c7+U2o2CCi4KuwV2ho1OyJTjiXXn96o+C/gp6ldJatwXSTB4fi8
-	uLyoHL2iQ8OAuuGwPcnIablbA6yTYDCoxIpv3rlSOKxCVEgfi74AxSDpl08M9FgG08UE18ALsBo
-	mZZltSyti3tK/p+kMam0WWb1vJOw06qEG5RkmhAX4NoHz8y8J4=
-X-Google-Smtp-Source: AGHT+IEJi92j3FnueCgKo1nCTPjEesenmzDEdvn6QVRTl+mpWbpXRqQ7/VBZxVDkNQrn83QFdAPI+as/lKOxwP9OvgU=
-X-Received: by 2002:a17:90b:2fcd:b0:31f:20d4:9966 with SMTP id
- 98e67ed59e1d1-32515ec151dmr26967343a91.17.1756294209861; Wed, 27 Aug 2025
- 04:30:09 -0700 (PDT)
+        bh=t8thpuHB/2oPjNGfX2K8cgYSHHil3TLz3CXazFq86PU=;
+        b=aBvTHoYAFiiTLiAJRfbryxrQnYk41rybE3Hvw3shJRu+VUA5HGhVQEqv5y8UjXowQj
+         flbxzALkBRkkGcXDHkBKy9De+ous0od4njTiJuiYjKlr1KQqgCcqWOc6yeTWWJbFqGBo
+         WRzZjHgZj98PwXhtsPooCJVNXrMMmrxCdDJ1nmUfuaz/AvSYU715CH58JyKpA1HeGeZz
+         XLnzWx+52uxjUn9vSlHCVYViuw+YkQqbUiAoSe9DKce535QTJlvfvBR9pajMw841Ya7w
+         9uBMb8uPoMUpDSzoIMCt4Z8NHUydFv6IeJI0J/DFcSU0ffzntXxCItZjSh2hi6PgTSeH
+         HuAQ==
+X-Gm-Message-State: AOJu0Yze3vHHd7fddOH3reuVcTcT2RQeAZZ07mAKDqKu8cMx0Fcx4nRA
+	0PhVIiwqOrjNbe3jZw4kmql1gwkhVdVwxC0A7M96dHK63suQhvn/iZOitM2vIIW5
+X-Gm-Gg: ASbGncuU8jURW6IOsGgupNHS9klWzqqPsBxRid+X8Kb0S4IIMM9/M4HvSb6jRmha+dt
+	QGj6m2jD7rxQUHnqlK7dcRsE1/ELlFs3hR5hTdF1kYBFzc2SghjskMpUeip0nmKHA4i6phoEQld
+	UIE6Zd9NXRjAsgJhjnYhTE4ivaGvodrMCPhgVRzEfNCWdX9VYr/DLFiW20aDrhmwRq8TPP8ju5W
+	gs/lDEbz9K7zlXtdUTd63P424lS+lB0jqOn3Gji5CxoL/yeu+VZDg0dsxKp3/IP2c1rQKqZb2Rr
+	rwTHTcVFB0sV8JtxkZUOLZ1CPtsfjAS+Aw4XIn71XnX0lnCRDCcTAPxmRBgH02oeJK2guqmkbi9
+	qdhg7L/BnlhoqhiHe9jUY1GJA14oqeQuec0TKsXd0+T8o6ZDaNoLEI5jXUnThhFY7kYkKD6Nyh3
+	vGWtj3fLy5Oed5El5tmvjYlH48ssm2z0JEljploenM
+X-Google-Smtp-Source: AGHT+IGkI4rn8426tGJZ53iaz39bAXK+rXXFyTpYCJMjPty5Dr1AKlqZ01YH118/448c1BEhxsvt5A==
+X-Received: by 2002:a17:90b:258c:b0:323:265e:d9d6 with SMTP id 98e67ed59e1d1-32515edd530mr27134637a91.6.1756311557990;
+        Wed, 27 Aug 2025 09:19:17 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276f8a452bsm2383729a91.17.2025.08.27.09.19.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 09:19:17 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] libnss-nis: Upgrade to 3.4 release
+Date: Wed, 27 Aug 2025 09:19:15 -0700
+Message-ID: <20250827161915.3187968-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-References: <20250827024658.2076887-1-bruce.ashfield@gmail.com> <CAOMZO5CtiiGcR58QckxY2MWDBwLL0JzFbiR2S-ZOq85R8xRO1g@mail.gmail.com>
-In-Reply-To: <CAOMZO5CtiiGcR58QckxY2MWDBwLL0JzFbiR2S-ZOq85R8xRO1g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 27 Aug 2025 08:29:59 -0300
-X-Gm-Features: Ac12FXwv_KQ_XSMXMC6MUNRGu0zOutzDliIDj_pAVtXK_xIWf097hMWDECwWbM0
-Message-ID: <CADkTA4MQiJfA4xjE8zJAtYsSo7wjHUHvEsCqmjHiYqNEBx_VSA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-yocto/6.16: cfg fix configuration audit warnings
-To: Fabio Estevam <festevam@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Jon Mason <jdmason@kudzu.us>, 
-	Ross Burton <ross.burton@arm.com>
-Content-Type: multipart/alternative; boundary="0000000000007fff88063d571cd0"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 11:30:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222505
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 16:19:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222506
 
---0000000000007fff88063d571cd0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Fixes build errors ( seen with lld particularly )
 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+| x86_64-yoesdk-linux-ld.lld: error: version script assignment of 'NSS_NIS_PRIVATE_2.0' to symbol '_nss_nis_getsecretkey' failed: symbol not defined
+| x86_64-yoesdk-linux-clang: error: linker command failed with exit code 1 (use -v to see invocation)
+| make[3]: *** [Makefile:642: libnss_nis.la] Error 1
+| make[3]: Leaving directory '/mnt/b/yoe/master/build/tmp/work/x86_64-nativesdk-yoesdk-linux/nativesdk-libnss-nis/3.2/build/src'
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Move to 3.4 release which addresses the lld fix proposed in v1
 
-On Wed, Aug 27, 2025, 1:02=E2=80=AFAM Fabio Estevam <festevam@gmail.com> wr=
-ote:
+ .../libnss-nis/{libnss-nis.bb => libnss-nis_3.4.bb}        | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/libnss-nis/{libnss-nis.bb => libnss-nis_3.4.bb} (89%)
 
-> On Tue, Aug 26, 2025 at 11:47=E2=80=AFPM Bruce Ashfield via
-> lists.openembedded.org
-> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > Integrating the following commit(s) to linux-yocto/.:
-> >
-> > 1/1 [
-> >     Author: Bruce Ashfield
-> >     Email: bruce.ashfield@gmail.com
-> >     Subject: arm/6.16: remove unsettable and obsolete options
-> >     Date: Tue, 26 Aug 2025 22:43:01 -0400
-> >
-> >     These crypto options are only selected or have been dropped
-> >     from 6.16, so we drop them from our configs.
->
-> If you still want to support CHACHA20 crypto, you should remove
-> CONFIG_CRYPTO_CHACHA20_NEON and select CONFIG_CRYPTO_CHACHA20.
->
-> Please see this commit for a proper fix:
->
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?h=3Dv6.17-rc3&id=3D6c9ab811871bc9a08e9cd4b96371a60667fa9ec8
-
-
-
-I'll leave that up to Jon/Ross.  I'm just making sure there's no warning
-and that what I did was visible so they can make a policy call.
-
-Thanks for the information!
-
-Bruce
-
-
-
-
->
-
---0000000000007fff88063d571cd0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><div><br></div><div><br></div><div data-smartmail=3D=
-"gmail_signature">- Thou shalt not follow the NULL pointer, for chaos and m=
-adness await thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf=
-, Star Trek II<br><br></div><br><div class=3D"gmail_quote gmail_quote_conta=
-iner"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 27, 2025, 1:02=E2=
-=80=AFAM Fabio Estevam &lt;<a href=3D"mailto:festevam@gmail.com">festevam@g=
-mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, Aug=
- 26, 2025 at 11:47=E2=80=AFPM Bruce Ashfield via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer noreferrer" tar=
-get=3D"_blank">lists.openembedded.org</a><br>
-&lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" ta=
-rget=3D"_blank" rel=3D"noreferrer">gmail.com@lists.openembedded.org</a>&gt;=
- wrote:<br>
-&gt;<br>
-&gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" t=
-arget=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; Integrating the following commit(s) to linux-yocto/.:<br>
-&gt;<br>
-&gt; 1/1 [<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Author: Bruce Ashfield<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Email: <a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0Subject: arm/6.16: remove unsettable and obsolete o=
-ptions<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Date: Tue, 26 Aug 2025 22:43:01 -0400<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0These crypto options are only selected or have been=
- dropped<br>
-&gt;=C2=A0 =C2=A0 =C2=A0from 6.16, so we drop them from our configs.<br>
-<br>
-If you still want to support CHACHA20 crypto, you should remove<br>
-CONFIG_CRYPTO_CHACHA20_NEON and select CONFIG_CRYPTO_CHACHA20.<br>
-<br>
-Please see this commit for a proper fix:<br>
-<br>
-<a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
-it/commit/?h=3Dv6.17-rc3&amp;id=3D6c9ab811871bc9a08e9cd4b96371a60667fa9ec8"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">https://git.kernel.org/pub=
-/scm/linux/kernel/git/torvalds/linux.git/commit/?h=3Dv6.17-rc3&amp;id=3D6c9=
-ab811871bc9a08e9cd4b96371a60667fa9ec8</a></blockquote></div></div><div dir=
-=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;ll =
-leave that up to Jon/Ross.=C2=A0 I&#39;m just making sure there&#39;s no wa=
-rning and that what I did was visible so they can make a policy call.</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for the information!</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto">Bruce=C2=A0</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div=
-><div dir=3D"auto"><div class=3D"gmail_quote gmail_quote_container"><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><br>
-</blockquote></div></div></div>
-
---0000000000007fff88063d571cd0--
+diff --git a/meta/recipes-extended/libnss-nis/libnss-nis.bb b/meta/recipes-extended/libnss-nis/libnss-nis_3.4.bb
+similarity index 89%
+rename from meta/recipes-extended/libnss-nis/libnss-nis.bb
+rename to meta/recipes-extended/libnss-nis/libnss-nis_3.4.bb
+index 2198606de5e..59dcfe180a8 100644
+--- a/meta/recipes-extended/libnss-nis/libnss-nis.bb
++++ b/meta/recipes-extended/libnss-nis/libnss-nis_3.4.bb
+@@ -13,12 +13,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ SECTION = "libs"
+ DEPENDS += "libtirpc libnsl2"
+ 
+-PV = "3.2"
++SRCREV = "3c206b762ac8557dab3c40ff3a297c9d1bff0d83"
+ 
+-SRCREV = "cd0d391af9535b56e612ed227c1b89be269f3d59"
+-
+-SRC_URI = "git://github.com/thkukuk/libnss_nis;branch=master;protocol=https \
+-          "
++SRC_URI = "git://github.com/thkukuk/libnss_nis;branch=master;protocol=https;tag=v${PV}"
+ 
+ inherit autotools pkgconfig
+ 
 
