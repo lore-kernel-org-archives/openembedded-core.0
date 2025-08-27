@@ -1,146 +1,171 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1215CA0FED
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 02:47:08 +0000 (UTC)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web10.6244.1756262821169700253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16CA8CA0FED
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 03:00:09 +0000 (UTC)
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+ by mx.groups.io with SMTP id smtpd.web11.6227.1756263604912470413
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Aug 2025 19:47:01 -0700
+ Tue, 26 Aug 2025 20:00:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=d9pOzohX;
- spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7e8704b7a3dso673212385a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Aug 2025 19:47:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756262820; x=1756867620; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sOBaXj9suu3Dmd9g1eK9MijwwOP/wMy3vR7JYe9GHUM=;
-        b=d9pOzohX4Bx8EPH30d/EkxvZfUHQX+PhHibjesk6lJsebPD3l4ZUoCVMEBJJBh+pji
-         DEaVGdhjjkd1hXjyA/ZQmRvxbKnMcsS/1dPs8YKA5dclsNNW3vKElT+NuGHDhe0ofbwl
-         FQgXVMqTy4N35Ns/7tX/A4TsiDw+6BsSOy65EC5RApDa+VQqVxYQ60Oio27ZspXKGfXs
-         E0vTlmxwhqD1jhQgt/Xw7a3P8S5kJGJHch1K0+vAc5wMaZ0+gz0DZ0YADFISbCsJv3MG
-         cSySbVYdOSBPxAr0EEOMQfeNXQZwTa6EfZ890gcPwpd82IydLaRbAyW6IMPm0YiD2Vno
-         3KCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756262820; x=1756867620;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sOBaXj9suu3Dmd9g1eK9MijwwOP/wMy3vR7JYe9GHUM=;
-        b=peA6V+FwObqyuKJ8oZ56fIAz7GyLAfV7QT6JWiq9HoQP7gcMVcCiAX2BImaPkXuHx/
-         ZHYThr3lOTaOOHAGii+LTFVMM8FbYd2W1iacioO7rrUCbasaRRQfzyaDSg1WmjpH61e+
-         TbcEXkRVORmCHp9wvsed+LE3zsxNnPoTtoZJAobyg5Pjuk2PZMcwqiJl7HINSwqXMEr8
-         KB89C6OGali5uy/BHQ+Gqe8IXALuoeVDdXLR7KxP9urQwSoH6LKb/iGSDWS+Y7OxubGH
-         ADPcGRGoODORiYRiuQOPIpcNFOy4whtGzQBfiVOggQqT1+Q00AHhsThFRcz6k49+aSmb
-         rtUg==
-X-Gm-Message-State: AOJu0YyS94cNqEfjaGu+bQd7k50LDM12hVFb8cle8SHMuBBVW3J5Avno
-	LR+NaRKa2byVv2x3IwU+grTPNywFYnTO0+Jrqsir8FzCts6CwXGiZyTRP6N/5pFV
-X-Gm-Gg: ASbGncsc2IegIhwwQPd3HJ3htwNYzdeJ3MYyDOn5fW6Hr5TYTBw1Y7QHPHxOztXKhYM
-	ZlSGtS8OARux6WBdr4uzAwYEdrB+3qRuRGpvDz8uB20F/pi/8zjL/fjcZnWLeGbCKyrLoAMC5p/
-	84QHqQGOAYmXwXcmxoDaxd2upYYyq/Yo1EC34XpNeJEbCoCNBotbmfX4ZzLM3EVMWZflbxlFX3E
-	AAhFt4LCkqC+hTUynEFEwZrESDv9hpyNlZWhDYvY20qu2GDatIZrX2SO6wRKRwutkXgBurOzGNM
-	RJyeyaenFXIfz/HDsTL3pxkgaNYZPY74LbkL/dvwzWGzetLnJ+gVjVnw9389nJaxrnAdP9coq7C
-	73Kh6cViOpNIPumfl3fg2NguhVEHjvo4eV8Z7j+jsAC2sM7PpWmUIB4nqQ9p5ohtieA7HVIxrCr
-	pxEmEpdQmNjA2DNCeXSKrwOz2Xyh1WpuFrTvFtFSms2CB0tWNbED7imP5TH/a1+53R7g==
-X-Google-Smtp-Source: AGHT+IFnoSx+Gi3ubgC6LtLo+e9PB8rvpHJBVr2fHobRRZc0WW/pCofVLZegufy0O5ZVoxVO1B6yKg==
-X-Received: by 2002:a05:620a:294b:b0:7f2:d9d3:f5ae with SMTP id af79cd13be357-7f2d9d3fa53mr843027285a.85.1756262819996;
-        Tue, 26 Aug 2025 19:46:59 -0700 (PDT)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ebecb1a86dsm782942185a.12.2025.08.26.19.46.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 19:46:59 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/6.16: cfg fix configuration audit warnings
-Date: Tue, 26 Aug 2025 22:46:58 -0400
-Message-Id: <20250827024658.2076887-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=I03qS6KC;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1756263605; x=1787799605;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iAelrBI4HlDbzkX/kTwFBprtFmRYXc2d+mNpvmIPgok=;
+  b=I03qS6KCN2bSseBncaKb42xXB/kW3nBfeEe1j4Umub2Tm6eNass9rXDa
+   pbHImPCGKGPNWmk9IXvAns8tOoYrKTLjLJftmaAkitcm00YyZc1U/z5wX
+   NFT6F0kIdg27Wvq6CzWMvOZwy5c/mN6glQzqZzGp9q5YtSYCAM/4VDwMV
+   jHh+10qZWmFYTMo5clAeSRZ1hiZLZJi/snCh7ikyY/Fn4McFSHDyEzKeP
+   dG2MBtZ3ExGgPcN8g4RU4H2wivaA/EndSxMTl1+MmSiusClS4KcdvQqg8
+   D5/vC+e7MVz3n0Zz3fU0r3Fuyp5lnFjNmnGy0dmVXFWp25wEFewimT6p2
+   w==;
+X-CSE-ConnectionGUID: kR7DJXf5QQ2AR0qsebOZUQ==
+X-CSE-MsgGUID: kFLzvILcQjmzZ136NR6ypw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11534"; a="210773181"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751209200"; 
+   d="scan'208";a="210773181"
+Received: from unknown (HELO az2uksmgr1.o.css.fujitsu.com) ([52.151.125.19])
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2025 12:00:04 +0900
+Received: from az2uksmgm4.o.css.fujitsu.com (unknown [10.151.22.201])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgr1.o.css.fujitsu.com (Postfix) with ESMTPS id E33BF1C1C70B
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 03:00:02 +0000 (UTC)
+Received: from az2uksmom3.o.css.fujitsu.com (az2uksmom3.o.css.fujitsu.com [10.151.22.205])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm4.o.css.fujitsu.com (Postfix) with ESMTPS id 9CCDB14003CF
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 03:00:02 +0000 (UTC)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmom3.o.css.fujitsu.com (Postfix) with ESMTPS id 8D81310023C8;
+	Wed, 27 Aug 2025 03:00:00 +0000 (UTC)
+Received: from G08FNSTD190088.g08.fujitsu.local (unknown [10.193.129.116])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 10FB41A0074;
+	Wed, 27 Aug 2025 10:59:57 +0800 (CST)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
+To: Gyorgy Sarvari <skandigraun@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Liu Yiding <liuyd.fnst@fujitsu.com>
+Subject: [OE-core] [PATCH v2] readline: backport a patch to fix issue that readline can't work with samba
+Date: Wed, 27 Aug 2025 10:59:50 +0800
+Message-ID: <20250827025950.1391-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 02:47:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222484
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 03:00:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222485
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+smbclient can't accept input after readline upgrade to 8.3
+| root # smbclient //192.168.2.16/test -N
+|       Try "help" to get a list of possible commands.
+|       smb: \>
 
-Integrating the following commit(s) to linux-yocto/.:
+similar issue has been reported:
+https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00011.html
 
-1/1 [
-    Author: Bruce Ashfield
-    Email: bruce.ashfield@gmail.com
-    Subject: arm/6.16: remove unsettable and obsolete options
-    Date: Tue, 26 Aug 2025 22:43:01 -0400
-
-    These crypto options are only selected or have been dropped
-    from 6.16, so we drop them from our configs.
-
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
+ .../fix-for-readline-event-hook.patch         | 54 +++++++++++++++++++
+ meta/recipes-core/readline/readline_8.3.bb    |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-core/readline/readline/fix-for-readline-ev=
+ent-hook.patch
 
-Richard,
-
-I wasn't able to config these via a build, but by inspection
-and the autobuilder warning, the fix is obvious.
-
-Apply these after my 6.16 series and the warnings should be
-gone.
-
-Bruce
-
- meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_6.16.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
-index a5046cb38e..06d4c51a70 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
-@@ -15,7 +15,7 @@ python () {
- }
- 
- SRCREV_machine ?= "0efe352ff92817ba56a91bfe983e96cd55c76940"
--SRCREV_meta ?= "1fedc277abf169c6032ea77d5d61be91dba9f0df"
-+SRCREV_meta ?= "f7034ee0721badc73a0417aa324755c1e6c415e5"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.16;destsuffix=${KMETA};protocol=https"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
-index df2b0a67b2..04fb3eef42 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
-@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "f6b5e4a67c21308265aabd3cb6cf00e329d930f6"
--SRCREV_meta ?= "1fedc277abf169c6032ea77d5d61be91dba9f0df"
-+SRCREV_meta ?= "f7034ee0721badc73a0417aa324755c1e6c415e5"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-index 4c070b0b2c..d19803cb6c 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
-@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "f6b5e4a67c21308265aabd3cb6cf00e329d930f6"
- SRCREV_machine:qemux86-64 ?= "f6b5e4a67c21308265aabd3cb6cf00e329d930f6"
- SRCREV_machine:qemumips64 ?= "dea33382cd8394c214422ebead1a2e08a4832c90"
- SRCREV_machine ?= "f6b5e4a67c21308265aabd3cb6cf00e329d930f6"
--SRCREV_meta ?= "1fedc277abf169c6032ea77d5d61be91dba9f0df"
-+SRCREV_meta ?= "f7034ee0721badc73a0417aa324755c1e6c415e5"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
--- 
-2.39.2
+diff --git a/meta/recipes-core/readline/readline/fix-for-readline-event-hoo=
+k.patch b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.p=
+atch
+new file mode 100644
+index 0000000000..f3b9d88d15
+--- /dev/null
++++ b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
+@@ -0,0 +1,54 @@
++From 15970c431517a046099d8294c91d778b1da9b29d Mon Sep 17 00:00:00 2001
++From: Chet Ramey <chet.ramey@case.edu>
++Date: Fri, 11 Jul 2025 11:51:15 -0400
++Subject: Readline-8.3 patch 1: fix for readline event hook
++
++
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/readline=
+.git/commit/?id=3D15970c431517a046099d8294c91d778b1da9b29d]=0D
++Signed-off-by: Chet Ramey <chet.ramey@case.edu>
++---
++ input.c    | 6 +++++-
++ patchlevel | 2 +-
++ 2 files changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/input.c b/input.c
++index e6a39e2..3383edb 100644
++--- a/input.c
+++++ b/input.c
++@@ -261,13 +261,16 @@ rl_gather_tyi (void)
++   input =3D 0;
++   tty =3D fileno (rl_instream);
++=20
++-  /* Move this up here to give it first shot, but it can't set chars_avai=
+l */
+++  /* Move this up here to give it first shot, but it can't set chars_avai=
+l,
+++     so we assume a single character is available. */
++   /* XXX - need rl_chars_available_hook? */
++   if (rl_input_available_hook)
++     {
++       result =3D (*rl_input_available_hook) ();
++       if (result =3D=3D 0)
++         result =3D -1;
+++      else
+++        chars_avail =3D 1;
++     }
++=20
++ #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
++@@ -285,6 +288,7 @@ rl_gather_tyi (void)
++ #endif
++       if (result <=3D 0)
++ 	return 0;	/* Nothing to read. */
+++      result =3D -1;	/* there is something, so check how many chars below=
+ */
++     }
++ #endif
++=20
++diff --git a/patchlevel b/patchlevel
++index d8c9df7..fdf4740 100644
++--- a/patchlevel
+++++ b/patchlevel
++@@ -1,3 +1,3 @@
++ # Do not edit -- exists only for use by patch
++=20
++-0
+++1
++--=20
++cgit v1.2.3
++
+diff --git a/meta/recipes-core/readline/readline_8.3.bb b/meta/recipes-core=
+/readline/readline_8.3.bb
+index ff5dec6c0a..a2f23eb353 100644
+--- a/meta/recipes-core/readline/readline_8.3.bb
++++ b/meta/recipes-core/readline/readline_8.3.bb
+@@ -1,6 +1,7 @@
+ require readline.inc
+=20
+ SRC_URI +=3D "file://norpath.patch \
++            file://fix-for-readline-event-hook.patch \
+             "
+=20
+ SRC_URI[archive.sha256sum] =3D "fe5383204467828cd495ee8d1d3c037a7eba1389c2=
+2bc6a041f627976f9061cc"
+--=20
+2.43.0
 
 
