@@ -1,165 +1,180 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C54CA0FED
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 09:57:31 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web11.11079.1756288645102468623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EB8CA0EFF
+	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 11:30:11 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.12654.1756294211409418179
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 02:57:25 -0700
+ Wed, 27 Aug 2025 04:30:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jmKHN6sm;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-70de1230e87so2884366d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 02:57:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MZ8qM7Yn;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3253f0c8788so5609472a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 04:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756288644; x=1756893444; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756294211; x=1756899011; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ZkI0GWzj7GtzF4ldTz012XjR8F6YnLMu2XtZguFx4w=;
-        b=jmKHN6smodafl9ycURXb89XPO5gnmxnaFuH7AbysK/QQuqDi/umPTqFeTx8C+Zs+wa
-         c2JJsz0RdKsEdObGFuFoNRNEfCtvUZnGnm+Ls5HmZP58mKjhI8m14vHf0/ke7AFyHo5A
-         AIUUgryQCEwqu9iqUJwXScwiIYPqXPukpIvl81lvAugLSFllzopLC0xx7mbNJ80y5rIB
-         jQdf0mWvyH8NpaYWDetDPqYUS+nicjNkwr12riYM/Kf/9oVGagB6UZdHhoLO1AuSYzbC
-         +1bIw6ckqC6RWkoXoMq5zCk90LO/OvDzgXMVCFqqb7EQBcRPvaf9gcb79sj4s4o1hVvO
-         5rIw==
+        bh=sS7yvDVhfN5e0NqCHJTGu60TAJ4OM3fzE4mJrAAW8as=;
+        b=MZ8qM7Ynym/wmkXJFVV7mazgljeUWjmd4pri5zdf1efT5XCKkZB5CGJ0xAThtjKxHI
+         H/1cGOc1agYlZ/1qjgYsGrDX+/izKRraCP6QUbDr+TqK0aMcPIkFMBXCnOkjzPdmY3cU
+         96sxHPeOI63YXgbYEJZKNFq5PN8o6gDUrxKKhw1LEgG5U17EDPo7dJsUsZNalXMtAs+o
+         rxNtUmxo8CTl9WEHD6+8KGnjM7MtnqIn/eWdDqHzetmpjyto7Rn9sFdUqOYH46KYAGNx
+         86iO6JdszPs0cruG4uj5Kjb7l7fqoW/UvnIG8eYt7Bktb1x+NxNaVXuqappU3iJqER/n
+         lV/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756288644; x=1756893444;
+        d=1e100.net; s=20230601; t=1756294211; x=1756899011;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2ZkI0GWzj7GtzF4ldTz012XjR8F6YnLMu2XtZguFx4w=;
-        b=as7Nv9OCeO1z5Dl24ruJCuEIL4diJp5yzhjak3o1eKJb7ViIBpzW9KFLevTQ9kuM18
-         HmH5/iFwquFk0e2/CubO5pFDD2C8pkNSRGR7fvy/lXe3gcRawxtnt0HpfpmX+2iix4/u
-         bnwP6h6U1lBlk5RRDoMTFuToRXryvWa60EhcZDN8OqtjgCLh9DBDLWdwXOkp+UpiCuug
-         79Z8sRzccvMAHkXbLnDShg/S3OCPHQBmb0gPPUe1batcZRbB6RMZExjRAEj7DsGepvEX
-         GTau8Xn049aZbQtQkwzzhJ4iPKSnreRu2Hq1Yy1T1zUnlRJGrAIV3r08lcvdTq6uatRV
-         8Sqg==
-X-Gm-Message-State: AOJu0Yyz66Dir4K9KyzVmODWsszmqfCWw3B2tz/gLG9Cdez165jWcbJQ
-	pLaqfzsUBKsbUQFbHz0EA8cXLLBoxlUMIYWX82EhAZdQYgmBl0tlmXgfVUI+2ZZ5nW3+wotNPxW
-	KgYaJv1E5YF42cvNHsOnzNS4WdiAgQJw=
-X-Gm-Gg: ASbGnctBoxChkAbdbaSwKsSEp4MPB0S1BU2Ezta6vMt1nEnt7D6K01PD9Yvt+aqxJy0
-	GupINsfa8miXZRxlDetWBlOAVrK/+Kp0rDy6lU7h7hdcLyS8hv2wJFeXMeLTTek+T7KOo4UbNEg
-	gjLRFdWWQ/671jU/B912IOcxEXjxDxT7kd/0jSB9kjL45nr+oNhPXnQtWdYMneFNEXxsLg6diao
-	oQYMyz9wtsihnoPrSgH
-X-Google-Smtp-Source: AGHT+IHbg3W1YySaksxQArEdoR33wqLuayWQcSAE85LFSi+ELkYIEyYaMYkz+hlUgIvkXkaEkuPXtdIdmJXhVtxOCik=
-X-Received: by 2002:ad4:5bc5:0:b0:70d:749f:177 with SMTP id
- 6a1803df08f44-70d9738f13cmr181073746d6.33.1756288643778; Wed, 27 Aug 2025
- 02:57:23 -0700 (PDT)
+        bh=sS7yvDVhfN5e0NqCHJTGu60TAJ4OM3fzE4mJrAAW8as=;
+        b=dUtYOaiLbfu1thyWZ185XfJUPu3HkCpoPJgcMcbmpRtlwkA3izWthL+2lTMQuLsC9y
+         d8BPMSsh4pezJXVZp2HFJooFgf/Z5TO3zJYnCWYrOVD0r9N7XpFo6F90/H+mLvciyGz2
+         NdBFrybz6PnonH7c8z7i3bPp3JF0HgJk4Mv8hwFunkB9fewsziEfJMJHlZVfAQKlFu7f
+         rkzcgl39d/RVST2gkQAjBcLk5aptzTihc+jy7gcKKTIaXPhH/H5+3LYYGZ401dnkr9jW
+         b+TWnrgt6ONt5HJE3Va3s28kS4vF8yTxlKwumb3xcWJKCQcSVJUyu7ai+/CLsFUeKa2X
+         +uGg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJg+ArRnKCMeph6dIJMB9iWy8xjc5jnFHsEo9Q2lb1Nrbsnrr037qhAgmOfyt+9ha2KF8TXSMDVqOB4fsYG/v1Ew==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YybGuwnW6EiZZ2YktH6LbKlF6HInhO9VJYiIp5hiPou3N6jZynR
+	ZnuQrFxU7N5VxZOu6DfqnguiBmVGi5O5Te4QA9jyrJ72+VKyiFf+rMUGc2lW7c28cVSPL9cUrju
+	E7FW0YQC3fv6Wax4fMMIV8WPT+RAe0Qw=
+X-Gm-Gg: ASbGnctsYE/Kc3yL+mvmcTRbxlk6Ec1YT9GjUPzMwEBKEyLOOfzocLl53uCsSBaow6J
+	7MUdwSVrMfxaTjsc6R1rAJp2c7+U2o2CCi4KuwV2ho1OyJTjiXXn96o+C/gp6ldJatwXSTB4fi8
+	uLyoHL2iQ8OAuuGwPcnIablbA6yTYDCoxIpv3rlSOKxCVEgfi74AxSDpl08M9FgG08UE18ALsBo
+	mZZltSyti3tK/p+kMam0WWb1vJOw06qEG5RkmhAX4NoHz8y8J4=
+X-Google-Smtp-Source: AGHT+IEJi92j3FnueCgKo1nCTPjEesenmzDEdvn6QVRTl+mpWbpXRqQ7/VBZxVDkNQrn83QFdAPI+as/lKOxwP9OvgU=
+X-Received: by 2002:a17:90b:2fcd:b0:31f:20d4:9966 with SMTP id
+ 98e67ed59e1d1-32515ec151dmr26967343a91.17.1756294209861; Wed, 27 Aug 2025
+ 04:30:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250827095313.1915-1-liuyd.fnst@fujitsu.com>
-In-Reply-To: <20250827095313.1915-1-liuyd.fnst@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 27 Aug 2025 11:57:12 +0200
-X-Gm-Features: Ac12FXwA9YF2mkzQTvOLTIRZx2gJbHEvjrglqbwyeeVxy3777AoX8jckkIxxBG8
-Message-ID: <CANNYZj_ZyNinZ12M-6gP=9EybfUNQQFvtx3FUpA+UZf_6BkB3Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] readline: backport a patch to fix issue that
- readline can't work with samba
-To: Liu Yiding <liuyd.fnst@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20250827024658.2076887-1-bruce.ashfield@gmail.com> <CAOMZO5CtiiGcR58QckxY2MWDBwLL0JzFbiR2S-ZOq85R8xRO1g@mail.gmail.com>
+In-Reply-To: <CAOMZO5CtiiGcR58QckxY2MWDBwLL0JzFbiR2S-ZOq85R8xRO1g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 27 Aug 2025 08:29:59 -0300
+X-Gm-Features: Ac12FXwv_KQ_XSMXMC6MUNRGu0zOutzDliIDj_pAVtXK_xIWf097hMWDECwWbM0
+Message-ID: <CADkTA4MQiJfA4xjE8zJAtYsSo7wjHUHvEsCqmjHiYqNEBx_VSA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-yocto/6.16: cfg fix configuration audit warnings
+To: Fabio Estevam <festevam@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Jon Mason <jdmason@kudzu.us>, 
+	Ross Burton <ross.burton@arm.com>
+Content-Type: multipart/alternative; boundary="0000000000007fff88063d571cd0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 09:57:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222504
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 11:30:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222505
 
-Thanks, the sign-off-by is now correct.
+--0000000000007fff88063d571cd0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
-On Wed, 27 Aug 2025 at 11:53, Liu Yiding <liuyd.fnst@fujitsu.com> wrote:
+
+On Wed, Aug 27, 2025, 1:02=E2=80=AFAM Fabio Estevam <festevam@gmail.com> wr=
+ote:
+
+> On Tue, Aug 26, 2025 at 11:47=E2=80=AFPM Bruce Ashfield via
+> lists.openembedded.org
+> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > Integrating the following commit(s) to linux-yocto/.:
+> >
+> > 1/1 [
+> >     Author: Bruce Ashfield
+> >     Email: bruce.ashfield@gmail.com
+> >     Subject: arm/6.16: remove unsettable and obsolete options
+> >     Date: Tue, 26 Aug 2025 22:43:01 -0400
+> >
+> >     These crypto options are only selected or have been dropped
+> >     from 6.16, so we drop them from our configs.
 >
-> smbclient can't accept input after readline upgrade to 8.3
-> | root # smbclient //192.168.2.16/test -N
-> |       Try "help" to get a list of possible commands.
-> |       smb: \>
+> If you still want to support CHACHA20 crypto, you should remove
+> CONFIG_CRYPTO_CHACHA20_NEON and select CONFIG_CRYPTO_CHACHA20.
 >
-> similar issue has been reported:
-> https://lists.gnu.org/archive/html/bug-readline/2025-07/msg00011.html
+> Please see this commit for a proper fix:
 >
-> Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
-> ---
->  .../fix-for-readline-event-hook.patch         | 55 +++++++++++++++++++
->  meta/recipes-core/readline/readline_8.3.bb    |  1 +
->  2 files changed, 56 insertions(+)
->  create mode 100644 meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
 >
-> diff --git a/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
-> new file mode 100644
-> index 0000000000..f2ec506f5c
-> --- /dev/null
-> +++ b/meta/recipes-core/readline/readline/fix-for-readline-event-hook.patch
-> @@ -0,0 +1,55 @@
-> +From 15970c431517a046099d8294c91d778b1da9b29d Mon Sep 17 00:00:00 2001
-> +From: Chet Ramey <chet.ramey@case.edu>
-> +Date: Fri, 11 Jul 2025 11:51:15 -0400
-> +Subject: Readline-8.3 patch 1: fix for readline event hook
-> +
-> +
-> +Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/readline.git/commit/?id=15970c431517a046099d8294c91d778b1da9b29d]
-> +Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
-> +---
-> + input.c    | 6 +++++-
-> + patchlevel | 2 +-
-> + 2 files changed, 6 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/input.c b/input.c
-> +index e6a39e2..3383edb 100644
-> +--- a/input.c
-> ++++ b/input.c
-> +@@ -261,13 +261,16 @@ rl_gather_tyi (void)
-> +   input = 0;
-> +   tty = fileno (rl_instream);
-> +
-> +-  /* Move this up here to give it first shot, but it can't set chars_avail */
-> ++  /* Move this up here to give it first shot, but it can't set chars_avail,
-> ++     so we assume a single character is available. */
-> +   /* XXX - need rl_chars_available_hook? */
-> +   if (rl_input_available_hook)
-> +     {
-> +       result = (*rl_input_available_hook) ();
-> +       if (result == 0)
-> +         result = -1;
-> ++      else
-> ++        chars_avail = 1;
-> +     }
-> +
-> + #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
-> +@@ -285,6 +288,7 @@ rl_gather_tyi (void)
-> + #endif
-> +       if (result <= 0)
-> +       return 0;       /* Nothing to read. */
-> ++      result = -1;    /* there is something, so check how many chars below */
-> +     }
-> + #endif
-> +
-> +diff --git a/patchlevel b/patchlevel
-> +index d8c9df7..fdf4740 100644
-> +--- a/patchlevel
-> ++++ b/patchlevel
-> +@@ -1,3 +1,3 @@
-> + # Do not edit -- exists only for use by patch
-> +
-> +-0
-> ++1
-> +--
-> +cgit v1.2.3
-> +
-> diff --git a/meta/recipes-core/readline/readline_8.3.bb b/meta/recipes-core/readline/readline_8.3.bb
-> index ff5dec6c0a..a2f23eb353 100644
-> --- a/meta/recipes-core/readline/readline_8.3.bb
-> +++ b/meta/recipes-core/readline/readline_8.3.bb
-> @@ -1,6 +1,7 @@
->  require readline.inc
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?h=3Dv6.17-rc3&id=3D6c9ab811871bc9a08e9cd4b96371a60667fa9ec8
+
+
+
+I'll leave that up to Jon/Ross.  I'm just making sure there's no warning
+and that what I did was visible so they can make a policy call.
+
+Thanks for the information!
+
+Bruce
+
+
+
+
 >
->  SRC_URI += "file://norpath.patch \
-> +            file://fix-for-readline-event-hook.patch \
->              "
->
->  SRC_URI[archive.sha256sum] = "fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc"
-> --
-> 2.43.0
->
+
+--0000000000007fff88063d571cd0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div><br></div><div><br></div><div data-smartmail=3D=
+"gmail_signature">- Thou shalt not follow the NULL pointer, for chaos and m=
+adness await thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf=
+, Star Trek II<br><br></div><br><div class=3D"gmail_quote gmail_quote_conta=
+iner"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 27, 2025, 1:02=E2=
+=80=AFAM Fabio Estevam &lt;<a href=3D"mailto:festevam@gmail.com">festevam@g=
+mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, Aug=
+ 26, 2025 at 11:47=E2=80=AFPM Bruce Ashfield via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer noreferrer" tar=
+get=3D"_blank">lists.openembedded.org</a><br>
+&lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" ta=
+rget=3D"_blank" rel=3D"noreferrer">gmail.com@lists.openembedded.org</a>&gt;=
+ wrote:<br>
+&gt;<br>
+&gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" t=
+arget=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; Integrating the following commit(s) to linux-yocto/.:<br>
+&gt;<br>
+&gt; 1/1 [<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Author: Bruce Ashfield<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Email: <a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0Subject: arm/6.16: remove unsettable and obsolete o=
+ptions<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Date: Tue, 26 Aug 2025 22:43:01 -0400<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0These crypto options are only selected or have been=
+ dropped<br>
+&gt;=C2=A0 =C2=A0 =C2=A0from 6.16, so we drop them from our configs.<br>
+<br>
+If you still want to support CHACHA20 crypto, you should remove<br>
+CONFIG_CRYPTO_CHACHA20_NEON and select CONFIG_CRYPTO_CHACHA20.<br>
+<br>
+Please see this commit for a proper fix:<br>
+<br>
+<a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
+it/commit/?h=3Dv6.17-rc3&amp;id=3D6c9ab811871bc9a08e9cd4b96371a60667fa9ec8"=
+ rel=3D"noreferrer noreferrer" target=3D"_blank">https://git.kernel.org/pub=
+/scm/linux/kernel/git/torvalds/linux.git/commit/?h=3Dv6.17-rc3&amp;id=3D6c9=
+ab811871bc9a08e9cd4b96371a60667fa9ec8</a></blockquote></div></div><div dir=
+=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;ll =
+leave that up to Jon/Ross.=C2=A0 I&#39;m just making sure there&#39;s no wa=
+rning and that what I did was visible so they can make a policy call.</div>=
+<div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for the information!</=
+div><div dir=3D"auto"><br></div><div dir=3D"auto">Bruce=C2=A0</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div=
+><div dir=3D"auto"><div class=3D"gmail_quote gmail_quote_container"><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><br>
+</blockquote></div></div></div>
+
+--0000000000007fff88063d571cd0--
 
