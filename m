@@ -1,101 +1,195 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2206C8303F
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 14:14:45 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.22040.1756390484575840166
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD1D3CA0EED
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 14:41:25 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.22704.1756392079720740814
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 07:14:44 -0700
+ Thu, 28 Aug 2025 07:41:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=km21s42u;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb7ace3baso170398966b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 07:14:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JUU1X6OI;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b476c67c5easo748905a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 07:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756390483; x=1756995283; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PSCXHpTkQN6/ryCOzd7LJRhl4XQLFa/Dryx2wNCppZI=;
-        b=km21s42uC3tKmc6gygrA93r/VRsRTx+nKGctk93/Ax0FipRNEmt6AZoaKLyFmII5fS
-         Jb1aHQal91vEUMwJosg0z7zgNvbfivDWsMFJVctUD2UaEZfP2xrgNRkxi2SWzYkDQPCd
-         n6ccm4RZ3OxuQ9E7DRwZhuyiOdIFtaQ5PpVTfw+o/dIGpe1APnqpgCsotBJYIQDC9X2P
-         vm1nfALaeINZNZJsCYWTW9EKDKTdLDKBqeo6uB9D+J/6I2myaoXDyA7lAQL+3kcsLBJx
-         YajlRReZQRcHYPDEliqC8qE6xSWukpkKQDLm0LTz1NYRVWWComwPnQIuz1gHnEfBg1Wt
-         eFEw==
+        d=gmail.com; s=20230601; t=1756392079; x=1756996879; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hA8PjZ6ueqR+YXgRCC+2pg6m0V03y+YucuNsBfPY+Mk=;
+        b=JUU1X6OIkHqvIRp5lfXx74isnRrJrudbo3+wN2R+MRPaB0Kei/Yy6fz9ohV4bkNsxO
+         253cHH1FITdsPFcKDKvEFwZ605nHco+LaGSpbqnjZGnpgQXpy1tj9fxcOCabma9PnJsD
+         6icDWiImtmBvUw1TS6XAOsDRtL0fJce9VuaBaWEdJA8e0MZ3R1wQ4l/k93ChmP2QNF82
+         +qHu5cmT/P8EocwJM/tM83+6pzLbYi+JQHhhPaEGWT9G/y0CCDHyIKJHa1EjrsKPWlDx
+         bK8E38cR88cDYFMLgAAItALDlbyFVQMYFO+oJ77yWBDWsx+G0N/I7xIrwMAEQq7vNbon
+         wmWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756390483; x=1756995283;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PSCXHpTkQN6/ryCOzd7LJRhl4XQLFa/Dryx2wNCppZI=;
-        b=bscxTVI9nxfBC21wzLIT3iLzNtNXQRR4E7l+vdAmDIohfx/7sr6yU6O4/7nky0mpBe
-         ZG+ko/Egea/4d/vdW6HmkeswMWKjgc6x14BQUvIUgR6t/Uj8HKEH67t6Xe6qyVkpy73M
-         YGweyNdSrIx1VnRsL27/AUlcJpskWZO48z6gqBgkowAsLriNdQ61X9wgAgINPyr9tkEg
-         9Vg2uNKhtPbHZH2KafIIEz9mgFjWnJmx3RdaQ+Mm5gk53zEF4iUFmes5Cw7rW1FdjGLN
-         pvlKiGu7Jg6d+Gt2dQ+W989JB5gTPRT5tRenIAsiLsBgqhVDcL9aIPkExrX+tFrouWsz
-         RRmw==
-X-Gm-Message-State: AOJu0YwI+xLhQ4xWBckoJk3/pXeV4A+TQO187D99G6ndWD9ZCKKPuM4j
-	OH1E6wUAdkuN3PK46oIilgTLRkAgM83SFsZv8hNSvF28KVoPLTx7ivW+FpfVKw==
-X-Gm-Gg: ASbGncvhdh1jCb4O2EoFheL7cKSW/Q42yRLvxKNmycmDuq2CyKH8kf4x4zm9jIRSeJW
-	rpM6KoC4MUNer3FW1RyOIMWi12SQAN8luP+A9/j8ScDfEfDRxmyJcWQ1Dda0SRYC9s20VkbumAJ
-	OhYuY7J59wBt+7IP4fG7YK2dBAzsu2GrBAyNkAIULKqq/soEMHe7JO+QxClON2oPNe97//f8osk
-	YAV8giQHI/+bfey9Eo159co6hS3bN3G6a5ypezJ51BrmGjZqDzPlsKmFccfEcQzkNHPkitk+PcA
-	MbGvZPGVnN+Kgr6TNphojcoJDUSdHEQt9xrqsj7pKjy8t/oczVg/mjn3LMXF5WZb7harlg5CQ9i
-	2kCe5K7TkY53bcTvXcTDGv0cB3tPkVIo=
-X-Google-Smtp-Source: AGHT+IHOwFtGG5k8qQie1JBHODofFHmkcKdh/HJ50/feB0hED78OslAl5QzipUJrP4WpHthEwa4UCw==
-X-Received: by 2002:a17:907:3f10:b0:afe:e4d2:5710 with SMTP id a640c23a62f3a-afee4d268f7mr238843666b.40.1756390482667;
-        Thu, 28 Aug 2025 07:14:42 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe91744c66sm747238766b.88.2025.08.28.07.14.42
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Aug 2025 07:14:42 -0700 (PDT)
-Message-ID: <b0663efe-d450-45d1-a6d6-43d29f0a1878@gmail.com>
-Date: Thu, 28 Aug 2025 16:14:41 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] apt: upgrade 2.6.1 -> 3.0.3
+        d=1e100.net; s=20230601; t=1756392079; x=1756996879;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hA8PjZ6ueqR+YXgRCC+2pg6m0V03y+YucuNsBfPY+Mk=;
+        b=Qgtwz7Z8/uCq8zO5R5V55SOAp02lrL93q511WOhVowZKUGyxtLBj8hKlsZN1/qnfKD
+         No1LVoeJwPtLMr4XayOmAgjAlfPp0jbvK3bpY5PeHj0H7tGckis+AKXZTQLn2APWFTok
+         SlLdUOLb/wmAqLTKOrVcEdRcFpAw2rVWiS5O1qkFhbEDmVgBN7ayQaB5wGpW+cX2ujHP
+         5B9BvJWAL2mQyUG4pb+Z0GdvE1kWnEY1QDa+bsqb5exmQIb6GLEL8f9jFqZQiZ3mY15h
+         zqq7f5atGxE/8c7hC4VJOhqv0cTQq4q7pRjInRxxqzjGXZvIXFohtTVrI4mnjzSFLF9X
+         Ef0Q==
+X-Gm-Message-State: AOJu0YwbzhlZvweVEmjewsnZGhLSLLlGlMTMnyUFNiyi4xvzGLYh8Dce
+	gN08RrBY1jf2nAn+oGDSPzNtkJH9Dcnjb4TIW+5AhdGyHmA4Jto1q9Sq09gXGfdt
+X-Gm-Gg: ASbGncslt98HYLdtOVXb1lPieqJrg/YFd9yvHaWYjU8FFNZQnG8TZyQVwo6hpWJOPcB
+	uGIQhp2w7EVXcxQ3rDcGY0UokW613R87kii36qMsDZa10bUMDll2S+B3cOfEOEtk+/30qeAhEzU
+	qF4Bd2nsXHLIJutqWvAeRjTTUY2H+fQvJMYSxWmTm/QHBsJSmX0GBw0+Aa6swSkBcjbOIWty5Lm
+	z0z13HiT5TusmDcXJYEMTgnWpTi/rak4ntnJkwG7CV0GLI3CclhrLije7tDqmt/ElrXHya4+xne
+	CCQmo+EtAmc9ldYVzOWvpkkbGi5EDmwNTLi2YEIVWGsNwwqou4PRjhMxYrY3PmqkBSCIQtQzml3
+	fFv7zTV7KPTLQ1QvVSxhslf5Kv4xs+g3gJF+HdqB9ao3oubCgSiN78ZmYtl+8IW2xDNYgFTeN53
+	82qlbXwTiLZb2JNKMPrrC0GK9oXmBr8TJvAl5T0wAX9E9r8pT9YDA=
+X-Google-Smtp-Source: AGHT+IHYlgv+5XilStgKaI2mLregZUfJZQJ5s5nwlVkmqUSFn7Y4nxyd2jCekqud5gKOFF8Spfv5SQ==
+X-Received: by 2002:a17:90b:2fcd:b0:327:ba3f:cdae with SMTP id 98e67ed59e1d1-327ba3fda12mr2347992a91.15.1756392078399;
+        Thu, 28 Aug 2025 07:41:18 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-327ab0fed32sm2707526a91.28.2025.08.28.07.41.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Aug 2025 07:41:17 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <185FF3BFFAE4AAAC.31147@lists.openembedded.org>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <185FF3BFFAE4AAAC.31147@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libnss-nis: Upgrade to 3.4
+Date: Thu, 28 Aug 2025 07:41:15 -0700
+Message-ID: <20250828144115.4131848-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 14:14:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222578
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 14:41:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222579
 
-On 8/28/25 16:13, Gyorgy Sarvari via lists.openembedded.org wrote:
-> +From a6b024ceb71c43977838d625f5ac64b7e4815a56 Mon Sep 17 00:00:00 2001
-> +From: Gyorgy Sarvari <skandigraun@gmail.com>
-> +Date: Thu, 28 Aug 2025 08:11:58 +0200
-> +Subject: [PATCH] fix compilation with musl
-> +
-> +The basename() function requires the libgen.h header when
-> +compiling with musl-libc, otherwise it complains:
-> +
-> +error: 'basename' was not declared in this scope; did you mean 'rename'?
-> +
-> +Also, musl's basename requires char* instead of const char* argument:
-> +
-> +error: invalid conversion from 'const char*' to 'char*' [-fpermissive]
-> +
-> +The musl implementation of basename modifies the argument only in case
-> +it is a folder path (it cuts off the trailing slashes). In our case,
-> +when argv[0] is passed, it is always a filename without a trailing
-> +slash, so just cast the argument.
-> +
-> +Upstream-Status: Pending [account registration in progress]
-> +Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
->
+Bring following changes on top of 3.2
 
-I plan to change the status of the Pending patch in the near future
-(once my Debian account is approved). Until then it's RFC in the worst
-case, I guess?
+* 3c206b7 (origin/master, origin/HEAD) Release version 3.4
+* 09f6be4 fix: Leak in nis-initgroups.c:_nss_nis_initgroups_dyn()
+* d141952 Release version 3.3
+* 9a5fb67 Update autoconf files
+* f062d8e Remove nis-publickey.c
+
+Drop the lld patch, its fixed upstream by dropping the concerned code
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...s_getsecretkey-export-conditional-on.patch | 78 -------------------
+ .../{libnss-nis.bb => libnss-nis_3.4.bb}      |  9 +--
+ 2 files changed, 2 insertions(+), 85 deletions(-)
+ delete mode 100644 meta/recipes-extended/libnss-nis/libnss-nis/0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch
+ rename meta/recipes-extended/libnss-nis/{libnss-nis.bb => libnss-nis_3.4.bb} (82%)
+
+diff --git a/meta/recipes-extended/libnss-nis/libnss-nis/0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch b/meta/recipes-extended/libnss-nis/libnss-nis/0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch
+deleted file mode 100644
+index b9996d32921..00000000000
+--- a/meta/recipes-extended/libnss-nis/libnss-nis/0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch
++++ /dev/null
+@@ -1,78 +0,0 @@
+-From ecc9767fd8c3a1ecbfca5df18714df34995a38a3 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 26 Aug 2025 22:45:54 -0700
+-Subject: [PATCH] make: Make _nss_nis_getsecretkey export conditional on xdecrypt()
+-
+-The function _nss_nis_getsecretkey in nis-publickey.c is only
+-compiled when xdecrypt() is available. This is controlled by the
+-configure check AC_CHECK_FUNCS([xdecrypt]) which defines
+-HAVE_XDECRYPT in config.h.
+-
+-However, the symbol was always listed in src/libnss_nis.map,
+-regardless of whether the function was actually built. On systems
+-without xdecrypt() (for example musl or certain embedded toolchains),
+-this leads to a link failure:
+-
+-    ld: error: version script assignment of 'NSS_NIS_1.0' to symbol
+-    '_nss_nis_getsecretkey' failed: symbol not defined
+-
+-To fix this mismatch, rename libnss_nis.map to
+-libnss_nis.map.in and generate libnss_nis.map at build time:
+-
+- - If HAVE_XDECRYPT is defined, the symbol map is copied unchanged.
+- - Otherwise, the _nss_nis_getsecretkey line is stripped out
+-   with sed.
+-
+-Automake rules are added to src/Makefile.am so the correct
+-libnss_nis.map is produced, and the linker always sees a version
+-script consistent with the compiled objects.
+-
+-This ensures _nss_nis_getsecretkey is exported only when it exists
+-in the object code, preventing build failures on platforms where
+-xdecrypt() is missing.
+-
+-This fixes build with LLD linker which defaults to not accepting
+-undefined symbols
+-
+-Upstream-Status: Submitted [https://github.com/thkukuk/libnss_nis/pull/12]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/Makefile.am                           | 18 +++++++++++++++++-
+- src/{libnss_nis.map => libnss_nis.map.in} |  0
+- 2 files changed, 17 insertions(+), 1 deletion(-)
+- rename src/{libnss_nis.map => libnss_nis.map.in} (100%)
+-
+-diff --git a/src/Makefile.am b/src/Makefile.am
+-index e1a9bb2..cc32ea9 100644
+---- a/src/Makefile.am
+-+++ b/src/Makefile.am
+-@@ -22,8 +22,24 @@ nss_loader_test_LDADD = -ldl
+- 
+- TESTS = $(check_PROGRAMS)
+- 
+-+# Build the version script from a template, pruning _nss_nis_getsecretkey
+-+# when xdecrypt() was not detected by configure (i.e., HAVE_XDECRYPT is unset).
+-+BUILT_SOURCES = libnss_nis.map
+-+EXTRA_DIST   += libnss_nis.map.in
+-+CLEANFILES   += libnss_nis.map
+-+
+-+libnss_nis.map: $(srcdir)/libnss_nis.map.in $(top_builddir)/config.h
+-+	$(AM_V_GEN) { \
+-+	  if grep -q '^[[:space:]]*#define[[:space:]]\+HAVE_XDECRYPT[[:space:]]\+1' $(top_builddir)/config.h ; then \
+-+	    cp $(srcdir)/libnss_nis.map.in $@ ; \
+-+	  else \
+-+	    sed 's/ _nss_nis_getsecretkey;//g' \
+-+	        $(srcdir)/libnss_nis.map.in > $@ ; \
+-+	  fi ; \
+-+	}
+-+
+- libnss_nis_la_LDFLAGS = -version-info 2:0:0 \
+--	-Wl,--version-script=$(srcdir)/libnss_nis.map
+-+	-Wl,--version-script=$(builddir)/libnss_nis.map
+- libnss_nis_la_LIBADD = @LIBNSL_LIBS@
+- libnss_nis_la_SOURCES = nis-alias.c nis-ethers.c nis-grp.c nis-hosts.c \
+- 			nis-initgroups.c nis-netgrp.c nis-network.c  \
+-diff --git a/src/libnss_nis.map b/src/libnss_nis.map.in
+-similarity index 100%
+-rename from src/libnss_nis.map
+-rename to src/libnss_nis.map.in
+diff --git a/meta/recipes-extended/libnss-nis/libnss-nis.bb b/meta/recipes-extended/libnss-nis/libnss-nis_3.4.bb
+similarity index 82%
+rename from meta/recipes-extended/libnss-nis/libnss-nis.bb
+rename to meta/recipes-extended/libnss-nis/libnss-nis_3.4.bb
+index a7f6545be06..eac385f6d1c 100644
+--- a/meta/recipes-extended/libnss-nis/libnss-nis.bb
++++ b/meta/recipes-extended/libnss-nis/libnss-nis_3.4.bb
+@@ -13,13 +13,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ SECTION = "libs"
+ DEPENDS += "libtirpc libnsl2"
+ 
+-PV = "3.2"
+-
+-SRCREV = "cd0d391af9535b56e612ed227c1b89be269f3d59"
+-
+-SRC_URI = "git://github.com/thkukuk/libnss_nis;branch=master;protocol=https \
+-           file://0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch \
+-          "
++SRCREV = "3c206b762ac8557dab3c40ff3a297c9d1bff0d83"
++SRC_URI = "git://github.com/thkukuk/libnss_nis;branch=master;protocol=https;tag=v${PV}"
+ 
+ inherit autotools pkgconfig
+ 
 
