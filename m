@@ -1,162 +1,109 @@
-Return-Path: <a-christidis@ti.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B01ECA0FED
-	for <webhook@archiver.kernel.org>; Wed, 27 Aug 2025 22:21:20 +0000 (UTC)
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by mx.groups.io with SMTP id smtpd.web11.7787.1756333278093749815
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A38FCA0EED
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 02:50:21 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.12106.1756349416336006232
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 15:21:18 -0700
+ Wed, 27 Aug 2025 19:50:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=TaCXsI9W;
- spf=pass (domain: ti.com, ip: 198.47.19.245, mailfrom: a-christidis@ti.com)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57RMKqVw1374699;
-	Wed, 27 Aug 2025 17:20:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1756333252;
-	bh=twcW6r4Wng9Q87YVxA7vQigkpKlSLcG/t1Txdfn+T0Q=;
-	h=From:To:CC:Subject:Date;
-	b=TaCXsI9WIsuOmQzh+yypHk19F9Gi4g+OrCGd87RyNDmS7dcDQfjvPoS11WvACbY1R
-	 V8D/6vZ7ShUbRb/6ROxE2ZJDFZL8aDLs+qlprInYPE3Ba1r/CX/yoSuZHgiOA77EVd
-	 VFGAEWx1iY/nWpS8soY6v+a2oNYIQ9n69ue6eK84=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57RMKqr52768133
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 27 Aug 2025 17:20:52 -0500
-Received: from DFLE203.ent.ti.com (10.64.6.61) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 27
- Aug 2025 17:20:52 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE203.ent.ti.com
- (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.2562.20; Wed, 27 Aug
- 2025 17:20:51 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 27 Aug 2025 17:20:51 -0500
-Received: from antonios-ThinkStation-P3-Tower.dhcp.ti.com (antonios-thinkstation-p3-tower.dhcp.ti.com [128.247.81.112])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57RMKpVK3769821;
-	Wed, 27 Aug 2025 17:20:51 -0500
-From: <a-christidis@ti.com>
-To: <openembedded-core@lists.openembedded.org>,
-        <mathieu.dubois-briand@bootlin.com>
-CC: <alex@linutronix.de>
-Subject: [master][PATCH] libsdl2: Add tests package and ptest support
-Date: Wed, 27 Aug 2025 17:20:51 -0500
-Message-ID: <20250827222051.367093-1-a-christidis@ti.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MgMcANWH;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so436407b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 19:50:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756349415; x=1756954215; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5l5kHd1XxTV8uo2dbTTui6SWtStY32zzDNKQnFFpZKM=;
+        b=MgMcANWHnA+igMwrpc1abrJorSyOpggNTiiUKFYfwmzcooqurSUsWFI3272xvygV2C
+         do/2v6Hs0TgJy5L0E/jWvdinU95OfK6ufigbL/Hc90yZHc9nLCuw16OeEoZKkabV8OfD
+         wpFlUkTyOm2tVlmSE2sgIloivrDJ/MjfYEGJXa8yPIgRs8vmvV25qXgVW8LDHqKWbUWd
+         Ac5ropGj9y5FxA7eZ5c8MSHQr5AmPR7R0tzNkRqcQJ5MOrD6IdUc7+UXqhuDDVHVxVyE
+         dTe2+/8jEgE5/ayhj9iH/89H3HxEcF/wkGWvySihUDydfWulEfTDHO331HNa+O7rQMHh
+         6YxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756349415; x=1756954215;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5l5kHd1XxTV8uo2dbTTui6SWtStY32zzDNKQnFFpZKM=;
+        b=ARpzBwasabKwwBgOvXFWFCAiuxD3keiZpXqggPFBC9ZwCCm1B9cAvfhOU8dIiLFO0a
+         n2i3qxCeSgNLe3y/eGpLN/bCaBliBgrGscaxc66kT5mpfbHU3ZnlCsevgaDmjqCrwcAG
+         eMbBA8UtOALvCRq/Wdkyj7DhrSFS5HuD0xvMxwFtZewf1kNGVqmR7d8FcN5BSgiXhmLs
+         11/QOhuWJdi/1L+JwvE8ZMKbW+ye7MulO7YByDYF/nIGCi1Ir5s229bvGAH8Zc/z2Ka6
+         pTkjbKCE+tP/WGZ6aabBKzmf9vzsnhv7o0Jab6KmphNQa7eYr7Uya3JyO7tRiT7l3Jc+
+         Bc6w==
+X-Gm-Message-State: AOJu0YyDoqfPMKnZ9keNZ4CDWJsu/Tl572m2LGujgsY9sejCZvd3lwOS
+	2LozrG8pMMbVzKSYcOJjCg6SG92Lg/FBJSeaVsGQP5teyt/0Sl4TAStszlFQ/NG8
+X-Gm-Gg: ASbGncv9NV+oH1QHoSOad8UgwLUAsUjTad/MbNa42kK0hUVqzj74jhqfPXbCj0FNEE6
+	YVyqm5N72cRYiB8VlWclTnvI8OB1/qbE0I42bKjfh15jpEyfTQ6auSHltdNlFmarDRm9Rsro0Ub
+	2ebUjF6v2nYptPJIJsAGz7nu8KtmKIpMVuS8XqxU/PtEtQmHSgbBAkX1G93K78tCIkiq76VYAlG
+	FdRtS/dsMsYsvBUbsRLfb5hBppkomveM8iJdgWmrGVajkvmRUEnp8WXrTSHnX112NprR9lPtLHM
+	dLngWtp1hhwQCOAwfruIwS+dLLHLxMutInifUjyH100L3GiyJ11kb2sqUajrwqaCJ7JlQKv+E+0
+	pPpevPRL19Jp1D5KBw4gteNfsek9yMkU1mh+Cy6y+GAhXtEfJGYPfM4NhtyGI8aQocnXgeIbaa3
+	zlCT3PkB06tGXlVGa4UWdX/KwHekR1kz7YsUqpwLd1
+X-Google-Smtp-Source: AGHT+IFnHLOdpgwIoToMHBRZVYUzvtUWWflspNdd9PpcaqSzIHpTSDPRFNrPKGApUA3dtzI3h9BcxA==
+X-Received: by 2002:a05:6a00:bd92:b0:736:4e14:8ec5 with SMTP id d2e1a72fcca58-771fc2942e2mr8761441b3a.11.1756349415259;
+        Wed, 27 Aug 2025 19:50:15 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-771e93ec735sm8864750b3a.42.2025.08.27.19.50.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 19:50:14 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] kea: Upgrade to 2.6.4 release
+Date: Wed, 27 Aug 2025 19:50:11 -0700
+Message-ID: <20250828025011.3741710-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 22:21:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222542
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 02:50:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222543
 
-From: Antonios Christidis <a-christidis@ti.com>
+The following bug fixes have been implemented since the previous stable
+release, version 2.6.3:
 
-The SDL2 software comes with its own set of tests. Following that
-introduce support for ptest.
+1. **Syslog logging fix**: We corrected an issue in logging
+configuration when parsing "syslog:<facility name>" [#3921, #3992].
 
-Signed-off-by: Antonios Christidis <a-christidis@ti.com>
+2. **Fix for misconfigured global reservations**: Earlier Kea versions
+could crash when handling misconfigured global reservations. The problem
+is now fixed [#3910, #3911, #4001].
+
+3. **Recent Sphinx support**: Support for recent versions of Sphinx, a
+tool used to generate documentation, was added. This allows Kea
+documentation and packages to be built on recent systems, while
+maintaining compatibility with older versions. This fix was tested with
+Sphinx 1.8.4 on Debian 10, 8.1.3 on Fedora 42, and 8.2.3 on ArchLinux
+[#3800].
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../libsdl2/libsdl2/run-ptest                 | 15 ++++++++++++++
- .../libsdl2/libsdl2_2.32.8.bb                 | 20 +++++++++++++++++--
- 3 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/run-ptest
+ meta/recipes-connectivity/kea/{kea_2.6.3.bb => kea_2.6.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/kea/{kea_2.6.3.bb => kea_2.6.4.bb} (97%)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 9a7b25a916..a5476927b5 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -32,6 +32,7 @@ PTESTS_FAST = "\
-     libgpg-error\
-     libnl \
-     libpcre \
-+    libsdl2 \
-     libssh2 \
-     libtest-fatal-perl \
-     libtest-needs-perl \
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/run-ptest b/meta/recipes-graphics/libsdl2/libsdl2/run-ptest
-new file mode 100644
-index 0000000000..1cd1f9ceaf
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/run-ptest
-@@ -0,0 +1,15 @@
-+#!/bin/sh
-+
-+test_array=("testdraw2" "testgeometry" "testsprite2" "testgles2" "testoffscreen")
-+
-+test_path="/usr/bin/sdl2_tests/"
-+
-+for test in "${test_array[@]}"
-+do
-+    timeout --preserve-status 10 "$test_path""$test"
-+    if [ $? -eq 0 ]; then
-+        echo "PASS: $test"
-+    else
-+        echo "FAIL: $test"
-+    fi
-+done
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb
-index 98291e0f80..5aeb333bc7 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb
-@@ -21,13 +21,15 @@ LIC_FILES_CHKSUM:append = " ${@bb.utils.contains('PACKAGECONFIG', 'arm-neon', 'f
+diff --git a/meta/recipes-connectivity/kea/kea_2.6.3.bb b/meta/recipes-connectivity/kea/kea_2.6.4.bb
+similarity index 97%
+rename from meta/recipes-connectivity/kea/kea_2.6.3.bb
+rename to meta/recipes-connectivity/kea/kea_2.6.4.bb
+index 1df91e45225..aa725ee4374 100644
+--- a/meta/recipes-connectivity/kea/kea_2.6.3.bb
++++ b/meta/recipes-connectivity/kea/kea_2.6.4.bb
+@@ -19,7 +19,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
+            file://0001-make-kea-environment-available-to-lfc.patch \
+            "
+-SRC_URI[sha256sum] = "00241a5955ffd3d215a2c098c4527f9d7f4b203188b276f9a36250dd3d9dd612"
++SRC_URI[sha256sum] = "6806405e4d559abc10febd2c273dc6e2bc6ac42767afa5ca20b118ffba84a671"
  
- PROVIDES = "virtual/libsdl2"
+ inherit autotools systemd update-rc.d upstream-version-is-even
  
--SRC_URI = "https://www.libsdl.org/release/SDL2-${PV}.tar.gz"
-+SRC_URI = "https://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-+	   file://run-ptest \
-+	   "
- 
- S = "${UNPACKDIR}/SDL2-${PV}"
- 
- SRC_URI[sha256sum] = "0ca83e9c9b31e18288c7ec811108e58bac1f1bb5ec6577ad386830eac51c787e"
- 
--inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
-+inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even ptest
- UPSTREAM_CHECK_REGEX = "SDL2-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar"
- 
- BINCONFIG = "${bindir}/sdl2-config"
-@@ -48,6 +50,7 @@ EXTRA_OECMAKE = "-DSDL_OSS=OFF -DSDL_ESD=OFF -DSDL_ARTS=OFF \
-                  -DSDL_X11_XRANDR=OFF \
-                  -DSDL_X11_XSCRNSAVER=OFF \
-                  -DSDL_X11_XSHAPE=OFF \
-+		 -DSDL_TESTS=ON \
- "
- 
- # opengl packageconfig factored out to make it easy for distros
-@@ -80,8 +83,21 @@ PACKAGECONFIG[vulkan]    = "-DSDL_VULKAN=ON,-DSDL_VULKAN=OFF"
- PACKAGECONFIG[wayland]    = "-DSDL_WAYLAND=ON,-DSDL_WAYLAND=OFF,wayland-native wayland wayland-protocols libxkbcommon"
- PACKAGECONFIG[x11]        = "-DSDL_X11=ON,-DSDL_X11=OFF,virtual/libx11 libxext libxrandr libxrender"
- 
-+do_install:append() {
-+	install -d ${D}${bindir}/sdl2_tests
-+	cp -r ${B}/test/* ${D}${bindir}/sdl2_tests
-+
-+	# Delete any leftover cmake files within the sdl2_tests dir
-+	find ${D}${bindir}/sdl2_tests -type f -name "*.cmake" -delete
-+}
-+
- CFLAGS:append:class-native = " -DNO_SHARED_MEMORY"
- 
-+PACKAGE_BEFORE_PN = "${PN}-tests"
-+
- FILES:${PN} += "${datadir}/licenses/SDL2/LICENSE.txt"
-+FILES:${PN}-tests += "${bindir}/sdl2_tests"
-+
-+RDEPENDS:${PN}-ptest = "${PN}-tests"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.34.1
-
 
