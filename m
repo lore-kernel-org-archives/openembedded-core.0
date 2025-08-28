@@ -1,138 +1,100 @@
-Return-Path: <deeratho@cisco.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FDFFC8303F
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 10:56:24 +0000 (UTC)
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
- by mx.groups.io with SMTP id smtpd.web11.18019.1756378580265833558
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52825CA0EED
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 11:02:24 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.18102.1756378941110150585
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 03:56:20 -0700
+ Thu, 28 Aug 2025 04:02:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ew1pn5/J;
- spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: deeratho@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2714; q=dns/txt;
-  s=iport01; t=1756378580; x=1757588180;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=eO2s9pZqLIE7zft3gr3lUXIp/73kHFB4BF+f0bQeIEw=;
-  b=ew1pn5/J3c/FrEIVK2nrG/ens/Fv/jq9C0M2/X8WDsYcn2+4URpDqeqS
-   gvmv/RQZ8C0NtVTVlsz0hAQYt9UabXyFGa88XOZjX9ywuKlbRDu3O3QwL
-   QMf/9OiAmZZVdYkfG4juETjJ4wpwrhBNAtJp9V1w8ynSH7mshYTaD0HHV
-   w3q1b54gGqTtbSK4+ybNqNMuFxJC39nXY0j8KZIpz5xQE0I5YyRObfCBd
-   mJeRDagTm5V+FP6IFqsrF3Vr7DFauCByM8KJox8BaP00k/PGySZhLilFD
-   S7HmhmfJtdaHOvfmhTLBNS42SCOA/Qca8qfQQYR+BCtshXy+sjKSMRDBX
-   w==;
-X-CSE-ConnectionGUID: VSE1E71xRQuWlGSYlEz8Og==
-X-CSE-MsgGUID: Kr5c38q0RZ6A+BCNWMW2rw==
-X-IPAS-Result: =?us-ascii?q?A0AHAABmNbBo/47/Ja1aGgEBAwMBAQMBARYBAQICAQGCA?=
- =?us-ascii?q?QUBAQ0BgkZ6WkJJk1QBgnCYP4VegX8PAQEBDz0UBAEBhQeMJwImNAkOAQIEA?=
- =?us-ascii?q?QEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GXTYBFDIwXESDA?=
- =?us-ascii?q?gGCcgIBEbkFgiyBAYJP3VaBSQGBYItshWcnGxuBcoJQgTd2gmEDgiyFdwSCD?=
- =?us-ascii?q?RWBFoQOghYSgWKIG4MAh1ZIgR4DWSwBVRMNCgsHBYFjAzUMCy4VbjIdgSeFD?=
- =?us-ascii?q?YQeK0+FAoRqJGsPBoEVg18GgzhAAwsYDUgRLDcUGwY+bgeUI4MuAVIGChgJC?=
- =?us-ascii?q?gEpAQEUDIFtapJGJJI/oQ4KKIN0jB6VORozhVulEC6HZRaQXY4IlTRMUIRpg?=
- =?us-ascii?q?Wg8gVlwFTuCZwlJGQ+OX4hVUbRfIzUCOgIHCwEBAwmTZwEB?=
-IronPort-Data: A9a23:hYYQAq1qszhuRGFpNPbD5YJwkn2cJEfYwER7XKvMYLTBsI5bp2ZUy
- TYaUGuPPv6KNGCnftFyPo60pExQvcKGyddlGwBo3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmG4E70aNANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU6
- bsen+WFYAX4g24ubTpPg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGMnobZKBHo/ZNOHxx8
- dMjGTQgfECkiLfjqF67YrEEasULNsLnOsYb/3pn1zycVatgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUiaC/FMEg9/5JYWkOqlnHDjczpwo1OOrq1x6G/WpOB0+OW2YIuKK43bG625mG67v
- D/NpDTgWisoavXc4xGjzVeT3PXQyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7EQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:Sr/yAaG+xzvYQ/D2pLqE48eALOsnbusQ8zAXPo5KJiC9Ffbo8v
- xG88576faZslsssRIb6LK90de7IU80nKQdieJ6AV7IZmfbUQWTQL2KlbGSoAEJ30bFh4lgPW
- AKSdkbNOHN
-X-Talos-CUID: 9a23:p+hXUWyaEL91IEIXqZAABgUqIe18XyKE3E3pPnC8Jl1YTJCHGXifrfY=
-X-Talos-MUID: 9a23:zeU26wY/AQYAs+BTlCWxj2oyLZ9S0fqHS2omt6ojhJOeKnkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.18,217,1751241600"; 
-   d="scan'208";a="538979996"
-Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
-  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Aug 2025 10:56:19 +0000
-Received: from sjc-ads-5834.cisco.com (sjc-ads-5834.cisco.com [171.68.197.49])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id 33B5B18000223;
-	Thu, 28 Aug 2025 10:56:19 +0000 (GMT)
-Received: by sjc-ads-5834.cisco.com (Postfix, from userid 1795984)
-	id CC0B2CC128E; Thu, 28 Aug 2025 03:56:18 -0700 (PDT)
-From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: vchavda@cisco.com
-Subject: [OE-core] [master] [PATCH] default-distrovars.inc: Fix CONNECTIVITY_CHECK_URIS redirect issue
-Date: Thu, 28 Aug 2025 03:56:09 -0700
-Message-Id: <20250828105609.1118506-1-deeratho@cisco.com>
-X-Mailer: git-send-email 2.35.6
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 171.68.197.49, sjc-ads-5834.cisco.com
-X-Outbound-Node: rcdn-l-core-05.cisco.com
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=POOE3YIy;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=TVp2Nt+v;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010198f057c08c-404c5c01-8796-4c67-add7-ff1f4416fd39-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1756378940; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=7pGcDTGzQfrDLdh15A8ayj3XsO270rLl01tFaUqUn8M=;
+	b=POOE3YIyITVGNwiNX5/g5sQehNzKP3OYmlynTuMDiZQI0/IvU17Kul37RnemeweT
+	Px6fLRWRkdljwi/9gzCz1e9V3bic/tQIHkhM/r7iMLKM5Q6evLSaeR6Hw6AYWMizblF
+	spiytkhrysul5j24G6AdCX3d0nh4EjDVagumnkMU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756378940;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=7pGcDTGzQfrDLdh15A8ayj3XsO270rLl01tFaUqUn8M=;
+	b=TVp2Nt+vsPrlU00PbqQPjOrAagmc/p/lpMN818LDG87TF56NEf2U6ULltL41ya9r
+	X8h5Otmf5Cz4ENU6mmR7DAfdkGaXCekaAuFbBZulfVoG2SFOILRfTCcE0yPxkONrgqU
+	uMwMMZv64HezwoHc6QOJ7x9RhE1QL+426SBLC9bc=
+From: patchtest@automation.yoctoproject.org
+To: "P. Tatrai" <peter.tatrai.ext@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] connman: Revert removal of no-version-scripts patch
+In-Reply-To: <20250828104401.3627-1-peter.tatrai.ext@siemens.com>
+References: <20250828104401.3627-1-peter.tatrai.ext@siemens.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010198f057c08c-404c5c01-8796-4c67-add7-ff1f4416fd39-000000@us-west-2.amazonses.com>
+Date: Thu, 28 Aug 2025 11:02:19 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.08.28-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 10:56:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222559
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 11:02:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222560
 
-From: Deepak Rathore <deeratho@cisco.com>
+--NextPart
+Content-Type: text/plain
 
-The default CONNECTIVITY_CHECK_URIS uses "https://yoctoproject.org/connectivity.html"
-which redirect to "https://www.yoctoproject.org/connectivity.html".
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Some network configurations with proxies or restricted internet access
-don't handle HTTP redirects properly during the sanity check phase,
-causing build failures with:
-
-ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
-Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
-Following is the list of potential problems / advisories:
-
-Fetcher failure for URL: 'https://yoctoproject.org/connectivity.html'. URL doesn't work.
-
-Updated the default URL to use the final destination directly to avoid
-redirect-related connectivity check failures.
-
-Also updated SDK test cases in https.py to use the corrected URL for
-consistency.
-
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- meta/conf/distro/include/default-distrovars.inc | 2 +-
- meta/lib/oeqa/buildtools/cases/https.py         | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Testing patch /home/patchtest/share/mboxes/connman-Revert-removal-of-no-version-scripts-patch.patch
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 9ea3b5414c..bbd936efa6 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -63,4 +63,4 @@ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
- # fetch from the network (and warn you if not). To disable the test set
- # the variable to be empty.
- # Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master;branch=master
--CONNECTIVITY_CHECK_URIS ?= "https://yoctoproject.org/connectivity.html"
-+CONNECTIVITY_CHECK_URIS ?= "https://www.yoctoproject.org/connectivity.html"
-diff --git a/meta/lib/oeqa/buildtools/cases/https.py b/meta/lib/oeqa/buildtools/cases/https.py
-index 4525e3d758..98f27e5994 100644
---- a/meta/lib/oeqa/buildtools/cases/https.py
-+++ b/meta/lib/oeqa/buildtools/cases/https.py
-@@ -15,8 +15,8 @@ class HTTPTests(OESDKTestCase):
-     """
- 
-     def test_wget(self):
--        self._run('env -i wget --debug --output-document /dev/null https://yoctoproject.org/connectivity.html')
-+        self._run('env -i wget --debug --output-document /dev/null https://www.yoctoproject.org/connectivity.html')
- 
-     def test_python(self):
-         # urlopen() returns a file-like object on success and throws an exception otherwise
--        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://yoctoproject.org/connectivity.html")\'')
-+        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://www.yoctoproject.org/connectivity.html")\'')
--- 
-2.35.6
+FAIL: test Upstream-Status presence: Upstream-Status is Inappropriate, but no reason was provided (test_patch.TestPatch.test_upstream_status_presence_format)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
