@@ -1,195 +1,166 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD1D3CA0EED
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 14:41:25 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.22704.1756392079720740814
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68DAEC8303F
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 15:24:30 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.273.1756394667093055324
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 07:41:19 -0700
+ Thu, 28 Aug 2025 08:24:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JUU1X6OI;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b476c67c5easo748905a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 07:41:19 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=sj7sE1UL;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45a1b0c82eeso9155045e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 08:24:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756392079; x=1756996879; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hA8PjZ6ueqR+YXgRCC+2pg6m0V03y+YucuNsBfPY+Mk=;
-        b=JUU1X6OIkHqvIRp5lfXx74isnRrJrudbo3+wN2R+MRPaB0Kei/Yy6fz9ohV4bkNsxO
-         253cHH1FITdsPFcKDKvEFwZ605nHco+LaGSpbqnjZGnpgQXpy1tj9fxcOCabma9PnJsD
-         6icDWiImtmBvUw1TS6XAOsDRtL0fJce9VuaBaWEdJA8e0MZ3R1wQ4l/k93ChmP2QNF82
-         +qHu5cmT/P8EocwJM/tM83+6pzLbYi+JQHhhPaEGWT9G/y0CCDHyIKJHa1EjrsKPWlDx
-         bK8E38cR88cDYFMLgAAItALDlbyFVQMYFO+oJ77yWBDWsx+G0N/I7xIrwMAEQq7vNbon
-         wmWw==
+        d=smile.fr; s=google; t=1756394665; x=1756999465; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6CKlQjH4w3fFlG5Nl4lmQWAL0osPAxX3sSc5WwBSciU=;
+        b=sj7sE1ULyHZrNENbytIT/v4YT5z539IN15TVUbQZNYU5UUTt2lwu2lnRf/xri7siAT
+         PD71tJENIE+pIhISvn/AoOU8f2hGVyUIBku+NOP1vf62FE+SImyJR+wxJunOpSKYgmOY
+         qATgJXUjC11SseL2+UWvQ3x364nCuAFXJFbmk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756392079; x=1756996879;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1756394665; x=1756999465;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hA8PjZ6ueqR+YXgRCC+2pg6m0V03y+YucuNsBfPY+Mk=;
-        b=Qgtwz7Z8/uCq8zO5R5V55SOAp02lrL93q511WOhVowZKUGyxtLBj8hKlsZN1/qnfKD
-         No1LVoeJwPtLMr4XayOmAgjAlfPp0jbvK3bpY5PeHj0H7tGckis+AKXZTQLn2APWFTok
-         SlLdUOLb/wmAqLTKOrVcEdRcFpAw2rVWiS5O1qkFhbEDmVgBN7ayQaB5wGpW+cX2ujHP
-         5B9BvJWAL2mQyUG4pb+Z0GdvE1kWnEY1QDa+bsqb5exmQIb6GLEL8f9jFqZQiZ3mY15h
-         zqq7f5atGxE/8c7hC4VJOhqv0cTQq4q7pRjInRxxqzjGXZvIXFohtTVrI4mnjzSFLF9X
-         Ef0Q==
-X-Gm-Message-State: AOJu0YwbzhlZvweVEmjewsnZGhLSLLlGlMTMnyUFNiyi4xvzGLYh8Dce
-	gN08RrBY1jf2nAn+oGDSPzNtkJH9Dcnjb4TIW+5AhdGyHmA4Jto1q9Sq09gXGfdt
-X-Gm-Gg: ASbGncslt98HYLdtOVXb1lPieqJrg/YFd9yvHaWYjU8FFNZQnG8TZyQVwo6hpWJOPcB
-	uGIQhp2w7EVXcxQ3rDcGY0UokW613R87kii36qMsDZa10bUMDll2S+B3cOfEOEtk+/30qeAhEzU
-	qF4Bd2nsXHLIJutqWvAeRjTTUY2H+fQvJMYSxWmTm/QHBsJSmX0GBw0+Aa6swSkBcjbOIWty5Lm
-	z0z13HiT5TusmDcXJYEMTgnWpTi/rak4ntnJkwG7CV0GLI3CclhrLije7tDqmt/ElrXHya4+xne
-	CCQmo+EtAmc9ldYVzOWvpkkbGi5EDmwNTLi2YEIVWGsNwwqou4PRjhMxYrY3PmqkBSCIQtQzml3
-	fFv7zTV7KPTLQ1QvVSxhslf5Kv4xs+g3gJF+HdqB9ao3oubCgSiN78ZmYtl+8IW2xDNYgFTeN53
-	82qlbXwTiLZb2JNKMPrrC0GK9oXmBr8TJvAl5T0wAX9E9r8pT9YDA=
-X-Google-Smtp-Source: AGHT+IHYlgv+5XilStgKaI2mLregZUfJZQJ5s5nwlVkmqUSFn7Y4nxyd2jCekqud5gKOFF8Spfv5SQ==
-X-Received: by 2002:a17:90b:2fcd:b0:327:ba3f:cdae with SMTP id 98e67ed59e1d1-327ba3fda12mr2347992a91.15.1756392078399;
-        Thu, 28 Aug 2025 07:41:18 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-327ab0fed32sm2707526a91.28.2025.08.28.07.41.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 07:41:17 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libnss-nis: Upgrade to 3.4
-Date: Thu, 28 Aug 2025 07:41:15 -0700
-Message-ID: <20250828144115.4131848-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        bh=6CKlQjH4w3fFlG5Nl4lmQWAL0osPAxX3sSc5WwBSciU=;
+        b=oQkcT+OYtNcVQhcsn91wWJbvDTLi6/cGofr9sscUMXcUEIme+0NMk2T6a4YDb+ruB7
+         9FvAP76QwpvAOuAaomO12HLVKr7DbF89rZMUhOamhE5LWTpSowkFyXoTlJBJRPcqDzln
+         FDrM6QNN67D8q8paAhK+/uHAOvLbNTxXMEae84l/qvS/xTJDheQe/FQiHsSpAFj8tZ6l
+         QVlJFW/wEJW6VgHUdcHvGkbIqMuVxITOKSt4vHOl+hu+WOS4S4P9PrwvKYAXNSNNWdBR
+         DunayWJ+35o+GMvTENMjE8kOthvz4iShQ9ug3ugE6AF4+myP32eny76iHoD7rfbrytps
+         7L4A==
+X-Forwarded-Encrypted: i=1; AJvYcCXcss4lLFGiGVwEAun02oqc6/PcCeY8aT/gbanrfF+W5LSWiSvrUg495LVvUHcHGJeI4oJxYrr6Nx1Q/9ZeU0t4Eg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwBtO/n9FpKwXNGXZ7RU4ck0IVmVq5ya4LMaGol1qwcSNPUrGAV
+	lVlCVcDqhmxLzRCLSz2Zxccmp6fBfEPdaZqa67y537LznabT/rDULO8jNw0oUTBuKNJsuilQ4eY
+	cMwLeouUNWWPIDYBpJVC6IB9DSzLWF7uBtziviNTd/g==
+X-Gm-Gg: ASbGncteGD/uCmpI8lSwd3AW2FSUpoalRBcZHgw9IMLrDC8piuCj8zb1WyAhhKVCXyd
+	noQvWXPGfaOvN4RSIQTcHAxRKssFilHZBmQFEujXUvnJvce3HhPjPTo6NJUqoARdfdlpnGinYor
+	BjWUZN/2PNoOCPuk50sqbJv1NM1bWfhGWwD5nWWgiYyQJh6bAZC+jEvpP79xsxIFcdcVKly5UM3
+	Bz9UEWNK37wV3phpRnmqDYUy43mOJU=
+X-Google-Smtp-Source: AGHT+IEuHrvea0CP2lxHnFnE3SbpamrLYHJhXJHS4sD31UVj3GO9Gw5BAB3Hrh+f3DNHJrjxelpgl0GHwnQAinXCGlc=
+X-Received: by 2002:a05:6000:2903:b0:3b7:9629:ac9e with SMTP id
+ ffacd0b85a97d-3c5dcc0998bmr16086362f8f.50.1756394664041; Thu, 28 Aug 2025
+ 08:24:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250827222051.367093-1-a-christidis@ti.com> <CAMSfU+498tFH0DSdi+NyFqAaDHQ-qxQgT149fjOBNxHr-2O8gQ@mail.gmail.com>
+ <CANNYZj8nW8WKvQ6o4EsQe_F-6C3p5BGTww8i66Ku348+eFxD9Q@mail.gmail.com>
+In-Reply-To: <CANNYZj8nW8WKvQ6o4EsQe_F-6C3p5BGTww8i66Ku348+eFxD9Q@mail.gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Thu, 28 Aug 2025 17:23:57 +0200
+X-Gm-Features: Ac12FXw8b49MnTTRWQm-6e1NiE3n9gEaf-1x91HNQ0xJQQqmgMA1AqBTeDX5DYw
+Message-ID: <CAMSfU+5zuq=KwWnp0OrZTQ4s9RrSgPnh1K+GCLDSq8NFK9jE-g@mail.gmail.com>
+Subject: Re: [OE-core] [master][PATCH] libsdl2: Add tests package and ptest support
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: a-christidis@ti.com, openembedded-core@lists.openembedded.org, 
+	mathieu.dubois-briand@bootlin.com, alex@linutronix.de
+Content-Type: multipart/alternative; boundary="0000000000000932d8063d6e8060"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 14:41:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222579
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 15:24:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222580
 
-Bring following changes on top of 3.2
+--0000000000000932d8063d6e8060
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* 3c206b7 (origin/master, origin/HEAD) Release version 3.4
-* 09f6be4 fix: Leak in nis-initgroups.c:_nss_nis_initgroups_dyn()
-* d141952 Release version 3.3
-* 9a5fb67 Update autoconf files
-* f062d8e Remove nis-publickey.c
+Le jeu. 28 ao=C3=BBt 2025 =C3=A0 14:51, Alexander Kanavin <alex.kanavin@gma=
+il.com> a
+=C3=A9crit :
 
-Drop the lld patch, its fixed upstream by dropping the concerned code
+> On Thu, 28 Aug 2025 at 08:56, Yoann Congal via lists.openembedded.org
+> <yoann.congal=3Dsmile.fr@lists.openembedded.org> wrote:
+> > You should explicitly return 0 (if all tests succeeded) or 1 (if any
+> test failed).
+> > If I read correctly, your script will always return 0 (success) because
+> the last command is an 'echo'.
+> >
+> > See
+> https://docs.yoctoproject.org/dev/test-manual/ptest.html#running-ptest
+> (that was added recently)
+>
+> The documentation does not impose such requirements on run-ptest. It
+> can exit with 0 even if something failed (and many run-ptest examples
+> in core do exactly that). I think you misread the exit codes for
+> ptest-runner.
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...s_getsecretkey-export-conditional-on.patch | 78 -------------------
- .../{libnss-nis.bb => libnss-nis_3.4.bb}      |  9 +--
- 2 files changed, 2 insertions(+), 85 deletions(-)
- delete mode 100644 meta/recipes-extended/libnss-nis/libnss-nis/0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch
- rename meta/recipes-extended/libnss-nis/{libnss-nis.bb => libnss-nis_3.4.bb} (82%)
+Some time ago, I created
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15832 to try to clarify
+exactly this.
 
-diff --git a/meta/recipes-extended/libnss-nis/libnss-nis/0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch b/meta/recipes-extended/libnss-nis/libnss-nis/0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch
-deleted file mode 100644
-index b9996d32921..00000000000
---- a/meta/recipes-extended/libnss-nis/libnss-nis/0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch
-+++ /dev/null
-@@ -1,78 +0,0 @@
--From ecc9767fd8c3a1ecbfca5df18714df34995a38a3 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 26 Aug 2025 22:45:54 -0700
--Subject: [PATCH] make: Make _nss_nis_getsecretkey export conditional on xdecrypt()
--
--The function _nss_nis_getsecretkey in nis-publickey.c is only
--compiled when xdecrypt() is available. This is controlled by the
--configure check AC_CHECK_FUNCS([xdecrypt]) which defines
--HAVE_XDECRYPT in config.h.
--
--However, the symbol was always listed in src/libnss_nis.map,
--regardless of whether the function was actually built. On systems
--without xdecrypt() (for example musl or certain embedded toolchains),
--this leads to a link failure:
--
--    ld: error: version script assignment of 'NSS_NIS_1.0' to symbol
--    '_nss_nis_getsecretkey' failed: symbol not defined
--
--To fix this mismatch, rename libnss_nis.map to
--libnss_nis.map.in and generate libnss_nis.map at build time:
--
-- - If HAVE_XDECRYPT is defined, the symbol map is copied unchanged.
-- - Otherwise, the _nss_nis_getsecretkey line is stripped out
--   with sed.
--
--Automake rules are added to src/Makefile.am so the correct
--libnss_nis.map is produced, and the linker always sees a version
--script consistent with the compiled objects.
--
--This ensures _nss_nis_getsecretkey is exported only when it exists
--in the object code, preventing build failures on platforms where
--xdecrypt() is missing.
--
--This fixes build with LLD linker which defaults to not accepting
--undefined symbols
--
--Upstream-Status: Submitted [https://github.com/thkukuk/libnss_nis/pull/12]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/Makefile.am                           | 18 +++++++++++++++++-
-- src/{libnss_nis.map => libnss_nis.map.in} |  0
-- 2 files changed, 17 insertions(+), 1 deletion(-)
-- rename src/{libnss_nis.map => libnss_nis.map.in} (100%)
--
--diff --git a/src/Makefile.am b/src/Makefile.am
--index e1a9bb2..cc32ea9 100644
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -22,8 +22,24 @@ nss_loader_test_LDADD = -ldl
-- 
-- TESTS = $(check_PROGRAMS)
-- 
--+# Build the version script from a template, pruning _nss_nis_getsecretkey
--+# when xdecrypt() was not detected by configure (i.e., HAVE_XDECRYPT is unset).
--+BUILT_SOURCES = libnss_nis.map
--+EXTRA_DIST   += libnss_nis.map.in
--+CLEANFILES   += libnss_nis.map
--+
--+libnss_nis.map: $(srcdir)/libnss_nis.map.in $(top_builddir)/config.h
--+	$(AM_V_GEN) { \
--+	  if grep -q '^[[:space:]]*#define[[:space:]]\+HAVE_XDECRYPT[[:space:]]\+1' $(top_builddir)/config.h ; then \
--+	    cp $(srcdir)/libnss_nis.map.in $@ ; \
--+	  else \
--+	    sed 's/ _nss_nis_getsecretkey;//g' \
--+	        $(srcdir)/libnss_nis.map.in > $@ ; \
--+	  fi ; \
--+	}
--+
-- libnss_nis_la_LDFLAGS = -version-info 2:0:0 \
---	-Wl,--version-script=$(srcdir)/libnss_nis.map
--+	-Wl,--version-script=$(builddir)/libnss_nis.map
-- libnss_nis_la_LIBADD = @LIBNSL_LIBS@
-- libnss_nis_la_SOURCES = nis-alias.c nis-ethers.c nis-grp.c nis-hosts.c \
-- 			nis-initgroups.c nis-netgrp.c nis-network.c  \
--diff --git a/src/libnss_nis.map b/src/libnss_nis.map.in
--similarity index 100%
--rename from src/libnss_nis.map
--rename to src/libnss_nis.map.in
-diff --git a/meta/recipes-extended/libnss-nis/libnss-nis.bb b/meta/recipes-extended/libnss-nis/libnss-nis_3.4.bb
-similarity index 82%
-rename from meta/recipes-extended/libnss-nis/libnss-nis.bb
-rename to meta/recipes-extended/libnss-nis/libnss-nis_3.4.bb
-index a7f6545be06..eac385f6d1c 100644
---- a/meta/recipes-extended/libnss-nis/libnss-nis.bb
-+++ b/meta/recipes-extended/libnss-nis/libnss-nis_3.4.bb
-@@ -13,13 +13,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
- DEPENDS += "libtirpc libnsl2"
- 
--PV = "3.2"
--
--SRCREV = "cd0d391af9535b56e612ed227c1b89be269f3d59"
--
--SRC_URI = "git://github.com/thkukuk/libnss_nis;branch=master;protocol=https \
--           file://0001-make-ake-_nss_nis_getsecretkey-export-conditional-on.patch \
--          "
-+SRCREV = "3c206b762ac8557dab3c40ff3a297c9d1bff0d83"
-+SRC_URI = "git://github.com/thkukuk/libnss_nis;branch=master;protocol=https;tag=v${PV}"
- 
- inherit autotools pkgconfig
- 
+Right now, ptest-runner will fail if a run-ptest script it calls fails. And
+that, in turn, will cause failures on AB regardless of PASS:/FAIL: markers.
+
+The only requirement on run-ptest is that it prints PASS and FAIL markers.
+>
+
+Those markers are parsed at testimage level, but the return code of
+ptest-runner is also used to check for success/failure.
+
+That is the whole point of the ticket: realign what the existings run-ptest
+scripts do, what the dos says, what the code running tests expects
+(ptest-runner & testimage)
+Maybe we should talk about it in a tuesday call?
+
+Alex
+>
+--=20
+Yoann Congal
+Smile ECS
+
+--0000000000000932d8063d6e8060
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 28=
+ ao=C3=BBt 2025 =C3=A0=C2=A014:51, Alexander Kanavin &lt;<a href=3D"mailto:=
+alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, 28 Aug 2=
+025 at 08:56, Yoann Congal via <a href=3D"http://lists.openembedded.org" re=
+l=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a><br>
+&lt;yoann.congal=3D<a href=3D"mailto:smile.fr@lists.openembedded.org" targe=
+t=3D"_blank">smile.fr@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; You should explicitly return 0 (if all tests succeeded) or 1 (if any t=
+est failed).<br>
+&gt; If I read correctly, your script will always return 0 (success) becaus=
+e the last command is an &#39;echo&#39;.<br>
+&gt;<br>
+&gt; See <a href=3D"https://docs.yoctoproject.org/dev/test-manual/ptest.htm=
+l#running-ptest" rel=3D"noreferrer" target=3D"_blank">https://docs.yoctopro=
+ject.org/dev/test-manual/ptest.html#running-ptest</a> (that was added recen=
+tly)<br>
+<br>
+The documentation does not impose such requirements on run-ptest. It<br>
+can exit with 0 even if something failed (and many run-ptest examples<br>
+in core do exactly that). I think you misread the exit codes for<br>
+ptest-runner.<br></blockquote><div><br></div><div><div>Some time ago, I cre=
+ated <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15832">=
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15832</a> to try to cla=
+rify exactly this.</div><div><br></div><div>Right now, ptest-runner will fa=
+il if a run-ptest script it calls fails. And that, in turn, will cause fail=
+ures=C2=A0on AB regardless=C2=A0of PASS:/FAIL: markers.</div><br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">
+The only requirement on run-ptest is that it prints PASS and FAIL markers.<=
+br></blockquote><div>=C2=A0</div><div>Those markers are parsed at testimage=
+ level, but the return code of ptest-runner is also used to check for succe=
+ss/failure.</div><div><br></div><div>That is the whole point of the ticket:=
+ realign what the existings run-ptest scripts do, what the dos says, what t=
+he code running tests expects (ptest-runner &amp; testimage)</div><div>Mayb=
+e we should talk about it in a tuesday call?</div><div><br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+Alex<br></blockquote></div><span class=3D"gmail_signature_prefix">-- </span=
+><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><font face=
+=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"Raleway, regula=
+r">Smile ECS</font></div></div></div></div>
+
+--0000000000000932d8063d6e8060--
 
