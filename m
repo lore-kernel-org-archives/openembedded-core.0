@@ -1,84 +1,95 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 420DACA0EED
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 18:06:11 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.4254.1756404369419866818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29626CA0EED
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 18:07:11 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.4272.1756404427732378133
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 11:06:09 -0700
+ Thu, 28 Aug 2025 11:07:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=geZhCOdc;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-70d9d415a2dso29403956d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 11:06:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=T8sUBpAd;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6188b7550c0so1687037a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 11:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756404368; x=1757009168; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IJacaaxbykxALZehzeirZs06aomx1PxPg89Ik2B5GJs=;
-        b=geZhCOdcYEsRsPkI74hwiSZefo8CPyKJfY4PC4M+GefzL6JremChZnpIIxQDLDzeNn
-         ASIZGQhV8MQGafHkJ9GuEzzHyEeRkArGe7cDSHkGZ9cRwVFsQnOm9Fv7uwydGMcWfye0
-         iQk3IrpQuaJgWlTgUfSEYJ7v1V2Iexg2/XYUgTvEcJoOj5ednA42GVE8rey2s8wFy2l8
-         CCQzhiWxFsMdzlXvr5arTre2HeZ2T8CMxNVJb8XVBf3Fv07yo9GuLYk7Ihv/TAVtpTSL
-         6dGKGtIPIA4KVD0WvIsalHl8EwvK4G1GwH5NIkCDEIY5z8yZH4CeHLa/UuFpiT9/1Z6q
-         xL7w==
+        d=gmail.com; s=20230601; t=1756404426; x=1757009226; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J1hIvyKPBabAYNC5faiXMQ5aIafZA73yu41KFBu4DQU=;
+        b=T8sUBpAd86wDvgLajh47HpnmlRiD1ZcEKJo0PGxyzX6hVuVMOWdvGLrkmZ+DxyEAJx
+         LhZ93Zhz0MNEgwJdfvA/2gMXqSjRktJ5wcBpicCLR46Jos585zGl5anFdFvr9g5Klpip
+         MPB88U+frL91HphqtX2mtEhjHYbSlqCQyCtevBN/KiqUNJY+7XzQAu+sP0dq6hVTse+G
+         HnCOQ5Kt6gi6Mk99AChQQs4C1xoRUkPjzseU5lzSYSbk3XksDqwISxGA1swLBMNqVwQn
+         91CIpW0vMI5fmlG+7EYynmqnVyJqtEKNLUNe2l5QVd0S3SsPYFy/MJxUIOLpHcB+0BY3
+         D9lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756404368; x=1757009168;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IJacaaxbykxALZehzeirZs06aomx1PxPg89Ik2B5GJs=;
-        b=eqSdJ/BIGo1bnCllLHgaWQjw3sulGCvEG5EuLTf/ziZ0rpwj7yC6INrsB6I5gdqe1i
-         2uiQKmY0lfY9A9khYz0GgVat6ux5hFVGZDPd0vo56zUIdfNXQjKS/OEyt10Wbc4EotiC
-         P5mSQfIzd7Sa7XoAMzW7VbOZyTHsfbRmds4Iq9jxxK4oJY9QMvRFZMfCIpbEoZBRhHpG
-         iypnkSXfzkQeqSZrKEcIgTrC4RvbZxHHHo2AHC4IsO7vQlt0tpnSAuaCJELtBF7TZCeg
-         slrhSJIJt/7b9V5NrEisXPfrQhVfZpzQMIbB3aicHyZZaM7Ll9IslXwekftz60s7EaUa
-         PdWw==
-X-Gm-Message-State: AOJu0YwD6PimJU2E2Mqt6Fk0JZr83ehlUWAMhpmOB9BG5trNebjUzFZm
-	RGCdImaNlHzcgIrS2ldcoVCSCGGk5FH7+ZJjzITtB7OaXlY5hSumU4tpjScUi91V0CIAtbq4gZs
-	snmjmMexUOcduVZTfbC3/XJIFjNjcNzRlzTOi
-X-Gm-Gg: ASbGncsIu/xiDJUCflV6cys21fmUmz53ejROwprONK7vMQ8TIHO59WIrZRGCn8WefX+
-	9cuujJtDQUlejhImAptju/ZMxzrBbiBmFJa7HaXIRit8ldsx8zfF2Z8i2R4RH+NfyYi5o4iQ7tL
-	Gy3ThOFk+nrnKmZsENnb9Kt5lfO34AWKHlAwqWMqZmBV9RQwciJ1jfTPpHfUf1zyCz8w86D32PJ
-	MlcJ9Ev
-X-Google-Smtp-Source: AGHT+IFhlprqQf4ksS2a9SHg/us0eZxzietXYG/AztOko+FvjfX+pwLhIRAH3wj214S4iCJl1LghZLDhNfEhrGjlQeA=
-X-Received: by 2002:a05:6214:e42:b0:70d:ff0d:2841 with SMTP id
- 6a1803df08f44-70dff0d337emr12857446d6.31.1756404368392; Thu, 28 Aug 2025
- 11:06:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756404426; x=1757009226;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=J1hIvyKPBabAYNC5faiXMQ5aIafZA73yu41KFBu4DQU=;
+        b=CxuBV9zgraccVdhK7SUSJq9KgMzyisdE6QbeQBwnQVgIr5YJQP81XJ+qcDCsQfLe/r
+         hTxR0+UIYhrny00CPetTg9CLkJLfRHijAYxjWb1VSIQCo/wAxQqJFy2T+4lz/LjH+ED3
+         +kXXIUvzooyxC+oR2eKEQm5wPZV659ejc/KRqhGGIxHEy9Y/nrnfo0YclOug3s2ET760
+         QH/+ZaZ95Wy5I/dlVefn+9gveiNQENfhrPYzuZouMlXSzaVpG679QuwelyyJ6kAeG77D
+         yfZWWEcpDiEpp8WCmHzY0IM4zy1P8uNcK3lKaqb7kIc6drorGq0diPpZNorA0D5CEGBz
+         5tgw==
+X-Gm-Message-State: AOJu0Yx9VSioHykbrgTQRXDa/rN7LdixGkBwtolZEhxEqu74N1tRUOP+
+	chTA5xyBIqtN8p6mMMx2/1uYMmAmBTCi+/0gD0glVcib16IJmQM9GSAkOr4k9Q==
+X-Gm-Gg: ASbGncvS062OA877v4YiOq+FRYiM705DU45B3MOg5rQWkCV4PIV4BSh+HOvlVoAb23w
+	Tgt9iflENiFoE+k63vlRak7EvTJVwbF8cIofmWUW/KyjeBecYhzGw9XhimAtnNf+y0ap1WaCQy/
+	xTkactPqb1Pa2Vw43+baP+2qnekbP98y5w92LjnssP2VALC3K7v9YlDrRGOlc+i1i7NolGgAy8q
+	4WiNmHfioyDv9384js/R+G+43iq9ozXsCqrYiPF1dHd9Q1A/k15n0P0a20WLQUdpIHIMVpnY+VJ
+	aQ/dqpLXsyFlnNcrqFAZ/YRT+6Igg01HQg7MWriRybJ7i3ZVPzmJB5dmhlJdVl6AM7WLBTT6Tfv
+	omw0A+XHl94LH6IVwUeiTNZC/O8+eHvI=
+X-Google-Smtp-Source: AGHT+IGEyWLR0NcOkn91P1r4addE8GY8lR8pCHhE6/eYvqc7ijd5EI7iczPFn8WJNpwc84/7E2X3KA==
+X-Received: by 2002:a05:6402:278d:b0:61c:e86b:8e3b with SMTP id 4fb4d7f45d1cf-61ce86b91e7mr2142513a12.23.1756404425898;
+        Thu, 28 Aug 2025 11:07:05 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cfc5319afsm117704a12.48.2025.08.28.11.07.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Aug 2025 11:07:05 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libffi: upgrade 3.5.1 -> 3.5.2
+Date: Thu, 28 Aug 2025 20:07:04 +0200
+Message-ID: <20250828180704.1116083-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <185FF3BFFAE4AAAC.31147@lists.openembedded.org> <b0663efe-d450-45d1-a6d6-43d29f0a1878@gmail.com>
-In-Reply-To: <b0663efe-d450-45d1-a6d6-43d29f0a1878@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Aug 2025 20:05:56 +0200
-X-Gm-Features: Ac12FXwLP6fDLlmXBNgUKvvfBi1hn1E3bg3YKBWzkS_NaXUDUAYggZOcrP__URE
-Message-ID: <CANNYZj_4tU7xHEi_EhuYBm8pdNZAVnqcGYPrHs2S8FKHwgD1_w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] apt: upgrade 2.6.1 -> 3.0.3
-To: skandigraun@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 18:06:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222586
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 18:07:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222587
 
-On Thu, 28 Aug 2025 at 16:14, Gyorgy Sarvari via
-lists.openembedded.org <skandigraun=gmail.com@lists.openembedded.org>
-wrote:
+Changelog:
+-fix: enable FFI_MMAP_EXEC_WRIT for DragonFly BSD
+-Emscripten: Add wasm64 target
+-fix: Ensure trampoline file descriptors are closed on exec.
 
-> > +Upstream-Status: Pending [account registration in progress]
-> > +Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-> >
->
-> I plan to change the status of the Pending patch in the near future
-> (once my Debian account is approved). Until then it's RFC in the worst
-> case, I guess?
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ .../recipes-support/libffi/{libffi_3.5.1.bb => libffi_3.5.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libffi/{libffi_3.5.1.bb => libffi_3.5.2.bb} (94%)
 
-Ongoing account registration is actually a valid reason for Pending
-status, and so the patch is fine. It's Pending without explanation
-which is very disliked.
-
-Alex
+diff --git a/meta/recipes-support/libffi/libffi_3.5.1.bb b/meta/recipes-support/libffi/libffi_3.5.2.bb
+similarity index 94%
+rename from meta/recipes-support/libffi/libffi_3.5.1.bb
+rename to meta/recipes-support/libffi/libffi_3.5.2.bb
+index be16008e0f..f648a33a46 100644
+--- a/meta/recipes-support/libffi/libffi_3.5.1.bb
++++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ce4763670c5b7756000561f9af1ab178"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
+            file://not-win32.patch \
+            "
+-SRC_URI[sha256sum] = "f99eb68a67c7d54866b7706af245e87ba060d419a062474b456d3bc8d4abdbd1"
++SRC_URI[sha256sum] = "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc"
+ 
+ EXTRA_OECONF += "--disable-builddir --disable-exec-static-tramp"
+ EXTRA_OECONF:class-native += "--with-gcc-arch=generic"
 
