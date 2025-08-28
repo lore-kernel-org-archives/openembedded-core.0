@@ -2,108 +2,100 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A38FCA0EED
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 02:50:21 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.12106.1756349416336006232
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91236CA0EFF
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 02:51:41 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web10.12125.1756349498552334663
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Aug 2025 19:50:16 -0700
+ Wed, 27 Aug 2025 19:51:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MgMcANWH;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so436407b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 19:50:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AUaB9Y69;
+ spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b4c29d2ea05so1172744a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Aug 2025 19:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756349415; x=1756954215; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756349498; x=1756954298; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5l5kHd1XxTV8uo2dbTTui6SWtStY32zzDNKQnFFpZKM=;
-        b=MgMcANWHnA+igMwrpc1abrJorSyOpggNTiiUKFYfwmzcooqurSUsWFI3272xvygV2C
-         do/2v6Hs0TgJy5L0E/jWvdinU95OfK6ufigbL/Hc90yZHc9nLCuw16OeEoZKkabV8OfD
-         wpFlUkTyOm2tVlmSE2sgIloivrDJ/MjfYEGJXa8yPIgRs8vmvV25qXgVW8LDHqKWbUWd
-         Ac5ropGj9y5FxA7eZ5c8MSHQr5AmPR7R0tzNkRqcQJ5MOrD6IdUc7+UXqhuDDVHVxVyE
-         dTe2+/8jEgE5/ayhj9iH/89H3HxEcF/wkGWvySihUDydfWulEfTDHO331HNa+O7rQMHh
-         6YxA==
+        bh=4afCeK9aY0MMmhsfbtPdZpQi+L7aU2qzFGOt5GNtxww=;
+        b=AUaB9Y69RkvQX77uYyiSquELs8PnxqnvY9JENxNxhZjZXALnPagK6VQT28sPmYln7X
+         WyyqnPEH96nKtTY8PwLxiwQr1WXQswpM7IX4e5FcmmcB+iabMDUDVt69W1AUjXmm24tm
+         noXuz4TPizVm9v/cAbojpj67GDXgatXVIB2etsBAUDIyQbxRNWxViZCuj/8vkCvw40Hc
+         bYSrXIyoQQHeXApN0QSG0GRqf9i9fJOv2/zdL2DVajcjSVjiMFyiRpntp+7NP6BzWyjD
+         hGI8hL9SQ6932Al4qMzYbGm2ptjmr+m6nipLxVH1l2xNi7sQpzOpAFGp1QvSE3MzS783
+         sCcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756349415; x=1756954215;
+        d=1e100.net; s=20230601; t=1756349498; x=1756954298;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5l5kHd1XxTV8uo2dbTTui6SWtStY32zzDNKQnFFpZKM=;
-        b=ARpzBwasabKwwBgOvXFWFCAiuxD3keiZpXqggPFBC9ZwCCm1B9cAvfhOU8dIiLFO0a
-         n2i3qxCeSgNLe3y/eGpLN/bCaBliBgrGscaxc66kT5mpfbHU3ZnlCsevgaDmjqCrwcAG
-         eMbBA8UtOALvCRq/Wdkyj7DhrSFS5HuD0xvMxwFtZewf1kNGVqmR7d8FcN5BSgiXhmLs
-         11/QOhuWJdi/1L+JwvE8ZMKbW+ye7MulO7YByDYF/nIGCi1Ir5s229bvGAH8Zc/z2Ka6
-         pTkjbKCE+tP/WGZ6aabBKzmf9vzsnhv7o0Jab6KmphNQa7eYr7Uya3JyO7tRiT7l3Jc+
-         Bc6w==
-X-Gm-Message-State: AOJu0YyDoqfPMKnZ9keNZ4CDWJsu/Tl572m2LGujgsY9sejCZvd3lwOS
-	2LozrG8pMMbVzKSYcOJjCg6SG92Lg/FBJSeaVsGQP5teyt/0Sl4TAStszlFQ/NG8
-X-Gm-Gg: ASbGncv9NV+oH1QHoSOad8UgwLUAsUjTad/MbNa42kK0hUVqzj74jhqfPXbCj0FNEE6
-	YVyqm5N72cRYiB8VlWclTnvI8OB1/qbE0I42bKjfh15jpEyfTQ6auSHltdNlFmarDRm9Rsro0Ub
-	2ebUjF6v2nYptPJIJsAGz7nu8KtmKIpMVuS8XqxU/PtEtQmHSgbBAkX1G93K78tCIkiq76VYAlG
-	FdRtS/dsMsYsvBUbsRLfb5hBppkomveM8iJdgWmrGVajkvmRUEnp8WXrTSHnX112NprR9lPtLHM
-	dLngWtp1hhwQCOAwfruIwS+dLLHLxMutInifUjyH100L3GiyJ11kb2sqUajrwqaCJ7JlQKv+E+0
-	pPpevPRL19Jp1D5KBw4gteNfsek9yMkU1mh+Cy6y+GAhXtEfJGYPfM4NhtyGI8aQocnXgeIbaa3
-	zlCT3PkB06tGXlVGa4UWdX/KwHekR1kz7YsUqpwLd1
-X-Google-Smtp-Source: AGHT+IFnHLOdpgwIoToMHBRZVYUzvtUWWflspNdd9PpcaqSzIHpTSDPRFNrPKGApUA3dtzI3h9BcxA==
-X-Received: by 2002:a05:6a00:bd92:b0:736:4e14:8ec5 with SMTP id d2e1a72fcca58-771fc2942e2mr8761441b3a.11.1756349415259;
-        Wed, 27 Aug 2025 19:50:15 -0700 (PDT)
+        bh=4afCeK9aY0MMmhsfbtPdZpQi+L7aU2qzFGOt5GNtxww=;
+        b=l5vQ1sz1zwMgUNeiYVZiuXHZQKC5dqiKKggmPiwm/d9tUJ49iY1w82hQnE6iHeAUqN
+         WJNVemAmg9BlOx8BqUSt4/G7/CuQwhDuK8ErGX9s5cpg53IR/5a09x60jr/gcgQsBZ25
+         UDKazPgnvGLuPlpNdgYyzKXxJXc+SaKdG1r6aVGJyvYV02KYprmPpYzTlaAAVXNveNpE
+         s3DPLdQ+Qc5celDDx2HTeVa/v+FmlQglwQ/AICfNZdw3zd4q5aPS7PHJnyZrVh0wEwsh
+         uJ+Ai15GmDtfK2hu+BLehgKknl5xv11N09GjXYczO2EZRheZvP26/a2XxQ4VhoYXk1fG
+         O++w==
+X-Gm-Message-State: AOJu0Yw+p9Tzp8kPoQDaLApQevnW/kPUEGuRXbQMXWp3OYqgunnojd6u
+	GLMT8pBmkGrO1ZTvC158MokJ3WzXkc0TFuJY59CTg/Vjw69yFyQLdZPIfWsl/kse
+X-Gm-Gg: ASbGncspxJEu3Eayd4xoIW9+KpXjTBW6Pb/T+/KXsuvBCf09dcp9Oz2On9zmkV2GtbF
+	R0NeLOE4ZKXq6PhT0a8Izx5JkhYWUegfQJpCIj4kwqQXYJaC+QbyScJu6Eu7c/y0WputZCwhwEV
+	1Yf5SLXdu10pIWLv+mkzr1zvzbZX17vWFNZGi9xrVGvceIikMj4hygbyRUeWOjGvyV82ccYp1j2
+	ounqvyJ+KR4ufXfVyPam1k/X79jrOiRQIACDbXGD7ZEGzEutm+mCVDQs9CZStDOlDSgb7usLMrk
+	csB/a9VKWyiW3VW15ifXgd3idG1M1uIvuL6DtWanNzMCpeI9bv1ih9IxM4RHG9PyC6YCdGN0Ru0
+	usg60+F2NkTaMQs72dpYjF1hn8C6op5IzXTiKWSTew0H6uytxaOlOCfV/QYBQ3lPMbOYILwXGog
+	6s5HJ9IK0ogQolzHsPImb/k3DI/dOf922WmbEBZB+X
+X-Google-Smtp-Source: AGHT+IFZFdFKi/ik8jVDVWWaSjixXeumkujYgVypG62g5ovJ0bxZZOT6reTD0hEs9oR9wkwubbHu1Q==
+X-Received: by 2002:a17:902:db01:b0:231:9817:6ec1 with SMTP id d9443c01a7336-248753a26eemr97403745ad.17.1756349497407;
+        Wed, 27 Aug 2025 19:51:37 -0700 (PDT)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-771e93ec735sm8864750b3a.42.2025.08.27.19.50.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-248e3e0b75esm46695ad.8.2025.08.27.19.51.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 19:50:14 -0700 (PDT)
+        Wed, 27 Aug 2025 19:51:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] kea: Upgrade to 2.6.4 release
-Date: Wed, 27 Aug 2025 19:50:11 -0700
-Message-ID: <20250828025011.3741710-1-raj.khem@gmail.com>
+Subject: [PATCH] lttng-tools: Filter out regression testsuite on musl systems
+Date: Wed, 27 Aug 2025 19:51:34 -0700
+Message-ID: <20250828025134.3747161-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 02:50:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222543
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 02:51:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222544
 
-The following bug fixes have been implemented since the previous stable
-release, version 2.6.3:
+regression testsuite does not run to finish on musl systems, some of
+the issues seen
 
-1. **Syslog logging fix**: We corrected an issue in logging
-configuration when parsing "syslog:<facility name>" [#3921, #3992].
+* python is OOM'ing which is fixed by asking for 8G memory for qemu
+* It hits the timeout limits of ptest-runner even -t 2400 does not finish it
+* Use make -j1 and running run-ptest script directly ( outside
+  ptest-runner to avoid timeout limit) causes it to run forever
 
-2. **Fix for misconfigured global reservations**: Earlier Kea versions
-could crash when handling misconfigured global reservations. The problem
-is now fixed [#3910, #3911, #4001].
-
-3. **Recent Sphinx support**: Support for recent versions of Sphinx, a
-tool used to generate documentation, was added. This allows Kea
-documentation and packages to be built on recent systems, while
-maintaining compatibility with older versions. This fix was tested with
-Sphinx 1.8.4 on Debian 10, 8.1.3 on Fedora 42, and 8.2.3 on ArchLinux
-[#3800].
+Lets disable this testsuite for musl systems for now.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/kea/{kea_2.6.3.bb => kea_2.6.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/kea/{kea_2.6.3.bb => kea_2.6.4.bb} (97%)
+ meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-connectivity/kea/kea_2.6.3.bb b/meta/recipes-connectivity/kea/kea_2.6.4.bb
-similarity index 97%
-rename from meta/recipes-connectivity/kea/kea_2.6.3.bb
-rename to meta/recipes-connectivity/kea/kea_2.6.4.bb
-index 1df91e45225..aa725ee4374 100644
---- a/meta/recipes-connectivity/kea/kea_2.6.3.bb
-+++ b/meta/recipes-connectivity/kea/kea_2.6.4.bb
-@@ -19,7 +19,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
-            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
-            file://0001-make-kea-environment-available-to-lfc.patch \
-            "
--SRC_URI[sha256sum] = "00241a5955ffd3d215a2c098c4527f9d7f4b203188b276f9a36250dd3d9dd612"
-+SRC_URI[sha256sum] = "6806405e4d559abc10febd2c273dc6e2bc6ac42767afa5ca20b118ffba84a671"
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
+index 6f3fba1d735..e706e87c060 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
+@@ -206,6 +206,11 @@ do_install_ptest () {
+     done
+ }
  
- inherit autotools systemd update-rc.d upstream-version-is-even
- 
++do_install_ptest:append:libc-musl () {
++    # filter-out running regression testsuite on musl systems, it hangs
++    sed -i -e '$a\' -e 'SUBDIRS := $(filter-out regression,$(SUBDIRS))' ${D}${PTEST_PATH}/tests/Makefile
++}
++
+ INHIBIT_PACKAGE_STRIP_FILES = "\
+     ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary \
+     ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/.libs/userspace-probe-elf-binary \
 
