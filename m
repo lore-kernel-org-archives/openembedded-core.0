@@ -1,107 +1,133 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E27DCA0EED
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 18:13:51 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.4441.1756404827329963385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD26C8303F
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 18:17:11 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.4506.1756405026735864894
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 11:13:47 -0700
+ Thu, 28 Aug 2025 11:17:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=IkFGRPQr;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3c68ac7e18aso805573f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 11:13:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ni5s4lbv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-61cf8280f02so602765a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 11:17:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1756404825; x=1757009625; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tgqWeRkdZp8JgW5N85GMKXDoFOOtSvn2IF9Mmn8m5o4=;
-        b=IkFGRPQrjR7ttHEm1TKf5T+VjVP7awgENEV3qcu0QripT3p5uv9wHYPZjmRfXSUyJo
-         v5N+QDu5m9+aBg4xnAp/Ag1c8O+xEUZuxzmtUOVOXSpXIuLu61Jt6yMtHUV91r+j7h6U
-         BMek8TrTAIUnfXl2iCP2Ts2fM2PoqD9K6yr0A=
+        d=gmail.com; s=20230601; t=1756405025; x=1757009825; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s8QXujeKTvTQ1RHqDMJeAA1dzHp6kxlcxZWob0wSfRg=;
+        b=Ni5s4lbvJ0aYqLTsGpJ2RmxowzUq7EqGvZOdup0hTQMZqzPcVSULaG3UoKaI2uYbK/
+         dqzjwJhVNW07p/BMgGYWu0z/rGv4skHlyODdVzqGs/3pcwjkx9Kye2u3kev/i0gcFsBR
+         ABuHtd8FKYlEs2YtTcPrxZjcvTNvJNVK9kxrQ5nq3kmWy4gkriPu/VmznHLkpC9hlE1t
+         HWMFJV3ArV2+BZn5KMccMXe6mvuxSoi05tatvjccpBURQWGJ3JOhuPVahFHd4q5fzneT
+         zcnxrf4L7xcp56Fl+gSYRzwnpphunvVpkn9uQBSUsnywGAdIEVNEXqcxvhdXmI5Z/nY2
+         ESpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756404825; x=1757009625;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tgqWeRkdZp8JgW5N85GMKXDoFOOtSvn2IF9Mmn8m5o4=;
-        b=dAAvkdgeVY4PUzAHQQotPLEkSUngJPN12bXxnLM827eev8ahGa4uW4o9jkCiTjodrM
-         H1u4DMe0MD+WyVJdbhPOGMYYp/FflvI5aDZgcu76WMggJFlh9+5LOpOvWnquoOMQsCZU
-         vvV83zBamZ6mrEX6ElM4hJeuhH3vLOEEcDsAt16BJdbSdEPjHI1hqwLGdnLpRjH0+bQ6
-         mCdhhKHQq+TobP1w7eVB29Bob9bNXcwX5O2kv9xTJUEo1U89//7Kuw3sgwVbg2IRWZah
-         3+wY6xQTVdOekqPWuG3daksYc10hD7t9vBNb+qTdEOrFPdaxNvSaR16ChnFu0+6xyGMC
-         06pA==
-X-Gm-Message-State: AOJu0Yxe4FV0y8MCzGauXCr1vJvdCnIjWgV84fzewsNyPUDtvPMpMNmv
-	AlMSLt/PUU0bcGgOP4GJbmQ9yb/u7YFG3kzdnHD0/pFfgkUUckB+O1m0CTBDCpsn0Yo9kQF5en5
-	n2YAd
-X-Gm-Gg: ASbGncs7Mo+BhVOlTpyClixdSJjwdN4khmSt5K2ke4n0RNAdyeppPxlyJISa3nLKZ8h
-	id93ezsuU7rXVlHNHIuK9dogdM3M7p9tUbEklu5RhFclkcDf7Z3N62MbEeq+dC2waIPbgsNyVjC
-	kJWn6on0Tdp66akqmEo1QHbJP6BQ1igPMczsNgdJfhUmwg2yPnss9eC0VFR5wA2shpDX+TC8izD
-	QCkBTlUGCEKmTe8Vdp2BKVqgAPpfxlueNlwncVX72P6VKlWz+IhKAj6Hkqp7k3C9iMmy5mIhml+
-	MruviACEu+fpjNj8PfvlRqtp87YCDlVcL6+Q7jaMiXnKJydRKoZuazw941U0Au/lbSL88hqY1dp
-	jUeKoNkOW6Foac5wX+m5u5ISrNQ7OPDOxYWnNmUCVw1hVGCUTTl4R7YC/CgogokTnrxDjyFAO6j
-	PFQRqQtSsinZYBmj3qzOKdjjNYfTwh
-X-Google-Smtp-Source: AGHT+IHphNKtCbzZ45Crkn1EAq2a26fIV3U7myeRCJpSqThWJLlBaHvuvW854QgqJ2Zr/YgUgMcStQ==
-X-Received: by 2002:a05:6000:2906:b0:3c7:f9a9:7b33 with SMTP id ffacd0b85a97d-3c7f9a97ecbmr13422981f8f.19.1756404825262;
-        Thu, 28 Aug 2025 11:13:45 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.local (2a02-8440-8200-223f-aa73-038a-bc54-ae8d.rev.sfr.net. [2a02:8440:8200:223f:aa73:38a:bc54:ae8d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cf33adf1e2sm222976f8f.34.2025.08.28.11.13.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 11:13:44 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>,
-	Gyorgy Sarvari <skandigraun@gmail.com>
-Subject: [PATCH v2 1/2] ptest-cargo: move run-ptest rc variable initialisation
-Date: Thu, 28 Aug 2025 20:13:23 +0200
-Message-Id: <20250828181324.3147715-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1756405025; x=1757009825;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s8QXujeKTvTQ1RHqDMJeAA1dzHp6kxlcxZWob0wSfRg=;
+        b=KCpxIHiB3iA6aJx4rWoGrAvsctoZWYenJtRx1dN9qOdE50ZOZh4CmhHyP7lqsz67Oj
+         YA1oHY9NE6GkF0T9Vf0AjEAxy6xBg51k4zboV0t2DMHUbb7S0SV2lTiAPhcz7byBgYNP
+         pNJxT4wNI5cCpamnTHmn6Uta7a1E18SnLTO4wbJT5osDvMm5K/szJcTI10rOA74rGcHT
+         UV7Pd4rVsymCC8AsMuJcu7VdZRa9LmPJURbKCtptX0Ek8rZCZfRuRGZxAOMql0Sx/ByB
+         aHNSq5xdKRiSNnQkXgk0LUFHdfb29eRMbkbAL69QasQ01ri7d1Gt+70AhV5K88ZBm/P2
+         l3dg==
+X-Gm-Message-State: AOJu0Yzh9ICuK51j4SaTSfI+tTeiS9P8ZF9LgW7zgGCt6LcBVLjAA+sG
+	PL5A7O8nTFxqbG4qR2+j7Wt1S0dXIrTTnhbMgMna3iXJIoGmgTEOTdySejFTHQ==
+X-Gm-Gg: ASbGncuUbCIm6YzYbeTyB3rapxcAYbgAxGeTnpGXRAx8zX0ElWCj3kXgKM5o8QpsVOB
+	NyXdn8HRjASDPlXHXkM9wbZ0NqyKC+rvsoHij9BTXM+gitGR4yJu4EB3b0alRmeQhAImEHvg0No
+	MG05RYymYE3Io8/DmD7lzjzIKJZrpiKixzPO6uhIeymEKTSHmcGbMCodBOLy3Ynqz33qWfcTGcC
+	/cX1V8cU6DAoZFIc5SHSl4cbpCcy5ffXaUNqrvGiw4RxZyvadUzQUGDxH1rC22eMMbjoCdLgD09
+	OiUndnUzKX+5dMio0+GJn2NMhvBFSSC0BEUVGDym0D1irsoahO05VhglKAOSyqWJ5weHFWxRWCQ
+	nFynE0LqGfqGQ+nWHG+Eylo+gwiMhjcc=
+X-Google-Smtp-Source: AGHT+IFSvDPbK3qOUXU0T8pV+ybMn2OAV4mbmxd25enOd0hKdPJENJFrmo/U78crMbg3NEzKAEVdbQ==
+X-Received: by 2002:a05:6402:4312:b0:61c:7a9b:21d4 with SMTP id 4fb4d7f45d1cf-61c7aaa67e8mr10020526a12.18.1756405024969;
+        Thu, 28 Aug 2025 11:17:04 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cfc579ba9sm125925a12.52.2025.08.28.11.17.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Aug 2025 11:17:04 -0700 (PDT)
+Message-ID: <484de6a6-5b98-408c-98ef-e357565e6003@gmail.com>
+Date: Thu, 28 Aug 2025 20:17:03 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] xf86-input-mouse: stop checking for new
+ versions
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20250828175323.858522-1-skandigraun@gmail.com>
+ <CANNYZj_OZWmGvYmpRP6Ve28MKmmUYhU=gjdwFtfCabwi+oV4Pg@mail.gmail.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <CANNYZj_OZWmGvYmpRP6Ve28MKmmUYhU=gjdwFtfCabwi+oV4Pg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 18:13:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222589
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 18:17:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222591
 
-From: Yoann Congal <yoann.congal@smile.fr>
+On 8/28/25 20:02, Alexander Kanavin wrote:
+> I guess the recipe should be removed rather?
+>
 
-ptest-cargo run-ptest can be generated in two fashions: generated from
-scratch or appended to an exiting run-ptest file. The rc variable used
-to track tests failure was only initialized in "generated from scratch"
-case. Which lead to errors in the "appended" case.
+Okay, we can do that too.
 
-Move the rc variable initialisation to the common code of both case to
-fix this problem.
+> Alex
+>
+> On Thu 28. Aug 2025 at 19.53, Gyorgy Sarvari via
+> lists.openembedded.org <http://lists.openembedded.org>
+> <skandigraun=gmail.com@lists.openembedded.org> wrote:
+>
+>     The application has dropped Linux support in their latest release[1].
+>
+>     Keep the recipe in the latest supported version.
+>
+>     [1]:
+>     https://gitlab.freedesktop.org/xorg/driver/xf86-input-mouse/-/commit/d719d0588c580ac0ffb8546e864c05c521b1ab9d
+>
+>     Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+>     ---
+>      meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
+>     <http://xf86-input-mouse_1.9.5.bb> | 2 ++
+>      1 file changed, 2 insertions(+)
+>
+>     diff --git
+>     a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
+>     <http://xf86-input-mouse_1.9.5.bb>
+>     b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
+>     <http://xf86-input-mouse_1.9.5.bb>
+>     index 92e54d9701..6f578155e1 100644
+>     --- a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
+>     <http://xf86-input-mouse_1.9.5.bb>
+>     +++ b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
+>     <http://xf86-input-mouse_1.9.5.bb>
+>     @@ -12,3 +12,5 @@ LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=d213a69053dffe9bcab94abf60013d33"
+>
+>      SRC_URI[sha256sum] =
+>     "4fde8ae9b44352e2a208584c36528ee3ed13cf5fe4417208a9785daccefd9968"
+>      XORG_DRIVER_COMPRESSOR = ".tar.xz"
+>     +
+>     +RECIPE_NO_UPDATE_REASON = "new version does not support Linux"
+>
+>     -=-=-=-=-=-=-=-=-=-=-=-
+>     Links: You receive all messages sent to this group.
+>     View/Reply Online (#222584):
+>     https://lists.openembedded.org/g/openembedded-core/message/222584
+>     Mute This Topic: https://lists.openembedded.org/mt/114939437/1686489
+>     Group Owner: openembedded-core+owner@lists.openembedded.org
+>     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+>     Unsubscribe:
+>     https://lists.openembedded.org/g/openembedded-core/unsub
+>     [alex.kanavin@gmail.com]
+>     -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-Only initialize rc if it was not already affected in the recipe provided
-run-ptest.
-
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-Cc: Gyorgy Sarvari <skandigraun@gmail.com>
----
-v1->v2: Only initialize rc if it was not already set in the run-ptest
-provided by the recipe.
----
- meta/classes-recipe/ptest-cargo.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
-index ece25ff1eb..8351644b0f 100644
---- a/meta/classes-recipe/ptest-cargo.bbclass
-+++ b/meta/classes-recipe/ptest-cargo.bbclass
-@@ -103,10 +103,10 @@ python do_install_ptest_cargo() {
-     with open(ptest_script, "a") as f:
-         if not script_exists:
-             f.write("#!/bin/sh\n")
--            f.write("rc=0\n")                
-         else:
-             f.write(f"\necho \"\"\n")
-             f.write(f"echo \"## starting to run rust tests ##\"\n")               
-+        f.write("if [ -z \"$rc\" ]; then rc=0; fi\n")
-         for test_path in test_paths:
-             script = textwrap.dedent(f"""\
-                 if ! {test_path} {rust_test_args}
 
