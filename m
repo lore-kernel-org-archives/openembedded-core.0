@@ -1,954 +1,114 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <vdabhi@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A468CA0FF2
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 08:00:53 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web10.15627.1756368051898623040
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E544CA0EED
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 09:18:53 +0000 (UTC)
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+ by mx.groups.io with SMTP id smtpd.web10.16590.1756372731365652602
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 01:00:52 -0700
+ Thu, 28 Aug 2025 02:18:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CO6APQ4l;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-70dea0c6759so9000656d6.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 01:00:51 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=RytjFwwr;
+ spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: vdabhi@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756368051; x=1756972851; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QTWi+PrMJJ32c/WiuIxiIOtzEllmDt4xGQ6Q24YJXyw=;
-        b=CO6APQ4lcj4co6N7IcEoheh0J2MSp+yN+j+MrDSjpHMTtSA91PbZrcAWfwuDC0siHd
-         ltRSxf25svgLUb6aeWUNDEOk2OTs6KwVSZQtgz6WSO+1UA25D4PPpKIrUdiVs6hqdbiy
-         P50k8w48fPCJr7lEVqwG0TfI4oqj6nZlF28rZdJimBfs3l1GroVsT/KCiYzxZXOx4mH1
-         JERlrJ+feRU2edwuBo5Psku0z11zJVWAxtoQz008NWYDT98mr1kC33evuN+oHhTYBG25
-         /q17og46of+UuwRB7K+dH+I9xxjLM2tNjtTqPKjw1Zbt9sxsFsVfdiuDJKAZam/zCKcK
-         fvqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756368051; x=1756972851;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QTWi+PrMJJ32c/WiuIxiIOtzEllmDt4xGQ6Q24YJXyw=;
-        b=u2tIg6kFLq3pxpWc7KguXDLkOYPgIJ7YgEKP7OMjTFgBGplabX3UT0F409ABDp50io
-         gWTkwTJwDyYNsX2uyiE+FpT3eaMubbnyXk79BoXp9Bwmdqhv9Jz86kMo7mVEZn3cXcKE
-         ndq+okrrsv5Wmb6rkGKMbo7Sm3PbK6hg/Z8d0e0k6xe6v6qNhrJsoHmAVG3fnyM877JT
-         YDqpkGWFDdvhk5uEG78/kxIMl5TidAZZc+gWMcvrUQ+L+ALaGMOnKiKOKb4mMNPqMrjC
-         L6AlZWTTu224MlkPsOMUCkWzh9p1aOeG8vEUOW+SzRT9kOB2juY3KKwB8aEWRhVSFPQJ
-         fZww==
-X-Gm-Message-State: AOJu0YxxhjMPNzQYW+73QI2Lne2YkhlqiN6kZXu+Cly32r8u8n+f9Ikr
-	okk87WK2OeNHGYCWsVX0HKCF7mGpPxXIwIFFC0w3xnffmzXCO04BEQz6+ruFWdf+hCdiyTlGMJw
-	iW098NtntyNAy5G/ZoQZxzfKevuE2gzwIdglxV6k=
-X-Gm-Gg: ASbGncv16C2LzpQjRGsqQpbRfqalsvtuv9+KQ4hp24/oZSqzknmBkraCWagzuZamViI
-	lMW7nOxbw0FiSE6LFf9PX1AKoVAA4ukGRQWR6AUfCls85anQP1Ph4ZdxuQYCoDPEqmRU33YGqBe
-	PJCXAALAAW3IFeVTt6egw182J6PlPS7+o8dtB7OkmfzCQQRWBNqmyuH666afFJoCsZ16KTAPUuK
-	NUQwA==
-X-Google-Smtp-Source: AGHT+IFOIgqZZxMgl6wFcZdiiV1VttEO7wu1Mpd79I7yuAE4YhE6viFBFkjIgYEsdJa35sZDKoPvkCFfocjtKax5+q4=
-X-Received: by 2002:ad4:5ae2:0:b0:707:71dc:a382 with SMTP id
- 6a1803df08f44-70d9727090fmr304143726d6.25.1756368049396; Thu, 28 Aug 2025
- 01:00:49 -0700 (PDT)
+  d=cisco.com; i=@cisco.com; l=1430; q=dns/txt;
+  s=iport01; t=1756372731; x=1757582331;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iguDAxvQCHIBLpYpox8T/iAH/RZRNm/cHdGruHijtEA=;
+  b=RytjFwwr34X1pPmDc12fUeu86XMBjTy4zd0vAM8KkvEAkORY4+R6gXZg
+   XESZkgisQfRMm+4TJO+Up+RLGO9h0Zss39cZQZgb9ageclQIzUJgIeUbk
+   03grblE43LeE3D014aGReJSm0p/8BM8Plrq7mk1qBolWut4L9fKVV7NUm
+   6FzcF1Ur10ajQR8SmweWTr+sw2mb+2m+4kJJkFlCHSjzh87/hNtUv2Aue
+   SJtiERJLN34Hhz2awtB2oPA1zbrD0dm8sA+dTB0d/qIWKTHjCI3EsHXTU
+   LMhnwWNDcsz7godWgR5DBFRF/PzpBwaC5eeT7LZ7H352JkaAHImFxA6t8
+   g==;
+X-CSE-ConnectionGUID: yDuTQlCERFObZ0+6ZpOwUQ==
+X-CSE-MsgGUID: PvXlotYKSsKJv9K7IiWpwA==
+X-IPAS-Result: =?us-ascii?q?A0AFAACoHbBo/5H/Ja1aGgEBAQEBAQEBAQEDAQEBARIBA?=
+ =?us-ascii?q?QEBAgIBAQEBgX8FAQEBAQsBgkZ6WkJJjHCJVZ4dgX8PAQEBDz0UBAEBhQeMJ?=
+ =?us-ascii?q?wImNAkOAQIEAQEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GX?=
+ =?us-ascii?q?TYBGAEtMFxEgwIBgnICARG6C4IsgQGDKAGBU9spgUkBjUxnCAGCRIIzJxsbg?=
+ =?us-ascii?q?XKEfYEFgVwCgSeBBoV3BIIigRaIGIgbgwCHVkiBHgNZLAFVEw0KCwcFgWMDN?=
+ =?us-ascii?q?QwLLhVuMh2BJ4NjgSqEHitPhQKEaiRrDwaBFYNfBoM4QAMLGA1IESw3FBsGP?=
+ =?us-ascii?q?m4HlCODLhBKNCsBghYhBpMUkk+hDgoog3SMHpU5GjOEBKZnLphYgliLMJZQh?=
+ =?us-ascii?q?GmBaDw5gSBwFYMiCUkZD444g2m6UiM1AjoCBwsBAQMJkWqBfQEB?=
+IronPort-Data: A9a23:IphFf61nv8oeZyOdfPbD5YRwkn2cJEfYwER7XKvMYLTBsI5bp2MOx
+ mIbCm+FPP6NYWrxeNhzbdm38k8E65DRyIBgT1c43Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yFjmG4E70aNANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU6
+ bsen+WFYAX4g24ubTpPg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGHW0rAbQc0ctNL0ZEx
+ 6RbdgIVSQ++vrfjqF67YrEEasULNsLnOsYb/3pn1zycVaZgSpHYSKKM7thdtNsyrpkRRrCFO
+ IxDNGcpNUidC/FMEg9/5JYWguuhjHn+WzZZs1mS46Ew5gA/ySQsi+e1bIqNJ4biqcN9plioo
+ mXazkfCGTI4Ko28lhuEzWqzr7qa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
+ AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++Ms0CSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXMIZ5B3t94dQ+PBBU=
+IronPort-HdrOrdr: A9a23:icneg6ktQZfbA3Ogz0J7NDzSs/HpDfIn3DAbv31ZSRFFG/FwWf
+ rAoB19726QtN9/YhAdcLy7VZVoIkmsl6Kdn7NwAV7KZmCP0wGVxepZg7cKrQeNJ8SHzJ8/6U
+ +lGJIOb+EZyjNB/KLH3DU=
+X-Talos-CUID: 9a23:pO6YuW+tSLeP6daDx3KVv184B/wcdlbw9ln3KX3gSjhbUJqKdGbFrQ==
+X-Talos-MUID: =?us-ascii?q?9a23=3ANHEW4A0AyWwBfzt2bI3VgaLI7jUj27qeDEcRoLY?=
+ =?us-ascii?q?9oOqmK31TZBacsyyoa9py?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.18,217,1751241600"; 
+   d="scan'208";a="537048052"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Aug 2025 09:18:50 +0000
+Received: from sjc-ads-8161.cisco.com (sjc-ads-8161.cisco.com [171.68.208.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 67600180001E8;
+	Thu, 28 Aug 2025 09:18:50 +0000 (GMT)
+Received: by sjc-ads-8161.cisco.com (Postfix, from userid 1871031)
+	id 1228BCC1292; Thu, 28 Aug 2025 02:18:50 -0700 (PDT)
+From: "Vrushti Dabhi -X (vdabhi - E INFOCHIPS PRIVATE LIMITED at Cisco)" <vdabhi@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com,
+	vchavda@cisco.com,
+	Vrushti Dabhi <vdabhi@cisco.com>
+Subject: [OE-core] [scarthgap] [PATCH] curl: update CVE_STATUS for CVE-2025-5025
+Date: Thu, 28 Aug 2025 02:18:06 -0700
+Message-Id: <20250828091806.43939-1-vdabhi@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-References: <20250828065250.3327228-1-yogita.urade@windriver.com>
-In-Reply-To: <20250828065250.3327228-1-yogita.urade@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Aug 2025 10:00:38 +0200
-X-Gm-Features: Ac12FXyvUs716eeaIv9cnSFuuE3pzhaT8DLl4vnPV9Whqg3XHjsxD98zMczQEtk
-Message-ID: <CANNYZj-M3VmYCwjbELqY_OHr2_OeLN5QaxZqA26LxJnadD2PDg@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH 1/1] tiff: update 4.6.0 -> 4.7.0
-To: Yogita.Urade@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.208.199, sjc-ads-8161.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 08:00:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222547
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 09:18:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222550
 
-This is a new feature release, and isn't eligible for backport. Or you
-need to show it has only bugfixes.
+From: Vrushti Dabhi <vdabhi@cisco.com>
 
-Alex
+This CVE applies only when curl is built with wolfSSL support.
+Revised CVE_STATUS description to align with CVE details.
 
-On Thu, 28 Aug 2025 at 08:53, Urade, Yogita via lists.openembedded.org
-<Yogita.Urade=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> Drop all CVE backports.
->
-> (From OE-Core rev: 1c227185c7a89df04f81c08881fd5e28aa185a21)
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> ---
->  .../libtiff/tiff/CVE-2023-52355-0001.patch    | 238 ------------------
->  .../libtiff/tiff/CVE-2023-52355-0002.patch    |  28 ---
->  .../libtiff/tiff/CVE-2023-52356.patch         |  49 ----
->  .../libtiff/tiff/CVE-2023-6228.patch          |  31 ---
->  ...277-Apply-1-suggestion-s-to-1-file-s.patch |  27 --
->  ...ompare-data-size-of-some-tags-data-2.patch |  36 ---
->  ...-compare-data-size-of-some-tags-data.patch | 162 ------------
->  .../libtiff/tiff/CVE-2024-7006.patch          |  65 -----
->  .../libtiff/{tiff_4.6.0.bb =3D> tiff_4.7.0.bb}  |  15 +-
->  9 files changed, 3 insertions(+), 648 deletions(-)
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-52355-0=
-001.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-52355-0=
-002.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.p=
-atch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6228.pa=
-tch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Ap=
-ply-1-suggestion-s-to-1-file-s.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At=
--image-reading-compare-data-size-of-some-tags-data-2.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At=
--image-reading-compare-data-size-of-some-tags-data.patch
->  delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.pa=
-tch
->  rename meta/recipes-multimedia/libtiff/{tiff_4.6.0.bb =3D> tiff_4.7.0.bb=
-} (79%)
->
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52355-0001.pat=
-ch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52355-0001.patch
-> deleted file mode 100644
-> index f5520fcafd..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52355-0001.patch
-> +++ /dev/null
-> @@ -1,238 +0,0 @@
-> -From 335947359ce2dd3862cd9f7c49f92eba065dfed4 Mon Sep 17 00:00:00 2001
-> -From: Su_Laus <sulau@freenet.de>
-> -Date: Thu, 1 Feb 2024 13:06:08 +0000
-> -Subject: [PATCH] manpage: Update TIFF documentation about TIFFOpenOption=
-s.rst
-> - and TIFFOpenOptionsSetMaxSingleMemAlloc() usage and some other small fi=
-xes.
-> -
-> -CVE: CVE-2023-52355
-> -Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/3=
-35947359ce2dd3862cd9f7c49f92eba065dfed4]
-> -
-> -Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> ----
-> - doc/functions/TIFFDeferStrileArrayWriting.rst |  5 +++
-> - doc/functions/TIFFError.rst                   |  3 ++
-> - doc/functions/TIFFOpen.rst                    | 13 +++---
-> - doc/functions/TIFFOpenOptions.rst             | 44 ++++++++++++++++++-
-> - doc/functions/TIFFStrileQuery.rst             |  5 +++
-> - doc/libtiff.rst                               | 31 ++++++++++++-
-> - 6 files changed, 91 insertions(+), 10 deletions(-)
-> -
-> -diff --git a/doc/functions/TIFFDeferStrileArrayWriting.rst b/doc/functio=
-ns/TIFFDeferStrileArrayWriting.rst
-> -index 60ee746..705aebc 100644
-> ---- a/doc/functions/TIFFDeferStrileArrayWriting.rst
-> -+++ b/doc/functions/TIFFDeferStrileArrayWriting.rst
-> -@@ -61,6 +61,11 @@ Diagnostics
-> - All error messages are directed to the :c:func:`TIFFErrorExtR` routine.
-> - Likewise, warning messages are directed to the :c:func:`TIFFWarningExtR=
-` routine.
-> -
-> -+Note
-> -+----
-> -+
-> -+This functionality was introduced with libtiff 4.1.
-> -+
-> - See also
-> - --------
-> -
-> -diff --git a/doc/functions/TIFFError.rst b/doc/functions/TIFFError.rst
-> -index 99924ad..cf4b37c 100644
-> ---- a/doc/functions/TIFFError.rst
-> -+++ b/doc/functions/TIFFError.rst
-> -@@ -65,6 +65,9 @@ or :c:func:`TIFFClientOpenExt`.
-> - Furthermore, a **custom defined data structure** *user_data* for the
-> - error handler can be given along.
-> -
-> -+Please refer to :doc:`/functions/TIFFOpenOptions` for how to setup the
-> -+application-specific handler introduced with libtiff 4.5.
-> -+
-> - Note
-> - ----
-> -
-> -diff --git a/doc/functions/TIFFOpen.rst b/doc/functions/TIFFOpen.rst
-> -index db79d7b..adc474f 100644
-> ---- a/doc/functions/TIFFOpen.rst
-> -+++ b/doc/functions/TIFFOpen.rst
-> -@@ -94,8 +94,9 @@ TIFF structure without closing the file handle and aft=
-erwards the
-> - file should be closed using its file descriptor *fd*.
-> -
-> - :c:func:`TIFFOpenExt` (added in libtiff 4.5) is like :c:func:`TIFFOpen`=
-,
-> --but options, such as re-entrant error and warning handlers may be passe=
-d
-> --with the *opts* argument. The *opts* argument may be NULL.
-> -+but options, such as re-entrant error and warning handlers and a limit =
-in byte
-> -+that libtiff internal memory allocation functions are allowed to reques=
-t per call
-> -+may be passed with the *opts* argument. The *opts* argument may be NULL=
-.
-> - Refer to :doc:`TIFFOpenOptions` for allocating and filling the *opts* a=
-rgument
-> - parameters. The allocated memory for :c:type:`TIFFOpenOptions`
-> - can be released straight after successful execution of the related
-> -@@ -105,9 +106,7 @@ can be released straight after successful execution =
-of the related
-> - but opens a TIFF file with a Unicode filename.
-> -
-> - :c:func:`TIFFFdOpenExt` (added in libtiff 4.5) is like :c:func:`TIFFFdO=
-pen`,
-> --but options, such as re-entrant error and warning handlers may be passe=
-d
-> --with the *opts* argument. The *opts* argument may be NULL.
-> --Refer to :doc:`TIFFOpenOptions` for filling the *opts* argument.
-> -+but options argument *opts* like for :c:func:`TIFFOpenExt` can be passe=
-d.
-> -
-> - :c:func:`TIFFSetFileName` sets the file name in the tif-structure
-> - and returns the old file name.
-> -@@ -326,5 +325,5 @@ See also
-> -
-> - :doc:`libtiff` (3tiff),
-> - :doc:`TIFFClose` (3tiff),
-> --:doc:`TIFFStrileQuery`,
-> --:doc:`TIFFOpenOptions`
-> -\ No newline at end of file
-> -+:doc:`TIFFStrileQuery` (3tiff),
-> -+:doc:`TIFFOpenOptions`
-> -diff --git a/doc/functions/TIFFOpenOptions.rst b/doc/functions/TIFFOpenO=
-ptions.rst
-> -index 5c67566..23f2975 100644
-> ---- a/doc/functions/TIFFOpenOptions.rst
-> -+++ b/doc/functions/TIFFOpenOptions.rst
-> -@@ -38,12 +38,17 @@ opaque structure and returns a :c:type:`TIFFOpenOpti=
-ons` pointer.
-> - :c:func:`TIFFOpenOptionsFree` releases the allocated memory for
-> - :c:type:`TIFFOpenOptions`. The allocated memory for :c:type:`TIFFOpenOp=
-tions`
-> - can be released straight after successful execution of the related
-> --TIFF open"Ext" functions like :c:func:`TIFFOpenExt`.
-> -+TIFFOpen"Ext" functions like :c:func:`TIFFOpenExt`.
-> -
-> - :c:func:`TIFFOpenOptionsSetMaxSingleMemAlloc` sets parameter for the
-> - maximum single memory limit in byte that ``libtiff`` internal memory al=
-location
-> - functions are allowed to request per call.
-> -
-> -+.. note::
-> -+    However, the ``libtiff`` external functions :c:func:`_TIFFmalloc`
-> -+    and :c:func:`_TIFFrealloc` **do not apply** this internal memory
-> -+    allocation limit set by :c:func:`TIFFOpenOptionsSetMaxSingleMemAllo=
-c`!
-> -+
-> - :c:func:`TIFFOpenOptionsSetErrorHandlerExtR` sets the function pointer =
-to
-> - an application-specific and per-TIFF handle (re-entrant) error handler.
-> - Furthermore, a pointer to a **custom defined data structure** *errorhan=
-dler_user_data*
-> -@@ -55,6 +60,43 @@ The *errorhandler_user_data* argument may be NULL.
-> - :c:func:`TIFFOpenOptionsSetErrorHandlerExtR` but for the warning handle=
-r,
-> - which is invoked through  :c:func:`TIFFWarningExtR`
-> -
-> -+Example
-> -+-------
-> -+
-> -+::
-> -+
-> -+    #include "tiffio.h"
-> -+
-> -+    typedef struct MyErrorHandlerUserDataStruct
-> -+    {
-> -+        /* ... any user data structure ... */
-> -+    } MyErrorHandlerUserDataStruct;
-> -+
-> -+    static int myErrorHandler(TIFF *tiff, void *user_data, const char *=
-module,
-> -+                          const char *fmt, va_list ap)
-> -+    {
-> -+        MyErrorHandlerUserDataStruct *errorhandler_user_data =3D
-> -+            (MyErrorHandlerUserDataStruct *)user_data;
-> -+        /*... code of myErrorHandler ...*/
-> -+        return 1;
-> -+    }
-> -+
-> -+
-> -+    main()
-> -+    {
-> -+        tmsize_t limit =3D (256 * 1024 * 1024);
-> -+        MyErrorHandlerUserDataStruct user_data =3D { /* ... any data ..=
-. */};
-> -+
-> -+        TIFFOpenOptions *opts =3D TIFFOpenOptionsAlloc();
-> -+        TIFFOpenOptionsSetMaxSingleMemAlloc(opts, limit);
-> -+        TIFFOpenOptionsSetErrorHandlerExtR(opts, myErrorHandler, &user_=
-data);
-> -+        TIFF *tif =3D TIFFOpenExt("foo.tif", "r", opts);
-> -+        TIFFOpenOptionsFree(opts);
-> -+        /* ... go on here ... */
-> -+
-> -+        TIFFClose(tif);
-> -+    }
-> -+
-> - Note
-> - ----
-> -
-> -diff --git a/doc/functions/TIFFStrileQuery.rst b/doc/functions/TIFFStril=
-eQuery.rst
-> -index f8631af..7931fe4 100644
-> ---- a/doc/functions/TIFFStrileQuery.rst
-> -+++ b/doc/functions/TIFFStrileQuery.rst
-> -@@ -66,6 +66,11 @@ Diagnostics
-> - All error messages are directed to the :c:func:`TIFFErrorExtR` routine.
-> - Likewise, warning messages are directed to the :c:func:`TIFFWarningExtR=
-` routine.
-> -
-> -+Note
-> -+----
-> -+
-> -+This functionality was introduced with libtiff 4.1.
-> -+
-> - See also
-> - --------
-> -
-> -diff --git a/doc/libtiff.rst b/doc/libtiff.rst
-> -index 6a0054c..d96a860 100644
-> ---- a/doc/libtiff.rst
-> -+++ b/doc/libtiff.rst
-> -@@ -90,11 +90,15 @@ compatibility on machines with a segmented architect=
-ure.
-> - :c:func:`realloc`, and :c:func:`free` routines in the C library.)
-> -
-> - To deal with segmented pointer issues ``libtiff`` also provides
-> --:c:func:`_TIFFmemcpy`, :c:func:`_TIFFmemset`, and :c:func:`_TIFFmemmove=
-`
-> -+:c:func:`_TIFFmemcpy`, :c:func:`_TIFFmemset`, and :c:func:`_TIFFmemcmp`
-> - routines that mimic the equivalent ANSI C routines, but that are
-> - intended for use with memory allocated through :c:func:`_TIFFmalloc`
-> - and :c:func:`_TIFFrealloc`.
-> -
-> -+With ``libtiff`` 4.5 a method was introduced to limit the internal
-> -+memory allocation that functions are allowed to request per call
-> -+(see  :c:func:`TIFFOpenOptionsSetMaxSingleMemAlloc` and :c:func:`TIFFOp=
-enExt`).
-> -+
-> - Error Handling
-> - --------------
-> -
-> -@@ -106,6 +110,10 @@ routine that can be specified with a call to :c:fun=
-c:`TIFFSetErrorHandler`.
-> - Likewise warning messages are directed to a single handler routine
-> - that can be specified with a call to :c:func:`TIFFSetWarningHandler`
-> -
-> -+Further application-specific and per-TIFF handle (re-entrant) error han=
-dler
-> -+and warning handler can be set. Please refer to :doc:`/functions/TIFFEr=
-ror`
-> -+and :doc:`/functions/TIFFOpenOptions`.
-> -+
-> - Basic File Handling
-> - -------------------
-> -
-> -@@ -139,7 +147,7 @@ a ``"w"`` argument:
-> -     main()
-> -     {
-> -         TIFF* tif =3D TIFFOpen("foo.tif", "w");
-> --        ... do stuff ...
-> -+        /* ... do stuff ... */
-> -         TIFFClose(tif);
-> -     }
-> -
-> -@@ -157,6 +165,25 @@ to always call :c:func:`TIFFClose` or :c:func:`TIFF=
-Flush` to flush any
-> - buffered information to a file.  Note that if you call :c:func:`TIFFClo=
-se`
-> - you do not need to call :c:func:`TIFFFlush`.
-> -
-> -+.. warning::
-> -+
-> -+    In order to prevent out-of-memory issues when opening a TIFF file
-> -+    :c:func:`TIFFOpenExt` can be used and then the maximum single memor=
-y
-> -+    limit in byte that ``libtiff`` internal memory allocation functions
-> -+    are allowed to request per call can be set with
-> -+    :c:func:`TIFFOpenOptionsSetMaxSingleMemAlloc`.
-> -+
-> -+Example
-> -+
-> -+::
-> -+
-> -+    tmsize_t limit =3D (256 * 1024 * 1024);
-> -+    TIFFOpenOptions *opts =3D TIFFOpenOptionsAlloc();
-> -+    TIFFOpenOptionsSetMaxSingleMemAlloc(opts, limit);
-> -+    TIFF *tif =3D TIFFOpenExt("foo.tif", "w", opts);
-> -+    TIFFOpenOptionsFree(opts);
-> -+    /* ... go on here ... */
-> -+
-> - TIFF Directories
-> - ----------------
-> -
-> ---
-> -2.40.0
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52355-0002.pat=
-ch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52355-0002.patch
-> deleted file mode 100644
-> index 19a1ef727a..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52355-0002.patch
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -From 16ab4a205cfc938c32686e8d697d048fabf97ed4 Mon Sep 17 00:00:00 2001
-> -From: Timothy Lyanguzov <theta682@gmail.com>
-> -Date: Thu, 1 Feb 2024 11:19:06 +0000
-> -Subject: [PATCH] Fix typo.
-> -
-> -CVE: CVE-2023-52355
-> -Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/1=
-6ab4a205cfc938c32686e8d697d048fabf97ed4]
-> -
-> -Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> ----
-> - doc/libtiff.rst | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/doc/libtiff.rst b/doc/libtiff.rst
-> -index d96a860..4fedc3e 100644
-> ---- a/doc/libtiff.rst
-> -+++ b/doc/libtiff.rst
-> -@@ -169,7 +169,7 @@ you do not need to call :c:func:`TIFFFlush`.
-> -
-> -     In order to prevent out-of-memory issues when opening a TIFF file
-> -     :c:func:`TIFFOpenExt` can be used and then the maximum single memor=
-y
-> --    limit in byte that ``libtiff`` internal memory allocation functions
-> -+    limit in bytes that ``libtiff`` internal memory allocation function=
-s
-> -     are allowed to request per call can be set with
-> -     :c:func:`TIFFOpenOptionsSetMaxSingleMemAlloc`.
-> -
-> ---
-> -2.40.0
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch b/=
-meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch
-> deleted file mode 100644
-> index 75f5d8946a..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch
-> +++ /dev/null
-> @@ -1,49 +0,0 @@
-> -From 51558511bdbbcffdce534db21dbaf5d54b31638a Mon Sep 17 00:00:00 2001
-> -From: Even Rouault <even.rouault@spatialys.com>
-> -Date: Thu, 1 Feb 2024 11:38:14 +0000
-> -Subject: [PATCH] TIFFReadRGBAStrip/TIFFReadRGBATile: add more validation=
- of
-> - col/row (fixes #622)
-> -
-> -CVE: CVE-2023-52356
-> -Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/5=
-1558511bdbbcffdce534db21dbaf5d54b31638a]
-> -
-> -Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> ----
-> - libtiff/tif_getimage.c | 15 +++++++++++++++
-> - 1 file changed, 15 insertions(+)
-> -
-> -diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
-> -index 41f7dfd..9cd6eee 100644
-> ---- a/libtiff/tif_getimage.c
-> -+++ b/libtiff/tif_getimage.c
-> -@@ -3224,6 +3224,13 @@ int TIFFReadRGBAStripExt(TIFF *tif, uint32_t row,=
- uint32_t *raster,
-> -     if (TIFFRGBAImageOK(tif, emsg) &&
-> -         TIFFRGBAImageBegin(&img, tif, stop_on_error, emsg))
-> -     {
-> -+      if (row >=3D img.height)
-> -+        {
-> -+            TIFFErrorExtR(tif, TIFFFileName(tif),
-> -+                          "Invalid row passed to TIFFReadRGBAStrip().")=
-;
-> -+            TIFFRGBAImageEnd(&img);
-> -+            return (0);
-> -+      }
-> -
-> -         img.row_offset =3D row;
-> -         img.col_offset =3D 0;
-> -@@ -3301,6 +3308,14 @@ int TIFFReadRGBATileExt(TIFF *tif, uint32_t col, =
-uint32_t row, uint32_t *raster,
-> -         return (0);
-> -     }
-> -
-> -+    if (col >=3D img.width || row >=3D img.height)
-> -+    {
-> -+        TIFFErrorExtR(tif, TIFFFileName(tif),
-> -+                      "Invalid row/col passed to TIFFReadRGBATile().");
-> -+        TIFFRGBAImageEnd(&img);
-> -+        return (0);
-> -+    }
-> -+
-> -     /*
-> -      * The TIFFRGBAImageGet() function doesn't allow us to get off the
-> -      * edge of the image, even to fill an otherwise valid tile.  So we
-> ---
-> -2.40.0
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6228.patch b/m=
-eta/recipes-multimedia/libtiff/tiff/CVE-2023-6228.patch
-> deleted file mode 100644
-> index 2020508fdf..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6228.patch
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -From 1e7d217a323eac701b134afc4ae39b6bdfdbc96a Mon Sep 17 00:00:00 2001
-> -From: Su_Laus <sulau@freenet.de>
-> -Date: Wed, 17 Jan 2024 06:57:08 +0000
-> -Subject: [PATCH] codec of input image is available, independently from c=
-odec
-> - check of output image and return with error if not.
-> -
-> -Fixes #606.
-> -
-> -CVE: CVE-2023-6228
-> -Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/1=
-e7d217a323eac701b134afc4ae39b6bdfdbc96a]
-> -
-> -Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> ----
-> - tools/tiffcp.c | 2 ++
-> - 1 file changed, 2 insertions(+)
-> -
-> -diff --git a/tools/tiffcp.c b/tools/tiffcp.c
-> -index aff0626..a4f7f6b 100644
-> ---- a/tools/tiffcp.c
-> -+++ b/tools/tiffcp.c
-> -@@ -846,6 +846,8 @@ static int tiffcp(TIFF *in, TIFF *out)
-> -     if (!TIFFIsCODECConfigured(compression))
-> -         return FALSE;
-> -     TIFFGetFieldDefaulted(in, TIFFTAG_COMPRESSION, &input_compression);
-> -+    if (!TIFFIsCODECConfigured(input_compression))
-> -+          return FALSE;
-> -     TIFFGetFieldDefaulted(in, TIFFTAG_PHOTOMETRIC, &input_photometric);
-> -     if (input_compression =3D=3D COMPRESSION_JPEG)
-> -     {
-> ---
-> -2.40.0
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-s=
-uggestion-s-to-1-file-s.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-20=
-23-6277-Apply-1-suggestion-s-to-1-file-s.patch
-> deleted file mode 100644
-> index 5d15dff1d9..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-suggesti=
-on-s-to-1-file-s.patch
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -From e1640519208121f916da1772a5efb6ca28971b86 Mon Sep 17 00:00:00 2001
-> -From: Even Rouault <even.rouault@spatialys.com>
-> -Date: Tue, 31 Oct 2023 15:04:37 +0000
-> -Subject: [PATCH 3/3] Apply 1 suggestion(s) to 1 file(s)
-> -
-> -CVE: CVE-2023-6277
-> -Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/merge_re=
-quests/545]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - libtiff/tif_dirread.c | 1 -
-> - 1 file changed, 1 deletion(-)
-> -
-> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-> -index fe8d6f8..58a4276 100644
-> ---- a/libtiff/tif_dirread.c
-> -+++ b/libtiff/tif_dirread.c
-> -@@ -5306,7 +5306,6 @@ static int EstimateStripByteCounts(TIFF *tif, TIFF=
-DirEntry *dir,
-> -     {
-> -         uint64_t space;
-> -         uint16_t n;
-> --        filesize =3D TIFFGetFileSize(tif);
-> -         if (!(tif->tif_flags & TIFF_BIGTIFF))
-> -             space =3D sizeof(TIFFHeaderClassic) + 2 + dircount * 12 + 4=
-;
-> -         else
-> ---
-> -2.43.0
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-=
-reading-compare-data-size-of-some-tags-data-2.patch b/meta/recipes-multimed=
-ia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-ta=
-gs-data-2.patch
-> deleted file mode 100644
-> index 9fc8182fef..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading=
--compare-data-size-of-some-tags-data-2.patch
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -From f500facf7723f1cae725dd288b2daad15e45131c Mon Sep 17 00:00:00 2001
-> -From: Su_Laus <sulau@freenet.de>
-> -Date: Mon, 30 Oct 2023 21:21:57 +0100
-> -Subject: [PATCH 2/3] At image reading, compare data size of some tags / =
-data
-> - structures (StripByteCounts, StripOffsets, StripArray, TIFF directory) =
-with
-> - file size to prevent provoked out-of-memory attacks.
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=3DUTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -See issue #614.
-> -
-> -Correct declaration of =E2=80=98filesize=E2=80=99 shadows a previous loc=
-al.
-> -
-> -CVE: CVE-2023-6277
-> -Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/merge_re=
-quests/545]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - libtiff/tif_dirread.c | 1 -
-> - 1 file changed, 1 deletion(-)
-> -
-> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-> -index c52d41f..fe8d6f8 100644
-> ---- a/libtiff/tif_dirread.c
-> -+++ b/libtiff/tif_dirread.c
-> -@@ -5305,7 +5305,6 @@ static int EstimateStripByteCounts(TIFF *tif, TIFF=
-DirEntry *dir,
-> -     if (td->td_compression !=3D COMPRESSION_NONE)
-> -     {
-> -         uint64_t space;
-> --        uint64_t filesize;
-> -         uint16_t n;
-> -         filesize =3D TIFFGetFileSize(tif);
-> -         if (!(tif->tif_flags & TIFF_BIGTIFF))
-> ---
-> -2.43.0
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-=
-reading-compare-data-size-of-some-tags-data.patch b/meta/recipes-multimedia=
-/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags=
--data.patch
-> deleted file mode 100644
-> index d5854a9059..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading=
--compare-data-size-of-some-tags-data.patch
-> +++ /dev/null
-> @@ -1,162 +0,0 @@
-> -From b33baa5d9c6aac8ce49b5180dd48e39697ab7a11 Mon Sep 17 00:00:00 2001
-> -From: Su_Laus <sulau@freenet.de>
-> -Date: Fri, 27 Oct 2023 22:11:10 +0200
-> -Subject: [PATCH 1/3] At image reading, compare data size of some tags / =
-data
-> - structures (StripByteCounts, StripOffsets, StripArray, TIFF directory) =
-with
-> - file size to prevent provoked out-of-memory attacks.
-> -
-> -See issue #614.
-> -
-> -CVE: CVE-2023-6277
-> -Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/merge_re=
-quests/545]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - libtiff/tif_dirread.c | 90 +++++++++++++++++++++++++++++++++++++++++++
-> - 1 file changed, 90 insertions(+)
-> -
-> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-> -index 2c49dc6..c52d41f 100644
-> ---- a/libtiff/tif_dirread.c
-> -+++ b/libtiff/tif_dirread.c
-> -@@ -1308,6 +1308,21 @@ TIFFReadDirEntryArrayWithLimit(TIFF *tif, TIFFDir=
-Entry *direntry,
-> -     datasize =3D (*count) * typesize;
-> -     assert((tmsize_t)datasize > 0);
-> -
-> -+    /* Before allocating a huge amount of memory for corrupted files, c=
-heck if
-> -+     * size of requested memory is not greater than file size.
-> -+     */
-> -+    uint64_t filesize =3D TIFFGetFileSize(tif);
-> -+    if (datasize > filesize)
-> -+    {
-> -+        TIFFWarningExtR(tif, "ReadDirEntryArray",
-> -+                        "Requested memory size for tag %d (0x%x) %" PRI=
-u32
-> -+                        " is greather than filesize %" PRIu64
-> -+                        ". Memory not allocated, tag not read",
-> -+                        direntry->tdir_tag, direntry->tdir_tag, datasiz=
-e,
-> -+                        filesize);
-> -+        return (TIFFReadDirEntryErrAlloc);
-> -+    }
-> -+
-> -     if (isMapped(tif) && datasize > (uint64_t)tif->tif_size)
-> -         return TIFFReadDirEntryErrIo;
-> -
-> -@@ -5266,6 +5281,20 @@ static int EstimateStripByteCounts(TIFF *tif, TIF=
-FDirEntry *dir,
-> -     if (!_TIFFFillStrilesInternal(tif, 0))
-> -         return -1;
-> -
-> -+    /* Before allocating a huge amount of memory for corrupted files, c=
-heck if
-> -+     * size of requested memory is not greater than file size. */
-> -+    uint64_t filesize =3D TIFFGetFileSize(tif);
-> -+    uint64_t allocsize =3D (uint64_t)td->td_nstrips * sizeof(uint64_t);
-> -+    if (allocsize > filesize)
-> -+    {
-> -+        TIFFWarningExtR(tif, module,
-> -+                        "Requested memory size for StripByteCounts of %=
-" PRIu64
-> -+                        " is greather than filesize %" PRIu64
-> -+                        ". Memory not allocated",
-> -+                        allocsize, filesize);
-> -+        return -1;
-> -+    }
-> -+
-> -     if (td->td_stripbytecount_p)
-> -         _TIFFfreeExt(tif, td->td_stripbytecount_p);
-> -     td->td_stripbytecount_p =3D (uint64_t *)_TIFFCheckMalloc(
-> -@@ -5807,6 +5836,20 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uin=
-t64_t diroff,
-> -             dircount16 =3D (uint16_t)dircount64;
-> -             dirsize =3D 20;
-> -         }
-> -+        /* Before allocating a huge amount of memory for corrupted file=
-s, check
-> -+         * if size of requested memory is not greater than file size. *=
-/
-> -+        uint64_t filesize =3D TIFFGetFileSize(tif);
-> -+        uint64_t allocsize =3D (uint64_t)dircount16 * dirsize;
-> -+        if (allocsize > filesize)
-> -+        {
-> -+            TIFFWarningExtR(
-> -+                tif, module,
-> -+                "Requested memory size for TIFF directory of %" PRIu64
-> -+                " is greather than filesize %" PRIu64
-> -+                ". Memory not allocated, TIFF directory not read",
-> -+                allocsize, filesize);
-> -+            return 0;
-> -+        }
-> -         origdir =3D _TIFFCheckMalloc(tif, dircount16, dirsize,
-> -                                    "to read TIFF directory");
-> -         if (origdir =3D=3D NULL)
-> -@@ -5921,6 +5964,20 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uin=
-t64_t diroff,
-> -                           "directories not supported");
-> -             return 0;
-> -         }
-> -+        /* Before allocating a huge amount of memory for corrupted file=
-s, check
-> -+         * if size of requested memory is not greater than file size. *=
-/
-> -+        uint64_t filesize =3D TIFFGetFileSize(tif);
-> -+        uint64_t allocsize =3D (uint64_t)dircount16 * dirsize;
-> -+        if (allocsize > filesize)
-> -+        {
-> -+            TIFFWarningExtR(
-> -+                tif, module,
-> -+                "Requested memory size for TIFF directory of %" PRIu64
-> -+                " is greather than filesize %" PRIu64
-> -+                ". Memory not allocated, TIFF directory not read",
-> -+                allocsize, filesize);
-> -+            return 0;
-> -+        }
-> -         origdir =3D _TIFFCheckMalloc(tif, dircount16, dirsize,
-> -                                    "to read TIFF directory");
-> -         if (origdir =3D=3D NULL)
-> -@@ -5968,6 +6025,8 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint=
-64_t diroff,
-> -             }
-> -         }
-> -     }
-> -+    /* No check against filesize needed here because "dir" should have =
-same size
-> -+     * than "origdir" checked above. */
-> -     dir =3D (TIFFDirEntry *)_TIFFCheckMalloc(
-> -         tif, dircount16, sizeof(TIFFDirEntry), "to read TIFF directory"=
-);
-> -     if (dir =3D=3D 0)
-> -@@ -7164,6 +7223,20 @@ static int TIFFFetchStripThing(TIFF *tif, TIFFDir=
-Entry *dir, uint32_t nstrips,
-> -             return (0);
-> -         }
-> -
-> -+        /* Before allocating a huge amount of memory for corrupted file=
-s, check
-> -+         * if size of requested memory is not greater than file size. *=
-/
-> -+        uint64_t filesize =3D TIFFGetFileSize(tif);
-> -+        uint64_t allocsize =3D (uint64_t)nstrips * sizeof(uint64_t);
-> -+        if (allocsize > filesize)
-> -+        {
-> -+            TIFFWarningExtR(tif, module,
-> -+                            "Requested memory size for StripArray of %"=
- PRIu64
-> -+                            " is greather than filesize %" PRIu64
-> -+                            ". Memory not allocated",
-> -+                            allocsize, filesize);
-> -+            _TIFFfreeExt(tif, data);
-> -+            return (0);
-> -+        }
-> -         resizeddata =3D (uint64_t *)_TIFFCheckMalloc(
-> -             tif, nstrips, sizeof(uint64_t), "for strip array");
-> -         if (resizeddata =3D=3D 0)
-> -@@ -7263,6 +7336,23 @@ static void allocChoppedUpStripArrays(TIFF *tif, =
-uint32_t nstrips,
-> -     }
-> -     bytecount =3D last_offset + last_bytecount - offset;
-> -
-> -+    /* Before allocating a huge amount of memory for corrupted files, c=
-heck if
-> -+     * size of StripByteCount and StripOffset tags is not greater than
-> -+     * file size.
-> -+     */
-> -+    uint64_t allocsize =3D (uint64_t)nstrips * sizeof(uint64_t) * 2;
-> -+    uint64_t filesize =3D TIFFGetFileSize(tif);
-> -+    if (allocsize > filesize)
-> -+    {
-> -+        TIFFWarningExtR(tif, "allocChoppedUpStripArrays",
-> -+                        "Requested memory size for StripByteCount and "
-> -+                        "StripOffsets %" PRIu64
-> -+                        " is greather than filesize %" PRIu64
-> -+                        ". Memory not allocated",
-> -+                        allocsize, filesize);
-> -+        return;
-> -+    }
-> -+
-> -     newcounts =3D
-> -         (uint64_t *)_TIFFCheckMalloc(tif, nstrips, sizeof(uint64_t),
-> -                                      "for chopped \"StripByteCounts\" a=
-rray");
-> ---
-> -2.43.0
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch b/m=
-eta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch
-> deleted file mode 100644
-> index 785244bdea..0000000000
-> --- a/meta/recipes-multimedia/libtiff/tiff/CVE-2024-7006.patch
-> +++ /dev/null
-> @@ -1,65 +0,0 @@
-> -From 8ee0e7d2bdcc1a5a5a3241904b243964ab947b7b Mon Sep 17 00:00:00 2001
-> -From: Su_Laus <sulau@freenet.de>
-> -Date: Fri, 1 Dec 2023 20:12:25 +0100
-> -Subject: [PATCH] Check return value of _TIFFCreateAnonField().
-> -
-> -Fixes #624
-> -
-> -Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/8=
-18fb8ce881cf839fbc710f6690aadb992aa0f9e]
-> -CVE: CVE-2024-7006
-> -Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-> ----
-> - libtiff/tif_dirinfo.c |  2 +-
-> - libtiff/tif_dirread.c | 16 ++++++----------
-> - 2 files changed, 7 insertions(+), 11 deletions(-)
-> -
-> -diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
-> -index 0e705e8..4cfdaad 100644
-> ---- a/libtiff/tif_dirinfo.c
-> -+++ b/libtiff/tif_dirinfo.c
-> -@@ -887,7 +887,7 @@ const TIFFField *_TIFFFindOrRegisterField(TIFF *tif,=
- uint32_t tag,
-> -     if (fld =3D=3D NULL)
-> -     {
-> -         fld =3D _TIFFCreateAnonField(tif, tag, dt);
-> --        if (!_TIFFMergeFields(tif, fld, 1))
-> -+        if (fld =3D=3D NULL || !_TIFFMergeFields(tif, fld, 1))
-> -             return NULL;
-> -     }
-> -
-> -diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-> -index 58a4276..738df9f 100644
-> ---- a/libtiff/tif_dirread.c
-> -+++ b/libtiff/tif_dirread.c
-> -@@ -4275,11 +4275,9 @@ int TIFFReadDirectory(TIFF *tif)
-> -                                 dp->tdir_tag, dp->tdir_tag);
-> -                 /* the following knowingly leaks the
-> -                    anonymous field structure */
-> --                if (!_TIFFMergeFields(
-> --                        tif,
-> --                        _TIFFCreateAnonField(tif, dp->tdir_tag,
-> --                                             (TIFFDataType)dp->tdir_typ=
-e),
-> --                        1))
-> -+                const TIFFField *fld =3D _TIFFCreateAnonField(
-> -+                    tif, dp->tdir_tag, (TIFFDataType)dp->tdir_type);
-> -+                if (fld =3D=3D NULL || !_TIFFMergeFields(tif, fld, 1))
-> -                 {
-> -                     TIFFWarningExtR(
-> -                         tif, module,
-> -@@ -5153,11 +5151,9 @@ int TIFFReadCustomDirectory(TIFF *tif, toff_t dir=
-off,
-> -                             "Unknown field with tag %" PRIu16 " (0x%" P=
-RIx16
-> -                             ") encountered",
-> -                             dp->tdir_tag, dp->tdir_tag);
-> --            if (!_TIFFMergeFields(
-> --                    tif,
-> --                    _TIFFCreateAnonField(tif, dp->tdir_tag,
-> --                                         (TIFFDataType)dp->tdir_type),
-> --                    1))
-> -+            const TIFFField *fld =3D _TIFFCreateAnonField(
-> -+                tif, dp->tdir_tag, (TIFFDataType)dp->tdir_type);
-> -+            if (fld =3D=3D NULL || !_TIFFMergeFields(tif, fld, 1))
-> -             {
-> -                 TIFFWarningExtR(tif, module,
-> -                                 "Registering anonymous field with tag %=
-" PRIu16
-> ---
-> -2.44.1
-> -
-> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb b/meta/recipes=
--multimedia/libtiff/tiff_4.7.0.bb
-> similarity index 79%
-> rename from meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-> rename to meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
-> index 6bf7010ba2..474fe1e8fd 100644
-> --- a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-> +++ b/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
-> @@ -8,18 +8,9 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.md;md5=3Da3e32d664d=
-6db1386b4689c8121531c3"
->
->  CVE_PRODUCT =3D "libtiff"
->
-> -SRC_URI =3D "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-> -           file://CVE-2023-6277-At-image-reading-compare-data-size-of-so=
-me-tags-data.patch \
-> -           file://CVE-2023-6277-At-image-reading-compare-data-size-of-so=
-me-tags-data-2.patch \
-> -           file://CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch \
-> -           file://CVE-2023-6228.patch \
-> -           file://CVE-2023-52355-0001.patch \
-> -           file://CVE-2023-52355-0002.patch \
-> -           file://CVE-2023-52356.patch \
-> -           file://CVE-2024-7006.patch \
-> -           "
-> -
-> -SRC_URI[sha256sum] =3D "88b3979e6d5c7e32b50d7ec72fb15af724f6ab2cbf7e1088=
-0c360a77e4b5d99a"
-> +SRC_URI =3D "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz"
-> +
-> +SRC_URI[sha256sum] =3D "67160e3457365ab96c5b3286a0903aa6e78bdc44c4bc737d=
-2e486bcecb6ba976"
->
->  # exclude betas
->  UPSTREAM_CHECK_REGEX =3D "tiff-(?P<pver>\d+(\.\d+)+).tar"
-> --
-> 2.40.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#222545): https://lists.openembedded.org/g/openembedde=
-d-core/message/222545
-> Mute This Topic: https://lists.openembedded.org/mt/114930961/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Reference: https://github.com/openembedded/openembedded-core/commit/93ae0758ef35
+
+Signed-off-by: Vrushti Dabhi <vdabhi@cisco.com>
+---
+ meta/recipes-support/curl/curl_8.7.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index a21a086f40..6845a43cd2 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -37,7 +37,7 @@ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl dan
+ CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack"
+ 
+ CVE_STATUS[CVE-2025-0725] = "not-applicable-config: gzip decompression of content-encoded HTTP responses with the `CURLOPT_ACCEPT_ENCODING` option, using zlib 1.2.0.3 or older"
+-CVE_STATUS[CVE-2025-5025] = "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'not-applicable-config: build with openssl','unpatched',d)}"
++CVE_STATUS[CVE-2025-5025] = "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'not-applicable-config: applicable only with wolfssl','unpatched',d)}"
+ 
+ 
+ inherit autotools pkgconfig binconfig multilib_header ptest
+-- 
+2.35.6
+
 
