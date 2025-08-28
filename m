@@ -1,166 +1,170 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68DAEC8303F
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 15:24:30 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.273.1756394667093055324
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81496CA0EED
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 15:37:30 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.635.1756395444123077956
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 08:24:27 -0700
+ Thu, 28 Aug 2025 08:37:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=sj7sE1UL;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45a1b0c82eeso9155045e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 08:24:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gELVISEf;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-61c51f57224so1629236a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 08:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1756394665; x=1756999465; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6CKlQjH4w3fFlG5Nl4lmQWAL0osPAxX3sSc5WwBSciU=;
-        b=sj7sE1ULyHZrNENbytIT/v4YT5z539IN15TVUbQZNYU5UUTt2lwu2lnRf/xri7siAT
-         PD71tJENIE+pIhISvn/AoOU8f2hGVyUIBku+NOP1vf62FE+SImyJR+wxJunOpSKYgmOY
-         qATgJXUjC11SseL2+UWvQ3x364nCuAFXJFbmk=
+        d=gmail.com; s=20230601; t=1756395442; x=1757000242; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wp1VfInfgMQp1cbH6AJGYny5QVbk7EZqCZ2av6DFpqs=;
+        b=gELVISEfiQQfmNL0awhtx4EAT4bG+w989f9VJxdB3Hr/gVJMG64+eql77tw73CrCbf
+         glbG0fGMaoGwBVtWOhIomp/yzUgCr3F0yUUmF5utxXHc0NlCQeRpnN7BFR2eG80ntmQX
+         NNPInRABBxVX+2fJuyWtF5juPFNCzl8D8swl4J5MMF3Xq2PJHAlfzTHwaBOcQanMB6KL
+         KUtNXD52BJTHUsewZb5Ba9gIfiIEpulSg5M//fdYLz+4pkUOOWgW+wHHA8wYCzxsk6WH
+         Wml8MDbXBedjRQlh0XQ5TxJ3Qf+TlndRtcii9j5YZu8lNurTDhiZ86z9IfhHspfiqYhV
+         PvJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756394665; x=1756999465;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6CKlQjH4w3fFlG5Nl4lmQWAL0osPAxX3sSc5WwBSciU=;
-        b=oQkcT+OYtNcVQhcsn91wWJbvDTLi6/cGofr9sscUMXcUEIme+0NMk2T6a4YDb+ruB7
-         9FvAP76QwpvAOuAaomO12HLVKr7DbF89rZMUhOamhE5LWTpSowkFyXoTlJBJRPcqDzln
-         FDrM6QNN67D8q8paAhK+/uHAOvLbNTxXMEae84l/qvS/xTJDheQe/FQiHsSpAFj8tZ6l
-         QVlJFW/wEJW6VgHUdcHvGkbIqMuVxITOKSt4vHOl+hu+WOS4S4P9PrwvKYAXNSNNWdBR
-         DunayWJ+35o+GMvTENMjE8kOthvz4iShQ9ug3ugE6AF4+myP32eny76iHoD7rfbrytps
-         7L4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXcss4lLFGiGVwEAun02oqc6/PcCeY8aT/gbanrfF+W5LSWiSvrUg495LVvUHcHGJeI4oJxYrr6Nx1Q/9ZeU0t4Eg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwBtO/n9FpKwXNGXZ7RU4ck0IVmVq5ya4LMaGol1qwcSNPUrGAV
-	lVlCVcDqhmxLzRCLSz2Zxccmp6fBfEPdaZqa67y537LznabT/rDULO8jNw0oUTBuKNJsuilQ4eY
-	cMwLeouUNWWPIDYBpJVC6IB9DSzLWF7uBtziviNTd/g==
-X-Gm-Gg: ASbGncteGD/uCmpI8lSwd3AW2FSUpoalRBcZHgw9IMLrDC8piuCj8zb1WyAhhKVCXyd
-	noQvWXPGfaOvN4RSIQTcHAxRKssFilHZBmQFEujXUvnJvce3HhPjPTo6NJUqoARdfdlpnGinYor
-	BjWUZN/2PNoOCPuk50sqbJv1NM1bWfhGWwD5nWWgiYyQJh6bAZC+jEvpP79xsxIFcdcVKly5UM3
-	Bz9UEWNK37wV3phpRnmqDYUy43mOJU=
-X-Google-Smtp-Source: AGHT+IEuHrvea0CP2lxHnFnE3SbpamrLYHJhXJHS4sD31UVj3GO9Gw5BAB3Hrh+f3DNHJrjxelpgl0GHwnQAinXCGlc=
-X-Received: by 2002:a05:6000:2903:b0:3b7:9629:ac9e with SMTP id
- ffacd0b85a97d-3c5dcc0998bmr16086362f8f.50.1756394664041; Thu, 28 Aug 2025
- 08:24:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756395442; x=1757000242;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wp1VfInfgMQp1cbH6AJGYny5QVbk7EZqCZ2av6DFpqs=;
+        b=pm5d8dGghboLeKeYwoAqfIbqrfh6VcruU7Xe9HqIkW5ymqVMnILlIU3ySqePqPk8ux
+         kW8LEvCJ6GOea/3NJcfNs9cdfzZKrZR6jp9lq5C5btN6AXF+TRN/TTg2Jfk4Pbbqfqyy
+         n6qr6uZBePrTIUpo2SSDuWh2g8ih4tsE99JpnCpdNkpyHMrytnXSNuLAEa6O7Fs8U2aY
+         /IMRDEdcw7hVDi233qdvuHYExdx5D2GJSL+FK/OJ44ySCkanghD35VT5lBlT4uERBVpA
+         dKbHubkEK5mj5hmxBI48yEtic7DrQKDff2Nz1DJXp1sFtFzifxmLRb1BxA11N9TAUAoR
+         id7A==
+X-Gm-Message-State: AOJu0Yw2MrfysEKhRoh/x02ZmaIIKiPbT19WozEHS8rbysMNsPkDjxiV
+	68jwRbPZ4gQIsU/6wJicpH4lS79SzILhZQPUXTSgxAOLHVGW6a8DdeU4
+X-Gm-Gg: ASbGncuKgN1ZYKystz251E4ms0cq28kdg4C01ijnXhaipZ68uGYatzRHH7eqeDZ3hlw
+	6SJEzlK/kMsquHQxQ8b8YTyZTEfGdR6wiBm2xmqeyjpykEmOwWbJ6W9HX11fFDxywa7R5clcPlz
+	cayYh6DghN4tYuq0aGedb9lBREh5Knw3VcJDF0z5e4UyIzgAjzse1mxoMM3op9g7VXc7o4G7PVE
+	8mrPbAztIE9whgrPiwGfJG2o+jOyBV51riefzfuM8447AVp0vTY0hY7FKjpZoilzmLVM+pICZux
+	B4ZBo+SN8t9DwX5HL7HqxFm9uy3+Ucl8bb3zFh3I77eiBR+gwghIAwchi2G9gwLWUMIn5VxJwTo
+	R8AeJMBroKtVACY7S6TGdwCMYsrYeCekAT4uc59Zrgrqxwx1bkOqm
+X-Google-Smtp-Source: AGHT+IGhvnvQdmAa9XtsyDov3hxuXdlxTFTOIrUf03/b4K2/SJEuIt5bckv50SBXZGya1EJLBR8FbA==
+X-Received: by 2002:a05:6402:d08:b0:61c:1b27:56d4 with SMTP id 4fb4d7f45d1cf-61c1b91475cmr19075904a12.35.1756395442220;
+        Thu, 28 Aug 2025 08:37:22 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cd59d6ff5sm1772221a12.25.2025.08.28.08.37.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Aug 2025 08:37:20 -0700 (PDT)
+Message-ID: <e014ef31-e912-4d76-946b-113c9a7f1bf4@gmail.com>
+Date: Thu, 28 Aug 2025 17:37:19 +0200
 MIME-Version: 1.0
-References: <20250827222051.367093-1-a-christidis@ti.com> <CAMSfU+498tFH0DSdi+NyFqAaDHQ-qxQgT149fjOBNxHr-2O8gQ@mail.gmail.com>
- <CANNYZj8nW8WKvQ6o4EsQe_F-6C3p5BGTww8i66Ku348+eFxD9Q@mail.gmail.com>
-In-Reply-To: <CANNYZj8nW8WKvQ6o4EsQe_F-6C3p5BGTww8i66Ku348+eFxD9Q@mail.gmail.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 28 Aug 2025 17:23:57 +0200
-X-Gm-Features: Ac12FXw8b49MnTTRWQm-6e1NiE3n9gEaf-1x91HNQ0xJQQqmgMA1AqBTeDX5DYw
-Message-ID: <CAMSfU+5zuq=KwWnp0OrZTQ4s9RrSgPnh1K+GCLDSq8NFK9jE-g@mail.gmail.com>
-Subject: Re: [OE-core] [master][PATCH] libsdl2: Add tests package and ptest support
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: a-christidis@ti.com, openembedded-core@lists.openembedded.org, 
-	mathieu.dubois-briand@bootlin.com, alex@linutronix.de
-Content-Type: multipart/alternative; boundary="0000000000000932d8063d6e8060"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ptest-cargo: move run-ptest rc variable
+ initialisation
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org
+References: <20250828120544.2982231-1-yoann.congal@smile.fr>
+ <e3cafe69-7bf2-4084-9dbd-5255b538267d@gmail.com>
+ <CAMSfU+6kLVVf5jNxCJJ8YtAK6T0Xry23kHs7iV0zevooe=TsYQ@mail.gmail.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <CAMSfU+6kLVVf5jNxCJJ8YtAK6T0Xry23kHs7iV0zevooe=TsYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 15:24:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222580
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 15:37:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222581
 
---0000000000000932d8063d6e8060
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le jeu. 28 ao=C3=BBt 2025 =C3=A0 14:51, Alexander Kanavin <alex.kanavin@gma=
-il.com> a
-=C3=A9crit :
-
-> On Thu, 28 Aug 2025 at 08:56, Yoann Congal via lists.openembedded.org
-> <yoann.congal=3Dsmile.fr@lists.openembedded.org> wrote:
-> > You should explicitly return 0 (if all tests succeeded) or 1 (if any
-> test failed).
-> > If I read correctly, your script will always return 0 (success) because
-> the last command is an 'echo'.
-> >
-> > See
-> https://docs.yoctoproject.org/dev/test-manual/ptest.html#running-ptest
-> (that was added recently)
+On 8/28/25 16:01, Yoann Congal wrote:
 >
-> The documentation does not impose such requirements on run-ptest. It
-> can exit with 0 even if something failed (and many run-ptest examples
-> in core do exactly that). I think you misread the exit codes for
-> ptest-runner.
 >
-
-Some time ago, I created
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15832 to try to clarify
-exactly this.
-
-Right now, ptest-runner will fail if a run-ptest script it calls fails. And
-that, in turn, will cause failures on AB regardless of PASS:/FAIL: markers.
-
-The only requirement on run-ptest is that it prints PASS and FAIL markers.
+> Le jeu. 28 août 2025 à 14:45, Gyorgy Sarvari <skandigraun@gmail.com> a
+> écrit :
 >
-
-Those markers are parsed at testimage level, but the return code of
-ptest-runner is also used to check for success/failure.
-
-That is the whole point of the ticket: realign what the existings run-ptest
-scripts do, what the dos says, what the code running tests expects
-(ptest-runner & testimage)
-Maybe we should talk about it in a tuesday call?
-
-Alex
+>     On 8/28/25 14:05, Yoann Congal wrote:
+>     > From: Yoann Congal <yoann.congal@smile.fr>
+>     >
+>     > ptest-cargo run-ptest can be generated in two fashions:
+>     generated from
+>     > scratch or appended to an exiting run-ptest file. The rc
+>     variable used
+>     > to track tests failure was only initialized in "generated from
+>     scratch"
+>     > case. Which lead to errors in the "appended" case.
+>     >
+>     > Move the rc variable initialisation to the common code of both
+>     case to
+>     > fix this problem.
+>     >
+>     > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+>     > Cc: Gyorgy Sarvari <skandigraun@gmail.com>
+>     > ---
+>     >  meta/classes-recipe/ptest-cargo.bbclass | 2 +-
+>     >  1 file changed, 1 insertion(+), 1 deletion(-)
+>     >
+>     > diff --git a/meta/classes-recipe/ptest-cargo.bbclass
+>     b/meta/classes-recipe/ptest-cargo.bbclass
+>     > index ece25ff1eb..e35de1042e 100644
+>     > --- a/meta/classes-recipe/ptest-cargo.bbclass
+>     > +++ b/meta/classes-recipe/ptest-cargo.bbclass
+>     > @@ -103,10 +103,10 @@ python do_install_ptest_cargo() {
+>     >      with open(ptest_script, "a") as f:
+>     >          if not script_exists:
+>     >              f.write("#!/bin/sh\n")
+>     > -            f.write("rc=0\n")               
+>     >          else:
+>     >              f.write(f"\necho \"\"\n")
+>     >              f.write(f"echo \"## starting to run rust tests
+>     ##\"\n")               
+>     > +        f.write("rc=0\n")
+>     >          for test_path in test_paths:
+>     >              script = textwrap.dedent(f"""\
+>     >                  if ! {test_path} {rust_test_args}
 >
---=20
-Yoann Congal
-Smile ECS
+>     I'm not sure if this is correct. This value is what's returned at the
+>     end[1], but here it is set to 0 unconditionally, even though it might
+>     have a previous value.
+>
+>     As an example, I have almost sent an updated librsvg ptest patch[2] -
+>     while writing v2, I noticed that it has not only C, but also Rust
+>     tests,
+>     so I started to add them too. The resulting run-ptest script first
+>     starts with the C test that I execute, and partial result is stored in
+>     the same variable. And then at the end ptest-cargo appends its own
+>     tests, and continues to use the same rc variable.
+>
+>
+> You're right!
+>
+> How about we initialize rc to 0 in ptest-cargo ONLY IF it is not
+> already defined at that point?
+> That would allow custom run-ptest scripts to setup their rc variable
+> but it would also allow scripts that don't want to bother with it
+> (like rpm-sequoia) to completely ignore it.
 
---0000000000000932d8063d6e8060
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This doesn't sound bad, personally I don't have anything against it - as
+long as the original value is also kept, I think that would do.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 28=
- ao=C3=BBt 2025 =C3=A0=C2=A014:51, Alexander Kanavin &lt;<a href=3D"mailto:=
-alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, 28 Aug 2=
-025 at 08:56, Yoann Congal via <a href=3D"http://lists.openembedded.org" re=
-l=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a><br>
-&lt;yoann.congal=3D<a href=3D"mailto:smile.fr@lists.openembedded.org" targe=
-t=3D"_blank">smile.fr@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; You should explicitly return 0 (if all tests succeeded) or 1 (if any t=
-est failed).<br>
-&gt; If I read correctly, your script will always return 0 (success) becaus=
-e the last command is an &#39;echo&#39;.<br>
-&gt;<br>
-&gt; See <a href=3D"https://docs.yoctoproject.org/dev/test-manual/ptest.htm=
-l#running-ptest" rel=3D"noreferrer" target=3D"_blank">https://docs.yoctopro=
-ject.org/dev/test-manual/ptest.html#running-ptest</a> (that was added recen=
-tly)<br>
-<br>
-The documentation does not impose such requirements on run-ptest. It<br>
-can exit with 0 even if something failed (and many run-ptest examples<br>
-in core do exactly that). I think you misread the exit codes for<br>
-ptest-runner.<br></blockquote><div><br></div><div><div>Some time ago, I cre=
-ated <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15832">=
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15832</a> to try to cla=
-rify exactly this.</div><div><br></div><div>Right now, ptest-runner will fa=
-il if a run-ptest script it calls fails. And that, in turn, will cause fail=
-ures=C2=A0on AB regardless=C2=A0of PASS:/FAIL: markers.</div><br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-The only requirement on run-ptest is that it prints PASS and FAIL markers.<=
-br></blockquote><div>=C2=A0</div><div>Those markers are parsed at testimage=
- level, but the return code of ptest-runner is also used to check for succe=
-ss/failure.</div><div><br></div><div>That is the whole point of the ticket:=
- realign what the existings run-ptest scripts do, what the dos says, what t=
-he code running tests expects (ptest-runner &amp; testimage)</div><div>Mayb=
-e we should talk about it in a tuesday call?</div><div><br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-Alex<br></blockquote></div><span class=3D"gmail_signature_prefix">-- </span=
-><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><font face=
-=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"Raleway, regula=
-r">Smile ECS</font></div></div></div></div>
+Thinking a bit about it, it could be also removed from the rpm-sequoia
+script in any case - by the end of the script it is either defined by an
+error, or the last "exit $rc" will just become "exit" which implicitly
+turns into "exit $?", which is also not that bad. (Though not everyone
+likes such variables, and personally I'm not extremely attached either)
 
---0000000000000932d8063d6e8060--
+>  
+>
+>     One thing I gotta admit is that this rc variable is kinda hidden
+>     in this
+>     class.
+>
+>     [1]:
+>     https://git.yoctoproject.org/poky/tree/meta/classes-recipe/ptest-cargo.bbclass#n122
+>     [2]: when I get around it again, I still believe that it will
+>     happen...
+>
+>
+>
+> -- 
+> Yoann Congal
+> Smile ECS
+
 
