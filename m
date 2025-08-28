@@ -2,149 +2,110 @@ Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 351DCCA0EED
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 18:18:01 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.4518.1756405071862424458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5773DCA0EED
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 18:21:41 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.4613.1756405297385229480
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 11:17:52 -0700
+ Thu, 28 Aug 2025 11:21:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dAK5sKY2;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-afcb78ead12so204115866b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 11:17:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C9xCktVY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6188b5ad4f0so1883181a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 11:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756405070; x=1757009870; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756405296; x=1757010096; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pbf//fooEx1R2d5zRcoYDT11pIixosINfvSze3ZijXw=;
-        b=dAK5sKY2w4j8/z59Zk8sPLx2JA1CdgvbbIHvwFK2fDe5gwdpT+9rtlj4DIPUCM/6RO
-         TM+UuUCrmHI591pq8kHlKP4d9cTFIuGjqAgQ0tr8bLxedZ8NQg9O1jttMEZ65QNUR+Jm
-         2XcRVaNgaudAcfWjTxh7gdQ2zsgnBVq7Obh1nyS6DDfmLW19WW/QAMim84XYRTPltSs9
-         UkvjdybgUHnyA9mfTQrFVohcYyjstU2z4oADez1nWFQOFnAMURgz1YAHAvkJIwWVGpsn
-         sjwW0t+eV2LW/kACQyiN5ehk5vLO9t9DwLWIuE770IMqefeXFGK5Kvoqbi7MNGOG3W+h
-         oiLA==
+        bh=IGmPCjP5t/KTnJMaCuQKYj7cEFFJ7NrQoAY2WYdU7ls=;
+        b=C9xCktVYIMlMp23GT4WQJ0SA5lhJItUL3fk8W+iV7Q2PblqQKLHz7RYhs9P28U6UKr
+         jD9/RuErIIf6g0btAMPqqa9Xx3WGtEaCGPx9xx9eD0Xd2ZEqgZsNLfVHZKFrevDLo0ho
+         eWMozFSfJkRxRLaF4O0ujlWN+2d52GlRw74dD0KLkUrsJdivvSj18BeJRgFE5yeX8Myq
+         gOsu6GwNVSyiWhfnrO6dwBGwY6rPkc+s3zttAh8zjCXwql0+lcy9RNn/55uMCxoaszCg
+         f94UQiUbAnMt3RIua/PembMrI+OcihqACjioWyrl4Urfkl+GpxlvuIiNAJUHbV2fYhKT
+         r59w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756405070; x=1757009870;
+        d=1e100.net; s=20230601; t=1756405296; x=1757010096;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pbf//fooEx1R2d5zRcoYDT11pIixosINfvSze3ZijXw=;
-        b=D3KYo7AB5PbhbVI6qDtKqSlSTC6Ej1A1japDT12AA7LvcU1YSaDboIh0G5vFhCrSFY
-         0CRUJdIBMOtG4D/FcAepppVAFUXYXy7r1hAtdJFNdN57ubK4p3/6e+8zUGQm02ak0seU
-         tb27gSwj0gN+hSVEYsSu8yiizuK7pHnmZuQcUGi3bUEnc5CgYsxWqch9AmIjj6C7l4OO
-         EbVnZVPy4rdX/1E3weTx+n731NbRa8kxwXANqVqygCBTtSWeN/cFqVR5JoiuWEL2hNvY
-         8/r8npOKXHdUVwN1ho0aFeZz58SdyfCiUVDXc7iUeDdYiTar8H6yy7ZWrQuhRagSQ2xF
-         k73Q==
-X-Gm-Message-State: AOJu0Yx8/R6s5vz1Jy1rCB8a2/t+8cfV02G7mcyPjaoELH39gAsnlfi/
-	WVOPjd1dgHIRJWIQzC7BC0Fb4zyvKuJkEUHuCWMMUhl8eUE4ikUar+AGSnue7g==
-X-Gm-Gg: ASbGnct0ksM12acdzz8DREt29wPaQRfKNZUIyWkFycBUgXc/hYQzIPqjsdjUqzsTRkr
-	fLriZA+Mkxjkb4YKmugRCrxA1U5euAFCEgX9cHoQW+279t7dMJrovuhD050rIibJ+cbkzdfdGOr
-	HF1ks6FyubM1+/6nIgIuSKiAXeDGmUCaQ8T+Q4tdM0tHhPaXuJpRHrOeVV70c7lw7x6VH+PRMlR
-	+2wNp/epVJmR6g/gqyU9wXeiPjAkaI4tzO4VlLRhrEW4M2/KJ4Eea7iKUbL2uA0Tq1qjsBNArrX
-	BYC6oGJXtJsmhqUO6dGGzr3JMidwjpBLAjsKj0ZKsbUoQEtpT8/37BqVATdAmj6oRUQuC46Gpz6
-	NRHbkoeABZd5y+xoQ/4FL
-X-Google-Smtp-Source: AGHT+IEw5e6XILH8INhPowQcZnUAgM5GhDqRAHDxz5NWMWEhaCg+hM4xWQjWRsqEm6ZMF7wMKSY5Vw==
-X-Received: by 2002:a17:906:66c5:b0:afe:98cb:e624 with SMTP id a640c23a62f3a-afe98cbeaa7mr918346066b.51.1756405070025;
-        Thu, 28 Aug 2025 11:17:50 -0700 (PDT)
+        bh=IGmPCjP5t/KTnJMaCuQKYj7cEFFJ7NrQoAY2WYdU7ls=;
+        b=iOfaNx71l1mIwfoSbjx0FWNGmnfQEbTmwMsoW6BRlTvEFJyqe8KAyFUS6KbrCaFR8W
+         LpBWhHrySjHJRpcyHZVsvuFSnOpeuF14drejC1NCE6qEpiZlTMtRY8WuxfakGKAcx0kS
+         JnnbfHEcNFkxP2SPb/2XzabLfmNnxPa7ZkBtx7nHyXIv6XB+Kppp4pXjExuGvImITLuB
+         kaJefJtfJCbEIJS19KZ72KKCozGde3b9LPP4u2SPt4KR36q5TP12KBZfwMaoKcxuuGZr
+         7vWxxWbjgVYoerRKRFdwQUuemZA7yH8F4/Zr3wlm0OCXiaMNvYRnx2TI/7sAfLTbEeXR
+         CJqQ==
+X-Gm-Message-State: AOJu0YwbhPHt4DHK2Ysy3vHp82142MdkReFUgFYOhvKmLGOs9N7GaXv0
+	2yRsFpY76KF6bYG4beY4y53buT8WS96H2VvU5XwGKb9JgYdNYPpikG5Q1nUpVA==
+X-Gm-Gg: ASbGncs9z6OmwpxvoJjwW5Y5XvCSoVHvTc6jcIw/URM4oiW91dsN/01hmPh2n752+F5
+	tphnI5/Jtdg43dFFlYWVgJjm7U45ZAw+/NrPZOylIwFSVI1lDlYuYdySON+xM7OYlqd4fLQY/13
+	qAzJ37WUE3vaT8Z+zaZGXrcVfxL4mf93A8eRfOS8UxGcxXOx89vJo0euHHyuHFOLj63452EDqZp
+	/Vh5X2ri/m6AotyAvRsIoqj9ubImtYL+oRCkSp6YVN16z75czkBB2EAUcudb1VjNe6+Qt8CSrjN
+	amrickLUOn0ocLJm6tYrBaLGPPF1RqNpenlmvld62LMhsWRwjN3ZkKbQV8qqMOZcOg9+HboC+Ir
+	iJvcHTfqMBT4wTPcd1MX+KCyn5Xv9A6tvU/T86OZnog==
+X-Google-Smtp-Source: AGHT+IHkl0X/SM2Dtu6SkZrpoZc7s4WQgryqIVUroKo6rydneYRnB5jkdnr8NqZ7t5u7WEfDfatI5g==
+X-Received: by 2002:a05:6402:1e8e:b0:61c:3379:7915 with SMTP id 4fb4d7f45d1cf-61c33798213mr16146151a12.3.1756405295633;
+        Thu, 28 Aug 2025 11:21:35 -0700 (PDT)
 Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afefc7edb6fsm15096366b.18.2025.08.28.11.17.49
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cfc20f344sm147873a12.12.2025.08.28.11.21.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 11:17:49 -0700 (PDT)
+        Thu, 28 Aug 2025 11:21:34 -0700 (PDT)
 From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] xf86-input-vmmouse, xf86-input-mouse: drop recipes
-Date: Thu, 28 Aug 2025 20:17:48 +0200
-Message-ID: <20250828181748.1120821-1-skandigraun@gmail.com>
+Subject: [PATCH v2] libffi: upgrade 3.5.1 -> 3.5.2
+Date: Thu, 28 Aug 2025 20:21:33 +0200
+Message-ID: <20250828182133.1123507-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 18:18:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222592
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 18:21:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222593
 
-xf86-input-mouse has dropped Linux support[1], so drop the obsolete
-recipe. Only xf86-input-vmmouse is dependent on this recipe, so drop
-that also. Could not find recipes depending on on xf86-input-vmmouse.
-
-[1]: https://gitlab.freedesktop.org/xorg/driver/xf86-input-mouse/-/commit/d719d0588c580ac0ffb8546e864c05c521b1ab9d
+Changelog:
+-fix: enable FFI_MMAP_EXEC_WRIT for DragonFly BSD
+-Emscripten: Add wasm64 target
+-fix: Ensure trampoline file descriptors are closed on exec.
 
 Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  2 --
- .../xorg-driver/xf86-input-mouse_1.9.5.bb     | 14 ----------
- .../xorg-driver/xf86-input-vmmouse_13.2.0.bb  | 27 -------------------
- 3 files changed, 43 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
- delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.2.0.bb
+v2: added the modified patch that wasn't committed in v1 accidentally
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index a875ce8176..8f23091256 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -904,9 +904,7 @@ RECIPE_MAINTAINER:pn-xev = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xeyes = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xf86-input-evdev = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xf86-input-libinput = "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-xf86-input-mouse = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xf86-input-synaptics = "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-xf86-input-vmmouse = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xf86-video-cirrus = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xf86-video-fbdev = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xf86-video-intel = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
-deleted file mode 100644
-index 92e54d9701..0000000000
---- a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.5.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--require xorg-driver-input.inc
--
--SUMMARY = "X.Org X server -- mouse input driver"
--
--DESCRIPTION = "mouse is an Xorg input driver for mice. The driver \
--supports most available mouse types and interfaces.  The mouse driver \
--functions as a pointer input device, and may be used as the X server's \
--core pointer. Multiple mice are supported by multiple instances of this \
--driver."
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=d213a69053dffe9bcab94abf60013d33"
--
--SRC_URI[sha256sum] = "4fde8ae9b44352e2a208584c36528ee3ed13cf5fe4417208a9785daccefd9968"
--XORG_DRIVER_COMPRESSOR = ".tar.xz"
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.2.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.2.0.bb
-deleted file mode 100644
-index 7567b1ef2b..0000000000
---- a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.2.0.bb
-+++ /dev/null
-@@ -1,27 +0,0 @@
--require xorg-driver-input.inc
--
--SUMMARY = "X.Org X server -- VMWare mouse input driver"
--DESCRIPTION = "The vmmouse driver enables support for the special VMMouse \
--protocol that is provided by VMware virtual machines to give absolute \
--pointer positioning. The vmmouse driver is capable of falling back to the \
--standard 'mouse' driver if a VMware virtual machine is not detected."
--
--XORG_DRIVER_COMPRESSOR = ".tar.xz"
--
--SRC_URI[sha256sum] = "56f077580ab8f02e2f40358c5c46b0ae3e1828fc77744526b24adf1ceea339b8"
--
--RDEPENDS:${PN} += "xf86-input-mouse"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=622841c068a9d7625fbfe7acffb1a8fc"
--
--COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
--
--do_install:append () {
--	# We don't care about hal
--	rm -rf ${D}${datadir}/hal/
--	rm -rf ${D}${libdir}/hal/
--}
--
--EXTRA_OECONF = "--with-udev-rules-dir=${nonarch_base_libdir}/udev/rules.d"
--
--FILES:${PN} += "${datadir}/X11/xorg.conf.d"
+ meta/recipes-support/libffi/libffi/not-win32.patch              | 2 +-
+ .../recipes-support/libffi/{libffi_3.5.1.bb => libffi_3.5.2.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libffi/{libffi_3.5.1.bb => libffi_3.5.2.bb} (94%)
+
+diff --git a/meta/recipes-support/libffi/libffi/not-win32.patch b/meta/recipes-support/libffi/libffi/not-win32.patch
+index 26263731f3..ca76fde855 100644
+--- a/meta/recipes-support/libffi/libffi/not-win32.patch
++++ b/meta/recipes-support/libffi/libffi/not-win32.patch
+@@ -23,7 +23,7 @@ diff --git a/configure.ac b/configure.ac
+ index 258107d..ef1a285 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -403,7 +403,7 @@ AC_ARG_ENABLE(multi-os-directory,
++@@ -411,7 +411,7 @@ AC_ARG_ENABLE(multi-os-directory,
+  
+  # These variables are only ever used when we cross-build to X86_WIN32.
+  # And we only support this with GCC, so...
+diff --git a/meta/recipes-support/libffi/libffi_3.5.1.bb b/meta/recipes-support/libffi/libffi_3.5.2.bb
+similarity index 94%
+rename from meta/recipes-support/libffi/libffi_3.5.1.bb
+rename to meta/recipes-support/libffi/libffi_3.5.2.bb
+index be16008e0f..f648a33a46 100644
+--- a/meta/recipes-support/libffi/libffi_3.5.1.bb
++++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ce4763670c5b7756000561f9af1ab178"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
+            file://not-win32.patch \
+            "
+-SRC_URI[sha256sum] = "f99eb68a67c7d54866b7706af245e87ba060d419a062474b456d3bc8d4abdbd1"
++SRC_URI[sha256sum] = "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc"
+ 
+ EXTRA_OECONF += "--disable-builddir --disable-exec-static-tramp"
+ EXTRA_OECONF:class-native += "--with-gcc-arch=generic"
 
