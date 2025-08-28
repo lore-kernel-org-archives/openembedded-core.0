@@ -1,129 +1,138 @@
-Return-Path: <peter.tatrai.ext@siemens.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDA9C8303F
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 10:45:54 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.17809.1756377951996137276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FDFFC8303F
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 10:56:24 +0000 (UTC)
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.web11.18019.1756378580265833558
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 03:45:53 -0700
+ Thu, 28 Aug 2025 03:56:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.tatrai.ext@siemens.com header.s=fm1 header.b=QhuwrRIG;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1328017-20250828104541e99d11bfe30002074b-02bjny@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250828104541e99d11bfe30002074b
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 28 Aug 2025 12:45:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.tatrai.ext@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=dI6ol3tAsJNOaszZZ5M3y2YQtp4er+CgjZ6czXBSVOs=;
- b=QhuwrRIGmI24dvTs5Z0Jev9+lEmbVdIJFpDoaBGqal3KthssdT4/BCBbjJoRqGb+m/pLty
- ZL3E1ql9FKQBXIVNA7p0HgOziOsOE8adyEppGoWDznX8FVTnmC3VK0fcYpIEMPunIRLLjL8g
- JnbLjmwfUMiHfirmGeHH/pATw2zvr3cKHLVJ2zS/fMAp7w3zHYqyE8ZAgqid1zLE+pHitthT
- AjVYokVNomS38/Yj9BoJWTnMVeZLdALn+579P40kPZXPR1z5EzGdQI06NQPyY3iRn5xy0E5c
- XV8WAeZfK1/XTwOUp9a6/gxfUC5LE7o3NuB4WJCumei65sotuBBGuJ+Q==;
-From: "P. Tatrai" <peter.tatrai.ext@siemens.com>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ew1pn5/J;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=2714; q=dns/txt;
+  s=iport01; t=1756378580; x=1757588180;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=eO2s9pZqLIE7zft3gr3lUXIp/73kHFB4BF+f0bQeIEw=;
+  b=ew1pn5/J3c/FrEIVK2nrG/ens/Fv/jq9C0M2/X8WDsYcn2+4URpDqeqS
+   gvmv/RQZ8C0NtVTVlsz0hAQYt9UabXyFGa88XOZjX9ywuKlbRDu3O3QwL
+   QMf/9OiAmZZVdYkfG4juETjJ4wpwrhBNAtJp9V1w8ynSH7mshYTaD0HHV
+   w3q1b54gGqTtbSK4+ybNqNMuFxJC39nXY0j8KZIpz5xQE0I5YyRObfCBd
+   mJeRDagTm5V+FP6IFqsrF3Vr7DFauCByM8KJox8BaP00k/PGySZhLilFD
+   S7HmhmfJtdaHOvfmhTLBNS42SCOA/Qca8qfQQYR+BCtshXy+sjKSMRDBX
+   w==;
+X-CSE-ConnectionGUID: VSE1E71xRQuWlGSYlEz8Og==
+X-CSE-MsgGUID: Kr5c38q0RZ6A+BCNWMW2rw==
+X-IPAS-Result: =?us-ascii?q?A0AHAABmNbBo/47/Ja1aGgEBAwMBAQMBARYBAQICAQGCA?=
+ =?us-ascii?q?QUBAQ0BgkZ6WkJJk1QBgnCYP4VegX8PAQEBDz0UBAEBhQeMJwImNAkOAQIEA?=
+ =?us-ascii?q?QEBAQMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GXTYBFDIwXESDA?=
+ =?us-ascii?q?gGCcgIBEbkFgiyBAYJP3VaBSQGBYItshWcnGxuBcoJQgTd2gmEDgiyFdwSCD?=
+ =?us-ascii?q?RWBFoQOghYSgWKIG4MAh1ZIgR4DWSwBVRMNCgsHBYFjAzUMCy4VbjIdgSeFD?=
+ =?us-ascii?q?YQeK0+FAoRqJGsPBoEVg18GgzhAAwsYDUgRLDcUGwY+bgeUI4MuAVIGChgJC?=
+ =?us-ascii?q?gEpAQEUDIFtapJGJJI/oQ4KKIN0jB6VORozhVulEC6HZRaQXY4IlTRMUIRpg?=
+ =?us-ascii?q?Wg8gVlwFTuCZwlJGQ+OX4hVUbRfIzUCOgIHCwEBAwmTZwEB?=
+IronPort-Data: A9a23:hYYQAq1qszhuRGFpNPbD5YJwkn2cJEfYwER7XKvMYLTBsI5bp2ZUy
+ TYaUGuPPv6KNGCnftFyPo60pExQvcKGyddlGwBo3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yFjmG4E70aNANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU6
+ bsen+WFYAX4g24ubTpPg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGMnobZKBHo/ZNOHxx8
+ dMjGTQgfECkiLfjqF67YrEEasULNsLnOsYb/3pn1zycVatgSpHYSKKM7thdtNsyrpkRRrCFO
+ IxDNGcpNUiaC/FMEg9/5JYWkOqlnHDjczpwo1OOrq1x6G/WpOB0+OW2YIuKK43bG625mG67v
+ D/NpDTgWisoavXc4xGjzVeT3PXQyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7EQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:Sr/yAaG+xzvYQ/D2pLqE48eALOsnbusQ8zAXPo5KJiC9Ffbo8v
+ xG88576faZslsssRIb6LK90de7IU80nKQdieJ6AV7IZmfbUQWTQL2KlbGSoAEJ30bFh4lgPW
+ AKSdkbNOHN
+X-Talos-CUID: 9a23:p+hXUWyaEL91IEIXqZAABgUqIe18XyKE3E3pPnC8Jl1YTJCHGXifrfY=
+X-Talos-MUID: 9a23:zeU26wY/AQYAs+BTlCWxj2oyLZ9S0fqHS2omt6ojhJOeKnkl
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.18,217,1751241600"; 
+   d="scan'208";a="538979996"
+Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
+  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Aug 2025 10:56:19 +0000
+Received: from sjc-ads-5834.cisco.com (sjc-ads-5834.cisco.com [171.68.197.49])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id 33B5B18000223;
+	Thu, 28 Aug 2025 10:56:19 +0000 (GMT)
+Received: by sjc-ads-5834.cisco.com (Postfix, from userid 1795984)
+	id CC0B2CC128E; Thu, 28 Aug 2025 03:56:18 -0700 (PDT)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Tatrai <peter.tatrai.ext@siemens.com>
-Subject: [PATCH] connman: Revert removal of no-version-scripts patch
-Date: Thu, 28 Aug 2025 12:40:47 +0200
-Message-ID: <20250828104401.3627-1-peter.tatrai.ext@siemens.com>
+Cc: vchavda@cisco.com
+Subject: [OE-core] [master] [PATCH] default-distrovars.inc: Fix CONNECTIVITY_CHECK_URIS redirect issue
+Date: Thu, 28 Aug 2025 03:56:09 -0700
+Message-Id: <20250828105609.1118506-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1328017:519-21489:flowmailer
+X-Outbound-SMTP-Client: 171.68.197.49, sjc-ads-5834.cisco.com
+X-Outbound-Node: rcdn-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 10:45:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222558
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 10:56:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222559
 
-From: Peter Tatrai <peter.tatrai.ext@siemens.com>
+From: Deepak Rathore <deeratho@cisco.com>
 
-This commit restores the no-version-scripts.patch for ConnMan,
-which was removed in the commit (5c269ba9a396832af3f8139ecaa0cfd9f7d4d1b5)
-as part of cleaning up gold and MIPS binutils workarounds.
+The default CONNECTIVITY_CHECK_URIS uses "https://yoctoproject.org/connectivity.html"
+which redirect to "https://www.yoctoproject.org/connectivity.html".
 
-The removal of this patch caused runtime crashes (segfaults)
-on the powerpc target due to symbol visibility issues with glib
-and stdio. Re-adding the patch resolves these crashes by disabling
-version scripts in the linker flags.
+Some network configurations with proxies or restricted internet access
+don't handle HTTP redirects properly during the sanity check phase,
+causing build failures with:
 
-Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+Following is the list of potential problems / advisories:
+
+Fetcher failure for URL: 'https://yoctoproject.org/connectivity.html'. URL doesn't work.
+
+Updated the default URL to use the final destination directly to avoid
+redirect-related connectivity check failures.
+
+Also updated SDK test cases in https.py to use the corrected URL for
+consistency.
+
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- .../connman/connman/no-version-scripts.patch  | 48 +++++++++++++++++++
- .../connman/connman_1.45.bb                   |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/no-version-scripts.patch
+ meta/conf/distro/include/default-distrovars.inc | 2 +-
+ meta/lib/oeqa/buildtools/cases/https.py         | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman/no-version-scripts.patch b/meta/recipes-connectivity/connman/connman/no-version-scripts.patch
-new file mode 100644
-index 0000000000..c96ab311e5
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/no-version-scripts.patch
-@@ -0,0 +1,48 @@
-+From 67f37aafcc8ef5d2eb006387e7bec21f74518727 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Tue, 9 Aug 2016 12:12:02 +0100
-+Subject: [PATCH] connman: disable version-scripts to fix crashes at startup
-+
-+With binutils 2.27 on at least PowerPC, connmand will crash on `connmand --help`.
-+This appears to be due to the symbol visibilty scripts hiding symbols that stdio
-+looks up at runtime, resulting in it segfaulting.
-+
-+This certainly appears to be a bug in binutils 2.27 although the problem has
-+been known about for some time:
-+
-+https://sourceware.org/bugzilla/show_bug.cgi?id=17908
-+
-+As the version scripts are only used to hide symbols from plugins we can safely
-+remove the scripts to work around the problem until binutils is fixed.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
-+---
-+ Makefile.am | 6 ++----
-+ 1 file changed, 2 insertions(+), 4 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 3dc3bb5..3be5ccb 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -143,8 +143,7 @@ src_connmand_LDADD = gdbus/libgdbus-internal.la $(builtin_libadd) \
-+ 			@GIO_LIBS@ @GLIB_LIBS@ @DBUS_LIBS@ @GNUTLS_LIBS@ \
-+ 			-lresolv -ldl -lrt
-+ 
-+-src_connmand_LDFLAGS = -Wl,--export-dynamic \
-+-				-Wl,--version-script=$(srcdir)/src/connman.ver
-++src_connmand_LDFLAGS = -Wl,--export-dynamic
-+ 
-+ src_connmand_wait_online_SOURCES = src/connmand-wait-online.c
-+ 
-+@@ -187,8 +186,7 @@ vpn_connman_vpnd_LDADD = gdbus/libgdbus-internal.la $(builtin_vpn_libadd) \
-+ 				@GIO_LIBS@ @GLIB_LIBS@ @DBUS_LIBS@ @GNUTLS_LIBS@ \
-+ 				-lresolv -ldl
-+ 
-+-vpn_connman_vpnd_LDFLAGS = -Wl,--export-dynamic \
-+-				-Wl,--version-script=$(srcdir)/vpn/vpn.ver
-++vpn_connman_vpnd_LDFLAGS = -Wl,--export-dynamic
-+ endif
-+ 
-+ BUILT_SOURCES = $(local_headers) src/builtin.h $(service_files) \
-diff --git a/meta/recipes-connectivity/connman/connman_1.45.bb b/meta/recipes-connectivity/connman/connman_1.45.bb
-index cfc6114712..85f14eb80e 100644
---- a/meta/recipes-connectivity/connman/connman_1.45.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.45.bb
-@@ -20,6 +20,7 @@ DEPENDS  = "dbus glib-2.0"
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 9ea3b5414c..bbd936efa6 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -63,4 +63,4 @@ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
+ # fetch from the network (and warn you if not). To disable the test set
+ # the variable to be empty.
+ # Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master;branch=master
+-CONNECTIVITY_CHECK_URIS ?= "https://yoctoproject.org/connectivity.html"
++CONNECTIVITY_CHECK_URIS ?= "https://www.yoctoproject.org/connectivity.html"
+diff --git a/meta/lib/oeqa/buildtools/cases/https.py b/meta/lib/oeqa/buildtools/cases/https.py
+index 4525e3d758..98f27e5994 100644
+--- a/meta/lib/oeqa/buildtools/cases/https.py
++++ b/meta/lib/oeqa/buildtools/cases/https.py
+@@ -15,8 +15,8 @@ class HTTPTests(OESDKTestCase):
+     """
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-            file://connman \
-+           file://no-version-scripts.patch \
-            file://0002-resolve-musl-does-not-implement-res_ninit.patch \
-            "
+     def test_wget(self):
+-        self._run('env -i wget --debug --output-document /dev/null https://yoctoproject.org/connectivity.html')
++        self._run('env -i wget --debug --output-document /dev/null https://www.yoctoproject.org/connectivity.html')
  
+     def test_python(self):
+         # urlopen() returns a file-like object on success and throws an exception otherwise
+-        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://yoctoproject.org/connectivity.html")\'')
++        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://www.yoctoproject.org/connectivity.html")\'')
 -- 
-2.47.2
+2.35.6
 
 
