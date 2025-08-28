@@ -1,86 +1,100 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AE27CA0EED
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 17:31:01 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web10.3450.1756402258979597472
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34299CA0FF7
+	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 17:46:01 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.3835.1756403157843749073
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 10:30:59 -0700
+ Thu, 28 Aug 2025 10:45:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=J6qTBMVq;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-61cb4370e7bso1882427a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 10:30:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756402257; x=1757007057; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qfdZM24HmZVlWH4yWoco/DOHtN/mT1hU+qPbaYJpYV8=;
-        b=J6qTBMVqOFEw4IbzBMbcvhV9oEa1TQNeuA2mbzpzXOIeB2jtEnBV5IW9amUDvY8cE3
-         HwgP1kJxM4QdwhaCjaUk/qWfJMMrehbEDkS0ILFaDkvH230u1T//5G9K8wSAwYbOo2TJ
-         gptAUxvR2ePjitdA0fGib/dR+nVH4k/xSMU4tRPdI8r2CGfW0x4SBv1UXkoea5DfG8eD
-         HxtWA8sASQFkoHtc869r96eOL9i9puUjpYw7etGoqFD0MOh0NvahITGSeAL7GEl5MLRI
-         Qt3bBtsayOpr/NkR2dP1GmQGoQuYidGYrec06o6pKg0AklJ5Sns7iLZ1BA7WfHl6nkoa
-         aD0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756402257; x=1757007057;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qfdZM24HmZVlWH4yWoco/DOHtN/mT1hU+qPbaYJpYV8=;
-        b=nDaJP7dvD2/GRE2y29/514912Rf07IoRDZBUCHEMBd4Qi5geznD6Q+vJMAAxzONhd5
-         DTNB1fh9QzJWv2i9XBfE9LKZdDu4ozc9x1LTywIcZmOqXTSvP0qoSP4yUwP2wlrVDuvx
-         EbumTuKwY+AewrZA72QaE4qb3DCUkhEVrxgOgwYqyaIR75lH/4B8WJlTjbUxvTXQlV4R
-         PmejQZz243kbgLgEHZKPcQ85gztUfo8pn/09Gqy3Z/n+y5W5DOTc4NrrnYp07loxtkLx
-         NLomOwtW/GlStNKGQ0AO54xzs1Pe6qnRdjPjStvvQLH3BrLVcaEs92WozwFbSYZleo/j
-         uOcw==
-X-Gm-Message-State: AOJu0YwkbsMKP0U/Y1By2I3gZRmLx9e8I/kKS66eeyBywNFZe6C5NoYy
-	0M+2rj1pmeZknxshR2GQ4xHMh0n0GVIeMIC7ln6lnT8WQv/6GgfkiSjCpV6jSg==
-X-Gm-Gg: ASbGncsAaSDhPOkGMcuA0k03QbjUiG9F5RLpgSRpRyqi5zwK3y50lHmw/KcVVottXZx
-	RFIBd5kStgXO2s9me0+nQqJcA8LOpqINijUoU9S6WHqn+4n40mzPVTdHZdduSuKFffWXusXrssu
-	qMkK7M/KHfMswhBDYZrBqIhF36OzeoFDsJN/iAP2nUZqOMDhWa8XT1BlFCiPsKQhJ3Z4DCIPj7x
-	2UIkoooxBUDzvzO/ZsxWlVEnQ+4ttwi+Yfd4We/1OcY9yBICtLL9yV5DNF7tVRebVXvqa40nQVe
-	NpaNxVKQfnA7gJ6D5amIfniwxmUk8PTvAg8Sx0QweW3kRbfJODj10MMDh+vRBIXJPTTQiMoh/Sa
-	er/ircd0g9JQSbMKHTGAD
-X-Google-Smtp-Source: AGHT+IGfS3LT3tmps8+OAqw4EU8y6d9/bgxalYUW/OAonYhZFv9T3jtQuX9uzvxM7UBzZ58jdvflxQ==
-X-Received: by 2002:a05:6402:4349:b0:618:528b:7f9b with SMTP id 4fb4d7f45d1cf-61c1b6fb807mr17520534a12.31.1756402257009;
-        Thu, 28 Aug 2025 10:30:57 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cfc4bbca5sm59655a12.31.2025.08.28.10.30.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 10:30:56 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] puzzles: upgrade to latest revision
-Date: Thu, 28 Aug 2025 19:30:55 +0200
-Message-ID: <20250828173055.776180-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IG2Ca/pr;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AmL2gL0O;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010198f1c94856-436d2ec3-94b7-41bd-a1b7-64a491bac6d7-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1756403157; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=akPjvnhwvyzp0L6+BValigDkiqW6k0bIaxhO8m5gzH4=;
+	b=IG2Ca/pr2SwfyqHTW2f2t27w/RLPruXQCWIX1iFaGBaAhoHifUd45HqdjcjOxIj+
+	akh/CR9x9snHcwjzgiEmC5LwWZrp1dcfORFrtbfFljM3zuDJhF8/SypXYdZc7TKryO5
+	VKMLJebJwr4GLUSG+6Y82T1hKGEnxs4xicSbnRpg=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756403157;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=akPjvnhwvyzp0L6+BValigDkiqW6k0bIaxhO8m5gzH4=;
+	b=AmL2gL0ODyJqW4xlZJ9YLz3/1wovj1HDK+kagPmMI1K8rj6rUjLtKgkf7vkMEOHj
+	buRM7YwnIA6PCu4qm2fpDHgAY2Bc7I3letdU0hkMg68iY/XRF1p9NBTmPTMl126hfAG
+	6fqrjVmh+3SIHE65VTiDsOh0J6sw1Kl9j+BKeT70=
+From: patchtest@automation.yoctoproject.org
+To: Gyorgy Sarvari <skandigraun@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] puzzles: upgrade to latest revision
+In-Reply-To: <20250828173055.776180-1-skandigraun@gmail.com>
+References: <20250828173055.776180-1-skandigraun@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010198f1c94856-436d2ec3-94b7-41bd-a1b7-64a491bac6d7-000000@us-west-2.amazonses.com>
+Date: Thu, 28 Aug 2025 17:45:57 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.08.28-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 17:31:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222582
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 17:46:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222583
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/puzzles-upgrade-to-latest-revision.patch
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 253bc53e77..91b5740df3 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
- 
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "7fa03051562ee81e2a5371f8b3a6d0bb6e646aa0"
-+SRCREV = "a7c7826bce5cbb9b9c337c11b9b7f8b278e76fba"
- PE = "2"
- PV = "0.0+git"
- 
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
