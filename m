@@ -1,144 +1,110 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA13EC8303F
-	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 04:23:58 +0000 (UTC)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
- by mx.groups.io with SMTP id smtpd.web10.6006.1756441436124321834
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 573F5C8303F
+	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 06:18:19 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.web11.7134.1756448296672703579
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 21:23:56 -0700
+ Thu, 28 Aug 2025 23:18:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PCNewsdk;
- spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e931cddb0e2so1462742276.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 21:23:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756441435; x=1757046235; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qUA6MnDKqc32Zy7lWdgy+GpbFDd0XWxr6LC2o9k9Mkw=;
-        b=PCNewsdkFeSGjjBSTZUPy/BEG7CusThhxCC0QhT4P/fzodHDvZCGj2j09z4M/WN6EW
-         VlHhUpeNr6nGBT7M7XUvaiSmlg7MFB06cOFjjoolcjymKZYMTFiQPjADThhoUl6RZ8Ax
-         3yrNc0EtHLBCMBeAozEPkZkJMOrLYrlcOyPuyVSugIaLp/mBHg/WfK0SlTSSLGia5bXF
-         RIgrHdfyuDOwfpPJIdDZkZXu6nszs2u9PqInM0N/vewOeRCkWsUT2M/pSCSF/MA8BONb
-         /oAdnPAzpSmp5QT2/2kA1x1AAYFrBsUlR4LZ/0oaeeErn1v934yz8G+Q6Y5YsSWt6bd9
-         Q6Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756441435; x=1757046235;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qUA6MnDKqc32Zy7lWdgy+GpbFDd0XWxr6LC2o9k9Mkw=;
-        b=dsnubwlDdgwIBHbCUgYnGhPw7+xnwHWSh2HLsSGVLwuhEcm5N+hGkgi1jZbdiMU2KY
-         /sL79nU38QBm55SHl+vQizxMbZ4vvS5ITa+cmWMozmUgfF3Qqeop+t20VfwwmWTOHAQV
-         UXjwo+wLRVzPRTWtp5ouaLqbv/f/cKPuOLkHQB+vmB2plxmM2vnLy5pJjNbkseFHhR3C
-         OegALUpuBrnXvK+cHR1tsVYPZDBga//Z3DDPQrHzF8eS2+KCZAPVDoKiRaTnoAHfgm7i
-         y0ocovbCMV+oea/kmR8Y2yLSl+KtSML2C0Wn8vwPpXM8kg6l8MLMNxpHVw/HyfVVnFJh
-         Ac0A==
-X-Gm-Message-State: AOJu0YzeUtbnIqPOrLAGroxSl/idYop2aeDz+yeS+7gEdyURUL/lcark
-	6FQKJt5koD1jtKamX5FAgEVSmnL0tz42PKTIcJPEYc5RZIdmm2muwyEqDJmegW8XguKGcENuarE
-	t0I7pAFXM4cgYqIydwIXF8NchAaa5Tas=
-X-Gm-Gg: ASbGncu1cRGq97WGalO7GiVrL+DcCdcNWJBFsF44loA04ZUZMYlhmzOP4aDEVMNXVrk
-	8UUFq/nSV/MBZ3x2Y7bpKxSKseV9iJ3LebHosVw0biYjbrIRDuNaK1qN0IBrBlDk2z5AFjOAOA8
-	3R4mwlXJk/ZaTM63wtLWtRJQ1opxvE66liEZ4ciLh9/Raq6rxSbgY7tpYh6XYjdlICQ7B4CyqMO
-	5Buvfuo+7pCcawP4UJX/X1UcVdLHCaYmuN82rkJDJWdLAUIEXuOUmQrNSq+P2dxcNpxjCWkJDFG
-	kWVA/GDrnxZRMMKSipPb/fdPbvGJu/YSPGXUr7yLzXWQ9FYhaJR+BMaCDBqrasR6JeKq
-X-Google-Smtp-Source: AGHT+IExh7zQtkH2KqgLUW6FMiWXvI6xnbPm4QTZ0hYSf7kx+9sWNJH0bBnbPsSAD2h1LGoHnfvbhc56iNZhOCMc5bM=
-X-Received: by 2002:a05:690c:6f04:b0:721:3bd0:d5ce with SMTP id
- 00721157ae682-7213bd0d83cmr131849667b3.44.1756441435013; Thu, 28 Aug 2025
- 21:23:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <29f1bfef-97ac-44bb-b2de-63661a38e814@windriver.com>
-In-Reply-To: <29f1bfef-97ac-44bb-b2de-63661a38e814@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 28 Aug 2025 21:23:28 -0700
-X-Gm-Features: Ac12FXzg-gSZHIYxtm32qCW7qMwtKMKgO3Q6NUQfqFWD4jzKVzqldEI0Ds3it4s
-Message-ID: <CAMKF1soYB3s3YKy2Rtc1MP5fW3nmJpO6PFig5m8ZBpQCkbOJzw@mail.gmail.com>
-Subject: Re: [OE-core] Drop rust-llvm and use clang instead
-To: deepesh.varatharajan@windriver.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"Kokkonda, Sundeep" <sundeep.kokkonda@windriver.com>, 
-	"Dora, Sunil Kumar" <sunilkumar.dora@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=agATQS/4;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id D637D1A0B85
+	for <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 06:18:14 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AD85C606B9;
+	Fri, 29 Aug 2025 06:18:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EE1D21C22DA66;
+	Fri, 29 Aug 2025 08:18:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1756448293; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=NMvKg/8A3pBZdStYgZS3USehvy9JFMCINHW5SF12GxI=;
+	b=agATQS/4m6NJ0kcn1T15tsbYGoxFDKzcndExQbNfqDpxTAyyecd1JxtClDuUWyzPIT8RVO
+	jUkTGeHr+TAzk1tFJnXo54U3cwwbqyNQGSaH8R9aSswjMZ0mSWxkvvk/0K2Km2GjUG8BEj
+	sF4Bc5qt6Z5nAoLdTRjLmmFILfmRffPEgRnBCThJ9Z1v2/Gir3TTIVzDzTHSEnzPRtU4mU
+	UcpLto9oSAOYF0wuP6NDDSlDVH+vGMa43FwzckdpKHrzXGn0YdIHVTTo5C4rzIfzEV9sQe
+	5IsJvGywMn+xp8+yEfeuUETlg5qMg+3qKMBwc4VBuDBCAjUtPjj15D45xpRLDA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 29 Aug 2025 08:18:01 +0200
+Message-Id: <DCEOY8ZC7LJH.2M9UKRHFOGJSD@bootlin.com>
+Subject: Re: [OE-core] [PATCH] pinentry: upgrade 1.3.1 -> 1.3.2
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <skandigraun@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250827170807.1853599-1-skandigraun@gmail.com>
+In-Reply-To: <20250827170807.1853599-1-skandigraun@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 04:23:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222600
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 06:18:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222601
 
-On Thu, Aug 28, 2025 at 4:45=E2=80=AFAM Varatharajan, Deepesh via
-lists.openembedded.org
-<deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
+On Wed Aug 27, 2025 at 7:08 PM CEST, Gyorgy Sarvari via lists.openembedded.=
+org wrote:
+> Shortlog:
 >
-> Hi All,
+> -qt: Replace icons for dark mode with 16x16 icons
+> -qt,qt5: Ensure that input field is large enough for generated password
+> -qt5: Add dark mode icon variants and detection
+> -Make Show/Hide Password functionality accessible
+> -qt5: Make Show/Hide Password functionality accessible
+> -m4: Update libassuan.m4.
+> -build: Remove defining GPG_ERR_ENABLE_ERRNO_MACROS.
+> -build: Fix warning about obsolete pinentry-emacs.
+> -curses: Factor out dialog release to separate function.
+> -qt: Add dark mode icon variants and detection
+> -m4: Update gpg-error.m4 and libassuan.m4.
 >
-> We have removed rust-llvm and updated the Rust build to depend on Clang i=
-nstead.
-> With this change, we successfully built Rust for both native and target. =
-Additionally,
-> we ran a full bitbake world build without encountering any issues after d=
-ropping rust-llvm.
->
-> We now add these flags "-C link-arg=3D-lz -C link-arg=3D-lzstd" because o=
-f this following diff
-> otherwise we will get errors during link time.
->
-> Setup in rust-llvm
-> -DLLVM_ENABLE_ZLIB=3DOFF \
-> -DLLVM_ENABLE_ZSTD=3DOFF \
-> -DLLVM_ENABLE_FFI=3DOFF \
->
-> Setup in clang
-> -DLLVM_ENABLE_FFI=3DON \
-> -DLLVM_ENABLE_ZSTD=3DON \
->
-> You can find the relevant changes on the poky-contrib branch here:
-> https://git.yoctoproject.org/poky-contrib/commit/?h=3Dharish/rust-llvm
->
-> Differences seen in builds:
->
-> with rust-llvm for bitbake rust
-> real    54m54.184s
-> user   0m13.470s
-> sys     0m1.380s
->
-> f/s usage
-> 41G
->
-> without rust-llvm for bitbake rust
-> real    57m51.015s
-> user   0m18.129s
-> sys     0m2.051s
->
-> f/s usage
-> 45G
->
-> We are open for suggestions, improvements, or concerns regarding this cha=
-nge.
+> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+> ---
 
-This is cool. I think it will help regain the build time that
-regressed by adding clang to core.
-rust's llvm fork carries patches. I would like you to look into those
-and see if they
-are convenience patches or functional one's that we need to consider for cl=
-ang.
+Hi Gyorgy,
 
->
-> Regards,
-> Deepesh
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#222566): https://lists.openembedded.org/g/openembedde=
-d-core/message/222566
-> Mute This Topic: https://lists.openembedded.org/mt/114933250/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Thanks for your patch.
+
+It looks like this is breaking some selftest:
+
+2025-08-28 11:10:05,568 - oe-selftest - INFO - oescripts.OEListPackageconfi=
+gTests.test_packageconfig_flags_option_all (subunit.RemotedTestCase)
+2025-08-28 11:10:05,569 - oe-selftest - INFO -  ... FAIL
+...
+2025-08-28 11:10:05,570 - oe-selftest - INFO - 0: 31/43 460/635 (231.91s) (=
+0 failed) (oescripts.OEListPackageconfigTests.test_packageconfig_flags_opti=
+on_all)
+2025-08-28 11:10:05,570 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/=
+selftest/cases/oescripts.py", line 161, in test_packageconfig_flags_option_=
+all
+    self.check_endlines(results, expected_endlines)
+  File "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/=
+selftest/cases/oescripts.py", line 125, in check_endlines
+    self.fail('Missing expected listings:\n  %s' % '\n  '.join(expected_end=
+lines))
+  File "/usr/lib64/python3.12/unittest/case.py", line 715, in fail
+    raise self.failureException(msg)
+AssertionError: Missing expected listings:
+  pinentry-1.3.1
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2228
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2161
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2379
+
+Can you have a look at this issue please?
+
+Thanks!
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
