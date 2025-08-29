@@ -2,114 +2,101 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA20C8303F
-	for <webhook@archiver.kernel.org>; Thu, 28 Aug 2025 19:38:01 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.6215.1756409874342751719
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE6ECA0FF0
+	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 03:36:48 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.5165.1756438600795651612
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 12:37:54 -0700
+ Thu, 28 Aug 2025 20:36:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BuddGaG0;
- spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7720f231174so1227863b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 12:37:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gbJfwhWw;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-771eecebb09so2251135b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 20:36:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756409873; x=1757014673; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756438600; x=1757043400; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=P+X1KnLG52iqCAjIPCToYkJa6pHwqTbuEpVR+lvN0yY=;
-        b=BuddGaG0nTvzstoDyd9R4sxFYGclVcSFaQkf4k/3PooBnDzwoOajlYFV9UMrJC2EUx
-         dKPUlFu2ARwwdnrSUweNzzn2DnBJjE5xKdfmLwRf9cCCZd8LVApK1pDtHtufbdmbCP36
-         zlyFlTFBpsBksb1ayW2k4aQQt6NCjLKqXI+fy+ccc3xqqyXU6of4HZ/rlx9SwcwsyyMH
-         YR/7K7z/+euJPItrplV7VSlbCnsDQM6OXaCQ/OGPg7puhJpwYkJvZCQ1iqKbAgSLzbTK
-         FhwJrL5C5PX89xtM4IAIzPX80NXEj4/xp8Yvbp7NFbhAhULdPX22Zv6GFIQLSkTmyUwd
-         iiDQ==
+        bh=6p/EH2vItjysn99ZmdeecmUFhEv4rns9ddVy4N1LdFE=;
+        b=gbJfwhWwybdq6v8OOc57yr8yRwkQkAScgucWO+nPkQ+MUTwNaYO8FHgLVx9ORNCkct
+         by12FFLGJI86oYaomMD3MwsJf5c1/MD7+1c/uvDfaS7JAXUZeabTTJMU/RPmHmdakqvK
+         WncMswqjLo/5hIMA0NC7p/fZW8C91NHYnn2T44jT1Y5bKKP1U4fJr7kmGHt5Z6WJFiYj
+         pqDRhefxiUT8JtueTiaxKEUPNB8G9EtfkODVNaQPKOCwmavfIH0ra3BCvTSwFEM840xH
+         hgLxybKWKHlwJhloSkIYQopkVu8ij/90V8A9semH8J1LkHDkJrFN3g4UEj7zBEdC+OYO
+         WAJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756409873; x=1757014673;
+        d=1e100.net; s=20230601; t=1756438600; x=1757043400;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=P+X1KnLG52iqCAjIPCToYkJa6pHwqTbuEpVR+lvN0yY=;
-        b=FKI1kNoIDBT4c9Xp8wWEEx7MiWt5dhN8r3A75JktFX/MgQ900BzypcDHqi3W1iACFC
-         JT9EiXtf/fop35bT7VIOsJs5TUBcrL3Y4ua8b4w/GKewKBC1bKnGzJhW96D6Va18EM5e
-         Snu/cBvM9XxbB0hNZIj6LlIipVysZiXCfrAhzifWHfPxU97VTQPLevqLE14hGgh3NlLP
-         m5HlhkVEcvTShQz0mewlhHoAh0AXy8QXcH1/LH3YIbcHs47F3dmQG7djVThJ68peEDlX
-         +6cV5GkhYHertEXyl+nGS0nCERtv3yCayzaisoc0X3ZA6FVIM/K+dYLGtWNtwMCUVQ9X
-         Mc0Q==
-X-Gm-Message-State: AOJu0YzJhJHONSKee7c1lRtkuJqb4HN73BEBxyvrI3YxjtNUBGCn58xH
-	GkrmJb472hhytFIyixY2A2Pv3DORnDy1YgRLiQfzPD45XP/sNYnuL1v7JHrpmJsx
-X-Gm-Gg: ASbGncuYOV5i8Ugb7Wn/YTed2zTtRXwtT8U/T7Bb4cP2zYkrfA0tI00brD+eeRmsC+O
-	QJq8KVyfrZMzs5eLKk8xa3XFsW6q3DVtbQQaC+Dwol6q0BnHSXl4L2SVa1LVxibEDhLLwX0cJDv
-	rQP8eLBIvXSoYxF46fUp6Yid29AcpRruaVRzI5Q+sVyCrPmPM8kfMym3W94aUspzE1TFGxjIoEi
-	XMh2jvg3mwiC/2b2hnuT8tHcYaKnROaOX0gUSem6dSB0QvJWNjYqE4ThhBh26dptuL7F2ma9wsg
-	SbwAdQbFkQMlIGkALXDqy+6B3rI30KpzfvFosmhMxpSHdcw9PxGHVxWNch2hKiRm2T+SumvArYz
-	EEfmZFcngYxfOzgKy3VJO/drCP/ucUPfJiVTfGuorAKsi6U1rw4/u4H3xYTcOGJ2gNGbnnbdXTZ
-	aEMbExyWoxMAQ4iC0bBk9AaTpdJvfXuexZVtGRaOJ1
-X-Google-Smtp-Source: AGHT+IHaPfqz+e4Xvry2/MmTUeJmEIp/74VILlriYQ65zZP4dkSGXKDdcBzzLijB+Oc6hDmM6LB54g==
-X-Received: by 2002:a05:6a00:ad5:b0:76e:8e95:1382 with SMTP id d2e1a72fcca58-7702fa10651mr26238715b3a.5.1756409873058;
-        Thu, 28 Aug 2025 12:37:53 -0700 (PDT)
+        bh=6p/EH2vItjysn99ZmdeecmUFhEv4rns9ddVy4N1LdFE=;
+        b=tu1Qc7W9nczlcKblpJvj6syp1OVoPkKY02Jf+IRcbTSxjESECMRXuIStXxgSwxgl3X
+         EWECP9+XCUHzu7mZwWFGtCMVUwPbUvnNPW1ECmgiXRWiuKEX1qlAbhJImR2NDrsttlEU
+         wbaBYyI4YOIEgP9toR6B28hHd9KF6buJmSxqygX+413CJXlHxOwjDnoo7N2yt/pKgv9D
+         bOLyrEeUExh3rusy7Wr4hhLSjhcOQ+3BUTQsAGwOLMf32Fk/swpETBCkxnJBY0CpsRst
+         DqsPVgXm/THiiin0h51M5a4yF13lOPe2TEB83AAIBSMSYk40RpTx9DZeSYRBN7hz4kuk
+         YjeA==
+X-Gm-Message-State: AOJu0YzGx56rs4c5WYat7H9jed5kJVnKHT21gumMEDxmTY7sUxk6USOd
+	TuH59D5hWULgf3aX8gIzEri2WPIZd3ySCuY+HodcmOHzgv0Yj4acGDhyLYO2XdH2
+X-Gm-Gg: ASbGnctqKBl7XCKiZR8HALVL7nqCW92qkWO7zwfgxcYgrCcwCOidzuuQ8Zcz6JqndzY
+	J1FzlU0JVmcopmqAzdujuYqAcxdruqNVJV7gCVuMI2o6Y4j2T/BF0ayeszKkO5SjUVTlX1UfjHP
+	gv/9B/TZEh7Y+NKpEZJDshbX4OGS+qGKQdY6o9YtX+QrLn7sMBB4Q6jHLO8pvP7FriPyljuPZGV
+	n3byH2w5vuqAzwDe6sJFzwF3jMOK3ikLO9jwa4g09KL/7o0bZC5c0iSGKmfj9p8w/na8YwFAzfo
+	NG/DjtFrdjE/LxCQj6ErH/Pxy0aSx5XO6SoDeUpKGFzbky+7RRnMkispO/YqLGcRBUZHFgbh5Rd
+	0O36vgH99Qv9slDgIJs9rAyPYREpqqoeBMPR3CftrTLln99s35cBWCQb6i5wwaaIky9BUIdwQAc
+	nSNoAeHEQW8Q3C4YyTQRXb5cj0CKQjIe8/1kC2lRDfK8DBdGhTwSQ=
+X-Google-Smtp-Source: AGHT+IEUaFw664lyj3DXL3lb4bbZRJnc5aSRFqGtZCOtF2vP0DhIk0Ww+93JPR1N8+/tO8g8Qmn7VQ==
+X-Received: by 2002:a05:6a00:c95:b0:771:ef50:34d with SMTP id d2e1a72fcca58-771ef50092cmr17621161b3a.16.1756438599778;
+        Thu, 28 Aug 2025 20:36:39 -0700 (PDT)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7722a4e1b21sm228495b3a.69.2025.08.28.12.37.52
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7722a26abbbsm923763b3a.5.2025.08.28.20.36.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 12:37:52 -0700 (PDT)
+        Thu, 28 Aug 2025 20:36:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] babeltrace2: Disable ccache explicitly and inherit setuptools3-base
-Date: Thu, 28 Aug 2025 12:37:50 -0700
-Message-ID: <20250828193750.2607256-1-raj.khem@gmail.com>
+Cc: Gyorgy Sarvari <skandigraun@gmail.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2 1/3] boost-build-native: upgrade 1.87 -> 1.89
+Date: Thu, 28 Aug 2025 20:36:32 -0700
+Message-ID: <20250829033635.115107-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 19:38:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222595
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 03:36:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222596
 
-ccache does not work with this package
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 
-python plugins use setuptools/distutils to build and it tries to compute
-LDCXXSHARED as described in [1] in /src/bindings/python/bt2/setup.py.in
-It gets confused and ends up specifying compiler twice and the result is
-that linker fails with cryptic errors e.g.
+Changelog: https://www.boost.org/releases/1.89.0/
 
-| /mnt/b/yoe/master/sources/poky/build/tmp/work/x86-64-v3-poky-linux-musl/babeltrace2/2.1.1/recipe-sysroot-native/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/ld: cannot find x86_64-poky-linux-musl-g++: No such file or directory
-| collect2: error: ld returned 1 exit status
-| error: command '/mnt/b/yoe/master/sources/poky/build/tmp/hosttools/ccache' failed with exit code 1
-| make[3]: *** [Makefile:741: build-python-bindings.stamp] Error 1
-| make[3]: Leaving directory '/mnt/b/yoe/master/sources/poky/build/tmp/work/x86-64-v3-poky-linux-musl/babeltrace2/2.1.1/build/src/bindings/python/bt2'
-
-This is because first occurance of linker is encountering second linker on its
-cmdline and tries to treat it as an input object to linker
-
-It seems LDCXXSHARED computation gets confused when CXX contains ccache
-
-[1] https://github.com/pypa/setuptools/commit/2c937116cc0dcd9b26b6070e89a3dc5dcbedc2ae
-
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: Disable ccache instead of trying to tweak LDCXXSHARED
+v2: Rebased
 
- meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ ...st-build-native_1.87.0.bb => boost-build-native_1.89.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/boost/{boost-build-native_1.87.0.bb => boost-build-native_1.89.0.bb} (88%)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
-index 1dc8cd8a498..945f82ef34a 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.1.bb
-@@ -19,10 +19,12 @@ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=http
- SRCREV = "7f2f8cd6dac497cbb466efb31219b531c62013f5"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+diff --git a/meta/recipes-support/boost/boost-build-native_1.87.0.bb b/meta/recipes-support/boost/boost-build-native_1.89.0.bb
+similarity index 88%
+rename from meta/recipes-support/boost/boost-build-native_1.87.0.bb
+rename to meta/recipes-support/boost/boost-build-native_1.89.0.bb
+index 5b914b6f88f..911de72bc1f 100644
+--- a/meta/recipes-support/boost/boost-build-native_1.87.0.bb
++++ b/meta/recipes-support/boost/boost-build-native_1.89.0.bb
+@@ -6,8 +6,8 @@ SECTION = "devel"
+ LICENSE = "BSL-1.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
  
--inherit autotools pkgconfig ptest python3targetconfig
-+inherit autotools pkgconfig ptest setuptools3-base
+-SRC_URI = "git://github.com/boostorg/build;protocol=https;branch=master"
+-SRCREV = "4a52d8c06635435b64e31a56eaf7ca5dc912a71d"
++SRC_URI = "git://github.com/boostorg/build;protocol=https;branch=master;tag=boost-${PV}"
++SRCREV = "be69c44857e34fae250aa1321808a05c1d88bfde"
+ PE = "1"
  
- EXTRA_OECONF = "--disable-debug-info --disable-Werror --enable-python-plugins --enable-python-bindings"
- 
-+CCACHE_DISABLE = "1"
-+
- export DISTSETUPOPTS = " --install-lib=${PYTHON_SITEPACKAGES_DIR}"
- 
- PACKAGECONFIG ??= "manpages"
+ UPSTREAM_CHECK_GITTAGREGEX = "boost-(?P<pver>(\d+(\.\d+)+))"
 
