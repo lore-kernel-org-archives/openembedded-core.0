@@ -1,247 +1,316 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA2CCA0FFF
-	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 07:55:49 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by mx.groups.io with SMTP id smtpd.web11.8239.1756454149525831947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E60ABCA0FF9
+	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 08:01:29 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.8309.1756454481965276991
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Aug 2025 00:55:49 -0700
+ Fri, 29 Aug 2025 01:01:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=WOHY7NrY;
- spf=pass (domain: intel.com, ip: 192.198.163.8, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756454149; x=1787990149;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=KbvWN0/emfWYhe+n29ozg15rLHlKewFU4vXO3Day4WU=;
-  b=WOHY7NrYi0EEfYZcpZJc2Ef8YPI4EWrWHnpP+Nmig82H+NwbtTN3tTBa
-   mS4Jmg+TrA9+DY9JN+7Mo5I5iKx3IFeeADjQ/uNahKtUVZe7YWHUaydUc
-   Hdjj3HXmgVlbY1UmeTFrWo/irni/Niz6CE7K4W+9UhjuK9TCdnVTxmg/F
-   /p6CThmb1yNKRL9ZaBnkjMUwZOHNVQ8Q1h/4mElC8SQNjXgpr01onQdqT
-   TmC5Sb3CylOJmjLCJzEokta3xdEqg066cISkaJr8nlfw2ipivShvRfZi1
-   PWQQ2DKWN9aoR41YcMUcKp3DGcVncwrQlgjGGXt4dfPmfPxFX3w9TbAeX
-   A==;
-X-CSE-ConnectionGUID: kmMIhTctSWCIi1sq1s+S5Q==
-X-CSE-MsgGUID: bQPOhEThQRaqSSoIS0Ji2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="76333818"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="76333818"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 00:55:47 -0700
-X-CSE-ConnectionGUID: zIZvvI9NSzysS7XLoClGOA==
-X-CSE-MsgGUID: UrDR48jcTB+Q81sIXmJCZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="175619367"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 00:55:47 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 29 Aug 2025 00:55:46 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Fri, 29 Aug 2025 00:55:46 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.63)
- by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 29 Aug 2025 00:55:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f6oQXWpCtw/g34KzheSq6nL9TQxM6F2o9klsgzRU7CARYMZdLU+KEMDTq06qRbewu5Vz4AE9ySkTgPbJ1Hb9FpSQOprT5GzXjZ4UsE8uFWkqYA7aezXKhGG1eDEv7V4C86GocwhHWj/ypT+dyRLEzDBsPWzL9IuQKKzlEyRWa6W2uryjJLGvu3dqYA9ynjJBXjpVcSySEjWTu1aFGS43jSppo+/qMQ3hHcO8Co6BoRYS+vdijYmlHJWB9HlcMMFNoKUDG5x6I8SxqopLqT9vWds0SpHhDYMli/jv1cnh6JeMN+fTQBSZxqNbRrZ2YRC7AKZnCeIcd7W7UgwKfrlTyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2wX9HhVbL+2P6oGETYbc2ZcoLOuuMgEc9SDDEF84iRM=;
- b=IguXWiksRdlHd9d9k/2QieoqhcfOVHN7smvdBbEWTFNC8OMvfeYthcHX4gkLmWcNrl83JEFFc91WpzP75NSzU/h30OaK1odMry9BFHgXvV+TkeO7j8/vWd/dw10P7+HSNK2yqvqyomxjOT74Gn4XKbVfHimtZqnCVEM/bfhzsP4O1pbxQNWfYfnxj9SbpI/lGYF/reD/zFqNo6XcPfmLblgh1zO3BTRN0VOvlpvfkK6+2vubaFmSUtpZEXAgRm9NOqzAm/FNpuiwRrjNEKy/GJuk2ILNgoQkOaoy5MyuGILgqYrOK2MyNKipwrLsmaturbHcqC1TXUuhcEdJKaaDWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
- by DM3PPF0644BB20C.namprd11.prod.outlook.com (2603:10b6:f:fc00::f06) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Fri, 29 Aug
- 2025 07:55:39 +0000
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a%3]) with mapi id 15.20.9073.017; Fri, 29 Aug 2025
- 07:55:39 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-5.2.3.rc2)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-5.2.3.rc2)
-Thread-Index: AQHcDkpDY1ZEicWvn0a9AsqPjUiv/rR5V7Og
-Date: Fri, 29 Aug 2025 07:55:38 +0000
-Message-ID: <DM4PR11MB776017FEF59097151639DADCA13AA@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: <01010198b06b7c42-51779eb9-71a7-412c-b303-16a3ba0a4eb1-000000@us-west-2.amazonses.com>
-In-Reply-To: <01010198b06b7c42-51779eb9-71a7-412c-b303-16a3ba0a4eb1-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|DM3PPF0644BB20C:EE_
-x-ms-office365-filtering-correlation-id: baf38a7e-965f-403f-e217-08dde6d171fe
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|4022899009|376014|7053199007|13003099007|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?35IpQEGdtLTRgHmcwpA/ZVE/lf+K5cjvThW7PTvPjSZ7szQ66K3O2TnY5rEF?=
- =?us-ascii?Q?ds/T2W3L+h35OATvboRMBVRcFLDKrEGbcX3M8r/7u31/BqcVoIY1O2KXszqC?=
- =?us-ascii?Q?+q75K3fLtbLAtkFfGSZKh1AVh/+sUksZN3rMttsmEs1Blb4ANvRIPjyNXCtc?=
- =?us-ascii?Q?ZSSThWl9zyJyn7bfaXGDDieQRJsVeT+3Z3j2fBAKZJFgaQ/6MMSGK43eApmg?=
- =?us-ascii?Q?BoIFza/5e70snnQlS2+6sFgJa27glevkjuUhUGemEUs5LTHQHWsbWPAdjY8o?=
- =?us-ascii?Q?AhXyb+Oy6O0KlZ86T3SMfNpvV3pI8FSKAQyFKNvfKrW0FB39v/Rv8ZB8Y0h0?=
- =?us-ascii?Q?0lIsc/1g4NeGtv1/DYrCyWV7++p11DooaEV9JQbz5uEk39xKJ3KW7+/crCyQ?=
- =?us-ascii?Q?WinwuMb2BATKK4umE+g2hwIKM2MaNvOKknT3z+Hk9IhC6DYueeJGz1LnucO6?=
- =?us-ascii?Q?0EUvXaJbSXm/c2ZzUUk5orsWCJnFnHrS6xzWmikrn0/VLSSt1v/craposV5s?=
- =?us-ascii?Q?mAPUINtMDebVJorEmZOrrijRkROpeopBeC/Y2XYiKNWYJeyuw0NuRlonknzA?=
- =?us-ascii?Q?W2iAtLRaj++l7z6BXTLwZUsDYRb/Dy4Lzq/+hZNNuqSFjguhta3QJtNORU48?=
- =?us-ascii?Q?XDV2P7JZXEbb6uZ3J/E1vqp2bYe6sMbEqLjmozPuS91Meo2VUXV1QAw8Xwgb?=
- =?us-ascii?Q?GQHJAJ9+/4MYCWHhlioqptcn+fceExkjyE/I8F0WmVwWGj6mzTm0dAXwXrbN?=
- =?us-ascii?Q?YZzyaAn+sZAV4wbKKCby2kR+Xpk1KlahT/ygh1Jh1fpfr5u8aTrLTuNeJnFW?=
- =?us-ascii?Q?ZfCKx7vjewH/xCtIcMfkcg1kFSCDHF+BP++sF5qqctuFnurdZUEnFINQxHXN?=
- =?us-ascii?Q?ZIG4MnH3NwHXNh5L539LB3VLMajttSk6FgVl/FWOR7Cb6+R8E2ZzdhUikr7+?=
- =?us-ascii?Q?vIjoHc/ObZIJ4WDZ+VBFrjW86gKstflGEcE9ylQ2GqGbb9itzIahzCa2zM4q?=
- =?us-ascii?Q?RDr6bcnpAriqRFZzdRdynStNZl5kY91+1ieDjFJHRjAEpMij1hKkMychw1SL?=
- =?us-ascii?Q?IM0c4R08N+ZAmlGTj3jJxyLY1Z+SyOk0bj1nb0NdYyDUGaCQNbRLa5qTPLc2?=
- =?us-ascii?Q?94xGRWZxqyTs5lO9HJamdzO7e6Yy1X5IrHkKdeKRnTdQShprbA5P7mG5/qO+?=
- =?us-ascii?Q?hZAPupEGhrw6YkccudZp8TvpPFUhzEQWsdJt0ob4N6BnNfB0HHsThohfQdti?=
- =?us-ascii?Q?ItiOjHvSJ7/yT23qVCio7JzhICzxmGDA1xxiuMRh/tctVPAaqGh3lxqvtP/X?=
- =?us-ascii?Q?k9D+MqT0lOzuopCYAPzUQhlOAAfCSWXJyROtvHMwHnwkBajQFA9fuX15xHhT?=
- =?us-ascii?Q?X8i7D8Wtk6gN8M+qbrZ1ROJqn9n7IPG5Spix7BsYusKY7SuXYp/QHGu7dfvg?=
- =?us-ascii?Q?oZeF/fxkgCQ=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(4022899009)(376014)(7053199007)(13003099007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AkgH9DZWlAzanThJSx4vcc71snXokESEX4SY2TdRGwCcZiFuZEXEmKqPiGTY?=
- =?us-ascii?Q?pbrl6qJO8K5RRPEMUG5RczK4ORAvI05XiSW51iZ8TAvgcW4FkX6LMictkoMI?=
- =?us-ascii?Q?cwhev9HY3BjJSJZXYPuC4F6a0SC4+6D6CABOFj7/muSY8JTJXdgzhM2HQUN2?=
- =?us-ascii?Q?9VzeXv+FKzbjr6LAieflHpFjMv268TyPOISKuGJ2zxyT5OBKXCkSJ1GLMLja?=
- =?us-ascii?Q?0PnpvnNMeXFoHTHs5WK28FR1OvfQ3DDz1pvBUVY+am4cJp431Q6Ju8nd0cVe?=
- =?us-ascii?Q?t2SMX7urEl86M6IHvCI1JFT74sT+lFtG0mJ15E/BdNmKLmAynZncCS4q1kah?=
- =?us-ascii?Q?F/yNZUZhwVYBA3zWKxxpBSBE1hv7eatDeNiVn52sjH5163A2fWpVPQs0Fik8?=
- =?us-ascii?Q?RQ+a6Ri4GzOCHjIi2k+BvdIlb0tOZjzdDvumaIov17CbkvDS11iuq9JmIJeB?=
- =?us-ascii?Q?vIOjScva+AtFMZIKw3pAeQ70b5+Fj35fOIUV93tWTmZzW6rp0QXsAJ33CYY1?=
- =?us-ascii?Q?Q5I1pm6yFJFcVUSboCixFbbC4pVdr/0tNi19Q5Wlk7E1t1kDijhAlHDQLHiE?=
- =?us-ascii?Q?DYFg8LuXbsZrV5doj0VWMmNkvBo3KAdmPArOnNtStF19+Gb4mVCQ+hSoO+Av?=
- =?us-ascii?Q?KqXFQWGxZml2cCWfYfPJQ1Z2jO6tFeVYg9Dr7D2C1sNd31ZkDIuNvB0eTzjQ?=
- =?us-ascii?Q?YtjaSu+NtOHHGx5aob5DI6enKqCS+okiT0TDX9hf5x5YG+mtBKqb7Qioql0t?=
- =?us-ascii?Q?WeEoW5OqjrK1DJNEd5ITMjL9HfKJQ2EKJhJrGGEADZFy1ZsoO4wwFvTSWd+m?=
- =?us-ascii?Q?l/QHFSvaaIjmNJjBN7JK4LbknukYjYP2sFPr0p6E6vpuHSOlr5Xc7zsr6U8k?=
- =?us-ascii?Q?jXu3h5r9AR1LtP0w5zY4zgAcBNUSVmutaJIlqyfzZHXawFya4ZqWqpfH1lye?=
- =?us-ascii?Q?HHt60PpkrZG9+yjpSbLD/75JoKlyOpGbHdQ8C6M9IIfKBis2GG3PfE9vPd/f?=
- =?us-ascii?Q?xsZvAAR97cELFtKbQL41o9mEg2m56HpUMd6yroRU0nvm4/wSst8gQshHCH4s?=
- =?us-ascii?Q?u1bn57YK2G+hhMpZpbMMzO3IEUkHtrGhgEHierkjsrw1dwJ3srYMkSAfBkoA?=
- =?us-ascii?Q?fbpI2cThxdtqa1SAYo0eDOh6tZ5Fp0edN7xDmGCa9LMGWRUwsJm+xNg83Bl9?=
- =?us-ascii?Q?3zLqtiDQ+/nOqWioIKvkYGmlYi1fwPIZZhw4j7NeGbZ7fotzDmn7X9FOcox8?=
- =?us-ascii?Q?+rkRQl5ScTpcTBJOTk8e1gnN56vQUzQoYJK2BOPaSEL7F8jUad1m035zbwBx?=
- =?us-ascii?Q?Li4NJUH6GT1+y1/Mz7MWaSgXvT5oXsHBLsFdAdbUYY5sdslQH/l3Ud2VyFJL?=
- =?us-ascii?Q?Uo5fD19zKTv6AimQnPhgkdIzj2rBPhEeI4P2z95AYHTIFs3rZ9cRYbbbCM8j?=
- =?us-ascii?Q?gk2l8phHVpy+WahGo/vX46GtsKorEWgvsHQ+9CZtSAgur7P9rR8QqsXsD1N0?=
- =?us-ascii?Q?PttkH1ZPDx7KCtsyuVraqdAJQwy3Kw77LEU5rjA28wZXj1hk/QpF4pHT4w8E?=
- =?us-ascii?Q?dq1e8NZu/3IMKNlNMpYODx6wcejeZ9DJ93Z/3aYp?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lRSu227i;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-61d06c4e0d0so681237a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 01:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756454480; x=1757059280; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e8gCMflhjq6tl96oC18geazof2FUfXzOfxyQFvVpY9A=;
+        b=lRSu227iRxgkb+Frnl/5q9smWAQGj86Q2pyRafCsTju/zp6GN0KRIGYKWZUbLhCq9O
+         5DIpdZY4mEuZjEWTesoLfdUYzTxtIpIQ9GzjxzHK/q07/ofkeLZGExX8c54K29q+Zlu+
+         95/pkOQKXSkQ369H2F2xsFxrI61AAKIkZ8HWkQ7E48JqwU4tT6k7aEsV+GSMLSKZHjbQ
+         H+2HN9x5Ei5UDVQh/wA3CUe8he7JA9jskt9svNm8GD+T+QAAaCpy6dJO4eWjFl4fX44b
+         p9B2pOAhcZH7je/pVatW0ccjij1AKqJVYaalWY9CnC44jeN6lS7ZmYD+K7f9C4fAG25s
+         IiGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756454480; x=1757059280;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e8gCMflhjq6tl96oC18geazof2FUfXzOfxyQFvVpY9A=;
+        b=u9HlTPGvmf6MmCoh0ET8fcf3KTA4y9unHgcbikF5WbV7O73LwJgaBo+zJPtMLWqfgo
+         9xXE892jBVs2XKdSFxEeIi7pzPwGUMBim8+H5ah+HdAb3yOziKuOn0wi8cir+GxkfTHT
+         XxNJxBvQwK6DO6pWa17eq2kEtUP+BSbqgb5cknAszGAwjVF2IrtABfVGHqh9LA0Ax6zd
+         3I++14TDskCK7/t8+Rqev2Wrhvb82867DTgMuH9Jip+QspBxAXillNqR9dCIahDsQvai
+         ljSWv3oW8cU/tdXI6YgTr7qr+JrJ6m1tXR8503xVp0xONHFkZJ6IsnclEKB8+tZ5i0gx
+         q4iQ==
+X-Gm-Message-State: AOJu0YxBpTEjKgKgHOyuni2vjdcwoQiDf1NzgPD6Mf0+QUZD3NDaONeH
+	KqmeMCe3+ad7cauVU/QsxYEUgCWrIyIDUlev+5gvUMRUGG/bmf354BbVR48MzQ==
+X-Gm-Gg: ASbGncspN+XBC53mlisw73pG93fQ3okh9l+Y8uSF0tsTmgWc4DJJHOCI1DO8lEWfbKQ
+	q8tesluZos7mxaUzDr613Wv7Or1WX5tcoohydfHRKOjuol9/RWS1sAahwv1l6iAJfiZMFElyKWD
+	TtBYqfH8gewOR9kYMCmTSWUbFIcPGzFWTGbcYumcvJPSU26+LrH+aMb4osCASX9xkyIyF87y/3W
+	bLx5TLbZjIcKg24F9ef9G+CUpmnhBHJC1udCMfyPQWuBYj8U7hTkdi9PsZridq9/JGdm4kYBcYk
+	CBEhCKJh02/XoH2HAPVEpOMEPe+RrDyBAc5rVQdieDynPhFB0mgLtITfzOILukjt4T47GGmAsJ2
+	OMfr2DcbV+MmN2dwdvFN0
+X-Google-Smtp-Source: AGHT+IHnpqVNejehw5vix8sznELy/IqvojmAGOXMbjNL924ZpkSPBBd44FL9iUB5r0E16ZNGjCf6hA==
+X-Received: by 2002:a05:6402:51ca:b0:61d:107e:9c28 with SMTP id 4fb4d7f45d1cf-61d107ea0eamr80702a12.1.1756454479798;
+        Fri, 29 Aug 2025 01:01:19 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cfc214ec8sm1256939a12.17.2025.08.29.01.01.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Aug 2025 01:01:19 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] pinentry: upgrade 1.3.1 -> 1.3.2
+Date: Fri, 29 Aug 2025 10:01:18 +0200
+Message-ID: <20250829080118.3776531-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: baf38a7e-965f-403f-e217-08dde6d171fe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2025 07:55:39.1432
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: A7Sq7BtFMMceOhsG+k4MbeSxPbT3NWqRzVvQb7QdJi1XtIewGj/3aC+0Q+PPDfVg8HGntWVyZ2v7xlZfq9dpvg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF0644BB20C
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 07:55:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222602
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 08:01:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222603
 
-Hi All,
-=20
-QA for yocto-5.2.3.rc2 is completed. This is the full report for this relea=
-se: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
-=20
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
-=20
-No new issue found.=20
-=20
-Thanks,
-Jing Hui
+Shortlog:
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User via
-> lists.yoctoproject.org
-> Sent: Saturday, August 16, 2025 9:08 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r build
-> (yocto-5.2.3.rc2)
->=20
->=20
->     A build flagged for QA (yocto-5.2.3.rc2) was completed on the autobui=
-lder
-> and is available at:
->=20
->=20
->         https://valkyrie.yocto.io/pub/releases/yocto-5.2.3.rc2
->=20
->=20
->     Build URL:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2213
->=20
->     Build hash information:
->=20
->     bitbake: 710f98844ae30416bdf6a01b655df398b49574ec
-> meta-agl: 435a9b13b8486cf7d51a86cebaa72ee382202a50
-> meta-arm: 2de04c3d31e119d4bedbea24b9c63a8c113a1ce3
-> meta-aws: 3cd3b809390120059d89cde45b21615bb8948be2
-> meta-clang: 003cba92e982bdd565a6889f28799f8bba14957e
-> meta-intel: 5640f6592c984f4832ff5f2ed1a35a607e5d21c5
-> meta-mingw: edce693e1b8fabd84651aa6c0888aafbcf238577
-> meta-openembedded: dca497d728792e3cb655c78455c2d649af312ce8
-> meta-virtualization: 898239e810acbb7db93299f20deec8afe434f11b
-> oecore: 347cb0861dde58613541ce692778f907943a60ea
-> poky: db04028d9070f05c3b5dee728473fb234bd24f05
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#586): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/586
-> Mute This Topic: https://lists.yoctoproject.org/mt/114728690/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/13581802/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+-qt: Replace icons for dark mode with 16x16 icons
+-qt,qt5: Ensure that input field is large enough for generated password
+-qt5: Add dark mode icon variants and detection
+-Make Show/Hide Password functionality accessible
+-qt5: Make Show/Hide Password functionality accessible
+-m4: Update libassuan.m4.
+-build: Remove defining GPG_ERR_ENABLE_ERRNO_MACROS.
+-build: Fix warning about obsolete pinentry-emacs.
+-curses: Factor out dialog release to separate function.
+-qt: Add dark mode icon variants and detection
+-m4: Update gpg-error.m4 and libassuan.m4.
 
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+
+v2: adapt selftest to the new version number
+
+ meta/lib/oeqa/selftest/cases/oescripts.py     |  2 +-
+ .../gpg-error_pkconf.patch                    | 47 +++++++++++--------
+ .../libassuan_pkgconf.patch                   | 30 +++++-------
+ .../{pinentry_1.3.1.bb => pinentry_1.3.2.bb}  |  2 +-
+ 4 files changed, 41 insertions(+), 40 deletions(-)
+ rename meta/recipes-support/pinentry/{pinentry-1.3.1 => pinentry}/gpg-error_pkconf.patch (88%)
+ rename meta/recipes-support/pinentry/{pinentry-1.3.1 => pinentry}/libassuan_pkgconf.patch (87%)
+ rename meta/recipes-support/pinentry/{pinentry_1.3.1.bb => pinentry_1.3.2.bb} (93%)
+
+diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
+index 3f9899b289..64fb3f1a1d 100644
+--- a/meta/lib/oeqa/selftest/cases/oescripts.py
++++ b/meta/lib/oeqa/selftest/cases/oescripts.py
+@@ -151,7 +151,7 @@ class OEListPackageconfigTests(OESelftestTestCase):
+     def test_packageconfig_flags_option_all(self):
+         results = runCmd('%s/contrib/list-packageconfig-flags.py -a' % self.scripts_dir)
+         expected_endlines = []
+-        expected_endlines.append("pinentry-1.3.1")
++        expected_endlines.append("pinentry-1.3.2")
+         expected_endlines.append("PACKAGECONFIG ncurses")
+         expected_endlines.append("PACKAGECONFIG[qt] --enable-pinentry-qt, --disable-pinentry-qt, qtbase-native qtbase")
+         expected_endlines.append("PACKAGECONFIG[gtk2] --enable-pinentry-gtk2, --disable-pinentry-gtk2, gtk+ glib-2.0")
+diff --git a/meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch b/meta/recipes-support/pinentry/pinentry/gpg-error_pkconf.patch
+similarity index 88%
+rename from meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch
+rename to meta/recipes-support/pinentry/pinentry/gpg-error_pkconf.patch
+index 863ba9e34b..d27588e4ec 100644
+--- a/meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch
++++ b/meta/recipes-support/pinentry/pinentry/gpg-error_pkconf.patch
+@@ -17,7 +17,7 @@ diff --git a/m4/gpg-error.m4 b/m4/gpg-error.m4
+ index 7fa52b1..c0784ed 100644
+ --- a/m4/gpg-error.m4
+ +++ b/m4/gpg-error.m4
+-@@ -15,188 +15,18 @@
++@@ -15,197 +15,20 @@
+  dnl
+  dnl Find gpg-error-config, for backward compatibility
+  dnl
+@@ -131,17 +131,16 @@ index 7fa52b1..c0784ed 100644
+ -  fi
+ -
+ -  if test -n "$gpgrt_libdir"; then
++-    # Add the --libdir option to GPGRT_CONFIG
+ -    GPGRT_CONFIG="$GPGRT_CONFIG --libdir=$gpgrt_libdir"
+--    if $GPGRT_CONFIG gpg-error >/dev/null 2>&1; then
+--      GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
+--      AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
+--      gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
+--    else
+--      gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
++-    # Make sure if gpgrt-config really works, by testing config gpg-error
++-    if ! $GPGRT_CONFIG gpg-error --exists; then
++-      # If it doesn't work, clear the GPGRT_CONFIG variable.
+ -      unset GPGRT_CONFIG
+ -    fi
+--  elif test "$GPG_ERROR_CONFIG" != "no"; then
+--    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
++-  else
++-    # GPGRT_CONFIG found but no suitable dir for --libdir found.
++-    # This is a failure.  Clear the GPGRT_CONFIG variable.
+ -    unset GPGRT_CONFIG
+ -  fi
+ -])
+@@ -151,17 +150,31 @@ index 7fa52b1..c0784ed 100644
+ -dnl
+ -dnl Test for libgpg-error and define GPG_ERROR_CFLAGS, GPG_ERROR_LIBS,
+ -dnl GPG_ERROR_MT_CFLAGS, and GPG_ERROR_MT_LIBS.  The _MT_ variants are
+--dnl used for programs requireing real multi thread support.
++-dnl used for programs requiring real multi thread support.
+ -dnl
+  dnl If a prefix option is not used, the config script is first
+  dnl searched in $SYSROOT/bin and then along $PATH.  If the used
+  dnl config script does not match the host specification the script
+  dnl is added to the gpg_config_script_warn variable.
+  dnl
+--AC_DEFUN([AM_PATH_GPG_ERROR],[dnl
+--AC_REQUIRE([AC_CANONICAL_HOST])dnl
+--AC_REQUIRE([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG])dnl
+--AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
+++
++ AC_DEFUN([AM_PATH_GPG_ERROR],
++-[ AC_REQUIRE([AC_CANONICAL_HOST])dnl
++-  AC_REQUIRE([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG])dnl
++-  AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
++-  if test x"$GPGRT_CONFIG" != x -a "$GPGRT_CONFIG" != "no"; then
++-    GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
++-    AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
++-    gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
++-  elif test x"$GPG_ERROR_CONFIG" != x -a "$GPG_ERROR_CONFIG" != "no"; then
++-    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
++-  else
++-    gpg_error_config_version="0.0"
++-  fi
+++[
+++  min_gpg_error_version=ifelse([$1], ,0.0,$1)
+++  PKG_CHECK_MODULES(GPG_ERROR, [gpg-error >= $min_gpg_error_version gpg-error], [ok=yes], [ok=no])
++ 
+ -  min_gpg_error_version=ifelse([$1], ,1.33,$1)
+ -  ok=no
+ -  if test "$GPG_ERROR_CONFIG" != "no"; then
+@@ -184,10 +197,6 @@ index 7fa52b1..c0784ed 100644
+ -    fi
+ -  fi
+ -  AC_MSG_CHECKING(for GPG Error - version >= $min_gpg_error_version)
+-+AC_DEFUN([AM_PATH_GPG_ERROR],
+-+[
+-+  min_gpg_error_version=ifelse([$1], ,0.0,$1)
+-+  PKG_CHECK_MODULES(GPG_ERROR, [gpg-error >= $min_gpg_error_version gpg-error], [ok=yes], [ok=no])
+    if test $ok = yes; then
+ -    GPG_ERROR_CFLAGS=`$GPG_ERROR_CONFIG --cflags`
+ -    GPG_ERROR_LIBS=`$GPG_ERROR_CONFIG --libs`
+@@ -211,7 +220,7 @@ index 7fa52b1..c0784ed 100644
+      if test x"$gpg_error_config_host" != xnone ; then
+        if test x"$gpg_error_config_host" != x"$host" ; then
+    AC_MSG_WARN([[
+-@@ -211,10 +41,6 @@ AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
++@@ -220,10 +43,6 @@ AC_DEFUN([AM_PATH_GPG_ERROR],
+        fi
+      fi
+    else
+diff --git a/meta/recipes-support/pinentry/pinentry-1.3.1/libassuan_pkgconf.patch b/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
+similarity index 87%
+rename from meta/recipes-support/pinentry/pinentry-1.3.1/libassuan_pkgconf.patch
+rename to meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
+index f2d50010c5..fbd370d9fd 100644
+--- a/meta/recipes-support/pinentry/pinentry-1.3.1/libassuan_pkgconf.patch
++++ b/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
+@@ -18,7 +18,7 @@ diff --git a/configure.ac b/configure.ac
+ index 4944f7c..f03cbb7 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -264,8 +264,8 @@ if test "$have_libassuan" = "yes"; then
++@@ -261,8 +261,8 @@ if test "$have_libassuan" = "yes"; then
+                       [version of the libassuan library])
+  fi
+  
+@@ -33,12 +33,13 @@ diff --git a/m4/libassuan.m4 b/m4/libassuan.m4
+ index a2eb5d9..897f407 100644
+ --- a/m4/libassuan.m4
+ +++ b/m4/libassuan.m4
+-@@ -15,30 +15,8 @@ dnl
++@@ -100,31 +100,8 @@ dnl
+  dnl Common code used for libassuan detection [internal]
+  dnl Returns ok set to yes or no.
+  dnl
+ -AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+--[ AC_REQUIRE([AC_CANONICAL_HOST])
++-[ AC_REQUIRE([AC_CANONICAL_HOST])dnl
++-  AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
+ -  AC_ARG_WITH(libassuan-prefix,
+ -              AS_HELP_STRING([--with-libassuan-prefix=PFX],
+ -                             [prefix where LIBASSUAN is installed (optional)]),
+@@ -66,7 +67,7 @@ index a2eb5d9..897f407 100644
+    tmp=ifelse([$1], ,1:0.9.2,$1)
+    if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
+      req_libassuan_api=`echo "$tmp"     | sed 's/\(.*\):\(.*\)/\1/'`
+-@@ -48,59 +26,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
++@@ -134,59 +111,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+      min_libassuan_version="$tmp"
+    fi
+  
+@@ -111,7 +112,7 @@ index a2eb5d9..897f407 100644
+ -
+ -  if test $ok = yes; then
+ -    AC_MSG_RESULT([yes ($libassuan_config_version)])
+--    AC_DEFINE(LIBASSUAN_API_REQUESTED, $req_libassuan_api, Requested API version for libassuan)
++-    AC_DEFINE_UNQUOTED(LIBASSUAN_API_REQUESTED, $req_libassuan_api, [Requested API version for libassuan])
+ -  else
+ -    AC_MSG_RESULT(no)
+ -  fi
+@@ -128,7 +129,7 @@ index a2eb5d9..897f407 100644
+        if test "$tmp" -gt 0 ; then
+          AC_MSG_CHECKING([LIBASSUAN API version])
+          if test "$req_libassuan_api" -eq "$tmp" ; then
+-@@ -117,11 +47,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
++@@ -203,11 +132,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+  
+    if test $ok = yes; then
+      if test x"$host" != x ; then
+@@ -141,7 +142,7 @@ index a2eb5d9..897f407 100644
+        if test x"$libassuan_config_host" != xnone ; then
+          if test x"$libassuan_config_host" != x"$host" ; then
+    AC_MSG_WARN([[
+-@@ -144,7 +70,7 @@ dnl Test whether libassuan has at least MINIMUM-VERSION. This is
++@@ -230,7 +155,7 @@ dnl Test whether libassuan has at least MINIMUM-VERSION. This is
+  dnl used to test for features only available in newer versions.
+  dnl
+  AC_DEFUN([AM_CHECK_LIBASSUAN],
+@@ -150,21 +151,12 @@ index a2eb5d9..897f407 100644
+    if test $ok = yes; then
+      ifelse([$2], , :, [$2])
+    else
+-@@ -160,16 +86,10 @@ dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
++@@ -246,7 +171,7 @@ dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
+  dnl Test for libassuan and define LIBASSUAN_CFLAGS and LIBASSUAN_LIBS
+  dnl
+  AC_DEFUN([AM_PATH_LIBASSUAN],
+ -[ _AM_PATH_LIBASSUAN_COMMON($1)
+ +[ AM_PATH_LIBASSUAN_COMMON($1)
+    if test $ok = yes; then
+--    LIBASSUAN_CFLAGS=`$LIBASSUAN_CONFIG --cflags`
+--    LIBASSUAN_LIBS=`$LIBASSUAN_CONFIG --libs`
+-     ifelse([$2], , :, [$2])
+-   else
+--    LIBASSUAN_CFLAGS=""
+--    LIBASSUAN_LIBS=""
+-     ifelse([$3], , :, [$3])
+-   fi
+--  AC_SUBST(LIBASSUAN_CFLAGS)
+--  AC_SUBST(LIBASSUAN_LIBS)
+- ])
++     LIBASSUAN_CFLAGS=`$LIBASSUAN_CONFIG --cflags`
++     LIBASSUAN_LIBS=`$LIBASSUAN_CONFIG --libs`
+diff --git a/meta/recipes-support/pinentry/pinentry_1.3.1.bb b/meta/recipes-support/pinentry/pinentry_1.3.2.bb
+similarity index 93%
+rename from meta/recipes-support/pinentry/pinentry_1.3.1.bb
+rename to meta/recipes-support/pinentry/pinentry_1.3.2.bb
+index 0fc652cdba..0a4a847776 100644
+--- a/meta/recipes-support/pinentry/pinentry_1.3.1.bb
++++ b/meta/recipes-support/pinentry/pinentry_1.3.2.bb
+@@ -16,7 +16,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://gpg-error_pkconf.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "bc72ee27c7239007ab1896c3c2fae53b076e2c9bd2483dc2769a16902bce8c04"
++SRC_URI[sha256sum] = "8e986ed88561b4da6e9efe0c54fa4ca8923035c99264df0b0464497c5fb94e9e"
+ 
+ inherit autotools pkgconfig
+ 
 
