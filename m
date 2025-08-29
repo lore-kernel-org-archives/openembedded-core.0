@@ -1,118 +1,103 @@
-Return-Path: <philip@balister.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5C97CA0FF0
-	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 18:49:19 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web11.17757.1756483268547045729
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1143FCA0FFD
+	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 18:55:50 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.2939.1756493742938484230
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Aug 2025 09:01:08 -0700
+ Fri, 29 Aug 2025 11:55:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UJkLGe50;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: rmmuniz@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-70dfe0ff970so15050876d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 09:01:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BkVYt41+;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-771e15ce64eso2133978b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 11:55:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756483267; x=1757088067; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4VpKo3trUolITcCV9WGx8UxQ9GU1fu8r0gZtIslNKQc=;
-        b=UJkLGe50KbBKtVGDEA5dajvSeFEnN7px8c4un5/le5fxEL0bimtRR2FB4oa49ltQG1
-         lA2jyqr2ImYxfb4Tol2BErod344Mr2Ec0IKOMUml92MLpF7dZ/cX0GMlZd93PAzCUDzw
-         IV5yN+myAY1uGd5RABIj2uLwXK/ChLlVa71bHunCcJBmdoprTt24DuJdRxOtUSBeNFm3
-         eibwDM72eOwRpOmV6gFMgr/dZx0EsR/6812VcU207XvDYXq1tt9nUE1EaFtQjb47ZG5Q
-         iA42IOBdcV725shvjAnRRKIZ00GygIebzGHVELWquqwnxCGUCDB+p3otcMBIPzmzW3sn
-         ijTg==
+        d=gmail.com; s=20230601; t=1756493742; x=1757098542; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o/cswSbKhxsdgO8ZNczEQ9EsIr0he5IK6Qvf/Lsgy+o=;
+        b=BkVYt41+QW+WJD5TENjO2HIn3SUfzj+qckjOnunAoLtbU1r4KYftHBQaxx0T6Ghiu/
+         qWVez/zI1EiqniFtMA746yXRWiVE+eeOKXAbaq5wkTYVbSJ5F4w6BoQxYQRx/amVsins
+         U+0K+7/YBfu6rGCbad56DOUhKQLCIWAyWvJlB3O1FmNIPei7ckjWJ7RKzODinYXxnrO4
+         fjrbi0DRT1vRxMkMY+839wcjGV+33Q4pwEGoHa6GB2ehagH2LQSrCSQMTWJw7agqcwSP
+         bdZWFKzuWeb/DVVdc0hNVg/2UoBAaXIQAYu+Voppaar7mQ3lVKliCtfGskZAcCrHcxQ+
+         Vp+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756483267; x=1757088067;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4VpKo3trUolITcCV9WGx8UxQ9GU1fu8r0gZtIslNKQc=;
-        b=UF0rzIfkfnFTQKexe+Wud1twENUah/UizB5cgo9DIiijIB3j5HLQM4QWYtK0e4Wzwb
-         mj0izmjRrxgjKnAON5XmZKYno5haXEyxxs6glrgh0EzYp3IiMwVS53A6K3Nl7NKh3mtV
-         x2t1FjUsnzZGxyu6CQwrZtjjHfhpfbPBuge3XHDlqIN0fOtngTJeYjQCEQXATP0FFgvm
-         i2jCY1igVi23LUhzONOLCQap2jnlIq3U6Heu6pRlyHctOK2qGV2fIT/9O0obJjht37lC
-         +5hAzweyLdwa5hbUHxNwieNVdVg8VnpKs2JY2/Oftwg2meK1xmTD1SE1cyfu4J+AJynJ
-         61ow==
-X-Gm-Message-State: AOJu0YxC+DAhP+w5gheNz5jNlyF/p7fU7VoT7He1/03QBlFIe5S5pDJc
-	95VzkL1wRPvLRpzj8TqitMKVHWtEGx3xmub7Df+Oya3UwAEQiAz241tYRdKnkyeY2hcj+dTyRR4
-	hajrOpZBjrrRjGkYUCqqV/D9My7Moq9bFm9TGdbU=
-X-Gm-Gg: ASbGncuUOhTHrMZSQjhqAeofFidYh9ZvYRkj7gZnspx7VGcfnhkZrxFqo7HN2WKSUBT
-	YoGmIh8EfywYDpEYDb6QkTDidWaNcvmjHE3qWTLz9GY9LxeRiWpQzpEoq7am0ZIfJGczNsDpeBC
-	ClHIse7OvmPQuAKoSe9zr6xpCsRcpJTK8vQWXZN9DjlFneau5bgYsuaAdQmlVQnCDW7wVMy/DEu
-	hlaTv9LHRD+lwgo
-X-Google-Smtp-Source: AGHT+IHq6+cvCVf1Vvoq/kPAyLSqsu4y40a9AhwXNBZPNGNwxYP9eQ+fiqIRRM00b2rdsFtz7lBPhNuf6xk+G/G4cjQ=
-X-Received: by 2002:a05:620a:2894:b0:7e6:856d:bcb with SMTP id
- af79cd13be357-7ea10f94df7mr3748284685a.6.1756482824781; Fri, 29 Aug 2025
- 08:53:44 -0700 (PDT)
-MIME-Version: 1.0
-From: Rene Muniz <rmmuniz@gmail.com>
-Date: Fri, 29 Aug 2025 11:53:33 -0400
-X-Gm-Features: Ac12FXyEN8rqvBKazrmWUo6LHpSKTjGRnjl5EmnIjMScJ2FX_8qPaX15FAzTnCA
-Message-ID: <CAPyN=MLstOTnbM0OMYaw12uHbes0NUz5Z9uRM4KOQQndg2_W3A@mail.gmail.com>
-Subject: Walnascar backport: python3-evdev_1.9.2.bb
+        d=1e100.net; s=20230601; t=1756493742; x=1757098542;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o/cswSbKhxsdgO8ZNczEQ9EsIr0he5IK6Qvf/Lsgy+o=;
+        b=YJ4zUzzQkOULkgmtiYhvHwzQyuHAPNQgcVVwEaGgLXrQ4ZWTVZoVD0xnziYOWh2Mgc
+         NOhs1+Hn9cCkkpfvwbE8JsvnHMGNYCRjSBgZ5NVq9enP+B+f97iqGGoQoqga2+AleKJj
+         p/9gd5q6QCsj6WV0RGK6dJBxlVZIG2Br2+7ZXqv/0Cj0OXcNX7/3gTiQ+lMe9yHkdxsM
+         fyoYRNT9+7y3Jx7wAtSqx/mSoOE8fS5olrWln4cbwNsBJrO/4Hw1ic9qAFaOBEJMhR1y
+         WgIY1QLz4mHXkh4OQcotaHlAzZlJClJj0mQOBJQJscP7N2RxbGHtG3l/fR471Bd845Oe
+         whbQ==
+X-Gm-Message-State: AOJu0Yw9uGG0YP/G40hr+2R/EgOCbZd1cCGD2gkP8seNLFGvsG4y/9hn
+	Q6WwFmxk8rw7DgLLj2cgoe9avZn6VmF0MQ9PVhL+2yc32iQ7j7z4f0m1QMMBmhbE
+X-Gm-Gg: ASbGnctV6ty6ohdG1/sB1fvd0KHIrF5mbfUZXBLFZqiaDO3+gqEzhRIg3Dgh71PpDVX
+	ii2JtFQyJKgLKWQKG+g38ExhhAer3qZnWBrHqsczz7EEnu9+9RLrGG4b9YgDWrNV0tgpE8i6rV2
+	wHcBHgAW3qNzpkRhA1cerIQ+HzqrgesOzBsKMJijJElygZ0u7Cj3O6P/AnTeoc0NTZOKNz8kWzC
+	oVZ/qvCCaEK9BDIFHfW/jdw9dMscJe9+PCbYi1nzx2/XVLoojlXkCvXeIVm6fdLFyqoipD07CH/
+	I6WQac0iKYmIS45KB+ZhA/HSqwp0p/vk/oGjCS3+fl3D9faIA1LIdYeEHVGXjDKZR2w/RWb30WP
+	Sc3h8cFGgQ1H415WDzl3KCVb0FbSoWCtWQCKLTPE1Uro0bhgHbtmH2W0gi5mqeIrLlhWHRoDR0r
+	ZgemGI6M191WuBrZVpNpTxTTzDXARMa+ErZiGcW/MXB9QKazLgu9U=
+X-Google-Smtp-Source: AGHT+IGQ2pSGaifgLLH4AEEMAWjqXfPoThn0b26f3bNMTmI7Zc+c6LJUlpCRofYD3rEo7Ln12Lq53g==
+X-Received: by 2002:a05:6a00:b95:b0:772:2c15:230e with SMTP id d2e1a72fcca58-7722c1524b2mr6177944b3a.6.1756493741967;
+        Fri, 29 Aug 2025 11:55:41 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7722a26ac0esm3049863b3a.2.2025.08.29.11.55.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Aug 2025 11:55:41 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d34c5c063d83065b"
+Cc: Gyorgy Sarvari <skandigraun@gmail.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v3 1/3] boost-build-native: upgrade 1.87 -> 1.89
+Date: Fri, 29 Aug 2025 11:55:35 -0700
+Message-ID: <20250829185539.3379514-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 18:49:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222620
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 18:55:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222621
 
---000000000000d34c5c063d83065b
-Content-Type: text/plain; charset="UTF-8"
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 
-Dear, is it possible to backport the recipe python3-evdev_1.9.2.bb to
-Walnascar? The reason is that python3-evdev_1.9.1.bb seems broken, by just
-importing the lib we got an error:
+Changelog: https://www.boost.org/releases/1.89.0/
 
-Python 3.13.4 (main, Jun  3 2025, 15:34:24) [GCC 14.3.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> import evdev
-Traceback (most recent call last):
-  File "<python-input-0>", line 1, in <module>
-    import evdev
-  File "/usr/lib/python3.13/site-packages/evdev/__init__.py", line 8, in
-<module>
-    from . import (
-    ...<2 lines>...
-    )
-  File "/usr/lib/python3.13/site-packages/evdev/ecodes.py", line 78, in
-<module>
-    for k, v in g[prefix].items():
-                ~^^^^^^^^
-KeyError: 'UI_FF'
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Rebased
+v3: No change
 
-Tested python3-evdev_1.9.2.bb present in master
-46866b0022690f7408d0c5d7d3a22ba03e3af1a7 and it works great.
+ ...st-build-native_1.87.0.bb => boost-build-native_1.89.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/boost/{boost-build-native_1.87.0.bb => boost-build-native_1.89.0.bb} (88%)
 
-Thanks in advance, best regards,
-Rene
-
---000000000000d34c5c063d83065b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Dear, is it possible to backport the recipe <a href=3D"htt=
-p://python3-evdev_1.9.2.bb">python3-evdev_1.9.2.bb</a> to Walnascar? The re=
-ason is that <a href=3D"http://python3-evdev_1.9.1.bb">python3-evdev_1.9.1.=
-bb</a> seems broken, by just importing the lib we got an error:<br><br><fon=
-t face=3D"monospace">Python 3.13.4 (main, Jun =C2=A03 2025, 15:34:24) [GCC =
-14.3.0] on linux<br>Type &quot;help&quot;, &quot;copyright&quot;, &quot;cre=
-dits&quot; or &quot;license&quot; for more information.<br>&gt;&gt;&gt; imp=
-ort evdev<br>Traceback (most recent call last):<br>=C2=A0 File &quot;&lt;py=
-thon-input-0&gt;&quot;, line 1, in &lt;module&gt;<br>=C2=A0 =C2=A0 import e=
-vdev<br>=C2=A0 File &quot;/usr/lib/python3.13/site-packages/evdev/__init__.=
-py&quot;, line 8, in &lt;module&gt;<br>=C2=A0 =C2=A0 from . import (<br>=C2=
-=A0 =C2=A0 ...&lt;2 lines&gt;...<br>=C2=A0 =C2=A0 )<br>=C2=A0 File &quot;/u=
-sr/lib/python3.13/site-packages/evdev/ecodes.py&quot;, line 78, in &lt;modu=
-le&gt;<br>=C2=A0 =C2=A0 for k, v in g[prefix].items():<br>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ~^^^^^^^^<br>KeyError: &#39;UI_FF&#3=
-9;</font><br><br>Tested <font face=3D"monospace"><a href=3D"http://python3-=
-evdev_1.9.2.bb">python3-evdev_1.9.2.bb</a></font> present in master <font f=
-ace=3D"monospace">46866b0022690f7408d0c5d7d3a22ba03e3af1a7</font> and it wo=
-rks great.<br><br>Thanks in advance, best regards,<br>Rene</div>
-
---000000000000d34c5c063d83065b--
+diff --git a/meta/recipes-support/boost/boost-build-native_1.87.0.bb b/meta/recipes-support/boost/boost-build-native_1.89.0.bb
+similarity index 88%
+rename from meta/recipes-support/boost/boost-build-native_1.87.0.bb
+rename to meta/recipes-support/boost/boost-build-native_1.89.0.bb
+index 5b914b6f88f..911de72bc1f 100644
+--- a/meta/recipes-support/boost/boost-build-native_1.87.0.bb
++++ b/meta/recipes-support/boost/boost-build-native_1.89.0.bb
+@@ -6,8 +6,8 @@ SECTION = "devel"
+ LICENSE = "BSL-1.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
+ 
+-SRC_URI = "git://github.com/boostorg/build;protocol=https;branch=master"
+-SRCREV = "4a52d8c06635435b64e31a56eaf7ca5dc912a71d"
++SRC_URI = "git://github.com/boostorg/build;protocol=https;branch=master;tag=boost-${PV}"
++SRCREV = "be69c44857e34fae250aa1321808a05c1d88bfde"
+ PE = "1"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "boost-(?P<pver>(\d+(\.\d+)+))"
 
