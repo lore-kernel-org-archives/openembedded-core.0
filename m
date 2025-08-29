@@ -1,137 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDCDCA0FF6
-	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 03:36:48 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.5166.1756438602022624789
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BAF1CA0EED
+	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 03:46:58 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.5393.1756439211160739221
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Aug 2025 20:36:42 -0700
+ Thu, 28 Aug 2025 20:46:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OxeYdBwz;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-77033293ed8so1486987b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Aug 2025 20:36:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756438601; x=1757043401; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TMOzf4Gp1+Uo/ik1AoEGf6zokQRHn8INPErA92+lELs=;
-        b=OxeYdBwzaTAra4xtuVFUKzkhJC0InMSkNVQ/MWRUe0ZH6o7pgvFV3nhJYJ6eYrsymi
-         2egoLXqg8B0XhZWEyeIbsTGzPHZd2TcDYZSVZ2REcloUPo2GIFG9fRN7YNS8m+Xzlenm
-         JWx9EKedErm+IBq1bm/eTEd/1tgc/LK8IqXXg/inKVT0Y9rZOFQoGvngrq1DT7NZO0et
-         WCHj1ie1J/KmH7fq/ZMh2dftvIXte+rthiBfuzE4eFyzKDpdGto1w5tQyEVIpBagsN/X
-         6OgpNHye2dEeh23WKD46/pLzLTP+f0voeBm77VRwCntdB8PT8Ip/1E+5pefcGMXZate8
-         3SCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756438601; x=1757043401;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TMOzf4Gp1+Uo/ik1AoEGf6zokQRHn8INPErA92+lELs=;
-        b=hM2mjbL8l8iADs64qPiOdk99de/UY3JPKUXqoOLXbDFDvDrkNJgWNuICFU1uNNjv3z
-         uY1txNp96cIOXX3AcUCNvx9t63X0RvBlBa8UU7O7dsCvjXI6hxBJgmanxQKjPetmwKK4
-         ptMt8C9eznu9Il3isHLBuY+eeHax3LBabw6xZfLoOq5tZmhUqUYyDXTYTZCAj9Wx8s3Y
-         IzvyGsQQ06i6ZyDhTYHzx2aBqDgHtIm30lLD7/Qh3t/v/iPHSzpwUpNDpoydzh7VvV6U
-         iKXNjwiBHtq93Gxpbcz38NCGpnEINoJseOMg0Hmb9kQdyyi5z7pomHNz1PgoqoyzCMhG
-         DrxA==
-X-Gm-Message-State: AOJu0YxWeHENBcu9ukYovsW+0b9ZRkfxYF8CXPdcd4rGODrRoYK9kL7W
-	p0ak9MCsJpH7kDgTSt9oAAZVOxXjb9TOU8D4YFno/KtI46J5OMRuqoMBzAmQ5i6f
-X-Gm-Gg: ASbGncsM40hYCzLXdY9G+ORQtqErRGEssrd/M89oDELHfkXmfytN7pQjU/E6fXfNxye
-	u9IWz9MRefjagpY7J3eqy0SCjeZKPIXfn7JMHLWhSSV5NPW1POimi9p0zNZtae3qW81qrJiYsaD
-	95uFQ5+X0tsfqFtcj252zjguKP5UFJ3tetbpmTx8MsMqFn/wi72q5O7wIqiKRQth/xehqNmH5bc
-	DVAGL5Ry4UFvhu1zGPVkKX8Vrt9NnQuZMppjbfe2W1iWScJsBMIFbk6eZ4G0zbbsb4hDO/fmFEj
-	ZuD88oElnr/ICtKHr874fVWzyDFjasoScOm39RcFIrr2QRFzgMh6RMzrubmvUWz9NPd6S1XZ0R9
-	c1V9SYRfVcdF3KYHbYLu/tWjreQuyGMLZv08EXbGkVOh/gMq4bJ2ip78w46+1p7OLieWKcCPOyI
-	ODUthrEsDdWG52Zqf7KtnXZDQmw8XI3V1je2YI4jRu
-X-Google-Smtp-Source: AGHT+IEMdBXrGEt1+Jx6Pdno6j4cbdUnr91V+LHhkXZeHv+AcKPo26jIrhTVulll7P5aD4cvdx2dYQ==
-X-Received: by 2002:a05:6a21:3393:b0:243:9ae7:f891 with SMTP id adf61e73a8af0-2439ae7fc54mr15156596637.40.1756438600980;
-        Thu, 28 Aug 2025 20:36:40 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7722a26abbbsm923763b3a.5.2025.08.28.20.36.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 20:36:40 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Gyorgy Sarvari <skandigraun@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 2/3] boost: upgrade 1.88.0 -> 1.89.0
-Date: Thu, 28 Aug 2025 20:36:33 -0700
-Message-ID: <20250829033635.115107-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250829033635.115107-1-raj.khem@gmail.com>
-References: <20250829033635.115107-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lCeIReBy;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=bNSPlSl8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010198f3ef68b7-11d6704d-586e-4174-b135-b8e4e37561ed-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1756439210; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=gR2bYXUXIcg9ksqUmBR6XyufDr7MImS5FmflDmRKALg=;
+	b=lCeIReBy05ICgU8kWb77GQuTAtxRREqMBEz86Vjq9Jxw65OAczlLzbAoqXi4mwG7
+	+lUnu4UcF3V0W0CBkqIkpTE0GAPFAPb4nx9aZzIN6WY4C0jRw+hJ/SwJTow9LLoyVg+
+	fdYQ8slql9TNNH5JiXtFZsTCT/P6IYlY1NG0jISA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756439210;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=gR2bYXUXIcg9ksqUmBR6XyufDr7MImS5FmflDmRKALg=;
+	b=bNSPlSl8axKS5RC06+b044y9s6OuLiH+9FspR9PErzbccRs9VZ6UlFiliPt9J64o
+	nAJIuKgSoQhRdQCwrYv+2auVT4E5ru8Ez8JkOvgOBGfPYrztsKil9uzAsJl9wzNQvwl
+	gKNPx4oO70SY3RrCKDK5WBO/K2Za78o4mw/Z9Vd8=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 3/3] kea: Upgrade to 3.0 LTS release
+In-Reply-To: <20250829033635.115107-3-raj.khem@gmail.com>
+References: <20250829033635.115107-3-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010198f3ef68b7-11d6704d-586e-4174-b135-b8e4e37561ed-000000@us-west-2.amazonses.com>
+Date: Fri, 29 Aug 2025 03:46:50 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.08.29-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 03:36:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222597
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 03:46:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222599
 
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+--NextPart
+Content-Type: text/plain
 
-Changelog: https://www.boost.org/releases/1.89.0/
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: Rebased
+Testing patch /home/patchtest/share/mboxes/v2-3-3-kea-Upgrade-to-3.0-LTS-release.patch
 
- .../boost/{boost-1.88.0.inc => boost-1.89.0.inc}                | 2 +-
- ...1-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch | 2 +-
- .../boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch    | 2 +-
- meta/recipes-support/boost/{boost_1.88.0.bb => boost_1.89.0.bb} | 0
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/boost/{boost-1.88.0.inc => boost-1.89.0.inc} (90%)
- rename meta/recipes-support/boost/{boost_1.88.0.bb => boost_1.89.0.bb} (100%)
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
-diff --git a/meta/recipes-support/boost/boost-1.88.0.inc b/meta/recipes-support/boost/boost-1.89.0.inc
-similarity index 90%
-rename from meta/recipes-support/boost/boost-1.88.0.inc
-rename to meta/recipes-support/boost/boost-1.89.0.inc
-index 96bd986f6a9..ea2827ec14c 100644
---- a/meta/recipes-support/boost/boost-1.88.0.inc
-+++ b/meta/recipes-support/boost/boost-1.89.0.inc
-@@ -12,7 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
- 
- SRC_URI = "https://archives.boost.io/release/${PV}/source/${BOOST_P}.tar.bz2"
--SRC_URI[sha256sum] = "46d9d2c06637b219270877c9e16155cbd015b6dc84349af064c088e9b5b12f7b"
-+SRC_URI[sha256sum] = "85a33fa22621b4f314f8e85e1a5e2a9363d22e4f4992925d4bb3bc631b5a0c7a"
- 
- UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
- UPSTREAM_CHECK_REGEX = "release/(?P<pver>.*)/source/"
-diff --git a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
-index 04bede45787..25512d582be 100644
---- a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
-+++ b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
-@@ -16,7 +16,7 @@ diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
- index b7825d4e6..ed7e39baf 100644
- --- a/tools/build/src/tools/gcc.jam
- +++ b/tools/build/src/tools/gcc.jam
--@@ -1144,156 +1144,3 @@ local rule cpu-flags ( toolset variable : architecture : instruction-set + :
-+@@ -1143,156 +1143,3 @@ local rule cpu-flags ( toolset variable : architecture : instruction-set + :
-          <architecture>$(architecture)/<instruction-set>$(instruction-set)
-          : $(values) ;
-  }
-diff --git a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch b/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
-index db1ee038987..d23cf03b1a1 100644
---- a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
-+++ b/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
-@@ -16,7 +16,7 @@ diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
- index ed7e39baf..90513f84a 100644
- --- a/tools/build/src/tools/gcc.jam
- +++ b/tools/build/src/tools/gcc.jam
--@@ -377,22 +377,6 @@ local rule compile-link-flags ( * )
-+@@ -375,22 +375,6 @@ local rule compile-link-flags ( * )
-      compile-link-flags <link>shared/<target-os>$(non-windows) : -fPIC ;
-  }
-  
-diff --git a/meta/recipes-support/boost/boost_1.88.0.bb b/meta/recipes-support/boost/boost_1.89.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/boost_1.88.0.bb
-rename to meta/recipes-support/boost/boost_1.89.0.bb
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
