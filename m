@@ -1,166 +1,109 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B6CC8303F
-	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 08:59:10 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.9201.1756457943389523620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31A34C8303F
+	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 09:05:00 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.9262.1756458293299407686
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Aug 2025 01:59:03 -0700
+ Fri, 29 Aug 2025 02:04:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dfqkA5BO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45b7da4101fso3616625e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 01:59:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oc+B6Gw9;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45a20c51c40so15135665e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 02:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1756457942; x=1757062742; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=h1wM9G1ZbmRk3Web5KmyHDRaWlurNQxayTYErFErfpw=;
-        b=dfqkA5BOIhuymGQvl8aXikjPXWZ3NvvA2RRD4Ggw2D75lKmBaDGsWhi9C1PwfmmHlb
-         uXmCRTV523rx3fOb14VVtr3RfDCFoSRlj8yuO76MjvaOaISIv5qrpdO/VMGh84qqus8q
-         DapRiesu9wbtAi97744OY5eSnJOTBjhLwsmEQ=
+        d=gmail.com; s=20230601; t=1756458292; x=1757063092; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hFntu8xwguwG7xZLcy+0fAoAjI18LymrzFJEUz3kkXA=;
+        b=Oc+B6Gw9o8MBrVioSWiE2m1muz6iLsLi+if8TGmMYWqxObnRoB2/vdsnm4o5/YHeyZ
+         N/GMkHS2VHOqSjkwJAb8MXqZj+WXFVHZ1S9aKs24xqZRGGdArSJcGcRMJFSuzWgs4L1i
+         Wz/uS32BKtFqiNIfzlj6EE8dLqe6XBxkEOEg8gZOwcr+oh5hW7DolLViQYxzB9clNjZB
+         p81q/Jmmjek9tkOHKKNwdh6zR3/zPt85UcQKopqiIa+B2Fcg7qzNGoZ9TeD+Xy8NFcu0
+         88g7VHuB2kDiWR4RM8r6lu4I66lTI60MUaTXApubdhvrmm0WFqOmeeyotq8M1N6zZbXD
+         OVzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756457942; x=1757062742;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h1wM9G1ZbmRk3Web5KmyHDRaWlurNQxayTYErFErfpw=;
-        b=JVZY+ZdkaNg743fIwQqY5Xjdz2DXAaPeLXuV/nWGvo56QIXmT1FkwDwJeIVJHPHsZs
-         v2O5s1fF6ez++LZUX0UoOLC9zpvWIi6tt1ziug6dNAfh69ybTJedVjcANjUJYgHdRqdn
-         HzealSSDMJ+IQzHDh0kYY4LSm+9rfmpMuu2JWAE/bm05dk4J+16mdSWcvJVGnafJLZP6
-         mXkb5mqCSD1kN2jOwvmiZrK6PpaTjRQ5bRwCkuUePnlvBWzsHqdN4Lhae8Q1gS/kgB4V
-         RorkWNu8NzYbhPlSRMFPuCW4HESOJqLPnW1RQQz5QUIPaVC1SUuapn1x2QgyDlBNntD4
-         xNtQ==
-X-Gm-Message-State: AOJu0Yx3z3haqz0efGHwQUZvEjcHAoJQRaxBR93RUxZPnqorLLMw6AT6
-	K6CidMs6jzUE2fMTLUVXc29BUj6mQ7r8KBXBo7Pr01pofln0cViWeSxQyktX2LNhciE=
-X-Gm-Gg: ASbGncuvYwVAFLogTiHkZ+6nuxcybN1uBvaaACBbwxVolAoQ4JrI3yBNkuklUX4vtZ5
-	aHc7wSkMqQWa+eRCYuRwbJLv/Nnu5cgGjKf7NJkSjzcxFUPg6/LI4ST3GYItvMGPwgHkIHqbrsV
-	Ozp4r5gDdKlFVWPy8t9yKMMdgVpHSKcLGwpQzh3xxE+16J3ZqUmWDfuZ9F5S0Zecy76Z/iRLT1/
-	BVKRFquitxBHjLx1i7wpE3CoenyKbqC8Kd4cDjRFeixdElapabmfdq0+4eQKm7ihH9ms35RIZ+h
-	85wuLvltMsL/gQuhUYc0QaXe3YboRway+9aGgC5gqcq0JPNsT7wihcpxzdZ4rPRcrcXSwB+VSmO
-	Sofb+7PSqw2FR2P3lVHTfHLxxj74KO9gr7jWwCCaxnz0I6OWrXAMeFqWgyZZwviQ6gwvPU3+Ht7
-	pAFMcIvhSRFTU0CFkuL47DgTP/GFEVp9qG
-X-Google-Smtp-Source: AGHT+IFoRdy72KrD3V9cT3LU/H/5505UsB5wJrFHLiA+z/F6kfE3jMG+wh0jGD8CYVoy47Dm82aR/A==
-X-Received: by 2002:a05:6000:25ee:b0:3c7:44eb:dd77 with SMTP id ffacd0b85a97d-3c744ebe211mr18917966f8f.12.1756457941541;
-        Fri, 29 Aug 2025 01:59:01 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fdba:6e3f:4f54:8499? ([2001:8b0:aba:5f3c:fdba:6e3f:4f54:8499])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d0c344f6e3sm1333461f8f.35.2025.08.29.01.59.00
+        d=1e100.net; s=20230601; t=1756458292; x=1757063092;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hFntu8xwguwG7xZLcy+0fAoAjI18LymrzFJEUz3kkXA=;
+        b=eOgHCdgXuscVv/MiSGgHCmb54gg4DY7UmDmiiYG5i9BJylM9PIelhALzYz/TVKmjcc
+         JvG20XSP1Ur/9KySlcNyFsgcyIU4rJ4frbGrAamXua+1M5iygJPB5CDchoPzh7wbtg2r
+         Hmm2koswrzXNpP12uzPDudjVjEyFD/S6IT0/ZpLcYJXRI38hjbRmwwnyGze7jvk9s0QQ
+         PcPEoalj4ZWF9bwBZxkMIFiu+OUlFbW28DTpFIhVA2471M5EJo8ucu31DSRLAmTMv55G
+         SgjHOx3AHEt7MqQ2Mpnffc2EFz3s9R7EPWEAWkUK9KQu/HQoMd0hV2KeC0N12VNR5DaG
+         l8xg==
+X-Gm-Message-State: AOJu0YyCNOW4QQds2mOGzqY671BafWFernhPzdKRYR0RMurNyTNCAKFT
+	1yJEVzX4Tx3PGAjzoodOsiIIoc/7cuNha3mc4M9Fl6PN4DpWE8hK2RBvuIDAJQ==
+X-Gm-Gg: ASbGncvkpQz77ABJyizy15J2YIyd9sCypv14pyc/XNaLV5kjOap/iqwL9/KLwNrtBnT
+	tyroO/95ULYpk9SEvtEoMMqMF689qtIjBsySXRhqEDVZabiFpErT1KcGyD8mAB72zCnURcD7SeM
+	B0NH4Yv6B+RMcCe13vFLorrtQ5EmpjRsKBbAXU2ObanylQVFv+B5iMhgyWqV0GQ2B1/Q30/jfbo
+	i2mpWIGzdkMi1l/6451PdLO9xrl1/twQW0bt57evW3ae9Qrw6FsglUQvtKmDHY42eblXpNBQ5+n
+	Ix1hT4IX8agOB1yny83ebv6sAx41uLWqLdUwyhrC2EHOToTIVWbi4psOwJwe2lBEShpl7oALGuQ
+	mioJZv4PMZCOm7KVTiJ/VCmBQ4uql0LqozMgJyaF9DLKERezLSF8ljG13
+X-Google-Smtp-Source: AGHT+IHpMTSeB6zMvI50xDPO2exJ85pATdqvfP7zurRqblFkmX4J44rhtTKlsZkgg17p9TJUxlb0Ww==
+X-Received: by 2002:a05:600c:45d4:b0:458:f70d:ebdd with SMTP id 5b1f17b1804b1-45b5179eb97mr317611345e9.16.1756458291328;
+        Fri, 29 Aug 2025 02:04:51 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b6f306bffsm108502645e9.16.2025.08.29.02.04.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Aug 2025 01:59:00 -0700 (PDT)
-Message-ID: <6562a0acac32a126076bf4d18f93779b1be5522e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gcc: remove .gnu_debuglink from SDK toolchain
- binaries
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: deepesh.varatharajan@windriver.com, Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Sundeep.Kokkonda@windriver.com, 	SunilKumar.Dora@windriver.com
-Date: Fri, 29 Aug 2025 09:58:59 +0100
-In-Reply-To: <da5ba304-1f41-4e30-8c17-5ae597bd348e@windriver.com>
-References: <20250825165026.681972-1-Deepesh.Varatharajan@windriver.com>
-	 <CAMKF1so8YHaBFxw1SJq87Q4siPcTSY9kaoXzDqhOTcAGyWH8ZA@mail.gmail.com>
-	 <da5ba304-1f41-4e30-8c17-5ae597bd348e@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Fri, 29 Aug 2025 02:04:50 -0700 (PDT)
+From: martin.jansa@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH] license.py: drop visit_Str
+Date: Fri, 29 Aug 2025 11:04:48 +0200
+Message-ID: <20250829090448.10066-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 08:59:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222605
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 09:05:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222606
 
-On Thu, 2025-08-28 at 17:09 +0530, Varatharajan, Deepesh via lists.openembe=
-dded.org wrote:
-> =C2=A0
-> On 26-08-2025 08:29, Khem Raj wrote:
-> > On Mon, Aug 25, 2025 at 9:51=E2=80=AFAM Varatharajan, Deepesh via
-> > lists.openembedded.org
-> > <deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
-> > =C2=A0
-> > > =C2=A0
-> > > From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> > >=20
-> > > SDK toolchain binaries (nativesdk and cross-canadian gcc) currently
-> > > contain a .gnu_debuglink section pointing to separate debug symbols.
-> > > These symbols are not required in SDK builds, as SDK users do not
-> > > need production debug information on the target, only the compiler
-> > > and headers for development.
-> > >=20
-> > > Including .gnu_debuglink increases disk usage for distributed SDKs
-> > > without providing any benefit for SDK consumers and so removed.
-> > > =C2=A0
-> > =C2=A0
-> > I need to understand the problem a bit better. Is the system not able t=
-o
-> > specify ignoring debug info from SDK, if we include debuginfo with the
-> > =C2=A0binaries how does it change things ?
-> > =C2=A0
+From: Martin Jansa <martin.jansa@gmail.com>
 
-> The meta-mingw layer currently sets INHIBIT_PACKAGE_DEBUG_SPLIT =3D "1" i=
-n its=C2=A0
-> =C2=A0"gcc-cross-canadian_%.bbappend", which results in the ".gnu_debugli=
-nk" section being=20
-> =C2=A0stripped from the cross-canadian GCC binaries. This behavior leads =
-to inconsistencies
-> =C2=A0in the generated SDKs depending on whether the meta-mingw layer is =
-included or not.
-> =C2=A0
-> =C2=A0So the idea is to make this behaviour as default in the gcc-common.=
-inc file for both nativesdk=20
-> =C2=A0and cross-canadian GCC. To ensure consistent SDK behavior and to re=
-duce SDK size.
-> =C2=A0
-> =C2=A0
-> =C2=A0The below are the differences in binaries :
-> =C2=A0
-> =C2=A0=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0=C2=A0 Binary=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 Before=C2=A0=C2=A0=C2=A0 =C2=A0 After=C2=A0=C2=A0 =C2=A0=C2=A0 Di=
-ff (bytes)
-> =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -----------------------=
----=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 --------- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --------=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 -----------
-> =C2=A0nativesdk=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 x86_6=
-4-pokysdk-linux-gcc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2165192=C2=A0=C2=A0=C2=A0=
- 2165080=C2=A0=C2=A0=C2=A0=C2=A0 -112
-> =C2=A0nativesdk=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =
-x86_64-pokysdk-linux-g++=C2=A0=C2=A0 =C2=A0 2169288=C2=A0=C2=A0=C2=A0 21691=
-76=C2=A0=C2=A0=C2=A0=C2=A0 -112
-> =C2=A0cross-canadian =C2=A0 x86_64-poky-linux-gcc=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 2165216=C2=A0=C2=A0=C2=A0 2165112=C2=A0=C2=A0=
-=C2=A0=C2=A0 -104
-> =C2=A0cross-canadian=C2=A0=C2=A0 x86_64-poky-linux-g++=C2=A0=C2=A0=C2=A0=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 2173408=C2=A0=C2=A0=C2=A0 2173304=C2=A0=C2=A0=
-=C2=A0=C2=A0 -104
+In https://git.openembedded.org/openembedded-core/commit/?h=kirkstone&id=abc93390a3f19bc4cc159c5690a478b9e2270906
+visit_Constant was added for compatibility with Python 3.8 and newer, but
+visit_Str was kept, because at that time bitbake did require Python 3.6.
 
+Now latest bitbake requires 3.9 and even version 2.4 used in mickledore
+builds requires 3.8 since:
+https://git.openembedded.org/bitbake/commit/?h=2.4&id=744310f360d2288ac2ef07745abc86852126b5b9
+so we can safely remove these.
 
-Please do not use the mingw layer as a reference for anything! It takes
-various shortcuts to make things work on a problematic and quite
-different platform and it's hacks shouldn't be taken and applied
-generically.
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ meta/lib/oe/license.py | 6 ------
+ 1 file changed, 6 deletions(-)
 
-The debug link sections are only a handful of bytes and the size of
-these should not matter compared to the size of the SDK. They do
-provide valuable information about which debug symbols match the
-binaries so "after the fact" you could find debug symbols to debug a
-segfault thanks to our reproducible builds (for example).
-
-In general we always generate debug symbols and package them separately
-for target binaries (which includes nativesdk). Mingw doesn't do this
-for various reasons, probably breakage if it's binaries are stripped.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index ca779d3d83..bd28a247c9 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -84,9 +84,6 @@ class FlattenVisitor(LicenseVisitor):
+         self.licenses = []
+         LicenseVisitor.__init__(self)
+ 
+-    def visit_Str(self, node):
+-        self.licenses.append(node.s)
+-
+     def visit_Constant(self, node):
+         self.licenses.append(node.value)
+ 
+@@ -240,9 +237,6 @@ class ListVisitor(LicenseVisitor):
+     def __init__(self):
+         self.licenses = set()
+ 
+-    def visit_Str(self, node):
+-        self.licenses.add(node.s)
+-
+     def visit_Constant(self, node):
+         self.licenses.add(node.value)
+ 
 
