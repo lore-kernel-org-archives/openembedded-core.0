@@ -1,481 +1,341 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70FCDCA0FF7
-	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 09:30:50 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.9585.1756459846825509518
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DAE7CA0FF9
+	for <webhook@archiver.kernel.org>; Fri, 29 Aug 2025 11:26:01 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.131])
+ by mx.groups.io with SMTP id smtpd.web10.11043.1756466751334713749
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Aug 2025 02:30:49 -0700
+ Fri, 29 Aug 2025 04:25:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=qFbZ8oN1;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1336891142=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57T8jnlA716146
-	for <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 09:30:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=60pgZG/LiIbraQvuooJf
-	0Ty6vIPZWYUyR8JnKJkYt44=; b=qFbZ8oN1mgBthMMYh3igeV5pv+RiVr05k9ET
-	Y7uJYld6yaJL0re3jwnCCjTeEqpkd6KQHbZhIy6XEezp9kcCevL0c3KQJl88vwdh
-	NtFoy5cedCZ/J9xKSs/xMiIYQ0QF/jxTTyT9rGXYfq6RMB4VdXvdGhnd9pFdNNfX
-	yTy9dNNHxzRXMygtGvDjHCyuG3rSJQT5sHbfSFWeAbfQIHHSCRty4kXaw2DCijlj
-	q8VAYmHzR5HRipEOsSrP/HxWrSG5JZG7DDEVY+PjFGtjvDk62AxQ3DdlLWKX7P88
-	AEOL3pY99xuOA2e+Ah0hU94SwpRX7bZb3UaHgPh1UxOfEZCILQ==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48q2v1ex2j-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 09:30:44 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Fri, 29 Aug 2025 02:30:41 -0700
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][walnascar][PATCH 1/1] tiff: Security fix for CVE-2024-13978, CVE-2025-8176, CVE-2025-8177
-Date: Fri, 29 Aug 2025 15:00:06 +0530
-Message-ID: <20250829093006.3949035-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@vaisala.com header.s=selector1 header.b=MexvkSY8;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 52.101.66.131, mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xVQKz8cAFBsFgUhmizau+q1U11hNthGBj/CMT6h1L6ns5IRv/KqQMcIBAdGcEcpnN8wyXNWzhoD70RG+oD2bC/skHQw7Qw88/awPSFMF8eaVtsqnnbI/z0Gw6e01B6TKVZ0DCbVEZ/2sqtA029TCiX5uW9QUEGdC8q/erNy3lgZUyYQPeSs5KS6Cup/Mlu6CzmLl68SfrIE20EOIb/xMBr4yYoOb2eBxCO/54VpcUy8v4ljfDTRMXyBQG/Ue5LR0XDp43Gw7kBZht4/kZTk9eNubQySlh7vbCXfbDs8H8J9EFm4/3016gX+qJuqzTtaaiONNewyqk5hhGtoRaPc+ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fpgJEjJ9mSNah/lHSbTftLsoZWVMfl+TA/WO2veNFsI=;
+ b=wM8yXC3sm78cZW0qnN3WXtr3yoIKk5fGXcGwRwG7dAKYMemHPwX5EWgPrQJV4aQwlKmLZOZwBfWChJ2K3AueGa+82DDEF3KwNqIfyvs4c2FLRkOanWlv3SBXsZjb7Nq7PDEog64L6KPVKWzVEzfNtFA2UN66SPiUYrpOAkq276afcKqYxw1o7GOnPJpK5I302yKmpzSI57CcHuyd9Zt7uRuPB9nQyNrij0bCEzSCAt18JhXb+YJTlAokyl+SV9/pGkvAzlezhWSex7Ri1XFDke+U2SZ9hSZ4GUQZZydNU/ecKYxXYxo8TxkmIdOGwNjIYOzmLGlZJVw/RoNtxzu9dQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fpgJEjJ9mSNah/lHSbTftLsoZWVMfl+TA/WO2veNFsI=;
+ b=MexvkSY8nr5dRA+4yT3LdKvfru0Bjazkypg8UC5cTKWIQxKZkga8/mYxTrPAC0i2GdHOREcvnVXWgFHLoEExok8Av4+vGNbEjixHzG4uBbQAIAx7qFbyUhGhNtoQ3X7JKz5mQrhj5FVqSL5vuA9csq+MlQPY2g/25PEX/POp4/wBPjRjxnyCEJ19Tki6L2kn9Yp/vYbiMzxgNcTabOSZDVPgRU5GORx8QdO33ym2t7uigPDrCtQZBizifvLF9BBTT2GRcBeQRQYsCwtqzsrgMcJO6mddeYT9g/qzwNVRgLdDSY8vZ9w0anUesgLZjnlARBojI1wnEjL8SwdT0X5EWA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by DB9PR06MB8026.eurprd06.prod.outlook.com (2603:10a6:10:29c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Fri, 29 Aug
+ 2025 11:25:44 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.9052.023; Fri, 29 Aug 2025
+ 11:25:44 +0000
+Message-ID: <2fb2bcfc-0bac-4d26-a78f-838084bd67b0@vaisala.com>
+Date: Fri, 29 Aug 2025 14:25:41 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][kirkstone 2/4] sqlite3: patch CVE-2025-7458
+To: steve@sakoman.com, openembedded-core@lists.openembedded.org
+References: <cover.1754412086.git.steve@sakoman.com>
+ <4d5093e5103016c08b3a32fd83b1ec9edd87cd5a.1754412086.git.steve@sakoman.com>
+Content-Language: en-US
+From: Niko Mauno <niko.mauno@vaisala.com>
+In-Reply-To: <4d5093e5103016c08b3a32fd83b1ec9edd87cd5a.1754412086.git.steve@sakoman.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: GVYP280CA0001.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:fa::20) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.11.232.110]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (10.11.224.121) To
- ala-exchng01.corp.ad.wrs.com (10.11.224.121)
-X-Proofpoint-ORIG-GUID: 532gE3HFU_t9Hk1DUSO0WzvdJ8dWtrJx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI5MDA3OSBTYWx0ZWRfX8sUNoRBXB4JP
- yFM7GqC0kFI3OmPhaldfkV4dwzR1XUNE/Z1z9CtGS3UTHYvCGvaHK9bxpdwcwk2BVDnR2d0DIkg
- wBWrmzFtPEfuWwwHT4F7ksyebTpN89s36goWT13AC2A70d3ZNm7ZbCcwDmal4ZHA9vsq+JQvC+P
- yA3bW6PUJO4ChYqWyFx6cv701ZU0pxRryHMW2KEkPw+O+la+LWwnMsuzGryR4NT/MgnH0iCB7g6
- KF8cjf8XcRUS6gHGJGLrp4xZiuW68GUO5nXLOSEaaOfjgUZ+Jd7Z1NnCclt0CQirUg+sflDK0fm
- dZHGryyC2DBoN95JCBMFqi6rDMHcvoUFClMVw9TwkIz5QBxoMbKqKQHSeaP+a8=
-X-Authority-Analysis: v=2.4 cv=T5GMT+KQ c=1 sm=1 tr=0 ts=68b17344 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=gmxlzscTznEA:10 a=2OwXVqhp2XgA:10 a=p0WdMEafAAAA:8 a=Qs8GJauRAAAA:8
- a=fk1lIlRQAAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8
- a=5vSyN_hxAAAA:8 a=Z8L5J7B3ydqLO9vj1f8A:9 a=TAmfe1b_ajlIZlq0:21
- a=-MsOl3yrPmtpHepMbiy1:22 a=U75ogvRika4pmaD_UPO0:22 a=d3PnA9EDa4IxuAV0gXij:22
- a=Yupwre4RP9_Eg_Bd0iYG:22 a=FdTzh2GWekK77mhwV6Dw:22 a=1zBLIHEOKY9YwKILsQtb:22
-X-Proofpoint-GUID: 532gE3HFU_t9Hk1DUSO0WzvdJ8dWtrJx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-29_03,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 bulkscore=0 adultscore=0 impostorscore=0
- malwarescore=0 clxscore=1015 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|DB9PR06MB8026:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52ff43be-d946-4f51-d61e-08dde6eecb27
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|4022899009|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?azRHdEJmVytXRkd3UXNJb01XNkljMFQyMEN2VDhMZHVRUElwY2FYWDlMSUYz?=
+ =?utf-8?B?a0JkMDhWZzlnZGRnZFA5a1AxNzJqM1RnUFNWTVNKTyt1SjVUcDdpT2p3Nmg5?=
+ =?utf-8?B?TzVqQ2c1cGFlc2F2UTVFTEZWVFRJbThZWTNiaWJtaklmT2tYRVIzdERHeCtZ?=
+ =?utf-8?B?QzI3QmdJQkF0bHJMdGx4bXFyaUlpZnoyTm9aYm5xbG8rbGxvK3Ryd1ZHVG0y?=
+ =?utf-8?B?ZWJodThIK2puTDNVZDl4bXZMSWltTDlTRWJ6WWRCV0h6bG8xRmEyNXdWcVZ3?=
+ =?utf-8?B?amRwbGIrRi9ielYzRGtHb2s5clZ4UHIrcElhUExISWtwMWhXZTZrcGc5aGVl?=
+ =?utf-8?B?QURFdVJBRlZIeVNCb2xPOGdZb21tM0l1Vk1Ba2s3S2FxYkZGdS9jNEpsSkpJ?=
+ =?utf-8?B?dVN2OW9qendjam1QSFhxUndwN2pnMUFoQ0dJN0lxM2grSGZvRS9SQk9GNS9t?=
+ =?utf-8?B?dkk0WmNFbmYvOUhEd1FiVlZSSTdVTXQ3elpLK0JEOUZuSXdweG1sV0Z2UnBo?=
+ =?utf-8?B?VUl5TldaSWM3OGhQUWpGY0swNG1ESXgxZEp5VGl3UmYxZkM0SGpkY1c3aVVB?=
+ =?utf-8?B?bTdDQTNkcHM3cVo5RVMwdlFXZWxSWWNGYWZreHphR3A4dWdBUnBjcEdFWGpX?=
+ =?utf-8?B?TlB2Q0M2Mkkra2lmZGJwUkRXcnRaSVdsN0IrMGs4K24veUk1aW1ZMkVHbjd2?=
+ =?utf-8?B?UmJKQkRPRHZ6RHVxSFQ3RThEQ1hqcThBLzFkNXVCenFlbmdCa0M5QVFRKzVs?=
+ =?utf-8?B?Z3YxbjNyTmI3VSs2VzZqWVJlWUZYRzlhcXpudkR5ZmIvRDl6MEY1MUZOMWZy?=
+ =?utf-8?B?S1ZaWEhLK3dWcFhSeVh2KzBPRzMxNkloc3gwOWUwR3daWUZtYmMrL0F5a1pm?=
+ =?utf-8?B?K1U4dGl1aVV1TU1SNVhFbmNDZW1XRk96SzJnNVhXVGdzRWVQRWFsUFRjT080?=
+ =?utf-8?B?N054VmxNSHVxbFNxOWdHU0xZUmZ3K1N3TXh4bGRybjYxcW5YK2RGTlZySXh5?=
+ =?utf-8?B?bGJpRlN2aXkrTVlHUUJjamZKZW5VeFFWaStVaTN5bEZ6RHZ5dzNLTFRsM0xW?=
+ =?utf-8?B?ZVhCbkZIMGpuR25HYmczY3F3TW9teWIzcFVUVGhPVi9ieTFTNUZGMkJpYTZU?=
+ =?utf-8?B?eHZUM2xLODhRZWcvUjBwZzBseXdaNGRyaXo4UjhyRXF1aTFheDNKT3hLZHZq?=
+ =?utf-8?B?U1JuMHU3OXJDNVhpaTMrbm83R05kRDlobkMyUnVNNGJVTnJiQVhZU2Q5UkFT?=
+ =?utf-8?B?Rm1uQzRMTUFTajFWaDRxOEViNHZUczNSTElpQmF6aXowM0d0bzRjM1hWUWJl?=
+ =?utf-8?B?cDhrRGh3b1NKVkN1Y1AvOUllV1UxMzB2allpYXI1ZmJ0bjRlRVdlcmhNSDdN?=
+ =?utf-8?B?Ny9tSlFRMnRBbWV6V250MGJuVFRyNGhCVTNObHRPalcrakQyMEx0QWlxV2tE?=
+ =?utf-8?B?T2Y5eGx5Tk5XeC9DVUU3ZGU1Q2Zzb2JDZWJONmQ5cW9qQnBkRlVNY29sc1Aw?=
+ =?utf-8?B?RGR6Qm1HSWtERGJ1ekVVSFBjWC80Uk1KQVNqT0lJSVRsbFRrR3hKRG4yVzFx?=
+ =?utf-8?B?NXRFdXN5Ynh4czJ4dlNrV2N6OTN5RDVMczA5V1hnQ05iN2pQOE51NTZKeW1y?=
+ =?utf-8?B?N1VFZUlqVmlvVTFZWTlBc0pITUFSdlJoNm9zdGJqaVEvUWhHNUR5WFAvTk1w?=
+ =?utf-8?B?RmRWOThsYUNqMllPYkhXQ1lONEZWMml2ell2WVFoWXB6eUlPZjBCVDdRT2xV?=
+ =?utf-8?B?cDV4dXgybHRFT3ZiRWtHdjFRUkw3N2RNWjVXcHN5ZDJ0WklPTXJOdkIwZUo3?=
+ =?utf-8?B?TE5sM3F3azFxclpHR09VT0QwYkJXN2g5b3Z2VDMrQ2tnRHp0S0hMSktORVhv?=
+ =?utf-8?Q?v/yp55ehnqhqY?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?TkMwUkZLUE11RUFCY3RsZ0I5V2JHOHcrYUp3elR5Zkx2L09wbnp6Vm9vNDQz?=
+ =?utf-8?B?YW5mUVBnVFc2VHV4KzRWMkNNTUtnY2Z2cnJhM0ZYN0FuQU52RTAzUi9hQ1cy?=
+ =?utf-8?B?WHdWNkNBUGV1a1BjRHAwaGM5RTlaLzVGcEc2dVNNSkJxTC9kcTN5ak9tVEhy?=
+ =?utf-8?B?Z3k4ajdEaEdIaGVBSHBISnpwSy9IZC9XODh0VGtIUjkvZXlyT3VwV1hLQ0NN?=
+ =?utf-8?B?dVFvU3g5MmJOVmdoV2RhRmFLZU4yRFBmOUMyZVpOWXg5SnhBUnFHUFNEL2VT?=
+ =?utf-8?B?UUdiQjlJSElLcTBDRkx2czBYRWVPOVhaSVFjT21MMmJUcUpXdGpTY1NycXUx?=
+ =?utf-8?B?MVVXUlFoSEZtbzlZYTJTMDF1c2pkRzl1SEhsRFlsTktWZDFRSG5Va242VFZp?=
+ =?utf-8?B?SE5zM3RHek5ydlRLeFBaSncxRjdUQndaL0xVbUlEcWt1d0VSVDVrOW9pZ3U5?=
+ =?utf-8?B?K25oY05McjUzcCt2L3FxVTdhYzZXZ0ZWcElpb3E5QWZRSGNONGN5M21Sd1lm?=
+ =?utf-8?B?YnhZWVQwbjlEZE9wVzdsSHBLOXdIMEpZa1grK1poOVJ0cmtnNldTVGp6MEJY?=
+ =?utf-8?B?c0RveWFZYmtqRWxucnB3aG55QTRNeHBpYmFtSWNnUnJ0RWtOQUMyODJhakZH?=
+ =?utf-8?B?SkFKR1Y1Q2lsRWViUjc1RkNFOUFGOUJBdDFRbkNydTkvYW5QVW9ob1k0OTIw?=
+ =?utf-8?B?WnMzY0o5RGRWOXBYenozR2xVWUNGdjZ6d3J4UW5PR3h4dnU3b2NXZmQzQWFN?=
+ =?utf-8?B?Qkk0YlBTalhJQnZmVmdOcXJTRE5tYmc0L3NzMHQvOHlvZ0dMSWZSRGVOa1ov?=
+ =?utf-8?B?Mll3cGRlY2NnbUY3aHFaSmxhNmxEOHNrTEdSWGNUc1hGekdGZjl1SjBDM0lk?=
+ =?utf-8?B?UFJMbkxqM3l4TlNKVU9tQlRXY1V5ZmF2M1dFRCt0a1VTWGh6VVhRRUVIVmU5?=
+ =?utf-8?B?R2wrVzNuSjFvZGhQTHZOaUphU1JHSzVmd2grY0VoUUtIV3N1aEJ4Y0RrMXI0?=
+ =?utf-8?B?eWp6c0xBUktsS05xaGU5MjkyNnA3MkdYRkw5aHJBNFRxaE55bll6bU16T0xV?=
+ =?utf-8?B?MllmVG9WQlFQczhRMkZjek1TYWhZeTJTdXAzeTZOVE9IcDlUVjN2bVdMeFhs?=
+ =?utf-8?B?TE96c2lCSDI5bnFUbHdBVmtrdHlLaUZzemlTSVFZRThCcnJzOW14L3gzaGo5?=
+ =?utf-8?B?cXVySDBNNlRBTTNhNFcxNnpheDNsdThMUDNNR1FyUnNzT1dJSEQ0cGZkM01k?=
+ =?utf-8?B?OWNOQjRPcitVNGRqbEErS01FUGlwY21Qb3grc2dTRk8rbDU5S01ZcHUydjZF?=
+ =?utf-8?B?bzIxMjM0NXY3QnZaRjdDNitqcFNJMkZ1L0M3SVp3cm1ZMTFyVVV3emQ3bGtR?=
+ =?utf-8?B?Yk5SZU1KZkpmeFRZNHBZS1RUTXVZbW9FZmhXU0Z0Z29GeERFeFlGMXpDem5G?=
+ =?utf-8?B?M3N5dkNWL1ZCZlNvTkxjV2Q1NlRUeFpOcTJmWTAvS2R5M0FPbS9vdCsxVEFs?=
+ =?utf-8?B?cVA3emp6enFqZnZ0VmpRZ2hoYUlISzlPaGJ1R3IyWlJQWDdHR0s2dzRZQ3FC?=
+ =?utf-8?B?dEd1RGhQMzdxa2daZzl3S2ZGQ0xxdjFmbXA3YXNJaVFRY1ZYOUtHa1lUSHBs?=
+ =?utf-8?B?VG9DUWE0Zzh4MzFGUmFSWUhHMkFqL3c5T0t2L1lNckpjMGphZTRrcUM2SDI5?=
+ =?utf-8?B?LytxMTl0b3lNRy9pbVZGZmlDZmI3UVVnWmdGV2lDRXhhaDkzaVRFOWV3cFZE?=
+ =?utf-8?B?aEdWRDd6MVpCZ09Zbk5xNGUrNVZDSGREWktQbllqcThtWDNMKy9aZC9BVVBL?=
+ =?utf-8?B?d1BUSE8rRGtLN3BrbjQ5Yko5T2x3Sm9QM1ZsZkNwZGtydW5TdTZGVEQ1OXVP?=
+ =?utf-8?B?Nm15SWRhTHlDd3BINzJiTm4rMmxjU3h6ZGxkeEozLytZakwvQmtIaC90akts?=
+ =?utf-8?B?bEFOY2x0aW5ybkRSMTVlYVl0MkRXVzc4YmtkYlJkS3FHQ1VDM2RkOU50Y1Q1?=
+ =?utf-8?B?MVMxZ0JzeHhXRkFUL0lsVnI2amNxeU1Nb2NqSXd5dFYwMWVpdzVXZVZJdWF1?=
+ =?utf-8?B?c2lLZTVGbHdOMHpxUkFOKzRybEhXYjkyRW14MnhPV2pOK2xHcHNZYmZnbDVv?=
+ =?utf-8?B?MWlucXdUb01NTERrU2JETjRKRGJKVmxlbWlrd05aRDVXOUdMRHVCSFM4TGw1?=
+ =?utf-8?B?OVE9PQ==?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52ff43be-d946-4f51-d61e-08dde6eecb27
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 11:25:44.3548
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nkTUfWMUOZ0qdzUyv7iKviuO08zaaaT/DZlxgReAYSUhLGj1gHd/nDnr2eR0uUC/+1is7PBWQesVXA17lxwcvA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR06MB8026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 09:30:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222609
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Aug 2025 11:26:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222610
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+We have found that since this patch SELECT queries with COUNT(DISTINCT(column)) seem to cause sqlite to segfault. E.g.
 
-Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/7be20ccaab97455f192de0ac561ceda7cd9e12d1, https://gitlab.com/libtiff/libtiff/-/commit/2ebfffb0e8836bfb1cd7d85c059cd285c59761a4, https://gitlab.com/libtiff/libtiff/-/commit/3994cf3b3bc6b54c32f240ca5a412cffa11633fa, https://gitlab.com/libtiff/libtiff/-/commit/ce46f002eca4148497363f80fab33f9396bcbeda, https://gitlab.com/libtiff/libtiff/-/commit/ecc4ddbf1f0fed7957d1e20361e37f01907898e0, https://gitlab.com/libtiff/libtiff/-/commit/75d8eca6f106c01aadf76b8500a7d062b12f2d82, https://gitlab.com/libtiff/libtiff/-/commit/e8c9d6c616b19438695fd829e58ae4fde5bfbc22]
+# sqlite3 :memory: 'create table foo (x int); select count(distinct(x)) from foo;'
+Segmentation fault (core dumped)
 
-CVE's Fixed:
-CVE-2024-13978 libtiff: LibTIFF Null Pointer Dereference
-CVE-2025-8176 libtiff: LibTIFF Use-After-Free Vulnerability
-CVE-2025-8177 libtiff: LibTIFF Buffer Overflow
+-Niko
 
-(From OE-Core rev: 16d8a873c57b174e4d6581b58d890f2157aa2f2c)
-
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
----
- .../libtiff/tiff/CVE-2024-13978_1.patch       | 77 +++++++++++++++++++
- .../libtiff/tiff/CVE-2024-13978_2.patch       | 45 +++++++++++
- .../libtiff/tiff/CVE-2025-8176_1.patch        | 61 +++++++++++++++
- .../libtiff/tiff/CVE-2025-8176_2.patch        | 31 ++++++++
- .../libtiff/tiff/CVE-2025-8176_3.patch        | 28 +++++++
- .../libtiff/tiff/CVE-2025-8177_1.patch        | 36 +++++++++
- .../libtiff/tiff/CVE-2025-8177_2.patch        | 29 +++++++
- meta/recipes-multimedia/libtiff/tiff_4.7.0.bb | 10 ++-
- 8 files changed, 316 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978_1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978_2.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_2.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_3.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8177_1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8177_2.patch
-
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978_1.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978_1.patch
-new file mode 100644
-index 0000000000..8bb7cf280d
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978_1.patch
-@@ -0,0 +1,77 @@
-+From 6dd7006103f9612fbd22e9c7c1b93d16691370a4 Mon Sep 17 00:00:00 2001
-+From: Lee Howard <faxguy@howardsilvan.com>
-+Date: Fri, 27 Sep 2024 11:21:57 -0700
-+Subject: [PATCH 1/7] Fix issue #649 in fax2ps caused by regression in commit
-+ https://gitlab.com/libtiff/libtiff/-/commit/28c38d648b64a66c3218778c4745225fe3e3a06d
-+ where TIFFTAG_FAXFILLFUNC is being used rather than an output buffer.
-+
-+CVE: CVE-2024-13978
-+Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/7be20ccaab97455f192de0ac561ceda7cd9e12d1]
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ libtiff/tif_read.c | 21 ++++++++++++++++-----
-+ 1 file changed, 16 insertions(+), 5 deletions(-)
-+
-+diff --git a/libtiff/tif_read.c b/libtiff/tif_read.c
-+index 7efab59..964f119 100644
-+--- a/libtiff/tif_read.c
-++++ b/libtiff/tif_read.c
-+@@ -466,7 +466,9 @@ int TIFFReadScanline(TIFF *tif, void *buf, uint32_t row, uint16_t sample)
-+     }
-+     else
-+     {
-+-        memset(buf, 0, (size_t)tif->tif_scanlinesize);
-++        /* See TIFFReadEncodedStrip comment regarding TIFFTAG_FAXFILLFUNC. */
-++        if (buf)
-++            memset(buf, 0, (size_t)tif->tif_scanlinesize);
-+     }
-+     return (e > 0 ? 1 : -1);
-+ }
-+@@ -554,7 +556,10 @@ tmsize_t TIFFReadEncodedStrip(TIFF *tif, uint32_t strip, void *buf,
-+         stripsize = size;
-+     if (!TIFFFillStrip(tif, strip))
-+     {
-+-        memset(buf, 0, (size_t)stripsize);
-++        /* The output buf may be NULL, in particular if TIFFTAG_FAXFILLFUNC
-++           is being used. Thus, memset must be conditional on buf not NULL. */
-++        if (buf)
-++            memset(buf, 0, (size_t)stripsize);
-+         return ((tmsize_t)(-1));
-+     }
-+     if ((*tif->tif_decodestrip)(tif, buf, stripsize, plane) <= 0)
-+@@ -976,7 +981,9 @@ tmsize_t TIFFReadEncodedTile(TIFF *tif, uint32_t tile, void *buf, tmsize_t size)
-+         size = tilesize;
-+     if (!TIFFFillTile(tif, tile))
-+     {
-+-        memset(buf, 0, (size_t)size);
-++        /* See TIFFReadEncodedStrip comment regarding TIFFTAG_FAXFILLFUNC. */
-++        if (buf)
-++            memset(buf, 0, (size_t)size);
-+         return ((tmsize_t)(-1));
-+     }
-+     else if ((*tif->tif_decodetile)(tif, (uint8_t *)buf, size,
-+@@ -1569,7 +1576,9 @@ int TIFFReadFromUserBuffer(TIFF *tif, uint32_t strile, void *inbuf,
-+         if (!TIFFStartTile(tif, strile))
-+         {
-+             ret = 0;
-+-            memset(outbuf, 0, (size_t)outsize);
-++            /* See related TIFFReadEncodedStrip comment. */
-++            if (outbuf)
-++                memset(outbuf, 0, (size_t)outsize);
-+         }
-+         else if (!(*tif->tif_decodetile)(
-+                      tif, (uint8_t *)outbuf, outsize,
-+@@ -1596,7 +1605,9 @@ int TIFFReadFromUserBuffer(TIFF *tif, uint32_t strile, void *inbuf,
-+             if (!TIFFStartStrip(tif, strile))
-+             {
-+                 ret = 0;
-+-                memset(outbuf, 0, (size_t)outsize);
-++                /* See related TIFFReadEncodedStrip comment. */
-++                if (outbuf)
-++                    memset(outbuf, 0, (size_t)outsize);
-+             }
-+             else if (!(*tif->tif_decodestrip)(
-+                          tif, (uint8_t *)outbuf, outsize,
-+-- 
-+2.47.3
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978_2.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978_2.patch
-new file mode 100644
-index 0000000000..a022fd41e2
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978_2.patch
-@@ -0,0 +1,45 @@
-+From a80b9eb70a8137e2571b2f32bd05d1a22a5603c4 Mon Sep 17 00:00:00 2001
-+From: Lee Howard <faxguy@howardsilvan.com>
-+Date: Sat, 5 Oct 2024 09:45:30 -0700
-+Subject: [PATCH 2/7] Check TIFFTAG_TILELENGTH and TIFFTAGTILEWIDTH for valid
-+ input, addresses issue #650
-+
-+CVE: CVE-2024-13978
-+Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/2ebfffb0e8836bfb1cd7d85c059cd285c59761a4]
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ tools/tiff2pdf.c | 16 ++++++++++++++++
-+ 1 file changed, 16 insertions(+)
-+
-+diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
-+index 6dfc239..2010fee 100644
-+--- a/tools/tiff2pdf.c
-++++ b/tools/tiff2pdf.c
-+@@ -1371,8 +1371,24 @@ void t2p_read_tiff_init(T2P *t2p, TIFF *input)
-+             t2p->pdf_xrefcount += (t2p->tiff_tiles[i].tiles_tilecount - 1) * 2;
-+             TIFFGetField(input, TIFFTAG_TILEWIDTH,
-+                          &(t2p->tiff_tiles[i].tiles_tilewidth));
-++            if (t2p->tiff_tiles[i].tiles_tilewidth < 1)
-++            {
-++                TIFFError(TIFF2PDF_MODULE, "Invalid tile width (%d), %s",
-++                          t2p->tiff_tiles[i].tiles_tilewidth,
-++                          TIFFFileName(input));
-++                t2p->t2p_error = T2P_ERR_ERROR;
-++                return;
-++            }
-+             TIFFGetField(input, TIFFTAG_TILELENGTH,
-+                          &(t2p->tiff_tiles[i].tiles_tilelength));
-++            if (t2p->tiff_tiles[i].tiles_tilelength < 1)
-++            {
-++                TIFFError(TIFF2PDF_MODULE, "Invalid tile length (%d), %s",
-++                          t2p->tiff_tiles[i].tiles_tilelength,
-++                          TIFFFileName(input));
-++                t2p->t2p_error = T2P_ERR_ERROR;
-++                return;
-++            }
-+             t2p->tiff_tiles[i].tiles_tiles = (T2P_TILE *)_TIFFmalloc(
-+                 TIFFSafeMultiply(tmsize_t, t2p->tiff_tiles[i].tiles_tilecount,
-+                                  sizeof(T2P_TILE)));
-+-- 
-+2.47.3
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_1.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_1.patch
-new file mode 100644
-index 0000000000..14d3cb445e
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_1.patch
-@@ -0,0 +1,61 @@
-+From ed35364de1e3ad444e6f954514ee68eb9be496d2 Mon Sep 17 00:00:00 2001
-+From: Lee Howard <faxguy@howardsilvan.com>
-+Date: Mon, 19 May 2025 10:53:30 -0700
-+Subject: [PATCH 3/7] Don't skip the first line of the input image. Addresses
-+ issue #703
-+
-+CVE: CVE-2025-8176
-+Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/3994cf3b3bc6b54c32f240ca5a412cffa11633fa]
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ tools/tiffdither.c | 4 ++--
-+ tools/tiffmedian.c | 4 ++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/tools/tiffdither.c b/tools/tiffdither.c
-+index 714fe03..bfed6df 100644
-+--- a/tools/tiffdither.c
-++++ b/tools/tiffdither.c
-+@@ -98,7 +98,7 @@ static int fsdither(TIFF *in, TIFF *out)
-+     nextptr = nextline;
-+     for (j = 0; j < imagewidth; ++j)
-+         *nextptr++ = *inptr++;
-+-    for (i = 1; i < imagelength; ++i)
-++    for (i = 0; i < imagelength; ++i)
-+     {
-+         tmpptr = thisline;
-+         thisline = nextline;
-+@@ -146,7 +146,7 @@ static int fsdither(TIFF *in, TIFF *out)
-+                     nextptr[0] += v / 16;
-+             }
-+         }
-+-        if (TIFFWriteScanline(out, outline, i - 1, 0) < 0)
-++        if (TIFFWriteScanline(out, outline, i, 0) < 0)
-+             goto skip_on_error;
-+     }
-+     goto exit_label;
-+diff --git a/tools/tiffmedian.c b/tools/tiffmedian.c
-+index 02b0bc2..f6cf26c 100644
-+--- a/tools/tiffmedian.c
-++++ b/tools/tiffmedian.c
-+@@ -917,7 +917,7 @@ static void quant_fsdither(TIFF *in, TIFF *out)
-+     outline = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
-+ 
-+     GetInputLine(in, 0, goto bad); /* get first line */
-+-    for (i = 1; i <= imagelength; ++i)
-++    for (i = 0; i <= imagelength; ++i)
-+     {
-+         SWAP(short *, thisline, nextline);
-+         lastline = (i >= imax);
-+@@ -997,7 +997,7 @@ static void quant_fsdither(TIFF *in, TIFF *out)
-+                 nextptr += 3;
-+             }
-+         }
-+-        if (TIFFWriteScanline(out, outline, i - 1, 0) < 0)
-++        if (TIFFWriteScanline(out, outline, i, 0) < 0)
-+             break;
-+     }
-+ bad:
-+-- 
-+2.47.3
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_2.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_2.patch
-new file mode 100644
-index 0000000000..74cf5ae277
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_2.patch
-@@ -0,0 +1,31 @@
-+From c090daf37e7f2ad09ec7e9cfabd1c5fde3dee6eb Mon Sep 17 00:00:00 2001
-+From: Lee Howard <faxguy@howardsilvan.com>
-+Date: Sat, 24 May 2025 21:25:16 -0700
-+Subject: [PATCH 4/7] Fix tiffmedian bug #707
-+
-+CVE: CVE-2025-8176
-+Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/ce46f002eca4148497363f80fab33f9396bcbeda]
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ tools/tiffmedian.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/tiffmedian.c b/tools/tiffmedian.c
-+index f6cf26c..8c9978b 100644
-+--- a/tools/tiffmedian.c
-++++ b/tools/tiffmedian.c
-+@@ -414,7 +414,10 @@ static void get_histogram(TIFF *in, Colorbox *box)
-+     for (i = 0; i < imagelength; i++)
-+     {
-+         if (TIFFReadScanline(in, inputline, i, 0) <= 0)
-+-            break;
-++        {
-++            fprintf(stderr, "Error reading scanline\n");
-++            exit(EXIT_FAILURE);
-++        }
-+         inptr = inputline;
-+         for (j = imagewidth; j-- > 0;)
-+         {
-+-- 
-+2.47.3
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_3.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_3.patch
-new file mode 100644
-index 0000000000..e0f41f8d71
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8176_3.patch
-@@ -0,0 +1,28 @@
-+From bd645550275963797343e8e91a9a8fee318428e0 Mon Sep 17 00:00:00 2001
-+From: Lee Howard <faxguy@howardsilvan.com>
-+Date: Sat, 24 May 2025 21:38:09 -0700
-+Subject: [PATCH 5/7] conflict resolution
-+
-+CVE: CVE-2025-8176
-+Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/ecc4ddbf1f0fed7957d1e20361e37f01907898e0]
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ tools/tiffmedian.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tools/tiffmedian.c b/tools/tiffmedian.c
-+index 8c9978b..47e0524 100644
-+--- a/tools/tiffmedian.c
-++++ b/tools/tiffmedian.c
-+@@ -920,7 +920,7 @@ static void quant_fsdither(TIFF *in, TIFF *out)
-+     outline = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
-+ 
-+     GetInputLine(in, 0, goto bad); /* get first line */
-+-    for (i = 0; i <= imagelength; ++i)
-++    for (i = 0; i < imagelength; ++i)
-+     {
-+         SWAP(short *, thisline, nextline);
-+         lastline = (i >= imax);
-+-- 
-+2.47.3
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8177_1.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8177_1.patch
-new file mode 100644
-index 0000000000..9437ffcc20
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8177_1.patch
-@@ -0,0 +1,36 @@
-+From 01bf5ba7f4a27c5e28ce467a66b13e066556e545 Mon Sep 17 00:00:00 2001
-+From: Lee Howard <faxguy@howardsilvan.com>
-+Date: Thu, 19 Jun 2025 11:51:33 -0700
-+Subject: [PATCH 6/7] Fix for thumbnail issue #715
-+
-+CVE: CVE-2025-8177
-+Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/75d8eca6f106c01aadf76b8500a7d062b12f2d82]
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ tools/thumbnail.c | 10 +++++++++-
-+ 1 file changed, 9 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/thumbnail.c b/tools/thumbnail.c
-+index b4cb114..432d172 100644
-+--- a/tools/thumbnail.c
-++++ b/tools/thumbnail.c
-+@@ -620,7 +620,15 @@ static void setrow(uint8_t *row, uint32_t nrows, const uint8_t *rows[])
-+             }
-+             acc += bits[*src & mask1];
-+         }
-+-        *row++ = cmap[(255 * acc) / area];
-++        if (255 * acc / area < 256)
-++        {
-++            *row++ = cmap[(255 * acc) / area];
-++        }
-++        else
-++        {
-++            fprintf(stderr, "acc=%d, area=%d\n", acc, area);
-++            row++;
-++        }
-+     }
-+ }
-+ 
-+-- 
-+2.47.3
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8177_2.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8177_2.patch
-new file mode 100644
-index 0000000000..356e3ba402
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8177_2.patch
-@@ -0,0 +1,29 @@
-+From c3ad38afb9986b9ddcd7d95367ded152488260cd Mon Sep 17 00:00:00 2001
-+From: Lee Howard <faxguy@howardsilvan.com>
-+Date: Mon, 23 Jun 2025 10:09:07 -0700
-+Subject: [PATCH 7/7] set a default value - assumes cmap[0] was not, itself,
-+ uninitialized
-+
-+CVE: CVE-2025-8177
-+Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/e8c9d6c616b19438695fd829e58ae4fde5bfbc22]
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ tools/thumbnail.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tools/thumbnail.c b/tools/thumbnail.c
-+index 432d172..110ea42 100644
-+--- a/tools/thumbnail.c
-++++ b/tools/thumbnail.c
-+@@ -627,7 +627,7 @@ static void setrow(uint8_t *row, uint32_t nrows, const uint8_t *rows[])
-+         else
-+         {
-+             fprintf(stderr, "acc=%d, area=%d\n", acc, area);
-+-            row++;
-++            *row++ = cmap[0];
-+         }
-+     }
-+ }
-+-- 
-+2.47.3
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
-index 5a6939d584..26e3811ff8 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
-@@ -8,7 +8,15 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=a3e32d664d6db1386b4689c8121531c3"
- 
- CVE_PRODUCT = "libtiff"
- 
--SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz"
-+SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-+	   file://CVE-2024-13978_1.patch \
-+	   file://CVE-2024-13978_2.patch \
-+	   file://CVE-2025-8176_1.patch \
-+	   file://CVE-2025-8176_2.patch \
-+	   file://CVE-2025-8176_3.patch \
-+	   file://CVE-2025-8177_1.patch \
-+	   file://CVE-2025-8177_2.patch \
-+	   "
- 
- SRC_URI[sha256sum] = "67160e3457365ab96c5b3286a0903aa6e78bdc44c4bc737d2e486bcecb6ba976"
- 
--- 
-2.40.0
+On 5.8.2025 19.43, Steve Sakoman via lists.openembedded.org wrote:
+> From: Peter Marko <peter.marko@siemens.com>
+> 
+> Pick patch [1] listed in [2].
+> Also pick another patch which is precondition to this one introducing
+> variable needed for the check.
+> 
+> [1] https://sqlite.org/src/info/12ad822d9b827777
+> [2] https://nvd.nist.gov/vuln/detail/CVE-2025-7458
+> 
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>   ...mpts-to-improve-the-detection-of-cov.patch | 91 +++++++++++++++++++
+>   .../sqlite/files/CVE-2025-7458.patch          | 32 +++++++
+>   meta/recipes-support/sqlite/sqlite3_3.38.5.bb |  2 +
+>   3 files changed, 125 insertions(+)
+>   create mode 100644 meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-improve-the-detection-of-cov.patch
+>   create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-7458.patch
+> 
+> diff --git a/meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-improve-the-detection-of-cov.patch b/meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-improve-the-detection-of-cov.patch
+> new file mode 100644
+> index 0000000000..8fb037bb0f
+> --- /dev/null
+> +++ b/meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-improve-the-detection-of-cov.patch
+> @@ -0,0 +1,91 @@
+> +From f55a7dad195994f2bb24db7df0a0515502386fe2 Mon Sep 17 00:00:00 2001
+> +From: drh <>
+> +Date: Sat, 22 Oct 2022 14:16:02 +0000
+> +Subject: [PATCH] This branch attempts to improve the detection of covering
+> + indexes.  This first check-in merely improves a parameter name to
+> + sqlite3WhereBegin() to be more descriptive of what it contains, and ensures
+> + that a subroutine is not inlines so that sqlite3WhereBegin() runs slightly
+> + faster.
+> +
+> +FossilOrigin-Name: cadf5f6bb1ce0492ef858ada476288e8057afd3609caa18b09c818d3845d7244
+> +
+> +Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/f55a7dad195994f2bb24db7df0a0515502386fe2]
+> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> +---
+> + sqlite3.c | 28 +++++++++++++---------------
+> + 1 file changed, 13 insertions(+), 15 deletions(-)
+> +
+> +diff --git a/sqlite3.c b/sqlite3.c
+> +index 4cbc2d0..b7ed991 100644
+> +--- a/sqlite3.c
+> ++++ b/sqlite3.c
+> +@@ -147371,9 +147371,7 @@ struct WhereInfo {
+> +   ExprList *pOrderBy;       /* The ORDER BY clause or NULL */
+> +   ExprList *pResultSet;     /* Result set of the query */
+> +   Expr *pWhere;             /* The complete WHERE clause */
+> +-#ifndef SQLITE_OMIT_VIRTUALTABLE
+> +-  Select *pLimit;           /* Used to access LIMIT expr/registers for vtabs */
+> +-#endif
+> ++  Select *pSelect;          /* The entire SELECT statement containing WHERE */
+> +   int aiCurOnePass[2];      /* OP_OpenWrite cursors for the ONEPASS opt */
+> +   int iContinue;            /* Jump here to continue with next record */
+> +   int iBreak;               /* Jump here to break out of the loop */
+> +@@ -149070,9 +149068,9 @@ SQLITE_PRIVATE Bitmask sqlite3WhereCodeOneLoopStart(
+> +          && pLoop->u.vtab.bOmitOffset
+> +         ){
+> +           assert( pTerm->eOperator==WO_AUX );
+> +-          assert( pWInfo->pLimit!=0 );
+> +-          assert( pWInfo->pLimit->iOffset>0 );
+> +-          sqlite3VdbeAddOp2(v, OP_Integer, 0, pWInfo->pLimit->iOffset);
+> ++          assert( pWInfo->pSelect!=0 );
+> ++          assert( pWInfo->pSelect->iOffset>0 );
+> ++          sqlite3VdbeAddOp2(v, OP_Integer, 0, pWInfo->pSelect->iOffset);
+> +           VdbeComment((v,"Zero OFFSET counter"));
+> +         }
+> +       }
+> +@@ -151830,10 +151828,10 @@ static void whereAddLimitExpr(
+> + ** exist only so that they may be passed to the xBestIndex method of the
+> + ** single virtual table in the FROM clause of the SELECT.
+> + */
+> +-SQLITE_PRIVATE void sqlite3WhereAddLimit(WhereClause *pWC, Select *p){
+> +-  assert( p==0 || (p->pGroupBy==0 && (p->selFlags & SF_Aggregate)==0) );
+> +-  if( (p && p->pLimit)                                          /* 1 */
+> +-   && (p->selFlags & (SF_Distinct|SF_Aggregate))==0             /* 2 */
+> ++SQLITE_PRIVATE void SQLITE_NOINLINE sqlite3WhereAddLimit(WhereClause *pWC, Select *p){
+> ++  assert( p!=0 && p->pLimit!=0 );                 /* 1 -- checked by caller */
+> ++  assert( p->pGroupBy==0 && (p->selFlags & SF_Aggregate)==0 );
+> ++  if( (p->selFlags & (SF_Distinct|SF_Aggregate))==0             /* 2 */
+> +    && (p->pSrc->nSrc==1 && IsVirtual(p->pSrc->a[0].pTab))       /* 3 */
+> +   ){
+> +     ExprList *pOrderBy = p->pOrderBy;
+> +@@ -157427,7 +157425,7 @@ SQLITE_PRIVATE WhereInfo *sqlite3WhereBegin(
+> +   Expr *pWhere,           /* The WHERE clause */
+> +   ExprList *pOrderBy,     /* An ORDER BY (or GROUP BY) clause, or NULL */
+> +   ExprList *pResultSet,   /* Query result set.  Req'd for DISTINCT */
+> +-  Select *pLimit,         /* Use this LIMIT/OFFSET clause, if any */
+> ++  Select *pSelect,        /* The entire SELECT statement */
+> +   u16 wctrlFlags,         /* The WHERE_* flags defined in sqliteInt.h */
+> +   int iAuxArg             /* If WHERE_OR_SUBCLAUSE is set, index cursor number
+> +                           ** If WHERE_USE_LIMIT, then the limit amount */
+> +@@ -157504,9 +157502,7 @@ SQLITE_PRIVATE WhereInfo *sqlite3WhereBegin(
+> +   pWInfo->wctrlFlags = wctrlFlags;
+> +   pWInfo->iLimit = iAuxArg;
+> +   pWInfo->savedNQueryLoop = pParse->nQueryLoop;
+> +-#ifndef SQLITE_OMIT_VIRTUALTABLE
+> +-  pWInfo->pLimit = pLimit;
+> +-#endif
+> ++  pWInfo->pSelect = pSelect;
+> +   memset(&pWInfo->nOBSat, 0,
+> +          offsetof(WhereInfo,sWC) - offsetof(WhereInfo,nOBSat));
+> +   memset(&pWInfo->a[0], 0, sizeof(WhereLoop)+nTabList*sizeof(WhereLevel));
+> +@@ -157575,7 +157571,9 @@ SQLITE_PRIVATE WhereInfo *sqlite3WhereBegin(
+> +
+> +   /* Analyze all of the subexpressions. */
+> +   sqlite3WhereExprAnalyze(pTabList, &pWInfo->sWC);
+> +-  sqlite3WhereAddLimit(&pWInfo->sWC, pLimit);
+> ++  if( pSelect && pSelect->pLimit ){
+> ++    sqlite3WhereAddLimit(&pWInfo->sWC, pSelect);
+> ++  }
+> +   if( db->mallocFailed ) goto whereBeginError;
+> +
+> +   /* Special case: WHERE terms that do not refer to any tables in the join
+> diff --git a/meta/recipes-support/sqlite/files/CVE-2025-7458.patch b/meta/recipes-support/sqlite/files/CVE-2025-7458.patch
+> new file mode 100644
+> index 0000000000..6b041d9332
+> --- /dev/null
+> +++ b/meta/recipes-support/sqlite/files/CVE-2025-7458.patch
+> @@ -0,0 +1,32 @@
+> +From b816ca9994e03a8bc829b49452b8158a731e81a9 Mon Sep 17 00:00:00 2001
+> +From: drh <>
+> +Date: Thu, 16 Mar 2023 20:54:29 +0000
+> +Subject: [PATCH] Correctly handle SELECT DISTINCT ... ORDER BY when all of the
+> + result set terms are constant and there are more result set terms than ORDER
+> + BY terms. Fix for these tickets: [c36cdb4afd504dc1], [4051a7f931d9ba24],
+> + [d6fd512f50513ab7].
+> +
+> +FossilOrigin-Name: 12ad822d9b827777526ca5ed5bf3e678d600294fc9b5c25482dfff2a021328a4
+> +
+> +CVE: CVE-2025-7458
+> +Upstream-Status: Backport [github.com/sqlite/sqlite/commit/b816ca9994e03a8bc829b49452b8158a731e81a9]
+> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> +---
+> + sqlite3.c | 4 ++++
+> + 1 file changed, 4 insertions(+)
+> +
+> +diff --git a/sqlite3.c b/sqlite3.c
+> +index 19d0438..6d92184 100644
+> +--- a/sqlite3.c
+> ++++ b/sqlite3.c
+> +@@ -156989,6 +156989,10 @@ static int wherePathSolver(WhereInfo *pWInfo, LogEst nRowEst){
+> +       if( pFrom->isOrdered==pWInfo->pOrderBy->nExpr ){
+> +         pWInfo->eDistinct = WHERE_DISTINCT_ORDERED;
+> +       }
+> ++      if( pWInfo->pSelect->pOrderBy
+> ++       && pWInfo->nOBSat > pWInfo->pSelect->pOrderBy->nExpr ){
+> ++        pWInfo->nOBSat = pWInfo->pSelect->pOrderBy->nExpr;
+> ++      }
+> +     }else{
+> +       pWInfo->nOBSat = pFrom->isOrdered;
+> +       pWInfo->revMask = pFrom->revLoop;
+> diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> index 656e2d8bd8..86d9b4b33b 100644
+> --- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> +++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> @@ -10,6 +10,8 @@ SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+>              file://CVE-2023-7104.patch \
+>              file://CVE-2025-29088.patch \
+>              file://CVE-2025-6965.patch \
+> +           file://0001-This-branch-attempts-to-improve-the-detection-of-cov.patch \
+> +           file://CVE-2025-7458.patch \
+>              "
+>   SRC_URI[sha256sum] = "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
+>   
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#221481): https://lists.openembedded.org/g/openembedded-core/message/221481
+> Mute This Topic: https://lists.openembedded.org/mt/114551672/3618471
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [niko.mauno@vaisala.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
