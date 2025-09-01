@@ -2,114 +2,104 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 347F0CA0FFD
-	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 09:55:19 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.47653.1756720513956852573
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34D6CCA0FFD
+	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 09:56:29 +0000 (UTC)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web11.47547.1756720583078618851
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 02:55:14 -0700
+ Mon, 01 Sep 2025 02:56:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oi0pbh9D;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-70ddadde2e9so34003806d6.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 02:55:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mVlAPwBd;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7f74b42ec59so229378885a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 02:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756720513; x=1757325313; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756720582; x=1757325382; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=T/ZGcwvG5sYJFFRqcewouNEjbr8CAs7oVwxnm1D/29Q=;
-        b=Oi0pbh9DEz2OUqc3yM5YvtOTgoUmPS54BwyTAldquoJVNuh2tj5UBGb4oAGlns0pNf
-         bcOEiifWuLFgWJ1ygfpJ1d9aQGm7P/T848NXICYW0UThauliy5KXd+nMCORWJ3DW/EJa
-         bocUxvs+rymkYbP2RVblEzFcYDYcohRTq8TBCozd3k/ij07KLHUOWtLv7Gr2CDwQsX5A
-         lx4L1vi/hGakV0qzbUHclQUj1YfNwyTwnZd/uXJEFL7tKakZOusS6lc1TmkVFx7NEeKc
-         DRf+jsawbAJRANOFNPxMFXgeZ/TkcqihZd2JBoAdljPuCsn/3+TOnnWJB+FcI16nu56a
-         1NOQ==
+        bh=cVVKAG/2lXul9/5OkpPhPDcA3O/MV++OIN99Z/UeH2E=;
+        b=mVlAPwBdbLLx/ve3KR0Jw/P+KZLz0HCDe+hccYqggaRcJf8wPFVnrT2nSnK3vHDEEx
+         aZlRRtd275FS2W76mwrbtCjWUD4HmcZ4NFoq429tRiQWbVhtwpOq5bMWjbYOLeFeDvR0
+         FbZ1IIdMdYjG8PM5+Wsnmd0iFpXX5C6XWVRgfxhuRi6BQmabbYs8FjNOl2Sn/fX0GjZW
+         0aNnK7g6jk98tF85irfRmTyef7KEn7GxUxXo62e140HyD7JTPrIQZfCJUTSyKhcmU8Iu
+         udx48Nhdp+AgFnli49cfampzwYAd+cEbQBnCYEBhiXuASkHzs6jwGzBuGtcMcOATvHr2
+         57MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756720513; x=1757325313;
+        d=1e100.net; s=20230601; t=1756720582; x=1757325382;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=T/ZGcwvG5sYJFFRqcewouNEjbr8CAs7oVwxnm1D/29Q=;
-        b=iVh7FblLhzwxg6LP1fuKt4hIiq+IeQx0HW/5TgtYG1IEWSTuRmxKB2fdju/5rEpxi6
-         9EFR5hvn/lLCjz2Au8eI5pp5ZHLW6sVJMls/1P49XuExCX/FI1kZQs8/EFhBMVAo2cHg
-         9JQfcLFOIc8Utx3FUQIQbkNC0R0jW0CznR+PjkN1tDlHsjCk9AbnT6+cwi8ErVWl75Zc
-         lU3WoBHDytLTPEx1/KFhJzGqQ9/l06GzOhFZW+pjrnZc2LvJxe9YvEQVcMvroOH1nxYU
-         9r51VASeantASB6j5qzp06vJGW0emjcZvAIM/Rt4N70VpcCm6u0NVyCLnK/uQpM3YSVl
-         +lHg==
-X-Gm-Message-State: AOJu0YwPA7kHw+LXX/0jO3No3fGsgeI20yW5ZF5WHtr3Buf+KwVtUrpQ
-	Bkf97wT6j/tSPyet5jtLTk1Cvp777VD4tCqySoL9G6vxYG+SWTdZxHIhDkI3RdmhDjgj8Ye2TxT
-	lHYkAQ3X1u+cqY64LabKbglRzxayJTh0=
-X-Gm-Gg: ASbGnctwhYvqrPi44TWEseUJEVbEobLtrxYT+kvfOe4TCS6YgZV2o75NEogh5/h/dpg
-	iW/B8M8+8ueTsn1Bxpf2/FBnUfbMc6pEi9jkLhAGm812TANDYjQ3livYeJ4YZnbLGmHEZx6p7am
-	enfmvhRLMU0gPHRNsISqQHS3tc6oOtw5N/d6WWdlVdIzBfwzLqVLTW2rmTeaactmy/PcHq64zFQ
-	OnobW+tTtryEfhVGHLUjzX6NEIksgjVFJBz2rnkd51gpT92PUWLDzBc1qpKcu/R1pzm3hptDC8Q
-	wSi7zaRT8Oh8sdBp
-X-Google-Smtp-Source: AGHT+IHAVS26Rq4xOrdGzrTfMV6UQS0ZCgWslIgNPsr6eHQu+VX0GxGYa0MM+THBKp/h74ypSSpPIB9kmymP/jLLOtE=
-X-Received: by 2002:a05:6214:c21:b0:70d:ecf7:2102 with SMTP id
- 6a1803df08f44-70fac76e538mr73720776d6.15.1756720512776; Mon, 01 Sep 2025
- 02:55:12 -0700 (PDT)
+        bh=cVVKAG/2lXul9/5OkpPhPDcA3O/MV++OIN99Z/UeH2E=;
+        b=i5vlV7f7FJqMZ/n0n3hiTauHtfagBj3/AW++RswMY00oAiUnI74JHww9MMAqCu0zWz
+         RTKTA7yG+Ba29nESm+KVIqFFI8UUMk8ftu/UyszqViJo1VKQM5G/0ZnAwiYYEvPNJ3F8
+         V4o703+6XHaNJDzaTHR3mjTiMnLEe2aHOBR7Wu8AP7Yx4+eq2jHBEVfUzDPalginrReH
+         d0mRlhN8nkXYuFqB64lr1P8ZsWh90ZyVDhP+WRn892g2xqX6xOleo0tM3shwczBoLjT0
+         aWG1OWcM6yrXKeVEJ87JEeL1i6BjWPLg31VpteTrRMpG35Erw3O08IQXx1ngYBpAELhb
+         giBQ==
+X-Gm-Message-State: AOJu0Yx7Dc+WZVv7LA+zyXgkZBrrWhRuPX6wQDiEIF278Xa3BOrOwuzD
+	wdx36yqupGJ4pNttBvQm1cCKcYoitSlxDk8PMbrKbOZY/HchGplK5ssdMsF4GJahbsOzRt5RHMj
+	MHeES3QcAClZxiPXESeU/xcRkxvSkrbs=
+X-Gm-Gg: ASbGncucsIRKSY3qWhC6xR6d8zaSo9jOBr37wdCRVAAfs5ZjvRbmQQjXTXJT/2DOKZy
+	ZJYm+mpGv+O/5kLWK1Rf5TGWoGXett8BFuO172vE7ceLsdtBB3H7aaNGUtzz66WjvaR1o+whj8a
+	mIPUZIOrR7bnVM2/nkXrGQdU1ZN9aijw1ICTLHOq5ugrt7DfGPPt7N8jM5l1lPe0g2UGwm/w1nk
+	N12QIQBBMYehtIFvjyDKKYD6M16nQzamVtXnMVjLn56hB/J4ITs5GUaRd2jO6axyLO4SAbqJdkX
+	s3UBgw==
+X-Google-Smtp-Source: AGHT+IHmYMbznYmHCGgWtz/9vijyY7MGEqn1qcMRbXQU14l/LnxirZ3Geezw4GfJzuSk7VhsHcs0ueFFoX89PM+08DQ=
+X-Received: by 2002:a05:6214:20a7:b0:719:263c:a5d4 with SMTP id
+ 6a1803df08f44-719263ca915mr28661266d6.47.1756720581828; Mon, 01 Sep 2025
+ 02:56:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <Q8cx.1756482238242443264.LmeF@lists.openembedded.org>
-In-Reply-To: <Q8cx.1756482238242443264.LmeF@lists.openembedded.org>
+References: <CAPyN=MLstOTnbM0OMYaw12uHbes0NUz5Z9uRM4KOQQndg2_W3A@mail.gmail.com>
+In-Reply-To: <CAPyN=MLstOTnbM0OMYaw12uHbes0NUz5Z9uRM4KOQQndg2_W3A@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 1 Sep 2025 11:55:01 +0200
-X-Gm-Features: Ac12FXz4r69y_oVur0AIHf-FUzIQDOaycbDCY7x8KflVtI-ND1wPhlyQxOQ-Yq0
-Message-ID: <CANNYZj9vDDxkC9KSfuY6G4mmY46GNTKcDs3cPnz6pR4E+-FuMQ@mail.gmail.com>
-Subject: Re: [OE-core] Port package-group-meta-filesystems fix to Kirkstone #kirkstone
-To: logan.grosz@gmail.com
+Date: Mon, 1 Sep 2025 11:56:10 +0200
+X-Gm-Features: Ac12FXxtTVLJrN3eOx3-lY2pmiNu7osYXtqvcQ-Oq39AHVvROFBVMMxia0jklJ4
+Message-ID: <CANNYZj8U_YcP+O1WuCYb=MNzxPbJZ3NAGky+yH8T0Lu-vQqxcg@mail.gmail.com>
+Subject: Re: [OE-core] Walnascar backport: python3-evdev_1.9.2.bb
+To: rmmuniz@gmail.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 09:55:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222651
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 09:56:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222652
 
-You can propose a patch on openembedded-devel list. Prefix with [kirkstone]
+Only if 1.9.3 only contains bugfixes compared to 1.9.2 (which you need
+to demonstrate). Otherwise you need to cherry-pick the needed fix and
+add it to 1.9.2 recipe.
 
 Alex
 
-On Fri, 29 Aug 2025 at 17:44, Logan Grosz via lists.openembedded.org
-<logan.grosz=gmail.com@lists.openembedded.org> wrote:
+On Fri, 29 Aug 2025 at 20:49, Rene Muniz via lists.openembedded.org
+<rmmuniz=gmail.com@lists.openembedded.org> wrote:
 >
-> Hi, I was wondering if this patch ported to Kirkstone? I believe there is no workaround for this issue since `PACKAGE_ARCH` needs to be set _before_ inheriting `packagegroup.bbclass`.
+> Dear, is it possible to backport the recipe python3-evdev_1.9.2.bb to Walnascar? The reason is that python3-evdev_1.9.1.bb seems broken, by just importing the lib we got an error:
 >
+> Python 3.13.4 (main, Jun  3 2025, 15:34:24) [GCC 14.3.0] on linux
+> Type "help", "copyright", "credits" or "license" for more information.
+> >>> import evdev
+> Traceback (most recent call last):
+>   File "<python-input-0>", line 1, in <module>
+>     import evdev
+>   File "/usr/lib/python3.13/site-packages/evdev/__init__.py", line 8, in <module>
+>     from . import (
+>     ...<2 lines>...
+>     )
+>   File "/usr/lib/python3.13/site-packages/evdev/ecodes.py", line 78, in <module>
+>     for k, v in g[prefix].items():
+>                 ~^^^^^^^^
+> KeyError: 'UI_FF'
 >
-> From c67eab376bc4f5277f0f30356c11411b2f1272dc Mon Sep 17 00:00:00 2001
-> From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-> Date: Sun, 22 May 2022 20:23:18 +0200
-> Subject: [PATCH] packagegroup-meta-filesystems: fix build issue
-> The packagegroup has to be arch dependent to address build failure:
-> ERROR: packagegroup-meta-filesystems-1.0-r0 do_package_write_rpm: An allarch packagegroup shouldn't depend on packages which are dynamically renamed (fuse to libfuse2)
-> ERROR: packagegroup-meta-filesystems-1.0-r0 do_package_write_rpm: An allarch packagegroup shouldn't depend on packages which are dynamically renamed (fuse-dev to libfuse-dev)
-> Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  .../packageconfigs/packagegroup-meta-filesystems.bb              | 1 +
->  1 file changed, 1 insertion(+)
-> diff --git a/meta-filesystems/recipes-filesystems/packageconfigs/packagegroup-meta-filesystems.bb b/meta-filesystems/recipes-filesystems/packageconfigs/packagegroup-meta-filesystems.bb
-> index 75591c31fa..1954b5979c 100644
-> --- a/meta-filesystems/recipes-filesystems/packageconfigs/packagegroup-meta-filesystems.bb
-> +++ b/meta-filesystems/recipes-filesystems/packageconfigs/packagegroup-meta-filesystems.bb
-> @@ -1,5 +1,6 @@
->  SUMMARY = "Meta-filesystem packagegroups"
+> Tested python3-evdev_1.9.2.bb present in master 46866b0022690f7408d0c5d7d3a22ba03e3af1a7 and it works great.
 >
-> +PACKAGE_ARCH = "${TUNE_PKGARCH}"
->  inherit packagegroup
->
->  PROVIDES = "${PACKAGES}"
-> --
-> 2.48.1
->
->
-> Thanks!
-> Logan
+> Thanks in advance, best regards,
+> Rene
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#222618): https://lists.openembedded.org/g/openembedded-core/message/222618
-> Mute This Topic: https://lists.openembedded.org/mt/114954434/1686489
-> Mute #kirkstone:https://lists.openembedded.org/g/openembedded-core/mutehashtag/kirkstone
+> View/Reply Online (#222620): https://lists.openembedded.org/g/openembedded-core/message/222620
+> Mute This Topic: https://lists.openembedded.org/mt/114966240/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
