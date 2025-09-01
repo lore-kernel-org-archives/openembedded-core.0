@@ -2,70 +2,70 @@ Return-Path: <dpmin7@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC0F8CA0FF0
-	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 08:08:08 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.46164.1756714083339832183
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AE1CA0FF0
+	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 08:08:18 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.46380.1756714098160399863
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 01:08:03 -0700
+ Mon, 01 Sep 2025 01:08:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c+GDZUHz;
- spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: dpmin7@gmail.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b4717543ed9so2617623a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 01:08:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gwMEjNsA;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: dpmin7@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-248de53d12dso24048335ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 01:08:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756714082; x=1757318882; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756714097; x=1757318897; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nJwnFfIV1nyUMhaMV56YnVt9setmS1je7FXzp2Gkq/Y=;
-        b=c+GDZUHzjNZ2PJ9Le+qBECczZ4coBS9B0K2J0HzS0Aczp58L1b2gG3smC7OSc7LWM+
-         M8ScTeHV/AwNghK1ZxaJEKJAMvc1vcyItRNgeJOYL/H0grKBx37qmVI0eXBmzWZytGV/
-         seIlH9Uaq6GSS5vzbTV6APnnAkOS72Z6szRJvdaiqcrPoYsX+RMd7Ziwfp//6wdqFyhp
-         L5NfKgKjpscCE/aB8zyv2rSnJNCIZp7jXZGBi83mISM+z84ZuiYh0cwk8Y+4ezopyzuH
-         wIuU+nmVXBRNGzKp9ifxUcGz0Pg8CGFagcghgjPfpN/KXePWTzCYkuFDBTGU1JcdrwzL
-         cV9Q==
+        bh=VAzsND5v6Qw2P353ridXmFzWsAr360g311EBhkZrwBU=;
+        b=gwMEjNsAg1Ry277GOV+5UELMcvkKE7FuM/PbGwSWzNgt7li6TQ9UgzuDxJOYpjANSu
+         OG82mWGGjYbJBVrVovhbkGonUWFR8oYK5zNjQKKPQMF2JDVAqXIPkD/IXy5K6tvp+UJ/
+         +scyWQ7/rojKjbqCSeUS6o11R6xgGQC8m36brJJD87CKZBJ07YXh8J8SaTDJNxwqq+XG
+         KMCKlNPUrzR7kmtXFrPNv0S/qvfNIVnCIuu+b1jLjuuezYX2svovsZeP9qx1ERzhztP/
+         QxnZAhCKUeiotpk5B6YEZ1upAkbeq1d5ZQSkFN1iR1c1qQ1xwF2GEJ+71sZtYJQHe9aE
+         Fm1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756714082; x=1757318882;
+        d=1e100.net; s=20230601; t=1756714097; x=1757318897;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nJwnFfIV1nyUMhaMV56YnVt9setmS1je7FXzp2Gkq/Y=;
-        b=AYAl/DE/8lgetjFXbBkt86xh1HjGvjDKB+ztzzTA192TpwywjavQEsn4XWYzoqwWzy
-         /ABAAZmzL9MprcJPJweWeom57hBFluKwxYa2tGYYdXbTces4Je7SQ+pLAr4RzWOt//mW
-         vLWh39p1VCoFSL0IzYXd04OKKH61Gkorndj7Xs+JKrsIowySM0nQW+9kRreTEMhZz0DO
-         EFkXp7dVAv8gfWZYmyYSuSfk5W3ETUZa2x7eMMCfXa36JqI9tHLimxlfpZHDp/OKKHyv
-         4BhJSszJ5zpTAF1M7LX4jNf74hhmlLOEWnvf9GH5DbFZUxwMuSHDJZMfYu2TZ0RLoH0d
-         5r+Q==
-X-Gm-Message-State: AOJu0YzgaleL4TPriimgsJfz+FRrd9OTL741cUsFuhywSv4n1gr8jd83
-	0Ulr0VNq99d4IF+b8WElyvT6pJP2eKIDD2g4NJkqJ8oK3ctPo5cL7Wd0frbqyw==
-X-Gm-Gg: ASbGncuSh4okzY5O2Vgkx4hQetLW6yT7gOWa7M94+D8yxxSlgzT2lj6DcrCIQiwU6ZN
-	9pynRN+vHBZh8s1hx9FO8FGFrTWdXKq5CkebEIb8omQO9wGCYglWtPWtFWFl5gmYknyR0Ck+e8I
-	W4fZ5fKrvH9cW3tTp57G24zBU/VZx5y5wtCJPUOCfB6EeqOluR0M/wv2qV85miqacQNj+O62psm
-	O0lBrNNgchFfXqlTzn/P4KHlF3ufoRdPjTqsK8BS6btu/rCvuelPs0Mk/hPeuxUoItLR6YSgnc1
-	9k7hyRx4lA+4jYpgIi7AmDZc3T6pHBMWzlFjPvJDbir6YmMPMcbg0L0yb0bLjvMm7Ohi+Te51Vo
-	6sw2p/QEA4aVMIijnp8jHQA==
-X-Google-Smtp-Source: AGHT+IEOJo8F+xW97xoIk+oKknHnbbPK7TtAc+D02/VoKFJeSXQj7ssNK+fiTzxT1PUGSqGBGV55+w==
-X-Received: by 2002:a17:903:28c:b0:246:4077:4563 with SMTP id d9443c01a7336-24944ab8dc3mr86005345ad.34.1756714082171;
-        Mon, 01 Sep 2025 01:08:02 -0700 (PDT)
+        bh=VAzsND5v6Qw2P353ridXmFzWsAr360g311EBhkZrwBU=;
+        b=JE53/cRan/5V9rk1FdL0hZiXr068/6YYwD2dinGVcaB7CFcqSK6iQnEk7kfJQm0voi
+         3HXL/9a7GYC/uN/J85mPKXZLLpWimjFs5d8AquD4ZzT1iZn5Qo+/1WRwouLaA5XGVn3n
+         ENUXkmPRw5GblUfQ0qfXCIUrDgGB2dLt7ryGvmI1qtSSUY/WwMkI15k8b2+vsK2hdl2+
+         lAijz5xMhrysbMVABKx1QGvnfvdSZh02/30TkzWW7eY81Q4oy0ugmQOFtO0EE5DZwTsM
+         KjZ3DZ2/YzjrwAnJPbkQJYT2i6NK0rhD62anrSeyuZqIHd/1FMDn7KrEqHBSvKUJ6Wx8
+         bLgA==
+X-Gm-Message-State: AOJu0YzJ0H9EbKE/AaAL9ZGIMZ2T09Qjf5Mi7dharEW9i9AjF2fPv73H
+	HwgRMHqaQdlLs+SILWWTuoVnu1KI+FqVrOyZf21ABW9RypcZc2CZ0sB+R1mAGw==
+X-Gm-Gg: ASbGnct4VbdV3QZerG55Aw2dbUeu4+Y+TT2MtAiEfXKlqfscVwV7QxPqQmuhSsPnHyr
+	y5mSC75xStMmAKEZS8Yng0FR7PZOwP6+5wUVMrmSTpsuEpGIRauVxCj2Ca1OmjuYXHfOpndvsH4
+	fQ6BVvQ/89RlQIXvoq7H6epkLfm6VkeYy0maC4bK7i6yhuizbTDBqrMqdyU6j0GFDPZGbvBmJHj
+	9NG8b8LJyPDkIdJXvfBC3AVkT1be09d44VVolKfqS4nFuWPEuHMcZQAk6OyynwSoPSYtD4iGuki
+	S99wPT7fpMs/QCW23/ElzUTfpWsze9OrwLxSoETUQNcJAsO7zcGIOPRitoQ96M08IAbhUxG1Beu
+	CM53LFdS4kFc=
+X-Google-Smtp-Source: AGHT+IGOUjhUhduA9bJ17v9OFUOaJZXrRdRIYd+Qyw7EZUOgKivGalsQstqAnWZf8OYdvnyLqtcKsA==
+X-Received: by 2002:a17:903:1a2e:b0:249:2cef:1d08 with SMTP id d9443c01a7336-24944a98422mr101736535ad.31.1756714096885;
+        Mon, 01 Sep 2025 01:08:16 -0700 (PDT)
 Received: from dpmin-PC.. ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24905da1884sm97066395ad.95.2025.09.01.01.08.00
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24906395cfdsm97097295ad.101.2025.09.01.01.08.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 01:08:01 -0700 (PDT)
+        Mon, 01 Sep 2025 01:08:16 -0700 (PDT)
 From: Kyungjik Min <dpmin7@gmail.com>
 X-Google-Original-From: Kyungjik Min <dp.min@lge.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Kyungjik Min <dpmin7@gmail.com>
-Subject: [PATCH] pulseaudio: Add audio group explicitly
-Date: Mon,  1 Sep 2025 17:07:53 +0900
-Message-Id: <20250901080753.897087-1-dp.min@lge.com>
+Subject: [scarthgap][PATCH] pulseaudio: Add audio group explicitly
+Date: Mon,  1 Sep 2025 17:08:10 +0900
+Message-Id: <20250901080810.897360-1-dp.min@lge.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 08:08:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222646
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 08:08:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222647
 
 From: Kyungjik Min <dpmin7@gmail.com>
 
@@ -87,10 +87,10 @@ Signed-off-by: Kyungjik Min <dpmin7@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 695f4b676d..16c142130b 100644
+index 1ab3831519..a93ef8f338 100644
 --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
 +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -155,7 +155,7 @@ do_install:append() {
+@@ -146,7 +146,7 @@ do_install:append() {
  }
  
  USERADD_PACKAGES = "pulseaudio-server"
