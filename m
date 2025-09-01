@@ -2,206 +2,264 @@ Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D561CA0FFD
-	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 10:41:19 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.58])
- by mx.groups.io with SMTP id smtpd.web10.48273.1756723269920873828
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E14CA1002
+	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 11:12:09 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.13])
+ by mx.groups.io with SMTP id smtpd.web10.48663.1756725120689456379
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 03:41:10 -0700
+ Mon, 01 Sep 2025 04:12:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=TRvbz0Fy;
- spf=pass (domain: cherry.de, ip: 52.101.65.58, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=GSfkrvvN;
+ spf=pass (domain: cherry.de, ip: 52.101.65.13, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l0bilU7wH6HXGFMR6qDouRK00CUY/+oJ9pWFaRS3fINHEpk5Bp0tPX4eBY0hMRTEs+Yzjc2CNeGyeDs5selnFzwjak2zIbQH/DqAADFfiN6mixBOLRHSM5zSx9ncDzMUYb1d1qUUXI9zBpoawll2vUX+wBWFFgKQt/zo1w3jdCSV9exqJsohTls/xBZOIZh8IBRDurpLLyl6gcsOnIuLmZouy8OYVC1oWOv12nw22JOaLgOGzKl2bgFd6PsXeIs6iN3TJuJJa52T7g2UoVLSm0t2WnChuXvOCP7azsLOD1eOkg0avivefivYuwGiyTD0i3zl97CLW246gZ48xqNCvw==
+ b=fpyquQZWZ8aeQvnaPoydgSHDdyO4r/f5dHQMt6AzS5QkXxZYwFDDXngcWKCtot6dmb/9MN5OcyjnIOq3HUrxkZWBiFBM9QgOOqslp+LFNlrOOZqmwg1IwsHfhblD2a1x1s3HLwiKrxaPMkJyfdFaXtKfcIDWwLZOn0FMGF4Tx2+VOsce932u4n+9kvsED42MxSs88ulhBQ6L/2VXICZ4vaeBOpGQX6hKhYf2u04OMTwb89MqBVlWDAXaMEaE3cEXU2IaGv5cVBm4+foz6rfePK+i/mtaLroC88H6zuziRVqENJjtF/G43jlGlq4px+iHwmf0+hOcXAJsTK43raDkXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hqRj0ukkRHcdI/f/BVL/WREKCNKwQtL/WK4tO4LYGE8=;
- b=dCKHyIFcRaGWV5A03S6n67PC/g2bYeTfXbVCOPueaRLY2U0t8sp/R3mXVfRR2jlClVy2jMSjV0GOJSiR1rqbX77BVjPZ826FzABk98x7USEqDE6PbX7Fm4fD/8rS6AfW8wvOl5An5IwzyiBYLMkH2qHk1KSd4vgPo9kWf0ZV1ddXtY5C8LsjCJjVu3LkfIvb/L8SF8ci+WGgfN6mfAMLtaOX7TXMt3+FumuvLoI+EcSPVC67M1lqhijEs0dv3wGfrIZlAoUbVjh+yRhWrvITNuM3i4+ym99GXsn3Bi3208lVZedmoIa+5DpeJhj3D/g1/ZWPeWqeQcbqPHUsMxnRnw==
+ bh=wXICceh2hjAj2fJEbA3LTsC0m00W/peoIHmMmd+lQIQ=;
+ b=dTFTjTg/evu0fpiJ8vDIEBP9jcborhgxmudWkYw40dLpTy+F8ut4AxivN1NAi4UTN9nfsk5v9redQlWG5q7RyA+9f3VSrnvSJ0a28f7N2IbOUr7SsG9jkTioTOLbX56xJYxCkJ8sQ+xr17PWxWah0uhsk+DhDHJMm/xHF829KD2/j+9qXdslp8Obe9w6UiC3KOMvNXrWGTzKE/YzSB5fvUT4cOFlUjSDmRUrhprTI20Pi6VyeignR6o0OF0TZfy9WovRJqCjQxxT4HjhXIL6TngIgx83fPEQOzy7levXDxGCUhdJC6ds1bUHqUn2YIBWFqUgcLjotTnxTu8crCRoUw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
  dkim=pass header.d=cherry.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hqRj0ukkRHcdI/f/BVL/WREKCNKwQtL/WK4tO4LYGE8=;
- b=TRvbz0Fyo7AriQrFrvA5Fhf2d9ns/FHLNQRQebP6mNF+iBaDhfLCH+yLmPpLFe3YRphV8RdLTi7URir5j20Va1wifQgqLa2uHGZMVp0ajaQmWHLJj/DRy6Yys2nDepG4Z1kye8I4QOIa3zpnjyYU78kOzbtUexD3zF2dpSGFEDc=
+ bh=wXICceh2hjAj2fJEbA3LTsC0m00W/peoIHmMmd+lQIQ=;
+ b=GSfkrvvNik5SVjixCOa5Kx5YoEhPKiU3yZ/27wf9kQwlfIkK03eRqeNoqHofi8oTxSyLcYfhJKYPZb28sYmnqIjZlM/ZmGsx6XT22to9x+57uA0nEjD4KwVeoT8z5m9MFkAj8i8w49DYxO2Z3KfR4IBFKXT+sOUrqq6NQ3WHzMU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=cherry.de;
 Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
- by AM9PR04MB8969.eurprd04.prod.outlook.com (2603:10a6:20b:408::19) with
+ by VI2PR04MB10715.eurprd04.prod.outlook.com (2603:10a6:800:277::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.15; Mon, 1 Sep
- 2025 10:41:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.12; Mon, 1 Sep
+ 2025 11:11:56 +0000
 Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
  ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
  ([fe80::5ee:7297:93b4:a8d1%5]) with mapi id 15.20.9094.015; Mon, 1 Sep 2025
- 10:41:06 +0000
-Message-ID: <3ffbf6c9-567c-4cb5-ade9-39cbf6d81ae9@cherry.de>
-Date: Mon, 1 Sep 2025 12:41:05 +0200
+ 11:11:55 +0000
+Message-ID: <65f861a0-e097-4a61-bf75-091a2a6a691d@cherry.de>
+Date: Mon, 1 Sep 2025 13:11:54 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] sstate.bbclass: Open file with context manager
-To: olani@axis.com, openembedded-core@lists.openembedded.org
-References: <20250826134134.2164051-1-olani@axis.com>
+Subject: Re: [OE-core] [PATCH] connman: Revert removal of no-version-scripts
+ patch
+To: peter.tatrai.ext@siemens.com, openembedded-core@lists.openembedded.org
+References: <20250828104401.3627-1-peter.tatrai.ext@siemens.com>
 Content-Language: en-US
+Cc: Ross Burton <ross.burton@arm.com>
 From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20250826134134.2164051-1-olani@axis.com>
+In-Reply-To: <20250828104401.3627-1-peter.tatrai.ext@siemens.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0214.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e4::10) To AS8PR04MB8897.eurprd04.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0063.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::19) To AS8PR04MB8897.eurprd04.prod.outlook.com
  (2603:10a6:20b:42c::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|AM9PR04MB8969:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6c16ffa-db8b-4d76-0610-08dde9440e26
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|VI2PR04MB10715:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31d8e208-4443-41e5-c1bc-08dde9485c97
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|4022899009|376014|366016|1800799024|7053199007;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?RktRRjF4empjNFJZeWRRYndHbkIxNHJ1VlF3ejJqYkZLa0l6QVhnUXptSEV5?=
- =?utf-8?B?aXNYRTVRdlNucHVwTWhQODJsWUhSc2dCWStpUjN3b2VNVHROS0hJZzBSbnZu?=
- =?utf-8?B?YytGS0F0SzMvNmNGUk93ZXhlM0xMdWhQbjlFZVNUU1A3dXh2Ulp1MXliL1BM?=
- =?utf-8?B?eHlqUkpKemxwZjBPSHZORDhLc09PSjdQTlh5OTBTZ0RtY2pKMHl2dE9CcndX?=
- =?utf-8?B?bDNkdHRvbzlQOFRIMTJIZVJqQ3luMmQ0M3QwSzZWOTRmeGlPaDRMZkJhOHE5?=
- =?utf-8?B?Z3lPUUUvTU4xWWZTVnVZTm12TVd4U0E5eHZYUURlRUIrNlh0UHdFemdCK0ZY?=
- =?utf-8?B?enM1M2tIZ2FWOU1TOUdKc2xrc1l1NVdQQlRyS0tKb3lqdStzTWFRaXJVSVpC?=
- =?utf-8?B?NzEybFE3RCtMR0tzMFhGUzdJNEtRcUVQbHZJeVBkM2VUVWhlMFZJcVUxbVZJ?=
- =?utf-8?B?OTBtZ1d0VW5VRG15M2lFODhMTjhTWWEwVU4vRm9oeU9RK1grZDV5RXp6TjJV?=
- =?utf-8?B?OW9FSUtBSzJzZVk2ZTJoTnMya0dGZkJMeHRuMnVNT2w4eVJrVlV2SkdKMG5s?=
- =?utf-8?B?QjV1SFZPUmY3ZEx6b0lNN2d4V0dXUTVTNXBGemJmdmpYTWlRNTVNKzZDOFhp?=
- =?utf-8?B?cjlIN3FidmxEa1NkZzZCL3JGZ3dpMDUvVk5MNGJabXV0SUgzRk81dm1hdTNw?=
- =?utf-8?B?b2p1elhwV0djcEVwMnFiTk5kSFNmcG5zeCtjbVdVQ053VWFJb3M2c2NlaXhy?=
- =?utf-8?B?WVFaV21vZjJhZ2k4b0ZFRWZWNWJ6Q05sOGY1aTNhR3hWdFhCenpISEdHeEll?=
- =?utf-8?B?b0pObU9aejdidE40M0xGQnlJN3p6M2ZEVTkvNkxoaE1qZXZ5MUU4Z0o1M3g5?=
- =?utf-8?B?NEoyS0VWbGJkWDBWTGN5eW1kOHJTK0lCK2pWbDN6c2tDQmZWWDR1UEY2V3lQ?=
- =?utf-8?B?QXlRTHl4Nms0blYzc3Bma2Z3ZmZCMjJwUHhraFo0L094c1c4bWxiZy9PMUlX?=
- =?utf-8?B?VmxETnlSSUR0bGRGVW9QamtRSWdhQ0U4bmlpZnBTUlpWak1QT0ZpT2VXVkYr?=
- =?utf-8?B?NGpkK2xPWEpHWnNENEYwdlpCdHRqbnNuKzVtek42RzVJcW55MnVJbk4rbTNU?=
- =?utf-8?B?VDZ1cVpUSFN3eE9wMTl6bSs4d05IUE9veDRtYW9BeHQ4cDBYN2IxeG1DTi9Y?=
- =?utf-8?B?VEtuOElLN0YwTGRJeGNqRUVUVmtEQ3NMdFZQcWFlNWlHRnhLcUJ2WG8rdTRv?=
- =?utf-8?B?Vjk0a3IrNE5hZHRVSTB4dWFBZ1hiSTB1Nzhxa3ltUFpOSk5HSFFDWDlFUDhE?=
- =?utf-8?B?M1VvSTMwa09OZkdXMGJ0QTFUcmd3OWxOZTA1ajVFc2xVVnBha2FoY0Y0WEJI?=
- =?utf-8?B?T0E3WlRzdFp2bG5KNlh3dEhHaUFNbm5VcEZGY09jVXlzeDhqd0ZhaHF5MkZS?=
- =?utf-8?B?Vk5Ray9zV1lGTVhLdjlHdzBDbXN3cTFHWGEvdXpPd0hybzhRQ2JFczVaZ3NH?=
- =?utf-8?B?bVR3d1BlQUlIRFpzcTZRbS95c2x3cmxBbmtwTitBMGpjQkE5ZEZlbUZLTWFn?=
- =?utf-8?B?WkUwNE5HVEpHcE9HUGxZeWFjZWgyTThOMXZJMy9DWExtT1VZYmVaQzBNbmhI?=
- =?utf-8?B?eGJaMmg0UU9vcTZTbEgxbVBrV2lhblYzanNyZVhJK0N2eU9EekowcVpiSkIz?=
- =?utf-8?B?aDlBTUUvSEFQeHpTZlZnL2pVaTQzanBMa1BTNXRzRkU4Zk9Ua3NNcElDb3RI?=
- =?utf-8?B?Z0t1cHNTaUpzZWxUUnBSc0VRZzU1RGFtSDlrNC9QOFZ4THQ2cW1mbHZkQzRn?=
- =?utf-8?B?VUNVV2Vsci9nOEVLSzFUeUM5R0tkdDdMOVRZZStSK2FlZm96bWcwV01wTCtw?=
- =?utf-8?B?TEdPdWkrQS9zdTgzTlBkVldTbjloQWs1UnFyOHlKWkZCYm5VR0dqNzJCUExE?=
- =?utf-8?Q?An3EO55qfG8=3D?=
+	=?utf-8?B?UmlOaldoTSsxQWhhRDNqNDNiQ1VzTy80NGpGaTZZMGhUUVphc205V0RtUmxa?=
+ =?utf-8?B?dERDMTVsenF3Nm1mOWRDakZGL3kyMjFOa0w1WU8zbnN4MXphL2RBaWtjUEdX?=
+ =?utf-8?B?T2xQZ0ZxWitDRnpnT3grZUI3aG1LM0hyOUJlek5TZGFZaHZiZ3pGOVczaHBY?=
+ =?utf-8?B?cisyRWdVOEpzR2JRKzJUY21QV0kzSjZHRmsvcmRBVldwZFlhRE5vTG5JN0Jz?=
+ =?utf-8?B?OUFFbVRYT21wczkycWZvcExjbFcyWFVkVUk5T0lnemUxZTRKUi9ZazhGVDBN?=
+ =?utf-8?B?b2huYlBRb01PeWZ1YTZ0SGk4N0FFNklSR2dGODZENy9nMzJ2eHl3ZE5JOHFW?=
+ =?utf-8?B?TnFvSmN4MkkyOW96RG9sRU9nT2c2S0lVY0hWTWVDU1BCUGZObW1QdU9IL1Y3?=
+ =?utf-8?B?d3FwMmVLZVVHeVl5SkJ0NzV1YXBkYlc5K3hTcE1HWWV2Q3lMOVV1eVpVUTNP?=
+ =?utf-8?B?ZXovb2RTWWFheHVheFFuYXhYMjZXbkM2N3ErQzVzZlNLek5BMlppbTU1OUlF?=
+ =?utf-8?B?aVdaRXFmTElTUit0VTRDdXZwYUhnMEdGMThDZUYwZVFlU0hTRkNablRDaUor?=
+ =?utf-8?B?aXc2RXNNWXpKdnNRY0hyQmxQRmhhNEdzazhCN29tYnJGUVN3bHhpMzI0OXRo?=
+ =?utf-8?B?N3QwLytYbW5ZdXh1cm9jOWxESDNjblNvTnNlZFBHRjdOS25KYVlZbmVkZ3ll?=
+ =?utf-8?B?dmZaVGtPR1l0ZE5RaG0rR3M1d2NlTnYxaVQyQVhNV3BqL090Y1BqSy9Sa09s?=
+ =?utf-8?B?cEJGWGgyTCtNWDFDei9uUWJUdFlhUTIvbUNlY3NNdzM1bVk5WXF3bmJEbG5G?=
+ =?utf-8?B?ZjV6V2tKeDBhekxwMUpzNGQxZTllekxzYmJmbC9YK05nVElxS0hWN1JBWERB?=
+ =?utf-8?B?cExIV0pOcnhoY3cxWjFLcTA1VnVvdTZKV204dWwvOXNDQm1TQ2o1S0Z2OEwv?=
+ =?utf-8?B?M29XOGR2M0NCVU45bHA4MUZRRy82YWh6SWxVaXZjTHhNM0pobWlqUFNBVVJw?=
+ =?utf-8?B?WllrdGFUS0N2YWh1cDFVdTZFdlZWRDlDcEMzUHFaeFdtbDhNQVZQY0FkYVhQ?=
+ =?utf-8?B?ZGljQWYyNXBYdS9hRUUxLytZaGQrMzRjd2xWL3MyYzlsV2VTb1ArSkZGNDFK?=
+ =?utf-8?B?OHZvd3d6NVVJMGpScHpZZVpIRkR2cy8wTUQ5VFYyTUZmb2pQeTNWUFIxUnoz?=
+ =?utf-8?B?K2kvREdhempNdUQwOGZIcjJKNHdsZzl4elhSemJFUjBUaDhuZ29EZ29NTVRt?=
+ =?utf-8?B?NXppd01BNzUvMXRXdWZ5RFlDQ0hlQWZONzNMYStPdTIzaU4xNHgxSVF1S3Ba?=
+ =?utf-8?B?ZnJUVG9ZZjllSGxJd2d3cks2a1FQRC9lNStlUi9xREJncTYveUlTNlJ4TjNZ?=
+ =?utf-8?B?RjMzdkEyWFJZbm1aN0h5TVEwY3lDMnNPVGpKc3l0OFdHNTJPcUZyNFp3bUVU?=
+ =?utf-8?B?a1FMQWNNeEVUam9qSUtKeXFzendRWVE1SHlJWVJzd0lNQ0dMd3lHcFJsL0Qr?=
+ =?utf-8?B?cSthNUMxblJHendLUjgydEY2RHh5UWNZWVovVit6N0Eza3RJMEFLN1lzWXJa?=
+ =?utf-8?B?djJwSy9FcDhGaWQ1TXpBMWhNTlpmOGZXaE5TSGg0djRhSituYmxFUllSV3Fp?=
+ =?utf-8?B?MThGVDlwa09XbUhKbkNOMExwOWJ2QUV2RXBhRjVOMlNpdmxvSG5BTXpzc1Ru?=
+ =?utf-8?B?MWU2b2Z3em8yOFpYVFZRUStKUi9vTkVWNVZmbjBjUTJMdXplZ3ArQk43ZzBt?=
+ =?utf-8?B?T1ByMGRxNWZtQUplc3g1ek4yZ3E1dEpzWWhodC9RSk1nNWJGaUZ6OUQ5TjJw?=
+ =?utf-8?Q?O2tyFegzCzfLIv7hm/m5NyTggqaIgKMNvC08c=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?dTJ6WU41UTJ6WFU2SERtT2NzTnUxN1lkdHZHL2s4ZExKbGJOYkFmVUhjVTcw?=
- =?utf-8?B?WkpvbkFVYk5ra01pNEZyM21saVFmbGFFMXN3UElIWGU4TzNtVjRuVG5yMmR3?=
- =?utf-8?B?WWlHTXNKQ2I0TnZONVlPWjN0TXd4Y3poYTNoYUdpMFhWb1lEbkxaNDAxd3pG?=
- =?utf-8?B?RE5sS1RPUW9oa0FwS0twZUdMc1k2bGliRWtBZGhQRDBTQ3RDV3I5WjM4THBl?=
- =?utf-8?B?TWdpK2ZoQk41a3d6Z0dXTEJiMXFqc2pMSzZzM1haNVlSSVE4UmhlZnkwQmZQ?=
- =?utf-8?B?SDArUkUzb2FqWGtzMXREVzBSb1ZpZTZMdGJUZjd0OTlJRXcwQVF6aS8xM2hl?=
- =?utf-8?B?WjlheENndk1lb2lRM1dZR1l6SnZUT0VPbGhqaDJQK2JBMS84ZEFtWDdubzBK?=
- =?utf-8?B?L25PU24zd1RWKzRtTDhRdWYvME9NaFB2V2lpcGltYkZGMlB5Wk1sU2RmZElx?=
- =?utf-8?B?OHR0bnNuYkVjZzdYclRwR2w3eWdtdEM0djRwd01EWUprUEtQeldyZWJ3QnFZ?=
- =?utf-8?B?cGFXQXZRQ0FyazBVZFVuQTNTY05CMDh6WC91ZUxwRzcrdm5YcEkrTmxsNytt?=
- =?utf-8?B?R2s5RGx0azJ1dFB2WXFDdndFd1QwaExzUXkyMXN6R1A3dEFxVlhJcXcrcnpK?=
- =?utf-8?B?L1ZYclhZUk5DUEdzaVhaSDhieGFEZGcyWHlCOTZBRzJuZmFaRHdZalpmdFBL?=
- =?utf-8?B?TVVST3Y5UEt5dWVmdk1nVFV5SUlDblBxMWhYTkM4R2N6THdZbWcxWUZvQkNz?=
- =?utf-8?B?b21SRm56MnUyY0JVcGNDSW1BbTVnTWp3ejFieEdGUmxTamlleDFlTit6V2Qz?=
- =?utf-8?B?cDljdlNRTnJoeUlzYzVmdHY1aUwyc2N5NCtVQ0FzZ0V3Uzhnd091bEZZZDNs?=
- =?utf-8?B?bHVPcFF0OS9jY2FCSFRlMlVCZDY1MXBKcWIzZWU2U085NWloaGVXR3daTDlx?=
- =?utf-8?B?bmFBTy8velQ4Z2ZEUHhpd0lBOTFsMWVzREh0UDBHMmJJN3h5alZVL1hJb1o1?=
- =?utf-8?B?NWYyWmZOY1IzQk4vMmdlRUdtRXIwWTE0SDg4ZWVydXRKVnIveC9KMWIyUjQ3?=
- =?utf-8?B?Y1JtdEJNZzNOK0x3TTZxU3RTSGFCT0ZQVDZNVFZBYUhDTDJsQkpMK296Ymlv?=
- =?utf-8?B?bkR5VWk2NVplS0wvYWptbWwrYjZacU9icG53dEFidXBCQm4rR041OFlyT1BT?=
- =?utf-8?B?NHE3K3o3Mmo3R3NoYk9IdTZFcStJYmRjUkU1cm5MV0hkQkZKdnZyVThQa3hI?=
- =?utf-8?B?N1l1b1ZvVlJDelZXT25FUFprTXhQcC9DWXBzNDFKcXBrbWlxU0Vob01zR2p0?=
- =?utf-8?B?SG1peFNDY0VLV1NVL0FrS2s4aGNsbVJ0ZDVJTGJGTVhPVllPZTYzZVhjU2RG?=
- =?utf-8?B?YkpST0IzYWhZSGdBeE04QmxGQTViTGs4TkR3eVd6UExrYnpRbm0zVGxFNVl6?=
- =?utf-8?B?blVSVHdiQno2RUd3VWNLODJXNURraElFRnVCNnlpc1lOZDRkUUdZem5EQWpn?=
- =?utf-8?B?elhHczFkcEFtdTFYcDRrSndEbmhrT1M0VFFCMUh5WWtSbng4WmNGRHcxRDBP?=
- =?utf-8?B?M2F3ZFZxUVNKVGpQQWxBOHF5RE8vNXRZVVZSc3J4dE1WRGRxaU1ma2Y5bzRy?=
- =?utf-8?B?dGZrZ241NVNFc09SQjdTbThTV1Z0a3ZlUnJCT2dNM01BL3RGYzRZZlM3Zmlp?=
- =?utf-8?B?YThrOFYxbm80WGtYeldsSzZjWG9DRkNCNWJ3d1Vya0g5bFRsT3ZlL3BtZG5X?=
- =?utf-8?B?aTluckNUcTBxbExjUXVwSjA3TG9iU0pxRzZ4MCtQRmpoV1pVYm8zRTRLQ0Ju?=
- =?utf-8?B?TlJqbVBoY0RqUUFBby8rOEovNWNVa2JCdFVCOUh6UEl2cFdnR0U3RHpSMDJG?=
- =?utf-8?B?bDY5cjRRNjAydFI0NFMzbDRBMExac05EQVFPV21SelplVXZwc2tkRVQvNnd4?=
- =?utf-8?B?eUx6NHpYYlNIb0R5SU8za1MwbnY0ZVM0UmxHanIraXVZRWZ5VzNFMUtTdmpa?=
- =?utf-8?B?dTRVRkhZNnFyNEdCaGFYNG15MnpIbW5ONmZFR21Ba2lKWFRkZFdyaUV0RmRH?=
- =?utf-8?B?eWRUR0lsTTZ2bGZrMHZLU1NjbGU0b09iT213VXB3REhubm9KSTRjMDhWV1JM?=
- =?utf-8?B?Q1hJOUJqdW5tb0MwbERVQ0x6RWVxVkk1ZTVDVm56VjlzTTJ1V25KQytUc3FU?=
- =?utf-8?B?Tnc9PQ==?=
+	=?utf-8?B?ZWdMRmE1Y2FKWWMyZzNGVENjemZ0MnpRczJxc0RkNXNLdWdMZHdkdkhUL3ZQ?=
+ =?utf-8?B?aEFKTHJ4aStYblNwZUl2MjJhS082WnhnaW51ZkI4cnhQM2RWRFpwZlBYUjlR?=
+ =?utf-8?B?KzhLZ0ZqSUh1Z2dCaVM2bWhzTUFoblhNd2NqZkM2MjVDN1gwVDFUSjJzYTVy?=
+ =?utf-8?B?NTg2a0hoVHY3SlRwL2FiZ2dGYVJwRFFYR1YzMUpwTzNXMFZhcFFPRE5OSkR0?=
+ =?utf-8?B?NTY3U0dONDFhWnV2bnM3UDNBM3RJSFVVcmVpVzhISjZjbzJKZ2wrUVhtanJZ?=
+ =?utf-8?B?dWNMNTZrOHlDU3RFYk5kMGNLTU1aSVRLVmZZdXppaGVZNnJMQmhRc0Zack1x?=
+ =?utf-8?B?UVNHUVdFbitxenVQRXAzR04rdTlXZ243dGlyUjJEZnM1ZXJ6ekN4aDY0Y2R3?=
+ =?utf-8?B?WTV1MjJNb0tQQzdjNHhncWd5cGEzNVhJMDJONk04SVpxUHcrM0RpMkI0bGx2?=
+ =?utf-8?B?bEJZTWtMdktNcFVWMFNnMm9uYmdkcytVL0JDalhlOW0yV2tkMmtlR1JqNGJZ?=
+ =?utf-8?B?S25LdU1mb2luQU5Iei9nT21NSjNOeml5a0dKK0NYYk9OWHg3a2dYTWo0NktB?=
+ =?utf-8?B?OUJ4N3BSZE1JajI5YW9JR21qaTRXYVF4eCsvNTZKOGJyY2RTM3IzQ1dVV1BS?=
+ =?utf-8?B?eWJYOFpScFk1cU1VZW1jcWNBTzhuTVpGcmI5TDh0eGF1aEN6RHFGL0MyUlJW?=
+ =?utf-8?B?enU0UHo3STBwRGZPRnVTMkYvMkVhK0NGRjUzSXArYko4KzRrNW96S1hBS2Ix?=
+ =?utf-8?B?WXlSSFFsamtQTWZCYXNaaXRhNjd4MUpaZFMrUUdPMS8rUTBVWVdzcXFsMnky?=
+ =?utf-8?B?OEpGdVE4MUh6YmVTYU5RclZlZnQ4SWFLYS9SUnNpTE14TUdlZitRc0tLY3lZ?=
+ =?utf-8?B?a0gzWFRTVUVtTXZDQ0pFQWdsSnZYSGtza2NxOEVWWTNINGRqNi9mWTd3WU0w?=
+ =?utf-8?B?N095cWF2NkpnMVM3c2F1OTA1VHNQNm9QMDFyRG9TVnprMXZzNlEyRzZnQ2lF?=
+ =?utf-8?B?dWhhYm1ESzhvcUppNkZxNUZnWTllaXJnSjcya3lsZnBKWmRMUGg0NDJMWFlO?=
+ =?utf-8?B?czdJdHlUTVpkcGlqaDhhVnZzLzRRUFFsQ24waE1YUHc3eTQydDZtQWVhbEtz?=
+ =?utf-8?B?VnhNQUN5UlU1V3BGT3hweXdKdFNuMnhJUmFxL2twZ3pDb0dNQ3QzSkphakhs?=
+ =?utf-8?B?bU1lUFl5S3F4UlVRUkhFSGZMU2tpNVNaOTk2M015NW9NZ3h3cFdidWV2Z2Yw?=
+ =?utf-8?B?Ty9SNG1IQ0xwTHByUHVKak5iV2J2Q09PMTlTaTlEZVllTkJNdEw0eEZKTzI3?=
+ =?utf-8?B?d0cyV1piWkJ1S1NabUdVY3AxZk5UQlN0SHJ4VkFENjJXaDRSUzcvbnlmbHZW?=
+ =?utf-8?B?NnNxWWR3SFdEeXFWdjFvcmVqVW84OHVCZ0hTQ1U2R2RVbUw2TmlHSC8xckI1?=
+ =?utf-8?B?NnZNZEZZdGdXR0o2WnRiMVVlb0k0U3pUMDVjWEo0UTRtQTI5d05Walk5WXhZ?=
+ =?utf-8?B?bG1oUTVsei9hckV5MXE4a2NYSjZFWGtIZTZRS0RWcVJsbEVnbUxiRUhqTFhr?=
+ =?utf-8?B?aGZaaXNRTjRDK2t6aVQzWXpLMUxOQXE2bWwrVHE5Z1Z6b1JKZFowZFh0d1Q4?=
+ =?utf-8?B?RCtiV3JPS3NOY2dLckFxU3AweHpEQlZ5REV2Nk95Y2JGTG92S281ZkprQXhs?=
+ =?utf-8?B?cUJxMjJYY3NBNlloZTNZdjgvcWQvYllLNE9oUm5McnJiS3VnSEFxVW9nRURL?=
+ =?utf-8?B?eVM2dTJ1UVRUMm1WWGpOOEdKSkhHYW9Za1gwM1hqNWFNdCt2ZGxFWXZuTlhv?=
+ =?utf-8?B?a2hZTlRnVzNVRXlKek02U0VFSGcxVVpqcDlqcndzeDBjWWN3RWp2UWc3UzBt?=
+ =?utf-8?B?Syt5MkFreU0xUm5pcHgxY2QxTVp5NVZGM0E4b294T1pKNjl5MFhEOHUxTVRz?=
+ =?utf-8?B?M0c5YlZ4ZUswTU90NC9jbTB1UmlMbHhkUnB3eENZYzJBV3E0WE1odHphd1lF?=
+ =?utf-8?B?bUNrWTBQRGpvUGwvK1VxbllvNFpkZDRJRk1tVXo4MmtmUzlvNCttbk5UWkNN?=
+ =?utf-8?B?cTcvZnBjUEJ4STFVZk1qOEkwQUZZcDBsSkN2M0UzUkFXSW9UWDVpRE1xRld0?=
+ =?utf-8?B?ZVNDY2ZpRkJIUTVYYk5DNFpVMG5OYzlRTWxZVTdIbTA1MGw0M2ZBOExjS2dQ?=
+ =?utf-8?B?THc9PQ==?=
 X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6c16ffa-db8b-4d76-0610-08dde9440e26
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31d8e208-4443-41e5-c1bc-08dde9485c97
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 10:41:06.2392
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 11:11:55.8894
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e5MRMStrPOH7r5QDikoKmVl9BqMMeiievFH32rfwnLj9UMzg2piF+1YOw6chAJ1Uto96P06+7xBb1B6w7ngncTMPjWzvbwjVo1gQRWGuhvI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8969
+X-MS-Exchange-CrossTenant-UserPrincipalName: ezd6VD6z/JY0YaSasfAegCBdS1ANEhPK6xCsMG7Ss9CVguLcUvS1xHKYkp0ypLcEWxx2zMthl7lv7wj0/cKi+pph9H4H5vO1x1DA9a8UzDA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10715
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 10:41:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222657
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 11:12:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222658
 
-Hi,
++Cc Ross
 
-On 8/26/25 3:41 PM, Ola x Nilsson via lists.openembedded.org wrote:
-> From: Ola x Nilsson <olani@axis.com>
-> 
-> In sstat_install and sstate_clean_cache.
-> 
-> Signed-off-by: Ola x Nilsson <olani@axis.com>
-> ---
->   meta/classes-global/sstate.bbclass | 26 ++++++++++++--------------
->   1 file changed, 12 insertions(+), 14 deletions(-)
-> 
-> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-> index e3d6373b3f..2fd29d7323 100644
-> --- a/meta/classes-global/sstate.bbclass
-> +++ b/meta/classes-global/sstate.bbclass
-> @@ -306,18 +306,17 @@ def sstate_install(ss, d):
->           sharedfiles.append(ss['fixmedir'] + "/fixmepath")
->   
->       # Write out the manifest
-> -    f = open(manifest, "w")
-> -    for file in sharedfiles:
-> -        f.write(file + "\n")
-> +    with open(manifest, "w") as f:
-> +        for file in sharedfiles:
-> +            f.write(file + "\n")
->   
-
-Random pass-by comment.
-
-I'm wondering if we shouldn't simply create a big string and write it at 
-once instead of having a write for each entry in the sharefiles.
-
-E.g. something like:
-
-```
-dirs = sorted(shareddirs, key=len)
-
-with open(manifest, "w") as f:
-     if sharedfiles:
-         f.write("\n".join(sharedfiles) + "\n")
-     if dirs:
-         f.write("\n".join(reversed(dirs)) + "\n")
-```
-
-It should limit the number of writes to the file but not sure how big 
-sharefiles or dirs can be, which means a VERY big temporary string 
-potentially.
-
-Since it's in the hot path, would need to run some benchmarks (what? 
-how?) to know if it actually improves things or not.
+@Ross, considering this has been contributed with your intel address and 
+9 years ago it may be a bit of a stretch to ask this: do you remember 
+why this was marked Inappropriate so we can make patchtest happy with 
+Peter's revert?
 
 Cheers,
 Quentin
+
+On 8/28/25 12:40 PM, Tatrai, Peter via lists.openembedded.org wrote:
+> [You don't often get email from peter.tatrai.ext=siemens.com@lists.openembedded.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> From: Peter Tatrai <peter.tatrai.ext@siemens.com>
+> 
+> This commit restores the no-version-scripts.patch for ConnMan,
+> which was removed in the commit (5c269ba9a396832af3f8139ecaa0cfd9f7d4d1b5)
+> as part of cleaning up gold and MIPS binutils workarounds.
+> 
+> The removal of this patch caused runtime crashes (segfaults)
+> on the powerpc target due to symbol visibility issues with glib
+> and stdio. Re-adding the patch resolves these crashes by disabling
+> version scripts in the linker flags.
+> 
+> Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+> ---
+>   .../connman/connman/no-version-scripts.patch  | 48 +++++++++++++++++++
+>   .../connman/connman_1.45.bb                   |  1 +
+>   2 files changed, 49 insertions(+)
+>   create mode 100644 meta/recipes-connectivity/connman/connman/no-version-scripts.patch
+> 
+> diff --git a/meta/recipes-connectivity/connman/connman/no-version-scripts.patch b/meta/recipes-connectivity/connman/connman/no-version-scripts.patch
+> new file mode 100644
+> index 0000000000..c96ab311e5
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman/no-version-scripts.patch
+> @@ -0,0 +1,48 @@
+> +From 67f37aafcc8ef5d2eb006387e7bec21f74518727 Mon Sep 17 00:00:00 2001
+> +From: Ross Burton <ross.burton@intel.com>
+> +Date: Tue, 9 Aug 2016 12:12:02 +0100
+> +Subject: [PATCH] connman: disable version-scripts to fix crashes at startup
+> +
+> +With binutils 2.27 on at least PowerPC, connmand will crash on `connmand --help`.
+> +This appears to be due to the symbol visibilty scripts hiding symbols that stdio
+> +looks up at runtime, resulting in it segfaulting.
+> +
+> +This certainly appears to be a bug in binutils 2.27 although the problem has
+> +been known about for some time:
+> +
+> +https://sourceware.org/bugzilla/show_bug.cgi?id=17908
+> +
+> +As the version scripts are only used to hide symbols from plugins we can safely
+> +remove the scripts to work around the problem until binutils is fixed.
+> +
+> +Upstream-Status: Inappropriate
+> +Signed-off-by: Ross Burton <ross.burton@intel.com>
+> +Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+> +---
+> + Makefile.am | 6 ++----
+> + 1 file changed, 2 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/Makefile.am b/Makefile.am
+> +index 3dc3bb5..3be5ccb 100644
+> +--- a/Makefile.am
+> ++++ b/Makefile.am
+> +@@ -143,8 +143,7 @@ src_connmand_LDADD = gdbus/libgdbus-internal.la $(builtin_libadd) \
+> +                       @GIO_LIBS@ @GLIB_LIBS@ @DBUS_LIBS@ @GNUTLS_LIBS@ \
+> +                       -lresolv -ldl -lrt
+> +
+> +-src_connmand_LDFLAGS = -Wl,--export-dynamic \
+> +-                              -Wl,--version-script=$(srcdir)/src/connman.ver
+> ++src_connmand_LDFLAGS = -Wl,--export-dynamic
+> +
+> + src_connmand_wait_online_SOURCES = src/connmand-wait-online.c
+> +
+> +@@ -187,8 +186,7 @@ vpn_connman_vpnd_LDADD = gdbus/libgdbus-internal.la $(builtin_vpn_libadd) \
+> +                               @GIO_LIBS@ @GLIB_LIBS@ @DBUS_LIBS@ @GNUTLS_LIBS@ \
+> +                               -lresolv -ldl
+> +
+> +-vpn_connman_vpnd_LDFLAGS = -Wl,--export-dynamic \
+> +-                              -Wl,--version-script=$(srcdir)/vpn/vpn.ver
+> ++vpn_connman_vpnd_LDFLAGS = -Wl,--export-dynamic
+> + endif
+> +
+> + BUILT_SOURCES = $(local_headers) src/builtin.h $(service_files) \
+> diff --git a/meta/recipes-connectivity/connman/connman_1.45.bb b/meta/recipes-connectivity/connman/connman_1.45.bb
+> index cfc6114712..85f14eb80e 100644
+> --- a/meta/recipes-connectivity/connman/connman_1.45.bb
+> +++ b/meta/recipes-connectivity/connman/connman_1.45.bb
+> @@ -20,6 +20,7 @@ DEPENDS  = "dbus glib-2.0"
+> 
+>   SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+>              file://connman \
+> +           file://no-version-scripts.patch \
+>              file://0002-resolve-musl-does-not-implement-res_ninit.patch \
+>              "
+> 
+> --
+> 2.47.2
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#222558): https://lists.openembedded.org/g/openembedded-core/message/222558
+> Mute This Topic: https://lists.openembedded.org/mt/114932653/6293953
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [quentin.schulz@cherry.de]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
