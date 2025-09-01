@@ -1,618 +1,331 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C54CA0FF0
-	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 15:15:41 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web11.54233.1756739733101076636
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1935FCA0FFF
+	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 15:16:51 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.42])
+ by mx.groups.io with SMTP id smtpd.web10.54547.1756739807122385970
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 08:15:33 -0700
+ Mon, 01 Sep 2025 08:16:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WKKpAe1Z;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-61d143aa4acso3642723a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 08:15:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756739731; x=1757344531; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gkWWb1jj/Xw7wgGYGZhsKSI5+/MsGdWQIUuaK9YKKmk=;
-        b=WKKpAe1ZCTdxDMP7GBefPYMd1uGuknRk9Z2KUgz1WRoHhwDJSM1aJprjaEm4xUvxCD
-         EGKn6Lml8hVMrrrQeMias8e5H377CvM+0EB1uhxaKYHtLbHIok+5GzGrc1GbsNS4K9No
-         Bnn8bySBo/Y05xkxCd1Kdhiryj7I1NYTQvP2rKGkvI+68BI2gm077Uacaec5XFPYmDwP
-         aKi4kcJHcoRzmgtiRK7ouCMufhxULmO804KIF2kcvPHJBCNPZA3IJu85QifK7rbu6hMs
-         armDLIy25NOMmqkvck0okUSK2ZXK0CLipWeWx/4cUjZ9ZTBzBw1iQ4XLsU2XJr4Th+oZ
-         rw3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756739731; x=1757344531;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gkWWb1jj/Xw7wgGYGZhsKSI5+/MsGdWQIUuaK9YKKmk=;
-        b=mo2OsIsVYiBfBwLBSHyBxN3h461WmB2pAoogFRe6PCN9c2ZBnRqvP/wKqJjYaIp3UL
-         1gDOIAg9abNzFXDsB1W7R2nZKn4qIrMQIlQBIpByzt0LgFnrq+LN3Ixdri+4bEN7wVId
-         tLmGFK00/gNl1mNA42fi+8wflNuAepx8dinW+ijicFFS2ThteVZneAethIFnkhi7299s
-         M0nlMELKatuSyhvgjQDU8HTGJikH3uzsLYuipF9PFAX05Q8OO9iiWUFboaB3UGgfxi4J
-         bBDQE6fIZ4fSFk+WzSygyPwQVfKjQFIfLKHt7ExbQ4goAS365EHPTyEUqeZF1CLz7m4s
-         XaxA==
-X-Gm-Message-State: AOJu0YyPzvhFJjTFz0vl5EPScqiQNnSM98dAHWZxqrhcGh3K+Rbk60Ep
-	d4rRF2BAtGIKHmUqE8JTESjJ8+z93RfNXq5zvhQitg7+MixIJUMNKQVKbbt5pw==
-X-Gm-Gg: ASbGncuJqQyqDEYRNUJrI+9g4Grkto4PmMh11qhs2niWsLmNRiMgTpwE6jeazFMKEPr
-	pKgJTFqgW9ZbmR12+phanCwvS//apVhRPxjK1yEFwbcn4kHsijZgVEiL/Mg5OGVKjQNB4TkH2pK
-	QuobGQEsmSbc5mnA0HNvLOcgVMWM7esF6xg0Ks0NbWLZ0NQXk8qjaCEar/hTTZ49Tj6zjwi7/DQ
-	F8CBYIzjWYWdT/GhrcqS8z/b+fdnVl+BIT6ylmkDQ2pVGv5UpT3ykOM1bfGRXJ6kIrKN1VN+6G5
-	Z72GKJOuXO6GwqoJEFPEl+rfQUwXXvZURwMSWeFKg99ju2CbVb3cxO32luMvSLXAYlAsQu8zrc1
-	VAWYBXZKQNf4QAktoT+U0iP7Fe+WVTQ4=
-X-Google-Smtp-Source: AGHT+IGeErVtT2Fgl2qE+eEpS0lPleK+XCtI+3Ip6cCqY2WnqcV2YuATzXVs9XGiDty8sbo0H8HKfw==
-X-Received: by 2002:a05:6402:520b:b0:61c:6855:d92d with SMTP id 4fb4d7f45d1cf-61d270e4601mr7220525a12.31.1756739730737;
-        Mon, 01 Sep 2025 08:15:30 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cfc22dfa1sm7299704a12.22.2025.09.01.08.15.29
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 08:15:30 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v4] apt: upgrade 2.6.1 -> 3.0.3
-Date: Mon,  1 Sep 2025 17:15:29 +0200
-Message-ID: <20250901151529.294450-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.50.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=MFa9/1V3;
+ spf=pass (domain: cherry.de, ip: 40.107.159.42, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pPLt6HbroREh3+LulMwbcqpIt7HdWmBanV4iBH7pyulrZF68LoGiqNhxAgQJZ5Hl2NhIgwm3ayLSQbpU6mH/tVl3zQzPfkZGOMz6DWnHkTMNqtq6+qEju/fNi9u6DEoYn9MNajU88uAnUnJ1BNNR2VB0xp5+i4RYvMO6+RNfubXDHkg9jS2jYV5k0FVFAOCp4pFccL7RAQfZnW8z0wFn7hISbDOhhyo4Xgd4IixCNfNTQkOG1w1CCxKzPzh3COpF6J9rHIXCLG6FhP1OZi8iNaofeUaJDg/gNLb1to3TfO/yQUTNBTPPHu4DOL2/NfEDn5obca3qT9K0MfTyb8ot+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L9Q9SbybjjfbgW+fJZ8fCmaAuOKdYczHVTnKb4GHzuY=;
+ b=Ol6AT8GmbjHvpgi3Nr3yWhSXcFVaCYU6xNsthYS3lOp2TE7o4xbddRPRuHqOFhGbX6NJzceNq9s1rjpobvORQaj338bUBO+62S+iPQQfoTtr7WY8gBgBbSF3dqJz1RycRPDjAHqstfzD2U3XcLZHXyzIfkASlfztLBTKRVngx/OIl/yjgqJ5OX7ziRNXeEWZCADmEKI562IuRhn3TMAqpNOqogMqbUD8QQkGQm4BNmiNfIp5HO7+R05W15ocreIypV4dtTfo6EVV94HxyN2YVPxejj0OQVYAChlQd+H9MHrbQvGD/xO2pQ9McwHaoInPDon2kReknz1menWipGdZ1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L9Q9SbybjjfbgW+fJZ8fCmaAuOKdYczHVTnKb4GHzuY=;
+ b=MFa9/1V3ZsL/mFdFIQXRyCvhq1qTpDG0Kx8oBdma0aN76yxdQ1p9lOUqt2NAIWvHaf+gO8k8YChgq53ssUZCDBO2aHZVw6VWMjpFU5OBxSbrS0EIPHte0C+gmHXcejbTrwEw4U+/ASjn5MPIcDM56G4QcdRAr6oDOb0VUBqJbGg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by PA4PR04MB9391.eurprd04.prod.outlook.com (2603:10a6:102:2aa::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.14; Mon, 1 Sep
+ 2025 15:16:42 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1%5]) with mapi id 15.20.9094.015; Mon, 1 Sep 2025
+ 15:16:39 +0000
+Message-ID: <b309bed3-501f-4bbc-a95a-f0f2e44e7bed@cherry.de>
+Date: Mon, 1 Sep 2025 17:16:37 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v6 00/14] mesa: lighten up target's libclc
+ dependencies and fix panfrost support
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Quentin Schulz <foss@0leil.net>, openembedded-core@lists.openembedded.org
+CC: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>,
+ Ross Burton <ross.burton@arm.com>,
+ Otavio Salvador <otavio.salvador@ossystems.com.br>,
+ Khem Raj <raj.khem@gmail.com>
+References: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
+ <DCA05S64WG23.38E7E260MAS7S@bootlin.com>
+ <07cd1d3c-4d67-4e60-b3d3-75953784f70f@cherry.de>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <07cd1d3c-4d67-4e60-b3d3-75953784f70f@cherry.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR0P281CA0177.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b4::16) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|PA4PR04MB9391:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa6f079c-0493-4f32-21b6-08dde96a8c28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?MCnVqa/ouPU/k/d0pC6v+LV7/BkzjD4gHUvBAEXbftjztzo4Qm4Xh3OoPHnm?=
+ =?us-ascii?Q?4V2lDN8XBcdBcARBs4pmjGpMJCST2RjGoeHJvGF718gKYgJrlEX8Z5aFWLl+?=
+ =?us-ascii?Q?LCQB4qluflYnp7/WzpKxC59nZHrBmz2rp4mtDtpOsr5UmdvypdZsxDNbEUUB?=
+ =?us-ascii?Q?sh30od0lrQV9r8u5Jtj/no9Df1//OPMFgUYCnU4hMsTXpS+YMudb+O4VCzNB?=
+ =?us-ascii?Q?QKhN/UvF/6cJS4pMUin3rTsNkaxaKajngPUhXUgIX5ek8s/I5c/DSw+ewEcI?=
+ =?us-ascii?Q?IEpw2lKf4JZ674FH8Vn3msfWp1dyT2e4eKlX4eXqsLh5h91jhTyqyhe54hwL?=
+ =?us-ascii?Q?c0emFpkpFmHDKeL+sRHj359MmaU1C1P6v7ilJgoX8zFibMvUBGJ7k7bpZK0a?=
+ =?us-ascii?Q?rnZ+vSuB4aSQ1FDmyc9kkcfhFNDKuBkFusNzWL1gbi6mCOgNJYC60uzxti56?=
+ =?us-ascii?Q?7C9KACU53J8wU6b9rcZeQbq+ghAYa5qMPNBtXCMoqaDD6+bhJ6os4nsv3SRL?=
+ =?us-ascii?Q?j9r2bc8MyZHJ+RoS7cXqYVc0W42DAmNEGjNi9vUPVtCYDafeirtXHWdA3i/B?=
+ =?us-ascii?Q?ZTgWBEqyzPKj0k8RcZRF0se5phh+JXvv8FnslFxgRey9SUIh6Mu2Azh1zSYQ?=
+ =?us-ascii?Q?uamZNtIQImeFMxGsASZC6SUk/X7hX5Qdukt9tAiHWKpfqiPGFYHgsJcmKG2m?=
+ =?us-ascii?Q?HRnf+ZWZL9SFODHPygx/tG+3eSebQMejZSr0YAXKgdlilL76w9WVLWK4owrD?=
+ =?us-ascii?Q?9gjl3QcoI9IETe4nj5qR19kcO2PultISVJiJ9/SqbBSAi/Bur4lexMZwMUfb?=
+ =?us-ascii?Q?8Hp3XKTgh4AHEIfPePIvxGQ1wXbWxVyzV/t5OqhYwpDpLnU5fEVvvXZLz7r0?=
+ =?us-ascii?Q?G/U/hqwBFnKOn7918kZ66etqGzeXixm51DqTX0Lh47TB8enzbXmwwg8R5uB6?=
+ =?us-ascii?Q?15Ou6lvEKIFpTc9ctrBn7rWD8WDQ/DjY22Jaw0iwaUMMtUXU8uw3j/XgJVBO?=
+ =?us-ascii?Q?VWyHO/Xo/5pmyoXyBZ20yHBhjhkM8Ss9tFqV+np6ILDqTzK9vAlbrfCE6yoT?=
+ =?us-ascii?Q?dU5DITA1GIih9VmWkaiW01O/QndusGhb2nLwpEHB8jAhS7iECRO1ZDj62zZS?=
+ =?us-ascii?Q?/SWM6ZUAsENXUsav71dLzoi0aW/sGk6NC5yu5ExPBEaR3kjcnxGuogrueLxV?=
+ =?us-ascii?Q?cKBl0s1seG9sj0qBXj3WFg/DGZNjYt7o1lJShtEwBgmyv3UR2wP/t9of1rSK?=
+ =?us-ascii?Q?e7PxEuF7ZJl/BmjBcrMTPmKiZBgaJQPH2yW2VInmvWM7RXd2nT33iXlfN938?=
+ =?us-ascii?Q?CRrggKqkeqpraihW5pClbnb+tioNKUvR590KCpSpmPbInvjkKjXIeMb3YCTD?=
+ =?us-ascii?Q?KcHtjIY=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?84pihZF4K+I2S2dLyHlTE9VelVbCaAAlddW1qboL+4UriT4UrG3uxeWWwBaG?=
+ =?us-ascii?Q?oEJyCVVM5hy/r+nK/DldoWXOSNZOnuupSiQL7y9RQPLAWQeELopwVAfiLOM4?=
+ =?us-ascii?Q?sHT7o4EJ2NwN+U6YPXsU1vkez4GI2kUx80cHm0Xl+n/2lDpG8/XKQd5TIu0s?=
+ =?us-ascii?Q?4hKuh64Wj+WOFmmJ3FLJm+AwQ75cM2sHShZiinPlC0jYzKk49uM2UeM72QRp?=
+ =?us-ascii?Q?h2dHf/acumzoGI+jWJvd43X0vYwpJHi5T4datGTMO3S1LkuuFsafcxM8K8v6?=
+ =?us-ascii?Q?GQDzRrg47zLLQLvSc+m02GGe74M8ETt2mBBo8+tLjCZTS95SKFXKolbnq5DV?=
+ =?us-ascii?Q?85bpdDbLmJVFxrkGPwCVHD+sb5tOSgMkYGMk/2eFOw/MfrcZUwzpgdecKTi0?=
+ =?us-ascii?Q?NM3rU0FYLlFxqzzGHu5KfNqKgY2/7iCzZIUUJiZ0UcnvNzk6KXzV62pE5Ggb?=
+ =?us-ascii?Q?HtivAE5gz+D0FzLT85eWHgBBmCMxLUEAnkotZQGi7+5DbtBk8vIKyWYeoxEQ?=
+ =?us-ascii?Q?wzOsGpwx0pvVulbVRtITirMHrAbUc8gwdbKDIHdEQn0gx9vDoPaOS0J04Riu?=
+ =?us-ascii?Q?c7Y01j2zvqSyKWuazWNGGEezfVnzCLJrsF5MYMRBnDYxi8xmTebqDv5ZdeMs?=
+ =?us-ascii?Q?d6Wn9JbKzlxlykWuj1MgIwv2P4ZWFMWtTFDl4O3pqiR/iSEjIiQ6rubSS6b7?=
+ =?us-ascii?Q?1wLL5qje8ncFIUJX/5xkhUbtQOvkUovOue4rPxi9pO8v/NKep7fLXq8DgdnB?=
+ =?us-ascii?Q?djODPN45/EHwL8ZvaCtPeLqAKx4pInbVTJoHebjnwhFHkFUXUOuefBUnCU83?=
+ =?us-ascii?Q?RBmrHOUAZ1qh+KWBK+QxQhNes5f3Y6tBWoj2zJWWgN/RE/H9+nQqmYjEZ70e?=
+ =?us-ascii?Q?cSg15vO7SOisd6KsU/WL9+XxN+Vr2/2CMtj7zj5u00ZAi/0+GhMgSwrQdioh?=
+ =?us-ascii?Q?jfsX3AMleHbuZbYDpxJ+EUIdBQTeZ0dbyD+QjxPiwDFmNCZy57hz49SvN/qM?=
+ =?us-ascii?Q?WBoi1Tqak+S5TiBKgUz9XNPhLYz7Sw/d/OAIspwk13YRmooRq861mMDYRvGi?=
+ =?us-ascii?Q?llk6NYgOX28KvoMHhVAZOXWNe1CgisV8BrdJS7nt+SU2RepnICl457KmpOFo?=
+ =?us-ascii?Q?I47995LBfjTWm1+h3xFeDCyzETNjg5PHHOi5h2wrTDx4eG2lki+M+T4dVDD7?=
+ =?us-ascii?Q?Gr/MPDJ2rz8EnTsrprDxR2mBBWVmhTbx5apnXARuDTNzD6f4he8zBXgyHtMe?=
+ =?us-ascii?Q?+mohWFfs6UQq9rxIIoak6BCk7uj0/g+yjk67qJmjnbTfKGEhOywv7Io7d5cS?=
+ =?us-ascii?Q?r3FfZaPRl6HTJ+sLgUyKqYznLOdNnx5+QAoo4KwsX6L91OonlULDF7TNeiWR?=
+ =?us-ascii?Q?XIzg7QWsX5P43ARK0b8jOygNsyVMhwtPAWp1PsuS6sSb5wO5FUm9vaSi4IVg?=
+ =?us-ascii?Q?yMC7nQHvnAzFE30ex85+0bIHXSBuNBXBWdf6utJ5ZPvsKBhX9rWGlo1rqbzt?=
+ =?us-ascii?Q?v+mlA0WshUUhSdLNOb/BOYkqzeJbPOSlx4fUMqUPRk8U3Vjr+5wy7eqIiI0v?=
+ =?us-ascii?Q?G4ut6bRW4Uwk/6NCKYGa1iS7PKVqP3z/hH99Ts5mOjR/SeirqSROUm5gufBy?=
+ =?us-ascii?Q?Xw=3D=3D?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa6f079c-0493-4f32-21b6-08dde96a8c28
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 15:16:39.1327
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JpCyhBL1MOBJwRHM6If/oL0L1MoIhjTgVOAvvyJVssll42UNeru+7/rWEfUc/vuNbZGjq1AIuMjZuH0D+8eqjIIGszdvmz9ngFxffifsJJs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9391
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 15:15:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222664
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 15:16:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222665
 
-Changelog:
-https://metadata.ftp-master.debian.org/changelogs/main/a/apt/apt_3.0.3_changelog
+On 9/1/25 4:51 PM, Quentin Schulz via lists.openembedded.org wrote:
+> Hi Mathieu, all,
+>=20
+> On 8/23/25 8:01 PM, Mathieu Dubois-Briand wrote:
+>> On Fri Aug 22, 2025 at 2:53 PM CEST, Quentin Schulz wrote:
+>>> @Otavio, can I add the new mesa-tools-native recipe under your
+>>> maintainership in meta/conf/distro/include/maintainers.inc, it is after
+>>> all still mesa?
+>>>
+>>> Panfrost support has been broken for a while already because it now
+>>> requires libclc which isn't enforced by default. This fixes this
+>>> oversight.
+>>>
+>>> While re-adding support for panfrost, the build time for libclc were a
+>>> bit too much to my taste and I tried to figure out if we could lighten
+>>> up the dependencies for the target recipe and it seems to be the case.
+>>>
+>>> libclc brings very expensive dependencies such as llvm and clang.
+>>> Building clang and llvm for each target architecture is very expensive,
+>>> but mesa allows to depend on prebuilt host binaries (mesa-clc and
+>>> precomp-compiler). Those are built by mesa as well, but can be compiled
+>>> in mesa-native instead of mesa, making the dependency expensive but onl=
+y
+>>> once regardless of the number of target architectures to build for.
+>>> Ideally the mesa-clc and precomp-compiler would only be compiled in
+>>> mesa-native if target mesa requires libclc support, however this is not
+>>> possible as a target recipe cannot impact or depend on a native recipe'=
+s
+>>> configuration. We thus have two choices, always build libclc in
+>>> mesa-native with its heavy dependencies and impact every build or force
+>>> the user to modify the mesa-native recipe in a custom layer (as a nativ=
+e
+>>> recipe cannot use target's OVERRIDES). The latter is unacceptable so th=
+e
+>>> former seems to be the only option. Another big downside is that
+>>> mesa-native currently builds drivers (amd, nouveau, svga) which we may
+>>> have absolutely no interest in building, increasing the build time and
+>>> possibly dependencies list).
+>>>
+>>> A third choice is to spin-off the native mesa recipe with libclc suppor=
+t
+>>> into a new recipe without drivers and only what's necessary to build
+>>> mesa-clc and precomp-compiler binaries.
+>>> This allows to keep a "clean" mesa-native recipe for whoever needs thos=
+e
+>>> drivers built-in (e.g. for testing, for qemu-native, or whatever else)
+>>> and only bring the libclc dependency when required by the target recipe=
+.
+>>>
+>>> Because libclc is now only built for the host, opencl support now needs
+>>> to explicitly bring libclc and others to build as libclc won't bring it
+>>> in the build environment anymore.
+>>>
+>>> Note that this was essentially only build tested (run tested on RK3588
+>>> with panfrost though).
+>>>
+>>> Note that building gallium-llvm support on big.LITTLE architecture with
+>>> TOOLCHAIN =3D "gcc" (the default) currently doesn't work as llvm doesn'=
+t
+>>> support big.LITTLE architecture in -mcpu/-march which is passed to the
+>>> CFLAGS/CXXFLAGS/LDFLAGS via the TUNE_CCARGS. I haven't investigated
+>>> further than that but that prevents us from building opencl support for
+>>> Rockchip most popular and powerful SoCs right now. One option could be
+>>> to force this recipe to be built with clang toolchain only whenever
+>>> gallium-llvm is specified in PACKAGECONFIG (not tested). Though that ma=
+y
+>>> be not straightforward seeing the comment in libclc recipe related to
+>>> forcing the toolchain to clang.
+>>> I'm also not sure mesa has a way to specify different args to LLVM-only
+>>> drivers but that could be another option.
+>>>
+>>> Runtime tested on RK3588 and PX30 with kmscube.
+>>> Partially runtime tested on PX30 with opencl-cts (and rusticl; it fails
+>>> after some time but could be kernel related as it starts failing after
+>>> [=C2=A0 968.625506] panfrost ff400000.gpu: gpu sched timeout, js=3D1,=20
+>>> config=3D0x7b00, status=3D0x8, head=3D0xa68d200, tail=3D0xa68d200,=20
+>>> sched_job=3D0000000019e6f20d
+>>>
+>>> Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+>>> ---
+>>
+>> Hi Quentin,
+>>
+>> Thanks for the new version.
+>>
+>> It looks like we have a build issue for riscv platforms:
+>>
+>> ERROR: mesa-tools-native-2_25.2.1-r0 do_prepare_recipe_sysroot: The=20
+>> sstate manifest for task 'expat:populate_sysroot' (multilib variant=20
+>> '') could not be found.
+>> The pkgarchs considered were: qemuriscv64, allarch, x86_64_x86_64-=20
+>> nativesdk.
+>> But none of these manifests exists:
+>> =C2=A0=C2=A0=C2=A0=C2=A0 /srv/pokybuild/yocto-worker/qemuriscv64/build/b=
+uild/tmp/sstate-=20
+>> control/manifest-qemuriscv64-expat.populate_sysroot
+>> =C2=A0=C2=A0=C2=A0=C2=A0 /srv/pokybuild/yocto-worker/qemuriscv64/build/b=
+uild/tmp/sstate-=20
+>> control/manifest-allarch-expat.populate_sysroot
+>> =C2=A0=C2=A0=C2=A0=C2=A0 /srv/pokybuild/yocto-worker/qemuriscv64/build/b=
+uild/tmp/sstate-=20
+>> control/manifest-x86_64_x86_64-nativesdk-expat.populate_sysroot
+>>
+>> https://eur02.safelinks.protection.outlook.com/?=20
+>> url=3Dhttps%3A%2F%2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuil=
+ders%2F45%2Fbuilds%2F379&data=3D05%7C02%7Cquentin.schulz%40cherry.de%7C0c66=
+831ac5ba49c1d25908dde9671d66%7C5e0e1b5221b54e7b83bb514ec460677e%7C0%7C0%7C6=
+38923351293360001%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwL=
+jAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sd=
+ata=3DAo0lx3qCzc7c7LM8aBbFgzKhgDOTldZQq%2Fv9GLbKhQY%3D&reserved=3D0
+>> https://eur02.safelinks.protection.outlook.com/?=20
+>> url=3Dhttps%3A%2F%2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuil=
+ders%2F56%2Fbuilds%2F396&data=3D05%7C02%7Cquentin.schulz%40cherry.de%7C0c66=
+831ac5ba49c1d25908dde9671d66%7C5e0e1b5221b54e7b83bb514ec460677e%7C0%7C0%7C6=
+38923351293391687%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwL=
+jAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sd=
+ata=3DyxdpkunuYbmZehHivrJxHkqCZwPSfiT2m4xVnm27oUA%3D&reserved=3D0
+>> https://eur02.safelinks.protection.outlook.com/?=20
+>> url=3Dhttps%3A%2F%2Fautobuilder.yoctoproject.org%2Fvalkyrie%2F%23%2Fbuil=
+ders%2F58%2Fbuilds%2F362&data=3D05%7C02%7Cquentin.schulz%40cherry.de%7C0c66=
+831ac5ba49c1d25908dde9671d66%7C5e0e1b5221b54e7b83bb514ec460677e%7C0%7C0%7C6=
+38923351293414274%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwL=
+jAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sd=
+ata=3DdCx1ZUeLnMbcG9w4Rs4PcazKrfhWh7U88Vu4k1Lzjnk%3D&reserved=3D0
+>>
+>> Can you have a look at these, please?
+>>
+>=20
+> Ok so I believe this is because mesa-tools-native uses a different=20
+> mechanism from other mesa recipes to be a native recipe.
+>=20
+> mesa-tools-native inherits native + -native in the recipe filename.=20
+> mesa-gl/mesa simply adds native to BBCLASSEXTEND.
+>=20
+> The issue I believe is that mesa.inc has a DEPENDS with expat (and zlib)=
+=20
+> in it. In the case of BBCLASSEXTEND, non-native dependencies are=20
+> suffixed with -native to be native when building the native recipe. But=20
+> in the case of inherit native + -native in filename, it doesn't.
+>=20
+> To validate this, I did a simple
+>=20
+> DEPENDS:remove =3D "expat zlib"
+> DEPENDS +=3D "expat-native zlib-native"
+>=20
+> and compiling mesa-tools-native on qemurisc64 then worked just fine.
+>=20
+> For a quick and dirty fix, I can simply parse DEPENDS for non-native=20
+> packages and just add the -native suffix, but it feels very wrong.
+>=20
+> I remembered that PACKAGECONFIG can also bring dependencies to DEPENDS=20
+> if selected and those have a mix of native and non-native dependencies.=20
+> Turns out, those automatically get -native appended though! (via the=20
+> anonymous python in base.bbclass:529).
+> So I'm wondering if we shouldn't "just" fix the DEPENDS not adding -=20
+> native suffix when building for the native variant even when there only=20
+> exists a native variant of the recipe?
+>=20
+> Otherwise I started to look into making mesa-tools a target+native=20
+> recipe to match the other mesa recipes but then I hit a dependency loop=20
+> for some reason (and also, there already exists a mesa-tools package=20
+> generated by the mesa-gl/mesa target recipe, so that may make things=20
+> more confusing as well. I guess I could call it mesa-tools-only or=20
+> something like that, this doesn't break the dependency loop though).
+>=20
+> Any preference on how to go forward with this?
+>=20
 
-Dropped patches which are included in this release, or became obsolete:
-0001-Fix-compilation-error-with-clang-libc-18.patch - included in this release
-0001-Fix-musl-build.patch - included in this release
-0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch - included in this release
-0001-Remove-using-std-binary_function.patch - became obsolete, fixed upstream
-0001-aptwebserver.cc-Include-array.patch - became obsolete, fixed upstream
-0001-strutl-Add-missing-include-cstdint-gcc-15.patch - included in this release
+Discussing with Ross on private IRC chat, another option could be to=20
+postpone patch 12 and merge the rest as they should work just fine like=20
+that. Patch 12 is a build optimization to avoid building panfrost/asahi=20
+drivers in mesa-native to be able to build panfrost/asahi mesa target=20
+drivers with precomp-compilers enabled (which are enabled via=20
+panfrost/asahi tools in mesa-tools-native), as well as only having=20
+libclc dependency on the host and not requiring libclc PACKAGECONFIG to=20
+be present in both mesa-native and mesa target recipes.
 
-Added a new patch to avoid compilation error with musl:
-error: 'basename' was not declared in this scope; did you mean 'rename'?
+I have some unrelated clean up for mesa waiting locally as well, so=20
+reducing the amount of patches I have to carry and rebase would be nice=20
+:) (especially since there's a mesa recipe upgrade we probably want to=20
+have as soon as possible).
 
-Adapted DEPENDS list - gnutls and gcrypt dependencies were dropped in favor of openssl
-in version 2.9.19.
+Let me know what you prefer on how to handle the issue reported in the=20
+previous mail and the partial/full merge of this series.
 
-Added a new PACKAGECONFIG, 'usrmerge', which displays a gentle warning if the system
-isn't a usrmerge system during package installation.
-
-Added new COMMON_ARCH CMake argument - if it is not defined, CMake is trying to
-determine the value of this variable by running dpkg, which is usually a futile
-endeavour. It is used in config creation, and to print some system info.
-
-Also adapt a self test: the apt-key command has been deprecated since a while,
-and in this release it was completely removed. Instead sources.list file
-contains the signature data, on a per-repository basis.
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
----
-
-v4: remove a debug "cat" from the test
-v3: adapt self-test. apt-key has been removed from this version, so make the test
-    use an alternative method to indicate the signature location
-v2: changed the status 0001-fix-compilation-with-musl.patch from Pending to Submitted
-
- meta/lib/oeqa/runtime/cases/apt.py            |  2 +-
- ...void-changing-install-paths-based-on.patch |  2 +-
- ...e-documentation-directory-altogether.patch |  2 +-
- ...-init-tables-from-dpkg-configuration.patch |  2 +-
- ...compilation-error-with-clang-libc-18.patch | 29 -------
- .../apt/apt/0001-Fix-musl-build.patch         | 28 ------
- ...mum_required-to-3.13-to-avoid-warnin.patch | 47 ----------
- ...001-Remove-using-std-binary_function.patch | 87 -------------------
- ...n-dpkg-configure-a-at-the-end-of-our.patch |  4 +-
- .../0001-aptwebserver.cc-Include-array.patch  | 30 -------
- .../0001-cmake-Do-not-build-po-files.patch    |  6 +-
- .../apt/0001-fix-compilation-with-musl.patch  | 49 +++++++++++
- ...l-Add-missing-include-cstdint-gcc-15.patch | 26 ------
- .../apt/{apt_2.6.1.bb => apt_3.0.3.bb}        | 17 ++--
- 14 files changed, 67 insertions(+), 264 deletions(-)
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-Fix-compilation-error-with-clang-libc-18.patch
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-Fix-musl-build.patch
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-Remove-using-std-binary_function.patch
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-aptwebserver.cc-Include-array.patch
- create mode 100644 meta/recipes-devtools/apt/apt/0001-fix-compilation-with-musl.patch
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-strutl-Add-missing-include-cstdint-gcc-15.patch
- rename meta/recipes-devtools/apt/{apt_2.6.1.bb => apt_3.0.3.bb} (88%)
-
-diff --git a/meta/lib/oeqa/runtime/cases/apt.py b/meta/lib/oeqa/runtime/cases/apt.py
-index 8000645843..218cf5e745 100644
---- a/meta/lib/oeqa/runtime/cases/apt.py
-+++ b/meta/lib/oeqa/runtime/cases/apt.py
-@@ -54,7 +54,7 @@ class AptRepoTest(AptTest):
-     def setup_key(self):
-         # the key is found on the target /etc/pki/packagefeed-gpg/
-         # named PACKAGEFEED-GPG-KEY-poky-branch
--        self.target.run('cd %s; apt-key add P*' % ('/etc/pki/packagefeed-gpg'))
-+        self.target.run('KEY_FILE=`realpath /etc/pki/packagefeed-gpg/P*`; sed -i "s|^deb |deb \[signed-by=$KEY_FILE\] |g" /etc/apt/sources.list')
- 
-     @skipIfNotFeature('package-management',
-                       'Test requires package-management to be in IMAGE_FEATURES')
-diff --git a/meta/recipes-devtools/apt/apt/0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch b/meta/recipes-devtools/apt/apt/0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch
-index 199f11bf20..d37aa811cd 100644
---- a/meta/recipes-devtools/apt/apt/0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch
-@@ -14,7 +14,7 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
- index 2cd4f8e..4759812 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -21,9 +21,9 @@ set(CMAKE_EXE_LINKER_FLAGS_COVERAGE "-lgcov")
-+@@ -28,9 +28,9 @@ set(CMAKE_EXE_LINKER_FLAGS_COVERAGE "-lgcov")
-  set(CMAKE_SHARED_LINKER_FLAGS_COVERAGE "-lgcov")
-  
-  # Work around bug in GNUInstallDirs
-diff --git a/meta/recipes-devtools/apt/apt/0001-Disable-documentation-directory-altogether.patch b/meta/recipes-devtools/apt/apt/0001-Disable-documentation-directory-altogether.patch
-index 5443ff6caa..4bc6dce760 100644
---- a/meta/recipes-devtools/apt/apt/0001-Disable-documentation-directory-altogether.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Disable-documentation-directory-altogether.patch
-@@ -16,7 +16,7 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
- index 668e2d762..62f441bfa 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -246,7 +246,7 @@ add_subdirectory(apt-private)
-+@@ -251,7 +251,7 @@ add_subdirectory(apt-private)
-  endif()
-  add_subdirectory(cmdline)
-  add_subdirectory(completions)
-diff --git a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-index 37a3133010..d21f5a49c5 100644
---- a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-@@ -16,7 +16,7 @@ diff --git a/apt-pkg/init.cc b/apt-pkg/init.cc
- index b9d9b15d2..1725c5966 100644
- --- a/apt-pkg/init.cc
- +++ b/apt-pkg/init.cc
--@@ -281,8 +281,8 @@ bool pkgInitSystem(Configuration &Cnf,pkgSystem *&Sys)
-+@@ -295,8 +295,8 @@ bool pkgInitSystem(Configuration &Cnf,pkgSystem *&Sys)
-  	 return _error->Error(_("Unable to determine a suitable packaging system type"));
-     }
-  
-diff --git a/meta/recipes-devtools/apt/apt/0001-Fix-compilation-error-with-clang-libc-18.patch b/meta/recipes-devtools/apt/apt/0001-Fix-compilation-error-with-clang-libc-18.patch
-deleted file mode 100644
-index e55205ca3f..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-Fix-compilation-error-with-clang-libc-18.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From b4488583424b33f51cb031562a9e8df820ffda23 Mon Sep 17 00:00:00 2001
--From: Chongyun Lee <licy183@termux.dev>
--Date: Thu, 15 Aug 2024 21:31:24 +0800
--Subject: [PATCH] Fix compilation error with clang/libc++ 18
--
--Upstream-Status: Backport [https://salsa.debian.org/apt-team/apt/-/commit/b4488583424b33f51cb031562a9e8df820ffda23]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- apt-pkg/cacheset.h | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/apt-pkg/cacheset.h b/apt-pkg/cacheset.h
--index 5dbb9bf08..1c67a65d6 100644
----- a/apt-pkg/cacheset.h
--+++ b/apt-pkg/cacheset.h
--@@ -218,11 +218,11 @@ public:
-- 	operator container_iterator(void) const { return _iter; }
-- 	inline iterator_type& operator++() { ++_iter; return static_cast<iterator_type&>(*this); }
-- 	inline iterator_type operator++(int) { iterator_type tmp(*this); operator++(); return tmp; }
---	inline iterator_type operator+(typename container_iterator::difference_type const &n) { return iterator_type(_iter + n); }
--+	inline iterator_type operator+(typename container_iterator::difference_type const &n) const { return iterator_type(_iter + n); }
-- 	inline iterator_type operator+=(typename container_iterator::difference_type const &n) { _iter += n; return static_cast<iterator_type&>(*this); }
-- 	inline iterator_type& operator--() { --_iter;; return static_cast<iterator_type&>(*this); }
-- 	inline iterator_type operator--(int) { iterator_type tmp(*this); operator--(); return tmp; }
---	inline iterator_type operator-(typename container_iterator::difference_type const &n) { return iterator_type(_iter - n); }
--+	inline iterator_type operator-(typename container_iterator::difference_type const &n) const { return iterator_type(_iter - n); }
-- 	inline typename container_iterator::difference_type operator-(iterator_type const &b) { return (_iter - b._iter); }
-- 	inline iterator_type operator-=(typename container_iterator::difference_type const &n) { _iter -= n; return static_cast<iterator_type&>(*this); }
-- 	inline bool operator!=(iterator_type const &i) const { return _iter != i._iter; }
-diff --git a/meta/recipes-devtools/apt/apt/0001-Fix-musl-build.patch b/meta/recipes-devtools/apt/apt/0001-Fix-musl-build.patch
-deleted file mode 100644
-index 0cefbedd6d..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-Fix-musl-build.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 6b8547161b902b01b639d05a4cdf849d7694556f Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 22 May 2020 15:29:23 +0000
--Subject: [PATCH] apt-pkg/contrib/srvrec.h: Explicitly include sys/types.h
--
--This avoids type errors with musl C library.
--
--Upstream-Status: Submitted [https://salsa.debian.org/apt-team/apt/-/merge_requests/200]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- apt-pkg/contrib/srvrec.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/apt-pkg/contrib/srvrec.h b/apt-pkg/contrib/srvrec.h
--index e5d0f43..2010184 100644
----- a/apt-pkg/contrib/srvrec.h
--+++ b/apt-pkg/contrib/srvrec.h
--@@ -9,6 +9,7 @@
-- #ifndef SRVREC_H
-- #define SRVREC_H
-- 
--+#include <sys/types.h>
-- #include <string>
-- #include <vector>
-- #include <arpa/nameser.h>
---- 
--2.20.1
--
-diff --git a/meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch b/meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch
-deleted file mode 100644
-index c3a5ded494..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From dc7a8b3050a2a43f49515a03ae19713dfced75dc Mon Sep 17 00:00:00 2001
--From: David Kalnischkies <david@kalnischkies.de>
--Date: Sat, 18 Nov 2023 13:10:05 +0000
--Subject: [PATCH] Raise cmake_minimum_required to 3.13 to avoid warnings
--
--CMake Deprecation Warning at CMakeLists.txt:6 (cmake_minimum_required):
--  Compatibility with CMake < 3.5 will be removed from a future version of
--  CMake.
--
--  Update the VERSION argument <min> value or use a ...<max> suffix to tell
--  CMake that the project does not need compatibility with older versions.
--
--Picking 3.13 here is a semi-random choice to avoid raising the requirement
--too much needlessly while also hopefully avoiding needing to raise it
--soon again based on the referenced mail.
--
--While we are at it, lets also fix the other spewed warning:
--
--CMake Warning (dev) at CMakeLists.txt:5 (project):
--  cmake_minimum_required() should be called prior to this top-level project()
--  call.  Please see the cmake-commands(7) manual for usage documentation of
--  both commands.
--
--References: https://lists.debian.org/msgid-search/20230617162957.6pklb6632zf4nijc@mail.gaussglocke.de
--
--Upstream-Status: Backport [https://salsa.debian.org/apt-team/apt/-/commit/dc7a8b3050a2a43f49515a03ae19713dfced75dc]
--Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-----
-- CMakeLists.txt | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 62182cddf..dae12e7c3 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -2,8 +2,8 @@
-- # Licensed under the same terms as APT; i.e. GPL 2 or later.
--
-- # set minimum version
--+cmake_minimum_required(VERSION 3.13)
-- project(apt)
---cmake_minimum_required(VERSION 3.4.0)
-- # Generic header locations
-- include_directories(${PROJECT_BINARY_DIR}/include)
--
----
--GitLab
-diff --git a/meta/recipes-devtools/apt/apt/0001-Remove-using-std-binary_function.patch b/meta/recipes-devtools/apt/apt/0001-Remove-using-std-binary_function.patch
-deleted file mode 100644
-index 15b036b90d..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-Remove-using-std-binary_function.patch
-+++ /dev/null
-@@ -1,87 +0,0 @@
--From e91fb0618ce0a5d42f239d0fca602544858f0819 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 16 Aug 2022 08:44:18 -0700
--Subject: [PATCH] Remove using std::binary_function
--
--std::binary_function and std::unary_function are deprecated since c++11
--and removed in c++17, therefore remove it and use lambda functions to get same
--functionality implemented.
--
--Upstream-Status: Submitted [https://salsa.debian.org/apt-team/apt/-/merge_requests/253]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- ftparchive/apt-ftparchive.cc | 33 ++++++++++-----------------------
-- 1 file changed, 10 insertions(+), 23 deletions(-)
--
--diff --git a/ftparchive/apt-ftparchive.cc b/ftparchive/apt-ftparchive.cc
--index 0f6587281..0a253b12b 100644
----- a/ftparchive/apt-ftparchive.cc
--+++ b/ftparchive/apt-ftparchive.cc
--@@ -48,6 +48,11 @@
-- using namespace std;
-- unsigned Quiet = 0;
-- 
--+auto ContentsCompare = [](const auto &a, const auto &b) { return a.ContentsMTime < b.ContentsMTime; };
--+auto DBCompare = [](const auto &a, const auto &b) { return a.BinCacheDB < b.BinCacheDB; };
--+auto SrcDBCompare = [](const auto &a, const auto &b) { return a.SrcCacheDB < b.SrcCacheDB; };
--+
--+
-- static struct timeval GetTimevalFromSteadyClock()			/*{{{*/
-- {
--    auto const Time = std::chrono::steady_clock::now().time_since_epoch();
--@@ -116,24 +121,6 @@ struct PackageMap
--    bool SrcDone;
--    time_t ContentsMTime;
--    
---   struct ContentsCompare
---   {
---      inline bool operator() (const PackageMap &x,const PackageMap &y)
---      {return x.ContentsMTime < y.ContentsMTime;};
---   };
---    
---   struct DBCompare
---   {
---      inline bool operator() (const PackageMap &x,const PackageMap &y)
---      {return x.BinCacheDB < y.BinCacheDB;};
---   };  
---
---   struct SrcDBCompare
---   {
---      inline bool operator() (const PackageMap &x,const PackageMap &y)
---      {return x.SrcCacheDB < y.SrcCacheDB;};
---   };
---   
--    void GetGeneral(Configuration &Setup,Configuration &Block);
--    bool GenPackages(Configuration &Setup,struct CacheDB::Stats &Stats);
--    bool GenSources(Configuration &Setup,struct CacheDB::Stats &Stats);
--@@ -869,7 +856,7 @@ static bool DoGenerateContents(Configuration &Setup,
--       else
-- 	 I->ContentsMTime = A.st_mtime;
--    }
---   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::ContentsCompare());
--+   stable_sort(PkgList.begin(),PkgList.end(),ContentsCompare);
--    
--    /* Now for Contents.. The process here is to do a make-like dependency
--       check. Each contents file is verified to be newer than the package files
--@@ -941,8 +928,8 @@ static bool Generate(CommandLine &CmdL)
--    LoadBinDir(PkgList,Setup);
-- 
--    // Sort by cache DB to improve IO locality.
---   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::DBCompare());
---   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::SrcDBCompare());
--+   stable_sort(PkgList.begin(),PkgList.end(),DBCompare);
--+   stable_sort(PkgList.begin(),PkgList.end(),SrcDBCompare);
-- 
--    // Generate packages
--    if (_config->FindB("APT::FTPArchive::ContentsOnly", false) == false)
--@@ -993,8 +980,8 @@ static bool Clean(CommandLine &CmdL)
--    LoadBinDir(PkgList,Setup);
-- 
--    // Sort by cache DB to improve IO locality.
---   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::DBCompare());
---   stable_sort(PkgList.begin(),PkgList.end(),PackageMap::SrcDBCompare());
--+   stable_sort(PkgList.begin(),PkgList.end(),DBCompare);
--+   stable_sort(PkgList.begin(),PkgList.end(),SrcDBCompare);
-- 
--    string CacheDir = Setup.FindDir("Dir::CacheDir");
-- 
-diff --git a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-index 6f4d5b6e72..43ab6a4cd8 100644
---- a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-@@ -23,7 +23,7 @@ diff --git a/apt-pkg/deb/dpkgpm.cc b/apt-pkg/deb/dpkgpm.cc
- index 93effa959..4375781d1 100644
- --- a/apt-pkg/deb/dpkgpm.cc
- +++ b/apt-pkg/deb/dpkgpm.cc
--@@ -1199,12 +1199,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
-+@@ -1210,12 +1210,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
-  	 }
-        }
-     }
-@@ -36,7 +36,7 @@ index 93effa959..4375781d1 100644
-  }
-                                                                          /*}}}*/
-  void pkgDPkgPM::StartPtyMagic()						/*{{{*/
--@@ -1741,7 +1735,8 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
-+@@ -1752,7 +1746,8 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
-  
-        // support subpressing of triggers processing for special
-        // cases like d-i that runs the triggers handling manually
-diff --git a/meta/recipes-devtools/apt/apt/0001-aptwebserver.cc-Include-array.patch b/meta/recipes-devtools/apt/apt/0001-aptwebserver.cc-Include-array.patch
-deleted file mode 100644
-index 2c1e617e55..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-aptwebserver.cc-Include-array.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 5985f366750a73c81c7d86893a2b959b4af062a5 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 26 May 2021 22:12:46 -0700
--Subject: [PATCH] aptwebserver.cc: Include <array>
--
--This helps getting std::array definition
--
--Fixes
--test/interactive-helper/aptwebserver.cc:36:55: error: constexpr variable cannot have non-literal type 'const std::array<std::array<const char *, 2>, 6>'
--   constexpr std::array<std::array<char const *,2>,6> htmlencode = {{
--
--Upstream-Status: Submitted [https://github.com/Debian/apt/pull/133]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- test/interactive-helper/aptwebserver.cc | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/test/interactive-helper/aptwebserver.cc b/test/interactive-helper/aptwebserver.cc
--index f4f8d95..361c7a9 100644
----- a/test/interactive-helper/aptwebserver.cc
--+++ b/test/interactive-helper/aptwebserver.cc
--@@ -23,6 +23,7 @@
-- 
-- #include <array>
-- #include <algorithm>
--+#include <array>
-- #include <fstream>
-- #include <iostream>
-- #include <list>
-diff --git a/meta/recipes-devtools/apt/apt/0001-cmake-Do-not-build-po-files.patch b/meta/recipes-devtools/apt/apt/0001-cmake-Do-not-build-po-files.patch
-index 036ce35963..08815a3ec4 100644
---- a/meta/recipes-devtools/apt/apt/0001-cmake-Do-not-build-po-files.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-cmake-Do-not-build-po-files.patch
-@@ -11,14 +11,14 @@ Fixes
- Upstream-Status: Inappropriate [Cross-compile specific]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- CMakeLists.txt | 7 -------
-- 1 file changed, 7 deletions(-)
-+ CMakeLists.txt | 9 ---------
-+ 1 file changed, 9 deletions(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
- index be157a55f..54163ae6c 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -252,15 +252,6 @@ add_subdirectory(ftparchive)
-+@@ -257,15 +257,6 @@ add_subdirectory(ftparchive)
-  add_subdirectory(methods)
-  add_subdirectory(test)
-  
-diff --git a/meta/recipes-devtools/apt/apt/0001-fix-compilation-with-musl.patch b/meta/recipes-devtools/apt/apt/0001-fix-compilation-with-musl.patch
-new file mode 100644
-index 0000000000..d3c5fe658e
---- /dev/null
-+++ b/meta/recipes-devtools/apt/apt/0001-fix-compilation-with-musl.patch
-@@ -0,0 +1,49 @@
-+From a6b024ceb71c43977838d625f5ac64b7e4815a56 Mon Sep 17 00:00:00 2001
-+From: Gyorgy Sarvari <skandigraun@gmail.com>
-+Date: Thu, 28 Aug 2025 08:11:58 +0200
-+Subject: [PATCH] fix compilation with musl
-+
-+The basename() function requires the libgen.h header when
-+compiling with musl-libc, otherwise it complains:
-+
-+error: 'basename' was not declared in this scope; did you mean 'rename'?
-+
-+Also, musl's basename requires char* instead of const char* argument:
-+
-+error: invalid conversion from 'const char*' to 'char*' [-fpermissive]
-+
-+The musl implementation of basename modifies the argument only in case
-+it is a folder path (it cuts off the trailing slashes). In our case,
-+when argv[0] is passed, it is always a filename without a trailing
-+slash, so just cast the argument.
-+
-+Upstream-Status: Submitted [https://salsa.debian.org/apt-team/apt/-/merge_requests/508]
-+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-+---
-+ cmdline/apt-internal-solver.cc | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/cmdline/apt-internal-solver.cc b/cmdline/apt-internal-solver.cc
-+index ceedd96c7..74ed38c50 100644
-+--- a/cmdline/apt-internal-solver.cc
-++++ b/cmdline/apt-internal-solver.cc
-+@@ -35,6 +35,7 @@
-+ #include <list>
-+ #include <sstream>
-+ #include <string>
-++#include <libgen.h>
-+ #include <unistd.h>
-+ 
-+ #include <apti18n.h>
-+@@ -119,7 +120,7 @@ int main(int argc,const char *argv[])					/*{{{*/
-+ 		_config->Set("Debug::EDSP::WriteSolution", true);
-+ 
-+ 	_config->Set("APT::System", "Debian APT solver interface");
-+-	if (strcmp(basename(argv[0]), "solver3") == 0)
-++	if (strcmp(basename((char*)argv[0]), "solver3") == 0)
-+ 	   _config->Set("APT::Solver", "3.0");
-+ 	else if (_config->Find("APT::Solver") != "3.0")
-+ 	   _config->Set("APT::Solver", "internal");
-+-- 
-+2.39.5
-+
-diff --git a/meta/recipes-devtools/apt/apt/0001-strutl-Add-missing-include-cstdint-gcc-15.patch b/meta/recipes-devtools/apt/apt/0001-strutl-Add-missing-include-cstdint-gcc-15.patch
-deleted file mode 100644
-index b86ed8bb92..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-strutl-Add-missing-include-cstdint-gcc-15.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From 9da1b0dbdcc90455bc9de49f73a96e7d18f83493 Mon Sep 17 00:00:00 2001
--From: Julian Andres Klode <julian.klode@canonical.com>
--Date: Tue, 18 Feb 2025 10:29:40 +0100
--Subject: [PATCH] strutl: Add missing #include <cstdint> [gcc 15]
--
--Closes: #1096322
--
--Upstream-Status: Backport [https://salsa.debian.org/apt-team/apt/-/commit/f82dcd7e4ebb3f70d28e9feb3621676f8c0cc024]
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- apt-pkg/contrib/strutl.cc | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/apt-pkg/contrib/strutl.cc b/apt-pkg/contrib/strutl.cc
--index 67100f1..c0a1cbc 100644
----- a/apt-pkg/contrib/strutl.cc
--+++ b/apt-pkg/contrib/strutl.cc
--@@ -26,6 +26,7 @@
-- 
-- #include <algorithm>
-- #include <array>
--+#include <cstdint>
-- #include <iomanip>
-- #include <limits>
-- #include <locale>
-diff --git a/meta/recipes-devtools/apt/apt_2.6.1.bb b/meta/recipes-devtools/apt/apt_3.0.3.bb
-similarity index 88%
-rename from meta/recipes-devtools/apt/apt_2.6.1.bb
-rename to meta/recipes-devtools/apt/apt_3.0.3.bb
-index b039599395..03a6869393 100644
---- a/meta/recipes-devtools/apt/apt_2.6.1.bb
-+++ b/meta/recipes-devtools/apt/apt_3.0.3.bb
-@@ -8,14 +8,9 @@ SECTION = "base"
- SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
-            file://triehash \
-            file://0001-Disable-documentation-directory-altogether.patch \
--           file://0001-Fix-musl-build.patch \
-            file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch \
-            file://0001-cmake-Do-not-build-po-files.patch \
--           file://0001-aptwebserver.cc-Include-array.patch \
--           file://0001-Remove-using-std-binary_function.patch \
--           file://0001-strutl-Add-missing-include-cstdint-gcc-15.patch \
--           file://0001-Raise-cmake_minimum_required-to-3.13-to-avoid-warnin.patch \
--           file://0001-Fix-compilation-error-with-clang-libc-18.patch \
-+           file://0001-fix-compilation-with-musl.patch \
-            "
- 
- SRC_URI:append:class-native = " \
-@@ -28,7 +23,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
-            "
- 
--SRC_URI[sha256sum] = "86b888c901fa2e78f1bf52a2aaa2f400ff82a472b94ff0ac6631939ee68fa6fd"
-+SRC_URI[sha256sum] = "5b5f6f6d26121742a83aa80d4ed0eb0c6ce9bea259518db412edefd95760e4ef"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- # the package is taken from snapshots.debian.org; that source is static and goes stale
-@@ -47,7 +42,7 @@ USERADD_PARAM:${PN} = "--system --home /nonexistent --no-create-home _apt"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--DEPENDS += "db gnutls lz4 zlib bzip2 xz libgcrypt xxhash"
-+DEPENDS += "db lz4 zlib bzip2 xz xxhash openssl"
- 
- EXTRA_OECMAKE:append = " -DCURRENT_VENDOR=debian -DWITH_DOC=False \
-     -DDPKG_DATADIR=${datadir}/dpkg \
-@@ -55,8 +50,14 @@ EXTRA_OECMAKE:append = " -DCURRENT_VENDOR=debian -DWITH_DOC=False \
-     -DCMAKE_DISABLE_FIND_PACKAGE_ZSTD=True \
-     -DCMAKE_DISABLE_FIND_PACKAGE_SECCOMP=True \
-     -DWITH_TESTS=False \
-+    -DCOMMON_ARCH=${DPKG_ARCH} \
- "
- 
-+PACKAGECONFIG ??= ""
-+# usrmerge displays a runtime warning during package installation in case 
-+# the system doesn't have merged /usr folders.
-+PACKAGECONFIG[usrmerge] = "-DREQUIRE_MERGED_USR=ON,-DREQUIRE_MERGED_USR=OFF"
-+
- do_configure:prepend() {
- 	echo "set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH )" >>  ${WORKDIR}/toolchain.cmake
- }
+Thanks!
+Quentin
 
