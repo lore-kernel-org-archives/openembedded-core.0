@@ -2,68 +2,68 @@ Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D572CA0FF0
-	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 15:12:41 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.54435.1756739553944319571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C54CA0FF0
+	for <webhook@archiver.kernel.org>; Mon,  1 Sep 2025 15:15:41 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.54233.1756739733101076636
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 08:12:34 -0700
+ Mon, 01 Sep 2025 08:15:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bShVM8SB;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-afeec747e60so673977466b.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 08:12:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WKKpAe1Z;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-61d143aa4acso3642723a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 08:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756739552; x=1757344352; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756739731; x=1757344531; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IgoQ72lwtXnOq7XNw45YDh8w/Lj9fBYzCZ4zG/hxXe4=;
-        b=bShVM8SBr21o93zO/6g5tlMRidqW5bco/M8xApshWJAj91J3gKrI6N/M2yQKlYVnr3
-         PmL4XK8zlruz2SV2OqxMtTjRk+fDyCwf1XiooVCjKSWeyqenibucVsBTsJiNdJ5eR2e9
-         gUf/kWTZGvEZZFjuvPgzN5A9dijFjGd9XRONLZiTzL1v45+lg9CgiKmflTVVyfSwDsE0
-         N0pSiXoOIW8etv81qJXQL/ZtqHrA9YcqUqm9KNa9HBhOtsAfLacaJ7Xl2EhHA9cyAW15
-         fiQT/q+6AherLlr2UYLl95/4DUbW6z0STTrGPDL9SsMVp5U982m8UPowiwW+x6Rzvlsq
-         eK2A==
+        bh=gkWWb1jj/Xw7wgGYGZhsKSI5+/MsGdWQIUuaK9YKKmk=;
+        b=WKKpAe1ZCTdxDMP7GBefPYMd1uGuknRk9Z2KUgz1WRoHhwDJSM1aJprjaEm4xUvxCD
+         EGKn6Lml8hVMrrrQeMias8e5H377CvM+0EB1uhxaKYHtLbHIok+5GzGrc1GbsNS4K9No
+         Bnn8bySBo/Y05xkxCd1Kdhiryj7I1NYTQvP2rKGkvI+68BI2gm077Uacaec5XFPYmDwP
+         aKi4kcJHcoRzmgtiRK7ouCMufhxULmO804KIF2kcvPHJBCNPZA3IJu85QifK7rbu6hMs
+         armDLIy25NOMmqkvck0okUSK2ZXK0CLipWeWx/4cUjZ9ZTBzBw1iQ4XLsU2XJr4Th+oZ
+         rw3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756739552; x=1757344352;
+        d=1e100.net; s=20230601; t=1756739731; x=1757344531;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IgoQ72lwtXnOq7XNw45YDh8w/Lj9fBYzCZ4zG/hxXe4=;
-        b=kmMPby//ritSCqtBXnGMrq6QQj3oaOt1QJZS43c+3LzeHMcEq9f0Jrp71KXC13jT77
-         K45vGigYgd+nZqJKWupozQWAeHPdwCE1QSTqwy0xN6arVQ4ImdYBgWKKal8tRB44maOb
-         +EmCTZE0+IfyE7oGgy+sCcg3tMmXenvpxDjljqOpXC37/aup8JeycNEwerC82xzdwYeP
-         pp2xzrBZ/G7+xgjOJ4QSrWwus8+H6Dpa32GGDsK696rXFxgkrfuvHsZDTDR8XlCQkiSk
-         xdM5FfEjTSRUI+4lFnYykou+84dEt/GsaM3Vgvjyvp0nW5kredziiTXYqMAcvy1mCxrD
-         afYw==
-X-Gm-Message-State: AOJu0YzFM7VZIqgfnUEiZAOQWcGVMdZa+doGg5i0Qf3uCa/clWFepLG1
-	HPMlaykwKuHNgN0+02PfnKIPlqRduVppgvQsHXD5kQGBKCXqyW1iKgalCGg3lA==
-X-Gm-Gg: ASbGncvCE+tiKUHO5hbCDKJAK/pX4XV8yOX5hbv/tKarvURsJdo61hSizT2igkdDoyf
-	MAJ8g4e2CFe8jvvpxTSFQA7Oy9RWtzuD0vVe9wZZwm0v/ZBJzNDVlCCpg1KvMkpfR7tY5fbTZRW
-	hUvVwan4Y3XOwcsh7DRWHfMzO4V2v3y1e1NDciqOgVr3HmBYIgnEHATnemOZqwOJeW66REKRZnx
-	v14DssIcI0ht12W/y4NmmtDxi2Ti132x/YTcqFdEcB68vfygwM4kq2hbBBuVTrJha5d2zr23Oxs
-	VcWZlbhlkKEz/l5biUKcjP2ibK5AHh3Qf+B2xcaqpKC+faaw/dnRgGJRaJgBkLSIfkhJB0cdiT8
-	85G2L/NxR0eBJ5Ke0VVG/
-X-Google-Smtp-Source: AGHT+IFY1PNhv7+Lz37q4J6W7ARrLjjKL6PrRHSEdoFjM2iO9uKfj+5nMiqtHSE4w1GOCnC9bXUveA==
-X-Received: by 2002:a17:906:4148:b0:b04:25e6:2dc7 with SMTP id a640c23a62f3a-b0425e63053mr422929266b.18.1756739551890;
-        Mon, 01 Sep 2025 08:12:31 -0700 (PDT)
+        bh=gkWWb1jj/Xw7wgGYGZhsKSI5+/MsGdWQIUuaK9YKKmk=;
+        b=mo2OsIsVYiBfBwLBSHyBxN3h461WmB2pAoogFRe6PCN9c2ZBnRqvP/wKqJjYaIp3UL
+         1gDOIAg9abNzFXDsB1W7R2nZKn4qIrMQIlQBIpByzt0LgFnrq+LN3Ixdri+4bEN7wVId
+         tLmGFK00/gNl1mNA42fi+8wflNuAepx8dinW+ijicFFS2ThteVZneAethIFnkhi7299s
+         M0nlMELKatuSyhvgjQDU8HTGJikH3uzsLYuipF9PFAX05Q8OO9iiWUFboaB3UGgfxi4J
+         bBDQE6fIZ4fSFk+WzSygyPwQVfKjQFIfLKHt7ExbQ4goAS365EHPTyEUqeZF1CLz7m4s
+         XaxA==
+X-Gm-Message-State: AOJu0YyPzvhFJjTFz0vl5EPScqiQNnSM98dAHWZxqrhcGh3K+Rbk60Ep
+	d4rRF2BAtGIKHmUqE8JTESjJ8+z93RfNXq5zvhQitg7+MixIJUMNKQVKbbt5pw==
+X-Gm-Gg: ASbGncuJqQyqDEYRNUJrI+9g4Grkto4PmMh11qhs2niWsLmNRiMgTpwE6jeazFMKEPr
+	pKgJTFqgW9ZbmR12+phanCwvS//apVhRPxjK1yEFwbcn4kHsijZgVEiL/Mg5OGVKjQNB4TkH2pK
+	QuobGQEsmSbc5mnA0HNvLOcgVMWM7esF6xg0Ks0NbWLZ0NQXk8qjaCEar/hTTZ49Tj6zjwi7/DQ
+	F8CBYIzjWYWdT/GhrcqS8z/b+fdnVl+BIT6ylmkDQ2pVGv5UpT3ykOM1bfGRXJ6kIrKN1VN+6G5
+	Z72GKJOuXO6GwqoJEFPEl+rfQUwXXvZURwMSWeFKg99ju2CbVb3cxO32luMvSLXAYlAsQu8zrc1
+	VAWYBXZKQNf4QAktoT+U0iP7Fe+WVTQ4=
+X-Google-Smtp-Source: AGHT+IGeErVtT2Fgl2qE+eEpS0lPleK+XCtI+3Ip6cCqY2WnqcV2YuATzXVs9XGiDty8sbo0H8HKfw==
+X-Received: by 2002:a05:6402:520b:b0:61c:6855:d92d with SMTP id 4fb4d7f45d1cf-61d270e4601mr7220525a12.31.1756739730737;
+        Mon, 01 Sep 2025 08:15:30 -0700 (PDT)
 Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b02d8812161sm592246166b.73.2025.09.01.08.12.31
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cfc22dfa1sm7299704a12.22.2025.09.01.08.15.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 08:12:31 -0700 (PDT)
+        Mon, 01 Sep 2025 08:15:30 -0700 (PDT)
 From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] apt: upgrade 2.6.1 -> 3.0.3
-Date: Mon,  1 Sep 2025 17:12:30 +0200
-Message-ID: <20250901151230.271972-1-skandigraun@gmail.com>
+Subject: [PATCH v4] apt: upgrade 2.6.1 -> 3.0.3
+Date: Mon,  1 Sep 2025 17:15:29 +0200
+Message-ID: <20250901151529.294450-1-skandigraun@gmail.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 15:12:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222663
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 15:15:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222664
 
 Changelog:
 https://metadata.ftp-master.debian.org/changelogs/main/a/apt/apt_3.0.3_changelog
@@ -96,6 +96,7 @@ contains the signature data, on a per-repository basis.
 Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
 
+v4: remove a debug "cat" from the test
 v3: adapt self-test. apt-key has been removed from this version, so make the test
     use an alternative method to indicate the signature location
 v2: changed the status 0001-fix-compilation-with-musl.patch from Pending to Submitted
@@ -125,7 +126,7 @@ v2: changed the status 0001-fix-compilation-with-musl.patch from Pending to Subm
  rename meta/recipes-devtools/apt/{apt_2.6.1.bb => apt_3.0.3.bb} (88%)
 
 diff --git a/meta/lib/oeqa/runtime/cases/apt.py b/meta/lib/oeqa/runtime/cases/apt.py
-index 8000645843..4690156067 100644
+index 8000645843..218cf5e745 100644
 --- a/meta/lib/oeqa/runtime/cases/apt.py
 +++ b/meta/lib/oeqa/runtime/cases/apt.py
 @@ -54,7 +54,7 @@ class AptRepoTest(AptTest):
@@ -133,7 +134,7 @@ index 8000645843..4690156067 100644
          # the key is found on the target /etc/pki/packagefeed-gpg/
          # named PACKAGEFEED-GPG-KEY-poky-branch
 -        self.target.run('cd %s; apt-key add P*' % ('/etc/pki/packagefeed-gpg'))
-+        self.target.run('KEY_FILE=`realpath /etc/pki/packagefeed-gpg/P*`; sed -i "s|^deb |deb \[signed-by=$KEY_FILE\] |g" /etc/apt/sources.list; cat /etc/apt/sources.list')
++        self.target.run('KEY_FILE=`realpath /etc/pki/packagefeed-gpg/P*`; sed -i "s|^deb |deb \[signed-by=$KEY_FILE\] |g" /etc/apt/sources.list')
  
      @skipIfNotFeature('package-management',
                        'Test requires package-management to be in IMAGE_FEATURES')
