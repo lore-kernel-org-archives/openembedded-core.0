@@ -2,608 +2,222 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5032DCA1010
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC01CA101C
 	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:42 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.89803.1756850190808987158
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.89810.1756850197187030157
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 14:56:34 -0700
+ Tue, 02 Sep 2025 14:56:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=0IQjd11u;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ZDw+RWi4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101990c6e852f-3757da53-2f26-469f-a136-7028da19ffcb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=e4p8Bm9S;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WvGijiv7;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101990c6e90c8-e52a0578-7163-496b-bbd0-6e11f6465c0d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756850193;
+	t=1756850196;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xLW7zBUNMypdO65ZC9ur8atWWXw0Ma5eVjKXmp6EQ28=;
-	b=0IQjd11uuIJOay6Wujiji/AUu20Jtw9at7vURhYKt8wE6tEQl9FrIv1pkEE2Oxu4
-	4RIAHEWB548Ro4a6l4Uigj7JSDWhCMRTS1NUUZ+pEzJ15AGiXYauwwKTZEFqFr85Wqo
-	Og2u5qpKB0zVnmVlKTey1QqLp7OPIqqsnJWtZ+Wg=
+	bh=ZMzqxrxflJcxnsJ9rtyxbFWRVg6J9wpeAb3PUiqpR3c=;
+	b=e4p8Bm9SyzNl04j+hR4SuCJbegzkuLzJix8zDGyR43UKgW4q7p2ZQsClwN9Pehm/
+	/k2kHMOQiQ+YPzJpQYN3CVb37N+x2Yf1O5dobD+yTF6WZrI/Cu7WF14BSKJfQ8vt5mZ
+	eTPbjT4LIKVQk++BCJ9duHthvoM9yKCFBxbgC2WQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850193;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850196;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xLW7zBUNMypdO65ZC9ur8atWWXw0Ma5eVjKXmp6EQ28=;
-	b=ZDw+RWi4ovRrL0sdgKi31yTGU9GuidGMPR6anYn4mEswkq/Y9IGzVz158jze4yr+
-	JOpBSju8nQmhITWa5fiN8ndVymg3YJKhKJ3xUyORgm+51R9aLykrqSIou/U/+PxAN3P
-	CCvf/J6kzT1ZOvRUOyMYH8Dud7lV+h9VioUMm6b8=
-Content-Type: multipart/mixed; boundary="===============5600452457109151469=="
+	bh=ZMzqxrxflJcxnsJ9rtyxbFWRVg6J9wpeAb3PUiqpR3c=;
+	b=WvGijiv7wQXCFp9QkYjnfLihkRX2/orB745S66Ntk6YKSR53IOngS8ifd/D5hpOm
+	YG/YfXZeTKVFy3xxvmxIgmXqz93aOtL8W2/UZ2L/rBxroWSwUbiiY7VL4M3+Qv7AbS4
+	wsrVAoD6SAX41yX8o/Kp1tgxQKDacBtd/ahUHdYU=
+Content-Type: multipart/mixed; boundary="===============1666764988568124939=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ruby: upgrading to 3.4.5 SUCCEEDED
-Message-ID: <010101990c6e852f-3757da53-2f26-469f-a136-7028da19ffcb-000000@us-west-2.amazonses.com>
-Date: Tue, 2 Sep 2025 21:56:33 +0000
+Subject: [AUH] stress-ng: upgrading to 0.19.04 SUCCEEDED
+Message-ID: <010101990c6e90c8-e52a0578-7163-496b-bbd0-6e11f6465c0d-000000@us-west-2.amazonses.com>
+Date: Tue, 2 Sep 2025 21:56:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.02-54.240.27.29
+X-SES-Outgoing: 2025.09.02-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222792
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222802
 
---===============5600452457109151469==
-Content-Type: text/plain; charset="utf-8"
+--===============1666764988568124939==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *stress-ng* to *0.19.04* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-stress-ng-upgrade-0.19.02-0.19.04.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From f2460f64ab6efc850f631258c9a4ae9146a64831 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 2 Sep 2025 19:30:03 +0000
+Subject: [PATCH] stress-ng: upgrade 0.19.02 -> 0.19.04
+
+---
+ .../stress-ng/{stress-ng_0.19.02.bb => stress-ng_0.19.04.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.19.02.bb => stress-ng_0.19.04.bb} (94%)
+
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.19.02.bb b/meta/recipes-extended/stress-ng/stress-ng_0.19.04.bb
+similarity index 94%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.19.02.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.19.04.bb
+index dd8d3a8406..2c061cd7cb 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.19.02.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.19.04.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V${PV}"
+-SRCREV = "8d5399b282225f758606cd2b522382f65d947a8d"
++SRCREV = "6e977ddae4b66bc0e5c3f993e3b5ff0bc06915fd"
+ 
+ DEPENDS = "coreutils-native libbsd"
+ 
+-- 
+2.47.1
+
+
+--===============1666764988568124939==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-stress-ng-upgrade-0.19.02-0.19.04.patch"
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpydWJ5KiB0byAqMy40LjUqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAgLSBh
-cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLXJ1YnktdXBncmFkZS0zLjQuNC0zLjQuNS5wYXRj
-aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
-emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
-dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
-c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
-LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
-YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
-dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
-VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
-IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
-ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
-IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
-ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
-bSAzNTMyYWYyMmQzYTg3MDk5ZTFhOTdjYTQ2NmRjOGEyMDMyMGNkZTAwIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
-dGU6IFR1ZSwgMiBTZXAgMjAyNSAxOTowMDoyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1Ynk6
-IHVwZ3JhZGUgMy40LjQgLT4gMy40LjUKCi0tLQogLi4uMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21w
-aWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoIHwgNCArKy0tCiAuLi5tX2R1bXAuYy1EZWZp
-bmUtUkVHX1MxLWFuZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggfCA0ICsrLS0KIC4uLi9y
-dWJ5LzAwMDItT2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoICB8IDIg
-Ky0KIC4uLi9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlvbi5w
-YXRjaCB8IDggKysrKy0tLS0KIC4uLm1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1p
-bi1nZW5lcmF0ZWQtTS5wYXRjaCB8IDQgKystLQogLi4ucmstR2Vtc3BlYy1yZXByb2R1Y2libGUt
-Y2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIHwgMiArLQogLi4uL3J1YnkvcnVieS8wMDA2
-LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoICAgICAgIHwgNCArKy0tCiAuLi4wNy1T
-a2lwLXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2ggfCA1ICst
-LS0tCiAuLi4vcnVieS97cnVieV8zLjQuNC5iYiA9PiBydWJ5XzMuNC41LmJifSAgICAgICAgICAg
-ICAgICAgfCAyICstCiA5IGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDE5IGRlbGV0
-aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3tydWJ5XzMuNC40LmJi
-ID0+IHJ1YnlfMy40LjUuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5h
-bC1nZW1zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1r
-LWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCmluZGV4IGYxNzk3
-MGU5YzkuLmNkZDdlOGY4OGUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vtcy5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtZXh0bWstZml4
-LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0Y2gKQEAgLTEsNCArMSw0IEBA
-Ci1Gcm9tIDAzNzAwZWMyNTY3ODllMDJkZTIwYjU4YmNhMDgwYzZmZWY1OTIzMzYgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCitGcm9tIGEwNWQ1MTYzMDY2YmNkNDY2ZjgzZTM5ZmM5NDZlZTYwOWFj
-NzUyNGIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiA9P1VURi04P3E/QW5kcj1DMz1B
-OT0yMERyYXN6aWs/PSA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgogRGF0ZTogTW9uLCAzMCBTZXAg
-MjAxOSAxNjo1NzowMSArMDEwMAogU3ViamVjdDogW1BBVENIXSBleHRtazogZml4IGNyb3NzLWNv
-bXBpbGF0aW9uIG9mIGV4dGVybmFsIGdlbXMKQEAgLTE2LDcgKzE2LDcgQEAgU2lnbmVkLW9mZi1i
-eTogQW5kcsOpIERyYXN6aWsgPGFuZHJlLmRyYXN6aWtAamNpLmNvbT4KICAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2V4dC9leHRt
-ay5yYiBiL2V4dC9leHRtay5yYgotaW5kZXggOGI2YjM2NS4uMzA0OGY3NSAxMDA3NTUKK2luZGV4
-IDFkMTY1NDUuLmFkOTcxZWEgMTAwNzU1CiAtLS0gYS9leHQvZXh0bWsucmIKICsrKyBiL2V4dC9l
-eHRtay5yYgogQEAgLTQzNCw4ICs0MzQsOCBAQCBlbHNlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5kLVJF
-R19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1
-YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2
-LnBhdGNoCmluZGV4IDc5OTMyNGNhZWEuLjYwNDZjZDliNjMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQt
-UkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNs
-LXJpc2N2LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmOTkyZDc4MWUwNWI2MTQ4OWJkZjVh
-MmE5YWVlNmNjNjE2ZjE3NDJhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5NTY5NWJk
-MjA1YjFiZWQwMDdjOTFkNGM1MzQxZWJkOTViMDgyZGVlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgMjUgSmFu
-IDIwMjIgMjA6Mjk6MTQgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdm1fZHVtcC5jOiBEZWZpbmUg
-UkVHX1MxIGFuZCBSRUdfUzIgZm9yIG11c2wvcmlzY3YKQEAgLTE0LDcgKzE0LDcgQEAgU2lnbmVk
-LW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwg
-NSBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS92bV9kdW1wLmMgYi92bV9kdW1wLmMKLWlu
-ZGV4IDU4NzNlNTIuLjllYjRkYjEgMTAwNjQ0CitpbmRleCA5OTMzOWZkLi44YzViYjAzIDEwMDY0
-NAogLS0tIGEvdm1fZHVtcC5jCiArKysgYi92bV9kdW1wLmMKIEBAIC00MCw2ICs0MCwxMSBAQApk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERG
-TEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0
-Y2gKaW5kZXggODRmZTlhZWUzZC4uM2NjNzUzNzIyYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGli
-cnVieS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDItT2Jl
-eS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
-RnJvbSAyNjI1ZjZjMTU1MTA1ZDM1MmQ2YTFmZjNhNzIyZTc4OTY0MzFmZjkxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQorRnJvbSAxNDZkNjM5NGIxZTYyNDNhYjI4MDQ4ZDEyMTM1OTJjYzE4MWNl
-Y2E1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQ2hyaXN0b3BoZXIgTGFyc29uIDxj
-aHJpc19sYXJzb25AbWVudG9yLmNvbT4KIERhdGU6IFRodSwgNSBNYXkgMjAxNiAxMDo1OTowNyAt
-MDcwMAogU3ViamVjdDogW1BBVENIXSBPYmV5IExERkxBR1MgZm9yIHRoZSBsaW5rIG9mIGxpYnJ1
-YnkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMy1yZG9j
-LWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRp
-b24ucGF0Y2gKaW5kZXggODdhMWU4MjUxNi4uYjc5YWQxMjMwZSAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRv
-Y3VtZW50YXRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8w
-MDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2gKQEAgLTEsNCAr
-MSw0IEBACi1Gcm9tIDk4MDcxYzBiMjhhNDVjZDIxYTJjYmU2NzQ2Y2UzOTA2NzkzMmI2MmYgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDY2ZWEzNzAyNzc4ZGEzMjBlYTdiYmQ2MGZiZGEz
-OTM2OTBlZDBmODUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDaHJpc3RpYW4gSG9m
-c3RhZWR0bGVyIDx6ZWhhQGRlYmlhbi5vcmc+CiBEYXRlOiBUdWUsIDEwIE9jdCAyMDE3IDE1OjA0
-OjM0IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHJkb2M6IGJ1aWxkIHJlcHJvZHVjaWJsZSBkb2N1
-bWVudGF0aW9uCkBAIC0xNCwxMCArMTQsMTAgQEAgU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEhv
-ZnN0YWVkdGxlciA8emVoYUBkZWJpYW4ub3JnPgogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
-bnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvcmRvYy9nZW5lcmF0b3Iv
-anNvbl9pbmRleC5yYiBiL2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4LnJiCi1pbmRleCBj
-NDU0OTEwLi4yNGZlYWIwIDEwMDY0NAoraW5kZXggMDY1Y2FhNC4uY2ZhMWYzMyAxMDA2NDQKIC0t
-LSBhL2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4LnJiCiArKysgYi9saWIvcmRvYy9nZW5l
-cmF0b3IvanNvbl9pbmRleC5yYgotQEAgLTE3OCw3ICsxNzgsNyBAQCBjbGFzcyBSRG9jOjpHZW5l
-cmF0b3I6Okpzb25JbmRleAorQEAgLTE3Niw3ICsxNzYsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0
-b3I6Okpzb25JbmRleAogICAgICBkZWJ1Z19tc2cgIldyaXRpbmcgZ3ppcHBlZCBzZWFyY2ggaW5k
-ZXggdG8gJXMiICUgb3V0ZmlsZQogIAogICAgICBabGliOjpHemlwV3JpdGVyLm9wZW4ob3V0Zmls
-ZSkgZG8gfGd6fApAQCAtMjYsNyArMjYsNyBAQCBpbmRleCBjNDU0OTEwLi4yNGZlYWIwIDEwMDY0
-NAogICAgICAgIGd6Lm9yaWdfbmFtZSA9IHNlYXJjaF9pbmRleF9maWxlLmJhc2VuYW1lLnRvX3MK
-ICAgICAgICBnei53cml0ZSBzZWFyY2hfaW5kZXgKICAgICAgICBnei5jbG9zZQotQEAgLTE5Niw3
-ICsxOTYsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0b3I6Okpzb25JbmRleAorQEAgLTE5NCw3ICsx
-OTQsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0b3I6Okpzb25JbmRleAogICAgICAgICAgZGVidWdf
-bXNnICJXcml0aW5nIGd6aXBwZWQgZmlsZSB0byAlcyIgJSBvdXRmaWxlCiAgCiAgICAgICAgICBa
-bGliOjpHemlwV3JpdGVyLm9wZW4ob3V0ZmlsZSkgZG8gfGd6fApkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1v
-YmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1n
-ZW5lcmF0ZWQtTS5wYXRjaAppbmRleCA0YjY3NzFmZDI2Li5kODk3ZjY0ZDk2IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1s
-aXN0LW9mLW9iamVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVj
-dC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDg4N2Zh
-Y2M0Y2E1YmNiMDI4MGIwMjViMzViYmMxODUyOGU1MjkxNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gZDI1YzI0MWNmOTIyYTYxNDliMDk2ZTA4ZTIwZjM5YzY0NmExNzNhZCBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJlaW5lciBIZXJybWFubiA8cmVpbmVyQHJlaW5lci1o
-LmRlPgogRGF0ZTogVHVlLCAxMCBPY3QgMjAxNyAxNTowNjoxMyAtMDMwMAogU3ViamVjdDogW1BB
-VENIXSBsaWIvbWttZi5yYjogc29ydCBsaXN0IG9mIG9iamVjdCBmaWxlcyBpbiBnZW5lcmF0ZWQg
-TWFrZWZpbGUKQEAgLTE3LDcgKzE3LDcgQEAgU2lnbmVkLW9mZi1ieTogUmVpbmVyIEhlcnJtYW5u
-IDxyZWluZXJAcmVpbmVyLWguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvbWttZi5yYiBiL2xpYi9ta21mLnJiCi1p
-bmRleCA3NjhhMTUyLi5mMTZjZGQ4IDEwMDY0NAoraW5kZXggOTlmMzc2NC4uNjIzNzdiNiAxMDA2
-NDQKIC0tLSBhL2xpYi9ta21mLnJiCiArKysgYi9saWIvbWttZi5yYgogQEAgLTI0ODAsNyArMjQ4
-MCw3IEBAIExPQ0FMX0xJQlMgPSAjeyRMT0NBTF9MSUJTfQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hh
-bmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1Ynkv
-cnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQyMjUt
-dG9vLnBhdGNoCmluZGV4IDE5MGViN2Q3MjguLjIwNjFmYjhkYzEgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxl
-LWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJlcHJvZHVjaWJsZS1jaGFuZ2UtZml4aW5n
-LTc4NDIyNS10b28ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk3MDUxYmU5Y2I5MzE3ZDJj
-NGQ2MWE4MmQ2ZDk1MzgwOWU5NjJmMTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGVh
-NDU5M2FiYWM0NmRmOGM5ODkyMjFhMDk3M2FlMGFkM2JmN2NiNGIgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5hc2hpcm8gPGthbmFzaGlyb0BkZWJpYW4ub3JnPgogRGF0
-ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1OjE3IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2Ug
-Z2Vtc3BlY3MgcmVwcm9kdWNpYmxlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUu
-cGF0Y2gKaW5kZXggMTIxYmRjZjNhYi4uYmU3MzcyYTk1NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBh
-dGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNi1NYWtlLWdlbXNw
-ZWNzLXJlcHJvZHVjaWJsZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDU4YmRhY2EzZDUz
-NzlhZmNiOTU0YmI1N2M2OTBjNzczNjgwN2VjNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gMDIzZTA2ZDNkZjQ0MjU5ODNmYjdlMTFhODQyYTcwNjI3MDU2OTlmNiBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IEx1Y2FzIEthbmFzaGlybyA8a2FuYXNoaXJvQGRlYmlhbi5vcmc+
-CiBEYXRlOiBGcmksIDEgTm92IDIwMTkgMTU6MjU6MTcgLTAzMDAKIFN1YmplY3Q6IFtQQVRDSF0g
-TWFrZSBnZW1zcGVjcyByZXByb2R1Y2libGUKQEAgLTY0LDcgKzY0LDcgQEAgaW5kZXggNTcxOWY4
-My4uZmU3NjI2MCAxMDA2NDQKICAgIHNwZWMuZW1haWwgICAgICAgICA9IFsia251QGlkYWVtb25z
-Lm9yZyIsICJ1bWVAbWFob3JvYmEub3JnIl0KICAKIGRpZmYgLS1naXQgYS9saWIvcmRvYy9yZG9j
-LmdlbXNwZWMgYi9saWIvcmRvYy9yZG9jLmdlbXNwZWMKLWluZGV4IDMxNDRkZjUuLjY1YzMxM2Yg
-MTAwNjQ0CitpbmRleCA0N2Y0ODAyLi5jZjBiNWY3IDEwMDY0NAogLS0tIGEvbGliL3Jkb2MvcmRv
-Yy5nZW1zcGVjCiArKysgYi9saWIvcmRvYy9yZG9jLmdlbXNwZWMKIEBAIC03LDYgKzcsNyBAQCBl
-bmQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1Ta2lw
-LXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDctU2tpcC10ZXN0X3JtX3Jfbm9fcGVybWlzc2lv
-bnMtdGVzdC11bmRlci1yb290LnBhdGNoCmluZGV4IGUzNTc0ZjFhODEuLjU0MTJiMmY4YmUgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1Ta2lwLXRlc3Rf
-cm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA3LVNraXAtdGVzdF9ybV9yX25vX3Blcm1pc3Npb25z
-LXRlc3QtdW5kZXItcm9vdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOWM0NzQ4YWFlNGY2
-OTM5MGEzNjg3NWFhMjdkNzBjM2M2MzJhZTk0NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gYmViOTIzZmE4ZDdhN2MwYTQyM2U3NTIzZTkyYzA2YzFkNWEwODVjYSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IEppYXlpbmcgU29uZyA8amlheWluZy5zb25nLmNuQHdpbmRyaXZl
-ci5jb20+CiBEYXRlOiBNb24sIDcgSnVsIDIwMjUgMTU6MDU6NTcgKzA4MDAKIFN1YmplY3Q6IFtQ
-QVRDSF0gU2tpcCB0ZXN0X3JtX3Jfbm9fcGVybWlzc2lvbnMgdGVzdCB1bmRlciByb290CkBAIC0y
-Nyw2ICsyNywzIEBAIGluZGV4IGQyMDk2YTAuLjgwZTMzNjggMTAwNjQ0CiAgCiAgICAgIG1rZGly
-ICd0bXBkYXRhZGlyJwogICAgICB0b3VjaCAndG1wZGF0YWRpci90bXBkYXRhJwotLS0gCi0yLjM0
-LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQuNC5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjUuYmIKc2ltaWxhcml0eSBp
-bmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQu
-NC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQuNS5iYgpp
-bmRleCBjNTMyNDAzMzM5Li5iNzdkNzY1NzhlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcnVieS9ydWJ5XzMuNC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnlfMy40LjUuYmIKQEAgLTQ5LDcgKzQ5LDcgQEAgZG9fY29uZmlndXJlOnByZXBlbmQoKSB7
-CiAKIERFUEVORFM6YXBwZW5kOmxpYmMtbXVzbCA9ICIgbGlidWNvbnRleHQiCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICJhMDU5N2JmZGYzMTJlMDEwZWZkMWVmZmFhOGQ3ZjFkNzgzMzE0NmZkYzE3
-OTUwY2FhODE1OGZmYTNkY2JmYTg1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFkODhkOGEyN2I0
-NDJmZGRlNGFhMDZkYzk5ZTg2YjBiYmYwYjI4ODk2M2Q4NDMzMTEyZGQ1ZmFjNzk4ZmQ1ZWUiCiAK
-IFBBQ0tBR0VDT05GSUcgPz89ICIiCiBQQUNLQUdFQ09ORklHICs9ICIke0BiYi51dGlscy5maWx0
-ZXIoJ0RJU1RST19GRUFUVVJFUycsICdpcHY2JywgZCl9IgotLSAKMi40Ny4xCgo=
+RnJvbSBmMjQ2MGY2NGFiNmVmYzg1MGY2MzEyNThjOWE0YWU5MTQ2YTY0ODMxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxOTozMDowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN0
+cmVzcy1uZzogdXBncmFkZSAwLjE5LjAyIC0+IDAuMTkuMDQKCi0tLQogLi4uL3N0cmVzcy1uZy97
+c3RyZXNzLW5nXzAuMTkuMDIuYmIgPT4gc3RyZXNzLW5nXzAuMTkuMDQuYmJ9ICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy97c3RyZXNzLW5nXzAuMTkuMDIuYmIgPT4gc3Ry
+ZXNzLW5nXzAuMTkuMDQuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xOS4wMi5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTkuMDQuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xOS4w
+Mi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3Mtbmdf
+MC4xOS4wNC5iYgppbmRleCBkZDhkM2E4NDA2Li4yYzA2MWNkN2NiIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE5LjAyLmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTkuMDQuYmIKQEAgLTYs
+NyArNiw3IEBAIExJQ0VOU0UgPSAiR1BMLTIuMC1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMiCiAKIFNS
+Q19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9Db2xpbklhbktpbmcvc3RyZXNzLW5nLmdpdDtwcm90
+b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3RhZz1WJHtQVn0iCi1TUkNSRVYgPSAiOGQ1Mzk5YjI4
+MjIyNWY3NTg2MDZjZDJiNTIyMzgyZjY1ZDk0N2E4ZCIKK1NSQ1JFViA9ICI2ZTk3N2RkYWU0YjY2
+YmMwZTVjM2Y5OTNlM2I1ZmYwYmMwNjkxNWZkIgogCiBERVBFTkRTID0gImNvcmV1dGlscy1uYXRp
+dmUgbGliYnNkIgogCi0tIAoyLjQ3LjEKCg==
 
---===============5600452457109151469==
+--===============1666764988568124939==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/ruby: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby: SRC_URI changed from "http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.4.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch" to "http://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.5.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixi
- ng-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch"
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0/debug/.debug -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0/debug/.debug, removed "/usr/lib/.debug/libruby.so.3.4.4", added "/usr/lib/.debug/libruby.so.3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: PKGSIZE changed from 12008656 to 12019752 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: FILELIST: added "/usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h"
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: PKGSIZE changed from 1588846 to 1590267 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-doc: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-doc: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-locale: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-locale: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: FILELIST: removed "/usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_document.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_label.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_markup.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot_po.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_context_section.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_hard_break.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd_block_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_extend.rb /usr/lib/ruby/ptest/lib/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml /usr/lib/ruby/ptest/test/rdoc/test_rdoc_store.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_encoding.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_indented_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_marku
- p_to_rdoc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_ansi.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_method_attr.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_comment.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_context.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_joined_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_cross_reference.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_table_of_contents.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_require.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_heading.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_stats.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_include.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_prism_ruby.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_normal_module.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_rd.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_ri.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_simple.rb /usr/lib/ru
- by/ptest/test/rdoc/test_rdoc_rd_inline_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_tom_doc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot_po_entry.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_bs.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rdoc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_text.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_top_level.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_attr.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_pre_process.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_normal_class.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_any_method.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rubygems_hook.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_i18n_text.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_c.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_task.rb /usr/lib/ruby/ptest/test/rdoc/test_rdo
- c_token_stream.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_tt_only.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_attribute_manager.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_raw.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_formatter.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_constant.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_code_object.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_verbatim.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_i18n_locale.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_options.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_include.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html_crossref.rb /usr/lib/ruby/ptest/lib/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml /usr/lib/ruby/ptest/test/rdoc/test_rdoc_ge
- nerator_json_index.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html_snippet.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_darkfish.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_ri_driver.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd_inline.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_attributes.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_changelog.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_alias.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_ri_paths.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_servlet.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_single_class.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_ruby.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_class_module.rb", added "/usr/lib/ruby/ptest/test/rdoc/rdoc_markdown_test_test.rb /usr/lib/ruby/ptest/lib/rdoc/markdown/.document /usr/lib/ruby/ptest/test/rdoc/rdoc_normal_class_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_hard_break_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_parser_test.rb /usr/lib/ruby
- /ptest/test/rdoc/rdoc_markup_attribute_manager_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_code_object_test.rb /usr/lib/ruby/include/ruby/internal/attr/nonstring.h /usr/lib/ruby/ptest/test/rdoc/rdoc_i18n_locale_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_top_level_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_inline_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_context_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_rdoc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_indented_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_rd_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_label_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_attributes_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_comment_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_prism_ruby_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_json_index_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_
- block_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_tom_doc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_po_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_ruby_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_simple_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_document_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_method_attr_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_alias_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_stats_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_store_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_c_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_context_section_test.rb /usr/lib/ruby/ptest/lib/rdoc/rd/.document /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_crossref_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_include_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_test.rb
-  /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_joined_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_attr_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rdoc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_task_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_text_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_single_class_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_table_of_contents_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_extend_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_require_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_normal_module_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_any_method_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_snippet_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_pre_process_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_ri_driver_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_constant_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markdown_test.rb /usr/lib/ruby/ptest/test/prism/errors/defined_empty.t
- xt /usr/lib/ruby/ptest/test/rdoc/rdoc_encoding_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_inline_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_raw_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_changelog_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_servlet_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_heading_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_i18n_text_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_tt_only_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_markup_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_options_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_ansi_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_bs_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_cross_reference_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_verbatim_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_formatter_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_include_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_darkfish_test.rb /usr/lib/ruby/ptest/test/rdoc
- /rdoc_rubygems_hook_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_ri_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_class_module_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_token_stream_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_po_entry_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_ri_paths_test.rb"
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: PKGSIZE changed from 13654579 to 13682044 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-rdoc: FILELIST: removed "/usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml"
-packages/x86-64-v3-poky-linux/ruby/ruby-rdoc: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-rdoc: PKGSIZE changed from 1931342 to 1934879 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-rdoc: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-ri-docs: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-ri-docs: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-src: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-src: PKGSIZE changed from 4256123 to 4263485 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-src: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-staticdev: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-staticdev: PV changed from "3.4.4" to "3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0/debug -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/exe -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/exe, directory renamed /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0/exe -> /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0/exe, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/misc -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/misc, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib/debug/dap_custom -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib/debug/dap_custom, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib, directory renamed /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7/exe -> /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9/exe, directory renamed /usr/lib/ruby/gems/
- 3.4.0/gems/debug-1.10.0 -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib/debug -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/ext/debug -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/ext/debug, directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0, removed "/usr/lib/ruby/3.4.0/rubygems/shellwords.rb /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.g
- emspec /usr/lib/libruby.so.3.4.4 /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec", added "/usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec /usr/lib/libruby.so.3.4.5"
-packages/x86-64-v3-poky-linux/ruby/ruby: PKGV changed from 3.4.4 [default] to 3.4.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby: PKGSIZE changed from 30779998 to 30800372 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby: PV changed from "3.4.4" to "3.4.5"
-Changes to packages/x86-64-v3-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so.3.4.4 moved to /usr/lib/libruby.so.3.4.5
-  /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem
-  /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7 moved to /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9
-  /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.5 moved to /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.6
-  /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.0 moved to /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.1
-  /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0
-  /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.0 moved to /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.2
-  /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec
-  /usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb was added
-  /usr/lib/ruby/include/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml was removed
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml was removed
-  /usr/lib/ruby/3.4.0/rubygems/shellwords.rb was removed
-Changes to packages/x86_64-linux/ruby-native (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so.3.4.4 moved to /usr/lib/libruby.so.3.4.5
-  /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem
-  /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7 moved to /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9
-  /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.5 moved to /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.6
-  /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.0 moved to /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.1
-  /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0
-  /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.0 moved to /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.2
-  /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec
-  /usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb was added
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml was removed
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml was removed
-  /usr/lib/ruby/3.4.0/rubygems/shellwords.rb was removed
+packages/x86-64-v3-poky-linux/stress-ng: SRC_URI changed from "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V0.19.02" to "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master;tag=V0.19.04"
+packages/x86-64-v3-poky-linux/stress-ng: PKGV changed from 0.19.02 [default] to 0.19.04 [default]
+packages/x86-64-v3-poky-linux/stress-ng: PV changed from "0.19.02" to "0.19.04"
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.19.02 [default] to 0.19.04 [default]
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.19.02" to "0.19.04"
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.19.02 [default] to 0.19.04 [default]
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 31340152 to 35863104 (+14%)
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.19.02" to "0.19.04"
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.19.02 [default] to 0.19.04 [default]
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.19.02" to "0.19.04"
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.19.02 [default] to 0.19.04 [default]
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 96341 to 97850 (+2%)
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.19.02" to "0.19.04"
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.19.02 [default] to 0.19.04 [default]
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.19.02" to "0.19.04"
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.19.02 [default] to 0.19.04 [default]
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 6192863 to 6386918 (+3%)
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-src: PV changed from "0.19.02" to "0.19.04"
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-src: FILELIST: removed "/usr/src/debug/stress-ng/0.19.02/stress-softlockup.c /usr/src/debug/stress-ng/0.19.02/stress-pagemove.c /usr/src/debug/stress-ng/0.19.02/stress-pipeherd.c /usr/src/debug/stress-ng/0.19.02/stress-pageswap.c /usr/src/debug/stress-ng/0.19.02/stress-enosys.c /usr/src/debug/stress-ng/0.19.02/stress-ng.h /usr/src/debug/stress-ng/0.19.02/stress-randlist.c /usr/src/debug/stress-ng/0.19.02/stress-ng.c /usr/src/debug/stress-ng/0.19.02/stress-veccmp.c /usr/src/debug/stress-ng/0.19.02/stress-fsize.c /usr/src/debug/stress-ng/0.19.02/stress-cachehammer.c /usr/src/debug/stress-ng/0.19.02/stress-memthrash.c /usr/src/debug/stress-ng/0.19.02/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.19.02/core-sync.h /usr/src/debug/stress-ng/0.19.02/core-resources.h /usr/src/debug/stress-ng/0.19.02/stress-mremap.c /usr/src/debug/stress-ng/0.19.02/stress-x86cpuid.c /usr/src/debug/stress-ng/0.19.02/stress-far-branch.c /usr/src/debug/stress-ng
+ /0.19.02/core-resources.c /usr/src/debug/stress-ng/0.19.02/core-sync.c /usr/src/debug/stress-ng/0.19.02/stress-binderfs.c /usr/src/debug/stress-ng/0.19.02/stress-fcntl.c /usr/src/debug/stress-ng/0.19.02/stress-dccp.c /usr/src/debug/stress-ng/0.19.02/stress-mmapfixed.c /usr/src/debug/stress-ng/0.19.02/stress-msg.c /usr/src/debug/stress-ng/0.19.02/stress-fractal.c /usr/src/debug/stress-ng/0.19.02/stress-sem.c /usr/src/debug/stress-ng/0.19.02/stress-fiemap.c /usr/src/debug/stress-ng/0.19.02/stress-filename.c /usr/src/debug/stress-ng/0.19.02/stress-filerace.c /usr/src/debug/stress-ng/0.19.02/stress-fanotify.c /usr/src/debug/stress-ng/0.19.02/stress-kill.c /usr/src/debug/stress-ng/0.19.02/stress-rawsock.c /usr/src/debug/stress-ng/0.19.02/stress-dev.c /usr/src/debug/stress-ng/0.19.02/stress-handle.c /usr/src/debug/stress-ng/0.19.02/stress-pci.c /usr/src/debug/stress-ng/0.19.02/stress-judy.c /usr/src/debug/stress-ng/0.19.02/stress-vm-splice.c /usr/src/debug/stress-ng/0.19.02/stress-fstat.c
+  /usr/src/debug/stress-ng/0.19.02/stress-nanosleep.c /usr/src/debug/stress-ng/0.19.02/stress-icmp-flood.c /usr/src/debug/stress-ng/0.19.02/stress-key.c /usr/src/debug/stress-ng/0.19.02/stress-procfs.c /usr/src/debug/stress-ng/0.19.02/stress-zlib.c /usr/src/debug/stress-ng/0.19.02/stress-resources.c /usr/src/debug/stress-ng/0.19.02/stress-affinity.c /usr/src/debug/stress-ng/0.19.02/stress-stack.c /usr/src/debug/stress-ng/0.19.02/stress-chdir.c /usr/src/debug/stress-ng/0.19.02/core-vmstat.h /usr/src/debug/stress-ng/0.19.02/stress-numa.c /usr/src/debug/stress-ng/0.19.02/core-thrash.c /usr/src/debug/stress-ng/0.19.02/core-vmstat.c /usr/src/debug/stress-ng/0.19.02/core-thrash.h /usr/src/debug/stress-ng/0.19.02/stress-dnotify.c /usr/src/debug/stress-ng/0.19.02/stress-hrtimers.c /usr/src/debug/stress-ng/0.19.02/stress-mergesort.c /usr/src/debug/stress-ng/0.19.02/stress-hsearch.c /usr/src/debug/stress-ng/0.19.02/stress-sigurg.c /usr/src/debug/stress-ng/0.19.02/stress-rawdev.c /usr/src/debug
+ /stress-ng/0.19.02/stress-idle-page.c /usr/src/debug/stress-ng/0.19.02/stress-hyperbolic.c /usr/src/debug/stress-ng/0.19.02/stress-prefetch.c /usr/src/debug/stress-ng/0.19.02/stress-prio-inv.c /usr/src/debug/stress-ng/0.19.02/stress-radixsort.c /usr/src/debug/stress-ng/0.19.02/core-mincore.h /usr/src/debug/stress-ng/0.19.02/core-mincore.c /usr/src/debug/stress-ng/0.19.02/stress-poll.c /usr/src/debug/stress-ng/0.19.02/stress-llc-affinity.c /usr/src/debug/stress-ng/0.19.02/stress-rmap.c /usr/src/debug/stress-ng/0.19.02/stress-jpeg.c /usr/src/debug/stress-ng/0.19.02/stress-mseal.c /usr/src/debug/stress-ng/0.19.02/stress-malloc.c /usr/src/debug/stress-ng/0.19.02/stress-min-nanosleep.c /usr/src/debug/stress-ng/0.19.02/stress-branch.c /usr/src/debug/stress-ng/0.19.02/stress-oom-pipe.c /usr/src/debug/stress-ng/0.19.02/core-madvise.c /usr/src/debug/stress-ng/0.19.02/stress-funcret.c /usr/src/debug/stress-ng/0.19.02/core-madvise.h /usr/src/debug/stress-ng/0.19.02/core-mounts.c /usr/src/debug
+ /stress-ng/0.19.02/stress-io-uring.c /usr/src/debug/stress-ng/0.19.02/core-mounts.h /usr/src/debug/stress-ng/0.19.02/stress-close.c /usr/src/debug/stress-ng/0.19.02/stress-sigrt.c /usr/src/debug/stress-ng/0.19.02/core-config.c /usr/src/debug/stress-ng/0.19.02/stress-hdd.c /usr/src/debug/stress-ng/0.19.02/stress-workload.c /usr/src/debug/stress-ng/0.19.02/stress-misaligned.c /usr/src/debug/stress-ng/0.19.02/stress-epoll.c /usr/src/debug/stress-ng/0.19.02/stress-sockdiag.c /usr/src/debug/stress-ng/0.19.02/stress-dir.c /usr/src/debug/stress-ng/0.19.02/stress-sockmany.c /usr/src/debug/stress-ng/0.19.02/stress-sockpair.c /usr/src/debug/stress-ng/0.19.02/stress-madvise.c /usr/src/debug/stress-ng/0.19.02/stress-mincore.c /usr/src/debug/stress-ng/0.19.02/stress-inode-flags.c /usr/src/debug/stress-ng/0.19.02/stress-seal.c /usr/src/debug/stress-ng/0.19.02/core-mlock.h /usr/src/debug/stress-ng/0.19.02/core-mlock.c /usr/src/debug/stress-ng/0.19.02/stress-pseek.c /usr/src/debug/stress-ng/0.19.02
+ /stress-efivar.c /usr/src/debug/stress-ng/0.19.02/stress-dirdeep.c /usr/src/debug/stress-ng/0.19.02/stress-dirmany.c /usr/src/debug/stress-ng/0.19.02/core-helper.c /usr/src/debug/stress-ng/0.19.02/stress-lsearch.c /usr/src/debug/stress-ng/0.19.02/core-helper.h /usr/src/debug/stress-ng/0.19.02/stress-link.c /usr/src/debug/stress-ng/0.19.02/stress-daemon.c /usr/src/debug/stress-ng/0.19.02/stress-sync-file.c /usr/src/debug/stress-ng/0.19.02/stress-smi.c /usr/src/debug/stress-ng/0.19.02/stress-shellsort.c /usr/src/debug/stress-ng/0.19.02/stress-cyclic.c /usr/src/debug/stress-ng/0.19.02/stress-sigbus.c /usr/src/debug/stress-ng/0.19.02/stress-clone.c /usr/src/debug/stress-ng/0.19.02/stress-sigio.c /usr/src/debug/stress-ng/0.19.02/stress-vnni.c /usr/src/debug/stress-ng/0.19.02/core-parse-opts.h /usr/src/debug/stress-ng/0.19.02/stress-tsc.c /usr/src/debug/stress-ng/0.19.02/core-parse-opts.c /usr/src/debug/stress-ng/0.19.02/stress-sigvtalrm.c /usr/src/debug/stress-ng/0.19.02/stress-sigsuspen
+ d.c /usr/src/debug/stress-ng/0.19.02/stress-module.c /usr/src/debug/stress-ng/0.19.02/stress-switch.c /usr/src/debug/stress-ng/0.19.02/stress-seccomp.c /usr/src/debug/stress-ng/0.19.02/stress-session.c /usr/src/debug/stress-ng/0.19.02/stress-null.c /usr/src/debug/stress-ng/0.19.02/stress-mprotect.c /usr/src/debug/stress-ng/0.19.02/stress-gpu.c /usr/src/debug/stress-ng/0.19.02/stress-bsearch.c /usr/src/debug/stress-ng/0.19.02/stress-userfaultfd.c /usr/src/debug/stress-ng/0.19.02/stress-memcpy.c /usr/src/debug/stress-ng/0.19.02/stress-time-warp.c /usr/src/debug/stress-ng/0.19.02/stress-yield.c /usr/src/debug/stress-ng/0.19.02/stress-chattr.c /usr/src/debug/stress-ng/0.19.02/stress-easy-opcode.c /usr/src/debug/stress-ng/0.19.02/stress-sigfd.c /usr/src/debug/stress-ng/0.19.02/stress-kvm.c /usr/src/debug/stress-ng/0.19.02/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.19.02/stress-file-ioctl.c /usr/src/debug/stress-ng/0.19.02/stress-mmaptorture.c /usr/src/debug/stress-ng/0.19.02/stress-wai
+ t.c /usr/src/debug/stress-ng/0.19.02/stress-dynlib.c /usr/src/debug/stress-ng/0.19.02/stress-mlockmany.c /usr/src/debug/stress-ng/0.19.02/stress-udp.c /usr/src/debug/stress-ng/0.19.02/stress-getrandom.c /usr/src/debug/stress-ng/0.19.02/stress-ioprio.c /usr/src/debug/stress-ng/0.19.02/stress-shm-sysv.c /usr/src/debug/stress-ng/0.19.02/core-hash.h /usr/src/debug/stress-ng/0.19.02/stress-quota.c /usr/src/debug/stress-ng/0.19.02/core-lock.h /usr/src/debug/stress-ng/0.19.02/stress-priv-instr.c /usr/src/debug/stress-ng/0.19.02/core-hash.c /usr/src/debug/stress-ng/0.19.02/stress-umask.c /usr/src/debug/stress-ng/0.19.02/stress-vm.c /usr/src/debug/stress-ng/0.19.02/core-lock.c /usr/src/debug/stress-ng/0.19.02/stress-mknod.c /usr/src/debug/stress-ng/0.19.02/stress-regs.c /usr/src/debug/stress-ng/0.19.02/core-log.c /usr/src/debug/stress-ng/0.19.02/core-log.h /usr/src/debug/stress-ng/0.19.02/stress-fork.c /usr/src/debug/stress-ng/0.19.02/stress-apparmor.c /usr/src/debug/stress-ng/0.19.02/stress
+ -vm-rw.c /usr/src/debug/stress-ng/0.19.02/stress-unshare.c /usr/src/debug/stress-ng/0.19.02/core-mwc.c /usr/src/debug/stress-ng/0.19.02/stress-personality.c /usr/src/debug/stress-ng/0.19.02/core-mwc.h /usr/src/debug/stress-ng/0.19.02/stress-loop.c /usr/src/debug/stress-ng/0.19.02/stress-goto.c /usr/src/debug/stress-ng/0.19.02/stress-pidfd.c /usr/src/debug/stress-ng/0.19.02/stress-sctp.c /usr/src/debug/stress-ng/0.19.02/stress-flock.c /usr/src/debug/stress-ng/0.19.02/stress-locka.c /usr/src/debug/stress-ng/0.19.02/stress-chmod.c /usr/src/debug/stress-ng/0.19.02/stress-ptrace.c /usr/src/debug/stress-ng/0.19.02/stress-full.c /usr/src/debug/stress-ng/0.19.02/stress-fault.c /usr/src/debug/stress-ng/0.19.02/stress-fallocate.c /usr/src/debug/stress-ng/0.19.02/stress-cpu-online.c /usr/src/debug/stress-ng/0.19.02/stress-netlink-proc.c /usr/src/debug/stress-ng/0.19.02/stress-pipe.c /usr/src/debug/stress-ng/0.19.02/stress-icache.c /usr/src/debug/stress-ng/0.19.02/core-processes.h /usr/src/debu
+ g/stress-ng/0.19.02/core-processes.c /usr/src/debug/stress-ng/0.19.02/stress-cap.c /usr/src/debug/stress-ng/0.19.02/core-smart.c /usr/src/debug/stress-ng/0.19.02/stress-rename.c /usr/src/debug/stress-ng/0.19.02/stress-spinmem.c /usr/src/debug/stress-ng/0.19.02/core-smart.h /usr/src/debug/stress-ng/0.19.02/core-opts.c /usr/src/debug/stress-ng/0.19.02/core-io-priority.c /usr/src/debug/stress-ng/0.19.02/stress-alarm.c /usr/src/debug/stress-ng/0.19.02/stress-memfd.c /usr/src/debug/stress-ng/0.19.02/core-io-priority.h /usr/src/debug/stress-ng/0.19.02/stress-race-sched.c /usr/src/debug/stress-ng/0.19.02/core-opts.h /usr/src/debug/stress-ng/0.19.02/stress-bitops.c /usr/src/debug/stress-ng/0.19.02/stress-fp.c /usr/src/debug/stress-ng/0.19.02/stress-fd-abuse.c /usr/src/debug/stress-ng/0.19.02/stress-flipflop.c /usr/src/debug/stress-ng/0.19.02/stress-watchdog.c /usr/src/debug/stress-ng/0.19.02/core-asm-x86.h /usr/src/debug/stress-ng/0.19.02/core-cpu.c /usr/src/debug/stress-ng/0.19.02/core-cpu
+ .h /usr/src/debug/stress-ng/0.19.02/stress-syncload.c /usr/src/debug/stress-ng/0.19.02/stress-sysinval.c /usr/src/debug/stress-ng/0.19.02/stress-brk.c /usr/src/debug/stress-ng/0.19.02/stress-aiol.c /usr/src/debug/stress-ng/0.19.02/stress-flushcache.c /usr/src/debug/stress-ng/0.19.02/stress-lease.c /usr/src/debug/stress-ng/0.19.02/stress-munmap.c /usr/src/debug/stress-ng/0.19.02/stress-xattr.c /usr/src/debug/stress-ng/0.19.02/stress-reboot.c /usr/src/debug/stress-ng/0.19.02/stress-heapsort.c /usr/src/debug/stress-ng/0.19.02/stress-timer.c /usr/src/debug/stress-ng/0.19.02/stress-l1cache.c /usr/src/debug/stress-ng/0.19.02/stress-rotate.c /usr/src/debug/stress-ng/0.19.02/stress-mpfr.c /usr/src/debug/stress-ng/0.19.02/stress-msync.c /usr/src/debug/stress-ng/0.19.02/stress-sockabuse.c /usr/src/debug/stress-ng/0.19.02/stress-klog.c /usr/src/debug/stress-ng/0.19.02/stress-forkheavy.c /usr/src/debug/stress-ng/0.19.02/stress-futex.c /usr/src/debug/stress-ng/0.19.02/stress-context.c /usr/src/d
+ ebug/stress-ng/0.19.02/stress-peterson.c /usr/src/debug/stress-ng/0.19.02/stress-tsearch.c /usr/src/debug/stress-ng/0.19.02/stress-pty.c /usr/src/debug/stress-ng/0.19.02/stress-tree.c /usr/src/debug/stress-ng/0.19.02/core-sched.c /usr/src/debug/stress-ng/0.19.02/core-sched.h /usr/src/debug/stress-ng/0.19.02/stress-prime.c /usr/src/debug/stress-ng/0.19.02/stress-sigq.c /usr/src/debug/stress-ng/0.19.02/stress-qsort.c /usr/src/debug/stress-ng/0.19.02/stress-itimer.c /usr/src/debug/stress-ng/0.19.02/stress-swap.c /usr/src/debug/stress-ng/0.19.02/core-shim.c /usr/src/debug/stress-ng/0.19.02/stress-memhotplug.c /usr/src/debug/stress-ng/0.19.02/stress-vecfp.c /usr/src/debug/stress-ng/0.19.02/stress-dekker.c /usr/src/debug/stress-ng/0.19.02/stress-schedpolicy.c /usr/src/debug/stress-ng/0.19.02/core-asm-generic.h /usr/src/debug/stress-ng/0.19.02/stress-dfp.c /usr/src/debug/stress-ng/0.19.02/stress-vforkmany.c /usr/src/debug/stress-ng/0.19.02/core-shim.h /usr/src/debug/stress-ng/0.19.02/stres
+ s-bigheap.c /usr/src/debug/stress-ng/0.19.02/stress-syscall.c /usr/src/debug/stress-ng/0.19.02/stress-io.c /usr/src/debug/stress-ng/0.19.02/stress-nop.c /usr/src/debug/stress-ng/0.19.02/core-module.h /usr/src/debug/stress-ng/0.19.02/stress-matrix-3d.c /usr/src/debug/stress-ng/0.19.02/core-module.c /usr/src/debug/stress-ng/0.19.02/stress-ring-pipe.c /usr/src/debug/stress-ng/0.19.02/stress-eigen.c /usr/src/debug/stress-ng/0.19.02/stress-seek.c /usr/src/debug/stress-ng/0.19.02/stress-funccall.c /usr/src/debug/stress-ng/0.19.02/stress-resched.c /usr/src/debug/stress-ng/0.19.02/stress-ioport.c /usr/src/debug/stress-ng/0.19.02/stress-mmap.c /usr/src/debug/stress-ng/0.19.02/stress-splice.c /usr/src/debug/stress-ng/0.19.02/stress-regex.c /usr/src/debug/stress-ng/0.19.02/stress-expmath.c /usr/src/debug/stress-ng/0.19.02/stress-rawpkt.c /usr/src/debug/stress-ng/0.19.02/core-cpuidle.c /usr/src/debug/stress-ng/0.19.02/core-cpuidle.h /usr/src/debug/stress-ng/0.19.02/stress-sighup.c /usr/src/debu
+ g/stress-ng/0.19.02/stress-zero.c /usr/src/debug/stress-ng/0.19.02/stress-open.c /usr/src/debug/stress-ng/0.19.02/stress-str.c /usr/src/debug/stress-ng/0.19.02/stress-exec.c /usr/src/debug/stress-ng/0.19.02/stress-shm.c /usr/src/debug/stress-ng/0.19.02/stress-trig.c /usr/src/debug/stress-ng/0.19.02/stress-readahead.c /usr/src/debug/stress-ng/0.19.02/stress-umount.c /usr/src/debug/stress-ng/0.19.02/stress-wcs.c /usr/src/debug/stress-ng/0.19.02/stress-ping-sock.c /usr/src/debug/stress-ng/0.19.02/core-setting.c /usr/src/debug/stress-ng/0.19.02/core-setting.h /usr/src/debug/stress-ng/0.19.02/stress-acl.c /usr/src/debug/stress-ng/0.19.02/core-interrupts.c /usr/src/debug/stress-ng/0.19.02/stress-prctl.c /usr/src/debug/stress-ng/0.19.02/stress-set.c /usr/src/debug/stress-ng/0.19.02/stress-tun.c /usr/src/debug/stress-ng/0.19.02/core-interrupts.h /usr/src/debug/stress-ng/0.19.02/stress-tee.c /usr/src/debug/stress-ng/0.19.02/stress-fma.c /usr/src/debug/stress-ng/0.19.02/stress-access.c /usr/s
+ rc/debug/stress-ng/0.19.02/stress-revio.c /usr/src/debug/stress-ng/0.19.02/stress-mcontend.c /usr/src/debug/stress-ng/0.19.02/core-numa.c /usr/src/debug/stress-ng/0.19.02/core-shared-heap.c /usr/src/debug/stress-ng/0.19.02/core-numa.h /usr/src/debug/stress-ng/0.19.02/core-shared-heap.h /usr/src/debug/stress-ng/0.19.02/stress-atomic.c /usr/src/debug/stress-ng/0.19.02/core-asm-ret.h /usr/src/debug/stress-ng/0.19.02/core-klog.c /usr/src/debug/stress-ng/0.19.02/stress-vdso.c /usr/src/debug/stress-ng/0.19.02/core-klog.h /usr/src/debug/stress-ng/0.19.02/core-asm-ret.c /usr/src/debug/stress-ng/0.19.02/stress-udp-flood.c /usr/src/debug/stress-ng/0.19.02/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.19.02/core-thermal-zone.c /usr/src/debug/stress-ng/0.19.02/stress-besselmath.c /usr/src/debug/stress-ng/0.19.02/core-thermal-zone.h /usr/src/debug/stress-ng/0.19.02/stress-stream.c /usr/src/debug/stress-ng/0.19.02/stress-vecmath.c /usr/src/debug/stress-ng/0.19.02/stress-vecshuf.c /usr/src/debug/s
+ tress-ng/0.19.02/stress-vecwide.c /usr/src/debug/stress-ng/0.19.02/stress-bubblesort.c /usr/src/debug/stress-ng/0.19.02/stress-fifo.c /usr/src/debug/stress-ng/0.19.02/stress-fpunch.c /usr/src/debug/stress-ng/0.19.02/stress-vm-addr.c /usr/src/debug/stress-ng/0.19.02/stress-vm-segv.c /usr/src/debug/stress-ng/0.19.02/core-nt-store.h /usr/src/debug/stress-ng/0.19.02/stress-mmapfiles.c /usr/src/debug/stress-ng/0.19.02/stress-netlink-task.c /usr/src/debug/stress-ng/0.19.02/stress-schedmix.c /usr/src/debug/stress-ng/0.19.02/stress-skiplist.c /usr/src/debug/stress-ng/0.19.02/stress-cpu.c /usr/src/debug/stress-ng/0.19.02/stress-memrate.c /usr/src/debug/stress-ng/0.19.02/stress-metamix.c /usr/src/debug/stress-ng/0.19.02/stress-mmapcow.c /usr/src/debug/stress-ng/0.19.02/stress-rawudp.c /usr/src/debug/stress-ng/0.19.02/stress-opcode.c /usr/src/debug/stress-ng/0.19.02/stress-verity.c /usr/src/debug/stress-ng/0.19.02/stress-stackmmap.c /usr/src/debug/stress-ng/0.19.02/stress-cacheline.c /usr/src/
+ debug/stress-ng/0.19.02/core-time.h /usr/src/debug/stress-ng/0.19.02/core-time.c /usr/src/debug/stress-ng/0.19.02/stress-x86syscall.c /usr/src/debug/stress-ng/0.19.02/stress-dentry.c /usr/src/debug/stress-ng/0.19.02/stress-uprobe.c /usr/src/debug/stress-ng/0.19.02/core-perf.c /usr/src/debug/stress-ng/0.19.02/stress-ramfs.c /usr/src/debug/stress-ng/0.19.02/stress-sleep.c /usr/src/debug/stress-ng/0.19.02/stress-vma.c /usr/src/debug/stress-ng/0.19.02/core-perf.h /usr/src/debug/stress-ng/0.19.02/stress-dev-shm.c /usr/src/debug/stress-ng/0.19.02/stress-lockbus.c /usr/src/debug/stress-ng/0.19.02/stress-lockmix.c /usr/src/debug/stress-ng/0.19.02/stress-lockofd.c /usr/src/debug/stress-ng/0.19.02/stress-logmath.c /usr/src/debug/stress-ng/0.19.02/stress-longjmp.c /usr/src/debug/stress-ng/0.19.02/core-affinity.h /usr/src/debug/stress-ng/0.19.02/stress-list.c /usr/src/debug/stress-ng/0.19.02/stress-loadavg.c /usr/src/debug/stress-ng/0.19.02/stress-membarrier.c /usr/src/debug/stress-ng/0.19.02/s
+ tress-rdrand.c /usr/src/debug/stress-ng/0.19.02/core-affinity.c /usr/src/debug/stress-ng/0.19.02/stress-pthread.c /usr/src/debug/stress-ng/0.19.02/stress-dup.c /usr/src/debug/stress-ng/0.19.02/stress-statmount.c /usr/src/debug/stress-ng/0.19.02/stress-sysfs.c /usr/src/debug/stress-ng/0.19.02/stress-get.c /usr/src/debug/stress-ng/0.19.02/stress-timerfd.c /usr/src/debug/stress-ng/0.19.02/core-sort.c /usr/src/debug/stress-ng/0.19.02/stress-signal.c /usr/src/debug/stress-ng/0.19.02/stress-cgroup.c /usr/src/debug/stress-ng/0.19.02/stress-secretmem.c /usr/src/debug/stress-ng/0.19.02/core-sort.h /usr/src/debug/stress-ng/0.19.02/core-clocksource.h /usr/src/debug/stress-ng/0.19.02/stress-sockfd.c /usr/src/debug/stress-ng/0.19.02/core-clocksource.c /usr/src/debug/stress-ng/0.19.02/stress-sysinfo.c /usr/src/debug/stress-ng/0.19.02/stress-sigabrt.c /usr/src/debug/stress-ng/0.19.02/stress-sigchld.c /usr/src/debug/stress-ng/0.19.02/stress-signest.c /usr/src/debug/stress-ng/0.19.02/stress-sigpipe.
+ c /usr/src/debug/stress-ng/0.19.02/stress-sigsegv.c /usr/src/debug/stress-ng/0.19.02/stress-sigtrap.c /usr/src/debug/stress-ng/0.19.02/stress-sigxcpu.c /usr/src/debug/stress-ng/0.19.02/stress-sigxfsz.c /usr/src/debug/stress-ng/0.19.02/stress-mutex.c /usr/src/debug/stress-ng/0.19.02/stress-unlink.c /usr/src/debug/stress-ng/0.19.02/stress-matrix.c /usr/src/debug/stress-ng/0.19.02/stress-sigill.c /usr/src/debug/stress-ng/0.19.02/core-out-of-memory.h /usr/src/debug/stress-ng/0.19.02/stress-cpu-sched.c /usr/src/debug/stress-ng/0.19.02/stress-fd-fork.c /usr/src/debug/stress-ng/0.19.02/stress-fd-race.c /usr/src/debug/stress-ng/0.19.02/stress-touch.c /usr/src/debug/stress-ng/0.19.02/core-out-of-memory.c /usr/src/debug/stress-ng/0.19.02/core-try-open.h /usr/src/debug/stress-ng/0.19.02/stress-env.c /usr/src/debug/stress-ng/0.19.02/core-try-open.c /usr/src/debug/stress-ng/0.19.02/stress-led.c /usr/src/debug/stress-ng/0.19.02/stress-aio.c /usr/src/debug/stress-ng/0.19.02/stress-netdev.c /usr/sr
+ c/debug/stress-ng/0.19.02/stress-plugin.c /usr/src/debug/stress-ng/0.19.02/stress-cache.c /usr/src/debug/stress-ng/0.19.02/stress-eventfd.c /usr/src/debug/stress-ng/0.19.02/stress-tmpfs.c /usr/src/debug/stress-ng/0.19.02/stress-hash.c /usr/src/debug/stress-ng/0.19.02/stress-sock.c /usr/src/debug/stress-ng/0.19.02/stress-crypt.c /usr/src/debug/stress-ng/0.19.02/stress-mq.c /usr/src/debug/stress-ng/0.19.02/stress-mtx.c /usr/src/debug/stress-ng/0.19.02/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.19.02/stress-lockf.c /usr/src/debug/stress-ng/0.19.02/stress-sigpending.c /usr/src/debug/stress-ng/0.19.02/stress-rtc.c /usr/src/debug/stress-ng/0.19.02/stress-insertionsort.c /usr/src/debug/stress-ng/0.19.02/stress-zombie.c /usr/src/debug/stress-ng/0.19.02/stress-urandom.c /usr/src/debug/stress-ng/0.19.02/stress-ptr-chase.c /usr/src/debug/stress-ng/0.19.02/stress-spawn.c /usr/src/debug/stress-ng/0.19.02/stress-powmath.c /usr/src/debug/stress-ng/0.19.02/stress-iomix.c /usr/src/debug/stres
+ s-ng/0.19.02/stress-chown.c /usr/src/debug/stress-ng/0.19.02/stress-exit-group.c /usr/src/debug/stress-ng/0.19.02/stress-fibsearch.c /usr/src/debug/stress-ng/0.19.02/core-limit.h /usr/src/debug/stress-ng/0.19.02/stress-getdent.c /usr/src/debug/stress-ng/0.19.02/core-limit.c /usr/src/debug/stress-ng/0.19.02/stress-physmmap.c /usr/src/debug/stress-ng/0.19.02/stress-physpage.c /usr/src/debug/stress-ng/0.19.02/stress-factor.c /usr/src/debug/stress-ng/0.19.02/stress-remap.c /usr/src/debug/stress-ng/0.19.02/stress-nice.c /usr/src/debug/stress-ng/0.19.02/stress-utime.c /usr/src/debug/stress-ng/0.19.02/core-rapl.h /usr/src/debug/stress-ng/0.19.02/stress-rlimit.c /usr/src/debug/stress-ng/0.19.02/core-config-check.c /usr/src/debug/stress-ng/0.19.02/core-rapl.c /usr/src/debug/stress-ng/0.19.02/core-config-check.h /usr/src/debug/stress-ng/0.19.02/stress-pkey.c /usr/src/debug/stress-ng/0.19.02/stress-waitcpu.c /usr/src/debug/stress-ng/0.19.02/stress-mmapaddr.c /usr/src/debug/stress-ng/0.19.02/st
+ ress-mmapfork.c /usr/src/debug/stress-ng/0.19.02/stress-mmaphuge.c /usr/src/debug/stress-ng/0.19.02/stress-mmapmany.c /usr/src/debug/stress-ng/0.19.02/stress-bad-altstack.c /usr/src/debug/stress-ng/0.19.02/core-pthread.h /usr/src/debug/stress-ng/0.19.02/core-job.c /usr/src/debug/stress-ng/0.19.02/core-mmap.h /usr/src/debug/stress-ng/0.19.02/core-ftrace.h /usr/src/debug/stress-ng/0.19.02/core-mmap.c /usr/src/debug/stress-ng/0.19.02/core-job.h /usr/src/debug/stress-ng/0.19.02/core-arch.c /usr/src/debug/stress-ng/0.19.02/core-bitops.h /usr/src/debug/stress-ng/0.19.02/core-ftrace.c /usr/src/debug/stress-ng/0.19.02/stress-fp-error.c /usr/src/debug/stress-ng/0.19.02/stress-msyncmany.c /usr/src/debug/stress-ng/0.19.02/stress-lsm.c /usr/src/debug/stress-ng/0.19.02/stress-rseq.c /usr/src/debug/stress-ng/0.19.02/stress-mlock.c /usr/src/debug/stress-ng/0.19.02/stress-sem-sysv.c /usr/src/debug/stress-ng/0.19.02/stress-sendfile.c /usr/src/debug/stress-ng/0.19.02/stress-usersyscall.c /usr/src/deb
+ ug/stress-ng/0.19.02/stress-sigfpe.c /usr/src/debug/stress-ng/0.19.02/stress-inotify.c /usr/src/debug/stress-ng/0.19.02/stress-intmath.c /usr/src/debug/stress-ng/0.19.02/stress-kcmp.c /usr/src/debug/stress-ng/0.19.02/core-cpu-cache.h /usr/src/debug/stress-ng/0.19.02/stress-copy-file.c /usr/src/debug/stress-ng/0.19.02/core-killpid.c /usr/src/debug/stress-ng/0.19.02/stress-monte-carlo.c /usr/src/debug/stress-ng/0.19.02/core-killpid.h /usr/src/debug/stress-ng/0.19.02/stress-landlock.c /usr/src/debug/stress-ng/0.19.02/core-cpu-cache.c /usr/src/debug/stress-ng/0.19.02/stress-af-alg.c /usr/src/debug/stress-ng/0.19.02/stress-bind-mount.c /usr/src/debug/stress-ng/0.19.02/core-ignite-cpu.h /usr/src/debug/stress-ng/0.19.02/core-ignite-cpu.c /usr/src/debug/stress-ng/0.19.02/stress-chroot.c /usr/src/debug/stress-ng/0.19.02/stress-clock.c /usr/src/debug/stress-ng/0.19.02/core-net.h /usr/src/debug/stress-ng/0.19.02/core-put.h /usr/src/debug/stress-ng/0.19.02/core-net.c /usr/src/debug/stress-ng/0.
+ 19.02/stress-sparsematrix.c /usr/src/debug/stress-ng/0.19.02/stress-bitonicsort.c", added "/usr/src/debug/stress-ng/0.19.04/stress-softlockup.c /usr/src/debug/stress-ng/0.19.04/stress-pagemove.c /usr/src/debug/stress-ng/0.19.04/stress-pipeherd.c /usr/src/debug/stress-ng/0.19.04/stress-pageswap.c /usr/src/debug/stress-ng/0.19.04/stress-enosys.c /usr/src/debug/stress-ng/0.19.04/stress-ng.h /usr/src/debug/stress-ng/0.19.04/stress-randlist.c /usr/src/debug/stress-ng/0.19.04/stress-ng.c /usr/src/debug/stress-ng/0.19.04/stress-veccmp.c /usr/src/debug/stress-ng/0.19.04/stress-fsize.c /usr/src/debug/stress-ng/0.19.04/stress-cachehammer.c /usr/src/debug/stress-ng/0.19.04/stress-memthrash.c /usr/src/debug/stress-ng/0.19.04/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.19.04/core-sync.h /usr/src/debug/stress-ng/0.19.04/core-resources.h /usr/src/debug/stress-ng/0.19.04/stress-mremap.c /usr/src/debug/stress-ng/0.19.04/stress-x86cpuid.c /usr/src/debug/stress-ng/0.19.04/stress-far-branch.c /usr/s
+ rc/debug/stress-ng/0.19.04/core-resources.c /usr/src/debug/stress-ng/0.19.04/core-sync.c /usr/src/debug/stress-ng/0.19.04/stress-binderfs.c /usr/src/debug/stress-ng/0.19.04/stress-fcntl.c /usr/src/debug/stress-ng/0.19.04/stress-dccp.c /usr/src/debug/stress-ng/0.19.04/stress-mmapfixed.c /usr/src/debug/stress-ng/0.19.04/stress-msg.c /usr/src/debug/stress-ng/0.19.04/stress-fractal.c /usr/src/debug/stress-ng/0.19.04/stress-sem.c /usr/src/debug/stress-ng/0.19.04/stress-fiemap.c /usr/src/debug/stress-ng/0.19.04/core-memory.c /usr/src/debug/stress-ng/0.19.04/core-memory.h /usr/src/debug/stress-ng/0.19.04/stress-filename.c /usr/src/debug/stress-ng/0.19.04/stress-filerace.c /usr/src/debug/stress-ng/0.19.04/stress-fanotify.c /usr/src/debug/stress-ng/0.19.04/stress-kill.c /usr/src/debug/stress-ng/0.19.04/stress-rawsock.c /usr/src/debug/stress-ng/0.19.04/stress-dev.c /usr/src/debug/stress-ng/0.19.04/stress-handle.c /usr/src/debug/stress-ng/0.19.04/core-prime.h /usr/src/debug/stress-ng/0.19.04/s
+ tress-pci.c /usr/src/debug/stress-ng/0.19.04/stress-judy.c /usr/src/debug/stress-ng/0.19.04/stress-vm-splice.c /usr/src/debug/stress-ng/0.19.04/core-prime.c /usr/src/debug/stress-ng/0.19.04/stress-fstat.c /usr/src/debug/stress-ng/0.19.04/stress-nanosleep.c /usr/src/debug/stress-ng/0.19.04/stress-icmp-flood.c /usr/src/debug/stress-ng/0.19.04/stress-key.c /usr/src/debug/stress-ng/0.19.04/stress-procfs.c /usr/src/debug/stress-ng/0.19.04/stress-zlib.c /usr/src/debug/stress-ng/0.19.04/stress-resources.c /usr/src/debug/stress-ng/0.19.04/stress-affinity.c /usr/src/debug/stress-ng/0.19.04/stress-stack.c /usr/src/debug/stress-ng/0.19.04/stress-chdir.c /usr/src/debug/stress-ng/0.19.04/core-vmstat.h /usr/src/debug/stress-ng/0.19.04/stress-numa.c /usr/src/debug/stress-ng/0.19.04/core-thrash.c /usr/src/debug/stress-ng/0.19.04/core-vmstat.c /usr/src/debug/stress-ng/0.19.04/core-thrash.h /usr/src/debug/stress-ng/0.19.04/stress-dnotify.c /usr/src/debug/stress-ng/0.19.04/stress-hrtimers.c /usr/src/d
+ ebug/stress-ng/0.19.04/stress-mergesort.c /usr/src/debug/stress-ng/0.19.04/stress-hsearch.c /usr/src/debug/stress-ng/0.19.04/stress-sigurg.c /usr/src/debug/stress-ng/0.19.04/stress-rawdev.c /usr/src/debug/stress-ng/0.19.04/stress-idle-page.c /usr/src/debug/stress-ng/0.19.04/stress-hyperbolic.c /usr/src/debug/stress-ng/0.19.04/stress-prefetch.c /usr/src/debug/stress-ng/0.19.04/stress-prio-inv.c /usr/src/debug/stress-ng/0.19.04/stress-chyperbolic.c /usr/src/debug/stress-ng/0.19.04/stress-radixsort.c /usr/src/debug/stress-ng/0.19.04/core-mincore.h /usr/src/debug/stress-ng/0.19.04/core-mincore.c /usr/src/debug/stress-ng/0.19.04/stress-poll.c /usr/src/debug/stress-ng/0.19.04/stress-llc-affinity.c /usr/src/debug/stress-ng/0.19.04/stress-rmap.c /usr/src/debug/stress-ng/0.19.04/stress-jpeg.c /usr/src/debug/stress-ng/0.19.04/stress-mseal.c /usr/src/debug/stress-ng/0.19.04/stress-malloc.c /usr/src/debug/stress-ng/0.19.04/stress-min-nanosleep.c /usr/src/debug/stress-ng/0.19.04/stress-branch.c 
+ /usr/src/debug/stress-ng/0.19.04/stress-oom-pipe.c /usr/src/debug/stress-ng/0.19.04/core-madvise.c /usr/src/debug/stress-ng/0.19.04/stress-funcret.c /usr/src/debug/stress-ng/0.19.04/core-madvise.h /usr/src/debug/stress-ng/0.19.04/core-mounts.c /usr/src/debug/stress-ng/0.19.04/stress-io-uring.c /usr/src/debug/stress-ng/0.19.04/core-mounts.h /usr/src/debug/stress-ng/0.19.04/stress-close.c /usr/src/debug/stress-ng/0.19.04/stress-sigrt.c /usr/src/debug/stress-ng/0.19.04/core-config.c /usr/src/debug/stress-ng/0.19.04/stress-hdd.c /usr/src/debug/stress-ng/0.19.04/stress-workload.c /usr/src/debug/stress-ng/0.19.04/stress-misaligned.c /usr/src/debug/stress-ng/0.19.04/stress-epoll.c /usr/src/debug/stress-ng/0.19.04/stress-sockdiag.c /usr/src/debug/stress-ng/0.19.04/stress-dir.c /usr/src/debug/stress-ng/0.19.04/stress-sockmany.c /usr/src/debug/stress-ng/0.19.04/stress-sockpair.c /usr/src/debug/stress-ng/0.19.04/stress-madvise.c /usr/src/debug/stress-ng/0.19.04/stress-mincore.c /usr/src/debug/
+ stress-ng/0.19.04/stress-inode-flags.c /usr/src/debug/stress-ng/0.19.04/stress-seal.c /usr/src/debug/stress-ng/0.19.04/core-mlock.h /usr/src/debug/stress-ng/0.19.04/core-mlock.c /usr/src/debug/stress-ng/0.19.04/stress-pseek.c /usr/src/debug/stress-ng/0.19.04/stress-efivar.c /usr/src/debug/stress-ng/0.19.04/stress-dirdeep.c /usr/src/debug/stress-ng/0.19.04/stress-dirmany.c /usr/src/debug/stress-ng/0.19.04/core-helper.c /usr/src/debug/stress-ng/0.19.04/stress-lsearch.c /usr/src/debug/stress-ng/0.19.04/core-helper.h /usr/src/debug/stress-ng/0.19.04/stress-link.c /usr/src/debug/stress-ng/0.19.04/stress-daemon.c /usr/src/debug/stress-ng/0.19.04/stress-sync-file.c /usr/src/debug/stress-ng/0.19.04/stress-smi.c /usr/src/debug/stress-ng/0.19.04/stress-shellsort.c /usr/src/debug/stress-ng/0.19.04/stress-cyclic.c /usr/src/debug/stress-ng/0.19.04/stress-sigbus.c /usr/src/debug/stress-ng/0.19.04/stress-clone.c /usr/src/debug/stress-ng/0.19.04/stress-sigio.c /usr/src/debug/stress-ng/0.19.04/stres
+ s-vnni.c /usr/src/debug/stress-ng/0.19.04/core-parse-opts.h /usr/src/debug/stress-ng/0.19.04/stress-tsc.c /usr/src/debug/stress-ng/0.19.04/core-parse-opts.c /usr/src/debug/stress-ng/0.19.04/stress-sigvtalrm.c /usr/src/debug/stress-ng/0.19.04/stress-sigsuspend.c /usr/src/debug/stress-ng/0.19.04/stress-module.c /usr/src/debug/stress-ng/0.19.04/stress-switch.c /usr/src/debug/stress-ng/0.19.04/stress-seccomp.c /usr/src/debug/stress-ng/0.19.04/stress-session.c /usr/src/debug/stress-ng/0.19.04/stress-null.c /usr/src/debug/stress-ng/0.19.04/stress-mprotect.c /usr/src/debug/stress-ng/0.19.04/stress-gpu.c /usr/src/debug/stress-ng/0.19.04/stress-bsearch.c /usr/src/debug/stress-ng/0.19.04/stress-userfaultfd.c /usr/src/debug/stress-ng/0.19.04/stress-memcpy.c /usr/src/debug/stress-ng/0.19.04/stress-time-warp.c /usr/src/debug/stress-ng/0.19.04/stress-yield.c /usr/src/debug/stress-ng/0.19.04/stress-chattr.c /usr/src/debug/stress-ng/0.19.04/stress-easy-opcode.c /usr/src/debug/stress-ng/0.19.04/stre
+ ss-sigfd.c /usr/src/debug/stress-ng/0.19.04/stress-kvm.c /usr/src/debug/stress-ng/0.19.04/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.19.04/stress-file-ioctl.c /usr/src/debug/stress-ng/0.19.04/stress-mmaptorture.c /usr/src/debug/stress-ng/0.19.04/stress-wait.c /usr/src/debug/stress-ng/0.19.04/stress-dynlib.c /usr/src/debug/stress-ng/0.19.04/stress-mlockmany.c /usr/src/debug/stress-ng/0.19.04/stress-udp.c /usr/src/debug/stress-ng/0.19.04/stress-getrandom.c /usr/src/debug/stress-ng/0.19.04/stress-ioprio.c /usr/src/debug/stress-ng/0.19.04/stress-shm-sysv.c /usr/src/debug/stress-ng/0.19.04/core-hash.h /usr/src/debug/stress-ng/0.19.04/stress-quota.c /usr/src/debug/stress-ng/0.19.04/core-lock.h /usr/src/debug/stress-ng/0.19.04/stress-priv-instr.c /usr/src/debug/stress-ng/0.19.04/core-hash.c /usr/src/debug/stress-ng/0.19.04/stress-umask.c /usr/src/debug/stress-ng/0.19.04/stress-vm.c /usr/src/debug/stress-ng/0.19.04/core-lock.c /usr/src/debug/stress-ng/0.19.04/stress-mknod.c /usr/src/debug
+ /stress-ng/0.19.04/stress-regs.c /usr/src/debug/stress-ng/0.19.04/core-log.c /usr/src/debug/stress-ng/0.19.04/core-log.h /usr/src/debug/stress-ng/0.19.04/stress-fork.c /usr/src/debug/stress-ng/0.19.04/stress-apparmor.c /usr/src/debug/stress-ng/0.19.04/stress-vm-rw.c /usr/src/debug/stress-ng/0.19.04/stress-unshare.c /usr/src/debug/stress-ng/0.19.04/core-mwc.c /usr/src/debug/stress-ng/0.19.04/stress-personality.c /usr/src/debug/stress-ng/0.19.04/core-mwc.h /usr/src/debug/stress-ng/0.19.04/stress-loop.c /usr/src/debug/stress-ng/0.19.04/stress-goto.c /usr/src/debug/stress-ng/0.19.04/stress-pidfd.c /usr/src/debug/stress-ng/0.19.04/stress-sctp.c /usr/src/debug/stress-ng/0.19.04/stress-flock.c /usr/src/debug/stress-ng/0.19.04/stress-locka.c /usr/src/debug/stress-ng/0.19.04/stress-chmod.c /usr/src/debug/stress-ng/0.19.04/stress-ptrace.c /usr/src/debug/stress-ng/0.19.04/stress-full.c /usr/src/debug/stress-ng/0.19.04/stress-fault.c /usr/src/debug/stress-ng/0.19.04/stress-fallocate.c /usr/src/
+ debug/stress-ng/0.19.04/stress-cpu-online.c /usr/src/debug/stress-ng/0.19.04/stress-netlink-proc.c /usr/src/debug/stress-ng/0.19.04/stress-pipe.c /usr/src/debug/stress-ng/0.19.04/stress-icache.c /usr/src/debug/stress-ng/0.19.04/core-processes.h /usr/src/debug/stress-ng/0.19.04/core-processes.c /usr/src/debug/stress-ng/0.19.04/stress-cap.c /usr/src/debug/stress-ng/0.19.04/core-smart.c /usr/src/debug/stress-ng/0.19.04/stress-rename.c /usr/src/debug/stress-ng/0.19.04/stress-spinmem.c /usr/src/debug/stress-ng/0.19.04/core-smart.h /usr/src/debug/stress-ng/0.19.04/core-opts.c /usr/src/debug/stress-ng/0.19.04/core-io-priority.c /usr/src/debug/stress-ng/0.19.04/stress-alarm.c /usr/src/debug/stress-ng/0.19.04/stress-memfd.c /usr/src/debug/stress-ng/0.19.04/core-io-priority.h /usr/src/debug/stress-ng/0.19.04/stress-race-sched.c /usr/src/debug/stress-ng/0.19.04/core-opts.h /usr/src/debug/stress-ng/0.19.04/stress-bitops.c /usr/src/debug/stress-ng/0.19.04/stress-fp.c /usr/src/debug/stress-ng/0.1
+ 9.04/stress-fd-abuse.c /usr/src/debug/stress-ng/0.19.04/stress-flipflop.c /usr/src/debug/stress-ng/0.19.04/stress-watchdog.c /usr/src/debug/stress-ng/0.19.04/core-asm-x86.h /usr/src/debug/stress-ng/0.19.04/core-cpu.c /usr/src/debug/stress-ng/0.19.04/core-cpu.h /usr/src/debug/stress-ng/0.19.04/stress-syncload.c /usr/src/debug/stress-ng/0.19.04/stress-sysinval.c /usr/src/debug/stress-ng/0.19.04/stress-ctrig.c /usr/src/debug/stress-ng/0.19.04/core-filesystem.h /usr/src/debug/stress-ng/0.19.04/core-filesystem.c /usr/src/debug/stress-ng/0.19.04/stress-aiol.c /usr/src/debug/stress-ng/0.19.04/stress-brk.c /usr/src/debug/stress-ng/0.19.04/stress-flushcache.c /usr/src/debug/stress-ng/0.19.04/stress-lease.c /usr/src/debug/stress-ng/0.19.04/stress-munmap.c /usr/src/debug/stress-ng/0.19.04/stress-xattr.c /usr/src/debug/stress-ng/0.19.04/stress-reboot.c /usr/src/debug/stress-ng/0.19.04/stress-heapsort.c /usr/src/debug/stress-ng/0.19.04/stress-timer.c /usr/src/debug/stress-ng/0.19.04/stress-l1cac
+ he.c /usr/src/debug/stress-ng/0.19.04/stress-rotate.c /usr/src/debug/stress-ng/0.19.04/stress-mpfr.c /usr/src/debug/stress-ng/0.19.04/stress-msync.c /usr/src/debug/stress-ng/0.19.04/stress-sockabuse.c /usr/src/debug/stress-ng/0.19.04/stress-klog.c /usr/src/debug/stress-ng/0.19.04/stress-forkheavy.c /usr/src/debug/stress-ng/0.19.04/stress-futex.c /usr/src/debug/stress-ng/0.19.04/stress-context.c /usr/src/debug/stress-ng/0.19.04/stress-peterson.c /usr/src/debug/stress-ng/0.19.04/stress-tsearch.c /usr/src/debug/stress-ng/0.19.04/stress-pty.c /usr/src/debug/stress-ng/0.19.04/stress-tree.c /usr/src/debug/stress-ng/0.19.04/core-capabilities.h /usr/src/debug/stress-ng/0.19.04/core-sched.c /usr/src/debug/stress-ng/0.19.04/core-sched.h /usr/src/debug/stress-ng/0.19.04/core-capabilities.c /usr/src/debug/stress-ng/0.19.04/stress-prime.c /usr/src/debug/stress-ng/0.19.04/stress-sigq.c /usr/src/debug/stress-ng/0.19.04/stress-qsort.c /usr/src/debug/stress-ng/0.19.04/stress-itimer.c /usr/src/debug/
+ stress-ng/0.19.04/stress-swap.c /usr/src/debug/stress-ng/0.19.04/core-shim.c /usr/src/debug/stress-ng/0.19.04/stress-memhotplug.c /usr/src/debug/stress-ng/0.19.04/stress-vecfp.c /usr/src/debug/stress-ng/0.19.04/stress-dekker.c /usr/src/debug/stress-ng/0.19.04/stress-schedpolicy.c /usr/src/debug/stress-ng/0.19.04/core-asm-generic.h /usr/src/debug/stress-ng/0.19.04/stress-dfp.c /usr/src/debug/stress-ng/0.19.04/stress-vforkmany.c /usr/src/debug/stress-ng/0.19.04/core-shim.h /usr/src/debug/stress-ng/0.19.04/stress-bigheap.c /usr/src/debug/stress-ng/0.19.04/stress-syscall.c /usr/src/debug/stress-ng/0.19.04/stress-io.c /usr/src/debug/stress-ng/0.19.04/stress-nop.c /usr/src/debug/stress-ng/0.19.04/core-module.h /usr/src/debug/stress-ng/0.19.04/stress-matrix-3d.c /usr/src/debug/stress-ng/0.19.04/core-module.c /usr/src/debug/stress-ng/0.19.04/stress-ring-pipe.c /usr/src/debug/stress-ng/0.19.04/stress-eigen.c /usr/src/debug/stress-ng/0.19.04/stress-seek.c /usr/src/debug/stress-ng/0.19.04/stre
+ ss-funccall.c /usr/src/debug/stress-ng/0.19.04/stress-resched.c /usr/src/debug/stress-ng/0.19.04/stress-ioport.c /usr/src/debug/stress-ng/0.19.04/stress-mmap.c /usr/src/debug/stress-ng/0.19.04/stress-splice.c /usr/src/debug/stress-ng/0.19.04/stress-regex.c /usr/src/debug/stress-ng/0.19.04/stress-expmath.c /usr/src/debug/stress-ng/0.19.04/stress-rawpkt.c /usr/src/debug/stress-ng/0.19.04/core-shared-cache.c /usr/src/debug/stress-ng/0.19.04/core-cpuidle.c /usr/src/debug/stress-ng/0.19.04/core-shared-cache.h /usr/src/debug/stress-ng/0.19.04/core-cpuidle.h /usr/src/debug/stress-ng/0.19.04/stress-sighup.c /usr/src/debug/stress-ng/0.19.04/stress-zero.c /usr/src/debug/stress-ng/0.19.04/stress-open.c /usr/src/debug/stress-ng/0.19.04/stress-str.c /usr/src/debug/stress-ng/0.19.04/stress-exec.c /usr/src/debug/stress-ng/0.19.04/stress-shm.c /usr/src/debug/stress-ng/0.19.04/stress-trig.c /usr/src/debug/stress-ng/0.19.04/stress-readahead.c /usr/src/debug/stress-ng/0.19.04/stress-umount.c /usr/src/
+ debug/stress-ng/0.19.04/stress-wcs.c /usr/src/debug/stress-ng/0.19.04/stress-ping-sock.c /usr/src/debug/stress-ng/0.19.04/core-setting.c /usr/src/debug/stress-ng/0.19.04/core-setting.h /usr/src/debug/stress-ng/0.19.04/stress-acl.c /usr/src/debug/stress-ng/0.19.04/core-interrupts.c /usr/src/debug/stress-ng/0.19.04/stress-prctl.c /usr/src/debug/stress-ng/0.19.04/stress-set.c /usr/src/debug/stress-ng/0.19.04/stress-tun.c /usr/src/debug/stress-ng/0.19.04/core-interrupts.h /usr/src/debug/stress-ng/0.19.04/stress-tee.c /usr/src/debug/stress-ng/0.19.04/stress-fma.c /usr/src/debug/stress-ng/0.19.04/stress-access.c /usr/src/debug/stress-ng/0.19.04/stress-revio.c /usr/src/debug/stress-ng/0.19.04/stress-mcontend.c /usr/src/debug/stress-ng/0.19.04/core-numa.c /usr/src/debug/stress-ng/0.19.04/core-shared-heap.c /usr/src/debug/stress-ng/0.19.04/core-numa.h /usr/src/debug/stress-ng/0.19.04/core-shared-heap.h /usr/src/debug/stress-ng/0.19.04/stress-atomic.c /usr/src/debug/stress-ng/0.19.04/core-asm
+ -ret.h /usr/src/debug/stress-ng/0.19.04/core-klog.c /usr/src/debug/stress-ng/0.19.04/stress-vdso.c /usr/src/debug/stress-ng/0.19.04/core-klog.h /usr/src/debug/stress-ng/0.19.04/core-asm-ret.c /usr/src/debug/stress-ng/0.19.04/stress-udp-flood.c /usr/src/debug/stress-ng/0.19.04/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.19.04/core-thermal-zone.c /usr/src/debug/stress-ng/0.19.04/stress-besselmath.c /usr/src/debug/stress-ng/0.19.04/core-thermal-zone.h /usr/src/debug/stress-ng/0.19.04/stress-stream.c /usr/src/debug/stress-ng/0.19.04/stress-vecmath.c /usr/src/debug/stress-ng/0.19.04/stress-vecshuf.c /usr/src/debug/stress-ng/0.19.04/stress-vecwide.c /usr/src/debug/stress-ng/0.19.04/stress-bubblesort.c /usr/src/debug/stress-ng/0.19.04/stress-fifo.c /usr/src/debug/stress-ng/0.19.04/stress-fpunch.c /usr/src/debug/stress-ng/0.19.04/stress-vm-addr.c /usr/src/debug/stress-ng/0.19.04/stress-vm-segv.c /usr/src/debug/stress-ng/0.19.04/core-nt-store.h /usr/src/debug/stress-ng/0.19.04/stress-mmapf
+ iles.c /usr/src/debug/stress-ng/0.19.04/stress-netlink-task.c /usr/src/debug/stress-ng/0.19.04/stress-schedmix.c /usr/src/debug/stress-ng/0.19.04/stress-skiplist.c /usr/src/debug/stress-ng/0.19.04/stress-cpu.c /usr/src/debug/stress-ng/0.19.04/stress-memrate.c /usr/src/debug/stress-ng/0.19.04/stress-metamix.c /usr/src/debug/stress-ng/0.19.04/stress-mmapcow.c /usr/src/debug/stress-ng/0.19.04/stress-rawudp.c /usr/src/debug/stress-ng/0.19.04/stress-opcode.c /usr/src/debug/stress-ng/0.19.04/stress-verity.c /usr/src/debug/stress-ng/0.19.04/stress-stackmmap.c /usr/src/debug/stress-ng/0.19.04/stress-cacheline.c /usr/src/debug/stress-ng/0.19.04/core-time.h /usr/src/debug/stress-ng/0.19.04/core-time.c /usr/src/debug/stress-ng/0.19.04/stress-x86syscall.c /usr/src/debug/stress-ng/0.19.04/core-signal.h /usr/src/debug/stress-ng/0.19.04/stress-dentry.c /usr/src/debug/stress-ng/0.19.04/stress-uprobe.c /usr/src/debug/stress-ng/0.19.04/core-perf.c /usr/src/debug/stress-ng/0.19.04/core-signal.c /usr/s
+ rc/debug/stress-ng/0.19.04/stress-ramfs.c /usr/src/debug/stress-ng/0.19.04/stress-sleep.c /usr/src/debug/stress-ng/0.19.04/core-perf.h /usr/src/debug/stress-ng/0.19.04/stress-dev-shm.c /usr/src/debug/stress-ng/0.19.04/stress-vma.c /usr/src/debug/stress-ng/0.19.04/stress-lockbus.c /usr/src/debug/stress-ng/0.19.04/stress-lockmix.c /usr/src/debug/stress-ng/0.19.04/stress-lockofd.c /usr/src/debug/stress-ng/0.19.04/stress-logmath.c /usr/src/debug/stress-ng/0.19.04/stress-longjmp.c /usr/src/debug/stress-ng/0.19.04/core-affinity.h /usr/src/debug/stress-ng/0.19.04/stress-list.c /usr/src/debug/stress-ng/0.19.04/stress-loadavg.c /usr/src/debug/stress-ng/0.19.04/stress-membarrier.c /usr/src/debug/stress-ng/0.19.04/stress-rdrand.c /usr/src/debug/stress-ng/0.19.04/core-affinity.c /usr/src/debug/stress-ng/0.19.04/stress-pthread.c /usr/src/debug/stress-ng/0.19.04/stress-dup.c /usr/src/debug/stress-ng/0.19.04/stress-statmount.c /usr/src/debug/stress-ng/0.19.04/stress-sysfs.c /usr/src/debug/stress-n
+ g/0.19.04/stress-get.c /usr/src/debug/stress-ng/0.19.04/stress-timerfd.c /usr/src/debug/stress-ng/0.19.04/core-sort.c /usr/src/debug/stress-ng/0.19.04/stress-signal.c /usr/src/debug/stress-ng/0.19.04/stress-cgroup.c /usr/src/debug/stress-ng/0.19.04/stress-secretmem.c /usr/src/debug/stress-ng/0.19.04/core-sort.h /usr/src/debug/stress-ng/0.19.04/core-clocksource.h /usr/src/debug/stress-ng/0.19.04/stress-sockfd.c /usr/src/debug/stress-ng/0.19.04/core-clocksource.c /usr/src/debug/stress-ng/0.19.04/stress-sysinfo.c /usr/src/debug/stress-ng/0.19.04/stress-sigabrt.c /usr/src/debug/stress-ng/0.19.04/stress-sigchld.c /usr/src/debug/stress-ng/0.19.04/stress-signest.c /usr/src/debug/stress-ng/0.19.04/stress-sigpipe.c /usr/src/debug/stress-ng/0.19.04/stress-sigsegv.c /usr/src/debug/stress-ng/0.19.04/stress-sigtrap.c /usr/src/debug/stress-ng/0.19.04/stress-sigxcpu.c /usr/src/debug/stress-ng/0.19.04/stress-sigxfsz.c /usr/src/debug/stress-ng/0.19.04/stress-mutex.c /usr/src/debug/stress-ng/0.19.04/
+ stress-unlink.c /usr/src/debug/stress-ng/0.19.04/stress-matrix.c /usr/src/debug/stress-ng/0.19.04/stress-sigill.c /usr/src/debug/stress-ng/0.19.04/core-out-of-memory.h /usr/src/debug/stress-ng/0.19.04/stress-cpu-sched.c /usr/src/debug/stress-ng/0.19.04/stress-fd-fork.c /usr/src/debug/stress-ng/0.19.04/stress-fd-race.c /usr/src/debug/stress-ng/0.19.04/stress-touch.c /usr/src/debug/stress-ng/0.19.04/core-out-of-memory.c /usr/src/debug/stress-ng/0.19.04/core-try-open.h /usr/src/debug/stress-ng/0.19.04/stress-env.c /usr/src/debug/stress-ng/0.19.04/core-try-open.c /usr/src/debug/stress-ng/0.19.04/stress-led.c /usr/src/debug/stress-ng/0.19.04/stress-aio.c /usr/src/debug/stress-ng/0.19.04/stress-netdev.c /usr/src/debug/stress-ng/0.19.04/stress-plugin.c /usr/src/debug/stress-ng/0.19.04/stress-cache.c /usr/src/debug/stress-ng/0.19.04/stress-eventfd.c /usr/src/debug/stress-ng/0.19.04/stress-tmpfs.c /usr/src/debug/stress-ng/0.19.04/stress-hash.c /usr/src/debug/stress-ng/0.19.04/stress-sock.c /
+ usr/src/debug/stress-ng/0.19.04/stress-crypt.c /usr/src/debug/stress-ng/0.19.04/stress-mq.c /usr/src/debug/stress-ng/0.19.04/stress-mtx.c /usr/src/debug/stress-ng/0.19.04/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.19.04/stress-lockf.c /usr/src/debug/stress-ng/0.19.04/stress-sigpending.c /usr/src/debug/stress-ng/0.19.04/stress-rtc.c /usr/src/debug/stress-ng/0.19.04/stress-insertionsort.c /usr/src/debug/stress-ng/0.19.04/stress-zombie.c /usr/src/debug/stress-ng/0.19.04/stress-urandom.c /usr/src/debug/stress-ng/0.19.04/stress-ptr-chase.c /usr/src/debug/stress-ng/0.19.04/stress-spawn.c /usr/src/debug/stress-ng/0.19.04/stress-powmath.c /usr/src/debug/stress-ng/0.19.04/stress-iomix.c /usr/src/debug/stress-ng/0.19.04/stress-chown.c /usr/src/debug/stress-ng/0.19.04/stress-exit-group.c /usr/src/debug/stress-ng/0.19.04/stress-fibsearch.c /usr/src/debug/stress-ng/0.19.04/core-limit.h /usr/src/debug/stress-ng/0.19.04/stress-getdent.c /usr/src/debug/stress-ng/0.19.04/core-limit.c /usr/src
+ /debug/stress-ng/0.19.04/stress-physmmap.c /usr/src/debug/stress-ng/0.19.04/stress-physpage.c /usr/src/debug/stress-ng/0.19.04/stress-factor.c /usr/src/debug/stress-ng/0.19.04/stress-remap.c /usr/src/debug/stress-ng/0.19.04/stress-nice.c /usr/src/debug/stress-ng/0.19.04/stress-mmaprandom.c /usr/src/debug/stress-ng/0.19.04/stress-utime.c /usr/src/debug/stress-ng/0.19.04/core-rapl.h /usr/src/debug/stress-ng/0.19.04/stress-rlimit.c /usr/src/debug/stress-ng/0.19.04/core-config-check.c /usr/src/debug/stress-ng/0.19.04/core-rapl.c /usr/src/debug/stress-ng/0.19.04/core-config-check.h /usr/src/debug/stress-ng/0.19.04/stress-pkey.c /usr/src/debug/stress-ng/0.19.04/stress-waitcpu.c /usr/src/debug/stress-ng/0.19.04/stress-mmapaddr.c /usr/src/debug/stress-ng/0.19.04/stress-mmapfork.c /usr/src/debug/stress-ng/0.19.04/stress-mmaphuge.c /usr/src/debug/stress-ng/0.19.04/stress-mmapmany.c /usr/src/debug/stress-ng/0.19.04/stress-bad-altstack.c /usr/src/debug/stress-ng/0.19.04/core-pthread.h /usr/src/
+ debug/stress-ng/0.19.04/core-job.c /usr/src/debug/stress-ng/0.19.04/core-mmap.h /usr/src/debug/stress-ng/0.19.04/core-ftrace.h /usr/src/debug/stress-ng/0.19.04/core-mmap.c /usr/src/debug/stress-ng/0.19.04/core-job.h /usr/src/debug/stress-ng/0.19.04/core-arch.c /usr/src/debug/stress-ng/0.19.04/core-bitops.h /usr/src/debug/stress-ng/0.19.04/core-ftrace.c /usr/src/debug/stress-ng/0.19.04/core-cpu-freq.h /usr/src/debug/stress-ng/0.19.04/core-stack.h /usr/src/debug/stress-ng/0.19.04/core-stack.c /usr/src/debug/stress-ng/0.19.04/core-cpu-freq.c /usr/src/debug/stress-ng/0.19.04/stress-fp-error.c /usr/src/debug/stress-ng/0.19.04/stress-msyncmany.c /usr/src/debug/stress-ng/0.19.04/stress-lsm.c /usr/src/debug/stress-ng/0.19.04/stress-rseq.c /usr/src/debug/stress-ng/0.19.04/stress-mlock.c /usr/src/debug/stress-ng/0.19.04/stress-sem-sysv.c /usr/src/debug/stress-ng/0.19.04/stress-sendfile.c /usr/src/debug/stress-ng/0.19.04/stress-usersyscall.c /usr/src/debug/stress-ng/0.19.04/stress-sigfpe.c /us
+ r/src/debug/stress-ng/0.19.04/stress-inotify.c /usr/src/debug/stress-ng/0.19.04/stress-intmath.c /usr/src/debug/stress-ng/0.19.04/stress-kcmp.c /usr/src/debug/stress-ng/0.19.04/core-cpu-cache.h /usr/src/debug/stress-ng/0.19.04/stress-copy-file.c /usr/src/debug/stress-ng/0.19.04/core-killpid.c /usr/src/debug/stress-ng/0.19.04/stress-monte-carlo.c /usr/src/debug/stress-ng/0.19.04/core-killpid.h /usr/src/debug/stress-ng/0.19.04/stress-landlock.c /usr/src/debug/stress-ng/0.19.04/core-cpu-cache.c /usr/src/debug/stress-ng/0.19.04/stress-af-alg.c /usr/src/debug/stress-ng/0.19.04/stress-bind-mount.c /usr/src/debug/stress-ng/0.19.04/core-ignite-cpu.h /usr/src/debug/stress-ng/0.19.04/core-ignite-cpu.c /usr/src/debug/stress-ng/0.19.04/stress-chroot.c /usr/src/debug/stress-ng/0.19.04/stress-clock.c /usr/src/debug/stress-ng/0.19.04/core-net.h /usr/src/debug/stress-ng/0.19.04/core-put.h /usr/src/debug/stress-ng/0.19.04/core-net.c /usr/src/debug/stress-ng/0.19.04/stress-sparsematrix.c /usr/src/deb
+ ug/stress-ng/0.19.04/stress-bitonicsort.c"
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.19.02 [default] to 0.19.04 [default]
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.19.02" to "0.19.04"
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng: PKGV changed from 0.19.02 [default] to 0.19.04 [default]
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 14916272 to 17652464 (+18%)
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng: PV changed from "0.19.02" to "0.19.04"
 
---===============5600452457109151469==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-ruby-upgrade-3.4.4-3.4.5.patch"
-
-RnJvbSAzNTMyYWYyMmQzYTg3MDk5ZTFhOTdjYTQ2NmRjOGEyMDMyMGNkZTAwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxOTowMDoyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1
-Ynk6IHVwZ3JhZGUgMy40LjQgLT4gMy40LjUKCi0tLQogLi4uMDAxLWV4dG1rLWZpeC1jcm9zcy1j
-b21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoIHwgNCArKy0tCiAuLi5tX2R1bXAuYy1E
-ZWZpbmUtUkVHX1MxLWFuZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggfCA0ICsrLS0KIC4u
-Li9ydWJ5LzAwMDItT2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoICB8
-IDIgKy0KIC4uLi9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUtZG9jdW1lbnRhdGlv
-bi5wYXRjaCB8IDggKysrKy0tLS0KIC4uLm1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxl
-cy1pbi1nZW5lcmF0ZWQtTS5wYXRjaCB8IDQgKystLQogLi4ucmstR2Vtc3BlYy1yZXByb2R1Y2li
-bGUtY2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIHwgMiArLQogLi4uL3J1YnkvcnVieS8w
-MDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoICAgICAgIHwgNCArKy0tCiAuLi4w
-Ny1Ta2lwLXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2ggfCA1
-ICstLS0tCiAuLi4vcnVieS97cnVieV8zLjQuNC5iYiA9PiBydWJ5XzMuNC41LmJifSAgICAgICAg
-ICAgICAgICAgfCAyICstCiA5IGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDE5IGRl
-bGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3tydWJ5XzMuNC40
-LmJiID0+IHJ1YnlfMy40LjUuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRl
-cm5hbC1nZW1zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLWV4
-dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCmluZGV4IGYx
-Nzk3MGU5YzkuLmNkZDdlOGY4OGUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vt
-cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtZXh0bWst
-Zml4LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVybmFsLWdlbXMucGF0Y2gKQEAgLTEsNCArMSw0
-IEBACi1Gcm9tIDAzNzAwZWMyNTY3ODllMDJkZTIwYjU4YmNhMDgwYzZmZWY1OTIzMzYgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGEwNWQ1MTYzMDY2YmNkNDY2ZjgzZTM5ZmM5NDZlZTYw
-OWFjNzUyNGIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiA9P1VURi04P3E/QW5kcj1D
-Mz1BOT0yMERyYXN6aWs/PSA8YW5kcmUuZHJhc3ppa0BqY2kuY29tPgogRGF0ZTogTW9uLCAzMCBT
-ZXAgMjAxOSAxNjo1NzowMSArMDEwMAogU3ViamVjdDogW1BBVENIXSBleHRtazogZml4IGNyb3Nz
-LWNvbXBpbGF0aW9uIG9mIGV4dGVybmFsIGdlbXMKQEAgLTE2LDcgKzE2LDcgQEAgU2lnbmVkLW9m
-Zi1ieTogQW5kcsOpIERyYXN6aWsgPGFuZHJlLmRyYXN6aWtAamNpLmNvbT4KICAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2V4dC9l
-eHRtay5yYiBiL2V4dC9leHRtay5yYgotaW5kZXggOGI2YjM2NS4uMzA0OGY3NSAxMDA3NTUKK2lu
-ZGV4IDFkMTY1NDUuLmFkOTcxZWEgMTAwNzU1CiAtLS0gYS9leHQvZXh0bWsucmIKICsrKyBiL2V4
-dC9leHRtay5yYgogQEAgLTQzNCw4ICs0MzQsOCBAQCBlbHNlCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5k
-LVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJp
-c2N2LnBhdGNoCmluZGV4IDc5OTMyNGNhZWEuLjYwNDZjZDliNjMgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1h
-bmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1t
-dXNsLXJpc2N2LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmOTkyZDc4MWUwNWI2MTQ4OWJk
-ZjVhMmE5YWVlNmNjNjE2ZjE3NDJhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5NTY5
-NWJkMjA1YjFiZWQwMDdjOTFkNGM1MzQxZWJkOTViMDgyZGVlIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgMjUg
-SmFuIDIwMjIgMjA6Mjk6MTQgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdm1fZHVtcC5jOiBEZWZp
-bmUgUkVHX1MxIGFuZCBSRUdfUzIgZm9yIG11c2wvcmlzY3YKQEAgLTE0LDcgKzE0LDcgQEAgU2ln
-bmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdl
-ZCwgNSBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS92bV9kdW1wLmMgYi92bV9kdW1wLmMK
-LWluZGV4IDU4NzNlNTIuLjllYjRkYjEgMTAwNjQ0CitpbmRleCA5OTMzOWZkLi44YzViYjAzIDEw
-MDY0NAogLS0tIGEvdm1fZHVtcC5jCiArKysgYi92bV9kdW1wLmMKIEBAIC00MCw2ICs0MCwxMSBA
-QApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXkt
-TERGTEFHUy1mb3ItdGhlLWxpbmstb2YtbGlicnVieS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1Ynku
-cGF0Y2gKaW5kZXggODRmZTlhZWUzZC4uM2NjNzUzNzIyYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxpbmstb2Yt
-bGlicnVieS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDIt
-T2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoCkBAIC0xLDQgKzEsNCBA
-QAotRnJvbSAyNjI1ZjZjMTU1MTA1ZDM1MmQ2YTFmZjNhNzIyZTc4OTY0MzFmZjkxIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQorRnJvbSAxNDZkNjM5NGIxZTYyNDNhYjI4MDQ4ZDEyMTM1OTJjYzE4
-MWNlY2E1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQ2hyaXN0b3BoZXIgTGFyc29u
-IDxjaHJpc19sYXJzb25AbWVudG9yLmNvbT4KIERhdGU6IFRodSwgNSBNYXkgMjAxNiAxMDo1OTow
-NyAtMDcwMAogU3ViamVjdDogW1BBVENIXSBPYmV5IExERkxBR1MgZm9yIHRoZSBsaW5rIG9mIGxp
-YnJ1YnkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMy1y
-ZG9jLWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50
-YXRpb24ucGF0Y2gKaW5kZXggODdhMWU4MjUxNi4uYjc5YWQxMjMwZSAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxl
-LWRvY3VtZW50YXRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVi
-eS8wMDAzLXJkb2MtYnVpbGQtcmVwcm9kdWNpYmxlLWRvY3VtZW50YXRpb24ucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIDk4MDcxYzBiMjhhNDVjZDIxYTJjYmU2NzQ2Y2UzOTA2NzkzMmI2MmYg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDY2ZWEzNzAyNzc4ZGEzMjBlYTdiYmQ2MGZi
-ZGEzOTM2OTBlZDBmODUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDaHJpc3RpYW4g
-SG9mc3RhZWR0bGVyIDx6ZWhhQGRlYmlhbi5vcmc+CiBEYXRlOiBUdWUsIDEwIE9jdCAyMDE3IDE1
-OjA0OjM0IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHJkb2M6IGJ1aWxkIHJlcHJvZHVjaWJsZSBk
-b2N1bWVudGF0aW9uCkBAIC0xNCwxMCArMTQsMTAgQEAgU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFu
-IEhvZnN0YWVkdGxlciA8emVoYUBkZWJpYW4ub3JnPgogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
-dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvcmRvYy9nZW5lcmF0
-b3IvanNvbl9pbmRleC5yYiBiL2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4LnJiCi1pbmRl
-eCBjNDU0OTEwLi4yNGZlYWIwIDEwMDY0NAoraW5kZXggMDY1Y2FhNC4uY2ZhMWYzMyAxMDA2NDQK
-IC0tLSBhL2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4LnJiCiArKysgYi9saWIvcmRvYy9n
-ZW5lcmF0b3IvanNvbl9pbmRleC5yYgotQEAgLTE3OCw3ICsxNzgsNyBAQCBjbGFzcyBSRG9jOjpH
-ZW5lcmF0b3I6Okpzb25JbmRleAorQEAgLTE3Niw3ICsxNzYsNyBAQCBjbGFzcyBSRG9jOjpHZW5l
-cmF0b3I6Okpzb25JbmRleAogICAgICBkZWJ1Z19tc2cgIldyaXRpbmcgZ3ppcHBlZCBzZWFyY2gg
-aW5kZXggdG8gJXMiICUgb3V0ZmlsZQogIAogICAgICBabGliOjpHemlwV3JpdGVyLm9wZW4ob3V0
-ZmlsZSkgZG8gfGd6fApAQCAtMjYsNyArMjYsNyBAQCBpbmRleCBjNDU0OTEwLi4yNGZlYWIwIDEw
-MDY0NAogICAgICAgIGd6Lm9yaWdfbmFtZSA9IHNlYXJjaF9pbmRleF9maWxlLmJhc2VuYW1lLnRv
-X3MKICAgICAgICBnei53cml0ZSBzZWFyY2hfaW5kZXgKICAgICAgICBnei5jbG9zZQotQEAgLTE5
-Niw3ICsxOTYsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0b3I6Okpzb25JbmRleAorQEAgLTE5NCw3
-ICsxOTQsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0b3I6Okpzb25JbmRleAogICAgICAgICAgZGVi
-dWdfbXNnICJXcml0aW5nIGd6aXBwZWQgZmlsZSB0byAlcyIgJSBvdXRmaWxlCiAgCiAgICAgICAg
-ICBabGliOjpHemlwV3JpdGVyLm9wZW4ob3V0ZmlsZSkgZG8gfGd6fApkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1v
-Zi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVkLU0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1p
-bi1nZW5lcmF0ZWQtTS5wYXRjaAppbmRleCA0YjY3NzFmZDI2Li5kODk3ZjY0ZDk2IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29y
-dC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9i
-amVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDg4
-N2ZhY2M0Y2E1YmNiMDI4MGIwMjViMzViYmMxODUyOGU1MjkxNCBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb20gZDI1YzI0MWNmOTIyYTYxNDliMDk2ZTA4ZTIwZjM5YzY0NmExNzNhZCBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJlaW5lciBIZXJybWFubiA8cmVpbmVyQHJlaW5l
-ci1oLmRlPgogRGF0ZTogVHVlLCAxMCBPY3QgMjAxNyAxNTowNjoxMyAtMDMwMAogU3ViamVjdDog
-W1BBVENIXSBsaWIvbWttZi5yYjogc29ydCBsaXN0IG9mIG9iamVjdCBmaWxlcyBpbiBnZW5lcmF0
-ZWQgTWFrZWZpbGUKQEAgLTE3LDcgKzE3LDcgQEAgU2lnbmVkLW9mZi1ieTogUmVpbmVyIEhlcnJt
-YW5uIDxyZWluZXJAcmVpbmVyLWguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvbWttZi5yYiBiL2xpYi9ta21mLnJi
-Ci1pbmRleCA3NjhhMTUyLi5mMTZjZGQ4IDEwMDY0NAoraW5kZXggOTlmMzc2NC4uNjIzNzdiNiAx
-MDA2NDQKIC0tLSBhL2xpYi9ta21mLnJiCiArKysgYi9saWIvbWttZi5yYgogQEAgLTI0ODAsNyAr
-MjQ4MCw3IEBAIExPQ0FMX0xJQlMgPSAjeyRMT0NBTF9MSUJTfQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUt
-Y2hhbmdlLWZpeGluZy03ODQyMjUtdG9vLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1
-YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hhbmdlLWZpeGluZy03ODQy
-MjUtdG9vLnBhdGNoCmluZGV4IDE5MGViN2Q3MjguLjIwNjFmYjhkYzEgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNp
-YmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJlcHJvZHVjaWJsZS1jaGFuZ2UtZml4
-aW5nLTc4NDIyNS10b28ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk3MDUxYmU5Y2I5MzE3
-ZDJjNGQ2MWE4MmQ2ZDk1MzgwOWU5NjJmMTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IGVhNDU5M2FiYWM0NmRmOGM5ODkyMjFhMDk3M2FlMGFkM2JmN2NiNGIgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5hc2hpcm8gPGthbmFzaGlyb0BkZWJpYW4ub3JnPgog
-RGF0ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1OjE3IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1h
-a2UgZ2Vtc3BlY3MgcmVwcm9kdWNpYmxlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFrZS1nZW1zcGVjcy1yZXByb2R1Y2li
-bGUucGF0Y2gKaW5kZXggMTIxYmRjZjNhYi4uYmU3MzcyYTk1NCAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxl
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNi1NYWtlLWdl
-bXNwZWNzLXJlcHJvZHVjaWJsZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDU4YmRhY2Ez
-ZDUzNzlhZmNiOTU0YmI1N2M2OTBjNzczNjgwN2VjNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gMDIzZTA2ZDNkZjQ0MjU5ODNmYjdlMTFhODQyYTcwNjI3MDU2OTlmNiBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IEx1Y2FzIEthbmFzaGlybyA8a2FuYXNoaXJvQGRlYmlhbi5v
-cmc+CiBEYXRlOiBGcmksIDEgTm92IDIwMTkgMTU6MjU6MTcgLTAzMDAKIFN1YmplY3Q6IFtQQVRD
-SF0gTWFrZSBnZW1zcGVjcyByZXByb2R1Y2libGUKQEAgLTY0LDcgKzY0LDcgQEAgaW5kZXggNTcx
-OWY4My4uZmU3NjI2MCAxMDA2NDQKICAgIHNwZWMuZW1haWwgICAgICAgICA9IFsia251QGlkYWVt
-b25zLm9yZyIsICJ1bWVAbWFob3JvYmEub3JnIl0KICAKIGRpZmYgLS1naXQgYS9saWIvcmRvYy9y
-ZG9jLmdlbXNwZWMgYi9saWIvcmRvYy9yZG9jLmdlbXNwZWMKLWluZGV4IDMxNDRkZjUuLjY1YzMx
-M2YgMTAwNjQ0CitpbmRleCA0N2Y0ODAyLi5jZjBiNWY3IDEwMDY0NAogLS0tIGEvbGliL3Jkb2Mv
-cmRvYy5nZW1zcGVjCiArKysgYi9saWIvcmRvYy9yZG9jLmdlbXNwZWMKIEBAIC03LDYgKzcsNyBA
-QCBlbmQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1T
-a2lwLXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDctU2tpcC10ZXN0X3JtX3Jfbm9fcGVybWlz
-c2lvbnMtdGVzdC11bmRlci1yb290LnBhdGNoCmluZGV4IGUzNTc0ZjFhODEuLjU0MTJiMmY4YmUg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNy1Ta2lwLXRl
-c3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJvb3QucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA3LVNraXAtdGVzdF9ybV9yX25vX3Blcm1pc3Np
-b25zLXRlc3QtdW5kZXItcm9vdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOWM0NzQ4YWFl
-NGY2OTM5MGEzNjg3NWFhMjdkNzBjM2M2MzJhZTk0NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gYmViOTIzZmE4ZDdhN2MwYTQyM2U3NTIzZTkyYzA2YzFkNWEwODVjYSBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IEppYXlpbmcgU29uZyA8amlheWluZy5zb25nLmNuQHdpbmRy
-aXZlci5jb20+CiBEYXRlOiBNb24sIDcgSnVsIDIwMjUgMTU6MDU6NTcgKzA4MDAKIFN1YmplY3Q6
-IFtQQVRDSF0gU2tpcCB0ZXN0X3JtX3Jfbm9fcGVybWlzc2lvbnMgdGVzdCB1bmRlciByb290CkBA
-IC0yNyw2ICsyNywzIEBAIGluZGV4IGQyMDk2YTAuLjgwZTMzNjggMTAwNjQ0CiAgCiAgICAgIG1r
-ZGlyICd0bXBkYXRhZGlyJwogICAgICB0b3VjaCAndG1wZGF0YWRpci90bXBkYXRhJwotLS0gCi0y
-LjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQu
-NC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfMy40LjUuYmIKc2ltaWxhcml0
-eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8z
-LjQuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV8zLjQuNS5i
-YgppbmRleCBjNTMyNDAzMzM5Li5iNzdkNzY1NzhlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcnVieS9ydWJ5XzMuNC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnlfMy40LjUuYmIKQEAgLTQ5LDcgKzQ5LDcgQEAgZG9fY29uZmlndXJlOnByZXBlbmQo
-KSB7CiAKIERFUEVORFM6YXBwZW5kOmxpYmMtbXVzbCA9ICIgbGlidWNvbnRleHQiCiAKLVNSQ19V
-Uklbc2hhMjU2c3VtXSA9ICJhMDU5N2JmZGYzMTJlMDEwZWZkMWVmZmFhOGQ3ZjFkNzgzMzE0NmZk
-YzE3OTUwY2FhODE1OGZmYTNkY2JmYTg1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFkODhkOGEy
-N2I0NDJmZGRlNGFhMDZkYzk5ZTg2YjBiYmYwYjI4ODk2M2Q4NDMzMTEyZGQ1ZmFjNzk4ZmQ1ZWUi
-CiAKIFBBQ0tBR0VDT05GSUcgPz89ICIiCiBQQUNLQUdFQ09ORklHICs9ICIke0BiYi51dGlscy5m
-aWx0ZXIoJ0RJU1RST19GRUFUVVJFUycsICdpcHY2JywgZCl9IgotLSAKMi40Ny4xCgo=
-
---===============5600452457109151469==
+--===============1666764988568124939==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: FILELIST: added "/usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h"
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: FILELIST: removed "/usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_verbatim.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_context_section.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_options.rb /usr/lib/ruby/ptest/lib/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml /usr/lib/ruby/ptest/test/rdoc/test_rdoc_single_class.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_include.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_attr.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_class_module.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_c.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_prism_ruby.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html_crossref.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot_po_entry.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_normal_class.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_darkfish.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_stats.rb /
- usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_formatter.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_tt_only.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_extend.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_heading.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd_block_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_normal_module.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_label.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_document.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_method_attr.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html_snippet.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_attributes.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_include.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd_inline.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_servlet.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_token_stream.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_code_object.rb /usr/lib/ruby/ptest/tes
- t/rdoc/test_rdoc_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_ri_paths.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_raw.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_ruby.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_i18n_locale.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_top_level.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_pre_process.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_encoding.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rubygems_hook.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_simple.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_store.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_ansi.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_html.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_rdoc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_comment.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_context.rb /usr/lib/ruby/ptest/test/r
- doc/test_rdoc_markup_hard_break.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_json_index.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_bs.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rdoc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_cross_reference.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_ri.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_changelog.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_alias.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_constant.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_table_of_contents.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_markup.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot_po.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_to_joined_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_generator_pot.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_task.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup.rb /usr
- /lib/ruby/ptest/test/rdoc/test_rdoc_any_method.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_rd_inline_parser.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_rd.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_ri_driver.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_indented_paragraph.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_parser_markdown.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_text.rb /usr/lib/ruby/ptest/lib/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml /usr/lib/ruby/ptest/test/rdoc/test_rdoc_tom_doc.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_markup_attribute_manager.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_require.rb /usr/lib/ruby/ptest/test/rdoc/test_rdoc_i18n_text.rb", added "/usr/lib/ruby/ptest/test/rdoc/rdoc_options_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_normal_module_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_code_object_test.rb /usr/lib/ruby/ptest/test/r
- doc/rdoc_normal_class_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_alias_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_label_test.rb /usr/lib/ruby/ptest/lib/rdoc/rd/.document /usr/lib/ruby/ptest/test/rdoc/rdoc_stats_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_store_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_ri_driver_test.rb /usr/lib/ruby/include/ruby/internal/attr/nonstring.h /usr/lib/ruby/ptest/test/rdoc/rdoc_ri_paths_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_pre_process_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_markup_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_document_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_tom_doc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_include_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_context_section_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_crossref_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_
- generator_darkfish_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_context_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_i18n_text_test.rb /usr/lib/ruby/ptest/lib/rdoc/markdown/.document /usr/lib/ruby/ptest/test/rdoc/rdoc_constant_test.rb /usr/lib/ruby/ptest/test/prism/errors/defined_empty.txt /usr/lib/ruby/ptest/test/rdoc/rdoc_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_rdoc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_inline_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_formatter_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_rd_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_attribute_manager_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_bs_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_comment_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rubygems_hook_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_attr_test.rb /usr/lib/ruby/ptest/test/rd
- oc/rdoc_rdoc_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_task_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_text_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_tt_only_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_pot_po_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_hard_break_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_markdown_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_any_method_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_indented_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_verbatim_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_simple_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_inline_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_rd_block_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_ruby_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_class_module_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_token_stream_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_ri_test.rb /usr/lib/ruby/p
- test/test/rdoc/rdoc_generator_pot_po_entry_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_changelog_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_joined_paragraph_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_c_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_html_snippet_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_i18n_locale_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_servlet_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_include_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_ansi_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_generator_json_index_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_encoding_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_extend_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_cross_reference_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_top_level_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_parser_prism_ruby_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markdown_test_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_to_table_of_contents_test.rb /usr/lib/ruby/pt
- est/test/rdoc/rdoc_method_attr_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_raw_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_single_class_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_require_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_parser_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_attributes_test.rb /usr/lib/ruby/ptest/test/rdoc/rdoc_markup_heading_test.rb"
-packages/x86-64-v3-poky-linux/ruby/ruby-rdoc: FILELIST: removed "/usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml"
-packages/x86-64-v3-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/misc -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/misc, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/ext/debug -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/ext/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib/debug -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib/debug/dap_custom -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib/debug/dap_custom, directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0/debug -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0/debug, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/exe -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/exe, directory renamed /us
- r/lib/ruby/gems/3.4.0/gems/bundler-2.6.7/exe -> /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9/exe, directory renamed /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 -> /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0, directory renamed /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0/lib -> /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0/lib, directory renamed /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0/exe -> /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0/exe, removed "/usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec /usr/lib/ruby/3.4.0/rubygems/shellwords.rb /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec /usr/lib/libruby.so.3.4.4 /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec /usr/lib/ruby/gems/3.4.0/specifications
- /default/rdoc-6.10.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec", added "/usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec /usr/lib/libruby.so.3.4.5 /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec"
-Changes to packages/x86-64-v3-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so.3.4.4 moved to /usr/lib/libruby.so.3.4.5
-  /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem
-  /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7 moved to /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9
-  /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.5 moved to /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.6
-  /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.0 moved to /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.1
-  /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0
-  /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.0 moved to /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.2
-  /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec
-  /usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb was added
-  /usr/lib/ruby/include/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml was removed
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml was removed
-  /usr/lib/ruby/3.4.0/rubygems/shellwords.rb was removed
-Changes to packages/x86_64-linux/ruby-native (sysroot):
-  /usr/lib/libruby.so.3.4 changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.3.4.4 to libruby.so.3.4.5
-  /usr/lib/libruby.so.3.4.4 moved to /usr/lib/libruby.so.3.4.5
-  /usr/lib/ruby/gems/3.4.0/cache/debug-1.10.0.gem moved to /usr/lib/ruby/gems/3.4.0/cache/debug-1.11.0.gem
-  /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/extensions/x86_64-linux-gnu/3.4.0/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.7 moved to /usr/lib/ruby/gems/3.4.0/gems/bundler-2.6.9
-  /usr/lib/ruby/gems/3.4.0/gems/debug-1.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/debug-1.11.0
-  /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.5 moved to /usr/lib/ruby/gems/3.4.0/gems/etc-1.4.6
-  /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.0 moved to /usr/lib/ruby/gems/3.4.0/gems/io-console-0.8.1
-  /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-nonblock-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.1 moved to /usr/lib/ruby/gems/3.4.0/gems/io-wait-0.3.2
-  /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.10.0 moved to /usr/lib/ruby/gems/3.4.0/gems/rdoc-6.14.0
-  /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.0 moved to /usr/lib/ruby/gems/3.4.0/gems/resolv-0.6.2
-  /usr/lib/ruby/gems/3.4.0/specifications/debug-1.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/debug-1.11.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.7.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/bundler-2.6.9.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.5.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/etc-1.4.6.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-console-0.8.1.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-nonblock-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.1.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/io-wait-0.3.2.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.10.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/rdoc-6.14.0.gemspec
-  /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.0.gemspec moved to /usr/lib/ruby/gems/3.4.0/specifications/default/resolv-0.6.2.gemspec
-  /usr/include/ruby-3.4.0/ruby/internal/attr/nonstring.h was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/diagnose.rb was added
-  /usr/lib/ruby/3.4.0/bundler/cli/doctor/ssl.rb was added
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_in_files.rhtml was removed
-  /usr/lib/ruby/3.4.0/rdoc/generator/template/darkfish/_sidebar_VCS_info.rhtml was removed
-  /usr/lib/ruby/3.4.0/rubygems/shellwords.rb was removed
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 31340152 to 35863104 (+14%)
+packages/x86-64-v3-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 14916272 to 17652464 (+18%)
 
---===============5600452457109151469==--
+--===============1666764988568124939==--
 
