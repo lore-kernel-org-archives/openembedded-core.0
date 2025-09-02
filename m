@@ -1,234 +1,153 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <koen.kooi@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E56CA1005
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 08:52:37 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web11.72453.1756803149439081253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63232CA0FFE
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 09:09:37 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.72760.1756804172056869536
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 01:52:29 -0700
+ Tue, 02 Sep 2025 02:09:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Dq8o+9Dm;
- spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4b34a3a6f64so3292801cf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 01:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756803148; x=1757407948; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9lLQqnj2LoKvfo6Vwgo/PcX/QR3D2yezS4QjxkvVo6A=;
-        b=Dq8o+9DmYvU0nKuGVQ3ik8f+crbaI8d9RhJ3dxMsh2uNjfPsmn7GKuMtrznzA5fQlT
-         B3zImZxmqxZxo2rR50xgTRN0ZJh7VozMH6yzp2X7SwZl19ZVHdgFG92cnv02WweQAiNU
-         9cFDtvQdOYWMbQ7Yu1aA7LMvUtY0BaevGEPGZ2GlhBPxRP+F9Es2Yoa2kbGUzS/komRX
-         DyK7YGYmisF2BBUhpyySX5LrnHEGuo6fcOn3MDhvD3q25jr6IjSQJeHN/6wngy4KV045
-         W9Q8e0sCcXMy9lBw54nbGCVfJ28ukF04hFFCtPYrQKf8x4cFk+F/A8TAM96o/BjKjltR
-         EKbQ==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=N1/1QKZ1;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: koen.kooi@oss.qualcomm.com)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5822RphE012533
+	for <openembedded-core@lists.openembedded.org>; Tue, 2 Sep 2025 09:09:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Gt2q6xqA3oWjYeVpvPtktM9INLdDkdO8pSq
+	nQN6lW/k=; b=N1/1QKZ1Qs7BByQocmOTz+Mwc+0eC85zOReDRcWHjmvxdBkIHYb
+	uWv2tKqrofhONCWHarkSBObVtmtYsTZBMBudPszg1gPMgVS5k9x1faERpIfLIjz+
+	83GsK0o7FDPtb2CR+1qb+e2o/ocCbWl4729+KpfxmJYPDaWplRGC2KUbeOsn1tjB
+	sAWDW3V4+YLmyw/LCnGYw0nsgvFuUSd0Ed/Xoj8FYmkqV0dHWpt7XK+J/aGeceXV
+	zUggWbZYrIsjYX/p9oHyTtBv2Nnersjm3vKfhBC9x5/jw7H8lto21xHTbKKc5SfM
+	EG14jp4wp22jenikODbJlTSdfUcTsoBf4kw==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uq0efc4w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 09:09:31 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-70fa9206690so46537046d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 02:09:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756803148; x=1757407948;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1756804170; x=1757408970;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9lLQqnj2LoKvfo6Vwgo/PcX/QR3D2yezS4QjxkvVo6A=;
-        b=I+XDdVYoxZdldQBIQfiDQOmvrpYRx5kCw5gG/wcKK0b36/jjTQXOqNDLX514Y66i7E
-         BbXNQvHgeyuE4IrVhlc9XEqkHGrEOa+SmcByixMmzXIg+/urEJ0Rt4i8hT849Y2fyLp2
-         4XB87fXTZxj7UPn7/93qep/u2CQL3G6KNy4Pt/hKU6s0avD5NTYho9dw5Bn/7nTQ3Df1
-         kYRpzgJE5dYReu6D144kuJUdX4O/w0gc0YNhkyCp/bDb7Sgn8s+QdDUKf83xFRMDF9/u
-         9jA8uHUzE8K2AeynsvP2Uy9mFgUG1HjYQVriNc//s7QaIhAnzUnkDIBVtsfc4EccefN+
-         z9DA==
-X-Gm-Message-State: AOJu0Yxa8ctleCb5wWTAuf7/QtGx1EsQWt37ej7AUAWL2xzQ93TIizbh
-	Hmm9ekdxsHMyiMUKJwMcOEs0ae0Ng4hBNCk+asdcvUhoWxZkjYRGDNr3SVNlwEwPIkJI+c8Db6i
-	u5XundzAA53oUAvlA26OD/ye9WRvaqUc=
-X-Gm-Gg: ASbGncvDDMsTOWYTyAVIjcfredbP0jJ8FRyImqA1NLAdV7XPkwGlvh12vMSZPcsSlMp
-	CW6McyLy0cthLrPlA9gqDsm6YsolwauLBst9YoT6VVzWjcpLUtBdAS6XQxx2CbNUVxSQMB7vQAr
-	W1kY3DWRv5550h9Ol/TFU5uyIK9jIgmS7RtQf9P9B2jLCL5IJw0aBQ5oh/lBlfUTdtmcoMOEsRC
-	JHQecgiD0HdMdlwUHvBimVuHqeEG7bp+VVXGDtEoaVUoE+9HM7UYJjnDBIjqGyRAZFh3+OtC/Ke
-	lPtZyw==
-X-Google-Smtp-Source: AGHT+IER+f+QESk0mmrGrbqW5aft29vSPQF8tYLj2xS2lO4vOlUbR49BzE9eHlL6dcC132ghqDutGK86HQmZGB85hlI=
-X-Received: by 2002:a05:6214:21ce:b0:720:7987:447b with SMTP id
- 6a1803df08f44-72079874585mr17730446d6.17.1756803148058; Tue, 02 Sep 2025
- 01:52:28 -0700 (PDT)
+        bh=Gt2q6xqA3oWjYeVpvPtktM9INLdDkdO8pSqnQN6lW/k=;
+        b=w/IFYZtUMPSevGQUcQQfjtEQyxRpbVy2XKKLb8C6h6mKzJrPqUMHOzuX6O6DJI/23e
+         wY2vOw78XuDwsJY+5Jspgjx7lbDkNObAeMUo8AAlEPCMTPVBA+HIwuGCapI/t3U4W3zq
+         eyESfgAQh+1xfzjRdDQkHErMax0cTKioYiQT5NobwriG1PE6xpQ++OLhJtESelrk3SyG
+         t8NnRq+B99RLKtHRe/iMQZWEKKta9Zk24uWTlhsJA+maUpu8FrxbA/vA1fDz6XAM0Tkz
+         KdHz392YGGaKJJV56HMT4KvizaFqaQOtgfP8fxSW5r1GVB2LOqg/BamCgebfGBh0xXwl
+         e8Rg==
+X-Gm-Message-State: AOJu0YwoWSQvi/URkLro/+bYzyMYdy6atOeo9697EBIEixgxiZ4eu+Zj
+	xHN038SKXxXtLPrvPpXbDQzdaJuM7003BTNxijko+3bDC52XU66LWkyYuaV6qiTw7iE3dqz4wV2
+	wZjxXMUTg9dIjogfC5udPC3yTO1mRrh126fDIvYYRDHaPkrH8WQfLoVa3yzmbhg+El5+8TTqeVY
+	ePQFmJ1H5zzA0XhDYe4Q==
+X-Gm-Gg: ASbGncuUdFZkRsHlHnvZ76QHznRCidOk8NfPdQNCarRmu4ECtwqF7icGvRQ+9lJas75
+	Bk8TQ8ESEcIdk+wVt0Heda2RcteGZZhAqAtdKL9NvJbApMiO3QI0bC0wAKsYxNiSjJ7jPgjtleV
+	n+EPVxNHS7kNsG1827LkFvcX8y2HjKmaXke+kAwKSt4JoGUoH7QHf2oEu5e+QMN6+5nBwKQ9TbI
+	9404Lieu573AtnCvf4dzQGcrLRzTUx67qasjYJiZC5s2UH3aslboszG3buyexIikbF6qX0a059G
+	4E7EZ92yy95k+PpBKgcNlCj+I7Gdp2A0EiIc137iKvtYysRVssJgk5iDtIwTXVc=
+X-Received: by 2002:a05:622a:1449:b0:4b3:1861:f0bb with SMTP id d75a77b69052e-4b31ba1dfbbmr123198051cf.42.1756804169810;
+        Tue, 02 Sep 2025 02:09:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEj5KFhc5fm7VfxZrQV7Qxm8xTeuJhXeHonViO4aZCBSBgzDxb1iC+iwrqdPnFaMWlsTkyR1Q==
+X-Received: by 2002:a05:622a:1449:b0:4b3:1861:f0bb with SMTP id d75a77b69052e-4b31ba1dfbbmr123197731cf.42.1756804169263;
+        Tue, 02 Sep 2025 02:09:29 -0700 (PDT)
+Received: from hu-kkooi-ams.qualcomm.com ([212.136.9.4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b018fe7c638sm816854066b.6.2025.09.02.02.09.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Sep 2025 02:09:28 -0700 (PDT)
+From: Koen Kooi <koen.kooi@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>,
+        Peter Marko <peter.marko@siemens.com>,
+        Ross Burton <ross.burton@arm.com>,
+        Jose Quaresma <jose.quaresma@oss.qualcomm.com>,
+        Koen Kooi <koen.kooi@oss.qualcomm.com>
+Subject: [PATCH] systemd: stop enabling non-standard MAC policy when using the 'pni-names' DISTRO_FEATURE
+Date: Tue,  2 Sep 2025 11:09:25 +0200
+Message-Id: <20250902090925.2904294-1-koen.kooi@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250902075901.1550357-1-pierre-loup.gosse@smile.fr> <20250902075901.1550357-2-pierre-loup.gosse@smile.fr>
-In-Reply-To: <20250902075901.1550357-2-pierre-loup.gosse@smile.fr>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 2 Sep 2025 10:52:16 +0200
-X-Gm-Features: Ac12FXzju3U6GdPJxCBLWaH7-0HtbMkLEbckyGSY9FStMQHcbPeoWgE5feF0ma8
-Message-ID: <CANNYZj8=jobXbb6606UtVxNLEPC=mLu9Layw4FpoAG7tt-LM8g@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] wic: rename wks flag --extra-space to --extra-filesystem-space
-To: pierre-loup.gosse@smile.fr
-Cc: openembedded-core@lists.openembedded.org, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: LU_tiz-YYF4Z27i3yrDWJsNqsXqT-VPa
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwNCBTYWx0ZWRfX7bIan9z2VdvN
+ am3xZBlNoMTmhmSt18jOt1Q7Cggbpk2cCncloFK3hu/4fOP/orw8jWIEre6SlSFXE9gwkqeCh28
+ nxkvUydKKWIYIh07dZzUMLRPNDi6gzEfgaEIw511GN12ZXOltNJYdY9qpX3krNOiStHqBNPTN2S
+ ECrp/lpYH1m9I/HH2gjDfyE5IRRGZ1UugIyxeJEmTaJ6lsSZV0H0u04PuK7Qx1Ddd3E9VXbzWb8
+ ws8EbTZ443O7sg3+CCzIhvcMv5l56jxqhMDvrnJ55WQmN5UPMXRbjD1XWUkNDqgv4HoOACTHYcf
+ 2thg1gsb80pdVoSNvDaDmpkVWW8MAj0vZXt6hEQ9qZhEVzrhtxVaINMO/4rYQH2n7KPXw6S1GCN
+ JofivBUj
+X-Proofpoint-ORIG-GUID: LU_tiz-YYF4Z27i3yrDWJsNqsXqT-VPa
+X-Authority-Analysis: v=2.4 cv=ea09f6EH c=1 sm=1 tr=0 ts=68b6b44b cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=szheEyiwS1V7Q1GT_VYA:9
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-02_02,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 clxscore=1011 malwarescore=0 phishscore=0
+ bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300004
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 08:52:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222716
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 09:09:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222717
 
-Thanks, please also prepare and send documentation updates,
-particularly in documentation/ref-manual/kickstart.rst (mentions
---extra-space and needs to be fixed/new option added) and
-documentation/migration-guides/ (option rename is a breaking change,
-new option is a new feature).
+This recipe enabled an additional, non-standard policy for predictable
+network names: the MAC policy. This is a deviation from upstream
+policies and in cases where no MAC address is available, it makes it
+actively worse by changing the name(s) every boot.
 
-Alex
+Change the logic to disable predictable naming when the DISTRO_FEATURE
+isn't enabled and only use upstream logic with it *is* enabled.
 
-On Tue, 2 Sept 2025 at 09:59, <pierre-loup.gosse@smile.fr> wrote:
->
-> From: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
->
-> Makes a clear distinction with --extra-partition-space flag.
->
-> Signed-off-by: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
->
-> CC: Alexander Kanavin <alex.kanavin@gmail.com>
-> CC: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> ---
-> changes in v3:
-> - adding this patch
->
-> changes in v4:
-> - no change
-> ---
->  meta/lib/oeqa/selftest/cases/wic.py |  4 ++--
->  scripts/lib/wic/help.py             | 12 ++++++------
->  scripts/lib/wic/ksparser.py         | 25 +++++++++++++------------
->  scripts/lib/wic/partition.py        |  6 +++---
->  4 files changed, 24 insertions(+), 23 deletions(-)
->
-> diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-> index c9c9ceb0f2..3f75411059 100644
-> --- a/meta/lib/oeqa/selftest/cases/wic.py
-> +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> @@ -1270,12 +1270,12 @@ run_wic_cmd() {
->              p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
->              self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
->
-> -    def test_extra_space(self):
-> +    def test_extra_filesystem_space(self):
->          native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
->
->          with NamedTemporaryFile("w", suffix=".wks") as tempf:
->              tempf.write("bootloader --ptable gpt\n" \
-> -                        "part /     --source rootfs --ondisk hda --extra-space 200M --fstype=ext4\n")
-> +                        "part /     --source rootfs --ondisk hda --extra-filesystem-space 200M --fstype=ext4\n")
->              tempf.flush()
->
->              _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
-> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-> index 800c0abf0f..6b49a67de9 100644
-> --- a/scripts/lib/wic/help.py
-> +++ b/scripts/lib/wic/help.py
-> @@ -1013,12 +1013,12 @@ DESCRIPTION
->           --no-fstab-update: This option is specific to wic. It does not update the
->                              '/etc/fstab' stock file for the given partition.
->
-> -         --extra-space: This option is specific to wic. It adds extra
-> -                        space after the space filled by the content
-> -                        of the partition. The final size can go
-> -                        beyond the size specified by --size.
-> -                        By default, 10MB. This option cannot be used
-> -                        with --fixed-size option.
-> +         --extra-filesystem-space: This option is specific to wic. It adds extra
-> +                                   space after the space filled by the content
-> +                                   of the partition. The final size can go
-> +                                   beyond the size specified by --size.
-> +                                   By default, 10MB. This option cannot be used
-> +                                   with --fixed-size option.
->
->           --extra-partition-space: This option is specific to wic. It adds extra
->                                    empty space after the space filled by the
-> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> index e86e1069f5..dbf0cf2dc3 100644
-> --- a/scripts/lib/wic/ksparser.py
-> +++ b/scripts/lib/wic/ksparser.py
-> @@ -132,7 +132,7 @@ def systemidtype(arg):
->  class KickStart():
->      """Kickstart parser implementation."""
->
-> -    DEFAULT_EXTRA_SPACE = 10*1024
-> +    DEFAULT_EXTRA_FILESYSTEM_SPACE = 10*1024
->      DEFAULT_OVERHEAD_FACTOR = 1.3
->
->      def __init__(self, confpath):
-> @@ -153,7 +153,7 @@ class KickStart():
->          part.add_argument('--exclude-path', nargs='+')
->          part.add_argument('--include-path', nargs='+', action='append')
->          part.add_argument('--change-directory')
-> -        part.add_argument("--extra-space", type=sizetype("M"))
-> +        part.add_argument('--extra-filesystem-space', type=sizetype("M"))
->          part.add_argument('--extra-partition-space', type=sizetype("M"))
->          part.add_argument('--fsoptions', dest='fsopts')
->          part.add_argument('--fspassno', dest='fspassno')
-> @@ -175,9 +175,9 @@ class KickStart():
->          part.add_argument('--hidden', action='store_true')
->
->          # --size and --fixed-size cannot be specified together; options
-> -        # ----extra-space and --overhead-factor should also raise a parser
-> -        # --error, but since nesting mutually exclusive groups does not work,
-> -        # ----extra-space/--overhead-factor are handled later
-> +        # ----extra-filesystem-space and --overhead-factor should also raise a
-> +        # parser error, but since nesting mutually exclusive groups does not work,
-> +        # ----extra-filesystem-space/--overhead-factor are handled later
->          sizeexcl = part.add_mutually_exclusive_group()
->          sizeexcl.add_argument('--size', type=sizetype("M"), default=0)
->          sizeexcl.add_argument('--fixed-size', type=sizetype("M"), default=0)
-> @@ -264,12 +264,13 @@ class KickStart():
->                              parsed.extra_partition_space = 0
->                          # using ArgumentParser one cannot easily tell if option
->                          # was passed as argument, if said option has a default
-> -                        # value; --overhead-factor/--extra-space cannot be used
-> -                        # with --fixed-size, so at least detect when these were
-> -                        # passed with non-0 values ...
-> +                        # value; --overhead-factor/--extra-filesystem-space
-> +                        # cannot be used with --fixed-size, so at least detect
-> +                        # when these were passed with non-0 values ...
->                          if parsed.fixed_size:
-> -                            if parsed.overhead_factor or parsed.extra_space:
-> -                                err = "%s:%d: arguments --overhead-factor and --extra-space not "\
-> +                            if parsed.overhead_factor or parsed.extra_filesystem_space:
-> +                                err = "%s:%d: arguments --overhead-factor and "\
-> +                                      "--extra-filesystem-space not "\
->                                        "allowed with argument --fixed-size" \
->                                        % (confpath, lineno)
->                                  raise KickStartError(err)
-> @@ -280,8 +281,8 @@ class KickStart():
->                              # with value equal to 0)
->                              if '--overhead-factor' not in line_args:
->                                  parsed.overhead_factor = self.DEFAULT_OVERHEAD_FACTOR
-> -                            if '--extra-space' not in line_args:
-> -                                parsed.extra_space = self.DEFAULT_EXTRA_SPACE
-> +                            if '--extra-filesystem-space' not in line_args:
-> +                                parsed.extra_filesystem_space = self.DEFAULT_EXTRA_FILESYSTEM_SPACE
->
->                          self.partnum += 1
->                          self.partitions.append(Partition(parsed, self.partnum))
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index d358aabbd6..0c9b1a5b96 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -28,7 +28,7 @@ class Partition():
->          self.align = args.align
->          self.disk = args.disk
->          self.device = None
-> -        self.extra_space = args.extra_space
-> +        self.extra_filesystem_space = args.extra_filesystem_space
->          self.extra_partition_space = args.extra_partition_space
->          self.exclude_path = args.exclude_path
->          self.include_path = args.include_path
-> @@ -104,8 +104,8 @@ class Partition():
->                                 (actual_rootfs_size, rootfs_size))
->          else:
->              extra_blocks = self.get_extra_block_count(actual_rootfs_size)
-> -            if extra_blocks < self.extra_space:
-> -                extra_blocks = self.extra_space
-> +            if extra_blocks < self.extra_filesystem_space:
-> +                extra_blocks = self.extra_filesystem_space
->
->              rootfs_size = actual_rootfs_size + extra_blocks
->              rootfs_size = int(rootfs_size * self.overhead_factor)
-> --
-> 2.34.1
->
+For DISTROs that wish to use non-standard policies, a DISTRO layer is the correct place.
+E.g. in DISTRO_LAYER/recipes-core/systemd/systemd_%.bbappend:
+
+do_install:append:DISTRO() {
+       if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'false', d)}; then
+               if ! grep -q '^NamePolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
+                       sed -i '/^NamePolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
+               fi
+               if ! grep -q 'AlternativeNamesPolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
+                       sed -i '/AlternativeNamesPolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
+               fi
+}
+
+Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
+---
+ meta/recipes-core/systemd/systemd_257.8.bb | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_257.8.bb b/meta/recipes-core/systemd/systemd_257.8.bb
+index 174372be03..6399c57640 100644
+--- a/meta/recipes-core/systemd/systemd_257.8.bb
++++ b/meta/recipes-core/systemd/systemd_257.8.bb
+@@ -400,15 +400,8 @@ do_install() {
+ 			${D}/${sysconfdir}/systemd/system.conf
+ 	fi
+ 
+-	if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'false', d)}; then
+-		if ! grep -q '^NamePolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
+-			sed -i '/^NamePolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
+-		fi
+-		if ! grep -q 'AlternativeNamesPolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
+-			sed -i '/AlternativeNamesPolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
+-		fi
+-	else
+-		# Actively disable Predictable Network Interface Names
++	# Actively disable Predictable Network Interface Names
++	if ${@ 'true' if not bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'false', d) else 'false'}; then
+ 		sed -i 's/^NamePolicy=.*/NamePolicy=/;s/^AlternativeNamesPolicy=.*/AlternativeNamesPolicy=/' ${D}${nonarch_libdir}/systemd/network/99-default.link
+ 	fi
+ }
+-- 
+2.34.1
+
 
