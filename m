@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F0CCAC58A
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:31 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.89785.1756850180049651740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09903CA100E
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:42 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.89794.1756850186663987349
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 14:56:24 -0700
+ Tue, 02 Sep 2025 14:56:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KeiYs2j8;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AXmr2Xrb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101990c6e5d26-c15b2ab1-bc0f-4a4e-b051-cf600e7c3061-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aZHJpI8O;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OUKDqtuU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101990c6e8444-356b7e0d-6e74-4561-9e63-b1b5a1dd7a5f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756850183;
+	t=1756850193;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=K8kISl55SP06AklsE6yVyHLfveKour6ASsc0bgz0k80=;
-	b=KeiYs2j8I93yN4DMTUpDDswQdpNl7rGCSsx+VWr7SBkdBNGjudk8JLZe5rZ2M+yD
-	woE0e8Mxpbyx0cdn7JDs1U6EzszdPxL5x5zfA1Ngtyctg2U0Mfsoa7xGMgbZWk42IMB
-	VhSfHTcVGRls+iTN//8J1TLuGpBHaVkgR0+C0IEg=
+	bh=L+D2E0F7RPUNppyJkKXlmtzDwxmo8olj2QfVDNqaiHs=;
+	b=aZHJpI8OqAzSYQg/cEBQpkh5NoxSK1s34lJ9JxqAmnrBMC6xdM5Q12GvJo6BgBAv
+	fpy+Nw22/I3F+96QU2ZEJ59Tc3ykbR7vSCGUA/Fl2eDPoKacz+n78e6sifkR2SkH6uW
+	JPqxpZwhAB9yJXrdZsMox7BcPjnSXX41tLja/Noo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850183;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850193;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=K8kISl55SP06AklsE6yVyHLfveKour6ASsc0bgz0k80=;
-	b=AXmr2XrbHBbEX44emugLfUur3XJ+HR+/Z+VHPwJ90iPWsHXprIoZ8g/hEd7Jd77R
-	wScsaL2MZixHKgAbxswqx5nESd0g0Y1VEnPqKJNUSBbI/vnDmngetKv0ucpG38CrBGe
-	du8v/hQ5Huuz9XEYBDxgqX8aU/DObP0D6Ld6vWFs=
-Content-Type: multipart/mixed; boundary="===============4128175862524545200=="
+	bh=L+D2E0F7RPUNppyJkKXlmtzDwxmo8olj2QfVDNqaiHs=;
+	b=OUKDqtuUAnFNixuPuPfUsuv8KS/aV+UnpTzt3/AQztPgTmPIdp2BL9VCa8TKC1or
+	JLjAl+s5vlZAtxDMv5/gnTkQ1xJxa2aeCUbhOyqW3pzhnSYi6cW/X/f1sip9MvSro1F
+	rFHIa9ezzd9hSV/2k253/7MZKfzypF+qBSwG4cM4=
+Content-Type: multipart/mixed; boundary="===============5730134986930300230=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] libxfixes: upgrading to 6.0.2 SUCCEEDED
-Message-ID: <010101990c6e5d26-c15b2ab1-bc0f-4a4e-b051-cf600e7c3061-000000@us-west-2.amazonses.com>
-Date: Tue, 2 Sep 2025 21:56:23 +0000
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-typing-extensions: upgrading to 4.15.0 SUCCEEDED
+Message-ID: <010101990c6e8444-356b7e0d-6e74-4561-9e63-b1b5a1dd7a5f-000000@us-west-2.amazonses.com>
+Date: Tue, 2 Sep 2025 21:56:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.02-54.240.27.191
+X-SES-Outgoing: 2025.09.02-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222760
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222791
 
---===============4128175862524545200==
+--===============5730134986930300230==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxfixes* to *6.0.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-typing-extensions* to *4.15.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxfixes-upgrade-6.0.1-6.0.2.patch
+    - apply the patch: git am 0001-python3-typing-extensions-upgrade-4.14.1-4.15.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,92 +72,94 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3902f75bc55174ae5b800deb3d37b8acf6045dc6 Mon Sep 17 00:00:00 2001
+From 1998ade96259416a4d8dafa255925b0d78f4a65a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 2 Sep 2025 16:16:54 +0000
-Subject: [PATCH] libxfixes: upgrade 6.0.1 -> 6.0.2
+Date: Tue, 2 Sep 2025 18:49:11 +0000
+Subject: [PATCH] python3-typing-extensions: upgrade 4.14.1 -> 4.15.0
 
 ---
- .../xorg-lib/{libxfixes_6.0.1.bb => libxfixes_6.0.2.bb}         | 2 +-
+ ...extensions_4.14.1.bb => python3-typing-extensions_4.15.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxfixes_6.0.1.bb => libxfixes_6.0.2.bb} (86%)
+ rename meta/recipes-devtools/python/{python3-typing-extensions_4.14.1.bb => python3-typing-extensions_4.15.0.bb} (91%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb b/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb
-similarity index 86%
-rename from meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb
-index 28df7bb805..513e85ab9d 100644
---- a/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfixes_6.0.2.bb
-@@ -6,7 +6,7 @@ provide the minimal server-side support necessary to eliminate problems \
- caused by these workarounds."
+diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.14.1.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-typing-extensions_4.14.1.bb
+rename to meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb
+index 32edb656db..3e3ce33ca8 100644
+--- a/meta/recipes-devtools/python/python3-typing-extensions_4.14.1.bb
++++ b/meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
+ PYPI_PACKAGE = "typing_extensions"
+ UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
  
- require xorg-lib-common.inc
--SRC_URI[sha256sum] = "b695f93cd2499421ab02d22744458e650ccc88c1d4c8130d60200213abc02d58"
-+SRC_URI[sha256sum] = "39f115d72d9c5f8111e4684164d3d68cc1fd21f9b27ff2401b08fddfc0f409ba"
+-SRC_URI[sha256sum] = "38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36"
++SRC_URI[sha256sum] = "0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466"
  
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a5a9755c8921cc7dc08a5cfe4267d0ff"
+ inherit pypi python_flit_core
+ 
 -- 
 2.47.1
 
 
---===============4128175862524545200==
+--===============5730134986930300230==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxfixes-upgrade-6.0.1-6.0.2.patch"
+ filename="0001-python3-typing-extensions-upgrade-4.14.1-4.15.0.patch"
 
-RnJvbSAzOTAyZjc1YmM1NTE3NGFlNWI4MDBkZWIzZDM3YjhhY2Y2MDQ1ZGM2IE1vbiBTZXAgMTcg
+RnJvbSAxOTk4YWRlOTYyNTk0MTZhNGQ4ZGFmYTI1NTkyNWIwZDc4ZjRhNjVhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxNjoxNjo1NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnhmaXhlczogdXBncmFkZSA2LjAuMSAtPiA2LjAuMgoKLS0tCiAuLi4veG9yZy1saWIve2xpYnhm
-aXhlc182LjAuMS5iYiA9PiBsaWJ4Zml4ZXNfNi4wLjIuYmJ9ICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhmaXhlc182LjAuMS5iYiA9PiBsaWJ4Zml4ZXNf
-Ni4wLjIuYmJ9ICg4NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
-bGliL2xpYnhmaXhlc182LjAuMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9s
-aWJ4Zml4ZXNfNi4wLjIuYmIKc2ltaWxhcml0eSBpbmRleCA4NiUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhmaXhlc182LjAuMS5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhmaXhlc182LjAuMi5iYgppbmRleCAyOGRm
-N2JiODA1Li41MTNlODVhYjlkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9y
-Zy1saWIvbGlieGZpeGVzXzYuMC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
-LWxpYi9saWJ4Zml4ZXNfNi4wLjIuYmIKQEAgLTYsNyArNiw3IEBAIHByb3ZpZGUgdGhlIG1pbmlt
-YWwgc2VydmVyLXNpZGUgc3VwcG9ydCBuZWNlc3NhcnkgdG8gZWxpbWluYXRlIHByb2JsZW1zIFwK
-IGNhdXNlZCBieSB0aGVzZSB3b3JrYXJvdW5kcy4iCiAKIHJlcXVpcmUgeG9yZy1saWItY29tbW9u
-LmluYwotU1JDX1VSSVtzaGEyNTZzdW1dID0gImI2OTVmOTNjZDI0OTk0MjFhYjAyZDIyNzQ0NDU4
-ZTY1MGNjYzg4YzFkNGM4MTMwZDYwMjAwMjEzYWJjMDJkNTgiCitTUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiMzlmMTE1ZDcyZDljNWY4MTExZTQ2ODQxNjRkM2Q2OGNjMWZkMjFmOWIyN2ZmMjQwMWIwOGZk
-ZGZjMGY0MDliYSIKIAogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
-Ly9DT1BZSU5HO21kNT1hNWE5NzU1Yzg5MjFjYzdkYzA4YTVjZmU0MjY3ZDBmZiIKLS0gCjIuNDcu
-MQoK
+CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxODo0OToxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnM6IHVwZ3JhZGUgNC4xNC4xIC0+IDQuMTUuMAoKLS0tCiAu
+Li5leHRlbnNpb25zXzQuMTQuMS5iYiA9PiBweXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTUu
+MC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXR5cGluZy1l
+eHRlbnNpb25zXzQuMTQuMS5iYiA9PiBweXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTUuMC5i
+Yn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtdHlwaW5nLWV4dGVuc2lvbnNfNC4xNC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTUuMC5iYgpzaW1pbGFyaXR5IGluZGV4
+IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdHlw
+aW5nLWV4dGVuc2lvbnNfNC4xNC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdHlwaW5nLWV4dGVuc2lvbnNfNC4xNS4wLmJiCmluZGV4IDMyZWRiNjU2
+ZGIuLjNlM2NlMzNjYTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy10eXBpbmctZXh0ZW5zaW9uc180LjE0LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXR5cGluZy1leHRlbnNpb25zXzQuMTUuMC5iYgpAQCAtMTYs
+NyArMTYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1mY2Y2YjI0
+OWMyNjQxNTQwMjE5YTcyN2YzNWQ4ZDJjMiIKIFBZUElfUEFDS0FHRSA9ICJ0eXBpbmdfZXh0ZW5z
+aW9ucyIKIFVQU1RSRUFNX0NIRUNLX1BZUElfUEFDS0FHRSA9ICIke1BZUElfUEFDS0FHRX0iCiAK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzOGIzOWY0YWVlYWI2NDg4NGNlOWY3NGM5NDI2M2VmNzhm
+M2MyMjQ2N2M4NzI0MDA1NDgzMTU0YzI2NjQ4ZDM2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBj
+ZWE0OGQxNzNjYzEyZmEyOGVjYWJjM2I4MzdlYTNjZjZmMzhjNmQxMTM2Zjg1Y2JhYWY1OTg5ODQ4
+NjE0NjYiCiAKIGluaGVyaXQgcHlwaSBweXRob25fZmxpdF9jb3JlCiAKLS0gCjIuNDcuMQoK
 
---===============4128175862524545200==
+--===============5730134986930300230==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libxfixes: PV changed from "6.0.1" to "6.0.2"
-packages/x86-64-v3-poky-linux/libxfixes: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXfixes-6.0.1.tar.xz" to "https://www.x.org/releases//individual/lib/libXfixes-6.0.2.tar.xz"
-packages/x86-64-v3-poky-linux/libxfixes: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-dbg: PV changed from "6.0.1" to "6.0.2"
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-dbg: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-dev: PV changed from "6.0.1" to "6.0.2"
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-dev: PKGSIZE changed from 8004 to 8059 (+1%)
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-dev: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-doc: PV changed from "6.0.1" to "6.0.2"
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-doc: PKGSIZE changed from 2873 to 2906 (+1%)
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-doc: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-locale: PV changed from "6.0.1" to "6.0.2"
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-locale: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-src: PV changed from "6.0.1" to "6.0.2"
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-src: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-staticdev: PV changed from "6.0.1" to "6.0.2"
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes-staticdev: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes: PV changed from "6.0.1" to "6.0.2"
-packages/x86-64-v3-poky-linux/libxfixes/libxfixes: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
+packages/x86-64-v3-poky-linux/python3-typing-extensions: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.14.1.tar.gz;downloadfilename=typing_extensions-4.14.1.tar.gz" to "https://files.pythonhosted.org/packages/source/t/typing_extensions/typing_extensions-4.15.0.tar.gz;downloadfilename=typing_extensions-4.15.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-typing-extensions: PV changed from "4.14.1" to "4.15.0"
+packages/x86-64-v3-poky-linux/python3-typing-extensions: PKGV changed from 4.14.1 [default] to 4.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PV changed from "4.14.1" to "4.15.0"
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-dbg: PKGV changed from 4.14.1 [default] to 4.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PV changed from "4.14.1" to "4.15.0"
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-dev: PKGV changed from 4.14.1 [default] to 4.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PV changed from "4.14.1" to "4.15.0"
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-doc: PKGV changed from 4.14.1 [default] to 4.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PV changed from "4.14.1" to "4.15.0"
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-locale: PKGV changed from 4.14.1 [default] to 4.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PV changed from "4.14.1" to "4.15.0"
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-src: PKGV changed from 4.14.1 [default] to 4.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PV changed from "4.14.1" to "4.15.0"
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions-staticdev: PKGV changed from 4.14.1 [default] to 4.15.0 [default]
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGSIZE changed from 335807 to 340541 (+1%)
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions: PV changed from "4.14.1" to "4.15.0"
+packages/x86-64-v3-poky-linux/python3-typing-extensions/python3-typing-extensions: PKGV changed from 4.14.1 [default] to 4.15.0 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-typing-extensions (sysroot):
+  /usr/lib/python3.13/site-packages/typing_extensions-4.14.1.dist-info moved to /usr/lib/python3.13/site-packages/typing_extensions-4.15.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2081,12 +2083,14 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============4128175862524545200==
+--===============5730134986930300230==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+Changes to packages/x86-64-v3-poky-linux/python3-typing-extensions (sysroot):
+  /usr/lib/python3.13/site-packages/typing_extensions-4.14.1.dist-info moved to /usr/lib/python3.13/site-packages/typing_extensions-4.15.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4010,5 +4014,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============4128175862524545200==--
+--===============5730134986930300230==--
 
