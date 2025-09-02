@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 648C5CA1013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7547DCA1016
 	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:31 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.89789.1756850183449696454
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.89998.1756850186586502230
  for <openembedded-core@lists.openembedded.org>;
  Tue, 02 Sep 2025 14:56:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=0U4U7eM7;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=qx5ADk4S;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101990c6e67e6-ded007bc-3407-483f-b4d5-18bd9678475d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OPmHqWHR;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=TBcdal2L;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101990c6e6705-08d1d845-b024-4b09-a70e-749cd83f1e32-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1756850186;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=z7MxxrOv1fYi3PYSQoUJ1mLp0ZaRAKFTbCWn16hKiHs=;
-	b=0U4U7eM7DjtTgE+14dXLff2dElsUi8d8JTUxzAMXPR+GSCaJ6NHkqRop4XaaEbAq
-	4VNUkN6u0EFI730oPwS8+IeBsz378SLi2PlF1dq8tu7ul0TecgmTPr9TkanDNUovEZ7
-	Or1StVbhtbF1cnDYW/95ILRWYLH2BI9kmHpGnOPk=
+	bh=/d/12L73wh7eio+1LNRUBMtDsteGDFO0mXiho8RZoks=;
+	b=OPmHqWHR6xILZua32x0nz6GGLmrQVSVGv8KvSrFiedwPGZwQWLVySsgKJav1m7wz
+	7HrA2ZgUB8g56GVclqWT2aVv5CWAcXIknrdZoXYRG4Qf1u0xDuabxDBKpbk4WGk/zwa
+	s1vS4FObTBA8uJxvLGrL68rhSjhMqImkp18lOYVY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850186;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=z7MxxrOv1fYi3PYSQoUJ1mLp0ZaRAKFTbCWn16hKiHs=;
-	b=qx5ADk4SSb3LJrG/Bix5gzUYFL/tA/hDsZH8ZjSWr0UMy5Si3iIL7goNrwhJ80wE
-	ZENpxgaHcskpffYFbuIO28BpwnQhcJpL70biRFkS3QkaA8xhKve3A6czX8v9BL/tjpt
-	P8+/y8euvOoJNryod4Z/CyDQ/wUWhWKu2+Qd65wI=
-Content-Type: multipart/mixed; boundary="===============8911237254166351214=="
+	bh=/d/12L73wh7eio+1LNRUBMtDsteGDFO0mXiho8RZoks=;
+	b=TBcdal2LvQz5RCbAT+GWDOZcN1h/WLLDt8a2OfUaoSLrK5GxDFQB1PsHzyR6P5Q5
+	KFHX+3ShBIGIXRjJJbgV/2lcYBW4GSkXL47NGXG99iU88bC288JxQHts5ubGsBujxLB
+	a+InPKM5Tnn+Sduo3VcWehlkOVljAznJZ7SH5oAE=
+Content-Type: multipart/mixed; boundary="===============2016343367471015826=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] iproute2: upgrading to 6.16.0 SUCCEEDED
-Message-ID: <010101990c6e67e6-ded007bc-3407-483f-b4d5-18bd9678475d-000000@us-west-2.amazonses.com>
+Subject: [AUH] ofono: upgrading to 2.18 SUCCEEDED
+Message-ID: <010101990c6e6705-08d1d845-b024-4b09-a70e-749cd83f1e32-000000@us-west-2.amazonses.com>
 Date: Tue, 2 Sep 2025 21:56:26 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.02-54.240.27.31
+X-SES-Outgoing: 2025.09.02-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222764
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222765
 
---===============8911237254166351214==
+--===============2016343367471015826==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *iproute2* to *6.16.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ofono* to *2.18* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-iproute2-upgrade-6.15.0-6.16.0.patch
+    - apply the patch: git am 0001-ofono-upgrade-2.17-2.18.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,147 +72,92 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b90423be25c1ebeafe56968eea6b1bf822b0f21d Mon Sep 17 00:00:00 2001
+From 31fa109966997ed54b93f830627f2018a829c535 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 2 Sep 2025 16:27:44 +0000
-Subject: [PATCH] iproute2: upgrade 6.15.0 -> 6.16.0
+Date: Tue, 2 Sep 2025 16:47:47 +0000
+Subject: [PATCH] ofono: upgrade 2.17 -> 2.18
 
 ---
- ...1-include-libnetlink.h-add-missing-include-for-htobe64.patch | 2 +-
- .../iproute2/{iproute2_6.15.0.bb => iproute2_6.16.0.bb}         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_6.15.0.bb => iproute2_6.16.0.bb} (97%)
+ .../recipes-connectivity/ofono/{ofono_2.17.bb => ofono_2.18.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/ofono/{ofono_2.17.bb => ofono_2.18.bb} (95%)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
-index c4dea39676..cb4d3b10fe 100644
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
-+++ b/meta/recipes-connectivity/iproute2/iproute2/0001-include-libnetlink.h-add-missing-include-for-htobe64.patch
-@@ -1,4 +1,4 @@
--From 9e427aa1c647f741b08a1f0c44483ea974c7fc61 Mon Sep 17 00:00:00 2001
-+From 5a392823cfb4b7a669cc72f541da20c5649df796 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Sat, 24 Aug 2024 15:32:25 +0200
- Subject: [PATCH] include/libnetlink.h: add missing include for htobe64
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.15.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.16.0.bb
-similarity index 97%
-rename from meta/recipes-connectivity/iproute2/iproute2_6.15.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_6.16.0.bb
-index 592e3e15af..dc7106902c 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_6.15.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_6.16.0.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch \
+diff --git a/meta/recipes-connectivity/ofono/ofono_2.17.bb b/meta/recipes-connectivity/ofono/ofono_2.18.bb
+similarity index 95%
+rename from meta/recipes-connectivity/ofono/ofono_2.17.bb
+rename to meta/recipes-connectivity/ofono/ofono_2.18.bb
+index 36bbe9439a..e2666b3e7e 100644
+--- a/meta/recipes-connectivity/ofono/ofono_2.17.bb
++++ b/meta/recipes-connectivity/ofono/ofono_2.18.bb
+@@ -10,7 +10,7 @@ DEPENDS = "dbus glib-2.0 udev mobile-broadband-provider-info ell"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            file://ofono \
             "
+-SRC_URI[sha256sum] = "70bb50997d3a7657edf133355677f8e04b2158bcb031118a67b296107f6ea73e"
++SRC_URI[sha256sum] = "f74c3bba7ebac488fed7bcfa6113b0e39e723d2e1a24b53f79c9f18a1c85dd00"
  
--SRC_URI[sha256sum] = "8041854a882583ad5263466736c9c8c68c74b1a35754ab770d23343f947528fb"
-+SRC_URI[sha256sum] = "5900ccc15f9ac3bf7b7eae81deb5937123df35e99347a7f11a22818482f0a8d0"
- 
- inherit update-alternatives bash-completion pkgconfig
+ inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
  
 -- 
 2.47.1
 
 
---===============8911237254166351214==
+--===============2016343367471015826==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-iproute2-upgrade-6.15.0-6.16.0.patch"
+Content-Disposition: attachment; filename="0001-ofono-upgrade-2.17-2.18.patch"
 
-RnJvbSBiOTA0MjNiZTI1YzFlYmVhZmU1Njk2OGVlYTZiMWJmODIyYjBmMjFkIE1vbiBTZXAgMTcg
+RnJvbSAzMWZhMTA5OTY2OTk3ZWQ1NGI5M2Y4MzA2MjdmMjAxOGE4MjljNTM1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxNjoyNzo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGlw
-cm91dGUyOiB1cGdyYWRlIDYuMTUuMCAtPiA2LjE2LjAKCi0tLQogLi4uMS1pbmNsdWRlLWxpYm5l
-dGxpbmsuaC1hZGQtbWlzc2luZy1pbmNsdWRlLWZvci1odG9iZTY0LnBhdGNoIHwgMiArLQogLi4u
-L2lwcm91dGUyL3tpcHJvdXRlMl82LjE1LjAuYmIgPT4gaXByb3V0ZTJfNi4xNi4wLmJifSAgICAg
-ICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
-KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi97aXByb3V0ZTJf
-Ni4xNS4wLmJiID0+IGlwcm91dGUyXzYuMTYuMC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L2lwcm91dGUyL2lwcm91dGUyLzAwMDEtaW5jbHVkZS1saWJu
-ZXRsaW5rLmgtYWRkLW1pc3NpbmctaW5jbHVkZS1mb3ItaHRvYmU2NC5wYXRjaCBiL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTIvMDAwMS1pbmNsdWRlLWxpYm5ldGxp
-bmsuaC1hZGQtbWlzc2luZy1pbmNsdWRlLWZvci1odG9iZTY0LnBhdGNoCmluZGV4IGM0ZGVhMzk2
-NzYuLmNiNGQzYjEwZmUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXBy
-b3V0ZTIvaXByb3V0ZTIvMDAwMS1pbmNsdWRlLWxpYm5ldGxpbmsuaC1hZGQtbWlzc2luZy1pbmNs
-dWRlLWZvci1odG9iZTY0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXBy
-b3V0ZTIvaXByb3V0ZTIvMDAwMS1pbmNsdWRlLWxpYm5ldGxpbmsuaC1hZGQtbWlzc2luZy1pbmNs
-dWRlLWZvci1odG9iZTY0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5ZTQyN2FhMWM2NDdm
-NzQxYjA4YTFmMGM0NDQ4M2VhOTc0YzdmYzYxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSA1YTM5MjgyM2NmYjRiN2E2NjljYzcyZjU0MWRhMjBjNTY0OWRmNzk2IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4K
-IERhdGU6IFNhdCwgMjQgQXVnIDIwMjQgMTU6MzI6MjUgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0g
-aW5jbHVkZS9saWJuZXRsaW5rLmg6IGFkZCBtaXNzaW5nIGluY2x1ZGUgZm9yIGh0b2JlNjQKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4x
-NS4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl82LjE2
-LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9pcHJvdXRlMi9pcHJvdXRlMl82LjE1LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvaXByb3V0ZTIvaXByb3V0ZTJfNi4xNi4wLmJiCmluZGV4IDU5MmUzZTE1
-YWYuLmRjNzEwNjkwMmMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXBy
-b3V0ZTIvaXByb3V0ZTJfNi4xNS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-aXByb3V0ZTIvaXByb3V0ZTJfNi4xNi4wLmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAi
-JHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC91dGlscy9uZXQvJHtCUE59LyR7QlB9LnRhci54eiBc
-CiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWluY2x1ZGUtbGlibmV0bGluay5oLWFkZC1taXNzaW5n
-LWluY2x1ZGUtZm9yLWh0b2JlNjQucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICI4MDQxODU0YTg4MjU4M2FkNTI2MzQ2NjczNmM5YzhjNjhjNzRiMWEzNTc1NGFi
-NzcwZDIzMzQzZjk0NzUyOGZiIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU5MDBjY2MxNWY5YWMz
-YmY3YjdlYWU4MWRlYjU5MzcxMjNkZjM1ZTk5MzQ3YTdmMTFhMjI4MTg0ODJmMGE4ZDAiCiAKIGlu
-aGVyaXQgdXBkYXRlLWFsdGVybmF0aXZlcyBiYXNoLWNvbXBsZXRpb24gcGtnY29uZmlnCiAKLS0g
-CjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxNjo0Nzo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9m
+b25vOiB1cGdyYWRlIDIuMTcgLT4gMi4xOAoKLS0tCiAuLi4vcmVjaXBlcy1jb25uZWN0aXZpdHkv
+b2Zvbm8ve29mb25vXzIuMTcuYmIgPT4gb2Zvbm9fMi4xOC5iYn0gfCAyICstCiAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L29mb25vL3tvZm9ub18yLjE3LmJiID0+IG9mb25vXzIuMTguYmJ9ICg5NSUp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18yLjE3
+LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18yLjE4LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zv
+bm8vb2Zvbm9fMi4xNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9u
+by9vZm9ub18yLjE4LmJiCmluZGV4IDM2YmJlOTQzOWEuLmUyNjY2YjNlN2UgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMi4xNy5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vXzIuMTguYmIKQEAgLTEwLDcgKzEwLDcg
+QEAgREVQRU5EUyA9ICJkYnVzIGdsaWItMi4wIHVkZXYgbW9iaWxlLWJyb2FkYmFuZC1wcm92aWRl
+ci1pbmZvIGVsbCIKIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC9uZXR3b3Jr
+LyR7QlBOfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vb2Zvbm8gXAogICAgICAg
+ICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzBiYjUwOTk3ZDNhNzY1N2VkZjEzMzM1NTY3
+N2Y4ZTA0YjIxNThiY2IwMzExMThhNjdiMjk2MTA3ZjZlYTczZSIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJmNzRjM2JiYTdlYmFjNDg4ZmVkN2JjZmE2MTEzYjBlMzllNzIzZDJlMWEyNGI1M2Y3OWM5
+ZjE4YTFjODVkZDAwIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgdXBkYXRlLXJjLmQg
+c3lzdGVtZCBnb2JqZWN0LWludHJvc3BlY3Rpb24tZGF0YQogCi0tIAoyLjQ3LjEKCg==
 
---===============8911237254166351214==
+--===============2016343367471015826==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/iproute2/iproute2-bash-completion: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-bash-completion: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-bridge: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-bridge: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dbg: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dbg: PKGSIZE changed from 9078128 to 9078648 (+0%)
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dbg: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dev: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-dev: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-devlink: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-devlink: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-doc: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-doc: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-genl: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-genl: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ifstat: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ifstat: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ip: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ip: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-lnstat: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-lnstat: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-locale: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-locale: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-nstat: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-nstat: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-rdma: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-rdma: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-routel: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-routel: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-rtacct: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-rtacct: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-src: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-src: PKGSIZE changed from 3717779 to 3718913 (+0%)
-packages/x86-64-v3-poky-linux/iproute2/iproute2-src: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ss: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-ss: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-staticdev: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-staticdev: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-tc: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-tc: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2-tipc: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2-tipc: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2/iproute2: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2/iproute2: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2: PKGV changed from 6.15.0 [default] to 6.16.0 [default]
-packages/x86-64-v3-poky-linux/iproute2: PV changed from "6.15.0" to "6.16.0"
-packages/x86-64-v3-poky-linux/iproute2: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.15.0.tar.xz file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch" to "https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.16.0.tar.xz file://0001-include-libnetlink.h-add-missing-include-for-htobe64.patch"
+packages/x86-64-v3-poky-linux/ofono: SRC_URI changed from "https://cdn.kernel.org/pub/linux/network/ofono/ofono-2.17.tar.xz file://ofono" to "https://cdn.kernel.org/pub/linux/network/ofono/ofono-2.18.tar.xz file://ofono"
+packages/x86-64-v3-poky-linux/ofono: PKGV changed from 2.17 [default] to 2.18 [default]
+packages/x86-64-v3-poky-linux/ofono: PV changed from "2.17" to "2.18"
+packages/x86-64-v3-poky-linux/ofono/ofono-dbg: PKGSIZE changed from 7301440 to 7311272 (+0%)
+packages/x86-64-v3-poky-linux/ofono/ofono-dbg: PKGV changed from 2.17 [default] to 2.18 [default]
+packages/x86-64-v3-poky-linux/ofono/ofono-dbg: PV changed from "2.17" to "2.18"
+packages/x86-64-v3-poky-linux/ofono/ofono-dev: PKGV changed from 2.17 [default] to 2.18 [default]
+packages/x86-64-v3-poky-linux/ofono/ofono-dev: PV changed from "2.17" to "2.18"
+packages/x86-64-v3-poky-linux/ofono/ofono-doc: PKGV changed from 2.17 [default] to 2.18 [default]
+packages/x86-64-v3-poky-linux/ofono/ofono-doc: PV changed from "2.17" to "2.18"
+packages/x86-64-v3-poky-linux/ofono/ofono-locale: PKGV changed from 2.17 [default] to 2.18 [default]
+packages/x86-64-v3-poky-linux/ofono/ofono-locale: PV changed from "2.17" to "2.18"
+packages/x86-64-v3-poky-linux/ofono/ofono-src: PKGV changed from 2.17 [default] to 2.18 [default]
+packages/x86-64-v3-poky-linux/ofono/ofono-src: PV changed from "2.17" to "2.18"
+packages/x86-64-v3-poky-linux/ofono/ofono-staticdev: PKGV changed from 2.17 [default] to 2.18 [default]
+packages/x86-64-v3-poky-linux/ofono/ofono-staticdev: PV changed from "2.17" to "2.18"
+packages/x86-64-v3-poky-linux/ofono/ofono-tests: PKGV changed from 2.17 [default] to 2.18 [default]
+packages/x86-64-v3-poky-linux/ofono/ofono-tests: PV changed from "2.17" to "2.18"
+packages/x86-64-v3-poky-linux/ofono/ofono: PKGSIZE changed from 2288391 to 2292855 (+0%)
+packages/x86-64-v3-poky-linux/ofono/ofono: PKGV changed from 2.17 [default] to 2.18 [default]
+packages/x86-64-v3-poky-linux/ofono/ofono: PV changed from "2.17" to "2.18"
 
---===============8911237254166351214==--
+--===============2016343367471015826==--
 
