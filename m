@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B77CA100E
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:21 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.89787.1756850180157864169
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1578ACA1009
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:31 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.89802.1756850190593172053
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 14:56:20 -0700
+ Tue, 02 Sep 2025 14:56:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=tHaKVAGK;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=mG1oH4XC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101990c6e4d13-b5df9067-2d55-4c78-812b-ec3c9660e6e2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aExv81Pk;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=SvyoftPK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101990c6e75ff-3c62d5e3-db4b-41d0-baec-e9dab340e081-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756850179;
+	t=1756850189;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=EWJhmaxX6Qt11bSo1rlIhwZSWw/H+YIydFo3n82a88o=;
-	b=tHaKVAGKCay46x65M7SrMlDw7mEQ1LxrUExKq+ZKDxiqhzX2daPNVW71GIgrCCW6
-	Hs4wh+8ZU43vmzze8nNgiOd3PPrtZhI/k6o0m602Eg2wAtDjJV2ZUMoh4zXpZoIHvEX
-	VB5rMwYHEWdFwf4bY208A58pnJfsVcQ8/A6dkBRU=
+	bh=nWi1Ra0fMJckypfqYb0mUAq3YxLt+CaR3YftgJCMIeY=;
+	b=aExv81PkYdDbN7bPhn/amtrND9jUaLHfxfE1VQgbJJLnO+T3gOgECVQVxqpaYy1U
+	Ka3Mmq3VyEuMAARsWIFQ1EnRsGyi6CZceOuLq9/N8BRoPWMbk3BJZXdWq9WDvDmq1xW
+	QXWZrj7aEN8QovZf1vLsbIFBTC+MpEzUoD36hZCg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850179;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850189;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=EWJhmaxX6Qt11bSo1rlIhwZSWw/H+YIydFo3n82a88o=;
-	b=mG1oH4XC0B4Ix1Le0OuWoZfUPQkQ/a/yFDAbE0z7XPUXh15RG2Kd7HtmShZna3As
-	zduhyZMUQK1tnZYWOr+PkbSnINXU4l9EAVRf3jUWQ3q3o+CoyCX3bklUkd6OrCQ1crD
-	Sj3HjnoVlzrBHNO13gMXanvxK4qKvnEZfTDhyF1c=
-Content-Type: multipart/mixed; boundary="===============7123418943111595101=="
+	bh=nWi1Ra0fMJckypfqYb0mUAq3YxLt+CaR3YftgJCMIeY=;
+	b=SvyoftPKrzD/iULT+sWUAZIGcQ1ksF1jHgwOgAb8IeOKeq1MitZsx9RUaNBE3ztZ
+	TdLBHSgpkRbpvWU3fg8SWk82oj9ghaBqInRTBiFxw3eKu4f+wC12dviRQVSJkiU4s89
+	8MPSi6N9NPuxfedmr9JnMei5fEjc3bgeiKJvGBPA=
+Content-Type: multipart/mixed; boundary="===============8440468530643315556=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	Robert Yang <liezhi.yang@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gettext,gettext-minimal-native: upgrading to 0.26,0.26 FAILED
-Message-ID: <010101990c6e4d13-b5df9067-2d55-4c78-812b-ec3c9660e6e2-000000@us-west-2.amazonses.com>
-Date: Tue, 2 Sep 2025 21:56:19 +0000
+Subject: [AUH] python3-pdm: upgrading to 2.25.9 SUCCEEDED
+Message-ID: <010101990c6e75ff-3c62d5e3-db4b-41d0-baec-e9dab340e081-000000@us-west-2.amazonses.com>
+Date: Tue, 2 Sep 2025 21:56:29 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.02-54.240.27.23
+X-SES-Outgoing: 2025.09.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222755
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222781
 
---===============7123418943111595101==
+--===============8440468530643315556==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,170 +51,121 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gettext,gettext-minimal-native* to *0.26,0.26* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-pdm* to *2.25.9* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-pdm-upgrade-2.25.4-2.25.9.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe gettext failed.
-NOTE: Reconnecting to bitbake server...
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (0 cached, 944 parsed). 1940 targets, 45 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-4ad510a63fd88b7907b2a1b8feceace9758397d0"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:4ad510a63fd88b7907b2a1b8feceace9758397d0"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 945 .bb files complete (0 cached, 945 parsed). 1941 targets, 45 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-4ad510a63fd88b7907b2a1b8feceace9758397d0"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:4ad510a63fd88b7907b2a1b8feceace9758397d0"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   1% |                                    | ETA:  0:00:07
-Adding changed files:   3% |#                                   | ETA:  0:00:05
-Adding changed files:   4% |#                                   | ETA:  0:00:04
-Adding changed files:   6% |##                                  | ETA:  0:00:04
-Adding changed files:   7% |##                                  | ETA:  0:00:03
-Adding changed files:   9% |###                                 | ETA:  0:00:03
-Adding changed files:  11% |###                                 | ETA:  0:00:03
-Adding changed files:  12% |####                                | ETA:  0:00:03
-Adding changed files:  14% |#####                               | ETA:  0:00:03
-Adding changed files:  15% |#####                               | ETA:  0:00:03
-Adding changed files:  17% |######                              | ETA:  0:00:03
-Adding changed files:  19% |######                              | ETA:  0:00:03
-Adding changed files:  20% |#######                             | ETA:  0:00:04
-Adding changed files:  22% |#######                             | ETA:  0:00:04
-Adding changed files:  23% |########                            | ETA:  0:00:04
-Adding changed files:  25% |#########                           | ETA:  0:00:03
-Adding changed files:  26% |#########                           | ETA:  0:00:03
-Adding changed files:  28% |##########                          | ETA:  0:00:03
-Adding changed files:  30% |##########                          | ETA:  0:00:03
-Adding changed files:  31% |###########                         | ETA:  0:00:03
-Adding changed files:  33% |###########                         | ETA:  0:00:03
-Adding changed files:  34% |############                        | ETA:  0:00:03
-Adding changed files:  36% |#############                       | ETA:  0:00:03
-Adding changed files:  38% |#############                       | ETA:  0:00:03
-Adding changed files:  39% |##############                      | ETA:  0:00:03
-Adding changed files:  41% |##############                      | ETA:  0:00:02
-Adding changed files:  42% |###############                     | ETA:  0:00:02
-Adding changed files:  44% |###############                     | ETA:  0:00:02
-Adding changed files:  45% |################                    | ETA:  0:00:02
-Adding changed files:  47% |#################                   | ETA:  0:00:02
-Adding changed files:  49% |#################                   | ETA:  0:00:02
-Adding changed files:  50% |##################                  | ETA:  0:00:02
-Adding changed files:  52% |##################                  | ETA:  0:00:02
-Adding changed files:  53% |###################                 | ETA:  0:00:02
-Adding changed files:  55% |###################                 | ETA:  0:00:02
-Adding changed files:  57% |####################                | ETA:  0:00:01
-Adding changed files:  58% |#####################               | ETA:  0:00:01
-Adding changed files:  60% |#####################               | ETA:  0:00:01
-Adding changed files:  61% |######################              | ETA:  0:00:01
-Adding changed files:  63% |######################              | ETA:  0:00:01
-Adding changed files:  64% |#######################             | ETA:  0:00:01
-Adding changed files:  66% |#######################             | ETA:  0:00:01
-Adding changed files:  68% |########################            | ETA:  0:00:01
-Adding changed files:  69% |#########################           | ETA:  0:00:01
-Adding changed files:  71% |#########################           | ETA:  0:00:01
-Adding changed files:  72% |##########################          | ETA:  0:00:01
-Adding changed files:  74% |##########################          | ETA:  0:00:01
-Adding changed files:  76% |###########################         | ETA:  0:00:01
-Adding changed files:  77% |###########################         | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  80% |#############################       | ETA:  0:00:00
-Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  85% |##############################      | ETA:  0:00:00
-Adding changed files:  87% |###############################     | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  91% |#################################   | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:04
-INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftpmirror.gnu.org/gnu/gettext/gettext-0.26.tar.gz...
-INFO: Rebasing devtool onto 8cae19b704f55de90932587290fdfa96b943f07d
-WARNING: Command 'git rebase 8cae19b704f55de90932587290fdfa96b943f07d' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-Auto-merging gettext-runtime/configure.ac
-CONFLICT (content): Merge conflict in gettext-runtime/configure.ac
-Auto-merging gettext-tools/configure.ac
-CONFLICT (content): Merge conflict in gettext-tools/configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-libc-musl onto 8cae19b704f55de90932587290fdfa96b943f07d
-WARNING: Command 'git rebase 8cae19b704f55de90932587290fdfa96b943f07d' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-Auto-merging gettext-runtime/configure.ac
-CONFLICT (content): Merge conflict in gettext-runtime/configure.ac
-Auto-merging gettext-tools/configure.ac
-CONFLICT (content): Merge conflict in gettext-tools/configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/gettext
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/gettext/gettext_0.26.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7123418943111595101==--
+
+-- >8 --
+From 2667cd0da32f0b4fe88c550a383bf7bb9fee9778 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 2 Sep 2025 18:27:52 +0000
+Subject: [PATCH] python3-pdm: upgrade 2.25.4 -> 2.25.9
+
+---
+ .../python/{python3-pdm_2.25.4.bb => python3-pdm_2.25.9.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pdm_2.25.4.bb => python3-pdm_2.25.9.bb} (80%)
+
+diff --git a/meta/recipes-devtools/python/python3-pdm_2.25.4.bb b/meta/recipes-devtools/python/python3-pdm_2.25.9.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-pdm_2.25.4.bb
+rename to meta/recipes-devtools/python/python3-pdm_2.25.9.bb
+index da77ed8f6c..6938edb82f 100644
+--- a/meta/recipes-devtools/python/python3-pdm_2.25.4.bb
++++ b/meta/recipes-devtools/python/python3-pdm_2.25.9.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ SECTION = "devel/python"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
+ 
+-SRC_URI[sha256sum] = "bd655d789429928d6e27ff6693c19c82bc81aa75ba51d7b1c6102d039c8f211c"
++SRC_URI[sha256sum] = "fb5fcd561986db1d83255d01e97e2e16f80debf743934d891a62ff2933ccc80c"
+ 
+ inherit pypi python_pdm
+ 
+-- 
+2.47.1
+
+
+--===============8440468530643315556==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pdm-upgrade-2.25.4-2.25.9.patch"
+
+RnJvbSAyNjY3Y2QwZGEzMmYwYjRmZTg4YzU1MGEzODNiZjdiYjlmZWU5Nzc4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxODoyNzo1MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcGRtOiB1cGdyYWRlIDIuMjUuNCAtPiAyLjI1LjkKCi0tLQogLi4uL3B5dGhvbi97cHl0
+aG9uMy1wZG1fMi4yNS40LmJiID0+IHB5dGhvbjMtcGRtXzIuMjUuOS5iYn0gICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1wZG1fMi4yNS40LmJiID0+IHB5dGhv
+bjMtcGRtXzIuMjUuOS5iYn0gKDgwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuNC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1wZG1fMi4yNS45LmJiCnNpbWlsYXJpdHkgaW5kZXggODAlCnJlbmFtZSBm
+cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wZG1fMi4yNS40LmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuOS5i
+YgppbmRleCBkYTc3ZWQ4ZjZjLi42OTM4ZWRiODJmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjUuOS5iYgpAQCAtNCw3ICs0LDcgQEAgTElD
+RU5TRSA9ICJNSVQiCiBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIKIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTJlYjMxYTJjYzFhNzU4YzM0YjQ5OWYyODdkZDA0ZWYyIgog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYmQ2NTVkNzg5NDI5OTI4ZDZlMjdmZjY2OTNjMTljODJi
+YzgxYWE3NWJhNTFkN2IxYzYxMDJkMDM5YzhmMjExYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJm
+YjVmY2Q1NjE5ODZkYjFkODMyNTVkMDFlOTdlMmUxNmY4MGRlYmY3NDM5MzRkODkxYTYyZmYyOTMz
+Y2NjODBjIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3BkbQogCi0tIAoyLjQ3LjEKCg==
+
+--===============8440468530643315556==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-pdm: PV changed from "2.25.4" to "2.25.9"
+packages/x86-64-v3-poky-linux/python3-pdm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.25.4.tar.gz;downloadfilename=pdm-2.25.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.25.9.tar.gz;downloadfilename=pdm-2.25.9.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pdm: PKGV changed from 2.25.4 [default] to 2.25.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PV changed from "2.25.4" to "2.25.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PKGV changed from 2.25.4 [default] to 2.25.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PV changed from "2.25.4" to "2.25.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PKGV changed from 2.25.4 [default] to 2.25.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PV changed from "2.25.4" to "2.25.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PKGV changed from 2.25.4 [default] to 2.25.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PV changed from "2.25.4" to "2.25.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PKGV changed from 2.25.4 [default] to 2.25.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PV changed from "2.25.4" to "2.25.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PKGV changed from 2.25.4 [default] to 2.25.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PV changed from "2.25.4" to "2.25.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PKGV changed from 2.25.4 [default] to 2.25.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PV changed from "2.25.4" to "2.25.9"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGV changed from 2.25.4 [default] to 2.25.9 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGSIZE changed from 2239953 to 2242786 (+0%)
+Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
+  /usr/lib/python3.13/site-packages/pdm-2.25.4.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.25.9.dist-info
+
+--===============8440468530643315556==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
+  /usr/lib/python3.13/site-packages/pdm-2.25.4.dist-info moved to /usr/lib/python3.13/site-packages/pdm-2.25.9.dist-info
+
+--===============8440468530643315556==--
 
