@@ -1,89 +1,106 @@
-Return-Path: <kamel.bouhara@bootlin.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E93CA0FFE
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 07:12:16 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web10.71510.1756797127153483593
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C091CA0FFE
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 07:19:36 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.71431.1756797570213180513
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 00:12:08 -0700
+ Tue, 02 Sep 2025 00:19:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=vyMS8noB;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: kamel.bouhara@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 8396E4E40C75
-	for <openembedded-core@lists.openembedded.org>; Tue,  2 Sep 2025 07:12:05 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4C8AE60695;
-	Tue,  2 Sep 2025 07:12:05 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8316E1C22DB1D;
-	Tue,  2 Sep 2025 09:12:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1756797124; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=a+jeoZ+hqzrbXa9cT6d02sXcR3i1Ne5qnmyWiesPw7w=;
-	b=vyMS8noBIJGJZHtCU/+Evrf0tzLZG6L1+HQx9KHoK2P26qFlgz/zijFThWKsUxUleqHaAW
-	yQYJ15tDKaFsTVDmZxP4tEppFnCvi1S3C8m8avUDX5hpszDNB2r2g2S3HpfmMVWhLQZego
-	rmOtXKo0kB7da0W+rwlZcy8OBuFcSZ9eIcdBL4L7DDGb3tJRlQ0P/H5JbKqHKxCvPEs4lk
-	M487yBSR1wq8Mepl1pu5l+jZC1AfSpr+yzq8X3oMNaYGr70k0AtEPWJ6o25xhwBGCz5i2s
-	7uo8GfEGpHqJFq+nDx6LA/djxgkypY3a6jM0mBNeQAQxuTqGcmWrtKsg+ZRxKQ==
-Date: Tue, 2 Sep 2025 09:11:58 +0200
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
-To: ross.burton@arm.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Joshua Watt <JPEWhacker@gmail.com>, "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, 
-	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>, "antonin.godard@bootlin.com" <antonin.godard@bootlin.com>
-Subject: Re: [OE-core] [PATCH v3 2/2] spdx30_tasks: Add support for exporting
- PACKAGECONFIG to SPDX
-Message-ID: <zxrxtcqgep7gsgkc3oax2rff7zoyq2c76bghvstsx3cii5aykp@rgtw34rifhdt>
-References: <20250821145438.2537767-1-kamel.bouhara@bootlin.com>
- <20250821145438.2537767-3-kamel.bouhara@bootlin.com>
- <818BC0DA-8F57-4BCA-987A-BD3128CFE9EB@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WOfABcyY;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45a1b065d59so34356475e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 00:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756797568; x=1757402368; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g+s/Dp9hgld+jfY2AKSnlXD7bPA6zdVYJL0rtMUnXEk=;
+        b=WOfABcyYlB9JJZhsJXGp8Zbllmqh/R9S7wIYwWZSJpo+XqG68tVMAUzx2SZdnrthEJ
+         LP/vx0anQbBJcM3hUNLOgiXNE0hUC/C1hdhmVrPxsQ4QQkJ/hm2RlJpj4HUCkEVpw4LN
+         wHTLJk5GC3eeaKRgO21Xc11ScxeRBAYgTdYEnh4LJFKNJsW0UC4+NZe0jsQe4fsHGXHo
+         XTUBOM0QmTsb2wKCGByZSZblzwBHMA2dx6TyR2MpdiKOe5FdNAd1wYsYAzS3a+xI9bGG
+         olp2WZh2FAvJW85gLjzBMvXxS/KaL8hC8g06P49OnNMoWMPaFCaxmX7kpq844yeVQwkJ
+         h25A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756797568; x=1757402368;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g+s/Dp9hgld+jfY2AKSnlXD7bPA6zdVYJL0rtMUnXEk=;
+        b=aSAEnuq4FU/FeJlb2rWYpQnpIFXO7n5K8TSRRXgeX0T7Y5HJDDYGIr3PUCGR5hIGsF
+         VM4JwiKnhqDocevsQJLoP+ZVeb8Fppxoshy48Yd1Ivgki1VtOt8A6/47W00BlS271gJD
+         AIwYFzK1Gh3NSlrX9jdDqI04BvwDCC6QlqnRrE6GC7nJLGid+J3PdJkUUKCu6+QfIk0i
+         ONwqGOKgt3OvkRKM21oN/ntz7EJ04h9Ncacs5eO/yeo5+3TPYpn4OwWJMpme75lz4ELq
+         RYAeWnc3SnS/hyupf4Ou6Z1QWY7CI0KT/8lyLUObMxOZuHAdB9zaZZPgSnDOnzSyiUcS
+         CSlA==
+X-Gm-Message-State: AOJu0YxqvO8pEV6f/uVlnckTFdODX9DrTqfBh1vqDpnGcNTsiK7+1VXP
+	nY9d7D0gHeKvNsP+1KKhVEyAryLbByKQmIIzA1+c2o1L9cKpMNayAuNZy6h7Ug==
+X-Gm-Gg: ASbGncvbO94EDJTjVxA+/wdAerljzM22geGzPQkikryPA5t1PYREFs2UuG1a7FM42MB
+	KWkzj3U2YP0iF/4FyWQ50tqHqTfDGC54oONhmnxT/DAlpK35aJUDPxRVh091BY8KoaA0npvHgNC
+	Se4wiPZn97PBlA87XKc9XnEJf/VAx4l+za+APopcLwfGVvoTav0TN01O8YMozPbFs+IQs8hRS8j
+	aUCTogolE7Dli10VfHx7K9ozNDW/3tg1UgkSypxy6a3NlgeyzVUw8fADAHzFvpSXtJLQ9n93G5D
+	3aLsdgSYTVRXGKALzFZDUYd+yDqo65hlKIr95RtGSZ/MrmOTZ6TJnEhzRi6n1XQREKWw2zUCjK2
+	d4WhWZowjF+a42aLXjOQn1FIZz9sV0tAMbQbwdTlUH0hPhPhIRsq4bsA=
+X-Google-Smtp-Source: AGHT+IEUyaT+4cy70ZlBnm0V2oJCR5FAU4CEbVNsc5YZdJIygkZgmtXkudDdsLRMeJn1DXreyXSRJg==
+X-Received: by 2002:a05:600c:5490:b0:45b:8db2:336e with SMTP id 5b1f17b1804b1-45b8e2e64b1mr36062475e9.23.1756797568107;
+        Tue, 02 Sep 2025 00:19:28 -0700 (PDT)
+Received: from fedora (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d0a1f807f9sm17608422f8f.38.2025.09.02.00.19.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Sep 2025 00:19:27 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"Signed-off-by : Alexander Kanavin" <alex@linutronix.de>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH] tiff: Add PACKAGECONFIG for liblerc
+Date: Tue,  2 Sep 2025 09:19:13 +0200
+Message-ID: <20250902071913.2350691-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <818BC0DA-8F57-4BCA-987A-BD3128CFE9EB@arm.com>
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 07:12:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222710
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 07:19:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222711
 
-On Mon, Sep 01, 2025 at 05:04:38PM +0000, Ross Burton via lists.openembed=
-ded.org wrote:
-> Hi,
->
+tiff-native may pick up liblerc from the host using the .so
+symlink, in which case it's added as a private requirement
+in libtiff-4.pc. That in turn causes a build error in
+gtk4-native in Yocto because Lerc.pc does not exist.
 
-Hi Ross,
+This was observed on Fedora 42 with gdk-pixbuf2-devel installed
+on the host where libtiff is a dependency of gdk-pixbuf2 and
+libtiff 4.7.0 is built with liblerc enabled.
 
-> > On 21 Aug 2025, at 15:54, Kamel Bouhara via lists.openembedded.org <k=
-amel.bouhara=3Dbootlin.com@lists.openembedded.org> wrote:
-> >
-> > Introduce the SPDX_INCLUDE_PACKAGECONFIG variable, which when enabled=
- causes
-> > PACKAGECONFIG features to be recorded in the SPDX document as build p=
-arameters.
->
-> My initial review comment was =E2=80=9Cwhat does Josh think=E2=80=9D an=
-d he=E2=80=99s already acked this, but this is adding disabled-by-default=
- functionality that isn=E2=80=99t documented or tested at all.
->
-> Can you add some documentation to the reference manual at least, and a =
-test case in oe-selftest that turns on all of these optional toggles so t=
-hey get exercised at least once?
+Add a new PACKAGECONFIG setting for liblerc but keep it disabled
+since liblerc does not exist in Yocto at the moment.
 
-Sure, I=E2=80=99ll add the docs and an oe-selftest case in the next updat=
-e.
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Backport-to: walnascar
+---
+ meta/recipes-multimedia/libtiff/tiff_4.7.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
-Kamel
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
+index 26e3811ff8..d1638f1b61 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
+@@ -38,6 +38,7 @@ PACKAGECONFIG ?= "cxx jpeg zlib lzma \
+ PACKAGECONFIG[cxx] = "--enable-cxx,--disable-cxx,,"
+ PACKAGECONFIG[jbig] = "--enable-jbig,--disable-jbig,jbig,"
+ PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg,"
++PACKAGECONFIG[lerc] = "--enable-lerc,--disable-lerc,liblerc,"
+ PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib,"
+ PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz,"
+ PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp,"
+-- 
+2.51.0
 
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
 
