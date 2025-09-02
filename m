@@ -2,86 +2,94 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B96CA1002
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 01:45:24 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.67817.1756777516602012975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B27CA1002
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 01:46:54 +0000 (UTC)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+ by mx.groups.io with SMTP id smtpd.web11.67638.1756777609850774342
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 18:45:16 -0700
+ Mon, 01 Sep 2025 18:46:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ECbIcuZV;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-327ae052173so2919856a91.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 18:45:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dI75x9mj;
+ spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e96f401c478so4477056276.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 18:46:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756777516; x=1757382316; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qj+VKXj7PSyzcDk3tUhX2rTmnxlTV9yvAwExHRb7Yw0=;
-        b=ECbIcuZVuJc0l+oVRv3kyd+GG6i97r3GXZsd+wRf2glypqW+bomb/QP/QTtJ6mZ4H+
-         LiA0RpE/gGvP4qygGINpPsTyoMksys4Z8puFe3bsbf88lNorv4xhtCIP2KOJmGA1q+ky
-         rnuWixYgV4NdlaxDd7xZ8IyZ+1IGDPH53ja+mYjI3CYIF3j0ObbMbE1T36Z8zV+IUEpx
-         11xWcZ2NSTMmJOjNY692pQegpsgC86XJVkJ8ph8w70u+PxbyHNpQVo6hc/o/3MQ/P4+J
-         Yce28RZ/2IRqgIXxFwud3gySHYm4MQu38Luef/y/Frlov/YdJjU5xjSZhj5wg6MyWi/2
-         uMHA==
+        d=gmail.com; s=20230601; t=1756777609; x=1757382409; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xUPcqp210T5Xpsysfbro6SjCsr1ZR8gAg9E1w3sUwUU=;
+        b=dI75x9mjbdUjq6M+tnXCNFLfynIJufbBZpzi+WDSoWxvbyByYDtHxPTU9WwXt7alvr
+         wwU8i3fsqrdCd7mH5dBjE1Yk8EDz7CEzs4eNhj8Sj/opIXKbjAJphxQB7+J1/Y35dcS+
+         Hipm5Kuqt4LzBdhHc5ETA118GReFABoP8Hkcfiso0hvLlMX/U0Hh9G06K32wWmvF8SEN
+         /U7hYR7BTqscAMW+RU5JgPmxjWJz/24MDEakwv6ZcBFx2ftlJjy/CPNbrEDWGOu25aNH
+         gD1kCp2SxtmEbGfYinCvpTWjjbJlFwqjGTLsqS2Cx6F1+94U1aVuyVVs7hkBLZqjuOra
+         Ux2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756777516; x=1757382316;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qj+VKXj7PSyzcDk3tUhX2rTmnxlTV9yvAwExHRb7Yw0=;
-        b=BGFmz4BeZMpux/89FjQzrcAVDlvzJy3Qi4jQcpeOSPxEoKL00UHFAZh+Z62HSG3sp+
-         1OcFig2FDjnouTL/Aq3sJhsAPHMU2S3dcxB3SlWVWumVWvwhpCAahoJ9O6kkyCwQ6RXw
-         SYmJCAtgsUTDHM4gNhLEYn+leV1yG+T1DyOlvEFtJ1LhzQB6sZY7jfoETcC3TNL/FNlX
-         EtwFbHuh3Ded7qWNyJIROIOpKrK+XWgKgekEr1p66CuHv6PEPci+eQn5UJq6Pwqe2547
-         cZkHlV2v/09BWpfZZ9ZUZqJO5RVm+URT1oHUfoxCykjzCALlFC3GsjJTmbSMOIFRqoAT
-         ZISA==
-X-Gm-Message-State: AOJu0YyA4T2Hgi+/uOYCpC84FOS80j4HxM6jJkPY2qJ4GRgrMefHGUub
-	Mp4+MHQYX38LHHBsqSdni5ZI9PMHoU7qFXoHqyu7s+FM+8WMr4lhvZuqtv39w7hH
-X-Gm-Gg: ASbGncuKASQo/wFWHOMwEoHM+bY64z9j/a9c5JQaKpY98Tb543q+pOyWwd4JCAmnkVV
-	RlmjYVKcgj8LffLxMt2qmm71vpHI+/ND39O+Opy740d0cdkj9TneLVCp4JqsMhIvfSEZUSDZzdd
-	nUwPM+LykgJFAQvcdhk6jAEGdM82ZmyTTrP86cVm6XujF/4B3vWDJPxM8JxppJ1mXdDSZ1pflTy
-	DGLWusUVLNHo0HY7A+T3MavBA5HNBpr+HfdnBUtUJi4unhMUoJrk3hCzOgECKuGCFDg0R6cONA9
-	UxMQHHojjL188m+dgvGXHgVV916msN8k9pxEuui/vAUF8lnslAsMT4CPTWiTjPeFS3rXllGwahr
-	wuRdk5WxW8zYJ4/DrivsFJ5OCIOgzirrRKDbzG2BCocELbycv9NMDAz0OTvttOZ/zl7fFnwzHUT
-	GPxBPZ2GA0HvfwuSAb8AQBAC7udYhvtjjqODWTbTzQ0UGF0LxGjus=
-X-Google-Smtp-Source: AGHT+IFRN5VanOgm5ub20SVNLwtIuvFk56dsTm/sdex+G00qGYopRSs20TxoAr/kt6bruPP+fII1/Q==
-X-Received: by 2002:a17:90b:1d48:b0:327:75c9:bea9 with SMTP id 98e67ed59e1d1-328156b638amr13782814a91.24.1756777515601;
-        Mon, 01 Sep 2025 18:45:15 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::c2de])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4f8a0a3948sm2692899a12.27.2025.09.01.18.45.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 18:45:14 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] lttng-tools: Add link to issue reported upstream  for musl failures
-Date: Mon,  1 Sep 2025 18:45:11 -0700
-Message-ID: <20250902014511.3492629-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1756777609; x=1757382409;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xUPcqp210T5Xpsysfbro6SjCsr1ZR8gAg9E1w3sUwUU=;
+        b=cc8CJGw2/aGBGtf0MpmZ4AX77q+nkHB4sLlgcr9AwgzQnuqAIkVoH6tGHB+lCiniHq
+         9s8Qr2SLHy68cq+weQBHutVKinwBmhpsbHqN/FKHjRG/EUQ5PtalPivrHX0KFYuaqJK3
+         h1Fj3mCCVRbUY1VFd5iVWI/vgFdZZT1ILclE3MrszIW9JneCjR7mmLcHYou7LoJoCfHS
+         pWBzz4wvKHfzvtRLu9+JRzfXx2HEo4WJ7HWVeqvPkt61+6rbSyaQKBBE2+cwlATku8fq
+         FqgnbqdWwCDoNx229Mmr6GkO4kjkF1gqDjIXzPFqtuipyCOFfWaJFGp7HqsPr6Uyb7Z/
+         i1pw==
+X-Gm-Message-State: AOJu0Yy6umMwOf24/iMinK+9bXwqsDN6iVC8kHPsRft2ngCgyX9s8Vlf
+	uIky2470WOPQoV2fOSRpImWf9813+yvSPwY1/NhZEV9xD/ib/29ML0SWFIekFjubYNU4JMc7Jao
+	vXc4r66iHnn2zFfLiLYSwFMSKsauHOPsGcszQNeI=
+X-Gm-Gg: ASbGncuds6Bdm2fx/sD5lxt6M0hTUe7Xd95Fykd8ACsiKBCGnO+6VuzVF6vxGWzJSLe
+	qITVaT/wAx1lXXzzPE6rfklc5Fp/by6XwwTrnw9vjTvamYdDMNeLMMCe9LdziUPcQcq2beTQThk
+	S41m855pnOdNV751bH52DS6WMPtDcFZ85Ow6LigwQwmheITxmtXdaiSrESu7R5GsZBhF8JDIWYu
+	Jq9LjZenysoMgBlm+uX11osddj2kZzuuPTIJZcIaGLYGzueXSM4cql79VRmL01wopZryzw6ZQGy
+	34P3pOXNiYOpn4tJyqrVsc7s1ZZZ2GObjT/2oNvusMogfVhNQcBo+RUk8A==
+X-Google-Smtp-Source: AGHT+IE3zINDmwJq7LUv2G8mCaKtj7Z7o7t4lz2ii1O35CGD1jhYM0vXW8EzjNh7NwPKrTh0FQey0+VnzfD+vZgvKIk=
+X-Received: by 2002:a05:690c:9688:b0:721:67c7:936e with SMTP id
+ 00721157ae682-7227658a1e4mr111293037b3.50.1756777608772; Mon, 01 Sep 2025
+ 18:46:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250828025134.3747161-1-raj.khem@gmail.com> <ADF4E6CA-F16A-4F7B-B3C4-114FEA7E673F@arm.com>
+In-Reply-To: <ADF4E6CA-F16A-4F7B-B3C4-114FEA7E673F@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 1 Sep 2025 18:46:22 -0700
+X-Gm-Features: Ac12FXzQSfJSDK36g34zpJv6nmoQdfAicSSOAUWji2SojlxqGxIF1NU38wrM01E
+Message-ID: <CAMKF1spGbZjXaTzEqFSUABR+n98+FJ-vE3QoWnBuJwAPx2W5VA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] lttng-tools: Filter out regression testsuite on
+ musl systems
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 01:45:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222681
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 01:46:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222682
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+On Mon, Sep 1, 2025 at 10:09=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+rote:
+>
+> On 28 Aug 2025, at 03:51, Khem Raj via lists.openembedded.org <raj.khem=
+=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > regression testsuite does not run to finish on musl systems, some of
+> > the issues seen
+> >
+> > * python is OOM'ing which is fixed by asking for 8G memory for qemu
+> > * It hits the timeout limits of ptest-runner even -t 2400 does not fini=
+sh it
+> > * Use make -j1 and running run-ptest script directly ( outside
+> >  ptest-runner to avoid timeout limit) causes it to run forever
+> >
+> > Lets disable this testsuite for musl systems for now.
+>
+> Is there a bug filed upstream that we can track to know when to enable th=
+e tests again?
+>
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
-index e706e87c060..fc586ccae46 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.14.0.bb
-@@ -208,6 +208,7 @@ do_install_ptest () {
- 
- do_install_ptest:append:libc-musl () {
-     # filter-out running regression testsuite on musl systems, it hangs
-+    # Keep it until https://bugs.lttng.org/issues/1432 is fixed upstream
-     sed -i -e '$a\' -e 'SUBDIRS := $(filter-out regression,$(SUBDIRS))' ${D}${PTEST_PATH}/tests/Makefile
- }
- 
+Now there is https://bugs.lttng.org/issues/1432
+
+> Ross
 
