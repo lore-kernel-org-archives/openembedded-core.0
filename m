@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E13A1CAC59D
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:43 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.90003.1756850193856220405
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D0C4CA1019
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:54 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.89801.1756850190481652980
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 14:56:42 -0700
+ Tue, 02 Sep 2025 14:56:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=a5la8xUG;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=kv0QvFta;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101990c6ea6c5-115d805b-4c91-41e8-8330-d40813a1a718-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bD4Y90NO;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=s2YtYG6E;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101990c6eb4c9-dac6d734-8c49-48a4-9446-097fc10812b5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756850202;
+	t=1756850206;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sVKaYRlwWQp3SbFJ+KrfMk+rkU/Y71QGeYZ1iBDB468=;
-	b=a5la8xUGOgv5iN7txxofFHUTENbNcCyM24FhNC2lut+pe2UFzUZrUr9PwEQfT3Yy
-	5Px5TY77TxsvTvWA2o36h1+N7waQycqMOWHZeCp9eLtMeXy1ewtq5QCRY8ocYdx3jO1
-	AliPVBp5gDGFrODVOSBc7d0Mq2jU4867rWvOZm5A=
+	bh=Dhu65kMJK5Jorqnf3dpFHcN3rLq1GrbudC/skC5I8L4=;
+	b=bD4Y90NO01e+qJzgzBhuavrQE+wgCLYRAeht/CPblfnpgGjZDVNSfpAl6pql51kN
+	GeKJ255IltBJUGlnYkK0yXisdUeZfXrIwcJyUA/Pqivbr/VMuGVpAN+fx4WKv+ZBfbu
+	k5mpf8VopC8XlBhGY7kZnUDuYxhUvqT/98QFQfPM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850202;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850206;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sVKaYRlwWQp3SbFJ+KrfMk+rkU/Y71QGeYZ1iBDB468=;
-	b=kv0QvFtarngG52I0jxuEU12NGPjDztADlOkT0MHx/JCblX4Mah+Er9N/9LbQW+KC
-	XjqNXbgg58FGZxMbfMvogt670splETgRGCFJ7/YF2ePJ7RGa/i1B21qc41jPNQHz2g2
-	uJbKiFt//L3AM8mKLO2FLnmmDN+98Ywc4deKeuYA=
-Content-Type: multipart/mixed; boundary="===============4491286858444457430=="
+	bh=Dhu65kMJK5Jorqnf3dpFHcN3rLq1GrbudC/skC5I8L4=;
+	b=s2YtYG6Eua/xYHpjfYuDQEO+0DcvzTQnrM9aW3AYe8NETNK2KGu3o+Y2rYqTWfHT
+	YGWAApLL2OTHqIxM4B6Sktj4azy87X7MVvYaOs3aC7X5FKZnBCdBKm7U3pK6sQyQbYh
+	16U4aHU8v/MtZ2yPXwtGmmKlRLG75o//Lv6Mfx3Y=
+Content-Type: multipart/mixed; boundary="===============3179599016608005055=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pixman: upgrading to 0.46.4 SUCCEEDED
-Message-ID: <010101990c6ea6c5-115d805b-4c91-41e8-8330-d40813a1a718-000000@us-west-2.amazonses.com>
-Date: Tue, 2 Sep 2025 21:56:42 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] libpcre2: upgrading to 10.46 SUCCEEDED
+Message-ID: <010101990c6eb4c9-dac6d734-8c49-48a4-9446-097fc10812b5-000000@us-west-2.amazonses.com>
+Date: Tue, 2 Sep 2025 21:56:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.02-54.240.27.23
+X-SES-Outgoing: 2025.09.02-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222818
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222832
 
---===============4491286858444457430==
+--===============3179599016608005055==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *pixman* to *0.46.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libpcre2* to *10.46* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-pixman-upgrade-0.46.2-0.46.4.patch
+    - apply the patch: git am 0001-libpcre2-upgrade-10.45-10.46.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,95 +72,73 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dbb47d5b6551ce804e9435188f311a3e3d1d7936 Mon Sep 17 00:00:00 2001
+From 30e2ef609b21c499991deaabe3368792fe43e9f4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 2 Sep 2025 20:50:22 +0000
-Subject: [PATCH] pixman: upgrade 0.46.2 -> 0.46.4
+Date: Tue, 2 Sep 2025 21:51:20 +0000
+Subject: [PATCH] libpcre2: upgrade 10.45 -> 10.46
 
 ---
- .../xorg-lib/{pixman_0.46.2.bb => pixman_0.46.4.bb}             | 2 +-
+ .../libpcre/{libpcre2_10.45.bb => libpcre2_10.46.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{pixman_0.46.2.bb => pixman_0.46.4.bb} (95%)
+ rename meta/recipes-support/libpcre/{libpcre2_10.45.bb => libpcre2_10.46.bb} (95%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.46.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.45.bb b/meta/recipes-support/libpcre/libpcre2_10.46.bb
 similarity index 95%
-rename from meta/recipes-graphics/xorg-lib/pixman_0.46.2.bb
-rename to meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb
-index 71c7f9a98d..58c7bf3d03 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.46.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb
-@@ -8,7 +8,7 @@ SECTION = "x11/libs"
- DEPENDS = "zlib"
+rename from meta/recipes-support/libpcre/libpcre2_10.45.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.46.bb
+index 4fbb8921c5..0d7823c079 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.45.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.46.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
+ GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
  
- SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz"
--SRC_URI[sha256sum] = "3e0de5ba6e356916946a3d958192f15505dcab85134771bfeab4ce4e29bbd733"
-+SRC_URI[sha256sum] = "d09c44ebc3bd5bee7021c79f922fe8fb2fb57f7320f55e97ff9914d2346a591c"
+-SRC_URI[sha256sum] = "21547f3516120c75597e5b30a992e27a592a31950b5140e7b8bfde3f192033c4"
++SRC_URI[sha256sum] = "15fbc5aba6beee0b17aecb04602ae39432393aba1ebd8e39b7cabf7db883299f"
  
- # see http://cairographics.org/releases/ - only even minor versions are stable
- UPSTREAM_CHECK_REGEX = "pixman-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
+ CVE_PRODUCT = "pcre2"
+ 
 -- 
 2.47.1
 
 
---===============4491286858444457430==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-pixman-upgrade-0.46.2-0.46.4.patch"
-
-RnJvbSBkYmI0N2Q1YjY1NTFjZTgwNGU5NDM1MTg4ZjMxMWEzZTNkMWQ3OTM2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAyMDo1MDoyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBp
-eG1hbjogdXBncmFkZSAwLjQ2LjIgLT4gMC40Ni40CgotLS0KIC4uLi94b3JnLWxpYi97cGl4bWFu
-XzAuNDYuMi5iYiA9PiBwaXhtYW5fMC40Ni40LmJifSAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy94b3JnLWxpYi97cGl4bWFuXzAuNDYuMi5iYiA9PiBwaXhtYW5fMC40Ni40
-LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9w
-aXhtYW5fMC40Ni4yLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3BpeG1hbl8w
-LjQ2LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL3hvcmctbGliL3BpeG1hbl8wLjQ2LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1n
-cmFwaGljcy94b3JnLWxpYi9waXhtYW5fMC40Ni40LmJiCmluZGV4IDcxYzdmOWE5OGQuLjU4Yzdi
-ZjNkMDMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9waXhtYW5f
-MC40Ni4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9waXhtYW5fMC40
-Ni40LmJiCkBAIC04LDcgKzgsNyBAQCBTRUNUSU9OID0gIngxMS9saWJzIgogREVQRU5EUyA9ICJ6
-bGliIgogCiBTUkNfVVJJID0gImh0dHBzOi8vd3d3LmNhaXJvZ3JhcGhpY3Mub3JnL3JlbGVhc2Vz
-LyR7QlB9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzZTBkZTViYTZlMzU2OTE2OTQ2
-YTNkOTU4MTkyZjE1NTA1ZGNhYjg1MTM0NzcxYmZlYWI0Y2U0ZTI5YmJkNzMzIgorU1JDX1VSSVtz
-aGEyNTZzdW1dID0gImQwOWM0NGViYzNiZDViZWU3MDIxYzc5ZjkyMmZlOGZiMmZiNTdmNzMyMGY1
-NWU5N2ZmOTkxNGQyMzQ2YTU5MWMiCiAKICMgc2VlIGh0dHA6Ly9jYWlyb2dyYXBoaWNzLm9yZy9y
-ZWxlYXNlcy8gLSBvbmx5IGV2ZW4gbWlub3IgdmVyc2lvbnMgYXJlIHN0YWJsZQogVVBTVFJFQU1f
-Q0hFQ0tfUkVHRVggPSAicGl4bWFuLSg/UDxwdmVyPlxkK1wuKFxkKlswMjQ2OF0pKyhcLlxkKykr
-KSIKLS0gCjIuNDcuMQoK
-
---===============4491286858444457430==
+--===============3179599016608005055==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/pixman: PV changed from "0.46.2" to "0.46.4"
-packages/x86-64-v3-poky-linux/pixman: SRC_URI changed from "https://www.cairographics.org/releases/pixman-0.46.2.tar.gz" to "https://www.cairographics.org/releases/pixman-0.46.4.tar.gz"
-packages/x86-64-v3-poky-linux/pixman: PKGV changed from 0.46.2 [default] to 0.46.4 [default]
-packages/x86-64-v3-poky-linux/pixman/pixman-dbg: FILELIST: removed "/usr/lib/.debug/libpixman-1.so.0.46.2", added "/usr/lib/.debug/libpixman-1.so.0.46.4"
-packages/x86-64-v3-poky-linux/pixman/pixman-dbg: PV changed from "0.46.2" to "0.46.4"
-packages/x86-64-v3-poky-linux/pixman/pixman-dbg: PKGV changed from 0.46.2 [default] to 0.46.4 [default]
-packages/x86-64-v3-poky-linux/pixman/pixman-dev: PV changed from "0.46.2" to "0.46.4"
-packages/x86-64-v3-poky-linux/pixman/pixman-dev: PKGV changed from 0.46.2 [default] to 0.46.4 [default]
-packages/x86-64-v3-poky-linux/pixman/pixman-doc: PV changed from "0.46.2" to "0.46.4"
-packages/x86-64-v3-poky-linux/pixman/pixman-doc: PKGV changed from 0.46.2 [default] to 0.46.4 [default]
-packages/x86-64-v3-poky-linux/pixman/pixman-locale: PV changed from "0.46.2" to "0.46.4"
-packages/x86-64-v3-poky-linux/pixman/pixman-locale: PKGV changed from 0.46.2 [default] to 0.46.4 [default]
-packages/x86-64-v3-poky-linux/pixman/pixman-src: PV changed from "0.46.2" to "0.46.4"
-packages/x86-64-v3-poky-linux/pixman/pixman-src: PKGV changed from 0.46.2 [default] to 0.46.4 [default]
-packages/x86-64-v3-poky-linux/pixman/pixman-staticdev: PV changed from "0.46.2" to "0.46.4"
-packages/x86-64-v3-poky-linux/pixman/pixman-staticdev: PKGV changed from 0.46.2 [default] to 0.46.4 [default]
-packages/x86-64-v3-poky-linux/pixman/pixman: FILELIST: removed "/usr/lib/libpixman-1.so.0.46.2", added "/usr/lib/libpixman-1.so.0.46.4"
-packages/x86-64-v3-poky-linux/pixman/pixman: PV changed from "0.46.2" to "0.46.4"
-packages/x86-64-v3-poky-linux/pixman/pixman: PKGV changed from 0.46.2 [default] to 0.46.4 [default]
-Changes to packages/x86-64-v3-poky-linux/pixman (sysroot):
-  /usr/lib/libpixman-1.so.0 changed symlink target from libpixman-1.so.0.46.2 to libpixman-1.so.0.46.4
-  /usr/lib/libpixman-1.so.0.46.2 moved to /usr/lib/libpixman-1.so.0.46.4
+packages/x86-64-v3-poky-linux/libpcre2: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2: SRC_URI changed from "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.45/pcre2-10.45.tar.bz2" to "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.46/pcre2-10.46.tar.bz2"
+packages/x86-64-v3-poky-linux/libpcre2: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2590200 to 2590328 (+0%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGSIZE changed from 2783245 to 2785005 (+0%)
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGV changed from 10.45 [default] to 10.46 [default]
+packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PV changed from "10.45" to "10.46"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2084,16 +2062,42 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============4491286858444457430==
+--===============3179599016608005055==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libpcre2-upgrade-10.45-10.46.patch"
+
+RnJvbSAzMGUyZWY2MDliMjFjNDk5OTkxZGVhYWJlMzM2ODc5MmZlNDNlOWY0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAyMTo1MToyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnBjcmUyOiB1cGdyYWRlIDEwLjQ1IC0+IDEwLjQ2CgotLS0KIC4uLi9saWJwY3JlL3tsaWJwY3Jl
+Ml8xMC40NS5iYiA9PiBsaWJwY3JlMl8xMC40Ni5iYn0gICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1zdXBwb3J0L2xpYnBjcmUve2xpYnBjcmUyXzEwLjQ1LmJiID0+IGxpYnBjcmUyXzEwLjQ2
+LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUvbGli
+cGNyZTJfMTAuNDUuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEw
+LjQ2LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2xpYnBjcmUvbGlicGNyZTJfMTAuNDUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2xpYnBjcmUvbGlicGNyZTJfMTAuNDYuYmIKaW5kZXggNGZiYjg5MjFjNS4uMGQ3ODIzYzA3
+OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8xMC40
+NS5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQ2LmJi
+CkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2Fk
+L3BjcmUyLSR7UFZ9L3BjcmUyLSR7UFZ9LnRhci5iejIiCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0
+cHM6Ly9naXRodWIuY29tL1BDUkUyUHJvamVjdC9wY3JlMi9yZWxlYXNlcyIKIFVQU1RSRUFNX0NI
+RUNLX1JFR0VYID0gInJlbGVhc2VzL3RhZy9wY3JlMi0oP1A8cHZlcj5cZCsoXC5cZCspKykkIgog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjE1NDdmMzUxNjEyMGM3NTU5N2U1YjMwYTk5MmUyN2E1
+OTJhMzE5NTBiNTE0MGU3YjhiZmRlM2YxOTIwMzNjNCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIx
+NWZiYzVhYmE2YmVlZTBiMTdhZWNiMDQ2MDJhZTM5NDMyMzkzYWJhMWViZDhlMzliN2NhYmY3ZGI4
+ODMyOTlmIgogCiBDVkVfUFJPRFVDVCA9ICJwY3JlMiIKIAotLSAKMi40Ny4xCgo=
+
+--===============3179599016608005055==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/pixman/pixman: FILELIST: removed "/usr/lib/libpixman-1.so.0.46.2", added "/usr/lib/libpixman-1.so.0.46.4"
-Changes to packages/x86-64-v3-poky-linux/pixman (sysroot):
-  /usr/lib/libpixman-1.so.0 changed symlink target from libpixman-1.so.0.46.2 to libpixman-1.so.0.46.4
-  /usr/lib/libpixman-1.so.0.46.2 moved to /usr/lib/libpixman-1.so.0.46.4
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4017,5 +4021,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============4491286858444457430==--
+--===============3179599016608005055==--
 
