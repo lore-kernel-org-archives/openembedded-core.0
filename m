@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C230CA1009
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 01:58:44 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web10.68012.1756778318234973582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B24CA1009
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 01:58:54 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.68016.1756778324319256744
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 18:58:38 -0700
+ Mon, 01 Sep 2025 18:58:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=Z1L4n4cK;
- spf=pass (domain: underview.tech, ip: 209.85.219.41, mailfrom: vince@underview.tech)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-70fa0e941a9so29252366d6.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 18:58:38 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=F/e0XbI1;
+ spf=pass (domain: underview.tech, ip: 209.85.219.44, mailfrom: vince@underview.tech)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-70fa947a7acso6720716d6.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 18:58:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1756778317; x=1757383117; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1756778323; x=1757383123; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FXzuSotpMMnOjSPlL3MDTuoRfm/HOvDccvynxqGewg4=;
-        b=Z1L4n4cKpD5TBdg/SmJ11CAn6TBXIvStyDhplhZdNi/49c1meURE/uX91sNpBJcQm/
-         HnjxzavoUkOfhhvReZhUmDcRwmkBMI32oZhVD/AyfE8Jh81Cy4wDq9zS80WkCsLhTncI
-         RQIifdmPspLq4kbo8f8cTw0hB9mcSFydcFqsfyPFWqwr2umQn+mnvXN/dMdGU68fvCCa
-         pp/6eTlxOU7B7cpxU4H3WVhZTrOhwD5Z/61ev+tfkyxU1QLOMJhJAQF3G2sfW6qLTue8
-         H4c1yEsmEo5PvyY5QuNyK8wVQoZmaeVA8EJnrFcniMvtF/XNMM9M7hOlbrpHzB2aPt6U
-         IXvQ==
+        bh=FvG99qTrAmjSaLoPwqOTPkdhf+GS6D//ePb0cA3Nblk=;
+        b=F/e0XbI1H76pfRRPwpA2B2EfSbqAGZK4W1tRx+oUF57AB0+BMEFJ//6sCkL4ZE9GwY
+         B9RfIhOBF4zcuKWpGG/4C3+r6Cz5B2zcLP6BRjjt1o/P5pN4fKgB/QaD3Ol7ge/qotSl
+         1VVuRRcvAdC+Er7SjWbnHYuLh0nYd7lPzB8DT1X8540S9J2Krf2Qbds1ZCdVVTIzxHwY
+         lA+LTyPdtl9RVCW/HsBb2HaM/hVm53LLzn8Wl6dH7fykSDpahUium7Umn06w0bpsY24I
+         0pm8G6N14nDPfHi5sDimhg0/zSd+Xzk5Uth4yBGxTSY1XBbLOIA27BwgP44NhrTSee0Z
+         xmfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756778317; x=1757383117;
+        d=1e100.net; s=20230601; t=1756778323; x=1757383123;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FXzuSotpMMnOjSPlL3MDTuoRfm/HOvDccvynxqGewg4=;
-        b=FSEdV2LN2wCsXyEkvAv356HjaWrsqIa5qVHb1chmL/p38pVgcZQ9Iu3VfUfFET8URd
-         IUq5Ey9UY548/6W6xzF6rd9p5x4UmO8xhDBxOe+cY183ZMhFcdc7OrCLRFxyF6MSGsjy
-         iSV9u1PJUomesJaRe019AukdZ3mMYR4ejWv9MhDJYPjN79th1cqjEabGJUqCkQ1Rlz02
-         XMDzx+xAw/6p6ILxXEvO+EG0sSv50THFxW4+LRdrkDJwxDSWms22/4bZ1oPIuLq4pyxV
-         M/MRcH6o2GygVGn7orClCD0U09vbeFmux1mnTlI5Gnf3DjMd24q1eQxxYeVxAzV9U4JK
-         mTgQ==
-X-Gm-Message-State: AOJu0YzNiANidzDGHGAMom5kY4lLI4GZZwyMaX9Mnggmkcoqe4mKYKP7
-	NsccoJmJGE+x6Up4fw6VeqH4YDxzMxZ9HAx87iM/ewmS7iOmCsFgDrm0PENk9dZl6mKDvk362/m
-	Ig/949Vk=
-X-Gm-Gg: ASbGnctwFBfYPTeOpVxRwhzjfxvZWguMjRMlwOFdq4Tga+Ei5/wiD4qpHQSrLcda+6f
-	yuT3yse3ijU0scuoSs3PEq7NZXNhXKQtiKJc6Mg08Xh074/FLhsUTo+FbRzX5ExxdXq6cCikaHh
-	aepm1t+rS1sj6/Ag307dGSf/NbZrQ+3oFI3Hk7E8pMjYGpjR16BMbeJ0f28g72SroxLx06uLX3f
-	BOXit98W9ODi0NM2FGF5xpKTYlPYYXRaV7X1ERqOYJh+zj+zCzXPoum+DNLm0oApGOt0cBj5Bn9
-	IQkaluIhaoruUvpJbZXMBUNb69iu1sMOFyTjwqkv947Qy7pApw4hZ1XV7mt9mqwqjO6iAGeQ2NI
-	lUhrDlel6v70=
-X-Google-Smtp-Source: AGHT+IEEklNzkNGfA9KJhrPToL7IvF1wzVOM6/DOx1IM/phUQViKEQPQSPmASpV6trZ+2LQhYKqvFA==
-X-Received: by 2002:a05:6214:2303:b0:70d:db23:b97b with SMTP id 6a1803df08f44-70fac89eb50mr130775406d6.18.1756778316809;
-        Mon, 01 Sep 2025 18:58:36 -0700 (PDT)
+        bh=FvG99qTrAmjSaLoPwqOTPkdhf+GS6D//ePb0cA3Nblk=;
+        b=ewC8FEePBVk4uKq98kWTwyfI9+R8Pzsh9TqnpJYSraXm5Jqu79CjSq38G86g3xXfb6
+         DTdwYUuaMD2hApJ5gFkw9E/YJoPsgz+zylC1+IIj5u6nXOK1eC1eTYQJLnMlF+ZVekYP
+         5OZ6I+ClLVC/TYVJlLexrq3oF5tr6aghcyDr8gmXkHm4qTR3pjE23dOPCi69ptSGN/b0
+         NGERajLyIQ0noS7afWMbcMgYAAMRIw+xp54gV+J9WdgHTyyg3/PR0aaZ0MikD9CHnbwL
+         58KPWY4cD7lwS9l1o4/4QYlBNuldDO3KgayobNDMQcN6kYUg3zV9qyjSl+oqO4duhP8n
+         CAsQ==
+X-Gm-Message-State: AOJu0YwmFqoKtCmBcMOQpNA7lNu5igUG8lmtGGEMgAbzVjfrGSjvzlqK
+	2B2+W4ERjIzHbrvs+UBiBfIu9AqyCBvoFabsAFdHc14X+gZH75+X9JJZDSdFGX9h11j7ommFN7J
+	pGy6T1rQ=
+X-Gm-Gg: ASbGnctXwnR/pE1BiQWo9OHhqWkG2T08F6qtf+KMeJWBRjnUMnmN0LVGNa81gSfI8/1
+	XlJPunG6TNZPn3VyIGvnD3L1lrRCg28xIzGjypbkQfVY1xF54uv166Ypvi8pb+UUp1xRivgEHlj
+	LkashM7PExL66fBQ1LM3R7QmjX5va62YOTKoxeM0EIhiAxZwrhSDZFcP6UOz2keD2cvs/YmgU5m
+	1QN/Ox+rSrPbHcDcD9WhdRK/fWFVEaAtzv9Awlfyi24JjWyMCF11T4cPmU4iwWUydbFK1duuIBJ
+	hIqHFZ0q0mBPdYVhlGr4B298Hs19r8CGRFbSUM8tFEve0/3NYFyoZGU+x5sA1dOVT1k00iYfJ/s
+	LtTbUE5q5csMTwVFN22tNWA==
+X-Google-Smtp-Source: AGHT+IH2JfzhFllqCDkMw5tk1POIsvre0j+2mX9cMUUq5amjFeInFLnptLxScNsHmx4Fx+yMKZl8dQ==
+X-Received: by 2002:a05:6214:d89:b0:71d:9d4c:192a with SMTP id 6a1803df08f44-71d9d4c3056mr46480166d6.36.1756778322922;
+        Mon, 01 Sep 2025 18:58:42 -0700 (PDT)
 Received: from vince-server.. ([2601:406:4d01:1820::7efe])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720a30b79aesm4284666d6.0.2025.09.01.18.58.36
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720a30b79aesm4284666d6.0.2025.09.01.18.58.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 18:58:36 -0700 (PDT)
+        Mon, 01 Sep 2025 18:58:42 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH 3/7] bootimg_efi: copy grub modules
-Date: Mon,  1 Sep 2025 21:58:21 -0400
-Message-ID: <20250902015825.2785789-3-vince@underview.tech>
+Subject: [PATCH 6/7] oe-selftest[wic]: add test_grub_install_biosplusefi
+Date: Mon,  1 Sep 2025 21:58:24 -0400
+Message-ID: <20250902015825.2785789-6-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250902015825.2785789-1-vince@underview.tech>
 References: <20250902015825.2785789-1-vince@underview.tech>
@@ -67,90 +67,84 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 01:58:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222685
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 01:58:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222688
 
-Assumming all grub modules weren't embedded
-into boot*.efi (core.img) copy them now.
-
-This commit populates the common partition
-used to store the grub config and grub modules
-for both PCBIOS and EFI.
+Commit adds test to check if required files
+are found in the EFI directory and that
+grub modules for both EFI and BIOS are found
+on the same partition as the grub config.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- scripts/lib/wic/plugins/source/bootimg_efi.py | 53 +++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ meta/lib/oeqa/selftest/cases/wic.py | 54 +++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg_efi.py b/scripts/lib/wic/plugins/source/bootimg_efi.py
-index 98be12160c..c3254033d6 100644
---- a/scripts/lib/wic/plugins/source/bootimg_efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_efi.py
-@@ -350,7 +350,39 @@ class BootimgEFIPlugin(SourcePlugin):
-                             (kernel_dir, mod, hdddir, mod[9:])
-                         exec_cmd(cp_cmd, True)
-                 else:
-+                    # Assumming all grub modules weren't embedded
-+                    # into grub.efi or core.img copy them now.
-+                    copy_types = [ '*.mod', '*.o', '*.lst' ]
-+
-+                    # It appears the EFI directory resides after
-+                    # initial population of the EFI System partition
-+                    # in the if statement above. Remove so that the
-+                    # partition doesn't contain any unrequired files.
-                     shutil.rmtree("%s/EFI" % hdddir)
-+
-+                    hdddir = "%s/hdd" % cr_workdir
-+
-+                    staging_libdir = cls._get_staging_libdir()
-+
-+                    grub_format = get_bitbake_var('GRUB_MKIMAGE_FORMAT_EFI')
-+                    if not grub_format:
-+                        grub_format = 'x86_64-efi'
-+
-+                    grub_prefix_path = get_bitbake_var('GRUB_PREFIX_PATH')
-+                    if not grub_prefix_path:
-+                        grub_prefix_path = '/boot/grub'
-+
-+                    # Copy grub modules
-+                    install_dir = '%s/%s/%s' % (hdddir, grub_prefix_path, grub_format)
-+                    os.makedirs(install_dir, exist_ok=True)
-+
-+                    for ctype in copy_types:
-+                        files = glob('%s/grub/%s/%s' % \
-+                            (staging_libdir, grub_format, ctype))
-+                        for file in files:
-+                            shutil.copy2(file, install_dir, follow_symlinks=True)
-+
-+                    # bootimg_pcbios calles prepare_rootfs no need to here.
-                     return 0
-             elif source_params['loader'] == 'grub-efi':
-                 shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
-@@ -457,3 +489,24 @@ class BootimgEFIPlugin(SourcePlugin):
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 44442e402d..10c3497519 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -1456,6 +1456,60 @@ run_wic_cmd() {
+             out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
+             self.assertEqual(1, len(out))
  
-         part.size = int(bootimg_size)
-         part.source_file = bootimg
-+
-+    @classmethod
-+    def _get_staging_libdir(cls):
++    @skipIfNotArch(['x86_64'])
++    def test_grub_install_biosplusefi(self):
 +        """
-+        For unknown reasons when running test with poky
-+        STAGING_LIBDIR gets unset when wic create is executed.
-+        Bellow is a hack to determine what STAGING_LIBDIR should
-+        be if not specified.
++        Test the installation of the grub in hybrid boot mode.
 +        """
 +
-+        staging_libdir = get_bitbake_var('STAGING_LIBDIR')
-+        staging_dir_target = get_bitbake_var('STAGING_DIR_TARGET')
++        # create a temporary file for the WKS content
++        with NamedTemporaryFile("w", suffix=".wks") as wks:
++            wks.write(
++                'part bios_boot --label bios_boot --fstype none --offset 1024 --fixed-size 1M ' \
++                '--part-type 21686148-6449-6E6F-744E-656564454649 --source bootimg_biosplusefi ' \
++                '--sourceparams="loader=grub-efi,loader-bios=grub,install-kernel-into-boot-dir=false"\n' \
++                'part efi_system --label efi_system --fstype vfat --fixed-size 48M ' \
++                '--part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B --source bootimg_biosplusefi ' \
++                '--sourceparams="loader=grub-efi,loader-bios=grub,install-kernel-into-boot-dir=false"\n' \
++                'part grub_data --label grub_data --fstype ext4 --fixed-size 78M ' \
++                '--part-type 0FC63DAF-8483-4772-8E79-3D69D8477DE4 --source bootimg_biosplusefi ' \
++                '--sourceparams="loader=grub-efi,loader-bios=grub,install-kernel-into-boot-dir=false"\n' \
++                'bootloader --ptable gpt --source bootimg_biosplusefi\n'
++            )
++            wks.flush()
 +
-+        if not staging_libdir:
-+            staging_libdir = '%s/usr/lib64' % staging_dir_target
-+            if not os.path.isdir(staging_libdir):
-+                staging_libdir = '%s/usr/lib32' % staging_dir_target
-+                if not os.path.isdir(staging_libdir):
-+                    staging_libdir = '%s/usr/lib' % staging_dir_target
++            img = "core-image-minimal"
++            config = 'DEPENDS:pn-%s += "grub-native grub grub-efi"' % (img)
 +
-+        return staging_libdir
++            self.append_config(config)
++            bitbake(img)
++            self.remove_config(config)
++
++            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
++            runCmd(cmd)
++
++            wksname = os.path.splitext(os.path.basename(wks.name))[0]
++            out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
++            self.assertEqual(1, len(out))
++
++            sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
++
++            # Check if grub UEFI application (core.img) installed
++            result = runCmd("wic ls %s:2/EFI/BOOT -n %s" % (out[0], sysroot))
++            self.assertIn('bootx64', result.output)
++
++            # Check if grub.cfg is installed
++            result = runCmd("wic ls %s:3/boot/grub -n %s" % (out[0], sysroot))
++            self.assertIn('grub', result.output)
++
++            # Check if normal.mod is installed
++            result = runCmd("wic ls %s:3/boot/grub/i386-pc -n %s" % (out[0], sysroot))
++            self.assertIn('normal', result.output)
++
++            # Check if normal.mod is installed
++            result = runCmd("wic ls %s:3/boot/grub/x86_64-efi -n %s" % (out[0], sysroot))
++            self.assertIn('normal', result.output)
++
+     @skipIfNotArch(['i586', 'i686', 'x86_64', 'aarch64'])
+     def test_uefi_kernel(self):
+         """ Test uefi-kernel in wic """
 -- 
 2.43.0
 
