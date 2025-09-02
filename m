@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D0C4CA1019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DF3DCAC584
 	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:54 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.89801.1756850190481652980
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.89817.1756850203853434954
  for <openembedded-core@lists.openembedded.org>;
  Tue, 02 Sep 2025 14:56:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bD4Y90NO;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=s2YtYG6E;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101990c6eb4c9-dac6d734-8c49-48a4-9446-097fc10812b5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XVRTQxf3;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=UeVGFdWE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101990c6eb654-1287e181-471a-458f-9951-b69a1ebbfe3f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1756850206;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Dhu65kMJK5Jorqnf3dpFHcN3rLq1GrbudC/skC5I8L4=;
-	b=bD4Y90NO01e+qJzgzBhuavrQE+wgCLYRAeht/CPblfnpgGjZDVNSfpAl6pql51kN
-	GeKJ255IltBJUGlnYkK0yXisdUeZfXrIwcJyUA/Pqivbr/VMuGVpAN+fx4WKv+ZBfbu
-	k5mpf8VopC8XlBhGY7kZnUDuYxhUvqT/98QFQfPM=
+	bh=eivsxCQ/YgEEANaqF3OFgeUg4I9MvgMi7NI/8BjZFM8=;
+	b=XVRTQxf3T7D9lRWjIlV8/FP0IgwTjZ35NgJxI/HEsKTz9vbq9ARemC2/3vJP0tdA
+	cdCXSQ5r1w7lPvFZSslO2vmQrCt7N58/3Mf2szAFO23Wirs/NIDCNOdmoyUEg3iRRn0
+	08ZJDTLwMLswqbKvZS3EBY6b+Dj6Cpf0fQNwfODM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850206;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Dhu65kMJK5Jorqnf3dpFHcN3rLq1GrbudC/skC5I8L4=;
-	b=s2YtYG6Eua/xYHpjfYuDQEO+0DcvzTQnrM9aW3AYe8NETNK2KGu3o+Y2rYqTWfHT
-	YGWAApLL2OTHqIxM4B6Sktj4azy87X7MVvYaOs3aC7X5FKZnBCdBKm7U3pK6sQyQbYh
-	16U4aHU8v/MtZ2yPXwtGmmKlRLG75o//Lv6Mfx3Y=
-Content-Type: multipart/mixed; boundary="===============3179599016608005055=="
+	bh=eivsxCQ/YgEEANaqF3OFgeUg4I9MvgMi7NI/8BjZFM8=;
+	b=UeVGFdWEic6Eca0YtFbdZc4PLGyb4v9Y7UElULT+sfzR5Mt5Vn0L24ZShxXyxO93
+	Jd9i6FKSlVlquQ5e3kepERBMt58cT6ZnpN3rNVABVkEafIIPn51wc9sw5GIJijglYAx
+	2cTI8PIkEvLHM774qsnqNgZD3XXoeWVf/cD8buTU=
+Content-Type: multipart/mixed; boundary="===============7394597977860398902=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] libpcre2: upgrading to 10.46 SUCCEEDED
-Message-ID: <010101990c6eb4c9-dac6d734-8c49-48a4-9446-097fc10812b5-000000@us-west-2.amazonses.com>
-Date: Tue, 2 Sep 2025 21:56:45 +0000
+Subject: [AUH] nghttp2: upgrading to 1.67.0 SUCCEEDED
+Message-ID: <010101990c6eb654-1287e181-471a-458f-9951-b69a1ebbfe3f-000000@us-west-2.amazonses.com>
+Date: Tue, 2 Sep 2025 21:56:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.02-54.240.27.191
+X-SES-Outgoing: 2025.09.02-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222832
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222834
 
---===============3179599016608005055==
+--===============7394597977860398902==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libpcre2* to *10.46* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *nghttp2* to *1.67.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libpcre2-upgrade-10.45-10.46.patch
+    - apply the patch: git am 0001-nghttp2-upgrade-1.66.0-1.67.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,73 +72,105 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 30e2ef609b21c499991deaabe3368792fe43e9f4 Mon Sep 17 00:00:00 2001
+From b88cd12aa4702b428205109502a05ce0d4eaa4aa Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 2 Sep 2025 21:51:20 +0000
-Subject: [PATCH] libpcre2: upgrade 10.45 -> 10.46
+Date: Tue, 2 Sep 2025 21:53:30 +0000
+Subject: [PATCH] nghttp2: upgrade 1.66.0 -> 1.67.0
 
 ---
- .../libpcre/{libpcre2_10.45.bb => libpcre2_10.46.bb}            | 2 +-
+ .../nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.67.0.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libpcre/{libpcre2_10.45.bb => libpcre2_10.46.bb} (95%)
+ rename meta/recipes-support/nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.67.0.bb} (84%)
 
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.45.bb b/meta/recipes-support/libpcre/libpcre2_10.46.bb
-similarity index 95%
-rename from meta/recipes-support/libpcre/libpcre2_10.45.bb
-rename to meta/recipes-support/libpcre/libpcre2_10.46.bb
-index 4fbb8921c5..0d7823c079 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.45.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.46.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
- GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.67.0.bb
+similarity index 84%
+rename from meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.67.0.bb
+index 49d6d7e632..bb31a36c1f 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.67.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
  
--SRC_URI[sha256sum] = "21547f3516120c75597e5b30a992e27a592a31950b5140e7b8bfde3f192033c4"
-+SRC_URI[sha256sum] = "15fbc5aba6beee0b17aecb04602ae39432393aba1ebd8e39b7cabf7db883299f"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "00ba1bdf0ba2c74b2a4fe6c8b1069dc9d82f82608af24442d430df97c6f9e631"
++SRC_URI[sha256sum] = "d21cf317837f5176b76bed7eded54a4e4583dfa378c9f915913329d9d4a1be86"
  
- CVE_PRODUCT = "pcre2"
+ inherit cmake manpages python3native github-releases
  
 -- 
 2.47.1
 
 
---===============3179599016608005055==
+--===============7394597977860398902==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-nghttp2-upgrade-1.66.0-1.67.0.patch"
+
+RnJvbSBiODhjZDEyYWE0NzAyYjQyODIwNTEwOTUwMmEwNWNlMGQ0ZWFhNGFhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAyMTo1MzozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5n
+aHR0cDI6IHVwZ3JhZGUgMS42Ni4wIC0+IDEuNjcuMAoKLS0tCiAuLi4vbmdodHRwMi97bmdodHRw
+Ml8xLjY2LjAuYmIgPT4gbmdodHRwMl8xLjY3LjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9uZ2h0dHAyL3tuZ2h0dHAyXzEuNjYuMC5iYiA9PiBuZ2h0dHAyXzEuNjcu
+MC5iYn0gKDg0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25n
+aHR0cDJfMS42Ni4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEu
+NjcuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9uZ2h0dHAyL25naHR0cDJfMS42Ni4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9uZ2h0dHAyL25naHR0cDJfMS42Ny4wLmJiCmluZGV4IDQ5ZDZkN2U2MzIuLmJiMzFhMzZj
+MWYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjY2
+LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjcuMC5i
+YgpAQCAtNSw3ICs1LDcgQEAgTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZp
+bGU6Ly9DT1BZSU5HO21kNT03NjRhYmRmMzBiMmVhZGQzN2NlNDdkY2JjZTBlYTFlYyIKIAogU1JD
+X1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9L25naHR0cDItJHtQVn0u
+dGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAwYmExYmRmMGJhMmM3NGIyYTRmZTZjOGIx
+MDY5ZGM5ZDgyZjgyNjA4YWYyNDQ0MmQ0MzBkZjk3YzZmOWU2MzEiCitTUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiZDIxY2YzMTc4MzdmNTE3NmI3NmJlZDdlZGVkNTRhNGU0NTgzZGZhMzc4YzlmOTE1OTEz
+MzI5ZDlkNGExYmU4NiIKIAogaW5oZXJpdCBjbWFrZSBtYW5wYWdlcyBweXRob24zbmF0aXZlIGdp
+dGh1Yi1yZWxlYXNlcwogCi0tIAoyLjQ3LjEKCg==
+
+--===============7394597977860398902==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libpcre2: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2: SRC_URI changed from "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.45/pcre2-10.45.tar.bz2" to "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.46/pcre2-10.46.tar.bz2"
-packages/x86-64-v3-poky-linux/libpcre2: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2590200 to 2590328 (+0%)
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGSIZE changed from 2783245 to 2785005 (+0%)
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PV changed from "10.45" to "10.46"
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGV changed from 10.45 [default] to 10.46 [default]
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PV changed from "10.45" to "10.46"
+packages/x86-64-v3-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.66.0/nghttp2-1.66.0.tar.xz" to "https://github.com/nghttp2/nghttp2/releases//download/v1.67.0/nghttp2-1.67.0.tar.xz"
+packages/x86-64-v3-poky-linux/nghttp2: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.28.5", added "/usr/lib/.debug/libnghttp2.so.14.29.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 561344 to 562672 (+0%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: FILELIST: removed "/usr/lib/cmake/nghttp2/nghttp2-targets.cmake /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake", added "/usr/lib/cmake/nghttp2/nghttp2Config.cmake /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2Targets.cmake"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGSIZE changed from 248995 to 253583 (+2%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 49545 to 49547 (+0%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1041649 to 1048450 (+1%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.5", added "/usr/lib/libnghttp2.so.14.29.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.5 to libnghttp2.so.14.29.0
+  /usr/lib/libnghttp2.so.14.28.5 moved to /usr/lib/libnghttp2.so.14.29.0
+  /usr/lib/cmake/nghttp2/nghttp2Config.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2-targets.cmake was removed
+  /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2062,42 +2094,23 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============3179599016608005055==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libpcre2-upgrade-10.45-10.46.patch"
-
-RnJvbSAzMGUyZWY2MDliMjFjNDk5OTkxZGVhYWJlMzM2ODc5MmZlNDNlOWY0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAyMTo1MToyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnBjcmUyOiB1cGdyYWRlIDEwLjQ1IC0+IDEwLjQ2CgotLS0KIC4uLi9saWJwY3JlL3tsaWJwY3Jl
-Ml8xMC40NS5iYiA9PiBsaWJwY3JlMl8xMC40Ni5iYn0gICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2xpYnBjcmUve2xpYnBjcmUyXzEwLjQ1LmJiID0+IGxpYnBjcmUyXzEwLjQ2
-LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUvbGli
-cGNyZTJfMTAuNDUuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEw
-LjQ2LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBw
-b3J0L2xpYnBjcmUvbGlicGNyZTJfMTAuNDUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBw
-b3J0L2xpYnBjcmUvbGlicGNyZTJfMTAuNDYuYmIKaW5kZXggNGZiYjg5MjFjNS4uMGQ3ODIzYzA3
-OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8xMC40
-NS5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQ2LmJi
-CkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2Fk
-L3BjcmUyLSR7UFZ9L3BjcmUyLSR7UFZ9LnRhci5iejIiCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0
-cHM6Ly9naXRodWIuY29tL1BDUkUyUHJvamVjdC9wY3JlMi9yZWxlYXNlcyIKIFVQU1RSRUFNX0NI
-RUNLX1JFR0VYID0gInJlbGVhc2VzL3RhZy9wY3JlMi0oP1A8cHZlcj5cZCsoXC5cZCspKykkIgog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjE1NDdmMzUxNjEyMGM3NTU5N2U1YjMwYTk5MmUyN2E1
-OTJhMzE5NTBiNTE0MGU3YjhiZmRlM2YxOTIwMzNjNCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIx
-NWZiYzVhYmE2YmVlZTBiMTdhZWNiMDQ2MDJhZTM5NDMyMzkzYWJhMWViZDhlMzliN2NhYmY3ZGI4
-ODMyOTlmIgogCiBDVkVfUFJPRFVDVCA9ICJwY3JlMiIKIAotLSAKMi40Ny4xCgo=
-
---===============3179599016608005055==
+--===============7394597977860398902==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: FILELIST: removed "/usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2-targets.cmake", added "/usr/lib/cmake/nghttp2/nghttp2Config.cmake /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2Targets.cmake /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.5", added "/usr/lib/libnghttp2.so.14.29.0"
+Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.5 to libnghttp2.so.14.29.0
+  /usr/lib/libnghttp2.so.14.28.5 moved to /usr/lib/libnghttp2.so.14.29.0
+  /usr/lib/cmake/nghttp2/nghttp2Config.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2-targets.cmake was removed
+  /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -4021,5 +4034,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============3179599016608005055==--
+--===============7394597977860398902==--
 
