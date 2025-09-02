@@ -1,106 +1,112 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <dpmin7@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C091CA0FFE
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 07:19:36 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.71431.1756797570213180513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87146CA0FFE
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 07:26:06 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.71509.1756797958957056008
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 00:19:30 -0700
+ Tue, 02 Sep 2025 00:25:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WOfABcyY;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45a1b065d59so34356475e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 00:19:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dNcz//uu;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: dpmin7@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7722bcb989aso2675638b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 00:25:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756797568; x=1757402368; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756797958; x=1757402758; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=g+s/Dp9hgld+jfY2AKSnlXD7bPA6zdVYJL0rtMUnXEk=;
-        b=WOfABcyYlB9JJZhsJXGp8Zbllmqh/R9S7wIYwWZSJpo+XqG68tVMAUzx2SZdnrthEJ
-         LP/vx0anQbBJcM3hUNLOgiXNE0hUC/C1hdhmVrPxsQ4QQkJ/hm2RlJpj4HUCkEVpw4LN
-         wHTLJk5GC3eeaKRgO21Xc11ScxeRBAYgTdYEnh4LJFKNJsW0UC4+NZe0jsQe4fsHGXHo
-         XTUBOM0QmTsb2wKCGByZSZblzwBHMA2dx6TyR2MpdiKOe5FdNAd1wYsYAzS3a+xI9bGG
-         olp2WZh2FAvJW85gLjzBMvXxS/KaL8hC8g06P49OnNMoWMPaFCaxmX7kpq844yeVQwkJ
-         h25A==
+        bh=pdO7hqiPIjFoiXbpbd6pJnaj5KEeqP5aR25VSqjzfto=;
+        b=dNcz//uuYeAFa6SORMuDBNk89pVnn9oMA3NJiqAVMldffPerMc2dxNKtVnLfQjoZJB
+         XkyiRCeVHSScse1XQSV4f0yI1lNCVDOh7hxoKNAGeM1edixVBdz1ZcUkXxopdHa4ws1S
+         N2VMOqBy2KPFjIvm5UMCy+IefrGQJuQ7z5JL7zISnggGtRtN4+Zdc5eZrSHwgJyAiiVm
+         qY2QkVYf2Fgas8de8dij5aKL6a509w6ut+rqQBgwvrRUa4M3GO6SMMvgIyW5JL3dOum1
+         v5JCnxHrSQ1j4G0guAdtr98rMfp+N8X5WaiUxG36VzvlLmOUnw+gBRQDj28nfrO2Syp6
+         wAUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756797568; x=1757402368;
+        d=1e100.net; s=20230601; t=1756797958; x=1757402758;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=g+s/Dp9hgld+jfY2AKSnlXD7bPA6zdVYJL0rtMUnXEk=;
-        b=aSAEnuq4FU/FeJlb2rWYpQnpIFXO7n5K8TSRRXgeX0T7Y5HJDDYGIr3PUCGR5hIGsF
-         VM4JwiKnhqDocevsQJLoP+ZVeb8Fppxoshy48Yd1Ivgki1VtOt8A6/47W00BlS271gJD
-         AIwYFzK1Gh3NSlrX9jdDqI04BvwDCC6QlqnRrE6GC7nJLGid+J3PdJkUUKCu6+QfIk0i
-         ONwqGOKgt3OvkRKM21oN/ntz7EJ04h9Ncacs5eO/yeo5+3TPYpn4OwWJMpme75lz4ELq
-         RYAeWnc3SnS/hyupf4Ou6Z1QWY7CI0KT/8lyLUObMxOZuHAdB9zaZZPgSnDOnzSyiUcS
-         CSlA==
-X-Gm-Message-State: AOJu0YxqvO8pEV6f/uVlnckTFdODX9DrTqfBh1vqDpnGcNTsiK7+1VXP
-	nY9d7D0gHeKvNsP+1KKhVEyAryLbByKQmIIzA1+c2o1L9cKpMNayAuNZy6h7Ug==
-X-Gm-Gg: ASbGncvbO94EDJTjVxA+/wdAerljzM22geGzPQkikryPA5t1PYREFs2UuG1a7FM42MB
-	KWkzj3U2YP0iF/4FyWQ50tqHqTfDGC54oONhmnxT/DAlpK35aJUDPxRVh091BY8KoaA0npvHgNC
-	Se4wiPZn97PBlA87XKc9XnEJf/VAx4l+za+APopcLwfGVvoTav0TN01O8YMozPbFs+IQs8hRS8j
-	aUCTogolE7Dli10VfHx7K9ozNDW/3tg1UgkSypxy6a3NlgeyzVUw8fADAHzFvpSXtJLQ9n93G5D
-	3aLsdgSYTVRXGKALzFZDUYd+yDqo65hlKIr95RtGSZ/MrmOTZ6TJnEhzRi6n1XQREKWw2zUCjK2
-	d4WhWZowjF+a42aLXjOQn1FIZz9sV0tAMbQbwdTlUH0hPhPhIRsq4bsA=
-X-Google-Smtp-Source: AGHT+IEUyaT+4cy70ZlBnm0V2oJCR5FAU4CEbVNsc5YZdJIygkZgmtXkudDdsLRMeJn1DXreyXSRJg==
-X-Received: by 2002:a05:600c:5490:b0:45b:8db2:336e with SMTP id 5b1f17b1804b1-45b8e2e64b1mr36062475e9.23.1756797568107;
-        Tue, 02 Sep 2025 00:19:28 -0700 (PDT)
-Received: from fedora (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d0a1f807f9sm17608422f8f.38.2025.09.02.00.19.27
+        bh=pdO7hqiPIjFoiXbpbd6pJnaj5KEeqP5aR25VSqjzfto=;
+        b=b+UqB8FYOInPvVJHcGt9w+Ze1FKQ6Sg2eAClH4aFkCujxR1go/GL1wgxc6ifCgoS9F
+         3yXDmXivQ+3Ukc/x3C+yxoK4N2Xu6VLIOsdWy2lqMCMsBWEjr8H0DslOJBMZ6xXxukyz
+         GbuVvIsZGXyqp7n0genURo1sJEV4tWCLp77PAKLjCFe2iJT9CB2IujnHwjeSfVEUXncA
+         QjgZL2GmmwMvOWCi0hAV/qCTzQd0vV7qMnkceS8P8J3V8ypFcnLvvUWyFf1Fucwv6YVP
+         Vxsk2uv7u+dt528kH0uq2JYWXJKZouszpa66fjRMV9qKYdeDtWb+acWx+ZRCsSBdpTFT
+         Jg6w==
+X-Gm-Message-State: AOJu0Yz7pJ87XWc868jj2wIXQmS7kphfvYqbNAq/shi+fLROtRJ/S/NU
+	mg6W1bLgK/rCdZjPpcQosdDojHdDc43QinOGfXEkQ89tv1jA1Rg5h++Dw2X0Ew==
+X-Gm-Gg: ASbGncv2uMB8awhz4OSeWu3ECsGlWWeUYeIRk7KCAHaCst4tKWGYSXwZ/0cg5ed+b5h
+	SS5V2HfXEtmzIRagWtYOYyLNRgt+ibF3/D0x/J8nfyPHZbbEjVEFbflCdbgSTjgypV6YJVDiefG
+	XG0HU9GCN4BEpbNxdb5ntfdeo/b+8QTvmClpw7/m4ZS8cKny1RbnnoelIMG5SXrlwQdpmT2L1Fm
+	g5olU97BwYPKSv0OgDW6KqmM9OpKYjFFb04+l8nPF1C4vR38kU1iT2xAECOvDmDiKpR0XA29f1+
+	QRIvvRleDPhwRJxzsZAFDKL+NOZf/TonUKh7rWTufVPSju7LMZcRqSAdZbLzfanFDF7ykvCm3eL
+	9DQm5r864mAY=
+X-Google-Smtp-Source: AGHT+IGHzWWWPiGrFXn2t+DNuPQWCCBhw7Vv9T2XmlyFLmzrmv6/kac32rZs46UQq41CWew4I8puxg==
+X-Received: by 2002:a05:6a20:9146:b0:243:a373:a9f9 with SMTP id adf61e73a8af0-243d6f02e94mr15713682637.38.1756797957657;
+        Tue, 02 Sep 2025 00:25:57 -0700 (PDT)
+Received: from dpmin-PC.. ([27.122.242.71])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4de04a9ea7sm8962830a12.16.2025.09.02.00.25.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 00:19:27 -0700 (PDT)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+        Tue, 02 Sep 2025 00:25:57 -0700 (PDT)
+From: Kyungjik Min <dpmin7@gmail.com>
+X-Google-Original-From: Kyungjik Min <dp.min@lge.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"Signed-off-by : Alexander Kanavin" <alex@linutronix.de>,
-	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH] tiff: Add PACKAGECONFIG for liblerc
-Date: Tue,  2 Sep 2025 09:19:13 +0200
-Message-ID: <20250902071913.2350691-1-zboszor@gmail.com>
-X-Mailer: git-send-email 2.51.0
+Cc: Kyungjik Min <dpmin7@gmail.com>
+Subject: [walnascar][PATCH] pulseaudio: Add audio group explicitly
+Date: Tue,  2 Sep 2025 16:25:50 +0900
+Message-Id: <20250902072550.677789-1-dp.min@lge.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 07:19:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222711
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 07:26:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222712
 
-tiff-native may pick up liblerc from the host using the .so
-symlink, in which case it's added as a private requirement
-in libtiff-4.pc. That in turn causes a build error in
-gtk4-native in Yocto because Lerc.pc does not exist.
+From: Kyungjik Min <dpmin7@gmail.com>
 
-This was observed on Fedora 42 with gdk-pixbuf2-devel installed
-on the host where libtiff is a dependency of gdk-pixbuf2 and
-libtiff 4.7.0 is built with liblerc enabled.
+Since pulseaudio-server requires the audio group, we explicitly add it.
 
-Add a new PACKAGECONFIG setting for liblerc but keep it disabled
-since liblerc does not exist in Yocto at the moment.
+When use useradd-staticids or do not use the default group in
+base-passwd, an error will occur because the audio group is not defined.
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
-Backport-to: walnascar
+NOTE: pulseaudio: Performing useradd with [--root
+TOPDIR/tmp/work/cortexa72-poky-linux/pulseaudio/17.0/recipe-sysroot
+--home-dir /var/run/pulse --gid 998 --groups audio,pulse
+--no-create-home --system --shell /bin/false --uid 998 pulse]
+useradd: group 'audio' does not exist
+ERROR: pulseaudio: useradd command did not succeed.
+
+Signed-off-by: Kyungjik Min <dpmin7@gmail.com>
 ---
- meta/recipes-multimedia/libtiff/tiff_4.7.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta-selftest/files/static-group                  | 1 +
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
-index 26e3811ff8..d1638f1b61 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.7.0.bb
-@@ -38,6 +38,7 @@ PACKAGECONFIG ?= "cxx jpeg zlib lzma \
- PACKAGECONFIG[cxx] = "--enable-cxx,--disable-cxx,,"
- PACKAGECONFIG[jbig] = "--enable-jbig,--disable-jbig,jbig,"
- PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg,"
-+PACKAGECONFIG[lerc] = "--enable-lerc,--disable-lerc,liblerc,"
- PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib,"
- PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz,"
- PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp,"
--- 
-2.51.0
-
+diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
+index 441123e2c5..252fdac67d 100644
+--- a/meta-selftest/files/static-group
++++ b/meta-selftest/files/static-group
+@@ -28,3 +28,4 @@ sgx:x:528:
+ ptest:x:529:
+ xuser:x:530:
+ seat:x:531:
++audio:x:532:
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 18c12ede63..4708145bb9 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -147,7 +147,7 @@ do_install:append() {
+ }
+ 
+ USERADD_PACKAGES = "pulseaudio-server"
+-GROUPADD_PARAM:pulseaudio-server = "--system pulse"
++GROUPADD_PARAM:pulseaudio-server = "--system audio; --system pulse"
+ USERADD_PARAM:pulseaudio-server = "--system --home /var/run/pulse \
+                               --no-create-home --shell /bin/false \
+                               --groups audio,pulse --gid pulse pulse"
 
