@@ -2,60 +2,60 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1787CA1007
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F17C2CA1009
 	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:46:50 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.89572.1756849610232675939
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.89571.1756849602887673645
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 14:46:50 -0700
+ Tue, 02 Sep 2025 14:46:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=gJDty9cJ;
- spf=pass (domain: konsulko.com, ip: 209.85.216.43, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-328015abe0bso348921a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 14:46:50 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=B2PVBsKG;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.171, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7725147ec88so235564b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 14:46:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1756849609; x=1757454409; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1756849602; x=1757454402; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=P8dSwV/2RgcRiN5VIPePinqZb5C9UC8HNg6cU59vkZ4=;
-        b=gJDty9cJgLNyTGEdYkxhW2jnpQ1IimfmI8fo1yoYiiv6U4JswWF3aw6i9feRhqoyo/
-         egqgMhfhnv4XnFgMcox+Lu22DheLiAaxgq2845P6dYlnSOsyJ8XZbH+cWASpXqha08Do
-         LS6oGxtkPfrKumZsj9uKFohIpOofRGuQplsiM=
+        bh=jmZHDEJcXTatBQg1nG3Y/7Sez4QHDFN08NRIk7trkD8=;
+        b=B2PVBsKGGdYopU/BsRBXRnq84IaYDr7GTYcw79KO318K1wR8W+eZjEjlF+d5UhQoEt
+         fg0ET7qGndhMYiuYH0yLYKzaZwhu+lqXU9KLPNQvTMOTBfpZ7M5Vbletld6Gd8duXCMM
+         FwEiMfFWjBmityFP3dfXiDvPPd3gV5M6ZKOPU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756849609; x=1757454409;
+        d=1e100.net; s=20230601; t=1756849602; x=1757454402;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P8dSwV/2RgcRiN5VIPePinqZb5C9UC8HNg6cU59vkZ4=;
-        b=mM9PbPtve2gpSG31hMqDZoHXtWxsT1KWFaZB5inPcD367FhPAZQjHOJqhur2L46+sG
-         muhgGB5VrV5bs81eQuOHIHt5iTZqf+5HCu9YiDf5/9gPjNL2YSic6CVOQ9ZDWgoFS/bX
-         79jTLT68NI6iJT9ayfvur0OcosZOfz18Ch6zDelBeEM+CSmVphNIn9ylRzpnnhnlb61a
-         XJBdbcq/sE39jMoLoChU3nkdyvsE4do8ogzpGG1LcxUGnokJ7UNB5DAt//X9ZxaA2lJN
-         GX7ldPgAAmUAbGFcw/eKTOiGALgUeixtFrifBQZ7HYY99ylpq6wVpsV6yb1cwF0hqWzn
-         +I4w==
-X-Gm-Message-State: AOJu0YyxQhOg1uhya/aAySL8/IpMRRh9kZzNZLqcQw/YTZAZsziNPYAD
-	H7Xgmi+19Z67Dj/mkOe86iWmTRf1xwzAm8S0PB1cYO+wAbm4fgudpt1zVT7+l5hKa6z1QyUNttj
-	diYuuxm4=
-X-Gm-Gg: ASbGncvtVENMe/iufuPS6uZnwEznxp0p1YlV+jct0iPf03shan/fTPsYictm1swbW8F
-	LVh8wh/xLmRdqFY0gVmHAY18Cy4OYdTR+lEvbCOsW9nbHoN4FWkTJa2CQIqrn+rvNAG23oq6Mm2
-	uwRvbGAQL3Lf6AxLWp4k2A4FMEgDlOazt7SPZmhwALahG/pulTwS5dKCpzQnhNhUWgHkeY8GUfi
-	ynUkCpPZ24QeqFOGTsybNcOr02KBeJQp4FUnzI0oFqknm2jolpq6Se41CVu1RHCg9UbjGbIXci3
-	1qv52JY6ZshQ238iPoOmPWDIDSVkaYQIcqidj3hIJl0HT4+NfqEhGLFxLVBiBH7FvhugB2NSfOr
-	OWKdOBfdo0/iIMxB6FXhjJ6y4yBAfsHqOqWVr22EqiHHMsMt7uKVARsucb8fmWw==
-X-Google-Smtp-Source: AGHT+IEyf6CdLDOiffhXNHr0KM+xOAlIUhBGWYDaZMB/KXNLjqaPNEkdElbJDmhJVvUa1R2xZx73fw==
-X-Received: by 2002:a17:90b:48d0:b0:328:126:352d with SMTP id 98e67ed59e1d1-328156b8386mr16660272a91.10.1756849608981;
-        Tue, 02 Sep 2025 14:46:48 -0700 (PDT)
+        bh=jmZHDEJcXTatBQg1nG3Y/7Sez4QHDFN08NRIk7trkD8=;
+        b=PVb672pgeBzii0aM48yt//EogS+KI54jF3vCeJ5YiZOy39UYKN/VJYWWGWvX74VvDc
+         OfRhjGNujykkkD1fGjNfrpTf4/88WWnvKDFnLxeMkW6ePRznRhIcl6W78qfICCbdLbV9
+         gd6dq7vkf8zgV6Cd9s+BU0aRAfGH9PvmOU6e02BJcTjkskPLUOm8C1sz5cYmYtwtaL5l
+         qwNeasmJBumt/a6EMrrK26noQelsnEpGbCsvOFHJtnK9BPtYICcZ8chhgdIg3xJ3bk/7
+         4fnJSSfx5EgUtNYNvkTzhFYbzdxnZXJIDl1EBfCdfCEej3KDr534AguCLnBhvJMjdeyA
+         c5/A==
+X-Gm-Message-State: AOJu0Yy1MxYQ0FRpjapwmBQwJap5SVX9orkKGzSkcxyOpll2K646Rkge
+	pqoE8E4RXTUqTfPodRVtmQ/V1jX6fxiil0milFWwsftgO5oTMZ+YSVJ/RKmU3Qyq8vT9fokizNi
+	Q1GSd72E=
+X-Gm-Gg: ASbGncsNVAm+wSiPBeecJZQILHDz0QoAM0f7UIrpRMs9QmyTiYFLvg1Nyg9K3eX+VP/
+	9VO0ho8zUA/pWcMCuhP5yATBiZrAF1j1eXiUVa0U1QMikHExJcFC6fdEFfmDpx4exdXMcogqqWJ
+	eIgKo5W6tlAw91BpTbriV2MlQWy9QmKcTDOvO5NtAJXrm1kHd/0c5ZMe/mVzLxr5Gz8oKkLA6OG
+	e6jQFp9pksm3tGUmw1XXliQmf+vSY79DuhuX1XVBU21/8yu2suUc+hSVpN/TIcRV66s96wAb/LL
+	89am4SCAfDc0jcWFNO18D8ZlZyx4Dn5fUI581T/kPCedfELKOipGaz0LiaCrSOvG9I7NnL6qW5s
+	TM1jQyvtsJnuERgNH1u8iEaRte9/05R1s1UYkS1kWq0y099QL/FSdgmNiqmqEQWOQXK88L5vA
+X-Google-Smtp-Source: AGHT+IEWVi2AF4WLkaMIsK4jThzPUCuAoa0SaTr6i1oLNkYm02G/kG2CBaFsBjgOce3l4ZXxQe3LQA==
+X-Received: by 2002:a05:6a00:2b86:b0:76b:f7da:2704 with SMTP id d2e1a72fcca58-7723c503bc8mr10049215b3a.11.1756849601792;
+        Tue, 02 Sep 2025 14:46:41 -0700 (PDT)
 Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4cd3096d1esm12772875a12.45.2025.09.02.14.46.48
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77231f40553sm13403512b3a.43.2025.09.02.14.46.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 14:46:48 -0700 (PDT)
+        Tue, 02 Sep 2025 14:46:41 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/6] python3-typing-extensions: upgrade 4.14.1 -> 4.15.0
-Date: Tue,  2 Sep 2025 14:46:27 -0700
-Message-ID: <b068fb15c23d22a7b70bac4f925e033aab64969d.1756849390.git.tim.orling@konsulko.com>
+Subject: [PATCH 1/6] python3-setuptools-rust: upgrade 1.11.1 -> 1.12.0
+Date: Tue,  2 Sep 2025 14:46:24 -0700
+Message-ID: <cc4cc789bc3d12285be86d8b4cb37b82d62ae862.1756849390.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756849390.git.tim.orling@konsulko.com>
 References: <cover.1756849390.git.tim.orling@konsulko.com>
@@ -65,51 +65,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:46:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222750
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222747
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-Release 4.15.0 (August 25, 2025)
-* No user-facing changes since 4.15.0rc1.
+1.12.0 (2025-08-29)
 
-https://github.com/python/typing_extensions/blob/main/CHANGELOG.md#release-4150-august-25-2025
+* Set PYO3_BUILD_EXTENSION_MODULE environment variable when building
+PyO3 extensions. #540
 
-Release 4.15.0rc1 (August 18, 2025)
-* Add the @typing_extensions.disjoint_base decorator, as specified in
-  PEP 800. Patch by Jelle Zijlstra.
-* Add typing_extensions.type_repr, a backport of annotationlib.type_repr,
-  introduced in Python 3.14 (CPython PR #124551, originally by Jelle
-  Zijlstra). Patch by Semyon Moroz.
-* Fix behavior of type params in typing_extensions.evaluate_forward_ref.
-  Backport of CPython PR #137227 by Jelle Zijlstra.
+https://github.com/PyO3/setuptools-rust/blob/main/CHANGELOG.md#1120-2025-08-29
 
-https://github.com/python/typing_extensions/blob/main/CHANGELOG.md#release-4150rc1-august-18-2025
+Reference:
+https://github.com/PyO3/setuptools-rust/pull/540
 
 Comparing Changes:
-https://github.com/python/typing_extensions/compare/4.14.1...4.15.0
+https://github.com/PyO3/setuptools-rust/compare/v1.11.1...v1.12.0
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...extensions_4.14.1.bb => python3-typing-extensions_4.15.0.bb} | 2 +-
+ ...uptools-rust_1.11.1.bb => python3-setuptools-rust_1.12.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-typing-extensions_4.14.1.bb => python3-typing-extensions_4.15.0.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-setuptools-rust_1.11.1.bb => python3-setuptools-rust_1.12.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.14.1.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb
+diff --git a/meta/recipes-devtools/python/python3-setuptools-rust_1.11.1.bb b/meta/recipes-devtools/python/python3-setuptools-rust_1.12.0.bb
 similarity index 91%
-rename from meta/recipes-devtools/python/python3-typing-extensions_4.14.1.bb
-rename to meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb
-index 32edb656db0..3e3ce33ca8d 100644
---- a/meta/recipes-devtools/python/python3-typing-extensions_4.14.1.bb
-+++ b/meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
- PYPI_PACKAGE = "typing_extensions"
+rename from meta/recipes-devtools/python/python3-setuptools-rust_1.11.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools-rust_1.12.0.bb
+index 417ded009ec..491f5127063 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-rust_1.11.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-rust_1.12.0.bb
+@@ -9,7 +9,7 @@ BUGTRACKER = "https://github.com/PyO3/setuptools-rust/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=011cd92e702dd9e6b1a26157b6fd53f5"
+ 
+-SRC_URI[sha256sum] = "7dabc4392252ced314b8050d63276e05fdc5d32398fc7d3cce1f6a6ac35b76c0"
++SRC_URI[sha256sum] = "d94a93f0c97751c17014565f07bdc324bee45d396cd1bba83d8e7af92b945f0c"
+ 
+ PYPI_PACKAGE = "setuptools_rust"
  UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
- 
--SRC_URI[sha256sum] = "38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36"
-+SRC_URI[sha256sum] = "0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466"
- 
- inherit pypi python_flit_core
- 
 -- 
 2.43.0
 
