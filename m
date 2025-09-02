@@ -1,83 +1,89 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C883CCA0FFE
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 06:31:15 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.web11.70939.1756794672750859049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E93CA0FFE
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 07:12:16 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.web10.71510.1756797127153483593
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 23:31:13 -0700
+ Tue, 02 Sep 2025 00:12:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=wFHoSz/5;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=vyMS8noB;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: kamel.bouhara@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id A79ACC653F1;
-	Tue,  2 Sep 2025 06:30:55 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 8396E4E40C75
+	for <openembedded-core@lists.openembedded.org>; Tue,  2 Sep 2025 07:12:05 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 96CA460695;
-	Tue,  2 Sep 2025 06:31:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 470241C22D99E;
-	Tue,  2 Sep 2025 08:31:06 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4C8AE60695;
+	Tue,  2 Sep 2025 07:12:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8316E1C22DB1D;
+	Tue,  2 Sep 2025 09:12:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1756794670; h=from:subject:date:message-id:to:mime-version:content-type:
+	t=1756797124; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=aayVrPhVzJ56Sjguz9/BmCuRJ5DfLbPmpeuWCqgTkIw=;
-	b=wFHoSz/5fMeJwQkuD3UCbc9w7WM6+CillJOFRRFEDnE0Z8b8RLzOnnDQLkvcNxwt1uZrW9
-	FLxogunvdoV3bgGHUCPU4avygFIC11saTvTHSa+QLQPNgTp0LNHO25hPvp3SkE93OABDk7
-	YEkjAicEv7vO9hSnhLhhgST9X4yjGBsK6Ni/5IX5rFdbif3ZBXs5pG+zOnCynRcO1G6diT
-	cpkFAVb2hRT6MKY0vAWu+2mZxcPL9f4x0oeZ3WOXLDqpls8iudPGYbKTqq0lXYB2gMbgUQ
-	Ldt65UUwL/xQ6rigIOb9i3wbdwWpuaJ40RY753tNzSNM17p1Qg39MB+KwDA60g==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 02 Sep 2025 08:31:05 +0200
-Message-Id: <DCI3QFN7RXTR.L14ECZ6BDFAN@bootlin.com>
-To: <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v3 3/3] kea: Upgrade to 3.0 LTS release
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250829185539.3379514-1-raj.khem@gmail.com>
- <20250829185539.3379514-3-raj.khem@gmail.com>
-In-Reply-To: <20250829185539.3379514-3-raj.khem@gmail.com>
+	bh=a+jeoZ+hqzrbXa9cT6d02sXcR3i1Ne5qnmyWiesPw7w=;
+	b=vyMS8noBIJGJZHtCU/+Evrf0tzLZG6L1+HQx9KHoK2P26qFlgz/zijFThWKsUxUleqHaAW
+	yQYJ15tDKaFsTVDmZxP4tEppFnCvi1S3C8m8avUDX5hpszDNB2r2g2S3HpfmMVWhLQZego
+	rmOtXKo0kB7da0W+rwlZcy8OBuFcSZ9eIcdBL4L7DDGb3tJRlQ0P/H5JbKqHKxCvPEs4lk
+	M487yBSR1wq8Mepl1pu5l+jZC1AfSpr+yzq8X3oMNaYGr70k0AtEPWJ6o25xhwBGCz5i2s
+	7uo8GfEGpHqJFq+nDx6LA/djxgkypY3a6jM0mBNeQAQxuTqGcmWrtKsg+ZRxKQ==
+Date: Tue, 2 Sep 2025 09:11:58 +0200
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+To: ross.burton@arm.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Joshua Watt <JPEWhacker@gmail.com>, "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, 
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>, "antonin.godard@bootlin.com" <antonin.godard@bootlin.com>
+Subject: Re: [OE-core] [PATCH v3 2/2] spdx30_tasks: Add support for exporting
+ PACKAGECONFIG to SPDX
+Message-ID: <zxrxtcqgep7gsgkc3oax2rff7zoyq2c76bghvstsx3cii5aykp@rgtw34rifhdt>
+References: <20250821145438.2537767-1-kamel.bouhara@bootlin.com>
+ <20250821145438.2537767-3-kamel.bouhara@bootlin.com>
+ <818BC0DA-8F57-4BCA-987A-BD3128CFE9EB@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <818BC0DA-8F57-4BCA-987A-BD3128CFE9EB@arm.com>
 X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 06:31:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222709
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 07:12:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222710
 
-On Fri Aug 29, 2025 at 8:55 PM CEST, Khem Raj via lists.openembedded.org wr=
-ote:
-> * Drop backported patch and refresh remaining
-> * Add fixes to build with boost 1.89.0
-> * Switch to meson build system
+On Mon, Sep 01, 2025 at 05:04:38PM +0000, Ross Burton via lists.openembed=
+ded.org wrote:
+> Hi,
 >
-> License-Update: Removed remaining coroutine references [1]
+
+Hi Ross,
+
+> > On 21 Aug 2025, at 15:54, Kamel Bouhara via lists.openembedded.org <k=
+amel.bouhara=3Dbootlin.com@lists.openembedded.org> wrote:
+> >
+> > Introduce the SPDX_INCLUDE_PACKAGECONFIG variable, which when enabled=
+ causes
+> > PACKAGECONFIG features to be recorded in the SPDX document as build p=
+arameters.
 >
-> [1] https://github.com/isc-projects/kea/commit/93bab7a99f82e2ceadca14a7a6=
-a2440cd69fb8c8
+> My initial review comment was =E2=80=9Cwhat does Josh think=E2=80=9D an=
+d he=E2=80=99s already acked this, but this is adding disabled-by-default=
+ functionality that isn=E2=80=99t documented or tested at all.
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
+> Can you add some documentation to the reference manual at least, and a =
+test case in oe-selftest that turns on all of these optional toggles so t=
+hey get exercised at least once?
 
-Hi Khem,
-
-It looks like we have some reproducibility issue after the update, as
-compilers data are stored:
-
-https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20250901-irpx1jty/=
-packages/diff-html/
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/2398
-
-Can you have a look?
+Sure, I=E2=80=99ll add the docs and an oe-selftest case in the next updat=
+e.
 
 Thanks,
-Mathieu
+Kamel
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
+--
+Kamel Bouhara, Bootlin
+Embedded Linux and kernel engineering
 https://bootlin.com
-
 
