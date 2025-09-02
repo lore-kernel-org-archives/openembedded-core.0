@@ -1,141 +1,112 @@
-Return-Path: <oe@myspectrum.nl>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19443CA0FFE
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 15:04:09 +0000 (UTC)
-Received: from outbound5.mail.transip.nl (outbound5.mail.transip.nl [136.144.136.9])
- by mx.groups.io with SMTP id smtpd.web10.79806.1756825445848760094
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F344CA1005
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 15:10:29 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.web11.79846.1756825820453842824
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 08:04:07 -0700
+ Tue, 02 Sep 2025 08:10:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@myspectrum.nl header.s=transip-a header.b=YPcTPAzf;
- spf=pass (domain: myspectrum.nl, ip: 136.144.136.9, mailfrom: oe@myspectrum.nl)
-Received: from submission3.mail.transip.nl (unknown [10.100.4.72])
-	by outbound5.mail.transip.nl (Postfix) with ESMTP id 4cGTXg2zlvzHTHv;
-	Tue,  2 Sep 2025 17:04:03 +0200 (CEST)
-Received: from yellow.myspectrum.nl (yellow.myspectrum.nl [136.144.146.76])
-	by submission3.mail.transip.nl (Postfix) with ESMTPSA id 4cGTXf2BcRz2nC0cq;
-	Tue,  2 Sep 2025 17:04:02 +0200 (CEST)
-Received: from [192.168.178.17] (82-75-103-118.cable.dynamic.v4.ziggo.nl [82.75.103.118])
-	(Authenticated sender: oe@myspectrum.nl)
-	by yellow.myspectrum.nl (Postfix) with ESMTPSA id 865DE20089;
-	Tue,  2 Sep 2025 15:04:01 +0000 (UTC)
-Authentication-Results: yellow.myspectrum.nl;
-	auth=pass smtp.auth=oe@myspectrum.nl smtp.mailfrom=oe@myspectrum.nl
-Message-ID: <a00f1d80-39a2-4b55-a36e-b69797ba761b@myspectrum.nl>
-Date: Tue, 2 Sep 2025 17:04:00 +0200
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cfAy5d+v;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-72267c05050so27550147b3.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 08:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756825819; x=1757430619; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IUoJ/Y0XR0hPhN4alX9ZoSNBKAlOiO9auhy9KY9c3P4=;
+        b=cfAy5d+vm0tB4833yufSOZ6KFlgokBjlIjoEpp4KkZgPiUT6M5PJruL/NncEFeeBAT
+         31wr0yG2I94AsnOuZClukDOqkJc+p01VD5RDWeaVh0+QsjRRa3+YM/RWW3r/Ht9nH242
+         I/sG0dQh3J2zQvK7gugXiPIiSAuFkL0BWbwh/AaTNreSiLMmXS7bxQF3XXhNefrDGGJA
+         k+lMM0z06UzvI+1pmEg9XtitoUyyZI4HBH0FSKVe4BNRsL3Fixz1XjpNmQS94Bhky5Lk
+         RQ4E7iVaual1uRhCfU8T0FZIzdDHLmwJTXJYUGXinuKDNmrHgPeP6eDg10MF7LDp7krE
+         07eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756825819; x=1757430619;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IUoJ/Y0XR0hPhN4alX9ZoSNBKAlOiO9auhy9KY9c3P4=;
+        b=h51Yfe3eVyeLUJ/0FseEb5v9//s+no5d+he/P5oVuIzCZFJakEaGAyEohIgfxtq25M
+         OqXq9m9rqds0BmDQOmylW4xvurpKtpzP4rZsdp1n16fehwtNeA32fNCO6PsBwS/3HuDf
+         mXzHF8Mi8DBcJAQWkVzRbZU7RLLL+CEMC/97TOw18Ipng3BzPzcE+Ck3a4RTusl7IpDD
+         1afNMOKqvSwd747lcRIjJaEKL7rGB0gAnUb1VAZDv5WXvx7u61RmGdtOBNXvnWriGGH4
+         5bvC8lJtpRLexEb5sEcKxL6Ij5EzDfHwA/nFgAe17pJkx3sBfGejRdGOJBt9WjS7MLCt
+         4n7A==
+X-Gm-Message-State: AOJu0YywrrELIZt/8tTkycNn3iYu9NmwS+n4dTthY2hO5PEtjjCfY940
+	2YjHnC/Z3z3WTXb9cHUp7forSwH8p6aEOXvNNxjaHj3DGo9BPtqDwUu4yFOt9nLdsNvuCNARZto
+	nGnpCgtcD3uxksuRWnZr2DooQwcAcvcqCpufX
+X-Gm-Gg: ASbGncsw+6XwbzJwpZhBl+Gprw8Mf/NLhqp3nOBOoQ49Taf92DrU/z2mFqkjpH4cRay
+	M8sOZlzMw26FkAu7HnGCF8s2MUds0otlTOvcStmBid18HRiV1hmwNrFrPghJHv9SRh8D8cJPe0w
+	d2jgJqjyEBvfVQzZovBO+vZUkysUfO/ylHJWon/NlW9zea2uyw+P0vZ1DRY8e87GbPKpuLd7/68
+	oFrW2RZ1AiKWJnPvdd6T+ETi7NRdJLtuAv6HIpZM4nnLzNSXhD0wgxqJS8MCbrfaFeTjUzjKon6
+	22o121gE75HM7NqZOsZC8qmDw5PoaxZySC1tzbtEKlzt2KAGaRgEwDoP
+X-Google-Smtp-Source: AGHT+IExnSNr4i0F1VRqTAQuMbkRE27r0aZv0GLjoBKLFu/vvhui5Nr0HGesJh25w0FQGpJmZGrOHmR2nrl7R0GdTBY=
+X-Received: by 2002:a05:690c:c14:b0:721:5b31:54c7 with SMTP id
+ 00721157ae682-72276564119mr143457107b3.48.1756825819287; Tue, 02 Sep 2025
+ 08:10:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2] gomod: extract license files for omitted
- modules
-To: openembedded-core@lists.openembedded.org, christian.lindeberg@axis.com,
- ross.burton@arm.com
-References: <20250719150105.2697443-1-jeroen@myspectrum.nl>
-Content-Language: en-US
-From: Jeroen Hofstee <oe@myspectrum.nl>
-In-Reply-To: <20250719150105.2697443-1-jeroen@myspectrum.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: ClueGetter at submission3.mail.transip.nl
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=transip-a; d=myspectrum.nl; t=1756825442; h=from:subject:to:
- references:in-reply-to:date:mime-version:content-type;
- bh=gU7R28j3vnt2THOFj5ByoHR3N7IVn34LFkI3EK+NHuw=;
- b=YPcTPAzfALT3vf9fpnR65he+tMYRjvXzuTxU24iiciOnShNH4ZZ+e4yA2N+vDkvv14xP/5
- OZH1dC+fo7Ul5Ef5cWx6BUaA/QcL6BjiQVqOnkBRlDbH8bjeF/4VUe6rvdv8D5ZI9axiD+
- KsNn0AVRmY3ccxXtSRuJaoCgnuGYHRr/9kKFscO4YzdKtWtPbbXJsRscVTFe2XMZCA3zrj
- o/VEWhsfj5vxpfHcnm9YC4ptbNoV3wLtW6bCR1R+a6Uk7dwy5J7Ln8hTNDpzdWCFkjDCxA
- sebqv/eovNO1ivzFhSAYYxmPxmW9c6icNyj6uB0Yw2XYZTRiQscYNtOEn2d67Q==
-X-Report-Abuse-To: abuse@transip.nl
+References: <20250829185539.3379514-1-raj.khem@gmail.com> <20250829185539.3379514-3-raj.khem@gmail.com>
+ <DCI3QFN7RXTR.L14ECZ6BDFAN@bootlin.com>
+In-Reply-To: <DCI3QFN7RXTR.L14ECZ6BDFAN@bootlin.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 2 Sep 2025 08:09:52 -0700
+X-Gm-Features: Ac12FXyoOl-FfDERS5dwi8ihQCFnzLlmpxlsTk-5F-fWHp-OtrGlaGg5OQzCwGc
+Message-ID: <CAMKF1squJp0aAWy-t5-ZpoW_ZcQMOa7AQszLJ0HbZktCOE7dnQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 3/3] kea: Upgrade to 3.0 LTS release
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 15:04:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222733
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 15:10:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222734
 
-Hi Christian, Ross or some else to whom it may concern ,
+On Mon, Sep 1, 2025 at 11:31=E2=80=AFPM Mathieu Dubois-Briand
+<mathieu.dubois-briand@bootlin.com> wrote:
+>
+> On Fri Aug 29, 2025 at 8:55 PM CEST, Khem Raj via lists.openembedded.org =
+wrote:
+> > * Drop backported patch and refresh remaining
+> > * Add fixes to build with boost 1.89.0
+> > * Switch to meson build system
+> >
+> > License-Update: Removed remaining coroutine references [1]
+> >
+> > [1] https://github.com/isc-projects/kea/commit/93bab7a99f82e2ceadca14a7=
+a6a2440cd69fb8c8
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+>
+> Hi Khem,
+>
+> It looks like we have some reproducibility issue after the update, as
+> compilers data are stored:
+>
+> https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20250901-irpx1jt=
+y/packages/diff-html/
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/2398
+>
+> Can you have a look?
+>
 
-Can you also have a look at:
-https://patchwork.yoctoproject.org/project/oe-core/patch/20250719150105.2697443-1-jeroen@myspectrum.nl/
+Thanks for reporting, I wonder if meson-info files are useful for OE
+usecase, if not I think
+we should just delete it. I will try to figure it out.
 
-It simply makes sure LICENSE files are always present.
-
-Thanks,
-Jeroen
-
-On 7/19/25 17:01, Jeroen Hofstee wrote:
-> From: Jeroen Hofstee <jhofstee@victronenergy.com>
+> Thanks,
+> Mathieu
 >
-> If a gomod is omitted with a PACKAGECONFIG option its license file
-> doesn't get extracted to the gomod cache dir and hence do_populate_lic
-> will complain that the license file isn't found. This adds a task
-> do_extract_lic after do_compile and before do_populate_lic to make
-> sure the license files are extracted in such a case.
->
-> Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
->
-> ---
-> v2:
->
-> - drop bb.utils.mkdirhier(os.path.dirname(cachefile)), extract
->    will create it.
-> - fix typo in the commit msg, it is do_populate_lic
-> ---
->   meta/classes-recipe/go-mod.bbclass | 33 ++++++++++++++++++++++++++++++
->   1 file changed, 33 insertions(+)
->
-> diff --git a/meta/classes-recipe/go-mod.bbclass b/meta/classes-recipe/go-mod.bbclass
-> index a15dda8f0e..4c0496e1e7 100644
-> --- a/meta/classes-recipe/go-mod.bbclass
-> +++ b/meta/classes-recipe/go-mod.bbclass
-> @@ -29,6 +29,39 @@ do_unpack[cleandirs] += "${GOMODCACHE}"
->   GO_WORKDIR ?= "${GO_IMPORT}"
->   do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
->   
-> +python do_extract_lic() {
-> +    import zipfile
-> +
-> +    lics = d.getVar("LIC_FILES_CHKSUM")
-> +    cache = d.getVar("GOMODCACHE")
-> +    dldir = os.path.join(cache, "cache", "download")
-> +    prefix = "file://pkg/mod/"
-> +
-> +    for lic in lics.split():
-> +        if not lic.startswith(prefix):
-> +            continue
-> +
-> +        try:
-> +            src = lic[len(prefix):].split(";")[0]
-> +            url, suffix = src.split("@v")
-> +            version, _, file = suffix.partition(os.path.sep)
-> +        except:
-> +            continue
-> +
-> +        cachefile = os.path.join(cache, src)
-> +        zip = os.path.join(dldir, url, "@v", "v" + version) + ".zip"
-> +        if os.path.exists(cachefile) or not os.path.exists(zip):
-> +            continue
-> +
-> +        try:
-> +            bb.note(f"extract {src} from {zip}")
-> +            zipfile.ZipFile(zip).extract(src, cache)
-> +        except:
-> +            bb.warn(f"could not extract {src} from {zip}")
-> +}
-> +
->   # Make go install unpack the module zip files in the module cache directory
->   # before the license directory is polulated with license files.
-> +# Do make sure licenses get extracted for omitted modules.
-> +addtask do_extract_lic after do_compile before do_populate_lic
->   addtask do_compile before do_populate_lic
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#220613): https://lists.openembedded.org/g/openembedded-core/message/220613
-> Mute This Topic: https://lists.openembedded.org/mt/114238035/9720520
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [oe@myspectrum.nl]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 >
 
