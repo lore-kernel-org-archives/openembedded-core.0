@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C26ECA100E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C230CA1009
 	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 01:58:44 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web11.67784.1756778320434446786
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web10.68012.1756778318234973582
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 18:58:40 -0700
+ Mon, 01 Sep 2025 18:58:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=NhBUBuIu;
- spf=pass (domain: underview.tech, ip: 209.85.160.174, mailfrom: vince@underview.tech)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4b30d09dab5so50916091cf.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 18:58:40 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=Z1L4n4cK;
+ spf=pass (domain: underview.tech, ip: 209.85.219.41, mailfrom: vince@underview.tech)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-70fa0e941a9so29252366d6.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 18:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1756778319; x=1757383119; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1756778317; x=1757383117; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=muIkAhajL310B+tHVnSzlhmDPJ+ZoBA5H89wnfQNDsE=;
-        b=NhBUBuIuKHXwHy8U5sNIVZprhkO3mQky4vbaBpF4aKNu2eHYSFei0oHbzi9mQkpo6R
-         re73C8LRTTRhRKtJcLaKNGYP0M8cquL4na8mWFfMNknPkMsxj2HCii4knzZGexgAIlTG
-         3x4twckKZurNMNzG37JB2PUTh4yZ7EBzBxHTZphTrGFz/VJ+0jnHAT/atwFkKLk1SCWl
-         hE5Il4wpmyga7fK0sdhVE08gsMtlYVcz3qK7Z5hEGekvnElDm54E1GtHXOwFkk6ytVbR
-         VHMLbmKfWbK6ieeC7tdAyy7HJrC5fhVCDiPAzuok4XDhoLg24x0qU6psZ14eW2Lrl05I
-         FtzQ==
+        bh=FXzuSotpMMnOjSPlL3MDTuoRfm/HOvDccvynxqGewg4=;
+        b=Z1L4n4cKpD5TBdg/SmJ11CAn6TBXIvStyDhplhZdNi/49c1meURE/uX91sNpBJcQm/
+         HnjxzavoUkOfhhvReZhUmDcRwmkBMI32oZhVD/AyfE8Jh81Cy4wDq9zS80WkCsLhTncI
+         RQIifdmPspLq4kbo8f8cTw0hB9mcSFydcFqsfyPFWqwr2umQn+mnvXN/dMdGU68fvCCa
+         pp/6eTlxOU7B7cpxU4H3WVhZTrOhwD5Z/61ev+tfkyxU1QLOMJhJAQF3G2sfW6qLTue8
+         H4c1yEsmEo5PvyY5QuNyK8wVQoZmaeVA8EJnrFcniMvtF/XNMM9M7hOlbrpHzB2aPt6U
+         IXvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756778319; x=1757383119;
+        d=1e100.net; s=20230601; t=1756778317; x=1757383117;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=muIkAhajL310B+tHVnSzlhmDPJ+ZoBA5H89wnfQNDsE=;
-        b=DZhU/yK26856xWKbeXpQA/0enD6DhcMEKQDWOHGFe0pbKR3qMn1HYs07cmUJV2dOKi
-         kZ5qNKItVw5ch3gZeCUDHl6kCgeJXD6+urVgNc0nvrMyxqmGWMw2VFygBN/nP3E5mtSM
-         UhWux3Pu27i/M+OUppHtSmA05W9ZfimiZ0LoM/MFOsbR50Wuh2X1CD/UcAga2OgfxCsu
-         XsUhMXUtPyagiTJmvRHTCLjasrpM60/v1j3DBDvJ/F/WPE9hfQAJKKP4vABE3PcgjRDI
-         j7TtHp4aM2ELrEKHRxSbQLEAnnGQh1vzofO4DCInaZjjiBpxXgZIksiOx/Bk4ZGPS3vZ
-         1nHQ==
-X-Gm-Message-State: AOJu0YyjumJDsezuUlcYTAXF1LAU4a3Xc8FW6ilMzMXN9lqznLHHdkHQ
-	7cQuliPbpaD6AdMF1HXqTX/2nRqOtAgu8Cbch3YLoiMNyzNZl1gSmvjFqI8KL8/9ktMBORSHMJX
-	FqxuYk0k=
-X-Gm-Gg: ASbGncu2VYYlq57dzCeIEhMgvrzP7dShZAACJjqLvfqNgzGbxRM7f53zA/8H0dQKsxK
-	wSAkR/0fYnF9gLjDGP3bjMDGtzh3x5WIY4GlBCCI6DxS/ZoIYpQIn6k1WXE94TEc14YjRx6Igkk
-	vlY9o2aPbrt6oHyq+EJzH2bF2V0qosoDxnzvCN49qD6HK/bTrcH9GIBxPtlQnkFYhbSTcUJOXAk
-	mjLD1V2FK7JPIzkoPYg5tdEkm5HrQH1UnuHZZ4Sny61kriGxw4DWc448eJ5ifqXwFM4Uv8FOU2R
-	NQgW3b1cgMy9g92eetTawEf79Ma3sxosMVv1PdTFt975Nmi7i75r9A89X7ERc07UYNZcOKV+7j/
-	CIqScWvt9kec=
-X-Google-Smtp-Source: AGHT+IGWVzhNpLlqFKrbxlQTCZYUtxuc7rElOqdho1Zbdt7TAXRMDXTrOgC52oSjAVnvqmpWJ6QFkg==
-X-Received: by 2002:a05:6214:622:b0:70f:a460:c454 with SMTP id 6a1803df08f44-70fac896f25mr122202156d6.34.1756778319042;
-        Mon, 01 Sep 2025 18:58:39 -0700 (PDT)
+        bh=FXzuSotpMMnOjSPlL3MDTuoRfm/HOvDccvynxqGewg4=;
+        b=FSEdV2LN2wCsXyEkvAv356HjaWrsqIa5qVHb1chmL/p38pVgcZQ9Iu3VfUfFET8URd
+         IUq5Ey9UY548/6W6xzF6rd9p5x4UmO8xhDBxOe+cY183ZMhFcdc7OrCLRFxyF6MSGsjy
+         iSV9u1PJUomesJaRe019AukdZ3mMYR4ejWv9MhDJYPjN79th1cqjEabGJUqCkQ1Rlz02
+         XMDzx+xAw/6p6ILxXEvO+EG0sSv50THFxW4+LRdrkDJwxDSWms22/4bZ1oPIuLq4pyxV
+         M/MRcH6o2GygVGn7orClCD0U09vbeFmux1mnTlI5Gnf3DjMd24q1eQxxYeVxAzV9U4JK
+         mTgQ==
+X-Gm-Message-State: AOJu0YzNiANidzDGHGAMom5kY4lLI4GZZwyMaX9Mnggmkcoqe4mKYKP7
+	NsccoJmJGE+x6Up4fw6VeqH4YDxzMxZ9HAx87iM/ewmS7iOmCsFgDrm0PENk9dZl6mKDvk362/m
+	Ig/949Vk=
+X-Gm-Gg: ASbGnctwFBfYPTeOpVxRwhzjfxvZWguMjRMlwOFdq4Tga+Ei5/wiD4qpHQSrLcda+6f
+	yuT3yse3ijU0scuoSs3PEq7NZXNhXKQtiKJc6Mg08Xh074/FLhsUTo+FbRzX5ExxdXq6cCikaHh
+	aepm1t+rS1sj6/Ag307dGSf/NbZrQ+3oFI3Hk7E8pMjYGpjR16BMbeJ0f28g72SroxLx06uLX3f
+	BOXit98W9ODi0NM2FGF5xpKTYlPYYXRaV7X1ERqOYJh+zj+zCzXPoum+DNLm0oApGOt0cBj5Bn9
+	IQkaluIhaoruUvpJbZXMBUNb69iu1sMOFyTjwqkv947Qy7pApw4hZ1XV7mt9mqwqjO6iAGeQ2NI
+	lUhrDlel6v70=
+X-Google-Smtp-Source: AGHT+IEEklNzkNGfA9KJhrPToL7IvF1wzVOM6/DOx1IM/phUQViKEQPQSPmASpV6trZ+2LQhYKqvFA==
+X-Received: by 2002:a05:6214:2303:b0:70d:db23:b97b with SMTP id 6a1803df08f44-70fac89eb50mr130775406d6.18.1756778316809;
+        Mon, 01 Sep 2025 18:58:36 -0700 (PDT)
 Received: from vince-server.. ([2601:406:4d01:1820::7efe])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720a30b79aesm4284666d6.0.2025.09.01.18.58.38
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720a30b79aesm4284666d6.0.2025.09.01.18.58.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 18:58:38 -0700 (PDT)
+        Mon, 01 Sep 2025 18:58:36 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH 4/7] bootimg_biosplusefi: add grub only examples
-Date: Mon,  1 Sep 2025 21:58:22 -0400
-Message-ID: <20250902015825.2785789-4-vince@underview.tech>
+Subject: [PATCH 3/7] bootimg_efi: copy grub modules
+Date: Mon,  1 Sep 2025 21:58:21 -0400
+Message-ID: <20250902015825.2785789-3-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250902015825.2785789-1-vince@underview.tech>
 References: <20250902015825.2785789-1-vince@underview.tech>
@@ -68,75 +68,89 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 01:58:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222686
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222685
 
-Updates the comments section to explain
-new usage of wic plugins.
+Assumming all grub modules weren't embedded
+into boot*.efi (core.img) copy them now.
+
+This commit populates the common partition
+used to store the grub config and grub modules
+for both PCBIOS and EFI.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- .../wic/plugins/source/bootimg_biosplusefi.py | 32 +++++++++++++++++--
- 1 file changed, 29 insertions(+), 3 deletions(-)
+ scripts/lib/wic/plugins/source/bootimg_efi.py | 53 +++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py b/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
-index 4279ddded8..ad4c0e1768 100644
---- a/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
-@@ -27,7 +27,7 @@ class BootimgBiosPlusEFIPlugin(SourcePlugin):
-     """
-     Create MBR + EFI boot partition
+diff --git a/scripts/lib/wic/plugins/source/bootimg_efi.py b/scripts/lib/wic/plugins/source/bootimg_efi.py
+index 98be12160c..c3254033d6 100644
+--- a/scripts/lib/wic/plugins/source/bootimg_efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg_efi.py
+@@ -350,7 +350,39 @@ class BootimgEFIPlugin(SourcePlugin):
+                             (kernel_dir, mod, hdddir, mod[9:])
+                         exec_cmd(cp_cmd, True)
+                 else:
++                    # Assumming all grub modules weren't embedded
++                    # into grub.efi or core.img copy them now.
++                    copy_types = [ '*.mod', '*.o', '*.lst' ]
++
++                    # It appears the EFI directory resides after
++                    # initial population of the EFI System partition
++                    # in the if statement above. Remove so that the
++                    # partition doesn't contain any unrequired files.
+                     shutil.rmtree("%s/EFI" % hdddir)
++
++                    hdddir = "%s/hdd" % cr_workdir
++
++                    staging_libdir = cls._get_staging_libdir()
++
++                    grub_format = get_bitbake_var('GRUB_MKIMAGE_FORMAT_EFI')
++                    if not grub_format:
++                        grub_format = 'x86_64-efi'
++
++                    grub_prefix_path = get_bitbake_var('GRUB_PREFIX_PATH')
++                    if not grub_prefix_path:
++                        grub_prefix_path = '/boot/grub'
++
++                    # Copy grub modules
++                    install_dir = '%s/%s/%s' % (hdddir, grub_prefix_path, grub_format)
++                    os.makedirs(install_dir, exist_ok=True)
++
++                    for ctype in copy_types:
++                        files = glob('%s/grub/%s/%s' % \
++                            (staging_libdir, grub_format, ctype))
++                        for file in files:
++                            shutil.copy2(file, install_dir, follow_symlinks=True)
++
++                    # bootimg_pcbios calles prepare_rootfs no need to here.
+                     return 0
+             elif source_params['loader'] == 'grub-efi':
+                 shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
+@@ -457,3 +489,24 @@ class BootimgEFIPlugin(SourcePlugin):
  
--    This plugin creates a boot partition that contains both
-+    This plugin creates a boot partition(s) that contains both
-     legacy BIOS and EFI content. It will be able to boot from both.
-     This is useful when managing PC fleet with some older machines
-     without EFI support.
-@@ -50,7 +50,9 @@ class BootimgBiosPlusEFIPlugin(SourcePlugin):
-     not turn the rootfs into an initramfs RAM image.
- 
-     This plugin is made to put everything into a single /boot partition so it
--    does not have the limitations listed above.
-+    does not have the limitations listed above. Unless GRUB is the primary
-+    bootloader. We have to seperate it into multiple partitions because
-+    of core.img.
- 
-     The plugin is made so it does tries not to reimplement what's already
-     been done in other plugins; as such it imports "bootimg_pcbios"
-@@ -70,9 +72,33 @@ class BootimgBiosPlusEFIPlugin(SourcePlugin):
-     Plugin options, such as "--sourceparams" can still be passed to a
-     plugin, as long they does not cause issue in the other plugin.
- 
--    Example wic configuration:
-+    Example wic configurations:
+         part.size = int(bootimg_size)
+         part.source_file = bootimg
 +
-+    ************ Example kickstart GRUB/Syslinux Hybrid Legacy Bios Or Newer UEFI Boot ************
-     part /boot --source bootimg_biosplusefi --sourceparams="loader=grub-efi"\\
-                --ondisk sda --label os_boot --active --align 1024 --use-uuid
-+    ************ Example kickstart GRUB/Syslinux Hybrid Legacy Bios Or Newer UEFI Boot ************
++    @classmethod
++    def _get_staging_libdir(cls):
++        """
++        For unknown reasons when running test with poky
++        STAGING_LIBDIR gets unset when wic create is executed.
++        Bellow is a hack to determine what STAGING_LIBDIR should
++        be if not specified.
++        """
 +
++        staging_libdir = get_bitbake_var('STAGING_LIBDIR')
++        staging_dir_target = get_bitbake_var('STAGING_DIR_TARGET')
 +
-+    ********************** Example kickstart GRUB Hybrid Legacy Bios Or Newer UEFI Boot **********************
-+    # See https://wiki.archlinux.org/title/GPT_fdisk#Partition_type
++        if not staging_libdir:
++            staging_libdir = '%s/usr/lib64' % staging_dir_target
++            if not os.path.isdir(staging_libdir):
++                staging_libdir = '%s/usr/lib32' % staging_dir_target
++                if not os.path.isdir(staging_libdir):
++                    staging_libdir = '%s/usr/lib' % staging_dir_target
 +
-+    part bios_boot --label bios_boot --fstype none --offset 1024 --fixed-size 1M \\
-+                   --part-type 21686148-6449-6E6F-744E-656564454649 --source bootimg_biosplusefi \\
-+                   --sourceparams="loader=grub-efi,loader-bios=grub,install-kernel-into-boot-dir=false"
-+
-+    part efi_system --label efi_system --fstype vfat --fixed-size 48M \\
-+                    --part-type C12A7328-F81F-11D2-BA4B-00A0C93EC93B --source bootimg_biosplusefi \\
-+                    --sourceparams="loader=grub-efi,loader-bios=grub,install-kernel-into-boot-dir=false"
-+
-+    part grub_data --label grub_data --fstype ext4 --fixed-size 78M \\
-+                   --part-type 0FC63DAF-8483-4772-8E79-3D69D8477DE4 --source bootimg_biosplusefi \\
-+                   --sourceparams="loader=grub-efi,loader-bios=grub,install-kernel-into-boot-dir=false"
-+
-+    part roots --label rootfs --fstype ext4 --source rootfs --part-type 0FC63DAF-8483-4772-8E79-3D69D8477DE4
-+
-+    bootloader --ptable gpt --source bootimg_biosplusefi
-+    ********************** Example kickstart GRUB Hybrid Legacy Bios Or Newer UEFI Boot **********************
-     """
- 
-     name = 'bootimg_biosplusefi'
++        return staging_libdir
 -- 
 2.43.0
 
