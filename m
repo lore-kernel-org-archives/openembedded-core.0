@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B41CAC585
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C04DBCAC586
 	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:31 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.89791.1756850183952555762
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.89794.1756850186663987349
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 14:56:24 -0700
+ Tue, 02 Sep 2025 14:56:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GV8tc8pu;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=dBxctX+S;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101990c6e5c75-c85bf45f-5e62-4d24-a7f6-c8ee0238719a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=BDun4BTR;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BR/IXHZM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101990c6e6b8d-e60a1770-2318-459f-b2fc-1ae354751fa4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756850183;
+	t=1756850187;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sqdlhLUpBy4QIHfnrxuPZ7a4NJvwpciNthUpQKmCws0=;
-	b=GV8tc8pu/LvN0V2OLDTFRbHtjRKch0lT3QnEG3kva9dNOd+tzUBDc2K8ujDP25+6
-	uM4KbeHRlYnj3d9DC52evgjeEgOXbIYAbwPhvoAU1XE/2jhlJZ7fjZEzcS0sRy1mGwP
-	49u/634D4m0m7m3xGcjuCOPIZizg36VcfJUes6mA=
+	bh=RcM/4fdALvo24KnrN8FES5WxP/z1ghGTnwzcLFpGOOg=;
+	b=BDun4BTR0ZXsie9rLAZizpv+2pJ7r/DY6VCpO521ia9mNAxtk9c6EjnH2UQnWOHO
+	vxO7rmEkrRSqzcZbNyGyhO71fgcKK37S9of21ntQmuHb8g1vFyUX9FFiYbdsJtB1hmE
+	zresYyUC7rfTDRKYPb4K36zOopKsvhQRChGdGtlM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850183;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850187;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sqdlhLUpBy4QIHfnrxuPZ7a4NJvwpciNthUpQKmCws0=;
-	b=dBxctX+Sdca/xp4ftJRc5JSs9I9ayt6Uur+onmhe8sc9cacO3ZPpp2u+PFOaisuH
-	aCg1TSzoeITYf264USh4C2XgbnXy/bdhWQiUhv61sVawwUhc7x/3xQJaV1hsjX59H16
-	mhHqFI0DGbPn6lY+HIzFZXzjXZpPww9NG1DoLAyw=
-Content-Type: multipart/mixed; boundary="===============4474697254114256536=="
+	bh=RcM/4fdALvo24KnrN8FES5WxP/z1ghGTnwzcLFpGOOg=;
+	b=BR/IXHZMBBN8xeYccxJBId7ye3JorkE1xBO0jxtHG22RY3boyeu3e0r7Vn7I0PMX
+	Gqr+24hjTAdJ5hFascFru3qSzj4GBqlwvLg/Q7HmdNWuWR9x1Zlxjl5yj2yzmrpX+/P
+	Ddz3kT/CMf1nj796i77JNUnjV+2XMX+B6yFIz7Xo=
+Content-Type: multipart/mixed; boundary="===============0091030484547657014=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] bind: upgrading to 9.20.12 SUCCEEDED
-Message-ID: <010101990c6e5c75-c85bf45f-5e62-4d24-a7f6-c8ee0238719a-000000@us-west-2.amazonses.com>
-Date: Tue, 2 Sep 2025 21:56:23 +0000
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] meson: upgrading to 1.9.0 SUCCEEDED
+Message-ID: <010101990c6e6b8d-e60a1770-2318-459f-b2fc-1ae354751fa4-000000@us-west-2.amazonses.com>
+Date: Tue, 2 Sep 2025 21:56:27 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.02-54.240.27.33
+X-SES-Outgoing: 2025.09.02-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222759
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222771
 
---===============4474697254114256536==
+--===============0091030484547657014==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *bind* to *9.20.12* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *meson* to *1.9.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-bind-upgrade-9.20.11-9.20.12.patch
+    - apply the patch: git am 0001-meson-upgrade-1.8.2-1.9.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,309 +72,319 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From c5993c7350a053cbcbe4af10b0f7a4fa148e7afd Mon Sep 17 00:00:00 2001
+From 568d9208d01a488ea84555239d199e5b3e5bd846 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 2 Sep 2025 16:24:56 +0000
-Subject: [PATCH] bind: upgrade 9.20.11 -> 9.20.12
+Date: Tue, 2 Sep 2025 17:35:51 +0000
+Subject: [PATCH] meson: upgrade 1.8.2 -> 1.9.0
 
 ---
- .../bind/bind/0001-avoid-start-failure-with-bind-user.patch   | 2 +-
- ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 4 ++--
- ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 4 ++--
- meta/recipes-connectivity/bind/bind/conf.patch                | 2 +-
- .../bind/bind/init.d-add-support-for-read-only-rootfs.patch   | 2 +-
- .../bind/bind/make-etc-initd-bind-stop-work.patch             | 2 +-
- .../bind/{bind_9.20.11.bb => bind_9.20.12.bb}                 | 2 +-
- 7 files changed, 9 insertions(+), 9 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.20.11.bb => bind_9.20.12.bb} (97%)
+ .../meson/meson/0001-Make-CPU-family-warnings-fatal.patch | 6 +++---
+ ...on-module-do-not-manipulate-the-environment-when.patch | 8 ++++----
+ .../0002-Support-building-allarch-recipes-again.patch     | 2 +-
+ .../meson/{meson_1.8.2.bb => meson_1.9.0.bb}              | 2 +-
+ 4 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_1.8.2.bb => meson_1.9.0.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-index 78ab6b87fc..8855ffea3a 100644
---- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+index 98ca08c2ca..402d5dfbce 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
 @@ -1,4 +1,4 @@
--From c70f74164bea8a8c54c03becffb2f21103dd1f31 Mon Sep 17 00:00:00 2001
-+From bdada6fbac4b434dd6a68cf3f04c6ec03452c31b Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 15 Oct 2018 16:55:09 +0800
- Subject: [PATCH] avoid start failure with bind user
-diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-index 53e439721f..5ed92adaf0 100644
---- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+-From c01e5e29953e0302988f2d60adc50ebfa0e5d670 Mon Sep 17 00:00:00 2001
++From b2766cad36d706ab2234cc54c9429e367ad93c23 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -26,10 +26,10 @@ index 43fad0c..27be871 100644
+          endian = literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index 2a9cf16..6b2bd6b 100644
++index 489ef50..1567efa 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+-@@ -436,10 +436,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
++@@ -438,10 +438,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+          if compilers and not any_compiler_has_define(compilers, '__mips64'):
+              trial = 'mips'
+  
+diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+index f654447013..eced2aada1 100644
+--- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
++++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
 @@ -1,4 +1,4 @@
--From 0dd67d85705cbcfa9a2759c46f3cdf3d0d6375de Mon Sep 17 00:00:00 2001
-+From e471159fc2d963733fefd64b819f12bde5b3a067 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Mon, 27 Aug 2018 21:24:20 +0800
- Subject: [PATCH] `named/lwresd -V' and start log hide build options
-@@ -20,7 +20,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From 6c3734f533ee7ad493188c8fc17bb1c65b65f0bd Mon Sep 17 00:00:00 2001
++From bb7da650141759e6de448bf8cc09804bbf60db00 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Nov 2018 14:24:26 +0100
+ Subject: [PATCH] python module: do not manipulate the environment when calling
+@@ -12,10 +12,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 5 deletions(-)
  
- diff --git a/configure.ac b/configure.ac
--index f9cf4a4..0ce3d26 100644
-+index 9799bd3..3c47972 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTRA]["], [BIND 9 Extra par
-diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-index 38d208fc1c..a77e393d2c 100644
---- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-+++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+ diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies/python.py
+-index ab040b5..a34b271 100644
++index b028d9f..3d7cd9b 100644
+ --- a/mesonbuild/dependencies/python.py
+ +++ b/mesonbuild/dependencies/python.py
+-@@ -412,9 +412,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
++@@ -418,9 +418,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
+                      empty.name = 'python'
+                      return empty
+  
+@@ -25,7 +25,7 @@ index ab040b5..a34b271 100644
+                  try:
+                      return PythonPkgConfigDependency(name, env, kwargs, installation, True)
+                  finally:
+-@@ -423,8 +420,7 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
++@@ -429,8 +426,7 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
+                              os.environ[name] = value
+                          elif name in os.environ:
+                              del os.environ[name]
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+index ed35498c30..b02ffc2b57 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
 @@ -1,4 +1,4 @@
--From 8c9c817933eef20328f10237bbd964580db0a3ad Mon Sep 17 00:00:00 2001
-+From a4ac3ed683f43a9e8b86f846ad5b8fd63639ade6 Mon Sep 17 00:00:00 2001
- From: Paul Gortmaker <paul.gortmaker@windriver.com>
- Date: Tue, 9 Jun 2015 11:22:00 -0400
- Subject: [PATCH] bind: ensure searching for json headers searches sysroot
-@@ -32,7 +32,7 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 334b551..f9cf4a4 100644
-+index d9eeeee..9799bd3 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -863,7 +863,7 @@ AS_CASE([$with_lmdb],
-diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
-index 102fe46ffe..382d9a7a30 100644
---- a/meta/recipes-connectivity/bind/bind/conf.patch
-+++ b/meta/recipes-connectivity/bind/bind/conf.patch
-@@ -1,4 +1,4 @@
--From 83a892af19bf1455ce7132350332ed6d7f1e2b94 Mon Sep 17 00:00:00 2001
-+From 0f8f3cf392484a8a53e83ae7f44f011b30c907f4 Mon Sep 17 00:00:00 2001
- From: Qing He <qing.he@intel.com>
- Date: Tue, 30 Nov 2010 13:35:42 +0800
- Subject: [PATCH] bind: add new recipe
-diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-index 984d401c70..5c75a45d3a 100644
---- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-+++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-@@ -1,4 +1,4 @@
--From 1393cbf6b0084128fdfc9b5afb3bcc307265d094 Mon Sep 17 00:00:00 2001
-+From a9f661e478ae8ea3760b0455ae48aa84939dd7c9 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 27 Mar 2014 02:34:41 +0000
- Subject: [PATCH] init.d: add support for read-only rootfs
-diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-index 74f2ef83a0..52a4442db9 100644
---- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-+++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-@@ -1,4 +1,4 @@
--From ce06506bb3fe661e03161af3a603bd228590a254 Mon Sep 17 00:00:00 2001
-+From bad1ac6cb69b3efce8ede177e18ebae45510a0a2 Mon Sep 17 00:00:00 2001
- From: Roy Li <rongqing.li@windriver.com>
- Date: Thu, 15 Nov 2012 02:27:54 +0000
- Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
-diff --git a/meta/recipes-connectivity/bind/bind_9.20.11.bb b/meta/recipes-connectivity/bind/bind_9.20.12.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.20.11.bb
-rename to meta/recipes-connectivity/bind/bind_9.20.12.bb
-index 832ab3fdcd..d3db481930 100644
---- a/meta/recipes-connectivity/bind/bind_9.20.11.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.20.12.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+-From e123195e5990c3071385defd96dfab1211e98c08 Mon Sep 17 00:00:00 2001
++From 5140bf7b284c25e3685b03609e206a31c2781149 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+diff --git a/meta/recipes-devtools/meson/meson_1.8.2.bb b/meta/recipes-devtools/meson/meson_1.9.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/meson/meson_1.8.2.bb
+rename to meta/recipes-devtools/meson/meson_1.9.0.bb
+index bfeaab0a79..6f5a623dc7 100644
+--- a/meta/recipes-devtools/meson/meson_1.8.2.bb
++++ b/meta/recipes-devtools/meson/meson_1.9.0.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/meson-${PV}.tar.gz \
+            file://0001-Make-CPU-family-warnings-fatal.patch \
+            file://0002-Support-building-allarch-recipes-again.patch \
             "
+-SRC_URI[sha256sum] = "c105816d8158c76b72adcb9ff60297719096da7d07f6b1f000fd8c013cd387af"
++SRC_URI[sha256sum] = "cd27277649b5ed50d19875031de516e270b22e890d9db65ed9af57d18ebc498d"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)$"
  
--SRC_URI[sha256sum] = "4da2d532e668bc21e883f6e6d9d3d81794d9ec60b181530385649a56f46ee17a"
-+SRC_URI[sha256sum] = "dd32d6eb67504e8a430aaf70b4ef894f3d0226b44c7e02370c9b0d377f1c7999"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ inherit python_setuptools_build_meta github-releases
 -- 
 2.47.1
 
 
---===============4474697254114256536==
+--===============0091030484547657014==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/bind/bind-dbg: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind/bind-dbg: FILELIST: removed "/usr/lib/.debug/libisc-9.20.11.so /usr/lib/.debug/libdns-9.20.11.so /usr/lib/.debug/libisccfg-9.20.11.so /usr/lib/.debug/libisccc-9.20.11.so /usr/lib/.debug/libns-9.20.11.so", added "/usr/lib/.debug/libisccfg-9.20.12.so /usr/lib/.debug/libns-9.20.12.so /usr/lib/.debug/libisc-9.20.12.so /usr/lib/.debug/libdns-9.20.12.so /usr/lib/.debug/libisccc-9.20.12.so"
-packages/x86-64-v3-poky-linux/bind/bind-dbg: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-packages/x86-64-v3-poky-linux/bind/bind-dbg: PKGSIZE changed from 15073744 to 15101800 (+0%)
-packages/x86-64-v3-poky-linux/bind/bind-dev: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind/bind-dev: FILELIST: added "/usr/include/dns/dsync.h"
-packages/x86-64-v3-poky-linux/bind/bind-dev: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-packages/x86-64-v3-poky-linux/bind/bind-dev: PKGSIZE changed from 1589947 to 1591330 (+0%)
-packages/x86-64-v3-poky-linux/bind/bind-doc: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind/bind-doc: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-packages/x86-64-v3-poky-linux/bind/bind-libs: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libisccc-9.20.11.so /usr/lib/libisccfg-9.20.11.so /usr/lib/libns-9.20.11.so /usr/lib/libdns-9.20.11.so /usr/lib/libisc-9.20.11.so", added "/usr/lib/libns-9.20.12.so /usr/lib/libisc-9.20.12.so /usr/lib/libisccc-9.20.12.so /usr/lib/libdns-9.20.12.so /usr/lib/libisccfg-9.20.12.so"
-packages/x86-64-v3-poky-linux/bind/bind-libs: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-packages/x86-64-v3-poky-linux/bind/bind-libs: FILES: removed "/usr/lib/*-9.20.11.so", added "/usr/lib/*-9.20.12.so"
-packages/x86-64-v3-poky-linux/bind/bind-libs: PKGSIZE changed from 3528408 to 3528472 (+0%)
-packages/x86-64-v3-poky-linux/bind/bind-locale: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind/bind-locale: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-packages/x86-64-v3-poky-linux/bind/bind-src: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind/bind-src: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-packages/x86-64-v3-poky-linux/bind/bind-src: PKGSIZE changed from 115943 to 116654 (+1%)
-packages/x86-64-v3-poky-linux/bind/bind-staticdev: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind/bind-staticdev: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-packages/x86-64-v3-poky-linux/bind/bind-utils: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind/bind-utils: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-packages/x86-64-v3-poky-linux/bind/bind: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind/bind: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-packages/x86-64-v3-poky-linux/bind: PV changed from "9.20.11" to "9.20.12"
-packages/x86-64-v3-poky-linux/bind: SRC_URI changed from "https://ftp.isc.org/isc/bind9/9.20.11/bind-9.20.11.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch" to "https://ftp.isc.org/isc/bind9/9.20.12/bind-9.20.12.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch"
-packages/x86-64-v3-poky-linux/bind: PKGV changed from 9.20.11 [default] to 9.20.12 [default]
-Changes to packages/x86-64-v3-poky-linux/bind (sysroot):
-  /usr/lib/libdns.so changed symlink target from libdns-9.20.11.so to libdns-9.20.12.so
-  /usr/lib/libisccc.so changed symlink target from libisccc-9.20.11.so to libisccc-9.20.12.so
-  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.20.11.so to libisccfg-9.20.12.so
-  /usr/lib/libisc.so changed symlink target from libisc-9.20.11.so to libisc-9.20.12.so
-  /usr/lib/libns.so changed symlink target from libns-9.20.11.so to libns-9.20.12.so
-  /usr/lib/libdns-9.20.11.so moved to /usr/lib/libdns-9.20.12.so
-  /usr/lib/libisc-9.20.11.so moved to /usr/lib/libisc-9.20.12.so
-  /usr/lib/libisccc-9.20.11.so moved to /usr/lib/libisccc-9.20.12.so
-  /usr/lib/libisccfg-9.20.11.so moved to /usr/lib/libisccfg-9.20.12.so
-  /usr/lib/libns-9.20.11.so moved to /usr/lib/libns-9.20.12.so
-  /usr/include/dns/dsync.h was added
+packages/x86-64-v3-poky-linux/meson: SRC_URI changed from "https://github.com/mesonbuild/meson/releases//download/1.8.2/meson-1.8.2.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch" to "https://github.com/mesonbuild/meson/releases//download/1.9.0/meson-1.9.0.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch"
+packages/x86-64-v3-poky-linux/meson: PV changed from "1.8.2" to "1.9.0"
+packages/x86-64-v3-poky-linux/meson: PKGV changed from 1.8.2 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/meson/meson-dbg: PV changed from "1.8.2" to "1.9.0"
+packages/x86-64-v3-poky-linux/meson/meson-dbg: PKGV changed from 1.8.2 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/meson/meson-dev: PV changed from "1.8.2" to "1.9.0"
+packages/x86-64-v3-poky-linux/meson/meson-dev: PKGV changed from 1.8.2 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/meson/meson-doc: PV changed from "1.8.2" to "1.9.0"
+packages/x86-64-v3-poky-linux/meson/meson-doc: PKGV changed from 1.8.2 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/meson/meson-doc: PKGSIZE changed from 13186 to 13188 (+0%)
+packages/x86-64-v3-poky-linux/meson/meson-locale: PV changed from "1.8.2" to "1.9.0"
+packages/x86-64-v3-poky-linux/meson/meson-locale: PKGV changed from 1.8.2 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/meson/meson-src: PV changed from "1.8.2" to "1.9.0"
+packages/x86-64-v3-poky-linux/meson/meson-src: PKGV changed from 1.8.2 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/meson/meson-staticdev: PV changed from "1.8.2" to "1.9.0"
+packages/x86-64-v3-poky-linux/meson/meson-staticdev: PKGV changed from 1.8.2 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/meson/meson: PV changed from "1.8.2" to "1.9.0"
+packages/x86-64-v3-poky-linux/meson/meson: FILELIST: directory renamed /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info -> /usr/lib/python3.13/site-packages/meson-1.9.0.dist-info, directory renamed /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/meson-1.9.0.dist-info/licenses, added "/usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/toml.cpython-313.pyc /usr/lib/python3.13/site-packages/mesonbuild/cargo/raw.py /usr/lib/python3.13/site-packages/mesonbuild/cargo/toml.py /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/raw.cpython-313.pyc"
+packages/x86-64-v3-poky-linux/meson/meson: PKGV changed from 1.8.2 [default] to 1.9.0 [default]
+packages/x86-64-v3-poky-linux/meson/meson: PKGSIZE changed from 8748389 to 8902302 (+2%)
+Changes to packages/x86-64-v3-poky-linux/meson (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info moved to /usr/lib/python3.13/site-packages/meson-1.9.0.dist-info
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/raw.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/toml.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/raw.py was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/toml.py was added
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.4-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.4-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.4-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.4-gdb.py was removed
+Changes to packages/x86_64-linux/meson-native (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info moved to /usr/lib/python3.13/site-packages/meson-1.9.0.dist-info
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/raw.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/toml.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/raw.py was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/toml.py was added
 
---===============4474697254114256536==
+--===============0091030484547657014==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-bind-upgrade-9.20.11-9.20.12.patch"
+ filename="0001-meson-upgrade-1.8.2-1.9.0.patch"
 
-RnJvbSBjNTk5M2M3MzUwYTA1M2NiY2JlNGFmMTBiMGY3YTRmYTE0OGU3YWZkIE1vbiBTZXAgMTcg
+RnJvbSA1NjhkOTIwOGQwMWE0ODhlYTg0NTU1MjM5ZDE5OWU1YjNlNWJkODQ2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxNjoyNDo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJp
-bmQ6IHVwZ3JhZGUgOS4yMC4xMSAtPiA5LjIwLjEyCgotLS0KIC4uLi9iaW5kL2JpbmQvMDAwMS1h
-dm9pZC1zdGFydC1mYWlsdXJlLXdpdGgtYmluZC11c2VyLnBhdGNoICAgfCAyICstCiAuLi4wMDAx
-LW5hbWVkLWx3cmVzZC1WLWFuZC1zdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoIHwg
-NCArKy0tCiAuLi5iaW5kLWVuc3VyZS1zZWFyY2hpbmctZm9yLWpzb24taGVhZGVycy1zZWFyY2hl
-cy1zeXNyLnBhdGNoIHwgNCArKy0tCiBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmlu
-ZC9jb25mLnBhdGNoICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL2JpbmQvYmluZC9pbml0LmQt
-YWRkLXN1cHBvcnQtZm9yLXJlYWQtb25seS1yb290ZnMucGF0Y2ggICB8IDIgKy0KIC4uLi9iaW5k
-L2JpbmQvbWFrZS1ldGMtaW5pdGQtYmluZC1zdG9wLXdvcmsucGF0Y2ggICAgICAgICAgICAgfCAy
-ICstCiAuLi4vYmluZC97YmluZF85LjIwLjExLmJiID0+IGJpbmRfOS4yMC4xMi5iYn0gICAgICAg
-ICAgICAgICAgIHwgMiArLQogNyBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDkgZGVs
-ZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL3tiaW5kXzku
-MjAuMTEuYmIgPT4gYmluZF85LjIwLjEyLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtYXZvaWQtc3RhcnQtZmFpbHVyZS13aXRo
-LWJpbmQtdXNlci5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAw
-MDEtYXZvaWQtc3RhcnQtZmFpbHVyZS13aXRoLWJpbmQtdXNlci5wYXRjaAppbmRleCA3OGFiNmI4
-N2ZjLi44ODU1ZmZlYTNhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Jp
-bmQvYmluZC8wMDAxLWF2b2lkLXN0YXJ0LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2gKKysr
-IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1hdm9pZC1zdGFydC1m
-YWlsdXJlLXdpdGgtYmluZC11c2VyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjNzBmNzQx
-NjRiZWE4YThjNTRjMDNiZWNmZmIyZjIxMTAzZGQxZjMxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSBiZGFkYTZmYmFjNGI0MzRkZDZhNjhjZjNmMDRjNmVjMDM0NTJjMzFiIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
-RGF0ZTogTW9uLCAxNSBPY3QgMjAxOCAxNjo1NTowOSArMDgwMAogU3ViamVjdDogW1BBVENIXSBh
-dm9pZCBzdGFydCBmYWlsdXJlIHdpdGggYmluZCB1c2VyCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW5hbWVkLWx3cmVzZC1WLWFuZC1zdGFydC1s
-b2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9i
-aW5kL2JpbmQvMDAwMS1uYW1lZC1sd3Jlc2QtVi1hbmQtc3RhcnQtbG9nLWhpZGUtYnVpbGQtb3B0
-aW9ucy5wYXRjaAppbmRleCA1M2U0Mzk3MjFmLi41ZWQ5MmFkYWYwIDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW5hbWVkLWx3cmVzZC1WLWFuZC1z
-dGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25u
-ZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFtZWQtbHdyZXNkLVYtYW5kLXN0YXJ0LWxvZy1oaWRl
-LWJ1aWxkLW9wdGlvbnMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDBkZDY3ZDg1NzA1Y2Jj
-ZmE5YTI3NTljNDZmM2NkZjNkMGQ2Mzc1ZGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IGU0NzExNTlmYzJkOTYzNzMzZmVmZDY0YjgxOWYxMmJkZTViM2EwNjcgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiBE
-YXRlOiBNb24sIDI3IEF1ZyAyMDE4IDIxOjI0OjIwICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGBu
-YW1lZC9sd3Jlc2QgLVYnIGFuZCBzdGFydCBsb2cgaGlkZSBidWlsZCBvcHRpb25zCkBAIC0yMCw3
-ICsyMCw3IEBAIFNpZ25lZC1vZmYtYnk6IEFybWluIEt1c3RlciA8YWt1c3RlckBtdmlzdGEuY29t
-PgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZm
-IC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCBmOWNmNGE0Li4wY2Uz
-ZDI2IDEwMDY0NAoraW5kZXggOTc5OWJkMy4uM2M0Nzk3MiAxMDA2NDQKIC0tLSBhL2NvbmZpZ3Vy
-ZS5hYwogKysrIGIvY29uZmlndXJlLmFjCiBAQCAtMzUsNyArMzUsNyBAQCBBQ19ERUZJTkUoW1BB
-Q0tBR0VfVkVSU0lPTl9FWFRSQV0sIFsiXVtiaW5kX1ZFUlNJT05fRVhUUkFdWyJdLCBbQklORCA5
-IEV4dHJhIHBhcgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2Jp
-bmQvYmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNoZXMtc3lzci5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJlLXNl
-YXJjaGluZy1mb3ItanNvbi1oZWFkZXJzLXNlYXJjaGVzLXN5c3IucGF0Y2gKaW5kZXggMzhkMjA4
-ZmMxYy4uYTc3ZTM5M2QyYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9i
-aW5kL2JpbmQvYmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNoZXMt
-c3lzci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9iaW5k
-LWVuc3VyZS1zZWFyY2hpbmctZm9yLWpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoCkBA
-IC0xLDQgKzEsNCBAQAotRnJvbSA4YzljODE3OTMzZWVmMjAzMjhmMTAyMzdiYmQ5NjQ1ODBkYjBh
-M2FkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhNGFjM2VkNjgzZjQzYTllOGI4NmY4
-NDZhZDViOGZkNjM2MzlhZGU2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUGF1bCBH
-b3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDkgSnVu
-IDIwMTUgMTE6MjI6MDAgLTA0MDAKIFN1YmplY3Q6IFtQQVRDSF0gYmluZDogZW5zdXJlIHNlYXJj
-aGluZyBmb3IganNvbiBoZWFkZXJzIHNlYXJjaGVzIHN5c3Jvb3QKQEAgLTMyLDcgKzMyLDcgQEAg
-U2lnbmVkLW9mZi1ieTogUGF1bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZlci5j
-b20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRp
-ZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDMzNGI1NTEuLmY5
-Y2Y0YTQgMTAwNjQ0CitpbmRleCBkOWVlZWVlLi45Nzk5YmQzIDEwMDY0NAogLS0tIGEvY29uZmln
-dXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKIEBAIC04NjMsNyArODYzLDcgQEAgQVNfQ0FTRShb
-JHdpdGhfbG1kYl0sCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQv
-YmluZC9jb25mLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvY29u
-Zi5wYXRjaAppbmRleCAxMDJmZTQ2ZmZlLi4zODJkOWE3YTMwIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9jb25mLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2NvbmYucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
-IDgzYTg5MmFmMTliZjE0NTVjZTcxMzIzNTAzMzJlZDZkN2YxZTJiOTQgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCitGcm9tIDBmOGYzY2YzOTI0ODRhOGE1M2U4M2FlN2Y0NGYwMTFiMzBjOTA3ZjQg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBRaW5nIEhlIDxxaW5nLmhlQGludGVsLmNv
-bT4KIERhdGU6IFR1ZSwgMzAgTm92IDIwMTAgMTM6MzU6NDIgKzA4MDAKIFN1YmplY3Q6IFtQQVRD
-SF0gYmluZDogYWRkIG5ldyByZWNpcGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvYmluZC9iaW5kL2luaXQuZC1hZGQtc3VwcG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rmcy5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2luaXQuZC1hZGQtc3Vw
-cG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rmcy5wYXRjaAppbmRleCA5ODRkNDAxYzcwLi41Yzc1YTQ1
-ZDNhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9pbml0
-LmQtYWRkLXN1cHBvcnQtZm9yLXJlYWQtb25seS1yb290ZnMucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvaW5pdC5kLWFkZC1zdXBwb3J0LWZvci1yZWFkLW9u
-bHktcm9vdGZzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxMzkzY2JmNmIwMDg0MTI4ZmRm
-YzliNWFmYjNiY2MzMDcyNjVkMDk0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhOWY2
-NjFlNDc4YWU4ZWEzNzYwYjA0NTVhZTQ4YWE4NDkzOWRkN2M5IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQogRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogVGh1LCAy
-NyBNYXIgMjAxNCAwMjozNDo0MSArMDAwMAogU3ViamVjdDogW1BBVENIXSBpbml0LmQ6IGFkZCBz
-dXBwb3J0IGZvciByZWFkLW9ubHkgcm9vdGZzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29u
-bmVjdGl2aXR5L2JpbmQvYmluZC9tYWtlLWV0Yy1pbml0ZC1iaW5kLXN0b3Atd29yay5wYXRjaCBi
-L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL21ha2UtZXRjLWluaXRkLWJpbmQt
-c3RvcC13b3JrLnBhdGNoCmluZGV4IDc0ZjJlZjgzYTAuLjUyYTQ0NDJkYjkgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL21ha2UtZXRjLWluaXRkLWJpbmQt
-c3RvcC13b3JrLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5k
-L21ha2UtZXRjLWluaXRkLWJpbmQtc3RvcC13b3JrLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
-bSBjZTA2NTA2YmIzZmU2NjFlMDMxNjFhZjNhNjAzYmQyMjg1OTBhMjU0IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQorRnJvbSBiYWQxYWM2Y2I2OWIzZWZjZThlZGUxNzdlMThlYmFlNDU1MTBhMGEy
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm95IExpIDxyb25ncWluZy5saUB3aW5k
-cml2ZXIuY29tPgogRGF0ZTogVGh1LCAxNSBOb3YgMjAxMiAwMjoyNzo1NCArMDAwMAogU3ViamVj
-dDogW1BBVENIXSBiaW5kOiBtYWtlICIvZXRjL2luaXQuZC9iaW5kIHN0b3AiIHdvcmsKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kXzkuMjAuMTEuYmIgYi9t
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjIwLjEyLmJiCnNpbWlsYXJpdHkg
-aW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5k
-XzkuMjAuMTEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5k
-XzkuMjAuMTIuYmIKaW5kZXggODMyYWIzZmRjZC4uZDNkYjQ4MTkzMCAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmRfOS4yMC4xMS5iYgorKysgYi9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjIwLjEyLmJiCkBAIC0yMCw3ICsyMCw3IEBA
-IFNSQ19VUkkgPSAiaHR0cHM6Ly9mdHAuaXNjLm9yZy9pc2MvYmluZDkvJHtQVn0vJHtCUE59LSR7
-UFZ9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWF2b2lkLXN0YXJ0LWZhaWx1cmUt
-d2l0aC1iaW5kLXVzZXIucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI0ZGEyZDUzMmU2NjhiYzIxZTg4M2Y2ZTZkOWQzZDgxNzk0ZDllYzYwYjE4MTUzMDM4NTY0
-OWE1NmY0NmVlMTdhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImRkMzJkNmViNjc1MDRlOGE0MzBh
-YWY3MGI0ZWY4OTRmM2QwMjI2YjQ0YzdlMDIzNzBjOWIwZDM3N2YxYzc5OTkiCiAKIFVQU1RSRUFN
-X0NIRUNLX1VSSSA9ICJodHRwczovL2Z0cC5pc2Mub3JnL2lzYy9iaW5kOS8iCiAjIGZvbGxvdyB0
-aGUgRVNWIHZlcnNpb25zIGRpdmlzaWJsZSBieSAyCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxNzozNTo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
+c29uOiB1cGdyYWRlIDEuOC4yIC0+IDEuOS4wCgotLS0KIC4uLi9tZXNvbi9tZXNvbi8wMDAxLU1h
+a2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaCB8IDYgKysrLS0tCiAuLi5vbi1tb2R1
+bGUtZG8tbm90LW1hbmlwdWxhdGUtdGhlLWVudmlyb25tZW50LXdoZW4ucGF0Y2ggfCA4ICsrKyst
+LS0tCiAuLi4vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRj
+aCAgICAgfCAyICstCiAuLi4vbWVzb24ve21lc29uXzEuOC4yLmJiID0+IG1lc29uXzEuOS4wLmJi
+fSAgICAgICAgICAgICAgfCAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwg
+OSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24ve21lc29u
+XzEuOC4yLmJiID0+IG1lc29uXzEuOS4wLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1m
+YXRhbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLU1ha2Ut
+Q1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaAppbmRleCA5OGNhMDhjMmNhLi40MDJkNWRm
+YmNlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1N
+YWtlLUNQVS1mYW1pbHktd2FybmluZ3MtZmF0YWwucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL21lc29uL21lc29uLzAwMDEtTWFrZS1DUFUtZmFtaWx5LXdhcm5pbmdzLWZhdGFsLnBh
+dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjMDFlNWUyOTk1M2UwMzAyOTg4ZjJkNjBhZGM1MGVi
+ZmEwZTVkNjcwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiMjc2NmNhZDM2ZDcwNmFi
+MjIzNGNjNTRjOTQyOWUzNjdhZDkzYzIzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
+Um9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IFR1ZSwgMyBKdWwgMjAx
+OCAxMzo1OTowOSArMDEwMAogU3ViamVjdDogW1BBVENIXSBNYWtlIENQVSBmYW1pbHkgd2Fybmlu
+Z3MgZmF0YWwKQEAgLTI2LDEwICsyNiwxMCBAQCBpbmRleCA0M2ZhZDBjLi4yN2JlODcxIDEwMDY0
+NAogICAgICAgICAgZW5kaWFuID0gbGl0ZXJhbFsnZW5kaWFuJ10KICAgICAgICAgIGlmIGVuZGlh
+biBub3QgaW4gKCdsaXR0bGUnLCAnYmlnJyk6CiBkaWZmIC0tZ2l0IGEvbWVzb25idWlsZC9lbnZp
+cm9ubWVudC5weSBiL21lc29uYnVpbGQvZW52aXJvbm1lbnQucHkKLWluZGV4IDJhOWNmMTYuLjZi
+MmJkNmIgMTAwNjQ0CitpbmRleCA0ODllZjUwLi4xNTY3ZWZhIDEwMDY0NAogLS0tIGEvbWVzb25i
+dWlsZC9lbnZpcm9ubWVudC5weQogKysrIGIvbWVzb25idWlsZC9lbnZpcm9ubWVudC5weQotQEAg
+LTQzNiwxMCArNDM2LDggQEAgZGVmIGRldGVjdF9jcHVfZmFtaWx5KGNvbXBpbGVyczogQ29tcGls
+ZXJzRGljdCkgLT4gc3RyOgorQEAgLTQzOCwxMCArNDM4LDggQEAgZGVmIGRldGVjdF9jcHVfZmFt
+aWx5KGNvbXBpbGVyczogQ29tcGlsZXJzRGljdCkgLT4gc3RyOgogICAgICAgICAgaWYgY29tcGls
+ZXJzIGFuZCBub3QgYW55X2NvbXBpbGVyX2hhc19kZWZpbmUoY29tcGlsZXJzLCAnX19taXBzNjQn
+KToKICAgICAgICAgICAgICB0cmlhbCA9ICdtaXBzJwogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtcHl0aG9uLW1vZHVsZS1kby1ub3QtbWFuaXB1
+bGF0ZS10aGUtZW52aXJvbm1lbnQtd2hlbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9t
+ZXNvbi9tZXNvbi8wMDAxLXB5dGhvbi1tb2R1bGUtZG8tbm90LW1hbmlwdWxhdGUtdGhlLWVudmly
+b25tZW50LXdoZW4ucGF0Y2gKaW5kZXggZjY1NDQ0NzAxMy4uZWNlZDJhYWRhMSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtcHl0aG9uLW1vZHVsZS1k
+by1ub3QtbWFuaXB1bGF0ZS10aGUtZW52aXJvbm1lbnQtd2hlbi5wYXRjaAorKysgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1weXRob24tbW9kdWxlLWRvLW5vdC1tYW5p
+cHVsYXRlLXRoZS1lbnZpcm9ubWVudC13aGVuLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA2
+YzM3MzRmNTMzZWU3YWQ0OTMxODhjOGZjMTdiYjFjNjViNjVmMGJkIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSBiYjdkYTY1MDE0MTc1OWU2ZGU0NDhiZjhjYzA5ODA0YmJmNjBkYjAwIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2Fu
+YXZpbkBnbWFpbC5jb20+CiBEYXRlOiBNb24sIDE5IE5vdiAyMDE4IDE0OjI0OjI2ICswMTAwCiBT
+dWJqZWN0OiBbUEFUQ0hdIHB5dGhvbiBtb2R1bGU6IGRvIG5vdCBtYW5pcHVsYXRlIHRoZSBlbnZp
+cm9ubWVudCB3aGVuIGNhbGxpbmcKQEAgLTEyLDEwICsxMiwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBB
+bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDUgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9tZXNvbmJ1
+aWxkL2RlcGVuZGVuY2llcy9weXRob24ucHkgYi9tZXNvbmJ1aWxkL2RlcGVuZGVuY2llcy9weXRo
+b24ucHkKLWluZGV4IGFiMDQwYjUuLmEzNGIyNzEgMTAwNjQ0CitpbmRleCBiMDI4ZDlmLi4zZDdj
+ZDliIDEwMDY0NAogLS0tIGEvbWVzb25idWlsZC9kZXBlbmRlbmNpZXMvcHl0aG9uLnB5CiArKysg
+Yi9tZXNvbmJ1aWxkL2RlcGVuZGVuY2llcy9weXRob24ucHkKLUBAIC00MTIsOSArNDEyLDYgQEAg
+ZGVmIHB5dGhvbl9mYWN0b3J5KGVudjogJ0Vudmlyb25tZW50JywgZm9yX21hY2hpbmU6ICdNYWNo
+aW5lQ2hvaWNlJywKK0BAIC00MTgsOSArNDE4LDYgQEAgZGVmIHB5dGhvbl9mYWN0b3J5KGVudjog
+J0Vudmlyb25tZW50JywgZm9yX21hY2hpbmU6ICdNYWNoaW5lQ2hvaWNlJywKICAgICAgICAgICAg
+ICAgICAgICAgIGVtcHR5Lm5hbWUgPSAncHl0aG9uJwogICAgICAgICAgICAgICAgICAgICAgcmV0
+dXJuIGVtcHR5CiAgCkBAIC0yNSw3ICsyNSw3IEBAIGluZGV4IGFiMDQwYjUuLmEzNGIyNzEgMTAw
+NjQ0CiAgICAgICAgICAgICAgICAgIHRyeToKICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBQ
+eXRob25Qa2dDb25maWdEZXBlbmRlbmN5KG5hbWUsIGVudiwga3dhcmdzLCBpbnN0YWxsYXRpb24s
+IFRydWUpCiAgICAgICAgICAgICAgICAgIGZpbmFsbHk6Ci1AQCAtNDIzLDggKzQyMCw3IEBAIGRl
+ZiBweXRob25fZmFjdG9yeShlbnY6ICdFbnZpcm9ubWVudCcsIGZvcl9tYWNoaW5lOiAnTWFjaGlu
+ZUNob2ljZScsCitAQCAtNDI5LDggKzQyNiw3IEBAIGRlZiBweXRob25fZmFjdG9yeShlbnY6ICdF
+bnZpcm9ubWVudCcsIGZvcl9tYWNoaW5lOiAnTWFjaGluZUNob2ljZScsCiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIG9zLmVudmlyb25bbmFtZV0gPSB2YWx1ZQogICAgICAgICAgICAgICAg
+ICAgICAgICAgIGVsaWYgbmFtZSBpbiBvcy5lbnZpcm9uOgogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBkZWwgb3MuZW52aXJvbltuYW1lXQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL21lc29uL21lc29uLzAwMDItU3VwcG9ydC1idWlsZGluZy1hbGxhcmNoLXJlY2lwZXMt
+YWdhaW4ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBw
+b3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaAppbmRleCBlZDM1NDk4YzMw
+Li5iMDJmZmMyYjU3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVz
+b24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMi1TdXBwb3J0LWJ1aWxkaW5n
+LWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZTEyMzE5
+NWU1OTkwYzMwNzEzODVkZWZkOTZkZmFiMTIxMWU5OGMwOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gNTE0MGJmN2IyODRjMjVlMzY4NWIwMzYwOWUyMDZhMzFjMjc4MTE0OSBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFBldGVyIEtqZWxsZXJzdGVkdCA8cGtqQGF4aXMuY29t
+PgogRGF0ZTogVGh1LCAyNiBKdWwgMjAxOCAxNjozMjo0OSArMDIwMAogU3ViamVjdDogW1BBVENI
+XSBTdXBwb3J0IGJ1aWxkaW5nIGFsbGFyY2ggcmVjaXBlcyBhZ2FpbgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uXzEuOC4yLmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL21lc29uL21lc29uXzEuOS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBm
+cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjguMi5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uXzEuOS4wLmJiCmluZGV4IGJmZWFhYjBh
+NzkuLjZmNWE2MjNkYzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9t
+ZXNvbl8xLjguMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb25fMS45
+LjAuYmIKQEAgLTE1LDcgKzE1LDcgQEAgU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93
+bmxvYWQvJHtQVn0vbWVzb24tJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEt
+TWFrZS1DUFUtZmFtaWx5LXdhcm5pbmdzLWZhdGFsLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTov
+LzAwMDItU3VwcG9ydC1idWlsZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdhaW4ucGF0Y2ggXAogICAg
+ICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzEwNTgxNmQ4MTU4Yzc2YjcyYWRjYjlm
+ZjYwMjk3NzE5MDk2ZGE3ZDA3ZjZiMWYwMDBmZDhjMDEzY2QzODdhZiIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICJjZDI3Mjc3NjQ5YjVlZDUwZDE5ODc1MDMxZGU1MTZlMjcwYjIyZTg5MGQ5ZGI2NWVk
+OWFmNTdkMThlYmM0OThkIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiKD9QPHB2ZXI+XGQrKFwu
+XGQrKSspJCIKIAogaW5oZXJpdCBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIGdpdGh1Yi1y
+ZWxlYXNlcwotLSAKMi40Ny4xCgo=
 
---===============4474697254114256536==
+--===============0091030484547657014==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/bind/bind-dev: FILELIST: added "/usr/include/dns/dsync.h"
-packages/x86-64-v3-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libisccfg-9.20.11.so /usr/lib/libdns-9.20.11.so /usr/lib/libisc-9.20.11.so /usr/lib/libisccc-9.20.11.so /usr/lib/libns-9.20.11.so", added "/usr/lib/libisccc-9.20.12.so /usr/lib/libdns-9.20.12.so /usr/lib/libisc-9.20.12.so /usr/lib/libisccfg-9.20.12.so /usr/lib/libns-9.20.12.so"
-Changes to packages/x86-64-v3-poky-linux/bind (sysroot):
-  /usr/lib/libdns.so changed symlink target from libdns-9.20.11.so to libdns-9.20.12.so
-  /usr/lib/libisccc.so changed symlink target from libisccc-9.20.11.so to libisccc-9.20.12.so
-  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.20.11.so to libisccfg-9.20.12.so
-  /usr/lib/libisc.so changed symlink target from libisc-9.20.11.so to libisc-9.20.12.so
-  /usr/lib/libns.so changed symlink target from libns-9.20.11.so to libns-9.20.12.so
-  /usr/lib/libdns-9.20.11.so moved to /usr/lib/libdns-9.20.12.so
-  /usr/lib/libisc-9.20.11.so moved to /usr/lib/libisc-9.20.12.so
-  /usr/lib/libisccc-9.20.11.so moved to /usr/lib/libisccc-9.20.12.so
-  /usr/lib/libisccfg-9.20.11.so moved to /usr/lib/libisccfg-9.20.12.so
-  /usr/lib/libns-9.20.11.so moved to /usr/lib/libns-9.20.12.so
-  /usr/include/dns/dsync.h was added
+packages/x86-64-v3-poky-linux/meson/meson: FILELIST: directory renamed /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/meson-1.9.0.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info -> /usr/lib/python3.13/site-packages/meson-1.9.0.dist-info, added "/usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/raw.cpython-313.pyc /usr/lib/python3.13/site-packages/mesonbuild/cargo/toml.py /usr/lib/python3.13/site-packages/mesonbuild/cargo/raw.py /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/toml.cpython-313.pyc"
+Changes to packages/x86-64-v3-poky-linux/meson (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info moved to /usr/lib/python3.13/site-packages/meson-1.9.0.dist-info
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/raw.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/toml.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/raw.py was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/toml.py was added
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.4-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.4-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8400.4-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.84.4/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8400.4-gdb.py was removed
+Changes to packages/x86_64-linux/meson-native (sysroot):
+  /usr/lib/python3.13/site-packages/meson-1.8.2.dist-info moved to /usr/lib/python3.13/site-packages/meson-1.9.0.dist-info
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/raw.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/__pycache__/toml.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/raw.py was added
+  /usr/lib/python3.13/site-packages/mesonbuild/cargo/toml.py was added
 
---===============4474697254114256536==--
+--===============0091030484547657014==--
 
