@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9473CCA101F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87387CA101C
 	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 21:56:31 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.89790.1756850183863308430
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.89789.1756850183449696454
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 14:56:26 -0700
+ Tue, 02 Sep 2025 14:56:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Cod/3IuA;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=QWvhFukc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101990c6e6854-e2994b88-47b9-45bf-bf9e-af5b08a6a612-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Yom9glRZ;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=VrrvMLeD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101990c6e59ac-48940203-461b-4fd5-a025-a3748f616d2d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756850186;
+	t=1756850182;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=1bD5pDyvSgb5wTxvZbzWAC+zJQ80Zo6M54crE4kUsEk=;
-	b=Cod/3IuAgAHtK0CV6Apy3Udut2DkCoc7fhteX14hte7Gh3lvNmXT8GrwqZTKx3xg
-	wkoD/seGcliDO8FhTDhIkFQjdyKCfJw6ma98Hw0dvMq2Z2kUjsFprMADuvDIuCFLjvB
-	zM3yaYnqnk/oCyj2uW87bwc57wsQT8LG6TMvR+H8=
+	bh=GhpapIs+ijnC73VejkbwUkW/QV+P8ctkBFUMGblCmmM=;
+	b=Yom9glRZef0VByABrnjsZJVvopFXKZ2VpwjubICxt0Lr/ZpWeuGl8c3KWEVqsjtB
+	6j/bm+DGB0ow2cVDNWOwPG4yD1gd16B3deAhXYLtwwXXrgkKc29MuVOcZru4czkmwNX
+	6fw9vJPPT7yfviGM88xU2ZRmuQzWGOLTNggrsSsI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850186;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756850182;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=1bD5pDyvSgb5wTxvZbzWAC+zJQ80Zo6M54crE4kUsEk=;
-	b=QWvhFukcrPgiaUQBMapzDHRh+KULWfAlgxzSJBJ/aNWWO2NdJrgqpuNeO3lbjPTb
-	hT+3CD1glCSiL8hKSLHaIUsp+zNkFT2FWpgjjVdb3NSuhX2iflp8pqLCLLAMjwL9nGT
-	74643IJm9GXuMikLEFZmWkyfOo/UmBaPqWOeFgyY=
-Content-Type: multipart/mixed; boundary="===============3193441588951012789=="
+	bh=GhpapIs+ijnC73VejkbwUkW/QV+P8ctkBFUMGblCmmM=;
+	b=VrrvMLeDMURmog2sc3ARjE1uMprlIX0NF1LeylvW312XQ/LNFcaicYun+FfB8mHT
+	4MGN2a6HJ/0w9JDfNUJT2eS+VOjCnt9EEW1j63efcpSy9fz3rK97SCycscTp+htGi/x
+	RV0lCW9u/+TjK/pyNsg6QpQYtt2ZDwZ4oFvlPjwI=
+Content-Type: multipart/mixed; boundary="===============1925735092562828466=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] openssh: upgrading to 10.0p2 FAILED
-Message-ID: <010101990c6e6854-e2994b88-47b9-45bf-bf9e-af5b08a6a612-000000@us-west-2.amazonses.com>
-Date: Tue, 2 Sep 2025 21:56:26 +0000
+Subject: [AUH] xdpyinfo,xeyes: upgrading to 1.4.0,1.3.1 SUCCEEDED
+Message-ID: <010101990c6e59ac-48940203-461b-4fd5-a025-a3748f616d2d-000000@us-west-2.amazonses.com>
+Date: Tue, 2 Sep 2025 21:56:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.02-54.240.27.33
+X-SES-Outgoing: 2025.09.02-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 21:56:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222767
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222757
 
---===============3193441588951012789==
+--===============1925735092562828466==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *openssh* to *10.0p2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *xdpyinfo,xeyes* to *1.4.0,1.3.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-openssh-upgrade-10.0p1-10.0p2.patch
+    - apply the patch: git am 0001-xdpyinfo-xeyes-upgrade-1.3.4-1.4.0-1.3.0-1.3.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,227 +72,233 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d8202a3ac7c1306216b4fe2f21004b79084cb8c1 Mon Sep 17 00:00:00 2001
+From cc36e913072745cfc1dd915a4be10c8600d66577 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 2 Sep 2025 16:50:53 +0000
-Subject: [PATCH] openssh: upgrade 10.0p1 -> 10.0p2
+Date: Tue, 2 Sep 2025 16:14:37 +0000
+Subject: [PATCH] xdpyinfo,xeyes: upgrade 1.3.4 -> 1.4.0,1.3.0 -> 1.3.1
 
 ---
- ...1-regress-banner.sh-log-input-and-output-files-on-erro.patch | 2 +-
- ...1-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch | 2 +-
- .../openssh/{openssh_10.0p1.bb => openssh_10.0p2.bb}            | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh_10.0p1.bb => openssh_10.0p2.bb} (100%)
+ .../xorg-app/xdpyinfo/disable-xkb.patch       | 18 +++++++++++----
+ .../{xdpyinfo_1.3.4.bb => xdpyinfo_1.4.0.bb}  |  2 +-
+ .../{xeyes_1.3.0.bb => xeyes_1.3.1.bb}        | 23 +++++++++++++++++--
+ 3 files changed, 35 insertions(+), 8 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xdpyinfo_1.3.4.bb => xdpyinfo_1.4.0.bb} (88%)
+ rename meta/recipes-graphics/xorg-app/{xeyes_1.3.0.bb => xeyes_1.3.1.bb} (29%)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-index f424288e37..b3683989a2 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-@@ -1,4 +1,4 @@
--From 5cc897fe2effe549e1e280c2f606bce8b532b61e Mon Sep 17 00:00:00 2001
-+From 63a80818a66378081003512d4073c817d978c5da Mon Sep 17 00:00:00 2001
- From: Mikko Rapeli <mikko.rapeli@linaro.org>
- Date: Mon, 11 Sep 2023 09:55:21 +0100
- Subject: [PATCH] regress/banner.sh: log input and output files on error
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
-index 360b62af34..c91908efdc 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-test-exec-use-the-absolute-path-in-the-SSH-e.patch
-@@ -1,4 +1,4 @@
--From 9dcccafe44ea17e972e7cddea205bbe9fe71d8d6 Mon Sep 17 00:00:00 2001
-+From 89026ac7664c97ac4922b5dabedc124b0e013346 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <jose.quaresma@foundries.io>
- Date: Mon, 15 Jul 2024 18:43:08 +0100
- Subject: [PATCH] regress/test-exec: use the absolute path in the SSH env
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.0p1.bb b/meta/recipes-connectivity/openssh/openssh_10.0p2.bb
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh_10.0p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_10.0p2.bb
+diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo/disable-xkb.patch b/meta/recipes-graphics/xorg-app/xdpyinfo/disable-xkb.patch
+index 1e8199cc66..0bee05df9e 100644
+--- a/meta/recipes-graphics/xorg-app/xdpyinfo/disable-xkb.patch
++++ b/meta/recipes-graphics/xorg-app/xdpyinfo/disable-xkb.patch
+@@ -1,10 +1,18 @@
++From 3cd25cc65cd27254aa9f7aba73c2b606c196f4bd Mon Sep 17 00:00:00 2001
++From: Chris Larson <kergoth@openedhand.com>
++Date: Tue, 15 Aug 2006 11:58:37 +0000
++Subject: [PATCH] Numerous new xorg package versions from upstream OE.  Pester
++
+ Upstream-Status: Pending
++---
++ configure.ac | 4 ++++
++ 1 file changed, 4 insertions(+)
+ 
+-Index: xdpyinfo-1.3.0/configure.ac
+-===================================================================
+---- xdpyinfo-1.3.0.orig/configure.ac	2011-10-21 21:34:21.000000000 -0700
+-+++ xdpyinfo-1.3.0/configure.ac	2011-11-28 20:06:56.554056935 -0800
+-@@ -47,11 +47,15 @@
++diff --git a/configure.ac b/configure.ac
++index 9d03e8b..eef369b 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -49,11 +49,15 @@ PKG_CHECK_MODULES(DPY_XEXT, xext,
+  	AC_CHECK_HEADERS([X11/extensions/multibuf.h X11/extensions/XShm.h],,,[#include <X11/Xlib.h>])
+  	CPPFLAGS="$SAVE_CPPFLAGS"],[echo "not found"])
+  
+diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.4.bb b/meta/recipes-graphics/xorg-app/xdpyinfo_1.4.0.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-app/xdpyinfo_1.3.4.bb
+rename to meta/recipes-graphics/xorg-app/xdpyinfo_1.4.0.bb
+index 3becd40281..804b284352 100644
+--- a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.4.bb
++++ b/meta/recipes-graphics/xorg-app/xdpyinfo_1.4.0.bb
+@@ -15,6 +15,6 @@ PE = "1"
+ SRC_URI += "file://disable-xkb.patch"
+ 
+ SRC_URI_EXT = "xz"
+-SRC_URI[sha256sum] = "a8ada581dbd7266440d7c3794fa89edf6b99b8857fc2e8c31042684f3af4822b"
++SRC_URI[sha256sum] = "dc1de6e6e091ed46c4837b0ae9811e8182f7be0d2af638cab3e530ff081a48b6"
+ 
+ EXTRA_OECONF = "--disable-xkb"
+diff --git a/meta/recipes-graphics/xorg-app/xeyes_1.3.0.bb b/meta/recipes-graphics/xorg-app/xeyes_1.3.1.bb
+similarity index 29%
+rename from meta/recipes-graphics/xorg-app/xeyes_1.3.0.bb
+rename to meta/recipes-graphics/xorg-app/xeyes_1.3.1.bb
+index 3d1a7063ea..1ded6d8e16 100644
+--- a/meta/recipes-graphics/xorg-app/xeyes_1.3.0.bb
++++ b/meta/recipes-graphics/xorg-app/xeyes_1.3.1.bb
+@@ -1,3 +1,22 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING
++# +++ COPYING
++# @@ -1,4 +1,5 @@
++#  Copyright (c) 1991  X Consortium
++# +Copyright (c) 2023  q3k
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining
++#  a copy of this software and associated documentation files (the
++# 
++#
++
+ require xorg-app-common.inc
+ 
+ SUMMARY = "X11 eyes that follow the mouse cursor demo"
+@@ -6,9 +25,9 @@ follow the location of the mouse cursor around the screen."
+ 
+ PE = "1"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3ea51b365051ac32d1813a7dbaa4bfc6"
++LIC_FILES_CHKSUM = "file://COPYING;md5=29277094da1ef0646d5634a79cb0c1c5"
+ 
+ SRC_URI_EXT = "xz"
+-SRC_URI[sha256sum] = "0950c600bf33447e169a539ee6655ef9f36d6cebf2c1be67f7ab55dacb753023"
++SRC_URI[sha256sum] = "5608d76b7b1aac5ed7f22f1b6b5ad74ef98c8693220f32b4b87dccee4a956eaa"
+ 
+ DEPENDS += "libxau libxt libxext libxmu libxrender libxi"
 -- 
 2.47.1
 
 
---===============3193441588951012789==
+--===============1925735092562828466==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/xdpyinfo: SRC_URI changed from "https://www.x.org/releases//individual/app/xdpyinfo-1.3.4.tar.xz file://disable-xkb.patch" to "https://www.x.org/releases//individual/app/xdpyinfo-1.4.0.tar.xz file://disable-xkb.patch"
+packages/x86-64-v3-poky-linux/xdpyinfo: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/x86-64-v3-poky-linux/xdpyinfo: PV changed from "1.3.4" to "1.4.0"
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-dbg: PKGSIZE changed from 85496 to 85992 (+1%)
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-dbg: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-dbg: PV changed from "1.3.4" to "1.4.0"
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-dev: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-dev: PV changed from "1.3.4" to "1.4.0"
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-doc: PKGSIZE changed from 2876 to 3064 (+7%)
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-doc: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-doc: PV changed from "1.3.4" to "1.4.0"
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-locale: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-locale: PV changed from "1.3.4" to "1.4.0"
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-src: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-src: PV changed from "1.3.4" to "1.4.0"
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-staticdev: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo-staticdev: PV changed from "1.3.4" to "1.4.0"
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo: PKGV changed from 1.3.4 [default] to 1.4.0 [default]
+packages/x86-64-v3-poky-linux/xdpyinfo/xdpyinfo: PV changed from "1.3.4" to "1.4.0"
+packages/x86-64-v3-poky-linux/xeyes: SRC_URI changed from "https://www.x.org/releases//individual/app/xeyes-1.3.0.tar.xz" to "https://www.x.org/releases//individual/app/xeyes-1.3.1.tar.xz"
+packages/x86-64-v3-poky-linux/xeyes: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/x86-64-v3-poky-linux/xeyes: PV changed from "1.3.0" to "1.3.1"
+packages/x86-64-v3-poky-linux/xeyes/xeyes-dbg: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/x86-64-v3-poky-linux/xeyes/xeyes-dbg: PV changed from "1.3.0" to "1.3.1"
+packages/x86-64-v3-poky-linux/xeyes/xeyes-dev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/x86-64-v3-poky-linux/xeyes/xeyes-dev: PV changed from "1.3.0" to "1.3.1"
+packages/x86-64-v3-poky-linux/xeyes/xeyes-doc: PKGSIZE changed from 1864 to 1885 (+1%)
+packages/x86-64-v3-poky-linux/xeyes/xeyes-doc: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/x86-64-v3-poky-linux/xeyes/xeyes-doc: PV changed from "1.3.0" to "1.3.1"
+packages/x86-64-v3-poky-linux/xeyes/xeyes-locale: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/x86-64-v3-poky-linux/xeyes/xeyes-locale: PV changed from "1.3.0" to "1.3.1"
+packages/x86-64-v3-poky-linux/xeyes/xeyes-src: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/x86-64-v3-poky-linux/xeyes/xeyes-src: PV changed from "1.3.0" to "1.3.1"
+packages/x86-64-v3-poky-linux/xeyes/xeyes-staticdev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/x86-64-v3-poky-linux/xeyes/xeyes-staticdev: PV changed from "1.3.0" to "1.3.1"
+packages/x86-64-v3-poky-linux/xeyes/xeyes: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
+packages/x86-64-v3-poky-linux/xeyes/xeyes: PV changed from "1.3.0" to "1.3.1"
+
+--===============1925735092562828466==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-openssh-upgrade-10.0p1-10.0p2.patch"
+ filename="0001-xdpyinfo-xeyes-upgrade-1.3.4-1.4.0-1.3.0-1.3.1.patch"
 
-RnJvbSBkODIwMmEzYWM3YzEzMDYyMTZiNGZlMmYyMTAwNGI3OTA4NGNiOGMxIE1vbiBTZXAgMTcg
+RnJvbSBjYzM2ZTkxMzA3Mjc0NWNmYzFkZDkxNWE0YmUxMGM4NjAwZDY2NTc3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxNjo1MDo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9w
-ZW5zc2g6IHVwZ3JhZGUgMTAuMHAxIC0+IDEwLjBwMgoKLS0tCiAuLi4xLXJlZ3Jlc3MtYmFubmVy
-LnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9uLWVycm8ucGF0Y2ggfCAyICstCiAuLi4x
-LXJlZ3Jlc3MtdGVzdC1leGVjLXVzZS10aGUtYWJzb2x1dGUtcGF0aC1pbi10aGUtU1NILWUucGF0
-Y2ggfCAyICstCiAuLi4vb3BlbnNzaC97b3BlbnNzaF8xMC4wcDEuYmIgPT4gb3BlbnNzaF8xMC4w
-cDIuYmJ9ICAgICAgICAgICAgfCAwCiAzIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gv
-e29wZW5zc2hfMTAuMHAxLmJiID0+IG9wZW5zc2hfMTAuMHAyLmJifSAoMTAwJSkKCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC8wMDAxLXJlZ3Jl
-c3MtYmFubmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9uLWVycm8ucGF0Y2ggYi9t
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC8wMDAxLXJlZ3Jlc3MtYmFu
-bmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9uLWVycm8ucGF0Y2gKaW5kZXggZjQy
-NDI4OGUzNy4uYjM2ODM5ODlhMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1yZWdyZXNzLWJhbm5lci5zaC1sb2ctaW5wdXQtYW5kLW91
-dHB1dC1maWxlcy1vbi1lcnJvLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-b3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gtbG9nLWlucHV0LWFuZC1vdXRw
-dXQtZmlsZXMtb24tZXJyby5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNWNjODk3ZmUyZWZm
-ZTU0OWUxZTI4MGMyZjYwNmJjZThiNTMyYjYxZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gNjNhODA4MThhNjYzNzgwODEwMDM1MTJkNDA3M2M4MTdkOTc4YzVkYSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IE1pa2tvIFJhcGVsaSA8bWlra28ucmFwZWxpQGxpbmFyby5vcmc+
-CiBEYXRlOiBNb24sIDExIFNlcCAyMDIzIDA5OjU1OjIxICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hd
-IHJlZ3Jlc3MvYmFubmVyLnNoOiBsb2cgaW5wdXQgYW5kIG91dHB1dCBmaWxlcyBvbiBlcnJvcgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAw
-MS1yZWdyZXNzLXRlc3QtZXhlYy11c2UtdGhlLWFic29sdXRlLXBhdGgtaW4tdGhlLVNTSC1lLnBh
-dGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1yZWdy
-ZXNzLXRlc3QtZXhlYy11c2UtdGhlLWFic29sdXRlLXBhdGgtaW4tdGhlLVNTSC1lLnBhdGNoCmlu
-ZGV4IDM2MGI2MmFmMzQuLmM5MTkwOGVmZGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25u
-ZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVncmVzcy10ZXN0LWV4ZWMtdXNlLXRoZS1h
-YnNvbHV0ZS1wYXRoLWluLXRoZS1TU0gtZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVj
-dGl2aXR5L29wZW5zc2gvb3BlbnNzaC8wMDAxLXJlZ3Jlc3MtdGVzdC1leGVjLXVzZS10aGUtYWJz
-b2x1dGUtcGF0aC1pbi10aGUtU1NILWUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDlkY2Nj
-YWZlNDRlYTE3ZTk3MmU3Y2RkZWEyMDViYmU5ZmU3MWQ4ZDYgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCitGcm9tIDg5MDI2YWM3NjY0Yzk3YWM0OTIyYjVkYWJlZGMxMjRiMGUwMTMzNDYgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKb3NlIFF1YXJlc21hIDxqb3NlLnF1YXJlc21hQGZv
-dW5kcmllcy5pbz4KIERhdGU6IE1vbiwgMTUgSnVsIDIwMjQgMTg6NDM6MDggKzAxMDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gcmVncmVzcy90ZXN0LWV4ZWM6IHVzZSB0aGUgYWJzb2x1dGUgcGF0aCBpbiB0
-aGUgU1NIIGVudgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3No
-L29wZW5zc2hfMTAuMHAxLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29w
-ZW5zc2hfMTAuMHAyLmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF8xMC4wcDEuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzEwLjBwMi5iYgotLSAKMi40
-Ny4xCgo=
+CkRhdGU6IFR1ZSwgMiBTZXAgMjAyNSAxNjoxNDozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHhk
+cHlpbmZvLHhleWVzOiB1cGdyYWRlIDEuMy40IC0+IDEuNC4wLDEuMy4wIC0+IDEuMy4xCgotLS0K
+IC4uLi94b3JnLWFwcC94ZHB5aW5mby9kaXNhYmxlLXhrYi5wYXRjaCAgICAgICB8IDE4ICsrKysr
+KysrKysrLS0tLQogLi4uL3t4ZHB5aW5mb18xLjMuNC5iYiA9PiB4ZHB5aW5mb18xLjQuMC5iYn0g
+IHwgIDIgKy0KIC4uLi97eGV5ZXNfMS4zLjAuYmIgPT4geGV5ZXNfMS4zLjEuYmJ9ICAgICAgICB8
+IDIzICsrKysrKysrKysrKysrKysrLS0KIDMgZmlsZXMgY2hhbmdlZCwgMzUgaW5zZXJ0aW9ucygr
+KSwgOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAv
+e3hkcHlpbmZvXzEuMy40LmJiID0+IHhkcHlpbmZvXzEuNC4wLmJifSAoODglKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC97eGV5ZXNfMS4zLjAuYmIgPT4geGV5ZXNfMS4z
+LjEuYmJ9ICgyOSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBw
+L3hkcHlpbmZvL2Rpc2FibGUteGtiLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
+YXBwL3hkcHlpbmZvL2Rpc2FibGUteGtiLnBhdGNoCmluZGV4IDFlODE5OWNjNjYuLjBiZWUwNWRm
+OWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94ZHB5aW5mby9k
+aXNhYmxlLXhrYi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGRw
+eWluZm8vZGlzYWJsZS14a2IucGF0Y2gKQEAgLTEsMTAgKzEsMTggQEAKK0Zyb20gM2NkMjVjYzY1
+Y2QyNzI1NGFhOWY3YWJhNzNjMmI2MDZjMTk2ZjRiZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb206IENocmlzIExhcnNvbiA8a2VyZ290aEBvcGVuZWRoYW5kLmNvbT4KK0RhdGU6IFR1ZSwg
+MTUgQXVnIDIwMDYgMTE6NTg6MzcgKzAwMDAKK1N1YmplY3Q6IFtQQVRDSF0gTnVtZXJvdXMgbmV3
+IHhvcmcgcGFja2FnZSB2ZXJzaW9ucyBmcm9tIHVwc3RyZWFtIE9FLiAgUGVzdGVyCisKIFVwc3Ry
+ZWFtLVN0YXR1czogUGVuZGluZworLS0tCisgY29uZmlndXJlLmFjIHwgNCArKysrCisgMSBmaWxl
+IGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCi1JbmRleDogeGRweWluZm8tMS4zLjAvY29uZmln
+dXJlLmFjCi09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09Ci0tLS0geGRweWluZm8tMS4zLjAub3JpZy9jb25maWd1cmUuYWMJ
+MjAxMS0xMC0yMSAyMTozNDoyMS4wMDAwMDAwMDAgLTA3MDAKLSsrKyB4ZHB5aW5mby0xLjMuMC9j
+b25maWd1cmUuYWMJMjAxMS0xMS0yOCAyMDowNjo1Ni41NTQwNTY5MzUgLTA4MDAKLUBAIC00Nywx
+MSArNDcsMTUgQEAKK2RpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKK2lu
+ZGV4IDlkMDNlOGIuLmVlZjM2OWIgMTAwNjQ0CistLS0gYS9jb25maWd1cmUuYWMKKysrKyBiL2Nv
+bmZpZ3VyZS5hYworQEAgLTQ5LDExICs0OSwxNSBAQCBQS0dfQ0hFQ0tfTU9EVUxFUyhEUFlfWEVY
+VCwgeGV4dCwKICAJQUNfQ0hFQ0tfSEVBREVSUyhbWDExL2V4dGVuc2lvbnMvbXVsdGlidWYuaCBY
+MTEvZXh0ZW5zaW9ucy9YU2htLmhdLCwsWyNpbmNsdWRlIDxYMTEvWGxpYi5oPl0pCiAgCUNQUEZM
+QUdTPSIkU0FWRV9DUFBGTEFHUyJdLFtlY2hvICJub3QgZm91bmQiXSkKICAKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94ZHB5aW5mb18xLjMuNC5iYiBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94ZHB5aW5mb18xLjQuMC5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGRweWlu
+Zm9fMS4zLjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94ZHB5
+aW5mb18xLjQuMC5iYgppbmRleCAzYmVjZDQwMjgxLi44MDRiMjg0MzUyIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGRweWluZm9fMS4zLjQuYmIKKysrIGIvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hkcHlpbmZvXzEuNC4wLmJiCkBAIC0xNSw2ICsx
+NSw2IEBAIFBFID0gIjEiCiBTUkNfVVJJICs9ICJmaWxlOi8vZGlzYWJsZS14a2IucGF0Y2giCiAK
+IFNSQ19VUklfRVhUID0gInh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE4YWRhNTgxZGJkNzI2
+NjQ0MGQ3YzM3OTRmYTg5ZWRmNmI5OWI4ODU3ZmMyZThjMzEwNDI2ODRmM2FmNDgyMmIiCitTUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiZGMxZGU2ZTZlMDkxZWQ0NmM0ODM3YjBhZTk4MTFlODE4MmY3YmUw
+ZDJhZjYzOGNhYjNlNTMwZmYwODFhNDhiNiIKIAogRVhUUkFfT0VDT05GID0gIi0tZGlzYWJsZS14
+a2IiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGV5ZXNfMS4z
+LjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveGV5ZXNfMS4zLjEuYmIKc2lt
+aWxhcml0eSBpbmRleCAyOSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
+YXBwL3hleWVzXzEuMy4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1h
+cHAveGV5ZXNfMS4zLjEuYmIKaW5kZXggM2QxYTcwNjNlYS4uMWRlZDZkOGUxNiAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hleWVzXzEuMy4wLmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94ZXllc18xLjMuMS5iYgpAQCAtMSwzICsxLDIy
+IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0
+ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVu
+Y2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVw
+ZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5n
+ZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisj
+IChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisj
+CisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gQ09QWUlORworIyArKysgQ09QWUlORworIyBAQCAt
+MSw0ICsxLDUgQEAKKyMgIENvcHlyaWdodCAoYykgMTk5MSAgWCBDb25zb3J0aXVtCisjICtDb3B5
+cmlnaHQgKGMpIDIwMjMgIHEzaworIyAgCisjICBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVk
+LCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcKKyMgIGEgY29weSBvZiB0
+aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZQorIyAK
+KyMKKwogcmVxdWlyZSB4b3JnLWFwcC1jb21tb24uaW5jCiAKIFNVTU1BUlkgPSAiWDExIGV5ZXMg
+dGhhdCBmb2xsb3cgdGhlIG1vdXNlIGN1cnNvciBkZW1vIgpAQCAtNiw5ICsyNSw5IEBAIGZvbGxv
+dyB0aGUgbG9jYXRpb24gb2YgdGhlIG1vdXNlIGN1cnNvciBhcm91bmQgdGhlIHNjcmVlbi4iCiAK
+IFBFID0gIjEiCiAKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTNlYTUx
+YjM2NTA1MWFjMzJkMTgxM2E3ZGJhYTRiZmM2IgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+Q09QWUlORzttZDU9MjkyNzcwOTRkYTFlZjA2NDZkNTYzNGE3OWNiMGMxYzUiCiAKIFNSQ19VUklf
+RVhUID0gInh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjA5NTBjNjAwYmYzMzQ0N2UxNjlhNTM5
+ZWU2NjU1ZWY5ZjM2ZDZjZWJmMmMxYmU2N2Y3YWI1NWRhY2I3NTMwMjMiCitTUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiNTYwOGQ3NmI3YjFhYWM1ZWQ3ZjIyZjFiNmI1YWQ3NGVmOThjODY5MzIyMGYzMmI0
+Yjg3ZGNjZWU0YTk1NmVhYSIKIAogREVQRU5EUyArPSAibGlieGF1IGxpYnh0IGxpYnhleHQgbGli
+eG11IGxpYnhyZW5kZXIgbGlieGkiCi0tIAoyLjQ3LjEKCg==
 
---===============3193441588951012789==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1941 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (943 cached, 1 parsed). 1940 targets, 45 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-b15751eedb6959c8f3c4441ced75058bd20b56a6"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:b15751eedb6959c8f3c4441ced75058bd20b56a6"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 227 Local 216 Mirrors 0 Missed 11 Current 376 (95% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 596 of 603 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_recipe_qa_setscene)
-NOTE: recipe openssh-10.0p2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssh-10.0p2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1672 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_fetch)
-NOTE: recipe openssh-10.0p2-r0: task do_fetch: Started
-NOTE: recipe openssh-10.0p2-r0: task do_fetch: Succeeded
-NOTE: Running task 1673 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_unpack)
-NOTE: Running task 1674 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe openssh-10.0p2-r0: task do_unpack: Started
-NOTE: recipe openssh-10.0p2-r0: task do_prepare_recipe_sysroot: Started
-WARNING: openssh-10.0p2-r0 do_unpack: openssh: the directory ${UNPACKDIR}/${BP} (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/openssh/10.0p2/sources/openssh-10.0p2) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: recipe openssh-10.0p2-r0: task do_unpack: Succeeded
-NOTE: Running task 1675 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_patch)
-NOTE: Running task 1676 of 1694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_collect_spdx_deps)
-NOTE: recipe openssh-10.0p2-r0: task do_patch: Started
-NOTE: recipe openssh-10.0p2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe openssh-10.0p2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe openssh-10.0p2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe openssh-10.0p2-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1676 tasks of which 1671 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250902165039.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250902165039.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/openssh/10.0p2/temp/log.do_patch.256060
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: openssh-10.0p2-r0 do_patch: Applying patch '0001-regress-banner.sh-log-input-and-output-files-on-erro.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/openssh/10.0p2/sources/openssh-10.0p2'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/openssh/10.0p2/recipe-sysroot-native/etc/quiltrc push', 0, "stdout: Applying patch 0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-can't find file to patch at input line 49
-Perhaps you used the wrong -p or --strip option?
-The text leading up to this was:
---------------------------
-|From 63a80818a66378081003512d4073c817d978c5da Mon Sep 17 00:00:00 2001
-|From: Mikko Rapeli <mikko.rapeli@linaro.org>
-|Date: Mon, 11 Sep 2023 09:55:21 +0100
-|Subject: [PATCH] regress/banner.sh: log input and output files on error
-|
-|Some test environments like yocto with qemu are seeing these
-|tests failing. There may be additional error messages in the
-|stderr of ssh cloent command. busybox cmp shows this error when
-|first input file has less new line characters then second
-|input file:
-|
-|cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
-|
-|Logging the full banner.out will show what other error messages
-|are captured in addition of the expected banner.
-|
-|Full log of a failing banner test runs is:
-|
-|run test banner.sh ...
-|test banner: missing banner file
-|test banner: size 0
-|cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
-|banner size 0 mismatch
-|test banner: size 10
-|test banner: size 100
-|cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
-|banner size 100 mismatch
-|test banner: size 1000
-|test banner: size 10000
-|test banner: size 100000
-|test banner: suppress banner (-q)
-|FAIL:  banner
-|return value: 1
-|
-|See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
-|
-|Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/437]
-|
-|Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-|Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-|---
-| regress/banner.sh | 4 +++-
-| 1 file changed, 3 insertions(+), 1 deletion(-)
-|
-|diff --git a/regress/banner.sh b/regress/banner.sh
-|index a84feb5..de84957 100644
-|--- a/regress/banner.sh
-|+++ b/regress/banner.sh
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-Patch 0001-regress-banner.sh-log-input-and-output-files-on-erro.patch does not apply (enforce with -f)
-
-stderr: ")
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/openssh/10.0p2/temp/log.do_patch.256060
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_10.0p2.bb:do_patch) failed with exit code '1'
-
---===============3193441588951012789==--
+--===============1925735092562828466==--
 
