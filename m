@@ -1,101 +1,140 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60174CA1002
-	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 02:02:24 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.68091.1756778536788965124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD02CA1007
+	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 02:10:04 +0000 (UTC)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+ by mx.groups.io with SMTP id smtpd.web10.68191.1756779002238633724
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Sep 2025 19:02:16 -0700
+ Mon, 01 Sep 2025 19:10:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=tlsgU1u/;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Krr/CHCU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019908291cc6-df9eb12f-d269-48ea-bd9d-e3a07132ff2d-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756778536; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=vtEkdHyoyyIYaDiq4qGoEl8mNAomkva91Ss5JKS0uHw=;
-	b=tlsgU1u/UbNei9QsfRdg7kYesNzVlaGwEC5VIECiZMf0OmLUkRVIwaWj+QEhbDk1
-	GZ63dylKEGpsum8QR7HAuxovLVoTZoop12AFue2yorvEjDWcdbbdWi+ElE2rgFGb9ea
-	g2o3OKbuQ9dBtPDAO7bu1oT7SiFbK7nVqYZrO8hg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756778536;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=vtEkdHyoyyIYaDiq4qGoEl8mNAomkva91Ss5JKS0uHw=;
-	b=Krr/CHCUNwFpuNQHnKi42oFTPXS+nq9AhnbMEZ6N0xffql9Sohk2tmaiYs37rKRq
-	6xQVRzUd3FQmIhO23vsqLqhhlwbOw+j/h8AVdyWT0WWUBVGs/sf0rBhnylSterCtM25
-	nCUI5x8jYEWNArKz1QYZOGv1jpMIQe04UEU9UtoA=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] lttng-tools: Add link to issue reported upstream  for musl
- failures
-In-Reply-To: <20250902014511.3492629-1-raj.khem@gmail.com>
-References: <20250902014511.3492629-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019908291cc6-df9eb12f-d269-48ea-bd9d-e3a07132ff2d-000000@us-west-2.amazonses.com>
-Date: Tue, 2 Sep 2025 02:02:16 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.02-54.240.27.33
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=F76aZGxp;
+ spf=pass (domain: gmail.com, ip: 209.85.219.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e96eb999262so3610893276.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Sep 2025 19:10:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756779001; x=1757383801; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zAsf0Cned9eN5Htxgr855ejLaL6QvXw/YD2biOTVXnM=;
+        b=F76aZGxp/IG6uz013Nof8CdNs+fdr+TRx7Cf/z8YrVhRGseIEXOHsHjTriKesAthP7
+         pvhY0w8sosSxBjyaUHxUgcwgWosDMXdQg1AhymrYaWFV51vxq+BAYbMn4pS5j0LzYUY3
+         02a8UL8M1Lr8ioDN96iYnJFXKn6o8cfLd34O4yXKKzyOHlaszJwc9tLkeXfwLcdM68C9
+         A85cG98qB3D+iOzwzprFmlnRvUhqpha68fqyaYrMypTEMGewWkFiCXB56P9tBIbV2lG3
+         Pd2EXV9qXYpgXz2052iApVftRXIcP7xu3NsIygt0Kw1iJSLWrvO1uOTtHdQYzDIT5Qxc
+         GCXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756779001; x=1757383801;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zAsf0Cned9eN5Htxgr855ejLaL6QvXw/YD2biOTVXnM=;
+        b=WgfGvx5YVqFxHTq1yGBWHGzQNvut0Oam6ZoShGsNqBJf+2vz5odyfs4XQlZ7ljeJW8
+         YWoepAb+McnzEHiuE6QS/gpu2AXsCiv4DSJ3r83beRmEn1kPQ4vtgTXgaj+M4KEM3zGS
+         FbnbE0hZXThhzQlUKw24yUM7EiAi3Q27E2vn+nDXQuoxBsc7a2ntnTwesxkTxBaL2vAF
+         yffhOUZTm8aiy4uteTYpWOGFddYX+CCPSxzYJnjh1fZxvA1NgSlXPbNrkutGfCB0TJuG
+         Mj3vG4a+7aKcW+fW3DENwZEMHF6BRhIaDXWAD34Id942lSFeClfpY4ZTU5KOuxIY1MTL
+         4FTw==
+X-Gm-Message-State: AOJu0YxVFk1FEHVTQYYUyMJMRq+4x3XQQX0KAXwT0QfI+15e/dGkSPXh
+	PbZzUlft+exIND1Gbafk0ZGlYI9iqk9AcjxN57mJ5eIXhEFaS37tA8Hb2tW0Eqm/QnYfv/FPqa7
+	G3z3ZoKd3xups/sMquCTFhdjT6JZ7MRo=
+X-Gm-Gg: ASbGncvCxb7oIgBKtpW0WWWj64ks/i/CLS9iUiebtUHN0uQhuKeOBxsDG7oJHnozw4G
+	q8ROKeC10LRaFt6wlmgi3sFB/VOH9S92S4xP7aQ+bLRbjSNnL1eQJaioP56cyItD/cgkExfxyau
+	8AYDAwG0UsGU+7kAXCrhgbblwNT5BBlcUNixcnfOrutUBxjCqm1T+qWaaGotlX0G9yzTQmejIit
+	kmxV46cx1rPpQTZiv8plJUkaLC9eIY7lTLfxWQ1yQLV4ErzM2MH5YOQ3S67AR3g4JxL8In7akkb
+	etXmDUIFtAYVYrpvjbregCKPDcWlvtYDk/O0x/UmCM8zKAB3YgoQAH3eBH2WWIwHwkfD
+X-Google-Smtp-Source: AGHT+IGRNHoHEa7OujWm0oMBuwaeLAKP2N7fkW9uvROukkjTDrBzMl27+bYOsN1x2CGJ3AuscttIHBPOQsycZPwWV84=
+X-Received: by 2002:a05:690c:9688:b0:721:67c7:936e with SMTP id
+ 00721157ae682-7227658a1e4mr111765917b3.50.1756779001163; Mon, 01 Sep 2025
+ 19:10:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250822183352.2811555-1-raj.khem@gmail.com> <065c6f4c-8091-4465-a7d7-8b3272f940e5@cherry.de>
+In-Reply-To: <065c6f4c-8091-4465-a7d7-8b3272f940e5@cherry.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 1 Sep 2025 19:09:35 -0700
+X-Gm-Features: Ac12FXy2fzaGRYNkqBYuT_znGyGtBrn5kJdvA1pQPsNRZ7ihBjEm1GwnqTk5HOE
+Message-ID: <CAMKF1sp7d9sBVCXE6ZvGyTWtngw2mq4CpC3tChV+RN0+t7eQVQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3: Address failing ptests on musl
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 02:02:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222690
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 02:10:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222691
 
---NextPart
-Content-Type: text/plain
+On Mon, Sep 1, 2025 at 2:40=E2=80=AFAM Quentin Schulz <quentin.schulz@cherr=
+y.de> wrote:
+>
+> Hi Khem,
+>
+> On 8/22/25 8:33 PM, Khem Raj via lists.openembedded.org wrote:
+> > Take a partial patch to disable portion of test_makedev, its also appli=
+ed
+> > in alpine. NODEV does not exist on musl
+> >
+> > Add test_null_dlsym to ignore list on musl, it needs GNU ifunc support
+> > and musl does not implement GNU ifuncs
+> >
+> > fixes
+> > Failed ptests:
+> > {'python3': ['test_null_dlsym', 'test_makedev', 'python3']}
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >   .../python3/test_posix_nodev_disable.patch       | 16 +++++++++++++++=
++
+> >   meta/recipes-devtools/python/python3_3.13.7.bb   |  6 ++++--
+> >   2 files changed, 20 insertions(+), 2 deletions(-)
+> >   create mode 100644 meta/recipes-devtools/python/python3/test_posix_no=
+dev_disable.patch
+> >
+> > diff --git a/meta/recipes-devtools/python/python3/test_posix_nodev_disa=
+ble.patch b/meta/recipes-devtools/python/python3/test_posix_nodev_disable.p=
+atch
+> > new file mode 100644
+> > index 00000000000..85767e1e898
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/python/python3/test_posix_nodev_disable.pat=
+ch
+> > @@ -0,0 +1,16 @@
+> > +Disable part of test_posix.test_makedev that depends on the NODEV
+> > +macro being defined (missing on musl).
+> > +
+> > +Upstream-Status: Submitted [https://github.com/python/cpython/pull/317=
+94]
+>
+> Uh? This is merged already (for a year) so should be Backport instead
+> with the commit log.
+>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I think I should have said this as a reference to where the issue got
+introduced.
 
----
-Testing patch /home/patchtest/share/mboxes/lttng-tools-Add-link-to-issue-reported-upstream-for-musl-failures.patch
+> Additionally...
+>
+> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > +--- a/Lib/test/test_posix.py
+> > ++++ b/Lib/test/test_posix.py
+> > +@@ -757,7 +757,7 @@ class PosixTester(unittest.TestCase):
+> > +             self.assertRaises((ValueError, OverflowError), posix.make=
+dev, x, minor)
+> > +             self.assertRaises((ValueError, OverflowError), posix.make=
+dev, major, x)
+> > +
+> > +-        if sys.platform =3D=3D 'linux':
+> > ++        if False:
+>
+> This change isn't in the linked Pull Request, so this is all very
+> misleading.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+Right.
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+>
+> Cheers,
+> Quentin
 
