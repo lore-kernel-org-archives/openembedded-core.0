@@ -2,318 +2,225 @@ Return-Path: <pierre-loup.gosse@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13892CA1005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15528CA0FFE
 	for <webhook@archiver.kernel.org>; Tue,  2 Sep 2025 07:59:27 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.72006.1756799959572081497
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.72008.1756799964102055200
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 00:59:20 -0700
+ Tue, 02 Sep 2025 00:59:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=bGzhE07+;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: pierre-loup.gosse@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45b9814efbcso2914925e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 00:59:19 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=l0bDYEm4;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: pierre-loup.gosse@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3d3fa21a77fso1351099f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 00:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1756799958; x=1757404758; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AdjL2DMgAYNmD4NnSezRLdg2DabdNZbKZf9rDkkwBZg=;
-        b=bGzhE07+CAUAhw7fRqVUTaQp7xn3ovAiwwAWHeZOYoTGEJ43u490ovhsC5KdtGsNTE
-         0TQfg1llWv6kdKZwak5VxIMm0kCJiDgXvxwIA5ZeUCSzXbWHBqSTnsNB483bfe2mY/zd
-         5zMUIl4RkyytV3lvQRbNEc/lRtfGPjsbMhTmU=
+        d=smile.fr; s=google; t=1756799962; x=1757404762; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y4y9gIpSEpuIfA7Vw8RJHfN/mrIHz0IHKW2Guz34BMQ=;
+        b=l0bDYEm4JGl/+R9eRUJOPp+JQ120slLDvbrOvvjwIrnpuV1ZrNQKpLBskg4j49zoiv
+         bCt8YhgjTHwE9SI4Q9ZyZnboFoiUjK2ojY/gIT0cv4xooziJUStyVwKb225YR57+dDJs
+         7XL6LM40FDnoPbJTYpdgRUNb30t0PyWQ2yVCA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756799958; x=1757404758;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AdjL2DMgAYNmD4NnSezRLdg2DabdNZbKZf9rDkkwBZg=;
-        b=RCwkgdOOP7dFrieI+Wbu0qSycIOy9sAz8/2nK/AYv+071YyDdJuSp5KcRDZj6xUatH
-         6jZMu8DZ1y3eP0EL4HtOk0G7kCPf8pRnj5kD8QXVsx3W/WkCW/JcEpHkWfnG5GAGTCxD
-         LfBmzVVIeyPZoxdDd+0iJMFRjcNZADIp3h8YDhLA+F3w4GARxf2GOXPnU7p00PM8yeSS
-         XCA0xUCXoO7p6ATzpvKFLOsopYog5bi1iLxH5vLy6zQJlNfc01fR6Q7qX/7OswvhzHax
-         y3ejyrlsHKCbTG0e+RsjiuLWmBr+/Qt6zjPE+aezzTgzvsFDNFB6tnuKF5GgJD/m3U3W
-         bkKg==
-X-Gm-Message-State: AOJu0YztFTVs/6HeBLEP6htixaqbRjyR23A+gc3J5aXvkwpLUfRHZ0Bb
-	a+pweSME6qVYZy7uOUbdYKD2QFvewz2acJsxFsgS1J/9P11QNmK7UJknJaJmj48/npL2nYskOrp
-	DjjmSZr8=
-X-Gm-Gg: ASbGncsk5Jo5nafr9SMc+jG1FrB3LgBRQNr6NtcYFq+jrOKqmZf7pGBIM8mOUFJPitq
-	X0jCbB4Wo4gu2uAwCoEpH72tiuzJpoHBUAk4MsvalOahzl2XsIFjMONlOK/5wiXxpytyFOJnFrV
-	tZ48JWa7DgzA1PRyq6oa0/QwAeKSky3OvboG5X/7oidcDXjU84AcK0cYkPuSKoQEJRcsiPNFmpm
-	8iUoE/U3/Vma4qurnkyflbg/zqdJ43lxIHCn/oTbtFt/2hb2cPjKXjASTMBoGBZvsWuYfnOvp2R
-	8NsRqbH5HJ8qHGGTYg/+qV6bmxaxyIh55YbzwLw0WcA+6KICH2hJ6PArVWICS4IzGxGQV9eYbDB
-	hwqXPLYvobbBDZg5fdv1j7SnW2MEL2mm89IdVIVZp5xYRYkbI3YSKOQ==
-X-Google-Smtp-Source: AGHT+IGOmk56Ki0fOIuNC1ncYLWBVGyd6Pt062bLo27Bb/9y15sEvmq3AteVtBnlFv7O0ky3ksaHeg==
-X-Received: by 2002:a05:6000:4013:b0:3cb:fee1:de33 with SMTP id ffacd0b85a97d-3d1dcb75f4cmr10656071f8f.7.1756799957875;
-        Tue, 02 Sep 2025 00:59:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756799962; x=1757404762;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y4y9gIpSEpuIfA7Vw8RJHfN/mrIHz0IHKW2Guz34BMQ=;
+        b=s9NARpBGBAeic68XQ8z85AbfTY6aa83a1b4rDA1ShAVp92RoWvyAyq4c/GonusKdHn
+         ZfpDNs4eH07kw3E3SZiE3rl9cUrVCxMGr1822u06vzOK5oz6xS51mlrV5RihWEW5cxtp
+         e6hoZB9pRnky8QmONl3a0bsp3UFYbcacq1Yv7y/p5yui7E2X4rdq0zA3j9YL4clbzkJD
+         rIiggBjzraxrXSDPRcyufWCxGgixPRGrq71lEQGAY1VpzcFNBZRNwOFT8bG1nGihH/xc
+         0xTHih5aJWD03X7jK/qwSDY/l3xVQzz39UBB/ABT+txAw4LLYauLqV+fGdKOzRMea0KX
+         CwpQ==
+X-Gm-Message-State: AOJu0YxTjmyC9M0PO7aZFito+3lqTDDNkJaQTsLfJ3vcYIkjZDjjtBOc
+	yv9Qp5ade7k9Hd6mS+ULNg2UsmK/B3XlyyGx45Dkt0Y+7pDdPh2TQiYQUOqlNYjeftut/K1jz+K
+	8WK75HLM=
+X-Gm-Gg: ASbGncsCsyoGawwGhrZDCfeyfdU3nFHZWRKIBz/k5zMEWLXneTN3SisT1mcegjiHqJY
+	D+zAi3zt13XCYBj/oaXNyzVjbrW50nUY/CyFRkmNW17uKLiMTFGM9dAzPMFiGAlCq6TumM1lGvF
+	2UcXDK07T6n6loRWHnYr/X8C6XWaoBWOb+PM+76J3JkOtncAtUd/jbF1zzbCPvGrzsOYiyMF/1D
+	ssTU5nDSBANWKOlE5C8KhEVsWweX6g/Q1kYI0ovr0WpkBgrWcU1690FhOC8UUB0gcnyjH1KeSSO
+	p94hpvpLN5Q0CEC4DercQRFmwlH7YzSFvZnu70HcEAgaqO7UFg1jfWOIpSCnupF1la2LDy0rTOE
+	RktpTHc0J/8n/Jokk1c/58XKHTF2i373kNlP446XSi04=
+X-Google-Smtp-Source: AGHT+IFfiGrbv0u6f1bWfEQvtPtiu9T7Yni8669Dj6IMBf5GRxE+DV8m19xvwBGsrI1meXXCawp5aw==
+X-Received: by 2002:a05:6000:4013:b0:3c8:152d:a707 with SMTP id ffacd0b85a97d-3d1df34f78emr9130778f8f.53.1756799961364;
+        Tue, 02 Sep 2025 00:59:21 -0700 (PDT)
 Received: from localhost.localdomain ([195.68.54.115])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3db72983560sm12052f8f.1.2025.09.02.00.59.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3db72983560sm12052f8f.1.2025.09.02.00.59.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 00:59:17 -0700 (PDT)
+        Tue, 02 Sep 2025 00:59:21 -0700 (PDT)
 From: pierre-loup.gosse@smile.fr
 To: openembedded-core@lists.openembedded.org
 Cc: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH v4 1/2] wic: add --extra-partition-space option to set unused space
-Date: Tue,  2 Sep 2025 09:59:00 +0200
-Message-Id: <20250902075901.1550357-1-pierre-loup.gosse@smile.fr>
+Subject: [PATCH v4 2/2] wic: rename wks flag --extra-space to --extra-filesystem-space
+Date: Tue,  2 Sep 2025 09:59:01 +0200
+Message-Id: <20250902075901.1550357-2-pierre-loup.gosse@smile.fr>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250902075901.1550357-1-pierre-loup.gosse@smile.fr>
+References: <20250902075901.1550357-1-pierre-loup.gosse@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 07:59:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222713
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222714
 
 From: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
 
-By default, the content of the partition is filled by the filesystem
-without leaving any unused free space. The --extra-space flag adds
-extra space to the filesystem size, not to the partition.
-
-Unused free space after the filesystem can be useful for some cases,
-such as encrypting a partition at runtime.
-With --extra-partition-space 32M, we ensure that the last 32M of the
-partition is unused: this space does not contain filesystem data and
-can store the LUKS2 header.
-
-The implementation sets a difference between the partition and
-filesystem size:
-  - With --fixed-size, the extra part space is removed from the
-    filesystem size.
-  - Otherwise (with or without --size flag), the extra part space is
-    added to the partition size.
+Makes a clear distinction with --extra-partition-space flag.
 
 Signed-off-by: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
 
 CC: Alexander Kanavin <alex.kanavin@gmail.com>
 CC: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
-changes in v2:
-- renaming the option to --extra-part-space
-- adding tests
-
 changes in v3:
-- renaming the option to --extra-partition-space
-- fixing the tests
-- adding --extra-partition-space help description
+- adding this patch
 
 changes in v4:
-- removing an irrelevant test
+- no change
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 49 +++++++++++++++++++++++++++--
- scripts/lib/wic/help.py             |  8 +++++
- scripts/lib/wic/ksparser.py         |  3 ++
- scripts/lib/wic/partition.py        | 34 ++++++++++++--------
- 4 files changed, 79 insertions(+), 15 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py |  4 ++--
+ scripts/lib/wic/help.py             | 12 ++++++------
+ scripts/lib/wic/ksparser.py         | 25 +++++++++++++------------
+ scripts/lib/wic/partition.py        |  6 +++---
+ 4 files changed, 24 insertions(+), 23 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 680f99d381..c9c9ceb0f2 100644
+index c9c9ceb0f2..3f75411059 100644
 --- a/meta/lib/oeqa/selftest/cases/wic.py
 +++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1125,7 +1125,7 @@ run_wic_cmd() {
+@@ -1270,12 +1270,12 @@ run_wic_cmd() {
+             p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
+             self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
  
-         return wkspath
+-    def test_extra_space(self):
++    def test_extra_filesystem_space(self):
+         native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
  
--    def _get_wic_partitions(self, wkspath, native_sysroot=None, ignore_status=False):
-+    def _get_wic(self, wkspath, ignore_status=False):
-         p = runCmd("wic create %s -e core-image-minimal -o %s" % (wkspath, self.resultdir),
-                    ignore_status=ignore_status)
+         with NamedTemporaryFile("w", suffix=".wks") as tempf:
+             tempf.write("bootloader --ptable gpt\n" \
+-                        "part /     --source rootfs --ondisk hda --extra-space 200M --fstype=ext4\n")
++                        "part /     --source rootfs --ondisk hda --extra-filesystem-space 200M --fstype=ext4\n")
+             tempf.flush()
  
-@@ -1139,7 +1139,13 @@ run_wic_cmd() {
-         if not wicout:
-             return (p, None)
- 
--        wicimg = wicout[0]
-+        return (p, wicout[0])
-+
-+    def _get_wic_partitions(self, wkspath, native_sysroot=None, ignore_status=False):
-+        p, wicimg = self._get_wic(wkspath, ignore_status)
-+
-+        if wicimg is None:
-+            return (p, None)
- 
-         if not native_sysroot:
-             native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
-@@ -1279,6 +1285,45 @@ run_wic_cmd() {
-             size = int(size[:-3])
-             self.assertGreaterEqual(size, 204800)
- 
-+    def test_extra_partition_space(self):
-+        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
-+
-+        with NamedTemporaryFile("w", suffix=".wks") as tempf:
-+            tempf.write("bootloader --ptable gpt\n" \
-+                        "part                 --ondisk hda --size 10M        --extra-partition-space 10M --fstype=ext4\n" \
-+                        "part                 --ondisk hda --fixed-size 20M  --extra-partition-space 10M --fstype=ext4\n" \
-+                        "part --source rootfs --ondisk hda                   --extra-partition-space 10M --fstype=ext4\n" \
-+                        "part --source rootfs --ondisk hda --fixed-size 200M --extra-partition-space 10M --fstype=ext4\n")
-+            tempf.flush()
-+
-+            _, wicimg = self._get_wic(tempf.name)
-+
-+            res = runCmd("parted -m %s unit b p" % wicimg,
-+                            native_sysroot=native_sysroot, stderr=subprocess.PIPE)
-+
-+            # parse parted output which looks like this:
-+            # BYT;\n
-+            # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-+            # 1:0.00MiB:200MiB:200MiB:ext4::;\n
-+            partlns = res.output.splitlines()[2:]
-+
-+            self.assertEqual(4, len(partlns))
-+
-+            # Test for each partitions that the extra part space exists
-+            for part in range(0, len(partlns)):
-+                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % (part + 1))
-+                partln = partlns[part].split(":")
-+                self.assertEqual(7, len(partln))
-+                self.assertRegex(partln[3], r'^[0-9]+B$')
-+                part_size = int(partln[3].rstrip("B"))
-+                start = int(partln[1].rstrip("B")) / 512
-+                length = part_size / 512
-+                runCmd("dd if=%s of=%s skip=%d count=%d" %
-+                                            (wicimg, part_file, start, length))
-+                res = runCmd("dumpe2fs %s -h | grep \"^Block count\"" % part_file)
-+                fs_size = int(res.output.split(":")[1].strip()) * 1024
-+                self.assertLessEqual(fs_size + 10485760, part_size, "part file: %s" % part_file)
-+
-     # TODO this test could also work on aarch64
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-     @OETestTag("runqemu")
+             _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
 diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 2e3061f343..800c0abf0f 100644
+index 800c0abf0f..6b49a67de9 100644
 --- a/scripts/lib/wic/help.py
 +++ b/scripts/lib/wic/help.py
-@@ -1020,6 +1020,14 @@ DESCRIPTION
-                         By default, 10MB. This option cannot be used
-                         with --fixed-size option.
+@@ -1013,12 +1013,12 @@ DESCRIPTION
+          --no-fstab-update: This option is specific to wic. It does not update the
+                             '/etc/fstab' stock file for the given partition.
  
-+         --extra-partition-space: This option is specific to wic. It adds extra
-+                                  empty space after the space filled by the
-+                                  filesystem. With --fixed-size, the extra
-+                                  partition space is removed from the filesystem
-+                                  size. Otherwise (with or without --size flag),
-+                                  the extra partition space is added to the final
-+                                  paritition size. The default value is 0MB.
-+
-          --overhead-factor: This option is specific to wic. The
-                             size of the partition is multiplied by
-                             this factor. It has to be greater than or
+-         --extra-space: This option is specific to wic. It adds extra
+-                        space after the space filled by the content
+-                        of the partition. The final size can go
+-                        beyond the size specified by --size.
+-                        By default, 10MB. This option cannot be used
+-                        with --fixed-size option.
++         --extra-filesystem-space: This option is specific to wic. It adds extra
++                                   space after the space filled by the content
++                                   of the partition. The final size can go
++                                   beyond the size specified by --size.
++                                   By default, 10MB. This option cannot be used
++                                   with --fixed-size option.
+ 
+          --extra-partition-space: This option is specific to wic. It adds extra
+                                   empty space after the space filled by the
 diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 7ef3dc83dd..e86e1069f5 100644
+index e86e1069f5..dbf0cf2dc3 100644
 --- a/scripts/lib/wic/ksparser.py
 +++ b/scripts/lib/wic/ksparser.py
-@@ -154,6 +154,7 @@ class KickStart():
+@@ -132,7 +132,7 @@ def systemidtype(arg):
+ class KickStart():
+     """Kickstart parser implementation."""
+ 
+-    DEFAULT_EXTRA_SPACE = 10*1024
++    DEFAULT_EXTRA_FILESYSTEM_SPACE = 10*1024
+     DEFAULT_OVERHEAD_FACTOR = 1.3
+ 
+     def __init__(self, confpath):
+@@ -153,7 +153,7 @@ class KickStart():
+         part.add_argument('--exclude-path', nargs='+')
          part.add_argument('--include-path', nargs='+', action='append')
          part.add_argument('--change-directory')
-         part.add_argument("--extra-space", type=sizetype("M"))
-+        part.add_argument('--extra-partition-space', type=sizetype("M"))
+-        part.add_argument("--extra-space", type=sizetype("M"))
++        part.add_argument('--extra-filesystem-space', type=sizetype("M"))
+         part.add_argument('--extra-partition-space', type=sizetype("M"))
          part.add_argument('--fsoptions', dest='fsopts')
          part.add_argument('--fspassno', dest='fspassno')
-         part.add_argument('--fstype', default='vfat',
-@@ -259,6 +260,8 @@ class KickStart():
-                             err = "%s:%d: Must set the label with --label" \
-                                   % (confpath, lineno)
-                             raise KickStartError(err)
-+                        if not parsed.extra_partition_space:
-+                            parsed.extra_partition_space = 0
+@@ -175,9 +175,9 @@ class KickStart():
+         part.add_argument('--hidden', action='store_true')
+ 
+         # --size and --fixed-size cannot be specified together; options
+-        # ----extra-space and --overhead-factor should also raise a parser
+-        # --error, but since nesting mutually exclusive groups does not work,
+-        # ----extra-space/--overhead-factor are handled later
++        # ----extra-filesystem-space and --overhead-factor should also raise a
++        # parser error, but since nesting mutually exclusive groups does not work,
++        # ----extra-filesystem-space/--overhead-factor are handled later
+         sizeexcl = part.add_mutually_exclusive_group()
+         sizeexcl.add_argument('--size', type=sizetype("M"), default=0)
+         sizeexcl.add_argument('--fixed-size', type=sizetype("M"), default=0)
+@@ -264,12 +264,13 @@ class KickStart():
+                             parsed.extra_partition_space = 0
                          # using ArgumentParser one cannot easily tell if option
                          # was passed as argument, if said option has a default
-                         # value; --overhead-factor/--extra-space cannot be used
+-                        # value; --overhead-factor/--extra-space cannot be used
+-                        # with --fixed-size, so at least detect when these were
+-                        # passed with non-0 values ...
++                        # value; --overhead-factor/--extra-filesystem-space
++                        # cannot be used with --fixed-size, so at least detect
++                        # when these were passed with non-0 values ...
+                         if parsed.fixed_size:
+-                            if parsed.overhead_factor or parsed.extra_space:
+-                                err = "%s:%d: arguments --overhead-factor and --extra-space not "\
++                            if parsed.overhead_factor or parsed.extra_filesystem_space:
++                                err = "%s:%d: arguments --overhead-factor and "\
++                                      "--extra-filesystem-space not "\
+                                       "allowed with argument --fixed-size" \
+                                       % (confpath, lineno)
+                                 raise KickStartError(err)
+@@ -280,8 +281,8 @@ class KickStart():
+                             # with value equal to 0)
+                             if '--overhead-factor' not in line_args:
+                                 parsed.overhead_factor = self.DEFAULT_OVERHEAD_FACTOR
+-                            if '--extra-space' not in line_args:
+-                                parsed.extra_space = self.DEFAULT_EXTRA_SPACE
++                            if '--extra-filesystem-space' not in line_args:
++                                parsed.extra_filesystem_space = self.DEFAULT_EXTRA_FILESYSTEM_SPACE
+ 
+                         self.partnum += 1
+                         self.partitions.append(Partition(parsed, self.partnum))
 diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index b34691d313..d358aabbd6 100644
+index d358aabbd6..0c9b1a5b96 100644
 --- a/scripts/lib/wic/partition.py
 +++ b/scripts/lib/wic/partition.py
-@@ -29,6 +29,7 @@ class Partition():
+@@ -28,7 +28,7 @@ class Partition():
+         self.align = args.align
          self.disk = args.disk
          self.device = None
-         self.extra_space = args.extra_space
-+        self.extra_partition_space = args.extra_partition_space
+-        self.extra_space = args.extra_space
++        self.extra_filesystem_space = args.extra_filesystem_space
+         self.extra_partition_space = args.extra_partition_space
          self.exclude_path = args.exclude_path
          self.include_path = args.include_path
-         self.change_directory = args.change_directory
-@@ -91,13 +92,12 @@ class Partition():
-     def get_rootfs_size(self, actual_rootfs_size=0):
-         """
-         Calculate the required size of rootfs taking into consideration
--        --size/--fixed-size flags as well as overhead and extra space, as
--        specified in kickstart file. Raises an error if the
--        `actual_rootfs_size` is larger than fixed-size rootfs.
--
-+        --size/--fixed-size and --extra-partition-space flags as well as overhead
-+        and extra space, as specified in kickstart file. Raises an error
-+        if the `actual_rootfs_size` is larger than fixed-size rootfs.
-         """
-         if self.fixed_size:
--            rootfs_size = self.fixed_size
-+            rootfs_size = self.fixed_size - self.extra_partition_space
-             if actual_rootfs_size > rootfs_size:
-                 raise WicError("Actual rootfs size (%d kB) is larger than "
-                                "allowed size %d kB" %
-@@ -119,10 +119,18 @@ class Partition():
-     def disk_size(self):
-         """
-         Obtain on-disk size of partition taking into consideration
--        --size/--fixed-size options.
-+        --size/--fixed-size and --extra-partition-space options.
-+
-+        """
-+        return self.fixed_size if self.fixed_size else self.size + self.extra_partition_space
+@@ -104,8 +104,8 @@ class Partition():
+                                (actual_rootfs_size, rootfs_size))
+         else:
+             extra_blocks = self.get_extra_block_count(actual_rootfs_size)
+-            if extra_blocks < self.extra_space:
+-                extra_blocks = self.extra_space
++            if extra_blocks < self.extra_filesystem_space:
++                extra_blocks = self.extra_filesystem_space
  
-+    @property
-+    def fs_size(self):
-+        """
-+        Obtain on-disk size of filesystem inside the partition taking into
-+        consideration --size/--fixed-size and --extra-partition-space options.
-         """
--        return self.fixed_size if self.fixed_size else self.size
-+        return self.fixed_size - self.extra_partition_space if self.fixed_size else self.size
- 
-     def prepare(self, creator, cr_workdir, oe_builddir, rootfs_dir,
-                 bootimg_dir, kernel_dir, native_sysroot, updated_fstab_path):
-@@ -202,10 +210,10 @@ class Partition():
-                            "This a bug in source plugin %s and needs to be fixed." %
-                            (self.mountpoint, self.source))
- 
--        if self.fixed_size and self.size > self.fixed_size:
-+        if self.fixed_size and self.size + self.extra_partition_space > self.fixed_size:
-             raise WicError("File system image of partition %s is "
--                           "larger (%d kB) than its allowed size %d kB" %
--                           (self.mountpoint, self.size, self.fixed_size))
-+                           "larger (%d kB + %d kB extra part space) than its allowed size %d kB" %
-+                           (self.mountpoint, self.size, self.extra_partition_space, self.fixed_size))
- 
-     def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
-                        native_sysroot, real_rootfs = True, pseudo_dir = None):
-@@ -440,7 +448,7 @@ class Partition():
-         """
-         Prepare an empty ext2/3/4 partition.
-         """
--        size = self.disk_size
-+        size = self.fs_size
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), size * 1024)
- 
-@@ -464,7 +472,7 @@ class Partition():
-         """
-         Prepare an empty btrfs partition.
-         """
--        size = self.disk_size
-+        size = self.fs_size
-         with open(rootfs, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), size * 1024)
- 
-@@ -482,7 +490,7 @@ class Partition():
-         """
-         Prepare an empty vfat partition.
-         """
--        blocks = self.disk_size
-+        blocks = self.fs_size
- 
-         label_str = "-n boot"
-         if self.label:
+             rootfs_size = actual_rootfs_size + extra_blocks
+             rootfs_size = int(rootfs_size * self.overhead_factor)
 -- 
 2.34.1
 
