@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D791CA1012
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CBC7CA1015
 	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 16:15:13 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.16915.1756916110346197606
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.17051.1756916111842782633
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Sep 2025 09:15:10 -0700
+ Wed, 03 Sep 2025 09:15:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vs+LPQVw;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7726c7ff7e5so82297b3a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 09:15:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DTAj5UkW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77238cb3cbbso109622b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 09:15:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756916110; x=1757520910; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756916111; x=1757520911; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wih1XiJi2E8k6INEAIHaHmq84g1FWptYU7kj7MxynSM=;
-        b=vs+LPQVwXMf6TCoSHVAPPGZ2IuPzBj+H+kHrytAgwNQkRPun4kmJqY6fNy9BKK9dm9
-         F/xLUg+X/T9cC6IXx0Xpb/nw49NIkoh7UnNAs741gjTrXFfz5LcRNhCCe7sgiDuGY4gE
-         frQAI+xO5OB8D1kt56/mqk+D+hNZ5GVVCZI5SAnv2KhUFl+TfYd4JfqBKVYaBhVO2A+7
-         IYJWfLn0yfNZICfga7GdJbN+c46EyGf0SMkzjfHuetW2amfMGM/reivySvsejkdrz67P
-         FwRdUGqmma/uycsqAAX9mef9D9d5mLFj6sQ2pUgseM2PL4j+u1ULmEpg2493wsG7QWaj
-         tiUg==
+        bh=mzusLF5KRzOIiSICLfMotGe5/zppbSFgG8QRO3SZZEI=;
+        b=DTAj5UkWm9rnU28YQHKDstdIQW6DgcoGKDZlJLnLF0QGu4EKIE4uN+n3tsBmkd+wP8
+         3gi2kWR+IG7JKvKAUPzMM3BlRYcB/11T+7nVSsBZuq3PGEBEOniG6/+7vKpbZ669J1FU
+         1Sj1k8DjXLqTUdcQVQ9vimte7aVd1aW+fMXySdE78SDbsP2HpDbjbmbliwQhKKTn1w2D
+         ymgywSz97B4bBGIjR/goQTCnToTx+pgXQEglQPrkyv0mO6/zG7lr65lvzMVCSA7lBl3R
+         DlJ9uHc5HLPwJBQXJOExPH/GRQKVqW52Ld0vlNuz8CcD3QoEkqjq920CtQgJk2Tk8eUm
+         fc3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756916110; x=1757520910;
+        d=1e100.net; s=20230601; t=1756916111; x=1757520911;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wih1XiJi2E8k6INEAIHaHmq84g1FWptYU7kj7MxynSM=;
-        b=ISzX2PXTRhAJrlFrmAO1cC+WRdNQcnleay3j/VZ/4HP8T6dTp+5ebSG8FkSq7keqUZ
-         CZsjyqT/cpMlwEg2o/4vEXVA2cY2kgcDPX9uqSEARiLH0EIx3NKMLPM1L+iAOSptLHux
-         faxv+M1L9I4/THG8J0VnujwlY1/DDFuMcg2BRqq3XyWdC0WCE3IAdtHUflgKE+QiCxTB
-         nvlUBGJ+PEoJL179Y+J6+juq8f7x3JmP6vd82v+B1qLGXaAlKbEoaqI+sApfZLP6a2+D
-         Qsro90OVYnTvYEUi6X2BZycOxz4nRAUaEMdFwgWwODDNgv1xqHLcDPJNfNYB9vAU80cV
-         VBOg==
-X-Gm-Message-State: AOJu0YyJfgwNaGu1yyex+BNMvnQSpB3fK6CcF1mAd/RfL8O7ds5dvd5z
-	17aO3LhLyFb6sUINYJ4tcgmqrr1NXPQFhEQyErsSjOde61653/yvlR4Jyl6qtb/Iof+74ETQ+bG
-	g1o4Z
-X-Gm-Gg: ASbGnctT5m/oF7j1wMPX7jmagPCSdM2AcqPybCAHrGcZgKPaXhZRNMghsio6xrgXi46
-	pUUQaJ8eCzc136yDpSfh80C/J0aNndfwmBFn5WmYSDj4jdwl97Xlr/XZHOxGxwY0TaGUJX0amFU
-	LuEO3Y96+jVMtj8wzgp3jqViX4vsxWhwncp91eApqLcw8sTJdvoTnX3z0cBQ/81FoNJ2PSemaNw
-	r2G08erbeLNPTRwPvzZ6w8sRXRjU95fRp487vaZh7+GHy/SycqBj8OYoiGDTIfcWcbbuDZF8mus
-	xOYQHdQ1y3hiwVkJm1DZ5tTHKUAOtzqoIezSswLAVJaif70/AGIXLfuFYlnvCwu6efa7TUugrKO
-	ZbqXBHssjtFMJig==
-X-Google-Smtp-Source: AGHT+IEH0/7AzUkueH+AdWM9cd09iqyz04T4I61bsi4ZkcyLPa1LFweUJf8g2tM6S458gpU4c/Qt/Q==
-X-Received: by 2002:a05:6a00:7496:b0:772:4319:e7ed with SMTP id d2e1a72fcca58-7724319ece8mr17612075b3a.29.1756916109438;
-        Wed, 03 Sep 2025 09:15:09 -0700 (PDT)
+        bh=mzusLF5KRzOIiSICLfMotGe5/zppbSFgG8QRO3SZZEI=;
+        b=bWNyFMyYs4DPkrEwiG01Gu4CUaxkrIq5vV281PJIAVTVpf5WwT17Op0Zri6x49m4US
+         MhnFhTpAbi1swSzWgqv8cUdXSFKcL7REtmfUYNP6r3H12JFLSqts/955AREaGTSk1Dvs
+         3pI9bdbHpFb7zUbnxzV/cBxusaOJNQ33LLaBSLmokfXFcq/CbvG2swdaSfqDLX0gXqfI
+         LyARP58M4qnUolvWIcOGCkjcc4y0pIuRioDAwz1eE8HJ5fvIPNbv9GdV/c30dXAkKiRW
+         L0rSI+1PdSEl3XVlB9tjN029nIauE8XZFbEKHODgcP0ewKBTa5NkXtlsYknjRyeyF7JC
+         Aixw==
+X-Gm-Message-State: AOJu0Yx7lnZ5LMG6StrxN8giTjNBxwQf1luM2Sva+WfdY1cC+Akcuky7
+	Hn+YJsWTOhKUsG7J5z5P51HLmaK3YYjHjhCaqGMjKBPg8UUJ5zoWz9bU1adu4Pt9Sx1E2934FKL
+	CSasG
+X-Gm-Gg: ASbGncsLxmSG/WQRGk+728Yr6KiKRSGh1vtEBP6pT5momTHpHh6rwxLtpSVdPDY3DYg
+	z/oEZ7yMo8frtbuHWgfoFhaWWAWx69gvX7vdGsfJPgWKwYBkMfNCGinGvkSZS6QumcB/m2aqGGq
+	73Psi6807bnHk07S8CJlPcaJjpkN5how4zs8lo8NPIS7PezoBhQ+kLwHv6NR+gzc+4oOQHjij/S
+	Hrz4Di8enHgX+i+h6yWwJpjUUVx3SyJBJ3RRVWecP/bRfTKWQ1xZpkADA68Cv6VVCc7MtLpgfAx
+	LUpbpgJsUg0Cb//jtq6eIRNZIUsvxPWeTokbJWPmUFahj8Jej5n+Qnh2lo2veTDIu8tqz1xvphm
+	PMGxtsp/LYB/uGVXfqtkR7o4E
+X-Google-Smtp-Source: AGHT+IG9FpWyPZJeXFvKrX0pmkfYeNlZydywuKHSc1KEE6lpS9eSG0vqQKpZtgZ7pvvxaYfo11UYnQ==
+X-Received: by 2002:a05:6a00:1810:b0:771:ef79:9338 with SMTP id d2e1a72fcca58-7723e376dacmr18879509b3a.21.1756916110945;
+        Wed, 03 Sep 2025 09:15:10 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:9ffe:4bb4:e2b3:4b1c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7724f079b88sm11027602b3a.40.2025.09.03.09.15.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7724f079b88sm11027602b3a.40.2025.09.03.09.15.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 09:15:09 -0700 (PDT)
+        Wed, 03 Sep 2025 09:15:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 2/9] tiff: fix CVE-2025-8534
-Date: Wed,  3 Sep 2025 09:14:52 -0700
-Message-ID: <c897368cd363d3e50372ab1fc95bc31f1a883dc4.1756915922.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 3/9] tiff: fix CVE-2025-8851
+Date: Wed,  3 Sep 2025 09:14:53 -0700
+Message-ID: <1ced84bbd4ab15f0f16176e367744b496a0ea97c.1756915922.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756915922.git.steve@sakoman.com>
 References: <cover.1756915922.git.steve@sakoman.com>
@@ -68,112 +68,118 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 16:15:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222867
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222868
 
 From: Yogita Urade <yogita.urade@windriver.com>
 
-A vulnerability classified as problematic was found in libtiff
-4.6.0. This vulnerability affects the function PS_Lvl2page of
-the file tools/tiff2ps.c of the component tiff2ps. The
-manipulation leads to null pointer dereference. It is possible
-to launch the attack on the local host. The complexity of an
-attack is rather high. The exploitation appears to be difficult.
-The exploit has been disclosed to the public and may be used.
-The name of the patch is 6ba36f159fd396ad11bf6b7874554197736ecc8b.
-It is recommended to apply a patch to fix this issue. One of the
-maintainers explains, that "[t]his error only occurs if
-DEFER_STRILE_LOAD (defer-strile-load:BOOL=ON) or TIFFOpen( .. "rD")
-option is used."
+A vulnerability was determined in LibTIFF up to 4.5.1. Affected
+by this issue is the function readSeparateStripsetoBuffer of the
+file tools/tiffcrop.c of the component tiffcrop. The manipulation
+leads to stack-based buffer overflow. Local access is required to
+approach this attack. The patch is identified as
+8a7a48d7a645992ca83062b3a1873c951661e2b3. It is recommended to
+apply a patch to fix this issue.
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-8534
+https://nvd.nist.gov/vuln/detail/CVE-2025-8851
 
 Upstream patch:
-https://gitlab.com/libtiff/libtiff/-/commit/6ba36f159fd396ad11bf6b7874554197736ecc8b
+https://gitlab.com/libtiff/libtiff/-/commit/8a7a48d7a645992ca83062b3a1873c951661e2b3
 
 Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libtiff/tiff/CVE-2025-8534.patch          | 60 +++++++++++++++++++
+ .../libtiff/tiff/CVE-2025-8851.patch          | 71 +++++++++++++++++++
  meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8534.patch
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8851.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8534.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8534.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8851.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8851.patch
 new file mode 100644
-index 0000000000..59c14e2703
+index 0000000000..29089ab833
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8534.patch
-@@ -0,0 +1,60 @@
-+From 6ba36f159fd396ad11bf6b7874554197736ecc8b Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Sat, 2 Aug 2025 18:55:54 +0200
-+Subject: [PATCH] tiff2ps: check return of TIFFGetFiled() for 
-+ TIFFTAG_STRIPBYTECOUNTS and TIFFTAG_TILEBYTECOUNTS to avoid NULL pointer 
-+ dereference.
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8851.patch
+@@ -0,0 +1,71 @@
++From 8a7a48d7a645992ca83062b3a1873c951661e2b3 Mon Sep 17 00:00:00 2001
++From: Lee Howard <faxguy@howardsilvan.com>
++Date: Sun, 11 Aug 2024 16:01:07 +0000
++Subject: [PATCH] Attempt to address tiffcrop Coverity scan issues 1605444, 
++ 1605445, and 1605449.
 +
-+Closes #718
-+
-+CVE: CVE-2025-8534
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/6ba36f159fd396ad11bf6b7874554197736ecc8b]
++CVE: CVE-2025-8851
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/8a7a48d7a645992ca83062b3a1873c951661e2b3]
 +
 +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 +---
-+ tools/tiff2ps.c | 20 +++++++++++++++++---
-+ 1 file changed, 17 insertions(+), 3 deletions(-)
++ tools/tiffcrop.c | 17 ++++++++++++-----
++ 1 file changed, 12 insertions(+), 5 deletions(-)
 +
-+diff --git a/tools/tiff2ps.c b/tools/tiff2ps.c
-+index a598ede..05a346a 100644
-+--- a/tools/tiff2ps.c
-++++ b/tools/tiff2ps.c
-+@@ -2193,10 +2193,20 @@ PS_Lvl2page(FILE* fd, TIFF* tif, uint32_t w, uint32_t h)
-+ 	tiled_image = TIFFIsTiled(tif);
-+ 	if (tiled_image) {
-+ 		num_chunks = TIFFNumberOfTiles(tif);
-+-		TIFFGetField(tif, TIFFTAG_TILEBYTECOUNTS, &bc);
-++		if (!TIFFGetField(tif, TIFFTAG_TILEBYTECOUNTS, &bc))
-++                {
-++                   TIFFError(filename,
-++                             "Can't read bytecounts of tiles at PS_Lvl2page()");
-++                   return (FALSE);
-++                }
-+ 	} else {
-+ 		num_chunks = TIFFNumberOfStrips(tif);
-+-		TIFFGetField(tif, TIFFTAG_STRIPBYTECOUNTS, &bc);
-++		if (!TIFFGetField(tif, TIFFTAG_STRIPBYTECOUNTS, &bc))
-++                {
-++                   TIFFError(filename,
-++                             "Can't read bytecounts of strips at PS_Lvl2page()");
-++                   return (FALSE);
-++                 }
-+ 	}
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index 1b072d4..e16bc2d 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -5024,7 +5024,14 @@ static int readSeparateStripsIntoBuffer (TIFF *in, uint8_t *obuf, uint32_t lengt
++       buff = srcbuffs[s];
++       strip = (s * strips_per_sample) + j; 
++       bytes_read = TIFFReadEncodedStrip (in, strip, buff, stripsize);
++-      rows_this_strip = (uint32_t)(bytes_read / src_rowsize);
+++      if (bytes_read < 0)
+++      {
+++         rows_this_strip = 0;
+++      }
+++      else
+++      {
+++         rows_this_strip = (uint32_t)(bytes_read / src_rowsize);
+++      }
++       if (bytes_read < 0 && !ignore)
++         {
++         TIFFError(TIFFFileName(in),
++@@ -5434,14 +5441,14 @@ computeInputPixelOffsets(struct crop_mask *crop, struct image_data *image,
++       rmargin = _TIFFClampDoubleToUInt32(crop->margins[3] * scale * xres);
++       }
 + 
-+ 	if (use_rawdata) {
-+@@ -2791,7 +2801,11 @@ PSRawDataBW(FILE* fd, TIFF* tif, uint32_t w, uint32_t h)
++-    if ((lmargin + rmargin) > image->width)
+++    if (lmargin == 0xFFFFFFFFU || rmargin == 0xFFFFFFFFU || (lmargin + rmargin) > image->width)
++       {
++       TIFFError("computeInputPixelOffsets", "Combined left and right margins exceed image width");
++       lmargin = (uint32_t) 0;
++       rmargin = (uint32_t) 0;
++       return (-1);
++       }
++-    if ((tmargin + bmargin) > image->length)
+++    if (tmargin == 0xFFFFFFFFU || bmargin == 0xFFFFFFFFU || (tmargin + bmargin) > image->length)
++       {
++       TIFFError("computeInputPixelOffsets", "Combined top and bottom margins exceed image length"); 
++       tmargin = (uint32_t) 0;
++@@ -5977,14 +5984,14 @@ computeOutputPixelOffsets (struct crop_mask *crop, struct image_data *image,
++       vmargin = _TIFFClampDoubleToUInt32(page->vmargin * scale * ((image->bps + 7) / 8));
++       }
 + 
-+ 	(void) w; (void) h;
-+ 	TIFFGetFieldDefaulted(tif, TIFFTAG_FILLORDER, &fillorder);
-+-	TIFFGetField(tif, TIFFTAG_STRIPBYTECOUNTS, &bc);
-++        if (!TIFFGetField(tif, TIFFTAG_STRIPBYTECOUNTS, &bc))
-++        {
-++           TIFFError(filename, "Can't read bytecounts of strips at PSRawDataBW()");
-++           return;
-++        }
-+ 
-+ 	/*
-+ 	 * Find largest strip:
++-    if ((hmargin * 2.0) > (pwidth * page->hres))
+++    if (hmargin == 0xFFFFFFFFU || (hmargin * 2.0) > (pwidth * page->hres))
++       {
++       TIFFError("computeOutputPixelOffsets", 
++                 "Combined left and right margins exceed page width");
++       hmargin = (uint32_t) 0;
++       return (-1);
++       }
++-    if ((vmargin * 2.0) > (plength * page->vres))
+++    if (vmargin == 0xFFFFFFFFU || (vmargin * 2.0) > (plength * page->vres))
++       {
++       TIFFError("computeOutputPixelOffsets", 
++                 "Combined top and bottom margins exceed page length"); 
 +-- 
 +2.40.0
 +
 diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index d5ae82bc7c..137dc7f478 100644
+index 137dc7f478..6db4d80cdf 100644
 --- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
 +++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -60,6 +60,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2025-8176-0003.patch \
+@@ -61,6 +61,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
             file://CVE-2025-8177.patch \
             file://CVE-2024-13978.patch \
-+           file://CVE-2025-8534.patch \
+            file://CVE-2025-8534.patch \
++           file://CVE-2025-8851.patch \
             "
  
  SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
