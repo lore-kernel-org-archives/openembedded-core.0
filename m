@@ -1,230 +1,166 @@
-Return-Path: <pierre-loup.gosse@smile.fr>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1737BCA1011
-	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 14:45:43 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.14464.1756910734468841008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5E5CA0FF2
+	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 16:15:13 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.16913.1756916108928903820
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Sep 2025 07:45:34 -0700
+ Wed, 03 Sep 2025 09:15:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Lo+TMrCT;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: pierre-loup.gosse@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45b84c9775cso191435e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 07:45:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XOIB/gyn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7725147ec88so17209b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 09:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1756910733; x=1757515533; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756916108; x=1757520908; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oZGny7P0iTDKi23sGAWKk6Sy92mUCg7mJ78ynyxVc5A=;
-        b=Lo+TMrCTEm5Ey5DD3/9vLOpVkcy0+nFd6YzsSDziChXNlp7AqRjaNNszF4osJkoQP/
-         JkKGxY6P3bnuc9a6vOV72l8g6iqcYPG+rZAf3tJJ3A+cUsflSVoOBnC0VCffQcR/HGzl
-         TZhSALyWe2VfQhTbyyklgateUiCyKRkFgCCKg=
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1BVMBGKWWWvyQfU/SSIrep2QondFVWsD7cXXjTGupss=;
+        b=XOIB/gynSGljx6HQTygPvaxLXDvWjQxQPsNZF2lDWvMem9fOg7qkIhoesey7MG2vau
+         l0Ejj1r6a4cMwK5gk4gowQBXqJk6DIcbUAbxQTFxvjgUKbFHCgrgyFjaR9xvWAjZr3TB
+         GRwQtdesimufOcf2vVIKnNKARRt0p/rExb1B1+LlajxfW60kitDr9lRR3TwYDZDICH3W
+         RYC3mDkpsSaP/Uqp2/dtngpWswzZ3DKmLV84TkrMxjHM0DGo+UbGePLW2CxF0n1Tk+pS
+         7D9w9oT3DpiN55e4SoJN5kQ5LVewaQsFYS8wu9cOzUs9vjljn+HWYDCeSQLYd6ak4rlR
+         FngA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756910733; x=1757515533;
+        d=1e100.net; s=20230601; t=1756916108; x=1757520908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oZGny7P0iTDKi23sGAWKk6Sy92mUCg7mJ78ynyxVc5A=;
-        b=H6WAIx4MNe2Eu+vpN/dIbpbAZkLwQo/ARgRF1YX3y0Q4Qj8wPGrWf66gqNnQUnerwM
-         /MpUMJWjHDB5IB3Bp/seiGNA+IGvTolWnH471hwougxo6HuG92wwDe561k0Z24mXMmt1
-         3AP8REFirxMNCEra48g3/cfzewTmu1VzJQq4jlWuhqDwKJMmBKLvxpK5/hT1MoHQBIOy
-         u4l4zC8aAg+5Hp8URSGqFfMLiaNTT3prHBjbkUBBw8mFBZC4eZ5lDvjjJfZ+PPCmphwF
-         RVqWYhZhU9simRc35eiwMbwrkPRKdsTkMvfqrDqfqv7kmyhS7TKsGMTSSSxTlTtFQqPN
-         QeRA==
-X-Gm-Message-State: AOJu0YwCCTCF1mb54kfjmIfXRn5/d/1lqW5O3wCZsuZIRRwNIK2Hldtj
-	3jgtPfwCSCFnjvLR+XbvLlBDSNaJTpXQbA0fXKK7gKXD0ccqALLv6WKDZl+KszFLP4FDy3k14aL
-	sm8l/yK8=
-X-Gm-Gg: ASbGncvlXM4tI4N3s4i2xFiepIlScfH+oDqoD71djjRDntfPtr5tMVHUB7RoHl5F5ew
-	FsP4FZrdnB1SzvZ+NZRiCWnwu/NJ6yVd9XQy9wYeAOVI22wmpv03hC4WsNcD9+E817kwnRH859Y
-	Nobpp8dSjhLGvfRcLD3DhdBfLDp7YjAuDK/FDlkL/q/LuTpXVP8487a1Xw+LRKcWvQbFgb7eQ4s
-	axBfCgLmvkGE0L7Hnth8d2Xmrb5zsdEwTUr+rxjBc8NibAivwKi6re2up1y6D/H0r36M6xoinrM
-	A4VrfOjvHAxGx3AoGOrEtdySfFZoXWmFgEHMVpGHTdKDsSytSToWPd/q2EhbcP4gCoT2RYiUSor
-	sbREu2dZvyBXoIawtgPjkVFnkE/b1jkbg6srDquLV/9//uJfdS81CSA==
-X-Google-Smtp-Source: AGHT+IFPNkSR1UnCw8L/Smp2dEwMF7hBzkShxs4J0W55+s+IxHQSM5Lx7/2jEVc/WHWCtVMLDR/ovg==
-X-Received: by 2002:a05:600c:35c8:b0:45b:8939:8b1c with SMTP id 5b1f17b1804b1-45b89398f5emr103686095e9.27.1756910732689;
-        Wed, 03 Sep 2025 07:45:32 -0700 (PDT)
-Received: from localhost.localdomain ([195.68.54.115])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cf3458a67esm23943611f8f.62.2025.09.03.07.45.32
+        bh=1BVMBGKWWWvyQfU/SSIrep2QondFVWsD7cXXjTGupss=;
+        b=sZSECJ5YCoVyBqgb0lQLoEZ1xT1GdDJEVLfYKy8n7Ku5xtyUmC6wGp4f1leYIbJhRs
+         J0mcQs+R+TTrPPD16u/xulC4jxAIkuyjkfdgFDHRXWiVHgEFmvW7/0XWEzfveYQFbbRW
+         bTnYeEowfHHs/p5rIsz8jpw15QzhI2uXnwqQQ3EX7UwgMRZvg4rpys7KtcDJxH2mLGcD
+         fnBS3wFM1ZWtNSpSeg5tgGTUjCx723DMqLl+vGKz7DpnZyJzU4xumRWYTbPZNkenpU35
+         /Jq4v0+/O1kuuQcFYRWWWpQCwEyLmBJEZaBSh7zviQ+O+CdNTNznw4qEEtwDPTYdIqK4
+         T6uA==
+X-Gm-Message-State: AOJu0YwXMeLc0B29jrtZ9aMXuHPRFfaB7TX2bNYQyo5CM+tb1cJV3F3t
+	nNyYP07HhxO/v/ZAVyHow9LwGgCmU91sNsragMQH+a1tFsMqJkeQvQSKQx5xEX9Btr+JQ7rf1pP
+	AJ7YS
+X-Gm-Gg: ASbGncviiPdpgkpmDKPOiU9i2i10Ut1vTBWTnSf2HLkeh1ZxdOJkUu1jVzc2/NqrFPV
+	8wXd7miWHfb7pjy3tWmJbEZdR85aS5TQ/+LnVtykPch3nj522ziZya1jt9hdwFpZquBOrK5u6rB
+	8g+S75rt2Wj4bo0YVjfQilvHrfhcHUMAtkO6GDpcwu6XltgAXadJUjM65kQFeqw6lOR8vNbDWJG
+	4+tZjqigFYwOxBk3i/uS7gvDoMQPYW0dssRNVI7QunYrovEQPZf+sf8R6odpDSU7d8n1Q9Bepxt
+	s29bxVk5FJxAO1rlNWgCyAXoC2TazRE27W7/L4SXmemAQnM5FpIqmPsO5+XFnd0xd1UI31IAvTy
+	rJIkuoaJyJ3kO0dEZhIJhIhO/
+X-Google-Smtp-Source: AGHT+IFHZvh+gpRJ7n2gyAE2NW5+edh80KVOdeqnWBjafCV4BFvjzUVMXL00mfqsjQvFYsr55qLTXA==
+X-Received: by 2002:a05:6a00:2e08:b0:73b:ac3d:9d6b with SMTP id d2e1a72fcca58-7723e24fe9emr18211955b3a.4.1756916107681;
+        Wed, 03 Sep 2025 09:15:07 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:9ffe:4bb4:e2b3:4b1c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7724f079b88sm11027602b3a.40.2025.09.03.09.15.07
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 07:45:32 -0700 (PDT)
-From: pierre-loup.gosse@smile.fr
+        Wed, 03 Sep 2025 09:15:07 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH v5 2/2] wic: rename wks flag --extra-space to --extra-filesystem-space
-Date: Wed,  3 Sep 2025 16:45:28 +0200
-Message-Id: <20250903144528.2248743-2-pierre-loup.gosse@smile.fr>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250903144528.2248743-1-pierre-loup.gosse@smile.fr>
-References: <20250903144528.2248743-1-pierre-loup.gosse@smile.fr>
+Subject: [OE-core][kirkstone 1/9] tiff: fix CVE-2024-13978
+Date: Wed,  3 Sep 2025 09:14:51 -0700
+Message-ID: <f6ff692be6b08290845b6c6c27eaf5d676476464.1756915922.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1756915922.git.steve@sakoman.com>
+References: <cover.1756915922.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 14:45:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222864
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 16:15:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222866
 
-From: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Makes a clear distinction with --extra-partition-space flag.
+A vulnerability was found in LibTIFF up to 4.7.0. It has been declared
+as problematic. Affected by this vulnerability is the function
+t2p_read_tiff_init of the file tools/tiff2pdf.c of the component fax2ps.
+The manipulation leads to null pointer dereference. The attack needs to
+be approached locally. The complexity of an attack is rather high. The
+exploitation appears to be difficult. The patch is named
+2ebfffb0e8836bfb1cd7d85c059cd285c59761a4. It is recommended to apply a
+patch to fix this issue.
 
-Signed-off-by: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-13978
 
-CC: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Upstream patch:
+https://gitlab.com/libtiff/libtiff/-/commit/2ebfffb0e8836bfb1cd7d85c059cd285c59761a4
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
-changes in v3:
-- adding this patch
+ .../libtiff/tiff/CVE-2024-13978.patch         | 47 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978.patch
 
-changes in v4:
-- no change
-
-changes in v5:
-- fix extra_filesystem_space check
----
- meta/lib/oeqa/selftest/cases/wic.py |  4 ++--
- scripts/lib/wic/help.py             | 12 ++++++------
- scripts/lib/wic/ksparser.py         | 25 +++++++++++++------------
- scripts/lib/wic/partition.py        |  6 +++---
- 4 files changed, 24 insertions(+), 23 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index c244c9f188..b1c318bd4e 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1311,12 +1311,12 @@ run_wic_cmd() {
-             p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
-             self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978.patch
+new file mode 100644
+index 0000000000..3a4845d415
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978.patch
+@@ -0,0 +1,47 @@
++From 2ebfffb0e8836bfb1cd7d85c059cd285c59761a4 Mon Sep 17 00:00:00 2001
++From: Lee Howard <faxguy@howardsilvan.com>
++Date: Sat, 5 Oct 2024 09:45:30 -0700
++Subject: [PATCH] Check TIFFTAG_TILELENGTH and TIFFTAGTILEWIDTH for valid 
++ input, addresses issue #650
++
++CVE: CVE-2024-13978
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/2ebfffb0e8836bfb1cd7d85c059cd285c59761a4]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ tools/tiff2pdf.c | 16 ++++++++++++++++
++ 1 file changed, 16 insertions(+)
++
++diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
++index 63751f1..fef28d1 100644
++--- a/tools/tiff2pdf.c
+++++ b/tools/tiff2pdf.c
++@@ -1255,9 +1255,25 @@ void t2p_read_tiff_init(T2P* t2p, TIFF* input){
++ 			TIFFGetField(input, 
++ 				TIFFTAG_TILEWIDTH, 
++ 				&( t2p->tiff_tiles[i].tiles_tilewidth) );
+++                        if (t2p->tiff_tiles[i].tiles_tilewidth < 1)
+++                        {
+++                           TIFFError(TIFF2PDF_MODULE, "Invalid tile width (%d), %s",
+++                                     t2p->tiff_tiles[i].tiles_tilewidth,
+++                                     TIFFFileName(input));
+++                           t2p->t2p_error = T2P_ERR_ERROR;
+++                           return;
+++                        }
++ 			TIFFGetField(input, 
++ 				TIFFTAG_TILELENGTH, 
++ 				&( t2p->tiff_tiles[i].tiles_tilelength) );
+++                        if (t2p->tiff_tiles[i].tiles_tilelength < 1)
+++                        {
+++                           TIFFError(TIFF2PDF_MODULE, "Invalid tile length (%d), %s",
+++                                     t2p->tiff_tiles[i].tiles_tilelength,
+++                                     TIFFFileName(input));
+++                           t2p->t2p_error = T2P_ERR_ERROR;
+++                           return;
+++                        }
++ 			t2p->tiff_tiles[i].tiles_tiles = 
++ 			(T2P_TILE*) _TIFFmalloc(TIFFSafeMultiply(tmsize_t,t2p->tiff_tiles[i].tiles_tilecount,
++                                                                  sizeof(T2P_TILE)) );
++-- 
++2.40.0
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 4c9c212312..d5ae82bc7c 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -59,6 +59,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2025-8176-0002.patch \
+            file://CVE-2025-8176-0003.patch \
+            file://CVE-2025-8177.patch \
++           file://CVE-2024-13978.patch \
+            "
  
--    def test_extra_space(self):
-+    def test_extra_filesystem_space(self):
-         native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
- 
-         with NamedTemporaryFile("w", suffix=".wks") as tempf:
-             tempf.write("bootloader --ptable gpt\n" \
--                        "part /     --source rootfs --ondisk hda --extra-space 200M --fstype=ext4\n")
-+                        "part /     --source rootfs --ondisk hda --extra-filesystem-space 200M --fstype=ext4\n")
-             tempf.flush()
- 
-             _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 800c0abf0f..6b49a67de9 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -1013,12 +1013,12 @@ DESCRIPTION
-          --no-fstab-update: This option is specific to wic. It does not update the
-                             '/etc/fstab' stock file for the given partition.
- 
--         --extra-space: This option is specific to wic. It adds extra
--                        space after the space filled by the content
--                        of the partition. The final size can go
--                        beyond the size specified by --size.
--                        By default, 10MB. This option cannot be used
--                        with --fixed-size option.
-+         --extra-filesystem-space: This option is specific to wic. It adds extra
-+                                   space after the space filled by the content
-+                                   of the partition. The final size can go
-+                                   beyond the size specified by --size.
-+                                   By default, 10MB. This option cannot be used
-+                                   with --fixed-size option.
- 
-          --extra-partition-space: This option is specific to wic. It adds extra
-                                   empty space after the space filled by the
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index a1aaf1b4b3..705f989750 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -132,7 +132,7 @@ def systemidtype(arg):
- class KickStart():
-     """Kickstart parser implementation."""
- 
--    DEFAULT_EXTRA_SPACE = 10*1024
-+    DEFAULT_EXTRA_FILESYSTEM_SPACE = 10*1024
-     DEFAULT_OVERHEAD_FACTOR = 1.3
- 
-     def __init__(self, confpath):
-@@ -153,7 +153,7 @@ class KickStart():
-         part.add_argument('--exclude-path', nargs='+')
-         part.add_argument('--include-path', nargs='+', action='append')
-         part.add_argument('--change-directory')
--        part.add_argument("--extra-space", type=sizetype("M"))
-+        part.add_argument('--extra-filesystem-space', type=sizetype("M"))
-         part.add_argument('--extra-partition-space', type=sizetype("M"))
-         part.add_argument('--fsoptions', dest='fsopts')
-         part.add_argument('--fspassno', dest='fspassno')
-@@ -175,9 +175,9 @@ class KickStart():
-         part.add_argument('--hidden', action='store_true')
- 
-         # --size and --fixed-size cannot be specified together; options
--        # ----extra-space and --overhead-factor should also raise a parser
--        # --error, but since nesting mutually exclusive groups does not work,
--        # ----extra-space/--overhead-factor are handled later
-+        # ----extra-filesystem-space and --overhead-factor should also raise a
-+        # parser error, but since nesting mutually exclusive groups does not work,
-+        # ----extra-filesystem-space/--overhead-factor are handled later
-         sizeexcl = part.add_mutually_exclusive_group()
-         sizeexcl.add_argument('--size', type=sizetype("M"), default=0)
-         sizeexcl.add_argument('--fixed-size', type=sizetype("M"), default=0)
-@@ -264,12 +264,13 @@ class KickStart():
-                             parsed.extra_partition_space = 0
-                         # using ArgumentParser one cannot easily tell if option
-                         # was passed as argument, if said option has a default
--                        # value; --overhead-factor/--extra-space cannot be used
--                        # with --fixed-size, so at least detect when these were
--                        # passed with non-0 values ...
-+                        # value; --overhead-factor/--extra-filesystem-space
-+                        # cannot be used with --fixed-size, so at least detect
-+                        # when these were passed with non-0 values ...
-                         if parsed.fixed_size:
--                            if parsed.overhead_factor or parsed.extra_space:
--                                err = "%s:%d: arguments --overhead-factor and --extra-space not "\
-+                            if parsed.overhead_factor or parsed.extra_filesystem_space:
-+                                err = "%s:%d: arguments --overhead-factor and "\
-+                                      "--extra-filesystem-space not "\
-                                       "allowed with argument --fixed-size" \
-                                       % (confpath, lineno)
-                                 raise KickStartError(err)
-@@ -280,8 +281,8 @@ class KickStart():
-                             # with value equal to 0)
-                             if not parsed.overhead_factor:
-                                 parsed.overhead_factor = self.DEFAULT_OVERHEAD_FACTOR
--                            if not parsed.extra_space:
--                                parsed.extra_space = self.DEFAULT_EXTRA_SPACE
-+                            if not parsed.extra_filesystem_space:
-+                                parsed.extra_filesystem_space = self.DEFAULT_EXTRA_FILESYSTEM_SPACE
- 
-                         self.partnum += 1
-                         self.partitions.append(Partition(parsed, self.partnum))
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index d358aabbd6..0c9b1a5b96 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -28,7 +28,7 @@ class Partition():
-         self.align = args.align
-         self.disk = args.disk
-         self.device = None
--        self.extra_space = args.extra_space
-+        self.extra_filesystem_space = args.extra_filesystem_space
-         self.extra_partition_space = args.extra_partition_space
-         self.exclude_path = args.exclude_path
-         self.include_path = args.include_path
-@@ -104,8 +104,8 @@ class Partition():
-                                (actual_rootfs_size, rootfs_size))
-         else:
-             extra_blocks = self.get_extra_block_count(actual_rootfs_size)
--            if extra_blocks < self.extra_space:
--                extra_blocks = self.extra_space
-+            if extra_blocks < self.extra_filesystem_space:
-+                extra_blocks = self.extra_filesystem_space
- 
-             rootfs_size = actual_rootfs_size + extra_blocks
-             rootfs_size = int(rootfs_size * self.overhead_factor)
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
-2.34.1
+2.43.0
 
 
