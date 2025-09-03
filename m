@@ -1,269 +1,389 @@
-Return-Path: <christian.lindeberg@axis.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F872CA0FF2
-	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 08:49:59 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.66])
- by mx.groups.io with SMTP id smtpd.web11.7479.1756889395806773350
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BC9FCAC581
+	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 09:04:00 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.7940.1756890235148650707
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Sep 2025 01:49:56 -0700
+ Wed, 03 Sep 2025 02:03:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=mK5i0wlO;
- spf=pass (domain: axis.com, ip: 52.101.69.66, mailfrom: christian.lindeberg@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cBdcjpphKpTWoWKIxeml6izZPKI6unNl6IyjdXieDk3Gh9ZnvzCkIesHFhoSRtAQfndKjhdo8aEFh1mdokSc1c2IXyDa2Eo3Zx95kFSIAQqj5bQSHCNiRUqAMWTOablMvE6gxqIQfJsiPE6ugLe/C8R40gc1M8h4vM+O+vRyhKyP8TxZdMbfvowzngQCdUfZQI/PBo90pWLZMqPcMmJrO+biuFABjMEiJf4kATw79572Qt5t1GSa8A4i3Zlo9R1vMreylGtGvyk04hMc88ixtUyVxM6uFEWM8Iyyd0KTE4ZzeZd4QEotFY+RwqU+zb0N6r97CnsdiUWQ/nc59SIevg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eld8mark1oJMESInPHpd9svzxj/yIEZWEJYbTicbNfk=;
- b=lkPo7G8eYDI93HZ9knUggzAelEwxr+kv1/HQ4KR8jmo4JaXh7kMFAI8ylLmt8V47iRJraPYAM9hz07SbQbiceU2sgeI6IzbaJNOlTIcZi5+VFe5KKvxIpz2mu4xRGvUcIZ3LWIWhP2QZRr1h5FrYCzz9kjD7O1m7i44cTp+hSHGk1xU2a7WLMcvWC6H3vaKCI8QjHfV/oE6lW8SNZa0UipDlXNpkc9so2TIpxZ9bBtpJUPtx1JVoyC1fgepnOlb1hNwo5OABbd9+9ittE6N/z+6c+IomLbM7kvwWIf7g6wktZ8WREZjNWT8046iUTCCKBHzkFBjcrVs26Ens7VhgYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eld8mark1oJMESInPHpd9svzxj/yIEZWEJYbTicbNfk=;
- b=mK5i0wlOdDpq1kss9FhVfmB1H2SozYvflZ6d+iNQ3X+d+Oe0TI8Vx/pfv09ebtwKcuqR5Li5nIWLP0SbvASmmfE47+otoyo781fdrshPWKYEajZ1IA78B4kYqAaJa/ID+el+kpzHRdxtOIv/V63mzWTHBfm69jjpnYURjs4Sg2U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-Received: from DU0PR02MB9894.eurprd02.prod.outlook.com (2603:10a6:10:44a::6)
- by AS8PR02MB10204.eurprd02.prod.outlook.com (2603:10a6:20b:628::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Wed, 3 Sep
- 2025 08:49:49 +0000
-Received: from DU0PR02MB9894.eurprd02.prod.outlook.com
- ([fe80::74bd:5b24:5e73:94e0]) by DU0PR02MB9894.eurprd02.prod.outlook.com
- ([fe80::74bd:5b24:5e73:94e0%3]) with mapi id 15.20.9094.016; Wed, 3 Sep 2025
- 08:49:49 +0000
-Message-ID: <b73a4e8f-b5ed-4839-bc5f-e90fe45b5598@axis.com>
-Date: Wed, 3 Sep 2025 10:49:48 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2] gomod: extract license files for omitted
- modules
-To: Jeroen Hofstee <oe@myspectrum.nl>,
- openembedded-core@lists.openembedded.org, ross.burton@arm.com
-References: <20250719150105.2697443-1-jeroen@myspectrum.nl>
- <a00f1d80-39a2-4b55-a36e-b69797ba761b@myspectrum.nl>
-Content-Language: en-US
-From: Christian Lindeberg <christian.lindeberg@axis.com>
-In-Reply-To: <a00f1d80-39a2-4b55-a36e-b69797ba761b@myspectrum.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: MM0P280CA0092.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:190:9::22) To DU0PR02MB9894.eurprd02.prod.outlook.com
- (2603:10a6:10:44a::6)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bKw622R1;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: skandigraun@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45b804ed966so22766675e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 02:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756890233; x=1757495033; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MpppC7zSCTFq52oPmJ4txhkulV2EtW6BffMg9b/MGjs=;
+        b=bKw622R12UmeMXo4CnseX8zXRiUpyXQPWQoagVSFeivJZj5GoSslyQyKU0y1i7s0Io
+         Hal1c5OwJIjuTFRQWACh6yb/KwqGB9XbvVJLfHwOyGdvpcFTeYKIJ5L8Rser2Qbxm/L8
+         Y8GJ9jUVGt8YRs6ZAZqKda24sAf4qk1SEousxw4uXVSM/Q4K4U+ENPdVRZQTy3ZT3cVt
+         6zieYQ98N3euBejWIjPSO/Tw9bl5z5Uhdua0aRzg9t9BWG6RmxbKLQVEYuR2e16qoKkW
+         ikyMcnq/VUwpGBSmUR0Tn3mnAggPdgglYfo3/oLh9NsPQri52CHhioiaLP5+iR3y0wdw
+         B4Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756890233; x=1757495033;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MpppC7zSCTFq52oPmJ4txhkulV2EtW6BffMg9b/MGjs=;
+        b=J52s7+OFpP+HsrklAt+JgkeGk3VhuS5ZmAB2uwxlnK/Od9MWpjCWDvv3UP4UMMfKMi
+         IQ6DIS3WzkWu1cgcwQwck4Rq+jIbHzdrMqEfnYxBmxgLwdR2ML+715qSFpuOqqXIg3zk
+         IQSTKezY0/1Qa/fnp7O4XykMflsQQOK/asU+siG27yC8HcXrg7XjLNNaSN9VVSMgHwzl
+         Nypgt4ulhrAZf54A4PegGJK+/yR/HpiWWSwSfUSbelsYN0hV4PqwToRzh9zxgqLSVjXK
+         qAr6gJLm7VvinL6RdocU8HYEsqrbylzmVSnnFZPu8NkoAOPQZ5HZkpjEF+32dsehouF4
+         LEMA==
+X-Gm-Message-State: AOJu0Yz6eKfNJr5Lxl58gWmy9zDghiHiuiePhTD47D263kPA+VAnZvI9
+	Rauq4lJvBoHgkyMIJnR+fqXpP15PKG08Vae4ECNEQ+xu/Hbji0t633O5+3cQmg==
+X-Gm-Gg: ASbGncuEn1lVt95YlNq+ORQKNhqs8fcjHW7c88XT/WTTByPPL8gjFZi2PqF4Th/j3dC
+	3uYFL6u2BDG5FK7tDxptZRWFw829ICmscvSRptjNDOGNsUTe4KLgVZnFRC6n13nExFd9aHq6Q4w
+	pr8GZDer4BeWxsPSp/3aoPVxn5d4vsdhlu7+IsebRHn1aLcrmD8EpWr/J88Xo6KcWfWxbC2EEj6
+	hfPFWxegzj33yVwDzR25ND3Kz0EowpI1zdKjF4H6a5Dm8T1dmBi66JT3UJcK57crVpsC0Rf1Q5W
+	OlPGcZp8qrWIc39AJDpTyr7LDVOiMaToXSxeYt1sth84l9LRHtRyYMH7K9VYRCECwX7o0TDgJQG
+	diaWCJ/lrINx/CHhSnkBKlgf5BWhdiR8wpTP8UTR0Vw==
+X-Google-Smtp-Source: AGHT+IGV4PEwyd41hWwxKdhMA5gmgntTyEonr2twFS5uHNXtBMER59GUEL4JKz+/fdmM8Z0d7V6znA==
+X-Received: by 2002:a05:600c:1d0d:b0:45b:67e9:121e with SMTP id 5b1f17b1804b1-45b85533678mr106922805e9.14.1756890233042;
+        Wed, 03 Sep 2025 02:03:53 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3df4fd372ccsm675308f8f.32.2025.09.03.02.03.52
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 02:03:52 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC v2] gettext, gettext-minimal-native: upgrade 0.23.1 -> 0.26
+Date: Wed,  3 Sep 2025 11:03:51 +0200
+Message-ID: <20250903090351.1283394-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR02MB9894:EE_|AS8PR02MB10204:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8296bbb7-c733-44d8-88bf-08ddeac6d72f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|4022899009|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?hhOXPas1uvKWa58IsBUKcO4m8Oexb+fJ+bcLKaDuooWY0mr4lSILysyXciim?=
- =?us-ascii?Q?n7pk4gfmjNNQOYhRMCYDkVrvWMWwEvCaseLafN9Ge5KY5CGPZsMkjeuAdli6?=
- =?us-ascii?Q?yfX2l7rOL+q20QnBQHEWpIHhGC1Kqvg/UOlHM+9CX/mSCU4w5ZPyxhLWJo4X?=
- =?us-ascii?Q?NfRVBjoVlmY/Q6c017B0BqUtP69BgU7G6ylDHRluepcENTCwsJT/orGhFFtm?=
- =?us-ascii?Q?yollxF8Kw4tlRlCa4e+lAaml+cFxr4ogs5MmVAeii6r52/JObjkYW1nUWznx?=
- =?us-ascii?Q?QpliGV+L6a0PF5OtMpK+HBknVRc+y84Grir/dLeMP1w+308c4sQBjzTGaEAo?=
- =?us-ascii?Q?+4VMjGJmZNcyVoLJ7giW8ePGeN/Rl0nE1kz9PgMWI1dZ9Ql/F/lbRjEjfU9q?=
- =?us-ascii?Q?3fQD9Uk4Bz23ugdPdwXhsw8oYJRstM0IvyTi9GH3zQJCbbPt7j6S8GpI2NiF?=
- =?us-ascii?Q?8a04BZCzj7xsAZEcjlEP5X/TRmu13TJi6Yn0rT0ei+dgQNKZjc0fpblActvo?=
- =?us-ascii?Q?yLR8Xx/1m6j22EBC6QAG2UjOGLQ7v8j3HoRMkcqRZT6W6PByrgK+XWtE5oiP?=
- =?us-ascii?Q?zJMMwUBeIKGsHS/VAGegZGICKOr6XZFpmIVlayz3ko8VqNLfI4NWsLEOCxhb?=
- =?us-ascii?Q?wzAUMq/f0Y2lJ4ro1kCESW7JxIWjyiUmSvHP/qfmMHk8d8+t6eOxSDUs82MD?=
- =?us-ascii?Q?CfG4Qwo5f/ScWrgI6dK9bv2128N7gBCkbF7ofXRNrqVlPbI8fnp6a1ndeHwc?=
- =?us-ascii?Q?90+U6zpIvuuZS3j5aZ6Mra07u8fVz/IjbQ/1jx2RDhONxsZevfSMvpyeOpjP?=
- =?us-ascii?Q?XGhNW/DsR38lYOMflBiK2Mp9PsuNWanXls2JUPIpMBEcVStsFhO5P+FfUTrz?=
- =?us-ascii?Q?t+NXQcdqz87gBBb5DbeWWsPeY8cLnn9G507+91Imf80inFxh3zm1ybNPdwhX?=
- =?us-ascii?Q?msbIenCE0oRWXv8E6lILncTYid2skxqPRjlRiRCIbhmZlOX2VQb1hJj+xBqx?=
- =?us-ascii?Q?zcV2N4aHrfZ0IOPu/bam+4KVvmSo03B0qI0NNAukwCZaE4jRd14cepZxHlgD?=
- =?us-ascii?Q?fqkZLerPy6Jtb3+DueDtvvRRBkOQfkdzHK/DeV4SVbnWh8gr0en4Na7IprzT?=
- =?us-ascii?Q?WKYmmOLOTwtR+NMy5VqIfljEp2r2GzBxA1wgVZFoBUZ8lGCiTj23qrEJrlqk?=
- =?us-ascii?Q?eWQ3BYaqYh25m62YyECGBFAc1C+X1GD0hx1yXI9Fk/xwd2I4TMAqMmDpJ6a5?=
- =?us-ascii?Q?S/+X/OTtI4P3UKdn2JUlGU6Xd/Q+dyHAvdmFhJopeGlIowbFDwiGdX3YB5M8?=
- =?us-ascii?Q?ruLA/SOjmsO9BaJzKOvsA/3+OlFBjssQb2iaqpI+qTOd2tNGOgea0XIBQI+K?=
- =?us-ascii?Q?hEUFYic=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR02MB9894.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?rPtZO1j5uGZHFtrCn9LE57pxrGmwetczJWLsk14xu8MCHmv3u6Cs0lpEXbNC?=
- =?us-ascii?Q?489fy8nHzKFGG5mL/tt4hpch4V2NOtihcSf6O5g/8eGSECqUg0VdutiRlwxW?=
- =?us-ascii?Q?1hsf8+B3oiYNveCKTxbIVLODnQVq/wWftHqGLwEJS+D3/PcIf0KfHqshpddn?=
- =?us-ascii?Q?A2iGiKFCErDpDyhs7UiCVZeyT2taYkLnyGwg7YlhoKxTrDrnlqTRwl7ZJPr7?=
- =?us-ascii?Q?niDDnTGRrOcZLWvQ9lVtFQvxN5enAyK5lOKXfGWv2LFPS6jxKoC60C6eQlfp?=
- =?us-ascii?Q?cnP1zMkd2Itwagw04X3YoeDnRda95jGIBPnEbHh8k2uQhVVVAdKGbbvDMYqY?=
- =?us-ascii?Q?1IvBMcJQKDCTT6JkPpvakRegcsOQKhTcdwrNx7/t4sBkUzfB9YtoN1WSbQ/b?=
- =?us-ascii?Q?0SFQ/Lngcq6PbNMskSwYPenBQsuJh28rrrnL2eiTXt9+npI0PfVTWxSCI1Pf?=
- =?us-ascii?Q?OIbQepsf2YzBvLX5TqlwDqy66XFDS/xZBrvw9JpsPMBR+Q1KCcRKXCHx/DnP?=
- =?us-ascii?Q?VwJhNujN7hyrxsUAdoRc0rj2ukPm1ByiEB6X6BsQUgx58tjJr5Zmt0XU4M4f?=
- =?us-ascii?Q?Y0AxAW5DtudZBb5nlx59HZyiXifoQKmgEFEeksR1gmmplpmrCfOMxil27k4D?=
- =?us-ascii?Q?7Ayeu+ukjleez6p8DyEKVKdWo0rQC7v8JjkqCNXKx8RabCvzYq7KerNWDZZH?=
- =?us-ascii?Q?4+uN5/282UCZIXYbY31TRmf3IE5ExSj/amRQQeovmOOf2sT4o2YuKkVeSpP7?=
- =?us-ascii?Q?NCLrgo4FYTIjUHs3h6+BcfeR1scf20cfckVR0vImU55kpC9Iy0Qhd0SrzMeN?=
- =?us-ascii?Q?qlv966S+Mw7hMWnCABp/aWD1uy7YpUdtldy+E3g2sclAo5CiyduSbqAgTvsb?=
- =?us-ascii?Q?/YN6UtHAAHiiZFBpN3skw1WOLOLZ9Uz8SHhlzSTqkE0QbUM8RaUGIBXUHn7e?=
- =?us-ascii?Q?CupDq8iPVxiKZG47slK4udUXTgNmUhJaPtWwq4wv8z7pGEQ1/3QSEgYOMTHb?=
- =?us-ascii?Q?wf2ACNBqNWigG2v58F/CXLC950GrHmc7GEagudHAyQNVd1Ik6Xfm8TF9U9F9?=
- =?us-ascii?Q?Cabyw1gF3d93MmhAfd7mxKL0Aj6rOTt1TkZA2Y72pv5UUnzj0MHbxQKsTtuP?=
- =?us-ascii?Q?MsOKpw0fTPR76OFiOxHoo3/zFzNOBXuUPA/2KoSj6yq19FBzTE7NNwdM1Xby?=
- =?us-ascii?Q?60USzkiB1EC65QeW7NGhOnyqI6wW8ejNdrkwMU89IHrsqLVBdMnL4sKZDCgG?=
- =?us-ascii?Q?6j76sdtVKbXsNtLd+BXffIOsv8SCOKELHR4yM+xhuYmRxql2Pgw3eC1AiZc3?=
- =?us-ascii?Q?ViUMukAWJWhLn69OUPA3VRqtb0fc7XKEedisLqYhkXzX3HUAsJrcpnYdbgET?=
- =?us-ascii?Q?n5dYe6yMOx4+7K5CLgarr8WrfZsJ+kNGTaDhDtwdD5Ihwz2RbpbW8Y4LERa2?=
- =?us-ascii?Q?N/FBTvKCrzrKBzbMIE3AhdOdu6OAhUr8bZssz+3ssrKyFm5Tel902+bBDBDY?=
- =?us-ascii?Q?nKqf8lr97ns0Ggs0sm8CpfzfZL4YuMGFdH/bvMc95bomfO0V/+OyM1MjNeuV?=
- =?us-ascii?Q?GOMYD8UTHrYyuf8o0Z8qGaQaxIlw9pK/1f/NUIvD?=
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8296bbb7-c733-44d8-88bf-08ddeac6d72f
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR02MB9894.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 08:49:49.4074
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 24fbzt7jj7ECxF4sDfHAg5gfUPExc2XhTlUB3OnQNYXF8xcoHrq6FDesxVCFADFhq2CaqqgD4PP146JGy04bGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB10204
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 08:49:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222851
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 09:04:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222852
 
-Hi,
+Changelog:
+0.24: https://lists.gnu.org/archive/html/info-gnu/2025-02/msg00010.html
+0.25: https://lists.gnu.org/archive/html/info-gnu/2025-05/msg00000.html
+0.26: https://lists.gnu.org/archive/html/info-gnu/2025-07/msg00007.html
 
-An alternative more in line with conditional dependencies to C=20
-libraries, where
-the license is pulled in if the dependency is added, would be to=20
-conditionally
-add the licenses.
+- gettext-minimal-native recipe adapted to the new macro name (aclocal_DATA -> macros_DATA)
+- install Makevars.template to gettext-minimal-native to be able to update missing variables
+  The file is renamed in the desitanion to Makevars.template.minimal, to avoid clashing
+  with the full gettext package (some recipes have both as dependency).
+- autotools.bbclass: search for all po folders, and update the Makefile.in.in file
+  in each of them. This is required, because without this the old Makefile.in.in
+  files in these non ${S}/po folders are not updated with the new version of gettext, and
+  the compilation routinely fails due to this.
+  As part of the same change, also concatenate the source's Makevars files with the gettext
+  Makevars.template: this allows all variables to be defined, even the new ones that the
+  source didn't contain originally. First set the gettext template, and then append
+  the source's original Makevars to it, so it should override the variables that it was
+  setting originally, and keep the new variables at their default value.
+- Add new PACKAGECONFIG to use libselinux, and also fix libselinux discovery in autotools
+  (use pkg-config instead of autotools discovery, because autotools' library search doesn't
+  respect custom sysroot)
 
-But in case this is not feasible I guess there is a need to unpack the extr=
-a
-licenses as a workaround.
+Ptest results:
 
-Some comments below.
+=======================
+All 626 tests passed
+(40 tests were not run)
+=======================
+DURATION: 36
+END: /usr/lib/gettext/ptest
+2025-08-30T17:49
+STOP: ptest-runner
+TOTAL: 1 FAIL: 0
 
-Thanks,
-Christian
+With the previous version:
+All 545 tests passed
+(34 tests were not run)
 
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
 
-On 02/09/2025 17:04, Jeroen Hofstee wrote:
-> [You don't often get email from oe@myspectrum.nl. Learn why this is=20
-> important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> Hi Christian, Ross or some else to whom it may concern ,
->
-> Can you also have a look at:
-> https://patchwork.yoctoproject.org/project/oe-core/patch/20250719150105.2=
-697443-1-jeroen@myspectrum.nl/=20
->
->
-> It simply makes sure LICENSE files are always present.
->
-> Thanks,
-> Jeroen
->
-> On 7/19/25 17:01, Jeroen Hofstee wrote:
->> From: Jeroen Hofstee <jhofstee@victronenergy.com>
->>
->> If a gomod is omitted with a PACKAGECONFIG option its license file
->> doesn't get extracted to the gomod cache dir and hence do_populate_lic
->> will complain that the license file isn't found. This adds a task
->> do_extract_lic after do_compile and before do_populate_lic to make
->> sure the license files are extracted in such a case.
->>
->> Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
->>
->> ---
->> v2:
->>
->> - drop bb.utils.mkdirhier(os.path.dirname(cachefile)), extract
->> =C2=A0=C2=A0 will create it.
->> - fix typo in the commit msg, it is do_populate_lic
->> ---
->> =C2=A0 meta/classes-recipe/go-mod.bbclass | 33 +++++++++++++++++++++++++=
-+++++
->> =C2=A0 1 file changed, 33 insertions(+)
->>
->> diff --git a/meta/classes-recipe/go-mod.bbclass=20
->> b/meta/classes-recipe/go-mod.bbclass
->> index a15dda8f0e..4c0496e1e7 100644
->> --- a/meta/classes-recipe/go-mod.bbclass
->> +++ b/meta/classes-recipe/go-mod.bbclass
->> @@ -29,6 +29,39 @@ do_unpack[cleandirs] +=3D "${GOMODCACHE}"
->> =C2=A0 GO_WORKDIR ?=3D "${GO_IMPORT}"
->> =C2=A0 do_compile[dirs] +=3D "${B}/src/${GO_WORKDIR}"
->>
->> +python do_extract_lic() {
->> +=C2=A0=C2=A0=C2=A0 import zipfile
->> +
->> +=C2=A0=C2=A0=C2=A0 lics =3D d.getVar("LIC_FILES_CHKSUM")
->> +=C2=A0=C2=A0=C2=A0 cache =3D d.getVar("GOMODCACHE")
->> +=C2=A0=C2=A0=C2=A0 dldir =3D os.path.join(cache, "cache", "download")
->> +=C2=A0=C2=A0=C2=A0 prefix =3D "file://pkg/mod/"
->> +
->> +=C2=A0=C2=A0=C2=A0 for lic in lics.split():
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not lic.startswith(prefix=
-):
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cont=
-inue
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src =
-=3D lic[len(prefix):].split(";")[0]
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 url,=
- suffix =3D src.split("@v")
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vers=
-ion, _, file =3D suffix.partition(os.path.sep)
-The path separator in the URIs will not change with the OS but I guess=20
-this may
-not be completely consistent across the code base.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except:
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cont=
-inue
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cachefile =3D os.path.join(c=
-ache, src)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 zip =3D os.path.join(dldir, =
-url, "@v", "v" + version) + ".zip"
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if os.path.exists(cachefile)=
- or not os.path.exists(zip):
-A non-existing zip file is unexpected and I think a warning is appropriate.
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cont=
-inue
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.n=
-ote(f"extract {src} from {zip}")
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 zipf=
-ile.ZipFile(zip).extract(src, cache)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except:
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.w=
-arn(f"could not extract {src} from {zip}")
->> +}
->> +
->> =C2=A0 # Make go install unpack the module zip files in the module cache=
-=20
->> directory
->> =C2=A0 # before the license directory is polulated with license files.
->> +# Do make sure licenses get extracted for omitted modules.
->> +addtask do_extract_lic after do_compile before do_populate_lic
->> =C2=A0 addtask do_compile before do_populate_lic
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#220613):=20
->> https://lists.openembedded.org/g/openembedded-core/message/220613
->> Mute This Topic: https://lists.openembedded.org/mt/114238035/9720520
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=20
->> [oe@myspectrum.nl]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+v2: Rebased on current master
 
+Extended the pkg-config patch to use pkg-config to discover libselinux, otherwise
+autotools used its own discovery method, that did not respect custom sysroots,
+later causing build failures.
+
+Also added "selinux" PACKAGECONFIG.
+
+Small code-shifting in autotools.bbclass (move an "else" branch to be default state)
+
+v1: https://lists.openembedded.org/g/openembedded-core/message/222627
+
+ meta/classes-recipe/autotools.bbclass         | 31 ++++++++++++---
+ ...23.1.bb => gettext-minimal-native_0.26.bb} |  4 +-
+ meta/recipes-core/gettext/gettext-sources.inc |  5 +--
+ ...01-tests-autopoint-3-unset-MAKEFLAGS.patch |  8 ++--
+ .../gettext/gettext/serial-tests-config.patch | 28 ++++++-------
+ .../gettext/gettext/use-pkgconfig.patch       | 39 +++++++++++++++++++
+ .../{gettext_0.23.1.bb => gettext_0.26.bb}    | 11 ++++--
+ 7 files changed, 95 insertions(+), 31 deletions(-)
+ rename meta/recipes-core/gettext/{gettext-minimal-native_0.23.1.bb => gettext-minimal-native_0.26.bb} (87%)
+ rename meta/recipes-core/gettext/{gettext_0.23.1.bb => gettext_0.26.bb} (94%)
+
+diff --git a/meta/classes-recipe/autotools.bbclass b/meta/classes-recipe/autotools.bbclass
+index 948f8c183a..bd477dc60f 100644
+--- a/meta/classes-recipe/autotools.bbclass
++++ b/meta/classes-recipe/autotools.bbclass
+@@ -186,13 +186,34 @@ autotools_do_configure() {
+ 				echo "no" | glib-gettextize --force --copy
+ 			fi
+ 		elif [ "${BPN}" != "gettext" ] && grep -q "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC; then
+-			# We'd call gettextize here if it wasn't so broken...
++			# Gettextize could be called here, however it doesn't make the job much easier:
++			# It doesn't discover relevant po folders on its own, so they still need to be
++			# found by some heurestics. Also, it would require always the full gettext
++			# package always, instead of gettext-minimal-native.
+ 			cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
+-			if [ -d ${S}/po/ ]; then
+-				cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
+-				if [ ! -e ${S}/po/remove-potcdate.sed ]; then
+-					cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sed ${S}/po/
++			if [ -d ${S}/po ]; then
++				# Copy the latest Makefile.in.in to the /po folder, regardless if it exists or not
++				# If it exists, then also look for identical Makefile.in.in files, and update them too
++				makefiles_to_update="./po/Makefile.in.in"
++				if [ -f ${S}/po/Makefile.in.in ]; then
++					# search for all Makefile.in.in files that are identical to ./po/Makefile.in.in, by md5sum
++					base_makefile_hash=`md5sum ${S}/po/Makefile.in.in | tr -s ' ' | cut -f1 -d' '`
++					makefiles_to_update=`find ${S} -name Makefile.in.in -exec md5sum {} \+ | grep $base_makefile_hash | tr -s ' ' | cut -d' ' -f2`
+ 				fi
++				bbnote List of Makefile.in.ins to update: $makefiles_to_update
++				for makefile in ${makefiles_to_update}; do
++					makefile_dir=$(dirname $makefile)
++					bbnote Executing: cp ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${makefile_dir}/
++					cp ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${makefile_dir}/
++					if [ ! -e ${makefile_dir}/remove-potcdate.sed ]; then
++						cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sed ${makefile_dir}/
++					fi
++				done
++				for makevars in `find ${S} -name Makevars`; do
++					bbnote Concatenating Makevars: $makevars
++					cat ${STAGING_DATADIR_NATIVE}/gettext/po/Makevars.template.minimal ${makevars} >> ${makevars}.yocto_temp
++					mv ${makevars}.yocto_temp ${makevars}
++				done
+ 			fi
+ 			PRUNE_M4="$PRUNE_M4 gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4"
+ 		fi
+diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.26.bb
+similarity index 87%
+rename from meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb
+rename to meta/recipes-core/gettext/gettext-minimal-native_0.26.bb
+index 941896ec48..b5c32d0786 100644
+--- a/meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb
++++ b/meta/recipes-core/gettext/gettext-minimal-native_0.26.bb
+@@ -24,7 +24,7 @@ python get_aclocal_files() {
+     with open(fpath) as f:
+         content = f.read()
+         for l in content.replace("\\\n","").split("\n"):
+-            if l.startswith("aclocal_DATA"):
++            if l.startswith("macros_DATA"):
+                 aclocal_files = l.split("=")[1]
+                 with open(oe.path.join(d.getVar("WORKDIR"),"aclocal-files"),'w') as outf:
+                     outf.write(aclocal_files)
+@@ -43,4 +43,6 @@ do_install () {
+ 	cp ${S}/build-aux/config.rpath ${D}${datadir}/gettext/
+ 	cp ${S}/gettext-runtime/po/Makefile.in.in ${D}${datadir}/gettext/po/
+ 	cp ${S}/gettext-runtime/po/remove-potcdate.sed ${D}${datadir}/gettext/po/
++	# The gettext recipe also installs the same Makevars.template at the same place, rename it
++	cp ${S}/gettext-tools/po/Makevars.template ${D}${datadir}/gettext/po/Makevars.template.minimal
+ }
+diff --git a/meta/recipes-core/gettext/gettext-sources.inc b/meta/recipes-core/gettext/gettext-sources.inc
+index 5d90d81b58..2ddf47334d 100644
+--- a/meta/recipes-core/gettext/gettext-sources.inc
++++ b/meta/recipes-core/gettext/gettext-sources.inc
+@@ -1,4 +1,3 @@
+ HOMEPAGE = "http://www.gnu.org/software/gettext/gettext.html"
+-SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+-           "
+-SRC_URI[sha256sum] = "52a578960fe308742367d75cd1dff8552c5797bd0beba7639e12bdcda28c0e49"
++SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz"
++SRC_URI[sha256sum] = "39acf4b0371e9b110b60005562aace5b3631fed9b1bb9ecccfc7f56e58bb1d7f"
+diff --git a/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAKEFLAGS.patch b/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
+index a8f6684bd7..f14d8df689 100644
+--- a/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
++++ b/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
+@@ -16,10 +16,10 @@ diff --git a/gettext-tools/tests/autopoint-3 b/gettext-tools/tests/autopoint-3
+ index af2e17f..46cf3f7 100755
+ --- a/gettext-tools/tests/autopoint-3
+ +++ b/gettext-tools/tests/autopoint-3
+-@@ -137,6 +137,7 @@ ${CONFIG_SHELL} ./configure >/dev/null 2>autopoint.err
+- test $? = 0 || { cat autopoint.err; Exit 1; }
+- 
+- : ${MAKE=make}
++@@ -149,6 +149,7 @@
++     *) MAKE=make ;;
++   esac
++ fi
+ +unset MAKEFLAGS
+  ${MAKE} >/dev/null 2>autopoint.err
+  test $? = 0 || { cat autopoint.err; Exit 1; }
+diff --git a/meta/recipes-core/gettext/gettext/serial-tests-config.patch b/meta/recipes-core/gettext/gettext/serial-tests-config.patch
+index 3baf549795..88bd33951a 100644
+--- a/meta/recipes-core/gettext/gettext/serial-tests-config.patch
++++ b/meta/recipes-core/gettext/gettext/serial-tests-config.patch
+@@ -18,23 +18,23 @@ diff --git a/configure.ac b/configure.ac
+ index 5106676..3114998 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -22,7 +22,7 @@ AC_INIT([gettext],
+- 	[bug-gettext@gnu.org])
+- AC_CONFIG_SRCDIR([gettext-tools/src/msgfmt.c])
+- AC_CONFIG_AUX_DIR([build-aux])
++@@ -23,7 +23,7 @@ AC_CONFIG_AUX_DIR([build-aux])
++ VERSION_NUMBER=`cd $srcdir \
++                 && build-aux/git-version-gen .tarball-version`
++ gl_INIT_PACKAGE_VERSION([$VERSION_NUMBER])
+ -AM_INIT_AUTOMAKE([1.13 silent-rules parallel-tests tar-ustar])
+ +AM_INIT_AUTOMAKE([1.13 silent-rules serial-tests tar-ustar])
+  
+- dnl Override automake's tar command used for creating distributions.
+- am__tar='${AMTAR} chf - --format=ustar --owner=root --group=root "$$tardir"'
++ dnl Override automake's tar command used for creating distributions:
++ dnl - Sort the files by basename, not by dirname, to achieve higher compression
+ diff --git a/gettext-runtime/configure.ac b/gettext-runtime/configure.ac
+ index e128f5b..9f7447c 100644
+ --- a/gettext-runtime/configure.ac
+ +++ b/gettext-runtime/configure.ac
+-@@ -22,7 +22,7 @@ AC_INIT([gettext-runtime],
+- 	[bug-gettext@gnu.org])
+- AC_CONFIG_SRCDIR([intl/dcigettext.c])
+- AC_CONFIG_AUX_DIR([../build-aux])
++@@ -23,7 +23,7 @@ AC_CONFIG_AUX_DIR([../build-aux])
++ VERSION_NUMBER=`cd $srcdir/.. \
++                 && build-aux/git-version-gen .tarball-version`
++ gl_INIT_PACKAGE_VERSION([$VERSION_NUMBER])
+ -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])
+ +AM_INIT_AUTOMAKE([1.11.1 silent-rules serial-tests])
+  AC_CONFIG_HEADERS([config.h])
+@@ -44,10 +44,10 @@ diff --git a/gettext-tools/configure.ac b/gettext-tools/configure.ac
+ index 3b1f461..14510a9 100644
+ --- a/gettext-tools/configure.ac
+ +++ b/gettext-tools/configure.ac
+-@@ -22,7 +22,7 @@ AC_INIT([gettext-tools],
+- 	[bug-gettext@gnu.org])
+- AC_CONFIG_SRCDIR([src/msgfmt.c])
+- AC_CONFIG_AUX_DIR([../build-aux])
++@@ -23,7 +23,7 @@ AC_CONFIG_AUX_DIR([../build-aux])
++ VERSION_NUMBER=`cd $srcdir/.. \
++                 && build-aux/git-version-gen .tarball-version`
++ gl_INIT_PACKAGE_VERSION([$VERSION_NUMBER])
+ -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])
+ +AM_INIT_AUTOMAKE([1.11.1 silent-rules serial-tests])
+  AC_CONFIG_HEADERS([config.h])
+diff --git a/meta/recipes-core/gettext/gettext/use-pkgconfig.patch b/meta/recipes-core/gettext/gettext/use-pkgconfig.patch
+index 9774c4cce0..2b9fef1e94 100644
+--- a/meta/recipes-core/gettext/gettext/use-pkgconfig.patch
++++ b/meta/recipes-core/gettext/gettext/use-pkgconfig.patch
+@@ -12,6 +12,11 @@ Simply delete all the crazy, and replace with a single call to pkg-config.
+ 
+ Upstream-Status: Inappropriate [upstream still refuse to consider pkg-config]
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++Added also selinux discovery.
++
++Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
++
+ ---
+  gettext-tools/gnulib-m4/libxml.m4       | 105 ++---------------------
+  libtextstyle/gnulib-local/m4/libglib.m4 | 106 +++---------------------
+@@ -389,3 +394,37 @@ index baa2cf4..b287c5b 100644
+    AC_SUBST([LIBGLIB])
+    AC_SUBST([LTLIBGLIB])
+    AC_SUBST([INCGLIB])
++
++diff --git a/gettext-tools/gnulib-m4/selinux-selinux-h.m4 b/gettext-tools/gnulib-m4/selinux-selinux-h.m4
++index e2613fa..2a733a7 100644
++--- a/gettext-tools/gnulib-m4/selinux-selinux-h.m4
+++++ b/gettext-tools/gnulib-m4/selinux-selinux-h.m4
++@@ -71,6 +71,7 @@ AC_DEFUN([gl_LIBSELINUX],
++ [
++   AC_REQUIRE([AC_CANONICAL_HOST])
++   AC_REQUIRE([AC_CANONICAL_BUILD])
+++  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
++ 
++   AC_ARG_WITH([selinux],
++     AS_HELP_STRING([[--without-selinux]], [do not use SELinux, even on systems with SELinux]),
++@@ -79,19 +80,8 @@ AC_DEFUN([gl_LIBSELINUX],
++   LIB_SELINUX=
++   if test "$with_selinux" != no; then
++     gl_saved_LIBS=$LIBS
++-    AC_SEARCH_LIBS([setfilecon], [selinux],
++-                   [test "$ac_cv_search_setfilecon" = "none required" ||
++-                    LIB_SELINUX=$ac_cv_search_setfilecon])
+++    PKG_CHECK_MODULES([SELINUX], [libselinux], [LIB_SELINUX=$SELINUX_LIBS])
++     LIBS=$gl_saved_LIBS
++   fi
++   AC_SUBST([LIB_SELINUX])
++-
++-  # Warn if SELinux is found but libselinux is absent;
++-  if test "$ac_cv_search_setfilecon" = no; then
++-    if test "$host" = "$build" && test -d /selinux; then
++-      AC_MSG_WARN([This system supports SELinux but libselinux is missing.])
++-      AC_MSG_WARN([AC_PACKAGE_NAME will be compiled without SELinux support.])
++-    fi
++-    with_selinux=no
++-  fi
++ ])
+diff --git a/meta/recipes-core/gettext/gettext_0.23.1.bb b/meta/recipes-core/gettext/gettext_0.26.bb
+similarity index 94%
+rename from meta/recipes-core/gettext/gettext_0.23.1.bb
+rename to meta/recipes-core/gettext/gettext_0.26.bb
+index 509438c2a7..b99b301af4 100644
+--- a/meta/recipes-core/gettext/gettext_0.23.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.26.bb
+@@ -37,7 +37,6 @@ EXTRA_OECONF += "--without-lispdir \
+                  --disable-java \
+                  --disable-native-java \
+                  --disable-openmp \
+-                 --disable-acl \
+                  --without-emacs \
+                  --without-cvs \
+                  --without-git \
+@@ -56,7 +55,7 @@ EXTRA_OECONF:append:libc-musl = "\
+                  --enable-threads=posix \
+                  gt_cv_func_printf_posix=yes \
+ "
+-PACKAGECONFIG ??= "glib libxml"
++PACKAGECONFIG ??= "glib libxml ${@bb.utils.filter('DISTRO_FEATURES', 'selinux', d)}"
+ PACKAGECONFIG:class-native = ""
+ PACKAGECONFIG:class-nativesdk = ""
+ 
+@@ -66,6 +65,7 @@ PACKAGECONFIG[libxml] = "--without-included-libxml,--with-included-libxml,libxml
+ # or problems if $libdir isn't $prefix/lib.
+ PACKAGECONFIG[libunistring] = "--with-libunistring-prefix=${STAGING_LIBDIR}/..,--with-included-libunistring,libunistring"
+ PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/..,--disable-curses,ncurses,"
++PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux --disable-acl,attr libselinux"
+ 
+ do_install:append:libc-musl () {
+ 	rm -f ${D}${libdir}/charset.alias
+@@ -94,7 +94,8 @@ FILES:${PN} += "${libdir}/${BPN}/"
+ # The its/Makefile.am has defined:
+ # itsdir = $(pkgdatadir)$(PACKAGE_SUFFIX)/its
+ # not itsdir = $(pkgdatadir), so use wildcard to match the version.
+-FILES:${PN} += "${datadir}/${BPN}-*/*"
++FILES:${PN} += "${datadir}/${BPN}-*/* \
++                ${datadir}/${BPN}/m4/*"
+ 
+ FILES:gettext-runtime = "${bindir}/gettext \
+                          ${bindir}/ngettext \
+@@ -175,7 +176,9 @@ do_install_ptest() {
+         find ${D}${PTEST_PATH}/ -name "*.o" -exec rm {} \;
+         chmod 0755 ${D}${PTEST_PATH}/tests/lang-vala ${D}${PTEST_PATH}/tests/plural-1 ${D}${PTEST_PATH}/tests/xgettext-tcl-4 \
+                    ${D}${PTEST_PATH}/tests/xgettext-vala-1  ${D}${PTEST_PATH}/tests/xgettext-po-2 ${D}${PTEST_PATH}/tests/xgettext-vala-6 \
+-                   ${D}${PTEST_PATH}/tests/plural-3 ${D}${PTEST_PATH}/tests/plural-4 ${D}${PTEST_PATH}/tests/xgettext-java-8 ${D}${PTEST_PATH}/tests/xgettext-java-9
++                   ${D}${PTEST_PATH}/tests/plural-3 ${D}${PTEST_PATH}/tests/plural-4 ${D}${PTEST_PATH}/tests/xgettext-java-8 ${D}${PTEST_PATH}/tests/xgettext-java-9 \
++                   ${D}${PTEST_PATH}/tests/msgfmt-21 ${D}${PTEST_PATH}/tests/format-modula2-1 ${D}${PTEST_PATH}/tests/format-modula2-2 \
++                   ${D}${PTEST_PATH}/tests/lang-go ${D}${PTEST_PATH}/tests/lang-ruby ${D}${PTEST_PATH}/tests/lang-modula2 ${D}${PTEST_PATH}/tests/lang-d
+         sed -i -e 's|${DEBUG_PREFIX_MAP}||g' ${D}${PTEST_PATH}/tests/init-env
+ }
+ 
 
