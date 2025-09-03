@@ -1,377 +1,846 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B37F0CA1012
-	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 22:34:55 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.25])
- by mx.groups.io with SMTP id smtpd.web10.26111.1756938889570161820
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 094E1CA1010
+	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 23:03:16 +0000 (UTC)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+ by mx.groups.io with SMTP id smtpd.web10.26708.1756940593005604056
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Sep 2025 15:34:50 -0700
+ Wed, 03 Sep 2025 16:03:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=yOBNmRvB;
- spf=pass (domain: siemens.com, ip: 52.101.70.25, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OhZ2TSUK2yh08W4pvTp59FaIrsH/dSphP6KlTWz4nFLIQs5qoTVSh6avXttYqwxL1208FSQOJMqx6EsXXeaa8rMQSgq0VrsGl4ZClAeMvHVEq3s+myiGXBp3+0UPP2r/N2LAS6DvAdif8Hluzl9cJBvc7oeRXoBtLymhCmxPrkhzIIF8ppokiWcaLVXqgkXSn2D6P/802xxEVGsNhXA4oZmyaBGXb+Ccqcg0OXA5NcTLHqJ8hZwGS9sOXmFFUqAbDZnfiesOKAo7q1ZR+ld5/v93VtASGPqvevufb8Xvb96ofMB4TDrvdiTC8GE06RtfEopyfeRtfXyMp8edZ9yqtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VqcDPcMC/NLE84mcWdjPx4XpB5ATSRT9r4R93o18MXE=;
- b=yAWJx1ELo1JdQpNeYajbkzoEgLeEtQWLNtWzlem1frignQ+ZOpNuYqEkMsaUSZhhO8A838FFyvXWtM39HF1cb6iQIMEWw6SH/rKYpqw87dFLmtI6wpF3armMOjbh4afksCuo7biVjEhOHXJFM1pzb6UNS7pU2rWTkxBwyg1OGVrhNo2WcchuL8iNU7aC/joWPrlIMKtzejbE6eHj0+9680khU4j8jDqGluBlSt9vnPu/vYDESOApQpjLB3KjJdekUE+K9nfWRT0EIrew6rAteHIe+j+me0eby0iPYpvGH7WzdeBG9mtJkFOPE/8AHyMaiqYzpD68a5nmbDUSoJpVNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VqcDPcMC/NLE84mcWdjPx4XpB5ATSRT9r4R93o18MXE=;
- b=yOBNmRvBlRqh5NJr6fOun2lbWhSlnzSo3JDPMhk+r1unhA2NAHV5/p7qPQnAvSwawNdDQw/LJ23llBTrC5cytxRBQj4Vj1rLEsGvfNzbIf1qOjH6cTCVECdsOZPCBWNknRhjsNh85up6gANxgNa05uaLKmiL87bU1UXOJOzNVg0SwxBH73Gvdik0mVPnyvB00n8pVXFAbGG3ZnuvGpPEORtRt1syt0pa6qAcxtQ/OciX7jqul+PaGZa8WzdVfJ+Kth58f7HbiOEuI3xLqQXPj9zdefRMZUZcnOGyc1yfLQ3WctcdkNellj6lau+7Wlalg4TnFzvU+vJUwp1hQZC2tw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by PA2PR10MB9079.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:416::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Wed, 3 Sep
- 2025 22:34:46 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%7]) with mapi id 15.20.9073.026; Wed, 3 Sep 2025
- 22:34:46 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Steve Sakoman <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Niko Mauno
-	<niko.mauno@vaisala.com>
-Subject: RE: [OE-core][kirkstone 2/4] sqlite3: patch CVE-2025-7458
-Thread-Topic: [OE-core][kirkstone 2/4] sqlite3: patch CVE-2025-7458
-Thread-Index: AQHcBigsPe2vwBy7Zk+XqK49gJID7rR5ov2AgABGXgCAA4G+0IAEzghw
-Date: Wed, 3 Sep 2025 22:34:45 +0000
-Message-ID: 
- <AS1PR10MB5697CC0999EE0944C8E64F88FD01A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <cover.1754412086.git.steve@sakoman.com>
- <4d5093e5103016c08b3a32fd83b1ec9edd87cd5a.1754412086.git.steve@sakoman.com>
- <2fb2bcfc-0bac-4d26-a78f-838084bd67b0@vaisala.com>
- <CAOSpxdYz3okwSRDHpHRwRWqZExsqw5LPJZfwL8qWcjm5hta-zw@mail.gmail.com>
- <AS1PR10MB5697FC66C6C3C1C167364CA9FD04A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: 
- <AS1PR10MB5697FC66C6C3C1C167364CA9FD04A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=e717945f-d455-402d-8c21-04fd599a15c1;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-08-31T21:10:41Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PA2PR10MB9079:EE_
-x-ms-office365-filtering-correlation-id: e9a8ba7c-a5b3-4a33-6d13-08ddeb3a15bb
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|4022899009|366016|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?QllBbFoxMGVuajl3Y0NZNkZIZzRkeUk4b0RtbENZN0FiQStnWkkybEZtMWJq?=
- =?utf-8?B?R0VoREhiR2tnZ0VDMGwvemhGZU8vR0x5aUtxcml0Q2lCRXhxUmlPMExpSTBQ?=
- =?utf-8?B?d3VlQ2tkQThLcjU0ZzhjOVJIY1JtVUFNQkhSd1V5THlzSEs2cllWQThkWkh5?=
- =?utf-8?B?cU9LSHpGRDVyLzFhYU5LMWo4bmFCUSt3ZkhIZmY2UHhEZkRMQ1laRjAzeHU1?=
- =?utf-8?B?TnhCMVMwb0J1RHFOaFBMdVUxWHdWemEzcmprUWpxYkE2ai9tZWxYdXdGMkti?=
- =?utf-8?B?TW5DSTR2SU1JRWxGSjJhWlBvUE0zcWV2VWdGMTZQQ1JMbTRncTRYYUdkblM5?=
- =?utf-8?B?dWFGaWdjVVdha3J6NkZiNmdWYy85Q3JhNTRibktyTFlRUHJjell2M2UrRkty?=
- =?utf-8?B?K2ZFdEhERmZ6V05ZdTdReHFweGJERlFoL3lOa3F3TExmSmtVb3BGSzlRT0Zo?=
- =?utf-8?B?N0RWQkIwR2ticWRpbmhMa1V2QnZQTkk5V1JVRmxFdWsyakM4NjVLdnlralQ1?=
- =?utf-8?B?b2pFSDFBdkZGc2V6eVlUdmlSU21BSmVURXhoUSsyYXJYZWp5NEhZeU1STDNU?=
- =?utf-8?B?VDU1VUZWOGRDQlQ2WGwrOVMxcWgwRy9hTkNlV0I5d3NLNXpMK3FDZzRLc0tJ?=
- =?utf-8?B?S2RpYzVXaG1mOUo1WHJzMXNBSWpzSGp3aUVOaWVkK01SWHlIREdJb2pHQkRV?=
- =?utf-8?B?U1gwSGZEbDBRNTBqQnUzRmFHek1sSkp0UmtSOWFIYjFPT1FsMWxGa1ZsOXhM?=
- =?utf-8?B?S1BBRmtOdytiajFlYXl4MEpLekp5U2wweHd3amNtZUxEYWROenZxTW12OE5O?=
- =?utf-8?B?S21ueVU2d3NRM3lGeW4vMlI3RW45QllmZWczRlVsZ00wRG1raTBObDd1Vzhy?=
- =?utf-8?B?Z296TE5nSXNxYUd5VFQ0cDlKd1VQTnBLN0pRL29WRTRNYUQxYXVHWGhVOTJZ?=
- =?utf-8?B?ck1KSXExeExtOTF2dzk3L0pyU2pRcnZlNThPU0d6dTdJZy9CUjhPVmlIaWVQ?=
- =?utf-8?B?N0dFY1k5cWtrUm1Vc0QvUGl4S2VUY0wrS1JsTjVjSjZqdVJCZDE1R08yUmZq?=
- =?utf-8?B?YlhwQU1GWGNzbFd6RGJSbVZielZ1N2NodDV4U3QxbjlwTFFPQzh1Q1R0b29u?=
- =?utf-8?B?QUIySWJRYUs0blNwQ0xMTFdkd0xnWHBPZWFMdytLUGV6L3RvVVpuRzl2VjRR?=
- =?utf-8?B?cmg3dEhXOEU1QmFzbSt0N1l5aytuOWpXcHF6SGVIdytzRFJmODI1a2srK1k0?=
- =?utf-8?B?OWUvRURhUHNDVHkrQ21MRjd2Mmx0dWppbVdOVnZtOGdEbUNtV3ZEeWRGSUN2?=
- =?utf-8?B?ZUlrU1laeVFKbkdIMkN4U3VWb1FUcisyZXo1MVR5b2F5WUloRjAweXY5QzBB?=
- =?utf-8?B?M3NVN3BLZGN1cFZvWTZ0cVpKcE9NazJTWC8rMTM3YndyWnJpbFh1dDRRc0sv?=
- =?utf-8?B?dlU4YXRCcFJEQWx3QWp4TVl6a0JPaU0xdFUrbWY0bXpLaWpwZGs4N2psOG5B?=
- =?utf-8?B?UGU1Z2RyOEVKYnRyZ1YxbzdnU3Y0bzFuVEhVblZPQXo3Vk9scmFpWnMxUVgr?=
- =?utf-8?B?WENRZkJjbkl3S1FORGp5aGlDOUV3VUUvSGgvNGJDWU8rdnVOYTBNMnhlR01i?=
- =?utf-8?B?ZjVmTkQ0ak1ldjJFdi8wc3RKZGpJNmxkNnNDK25Xandwb2NRUFQwQUVpYXpK?=
- =?utf-8?B?TGNkUFdVbTZ3Zm9sYnRmR01JZHpXUFRUTUlUZC9ZeFlUZldMaE5kZ2lJSGlj?=
- =?utf-8?B?T0YreW5RZU1lOE9KNm5XaVJQN0g1NG9LbmVDU1VFbjIwajJad1pSTGdiRnc5?=
- =?utf-8?B?MGR4djVFSlk2dEpMYW5FcThNMmtDVjJXTngzWk9CV1JMSDJYaWtEQURyY21r?=
- =?utf-8?B?RitIVnRiTG1ST3NYU21MQWw3YlpqSVFzR29iRW1STXlRb01CNFVLNnZuaUsx?=
- =?utf-8?Q?Mz606HQdU0c=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(4022899009)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?dVFQSDRXazJuMnR3YVJlblU1dk1QbllmL2R0OHpjS3NLcHBueWNTK08wR3dq?=
- =?utf-8?B?S2xlOUJzdkVtL1RtMmoyNTRyaEZ6YktqZzA0VGtFOS9kT3ZoOS93ZjNKOHlw?=
- =?utf-8?B?Vjc3VXlFeUxJTWFHeHFIZjVGQmNXNWI2VkpjaVZRT3I1TWQ3NFpFdzBtZnFJ?=
- =?utf-8?B?NW51QkM3L0xRRDRvUEsvTCt2ZjdzYjF2blJQMXMyWGZ3WmloVXBKZGtuSC9y?=
- =?utf-8?B?bVNOTUt2Y1QweXVweWFiVG5zRGUwMUFDdStCbEF6eHZOaEQyTHpMVGtXeGJO?=
- =?utf-8?B?RzhJb05UWGMwTGJkQTV5empRdktMMmZ0ck1CeXA4S1dVVmlaT3hhV01PRmUw?=
- =?utf-8?B?N1RNMjZEVmtoc2s3SEh4a2VPcC9YVTlCVDBvT0ZpV0xzZDQvaFZ5Q3dJbmpk?=
- =?utf-8?B?YlRkM2x1NWFLRFh0MzVPWnFjWHB3bG1CT0hYSGMzWWtsdWRsZkFuNGJPZjlG?=
- =?utf-8?B?VVRXVHRnVytqZFhYei91YkhhZXNOTlcrRkZleUlRTUFFSmltZ2VWZTZENE5M?=
- =?utf-8?B?emFpcnkwRjViTWV5SkIwZ3NvN3drUWRtdmZwc3ZQSDVUK00zUWpBbzdaWlVS?=
- =?utf-8?B?cXpDdEpCUWp5aXNVSGlEYlpadUV2eFEwZWx4c0RjQ1BZUnlEQ0hiTWJRSlpp?=
- =?utf-8?B?ZG0rUk9SM2J5a0sxYXpsMkNTYU50TmNqdURiN2JnNHZieE1HQ0VGS1dFdHBN?=
- =?utf-8?B?U2Z5K2pwWkxMbVVHK0F6cXEzenhERTBmdHRKQi8xOFgzL0RVUXFWTy9NYUNY?=
- =?utf-8?B?SFQwVkQyVjlrV1l2Z2ZtMjhCZC9hWDVBdU1hMVgvQU4xZlpZZUgvK3FQVWVM?=
- =?utf-8?B?N29MaGhxeTRmNllvMjllSVJFcVdKZnRLVDM4WUxmM1pFSThFd3dEVUNWRGdo?=
- =?utf-8?B?SDh6U3hQTDhGZmlVcWlLUHE3UUl4dGpVdFl2cEZObVFmTWZ2dmVtZ3F6bVBn?=
- =?utf-8?B?b0pwZ1hVSlBkQzlpTy8veXJ1MnFQZmFVZC9GTjlNd3RlbnptcVlrR0ZJZzM0?=
- =?utf-8?B?dlRsV2RQSXE3S013QmVSQjFMNzF3RmVjVnpFNGorNzlEV1VQN3E4U2E3UkQ4?=
- =?utf-8?B?OEp0ZzJobFIvU2NpZ2hZRmNUQWhWanZvaGpVTWpTTjFuR3hkQWRPU09ZS3BE?=
- =?utf-8?B?dno3MVZIV083SFR4NjJicHYxNWhZS1F0WVhReHpZalFIWDJXN0YrTGlJRmlX?=
- =?utf-8?B?dm9UNzBOV1pkak9kdUdHMmlGaUtTM3R6aDN0UGx4d2xDNnBZcmFEdk1EVzJm?=
- =?utf-8?B?MjhGV0FOcXlvSnVOaVZSbUZ2NHQ4SVR5aWpuQndZdXY5UVZyb2wxd2pRbDNm?=
- =?utf-8?B?TmsyNGdEcWRhMEZKa1p2Sno1MXJ4UVd2bXhIN3lWdlNwWmZIMmVvQUZzLzFZ?=
- =?utf-8?B?VWJvVkU4dnhQME9xeVg4S1poVzFvUDFTbjdRaHRlazZIQnlzUUlDUC9rNTAz?=
- =?utf-8?B?SWp6RmtONzhNVGIvM3IxbUxUVzZ3Z29lVnIvb29IWStVdFhkUFhuSGtOZ241?=
- =?utf-8?B?SGFxa2UvSjhvZmZOZHBOd1dWdHV5QVFrVmszZzF0ajF2M2U5bEdXN2Nhd25S?=
- =?utf-8?B?UFlmeFUwWGFxQzVjRkZheWsvUnZKSVRXSW9rd3AxY3UzTDVhZHFiNFpXNFZh?=
- =?utf-8?B?Nm1EU3pCMXdsQ1gweGN0RXhleGNoK2NORXVPMzExWDVWWDNDTW1jZGY2Rk5w?=
- =?utf-8?B?YWYxdXZadlQ1QnYvM3F1UUVmcHREelpUcVFZOWpjdXc1SHRBdWdBekcrWGJn?=
- =?utf-8?B?L2xtRy9TRXhnZUZXOGhpV3FQT3VJc0RlTlFqSGkwRFlEYU1Qb1FBN3pGaGJj?=
- =?utf-8?B?elR5WTl3WDgxMHBMcTBNRlMvUUk1d3FxY05GVFRYbFM5U2lMWFR0UUZ2NnBH?=
- =?utf-8?B?OEtPZUprWDhub29WV0NxWjc2REpPdUtBdkZQODRjVExFZnQ2TUNaNEVSeC9j?=
- =?utf-8?B?alo3Vkl3Qi9rZlRhUEVuNDF3VVJGVnNKUGZnc1RidE1XSjl1cUFzbmhPWnhX?=
- =?utf-8?B?VnR5cGtDV1g2c0lhOEFpYWVvYmhZMTIybnpRaW04cnVydFpXVWlYYm53L0JS?=
- =?utf-8?B?TzZTZ0tlZWVLaTd3Z3BDM0xIdmM5ZEs0eHU1MXRlODFBOStFWUxHOFJERTVq?=
- =?utf-8?Q?TbTxkEvwWfEw+96FVkuFSdMkB?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GnmlBpue;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.176, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-71d71bcab6fso4643277b3.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 16:03:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756940592; x=1757545392; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=75zX6qW9+WeztJk2bFA/kYBA+6RlQFRFrEhqDXaZ6vw=;
+        b=GnmlBpue8d1QmxEGe6FK5TlNRmbyeyQ9flWvjby0dZLsxOrzpYftQSDqxKdqR/RW6s
+         zrNBVaU6YELTMlTr+eIhgdxG4dY/3OEJxS0MqZIlFRgJYAm6LcFetCRVJKV1BOkynzgy
+         7ibYqOy4I1dpb1+GAtEvsxRhxJunHKCjReANYk5q90gu7CJzjCYp5mtkdPhmHqGtRB5P
+         54DbreErJEdPjF4XU7XMYfvgmLz7HXlC5KT09UC+L4b9qXprcxX0MLM4KtRiyVlUeqc/
+         8X1qtCHHkihLWQcJpMdd7YZ6Nc/1Yv4mUcDXAtiQxRfp6+T2BzJ2lx4PSXvZ5i0zBsoG
+         82Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756940592; x=1757545392;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=75zX6qW9+WeztJk2bFA/kYBA+6RlQFRFrEhqDXaZ6vw=;
+        b=gNHY8zoUtO5Q59+FaMf6Ht+1fzaAKd/OA8si811fKTKOPaxnrR0anWhDPiuaVJkxt8
+         8GD/Nc9roZNVnCwvzmKvNpEscVXzdSg2axWFsNyD4LY0+CyFvCuad0i5JDw+rWazJisW
+         7Ge2qhI+MmlRjrLDydUCJAOgOpi1wjeBr13ZpPSmSVkMDQoJltN8mHDF6r0ZUVgsWDGR
+         M/xXmyc4hVJY8fPzd1Winz0Nb3BzbHwY3abInvyiZjAhirSwhamBba7x9sTH8Qyg//Td
+         qjV2OHgtWewCeh7eFrfYSYMbwTt6Q9uALtCiGUwMgo5LD4OKywVv/1lmeUAFo5f1qli4
+         8dsQ==
+X-Gm-Message-State: AOJu0YzQrbYAHN8H/Rz+7CJDf/stYP1OcV8xrI9gogMOpdXG+uk6sTyK
+	tdEIRwYCNR4GXYEU6RZ+CITApEh5iTNArSzjC6zqrX9tiBwc/6asiDVwA/2aIqIJfC1G4ykpPWF
+	rcmT5F3DgY7hq9ZCSKV4xHe7uXWt5FmGNPnHtM7/1tQ==
+X-Gm-Gg: ASbGnctcC4kl4slI3CNIC/BDatC/Yy/M7s/NtFsOwII1/ItGZ/ng78ug7vavManFIQN
+	m8+3OSFvSHUNLLqjZi/tZcXMJasME/DaYIcdoszv29S8w7SNaib16L0hTK1xEG5vM1D4uYwwDs1
+	6T7y+/PhVMktDLi0OOPV2EnQgSqnYIx9BPEeMdidQo9FIcPsJdMFVkGH1HM560ifLqfa3NYGfd8
+	TScqYU/Hfjpt1EqOyhTdaN8H3yLNQQFLJXHwQ8=
+X-Google-Smtp-Source: AGHT+IEfLDQrP170Qc4q9M4zePV3MW7AWq7dhrtVAc1ItMH1LGKFf0fIpDtK3ckoAPTmdy0vH1x7nPqvyNRfE2gngVU=
+X-Received: by 2002:a05:690e:1516:b0:5f3:316d:1ced with SMTP id
+ 956f58d0204a3-60175b8f7f0mr1376772d50.12.1756940591728; Wed, 03 Sep 2025
+ 16:03:11 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9a8ba7c-a5b3-4a33-6d13-08ddeb3a15bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2025 22:34:46.1217
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TGBdpVhdJ3Jo8HRabNMFKsQIa+Z+33bJ7WfLVVN0WazQNcU86XpUpmoBTSLgpeAt2axDxEslNDBxeV12bSzQ6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR10MB9079
+References: <cover.1754412086.git.steve@sakoman.com> <4d5093e5103016c08b3a32fd83b1ec9edd87cd5a.1754412086.git.steve@sakoman.com>
+ <2fb2bcfc-0bac-4d26-a78f-838084bd67b0@vaisala.com> <CAOSpxdYz3okwSRDHpHRwRWqZExsqw5LPJZfwL8qWcjm5hta-zw@mail.gmail.com>
+ <AS1PR10MB5697FC66C6C3C1C167364CA9FD04A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <AS1PR10MB5697CC0999EE0944C8E64F88FD01A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB5697CC0999EE0944C8E64F88FD01A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 3 Sep 2025 16:03:01 -0700
+X-Gm-Features: Ac12FXw7QxB9OW1grVeO6EWpmCXgEbbIWHS8_a_cs5jpZfnYMMeBdwNim0VyYwo
+Message-ID: <CAOSpxdaJn=6v6ZSc1Na27HH-WkZ4-04PkhD7wFxhZLe-em0szA@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone 2/4] sqlite3: patch CVE-2025-7458
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Niko Mauno <niko.mauno@vaisala.com>
+Content-Type: multipart/alternative; boundary="000000000000dc9e5a063ded9be8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 22:34:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222885
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 23:03:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222886
 
-SSBoYXZlIGxvb2tlZCBhdCB0aGUgcHJvYmxlbSBhbmQgcmV2ZXJ0aW5nIHdhcyB0aGUgY29ycmVj
-dCBhY3Rpb24uDQpUcnlpbmcgdG8gaWRlbnRpZnkgbWlzc2luZyBwYXRjaCBJIHJlYWxpemVkIHRo
-YXQgdGhlIENWRSBkb2VzIG5vdCBhZmZlY3Qgb3VyIHZlcnNpb24sDQpzbyBJJ2QgaGF2ZSB0byBi
-YWNrcG9ydCBhZGRpdGlvbmFsIHBhdGNoZXMgd2hpY2ggd291bGQgZmlyc3QgaW50cm9kdWNlIHRo
-ZSBDVkUgYW5kIHRoZW4gZml4IGl0Lg0KDQpTb3JyeSBmb3IgdGhpcyBpbmNvbnZlbmllbmNlLg0K
-DQpQZXRlcg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IE1hcmtvLCBQ
-ZXRlciAoRlQgRCBFVSBTSyBCRlMxKQ0KPiBTZW50OiBTdW5kYXksIEF1Z3VzdCAzMSwgMjAyNSAy
-MzoxMg0KPiBUbzogU3RldmUgU2Frb21hbiA8c3RldmVAc2Frb21hbi5jb20+DQo+IENjOiBvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBOaWtvIE1hdW5vDQo+IDxuaWtv
-Lm1hdW5vQHZhaXNhbGEuY29tPg0KPiBTdWJqZWN0OiBSRTogW09FLWNvcmVdW2tpcmtzdG9uZSAy
-LzRdIHNxbGl0ZTM6IHBhdGNoIENWRS0yMDI1LTc0NTgNCj4gDQo+IA0KPiANCj4gPiAtLS0tLU9y
-aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206IFN0ZXZlIFNha29tYW4gPHN0ZXZlQHNha29t
-YW4uY29tPg0KPiA+IFNlbnQ6IEZyaWRheSwgQXVndXN0IDI5LCAyMDI1IDE3OjM4DQo+ID4gVG86
-IE1hcmtvLCBQZXRlciAoRlQgRCBFVSBTSyBCRlMxKSA8UGV0ZXIuTWFya29Ac2llbWVucy5jb20+
-DQo+ID4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IE5pa28g
-TWF1bm8NCj4gPiA8bmlrby5tYXVub0B2YWlzYWxhLmNvbT4NCj4gPiBTdWJqZWN0OiBSZTogW09F
-LWNvcmVdW2tpcmtzdG9uZSAyLzRdIHNxbGl0ZTM6IHBhdGNoIENWRS0yMDI1LTc0NTgNCj4gPg0K
-PiA+IE9uIEZyaSwgQXVnIDI5LCAyMDI1IGF0IDQ6MjXigK9BTSBOaWtvIE1hdW5vIDxuaWtvLm1h
-dW5vQHZhaXNhbGEuY29tPg0KPiB3cm90ZToNCj4gPiA+DQo+ID4gPiBXZSBoYXZlIGZvdW5kIHRo
-YXQgc2luY2UgdGhpcyBwYXRjaCBTRUxFQ1QgcXVlcmllcyB3aXRoDQo+ID4gQ09VTlQoRElTVElO
-Q1QoY29sdW1uKSkgc2VlbSB0byBjYXVzZSBzcWxpdGUgdG8gc2VnZmF1bHQuIEUuZy4NCj4gPiA+
-DQo+ID4gPiAjIHNxbGl0ZTMgOm1lbW9yeTogJ2NyZWF0ZSB0YWJsZSBmb28gKHggaW50KTsgc2Vs
-ZWN0IGNvdW50KGRpc3RpbmN0KHgpKSBmcm9tIGZvbzsnDQo+ID4gPiBTZWdtZW50YXRpb24gZmF1
-bHQgKGNvcmUgZHVtcGVkKQ0KPiA+DQo+ID4gSGkgUGV0ZXIsDQo+ID4NCj4gPiBDb3VsZCB5b3Ug
-Y2hlY2sgdGhpcyB0byBzZWUgaWYgeW91IGNhbiByZXByb2R1Y2UgaXQ/DQo+IA0KPiBJJ2xsIGJl
-IG9mZmxpbmUgZm9yIG5leHQgdHdvIHdlZWtzLCBwbGVhc2UgcmV2ZXJ0IGFuZCBJJ2xsIGNoZWNr
-IGl0IHdoZW4gSSdtIGJhY2suDQo+IA0KPiA+DQo+ID4gSWYgc28sIHdlIHNob3VsZCByZXZlcnQg
-dGhpcyBwYXRjaC4NCj4gPg0KPiA+IFN0ZXZlDQo+ID4NCj4gPiA+IE9uIDUuOC4yMDI1IDE5LjQz
-LCBTdGV2ZSBTYWtvbWFuIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KPiA+ID4g
-PiBGcm9tOiBQZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5jb20+DQo+ID4gPiA+DQo+
-ID4gPiA+IFBpY2sgcGF0Y2ggWzFdIGxpc3RlZCBpbiBbMl0uDQo+ID4gPiA+IEFsc28gcGljayBh
-bm90aGVyIHBhdGNoIHdoaWNoIGlzIHByZWNvbmRpdGlvbiB0byB0aGlzIG9uZSBpbnRyb2R1Y2lu
-Zw0KPiA+ID4gPiB2YXJpYWJsZSBuZWVkZWQgZm9yIHRoZSBjaGVjay4NCj4gPiA+ID4NCj4gPiA+
-ID4gWzFdIGh0dHBzOi8vc3FsaXRlLm9yZy9zcmMvaW5mby8xMmFkODIyZDliODI3Nzc3DQo+ID4g
-PiA+IFsyXSBodHRwczovL252ZC5uaXN0Lmdvdi92dWxuL2RldGFpbC9DVkUtMjAyNS03NDU4DQo+
-ID4gPiA+DQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0Bz
-aWVtZW5zLmNvbT4NCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogU3RldmUgU2Frb21hbiA8c3RldmVA
-c2Frb21hbi5jb20+DQo+ID4gPiA+IC0tLQ0KPiA+ID4gPiAgIC4uLm1wdHMtdG8taW1wcm92ZS10
-aGUtZGV0ZWN0aW9uLW9mLWNvdi5wYXRjaCB8IDkxDQo+ICsrKysrKysrKysrKysrKysrKysNCj4g
-PiA+ID4gICAuLi4vc3FsaXRlL2ZpbGVzL0NWRS0yMDI1LTc0NTgucGF0Y2ggICAgICAgICAgfCAz
-MiArKysrKysrDQo+ID4gPiA+ICAgbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNf
-My4zOC41LmJiIHwgIDIgKw0KPiA+ID4gPiAgIDMgZmlsZXMgY2hhbmdlZCwgMTI1IGluc2VydGlv
-bnMoKykNCj4gPiA+ID4gICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-c3FsaXRlL2ZpbGVzLzAwMDEtVGhpcy1icmFuY2gtDQo+ID4gYXR0ZW1wdHMtdG8taW1wcm92ZS10
-aGUtZGV0ZWN0aW9uLW9mLWNvdi5wYXRjaA0KPiA+ID4gPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBt
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvZmlsZXMvQ1ZFLTIwMjUtDQo+IDc0NTgucGF0Y2gN
-Cj4gPiA+ID4NCj4gPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0
-ZS9maWxlcy8wMDAxLVRoaXMtYnJhbmNoLWF0dGVtcHRzLXRvLQ0KPiA+IGltcHJvdmUtdGhlLWRl
-dGVjdGlvbi1vZi1jb3YucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvZmlsZXMv
-MDAwMS0NCj4gVGhpcy0NCj4gPiBicmFuY2gtYXR0ZW1wdHMtdG8taW1wcm92ZS10aGUtZGV0ZWN0
-aW9uLW9mLWNvdi5wYXRjaA0KPiA+ID4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiBp
-bmRleCAwMDAwMDAwMDAwLi44ZmIwMzdiYjBmDQo+ID4gPiA+IC0tLSAvZGV2L251bGwNCj4gPiA+
-ID4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL2ZpbGVzLzAwMDEtVGhpcy1icmFu
-Y2gtYXR0ZW1wdHMtdG8tDQo+ID4gaW1wcm92ZS10aGUtZGV0ZWN0aW9uLW9mLWNvdi5wYXRjaA0K
-PiA+ID4gPiBAQCAtMCwwICsxLDkxIEBADQo+ID4gPiA+ICtGcm9tIGY1NWE3ZGFkMTk1OTk0ZjJi
-YjI0ZGI3ZGYwYTA1MTU1MDIzODZmZTIgTW9uIFNlcCAxNyAwMDowMDowMA0KPiA+IDIwMDENCj4g
-PiA+ID4gK0Zyb206IGRyaCA8Pg0KPiA+ID4gPiArRGF0ZTogU2F0LCAyMiBPY3QgMjAyMiAxNDox
-NjowMiArMDAwMA0KPiA+ID4gPiArU3ViamVjdDogW1BBVENIXSBUaGlzIGJyYW5jaCBhdHRlbXB0
-cyB0byBpbXByb3ZlIHRoZSBkZXRlY3Rpb24gb2YNCj4gY292ZXJpbmcNCj4gPiA+ID4gKyBpbmRl
-eGVzLiAgVGhpcyBmaXJzdCBjaGVjay1pbiBtZXJlbHkgaW1wcm92ZXMgYSBwYXJhbWV0ZXIgbmFt
-ZSB0bw0KPiA+ID4gPiArIHNxbGl0ZTNXaGVyZUJlZ2luKCkgdG8gYmUgbW9yZSBkZXNjcmlwdGl2
-ZSBvZiB3aGF0IGl0IGNvbnRhaW5zLCBhbmQNCj4gZW5zdXJlcw0KPiA+ID4gPiArIHRoYXQgYSBz
-dWJyb3V0aW5lIGlzIG5vdCBpbmxpbmVzIHNvIHRoYXQgc3FsaXRlM1doZXJlQmVnaW4oKSBydW5z
-IHNsaWdodGx5DQo+ID4gPiA+ICsgZmFzdGVyLg0KPiA+ID4gPiArDQo+ID4gPiA+ICtGb3NzaWxP
-cmlnaW4tTmFtZToNCj4gPiBjYWRmNWY2YmIxY2UwNDkyZWY4NThhZGE0NzYyODhlODA1N2FmZDM2
-MDljYWExOGIwOWM4MThkMzg0NWQ3MjQ0DQo+ID4gPiA+ICsNCj4gPiA+ID4gK1Vwc3RyZWFtLVN0
-YXR1czogQmFja3BvcnQNCj4gPg0KPiBbaHR0cHM6Ly9naXRodWIuY29tL3NxbGl0ZS9zcWxpdGUv
-Y29tbWl0L2Y1NWE3ZGFkMTk1OTk0ZjJiYjI0ZGI3ZGYwYTA1MTU1MDIzOA0KPiA+IDZmZTJdDQo+
-ID4gPiA+ICtTaWduZWQtb2ZmLWJ5OiBQZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5j
-b20+DQo+ID4gPiA+ICstLS0NCj4gPiA+ID4gKyBzcWxpdGUzLmMgfCAyOCArKysrKysrKysrKysr
-LS0tLS0tLS0tLS0tLS0tDQo+ID4gPiA+ICsgMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMo
-KyksIDE1IGRlbGV0aW9ucygtKQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtkaWZmIC0tZ2l0IGEvc3Fs
-aXRlMy5jIGIvc3FsaXRlMy5jDQo+ID4gPiA+ICtpbmRleCA0Y2JjMmQwLi5iN2VkOTkxIDEwMDY0
-NA0KPiA+ID4gPiArLS0tIGEvc3FsaXRlMy5jDQo+ID4gPiA+ICsrKysgYi9zcWxpdGUzLmMNCj4g
-PiA+ID4gK0BAIC0xNDczNzEsOSArMTQ3MzcxLDcgQEAgc3RydWN0IFdoZXJlSW5mbyB7DQo+ID4g
-PiA+ICsgICBFeHByTGlzdCAqcE9yZGVyQnk7ICAgICAgIC8qIFRoZSBPUkRFUiBCWSBjbGF1c2Ug
-b3IgTlVMTCAqLw0KPiA+ID4gPiArICAgRXhwckxpc3QgKnBSZXN1bHRTZXQ7ICAgICAvKiBSZXN1
-bHQgc2V0IG9mIHRoZSBxdWVyeSAqLw0KPiA+ID4gPiArICAgRXhwciAqcFdoZXJlOyAgICAgICAg
-ICAgICAvKiBUaGUgY29tcGxldGUgV0hFUkUgY2xhdXNlICovDQo+ID4gPiA+ICstI2lmbmRlZiBT
-UUxJVEVfT01JVF9WSVJUVUFMVEFCTEUNCj4gPiA+ID4gKy0gIFNlbGVjdCAqcExpbWl0OyAgICAg
-ICAgICAgLyogVXNlZCB0byBhY2Nlc3MgTElNSVQgZXhwci9yZWdpc3RlcnMgZm9yIHZ0YWJzICov
-DQo+ID4gPiA+ICstI2VuZGlmDQo+ID4gPiA+ICsrICBTZWxlY3QgKnBTZWxlY3Q7ICAgICAgICAg
-IC8qIFRoZSBlbnRpcmUgU0VMRUNUIHN0YXRlbWVudCBjb250YWluaW5nDQo+ID4gV0hFUkUgKi8N
-Cj4gPiA+ID4gKyAgIGludCBhaUN1ck9uZVBhc3NbMl07ICAgICAgLyogT1BfT3BlbldyaXRlIGN1
-cnNvcnMgZm9yIHRoZSBPTkVQQVNTIG9wdA0KPiAqLw0KPiA+ID4gPiArICAgaW50IGlDb250aW51
-ZTsgICAgICAgICAgICAvKiBKdW1wIGhlcmUgdG8gY29udGludWUgd2l0aCBuZXh0IHJlY29yZCAq
-Lw0KPiA+ID4gPiArICAgaW50IGlCcmVhazsgICAgICAgICAgICAgICAvKiBKdW1wIGhlcmUgdG8g
-YnJlYWsgb3V0IG9mIHRoZSBsb29wICovDQo+ID4gPiA+ICtAQCAtMTQ5MDcwLDkgKzE0OTA2OCw5
-IEBAIFNRTElURV9QUklWQVRFIEJpdG1hc2sNCj4gPiBzcWxpdGUzV2hlcmVDb2RlT25lTG9vcFN0
-YXJ0KA0KPiA+ID4gPiArICAgICAgICAgICYmIHBMb29wLT51LnZ0YWIuYk9taXRPZmZzZXQNCj4g
-PiA+ID4gKyAgICAgICAgICl7DQo+ID4gPiA+ICsgICAgICAgICAgIGFzc2VydCggcFRlcm0tPmVP
-cGVyYXRvcj09V09fQVVYICk7DQo+ID4gPiA+ICstICAgICAgICAgIGFzc2VydCggcFdJbmZvLT5w
-TGltaXQhPTAgKTsNCj4gPiA+ID4gKy0gICAgICAgICAgYXNzZXJ0KCBwV0luZm8tPnBMaW1pdC0+
-aU9mZnNldD4wICk7DQo+ID4gPiA+ICstICAgICAgICAgIHNxbGl0ZTNWZGJlQWRkT3AyKHYsIE9Q
-X0ludGVnZXIsIDAsIHBXSW5mby0+cExpbWl0LT5pT2Zmc2V0KTsNCj4gPiA+ID4gKysgICAgICAg
-ICAgYXNzZXJ0KCBwV0luZm8tPnBTZWxlY3QhPTAgKTsNCj4gPiA+ID4gKysgICAgICAgICAgYXNz
-ZXJ0KCBwV0luZm8tPnBTZWxlY3QtPmlPZmZzZXQ+MCApOw0KPiA+ID4gPiArKyAgICAgICAgICBz
-cWxpdGUzVmRiZUFkZE9wMih2LCBPUF9JbnRlZ2VyLCAwLCBwV0luZm8tPnBTZWxlY3QtPmlPZmZz
-ZXQpOw0KPiA+ID4gPiArICAgICAgICAgICBWZGJlQ29tbWVudCgodiwiWmVybyBPRkZTRVQgY291
-bnRlciIpKTsNCj4gPiA+ID4gKyAgICAgICAgIH0NCj4gPiA+ID4gKyAgICAgICB9DQo+ID4gPiA+
-ICtAQCAtMTUxODMwLDEwICsxNTE4MjgsMTAgQEAgc3RhdGljIHZvaWQgd2hlcmVBZGRMaW1pdEV4
-cHIoDQo+ID4gPiA+ICsgKiogZXhpc3Qgb25seSBzbyB0aGF0IHRoZXkgbWF5IGJlIHBhc3NlZCB0
-byB0aGUgeEJlc3RJbmRleCBtZXRob2Qgb2YgdGhlDQo+ID4gPiA+ICsgKiogc2luZ2xlIHZpcnR1
-YWwgdGFibGUgaW4gdGhlIEZST00gY2xhdXNlIG9mIHRoZSBTRUxFQ1QuDQo+ID4gPiA+ICsgKi8N
-Cj4gPiA+ID4gKy1TUUxJVEVfUFJJVkFURSB2b2lkIHNxbGl0ZTNXaGVyZUFkZExpbWl0KFdoZXJl
-Q2xhdXNlICpwV0MsDQo+IFNlbGVjdA0KPiA+ICpwKXsNCj4gPiA+ID4gKy0gIGFzc2VydCggcD09
-MCB8fCAocC0+cEdyb3VwQnk9PTAgJiYgKHAtPnNlbEZsYWdzICYNCj4gU0ZfQWdncmVnYXRlKT09
-MCkNCj4gPiApOw0KPiA+ID4gPiArLSAgaWYoIChwICYmIHAtPnBMaW1pdCkgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvKiAxICovDQo+ID4gPiA+ICstICAgJiYgKHAt
-PnNlbEZsYWdzICYgKFNGX0Rpc3RpbmN0fFNGX0FnZ3JlZ2F0ZSkpPT0wICAgICAgICAgICAgIC8q
-IDIgKi8NCj4gPiA+ID4gKytTUUxJVEVfUFJJVkFURSB2b2lkIFNRTElURV9OT0lOTElORQ0KPiA+
-IHNxbGl0ZTNXaGVyZUFkZExpbWl0KFdoZXJlQ2xhdXNlICpwV0MsIFNlbGVjdCAqcCl7DQo+ID4g
-PiA+ICsrICBhc3NlcnQoIHAhPTAgJiYgcC0+cExpbWl0IT0wICk7ICAgICAgICAgICAgICAgICAv
-KiAxIC0tIGNoZWNrZWQgYnkgY2FsbGVyICovDQo+ID4gPiA+ICsrICBhc3NlcnQoIHAtPnBHcm91
-cEJ5PT0wICYmIChwLT5zZWxGbGFncyAmIFNGX0FnZ3JlZ2F0ZSk9PTAgKTsNCj4gPiA+ID4gKysg
-IGlmKCAocC0+c2VsRmxhZ3MgJiAoU0ZfRGlzdGluY3R8U0ZfQWdncmVnYXRlKSk9PTAgICAgICAg
-ICAgICAgLyogMiAqLw0KPiA+ID4gPiArICAgICYmIChwLT5wU3JjLT5uU3JjPT0xICYmIElzVmly
-dHVhbChwLT5wU3JjLT5hWzBdLnBUYWIpKSAgICAgICAvKiAzICovDQo+ID4gPiA+ICsgICApew0K
-PiA+ID4gPiArICAgICBFeHByTGlzdCAqcE9yZGVyQnkgPSBwLT5wT3JkZXJCeTsNCj4gPiA+ID4g
-K0BAIC0xNTc0MjcsNyArMTU3NDI1LDcgQEAgU1FMSVRFX1BSSVZBVEUgV2hlcmVJbmZvDQo+ID4g
-KnNxbGl0ZTNXaGVyZUJlZ2luKA0KPiA+ID4gPiArICAgRXhwciAqcFdoZXJlLCAgICAgICAgICAg
-LyogVGhlIFdIRVJFIGNsYXVzZSAqLw0KPiA+ID4gPiArICAgRXhwckxpc3QgKnBPcmRlckJ5LCAg
-ICAgLyogQW4gT1JERVIgQlkgKG9yIEdST1VQIEJZKSBjbGF1c2UsIG9yDQo+IE5VTEwNCj4gPiAq
-Lw0KPiA+ID4gPiArICAgRXhwckxpc3QgKnBSZXN1bHRTZXQsICAgLyogUXVlcnkgcmVzdWx0IHNl
-dC4gIFJlcSdkIGZvciBESVNUSU5DVCAqLw0KPiA+ID4gPiArLSAgU2VsZWN0ICpwTGltaXQsICAg
-ICAgICAgLyogVXNlIHRoaXMgTElNSVQvT0ZGU0VUIGNsYXVzZSwgaWYgYW55ICovDQo+ID4gPiA+
-ICsrICBTZWxlY3QgKnBTZWxlY3QsICAgICAgICAvKiBUaGUgZW50aXJlIFNFTEVDVCBzdGF0ZW1l
-bnQgKi8NCj4gPiA+ID4gKyAgIHUxNiB3Y3RybEZsYWdzLCAgICAgICAgIC8qIFRoZSBXSEVSRV8q
-IGZsYWdzIGRlZmluZWQgaW4gc3FsaXRlSW50LmggKi8NCj4gPiA+ID4gKyAgIGludCBpQXV4QXJn
-ICAgICAgICAgICAgIC8qIElmIFdIRVJFX09SX1NVQkNMQVVTRSBpcyBzZXQsIGluZGV4IGN1cnNv
-cg0KPiA+IG51bWJlcg0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgKiogSWYg
-V0hFUkVfVVNFX0xJTUlULCB0aGVuIHRoZSBsaW1pdCBhbW91bnQgKi8NCj4gPiA+ID4gK0BAIC0x
-NTc1MDQsOSArMTU3NTAyLDcgQEAgU1FMSVRFX1BSSVZBVEUgV2hlcmVJbmZvDQo+ID4gKnNxbGl0
-ZTNXaGVyZUJlZ2luKA0KPiA+ID4gPiArICAgcFdJbmZvLT53Y3RybEZsYWdzID0gd2N0cmxGbGFn
-czsNCj4gPiA+ID4gKyAgIHBXSW5mby0+aUxpbWl0ID0gaUF1eEFyZzsNCj4gPiA+ID4gKyAgIHBX
-SW5mby0+c2F2ZWROUXVlcnlMb29wID0gcFBhcnNlLT5uUXVlcnlMb29wOw0KPiA+ID4gPiArLSNp
-Zm5kZWYgU1FMSVRFX09NSVRfVklSVFVBTFRBQkxFDQo+ID4gPiA+ICstICBwV0luZm8tPnBMaW1p
-dCA9IHBMaW1pdDsNCj4gPiA+ID4gKy0jZW5kaWYNCj4gPiA+ID4gKysgIHBXSW5mby0+cFNlbGVj
-dCA9IHBTZWxlY3Q7DQo+ID4gPiA+ICsgICBtZW1zZXQoJnBXSW5mby0+bk9CU2F0LCAwLA0KPiA+
-ID4gPiArICAgICAgICAgIG9mZnNldG9mKFdoZXJlSW5mbyxzV0MpIC0gb2Zmc2V0b2YoV2hlcmVJ
-bmZvLG5PQlNhdCkpOw0KPiA+ID4gPiArICAgbWVtc2V0KCZwV0luZm8tPmFbMF0sIDAsDQo+ID4g
-c2l6ZW9mKFdoZXJlTG9vcCkrblRhYkxpc3Qqc2l6ZW9mKFdoZXJlTGV2ZWwpKTsNCj4gPiA+ID4g
-K0BAIC0xNTc1NzUsNyArMTU3NTcxLDkgQEAgU1FMSVRFX1BSSVZBVEUgV2hlcmVJbmZvDQo+ID4g
-KnNxbGl0ZTNXaGVyZUJlZ2luKA0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAvKiBBbmFseXplIGFs
-bCBvZiB0aGUgc3ViZXhwcmVzc2lvbnMuICovDQo+ID4gPiA+ICsgICBzcWxpdGUzV2hlcmVFeHBy
-QW5hbHl6ZShwVGFiTGlzdCwgJnBXSW5mby0+c1dDKTsNCj4gPiA+ID4gKy0gIHNxbGl0ZTNXaGVy
-ZUFkZExpbWl0KCZwV0luZm8tPnNXQywgcExpbWl0KTsNCj4gPiA+ID4gKysgIGlmKCBwU2VsZWN0
-ICYmIHBTZWxlY3QtPnBMaW1pdCApew0KPiA+ID4gPiArKyAgICBzcWxpdGUzV2hlcmVBZGRMaW1p
-dCgmcFdJbmZvLT5zV0MsIHBTZWxlY3QpOw0KPiA+ID4gPiArKyAgfQ0KPiA+ID4gPiArICAgaWYo
-IGRiLT5tYWxsb2NGYWlsZWQgKSBnb3RvIHdoZXJlQmVnaW5FcnJvcjsNCj4gPiA+ID4gKw0KPiA+
-ID4gPiArICAgLyogU3BlY2lhbCBjYXNlOiBXSEVSRSB0ZXJtcyB0aGF0IGRvIG5vdCByZWZlciB0
-byBhbnkgdGFibGVzIGluIHRoZSBqb2luDQo+ID4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9zcWxpdGUvZmlsZXMvQ1ZFLTIwMjUtNzQ1OC5wYXRjaA0KPiA+IGIvbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvc3FsaXRlL2ZpbGVzL0NWRS0yMDI1LTc0NTgucGF0Y2gNCj4gPiA+ID4g
-bmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiA+ID4gaW5kZXggMDAwMDAwMDAwMC4uNmIwNDFkOTMz
-Mg0KPiA+ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L3NxbGl0ZS9maWxlcy9DVkUtMjAyNS03NDU4LnBhdGNoDQo+ID4gPiA+IEBAIC0wLDAgKzEs
-MzIgQEANCj4gPiA+ID4gK0Zyb20gYjgxNmNhOTk5NGUwM2E4YmM4MjliNDk0NTJiODE1OGE3MzFl
-ODFhOSBNb24gU2VwIDE3DQo+IDAwOjAwOjAwDQo+ID4gMjAwMQ0KPiA+ID4gPiArRnJvbTogZHJo
-IDw+DQo+ID4gPiA+ICtEYXRlOiBUaHUsIDE2IE1hciAyMDIzIDIwOjU0OjI5ICswMDAwDQo+ID4g
-PiA+ICtTdWJqZWN0OiBbUEFUQ0hdIENvcnJlY3RseSBoYW5kbGUgU0VMRUNUIERJU1RJTkNUIC4u
-LiBPUkRFUiBCWQ0KPiB3aGVuDQo+ID4gYWxsIG9mIHRoZQ0KPiA+ID4gPiArIHJlc3VsdCBzZXQg
-dGVybXMgYXJlIGNvbnN0YW50IGFuZCB0aGVyZSBhcmUgbW9yZSByZXN1bHQgc2V0IHRlcm1zIHRo
-YW4NCj4gPiBPUkRFUg0KPiA+ID4gPiArIEJZIHRlcm1zLiBGaXggZm9yIHRoZXNlIHRpY2tldHM6
-IFtjMzZjZGI0YWZkNTA0ZGMxXSwgWzQwNTFhN2Y5MzFkOWJhMjRdLA0KPiA+ID4gPiArIFtkNmZk
-NTEyZjUwNTEzYWI3XS4NCj4gPiA+ID4gKw0KPiA+ID4gPiArRm9zc2lsT3JpZ2luLU5hbWU6DQo+
-ID4gMTJhZDgyMmQ5YjgyNzc3NzUyNmNhNWVkNWJmM2U2NzhkNjAwMjk0ZmM5YjVjMjU0ODJkZmZm
-MmEwMjEzMjhhNA0KPiA+ID4gPiArDQo+ID4gPiA+ICtDVkU6IENWRS0yMDI1LTc0NTgNCj4gPiA+
-ID4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gPg0KPiBbZ2l0aHViLmNvbS9zcWxpdGUv
-c3FsaXRlL2NvbW1pdC9iODE2Y2E5OTk0ZTAzYThiYzgyOWI0OTQ1MmI4MTU4YTczMWU4MWE5XQ0K
-PiA+ID4gPiArU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtvQHNpZW1lbnMu
-Y29tPg0KPiA+ID4gPiArLS0tDQo+ID4gPiA+ICsgc3FsaXRlMy5jIHwgNCArKysrDQo+ID4gPiA+
-ICsgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtk
-aWZmIC0tZ2l0IGEvc3FsaXRlMy5jIGIvc3FsaXRlMy5jDQo+ID4gPiA+ICtpbmRleCAxOWQwNDM4
-Li42ZDkyMTg0IDEwMDY0NA0KPiA+ID4gPiArLS0tIGEvc3FsaXRlMy5jDQo+ID4gPiA+ICsrKysg
-Yi9zcWxpdGUzLmMNCj4gPiA+ID4gK0BAIC0xNTY5ODksNiArMTU2OTg5LDEwIEBAIHN0YXRpYyBp
-bnQgd2hlcmVQYXRoU29sdmVyKFdoZXJlSW5mbw0KPiA+ICpwV0luZm8sIExvZ0VzdCBuUm93RXN0
-KXsNCj4gPiA+ID4gKyAgICAgICBpZiggcEZyb20tPmlzT3JkZXJlZD09cFdJbmZvLT5wT3JkZXJC
-eS0+bkV4cHIgKXsNCj4gPiA+ID4gKyAgICAgICAgIHBXSW5mby0+ZURpc3RpbmN0ID0gV0hFUkVf
-RElTVElOQ1RfT1JERVJFRDsNCj4gPiA+ID4gKyAgICAgICB9DQo+ID4gPiA+ICsrICAgICAgaWYo
-IHBXSW5mby0+cFNlbGVjdC0+cE9yZGVyQnkNCj4gPiA+ID4gKysgICAgICAgJiYgcFdJbmZvLT5u
-T0JTYXQgPiBwV0luZm8tPnBTZWxlY3QtPnBPcmRlckJ5LT5uRXhwciApew0KPiA+ID4gPiArKyAg
-ICAgICAgcFdJbmZvLT5uT0JTYXQgPSBwV0luZm8tPnBTZWxlY3QtPnBPcmRlckJ5LT5uRXhwcjsN
-Cj4gPiA+ID4gKysgICAgICB9DQo+ID4gPiA+ICsgICAgIH1lbHNlew0KPiA+ID4gPiArICAgICAg
-IHBXSW5mby0+bk9CU2F0ID0gcEZyb20tPmlzT3JkZXJlZDsNCj4gPiA+ID4gKyAgICAgICBwV0lu
-Zm8tPnJldk1hc2sgPSBwRnJvbS0+cmV2TG9vcDsNCj4gPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuMzguNS5iYiBiL21ldGEvcmVjaXBlcy0N
-Cj4gPiBzdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuMzguNS5iYg0KPiA+ID4gPiBpbmRleCA2NTZl
-MmQ4YmQ4Li44NmQ5YjRiMzNiIDEwMDY0NA0KPiA+ID4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9zcWxpdGUvc3FsaXRlM18zLjM4LjUuYmINCj4gPiA+ID4gKysrIGIvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy4zOC41LmJiDQo+ID4gPiA+IEBAIC0xMCw2ICsxMCw4
-IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5zcWxpdGUub3JnLzIwMjIvc3FsaXRlLQ0KPiBhdXRv
-Y29uZi0NCj4gPiAke1NRTElURV9QVn0udGFyLmd6IFwNCj4gPiA+ID4gICAgICAgICAgICAgIGZp
-bGU6Ly9DVkUtMjAyMy03MTA0LnBhdGNoIFwNCj4gPiA+ID4gICAgICAgICAgICAgIGZpbGU6Ly9D
-VkUtMjAyNS0yOTA4OC5wYXRjaCBcDQo+ID4gPiA+ICAgICAgICAgICAgICBmaWxlOi8vQ1ZFLTIw
-MjUtNjk2NS5wYXRjaCBcDQo+ID4gPiA+ICsgICAgICAgICAgIGZpbGU6Ly8wMDAxLVRoaXMtYnJh
-bmNoLWF0dGVtcHRzLXRvLWltcHJvdmUtdGhlLWRldGVjdGlvbi1vZi0NCj4gPiBjb3YucGF0Y2gg
-XA0KPiA+ID4gPiArICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMjUtNzQ1OC5wYXRjaCBcDQo+ID4g
-PiA+ICAgICAgICAgICAgICAiDQo+ID4gPiA+ICAgU1JDX1VSSVtzaGEyNTZzdW1dID0NCj4gPiAi
-NWFmMDdkZTk4MmJhNjU4ZmQ5MWEwMzE3MGM5NDVmOTljOTcxZjY5NTViYzc5ZGYzMjY2NTQ0Mzcz
-ZTM5ODY5YyINCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gLT0t
-PS09LT0tPS09LT0tPS09LT0tPS0NCj4gPiA+ID4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNz
-YWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuDQo+ID4gPiA+IFZpZXcvUmVwbHkgT25saW5lICgjMjIx
-NDgxKToNCj4gPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQt
-Y29yZS9tZXNzYWdlLzIyMTQ4MQ0KPiA+ID4gPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBzOi8vbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMTQ1NTE2NzIvMzYxODQ3MQ0KPiA+ID4gPiBHcm91cCBP
-d25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+
-ID4gPiBVbnN1YnNjcmliZTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVt
-YmVkZGVkLWNvcmUvdW5zdWINCj4gPiBbbmlrby5tYXVub0B2YWlzYWxhLmNvbV0NCj4gPiA+ID4g
-LT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gPiA+ID4NCj4gPiA+DQo=
+--000000000000dc9e5a063ded9be8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 3, 2025, 3:34=E2=80=AFPM Marko, Peter <Peter.Marko@siemens.com>=
+ wrote:
+
+> I have looked at the problem and reverting was the correct action.
+> Trying to identify missing patch I realized that the CVE does not affect
+> our version,
+> so I'd have to backport additional patches which would first introduce th=
+e
+> CVE and then fix it
+>
+
+
+Thanks for investigating!
+
+Steve
+
+
+> Sorry for this inconvenience.
+>
+> Peter
+>
+> > -----Original Message-----
+> > From: Marko, Peter (FT D EU SK BFS1)
+> > Sent: Sunday, August 31, 2025 23:12
+> > To: Steve Sakoman <steve@sakoman.com>
+> > Cc: openembedded-core@lists.openembedded.org; Niko Mauno
+> > <niko.mauno@vaisala.com>
+> > Subject: RE: [OE-core][kirkstone 2/4] sqlite3: patch CVE-2025-7458
+> >
+> >
+> >
+> > > -----Original Message-----
+> > > From: Steve Sakoman <steve@sakoman.com>
+> > > Sent: Friday, August 29, 2025 17:38
+> > > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> > > Cc: openembedded-core@lists.openembedded.org; Niko Mauno
+> > > <niko.mauno@vaisala.com>
+> > > Subject: Re: [OE-core][kirkstone 2/4] sqlite3: patch CVE-2025-7458
+> > >
+> > > On Fri, Aug 29, 2025 at 4:25=E2=80=AFAM Niko Mauno <niko.mauno@vaisal=
+a.com>
+> > wrote:
+> > > >
+> > > > We have found that since this patch SELECT queries with
+> > > COUNT(DISTINCT(column)) seem to cause sqlite to segfault. E.g.
+> > > >
+> > > > # sqlite3 :memory: 'create table foo (x int); select
+> count(distinct(x)) from foo;'
+> > > > Segmentation fault (core dumped)
+> > >
+> > > Hi Peter,
+> > >
+> > > Could you check this to see if you can reproduce it?
+> >
+> > I'll be offline for next two weeks, please revert and I'll check it whe=
+n
+> I'm back.
+> >
+> > >
+> > > If so, we should revert this patch.
+> > >
+> > > Steve
+> > >
+> > > > On 5.8.2025 19.43, Steve Sakoman via lists.openembedded.org wrote:
+> > > > > From: Peter Marko <peter.marko@siemens.com>
+> > > > >
+> > > > > Pick patch [1] listed in [2].
+> > > > > Also pick another patch which is precondition to this one
+> introducing
+> > > > > variable needed for the check.
+> > > > >
+> > > > > [1] https://sqlite.org/src/info/12ad822d9b827777
+> > > > > [2] https://nvd.nist.gov/vuln/detail/CVE-2025-7458
+> > > > >
+> > > > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > > > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > > > > ---
+> > > > >   ...mpts-to-improve-the-detection-of-cov.patch | 91
+> > +++++++++++++++++++
+> > > > >   .../sqlite/files/CVE-2025-7458.patch          | 32 +++++++
+> > > > >   meta/recipes-support/sqlite/sqlite3_3.38.5.bb |  2 +
+> > > > >   3 files changed, 125 insertions(+)
+> > > > >   create mode 100644
+> meta/recipes-support/sqlite/files/0001-This-branch-
+> > > attempts-to-improve-the-detection-of-cov.patch
+> > > > >   create mode 100644 meta/recipes-support/sqlite/files/CVE-2025-
+> > 7458.patch
+> > > > >
+> > > > > diff --git
+> a/meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-
+> > > improve-the-detection-of-cov.patch
+> b/meta/recipes-support/sqlite/files/0001-
+> > This-
+> > > branch-attempts-to-improve-the-detection-of-cov.patch
+> > > > > new file mode 100644
+> > > > > index 0000000000..8fb037bb0f
+> > > > > --- /dev/null
+> > > > > +++
+> b/meta/recipes-support/sqlite/files/0001-This-branch-attempts-to-
+> > > improve-the-detection-of-cov.patch
+> > > > > @@ -0,0 +1,91 @@
+> > > > > +From f55a7dad195994f2bb24db7df0a0515502386fe2 Mon Sep 17 00:00:0=
+0
+> > > 2001
+> > > > > +From: drh <>
+> > > > > +Date: Sat, 22 Oct 2022 14:16:02 +0000
+> > > > > +Subject: [PATCH] This branch attempts to improve the detection o=
+f
+> > covering
+> > > > > + indexes.  This first check-in merely improves a parameter name =
+to
+> > > > > + sqlite3WhereBegin() to be more descriptive of what it contains,
+> and
+> > ensures
+> > > > > + that a subroutine is not inlines so that sqlite3WhereBegin()
+> runs slightly
+> > > > > + faster.
+> > > > > +
+> > > > > +FossilOrigin-Name:
+> > > cadf5f6bb1ce0492ef858ada476288e8057afd3609caa18b09c818d3845d7244
+> > > > > +
+> > > > > +Upstream-Status: Backport
+> > >
+> > [
+> https://github.com/sqlite/sqlite/commit/f55a7dad195994f2bb24db7df0a051550=
+238
+> > > 6fe2]
+> > > > > +Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > > > +---
+> > > > > + sqlite3.c | 28 +++++++++++++---------------
+> > > > > + 1 file changed, 13 insertions(+), 15 deletions(-)
+> > > > > +
+> > > > > +diff --git a/sqlite3.c b/sqlite3.c
+> > > > > +index 4cbc2d0..b7ed991 100644
+> > > > > +--- a/sqlite3.c
+> > > > > ++++ b/sqlite3.c
+> > > > > +@@ -147371,9 +147371,7 @@ struct WhereInfo {
+> > > > > +   ExprList *pOrderBy;       /* The ORDER BY clause or NULL */
+> > > > > +   ExprList *pResultSet;     /* Result set of the query */
+> > > > > +   Expr *pWhere;             /* The complete WHERE clause */
+> > > > > +-#ifndef SQLITE_OMIT_VIRTUALTABLE
+> > > > > +-  Select *pLimit;           /* Used to access LIMIT
+> expr/registers for vtabs */
+> > > > > +-#endif
+> > > > > ++  Select *pSelect;          /* The entire SELECT statement
+> containing
+> > > WHERE */
+> > > > > +   int aiCurOnePass[2];      /* OP_OpenWrite cursors for the
+> ONEPASS opt
+> > */
+> > > > > +   int iContinue;            /* Jump here to continue with next
+> record */
+> > > > > +   int iBreak;               /* Jump here to break out of the
+> loop */
+> > > > > +@@ -149070,9 +149068,9 @@ SQLITE_PRIVATE Bitmask
+> > > sqlite3WhereCodeOneLoopStart(
+> > > > > +          && pLoop->u.vtab.bOmitOffset
+> > > > > +         ){
+> > > > > +           assert( pTerm->eOperator=3D=3DWO_AUX );
+> > > > > +-          assert( pWInfo->pLimit!=3D0 );
+> > > > > +-          assert( pWInfo->pLimit->iOffset>0 );
+> > > > > +-          sqlite3VdbeAddOp2(v, OP_Integer, 0,
+> pWInfo->pLimit->iOffset);
+> > > > > ++          assert( pWInfo->pSelect!=3D0 );
+> > > > > ++          assert( pWInfo->pSelect->iOffset>0 );
+> > > > > ++          sqlite3VdbeAddOp2(v, OP_Integer, 0,
+> pWInfo->pSelect->iOffset);
+> > > > > +           VdbeComment((v,"Zero OFFSET counter"));
+> > > > > +         }
+> > > > > +       }
+> > > > > +@@ -151830,10 +151828,10 @@ static void whereAddLimitExpr(
+> > > > > + ** exist only so that they may be passed to the xBestIndex
+> method of the
+> > > > > + ** single virtual table in the FROM clause of the SELECT.
+> > > > > + */
+> > > > > +-SQLITE_PRIVATE void sqlite3WhereAddLimit(WhereClause *pWC,
+> > Select
+> > > *p){
+> > > > > +-  assert( p=3D=3D0 || (p->pGroupBy=3D=3D0 && (p->selFlags &
+> > SF_Aggregate)=3D=3D0)
+> > > );
+> > > > > +-  if( (p && p->pLimit)
+> /* 1 */
+> > > > > +-   && (p->selFlags & (SF_Distinct|SF_Aggregate))=3D=3D0
+>  /* 2 */
+> > > > > ++SQLITE_PRIVATE void SQLITE_NOINLINE
+> > > sqlite3WhereAddLimit(WhereClause *pWC, Select *p){
+> > > > > ++  assert( p!=3D0 && p->pLimit!=3D0 );                 /* 1 --
+> checked by caller */
+> > > > > ++  assert( p->pGroupBy=3D=3D0 && (p->selFlags & SF_Aggregate)=3D=
+=3D0 );
+> > > > > ++  if( (p->selFlags & (SF_Distinct|SF_Aggregate))=3D=3D0
+>  /* 2 */
+> > > > > +    && (p->pSrc->nSrc=3D=3D1 && IsVirtual(p->pSrc->a[0].pTab))
+>  /* 3 */
+> > > > > +   ){
+> > > > > +     ExprList *pOrderBy =3D p->pOrderBy;
+> > > > > +@@ -157427,7 +157425,7 @@ SQLITE_PRIVATE WhereInfo
+> > > *sqlite3WhereBegin(
+> > > > > +   Expr *pWhere,           /* The WHERE clause */
+> > > > > +   ExprList *pOrderBy,     /* An ORDER BY (or GROUP BY) clause, =
+or
+> > NULL
+> > > */
+> > > > > +   ExprList *pResultSet,   /* Query result set.  Req'd for
+> DISTINCT */
+> > > > > +-  Select *pLimit,         /* Use this LIMIT/OFFSET clause, if
+> any */
+> > > > > ++  Select *pSelect,        /* The entire SELECT statement */
+> > > > > +   u16 wctrlFlags,         /* The WHERE_* flags defined in
+> sqliteInt.h */
+> > > > > +   int iAuxArg             /* If WHERE_OR_SUBCLAUSE is set, inde=
+x
+> cursor
+> > > number
+> > > > > +                           ** If WHERE_USE_LIMIT, then the limit
+> amount */
+> > > > > +@@ -157504,9 +157502,7 @@ SQLITE_PRIVATE WhereInfo
+> > > *sqlite3WhereBegin(
+> > > > > +   pWInfo->wctrlFlags =3D wctrlFlags;
+> > > > > +   pWInfo->iLimit =3D iAuxArg;
+> > > > > +   pWInfo->savedNQueryLoop =3D pParse->nQueryLoop;
+> > > > > +-#ifndef SQLITE_OMIT_VIRTUALTABLE
+> > > > > +-  pWInfo->pLimit =3D pLimit;
+> > > > > +-#endif
+> > > > > ++  pWInfo->pSelect =3D pSelect;
+> > > > > +   memset(&pWInfo->nOBSat, 0,
+> > > > > +          offsetof(WhereInfo,sWC) - offsetof(WhereInfo,nOBSat));
+> > > > > +   memset(&pWInfo->a[0], 0,
+> > > sizeof(WhereLoop)+nTabList*sizeof(WhereLevel));
+> > > > > +@@ -157575,7 +157571,9 @@ SQLITE_PRIVATE WhereInfo
+> > > *sqlite3WhereBegin(
+> > > > > +
+> > > > > +   /* Analyze all of the subexpressions. */
+> > > > > +   sqlite3WhereExprAnalyze(pTabList, &pWInfo->sWC);
+> > > > > +-  sqlite3WhereAddLimit(&pWInfo->sWC, pLimit);
+> > > > > ++  if( pSelect && pSelect->pLimit ){
+> > > > > ++    sqlite3WhereAddLimit(&pWInfo->sWC, pSelect);
+> > > > > ++  }
+> > > > > +   if( db->mallocFailed ) goto whereBeginError;
+> > > > > +
+> > > > > +   /* Special case: WHERE terms that do not refer to any tables
+> in the join
+> > > > > diff --git a/meta/recipes-support/sqlite/files/CVE-2025-7458.patc=
+h
+> > > b/meta/recipes-support/sqlite/files/CVE-2025-7458.patch
+> > > > > new file mode 100644
+> > > > > index 0000000000..6b041d9332
+> > > > > --- /dev/null
+> > > > > +++ b/meta/recipes-support/sqlite/files/CVE-2025-7458.patch
+> > > > > @@ -0,0 +1,32 @@
+> > > > > +From b816ca9994e03a8bc829b49452b8158a731e81a9 Mon Sep 17
+> > 00:00:00
+> > > 2001
+> > > > > +From: drh <>
+> > > > > +Date: Thu, 16 Mar 2023 20:54:29 +0000
+> > > > > +Subject: [PATCH] Correctly handle SELECT DISTINCT ... ORDER BY
+> > when
+> > > all of the
+> > > > > + result set terms are constant and there are more result set
+> terms than
+> > > ORDER
+> > > > > + BY terms. Fix for these tickets: [c36cdb4afd504dc1],
+> [4051a7f931d9ba24],
+> > > > > + [d6fd512f50513ab7].
+> > > > > +
+> > > > > +FossilOrigin-Name:
+> > > 12ad822d9b827777526ca5ed5bf3e678d600294fc9b5c25482dfff2a021328a4
+> > > > > +
+> > > > > +CVE: CVE-2025-7458
+> > > > > +Upstream-Status: Backport
+> > >
+> > [
+> github.com/sqlite/sqlite/commit/b816ca9994e03a8bc829b49452b8158a731e81a9]
+> > > > > +Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > > > +---
+> > > > > + sqlite3.c | 4 ++++
+> > > > > + 1 file changed, 4 insertions(+)
+> > > > > +
+> > > > > +diff --git a/sqlite3.c b/sqlite3.c
+> > > > > +index 19d0438..6d92184 100644
+> > > > > +--- a/sqlite3.c
+> > > > > ++++ b/sqlite3.c
+> > > > > +@@ -156989,6 +156989,10 @@ static int wherePathSolver(WhereInfo
+> > > *pWInfo, LogEst nRowEst){
+> > > > > +       if( pFrom->isOrdered=3D=3DpWInfo->pOrderBy->nExpr ){
+> > > > > +         pWInfo->eDistinct =3D WHERE_DISTINCT_ORDERED;
+> > > > > +       }
+> > > > > ++      if( pWInfo->pSelect->pOrderBy
+> > > > > ++       && pWInfo->nOBSat > pWInfo->pSelect->pOrderBy->nExpr ){
+> > > > > ++        pWInfo->nOBSat =3D pWInfo->pSelect->pOrderBy->nExpr;
+> > > > > ++      }
+> > > > > +     }else{
+> > > > > +       pWInfo->nOBSat =3D pFrom->isOrdered;
+> > > > > +       pWInfo->revMask =3D pFrom->revLoop;
+> > > > > diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> b/meta/recipes-
+> > > support/sqlite/sqlite3_3.38.5.bb
+> > > > > index 656e2d8bd8..86d9b4b33b 100644
+> > > > > --- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> > > > > +++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+> > > > > @@ -10,6 +10,8 @@ SRC_URI =3D "http://www.sqlite.org/2022/sqlite-
+> > autoconf-
+> > > ${SQLITE_PV}.tar.gz \
+> > > > >              file://CVE-2023-7104.patch \
+> > > > >              file://CVE-2025-29088.patch \
+> > > > >              file://CVE-2025-6965.patch \
+> > > > > +
+>  file://0001-This-branch-attempts-to-improve-the-detection-of-
+> > > cov.patch \
+> > > > > +           file://CVE-2025-7458.patch \
+> > > > >              "
+> > > > >   SRC_URI[sha256sum] =3D
+> > > "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
+> > > > >
+> > > > >
+> > > > >
+> > > > >
+> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > > Links: You receive all messages sent to this group.
+> > > > > View/Reply Online (#221481):
+> > > https://lists.openembedded.org/g/openembedded-core/message/221481
+> > > > > Mute This Topic:
+> https://lists.openembedded.org/mt/114551672/3618471
+> > > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > > Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub
+> > > [niko.mauno@vaisala.com]
+> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > >
+> > > >
+>
+
+--000000000000dc9e5a063ded9be8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Sep 3, 2025, 3:34=E2=80=AFPM Marko, Peter &lt;=
+<a href=3D"mailto:Peter.Marko@siemens.com" target=3D"_blank" rel=3D"norefer=
+rer">Peter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex">I have looked at the problem and reverting was the correct action.=
+<br>
+Trying to identify missing patch I realized that the CVE does not affect ou=
+r version,<br>
+so I&#39;d have to backport additional patches which would first introduce =
+the CVE and then fix it<br></blockquote></div></div><div dir=3D"auto"><br><=
+/div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for investigating=
+!=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">Steve</div><div =
+dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">
+<br>
+Sorry for this inconvenience.<br>
+<br>
+Peter<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: Marko, Peter (FT D EU SK BFS1)<br>
+&gt; Sent: Sunday, August 31, 2025 23:12<br>
+&gt; To: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" rel=3D"nore=
+ferrer noreferrer" target=3D"_blank">steve@sakoman.com</a>&gt;<br>
+&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" rel=3D=
+"noreferrer noreferrer" target=3D"_blank">openembedded-core@lists.openembed=
+ded.org</a>; Niko Mauno<br>
+&gt; &lt;<a href=3D"mailto:niko.mauno@vaisala.com" rel=3D"noreferrer norefe=
+rrer" target=3D"_blank">niko.mauno@vaisala.com</a>&gt;<br>
+&gt; Subject: RE: [OE-core][kirkstone 2/4] sqlite3: patch CVE-2025-7458<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; &gt; -----Original Message-----<br>
+&gt; &gt; From: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">steve@sakoman.com</a>&gt;<br>
+&gt; &gt; Sent: Friday, August 29, 2025 17:38<br>
+&gt; &gt; To: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Ma=
+rko@siemens.com" rel=3D"noreferrer noreferrer" target=3D"_blank">Peter.Mark=
+o@siemens.com</a>&gt;<br>
+&gt; &gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">openembedded-core@lists.open=
+embedded.org</a>; Niko Mauno<br>
+&gt; &gt; &lt;<a href=3D"mailto:niko.mauno@vaisala.com" rel=3D"noreferrer n=
+oreferrer" target=3D"_blank">niko.mauno@vaisala.com</a>&gt;<br>
+&gt; &gt; Subject: Re: [OE-core][kirkstone 2/4] sqlite3: patch CVE-2025-745=
+8<br>
+&gt; &gt;<br>
+&gt; &gt; On Fri, Aug 29, 2025 at 4:25=E2=80=AFAM Niko Mauno &lt;<a href=3D=
+"mailto:niko.mauno@vaisala.com" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">niko.mauno@vaisala.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; We have found that since this patch SELECT queries with<br>
+&gt; &gt; COUNT(DISTINCT(column)) seem to cause sqlite to segfault. E.g.<br=
+>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; # sqlite3 :memory: &#39;create table foo (x int); select cou=
+nt(distinct(x)) from foo;&#39;<br>
+&gt; &gt; &gt; Segmentation fault (core dumped)<br>
+&gt; &gt;<br>
+&gt; &gt; Hi Peter,<br>
+&gt; &gt;<br>
+&gt; &gt; Could you check this to see if you can reproduce it?<br>
+&gt; <br>
+&gt; I&#39;ll be offline for next two weeks, please revert and I&#39;ll che=
+ck it when I&#39;m back.<br>
+&gt; <br>
+&gt; &gt;<br>
+&gt; &gt; If so, we should revert this patch.<br>
+&gt; &gt;<br>
+&gt; &gt; Steve<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; On 5.8.2025 19.43, Steve Sakoman via <a href=3D"http://lists=
+.openembedded.org" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blan=
+k">lists.openembedded.org</a> wrote:<br>
+&gt; &gt; &gt; &gt; From: Peter Marko &lt;<a href=3D"mailto:peter.marko@sie=
+mens.com" rel=3D"noreferrer noreferrer" target=3D"_blank">peter.marko@sieme=
+ns.com</a>&gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Pick patch [1] listed in [2].<br>
+&gt; &gt; &gt; &gt; Also pick another patch which is precondition to this o=
+ne introducing<br>
+&gt; &gt; &gt; &gt; variable needed for the check.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; [1] <a href=3D"https://sqlite.org/src/info/12ad822d9b82=
+7777" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://sq=
+lite.org/src/info/12ad822d9b827777</a><br>
+&gt; &gt; &gt; &gt; [2] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-202=
+5-7458" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://=
+nvd.nist.gov/vuln/detail/CVE-2025-7458</a><br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.=
+marko@siemens.com" rel=3D"noreferrer noreferrer" target=3D"_blank">peter.ma=
+rko@siemens.com</a>&gt;<br>
+&gt; &gt; &gt; &gt; Signed-off-by: Steve Sakoman &lt;<a href=3D"mailto:stev=
+e@sakoman.com" rel=3D"noreferrer noreferrer" target=3D"_blank">steve@sakoma=
+n.com</a>&gt;<br>
+&gt; &gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0...mpts-to-improve-the-detection-of-cov.pat=
+ch | 91<br>
+&gt; +++++++++++++++++++<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0.../sqlite/files/CVE-2025-7458.patch=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 32 +++++++<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0meta/recipes-support/sqlite/<a href=3D"http=
+://sqlite3_3.38.5.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_b=
+lank">sqlite3_3.38.5.bb</a> |=C2=A0 2 +<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A03 files changed, 125 insertions(+)<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-support/sql=
+ite/files/0001-This-branch-<br>
+&gt; &gt; attempts-to-improve-the-detection-of-cov.patch<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-support/sql=
+ite/files/CVE-2025-<br>
+&gt; 7458.patch<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/recipes-support/sqlite/files/0001-Thi=
+s-branch-attempts-to-<br>
+&gt; &gt; improve-the-detection-of-cov.patch b/meta/recipes-support/sqlite/=
+files/0001-<br>
+&gt; This-<br>
+&gt; &gt; branch-attempts-to-improve-the-detection-of-cov.patch<br>
+&gt; &gt; &gt; &gt; new file mode 100644<br>
+&gt; &gt; &gt; &gt; index 0000000000..8fb037bb0f<br>
+&gt; &gt; &gt; &gt; --- /dev/null<br>
+&gt; &gt; &gt; &gt; +++ b/meta/recipes-support/sqlite/files/0001-This-branc=
+h-attempts-to-<br>
+&gt; &gt; improve-the-detection-of-cov.patch<br>
+&gt; &gt; &gt; &gt; @@ -0,0 +1,91 @@<br>
+&gt; &gt; &gt; &gt; +From f55a7dad195994f2bb24db7df0a0515502386fe2 Mon Sep =
+17 00:00:00<br>
+&gt; &gt; 2001<br>
+&gt; &gt; &gt; &gt; +From: drh &lt;&gt;<br>
+&gt; &gt; &gt; &gt; +Date: Sat, 22 Oct 2022 14:16:02 +0000<br>
+&gt; &gt; &gt; &gt; +Subject: [PATCH] This branch attempts to improve the d=
+etection of<br>
+&gt; covering<br>
+&gt; &gt; &gt; &gt; + indexes.=C2=A0 This first check-in merely improves a =
+parameter name to<br>
+&gt; &gt; &gt; &gt; + sqlite3WhereBegin() to be more descriptive of what it=
+ contains, and<br>
+&gt; ensures<br>
+&gt; &gt; &gt; &gt; + that a subroutine is not inlines so that sqlite3Where=
+Begin() runs slightly<br>
+&gt; &gt; &gt; &gt; + faster.<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +FossilOrigin-Name:<br>
+&gt; &gt; cadf5f6bb1ce0492ef858ada476288e8057afd3609caa18b09c818d3845d7244<=
+br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +Upstream-Status: Backport<br>
+&gt; &gt;<br>
+&gt; [<a href=3D"https://github.com/sqlite/sqlite/commit/f55a7dad195994f2bb=
+24db7df0a051550238" rel=3D"noreferrer noreferrer noreferrer" target=3D"_bla=
+nk">https://github.com/sqlite/sqlite/commit/f55a7dad195994f2bb24db7df0a0515=
+50238</a><br>
+&gt; &gt; 6fe2]<br>
+&gt; &gt; &gt; &gt; +Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter=
+.marko@siemens.com" rel=3D"noreferrer noreferrer" target=3D"_blank">peter.m=
+arko@siemens.com</a>&gt;<br>
+&gt; &gt; &gt; &gt; +---<br>
+&gt; &gt; &gt; &gt; + sqlite3.c | 28 +++++++++++++---------------<br>
+&gt; &gt; &gt; &gt; + 1 file changed, 13 insertions(+), 15 deletions(-)<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +diff --git a/sqlite3.c b/sqlite3.c<br>
+&gt; &gt; &gt; &gt; +index 4cbc2d0..b7ed991 100644<br>
+&gt; &gt; &gt; &gt; +--- a/sqlite3.c<br>
+&gt; &gt; &gt; &gt; ++++ b/sqlite3.c<br>
+&gt; &gt; &gt; &gt; +@@ -147371,9 +147371,7 @@ struct WhereInfo {<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0ExprList *pOrderBy;=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0/* The ORDER BY clause or NULL */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0ExprList *pResultSet;=C2=A0 =C2=A0 =C2=A0=
+/* Result set of the query */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0Expr *pWhere;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0/* The complete WHERE clause */<br>
+&gt; &gt; &gt; &gt; +-#ifndef SQLITE_OMIT_VIRTUALTABLE<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 Select *pLimit;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0/* Used to access LIMIT expr/registers for vtabs */<br>
+&gt; &gt; &gt; &gt; +-#endif<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 Select *pSelect;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 /* The entire SELECT statement containing<br>
+&gt; &gt; WHERE */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0int aiCurOnePass[2];=C2=A0 =C2=A0 =C2=A0 =
+/* OP_OpenWrite cursors for the ONEPASS opt<br>
+&gt; */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0int iContinue;=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 /* Jump here to continue with next record */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0int iBreak;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Jump here to break out of the loop */<br>
+&gt; &gt; &gt; &gt; +@@ -149070,9 +149068,9 @@ SQLITE_PRIVATE Bitmask<br>
+&gt; &gt; sqlite3WhereCodeOneLoopStart(<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; pLoop-&g=
+t;u.vtab.bOmitOffset<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0){<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert( pTerm=
+-&gt;eOperator=3D=3DWO_AUX );<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert( pWInfo-&gt=
+;pLimit!=3D0 );<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert( pWInfo-&gt=
+;pLimit-&gt;iOffset&gt;0 );<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sqlite3VdbeAddOp2(=
+v, OP_Integer, 0, pWInfo-&gt;pLimit-&gt;iOffset);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert( pWInfo-&gt=
+;pSelect!=3D0 );<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert( pWInfo-&gt=
+;pSelect-&gt;iOffset&gt;0 );<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sqlite3VdbeAddOp2(=
+v, OP_Integer, 0, pWInfo-&gt;pSelect-&gt;iOffset);<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VdbeComment((=
+v,&quot;Zero OFFSET counter&quot;));<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; &gt; &gt; +@@ -151830,10 +151828,10 @@ static void whereAddLimitE=
+xpr(<br>
+&gt; &gt; &gt; &gt; + ** exist only so that they may be passed to the xBest=
+Index method of the<br>
+&gt; &gt; &gt; &gt; + ** single virtual table in the FROM clause of the SEL=
+ECT.<br>
+&gt; &gt; &gt; &gt; + */<br>
+&gt; &gt; &gt; &gt; +-SQLITE_PRIVATE void sqlite3WhereAddLimit(WhereClause =
+*pWC,<br>
+&gt; Select<br>
+&gt; &gt; *p){<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 assert( p=3D=3D0 || (p-&gt;pGroupBy=3D=3D0 &am=
+p;&amp; (p-&gt;selFlags &amp;<br>
+&gt; SF_Aggregate)=3D=3D0)<br>
+&gt; &gt; );<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 if( (p &amp;&amp; p-&gt;pLimit)=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 1 */<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0&amp;&amp; (p-&gt;selFlags &amp; (SF_Dis=
+tinct|SF_Aggregate))=3D=3D0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+/* 2 */<br>
+&gt; &gt; &gt; &gt; ++SQLITE_PRIVATE void SQLITE_NOINLINE<br>
+&gt; &gt; sqlite3WhereAddLimit(WhereClause *pWC, Select *p){<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 assert( p!=3D0 &amp;&amp; p-&gt;pLimit!=3D0 );=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 1 -- check=
+ed by caller */<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 assert( p-&gt;pGroupBy=3D=3D0 &amp;&amp; (p-&g=
+t;selFlags &amp; SF_Aggregate)=3D=3D0 );<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 if( (p-&gt;selFlags &amp; (SF_Distinct|SF_Aggr=
+egate))=3D=3D0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 2 */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 &amp;&amp; (p-&gt;pSrc-&gt;nSrc=3D=3D1 &=
+amp;&amp; IsVirtual(p-&gt;pSrc-&gt;a[0].pTab))=C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
+ 3 */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0){<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0ExprList *pOrderBy =3D p-&gt;pOrde=
+rBy;<br>
+&gt; &gt; &gt; &gt; +@@ -157427,7 +157425,7 @@ SQLITE_PRIVATE WhereInfo<br>
+&gt; &gt; *sqlite3WhereBegin(<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0Expr *pWhere,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0/* The WHERE clause */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0ExprList *pOrderBy,=C2=A0 =C2=A0 =C2=A0/*=
+ An ORDER BY (or GROUP BY) clause, or<br>
+&gt; NULL<br>
+&gt; &gt; */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0ExprList *pResultSet,=C2=A0 =C2=A0/* Quer=
+y result set.=C2=A0 Req&#39;d for DISTINCT */<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 Select *pLimit,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0/* Use this LIMIT/OFFSET clause, if any */<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 Select *pSelect,=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*=
+ The entire SELECT statement */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0u16 wctrlFlags,=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0/* The WHERE_* flags defined in sqliteInt.h */<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0int iAuxArg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0/* If WHERE_OR_SUBCLAUSE is set, index cursor<br>
+&gt; &gt; number<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0** If WHERE_USE_LIMIT, then th=
+e limit amount */<br>
+&gt; &gt; &gt; &gt; +@@ -157504,9 +157502,7 @@ SQLITE_PRIVATE WhereInfo<br>
+&gt; &gt; *sqlite3WhereBegin(<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0pWInfo-&gt;wctrlFlags =3D wctrlFlags;<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0pWInfo-&gt;iLimit =3D iAuxArg;<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0pWInfo-&gt;savedNQueryLoop =3D pParse-&gt=
+;nQueryLoop;<br>
+&gt; &gt; &gt; &gt; +-#ifndef SQLITE_OMIT_VIRTUALTABLE<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 pWInfo-&gt;pLimit =3D pLimit;<br>
+&gt; &gt; &gt; &gt; +-#endif<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 pWInfo-&gt;pSelect =3D pSelect;<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0memset(&amp;pWInfo-&gt;nOBSat, 0,<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 offsetof(WhereInfo,=
+sWC) - offsetof(WhereInfo,nOBSat));<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0memset(&amp;pWInfo-&gt;a[0], 0,<br>
+&gt; &gt; sizeof(WhereLoop)+nTabList*sizeof(WhereLevel));<br>
+&gt; &gt; &gt; &gt; +@@ -157575,7 +157571,9 @@ SQLITE_PRIVATE WhereInfo<br>
+&gt; &gt; *sqlite3WhereBegin(<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0/* Analyze all of the subexpressions. */<=
+br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0sqlite3WhereExprAnalyze(pTabList, &amp;pW=
+Info-&gt;sWC);<br>
+&gt; &gt; &gt; &gt; +-=C2=A0 sqlite3WhereAddLimit(&amp;pWInfo-&gt;sWC, pLim=
+it);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 if( pSelect &amp;&amp; pSelect-&gt;pLimit ){<b=
+r>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 sqlite3WhereAddLimit(&amp;pWInfo-&gt;sW=
+C, pSelect);<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 }<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0if( db-&gt;mallocFailed ) goto whereBegin=
+Error;<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0/* Special case: WHERE terms that do not =
+refer to any tables in the join<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/recipes-support/sqlite/files/CVE-2025=
+-7458.patch<br>
+&gt; &gt; b/meta/recipes-support/sqlite/files/CVE-2025-7458.patch<br>
+&gt; &gt; &gt; &gt; new file mode 100644<br>
+&gt; &gt; &gt; &gt; index 0000000000..6b041d9332<br>
+&gt; &gt; &gt; &gt; --- /dev/null<br>
+&gt; &gt; &gt; &gt; +++ b/meta/recipes-support/sqlite/files/CVE-2025-7458.p=
+atch<br>
+&gt; &gt; &gt; &gt; @@ -0,0 +1,32 @@<br>
+&gt; &gt; &gt; &gt; +From b816ca9994e03a8bc829b49452b8158a731e81a9 Mon Sep =
+17<br>
+&gt; 00:00:00<br>
+&gt; &gt; 2001<br>
+&gt; &gt; &gt; &gt; +From: drh &lt;&gt;<br>
+&gt; &gt; &gt; &gt; +Date: Thu, 16 Mar 2023 20:54:29 +0000<br>
+&gt; &gt; &gt; &gt; +Subject: [PATCH] Correctly handle SELECT DISTINCT ... =
+ORDER BY<br>
+&gt; when<br>
+&gt; &gt; all of the<br>
+&gt; &gt; &gt; &gt; + result set terms are constant and there are more resu=
+lt set terms than<br>
+&gt; &gt; ORDER<br>
+&gt; &gt; &gt; &gt; + BY terms. Fix for these tickets: [c36cdb4afd504dc1], =
+[4051a7f931d9ba24],<br>
+&gt; &gt; &gt; &gt; + [d6fd512f50513ab7].<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +FossilOrigin-Name:<br>
+&gt; &gt; 12ad822d9b827777526ca5ed5bf3e678d600294fc9b5c25482dfff2a021328a4<=
+br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +CVE: CVE-2025-7458<br>
+&gt; &gt; &gt; &gt; +Upstream-Status: Backport<br>
+&gt; &gt;<br>
+&gt; [<a href=3D"http://github.com/sqlite/sqlite/commit/b816ca9994e03a8bc82=
+9b49452b8158a731e81a9" rel=3D"noreferrer noreferrer noreferrer" target=3D"_=
+blank">github.com/sqlite/sqlite/commit/b816ca9994e03a8bc829b49452b8158a731e=
+81a9</a>]<br>
+&gt; &gt; &gt; &gt; +Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter=
+.marko@siemens.com" rel=3D"noreferrer noreferrer" target=3D"_blank">peter.m=
+arko@siemens.com</a>&gt;<br>
+&gt; &gt; &gt; &gt; +---<br>
+&gt; &gt; &gt; &gt; + sqlite3.c | 4 ++++<br>
+&gt; &gt; &gt; &gt; + 1 file changed, 4 insertions(+)<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +diff --git a/sqlite3.c b/sqlite3.c<br>
+&gt; &gt; &gt; &gt; +index 19d0438..6d92184 100644<br>
+&gt; &gt; &gt; &gt; +--- a/sqlite3.c<br>
+&gt; &gt; &gt; &gt; ++++ b/sqlite3.c<br>
+&gt; &gt; &gt; &gt; +@@ -156989,6 +156989,10 @@ static int wherePathSolver(=
+WhereInfo<br>
+&gt; &gt; *pWInfo, LogEst nRowEst){<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if( pFrom-&gt;isOrdered=3D=
+=3DpWInfo-&gt;pOrderBy-&gt;nExpr ){<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pWInfo-&gt;eDistinct=
+ =3D WHERE_DISTINCT_ORDERED;<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 if( pWInfo-&gt;pSelect-&gt;pOrde=
+rBy<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;&amp; pWInfo-&gt;nOBS=
+at &gt; pWInfo-&gt;pSelect-&gt;pOrderBy-&gt;nExpr ){<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 pWInfo-&gt;nOBSat =3D pWI=
+nfo-&gt;pSelect-&gt;pOrderBy-&gt;nExpr;<br>
+&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0}else{<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0pWInfo-&gt;nOBSat =3D pFrom=
+-&gt;isOrdered;<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0pWInfo-&gt;revMask =3D pFro=
+m-&gt;revLoop;<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/recipes-support/sqlite/<a href=3D"htt=
+p://sqlite3_3.38.5.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_=
+blank">sqlite3_3.38.5.bb</a> b/meta/recipes-<br>
+&gt; &gt; support/sqlite/<a href=3D"http://sqlite3_3.38.5.bb" rel=3D"norefe=
+rrer noreferrer noreferrer" target=3D"_blank">sqlite3_3.38.5.bb</a><br>
+&gt; &gt; &gt; &gt; index 656e2d8bd8..86d9b4b33b 100644<br>
+&gt; &gt; &gt; &gt; --- a/meta/recipes-support/sqlite/<a href=3D"http://sql=
+ite3_3.38.5.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">=
+sqlite3_3.38.5.bb</a><br>
+&gt; &gt; &gt; &gt; +++ b/meta/recipes-support/sqlite/<a href=3D"http://sql=
+ite3_3.38.5.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">=
+sqlite3_3.38.5.bb</a><br>
+&gt; &gt; &gt; &gt; @@ -10,6 +10,8 @@ SRC_URI =3D &quot;<a href=3D"http://w=
+ww.sqlite.org/2022/sqlite-" rel=3D"noreferrer noreferrer noreferrer" target=
+=3D"_blank">http://www.sqlite.org/2022/sqlite-</a><br>
+&gt; autoconf-<br>
+&gt; &gt; ${SQLITE_PV}.tar.gz \<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://=
+CVE-2023-7104.patch \<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://=
+CVE-2025-29088.patch \<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://=
+CVE-2025-6965.patch \<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-T=
+his-branch-attempts-to-improve-the-detection-of-<br>
+&gt; &gt; cov.patch \<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-20=
+25-7458.patch \<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<=
+br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0SRC_URI[sha256sum] =3D<br>
+&gt; &gt; &quot;5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e3=
+9869c&quot;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt; &gt; &gt; Links: You receive all messages sent to this group.<br>
+&gt; &gt; &gt; &gt; View/Reply Online (#221481):<br>
+&gt; &gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/mes=
+sage/221481" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">htt=
+ps://lists.openembedded.org/g/openembedded-core/message/221481</a><br>
+&gt; &gt; &gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.=
+org/mt/114551672/3618471" rel=3D"noreferrer noreferrer noreferrer" target=
+=3D"_blank">https://lists.openembedded.org/mt/114551672/3618471</a><br>
+&gt; &gt; &gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowne=
+r@lists.openembedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank">o=
+penembedded-core+owner@lists.openembedded.org</a><br>
+&gt; &gt; &gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/=
+g/openembedded-core/unsub" rel=3D"noreferrer noreferrer noreferrer" target=
+=3D"_blank">https://lists.openembedded.org/g/openembedded-core/unsub</a><br=
+>
+&gt; &gt; [<a href=3D"mailto:niko.mauno@vaisala.com" rel=3D"noreferrer nore=
+ferrer" target=3D"_blank">niko.mauno@vaisala.com</a>]<br>
+&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+</blockquote></div></div></div>
+
+--000000000000dc9e5a063ded9be8--
 
