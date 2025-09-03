@@ -1,284 +1,269 @@
-Return-Path: <Haixiao.Yan.CN@windriver.com>
+Return-Path: <christian.lindeberg@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65AE9CA0FF2
-	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 08:11:29 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.7068.1756887088157242378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F872CA0FF2
+	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 08:49:59 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.66])
+ by mx.groups.io with SMTP id smtpd.web11.7479.1756889395806773350
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Sep 2025 01:11:28 -0700
+ Wed, 03 Sep 2025 01:49:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=h9965Vgz;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=13417acdf0=haixiao.yan.cn@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5834f4T63447094
-	for <openembedded-core@lists.openembedded.org>; Wed, 3 Sep 2025 01:11:27 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=KabVlWf3NihCA1rgzHIG
-	s+WH8zSRjX+sTwSJLSDD02I=; b=h9965Vgz4z2ZiXOAwzXOVx0dBS0KSftf9od2
-	YpWrfLZXlFEj6TD4qPqGE66eG6/T7CqLMG+MC/YP2SJssvD7/t55h0oOQIiCt0Qc
-	tA34xkw1Q9oECUNP8mg0fufTVfffQL5U5LJC630ZFR9sRoglUhNm86a4VEc8OuaO
-	vZQDmWP0XNnAHTiBuRWKQbietdNQ0xWBtGrgQ0R6d5WjpQkXgVse1WmDFKjTvfAU
-	oOEiym1s7awV9J3e+GtUlC/+n7CuY16dsDbiW8Z3RIfMV9eqP5U8dJyoXT02EQLM
-	cksWXl18De32w3wjpfE9GtgsfzibaYanaHTy3BhCuOylc5hp7w==
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48v0tfkhje-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 01:11:27 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=mK5i0wlO;
+ spf=pass (domain: axis.com, ip: 52.101.69.66, mailfrom: christian.lindeberg@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uGxxVsHRbJrBV7unKZXDsqKo7LoRCvJmo/ubkk+rr+5sioToPpBjYAuUBestSWQsFSEUCRIFJyEZkgUK3xtf+SKvTPPwHuRk4hJcYTYWt8Gvl87ZaFX96gkbegvZfVg8kqInBUpqMdN2LPz5LznSpOo3446BXnkoB59oapK8bGF5PJRMzDEg021+l4RoZA8BwwboKGntKnQi8KrEDGfRxA+MWfkQLXbCdSi6EF/Vj4qf3i/+2BPfmDEmQAyLPfSPL1w+C9j4KpjH1e7Esv1pPNn9JR1ggJhQ7ZL8Ygcj/yJLZ9eQsFMMB7NAx1qniSO5I2++pzeo43VnLnd7hA3qog==
+ b=cBdcjpphKpTWoWKIxeml6izZPKI6unNl6IyjdXieDk3Gh9ZnvzCkIesHFhoSRtAQfndKjhdo8aEFh1mdokSc1c2IXyDa2Eo3Zx95kFSIAQqj5bQSHCNiRUqAMWTOablMvE6gxqIQfJsiPE6ugLe/C8R40gc1M8h4vM+O+vRyhKyP8TxZdMbfvowzngQCdUfZQI/PBo90pWLZMqPcMmJrO+biuFABjMEiJf4kATw79572Qt5t1GSa8A4i3Zlo9R1vMreylGtGvyk04hMc88ixtUyVxM6uFEWM8Iyyd0KTE4ZzeZd4QEotFY+RwqU+zb0N6r97CnsdiUWQ/nc59SIevg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KabVlWf3NihCA1rgzHIGs+WH8zSRjX+sTwSJLSDD02I=;
- b=jITTj51QoIQ6joqAMliZy6/Y4MaKcBxJpVPJ7kN6GTl0btU9ittM/PjtYw9DUoFeStnDn0bRa9DDuv9N0Z0yE7lLE5ISGtWyWHOph+0R6O5k8XU26RzCY9JnbaN3zdHr87U/T5df0Df5Wae60BRFCpN8qPQMpM7Ot3P2u3dYkTWTUmEjyAAaxNvE+md4+IpyujaqW+ohY3CR0qGDT5bnEK/XoZCFydCw8etXC+WNbtzDSJyC8kom/25j7zf1Fg/dwLz0QKUoMoZR6WfUjncEN0Pdu/K9wclXyPykWJ2O8aw9wInEShjgGbLPwTGtFUcuJXQuTqNgyu5Pyrc8zCD4/w==
+ bh=eld8mark1oJMESInPHpd9svzxj/yIEZWEJYbTicbNfk=;
+ b=lkPo7G8eYDI93HZ9knUggzAelEwxr+kv1/HQ4KR8jmo4JaXh7kMFAI8ylLmt8V47iRJraPYAM9hz07SbQbiceU2sgeI6IzbaJNOlTIcZi5+VFe5KKvxIpz2mu4xRGvUcIZ3LWIWhP2QZRr1h5FrYCzz9kjD7O1m7i44cTp+hSHGk1xU2a7WLMcvWC6H3vaKCI8QjHfV/oE6lW8SNZa0UipDlXNpkc9so2TIpxZ9bBtpJUPtx1JVoyC1fgepnOlb1hNwo5OABbd9+9ittE6N/z+6c+IomLbM7kvwWIf7g6wktZ8WREZjNWT8046iUTCCKBHzkFBjcrVs26Ens7VhgYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH0PR11MB8189.namprd11.prod.outlook.com (2603:10b6:610:18d::13)
- by IA4PR11MB9057.namprd11.prod.outlook.com (2603:10b6:208:55d::15) with
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eld8mark1oJMESInPHpd9svzxj/yIEZWEJYbTicbNfk=;
+ b=mK5i0wlOdDpq1kss9FhVfmB1H2SozYvflZ6d+iNQ3X+d+Oe0TI8Vx/pfv09ebtwKcuqR5Li5nIWLP0SbvASmmfE47+otoyo781fdrshPWKYEajZ1IA78B4kYqAaJa/ID+el+kpzHRdxtOIv/V63mzWTHBfm69jjpnYURjs4Sg2U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+Received: from DU0PR02MB9894.eurprd02.prod.outlook.com (2603:10a6:10:44a::6)
+ by AS8PR02MB10204.eurprd02.prod.outlook.com (2603:10a6:20b:628::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Wed, 3 Sep
- 2025 08:11:25 +0000
-Received: from CH0PR11MB8189.namprd11.prod.outlook.com
- ([fe80::4025:23a:33d9:30a4]) by CH0PR11MB8189.namprd11.prod.outlook.com
- ([fe80::4025:23a:33d9:30a4%3]) with mapi id 15.20.9073.026; Wed, 3 Sep 2025
- 08:11:25 +0000
-From: haixiao.yan.cn@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH 1/1] environment.d-openssl.sh: fix unbound variable with 'set -u'
-Date: Wed,  3 Sep 2025 16:11:13 +0800
-Message-Id: <20250903081113.3182850-1-haixiao.yan.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0045.apcprd02.prod.outlook.com
- (2603:1096:4:196::21) To CH0PR11MB8189.namprd11.prod.outlook.com
- (2603:10b6:610:18d::13)
+ 2025 08:49:49 +0000
+Received: from DU0PR02MB9894.eurprd02.prod.outlook.com
+ ([fe80::74bd:5b24:5e73:94e0]) by DU0PR02MB9894.eurprd02.prod.outlook.com
+ ([fe80::74bd:5b24:5e73:94e0%3]) with mapi id 15.20.9094.016; Wed, 3 Sep 2025
+ 08:49:49 +0000
+Message-ID: <b73a4e8f-b5ed-4839-bc5f-e90fe45b5598@axis.com>
+Date: Wed, 3 Sep 2025 10:49:48 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2] gomod: extract license files for omitted
+ modules
+To: Jeroen Hofstee <oe@myspectrum.nl>,
+ openembedded-core@lists.openembedded.org, ross.burton@arm.com
+References: <20250719150105.2697443-1-jeroen@myspectrum.nl>
+ <a00f1d80-39a2-4b55-a36e-b69797ba761b@myspectrum.nl>
+Content-Language: en-US
+From: Christian Lindeberg <christian.lindeberg@axis.com>
+In-Reply-To: <a00f1d80-39a2-4b55-a36e-b69797ba761b@myspectrum.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: MM0P280CA0092.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:9::22) To DU0PR02MB9894.eurprd02.prod.outlook.com
+ (2603:10a6:10:44a::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB8189:EE_|IA4PR11MB9057:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85c50696-b11a-42e7-0bbf-08ddeac179b3
+X-MS-TrafficTypeDiagnostic: DU0PR02MB9894:EE_|AS8PR02MB10204:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8296bbb7-c733-44d8-88bf-08ddeac6d72f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+	BCL:0;ARA:13230040|4022899009|1800799024|366016|376014|7053199007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?Ve76D8b1EkFOWmSjssyGl110WruMJnqgV8I4BU6ubuVbQmEJ4s4UcfCqvMKl?=
- =?us-ascii?Q?kvSyXG5E7T0mLJdiL6tw6S5VeTSVX5PZ24CAAczCrD/iK1p8qzNccRlu/p32?=
- =?us-ascii?Q?v4lJtHdOPacAsWrHfH78VOoebt4OavE6P+0Lr5DLsfL3zYAsQIIXiAv8TXYZ?=
- =?us-ascii?Q?Sk+C3vfhO3zT3CCeorobXryRR59+70bW6FM1klsx7FikkcLsCqXGeRXTLaIt?=
- =?us-ascii?Q?V2SNzbqPC0ixC7A+k+0QwjG7yCz/m/F+Jx6s+XYP5mNM1TWkZ92vwkFTR81w?=
- =?us-ascii?Q?fZ4/057r2vlQZHI4KprOntCtUvwrayINPfS2nz+EpfYx0bPZ2fyEzefxSWDk?=
- =?us-ascii?Q?ZUmo51ObSs+J98K7W6IqYmMsTpiHGfOtvFjVRhgMhCibM9j8mu/GKAbW2JVb?=
- =?us-ascii?Q?BKuaAEekdcG/8xEwsp8m0hi9a2PnnnvbE7qk/ueVJpWnizJfCi2cF7tDDDN6?=
- =?us-ascii?Q?b8CXNAwM08hMZQGQav5nbm6b8nCXFjD9Nml3Mkbp1JTQomzg0XmmyUtTp35d?=
- =?us-ascii?Q?ER7Pmcx+SBuSS/wKd0ylv3GaKMHF5fqZhQhAk0OQkHfFYsqNvi5S9aB3lhG1?=
- =?us-ascii?Q?QuBuWpZp/q2u+DKoS6cZa9dfdglBWcfQKQjAY+Gxw9gl4NPs0J9xXGa5KExS?=
- =?us-ascii?Q?FLgkAKWyVJis69/Hm71AWIY7gxRvoLi6NIho95Fc0PddVt2lx/4db5ipjyTf?=
- =?us-ascii?Q?dfNxmVyNnxi2TojDSZanleUzxgybv0vWDcA097fK+5pgmbrv9pwNDlQn3kiM?=
- =?us-ascii?Q?qN88ysl9A4oHkW00iMuPKlLGSuEb9JLhbibF9xhFC4nRb1f2eB0xpoCRl9/E?=
- =?us-ascii?Q?2WraSWwZmnD71fEQ763Fh4EvsMZ/bTs7bB81ngATcpbrrF8k5ZCNQyQc4EtQ?=
- =?us-ascii?Q?/G9m2Nm9TqqNAuOAWPtMOGtfX04EKVkFxi/21CQm/pbT1CPdH7jygytV2LAJ?=
- =?us-ascii?Q?cOtkNpB0U4imitiCNchBPRAlPQFLL16ITTfgAPcaD/dhmFCJQ9x4BtZxNweu?=
- =?us-ascii?Q?F6yemfbfaH3bynfFxnLN1zd0B3KhI3bjB0MNXk0D/adQoxgU4rUhatvfK7D8?=
- =?us-ascii?Q?FzCcDUo0X0QZ9Zx9CWGpkz6ouvVBOGg+4JpyR3J/h9QaKLofY0QSBitLuheN?=
- =?us-ascii?Q?pS92bkg9BSEqXvSLlrRK6IDzNIka2Y29WGEVYl+BtkBUkqQvETmQnJe5EEXy?=
- =?us-ascii?Q?1MkejbqCRIpuY+lQAbuMxHgYiEOIu2Y0H4ZxqX9dAarZ3sQ/KEbdFYHcdDWt?=
- =?us-ascii?Q?7fUeT73OqjnIdIbFccTCbeTdY0eMaREp+805NDHvYEH3jrBfopTCLPKq/Uxr?=
- =?us-ascii?Q?/5rtkENLzDxHk5iPoMFtc7JFN7aXo05mKt4JULwaE71OzOWzSA3SEGsESQ54?=
- =?us-ascii?Q?rMvXuCRKYjz9MzWzg65bQqG1+8lopoOH3fTMnJwTTwoeL1p6s6+D1Ex/RDgP?=
- =?us-ascii?Q?NwOUmFnaoAxZH77rnmkp1njSlsXRA4bxc+c5QwpQ7Wg7CNKT/hsk2A=3D=3D?=
+	=?us-ascii?Q?hhOXPas1uvKWa58IsBUKcO4m8Oexb+fJ+bcLKaDuooWY0mr4lSILysyXciim?=
+ =?us-ascii?Q?n7pk4gfmjNNQOYhRMCYDkVrvWMWwEvCaseLafN9Ge5KY5CGPZsMkjeuAdli6?=
+ =?us-ascii?Q?yfX2l7rOL+q20QnBQHEWpIHhGC1Kqvg/UOlHM+9CX/mSCU4w5ZPyxhLWJo4X?=
+ =?us-ascii?Q?NfRVBjoVlmY/Q6c017B0BqUtP69BgU7G6ylDHRluepcENTCwsJT/orGhFFtm?=
+ =?us-ascii?Q?yollxF8Kw4tlRlCa4e+lAaml+cFxr4ogs5MmVAeii6r52/JObjkYW1nUWznx?=
+ =?us-ascii?Q?QpliGV+L6a0PF5OtMpK+HBknVRc+y84Grir/dLeMP1w+308c4sQBjzTGaEAo?=
+ =?us-ascii?Q?+4VMjGJmZNcyVoLJ7giW8ePGeN/Rl0nE1kz9PgMWI1dZ9Ql/F/lbRjEjfU9q?=
+ =?us-ascii?Q?3fQD9Uk4Bz23ugdPdwXhsw8oYJRstM0IvyTi9GH3zQJCbbPt7j6S8GpI2NiF?=
+ =?us-ascii?Q?8a04BZCzj7xsAZEcjlEP5X/TRmu13TJi6Yn0rT0ei+dgQNKZjc0fpblActvo?=
+ =?us-ascii?Q?yLR8Xx/1m6j22EBC6QAG2UjOGLQ7v8j3HoRMkcqRZT6W6PByrgK+XWtE5oiP?=
+ =?us-ascii?Q?zJMMwUBeIKGsHS/VAGegZGICKOr6XZFpmIVlayz3ko8VqNLfI4NWsLEOCxhb?=
+ =?us-ascii?Q?wzAUMq/f0Y2lJ4ro1kCESW7JxIWjyiUmSvHP/qfmMHk8d8+t6eOxSDUs82MD?=
+ =?us-ascii?Q?CfG4Qwo5f/ScWrgI6dK9bv2128N7gBCkbF7ofXRNrqVlPbI8fnp6a1ndeHwc?=
+ =?us-ascii?Q?90+U6zpIvuuZS3j5aZ6Mra07u8fVz/IjbQ/1jx2RDhONxsZevfSMvpyeOpjP?=
+ =?us-ascii?Q?XGhNW/DsR38lYOMflBiK2Mp9PsuNWanXls2JUPIpMBEcVStsFhO5P+FfUTrz?=
+ =?us-ascii?Q?t+NXQcdqz87gBBb5DbeWWsPeY8cLnn9G507+91Imf80inFxh3zm1ybNPdwhX?=
+ =?us-ascii?Q?msbIenCE0oRWXv8E6lILncTYid2skxqPRjlRiRCIbhmZlOX2VQb1hJj+xBqx?=
+ =?us-ascii?Q?zcV2N4aHrfZ0IOPu/bam+4KVvmSo03B0qI0NNAukwCZaE4jRd14cepZxHlgD?=
+ =?us-ascii?Q?fqkZLerPy6Jtb3+DueDtvvRRBkOQfkdzHK/DeV4SVbnWh8gr0en4Na7IprzT?=
+ =?us-ascii?Q?WKYmmOLOTwtR+NMy5VqIfljEp2r2GzBxA1wgVZFoBUZ8lGCiTj23qrEJrlqk?=
+ =?us-ascii?Q?eWQ3BYaqYh25m62YyECGBFAc1C+X1GD0hx1yXI9Fk/xwd2I4TMAqMmDpJ6a5?=
+ =?us-ascii?Q?S/+X/OTtI4P3UKdn2JUlGU6Xd/Q+dyHAvdmFhJopeGlIowbFDwiGdX3YB5M8?=
+ =?us-ascii?Q?ruLA/SOjmsO9BaJzKOvsA/3+OlFBjssQb2iaqpI+qTOd2tNGOgea0XIBQI+K?=
+ =?us-ascii?Q?hEUFYic=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB8189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR02MB9894.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?i4JSf6ivTA0277OSs40gVs/oluQv1LAAVpePi3C1IxQt8DWUjfsU78e/xKgl?=
- =?us-ascii?Q?W7Cj68exwnMgk56+YO4NdUAz0+vQ31Y+YivqQTR+DB12O1NX6jk2GYwBnCWa?=
- =?us-ascii?Q?IhLQMEj+q9W3ohwQuyFwNE74jIhQ6F4WKrQ2ES6klIG8whsnXH0dEk3um0G5?=
- =?us-ascii?Q?pg/w30Qx4wJDTN+NmOQaBngVv9mt0OLBJuIq9x8EWujGOZfOSoZvkZuvEh+h?=
- =?us-ascii?Q?KhTF6qillZ1xPLcjGLbZirTf4dcIj3mL1SqTux0ROS7sTA5pKM6fpqHgGR6E?=
- =?us-ascii?Q?RsnCuC95b9Xe1dsuMD50Xq8EytFhCGbOn73uoqL+pwkKZdiWt29bu3Eq3NLS?=
- =?us-ascii?Q?9hCKJb1IYtCC2bzFpgDkld13nwq0XACxb7R7ohceODSbqeUbpZsJnpqcd+jj?=
- =?us-ascii?Q?UMu65stCOK1eLS+ZcYPwJuRVPR4K+dQosmsL9AhhVc/VMAJ2Q+VdHfENLvdn?=
- =?us-ascii?Q?wZQaJYLCbsqu8z/X0hESwTBU+wVqR/eJjiZUvmacLVrBs+QYQ3xTOuAr8xlb?=
- =?us-ascii?Q?dX9Ji7SjfP3zEgjnxMp+ce4x0jP8CDXqHYhmYTX4f8ulGjUMSfD60uectib/?=
- =?us-ascii?Q?i5v8yU//tGu/d1IBbl1+axZ9zM9AJT9DKht874w9ZCoyr0+YSI+o3HVevxYH?=
- =?us-ascii?Q?S4lf7xJe175+g22ZcOj0JBIMEbhZ7Eog7dDzrgrGvxipf9WcLH/8MKcU+50p?=
- =?us-ascii?Q?AjUvJ9ID2mzdyjVIUR+GyTbqrdpnZ/EobwY6eNHEGp1UsdsDhqI+Yb9lnWTG?=
- =?us-ascii?Q?MGmf2C5Bx2rPOj1LLC3sKrnvv1Jd4Gt+8MwUobq5as0eDw/jHQMniwLMNgJW?=
- =?us-ascii?Q?jZCyyPOj5S7uCn3nxCfewqOuR9eLPqPVScUNiO3JtU6XmSIPbWDaPJxAmudS?=
- =?us-ascii?Q?MihMc2YGOq3a0GfFLM1+19IMqvughDXXJtmb4VZtpOZYkcv3g9fwXornmniu?=
- =?us-ascii?Q?eIRyXrQysGeCjKB0gOvJeAOzl3y6eP7uEkyVBH+5RsqStms0c8qs2WeGE7zP?=
- =?us-ascii?Q?hVkw8majW+LgOT33sqIFP1guDXX0ZXoOkSvZa03QOipmNdsc37CTUI1gSXtY?=
- =?us-ascii?Q?FIm0cLYnCaHd/Tf2jwJo6Yz+LYDnJVxhXKNyJ1Ko0a7zim7LbS+V2Q/d3Zvz?=
- =?us-ascii?Q?naH1uHMH/c7xA+agbrc0gwamMDrijiY5z3uGc7kuEjgSKQzf8coXkqOvny6c?=
- =?us-ascii?Q?odIzSDukSByB9Jhtezk2NLA/2ZNvRQNAgmGiNs81KZepVmNPAi0ZwUCfxWjX?=
- =?us-ascii?Q?WX7Qo8YFidhxPRmoaJoOQxX80mnNf2cWe2hxf8oHSdXqsWFp3fSK8/bkAi1V?=
- =?us-ascii?Q?Gw7gYBVDvPghjvqrFbSRYnzzGzztDP6IDQn5FiSypL5O71Fwf75tzWUy3MqO?=
- =?us-ascii?Q?DxayRN4vO1/orP1ZDteHuKzCPlDJHzZXHksKse9V7+XiGEG84o9J84G2Ccne?=
- =?us-ascii?Q?zZpHVZbOKvKPOL88gT7BhkebvtOlBkrd5Aq46aqk718u8GDM9xXDMf8O41sO?=
- =?us-ascii?Q?iNPDzTZg+dblTHd6zYdb85mWJtF24OCAp6VPWbRmXLD+68sCJ8N7va/knZ9R?=
- =?us-ascii?Q?t7vcwCkpwpYxGQ2gPePLj5DPhH+G6MBIT+prYelfDCXanKfWKaB2ss577KQe?=
- =?us-ascii?Q?6A=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85c50696-b11a-42e7-0bbf-08ddeac179b3
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB8189.namprd11.prod.outlook.com
+	=?us-ascii?Q?rPtZO1j5uGZHFtrCn9LE57pxrGmwetczJWLsk14xu8MCHmv3u6Cs0lpEXbNC?=
+ =?us-ascii?Q?489fy8nHzKFGG5mL/tt4hpch4V2NOtihcSf6O5g/8eGSECqUg0VdutiRlwxW?=
+ =?us-ascii?Q?1hsf8+B3oiYNveCKTxbIVLODnQVq/wWftHqGLwEJS+D3/PcIf0KfHqshpddn?=
+ =?us-ascii?Q?A2iGiKFCErDpDyhs7UiCVZeyT2taYkLnyGwg7YlhoKxTrDrnlqTRwl7ZJPr7?=
+ =?us-ascii?Q?niDDnTGRrOcZLWvQ9lVtFQvxN5enAyK5lOKXfGWv2LFPS6jxKoC60C6eQlfp?=
+ =?us-ascii?Q?cnP1zMkd2Itwagw04X3YoeDnRda95jGIBPnEbHh8k2uQhVVVAdKGbbvDMYqY?=
+ =?us-ascii?Q?1IvBMcJQKDCTT6JkPpvakRegcsOQKhTcdwrNx7/t4sBkUzfB9YtoN1WSbQ/b?=
+ =?us-ascii?Q?0SFQ/Lngcq6PbNMskSwYPenBQsuJh28rrrnL2eiTXt9+npI0PfVTWxSCI1Pf?=
+ =?us-ascii?Q?OIbQepsf2YzBvLX5TqlwDqy66XFDS/xZBrvw9JpsPMBR+Q1KCcRKXCHx/DnP?=
+ =?us-ascii?Q?VwJhNujN7hyrxsUAdoRc0rj2ukPm1ByiEB6X6BsQUgx58tjJr5Zmt0XU4M4f?=
+ =?us-ascii?Q?Y0AxAW5DtudZBb5nlx59HZyiXifoQKmgEFEeksR1gmmplpmrCfOMxil27k4D?=
+ =?us-ascii?Q?7Ayeu+ukjleez6p8DyEKVKdWo0rQC7v8JjkqCNXKx8RabCvzYq7KerNWDZZH?=
+ =?us-ascii?Q?4+uN5/282UCZIXYbY31TRmf3IE5ExSj/amRQQeovmOOf2sT4o2YuKkVeSpP7?=
+ =?us-ascii?Q?NCLrgo4FYTIjUHs3h6+BcfeR1scf20cfckVR0vImU55kpC9Iy0Qhd0SrzMeN?=
+ =?us-ascii?Q?qlv966S+Mw7hMWnCABp/aWD1uy7YpUdtldy+E3g2sclAo5CiyduSbqAgTvsb?=
+ =?us-ascii?Q?/YN6UtHAAHiiZFBpN3skw1WOLOLZ9Uz8SHhlzSTqkE0QbUM8RaUGIBXUHn7e?=
+ =?us-ascii?Q?CupDq8iPVxiKZG47slK4udUXTgNmUhJaPtWwq4wv8z7pGEQ1/3QSEgYOMTHb?=
+ =?us-ascii?Q?wf2ACNBqNWigG2v58F/CXLC950GrHmc7GEagudHAyQNVd1Ik6Xfm8TF9U9F9?=
+ =?us-ascii?Q?Cabyw1gF3d93MmhAfd7mxKL0Aj6rOTt1TkZA2Y72pv5UUnzj0MHbxQKsTtuP?=
+ =?us-ascii?Q?MsOKpw0fTPR76OFiOxHoo3/zFzNOBXuUPA/2KoSj6yq19FBzTE7NNwdM1Xby?=
+ =?us-ascii?Q?60USzkiB1EC65QeW7NGhOnyqI6wW8ejNdrkwMU89IHrsqLVBdMnL4sKZDCgG?=
+ =?us-ascii?Q?6j76sdtVKbXsNtLd+BXffIOsv8SCOKELHR4yM+xhuYmRxql2Pgw3eC1AiZc3?=
+ =?us-ascii?Q?ViUMukAWJWhLn69OUPA3VRqtb0fc7XKEedisLqYhkXzX3HUAsJrcpnYdbgET?=
+ =?us-ascii?Q?n5dYe6yMOx4+7K5CLgarr8WrfZsJ+kNGTaDhDtwdD5Ihwz2RbpbW8Y4LERa2?=
+ =?us-ascii?Q?N/FBTvKCrzrKBzbMIE3AhdOdu6OAhUr8bZssz+3ssrKyFm5Tel902+bBDBDY?=
+ =?us-ascii?Q?nKqf8lr97ns0Ggs0sm8CpfzfZL4YuMGFdH/bvMc95bomfO0V/+OyM1MjNeuV?=
+ =?us-ascii?Q?GOMYD8UTHrYyuf8o0Z8qGaQaxIlw9pK/1f/NUIvD?=
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8296bbb7-c733-44d8-88bf-08ddeac6d72f
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR02MB9894.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 08:11:25.0254
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 08:49:49.4074
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NBhCbK9XckVvLPOjr9q6FZdkLU1k/C68FDG6V7gNNLiiWaN4zrwrBG/nt9ZoP5HJU4upEns6HypC4gE0OwOh2qHqQ0lUyNH1fYjt0nHSDj4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9057
-X-Proofpoint-GUID: bTRZUjNx4BSH4_pUHWfiG-kZ9SGWqph_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAzMDA4MCBTYWx0ZWRfX715K4gnUz/l1
- yRa11mJUQ1706Oi95x/4Do2gyoc/N8u3JewW/8n6nx5xIoleQrJA+I+KJ1dtCb12NAkJRxMVES5
- DxHRVQeLepW8vv/+Ycspj1gD+NMU0xQH0YHAww1rP/RTGljK2K1cYIUOJ4hTwITinkqMKsVn3f5
- BFtmIQkR1SXXAZjQfF0NhuT1/5MshyYU+a9Mmjtb3xcvj8myQcX+1dPsfxop0vuhiCuB3zh0Gyd
- s+j+H5bbL4XXE1bcCKyPGVDFOR/U25BVLX3hFYIiZBcXhNKpxs1dMU1kyPgx0MLalHiPDnSdSnK
- +vRtEwnrJaRCSQtN+mqxJqQ8sVhz4pplqrMRZuOfwKaPKsWJJ0LObfWDqZWlQw=
-X-Authority-Analysis: v=2.4 cv=XJ0wSRhE c=1 sm=1 tr=0 ts=68b7f82f cx=c_pps
- a=IlNV5R6BeUB3P+g5y+cQKQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10 a=t7CeM3EgAAAA:8 a=G8RaOm78J5cyyXkNedkA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: bTRZUjNx4BSH4_pUHWfiG-kZ9SGWqph_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-03_04,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 spamscore=0 clxscore=1015 phishscore=0
- malwarescore=0 bulkscore=0 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+X-MS-Exchange-CrossTenant-UserPrincipalName: 24fbzt7jj7ECxF4sDfHAg5gfUPExc2XhTlUB3OnQNYXF8xcoHrq6FDesxVCFADFhq2CaqqgD4PP146JGy04bGA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB10204
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 08:11:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222850
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 08:49:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222851
 
-From: Haixiao Yan <haixiao.yan.cn@windriver.com>
+Hi,
 
-When Bash runs with 'set -u' (nounset), accessing an unset variable
-directly (e.g. [ -z "$SSL_CERT_FILE" ]) causes a fatal "unbound variable"
-error. As a result, the fallback logic to set SSL_CERT_FILE/SSL_CERT_DIR
-is never triggered and the script aborts.
+An alternative more in line with conditional dependencies to C=20
+libraries, where
+the license is pulled in if the dependency is added, would be to=20
+conditionally
+add the licenses.
 
-The current code assumes these variables may be unset or empty, but does
-not guard against 'set -u'. This breaks builds in stricter shell
-environments or when users explicitly enable 'set -u'.
+But in case this is not feasible I guess there is a need to unpack the extr=
+a
+licenses as a workaround.
 
-Fix this by using parameter expansion with a default value, e.g.
-"${SSL_CERT_FILE:-}", so that unset variables are treated as empty
-strings. This preserves the intended logic (respect host env first, then
-CAFILE/CAPATH, then buildtools defaults) and makes the script robust
-under 'set -u'.
+Some comments below.
 
-Note: environment.d-curl.sh, environment.d-python3-requests.sh,
-and environment.d-git.sh have the same issue and should be fixed
-similarly.
+Thanks,
+Christian
 
-Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
----
- .../openssl/files/environment.d-openssl.sh                | 8 ++++----
- meta/recipes-devtools/git/git/environment.d-git.sh        | 8 ++++----
- .../python3-requests/environment.d-python3-requests.sh    | 4 ++--
- meta/recipes-support/curl/curl/environment.d-curl.sh      | 8 ++++----
- 4 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-index c635be8acab3..d989a2279183 100644
---- a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-+++ b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-@@ -4,16 +4,16 @@ export OPENSSL_ENGINES="$OECORE_NATIVE_SYSROOT/usr/lib/engines-3"
- 
- # Respect host env SSL_CERT_FILE/SSL_CERT_DIR first, then auto-detected host cert, then cert in buildtools
- # CAFILE/CAPATH is auto-deteced when source buildtools
--if [ -z "$SSL_CERT_FILE" ]; then
--   if [ -n "$CAFILE" ];then
-+if [ -z "${SSL_CERT_FILE:-}" ]; then
-+   if [ -n "${CAFILE:-}" ];then
-        export SSL_CERT_FILE="$CAFILE"
-    elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
-        export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs/ca-certificates.crt"
-    fi
- fi
- 
--if [ -z "$SSL_CERT_DIR" ]; then
--   if [ -n "$CAPATH" ];then
-+if [ -z "${SSL_CERT_DIR:-}" ]; then
-+   if [ -n "${CAPATH:-}" ];then
-        export SSL_CERT_DIR="$CAPATH"
-    elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
-        export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs"
-diff --git a/meta/recipes-devtools/git/git/environment.d-git.sh b/meta/recipes-devtools/git/git/environment.d-git.sh
-index 9c7b5a92512a..fdfa721c3b2e 100644
---- a/meta/recipes-devtools/git/git/environment.d-git.sh
-+++ b/meta/recipes-devtools/git/git/environment.d-git.sh
-@@ -1,15 +1,15 @@
- # Respect host env GIT_SSL_CAINFO/GIT_SSL_CAPATH first, then auto-detected host cert, then cert in buildtools
- # CAFILE/CAPATH is auto-deteced when source buildtools
--if [ -z "$GIT_SSL_CAINFO" ]; then
--	if [ -n "$CAFILE" ];then
-+if [ -z "${GIT_SSL_CAINFO:-}" ]; then
-+	if [ -n "${CAFILE:-}" ];then
- 		export GIT_SSL_CAINFO="$CAFILE"
- 	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
- 		export GIT_SSL_CAINFO="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
- 	fi
- fi
- 
--if [ -z "$GIT_SSL_CAPATH" ]; then
--	if [ -n "$CAPATH" ];then
-+if [ -z "${GIT_SSL_CAPATH:-}" ]; then
-+	if [ -n "${CAPATH:-}" ];then
- 		export GIT_SSL_CAPATH="$CAPATH"
- 	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
- 		export GIT_SSL_CAPATH="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs"
-diff --git a/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh b/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
-index 492177a9c377..400972814b6e 100644
---- a/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
-+++ b/meta/recipes-devtools/python/python3-requests/environment.d-python3-requests.sh
-@@ -1,7 +1,7 @@
- # Respect host env REQUESTS_CA_BUNDLE first, then auto-detected host cert, then cert in buildtools
- # CAFILE/CAPATH is auto-deteced when source buildtools
--if [ -z "$REQUESTS_CA_BUNDLE" ]; then
--	if [ -n "$CAFILE" ];then
-+if [ -z "${REQUESTS_CA_BUNDLE:-}" ]; then
-+	if [ -n "${CAFILE:-}" ];then
- 		export REQUESTS_CA_BUNDLE="$CAFILE"
- 	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
- 		export REQUESTS_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
-diff --git a/meta/recipes-support/curl/curl/environment.d-curl.sh b/meta/recipes-support/curl/curl/environment.d-curl.sh
-index 7c2971b3dad1..581108ef35d8 100644
---- a/meta/recipes-support/curl/curl/environment.d-curl.sh
-+++ b/meta/recipes-support/curl/curl/environment.d-curl.sh
-@@ -1,15 +1,15 @@
- # Respect host env CURL_CA_BUNDLE/CURL_CA_PATH first, then auto-detected host cert, then cert in buildtools
- # CAFILE/CAPATH is auto-deteced when source buildtools
--if [ -z "$CURL_CA_PATH" ]; then
--	if [ -n "$CAFILE" ];then
-+if [ -z "${CURL_CA_PATH:-}" ]; then
-+	if [ -n "${CAFILE:-}" ];then
- 		export CURL_CA_BUNDLE="$CAFILE"
- 	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
- 		export CURL_CA_BUNDLE="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt"
- 	fi
- fi
- 
--if [ -z "$CURL_CA_PATH" ]; then
--	if [ -n "$CAPATH" ];then
-+if [ -z "${CURL_CA_PATH:-}" ]; then
-+	if [ -n "${CAPATH:-}" ];then
- 		export CURL_CA_PATH="$CAPATH"
- 	elif [ -e "${OECORE_NATIVE_SYSROOT}/etc/ssl/certs/ca-certificates.crt" ];then
- 		export CURL_CA_PATH="${OECORE_NATIVE_SYSROOT}/etc/ssl/certs"
--- 
-2.34.1
+On 02/09/2025 17:04, Jeroen Hofstee wrote:
+> [You don't often get email from oe@myspectrum.nl. Learn why this is=20
+> important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> Hi Christian, Ross or some else to whom it may concern ,
+>
+> Can you also have a look at:
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20250719150105.2=
+697443-1-jeroen@myspectrum.nl/=20
+>
+>
+> It simply makes sure LICENSE files are always present.
+>
+> Thanks,
+> Jeroen
+>
+> On 7/19/25 17:01, Jeroen Hofstee wrote:
+>> From: Jeroen Hofstee <jhofstee@victronenergy.com>
+>>
+>> If a gomod is omitted with a PACKAGECONFIG option its license file
+>> doesn't get extracted to the gomod cache dir and hence do_populate_lic
+>> will complain that the license file isn't found. This adds a task
+>> do_extract_lic after do_compile and before do_populate_lic to make
+>> sure the license files are extracted in such a case.
+>>
+>> Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
+>>
+>> ---
+>> v2:
+>>
+>> - drop bb.utils.mkdirhier(os.path.dirname(cachefile)), extract
+>> =C2=A0=C2=A0 will create it.
+>> - fix typo in the commit msg, it is do_populate_lic
+>> ---
+>> =C2=A0 meta/classes-recipe/go-mod.bbclass | 33 +++++++++++++++++++++++++=
++++++
+>> =C2=A0 1 file changed, 33 insertions(+)
+>>
+>> diff --git a/meta/classes-recipe/go-mod.bbclass=20
+>> b/meta/classes-recipe/go-mod.bbclass
+>> index a15dda8f0e..4c0496e1e7 100644
+>> --- a/meta/classes-recipe/go-mod.bbclass
+>> +++ b/meta/classes-recipe/go-mod.bbclass
+>> @@ -29,6 +29,39 @@ do_unpack[cleandirs] +=3D "${GOMODCACHE}"
+>> =C2=A0 GO_WORKDIR ?=3D "${GO_IMPORT}"
+>> =C2=A0 do_compile[dirs] +=3D "${B}/src/${GO_WORKDIR}"
+>>
+>> +python do_extract_lic() {
+>> +=C2=A0=C2=A0=C2=A0 import zipfile
+>> +
+>> +=C2=A0=C2=A0=C2=A0 lics =3D d.getVar("LIC_FILES_CHKSUM")
+>> +=C2=A0=C2=A0=C2=A0 cache =3D d.getVar("GOMODCACHE")
+>> +=C2=A0=C2=A0=C2=A0 dldir =3D os.path.join(cache, "cache", "download")
+>> +=C2=A0=C2=A0=C2=A0 prefix =3D "file://pkg/mod/"
+>> +
+>> +=C2=A0=C2=A0=C2=A0 for lic in lics.split():
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not lic.startswith(prefix=
+):
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cont=
+inue
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src =
+=3D lic[len(prefix):].split(";")[0]
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 url,=
+ suffix =3D src.split("@v")
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vers=
+ion, _, file =3D suffix.partition(os.path.sep)
+The path separator in the URIs will not change with the OS but I guess=20
+this may
+not be completely consistent across the code base.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cont=
+inue
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cachefile =3D os.path.join(c=
+ache, src)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 zip =3D os.path.join(dldir, =
+url, "@v", "v" + version) + ".zip"
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if os.path.exists(cachefile)=
+ or not os.path.exists(zip):
+A non-existing zip file is unexpected and I think a warning is appropriate.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cont=
+inue
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.n=
+ote(f"extract {src} from {zip}")
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 zipf=
+ile.ZipFile(zip).extract(src, cache)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.w=
+arn(f"could not extract {src} from {zip}")
+>> +}
+>> +
+>> =C2=A0 # Make go install unpack the module zip files in the module cache=
+=20
+>> directory
+>> =C2=A0 # before the license directory is polulated with license files.
+>> +# Do make sure licenses get extracted for omitted modules.
+>> +addtask do_extract_lic after do_compile before do_populate_lic
+>> =C2=A0 addtask do_compile before do_populate_lic
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#220613):=20
+>> https://lists.openembedded.org/g/openembedded-core/message/220613
+>> Mute This Topic: https://lists.openembedded.org/mt/114238035/9720520
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=20
+>> [oe@myspectrum.nl]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
 
