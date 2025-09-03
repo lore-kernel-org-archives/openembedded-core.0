@@ -2,648 +2,138 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCCB1CA1007
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E26EBCA100B
 	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 06:22:38 +0000 (UTC)
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.5861.1756880556966268498
+ by mx.groups.io with SMTP id smtpd.web11.5860.1756880555512581399
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Sep 2025 23:22:37 -0700
+ Tue, 02 Sep 2025 23:22:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZeSM+Vtr;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kcv03bP/;
  spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2491f6b39a1so33189035ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 23:22:36 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-248d5074ff7so4528475ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Sep 2025 23:22:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756880556; x=1757485356; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756880555; x=1757485355; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/z5BT4c65kh39l+1qDm0hATuzuxAt+Etyow/v5aykD8=;
-        b=ZeSM+VtriZum5rpRYZHA1NJoYZdRGgqwL19nbkJoaq/Eqj3Se0n+POeZGXuvvH0/3Q
-         gjZjF5yaqNcuYWNjigUTFLEsGh8fpNtZBAPee8Yf8CZIvGAHsBSDCVAIQu37oS400pnS
-         VJ+ouu9p58l3My80xN58yhVhW5GZ44rT5eBNobP61SJgm43l+Kwwd2tM/RNrnW6geFg1
-         ikEXcaEmiYGLW6B/068ndheOJWUtA0XLf7xlSD8GFqH7OTq8EMTTvN3jASZt5j0YU2Ex
-         PkmQjrEbnZ2AHiCvjXUZAlImL+ggZqGFT4t4qDTzNQl7cMtUrz9v9bQVm/HtypobRC75
-         jwOQ==
+        bh=rubw35jNCwO+fXXtrQKVWVE3FpVoiEyqmwZjnB4e3aM=;
+        b=Kcv03bP/PJca7zY3dESkVzG/Qez0t8JOOrAu92TlKIKSIOOE8PZLBCXpJZSJZqheM+
+         xjuuSuPegtJlqgWWenC5TXBi8wAnt/xVSXT6syi/aTl3fhvHYuFLbY4qnust26yd5Ojo
+         4Q6hzfSyp1e0MwZknBpGTFgZMbPRG6QM6p+IBShgtU3shQeYOEec3AkBH9cPLgeUbS/T
+         4cV5/Rah/3JLInnYGdPr6UEUO57LH1LoxeL1NYY6unbkUyQIVdOn3MXB+57uabqkARZZ
+         +Gj9h7HQkVLXHH61ICl72kVlT67NIRlnDmqMhf62We+CtpRLoEkkefR0e1wT5146m1FG
+         Jmww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756880556; x=1757485356;
+        d=1e100.net; s=20230601; t=1756880555; x=1757485355;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/z5BT4c65kh39l+1qDm0hATuzuxAt+Etyow/v5aykD8=;
-        b=rwIr4WcCyqDrB4vWakO01A34KDPuRn1C/c1or5H7LlEQX2hCAMFOVwSbZ5qAzHd7kE
-         TP5yeN/k3a/gD6EKj/9vTT2oBLS8ktgYJ0UdSFkdkVHyLD5PSY3EDjMmP8MMqdsrihmN
-         LPl4oEeQZwZI/AIGU+VbP+AI/1ra2JM/WPVA+PNZ0bQGJbKI0wzngSJvbXcLA45UXCQ6
-         PFThdVhnJrK2t1z9EVjAIwdOcm3X/TFDbkie9kC8E3bkGr+WU1k5QNTzEJxUktGX4SSk
-         /iC6UixasjuZLnLOg9vqRCkDXrTSfWJImGzpOAXIKBor7RyO6zrJAuoZ+JroNg6QTqjy
-         OeBA==
-X-Gm-Message-State: AOJu0YwncxGIqnOD0ngyo4fmdPwpmCv70ilTTvaYMJlEgjS6rQTc+Ke4
-	Xcxmx0hP3rxT6InSSOKdcWRcNGovBOJgwZhvbGZbnyOxbhA7a9rW+wmfizqfjuTo
-X-Gm-Gg: ASbGnct62OlEGrC9U1nmh8kcBJT/Eih3Loz/rAT1T1CpegBY8o95LpvonrLrCSdBIia
-	dkDBQIZrkECDizOq0ycQjTLkoepifzk07bcMTykHkqflv/kuIP1bzNVjD5hEdgmCQK/89cCRQJ0
-	W6RUt16BlhSJxjdk/3WmJ+JOWikKe7G6nuSAXN3fr8sgPa4Bnj8jGtZqpFORh83ESVpaGRnbi+r
-	dIcdKMwsjsWgTVBBdCfcaEc9kXtF6EuqK24RM554dLXqdkV5Lji+QR+j1hXmYk7WG8p6Mm2Y4G3
-	UqY28CDrHIHwFRtCAgFzsi9TRzRb9U+GkxUpd7h4/QERusxWQFNGNmffszJkYDKltrPBlaOEF8P
-	uyNqmHPvTnS1Td4IJ+/MJJhBECe48e6B4Eox3/QWenjXyuHjBzKjQJO9xanjIb+dBoY5wauUkpJ
-	HWaPQ+XN7UQhkkteena56dDmAxl1oGPObi6kDaak7qZomJvOFqMpU=
-X-Google-Smtp-Source: AGHT+IGOwkbX7K6fuB5mCRuZq3f5LGad/FZPJAG2iE3EhGUN2xxDt2pntSKCKaRdWAeV2cphLBs0rw==
-X-Received: by 2002:a17:903:4405:b0:248:b2a1:46a2 with SMTP id d9443c01a7336-249448709b6mr192188655ad.2.1756880555728;
-        Tue, 02 Sep 2025 23:22:35 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24905da2a05sm147564915ad.72.2025.09.02.23.22.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=rubw35jNCwO+fXXtrQKVWVE3FpVoiEyqmwZjnB4e3aM=;
+        b=Kh0O71l0bBj6AxIAEvQU/K6yphTznLYEqcUEsbimcGFWmQJKvaNyDxhHwcvZLMurs7
+         3ne+sz1PojMQyxGplIaDCm6RL6+4ViI9MUk0Qi4GCbHrRHcR3PARrS/p7OkGCCKBNjIY
+         TzULEH5TvDD+JZ7obPZnPLLLCR+NT7C8CL+pwMnJiKqCXXnElypnY8pAwTUxQhZaI33u
+         3vkLPIcB4bw4fHVKGLxByPE/Xnu5DYBDtFhKgkLyCUu2DEmorNAQd8C690XAMWg2fCty
+         0baaP3yA/iQxn7A31UIeQPEeX+Tquqz4yBelqtvEKSJgcqrJeoqYxaqW8CYN7ReBkF1Z
+         0spA==
+X-Gm-Message-State: AOJu0YxvktgwDwLC7KCsJUWpxrGnkHu59l0PjS83dbu2x/XS1muOVOjr
+	L8V/OGX0aCIHUVsD8bnbFBs0rSSz41RUsFj6aqiE45fagDm+OpPdlpjJntbQTJLM
+X-Gm-Gg: ASbGncsXUDLNAyddV8psL0G2lKYQhCjs464wEoFRnAnb6PxvjAwmTlj4CdrU1cKNb0f
+	rauBblwd0k5So3wsxZGB4KE6OEtsyUb9e3l/WYvPbSowJLfTp+ta6QguWHLa+khMRPkxMhRkDEF
+	MZi8iPVy5yIHBFSLuvU2gxSXRgwUVhYlWeRVu+gbOkEYWXzzcIpx//chnT1t17RSpXp7DSz7JKR
+	bVa7whA/hUEzrPhI/bUs97oi/0c2OVcVEnB2p/kLPQdfA4wbBeS8IG3Mjtg1OABenVVG6ZiCRDM
+	nQEC339UIbNYZYLjCJATLBeWKjtn5vPU8FEZFo24iZG3favQxoJVCzyKnFxvf7hgWb2ZMajICLg
+	YGoPU8Use2+rNZkcdtyJRGG55ypKFd0KgQByxZQoZx2wfEVqPRjkHDlZI2IabSsoUzI8qOebRWD
+	ghzX9YQAInIgSnars7uz21rJ5Vml9Zz6K/VMg2Fz5g
+X-Google-Smtp-Source: AGHT+IF3bCwhceq/GCQ4/OsQiSJiQtFDK+7Hjr44QvGa/OS0FhM0fCWcCXuk9O/9hmwq+HvewohtHw==
+X-Received: by 2002:a17:903:3207:b0:248:ac4d:239a with SMTP id d9443c01a7336-24944ac24eamr129835045ad.18.1756880554442;
         Tue, 02 Sep 2025 23:22:34 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::cfd6])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24905da2a05sm147564915ad.72.2025.09.02.23.22.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Sep 2025 23:22:33 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH V4 3/3] kea: Upgrade to 3.0 LTS release
-Date: Tue,  2 Sep 2025 23:22:30 -0700
-Message-ID: <20250903062230.3959250-3-raj.khem@gmail.com>
+Cc: Gyorgy Sarvari <skandigraun@gmail.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v4 2/3] boost: upgrade 1.88.0 -> 1.89.0
+Date: Tue,  2 Sep 2025 23:22:29 -0700
+Message-ID: <20250903062230.3959250-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250903062230.3959250-1-raj.khem@gmail.com>
 References: <20250903062230.3959250-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 06:22:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222845
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222844
 
-* Drop backported patch and refresh remaining
-* Add fixes to build with boost 1.89.0
-* Switch to meson build system
-* Delete meson-info files
-  There’s no Meson built-in switch to stop creating intro-*.json
-  in the build dir (that’s by design), only to stop installing them is
-  possible. for runtime, Kea doesn’t read it, this is just build metadata
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 
-License-Update: Removed remaining coroutine references [1]
+Changelog: https://www.boost.org/releases/1.89.0/
 
-[1] https://github.com/isc-projects/kea/commit/93bab7a99f82e2ceadca14a7a6a2440cd69fb8c8
-
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v2: same as v1 as no v1 was submitted
-v3: Add License-Update fix RPATHs in solibs
-v4: Do not install meson-info files, fixes reproducible builds
+v2: Rebased
+v3: No change
+v4: No change
 
- .../files/0001-build-boost-1.89.0-fixes.patch |  53 ++++++++
- ...ake-kea-environment-available-to-lfc.patch |  96 --------------
- ...se-a-runtime-safe-interpreter-string.patch | 123 ++++++++++++++++++
- .../0001-mk_cfgrpt.sh-strip-prefixes.patch    |  54 ++++++++
- ...er_unittest_support.cc-do-not-write-.patch |   4 +-
- .../kea/files/fix-multilib-conflict.patch     |  16 +--
- .../kea/files/fix_pid_keactrl.patch           |  11 +-
- .../kea/{kea_2.6.4.bb => kea_3.0.1.bb}        |  31 +++--
- 8 files changed, 258 insertions(+), 130 deletions(-)
- create mode 100644 meta/recipes-connectivity/kea/files/0001-build-boost-1.89.0-fixes.patch
- delete mode 100644 meta/recipes-connectivity/kea/files/0001-make-kea-environment-available-to-lfc.patch
- create mode 100644 meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch
- create mode 100644 meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch
- rename meta/recipes-connectivity/kea/{kea_2.6.4.bb => kea_3.0.1.bb} (71%)
+ .../boost/{boost-1.88.0.inc => boost-1.89.0.inc}                | 2 +-
+ ...1-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch | 2 +-
+ .../boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch    | 2 +-
+ meta/recipes-support/boost/{boost_1.88.0.bb => boost_1.89.0.bb} | 0
+ 4 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/boost/{boost-1.88.0.inc => boost-1.89.0.inc} (90%)
+ rename meta/recipes-support/boost/{boost_1.88.0.bb => boost_1.89.0.bb} (100%)
 
-diff --git a/meta/recipes-connectivity/kea/files/0001-build-boost-1.89.0-fixes.patch b/meta/recipes-connectivity/kea/files/0001-build-boost-1.89.0-fixes.patch
-new file mode 100644
-index 00000000000..fba2f5a5732
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/0001-build-boost-1.89.0-fixes.patch
-@@ -0,0 +1,53 @@
-+From cf6af9219ba688fcd01d73a392dd1306d2b7a9e6 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 27 Aug 2025 22:20:09 -0700
-+Subject: [PATCH] build: boost 1.89.0 fixes
-+
-+Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/merge_requests/2771/]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ meson.build                        | 2 +-
-+ src/lib/asiodns/io_fetch.cc        | 1 +
-+ src/lib/asiolink/interval_timer.cc | 1 +
-+ 3 files changed, 3 insertions(+), 1 deletion(-)
-+
-+--- a/meson.build
-++++ b/meson.build
-+@@ -189,7 +189,7 @@ message(f'Detected system "@SYSTEM@".')
-+ 
-+ #### Dependencies
-+ 
-+-boost_dep = dependency('boost', version: '>=1.66', modules: ['system'])
-++boost_dep = dependency('boost', version: '>=1.66')
-+ dl_dep = dependency('dl')
-+ threads_dep = dependency('threads')
-+ add_project_dependencies(boost_dep, dl_dep, threads_dep, language: ['cpp'])
-+@@ -1094,7 +1094,7 @@ pkg.generate(
-+ if TARGETS_GEN_MESSAGES.length() > 0
-+     alias_target('messages', TARGETS_GEN_MESSAGES)
-+ else
-+-    error(
-++    warning(
-+         'No messages to generate. This is probably an error in the meson.build files.',
-+     )
-+ endif
-+--- a/src/lib/asiodns/io_fetch.cc
-++++ b/src/lib/asiodns/io_fetch.cc
-+@@ -22,6 +22,7 @@
-+ #include <dns/rcode.h>
-+ #include <util/io.h>
-+ 
-++#include <boost/asio/deadline_timer.hpp>
-+ #include <boost/scoped_ptr.hpp>
-+ #include <boost/date_time/posix_time/posix_time_types.hpp>
-+ 
-+--- a/src/lib/asiolink/interval_timer.cc
-++++ b/src/lib/asiolink/interval_timer.cc
-+@@ -9,6 +9,7 @@
-+ #include <asiolink/interval_timer.h>
-+ #include <asiolink/io_service.h>
-+ 
-++#include <boost/asio/deadline_timer.hpp>
-+ #include <boost/enable_shared_from_this.hpp>
-+ #include <boost/noncopyable.hpp>
-+ #include <boost/shared_ptr.hpp>
-diff --git a/meta/recipes-connectivity/kea/files/0001-make-kea-environment-available-to-lfc.patch b/meta/recipes-connectivity/kea/files/0001-make-kea-environment-available-to-lfc.patch
-deleted file mode 100644
-index 15c09d4c411..00000000000
---- a/meta/recipes-connectivity/kea/files/0001-make-kea-environment-available-to-lfc.patch
-+++ /dev/null
-@@ -1,96 +0,0 @@
--From 72d7e6c0b6b5af4fea2e4db9ed33757984ccdc5b Mon Sep 17 00:00:00 2001
--From: Razvan Becheriu <razvan@isc.org>
--Date: Fri, 14 Jun 2024 17:09:50 +0300
--Subject: [PATCH] make kea environment available to lfc
--
--Upstream-Status: Backport
--[https://gitlab.isc.org/isc-projects/kea/-/commit/f477e8ebcc8b8e1f1adaad4d55031084c0ff6f40]
--
--Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-----
-- configure.ac                                  |  2 ++
-- src/lib/dhcpsrv/memfile_lease_mgr.cc          |  3 ++-
-- .../tests/memfile_lease_mgr_unittest.cc       | 26 +++++++++++++++++++
-- src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in  |  6 +++++
-- 4 files changed, 36 insertions(+), 1 deletion(-)
-- create mode 100644 src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in
--
--diff --git a/configure.ac b/configure.ac
--index c00edb5..7b572b0 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1629,6 +1629,8 @@ AC_CONFIG_FILES([src/lib/dhcp_ddns/tests/Makefile])
-- AC_CONFIG_FILES([src/lib/dhcpsrv/Makefile])
-- AC_CONFIG_FILES([src/lib/dhcpsrv/tests/Makefile])
-- AC_CONFIG_FILES([src/lib/dhcpsrv/tests/test_libraries.h])
--+AC_CONFIG_FILES([src/lib/dhcpsrv/tests/test_kea_lfc_env.sh],
--+                [chmod +x src/lib/dhcpsrv/tests/test_kea_lfc_env.sh])
-- AC_CONFIG_FILES([src/lib/dhcpsrv/testutils/Makefile])
-- AC_CONFIG_FILES([src/lib/dns/Makefile])
-- AC_CONFIG_FILES([src/lib/dns/tests/Makefile])
--diff --git a/src/lib/dhcpsrv/memfile_lease_mgr.cc b/src/lib/dhcpsrv/memfile_lease_mgr.cc
--index db4f5d5..0ecf3e7 100644
----- a/src/lib/dhcpsrv/memfile_lease_mgr.cc
--+++ b/src/lib/dhcpsrv/memfile_lease_mgr.cc
--@@ -209,7 +209,8 @@ LFCSetup::setup(const uint32_t lfc_interval,
--     args.push_back("ignored-path");
-- 
--     // Create the process (do not start it yet).
---    process_.reset(new ProcessSpawn(ProcessSpawn::ASYNC, executable, args));
--+    process_.reset(new ProcessSpawn(ProcessSpawn::ASYNC, executable, args,
--+                                    ProcessEnvVars(), true));
-- 
--     // If we've been told to run it once now, invoke the callback directly.
--     if (run_once_now) {
--diff --git a/src/lib/dhcpsrv/tests/memfile_lease_mgr_unittest.cc b/src/lib/dhcpsrv/tests/memfile_lease_mgr_unittest.cc
--index 034f1f5..9edf637 100644
----- a/src/lib/dhcpsrv/tests/memfile_lease_mgr_unittest.cc
--+++ b/src/lib/dhcpsrv/tests/memfile_lease_mgr_unittest.cc
--@@ -534,6 +534,32 @@ TEST_F(MemfileLeaseMgrTest, lfcTimer) {
--     EXPECT_EQ(2, lease_mgr->getLFCCount());
-- }
-- 
--+/// @brief Check that the kea environment is accesible to the Lease
--+/// File Cleanup process.
--+TEST_F(MemfileLeaseMgrTest, lfcEnv) {
--+    DatabaseConnection::ParameterMap pmap;
--+    pmap["type"] = "memfile";
--+    pmap["universe"] = "4";
--+    pmap["name"] = getLeaseFilePath("leasefile4_0.csv");
--+    pmap["lfc-interval"] = "1";
--+
--+    std::ostringstream s;
--+    s << DHCP_DATA_DIR << "/test_kea_lfc_env.sh";
--+    setenv("KEA_LFC_EXECUTABLE", s.str().c_str(), 1);
--+
--+    boost::scoped_ptr<NakedMemfileLeaseMgr> lease_mgr(new NakedMemfileLeaseMgr(pmap));
--+
--+    // Try to run the lease file cleanup.
--+    ASSERT_NO_THROW(lease_mgr->lfcCallback());
--+
--+    // Wait for the LFC process to complete.
--+    ASSERT_TRUE(waitForProcess(*lease_mgr, 1));
--+
--+    // And make sure it has returned an exit status of 0.
--+    EXPECT_EQ(0, lease_mgr->getLFCExitStatus())
--+        << "environment not available to LFC";
--+}
--+
-- /// @brief This test checks if the LFC timer is disabled (doesn't trigger)
-- /// cleanups when the lfc-interval is set to 0.
-- TEST_F(MemfileLeaseMgrTest, lfcTimerDisabled) {
--diff --git a/src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in b/src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in
--new file mode 100644
--index 0000000..3eb71d5
----- /dev/null
--+++ b/src/lib/dhcpsrv/tests/test_kea_lfc_env.sh.in
--@@ -0,0 +1,6 @@
--+#!/bin/sh
--+
--+if [ $(env | grep -c KEA_LFC_EXECUTABLE) != 0 ]; then
--+    exit 0
--+fi
--+exit 1
---- 
--2.25.1
--
-diff --git a/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch b/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch
-new file mode 100644
-index 00000000000..44fe82bce0b
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch
-@@ -0,0 +1,123 @@
-+From 5ec5e08edc059ed0c0d430dc8e02cd64bebc8d1c Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 28 Aug 2025 17:02:49 -0700
-+Subject: [PATCH] meson: use a runtime-safe interpreter string
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+In cross builds, python.find_installation() (what
-+PYTHON usually comes from) must be a native
-+interpreter (since Meson runs it during configure),
-+but you don’t want that absolute native path baked
-+into target files. You want a runtime/target path
-+such as /usr/bin/env python3 (portable) or
-+/usr/bin/python3
-+
-+Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/issues/4087]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ doc/sphinx/meson.build          | 8 +++++++-
-+ meson.build                     | 8 +++++++-
-+ src/bin/shell/tests/meson.build | 8 +++++++-
-+ src/lib/util/python/meson.build | 8 +++++++-
-+ 4 files changed, 28 insertions(+), 4 deletions(-)
-+
-+--- a/doc/sphinx/meson.build
-++++ b/doc/sphinx/meson.build
-+@@ -70,7 +70,13 @@ doc_conf.set('builddir', meson.current_b
-+ doc_conf.set('srcdir', meson.current_source_dir())
-+ doc_conf.set('sphinxbuilddir', sphinxbuilddir)
-+ doc_conf.set('abs_sphinxbuilddir', abs_sphinxbuilddir)
-+-doc_conf.set('PYTHON', PYTHON.full_path())
-++# During cross builds, avoid embedding the native Python path into target artifacts.
-++# Use a runtime-safe interpreter path for the target.
-++py_for_runtime = '/usr/bin/env python3'
-++if not meson.is_cross_build()
-++  py_for_runtime = PYTHON.full_path()
-++endif
-++doc_conf.set('PYTHON', py_for_runtime)
-+ doc_conf.set('TOP_SOURCE_DIR', TOP_SOURCE_DIR)
-+ if PDFLATEX.found()
-+     doc_conf.set('HAVE_PDFLATEX', 'yes')
-+--- a/meson.build
-++++ b/meson.build
-+@@ -638,9 +638,13 @@ link_args = []
-+ # Also, Meson might use it by default, but might not use it on all systems, so lots of variables...
-+ # EXECUTABLE_RPATH = f'$ORIGIN/../@LIBDIR@'
-+ # HOOK_RPATH = '$ORIGIN/../..'
-+-
-++if not meson.is_cross_build()
-+ BUILD_RPATH = TOP_BUILD_DIR / 'src/lib'
-+ INSTALL_RPATH = LIBDIR_INSTALLED
-++else
-++BUILD_RPATH = ''
-++INSTALL_RPATH = ''
-++endif
-+ 
-+ # Add rpaths for NETCONF dependencies.
-+ if NETCONF_DEP.found()
-+@@ -759,7 +763,13 @@ report_conf_data.set('CXX_ARGS', ' '.joi
-+ report_conf_data.set('LD_ID', cpp.get_linker_id())
-+ link_args += get_option('cpp_link_args')
-+ report_conf_data.set('LD_ARGS', ' '.join(link_args))
-+-report_conf_data.set('PYTHON_PATH', PYTHON.full_path())
-++# During cross builds, avoid embedding the native Python path into target artifacts.
-++# Use a runtime-safe interpreter path for the target.
-++py_for_runtime = '/usr/bin/env python3'
-++if not meson.is_cross_build()
-++  py_for_runtime = PYTHON.full_path()
-++endif
-++report_conf_data.set('PYTHON_PATH', py_for_runtime)
-+ report_conf_data.set('PYTHON_VERSION', PYTHON.version())
-+ report_conf_data.set('PKGPYTHONDIR', PKGPYTHONDIR)
-+ result = cpp.run(
-+--- a/src/bin/shell/tests/meson.build
-++++ b/src/bin/shell/tests/meson.build
-+@@ -3,7 +3,13 @@ if not TESTS_OPT.enabled()
-+ endif
-+ 
-+ shell_tests_conf_data = configuration_data()
-+-shell_tests_conf_data.set('PYTHON', PYTHON.full_path())
-++# During cross builds, avoid embedding the native Python path into target artifacts.
-++# Use a runtime-safe interpreter path for the target.
-++py_for_runtime = '/usr/bin/env python3'
-++if not meson.is_cross_build()
-++  py_for_runtime = PYTHON.full_path()
-++endif
-++shell_tests_conf_data.set('PYTHON', py_for_runtime)
-+ shell_tests_conf_data.set('abs_top_builddir', TOP_BUILD_DIR)
-+ shell_tests_conf_data.set('abs_top_srcdir', TOP_SOURCE_DIR)
-+ shell_unittest = configure_file(
-+--- a/src/lib/util/python/meson.build
-++++ b/src/lib/util/python/meson.build
-+@@ -4,7 +4,13 @@ endif
-+ 
-+ configure_file(input: 'const2hdr.py', output: 'const2hdr.py', copy: true)
-+ util_python_conf_data = configuration_data()
-+-util_python_conf_data.set('PYTHON', PYTHON.full_path())
-++# During cross builds, avoid embedding the native Python path into target artifacts.
-++# Use a runtime-safe interpreter path for the target.
-++py_for_runtime = '/usr/bin/env python3'
-++if not meson.is_cross_build()
-++  py_for_runtime = PYTHON.full_path()
-++endif
-++util_python_conf_data.set('PYTHON', py_for_runtime)
-+ configure_file(
-+     input: 'gen_wiredata.py.in',
-+     output: 'gen_wiredata.py',
-+--- a/src/bin/shell/meson.build
-++++ b/src/bin/shell/meson.build
-+@@ -1,5 +1,11 @@
-+ kea_shell_conf_data = configuration_data()
-+-kea_shell_conf_data.set('PYTHON', PYTHON.full_path())
-++# During cross builds, avoid embedding the native Python path into target artifacts.
-++# Use a runtime-safe interpreter path for the target.
-++py_for_runtime = '/usr/bin/env python3'
-++if not meson.is_cross_build()
-++  py_for_runtime = PYTHON.full_path()
-++endif
-++kea_shell_conf_data.set('PYTHON', py_for_runtime)
-+ kea_shell_conf_data.set('PACKAGE_VERSION', PROJECT_VERSION)
-+ kea_shell_conf_data.set(
-+     'EXTENDED_VERSION',
-diff --git a/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch b/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch
-new file mode 100644
-index 00000000000..521fac46297
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch
-@@ -0,0 +1,54 @@
-+From c8a1f0b9c17c8485bdeac045e5afdcd4467c1c14 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 28 Aug 2025 17:31:39 -0700
-+Subject: [PATCH] mk_cfgrpt.sh: strip prefixes
-+
-+Add support for a STRIP_PREFIXES env var (colon-separated list).
-+The script will pipe its output through sed to remove any of those prefixes.
-+
-+Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/issues/4087]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ tools/mk_cfgrpt.sh | 22 +++++++++++++++++++++-
-+ 1 file changed, 21 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/mk_cfgrpt.sh b/tools/mk_cfgrpt.sh
-+index bc0cc41..8f41ce1 100755
-+--- a/tools/mk_cfgrpt.sh
-++++ b/tools/mk_cfgrpt.sh
-+@@ -43,6 +43,26 @@ then
-+     exit 2
-+ fi
-+ 
-++# Optional: strip absolute path prefixes from generated output to make
-++# cross-builds reproducible (e.g. Yocto sysroot/work dirs).
-++# Provide colon-separated prefixes via STRIP_PREFIXES.
-++strip_paths() {
-++    if [ -z "${STRIP_PREFIXES:-}" ]; then
-++        cat
-++        return
-++    fi
-++    # Build a sed script that removes each prefix wherever it appears.
-++    SED_SCRIPT=
-++    IFS=':'; for p in $STRIP_PREFIXES; do
-++        [ -n "$p" ] || continue
-++        # Escape forward slashes
-++        ep=$(printf '%s' "$p" | sed 's,/,\\/,g')
-++        SED_SCRIPT="${SED_SCRIPT}s/${ep}//g;"
-++    done
-++    IFS=' '
-++    sed -e "$SED_SCRIPT"
-++}
-++
-+ # Header
-+ cat >> "${dest}" << END
-+ // config_report.cc. Generated from config.report by tools/mk_cfgrpt.sh
-+@@ -55,7 +75,7 @@ END
-+ 
-+ # Body: escape '\'s and '"'s, preprend '    ";;;; ' and append '",'
-+ sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/    ";;;; /' -e 's/$/",/' \
-+-    < "${report_file}" >> "${dest}"
-++    < "${report_file}" | strip_paths >> "${dest}"
-+ 
-+ # Trailer
-+ cat >> "${dest}" <<END
-diff --git a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-index 94fbd127378..1ab09e39a26 100644
---- a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-@@ -13,11 +13,9 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  src/lib/log/logger_unittest_support.cc | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-support/boost/boost-1.88.0.inc b/meta/recipes-support/boost/boost-1.89.0.inc
+similarity index 90%
+rename from meta/recipes-support/boost/boost-1.88.0.inc
+rename to meta/recipes-support/boost/boost-1.89.0.inc
+index 96bd986f6a9..ea2827ec14c 100644
+--- a/meta/recipes-support/boost/boost-1.88.0.inc
++++ b/meta/recipes-support/boost/boost-1.89.0.inc
+@@ -12,7 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
  
--diff --git a/src/lib/log/logger_unittest_support.cc b/src/lib/log/logger_unittest_support.cc
--index fc01c6e..f46d17e 100644
- --- a/src/lib/log/logger_unittest_support.cc
- +++ b/src/lib/log/logger_unittest_support.cc
--@@ -84,7 +84,7 @@ void initLogger(isc::log::Severity severity, int dbglevel) {
-+@@ -84,7 +84,7 @@ void initLogger(isc::log::Severity sever
-      const char* localfile = getenv("KEA_LOGGER_LOCALMSG");
+ SRC_URI = "https://archives.boost.io/release/${PV}/source/${BOOST_P}.tar.bz2"
+-SRC_URI[sha256sum] = "46d9d2c06637b219270877c9e16155cbd015b6dc84349af064c088e9b5b12f7b"
++SRC_URI[sha256sum] = "85a33fa22621b4f314f8e85e1a5e2a9363d22e4f4992925d4bb3bc631b5a0c7a"
+ 
+ UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
+ UPSTREAM_CHECK_REGEX = "release/(?P<pver>.*)/source/"
+diff --git a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
+index 04bede45787..25512d582be 100644
+--- a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
++++ b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
+@@ -16,7 +16,7 @@ diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
+ index b7825d4e6..ed7e39baf 100644
+ --- a/tools/build/src/tools/gcc.jam
+ +++ b/tools/build/src/tools/gcc.jam
+-@@ -1144,156 +1144,3 @@ local rule cpu-flags ( toolset variable : architecture : instruction-set + :
++@@ -1143,156 +1143,3 @@ local rule cpu-flags ( toolset variable : architecture : instruction-set + :
+          <architecture>$(architecture)/<instruction-set>$(instruction-set)
+          : $(values) ;
+  }
+diff --git a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch b/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
+index db1ee038987..d23cf03b1a1 100644
+--- a/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
++++ b/meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
+@@ -16,7 +16,7 @@ diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
+ index ed7e39baf..90513f84a 100644
+ --- a/tools/build/src/tools/gcc.jam
+ +++ b/tools/build/src/tools/gcc.jam
+-@@ -377,22 +377,6 @@ local rule compile-link-flags ( * )
++@@ -375,22 +375,6 @@ local rule compile-link-flags ( * )
+      compile-link-flags <link>shared/<target-os>$(non-windows) : -fPIC ;
+  }
   
-      // Set a directory for creating lockfiles when running tests
-diff --git a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-index 763639327a3..9e1f28b5603 100644
---- a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-+++ b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-@@ -24,11 +24,9 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-  src/bin/keactrl/kea-dhcp6.conf.pre      | 4 ++--
-  3 files changed, 6 insertions(+), 5 deletions(-)
- 
--diff --git a/src/bin/keactrl/kea-ctrl-agent.conf.pre b/src/bin/keactrl/kea-ctrl-agent.conf.pre
--index e6ae8b8..50a3092 100644
- --- a/src/bin/keactrl/kea-ctrl-agent.conf.pre
- +++ b/src/bin/keactrl/kea-ctrl-agent.conf.pre
--@@ -51,7 +51,8 @@
-+@@ -85,7 +85,8 @@
-      // Agent will fail to start.
-      "hooks-libraries": [
-  //  {
-@@ -38,8 +36,6 @@ index e6ae8b8..50a3092 100644
-  //      "parameters": {
-  //          "param1": "foo"
-  //      }
--diff --git a/src/bin/keactrl/kea-dhcp4.conf.pre b/src/bin/keactrl/kea-dhcp4.conf.pre
--index 6edb8a1..b2a7385 100644
- --- a/src/bin/keactrl/kea-dhcp4.conf.pre
- +++ b/src/bin/keactrl/kea-dhcp4.conf.pre
- @@ -255,7 +255,7 @@
-@@ -49,9 +45,9 @@ index 6edb8a1..b2a7385 100644
- -    //       "library": "@libdir@/kea/hooks/libdhcp_legal_log.so",
- +    //       "library": "$libdir/kea/hooks/libdhcp_legal_log.so",
-      //       "parameters": {
--     //           "path": "/var/lib/kea",
-      //           "base-name": "kea-forensic4"
--@@ -272,7 +272,7 @@
-+     //       }
-+@@ -271,7 +271,7 @@
-      //       // of specific options or perhaps even a combination of several
-      //       // options and fields to uniquely identify a client. Those scenarios
-      //       // are addressed by the Flexible Identifiers hook application.
-@@ -60,8 +56,6 @@ index 6edb8a1..b2a7385 100644
-      //       "parameters": {
-      //           "identifier-expression": "relay4[2].hex"
-      //       }
--diff --git a/src/bin/keactrl/kea-dhcp6.conf.pre b/src/bin/keactrl/kea-dhcp6.conf.pre
--index 271021b..5b85854 100644
- --- a/src/bin/keactrl/kea-dhcp6.conf.pre
- +++ b/src/bin/keactrl/kea-dhcp6.conf.pre
- @@ -201,7 +201,7 @@
-@@ -71,9 +65,9 @@ index 271021b..5b85854 100644
- -    //       "library": "@libdir@/kea/hooks/libdhcp_legal_log.so",
- +    //       "library": "$libdir/kea/hooks/libdhcp_legal_log.so",
-      //       "parameters": {
--     //           "path": "/var/lib/kea",
-      //           "base-name": "kea-forensic6"
--@@ -218,7 +218,7 @@
-+     //       }
-+@@ -217,7 +217,7 @@
-      //       // of specific options or perhaps even a combination of several
-      //       // options and fields to uniquely identify a client. Those scenarios
-      //       // are addressed by the Flexible Identifiers hook application.
-diff --git a/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch b/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
-index 2f5a217d3fb..9cc91bdddf1 100644
---- a/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
-+++ b/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
-@@ -15,21 +15,16 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-  src/bin/keactrl/keactrl.in | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
--diff --git a/src/bin/keactrl/keactrl.in b/src/bin/keactrl/keactrl.in
--index cccfdac303..20ae2e6ec5 100644
- --- a/src/bin/keactrl/keactrl.in
- +++ b/src/bin/keactrl/keactrl.in
--@@ -146,8 +146,8 @@ check_running() {
-+@@ -157,8 +157,8 @@ check_running() {
-      # Get the PID from the PID file (if it exists)
-      get_pid_from_file "${proc_name}"
--     if [ ${_pid} -gt 0 ]; then
-+     if [ "${_pid}" -gt 0 ]; then
- -        # Use ps to check if PID is alive
---        if ps -p ${_pid} 1>/dev/null; then
-+-        if ps -p "${_pid}" 1>/dev/null; then
- +        # Use pgrep and grep to check if PID is alive
- +        if pgrep -v 1 | grep ${_pid} 1>/dev/null; then
-              # No error, so PID IS ALIVE
-              _running=1
-          fi
---- 
--2.39.2
--
-diff --git a/meta/recipes-connectivity/kea/kea_2.6.4.bb b/meta/recipes-connectivity/kea/kea_3.0.1.bb
-similarity index 71%
-rename from meta/recipes-connectivity/kea/kea_2.6.4.bb
-rename to meta/recipes-connectivity/kea/kea_3.0.1.bb
-index aa725ee4374..8dc6bdfea80 100644
---- a/meta/recipes-connectivity/kea/kea_2.6.4.bb
-+++ b/meta/recipes-connectivity/kea/kea_3.0.1.bb
-@@ -3,11 +3,11 @@ DESCRIPTION = "Kea is the next generation of DHCP software developed by ISC. It
- HOMEPAGE = "http://kea.isc.org"
- SECTION = "connectivity"
- LICENSE = "MPL-2.0"
--LIC_FILES_CHKSUM = "file://COPYING;md5=ee16e7280a6cf2a1487717faf33190dc"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fb634ed1d923b8b8fd1ed7ffc9b70ae4"
- 
- DEPENDS = "boost log4cplus openssl"
- 
--SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
-+SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.xz \
-            file://kea-dhcp4.service \
-            file://kea-dhcp6.service \
-            file://kea-dhcp-ddns.service \
-@@ -17,11 +17,15 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
-            file://fix-multilib-conflict.patch \
-            file://fix_pid_keactrl.patch \
-            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
--           file://0001-make-kea-environment-available-to-lfc.patch \
-+           file://0001-build-boost-1.89.0-fixes.patch \
-+           file://0001-meson-use-a-runtime-safe-interpreter-string.patch \
-+           file://0001-mk_cfgrpt.sh-strip-prefixes.patch \
-            "
--SRC_URI[sha256sum] = "6806405e4d559abc10febd2c273dc6e2bc6ac42767afa5ca20b118ffba84a671"
-+SRC_URI[sha256sum] = "ec84fec4bb7f6b9d15a82e755a571e9348eb4d6fbc62bb3f6f1296cd7a24c566"
- 
--inherit autotools systemd update-rc.d upstream-version-is-even
-+inherit meson pkgconfig systemd update-rc.d upstream-version-is-even
-+
-+EXTRA_OECONF += "-Dcrypto=openssl -Drunstatedir=${runtimedir} -Dkrb5=disabled -Dnetconf=disabled"
- 
- INITSCRIPT_NAME = "kea-dhcp4-server"
- INITSCRIPT_PARAMS = "defaults 30"
-@@ -40,20 +44,18 @@ BUILD_OPTIMIZATION:remove:mipsel = " -Og"
- BUILD_OPTIMIZATION:append:mipsel = " -O"
- 
- CXXFLAGS:remove = "-fvisibility-inlines-hidden"
--EXTRA_OECONF = "--with-boost-libs=-lboost_system \
--                --with-log4cplus=${STAGING_DIR_TARGET}${prefix} \
--                --with-openssl=${STAGING_DIR_TARGET}${prefix}"
- 
- do_configure:prepend() {
-     # replace abs_top_builddir to avoid introducing the build path
-     # don't expand the abs_top_builddir on the target as the abs_top_builddir is meanlingless on the target
-     find ${S} -type f -name *.sh.in | xargs sed -i  "s:@abs_top_builddir@:@abs_top_builddir_placeholder@:g"
-     sed -i "s:@abs_top_builddir@:@abs_top_builddir_placeholder@:g" ${S}/src/bin/admin/kea-admin.in
-+    export STRIP_PREFIXES="${RECIPE_SYSROOT_NATIVE}:${RECIPE_SYSROOT}:${WORKDIR}:${B}"
- }
- 
- # patch out build host paths for reproducibility
- do_compile:prepend:class-target() {
--        sed -i -e "s,${WORKDIR},,g" ${B}/config.report
-+    sed -i -e "s,${WORKDIR},,g" ${B}/config.report
- }
- 
- do_install:append() {
-@@ -65,7 +67,10 @@ do_install:append() {
-     sed -i -e 's,@SBINDIR@,${sbindir},g' -e 's,@BASE_BINDIR@,${base_bindir},g' \
-            -e 's,@LOCALSTATEDIR@,${localstatedir},g' -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-            ${D}${systemd_system_unitdir}/kea-dhcp*service ${D}${sbindir}/keactrl
--    sed -i "s:${B}:@abs_top_builddir_placeholder@:g" ${D}${sbindir}/kea-admin
-+    sed -i -e "s:${B}:@abs_top_builddir_placeholder@:g" \
-+           -e "s:${S}:@abs_top_srcdir_placeholder@:g" \
-+           ${D}${sbindir}/kea-admin
-+    rm -rf ${D}${datadir}/${BPN}/meson-info
- }
- 
- do_install:append() {
-@@ -74,7 +79,9 @@ do_install:append() {
- 
- CONFFILES:${PN} = "${sysconfdir}/kea/keactrl.conf"
- 
-+PACKAGES =+ "${PN}-python"
-+FILES:${PN}-python = "${nonarch_libdir}/python*/site-packages/*"
-+RDEPENDS:${PN}-python = "python3"
-+
- FILES:${PN}-staticdev += "${libdir}/kea/hooks/*.a ${libdir}/hooks/*.a"
- FILES:${PN} += "${libdir}/hooks/*.so"
--
--PARALLEL_MAKEINST = ""
+diff --git a/meta/recipes-support/boost/boost_1.88.0.bb b/meta/recipes-support/boost/boost_1.89.0.bb
+similarity index 100%
+rename from meta/recipes-support/boost/boost_1.88.0.bb
+rename to meta/recipes-support/boost/boost_1.89.0.bb
 
