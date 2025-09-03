@@ -2,128 +2,181 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E7D7CA1014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D791CA1012
 	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 16:15:13 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.16911.1756916106468183693
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.16915.1756916110346197606
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Sep 2025 09:15:06 -0700
+ Wed, 03 Sep 2025 09:15:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HNXfRWKv;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-772627dd50aso1356920b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 09:15:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vs+LPQVw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7726c7ff7e5so82297b3a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 09:15:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756916106; x=1757520906; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gEQ70H7oOLKB/8kymh1Rho8HuTdclZFpe0EE1kMIkJY=;
-        b=HNXfRWKvQU8i122uKWH0BmobqzXRK9HVKyz4KYv0exTBzHkuVKIh3WdmpBi5ebtRmm
-         3SjuGjerpSXP7db3yES2q4K9OjTbseZzk1lx6KEI39+WkARCUllR99+ldRYORZE3oJyQ
-         h/R+PHNkkihUoYzcSpbLpHICv1qob3Fuydc8MgGP/L2TN5vE6FDqMTKtwdEHNEB+5MqQ
-         xX+3wLZj2ekvUhI1nznaU6hlXG4O73zromQSJYs6ABZ8uY/t+LazgapbxOnTfzcQsBkl
-         d0MkpFJmC5bSps7NxwcD+4/JK6beYhWPs1LKtQMQPmDZzY/5rQUrX6y4M7nLVWs3CsH5
-         si/Q==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756916110; x=1757520910; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wih1XiJi2E8k6INEAIHaHmq84g1FWptYU7kj7MxynSM=;
+        b=vs+LPQVwXMf6TCoSHVAPPGZ2IuPzBj+H+kHrytAgwNQkRPun4kmJqY6fNy9BKK9dm9
+         F/xLUg+X/T9cC6IXx0Xpb/nw49NIkoh7UnNAs741gjTrXFfz5LcRNhCCe7sgiDuGY4gE
+         frQAI+xO5OB8D1kt56/mqk+D+hNZ5GVVCZI5SAnv2KhUFl+TfYd4JfqBKVYaBhVO2A+7
+         IYJWfLn0yfNZICfga7GdJbN+c46EyGf0SMkzjfHuetW2amfMGM/reivySvsejkdrz67P
+         FwRdUGqmma/uycsqAAX9mef9D9d5mLFj6sQ2pUgseM2PL4j+u1ULmEpg2493wsG7QWaj
+         tiUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756916106; x=1757520906;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gEQ70H7oOLKB/8kymh1Rho8HuTdclZFpe0EE1kMIkJY=;
-        b=oAjuILAtL3x2W7s8FeqOsd5gbBeYGFriF8cLUmJpYllCQmn4qrqUhxqhK76BtM2A7+
-         X6UfMIfZSoi0sosvzc8cc5/ZJS4I/1Hmz0nMsFR/crHjMmabVcFWYKq5hYIfXNjhNe1U
-         8WOrPrjeq45C1pB8YSuXIoB0vm4uDIR+WqlX9oJ0PuEVU1nLO8MiVyTbRpZdp6W9ga9S
-         a81qeLCPzeNi08yc5ZtI1JEe3jTolCKyDGyQU8VoEIUKr17Mp7/lHE87Y9BBjuQe8KY+
-         1xLhM/LV8hLtOYCFeTfI/1KwqQfaRgmVlFOtySBcguwp9ffopWU9nv2q+b5A/7+mYybJ
-         ZKbg==
-X-Gm-Message-State: AOJu0YyMOfnRnwvKi36A7ifO+PZVrpmDhnG1kP7P7QN/4L2XAUai/+T7
-	sl8LuTGxo0un5XrVN7LsXIIf51mNontkz9qqGol5/+9GIuULicrbKXNfw6U5qxIEecNsvO5+zJf
-	HDRXc
-X-Gm-Gg: ASbGncsTTL+iCnJLnjAxl3ycn3rpigInB3RHAEkwdk42nzebrzlwWmejRFqFqZ7JihB
-	+M06dGWYo59vVC5nNC344c7m6FLdg2ONnqpXhpCqyzjjdankbgSAiQJX+QxjVibp+wOqUf4/uQr
-	dFVZRmO1+0AsU/wWDgjNU/aHX+w+mEZqJpGml+eOUgLoW8Ho1S7LXL560I+seZugOzzxSyZf8Q9
-	0CDAEAxvgYgAKxbQy0DLRIDq7YxCrtuPOw7futlt+Iu+Rb/jabCsc+24F73kex23y0R/lY0OX6h
-	Y/hb3xHcJcZOPykOtrr5eYFKAirb2FtPqffuH2IVoqdB30OegpwEfScpumXPuZYT+Ve/LYUnktN
-	xp1tXeE8KohLaHQ==
-X-Google-Smtp-Source: AGHT+IEAs0vom178J/QmJy/cDlMc/82raF4TWugSs9A4ArQ/+3gB6sSyIx632xd7uYNE5qtHk8V3Jw==
-X-Received: by 2002:a05:6a20:a10d:b0:248:7e43:b6b8 with SMTP id adf61e73a8af0-2487e623cccmr4292266637.3.1756916105359;
-        Wed, 03 Sep 2025 09:15:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756916110; x=1757520910;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wih1XiJi2E8k6INEAIHaHmq84g1FWptYU7kj7MxynSM=;
+        b=ISzX2PXTRhAJrlFrmAO1cC+WRdNQcnleay3j/VZ/4HP8T6dTp+5ebSG8FkSq7keqUZ
+         CZsjyqT/cpMlwEg2o/4vEXVA2cY2kgcDPX9uqSEARiLH0EIx3NKMLPM1L+iAOSptLHux
+         faxv+M1L9I4/THG8J0VnujwlY1/DDFuMcg2BRqq3XyWdC0WCE3IAdtHUflgKE+QiCxTB
+         nvlUBGJ+PEoJL179Y+J6+juq8f7x3JmP6vd82v+B1qLGXaAlKbEoaqI+sApfZLP6a2+D
+         Qsro90OVYnTvYEUi6X2BZycOxz4nRAUaEMdFwgWwODDNgv1xqHLcDPJNfNYB9vAU80cV
+         VBOg==
+X-Gm-Message-State: AOJu0YyJfgwNaGu1yyex+BNMvnQSpB3fK6CcF1mAd/RfL8O7ds5dvd5z
+	17aO3LhLyFb6sUINYJ4tcgmqrr1NXPQFhEQyErsSjOde61653/yvlR4Jyl6qtb/Iof+74ETQ+bG
+	g1o4Z
+X-Gm-Gg: ASbGnctT5m/oF7j1wMPX7jmagPCSdM2AcqPybCAHrGcZgKPaXhZRNMghsio6xrgXi46
+	pUUQaJ8eCzc136yDpSfh80C/J0aNndfwmBFn5WmYSDj4jdwl97Xlr/XZHOxGxwY0TaGUJX0amFU
+	LuEO3Y96+jVMtj8wzgp3jqViX4vsxWhwncp91eApqLcw8sTJdvoTnX3z0cBQ/81FoNJ2PSemaNw
+	r2G08erbeLNPTRwPvzZ6w8sRXRjU95fRp487vaZh7+GHy/SycqBj8OYoiGDTIfcWcbbuDZF8mus
+	xOYQHdQ1y3hiwVkJm1DZ5tTHKUAOtzqoIezSswLAVJaif70/AGIXLfuFYlnvCwu6efa7TUugrKO
+	ZbqXBHssjtFMJig==
+X-Google-Smtp-Source: AGHT+IEH0/7AzUkueH+AdWM9cd09iqyz04T4I61bsi4ZkcyLPa1LFweUJf8g2tM6S458gpU4c/Qt/Q==
+X-Received: by 2002:a05:6a00:7496:b0:772:4319:e7ed with SMTP id d2e1a72fcca58-7724319ece8mr17612075b3a.29.1756916109438;
+        Wed, 03 Sep 2025 09:15:09 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:9ffe:4bb4:e2b3:4b1c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7724f079b88sm11027602b3a.40.2025.09.03.09.15.04
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7724f079b88sm11027602b3a.40.2025.09.03.09.15.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 09:15:04 -0700 (PDT)
+        Wed, 03 Sep 2025 09:15:09 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/9] Patch review
-Date: Wed,  3 Sep 2025 09:14:50 -0700
-Message-ID: <cover.1756915922.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/9] tiff: fix CVE-2025-8534
+Date: Wed,  3 Sep 2025 09:14:52 -0700
+Message-ID: <c897368cd363d3e50372ab1fc95bc31f1a883dc4.1756915922.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1756915922.git.steve@sakoman.com>
+References: <cover.1756915922.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 16:15:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222865
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222867
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Friday, September 5
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Passed a-full on autobuilder:
+A vulnerability classified as problematic was found in libtiff
+4.6.0. This vulnerability affects the function PS_Lvl2page of
+the file tools/tiff2ps.c of the component tiff2ps. The
+manipulation leads to null pointer dereference. It is possible
+to launch the attack on the local host. The complexity of an
+attack is rather high. The exploitation appears to be difficult.
+The exploit has been disclosed to the public and may be used.
+The name of the patch is 6ba36f159fd396ad11bf6b7874554197736ecc8b.
+It is recommended to apply a patch to fix this issue. One of the
+maintainers explains, that "[t]his error only occurs if
+DEFER_STRILE_LOAD (defer-strile-load:BOOL=ON) or TIFFOpen( .. "rD")
+option is used."
 
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/2309
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-8534
 
-The following changes since commit 36cf6bb39df081b27306d27b20155995b73e1a01:
+Upstream patch:
+https://gitlab.com/libtiff/libtiff/-/commit/6ba36f159fd396ad11bf6b7874554197736ecc8b
 
-  Revert "sqlite3: patch CVE-2025-7458" (2025-09-01 08:18:45 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Deepak Rathore (1):
-  default-distrovars.inc: Fix CONNECTIVITY_CHECK_URIS redirect issue
-
-Kyungjik Min (1):
-  pulseaudio: Add audio group explicitly
-
-Mingli Yu (1):
-  vim: not adjust script pathnames for native scripts either
-
-Peter Marko (2):
-  vim: upgrade 9.1.1198 -> 9.1.1652
-  sudo: remove devtool FIXME comment
-
-Praveen Kumar (1):
-  git: fix CVE-2025-48384
-
-Yogita Urade (3):
-  tiff: fix CVE-2024-13978
-  tiff: fix CVE-2025-8534
-  tiff: fix CVE-2025-8851
-
- meta-selftest/files/static-group              |  1 +
- .../distro/include/default-distrovars.inc     |  2 +-
- meta/lib/oeqa/sdk/buildtools-cases/https.py   |  4 +-
- .../git/git/CVE-2025-48384.patch              | 85 +++++++++++++++++++
- meta/recipes-devtools/git/git_2.35.7.bb       |  1 +
- meta/recipes-extended/sudo/sudo_1.9.17p1.bb   | 52 ------------
- .../libtiff/tiff/CVE-2024-13978.patch         | 47 ++++++++++
- .../libtiff/tiff/CVE-2025-8534.patch          | 60 +++++++++++++
- .../libtiff/tiff/CVE-2025-8851.patch          | 71 ++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  3 +
- .../pulseaudio/pulseaudio.inc                 |  2 +-
- ...src-Makefile-improve-reproducibility.patch | 10 +--
- .../vim/files/disable_acl_header_check.patch  | 12 +--
- .../vim/files/no-path-adjust.patch            | 35 +++++---
- meta/recipes-support/vim/vim.inc              |  7 +-
- 15 files changed, 308 insertions(+), 84 deletions(-)
- create mode 100644 meta/recipes-devtools/git/git/CVE-2025-48384.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2024-13978.patch
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libtiff/tiff/CVE-2025-8534.patch          | 60 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
+ 2 files changed, 61 insertions(+)
  create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8534.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8851.patch
 
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8534.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8534.patch
+new file mode 100644
+index 0000000000..59c14e2703
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-8534.patch
+@@ -0,0 +1,60 @@
++From 6ba36f159fd396ad11bf6b7874554197736ecc8b Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Sat, 2 Aug 2025 18:55:54 +0200
++Subject: [PATCH] tiff2ps: check return of TIFFGetFiled() for 
++ TIFFTAG_STRIPBYTECOUNTS and TIFFTAG_TILEBYTECOUNTS to avoid NULL pointer 
++ dereference.
++
++Closes #718
++
++CVE: CVE-2025-8534
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/6ba36f159fd396ad11bf6b7874554197736ecc8b]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ tools/tiff2ps.c | 20 +++++++++++++++++---
++ 1 file changed, 17 insertions(+), 3 deletions(-)
++
++diff --git a/tools/tiff2ps.c b/tools/tiff2ps.c
++index a598ede..05a346a 100644
++--- a/tools/tiff2ps.c
+++++ b/tools/tiff2ps.c
++@@ -2193,10 +2193,20 @@ PS_Lvl2page(FILE* fd, TIFF* tif, uint32_t w, uint32_t h)
++ 	tiled_image = TIFFIsTiled(tif);
++ 	if (tiled_image) {
++ 		num_chunks = TIFFNumberOfTiles(tif);
++-		TIFFGetField(tif, TIFFTAG_TILEBYTECOUNTS, &bc);
+++		if (!TIFFGetField(tif, TIFFTAG_TILEBYTECOUNTS, &bc))
+++                {
+++                   TIFFError(filename,
+++                             "Can't read bytecounts of tiles at PS_Lvl2page()");
+++                   return (FALSE);
+++                }
++ 	} else {
++ 		num_chunks = TIFFNumberOfStrips(tif);
++-		TIFFGetField(tif, TIFFTAG_STRIPBYTECOUNTS, &bc);
+++		if (!TIFFGetField(tif, TIFFTAG_STRIPBYTECOUNTS, &bc))
+++                {
+++                   TIFFError(filename,
+++                             "Can't read bytecounts of strips at PS_Lvl2page()");
+++                   return (FALSE);
+++                 }
++ 	}
++ 
++ 	if (use_rawdata) {
++@@ -2791,7 +2801,11 @@ PSRawDataBW(FILE* fd, TIFF* tif, uint32_t w, uint32_t h)
++ 
++ 	(void) w; (void) h;
++ 	TIFFGetFieldDefaulted(tif, TIFFTAG_FILLORDER, &fillorder);
++-	TIFFGetField(tif, TIFFTAG_STRIPBYTECOUNTS, &bc);
+++        if (!TIFFGetField(tif, TIFFTAG_STRIPBYTECOUNTS, &bc))
+++        {
+++           TIFFError(filename, "Can't read bytecounts of strips at PSRawDataBW()");
+++           return;
+++        }
++ 
++ 	/*
++ 	 * Find largest strip:
++-- 
++2.40.0
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index d5ae82bc7c..137dc7f478 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -60,6 +60,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2025-8176-0003.patch \
+            file://CVE-2025-8177.patch \
+            file://CVE-2024-13978.patch \
++           file://CVE-2025-8534.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
 2.43.0
 
