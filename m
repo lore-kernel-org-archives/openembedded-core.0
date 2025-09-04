@@ -1,279 +1,119 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C86CCA1002
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 12:47:40 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.38232.1756990052311703824
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A49CA1015
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 12:53:50 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.35797.1756981401766891896
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 05:47:32 -0700
+ Thu, 04 Sep 2025 03:23:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=Xw1eEvMu;
- spf=pass (domain: underview.tech, ip: 209.85.128.45, mailfrom: vince@underview.tech)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45b9a856dc2so6873535e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 05:47:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1756990050; x=1757594850; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kh/WFO5WdBE44cuzO4m1ipB3dVT033bJeQlIT5UcXJA=;
-        b=Xw1eEvMuy+5XR8YagcLYvq/0XxBu3GjVv/mrvsUmm2YJAS5W07KNKM5EyXSROWHRaf
-         JtggWD093rVxh/uTQOShI2FUpEb5U4sJW2uZRai1m/i9EM1I2PyDSzXMt5S09GC9ZFw4
-         IR7r7rDpS94QLyqLL2g19X4QjsCZmiqEogQsMYRBsh8cyiwZynp/1b2mvRFcnGucAdYR
-         LF8vCf3gNqRdSLaF5jBlHJpwXsaRyytJUnfI0IQD9dqfloY6iEtIuKl3R7GIb0FNgUIP
-         OdZI6Xyctv0M2Z3fY6m9t/lB80kKZSXpug+7K3Gt5JatKRgy01CEQlkX2BlwWBVIbVgC
-         B4Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756990050; x=1757594850;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kh/WFO5WdBE44cuzO4m1ipB3dVT033bJeQlIT5UcXJA=;
-        b=tnjsDJUwJQIY8C9aEqzsLCX66SFvnTJXVKvh9hMsvByLEiNtGsQtCyJeyPFOoYrojL
-         VJrCb3vfirpN8VOS47qT5hWBBYonKgmC+9V11M935c7vnSP6cLo2XKTO/gGAXo+CXN1q
-         fdLZT1g/wMq9GC1Rl4bDSJWzaM9cijVmA5/kAxV+NjcuVJhQpFcXM1Z8LgZfCl3bppGb
-         m6KS3uq9CMOHmCgR5lv0EDUg8LlxcP4o9lZ9Tpc1v7JQgHVFO7CL7yWbwh2ditYm/PjP
-         rmRZ7wU1hSBjvlSbn16yNVuE3wWTLoTYKzvhf+ie9aRL11HnPC4h0i5YDxOQ502HHqSj
-         fUpQ==
-X-Gm-Message-State: AOJu0Ywmk5AhgFt7/HIgMer0E6Vf7gKF9yS5ac7MNkOYs3geUJ8XJOY/
-	4A6Us0zGC6bzMv4SofXVYC10n4CLE72v+txJXQw/OWgtFWe8ukWRyO8OIG9v4fGVm5SslB0EF+L
-	7ikUEdLa1/CAo6NLkeuqRq3KSGK1enu1Z8cn4zmsgbA==
-X-Gm-Gg: ASbGnctmTiuLbp4AYg3VtrTYHD5yhHTBwNwJu8SXi6nBQd7swCNrZPWomqy4AoQqlgI
-	IVsAV0sNZrXqcjVKJAnURWlhbNWRwYBLerXgv1ERWyIicH2N6l1oA7PpLDt9v1yzNsJ3ulW24lf
-	58l9vsQCxjvmdgECd1EuVZN208pBLMFVxbAuQH2T1cPVqRrUKLzXb4MSJQ2L58hEYyxvrm8Wd8h
-	Q5fBCQ5GBvmgmQDH8NYK6bjo/apVacHMjTpq+BO
-X-Google-Smtp-Source: AGHT+IGw+SVBIyBcwWTh0md4idC9j5O6d6FCCsLmYbsJvcjAQCCLV7UOzZVNgUA2QayVsqcGb33KvhsY1PQNJXRKLgU=
-X-Received: by 2002:a05:6000:2283:b0:3e1:5c2b:29ba with SMTP id
- ffacd0b85a97d-3e15c2b2e68mr1340416f8f.30.1756990050272; Thu, 04 Sep 2025
- 05:47:30 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Jqznf56Z;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: kavinaya@qti.qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849Tu5G005675;
+	Thu, 4 Sep 2025 09:31:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=JNk8RkRSX5I/M0iO0aqD5P
+	a4cES2aNjXh2h9E4QzTAk=; b=Jqznf56ZxNwS2DduTA7/eIwC6SoP+5sbmacsvm
+	JOoZGFYivg1wnsxVyNIDF8cYVheGjEbMwMKF1vn5iB6O4M2Pes5mzYeD8XccbPw/
+	+3g8v9w8GK380Thk79nIJksWG3mzsEYBq991sh53+SVjJAcyc2L/WedH+/Bw+Nhh
+	OGTpssP+N2J/zF2PvPn9u4GvPSsUysGqqKa9WJzxOLfsPcNlLXzuYG2K1dUN1gnP
+	lAVrYBPhfXHfaQOZpJ4ypYXrxhXmreoT1CSRYDXxk56XayWIYMTJrT34YjprIqN9
+	NFRyVcpIUkwnYKcR/XqbOiBqkiBFb4jXm9M+u8W90h9UtF7g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48xmxj3h2d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Sep 2025 09:31:51 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5849Vpr1008291
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 4 Sep 2025 09:31:51 GMT
+Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Thu, 4 Sep 2025 02:31:49 -0700
+From: Kavinaya S <kavinaya@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Kavinaya S <kavinaya@qti.qualcomm.com>,
+        Adrian Freihofer
+	<adrian.freihofer@siemens.com>
+Subject: [PATCH v2 0/2] kernel-fit-image: control kernel section with FIT_LINUX_BIN
+Date: Thu, 4 Sep 2025 15:01:20 +0530
+Message-ID: <20250904093122.593125-1-kavinaya@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250902015825.2785789-1-vince@underview.tech> <DCJS959WAB1Q.3S6VHMKD12CQ5@bootlin.com>
-In-Reply-To: <DCJS959WAB1Q.3S6VHMKD12CQ5@bootlin.com>
-From: Vincent Davis <vince@underview.tech>
-Date: Thu, 4 Sep 2025 08:47:18 -0400
-X-Gm-Features: Ac12FXwIoKtcVHZf8LUj8_zHHSKDy9HVImvGAuJ0ilsUDDFFhQ4IjCDCONLBtMg
-Message-ID: <CAPQx_gNw6EmkMHDT3dPHM_QWqM3A+Lf8RyeZCWBNdX=KBgNxOA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/7] bootimg_pcbios: support grub hybrid boot
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d21d00063df91f96"
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAzMDExNyBTYWx0ZWRfX2i2ol0jngDhL
+ oS+ZTINR5DQaH2xtVnCNpYeYMoneNygmy1ifopUzMWbnOcQov1XEC4ceo0mmyB5pJ/79lK5MwxE
+ TvOvsuijg+VX2G8gZ0NT0NmU8bQbd0BjUcxKwivG0/v3JUi893muQM1TsJ3iCtgDlA+XmJpPqjk
+ gFu/kG4VIX7IYjfRTlORTBWJvFfVMVlxMXFrlv4zmSXi9Jsp+r40R4w2HniVuEa7VVuLhNvfs3/
+ kxBYzIviiLK5e0ayr7uNF1bwrEu/QOe9b/Eojr0S1nkLpbAu+r/C3SAvFeurG6mIMBLteFhlHun
+ gHl8T+WF3EnGkWKmGp7gAGpNmpKZ8L9T/fctQcDogXHt3JxqiOrt/DwIZ3bDmq0D2JTfZHJC1dL
+ VUVm9chE
+X-Authority-Analysis: v=2.4 cv=a5cw9VSF c=1 sm=1 tr=0 ts=68b95c87 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=a_U1oVfrAAAA:8
+ a=pi_VCbDn7lDvN86r4GgA:9
+X-Proofpoint-GUID: WCWFU6otJDwCVkc-RSbHqlYNd3P05YXC
+X-Proofpoint-ORIG-GUID: WCWFU6otJDwCVkc-RSbHqlYNd3P05YXC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-04_03,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 clxscore=1011 bulkscore=0 priorityscore=1501
+ phishscore=0 impostorscore=0 adultscore=0 spamscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509030117
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 12:47:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222923
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 12:53:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222926
 
---000000000000d21d00063df91f96
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Update kernel-fit-image.bbclass to conditionally include the kernel
+section based on FIT_LINUX_BIN variable.
 
-O Yeah,
+Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/classes-recipe/kernel-fit-image.bbclass | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-Have a good idea of what the issue is..
-Thought I had that fixed on my end.
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index fd4c6a30fe..f04aee1807 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -59,12 +59,14 @@ python do_compile() {
+     )
+ 
+     # Prepare a kernel image section.
+-    shutil.copyfile(os.path.join(kernel_deploydir, "linux.bin"), "linux.bin")
+-    with open(os.path.join(kernel_deploydir, "linux_comp")) as linux_comp_f:
+-        linux_comp = linux_comp_f.read()
+-    root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
+-        d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
+-        d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
++    linux_bin = d.getVar('FIT_LINUX_BIN')
++    if linux_bin:
++        shutil.copyfile(os.path.join(kernel_deploydir, "linux.bin"), "linux.bin")
++        with open(os.path.join(kernel_deploydir, "linux_comp")) as linux_comp_f:
++            linux_comp = linux_comp_f.read()
++        root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
++            d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
++            d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
+ 
+     # Prepare a DTB image section
+     kernel_devicetree = d.getVar('KERNEL_DEVICETREE')
+-- 
+2.34.1
 
-Vincent
-
-On Thu, Sep 4, 2025, 1:56=E2=80=AFAM Mathieu Dubois-Briand <
-mathieu.dubois-briand@bootlin.com> wrote:
-
-> On Tue Sep 2, 2025 at 3:58 AM CEST, Vincent Davis Jr wrote:
-> > If caller wants to primarily leverage
-> > grub as the primary boot loader current
-> > oe-core doesn't support booting grub when
-> > the boot firmware is legacy BIOS based and
-> > the partition table format is GPT based.
-> >
-> > Issue GPT header reside where core.img
-> > should be located (at byte 512).
-> >
-> > To navigate around issue core.img was
-> > moved to a seperate partition.
-> >
-> > If disk is a GPT disk caller must specify
-> > the file system type as none and set the
-> > partition type as BIOS boot. No filesystem
-> > will be created on partition. This also
-> > allows wic plugin to know where to dd
-> > core.img.
-> >
-> > Unfortunately No deep dive into grub-install
-> > was perform to know the exact bytes changed
-> > in hybrid boot case. To see the change in
-> > bytes generated boot.img + core.img was compared
-> > to boot.img + core.img after grub-install was
-> > executed using the xxd command.
-> >
-> > Signed-off-by: Vincent Davis Jr <vince@underview.tech>
-> > ---
->
-> Hi Vincent,
->
-> It looks like this tends to fail some selftest. Autobuilder logs are not
-> really verbose here, but I can relaunch a build and extract more log
-> files if you now were you want to look.
->
-> runqemu - INFO - Running
-> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-2799227/tmp=
-/work/x86_64-linux/qemu-helper-native/1.0/recipe-sysroot-native/usr/bin/qem=
-u-system-x86_64
-> -device virtio-net-pci,netdev=3Dnet0,mac=3D52:54:00:12:34:02 -netdev
-> tap,id=3Dnet0,ifname=3Dtap0,script=3Dno,downscript=3Dno -object
-> rng-random,filename=3D/dev/urandom,id=3Drng0 -device virtio-rng-pci,rng=
-=3Drng0
-> -drive
-> if=3Dnone,id=3Dhd,file=3D/home/pokybuild/tmp/core-image-minimal-qemux86-6=
-4.rootfs.wic.510160,format=3Draw
-> -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd -usb -device
-> usb-tablet -usb -device usb-kbd   -cpu Skylake-Client -machine
-> q35,i8042=3Doff -smp 4 -enable-kvm -m 256 -serial tcp:127.0.0.1:42697,nod=
-elay=3Don
-> -serial tcp:127.0.0.1:54201,nodelay=3Don  -pidfile
-> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-2799227/pid=
-file_2799227
-> -S -qmp unix:./.6pnxdkdq,server,wait -qmp unix:./.p0gm_1m0,server,nowait
-> -nographic
-> ...
-> Target didn't reach login banner in 1000 seconds (09/02/25 18:40:59)
-> Last 25 lines of all logging (308):
-> c[?7l[2J[0mSeaBIOS (version rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org)
->
->
-> iPXE (http://ipxe.org) 00:02.0 CA00 PCI2.10 PnP PMM+0EFC6560+0EF26560 CA0=
-0
-> Press Ctrl-B to configure iPXE (PCI 00:02.0)...
->
->
->
-> Booting from Hard Disk..
-> ...
-> RuntimeError: core-image-minimal - FAILED to start qemu - check the task
-> log and the boot log
-> ...
-> 2025-09-03 00:41:04,380 - oe-selftest - INFO - ERROR:
-> wic.Wic2.test_grub_install_biosplusefi_qemu (subunit.RemotedTestCase)
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2256
->
-> Can you have a look at the issue please?
->
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
-
---000000000000d21d00063df91f96
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">O Yeah,=C2=A0<div dir=3D"auto"><br></div><div dir=3D"auto=
-">Have a good idea of what the issue is..</div><div dir=3D"auto">Thought I =
-had that fixed on my end.</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-">Vincent</div></div><br><div class=3D"gmail_quote gmail_quote_container"><=
-div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 4, 2025, 1:56=E2=80=AFAM M=
-athieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-briand@bootlin.co=
-m">mathieu.dubois-briand@bootlin.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">On Tue Sep 2, 2025 at 3:58 AM CEST, Vincent Davis Jr wrote=
-:<br>
-&gt; If caller wants to primarily leverage<br>
-&gt; grub as the primary boot loader current<br>
-&gt; oe-core doesn&#39;t support booting grub when<br>
-&gt; the boot firmware is legacy BIOS based and<br>
-&gt; the partition table format is GPT based.<br>
-&gt;<br>
-&gt; Issue GPT header reside where core.img<br>
-&gt; should be located (at byte 512).<br>
-&gt;<br>
-&gt; To navigate around issue core.img was<br>
-&gt; moved to a seperate partition.<br>
-&gt;<br>
-&gt; If disk is a GPT disk caller must specify<br>
-&gt; the file system type as none and set the<br>
-&gt; partition type as BIOS boot. No filesystem<br>
-&gt; will be created on partition. This also<br>
-&gt; allows wic plugin to know where to dd<br>
-&gt; core.img.<br>
-&gt;<br>
-&gt; Unfortunately No deep dive into grub-install<br>
-&gt; was perform to know the exact bytes changed<br>
-&gt; in hybrid boot case. To see the change in<br>
-&gt; bytes generated boot.img + core.img was compared<br>
-&gt; to boot.img + core.img after grub-install was<br>
-&gt; executed using the xxd command.<br>
-&gt;<br>
-&gt; Signed-off-by: Vincent Davis Jr &lt;vince@underview.tech&gt;<br>
-&gt; ---<br>
-<br>
-Hi Vincent,<br>
-<br>
-It looks like this tends to fail some selftest. Autobuilder logs are not<br=
->
-really verbose here, but I can relaunch a build and extract more log<br>
-files if you now were you want to look.<br>
-<br>
-runqemu - INFO - Running /srv/pokybuild/yocto-worker/oe-selftest-debian/bui=
-ld/build-st-2799227/tmp/work/x86_64-linux/qemu-helper-native/1.0/recipe-sys=
-root-native/usr/bin/qemu-system-x86_64 -device virtio-net-pci,netdev=3Dnet0=
-,mac=3D52:54:00:12:34:02 -netdev tap,id=3Dnet0,ifname=3Dtap0,script=3Dno,do=
-wnscript=3Dno -object rng-random,filename=3D/dev/urandom,id=3Drng0 -device =
-virtio-rng-pci,rng=3Drng0 -drive if=3Dnone,id=3Dhd,file=3D/home/pokybuild/t=
-mp/core-image-minimal-qemux86-64.rootfs.wic.510160,format=3Draw -device vir=
-tio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd -usb -device usb-tablet -=
-usb -device usb-kbd=C2=A0 =C2=A0-cpu Skylake-Client -machine q35,i8042=3Dof=
-f -smp 4 -enable-kvm -m 256 -serial tcp:<a href=3D"http://127.0.0.1:42697" =
-rel=3D"noreferrer noreferrer" target=3D"_blank">127.0.0.1:42697</a>,nodelay=
-=3Don -serial tcp:<a href=3D"http://127.0.0.1:54201" rel=3D"noreferrer nore=
-ferrer" target=3D"_blank">127.0.0.1:54201</a>,nodelay=3Don=C2=A0 -pidfile /=
-srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-2799227/pidfil=
-e_2799227=C2=A0 -S -qmp unix:./.6pnxdkdq,server,wait -qmp unix:./.p0gm_1m0,=
-server,nowait -nographic<br>
-...<br>
-Target didn&#39;t reach login banner in 1000 seconds (09/02/25 18:40:59)<br=
->
-Last 25 lines of all logging (308):<br>
-c[?7l[2J[0mSeaBIOS (version <a href=3D"http://rel-1.16.3-0-ga6ed6b701f0a-pr=
-ebuilt.qemu.org" rel=3D"noreferrer noreferrer" target=3D"_blank">rel-1.16.3=
--0-ga6ed6b701f0a-prebuilt.qemu.org</a>)<br>
-<br>
-<br>
-iPXE (<a href=3D"http://ipxe.org" rel=3D"noreferrer noreferrer" target=3D"_=
-blank">http://ipxe.org</a>) 00:02.0 CA00 PCI2.10 PnP PMM+0EFC6560+0EF26560 =
-CA00<br>
-Press Ctrl-B to configure iPXE (PCI 00:02.0)...<br>
-<br>
-<br>
-<br>
-Booting from Hard Disk..<br>
-...<br>
-RuntimeError: core-image-minimal - FAILED to start qemu - check the task lo=
-g and the boot log<br>
-...<br>
-2025-09-03 00:41:04,380 - oe-selftest - INFO - ERROR: wic.Wic2.test_grub_in=
-stall_biosplusefi_qemu (subunit.RemotedTestCase)<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/buil=
-ds/2256" rel=3D"noreferrer noreferrer" target=3D"_blank">https://autobuilde=
-r.yoctoproject.org/valkyrie/#/builders/35/builds/2256</a><br>
-<br>
-Can you have a look at the issue please?<br>
-<br>
-Thanks,<br>
-Mathieu<br>
-<br>
--- <br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://bootlin.com</a><br>
-<br>
-</blockquote></div>
-
---000000000000d21d00063df91f96--
 
