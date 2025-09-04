@@ -1,229 +1,279 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49793CA1015
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 12:22:40 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.17])
- by mx.groups.io with SMTP id smtpd.web10.38020.1756988553646908817
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C86CCA1002
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 12:47:40 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.38232.1756990052311703824
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 05:22:34 -0700
+ Thu, 04 Sep 2025 05:47:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=LpJKgsOj;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=LpJKgsOj;
- spf=pass (domain: arm.com, ip: 40.107.159.17, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=WiRWgHINF4bili0y+JV56kbERMEin3tC3KyDnFs4wegCBu7Ew3yHgE6dR2XJgKhwsZqoWEZCGn0JVQn1XwzqBIvh9m4mtiOjSOeXDXWcXC+GReJY/9F0e/4Hh/GEL6SxdP9vtZN7UAuYYGL3+wumb6L+J7d2bRROPyUbfQ/aWgyDeW47n+khvsXPXjMauKZR5MlioUWn0wOEioXPWAMKjEiOCJ7/m5Bw6YgB4p0Vro9+ZOraO44P5GsHvJ2w9TMwuLqFXd92g09aC/wng9agdu/A8cx/WRvpjtTwImk0Z4EfLHhNI6kuBQnIvX7SKLw7cX0bzYIbDeTKoGwfENwTpg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iq+XzrzP6OLzMsZoUL5Xj5/wOLN8J/g/7bJh3nyH1U0=;
- b=R0rMMLB5NRnfcQTFlqtmfYKDK5Gf/QSLAxIw2WlX8C9mWjcb0Wt718i0YFsPYioGpuyuwnOohfrd1Bmxvh/Fg5wuVuIBgCl/QCvYeteNL117RSL6N3CiAMXdY+XUeSybNMuddzdhplwO9DJ/5TwOVRHaGZbfduKt8TvMSY8CICu2oTzTbXpTwCbpiCGRbslqrreBPMZhBiIyromEzRoqFTeFdrcsWHRqkCTh0HxaDB/Zr8iUf4gs48ryyPVMTpIimepm1RAD6ZyR0IearPkMzPSmp9O4r0xAcwvpTyncKUs56ajI3gcxypHnSaHxDu6GKfzP8hjO9AIfIudet+3xTA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iq+XzrzP6OLzMsZoUL5Xj5/wOLN8J/g/7bJh3nyH1U0=;
- b=LpJKgsOjZ2/YCIXbF3qiLFrLlfU1SKWqnsyUP/s5T1VBfdUQPG9GFWCKwiqpwXapJ2+Jkogd0EfmSqcz6RPe8EBqMaO4u1cBXKR4HaAXjwj/RVQZwSfO4jiOTHi0HnkaIjkQiHqDZg9HbZMNrOoMKXzoKEPZS0ysOruSjaMbrko=
-Received: from AM5PR0101CA0020.eurprd01.prod.exchangelabs.com
- (2603:10a6:206:16::33) by DBBPR08MB10385.eurprd08.prod.outlook.com
- (2603:10a6:10:52a::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Thu, 4 Sep
- 2025 12:22:28 +0000
-Received: from AM3PEPF00009B9E.eurprd04.prod.outlook.com
- (2603:10a6:206:16:cafe::81) by AM5PR0101CA0020.outlook.office365.com
- (2603:10a6:206:16::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.18 via Frontend Transport; Thu,
- 4 Sep 2025 12:22:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM3PEPF00009B9E.mail.protection.outlook.com (10.167.16.23) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.14
- via Frontend Transport; Thu, 4 Sep 2025 12:22:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c+49bfz5td6vBw7j7m7PeKRjK8l+fx9suluFlfPVKYbMEmhGDM0/BQ3ylo5V5o2if+e0UgBMY8/MdjerX1GEIuhqhbesU6mxz5Hyl2Y2niQOg96JaE2Jq4c97dEcWOOuG6ki7qed9v8F7utrMNdmaZPYEDygSNEsYCPxoNWsglPHv0PLcGpQkhrKXLfnptWrmCOpQ8mvf7oEwW0zn5ghmpNI8yRl2uXApsvGX0OpQzVBIyQaJATpv6P5Da5qDNVZdE5O1SHIPQ6V/iUjdiBKcBo59YdaPmiliOoByaM2F+gFJWzwn4Gv1Gb14oCkIUJQ3sNx5f7M/T8JXv2/Wkp4rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iq+XzrzP6OLzMsZoUL5Xj5/wOLN8J/g/7bJh3nyH1U0=;
- b=b9H1UeJ+D9J5b0KpYSOaxfKj1JduzxhUX2ssAsf6BBNoNpoCEwXIa+quYYwJjhGaGL3Up3GWuxULzaWgdOgvQVZ/qLXB/zC4Xl+3Ptgs/9b3Vf+CrQOk/ojv4NgCPP/i7309bc2Ukt1ubdeV/cAcARIpBHog7J/SqFVXAu60T7AXAAJL1EWp5GvGCEzUSmW6JMQ1vBg2IXx07VHRBYNvWuiImWhetHjhV2gjKjpK3Nmq6/jd+EP5AL0VplZe+f+QGbN4M9c1lcmaWWaX2jANm4rj99TgA4KoRVYAwjIU97eC8oyXI1xxonyEKrAuKgCxWYbHLe4iXDrW4djzNZecbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iq+XzrzP6OLzMsZoUL5Xj5/wOLN8J/g/7bJh3nyH1U0=;
- b=LpJKgsOjZ2/YCIXbF3qiLFrLlfU1SKWqnsyUP/s5T1VBfdUQPG9GFWCKwiqpwXapJ2+Jkogd0EfmSqcz6RPe8EBqMaO4u1cBXKR4HaAXjwj/RVQZwSfO4jiOTHi0HnkaIjkQiHqDZg9HbZMNrOoMKXzoKEPZS0ysOruSjaMbrko=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DBBPR08MB6073.eurprd08.prod.outlook.com (2603:10a6:10:1f7::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.18; Thu, 4 Sep
- 2025 12:21:53 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9073.026; Thu, 4 Sep 2025
- 12:21:53 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] python: Correct the upstream status in NODEV
- patch
-Thread-Topic: [OE-core] [PATCH] python: Correct the upstream status in NODEV
- patch
-Thread-Index: AQHcG7BUb0CLQTZfH06UPaKvKl/1g7SC9ZGA
-Date: Thu, 4 Sep 2025 12:21:53 +0000
-Message-ID: <31C35016-F8EA-4763-8274-4C229DF73079@arm.com>
-References: <20250902022119.3497724-1-raj.khem@gmail.com>
-In-Reply-To: <20250902022119.3497724-1-raj.khem@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DBBPR08MB6073:EE_|AM3PEPF00009B9E:EE_|DBBPR08MB10385:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6d1c2575-24f8-4853-9473-08ddebadb5d0
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|1800799024|376014|13003099007|38070700018;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?aG1SNlNFYk8zSzNPLy9SSUorQm5pR0JabWgvdmNuOWg4V1NaZ2YzdlJJR3li?=
- =?utf-8?B?dDFJS0Q3QUdDZ2NCcWhVdWpTT1lqSkM1Q0gzOFhRdk5QQ0JoZTY1SWdnQnh2?=
- =?utf-8?B?K25Kd1lmWi9USzFjVnRoM1ZLMlRmb055bnpralo5aVJINnVGaURJaUVRWk90?=
- =?utf-8?B?MzRrR1BuWHYrOVFIZnl2Qlp3YWVLT2FGdkRNUkxWU1B4NHk4V3NnOXNwbHBY?=
- =?utf-8?B?RWMxTTdJa0tYVGZEc2ZGTkNEYXoraGpuK1pxZ29BTHU5T2pKbjRyNFlPYVk5?=
- =?utf-8?B?ekZqN0dXYld5NkhyN3k4TGEwbVRTMmQ3ZXBPbUQ3OFVxNVJ5QjlKLzlYWWsy?=
- =?utf-8?B?SjdvVlVMWXBIYm54UmtzbzNLQjllNmw1Q3pONHdZTXh6aytMSERObmFUaXR1?=
- =?utf-8?B?VnllUHdHcWtPViszTXN5aTJwaE9Ba0hQeGJ3SFE1THRCRzF4Y0RoblBHL2l6?=
- =?utf-8?B?OUFGN0ZzMnhmdU9jZjRpbWozMGRaMHdISGhBa1hKaXFIcXc3MVl3MVZLSkxV?=
- =?utf-8?B?cFZhVGh3NFhMYVJHMHVCSDBnN3lPUTloU3g0cTJlbFpPdEpRYy9YeEJLdkpL?=
- =?utf-8?B?ZzVmMEtCalJtWHBMWFMwUEtXQ1hnd3RTbUd2VFd5RzMyWG00UTl3dExpd2ZP?=
- =?utf-8?B?QXBZc213NE80VUlybjhOVTZCclRWaTRkYldyN2NId214Rk92MlRWekxxbFpW?=
- =?utf-8?B?dldwMEV6RVUzK1lGemJiTExsRUo1eEhHSWF0YStpQ1VRcFQwNlcwcmF2ZkMz?=
- =?utf-8?B?NFVLTFA3ZEpZL2RLckZBUHJwc1Y1c0FNWkpCYWZ5TURoZm96TDJIV3hUY1VI?=
- =?utf-8?B?MFZtSDNMYWNKa0xNbHRaRVVVcjBjQURuUERoQ1hMQWM1TWc3bkYwNGJXQ3NL?=
- =?utf-8?B?VmtiSWVCY1FVM1FOTkk2WmRoT3c3Qjd1KzdzbjJjcS9UYmNTdWJ1Yk9MRE40?=
- =?utf-8?B?TDZTUUtHdktneGM0OWl2bE96WlhyTWFzSUh5SUhGZEh3clBOa0xSa0l6dUJZ?=
- =?utf-8?B?bHBxTWJJMHNNV21QUmhCNm9rczd0NGxFOXZQZEd4bml3dG5LVlZILyt0NVBU?=
- =?utf-8?B?VFdHVjNpdkNpOHB1d0M0aHZlLzQ2a3RKaEdiRE93N2ZOcERRdFA3L1lINlpG?=
- =?utf-8?B?amVBaEhVNFVLeEpwUHFESVpvQ2ZYcXFCeTZQZUZpMW96SVhFeStXNkZzRlpV?=
- =?utf-8?B?UmErNzNGVmUwMXo1eDdXaEg0ZStYWG5LaWhMOXRuYXJMT1Q2Qmh6VmNDV3Vi?=
- =?utf-8?B?NWRHdXNQVUt2bFFKV2xoeldabFZkWE00SitITmM4SXYxWGEra200U05aUm9y?=
- =?utf-8?B?aXdtVTJSRVdwZlZ5L2xudXo1K3F2MkwyYU5WMzVPT0ZvajNIWWVIZkp3bUFX?=
- =?utf-8?B?RGxxdGhGeGJOSitPMmNWMklYWSs2MkoveWpiSnNTS1FCd29KcW54SEhrVmhW?=
- =?utf-8?B?QTBZZzAzMklxb08wVjRIMzJGK3J5NVpOdGhzQXBZK1ZNTzVpbUFFYmtvRlhF?=
- =?utf-8?B?Z1JkMjB3WSs2THJCQmM5RVR4bGdUOFRMd2pZRFBwcXpaa0lTdERKR3M1VWMv?=
- =?utf-8?B?RFA5clR0WXR1QUxKN2twMVhsS1M5TFluVCtiWnBrWjA0WDZkdTlwSm0xQzVq?=
- =?utf-8?B?SkNNdDlkTmZ0UHFES3lhcTArTTI1R05LenlyVmhoeHhiMWNZZUxyMFBiT0JU?=
- =?utf-8?B?WHZONEFJby9XZXFoMitZUk9WVk1xTit6L1oxUklBcDVCMG1VTUtwSXZjbHJo?=
- =?utf-8?B?d1ZGZlJ2eFBHZ1hhRkxuN205akY3aXBDejdJWjl5UFJRajNDOEtqWThCc2I1?=
- =?utf-8?B?MlYyOGttR0NTaEtPbXdtNlBlWjBjWFFGdUR2Q2xtbWl3MmcyQUZNRHhCcHZH?=
- =?utf-8?B?SGw4TGZPcS95OXByZGhheFcxWGZJQjlzeVMyTUVyamM5R0hGU2dvSit2ZDVI?=
- =?utf-8?Q?ExYnndJ0rqI=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007)(38070700018);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <675077956C99F849BDC1B592663A7E7F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@underview.tech header.s=google header.b=Xw1eEvMu;
+ spf=pass (domain: underview.tech, ip: 209.85.128.45, mailfrom: vince@underview.tech)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45b9a856dc2so6873535e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 05:47:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=underview.tech; s=google; t=1756990050; x=1757594850; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kh/WFO5WdBE44cuzO4m1ipB3dVT033bJeQlIT5UcXJA=;
+        b=Xw1eEvMuy+5XR8YagcLYvq/0XxBu3GjVv/mrvsUmm2YJAS5W07KNKM5EyXSROWHRaf
+         JtggWD093rVxh/uTQOShI2FUpEb5U4sJW2uZRai1m/i9EM1I2PyDSzXMt5S09GC9ZFw4
+         IR7r7rDpS94QLyqLL2g19X4QjsCZmiqEogQsMYRBsh8cyiwZynp/1b2mvRFcnGucAdYR
+         LF8vCf3gNqRdSLaF5jBlHJpwXsaRyytJUnfI0IQD9dqfloY6iEtIuKl3R7GIb0FNgUIP
+         OdZI6Xyctv0M2Z3fY6m9t/lB80kKZSXpug+7K3Gt5JatKRgy01CEQlkX2BlwWBVIbVgC
+         B4Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756990050; x=1757594850;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kh/WFO5WdBE44cuzO4m1ipB3dVT033bJeQlIT5UcXJA=;
+        b=tnjsDJUwJQIY8C9aEqzsLCX66SFvnTJXVKvh9hMsvByLEiNtGsQtCyJeyPFOoYrojL
+         VJrCb3vfirpN8VOS47qT5hWBBYonKgmC+9V11M935c7vnSP6cLo2XKTO/gGAXo+CXN1q
+         fdLZT1g/wMq9GC1Rl4bDSJWzaM9cijVmA5/kAxV+NjcuVJhQpFcXM1Z8LgZfCl3bppGb
+         m6KS3uq9CMOHmCgR5lv0EDUg8LlxcP4o9lZ9Tpc1v7JQgHVFO7CL7yWbwh2ditYm/PjP
+         rmRZ7wU1hSBjvlSbn16yNVuE3wWTLoTYKzvhf+ie9aRL11HnPC4h0i5YDxOQ502HHqSj
+         fUpQ==
+X-Gm-Message-State: AOJu0Ywmk5AhgFt7/HIgMer0E6Vf7gKF9yS5ac7MNkOYs3geUJ8XJOY/
+	4A6Us0zGC6bzMv4SofXVYC10n4CLE72v+txJXQw/OWgtFWe8ukWRyO8OIG9v4fGVm5SslB0EF+L
+	7ikUEdLa1/CAo6NLkeuqRq3KSGK1enu1Z8cn4zmsgbA==
+X-Gm-Gg: ASbGnctmTiuLbp4AYg3VtrTYHD5yhHTBwNwJu8SXi6nBQd7swCNrZPWomqy4AoQqlgI
+	IVsAV0sNZrXqcjVKJAnURWlhbNWRwYBLerXgv1ERWyIicH2N6l1oA7PpLDt9v1yzNsJ3ulW24lf
+	58l9vsQCxjvmdgECd1EuVZN208pBLMFVxbAuQH2T1cPVqRrUKLzXb4MSJQ2L58hEYyxvrm8Wd8h
+	Q5fBCQ5GBvmgmQDH8NYK6bjo/apVacHMjTpq+BO
+X-Google-Smtp-Source: AGHT+IGw+SVBIyBcwWTh0md4idC9j5O6d6FCCsLmYbsJvcjAQCCLV7UOzZVNgUA2QayVsqcGb33KvhsY1PQNJXRKLgU=
+X-Received: by 2002:a05:6000:2283:b0:3e1:5c2b:29ba with SMTP id
+ ffacd0b85a97d-3e15c2b2e68mr1340416f8f.30.1756990050272; Thu, 04 Sep 2025
+ 05:47:30 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6073
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM3PEPF00009B9E.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	24dff752-2056-4eb6-24bf-08ddebada220
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|376014|1800799024|14060799003|82310400026|35042699022|13003099007|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?ZjFhTFBhWDhnM3hvVjJEV3d3OTRvRTQ0UkhkdlNUbVc3REkyeHBFTmE0bFhR?=
- =?utf-8?B?YldlSUJBeVpUSkNOYStBeEJrenBsdXFKMldVY0ZVRHBJSlZNZ3lmdGF6UUJp?=
- =?utf-8?B?YVhQSXZ2OHlacDdlRnIxUXhJeFRUOXp4S2FXemF4MUNNRENBVm84MlFCTnVQ?=
- =?utf-8?B?NHQvRHJ0MkM5ZHQ5dWF2WHdHdCsrOXNjYXl0UUVCSzNOQllQREt2NThRUDd5?=
- =?utf-8?B?OEp0RVdIalRoRlNKMjNLaHFmZHBEeEt0ZDd3d05FN0hLSHF5OXpmZ3JxQkxx?=
- =?utf-8?B?QStvR3dNSUFOeU5kc1FQY3FqSFFEMDZnTXRwemFqbGNibFIwOUtXR28zemtK?=
- =?utf-8?B?ZEVzdHpMbWRaYjlsZXRJOVZRc29tUU1CTjRXQmpMRCtWSUVmSlRuekNQM2dx?=
- =?utf-8?B?QmM2dHNRSzBaMi9ESTMvcnFuNDNCWmZuWjZmZ2d5ek5yRGVtUTNoRTV3U3Q1?=
- =?utf-8?B?dWJ3UG5kblcxbzVteG5qNkZMaGZFNkFSd1Qwb1AyVGpWc0Q1YUc5U2VMK1Yr?=
- =?utf-8?B?WGlnZk1MZlMraTczSUFsVUdHclJWWkVNRDc1WjJvSm03cVpxT3FQM1RVZzQ0?=
- =?utf-8?B?K1F5VWtsd2UvblRzSXRrNkl0VDRDZ0YzalJZK2ZkaUpoUmxqT3RKcU9DOFc2?=
- =?utf-8?B?S25CdzZMSEo5ZU0velgwV094TUF5cUZPQzJYQzlWMDFlYUZuVnRDT0hQeVow?=
- =?utf-8?B?cWRYNjNEK21TNFJ3blpQelFyMHFFTGoyZDl6akZQQ0xrRXZqd0J4MktHUk9X?=
- =?utf-8?B?RHRkYUtndXlmbnNVMUZrb016QVdIRDJaWFg1bGI2cE5wMk95SzV0cS9lbCtQ?=
- =?utf-8?B?M3Q5OU9KbnRmNHhxcjhVT3ZVL3dkcVNIaVhENFl3S1dwRmhTOTZsWm1ZNWRu?=
- =?utf-8?B?NTZEdEpLRFZ0NkMwZlRuVUsyZjlVZnl4SVJrQ25nZy9lTS9oa1hqMXdFMG00?=
- =?utf-8?B?YlVTdTVBd2pmYTUzZmFXZmEwTnVhbXRtREgvM3NSK3NuWTFobkozMjluT2or?=
- =?utf-8?B?NHY2K3NDK2lNNi9ZQktnNlFIeWN1ZXNLSGpYWUZvdWRTU0pTdUM1MWhQU1g3?=
- =?utf-8?B?V1ZJUFRERU4yNy8yOW5wcWcyNkl6c3pMczgzMGw0b1VFUXM0eGpYWXBrckVZ?=
- =?utf-8?B?T2RwSTJSZlM5ZWRpajFSRnJQa01NQnJGenltMy9panpRVjEwUlhCcWpKVHVk?=
- =?utf-8?B?M2R3UWVIUys0ZWJnSnFqckw4Y2QvS0ZPN1JRYkF3SUZ5MkVEKzRCN3JOZmFB?=
- =?utf-8?B?bVBKbVNhNDhURGJyekJxVzFFWkdVa1djK2VwZEh2ZHlxWXZEYk5DeU8vM0Nq?=
- =?utf-8?B?TW5OWUVXa2FLTFpReVZmSGZpQVR5ZHFnTDc3QlFCZ28zaVc2RTFuZktXVG5C?=
- =?utf-8?B?cmtHeGZmWjdQWThKaTJyMGEyRlBwMEFzNEVSalFzSmUzMWd2MmNTUDFZNXpp?=
- =?utf-8?B?SWIyVUpQVEo1c1FaaENsdk92cTFUS3VMUTA5VW1oRWhhVUpuVUF0eWFYV0Fl?=
- =?utf-8?B?WS9QT0Q4K0o1NlJyemFnSnRVVjVqRTlUbitrUGlGMFQ0K21QVmlySU5GdXg1?=
- =?utf-8?B?RU5ybXFod213MStkTHJsYTFiaGtMUnliSTA2c21WY1RHQmtGS3dheFo0NDll?=
- =?utf-8?B?YTgyNkJ2ZjQvYlZvYUtaaUZ0b0lzdDI4RUE3WG40Umxwemp3aWJTdWpnSzFS?=
- =?utf-8?B?OThVRFZHOUdGVnpjTThoU3pjKzFkQlNZdThTUEs4endNOGZTd1dlekZZcnJW?=
- =?utf-8?B?c1UrMTdqUDFtYUorUlp6c0RKbDNHRytPQUh1QnU0RStlSXVwaGZpUjlCdkdl?=
- =?utf-8?B?U2NOVGlPZEpvRG4zVEI3NTdIbERtSlRQb1lnT2ZCemhKOGR2OVZrK0ZrWUNB?=
- =?utf-8?B?S3d3Uk0vbllha2xlQmhUSkZ0K1U1ZDdCNGV3NmdHdGhQRWZhajVrSkE2NU1n?=
- =?utf-8?B?OUpHbGMxUmRtSGZzckZ2SHhKUTV5Y0R6Q0Jrdnp6UDRUYnVzQzExV2d4MkRq?=
- =?utf-8?B?ejhiOUNLeFRnPT0=?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(14060799003)(82310400026)(35042699022)(13003099007)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 12:22:26.8317
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d1c2575-24f8-4853-9473-08ddebadb5d0
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM3PEPF00009B9E.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB10385
+References: <20250902015825.2785789-1-vince@underview.tech> <DCJS959WAB1Q.3S6VHMKD12CQ5@bootlin.com>
+In-Reply-To: <DCJS959WAB1Q.3S6VHMKD12CQ5@bootlin.com>
+From: Vincent Davis <vince@underview.tech>
+Date: Thu, 4 Sep 2025 08:47:18 -0400
+X-Gm-Features: Ac12FXwIoKtcVHZf8LUj8_zHHSKDy9HVImvGAuJ0ilsUDDFFhQ4IjCDCONLBtMg
+Message-ID: <CAPQx_gNw6EmkMHDT3dPHM_QWqM3A+Lf8RyeZCWBNdX=KBgNxOA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/7] bootimg_pcbios: support grub hybrid boot
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000d21d00063df91f96"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 12:22:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222922
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 12:47:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222923
 
-T24gMiBTZXAgMjAyNSwgYXQgMDM6MjEsIEtoZW0gUmFqIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnIDxyYWoua2hlbT1nbWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+
-IA0KPiBFbnN1cmUgaXQgaXMgcmVmbGVjdGluZyBjb3JyZWN0IGluZm9ybWF0aW9uIGFuZCBzdGF0
-dXMgb2YgcGF0Y2gNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
-bC5jb20+DQo+IC0tLQ0KPiAuLi4vcHl0aG9uL3B5dGhvbjMvdGVzdF9wb3NpeF9ub2Rldl9kaXNh
-YmxlLnBhdGNoICAgICAgICAgICB8IDYgKysrKystDQo+IDEgZmlsZSBjaGFuZ2VkLCA1IGluc2Vy
-dGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvdGVzdF9wb3NpeF9ub2Rldl9kaXNhYmxlLnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zL3Rlc3RfcG9zaXhfbm9kZXZfZGlz
-YWJsZS5wYXRjaA0KPiBpbmRleCA4NTc2N2UxZTg5OC4uZGY2MDMwMjUyMGUgMTAwNjQ0DQo+IC0t
-LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy90ZXN0X3Bvc2l4X25vZGV2
-X2Rpc2FibGUucGF0Y2gNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zL3Rlc3RfcG9zaXhfbm9kZXZfZGlzYWJsZS5wYXRjaA0KPiBAQCAtMSw3ICsxLDExIEBADQo+
-IERpc2FibGUgcGFydCBvZiB0ZXN0X3Bvc2l4LnRlc3RfbWFrZWRldiB0aGF0IGRlcGVuZHMgb24g
-dGhlIE5PREVWDQo+IG1hY3JvIGJlaW5nIGRlZmluZWQgKG1pc3Npbmcgb24gbXVzbCkuDQo+IA0K
-PiAtVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vZ2l0aHViLmNvbS9weXRob24v
-Y3B5dGhvbi9wdWxsLzMxNzk0XQ0KPiArU2VlIGh0dHBzOi8vZ2l0aHViLmNvbS9weXRob24vY3B5
-dGhvbi9wdWxsLzMxNzk0IHdoZXJlIE5PREVWDQo+ICtoYW5kbGluZyBpcyBpbnRyb2R1Y2VkLg0K
-PiArDQo+ICtVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW011c2wtU3BlY2lmaWNdDQoN
-CkNhbiB5b3UgZmlsZSBhdCBsZWFzdCBhIHRpY2tldCBmb3IgdGhlIGlzc3VlIHRoYXQgdGhlIHRl
-c3RzIGRvbuKAmXQgd29yayBvbiBtdXNsPyAgKEkgc2VlIHRoYXQgYWxwaW5lIGFsc28gaGFzIHRo
-aXMgcGF0Y2gpDQoNClJvc3M=
+--000000000000d21d00063df91f96
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+O Yeah,
+
+Have a good idea of what the issue is..
+Thought I had that fixed on my end.
+
+Vincent
+
+On Thu, Sep 4, 2025, 1:56=E2=80=AFAM Mathieu Dubois-Briand <
+mathieu.dubois-briand@bootlin.com> wrote:
+
+> On Tue Sep 2, 2025 at 3:58 AM CEST, Vincent Davis Jr wrote:
+> > If caller wants to primarily leverage
+> > grub as the primary boot loader current
+> > oe-core doesn't support booting grub when
+> > the boot firmware is legacy BIOS based and
+> > the partition table format is GPT based.
+> >
+> > Issue GPT header reside where core.img
+> > should be located (at byte 512).
+> >
+> > To navigate around issue core.img was
+> > moved to a seperate partition.
+> >
+> > If disk is a GPT disk caller must specify
+> > the file system type as none and set the
+> > partition type as BIOS boot. No filesystem
+> > will be created on partition. This also
+> > allows wic plugin to know where to dd
+> > core.img.
+> >
+> > Unfortunately No deep dive into grub-install
+> > was perform to know the exact bytes changed
+> > in hybrid boot case. To see the change in
+> > bytes generated boot.img + core.img was compared
+> > to boot.img + core.img after grub-install was
+> > executed using the xxd command.
+> >
+> > Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+> > ---
+>
+> Hi Vincent,
+>
+> It looks like this tends to fail some selftest. Autobuilder logs are not
+> really verbose here, but I can relaunch a build and extract more log
+> files if you now were you want to look.
+>
+> runqemu - INFO - Running
+> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-2799227/tmp=
+/work/x86_64-linux/qemu-helper-native/1.0/recipe-sysroot-native/usr/bin/qem=
+u-system-x86_64
+> -device virtio-net-pci,netdev=3Dnet0,mac=3D52:54:00:12:34:02 -netdev
+> tap,id=3Dnet0,ifname=3Dtap0,script=3Dno,downscript=3Dno -object
+> rng-random,filename=3D/dev/urandom,id=3Drng0 -device virtio-rng-pci,rng=
+=3Drng0
+> -drive
+> if=3Dnone,id=3Dhd,file=3D/home/pokybuild/tmp/core-image-minimal-qemux86-6=
+4.rootfs.wic.510160,format=3Draw
+> -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd -usb -device
+> usb-tablet -usb -device usb-kbd   -cpu Skylake-Client -machine
+> q35,i8042=3Doff -smp 4 -enable-kvm -m 256 -serial tcp:127.0.0.1:42697,nod=
+elay=3Don
+> -serial tcp:127.0.0.1:54201,nodelay=3Don  -pidfile
+> /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-2799227/pid=
+file_2799227
+> -S -qmp unix:./.6pnxdkdq,server,wait -qmp unix:./.p0gm_1m0,server,nowait
+> -nographic
+> ...
+> Target didn't reach login banner in 1000 seconds (09/02/25 18:40:59)
+> Last 25 lines of all logging (308):
+> c[?7l[2J[0mSeaBIOS (version rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org)
+>
+>
+> iPXE (http://ipxe.org) 00:02.0 CA00 PCI2.10 PnP PMM+0EFC6560+0EF26560 CA0=
+0
+> Press Ctrl-B to configure iPXE (PCI 00:02.0)...
+>
+>
+>
+> Booting from Hard Disk..
+> ...
+> RuntimeError: core-image-minimal - FAILED to start qemu - check the task
+> log and the boot log
+> ...
+> 2025-09-03 00:41:04,380 - oe-selftest - INFO - ERROR:
+> wic.Wic2.test_grub_install_biosplusefi_qemu (subunit.RemotedTestCase)
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2256
+>
+> Can you have a look at the issue please?
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+
+--000000000000d21d00063df91f96
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">O Yeah,=C2=A0<div dir=3D"auto"><br></div><div dir=3D"auto=
+">Have a good idea of what the issue is..</div><div dir=3D"auto">Thought I =
+had that fixed on my end.</div><div dir=3D"auto"><br></div><div dir=3D"auto=
+">Vincent</div></div><br><div class=3D"gmail_quote gmail_quote_container"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 4, 2025, 1:56=E2=80=AFAM M=
+athieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-briand@bootlin.co=
+m">mathieu.dubois-briand@bootlin.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex">On Tue Sep 2, 2025 at 3:58 AM CEST, Vincent Davis Jr wrote=
+:<br>
+&gt; If caller wants to primarily leverage<br>
+&gt; grub as the primary boot loader current<br>
+&gt; oe-core doesn&#39;t support booting grub when<br>
+&gt; the boot firmware is legacy BIOS based and<br>
+&gt; the partition table format is GPT based.<br>
+&gt;<br>
+&gt; Issue GPT header reside where core.img<br>
+&gt; should be located (at byte 512).<br>
+&gt;<br>
+&gt; To navigate around issue core.img was<br>
+&gt; moved to a seperate partition.<br>
+&gt;<br>
+&gt; If disk is a GPT disk caller must specify<br>
+&gt; the file system type as none and set the<br>
+&gt; partition type as BIOS boot. No filesystem<br>
+&gt; will be created on partition. This also<br>
+&gt; allows wic plugin to know where to dd<br>
+&gt; core.img.<br>
+&gt;<br>
+&gt; Unfortunately No deep dive into grub-install<br>
+&gt; was perform to know the exact bytes changed<br>
+&gt; in hybrid boot case. To see the change in<br>
+&gt; bytes generated boot.img + core.img was compared<br>
+&gt; to boot.img + core.img after grub-install was<br>
+&gt; executed using the xxd command.<br>
+&gt;<br>
+&gt; Signed-off-by: Vincent Davis Jr &lt;vince@underview.tech&gt;<br>
+&gt; ---<br>
+<br>
+Hi Vincent,<br>
+<br>
+It looks like this tends to fail some selftest. Autobuilder logs are not<br=
+>
+really verbose here, but I can relaunch a build and extract more log<br>
+files if you now were you want to look.<br>
+<br>
+runqemu - INFO - Running /srv/pokybuild/yocto-worker/oe-selftest-debian/bui=
+ld/build-st-2799227/tmp/work/x86_64-linux/qemu-helper-native/1.0/recipe-sys=
+root-native/usr/bin/qemu-system-x86_64 -device virtio-net-pci,netdev=3Dnet0=
+,mac=3D52:54:00:12:34:02 -netdev tap,id=3Dnet0,ifname=3Dtap0,script=3Dno,do=
+wnscript=3Dno -object rng-random,filename=3D/dev/urandom,id=3Drng0 -device =
+virtio-rng-pci,rng=3Drng0 -drive if=3Dnone,id=3Dhd,file=3D/home/pokybuild/t=
+mp/core-image-minimal-qemux86-64.rootfs.wic.510160,format=3Draw -device vir=
+tio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd -usb -device usb-tablet -=
+usb -device usb-kbd=C2=A0 =C2=A0-cpu Skylake-Client -machine q35,i8042=3Dof=
+f -smp 4 -enable-kvm -m 256 -serial tcp:<a href=3D"http://127.0.0.1:42697" =
+rel=3D"noreferrer noreferrer" target=3D"_blank">127.0.0.1:42697</a>,nodelay=
+=3Don -serial tcp:<a href=3D"http://127.0.0.1:54201" rel=3D"noreferrer nore=
+ferrer" target=3D"_blank">127.0.0.1:54201</a>,nodelay=3Don=C2=A0 -pidfile /=
+srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-2799227/pidfil=
+e_2799227=C2=A0 -S -qmp unix:./.6pnxdkdq,server,wait -qmp unix:./.p0gm_1m0,=
+server,nowait -nographic<br>
+...<br>
+Target didn&#39;t reach login banner in 1000 seconds (09/02/25 18:40:59)<br=
+>
+Last 25 lines of all logging (308):<br>
+c[?7l[2J[0mSeaBIOS (version <a href=3D"http://rel-1.16.3-0-ga6ed6b701f0a-pr=
+ebuilt.qemu.org" rel=3D"noreferrer noreferrer" target=3D"_blank">rel-1.16.3=
+-0-ga6ed6b701f0a-prebuilt.qemu.org</a>)<br>
+<br>
+<br>
+iPXE (<a href=3D"http://ipxe.org" rel=3D"noreferrer noreferrer" target=3D"_=
+blank">http://ipxe.org</a>) 00:02.0 CA00 PCI2.10 PnP PMM+0EFC6560+0EF26560 =
+CA00<br>
+Press Ctrl-B to configure iPXE (PCI 00:02.0)...<br>
+<br>
+<br>
+<br>
+Booting from Hard Disk..<br>
+...<br>
+RuntimeError: core-image-minimal - FAILED to start qemu - check the task lo=
+g and the boot log<br>
+...<br>
+2025-09-03 00:41:04,380 - oe-selftest - INFO - ERROR: wic.Wic2.test_grub_in=
+stall_biosplusefi_qemu (subunit.RemotedTestCase)<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/buil=
+ds/2256" rel=3D"noreferrer noreferrer" target=3D"_blank">https://autobuilde=
+r.yoctoproject.org/valkyrie/#/builders/35/builds/2256</a><br>
+<br>
+Can you have a look at the issue please?<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://bootlin.com</a><br>
+<br>
+</blockquote></div>
+
+--000000000000d21d00063df91f96--
 
