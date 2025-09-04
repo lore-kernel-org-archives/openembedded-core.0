@@ -1,253 +1,192 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACEFCA1013
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 08:12:28 +0000 (UTC)
-Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
- by mx.groups.io with SMTP id smtpd.web11.34019.1756973546687706107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FBACA1013
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 08:33:28 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.35])
+ by mx.groups.io with SMTP id smtpd.web10.34505.1756974805951721275
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 01:12:27 -0700
+ Thu, 04 Sep 2025 01:33:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
-Received: from fwd80.aul.t-online.de (fwd80.aul.t-online.de [10.223.144.106])
-	by mailout12.t-online.de (Postfix) with SMTP id 8F0FEE6B1
-	for <openembedded-core@lists.openembedded.org>; Thu,  4 Sep 2025 10:12:24 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.154.163.17]) by fwd80.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1uu54x-2nKrOj0; Thu, 4 Sep 2025 10:12:24 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][RFC][PATCH] glib-2.0: update 2.84.4 -> 2.85.4
-Date: Thu,  4 Sep 2025 10:12:12 +0200
-Message-ID: <20250904081212.1692731-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=ZJBZp2KY;
+ spf=pass (domain: cherry.de, ip: 52.101.83.35, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lCw9D1laJcAuPvDSe9bDGlkew0otC3dVKQMLRJUixKPNahuDBEu9qfLNVm52ieWrL/y/jEw8p2LGLdGaJ9rmT/cH6SqnRup67xxKsUPxKAtoBo9hge58Px0E0pDrlqF48lEjLKN2+LTl5u77cRqFfh8V/6rFqher2VM6syNTygajIYA1cQ7iA6gW6LRmOnCG3g5ZELz1nuraQLVk49eoVHPjy5xI6XOb/fOK6RF/nmZqwgy33TqjwJx2CJIazlLCSUxtSnkB6r/NUU+JGmA6evfymMhZjjHWTv/MkZBXq7bQZDzWRL7z4S8ovFVUedASfzi4wLEAgLTYVkPR5Jh/yQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GYgOzKupqsDmwlOkc1cuy7ykDRXQObDfeocF+OoxmnA=;
+ b=IRYCkPlYDxh/2WzDcc1bOxiqFF/dzBTUhij4J969XOi6LGTpJ19J1ba9gPI36mITEZ6yQ+PeY+NJAmRz8XzpNmrKCZiwDaoAr/yKhaMrE3BdK2p3CnsfW5LeN+haVOlxTD3F1J3aUJDPgt3FfFv3XrpNaktT9g+h3J0+ztzZpd5IfsaVlQUi1PlFVH7fXxHpjHIGU7qEmRp6Z6MHZLCnD7FY0FL+e2HtaAjcBJjwC7j6qSYcd67rIPB/68PyX9lXTJClPDmI5H8Yme95O84qJOkyy/iXIE9orBPvKmYty4WFdIBmn/dK5ioOwvDOqtOwjdjd9g6RTX0LHXgQ8/luSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GYgOzKupqsDmwlOkc1cuy7ykDRXQObDfeocF+OoxmnA=;
+ b=ZJBZp2KYqkdHxx6YFkIJT6I0a+TTlZ83ARjxJFlcaePP6s6Jywg5ixvbvsxZ+hiH2vvQPZcbotPvEfYj//P9FzS6peREJ2tkoxXLkiXLmwDwwCWhfhDIuz/zNMq/Zlq2T0giBsn4fp3Rnp9i6IkLeuZwgKcx8kFhwVj6Ksn9i4w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by PAXPR04MB8944.eurprd04.prod.outlook.com (2603:10a6:102:20f::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Thu, 4 Sep
+ 2025 08:33:21 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1%5]) with mapi id 15.20.9094.015; Thu, 4 Sep 2025
+ 08:33:21 +0000
+Message-ID: <d9b39dcf-2703-4020-a43e-e182ed6a2cb3@cherry.de>
+Date: Thu, 4 Sep 2025 10:33:20 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v6 00/14] mesa: lighten up target's libclc
+ dependencies and fix panfrost support
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Quentin Schulz <foss@0leil.net>, openembedded-core@lists.openembedded.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>,
+ Ross Burton <ross.burton@arm.com>,
+ Otavio Salvador <otavio.salvador@ossystems.com.br>,
+ Khem Raj <raj.khem@gmail.com>
+References: <20250822-mesa-libclc-panfrost-v6-0-393cf47e2fa2@cherry.de>
+ <DCA05S64WG23.38E7E260MAS7S@bootlin.com>
+ <07cd1d3c-4d67-4e60-b3d3-75953784f70f@cherry.de>
+ <b309bed3-501f-4bbc-a95a-f0f2e44e7bed@cherry.de>
+ <DCJSJ2XDAYRQ.O73EFFHWIDLZ@bootlin.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <DCJSJ2XDAYRQ.O73EFFHWIDLZ@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA2P291CA0008.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1e::21) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1756973544-777FD9EC-10B19099/0/0 CLEAN NORMAL
-X-TOI-MSGID: 031db04a-6570-4821-a9c5-a71d8af4f5c8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|PAXPR04MB8944:EE_
+X-MS-Office365-Filtering-Correlation-Id: b3e9565d-7c9d-4e71-69c6-08ddeb8db4a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?YzhOTWYvUlM2cDQ4UitNTE1jWGZ0WUpQbnNleCt6bExseSt1Y1Npc0YwZ1BY?=
+ =?utf-8?B?bzMzMXl2VWRQbnpWOWFrZVNvZXF3d3lBWGFhakJ4bG0rNCs2cmtTOFhYazQ4?=
+ =?utf-8?B?MjR4V2ZjREF1bll4d1M1bXFNRkZuUjNzN3ppQXBaQitaVnI5NnkwV2hJY21a?=
+ =?utf-8?B?TjdyOFN0SUlmbVg2THo1ZmF5a0I5d1F1anNISnMvQ3o3c3k3WjdPUEhKaXFh?=
+ =?utf-8?B?S1NsNFlQckY3UEZ5Q09NZ2NCRlZHVEhUNXovRGFwaTE5ZHVsK3RCM2NqaU5G?=
+ =?utf-8?B?VnlFaG91bmdGNmN3Vi84QTVqTlJEeUx2aHBWZjZEY3BOWVhUOFhFUWpBTkdE?=
+ =?utf-8?B?aGZydnFRbTBsbmlqT0VKbDdLTXRFWmdXNnJPVng2Mm12eStEMnUzcTJ3aTdk?=
+ =?utf-8?B?VFJxQ1FoZ1JsK1FSTlJhVjRNRTNzSjIwRkkyVXcrOE4yTmtCSlJjRmpMUlcx?=
+ =?utf-8?B?QW5XZWY4VkpZZnJrRmw4Y21yTDZrVEplMVIyZWFxWDRPTHFqblZZYnhmN1pp?=
+ =?utf-8?B?ZHlzRU1aNkI2anUzYytibU1Pb3RzOVk3UFBXUGNadlRMa0ZnanF2YTFhQXRu?=
+ =?utf-8?B?SzdzMkpsTEFFU25aejlJMEJNYkZFbThmR1V6VDhLZ0Vsa3hKUlpsNU9yTDkx?=
+ =?utf-8?B?TGxHTGtFVU05MkpNYnpTWUZjVjBoWitlTmJ6Q3A3QTcwWXUrVFJaRU5oakx4?=
+ =?utf-8?B?bzR3WHNiN3QwSHFxelJodjJjV091VW5IczZkTnpXWlZEMjNGYXF3S21OZG5I?=
+ =?utf-8?B?Mk11OHh3eHFGc0w0enA3c0lmUzBEMEZYUWwzak11aFprNFFveXBlbllxQ084?=
+ =?utf-8?B?ejVSUlNGNk5pdTBtdWlDWW1Lb1lITDZaczc4d0hmUkRqdS9PUHpzbkJKN0Iz?=
+ =?utf-8?B?YkFFbXlZc05RQmJkKzJmb2VaMzhwRDJRdnVhTCtJb3prWHZ5R29sUSs1Sm9W?=
+ =?utf-8?B?WmgrT2Z1N2Znb1JhVmc1ZWRJK01WaHIvckh6YWUvamZCUERpZjZZWll0WjlJ?=
+ =?utf-8?B?K293UzQ4NEU2RjVUVzNzNTh0N29kQ2lFU1l2UTB1RGE2Rm5GNThuVTAwR2V4?=
+ =?utf-8?B?aUJYUDR1TFFHWkhiS0NmZjNJTC90M3QwNE1yMlpjZnkxMktWR09GcUJaNWw4?=
+ =?utf-8?B?akZFWG1vckFSTUpOd1RyTFg4R3VrTjZlV2VmcHBQckZsRzlJZjNBU1ZaTWla?=
+ =?utf-8?B?TkxvMFAwQ1N2VVVsbC9na08xTitsMFVxYVZpcnpkejVIR1NnTzBtNE0vVlh4?=
+ =?utf-8?B?Y3hJWndaR0MwQXA2UUdENzZFcHJVUW11cTJRK00vTjBwL3hRTDJqakpoaGtV?=
+ =?utf-8?B?b09Bc2I1RElhcXFyUG11WEhFWkhIY2k0Uk5BaXp6RFVnZFFmOEMzbnlPN203?=
+ =?utf-8?B?TVVkRDJCSS8xRFFyU1ZpVEZuVDBIYjhkNkdDYzhXR0pFOU9hc3hUYjBySzA2?=
+ =?utf-8?B?WGFFWkwzOUxhcHQxTGpjd3VQekR2M0xjZUtsdUVGNU5KM01EdFlkSGwxclpU?=
+ =?utf-8?B?NnlzcHh2NmpRNE8xVmt0azFscGkrR2dHNWxnMXhabWg4eGY1SVpLUDNzeGdz?=
+ =?utf-8?B?WThpT0FWQ0ZLOHlQNVJya0JTVTl1SDdydjJJUHZIeXJlUTlhQXRZYkNIMzZs?=
+ =?utf-8?B?Z2N6eHdqZGtCdnFPMUlUZkQ4ZWpBWTFpRk95MFMxdlBzcnBVNit3aHZUZmE2?=
+ =?utf-8?B?QVZIYk1jZHcrQzh5WCs1Y3lQbDZTQktxK1BpRCtpcys1ZHduNnB0a2QyU2JZ?=
+ =?utf-8?B?QmFCSUltS0Z2RktoVlV0NHVnMk92VzREVzZYZjN1bXV0RTA3S05Yb283cDBN?=
+ =?utf-8?B?bmVzRlpYb3l0NFQ3VnNBaTBIMzlQQ0R1Z0pYT1ZjaFVpbTdSZ3VwejN6SE1M?=
+ =?utf-8?B?NWhEeWZtRGtCTDgrSUNSVlVDbCtVUTdMRktSWSt5ei96UHZlbENsdHRlYkJU?=
+ =?utf-8?Q?GdHFmdV49TM=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?eWRXSlAxaVdza1hGdnhodGNYVXVBVm9DZElPTktNenluSzRqUzdWczhCcXRH?=
+ =?utf-8?B?Ymt3TUUycHA1bHNHbElDM3JHdlRrKzkvWnoyTUEvQ1JQQUlsV0FGcUpwVTZO?=
+ =?utf-8?B?SGIxdG9ZSzBiTW5Ga0dpeFdZVEQxdVUyUDZ0RU5yMXA0Q2p6ZjZHaGhHSXpY?=
+ =?utf-8?B?bU5ITFlKdFUxbURubXVKUEpKR0REV290RXcrL1BwNHVHTmY4NG4rNGt1ZXBZ?=
+ =?utf-8?B?WHNvcnppUlNidGVGMHBWMm1IUkVmMnpHVmpCQ1ByeTNZUmNhdTNKc2IrWE4x?=
+ =?utf-8?B?QlpqTmdDRmpoY1BObTZQYXdxUXl5ekhqYjdFN3lwT21sTmE5RUs0OEF6aktY?=
+ =?utf-8?B?VnVYWVVVa1Z0WGZlSHNYcTFyUmF1dUhpaW45T1JzdUx1SVpMeVJyeGZJZk1S?=
+ =?utf-8?B?LzNsYzIrWGg5OGZUTmd3TVpNbG9tVXl4NVIrYjBxU0xKT3pScHpxYUFvdmMw?=
+ =?utf-8?B?WUttSFZxaWdsSHVlekV5RHJkS2NxblZpbGRhdGxYZFBQSzZ0ZS9sMXFVS1B4?=
+ =?utf-8?B?MitKQ1EyTzFOVkdvODQxR2JtUjJiNVMxSVpUaEZwVU1DZW45U3VUcmwvRnVJ?=
+ =?utf-8?B?dE9KSDRsZ2VvZ0l1cldxa0puQTZvcXB5alkrb2tGa3U0b25semhFL3BldEdD?=
+ =?utf-8?B?VW95ZkFTV2NRamNiYVUwMHZRVVU2Qm9pcVoreHh2TDcvYUtBS3JVLzhoVUZy?=
+ =?utf-8?B?bDRrZmx3SDVaanFxbjZuc3N3K3VWSTUxbnJtUmxPS29ObitESHlTUHJjYmRQ?=
+ =?utf-8?B?QVYzUjlvdFNSSUVTTlJBaVViZjlBZHkxYmV1NHBlemRjUVJxc1Jrc3R5VjE1?=
+ =?utf-8?B?M1luelVvNWlnSEpXNlU5S0ZpNDd2dlZ1am01KzgwVHhLaUJYZGR5aHFhak9F?=
+ =?utf-8?B?RVlrTGVtenVBMC83SU43OWpIaUxDRXpPS1ZrRDcvTzdUbktuOVJpa0xCVUl0?=
+ =?utf-8?B?eFFBWkJpSVRHYWgwS3J2b1B2Zk1uNVQyaHI5MmhmdXhYYUFCeWlmV2hFdFkx?=
+ =?utf-8?B?TEJFVnNOTkFBRE5aM1FaWXN5dHVUVDlUK0NqblhnY1F3T0ZtblRFejQ1T05P?=
+ =?utf-8?B?VnpPaGtMUkhiRnozWm83Rm1FUnphenpRTWk4MHdXY0FienBOWVFFVjdvWkJV?=
+ =?utf-8?B?MzR0Q0xVSHRVcDZ2ODBzaFZYZ3QvTUpGNHJ2dno0STVXZzFmTEhMY2FYbDB3?=
+ =?utf-8?B?K3BRd3k5VlBjVEczbGtuYktEZTRDRVBiT1ZTVEl3N1hRb2cwQXQ3a24wK29O?=
+ =?utf-8?B?azI1N200YWc1dHNKUVhzNDBJVlRCR0J2Y2F0WDFMUWhHWVl3WG0wZUszOEoy?=
+ =?utf-8?B?dWtseExRcFpSUTlxV05VREpJN08rbVhVQ2U5RGRka2hHc1oxN0Fkb21zem95?=
+ =?utf-8?B?bGc4MmVOZkE4Q0hObzRvNW1kTTJVc0txQ1lwRUdzT3c4NFJwVWM1VW9yeFJR?=
+ =?utf-8?B?dWF2SWZmR1h0SmdmUURRSFMxeW1XOGkyQ1MrSVFabWxDbFc4bkRMRlZFZzZ1?=
+ =?utf-8?B?Q2hCZUx3a1phb3lOZHp2azVON0tEd01FZ1dZalZYRTNQd1dRUDJlaGQ1aS8y?=
+ =?utf-8?B?THF1SGRKUkt3Z2s4dVRpNW42QmVYdGRtbGVSV29LU00xSWcvc2xkdUNWTnhP?=
+ =?utf-8?B?OE5OeDE1ejF4WVc4VzhCa2Zrd1c5UTZTV1o5TllXdzlUREhSQk5saHN5ZlBT?=
+ =?utf-8?B?SzB6MUttbTBQOWNaYU5tRE1HY1M0dGhMTVdZQnEzeUR6VHdNZ2UyWllqTmdD?=
+ =?utf-8?B?WHpKS2hBTEV0NVRXMWhWOWx2NjVsZ0FkQjZXcjBleGxZZFl1NC9KY3M4VXhI?=
+ =?utf-8?B?dERaZWl0ZzF1M1YweUs1L3hGYUJoSEFBU1VYcytma05BTUt0WU5PVGZkZGFv?=
+ =?utf-8?B?UlBOTWJsV3lZcUYrdFVtc0I1MWplVGhRODV3cjdVRjhmRHdQNm54NU1kMFRC?=
+ =?utf-8?B?LzFZQWRkWVpReDJlRmRsSHNhc3pINUtvSHJFMm1FN3drV1U1aVJ5a01iRVhF?=
+ =?utf-8?B?RG83RWpSazNTY1F5c2RwWDYzZWRYcmppd1BTWnZlU21yc0FEeHRzRFBVRXdQ?=
+ =?utf-8?B?U2lPNWNaaEtnZ25vZEhtcDQ0Y3d0dksrcDVDUlNGNUpYY1dpYzVPcThvVjF4?=
+ =?utf-8?B?UUU2bmdXZ1NvejhJcGtOajM4bDQyTEhpb0hGaTFpYUVBaU5wa1dYbGRoMDYw?=
+ =?utf-8?B?VFE9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3e9565d-7c9d-4e71-69c6-08ddeb8db4a1
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 08:33:21.2445
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N+tlIRGDyKjYw4QP/nUD8JS/2a2xIgVrqSvNzSOzx2/F3fZdZOqUI2brIX2jgGNKn8T03ld2/VAUz0pJiSO7ScwuxLxM8ZI4A2BvUHbPr9w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8944
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:12:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222906
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:33:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222907
 
-indirect requirement for gtk4 4.20.0
+Hi Mathieu,
 
-developement version: useful for testing the upcoming gnome environment
+On 9/4/25 8:09 AM, Mathieu Dubois-Briand wrote:
+> On Mon Sep 1, 2025 at 5:16 PM CEST, Quentin Schulz via lists.openembedded.org wrote:
+>> Discussing with Ross on private IRC chat, another option could be to
+>> postpone patch 12 and merge the rest as they should work just fine like
+>> that. Patch 12 is a build optimization to avoid building panfrost/asahi
+>> drivers in mesa-native to be able to build panfrost/asahi mesa target
+>> drivers with precomp-compilers enabled (which are enabled via
+>> panfrost/asahi tools in mesa-tools-native), as well as only having
+>> libclc dependency on the host and not requiring libclc PACKAGECONFIG to
+>> be present in both mesa-native and mesa target recipes.
+>>
+> 
+> Hi Quentin,
+> 
+> I just want to confirm, this series builds successfully on the
+> autobuilder after dropping patch 12.
+> 
 
-- remove backport patches
+Thanks, I guess I'll split this into two series to avoid holding off 
+updates and cleanups then.
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- .../glib-2.0/files/CVE-2025-6052-1.patch      | 97 -------------------
- .../glib-2.0/files/CVE-2025-6052-2.patch      | 35 -------
- ...l_2.84.4.bb =3D> glib-2.0-initial_2.85.4.bb} |  0
- ...{glib-2.0_2.84.4.bb =3D> glib-2.0_2.85.4.bb} |  0
- meta/recipes-core/glib-2.0/glib.inc           |  4 +-
- 5 files changed, 1 insertion(+), 135 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patc=
-h
- delete mode 100644 meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patc=
-h
- rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.84.4.bb =3D> glib-=
-2.0-initial_2.85.4.bb} (100%)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.84.4.bb =3D> glib-2.0_2.85=
-.4.bb} (100%)
+There's a 25.2.2 release that got out meanwhile so I'll respin this for 
+a v7 when I have time.
 
-diff --git a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch b/met=
-a/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch
-deleted file mode 100644
-index a344735ee4..0000000000
---- a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch
-+++ /dev/null
-@@ -1,97 +0,0 @@
--From 6aa97beda32bb337370858862f4efe2f3372619f Mon Sep 17 00:00:00 2001
--From: Tobias Stoeckmann <tobias@stoeckmann.org>
--Date: Mon, 7 Jul 2025 20:52:24 +0200
--Subject: [PATCH] gstring: Fix g_string_sized_new segmentation fault
--
--If glib is compiled with -Dglib_assert=3Dfalse, i.e. no asserts
--enabled, then g_string_sized_new(G_MAXSIZE) leads to a segmentation
--fault due to an out of boundary write.
--
--This happens because the overflow check was moved into
--g_string_maybe_expand which is not called by g_string_sized_new.
--
--By assuming that string->allocated_len is always larger than
--string->len (and the code would be in huge trouble if that is not true),
--the G_UNLIKELY check in g_string_maybe_expand can be rephrased to
--avoid a potential G_MAXSIZE overflow.
--
--This in turn leads to 150-200 bytes smaller compiled library
--depending on gcc and clang versions, and one less check for the most
--common code paths.
--
--Reverts https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4655 and
--reorders internal g_string_maybe_expand check to still fix
--CVE-2025-6052.
--
--CVE: CVE-2025-6052
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
-6aa97beda32bb337370858862f4efe2f3372619f]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- glib/gstring.c      | 10 +++++-----
-- glib/tests/string.c | 18 ++++++++++++++++++
-- 2 files changed, 23 insertions(+), 5 deletions(-)
--
--diff --git a/glib/gstring.c b/glib/gstring.c
--index 010a8e976..24c4bfb40 100644
----- a/glib/gstring.c
--+++ b/glib/gstring.c
--@@ -68,6 +68,10 @@ static void
-- g_string_expand (GString *string,
--                  gsize    len)
-- {
--+  /* Detect potential overflow */
--+  if G_UNLIKELY ((G_MAXSIZE - string->len - 1) < len)
--+    g_error ("adding %" G_GSIZE_FORMAT " to string would overflow", len=
-);
--+
--   string->allocated_len =3D g_nearest_pow (string->len + len + 1);
--   /* If the new size is bigger than G_MAXSIZE / 2, only allocate enough
--    * memory for this string and don't over-allocate.
--@@ -82,11 +86,7 @@ static inline void
-- g_string_maybe_expand (GString *string,
--                        gsize    len)
-- {
---  /* Detect potential overflow */
---  if G_UNLIKELY ((G_MAXSIZE - string->len - 1) < len)
---    g_error ("adding %" G_GSIZE_FORMAT " to string would overflow", len=
-);
---
---  if (G_UNLIKELY (string->len + len >=3D string->allocated_len))
--+  if (G_UNLIKELY (len >=3D string->allocated_len - string->len))
--     g_string_expand (string, len);
-- }
--=20
--diff --git a/glib/tests/string.c b/glib/tests/string.c
--index aa363c57a..e3bc4a02e 100644
----- a/glib/tests/string.c
--+++ b/glib/tests/string.c
--@@ -767,6 +767,23 @@ test_string_new_take_null (void)
--   g_string_free (g_steal_pointer (&string), TRUE);
-- }
--=20
--+static void
--+test_string_sized_new (void)
--+{
--+
--+  if (g_test_subprocess ())
--+    {
--+      GString *string =3D g_string_sized_new (G_MAXSIZE);
--+      g_string_free (string, TRUE);
--+    }
--+  else
--+    {
--+      g_test_trap_subprocess (NULL, 0, G_TEST_SUBPROCESS_DEFAULT);
--+      g_test_trap_assert_failed ();
--+      g_test_trap_assert_stderr ("*string would overflow*");
--+    }
--+}
--+
-- int
-- main (int   argc,
--       char *argv[])
--@@ -796,6 +813,7 @@ main (int   argc,
--   g_test_add_func ("/string/test-string-steal", test_string_steal);
--   g_test_add_func ("/string/test-string-new-take", test_string_new_take=
-);
--   g_test_add_func ("/string/test-string-new-take/null", test_string_new=
-_take_null);
--+  g_test_add_func ("/string/sized-new", test_string_sized_new);
--=20
--   return g_test_run();
-- }
-diff --git a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch b/met=
-a/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch
-deleted file mode 100644
-index 703dfdf46c..0000000000
---- a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 3752760c5091eaed561ec11636b069e529533514 Mon Sep 17 00:00:00 2001
--From: Tobias Stoeckmann <tobias@stoeckmann.org>
--Date: Mon, 7 Jul 2025 20:57:41 +0200
--Subject: [PATCH] gstring: Improve g_string_append_len_inline checks
--
--Use the same style for the G_LIKELY check here as in g_string_sized_new.
--The check could overflow on 32 bit systems.
--
--Also improve the memcpy/memmove check to use memcpy if val itself is
--adjacent to end + len_unsigned, which means that no overlapping exists.
--
--CVE: CVE-2025-6052
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
-3752760c5091eaed561ec11636b069e529533514]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- glib/gstring.h | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/glib/gstring.h b/glib/gstring.h
--index e817176c9..c5e64b33a 100644
----- a/glib/gstring.h
--+++ b/glib/gstring.h
--@@ -232,10 +232,10 @@ g_string_append_len_inline (GString    *gstring,
--   else
--     len_unsigned =3D (gsize) len;
--=20
---  if (G_LIKELY (gstring->len + len_unsigned < gstring->allocated_len))
--+  if (G_LIKELY (len_unsigned < gstring->allocated_len - gstring->len))
--     {
--       char *end =3D gstring->str + gstring->len;
---      if (G_LIKELY (val + len_unsigned <=3D end || val > end + len_unsi=
-gned))
--+      if (G_LIKELY (val + len_unsigned <=3D end || val >=3D end + len_u=
-nsigned))
--         memcpy (end, val, len_unsigned);
--       else
--         memmove (end, val, len_unsigned);
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.4.bb b/meta=
-/recipes-core/glib-2.0/glib-2.0-initial_2.85.4.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.4.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.85.4.bb
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.84.4.bb b/meta/recipes=
--core/glib-2.0/glib-2.0_2.85.4.bb
-similarity index 100%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.84.4.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.85.4.bb
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
--2.0/glib.inc
-index c80396a0f1..c7fc0f3c8d 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -231,14 +231,12 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-=
-${PV}.tar.xz \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
-ly-.patch \
-            file://0010-Do-not-hardcode-python-path-into-various-tools.pa=
-tch \
-            file://skip-timeout.patch \
--           file://CVE-2025-6052-1.patch \
--           file://CVE-2025-6052-2.patch \
-            "
- SRC_URI:append:class-native =3D " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pi=
-dfd-features-on-native-g.patch \
-                               "
-=20
--SRC_URI[sha256sum] =3D "8a9ea10943c36fc117e253f80c91e477b673525ae4576294=
-2858aef57631bb90"
-+SRC_URI[sha256sum] =3D "432d84c8e44fe689ff70a5d88dab6d0f70d5efcf7460b965=
-ac560dbac3c6c185"
-=20
- # Find any meson cross files in FILESPATH that are relevant for the curr=
-ent
- # build (using siteinfo) and add them to EXTRA_OEMESON.
---=20
-2.50.1
-
+Cheers,
+Quentin
 
