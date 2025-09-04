@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDD2DCA1002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB50CA1016
 	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 13:46:50 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.39676.1756993608609396402
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.39675.1756993607664306351
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 06:46:48 -0700
+ Thu, 04 Sep 2025 06:46:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=f/Kfu/9U;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=B+RBLcCE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019914fad795-6c70912a-2dec-4ed7-9687-a2921e64eb6a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=zFey9gt1;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Cs2gEQvV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019914fad448-f3bcdc53-757d-4675-acb9-f6b5c3b22a0b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756993607; i=@automation.yoctoproject.org;
+	t=1756993606; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=sClAoc2XDtoBQF/uu6QlVgAQYG5QubTklNacgqI4M2w=;
-	b=f/Kfu/9UHOXro9es8e9KAS9kLHO/4fnbziC30rcDzLCd8tSFBpYcGxm+smZBKczS
-	uddyYfzPdtDP9x48QxEx2hDbFay8Dwmv6B0xxmJs5/80TaHq5yZzeozQw7rnmLsjXxC
-	3EtZjIcqkHNjiE7Bbw3mDrFKxbs5FGxPvyZMdkGs=
+	bh=9Kc2AgrKPuYeG1LKYvZmjIuK27x2VhM54U868Xeyq+U=;
+	b=zFey9gt18nV73BaQgVJIKV90mr91XuJ4tD6HltSuyIdoafpZd0ZDeO8ZQ5jD+rUX
+	Yr3x2KDX4QXssbEfsVdbIncaAILn1a2FIClTsjhvZhaozbUmdw7MUrJ0N5LhDl2+rqO
+	9WH5De8nRYZ3vFF7WszzGqltlGnxCFKKQaNNT4Yk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756993607;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756993606;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=sClAoc2XDtoBQF/uu6QlVgAQYG5QubTklNacgqI4M2w=;
-	b=B+RBLcCEasy6TXCRJCuv0iftHNvNV7kbKlvaNlJYvfhVYDfTU5UC764QuUhbnP6S
-	GQQdCU6om1JXmrzgR0jl9oGpFtwqV8s7jHLBbWL5/qU1F9GeoJgzFNTjwNaM3p1jCY0
-	bzDP/Y+DchQH5yr/bfHir5jN0xIN7EJguBiNU7AY=
+	bh=9Kc2AgrKPuYeG1LKYvZmjIuK27x2VhM54U868Xeyq+U=;
+	b=Cs2gEQvVwIrA5db3/0PtVtYg4hoTW9jb58n5oOBx1v8fKuNI1Inz4141PlaJ/CLt
+	eC5HWHfZEMcIcqfDxLTcs665rH1PBl2jBRZ2s+Vf3L5wovXA4CmXyDJT/QUwpn4dpz+
+	3tOtl6m8cbcPIrb2Zs0OtvPidU172uyplbKJa98w=
 From: patchtest@automation.yoctoproject.org
 To: archana.polampalli@windriver.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][kirkstone][PATCH 2/3] ffmpeg: fix multiple CVEs
-In-Reply-To: <20250904133812.2881582-2-archana.polampalli@windriver.com>
-References: <20250904133812.2881582-2-archana.polampalli@windriver.com>
+Subject: Patchtest results for [oe-core][kirkstone][PATCH 1/3] ffmpeg: fix CVE-2025-7700
+In-Reply-To: <20250904133812.2881582-1-archana.polampalli@windriver.com>
+References: <20250904133812.2881582-1-archana.polampalli@windriver.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019914fad795-6c70912a-2dec-4ed7-9687-a2921e64eb6a-000000@us-west-2.amazonses.com>
-Date: Thu, 4 Sep 2025 13:46:47 +0000
+Message-ID: <0101019914fad448-f3bcdc53-757d-4675-acb9-f6b5c3b22a0b-000000@us-west-2.amazonses.com>
+Date: Thu, 4 Sep 2025 13:46:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.04-54.240.27.23
+X-SES-Outgoing: 2025.09.04-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 13:46:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222932
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222931
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/kirkstone-2-3-ffmpeg-fix-multiple-CVEs.patch
+Testing patch /home/patchtest/share/mboxes/kirkstone-1-3-ffmpeg-fix-CVE-2025-7700.patch
 
 FAIL: test Upstream-Status presence: Added patch file is missing Upstream-Status: <Valid status> in the commit message (test_patch.TestPatch.test_upstream_status_presence_format)
 
