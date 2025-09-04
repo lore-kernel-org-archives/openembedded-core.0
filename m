@@ -1,100 +1,130 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB581CA1015
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 05:31:57 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.32590.1756963909327644860
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08DC2CA1015
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 05:56:48 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.web11.32581.1756965405950700600
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Sep 2025 22:31:49 -0700
+ Wed, 03 Sep 2025 22:56:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=EBPQzr4g;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Smzhxtvg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101991335ab13-3c25816f-b0b9-49de-9525-6be676ff42a2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756963908; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=wWaqU0B0dfEbqzX161UiSgqQhgnC7EzVLOO9iQVrtCw=;
-	b=EBPQzr4gYLBT6p2QPQY44RQHN0Iws0tuw1+qbKBN7gp0TjG2nG4eGpSE0xx9bH9k
-	jndB73cI/7ygskJGPn8ZEIXI58RzI0yvN1TGoD0+FgzufhiMd/jVE5on3SZ6+eVqEDJ
-	gaCDSQaCCVlqDCsZ/zV+d8V3tf62b2JbHXD4Q0Jk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756963908;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=wWaqU0B0dfEbqzX161UiSgqQhgnC7EzVLOO9iQVrtCw=;
-	b=SmzhxtvgJfM+0vxm+V0pWo5Vh2AhQl7rhBdszZoDF4BNYor6s6Ds9JejufSEt3R2
-	OPz9q0HQD8iILmqcTJKvimlYKZGAAV80lPbq4yWsBqCt3Igig9KfEcC8Aqjz79OEm/0
-	3TpcVUbf3RSEZFe71IGQ8DwYR9gxSGsmSHge4iNo=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 2/3] kexec-tools: Fix build with LLD linker
-In-Reply-To: <20250904051509.798465-2-raj.khem@gmail.com>
-References: <20250904051509.798465-2-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101991335ab13-3c25816f-b0b9-49de-9525-6be676ff42a2-000000@us-west-2.amazonses.com>
-Date: Thu, 4 Sep 2025 05:31:48 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.04-54.240.27.192
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=CKC41Q2d;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 0A3364E40C66
+	for <openembedded-core@lists.openembedded.org>; Thu,  4 Sep 2025 05:56:44 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C4F3C606C4;
+	Thu,  4 Sep 2025 05:56:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6669A1C22DD13;
+	Thu,  4 Sep 2025 07:56:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1756965403; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=t7pKHWvu+F0QcNEWtospcMksfP/AOpKgi8TgZlgr+Cs=;
+	b=CKC41Q2dWI4uVnNYpA3BoDytbDLgAEZzFoXx5rE+Xg3by4rid0SF0I3RyVBjK4wWfUUgLh
+	G4xe+UWWmaSXqJft5kS0Throhp7iC/QNdAV+GoyGi+wddCzirKjkQ/axZwHQXViovlzOlj
+	+K3Hcpq+lGKHm0KGrdQTim3S2P+jSV0/k678KvoKsSyphWeGtXxs38JjpJQ4EMTkFHkv2I
+	R48hKVANCMjE5qqKFaXR0EzBmpzO1Tl7nud+leNG3Jg4mQ13Xvcp7MSjTZ1BmKm4xiePHe
+	VB+M4rMz0jOHmv+OpXgmKasF3GwUUFEMlCVhQsS5h+lVkBl8NtfKnWXATr6K3A==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 04 Sep 2025 07:56:38 +0200
+Message-Id: <DCJS959WAB1Q.3S6VHMKD12CQ5@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Vincent Davis Jr" <vince@underview.tech>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/7] bootimg_pcbios: support grub hybrid boot
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250902015825.2785789-1-vince@underview.tech>
+In-Reply-To: <20250902015825.2785789-1-vince@underview.tech>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 05:31:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222901
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 05:56:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222902
 
---NextPart
-Content-Type: text/plain
+On Tue Sep 2, 2025 at 3:58 AM CEST, Vincent Davis Jr wrote:
+> If caller wants to primarily leverage
+> grub as the primary boot loader current
+> oe-core doesn't support booting grub when
+> the boot firmware is legacy BIOS based and
+> the partition table format is GPT based.
+>
+> Issue GPT header reside where core.img
+> should be located (at byte 512).
+>
+> To navigate around issue core.img was
+> moved to a seperate partition.
+>
+> If disk is a GPT disk caller must specify
+> the file system type as none and set the
+> partition type as BIOS boot. No filesystem
+> will be created on partition. This also
+> allows wic plugin to know where to dd
+> core.img.
+>
+> Unfortunately No deep dive into grub-install
+> was perform to know the exact bytes changed
+> in hybrid boot case. To see the change in
+> bytes generated boot.img + core.img was compared
+> to boot.img + core.img after grub-install was
+> executed using the xxd command.
+>
+> Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+> ---
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Vincent,
 
----
-Testing patch /home/patchtest/share/mboxes/v2-2-3-kexec-tools-Fix-build-with-LLD-linker.patch
+It looks like this tends to fail some selftest. Autobuilder logs are not
+really verbose here, but I can relaunch a build and extract more log
+files if you now were you want to look.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+runqemu - INFO - Running /srv/pokybuild/yocto-worker/oe-selftest-debian/bui=
+ld/build-st-2799227/tmp/work/x86_64-linux/qemu-helper-native/1.0/recipe-sys=
+root-native/usr/bin/qemu-system-x86_64 -device virtio-net-pci,netdev=3Dnet0=
+,mac=3D52:54:00:12:34:02 -netdev tap,id=3Dnet0,ifname=3Dtap0,script=3Dno,do=
+wnscript=3Dno -object rng-random,filename=3D/dev/urandom,id=3Drng0 -device =
+virtio-rng-pci,rng=3Drng0 -drive if=3Dnone,id=3Dhd,file=3D/home/pokybuild/t=
+mp/core-image-minimal-qemux86-64.rootfs.wic.510160,format=3Draw -device vir=
+tio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd -usb -device usb-tablet -=
+usb -device usb-kbd   -cpu Skylake-Client -machine q35,i8042=3Doff -smp 4 -=
+enable-kvm -m 256 -serial tcp:127.0.0.1:42697,nodelay=3Don -serial tcp:127.=
+0.0.1:54201,nodelay=3Don  -pidfile /srv/pokybuild/yocto-worker/oe-selftest-=
+debian/build/build-st-2799227/pidfile_2799227  -S -qmp unix:./.6pnxdkdq,ser=
+ver,wait -qmp unix:./.p0gm_1m0,server,nowait -nographic
+...
+Target didn't reach login banner in 1000 seconds (09/02/25 18:40:59)
+Last 25 lines of all logging (308):
+c[?7l[2J[0mSeaBIOS (version rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org)
 
 
---NextPart--
+iPXE (http://ipxe.org) 00:02.0 CA00 PCI2.10 PnP PMM+0EFC6560+0EF26560 CA00
+Press Ctrl-B to configure iPXE (PCI 00:02.0)...
+
+
+
+Booting from Hard Disk..
+...
+RuntimeError: core-image-minimal - FAILED to start qemu - check the task lo=
+g and the boot log
+...
+2025-09-03 00:41:04,380 - oe-selftest - INFO - ERROR: wic.Wic2.test_grub_in=
+stall_biosplusefi_qemu (subunit.RemotedTestCase)
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2256
+
+Can you have a look at the issue please?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
