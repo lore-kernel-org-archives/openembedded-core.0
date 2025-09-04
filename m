@@ -2,117 +2,110 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A49CA1015
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 769F3CA1002
 	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 12:53:50 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.35797.1756981401766891896
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.35311.1756980291613855935
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 03:23:21 -0700
+ Thu, 04 Sep 2025 03:04:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Jqznf56Z;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: kavinaya@qti.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849Tu5G005675;
-	Thu, 4 Sep 2025 09:31:52 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=BdR0G4y4;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: kavinaya@qti.qualcomm.com)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849Tjq3000848;
+	Thu, 4 Sep 2025 09:31:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=JNk8RkRSX5I/M0iO0aqD5P
-	a4cES2aNjXh2h9E4QzTAk=; b=Jqznf56ZxNwS2DduTA7/eIwC6SoP+5sbmacsvm
-	JOoZGFYivg1wnsxVyNIDF8cYVheGjEbMwMKF1vn5iB6O4M2Pes5mzYeD8XccbPw/
-	+3g8v9w8GK380Thk79nIJksWG3mzsEYBq991sh53+SVjJAcyc2L/WedH+/Bw+Nhh
-	OGTpssP+N2J/zF2PvPn9u4GvPSsUysGqqKa9WJzxOLfsPcNlLXzuYG2K1dUN1gnP
-	lAVrYBPhfXHfaQOZpJ4ypYXrxhXmreoT1CSRYDXxk56XayWIYMTJrT34YjprIqN9
-	NFRyVcpIUkwnYKcR/XqbOiBqkiBFb4jXm9M+u8W90h9UtF7g==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48xmxj3h2d-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ttIcLgbg9gNFbluVLEZbk+PG166s2p9KS4K540x4SFY=; b=BdR0G4y4y1rAOS8k
+	02sYDFSm1rsbnm5N2xHPdolcznZoFodwA51Rp/p0/guYfHaiY5k/Gy76kr+DS60p
+	xbHWeVPysUycxDJT22PNaEdfpSlKf8Y4WpRMTUHFdii1wQXBvM9a7YmsFd+DkfOl
+	1U3AgNg7mCscwZuBREQR+LBP9fUkJkKmN3JsO4dQUbnYKLGaV4hE1dM9dKPw/cti
+	E0RSgNOuYMOj7MLectTFpkrXW4sXQDnyiMhPvLkdQc5nhKiXE0qo9dlWfAgR4wvm
+	5Dno9+oCso1bJGaywpmOSzB6trNACDFKFnfcHSp2BzpGsfSenS2tkcTb/qSO0dwc
+	ub9lig==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48urmjpxh2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Sep 2025 09:31:51 +0000 (GMT)
+	Thu, 04 Sep 2025 09:31:58 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5849Vpr1008291
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5849VvoU015115
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 4 Sep 2025 09:31:51 GMT
+	Thu, 4 Sep 2025 09:31:57 GMT
 Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.24; Thu, 4 Sep 2025 02:31:49 -0700
+ 15.2.1748.24; Thu, 4 Sep 2025 02:31:55 -0700
 From: Kavinaya S <kavinaya@qti.qualcomm.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Kavinaya S <kavinaya@qti.qualcomm.com>,
         Adrian Freihofer
 	<adrian.freihofer@siemens.com>
-Subject: [PATCH v2 0/2] kernel-fit-image: control kernel section with FIT_LINUX_BIN
-Date: Thu, 4 Sep 2025 15:01:20 +0530
-Message-ID: <20250904093122.593125-1-kavinaya@qti.qualcomm.com>
+Subject: [PATCH v2 1/2] image-fitimage: add FIT_LINUX_BIN variable
+Date: Thu, 4 Sep 2025 15:01:21 +0530
+Message-ID: <20250904093122.593125-2-kavinaya@qti.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250904093122.593125-1-kavinaya@qti.qualcomm.com>
+References: <20250904093122.593125-1-kavinaya@qti.qualcomm.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAzMDExNyBTYWx0ZWRfX2i2ol0jngDhL
- oS+ZTINR5DQaH2xtVnCNpYeYMoneNygmy1ifopUzMWbnOcQov1XEC4ceo0mmyB5pJ/79lK5MwxE
- TvOvsuijg+VX2G8gZ0NT0NmU8bQbd0BjUcxKwivG0/v3JUi893muQM1TsJ3iCtgDlA+XmJpPqjk
- gFu/kG4VIX7IYjfRTlORTBWJvFfVMVlxMXFrlv4zmSXi9Jsp+r40R4w2HniVuEa7VVuLhNvfs3/
- kxBYzIviiLK5e0ayr7uNF1bwrEu/QOe9b/Eojr0S1nkLpbAu+r/C3SAvFeurG6mIMBLteFhlHun
- gHl8T+WF3EnGkWKmGp7gAGpNmpKZ8L9T/fctQcDogXHt3JxqiOrt/DwIZ3bDmq0D2JTfZHJC1dL
- VUVm9chE
-X-Authority-Analysis: v=2.4 cv=a5cw9VSF c=1 sm=1 tr=0 ts=68b95c87 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=OemYDgTY c=1 sm=1 tr=0 ts=68b95c8e cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=a_U1oVfrAAAA:8
- a=pi_VCbDn7lDvN86r4GgA:9
-X-Proofpoint-GUID: WCWFU6otJDwCVkc-RSbHqlYNd3P05YXC
-X-Proofpoint-ORIG-GUID: WCWFU6otJDwCVkc-RSbHqlYNd3P05YXC
+ a=qf8lhl36pIEOR6z7c9EA:9
+X-Proofpoint-GUID: JLxgMA2zz8Nc8HxF9d0GTkjrumnN5GZD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyNCBTYWx0ZWRfXzAfL4vjqqx2E
+ BJAwcpQO3zKf+eEfZT4ufK//JfY1mb/E5P4si1sj7PZhai8l74QqgC/LFCth6BCjOvirypLKxS7
+ FTFIV1ja7yzZSeZ/phBgSFjxOWKTbuvfY7oFzUmtnyAB8K0l2Z5bLCJce6sOdBdLOQhqvEVRrzD
+ 5lO3mAFi9VCIvkzsJy56Z28YO+0iGynS05LxM2MaNDVowYj1vwClwFVBe/WVnTUHYdSjvCf4lj5
+ r/OACE1efgOz7ndioSYhkcgCuZa5aXAp4Nzr5Ta30OYDuuD1ENZZrXLkdsyeP3q2YesUlSb4JPA
+ eee7TsnL2Hxhqq5IJwFd8edeXh0n5ISfv0Y+6uykpSABrwKKyTOU1Nqh9cWs/WY5UFpTIME0l4d
+ x74vQzBz
+X-Proofpoint-ORIG-GUID: JLxgMA2zz8Nc8HxF9d0GTkjrumnN5GZD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-04_03,2025-08-28_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 clxscore=1011 bulkscore=0 priorityscore=1501
- phishscore=0 impostorscore=0 adultscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509030117
+ malwarescore=0 suspectscore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 clxscore=1011 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300024
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 12:53:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222926
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222925
 
-Update kernel-fit-image.bbclass to conditionally include the kernel
-section based on FIT_LINUX_BIN variable.
+Add FIT_LINUX_BIN variable to image-fitimage.conf to allow control over
+kernel section inclusion.
 
 Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/kernel-fit-image.bbclass | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ meta/conf/image-fitimage.conf | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index fd4c6a30fe..f04aee1807 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -59,12 +59,14 @@ python do_compile() {
-     )
+diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
+index 9be7e45238..f39af099ab 100644
+--- a/meta/conf/image-fitimage.conf
++++ b/meta/conf/image-fitimage.conf
+@@ -37,6 +37,10 @@ FIT_CONF_PREFIX[doc] = "Prefix to use for FIT configuration node name"
  
-     # Prepare a kernel image section.
--    shutil.copyfile(os.path.join(kernel_deploydir, "linux.bin"), "linux.bin")
--    with open(os.path.join(kernel_deploydir, "linux_comp")) as linux_comp_f:
--        linux_comp = linux_comp_f.read()
--    root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
--        d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
--        d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
-+    linux_bin = d.getVar('FIT_LINUX_BIN')
-+    if linux_bin:
-+        shutil.copyfile(os.path.join(kernel_deploydir, "linux.bin"), "linux.bin")
-+        with open(os.path.join(kernel_deploydir, "linux_comp")) as linux_comp_f:
-+            linux_comp = linux_comp_f.read()
-+        root_node.fitimage_emit_section_kernel("kernel-1", "linux.bin", linux_comp,
-+            d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
-+            d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
+ FIT_SUPPORTED_INITRAMFS_FSTYPES ?= "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio"
  
-     # Prepare a DTB image section
-     kernel_devicetree = d.getVar('KERNEL_DEVICETREE')
++# Allow user to support special use cases where the kernel binary is not included
++# in the FIT image itself.
++FIT_LINUX_BIN ?= "linux.bin"
++
+ # Allow user to select the default DTB for FIT image when multiple dtb's exists.
+ FIT_CONF_DEFAULT_DTB ?= ""
+ 
 -- 
 2.34.1
 
