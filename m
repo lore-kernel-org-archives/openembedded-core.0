@@ -1,122 +1,112 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD40CA1013
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 15:58:20 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web10.357.1757001493300876268
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 613EECA1012
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 17:36:00 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.web10.905.1757007351231588154
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 08:58:14 -0700
+ Thu, 04 Sep 2025 10:35:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=fN44knIq;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 5D0D74E40BAE
-	for <openembedded-core@lists.openembedded.org>; Thu,  4 Sep 2025 15:58:11 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1EA4E606C4;
-	Thu,  4 Sep 2025 15:58:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 25E811C22D6B1;
-	Thu,  4 Sep 2025 17:58:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757001490; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=DXwaIe31TT/rzn9uOvysYUqct9eSV45ZfnCkuKauW04=;
-	b=fN44knIqX/Wmrh+uXO0Wty7SndvFd8L9PX1+M3dbS6LzDQXNhFk/2tFN02hcFD/gYTWLqw
-	pUvz+iOZ5Nqr+6pzQYNofYLms6mkGDolqU2ITnZWXHwCw6cHUjM19biznvhYgpOvrDguOU
-	LvJBi19p835GooSN2BakCsPD/vRtA1b2Wh/CzdJk6bprVmTPkWzl5n4QumwZFTjKF8Gkdv
-	WSKecqsVGgqKl5pWmPdf9llQShYKrqshORCXwA/Ct2qPA5VZcIFQJcApOxmaVrS6V0gvK8
-	LGh8AKnL23lDsuAfqwn90wAz45DhGV0tPgp/wxPW7epiBFdrSPJvNfgTcUvklQ==
-Mime-Version: 1.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h1IjFhvg;
+ spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-71d60504bf8so13389277b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 10:35:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757007350; x=1757612150; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YxyOSF4jCUUmYvhBnwKok7bxqiaWNzjRYk2gs5aecPw=;
+        b=h1IjFhvguuTU8kUNMyg/LHM+K39EkdR558YUzgkirr7itF5wHzia+wqhtGbHEW6AnA
+         SwXNV8HUDZyQqmb8S2Ow7hAlqy4YHYkeWgrYM0D6qmZsmngYifkFHZSrPARjRjHT7ucg
+         X3okVvTXIec7ScHyyMpkC6RAx7sM2x9tTtuKNNKnoDozRIoeYqsVFiwhp6xZekHX+FiE
+         RuXnkbh0sFZITWQgbljJxkwg8RpqztolPTT9NojAUL7y1O+R/C5vY75g0xpIeo23Mr+j
+         C68o3nHUrid8GVoORARo9a5/CvAPXRvYqQcoC3hV9nWO4oqI6elW9mD1XgbaKt/06REp
+         gKNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757007350; x=1757612150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YxyOSF4jCUUmYvhBnwKok7bxqiaWNzjRYk2gs5aecPw=;
+        b=rsRb1xYE9AETN4GbPGd/buk54qg4Kch1sC5B5zcEdk8+zB0rx09W+5htRjvKs3sLf9
+         kPWmiEdAeZ2Pe9ccPjMgLhD/6hMDXONLX9mJ7FF6gpgnbIDn+TVSaldymW9UQFv1l1HW
+         pjbGVmJx4DbP/12PucSiIAmeQ1bTcXFpI117kmsaB2XxDjwLb9zsR6S+vxkVXK6se09h
+         ICtkfd874TVoc1pwDzpB8e13r1Gg+IBfZ7BjDtiaZAm32ywXaaFfyytpHlrYGxM4YU/0
+         FR1Sb4OS06Z2HARFi64bQY2mCV6Xe3gSCGo6o1qgDdp8N4OcauY91uY4lDGFHkX/ZD4K
+         G3eg==
+X-Gm-Message-State: AOJu0YwlcpmoA5vuSpV40rvO8UlA1UanCwp44XK596A3DyvVYBqcN8yp
+	z11/OHG8zqyn39DcQ46a0xAOd0LPK1y4UY9ZqOaV4lm5d76Ff7VG0pEJYBPm4QBAYmGjFYicJzj
+	W2o+zAjpMs/j9kUXJl96eqeVGovdn6Z1BuqLl+TE=
+X-Gm-Gg: ASbGncvSF/mUOKRWDXuMi6ieI+WXasBeUYgTR8Ux9LL2HCIsaBWxwmh0bflbRKb46Dp
+	qwZLblXn3OrACQVZwAEWdU/fyibTehGV6rzBUkQRcJVQ2A1q4inIBEERYbCf9syOKt6KRW0p3i8
+	S1ZURP9cnWgIIvOqd++0pzQQq5pRalxF4kgWqa7Y4G3XZIa5tPeyXMNjy8NSxEg0pmdeo2YcaBx
+	pUIjxjwY+cui/j87rS3/rL2lWOT6UChE0EW20Qe6rjR0SdujlgI3Z58TCrZf4h3G/wda8vmPDjr
+	DtORAXuIts3dENxyZfYqLa4bmwsNm39hZ2jiHw2viKOPbeRgNUtF7w==
+X-Google-Smtp-Source: AGHT+IFhAGAteHnk8hdgWvyjpyW81YNIHc9KlV982FIef9K3dxi0I3zDGZy4VWsh33xF5UEr3vXnID1j6MgNz0wtC8Y=
+X-Received: by 2002:a05:690c:c85:b0:71f:efa8:5881 with SMTP id
+ 00721157ae682-72276512bbamr245636877b3.30.1757007350206; Thu, 04 Sep 2025
+ 10:35:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250902022119.3497724-1-raj.khem@gmail.com> <31C35016-F8EA-4763-8274-4C229DF73079@arm.com>
+In-Reply-To: <31C35016-F8EA-4763-8274-4C229DF73079@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 4 Sep 2025 10:35:24 -0700
+X-Gm-Features: Ac12FXzQUNkTISp_Ck2FxP6T82yZUXRypAKVG5vmWkl2MiZQXXJfHq11xeD7Du4
+Message-ID: <CAMKF1spvoC1tT3Etmr7=8vxOhJhk9nszUa52nJw8YYur-8sGVg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python: Correct the upstream status in NODEV patch
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 04 Sep 2025 17:58:07 +0200
-Message-Id: <DCK51OC59LCA.XXERUU1OP7Y@bootlin.com>
-Subject: Re: [OE-core] [PATCH 0/1] wic: updated fstab does not preserve
- metadata of the original file
-Cc: <hongxu.jia@windriver.com>, <trevor.woerner@linaro.org>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <dani.barra25@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250902190555.7929-1-dani.barra25@gmail.com>
-In-Reply-To: <20250902190555.7929-1-dani.barra25@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 15:58:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222962
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 17:36:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222963
 
-On Tue Sep 2, 2025 at 9:05 PM CEST, dani.barra25 via lists.openembedded.org=
- wrote:
-> From: Daniel Andrade <dani.barra25@gmail.com>
+On Thu, Sep 4, 2025 at 5:22=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
+ote:
 >
-> Using `install` in the rootfs plugin forces fstab to be replaced entirely=
-, meaning that even its Inodes will change, leading xattrs and SELinux cont=
-ext stored by pseudo not to be applied.
-> The fix just uses `cp` without preserving attributes from the temporary f=
-stab since none of them are needed, just the content.
-> Same thing happens with the predefined mechanisms for ext4 and msdos. Usi=
-ng debugfs there is no way to replace contents while maintaining metadata, =
-so the approach taken on the path was to remove the different fstab logic f=
-or those fstypes and also use the same modified cp command. Reviewing the b=
-uilds I did it seems to work for all of the fstypes.
+> On 2 Sep 2025, at 03:21, Khem Raj via lists.openembedded.org <raj.khem=3D=
+gmail.com@lists.openembedded.org> wrote:
+> >
+> > Ensure it is reflecting correct information and status of patch
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > .../python/python3/test_posix_nodev_disable.patch           | 6 +++++-
+> > 1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-devtools/python/python3/test_posix_nodev_disa=
+ble.patch b/meta/recipes-devtools/python/python3/test_posix_nodev_disable.p=
+atch
+> > index 85767e1e898..df60302520e 100644
+> > --- a/meta/recipes-devtools/python/python3/test_posix_nodev_disable.pat=
+ch
+> > +++ b/meta/recipes-devtools/python/python3/test_posix_nodev_disable.pat=
+ch
+> > @@ -1,7 +1,11 @@
+> > Disable part of test_posix.test_makedev that depends on the NODEV
+> > macro being defined (missing on musl).
+> >
+> > -Upstream-Status: Submitted [https://github.com/python/cpython/pull/317=
+94]
+> > +See https://github.com/python/cpython/pull/31794 where NODEV
+> > +handling is introduced.
+> > +
+> > +Upstream-Status: Inappropriate [Musl-Specific]
 >
-> Another problem is that the timestamp applied to fstab is not the same as=
- every other file. It seems like the `SOURCE_DATE_EPOCH` variable goes to t=
-he fallback timestamp (`SOURCE_DATE_EPOCH_FALLBACK`).
-> Since you are using that variable everywhere, it is not the same value as=
- ` REPRODUCIBLE_TIMESTAMP_ROOTFS` under `poky/meta/conf/bitbake.conf` that =
-is applied in every other file.
+> Can you file at least a ticket for the issue that the tests don=E2=80=99t=
+ work on musl?  (I see that alpine also has this patch)
 >
-> Daniel Andrade (1):
->   wic: Content of the temporary updated fstab should be copied into the
->     original not replacing it entirely.
->
->  meta/conf/bitbake.conf                   |  4 +++-
->  scripts/lib/wic/partition.py             | 15 +--------------
->  scripts/lib/wic/plugins/source/rootfs.py |  4 ++--
->  3 files changed, 6 insertions(+), 17 deletions(-)
 
-Hi Daniel,
+right, I have already added to the issue which caused the problem,
+hopefully that is a better place to call it out.
 
-Thanks for your patch.
+https://github.com/python/cpython/pull/31794#discussion_r2314773987
 
-It looks like it is breaking a test:
-
-2025-09-04 15:28:11,112 - oe-selftest - INFO - wic.Wic.test_no_fstab_update=
- (subunit.RemotedTestCase)
-2025-09-04 15:28:11,113 - oe-selftest - INFO -  ... FAIL
-...
-2025-09-04 15:28:11,114 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/lib/oeqa=
-/selftest/cases/wic.py", line 859, in test_no_fstab_update
-    self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
-  File "/usr/lib/python3.12/unittest/case.py", line 885, in assertEqual
-    assertion_func(first, second, msg=3Dmsg)
-  File "/usr/lib/python3.12/unittest/case.py", line 1251, in assertMultiLin=
-eEqual
-    self.fail(self._formatMessage(msg, standardMsg))
-  File "/usr/lib/python3.12/unittest/case.py", line 715, in fail
-    raise self.failureException(msg)
-AssertionError: 'af3c087d6c9131735c8d1f270a226892' !=3D '9edb8255abd217fdb2=
-0e118833afb856'
-- af3c087d6c9131735c8d1f270a226892
-+ 9edb8255abd217fdb20e118833afb856
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2412
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2268
-
-Can you fix it please?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+> Ross
 
