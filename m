@@ -1,102 +1,104 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54118CA1014
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 03:46:27 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.31235.1756957585291013740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC8F5CA1017
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 05:12:47 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web10.32417.1756962765026099352
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Sep 2025 20:46:25 -0700
+ Wed, 03 Sep 2025 22:12:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PY2nWoXO;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OmDNXT3a;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019912d52a6f-b29d172a-e2ba-4e16-9142-5d3b25ca6bf4-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756957584; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=vzTBsg2esH58l8COaYXxFcwgJYt04wo4aZCT+A2JZtM=;
-	b=PY2nWoXOdEZ8CEGrWaoIw+kf7hMoQCf8xPgAX9yN8kqGqYqZ0QmG5ldz+BqvmRk4
-	dT1Mgqs7aBOHcY9HuG2wSZAmzvFUCNRVzsB4E2j/Ng+wGYQkzTxWir/yBJEFNW5Wwjg
-	hg4IxQxqvqvIvAoa14ULwFvkUfD6/6TiMwK8QTTc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756957584;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=vzTBsg2esH58l8COaYXxFcwgJYt04wo4aZCT+A2JZtM=;
-	b=OmDNXT3auCSWNahahf9iRNx6KVepc/4uSZDK4cp2tVf6A/ErWCpzYmN4/M1qukH4
-	CPxYkbuAoJxFL9+ySe6l1r1ftkZk+/kl216nHxMj6ol9Tx0yxEKfYZP/Y2lMo0oja8Q
-	r+q06nsxfuRsb9asyH68PrtxtxGKrgtQTZcJDe8U=
-From: patchtest@automation.yoctoproject.org
-To: liezhi.yang@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v3 2/2] libcheck: Fix do_install error with automake 1.18.1
-In-Reply-To: 
- <ee51f1e7cd7a1f7505be79c2e24684786907dfdf.1756957117.git.liezhi.yang@windriver.com>
-References: 
- <ee51f1e7cd7a1f7505be79c2e24684786907dfdf.1756957117.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019912d52a6f-b29d172a-e2ba-4e16-9142-5d3b25ca6bf4-000000@us-west-2.amazonses.com>
-Date: Thu, 4 Sep 2025 03:46:23 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.04-54.240.27.30
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=H+L1BSRZ;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b4755f37c3eso461988a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 22:12:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756962764; x=1757567564; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2A3ry7BZPGMGz/h0BAdp6DYF39NpEpvV6IUaFW++J0A=;
+        b=H+L1BSRZp/4P2ord658daV2gD4Ge0zVKi8Ozyg0HNYQy7qZS/XBdarHDsQCToAizKZ
+         Xb7sZf/owhBTonbbOIOY2xjNe4sYobinfIKkyXyctnLykm74v9Af5XZhqvYUrpi3x2V6
+         oRNTjvRQomM0T0/7pQzG0G4NTgKbkqM4feywD3gQNpjkinJ7CG+YeRgVr+LpOaOTefYr
+         CQl9omyFmQ38gJjQJ8/F+45lwJNyrM0jhdTX0zYZdP77py3ZG2AYF9+Yy6C76lbYYJZa
+         nQOUxowuXaTM4AYzcUtiSurZj6vq9kZyBv1518lxKlXvl08/4ElYeb7EU/zJTzgpAaqQ
+         9Aig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756962764; x=1757567564;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2A3ry7BZPGMGz/h0BAdp6DYF39NpEpvV6IUaFW++J0A=;
+        b=nMNxP2Lv/cz3GqNV2ob3n1FM/kNIGkkwokpHUPj1ckjP2lbSa2nS3njAG0eAKr2+yz
+         obTdemMSRrInFxYVE3x3l3hOlDICZgJDmUfdFkpNuWdTYN6WqPxQtWggevsCuglQ6/PL
+         gm2PRn2audCmRLsazmW0QOAiQ+aVwA1g0j/8YCVPsVKd4rUFHpHeXyQqjx6kHZEHO8SA
+         f2E7PdiGLJtZ9iDQJap8sIn/ZXF78r+ISgR73y41iASKsSQS6pTt2V/BokUDb04RbRKz
+         82BNTkEMOj2Ouu/lA9+Qvu2vNcK87gCyZolWG4ZjZXwHNkeJCck4ADhZD9nXDGFNjTw5
+         xWGQ==
+X-Gm-Message-State: AOJu0YxQv3tGEKd/qDcfBaCAAkaoP5S3YGb+75BAtAPLX+i6AMohsz5i
+	ofCoqbZZKSgeKWXKzKit6GQY2nWf23ypIl4c5/Tx1yvNq3WdaoosdaGtt+5jMzr5
+X-Gm-Gg: ASbGncv/cW/IRJZsg+NlpG9kl+qeYFA7Ip+r3obPuAl5qgs5DUas5A80hdaQ+wPY1Vl
+	a5+FhX5xjMKEYb1qsmsydqU+C0gmHbuxvnf/cSd578sECL6Fp8QqDMVYkSV4XCogUi2q2gNRMRE
+	svl6nQNFQNYukRnJM+n24qQ2WtGuQ5TW0pZ2gLhYYW6UTkVVY0HsdfUROGfwck1tYYicpMxgXr+
+	oRE5PZMEAewspW5xbcVcSr73YEMLVGy+Ma68BxX85IL79OL9mVcQnBeAA5IxYWrdVt7gwcF0Tan
+	+8EGGTOU+XVP95tWA2gTicKlcZJW9WHxDSehleKFtnkyJWC9+kiX9w6+n3LR7/YICC8ndJ919pZ
+	9GK9AjoCN0m8wj9RVdOf8N2mHD5O+2hIrxhkgZezHdxfyK7uGt0+lsd3PXVpuGdQ41cqbAhNZJ3
+	h9f6H5wRE6X+f3+e5EctCXl0kBdrdFVvYX+eUjuijpX6ERaxo0rhM=
+X-Google-Smtp-Source: AGHT+IFBPR5NxZ3afmGHDVd2vNnrTXvFk14xWqm7Ab2uLGOEDyY/lXIoKlnF/rbabEMULsxX30Xfaw==
+X-Received: by 2002:a17:90b:268f:b0:32b:988d:56c6 with SMTP id 98e67ed59e1d1-32b988d596dmr623232a91.11.1756962764013;
+        Wed, 03 Sep 2025 22:12:44 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::ecee])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4cd0736ba7sm15731755a12.12.2025.09.03.22.12.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 22:12:43 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 3/3] grub,grub-efi: Always use BFD linker with clang
+Date: Wed,  3 Sep 2025 22:12:39 -0700
+Message-ID: <20250904051239.796948-3-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250904051239.796948-1-raj.khem@gmail.com>
+References: <20250904051239.796948-1-raj.khem@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 03:46:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222893
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 05:12:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222896
 
---NextPart
-Content-Type: text/plain
+LLD 21+ is erroring on text address being lower than the default
+segment address for binaries. Erroring during configure e.g.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+cannot link at address 0x2000
 
+With LLD 21, -Ttext,<addr> only moves the .text section
+it does not change the image base and LLD 21 errors out
+if any section VMA is below the image base and the segment (image)
+base still defaults to 0x400000 when using LLD, hence the error
+
+LLD support in Grub needs to be done properly, it will need
+to adjust how linker options are constructed in configure. We
+default to use BFD linker always when using clang for now.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v3-2-2-libcheck-Fix-do_install-error-with-automake-1.18.1.patch
+ meta/recipes-bsp/grub/grub2.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index ffa04e415d3..dd1587acd6e 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -71,6 +71,7 @@ CFLAGS:remove = "-O2"
+ # CFLAGS += -mno-mmx -mno-sse
+ # So also remove -mfpmath=sse from TUNE_CCARGS
+ TUNE_CCARGS:remove = "-mfpmath=sse"
++TUNE_CCARGS:append:toolchain-clang = " -fuse-ld=bfd -Wno-error=unused-command-line-argument"
+ 
+ EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} \
+                 --disable-grub-mkfont \
 
