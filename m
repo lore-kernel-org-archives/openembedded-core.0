@@ -1,116 +1,87 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F2BECA1002
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 10:21:39 +0000 (UTC)
-Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
- by mx.groups.io with SMTP id smtpd.web10.35767.1756981291531714273
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86FA1CA1012
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 10:23:49 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web10.35800.1756981420062618196
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 03:21:31 -0700
+ Thu, 04 Sep 2025 03:23:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
-Received: from fwd80.aul.t-online.de (fwd80.aul.t-online.de [10.223.144.106])
-	by mailout10.t-online.de (Postfix) with SMTP id 85022382FA
-	for <openembedded-core@lists.openembedded.org>; Thu,  4 Sep 2025 12:21:29 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.154.163.17]) by fwd80.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1uu75s-2BW5Mf0; Thu, 4 Sep 2025 12:21:28 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][RFC][PATCHv2] gtk4: update 4.18.6 -> 4.20.0
-Date: Thu,  4 Sep 2025 12:21:19 +0200
-Message-ID: <20250904102119.18777-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hb7UlQou;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-721504645aaso6489486d6.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 03:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756981419; x=1757586219; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3F+IO8KafIKpu08x/RQvbNJjaBtPwq4J4PMK6HS2P8Y=;
+        b=Hb7UlQouEa+TRLcGuZSXEsZL3DBnVzOYoc98jWIkWZS2D2yv4mZ3SrkDeMNxaT1ZUd
+         u/KkqzrDh0KA50zB5bQ2PEPGdCl+/TGviAL2VYOarDiSWKr1hr7p4xleWwyYAUzDX3EX
+         qXVc5dcwZ5M40g/YgEOCM/SHrMfUSMLEYA6ivfE2dfn+lL/uOPDbGgWsrRc8AVgECaMM
+         adUqYArd6jmZlrs6hl0F+2sBxvi3teZhFQiFwwkBqghJ4np72l64H+Zl3pXDlNln9GHx
+         mLrt29UrU42g+liuKtqdH9g7NVhr6zARpIk8JRjINTxnd/yxe6QUDjDJgYRAOosiFrIB
+         ql7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756981419; x=1757586219;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3F+IO8KafIKpu08x/RQvbNJjaBtPwq4J4PMK6HS2P8Y=;
+        b=VIDhjjjfCiUl2drU48qoMFkW8pgqUSIFqXEVSJUxIOd1XZnnQQ8ec4r2tyhvY8vmnh
+         p8Y1/ei5HkSqUfOBqEl90NQ8D9z0bvE3/KGlUOwL1/c6ImT4R5IRgUcIX1Iw9vz1nbS8
+         p4ocuOMfzxLLFAI8TMjAdcfuBaNbxCP07GGlbYA2scVW2ulIBAGQGiTqfC7hAEmRURsK
+         ifv9FgmJIbCqSQmYbM8R/0s7FlTEtMy9jn7tQE2/sQA46BuuWEZG4nJ5DWRDNUREfH7j
+         53x+7i082frKVF/Q/paCgy08qiwCumzcvIG6cicYISzBQfQ7MKrfsFhi4460fR8FqD3P
+         Mw8w==
+X-Forwarded-Encrypted: i=1; AJvYcCUKnM2P330UsKXulIx6OXvbc6cytH7VR+V1Xs6nj90/JG1ktzlPfJaIYUHuZW7vmaxjmdO3w9l1jch9OXanAs2c0w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyelhpBxcxWYCZ6K0yB6i79fvuloeHRPTzlbON+2HHQSwCuP+Kr
+	JZoCgEOjE4xuCUDVA7kRG/EHTx8UFoCDNibwr5EAbY5sHPZXB1HlCALbetw0LAtKgZMwGgJB+El
+	hNDB9OEe2ukrj7LEEH7ABzE3mdjbLcaQSwFAr
+X-Gm-Gg: ASbGnctqaQUghR+UvVZ7U1FLDgWQf/pRb8rEFgebsZoJ3I19TFvcauu5YG8dbgc5Hu6
+	YLJ59F8j8/mfyFlhu5yRFa4FaVZk7QbstbUtHk4zeTDw78ywAfImZnDGQGYxkBYjtNOZXlFGmsW
+	y74KlBxSUQjrQxbkQX5IUQqw7NDnqNrI8VoysiPPxwzDxFSEc+wDGLeAmko87TwWUoJqJehLcqZ
+	nvCzY383wHFqUOY0xID4hi0CJ5wsAx53+PXuyQsnUYnQ+/VHzJrAcAadeVMUUPigTpEjxmy8mqU
+	j6esCjieg0p/xvBAHxyrTHKb1dKDjCAl8zmIbkOZ
+X-Google-Smtp-Source: AGHT+IFSDviHr2RLLmbUr4bdKBnbI2uyyNoiWB+GGAjw1O0tj2V2PfIgyPR8XW1Ectx7LFLMBoCVL1+TSrCnRus9j1U=
+X-Received: by 2002:a05:6214:4710:b0:726:9bc3:f8b5 with SMTP id
+ 6a1803df08f44-7269bc3fa6emr43557956d6.32.1756981419015; Thu, 04 Sep 2025
+ 03:23:39 -0700 (PDT)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1756981288-FF7FD9EC-14551D7A/0/0 CLEAN NORMAL
-X-TOI-MSGID: d636fba4-cca5-4841-adea-02b4227132dd
-Content-Transfer-Encoding: quoted-printable
+References: <20250712140638.3099109-1-gudni.m.g@gmail.com> <24850.1752329523627965940@lists.openembedded.org>
+ <AS1PR10MB5697C5226761702F5C7B4E68FD4AA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <1860EED7D31477F1.5475@lists.openembedded.org> <1860F3C42441CCDB.24627@lists.openembedded.org>
+ <64ec9cce-9ae9-4d0b-8be7-e1d0bec144cd@gmail.com> <186124667AD72DDE.24627@lists.openembedded.org>
+ <CANNYZj9EF2g-XXU2231P0pb5Bv+yBWpFwLQqcbeGdNFO9UFcmw@mail.gmail.com> <AS1PR10MB569744B33E963F3885412EC0FD01A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB569744B33E963F3885412EC0FD01A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 4 Sep 2025 12:23:27 +0200
+X-Gm-Features: Ac12FXy5OJDMpQ0uph4j2WNTaHVhi1SHZoknjdjgGqCSxXBPqJZSkYhvK3ElZGE
+Message-ID: <CANNYZj937gxmcbqhDg4y+9OrYy8X_mksPxgDgP30kNzOz0RvZw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sqlite3: upgrade 3.48.0 -> 3.50.2
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: "skandigraun@gmail.com" <skandigraun@gmail.com>, "gudni.m.g@gmail.com" <gudni.m.g@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 10:21:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222912
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 10:23:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222913
 
-Changelog: [https://gitlab.gnome.org/GNOME/gtk/-/blob/71926a295583bc44c1c=
-52c4d7b74f375381d68b2/NEWS]
+On Thu, 4 Sept 2025 at 00:31, Marko, Peter <Peter.Marko@siemens.com> wrote:
+>
+> I have sent a new version with soname=legacy which links against .0.
+> So the update should hopefully finally work now.
+>
+> But of course, the setscene behavior is still something which should be
+> analyzed. Maybe bugzilla ticket should be raised to not forget about it.
 
-- add bash-completion to FILES to avoid an installed-vs-shipped issue
-- remove gtk4-printbackend-cups package
+Filed here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15963
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- .../gtk+/{gtk4_4.18.6.bb =3D> gtk4_4.20.0.bb}           | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.18.6.bb =3D> gtk4_4.20.0.bb} (91%=
-)
-
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.18.6.bb b/meta/recipes-gnome/=
-gtk+/gtk4_4.20.0.bb
-similarity index 91%
-rename from meta/recipes-gnome/gtk+/gtk4_4.18.6.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.20.0.bb
-index 2d24468dcc..89ddf705d3 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.18.6.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.20.0.bb
-@@ -38,7 +38,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
- UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
-xz"
-=20
- SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
-{PV}.tar.xz"
--SRC_URI[sha256sum] =3D "e1817c650ddc3261f9a8345b3b22a26a5d80af154630dedc=
-03cc7becefffd0fa"
-+SRC_URI[sha256sum] =3D "79e51e62f7f0cff32904569b0cebc96297d0ebfafa6de817=
-2073c69ce0391a98"
-=20
- S =3D "${UNPACKDIR}/gtk-${PV}"
-=20
-@@ -69,7 +69,7 @@ PACKAGECONFIG:class-nativesdk =3D "${@bb.utils.filter('=
-DISTRO_FEATURES', 'x11', d)
- PACKAGECONFIG[x11] =3D "-Dx11-backend=3Dtrue,-Dx11-backend=3Dfalse,at-sp=
-i2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr li=
-bxrender libxcomposite libxfixes xinerama"
- PACKAGECONFIG[wayland] =3D "-Dwayland-backend=3Dtrue,-Dwayland-backend=3D=
-false,wayland wayland-protocols virtual/egl virtual/libgles2 wayland-nati=
-ve"
- PACKAGECONFIG[cloudproviders] =3D "-Dcloudproviders=3Denabled,-Dcloudpro=
-viders=3Ddisabled,libcloudproviders"
--PACKAGECONFIG[cups] =3D "-Dprint-cups=3Denabled,-Dprint-cups=3Ddisabled,=
-cups,cups gtk4-printbackend-cups"
-+PACKAGECONFIG[cups] =3D "-Dprint-cups=3Denabled,-Dprint-cups=3Ddisabled,=
-cups,cups"
- PACKAGECONFIG[colord] =3D "-Dcolord=3Denabled,-Dcolord=3Ddisabled,colord=
-"
- PACKAGECONFIG[iso-codes] =3D ",,iso-codes,iso-codes"
- # gtk4 wants gstreamer-player-1.0 -> gstreamer1.0-plugins-bad
-@@ -84,6 +84,7 @@ CFLAGS +=3D "-Wno-error=3Dint-conversion"
- LIBV =3D "4.0.0"
-=20
- FILES:${PN}:append =3D " \
-+    ${datadir}/bash-completion \
-     ${datadir}/glib-2.0/schemas/ \
-     ${datadir}/gtk-4.0/emoji/ \
-     ${datadir}/metainfo/ \
-@@ -121,15 +122,9 @@ RRECOMMENDS:${PN} =3D "${GTKBASE_RRECOMMENDS}"
- RRECOMMENDS:${PN}:libc-glibc =3D "${GTKGLIBC_RRECOMMENDS}"
- RDEPENDS:${PN}-dev +=3D "${@bb.utils.contains("PACKAGECONFIG", "wayland"=
-, "wayland-protocols", "", d)}"
-=20
--PACKAGES_DYNAMIC +=3D "^gtk4-printbackend-.*"
- python populate_packages:prepend () {
-     import os.path
-=20
--    gtk_libdir =3D d.expand('${libdir}/gtk-4.0/${LIBV}')
--    printmodules_root =3D os.path.join(gtk_libdir, 'printbackends');
--
--    do_split_packages(d, printmodules_root, r'^libprintbackend-(.*)\.so$=
-', 'gtk4-printbackend-%s', 'GTK printbackend module for %s')
--
-     if (d.getVar('DEBIAN_NAMES')):
-         d.setVar(d.expand('PKG:${PN}'), '${MLPREFIX}libgtk-4.0')
- }
---=20
-2.50.1
-
+Alex
 
