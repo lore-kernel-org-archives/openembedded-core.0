@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F217CA101C
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 15:22:55 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web10.924.1756999372044229891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1A1CA1013
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 15:23:05 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.927.1756999374993262581
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 08:22:52 -0700
+ Thu, 04 Sep 2025 08:22:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eDBuKs0O;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b4c8bee055cso883252a12.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:22:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1YYWujXC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b4d1e7d5036so699752a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756999371; x=1757604171; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756999374; x=1757604174; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GNbDkRw6yHs5Z1ufBe8gITeQMpCbCsMbcZ2sYdN/CXY=;
-        b=eDBuKs0O+QYYVwEc/O5TMeo47OcvHyhUlnK/p0kbdgv5VjqipBc13uNfwc1siNyqai
-         vXmI0Lg370qvsUr1UrUgp5MCRvXg9GTFlO+e+U4dZWBjjHRzlTRL8C8aBnSzzrKalHhx
-         A7NxboVh1t3FsHGubM28ITKVWzf3Mk6xQ6WQbOl2FKPuJDwkM1/Pt7mEB4ou7llVhjsc
-         M4XNp4tA0+hNc2MphGKZJYmRKiDnNrCduGnWXaOnRyS15RMCjdXcRA9BpOJJtpZ1b0CY
-         GZTK40dbz86VcKKdMx/+fIDVWhVttGjUwoAKfO132+npl+PQIMIiBbOwfSJQ/swYDHNE
-         XxEA==
+        bh=q+ozeAbys4xK2zlPubh3Wn58HafqeUQQS/hR7ewiic8=;
+        b=1YYWujXCgpQ+Qj7dGmH5wzvzUjSE+2OA+8/yLJXLWejco8DmF0AAO3IVokRtFqGh6V
+         uTihqYJ5mhV75yj1Tdr8OlRYm/AtiVmVhPK1DdaDwG5PrEJdE04VTytmQ6hnyUl3+DIi
+         R0aNCCb3qaWYkayrJa19Wn3LC2xFTdG5tVY10G71/3jRREqpJnLBBuN0Va7ptdRYi7Mu
+         AP38Ma3isKQa9oiWmwEfF90V38NKDJSRNt1l0nS8sEBsR1TR/j4ZGccgxDK3KpiQ+Hfo
+         uuH5glcQAaKHhMwjhY55dNcN7dp5LevVZlvK+mhzfMWH66f4vaWtaLXIA0qzdJ9SrVl8
+         goUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756999371; x=1757604171;
+        d=1e100.net; s=20230601; t=1756999374; x=1757604174;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GNbDkRw6yHs5Z1ufBe8gITeQMpCbCsMbcZ2sYdN/CXY=;
-        b=cIHKhSMEUrWyCGNhTt1oylRTBS9uzLlOAZIk/gTz0K4WlLuJ8aC0oH1mA+S4rmij8a
-         cCmSNZ4ULpevFlHa2SGRtBheHrPAcJvhgBP3COZWBiE2aRO4D8Y185vRDQcuF373NjQi
-         2DxNBJIjhYaygUlV9nPPdQPp0uzoxMYtKUfHXdFJkPGpu+DjNNuD3lEv4EpDsEYLwKkw
-         6jNqxyxbpx5pdDwVzQVYOwLe2nHb78FtrqBpt+p2sYBIzVtIdAmVsBsk0T1ID2DNaoSC
-         sERO6lWy+64/eiCANPk1Tr8RQZQSiGpMzj/tMJOUpB73ds8N/w/cmRhj0H1au4THvpvo
-         S9jg==
-X-Gm-Message-State: AOJu0Yw1mSs1IjC6D+rkvoIif+BRWupvppd7WQLyqWwpDhY5KG8ABlvK
-	08SBTKuzYIFBdVqUdjz/Ltn1S8+hKeLvuB5rE2RkVYwez99H/dO8dj4OGuLiZtgDyoU/EgmSM+r
-	4Aham
-X-Gm-Gg: ASbGncsoBQsFK+sgz+3IBM1Jj2XfvpKlR3rizlkrquq18rWehlwTF+LxKuoQlti3rPR
-	IUxwRyMf4nx4LJAnbQre6iLBZZSCVtUJjtFx94LqW+lNtYBTsBNJWLH+rpjQPeLoCXdaCmiiRk+
-	psY1HbrouIKlXOoh+f9+5SBj7FJlnmJtPXIsLOkzMJ8oXukfoCo7re+fKQlO5tNDIVcoJCmhkCq
-	BEl0yZB4SHKF1ve2UUa9rzJfxhXetrmPovmtOtz3rZsqJZ0RFbl5vUtrzxUEjOqcFGRnz+wKQb1
-	sTQz4ETsgL1NX25/5fOsOJd+TKmzE7igsl8h8ivZjd4F1N0dhzI0TDJCKvnxpYFdkTxjDpYDV/8
-	GZ8/Cz3Db/6xr7FK2NitsModW
-X-Google-Smtp-Source: AGHT+IG1ue5eFhpoHCpXpTysoQmLx6tvs77SYwPmlvG8myNfYCj88FvNEqK7BwWKYDITcgUYdib1GA==
-X-Received: by 2002:a17:902:fc84:b0:246:f13b:1b92 with SMTP id d9443c01a7336-24944b758c8mr253471675ad.55.1756999371013;
-        Thu, 04 Sep 2025 08:22:51 -0700 (PDT)
+        bh=q+ozeAbys4xK2zlPubh3Wn58HafqeUQQS/hR7ewiic8=;
+        b=GSrIHdVJ+0myJWpujiStBAiiLEmLFTEtOOswH6jQQ/bx3LC3xph9rTk4QIXZnF4D8G
+         LN7WXTE0+v6qSBqA6grew63hbm7V3lRuZiAinTugntJ1CKJB1KO3EB+fAUx107DjU/WQ
+         N5lnf54Gf3ic0RbMa++qX6TcTTdGN2bS9civGvbOyEkaj/LtJO6JsK/4YjupSLDZRn1c
+         MHscgLZyQ1SNwtU4QSODNdsS1rkyH2QiQFkbfcx4J3YcG7b2XPmJKUJ9FjACw8tuGcqm
+         zZGPnHXq3Bmn6qf67u9nT+aLcCzl30huok5ot5GIPpLrJ1UYxhJ47ZtcV5gDWjAM9zGJ
+         Mdkw==
+X-Gm-Message-State: AOJu0YzXmnB171gScppxHX/rdgsa9lhXev4Iy1xNauspnHn4dt1G8e49
+	xdo/0Qa7dv47iY25v9xgEAUs2eKavP0+aET9z+fAQ8F+SOpO2gJf/nZeBd0Hz2VVxNZK4kSet1x
+	ynxHZ
+X-Gm-Gg: ASbGnct1/fPW23u1z8J65x3CoOQ8HrqqUracNME5dTISbBBma66K4C0AdISSmiBQ9Hm
+	5Jx6n3a8jwcOlxb/pMzn5l4RQomgBA72ziCpNjnMpOQt7Ld+XstQ0lWuwTjaoMRkwc+9F2soL3J
+	sCmzwjTSPjY39S1h1eRiUOKKAhPhWJAihu9twz0iiyZitSYg10yCnvsuEVlR9lHFf2vpDtyiBr2
+	RX6pgR3/qx8EWSe1aoYUTxkI5gjJELl493H+YrSQUENXhyXclVoCiNqmi4BKXxfERSM7Xb+Vo4g
+	M2QwzdXxH4FnwwKtpREpPpaXFpiLcDk+TnWS57lk9Kz5fUWKPmxPl+fZK41WfOAm8SM0A7kLqGi
+	+bvDsnJwg6SjMdA==
+X-Google-Smtp-Source: AGHT+IE1XrVaz18kL22bovXFKoKcZUKUh+VmWhgKpCj/ByoW2O5kn7Ag9ahcCLPmAwpzFQci2NGRxA==
+X-Received: by 2002:a17:902:e5c5:b0:24c:1a84:f73e with SMTP id d9443c01a7336-24c1a84f94cmr101193925ad.60.1756999374146;
+        Thu, 04 Sep 2025 08:22:54 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:89a7:8cc5:2043:ebe6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b11448a5asm82528085ad.54.2025.09.04.08.22.50
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b11448a5asm82528085ad.54.2025.09.04.08.22.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 08:22:50 -0700 (PDT)
+        Thu, 04 Sep 2025 08:22:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 3/5] rpm: keep leading `/' from sed operation
-Date: Thu,  4 Sep 2025 08:22:35 -0700
-Message-ID: <cab720b5508411f9a63025e2765d4d46914a1404.1756999195.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 5/5] pulseaudio: Add audio group explicitly
+Date: Thu,  4 Sep 2025 08:22:37 -0700
+Message-ID: <baa5e7ea5f37f54c2a00080798ad7fb4c0664f69.1756999195.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756999195.git.steve@sakoman.com>
 References: <cover.1756999195.git.steve@sakoman.com>
@@ -67,66 +67,52 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 15:22:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222958
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 15:23:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222960
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Kyungjik Min <dpmin7@gmail.com>
 
-For /usr/lib/rpm/macros, Yocto explicitly set OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM
-= "ONLY" [1][2] to search tools from CMAKE_FIND_ROOT_PATH [5] which locates in
-native recipe sysroot or HOSTTOOLS_DIR. If found in native recipe sysroot or
-HOSTTOOLS_DIR, the sed operation removed leading `/'
+Since pulseaudio-server requires the audio group, we explicitly add it.
 
-root@qemux86-64:~# vi /usr/lib/rpm/macros
-...
-%__xz                   usr/bin/xz
-%__make                 usr/bin/make
-%__zstd                 usr/bin/zstd
-%__quilt                usr/bin/quilt
-%__patch                usr/bin/patch
-...
+When use useradd-staticids or do not use the default group in
+base-passwd, an error will occur because the audio group is not defined.
 
-root@qemux86-64:~# rpm --eval "%{__xz} %{__make} %{__zstd} %{__quilt} %{__patch}"
-usr/bin/xz usr/bin/make usr/bin/zstd usr/bin/quilt usr/bin/patch
+NOTE: pulseaudio: Performing useradd with [--root
+TOPDIR/tmp/work/cortexa72-poky-linux/pulseaudio/17.0/recipe-sysroot
+--home-dir /var/run/pulse --gid 998 --groups audio,pulse
+--no-create-home --system --shell /bin/false --uid 998 pulse]
+useradd: group 'audio' does not exist
+ERROR: pulseaudio: useradd command did not succeed.
 
-This commit keeps leading `/' from sed operation, and similar reason for
-/usr/lib/cmake/rpm/rpm-targets.cmake
-
-After applying this commit:
-root@qemux86-64:~# rpm --eval "%{__xz} %{__make} %{__zstd} %{__quilt} %{__patch}"
-/usr/bin/xz /usr/bin/make /usr/bin/zstd /usr/bin/quilt /usr/bin/patch
-
-[1] https://git.openembedded.org/openembedded-core/commit/?id=f4ea12f6635125ee793f4dd801c538c0186f9dc3
-[2] https://cmake.org/cmake/help/latest/variable/CMAKE_FIND_ROOT_PATH_MODE_PROGRAM.html
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0d0773879ab9520c475c4a8c930b2e663de0e032)
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+Signed-off-by: Kyungjik Min <dpmin7@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/rpm/rpm_4.19.1.1.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta-selftest/files/static-group                  | 1 +
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb b/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
-index 9330323797..7505e3452c 100644
---- a/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
-@@ -130,10 +130,10 @@ do_install:append:class-nativesdk() {
+diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
+index f7a66de24d..c59f9e3019 100644
+--- a/meta-selftest/files/static-group
++++ b/meta-selftest/files/static-group
+@@ -27,3 +27,4 @@ render:x:527:
+ sgx:x:528:
+ ptest:x:529:
+ xuser:x:530:
++audio:x:531:
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 1ab3831519..a93ef8f338 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -146,7 +146,7 @@ do_install:append() {
  }
  
- do_install:append () {
--	sed -i -e 's:${HOSTTOOLS_DIR}/::g' \
--            -e 's:${STAGING_DIR_NATIVE}/::g' \
-+	sed -i -e 's:${HOSTTOOLS_DIR}::g' \
-+            -e 's:${STAGING_DIR_NATIVE}::g' \
- 	    ${D}/${libdir}/rpm/macros
--	sed -i -e 's:${RECIPE_SYSROOT}/::g' \
-+	sed -i -e 's:${RECIPE_SYSROOT}::g' \
- 	    ${D}/${libdir}/cmake/rpm/rpm-targets.cmake
- 
- }
+ USERADD_PACKAGES = "pulseaudio-server"
+-GROUPADD_PARAM:pulseaudio-server = "--system pulse"
++GROUPADD_PARAM:pulseaudio-server = "--system audio; --system pulse"
+ USERADD_PARAM:pulseaudio-server = "--system --home /var/run/pulse \
+                               --no-create-home --shell /bin/false \
+                               --groups audio,pulse --gid pulse pulse"
 -- 
 2.43.0
 
