@@ -2,157 +2,157 @@ Return-Path: <a-christidis@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21EB4CA1012
-	for <webhook@archiver.kernel.org>; Wed,  3 Sep 2025 23:57:36 +0000 (UTC)
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by mx.groups.io with SMTP id smtpd.web10.27698.1756943854537403411
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B701CA1012
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 00:07:56 +0000 (UTC)
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by mx.groups.io with SMTP id smtpd.web11.27794.1756944467374642805
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Sep 2025 16:57:34 -0700
+ Wed, 03 Sep 2025 17:07:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=ngQYKVTR;
- spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: a-christidis@ti.com)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 583NvFZm3377706;
-	Wed, 3 Sep 2025 18:57:15 -0500
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=oyGlKI1E;
+ spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: a-christidis@ti.com)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58407PW42947181;
+	Wed, 3 Sep 2025 19:07:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1756943835;
-	bh=kW+9U3IZubgfwlx1SFA2+AuvK9s30fcvsSErJpO+fWE=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=ngQYKVTRGaBI/VILQJTk2tRdXda8WCSvtb4elbq+UcrVewk0tiaTuVkl4J50avqj0
-	 psnWPtKzckLSB+41UBYvPITX+ZdXh6gJ6RB3X/tzXLkDBOJ5MzBniBStHsdwt4erRn
-	 g937dMZTbafPN7W7/gl1fzMFLy43eHhgshThCALg=
+	s=ti-com-17Q1; t=1756944445;
+	bh=Q+1YQ9xBTyVdILuezQqMAmzyl/JzAorTYcFcc03wMgQ=;
+	h=From:To:CC:Subject:Date;
+	b=oyGlKI1E7edOJTXqsN7Idq9BdhvN3QK4crPZ0AGSyRSVwihgBSDT5jpVLqh/jfzKz
+	 dqHnGb12bcMAV0P2hiVYjfGATfLECvHu8AAQPDGJGH/VaVU7fCvMzX3LCwZNfUoLf3
+	 0wCANdZxRDM+yYdGYdTGP/yePITUo61e3Y+l+j8s=
 Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 583NvFOW3888915
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58407Po3453953
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 3 Sep 2025 18:57:15 -0500
-Received: from DFLE208.ent.ti.com (10.64.6.66) by DFLE115.ent.ti.com
+	Wed, 3 Sep 2025 19:07:25 -0500
+Received: from DFLE214.ent.ti.com (10.64.6.72) by DFLE115.ent.ti.com
  (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 3
- Sep 2025 18:57:15 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2025 19:07:24 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE214.ent.ti.com
+ (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.2562.20; Wed, 3 Sep
- 2025 18:57:15 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 19:07:24 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 3 Sep 2025 18:57:15 -0500
-Received: from [128.247.81.112] (antonios-thinkstation-p3-tower.dhcp.ti.com [128.247.81.112])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 583NvFYe2365567;
-	Wed, 3 Sep 2025 18:57:15 -0500
-Message-ID: <a6c34937-dc30-449b-b4d5-75c505500b97@ti.com>
-Date: Wed, 3 Sep 2025 18:57:15 -0500
+ Frontend Transport; Wed, 3 Sep 2025 19:07:24 -0500
+Received: from antonios-ThinkStation-P3-Tower.dhcp.ti.com (antonios-thinkstation-p3-tower.dhcp.ti.com [128.247.81.112])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58407OQB2093705;
+	Wed, 3 Sep 2025 19:07:24 -0500
+From: <a-christidis@ti.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <mathieu.dubois-briand@bootlin.com>
+CC: <alex@linutronix.de>, <alex.kanavin@gmail.com>
+Subject: [master][PATCH v2] libsdl2: Add tests package and ptest support
+Date: Wed, 3 Sep 2025 19:07:24 -0500
+Message-ID: <20250904000724.1575300-1-a-christidis@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] Re: [OE-core] [master][PATCH] libsdl2: Add tests
- package and ptest support
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>,
-        <mathieu.dubois-briand@bootlin.com>, <alex@linutronix.de>
-References: <20250827222051.367093-1-a-christidis@ti.com>
- <CANNYZj9E1JB2tdWMUL_fz_rjyACSyw9pDAsJDQH4eJtEUC3c5Q@mail.gmail.com>
- <9316e8d2-0ee9-49b6-b645-1c7db8a21df9@ti.com>
- <CANNYZj9-kQEjc_3BiZK2PaFkimKNVmw4Nijdt9oeV7szE-iQcg@mail.gmail.com>
-Content-Language: en-US
-From: Antonios Christidis <a-christidis@ti.com>
-In-Reply-To: <CANNYZj9-kQEjc_3BiZK2PaFkimKNVmw4Nijdt9oeV7szE-iQcg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by lelvem-ot02.ext.ti.com id 583NvFZm3377706
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Sep 2025 23:57:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222887
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 00:07:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222888
 
-I'm about to send a v2 of the patch, I'm going to put my thoughts here:
+From: Antonios Christidis <a-christidis@ti.com>
 
-On 9/3/25 7:46 AM, Alexander Kanavin wrote:
-> On Tue, 2 Sept 2025 at 17:=E2=80=8A20, Antonios Christidis=20
-> <a-christidis@=E2=80=8Ati.=E2=80=8Acom> wrote: > Moreover, having the t=
-ests in a=20
-> separate package allows users to easily > include them in their=20
-> filesystem without having to rebuild the entire >
-> ZjQcmQRYFpfptBannerStart
-> This message was sent from outside of Texas Instruments.
-> Do not click links or open attachments unless you recognize the source=20
-> of this email and know the content is safe.
-> Report=C2=A0Suspicious
-> <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK!tDdkczhAu0BQayXPU=
-P0olvN75LhXkzNe47Xria24XTS9579FCRTzKSpEtnSjV_XpryRBCT0_RcgdO14WAihF0O6xEm=
-DhbBFOuEfufIFcK3tHa1IKqjAO6Iius84$>=20
->
-> ZjQcmQRYFpfptBannerEnd
-> On Tue, 2 Sept 2025 at 17:20, Antonios Christidis <a-christidis@ti.com>=
- wrote:
->
-> > Moreover, having the tests in a separate package allows users to easi=
-ly
-> > include them in their filesystem without having to rebuild the entire
-> > package with |DISTRO_FEATURES| including |ptest|. This is particularl=
-y
-> > important since rebuilding with |ptest| enabled in my experience can
-> > cause a significant increase in build time, as it often triggers the
-> > rebuild of basic package dependencies.
->
-> You can enable ptests per-recipe by setting PTEST_ENABLED =3D "1" for
-> that particular recipe only (via bbappend or distro config).
->
-> > I do agree with the placement of tests being non-standard, do you hav=
-e
-> > any suggestions on elsewhere to place them ? Aside from
-> > |/usr/lib/libsdl2/ptest/tests| .
->
-> Once again, if you want to install the tests, and upstream does not
-> currently install them, then you need to write a patch for sdl
-> upstream that does it and get it accepted. Otherwise, what this change
+The SDL2 software comes with its own set of tests. Following that
+introduce support for ptest.
 
-Missed a cmake configuration parameter that does the above, so now tests=20
-are installed under |usr/libexec| and |usr/share|.
+Signed-off-by: Antonios Christidis <a-christidis@ti.com>
+---
+v2:
+- Updated run-ptest to be posix compliant 
+- Use SDL_INSTALL_TESTS cmake config parameter
 
-> is doing (installing the tests ad hoc) is entirely non-standard and
-> deviates from what upstream expects, and as such the tests would
-> belong only in ptest package, but not in the test package.
-> Openembedded, as a rule, does not cherry-pick items from the build
-> tree in do_install because they might be useful to someone, with ptest
-> the only exception.
->
-> > > This should stay as PACKAGECONFIG, and be enabled subject to ptest =
-in
-> > > DISTRO_FEATURES.
-> >
-> > Looking over other packages that have ptest support, they often
-> > automatically build tests without the need for setting PACKAGECONFIGS.
->
-> This lengthens the build times and increases disk usage, and is
-> wasteful if the tests aren't actually installed and packaged. Other
-> recipes aren't always perfect, or they build components that do not
-> have a way to disable tests.
+ meta/conf/distro/include/ptest-packagelists.inc |  1 +
+ meta/recipes-graphics/libsdl2/libsdl2/run-ptest | 16 ++++++++++++++++
+ meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb | 13 +++++++++++--
+ 3 files changed, 28 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/run-ptest
 
-I would like for the tests to be built automatically, without the need=20
-for a |PACKAKECONFIG|. I don't think it is a good idea for a ptest=20
-package to depend on another package that conditionally exists=20
-(PN-tests). What I mean, there's a dependency on the PN-ptest (enabled=20
-via DISTRO_FEATURES or PTEST_ENABLE) and PN-tests (if using=20
-PACKAGECONFIG). The recipe would be over complicated if I were to=20
-introduce all the logic required to make sure the right packages exist=20
-at the right time.
-
-The build time increase is negligible. No comment on disk usage, as=20
-yocto is not disk usage friendly to begin with. All recipes create=20
-needless packages, the |PACKAGES| variable specifies packages like=C2=A0=20
-PN-dbg=C2=A0 PN-doc. I would agree with you in not automatically building=
-=20
-packages if the tests took an insane amount of time to built, but that=20
-is not the case, or if they required additional dependencies .... etc .
-
-
-To anyone else reading this, what are your opinions on ptest dependency=20
-chains like the above.
-
-> Alex
-
-Antonios
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 9a7b25a916..a5476927b5 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -32,6 +32,7 @@ PTESTS_FAST = "\
+     libgpg-error\
+     libnl \
+     libpcre \
++    libsdl2 \
+     libssh2 \
+     libtest-fatal-perl \
+     libtest-needs-perl \
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/run-ptest b/meta/recipes-graphics/libsdl2/libsdl2/run-ptest
+new file mode 100644
+index 0000000000..acdfa951e9
+--- /dev/null
++++ b/meta/recipes-graphics/libsdl2/libsdl2/run-ptest
+@@ -0,0 +1,16 @@
++#!/bin/sh
++
++test_array="testdraw2 testgeometry testsprite2 testgles2 testoffscreen"
++
++
++test_path="/usr/libexec/installed-tests/SDL2/"
++
++for test in ${test_array}
++do
++    timeout --preserve-status 10 "$test_path""$test"
++    if [ $? -eq 0 ]; then
++        echo "PASS: $test"
++    else
++        echo "FAIL: $test"
++    fi
++done
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb
+index 98291e0f80..9134a408c6 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.32.8.bb
+@@ -21,13 +21,15 @@ LIC_FILES_CHKSUM:append = " ${@bb.utils.contains('PACKAGECONFIG', 'arm-neon', 'f
+ 
+ PROVIDES = "virtual/libsdl2"
+ 
+-SRC_URI = "https://www.libsdl.org/release/SDL2-${PV}.tar.gz"
++SRC_URI = "https://www.libsdl.org/release/SDL2-${PV}.tar.gz \
++           file://run-ptest \
++	   "
+ 
+ S = "${UNPACKDIR}/SDL2-${PV}"
+ 
+ SRC_URI[sha256sum] = "0ca83e9c9b31e18288c7ec811108e58bac1f1bb5ec6577ad386830eac51c787e"
+ 
+-inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
++inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even ptest
+ UPSTREAM_CHECK_REGEX = "SDL2-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar"
+ 
+ BINCONFIG = "${bindir}/sdl2-config"
+@@ -48,6 +50,8 @@ EXTRA_OECMAKE = "-DSDL_OSS=OFF -DSDL_ESD=OFF -DSDL_ARTS=OFF \
+                  -DSDL_X11_XRANDR=OFF \
+                  -DSDL_X11_XSCRNSAVER=OFF \
+                  -DSDL_X11_XSHAPE=OFF \
++                 -DSDL_TESTS=ON \
++                 -DSDL_INSTALL_TESTS=ON \
+ "
+ 
+ # opengl packageconfig factored out to make it easy for distros
+@@ -82,6 +86,11 @@ PACKAGECONFIG[x11]        = "-DSDL_X11=ON,-DSDL_X11=OFF,virtual/libx11 libxext l
+ 
+ CFLAGS:append:class-native = " -DNO_SHARED_MEMORY"
+ 
++PACKAGE_BEFORE_PN = "${PN}-tests"
++
+ FILES:${PN} += "${datadir}/licenses/SDL2/LICENSE.txt"
++FILES:${PN}-tests += "${libexecdir} /usr/share/installed-tests/SDL2"
++
++RDEPENDS:${PN}-ptest = "${PN}-tests"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.34.1
 
 
