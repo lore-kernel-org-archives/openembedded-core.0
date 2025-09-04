@@ -2,130 +2,112 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB6FCA1013
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 15:18:04 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.850.1756999079248255763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 215A7CA1013
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 15:22:45 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.918.1756999363015149848
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 08:17:59 -0700
+ Thu, 04 Sep 2025 08:22:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pUV2fXSq;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-24b1622788dso9394695ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:17:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0+/tqhMP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-24af8cd99ddso15605045ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756999078; x=1757603878; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tgHLzrq1myrWk5awnwRgALwZKqLfGNLtLuGNbQPgH5E=;
-        b=pUV2fXSq50VtKiTRsvRYREiKVmgq9r3cjH95kLVIVmNub4WtaEz+impx3LWPLCG4kS
-         8xuOgDo1Rgfr5VRKK2XyODdvxuXsK3hgnPd5Ql6/uo+Zs2IAhA8nW/y2hIo8gGiKDUXZ
-         yg1XKtgs1yBPzXWUrGODPQN8tYxJPW3uwPP1Tj74dNCiQVR6MCW6/1eNpcQRJJ2ZM5i5
-         CgWBrJWC/IntcppvEX4lhSJqDBZo7pN13+IGbxHibiPkyuN1CPhLkqxGz6d3n2zqj3Xo
-         MPueknkH1A462RV3SPqnjlpibsXF38a3/latK/nLF9owb3rWruj94WTARHgwLF5skkOz
-         /tBg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756999362; x=1757604162; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z46PpTtfpD8rBuMiCoyYwMSbDHM9q38MqvdmXkW91Zk=;
+        b=0+/tqhMPhciecHjotQTFF0ZZ2o34yv6nngYJy1akB0Kenjty99VQEeV3TTiIbZEU05
+         aODBqZc7ME/rOayMB5k9mAgdqQ081ZOgnuoP0So+cwyS3x4Eij9EtccGO7qq40BN5cf+
+         53KrgUytGdO9v071J8x8V0qhiPvxHsz6873qW1IJGI4YYLjBwKPUZl2cl3q/QpZfEtrC
+         +dACXC0N/kyqU8N6G1vNKk4q3ogMWENQrSWoUTW4XMiCcgwhqau5rFaBF3Hra+jl6onb
+         ZYXbAo75y6hxTG4Peh2QWF+nw8yQuCCgYeekWWBlJ9xIqn9NOPmPhr0LX8fIgxOgQOGG
+         x3Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756999078; x=1757603878;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tgHLzrq1myrWk5awnwRgALwZKqLfGNLtLuGNbQPgH5E=;
-        b=O2U/PAz2WmF2RHLtx8xMk6JapartGPubiQcvfy/sJ9INyhL4Ho16UtuTLi1X3RfwrN
-         woqspxOk/eLBtdghNjZSbww6lMm1oHg4iiEzya5a/gxwQo1bXTD2YlbeKpypCCHjjha5
-         QmMpQ+0gBU6qwJdpb+05dPDBMuudfw3nJF0SOEYVaRDKw8SJvjVpq7HCRL1yi+/H6BJ7
-         Jr7SqrhQBMF4VnTgBib5OS+S0M4Ia9nOIt7PeyPrEUosk6KZ4zLUWQDx4Q55qlmAb4Er
-         K7Rs6bjIHyaIVJYEq1WlK1cxw1S/Zbi9p6EhRWIFn3aBiShNhXr5a3E9vgLrIoQ2rjnx
-         uBBQ==
-X-Gm-Message-State: AOJu0YyEhSNaiKOJeyq8b739AkXpiuzo3cdz70KV4qJ4dwjiljpqHEu0
-	ppa6xlDaeDsdfvzbTW5lftOApslu/62KhwzAYnUJHCNgj7C3NAizsxs5CrdKaT2vyFwDBUJCod9
-	u8npZ
-X-Gm-Gg: ASbGncu/I4O57KW6kQIdLylOipQzAbdz1XFDe5lRL71FcY+tzkVPTHUSwO3+0wPz+Tr
-	sUawcVFWz3EU/yBmbMJR6p7E6FDt7fcxtEVNNGEskFs8e/vOTqdiu9LYF0Qn59B6eeLgXA92vZ+
-	2nCJhwfmPQaxYTbX3yX/4e0BBODtOXOstn4ETqUoVU8a3Ign78m08qiadHCZUAH+q5yS0Nb1l3e
-	fiqLx8hNcwL3jE5JTCQMLDzU9yNRVND+ofnkJ4kA+EijqBzhlewd4fTeOXl+OLSN+79jKcAvUhj
-	UbmcXTE4P62aMMEjpFKD4MKMYj41IirlEAOKmts20HN+DIUItHBKRIdHtXYykDoJ0fXjnLEVJRl
-	JzVHSiBIzabRupBaKsz46p0FR
-X-Google-Smtp-Source: AGHT+IGgCIUD7M6ECZQJRdzu2jqNZHngkV78W33cvOWUPJjm0QDRw5slIx6w/NP4QNxQsAM3hrQnYQ==
-X-Received: by 2002:a17:903:2286:b0:24c:cb22:820f with SMTP id d9443c01a7336-24ccb22858emr36280255ad.24.1756999078376;
-        Thu, 04 Sep 2025 08:17:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756999362; x=1757604162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z46PpTtfpD8rBuMiCoyYwMSbDHM9q38MqvdmXkW91Zk=;
+        b=GbAZANGteryeH+VZwHt86FzSLSxyIN/XU7umD/ZnhtDFxHPXhKhfjYQJhpxYiUzp6V
+         v5pHYeGDhxkXvNS0hGfdR2F07z6kLLvyPCam0ZFK56D4lGFdO2VVY/qGfcFJvUAfj7h7
+         eZsGv7mGmMCRvHQZvr0VELrr789VHlDFwuEhtnGYe8rxZg86h1svNRoOyApNfOMnNY7o
+         mSnyhO9GZgF1dBugEnTRfYpf9vEFi17AKMUh+LejtD6XgXlGM7MBppuMQUXw+jCqb2zX
+         6Pj6GpD279VXa0IXMI4m5BW+7JWJxrT/ieVKvn1lqTKKZm2XYI6nZYojaL5UVkJ6vAbJ
+         5LVQ==
+X-Gm-Message-State: AOJu0YzehB5iuJSebCA1OCkMUKrt68zrdFtCaai+RJVt3tq5868AmbbP
+	Va/WtuBQPWhl1C02SrTMMAtdnFSm4LlrKg6XHXF9wmp4yTYxxVPrjXhNGJfEgpZawuSH7kuofDS
+	T16v9
+X-Gm-Gg: ASbGncubPt9fE4XixPBnYsqwoo0obV4xTjSgcmbGyIxmTRnYa6oVbCGR6WwyQu/wCmi
+	gixXhZOcuSnGj8eb3VyR16eA2tSS7k9i/q7fyp4RnyGtybMl3H2PW7BBKkHh3aj7gxk07sMHbd7
+	mDrX1TuWnjXh8s9HBA3d6MXuRdo2O4XcLAz5z5knyNI+WeTsmmEXa1GAyTE5X57NrfzaYrZMO35
+	GIeFnw8GgJHvQ+7jzorRWKMbQEqtu0dvuINAhQyPLqM4f5swyuMFOIB+N9SV3KewT4uCXmVA4ya
+	szhteI8huY9JVxrUwT69vW6Ws890bsGz8KaX7mL1VdU/FXokRfy9Xh9hLAgqgf7N10DslnQJEhG
+	qmpAQq5mMY2GxhFnI6J1ENTU8oPeP7No+1LA=
+X-Google-Smtp-Source: AGHT+IFOrRFTlShwRWP7vmAO6Ob3/vHlUZr1BxtFnbnEO+q+8iRLnE43IOZeNiUmuPI3jK5OTe3cDw==
+X-Received: by 2002:a17:903:f8d:b0:246:255a:1913 with SMTP id d9443c01a7336-24944b29d4fmr251830875ad.39.1756999362110;
+        Thu, 04 Sep 2025 08:22:42 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:89a7:8cc5:2043:ebe6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b0637d948sm84720845ad.30.2025.09.04.08.17.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b11448a5asm82528085ad.54.2025.09.04.08.22.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 08:17:58 -0700 (PDT)
+        Thu, 04 Sep 2025 08:22:41 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 4/6] default-distrovars.inc: Fix CONNECTIVITY_CHECK_URIS redirect issue
-Date: Thu,  4 Sep 2025 08:17:42 -0700
-Message-ID: <894648f4173a8a0e489e720e2b543cd22e39a878.1756998900.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 0/5] Patch review
+Date: Thu,  4 Sep 2025 08:22:32 -0700
+Message-ID: <cover.1756999195.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1756998900.git.steve@sakoman.com>
-References: <cover.1756998900.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 15:18:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222952
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 15:22:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222955
 
-From: Deepak Rathore <deeratho@cisco.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Monday, September 9
 
-The default CONNECTIVITY_CHECK_URIS uses "https://yoctoproject.org/connectivity.html"
-which redirect to "https://www.yoctoproject.org/connectivity.html".
+Passed a-full on autobuilder:
 
-Some network configurations with proxies or restricted internet access
-don't handle HTTP redirects properly during the sanity check phase,
-causing build failures with:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2314
 
-ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
-Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
-Following is the list of potential problems / advisories:
+The following changes since commit a19afb7db1b9995ce433f8bfeb5406c9fd1fdc19:
 
-Fetcher failure for URL: 'https://yoctoproject.org/connectivity.html'. URL doesn't work.
+  sudo: remove devtool FIXME comment (2025-08-27 10:17:41 -0700)
 
-Updated the default URL to use the final destination directly to avoid
-redirect-related connectivity check failures.
+are available in the Git repository at:
 
-Also updated SDK test cases in https.py to use the corrected URL for
-consistency.
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 60cdf960a3560f391babd559737f1afb31fb2c5c)
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/conf/distro/include/default-distrovars.inc | 2 +-
- meta/lib/oeqa/sdk/buildtools-cases/https.py     | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Deepak Rathore (1):
+  default-distrovars.inc: Fix CONNECTIVITY_CHECK_URIS redirect issue
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 85835c4c61..1eb39316cc 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -62,4 +62,4 @@ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
- # fetch from the network (and warn you if not). To disable the test set
- # the variable to be empty.
- # Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master;branch=master
--CONNECTIVITY_CHECK_URIS ?= "https://yoctoproject.org/connectivity.html"
-+CONNECTIVITY_CHECK_URIS ?= "https://www.yoctoproject.org/connectivity.html"
-diff --git a/meta/lib/oeqa/sdk/buildtools-cases/https.py b/meta/lib/oeqa/sdk/buildtools-cases/https.py
-index 4525e3d758..98f27e5994 100644
---- a/meta/lib/oeqa/sdk/buildtools-cases/https.py
-+++ b/meta/lib/oeqa/sdk/buildtools-cases/https.py
-@@ -15,8 +15,8 @@ class HTTPTests(OESDKTestCase):
-     """
- 
-     def test_wget(self):
--        self._run('env -i wget --debug --output-document /dev/null https://yoctoproject.org/connectivity.html')
-+        self._run('env -i wget --debug --output-document /dev/null https://www.yoctoproject.org/connectivity.html')
- 
-     def test_python(self):
-         # urlopen() returns a file-like object on success and throws an exception otherwise
--        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://yoctoproject.org/connectivity.html")\'')
-+        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://www.yoctoproject.org/connectivity.html")\'')
+Hongxu Jia (1):
+  rpm: keep leading `/' from sed operation
+
+Kyungjik Min (1):
+  pulseaudio: Add audio group explicitly
+
+Stanislav Vovk (1):
+  libpam: fix CVE-2024-10963
+
+Vrushti Dabhi (1):
+  curl: update CVE_STATUS for CVE-2025-5025
+
+ meta-selftest/files/static-group              |   1 +
+ .../distro/include/default-distrovars.inc     |   2 +-
+ meta/lib/oeqa/sdk/buildtools-cases/https.py   |   4 +-
+ meta/recipes-devtools/rpm/rpm_4.19.1.1.bb     |   6 +-
+ .../pam/libpam/CVE-2024-10963.patch           | 265 ++++++++++++++++++
+ meta/recipes-extended/pam/libpam_1.5.3.bb     |   1 +
+ .../pulseaudio/pulseaudio.inc                 |   2 +-
+ meta/recipes-support/curl/curl_8.7.1.bb       |   2 +-
+ 8 files changed, 275 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-extended/pam/libpam/CVE-2024-10963.patch
+
 -- 
 2.43.0
 
