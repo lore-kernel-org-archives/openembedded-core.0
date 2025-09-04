@@ -1,114 +1,131 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0BD7CA1012
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 08:41:58 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web11.34337.1756975308899626048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9607CA1002
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 08:52:48 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.web11.34448.1756975961481801045
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 01:41:49 -0700
+ Thu, 04 Sep 2025 01:52:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=P+I8bvap;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=yfj6NiPg;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id E40E74E40C5F;
-	Thu,  4 Sep 2025 08:41:46 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id B69B71A0666;
+	Thu,  4 Sep 2025 08:52:39 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BD07B606BB;
-	Thu,  4 Sep 2025 08:41:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8A16A1C22CDFF;
-	Thu,  4 Sep 2025 10:41:39 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8F539606BB;
+	Thu,  4 Sep 2025 08:52:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 545BB1C22DD96;
+	Thu,  4 Sep 2025 10:52:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1756975306; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=z2dPi4TfKau4zPjEActBG8bO7AA9eG22VU+NNNbpYp0=;
-	b=P+I8bvapI7n/kp0VjjvC0cgYZYpDs/TTwMaqx7PYnRSR/5Wbg/j1BrFi+9wwMbNV08tbXW
-	FU07GILzF3VoeUWE2TmEH2MmEC2ifV7w2OTStgm9OlKAY14XfTQOJEoiiY8jbCF0tXwxnY
-	GtJW53Rs7ufjli3cJ7h6ha3UBattXkldOdwMP8rPRRo1YMTAedUPOdb6IgQaWJv1xb1dEQ
-	NLi+HUuw+Zz2ksB+d0iMKnlKF9gg7vuP9OLZOuxUykkowy6o9JSacpI12H8WEYL/9JUo7c
-	WHuxufBZpGgHw5n88l5RUyzvHw9FRR7nXYYDc0KpcW1u13KBhOILHnMcG2ysoQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 04 Sep 2025 10:41:39 +0200
-Message-Id: <DCJVRHOG6FV4.10QCP2VS4QG4Q@bootlin.com>
-Subject: Re: [master][PATCH v2] libsdl2: Add tests package and ptest support
-Cc: <alex@linutronix.de>, <alex.kanavin@gmail.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <a-christidis@ti.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+	t=1756975958; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=dPUPWSS7kx0JRQtJ56obsTZpz2y5Qckv7QZ4arcl9Jg=;
+	b=yfj6NiPgyL8WYpAWI1AyAtO+jYLNMUWJ26T617Mt6R+QipFV0J7otas2v7QxfWzShMfggi
+	BATFItYVfY2RoigXIkSvKFpbwrdoYbkdzLkVlf2wq3xnjgNjcJEKhzixAwxbo/dMJTfXdd
+	TevLovzO5jH7GjVIJE5REggJoaUuum+HpAKvvDFHUTcnFxFM5AbAbWyM1S2IA7elLXKnVw
+	VzKoFNnnkqjyIGMAUSbE7W2h9N1qEatmMKvAGsNkQ0Y82RvaVc+Hv0TyWEKA28/bWzpxKr
+	HR2r5lL/PkSG6EDhzyv4EKp7KXzWnRhP4R7i5095xiO5uvgFqVwiYnbDcJfiRQ==
+Message-ID: <58be21e0-c521-4603-aa8c-72909133616c@bootlin.com>
+Date: Thu, 4 Sep 2025 10:52:35 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [master][PATCH v2] libsdl2: Add tests package and ptest
+ support
+To: mathieu.dubois-briand@bootlin.com, a-christidis@ti.com,
+ openembedded-core@lists.openembedded.org
+Cc: alex@linutronix.de, alex.kanavin@gmail.com
 References: <20250904000724.1575300-1-a-christidis@ti.com>
-In-Reply-To: <20250904000724.1575300-1-a-christidis@ti.com>
+ <DCJVRHOG6FV4.10QCP2VS4QG4Q@bootlin.com>
+Content-Language: en-US, fr
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <DCJVRHOG6FV4.10QCP2VS4QG4Q@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:41:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222909
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:52:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222910
 
-On Thu Sep 4, 2025 at 2:07 AM CEST, a-christidis wrote:
-> From: Antonios Christidis <a-christidis@ti.com>
->
-> The SDL2 software comes with its own set of tests. Following that
-> introduce support for ptest.
->
-> Signed-off-by: Antonios Christidis <a-christidis@ti.com>
-> ---
+Hello,
 
-Hi Antonios,
+I hope this email finds you well.
 
-Thanks for the new version.
+On 9/4/25 10:41, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+> On Thu Sep 4, 2025 at 2:07 AM CEST, a-christidis wrote:
+>> From: Antonios Christidis <a-christidis@ti.com>
+>>
+>> The SDL2 software comes with its own set of tests. Following that
+>> introduce support for ptest.
+>>
+>> Signed-off-by: Antonios Christidis <a-christidis@ti.com>
+>> ---
+>=20
+> Hi Antonios,
+>=20
+> Thanks for the new version.
+>=20
+> It looks like we still have a QA issue:
+>=20
+> ERROR: nativesdk-libsdl2-2.32.8-r0 do_package: QA Issue: nativesdk-libs=
+dl2: Files/directories were installed but not shipped in any package:
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testsurround.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testerror.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testtimer.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testatomic.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testfilesystem.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testthread.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testaudioinfo.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testlocale.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testevdev.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testpower.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testqsort.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testplatform.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testautomation.test
+>    /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/=
+usr/share/installed-tests/SDL2/testver.test
+> Please set FILES such that these items are packaged. Alternatively if t=
+hey are unneeded, avoid installing them or delete them within do_install.
+>=20
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/2327
+>=20
+> Can you fix it please?
+>=20
+> Thanks,
+> Mathieu
 
-It looks like we still have a QA issue:
+Just in case, there are some ptest failures as well:
 
-ERROR: nativesdk-libsdl2-2.32.8-r0 do_package: QA Issue: nativesdk-libsdl2:=
- Files/directories were installed but not shipped in any package:
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testsurround.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testerror.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testtimer.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testatomic.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testfilesystem.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testthread.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testaudioinfo.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testlocale.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testevdev.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testpower.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testqsort.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testplatform.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testautomation.test
-  /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/s=
-hare/installed-tests/SDL2/testver.test
-Please set FILES such that these items are packaged. Alternatively if they =
-are unneeded, avoid installing them or delete them within do_install.
+Failed ptests:
+{'libsdl2': ['testdraw2', 'testgeometry', 'testsprite2',=20
+'testgles2', 'testoffscreen']}
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/2327
-
-Can you fix it please?
-
-Thanks,
-Mathieu
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2220/s=
+teps/12/logs/stdio
 
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Best regards,
+Jo=C3=A3o Marcos Costa
 
