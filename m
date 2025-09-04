@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BD83CA1013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20791CA1015
 	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 15:22:55 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.923.1756999370570333424
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.926.1756999373524283423
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 08:22:50 -0700
+ Thu, 04 Sep 2025 08:22:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hemcwgZX;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-24cdd95c422so3169705ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:22:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fL/5TqiT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b52051a2f48so164713a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756999370; x=1757604170; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756999373; x=1757604173; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=edcPSLIH9kBlxWI/GMphqZAGjkCSqptRfWei3oDVtVw=;
-        b=hemcwgZXdYWQepnTrFe6hG6uw6v8HxTxDAr2IWtUHEIlt9d5Bv4PC3Xfy/rGTWMzOn
-         DcQsPKFZSUUqI+zalnqmyNHQkSM9v4U1/xr5gXrfw/KIb63LMDSYXrlw1gta5Ajzydl1
-         Pe9l1a6ZRrXSS+C8XPCqJ8KjTSrHoPf2pPzzsQjv0cB4CZ067ZI03ouhNVLrs2mXH59v
-         Cmjf5IhvDVaX3Vbv7DfvaKaVkKbobwJNpQkI87+Ijx33pXKguAel5MUfhdYun4ke+ZWt
-         bO0cN2tRQ42Y1Dhv9s02/Z/EAVtRD2F4pAKbWTi2afwjSHor+9PqwGHPOh7pe5dVYc+E
-         EP5g==
+        bh=alikxGrWMtVQVIuqeYrk30GmUgFp33qPWxWOgYpE1vo=;
+        b=fL/5TqiTfkfvwjXJ4yV36MYU/J28fnovF65unB1tFQmuizrTWyfDyPn2V+2AfAUYwp
+         bGJYwm4/T2Mt1Lzv5iymeeKK64p55RlMWKg8pChRfG/wKqxmvXJR5RoTAv/3Zksr+rGC
+         AMXgCU9wm6+aZjS70BUB7a3BiiNUJ3ZRGieRiiBIRfGKEEHKq/fx8eyRfs62o3lRf1I1
+         34g9wbheHqj4BpEfONAepKNTSFh7Y9jY81+UNn0J+/y78HvoCKddRAkVhj5drjjDcg9X
+         XiRQMPUAoTT9sCjde+poaVcbYux067ZmYJlja97uVNoyja/tEdxaxWyTOMxBX5gvdsHJ
+         KLwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756999370; x=1757604170;
+        d=1e100.net; s=20230601; t=1756999373; x=1757604173;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=edcPSLIH9kBlxWI/GMphqZAGjkCSqptRfWei3oDVtVw=;
-        b=Gup924Aor6M99+bQc8LPwiLQFf2EMHybyP1C5Rni+2nwJvuIrmQQJNwVZNRuvdqPKk
-         PZFXQF5RzaO/pVRIq7okal3qvsKBgm5A4pbU8Cd1Cgoztixpx4Up5z85eHcUY6xQoS/Z
-         Jm0Ri5pIY3vc4GvGHlzo9UOuVMKJL8h2axwFoAgmOhE8ZddExbajMThry5i0wKa7e4QP
-         rShb+sLj4qqoNQvG+YXxmVW5wpF2Uf4x+mzqLlnY2ntZPwGXNnR8T0OPqPpAsdeQ4IS3
-         lTE4UwgNbu4PB5RDaRBMRm3gyfDYmkiEb8Jn7TQQcz4q9QHS5DTRHW8xITsIjvPKRwGV
-         OIhQ==
-X-Gm-Message-State: AOJu0Yz3TUnsBiz38+i7pTwB4VBAyW3qFpOD669fx2NHtdXKuNztO5xj
-	I+72CSbPPdyn7EWIem6VQW2phPkpeQ5W3tqMIO3NM0fn8DMo/DcOiLATMCETraEreeW1EuST5dq
-	zmPhv
-X-Gm-Gg: ASbGncuwRF3ecWlbUVEYWTn4MEJgXfc3iu7KSzqNey7IRkbvKsKGo6/sCl4NweXKy5m
-	vEyJrTSOvF0gSN+cC1YH7Dp8D5wcsDac7jYcFtXYX0eLXgPVrvMda8TJ1CvrqA5b4ZE3lhKft9U
-	wb2PmE0lT6tldurSGdit4W+S/Wwd9MRtqYri5qJNRnqeRjH82wK4g/R1Lx1sw7xHIu+3c5pmFSt
-	qQialVpk89Byorvf+FefWABP8qAH0NAMFvCUMV8/P7VPGg+626vManMhqqwOHnocoxzbLvlD8SD
-	AfOHUoOROs9QeyZXNgssK/oY/Yaw1WpxQilNCUlFwNiYzlMqBp6Gg5scxcxa/sPJRJ3zu+Pxqjl
-	6EQ5kjbppaFx7eGpzUQjMyyBeXjnKQEbASvA=
-X-Google-Smtp-Source: AGHT+IFNEHoCxsf50FmQvCOfQW4lZZBaQSK69p9s15SO1+TnzAlY5/yWwVbrQs8mJLp9xN03O6EEhg==
-X-Received: by 2002:a17:902:ef11:b0:24a:f79e:e5dd with SMTP id d9443c01a7336-24af79eea95mr154165025ad.37.1756999369563;
-        Thu, 04 Sep 2025 08:22:49 -0700 (PDT)
+        bh=alikxGrWMtVQVIuqeYrk30GmUgFp33qPWxWOgYpE1vo=;
+        b=b9UYfTGeNU/wJRKCuGZpH9/Vn1i57hN4O/KpSB4OVc9584X/6k7GgcOjU0uyNFmrvS
+         sFDiJplDonA9G1HNEC0pxqXIobM4zEkEFAAHEQ9Iv+p908DRxiQPF2huBL84lieTujvw
+         lUrvOr7lpjETGBp/ULLp+gK6ZjhN/pLScs23nSiWyak1T6QDFrEFlJuE4MpSij4z45hB
+         cN2U+AsjWNcdyxD9vNV+4sMrJEv8u1M4gs16NmoEFYDt2UETrmaf5ke97cdf0KkYbs2o
+         oANVBkstT7Wbcbfhxy4xVaBf591KroqWzOj49Z7puGxJQMP3BlcJJCjrg+x3kIRweLC1
+         m1dQ==
+X-Gm-Message-State: AOJu0Yw0Eb9fVE24Fs0QWyTWWBUkCpLuHZmcpnEJR8e7xFh1nW/fQ094
+	PQiohkiopeZpP2/5pkBY1TMViMWx2Y/fX4wkrim4HkMIqMhdbJIEfgSPoH6NK6MAFJ+KAZyNa3x
+	lO/Os
+X-Gm-Gg: ASbGnctN8j69tfbQ0o2gmEdDk3NoNRFwg8pF74vNgSZLy2GHskdjqkKqnsIO1nw19XU
+	4jdazgFPu/ezQDiUzOdhSl8ZMHgkvFeqXvpwbyECtxku8ZEiPpCpIv8ubitrvYIiavt16dA6zDe
+	FM6Tm3xqQaSfBSfbM/gOHqtGeXqsuWm9NUvvzvEuIeLMVn2zMiPqih9Wq5/8ofcKuj0xbs0tW6H
+	PdcTra/y68LaMhd+vtcZsRdnWe6iyZekUM8RTiNaKYLs1W3Xr9HOcPyepfWk50wn1mbPJGMSidv
+	wD7CLtMsPbUC5+mmxObaprcF0dSstQVKsjIp2sHYR2brUuiW58kKI8tLF7aGZ6ug/OIn86yDRLY
+	b2yCo9aY2KXosUNJYNUUIYAER
+X-Google-Smtp-Source: AGHT+IE0fFN7Oz4yynCG8JRFvdYF4KiBz8kcektI9e/smh1lIn2YrwLvM+8es3xaknuG7h0Wg//3gg==
+X-Received: by 2002:a17:902:ce89:b0:249:1128:582f with SMTP id d9443c01a7336-24cef527929mr66765ad.17.1756999372662;
+        Thu, 04 Sep 2025 08:22:52 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:89a7:8cc5:2043:ebe6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b11448a5asm82528085ad.54.2025.09.04.08.22.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b11448a5asm82528085ad.54.2025.09.04.08.22.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 08:22:49 -0700 (PDT)
+        Thu, 04 Sep 2025 08:22:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 2/5] libpam: fix CVE-2024-10963
-Date: Thu,  4 Sep 2025 08:22:34 -0700
-Message-ID: <2be498fd0872d7ccbf0e9b2eb0a1d4879823c968.1756999195.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 4/5] default-distrovars.inc: Fix CONNECTIVITY_CHECK_URIS redirect issue
+Date: Thu,  4 Sep 2025 08:22:36 -0700
+Message-ID: <bd624ebbcf4e6d7a24c4ab232ca2e138b1ac3433.1756999195.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756999195.git.steve@sakoman.com>
 References: <cover.1756999195.git.steve@sakoman.com>
@@ -68,303 +68,64 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 15:22:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222957
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222959
 
-From: Stanislav Vovk <stanislav.vovk@est.tech>
+From: Deepak Rathore <deeratho@cisco.com>
 
-Upstream-Status: Backport from https://github.com/linux-pam/linux-pam/commit/940747f88c16e029b69a74e80a2e94f65cb3e628
+The default CONNECTIVITY_CHECK_URIS uses "https://yoctoproject.org/connectivity.html"
+which redirect to "https://www.yoctoproject.org/connectivity.html".
 
-Signed-off-by: Stanislav Vovk <stanislav.vovk@est.tech>
+Some network configurations with proxies or restricted internet access
+don't handle HTTP redirects properly during the sanity check phase,
+causing build failures with:
+
+ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+Following is the list of potential problems / advisories:
+
+Fetcher failure for URL: 'https://yoctoproject.org/connectivity.html'. URL doesn't work.
+
+Updated the default URL to use the final destination directly to avoid
+redirect-related connectivity check failures.
+
+Also updated SDK test cases in https.py to use the corrected URL for
+consistency.
+
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 60cdf960a3560f391babd559737f1afb31fb2c5c)
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../pam/libpam/CVE-2024-10963.patch           | 265 ++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.5.3.bb     |   1 +
- 2 files changed, 266 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/CVE-2024-10963.patch
+ meta/conf/distro/include/default-distrovars.inc | 2 +-
+ meta/lib/oeqa/sdk/buildtools-cases/https.py     | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/pam/libpam/CVE-2024-10963.patch b/meta/recipes-extended/pam/libpam/CVE-2024-10963.patch
-new file mode 100644
-index 0000000000..b79831f0e5
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/CVE-2024-10963.patch
-@@ -0,0 +1,265 @@
-+From f9ccee5c4c6cb0d4197b08ebeb36c1dceffe82e8 Mon Sep 17 00:00:00 2001
-+From: Thorsten Kukuk <kukuk@suse.com>
-+Date: Thu, 14 Nov 2024 10:27:28 +0100
-+Subject: [PATCH] pam_access: rework resolving of tokens as hostname
-+
-+* modules/pam_access/pam_access.c: separate resolving of IP addresses
-+  from hostnames. Don't resolve TTYs or display variables as hostname
-+  (#834).
-+  Add "nodns" option to disallow resolving of tokens as hostname.
-+* modules/pam_access/pam_access.8.xml: document nodns option
-+* modules/pam_access/access.conf.5.xml: document that hostnames should
-+  be written as FQHN.
-+
-+Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/940747f88c16e029b69a74e80a2e94f65cb3e628]
-+CVE: CVE-2024-10963
-+Signed-off-by: Stanislav Vovk <stanislav.vovk@est.tech>
-+---
-+ modules/pam_access/access.conf.5.xml |  4 ++
-+ modules/pam_access/pam_access.8.xml  | 46 ++++++++++++------
-+ modules/pam_access/pam_access.c      | 72 +++++++++++++++++++++++++++-
-+ 3 files changed, 105 insertions(+), 17 deletions(-)
-+
-+diff --git a/modules/pam_access/access.conf.5.xml b/modules/pam_access/access.conf.5.xml
-+index ff1cb223..158fc7df 100644
-+--- a/modules/pam_access/access.conf.5.xml
-++++ b/modules/pam_access/access.conf.5.xml
-+@@ -220,10 +220,14 @@
-+       the fields they are ignored. However if the list separator is changed with the
-+       <emphasis>listsep</emphasis> option, the spaces will become part of the actual
-+       item and the line will be most probably ignored. For this reason, it is not
-+       recommended to put spaces around the ':' characters.
-+     </para>
-++    <para>
-++      Hostnames should be written as Fully-Qualified Host Name (FQHN) to avoid
-++      confusion with device names or PAM service names.
-++    </para>
-+   </refsect1>
-+ 
-+   <refsect1 xml:id="access.conf-see_also">
-+     <title>SEE ALSO</title>
-+     <para>
-+diff --git a/modules/pam_access/pam_access.8.xml b/modules/pam_access/pam_access.8.xml
-+index 010e749e..1182c907 100644
-+--- a/modules/pam_access/pam_access.8.xml
-++++ b/modules/pam_access/pam_access.8.xml
-+@@ -20,15 +20,18 @@
-+     <cmdsynopsis xml:id="pam_access-cmdsynopsis" sepchar=" ">
-+       <command>pam_access.so</command>
-+       <arg choice="opt" rep="norepeat">
-+         debug
-+       </arg>
-++      <arg choice="opt" rep="norepeat">
-++        noaudit
-++      </arg>
-+       <arg choice="opt" rep="norepeat">
-+         nodefgroup
-+       </arg>
-+       <arg choice="opt" rep="norepeat">
-+-        noaudit
-++        nodns
-+       </arg>
-+       <arg choice="opt" rep="norepeat">
-+         accessfile=<replaceable>file</replaceable>
-+       </arg>
-+       <arg choice="opt" rep="norepeat">
-+@@ -127,10 +130,37 @@
-+             Do not report logins from disallowed hosts and ttys to the audit subsystem.
-+           </para>
-+         </listitem>
-+       </varlistentry>
-+ 
-++      <varlistentry>
-++        <term>
-++          nodefgroup
-++        </term>
-++        <listitem>
-++          <para>
-++            User tokens which are not enclosed in parentheses will not be
-++	    matched against the group database. The backwards compatible default is
-++            to try the group database match even for tokens not enclosed
-++            in parentheses.
-++          </para>
-++        </listitem>
-++      </varlistentry>
-++
-++      <varlistentry>
-++        <term>
-++          nodns
-++        </term>
-++        <listitem>
-++          <para>
-++	    Do not try to resolve tokens as hostnames, only IPv4 and IPv6
-++	    addresses will be resolved. Which means to allow login from a
-++	    remote host, the IP addresses need to be specified in <filename>access.conf</filename>.
-++          </para>
-++        </listitem>
-++      </varlistentry>
-++
-+       <varlistentry>
-+         <term>
-+           fieldsep=separators
-+         </term>
-+         <listitem>
-+@@ -168,24 +198,10 @@
-+             "Domain Admins" contain a space.
-+           </para>
-+         </listitem>
-+       </varlistentry>
-+ 
-+-      <varlistentry>
-+-        <term>
-+-          nodefgroup
-+-        </term>
-+-        <listitem>
-+-          <para>
-+-            User tokens which are not enclosed in parentheses will not be
-+-	    matched against the group database. The backwards compatible default is
-+-            to try the group database match even for tokens not enclosed
-+-            in parentheses.
-+-          </para>
-+-        </listitem>
-+-      </varlistentry>
-+-
-+     </variablelist>
-+   </refsect1>
-+ 
-+   <refsect1 xml:id="pam_access-types">
-+     <title>MODULE TYPES PROVIDED</title>
-+diff --git a/modules/pam_access/pam_access.c b/modules/pam_access/pam_access.c
-+index f70b7e49..d06496c3 100644
-+--- a/modules/pam_access/pam_access.c
-++++ b/modules/pam_access/pam_access.c
-+@@ -97,10 +97,11 @@ struct login_info {
-+     const char *config_file;
-+     const char *hostname;
-+     int debug;				/* Print debugging messages. */
-+     int only_new_group_syntax;		/* Only allow group entries of the form "(xyz)" */
-+     int noaudit;			/* Do not audit denials */
-++    int nodns;                          /* Do not try to resolve tokens as hostnames */
-+     const char *fs;			/* field separator */
-+     const char *sep;			/* list-element separator */
-+     int from_remote_host;               /* If PAM_RHOST was used for from */
-+     struct addrinfo *res;		/* Cached DNS resolution of from */
-+     int gai_rv;				/* Cached retval of getaddrinfo */
-+@@ -148,10 +149,12 @@ parse_args(pam_handle_t *pamh, struct login_info *loginfo,
-+ 	    loginfo->debug = YES;
-+ 	} else if (strcmp (argv[i], "nodefgroup") == 0) {
-+ 	    loginfo->only_new_group_syntax = YES;
-+ 	} else if (strcmp (argv[i], "noaudit") == 0) {
-+ 	    loginfo->noaudit = YES;
-++	} else if (strcmp (argv[i], "nodns") == 0) {
-++	    loginfo->nodns = YES;
-+ 	} else {
-+ 	    pam_syslog(pamh, LOG_ERR, "unrecognized option [%s]", argv[i]);
-+ 	}
-+     }
-+ 
-+@@ -730,11 +733,11 @@ remote_match (pam_handle_t *pamh, char *tok, struct login_info *item)
-+ 
-+     if (tok[0] == '.') {			/* domain: match last fields */
-+       if ((str_len = strlen(string)) > tok_len
-+ 	  && strcasecmp(tok, string + str_len - tok_len) == 0)
-+ 	return YES;
-+-    } else if (tok[tok_len - 1] == '.') {       /* internet network numbers (end with ".") */
-++    } else if (tok[tok_len - 1] == '.') {       /* internet network numbers/subnet (end with ".") */
-+       struct addrinfo hint;
-+ 
-+       memset (&hint, '\0', sizeof (hint));
-+       hint.ai_flags = AI_CANONNAME;
-+       hint.ai_family = AF_INET;
-+@@ -805,10 +808,43 @@ string_match (pam_handle_t *pamh, const char *tok, const char *string,
-+     }
-+     return (NO);
-+ }
-+ 
-+ 
-++static int
-++is_device (pam_handle_t *pamh, const char *tok)
-++{
-++  struct stat st;
-++  const char *dev = "/dev/";
-++  char *devname;
-++
-++  devname = malloc (strlen(dev) + strlen (tok) + 1);
-++  if (devname == NULL) {
-++      pam_syslog(pamh, LOG_ERR, "Cannot allocate memory for device name: %m");
-++      /*
-++       * We should return an error and abort, but pam_access has no good
-++       * error handling.
-++       */
-++      return NO;
-++  }
-++
-++  char *cp = stpcpy (devname, dev);
-++  strcpy (cp, tok);
-++
-++  if (lstat(devname, &st) != 0)
-++    {
-++      free (devname);
-++      return NO;
-++    }
-++  free (devname);
-++
-++  if (S_ISCHR(st.st_mode))
-++    return YES;
-++
-++  return NO;
-++}
-++
-+ /* network_netmask_match - match a string against one token
-+  * where string is a hostname or ip (v4,v6) address and tok
-+  * represents either a hostname, a single ip (v4,v6) address
-+  * or a network/netmask
-+  */
-+@@ -866,14 +902,46 @@ network_netmask_match (pam_handle_t *pamh,
-+ 	if (getaddrinfo (tok, NULL, NULL, &ai) != 0)
-+ 	  {
-+ 	    return NO;
-+ 	  }
-+       }
-++    else if (isipaddr(tok, NULL, NULL) == YES)
-++      {
-++	if (getaddrinfo (tok, NULL, NULL, &ai) != 0)
-++	  {
-++	    if (item->debug)
-++	      pam_syslog(pamh, LOG_DEBUG, "cannot resolve IP address \"%s\"", tok);
-++
-++	    return NO;
-++	  }
-++	netmask_ptr = NULL;
-++      }
-++    else if (item->nodns)
-++      {
-++	/* Only hostnames are left, which we would need to resolve via DNS */
-++	return NO;
-++      }
-+     else
-+       {
-++	/* Bail out on X11 Display entries and ttys. */
-++	if (tok[0] == ':')
-++	  {
-++	    if (item->debug)
-++	      pam_syslog (pamh, LOG_DEBUG,
-++			  "network_netmask_match: tok=%s is X11 display", tok);
-++	    return NO;
-++	  }
-++	if (is_device (pamh, tok))
-++	  {
-++	    if (item->debug)
-++	      pam_syslog (pamh, LOG_DEBUG,
-++			  "network_netmask_match: tok=%s is a TTY", tok);
-++	    return NO;
-++	  }
-++
-+         /*
-+-	 * It is either an IP address or a hostname.
-++	 * It is most likely a hostname.
-+ 	 * Let getaddrinfo sort everything out
-+ 	 */
-+ 	if (getaddrinfo (tok, NULL, NULL, &ai) != 0)
-+ 	  {
-+ 	    pam_syslog(pamh, LOG_ERR, "cannot resolve hostname \"%s\"", tok);
-+-- 
-+2.43.5
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.5.3.bb b/meta/recipes-extended/pam/libpam_1.5.3.bb
-index 815085cc82..4c27767ab1 100644
---- a/meta/recipes-extended/pam/libpam_1.5.3.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.3.bb
-@@ -34,6 +34,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-PAM-${PV}.tar.xz \
-            file://CVE-2025-6020-01.patch \
-            file://CVE-2025-6020-02.patch \
-            file://CVE-2025-6020-03.patch \
-+           file://CVE-2024-10963.patch \
-            "
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 7554081e8b..42e6de216e 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -61,4 +61,4 @@ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
+ # fetch from the network (and warn you if not). To disable the test set
+ # the variable to be empty.
+ # Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master;branch=master
+-CONNECTIVITY_CHECK_URIS ?= "https://yoctoproject.org/connectivity.html"
++CONNECTIVITY_CHECK_URIS ?= "https://www.yoctoproject.org/connectivity.html"
+diff --git a/meta/lib/oeqa/sdk/buildtools-cases/https.py b/meta/lib/oeqa/sdk/buildtools-cases/https.py
+index 4525e3d758..98f27e5994 100644
+--- a/meta/lib/oeqa/sdk/buildtools-cases/https.py
++++ b/meta/lib/oeqa/sdk/buildtools-cases/https.py
+@@ -15,8 +15,8 @@ class HTTPTests(OESDKTestCase):
+     """
  
- SRC_URI[sha256sum] = "7ac4b50feee004a9fa88f1dfd2d2fa738a82896763050cd773b3c54b0a818283"
+     def test_wget(self):
+-        self._run('env -i wget --debug --output-document /dev/null https://yoctoproject.org/connectivity.html')
++        self._run('env -i wget --debug --output-document /dev/null https://www.yoctoproject.org/connectivity.html')
+ 
+     def test_python(self):
+         # urlopen() returns a file-like object on success and throws an exception otherwise
+-        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://yoctoproject.org/connectivity.html")\'')
++        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://www.yoctoproject.org/connectivity.html")\'')
 -- 
 2.43.0
 
