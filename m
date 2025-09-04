@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C08CCA101C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01526CA101F
 	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 15:18:05 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.772.1756999083769602581
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.853.1756999083513915089
  for <openembedded-core@lists.openembedded.org>;
  Thu, 04 Sep 2025 08:18:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lMB4FVVX;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-24b2de2e427so9014565ad.2
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vW7O1N19;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b47475cf8ecso740428a12.0
         for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 08:18:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1756999083; x=1757603883; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=B2uXjpdHt3T88LnX9ycIqyQgE7EIw5NZ8paeebpFoLw=;
-        b=lMB4FVVXdzP7TyV74pTA6FMaXwVUiewPNaeOymkjHPLrx30thxl+W/CPac+HowrPjy
-         X4uu6BketMmB6jzv1fDRzu9eOf0yRwj1xUUwW7YvvFuzWl4iiKaBsSuZoWZPwTOuAcmp
-         q6wLvOqlQWGqFcr9ulETDAbdnTH7ocMo2LqZHojXYxpaA6hPtwb+Z+kTbldzlSCOCHch
-         2bOojk1Jw34gpd7VwvFpdG0fiq0dXsG+HbXCjZ6HQ/GtuMtKTlum0GfwlF2SE6D0EJX7
-         hpT8I9DYdFcXAm+2K1EQQDMxb/tFwK+n3MbvgGOstbX0TvPIqmkeD/Rxcl4TYJr4kU75
-         b6vA==
+        bh=TOKWfioBrYlsu2Fr+QGWpPQdBjZvkou8bzLrEiSM6Yc=;
+        b=vW7O1N19DAgixnjvfb/YhXu6thjgDgknCpHS8AFLLIezJa8UZ3N4ITM10orc8O9lh4
+         JOgFhIGIPo6Dq4thV8mwoBzkLPG4e8b1paO4ukQUOO4YHmJQNDM0zJp4+Mlz12gS0w//
+         k2WjFLn0vovaZ7oC2Khm2aN3wfWBGsq2sO8mo6fpLBCTfdK60IwdXfH3b8jF2QB71Kpm
+         qaASNWRVwBcAIaRNcA76hEXcWOcluby9nE34U4Sw9BzkHoSCLzQZ+I1UA/RbsocvlJgJ
+         TeOsSVR0P41aSW6icGrTa4Eq5BZjIFp2g4Fshvl2EDfCo7nQAQ+13QxQwA5lZXA3geQE
+         HRpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1756999083; x=1757603883;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B2uXjpdHt3T88LnX9ycIqyQgE7EIw5NZ8paeebpFoLw=;
-        b=lwXDnrNHQmcRPogPKtpmUZBkaPZ/fzg+gmMC2nkX4Re5xMSuYJO+1vyBQBSz4gUBxZ
-         IL6/14Pi3ZVIlVDlbLXQ3leUgEo0+ecHB6DVaGKjNwczJo/aSZI/u9P4gib1Z9aVkdii
-         jFkwaCSEJ2dMyei4Y/qStXmYIg0UulPmpQ9ogCDR5dWj35Rr7QfWOb8WERgIKuCx5m82
-         P3u6LiuusBzd9vhZIkpu78DsTFrawUoJbBsiE9WEhVDqs1EG3Dgk3aXEm9PPNtKKAcj2
-         8MakKrmX7zM1yjRSHH5LWdjnd7F7+1HnT+sP80gQDUG5tpxh3ns2WSQCXsWDV0QQ/RxG
-         OU+w==
-X-Gm-Message-State: AOJu0YwaCv8omahrFml5GHGctITwxBUH8p9NPYJqsSUuOs1Lo2BhOPM0
-	iSMe+zMGqRvcDUwRdjZjgTgfMCHzTajthX4o5+Y3dpymRzLQ6F0ExB2V4TkCBVKiD4Zgdk+Vpft
-	Ksw3f
-X-Gm-Gg: ASbGncskaQXuz0kImK0vZadtCgtWh7qxYKdsdg3axrFSUwcfcAfwaG7sW8tB+ib4/5t
-	rSBTxgRpjH3ZDx6pvR/fDh6qA/aYylOZpBDeJTUyuhLJ/Le+RzhGLTbhnDMMwj91hHJoWxhMHG9
-	09kfNgZlWh+0xZZMpEcfRxDVfrdA89xQtOvWxdNVAUNkQYnJLIdijZU5k3cde3rWwF/GgQqpaDt
-	U90HgUkZEAGtn8Bt3cxor6b9oXMCufhjnTSRzKqLurWBJgRE7nbmCt3n52pw3r2SAOkAqvz90bt
-	APTO1oQL1FD6IZpn73DbLQf1JfoL122RGpepx5sJuNwUrwi9MO/+wxm8dEo4VVcwHLt+s89tve2
-	STvy8DlbIdMtBCil0e05MIGPs
-X-Google-Smtp-Source: AGHT+IE0h3H4y3EpROzuXzEqBa4QsN4+zA2S2W5F4vFGKsvYsmVDvfp8M5NPH/QkmryOsQV4R7Ao5g==
-X-Received: by 2002:a17:903:b10:b0:248:a18e:200a with SMTP id d9443c01a7336-2494485d6f8mr216942935ad.10.1756999082908;
-        Thu, 04 Sep 2025 08:18:02 -0700 (PDT)
+        bh=TOKWfioBrYlsu2Fr+QGWpPQdBjZvkou8bzLrEiSM6Yc=;
+        b=HFg3tHjNuPGOUrmYP6rThyGdfcJjujfqpoeeesvZJdkHev0jN1rMiRSZCdegrvreUZ
+         Ebwqv1LiHAATOXm9gTx01EBepAKeeiGmUpaAnQpb5dMMIh9Isiy3ri8DQglZ5v2IC/yW
+         v52//zz9nOlEBB+iANTuMGjJarYX0Qa3Gw4h327OzMrhsRjxS815zSRlv34vTzz81s6R
+         XRBtDuTPa8E9e9PuKWuX8XfPN+612JLBkUlbPsbayYCYas9xibUZGFi6c4TLGp+S/i36
+         K75bNrMO0HYIfhycU1UnFzBQCNO5Db3l8kRBOsfAIy2UNJ+XN3QXR9wPbXw4X8pu3U+i
+         m4HQ==
+X-Gm-Message-State: AOJu0Ywm20YpQzXBhMnM3fWPi8AJGU+3V5jxQztIMGD+f0NBqvZup6qC
+	GomNX8WJxEGbh0DAxOAKc7D2qYZIc50k16riaw5Mw8BUnNNNiKRpn8DHbWtPfqZLtleKv2r8ktK
+	zbNSz
+X-Gm-Gg: ASbGncsroYZ4WSGv/HV+MyQdTRyAPwtgwCT7R3mAJqh/smgBKmkkvMbBw2kmjXu0pYf
+	h+3P06UPBV0sSIUjAWFiHul0mU/V/AjkTTrM5qwjb2kv1xpf1ZPGmhxcPHXHmzczCGYHJNNqnzm
+	qAmiGMpGAKPXLaI7HfRefglwZexQlLI/smd/GiXngTJzVKDnJVR/tT3g0SC7Qn2nm5mtKWEomDR
+	fTcSuT6jMVmo1g0awC4xIdxdHVMSvuqXQOkYjkCXfQzczY3S0qKatKJflH0kPeCKWvJYIvdIgyg
+	sv1Rjw2fYnIQkHUwJc4yr1Ob2w7Na6cDwDfyboBzZcXbFK67mmuYo5gAa0BMg4u9t94pwqOhngx
+	q9j3iIaXBAa+4vg==
+X-Google-Smtp-Source: AGHT+IEpzo9SjRlPpJeZoNkjPpCv1QGmb6p9Udu3cW8NERq/hg5f+KZEZyHtSALPZyZH5fCChx8B+w==
+X-Received: by 2002:a17:903:2a8d:b0:246:e1b6:f9b0 with SMTP id d9443c01a7336-249448f2573mr283973025ad.18.1756999080260;
+        Thu, 04 Sep 2025 08:18:00 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:89a7:8cc5:2043:ebe6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b0637d948sm84720845ad.30.2025.09.04.08.18.02
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b0637d948sm84720845ad.30.2025.09.04.08.17.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 08:18:02 -0700 (PDT)
+        Thu, 04 Sep 2025 08:17:59 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][walnascar 6/6] rust-target-config: Add has-thread-local option
-Date: Thu,  4 Sep 2025 08:17:44 -0700
-Message-ID: <575a4316f661392eb73d1d97300511e2bca24ada.1756998900.git.steve@sakoman.com>
+Subject: [OE-core][walnascar 5/6] pulseaudio: Add audio group explicitly
+Date: Thu,  4 Sep 2025 08:17:43 -0700
+Message-ID: <4fc918da4667eebbbdae3def8c38209a3d650f97.1756998900.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1756998900.git.steve@sakoman.com>
 References: <cover.1756998900.git.steve@sakoman.com>
@@ -68,35 +68,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 15:18:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222954
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222953
 
-From: Per x Johansson <perxjoh@axis.com>
+From: Kyungjik Min <dpmin7@gmail.com>
 
-The "has-elf-tls" option was removed by the commit
-8e1614a906086fb46c5dd7b7f2dffab91194165c. However is should have been
-renamed to "has-thread-local", since it was renamed and not removed in
-rust by this commit.
-https://github.com/rust-lang/rust/commit/391332c5d9d5a5e97a0d36e011a87ad43045cfd3
+Since pulseaudio-server requires the audio group, we explicitly add it.
 
-Signed-off-by: Per x Johansson <perxjoh@axis.com>
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+When use useradd-staticids or do not use the default group in
+base-passwd, an error will occur because the audio group is not defined.
+
+NOTE: pulseaudio: Performing useradd with [--root
+TOPDIR/tmp/work/cortexa72-poky-linux/pulseaudio/17.0/recipe-sysroot
+--home-dir /var/run/pulse --gid 998 --groups audio,pulse
+--no-create-home --system --shell /bin/false --uid 998 pulse]
+useradd: group 'audio' does not exist
+ERROR: pulseaudio: useradd command did not succeed.
+
+Signed-off-by: Kyungjik Min <dpmin7@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/rust-target-config.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta-selftest/files/static-group                  | 1 +
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
-index 67aaa56bac..bdc1e23501 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -396,6 +396,7 @@ def rust_gen_target(d, thing, wd, arch):
-     tspec['linker-is-gnu'] = True
-     tspec['linker-flavor'] = "gcc"
-     tspec['has-rpath'] = True
-+    tspec['has-thread-local'] = True
-     tspec['position-independent-executables'] = True
-     tspec['panic-strategy'] = d.getVar("RUST_PANIC_STRATEGY")
+diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
+index 441123e2c5..252fdac67d 100644
+--- a/meta-selftest/files/static-group
++++ b/meta-selftest/files/static-group
+@@ -28,3 +28,4 @@ sgx:x:528:
+ ptest:x:529:
+ xuser:x:530:
+ seat:x:531:
++audio:x:532:
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 18c12ede63..4708145bb9 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -147,7 +147,7 @@ do_install:append() {
+ }
  
+ USERADD_PACKAGES = "pulseaudio-server"
+-GROUPADD_PARAM:pulseaudio-server = "--system pulse"
++GROUPADD_PARAM:pulseaudio-server = "--system audio; --system pulse"
+ USERADD_PARAM:pulseaudio-server = "--system --home /var/run/pulse \
+                               --no-create-home --shell /bin/false \
+                               --groups audio,pulse --gid pulse pulse"
 -- 
 2.43.0
 
