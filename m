@@ -1,100 +1,116 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB50CA1016
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 13:46:50 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.39675.1756993607664306351
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D63F2CA1015
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 14:04:00 +0000 (UTC)
+Received: from smtp-190b.mail.infomaniak.ch (smtp-190b.mail.infomaniak.ch [185.125.25.11])
+ by mx.groups.io with SMTP id smtpd.web11.40128.1756994638738514920
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 06:46:47 -0700
+ Thu, 04 Sep 2025 07:03:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=zFey9gt1;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Cs2gEQvV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019914fad448-f3bcdc53-757d-4675-acb9-f6b5c3b22a0b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1756993606; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=9Kc2AgrKPuYeG1LKYvZmjIuK27x2VhM54U868Xeyq+U=;
-	b=zFey9gt18nV73BaQgVJIKV90mr91XuJ4tD6HltSuyIdoafpZd0ZDeO8ZQ5jD+rUX
-	Yr3x2KDX4QXssbEfsVdbIncaAILn1a2FIClTsjhvZhaozbUmdw7MUrJ0N5LhDl2+rqO
-	9WH5De8nRYZ3vFF7WszzGqltlGnxCFKKQaNNT4Yk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1756993606;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=9Kc2AgrKPuYeG1LKYvZmjIuK27x2VhM54U868Xeyq+U=;
-	b=Cs2gEQvVwIrA5db3/0PtVtYg4hoTW9jb58n5oOBx1v8fKuNI1Inz4141PlaJ/CLt
-	eC5HWHfZEMcIcqfDxLTcs665rH1PBl2jBRZ2s+Vf3L5wovXA4CmXyDJT/QUwpn4dpz+
-	3tOtl6m8cbcPIrb2Zs0OtvPidU172uyplbKJa98w=
-From: patchtest@automation.yoctoproject.org
-To: archana.polampalli@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][kirkstone][PATCH 1/3] ffmpeg: fix CVE-2025-7700
-In-Reply-To: <20250904133812.2881582-1-archana.polampalli@windriver.com>
-References: <20250904133812.2881582-1-archana.polampalli@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019914fad448-f3bcdc53-757d-4675-acb9-f6b5c3b22a0b-000000@us-west-2.amazonses.com>
-Date: Thu, 4 Sep 2025 13:46:46 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.04-54.240.27.29
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.11, mailfrom: foss+yocto@0leil.net)
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4cHh6P31M8zvHv;
+	Thu,  4 Sep 2025 16:03:57 +0200 (CEST)
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4cHh6N6VXwzmh2;
+	Thu,  4 Sep 2025 16:03:56 +0200 (CEST)
+From: Quentin Schulz <foss+yocto@0leil.net>
+Date: Thu, 04 Sep 2025 16:03:38 +0200
+Subject: [PATCH v7 09/13] mesa: allow to disable xmlconfig support
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250904-mesa-libclc-panfrost-v7-9-e921a65412f7@cherry.de>
+References: <20250904-mesa-libclc-panfrost-v7-0-e921a65412f7@cherry.de>
+In-Reply-To: <20250904-mesa-libclc-panfrost-v7-0-e921a65412f7@cherry.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Markus Volk <f_l_k@t-online.de>, Trevor Woerner <twoerner@gmail.com>, 
+ Ross Burton <ross.burton@arm.com>, 
+ Quentin Schulz <quentin.schulz@cherry.de>
+X-Mailer: b4 0.14.2
+X-Infomaniak-Routing: alpha
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 13:46:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222931
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 14:04:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222942
 
---NextPart
-Content-Type: text/plain
+From: Quentin Schulz <quentin.schulz@cherry.de>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+From my understanding, xmlconfig is useful for "dynamic" driconf
+support, i.e. driconf the user specifies at runtime.
 
+According to the wiki[1], driconf is useful for OpenGL drivers.
+
+I wager we mostly don't need xmlconfig at all which may allow us to also
+get rid (in most cases) of the expat dependency. But that is an
+optimization to investigate later, so let's keep xmlconfig enabled for
+now as it is the default whenever the meson feature is not disabled
+(defaults to auto) and expat is found (currently part of DEPENDS in
+mesa.inc).
+
+This will be useful for mesa-tools-native which isn't meant to compile
+drivers and thus shouldn't try to compile driconf support and install
+driconf example files.
+
+Technically, xmlconfig depends on the expat meson feature (and the
+presence of the expat build dependency) but the feature is default auto
+so having expat dependency in xmlconfig PACKAGECONFIG seems enough
+instead of having one PACKAGECONFIG depend on another PACKAGECONFIG's
+presence.
+
+[1] https://dri.freedesktop.org/wiki/DriConf/
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Tested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
-Testing patch /home/patchtest/share/mboxes/kirkstone-1-3-ffmpeg-fix-CVE-2025-7700.patch
+ meta/recipes-graphics/mesa/mesa-gl.bb | 2 +-
+ meta/recipes-graphics/mesa/mesa.bb    | 1 +
+ meta/recipes-graphics/mesa/mesa.inc   | 1 +
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
-FAIL: test Upstream-Status presence: Added patch file is missing Upstream-Status: <Valid status> in the commit message (test_patch.TestPatch.test_upstream_status_presence_format)
+diff --git a/meta/recipes-graphics/mesa/mesa-gl.bb b/meta/recipes-graphics/mesa/mesa-gl.bb
+index 832137c8188f1253c9924e4c8410e5fae40f10fb..3b55d2b77e55b1297a1507a86aa16e6d15944983 100644
+--- a/meta/recipes-graphics/mesa/mesa-gl.bb
++++ b/meta/recipes-graphics/mesa/mesa-gl.bb
+@@ -7,7 +7,7 @@ PROVIDES = "virtual/libgl virtual/mesa"
+ TARGET_CFLAGS = "-I${STAGING_INCDIR}/drm"
+ 
+ # At least one DRI rendering engine is required to build mesa.
+-PACKAGECONFIG = "opengl gallium ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
++PACKAGECONFIG = "opengl gallium ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} xmlconfig"
+ 
+ PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
+ PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
+diff --git a/meta/recipes-graphics/mesa/mesa.bb b/meta/recipes-graphics/mesa/mesa.bb
+index db5eab5fb27c6a7228f6e0fd823514352c42ad1f..49e077b20cd254415c73a30040da76b5d25fd2f3 100644
+--- a/meta/recipes-graphics/mesa/mesa.bb
++++ b/meta/recipes-graphics/mesa/mesa.bb
+@@ -6,6 +6,7 @@ PACKAGECONFIG = " \
+ 	${@bb.utils.filter('DISTRO_FEATURES', 'x11 vulkan wayland glvnd', d)} \
+ 	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm virgl', '', d)} \
+ 	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
++	xmlconfig \
+ "
+ 
+ PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 81b099bf6e5fe624e91e6a780f8bb55854580c2d..4b1c11be55f7b3f54b5244674263b83a8703bc25 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -115,6 +115,7 @@ TOOLS_DEPS:append = "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', ' ncurse
+ PACKAGECONFIG[freedreno-fdperf] = ",,libconfig"
+ 
+ PACKAGECONFIG[tools] = "-Dtools=${@strip_comma('${TOOLS}')}, -Dtools='', ${TOOLS_DEPS}"
++PACKAGECONFIG[xmlconfig] = "-Dxmlconfig=enabled, -Dxmlconfig=disabled, expat"
+ 
+ PACKAGECONFIG[opengl] = "-Dopengl=true, -Dopengl=false"
+ PACKAGECONFIG[glvnd] = "-Dglvnd=enabled, -Dglvnd=disabled, libglvnd"
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+-- 
+2.51.0
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
