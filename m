@@ -2,86 +2,96 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86FA1CA1012
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 10:23:49 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web10.35800.1756981420062618196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B63DECA1002
+	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 10:38:29 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web11.35773.1756982308873715709
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 03:23:40 -0700
+ Thu, 04 Sep 2025 03:38:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hb7UlQou;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-721504645aaso6489486d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 03:23:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BtDbHTt7;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-7251e6b2f9eso4273876d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 03:38:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756981419; x=1757586219; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1756982308; x=1757587108; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3F+IO8KafIKpu08x/RQvbNJjaBtPwq4J4PMK6HS2P8Y=;
-        b=Hb7UlQouEa+TRLcGuZSXEsZL3DBnVzOYoc98jWIkWZS2D2yv4mZ3SrkDeMNxaT1ZUd
-         u/KkqzrDh0KA50zB5bQ2PEPGdCl+/TGviAL2VYOarDiSWKr1hr7p4xleWwyYAUzDX3EX
-         qXVc5dcwZ5M40g/YgEOCM/SHrMfUSMLEYA6ivfE2dfn+lL/uOPDbGgWsrRc8AVgECaMM
-         adUqYArd6jmZlrs6hl0F+2sBxvi3teZhFQiFwwkBqghJ4np72l64H+Zl3pXDlNln9GHx
-         mLrt29UrU42g+liuKtqdH9g7NVhr6zARpIk8JRjINTxnd/yxe6QUDjDJgYRAOosiFrIB
-         ql7A==
+        bh=JAGjhFDOJtcinPxvj4tx3+l4SVfHwTtIGQBeNrHOODA=;
+        b=BtDbHTt7VkajGddNPejJ+evv/2tlO2Y0N3BQwNEQVU3jNjFznHhOgWClwPIzG1c0PH
+         jd/8aTG4ifC3NH2mh1miO6uBiPwG3N8YbZ5yfxxAamb7MyZ1SSJgovS6d0aCRT8mkIG+
+         +GkmSHS5aIJvaJl1yDRlE3gnjVbBeguByVD8dOtlmcWUQehxzkh0UjIgcbleDJn99UiC
+         cTOC7EM7ncPfZf6bwxqsl5mxfMMEOZ7dZo6DbgkNeZdm/NPbk23DcG6ihkf4OGwACodW
+         aRi7RNKG153gqFc3lryKugRKdGX3R0Apk4NOd1cx98fxm8hZic3dzsqMC9D9J5mdDgG5
+         mVXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756981419; x=1757586219;
+        d=1e100.net; s=20230601; t=1756982308; x=1757587108;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3F+IO8KafIKpu08x/RQvbNJjaBtPwq4J4PMK6HS2P8Y=;
-        b=VIDhjjjfCiUl2drU48qoMFkW8pgqUSIFqXEVSJUxIOd1XZnnQQ8ec4r2tyhvY8vmnh
-         p8Y1/ei5HkSqUfOBqEl90NQ8D9z0bvE3/KGlUOwL1/c6ImT4R5IRgUcIX1Iw9vz1nbS8
-         p4ocuOMfzxLLFAI8TMjAdcfuBaNbxCP07GGlbYA2scVW2ulIBAGQGiTqfC7hAEmRURsK
-         ifv9FgmJIbCqSQmYbM8R/0s7FlTEtMy9jn7tQE2/sQA46BuuWEZG4nJ5DWRDNUREfH7j
-         53x+7i082frKVF/Q/paCgy08qiwCumzcvIG6cicYISzBQfQ7MKrfsFhi4460fR8FqD3P
-         Mw8w==
-X-Forwarded-Encrypted: i=1; AJvYcCUKnM2P330UsKXulIx6OXvbc6cytH7VR+V1Xs6nj90/JG1ktzlPfJaIYUHuZW7vmaxjmdO3w9l1jch9OXanAs2c0w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyelhpBxcxWYCZ6K0yB6i79fvuloeHRPTzlbON+2HHQSwCuP+Kr
-	JZoCgEOjE4xuCUDVA7kRG/EHTx8UFoCDNibwr5EAbY5sHPZXB1HlCALbetw0LAtKgZMwGgJB+El
-	hNDB9OEe2ukrj7LEEH7ABzE3mdjbLcaQSwFAr
-X-Gm-Gg: ASbGnctqaQUghR+UvVZ7U1FLDgWQf/pRb8rEFgebsZoJ3I19TFvcauu5YG8dbgc5Hu6
-	YLJ59F8j8/mfyFlhu5yRFa4FaVZk7QbstbUtHk4zeTDw78ywAfImZnDGQGYxkBYjtNOZXlFGmsW
-	y74KlBxSUQjrQxbkQX5IUQqw7NDnqNrI8VoysiPPxwzDxFSEc+wDGLeAmko87TwWUoJqJehLcqZ
-	nvCzY383wHFqUOY0xID4hi0CJ5wsAx53+PXuyQsnUYnQ+/VHzJrAcAadeVMUUPigTpEjxmy8mqU
-	j6esCjieg0p/xvBAHxyrTHKb1dKDjCAl8zmIbkOZ
-X-Google-Smtp-Source: AGHT+IFSDviHr2RLLmbUr4bdKBnbI2uyyNoiWB+GGAjw1O0tj2V2PfIgyPR8XW1Ectx7LFLMBoCVL1+TSrCnRus9j1U=
-X-Received: by 2002:a05:6214:4710:b0:726:9bc3:f8b5 with SMTP id
- 6a1803df08f44-7269bc3fa6emr43557956d6.32.1756981419015; Thu, 04 Sep 2025
- 03:23:39 -0700 (PDT)
+        bh=JAGjhFDOJtcinPxvj4tx3+l4SVfHwTtIGQBeNrHOODA=;
+        b=Z/uqTszlypdcVC/sdZ9icdTggvO4ftbbyiH9kC8ao+e2L4aCYvcFc2J6hAAxp6PkKm
+         aXYik58sYJ+xE5SFMPb537d2byK6spTTMXWCTldF9UezCEGKg5wg44oAjEpbzaHrcIEq
+         RDuDZT2kzvYj5gC8WrbxBb9gHMzZC2R0LZXu0ZOE1veG2avSAEVrEEyfKKOai+0CfqfR
+         kv/SB+L4QVPyucHnhxR0t6fS8YIpoPr5r/KJ7VeXSnpB6ylMY+nGMbdRFTvBp8IiRvWG
+         QwSic8Hpveaja3MBE8xQmZoGA/AYm1JK9yJri9TKrZDHeobU8yA9NOmkAEGkIWhSB7bJ
+         JQXA==
+X-Gm-Message-State: AOJu0Yy2dJ7h9243gJSLOWOVtKDcg7J8/ZIHMZkdTCqYlnWwKy/xH5GV
+	OrlXKkGO9/be3DeCJk9rT8o/hBVdFqQM2oBq9cpp8mJtbpFamJrdwqaVYvhHGi9LdNetJfzO9TZ
+	D+9ZSjEiuBtrgZvHiKzFlOvzGJDlRx+SNoeLp
+X-Gm-Gg: ASbGncu705DC/rabUyD/l0YYXmA6EFRadn/ro7jdR8aUY5TeDetFAbZXshCx1qp58H0
+	QM4RgZa+ZS8dHG3vnhZWuGylLjQjYb+Wp7JcJWMZBndtrmloYAE9PS8jmf3zvL58RvwJyhMaMEL
+	YTizJGoH3Z6x0Kb1wOhlh04hCkpeQljOawxv3RYU775jJJqRiKuN/csFNTSqBprrcEWVUMZutPL
+	wh3fGBLvPx0j2k1o6f08lOPYgaA9URkXrpZwgyNvgmL3/72Hv2hIKSNS74i7JpmzLpj5yFUdNMX
+	b8JUIf9i4YUJCwvAlY1kKdTBv4R9FFeBIM77SWYs
+X-Google-Smtp-Source: AGHT+IEtMpy0EIcpglOVFMgmCRQO3Y9swPzWF6flsY98AV6Fd29g57ZxXZE+TV4cWCtFkETvBntf5Bmz+OJCiyqpNNM=
+X-Received: by 2002:a05:6214:765:b0:709:e251:c29e with SMTP id
+ 6a1803df08f44-70fac6f8965mr233414096d6.10.1756982307723; Thu, 04 Sep 2025
+ 03:38:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250712140638.3099109-1-gudni.m.g@gmail.com> <24850.1752329523627965940@lists.openembedded.org>
- <AS1PR10MB5697C5226761702F5C7B4E68FD4AA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <1860EED7D31477F1.5475@lists.openembedded.org> <1860F3C42441CCDB.24627@lists.openembedded.org>
- <64ec9cce-9ae9-4d0b-8be7-e1d0bec144cd@gmail.com> <186124667AD72DDE.24627@lists.openembedded.org>
- <CANNYZj9EF2g-XXU2231P0pb5Bv+yBWpFwLQqcbeGdNFO9UFcmw@mail.gmail.com> <AS1PR10MB569744B33E963F3885412EC0FD01A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB569744B33E963F3885412EC0FD01A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20250903081113.3182850-1-haixiao.yan.cn@windriver.com>
+ <CANNYZj9Qr7uy-bZGGEt23MWXHkX-fU3TYQc3WYoX3KEtTC9NtA@mail.gmail.com> <108f0edd-3a59-4b2f-86a0-7afc439c884f@windriver.com>
+In-Reply-To: <108f0edd-3a59-4b2f-86a0-7afc439c884f@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 4 Sep 2025 12:23:27 +0200
-X-Gm-Features: Ac12FXy5OJDMpQ0uph4j2WNTaHVhi1SHZoknjdjgGqCSxXBPqJZSkYhvK3ElZGE
-Message-ID: <CANNYZj937gxmcbqhDg4y+9OrYy8X_mksPxgDgP30kNzOz0RvZw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sqlite3: upgrade 3.48.0 -> 3.50.2
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "skandigraun@gmail.com" <skandigraun@gmail.com>, "gudni.m.g@gmail.com" <gudni.m.g@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 4 Sep 2025 12:38:16 +0200
+X-Gm-Features: Ac12FXxBQgCTvYjLr7llWH8JbmbV-Gi9j1gaC5F6gpb4da-00Qj6_u8weMh4LrY
+Message-ID: <CANNYZj_z3UwqgYqmvUYBG+c2iANjib9=6CZYapi1zCjycN_4cA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 1/1] environment.d-openssl.sh: fix unbound
+ variable with 'set -u'
+To: Haixiao Yan <haixiao.yan.cn@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 10:23:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222913
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 10:38:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222914
 
-On Thu, 4 Sept 2025 at 00:31, Marko, Peter <Peter.Marko@siemens.com> wrote:
+On Thu, 4 Sept 2025 at 04:59, Haixiao Yan <haixiao.yan.cn@windriver.com> wrote:
+> > <Haixiao.Yan.CN=windriver.com@lists.openembedded.org> wrote:
+> >> Note: environment.d-curl.sh, environment.d-python3-requests.sh,
+> >> and environment.d-git.sh have the same issue and should be fixed
+> >> similarly.
+> > Which means we either have to fix everything (and somehow ensure it
+> > won't regress), or just have a requirement that 'set -u' is not used.
+> > I don't think it's right to fix such issues halfway.
+> This patch addresses all the affected files introduced by the commit
+> https://git.openembedded.org/openembedded-core/commit/meta?id=8a7ec52e9b35654bee48cd948c6c34c63db3e265.
 >
-> I have sent a new version with soname=legacy which links against .0.
-> So the update should hopefully finally work now.
 >
-> But of course, the setscene behavior is still something which should be
-> analyzed. Maybe bugzilla ticket should be raised to not forget about it.
+> Could you please clarify what you mean by "fix everything"?
 
-Filed here:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15963
+There are a lot of scripts in oe-core itself, and in the content
+produced by recipes, and I can imagine most of them are going to have
+the same issue with set -u, because generally shell code is not
+written with the guards for it.
+
+I would like to understand what makes these particular scripts
+special. Why are they causing problems for you but not anything else
+written in shell? It's difficult to believe that nothing else hits the
+same problem.
+
+Please describe how, and why you use set -u.
 
 Alex
 
