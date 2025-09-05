@@ -1,133 +1,527 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EED8CA0FED
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 17:30:10 +0000 (UTC)
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
- by mx.groups.io with SMTP id smtpd.web11.1023.1757093403385782273
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE18DCA0FED
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 17:57:50 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.274.1757095066404224200
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 10:30:03 -0700
+ Fri, 05 Sep 2025 10:57:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L1BoPYY0;
- spf=pass (domain: gmail.com, ip: 74.125.224.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-60f476e97c3so41310d50.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 10:30:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=crjUGEwL;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb78ead12so378837366b.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 10:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757093402; x=1757698202; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HYnmo2+U+IoNW+A+uiTHmQVFhrUbdEsHYJnjWzvAA8A=;
-        b=L1BoPYY0wFWyQALDrW7kzygtzz/ckAkyoUczHDjb78cQzdS9Fg2CD4I9QU4pH1XJIs
-         +lBzx7CCjvwtplhkfPj8aF2n7FiwxwSl9xDb/qZnTm/ulc+Zpu0r5XFuc/6yqqgzXBak
-         mhDBJvIDnQ/44vTQzFnFpee3lUnv0iqtajY0nMzvMN021UHlwGi80uyj7M64oIYGUeBE
-         aJTgRT6fe2ZGcnQMeY8R/hu1i6zc9EEnvjJyeFlfNQh+/nYIMAT00TSijU5WiZtOpUHq
-         L0o/fHAQAZWiKYL6HXicvIEWkVKVDMa1qJ9ieHZ71NDT36xAsbs5Dkibmr7zc/junrjX
-         E7/w==
+        d=gmail.com; s=20230601; t=1757095065; x=1757699865; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mImSFi78CayeEcjPoeXBJoGnI1x4UoERdoeY7bd06SM=;
+        b=crjUGEwLimQL1/EtT3B5g9ijIv0CPl0BlgnUoTgXEICLgqaksUq5yHI7YZzstx2nM2
+         c3mEYYdWIlQ1BmzqijnS40whh69jPbVrdGIlqupMrfrIrPQ5sXvlcB35Ck7R/VSBkjP4
+         xdiYSjTSm5x7LIG7boPnA5Dh2AQPtatz6tW1n5YJvqcB3LiAP7y05WIfi4+7rOro+7Yf
+         BvkABl192fVT07dgNlHsNpvuYainQZmy7gSWp+BVOHDCFoF4bFdAXoogaPnqlhk34kEb
+         Osth/bELgw3vK5j6jX9BLgj0gNY2UstYdRFIATvd+FooStrs8MMuelWgBSpQ5hq2wGHH
+         nXbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757093402; x=1757698202;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HYnmo2+U+IoNW+A+uiTHmQVFhrUbdEsHYJnjWzvAA8A=;
-        b=KTA5E6+JAzvieVRrEklcniOiO92lMA8AIAnA64gYs9bSTCOcAXSxDtTRgW9Nhj+a2e
-         zrSVSk39i8RxgjKOjt2rI72ADpn+4YgeYRbzSdtMc/xp1U8KywORzfXcEzI0hIZdjE5w
-         vMsXg7CGt9q8WsSq74635XeGNbCSwZAcpUo5M+2puR9vyUw8GDsDFdTtS3RUaSeboNzr
-         YjkyOPHk6GCj5vDbPZ2++IGOdQuEShg/4olBz4xIV0MOhBRvrmEqgse+7MixtJ60nm2I
-         xdiNHm+PA9bzwDNKdFj6vUHHOOjWEqqjdnbAd4vSKsy9ipKIgmGWqaqJHs4DI3Qsg4gX
-         IhQQ==
-X-Gm-Message-State: AOJu0YxauOYDwoe9gaTD5ce373yScv/fpKTlvhuIvipc1IKpzDJFnVH5
-	+lAPsPVoPMLLM2qK8ZEvChJQ32M6yUBZlLrBfVTNLHLnwDziNjPJBBHFQBKSy6lFlVsSJqrA9Rc
-	CskOIbOfZ2mfCvxI71wcH6OwNDPQ+8jo=
-X-Gm-Gg: ASbGnct9GrGVdWb011e4ghoCrQWxdaUk3hJmRa3Jok0adFkrVFIoiOa5s+h0Hhtf/LS
-	JGxmZwu4kD8bj2Ioq8xt+0qmjFEAbQfUGqJLJjUgjZrK9H8SRa+C9QID+aGvPAOwL0ixGtxTk28
-	5PqvSuCZpD2S3I+bGM2nRXtLXoReK4I3S/AUT8a4knbsHLSKbAeh9EP5mpB/HsUjburhhDkFYYP
-	zBhokfwOwQEZo5q0Co0fc7wNekMkwa63Txat4OiVRdcxMUBcKycEu+++UQHdBuITytw6NuHG9c/
-	NuY3krA71vc5HoxDkbxyQ8QQYpQYUE4OYy95bBuzUu0MFax5p4bS+9smn14yYPV9JEY=
-X-Google-Smtp-Source: AGHT+IEWqpydwi5jSKD99taQoTWn7ZrhfKxXlDeTSi5JaM62slDrXp1HafcxCQOyYlOj1Wjjx1eT5Y0n5xYjqatOM6w=
-X-Received: by 2002:a05:690e:4194:b0:5fc:229:51c9 with SMTP id
- 956f58d0204a3-601756acdb8mr5856986d50.5.1757093402230; Fri, 05 Sep 2025
- 10:30:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757095065; x=1757699865;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mImSFi78CayeEcjPoeXBJoGnI1x4UoERdoeY7bd06SM=;
+        b=lEw6W8+SlMvsORGyv0xh+m9DagpUprGjdC+5zpPEOjpZnObc4UoQp0nrRoRltCG3uZ
+         QqqQKo/sQiNnK4pRGJ1bWwnD+KAe6vYbE0TBDmlP3lYMaiFrFwyClYoHkBKKDmQAZve6
+         KGEVzo4lHk+phgrn0o/1Pd6A4RP9cnDWHasoAUXmOqtJOBkHZFyTmBK6z8zrywfXUV6v
+         blww03tmqOBj1UCoRUWrYAHAF4ZiUg4Bhp9ylZ+VQiewCou7O7uiJynvXXq0gloz2FgW
+         CoUXkncV+RoE2JCTxZx2+7UZ30dND9VAk9S4nBEpeooVeX0WXkHMzE0oWStT1hK6FGvp
+         ck/Q==
+X-Gm-Message-State: AOJu0YzivWw/sKziGeHPn4chE7ufvL44SOFktedN7H3GTarAV7X9pmjl
+	OSNo+J1xzb9EmObzmZsX3vC342ZiKrRbGWyMdeHa2ky0Eoe+qAvr5/w7
+X-Gm-Gg: ASbGncv30WZzWv5u06FrCpU/GBbwI6Jz/vYizKpKqzMcATKDPXP77ALzI9H90zYwZ4E
+	Ca1c/b2CmfpO6uEDOCM+ijuMLrMJPHjgNXxxjxGtt69H8UPJN6aSXKDwvRlVkwKF8TL+/zpxs8e
+	TwZd+/KK2hz4CeXRYGQtzwtLh9zg/pdJs/YmMkb2M8VoEFNAZTKxkr9iGCI9NMRV1MIEEQfRLVr
+	C5mYgXeCRC+OnW/UBGNswEQeo6xmBml314onp7IO4Bh+CUTTdWcDkZz/6LYM8bWFIX1K+MRy9k9
+	/sjyHtW9DbHiHIVeCaoCikdELkHOcGXjjFRbpkB3ASc/TQWYjnCf3Klpt5fPn1K3Js/dFJxzgFH
+	uGIDvK9HgpwdHiMLAcSgMvJZWvYpzJzBVv7KikoP18A==
+X-Google-Smtp-Source: AGHT+IG7nNKlU3/nBgJTGg2+UwTUnGJELfSMdew/Y5AmQ+N8MGxcdb71lDoEIyr8gE4tW46VuUuQCA==
+X-Received: by 2002:a17:907:96a6:b0:b04:8d6c:5066 with SMTP id a640c23a62f3a-b048d6c51b9mr572628466b.3.1757095064161;
+        Fri, 05 Sep 2025 10:57:44 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b041770913fsm1438538666b.107.2025.09.05.10.57.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Sep 2025 10:57:43 -0700 (PDT)
+Message-ID: <a0cba900-2a9c-42fd-bdbf-f5ccd05cd78e@gmail.com>
+Date: Fri, 5 Sep 2025 19:57:43 +0200
 MIME-Version: 1.0
-References: <20250905110845.3139349-1-ross.burton@arm.com>
-In-Reply-To: <20250905110845.3139349-1-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 5 Sep 2025 10:29:35 -0700
-X-Gm-Features: Ac12FXxXJbDTWE0UkVJEiKlD19mEUEK1R-C72hUzQwmo6XoODYC-Od4LKk0GqTw
-Message-ID: <CAMKF1spNYnEkpVEDM4W=tZRgVTU3Yh4Z4QmwD6+ChZJEvcLecw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] spirv-llvm-translator: small recipe cleanup
-To: ross.burton@arm.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] pinentry: upgrade 1.3.1 -> 1.3.2
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20250903190217.1425062-1-skandigraun@gmail.com>
+ <15BBC8BE-6C11-4C99-A9F9-C20D2C6FB6F1@arm.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <15BBC8BE-6C11-4C99-A9F9-C20D2C6FB6F1@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 17:30:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223033
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 17:57:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223034
 
-what is the effect of
+On 9/4/25 21:01, Ross Burton wrote:
+> Thanks Gyorgy, looks good.
+>
+> You _should_ also be able to drop the libassuan patch, as our recipe for libassuan patches its own .m4 file and that _should_ override the one in the recipe.
 
--    -DCMAKE_POSITION_INDEPENDENT_CODE=3DON \
--    -DCMAKE_SKIP_RPATH=3DON \
+Alright, will take a peek at it.
 
-On Fri, Sep 5, 2025 at 4:08=E2=80=AFAM Ross Burton via lists.openembedded.o=
-rg
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
 >
-> - There is no need for python3native, as this recipe doesn't depend on
->   other python modules.
+> Then again, autoconf is a pain at times, so…
 >
-> - Inherit lib_package so the llvm-spirv binary is in a separate package
->   to the libLLVMSPIRVLib.so library.
+> Ross
 >
-> - Remove obsolete CMake options that no longer appear to be required.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  .../spir/spirv-llvm-translator_20.1.4.bb               | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
->
-> diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb b=
-/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> index 64a73ce55aa..3a090b7b5cb 100644
-> --- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> +++ b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
-> @@ -15,18 +15,10 @@ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+=
-)"
->
->  DEPENDS =3D "llvm spirv-tools spirv-headers"
->
-> -inherit cmake pkgconfig python3native
-> +inherit cmake pkgconfig lib_package
->
-> -# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
-> -# for CMAKE_SHARED_LIBS=3DOFF see https://github.com/KhronosGroup/SPIRV-=
-LLVM-Translator/issues/1868
->  EXTRA_OECMAKE =3D "\
->      -DBUILD_SHARED_LIBS=3DON \
-> -    -DCMAKE_BUILD_TYPE=3DRelease \
-> -    -DCMAKE_POSITION_INDEPENDENT_CODE=3DON \
-> -    -DCMAKE_SKIP_RPATH=3DON \
-> -    -DLLVM_EXTERNAL_LIT=3Dlit \
-> -    -DLLVM_INCLUDE_TESTS=3DON \
-> -    -Wno-dev \
->      -DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=3D${STAGING_INCDIR}/.. \
->  "
->
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#222992): https://lists.openembedded.org/g/openembedde=
-d-core/message/222992
-> Mute This Topic: https://lists.openembedded.org/mt/115080036/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+>> On 3 Sep 2025, at 20:02, Gyorgy Sarvari <skandigraun@gmail.com> wrote:
+>>
+>> Shortlog:
+>>
+>> -qt: Replace icons for dark mode with 16x16 icons
+>> -qt,qt5: Ensure that input field is large enough for generated password
+>> -qt5: Add dark mode icon variants and detection
+>> -Make Show/Hide Password functionality accessible
+>> -qt5: Make Show/Hide Password functionality accessible
+>> -m4: Update libassuan.m4.
+>> -build: Remove defining GPG_ERR_ENABLE_ERRNO_MACROS.
+>> -build: Fix warning about obsolete pinentry-emacs.
+>> -curses: Factor out dialog release to separate function.
+>> -qt: Add dark mode icon variants and detection
+>> -m4: Update gpg-error.m4 and libassuan.m4.
+>>
+>> Also: Simplify patch to find gpg-error with pkg-config
+>>
+>> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+>> Cc: Ross Burton <ross.burton@arm.com>
+>> ---
+>>
+>> v3: simplify gpg-error_pkconf.patch
+>> v2: adapt selftest to the new version number
+>>
+>> meta/lib/oeqa/selftest/cases/oescripts.py     |   2 +-
+>> .../pinentry-1.3.1/gpg-error_pkconf.patch     | 224 ------------------
+>> .../0001-find-gpg-error-with-pkg-config.patch |  40 ++++
+>> .../libassuan_pkgconf.patch                   |  30 +--
+>> .../{pinentry_1.3.1.bb => pinentry_1.3.2.bb}  |   4 +-
+>> 5 files changed, 54 insertions(+), 246 deletions(-)
+>> delete mode 100644 meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch
+>> create mode 100644 meta/recipes-support/pinentry/pinentry/0001-find-gpg-error-with-pkg-config.patch
+>> rename meta/recipes-support/pinentry/{pinentry-1.3.1 => pinentry}/libassuan_pkgconf.patch (87%)
+>> rename meta/recipes-support/pinentry/{pinentry_1.3.1.bb => pinentry_1.3.2.bb} (89%)
+>>
+>> diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
+>> index 3f9899b289..64fb3f1a1d 100644
+>> --- a/meta/lib/oeqa/selftest/cases/oescripts.py
+>> +++ b/meta/lib/oeqa/selftest/cases/oescripts.py
+>> @@ -151,7 +151,7 @@ class OEListPackageconfigTests(OESelftestTestCase):
+>>     def test_packageconfig_flags_option_all(self):
+>>         results = runCmd('%s/contrib/list-packageconfig-flags.py -a' % self.scripts_dir)
+>>         expected_endlines = []
+>> -        expected_endlines.append("pinentry-1.3.1")
+>> +        expected_endlines.append("pinentry-1.3.2")
+>>         expected_endlines.append("PACKAGECONFIG ncurses")
+>>         expected_endlines.append("PACKAGECONFIG[qt] --enable-pinentry-qt, --disable-pinentry-qt, qtbase-native qtbase")
+>>         expected_endlines.append("PACKAGECONFIG[gtk2] --enable-pinentry-gtk2, --disable-pinentry-gtk2, gtk+ glib-2.0")
+>> diff --git a/meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch b/meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch
+>> deleted file mode 100644
+>> index 863ba9e34b..0000000000
+>> --- a/meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch
+>> +++ /dev/null
+>> @@ -1,224 +0,0 @@
+>> -From ccc3c6a8d469bbfa6717b970cfe70816c1fd545e Mon Sep 17 00:00:00 2001
+>> -From: Armin Kuster <akuster@mvista.com>
+>> -Date: Fri, 2 Sep 2005 11:50:01 +0000
+>> -Subject: [PATCH] Add gtk+, avahi, dbus-0.34 (.36 coming soon) and
+>> -
+>> -Convert to pkg-config support to match changes done to
+>> -the gpg-error recipe for gpg-error.pc  generation.
+>> -
+>> -Upstream-Status: Inappropriate [OE specific]
+>> -
+>> -Signed-off-by: Armin Kuster <akuster@mvista.com>
+>> ----
+>> - m4/gpg-error.m4 | 184 ++----------------------------------------------
+>> - 1 file changed, 5 insertions(+), 179 deletions(-)
+>> -
+>> -diff --git a/m4/gpg-error.m4 b/m4/gpg-error.m4
+>> -index 7fa52b1..c0784ed 100644
+>> ---- a/m4/gpg-error.m4
+>> -+++ b/m4/gpg-error.m4
+>> -@@ -15,188 +15,18 @@
+>> - dnl
+>> - dnl Find gpg-error-config, for backward compatibility
+>> - dnl
+>> --dnl _AM_PATH_POSSIBLE_GPG_ERROR_CONFIG
+>> --AC_DEFUN([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG],[dnl
+>> --  gpg_error_config_prefix=""
+>> --  dnl --with-libgpg-error-prefix=PFX is the preferred name for this option,
+>> --  dnl since that is consistent with how our three siblings use the directory/
+>> --  dnl package name in --with-$dir_name-prefix=PFX.
+>> --  AC_ARG_WITH(libgpg-error-prefix,
+>> --              AS_HELP_STRING([--with-libgpg-error-prefix=PFX],
+>> --                             [prefix where GPG Error is installed (optional)]),
+>> --              [gpg_error_config_prefix="$withval"])
+>> --
+>> --  dnl Accept --with-gpg-error-prefix and make it work the same as
+>> --  dnl --with-libgpg-error-prefix above, for backwards compatibility,
+>> --  dnl but do not document this old, inconsistently-named option.
+>> --  AC_ARG_WITH(gpg-error-prefix,,
+>> --              [gpg_error_config_prefix="$withval"])
+>> --
+>> --  if test x"${GPG_ERROR_CONFIG}" = x ; then
+>> --     if test x"${gpg_error_config_prefix}" != x ; then
+>> --        GPG_ERROR_CONFIG="${gpg_error_config_prefix}/bin/gpg-error-config"
+>> --     else
+>> --       case "${SYSROOT}" in
+>> --         /*)
+>> --           if test -x "${SYSROOT}/bin/gpg-error-config" ; then
+>> --             GPG_ERROR_CONFIG="${SYSROOT}/bin/gpg-error-config"
+>> --           fi
+>> --           ;;
+>> --         '')
+>> --           ;;
+>> --          *)
+>> --           AC_MSG_WARN([Ignoring \$SYSROOT as it is not an absolute path.])
+>> --           ;;
+>> --       esac
+>> --     fi
+>> --  fi
+>> --
+>> --  AC_PATH_PROG(GPG_ERROR_CONFIG, gpg-error-config, no)
+>> --])
+>> --
+>> --dnl
+>> --dnl Find gpgrt-config, which uses .pc file
+>> --dnl (minimum pkg-config functionality, supporting cross build)
+>> --dnl
+>> --dnl _AM_PATH_GPGRT_CONFIG
+>> --AC_DEFUN([_AM_PATH_GPGRT_CONFIG],[dnl
+>> --  AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no, [$prefix/bin:$PATH])
+>> --  if test "$GPGRT_CONFIG" != "no"; then
+>> --    # Determine gpgrt_libdir
+>> --    #
+>> --    # Get the prefix of gpgrt-config assuming it's something like:
+>> --    #   <PREFIX>/bin/gpgrt-config
+>> --    gpgrt_prefix=${GPGRT_CONFIG%/*/*}
+>> --    possible_libdir1=${gpgrt_prefix}/lib
+>> --    # Determine by using system libdir-format with CC, it's like:
+>> --    #   Normal style: /usr/lib
+>> --    #   GNU cross style: /usr/<triplet>/lib
+>> --    #   Debian style: /usr/lib/<multiarch-name>
+>> --    #   Fedora/openSUSE style: /usr/lib, /usr/lib32 or /usr/lib64
+>> --    # It is assumed that CC is specified to the one of host on cross build.
+>> --    if libdir_candidates=$(${CC:-cc} -print-search-dirs | \
+>> --          sed -n -e "/^libraries/{s/libraries: =//;s/:/\\
+>> --/g;p;}"); then
+>> --      # From the output of -print-search-dirs, select valid pkgconfig dirs.
+>> --      libdir_candidates=$(for dir in $libdir_candidates; do
+>> --        if p=$(cd $dir 2>/dev/null && pwd); then
+>> --          test -d "$p/pkgconfig" && echo $p;
+>> --        fi
+>> --      done)
+>> --
+>> --      for possible_libdir0 in $libdir_candidates; do
+>> --        # possible_libdir0:
+>> --        #   Fallback candidate, the one of system-installed (by $CC)
+>> --        #   (/usr/<triplet>/lib, /usr/lib/<multiarch-name> or /usr/lib32)
+>> --        # possible_libdir1:
+>> --        #   Another candidate, user-locally-installed
+>> --        #   (<gpgrt_prefix>/lib)
+>> --        # possible_libdir2
+>> --        #   Most preferred
+>> --        #   (<gpgrt_prefix>/<triplet>/lib,
+>> --        #    <gpgrt_prefix>/lib/<multiarch-name> or <gpgrt_prefix>/lib32)
+>> --        if test "${possible_libdir0##*/}" = "lib"; then
+>> --          possible_prefix0=${possible_libdir0%/lib}
+>> --          possible_prefix0_triplet=${possible_prefix0##*/}
+>> --          if test -z "$possible_prefix0_triplet"; then
+>> --            continue
+>> --          fi
+>> --          possible_libdir2=${gpgrt_prefix}/$possible_prefix0_triplet/lib
+>> --        else
+>> --          possible_prefix0=${possible_libdir0%%/lib*}
+>> --          possible_libdir2=${gpgrt_prefix}${possible_libdir0#$possible_prefix0}
+>> --        fi
+>> --        if test -f ${possible_libdir2}/pkgconfig/gpg-error.pc; then
+>> --          gpgrt_libdir=${possible_libdir2}
+>> --        elif test -f ${possible_libdir1}/pkgconfig/gpg-error.pc; then
+>> --          gpgrt_libdir=${possible_libdir1}
+>> --        elif test -f ${possible_libdir0}/pkgconfig/gpg-error.pc; then
+>> --          gpgrt_libdir=${possible_libdir0}
+>> --        fi
+>> --        if test -n "$gpgrt_libdir"; then break; fi
+>> --      done
+>> --    fi
+>> --    if test -z "$gpgrt_libdir"; then
+>> --      # No valid pkgconfig dir in any of the system directories, fallback
+>> --      gpgrt_libdir=${possible_libdir1}
+>> --    fi
+>> --  else
+>> --    unset GPGRT_CONFIG
+>> --  fi
+>> --
+>> --  if test -n "$gpgrt_libdir"; then
+>> --    GPGRT_CONFIG="$GPGRT_CONFIG --libdir=$gpgrt_libdir"
+>> --    if $GPGRT_CONFIG gpg-error >/dev/null 2>&1; then
+>> --      GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
+>> --      AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
+>> --      gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
+>> --    else
+>> --      gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
+>> --      unset GPGRT_CONFIG
+>> --    fi
+>> --  elif test "$GPG_ERROR_CONFIG" != "no"; then
+>> --    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
+>> --    unset GPGRT_CONFIG
+>> --  fi
+>> --])
+>> --
+>> --dnl AM_PATH_GPG_ERROR([MINIMUM-VERSION,
+>> --dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
+>> --dnl
+>> --dnl Test for libgpg-error and define GPG_ERROR_CFLAGS, GPG_ERROR_LIBS,
+>> --dnl GPG_ERROR_MT_CFLAGS, and GPG_ERROR_MT_LIBS.  The _MT_ variants are
+>> --dnl used for programs requireing real multi thread support.
+>> --dnl
+>> - dnl If a prefix option is not used, the config script is first
+>> - dnl searched in $SYSROOT/bin and then along $PATH.  If the used
+>> - dnl config script does not match the host specification the script
+>> - dnl is added to the gpg_config_script_warn variable.
+>> - dnl
+>> --AC_DEFUN([AM_PATH_GPG_ERROR],[dnl
+>> --AC_REQUIRE([AC_CANONICAL_HOST])dnl
+>> --AC_REQUIRE([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG])dnl
+>> --AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
+>> --  min_gpg_error_version=ifelse([$1], ,1.33,$1)
+>> --  ok=no
+>> --  if test "$GPG_ERROR_CONFIG" != "no"; then
+>> --    req_major=`echo $min_gpg_error_version | \
+>> --               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)/\1/'`
+>> --    req_minor=`echo $min_gpg_error_version | \
+>> --               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)/\2/'`
+>> --    major=`echo $gpg_error_config_version | \
+>> --               sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\1/'`
+>> --    minor=`echo $gpg_error_config_version | \
+>> --               sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\2/'`
+>> --    if test "$major" -gt "$req_major"; then
+>> --        ok=yes
+>> --    else
+>> --        if test "$major" -eq "$req_major"; then
+>> --            if test "$minor" -ge "$req_minor"; then
+>> --               ok=yes
+>> --            fi
+>> --        fi
+>> --    fi
+>> --  fi
+>> --  AC_MSG_CHECKING(for GPG Error - version >= $min_gpg_error_version)
+>> -+AC_DEFUN([AM_PATH_GPG_ERROR],
+>> -+[
+>> -+  min_gpg_error_version=ifelse([$1], ,0.0,$1)
+>> -+  PKG_CHECK_MODULES(GPG_ERROR, [gpg-error >= $min_gpg_error_version gpg-error], [ok=yes], [ok=no])
+>> -   if test $ok = yes; then
+>> --    GPG_ERROR_CFLAGS=`$GPG_ERROR_CONFIG --cflags`
+>> --    GPG_ERROR_LIBS=`$GPG_ERROR_CONFIG --libs`
+>> --    if test -z "$GPGRT_CONFIG"; then
+>> --      GPG_ERROR_MT_CFLAGS=`$GPG_ERROR_CONFIG --mt --cflags 2>/dev/null`
+>> --      GPG_ERROR_MT_LIBS=`$GPG_ERROR_CONFIG --mt --libs 2>/dev/null`
+>> --    else
+>> --      GPG_ERROR_MT_CFLAGS=`$GPG_ERROR_CONFIG --variable=mtcflags 2>/dev/null`
+>> --      GPG_ERROR_MT_CFLAGS="$GPG_ERROR_CFLAGS${GPG_ERROR_CFLAGS:+ }$GPG_ERROR_MT_CFLAGS"
+>> --      GPG_ERROR_MT_LIBS=`$GPG_ERROR_CONFIG --variable=mtlibs 2>/dev/null`
+>> --      GPG_ERROR_MT_LIBS="$GPG_ERROR_LIBS${GPG_ERROR_LIBS:+ }$GPG_ERROR_MT_LIBS"
+>> --    fi
+>> --    AC_MSG_RESULT([yes ($gpg_error_config_version)])
+>> -     ifelse([$2], , :, [$2])
+>> --    if test -z "$GPGRT_CONFIG"; then
+>> --      gpg_error_config_host=`$GPG_ERROR_CONFIG --host 2>/dev/null || echo none`
+>> --    else
+>> --      gpg_error_config_host=`$GPG_ERROR_CONFIG --variable=host 2>/dev/null || echo none`
+>> --    fi
+>> -+    gpg_error_config_host=`$PKG_CONFIG --host gpg-error 2>/dev/null || echo none`
+>> -     if test x"$gpg_error_config_host" != xnone ; then
+>> -       if test x"$gpg_error_config_host" != x"$host" ; then
+>> -   AC_MSG_WARN([[
+>> -@@ -211,10 +41,6 @@ AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
+>> -       fi
+>> -     fi
+>> -   else
+>> --    GPG_ERROR_CFLAGS=""
+>> --    GPG_ERROR_LIBS=""
+>> --    GPG_ERROR_MT_CFLAGS=""
+>> --    GPG_ERROR_MT_LIBS=""
+>> -     AC_MSG_RESULT(no)
+>> -     ifelse([$3], , :, [$3])
+>> -   fi
+>> diff --git a/meta/recipes-support/pinentry/pinentry/0001-find-gpg-error-with-pkg-config.patch b/meta/recipes-support/pinentry/pinentry/0001-find-gpg-error-with-pkg-config.patch
+>> new file mode 100644
+>> index 0000000000..54c82350a2
+>> --- /dev/null
+>> +++ b/meta/recipes-support/pinentry/pinentry/0001-find-gpg-error-with-pkg-config.patch
+>> @@ -0,0 +1,40 @@
+>> +From 2e90424eb1518083133a79f2737152c83289bc99 Mon Sep 17 00:00:00 2001
+>> +From: Gyorgy Sarvari <skandigraun@gmail.com>
+>> +Date: Wed, 3 Sep 2025 20:24:01 +0200
+>> +Subject: [PATCH] find gpg-error with pkg-config
+>> +
+>> +This patch is a simplification of a previous patch, which
+>> +added support to find gpg-error with pkg-config, adapted
+>> +to the changes that are made to the gpg-error .pc file
+>> +in its recipe.
+>> +
+>> +Instead of using upstream's custom solution from
+>> +m4/gpg-error.m4 file, use just the standard pkg-config macro
+>> +to see if gpg-error is present.
+>> +
+>> +This patch hasn't been submitted for upstream, due to their
+>> +historical reluctance to accept such patches.[1]
+>> +
+>> +[1]: https://lists.gnupg.org/pipermail/gnupg-devel/2018-October/033985.html (whole thread)
+>> +
+>> +Upstream-Status: Inappropriate [OE specific]
+>> +
+>> +Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+>> +---
+>> + configure.ac | 3 +--
+>> + 1 file changed, 1 insertion(+), 2 deletions(-)
+>> +
+>> +diff --git a/configure.ac b/configure.ac
+>> +index ec46162..2b2e16d 100644
+>> +--- a/configure.ac
+>> ++++ b/configure.ac
+>> +@@ -238,8 +238,7 @@ dnl Checks for libgpg-error
+>> + NEED_GPG_ERROR_VERSION=1.16
+>> + have_gpg_error=no
+>> + 
+>> +-AM_PATH_GPG_ERROR("$NEED_GPG_ERROR_VERSION",
+>> +-                  have_gpg_error=yes,have_gpg_error=no)
+>> ++PKG_CHECK_MODULES([GPG_ERROR], [gpg-error >= $NEED_GPG_ERROR_VERSION], [have_gpg_error=yes], [have_gpg_error=no])
+>> + COMMON_CFLAGS="$GPG_ERROR_CFLAGS $COMMON_CFLAGS"
+>> + COMMON_LIBS="$GPG_ERROR_LIBS $COMMON_LIBS"
+>> + 
+>> diff --git a/meta/recipes-support/pinentry/pinentry-1.3.1/libassuan_pkgconf.patch b/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
+>> similarity index 87%
+>> rename from meta/recipes-support/pinentry/pinentry-1.3.1/libassuan_pkgconf.patch
+>> rename to meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
+>> index f2d50010c5..fbd370d9fd 100644
+>> --- a/meta/recipes-support/pinentry/pinentry-1.3.1/libassuan_pkgconf.patch
+>> +++ b/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
+>> @@ -18,7 +18,7 @@ diff --git a/configure.ac b/configure.ac
+>> index 4944f7c..f03cbb7 100644
+>> --- a/configure.ac
+>> +++ b/configure.ac
+>> -@@ -264,8 +264,8 @@ if test "$have_libassuan" = "yes"; then
+>> +@@ -261,8 +261,8 @@ if test "$have_libassuan" = "yes"; then
+>>                       [version of the libassuan library])
+>>  fi
+>>
+>> @@ -33,12 +33,13 @@ diff --git a/m4/libassuan.m4 b/m4/libassuan.m4
+>> index a2eb5d9..897f407 100644
+>> --- a/m4/libassuan.m4
+>> +++ b/m4/libassuan.m4
+>> -@@ -15,30 +15,8 @@ dnl
+>> +@@ -100,31 +100,8 @@ dnl
+>>  dnl Common code used for libassuan detection [internal]
+>>  dnl Returns ok set to yes or no.
+>>  dnl
+>> -AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+>> --[ AC_REQUIRE([AC_CANONICAL_HOST])
+>> +-[ AC_REQUIRE([AC_CANONICAL_HOST])dnl
+>> +-  AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
+>> -  AC_ARG_WITH(libassuan-prefix,
+>> -              AS_HELP_STRING([--with-libassuan-prefix=PFX],
+>> -                             [prefix where LIBASSUAN is installed (optional)]),
+>> @@ -66,7 +67,7 @@ index a2eb5d9..897f407 100644
+>>    tmp=ifelse([$1], ,1:0.9.2,$1)
+>>    if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
+>>      req_libassuan_api=`echo "$tmp"     | sed 's/\(.*\):\(.*\)/\1/'`
+>> -@@ -48,59 +26,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+>> +@@ -134,59 +111,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+>>      min_libassuan_version="$tmp"
+>>    fi
+>>
+>> @@ -111,7 +112,7 @@ index a2eb5d9..897f407 100644
+>> -
+>> -  if test $ok = yes; then
+>> -    AC_MSG_RESULT([yes ($libassuan_config_version)])
+>> --    AC_DEFINE(LIBASSUAN_API_REQUESTED, $req_libassuan_api, Requested API version for libassuan)
+>> +-    AC_DEFINE_UNQUOTED(LIBASSUAN_API_REQUESTED, $req_libassuan_api, [Requested API version for libassuan])
+>> -  else
+>> -    AC_MSG_RESULT(no)
+>> -  fi
+>> @@ -128,7 +129,7 @@ index a2eb5d9..897f407 100644
+>>        if test "$tmp" -gt 0 ; then
+>>          AC_MSG_CHECKING([LIBASSUAN API version])
+>>          if test "$req_libassuan_api" -eq "$tmp" ; then
+>> -@@ -117,11 +47,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+>> +@@ -203,11 +132,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+>>
+>>    if test $ok = yes; then
+>>      if test x"$host" != x ; then
+>> @@ -141,7 +142,7 @@ index a2eb5d9..897f407 100644
+>>        if test x"$libassuan_config_host" != xnone ; then
+>>          if test x"$libassuan_config_host" != x"$host" ; then
+>>    AC_MSG_WARN([[
+>> -@@ -144,7 +70,7 @@ dnl Test whether libassuan has at least MINIMUM-VERSION. This is
+>> +@@ -230,7 +155,7 @@ dnl Test whether libassuan has at least MINIMUM-VERSION. This is
+>>  dnl used to test for features only available in newer versions.
+>>  dnl
+>>  AC_DEFUN([AM_CHECK_LIBASSUAN],
+>> @@ -150,21 +151,12 @@ index a2eb5d9..897f407 100644
+>>    if test $ok = yes; then
+>>      ifelse([$2], , :, [$2])
+>>    else
+>> -@@ -160,16 +86,10 @@ dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
+>> +@@ -246,7 +171,7 @@ dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
+>>  dnl Test for libassuan and define LIBASSUAN_CFLAGS and LIBASSUAN_LIBS
+>>  dnl
+>>  AC_DEFUN([AM_PATH_LIBASSUAN],
+>> -[ _AM_PATH_LIBASSUAN_COMMON($1)
+>> +[ AM_PATH_LIBASSUAN_COMMON($1)
+>>    if test $ok = yes; then
+>> --    LIBASSUAN_CFLAGS=`$LIBASSUAN_CONFIG --cflags`
+>> --    LIBASSUAN_LIBS=`$LIBASSUAN_CONFIG --libs`
+>> -     ifelse([$2], , :, [$2])
+>> -   else
+>> --    LIBASSUAN_CFLAGS=""
+>> --    LIBASSUAN_LIBS=""
+>> -     ifelse([$3], , :, [$3])
+>> -   fi
+>> --  AC_SUBST(LIBASSUAN_CFLAGS)
+>> --  AC_SUBST(LIBASSUAN_LIBS)
+>> - ])
+>> +     LIBASSUAN_CFLAGS=`$LIBASSUAN_CONFIG --cflags`
+>> +     LIBASSUAN_LIBS=`$LIBASSUAN_CONFIG --libs`
+>> diff --git a/meta/recipes-support/pinentry/pinentry_1.3.1.bb b/meta/recipes-support/pinentry/pinentry_1.3.2.bb
+>> similarity index 89%
+>> rename from meta/recipes-support/pinentry/pinentry_1.3.1.bb
+>> rename to meta/recipes-support/pinentry/pinentry_1.3.2.bb
+>> index 0fc652cdba..a5c8d2258a 100644
+>> --- a/meta/recipes-support/pinentry/pinentry_1.3.1.bb
+>> +++ b/meta/recipes-support/pinentry/pinentry_1.3.2.bb
+>> @@ -13,10 +13,10 @@ DEPENDS = "gettext-native libassuan libgpg-error"
+>> UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+>> SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+>>            file://libassuan_pkgconf.patch \
+>> -           file://gpg-error_pkconf.patch \
+>> +           file://0001-find-gpg-error-with-pkg-config.patch \
+>> "
+>>
+>> -SRC_URI[sha256sum] = "bc72ee27c7239007ab1896c3c2fae53b076e2c9bd2483dc2769a16902bce8c04"
+>> +SRC_URI[sha256sum] = "8e986ed88561b4da6e9efe0c54fa4ca8923035c99264df0b0464497c5fb94e9e"
+>>
+>> inherit autotools pkgconfig
+>>
+
 
