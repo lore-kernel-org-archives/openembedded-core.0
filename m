@@ -1,109 +1,100 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B00CA1012
-	for <webhook@archiver.kernel.org>; Sat,  6 Sep 2025 07:09:37 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.web10.2856.1757142570079668651
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35926CA1012
+	for <webhook@archiver.kernel.org>; Sat,  6 Sep 2025 13:03:39 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.557.1757095776428449081
  for <openembedded-core@lists.openembedded.org>;
- Sat, 06 Sep 2025 00:09:31 -0700
+ Fri, 05 Sep 2025 11:09:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=TeMnJEeG;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E10021A0DD7;
-	Sat,  6 Sep 2025 07:09:27 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B6EEE606A1;
-	Sat,  6 Sep 2025 07:09:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C61A1102F1C26;
-	Sat,  6 Sep 2025 09:09:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757142567; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=N6YLVwOaTpkUujmYVokMQ+1Qt6ULYHFyrZ4I9CzJ9cg=;
-	b=TeMnJEeG1hAHtvsIJo6Hw9h6B+G8w6aHOXtrwJ3j79QkpJD9ju/1ppld77TRXJ4YBQ+JLq
-	oUD4xYV5l+gqs9lYlNW3bTjWyZZ3gkdeER4gZDgtnlVdzoZJV/flFbzxP3RsGw6pbCNowp
-	kz8TGVRgxMebVjmKHQXop9EH72DB9VScF+cWQO9jOpOD0/A1a4AcsQMJBHmw+VoMeGM7rD
-	PGZisODq5qw0UCHdUT33hfT6wb7CfAKeMcrDwjTc7cOEEvvfWe/LbyJR8c1qw4NNFJwrUU
-	+y7g3sz9P7+ap0HbpCXFFa0TZxRL2GVrvZBiiB/mqSKF83Up+7CaCCghFFGnAw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 06 Sep 2025 09:09:20 +0200
-Message-Id: <DCLJ1WDNAFOK.25OLNFTSU7E1J@bootlin.com>
-Subject: Re: [OE-core] [PATCH 4/5] linux-yocto/6.12: update to v6.12.44
-Cc: <openembedded-core@lists.openembedded.org>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <bruce.ashfield@gmail.com>, <richard.purdie@linuxfoundation.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <cover.1757088383.git.bruce.ashfield@gmail.com>
- <49711da41bc89be1bd5001b4e1398e6c88f10438.1757088383.git.bruce.ashfield@gmail.com>
-In-Reply-To: <49711da41bc89be1bd5001b4e1398e6c88f10438.1757088383.git.bruce.ashfield@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lD+qHDkr;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: rmmuniz@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4b48eabaef3so27603351cf.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 11:09:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757095775; x=1757700575; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sPYtidlTrQT1VkdbZHVNSL0vh6JBxus5SCwXNeVJw3A=;
+        b=lD+qHDkrgKKMAbieu9wBy5eDJznYaiU+0fJwk0/KeNz7k3zix+PHrmoAaUxCCy8y4F
+         FlC0pAQJjlTChoXk8yb2x0fAyPSNCrvmfVkYbxb8qNX15dafqWCThM8BQ4ahaJ9LWEx9
+         spG6KdUwxXNSQ6PTSdrOlW6dO7P8Fw8p6ZwOA7Vm+yYuqgob0pYjeWdH5qebxuAD0tNt
+         UepLSF8LOXD+JNp7ytOdq3XnjN0G5Tb4rUVbzvVMn1LJTlqjqdL1gX6rXB0hc1lezC8A
+         f70P/4LCAqpgbPeN9Oioxz67mE1tH5dkJXeeILXLk+0h1HaJIGThr5G1EqIvqHDabsZe
+         fFKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757095775; x=1757700575;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sPYtidlTrQT1VkdbZHVNSL0vh6JBxus5SCwXNeVJw3A=;
+        b=p6rQ1AHewtpkVP0QAuRyzgzgkpI4XSllVOBrz+8DHUk4k0th7R75KXA4V3qBeIuS4N
+         cqvVhg01NfASAwYOWLRWbPoxzHR3SXhxjxTzAQXdE4PxrukMyANWntxM59BjinUyGu2G
+         snk328HkPZ8N9GB8F4PYuEKWanRnSgP79nW8zH5A7ryGexI4FEZ02xfLrM2uw5lt9LF6
+         /5MviD1TPXyzUkQvozXqYGsZ039nfHPMAPLs27CaCvnFH/tjcTUbvrBBavnO9iKwtdeD
+         VloAWsxY+N9KxHJ7M+xOkYGAo6bY49o0bnO0YcZpMO++IGuswnV4nz49WrZbj2Vd5tQZ
+         0xGQ==
+X-Gm-Message-State: AOJu0YzIbJkhi0DS+uz3ok448xkonjVr2NVwwr2WUNH5vqJYx9ejA5Q9
+	ngle4ACvP0C60Mp/SH/to4QZEcJtDYR9wcQAvZwl8a5Z+FFJIlvLmiYwhwe3yw==
+X-Gm-Gg: ASbGncuIFhkR9L3CMVwx6gXsRujZqZWXCbLJFKWeDUZuLSuh0L4lyLweFc2dInVSH6+
+	N4Gsy5/zF/40llyFJPrV2+r3xgdwh4R58ljCILpm6G6OH2y0+eAuMFtZjaQuvlxjDn21wc0fkbv
+	dsPu3259nPCQfWlodATkEXi8CumRqc5gOXAZ1Xmai1EMWpiZ1DAHG7jjzGC6bXUKB7ybg0enZ0g
+	a1nzyKk8veCIu53x6MW662zqiNCFv84Ui5//PJ00wxRanjarbLahZkjNvqHUvU6cIOX4ycknfZE
+	L9Fl/cju4jod3t4mYUxuyZDnN2cWYARl6p2ALvTYQ63H6ZhQWdNOdWQd7h3cm/XJAyoCQT9RMjX
+	hZoHTWlOuJ04fcsH9h+bUwet0qxtIb4qgqtxvG7wAEtGUOiSDojNkyHrIyff7I2YtwNg7XviGFX
+	9YJjInEZ1m8g==
+X-Google-Smtp-Source: AGHT+IHeqd4cyqzYqx3QRzj9YBvOPSz1QTic1Jtc5xGMrZhvWn9nSZnvTQoEsQ7MnXAOmVXApEcuAA==
+X-Received: by 2002:ad4:5fce:0:b0:72d:de5a:fe98 with SMTP id 6a1803df08f44-72dde7984f5mr32614576d6.56.1757095311823;
+        Fri, 05 Sep 2025 11:01:51 -0700 (PDT)
+Received: from rmuniz-SER5.home (bras-base-qubcpq0974w-grc-17-64-228-161-9.dsl.bell.ca. [64.228.161.9])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7243de51ad4sm50816226d6.53.2025.09.05.11.01.51
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 11:01:51 -0700 (PDT)
+From: Rene Muniz <rmmuniz@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [meta-oe][walnascar][PATCH 2/3] python3-evdev: add missing uinput header
+Date: Fri,  5 Sep 2025 14:01:48 -0400
+Message-Id: <20250905180149.2497823-2-rmmuniz@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250905180149.2497823-1-rmmuniz@gmail.com>
+References: <20250905180149.2497823-1-rmmuniz@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 06 Sep 2025 07:09:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223042
+ <openembedded-core@lists.openembedded.org>; Sat, 06 Sep 2025 13:03:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223044
 
-On Fri Sep 5, 2025 at 6:09 PM CEST, Bruce Ashfield via lists.openembedded.o=
-rg wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> Updating linux-yocto/6.12 to the latest korg -stable release that compris=
-es
-> the following commits:
->
->...
->
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
->  .../linux/linux-yocto-rt_6.12.bb              |  6 ++--
->  .../linux/linux-yocto-tiny_6.12.bb            |  6 ++--
->  meta/recipes-kernel/linux/linux-yocto_6.12.bb | 28 +++++++++----------
->  3 files changed, 20 insertions(+), 20 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb b/meta/reci=
-pes-kernel/linux/linux-yocto-rt_6.12.bb
-> index 8b8a87735c..aba255dfa3 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
-> @@ -14,13 +14,13 @@ python () {
->          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel=
- to linux-yocto-rt to enable it")
->  }
-> =20
-> -SRCREV_machine ?=3D "b9c1961e3d966405a925249e8a75ddd436429286"
-> -SRCREV_meta ?=3D "ddf44e2c61ca41d03f51f460e7619488a70c6fc1"
-> +SRCREV_machine ?=3D "2f3bb461fad19a35096f049d947cc639f517e22b"
-> +SRCREV_meta ?=3D "b14d2173319779e94720b45b7be544da8a5f4026"
-> =20
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Hi Bruce,
+Without uinput.h header, the evdev module can't be imported because it
+lacks the UI_FF* constants.
 
-It looks like b14d2173319779e94720b45b7be544da8a5f4026 commit is missing
-from yocto-kernel-cache git:
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta-python/recipes-devtools/python/python3-evdev_1.9.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ERROR: linux-yocto-6.12.44+git-r0 do_fetch: Fetcher failure: Unable to find=
- revision b14d2173319779e94720b45b7be544da8a5f4026 in branch yocto-6.12 eve=
-n from upstream
-ERROR: linux-yocto-6.12.44+git-r0 do_fetch: Bitbake Fetcher Error: FetchErr=
-or('Unable to fetch URL from any source.', 'git://git.yoctoproject.org/yoct=
-o-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-6.12;destsuffix=3Dke=
-rnel-meta;protocol=3Dhttps')
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/2344
-
-Can you push it of fix the sha1?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta-python/recipes-devtools/python/python3-evdev_1.9.2.bb b/meta-python/recipes-devtools/python/python3-evdev_1.9.2.bb
+index 28c8ea4bc1..dc777cb987 100644
+--- a/meta-python/recipes-devtools/python/python3-evdev_1.9.2.bb
++++ b/meta-python/recipes-devtools/python/python3-evdev_1.9.2.bb
+@@ -12,7 +12,7 @@ do_compile:prepend() {
+ }
+ 
+ PEP517_BUILD_OPTS = "--config-setting=--build-option='build_ecodes \
+-    --evdev-headers ${STAGING_DIR_TARGET}/usr/include/linux/input.h:${STAGING_DIR_TARGET}/usr/include/linux/input-event-codes.h \
++    --evdev-headers ${STAGING_DIR_TARGET}/usr/include/linux/input.h:${STAGING_DIR_TARGET}/usr/include/linux/input-event-codes.h:${STAGING_DIR_TARGET}/usr/include/linux/uinput.h \
+     --reproducible'"
+ 
+ RDEPENDS:${PN} += "\
+-- 
+2.34.1
 
 
