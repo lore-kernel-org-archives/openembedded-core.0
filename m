@@ -1,146 +1,121 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7FADCAC582
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 16:42:24 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web11.131.1757090539117967386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4936CA0FED
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 17:12:09 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.596.1757092320040916854
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 09:42:19 -0700
+ Fri, 05 Sep 2025 10:12:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=Lz/xyR+d;
- spf=pass (domain: underview.tech, ip: 209.85.219.49, mailfrom: vince@underview.tech)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-7240eb21ccaso25616506d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 09:42:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1757090538; x=1757695338; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mjfMfBdxyLebbwDgPMPC5T4UWLf7dF4GlEqze820sYU=;
-        b=Lz/xyR+dLP/vermeT0aLvGftg+TQAQQIoQfNjv4dn9WlHOJ4zZ2HpEkBsmbXLkiRwt
-         HayobWOgbYKB7/S2I9L1ZgEoTSAkyPuCtfajs3LmzCQPguXzbxRDVh86sy+aEJLEBGW0
-         FwJ8QEnVUYufUBQZvUeEqiv01StmeoEchghzzVQvcM6i8eRrwyE1QjM7bOXIwini043x
-         +PkLWvs70pyLHJD6+jBMEt4Zgo4062PC3NepvBh0uidCpOu8Rg/8O5Tb6UIkFIficOs4
-         26M+mMlr6E8Ape/QZeNKs3LTXbv/kqsBkyOfkD+KzZayLDhSFdvnlkr0IgqcQjVGgcMW
-         0X6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757090538; x=1757695338;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mjfMfBdxyLebbwDgPMPC5T4UWLf7dF4GlEqze820sYU=;
-        b=YaXWCTz+ZEARcEnZOp1i4eWqIgmRVnLgtCTHEEmY7v4GMT/bG5AOsXKZoLId39SwT+
-         SN9OASryd7str9r0OCIkM3cMFaHEQ096dFL0H1ACBTsk1yeR9I/T6BCtPxkEEUM/I5yi
-         6x2Adfg6Ltq4XfuzFY0/xdKTESvykwgun513KID/Tv25kVWE+kdPGjpZTmqBhXVv2MwY
-         rzkWZEl/SJrninQofUIXexx8u0qN4LwtEdZG3tYL9ZaSjhblJSZkSKnlfkvcKI7cboY/
-         n4QXSu79OW3QvmTFf1rS01i5GxYFO1h77WDuczq1w/k50d0DKovtq4N24IsjQjdxqdcU
-         yIIA==
-X-Gm-Message-State: AOJu0Ywn6iq9lwkU0/bzbwR3OjvTWkIOr+7c1N2r2olKdv5KCUEMZqAX
-	3L2oRovFmhzpVW9Nz0hXFACwaG7rBp9vhjdUP/057+7ejdsMJ4mdV1+vQtcHV+0wW8f1DsQb/7M
-	DDnIW
-X-Gm-Gg: ASbGncsx0QajVwoyxo2HVMW1qMdOCpYjTrXbsOc+pefIRhgGuoV9GiD1aY50Y2XD81I
-	oSiC58fea/ZCgYyp2vKVKF8rNfplHaGF5Y9zuZQlhPaTU9J57UpBw1/jNyGhneBUztc6KZ0c8ql
-	wBPkoIR0++mX5YdMCWhHHaHUJ6NCmCn5xZzNzApQt3pQXFAenpzEfJsum7hy/A6Ts45Sit6RfIV
-	mMCUiGZUie3zRWd+E2eKFw4fKQfX+du7KhPCUk06+TYmBcVfuUAcxbzGrQEwPH3VmtXRnJLdlyX
-	35zGeZ8fwUsKL07Bf/JEn+3kwodZwZ+hyxWgjwSeLSPcA2re4GEQ3l0+9asf3jBKlDa4o1zcU/m
-	yzELdeYDDt2NErAnDNmTmdw==
-X-Google-Smtp-Source: AGHT+IG7l9+hOhfxMETSCNEzNXfV8YQXmjPi1hS5zW5qgUyt2do5kHp/0nAwILTTjTu9L0P4QKa+cw==
-X-Received: by 2002:a05:6214:f0f:b0:70d:cc9d:7ed4 with SMTP id 6a1803df08f44-72bbf402e04mr61620206d6.11.1757090537664;
-        Fri, 05 Sep 2025 09:42:17 -0700 (PDT)
-Received: from vince-server.. ([2601:406:4d01:1820::d1ea])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-727b2c047dcsm39595046d6.59.2025.09.05.09.42.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Sep 2025 09:42:17 -0700 (PDT)
-From: Vincent Davis Jr <vince@underview.tech>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=TUPIQROn;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: kamel.bouhara@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B0350443AC;
+	Fri,  5 Sep 2025 17:11:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1757092318;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ygR6LPwcyWEjnvbUWH4Ls8y2ZFe4gEcAInznL1Zr65Y=;
+	b=TUPIQROnA0yW4PFiJIwrcpP/ALf7c1Tlo7OWGLR/i73qZ0x9DyO17hoBrn+6dSYVgV5wd+
+	/t9sz5lS4NUpWygAtLFiSHuwXMSdOv2b64z4OoRmdtuoE0TKXYgt10g2MkAZ6Uj/C6q2y3
+	sW9dTqZoNyMR0HiGQM5NrCY2+Ponu78jK0Igxzi7OaPLOG8ipmc62ZP6u/1KrV6cvXbVwP
+	iIl8q0P11hvn4JjALRrKHsWvgqeDGHx22fYhbBpeJ1Nze88tuQwfR/ei4813ltmB+Pi4eK
+	i5RzlYFsiKDAmo0vJIYyuXhdrNAW+kmxJaXzP0Ucy1v9mRGg54CYn8HXQ6DKsg==
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [OE-core][PATCH v3 6/8] grub-efi: support custom embedded grub configs
-Date: Fri,  5 Sep 2025 12:41:34 -0400
-Message-ID: <20250905164136.2896809-6-vince@underview.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250905164136.2896809-1-vince@underview.tech>
-References: <20250905164136.2896809-1-vince@underview.tech>
+Cc: JPEWhacker@gmail.com,
+	thomas.petazzoni@bootlin.com,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	mathieu.dubois-briand@bootlin.com,
+	antonin.godard@bootlin.com,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: [PATCH 0/6] backport: SPDX 3.0 support to Scarthgap
+Date: Fri,  5 Sep 2025 19:11:48 +0200
+Message-ID: <20250905171154.182825-1-kamel.bouhara@bootlin.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdelgeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefmrghmvghluceuohhuhhgrrhgruceokhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepheffveduffejheeltdffheevgfefveeuledugeejvdfffffhuddutdekuddutdeinecukfhppeekkedrudeitddrvddvvddrvddvleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeekkedrudeitddrvddvvddrvddvledphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepkhgrmhgvlhdrsghouhhhrghrrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepkedprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopeflrffghghhrggtkhgvrhesghhmrghilhdrtghomhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhrtghpthhtohepm
+ hgrthhhihgvuhdrughusghoihhsqdgsrhhirghnugessghoohhtlhhinhdrtghomhdprhgtphhtthhopegrnhhtohhnihhnrdhgohgurghrugessghoohhtlhhinhdrtghomhdprhgtphhtthhopehprghstggrlhdrvggsvghrhhgrrhgusehsvgdrtghomhdprhgtphhtthhopehkrghmvghlrdgsohhuhhgrrhgrsegsohhothhlihhnrdgtohhm
+X-GND-Sasl: kamel.bouhara@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 16:42:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223022
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 17:12:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223025
 
-Commit:
+Hello,
 
-Adds support for including custom
-embedded grub configs. The default one
-provided in OE-core is limited to everything
-being in the /EFI/BOOT directory.
+This series backports SPDX 3.0 support from the upstream Walnascar
+branch to Scarthgap, along with a few additional local fixes to ensure
+correct integration.
 
-Adds an embedded grub config that sets
-root and prefix based upon the /boot/grub
-directory.
+The primary motivation for this series is to bring full SPDX 3.0 support
+to the latest Yocto Project LTS release, Scarthgap, which will continue
+to receive maintenance updates until 2028.
 
-Adds probe to the list of default builtin
-grub modules. Probe is required by the
-bootimg_pcbios wic plugin generated
-grub config.
+This ensures that long-term supported releases can benefit from the
+latest SPDX standard for license and compliance tracking.
 
-Signed-off-by: Vincent Davis Jr <vince@underview.tech>
----
- meta/recipes-bsp/grub/files/cfg-boot-grub | 3 +++
- meta/recipes-bsp/grub/grub-efi_2.12.bb    | 6 ++++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/cfg-boot-grub
+These changes are also in line with discussions at the Yocto Project
+Summit in Amsterdam, where the need for up-to-date SPDX support in LTS
+releases was highlighted.
 
-diff --git a/meta/recipes-bsp/grub/files/cfg-boot-grub b/meta/recipes-bsp/grub/files/cfg-boot-grub
-new file mode 100644
-index 0000000000..ab370479af
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/cfg-boot-grub
-@@ -0,0 +1,3 @@
-+search.file /boot/grub/grub.cfg root
-+set prefix=($root)
-+configfile ($root)/boot/grub/grub.cfg
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.12.bb b/meta/recipes-bsp/grub/grub-efi_2.12.bb
-index 6354b43989..91748c8d04 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.12.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.12.bb
-@@ -9,6 +9,7 @@ RDEPENDS:${PN} = "grub-common virtual-grub-bootconf"
- 
- SRC_URI += " \
-            file://cfg \
-+           file://cfg-boot-grub \
-           "
- 
- S = "${UNPACKDIR}/grub-${PV}"
-@@ -48,6 +49,7 @@ EXTRA_OECONF += "--enable-efiemu=no"
- 
- # Define GRUB_MKIMAGE_OPTS variable for additional grub-mkimage options (e.g., disabling shim lock)
- GRUB_MKIMAGE_OPTS ?= ""
-+EMBEDDED_GRUB_CONFIG ?= "${UNPACKDIR}/cfg"
- 
- do_mkimage() {
- 	cd ${B}
-@@ -63,7 +65,7 @@ do_mkimage() {
- 
- 	# Search for the grub.cfg on the local boot media by using the
- 	# built in cfg file provided via this recipe
--	grub-mkimage -v -c ${UNPACKDIR}/cfg -p ${EFIDIR} -d ./grub-core/ \
-+	grub-mkimage -v -c ${EMBEDDED_GRUB_CONFIG} -p ${EFIDIR} -d ./grub-core/ \
- 	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} \
- 	               ${GRUB_MKIMAGE_OPTS} ${GRUB_MKIMAGE_MODULES}
- }
-@@ -87,7 +89,7 @@ do_install() {
- 
- # To include all available modules, add 'all' to GRUB_BUILDIN
- GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal \
--                 efi_gop iso9660 configfile search loadenv test"
-+                 efi_gop iso9660 configfile search probe loadenv test"
- 
- # 'xen_boot' is a module valid only for aarch64
- GRUB_BUILDIN:append:aarch64 = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' xen_boot', '', d)}"
--- 
+The backport introduces SPDX 3.0 document support, SDK and image
+integration, and related helpers. It also brings over tasks, classes,
+and library code from upstream.
+
+Feedback is particularly welcome on:
+  - The correctness and completeness of the backport
+  - Whether the local fixes should be adjusted or further refined
+
+Greetings.
+
+Kamel
+
+Joshua Watt (4):
+  classes-global/license: Move functions to library code
+  lib/license: Move package license skip to library
+  lib: oe: license: Add missing import
+  classes-recipe/image: Add image file manifest
+
+Kamel Bouhara (Schneider Electric) (2):
+  backport: SPDX 3.0 fixes and tasks from upstream version Walnascar
+  spdx30_tasks: fix FetchData attribute in add_download_files
+
+ meta/classes-global/base.bbclass              |   41 +-
+ meta/classes-global/license.bbclass           |  165 -
+ .../create-spdx-image-3.0.bbclass             |   85 +
+ .../create-spdx-sdk-3.0.bbclass               |   74 +
+ meta/classes-recipe/image.bbclass             |   58 +
+ meta/classes-recipe/license_image.bbclass     |   14 +-
+ meta/classes-recipe/nospdx.bbclass            |   13 +
+ meta/classes/create-spdx-3.0.bbclass          |  200 +
+ meta/classes/spdx-common.bbclass              |   99 +
+ meta/lib/oe/__init__.py                       |    2 +-
+ meta/lib/oe/license.py                        |  203 +
+ meta/lib/oe/sbom30.py                         | 1096 ++++
+ meta/lib/oe/spdx30.py                         | 5593 +++++++++++++++++
+ meta/lib/oe/spdx30_tasks.py                   | 1348 ++++
+ meta/lib/oe/spdx_common.py                    |  244 +
+ 15 files changed, 9028 insertions(+), 207 deletions(-)
+ create mode 100644 meta/classes-recipe/create-spdx-image-3.0.bbclass
+ create mode 100644 meta/classes-recipe/create-spdx-sdk-3.0.bbclass
+ create mode 100644 meta/classes-recipe/nospdx.bbclass
+ create mode 100644 meta/classes/create-spdx-3.0.bbclass
+ create mode 100644 meta/classes/spdx-common.bbclass
+ create mode 100644 meta/lib/oe/sbom30.py
+ create mode 100644 meta/lib/oe/spdx30.py
+ create mode 100644 meta/lib/oe/spdx30_tasks.py
+ create mode 100644 meta/lib/oe/spdx_common.py
+
+--
 2.43.0
 
 
