@@ -1,116 +1,127 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35011CA0FED
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 06:57:55 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.15310.1757055469686486413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5FE0CA1015
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 08:33:35 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.web11.16423.1757061210237375244
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 23:57:49 -0700
+ Fri, 05 Sep 2025 01:33:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=nPZzpVLM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1343561a65=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5856eLgf728000
-	for <openembedded-core@lists.openembedded.org>; Fri, 5 Sep 2025 06:57:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=q+gQ79Lc9nOLzj3CtxLp
-	mNAUaKRMbdUp8rKWm9/xSI4=; b=nPZzpVLM47+TSD1j35nxdqM/XLzqklzDInon
-	FUuMxtb7/qAGje3+WmmBhd8X9LegaOE0OJNiRRAPGxdIs40vRIhEoRcw/6+Yxsme
-	qa9yltL5SnPZHJe/E2z+3wnmSm0h+OQ/tTFzki0h6CuZLIATOMyWPO/LfNggSBAL
-	/FxpQCDjLEHpHFhPN/5Xu4iyLKWqisdeF5S9LDO+dYH1IuFzyUBpbLuYaWGNi0v6
-	qigAKZTxBgujmF++lRrLTc9b9o/X+a4XKnPFXjHGeY1r3nxc6FTr8mw/0koPgq8B
-	7i68lfarZRQFnFWQiidz4dlUb/YPh0kT86GggcWFBuYIWn3FRg==
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48y7k2hfwy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 06:57:48 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Thu, 4 Sep 2025 23:57:41 -0700
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Thu, 4 Sep 2025 23:57:41 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] grub-efi.bbclass: fix racing issue on grub-efi image
-Date: Fri, 5 Sep 2025 14:57:40 +0800
-Message-ID: <20250905065740.3721738-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA1MDA2NiBTYWx0ZWRfX8nas6RKorb68
- 508l5isk+pqItXJ16QasawwR8q0V+mv4NwAoDuHg2OsCS8zr4oKRngZjiLV7pDQK1kxrW8gb8wH
- QSu8COayzIK1B7RnwHM6halcIiQefE9SHec+YthvjKDB3V46YkJ/2MUwPD1BXsrl3+axxQ/fV3p
- ldo1NcpfpuPqFdSB49DuYkCHjplv0ZXFNDnZZtfzHRcqKH6SAPhE4BgBnUXbgyWHXSDQXgN19f6
- N3XSOAcpOPEezCCD6XlcEBqo1w5RpmlGH8HwrRQixU/xrLwyM2pu4HoRQ/+rM5aolpJwOXpZ2et
- zrw6xFe812H2dWn5SAAUdu7pD29awFw9yMR//vuwlr2oZ2S01zDPVipnO9SXtg=
-X-Proofpoint-ORIG-GUID: nKcAI1Lsqc1qpnsybze7CEnGiiQqEQRd
-X-Proofpoint-GUID: nKcAI1Lsqc1qpnsybze7CEnGiiQqEQRd
-X-Authority-Analysis: v=2.4 cv=E8LNpbdl c=1 sm=1 tr=0 ts=68ba89ec cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=yJojWOMRYYMA:10 a=t7CeM3EgAAAA:8 a=un5mlS33vyOhQMqQ1h0A:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-05_02,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- spamscore=0 clxscore=1015 suspectscore=0 adultscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2507300000 definitions=firstrun
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=vmp3A8eX;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 4B2131A0DBE;
+	Fri,  5 Sep 2025 08:33:28 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1DFAA606C5;
+	Fri,  5 Sep 2025 08:33:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 86E54102F2376;
+	Fri,  5 Sep 2025 10:33:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1757061207; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=lUUWday7kfheuwIY1mdEotvAJHHhxAQ+k2UDpnSki+A=;
+	b=vmp3A8eXrl31inCMmhQ29/XwqakbOT0dCb/5Fn1cEPkJihCV91bw0rdgJh8SGuR/Ermken
+	21gdp2kEqnBWANwuXXOkCyoey6Y5PGe8ltiWdscD3/k1sbSr0ufHy+3g+dQUxwKnBFHLmT
+	b3BHL1f7k7jOx/6orq/sHxABJ8Y9JhGLYOUR7OmOaz+gFDHNZ/3IhGPV/iuWAyZ+KNPNpj
+	jOBGMajM3Vc8qJrAa4Xj6GXaro+EVi5V5qVGJHxbCLfXyQ951Z0is33b/zimOhh/CgI/Ca
+	gr6rYlvwtf3RVAQaEH9uA/R9AHoMu424abSPtftbPK8yz6pEgaZbjTNa2PRkqw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 05 Sep 2025 10:33:13 +0200
+Message-Id: <DCKQ7KX5D934.3FS2DI6M1I2L1@bootlin.com>
+Subject: Re: [OE-core] [PATCH] systemd: stop enabling non-standard MAC
+ policy when using the 'pni-names' DISTRO_FEATURE
+Cc: "Adrian Freihofer" <adrian.freihofer@siemens.com>, "Peter Marko"
+ <peter.marko@siemens.com>, "Ross Burton" <ross.burton@arm.com>, "Jose
+ Quaresma" <jose.quaresma@oss.qualcomm.com>
+From: "Antonin Godard" <antonin.godard@bootlin.com>
+To: <koen.kooi@oss.qualcomm.com>, <openembedded-core@lists.openembedded.org>
+References: <20250902090925.2904294-1-koen.kooi@oss.qualcomm.com>
+In-Reply-To: <20250902090925.2904294-1-koen.kooi@oss.qualcomm.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 06:57:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222976
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 08:33:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222977
 
-In recipe grub-efi, the deploy task installed grub-efi image to deploy dir.
+On Tue Sep 2, 2025 at 11:09 AM CEST, Koen Kooi via lists.openembedded.org w=
+rote:
+> This recipe enabled an additional, non-standard policy for predictable
+> network names: the MAC policy. This is a deviation from upstream
+> policies and in cases where no MAC address is available, it makes it
+> actively worse by changing the name(s) every boot.
+>
+> Change the logic to disable predictable naming when the DISTRO_FEATURE
+> isn't enabled and only use upstream logic with it *is* enabled.
+>
+> For DISTROs that wish to use non-standard policies, a DISTRO layer is the=
+ correct place.
+> E.g. in DISTRO_LAYER/recipes-core/systemd/systemd_%.bbappend:
+>
+> do_install:append:DISTRO() {
+>        if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'fal=
+se', d)}; then
+>                if ! grep -q '^NamePolicy=3D.*mac' ${D}${nonarch_libdir}/s=
+ystemd/network/99-default.link; then
+>                        sed -i '/^NamePolicy=3D/s/$/ mac/' ${D}${nonarch_l=
+ibdir}/systemd/network/99-default.link
+>                fi
+>                if ! grep -q 'AlternativeNamesPolicy=3D.*mac' ${D}${nonarc=
+h_libdir}/systemd/network/99-default.link; then
+>                        sed -i '/AlternativeNamesPolicy=3D/s/$/ mac/' ${D}=
+${nonarch_libdir}/systemd/network/99-default.link
+>                fi
+> }
+>
+> Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
+> ---
+>  meta/recipes-core/systemd/systemd_257.8.bb | 11 ++---------
+>  1 file changed, 2 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_257.8.bb b/meta/recipes-co=
+re/systemd/systemd_257.8.bb
+> index 174372be03..6399c57640 100644
+> --- a/meta/recipes-core/systemd/systemd_257.8.bb
+> +++ b/meta/recipes-core/systemd/systemd_257.8.bb
+> @@ -400,15 +400,8 @@ do_install() {
+>  			${D}/${sysconfdir}/systemd/system.conf
+>  	fi
+> =20
+> -	if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'false', =
+d)}; then
+> -		if ! grep -q '^NamePolicy=3D.*mac' ${D}${nonarch_libdir}/systemd/netwo=
+rk/99-default.link; then
+> -			sed -i '/^NamePolicy=3D/s/$/ mac/' ${D}${nonarch_libdir}/systemd/netw=
+ork/99-default.link
+> -		fi
+> -		if ! grep -q 'AlternativeNamesPolicy=3D.*mac' ${D}${nonarch_libdir}/sy=
+stemd/network/99-default.link; then
+> -			sed -i '/AlternativeNamesPolicy=3D/s/$/ mac/' ${D}${nonarch_libdir}/s=
+ystemd/network/99-default.link
+> -		fi
+> -	else
+> -		# Actively disable Predictable Network Interface Names
+> +	# Actively disable Predictable Network Interface Names
+> +	if ${@ 'true' if not bb.utils.contains('PACKAGECONFIG', 'pni-names', 't=
+rue', 'false', d) else 'false'}; then
 
-In image-live.bbclass, the do_bootimg task called build_iso -> efi_iso_populate
--> efi_populate.
+This could be simplified to=20
 
-In image-live.bbclass, the do_bootimg task called build_hddimg -> efi_hddimg_populate
--> efi_populate.
+if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'false', 'true', d)};=
+ then
 
-In grub-efi.bbclass, efi_populate called efi_populate_common for grub-efi to
-installed grub-efi image from deploy dir to ISO/HDDDIR.
+no?
 
-Explicitly make do_bootimg depend on grub-efi:deploy otherwise a racing issue
-on grub-efi image in deploy dir
-...
-|DEBUG: Executing shell function build_iso
-|NOTE: Trying to install tmp/deploy/images/qemux86-64/bzImage as tmp/work/qemux86_64-wrs-linux/
-wrlinux-image-installer/1.0/sources/wrlinux-image-installer-1.0/iso/bzImage
-|install: cannot stat 'tmp/deploy/images/qemux86-64/grub-efi-bootx64.efi': No such file or directory
-|WARNING: tmp/work/qemux86_64-wrs-linux/wrlinux-image-installer/1.0/temp/run.build_iso.954273:419 exit 1 from
-'install -m 0644 tmp/deploy/images/qemux86-64/$2-bootx64.efi ${DEST}/EFI/BOOT/bootx64.efi'
-...
+Antonin
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes-recipe/grub-efi.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/classes-recipe/grub-efi.bbclass b/meta/classes-recipe/grub-efi.bbclass
-index 4afd12195fb..34bcbc53e69 100644
---- a/meta/classes-recipe/grub-efi.bbclass
-+++ b/meta/classes-recipe/grub-efi.bbclass
-@@ -7,6 +7,9 @@
- inherit grub-efi-cfg
- require conf/image-uefi.conf
- 
-+# Assure the existence of grub-efi image in deploy dir
-+do_bootimg[depends] += "grub-efi:do_deploy"
-+
- efi_populate() {
- 	efi_populate_common "$1" grub-efi
- 
--- 
-2.34.1
+--=20
+Antonin Godard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
