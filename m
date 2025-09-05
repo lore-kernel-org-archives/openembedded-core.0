@@ -1,102 +1,145 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A70E6CA0FED
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 16:17:59 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.737.1757089075967482598
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8224ACA101F
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 16:42:24 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web10.121.1757090535540172715
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 09:17:56 -0700
+ Fri, 05 Sep 2025 09:42:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nW9jP6Y1;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=nxB4DGRz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101991aab8f4e-dfa57ada-a2ea-4c8a-a763-a1ce197f54a4-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1757089075; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=g2rb/Dy5K93dEFiD0IDynQ2EzwcCoFVfqvVY2jf1ZK0=;
-	b=nW9jP6Y1C8G1OyNw84+LutI93m1OnoZdlmJGYGmB9ogmBHfc36goZt/aqMpuXOux
-	X4gY+F0HOn+OdbdgeZAzV+NYEPKbEAIfcZzuAQ7QpQy/aln/g4NVsNSwsAxfbOXVWJ+
-	qRczQja/orhjly9tT+T3BIkp8rEu7uoaZ9w/xWrg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757089075;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=g2rb/Dy5K93dEFiD0IDynQ2EzwcCoFVfqvVY2jf1ZK0=;
-	b=nxB4DGRzlsF+QwuzxB7XKZ5m3J8A/+KBhzfZ8cPY4wuFSoaRWmvZOVYAuyrf6yT6
-	3Mk3dT2btxfM8JQotac2AFhvHCkSyonrHRiuQdI+1cV+ZJBqyA3j+jI9tx2AvSSdRsj
-	iICiUd3zDtgWUbwDKsO9jhEMY4XBlDBZu8e0+ujo=
-From: patchtest@automation.yoctoproject.org
-To: bruce.ashfield@gmail.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/5] poky: bump default kernel reference to 6.16
-In-Reply-To: 
- <0074b1cd80c242493c1e50d9ff58cc4427272a50.1757088383.git.bruce.ashfield@gmail.com>
-References: 
- <0074b1cd80c242493c1e50d9ff58cc4427272a50.1757088383.git.bruce.ashfield@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101991aab8f4e-dfa57ada-a2ea-4c8a-a763-a1ce197f54a4-000000@us-west-2.amazonses.com>
-Date: Fri, 5 Sep 2025 16:17:55 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.05-54.240.27.191
+ dkim=pass header.i=@underview.tech header.s=google header.b=HHgGvIgt;
+ spf=pass (domain: underview.tech, ip: 209.85.219.43, mailfrom: vince@underview.tech)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-7251e6b2f9eso13391976d6.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 09:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=underview.tech; s=google; t=1757090534; x=1757695334; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fgqK7w5ur3QXMrtpVRzJI/TyAhGTkklkIlH3sCinApo=;
+        b=HHgGvIgtGuQyz5WpPBrhjU/rjuZM81WtzRUDiiGofGVAcAIXw+nJuUEny8gV9EgwIg
+         Xe8ckUnpW3MaYRkWTOrrzk4u+AuNVEaUzaQyaXBF94Ou/UbmTVFPOPIo088OK6DWcdh1
+         LYkfny7FILi7+52mZT1O+5c+oZLXmn7DDQWIp0Do+1OpStxRG+tDSYfVe7DABY3E/1tQ
+         8k3gtfMK3AaV+T01kMKcaTzLS3TrCWV9UyD32wo4gR/INlNoZcVkmUCxVCCDYzYShyY+
+         jAi88xwzM6nytLo1hwDnMEkOTITgZzM5PQmQN+rJNAEmWlJMozjK4JWUMkLLJafFjs3v
+         z3ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757090534; x=1757695334;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fgqK7w5ur3QXMrtpVRzJI/TyAhGTkklkIlH3sCinApo=;
+        b=BfZSd+QqPfxpRKmcKEleLO5vh/QKhbH9fRW1FeGBbu9d4jQIsIihql/fqW9BX/WaF3
+         1E0vP1hGiSl2Ew2W6lXYc16W4zqJXIbhnuZDO4FL+L+HnOj4pTwH4qGDGPvQnjQpvPxe
+         88UXmdepkS4iOrVarYbdZzYKMFtTMokWSni+JC1+JF1xxz+ue/6BHempNgEY/ijvoT0v
+         B02yhLTm/NUW5C8l/scbZMRL+OaEOUyGCYdi4IsDr1e8btEkrwdQTpe47WzhiYahPNB5
+         vJoIYRI+G8WT6PADBHOcahieuwBX0+/CFIhabudz9//h8FBOAjH+E5SvXrudI5lMBFMJ
+         RfFQ==
+X-Gm-Message-State: AOJu0YyoSg2QCy7BNoBdoSGvRl+2tyQxHrnxL3wfBITa9v5qWGlxqoQ/
+	We6vuhGB61bIqbxX6YUvkv4aNBxPSO7XxBOZE1S91uIkUNl3ahplluB7egX/E8u7uqNOiiINbUJ
+	AqOvB
+X-Gm-Gg: ASbGncuvx1GMu8ghdHv+FnvgK/mExycxUrLw1aV9NgRZqCct5Ygb3OOmkf/FYi32VP+
+	Hzh3S+doQGwak+ZyNLADMKpcitL8N4fiFBbcl6MuTFInnj4M0L2txDvroAEghp/5EFP2tbms6I/
+	WVWPSy9u7QpO5gq9M0Pas8HAf7DZqC8LzRhVDiPy8z7hGPwUgX9hJK15ZDoQ48K43UZ6nUe536m
+	WdlOuRhj8K84/VYDOOkKYSMKzRqUajPZJXI3yqa74RXCppvOU1r3YZCzpR0h3NBkYDQKa7oE6Q6
+	BXdnPQYmLktyHR359p66cJOBShwNKyGPl0Vf/Iun3fuJ5co3xgP+pQRNdX6QD+rZWObV/pBOJKR
+	25Vr7Wonpoti6ONL5E3jnow==
+X-Google-Smtp-Source: AGHT+IEJX1TYrsd85jMHct/X1ACZ82bxeLqA2af029JV+G4XFLKisbIlpGkJDowJXNq5TIMuCXcAxg==
+X-Received: by 2002:a05:6214:4017:b0:707:3cb1:3fac with SMTP id 6a1803df08f44-70fac740196mr253805676d6.15.1757090534081;
+        Fri, 05 Sep 2025 09:42:14 -0700 (PDT)
+Received: from vince-server.. ([2601:406:4d01:1820::d1ea])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-727b2c047dcsm39595046d6.59.2025.09.05.09.42.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 09:42:13 -0700 (PDT)
+From: Vincent Davis Jr <vince@underview.tech>
+To: openembedded-core@lists.openembedded.org
+Cc: Vincent Davis Jr <vince@underview.tech>
+Subject: [OE-core][PATCH v3 2/8] bootimg_efi: support grub hybrid boot
+Date: Fri,  5 Sep 2025 12:41:30 -0400
+Message-ID: <20250905164136.2896809-2-vince@underview.tech>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250905164136.2896809-1-vince@underview.tech>
+References: <20250905164136.2896809-1-vince@underview.tech>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 16:17:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223016
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 16:42:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223018
 
---NextPart
-Content-Type: text/plain
+If bootimg_biosplusefi wics plugin is
+used check for loader-bios in sourceparam.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+The grub config is copied by the bootimg_pcbios
+wic's plugin. The reason is it's autogenerated
+grub config is generic enough to support both
+legacy boot and hybrid boot. Thus, no need
+to update it.
 
+If partition type marked as EFI System only
+copy in UEFI application boot*.efi (core.img).
+
+It appears the EFI directory resides after
+initial population of the EFI System partition.
+If bootimg_efi called again and the partiton
+type not marked as EFI System remove any
+unwanted files.
+
+Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
-Testing patch /home/patchtest/share/mboxes/1-5-poky-bump-default-kernel-reference-to-6.16.patch
+ scripts/lib/wic/plugins/source/bootimg_efi.py | 28 +++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/scripts/lib/wic/plugins/source/bootimg_efi.py b/scripts/lib/wic/plugins/source/bootimg_efi.py
+index cf16705a28..98be12160c 100644
+--- a/scripts/lib/wic/plugins/source/bootimg_efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg_efi.py
+@@ -223,7 +223,13 @@ class BootimgEFIPlugin(SourcePlugin):
+         exec_cmd(install_cmd)
+ 
+         try:
+-            if source_params['loader'] == 'grub-efi':
++            # In grub hybrid boot case bootimg_pcbios generates/copies the grub.cfg
++            # that will be stored on same partitions as the grub modules.
++            if 'loader-bios' in source_params and \
++               source_params['loader-bios'] == 'grub' and \
++               source_params['loader'] == 'grub-efi':
++                pass
++            elif source_params['loader'] == 'grub-efi':
+                 cls.do_configure_grubefi(hdddir, creator, cr_workdir, source_params)
+             elif source_params['loader'] == 'systemd-boot':
+                 cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
+@@ -328,7 +334,25 @@ class BootimgEFIPlugin(SourcePlugin):
+                 logger.debug("Installed IMAGE_EFI_BOOT_FILES:\n%s" % out)
+ 
+         try:
+-            if source_params['loader'] == 'grub-efi':
++            if 'loader-bios' in source_params and \
++               source_params['loader-bios'] == 'grub' and \
++               source_params['loader'] == 'grub-efi':
++
++                # If partition type is Bios Boot return
++                if part.part_type == '21686148-6449-6E6F-744E-656564454649':
++                       return 0
++
++                # The grub config in the hybrid grub boot setup is
++                # copied by the bootimg_pcbios wics plugin.
++                if part.part_type == 'C12A7328-F81F-11D2-BA4B-00A0C93EC93B':
++                    for mod in [x for x in os.listdir(kernel_dir) if x.startswith("grub-efi-")]:
++                        cp_cmd = "cp -v -p %s/%s %s/EFI/BOOT/%s" % \
++                            (kernel_dir, mod, hdddir, mod[9:])
++                        exec_cmd(cp_cmd, True)
++                else:
++                    shutil.rmtree("%s/EFI" % hdddir)
++                    return 0
++            elif source_params['loader'] == 'grub-efi':
+                 shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
+                                 "%s/grub.cfg" % cr_workdir)
+                 for mod in [x for x in os.listdir(kernel_dir) if x.startswith("grub-efi-")]:
+-- 
+2.43.0
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
