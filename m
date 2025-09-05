@@ -1,143 +1,76 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76405CA0FED
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 11:07:46 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web11.18916.1757070464602624475
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F104CA1015
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 11:09:06 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.18929.1757070531154792959
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 04:07:45 -0700
+ Fri, 05 Sep 2025 04:08:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=BzhDNpYB;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 245044E40BAA
-	for <openembedded-core@lists.openembedded.org>; Fri,  5 Sep 2025 11:07:42 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id F1FD56060B;
-	Fri,  5 Sep 2025 11:07:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 18DFF102F1C9A;
-	Fri,  5 Sep 2025 13:07:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757070459; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ewOFNRTcowc2eBm5k/tKmYGGjY6IF82dc3qnHuTHAww=;
-	b=BzhDNpYBiKO+vw7dYnI3r5y5/F+GPvZ8rSS2HLaNBb1HJiGvQli5KrLul1P8Y96IBJA/xd
-	OvjYes5KkpkWBdnt7q4GhVvYnZuxDoq9PoLNyZjBHTz+Qp2S85I46o+TcJjF/m/67ui8qt
-	pXFFpWuLa+TNE8W451hNB1cxrpQMiCmOtgODeRAmJ2EQL8MtIbn49ryRNmnGAbnA8aLP8M
-	KH7B4CHuz6IdcMiv6dRbvhLbODn9Ygtt1pVOqfHTBL/ObDNR5PLpGgn9NNhyvhZUmJ4GWz
-	OLt5YjFe15zSGaBmA+jTB/zi6uvm+urqRf4gaD8ZEeWCZMeL+zRsa/lu+JBHUA==
-Mime-Version: 1.0
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 330C1153B
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Sep 2025 04:08:42 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2AB7F3F6A8
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Sep 2025 04:08:50 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] spirv-llvm-translator: small recipe cleanup
+Date: Fri,  5 Sep 2025 12:08:43 +0100
+Message-ID: <20250905110845.3139349-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 05 Sep 2025 13:07:30 +0200
-Message-Id: <DCKTHPPY024Z.VPM4BWNDVWIG@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <skandigraun@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2] librsvg: add ptest support
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250904112140.2762452-1-skandigraun@gmail.com>
-In-Reply-To: <20250904112140.2762452-1-skandigraun@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 11:07:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222991
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 11:09:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222992
 
-On Thu Sep 4, 2025 at 1:21 PM CEST, Gyorgy Sarvari via lists.openembedded.o=
-rg wrote:
-> The suite is quick, it takes ~5 seconds on my machine to execute.
->
-> The tests consist of 2 or 3 parts, depending on how one counts them.
->
-> The apitest PACKAGACONFIG compiles tests for the c-interface, as part of
-> the main meson build. This apitest expects test data to be present in
-> a folder relative the test binary: ../../rsvg/tests folder.
->
-> ptest-cargo compiles two sets of test: rsvg-convert tests, and generic as=
-sorted
-> tests for the library, in multiple binaries.
->
-> The rsvg-convert tests expect test data to be present in a "tests" folder=
-,
-> in the same folder where the test binaries are.
->
-> The library tests expect the tests to be in a folder called "tests", that=
-'s
-> location is specified by the CARGO_MANIFEST_DIR environment variable.
->
-> As part of compiling the cargo tests, rsvg-convert is also compiled speci=
-fically
-> for the tests, however it is not supposed to be different from the actual=
- binary.
-> It is deleted from the test set, because of two reasons:
-> 1. It is not bit-identical to the actually installed rsvg-convert (it is =
-compiled differently,
->    with cargo only, without meson)
-> 2. ptest-cargo class treated it as a test binary, and tried to execute it=
-, which resulted
->    in failing/hanging test.
->
-> It is avoided by not installing this binary, but rather use the real rsvg=
- package
-> as a runtime dependency, and create a symlink to it in the run-ptest scri=
-pt.
->
-> Added liberation-fonts as a runtime dependency to the tests - the rsvg-co=
-nvert
-> tests require some fonts to be available to be able to render during some
-> svg->pdf conversion tests.
->
-> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-> ---
+- There is no need for python3native, as this recipe doesn't depend on
+  other python modules.
 
-Hi Gyorgy,
+- Inherit lib_package so the llvm-spirv binary is in a separate package
+  to the libLLVMSPIRVLib.so library.
 
-Thanks for your patch.
+- Remove obsolete CMake options that no longer appear to be required.
 
-I believe we see two issues on the autobuilder.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../spir/spirv-llvm-translator_20.1.4.bb               | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-First, we do have a reproducibility error:
-
-AssertionError: The following deb packages are different and not in exclusi=
-on list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/deb/./x86-64-v3/librsvg-2-ptest_2.61.0-r0_amd64.deb
-The following ipk packages are different and not in exclusion list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/ipk/./x86-64-v3/librsvg-2-ptest_2.61.0-r0_x86-64-v3.ipk
-The following rpm packages are different and not in exclusion list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/rpm/./x86_64_v3/librsvg-2-ptest-2.61.0-r0.x86_64_v3.rpm
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/2422
-https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20250905-lgqh2ddp/=
-packages/diff-html/
-
-Also, there is some build error. This one only appears on some platforms
-and seems a bit intermittent.
-
-ERROR: librsvg-2.61.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-w=
-orker/qemuarm64-ptest/build/build/tmp/work/cortexa57-poky-linux/librsvg/2.6=
-1.0/temp/run.do_configure.3967314' failed with exit code 1
-...
-| ../sources/librsvg-2.61.0/meson.build:357:4: ERROR: Problem encountered: =
-error: error loading target specification: could not find specification for=
- target "aarch64-poky-linux-gnu"
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/2191
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2417
-
-Can you have a look, please?
-
-Thanks,
-Mathieu
-
+diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb b=
+/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+index 64a73ce55aa..3a090b7b5cb 100644
+--- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
++++ b/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+@@ -15,18 +15,10 @@ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+=
+)"
+=20
+ DEPENDS =3D "llvm spirv-tools spirv-headers"
+=20
+-inherit cmake pkgconfig python3native
++inherit cmake pkgconfig lib_package
+=20
+-# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
+-# for CMAKE_SHARED_LIBS=3DOFF see https://github.com/KhronosGroup/SPIRV-=
+LLVM-Translator/issues/1868
+ EXTRA_OECMAKE =3D "\
+     -DBUILD_SHARED_LIBS=3DON \
+-    -DCMAKE_BUILD_TYPE=3DRelease \
+-    -DCMAKE_POSITION_INDEPENDENT_CODE=3DON \
+-    -DCMAKE_SKIP_RPATH=3DON \
+-    -DLLVM_EXTERNAL_LIT=3Dlit \
+-    -DLLVM_INCLUDE_TESTS=3DON \
+-    -Wno-dev \
+     -DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=3D${STAGING_INCDIR}/.. \
+ "
+=20
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
 
 
