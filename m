@@ -1,131 +1,111 @@
-Return-Path: <kamel.bouhara@bootlin.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 749E3CA0FED
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 19:17:11 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web11.2101.1757099820797013669
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE26DCA1017
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 20:28:21 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.3550.1757104095777834479
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 12:17:01 -0700
+ Fri, 05 Sep 2025 13:28:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=fwZ/vpd2;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: kamel.bouhara@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 011344E40C42;
-	Fri,  5 Sep 2025 19:16:58 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BDEA36060B;
-	Fri,  5 Sep 2025 19:16:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AC5A5102F1CFC;
-	Fri,  5 Sep 2025 21:16:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757099818; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=NCYmiM2i2hce50Sf9y0H1AM04B5GP3c9zKzMOhUhJs0=;
-	b=fwZ/vpd2/aw4E9CMLw+e26sZo9mfMNeTLb5QGfQOBG736tpd74VGe/GugLM5KXcYPpXeO+
-	I4eP630hY+JxtiVyZc5enPtnD6WDRTbHo7xFbBoySzGyRFoB3PjGD0fPg0kwddtEqsC29a
-	/bJy0avwE3bzYPA2OQ/7tJ8Qe/r4aEK0TVD+IBkVeg1XKHXIj2EsCNxNriBoynIAsU+NPM
-	yYoM1BOat/yLLWV0p2FeAv+whzzJ3s+5jSpyNxiaOdXY5mDSZxOvz2VJ3sKAkoIfU1aasn
-	4SWDIRjX1MIaAp45BS1cU7C45wiQC+dHIzf+4t+Enx1mH/6iKsjByDZX9pxkwQ==
-Date: Fri, 5 Sep 2025 21:16:49 +0200
-From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bW879MqJ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-61e8fdfd9b4so5742200a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 13:28:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757104094; x=1757708894; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fhu8x1J+Yx7OBofk+MhRsVxLIBaWz7Zte+jLyI7g+Ck=;
+        b=bW879MqJt0Ne72JvZaqSuMus7HSxm8Wses0PdXwOLr7krNxx1jqirUXpfMKO0GzZmA
+         eMn5q2psQButPdwQEMwMPvKjKUYyVn99S19jMQpDzuYCY0AdQuuhQbAV/9iUEeG9YRBM
+         CMAMf/c6EEQncegW8j8Dg1/QiQsgVfogbFlNPVAVhyFXGXMC7NA2cYk8ZeXe+w2DvHZV
+         3CEBoqQapbSQ5Hf7dO0ya0VK20U4LBhPY4nEZufKG/S+s/+mD/jlOKTorTdjM/EBiBeo
+         nTOojpUpsC2+HOVMIgX9B55OyQLdVjHcISJabKmy5gcQGUPHbrdjnNl1sqaKN2+D++27
+         0dHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757104094; x=1757708894;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fhu8x1J+Yx7OBofk+MhRsVxLIBaWz7Zte+jLyI7g+Ck=;
+        b=PcrCbcJ29/2yNK0OazOp/As161qeyn5HX/2SvxUXJN+OpWS5bBpbOazH2PytAzJH9H
+         h7blinQkvx/DoImU0xRIcD7Zronadugm6+cqurEb6AUDlm/RuOaXZxpNpucxB+mUy/xk
+         RyH6GCsuQulPYGIq/z0dTzBM3gY8dlF9Bd/4f9Nt9y3U9MsfIRkG4ZRstsgHP4dzo2Y4
+         I036tXI8UXlp6LfSnaruNMLpakF/UGhBRTdbTm7AnFD/xt4wCnWGcD9wVcRvNSR+Dc1e
+         WoDx9WQG9JkUb/tHcr/kgE/5ogJU60SCDpAmu+3jJTtlqe/z5iUMm0Kt3sGwlJ4Gwbpc
+         vSUg==
+X-Gm-Message-State: AOJu0YyZoRQmlLbgQHsA1IhQuCaL2lbEQSr6ybZpjAnUSj8ugCPYzhBb
+	WaRyFJyalTrU4o8QaWCqQjorPdbD5551/eakLTqIkI4iNsqPE58zzQz8sTDr7g==
+X-Gm-Gg: ASbGnctv+a3Dz4r9uukC7R4Y2UqneSzlHhHnQMtRzoxl0hIyM7alWI/Z/vlasAUZNKL
+	tNfVr4xS9qXtkeMprhyvoXUaw+iOonutR5ZOq9L0Wocufb1HIW9JUj0rCHCg9Zql4ZuStwPCIGH
+	JXplAPTSSI7jhf/Ec6IMn1TTKe3OOBl7qAuB52TDZX71K/FB2Hpjf6OD7eEbFMIz69i6a7WnV9s
+	csEoY4ts0J3iygRRKIbw2hfzNNK2DUMGjnIwH7a7h/Pvtks2L6oG3yuWVXgPY3c1umQA69H58YD
+	WVIs4fK65Pt/sdjNMPofhzHusNr5f+bY2iMVkGnQuD6vkWDIq0t8qanpRb4irzWC3uR0qri+n1i
+	OqwhDZ6OGVhglZ2ustbnq
+X-Google-Smtp-Source: AGHT+IHaR4518Vvwb07UR/++VcxWIL9IJBQHbHLyJmBXxXpQu/0cFvf3JYQaPaOXgLG4a50O0Km9sw==
+X-Received: by 2002:a05:6402:13d6:b0:618:4a1b:e311 with SMTP id 4fb4d7f45d1cf-620f3b7413emr5628946a12.3.1757104093894;
+        Fri, 05 Sep 2025 13:28:13 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6225c55758asm1018182a12.20.2025.09.05.13.28.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 13:28:13 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: JPEWhacker@gmail.com, Steve Sakoman <steve@sakoman.com>, 
-	thomas.petazzoni@bootlin.com, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	mathieu.dubois-briand@bootlin.com, antonin.godard@bootlin.com, 
-	Pascal Eberhard <pascal.eberhard@se.com>
-Subject: Re: [PATCH 0/6] backport: SPDX 3.0 support to Scarthgap
-Message-ID: <qcqr3llrim64qgznikxhoaszezuzxt5wr6egdpabmguqe4gqic@sedpra5rmzk7>
-References: <20250905171154.182825-1-kamel.bouhara@bootlin.com>
+Subject: [PATCH] rust-target-config.bbclass: move target generation before do_configure
+Date: Fri,  5 Sep 2025 22:28:12 +0200
+Message-ID: <20250905202812.403790-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250905171154.182825-1-kamel.bouhara@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 19:17:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223038
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 20:28:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223039
 
-On Fri, Sep 05, 2025 at 07:11:48PM +0200, Kamel Bouhara wrote:
-> Hello,
->
+The rust_get_targets task from the rust-target-config class generates some
+Rust compiler configurations for different the target and host machine, which
+is used by Rust during compiling a recipe. These configurations supposed to
+be available by the time the Rust compiler is used for the first time.
 
-Please note this entire patch series is for Scarthgap.
-Sorry for the missing [scarthgap] tag in the subject line.
+By default, this task is executed "before do_compile" - it assumes that
+this is the first task that would use this configuration.
 
-Cc: Steve Sakoman <steve@sakoman.com>
+However this is not always the case, especially with projects which are not
+pure Cargo projects, rather Cargo/Rust is called by a different build system.
+As an example librsvg uses meson, and during the do_configure step Meson probes
+the Rust compiler, trying to gather some library info from Rust. In case the
+rust_gen_targets task was executed before the do_configure task, then
+everything works. However this is not always the case - sometimes the job is
+executed between the configure and compile steps, in which case the configuration
+fails.
 
-> This series backports SPDX 3.0 support from the upstream Walnascar
-> branch to Scarthgap, along with a few additional local fixes to ensure
-> correct integration.
->
-> The primary motivation for this series is to bring full SPDX 3.0 support
-> to the latest Yocto Project LTS release, Scarthgap, which will continue
-> to receive maintenance updates until 2028.
->
-> This ensures that long-term supported releases can benefit from the
-> latest SPDX standard for license and compliance tracking.
->
-> These changes are also in line with discussions at the Yocto Project
-> Summit in Amsterdam, where the need for up-to-date SPDX support in LTS
-> releases was highlighted.
->
-> The backport introduces SPDX 3.0 document support, SDK and image
-> integration, and related helpers. It also brings over tasks, classes,
-> and library code from upstream.
->
-> Feedback is particularly welcome on:
->   - The correctness and completeness of the backport
->   - Whether the local fixes should be adjusted or further refined
->
-> Greetings.
->
-> Kamel
->
-> Joshua Watt (4):
->   classes-global/license: Move functions to library code
->   lib/license: Move package license skip to library
->   lib: oe: license: Add missing import
->   classes-recipe/image: Add image file manifest
->
-> Kamel Bouhara (Schneider Electric) (2):
->   backport: SPDX 3.0 fixes and tasks from upstream version Walnascar
->   spdx30_tasks: fix FetchData attribute in add_download_files
->
->  meta/classes-global/base.bbclass              |   41 +-
->  meta/classes-global/license.bbclass           |  165 -
->  .../create-spdx-image-3.0.bbclass             |   85 +
->  .../create-spdx-sdk-3.0.bbclass               |   74 +
->  meta/classes-recipe/image.bbclass             |   58 +
->  meta/classes-recipe/license_image.bbclass     |   14 +-
->  meta/classes-recipe/nospdx.bbclass            |   13 +
->  meta/classes/create-spdx-3.0.bbclass          |  200 +
->  meta/classes/spdx-common.bbclass              |   99 +
->  meta/lib/oe/__init__.py                       |    2 +-
->  meta/lib/oe/license.py                        |  203 +
->  meta/lib/oe/sbom30.py                         | 1096 ++++
->  meta/lib/oe/spdx30.py                         | 5593 +++++++++++++++++
->  meta/lib/oe/spdx30_tasks.py                   | 1348 ++++
->  meta/lib/oe/spdx_common.py                    |  244 +
->  15 files changed, 9028 insertions(+), 207 deletions(-)
->  create mode 100644 meta/classes-recipe/create-spdx-image-3.0.bbclass
->  create mode 100644 meta/classes-recipe/create-spdx-sdk-3.0.bbclass
->  create mode 100644 meta/classes-recipe/nospdx.bbclass
->  create mode 100644 meta/classes/create-spdx-3.0.bbclass
->  create mode 100644 meta/classes/spdx-common.bbclass
->  create mode 100644 meta/lib/oe/sbom30.py
->  create mode 100644 meta/lib/oe/spdx30.py
->  create mode 100644 meta/lib/oe/spdx30_tasks.py
->  create mode 100644 meta/lib/oe/spdx_common.py
->
-> --
-> 2.43.0
->
+To avoid such problems, generate these targets before the do_configure step.
 
---
-Kamel Bouhara, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+
+Alternatively I believe I could also do some deltask + addtask combo in the
+librsvg recipe to reorder the tasks, however I haven't seen other recipes doing 
+that in oe-core.
+
+
+ meta/classes-recipe/rust-target-config.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
+index 8ab5317c3f..7b238c1840 100644
+--- a/meta/classes-recipe/rust-target-config.bbclass
++++ b/meta/classes-recipe/rust-target-config.bbclass
+@@ -442,7 +442,7 @@ python do_rust_gen_targets () {
+     rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_ARCH'))
+ }
+ 
+-addtask rust_gen_targets after do_patch before do_compile
++addtask rust_gen_targets after do_patch before do_configure
+ do_rust_gen_targets[dirs] += "${RUST_TARGETS_DIR}"
+ 
+ # For building target C dependecies use only compiler parameters defined in OE
 
