@@ -1,98 +1,115 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB9ECA1010
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 15:44:58 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.1027.1757087090883513231
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7010FCA1016
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 16:09:39 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web11.583.1757088571670302440
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 08:44:51 -0700
+ Fri, 05 Sep 2025 09:09:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CUDAn3B6;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-619487c8865so6168989a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 08:44:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SJZ0UE8N;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7e86faa158fso248153285a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 09:09:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757087089; x=1757691889; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SPylGS5gJQF+kbkMywalqU3Cj2Kg5MR8zgVYDX1oatM=;
-        b=CUDAn3B6TvPFWjRLLtLwCm+xGEctSJ/hnAmEPICQHbKXw6pPdwziUsng7pbx2UAmXf
-         UjhKArRuSCP0hY2T6uEmEkWXeEa0XOF4CrbHd2sV2hIUZCPvljqGWfwFcujunNQjdYrA
-         NCWgO2qG3tJ17BVaa2pSiphDUwH/WcuLxeAvPZdq2ZgfeO9CQo8qkG+BnGM/IStJ3h1h
-         OvFZcFbYxWTesqa6v2vhn8Z4xGQOllyplZv1+mvoSfnoNsgV80rTE+8df9PD8XEb4hRa
-         F792wMu9WF8dbzPBYsAuULV20e5PCsquep9DpJ4KO7+M1GMOleuxKLdDW+n0X4VHJEeN
-         78cg==
+        d=gmail.com; s=20230601; t=1757088571; x=1757693371; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oc2PU+YKSXxNYm5S3opdr2gGmwfSfz13L9YNXatGykk=;
+        b=SJZ0UE8NuKqQUe1rpfHCPOivtJymn7/ee6q+kG+bTvv52u520uBno00Kc3r2YCnBmX
+         4ZoXNOaEnJWwCpMkDDDdXCEntjSlTz42gvh4GxsXuxeJcwUm4Rtqqa2G98UbR49KPSvN
+         H3JZSmi7w6e2Enponqmeau9tSTuZR/PhBmW4OF1sTv7DvlGaeqG9UXL/fOvbhR88biEQ
+         Tt7AqHfj8g91hFkg6lA69oAX+BixsBTSJMIsent0b5thCWss2ny2Oa1D6I6NghMFCXBV
+         r8FObNEFrx1OnAkCpjpeGfXzecBWZcBVhwgRU9H6+RSDWBLatoRU4gsZ5Bszk4jcIBEa
+         +k0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757087089; x=1757691889;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SPylGS5gJQF+kbkMywalqU3Cj2Kg5MR8zgVYDX1oatM=;
-        b=je9iZkqsYyDC9UJBsVWgmK5Ztecj151be8+gbz3vIVdjLIax45G9KQOKH/lHrGJuCI
-         pmKIMYYmYj+d0AemokYuSrdx+r9A0l7GDG/VeIvPi7TG76e0AgkQ1yUDMrr9WkbghW6/
-         qslP3p0EhjtoNUcJg589368c81QEFK8Yv6CHFXTu9g7AbDPshgy5X5KtkcSsc3qr6L1o
-         hPnN8RaxmpFtcxm4LLNMT1jcofdZomEGxgYmc4xpN6G5CBrq/fwHyVvHoIfNOngadSIu
-         JMXtNw5zntOaUvj7Aivm4u5MDqpOH08BeP/GeV8QF/4G5lhHTZ8FUusGfeVln54vCD/2
-         lMKQ==
-X-Gm-Message-State: AOJu0YxGNV5Lxm7K7TgYbjg2tceLTsW30Isvmf0uPcxC8S5S8aWL4HIz
-	XtG6zJN69eLh7WDkWy0q/ckqGNrPsw7CiShWHMDMmjOeSyXRx9DLoZnbzvhUOiEn
-X-Gm-Gg: ASbGncsCDYn6cM/vCwiyjykR2MAYPYL0biy9ThCTRNA0wWS28gzgxhY9TV143basOK3
-	TOS9+nRIvaFl4ZAXG8kxroFFsoNmuJL+/jjQTxM0QpAoZGCLLXu1k6ykIG+/fT47camds5IFObF
-	T5/6kM8e6EnkrPBGzWRx3PRH7Lm+SXvriUY6N+k0wwvwKzhOTIkaH3cEA2fIYWQ9IrZYHHMZf3M
-	L6FcbNhdGOqiDSTbD64NQvULn6gQ68i6yHWkfO18SQA330ZS5hSuggQlj/Y5g3XmPeqYoEJuFx3
-	VlouSkYE8WY8AT+NORuUbvEWsrN6k+CBQ0QStCZ346HFWSHRDfFeTEHQW85s4HCZxes3vyL7kwO
-	6Ro3RIgXa5BSZNTR2LPK3eqnlNBLorgs=
-X-Google-Smtp-Source: AGHT+IFSYAT+kj7LK1fW2iB2gqO1gI3MkadS694341bUoB1t6uXNZfBkEwifUhsqJAtqHty1iocCvA==
-X-Received: by 2002:a17:907:7e8b:b0:afe:ef8a:a48b with SMTP id a640c23a62f3a-b04932a3098mr445349866b.30.1757087088700;
-        Fri, 05 Sep 2025 08:44:48 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b042258f4ffsm1326879966b.91.2025.09.05.08.44.48
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1757088571; x=1757693371;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oc2PU+YKSXxNYm5S3opdr2gGmwfSfz13L9YNXatGykk=;
+        b=uYrd7nsrjMe5+tI98W1U1MqSZsK+uKHxnsLxI82Qk9SBZQ4tSEPi90j6i8bFtlnW+G
+         7pKOgT6NpQBlXBWOFLbfr1DKVIhHvvgUTNtxDBuSg3DRJeWzxWfkNlvciQT+DP0SFFYj
+         O8hkBtb5cuFlZrOts1Di1We+WcW1cD3mlYQ6U+EKbkMYtZA2d7mdVjQUxgEjrWPF7enx
+         f7dcPpgB84ngoK7Q+DmAfoP921rWBeyv4W8QKBE6ufMr+bAnARHiibeq1VUNTynYb1je
+         /w/WksoxMBulekAF4AZNAKHcKqquTfxUPlwjsXMV/huQ5b7BybGTVyPzqYDkhl02+trl
+         8sXg==
+X-Gm-Message-State: AOJu0YyhSCszm3wqAXwun6Q2NZ2gGCi7qkD6G1KNePOnfok02mMa3bP5
+	oYc6U7IiPmtS8kXKRi+6XCXxj9x0Xq+gKVtAUtXL5yDdaLNWmxoGauAnBxx4JHEI
+X-Gm-Gg: ASbGncurOivJCU4pbiwqMcfRhmQy67tBXa8fK4kne1jl+BaRhwQsEWnMrMRUD0DxyBD
+	Tqg30iL0PAXKd/B5eEpzuzluY2c4fpwiFFYgv0N2aDm2fGiHMifKlNWWCANmA1Az+jx0J3j+2w5
+	ZoV1ZaxRYc5JO3ottsvnaPxgA/dV29SYubrz/BJjM7frHH1pzXvbreIAaHh6sSR5IVxluLsk48w
+	Z4GXI2Ln9VzKtGf4iYKZi68Xi+gWJ8lYZpBIU7vdEgmuU8CygtOeQ61D0gW7QDBzqt4qe70H4yv
+	M/64eklChsGXVr0iE7eBB82JK5CRxY7cBrd7xGEGRY7oCn0VbN/mtoH2vxmxB4Tao92r+jrafKI
+	AUsGbSRNIABzxMJR5iDvaQNjg2TBp5cjLlEF9bzFKTZwVBxx/kzUyjvHETGWSVKtOSouFb4PhuR
+	erNgBtlmZ9gqq8DPR1PKo3Q3Ph/V9z0m1rxsNVvi9NmZWew2g9sS1lpvM=
+X-Google-Smtp-Source: AGHT+IFPsAT3HVknFA861uG2ZmCTrhNf5qy+xa4bu6e4XU3/flWhtxc29dK9OefIfEfHZY+pmCFY/g==
+X-Received: by 2002:a05:620a:4628:b0:7f3:c6ab:e836 with SMTP id af79cd13be357-8109a54dc48mr459575085a.18.1757088570274;
+        Fri, 05 Sep 2025 09:09:30 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720ac16de30sm69127446d6.7.2025.09.05.09.09.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Sep 2025 08:44:48 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] ptest-cargo.bbclass: sort binaries for reproducibility
-Date: Fri,  5 Sep 2025 17:44:47 +0200
-Message-ID: <20250905154447.2710516-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        Fri, 05 Sep 2025 09:09:29 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/5] poky: bump default kernel reference to 6.16
+Date: Fri,  5 Sep 2025 12:09:23 -0400
+Message-Id: <0074b1cd80c242493c1e50d9ff58cc4427272a50.1757088383.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1757088383.git.bruce.ashfield@gmail.com>
+References: <cover.1757088383.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 15:44:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223009
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 16:09:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223011
 
-When compiling tests with cargo, the produced binaries are created
-in a non-deterministic order. The list of binaries themselves are taken from
-some of the log info produced by cargo, which contains them in the order
-as they were created. The class later writes this list of binaries
-in the run-ptest script in the order that it found them.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-In case the test suite contains more than 1 or 2 binaries, then the
-order of these binaries is different almost each run, making the
-resulting ptest package non-reproducible.
+Bumping the reference kernel to 6.16. We keep the alt distro
+on 6.12 for better coverage.
 
-To avoid this, sort the list of test binaries before storing them.
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/classes-recipe/ptest-cargo.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-poky/conf/distro/poky-tiny.conf | 2 +-
+ meta-poky/conf/distro/poky.conf      | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
-index 8351644b0f..30463e117b 100644
---- a/meta/classes-recipe/ptest-cargo.bbclass
-+++ b/meta/classes-recipe/ptest-cargo.bbclass
-@@ -70,7 +70,7 @@ python do_compile_ptest_cargo() {
-     cargo_test_binaries_file = d.getVar('CARGO_TEST_BINARIES_FILES')
-     bb.note(f"Found {len(test_bins)} tests, write their paths into {cargo_test_binaries_file}")
-     with open(cargo_test_binaries_file, "w") as f:
--        for test_bin in test_bins:
-+        for test_bin in sorted(test_bins):
-             f.write(f"{test_bin}\n")
+diff --git a/meta-poky/conf/distro/poky-tiny.conf b/meta-poky/conf/distro/poky-tiny.conf
+index 81153b3b36..84baef347c 100644
+--- a/meta-poky/conf/distro/poky-tiny.conf
++++ b/meta-poky/conf/distro/poky-tiny.conf
+@@ -41,7 +41,7 @@ FULL_OPTIMIZATION = "-Os"
+ # Distro config is evaluated after the machine config, so we have to explicitly
+ # set the kernel provider to override a machine config.
+ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-tiny"
+-PREFERRED_VERSION_linux-yocto-tiny ?= "6.12%"
++PREFERRED_VERSION_linux-yocto-tiny ?= "6.16%"
  
- }
+ # We can use packagegroup-core-boot, but in the future we may need a new packagegroup-core-tiny
+ #POKY_DEFAULT_EXTRA_RDEPENDS += "packagegroup-core-boot"
+diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
+index b12df2be70..d86630b153 100644
+--- a/meta-poky/conf/distro/poky.conf
++++ b/meta-poky/conf/distro/poky.conf
+@@ -19,8 +19,8 @@ POKY_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
+ 
+ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
+ 
+-PREFERRED_VERSION_linux-yocto ?= "6.12%"
+-PREFERRED_VERSION_linux-yocto-rt ?= "6.12%"
++PREFERRED_VERSION_linux-yocto ?= "6.16%"
++PREFERRED_VERSION_linux-yocto-rt ?= "6.16%"
+ 
+ SDK_NAME = "${DISTRO}-${TCLIBC}-${SDKMACHINE}-${IMAGE_BASENAME}-${TUNE_PKGARCH}-${MACHINE}"
+ SDKPATHINSTALL = "/opt/${DISTRO}/${SDK_VERSION}"
+-- 
+2.39.2
+
 
