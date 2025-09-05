@@ -1,326 +1,243 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <Haixiao.Yan.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC0BCA1013
-	for <webhook@archiver.kernel.org>; Thu,  4 Sep 2025 19:10:50 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.3173.1757013040614661587
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F26BCA0FED
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 05:13:04 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.14281.1757049176539708663
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Sep 2025 12:10:40 -0700
+ Thu, 04 Sep 2025 22:12:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dEp/Np4L;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-afcb7ae6ed0so229303166b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 12:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757013039; x=1757617839; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Wl0541J2BQHKAwuCqu976E6j3D/nesQaV9GeMGoh0mA=;
-        b=dEp/Np4LSzDK2q+ZO/oYkwf0W4hozf1NgIljNJjeyMFtm0fl9Kou4bjd7wZI5jcHsE
-         8n6Ze65gMbOFrSToT4CFMrQU4HrrHWZcd+08JvX2dt/7aJa+5wTr/fAsk5GNDvRQVtDP
-         1rgckw+IOqHcMS1qSfTp4NVf+kgE31drMXeQ8Ieh8L5uL0vg73Z8tYHP564e9wgxUnmF
-         JLR/bz80X/Hs3x/q41pD/vqZGh1kAm+PCfHas0hw+V6oP9xLL+IoctMuoK4/lDlH8Gzn
-         7VSY5qxZHBrkKguryon2ubUVxh+DgRVbpMJHwc/lDIe+fjanS49eEVqWthkcnULtaJlS
-         fHQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757013039; x=1757617839;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wl0541J2BQHKAwuCqu976E6j3D/nesQaV9GeMGoh0mA=;
-        b=iIZk5aM7lW4ZYH+NpAfIfaQn4TG4fLd5JPFpS0ryVBG1GDcNkvZ45BbAdAgrhKbRBz
-         8a2d8f9YpndKrhIgJK3Zy8YMoq56LlIqimbkwE4M8SbV8hL9B4WbhLmP9MGuGjOqbFEq
-         Qtmp8ixPZ2lNs7clYMqTTxkMNhGHbTC4/zsRyQoV7IsT+d4NQth6tlZFCsQpTEsonoG9
-         Bjqy8Zdb7YRbVIc1lQ40KB5IFfxKs48AMS/hPDvKvd3YckcOJl8eZFT58bLBFZALQs3q
-         2a6yKsYJYMlJzRCIegEJrF2Al4yK//iiFcP2bxgCpWzAXhppN7AdOeAM2yaAf7ukMnGF
-         D3ZQ==
-X-Gm-Message-State: AOJu0YyLJlb7ZNmnYW6x8X6l1C0+kxa1s8X+L70C8yELTx4py69p8UK7
-	AZhXv2FKMXnl/29ZoPaj19UWojsXGjm6mxVdZVY/CXnCPI9M5KC6qf+wvRmxzWnR
-X-Gm-Gg: ASbGncu7ukvEBWlmNbLVX8PFp/kgo53/yKgAtbtHdGkmdbYpqEHhWGUDHBJ3qxiKdW5
-	8JYNCI/H5cLhlfQgsG9Dg52O7MDIidNLUQ7nPTeUHCQOZNDHQjN0RNQ+bFwn5UjA2T5fmTpbDhh
-	CpAgpAh/LGrph8W3mxhfHLrL9pQkJ1lF6NxB2ACZINA9y4lyEfdi205C/8EiHOrQWsQb1u5LQZf
-	TxiVd9vdcdMAWfC+VyJzManjgKVJ1oax4qVCgwyeEX+MvnuQq4oFVufkEToxG3c4w2P+6A8YFIw
-	C0OvNtsjpGdjR93K8QlWpz0LoZq2wBHgTZOfc+ZO37XBo9iv9011CN4iUCZxpJ2gqJrdBl71zZb
-	A/ReCDgdRHhjVjXeG21TtMcjjzY32v66NiGXfjZ3dQA==
-X-Google-Smtp-Source: AGHT+IF2k/GO8BekLaQ06HMdPJrr7kXUErpCPZXSqOK3mAzXP1WgU67/kdA/kRbM18rP0NX2Ewy5ug==
-X-Received: by 2002:a17:907:3f9e:b0:b04:33a1:7f14 with SMTP id a640c23a62f3a-b0433a1864dmr1316453466b.35.1757013038572;
-        Thu, 04 Sep 2025 12:10:38 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aff173ddc78sm1450816966b.33.2025.09.04.12.10.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Sep 2025 12:10:38 -0700 (PDT)
-Message-ID: <03abf8f0-89f7-41b4-9fe6-81072b2e6d87@gmail.com>
-Date: Thu, 4 Sep 2025 21:10:37 +0200
-MIME-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=pRDfGxkB;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1343256814=haixiao.yan.cn@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5854ait9220791
+	for <openembedded-core@lists.openembedded.org>; Thu, 4 Sep 2025 22:12:56 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=EbejZApepl1G3KMcNRQQKl4bPJsb+LGty3peSt5b/+Y=; b=
+	pRDfGxkBhyz8b8DjGqu/HSgKuJ3i/qrTsyy1hAu0ViQu1TjJ7n4Wwx04+azWHZkH
+	tE0M0kUGyOTim5khTNxC4B5O/lBYM5f70515SfcGTRTkSB8kipg3BHF8RTcmVABM
+	3j5hNwiEhV1UgSi9B2SkJe+IUVGabH2be0hdqE1BXCLyPcdL4pjCk76LTdNopGsC
+	LFpe6LIL9OguJFZF/HA85v9QIQZoQ7c5QOG0SjTJm9c0jRsmEi0DbhbGJPE30t8F
+	jqV0pHDJU0CqXZrarTjxORFjgrkxJIonoY8BFZpX/ZXMp3taXcdPLOv1DGZ1mM3J
+	Nmh9+8FVHO8s0imH7wNUCA==
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12on2042.outbound.protection.outlook.com [40.107.244.42])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 48y7sb1bvg-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 04 Sep 2025 22:12:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ofk11uaznYVlGCYcC5e6r7ioCfLV7fSpX3/2N8zgXlovxwB7X/xScDrL1i3Cd5B/HZwD/1nghEl2ZITX/7tgLAa0rLY3XtnW7p9q0smJ480KVSlNDR7Ws5lFhMLfYLD/Q+bLMIkwVmGBvwCYnh9jB7cv/GhWT/na8nXPySd7UuwiZHH6AuhVOPdruf9j1Mhc8lo+m13H/zR+FFTlypNLVm/MO2u2NmnF7qdvRdku2RUWu74lA6nqG19i0nUikMp8Ys1c3P5CuCKupGPdlV+M+3OKD79zVSVmflV349oz+oBiyGPmUrV6OPYofkuhBqPhDcLrQC4og5blrImp9nc4RQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EbejZApepl1G3KMcNRQQKl4bPJsb+LGty3peSt5b/+Y=;
+ b=OiWjxenf2FTT38VlDOF7x6eoFvsNnkZem7bxF9agwkPb9t2rgYmCP9MD5F0yv5Qg9ObtI1Dh7HLvCmYZi4BeaitrJKs3xGnLAjJ7kI0+13WCZTNHD7utUcNIo/VziFHnmCdNyH4IS5mf0mJy7ASufg0kajCbR/5pVIIJBSIBRL+Afmlhg9aRhXvWB//CideXe/1yWOwmfA6SSZXUWDe1kzGBBejpLWdkN+xsh1IOb7DodsXAg58qDYLmu8FsBVKkz4L4LPkr5qBDYYFTYCtGb9hGo8ycTSnTBHB2s9PT5t9PtrURI3M1Xvo41cIpSNcpQ/CJfRtyI6VEm4I+DLYTPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH0PR11MB8189.namprd11.prod.outlook.com (2603:10b6:610:18d::13)
+ by LV8PR11MB8463.namprd11.prod.outlook.com (2603:10b6:408:1ed::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.17; Fri, 5 Sep
+ 2025 05:12:53 +0000
+Received: from CH0PR11MB8189.namprd11.prod.outlook.com
+ ([fe80::4025:23a:33d9:30a4]) by CH0PR11MB8189.namprd11.prod.outlook.com
+ ([fe80::4025:23a:33d9:30a4%3]) with mapi id 15.20.9094.018; Fri, 5 Sep 2025
+ 05:12:52 +0000
+Message-ID: <e038f529-1c06-408a-8d28-b2ec6bc6d17f@windriver.com>
+Date: Fri, 5 Sep 2025 13:12:43 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RFC] gettext, gettext-native-minimal: upgrade 0.23.1
- -> 0.26
-To: openembedded-core@lists.openembedded.org
-References: <186229F4B4DD4221.5335@lists.openembedded.org>
+Subject: Re: [oe-core][PATCH 1/1] environment.d-openssl.sh: fix unbound
+ variable with 'set -u'
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20250903081113.3182850-1-haixiao.yan.cn@windriver.com>
+ <CANNYZj9Qr7uy-bZGGEt23MWXHkX-fU3TYQc3WYoX3KEtTC9NtA@mail.gmail.com>
+ <108f0edd-3a59-4b2f-86a0-7afc439c884f@windriver.com>
+ <CANNYZj_z3UwqgYqmvUYBG+c2iANjib9=6CZYapi1zCjycN_4cA@mail.gmail.com>
 Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <186229F4B4DD4221.5335@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: "Yan, Haixiao (CN)" <haixiao.yan.cn@windriver.com>
+In-Reply-To: <CANNYZj_z3UwqgYqmvUYBG+c2iANjib9=6CZYapi1zCjycN_4cA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: SI1PR02CA0040.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::7) To CH0PR11MB8189.namprd11.prod.outlook.com
+ (2603:10b6:610:18d::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR11MB8189:EE_|LV8PR11MB8463:EE_
+X-MS-Office365-Filtering-Correlation-Id: 197ac850-e35f-4298-6482-08ddec3add6c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?eWVPYm1qUE5wSm9pK0ZwVDNmRVpRbXNweGRodnlOcVhjRlpkQTROdHBsTG9a?=
+ =?utf-8?B?RWF3a1luUGxkR0oxRkgwWFU1c21NS0MwZXV0MXdiQ0o3SWliZElvVG5Ba3NZ?=
+ =?utf-8?B?WkZTUnNVT1FzS2tybzZWU1IrT0VIQnBQNjlpd3lDa3dVRlkweDh3V3A3bXlW?=
+ =?utf-8?B?S21ZMWVpVkxweWpNcEw3Yk9neDlqM0U2d3Qzc2g5d25YbkdxdHczMGFrSjlt?=
+ =?utf-8?B?dzZmMTB2ZExoYmxCTVgwU0ZPN0E1dVNZMGFOZ3oxc3hYdCtlSXU1c2lscFlh?=
+ =?utf-8?B?bzNEbktkV29XYUxXbUdUb2plUk4rZmF4V25ZTlI5aEpGTmZZeHdmNDJyQitF?=
+ =?utf-8?B?YkNYVzE3Wk1JQzFHK0lybmdWM0NEWjYxaXk0cWNkQTFKM3Iwa3FZbm5ETlZY?=
+ =?utf-8?B?elErOVJGY25sM0FzYy9KVVpkeDBKQTlKeXNGa050ZmVlajdyQzNmWTMwYmo0?=
+ =?utf-8?B?SVY5NnRLbnNQbjBZanBNdzRRRzBaQ3lCc2tXTVoxRDRRVkJOVFlOMmc5Z2xR?=
+ =?utf-8?B?aUEwakYxb0tlSGtoRDY5UG1oQVdiSTh4TzlSRGlMMlJ3aXJzbWV4YmRBcWx2?=
+ =?utf-8?B?bGdjVG0rY045ZEgzLzRBazlSMG5rSE1XWmFyMENORGtzNWhPWllBWTU4bjRi?=
+ =?utf-8?B?RHFyNmlic0VFWVlyWk1FbUk2eEJ6SkhvMlVhdzBtSzZmdm0rNXlWcFlwWTZV?=
+ =?utf-8?B?RnBYQnBMa1NsOXdoVUpwZTZLTytYL2hQVGxxT2Q1a05aZG0rOUpubjYwV24y?=
+ =?utf-8?B?YjNzUm1PVFZMOVcwUklHNDh3ZHRyNjhPcGJGbTc4ZmhqWjZscjZVTi9TZklj?=
+ =?utf-8?B?YXRkMVhJMUJnU2NrWDFIQ1ZrS0pZd25pTHlNSm1JK1NZTFhpdGIwUTNTWE8z?=
+ =?utf-8?B?TzUxQkZCUmZNWjNpN3E1US9FNHp2MWFNbG4vcmtIN1dhQzdHaEZjQmtnWWl1?=
+ =?utf-8?B?dFRDY1BEcXQrTEVtcjczQzdsMWtsUXkrZUdhSzI1VU4vNXREbUNWblUvb01v?=
+ =?utf-8?B?Qm9leVpiYk8yYkNZNHFkSnNRc3NtbjJkem5jT0JQeFlSamt5elVJSjFEVmJW?=
+ =?utf-8?B?M0NsaWRtaXZHWmhWQ1oyckEyS1FkUUVXS2FFZFBRZ0N2a1VIc2c1Q0xCYnRN?=
+ =?utf-8?B?NE10SHA0aGErZ05iL0k2N1pYRTNDaEoyalI2WHhvR1puNlRHQzhPakJpRm8z?=
+ =?utf-8?B?R2dKS1p6NUE3R1o2UDZqWHJkV2lrN05FUnhiKzRqN1J6Q1hseHRQWkk1ZXNk?=
+ =?utf-8?B?dUNYdU90cWRzS0tnRmYzL1B3UzVjVnc4UDNib2orYzhwWnNUWEhQYUVEV3JM?=
+ =?utf-8?B?bUcxd20zTUp0NzlxOXRaT3pBN3hId3I1RlI0Q0luY0FjeTNOZzNxWnYzZjVX?=
+ =?utf-8?B?SnZiSVlJVVZUNWZCeE5XMHlKVmNmVnVUZnVOVXpCbEVna2ZmbW5TU0xiUCs4?=
+ =?utf-8?B?UkFERG4zbEN0SVUxellsdGtNdTBKYXlFb095d1hGWjFZc3RjWDFrOTVVMWJJ?=
+ =?utf-8?B?bjlpZGN3K28yUkdqelpHeTUvaGJIWXpqRDRvcmlNTlBkZ1lWeGxrNXN4eVhI?=
+ =?utf-8?B?UGNLNkZ6YU5kVy9mMDcwZ0RzSkNZc00rZVFoaW1FRTNYY0xBNk1qalplUE5w?=
+ =?utf-8?B?K3BLcHlBQ1V6RUcyQmxxMjU2eXMzZnRhWXJrak5kWkFmODIwN3hmN0FyTU40?=
+ =?utf-8?B?ZERJWWM3U2tnNnZ3OVBYZENJZy9CbFBGZStrYmk0WnlJSThQN044NXp4bkRH?=
+ =?utf-8?B?NVdpdG84Y0lrQkZSajlXN3g3NUF6TXV1d0VUdG9vTW9FQko4WWt3VnFwWTlH?=
+ =?utf-8?Q?P6FoWZajEQQkf1ATmfajYSfvB9ElLvrft6LS0=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB8189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?RHVWTUNYa05DZXZFMVU1OTBCMVpnSk1VZjN6YkNYaGRoa2JXYnhjT2s4OWZm?=
+ =?utf-8?B?eUpQang1NHRWdmlueVk5dTJwZStHdzY0TTBQQXpab0xwTzloUlZTYUI4OU54?=
+ =?utf-8?B?VFdRSlZVeE92OHJZeUZoU0lOZWFpNGVUYTdZYmU2c3Q3ZGpwNU1rd0VOdnI5?=
+ =?utf-8?B?Q0dOWTFydkxQYmk4S2VpQnI2NkI0eUYxbVpJRndzQ3EwTm1XdG9CeFlOd1RI?=
+ =?utf-8?B?NWlrTSt3aFBPZTA1cndwZ042VUdZQTVURkFoLzlLNHJEK3MwZm5jZGlMcG5h?=
+ =?utf-8?B?TERBc0dPVzZtVWJZVGtFeUE2RURVRndNMUF1OHpHQlg4WFlMMEIxdnlqRjNO?=
+ =?utf-8?B?OEY5VTMrdjZndXllNEc5dnppZGEvTHRRSVJGUkdTSUpCUUZVdXlUZUhMaUIw?=
+ =?utf-8?B?Rlc3SWZZZ3FuSkJXNU1DN1RCZjR1SnZZQjVwcXZHQ0RHaWd4UDNKYW1PZ2l5?=
+ =?utf-8?B?SUxyK0V1MTdrZ2I2U0JpbzhkYWpPQUs2TjVZYWNDemh6a3QzUGNLVG56UlZa?=
+ =?utf-8?B?SG1oRXpkNjFlVkFQdUQyeXNOcDJiMlJYZ3I4cHlyTzVxVXZVdG1XeE5WdnFa?=
+ =?utf-8?B?Nms0aUhSRWYzMDJ1Z0kxN21XTnZ0c3hFS08yTFhuTy9JSTBKTUlpU0tXbW55?=
+ =?utf-8?B?dGg4VzhVSUxpcWlIMlAycGQ3RjVybnFyMUU2MG9LdmxJaGN6blBLeWxRdFBT?=
+ =?utf-8?B?clc3dDRuSUY1RDlpOFJvYXBYNEFVdDluQm05eUhxajFNMG9sUkNkM1ZzdzVv?=
+ =?utf-8?B?WHlZK2FaQzN3RFVPc0FNOVFMaEhXWVpGc2tUTnM5cUxQc21BYkVIeHJlM0F4?=
+ =?utf-8?B?OFR3dllyRTZCZlhVakJQMllpb3NNNTFhZWZ1RXMyaHVxN1Z0emJ5MTduN29R?=
+ =?utf-8?B?dmF3WnowY0N2WGVMTUI4R0VyVld6S0htaTdpUGkwdXp1RTRySGdoRHAwdVNr?=
+ =?utf-8?B?bk5nMFAxZFR2YnFZOG12Y1FSbldoWE5jdlJiQkIzSE1tMXkxTlZBcXJqa1Q1?=
+ =?utf-8?B?c2Rzc3F2QWpKZE5YYXRhaTQra1JrdG1YWWt3dFcybVgrQjNqZHRHeFpsd05J?=
+ =?utf-8?B?bnFrbWlGeXE2MjVpc0tWY3JzdFFuUDBHVVE0MWJZMkpsWFQ1Qk91U2trOUJH?=
+ =?utf-8?B?SjhCcnBUcE56Rjk4d2ZFY2RrMVRNc3I1eG5RS1pnendnRnMxRmhkUnNYZ3BE?=
+ =?utf-8?B?elFQelltUWFyRW5vTmJyaUg4Y3l2L1hLQXBsY003UFhISmcrSS8yRXMyMm9X?=
+ =?utf-8?B?cmNrcW9qWEpNV1Rrekx1UzY5dXhrUEJ1ZXd0ZWNvQmE0akgxRGoxUFZGcDNY?=
+ =?utf-8?B?REZ5cjZoSmFHWTRpNmVBYnYrejEvTnpJL1BqSFdlaFNBODlSREMxcG1PMlNI?=
+ =?utf-8?B?aSt4RG1hb3Y3aXpDVlNLbVRrb1hGYUVRZlhFWUdyczJoSlQzS0lJWXh6K3hR?=
+ =?utf-8?B?NzgyTnJ5RjFyWlF0eUEydVYxblgxa2k3V0hzSThsU042SjRNeFhKOEE3M3hL?=
+ =?utf-8?B?YzV4MkQ2YUQ5bGo1U1IrV0lpc3JMaVE5blVnVk1YV0ZxRHpsb1RXNm9qSHdB?=
+ =?utf-8?B?bzcyOTFWS1ZuVGtmcHVPR01PSlhtL3QvNFRlekJlT3c4d2o4ZVgxT21aN1Av?=
+ =?utf-8?B?ZVVVOUxZNWNMejhid0JKMjRCU2lLYjlUMWRQajNMU2o3bUwzMEJXWHR3L09U?=
+ =?utf-8?B?RlRVOU5KTlYyR2lGSEJJTm5PVDkxZjdYV2wvbkQ1Myt0dHl3MTNUUTcxdkkz?=
+ =?utf-8?B?WFpuT3dONC9wUndFN0tIaWszcDZ3eUlTdGF1aHh5OFFxOFNCV3JwVW5DMEQw?=
+ =?utf-8?B?SUU4YzhoRm9sZ3NsMWhyZHgvRjBUdkJnUlN6dXFpT1NGOUx5Q1IxdG1EUTU2?=
+ =?utf-8?B?R1l3NFZYaXFYWFZCRmVzZnY4bmVrendnYUFrelhEVm9YOE8wZ0FZcHVWblln?=
+ =?utf-8?B?UWRSSXhGME5lRis3ZUdidk1sSDlRYUY0OE1mRzI1RUVNL2VIcHVwUk4yMW9k?=
+ =?utf-8?B?dHU2MDNkWi9TM0xTbUpzc3BWQlN1UGErcmZ0MTRrV0MzVkRzNTVrU3EyRFdQ?=
+ =?utf-8?B?ZGlYT3VoSmdnWkdpSGtEZ0xnUm1PQzlzcm9Rb29TaS9jNFUxbDVFTTNrVzgv?=
+ =?utf-8?B?M1VVYmtDNEhRbzZBMTFtQXoyTDJYVmUvYkllN3M0eTVFYW8rZk9QWkZJdm1v?=
+ =?utf-8?B?Tnc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 197ac850-e35f-4298-6482-08ddec3add6c
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB8189.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2025 05:12:52.7700
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: D1NLdoUBwjnJBxknGZaAsMiNva7sbw5ZmhJ6gTbYMB6+RB5OUpoIGA0hoRjNXqL1o6cE/xBV+NGyvMK3IKJPnSl3vIoG9sDdjKRSS25pzag=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8463
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA1MDA0OCBTYWx0ZWRfXzy1udr1pF5dt
+ s3R+Hzom+SXv+DjG4AgYaVxps3t0eaV+ZsVqIiM3OJX7pilTOTEsYyL7IinRjiDjRKHbF8AcuDN
+ Jc/Rmd6vCwUeuq+rUuHOHh+W83joyJ2ISpYR9zZeLqcyXKkHZBlUGUGKnUo4p2HRaeqxPltWuaW
+ gPPQidtc68WNa106ktV4I4y/3JtUK0JGGt69AU/uoK0sKIkAMfTp1SAvhObE25mBo5F5JADb4+O
+ WZX7mskPRK/N5rqrwGBzAZZDfpHsJ5JgN5GjGLIIB/QXI3y+KGhbZZYJ8T2ZnhO7DVSh3TehTcg
+ 4Hca1Db0p89xmiA+H74cRcuoZer0jMUIbogk7oreEn/U1aw8Yzd20SYa9mzGvU=
+X-Proofpoint-GUID: vp893jJQuWIuhUkEMGi3pFYLU_6crDyA
+X-Authority-Analysis: v=2.4 cv=M5BNKzws c=1 sm=1 tr=0 ts=68ba7157 cx=c_pps
+ a=L/hALDhYQ2kaG+m2YXDVcg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=Q4-j1AaZAAAA:8
+ a=t7CeM3EgAAAA:8 a=uozys0KKT3IGCxxCT38A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 3uzuA2UL56CDhj5qc_RUTCNrWh2-sPr-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-05_01,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 phishscore=0 clxscore=1015 adultscore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 5854ait9220791
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Sep 2025 19:10:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222969
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 05:13:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222970
 
-This v1 rfc-patch is only reposted for review reasons, it seems it
-wasn't captured by lore.
-It has been superseded by v2, and this one shouldn't be tested.
 
-On 9/4/25 21:08, Gyorgy Sarvari via lists.openembedded.org wrote:
-> From: "Gyorgy Sarvari via lists.openembedded.org" <skandigraun=gmail.com@lists.openembedded.org>
+On 9/4/2025 6:38 PM, Alexander Kanavin wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
 >
-> Changelog:
-> 0.24: https://lists.gnu.org/archive/html/info-gnu/2025-02/msg00010.html
-> 0.25: https://lists.gnu.org/archive/html/info-gnu/2025-05/msg00000.html
-> 0.26: https://lists.gnu.org/archive/html/info-gnu/2025-07/msg00007.html
+> On Thu, 4 Sept 2025 at 04:59, Haixiao Yan <haixiao.yan.cn@windriver.com=
+> wrote:
+>>> <Haixiao.Yan.CN=3Dwindriver.com@lists.openembedded.org> wrote:
+>>>> Note: environment.d-curl.sh, environment.d-python3-requests.sh,
+>>>> and environment.d-git.sh have the same issue and should be fixed
+>>>> similarly.
+>>> Which means we either have to fix everything (and somehow ensure it
+>>> won't regress), or just have a requirement that 'set -u' is not used.
+>>> I don't think it's right to fix such issues halfway.
+>> This patch addresses all the affected files introduced by the commit
+>> https://git.openembedded.org/openembedded-core/commit/meta?id=3D8a7ec5=
+2e9b35654bee48cd948c6c34c63db3e265.
+>>
+>>
+>> Could you please clarify what you mean by "fix everything"?
+> There are a lot of scripts in oe-core itself, and in the content
+> produced by recipes, and I can imagine most of them are going to have
+> the same issue with set -u, because generally shell code is not
+> written with the guards for it.
 >
-> - gettext-minimal-native recipe adapted to the new macro name (aclocal_DATA -> macros_DATA)
-> - install Makevars.template to gettext-minimal-native to be able to update missing variables
->   The file is renamed in the desitanion to Makevars.template.minimal, to avoid clashing
->   with the full gettext package (some recipes have both as dependency).
-> - autotools.bbclass: search for all po folders, and update the Makefile.in.in file
->   in each of them. This is required, because without this the old Makefile.in.in
->   files in these non ${S}/po folders are not updated with the new version of gettext, and
->   the compilation routinely fails due to this.
->   As part of the same change, also concatenate the source's Makevars files with the gettext
->   Makevars.template: this allows all variables to be defined, even the new ones that the
->   source didn't contain originally. First set the gettext template, and then append
->   the source's original Makevars to it, so it should override the variables that it was
->   setting originally, and keep the new variables at their default value.
-> - Adding coreutils to ptest:RDEPENDS allows 3 additional tests to be executed (they need "fold" program)
+> I would like to understand what makes these particular scripts
+> special. Why are they causing problems for you but not anything else
+> written in shell? It's difficult to believe that nothing else hits the
+> same problem.
 >
-> Ptest results:
->
-> =======================
-> All 626 tests passed
-> (40 tests were not run)
-> =======================
-> DURATION: 36
-> END: /usr/lib/gettext/ptest
-> 2025-08-30T17:49
-> STOP: ptest-runner
-> TOTAL: 1 FAIL: 0
->
-> With the previous version:
-> All 545 tests passed
-> (34 tests were not run)
->
-> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-> Cc: Ross Burton <ross.burton@arm.com>
->
-> ---
->  meta/classes-recipe/autotools.bbclass         | 32 ++++++++++++++++---
->  ...23.1.bb => gettext-minimal-native_0.26.bb} |  4 ++-
->  meta/recipes-core/gettext/gettext-sources.inc |  5 ++-
->  ...01-tests-autopoint-3-unset-MAKEFLAGS.patch |  8 ++---
->  .../gettext/gettext/serial-tests-config.patch | 28 ++++++++--------
->  .../{gettext_0.23.1.bb => gettext_0.26.bb}    |  9 ++++--
->  6 files changed, 56 insertions(+), 30 deletions(-)
->  rename meta/recipes-core/gettext/{gettext-minimal-native_0.23.1.bb => gettext-minimal-native_0.26.bb} (87%)
->  rename meta/recipes-core/gettext/{gettext_0.23.1.bb => gettext_0.26.bb} (95%)
->
-> diff --git a/meta/classes-recipe/autotools.bbclass b/meta/classes-recipe/autotools.bbclass
-> index 948f8c183a..0d83e68679 100644
-> --- a/meta/classes-recipe/autotools.bbclass
-> +++ b/meta/classes-recipe/autotools.bbclass
-> @@ -186,13 +186,35 @@ autotools_do_configure() {
->  				echo "no" | glib-gettextize --force --copy
->  			fi
->  		elif [ "${BPN}" != "gettext" ] && grep -q "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC; then
-> -			# We'd call gettextize here if it wasn't so broken...
-> +			# Gettextize could be called here, however it doesn't make the job much easier:
-> +			# It doesn't discover relevant po folders on its own, so they still need to be
-> +			# found by some heurestics. Also, it would require always the full gettext
-> +			# package always, instead of gettext-minimal-native.
->  			cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
-> -			if [ -d ${S}/po/ ]; then
-> -				cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
-> -				if [ ! -e ${S}/po/remove-potcdate.sed ]; then
-> -					cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sed ${S}/po/
-> +			if [ -d ${S}/po ]; then
-> +				if [ -f ${S}/po/Makefile.in.in ]; then
-> +					# search for all Makefile.in.in files that are identical to ./po/Makefile.in.in, by md5sum
-> +					base_makefile_hash=`md5sum ${S}/po/Makefile.in.in | tr -s ' ' | cut -f1 -d' '`
-> +					makefiles_to_update=`find ${S} -name Makefile.in.in -exec md5sum {} \+ | grep $base_makefile_hash | tr -s ' ' | cut -d' ' -f2`
-> +				else
-> +					# if there is no po/Makefile.in.in, then just copy the latest there, without
-> +					# searching for others
-> +					makefiles_to_update="./po/Makefile.in.in"
->  				fi
-> +				bbnote List of Makefile.in.ins to update: $makefiles_to_update
-> +				for makefile in ${makefiles_to_update}; do
-> +					makefile_dir=$(dirname $makefile)
-> +					bbnote Executing: cp ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${makefile_dir}/
-> +					cp ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${makefile_dir}/
-> +					if [ ! -e ${makefile_dir}/remove-potcdate.sed ]; then
-> +						cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sed ${makefile_dir}/
-> +					fi
-> +				done
-> +				for makevars in `find ${S} -name Makevars`; do
-> +					bbnote Concatenating Makevars: $makevars
-> +					cat ${STAGING_DATADIR_NATIVE}/gettext/po/Makevars.template.minimal ${makevars} >> ${makevars}.yocto_temp
-> +					mv ${makevars}.yocto_temp ${makevars}
-> +				done
->  			fi
->  			PRUNE_M4="$PRUNE_M4 gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4"
->  		fi
-> diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.26.bb
-> similarity index 87%
-> rename from meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb
-> rename to meta/recipes-core/gettext/gettext-minimal-native_0.26.bb
-> index 941896ec48..b5c32d0786 100644
-> --- a/meta/recipes-core/gettext/gettext-minimal-native_0.23.1.bb
-> +++ b/meta/recipes-core/gettext/gettext-minimal-native_0.26.bb
-> @@ -24,7 +24,7 @@ python get_aclocal_files() {
->      with open(fpath) as f:
->          content = f.read()
->          for l in content.replace("\\\n","").split("\n"):
-> -            if l.startswith("aclocal_DATA"):
-> +            if l.startswith("macros_DATA"):
->                  aclocal_files = l.split("=")[1]
->                  with open(oe.path.join(d.getVar("WORKDIR"),"aclocal-files"),'w') as outf:
->                      outf.write(aclocal_files)
-> @@ -43,4 +43,6 @@ do_install () {
->  	cp ${S}/build-aux/config.rpath ${D}${datadir}/gettext/
->  	cp ${S}/gettext-runtime/po/Makefile.in.in ${D}${datadir}/gettext/po/
->  	cp ${S}/gettext-runtime/po/remove-potcdate.sed ${D}${datadir}/gettext/po/
-> +	# The gettext recipe also installs the same Makevars.template at the same place, rename it
-> +	cp ${S}/gettext-tools/po/Makevars.template ${D}${datadir}/gettext/po/Makevars.template.minimal
->  }
-> diff --git a/meta/recipes-core/gettext/gettext-sources.inc b/meta/recipes-core/gettext/gettext-sources.inc
-> index 5d90d81b58..2ddf47334d 100644
-> --- a/meta/recipes-core/gettext/gettext-sources.inc
-> +++ b/meta/recipes-core/gettext/gettext-sources.inc
-> @@ -1,4 +1,3 @@
->  HOMEPAGE = "http://www.gnu.org/software/gettext/gettext.html"
-> -SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
-> -           "
-> -SRC_URI[sha256sum] = "52a578960fe308742367d75cd1dff8552c5797bd0beba7639e12bdcda28c0e49"
-> +SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz"
-> +SRC_URI[sha256sum] = "39acf4b0371e9b110b60005562aace5b3631fed9b1bb9ecccfc7f56e58bb1d7f"
-> diff --git a/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAKEFLAGS.patch b/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
-> index a8f6684bd7..f14d8df689 100644
-> --- a/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
-> +++ b/meta/recipes-core/gettext/gettext/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
-> @@ -16,10 +16,10 @@ diff --git a/gettext-tools/tests/autopoint-3 b/gettext-tools/tests/autopoint-3
->  index af2e17f..46cf3f7 100755
->  --- a/gettext-tools/tests/autopoint-3
->  +++ b/gettext-tools/tests/autopoint-3
-> -@@ -137,6 +137,7 @@ ${CONFIG_SHELL} ./configure >/dev/null 2>autopoint.err
-> - test $? = 0 || { cat autopoint.err; Exit 1; }
-> - 
-> - : ${MAKE=make}
-> +@@ -149,6 +149,7 @@
-> +     *) MAKE=make ;;
-> +   esac
-> + fi
->  +unset MAKEFLAGS
->   ${MAKE} >/dev/null 2>autopoint.err
->   test $? = 0 || { cat autopoint.err; Exit 1; }
-> diff --git a/meta/recipes-core/gettext/gettext/serial-tests-config.patch b/meta/recipes-core/gettext/gettext/serial-tests-config.patch
-> index 3baf549795..88bd33951a 100644
-> --- a/meta/recipes-core/gettext/gettext/serial-tests-config.patch
-> +++ b/meta/recipes-core/gettext/gettext/serial-tests-config.patch
-> @@ -18,23 +18,23 @@ diff --git a/configure.ac b/configure.ac
->  index 5106676..3114998 100644
->  --- a/configure.ac
->  +++ b/configure.ac
-> -@@ -22,7 +22,7 @@ AC_INIT([gettext],
-> - 	[bug-gettext@gnu.org])
-> - AC_CONFIG_SRCDIR([gettext-tools/src/msgfmt.c])
-> - AC_CONFIG_AUX_DIR([build-aux])
-> +@@ -23,7 +23,7 @@ AC_CONFIG_AUX_DIR([build-aux])
-> + VERSION_NUMBER=`cd $srcdir \
-> +                 && build-aux/git-version-gen .tarball-version`
-> + gl_INIT_PACKAGE_VERSION([$VERSION_NUMBER])
->  -AM_INIT_AUTOMAKE([1.13 silent-rules parallel-tests tar-ustar])
->  +AM_INIT_AUTOMAKE([1.13 silent-rules serial-tests tar-ustar])
->   
-> - dnl Override automake's tar command used for creating distributions.
-> - am__tar='${AMTAR} chf - --format=ustar --owner=root --group=root "$$tardir"'
-> + dnl Override automake's tar command used for creating distributions:
-> + dnl - Sort the files by basename, not by dirname, to achieve higher compression
->  diff --git a/gettext-runtime/configure.ac b/gettext-runtime/configure.ac
->  index e128f5b..9f7447c 100644
->  --- a/gettext-runtime/configure.ac
->  +++ b/gettext-runtime/configure.ac
-> -@@ -22,7 +22,7 @@ AC_INIT([gettext-runtime],
-> - 	[bug-gettext@gnu.org])
-> - AC_CONFIG_SRCDIR([intl/dcigettext.c])
-> - AC_CONFIG_AUX_DIR([../build-aux])
-> +@@ -23,7 +23,7 @@ AC_CONFIG_AUX_DIR([../build-aux])
-> + VERSION_NUMBER=`cd $srcdir/.. \
-> +                 && build-aux/git-version-gen .tarball-version`
-> + gl_INIT_PACKAGE_VERSION([$VERSION_NUMBER])
->  -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])
->  +AM_INIT_AUTOMAKE([1.11.1 silent-rules serial-tests])
->   AC_CONFIG_HEADERS([config.h])
-> @@ -44,10 +44,10 @@ diff --git a/gettext-tools/configure.ac b/gettext-tools/configure.ac
->  index 3b1f461..14510a9 100644
->  --- a/gettext-tools/configure.ac
->  +++ b/gettext-tools/configure.ac
-> -@@ -22,7 +22,7 @@ AC_INIT([gettext-tools],
-> - 	[bug-gettext@gnu.org])
-> - AC_CONFIG_SRCDIR([src/msgfmt.c])
-> - AC_CONFIG_AUX_DIR([../build-aux])
-> +@@ -23,7 +23,7 @@ AC_CONFIG_AUX_DIR([../build-aux])
-> + VERSION_NUMBER=`cd $srcdir/.. \
-> +                 && build-aux/git-version-gen .tarball-version`
-> + gl_INIT_PACKAGE_VERSION([$VERSION_NUMBER])
->  -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])
->  +AM_INIT_AUTOMAKE([1.11.1 silent-rules serial-tests])
->   AC_CONFIG_HEADERS([config.h])
-> diff --git a/meta/recipes-core/gettext/gettext_0.23.1.bb b/meta/recipes-core/gettext/gettext_0.26.bb
-> similarity index 95%
-> rename from meta/recipes-core/gettext/gettext_0.23.1.bb
-> rename to meta/recipes-core/gettext/gettext_0.26.bb
-> index c704a3b6d7..f34474e062 100644
-> --- a/meta/recipes-core/gettext/gettext_0.23.1.bb
-> +++ b/meta/recipes-core/gettext/gettext_0.26.bb
-> @@ -89,7 +89,8 @@ FILES:${PN} += "${libdir}/${BPN}/"
->  # The its/Makefile.am has defined:
->  # itsdir = $(pkgdatadir)$(PACKAGE_SUFFIX)/its
->  # not itsdir = $(pkgdatadir), so use wildcard to match the version.
-> -FILES:${PN} += "${datadir}/${BPN}-*/*"
-> +FILES:${PN} += "${datadir}/${BPN}-*/* \
-> +                ${datadir}/${BPN}/m4/*"
->  
->  FILES:gettext-runtime = "${bindir}/gettext \
->                           ${bindir}/ngettext \
-> @@ -170,11 +171,13 @@ do_install_ptest() {
->          find ${D}${PTEST_PATH}/ -name "*.o" -exec rm {} \;
->          chmod 0755 ${D}${PTEST_PATH}/tests/lang-vala ${D}${PTEST_PATH}/tests/plural-1 ${D}${PTEST_PATH}/tests/xgettext-tcl-4 \
->                     ${D}${PTEST_PATH}/tests/xgettext-vala-1  ${D}${PTEST_PATH}/tests/xgettext-po-2 ${D}${PTEST_PATH}/tests/xgettext-vala-6 \
-> -                   ${D}${PTEST_PATH}/tests/plural-3 ${D}${PTEST_PATH}/tests/plural-4 ${D}${PTEST_PATH}/tests/xgettext-java-8 ${D}${PTEST_PATH}/tests/xgettext-java-9
-> +                   ${D}${PTEST_PATH}/tests/plural-3 ${D}${PTEST_PATH}/tests/plural-4 ${D}${PTEST_PATH}/tests/xgettext-java-8 ${D}${PTEST_PATH}/tests/xgettext-java-9 \
-> +                   ${D}${PTEST_PATH}/tests/msgfmt-21 ${D}${PTEST_PATH}/tests/format-modula2-1 ${D}${PTEST_PATH}/tests/format-modula2-2 \
-> +                   ${D}${PTEST_PATH}/tests/lang-go ${D}${PTEST_PATH}/tests/lang-ruby ${D}${PTEST_PATH}/tests/lang-modula2 ${D}${PTEST_PATH}/tests/lang-d
->          sed -i -e 's|${DEBUG_PREFIX_MAP}||g' ${D}${PTEST_PATH}/tests/init-env
->  }
->  
-> -RDEPENDS:${PN}-ptest += "make xz bash gawk autoconf locale-base-de-de locale-base-fr-fr"
-> +RDEPENDS:${PN}-ptest += "make xz bash gawk autoconf locale-base-de-de locale-base-fr-fr coreutils"
->  RDEPENDS:${PN}-ptest:append:libc-glibc = "\
->      glibc-gconv-big5 \
->      glibc-charmap-big5 \
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#222968): https://lists.openembedded.org/g/openembedded-core/message/222968
-> Mute This Topic: https://lists.openembedded.org/mt/114982746/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> Please describe how, and why you use set -u.
+1.Generate the SDK =E2=80=94 bitbake -c=C2=A0 populate_sdk imageRecipeNam=
+e
+2.Install the SDK using the .sh script
+3.Open a fresh bash shell - IMPORTANT
+4.set -eu
+5.source the SDK
 
+It was working properly before the commit
+https://git.openembedded.org/openembedded-core/commit/meta?id=3D8a7ec52e9=
+b35654bee48cd948c6c34c63db3e265.=20
+
+
+Therefore, it appears that this may be a regression issue.
+
+Thanks,
+
+Haixiao
+
+>
+> Alex
 
