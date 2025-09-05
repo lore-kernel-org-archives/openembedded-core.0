@@ -2,143 +2,196 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8224ACA101F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75144CA0FED
 	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 16:42:24 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web10.121.1757090535540172715
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web11.126.1757090534914151450
  for <openembedded-core@lists.openembedded.org>;
  Fri, 05 Sep 2025 09:42:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=HHgGvIgt;
- spf=pass (domain: underview.tech, ip: 209.85.219.43, mailfrom: vince@underview.tech)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-7251e6b2f9eso13391976d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 09:42:15 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=JFDA+44C;
+ spf=pass (domain: underview.tech, ip: 209.85.222.182, mailfrom: vince@underview.tech)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8117aef2476so72883785a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 09:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1757090534; x=1757695334; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fgqK7w5ur3QXMrtpVRzJI/TyAhGTkklkIlH3sCinApo=;
-        b=HHgGvIgtGuQyz5WpPBrhjU/rjuZM81WtzRUDiiGofGVAcAIXw+nJuUEny8gV9EgwIg
-         Xe8ckUnpW3MaYRkWTOrrzk4u+AuNVEaUzaQyaXBF94Ou/UbmTVFPOPIo088OK6DWcdh1
-         LYkfny7FILi7+52mZT1O+5c+oZLXmn7DDQWIp0Do+1OpStxRG+tDSYfVe7DABY3E/1tQ
-         8k3gtfMK3AaV+T01kMKcaTzLS3TrCWV9UyD32wo4gR/INlNoZcVkmUCxVCCDYzYShyY+
-         jAi88xwzM6nytLo1hwDnMEkOTITgZzM5PQmQN+rJNAEmWlJMozjK4JWUMkLLJafFjs3v
-         z3ng==
+        d=underview.tech; s=google; t=1757090533; x=1757695333; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=erDmI44TaPwCg8OY7OyOsBj1dsMGf9ZjmAhlCNcV5/s=;
+        b=JFDA+44Cln8LWltGRreQVPJHW0mEEcc7WtQe5vi4LrC14pG/OQO7WYfJMT5m2MqX/x
+         LDPLDnijmw1i6G7PlTHq/FHtyMIozK+74JC4fJeWCGuGlRcZjG7Wgpx/avt/LdGIV8QB
+         szm7mpd44cWaQbVzw100q728+RvNDjRLTgYijuPqGHA6zShjfytkOWqlYyM8JX8A3Bp3
+         neXs5ekzY6xz6oo3myqWZvqrY/YG5flzAgyj+LKgczg/9BV28vEZFv6bJa2ig6gusYBb
+         c55md4HXvNSWIPyOaavFDJISPV035+8hAc6HzmjdH4wAS969LdzhmnQsoVM0tqLBsSxG
+         EHzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757090534; x=1757695334;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fgqK7w5ur3QXMrtpVRzJI/TyAhGTkklkIlH3sCinApo=;
-        b=BfZSd+QqPfxpRKmcKEleLO5vh/QKhbH9fRW1FeGBbu9d4jQIsIihql/fqW9BX/WaF3
-         1E0vP1hGiSl2Ew2W6lXYc16W4zqJXIbhnuZDO4FL+L+HnOj4pTwH4qGDGPvQnjQpvPxe
-         88UXmdepkS4iOrVarYbdZzYKMFtTMokWSni+JC1+JF1xxz+ue/6BHempNgEY/ijvoT0v
-         B02yhLTm/NUW5C8l/scbZMRL+OaEOUyGCYdi4IsDr1e8btEkrwdQTpe47WzhiYahPNB5
-         vJoIYRI+G8WT6PADBHOcahieuwBX0+/CFIhabudz9//h8FBOAjH+E5SvXrudI5lMBFMJ
-         RfFQ==
-X-Gm-Message-State: AOJu0YyoSg2QCy7BNoBdoSGvRl+2tyQxHrnxL3wfBITa9v5qWGlxqoQ/
-	We6vuhGB61bIqbxX6YUvkv4aNBxPSO7XxBOZE1S91uIkUNl3ahplluB7egX/E8u7uqNOiiINbUJ
-	AqOvB
-X-Gm-Gg: ASbGncuvx1GMu8ghdHv+FnvgK/mExycxUrLw1aV9NgRZqCct5Ygb3OOmkf/FYi32VP+
-	Hzh3S+doQGwak+ZyNLADMKpcitL8N4fiFBbcl6MuTFInnj4M0L2txDvroAEghp/5EFP2tbms6I/
-	WVWPSy9u7QpO5gq9M0Pas8HAf7DZqC8LzRhVDiPy8z7hGPwUgX9hJK15ZDoQ48K43UZ6nUe536m
-	WdlOuRhj8K84/VYDOOkKYSMKzRqUajPZJXI3yqa74RXCppvOU1r3YZCzpR0h3NBkYDQKa7oE6Q6
-	BXdnPQYmLktyHR359p66cJOBShwNKyGPl0Vf/Iun3fuJ5co3xgP+pQRNdX6QD+rZWObV/pBOJKR
-	25Vr7Wonpoti6ONL5E3jnow==
-X-Google-Smtp-Source: AGHT+IEJX1TYrsd85jMHct/X1ACZ82bxeLqA2af029JV+G4XFLKisbIlpGkJDowJXNq5TIMuCXcAxg==
-X-Received: by 2002:a05:6214:4017:b0:707:3cb1:3fac with SMTP id 6a1803df08f44-70fac740196mr253805676d6.15.1757090534081;
-        Fri, 05 Sep 2025 09:42:14 -0700 (PDT)
-Received: from vince-server.. ([2601:406:4d01:1820::d1ea])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-727b2c047dcsm39595046d6.59.2025.09.05.09.42.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20230601; t=1757090533; x=1757695333;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=erDmI44TaPwCg8OY7OyOsBj1dsMGf9ZjmAhlCNcV5/s=;
+        b=ff0b2SLEIZFJm7GKpp30VJWWZg5R7+ao5la2sVbbLX4TqUZllOtM7G55N0J+EUpUDi
+         jD4KuyZdhM2OX8E9ASQYnpGK1YBOm0aLJEjqrC6qtzte6m16ooCTjZet8vVjS8mpdbHI
+         l44wFVcKlTMwuVlXSAONBTdc3X4dGPX+fHjeldERvUtb/gvinlppKJh4/wknqFyLw2R8
+         uoVGL3TjWsLuEGFwYlF1aerwEdE5DHcbXLolXfZhaZGFBdsg0UMk/HhW6b90jYrihl/G
+         /deuzJexaRQaXceG+WMfVSq9YpeUONq5OgZMi0bQUURaMjLlZyHE3wX3ABS/Q8Oedrou
+         KSJA==
+X-Gm-Message-State: AOJu0YxFik2QYh5+48OWyMAHf28oBuZ9Qrp4gxPCiC+U1OZCTQdUwmPS
+	TfPtPGyQ1NZE9vM+ehOT+hALA+n9uVga/UQD3d/QBhM34yaNEknsAGR9meZ1NAF4YeuGr9fAaje
+	ynbey
+X-Gm-Gg: ASbGncv3ah1Rh6A+gML9eVAHzXw8SLHat/knLorgaCE+VICKOwC0EJqQYspc86XjWnm
+	AHR8wUTXaMqrh85LyVPNMn29p5T9FEvbC6Qo6M9Pc2ofAJEric2oejH5WJQkAmuQ3+L9MVj1y+P
+	SyJwOMDGnm3pihszLQJEuh+ye4QUAAGEoPyJxeudrnCQNVZNTNE5XRNF1Yd92hF0YtUyjzDUjSZ
+	LtTiKxHuAcuurELB9w5wtJPVaArOrr8SG1NVqzy3CY/ibA1moNuJkBW2kRXwbcVueGU/Zmuo9L5
+	Fj3Yf6o/WebdscCY7O3IVCSZ9n07PrFq/zYvN/UV28m78KQhtFzzzUxWHBPcBejtjONAN1oxw0S
+	d3wna1edXKDgKE62iaYJX2g==
+X-Google-Smtp-Source: AGHT+IHBldigouxr5XwQN8OTWnSl6OiYOVKRSHVRJgaLEjIeHewux8FfTt09XkdT9GKl0t2zADc40Q==
+X-Received: by 2002:a05:620a:a018:b0:80d:6f37:ed3d with SMTP id af79cd13be357-80d6f37f091mr1004623685a.42.1757090533333;
         Fri, 05 Sep 2025 09:42:13 -0700 (PDT)
+Received: from vince-server.. ([2601:406:4d01:1820::d1ea])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-727b2c047dcsm39595046d6.59.2025.09.05.09.42.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 09:42:12 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [OE-core][PATCH v3 2/8] bootimg_efi: support grub hybrid boot
-Date: Fri,  5 Sep 2025 12:41:30 -0400
-Message-ID: <20250905164136.2896809-2-vince@underview.tech>
+Subject: [OE-core][PATCH v3 1/8] bootimg_pcbios: support grub hybrid boot
+Date: Fri,  5 Sep 2025 12:41:29 -0400
+Message-ID: <20250905164136.2896809-1-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250905164136.2896809-1-vince@underview.tech>
-References: <20250905164136.2896809-1-vince@underview.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 16:42:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223018
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223017
 
-If bootimg_biosplusefi wics plugin is
-used check for loader-bios in sourceparam.
+If caller wants to primarily leverage
+grub as the primary boot loader current
+oe-core doesn't support booting grub when
+the boot firmware is legacy BIOS based and
+the partition table format is GPT based.
 
-The grub config is copied by the bootimg_pcbios
-wic's plugin. The reason is it's autogenerated
-grub config is generic enough to support both
-legacy boot and hybrid boot. Thus, no need
-to update it.
+Issue GPT header reside where core.img
+should be located (at byte 512).
 
-If partition type marked as EFI System only
-copy in UEFI application boot*.efi (core.img).
+To navigate around issue core.img was
+moved to a seperate partition.
 
-It appears the EFI directory resides after
-initial population of the EFI System partition.
-If bootimg_efi called again and the partiton
-type not marked as EFI System remove any
-unwanted files.
+If disk is a GPT disk caller must specify
+the file system type as none and set the
+partition type as BIOS boot. No filesystem
+will be created on partition. This also
+allows wic plugin to know where to dd
+core.img.
+
+Unfortunately No deep dive into grub-install
+was perform to know the exact bytes changed
+in hybrid boot case. To see the change in
+bytes generated boot.img + core.img was compared
+to boot.img + core.img after grub-install was
+executed using the xxd command.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- scripts/lib/wic/plugins/source/bootimg_efi.py | 28 +++++++++++++++++--
- 1 file changed, 26 insertions(+), 2 deletions(-)
+ .../lib/wic/plugins/source/bootimg_pcbios.py  | 55 ++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg_efi.py b/scripts/lib/wic/plugins/source/bootimg_efi.py
-index cf16705a28..98be12160c 100644
---- a/scripts/lib/wic/plugins/source/bootimg_efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg_efi.py
-@@ -223,7 +223,13 @@ class BootimgEFIPlugin(SourcePlugin):
-         exec_cmd(install_cmd)
+diff --git a/scripts/lib/wic/plugins/source/bootimg_pcbios.py b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
+index caabda6318..a7fb2eca4e 100644
+--- a/scripts/lib/wic/plugins/source/bootimg_pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
+@@ -101,7 +101,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
+                      disk_name, full_path, disk.min_size)
  
-         try:
--            if source_params['loader'] == 'grub-efi':
-+            # In grub hybrid boot case bootimg_pcbios generates/copies the grub.cfg
-+            # that will be stored on same partitions as the grub modules.
-+            if 'loader-bios' in source_params and \
-+               source_params['loader-bios'] == 'grub' and \
-+               source_params['loader'] == 'grub-efi':
-+                pass
-+            elif source_params['loader'] == 'grub-efi':
-                 cls.do_configure_grubefi(hdddir, creator, cr_workdir, source_params)
-             elif source_params['loader'] == 'systemd-boot':
-                 cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
-@@ -328,7 +334,25 @@ class BootimgEFIPlugin(SourcePlugin):
-                 logger.debug("Installed IMAGE_EFI_BOOT_FILES:\n%s" % out)
+         if cls.loader == 'grub':
+-            cls._do_install_grub(creator, kernel_dir,
++            cls._do_install_grub(disk, creator, kernel_dir,
+                             native_sysroot, full_path)
+         elif cls.loader == 'syslinux':
+             cls._do_install_syslinux(creator, bootimg_dir,
+@@ -340,6 +340,12 @@ class BootimgPcbiosPlugin(SourcePlugin):
  
-         try:
--            if source_params['loader'] == 'grub-efi':
-+            if 'loader-bios' in source_params and \
-+               source_params['loader-bios'] == 'grub' and \
-+               source_params['loader'] == 'grub-efi':
+     @classmethod
+     def _do_configure_grub(cls, part, creator, cr_workdir):
++        # If partition type is either EFI System or
++        # BIOS boot no need to generate/copy grub config.
++        if part.part_type == '21686148-6449-6E6F-744E-656564454649' or \
++           part.part_type == 'C12A7328-F81F-11D2-BA4B-00A0C93EC93B':
++            return 0
 +
-+                # If partition type is Bios Boot return
+         hdddir = "%s/hdd" % cr_workdir
+         bootloader = creator.ks.bootloader
+ 
+@@ -438,6 +444,12 @@ class BootimgPcbiosPlugin(SourcePlugin):
+          grub_mods_path, core_img, builtin_modules)
+         exec_native_cmd(grub_mkimage, native_sysroot)
+ 
++        # If partition type is either EFI System or
++        # BIOS boot no need to copy in grub modules.
++        if part.part_type == '21686148-6449-6E6F-744E-656564454649' or \
++           part.part_type == 'C12A7328-F81F-11D2-BA4B-00A0C93EC93B':
++            return 0
++
+         # Copy grub modules
+         install_dir = '%s/%s/%s' % (hdddir, grub_prefix_path, grub_format)
+         os.makedirs(install_dir, exist_ok=True)
+@@ -454,7 +466,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
+                             native_sysroot, False)
+ 
+     @classmethod
+-    def _do_install_grub(cls, creator, kernel_dir,
++    def _do_install_grub(cls, disk, creator, kernel_dir,
+                          native_sysroot, full_path):
+         core_img = '%s/grub-bios-core.img' % (kernel_dir)
+ 
+@@ -478,6 +490,45 @@ class BootimgPcbiosPlugin(SourcePlugin):
+             # Install core.img or grub stage 1.5
+             dd_cmd = "dd if=%s of=%s conv=notrunc bs=1 seek=512" % (core_img, full_path)
+             exec_cmd(dd_cmd, native_sysroot)
++        elif creator.ptable_format == 'gpt':
++            # Issue GPT headers reside where core.img should be (at byte 512).
++            # To navigate around issue core.img was moved to a seperate partition.
++            #
++            # If disk is a GPT disk caller must specify the file system
++            # type as none. As no filesystem may be created. Caller must
++            # also set the partition type to BIOS boot. So, the plugin
++            # may embed core.img there.
++
++            # Replicates what grub-install does to boot.img
++            # Found by comparing xxd output of generated boot.img
++            # to boot.img after grub-install.
++            dd_cmd = "echo -ne '\\x00\\x08' | dd of=%s conv=notrunc bs=1 count=2 seek=92" % (full_path)
++            exec_native_cmd(dd_cmd, native_sysroot)
++
++            dd_cmd = "echo -ne '\\x90\\x90' | dd of=%s conv=notrunc bs=1 count=2 seek=102" % (full_path)
++            exec_native_cmd(dd_cmd, native_sysroot)
++
++            for part in creator.parts:
 +                if part.part_type == '21686148-6449-6E6F-744E-656564454649':
-+                       return 0
++                    part_start_byte = part.start * disk.sector_size
 +
-+                # The grub config in the hybrid grub boot setup is
-+                # copied by the bootimg_pcbios wics plugin.
-+                if part.part_type == 'C12A7328-F81F-11D2-BA4B-00A0C93EC93B':
-+                    for mod in [x for x in os.listdir(kernel_dir) if x.startswith("grub-efi-")]:
-+                        cp_cmd = "cp -v -p %s/%s %s/EFI/BOOT/%s" % \
-+                            (kernel_dir, mod, hdddir, mod[9:])
-+                        exec_cmd(cp_cmd, True)
-+                else:
-+                    shutil.rmtree("%s/EFI" % hdddir)
-+                    return 0
-+            elif source_params['loader'] == 'grub-efi':
-                 shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
-                                 "%s/grub.cfg" % cr_workdir)
-                 for mod in [x for x in os.listdir(kernel_dir) if x.startswith("grub-efi-")]:
++                    # Install core.img or grub stage 1.5
++                    dd_cmd = "dd if=%s of=%s conv=notrunc bs=1 seek=%s" % \
++                        (core_img, full_path, part_start_byte)
++                    exec_cmd(dd_cmd, native_sysroot)
++
++                    # Replicates what grub-install does to core.img
++                    # Found by comparing xxd output of generated
++                    # core.img to core.img ater grub install.
++                    dd_cmd = "echo -ne '\\x01\\x08' | dd of=%s conv=notrunc bs=1 count=2 seek=%d" % \
++                            (full_path, part_start_byte + 500)
++                    exec_native_cmd(dd_cmd, native_sysroot)
++
++                    dd_cmd = "echo -ne '\\x2f\\x02' | dd of=%s conv=notrunc bs=1 count=2 seek=%d" % \
++                            (full_path, part_start_byte + 508)
++                    exec_native_cmd(dd_cmd, native_sysroot)
++
++                    break
+         else:
+             raise WicError("Unsupported partition table: %s" %
+                            creator.ptable_format)
 -- 
 2.43.0
 
