@@ -2,25 +2,25 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E085CA1013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7028BCA1017
 	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 11:09:06 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.18930.1757070531552157915
+ by mx.groups.io with SMTP id smtpd.web10.18768.1757070532317787825
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 04:08:51 -0700
+ Fri, 05 Sep 2025 04:08:52 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D1F7F1595
-	for <openembedded-core@lists.openembedded.org>; Fri,  5 Sep 2025 04:08:42 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8822B153B
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Sep 2025 04:08:43 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CC4403F6A8
-	for <openembedded-core@lists.openembedded.org>; Fri,  5 Sep 2025 04:08:50 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 79DEC3F6A8
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Sep 2025 04:08:51 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] spirv-tools: improve packaging
-Date: Fri,  5 Sep 2025 12:08:44 +0100
-Message-ID: <20250905110845.3139349-2-ross.burton@arm.com>
+Subject: [PATCH 3/3] mesa: clean up libopencl-mesa dependencies
+Date: Fri,  5 Sep 2025 12:08:45 +0100
+Message-ID: <20250905110845.3139349-3-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250905110845.3139349-1-ross.burton@arm.com>
 References: <20250905110845.3139349-1-ross.burton@arm.com>
@@ -30,52 +30,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 11:09:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222993
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222994
 
-spirv-tools is a set of libraries and some binaries that link to those
-libraries, so inherit lib_package so that the binaries and the libraries
-are packaged separately.
-
-The lesspipe script hasn't needed bash since 2018[1], so remove the bash
-dependency and package the script with the other binaries.
-
-The build type unless specified is Debug, explicitly set RelWithDebInfo.
-
-[1] spirv-tools f70e9e "tools/lesspipe: Allow generic shell (#2255)"
+The libraries in spirv-tools and spirv-llvm-translator are linked to
+libopencl, so the correct dependencies are generated automatically.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb b/meta/r=
-ecipes-graphics/spir/spirv-tools_1.4.321.0.bb
-index 30c42e915f9..c3e0d17d87a 100644
---- a/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_1.4.321.0.bb
-@@ -19,11 +19,12 @@ PE =3D "1"
- # upstream considers a release.
- UPSTREAM_CHECK_GITTAGREGEX =3D "sdk-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+index a848a2ad8c7..6b040e9f839 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -244,7 +244,7 @@ DEV_PKG_DEPENDENCY =3D ""
+ RPROVIDES:libgles2-mesa +=3D "libgles3-mesa"
+ RPROVIDES:libgles2-mesa-dev +=3D "libgles3-mesa-dev"
 =20
--inherit cmake
-+inherit cmake lib_package
+-RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
+ncl', 'libclc spirv-tools spirv-llvm-translator', '', d)}"
++RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'ope=
+ncl', 'libclc', '', d)}"
 =20
- DEPENDS =3D "spirv-headers"
-=20
- EXTRA_OECMAKE +=3D "\
-+    -DCMAKE_BUILD_TYPE=3DRelWithDebInfo \
-     -DSPIRV-Headers_SOURCE_DIR=3D${STAGING_EXECPREFIXDIR} \
-     -DSPIRV_TOOLS_BUILD_STATIC=3DOFF \
-     -DBUILD_SHARED_LIBS=3DON \
-@@ -46,8 +47,4 @@ do_install:append:class-target() {
- SOLIBS =3D ".so"
- FILES_SOLIBSDEV =3D ""
-=20
--PACKAGES =3D+ "${PN}-lesspipe"
--FILES:${PN}-lesspipe =3D "${base_bindir}/spirv-lesspipe.sh"
--RDEPENDS:${PN}-lesspipe +=3D "${PN} bash"
--
- BBCLASSEXTEND =3D "native nativesdk"
+ PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
+              libgallium \
 --=20
 2.43.0
 
