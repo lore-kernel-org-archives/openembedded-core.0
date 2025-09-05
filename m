@@ -2,40 +2,39 @@ Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE946CA1015
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D16B5CA1013
 	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 12:24:46 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.web11.20305.1757075077111496068
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.web11.20308.1757075077634264588
  for <openembedded-core@lists.openembedded.org>;
  Fri, 05 Sep 2025 05:24:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=PeA1E4iZ;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=h8ZFJagL;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: antonin.godard@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 821A51A0DC8;
-	Fri,  5 Sep 2025 12:24:35 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 3554AC8F1F9
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Sep 2025 12:24:20 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 577996060B;
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 67748606B0;
 	Fri,  5 Sep 2025 12:24:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5EE12102F1BCE;
-	Fri,  5 Sep 2025 14:24:34 +0200 (CEST)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BDAEE102F0EE5;
+	Fri,  5 Sep 2025 14:24:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
 	t=1757075074; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=biAL101HJ1VeXNAtuVrcdg7A8VDGkGTSKajYtdo+lCQ=;
-	b=PeA1E4iZn1TJ+Nx+QbcQsTpZQEnLR9Ux6jxn89nqENF7wMR2qt1HDBm/eJwe8yTn2RhvcR
-	RHpzV5e0YKoZz+qyzA/QKx8sF8SHOBf4kQesFNriwBEUWZ3mfzHLklSwsRSSggYFfz/qtS
-	NWIjWJvoqaiNiSMcj+Hh8E9Ulk4bA79fmk7Cp+75louFaMxDoYtaUrjgUG3OkGT2TYXvFw
-	+ps3VMap0vCL/Yx5lSSlFmrtMJa5v+2Rw3CMeAL9bbNiNJ1OUkea41aqShwAoyNOf3niII
-	Dx6x6nbmErWXfsTEfoHmCle2xgFyQVC7K4z8ZehkyQt/gMbqy7qD/7r1jDLbKw==
+	bh=pysOqjWifEv2nkm2le9hllk/x2Vw7Ka8P99rr5vsv04=;
+	b=h8ZFJagL3gTIRKRuhWYvYKWDR6//Mzn0D/4K/zWfb1Dw5Jyl3Eizs/Qhbc/r2NueiZJt/b
+	FYxsB6KdRIz9zc/AZCoSvApeoENrgrgQvZOHiuorUoXklD7KFY/WZzNjjR7JVe6lWg4zYp
+	uHuzHdl4UnAUrLabkVoC7rma+m/wvXOsfottOzugizIUg4pBiMT2mBypjZaYu5QJgD96Pz
+	+5KqN9ERh739RCiaDlqVb7Y9SeXA1kgf7vkZ+fGVbjlm3uO5JIeEUrzQV8xLmw2LHCXFHS
+	pMWdUqTApRivtcg6h5J2F0mS/HiY/DYhM+tLfTfbxdfJwetehGKC6AQ47OYfBg==
 From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Fri, 05 Sep 2025 14:23:58 +0200
-Subject: [PATCH v2 2/2] oeqa/bblayers.py: add a test case for
- bitbake-config-build show-fragment
+Date: Fri, 05 Sep 2025 14:23:57 +0200
+Subject: [PATCH v2 1/2] lib/configfragments: add a show-fragments command
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250905-show-fragments-v2-2-c13ec8df9296@bootlin.com>
+Message-Id: <20250905-show-fragments-v2-1-c13ec8df9296@bootlin.com>
 References: <20250905-show-fragments-v2-0-c13ec8df9296@bootlin.com>
 In-Reply-To: <20250905-show-fragments-v2-0-c13ec8df9296@bootlin.com>
 To: openembedded-core@lists.openembedded.org
@@ -43,21 +42,21 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  Alexander Kanavin <alex.kanavin@gmail.com>, 
  Antonin Godard <antonin.godard@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1971;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2782;
  i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=m2CH0WePolXzXrVbShqNJD19y6yVpS3v47B7VyV0TvU=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBoutZ+i6vtblnPSmLeVzTxcpX3ij1ZOPpwhqWI6
- yPNnD775wiJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCaLrWfgAKCRDRgEFAKaOo
- NptpD/wOW5xmABf1a4oP5GCq+slphkkggMJQnsWWp/CjDviWNApUc2EPv1A2NK7Ph7WBmKCGqCd
- Lzm2iEl9XR94WsFIND9YwQNMmWcm5QE/Dh9S8tkvn0wyRAL/pdQlgLJiJlsy8xtyBPYcgPYuXZg
- O1U8cMsZv1eYfSIl2rKfSE7bB4sH2Xkquo3Cap2GLBb4kWm+wG8YqZgopc3XXcHRkqvQvisD+y8
- cx1qJPRl8U3fEGF/BGWdYO4dFAf/5mps3n/xCwCQ5IDxU1Bi9torEbcPbtmt6b63kzjD6R+eznU
- gc9zaob+4vRHYqpQ0n6j1NyYb8iaay9JPirRI/eB1T8K46Oust8dE9R6tST5XGBZPP6/W7EoRr/
- z87DG/WQbCIswGWG6gFfh+iIj9AobomGhFN0XFkd48ZP5D66JtKiFucgPjZaGkToOle1jBm4655
- Gk7ZPjbAOW8Isigsa9oD/yXi6coAB6NaD9Pv76gfdtKY9plCSYyBpf+hPJI+tLkZiMfFM9l+0/y
- gRzasSSM9cj2AtfzM/mMWENZ1aiZNYcGkPdHEU7RzSU1Yy2O/3CQ2SSy4XkpfOnM/kX0xIuM25f
- zJdrqxItYIiOMVi7T1W6Mso/LnTGjqElqGdK9UiyJM9YGpJWwcS2y0Ff35S9JVwzLr7bHYK1YFS
- pxtfYH4rMOJnazg==
+ bh=0/IG2Twidh0ZCSeBPaCTJHfdVNIstbcx8Sb9OsIk7U0=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBoutZ+TRoHyPX7IRTLhqCEnwZ0KHPbexi+P5qfX
+ n/34QFBVEuJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCaLrWfgAKCRDRgEFAKaOo
+ NrswD/0fh2kTjEWeCiI5bQ142Pq7JymtKjX60uzAVJWdG+4vAjibzynI0ZmaxxE1FCIQ46+RqvI
+ jdamtRIpEvx4EOs2f/IoTpAaeb3MfcFL1dZZay568syavn6Z3RnctLQrY2ReGY0N2Yfy0ijyPw8
+ da2721NCH/rlubpbTrO6LMjscfJlLNCANV+sIuXZaZHWJAhfD+4R+RLrsL7zRjhuTr90M6kJIkd
+ gbhBAeJeE213U1He7ZwKYGD1trFjyyaOVeDuA0UZzaP8Mdnj64hnydLKp0PVBO5MsisLnrqaW5f
+ 6/uM3Ecn+zHkygLficJSslSZQj25a7YnEznr7Bylc6hybFRQTaJ/UI1EQCOlVcE+93I3+T889HJ
+ lbCGsFqkxVnf9z3Jb7gSMA/SgliIxMI3pDJqOryyTRv2pLKwTR/jujCLMfd6Qz0/x7FRd9cdrTH
+ M1hsoRWB9i6BtI4Eutwtb3fwf18IZN+e22nr9CJxkv/UOpGFdnk5d+930b+1ZYcAJ1xAF4TMdHJ
+ /qLldRLKZ/fcqrDEQ1L5j3LkIFXiMbfLlJEu8G8EK4kGKJfhjimS7TY6aAoTEr0gEOXykJ/dy++
+ 6o9nvWDeUfDrMM6OY8Ub7orfUFtdsQxElOd7NlIlVWYT+BJPDTnhkoXI4w1BNYYn/NdLmj99IIx
+ MTldQSwbNbAbeAw==
 X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
  fpr=8648725188DD401BB9A0D3FFD180414029A3A836
 X-Last-TLS-Session-Version: TLSv1.3
@@ -65,50 +64,60 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 12:24:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222997
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222998
 
-Add a test case for 'bitbake-config-build show-fragment' and use
-'bitbake-config-build list-fragments' to get the path to the fragment.
+We can print information on fragments (name, location, description,
+etc.), but not their content.
+
+Add a show-fragment command to do that. It can be used as follows:
+
+  $ bitbake-config-build show-fragment core/yocto/sstate-mirror-cdn
+
+And prints:
+
+  .../meta/conf/fragments/yocto/sstate-mirror-cdn.conf:
+
+  BB_CONF_FRAGMENT_SUMMARY = "Use prebuilt sstate artifacts for standard Yocto build configurations."
+  BB_CONF_FRAGMENT_DESCRIPTION = "The Yocto Project has prebuilt artefacts available for standard build configurations. \
+  ...
 
 Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 ---
- meta/lib/oeqa/selftest/cases/bblayers.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ meta/lib/bbconfigbuild/configfragments.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
-index 68b0377720..8c05ec5d3d 100644
---- a/meta/lib/oeqa/selftest/cases/bblayers.py
-+++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-@@ -271,3 +271,29 @@ class BitbakeConfigBuild(OESelftestTestCase):
-         runCmd('bitbake-config-build disable-fragment selftest/more-fragments-here/test-another-fragment')
-         self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_VARIABLE'), None)
-         self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_ANOTHER_VARIABLE'), None)
+diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
+index 61c33ac316..fce3301bac 100644
+--- a/meta/lib/bbconfigbuild/configfragments.py
++++ b/meta/lib/bbconfigbuild/configfragments.py
+@@ -156,6 +156,18 @@ class ConfigFragmentsPlugin(LayerPlugin):
+         if modified:
+             print("Fragment {} removed from {}.".format(", ".join(args.fragmentname), args.confpath))
+ 
++    def do_show_fragment(self, args):
++        """ Show the content of a fragment """
++        for layername, layerdata in self.discover_fragments().items():
++            fragments = layerdata['fragments']
++            for fragment in fragments:
++                if fragment['name'] == args.fragmentname:
++                    print(f"{fragment['path']}:")
++                    print()
++                    with open(fragment['path']) as fd:
++                        print(fd.read())
++                    return
 +
-+    def test_show_fragment(self):
-+        """
-+        Test that bitbake-config-build show-fragment returns the expected
-+        output. Use bitbake-config-build list-fragments --verbose to get the
-+        path to the fragment.
-+        """
-+        result = runCmd('bitbake-config-build --quiet list-fragments --verbose')
-+        test_fragment_re = re.compile(r'^Path: .*conf/fragments/test-fragment.conf$')
-+        fragment_path, fragment_content = '', ''
+     def do_disable_all_fragments(self, args):
+         """ Disable all fragments in the local build configuration """
+         def disable_all_helper(varname, origvalue, op, newlines):
+@@ -181,5 +193,8 @@ class ConfigFragmentsPlugin(LayerPlugin):
+         parser_disable_fragment.add_argument("--confpath", default=default_confpath, help='Configuration file which contains a list of enabled fragments (default is {}).'.format(default_confpath))
+         parser_disable_fragment.add_argument('fragmentname', help='The name of the fragment', nargs='+')
+ 
++        parser_show_fragment = self.add_command(sp, 'show-fragment', self.do_show_fragment, parserecipes=False)
++        parser_show_fragment.add_argument('fragmentname', help='The name of the fragment')
 +
-+        for line in result.output.splitlines():
-+            m = re.match(test_fragment_re, line)
-+            if m:
-+                fragment_path = ' '.join(line.split()[1:])
-+                break
-+
-+        if not fragment_path:
-+            raise Exception("Couldn't find the fragment")
-+
-+        with open(fragment_path, 'r') as f:
-+            fragment_content = f'{fragment_path}:\n\n{f.read()}'.strip()
-+
-+        result = runCmd('bitbake-config-build --quiet show-fragment selftest/test-fragment')
-+
-+        self.assertEqual(result.output.strip(), fragment_content)
+         parser_disable_all = self.add_command(sp, 'disable-all-fragments', self.do_disable_all_fragments, parserecipes=False)
+         parser_disable_all.add_argument("--confpath", default=default_confpath, help='Configuration file which contains a list of enabled fragments (default is {}).'.format(default_confpath))
 
 -- 
 2.51.0
