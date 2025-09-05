@@ -1,127 +1,100 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5FE0CA1015
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 08:33:35 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.web11.16423.1757061210237375244
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D72CECA1015
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 09:04:15 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.16882.1757063047455229858
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 01:33:31 -0700
+ Fri, 05 Sep 2025 02:04:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=vmp3A8eX;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 4B2131A0DBE;
-	Fri,  5 Sep 2025 08:33:28 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1DFAA606C5;
-	Fri,  5 Sep 2025 08:33:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 86E54102F2376;
-	Fri,  5 Sep 2025 10:33:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757061207; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=lUUWday7kfheuwIY1mdEotvAJHHhxAQ+k2UDpnSki+A=;
-	b=vmp3A8eXrl31inCMmhQ29/XwqakbOT0dCb/5Fn1cEPkJihCV91bw0rdgJh8SGuR/Ermken
-	21gdp2kEqnBWANwuXXOkCyoey6Y5PGe8ltiWdscD3/k1sbSr0ufHy+3g+dQUxwKnBFHLmT
-	b3BHL1f7k7jOx/6orq/sHxABJ8Y9JhGLYOUR7OmOaz+gFDHNZ/3IhGPV/iuWAyZ+KNPNpj
-	jOBGMajM3Vc8qJrAa4Xj6GXaro+EVi5V5qVGJHxbCLfXyQ951Z0is33b/zimOhh/CgI/Ca
-	gr6rYlvwtf3RVAQaEH9uA/R9AHoMu424abSPtftbPK8yz6pEgaZbjTNa2PRkqw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 05 Sep 2025 10:33:13 +0200
-Message-Id: <DCKQ7KX5D934.3FS2DI6M1I2L1@bootlin.com>
-Subject: Re: [OE-core] [PATCH] systemd: stop enabling non-standard MAC
- policy when using the 'pni-names' DISTRO_FEATURE
-Cc: "Adrian Freihofer" <adrian.freihofer@siemens.com>, "Peter Marko"
- <peter.marko@siemens.com>, "Ross Burton" <ross.burton@arm.com>, "Jose
- Quaresma" <jose.quaresma@oss.qualcomm.com>
-From: "Antonin Godard" <antonin.godard@bootlin.com>
-To: <koen.kooi@oss.qualcomm.com>, <openembedded-core@lists.openembedded.org>
-References: <20250902090925.2904294-1-koen.kooi@oss.qualcomm.com>
-In-Reply-To: <20250902090925.2904294-1-koen.kooi@oss.qualcomm.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=l+KieJOe;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6188b7550c0so2817933a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 02:04:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757063046; x=1757667846; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BVN9fU8BuZ2pfcdNe2cUS0wjh4zCK36hi2WxIAkD4jU=;
+        b=l+KieJOeQWPeNeEHXfmJ2ujsRHs3c5iiRXHGJHx8Tu24kn9E1An00zc/i7D2yDdl6i
+         XXcd+A4mr3SmaVFb0JmUaf5EValBqXIBmXHMGBYer6LuN9DJrkn6eNz0kDEuykrnMJ8x
+         LxZVgqQw4gBMuxG6+/Fb6L+r6xBvHk1CSYYkjL7awZLwe9Z4/YAge9atKMBUxs95IPSC
+         omPiaVTyMf0oOTrsdIM2fCxoH0Omv10sMOJik29KkQkW5EYvoamzS6Q6tGdzN0WVOyl/
+         LbATEUFYrI2N2Nd1FygCDfKeJkh+98ThVyMZa3rvpc2ZR2QG5E8sEg669iM3F7UmIfnB
+         6O4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757063046; x=1757667846;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BVN9fU8BuZ2pfcdNe2cUS0wjh4zCK36hi2WxIAkD4jU=;
+        b=jzpfzgo6yH9Mlp/igQz+HoiviytM7koOF4c1ahtNeItCVr1Lkblh7R4kqhA05rzldy
+         wWFdTYXzuBJJyPpmWzgrpE8GSjyH9pvjPH/DUSO4d2DzIGoE6z4vPax5FmifVbzSeM9E
+         BNBDqlNx9JO+2jp00kjZsXRZWCs4Ah8gOFKOdK/1gCa2paUGFt9LfjnlC8CnIgyvfX7M
+         nYqjXI9ulvvIm8G7TXIb9/xBcoZcKPcexGnjUdTXOc8XwColy7Jyo08plqrSurYkqL5A
+         LxnI0m2M7C8aR2Vs/V8nEkk8iG4j/ChGN2W0FEZaRAr8NwhVKG5RkFmGNGGWy06K1rLY
+         yhiA==
+X-Gm-Message-State: AOJu0Yz2n1btsY/4hHNfg5sYEwrn+xwtrUiLR8R4Tgm/nXP43wRaW8oV
+	lslcZAvF4GHqHAkIZgeCimMpR87NX76irpZOYzBWB4ftTp9UkGhC/kObpktEPuvi
+X-Gm-Gg: ASbGncuK1n27B5VMK/1iC6+6KUcPbrQOMCOZLaBwxFI1VF0pcdaBF6lBX2ze85Q63qn
+	XKKaDtTKm5VhM8MCM9wJdVsEpv3gulFGtDwDh/ht6FoWpE7bC2keuckY2v2ec0V5EtpZ1ghrZ1t
+	pI6U9o97fk+XzxQDMD0g+dk/rKd4K3taKc8QnXWPNVQlzOESVqePdWyknHuumTAX8238MQFu/eN
+	V8hbjhSgV+VoFMG26MTTgbKS40qRs0fcBRC4+2FJ645UySHfSU7sRVOhp41VMR8e0NL7TxG4NfH
+	nr10/4EmMpmAFS4zlkaNJFzylx5vkZcbLcYoVS0zNQBqnaOXfEVOX9Vu+wJH3uG/aQMKd/oetaS
+	xJN1fB4m1FvsgUpqSjygYOZAapSBNTMk=
+X-Google-Smtp-Source: AGHT+IHoIUAtbyV1YCJEQIrRJDWY/QQ0EHQk/2KnbNo2obqS4zNMdsKVJviMS5+lne991IFqec25kA==
+X-Received: by 2002:a05:6402:21d9:b0:61e:cfff:21ef with SMTP id 4fb4d7f45d1cf-61ecfff2388mr10465441a12.13.1757063045663;
+        Fri, 05 Sep 2025 02:04:05 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cfc1c7caesm15844336a12.9.2025.09.05.02.04.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 02:04:05 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] bitbake.conf: drop GPE_MIRROR variable
+Date: Fri,  5 Sep 2025 11:04:04 +0200
+Message-ID: <20250905090404.2425345-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 08:33:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222977
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 09:04:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/222978
 
-On Tue Sep 2, 2025 at 11:09 AM CEST, Koen Kooi via lists.openembedded.org w=
-rote:
-> This recipe enabled an additional, non-standard policy for predictable
-> network names: the MAC policy. This is a deviation from upstream
-> policies and in cases where no MAC address is available, it makes it
-> actively worse by changing the name(s) every boot.
->
-> Change the logic to disable predictable naming when the DISTRO_FEATURE
-> isn't enabled and only use upstream logic with it *is* enabled.
->
-> For DISTROs that wish to use non-standard policies, a DISTRO layer is the=
- correct place.
-> E.g. in DISTRO_LAYER/recipes-core/systemd/systemd_%.bbappend:
->
-> do_install:append:DISTRO() {
->        if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'fal=
-se', d)}; then
->                if ! grep -q '^NamePolicy=3D.*mac' ${D}${nonarch_libdir}/s=
-ystemd/network/99-default.link; then
->                        sed -i '/^NamePolicy=3D/s/$/ mac/' ${D}${nonarch_l=
-ibdir}/systemd/network/99-default.link
->                fi
->                if ! grep -q 'AlternativeNamesPolicy=3D.*mac' ${D}${nonarc=
-h_libdir}/systemd/network/99-default.link; then
->                        sed -i '/AlternativeNamesPolicy=3D/s/$/ mac/' ${D}=
-${nonarch_libdir}/systemd/network/99-default.link
->                fi
-> }
->
-> Signed-off-by: Koen Kooi <koen.kooi@oss.qualcomm.com>
-> ---
->  meta/recipes-core/systemd/systemd_257.8.bb | 11 ++---------
->  1 file changed, 2 insertions(+), 9 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_257.8.bb b/meta/recipes-co=
-re/systemd/systemd_257.8.bb
-> index 174372be03..6399c57640 100644
-> --- a/meta/recipes-core/systemd/systemd_257.8.bb
-> +++ b/meta/recipes-core/systemd/systemd_257.8.bb
-> @@ -400,15 +400,8 @@ do_install() {
->  			${D}/${sysconfdir}/systemd/system.conf
->  	fi
-> =20
-> -	if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'false', =
-d)}; then
-> -		if ! grep -q '^NamePolicy=3D.*mac' ${D}${nonarch_libdir}/systemd/netwo=
-rk/99-default.link; then
-> -			sed -i '/^NamePolicy=3D/s/$/ mac/' ${D}${nonarch_libdir}/systemd/netw=
-ork/99-default.link
-> -		fi
-> -		if ! grep -q 'AlternativeNamesPolicy=3D.*mac' ${D}${nonarch_libdir}/sy=
-stemd/network/99-default.link; then
-> -			sed -i '/AlternativeNamesPolicy=3D/s/$/ mac/' ${D}${nonarch_libdir}/s=
-ystemd/network/99-default.link
-> -		fi
-> -	else
-> -		# Actively disable Predictable Network Interface Names
-> +	# Actively disable Predictable Network Interface Names
-> +	if ${@ 'true' if not bb.utils.contains('PACKAGECONFIG', 'pni-names', 't=
-rue', 'false', d) else 'false'}; then
+GPE_MIRROR is not used by any recipes. Beside this it looks like
+the url (http://gpe.linuxtogo.org/download/source) is unavailable,
+and the main url (linuxtogo.org) is using an invalid certificate
+(issued for another website).
 
-This could be simplified to=20
+It looks this mirror isn't useful nor valid anymore - so drop it.
 
-if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'false', 'true', d)};=
- then
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+---
+ meta/conf/bitbake.conf | 2 --
+ 1 file changed, 2 deletions(-)
 
-no?
-
-Antonin
-
---=20
-Antonin Godard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index fad397776e..8e90c7bbc8 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -699,7 +699,6 @@ GNOME_GIT = "git://gitlab.gnome.org/GNOME"
+ GNOME_MIRROR = "https://download.gnome.org/sources/"
+ GNU_MIRROR = "https://ftpmirror.gnu.org/gnu"
+ GNUPG_MIRROR = "https://www.gnupg.org/ftp/gcrypt"
+-GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
+ KERNELORG_MIRROR = "https://cdn.kernel.org/pub"
+ SAMBA_MIRROR = "http://samba.org/samba/ftp"
+ SAVANNAH_GNU_MIRROR = "https://download.savannah.gnu.org/releases"
+@@ -717,7 +716,6 @@ SRC_URI[vardepsexclude] += "\
+     GNOME_MIRROR \
+     GNU_MIRROR \
+     GNUPG_MIRROR \
+-    GPE_MIRROR \
+     KERNELORG_MIRROR \
+     SAMBA_MIRROR \
+     SAVANNAH_GNU_MIRROR \
 
