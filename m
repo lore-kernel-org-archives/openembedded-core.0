@@ -1,527 +1,689 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE18DCA0FED
-	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 17:57:50 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.274.1757095066404224200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18A84CA0FED
+	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 18:16:01 +0000 (UTC)
+Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
+ by mx.groups.io with SMTP id smtpd.web11.720.1757096152047920074
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 10:57:46 -0700
+ Fri, 05 Sep 2025 11:15:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=crjUGEwL;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb78ead12so378837366b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 10:57:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757095065; x=1757699865; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mImSFi78CayeEcjPoeXBJoGnI1x4UoERdoeY7bd06SM=;
-        b=crjUGEwLimQL1/EtT3B5g9ijIv0CPl0BlgnUoTgXEICLgqaksUq5yHI7YZzstx2nM2
-         c3mEYYdWIlQ1BmzqijnS40whh69jPbVrdGIlqupMrfrIrPQ5sXvlcB35Ck7R/VSBkjP4
-         xdiYSjTSm5x7LIG7boPnA5Dh2AQPtatz6tW1n5YJvqcB3LiAP7y05WIfi4+7rOro+7Yf
-         BvkABl192fVT07dgNlHsNpvuYainQZmy7gSWp+BVOHDCFoF4bFdAXoogaPnqlhk34kEb
-         Osth/bELgw3vK5j6jX9BLgj0gNY2UstYdRFIATvd+FooStrs8MMuelWgBSpQ5hq2wGHH
-         nXbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757095065; x=1757699865;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mImSFi78CayeEcjPoeXBJoGnI1x4UoERdoeY7bd06SM=;
-        b=lEw6W8+SlMvsORGyv0xh+m9DagpUprGjdC+5zpPEOjpZnObc4UoQp0nrRoRltCG3uZ
-         QqqQKo/sQiNnK4pRGJ1bWwnD+KAe6vYbE0TBDmlP3lYMaiFrFwyClYoHkBKKDmQAZve6
-         KGEVzo4lHk+phgrn0o/1Pd6A4RP9cnDWHasoAUXmOqtJOBkHZFyTmBK6z8zrywfXUV6v
-         blww03tmqOBj1UCoRUWrYAHAF4ZiUg4Bhp9ylZ+VQiewCou7O7uiJynvXXq0gloz2FgW
-         CoUXkncV+RoE2JCTxZx2+7UZ30dND9VAk9S4nBEpeooVeX0WXkHMzE0oWStT1hK6FGvp
-         ck/Q==
-X-Gm-Message-State: AOJu0YzivWw/sKziGeHPn4chE7ufvL44SOFktedN7H3GTarAV7X9pmjl
-	OSNo+J1xzb9EmObzmZsX3vC342ZiKrRbGWyMdeHa2ky0Eoe+qAvr5/w7
-X-Gm-Gg: ASbGncv30WZzWv5u06FrCpU/GBbwI6Jz/vYizKpKqzMcATKDPXP77ALzI9H90zYwZ4E
-	Ca1c/b2CmfpO6uEDOCM+ijuMLrMJPHjgNXxxjxGtt69H8UPJN6aSXKDwvRlVkwKF8TL+/zpxs8e
-	TwZd+/KK2hz4CeXRYGQtzwtLh9zg/pdJs/YmMkb2M8VoEFNAZTKxkr9iGCI9NMRV1MIEEQfRLVr
-	C5mYgXeCRC+OnW/UBGNswEQeo6xmBml314onp7IO4Bh+CUTTdWcDkZz/6LYM8bWFIX1K+MRy9k9
-	/sjyHtW9DbHiHIVeCaoCikdELkHOcGXjjFRbpkB3ASc/TQWYjnCf3Klpt5fPn1K3Js/dFJxzgFH
-	uGIDvK9HgpwdHiMLAcSgMvJZWvYpzJzBVv7KikoP18A==
-X-Google-Smtp-Source: AGHT+IG7nNKlU3/nBgJTGg2+UwTUnGJELfSMdew/Y5AmQ+N8MGxcdb71lDoEIyr8gE4tW46VuUuQCA==
-X-Received: by 2002:a17:907:96a6:b0:b04:8d6c:5066 with SMTP id a640c23a62f3a-b048d6c51b9mr572628466b.3.1757095064161;
-        Fri, 05 Sep 2025 10:57:44 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b041770913fsm1438538666b.107.2025.09.05.10.57.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 10:57:43 -0700 (PDT)
-Message-ID: <a0cba900-2a9c-42fd-bdbf-f5ccd05cd78e@gmail.com>
-Date: Fri, 5 Sep 2025 19:57:43 +0200
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
+Received: from fwd76.aul.t-online.de (fwd76.aul.t-online.de [10.223.144.102])
+	by mailout02.t-online.de (Postfix) with SMTP id B79932A045
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Sep 2025 20:15:49 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.165.160]) by fwd76.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1uuayP-1g8aLR0; Fri, 5 Sep 2025 20:15:45 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] glib-2.0: update 2.84.4 -> 2.86.0
+Date: Fri,  5 Sep 2025 20:15:38 +0200
+Message-ID: <20250905181538.155818-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] pinentry: upgrade 1.3.1 -> 1.3.2
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20250903190217.1425062-1-skandigraun@gmail.com>
- <15BBC8BE-6C11-4C99-A9F9-C20D2C6FB6F1@arm.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <15BBC8BE-6C11-4C99-A9F9-C20D2C6FB6F1@arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1757096145-6AFFAC1C-3CD6EB54/0/0 CLEAN NORMAL
+X-TOI-MSGID: 974667cf-f4f7-48f7-be5e-0fad05e26e6d
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 17:57:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223034
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 18:16:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223035
 
-On 9/4/25 21:01, Ross Burton wrote:
-> Thanks Gyorgy, looks good.
->
-> You _should_ also be able to drop the libassuan patch, as our recipe for libassuan patches its own .m4 file and that _should_ override the one in the recipe.
+Overview of changes in GLib 2.86.0, 2025-09-05
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Alright, will take a peek at it.
+* Rework how platform-specific introspected GIO APIs have to be imported =
+to fix
+  problems with backwards-compatibility provision for it, by removing dup=
+licate
+  platform-specific symbols from `Gio-2.0`. Users of platform-specific GI=
+O APIs
+  should be unaffected, as `GIRepository` will now automatically import
+  `GioWin32-2.0` or `GioUnix-2.0` when asked to import `Gio-2.0`. However=
+,
+  projects generating introspection data which depends on types from eith=
+er of
+  those platform-specific GIRs must make sure they depend on those GIRs
+  explicitly, rather than just transitively depending on them through `Gi=
+o-2.0`
+  (#3744, work by Emmanuele Bassi, Marco Trevisan, Florian M=C3=BCllner, =
+and others)
 
->
-> Then again, autoconf is a pain at times, so…
->
-> Ross
->
->> On 3 Sep 2025, at 20:02, Gyorgy Sarvari <skandigraun@gmail.com> wrote:
->>
->> Shortlog:
->>
->> -qt: Replace icons for dark mode with 16x16 icons
->> -qt,qt5: Ensure that input field is large enough for generated password
->> -qt5: Add dark mode icon variants and detection
->> -Make Show/Hide Password functionality accessible
->> -qt5: Make Show/Hide Password functionality accessible
->> -m4: Update libassuan.m4.
->> -build: Remove defining GPG_ERR_ENABLE_ERRNO_MACROS.
->> -build: Fix warning about obsolete pinentry-emacs.
->> -curses: Factor out dialog release to separate function.
->> -qt: Add dark mode icon variants and detection
->> -m4: Update gpg-error.m4 and libassuan.m4.
->>
->> Also: Simplify patch to find gpg-error with pkg-config
->>
->> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
->> Cc: Ross Burton <ross.burton@arm.com>
->> ---
->>
->> v3: simplify gpg-error_pkconf.patch
->> v2: adapt selftest to the new version number
->>
->> meta/lib/oeqa/selftest/cases/oescripts.py     |   2 +-
->> .../pinentry-1.3.1/gpg-error_pkconf.patch     | 224 ------------------
->> .../0001-find-gpg-error-with-pkg-config.patch |  40 ++++
->> .../libassuan_pkgconf.patch                   |  30 +--
->> .../{pinentry_1.3.1.bb => pinentry_1.3.2.bb}  |   4 +-
->> 5 files changed, 54 insertions(+), 246 deletions(-)
->> delete mode 100644 meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch
->> create mode 100644 meta/recipes-support/pinentry/pinentry/0001-find-gpg-error-with-pkg-config.patch
->> rename meta/recipes-support/pinentry/{pinentry-1.3.1 => pinentry}/libassuan_pkgconf.patch (87%)
->> rename meta/recipes-support/pinentry/{pinentry_1.3.1.bb => pinentry_1.3.2.bb} (89%)
->>
->> diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
->> index 3f9899b289..64fb3f1a1d 100644
->> --- a/meta/lib/oeqa/selftest/cases/oescripts.py
->> +++ b/meta/lib/oeqa/selftest/cases/oescripts.py
->> @@ -151,7 +151,7 @@ class OEListPackageconfigTests(OESelftestTestCase):
->>     def test_packageconfig_flags_option_all(self):
->>         results = runCmd('%s/contrib/list-packageconfig-flags.py -a' % self.scripts_dir)
->>         expected_endlines = []
->> -        expected_endlines.append("pinentry-1.3.1")
->> +        expected_endlines.append("pinentry-1.3.2")
->>         expected_endlines.append("PACKAGECONFIG ncurses")
->>         expected_endlines.append("PACKAGECONFIG[qt] --enable-pinentry-qt, --disable-pinentry-qt, qtbase-native qtbase")
->>         expected_endlines.append("PACKAGECONFIG[gtk2] --enable-pinentry-gtk2, --disable-pinentry-gtk2, gtk+ glib-2.0")
->> diff --git a/meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch b/meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch
->> deleted file mode 100644
->> index 863ba9e34b..0000000000
->> --- a/meta/recipes-support/pinentry/pinentry-1.3.1/gpg-error_pkconf.patch
->> +++ /dev/null
->> @@ -1,224 +0,0 @@
->> -From ccc3c6a8d469bbfa6717b970cfe70816c1fd545e Mon Sep 17 00:00:00 2001
->> -From: Armin Kuster <akuster@mvista.com>
->> -Date: Fri, 2 Sep 2005 11:50:01 +0000
->> -Subject: [PATCH] Add gtk+, avahi, dbus-0.34 (.36 coming soon) and
->> -
->> -Convert to pkg-config support to match changes done to
->> -the gpg-error recipe for gpg-error.pc  generation.
->> -
->> -Upstream-Status: Inappropriate [OE specific]
->> -
->> -Signed-off-by: Armin Kuster <akuster@mvista.com>
->> ----
->> - m4/gpg-error.m4 | 184 ++----------------------------------------------
->> - 1 file changed, 5 insertions(+), 179 deletions(-)
->> -
->> -diff --git a/m4/gpg-error.m4 b/m4/gpg-error.m4
->> -index 7fa52b1..c0784ed 100644
->> ---- a/m4/gpg-error.m4
->> -+++ b/m4/gpg-error.m4
->> -@@ -15,188 +15,18 @@
->> - dnl
->> - dnl Find gpg-error-config, for backward compatibility
->> - dnl
->> --dnl _AM_PATH_POSSIBLE_GPG_ERROR_CONFIG
->> --AC_DEFUN([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG],[dnl
->> --  gpg_error_config_prefix=""
->> --  dnl --with-libgpg-error-prefix=PFX is the preferred name for this option,
->> --  dnl since that is consistent with how our three siblings use the directory/
->> --  dnl package name in --with-$dir_name-prefix=PFX.
->> --  AC_ARG_WITH(libgpg-error-prefix,
->> --              AS_HELP_STRING([--with-libgpg-error-prefix=PFX],
->> --                             [prefix where GPG Error is installed (optional)]),
->> --              [gpg_error_config_prefix="$withval"])
->> --
->> --  dnl Accept --with-gpg-error-prefix and make it work the same as
->> --  dnl --with-libgpg-error-prefix above, for backwards compatibility,
->> --  dnl but do not document this old, inconsistently-named option.
->> --  AC_ARG_WITH(gpg-error-prefix,,
->> --              [gpg_error_config_prefix="$withval"])
->> --
->> --  if test x"${GPG_ERROR_CONFIG}" = x ; then
->> --     if test x"${gpg_error_config_prefix}" != x ; then
->> --        GPG_ERROR_CONFIG="${gpg_error_config_prefix}/bin/gpg-error-config"
->> --     else
->> --       case "${SYSROOT}" in
->> --         /*)
->> --           if test -x "${SYSROOT}/bin/gpg-error-config" ; then
->> --             GPG_ERROR_CONFIG="${SYSROOT}/bin/gpg-error-config"
->> --           fi
->> --           ;;
->> --         '')
->> --           ;;
->> --          *)
->> --           AC_MSG_WARN([Ignoring \$SYSROOT as it is not an absolute path.])
->> --           ;;
->> --       esac
->> --     fi
->> --  fi
->> --
->> --  AC_PATH_PROG(GPG_ERROR_CONFIG, gpg-error-config, no)
->> --])
->> --
->> --dnl
->> --dnl Find gpgrt-config, which uses .pc file
->> --dnl (minimum pkg-config functionality, supporting cross build)
->> --dnl
->> --dnl _AM_PATH_GPGRT_CONFIG
->> --AC_DEFUN([_AM_PATH_GPGRT_CONFIG],[dnl
->> --  AC_PATH_PROG(GPGRT_CONFIG, gpgrt-config, no, [$prefix/bin:$PATH])
->> --  if test "$GPGRT_CONFIG" != "no"; then
->> --    # Determine gpgrt_libdir
->> --    #
->> --    # Get the prefix of gpgrt-config assuming it's something like:
->> --    #   <PREFIX>/bin/gpgrt-config
->> --    gpgrt_prefix=${GPGRT_CONFIG%/*/*}
->> --    possible_libdir1=${gpgrt_prefix}/lib
->> --    # Determine by using system libdir-format with CC, it's like:
->> --    #   Normal style: /usr/lib
->> --    #   GNU cross style: /usr/<triplet>/lib
->> --    #   Debian style: /usr/lib/<multiarch-name>
->> --    #   Fedora/openSUSE style: /usr/lib, /usr/lib32 or /usr/lib64
->> --    # It is assumed that CC is specified to the one of host on cross build.
->> --    if libdir_candidates=$(${CC:-cc} -print-search-dirs | \
->> --          sed -n -e "/^libraries/{s/libraries: =//;s/:/\\
->> --/g;p;}"); then
->> --      # From the output of -print-search-dirs, select valid pkgconfig dirs.
->> --      libdir_candidates=$(for dir in $libdir_candidates; do
->> --        if p=$(cd $dir 2>/dev/null && pwd); then
->> --          test -d "$p/pkgconfig" && echo $p;
->> --        fi
->> --      done)
->> --
->> --      for possible_libdir0 in $libdir_candidates; do
->> --        # possible_libdir0:
->> --        #   Fallback candidate, the one of system-installed (by $CC)
->> --        #   (/usr/<triplet>/lib, /usr/lib/<multiarch-name> or /usr/lib32)
->> --        # possible_libdir1:
->> --        #   Another candidate, user-locally-installed
->> --        #   (<gpgrt_prefix>/lib)
->> --        # possible_libdir2
->> --        #   Most preferred
->> --        #   (<gpgrt_prefix>/<triplet>/lib,
->> --        #    <gpgrt_prefix>/lib/<multiarch-name> or <gpgrt_prefix>/lib32)
->> --        if test "${possible_libdir0##*/}" = "lib"; then
->> --          possible_prefix0=${possible_libdir0%/lib}
->> --          possible_prefix0_triplet=${possible_prefix0##*/}
->> --          if test -z "$possible_prefix0_triplet"; then
->> --            continue
->> --          fi
->> --          possible_libdir2=${gpgrt_prefix}/$possible_prefix0_triplet/lib
->> --        else
->> --          possible_prefix0=${possible_libdir0%%/lib*}
->> --          possible_libdir2=${gpgrt_prefix}${possible_libdir0#$possible_prefix0}
->> --        fi
->> --        if test -f ${possible_libdir2}/pkgconfig/gpg-error.pc; then
->> --          gpgrt_libdir=${possible_libdir2}
->> --        elif test -f ${possible_libdir1}/pkgconfig/gpg-error.pc; then
->> --          gpgrt_libdir=${possible_libdir1}
->> --        elif test -f ${possible_libdir0}/pkgconfig/gpg-error.pc; then
->> --          gpgrt_libdir=${possible_libdir0}
->> --        fi
->> --        if test -n "$gpgrt_libdir"; then break; fi
->> --      done
->> --    fi
->> --    if test -z "$gpgrt_libdir"; then
->> --      # No valid pkgconfig dir in any of the system directories, fallback
->> --      gpgrt_libdir=${possible_libdir1}
->> --    fi
->> --  else
->> --    unset GPGRT_CONFIG
->> --  fi
->> --
->> --  if test -n "$gpgrt_libdir"; then
->> --    GPGRT_CONFIG="$GPGRT_CONFIG --libdir=$gpgrt_libdir"
->> --    if $GPGRT_CONFIG gpg-error >/dev/null 2>&1; then
->> --      GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
->> --      AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
->> --      gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
->> --    else
->> --      gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
->> --      unset GPGRT_CONFIG
->> --    fi
->> --  elif test "$GPG_ERROR_CONFIG" != "no"; then
->> --    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
->> --    unset GPGRT_CONFIG
->> --  fi
->> --])
->> --
->> --dnl AM_PATH_GPG_ERROR([MINIMUM-VERSION,
->> --dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
->> --dnl
->> --dnl Test for libgpg-error and define GPG_ERROR_CFLAGS, GPG_ERROR_LIBS,
->> --dnl GPG_ERROR_MT_CFLAGS, and GPG_ERROR_MT_LIBS.  The _MT_ variants are
->> --dnl used for programs requireing real multi thread support.
->> --dnl
->> - dnl If a prefix option is not used, the config script is first
->> - dnl searched in $SYSROOT/bin and then along $PATH.  If the used
->> - dnl config script does not match the host specification the script
->> - dnl is added to the gpg_config_script_warn variable.
->> - dnl
->> --AC_DEFUN([AM_PATH_GPG_ERROR],[dnl
->> --AC_REQUIRE([AC_CANONICAL_HOST])dnl
->> --AC_REQUIRE([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG])dnl
->> --AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
->> --  min_gpg_error_version=ifelse([$1], ,1.33,$1)
->> --  ok=no
->> --  if test "$GPG_ERROR_CONFIG" != "no"; then
->> --    req_major=`echo $min_gpg_error_version | \
->> --               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)/\1/'`
->> --    req_minor=`echo $min_gpg_error_version | \
->> --               sed 's/\([[0-9]]*\)\.\([[0-9]]*\)/\2/'`
->> --    major=`echo $gpg_error_config_version | \
->> --               sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\1/'`
->> --    minor=`echo $gpg_error_config_version | \
->> --               sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\2/'`
->> --    if test "$major" -gt "$req_major"; then
->> --        ok=yes
->> --    else
->> --        if test "$major" -eq "$req_major"; then
->> --            if test "$minor" -ge "$req_minor"; then
->> --               ok=yes
->> --            fi
->> --        fi
->> --    fi
->> --  fi
->> --  AC_MSG_CHECKING(for GPG Error - version >= $min_gpg_error_version)
->> -+AC_DEFUN([AM_PATH_GPG_ERROR],
->> -+[
->> -+  min_gpg_error_version=ifelse([$1], ,0.0,$1)
->> -+  PKG_CHECK_MODULES(GPG_ERROR, [gpg-error >= $min_gpg_error_version gpg-error], [ok=yes], [ok=no])
->> -   if test $ok = yes; then
->> --    GPG_ERROR_CFLAGS=`$GPG_ERROR_CONFIG --cflags`
->> --    GPG_ERROR_LIBS=`$GPG_ERROR_CONFIG --libs`
->> --    if test -z "$GPGRT_CONFIG"; then
->> --      GPG_ERROR_MT_CFLAGS=`$GPG_ERROR_CONFIG --mt --cflags 2>/dev/null`
->> --      GPG_ERROR_MT_LIBS=`$GPG_ERROR_CONFIG --mt --libs 2>/dev/null`
->> --    else
->> --      GPG_ERROR_MT_CFLAGS=`$GPG_ERROR_CONFIG --variable=mtcflags 2>/dev/null`
->> --      GPG_ERROR_MT_CFLAGS="$GPG_ERROR_CFLAGS${GPG_ERROR_CFLAGS:+ }$GPG_ERROR_MT_CFLAGS"
->> --      GPG_ERROR_MT_LIBS=`$GPG_ERROR_CONFIG --variable=mtlibs 2>/dev/null`
->> --      GPG_ERROR_MT_LIBS="$GPG_ERROR_LIBS${GPG_ERROR_LIBS:+ }$GPG_ERROR_MT_LIBS"
->> --    fi
->> --    AC_MSG_RESULT([yes ($gpg_error_config_version)])
->> -     ifelse([$2], , :, [$2])
->> --    if test -z "$GPGRT_CONFIG"; then
->> --      gpg_error_config_host=`$GPG_ERROR_CONFIG --host 2>/dev/null || echo none`
->> --    else
->> --      gpg_error_config_host=`$GPG_ERROR_CONFIG --variable=host 2>/dev/null || echo none`
->> --    fi
->> -+    gpg_error_config_host=`$PKG_CONFIG --host gpg-error 2>/dev/null || echo none`
->> -     if test x"$gpg_error_config_host" != xnone ; then
->> -       if test x"$gpg_error_config_host" != x"$host" ; then
->> -   AC_MSG_WARN([[
->> -@@ -211,10 +41,6 @@ AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
->> -       fi
->> -     fi
->> -   else
->> --    GPG_ERROR_CFLAGS=""
->> --    GPG_ERROR_LIBS=""
->> --    GPG_ERROR_MT_CFLAGS=""
->> --    GPG_ERROR_MT_LIBS=""
->> -     AC_MSG_RESULT(no)
->> -     ifelse([$3], , :, [$3])
->> -   fi
->> diff --git a/meta/recipes-support/pinentry/pinentry/0001-find-gpg-error-with-pkg-config.patch b/meta/recipes-support/pinentry/pinentry/0001-find-gpg-error-with-pkg-config.patch
->> new file mode 100644
->> index 0000000000..54c82350a2
->> --- /dev/null
->> +++ b/meta/recipes-support/pinentry/pinentry/0001-find-gpg-error-with-pkg-config.patch
->> @@ -0,0 +1,40 @@
->> +From 2e90424eb1518083133a79f2737152c83289bc99 Mon Sep 17 00:00:00 2001
->> +From: Gyorgy Sarvari <skandigraun@gmail.com>
->> +Date: Wed, 3 Sep 2025 20:24:01 +0200
->> +Subject: [PATCH] find gpg-error with pkg-config
->> +
->> +This patch is a simplification of a previous patch, which
->> +added support to find gpg-error with pkg-config, adapted
->> +to the changes that are made to the gpg-error .pc file
->> +in its recipe.
->> +
->> +Instead of using upstream's custom solution from
->> +m4/gpg-error.m4 file, use just the standard pkg-config macro
->> +to see if gpg-error is present.
->> +
->> +This patch hasn't been submitted for upstream, due to their
->> +historical reluctance to accept such patches.[1]
->> +
->> +[1]: https://lists.gnupg.org/pipermail/gnupg-devel/2018-October/033985.html (whole thread)
->> +
->> +Upstream-Status: Inappropriate [OE specific]
->> +
->> +Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
->> +---
->> + configure.ac | 3 +--
->> + 1 file changed, 1 insertion(+), 2 deletions(-)
->> +
->> +diff --git a/configure.ac b/configure.ac
->> +index ec46162..2b2e16d 100644
->> +--- a/configure.ac
->> ++++ b/configure.ac
->> +@@ -238,8 +238,7 @@ dnl Checks for libgpg-error
->> + NEED_GPG_ERROR_VERSION=1.16
->> + have_gpg_error=no
->> + 
->> +-AM_PATH_GPG_ERROR("$NEED_GPG_ERROR_VERSION",
->> +-                  have_gpg_error=yes,have_gpg_error=no)
->> ++PKG_CHECK_MODULES([GPG_ERROR], [gpg-error >= $NEED_GPG_ERROR_VERSION], [have_gpg_error=yes], [have_gpg_error=no])
->> + COMMON_CFLAGS="$GPG_ERROR_CFLAGS $COMMON_CFLAGS"
->> + COMMON_LIBS="$GPG_ERROR_LIBS $COMMON_LIBS"
->> + 
->> diff --git a/meta/recipes-support/pinentry/pinentry-1.3.1/libassuan_pkgconf.patch b/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
->> similarity index 87%
->> rename from meta/recipes-support/pinentry/pinentry-1.3.1/libassuan_pkgconf.patch
->> rename to meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
->> index f2d50010c5..fbd370d9fd 100644
->> --- a/meta/recipes-support/pinentry/pinentry-1.3.1/libassuan_pkgconf.patch
->> +++ b/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
->> @@ -18,7 +18,7 @@ diff --git a/configure.ac b/configure.ac
->> index 4944f7c..f03cbb7 100644
->> --- a/configure.ac
->> +++ b/configure.ac
->> -@@ -264,8 +264,8 @@ if test "$have_libassuan" = "yes"; then
->> +@@ -261,8 +261,8 @@ if test "$have_libassuan" = "yes"; then
->>                       [version of the libassuan library])
->>  fi
->>
->> @@ -33,12 +33,13 @@ diff --git a/m4/libassuan.m4 b/m4/libassuan.m4
->> index a2eb5d9..897f407 100644
->> --- a/m4/libassuan.m4
->> +++ b/m4/libassuan.m4
->> -@@ -15,30 +15,8 @@ dnl
->> +@@ -100,31 +100,8 @@ dnl
->>  dnl Common code used for libassuan detection [internal]
->>  dnl Returns ok set to yes or no.
->>  dnl
->> -AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
->> --[ AC_REQUIRE([AC_CANONICAL_HOST])
->> +-[ AC_REQUIRE([AC_CANONICAL_HOST])dnl
->> +-  AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
->> -  AC_ARG_WITH(libassuan-prefix,
->> -              AS_HELP_STRING([--with-libassuan-prefix=PFX],
->> -                             [prefix where LIBASSUAN is installed (optional)]),
->> @@ -66,7 +67,7 @@ index a2eb5d9..897f407 100644
->>    tmp=ifelse([$1], ,1:0.9.2,$1)
->>    if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
->>      req_libassuan_api=`echo "$tmp"     | sed 's/\(.*\):\(.*\)/\1/'`
->> -@@ -48,59 +26,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
->> +@@ -134,59 +111,11 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
->>      min_libassuan_version="$tmp"
->>    fi
->>
->> @@ -111,7 +112,7 @@ index a2eb5d9..897f407 100644
->> -
->> -  if test $ok = yes; then
->> -    AC_MSG_RESULT([yes ($libassuan_config_version)])
->> --    AC_DEFINE(LIBASSUAN_API_REQUESTED, $req_libassuan_api, Requested API version for libassuan)
->> +-    AC_DEFINE_UNQUOTED(LIBASSUAN_API_REQUESTED, $req_libassuan_api, [Requested API version for libassuan])
->> -  else
->> -    AC_MSG_RESULT(no)
->> -  fi
->> @@ -128,7 +129,7 @@ index a2eb5d9..897f407 100644
->>        if test "$tmp" -gt 0 ; then
->>          AC_MSG_CHECKING([LIBASSUAN API version])
->>          if test "$req_libassuan_api" -eq "$tmp" ; then
->> -@@ -117,11 +47,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
->> +@@ -203,11 +132,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
->>
->>    if test $ok = yes; then
->>      if test x"$host" != x ; then
->> @@ -141,7 +142,7 @@ index a2eb5d9..897f407 100644
->>        if test x"$libassuan_config_host" != xnone ; then
->>          if test x"$libassuan_config_host" != x"$host" ; then
->>    AC_MSG_WARN([[
->> -@@ -144,7 +70,7 @@ dnl Test whether libassuan has at least MINIMUM-VERSION. This is
->> +@@ -230,7 +155,7 @@ dnl Test whether libassuan has at least MINIMUM-VERSION. This is
->>  dnl used to test for features only available in newer versions.
->>  dnl
->>  AC_DEFUN([AM_CHECK_LIBASSUAN],
->> @@ -150,21 +151,12 @@ index a2eb5d9..897f407 100644
->>    if test $ok = yes; then
->>      ifelse([$2], , :, [$2])
->>    else
->> -@@ -160,16 +86,10 @@ dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
->> +@@ -246,7 +171,7 @@ dnl                   [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND ]]])
->>  dnl Test for libassuan and define LIBASSUAN_CFLAGS and LIBASSUAN_LIBS
->>  dnl
->>  AC_DEFUN([AM_PATH_LIBASSUAN],
->> -[ _AM_PATH_LIBASSUAN_COMMON($1)
->> +[ AM_PATH_LIBASSUAN_COMMON($1)
->>    if test $ok = yes; then
->> --    LIBASSUAN_CFLAGS=`$LIBASSUAN_CONFIG --cflags`
->> --    LIBASSUAN_LIBS=`$LIBASSUAN_CONFIG --libs`
->> -     ifelse([$2], , :, [$2])
->> -   else
->> --    LIBASSUAN_CFLAGS=""
->> --    LIBASSUAN_LIBS=""
->> -     ifelse([$3], , :, [$3])
->> -   fi
->> --  AC_SUBST(LIBASSUAN_CFLAGS)
->> --  AC_SUBST(LIBASSUAN_LIBS)
->> - ])
->> +     LIBASSUAN_CFLAGS=`$LIBASSUAN_CONFIG --cflags`
->> +     LIBASSUAN_LIBS=`$LIBASSUAN_CONFIG --libs`
->> diff --git a/meta/recipes-support/pinentry/pinentry_1.3.1.bb b/meta/recipes-support/pinentry/pinentry_1.3.2.bb
->> similarity index 89%
->> rename from meta/recipes-support/pinentry/pinentry_1.3.1.bb
->> rename to meta/recipes-support/pinentry/pinentry_1.3.2.bb
->> index 0fc652cdba..a5c8d2258a 100644
->> --- a/meta/recipes-support/pinentry/pinentry_1.3.1.bb
->> +++ b/meta/recipes-support/pinentry/pinentry_1.3.2.bb
->> @@ -13,10 +13,10 @@ DEPENDS = "gettext-native libassuan libgpg-error"
->> UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
->> SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->>            file://libassuan_pkgconf.patch \
->> -           file://gpg-error_pkconf.patch \
->> +           file://0001-find-gpg-error-with-pkg-config.patch \
->> "
->>
->> -SRC_URI[sha256sum] = "bc72ee27c7239007ab1896c3c2fae53b076e2c9bd2483dc2769a16902bce8c04"
->> +SRC_URI[sha256sum] = "8e986ed88561b4da6e9efe0c54fa4ca8923035c99264df0b0464497c5fb94e9e"
->>
->> inherit autotools pkgconfig
->>
+* Fix file existence queries on Solaris, broken due to unexpected flags h=
+andling
+  within `faccessat()` (#3770, work by Niveditha Rau)
+
+* Bugs fixed:
+  - #3744 GDesktopAppInfo API disappeared after girepository-2.0 port (Em=
+manuele
+    Bassi)
+  - #3768 g_test_trap_subprocess does not check G_TEST_SUBPROCESS_INHERIT=
+_STDIN
+    (Philip Withnall)
+  - !4751 gtestutils: Fix a slightly broken example in a doc comment
+  - !4754 Update Polish translation 250825
+  - !4758 Update Swedish translation
+  - !4762 gio: gmemorymonitorpsi: Replace GRegex with g_str_has_prefix()
+  - !4765 girepository: Add an assertion to help scan-build
+  - !4767 glocalfile: Disable faccessat()-based query_exists on Solaris
+  - !4768 gmessages: Fix win32_keep_fatal_message regression
+  - !4769 docs: Fix typos
+  - !4770 Update Chinese translation
+  - !4771 Update Georgian translation
+  - !4772 po: Update Persian translation.
+
+* Translation updates:
+  - Chinese (China) (lumingzh)
+  - Georgian (NorwayFun)
+  - Persian (Danial Behzadi)
+  - Polish (Piotr Dr=C4=85g)
+  - Swedish (Anders Jonsson)
+
+Overview of changes in GLib 2.85.4, 2025-08-22
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* Follow symlink (instead of overwriting it) when updating `mimeapps.list=
+`
+  (#3579, work by Rafael Gir=C3=A3o)
+
+* Bugs fixed:
+  - #3579 mimeapps.list is overwritten if it is a symlink (Rafael Gir=C3=A3=
+o)
+  - #3724 Crash in g_hash_table_add after 252645135 elements (Tobias Stoe=
+ckmann)
+  - #3743 g_utf8_validate out parameter has wrong type (two)
+  - #3751 meta: clang-format refers to a broken link (Rafael Gir=C3=A3o)
+  - #3758 Out-of-bounds read in GMemoryMonitorPoll (Philip Withnall)
+  - #3760 Stack overflow when recursing within g_log_structured() with
+    `G_LOG_FLAG_RECURSION` (Tobias Stoeckmann)
+  - #3761 Regression in g_printf() - can no longer output formatted value=
+s
+    containing NUL bytes (Luca Bacci)
+  - #3766 Update sl.po (Slovenian) (Martin)
+  - !4714 gmain: Reformat docs to fully use gi-docgen and match style gui=
+de
+  - !4720 Disable GMemoryMonitorPsi on Solaris
+  - !4727 garray: Improve and migrate documentation to gi-docgen
+  - !4735 build: Fix stp files for development versions
+  - !4736 systemtap: Use correct formatters/types
+  - !4738 docs: Add Thomas Haller as a co-maintainer of GObject
+  - !4739 Annotate ref/unref functions as transfer full
+  - !4740 gstrfuncs: Check parameter validity
+  - !4742 garray: Fix g_array_binary_search description
+  - !4743 Update Russian translation
+  - !4744 tests/gio: skip Unix socket-mock tests on Windows
+  - !4747 tests/printf: Use proper compare helper for unsigned types
+  - !4748 gconstructor: Add attribute used for TLS callback pointer
+
+* Translation updates:
+  - Russian (jtux270)
+  - Slovenian (Martin)
+
+Overview of changes in GLib 2.85.3, 2025-08-08
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* Fix encoding of output from `g_print()` and `g_printerr()` when locale =
+is set
+  to `.utf8` on Windows (#3341, work by Luca Bacci)
+
+* Bugs fixed:
+  - #3341 `g_print` and `g_printerr` will cause encoding errors on Window=
+s when
+    locale is set to `.utf8` (Luca Bacci)
+  - #3739 Crash in accept_ready() of GThreadedSocketService Under High Lo=
+ad
+    (Philip Withnall)
+  - #3740 Documentation of g_win32_error_message  does not contain inform=
+ation
+    about the behaviour when FormatMessageW failed (Philip Withnall)
+  - #3755 AIX: Unwanted symbol needs to be removed for AIX platform: getp=
+wnam_r,
+    getpwuid_r (Parth Patel)
+  - !4706 gthreadpool: Clean up when g_thread_pool_new fails
+  - !4707 tests: Skip slow mainloop test on valgrind
+  - !4708 gfilenamecompleter: Fix g_object_unref() of undefined value
+  - !4709 tests: Connect to GMemoryMonitor signals earlier
+  - !4712 tests/thread-pool: Add a thread-pool fail test
+  - !4713 Fix test error for GMemoryMonitor
+  - !4715 gdbuserror: Reformat docs to fully use gi-docgen and match styl=
+e guide
+  - !4722 tests: Add missing unistd.h header to thread-pool test
+  - !4723 tests: Add a missing poll condition to socket-listener test
+  - !4724 garray: Pass errors through GByteArray functions
+  - !4725 garray: Add checks to g_ptr_array_extend_and_steal
+  - !4726 Add a basic GFilenameCompleter test
+  - !4728 gbitlock: Fix documentation issues
+  - !4729 [RFC] Tests: do not set a timeout in Python tests
+  - !4730 gstrfuncs: Always treat G_MININT64 in g_ascii_strtoll
+  - !4731 glocalfile: Disable faccessat()-based query_exists on OpenBSD
+  - !4733 gvalue: Reformat docs to fully use gi-docgen and match style gu=
+ide
+  - !4734 gspawn: Improve docstring for g_spawn_async()
+
+Overview of changes in GLib 2.85.2, 2025-07-21
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* New Linux PSI based backend for `GMemoryMonitor` as an option to use in=
+stead
+  of the existing Low Memory Monitor daemon backend (!4481, work by Kate =
+Hsuan)
+
+* Bugs fixed:
+  - #1443 Deadlock between g_module_open() and dlopen() when called from =
+a
+    constructor
+  - #2848 Doc: clarification request regarding g_match_info_fetch_pos ret=
+urn
+    value (Mark Lautman)
+  - #3712 Crash in g_thread_pool_new_full
+  - #3713 call g_file_enumerator_close in g_file_enumerator_finalize is n=
+ot safe
+    (fbrouille)
+  - #3716 (CVE-2025-7039) (#YWH-PGM9867-104) Buffer Under-read on GLib th=
+rough
+    glib/gfileutils.c via get_tmp_file() (Michael Catanzaro)
+  - #3721 GFile leak in g_local_file_set_display_name during error handli=
+ng
+    (Philip Withnall, Michael Catanzaro)
+  - #3725 Deadlock on source_destroy_lock inside g_main_context_unref() a=
+nd
+    g_source_destroy() (with child sources) (Matthew Waters)
+  - #3726 GApplication sometimes fails to call before_emit (Matthias Clas=
+en)
+  - !4481 gio: gmemorymonitorpsi: Replace GMemoryMonitor backend with ker=
+nel PSI
+    event
+  - !4665 gio: enums: Fix GBusNameOwnerFlags's annotation
+  - !4667 Incorrect output parameter handling in closure helper of
+    g_settings_bind_with_mapping_closures
+  - !4669 Add missing `(array zero-terminated=3D1)` annotations
+  - !4676 Fix IPv6 scope-id from DNS responses being lost
+  - !4680 gbacktrace: Correctly wait for children on Unix
+  - !4681 (CVE-2025-6052) gstring: Improve
+    g_string_expand/g_string_append_len_inline checks
+  - !4682 gio-tool-launch: fix %k field code expansion
+  - !4683 gio-tool-launch: Fix mismatched curly quotes in translatable st=
+rings
+  - !4684 garray: Support unallocated zero terminated arrays
+  - !4685 garray: Use g_array_elt_len/pos where appropriate
+  - !4687 gstring: Fix g_string_append_vprintf overflow
+  - !4690 garray: Fix out of boundary write in g_ptr_array_copy
+  - !4692 tests: Fix a minor leak in array-test
+  - !4693 tests: Loosen string comparison assertion in gio-tool.py
+  - !4694 tests: Do not always skip array overflow checks
+  - !4695 garray: Add more element_size > 0 checks
+  - !4698 garray: Avoid exponential growth in g_array_copy
+  - !4699 garray: Set capacity in terminated take functions
+  - !4700 gfileutils: Fix OOB read in g_build_path(name)_va
+  - !4701 gbacktrace: Fix OOB write in stack_trace
+  - !4702 gio/filenamecompleter: Fix leaks
+  - !4703 application: NULL check for options
+  - !4704 tests: Add a regression test for GApplication command line hand=
+ling
+
+Overview of changes in GLib 2.85.1, 2025-06-13
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* Re-add the option of a singleton to `GIRepository` (#3664, work by
+  Christian Hergert)
+
+* Add support for the `e` flag (O_CLOEXEC) to `g_fopen()` (!4564, work by
+  Luca Bacci and Philip Withnall)
+
+* Make the `sysprof` Meson option yield when using GLib as a subproject (=
+!4659,
+  work by Matthias Clasen)
+
+* Use the Meson built-in `localedir` option (!4661, work by
+  Kleis Auke Wolthuizen)
+
+* Bugs fixed:
+  - #1665 g_file_trash() should return PERMISSION_DENIED if files can't b=
+e
+    deleted (Ignacy Kuchci=C5=84ski)
+  - #3664 Lack of g_irepository_get_default() equivalent makes cross-libr=
+ary
+    integration extremely difficult (Christian Hergert)
+  - #3698 Misleading autogenerated hints in the documentation of
+    g_async_queue_pop() (Alicia Boya Garc=C3=ADa)
+  - !4560 glib/gnulib/printf.c: Sync with gnulib
+  - !4564 gstdio: Add support for the `e` flag (O_CLOEXEC) to g_fopen()
+  - !4637 Rework Windows implementation of g_getenv()
+  - !4641 [th/gobj-drop-bit-lock] gobject: drop object_bit_lock() functio=
+ns
+  - !4642 [th/gobj-empty-notify-queue] gobject: optimize notify-queue han=
+dling
+    for a single freeze
+  - !4643 GRegex: apply monospace typeface in description
+  - !4644 gio: add annotations on parameters of 'g_file_monitor_emit_even=
+t' and
+    of 'g_vfs_get_file_for_path'
+  - !4645 gregex: Clarify docs for end_pos
+  - !4646 GRegex: update class description
+  - !4649 GAsyncQueue: assert non-null data in push_sorted()
+  - !4650 tests: Add atomics to asyncqueue test global variables
+  - !4651 Meson: Add libglib_static dependency for use in tests
+  - !4652 gobject: clarify in documentation that g_value_set_boxed copies
+  - !4654 Fix buffer overflow in string-test
+  - !4655 gstring: Fix overflow check when expanding the string
+  - !4657 docs: Stop hiding the Unix-like APIs which are in Gio-2.0.gir
+  - !4658 gmarkup: make documentation more discoverable
+  - !4659 Make the sysprof feature yield
+  - !4661 meson: Use the appropriate localedir option
+
+Overview of changes in GLib 2.85.0, 2025-05-20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+ * Preserve mode for existing file when creating a temporary file for ato=
+mic
+   updates with g_file_set_contents() (dconf#76, work by Wesley Hershberg=
+er)
+
+ * Fix race conditions between g_main_context_unref() and g_source_*() me=
+thods
+   (#803, work by Matthew Waters)
+
+ * Allow file handles inside nested containers when using the `gdbus call=
+`
+   command (#3624, work by Julian Sparber)
+
+ * Fix DNS resolution of local addresses in offline mode (#3641, work by
+   Patrick Griffis)
+
+ * Various performance improvements to GObject locking (various MRs by
+   Thomas Haller)
+
+ * Prefer matches occurring earlier in the string when searching
+   `GDesktopAppInfo`s, improving search for apps in gnome-shell (!4369, w=
+ork by
+   Fina Wilke)
+
+ * Fix thread safety of `GClosure` flags (!4575, !4577, work by Sam James=
+ and
+   Philip Withnall)
+
+* Bugs fixed:
+  - GNOME/dconf#76 dconf update can set incorrect permissions to dconf sy=
+stem db
+    (Wesley Hershberger)
+  - #490 Not clearly documented behavior of g_key_file_set_comment functi=
+on.
+    (marklkram)
+  - #803 g_main_context_unref() versus g_source_*() race (Matthew Waters)
+  - #1002 GObject doesn't support removing a weak reference in a GWeakNot=
+ify for
+    the same object
+  - #1250 gsocketlistener: Fix IPv4 listen() error-handling resulting in =
+use-
+    after-free
+  - #2377 Document that `g_socket_address_get_native_size()` can return `=
+-1` on
+    errors
+  - #2544 Consider `g_log_always_fatal` for aborting in
+    `g_log_structured_array()` (sid)
+  - #3405 Enable -Wconversion warnings by default (progress towards this,=
+ but it
+    is not complete)
+  - #3616 docs: Broken link in GioActionEntry (Philip Withnall)
+  - #3617 Add generalised version of g_date_get_monday_week_of_year() (Ph=
+ilip
+    Withnall)
+  - #3624 `gdbus call` should look for file handles inside nested contain=
+ers
+    (Julian Sparber)
+  - #3630 2.84.0 build failure on Linux: ../gio/gnetworkmonitornetlink.c:=
+47:10:
+    fatal error: netlink/netlink_route.h: No such file or directory (Phil=
+ip
+    Withnall)
+  - #3634 test failure with gobject-introspection 1.83.4: warning: elemen=
+t
+    doc:format from state 3 is unknown, ignoring (Philip Withnall)
+  - #3636 gio/trash does not handle special characters well
+  - #3641 GResolver: Local DNS resolution failure in offline mode (Patric=
+k
+    Griffis)
+  - #3642 `g_cancellable_connect()` documentation incorrect (Marco Trevis=
+an
+    (Trevi=C3=B1o))
+  - #3643 g_cancellable_connect(): is it safe to unref cancellable from
+    callback? (Marco Trevisan (Trevi=C3=B1o))
+  - #3649 Crash with some registry key values in GWin32AppInfo (Philip Wi=
+thnall)
+  - #3656 Set SYSLOG_IDENTIFIER when logging to journald (Axel Karjalaine=
+n)
+  - #3657 girepository: Wrong typelib path on Windows
+  - #3663 Cannot use GZlibCompressor in GTK testsuite (Benjamin Otte)
+  - #3684 UAF in GSignalGroup weak notify callbacks (Thomas Haller)
+  - #3686 docs.gtk.org doesn't mention that GSourceFuncs.finalize may be =
+NULL
+    (BZZZZ)
+  - #3693 Random failures in debian-i386-stable
+  - !4185 [th/gobject-no-object-locks-pt1-notify] use
+    `g_datalist_id_update_atomic()` instead of OPTIONAL_BIT_LOCK_NOTIFY
+  - !4247 mappedfile: Avoid some allocations
+  - !4369 gdesktopappinfo: Prefer matches that occur earlier in the match=
+ string
+  - !4387 Fix various -Wshorten-64-to-32 warnings
+  - !4484 Memory sanitizer fixes
+  - !4489 gobject: Be consistent in using atomic logic to handle the
+    GParamSpecPool
+  - !4520 [th/gdataset-cleanup] minor cleanups of gdataset
+  - !4536 [th/gobj-closure-array-atomic] use g_datalist_id_update_atomic(=
+) for
+    array of closure watches
+  - !4541 gsettings: Port docs to gi-docgen format, add missing annotatio=
+ns and
+    make various improvements
+  - !4544 tests: Don't install runner scripts without installed_tests
+  - !4545 Update French translation
+  - !4547 Update Catalan translation
+  - !4548 Update Turkish translation
+  - !4551 Updated Danish translation
+  - !4552 Update Persian translation
+  - !4553 docs: Document GSignalFlags members added after 2.0
+  - !4554 Update Indonesian translation
+  - !4555 tests: Add a test for g_object_freeze_notify() being called too=
+ often
+  - !4557 gfileinfo: Slightly expand docs for
+    g_file_info_get_attribute_as_string()
+  - !4558 gi: Dynamically set doc-format
+  - !4561 tests: Various fixes to create temporary files in /tmp rather t=
+han the
+    build directory
+  - !4562 gdbusnameowning: Convert docs to gi-docgen linking syntax
+  - !4563 giounix-private: Fix macro for checking for epoll_create1()
+  - !4565 Fix LGPL in header
+  - !4567 gutils: make documentation of g_set_prgname() clearer
+  - !4568 docs: Add some detail
+  - !4569 Update Romanian translation
+  - !4570 gspawn-win32: Fix potential integer overflows in argv handling
+  - !4571 gvarianttype: Improve docs on type validation
+  - !4575 gclosure: fix ATOMIC_CHANGE_FIELD to read vint atomically
+  - !4577 gclosure: Allow full set of closure flags to be queried atomica=
+lly
+  - !4578 [th/bit-lock-and-set] bitlock: add g_bit_lock_and_get() and
+    g_bit_unlock_and_set() API
+  - !4579 tests: Add missing unistd.h include to scannerapi.c
+  - !4581 [th/gobj-no-weak-ref-lock] drop OPTIONAL_BIT_LOCK_WEAK_REFS obj=
+ect
+    lock for `g_object_weak_{ref,unref}()`
+  - !4583 thread: fix Linux detection
+  - !4585 gfile: Expand documentation around file info for inaccessible f=
+iles
+  - !4586 [th/gobj-doc-weakref] clear #GWeakRef earlier in
+    g_object_run_dispose() and reword docs about #GWeakRef
+  - !4588 gstring: carefully handle gssize parameters
+  - !4590 Various -Wsign-conversion warning fixes
+  - !4591 gthreadedresolver: fix crash in loopback interface check
+  - !4592 gstring: Make len_unsigned unsigned
+  - !4594 Enable -Wsign-conversion for girepository, gthread, gmodule
+  - !4596 docs: Mention how to run the test suite in CONTRIBUTING.md
+  - !4598 gtlsconnection: Fix annotation
+  - !4599 Mark pointer as (type gpointer)
+  - !4601 garray: Fix annotations
+  - !4602 docs: fix typo glong: ULONG_MAX -> LONG_MAX
+  - !4603 Fix GNetworkMonitorNetlink operation under a FreeBSD jail with =
+shared
+    network stack
+  - !4604 cocoa: add support for GBytesIcon in notification backend
+  - !4605 gparamspecs: Use standard min/max constants rather than literal=
+s
+  - !4606 gobject, girepository: Fix several -Wsign-conversion warnings o=
+n macOS
+  - !4609 Update Portuguese translation
+  - !4610 Update Ukrainian translation
+  - !4613 Update macOS job for new CI runner
+  - !4615 shell: Handle empty comment gracefully
+  - !4619 gslist: Improve documentation for append / prepend / insert met=
+hods
+  - !4620 glocalfile: Disable faccessat()-based query_exists on Android
+  - !4621 gallocator: mark as deprecated
+  - !4627 [th/gsignalgroup-dispose] gsignalgroup: make GSignalGroup.dispo=
+se() a
+    bit more reentrant
+  - !4628 [th/gdataset-fix-zero-key] fix and cleanup related to using a z=
+ero
+    GQuark for keys in GData
+  - !4631 Update German translation
+  - !4632 win32: Only print one OS version
+  - !4633 gzlibcompressor: Convert docs to gi-docgen linking syntax
+  - !4638 docs: Fix formatting of definition lists
+
+* Translation updates:
+  - Catalan (Jordi Mas)
+  - Danish (Ask Hjorth Larsen)
+  - French (Vincent Chatelain)
+  - German (Philipp Kiemle)
+  - Indonesian (Andika Triwidada)
+  - Persian (Danial Behzadi)
+  - Portuguese (Hugo Carvalho)
+  - Romanian (Antonio Marin)
+  - Turkish (Sabri =C3=9Cnal)
+  - Ukrainian (Yuri Chornoivan)
+
+- remove backport patches
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ .../glib-2.0/files/CVE-2025-6052-1.patch      | 97 -------------------
+ .../glib-2.0/files/CVE-2025-6052-2.patch      | 35 -------
+ ...l_2.84.4.bb =3D> glib-2.0-initial_2.86.0.bb} |  0
+ ...{glib-2.0_2.84.4.bb =3D> glib-2.0_2.86.0.bb} |  0
+ meta/recipes-core/glib-2.0/glib.inc           |  4 +-
+ 5 files changed, 1 insertion(+), 135 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patc=
+h
+ delete mode 100644 meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patc=
+h
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.84.4.bb =3D> glib-=
+2.0-initial_2.86.0.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.84.4.bb =3D> glib-2.0_2.86=
+.0.bb} (100%)
+
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch b/met=
+a/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch
+deleted file mode 100644
+index a344735ee4..0000000000
+--- a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-1.patch
++++ /dev/null
+@@ -1,97 +0,0 @@
+-From 6aa97beda32bb337370858862f4efe2f3372619f Mon Sep 17 00:00:00 2001
+-From: Tobias Stoeckmann <tobias@stoeckmann.org>
+-Date: Mon, 7 Jul 2025 20:52:24 +0200
+-Subject: [PATCH] gstring: Fix g_string_sized_new segmentation fault
+-
+-If glib is compiled with -Dglib_assert=3Dfalse, i.e. no asserts
+-enabled, then g_string_sized_new(G_MAXSIZE) leads to a segmentation
+-fault due to an out of boundary write.
+-
+-This happens because the overflow check was moved into
+-g_string_maybe_expand which is not called by g_string_sized_new.
+-
+-By assuming that string->allocated_len is always larger than
+-string->len (and the code would be in huge trouble if that is not true),
+-the G_UNLIKELY check in g_string_maybe_expand can be rephrased to
+-avoid a potential G_MAXSIZE overflow.
+-
+-This in turn leads to 150-200 bytes smaller compiled library
+-depending on gcc and clang versions, and one less check for the most
+-common code paths.
+-
+-Reverts https://gitlab.gnome.org/GNOME/glib/-/merge_requests/4655 and
+-reorders internal g_string_maybe_expand check to still fix
+-CVE-2025-6052.
+-
+-CVE: CVE-2025-6052
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
+6aa97beda32bb337370858862f4efe2f3372619f]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- glib/gstring.c      | 10 +++++-----
+- glib/tests/string.c | 18 ++++++++++++++++++
+- 2 files changed, 23 insertions(+), 5 deletions(-)
+-
+-diff --git a/glib/gstring.c b/glib/gstring.c
+-index 010a8e976..24c4bfb40 100644
+---- a/glib/gstring.c
+-+++ b/glib/gstring.c
+-@@ -68,6 +68,10 @@ static void
+- g_string_expand (GString *string,
+-                  gsize    len)
+- {
+-+  /* Detect potential overflow */
+-+  if G_UNLIKELY ((G_MAXSIZE - string->len - 1) < len)
+-+    g_error ("adding %" G_GSIZE_FORMAT " to string would overflow", len=
+);
+-+
+-   string->allocated_len =3D g_nearest_pow (string->len + len + 1);
+-   /* If the new size is bigger than G_MAXSIZE / 2, only allocate enough
+-    * memory for this string and don't over-allocate.
+-@@ -82,11 +86,7 @@ static inline void
+- g_string_maybe_expand (GString *string,
+-                        gsize    len)
+- {
+--  /* Detect potential overflow */
+--  if G_UNLIKELY ((G_MAXSIZE - string->len - 1) < len)
+--    g_error ("adding %" G_GSIZE_FORMAT " to string would overflow", len=
+);
+--
+--  if (G_UNLIKELY (string->len + len >=3D string->allocated_len))
+-+  if (G_UNLIKELY (len >=3D string->allocated_len - string->len))
+-     g_string_expand (string, len);
+- }
+-=20
+-diff --git a/glib/tests/string.c b/glib/tests/string.c
+-index aa363c57a..e3bc4a02e 100644
+---- a/glib/tests/string.c
+-+++ b/glib/tests/string.c
+-@@ -767,6 +767,23 @@ test_string_new_take_null (void)
+-   g_string_free (g_steal_pointer (&string), TRUE);
+- }
+-=20
+-+static void
+-+test_string_sized_new (void)
+-+{
+-+
+-+  if (g_test_subprocess ())
+-+    {
+-+      GString *string =3D g_string_sized_new (G_MAXSIZE);
+-+      g_string_free (string, TRUE);
+-+    }
+-+  else
+-+    {
+-+      g_test_trap_subprocess (NULL, 0, G_TEST_SUBPROCESS_DEFAULT);
+-+      g_test_trap_assert_failed ();
+-+      g_test_trap_assert_stderr ("*string would overflow*");
+-+    }
+-+}
+-+
+- int
+- main (int   argc,
+-       char *argv[])
+-@@ -796,6 +813,7 @@ main (int   argc,
+-   g_test_add_func ("/string/test-string-steal", test_string_steal);
+-   g_test_add_func ("/string/test-string-new-take", test_string_new_take=
+);
+-   g_test_add_func ("/string/test-string-new-take/null", test_string_new=
+_take_null);
+-+  g_test_add_func ("/string/sized-new", test_string_sized_new);
+-=20
+-   return g_test_run();
+- }
+diff --git a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch b/met=
+a/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch
+deleted file mode 100644
+index 703dfdf46c..0000000000
+--- a/meta/recipes-core/glib-2.0/files/CVE-2025-6052-2.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 3752760c5091eaed561ec11636b069e529533514 Mon Sep 17 00:00:00 2001
+-From: Tobias Stoeckmann <tobias@stoeckmann.org>
+-Date: Mon, 7 Jul 2025 20:57:41 +0200
+-Subject: [PATCH] gstring: Improve g_string_append_len_inline checks
+-
+-Use the same style for the G_LIKELY check here as in g_string_sized_new.
+-The check could overflow on 32 bit systems.
+-
+-Also improve the memcpy/memmove check to use memcpy if val itself is
+-adjacent to end + len_unsigned, which means that no overlapping exists.
+-
+-CVE: CVE-2025-6052
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
+3752760c5091eaed561ec11636b069e529533514]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- glib/gstring.h | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/glib/gstring.h b/glib/gstring.h
+-index e817176c9..c5e64b33a 100644
+---- a/glib/gstring.h
+-+++ b/glib/gstring.h
+-@@ -232,10 +232,10 @@ g_string_append_len_inline (GString    *gstring,
+-   else
+-     len_unsigned =3D (gsize) len;
+-=20
+--  if (G_LIKELY (gstring->len + len_unsigned < gstring->allocated_len))
+-+  if (G_LIKELY (len_unsigned < gstring->allocated_len - gstring->len))
+-     {
+-       char *end =3D gstring->str + gstring->len;
+--      if (G_LIKELY (val + len_unsigned <=3D end || val > end + len_unsi=
+gned))
+-+      if (G_LIKELY (val + len_unsigned <=3D end || val >=3D end + len_u=
+nsigned))
+-         memcpy (end, val, len_unsigned);
+-       else
+-         memmove (end, val, len_unsigned);
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.4.bb b/meta=
+/recipes-core/glib-2.0/glib-2.0-initial_2.86.0.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.84.4.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.86.0.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.84.4.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.86.0.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.84.4.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
+-2.0/glib.inc
+index c80396a0f1..f9cb3417ec 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -231,14 +231,12 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-=
+${PV}.tar.xz \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
+ly-.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.pa=
+tch \
+            file://skip-timeout.patch \
+-           file://CVE-2025-6052-1.patch \
+-           file://CVE-2025-6052-2.patch \
+            "
+ SRC_URI:append:class-native =3D " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pi=
+dfd-features-on-native-g.patch \
+                               "
+=20
+-SRC_URI[sha256sum] =3D "8a9ea10943c36fc117e253f80c91e477b673525ae4576294=
+2858aef57631bb90"
++SRC_URI[sha256sum] =3D "b5739972d737cfb0d6fd1e7f163dfe650e2e03740bb3b8d4=
+08e4d1faea580d6d"
+=20
+ # Find any meson cross files in FILESPATH that are relevant for the curr=
+ent
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
+--=20
+2.50.1
 
 
