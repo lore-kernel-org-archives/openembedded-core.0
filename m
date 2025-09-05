@@ -2,113 +2,121 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7010FCA1016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0DCCA1010
 	for <webhook@archiver.kernel.org>; Fri,  5 Sep 2025 16:09:39 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web11.583.1757088571670302440
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web10.546.1757088570512552145
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Sep 2025 09:09:31 -0700
+ Fri, 05 Sep 2025 09:09:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SJZ0UE8N;
- spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7e86faa158fso248153285a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 09:09:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kNEaiV8R;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-80b7a6b2b47so219842985a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 09:09:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757088571; x=1757693371; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oc2PU+YKSXxNYm5S3opdr2gGmwfSfz13L9YNXatGykk=;
-        b=SJZ0UE8NuKqQUe1rpfHCPOivtJymn7/ee6q+kG+bTvv52u520uBno00Kc3r2YCnBmX
-         4ZoXNOaEnJWwCpMkDDDdXCEntjSlTz42gvh4GxsXuxeJcwUm4Rtqqa2G98UbR49KPSvN
-         H3JZSmi7w6e2Enponqmeau9tSTuZR/PhBmW4OF1sTv7DvlGaeqG9UXL/fOvbhR88biEQ
-         Tt7AqHfj8g91hFkg6lA69oAX+BixsBTSJMIsent0b5thCWss2ny2Oa1D6I6NghMFCXBV
-         r8FObNEFrx1OnAkCpjpeGfXzecBWZcBVhwgRU9H6+RSDWBLatoRU4gsZ5Bszk4jcIBEa
-         +k0A==
+        d=gmail.com; s=20230601; t=1757088569; x=1757693369; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VREO3cpGvhJ4gF3Emzj1Y626iklNBkjfLepTKyS79tY=;
+        b=kNEaiV8RdK8M7IqT79vNwmiJq8Hwg+t10sfFLoGWhlZz1sSYxx3Y+HM3+VoAP9b4H+
+         9xgdMY5mtUbxW6dW/9wtM8ECpdLfkQ+vn7G4H/mBcEzjCh22HxjhleJIBLaSUKYKN9zU
+         pU449p24s+095cIYVB1iRhi9kOV8O9agf+qqS7xjdDTJOlF2B3MESsTa2OTfvmJ95j7u
+         CCapS5Dc7ouflhmvhTYXhQoiQ/+atpeTRIPOStkU7kxOgORvK/Ff8S1zfIJ6Cu44X9Sr
+         QpmYVJWoVk32f+EsCEdgdo6uoIHJIp3gS+xWY7AA6dnZjsfi9MoQFB2JBEAx1XUnTsUB
+         WJmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757088571; x=1757693371;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oc2PU+YKSXxNYm5S3opdr2gGmwfSfz13L9YNXatGykk=;
-        b=uYrd7nsrjMe5+tI98W1U1MqSZsK+uKHxnsLxI82Qk9SBZQ4tSEPi90j6i8bFtlnW+G
-         7pKOgT6NpQBlXBWOFLbfr1DKVIhHvvgUTNtxDBuSg3DRJeWzxWfkNlvciQT+DP0SFFYj
-         O8hkBtb5cuFlZrOts1Di1We+WcW1cD3mlYQ6U+EKbkMYtZA2d7mdVjQUxgEjrWPF7enx
-         f7dcPpgB84ngoK7Q+DmAfoP921rWBeyv4W8QKBE6ufMr+bAnARHiibeq1VUNTynYb1je
-         /w/WksoxMBulekAF4AZNAKHcKqquTfxUPlwjsXMV/huQ5b7BybGTVyPzqYDkhl02+trl
-         8sXg==
-X-Gm-Message-State: AOJu0YyhSCszm3wqAXwun6Q2NZ2gGCi7qkD6G1KNePOnfok02mMa3bP5
-	oYc6U7IiPmtS8kXKRi+6XCXxj9x0Xq+gKVtAUtXL5yDdaLNWmxoGauAnBxx4JHEI
-X-Gm-Gg: ASbGncurOivJCU4pbiwqMcfRhmQy67tBXa8fK4kne1jl+BaRhwQsEWnMrMRUD0DxyBD
-	Tqg30iL0PAXKd/B5eEpzuzluY2c4fpwiFFYgv0N2aDm2fGiHMifKlNWWCANmA1Az+jx0J3j+2w5
-	ZoV1ZaxRYc5JO3ottsvnaPxgA/dV29SYubrz/BJjM7frHH1pzXvbreIAaHh6sSR5IVxluLsk48w
-	Z4GXI2Ln9VzKtGf4iYKZi68Xi+gWJ8lYZpBIU7vdEgmuU8CygtOeQ61D0gW7QDBzqt4qe70H4yv
-	M/64eklChsGXVr0iE7eBB82JK5CRxY7cBrd7xGEGRY7oCn0VbN/mtoH2vxmxB4Tao92r+jrafKI
-	AUsGbSRNIABzxMJR5iDvaQNjg2TBp5cjLlEF9bzFKTZwVBxx/kzUyjvHETGWSVKtOSouFb4PhuR
-	erNgBtlmZ9gqq8DPR1PKo3Q3Ph/V9z0m1rxsNVvi9NmZWew2g9sS1lpvM=
-X-Google-Smtp-Source: AGHT+IFPsAT3HVknFA861uG2ZmCTrhNf5qy+xa4bu6e4XU3/flWhtxc29dK9OefIfEfHZY+pmCFY/g==
-X-Received: by 2002:a05:620a:4628:b0:7f3:c6ab:e836 with SMTP id af79cd13be357-8109a54dc48mr459575085a.18.1757088570274;
-        Fri, 05 Sep 2025 09:09:30 -0700 (PDT)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720ac16de30sm69127446d6.7.2025.09.05.09.09.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20230601; t=1757088569; x=1757693369;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VREO3cpGvhJ4gF3Emzj1Y626iklNBkjfLepTKyS79tY=;
+        b=j84BjsNX3s6Y1u/JxRsCxOfolUHkRRjUKUNTrIXanEhTujrm9OpoHaw3/MPKJav1TF
+         euWHvPn/23VvmAXhA3Zy7iGOONS2hxMs4ZdR49EFEHod0kdPqMk0l1hVg9b4ahyoeYpC
+         C7rm+K7K5G6h8kxmZCm7JGD1Ic9xF68QvH4FSd0T3izv+IXOnOZWshnfG1I7zhnNbdrx
+         RcK1+0fv7Y6fnmWKC4KfIz9CWTr4exHVRU3xswYYFlrgH3R9vC8vPEBJ6ulDwd1wf0PU
+         lqEJow+vfBsvOfoyRdGbLQ/lqkbLbcP50YSjLRXnDCDq6NH6FzgScv/KE/RGEq7Bxua6
+         IN5w==
+X-Gm-Message-State: AOJu0Yxo+CLhOwCgkr0BX6Ksaxye8sUdVCfU0Y2WZYa3iL7dcA1mvLCT
+	uefD8tXqOOpffv6OvxzG0HeqLiWLvlWWpN+CQkIdwgAOU80v6QBRA5b3
+X-Gm-Gg: ASbGncuuqLPM7W0y1hUeU72Z/wyeWncSBlj3nxK2mHR2mf3nqHOgqdgaj5HQ7zBLZAf
+	sz5VSv1oWjfFl3fP+subk7Ev/KR5FA1mgJ8rrlFe1J7yh3+rY4lAL7Ie526wkKnxSsjiEQBZWEr
+	ZdfFp7CR606LJSZBXkWZ+tLUbMzHvih4Z+p1cL5kbFMus3XCY3Aw3uiak23kKqbSHnviJRTW5vA
+	0gt1lvKVYDsKQ0kaiK4A99KcI5/UNZSklsG4K0PTS9rBsMBu7xLvfSOwRBXmDXLk9dmMXJNVwfB
+	orZ3yl4f7Ysaz8Tqv5iY8aVVxUf9tYq0LnF0oXMpAhUUis1XsZB/cNaDjnXdbrW0QoY3M4rCXYx
+	ipirpboT3+7GE0htvQD9orQZkQFgt2W9UFspq67B4H4Py1FR2vq5Fiwrenxr7q8L1oKRm8qIhAE
+	ObIGuS5JrOr8a1fiPkLixfvZZAMaaq8MmRAmtWp5SGSFgCWUPDNDOhVln68CtvPwkH3g==
+X-Google-Smtp-Source: AGHT+IEF8QFLGbLHePmTCJr/JMzNr7elXQ1SoKLd5lkV6jxNm9+Kkj1g03+dNBK+DwOZCcsD8R25Hw==
+X-Received: by 2002:a05:620a:f0b:b0:7ee:4a7e:e9a3 with SMTP id af79cd13be357-7ff2b97ba97mr2523699085a.48.1757088569310;
         Fri, 05 Sep 2025 09:09:29 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720ac16de30sm69127446d6.7.2025.09.05.09.09.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 09:09:28 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/5] poky: bump default kernel reference to 6.16
-Date: Fri,  5 Sep 2025 12:09:23 -0400
-Message-Id: <0074b1cd80c242493c1e50d9ff58cc4427272a50.1757088383.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 0/5] kernel-yocto: default bump and -stable updates
+Date: Fri,  5 Sep 2025 12:09:22 -0400
+Message-Id: <cover.1757088383.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1757088383.git.bruce.ashfield@gmail.com>
-References: <cover.1757088383.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Sep 2025 16:09:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223011
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223010
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Bumping the reference kernel to 6.16. We keep the alt distro
-on 6.12 for better coverage.
+Hi all,
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta-poky/conf/distro/poky-tiny.conf | 2 +-
- meta-poky/conf/distro/poky.conf      | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Yes, this is a combined meta-poky and oe-core pull request, since
+it is simpler to coordinate.
 
-diff --git a/meta-poky/conf/distro/poky-tiny.conf b/meta-poky/conf/distro/poky-tiny.conf
-index 81153b3b36..84baef347c 100644
---- a/meta-poky/conf/distro/poky-tiny.conf
-+++ b/meta-poky/conf/distro/poky-tiny.conf
-@@ -41,7 +41,7 @@ FULL_OPTIMIZATION = "-Os"
- # Distro config is evaluated after the machine config, so we have to explicitly
- # set the kernel provider to override a machine config.
- PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-tiny"
--PREFERRED_VERSION_linux-yocto-tiny ?= "6.12%"
-+PREFERRED_VERSION_linux-yocto-tiny ?= "6.16%"
- 
- # We can use packagegroup-core-boot, but in the future we may need a new packagegroup-core-tiny
- #POKY_DEFAULT_EXTRA_RDEPENDS += "packagegroup-core-boot"
-diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
-index b12df2be70..d86630b153 100644
---- a/meta-poky/conf/distro/poky.conf
-+++ b/meta-poky/conf/distro/poky.conf
-@@ -19,8 +19,8 @@ POKY_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
- 
- DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
- 
--PREFERRED_VERSION_linux-yocto ?= "6.12%"
--PREFERRED_VERSION_linux-yocto-rt ?= "6.12%"
-+PREFERRED_VERSION_linux-yocto ?= "6.16%"
-+PREFERRED_VERSION_linux-yocto-rt ?= "6.16%"
- 
- SDK_NAME = "${DISTRO}-${TCLIBC}-${SDKMACHINE}-${IMAGE_BASENAME}-${TUNE_PKGARCH}-${MACHINE}"
- SDKPATHINSTALL = "/opt/${DISTRO}/${SDK_VERSION}"
+There's a known build error with vboxguestdrivers in meta-oe that
+I'll look at shortly, but otherwise, I've been able to build and
+boot all the architectures with 6.16.
+
+The warning reported with the introduction of the version should
+be fixed as well via my SRCREV bumps from last week.
+
+We aren't removing 6.12 as it is a LTS, so the mad rush to update
+all hardware reference platforms doesn't have to happen, but it is
+appreciated by those that do those bumps.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 4ad510a63fd88b7907b2a1b8feceace9758397d0:
+
+  vte: upgrade 0.78.2 -> 0.80.3 (2025-09-01 23:07:06 +0100)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  poky: bump default kernel reference to 6.16
+  linux-yocto/6.16: update to v6.16.4
+  linux-yocto/6.16: update CVE exclusions (6.16.4)
+  linux-yocto/6.12: update to v6.12.44
+  linux-yocto/6.12: update CVE exclusions (6.12.44)
+
+ meta-poky/conf/distro/poky-tiny.conf          |   2 +-
+ meta-poky/conf/distro/poky.conf               |   4 +-
+ .../linux/cve-exclusion_6.12.inc              | 140 +++++++++++++++++-
+ .../linux/cve-exclusion_6.16.inc              | 136 ++++++++++++++++-
+ .../linux/linux-yocto-rt_6.12.bb              |   6 +-
+ .../linux/linux-yocto-rt_6.16.bb              |   6 +-
+ .../linux/linux-yocto-tiny_6.12.bb            |   6 +-
+ .../linux/linux-yocto-tiny_6.16.bb            |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb |  28 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.16.bb |  28 ++--
+ 10 files changed, 309 insertions(+), 53 deletions(-)
+
 -- 
 2.39.2
 
