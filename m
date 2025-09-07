@@ -2,113 +2,104 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE0ACA1017
-	for <webhook@archiver.kernel.org>; Sun,  7 Sep 2025 14:02:19 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web10.19261.1757253731445434693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C36CA1017
+	for <webhook@archiver.kernel.org>; Sun,  7 Sep 2025 14:09:59 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.web11.19291.1757254189293111124
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Sep 2025 07:02:12 -0700
+ Sun, 07 Sep 2025 07:09:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=srWO2jxs;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=GObAyMeW;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4CDCF4E40C48;
-	Sun,  7 Sep 2025 14:02:09 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id C6353C8EC5F;
+	Sun,  7 Sep 2025 14:09:31 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0ED726061A;
-	Sun,  7 Sep 2025 14:02:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DD7D2102F1C7E;
-	Sun,  7 Sep 2025 16:02:02 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 23AF26061A;
+	Sun,  7 Sep 2025 14:09:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3FB4E102F0DE6;
+	Sun,  7 Sep 2025 16:09:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757253727; h=from:subject:date:message-id:to:mime-version:content-type:
+	t=1757254186; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=mm5PDvdFPycfFaBR6TJaJpUz4K6I6/GnXRYYAnQFR+0=;
-	b=srWO2jxsqlfHAETN5TJ6iKKMOWXVg5XOJ88zB8ATFYcS/SEBoXc7UtKArlIbh+xIHwmAPc
-	OSix1yqKCNZSC8M3E2qB6Z7bOs6r3ksVMuoog/3nOplEsVJ0ZkD1pFTHZy0y1zXsUB8v+L
-	1mA8LbGn1x37a0G9oFSglMWfxiT85LfEEFMqL5E/xJtZU6hUyPJ2K8R+fPcD3y2PFc08Oo
-	SERpkgVLTJwJYt16ACacYOQpGsJwY0o7HsaA9/2yLeEPQBAcFfnvJQhWJj5fzOi1g6pOHF
-	/z6Yn2DLZXzBglvKSfn0LAITlv+MMFg2DGnufy6baHIQNxY9Eup+8DGaBpiX1w==
+	bh=HEsJykNmmpwJARKFO+YWAOQVSFneFJh4WtvY72MVylU=;
+	b=GObAyMeWpGyA3Id7zVs5OS6Bxre5sqJsDNHGFZCAgaZ88t8ga3yIB8nCd5j2TGoNC/mr/H
+	sy7LBiCMv6RtKhvnRNoGhhS0PDcNvXh9MYEYMzZoGKVX8LQC8wD4/9DBA3YSvf4K7+mck0
+	Y/ftQ0oWCmNRz8hx1RNxmcHjidN42xKe7zW+8vfv/gI/m4aMNuP+3iUyk53cVyFe72KHvn
+	y/I7dcsIu9lmUOLpDzptn/tAP1sggs4CU+v54ZXPm2DShxB9PkKI0Ty5P7MMHQEECNYbPN
+	u5wgKT22zSZJiyuz81v3D2xphL3zaUGoRg6Og5i5LZWJ/d0gTMJpCNwI+fMfvQ==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 07 Sep 2025 16:02:02 +0200
-Message-Id: <DCMMGFDTYJD0.3EMQPQ884OGL2@bootlin.com>
-To: "Vincent Davis Jr" <vince@underview.tech>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH v3 1/8] bootimg_pcbios: support grub hybrid
- boot
+Date: Sun, 07 Sep 2025 16:09:42 +0200
+Message-Id: <DCMMMAUJM8Z0.LPZ2GTZCLKYA@bootlin.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <yi.zhao@eng.windriver.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] tcl8: upgrade 8.6.16 -> 8.6.17
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250905164136.2896809-1-vince@underview.tech>
-In-Reply-To: <20250905164136.2896809-1-vince@underview.tech>
+References: <20250905061422.495303-1-yi.zhao@windriver.com>
+In-Reply-To: <20250905061422.495303-1-yi.zhao@windriver.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 Sep 2025 14:02:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223052
+ <openembedded-core@lists.openembedded.org>; Sun, 07 Sep 2025 14:09:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223053
 
-On Fri Sep 5, 2025 at 6:41 PM CEST, Vincent Davis Jr wrote:
-> If caller wants to primarily leverage
-> grub as the primary boot loader current
-> oe-core doesn't support booting grub when
-> the boot firmware is legacy BIOS based and
-> the partition table format is GPT based.
+On Fri Sep 5, 2025 at 8:14 AM CEST, Yi Zhao via lists.openembedded.org wrot=
+e:
+> ChangeLog:
+>   2024-12-16 (bug) [63449c] [namespace children] doesn't match non-glob
+>              patterns below the global namespace
+>   2025-01-06 (bug) [fc3509] Better error-message than "interpreter uses
+>              an incompatible stubs mechanism"
+>   2025-01-19 tzdata updated to Olson's tzdata2025a
+>   2025-01-28 (bug) [4f0b57] Win: [exec] now works on App Execution
+>              Aliases.
+>   2025-01-28 (bug) [4e2c8b] Win: [auto_execok] handles larger set of
+>              shell commands.
+>   2025-03-06 (bug) [ba68d1] errorline from [interp eval], interp-26.9
+>   2025-03-23 tzdata updated to Olson's tzdata2025b
+>   2025-04-11 (bug) [fd8341] Tcl_InitStubs compatibility for 9.1, better
+>              error-handling
+>   2025-05-05 (bug) [42d14c] Fix scan with long mantissa. Ex.: scan
+>              "1.[string repeat 1 191]e-321" %g
+>   2025-06-18 (bug) [4f338b] add missing Tcl_CloseEx docs
+>   2025-06-24 (bug) [ecf35c] Correct nested handling of return option
+>              -options
+>   2025-06-25 (bug) [ecafd8] Euro/Tail-sign missing from cp864 encoding
+>   2025-07-03 (bug) [6b0f77] gcc 14 breaks configure test for bigendian
+>              leading to broken floating point
+>   2025-07-16 (bug) [c9f052] prevent overflow crash in Tcl_SplitList().
+>   2025-07-21 (bug) [61c01e] Flawed ref counts in filesystem
+>              implementation for Windows led to use-after-free
+>   2025-08-12 (new) dde =3D> 1.4.5
+>   2025-08-12 (bug) [992f94] avoid misaligned pointers in macOS file
+>              attribute functions
 >
-> Issue GPT header reside where core.img
-> should be located (at byte 512).
->
-> To navigate around issue core.img was
-> moved to a seperate partition.
->
-> If disk is a GPT disk caller must specify
-> the file system type as none and set the
-> partition type as BIOS boot. No filesystem
-> will be created on partition. This also
-> allows wic plugin to know where to dd
-> core.img.
->
-> Unfortunately No deep dive into grub-install
-> was perform to know the exact bytes changed
-> in hybrid boot case. To see the change in
-> bytes generated boot.img + core.img was compared
-> to boot.img + core.img after grub-install was
-> executed using the xxd command.
->
-> Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 > ---
 
-Hi Vincent,
+Hi Yi Zhao,
 
-We still have the same failure as on v2. Still happening with selftests
-running on debian host, so there might be something related to the host
-configuration.
+Thanks for your patch.
 
-ERROR: Qemu log output from /srv/pokybuild/yocto-worker/oe-selftest-debian/=
-build/build-st-2287526/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.=
-0/testimage/qemu_boot_log.20250907083922:
-SeaBIOS (version rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org)
-...
-iPXE (http://ipxe.org) 00:02.0 CA00 PCI2.10 PnP PMM+0EFC6560+0EF26560 CA00
-Press Ctrl-B to configure iPXE (PCI 00:02.0)...
-...
-Booting from Hard Disk..
-2025-09-07 08:56:24,256 - oe-selftest - INFO - 9: 79/94 577/639 (1085.73s) =
-(0 failed) (wic.Wic2.test_grub_install_biosplusefi_qemu)
-2025-09-07 08:56:24,265 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/=
-utils/commands.py", line 390, in runqemu
-    qemu.start(params=3Dqemuparams, ssh=3Dssh, runqemuparams=3Drunqemuparam=
-s, launch_cmd=3Dlaunch_cmd, discard_writes=3Ddiscard_writes)
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/=
-targetcontrol.py", line 179, in start
-    raise RuntimeError("%s - FAILED to start qemu - check the task log and =
-the boot log" % self.pn)
-RuntimeError: core-image-minimal - FAILED to start qemu - check the task lo=
-g and the boot log
+It looks like we have some ptest issues after the update:
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2280
+Failed ptests:
+{'tcl8': ['cmdAH.test']}
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/2197
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/2231
+
+Ptest logs can be found here:
+
+https://valkyrie.yocto.io/pub/non-release/20250906-46/testresults/qemuarm64=
+-ptest/core-image-ptest-tcl8/
+https://valkyrie.yocto.io/pub/non-release/20250906-46/testresults/qemux86-6=
+4-ptest/core-image-ptest-tcl8/
+
+Can you have a look at these failures please
 
 Thanks,
 Mathieu
