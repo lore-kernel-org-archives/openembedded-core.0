@@ -2,451 +2,104 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 501BFCA1016
-	for <webhook@archiver.kernel.org>; Mon,  8 Sep 2025 21:07:09 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.6070.1757365621307148049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A9CBCAC582
+	for <webhook@archiver.kernel.org>; Mon,  8 Sep 2025 21:22:49 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.6387.1757366563655307725
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Sep 2025 14:07:01 -0700
+ Mon, 08 Sep 2025 14:22:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wdd5LyXO;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7728a8862ccso4223620b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 14:07:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mQ+fJZGw;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7725147ec88so2064224b3a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 14:22:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757365620; x=1757970420; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xckOJbFvSE2ki7Rge8e8Es1yX0IOnDyQhSkvTlTit0Y=;
-        b=Wdd5LyXOFHQ/uuCrixiF/pRIZC1MHpGwTJPD5XBNv72PK9wnOMLS2+IEaOHuajTbA8
-         Uu7xaCgCs1wFFQCk2ReXBluiZZbHLC8n4N4pbbvVCimkT4iRE/ZY/5kONKsFveDlztlz
-         RCir99HFoS13Num+bOxxhGPwT6QWPGns9EIPy5N2SVM1cI6a4HKM0c2H7vJ3Uz5BcNoJ
-         a0wMvwHgh9YlF0DxoThP5csgJ9UB6QeVe7R+8P1bFo69TKD1Oq6CE5R84d4QUIK2NQie
-         SxahtUbV9Lj7bWACKUOTdOT0lO88qz1sGHFxHiV1+/CjdCDNtaKhucrr2hOFrk0mR2EA
-         f89A==
+        d=gmail.com; s=20230601; t=1757366563; x=1757971363; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XndxjME58HYUR9/dTOs/uNH42wVURQ9mJ/j+Zzo+jMk=;
+        b=mQ+fJZGwkNsl2VmUFX1RF9nOhe/949NpDEeTC1CoRCT69wgWv1KLnY7hCPfV5QXjVW
+         wtanow8d+EKQYLOwav5LrJ7lifTzWY/qpBtPQLkSnGhDu1jvfwP0cXAeq5XzCMy1/Hke
+         k68mXueYUTgDgOJmvXc0kHn0x1LJHpEQJc5sqN+Z2Drb7F/OoL1B4QJ6DRKV3BBDFkx/
+         5Gs/Yibajn5D8f6WzbTkIz/CecemaYDnmL033uqLJ3wZQx4hA7X47ddkRriXWVGIWSJK
+         SyH7iLD7/qOoBPXzhJ6I/awXRc4gYDY275PETzJYjwyG0ZHCcZejtRECB5rdy957f/4J
+         VDsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757365620; x=1757970420;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xckOJbFvSE2ki7Rge8e8Es1yX0IOnDyQhSkvTlTit0Y=;
-        b=i7+UIwSdyE5AurhMlUMt+b9XdG25igCckwnHVdKLAWYuMVf+HFPcZOUlpdsA6LS5vW
-         R7sbPANLQaFdqAMbjfqOqljg5HY81iKSLspA0yPBRqcpUO4LCsxlzYpEXoMX+cYALWja
-         BPql3RDpChDl53QAQhpgKLIlgc5X4h99QmN3xgTWilC9D9tsYEURHwxxR555dOOtEZ8p
-         cwplt7CGWdOsmNbwdmvDxDZ7lO2L3b7NRZGBKSlkJiP5vsI+WCtmvwA9meVC0x/B26MN
-         zuAzgGskmqmL27pucDpp5gPg0Y6Glm1km+Tt3rx/Av185VvoUlmPh3VoZR0D/brMfxtY
-         FI9Q==
-X-Gm-Message-State: AOJu0YyTApkAYm/zNt36ks1XND+TcDBAdXBKjRo7DrnWZKEVeLzp/nfo
-	81GbrA2p2U0du1BAFM4l2Es4xkxTOcyFVOIbbsM4L5eN8S15UFnQRSuncOxMhUCj
-X-Gm-Gg: ASbGnctupbbvidqwnZONr/oZsCzRYyFOuyI8kwn2INrn5UZtKUfg1JnTVytV+XWkSVl
-	kk3HMsI0C01CWhRJcWcwlY6rMgLSKJJjosXIe/Xf18wIB9Ni2Y1nAxlZ4+IEq8TDvhVKgIiQQ3g
-	fw+H7LtZtKDeL2DubM0hL2CdQdoLD3O4Es1D7xKMF5gf89eeNGJ6rZOlvsfYPLM5Z5wIE70zGbz
-	nlwWPpdUS2sra96JnS4Mk0kGJfuGixXZTrJe/Wj8Kxc9xLHjUDmursDTP+/qa6XK2/hmrowg1D7
-	37ClJWjAGPf67ElrzXoO+TAiZoAGXIN++GZiBLyjrktTriUrGLLAIWivVnyT+3oHsuUNlCvsPN9
-	LW/QmGSet4bdOq1UZ7zZ33x6zdOC/bapwqZLNfG8+T9B2r40fvy1bb/DxGeVX7t7HZjdbBvZdI5
-	zqrn+XB6rr4fupmGEyhF2k4IJ3O3Ew6R+jkti06LSP
-X-Google-Smtp-Source: AGHT+IFpXVhqCrbZFvCgUIQ7uXtXMNpy0oZDCw5zh2rIwAhTw+d26KPXt0Q1k3iW0+Hv04QVLgJweQ==
-X-Received: by 2002:a05:6a20:7291:b0:243:78a:82d1 with SMTP id adf61e73a8af0-2537ef037afmr13117075637.30.1757365619972;
-        Mon, 08 Sep 2025 14:06:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757366563; x=1757971363;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XndxjME58HYUR9/dTOs/uNH42wVURQ9mJ/j+Zzo+jMk=;
+        b=g/Q1Ke7AG04xvje1TThKa5sbV/H5YeTn51dZO75Gl+IHQoRBMkREK9X1kGyz4Y2v2E
+         eImkS2tiL1mX7Qkmn8oE9oCE3Fsq26Nw1TbyTjIEl8QqHMx9yHwJVC8OPahT3H3CxEIw
+         eoKBeTozXjUbTfy+GGr8fweNDwoUdQOEYV+qY8DJpV7UCvHuqquOXGR21x4weomFuDmd
+         WoIeRakwSucfz2/s2NeYYKYbCAB9Z8o8pAZOMu1yByA8B9qfqlkyeZ5R7Be6p87XHXv+
+         tNbPLmLxXYSwQkJz7xgizGa82GClN27YeY9dXCwXLTQPahWYGtbJCfUscVUP7GhFanLG
+         cDLw==
+X-Gm-Message-State: AOJu0YxYOQcmalwdqc+k2TOQKYemnncrE1w5+ccI5krxseL/6NtFgVA4
+	+hzOd4EhVRyotT8N3Dby4AXxU6OWSDme8fAMV6sZeu/6/TF4rGr9kPG7iBj+XdX2
+X-Gm-Gg: ASbGncu9s/LEbVI+EO3vFnRrjY40lTY2eA5+43fUmZnL2wW+g6Q7HbfXv0dhESykLh9
+	ImpZnkTtSzAc+jLVjHMrRTT/qXPn5WS1LGBg72TIGX3Bm3qRL0gBcSxR8lJB9fHscJ00cbhKGML
+	S/RQyrnO8avLFyg+xazrfQyrVPn4MYpnKTu0k7k7QEGQuEXnanWoz7x0GhqQF4J5xwrsFfLFtAc
+	UVGxm/J8G73XnQzFUWUeCJrdKNIU98t/RJiawIRxsroGbSzN4978QyEivTF4YWWd9+5bEVtNSse
+	qnfqvEweXN8c0EDP7ojTXsacL/d3ZZG5w8a+UUSGpZuYX1l6+wTc9mY0vXUufUQ70IzwW5MGxk+
+	2zMQLXttyikKgatQS2z70ajhMzePDy84H4Mzb8PQqtQu5hx5wFPMQdhJw0/mrn2Z/qa1oAS3mQB
+	TInqCMzsZsYWDraBAWtkslLsQfi65GWGcOKAKg81JO
+X-Google-Smtp-Source: AGHT+IFueq36I8FZcw27HF56MWdSlSr5nJClPn0jjgzXzSbTnXdYLko4OESwZhCTWn5lJsaLooBUqg==
+X-Received: by 2002:a05:6a00:7094:b0:772:44c4:4e23 with SMTP id d2e1a72fcca58-7741bee6eaamr13964835b3a.6.1757366562585;
+        Mon, 08 Sep 2025 14:22:42 -0700 (PDT)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::fe29])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32bdbef7f2csm9982888a91.27.2025.09.08.14.06.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7723d79fcfesm27795562b3a.16.2025.09.08.14.22.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 14:06:59 -0700 (PDT)
+        Mon, 08 Sep 2025 14:22:41 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v4 1/3] kea: Fix build with clang/libc++ 21
-Date: Mon,  8 Sep 2025 14:06:55 -0700
-Message-ID: <20250908210657.2959408-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] spirv-llvm-translator: Upgrade to 21.1.0
+Date: Mon,  8 Sep 2025 14:22:37 -0700
+Message-ID: <20250908212238.3500731-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250908212238.3500731-1-raj.khem@gmail.com>
+References: <20250908212238.3500731-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 21:07:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223080
-
-Clang with libc++ hardening on, rejects Boost’s enum trait probe
-which is ill-formed for scoped/limited
-enums whose valid range does not include −1
-(e.g. enums with values [0..3])
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 21:22:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223083
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-v3: No change
-v4: No change
+v2: Rebased
 
- ...s-dhcpsrv-Avoid-Boost-lexical_cast-o.patch | 348 ++++++++++++++++++
- meta/recipes-connectivity/kea/kea_3.0.1.bb    |   1 +
- 2 files changed, 349 insertions(+)
- create mode 100644 meta/recipes-connectivity/kea/files/0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch
+ ...vm-translator_20.1.4.bb => spirv-llvm-translator_21.1.0.bb} | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+ rename meta/recipes-graphics/spir/{spirv-llvm-translator_20.1.4.bb => spirv-llvm-translator_21.1.0.bb} (91%)
 
-diff --git a/meta/recipes-connectivity/kea/files/0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch b/meta/recipes-connectivity/kea/files/0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch
-new file mode 100644
-index 00000000000..6facc4d32d7
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch
-@@ -0,0 +1,348 @@
-+From e3a0d181a279334c7d7a10c5b09fd1610384101c Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 3 Sep 2025 12:52:51 -0700
-+Subject: [PATCH] d2/dhcp[46]/radius/dhcpsrv: Avoid Boost lexical_cast on enums
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Clang with libc++ hardening (-D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_FAST)
-+rejects Boost's enum trait probe used by `boost::lexical_cast`:
-+`boost::type_traits::is_signed/is_unsigned` defines
-+`static const T minus_one = (T)-1;`, which is ill-formed for scoped/limited
-+enums whose valid range does not include −1 (e.g. enums with values [0..3]).
-+When an enum is passed to `lexical_cast<std::string>`, this triggers errors like:
-+
-+  error: in-class initializer for static data member is not a constant expression
-+    ... minus_one = (static_cast<no_cv_t>(-1));
-+
-+In Kea this surfaced via logging `.arg(enum_value)` and when writing
-+`Lease6::type_` to CSV.
-+
-+This change makes all such call sites avoid `lexical_cast` on enums:
-+
-+* d2 transactions (`check_exists_*`, `nc_*`, `simple_*`):
-+  cast `getDnsUpdateStatus()` to `int` before passing to `.arg(...)`.
-+
-+* d2 queue manager (`d2_queue_mgr.cc`):
-+  cast `mgr_state_` to `int` before logging.
-+
-+* DHCPv4/6 servers (`dhcp4_srv.cc`, `dhcp6_srv.cc`):
-+  cast `dhcp_ddns::NameChangeSender::Result` to `int` before logging.
-+
-+* RADIUS hook (`radius_accounting.cc`):
-+  cast `env.event_` to `int` for the numeric field; we still log the textual
-+  form via `eventToText(event_)` in the next argument.
-+
-+* DHCPv6 CSV writer (`csv_lease_file6.cc`):
-+  write `lease_type` using `isc::dhcp::Lease::typeToText(lease.type_)`
-+  instead of passing the enum directly. This is human-readable and uses Kea’s
-+  own canonical stringifier, while avoiding the Boost enum path entirely.
-+
-+why:
-+
-+- Prevents Boost from instantiating enum trait checks that cast −1 to an enum.
-+- Unblocks builds with recent Clang/libc++ hardening.
-+- Keeps log output stable (numeric codes retained) and improves CSV clarity
-+  for lease type by using the provided textual converter.
-+
-+No functional/ABI changes; only formatting of certain log/CSV values.
-+If a downstream consumer expects a numeric `lease_type`, it can be adjusted
-+to parse the textual value or the change can be trivially flipped to
-+`static_cast<unsigned>(lease.type_)`.
-+
-+Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/issues/4100]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/bin/d2/check_exists_add.cc             | 6 +++---
-+ src/bin/d2/check_exists_remove.cc          | 6 +++---
-+ src/bin/d2/d2_queue_mgr.cc                 | 2 +-
-+ src/bin/d2/nc_add.cc                       | 6 +++---
-+ src/bin/d2/nc_remove.cc                    | 6 +++---
-+ src/bin/d2/simple_add.cc                   | 4 ++--
-+ src/bin/d2/simple_add_without_dhcid.cc     | 4 ++--
-+ src/bin/d2/simple_remove.cc                | 4 ++--
-+ src/bin/d2/simple_remove_without_dhcid.cc  | 4 ++--
-+ src/bin/dhcp4/dhcp4_srv.cc                 | 2 +-
-+ src/bin/dhcp6/dhcp6_srv.cc                 | 2 +-
-+ src/hooks/dhcp/radius/radius_accounting.cc | 2 +-
-+ src/lib/dhcpsrv/csv_lease_file6.cc         | 2 +-
-+ 13 files changed, 25 insertions(+), 25 deletions(-)
-+
-+diff --git a/src/bin/d2/check_exists_add.cc b/src/bin/d2/check_exists_add.cc
-+index 11bb29f..edfef31 100644
-+--- a/src/bin/d2/check_exists_add.cc
-++++ b/src/bin/d2/check_exists_add.cc
-+@@ -270,7 +270,7 @@ CheckExistsAddTransaction::addingFwdAddrsHandler() {
-+             // bigger is wrong.
-+             LOG_ERROR(d2_to_dns_logger, DHCP_DDNS_FORWARD_ADD_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -397,7 +397,7 @@ CheckExistsAddTransaction::replacingFwdAddrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_FORWARD_REPLACE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -541,7 +541,7 @@ CheckExistsAddTransaction::replacingRevPtrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_REVERSE_REPLACE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+diff --git a/src/bin/d2/check_exists_remove.cc b/src/bin/d2/check_exists_remove.cc
-+index 8ae5296..8b6b221 100644
-+--- a/src/bin/d2/check_exists_remove.cc
-++++ b/src/bin/d2/check_exists_remove.cc
-+@@ -268,7 +268,7 @@ CheckExistsRemoveTransaction::removingFwdAddrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_FORWARD_REMOVE_ADDRS_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -404,7 +404,7 @@ CheckExistsRemoveTransaction::removingFwdRRsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_FORWARD_REMOVE_RRS_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -556,7 +556,7 @@ CheckExistsRemoveTransaction::removingRevPtrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_REVERSE_REMOVE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+diff --git a/src/bin/d2/d2_queue_mgr.cc b/src/bin/d2/d2_queue_mgr.cc
-+index f902b22..effa56b 100644
-+--- a/src/bin/d2/d2_queue_mgr.cc
-++++ b/src/bin/d2/d2_queue_mgr.cc
-+@@ -78,7 +78,7 @@ D2QueueMgr::operator()(const dhcp_ddns::NameChangeListener::Result result,
-+                 // this is unexpected so we will treat it as a receive error.
-+                 // This is most likely an unforeseen programmatic issue.
-+                 LOG_ERROR(dhcp_to_d2_logger, DHCP_DDNS_QUEUE_MGR_UNEXPECTED_STOP)
-+-                          .arg(mgr_state_);
-++                          .arg(static_cast<int>(mgr_state_));
-+                 stopListening(STOPPED_RECV_ERROR);
-+             }
-+ 
-+diff --git a/src/bin/d2/nc_add.cc b/src/bin/d2/nc_add.cc
-+index 7bffc16..1d17bb2 100644
-+--- a/src/bin/d2/nc_add.cc
-++++ b/src/bin/d2/nc_add.cc
-+@@ -272,7 +272,7 @@ NameAddTransaction::addingFwdAddrsHandler() {
-+             // bigger is wrong.
-+             LOG_ERROR(d2_to_dns_logger, DHCP_DDNS_FORWARD_ADD_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -399,7 +399,7 @@ NameAddTransaction::replacingFwdAddrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_FORWARD_REPLACE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -542,7 +542,7 @@ NameAddTransaction::replacingRevPtrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_REVERSE_REPLACE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+diff --git a/src/bin/d2/nc_remove.cc b/src/bin/d2/nc_remove.cc
-+index 874e43b..182343c 100644
-+--- a/src/bin/d2/nc_remove.cc
-++++ b/src/bin/d2/nc_remove.cc
-+@@ -268,7 +268,7 @@ NameRemoveTransaction::removingFwdAddrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_FORWARD_REMOVE_ADDRS_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -404,7 +404,7 @@ NameRemoveTransaction::removingFwdRRsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_FORWARD_REMOVE_RRS_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -555,7 +555,7 @@ NameRemoveTransaction::removingRevPtrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_REVERSE_REMOVE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+diff --git a/src/bin/d2/simple_add.cc b/src/bin/d2/simple_add.cc
-+index 6113b4d..73aa5b4 100644
-+--- a/src/bin/d2/simple_add.cc
-++++ b/src/bin/d2/simple_add.cc
-+@@ -259,7 +259,7 @@ SimpleAddTransaction::replacingFwdAddrsHandler() {
-+             // bigger is wrong.
-+             LOG_ERROR(d2_to_dns_logger, DHCP_DDNS_FORWARD_ADD_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -404,7 +404,7 @@ SimpleAddTransaction::replacingRevPtrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_REVERSE_REPLACE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+diff --git a/src/bin/d2/simple_add_without_dhcid.cc b/src/bin/d2/simple_add_without_dhcid.cc
-+index ccea83a..97918ad 100644
-+--- a/src/bin/d2/simple_add_without_dhcid.cc
-++++ b/src/bin/d2/simple_add_without_dhcid.cc
-+@@ -260,7 +260,7 @@ SimpleAddWithoutDHCIDTransaction::replacingFwdAddrsHandler() {
-+             // bigger is wrong.
-+             LOG_ERROR(d2_to_dns_logger, DHCP_DDNS_FORWARD_ADD_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -406,7 +406,7 @@ SimpleAddWithoutDHCIDTransaction::replacingRevPtrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_REVERSE_REPLACE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+diff --git a/src/bin/d2/simple_remove.cc b/src/bin/d2/simple_remove.cc
-+index e1d9a78..14f416b 100644
-+--- a/src/bin/d2/simple_remove.cc
-++++ b/src/bin/d2/simple_remove.cc
-+@@ -272,7 +272,7 @@ SimpleRemoveTransaction::removingFwdRRsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_FORWARD_REMOVE_RRS_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -423,7 +423,7 @@ SimpleRemoveTransaction::removingRevPtrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_REVERSE_REMOVE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+diff --git a/src/bin/d2/simple_remove_without_dhcid.cc b/src/bin/d2/simple_remove_without_dhcid.cc
-+index 04fe4df..cefdda8 100644
-+--- a/src/bin/d2/simple_remove_without_dhcid.cc
-++++ b/src/bin/d2/simple_remove_without_dhcid.cc
-+@@ -273,7 +273,7 @@ SimpleRemoveWithoutDHCIDTransaction::removingFwdRRsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_FORWARD_REMOVE_RRS_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+@@ -425,7 +425,7 @@ SimpleRemoveWithoutDHCIDTransaction::removingRevPtrsHandler() {
-+             LOG_ERROR(d2_to_dns_logger,
-+                       DHCP_DDNS_REVERSE_REMOVE_BAD_DNSCLIENT_STATUS)
-+                       .arg(getRequestId())
-+-                      .arg(getDnsUpdateStatus())
-++                      .arg(static_cast<int>(getDnsUpdateStatus()))
-+                       .arg(getNcr()->getFqdn())
-+                       .arg(getCurrentServer()->toText());
-+ 
-+diff --git a/src/bin/dhcp4/dhcp4_srv.cc b/src/bin/dhcp4/dhcp4_srv.cc
-+index 0701ed4..471e94c 100644
-+--- a/src/bin/dhcp4/dhcp4_srv.cc
-++++ b/src/bin/dhcp4/dhcp4_srv.cc
-+@@ -5101,7 +5101,7 @@ Dhcpv4Srv::d2ClientErrorHandler(const
-+                                 dhcp_ddns::NameChangeSender::Result result,
-+                                 dhcp_ddns::NameChangeRequestPtr& ncr) {
-+     LOG_ERROR(ddns4_logger, DHCP4_DDNS_REQUEST_SEND_FAILED).
-+-              arg(result).arg((ncr ? ncr->toText() : " NULL "));
-++              arg(static_cast<int>(result)).arg((ncr ? ncr->toText() : " NULL "));
-+     // We cannot communicate with kea-dhcp-ddns, suspend further updates.
-+     /// @todo We may wish to revisit this, but for now we will simply turn
-+     /// them off.
-+diff --git a/src/bin/dhcp6/dhcp6_srv.cc b/src/bin/dhcp6/dhcp6_srv.cc
-+index 417960b..818046d 100644
-+--- a/src/bin/dhcp6/dhcp6_srv.cc
-++++ b/src/bin/dhcp6/dhcp6_srv.cc
-+@@ -5054,7 +5054,7 @@ Dhcpv6Srv::d2ClientErrorHandler(const
-+                                 dhcp_ddns::NameChangeSender::Result result,
-+                                 dhcp_ddns::NameChangeRequestPtr& ncr) {
-+     LOG_ERROR(ddns6_logger, DHCP6_DDNS_REQUEST_SEND_FAILED).
-+-              arg(result).arg((ncr ? ncr->toText() : " NULL "));
-++              arg(static_cast<int>(result)).arg((ncr ? ncr->toText() : " NULL "));
-+     // We cannot communicate with kea-dhcp-ddns, suspend further updates.
-+     /// @todo We may wish to revisit this, but for now we will simply turn
-+     /// them off.
-+diff --git a/src/hooks/dhcp/radius/radius_accounting.cc b/src/hooks/dhcp/radius/radius_accounting.cc
-+index 30eb07e..31f6d5e 100644
-+--- a/src/hooks/dhcp/radius/radius_accounting.cc
-++++ b/src/hooks/dhcp/radius/radius_accounting.cc
-+@@ -760,7 +760,7 @@ RadiusAccounting::terminate(RadiusAcctEnv env, int result) {
-+     if (result != OK_RC) {
-+         LOG_ERROR(radius_logger, RADIUS_ACCOUNTING_ERROR)
-+             .arg(env.session_id_)
-+-            .arg(env.event_)
-++            .arg(static_cast<int>(env.event_))
-+             .arg(eventToText(env.event_))
-+             .arg(result)
-+             .arg(exchangeRCtoText(result));
-+diff --git a/src/lib/dhcpsrv/csv_lease_file6.cc b/src/lib/dhcpsrv/csv_lease_file6.cc
-+index 830d2e5..a899aef 100644
-+--- a/src/lib/dhcpsrv/csv_lease_file6.cc
-++++ b/src/lib/dhcpsrv/csv_lease_file6.cc
-+@@ -51,7 +51,7 @@ CSVLeaseFile6::append(const Lease6& lease) {
-+     row.writeAt(getColumnIndex("expire"), static_cast<uint64_t>(lease.cltt_) + lease.valid_lft_);
-+     row.writeAt(getColumnIndex("subnet_id"), lease.subnet_id_);
-+     row.writeAt(getColumnIndex("pref_lifetime"), lease.preferred_lft_);
-+-    row.writeAt(getColumnIndex("lease_type"), lease.type_);
-++    row.writeAt(getColumnIndex("lease_type"), isc::dhcp::Lease::typeToText(lease.type_));
-+     row.writeAt(getColumnIndex("iaid"), lease.iaid_);
-+     row.writeAt(getColumnIndex("prefix_len"),
-+                 static_cast<int>(lease.prefixlen_));
-diff --git a/meta/recipes-connectivity/kea/kea_3.0.1.bb b/meta/recipes-connectivity/kea/kea_3.0.1.bb
-index 8dc6bdfea80..cc34c05093a 100644
---- a/meta/recipes-connectivity/kea/kea_3.0.1.bb
-+++ b/meta/recipes-connectivity/kea/kea_3.0.1.bb
-@@ -20,6 +20,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.xz \
-            file://0001-build-boost-1.89.0-fixes.patch \
-            file://0001-meson-use-a-runtime-safe-interpreter-string.patch \
-            file://0001-mk_cfgrpt.sh-strip-prefixes.patch \
-+           file://0001-d2-dhcp-46-radius-dhcpsrv-Avoid-Boost-lexical_cast-o.patch \
-            "
- SRC_URI[sha256sum] = "ec84fec4bb7f6b9d15a82e755a571e9348eb4d6fbc62bb3f6f1296cd7a24c566"
+diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+similarity index 91%
+rename from meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
+rename to meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+index 64a73ce55aa..63fae47377e 100644
+--- a/meta/recipes-graphics/spir/spirv-llvm-translator_20.1.4.bb
++++ b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
  
+ # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
+ SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
+-SRCREV = "74843f2186bb63b6802758222084da17fcbe603c"
++SRCREV = "acb023b63a4bafd53d0ba6a1a452b1f0e5671458"
+ SRC_URI = " \
+     git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
+ "
+@@ -20,6 +20,7 @@ inherit cmake pkgconfig python3native
+ # Specify any options you want to pass to cmake using EXTRA_OECMAKE:
+ # for CMAKE_SHARED_LIBS=OFF see https://github.com/KhronosGroup/SPIRV-LLVM-Translator/issues/1868
+ EXTRA_OECMAKE = "\
++    -DBASE_LLVM_VERSION='${@oe.utils.trim_version('${PV}', 3)}' \
+     -DBUILD_SHARED_LIBS=ON \
+     -DCMAKE_BUILD_TYPE=Release \
+     -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
 
