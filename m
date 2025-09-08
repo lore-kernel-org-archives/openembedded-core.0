@@ -1,98 +1,70 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <dwagenknecht@emlix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51890CAC581
-	for <webhook@archiver.kernel.org>; Mon,  8 Sep 2025 12:28:34 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web11.12031.1757334511572086246
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8D9BCAC581
+	for <webhook@archiver.kernel.org>; Mon,  8 Sep 2025 13:59:54 +0000 (UTC)
+Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
+ by mx.groups.io with SMTP id smtpd.web10.14447.1757339990033049676
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Sep 2025 05:28:31 -0700
+ Mon, 08 Sep 2025 06:59:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=R10UJOT6;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 3C2B34E40B85
-	for <openembedded-core@lists.openembedded.org>; Mon,  8 Sep 2025 12:28:29 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 046E76061A;
-	Mon,  8 Sep 2025 12:28:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1157A102F2810;
-	Mon,  8 Sep 2025 14:28:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757334508; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=socQeQkDfTg3Z2stMDJW77tGnKlACZOq4Jy9qrjWPHg=;
-	b=R10UJOT6YhzNolFDjK7uB790nUYUAhmkd2cQ/eT2AcCYQaHmSFr/6ksvvWS82JFNEZqVqq
-	jkrJ0sayZ4z2WDLXHyL2yyoXif937oA3aB9R+JuxlotUv29HY8WvSoL5BPgoI6cJ9cXO38
-	X8yLOMyUtH3lxLhkcOzhza3N5WSUFbidlANgEJ2U2WWFFuX3gpzLgLJqZleKuMIxgzx8lI
-	ZUH0E6UJgr4X/alhENdOvHYwAj9gtY10vXav1AfVZE5CsQzPc4XmBWQ+7BUk1mhAnCciZN
-	48htbDqLfYWz/vG9xsDTPG9r/tE/Lqw/BaJvnDsf8garoOrQ1HNFklHlL15O+g==
-Mime-Version: 1.0
+ dkim=none (message not signed); spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: dwagenknecht@emlix.com)
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.emlix.com (Postfix) with ESMTPS id 12FB25F870
+	for <openembedded-core@lists.openembedded.org>; Mon,  8 Sep 2025 15:59:47 +0200 (CEST)
+From: Daniel Wagenknecht <dwagenknecht@emlix.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Daniel Wagenknecht <dwagenknecht@emlix.com>
+Subject: [PATCH] buildtools-tarball: handle missing host pkg-config gracefully
+Date: Mon,  8 Sep 2025 15:59:31 +0200
+Message-ID: <20250908135933.889249-2-dwagenknecht@emlix.com>
+X-Mailer: git-send-email 2.49.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 08 Sep 2025 14:28:27 +0200
-Message-Id: <DCNF3BQPZFW1.2Y406TL2E8Q6X@bootlin.com>
-Subject: Re: [OE-core] [PATCH 1/3] spirv-llvm-translator: small recipe
- cleanup
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250905110845.3139349-1-ross.burton@arm.com>
-In-Reply-To: <20250905110845.3139349-1-ross.burton@arm.com>
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 12:28:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223066
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 13:59:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223067
 
-On Fri Sep 5, 2025 at 1:08 PM CEST, Ross Burton via lists.openembedded.org =
-wrote:
-> - There is no need for python3native, as this recipe doesn't depend on
->   other python modules.
->
-> - Inherit lib_package so the llvm-spirv binary is in a separate package
->   to the libLLVMSPIRVLib.so library.
->
-> - Remove obsolete CMake options that no longer appear to be required.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
+The host might not have pkg-config installed, which is OK when using
+the buildtools-extended-tarball, since that contains pkg-config. So the
+command for setting HOST_PKG_PATH is expected to fail in some cases
+without this being an error.
 
-Hi Ross,
+The generated environment-setup-* script might be sourced in a shell
+with activated `errexit` option. Prevent the expected failure of this
+command from being treated as an error.
 
-It looks like we have some reproducibility issues:
+Signed-off-by: Daniel Wagenknecht <dwagenknecht@emlix.com>
+---
+ meta/recipes-core/meta/buildtools-tarball.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-AssertionError: The following deb packages are different and not in exclusi=
-on list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/deb/./x86-64-v3/libllvmspirvlib-dbg_20.1.4-r0_amd64.deb
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/deb/./x86-64-v3/libllvmspirvlib20.1_20.1.4-r0_amd64.deb
-The following ipk packages are different and not in exclusion list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/ipk/./x86-64-v3/libllvmspirvlib-dbg_20.1.4-r0_x86-64-v3.ipk
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/ipk/./x86-64-v3/libllvmspirvlib20.1_20.1.4-r0_x86-64-v3.ipk
-The following rpm packages are different and not in exclusion list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/rpm/./x86_64_v3/libllvmspirvlib-dbg-20.1.4-r0.x86_64_v3.rpm
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/rpm/./x86_64_v3/libllvmspirvlib20.1-20.1.4-r0.x86_64_v3.rpm
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/2442
-https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20250908-q5zzw7wr/=
-packages/
-
-Can you have a look?
-
-Thanks,
-Mathieu
-
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-=
+core/meta/buildtools-tarball.bb
+index 02117ab84..61b98c738 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -73,7 +73,7 @@ create_sdk_files:append () {
+ 	touch $script
+ 	echo 'export PATH=3D"${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIV=
+E}${sbindir_nativesdk}:${SDKPATHNATIVE}${base_bindir_nativesdk}:${SDKPATH=
+NATIVE}${base_sbindir_nativesdk}:$PATH"' >> $script
+ 	echo 'export OECORE_NATIVE_SYSROOT=3D"${SDKPATHNATIVE}"' >> $script
+-	echo 'HOST_PKG_PATH=3D$(command -p pkg-config --variable=3Dpc_path pkg-=
+config 2>/dev/null)' >>$script
++	echo 'HOST_PKG_PATH=3D$(command -p pkg-config --variable=3Dpc_path pkg-=
+config 2>/dev/null || true)' >>$script
+ 	echo 'export PKG_CONFIG_LIBDIR=3D${SDKPATHNATIVE}/${libdir}/pkgconfig:$=
+{SDKPATHNATIVE}/${datadir}/pkgconfig:${HOST_PKG_PATH:-/usr/lib/pkgconfig:=
+/usr/share/pkgconfig}' >>$script
+ 	echo 'unset HOST_PKG_PATH'
+=20
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.49.0
 
 
