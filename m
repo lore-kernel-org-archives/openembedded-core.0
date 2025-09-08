@@ -2,287 +2,178 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6859FCAC583
-	for <webhook@archiver.kernel.org>; Mon,  8 Sep 2025 16:05:23 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.62])
- by mx.groups.io with SMTP id smtpd.web11.1581.1757347513143407911
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B884CAC581
+	for <webhook@archiver.kernel.org>; Mon,  8 Sep 2025 16:06:23 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.55])
+ by mx.groups.io with SMTP id smtpd.web10.1642.1757347578051317119
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Sep 2025 09:05:13 -0700
+ Mon, 08 Sep 2025 09:06:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=LAdE85Up;
- spf=pass (domain: axis.com, ip: 52.101.65.62, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=o4lxs4c4;
+ spf=pass (domain: axis.com, ip: 52.101.83.55, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sJohGIsQ7RgZO9TIf8KLS+3wHIuOtg8lAgz31bD/Uu4HmXuqQ486UF6IWFCwMowhGazsy5OCurIpylublq/pbnxpxAoQPtXLfi+sHnhkHt8Tymx/d8Ogn9y+tt2HOKefSheLaz8nuDohV9QHlgsU/0pM3C9ZzwUYeAArSEMny7DTogxKzU4RzTOWoQQAzw8jWj4KGmUVa7NLAf8RkVDGRj+zMw10CulT9p2g1o2xEawrrZRstS/s1/a8qcmYcAY2a9myTRTFVVmjgHv6PTf9OpnwUTIHWJ0HxWs9hbB41CeuByruIOAr6Bph15iVet/yA/zSaLp87s7RL/XB9B4SzA==
+ b=O1aTOsCo/hLZYAEKn1Jp34w17zee6BpCjI8Gc7TX0xb2RKzzzyNkNZCrPHrpwQsO1PutaOt4sWAqWkvYleJhKUXGRsnZwouQp6zlmA4PYi/VCL1KePfgRAsS7Qdd5iEB/aX1iMOCbbFj5YkQOClYJ1+d+wr4M0C7t2yxrp8U3XbvKoE1S/Nv9ysJAToYl3/AFdcwhslCzGVFGh+mZJTGBaYgDRhBrLwMOs7B+GU+gGzUkH8foOT41EaoV4fgpPYN2UgEnOFOMcGz3NdPCPh6k4Akg5nwvmayht2VICAaJzjI0I0r+Lcxkz6LYmLv+t4G2r9A1kjIGTkfBduCJcaQbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b1HNcMdvIswFCShjzP4e/j1XUvLrcRz5Xo1eeTHu56s=;
- b=EEDRAwE7atZxPb4r5K8gSVbg/5cHIBwsY/AqLULJyVXaa/8FILIDnF7ih/DgyIAZ7WvIBThJnFxuAUiH2wHm6kbx8XCAgSjQnWjYXIMEjJnCHWp3q/mieTq0rYYQw1bzftEoTSidzQmctw3zMjxDGi9qSHp7HgD6QIv6PbI0qZYoyKUiblhxZl0RsfK3zAp7PqeYpfn7IdHNds/1EtvDcpb6wS0eVbZlLia1uRsz/rlPRUHQBltfAzW96MC7uuTkBVcHyYT8Lzqs9pAI9g+10vWrt9doo6N9Ff6RY/bDlSvVz25bYstj52+TQ5n+RJK1XeFCbBQ2uQjGY6FiXvdmNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
+ bh=rrU8WxFWHu/W09FopBhUSJ4ZPzJZ5X6YsTojxCiNTbc=;
+ b=MxXAtDe9YOKltuqGL6i7RRf0vwyytggxe+rQjGEuqSZHzKcbnxGX4cyvQcq7pa9ybOBDOX4Q5Le9kconDxlpyjOdpFsfVAoi3ksraQqLHeLMu5TAoopGct1OOZWiIsPn/Ad4hm7Treo/OblhyMhlA/vSC2cQcqyH7afMJigNHdBCTkXDS2up+DGKzpV4H9MPVho/aaCH7sSH2GIbC1+MXFvfdn028TZgVec5bMDGhO86rLA2TTUs15/ZwYSQHmfIPPMQQDVexOFaG2XY3zpDQYgTbKXPn+P7/FW9WOG96dlaG86mTmBZb0rwwZkv5FSOCNiAWqOyJwH4d6W5rEMmRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b1HNcMdvIswFCShjzP4e/j1XUvLrcRz5Xo1eeTHu56s=;
- b=LAdE85Upq7bXp5X9LFZFjEokmrFrco/ZtNqv0qRorJOcNnE/EqrWDAel872hROHIk8aCbqxPY0y5uzNamt9ykEdyZ02LVTRk/QgwiQJqBJWwCBzsneJlzJJE3C30hNAZNfjfKevy2zv8QbEnu1C6QvVR+MpPiZnCG8reGybifVc=
-Received: from AS4P192CA0004.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:5da::12)
- by DB9PR02MB7034.eurprd02.prod.outlook.com (2603:10a6:10:223::22) with
+ bh=rrU8WxFWHu/W09FopBhUSJ4ZPzJZ5X6YsTojxCiNTbc=;
+ b=o4lxs4c4y3HhjD65jJEHfOl8xJWa1sm8Lj/8l1bA9e8m8GW+5Su1wgSsPoIOBXTZSDSaIuJN/YeRLSH6xUdVKdKs7RXP4RmjW6Zd2kPSCtqNW2mbpZJB9TY9Ox/27obZ9Dxo+1f8GeaKMWYwjgSgC4xAaBV0a1NDQ5Z8aM2ufH0=
+Received: from AS8PR02MB10201.eurprd02.prod.outlook.com (2603:10a6:20b:63d::6)
+ by DU0PR02MB9025.eurprd02.prod.outlook.com (2603:10a6:10:477::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Mon, 8 Sep
- 2025 16:05:09 +0000
-Received: from AM4PEPF00027A67.eurprd04.prod.outlook.com
- (2603:10a6:20b:5da:cafe::1f) by AS4P192CA0004.outlook.office365.com
- (2603:10a6:20b:5da::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.22 via Frontend Transport; Mon,
- 8 Sep 2025 16:05:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AM4PEPF00027A67.mail.protection.outlook.com (10.167.16.84) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9115.13 via Frontend Transport; Mon, 8 Sep 2025 16:05:07 +0000
-Received: from SE-MAIL21W.axis.com (10.20.40.16) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Mon, 8 Sep
- 2025 18:05:07 +0200
-Received: from se-mail01w.axis.com (10.20.40.7) by SE-MAIL21W.axis.com
- (10.20.40.16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Mon, 8 Sep
- 2025 18:05:07 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Mon, 8 Sep 2025 18:05:07 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 392B319E0
-	for <openembedded-core@lists.openembedded.org>; Mon,  8 Sep 2025 18:05:07 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id DF12A1229BD; Mon,  8 Sep 2025 18:05:06 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv7 1/2] systemd-systemctl-native: Install systemd-sysv-install
-Date: Mon, 8 Sep 2025 18:05:03 +0200
-Message-ID: <20250908160505.3281600-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
+ 2025 16:06:11 +0000
+Received: from AS8PR02MB10201.eurprd02.prod.outlook.com
+ ([fe80::90d0:ca74:2479:bbdb]) by AS8PR02MB10201.eurprd02.prod.outlook.com
+ ([fe80::90d0:ca74:2479:bbdb%4]) with mapi id 15.20.9094.021; Mon, 8 Sep 2025
+ 16:06:11 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "ross.burton@arm.com" <ross.burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCHv6 1/2] systemd-systemctl-native: Install
+ systemd-sysv-install
+Thread-Topic: [OE-core] [PATCHv6 1/2] systemd-systemctl-native: Install
+ systemd-sysv-install
+Thread-Index: AQHcE5Gu3hub3ENj5USgeCDFH/b1ebR+nqIAgAru8hA=
+Date: Mon, 8 Sep 2025 16:06:11 +0000
+Message-ID: 
+ <AS8PR02MB10201C12325685911790E39A3EF0CA@AS8PR02MB10201.eurprd02.prod.outlook.com>
+References: <20250822182038.1295769-1-pkj@axis.com>
+ <6E431FAE-B310-4817-981D-9A1DB4963736@arm.com>
+In-Reply-To: <6E431FAE-B310-4817-981D-9A1DB4963736@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR02MB10201:EE_|DU0PR02MB9025:EE_
+x-ms-office365-filtering-correlation-id: 76456bc0-5089-4212-5a05-08ddeef1a108
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?NHVYb2hDZmxaNGlzM2VLUU5BaVZ4bmFBZ2pqOVNGMURyL1k4QUUvOUQ1cHNK?=
+ =?utf-8?B?Rzd6Mk8reDI0TGsvR3lLQXlNK1N4alNUVzQ2Z2NRaytmcmJrQVUyRDlxVXk5?=
+ =?utf-8?B?Zkt0UlJXOWVyd3NhTlFGQmJiT2I1em55eU50WkZQMGw5ZkJlMnJxR2ZyQk1u?=
+ =?utf-8?B?aEk2VDllc2xLUndoNGNRS21Bd01kWHBEQnRYbG5wMUo1Y25vcGhzeHc4dGJj?=
+ =?utf-8?B?Y21QWGdxZ0grOTVaRklmYldMMEtmaDZiVy9iS1BiTWVmSDYrUVRhYWZMTnFH?=
+ =?utf-8?B?THRQRFlWVzNuRmkrQmt5T1lBdU9hbkdSR0owbTUyWnRYRjlaZmN6bzZYKzJS?=
+ =?utf-8?B?dTkzNHoydEVwMllISXcvUmZzbDlON2NYTnJva1lmMmp1MFEwRWNIZzRqZlhZ?=
+ =?utf-8?B?ejVaQ01jT1pkY0FUWEdMTHZONnhmVUswZ1hoM2VlTWsxbzRwOXNHRUF4RFkz?=
+ =?utf-8?B?REI3bDZtemdQRHFmbTRyRjVNS1VIazFVWlc3RUNibnU1ZWZUbXh3RkFzWU5N?=
+ =?utf-8?B?Vnp1S1RvMkU3Z1g4dnh6TUtxR01aWjRBeG00WnEwc2w2cHpQc2FGc3JJeCsy?=
+ =?utf-8?B?cCtNU2p6QW81VU9DK3lmNHU2S0pSdXlRWTR5anllRU1ONE1YYjJqZ3R4K1FP?=
+ =?utf-8?B?LzlpZjFON2lUMElXOTdreDh0RlNTVEtaNGhxdmkydFhPWnVwODRtUURWeWN5?=
+ =?utf-8?B?TkViMHRsMTFQc0M3OGRFRGljakJ4aEJtcnJMUCs3N1o2UDc4M3dYTy9KTjAw?=
+ =?utf-8?B?V0E0TjdzTW1RM1MvSkpqamlBWjZmaUVZRDk3RlZwL2c1NmN1ZXhGTXovZ1Ri?=
+ =?utf-8?B?M2ZtVXpCaG9qQVRGZmxlMzIzQWlreksyQTd6RVlNWmN0QWt3cTJCUEZwMHYy?=
+ =?utf-8?B?c21XZ2R5RHUycW1GcEwwcDVHZ2NjbTg3V29SUU4ybjBrbm5tZ2w1TElWU1hl?=
+ =?utf-8?B?R2d2Y1VKUS8wNS9qVDhvdGtjQU9oMWdhQ3AwaDFOaG1CdU1SSCs1M3M1czJa?=
+ =?utf-8?B?OFlZVWhSNkhyK1lIaUVkZ2x1Zm9iSlZlTkovWnc4N2Qrczh0dG8xQ2tvd1NX?=
+ =?utf-8?B?Mm51RzBaRysvRXp6WkovT3p1VUNGVXIzeGY5TkxsV2JGOERTY1RST2dSaWpP?=
+ =?utf-8?B?Y2piazRyUDF6WFR5bDQ0UHFoSFlHYVh6UHl2ZXFaRDA5MFVxYkNhY21VcjBz?=
+ =?utf-8?B?ZVVQOUZ4MDd1UkpNZnZ5VisxTCtnV0xBbUtqNWN5bytiT1lIQkFhT0MvZDl4?=
+ =?utf-8?B?V0tLc1hOeVVaamd1YVdlYXMvVEwwbm1DMjl1ejR5eTNyR1Q4Qi9iR1FNemJM?=
+ =?utf-8?B?ZUNEeGVzeDFmZXA4eVAzSXdqVVRwSDgvSUhLVSt4NkVZb0JxSHp3T2RUTVI2?=
+ =?utf-8?B?elFYMTNXbmtUTTIvSUFnamx6SytlOVdiZ1FyMzExZlQ0Vk55eVlXYTZnTW15?=
+ =?utf-8?B?eWs5dkJIc1ZvcC9SaVo5bDNZV2oxdWNWWnJuNDFWZ2dUV0lWOWZaWmNhNGd0?=
+ =?utf-8?B?REtYVURhOUtHcTc2WDB2UndpUXMxcnJHQjZSdUNCeXY1NXBCbE9yRU51QlNU?=
+ =?utf-8?B?NTB6QncvREQvZEt1MVFtMUEyazBndVJXSDN0QTdZY0VuNk0xY05sd2psTkh1?=
+ =?utf-8?B?cWZoWHFYWXA0MTJsako4R1gwdXRHTFVoc3hNaFhSMWJ0RWJza2x1bWJRdEor?=
+ =?utf-8?B?V29BUVMxeEUrQWlISHVNWTl1eFI1R000cUJIa0dXZ2xWMnc5VFBSYTFQdjVS?=
+ =?utf-8?B?TUQzbC9Ha2ZuMkxBZ1NVRm9ORjZNY1I1OEhIam8rMlFVb2hhZmtaMzZ4TDBx?=
+ =?utf-8?B?eVdWVnJqSFdlMHhvWERORnRWaXhxWjdxZ1ZXZC95NzhIeWtwSWszeTJsNWly?=
+ =?utf-8?B?cUJ4OXdlYlFqWUE2NVRZcmxjcENieDVTY0ZDQUlEekh1RENWOHlaZXV0WmV4?=
+ =?utf-8?B?dkpSeWlBWTdtNFZ3ZkFJMkdiU3RiaWdzek9rZjcvWDdua25vMXZUdUVlOVQw?=
+ =?utf-8?B?M2FEbmpIWWpRPT0=?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR02MB10201.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?RTNad1pQUVFJdm5GRnFLV043SGZiMkxSNHBnWmlGcTFRYS9KcjdlVjcwdGhQ?=
+ =?utf-8?B?cGpITVFYV1dUV2hjcEtIUzlPeFhTMVFuZVQxUWNoSmFod3FXMDVDSUpRVnFt?=
+ =?utf-8?B?bTRwSkwvQ25yMzdmZzJua0F3dXZrckpzQjY0YTl3SGQvNEkzVndEN2ZkT3p2?=
+ =?utf-8?B?anpYaE9sQlBnWm1DRkxwY2g5UjVybXMwWkVaOWZ1KzlmRURUekpuTkRjV1R0?=
+ =?utf-8?B?aGVSR254RFVjc1ZhbEFiUjIyYnkzdGhobzFObGY1WnNVSEd1d1M0WW9wMThy?=
+ =?utf-8?B?UGQyK0UxTFpmQWIxN2txL0NGN2hLS2JybnhwRC83M3hJWlZXM2hJZFdyeDFJ?=
+ =?utf-8?B?TXRzdCt4QTc0cjNjS1loNjVzbW00UEt2QkUrUjltU1huRTFwdFFOZ0NTaXZm?=
+ =?utf-8?B?QjE2dVNEd2UrMXc4dkpwL1NLbnVYdTlmNk5HZmdrbzY4SXp2QlZDUlIvVWVZ?=
+ =?utf-8?B?cCsxV21IZllTUkNzQjU5bHpNeExkWUdRdUhtSW02d2ora2F6ZEJ5K3B2NE42?=
+ =?utf-8?B?SFozbHhGeUtaK0VsZndMTUQrMlNRS1pNYXpPR3dmNmFoZEpSaDk0ck1aWGpK?=
+ =?utf-8?B?WTJTN3AxZzZmbnpjeEpDWnJoeEljNEs5SDRyYmVKYUptU2dzd1RZQTAyd3pN?=
+ =?utf-8?B?VFAxTlJKck9Cci9VdjFScUd5R2FUNlhKSWkyOFJBaWQrTHVZZU9wV1lRTUxY?=
+ =?utf-8?B?RUtPNTAwNWVQMkx4SkR3RlNXTVpEcU1xYjlFU2FYNldCMmMxcWlGdWhPUjZh?=
+ =?utf-8?B?aHY3bnMxSVZtZWhWV2p2dVBJTWRrbjdVSmhWd2lkdjl4QUIrbEgvNGRuYjc5?=
+ =?utf-8?B?QmkzR3pqcTJHRHRYYkJZMExId21KMHBKYjN2dkEzTW5LNCs5bHp1SHg3L0dm?=
+ =?utf-8?B?VkFYNkwybXJXQnYwc0pVUG5vVUl0TUE5eVd6TUsrTE5XSzBkQW5acDFiQUxY?=
+ =?utf-8?B?YVZzdHZiTzhJNDN6RGtvT2oyVTc3dkNCZUtvRVBkZjVLTTBkdVhWaXVFMVVV?=
+ =?utf-8?B?ditOUTNISTM4UnpVTTd2Nm9hQUpCYjdZSjRPWHNtN2pjRVBvRlU2anAwUENE?=
+ =?utf-8?B?Z1k4YjV2QXJLekNRSklrSkVYWUxWNW9ESWhscmRBdmtBVC9keGx3OGdUbnRJ?=
+ =?utf-8?B?S2RzZ1lxOFVPVjlpYWN4UWlIelU2d2dVNVQxNGdORXBBcHdNYzVwd2FxVGgz?=
+ =?utf-8?B?clZscXN4Z2JZeEhsMzRoVWoyU0FIc1I3K0JsdHBKL1hLNWwwYTUvMG8vZWxx?=
+ =?utf-8?B?UmVicmcrWFo2QTdjR3NtK3g2MVQ4WXdNZkpPQ3NDajRsai84aVNCUWF4aE5G?=
+ =?utf-8?B?eHJjOXZ2WnhLUERkTE0xQlY4cXdtVnJTSUZyN0VuTGNtaURUVFJyaE5LMFRz?=
+ =?utf-8?B?RFVrcUhuay9ycytjNXJDUThWM0Zobk5GQUxLMWF6Yk9WbVByMjlEOUpTZ3kv?=
+ =?utf-8?B?cGZYeFdXdTBDclJPa3EvTEMvVml6WFFnQTVReWl0WEdjYmhZOEpzaGtlelJD?=
+ =?utf-8?B?SEczRzdEaENYdTZzS05mNk1CbG9OQVJFNngxVm91QXRHeVVLR0pZMC9HYUJm?=
+ =?utf-8?B?a0tiVHhsWDYwRjVoQ1pXcjhqVHUraTQ2V1JZdWxIKzBKSGRlNnFFdDc5WmFW?=
+ =?utf-8?B?TUNDb2g5SHM0dElsd3krQmZxems5ZE5JUDRlOU9QK1ZCVDFURDdsd1dqTDht?=
+ =?utf-8?B?RmNHMC9pU0d2eG45cStlVFQrYW04enRtQlgwMkh0VmtWcDdwUUMxZ2hhZWhW?=
+ =?utf-8?B?WExuMmRZdnNQWWRhL3dvMjJNQWh3c3pTVjJ5Q0RiQm9kM2V6bFRIQWlEQ1pD?=
+ =?utf-8?B?V09nUVk2YVRka2czTjJSMXNqV3duT0MyemdWdDBreDdsZ2NtNzl6eFZwMkFj?=
+ =?utf-8?B?NFBUQjBLbGZ2Vmk4S3NJZDVRZ1k0bGtNeC9INmYvZjhBQ0Z0SllrcXlIc3hG?=
+ =?utf-8?B?Yk9aRE9XTDlqcG01OWpKdmlLVW5PRFcvbktUVnZyMUtKRTV0elVQYjc4MFN5?=
+ =?utf-8?B?b242R203Y21HSC8wc3U0YWhlRDZpUzBSQlpUdHFqbFlWTjNtNk8yU0x0MXZu?=
+ =?utf-8?B?VVdPY3FWeWZ6MGF3bS8vV3YzQ3F4WTMyT2hRdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00027A67:EE_|DB9PR02MB7034:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7b048947-fdb1-43ac-c429-08ddeef17b39
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?RzZWwywcAt9Yg8ZwERsPU0DrtTsvqllX0u2bbtJxgJ2MBsHqmDhRAqFX0n3N?=
- =?us-ascii?Q?S6xXbg7o6NBdcHRl4FBK5F5ufHuKz0Ce3w0nrSW2WTlGIUcZOLlJehfe4E8T?=
- =?us-ascii?Q?al7ai5T0n8jU2P3N6HOc57oQLsOocqXwTUjl94riDQW428xHebbmj65PE6jW?=
- =?us-ascii?Q?cTMB2Y6lgBWVq6AOjmfYrcGYcx4EotT6dur11J3mV+sxmTD6609mD1rbrM6G?=
- =?us-ascii?Q?OLsOwmeoP9+NBR7s2siUF8lypRMVkqIurKmpM2hc+iKkYYCdSdsdHW/BU/GP?=
- =?us-ascii?Q?9uXrdHdm66FGvTZSLNdcsXQMW9Gn1wPnB70ZkwJ+DcV1/vNoNS7yxwFKtaAc?=
- =?us-ascii?Q?iGWrOd8qmqy1iuwdOTLgiypuy6kX0OKCo0I3sMjI27AmFaFqwbylVTzo0ngk?=
- =?us-ascii?Q?GauZz3N7qAesuUP5SyJ7qIh+ATWMmmE05Uqzlo6NvCvHff84eBDMZ7tq4Axr?=
- =?us-ascii?Q?Q+piBNTnL+/5B3pfTZLVjZ9jGeZP2H8XCw2QZviDthlLaxlo7GHrANsIyo3V?=
- =?us-ascii?Q?NJSjm+9l7k4ryqqSktHGqmMcwTOb4EOxFG83t4f2tj7jTx5SR/CozwiS7BY5?=
- =?us-ascii?Q?BztXW6tans7z/bgcX9NgjpLwQ4+YrEuJsgA0Knbiq30ej3ILTgJzO0zZSvKe?=
- =?us-ascii?Q?fmx24WgCxfNIDoTUPp2H6zLe0yYG8Pd34/PozfeAvzmrPuRuPea9k/omU4wV?=
- =?us-ascii?Q?6SwSbIVGrWIVUYXndPpSSiONssTpU2saoU5T917J9i95/tqNDb1KB5TwF+GC?=
- =?us-ascii?Q?iq4ZqzLRXksWukzL2awr76FU4XRP2ZpeoCcu1oRxTyygEM9leU3egEI/bhOC?=
- =?us-ascii?Q?pfShSQt7lN1th3TqRQdrTbAKf4JPBQF6hwhVeS8uoqTv7UjBcSqNn50shx8y?=
- =?us-ascii?Q?8eJRcztjGfxZ+bChZppwu9NGOOCrGJHGjYfjkc2iR0ffFb3zG07A7S4r9MLj?=
- =?us-ascii?Q?Nu99zLREmhM+1DZdOVpIpY7nG2tLEI8EYeMbEHF0XGsPaZEB4azKC+Zk5Grq?=
- =?us-ascii?Q?j/KA0JrG5C+04/LHr6P7U6pjG5F6JnaZcIf0XPKNIu9j97+baukJQDF/3PQk?=
- =?us-ascii?Q?mDgWkSfpUE57h0ccWgHsoCMPkwlbaWUPZjPQGrRyzQkaWU8nKbGpPZg5GNcC?=
- =?us-ascii?Q?qo6ONsaCpnqDXTuq0S5S8aDzX0t9N127WSRqq2AD3IBNTW1MyXH55LGE/4P/?=
- =?us-ascii?Q?JNqE5a1S7i8T1M0RnX9G6T2BhdALluHL7ZP+sMpwYQAv+qisBDOJNVL9zmUh?=
- =?us-ascii?Q?4ZV1TPGpQbc4K9ThcG5jaGPCCFzR9HqceVV5XabGcjZt1jS4hYE62ucdh2m5?=
- =?us-ascii?Q?xhx+0WtGsYaiNXEppEVBWPLgVVd5gQcryDsjXNSp8Y7G4K5CFNFTotZ4PyZA?=
- =?us-ascii?Q?pFUmYPH0+YTuuBcpECuys/mMqjf+hJtqmQr0D/suxf8pzTNElPjeH0PgLYFM?=
- =?us-ascii?Q?rHgjatz+UKAK+Aw7xdE9eUnNjMN+O5xNKVT7pitcrTsxfCXY8XGVSNMEGTg6?=
- =?us-ascii?Q?fQkm1BA8GAWBB9IGgwQJEN3KVHksd7EbyRTu?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 16:05:07.7988
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR02MB10201.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76456bc0-5089-4212-5a05-08ddeef1a108
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2025 16:06:11.2266
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b048947-fdb1-43ac-c429-08ddeef17b39
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00027A67.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7034
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YLe1xISm96OSzsaoI1ErmRxk67POQ8/f02I0h6qO5Jd+bUNwxMwhXQxUoG04pbCy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB9025
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 16:05:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223074
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 16:06:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223076
 
-It is needed when support for both systemd and sysvinit are enabled.
-
-This also adds a patch for systemctl to call systemd-sysv-install
-without a hardcoded path and instead relies on finding it in $PATH. This
-is needed when calling systemctl from a recipe sysroot.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
-
-PATCHv2: New.
-PATCHv3: Change the Upstream-Status to Denied.
-PATCHv4: Add a Signed-off-by to the new patch.
-PATCHv5: Always install systemd-sysv-install.
-PATCHv6: Completely reworked the patch for systemctl.
-PATCHv7: Add comment indicating that all of this shall be reverted when
-         upgrading to systemd 259.
-
- .../systemd/systemd-systemctl-native_257.8.bb | 14 +++++++
- ...ll-systemd-sysv-install-without-path.patch | 37 +++++++++++++++++++
- ...implment-systemd-sysv-install-for-OE.patch | 13 +++----
- 3 files changed, 56 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-systemctl-Call-s=
-ystemd-sysv-install-without-path.patch
-
-diff --git a/meta/recipes-core/systemd/systemd-systemctl-native_257.8.bb b/=
-meta/recipes-core/systemd/systemd-systemctl-native_257.8.bb
-index 041a040a26..a37c9035ed 100644
---- a/meta/recipes-core/systemd/systemd-systemctl-native_257.8.bb
-+++ b/meta/recipes-core/systemd/systemd-systemctl-native_257.8.bb
-@@ -1,9 +1,14 @@
-+FILESEXTRAPATHS:prepend :=3D "${THISDIR}/systemd:"
-+
- SUMMARY =3D "Systemctl executable from systemd"
-=20
- require systemd.inc
-=20
- DEPENDS =3D "gperf-native libcap-native util-linux-native python3-jinja2-n=
-ative"
-=20
-+SRC_URI +=3D "file://0001-systemctl-Call-systemd-sysv-install-without-path=
-.patch"
-+SRC_URI +=3D "file://0002-implment-systemd-sysv-install-for-OE.patch"
-+
- inherit pkgconfig meson native
-=20
- MESON_TARGET =3D "systemctl:executable"
-@@ -14,3 +19,12 @@ EXTRA_OEMESON +=3D "-Dlink-systemctl-shared=3Dfalse"
- # determined at run-time, but rather set during configure
- # More details are here https://github.com/systemd/systemd/issues/35897#is=
-suecomment-2665405887
- EXTRA_OEMESON +=3D "--sysconfdir ${sysconfdir_native}"
-+
-+do_install:append() {
-+	# Install systemd-sysv-install in /usr/bin rather than /usr/lib/systemd
-+	# (where it is normally installed) so systemctl can find it in $PATH.
-+	# It is expected that the use of systemd-sysv-install will be removed
-+	# with version 259 of systemd and then this, and everything that was
-+	# added along with it, should be reverted.
-+	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${b=
-indir}/systemd-sysv-install
-+}
-diff --git a/meta/recipes-core/systemd/systemd/0001-systemctl-Call-systemd-=
-sysv-install-without-path.patch b/meta/recipes-core/systemd/systemd/0001-sy=
-stemctl-Call-systemd-sysv-install-without-path.patch
-new file mode 100644
-index 0000000000..bf08dbe9b0
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-systemctl-Call-systemd-sysv-in=
-stall-without-path.patch
-@@ -0,0 +1,37 @@
-+From 34c8551a8b16bf235a1ebe8d9cb1a3474a7c975e Mon Sep 17 00:00:00 2001
-+From: Peter Kjellerstedt <pkj@axis.com>
-+Date: Fri, 22 Aug 2025 18:07:28 +0200
-+Subject: [PATCH] systemctl: Call systemd-sysv-install without path
-+
-+Expect to find systemd-sysv-install in $PATH instead of hardcoding the
-+path to it, as the latter does not work when running systemctl from a
-+recipe sysroot.
-+
-+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+Upstream-Status: Inappropriate [OE specific]
-+---
-+ src/systemctl/systemctl-sysv-compat.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/systemctl/systemctl-sysv-compat.c b/src/systemctl/systemc=
-tl-sysv-compat.c
-+index cb9c43e3dc..e44ef9f64e 100644
-+--- a/src/systemctl/systemctl-sysv-compat.c
-++++ b/src/systemctl/systemctl-sysv-compat.c
-+@@ -140,7 +140,7 @@ int enable_sysv_units(const char *verb, char **args) {
-+         while (args[f]) {
-+=20
-+                 const char *argv[] =3D {
-+-                        LIBEXECDIR "/systemd-sysv-install",
-++                        "systemd-sysv-install",
-+                         NULL, /* --root=3D */
-+                         NULL, /* verb */
-+                         NULL, /* service */
-+@@ -218,7 +218,7 @@ int enable_sysv_units(const char *verb, char **args) {
-+                         return j;
-+                 if (j =3D=3D 0) {
-+                         /* Child */
-+-                        execv(argv[0], (char**) argv);
-++                        execvp(argv[0], (char**) argv);
-+                         log_error_errno(errno, "Failed to execute %s: %m"=
-, argv[0]);
-+                         _exit(EXIT_FAILURE);
-+                 }
-diff --git a/meta/recipes-core/systemd/systemd/0002-implment-systemd-sysv-i=
-nstall-for-OE.patch b/meta/recipes-core/systemd/systemd/0002-implment-syste=
-md-sysv-install-for-OE.patch
-index d8bb572261..98d050ceae 100644
---- a/meta/recipes-core/systemd/systemd/0002-implment-systemd-sysv-install-=
-for-OE.patch
-+++ b/meta/recipes-core/systemd/systemd/0002-implment-systemd-sysv-install-=
-for-OE.patch
-@@ -1,7 +1,7 @@
--From fab8c573d06340868f070446118673b1c23584c5 Mon Sep 17 00:00:00 2001
-+From 4a5602ede9881fd8e578a3c8bc40dd5df7c4d802 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 5 Sep 2015 06:31:47 +0000
--Subject: [PATCH 02/26] implment systemd-sysv-install for OE
-+Subject: [PATCH] implement systemd-sysv-install for OE
-=20
- Use update-rc.d for enabling/disabling and status command
- to check the status of the sysv service
-@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 3 insertions(+), 3 deletions(-)
-=20
- diff --git a/src/systemctl/systemd-sysv-install.SKELETON b/src/systemctl/s=
-ystemd-sysv-install.SKELETON
--index cb58d8243b..000bdf6165 100755
-+index cb58d8243b..eff3f5f579 100755
- --- a/src/systemctl/systemd-sysv-install.SKELETON
- +++ b/src/systemctl/systemd-sysv-install.SKELETON
- @@ -34,17 +34,17 @@ case "$1" in
-@@ -22,13 +22,13 @@ index cb58d8243b..000bdf6165 100755
-          # call the command to enable SysV init script $NAME here
-          # (consider optional $ROOT)
- -        echo "IMPLEMENT ME: enabling SysV init.d script $NAME"
--+        update-rc.d -f $NAME defaults
-++        update-rc.d ${ROOT:+-r $ROOT} -f $NAME defaults
-          ;;
-      disable)
-          # call the command to disable SysV init script $NAME here
-          # (consider optional $ROOT)
- -        echo "IMPLEMENT ME: disabling SysV init.d script $NAME"
--+        update-rc.d -f $NAME remove
-++        update-rc.d ${ROOT:+-r $ROOT} -f $NAME remove
-          ;;
-      is-enabled)
-          # exit with 0 if $NAME is enabled, non-zero if it is disabled
-@@ -38,6 +38,3 @@ index cb58d8243b..000bdf6165 100755
-          ;;
-      *)
-          usage ;;
----=20
--2.34.1
--
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJvc3MgQnVydG9uIHZpYQ0KPiBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnDQo+IFNlbnQ6IGRlbiAxIHNlcHRlbWJlciAyMDI1IDE5OjA4DQo+IFRvOiBQZXRl
+ciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gQ2M6IG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1j
+b3JlXSBbUEFUQ0h2NiAxLzJdIHN5c3RlbWQtc3lzdGVtY3RsLW5hdGl2ZTogSW5zdGFsbA0KPiBz
+eXN0ZW1kLXN5c3YtaW5zdGFsbA0KPiANCj4gT24gMjIgQXVnIDIwMjUsIGF0IDE5OjIwLCBQZXRl
+ciBLamVsbGVyc3RlZHQgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPHBldGVyLmtqZWxs
+ZXJzdGVkdD1heGlzLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4gPiArZG9f
+aW5zdGFsbDphcHBlbmQoKSB7DQo+ID4gKyAjIEluc3RhbGwgc3lzdGVtZC1zeXN2LWluc3RhbGwg
+aW4gL3Vzci9iaW4gcmF0aGVyIHRoYW4NCj4gL3Vzci9saWIvc3lzdGVtZA0KPiA+ICsgIyAod2hl
+cmUgaXQgaXMgbm9ybWFsbHkgaW5zdGFsbGVkKSBzbyBzeXN0ZW1jdGwgY2FuIGZpbmQgaXQgaW4g
+JFBBVEguDQo+ID4gKyBpbnN0YWxsIC1EbSAwNzU1ICR7U30vc3JjL3N5c3RlbWN0bC9zeXN0ZW1k
+LXN5c3YtaW5zdGFsbC5TS0VMRVRPTg0KPiAke0R9JHtiaW5kaXJ9L3N5c3RlbWQtc3lzdi1pbnN0
+YWxsDQo+ID4gK30NCj4gDQo+IFRvIHNhdmUgZnV0dXJlIG1haW50YWluZXJzLCBJIGZlZWwgbGlr
+ZSB0aGlzIHNob3VsZCBoYXZlIGEgY29tbWVudCBzYXlpbmcNCj4gdGhhdCBpdOKAmXMgZXhwZWN0
+ZWQgdGhhdCB0aGlzIHBhdGNoIHdpbGwgbmVlZCB0byBiZSByZXZlcnRlZCB3aGVuIHN5c3RlbWQN
+Cj4gaXMgdXBncmFkZWQgdG8gdjI1OSwgYXMgdGhhdCB3aWxsIHJlbW92ZSB0aGlzIGZ1bmN0aW9u
+YWxpdHkuDQo+IA0KPiBSb3NzDQoNCk9rLCBJIGhhdmUgc2VudCBhbiB1cGRhdGVkIHZlcnNpb24g
+d2l0aCBhbiBhZGRlZCBjb21tZW50Lg0KDQovL1BldGVyDQoNCg==
 
