@@ -1,127 +1,107 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B146CAC582
-	for <webhook@archiver.kernel.org>; Mon,  8 Sep 2025 20:18:49 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.4770.1757362727463898973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51080CAC587
+	for <webhook@archiver.kernel.org>; Mon,  8 Sep 2025 21:07:09 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.5887.1757365621838319733
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Sep 2025 13:18:47 -0700
+ Mon, 08 Sep 2025 14:07:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iUMArcsE;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-afeec747e60so913729166b.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 13:18:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h1wxAy1p;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b4f9d61e7deso3096486a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 14:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757362726; x=1757967526; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RY3zjW1gzTCdMfKh+DO4Wn90mziQ2wq3p3+CBTccssA=;
-        b=iUMArcsEUJbl5Vzfd5+JUIH0oeAPsqKMTfyyIQYjyBR+N+xhRS3gyfWKtqHTFDlYGP
-         uNuxLImuLvKNau5XApNfK5bLyL5Gg7ivdIlGUKsHQdhvD1kMM/vSH0AT2p9UimNg7EG6
-         zx9hd2IlxzNjqYdYV8RDw6jNQgmGneLqEcYiDa+kOJ+msFGShrtgXQGNyR+NHut/dNKi
-         r6CGZH76t/rUa30zKFxp7pP4HVlmDY8eZhH9oCAMzESXVKCbcFe4vgjDFlxt4gB44++t
-         47cn6fqCzb5Mg5tf3057wqQpAyPS3PcS5ZKGfgoP+Z4fAYmIS/w2L8hrco8gTIryLN4T
-         IIzQ==
+        d=gmail.com; s=20230601; t=1757365621; x=1757970421; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mOhPVyfLD3q+qavrJhiihpU7Nmw5iGVRTRd9fatKuXE=;
+        b=h1wxAy1pGbOqX6/FxRAzb3MOabWGMfHPNR1BLLw6PL11u/OEbezf+0xYp5+3K0DtuA
+         tXFYyY7tG74FqrY10RR/sOExq/5aKoddDPoOZXvzk6/SfAzQStEnaq+PdJTdhWPHuep0
+         uazOtobVYG309AlL+KnhD7Jd9RztWFM7GcbAiHZMAAzGN+pm2dwxGISaOy+J8VVwUs4p
+         uhxfsZP20wxCf1bazRB/1ggNsDsx/1AB2VbpjzMH39D8gKiIKJ7/03wJ15AVWkaaCBrU
+         aJmi7Pc9Tz90GEWMJzze8NXPS5agt/fJVmToyU6ZJW0+Pv0TEXAvw2wh5njKojBbyjH0
+         erpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757362726; x=1757967526;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RY3zjW1gzTCdMfKh+DO4Wn90mziQ2wq3p3+CBTccssA=;
-        b=n+JVe8w1Gl+oX1HSJSnxJJ7Q7EP9+zmaCrQ4lVABBHHrx0b3/71dPDlsXiivfijmsW
-         KTjtmctbIeZp7hNuuqnjrMEhwwRAp7+orAxCTShuucExMHD5feADl+gYEdsCOT0eIu0N
-         gAH6KyZOiIzR5sKNy7tCMr458jgLE4c6Wt4sHL5BuwuclCIQoxshFRbBDckZDXKhYK4m
-         25Yjw4AYk45C7AdhiaJ3OABQqEGWZCGXQvCrFA87TD4DSOyKaNeffk4RyWPI7YFGrGSS
-         JFXiLnUIORIJgKVWzjUaMQI+2B5rBRnmNcVTiiqqWlcio8uMV+f6hn9jR2yUeM66PYeF
-         n8pQ==
-X-Gm-Message-State: AOJu0YwN4Ufb8YWfMB7PL7p2teIPw/jBG+QZgC3HkJS2JDeMCgBTVDP2
-	tVLGi996En+y9kWVOB25R0EAa8YnYG3XWCOOfWGN4Hr2s2mmjUMH2lehi2hR6Q==
-X-Gm-Gg: ASbGncvELqEyqcD+H2QVatEn8HmebIsHs1riBsSBq8PhUTV1u6ifP5aski1/vqbDWzc
-	GKwk7DdenG7Btd1kvDH4TMdG2MXzkS+/kllAWq4csbnxaF+mmQHbL/BWw+oOVj/zyc7I4vWPgCH
-	XANDh6SYJQKIgfrg6hzmaocwXX27m9CtLb/N0kXS17ZBBqG5PPaWCa7bcQrfAjTGbRUr52yiCl5
-	4flVwqXRq9rKvytFe1QQmjlim1hc1rHCJ7FAuICZhCwqp0ifs/evKYEa+KsNcdjXmIHbaFQB9wy
-	F+PFas2NXU12g4EwWuEhrlMIsWqtXpiePV1zwgkhTaftShJGHaohBuHvOneN31y8Rpah8EOrp87
-	cDnwZOMPgWeoKiKFeFvXDLqtqeaSZtXY=
-X-Google-Smtp-Source: AGHT+IESKXa9edgp5gLE7nlGXeIen2XJ1NVl682R4B08Wgg4Male5t5NLyCPR85Bn3YYvAPIgPa5+A==
-X-Received: by 2002:a17:907:3ea8:b0:b04:25e6:2dbe with SMTP id a640c23a62f3a-b04b16d8182mr916576166b.63.1757362725406;
-        Mon, 08 Sep 2025 13:18:45 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b0413ee67a3sm2140797366b.24.2025.09.08.13.18.44
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1757365621; x=1757970421;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mOhPVyfLD3q+qavrJhiihpU7Nmw5iGVRTRd9fatKuXE=;
+        b=MoFLcO/SDAsBu4zayM2eRnPD8dwvjtH7XYeZy+L+hNvFPZyo7nM0+yGZt3KGdFkDFm
+         wQazWQbdi+RJ9ykdJYk6IabFbLcD88s4G561Q7+4egCu7rFNbvLlAHdMfxhP93mWmvNw
+         tT0Zx4VMtZGwndCVWlYVLVxFcygSx8o4QqKnK8i/VhXr+Ku8+iMm82Wt3bt3JaS1Eopk
+         V4c0xffDfUwtnD2Fk1vaSmgjfZZZKtLc63sA1nintvaQevcANCpAODG4njIVqKSUV6A4
+         IKMkzFztT++yYlSIzBCV88gRODwZ8DX/821wR2ee1WBzUda10Y7L+ozvl3ChhoEmVjmg
+         E7YQ==
+X-Gm-Message-State: AOJu0YwUGze0bIikLhTt5tfoFW+CYMY9Rvzw7XgQUcF8vMFYe1B91YZj
+	cLMWJmwJdGw8RAeHetA5oHyKaadnF57RdTgeZPb16FAtATSqc1nx2464Ivj0BUSM
+X-Gm-Gg: ASbGncvzXsNuPlg+KYvsm2202sJy+3unaaI2avrf3uidpwQe5UCnCalBo1b3r9/psjL
+	Wcg/DdYFAK99LNrerAPBPKFmf15B3y/rXGN9CB0GlaDUypSC6qtFgEBvleEBqC1W3gnc1orx/Un
+	7f1kYa5AgzCS4niNq7tOjBy1Vh1TXo5/0bby0HfMG3Q562tH25b2KE6QfItwFt/ztaQkCiBU2pH
+	owGsOv2grTMBxYib8Pp2tD46X25T56haVQAZe0s7tPZ06kDyS6pKkzhkK5FyyjIp0n9LDbnxm7b
+	wt7BKPP9MUndHPOY6p2yWnqJSHdGJKDYTIppeiuhD9P0l8RrbKRm9Y1QYv/kn3ZRIdALx2R9Y4s
+	5yDSSubrY9Sieht+j7QqyhDep22ClQaKtNzIbv900Dc/zRTi3uNlDxY18ffOjIUWE3G8UjB1yQy
+	EsVoeahYFO9iEPT+krT/SSsW7yzbUyIR4d/ql8d3HF
+X-Google-Smtp-Source: AGHT+IFGRZnUdpivgPvz5pNVWfLu7KH+ml8HumYAIJchBA/XEWSLvE1UwJWpO1hRdGr53Sagumzd6w==
+X-Received: by 2002:a17:90b:3952:b0:32b:4c51:629d with SMTP id 98e67ed59e1d1-32d43f15003mr11846256a91.9.1757365620833;
+        Mon, 08 Sep 2025 14:07:00 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::fe29])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32bdbef7f2csm9982888a91.27.2025.09.08.14.07.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 13:18:44 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
+        Mon, 08 Sep 2025 14:07:00 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [kirkstone][PATCH] llvm: fix typo in CVE-2024-0151.patch
-Date: Mon,  8 Sep 2025 22:18:44 +0200
-Message-ID: <20250908201844.2246745-1-skandigraun@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH V4 2/3] grub,grub-efi: Always use BFD linker with clang
+Date: Mon,  8 Sep 2025 14:06:56 -0700
+Message-ID: <20250908210657.2959408-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250908210657.2959408-1-raj.khem@gmail.com>
+References: <20250908210657.2959408-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 20:18:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223079
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Sep 2025 21:07:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223081
 
-During backporting the patch, accidentally a variable was removed.
-In case the recipe is compiled for 32-bit Arm target, compilation
-fails with the following error:
+LLD 21+ is erroring on text address being lower than the default
+segment address for binaries. Erroring during configure e.g.
 
-3.0.1-r0/git/llvm/lib/Target/ARM/ARMISelLowering.cpp:4481:13: error: 'RegVT' was not declared in this scope
-|  4481 |         if (RegVT == MVT::f16 || RegVT == MVT::bf16)
-|       |             ^~~~~
+cannot link at address 0x2000
 
-This patch corrects the patch, and adds back the removed RegVT variable.
+With LLD 21, -Ttext,<addr> only moves the .text section
+it does not change the image base and LLD 21 errors out
+if any section VMA is below the image base and the segment (image)
+base still defaults to 0x400000 when using LLD, hence the error
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+LLD support in Grub needs to be done properly, it will need
+to adjust how linker options are constructed in configure. We
+default to use BFD linker always when using clang for now.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/llvm/llvm/CVE-2024-0151.patch | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+v3: No change
+v4: No change
+   
+ meta/recipes-bsp/grub/grub2.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/llvm/llvm/CVE-2024-0151.patch b/meta/recipes-devtools/llvm/llvm/CVE-2024-0151.patch
-index cbe6f5bf3f..f5ef7e8d4f 100644
---- a/meta/recipes-devtools/llvm/llvm/CVE-2024-0151.patch
-+++ b/meta/recipes-devtools/llvm/llvm/CVE-2024-0151.patch
-@@ -32,6 +32,10 @@ Date:   Thu Jun 20 10:22:01 2024 +0100
- Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/78ff617d3f573fb3a9b2fef180fa0fd43d5584ea]
- CVE: CVE-2024-0151
- Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+
-+Added back RegVT variable, which was accidentally removed during backporting.
-+
-+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
- ---
- diff --git a/llvm/lib/Target/ARM/ARMISelLowering.cpp b/llvm/lib/Target/ARM/ARMISelLowering.cpp
- index 900113244e41..e12f8c183db2 100644
-@@ -98,16 +102,15 @@ index 900113244e41..e12f8c183db2 100644
-    Function::const_arg_iterator CurOrigArg = MF.getFunction().arg_begin();
-    unsigned CurArgIdx = 0;
-  
--@@ -4432,7 +4450,7 @@ SDValue ARMTargetLowering::LowerFormalArguments(
--     }
-+@@ -4433,6 +4451,7 @@ SDValue ARMTargetLowering::LowerFormalArguments(
-      // Arguments stored in registers.
-      if (VA.isRegLoc()) {
---      EVT RegVT = VA.getLocVT();
-+       EVT RegVT = VA.getLocVT();
- +      SDValue ArgValue;
-  
-        if (VA.needsCustom() && VA.getLocVT() == MVT::v2f64) {
-          // f64 and vector types are split up into multiple registers or
--@@ -4496,16 +4514,6 @@ SDValue ARMTargetLowering::LowerFormalArguments(
-+@@ -4496,16 +4515,6 @@ SDValue ARMTargetLowering::LowerFormalArguments(
-        case CCValAssign::BCvt:
-          ArgValue = DAG.getNode(ISD::BITCAST, dl, VA.getValVT(), ArgValue);
-          break;
-@@ -124,7 +127,7 @@ index 900113244e41..e12f8c183db2 100644
-        }
-  
-        // f16 arguments have their size extended to 4 bytes and passed as if they
--@@ -4515,6 +4523,15 @@ SDValue ARMTargetLowering::LowerFormalArguments(
-+@@ -4515,6 +4524,15 @@ SDValue ARMTargetLowering::LowerFormalArguments(
-            (VA.getValVT() == MVT::f16 || VA.getValVT() == MVT::bf16))
-          ArgValue = MoveToHPR(dl, DAG, VA.getLocVT(), VA.getValVT(), ArgValue);
-  
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index ffa04e415d3..dd1587acd6e 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -71,6 +71,7 @@ CFLAGS:remove = "-O2"
+ # CFLAGS += -mno-mmx -mno-sse
+ # So also remove -mfpmath=sse from TUNE_CCARGS
+ TUNE_CCARGS:remove = "-mfpmath=sse"
++TUNE_CCARGS:append:toolchain-clang = " -fuse-ld=bfd -Wno-error=unused-command-line-argument"
+ 
+ EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} \
+                 --disable-grub-mkfont \
 
