@@ -2,40 +2,40 @@ Return-Path: <Divya.Chellam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE288CAC587
-	for <webhook@archiver.kernel.org>; Tue,  9 Sep 2025 10:13:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E6CCA0FED
+	for <webhook@archiver.kernel.org>; Tue,  9 Sep 2025 10:23:43 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.9620.1757412802067514095
+ by mx.groups.io with SMTP id smtpd.web10.9779.1757413414192161746
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Sep 2025 03:13:22 -0700
+ Tue, 09 Sep 2025 03:23:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=AQqLDmbk;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=VR6fSiMa;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=13475ff707=divya.chellam@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5895XOWm1322477
-	for <openembedded-core@lists.openembedded.org>; Tue, 9 Sep 2025 03:13:21 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5895Najs1305533
+	for <openembedded-core@lists.openembedded.org>; Tue, 9 Sep 2025 03:23:33 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=0AGIpEhzvwii/oRCAkls
-	xaGe2d0bHYiJ90ruFtE3kPI=; b=AQqLDmbkmST7VxNytOvs2qfeGt519LhpNGOF
-	NnYJDTRtm4r42T8ORoswcqSrDNbZj8nb4Kgk/v1BG+yznh574iYisNBDSv/gidAB
-	wNfwd4BjI4YRkOoX/AbW9kiggEmf9apUBXKLCR2RjQF0cl8X4l80naiGz5m4554v
-	4uIT3FzgUOM/Ry9U7RrK51CJ1Am2YWFdipOcnEiUPTLIGZ8FHGVQWsfEbVL3RSJy
-	NbQzdOA7UceQQEv3iWyyA0HhcXZ2t8tJ5gN6rCzdisWEB0Ds0IN81wN/rws6HBaF
-	WKs/uy9ILpsmp0T1k/jblqGaxc/zkUPpTYg/S6p1A2z/R8HJ7A==
+	:mime-version:subject:to; s=PPS06212021; bh=yDCHuY5CbO6Uc8XDBdUb
+	FPXcQA+zpx9As5p6UF4HT1c=; b=VR6fSiMamCHNHprroAn+GawPGVRC1pGzpUMc
+	rgrr0FXmWDV0kR1t3tCMk0X0qOWInUJVSXBaj5BOtW0SZiNT8B30HfMV/lk+oOAL
+	6So/U1hZFTIfqFY+P2Jtcmp5NYXoOVU20qL/E44e8fPuKlSbzCKu8rOcHXzNhaAV
+	ZMB1TDC7lxDzDOzt/6yzkoBf63WAEBVdgYK5jNiGqpw6EHwDP+Vb/w7YGAR4EDa3
+	hNmDVnGyRubqZhjjB23gsvgk6QxmJysxYS5Vvdllg3DE/bHixyp/4bPOQb2iCBVC
+	xuaM9g7zFeBV5rCdw4S8HlvqUDbB2gPow7kcL0tfDzRWGi2JRw==
 Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 490mfg2j0k-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 490mfg2jab-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 03:13:20 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 03:23:32 -0700 (PDT)
 Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Tue, 9 Sep 2025 03:13:18 -0700
+ 15.1.2507.58; Tue, 9 Sep 2025 03:23:30 -0700
 From: dchellam <divya.chellam@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][scarthgap][PATCH 1/1] wpa-supplicant: fix CVE-2022-37660
-Date: Tue, 9 Sep 2025 15:42:41 +0530
-Message-ID: <20250909101241.1919117-1-divya.chellam@windriver.com>
+Subject: [OE-core][kirkstone][PATCH 1/1] wpa-supplicant: fix CVE-2022-37660
+Date: Tue, 9 Sep 2025 15:52:33 +0530
+Message-ID: <20250909102233.1944739-1-divya.chellam@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -43,20 +43,20 @@ Content-Type: text/plain
 X-Originating-IP: [10.11.232.110]
 X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) To
  ala-exchng01.corp.ad.wrs.com (10.11.224.121)
-X-Proofpoint-GUID: mTxx1_jqhUOK6mMp4nMWB0n-oUBTE0CM
-X-Authority-Analysis: v=2.4 cv=d+v1yQjE c=1 sm=1 tr=0 ts=68bffdc1 cx=c_pps
+X-Proofpoint-GUID: xerjNGYc1oW1OblhJUroggsKIUAPNYAV
+X-Authority-Analysis: v=2.4 cv=d+v1yQjE c=1 sm=1 tr=0 ts=68c00025 cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
  a=gmxlzscTznEA:10 a=yJojWOMRYYMA:10 a=xNf9USuDAAAA:8 a=yaAG3qJ-AAAA:8
  a=t7CeM3EgAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=AYSCyj6Te5TWYtHA9y8A:9
  a=Ew8GRf84zx451BU3:21 a=oLVlbjkABFOu4cUI0CGI:22 a=FdTzh2GWekK77mhwV6Dw:22
  a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA5MDEwMSBTYWx0ZWRfXzxRNzqbY/OKq
- VATBmRGLacsWDpa1bhbq9LfUUp4dztQprY1jktFS9gY9AX/BJIzdsIaGdOk5CUIS9tm3hNAVVzD
- 18s24kOJvplXoYpdQuX02smnKo//h92JAsh2VulZrDLqZubMayY5TjOkFysZiLecs/y4euy+5ih
- M8Thjvv5wNRWZzIqF8cjOWN7CWVxPcZCMjVfp4zq/aFHlxwhb4ZyIwuEizQjPGC0WSx/AP/sNQ6
- Qy5mX/NmHU30q8CacH4iSC2EAlM9Tr6G6+Y/KESd9Ie9+97Aj9u4CtFa2V7F69rXmRCYOTJUbsj
- HsA2ba3h8hL5VhFDzGgiRS0f5F6akBu9nZPXIbo2P3QplDMIaVXacWf8Apwwm8=
-X-Proofpoint-ORIG-GUID: mTxx1_jqhUOK6mMp4nMWB0n-oUBTE0CM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA5MDEwMyBTYWx0ZWRfX7+rBuyj6cFGw
+ O60pLKvVCSqyrmftf2kTsNE2LMxvY4p04HaqZca7c/I7cgPS4qYyqrFR3Cin+AM7gK8/LU70km/
+ 18OdNk8FiTs2A0jQnv6S8o7jSeO39t2+pmcxRHL5BwKMD2EzgNbXVBek8WGAHV2nahhZFnI9VfD
+ G2tK6bgqwowdJGwo0dsVUOo13d+4vFBJYEamnzqr+dxC10C0uNQs7uDuXlBImMDYkQT6UmVftFC
+ mv6BHS1e2UqRdcMARGuu7zxIRshVi5d+/Bs7nxvSICrV8f9356C72A7CvbIDqW5MoLrk12Ux/Vh
+ ZtGDImN7SzhQbYLRBr/L0NJbS1VqpIrtU2FBaLfsRMF2HJrmE3FbXY5U5C1UbY=
+X-Proofpoint-ORIG-GUID: xerjNGYc1oW1OblhJUroggsKIUAPNYAV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-08_06,2025-09-08_02,2025-03-28_01
@@ -68,8 +68,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 10:13:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223097
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 10:23:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223098
 
 From: Divya Chellam <divya.chellam@windriver.com>
 
@@ -1813,10 +1813,10 @@ index 0000000000..92828fbbbb
 +2.40.0
 +
 diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-index c1a4383b47..fd98bdcc36 100644
+index 459039d01e..fbbbebc450 100644
 --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
 +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-@@ -31,6 +31,11 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
+@@ -38,6 +38,11 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
             file://0001-SAE-Check-for-invalid-Rejected-Groups-element-length.patch \
             file://0002-SAE-Check-for-invalid-Rejected-Groups-element-length.patch \
             file://0003-SAE-Reject-invalid-Rejected-Groups-element-in-the-pa.patch \
