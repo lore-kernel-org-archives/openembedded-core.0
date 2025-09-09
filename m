@@ -1,187 +1,199 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE55CA0FED
-	for <webhook@archiver.kernel.org>; Tue,  9 Sep 2025 15:49:41 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.1877.1757432979730510361
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1369BCA0FED
+	for <webhook@archiver.kernel.org>; Tue,  9 Sep 2025 16:15:00 +0000 (UTC)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+ by mx.groups.io with SMTP id smtpd.web11.304.1757434494284522595
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Sep 2025 08:49:40 -0700
+ Tue, 09 Sep 2025 09:14:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A6JkJiAY;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb7a16441so859601566b.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 08:49:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kCEvAM8r;
+ spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-71d6051afbfso48654627b3.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 09:14:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757432978; x=1758037778; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7Znm54XOXCzqGHc0u5+V+fKUZaZZ3SkujlVfC/LhR04=;
-        b=A6JkJiAYvwG+9bdtozTl30Qcw4OCmwoE5fCorpucm11dRsNL0JSzI+wXCphx6ZP5m+
-         p6zW1avpNRJe/lerWRPtqmAIFZF9EPGL/kDJkpA6woFhEPIO5KYCP9z9t//hUVafrTwL
-         0jp221rCkYPxkvCdqrf/w2AqaPtyGuEyQhpeSsLHO1h8HF6JPwy0OJqSIFtszqpJT3fE
-         7rmMGgFvP/EFJQXvtz5jQAF24XEAMtxCc4h9O1qU0uYA1kXGVQh66n8Ujv+sj7E0ZChh
-         bPi3/TlPmK8Xw4ez9qsFoXBfzkjCUCXBsI+RQDNNG6o88x/ZmbPvUjNOE4Lv+tAug1p8
-         2aVg==
+        d=gmail.com; s=20230601; t=1757434493; x=1758039293; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LrNshKefPxIgkE92FbCy3LYFPqJxDBjJvxnuhbK/6Tg=;
+        b=kCEvAM8rpdtOvb3bhMEXceUAhhUcP9i3jcAh4iZMgiO0f+UiCieP/Ll/NLww31bZpp
+         vIUS9HAzbr1v4NuIAZln9BJmvJQI28j3iFJPKc2kJa58f8WaJs8ICkRoR6jQcvTAtUuj
+         0oL+zddVjq6j1sM0tpiJCXr/2d/lYy6vCSVt10L6hhd7tOJuyrOIjZr47FByZqOi2evx
+         S6fVdHL/KrXkc5DWwMRxNmr0/8GmVd0bx8kUya7Fz68aUC7hlUiqfLskWWtQpueAHQlh
+         mTBj+/v5mmL3ukLiciGO5kOL46SzJ/XuLGz+mxxD7wtpR+4oMlYz/b+xWPkjzwF3AHqw
+         7nuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757432978; x=1758037778;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Znm54XOXCzqGHc0u5+V+fKUZaZZ3SkujlVfC/LhR04=;
-        b=lDYCjfg/Y4FATb415c3+yio5L1k/aPyDcEKZSMiIuWaBdsFfks6cPlOv+HKVFyHAGC
-         RVYDOzimbHdyUqKrYaM3yrKN8PuNvs5NX728yP6j9ZQX1LvaootFQNQtMWO689NWw/k+
-         gw9ZNvUy7Myt8CecKLm8XH11ZfJYP4irX56BnHuvKwoIFXHRXfsmsdLEWjov3kWSwZ0L
-         kZKfQywpLeiXvBOPYH0pxCbZ9CWkO26TOp4OMrvaff9Z82NNlth01A5wmhHZyt+gXjJH
-         QUBDH0t05TczAPd8kNAiwljIS3Fcy4qzD1SfJqd6rEMknwldBZ7x4qmporsIxnSPfGu5
-         8NFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXPbwkUoxODu4TUnUvyOyL3XTqPeDEqgm+IzmxwesTsC+1QN56iRR+kVCM2Ap96aSloMfwK4Y/p0oqPDQAJM8RBjA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwrNHYUCPD468sN8ToN/A0FlNmTSPoAML9dtSrhPv7Eqw/g84lN
-	z4ykfhrIXy3g2KLNjlLciklhdDz/uQzGXjS878f26wNH1Qn8X8pyKHGL
-X-Gm-Gg: ASbGncsojCnZUH05db9SPpNhN5yXuHwyzeTCO/isU6IeWqWXsljdDipkpcKI6lZC7v8
-	OWQLU9nCpJ9zZ3yRoJgTP1yipFnD9sPBD/gcXJCIH9dW1XXn/6QU3ZvaxYlfofYn8biZIqWsRad
-	V2pFKTt0vZniouCcYFvnFi1U2JtBc6Fj/1H6Tj00C6hn0C++cax9lTnnM2Wn2em8ihRNhlsOEDA
-	182Dl5mE7ctPqriN8lIarQoxzidr7ht7kFrbkmYb7y+fWOZqBCGVaFjqmSqmgIO0KXLP2fARC/M
-	4RrbMbrKQ+Z8gAXl+XZC7Un4mjFu9MvKvW2XHkwnlQ0JeeQ3bugRAegS86BTfjvjUxfr/KAspNy
-	lcj9NF3/BjIguRYRoOUqAuSOlh72b9pQ=
-X-Google-Smtp-Source: AGHT+IF9++qHYiuPHiWauez3qRSrUHvMayVWzvJrcOfcNo7i/yrhmrYVHb6QAaQSHz7U4wtTpPUlig==
-X-Received: by 2002:a17:907:9410:b0:b04:f5a:8c13 with SMTP id a640c23a62f3a-b04b14b37c6mr1141849566b.15.1757432977815;
-        Tue, 09 Sep 2025 08:49:37 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07833ebe61sm9036166b.89.2025.09.09.08.49.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Sep 2025 08:49:37 -0700 (PDT)
-Message-ID: <66181824-1f94-4cd1-8881-d231b4c61a7c@gmail.com>
-Date: Tue, 9 Sep 2025 17:49:36 +0200
+        d=1e100.net; s=20230601; t=1757434493; x=1758039293;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LrNshKefPxIgkE92FbCy3LYFPqJxDBjJvxnuhbK/6Tg=;
+        b=JTCRh8OzeWsSnoqZFl3eN25BEZyHaa8f2TBaX2a10S1csw5yXo9IKxtjzXYP0n4vik
+         ke8mQxMVhdW1KFdtMxYqJanSFI920+huslj4JmIrCHy1VY2inSJ659canRInK4TEoIPH
+         SxUMXJF6rW4RR0pPZJM/u8xUSWsPsgH0YfMVviSYTXLnxJ7SDRCXJc92c8wHr1SfV3tH
+         gF+Qvs7PKe/30/SCwC3/nfTUqj8DlQdTJrXTgiuW+7xnDFlUTAg4PKhCYMTMVsJqZiRe
+         I4EuVMvQ2fpib6Umi/XQS1P0kxG+bObMGJDSiJDxMov3ky1Zppb9YsJ7yxST+B9C3+KO
+         28aA==
+X-Forwarded-Encrypted: i=1; AJvYcCVarocdST+q3jUiN+zZXktuaG3wFPvMm3sjk1z1k/R/fRuhsJtWRsa1VQxzLvnYWU7VxDetmKAzFvLpc6nbhheP5A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx3V06yqt7uiMdp3MggJu0M8y6DJEnk1igBmIMiKJwC1bxlAUWx
+	/cLcIix7+phOiToQ3KL+TE0StI6NXUWSVxp0pyjMr4zKmMkfglvwZxR6LKchP+YjuVTAbk+0kho
+	ciGPHeVSoJ1bgC5SbjI01JYnpx8faqqY=
+X-Gm-Gg: ASbGncszKAu1VetD23NyqFL2Y+8ieXtnbqG7x9JiT7s8oHEI96DNJH4swzM4jj13zrO
+	yVtFcbsh1rTt7oDfNQkRziEmnhsh6KdFcPBByJbsL0bGkxnN9XmUn9XKO8XdUSoo6De4CERBoi8
+	izvwr8d0OksktVsvsnGDpWbKDhnTqWz1MTKhX9izZCuqk8oNhDdK55oXPQzOMR12e2pzfUCGpoY
+	kXARGyrV6/IU/ZY0a3kauAPNbNMYHkNwj4bJ0j/WNCcd/VTloGJ426fmRID2n9n9tTzdY0Ugmh9
+	h6qMkyA9r5a0i4AcE4Q7VC9Mi9TWEE2dv2oAED05f4yuAW+JKHiUksMuPdqCDp1BNR7AQaw24m7
+	W/g==
+X-Google-Smtp-Source: AGHT+IEI6fFzO+paoqsv6sn9re0x0jyPwtNOUQKHuq922eVOvsMjgtRQgCZB85eQ96yZxlrevSfICGXdr19f5ZZx1ac=
+X-Received: by 2002:a05:690c:6386:b0:721:5b31:54bf with SMTP id
+ 00721157ae682-727f4969c21mr119756047b3.35.1757434492384; Tue, 09 Sep 2025
+ 09:14:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] wic: Add sector size support to WIC partition
- and bootimg_efi plugin for UFS
-To: macpaul.lin@mediatek.com,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexander Kanavin <alex@linutronix.de>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Otavio Salvador <otavio@ossystems.com.br>,
- openembedded-core@lists.openembedded.org
-Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
- MediaTek Chromebook Upstream
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-References: <20250909134117.2219965-1-macpaul.lin@mediatek.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <20250909134117.2219965-1-macpaul.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <29f1bfef-97ac-44bb-b2de-63661a38e814@windriver.com>
+ <CANNYZj99rO9YpEUe1_sGBFXiaOA0dgoRMRK_AwgPKkaQWCnhfA@mail.gmail.com> <454f5ba1-09a2-456c-8df8-0a0fe441f6cf@windriver.com>
+In-Reply-To: <454f5ba1-09a2-456c-8df8-0a0fe441f6cf@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 9 Sep 2025 09:14:26 -0700
+X-Gm-Features: Ac12FXwFG-l5mhc-XBUQf08pId5j7j69rEgZIQzqB8jl45qd1CzQqXaF_eyPpeQ
+Message-ID: <CAMKF1srZbQepXc5MAHphPARTu9XJFyQM-9fyotVX9bqA4LQNBg@mail.gmail.com>
+Subject: Re: [OE-core] Drop rust-llvm and use clang instead
+To: Deepesh Varatharajan <deepesh.varatharajan@windriver.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Kokkonda, Sundeep" <sundeep.kokkonda@windriver.com>, 
+	"Dora, Sunil Kumar" <sunilkumar.dora@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 15:49:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223121
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 16:15:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223122
 
-On 9/9/25 15:41, Macpaul Lin via lists.openembedded.org wrote:
-> Introduce --sector-size argument to ksparse.py and propagate sector_size
-> to partition objects. Update bootimg_efi plugin to validate sector size
-> and pass it to mkdosfs, enabling creation of EFI system partitions with
-> variable sector sizes. This change is required to support UFS storage.
+On Tue, Sep 9, 2025 at 1:19=E2=80=AFAM Deepesh Varatharajan
+<deepesh.varatharajan@windriver.com> wrote:
 >
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> ---
->  scripts/lib/wic/help.py                       |  6 ++++++
->  scripts/lib/wic/ksparser.py                   |  1 +
->  scripts/lib/wic/partition.py                  |  1 +
->  scripts/lib/wic/plugins/source/bootimg_efi.py | 18 ++++++++++++++++--
->  4 files changed, 24 insertions(+), 2 deletions(-)
 >
-> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-> index 6b49a67de938..35347b2df8ad 100644
-> --- a/scripts/lib/wic/help.py
-> +++ b/scripts/lib/wic/help.py
-> @@ -885,6 +885,12 @@ DESCRIPTION
->                         is larger than --fixed-size and error will be
->                         raised when assembling disk image.
->  
-> +         --sector-size: The sector size in bytes. The value must be an
-> +                        integer and one of 512, 1024, or 4096. The
-> +                        default is 512. This enables a variable sector
-> +                        size for EFI partitions, which is supported on
-> +                        devices such as eMMC and UFS storages.
-> +
->           --source: This option is a wic-specific option that names the
->                     source of the data that will populate the
->                     partition.  The most common value for this option
-> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> index 705f98975084..0bfdabe1bf22 100644
-> --- a/scripts/lib/wic/ksparser.py
-> +++ b/scripts/lib/wic/ksparser.py
-> @@ -182,6 +182,7 @@ class KickStart():
->          sizeexcl.add_argument('--size', type=sizetype("M"), default=0)
->          sizeexcl.add_argument('--fixed-size', type=sizetype("M"), default=0)
->  
-> +        part.add_argument('--sector-size', type=int, default=512)
->          part.add_argument('--source')
->          part.add_argument('--sourceparams')
->          part.add_argument('--system-id', type=systemidtype)
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index 0c9b1a5b9620..d64b2e731f5b 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -49,6 +49,7 @@ class Partition():
->          self.rootfs_dir = args.rootfs_dir
->          self.size = args.size
->          self.fixed_size = args.fixed_size
-> +        self.sector_size = args.sector_size
->          self.source = args.source
->          self.sourceparams = args.sourceparams
->          self.system_id = args.system_id
-> diff --git a/scripts/lib/wic/plugins/source/bootimg_efi.py b/scripts/lib/wic/plugins/source/bootimg_efi.py
-> index cf16705a285a..a1b00d91bf53 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg_efi.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg_efi.py
-> @@ -415,8 +415,22 @@ class BootimgEFIPlugin(SourcePlugin):
->  
->          label = part.label if part.label else "ESP"
->  
-> -        dosfs_cmd = "mkdosfs -v -n %s -i %s -C %s %d" % \
-> -                    (label, part.fsuuid, bootimg, blocks)
-> +        # Validate part.fixed_size
-> +        if part.sector_size not in (512, 1024, 4096):
-> +            logger.debug("Invalid '--sector-size' specified (%s). " \
-> +                         "Allowed values are 512, 1024, or 4096. " \
-> +                         "Setting to default 512.",
-> +                         part.sector_size)
-> +            part.sector_size = 512
-> +
-> +        # Support variable sector size
-> +        # mkdosfs -C expects number of blocks, which is (size in bytes) // sector_size
-> +        size_bytes = blocks * 1024
-> +        blocks = size_bytes // part.sector_size
-
-I believe that this can be off by one, on the short side. E.g. if
-sector_size = 4096 and the original value of blocks = $n * 4 + 3, then
-the final blocks will end up as $n, and the last 3kB is cut off.
-
-> +
-> +        dosfs_cmd = "mkdosfs -n %s -i %s -C %s %d -S %d" % \
-> +                    (label, part.fsuuid, bootimg, blocks, part.sector_size)
-
-The "-v" argument seems to be lost - could you please add it back?
-
-> +
->          exec_native_cmd(dosfs_cmd, native_sysroot)
->          logger.debug("mkdosfs:\n%s" % (str(out)))
->  
+> On 28-08-2025 18:33, Alexander Kanavin wrote:
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#223111): https://lists.openembedded.org/g/openembedded-core/message/223111
-> Mute This Topic: https://lists.openembedded.org/mt/115150315/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
+>
+> On Thu, 28 Aug 2025 at 13:45, Varatharajan, Deepesh via
+> lists.openembedded.org
+> <deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> We have removed rust-llvm and updated the Rust build to depend on Clang i=
+nstead.
+> With this change, we successfully built Rust for both native and target. =
+Additionally,
+> we ran a full bitbake world build without encountering any issues after d=
+ropping rust-llvm.
+>
+> We now add these flags "-C link-arg=3D-lz -C link-arg=3D-lzstd" because o=
+f this following diff
+> otherwise we will get errors during link time.
+>
+> Setup in rust-llvm
+> -DLLVM_ENABLE_ZLIB=3DOFF \
+> -DLLVM_ENABLE_ZSTD=3DOFF \
+> -DLLVM_ENABLE_FFI=3DOFF \
+>
+> Setup in clang
+> -DLLVM_ENABLE_FFI=3DON \
+> -DLLVM_ENABLE_ZSTD=3DON \
+>
+> You can find the relevant changes on the poky-contrib branch here:
+> https://git.yoctoproject.org/poky-contrib/commit/?h=3Dharish/rust-llvm
+>
+> Differences seen in builds:
+>
+> with rust-llvm for bitbake rust
+> real    54m54.184s
+> user   0m13.470s
+> sys     0m1.380s
+>
+> f/s usage
+> 41G
+>
+> without rust-llvm for bitbake rust
+> real    57m51.015s
+> user   0m18.129s
+> sys     0m2.051s
+>
+> f/s usage
+> 45G
+>
+> We are open for suggestions, improvements, or concerns regarding this cha=
+nge.
+>
+> Thanks for checking this! Is it possible to have a conversation in the
+> rust upstream about starting to use proper clang, or reasons to
+> continue using rust-llvm? Maybe there's a ticket or you can open one?
+>
+> While 'proper clang' appears to work now, deviating from what rust
+> developers do is risky and can cause problems.
+>
+> Alex
+>
+> Hi All,
+>
+> Summary of discussion with the rust upstream about using latest LLVM inst=
+ead of Rust maintained LLVM fork.
+> https://internals.rust-lang.org/t/can-we-use-proper-clang-instead-of-llvm=
+-fork-what-rust-uses/23489
+>
+>
+> Upstream LLVM is generally compatible:
+> - Rust does support building with upstream (vanilla) LLVM, especially the=
+ latest major release and the one or two preceding ones.
+> https://rustc-dev-guide.rust-lang.org/backend/updating-llvm.html#updating=
+-llvm
 >
 
+Thanks for the discussion, I think its expected that there are rust
+specific backports, but it seems its not a whole lot of patches with
+llvm20
+and I hope things are just getting better with future releases. We
+need to ensure that such patches are not regressing clang if we do
+that sort
+of backport, hopefully there will be no conflcits.
+
+>
+> Things to note when using Upstream LLVM:
+> - Rust may include cherry-picked bugfixes in its LLVM fork and so using u=
+pstream LLVM might lacking bug fixes from rust's forked llvm. (But,
+> this anyway we will catch it up with newly released rust update)
+> - If a bug shows up using vanilla LLVM, it's on us to track it down unles=
+s it's a known issue. (In general, the latest llvm is always under test wit=
+h
+> rust nightly builds)
+>
+>
+> Impact on Yocto Rust upgrades:
+> - Rust upgrades shall always check for updates on rust forked llvm and ba=
+ckport the relevant patches to clang's llvm.
+
+right
+
+>
+>
+> Regarding the rust forked llvm local patches:
+> - There are no local patches on rust forked llvm other than the backporte=
+d fixes from llvm master.
+>
+>
+> Do let us know how can we proceed on this.
+>
+
+I think we should go ahead, we have llvm-21 already in final stages so
+that might be a bit to address, do find out which version of rust will
+use llvm 21.
+
+> Regards,
+> Deepesh
 
