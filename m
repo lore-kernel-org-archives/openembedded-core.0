@@ -2,105 +2,110 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72190CAC58C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E42CA0FED
 	for <webhook@archiver.kernel.org>; Tue,  9 Sep 2025 17:17:29 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.860.1757438243133228300
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web10.891.1757438244901935351
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Sep 2025 10:17:23 -0700
+ Tue, 09 Sep 2025 10:17:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mkM4gM6K;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-625e1dfc43dso5737980a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 10:17:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=g7+xYusx;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b043da5a55fso788510666b.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 10:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757438241; x=1758043041; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ivJyvse4mFbJNxeaY5FUlilGKKr6uAEPo1LxuzCpel0=;
-        b=mkM4gM6K+T93A4feNKt6EiJNqHzakr0wumW3fzh1PRgWnKwURpJDl/TBRd4JiuYUMd
-         82Vz0V0XlTvHIqoUIAgOt+BtnMVb7kAmJR40wrGrmGjyEJqE4y5mrAtA/m/vzQO+DJV0
-         0erOc7vtgFSvGZydZrJ2m0zV4MJ5hPBPNb9/GwInKD//JAIjNsjlpkcAwBDHnoGp7aKJ
-         gcjgH7A8HDql2NDG4HWED5ETHASV/nebeAATrkZnXmqEVFhWDhVm3lg2ozcQe9wr0GGv
-         Qu/dkD41+q5hgQ4apVgf7RZolYSL6xzYIYybUosGR2tQv5a4XJ4Dq1iJ4reQh5atSHY9
-         pTPQ==
+        d=gmail.com; s=20230601; t=1757438243; x=1758043043; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YE6ZNht+nhEUFT1hNMKNrVto/DVVjizxrz6cQ3Qwie8=;
+        b=g7+xYusxtqoJccBFAxd6NZ7CP2tT2dzRHOQth3FWDdn/a/tf0g8iMGUcVvGO9ZP5J7
+         SsX74loZoLoBYJnRP7bHvpLY21wbcYRDvwQQPIqwDfN2XacENKQmxlOxPlqWXUvZTe3R
+         9G1PS1Pbwa3IDCNP4bf8dlsUp+KjlkSlcFb+Hc2pyBuUkHSHDeZys3bQlHR29uBBWpsm
+         dQxoJ7yYIsErKIqYCqgi5FDW1Z5aRbV4CD02r7HGBHO7Elifu3XNehwSJGS2WxG5Kpds
+         ZRR3zx7RYTZZ6FVhTjh6puGo48KcKgjzuduTL91QTrvfrmSM2Kq3VMaSDQzpkc67T7Aq
+         16fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757438241; x=1758043041;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ivJyvse4mFbJNxeaY5FUlilGKKr6uAEPo1LxuzCpel0=;
-        b=E6XRLJ2TrVKtIvrEB5iIdvZs4QzJ0b1uhjFvM4sbeYiD1SEv/u2pRIDTG6BEDe9L9S
-         voSEOUc5goLBCGBrrG4+UhYg1FNORIntyhQFweuWSK/gTRbk3rTjML/Bm1PN+1bIbqCV
-         dfWYoFsGCKb7mCony/G3IARHSjbZ/Ez2a3nrnEpt19yjNPfDi5kJOlMh65ahQdToRjFw
-         Dfy6jk/YsLlsvol5iM7RoJRlf2K1InQacGTYNAI1P7XOHBfIg9ehUP8eQlRg4z3z02po
-         fR06epRy2idDWNOdV18HE4Qutd+LTCR4YHcpId6CZ+WgNoJI3ZBqbeq+YbqVepZWiZui
-         n0Yw==
-X-Gm-Message-State: AOJu0YzCODjFHgE4b7oUH0oBndNLcvQvG6vVWFX88onf7JDY2NvyZpje
-	gBcmAyh53UBVbGV7sgSQ+WW/ipD5G2qJ2L2exX54HkcgBwD2VzlIr8kQPDjfLw==
-X-Gm-Gg: ASbGncuCw6HVrOvCI1nf50rpuMsn31ZWoiYXOhzrPeE1G7lJAa7crtUKrYHhDiDWuGj
-	TunPhypEBfXUzVMhFU+IRUytPm3sEMYmlfPWkF8ha5duhEebLAYE6Mf4DmvZvMkGk8IoTlA9/P/
-	U+ULzvofdPvSFB5DaHczSZyzAEJeaV4iujUmpOapYNWHDAc54uMvmF0AWJZZciZFxYkL4Jnx+bh
-	Xcl5ifTcHlPR+rh/s3agOQZCo0IG6nZ33aCA4jAQXvyvx2Dd2KXCrTdTFqwX2haQhAoUdnicArN
-	3RvACIkZX4RQRT/dKl8MBeRPiC1LlFVgYU2aNnTOG8JTsXuGnlQWWNR71xPFEltRSPV+oQ6/+Td
-	TPkAXe4pXksjQ4bQnqL7dgtuukA==
-X-Google-Smtp-Source: AGHT+IFan6OkyEZD6voGeJBUH5jrx9SCibMf1/89x4IprZCQ0mAzCiwNwU+596GFNIGQ8JZgke35hQ==
-X-Received: by 2002:a05:6402:90d:b0:628:f23f:1cd7 with SMTP id 4fb4d7f45d1cf-628f23f2672mr6270243a12.23.1757438241258;
-        Tue, 09 Sep 2025 10:17:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757438243; x=1758043043;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YE6ZNht+nhEUFT1hNMKNrVto/DVVjizxrz6cQ3Qwie8=;
+        b=Zy2Brde4aNhkP3LKVyyYPK9rRsBphdeJEBYb9qtJe93jmlmyESZM15n31Hk3TSDEMF
+         lN2yjrL7Tk0e+SZQDlP3KRQwjD/JGwxn8r9wfxscFACj1z25QwlANqDP2fyDVbWV0Tiz
+         ZtX1NToxjbTZo5OKIk/I5EG5J/9N4E4P39oGZ+q5nvnU2ERDje38gSEQvvgyS+Fzp1tv
+         WQsXhiikxpoylDGaWIAZ7mRY8EX2pzOuEcCF+dPdIDD6EWzfMuq3tTE+aJyyiQw47oEX
+         Eem8KdvP69FjipqMYzAmIcp1T3TRrepuBFHPnRdpWI4CDW4dEjgoWj5SC6siU86fAFiD
+         Lapw==
+X-Gm-Message-State: AOJu0YxhZK8BtL+sBLoDPzSDegaQPkLJxAddAemWCcs/M1z6pU4e/E24
+	4E3gBelDiLSl+da92Vf/FXmDkBtMttboKJFWMJ26I9OSLaJzmEuaKemLXHcw0A==
+X-Gm-Gg: ASbGncv9l50FuWoML/Qe0w0vfu+TtxoJUYkC9Kaiw0g10TeUHvZZr8FrEc7LPeO25fy
+	m3VJmNkegyPCUjEAArOiSThWPHMtPOAGjZ8w/DzQo3+tJM+FeTU0lAiO9zu6D17gRITtHMK1gF+
+	srVEJ/Nmyuv1rKNeO7kG+nzpFQhflJUGwbhPGWixj4SFoyaOSYswWJG7iA4EUZq8UFg2/gtQGWv
+	XEv9QZbkRhSKfgs6DSOz2ZqQl1/Jb6dZl8BypjQAhXkmtywhlL1cFOzDUG3yliTOAfqFnjvC7jA
+	NhHezDT8YTXEfOUXbklM7lrYsIu5PyFB6rxKoyPe++8xoCJznla1tkyX6PSYb/G79qJhE76JTcd
+	AqtDRpX2KGICXXA6dSzylNxoBn/i/tDCF6e076rxTiNW0XRk=
+X-Google-Smtp-Source: AGHT+IHfvNQsER59l13KGvmMeC7C3U43EuQV/n7d+kv5aMv6I48flAWi94Q8BVjWNfIkjDZ6+9/XWA==
+X-Received: by 2002:a17:906:9fc7:b0:b04:2edd:280b with SMTP id a640c23a62f3a-b04b1687e50mr1291743966b.39.1757438243047;
+        Tue, 09 Sep 2025 10:17:23 -0700 (PDT)
 Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-62bfe9a01a6sm1574176a12.11.2025.09.09.10.17.20
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b0783047d98sm22542866b.22.2025.09.09.10.17.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 10:17:20 -0700 (PDT)
+        Tue, 09 Sep 2025 10:17:22 -0700 (PDT)
 From: martin.jansa@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
-	Martin Jansa <martin.jansa@gmail.com>
-Subject: [walnascar][PATCH 1/3] license.py: avoid deprecated ast.Str
-Date: Tue,  9 Sep 2025 19:17:14 +0200
-Message-ID: <20250909171716.1588271-1-martin.jansa@gmail.com>
+	Martin Jansa <martin.jansa@gmail.com>,
+	Joshua Watt <JPEWhacker@gmail.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [walnascar][PATCH 3/3] lib/oe/utils: use multiprocessing from bb
+Date: Tue,  9 Sep 2025 19:17:16 +0200
+Message-ID: <20250909171716.1588271-3-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250909171716.1588271-1-martin.jansa@gmail.com>
+References: <20250909171716.1588271-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 09 Sep 2025 17:17:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223124
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223126
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-* it's deprecated since python-3.12 and removed in 3.14 causing:
+Fixes build with python-3.14
 
-openembedded-core/meta/lib/oe/license.py', lineno: 176, function: visit
-     0172:
-     0173:        LicenseVisitor.__init__(self)
-     0174:
-     0175:    def visit(self, node):
- *** 0176:        if isinstance(node, ast.Str):
-     0177:            lic = node.s
-     0178:
-     0179:            if license_ok(self._canonical_license(self._d, lic),
-     0180:                    self._dont_want_licenses) == True:
-Exception: AttributeError: module 'ast' has no attribute 'Str'
+It was added to bitbake in 62be9113d98fccb347c6aa0a10d5c4ee2857f8b6
+and oe-core now requires latest bitbake already, so we can use this.
+
+[YOCTO #15858]
 
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/lib/oe/license.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oe/utils.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index 6f882c3812..6ff7688d22 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -173,8 +173,8 @@ class ManifestVisitor(LicenseVisitor):
-         LicenseVisitor.__init__(self)
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index d272dd2b8d..2137b05df0 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -5,10 +5,11 @@
+ #
  
-     def visit(self, node):
--        if isinstance(node, ast.Str):
--            lic = node.s
-+        if isinstance(node, ast.Constant):
-+            lic = node.value
+ import subprocess
+-import multiprocessing
+ import traceback
+ import errno
  
-             if license_ok(self._canonical_license(self._d, lic),
-                     self._dont_want_licenses) == True:
++from bb import multiprocessing
++
+ def read_file(filename):
+     try:
+         f = open( filename, "r" )
 
