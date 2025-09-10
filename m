@@ -1,147 +1,115 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F0D1CAC583
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 13:48:22 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.18306.1757512093253913901
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11E4DCA0FED
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 13:49:32 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.web11.18342.1757512164990908916
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 06:48:13 -0700
+ Wed, 10 Sep 2025 06:49:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 735F816F8
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 06:48:04 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 607483F63F
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 06:48:12 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] libical: improve buildpath situation
-Date: Wed, 10 Sep 2025 14:48:07 +0100
-Message-ID: <20250910134807.2366064-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250910134807.2366064-1-ross.burton@arm.com>
-References: <20250910134807.2366064-1-ross.burton@arm.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=kGJYboaj;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id A35534E40BDD
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 13:49:23 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8C00B606D4;
+	Wed, 10 Sep 2025 13:49:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CB9A8102F1CC2;
+	Wed, 10 Sep 2025 15:49:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1757512163; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=2iwY4bEYlKkWTvcuOBaIvRluNr2ViApuqU7XxbY1P+w=;
+	b=kGJYboajpuU2v+Xg3ZRlW7vE9lnXZu/u4zJ8SJnqUoZ30aBPzd2IXOwNl8N/NAPaEkEYRL
+	Uijo7Q8WIVpBCNlf4qC6CB1/b+K0BenUj+5WrQ4P6KBrGKX/63hQx+4J/kTnC5zL0VlQfq
+	H48xKrGChpykXJtalv7mLoXzdR+wsYj0v15wdkB+FDUoeJGUUDXioHXr+3poc5jvAY9Sab
+	afhG6YmtgdU4JBGhO/pX3RnKEq5GwJvzeTNoFvtFAHO5T2L3dOx29oR/XfO7fuaoy0vqSc
+	P7R8WdarjQyCeMSj+mvGLILTZQsffZOosjxKOgv4sW+k5vX38lGS8F0466ixPw==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 10 Sep 2025 15:49:21 +0200
+Message-Id: <DCP62CVLCT1K.1AX5H575NJQOI@bootlin.com>
+Subject: Re: [OE-core] [PATCH 21/40] meson: upgrade 1.8.2 -> 1.9.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <wangmy@fujitsu.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250910091646.998-1-wangmy@fujitsu.com>
+ <20250910091646.998-21-wangmy@fujitsu.com>
+In-Reply-To: <20250910091646.998-21-wangmy@fujitsu.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 13:48:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223215
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 13:49:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223216
 
-Take an upstream patch to remove buildpaths from the generator's CMake
-files, so we don't need to sed them out.
+On Wed Sep 10, 2025 at 11:16 AM CEST, wangmy via lists.openembedded.org wro=
+te:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  meta/recipes-devtools/meson/{meson_1.8.2.bb =3D> meson_1.9.0.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/meson/{meson_1.8.2.bb =3D> meson_1.9.0.bb} =
+(98%)
+>
+> diff --git a/meta/recipes-devtools/meson/meson_1.8.2.bb b/meta/recipes-de=
+vtools/meson/meson_1.9.0.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/meson/meson_1.8.2.bb
+> rename to meta/recipes-devtools/meson/meson_1.9.0.bb
+> index bfeaab0a79..6f5a623dc7 100644
+> --- a/meta/recipes-devtools/meson/meson_1.8.2.bb
+> +++ b/meta/recipes-devtools/meson/meson_1.9.0.bb
+> @@ -15,7 +15,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/meson-${=
+PV}.tar.gz \
+>             file://0001-Make-CPU-family-warnings-fatal.patch \
+>             file://0002-Support-building-allarch-recipes-again.patch \
+>             "
+> -SRC_URI[sha256sum] =3D "c105816d8158c76b72adcb9ff60297719096da7d07f6b1f0=
+00fd8c013cd387af"
+> +SRC_URI[sha256sum] =3D "cd27277649b5ed50d19875031de516e270b22e890d9db65e=
+d9af57d18ebc498d"
+>  UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)$"
+> =20
+>  inherit python_setuptools_build_meta github-releases
 
-Also, the generator tool is only needed when cross-compiling libical,
-so we don't actually need to install it in the target package. This has
-the nice side-effect of removing libxml2 from the target RDEPENDS as it
-is only used in the tool.
+Hi Wang,
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../libical/libical/flags.patch               | 40 +++++++++++++++++++
- .../recipes-support/libical/libical_3.0.20.bb | 13 +++---
- 2 files changed, 48 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-support/libical/libical/flags.patch
+Thanks for the package update.
 
-diff --git a/meta/recipes-support/libical/libical/flags.patch b/meta/reci=
-pes-support/libical/libical/flags.patch
-new file mode 100644
-index 00000000000..5fa4b479ee3
---- /dev/null
-+++ b/meta/recipes-support/libical/libical/flags.patch
-@@ -0,0 +1,40 @@
-+From a5642fa1cd8c835209b39ec99e534d341779c985 Mon Sep 17 00:00:00 2001
-+From: Milan Crha <mcrha@redhat.com>
-+Date: Wed, 10 Sep 2025 09:52:37 +0200
-+Subject: [PATCH] libical-glib: Hide some target options in the installed=
- CMake
-+ files
-+
-+The build paths could be shown in the installed .cmake files, thus
-+hide them from there, because they are needed.
-+
-+Closes https://github.com/libical/libical/issues/532
-+
-+Upstream-Status: Submitted [https://github.com/libical/libical/pull/1010=
-]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ src/libical-glib/CMakeLists.txt | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/libical-glib/CMakeLists.txt b/src/libical-glib/CMakeLis=
-ts.txt
-+index 9f69e9c5..aa55e013 100644
-+--- a/src/libical-glib/CMakeLists.txt
-++++ b/src/libical-glib/CMakeLists.txt
-+@@ -8,8 +8,8 @@ add_executable(ical-glib-src-generator
-+   tools/xml-parser.h
-+ )
-+
-+-target_compile_options(ical-glib-src-generator PUBLIC ${GLIB_CFLAGS} ${=
-LIBXML_CFLAGS} -DG_LOG_DOMAIN=3D\"src-generator\")
-+-target_link_libraries(ical-glib-src-generator ${GLIB_LIBRARIES} ${LIBXM=
-L_LIBRARIES})
-++target_compile_options(ical-glib-src-generator PRIVATE ${GLIB_CFLAGS} $=
-{LIBXML_CFLAGS} -DG_LOG_DOMAIN=3D\"src-generator\")
-++target_link_libraries(ical-glib-src-generator PRIVATE ${GLIB_LIBRARIES}=
- ${LIBXML_LIBRARIES})
-+
-+ install(
-+   TARGETS ical-glib-src-generator
-+@@ -130,7 +130,7 @@ target_link_libraries(ical-glib PRIVATE ical ${GLIB_=
-LIBRARIES})
-+ if(NOT SHARED_ONLY AND NOT STATIC_ONLY)
-+   add_library(ical-glib-static STATIC ${LIBICAL_GLIB_SOURCES})
-+   add_dependencies(ical-glib-static ical-header)
-+-  target_compile_options(ical-glib-static PUBLIC ${GLIB_CFLAGS} -DG_LOG=
-_DOMAIN=3D"libical-glib" -DLIBICAL_GLIB_COMPILATION)
-++  target_compile_options(ical-glib-static PRIVATE ${GLIB_CFLAGS} -DG_LO=
-G_DOMAIN=3D"libical-glib" -DLIBICAL_GLIB_COMPILATION)
-+   target_link_libraries(ical-glib-static ${GLIB_LIBRARIES})
-+ endif()
-diff --git a/meta/recipes-support/libical/libical_3.0.20.bb b/meta/recipe=
-s-support/libical/libical_3.0.20.bb
-index d62c88e3477..7f85522e91c 100644
---- a/meta/recipes-support/libical/libical_3.0.20.bb
-+++ b/meta/recipes-support/libical/libical_3.0.20.bb
-@@ -14,6 +14,7 @@ SECTION =3D "libs"
-=20
- SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-            file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch \
-+           file://flags.patch \
-           "
- SRC_URI[sha256sum] =3D "e73de92f5a6ce84c1b00306446b290a2b08cdf0a80988eca=
-0a2c9d5c3510b4c2"
-=20
-@@ -45,11 +46,13 @@ EXTRA_OECMAKE:append:class-target =3D " -DIMPORT_ICAL=
-_GLIB_SRC_GENERATOR=3D${STAGING
-=20
- do_install:append () {
-     # Remove build host references (https://github.com/libical/libical/i=
-ssues/532)
--    sed -i \
--       -e 's,${STAGING_LIBDIR},${libdir},g' \
--       -e 's,${STAGING_INCDIR},${includedir},g' \
--       ${D}${libdir}/cmake/LibIcal/LibIcal*.cmake \
--       ${D}${libdir}/cmake/LibIcal/Ical*.cmake
-+    sed -i -e 's,${STAGING_LIBDIR},${libdir},g' ${D}${libdir}/cmake/LibI=
-cal/LibIcalTargets.cmake
-+}
-+
-+# This tool is only needed to cross-compile, delete it from the target p=
-ackages
-+do_install:append:class-target() {
-+    rm -f ${D}${libexecdir}/libical/ical-glib-src-generator
-+    rm -f ${D}${libdir}/cmake/LibIcal/IcalGlibSrcGenerator*.cmake
- }
-=20
- BBCLASSEXTEND =3D "native"
+I believe this one is responsible for a weston configure error:
+
+ERROR: weston-14.0.2-r0 do_configure: meson failed
+...
+| ERROR: Subproject display-info is buildable: NO
+| Message: Required by DRM-backend.
+|
+| ../sources/weston-14.0.2/libweston/backend-drm/meson.build:5:22: ERROR: A=
+utomatic wrap-based subproject downloading is disabled
+|
+| A full log can be found at /srv/pokybuild/yocto-worker/qemux86-world/buil=
+d/build/tmp/work/x86-64-v3-poky-linux/weston/14.0.2/build/meson-logs/meson-=
+log.txt
+| ERROR: meson failed
+| WARNING: exit code 1 from a shell command.
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/2357
+(same build as the nghttp2 build error)
+
+Can you do something about it?
+
+Thanks,
+Mathieu
+
 --=20
-2.43.0
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
