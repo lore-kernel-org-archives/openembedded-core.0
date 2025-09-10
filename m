@@ -1,117 +1,112 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D942CA101F
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 10:59:21 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web11.14554.1757501955910901923
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4232FCA101F
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 11:17:01 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.14875.1757503018592683045
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 03:59:16 -0700
+ Wed, 10 Sep 2025 04:16:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q8hn9eec;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4b38d4de6d9so33405221cf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 03:59:15 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KDb//QQQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3df3be0e098so3653118f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 04:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757501955; x=1758106755; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5J6EAuUhsZyoTvk0D7TOd4bJGu76aBbWwZbQgLsFUcA=;
-        b=Q8hn9eecUDMTNL9jvNued+Ow0nKfW2HLr+klYQKy37EkWbFMZPpG8nJjDSeqtcSYx2
-         Bdg5YPiv3Yc+g08VXbGZb1jyhe59m0L4PeGW6ZRsaDkDewcvQqxylM8apO73qQHYfyuf
-         qpxfGabuIZzxeEznNRwyAy/0pxBtmPY7XMqNO/UVpHQyzIbGU2Lo791KS24E4cm4OXYu
-         6XuTSlFp3sZjOq//Xgmfwy+E7FWrCS3t8jjkw4K1TWFtYJ2JAKtlCsqASN2m5UNn6pNb
-         Ss7EcVfLCw8PWtH2rcuX2YmuBnElidiU5OhwiTZR7UN/EbKrA6mmRT38djfG/if8vc7J
-         E+bg==
+        d=linuxfoundation.org; s=google; t=1757503017; x=1758107817; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=uQkvyMQ1eAbTv/0WlB1goDKQhTNpiEUqM/KJ55AF8d4=;
+        b=KDb//QQQvGvy9nnyUKxO+qqtw7HfDEodcOC0bOA+FZdfjbYpzFG2fr7okMprtNg5lP
+         x20ovPIc4mAwVsee8u3sBiX/aArBapOdjntk0nu7Yi7imTRXe6N0BInkou0ltl81CMiw
+         sSTKyNzfNe6jNgTsWRTiutHJbYueggrI6WaT4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757501955; x=1758106755;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5J6EAuUhsZyoTvk0D7TOd4bJGu76aBbWwZbQgLsFUcA=;
-        b=fLs3ThJCFBECUcu7N7Y29U2NXm5AZF//PrTHOUQFQiltAOc2SwpbxJKPfhZok3m0BS
-         iOwtczkS++QwuYA4Vk18roIzvdFzzQv0w2wIfkFqpBDMKzy/cAUhhfJ3OtnM3QKtuD6b
-         JwFikOZtAr+pCnk3E36AbnFmyPf02xnxjW2lSAYM5VIdocUlz84BYbIjo0lg6eAdGl3n
-         4wK8GMTGo1KZ/gxBCwAcEiXEtR8mLCwCRITpt7kQZeMPx5sMh45YChga6SdLlUKJ4Dk4
-         LfD6QIvG5n7B9IrBu7YXpSYfDnHNtyagXf/qQPmAqNJ3eus1uhU2wclPR1pe+JmcGjW2
-         pwSQ==
-X-Gm-Message-State: AOJu0YxkNUWt4uLPfj5XqEj0VOJUCvOSBpDmcJimF7NnKpjxBSRNwS5Y
-	8wUBp7GVaM66EJ2aobjVFI7wyknYPpwYC9yAOyeIP2/EnUg788TripRmBj77Pye+/IV9/GIorZQ
-	TtcV+tGgBpcji2mM6Fmcxa6FrkvYMQk0=
-X-Gm-Gg: ASbGnctbRpBRo4aOfFD/7QyxhyYA1U0odc7TCowCqLfgJLjs2Xt/eE5Q4n47+1VHTjs
-	FxcO3HU2zty4eiFu1ltW0A2P7Qqep3WBApR1gilBWjOeHYPxxjUmT8svdcoD9onry7aDXGXsIZ1
-	se5RZouICNz+fRhATIAaW36uePUMcVk7seHASb2fbVSMoX6m/GjEOPTVwxmD3ik/CcPDXM94iwH
-	ccdtPPM3ZyIzE+U5dBn3ojJFoWX+cPKvK5luxbRK5cq31lqkdGO4ZojYvL+re9k2cqVIYLszVSk
-	fp0BVCVJBCv9HtQeRDBAipF125QAy9cpy9WD10k6
-X-Google-Smtp-Source: AGHT+IG7dufjlruKeqYIVO/EmeT8vi1BkLy2tqMj7duLThOOY8Xm9Wk3Jr44YnI4w4wUI12x2kQXT22LrZD0AfPtqCM=
-X-Received: by 2002:a05:622a:59c7:b0:4b5:dadd:cec1 with SMTP id
- d75a77b69052e-4b5f8452a58mr171040111cf.59.1757501954684; Wed, 10 Sep 2025
- 03:59:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250910105053.315379-1-alex.kanavin@gmail.com> <1863E6469F7807AC.10180@lists.openembedded.org>
-In-Reply-To: <1863E6469F7807AC.10180@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 10 Sep 2025 12:59:03 +0200
-X-Gm-Features: AS18NWDdygma_HyJgc3qIj-HnhsSeGWSn3-Wl7Oizc7XYqXkG1Bx0786FIhN4KY
-Message-ID: <CANNYZj9E1Vv85TTH+FuB4G5a4AZ7xhKyHz6-5xN+dRwoy4eERA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 6/6] maintainers.inc: unassign Carlos Rafael Giani
-To: Carlos Rafael Giani <crg7475@mailbox.org>, Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1757503017; x=1758107817;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uQkvyMQ1eAbTv/0WlB1goDKQhTNpiEUqM/KJ55AF8d4=;
+        b=BqdBbKlX22qnt1x8OWgZ+TCUjy6Ukzxu+Tp/0nQTU+Uc/I3lphXy5pCMMWuYLkdJJJ
+         qgl3w+EhlqMxY35ibYrRwsyAQAS/SUv7CLDuup3FRUD3qIGcV9Mg3+PkE4b31EFhku/I
+         pogmGR78BR66KTvy2Sc7hlTdQSzx8b9Pp8vJQDl9AT73c1vCcspjCk7sdEBjnFok6DpF
+         dXPfUgpRU3Rg7rkELDcKM6XRPjc6+4vFypyDr03Xs+qFCaLfv6czERhHWZVFNUbhD+df
+         FfkyYibM/a9MLX6gzFSgQiAEXuF9D7UyNulYP3jmnQKfQFCPXORerMeDiqIR6GKqY4Dm
+         3NPQ==
+X-Gm-Message-State: AOJu0YyvvPvjSNrSwwXL3ozy4rt+BZhl58MNR5DUUofU6y76+g7JxUJJ
+	pKQWG8fJRA+ZEztbxf9z1iT8TJulHty2anWS4XOlzMkGtaEtYqb7Weh5VJYW0nte+4k=
+X-Gm-Gg: ASbGncsAdjOr+fDWsX4sNnHzN/B5vqxegR7nxXJqu0sUWj/8/ZqhNq2h4AdPuKufqv/
+	u62Nkp5fAIExItNbRl+J+Lf9b4wO/rARhLlxWnDFMfJPwlXJ3kS8geeUqbtYQBHVLwuT/qd5+nH
+	DTKYpffSPqPJ5kynAPqCBKEz9nQxuEqK+2BbAI1fpIMDaw8QZIpsiCdyiwcofTYAKABd4DQMhJt
+	GClf7jbcudpiIgWMW2SfIF+zSIv2KFW5vklJ7QBtuhEwf8TFt+Gqkjip3uChnRX+u79zWzFBwe3
+	L/vtSDL0AM4HpSFd/X9SRJYw0H/4IGjblkKL0fKUIDGei/gUkN6FlrwjU8pNoZ9fbI/epGHb6nL
+	Z96XjvkpQuI8zVH0FC2VIPiXtxATciK80dE7Ihe12eTvGxI7VE4cx84IMaeeXmV90y3skjbxMWU
+	V7nnu9MClmlcSU6YUWqSt7og==
+X-Google-Smtp-Source: AGHT+IHk9SJ0TKx8+yTddqI5BoAZv8XT+1vYn9242l600FB7W/CXT+8Z0vDI15MvnNgm7xkhrm/dgA==
+X-Received: by 2002:a05:6000:400b:b0:3e7:47f2:253 with SMTP id ffacd0b85a97d-3e747f205damr10869318f8f.56.1757503016909;
+        Wed, 10 Sep 2025 04:16:56 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3ead:2ef7:6003:aff8? ([2001:8b0:aba:5f3c:3ead:2ef7:6003:aff8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df823483fsm23922495e9.22.2025.09.10.04.16.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 04:16:56 -0700 (PDT)
+Message-ID: <c2e11f23330c22a09a7e98a789aa2b26bd260ad0.camel@linuxfoundation.org>
+Subject: Re: [PATCH 0/4] kernel-yocto: 6.16 fixups and genericarm64
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com, 
+	mikko.rapeli@linaro.org
+Date: Wed, 10 Sep 2025 12:16:55 +0100
+In-Reply-To: <20250910050822.3273330-1-bruce.ashfield@gmail.com>
+References: <20250910050822.3273330-1-bruce.ashfield@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 10:59:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223203
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 11:17:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223204
 
-Hello Carlos,
+On Wed, 2025-09-10 at 01:08 -0400, bruce.ashfield@gmail.com wrote:
+> These should cover the first set of warnings / issues that were
+> seen with the 6.16 reference kernel.
+>=20
+> The first fixes vboxguestdrivers in meta-oe
+>=20
+> The second is the qemux86 configuration warning fixup
+>=20
+> The third is to get genericarm64 building and uses the changes sent
+> by Mikko.
 
-please see below; if you do not wish to be unassigned as the
-maintainer of these recipes in openembedded-core, please speak up. But
-it is expected that assigned maintainers update their recipes to
-latest versions in a timely manner (which has not been happening).
+Thanks!
 
-Thanks,
-Alex
+I don't know if I missed a patch or something else went wrong but the
+number of warnings went up. The ones I spotted are:
 
+qemuarm:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/2386
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/2343
+qemuarmv5:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/2207
+qemuriscv64:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/449
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/468
+qemux86 + poky-tiny:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/2384
 
-On Wed, 10 Sept 2025 at 12:51, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> No activity for a long time.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/conf/distro/include/maintainers.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index ece809f61a6..239f1f80836 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -309,7 +309,7 @@ RECIPE_MAINTAINER:pn-kernel-signing-keys-native = "Adrian Freihofer <adrian.frei
->  RECIPE_MAINTAINER:pn-kexec-tools = "Unassigned <unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-keymaps = "Unassigned <unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-kmod = "Chen Qi <Qi.Chen@windriver.com>"
-> -RECIPE_MAINTAINER:pn-kmscube = "Carlos Rafael Giani <crg7475@mailbox.org>"
-> +RECIPE_MAINTAINER:pn-kmscube = "Unassigned <unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-l3afpad = "Unassigned <unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-lame = "Michael Opdenacker <michael@opdenacker.org>"
->  RECIPE_MAINTAINER:pn-ldconfig-native = "Khem Raj <raj.khem@gmail.com>"
-> --
-> 2.39.5
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#223197): https://lists.openembedded.org/g/openembedded-core/message/223197
-> Mute This Topic: https://lists.openembedded.org/mt/115167232/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Also warnings in other layers:
+meta-agl-core:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/builds/2209
+meta-arm:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/builds/2245
+
+and meta-virt which I suspect you know about.
+
+The build failures are resolved though, so progress, thanks!
+
+Cheers,
+
+Richard
 
