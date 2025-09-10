@@ -1,99 +1,133 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DE50CAC58D
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 09:18:30 +0000 (UTC)
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
- by mx.groups.io with SMTP id smtpd.web11.13176.1757495901192975484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E43F0CAC583
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 10:51:10 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.14559.1757501468221813043
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 02:18:21 -0700
+ Wed, 10 Sep 2025 03:51:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=iqVf38XN;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1757495901; x=1789031901;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6acYOzQ4dMD7rmMfFDh3ijcmyN5nC9l8tlwDjXEJ0M4=;
-  b=iqVf38XNcMVTeVWYX0bSdobzwUii4UZn12khcDG3IK/EUvaxFDwtn7M6
-   pAzd1Js+V54vxAN0Jg2CgGwum233pckRGV2xnsooXkmUFqs+/YpNb7sjs
-   VWE7j3miOqPoAyNBq1URkWxmLY9gDKIt/XGBQXjMkz/4xfhb8K+87Te2l
-   iC0AbY16JLK1c4tYxKJUkevRiRGwvXl8M34gUKJmJJ6ysqGPjTYP1Wgxm
-   RUkap1a/A+yQ7QYOBytDc4WVM/v1i9iA8gJwj8SEzn1gO5q9CehJMG91c
-   0+/6iQvug7/fIS4zg2e0o9j5EoRyALau6LLTEibSDrB5P1sey0u32RzGH
-   w==;
-X-CSE-ConnectionGUID: A/0LCkgbTceXRC6m8jGexg==
-X-CSE-MsgGUID: 0KF39FzYTRmsGvhAa6yt2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="200942188"
-X-IronPort-AV: E=Sophos;i="6.18,253,1751209200"; 
-   d="scan'208";a="200942188"
-Received: from unknown (HELO az2nlsmgr3.o.css.fujitsu.com) ([20.61.8.234])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 18:18:19 +0900
-Received: from az2nlsmgm3.fujitsu.com (unknown [10.150.26.205])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 90B101000354
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:18:19 +0000 (UTC)
-Received: from az2nlsmom4.fujitsu.com (az2nlsmom4.o.css.fujitsu.com [10.150.26.201])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2nlsmgm3.fujitsu.com (Postfix) with ESMTPS id 4BEC51800317
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:18:19 +0000 (UTC)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by az2nlsmom4.fujitsu.com (Postfix) with ESMTPS id B6D57200A622
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:18:17 +0000 (UTC)
-Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.128.28])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id B51931A008A;
-	Wed, 10 Sep 2025 17:18:14 +0800 (CST)
-From: Wang Mingyu < wangmy@fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BG4SIA31;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45cb6180b60so42433785e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 03:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757501467; x=1758106267; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hc5ozQQELa2WrXAdJH6lGE7eO+RK0A8zSvzjDsw9Q4I=;
+        b=BG4SIA31EoMBryU9hww2fVRHGvddjk1Uji2FX9xqg80EfO9vdxKNT5bo7QqYzV1dLx
+         Q20YwCWfjuIXabYPjHZ613R7lm0Hd+hvUiPaQ6TViBPp8Euy/Nj31y8DaCuqj/mOv7VE
+         Zcxmy0YH0QBVnW7fNisG+0Gujp2uNuhtQHbhEjxl7webHV8hbEpqIORDla+Wn7lt24bt
+         uXC0/v1Ob5jw7/wTAPrAYb/6O5ld+eW2QsboMydbffB57QA81v6wMwccblKmkQ82azLx
+         iqa+llRr54ZmSax0cUnQigPzuGhhok4t0VnJLK4NPkhcAPXWtX5LBPvIT8/c75IO+6aq
+         F/DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757501467; x=1758106267;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Hc5ozQQELa2WrXAdJH6lGE7eO+RK0A8zSvzjDsw9Q4I=;
+        b=JVjLUiNKf6JhEnmuxt3IJ44Ivf748gfVQOR98ea27tG4MWNf7Wai7FJmWJlyrK+ot5
+         dWzocNLOIXryED2wJ4rRuvfvTbGbkyyVhiEeBQMywPO9GbhTpAy5/tV+LiZs/pMn5vpc
+         REhjWWVyzaedNxmkxbcvTLBpDeRkAdKycYyVUujuNvqZhPqjD4DuE2DL1gISGAa9CavO
+         Ph7TKNLgRjNHLUKg3waYQZY4QjSi1XipdcJoA2G9zLp2x/qGhwEXcSxn0Zlv7/MMUafs
+         2EZwdR3S1cBjiBx/5IBGcXVIPctdPPuKDwu8di2htduzvKRzIsHYi6hEhZDTyvfcDL6b
+         mzNg==
+X-Gm-Message-State: AOJu0Yz9iDDxIxqTAlF6sn/zK0QwtmEnN/4kUXGEHtrMm5dd9Tt4MZA2
+	57ZDS/fP4/8Xud7dJ8gJDN06I7eLZaj7imqInc3V4fZG0Nm/9vndQHobiHSk5g==
+X-Gm-Gg: ASbGncukIxHZd4a/w4Ng+3mL420P2tZEKC7y74U/+qaA9SI0WGmSsnYXh63AjsXGlMv
+	y9zopCH+x9ODDirUVPi7eYFDItMH/D8BOsSVBLU/Hn0bNHwEvf2HxsG2KFWs1o4WO8obuUtRaRW
+	sFthZJdHk+ITZ6C++FiFtjz5hrnAR0G+QzrAPZMbcuDrgMEQAWL8j3YstjuQlkME+iXvZHDR1DM
+	xkAKhsQy/838aNP/UNzpnC5AkOY3OxGIeZHhI+LYyLXZwS4qNcgDsUZ2uOwI28Py5apjasTCziu
+	5fc2XkzSP5eSYsEXtoyhoouJDYGl8GoXXehBdPzU7ZM1Sy16fev+H8r9CvzFrH2jlqCKXBL3sDY
+	suP7FHvgKUPTAcfR9Cq8ipOYvR5VRva5+w/FSmV+/D3ozRtCjFKV/fQZO4ur3GIXAR9NZs3Cbt4
+	47PvVdXf+460ckleSEy+WVNx55cNRNcUf46W+UXecZeLzKZlOzcswWKM6U9w==
+X-Google-Smtp-Source: AGHT+IEgA0uXJIRn001+H90Dyvb0lQwehG+U+wSwHVBib38mFnqmfY+XWXDm5xib7YgP76vahqhugw==
+X-Received: by 2002:a05:600c:1d26:b0:459:e466:1bec with SMTP id 5b1f17b1804b1-45dddea5fc3mr120834385e9.2.1757501466310;
+        Wed, 10 Sep 2025 03:51:06 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df8247bdesm23349925e9.14.2025.09.10.03.51.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 03:51:05 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 39/40] tcl8: upgrade 8.6.16 -> 8.6.17
-Date: Wed, 10 Sep 2025 17:16:45 +0800
-Message-ID: <20250910091646.998-39-wangmy@fujitsu.com>
-X-Mailer: git-send-email 2.49.0.windows.1
-In-Reply-To: <20250910091646.998-1-wangmy@fujitsu.com>
-References: <20250910091646.998-1-wangmy@fujitsu.com>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 4/6] maintainers.inc: unassign Changhyeok Bae
+Date: Wed, 10 Sep 2025 12:50:51 +0200
+Message-Id: <20250910105053.315379-4-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250910105053.315379-1-alex.kanavin@gmail.com>
+References: <20250910105053.315379-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:18:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223190
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 10:51:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223195
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Same as other unassignments: timely updates are not happening.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/tcltk8/{tcl8_8.6.16.bb => tcl8_8.6.17.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/tcltk8/{tcl8_8.6.16.bb => tcl8_8.6.17.bb} (98%)
+ meta/conf/distro/include/maintainers.inc | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-similarity index 98%
-rename from meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
-rename to meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-index 225f04be48..d4bdd71c05 100644
---- a/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
-+++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-@@ -25,7 +25,7 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://run-ptest \
-            file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch \
-            "
--SRC_URI[sha256sum] = "3b371386a9a928eecdbf263bcab7d6a531e620ca3fbab4fdeeb3d6a9a56f38e9"
-+SRC_URI[sha256sum] = "a1d8cbe44b38beaa29fc2130c4e7b79b8bf02e2bcc028ffefd7a25a2122202a0"
- 
- SRC_URI:class-native = "${BASE_SRC_URI}"
- 
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index c44d67d4490..f69939413a9 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -104,7 +104,7 @@ RECIPE_MAINTAINER:pn-cmake = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-cmake-native = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-compiler-rt = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-compiler-rt-sanitizers = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER:pn-connman = "Changhyeok Bae <changhyeok.bae@gmail.com>"
++RECIPE_MAINTAINER:pn-connman = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-connman-conf = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-connman-gnome = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-consolekit = "Chen Qi <Qi.Chen@windriver.com>"
+@@ -175,7 +175,7 @@ RECIPE_MAINTAINER:pn-enchant2 = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-epiphany = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-erofs-utils = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-ethtool = "Changhyeok Bae <changhyeok.bae@gmail.com>"
++RECIPE_MAINTAINER:pn-ethtool = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-eudev = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-expat = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-expect = "Unassigned <unassigned@yoctoproject.org>"
+@@ -291,12 +291,12 @@ RECIPE_MAINTAINER:pn-initramfs-module-install-efi = "Unassigned <unassigned@yoct
+ RECIPE_MAINTAINER:pn-initramfs-module-setup-live = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-initscripts = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-intltool = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-iproute2 = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+-RECIPE_MAINTAINER:pn-iptables = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+-RECIPE_MAINTAINER:pn-iputils = "Changhyeok Bae <changhyeok.bae@gmail.com>"
++RECIPE_MAINTAINER:pn-iproute2 = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-iptables = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-iputils = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-iso-codes = "Wang Mingyu <wangmy@cn.fujitsu.com>"
+ RECIPE_MAINTAINER:pn-itstool = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-iw = "Changhyeok Bae <changhyeok.bae@gmail.com>"
++RECIPE_MAINTAINER:pn-iw = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libjpeg-turbo = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-json-c = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-json-glib = "Yi Zhao <yi.zhao@windriver.com>"
+@@ -884,7 +884,7 @@ RECIPE_MAINTAINER:pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-which = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-wic-tools = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-wireless-regdb = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-wpa-supplicant = "Changhyeok Bae <changhyeok.bae@gmail.com>"
++RECIPE_MAINTAINER:pn-wpa-supplicant = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-wpebackend-fdo = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-x11perf = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-x264 = "Unassigned <unassigned@yoctoproject.org>"
 -- 
-2.43.0
+2.39.5
 
 
