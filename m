@@ -1,100 +1,135 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95347CA101F
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 21:16:34 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.30781.1757538986420173608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6C6ACA0FED
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 21:29:54 +0000 (UTC)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by mx.groups.io with SMTP id smtpd.web10.31044.1757539787247695826
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 14:16:27 -0700
+ Wed, 10 Sep 2025 14:29:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=W23pocED;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jed9WtzT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010199357ca608-5652f2ad-2ae1-4eae-ba4f-fbd1a36172ed-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1757538985; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=geImSQ0R0R7qQ2DugPQO6UbhJusD+8Vfu3D/a1iK04Y=;
-	b=W23pocEDOOjW/MJ28hfo1xas3ygF1oay0K9Ig4q1YC1+h6KwNZWsnIwdJKUGIXT5
-	QIWuvtnPdAKRV8ovnQbvSoN/eAdL8ON8ba/PqI9plMNyClj6/Y1UjqgEA7mvNzmR1jn
-	7UpBzUsqJQXJq33+22ESym+6qzGR1ewp97jDD1+0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757538985;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=geImSQ0R0R7qQ2DugPQO6UbhJusD+8Vfu3D/a1iK04Y=;
-	b=jed9WtzTs4iPd3F7FZVyTGIbaORpCjHkrtL8QcVwMGwwPbj9G37zHMdyQKGRbjXX
-	7/aJmQHwNKk7hQSPhCiuvXNqBREym1tRGdvS8LfZVjecMXCBt9CHaAYVmX+a7NsQvp5
-	K8woHjyFjUI1cmIghWOis3LxXXPEfk8EnXHP0/G4=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] clang: Upgrade to 21.1.1 release
-In-Reply-To: <20250910210142.223675-1-raj.khem@gmail.com>
-References: <20250910210142.223675-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010199357ca608-5652f2ad-2ae1-4eae-ba4f-fbd1a36172ed-000000@us-west-2.amazonses.com>
-Date: Wed, 10 Sep 2025 21:16:25 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.10-54.240.27.33
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=DyU5hO7i;
+ spf=pass (domain: ti.com, ip: 198.47.19.246, mailfrom: rs@ti.com)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58ALTO46600941;
+	Wed, 10 Sep 2025 16:29:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1757539764;
+	bh=6HkPSmq0BGSSTISz/1ww59KxCcwU8u48aDoFbPM/dzo=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=DyU5hO7i7Xzv+2MxGQeIB8mM5VENcpADbYImM3H0PXZ9Ic659HJXkB3GqEQS7gInW
+	 x0eCIKu1vaoM8TFt46CJIc5IS8hF+ia+gLaDVfowUx1U5YoBkapMt2iQlGOUcl3gV2
+	 wTr5tUC1jxnBZQab1YUVbjTx4SJanS5Gxf1sFdic=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58ALTNeU663493
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Wed, 10 Sep 2025 16:29:24 -0500
+Received: from DFLE208.ent.ti.com (10.64.6.66) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 10
+ Sep 2025 16:29:23 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE208.ent.ti.com
+ (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 10 Sep 2025 16:29:23 -0500
+Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58ALTNiO1102015;
+	Wed, 10 Sep 2025 16:29:23 -0500
+From: <rs@ti.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
+        <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>
+CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: [oe-core][PATCHv7 5/6] weston: remove deprecated weston-start scripts
+Date: Wed, 10 Sep 2025 16:28:46 -0500
+Message-ID: <20250910212855.2480561-6-rs@ti.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250910212855.2480561-1-rs@ti.com>
+References: <20250910212855.2480561-1-rs@ti.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 21:16:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223236
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 21:29:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223242
 
---NextPart
-Content-Type: text/plain
+From: Randolph Sapp <rs@ti.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+The weston-start scripts are not parsed unless using the old version of
+weston-init. These files are no longer required since weston-init moved
+to a virtual-emptty-conf.
 
+Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
-Testing patch /home/patchtest/share/mboxes/clang-Upgrade-to-21.1.1-release.patch
+ .../wayland/weston/systemd-notify.weston-start         |  9 ---------
+ .../wayland/weston/xwayland.weston-start               |  6 ------
+ meta/recipes-graphics/wayland/weston_14.0.2.bb         | 10 ----------
+ 3 files changed, 25 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+ delete mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
 
-FAIL: test Upstream-Status presence: Added patch file is missing Upstream-Status: <Valid status> in the commit message (test_patch.TestPatch.test_upstream_status_presence_format)
+diff --git a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+deleted file mode 100644
+index a97e7b38d9..0000000000
+--- a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#!/bin/sh
+-  
+-# SPDX-FileCopyrightText: Huawei Inc.
+-# SPDX-License-Identifier: Apache-2.0
+-
+-
+-if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
+-        add_weston_module "systemd-notify.so"
+-fi
+diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
+deleted file mode 100644
+index 342ac8d129..0000000000
+--- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
++++ /dev/null
+@@ -1,6 +0,0 @@
+-#!/bin/sh
+-
+-if type Xwayland  >/dev/null 2>/dev/null; then
+-	mkdir -m 775 -p /tmp/.X11-unix
+-	chown root:video /tmp/.X11-unix
+-fi
+diff --git a/meta/recipes-graphics/wayland/weston_14.0.2.bb b/meta/recipes-graphics/wayland/weston_14.0.2.bb
+index 451fb961a1..7a9d7f63f0 100644
+--- a/meta/recipes-graphics/wayland/weston_14.0.2.bb
++++ b/meta/recipes-graphics/wayland/weston_14.0.2.bb
+@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
+ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+            file://weston.desktop \
+-           file://xwayland.weston-start \
+-           file://systemd-notify.weston-start \
+            "
+ 
+ SRC_URI[sha256sum] = "b47216b3530da76d02a3a1acbf1846a9cd41d24caa86448f9c46f78f20b6e0ac"
+@@ -107,14 +105,6 @@ do_install:append() {
+ 		install ${UNPACKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
+ 	fi
+ 
+-	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no', d)}" = "yes" ]; then
+-		install -Dm 644 ${UNPACKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
+-	fi
+-
+-	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'yes', 'no', d)}" = "yes" ]; then
+-		install -Dm 644 ${UNPACKDIR}/systemd-notify.weston-start ${D}${datadir}/weston-start/systemd-notify
+-	fi
+-
+ 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}" = "yes" ]; then
+ 		chmod u+s ${D}${bindir}/weston-launch
+ 	fi
+-- 
+2.51.0
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
