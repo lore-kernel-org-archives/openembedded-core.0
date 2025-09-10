@@ -2,62 +2,62 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 415B7CAC58D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69277CAC591
 	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 09:17:09 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web11.13151.1757495822205357857
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web10.13221.1757495823526350494
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 02:17:07 -0700
+ Wed, 10 Sep 2025 02:17:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=V9sHWJNx;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=LC/vrvOS;
+ spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1757495827; x=1789031827;
+  t=1757495825; x=1789031825;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=2D4ATkboLBPpCmIdF7R/npaZnL+WNWMg49rf3b/OPb0=;
-  b=V9sHWJNxMZHOSEkcprq2A91ObtOjKnXxsxWNKA2DWA5hITTlx7fcYvRx
-   /kGBJNpZzoO0WtFeOByoYHYvH0hyMtT/fzsN99TJUm+aAEFf9lg1FjGyX
-   /0bg1/mObyqfg5ua5u2Y2VrtKCpZ69ANhf62t1SCiFMvX7A1GbVHs0GkR
-   xeOWivzkRB1l4ZAA/k6VE/V1+0hMGk+OWkMzJ/ERS78CvSNTUwgF6bkMW
-   +odc4DgQX3tjEugx7Ge0ScSP6RLD/twJ2UUxwG4N81288jGHYAFjHqcKj
-   mgvM77L0ypB1FDbqhCrkOo1jYS9V8N6ijmVdh5ae5QCH+qp9ZCzUnwpvh
-   Q==;
-X-CSE-ConnectionGUID: cwbtN7FdTTmu7lVYEc6eaQ==
-X-CSE-MsgGUID: aGb7EGE0TR+hYBe8dv/6+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="212404337"
+  bh=dW1A/nioccJcjobnMy5ej6y6LPeketUq6FmQG/5+ons=;
+  b=LC/vrvOS4WgEmMxLqNbubsr/4MX14SOI6nJgzcwbufXd/4Q88EtH4L0S
+   v5Phz33vb/A5fT/5b4HOcS1tGq6XVBKH1q/u/RGtxJrZrdnPAkpsWinzD
+   sbGAXCevtD42b+rydBr5cLExUTuPXZF74cxs0voV4nKkVNl/4m/oOrFoP
+   tiOWZbYGwG1JxjDfUbIEsqwW9pY0kz9Wm9FOXNeXfHVr8VlAhTXa3xvyT
+   /msq7/KZUndD3S7mz2o5TWZ9Z2g895ZQ1aiIZ2UFMPr2oCo15D9x9j7wq
+   pJUkroVtnueqZKo93T+H33SyJc7e4zsvXWyUvjmWYZP0qOfDDJHCP+hGY
+   A==;
+X-CSE-ConnectionGUID: 6gFdSlIITFK81yeC7hV1Fg==
+X-CSE-MsgGUID: UCfj0/0cRmaLIf0rBHqSSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="191384177"
 X-IronPort-AV: E=Sophos;i="6.18,253,1751209200"; 
-   d="scan'208";a="212404337"
+   d="scan'208";a="191384177"
 Received: from unknown (HELO az2nlsmgr3.o.css.fujitsu.com) ([20.61.8.234])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 18:17:06 +0900
-Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 18:17:04 +0900
+Received: from az2nlsmgm4.fujitsu.com (unknown [10.150.26.204])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id B7EEE100035D
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:17:06 +0000 (UTC)
+	by az2nlsmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id B842D100035E
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:17:04 +0000 (UTC)
 Received: from az2nlsmom1.o.css.fujitsu.com (az2nlsmom1.o.css.fujitsu.com [10.150.26.198])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 71DF6C00D4C
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:17:06 +0000 (UTC)
+	by az2nlsmgm4.fujitsu.com (Postfix) with ESMTPS id 729BA1000100
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:17:04 +0000 (UTC)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTPS id DA55D82C0C8
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:17:04 +0000 (UTC)
+	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTPS id E070882C0DC
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:17:02 +0000 (UTC)
 Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.193.128.28])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id DE79E1A0086;
-	Wed, 10 Sep 2025 17:17:01 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id E34E61A0071;
+	Wed, 10 Sep 2025 17:16:59 +0800 (CST)
 From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 14/40] libjpeg-turbo: upgrade 3.1.1 -> 3.1.2
-Date: Wed, 10 Sep 2025 17:16:20 +0800
-Message-ID: <20250910091646.998-14-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 11/40] libatomic-ops: upgrade 7.8.2 -> 7.8.4
+Date: Wed, 10 Sep 2025 17:16:17 +0800
+Message-ID: <20250910091646.998-11-wangmy@fujitsu.com>
 X-Mailer: git-send-email 2.49.0.windows.1
 In-Reply-To: <20250910091646.998-1-wangmy@fujitsu.com>
 References: <20250910091646.998-1-wangmy@fujitsu.com>
@@ -67,40 +67,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:17:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223165
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223161
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-License-Update: Copyright year updated to 3.1.2
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../jpeg/{libjpeg-turbo_3.1.1.bb => libjpeg-turbo_3.1.2.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/jpeg/{libjpeg-turbo_3.1.1.bb => libjpeg-turbo_3.1.2.bb} (94%)
+ .../{libatomic-ops_7.8.2.bb => libatomic-ops_7.8.4.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.8.2.bb => libatomic-ops_7.8.4.bb} (90%)
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
-similarity index 94%
-rename from meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.1.bb
-rename to meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
-index 2b39a4c1d9..d4877bb92b 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.1.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
-@@ -3,13 +3,13 @@ DESCRIPTION = "libjpeg-turbo is a derivative of libjpeg that uses SIMD instructi
- HOMEPAGE = "http://libjpeg-turbo.org/"
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.4.bb
+similarity index 90%
+rename from meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
+rename to meta/recipes-support/libatomic-ops/libatomic-ops_7.8.4.bb
+index 00994dfae0..1007219294 100644
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.4.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libatomic_ops-${PV}.tar.gz"
+ GITHUB_BASE_URI = "https://github.com/bdwgc/libatomic_ops/releases"
  
- LICENSE = "IJG & BSD-3-Clause & Zlib"
--LIC_FILES_CHKSUM = "file://LICENSE.md;md5=023c2e8942020502d6ea709e2a5453f7"
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=52fddabc7e8e79233150ebda95c3fc1f"
+-SRC_URI[sha256sum] = "d305207fe207f2b3fb5cb4c019da12b44ce3fcbc593dfd5080d867b1a2419b51"
++SRC_URI[sha256sum] = "2356e002e80ef695875e971d6a4fd8c61ca5c6fa4fd1bf31cce54a269c8bfcd5"
  
- DEPENDS:append:x86-64:class-target = " nasm-native"
- DEPENDS:append:x86:class-target = " nasm-native"
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz"
--SRC_URI[sha256sum] = "aadc97ea91f6ef078b0ae3a62bba69e008d9a7db19b34e4ac973b19b71b4217c"
-+SRC_URI[sha256sum] = "8f0012234b464ce50890c490f18194f913a7b1f4e6a03d6644179fa0f867d0cf"
- 
- PE = "1"
+ CVE_PRODUCT = "libatomic_ops"
  
 -- 
 2.43.0
