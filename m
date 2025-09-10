@@ -2,63 +2,64 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3456CAC58D
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 10:51:10 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.14409.1757501470250297989
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11853CAC58F
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 10:51:11 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.14407.1757501466692320583
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 03:51:10 -0700
+ Wed, 10 Sep 2025 03:51:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OHpYg18i;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45dd5e24d16so48558255e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 03:51:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JyxF+ieX;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3dce6eed889so5093230f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 03:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757501469; x=1758106269; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1757501465; x=1758106265; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gwCkUPYHH/2sa6eMNNGvMxTE1bzYsiNgY9vL4joljkk=;
-        b=OHpYg18iSuULr5h7cmWQ/gsmqqGklp1disEqGasZj9OQIT+d3zf+0YvPUUsb/Z/fF/
-         9Ab2jXVjD2/OAzZqmN/WTU1r2uqC5cQYsHWEbQCRQp04A1GN4FsHg6A9q2RvDCXXPzSz
-         x5kjR1gg1kIKCc2PkD7Q1/QyifT3kghDUxzSiAUrXRt1l/+SZiM5Zf34ES/h0hXAd3QP
-         qHUheEogD8BnxwLl1zizBX7YqKWwYatIj1ufzFGKEyJUuuJlcrzOGqEjV8TPa6lRTbWH
-         tXWVWpSi6vhXoVSryIlYa2X16ry5vGhFEAqHyxRe2bzofYYTgDCOSLnyQEVQn8EEYg9L
-         udSg==
+        bh=sdAFwoGBCxZEHZdn4rMhWDxdBg11SmKkIDFa53FeqgM=;
+        b=JyxF+ieXQ471XOerCngScTK02F8rDmT6Kxq5rcBLnl/NjpDdBWs6af3K/4U/SgdOjK
+         6D8pn0q6tAupZ8SSTB6EoOE4ZCFXoGITrbk0orPKMBk/x0ySVdSCIeobp7ahXQGwGT2Y
+         6drCsrRKZjpQRsteBF/2joG3XkbMiQ9J34x2rG37w+0tkNKc9Gh1ycvOmJnIHf0RnhV6
+         ue59yyf1DN1fApL+ePuc2aKkgtb3ph86U7MEHoSts+rXwWvS0IkywpAaObrGtYxhnml8
+         p+j0jC0bBW/9l/prDlepCebfh9aLXvsn0ASCyPOavDBIpFXn+X+Zpu3CyTkMMdUdnYSE
+         MVuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757501469; x=1758106269;
+        d=1e100.net; s=20230601; t=1757501465; x=1758106265;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gwCkUPYHH/2sa6eMNNGvMxTE1bzYsiNgY9vL4joljkk=;
-        b=RmRQyWvXru7qgL4lciEYC32x5X/pRqepaccQ2zaIC+8Ty7g9oHZzu00huGdXLWKqQx
-         EIapkGE20DbsJiWmFTj4ILSg1Iz4aWL/Y4Eys97S/qP3AMPJMJX3fSYL9AbqSxC/DzQ9
-         G3Ovx8fCFRXMkfO5idE0655b4ttW7yRdG3YIBAjVJEdLGcFxpS9YIFvmFpZJtgK1I7j1
-         F6UhSEmVSv35wTf6ir9XGZswFmINICZFC4V9373aTs3jT0SG5/8hZlFBaLypLK/2MmdC
-         IKGarU2zkdSWuHLaKdwORLElKf+eTFYEbDXzSfEl7siNPcAXnfQSExCPBI+zmhvwrtuc
-         Ta4g==
-X-Gm-Message-State: AOJu0Yxwz9obOUyfBoWloA0lZR3RfvC9BLPKZxlxiL5i5nvef6PwyAdx
-	HtYbIm39RxON3FnYkh38m4ZOwPGk4aoUMJSlaBaVGpIqij+2s52hTs/7czb5Yg==
-X-Gm-Gg: ASbGncsRflPgr8HRas3oqWm/DRROliAaa+TNn+Xk8hy7oKoTT5kUMc3UIebnZesobWg
-	dP3E7ol3562YqzKGOQ6/X/SsnrLef6XZAaFMvqrH8uFeIG1avZnbRYXeFxHpiCqB0DdiOO71x5B
-	MoesirsJ+Aeo9HIkV8T7+KeoQIK3Gfvg5//USXsESCupFvM13YxfQz+uSMLmJcMxtFQzeZxMi+f
-	gmSJZ6kNZAeu84wE6GhonL3HbT1h4FIHtA42ZTGOjV5oy7Hm6w2KhSJOK1sEPBfwaYeR6trIK26
-	sNJL2FnNH94ujXX0Xtc2/yOUn/2zeQ6/PaHEwvmQmoLoq2szEvs1AQGZHuYjr5Es9poOMnywQaw
-	zg6HGFoOiITUGt8JwHeQciBk7TBqv9TQx1FUZY46Hl05RMu2B5EnUFzQLfolqcUFgr9dnUtuFmJ
-	Oy9fZuC8pWjJGBohSRIVlRBIWJUuCv24JCl2KPNzP6Vmp4waR5grDytlYZq73Nfyz27h1+
-X-Google-Smtp-Source: AGHT+IH+MAsexrWkuZQpolCrCWmvjQo1HuTlDy4Zl3wBwOyMwzs8P6nHx4M2ei+syEY+Qf5+G83bUw==
-X-Received: by 2002:a05:600c:4fc5:b0:45c:b540:763d with SMTP id 5b1f17b1804b1-45dddf00a59mr148344755e9.33.1757501468582;
-        Wed, 10 Sep 2025 03:51:08 -0700 (PDT)
+        bh=sdAFwoGBCxZEHZdn4rMhWDxdBg11SmKkIDFa53FeqgM=;
+        b=CJ35Lsb4keNmrPymqzf8zWpBHNUFOSIeqV7Vupz23QKfciaxYrNaVM6yjtYuus02jA
+         Mrj8GJlU/cvC9nkkny1sK6CZgVqo9FlyuygY8vFZ+EfviZWLXiIBmhbhMb+VClTZaUo+
+         xPJwlqrKlcXA9uy0neTuWPCn9OONfoLptCQICF+2SrFc1iKNNAZGcdR84FkoOdPFGlRE
+         tewX01O5LqIPdPl3fhpyjhp9VqYuNNQTDYJDPomAPigogNVT5WSsrnmdpKBUHIG/Y/eQ
+         bMNBauN4CiPtcW9R5H7kKztTUYgndAMWBVgEHlNUE3MMRyghqcjFEROnxwHOYLCjW2Qs
+         Yuzw==
+X-Gm-Message-State: AOJu0YyLxNzBM8iDD0bwVqBmLCuUTvMJy4xI0d6+iuzc0/Ug03/PxDY4
+	LF6R1A6riJBuJw67GIBPUz0ghRqKM4pergkBcMMZ8C8EBJvIjIRG6um/dDyQ4w==
+X-Gm-Gg: ASbGncsq/0/JlOgpWnqFcVi72iTYmufHIrUewIDlUPQatPXeGxSNkYhRuOichSGiEf+
+	oKBH8jCvrZItUb+segfbLpg1qNqUXNG8wuNxsmUKzK4fcnrSXspXZALQI16FbJUk2A9YGYZ92j7
+	d6NDXBdFzH5H39KsHxlO+0CsTh8ZyNaApxxWzJePDqxsTfP1eXZ0qlI1+i7XtntxTsPkDMkb5Ad
+	OD7XYOg2zuFZ/cwvkvpvWMadAj861Buiqiz4xMbvRGJdSOitfCXz63PlixXbZd4+JI3BRQYaPEC
+	ZzTY5cxufaB45aYyfxU+lxwqE43gW+ia9mPI519Hmz3ID1IdwUt+NVYvYteWmWwbVXOdJ3aiQSk
+	yvW2S7C+YJb5h8PiyGy9SO8JdUG1n1v3nZOZHIa3PnKgEsGbMnFq8FBb3QTfajpENQtGD6SV//H
+	kKZz7Zn5+Xf0QYXi9iBNMhDeoHySE2fWnLLBJ0fcPoQ+M+JxlN+l+NKF5unao6OyHDJOdJ4Ppx8
+	GjmJVU=
+X-Google-Smtp-Source: AGHT+IHIKhedPqMIq4hVX4FlHOzHmgRZHN6hMqyF1eIlAVBg1XS/L+LM1p9ap2ENEgw6gOvViF0KTg==
+X-Received: by 2002:a05:6000:2506:b0:3dc:eb5:51f6 with SMTP id ffacd0b85a97d-3e646257429mr11924761f8f.39.1757501464857;
+        Wed, 10 Sep 2025 03:51:04 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df8247bdesm23349925e9.14.2025.09.10.03.51.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df8247bdesm23349925e9.14.2025.09.10.03.51.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 03:51:08 -0700 (PDT)
+        Wed, 10 Sep 2025 03:51:04 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 6/6] maintainers.inc: unassign Carlos Rafael Giani
-Date: Wed, 10 Sep 2025 12:50:53 +0200
-Message-Id: <20250910105053.315379-6-alex.kanavin@gmail.com>
+Subject: [PATCH 3/6] maintainers.inc: unassign Frederic Martinssons from cargo-c
+Date: Wed, 10 Sep 2025 12:50:50 +0200
+Message-Id: <20250910105053.315379-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250910105053.315379-1-alex.kanavin@gmail.com>
 References: <20250910105053.315379-1-alex.kanavin@gmail.com>
@@ -67,12 +68,12 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 10:51:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223197
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 10:51:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223194
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-No activity for a long time.
+Same as previous unassignment: no activity.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
@@ -80,18 +81,18 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index ece809f61a6..239f1f80836 100644
+index f98009a1b33..c44d67d4490 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -309,7 +309,7 @@ RECIPE_MAINTAINER:pn-kernel-signing-keys-native = "Adrian Freihofer <adrian.frei
- RECIPE_MAINTAINER:pn-kexec-tools = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-keymaps = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-kmod = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER:pn-kmscube = "Carlos Rafael Giani <crg7475@mailbox.org>"
-+RECIPE_MAINTAINER:pn-kmscube = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-l3afpad = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-lame = "Michael Opdenacker <michael@opdenacker.org>"
- RECIPE_MAINTAINER:pn-ldconfig-native = "Khem Raj <raj.khem@gmail.com>"
+@@ -91,7 +91,7 @@ RECIPE_MAINTAINER:pn-bzip2 = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-ca-certificates = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-cairo = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-cargo = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+-RECIPE_MAINTAINER:pn-cargo-c = "Frederic Martinsons <frederic.martinsons@gmail.com>"
++RECIPE_MAINTAINER:pn-cargo-c = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-cantarell-fonts = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-ccache = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-cdrtools-native = "Yi Zhao <yi.zhao@windriver.com>"
 -- 
 2.39.5
 
