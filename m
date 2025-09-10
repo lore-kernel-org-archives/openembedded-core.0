@@ -1,157 +1,259 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB027CA0FED
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 19:17:53 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.32])
- by mx.groups.io with SMTP id smtpd.web10.27965.1757531870498158096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10C15CA101F
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 19:39:54 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web11.28302.1757533186221132707
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 12:17:50 -0700
+ Wed, 10 Sep 2025 12:39:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=OGk786aN;
- spf=pass (domain: axis.com, ip: 52.101.66.32, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F8Hnnc1xmg9N8FUNgUda+NfreY+kjE30LL3aOpaj7ZHH7B1X3cjKAoFu1ArsHQ63tSViIj0mTQpsqX3lsuOsC9FzN6wPEhgHyOop1vrHng0vthcSppj5IeM8P9D06GsNvP7oC+Zxr5INWtzko35sT3kIytDqrNGK4ERyp7G5g2XDRdLVTWSWnvcR2VTrSs2XQq7xAdGR8dx18AaY85GBSOJqUXYgIPsScSdBbAxe9BTtLu6y5JgWrkSUkiv1bYNHTF5/67c4u2ouXFegumija2s7O1SzvSANfc7d/osN3Nf8uPdMR2endvqA0p0hb5hkatz/493dejpbtkicnTHYAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7jvkgBvm+2YA8Jike/t1XR4s1DOKNQ8Q0j99pt5C2kE=;
- b=I1GWOA0JM7VI7XmzzSE3iL5FHDCXxGLnm2/n55drjcBAvVl2U/O17ALyYhWQWY1a8OidjIeUtNkMSvlG5eR15RyeLAMeFriIw4acfmHhhaNwYfxnFaVuUXL5IL4iUIafZQ3nQ4pQQ+nB/yIrsNuFOwoDX9n+nnNN0hPtvIWMGhm/wKRIE5VXjuVgXqFsonPLO0XT0tdZU3hvTLSSHli8kQtfWttnDLaKmMKfRvxLx7ZY03iaSmd7VPOSaZQKLBJXacVVje4r6BGM2jLk83lZvmEJ2aiG8DhalajZaEgjHmftIkSOgndqK+5so7u6vSpSlLTMqOYm/ZDQ0nnZA4eZBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7jvkgBvm+2YA8Jike/t1XR4s1DOKNQ8Q0j99pt5C2kE=;
- b=OGk786aNNfD01iMAndOqrvSe+jqiOVFHyKjFs1JeMQKWtex0e3jaQEB308VW4kRz6T+NN52jepOthe+yoO5CC54YIJbBw7Jq4QJJPsNWarhLJN6DuX5u3gpi3gG0r139Dy7IL58Ue3Ssth8ojb+4xM3qNSqi3acBRZ8bHXby7Ec=
-Received: from DB3PR08CA0017.eurprd08.prod.outlook.com (2603:10a6:8::30) by
- DU7PPFFF006C15B.eurprd02.prod.outlook.com (2603:10a6:18:3::ce7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 19:17:46 +0000
-Received: from DU2PEPF0001E9BF.eurprd03.prod.outlook.com
- (2603:10a6:8:0:cafe::c5) by DB3PR08CA0017.outlook.office365.com
- (2603:10a6:8::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.15 via Frontend Transport; Wed,
- 10 Sep 2025 19:17:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU2PEPF0001E9BF.mail.protection.outlook.com (10.167.8.68) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9115.13 via Frontend Transport; Wed, 10 Sep 2025 19:17:46 +0000
-Received: from SE-MAIL21W.axis.com (10.20.40.16) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Wed, 10 Sep
- 2025 21:17:45 +0200
-Received: from se-mail02w.axis.com (10.20.40.8) by SE-MAIL21W.axis.com
- (10.20.40.16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Wed, 10 Sep
- 2025 21:17:45 +0200
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Wed, 10 Sep 2025 21:17:45 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 841031BAD
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 21:17:45 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 2351512038E; Wed, 10 Sep 2025 21:17:45 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] Revert "coreutils-native: don't install groups"
-Date: Wed, 10 Sep 2025 21:17:42 +0200
-Message-ID: <20250910191742.3559681-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bbw9tZss;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b61161c32eso28511cf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 12:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757533185; x=1758137985; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DgHTjS5yrNpFxJm7WFpy2/jTrfJBppUO9AiNy1ouMMk=;
+        b=Bbw9tZsscrNaOewUIJyUq8x7p7mPdmYILE3XoRm2bPPArGMVr7uDglTCX4bhddUa4R
+         7D6cBZ6fPOZL8xSwhY3x1m0COEVCZARCrYS3FfOjd9pqOiB6t/njVwGzR5tiAYsDkONX
+         vhDcvfCzTFx8tmlGOhd9nKY6m97dkuM96v9nXRRNv+ljgWmQQEqLbrFzwW3gEIj32uzB
+         k+myg3bd7x282I3pTOGjOrdewYh21IlCz33wbgSiwjcDUGMPrV1Wqt+B4aaSBpQNZMbF
+         hj5vn3x5nrPQcHUm+034Bw3A0TBAS0Rda0ViV7i6rxplVQftfWIhDRQn4LsMQZfJIE8r
+         pT4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757533185; x=1758137985;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DgHTjS5yrNpFxJm7WFpy2/jTrfJBppUO9AiNy1ouMMk=;
+        b=Sz9ghVfZQ/ih7kFkaeqJTEgc7Koohx8/wD0FyzMD7rjj/oSELGGOSF3i/mxtbUqXXu
+         QSRjQjWzQAL+KsmbpUhwj5D2VaX8pQRxUCjpdZv1KuFCaPWVD3Vt4ZUeNlMyVdgMh+d/
+         LoNHXjvwegc0/6BtfHVHeJHaqYZ9TUeg7I824EL9ixd5cgEErnq32w5of7I4X8JhwAj2
+         uCM3ASBxF+kWfpPyoU2rp9XHtRVA9e+diOHnnCijjrxZYmpWVyJNUfQJTuhlXz8ujF7b
+         4VaqXAlXtiuhmLbB6ewtQ5Thvjq+Y/ZkxD6DEw8ZkQuN4z4yXAbI9y2Cma48CYCohKOy
+         2I0Q==
+X-Gm-Message-State: AOJu0Yz4WwqggdYo7pN/elIgx0nufZS0XIaHUFkXjbM9dwwWaZnk5qqG
+	2EfFdtXuSUK1SwZufkCOSD5joZjIXc/oQU+iJ9s1nxTKUpJFvu/GlEem
+X-Gm-Gg: ASbGncuBvHG1c4HNu5KOeiesy2i2W3eLhnjPOWM7veHkq3+1KA9nBCdeDJIhM5uOPq+
+	9c8AD2SinAYHHXV301MGhBXpIdwJhgpIsS5bh/12gXaVEGxq54Eht6LClN8wP/k1erbOdA2nnC9
+	Q+J+EpkOqLhzYSv09pfSsojnXIvnd8mH2SbupVQDYc+0qPik37NQbgZCc/lZCoH9k/q4xIZEtxS
+	5apnDBc2s8ad3sY57YfqGVR9JP6getWiWgMO9thaFSSSDcHMlDVAnYHTSIAZTEQ5UZQgoWRVebi
+	hA0u0rj0rqvt8jt9K3UFcZwKs35n7sS9eloG7OeXocy+/ZFk61VzCORU/UlWwxoktswxcOToe/p
+	z7mtquS2jZLl+zRe1il1u6rbWD9PrC87uumLQWAGib3cexXmGhDzEUZQtJpxgnt65n+oBXmruxn
+	q/7zRgwg8KJeFiVF/+bCuTOYdmuFROXjlAdQBRCQSuO3nnwPBJit0896pVgKqgYqYKiA==
+X-Google-Smtp-Source: AGHT+IHrlc6c7+w4bCXM585gaxQhsjQZdTLtXFQH/9+X+4J6QjPKrLuZU4T17e4+NF/h7hiXgThVUg==
+X-Received: by 2002:a05:6214:5085:b0:71b:dd1c:5b10 with SMTP id 6a1803df08f44-7393f986199mr181702076d6.47.1757533184954;
+        Wed, 10 Sep 2025 12:39:44 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-762c70e074fsm924336d6.53.2025.09.10.12.39.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 12:39:44 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/6.16: cfg: fix audit warnings
+Date: Wed, 10 Sep 2025 15:39:42 -0400
+Message-Id: <20250910193942.4072450-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF0001E9BF:EE_|DU7PPFFF006C15B:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25ec1cd4-6191-4f47-e971-08ddf09eb953
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?L6+nOeljzh/KPmcEuuD/J6FaoCdWywK9+uzYHRsBV0WQM40YJtuwb9nqDJ8/?=
- =?us-ascii?Q?JRKJjaS69h4yvlH4LS8ZQKLN0T/cKVnUYRH5mT9B55mhjxq9hyq94s1mYfbV?=
- =?us-ascii?Q?eimvFGYATW8ZgYF7LgFSvpSvG4Iz5NderDsq+9MVhtvTKer6SZfSwJRmj1Fn?=
- =?us-ascii?Q?h77y9AMvXyXaHJjAO2gQ0vv3b9zpjygErW0iHhn/iDvzxckAwXAf8LMONvmA?=
- =?us-ascii?Q?lmXaC4FyGW41qYTyh+xFWohJVuSMuQRM+d4KqElEFYbq68JRtYzEC38E0OEz?=
- =?us-ascii?Q?Ufv87u7ImXsuRzcQLn/oO04xfrh2PNj8Wfo/nfDTQiCgAbe4RcOPQ04vDryq?=
- =?us-ascii?Q?CyUWQ4bZapasAleZfsyJcTR3okF6kn5DsLy1iGuLWkM8Xe1PLZliJhfIuL5b?=
- =?us-ascii?Q?CrRSKCKioAkikJN/PXo9PymxiLZtA8mc2hCy4BACRf91XPZ/aVpMFuMNUqSY?=
- =?us-ascii?Q?reSak2UCkWDmK5NPPkkBAf4vTEp9v4umze0cwIXVUyY/H6DHAz+YpJ78/dlF?=
- =?us-ascii?Q?8RuQQqpLlyxiYcqE9mo2mVAEb7UPqVhcW0IaNXGf1a+EjAX0DoQousNNkCjK?=
- =?us-ascii?Q?5NnVezoOAKVdcK+h4MKLuQFR/lBMwW6DeKD5g0WwwiekXEbN6AXzlL4xKN3f?=
- =?us-ascii?Q?DGq2hDTq0zxEeAvdSdTZ3vCrvvUSW2pXR49rWYGaw8Oijtu7qq3qlHK5F8P5?=
- =?us-ascii?Q?81ULxWSV4PlqzFrhmdE9jcSqp0mj+Rt0e8a3gvQ5KcXkxOkdydUz/AnIBNyN?=
- =?us-ascii?Q?DRRZaD4vGageYBhrEq9pspCR4MMG9iXzRyLzcg+9nRckokSuQ1gHLzNwo1Yb?=
- =?us-ascii?Q?XmtyaktifDYeOBvBkHpx/oyFZi0/IBGgSfoL5BNCBbU1XQqSI7AXCQF5ZwXX?=
- =?us-ascii?Q?lHEFJV6i5S4x2CdBnHCyDKbUFe7sgTS1hkpXkZlOSG/tKHblXXuIlc6qpMID?=
- =?us-ascii?Q?OQ6YzOKQhQIKVUKEkbq0uWDJd9cnX9JapJI+91Q1z09gBw6QZNTSSBsccIku?=
- =?us-ascii?Q?oRXwdr2YQxiWMPA3HOci40apqsR0D0VbndQMQHDNFJbNTUlNJODMx0N6JBHH?=
- =?us-ascii?Q?VedBK0BpGrjFD62iV4c1/hUQwurFDUUgTefcuYDiAprRw615ZQcAiaFJB75T?=
- =?us-ascii?Q?wqrMeAc9hWush4TKRyO5Wv5sw0qI4ehhZCYO6YPdTfmyOMnb07RHtdCvI5ig?=
- =?us-ascii?Q?7yePiDdYqR+Fugmu69r3+Wx0N/y+I6hbwU9HrCu1JF0TTag+wTobB7fR66D5?=
- =?us-ascii?Q?4dnrDFyyX4fOX/T6fh0Jphu/5E8PmmSTkRPjwRuXxNtVL5/0IOtJQGF5ORid?=
- =?us-ascii?Q?ktzkZ4qupmtZvMqHvYr80QxrzszS9qrbrrDtjQyxoWyLlz1KFL/emg/lcBXT?=
- =?us-ascii?Q?Mub8vx3Szik7UndBHFJf1SVxz6EvMPHFlNNa3yArjZ/gDaiaX5xxlq2ZVnzq?=
- =?us-ascii?Q?U2a4ZH2cfhYuAxPbsn0S++wxBXilejoWlTderBBFYfSSIEpfle/1gHU/S8y3?=
- =?us-ascii?Q?Bn9DhtAqlTGTv+LBA456toIt53NF7jOZay7/?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 19:17:46.0708
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25ec1cd4-6191-4f47-e971-08ddf09eb953
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF0001E9BF.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PPFFF006C15B
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 19:17:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223232
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 19:39:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223233
 
-This reverts commit 113225b93c55d55a330fcca7d9f996ec039fb953.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-The groups command was previously installed by shadow. Therefore the
-one provided by coreutils was removed for native to avoid a conflict.
-However, since version 4.17.0, shadow no longer installs a groups
-command and thus there is no conflict anymore.
+Integrating the following commit(s) to linux-yocto/.:
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+1/4 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: guest: make DRM guest options arch specific
+    Date: Wed, 10 Sep 2025 13:38:37 -0400
+
+    We only need some of the extended DRM options if the guest is
+    x86-64 or arm64, otherwise, we get configuration warnings as
+    the options are not valid.
+
+    Restrict the architectures and we get a clean configuration
+    and can build packages like vboxguestdrivers.
+
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+2/4 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: debug-sched: drop SCHED_DEBUG
+    Date: Wed, 10 Sep 2025 14:51:19 -0400
+
+    Yes, we could drop the entire fragment, but then users of it
+    would get config errors unessarily. We keep it to ensure that
+    CONFIG_PROC is around in small configurations.
+
+    This is dropped due to:
+
+    commit b52173065e0aad82a31863bb5f63ebe46f7eb657
+    Author: Ingo Molnar <mingo@kernel.org>
+    Date:   Mon Mar 17 11:42:56 2025 +0100
+
+        sched/debug: Remove CONFIG_SCHED_DEBUG
+
+        For more than a decade, CONFIG_SCHED_DEBUG=y has been enabled
+        in all the major Linux distributions:
+
+           /boot/config-6.11.0-19-generic:CONFIG_SCHED_DEBUG=y
+
+        The reason is that while originally CONFIG_SCHED_DEBUG started
+        out as a debugging feature, over the years (decades ...) it has
+        grown various bits of statistics, instrumentation and
+        control knobs that are useful for sysadmin and general software
+        development purposes as well.
+
+        But within the kernel we still pretend that there's a choice,
+        and sometimes code that is seemingly 'debug only' creates overhead
+        that should be optimized in reality.
+
+        So make it all official and make CONFIG_SCHED_DEBUG unconditional.
+
+        Now that all uses of CONFIG_SCHED_DEBUG are removed from
+        the code by previous patches, remove the Kconfig option as well.
+
+        Signed-off-by: Ingo Molnar <mingo@kernel.org>
+        Tested-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+        Cc: Peter Zijlstra <peterz@infradead.org>
+        Cc: Juri Lelli <juri.lelli@redhat.com>
+        Cc: Vincent Guittot <vincent.guittot@linaro.org>
+        Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+        Cc: Steven Rostedt <rostedt@goodmis.org>
+        Cc: Ben Segall <bsegall@google.com>
+        Cc: Mel Gorman <mgorman@suse.de>
+        Cc: Valentin Schneider <vschneid@redhat.com>
+        Cc: Linus Torvalds <torvalds@linux-foundation.org>
+        Link: https://lore.kernel.org/r/20250317104257.3496611-6-mingo@kernel.org
+
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+3/4 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: x86: drop CONFIG_HIGHPTE
+    Date: Wed, 10 Sep 2025 15:05:46 -0400
+
+    commit 0081fdeccbf610499b79784998b1fd36783209dd
+    Author: Arnd Bergmann <arnd@arndb.de>
+    Date:   Wed Feb 26 22:37:11 2025 +0100
+
+        x86/mm: Drop support for CONFIG_HIGHPTE
+
+        With the maximum amount of RAM now 4GB, there is very little point
+        to still have PTE pages in highmem. Drop this for simplification.
+
+        The only other architecture supporting HIGHPTE is 32-bit arm, and
+        once that feature is removed as well, the highpte logic can be
+        dropped from common code as well.
+
+        Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+        Signed-off-by: Ingo Molnar <mingo@kernel.org>
+        Cc: Linus Torvalds <torvalds@linux-foundation.org>
+        Link: https://lore.kernel.org/r/20250226213714.4040853-8-arnd@kernel.org
+
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+4/4 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: hostap: drop obselete LIB80211
+    Date: Wed, 10 Sep 2025 15:19:37 -0400
+
+    These options are no longer valid in 6.16+
+
+    commit 02f220b5267042d0de649614eec84ded8aeecb4f
+    Author: Johannes Berg <johannes.berg@intel.com>
+    Date:   Mon Oct 7 20:26:55 2024 +0200
+
+        wifi: ipw2x00/lib80211: move remaining lib80211 into libipw
+
+        There's already much code in libipw that used to be shared
+        with more drivers, but now with the prior cleanups, those old
+        Intel ipw2x00 drivers are also the only ones using whatever is
+        now left of lib80211. Move lib80211 entirely into libipw.
+
+        Link: https://patch.msgid.link/20241007202707.915ef7b9e7c7.Ib9876d2fe3c90f11d6df458b16d0b7d4bf551a8d@changeid
+        Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-core/coreutils/coreutils_9.7.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_9.7.bb b/meta/recipes-co=
-re/coreutils/coreutils_9.7.bb
-index 3658f7100c..201be4144c 100644
---- a/meta/recipes-core/coreutils/coreutils_9.7.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.7.bb
-@@ -82,10 +82,8 @@ do_compile:prepend () {
-=20
- do_install:class-native() {
- 	autotools_do_install
--	# remove groups to fix conflict with shadow-native
--	rm -f ${D}${STAGING_BINDIR_NATIVE}/groups
- 	# The return is a must since native doesn't need the
--	# do_install:append() in the below.
-+	# do_install:append() below.
- 	return
+Richard,
+
+Apply these on top of all my previous patches.
+
+They fix the overly agressive DRM options I enabled and address some
+of the warnings in other configurations that had slipped through.
+
+There may still be some issues lurking, but this will definitely
+improve things.
+
+Bruce
+
+
+ meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.16.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+index 7725bcf20b..b86748d7d5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+@@ -15,7 +15,7 @@ python () {
  }
-=20
+ 
+ SRCREV_machine ?= "c631c6cf05de829937afe048e6ae2fea15634cc8"
+-SRCREV_meta ?= "5b4b90bbad3ada455c7c124bf704c519c6013aa1"
++SRCREV_meta ?= "6cd9824a84b5fd5c8557208a787252e31a063436"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.16;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+index befced7a98..254e6727fe 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "01bcf423b031a36a070c7a983e45992e634fceb7"
+-SRCREV_meta ?= "5b4b90bbad3ada455c7c124bf704c519c6013aa1"
++SRCREV_meta ?= "6cd9824a84b5fd5c8557208a787252e31a063436"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+index 2ea54a5301..a773d8a426 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "01bcf423b031a36a070c7a983e45992e634fceb7"
+ SRCREV_machine:qemux86-64 ?= "01bcf423b031a36a070c7a983e45992e634fceb7"
+ SRCREV_machine:qemumips64 ?= "2459c29bf2c3d221fd6d3222c7200b368156986e"
+ SRCREV_machine ?= "01bcf423b031a36a070c7a983e45992e634fceb7"
+-SRCREV_meta ?= "5b4b90bbad3ada455c7c124bf704c519c6013aa1"
++SRCREV_meta ?= "6cd9824a84b5fd5c8557208a787252e31a063436"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+-- 
+2.39.2
+
 
