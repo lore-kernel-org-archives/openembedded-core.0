@@ -2,39 +2,39 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD9CDCAC583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAF81CAC592
 	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 21:29:54 +0000 (UTC)
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by mx.groups.io with SMTP id smtpd.web10.31040.1757539786846794860
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by mx.groups.io with SMTP id smtpd.web11.30848.1757539792760385686
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 14:29:47 -0700
+ Wed, 10 Sep 2025 14:29:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=S2yu+0T1;
- spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: rs@ti.com)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58ALTNZq656962;
-	Wed, 10 Sep 2025 16:29:23 -0500
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=kjMqiwHV;
+ spf=pass (domain: ti.com, ip: 198.47.19.245, mailfrom: rs@ti.com)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58ALTONM147177;
+	Wed, 10 Sep 2025 16:29:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1757539763;
-	bh=z9PDD0BhqxSbNi6OrMM41l8ekitZB/ssaRm3tc6LNEY=;
+	s=ti-com-17Q1; t=1757539764;
+	bh=jnqT38CYOF2D4H85gbfl3zi/XoUWqTvOspbQMa+wKE0=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=S2yu+0T1mnsUHCSMgGmV5UTH5S2pJB0FKZfxH0Ofkjt0TRTOzmQafisFMSK8NYFRK
-	 r8R7GR4+RzY2mrPnz/6lc646pZSmaz/cPyViB5+Pi748umbLt00SKZIKv6lhQ/Wx0I
-	 GTyTjgAvCEaJRKKxLW4IPx950Qx3RKwP4O2NFosU=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58ALTNdt663492
+	b=kjMqiwHVd4i6j3+FScEFjZPPtcOqqiLxc9ajqPu9D4YGTt+zDs98niZoTqm/OvdoH
+	 mCn1Z/y3VMQ4XTArSF/5QsremBtDVYfBC2ZqJ54ZzaHbXmZ9mXSgKH6j9C+wVoAigr
+	 FATYhAAXd97VeCSmnMm1djabna/TXUwGF1ekO1hw=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58ALTNYd016900
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
 	Wed, 10 Sep 2025 16:29:23 -0500
-Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE215.ent.ti.com (10.64.6.73) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 10
  Sep 2025 16:29:23 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE215.ent.ti.com
+ (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
  Transport; Wed, 10 Sep 2025 16:29:23 -0500
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58ALTNiL1102015;
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58ALTNiN1102015;
 	Wed, 10 Sep 2025 16:29:23 -0500
 From: <rs@ti.com>
 To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
@@ -43,339 +43,558 @@ To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
         <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
         <denis@denix.org>, <reatmon@ti.com>
 CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv7 2/6] go: fix sigaction usage on i386 platforms
-Date: Wed, 10 Sep 2025 16:28:43 -0500
-Message-ID: <20250910212855.2480561-3-rs@ti.com>
+Subject: [oe-core][PATCHv7 4/6] weston-init: convert to virtual-emptty-conf
+Date: Wed, 10 Sep 2025 16:28:45 -0500
+Message-ID: <20250910212855.2480561-5-rs@ti.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250910212855.2480561-1-rs@ti.com>
 References: <20250910212855.2480561-1-rs@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by lelvem-ot02.ext.ti.com id 58ALTNZq656962
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 21:29:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223237
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223243
 
 From: Randolph Sapp <rs@ti.com>
 
-In upstream the following commit [1] was submitted to resolve issues
-with sigaction being used in linked libraries with cgo applications.
-
-runtime: when using cgo on 386, call C sigaction function
-
-This should address the previously reported issues with pam
-authentication of go applications on related x86 platforms.
-
-[1] https://github.com/golang/go/commit/c5737dc21bbac9fbefc35ac9313e66291=
-d66b382
+Convert this script package into a simple config for emptty using the
+same weston user but leveraging the nopasswdlogin session provided by
+emptty. Runtime provide virtual-emptty-conf as we need to set parameters
+for the default session.
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- meta/recipes-devtools/go/go-1.25.0.inc        |   1 +
- ...ng-cgo-on-386-call-C-sigaction-funct.patch | 247 ++++++++++++++++++
- 2 files changed, 248 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/0001-runtime-when-using-c=
-go-on-386-call-C-sigaction-funct.patch
+ meta/lib/oeqa/runtime/cases/weston.py         | 18 +++--
+ meta/recipes-graphics/wayland/weston-init.bb  | 61 +++------------
+ .../wayland/weston-init/emptty.conf           | 77 +++++++++++++++++++
+ .../recipes-graphics/wayland/weston-init/init | 54 -------------
+ .../wayland/weston-init/weston-autologin      | 11 ---
+ .../wayland/weston-init/weston-socket.sh      | 20 -----
+ .../wayland/weston-init/weston-start          | 76 ------------------
+ .../wayland/weston-init/weston.env            |  0
+ .../wayland/weston-init/weston.service        | 71 -----------------
+ .../wayland/weston-init/weston.socket         | 14 ----
+ 10 files changed, 101 insertions(+), 301 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/emptty.conf
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/init
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston-autologin
+ delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-socket.sh
+ delete mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.env
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.socket
 
-diff --git a/meta/recipes-devtools/go/go-1.25.0.inc b/meta/recipes-devtoo=
-ls/go/go-1.25.0.inc
-index f562fbb34b..1558b4623d 100644
---- a/meta/recipes-devtools/go/go-1.25.0.inc
-+++ b/meta/recipes-devtools/go/go-1.25.0.inc
-@@ -16,5 +16,6 @@ SRC_URI +=3D "\
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.pat=
-ch \
-     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.pat=
-ch \
-+    file://0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.pat=
-ch \
- "
- SRC_URI[main.sha256sum] =3D "4bd01e91297207bfa450ea40d4d5a93b1b531a5e438=
-473b2a06e18e077227225"
-diff --git a/meta/recipes-devtools/go/go/0001-runtime-when-using-cgo-on-3=
-86-call-C-sigaction-funct.patch b/meta/recipes-devtools/go/go/0001-runtim=
-e-when-using-cgo-on-386-call-C-sigaction-funct.patch
+diff --git a/meta/lib/oeqa/runtime/cases/weston.py b/meta/lib/oeqa/runtime/cases/weston.py
+index ee4d336482..69be1f65e3 100644
+--- a/meta/lib/oeqa/runtime/cases/weston.py
++++ b/meta/lib/oeqa/runtime/cases/weston.py
+@@ -37,7 +37,7 @@ class WestonTest(OERuntimeTestCase):
+ 
+     def run_weston_init(self):
+         if 'systemd' in self.tc.td['VIRTUAL-RUNTIME_init_manager']:
+-            self.target.run('systemd-run --collect --unit=weston-ptest.service --uid=0 -p PAMName=login -p TTYPath=/dev/tty6 -E XDG_RUNTIME_DIR=/tmp -E WAYLAND_DISPLAY=wayland-0 /usr/bin/weston --socket=wayland-1 --log=%s' % self.weston_log_file)
++            self.target.run(self.get_weston_command('systemd-run --collect --unit=weston-ptest.service --uid=0 -p PAMName=login -p TTYPath=/dev/tty6 -E XDG_RUNTIME_DIR -E WAYLAND_DISPLAY /usr/bin/weston --socket=wayland-2 --log=%s' % self.weston_log_file))
+         else:
+             self.target.run(self.get_weston_command('openvt -- weston --socket=wayland-2 --log=%s' % self.weston_log_file))
+ 
+@@ -55,12 +55,18 @@ class WestonTest(OERuntimeTestCase):
+ 
+     @OEHasPackage(['wayland-utils'])
+     def test_wayland_info(self):
+-        if 'systemd' in self.tc.td['VIRTUAL-RUNTIME_init_manager']:
+-            command = 'XDG_RUNTIME_DIR=/run wayland-info'
+-        else:
+-            command = self.get_weston_command('wayland-info')
++        command = self.get_weston_command('wayland-info')
+         status, output = self.target.run(command)
+-        self.assertEqual(status, 0, msg='wayland-info error: %s' % output)
++        msg = 'wayland-info error: %s' % output
++
++        # dump last 20 lines of emptty log in case of failure
++        log_cmd = 'tail -n 20 /var/log/emptty/7.log'
++        msg += '\n\n===== start: snippet =====\n\n'
++        msg += 'file: /var/log/emptty/7.log\n\n'
++        msg += '\n\n%s\n\n' % self.target.run(log_cmd)[1]
++        msg += '\n\n===== end: snippet =====\n\n'
++
++        self.assertEqual(status, 0, msg=msg)
+ 
+     @OEHasPackage(['weston'])
+     def test_weston_can_initialize_new_wayland_compositor(self):
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index fc817d113f..6caf2a0387 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -1,17 +1,13 @@
+-SUMMARY = "Startup script and systemd unit file for the Weston Wayland compositor"
++SUMMARY = "Autologin package for the Weston Wayland compositor"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+-SRC_URI = "file://init \
+-           file://weston.env \
++SRC_URI = "\
+            file://weston.ini \
+-           file://weston.service \
+-           file://weston.socket \
+-           file://weston-socket.sh \
+-           file://weston-autologin \
+-           file://weston-start"
++           file://emptty.conf \
++"
+ 
+ S = "${UNPACKDIR}"
+ 
+@@ -27,32 +23,8 @@ DEFAULTBACKEND ??= ""
+ DEFAULTBACKEND:qemuall ?= "drm"
+ 
+ do_install() {
+-	# Install weston-start script
+-	if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
+-		install -Dm755 ${S}/weston-start ${D}${bindir}/weston-start
+-		sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
+-		sed -i 's,@LOCALSTATEDIR@,${localstatedir},g' ${D}${bindir}/weston-start
+-		install -Dm755 ${S}/init ${D}/${sysconfdir}/init.d/weston
+-		sed -i 's#ROOTHOME#${ROOT_HOME}#' ${D}/${sysconfdir}/init.d/weston
+-	fi
+-
+-	# Install Weston systemd service
+-	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+-		install -D -p -m0644 ${S}/weston.service ${D}${systemd_system_unitdir}/weston.service
+-		install -D -p -m0644 ${S}/weston.socket ${D}${systemd_system_unitdir}/weston.socket
+-		install -D -p -m0644 ${S}/weston-socket.sh ${D}${sysconfdir}/profile.d/weston-socket.sh
+-		sed -i -e s:/etc:${sysconfdir}:g \
+-			-e s:/usr/bin:${bindir}:g \
+-			-e s:/var:${localstatedir}:g \
+-			${D}${systemd_system_unitdir}/weston.service
+-	fi
+-
+-	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
+-		install -D -p -m0644 ${S}/weston-autologin ${D}${sysconfdir}/pam.d/weston-autologin
+-	fi
+-
+ 	install -D -p -m0644 ${S}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.ini
+-	install -Dm644 ${S}/weston.env ${D}${sysconfdir}/default/weston
++	install -D -p -m0644 ${S}/emptty.conf ${D}${sysconfdir}/emptty/conf
+ 
+ 	if [ -n "${DEFAULTBACKEND}" ]; then
+ 		sed -i -e "/^\[core\]/a backend=${DEFAULTBACKEND}-backend.so" ${D}${sysconfdir}/xdg/weston/weston.ini
+@@ -73,9 +45,7 @@ do_install() {
+ 	install -dm 755 -o weston -g weston ${D}/home/weston
+ }
+ 
+-INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
+-
+-inherit update-rc.d systemd useradd
++inherit useradd
+ 
+ USERADD_PACKAGES = "${PN}"
+ 
+@@ -83,23 +53,16 @@ USERADD_PACKAGES = "${PN}"
+ #
+ require ${THISDIR}/required-distro-features.inc
+ 
+-RDEPENDS:${PN} = "weston kbd ${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'weston-xwayland', '', d)}"
+-
+-INITSCRIPT_NAME = "weston"
+-INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
++RDEPENDS:${PN} = "emptty weston kbd ${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'weston-xwayland', '', d)}"
+ 
+ FILES:${PN} += "\
+     ${sysconfdir}/xdg/weston/weston.ini \
+-    ${sysconfdir}/profile.d/weston-socket.sh \
+-    ${systemd_system_unitdir}/weston.service \
+-    ${systemd_system_unitdir}/weston.socket \
+-    ${sysconfdir}/default/weston \
+-    ${sysconfdir}/pam.d/ \
++    ${sysconfdir}/emptty/conf \
+     /home/weston \
+     "
+ 
+-CONFFILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/default/weston"
++CONFFILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/emptty/conf"
++RPROVIDES:${PN} += "virtual-emptty-conf"
+ 
+-SYSTEMD_SERVICE:${PN} = "weston.service weston.socket"
+-USERADD_PARAM:${PN} = "--home /home/weston --shell /bin/sh --user-group -G video,input,render,seat,wayland weston"
+-GROUPADD_PARAM:${PN} = "-r wayland; -r render; -r seat"
++USERADD_PARAM:${PN} = "--home /home/weston --shell /bin/sh --user-group -G video,input,render,seat,nopasswdlogin weston"
++GROUPADD_PARAM:${PN} = "-r nopasswdlogin; -r render; -r seat"
+diff --git a/meta/recipes-graphics/wayland/weston-init/emptty.conf b/meta/recipes-graphics/wayland/weston-init/emptty.conf
 new file mode 100644
-index 0000000000..d063e850a8
+index 0000000000..1918cc02a7
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/0001-runtime-when-using-cgo-on-386-call=
--C-sigaction-funct.patch
-@@ -0,0 +1,247 @@
-+From c5737dc21bbac9fbefc35ac9313e66291d66b382 Mon Sep 17 00:00:00 2001
-+From: Ian Lance Taylor <iant@golang.org>
-+Date: Fri, 5 Sep 2025 22:24:37 -0700
-+Subject: [PATCH] runtime: when using cgo on 386, call C sigaction functi=
-on
++++ b/meta/recipes-graphics/wayland/weston-init/emptty.conf
+@@ -0,0 +1,77 @@
++# TTY, where emptty will start.
++TTY_NUMBER=7
 +
-+On 386 the C sigaction function assumes that the caller does not set
-+the SA_RESTORER flag. It does not copy the C sa_restorer field to
-+the kernel sa_restorer field. The effect is that the kernel sees
-+the SA_RESTORER flag but a NULL sa_restorer field, and the program
-+crashes when returning from a signal handler.
++# Enables switching to defined TTY number.
++SWITCH_TTY=true
 +
-+On the other hand, the C sigaction function will return the SA_RESTORER
-+flag and the sa_restorer field stored in the kernel.
++# Enables printing of /etc/issue in daemon mode.
++PRINT_ISSUE=true
 +
-+This means that if the Go runtime installs a signal handler,
-+with SA_RESTORER as is required when calling the kernel,
-+and the Go program calls C code that calls the C sigaction function
-+to query the current signal handler, that C code will get a result
-+that it can't pass back to sigaction.
++# Enables printing of default motd, /etc/emptty/motd or /etc/emptty/motd-gen.sh.
++PRINT_MOTD=true
 +
-+This CL fixes the problem by using the C sigaction function
-+for 386 programs that use cgo. This reuses the functionality
-+used on amd64 and other GOARCHs to support the race detector.
++# Preselected user, if AUTOLOGIN is enabled, this user is logged in.
++DEFAULT_USER=weston
 +
-+See #75253, or runtime/testdata/testprogcgo/eintr.go, for sample
-+code that used to fail on 386. No new test case is required,
-+we just remove the skip we used to have for eintr.go.
++# Enables Autologin, if DEFAULT_USER is defined and part of nopasswdlogin group. Possible values are "true" or "false".
++AUTOLOGIN=true
 +
-+Fixes #75253
++# The default session used, if Autologin is enabled. If session is not found in list of session, it proceeds to manual selection.
++AUTOLOGIN_SESSION=Weston
 +
-+Change-Id: I803059b1fb9e09e9fbb43f68eccb6a59a92c2991
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/701375
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gse=
-rviceaccount.com>
-+Reviewed-by: Cherry Mui <cherryyz@google.com>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+Auto-Submit: Ian Lance Taylor <iant@golang.org>
-+Upstream-Status: Backport [https://github.com/golang/go/commit/c5737dc21=
-bbac9fbefc35ac9313e66291d66b382]
-+---
-+ src/runtime/cgo/gcc_sigaction.c |  8 ++++----
-+ src/runtime/cgo/sigaction.go    |  2 +-
-+ src/runtime/cgo_sigaction.go    |  6 +++++-
-+ src/runtime/crash_cgo_test.go   | 11 -----------
-+ src/runtime/os_freebsd.go       |  6 ++++++
-+ src/runtime/os_linux.go         | 18 +++++++++++++++++-
-+ src/runtime/sigaction.go        |  2 +-
-+ src/runtime/sys_linux_386.s     | 19 +++++++++++++++++++
-+ 8 files changed, 53 insertions(+), 19 deletions(-)
++# If Autologin is enabled and session does not start correctly, the number of retries in short period is kept to eventually stop the infinite loop of restarts. -1 is for infinite retries, 0 is for no retry.
++# AUTOLOGIN_MAX_RETRY=2
 +
-+diff --git a/src/runtime/cgo/gcc_sigaction.c b/src/runtime/cgo/gcc_sigac=
-tion.c
-+index 7cbef7db11..ad48a88dc1 100644
-+--- a/src/runtime/cgo/gcc_sigaction.c
-++++ b/src/runtime/cgo/gcc_sigaction.c
-+@@ -2,7 +2,7 @@
-+ // Use of this source code is governed by a BSD-style
-+ // license that can be found in the LICENSE file.
-+=20
-+-//go:build linux && (amd64 || arm64 || loong64 || ppc64le)
-++//go:build linux && (386 || amd64 || arm64 || loong64 || ppc64le)
-+=20
-+ #include <errno.h>
-+ #include <stddef.h>
-+@@ -17,7 +17,7 @@
-+ // to and from struct sigaction =E2=80=94 are specific to ${goos}/${goa=
-rch}.
-+ typedef struct {
-+ 	uintptr_t handler;
-+-	uint64_t flags;
-++	unsigned long flags;
-+ #ifdef __loongarch__
-+ 	uint64_t mask;
-+ 	uintptr_t restorer;
-+@@ -57,7 +57,7 @@ x_cgo_sigaction(intptr_t signum, const go_sigaction_t =
-*goact, go_sigaction_t *ol
-+ 				sigaddset(&act.sa_mask, (int)(i+1));
-+ 			}
-+ 		}
-+-		act.sa_flags =3D (int)(goact->flags & ~(uint64_t)SA_RESTORER);
-++		act.sa_flags =3D (int)(goact->flags & ~(unsigned long)SA_RESTORER);
-+ 	}
-+=20
-+ 	ret =3D sigaction((int)signum, goact ? &act : NULL, oldgoact ? &oldact=
- : NULL);
-+@@ -79,7 +79,7 @@ x_cgo_sigaction(intptr_t signum, const go_sigaction_t =
-*goact, go_sigaction_t *ol
-+ 				oldgoact->mask |=3D (uint64_t)(1)<<i;
-+ 			}
-+ 		}
-+-		oldgoact->flags =3D (uint64_t)oldact.sa_flags;
-++		oldgoact->flags =3D (unsigned long)oldact.sa_flags;
-+ 	}
-+=20
-+ 	_cgo_tsan_release();
-+diff --git a/src/runtime/cgo/sigaction.go b/src/runtime/cgo/sigaction.go
-+index dc3f5fd255..90034bad32 100644
-+--- a/src/runtime/cgo/sigaction.go
-++++ b/src/runtime/cgo/sigaction.go
-+@@ -2,7 +2,7 @@
-+ // Use of this source code is governed by a BSD-style
-+ // license that can be found in the LICENSE file.
-+=20
-+-//go:build (linux && (amd64 || arm64 || loong64 || ppc64le)) || (freebs=
-d && amd64)
-++//go:build (linux && (386 || amd64 || arm64 || loong64 || ppc64le)) || =
-(freebsd && amd64)
-+=20
-+ package cgo
-+=20
-+diff --git a/src/runtime/cgo_sigaction.go b/src/runtime/cgo_sigaction.go
-+index 5c644587f0..f725dbef4d 100644
-+--- a/src/runtime/cgo_sigaction.go
-++++ b/src/runtime/cgo_sigaction.go
-+@@ -3,8 +3,10 @@
-+ // license that can be found in the LICENSE file.
-+=20
-+ // Support for sanitizers. See runtime/cgo/sigaction.go.
-++// Also used on linux/386 to clear the SA_RESTORER flag
-++// when using cgo; see issue #75253.
-+=20
-+-//go:build (linux && (amd64 || arm64 || loong64 || ppc64le)) || (freebs=
-d && amd64)
-++//go:build (linux && (386 || amd64 || arm64 || loong64 || ppc64le)) || =
-(freebsd && amd64)
-+=20
-+ package runtime
-+=20
-+@@ -42,6 +44,8 @@ func sigaction(sig uint32, new, old *sigactiont) {
-+=20
-+ 		var ret int32
-+=20
-++		fixSigactionForCgo(new)
-++
-+ 		var g *g
-+ 		if mainStarted {
-+ 			g =3D getg()
-+diff --git a/src/runtime/crash_cgo_test.go b/src/runtime/crash_cgo_test.=
-go
-+index c5d7303261..b77ff8dafd 100644
-+--- a/src/runtime/crash_cgo_test.go
-++++ b/src/runtime/crash_cgo_test.go
-+@@ -842,17 +842,6 @@ func TestEINTR(t *testing.T) {
-+ 	switch runtime.GOOS {
-+ 	case "plan9", "windows":
-+ 		t.Skipf("no EINTR on %s", runtime.GOOS)
-+-	case "linux":
-+-		if runtime.GOARCH =3D=3D "386" {
-+-			// On linux-386 the Go signal handler sets
-+-			// a restorer function that is not preserved
-+-			// by the C sigaction call in the test,
-+-			// causing the signal handler to crash when
-+-			// returning the normal code. The test is not
-+-			// architecture-specific, so just skip on 386
-+-			// rather than doing a complicated workaround.
-+-			t.Skip("skipping on linux-386; C sigaction does not preserve Go rest=
-orer")
-+-		}
-+ 	}
-+ 	if runtime.GOOS =3D=3D "freebsd" && race.Enabled {
-+ 		t.Skipf("race + cgo freebsd not supported. See https://go.dev/issue/7=
-3788.")
-+diff --git a/src/runtime/os_freebsd.go b/src/runtime/os_freebsd.go
-+index ab859cfb47..68d895b95d 100644
-+--- a/src/runtime/os_freebsd.go
-++++ b/src/runtime/os_freebsd.go
-+@@ -457,6 +457,12 @@ func sysSigaction(sig uint32, new, old *sigactiont)=
- {
-+ 	}
-+ }
-+=20
-++// fixSigactionForCgo is needed for Linux.
-++//
-++//go:nosplit
-++func fixSigactionForCgo(new *sigactiont) {
-++}
-++
-+ // asmSigaction is implemented in assembly.
-+ //
-+ //go:noescape
-+diff --git a/src/runtime/os_linux.go b/src/runtime/os_linux.go
-+index c9d25a5be8..f9fe1b5f33 100644
-+--- a/src/runtime/os_linux.go
-++++ b/src/runtime/os_linux.go
-+@@ -486,7 +486,8 @@ func setsig(i uint32, fn uintptr) {
-+ 	sigfillset(&sa.sa_mask)
-+ 	// Although Linux manpage says "sa_restorer element is obsolete and
-+ 	// should not be used". x86_64 kernel requires it. Only use it on
-+-	// x86.
-++	// x86. Note that on 386 this is cleared when using the C sigaction
-++	// function via cgo; see fixSigactionForCgo.
-+ 	if GOARCH =3D=3D "386" || GOARCH =3D=3D "amd64" {
-+ 		sa.sa_restorer =3D abi.FuncPCABI0(sigreturn__sigaction)
-+ 	}
-+@@ -562,6 +563,21 @@ func sysSigaction(sig uint32, new, old *sigactiont)=
- {
-+ //go:noescape
-+ func rt_sigaction(sig uintptr, new, old *sigactiont, size uintptr) int3=
-2
-+=20
-++// fixSigactionForCgo is called when we are using cgo to call the
-++// C sigaction function. On 386 the C function does not expect the
-++// SA_RESTORER flag to be set, and in some cases will fail if it is set=
-:
-++// it will pass the SA_RESTORER flag to the kernel without passing
-++// the sa_restorer field. Since the C function will handle SA_RESTORER
-++// for us, we need not pass it. See issue #75253.
-++//
-++//go:nosplit
-++func fixSigactionForCgo(new *sigactiont) {
-++	if GOARCH =3D=3D "386" && new !=3D nil {
-++		new.sa_flags &^=3D _SA_RESTORER
-++		new.sa_restorer =3D 0
-++	}
-++}
-++
-+ func getpid() int
-+ func tgkill(tgid, tid, sig int)
-+=20
-+diff --git a/src/runtime/sigaction.go b/src/runtime/sigaction.go
-+index 2027ae80bf..1a99f7f3ec 100644
-+--- a/src/runtime/sigaction.go
-++++ b/src/runtime/sigaction.go
-+@@ -2,7 +2,7 @@
-+ // Use of this source code is governed by a BSD-style
-+ // license that can be found in the LICENSE file.
-+=20
-+-//go:build (linux && !amd64 && !arm64 && !loong64 && !ppc64le) || (free=
-bsd && !amd64)
-++//go:build (linux && !386 && !amd64 && !arm64 && !loong64 && !ppc64le) =
-|| (freebsd && !amd64)
-+=20
-+ package runtime
-+=20
-+diff --git a/src/runtime/sys_linux_386.s b/src/runtime/sys_linux_386.s
-+index d53be243fe..8e832687e0 100644
-+--- a/src/runtime/sys_linux_386.s
-++++ b/src/runtime/sys_linux_386.s
-+@@ -410,6 +410,25 @@ TEXT runtime=C2=B7rt_sigaction(SB),NOSPLIT,$0
-+ 	MOVL	AX, ret+16(FP)
-+ 	RET
-+=20
-++// Call the function stored in _cgo_sigaction using the GCC calling con=
-vention.
-++TEXT runtime=C2=B7callCgoSigaction(SB),NOSPLIT,$0-16
-++	MOVL	_cgo_sigaction(SB), AX
-++	MOVL	sig+0(FP), BX
-++	MOVL	new+4(FP), CX
-++	MOVL	old+8(FP), DX
-++	MOVL	SP, SI // align stack to call C function
-++	SUBL	$32, SP
-++	ANDL	$~15, SP
-++	MOVL	BX, 0(SP)
-++	MOVL	CX, 4(SP)
-++	MOVL	DX, 8(SP)
-++	MOVL	SI, 12(SP)
-++	CALL	AX
-++	MOVL	12(SP), BX
-++	MOVL	BX, SP
-++	MOVL	AX, ret+12(FP)
-++	RET
-++
-+ TEXT runtime=C2=B7sigfwd(SB),NOSPLIT,$12-16
-+ 	MOVL	fn+0(FP), AX
-+ 	MOVL	sig+4(FP), BX
-+--=20
-+2.51.0
++# Default LANG, if user does not have set own in init script.
++#LANG=en_US.UTF-8
 +
---=20
++# Starts desktop with calling "dbus-launch".
++DBUS_LAUNCH=true
++
++# Starts Xorg desktop with calling "~/.xinitrc" script, if is true, file exists and selected WM/DE is Xorg session, it overrides DBUS_LAUNCH.
++XINITRC_LAUNCH=false
++
++# Prints available WM/DE each on new line instead of printing on single line.
++VERTICAL_SELECTION=false
++
++# Defines the way, how is logging handled. Possible values are "rotate", "appending" or "disabled".
++#LOGGING=rotate
++
++# Overrides path of log file
++#LOGGING_FILE=/var/log/emptty/[TTY_NUMBER].log
++
++# Arguments passed to Xorg server.
++#XORG_ARGS=
++
++# Allows to use dynamic motd script to generate custom MOTD.
++#DYNAMIC_MOTD=false
++
++# Allows to override default path to dynamic motd.
++#DYNAMIC_MOTD_PATH=/etc/emptty/motd-gen.sh
++
++# Allows to override default path to static motd.
++#MOTD_PATH=/etc/emptty/motd
++
++# Foreground color, available only in daemon mode.
++#FG_COLOR=LIGHT_BLACK
++
++# Background color, available only in daemon mode.
++#BG_COLOR=BLACK
++
++# Enables numlock in daemon mode. Possible values are "true" or "false".
++#ENABLE_NUMLOCK=false
++
++# Defines the way, how is logging of session errors handled. Possible values are "rotate", "appending" or "disabled".
++SESSION_ERROR_LOGGING=rotate
++
++# Overrides path of session errors log file
++#SESSION_ERROR_LOGGING_FILE=/var/log/emptty/session-errors.[TTY_NUMBER].log
++
++# If set true, it will not use `.emptty-xauth` file, but the standard `~/.Xauthority` file. This allows to handle xauth issues.
++#DEFAULT_XAUTHORITY=false
++
++#If set true, Xorg will be started as rootless, if system allows and emptty is running in daemon mode.
++#ROOTLESS_XORG=false
++
++#If set true, environmental groups are printed to differ Xorg/Wayland/Custom/UserCustom desktops.
++IDENTIFY_ENVS=false
+diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-graphics/wayland/weston-init/init
+deleted file mode 100644
+index a5c54e001e..0000000000
+--- a/meta/recipes-graphics/wayland/weston-init/init
++++ /dev/null
+@@ -1,54 +0,0 @@
+-#!/bin/sh
+-#
+-### BEGIN INIT INFO
+-# Provides: weston
+-# Required-Start: $local_fs $remote_fs
+-# Required-Stop: $local_fs $remote_fs
+-# Default-Start:     2 3 4 5
+-# Default-Stop:      0 1 6
+-### END INIT INFO
+-
+-if test -e /etc/default/weston ; then
+-        . /etc/default/weston
+-fi
+-
+-killproc() {
+-        pid=`/bin/pidof $1`
+-        [ "$pid" != "" ] && kill $pid
+-}
+-
+-read CMDLINE < /proc/cmdline
+-for x in $CMDLINE; do
+-        case $x in
+-        weston=false)
+-		echo "Weston disabled"
+-		exit 0;
+-                ;;
+-        esac
+-done
+-
+-case "$1" in
+-  start)
+-        . /etc/profile
+-	      export HOME=ROOTHOME
+-
+-        WESTON_USER=weston weston-start $OPTARGS &
+-  ;;
+-
+-  stop)
+-        echo "Stopping Weston"
+-        killproc weston
+-  ;;
+-
+-  restart)
+-	$0 stop
+-        sleep 1
+-        $0 start
+-  ;;
+-
+-  *)
+-        echo "usage: $0 { start | stop | restart }"
+-  ;;
+-esac
+-
+-exit 0
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-autologin b/meta/recipes-graphics/wayland/weston-init/weston-autologin
+deleted file mode 100644
+index f6e6d106de..0000000000
+--- a/meta/recipes-graphics/wayland/weston-init/weston-autologin
++++ /dev/null
+@@ -1,11 +0,0 @@
+-auth      required  pam_nologin.so
+-auth      required  pam_unix.so     try_first_pass nullok
+-
+-account   required  pam_nologin.so
+-account   required  pam_unix.so
+-
+-session   required  pam_env.so
+-session   required  pam_unix.so
+--session  optional  pam_systemd.so type=wayland class=user desktop=weston
+--session  optional  pam_loginuid.so
+-
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-socket.sh b/meta/recipes-graphics/wayland/weston-init/weston-socket.sh
+deleted file mode 100755
+index 86389d63a3..0000000000
+--- a/meta/recipes-graphics/wayland/weston-init/weston-socket.sh
++++ /dev/null
+@@ -1,20 +0,0 @@
+-#!/bin/sh
+-
+-# set weston variables for use with global weston socket
+-global_socket="/run/wayland-0"
+-if [ -e "$global_socket" ]; then
+-	weston_group=$(stat -c "%G" "$global_socket")
+-	if [ "$(id -u)" = "0" ]; then
+-		export WAYLAND_DISPLAY="$global_socket"
+-	else
+-		case "$(groups "$USER")" in
+-			*"$weston_group"*)
+-				export WAYLAND_DISPLAY="$global_socket"
+-				;;
+-			*)
+-				;;
+-		esac
+-	fi
+-	unset weston_group
+-fi
+-unset global_socket
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
+deleted file mode 100755
+index 3b13a0047a..0000000000
+--- a/meta/recipes-graphics/wayland/weston-init/weston-start
++++ /dev/null
+@@ -1,76 +0,0 @@
+-#!/bin/sh
+-# Copyright (C) 2016 O.S. Systems Software LTDA.
+-# Copyright (C) 2016 Freescale Semiconductor
+-
+-export PATH="/sbin:/usr/sbin:/bin:/usr/bin"
+-
+-usage() {
+-	cat <<EOF
+-	$0 [<weston options>]
+-EOF
+-}
+-
+-## Module support
+-modules_dir=@DATADIR@/weston-start
+-
+-# Add weston extra argument
+-add_weston_argument() {
+-	weston_args="$weston_args $1"
+-}
+-
+-## Add module to --modules argument
+-add_weston_module() {
+-	if [[ "x${weston_modules}" == "x" ]]; then
+-		weston_modules="--modules "
+-	fi;
+-	weston_modules+="${1},"
+-}
+-
+-if [ -n "$WAYLAND_DISPLAY" ]; then
+-	echo "ERROR: A Wayland compositor is already running, nested Weston instance is not supported yet."
+-	exit 1
+-fi
+-
+-if [ -n "$WESTON_USER" ]; then
+-	if [ -z "$WESTON_GROUP" ]; then
+-		# no explicit WESTON_GROUP given, therefore use WESTON_USER
+-		export WESTON_GROUP="${WESTON_USER}"
+-	fi
+-fi
+-
+-weston_args=$*
+-
+-# Load and run modules
+-if [ -d "$modules_dir" ]; then
+-	for m in "$modules_dir"/*; do
+-		# Skip backup files
+-		if [ "`echo $m | sed -e 's/\~$//'`" != "$m" ]; then
+-			continue
+-		fi
+-
+-		# process module
+-		. $m
+-		if [[ x"{$weston_modules}" != "x" ]]; then
+-			add_weston_argument "${weston_modules}"
+-		fi;
+-	done
+-fi
+-
+-if test -z "$XDG_RUNTIME_DIR"; then
+-	export XDG_RUNTIME_DIR=/run/user/`id -u ${WESTON_USER}`
+-	if test -d "$XDG_RUNTIME_DIR"; then
+-	    # Check permissions on existing directory
+-	    if [ "$(stat -c %u-%a "$XDG_RUNTIME_DIR")" != "$(id -u ${WESTON_USER})-700" ]; then
+-			echo "ERROR: $XDG_RUNTIME_DIR has incorrect permissions"
+-			exit 1
+-		fi
+-	else
+-		mkdir --mode 0700 --parents $XDG_RUNTIME_DIR
+-		if [ -n "$WESTON_USER" ]
+-		then
+-			chown $WESTON_USER:$WESTON_GROUP $XDG_RUNTIME_DIR
+-		fi
+-	fi
+-fi
+-
+-su -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR weston $weston_args --log=/tmp/weston.log" $WESTON_USER
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.env b/meta/recipes-graphics/wayland/weston-init/weston.env
+deleted file mode 100644
+index e69de29bb2..0000000000
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+deleted file mode 100644
+index 80745998ed..0000000000
+--- a/meta/recipes-graphics/wayland/weston-init/weston.service
++++ /dev/null
+@@ -1,71 +0,0 @@
+-# This is a system unit for launching Weston with auto-login as the
+-# user configured here.
+-#
+-# Weston must be built with systemd support, and your weston.ini must load
+-# the plugin systemd-notify.so.
+-[Unit]
+-Description=Weston, a Wayland compositor, as a system service
+-Documentation=man:weston(1) man:weston.ini(5)
+-Documentation=http://wayland.freedesktop.org/
+-
+-# Make sure we are started after logins are permitted.
+-Requires=systemd-user-sessions.service
+-After=systemd-user-sessions.service
+-
+-# If Plymouth is used, we want to start when it is on its way out.
+-After=plymouth-quit-wait.service
+-
+-# D-Bus is necessary for contacting logind. Logind is required.
+-Wants=dbus.socket
+-After=dbus.socket
+-
+-# Ensure the socket is present
+-Requires=weston.socket
+-
+-# Since we are part of the graphical session, make sure we are started before
+-# it is complete.
+-Before=graphical.target
+-
+-# Prevent starting on systems without virtual consoles, Weston requires one
+-# for now.
+-ConditionPathExists=/dev/tty0
+-
+-[Service]
+-# Requires systemd-notify.so Weston plugin.
+-Type=notify
+-EnvironmentFile=/etc/default/weston
+-ExecStart=/usr/bin/weston --modules=systemd-notify.so
+-
+-# Optional watchdog setup
+-#TimeoutStartSec=60
+-#WatchdogSec=20
+-
+-# The user to run Weston as.
+-User=weston
+-Group=weston
+-
+-# Make sure the working directory is the users home directory
+-WorkingDirectory=/home/weston
+-
+-# Set up a full user session for the user, required by Weston.
+-PAMName=weston-autologin
+-
+-# A virtual terminal is needed.
+-TTYPath=/dev/tty7
+-TTYReset=yes
+-TTYVHangup=yes
+-TTYVTDisallocate=yes
+-
+-# Fail to start if not controlling the tty.
+-StandardInput=tty-fail
+-StandardOutput=journal
+-StandardError=journal
+-
+-# Log this user with utmp, letting it show up with commands 'w' and 'who'.
+-UtmpIdentifier=tty7
+-UtmpMode=user
+-
+-[Install]
+-# Note: If you only want weston to start on-demand, remove this line with a
+-# service drop file
+-WantedBy=graphical.target
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.socket b/meta/recipes-graphics/wayland/weston-init/weston.socket
+deleted file mode 100644
+index c1bdc83c05..0000000000
+--- a/meta/recipes-graphics/wayland/weston-init/weston.socket
++++ /dev/null
+@@ -1,14 +0,0 @@
+-[Unit]
+-Description=Weston socket
+-RequiresMountsFor=/run
+-
+-[Socket]
+-ListenStream=/run/wayland-0
+-SocketMode=0775
+-SocketUser=weston
+-SocketGroup=wayland
+-RemoveOnStop=yes
+-
+-[Install]
+-WantedBy=sockets.target
+-
+-- 
 2.51.0
 
 
