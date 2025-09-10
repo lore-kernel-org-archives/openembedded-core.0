@@ -1,91 +1,92 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB28ACA0FED
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 13:26:51 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web11.17708.1757510802346152761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F391BCA0FED
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 13:29:01 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.17980.1757510938484596536
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 06:26:42 -0700
+ Wed, 10 Sep 2025 06:28:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=jv6P3rz4;
- spf=pass (domain: linaro.org, ip: 209.85.208.175, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-336b88c5362so61833391fa.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 06:26:42 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W9Wp/aff;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45dfb8e986aso1671455e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 06:28:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757510800; x=1758115600; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xt1GRDt00qlb/AYJO/ahCUiG0ndTC2NE7mQYX+BUYo4=;
-        b=jv6P3rz4bwd2gbk1shhdiOg1a+f3t9lyaMwdy/R0S/QcgSkW3dTJFWKfVIFOIqlSBB
-         WhJ6QbDpTQfh71nt8AAALsClnrZgWxZfjVcJp+XgQ+DPLuSc7arCr5kIytEHKndSeBn5
-         pWAqHs0DmId134PsfUyNgz9opsWcBatNVD6TNqgfhKgg7G9aCWi5AyDfGmy8C4htNXXn
-         N8Hudkn4HDwE8bcbEnhbUz6ocZNCDhH6chfNSHliznDAZycAuhoZhvJp8ofdIi3lwmfi
-         Vk3FIMcOck8CrnVPrQqbkbKpazSESff3XTOTIwm/ChWb+oo2jFTEB6PeHS2FM+eqHmGi
-         +6Sg==
+        d=linuxfoundation.org; s=google; t=1757510937; x=1758115737; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=N/hxVcNRZo/Rl/US5ekEeegdTOhsrWyUR53KlSdUa7I=;
+        b=W9Wp/affeFfMV0+1cX0Smzb0F1Mv2WvoNjMPgnTKc90djcFSNmgMKBNCFjb9Pu3NBl
+         2HiBaLxNVgV1F4CfeqAg0FXeABdZExvbXpPLpFstiDCCkwM+GXLAjR1Xjv3+BgwkumM8
+         gzPQfMf+YtyAWcs9B/x7ByXuvtkiQ+xfG45yE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757510800; x=1758115600;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xt1GRDt00qlb/AYJO/ahCUiG0ndTC2NE7mQYX+BUYo4=;
-        b=VftU864r4QXOlDGMiwCQHT5aBo/ECy6qgOoFGySbfE3nEPRdDltZnEk0CggpOokbVo
-         CLslw2jZFewA2PPllX6acOLgZDoC/KdeS6eiTqTIDGakUAX2yqgYwabrc0F170KL0RbO
-         /ABEkCzBUuy927+oC/k8QJWMsJx622awluPGrC7Iz86qPkQBLsxlaOJuiRI/wAZDGugX
-         6dTgW1Kfg++e934nG2XlLAcsF+q+EFVgC32iL9R8qFnu9B3Ea+px5ruM0wwM6V9Uitcq
-         MM5iDZa9oAvZ4vos7nek//gry/2HMBHTmJO3uue86oRVLJvHzXgk6N3iPc+5nR9TKpDw
-         WYKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVLao7ha1lp4Ga0F1fcSVzQ+SiOYE8OM3zR6qUvu+19NeZXi+iBTR7Rk6eZ278WPxB3DvK7xXQKVK/QfvxSL+QNnQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwzpBTmke21xut54CoKNNUhI+8rnteA6Z+9KUmrk2jxf/S6gV5d
-	QtZdRwDesTbsPxu9+EGAkcL/qfBnG78rwEehFecg0MKBtcIMjGwqWboahzT7l4O6PwY=
-X-Gm-Gg: ASbGncumxun8HjvoSjyHSmskP/7RSwON83toHIumFckuBSmtjqdXxyGDITaYdbZMCaY
-	WPeH9vLhoOtm66DzBWl9uPnBZjNEXdxYSDMurDYKso5LyfdXab6/LEgVbZCmbJO+JYe/t7m5jxA
-	rJcwuhYn6nwpdan0HSPQz7i0PmdXxDewpeh0gWRL37On+7RJ0f23EgA8PtUS4LAxHd6CMp0z617
-	GX+KVUiEEuZIOnUkaGuHuwIZVq6uQDLFjcpGyTUACYwzjR6DBj3HzDT9JCkAXjuuIsw+IDy14bI
-	1ZVK+6iLNmWMLkNADpshONPLXDgRb7SlJAFEcwlGiTto7Oa4ZA++4OaCFf70FG3fIygTn1dTI7U
-	upWVcEoLqOQn97Nkiugc5USjAjYi2NeAqRSOsx+dXv2C1R+XV5wrLgqj3rVgEtqtIPA==
-X-Google-Smtp-Source: AGHT+IFMd/YD9DusPiJTvK0DUw20jIWUMUkQACQOdFD7tGpvhL/p8AIseAQHXKBATfNOLnHCyrOVXw==
-X-Received: by 2002:a05:651c:408c:b0:333:f086:3092 with SMTP id 38308e7fff4ca-33b50f93d33mr31991351fa.11.1757510800355;
-        Wed, 10 Sep 2025 06:26:40 -0700 (PDT)
-Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-337f4c5039asm44204071fa.6.2025.09.10.06.26.39
+        d=1e100.net; s=20230601; t=1757510937; x=1758115737;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N/hxVcNRZo/Rl/US5ekEeegdTOhsrWyUR53KlSdUa7I=;
+        b=vlBPOpXVEH7amifPIyyRWXuPao+7YywUDZrTErIHrMEChPnyHE5KKyGry6vcM81oPQ
+         XM2wwz2uZVGElbIarbNTFgm2Ygog2IvgjJsUGSafWv/h5TABwe3R+WWx5Fj+JQOtx4S8
+         vPAXRd3FGpSnvOjJ9Wmpwo4qkzfHkxML4YbQ2l8pspmwexfVrF/h6tkToW/m5F9rJNzT
+         8vnMpx5tWO+BirDPibLFd08eUSTpkt72EiWe1Lczbc7fHXYGpnLAm0qVTFi1//LjFAXe
+         YJr+PiYhdjnZ/XXYZmxKgU0T7gKb8/QS2OCbOf9WsXv0ejDalI2xVvJTeaaDAaKoiWso
+         bryA==
+X-Gm-Message-State: AOJu0Yw7sHAWT/2LVoRSdBlosSTZzB3gcni9d7d0Do8H0z7LeJ51rhhj
+	j1rufD1wJxU7ukvolPSOrgoXttRdF7vXn7+OS5FXBmR8lyqqpFwUQHovA50e/W9ILDU=
+X-Gm-Gg: ASbGnctBbjvhN2BF+uM//UG32PRoK8xtcFY9LcEc8pvknJjoq5lQ6G/GzeF7FZhti2q
+	1/sA02FI6xulSdBNuFJkM9IUra6T30ExBU/vAMbEn+pQYV4jf3Jan+fJU/oGcliHR5teLwE0ZEd
+	2CHTILcaWGjB1XuK5a0MTtedUIDCnSFdNMeJD2HjZTR2bmBJ8/ylIeONKGbvX58x94ep41BpU6R
+	ODJqW5elJT4mNvi8mCmcLGk4H991mPEw6vwAx7kEw26xTi5JQqrf0EFQRuCLXNVRBoFPRvw7DdA
+	EYhdpCq7DoncrOH6delBT8EddVQvtVkgi6Oh79RBh2SdI2a8uFEqTEgYwLargXI3cXGspIVHzh3
+	ksVoc2QtU4fwAWbS97hFuJILlURM0Kk1hQhJPJ2X7zsQZpVch8bv8oh0SPUtiaYifLt7+2oMKxW
+	+virmHThgFTX671SzbJjG3YA==
+X-Google-Smtp-Source: AGHT+IH/Xjc4BFwGE30xghfgwvVlsloCbBxJp97BG5cVDjYckUSCzGt3uYvvHeRzlpIQ+FOBCE4dXA==
+X-Received: by 2002:a05:600c:3103:b0:45b:9a46:69e9 with SMTP id 5b1f17b1804b1-45dddeeaa9emr150920595e9.31.1757510936800;
+        Wed, 10 Sep 2025 06:28:56 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3ead:2ef7:6003:aff8? ([2001:8b0:aba:5f3c:3ead:2ef7:6003:aff8])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7521bfd97sm6678555f8f.7.2025.09.10.06.28.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 06:26:39 -0700 (PDT)
-Date: Wed, 10 Sep 2025 16:26:38 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: bruce.ashfield@gmail.com
-Cc: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org, ross.burton@arm.com
+        Wed, 10 Sep 2025 06:28:56 -0700 (PDT)
+Message-ID: <9c6f4b6c0b3123efbd81349d6f29bacfffee5a2c.camel@linuxfoundation.org>
 Subject: Re: [PATCH 0/4] kernel-yocto: 6.16 fixups and genericarm64
-Message-ID: <aMF8jgdGtg6M0TAj@nuoska>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mikko Rapeli <mikko.rapeli@linaro.org>, bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com
+Date: Wed, 10 Sep 2025 14:28:55 +0100
+In-Reply-To: <aMF8jgdGtg6M0TAj@nuoska>
 References: <20250910050822.3273330-1-bruce.ashfield@gmail.com>
+	 <aMF8jgdGtg6M0TAj@nuoska>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910050822.3273330-1-bruce.ashfield@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 13:26:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223210
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 13:29:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223211
 
-Hi,
+On Wed, 2025-09-10 at 16:26 +0300, Mikko Rapeli wrote:
+> I missed "poky: bump default kernel reference to 6.16" from
+> emails and can't find from list archives, but it's leaving
+> "poky-altcfg" distro with 6.12 kernel. Is this the plan?
+>=20
+> When building "poky-altcfg" distro, the machines can't override
+> kernel version. I would like to see genericarm64 systemd
+> builds, e.g. "poky-altcfg" distro with the new kernel.
+>=20
+> Plain old "poky" sysvinit without systemd, udev etc is hard
+> to support on broad range of HW. Thus I am testing genericarm64
+> with "poky-altcfg", which can't easily update to 6.16 kernel,
+> at least without https://lists.yoctoproject.org/g/poky/message/13742
 
-I missed "poky: bump default kernel reference to 6.16" from
-emails and can't find from list archives, but it's leaving
-"poky-altcfg" distro with 6.12 kernel. Is this the plan?
-
-When building "poky-altcfg" distro, the machines can't override
-kernel version. I would like to see genericarm64 systemd
-builds, e.g. "poky-altcfg" distro with the new kernel.
-
-Plain old "poky" sysvinit without systemd, udev etc is hard
-to support on broad range of HW. Thus I am testing genericarm64
-with "poky-altcfg", which can't easily update to 6.16 kernel,
-at least without https://lists.yoctoproject.org/g/poky/message/13742
+The policy has always been to test one kernel in one configuration and
+the other kernel in the other configuration so this is intentional.
 
 Cheers,
 
--Mikko
+Richard
 
