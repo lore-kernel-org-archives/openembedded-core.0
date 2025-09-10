@@ -1,197 +1,215 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 484E1CA0FED
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 14:31:32 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web10.19781.1757514682217920910
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C583CA0FED
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 14:33:22 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.9])
+ by mx.groups.io with SMTP id smtpd.web11.19679.1757514798881955727
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 07:31:22 -0700
+ Wed, 10 Sep 2025 07:33:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=htyj/rV7;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-7211b09f649so59353916d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 07:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757514681; x=1758119481; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yN/I+zMYzOU/9wrgtg3/BFwYXCcEz1SsEAspKHpQPLM=;
-        b=htyj/rV7Tzj2LhKsVvdRESRfoGZz21fWFBrN3DltnXEQf9ztg/YjHC0gOD3IKxk5ao
-         rV+bKhw3tiVD3psAM11qq5+FaVb69zV/Hv8PngqG1yM1yFq7VBxb//A3/7cIFg0Dnmyv
-         cxOTuc+4t0rY+BY0XOLCux2tuWTz2iWR/Szl8VobpQX8NPkhPQBgIglyCoiQWx/+0Zli
-         I+cOgS5pxL4/GZzSw/3LenQIsHTFnhk6F/Q0B7abFnoLgqgU9GvkaY6rU0wzp9KTcVgr
-         EO9T/oZb5nz2lsgJYM/35I5jRw0HfP7q7EWGpDUYs0BxvPgxC/RMO7lb4tmaFzDEMbXx
-         55bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757514681; x=1758119481;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yN/I+zMYzOU/9wrgtg3/BFwYXCcEz1SsEAspKHpQPLM=;
-        b=KKb1QvPSZDLnK9DRtqqYqE7DouelRgaUK7tmFw6fFXbZrQ5LKjt21a5nC2HmES+1nO
-         ouhb7ioPUFSw0JOMB8CCKs/RqdiE5tZ2W+fszQ6D8XI07Zj/jwhQN12kfYoB487Ux3qB
-         pdZwrhy2RWM4F/fZtrFQBBzN0x7q8Z4Dq6StI1/Tj2ieMup428TGl8qRrwg/oAfvPocy
-         OZHlB3o1UbwGLu0kITKDZ1GfVQWs8z6IPptxP98607yyE68uOJDqHjUpXVGqv6Cyr0hS
-         xZpDiJxEtkbDfwbJdo9yqLCRNjn3tFCQ2OE3g2a2jy/0F9AEboNc/pXSxJCtADf3663i
-         cERQ==
-X-Gm-Message-State: AOJu0Ywe4au9K9h4DZsiDWfI9pr30xkj5pb2AZGptNBc98+aUstgXCxM
-	yORNdMz1OmRrUt8a4d6HzxvUES8GL09LWh20zrbGkzviISmNjMPMdRgQvB8IdVsLOFvwoD9MigQ
-	wqHm11t90InJTl+fzmkQoiFIDpgPHF/g=
-X-Gm-Gg: ASbGnctWP83OIxm/VZwlhKxfzJSS2u1YL/aKDItdEpkeqzFHbJpPYOwNjPemAiCgGB9
-	rqEAwBCHCOPigxh5UEmdaFqCXGtM9lbjf17+HCIWLLOuH+6VsZxjK8cKsmYwzWE8Ebty27lf3Sj
-	JOER8isRLa+cEhrPTCDwogzP4T4Kd7BJlnDNs5OVu6OQm0MLDzOyYeISpV+XSc5Y+/gTTAnuqo1
-	Pczo0KrZNrBEUiOSpBF5VtHMBAfc236x9rM1DfuH6BIhWXUjMDZgXGK8jVhVZl/hafGzO41BJjc
-	56KP/+W00o7/AAIWwSfc4UjDU3Pev5Lqw1+819KiRXSkkpA04zs=
-X-Google-Smtp-Source: AGHT+IF/ZmX1FkDcWx4mwOpwW1091Y9S0r8iRNdXO7qR73QHhsu5M46Seu0QNIbemF28FNNE2YCLHRrvzgGRV/dX+b8=
-X-Received: by 2002:a05:6214:f6e:b0:70d:bdee:ce27 with SMTP id
- 6a1803df08f44-739435cf27bmr159534186d6.46.1757514680836; Wed, 10 Sep 2025
- 07:31:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250910135508.2383081-1-ross.burton@arm.com>
-In-Reply-To: <20250910135508.2383081-1-ross.burton@arm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 10 Sep 2025 16:31:09 +0200
-X-Gm-Features: AS18NWA5eSjEbs4PX2zBs7rJYWU_2xPgK41mkdzmMQAMSMt3VmlaWk3s2GEVi40
-Message-ID: <CANNYZj9FehWY8Y74sT1XNhZ=Q6H1SmV=7stdHgo5sMQGX8Bh_A@mail.gmail.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=SwRwAOEL;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=SwRwAOEL;
+ spf=pass (domain: arm.com, ip: 52.101.84.9, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=Hux68g/Gc+JLbjv1dG4mocHQEMVt2GOaYYJGAomxT3JWgZxbWIgX4HIB7x0t1Ri4eU+j1rf4WRzL5j1v0mTxLON7792WSTz/6LLdO0xFxn4hIYYNh3x5PKYyyX6JIhyp5Q7YYfrtsuBKPrQ2Adqa9VGeTzpSqo7n2TTZgIhaRfxhJYC3XgumilHjgNi/2ktFK6iiirQif+FhzgWBdW0NyMc7Ax1+nJnqzX8E5Rcz69QEfqXXv+Cxo1HKtLWaAiUbehFcJ2R3fWzs8vO5e04/Z+1aIwolloTQYxDgWkOXo9hJTma+IC1tJs72rMa9ZYBUWnsmsOtNSlE0JQv9YByJ1w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oNCSaHkBd7SD6+9xLrle8h0eLWL7hPRRghr0489+m+8=;
+ b=bi5eRXQa4CtntiS9GCKxRVSAVy3oSBjgxzFW/rHVAnkaQhvcdh96U51fLNDRYbWxEIpgi6gC8oMvFnYBEqMgIf0o41PVEel0A1OY7nD7IRQCDOgLYKRgKzCIcxyGZqFL/UE0eAhMtCOkqw5rXtCv4CHASeFgerYcMFNelhiqwp64chw3Twh7i/WeRkcAcukUWy8bRG1vFKVOxq3cvWi6yn5qzaV/C9UKFHkjlJz1bml057jlHtJmIe2fK/CxhQIsZ2okTOzxBUaxMilZ3q8XwrnP/vYLRaXIq41xQPTWuFTrwZ+azBZJRgrs84YKAOBoi7kzuPOZZeJWkmf8+bz4+g==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oNCSaHkBd7SD6+9xLrle8h0eLWL7hPRRghr0489+m+8=;
+ b=SwRwAOELjtT5rmGvfxMzN8Sb6imbzcZ1Lsum0IYSeDm94OisIE3eBs7yw4j3TM8J5QmoXjYzJ7xfoEN6engAglPVgfOmDV65t9Q2qQbosM3MgkLmj+B1eSINzf8SewrcG+rdqbktJFEHiCRKGwIkuJweLT2SK9LgRF9lcOP7kV8=
+Received: from DU7P195CA0008.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:54d::35)
+ by AS8PR08MB9694.eurprd08.prod.outlook.com (2603:10a6:20b:616::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
+ 2025 14:33:14 +0000
+Received: from DU2PEPF00028D09.eurprd03.prod.outlook.com
+ (2603:10a6:10:54d:cafe::db) by DU7P195CA0008.outlook.office365.com
+ (2603:10a6:10:54d::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.15 via Frontend Transport; Wed,
+ 10 Sep 2025 14:33:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU2PEPF00028D09.mail.protection.outlook.com (10.167.242.169) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.13
+ via Frontend Transport; Wed, 10 Sep 2025 14:33:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LH0bFrTxOLvHTY/5YiI26OvTGdsb2x3fi9zFLqO8W63a9/j8kKagVBii8oEYg9F9eRRHAX51WAiWm3vzPbc22IYJYKqxKUYkJwUJHZYwzqKalUy1XQ/dOy2esOm7MCFGaSpsIZiWE1YjU1MrOnSRAunXf9u3UCmxKMxkltnRuFdMZ3v49t6Wz7Nk/JC9M1FkyOWadAanLmvRi6EjdfkWigEd2+8+DOzLdZ1J8KZIYG4fIXgxHPrZwqYRuCW8M0tEK24KQoMoefAuf9kWNUDMD32vki87mH1F/0hODg57fHW44oF0vwASthgnwGuVFxt8y6Xii1njaUb0W2E/GEgROw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oNCSaHkBd7SD6+9xLrle8h0eLWL7hPRRghr0489+m+8=;
+ b=SIEoAvMntXDE0IMGUvKNmhY8gsXN3K4r2xL/RPiJHAM85aBL/RdaUHTxZ7M3cL2Hz8cfA3MWJTIll+fvlvNWbQ85VTWqAnQ6bRMbKl5IGZZj9588raMWuXE5iOl5RZefeZKZQas6Pn4uZveK5IHymJea6ACja60103q2fUL8L10EUBEbS4h+ELBzH8bYUQdkMkKakYTPqfWuz8EzexSytaFX80JFm5Z9JSUbt4AwAcX7Tv9pe0BlyC4TdN4dO20CJXBTCSu74fHE1sXOanAtm+t9AlsZiwRtqev1E4bCVKjYA5f5IKZ+bzBCpH2KUrtWeGknVUHdvpPeLzm4st05Uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oNCSaHkBd7SD6+9xLrle8h0eLWL7hPRRghr0489+m+8=;
+ b=SwRwAOELjtT5rmGvfxMzN8Sb6imbzcZ1Lsum0IYSeDm94OisIE3eBs7yw4j3TM8J5QmoXjYzJ7xfoEN6engAglPVgfOmDV65t9Q2qQbosM3MgkLmj+B1eSINzf8SewrcG+rdqbktJFEHiCRKGwIkuJweLT2SK9LgRF9lcOP7kV8=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DU5PR08MB10677.eurprd08.prod.outlook.com (2603:10a6:10:529::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
+ 2025 14:32:40 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
+ 14:32:39 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH] wic: add --extra-space back for compatibility
-To: ross.burton@arm.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000003d2c61063e734609"
+Thread-Topic: [OE-core] [PATCH] wic: add --extra-space back for compatibility
+Thread-Index: AQHcIlqQ+KJ0FmzJCkmzW37nV+eRaLSMemSAgAAAXgA=
+Date: Wed, 10 Sep 2025 14:32:39 +0000
+Message-ID: <0CC60829-6EB9-44A0-B863-2FBDD77600EC@arm.com>
+References: <20250910135508.2383081-1-ross.burton@arm.com>
+ <CANNYZj9FehWY8Y74sT1XNhZ=Q6H1SmV=7stdHgo5sMQGX8Bh_A@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj9FehWY8Y74sT1XNhZ=Q6H1SmV=7stdHgo5sMQGX8Bh_A@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DU5PR08MB10677:EE_|DU2PEPF00028D09:EE_|AS8PR08MB9694:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a44830d-139f-45a3-9432-08ddf076f96b
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?c3B4QjNuaXlxUUhVZmJJa3A1RzRWL3FBazMycDhycS9WQmdEUy9sQjRpVjFP?=
+ =?utf-8?B?OEJJdDR6SGxVdVl2Mkg4QUREV25LK2hpUXJJR1VITFpyTEVJKy9TT2ErZVph?=
+ =?utf-8?B?bWhMRWxhZ2ZEdVBHeTA4Y051bmZnenV3OWRuS1NLWmZPQWtGcjYwd1BQOU81?=
+ =?utf-8?B?dnZCVmtiSXB0TTUxSkFvVmRiajZUZU1HWEoramxvWnJhNG9SYjZKdEVZVXpa?=
+ =?utf-8?B?OSs3NXhObjFudWF2WTVGMHlWeG42Tk82OERxWnVhYkpPdDhXbVZhc0RQMm0v?=
+ =?utf-8?B?a2tHL3NKcXVKeVZURUtNaWI5LzJZaDJuK2Nhd1B4RGFJTlFwdDRSS056eEdZ?=
+ =?utf-8?B?UGN1dkRIM25nNVl4MWlycXUrNkwvM0tYakxFWmw4Vk5WMFNvck9lZkkwa0Mr?=
+ =?utf-8?B?bUV1NWMzTUJ0bVVjc0F3TDJ1T3orZ2lVNjdHQndsSWtkbkw4WkVHc1lSVkly?=
+ =?utf-8?B?TzBjV1hnVFFxSkZXT1pxeFNxd1AyRENETnhkN0lDZmUwVEV0ZFg2cjdRZlBZ?=
+ =?utf-8?B?dnllcllTcjU5WGxROStZci9YUWVJRm42clV4aTNzdkpDWWJXaUdHRm1IL091?=
+ =?utf-8?B?Wnc2ZDRMU0NBTFRKQjQ5MXVqVjBuc2FSMGFtNWhEdExUQUJ5WjNaaDFkYktK?=
+ =?utf-8?B?QWRkUjgwaVdmREJlR2s1S0lucUhPdEpnUHNQOFBBNGxFRWJpTngyai9KejBm?=
+ =?utf-8?B?c09MK0pTS0tKOGV4Wk0rVnMra0toVFVhcHd2VmVWZVd6eUduUGtnTHZpc1dK?=
+ =?utf-8?B?K2dlUldnZjFhZ0NzbnA2S3JMN2Y2YmF3c0U3QnVmTXNyZjhQeVpXUjdmNXUw?=
+ =?utf-8?B?M1AwdHZ1MGZoTzlPVU1hYzF3cE5mSVRzck90bFBRRmlhdVVDV2lFWTRucXF3?=
+ =?utf-8?B?VGJkOWlMUk4rSlBJTDZPMmlSdGZmejlhV1EzMmE5S3dBYVNRWmY1cjJlWVl0?=
+ =?utf-8?B?bWNsL2tyWVBuWk1OSEVRWXl2Q1NldHRxTE5mNGtrTzRySDJXS1Z0WmZvZ0hX?=
+ =?utf-8?B?azhHZ2ZNNGEyVmJWOVFsTFR6NWFxZGVObExiSlNFbFB4bk54cWpDZGFmem95?=
+ =?utf-8?B?RWNJN2xHd1JHckp2cG9UdUEyVnp2c2pkRTdRRFhYMldObnhzeVlncHdWRTMy?=
+ =?utf-8?B?RFVnRkE1WVd5aWo5T2FtN3FsTlhSKzNBWmxLNUt3UjB6UEVmZXBldUw2QUdG?=
+ =?utf-8?B?ZC9hL1p3QU1rcE8yREVyeEZxczdhOWNNN3dvN1Flam1xMlppeE44SldzNlJQ?=
+ =?utf-8?B?RUhUNGJLdDRIMmlVNFdoc1cydjFrdTN2STdWQW5SY2hpSFlRb1FSYTdjRThF?=
+ =?utf-8?B?ZzNGTysyTzJGdzhQZ01YRVBjY0JOcGU1aG5lZ0dGWEdCV3hiT2pyU2EyOS9j?=
+ =?utf-8?B?aXFOTmVmSzRiWUs4ay8wNnBISWtBdFgvOU9scWdFTVZwMWIwOU0xa2F3L1RC?=
+ =?utf-8?B?bFdDTFhtMWxuS01RZUtrdmlXbTRHYkRCbFhpbGRzQXkxVUd2aWJVcGpNVUNP?=
+ =?utf-8?B?ak5INk1tWTliK3hQYTZNVFhLY1FRY2dhbVUyYUJSdUp0MlJhcElVZmRiN28r?=
+ =?utf-8?B?ZHFrMHJhZjBjTTZRQVQ5clNWMEphM1BFc3NCTzNQOFl5ZjY3Q1FmRUk4SmxD?=
+ =?utf-8?B?cFZOTjNTWUxwWE5heHVrdVk0eFhlZys5UDc4dGcxRnBjQ2txdTJxNGptQ3Zs?=
+ =?utf-8?B?OFRHSHA2cWRUaGdXZSt0VGY4R0EzeEpKSjR3anRBVHNoMTkyUHNDbW1oeEpN?=
+ =?utf-8?B?VjFxVjBEVVYwK3k1NFo5OVhsa2dxY3pHclpZZ3ZDUW5JOG9hSS9hYXJtaEh3?=
+ =?utf-8?B?KzdNZk1kZi9NeUJ0dU9rbnBIVC9sZUdCUVRTREZqWEp6VXdCRmJPNmx3allJ?=
+ =?utf-8?B?MjE5MlVpMjlTYnpHWFJYekJmUWtFT3NMMlZvM0Rja1d5bEFlNzE3WW5TSGpY?=
+ =?utf-8?B?WElCWjhMZDNRM2FvR1dSYnZpUlFOd0h5Wk5KZ3RnRk1hMFk1bEVnaDRTMm40?=
+ =?utf-8?B?YlNZbVNCUmFBPT0=?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FD0A1DF47C69204FB1D3D7350CF95401@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR08MB10677
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU2PEPF00028D09.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	b8057af6-b207-48e5-03cf-08ddf076e4e3
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|14060799003|35042699022|36860700013|1800799024|82310400026|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?WnlUSk5VRTArKzFxV2YwSGh6bUtGaXR4UlVndFBvazR2UGZ0allLSnp1a0hl?=
+ =?utf-8?B?c2ZEVXpza0NFOFNIc3BFQlYwWHVMaEkrcFhGbGRSdnJkb3gvRThraldWdlpP?=
+ =?utf-8?B?S1VTUWRreG1JWklDNE5XeWNCQXJOelZJRUVJV2hMMjlYQ2UzRktpejRoWlhV?=
+ =?utf-8?B?UGJJSEo2ZCsraC81em8vdTc4UXpTT2FMYzJpd1krMThoR3RNMjcxaHpUTElJ?=
+ =?utf-8?B?U2Ewd0NrR2FOWlpkMHpUNTNXckZadVRVT3BKMFRKTmp2amErRUdtMGw1MnEr?=
+ =?utf-8?B?VTdkNG45ckR5cndzNWlrUW9LdXdrYlQ3LzBGQ0NQMGdOS3ZRd3pCUWxtbTFq?=
+ =?utf-8?B?K3JmbUFjeFo4TE0xc2ZsZ1hMalZ0R2l1K09rL0lOQ1dsN251MURYTmZPSW9W?=
+ =?utf-8?B?RkNPQXJKYmNpNFNKVm0vZGkyN2tEdnl3TUwrRjBUQjhFUjRiL1VmTFVXOHdM?=
+ =?utf-8?B?NGFBSFh1V3czUkovRjJrQWtJWTdnUDZldFBTQlliVHowaFpwZGlCc3p3ekpn?=
+ =?utf-8?B?RURFTVZIazdGc01sY2tRc2d6ck5NM2NxVG8yOERFVUVGWml0MU9LaFZtZlZh?=
+ =?utf-8?B?NVZTZmU1SElHMnBBb2M2YXk3bGlwOFZVWlBtbHBhdUpVQ1A3UmZoY3dsek9r?=
+ =?utf-8?B?bjFMaitTTjBuZ2ZaeTk1QTR0UTE2SGpaWVZPMndSbHVoQi9mZGVidEE0aDJm?=
+ =?utf-8?B?U2RqczZTV2c5c2o0b0hEbnJKT2N0dlBYQ0UyR2xCT1lnb0syc2pkSC9CN2dY?=
+ =?utf-8?B?RjhPa2p2emwwcmhKVnhFT2RFcnluUitkeVpsYkNWV2hPOGsvTC94MndRak9D?=
+ =?utf-8?B?NVZDZ1NFNXc1UEV4MmI4bklFTUROdHAwWngwSUlRb0dTUDlXczFpMktYNUo4?=
+ =?utf-8?B?eDFCZUdyZXJpUGlnVEFCRWFuRHE5cWd1NzRxSFc2eFZiZ1lLMWttRkVpaGxJ?=
+ =?utf-8?B?cEFuYWxDZnk3UWQzdXphR0tRR011b3BnYmg1alNVaWpBVFUydnFhdVBqaUd0?=
+ =?utf-8?B?aVR6MW1MWUQ4RnE0VlBhbFo1TjI1S1M4Myt3djlMS0J1dEhoVXNXSU1USzYx?=
+ =?utf-8?B?bkN1anhIazgwRzdwbjZ6V20wU1dlQzFTNEp5YTBDVFo4VVZpYTd2TStodXVL?=
+ =?utf-8?B?NEYrUHNtd2NsZ3lWcW1sY0JqM203dTcvOGxIYUxMcHVUYjZvcWxtMmVmWVhK?=
+ =?utf-8?B?RmJYeDgwQUxKNEUvRFQzSHFnV3JLYXZBNkNHdXloamp3aC9KU0dZakhqVjRm?=
+ =?utf-8?B?TjhCdjQzMWlnWXRVSUlEM3dlMXZuTmV0MmpYUkEwNnM5OTFqZExtUUI0WDVG?=
+ =?utf-8?B?L0NCR2FzNTlKcC9Dd09TcTdBRHpLKzh5SjlpSlBZaXNRQlpiL05uVzd5L3lq?=
+ =?utf-8?B?cnE3eTNtcHB0SVFvbzVPMElrS2tzVndMSUxzUUFqMDVYVmNDaCsvakVKbmdU?=
+ =?utf-8?B?dFRia0ZVRU00dSsrNEh2dXU0YmhOYjQzckVSeXpEVEx4c0lXMkJoenVkTTlN?=
+ =?utf-8?B?aXBmUlErbUdqSlJlTTlXYXNybDZtNGJoUGpmRFVLNktRT3ZBU2U5WlJhLzI5?=
+ =?utf-8?B?NG1kVTl1RkRuSG1aaFFuVmFqbzBxVUcyY0xoRkU5emFBOWNFMDlLVzZFZml5?=
+ =?utf-8?B?VmxUK0tGMjRwL3JJSlR2RHVJK2RDZVY2eVh5eGF6c09DRTkyWUh4SXNJZVIw?=
+ =?utf-8?B?ZVZpc1ZTei9PcHJhMXZMakdWekU5cHM2NlNIUHZxQnlKOUhleHZ1bFNEaTBs?=
+ =?utf-8?B?L3RQVTZ4bU1VQ3hBc3p0eDlYR2ZuUEFOVk12d2hYTFdWK21NUXczZDR0RFFK?=
+ =?utf-8?B?L2FFVVB0SnRhQnFqVEVEMkRHVlp3YURhM3hUY0JFSVI5Zi9mblpKcUVOQjVR?=
+ =?utf-8?B?bTA2OGcrekpvNlZBMUVoL2pTajc0SklIOTN2UG93V21Ma1AzWmdYREhYMXkx?=
+ =?utf-8?B?NnM0WFVTTUdlRGZVUEhia2V5MnFwa0p1TTdEWmd6cnRoeEZQM3VkOXYvWU9y?=
+ =?utf-8?B?OWNRTG03U2hDMkJqTHpmdFNOQnFIRXNOVXBpdTFHOVo2ajRGanJqWFc3Z1ZN?=
+ =?utf-8?Q?+W80NU?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(35042699022)(36860700013)(1800799024)(82310400026)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 14:33:13.7340
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a44830d-139f-45a3-9432-08ddf076f96b
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU2PEPF00028D09.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9694
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 14:31:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223219
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 14:33:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223220
 
---0000000000003d2c61063e734609
-Content-Type: text/plain; charset="UTF-8"
-
-Why not fix the files? When can this be removed?
-
-Alex
-
-On Wed 10. Sep 2025 at 15.55, Ross Burton via lists.openembedded.org
-<ross.burton=arm.com@lists.openembedded.org> wrote:
-
-> The --extra-space argument was renamed to --extra-filesystem-space to
-> be clear what space is being added to, but this breaks existing wic
-> files.
->
-> Add back --extra-space as an alias for --extra-file-system-space so that
-> existing wks files don't fail.
->
-> [1] oe-core 39d10137b86 ("wic: rename wks flag --extra-space to
-> --extra-filesystem-space")
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  scripts/lib/wic/ksparser.py | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> index 705f9897508..8ca5f77ff53 100644
-> --- a/scripts/lib/wic/ksparser.py
-> +++ b/scripts/lib/wic/ksparser.py
-> @@ -155,6 +155,8 @@ class KickStart():
->          part.add_argument('--change-directory')
->          part.add_argument('--extra-filesystem-space', type=sizetype("M"))
->          part.add_argument('--extra-partition-space', type=sizetype("M"))
-> +        # Deprecated, just for compatibility
-> +        part.add_argument("--extra-space", dest='extra_filesystem_space',
-> type=sizetype("M"))
->          part.add_argument('--fsoptions', dest='fsopts')
->          part.add_argument('--fspassno', dest='fspassno')
->          part.add_argument('--fstype', default='vfat',
-> --
-> 2.43.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#223217):
-> https://lists.openembedded.org/g/openembedded-core/message/223217
-> Mute This Topic: https://lists.openembedded.org/mt/115169720/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---0000000000003d2c61063e734609
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Why not fix the files? When can this be removed?</div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">Alex=C2=A0</div><div><br><div cl=
-ass=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Wed 10. Sep 2025 at 15.55, Ross Burton via <a href=3D"http://lists.=
-openembedded.org">lists.openembedded.org</a> &lt;ross.burton=3D<a href=3D"m=
-ailto:arm.com@lists.openembedded.org">arm.com@lists.openembedded.org</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;b=
-order-left-color:rgb(204,204,204)">The --extra-space argument was renamed t=
-o --extra-filesystem-space to<br>
-be clear what space is being added to, but this breaks existing wic<br>
-files.<br>
-<br>
-Add back --extra-space as an alias for --extra-file-system-space so that<br=
->
-existing wks files don&#39;t fail.<br>
-<br>
-[1] oe-core 39d10137b86 (&quot;wic: rename wks flag --extra-space to --extr=
-a-filesystem-space&quot;)<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
----<br>
-=C2=A0scripts/lib/wic/ksparser.py | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py<br>
-index 705f9897508..8ca5f77ff53 100644<br>
---- a/scripts/lib/wic/ksparser.py<br>
-+++ b/scripts/lib/wic/ksparser.py<br>
-@@ -155,6 +155,8 @@ class KickStart():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0part.add_argument(&#39;--change-directory=
-&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0part.add_argument(&#39;--extra-filesystem=
--space&#39;, type=3Dsizetype(&quot;M&quot;))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0part.add_argument(&#39;--extra-partition-=
-space&#39;, type=3Dsizetype(&quot;M&quot;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Deprecated, just for compatibility<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 part.add_argument(&quot;--extra-space&quot;, d=
-est=3D&#39;extra_filesystem_space&#39;, type=3Dsizetype(&quot;M&quot;))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0part.add_argument(&#39;--fsoptions&#39;, =
-dest=3D&#39;fsopts&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0part.add_argument(&#39;--fspassno&#39;, d=
-est=3D&#39;fspassno&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0part.add_argument(&#39;--fstype&#39;, def=
-ault=3D&#39;vfat&#39;,<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#223217): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/223217" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/223217</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115169720/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/115169720/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000003d2c61063e734609--
+T24gMTAgU2VwIDIwMjUsIGF0IDE1OjMxLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmlu
+QGdtYWlsLmNvbT4gd3JvdGU6DQo+IA0KPiBXaHkgbm90IGZpeCB0aGUgZmlsZXM/IFdoZW4gY2Fu
+IHRoaXMgYmUgcmVtb3ZlZD8NCg0KQmVjYXVzZSBhcyBtdWNoIGFzIEkgZW5qb3kgYnJlYWtpbmcg
+Y2hhbmdlcywgdGhpcyBvbmUgaXMgdHJpdmlhbCB0byBtaXRpZ2F0ZS4NCg0KV2UgX2NvdWxkXyBy
+ZW1vdmUgaXQgYXQgYW55IHBvaW50IGJ1dCB0aGUgb3ZlcmhlYWQgaXNu4oCZdCBleGFjdGx5IG1h
+c3NpdmUsIGl04oCZcyBqdXN0IGFuIGFsaWFzIGZvciB0aGUgYXJndW1lbnQuDQoNClJvc3M=
 
