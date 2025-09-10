@@ -1,232 +1,129 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7B65CA101F
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 12:56:51 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.16997.1757509009902074758
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C18D3CA0FED
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 12:58:31 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.17128.1757509103494580424
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 05:56:49 -0700
+ Wed, 10 Sep 2025 05:58:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cWnsQbHL;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-32dc6616f7dso313756a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 05:56:49 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C8OqbjTt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3e7428c4cbdso433058f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 05:58:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757509009; x=1758113809; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=e/UVsju/5zYvk4otEukqPhRZs7YI6uYRHFlxT6iK3VI=;
-        b=cWnsQbHLSm9nkdXaG1JfF5VWqT5DIrk3uYgP3Hl/t0zmmjGGs4ImgRfswTDw5DtoLf
-         cznstehGmeBanD8IjgA5vqdxTtWpCsJfFRP0sJ87UKcVIRUrMM2qGNnpEjKBHMC5TU0B
-         jVgC5pnQDGD0UMCEySSlVw7z7jvtR5+lP3M/fcE/nkq+Zys1jp+cNXxVwzRy8+egQSp9
-         yAt7AhVzKkYmo8vc6lLp8Htw4QmotuZLV1HrA6nqBQ3eefj4wwJomKu0VMBve8waUTVS
-         sESzrQHCX8ZKyAQR5sHDzfLkuLWmFVi0WywW5eyPDWgo7a1hFtQO1n+aeDr0bsNo0gH4
-         1Lyw==
+        d=linuxfoundation.org; s=google; t=1757509102; x=1758113902; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vcveTRL6fqCTlSgKDMTH7zYRsz4qlKi9o8XRfw5Qqm4=;
+        b=C8OqbjTtKGfPz0lI45ERoLRB8/oNy+OT2tlznaH+oPZGYAfelA7jtiH6srKlnEGaQO
+         2vqyOCsnGjY2MmE0K491g6HwAzZGEc4QsIHbfGHNCRnHfKeF3cMc5hSG8IJ/cGMVQLpS
+         BsQ7pu2fN1ViZm5JDPHUfWup/Hv7yHtsoZ8tI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757509009; x=1758113809;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e/UVsju/5zYvk4otEukqPhRZs7YI6uYRHFlxT6iK3VI=;
-        b=kV5O30NafywIaF69uXPuy1bAaNHtPwR7LL2npWGLwul590cyRg6vJuDXJ8/4yuD7xB
-         mkvc3UBG6ZBCs33EfFoiz4QgtniYwSMMxNBZPZvdtFj4C012Bs/z8sqt8g54ZHclPLm2
-         GBC+qmgEdvBpjESr2Fx/AOEts9Az2j6MF+loaaf9sB0T8NM7OhkxvCcLLHA6SZqLh103
-         HP0J80v+vD0qKOAhhgPzIETa+Wgoi7k+G81CySLOEaQdp1KjlVt/B1wemzOoApZgwlC5
-         9OzpCKO6JTEC2md0gj0WYzV/vyrm8wbGvrKVx0pkZ/n65w7CG4zi4pBM47tV66g+EYDX
-         CqfQ==
-X-Gm-Message-State: AOJu0Yw5EXBijgz9t4agJbpWRBR3jxwv2ycycgFIn8GZehergk4JfZRW
-	jJko66dObZPNZFBInBzBXu1eL8IqRJW5MjYFBj/rWyC8bBp0Fnh1gJ/h9tlWNtLUKqlT8OgZkNs
-	BsQ8nfqQcvHlW2S7ZqtgUOZ1cNMqsTPM=
-X-Gm-Gg: ASbGncsybY3y4CoTwRTVNZQgAhKynI5aWeEgIaMDy6m1+rD5kzQ3CL7+FpGklV2EJdg
-	NrQ+52lBY2UQjbJAkXrE8zz2fDxGOmaxSwdUmS3dyzadmQG110NWaFI/L6tN/f3HxQhW/NFPcBT
-	xOb9kguoJlSYZrFe+nol6cEwvnxgCQ3c3KH6BdQzGQQzxPROYT52tvTN95pZ5c4ZoObCjgL95K+
-	seUv+FTzEK2LMOAhSeChxv38blyeIUNzWH0ieQBZlVDfV9WIQ8=
-X-Google-Smtp-Source: AGHT+IFO0xgsixfKV7FFHBcFgWJhgTHRemJlgTTqUH2y1PJPFzMcoBYfFBBcJsU69ewi64cTUo6DuBYj0e9qyaTsTLM=
-X-Received: by 2002:a17:90b:2d06:b0:32d:7093:7f6b with SMTP id
- 98e67ed59e1d1-32d7093808fmr16135447a91.30.1757509008918; Wed, 10 Sep 2025
- 05:56:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250910050822.3273330-1-bruce.ashfield@gmail.com> <c2e11f23330c22a09a7e98a789aa2b26bd260ad0.camel@linuxfoundation.org>
-In-Reply-To: <c2e11f23330c22a09a7e98a789aa2b26bd260ad0.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 10 Sep 2025 08:56:36 -0400
-X-Gm-Features: Ac12FXxuJ_ykInTJvCt7CQ3sSDInj1BnZoWkoA9ljoZq9KcHVg_JcMyr-7s85pg
-Message-ID: <CADkTA4MMdRyBmWAn06Y+9UfpApwUwx1sy3foE-5Z63yjJA4DOA@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1757509102; x=1758113902;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vcveTRL6fqCTlSgKDMTH7zYRsz4qlKi9o8XRfw5Qqm4=;
+        b=ViqPN2QnmGoRLbfpS1qe+OSjmELxdXjVHWjt0LTTZGm39ckYyNqagm3tAC7H1ExzhE
+         XCqELX+oghQTyesd2XS/xZf/95YRVfOr8lQCM7Eyk25hPOSi0WmI9eAAjT/AkR1bFAcI
+         1L77jBwJ7bj6H9ykPPaBwITP3VOf2loY4XISxVOJb3/5kNn8urV3eXCInoaxPW4ny2qw
+         WqklgzeZ9R9JOqnDzW3BA8qpBxDRMgiQ907VHqxxzPDy3ciUJbj/54OhgnY3H995ShwQ
+         rfUTjtEQ7I0n0Fuzeyu95xLEMriFpHgBHu5S+B4dL+GFfOFuwadAiosai24v163Trpvk
+         GPew==
+X-Gm-Message-State: AOJu0YxeBgRrzdewwq8QqfO1+mFrfkBic3wwte5cHY+w43HGW+QUdyUQ
+	axPGNOjI9E/j3bvcVSkiNcJ5FXDBRdgwxesX/qgcZ0ofSSnI9HsOlahgNc8aZog6oWA=
+X-Gm-Gg: ASbGncvTH9VladJQwk+OofIYKUiTMFaPoWSSnZ6CRo76XdhfpmsuwPRTey2kK58JpdB
+	YQG0IfvwXh6WZg85hiQxpHy99gLy6J8R3kOytfw9xLUpzja7xkWjjbPOzdxebrRi6v5wh03W4vd
+	FoFZ0s9ApnFjB81UQAnUNwJDqUNf0/QjlFsThJ3aYAj1Lmunn0rzlg9z9/HOm8dfLizAiapV4nZ
+	9PVr48rUpKCNEIsY9Y55d6ackKq+cjMbJUttuTCI7eN3efkqqAf0driT43J/LtTz/CMnk+YeQmV
+	m53sKB1zTlvUVtv1qx55lI27OEVbpZPHakd+nLlKPUrTSVhul9TdreZEpIiyu3WgWec57gY2TRg
+	Jt8tw4C1jh+EIEaIujMCvNgcNQy2HLYf+JXKdvioezTXb8w9tQQh+NkL7tCaVnd5RNo/gV/4B4A
+	/9gWS7jSS5dL35v/yJ3VQ++w==
+X-Google-Smtp-Source: AGHT+IHCwItUbZgKvY74H7gIIta2lzIpvu3wbv84G+FdcwK2uipOO/rHWgjwuFqrzz5TL2V77FH2sg==
+X-Received: by 2002:a5d:5e92:0:b0:3e7:428f:d33 with SMTP id ffacd0b85a97d-3e7428f0fe6mr16335871f8f.16.1757509101867;
+        Wed, 10 Sep 2025 05:58:21 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3ead:2ef7:6003:aff8? ([2001:8b0:aba:5f3c:3ead:2ef7:6003:aff8])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7521ca20dsm7384513f8f.21.2025.09.10.05.58.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 05:58:21 -0700 (PDT)
+Message-ID: <0b543abec79fb05ad30195e268266e74e446b4a5.camel@linuxfoundation.org>
 Subject: Re: [PATCH 0/4] kernel-yocto: 6.16 fixups and genericarm64
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com, 
 	mikko.rapeli@linaro.org
-Content-Type: multipart/alternative; boundary="0000000000002a9c7b063e71f4c2"
+Date: Wed, 10 Sep 2025 13:58:20 +0100
+In-Reply-To: <CADkTA4MMdRyBmWAn06Y+9UfpApwUwx1sy3foE-5Z63yjJA4DOA@mail.gmail.com>
+References: <20250910050822.3273330-1-bruce.ashfield@gmail.com>
+	 <c2e11f23330c22a09a7e98a789aa2b26bd260ad0.camel@linuxfoundation.org>
+	 <CADkTA4MMdRyBmWAn06Y+9UfpApwUwx1sy3foE-5Z63yjJA4DOA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 12:56:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223207
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 12:58:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223208
 
---0000000000002a9c7b063e71f4c2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2025-09-10 at 08:56 -0400, Bruce Ashfield wrote:
+>=20
+>=20
+> On Wed, Sep 10, 2025 at 7:16=E2=80=AFAM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Wed, 2025-09-10 at 01:08 -0400, bruce.ashfield@gmail.com wrote:
+> > > These should cover the first set of warnings / issues that were
+> > > seen with the 6.16 reference kernel.
+> > >=20
+> > > The first fixes vboxguestdrivers in meta-oe
+> > >=20
+> > > The second is the qemux86 configuration warning fixup
+> > >=20
+> > > The third is to get genericarm64 building and uses the changes
+> > > sent
+> > > by Mikko.
+> >=20
+> > Thanks!
+> >=20
+> > I don't know if I missed a patch or something else went wrong but
+> > the
+> > number of warnings went up. The ones I spotted are:
+> >=20
+> > qemuarm:
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/2386
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/2343
+> > qemuarmv5:
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/2207
+> > qemuriscv64:
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/449
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/468
+> > qemux86 + poky-tiny:
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/2384
+> >=20
+> > Also warnings in other layers:
+> > meta-agl-core:
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/builds/2209
+> > meta-arm:
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/builds/2245
+> >=20
+> > and meta-virt which I suspect you know about.
+> >=20
+>=20
+>=20
+> Yup for meta-virt.
+>=20
+> Something must be missing, everything is warning free here.
+>=20
+> Is your queue on master-next ?=C2=A0
 
-On Wed, Sep 10, 2025 at 7:16=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Yes, this was with master-next.
 
-> On Wed, 2025-09-10 at 01:08 -0400, bruce.ashfield@gmail.com wrote:
-> > These should cover the first set of warnings / issues that were
-> > seen with the 6.16 reference kernel.
-> >
-> > The first fixes vboxguestdrivers in meta-oe
-> >
-> > The second is the qemux86 configuration warning fixup
-> >
-> > The third is to get genericarm64 building and uses the changes sent
-> > by Mikko.
->
-> Thanks!
->
-> I don't know if I missed a patch or something else went wrong but the
-> number of warnings went up. The ones I spotted are:
->
-> qemuarm:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/2386
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/2343
-> qemuarmv5
-> <https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/2343q=
-emuarmv5>
-> :
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/2207
-> qemuriscv64
-> <https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/2207q=
-emuriscv64>
-> :
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/449
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/468
-> qemux86
-> <https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/468qe=
-mux86>
-> + poky-tiny:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/2384
->
-> Also warnings in other layers:
-> meta-agl-core:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/builds/2209
-> meta-arm
-> <https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/builds/2209m=
-eta-arm>
-> :
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/builds/2245
->
-> and meta-virt which I suspect you know about.
->
+Cheers,
 
-Yup for meta-virt.
-
-Something must be missing, everything is warning free here.
-
-Is your queue on master-next ?
-
-Bruce
-
-
-> The build failures are resolved though, so progress, thanks!
->
-> Cheers,
->
-> Richard
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000002a9c7b063e71f4c2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 10, 2025 at 7:16=
-=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfounda=
-tion.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">On Wed, 2025-09-10 at 01:08 -04=
-00, <a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ash=
-field@gmail.com</a> wrote:<br>
-&gt; These should cover the first set of warnings / issues that were<br>
-&gt; seen with the 6.16 reference kernel.<br>
-&gt; <br>
-&gt; The first fixes vboxguestdrivers in meta-oe<br>
-&gt; <br>
-&gt; The second is the qemux86 configuration warning fixup<br>
-&gt; <br>
-&gt; The third is to get genericarm64 building and uses the changes sent<br=
->
-&gt; by Mikko.<br>
-<br>
-Thanks!<br>
-<br>
-I don&#39;t know if I missed a patch or something else went wrong but the<b=
-r>
-number of warnings went up. The ones I spotted are:<br>
-<br>
-qemuarm:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/buil=
-ds/2386" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/16/builds/2386</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/buil=
-ds/2343qemuarmv5" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.=
-yoctoproject.org/valkyrie/#/builders/40/builds/2343<br>
-qemuarmv5</a>:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/buil=
-ds/2207qemuriscv64" rel=3D"noreferrer" target=3D"_blank">https://autobuilde=
-r.yoctoproject.org/valkyrie/#/builders/80/builds/2207<br>
-qemuriscv64</a>:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/buil=
-ds/449" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/valkyrie/#/builders/45/builds/449</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/buil=
-ds/468qemux86" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoc=
-toproject.org/valkyrie/#/builders/56/builds/468<br>
-qemux86</a> + poky-tiny:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/buil=
-ds/2384" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/50/builds/2384</a><br>
-<br>
-Also warnings in other layers:<br>
-meta-agl-core:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/buil=
-ds/2209meta-arm" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.y=
-octoproject.org/valkyrie/#/builders/55/builds/2209<br>
-meta-arm</a>:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/buil=
-ds/2245" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/75/builds/2245</a><br>
-<br>
-and meta-virt which I suspect you know about.<br></blockquote><div><br></di=
-v><div><div class=3D"gmail_default" style=3D"font-size:small">Yup for meta-=
-virt.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div=
-><div class=3D"gmail_default" style=3D"font-size:small">Something must be m=
-issing, everything is warning free here.</div><div class=3D"gmail_default" =
-style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
-ont-size:small">Is your queue on master-next ?=C2=A0</div><br></div><div cl=
-ass=3D"gmail_default" style=3D"font-size:small">Bruce</div><div class=3D"gm=
-ail_default" style=3D"font-size:small"><br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-<br>
-The build failures are resolved though, so progress, thanks!<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---0000000000002a9c7b063e71f4c2--
+Richard
 
