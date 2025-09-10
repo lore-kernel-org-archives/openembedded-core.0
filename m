@@ -1,125 +1,127 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC45CA0FED
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 16:45:13 +0000 (UTC)
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
- by mx.groups.io with SMTP id smtpd.web11.23879.1757522706536549056
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEA6ECA101F
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 19:17:43 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.27772.1757531858225295152
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 09:45:06 -0700
+ Wed, 10 Sep 2025 12:17:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=auPPpCVH;
- spf=pass (domain: gmail.com, ip: 74.125.224.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-60170e15cf6so3429282d50.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 09:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757522706; x=1758127506; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J9/cgUIq4HT4XXD0Kloqb/nHu5CRd802q8h8JBxckVM=;
-        b=auPPpCVHXNDki0ZoGan/BS2A9NSNHs7DSmMLtzf1IpnuT40tLJkxUvCROGuxG3/nfT
-         HMY3D7e+yz453WDnaihgw2FroaxQD2oWlOzBgQuE80H1p6gIQK6ba1MygvrUzwAxoMIo
-         qcQYybARteUmNDhMzfOoGepwfTq61q1Ukdt8sufjbtJ9o00Il/6nnWs0lHRXl87/qaOh
-         egRmLDkjJje2naN5/FALz4EQGT8h0emKbNGnK/Oiy+uiyF65TOi1VKx3nWmRqjO7xXQh
-         Xz8ex2uDCkMf6+k5vZHcE/ccvBBs6+eG6faK8ozEory101hgFtlUKzlaIMcCYC+4YbY0
-         N2qA==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=h8al4blQ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ACgTmp029934
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 19:17:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=gW0+cod69q44txNiXCkWtCOLqsM3gVqK3uI
+	JgQjHS+o=; b=h8al4blQuyIZ9/BW2fejQzzUrr0M90ZWiRIFMPH2K8ZfOD9uzNS
+	atMjBDozP1TforvGmk6ulrnh1l4Suv50V2Ay1QiVVjRrcUMyJN9ihAQpX7wmEmqO
+	P6wDoknTTW6DZ/FIynj5So0KKM7f7M4DCx9o/Fva91iF2m/xie0XjNEMJ8EsTYqn
+	nTnD+SIUO5WIdI2BK/4u5AG0PrtsgreFAKvN195JZN4ELP7IYvAF444KFlt8n2uo
+	io3lJyC1UyyvKw9XGgwxrlYlWZfC2atC3iYwLuZgkqbE0RElzQJcMgPS5VIemPzz
+	MwWBCPVLGE99D9XAPM7ZHEtOe3T5J0XNyKA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490aapna22-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 19:17:37 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-70edbfb260fso151758686d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 12:17:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757522706; x=1758127506;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J9/cgUIq4HT4XXD0Kloqb/nHu5CRd802q8h8JBxckVM=;
-        b=edB2VTxcn6RHdkEGz/3EZ4GgosIzJqZ+RR/rLnHzpfvql8rHJxLfcG3OpeFztGi0H/
-         arpp29em+fjicYEPMZot/qOwSVtNYalRpOIA6y4s8zuG6dSqwv9Lnx/W+WVIGaKvBr4G
-         dqTQ99vza8hA1d1SFYSv9txaQQg+TzazrcWyR9KHdJduoM+pJSocoDyAp0eIAxpaCu9K
-         CbKPFE3axfFqvbZIj0Qf8oEVoMasaM4e7XO/USN/oO0S9o0O01Hcn2L5/ZKpJLtQTvDo
-         QwBB7hBypdJD5+LLcsk2bpNu2SjhxgJ4IJlZkOmwiOxYVpyrIHymjpVA/g+Vz6WwqcdO
-         VVqA==
-X-Gm-Message-State: AOJu0Yxrtmr6GLjDxCyb2CxZo9Q/gHXoZcFkhZGN+f9KMm+xFDxmOwIc
-	a1oTmtXmKlHMk0+Jxm9XCrNzU00DZ1Ivo6XFpvWSvktZI5oV5zJhbjoztdg6Um2Sdl0VOatn78a
-	hjVF34n61+9UWShdiOr7H9zHoaNsM/qM=
-X-Gm-Gg: ASbGncsKbruUXegxXQ7enJnr9DgiJWMizme8iQaxY8mAJ2cmEfOPmHHUuHTlufjPtba
-	dbUAaDK0XUF9kx7R3LVXS7rsK8H1JMjIFQnT1XfWelJma20Sjqjvf9OXSc/MNcWRmXGIB8iz/3B
-	N/QGkFDLzdeBlj6otev5q9wSlCERLLfOEdHdVyxZpghWjVRiY8luUi4PK0MJFOZ1r2KRtwX44/c
-	AtnfxWyUKbGzlg8rHR14KneJ7lowvQjQ6y6XZkXpz2I/vbQE+XWo35v1qc2dblPBvh/huoId/1o
-	m+L7+OxN3vamVm7cAFgV7CEWO/eyQDGdyCdlkgvSU+7LPuFsJYrdGx8P7g==
-X-Google-Smtp-Source: AGHT+IFtyGeKriOgTISGOeJ08UJBoh0Q6LbsUvRMdvjW1xgXXP/7TFn1l/0V6zJ5o5Zc95XncSpqZlnUxCaVVLzW+nk=
-X-Received: by 2002:a05:690e:15c3:b0:60b:9396:2723 with SMTP id
- 956f58d0204a3-61023ba2e3bmr10090871d50.12.1757522705381; Wed, 10 Sep 2025
- 09:45:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757531846; x=1758136646;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gW0+cod69q44txNiXCkWtCOLqsM3gVqK3uIJgQjHS+o=;
+        b=EaS5aW49gMO93pMFaU8tiWXiAbumsGo5+pz7tGzQVtXaEiiqI6ZBONv2UPZGzvrZiV
+         U48hONYEAeBYuKSr2pVq3HRRr4IUg424vDUNsj2r5yTui1vNOH+TmZb7wX9dHSrYM9ge
+         psHi2Kdzz5YVgV/w8D1MUyu11ZymNIB1wqC6GTamoDDJSXlpWnSoqsHe5Y85mbcArglH
+         vS44pYq0xfGBs1PucIHIPqytSTa/yYuQRxMhXPwWgXg5Ce9+IdtjcMoyUSesnM9Z9CFZ
+         ZdsXXF6KrvWXASC/dzA+pNErCGdtQgM1xmmOc0/763vyccR+VxzVTXtqUm+zM7iuzzdk
+         pjNw==
+X-Gm-Message-State: AOJu0YxQk+wn69q3cJ+qIA3sJmflGD8v+yuw10eANTfDyy2JlwZ69rsm
+	/TZ5J2Qxmup4Cu2b1QB6D4Uqbf/cQVk4OnXoJpnJhHy7g9UA7cntTxTq4/Q+MujnCvBdBigEp6h
+	8jSdq2ZhE8XQrmwkvrWK7RRPT1tPi0rZgxZ6TNOTfR+v/W2VWr2AJjIAUc76Y1z/0qufz0nIJ7b
+	gwX3SEpWXlEWdD6Fs=
+X-Gm-Gg: ASbGncuMoR19QtlLiaai7Maqkt8T7yy9Sw+ktk7gLcfBY+aqzkmVgAtNwV0qhKmaFt7
+	anTwuKjQSyJ1O1jkqpDBKrT1QxbQ+8TP1ruwm9m9ooumyMkJJnuNG1XMpjbIKf/RnMPn6R+Hx2O
+	RjyWufOngQAfoCaGOOGGuio+elfbbyonMT0FF3ECv6e+G+Qq+CAqACXTjvlrThXjimAPPyyesOd
+	//pmU9rdJtk7neZXemYov3QrH18S044TZn36q80hV1thnClx79vrxTzqER89JO0GP0hcXUUVocF
+	BymbCF5QCPBtKjSV9DGRz09vWT71dWGaShWJfQBGORz2RntEe21eqN7k4glzgDETsy/fGOaPTU7
+	I/eB/dbQGYnDJ1EUnGjFP1ZJRQoL0XYEjcGejnMZh/4L+8svs1v7z
+X-Received: by 2002:a05:6214:29ec:b0:72c:3873:2e52 with SMTP id 6a1803df08f44-738fb0ce2dfmr158967476d6.0.1757531846309;
+        Wed, 10 Sep 2025 12:17:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGX4UUPf1wtwkVolGrxy64ilm6lcLNfI9xw2fcKI9gNj+8CcT8NOsEXKvQBdVJUHaoF1oBDjw==
+X-Received: by 2002:a05:6214:29ec:b0:72c:3873:2e52 with SMTP id 6a1803df08f44-738fb0ce2dfmr158967046d6.0.1757531845637;
+        Wed, 10 Sep 2025 12:17:25 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-56dbf1c5094sm36895e87.86.2025.09.10.12.17.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Sep 2025 12:17:24 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libglvnd: RPROVIDE "standard" package names
+Date: Wed, 10 Sep 2025 22:17:23 +0300
+Message-ID: <20250910191723.1290003-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <DS0PR11MB79014CF356CC7621C30E755AE00CA@DS0PR11MB7901.namprd11.prod.outlook.com>
- <CAMKF1spW9RueDyMXqj5oTqhfkq6csjPP7CaOc3Jwk2gx4V=Xyg@mail.gmail.com> <23dd8abf-716f-4f21-8375-1b0a102170fa@windriver.com>
-In-Reply-To: <23dd8abf-716f-4f21-8375-1b0a102170fa@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 10 Sep 2025 09:44:39 -0700
-X-Gm-Features: Ac12FXwVapDMrxOih6y6TJu-Z08NM19mTRjhATPiryIx7kMalcFyveJhhM5dSgY
-Message-ID: <CAMKF1spJqiAoYPjs0-Zd9RPeuTJw3O745cdXk+pPYScgp=OW=A@mail.gmail.com>
-Subject: Re: Clang - Question on dropping D144541 clang patch in OE
-To: Sunil Kumar Dora <sunilkumar.dora@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, 
-	"MacLeod, Randy" <Randy.MacLeod@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=eMETjGp1 c=1 sm=1 tr=0 ts=68c1ced1 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
+ a=EUspDBNiAAAA:8 a=GBAjVQhj50Zce8Up8PkA:9 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-GUID: enzBjS1hG9psy9392RrumiIEY1QoD2jI
+X-Proofpoint-ORIG-GUID: enzBjS1hG9psy9392RrumiIEY1QoD2jI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAwMCBTYWx0ZWRfXwwh9FhPJSMbs
+ m+4DJ3GoSXGpkcjH7f4oLih/YSI4fUJK4kI9d3hJq2Zc3PMkrFTNYgEl+Mw2RS4rAWtizHsNErs
+ A0vJn/neao1bHNAFKJ9g5aWmPHkklVaqfmwCXa/uf4qLt91dUpfJVbxaesqt4+KrWcczEYBBuQP
+ KAYPJ5mySBZ8JSud2Vs0JLGHQ8pRHvdhs5CDEVn9+eNbvy1ssfKgmXzhQmAkZ+THer89ErB1MVg
+ MhpCQGHG5WWGf/ncqjw0xfxJFormelASKQy4nD6JUx8uh8gzjHht+172ofyJowNb9qbrytG1LyM
+ oiFr4TI9+SQBFM7oKB+Gg4gXL0NsWAcBb8mx0Ktf/K9XUf8bWd/Z6FHPskfHfcjFLlq+OEqS0io
+ rXrW4Uus
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0
+ bulkscore=0 phishscore=0 spamscore=0 suspectscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509060000
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 16:45:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223230
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 19:17:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223231
 
-On Wed, Sep 10, 2025 at 9:34=E2=80=AFAM Sunil Kumar Dora
-<sunilkumar.dora@windriver.com> wrote:
->
->
-> On 9/10/2025 9:56 PM, Khem Raj wrote:
-> > CAUTION: This email comes from a non Wind River email account!
-> > Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
-> >
-> > On Mon, Sep 8, 2025 at 7:45=E2=80=AFPM Dora, Sunil Kumar
-> > <SunilKumar.Dora@windriver.com> wrote:
-> >> Hi Khem,
-> >>
-> >> I'm cleaning up our clang patches in OE and I am looking at the one we=
- have from
-> >> D144514 (The one that adds #undef TIMEBITS in sanitizer_platform.h).
-> >>
-> >> I see you already got the main fix for that TIMEBITS=3D64 error commit=
-ted LLVM upstream
-> >> in D140812( Commit - 26800a2) for Linux in sanitizer_platform_limits_p=
-osix.cpp.
-> >>
-> >> In our builds, I haven't seen any issues without the D144514 patch. Si=
-nce we're only building
-> >> for Linux, can we just drop the D144514 patch and rely on your upstrea=
-m Linux fix?
-> >>
-> >> My Question is: did D144514 serve a broader purpose for other OSes tha=
-t we might still
-> >> need to account for? Is there a specific arch or multilib config you'd=
- recommend
-> >> I test on to be 100% confident we can drop this?
-> >>
-> > It looks like we can drop it. But try building  compiler-rt-sanitizers
-> > for arm32 ?
-> > to ensure.
->
-> Yes, I built compiler-rt-sanitizers for the arm32 architecture, and the
-> build succeeded without this patch. Looks safe to drop.
->
+Some packages like cogl-1.0 RDEEPND on the GL / GL ES / EGL packages
+directly. Reuse the package names RPROVIDEd by the non-glvnd mesa builds
+for the libglvnd in order to let it fulfill the dependencies.
 
-In that case yes
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-> Thanks,
-> Sunil
->
-> >
-> >> Thank you.
-> >>
-> >> Regards,
-> >> Sunil Dora
-> >>
+diff --git a/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb b/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb
+index 1e4c5b860c35..18eeaa5523f3 100644
+--- a/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb
++++ b/meta/recipes-graphics/libglvnd/libglvnd_1.7.0.bb
+@@ -34,4 +34,12 @@ PROVIDES = " \
+     ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'virtual/egl', '', d)} \
+ "
+ 
+-RPROVIDES:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'egl', 'libegl', '', d)}"
++RPROVIDES:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'egl', 'libegl libegl1', '', d)}"
++RPROVIDES:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'glx', 'libgl libgl1', '', d)}"
++RPROVIDES:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'gles1', 'libgles1 libglesv1-cm1', '', d)}"
++RPROVIDES:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'gles2', 'libgles2 libglesv2-2 libgles3', '', d)}"
++
++RPROVIDES:${PN}-dev += "${@bb.utils.contains('PACKAGECONFIG', 'egl', 'libegl-dev', '', d)}"
++RPROVIDES:${PN}-dev += "${@bb.utils.contains('PACKAGECONFIG', 'glx', 'libgl-dev', '', d)}"
++RPROVIDES:${PN}-dev += "${@bb.utils.contains('PACKAGECONFIG', 'gles1', 'libgles1-dev', '', d)}"
++RPROVIDES:${PN}-dev += "${@bb.utils.contains('PACKAGECONFIG', 'gles2', 'libgles2-dev libgles3-dev', '', d)}"
+-- 
+2.47.3
+
 
