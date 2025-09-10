@@ -2,70 +2,70 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82148CA101F
-	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 21:01:54 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.30222.1757538106993644693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C8A9CA0FED
+	for <webhook@archiver.kernel.org>; Wed, 10 Sep 2025 21:06:34 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.30559.1757538388296019079
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Sep 2025 14:01:47 -0700
+ Wed, 10 Sep 2025 14:06:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QpkmaLQY;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7722f2f2aa4so45213b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 14:01:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OXa0Vfz6;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-25669596955so31135ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 14:06:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757538106; x=1758142906; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1757538387; x=1758143187; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JuknkK7fx57sLBDsQh2fGlcqnmny0CY082OLLTiYVkA=;
-        b=QpkmaLQYVgoTAeGSRaa0yWlzne0+XVKnq+k24N7YoPCeoNU65iCiT27ahuH92vHljL
-         goa+jrN2RZ3rl2EQ8wcEyzxh7/c8+ej3wHTWFmPeVzk/sC8qfUHr4j35WOzJeoS67J07
-         nYSONGffIhk9Ixc5dh5q5gte1b8c+/rbCv/bezAB8USbpzcwGTbW2CyJcF/fVPwmFvM9
-         Z1PtypHXMfytTSGQtnhtRS2Lkenrp9rO+mw6x+plpswWHHaL/rRt/N0O+GmQUfomL25s
-         Mtqin5ZmJSKqH6CnsFSrYXDRsT20qyWr36b3Oy3Q1HrtbTC8VbMXLgPV98W9SC6R6ysn
-         8oKw==
+        bh=mTsDGPI4lgUUwAnvHhvot5YqJuoxoGsljl7eaAyxvb4=;
+        b=OXa0Vfz6QVJaeFDMsamjUppbvXA8woDdFq1/DakYAp9InWyzu9gZ8vwtpHXmkHvMKB
+         HWS7qlx0vRQlSsgGohcHVthJygh9x9+T2j9lV7BJ9u1WDQ5I/IXaY5cKSVhUQfkRWtgX
+         GTsiqDXHez5lgWhIErdO6+ezHp+MDLTtgHxCfRO+A58AoP3GU/2xoGqsyWzKatrKZtG7
+         MO0Uxqm3j7TmtbJOlWEHC0oraM8W3XY1KoqXDfi1zeHEsGNt5d9HI69D4krYljbdXRue
+         9wCol0Wwy0bv06SH/AvI9+JyIPCUkfuxX1QGBKQRZKvLnZCnIaQYw6vgi2JIhjNXGF7b
+         iauw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757538106; x=1758142906;
+        d=1e100.net; s=20230601; t=1757538387; x=1758143187;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JuknkK7fx57sLBDsQh2fGlcqnmny0CY082OLLTiYVkA=;
-        b=ThKqWEovF946J/xMY0JDdzPuvLoebzGw4PgFmgNLPO1yORb5KwkpYkphIeoX8MgXvI
-         EhutlMXK+ytp+Bzal6Fo2BBIrv1u3fs6fXAe8XqexT6CCCBmgSixkEBmZrSJfEMlK21g
-         6XliUP2lBPJzJJbD6Mz3syc30FnFLZr2yFnCx/zL2jQLsna65JEeV5BmB3EpCsJXWzm8
-         s6SDbh3lDhZ+/bQHLHTMJgBNpEBa+Wz+f/XaIF08Tc0P18XR+zQ5XdNOWB8IFIubU1pA
-         cVqCawdDnyvNOYj2aXM7aFc5C0QvyuHYpitRACGUUtsXyiEha+COKtBZMfDklgLC72Fp
-         JPmQ==
-X-Gm-Message-State: AOJu0YyWOo4hokkZqv2Wl/sfaRBo7bhpVWHWMFnylOHr7pAVK+FTQY42
-	8eSEA2BCYDggkDB07UFOkcULD4aGCzr0PUboJZB+OdFvk+DAy8JP1GasdKo0PkNv
-X-Gm-Gg: ASbGncvkFQWSrQzczpKib8vev5bU/0uyLBdL7OO/Du++SiIWmXmTxL/IXnF4xvRPL1F
-	Hav49MSOJOHfNHWw8Eb0z05VD2qgj1hvPJ2IvgUB3TJpp79WqBYUEzsYYC+fVORt21ifn1HGzTx
-	9MeGEvcJFfmfnRIZNOn+UmxwN3dSf75ya/iz+u3j5FB7J1cFuEeZNm7REs4DZn9IfZYSYX7USEm
-	VhyByiyT7BgFxUZQhoFp8zAdDr+Ai+K9lx3j8VwTsb1Xc3ZhTqHm9AANX4Nuj2m7LaVvL50VxSN
-	VdCn1icI+EYrYfD7Kg63mfG0w6O9zRud/Wj8qTSuBe1BeFPP6VC4cC5/GJbqsQ+IggUtFBxmqzs
-	on/nizLeA7LgV59fgivds2MBsbiskoNnRUPIlDQBWHHaEzS0BG3dwnvxZeYr+aTSXWZmaB/TT6r
-	sa60WubtMi7eEg+PjCuCn/5OwJOUzKkOVwdHg80e3JleF8rRhCCrc=
-X-Google-Smtp-Source: AGHT+IGWtf+ICSPAR3JDyXRfZmYgarLzEskrUog7F41TDZiObeGjODm18GTRPpDotDS+fWeMyCpVKA==
-X-Received: by 2002:a05:6a00:b43:b0:771:e451:4edf with SMTP id d2e1a72fcca58-7742db82f46mr19416118b3a.0.1757538105414;
-        Wed, 10 Sep 2025 14:01:45 -0700 (PDT)
+        bh=mTsDGPI4lgUUwAnvHhvot5YqJuoxoGsljl7eaAyxvb4=;
+        b=JptHDTlbb4UjtWUU9ME86qse/znfRhqvMZCGZUbqMqmX3ELofl7cgxilKcYWLT7aKS
+         XRlSp4KMr7mcmTMzulgOHjZVtFxuIW3eIxeuFCFpQd7CfvMgwKj+XDKldzErG64kFyi0
+         C8FGbv0MYzWvgCx57U4mr1wbYZ5JmeKBjDwk4TnKyXun8qOO2bsxoR204Bv+6z/PY/W4
+         mTBE5FCDKCrzWJY1H2HDpitR9Oh54ro2c1A3dtEWffrc+HoaymFll/tj36kMY7whxTqa
+         df4CzeweHguKRMhSVXA3e8zpurX3p9XFcd5c7Kbiw4uba7UOcH6RDgUAcu15d/uaia/j
+         2vAQ==
+X-Gm-Message-State: AOJu0Yw3i8TLmv8mRewfmMptmJhLrBJjukceGH4zTTAwp6S1qBK6upgC
+	GMMgt1incV8wCPZrk64BkwU5ZVF0CY/dB4H1FBC6njCIvT1YdzF/+6CyMEPCfXNb
+X-Gm-Gg: ASbGncv4QscG59FEJalj4xDpunM1Pl9UqI+OqllJNqmc0Lo2pdwXCPNNyuZMShmXJTz
+	RuhKAnBAITIXfx+eZ52yjo/JhdDRWLIKyzJSb2+WmL3kYzbbs6UOj1zr0zmwgK+1Fj0U5pzgFyZ
+	1K6E6NKEshl3ru2tsZfHWbdGEbGOnltv2J8qDOad12pwLUH66tlkS8ZwZcQlV2YZzk0iGDnrn4y
+	TNBf0JF1VzYkvYSYukOYSAH/005PNBBOMq+r8wzWQl053jTAKv3abX1wwfbpBuUybZ+YYNaNVYK
+	XrtL9IPvODx8IFINom7wyL7hjOLHRH0BsRRZKpUDr7u8huYvXupksaIkuP5eYxdOHA3KOx4IQOS
+	PtGIE1HvRpLh7OsoMh8RsQ2x6lg7o/H5MbGLT/JK7w3/b/WdGn50c5oXu8FVn70rHpiI5Lvm+ng
+	+1O2A++ESFeEcgAWGGdsHcav35byY5W2BUOigs60jEpcgoJWImNxM=
+X-Google-Smtp-Source: AGHT+IG4lhv/gku9LYUIymvRrP74Vfv4kOsvp03k+0uQ955C1/esswfUgNMZhlIoMCRzRIU670fVMg==
+X-Received: by 2002:a17:903:1a8d:b0:24e:7af7:111a with SMTP id d9443c01a7336-251751e9e52mr243990935ad.49.1757538387026;
+        Wed, 10 Sep 2025 14:06:27 -0700 (PDT)
 Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::d0a7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77466119d92sm6207022b3a.30.2025.09.10.14.01.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25a2b1e14b3sm35772065ad.151.2025.09.10.14.06.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 14:01:44 -0700 (PDT)
+        Wed, 10 Sep 2025 14:06:26 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] clang: Upgrade to 21.1.1 release
-Date: Wed, 10 Sep 2025 14:01:42 -0700
-Message-ID: <20250910210142.223675-1-raj.khem@gmail.com>
+Subject: [PATCH v2] clang: Upgrade to 21.1.1 release
+Date: Wed, 10 Sep 2025 14:06:24 -0700
+Message-ID: <20250910210624.227666-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 21:01:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223234
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Sep 2025 21:06:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223235
 
 Brings following bugfixes on top of 21.1.0
 
@@ -113,6 +113,8 @@ Brings following bugfixes on top of 21.1.0
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v2: Drop a random python3 recipe patch that did not belong here
+
  meta/conf/distro/include/maintainers.inc      |  2 +-
  ...ibunwind-headers-when-LIBCXXABI_LIBU.patch |  2 +-
  ...-support-a-new-embedded-linux-target.patch |  2 +-
@@ -140,7 +142,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  ...ot-use-cmake-infra-to-detect-libzstd.patch |  2 +-
  ...t-Fix-stat-struct-s-size-for-O32-ABI.patch |  2 +-
  ...cpp-ARMLibDirs-search-also-in-lib32.patch} |  2 +-
- ...f-_TIME_BITS-along-with-_FILE_OFFSET.patch | 43 ----------
+ ...f-_TIME_BITS-along-with-_FILE_OFFSET.patch | 43 -------------------
  ...-OE-specific-ABI-triple-for-N32-ABI.patch} |  2 +-
  ...nwind.pc.in-and-llvm-config-scripts.patch} |  2 +-
  ...pect-LLVM_LIBDIR_SUFFIX-like-other-.patch} |  2 +-
@@ -156,9 +158,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  ...x-test-when-clang-tests-are-include.patch} |  2 +-
  ...users-to-set-LLVM_HAVE_OPT_VIEWER_M.patch} |  2 +-
  meta/recipes-devtools/clang/common-clang.inc  |  2 +-
- meta/recipes-devtools/clang/common.inc        | 33 ++++---
- ...V-portion-of-test_makedev-when-linke.patch | 86 +++++++++++++++++++
- 45 files changed, 144 insertions(+), 102 deletions(-)
+ meta/recipes-devtools/clang/common.inc        | 33 +++++++-------
+ 44 files changed, 58 insertions(+), 102 deletions(-)
  rename meta/recipes-devtools/clang/clang/{0027-ToolChains-Gnu.cpp-ARMLibDirs-search-also-in-lib32.patch => 0026-ToolChains-Gnu.cpp-ARMLibDirs-search-also-in-lib32.patch} (99%)
  delete mode 100644 meta/recipes-devtools/clang/clang/0026-compiler-rt-Undef-_TIME_BITS-along-with-_FILE_OFFSET.patch
  rename meta/recipes-devtools/clang/clang/{0028-clang-llvm-Add-OE-specific-ABI-triple-for-N32-ABI.patch => 0027-clang-llvm-Add-OE-specific-ABI-triple-for-N32-ABI.patch} (98%)
@@ -175,7 +176,6 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  rename meta/recipes-devtools/clang/clang/{0039-Prevent-revisiting-block-when-searching-for-noreturn.patch => 0038-Prevent-revisiting-block-when-searching-for-noreturn.patch} (95%)
  rename meta/recipes-devtools/clang/clang/{0040-Only-build-c-index-test-when-clang-tests-are-include.patch => 0039-Only-build-c-index-test-when-clang-tests-are-include.patch} (96%)
  rename meta/recipes-devtools/clang/clang/{0041-opt-viewer-Allow-users-to-set-LLVM_HAVE_OPT_VIEWER_M.patch => 0040-opt-viewer-Allow-users-to-set-LLVM_HAVE_OPT_VIEWER_M.patch} (97%)
- create mode 100644 meta/recipes-devtools/python/0001-python-Skip-NODEV-portion-of-test_makedev-when-linke.patch
 
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
 index 6cfa76e2a3d..3ede77df4e0 100644
@@ -748,96 +748,4 @@ index 889847c3e11..625b0b064b7 100644
  "
  # Fallback to no-PIE if not set
  GCCPIE ??= ""
-diff --git a/meta/recipes-devtools/python/0001-python-Skip-NODEV-portion-of-test_makedev-when-linke.patch b/meta/recipes-devtools/python/0001-python-Skip-NODEV-portion-of-test_makedev-when-linke.patch
-new file mode 100644
-index 00000000000..68bf3afe5f3
---- /dev/null
-+++ b/meta/recipes-devtools/python/0001-python-Skip-NODEV-portion-of-test_makedev-when-linke.patch
-@@ -0,0 +1,86 @@
-+From 33ad9a401644f4191c8f1fd40b8eaf297509cef3 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 1 Sep 2025 19:21:19 -0700
-+Subject: [PATCH v3] python: Skip NODEV portion of test_makedev when linked to musl
-+
-+backport the upstreamed patch which is available in 3.14+
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+v2: Update patch with newly filed GH issue report for this problem
-+v3: Apply the backport
-+
-+ ...DEV-portion-of-test_makedev-when-lin.patch | 24 +++++++++++++++++++
-+ .../python3/test_posix_nodev_disable.patch    | 16 -------------
-+ .../recipes-devtools/python/python3_3.13.7.bb |  4 +---
-+ 3 files changed, 25 insertions(+), 19 deletions(-)
-+ create mode 100644 meta/recipes-devtools/python/python3/0001-gh-90548-Skip-NODEV-portion-of-test_makedev-when-lin.patch
-+ delete mode 100644 meta/recipes-devtools/python/python3/test_posix_nodev_disable.patch
-+
-+diff --git a/meta/recipes-devtools/python/python3/0001-gh-90548-Skip-NODEV-portion-of-test_makedev-when-lin.patch b/meta/recipes-devtools/python/python3/0001-gh-90548-Skip-NODEV-portion-of-test_makedev-when-lin.patch
-+new file mode 100644
-+index 00000000000..4390e086d0f
-+--- /dev/null
-++++ b/meta/recipes-devtools/python/python3/0001-gh-90548-Skip-NODEV-portion-of-test_makedev-when-lin.patch
-+@@ -0,0 +1,24 @@
-++From 2dc5e9f4c82888dbe21bd1eadb4b59b0efa9608c Mon Sep 17 00:00:00 2001
-++From: Zachary Ware <zach@python.org>
-++Date: Sat, 6 Sep 2025 13:20:12 -0500
-++Subject: [PATCH] gh-90548: Skip NODEV portion of test_makedev when linked to musl
-++
-++Upstream-Status: Backport [https://github.com/python/cpython/pull/138593]
-++Signed-off-by: Khem Raj <raj.khem@gmail.com>
-++---
-++ Lib/test/test_posix.py | 2 +-
-++ 1 file changed, 1 insertion(+), 1 deletion(-)
-++
-++diff --git a/Lib/test/test_posix.py b/Lib/test/test_posix.py
-++index c9cbe15..bfc1e2b 100644
-++--- a/Lib/test/test_posix.py
-+++++ b/Lib/test/test_posix.py
-++@@ -757,7 +757,7 @@ class PosixTester(unittest.TestCase):
-++             self.assertRaises((ValueError, OverflowError), posix.makedev, x, minor)
-++             self.assertRaises((ValueError, OverflowError), posix.makedev, major, x)
-++ 
-++-        if sys.platform == 'linux':
-+++        if sys.platform == 'linux' and not support.linked_to_musl():
-++             NODEV = -1
-++             self.assertEqual(posix.major(NODEV), NODEV)
-++             self.assertEqual(posix.minor(NODEV), NODEV)
-+diff --git a/meta/recipes-devtools/python/python3/test_posix_nodev_disable.patch b/meta/recipes-devtools/python/python3/test_posix_nodev_disable.patch
-+deleted file mode 100644
-+index 85767e1e898..00000000000
-+--- a/meta/recipes-devtools/python/python3/test_posix_nodev_disable.patch
-++++ /dev/null
-+@@ -1,16 +0,0 @@
-+-Disable part of test_posix.test_makedev that depends on the NODEV
-+-macro being defined (missing on musl).
-+-
-+-Upstream-Status: Submitted [https://github.com/python/cpython/pull/31794]
-+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---- a/Lib/test/test_posix.py
-+-+++ b/Lib/test/test_posix.py
-+-@@ -757,7 +757,7 @@ class PosixTester(unittest.TestCase):
-+-             self.assertRaises((ValueError, OverflowError), posix.makedev, x, minor)
-+-             self.assertRaises((ValueError, OverflowError), posix.makedev, major, x)
-+- 
-+--        if sys.platform == 'linux':
-+-+        if False:
-+-             NODEV = -1
-+-             self.assertEqual(posix.major(NODEV), NODEV)
-+-             self.assertEqual(posix.minor(NODEV), NODEV)
-+diff --git a/meta/recipes-devtools/python/python3_3.13.7.bb b/meta/recipes-devtools/python/python3_3.13.7.bb
-+index a42b2c2a2d2..c682f1288ec 100644
-+--- a/meta/recipes-devtools/python/python3_3.13.7.bb
-++++ b/meta/recipes-devtools/python/python3_3.13.7.bb
-+@@ -30,9 +30,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-+            file://0001-test_active_children-skip-problematic-test.patch \
-+            file://0001-test_readline-skip-limited-history-test.patch \
-+            file://0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch \
-+-           "
-+-SRC_URI:append:libc-musl = "\
-+-           file://test_posix_nodev_disable.patch \
-++           file://0001-gh-90548-Skip-NODEV-portion-of-test_makedev-when-lin.patch \
-+            "
-+ SRC_URI:append:class-native = " \
-+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
 
