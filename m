@@ -1,243 +1,222 @@
-Return-Path: <andreaskleist@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59696CAC587
-	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 13:28:20 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.46527.1757597295715486976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB52CAC587
+	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 13:31:30 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.46751.1757597481829290617
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Sep 2025 06:28:16 -0700
+ Thu, 11 Sep 2025 06:31:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LobIutdi;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: andreaskleist@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b042cc39551so115730266b.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 06:28:15 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cCnFBhw7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3df2f4aedc7so549315f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 06:31:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757597294; x=1758202094; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1757597480; x=1758202280; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1w6GOKLsFRZD17QMkzV+SIL8ZqpuO1tgq2Dfu4DPdaA=;
-        b=LobIutdikodABwEg3rGplyjZWLE7UBT92cc48idKXYxB7CjvvedX/FgZ9atw13awGm
-         qr0o1r0O1cvlemeA4HLbGsEUW3P65RELGuoEGl52/9wm8wD1W1C0s5LRQAoBEF5LlxNf
-         IeYTgH/ljPzBtvs4AHNla04eYww7Zshpl7S0dg2Q8WqIGBLCXJVNfx/OvBKWcHExM6ag
-         s1KOUPOVLVk2NGOLeuUjqmCfb8CEtHEft2j3Q9ifU34ekvvSLWcBnkrIajffU0PYq5xN
-         fFR+pqxSQH9IqOTHnovmiL1CYyNQ7uEHlcQZw/JFPyhC+rCLAQLu+bC6QX36hgpte2ir
-         05YA==
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=KmdnhGSSHYImdbNxWknM6OF320XyBEpX2qoCQ1f5A1s=;
+        b=cCnFBhw75A0gK3EcjE5YD9xY0lRi9A+UwGJ4a/Lsfl+i+rvshK1MZBP2l2ahrjc9pb
+         RqSmdROp91HQbmCuzJfjg0mBZWj4zQsmdvkn1mrsZ4p7VqV5bgPnbSHwRz0WPc0wZZC1
+         vXM3/FZcbcKmMOwbfMlT9vFt6P2CzAR1wprsQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757597294; x=1758202094;
+        d=1e100.net; s=20230601; t=1757597480; x=1758202280;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1w6GOKLsFRZD17QMkzV+SIL8ZqpuO1tgq2Dfu4DPdaA=;
-        b=w8gvZ7FDeh/U6bOlgEdeeOt2k+y+GTkxQMV05ANl/itZc5Iro9rfKv2+pkiSB5f21N
-         fbMgaqMNj3+pfpuzeqG4RlHrSte4V8vav2KT8kwdy3Vh9Yf1Jp5g+z+VBQSgWQ6Iqwv2
-         BnzsIc7jG409MGX2oXej3iKuS1i99wEnvR3y31flMtJiTWdKxPmkt6wj7RdontHQCsqs
-         Swfp7jsC0q3eAebpDrc43qt9Jh9R0GJ/4qvAcz4e5B/I2TV4IyP92u5EkCWtkoD3yV69
-         Sr7p8uh9A6TuuB99z+ERrmYyzh8UO0LVszt7rnPvGlOoQTk/Q8UBRyiYZuMO+pPPsHyU
-         ubag==
-X-Forwarded-Encrypted: i=1; AJvYcCX2fIoxHp+d07B/vT03yeOmW3jR4cStcDy6fWyQXtG9Ls6uENHNZWC5MxrE8NpMwyu+0R4gRChiuuLRCzzdWjqKwg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzvWXYb4n/L3GRrrHBGTuHcGCXSzJGlNpS91dEz3aEAYWeJbQuR
-	ShmQy6lxx6uJmOkcc5xM+YgUWqDgThnt9iWnB2I6O0Hi8iwT0yKjYMDI
-X-Gm-Gg: ASbGncu0TRTp0jZDHRmw8dgHioOjJsRLI+Z8jxzbjTJx1kShTbEfa2U0Yii0MottHhN
-	GRzRGThIOHZtsECVlxDWSaUurNBYqngYoRUHu2BqixVyd/vM2FYn05Soeo7+QgOMaJXiHszo7i9
-	gcxnb4zNImnea+NG5slHgKja8qZqADwCPAg+Um8xrKJMAw6SzwhOqdU6RYyp7vMNH5hBsuyYR3H
-	Q0fmVQwTI7bJmOZBIyrsd0vxfNiMa/MQBicTXKgHP82fk4+MAXlvpSu5aIf3bFANWiOxDZgAG+b
-	y1kzOFwJLKqyAVrJ3LwS+BBRqNNiiEb9AOmP8M5F5YP2UYHF6N5+kghWBOmZyE036s8+ZHUwSKM
-	JSZIxBJVycGydu+IciLT0+o2x
-X-Google-Smtp-Source: AGHT+IEgVMXFTa3p8uY9h8urIztb4fDfSk/o+ONzxKrG63TWRlSqYObKbNSEavVua7cXvqF9sea2Cw==
-X-Received: by 2002:a17:907:c10:b0:aff:2ed7:5f11 with SMTP id a640c23a62f3a-b04b1480ac1mr1874869066b.24.1757597293663;
-        Thu, 11 Sep 2025 06:28:13 -0700 (PDT)
-Received: from [10.9.136.51] ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b33478e4sm129172866b.96.2025.09.11.06.28.12
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KmdnhGSSHYImdbNxWknM6OF320XyBEpX2qoCQ1f5A1s=;
+        b=mfxQOGeziOys6h4Fa3W7OtcGlN56jw6cP62t3ELFuyFuy1NHOOTdn/XPi22Fr553VL
+         ADfwRLGZvv1l0L4/wcqapBNa4c88ZiU8ml5vj5T9pTZ/lLxjX9nj005vgn10KDPwEUDj
+         /DS2Ee94dOgJh6juSPGWOYHsfn4kaLi3yF674z8rGzOkP58aR7EpLEhsd/PdFr9IvwN1
+         OUOIU2vCtpxOyMjUF/v3rK7MNMy1Bztp8hqp1iU4eqEFApbIwxYzaZOKg4kmzYHPmPRL
+         1kka1qupBPMOWByPvM+0LZLCCHfj/h4kwPHv4zFzxpcBwG5aJlEOUiHUcPoByN3w5m0n
+         6WCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXJ7bx0rqqLX/LzYru3m5Wh43HX8gLR82/4kHNN2nwNvs7ZxMZUF/Dg+d5J+7+OK87/Xrzk4uBXWdYPPpmSg/jnXg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YweePupvgQCBYbnJrIqTG+d/aY00vE03/92QCmY2x2Vnq3/5+eX
+	3waEJE5o24/b3L8UlBHdV1lGhjBr0+HeKDDCruefrrhBqYXbAaYGrIy2dOKp4Oe7Wb4=
+X-Gm-Gg: ASbGnctXuCKE/D8r0+WbSJACgRRDImgpCCibNmDOsYes4wFdYv8WZ3e3fiJ108Yk5YF
+	u218VM+Jza+c0+y9aZRUSlP1yzj9O93nnfA8dD1WhyC+qMiGferHOumjj6xXYorf0bFg6wYGTnh
+	P19mWjP+lmYpXVgK+e8IgyryUcq9BOZXdE8u0H4M/kq2RwTFZuY8tU4Crg93Kqh/vnCFWCab3sk
+	oC5np3o67cwlwfwKoUIZVKFfVK3UcVFxpYnVc2UmGIkF6iT2zZKn0qaSC0NU+cYfsbwQd6IAQz0
+	i/GUmxc8Cq7ql8rQmVGh6zcbQAhgdt+EIVNeV1x8RHy7H/8aeXmiz0xqj/9+MHkq2pjXWpHQ4Ab
+	RZ6RAQL/PBnhBV+BDSDF7JAZLfSCciq5pJMXn2bYYIwURH8m+q++9e1vuzUZc6kEuIUh35mdKzS
+	eWAb1cTH4v9JHDCg6B/cJUxM+ja2oFgmiT
+X-Google-Smtp-Source: AGHT+IHG7kAChEcbGn6MU7ToG/IueQtV0GUK868ThRxFe7fIg5JMSvKL9K90QrSqsvW07ycHMcA1tw==
+X-Received: by 2002:a05:6000:40dd:b0:3d4:a64:6725 with SMTP id ffacd0b85a97d-3e636d901d5mr11548198f8f.10.1757597480134;
+        Thu, 11 Sep 2025 06:31:20 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7316:f64c:1097:5ef5? ([2001:8b0:aba:5f3c:7316:f64c:1097:5ef5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607ccf9esm2453802f8f.40.2025.09.11.06.31.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 06:28:12 -0700 (PDT)
-Message-ID: <328cdeca6f32532f49f8b1a704f60cb06f76eb97.camel@gmail.com>
-Subject: Re: [OE-core][PATCH v2] environment.d-openssl.sh: fix unbound
- variable with 'set -u'
-From: Andreas Helbech Kleist <andreaskleist@gmail.com>
-To: Haixiao.Yan.CN@windriver.com, Mathieu Dubois-Briand
- <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org
-Date: Thu, 11 Sep 2025 15:28:12 +0200
-In-Reply-To: <c7039f90-656f-4076-a726-e931365091b9@windriver.com>
-References: <20250905123421.3940634-1-haixiao.yan.cn@windriver.com>
-	 <DCOC0GHAATJU.2COUF7546LC27@bootlin.com>
-	 <c7039f90-656f-4076-a726-e931365091b9@windriver.com>
+        Thu, 11 Sep 2025 06:31:19 -0700 (PDT)
+Message-ID: <ea6b3f3beb56b2cb5d2eb92562b6dc9990d94b1f.camel@linuxfoundation.org>
+Subject: Re: [PATCH v4] scripts/runqemu: raise an error when bitbake was not
+ found
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Richard =?ISO-8859-1?Q?Gr=FCnert?= <r.gruenert@pironex.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 11 Sep 2025 14:31:18 +0100
+In-Reply-To: <20250827064940.16074-1-r.gruenert@pironex.com>
+References: <20250827064940.16074-1-r.gruenert@pironex.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 13:28:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223278
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 13:31:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223279
 
-Hi=C2=A0Haixiao,
-
-On Wed, 2025-09-10 at 16:52 +0800, Yan, Haixiao (CN) via
-lists.openembedded.org wrote:
+On Wed, 2025-08-27 at 08:49 +0200, Richard Gr=C3=BCnert wrote:
+> Running 'scrupts/runqemu' without bitbake in PATH causes the
+> following error:
 >=20
-> On 2025/9/9 22:16, Mathieu Dubois-Briand wrote:
-> > CAUTION: This email comes from a non Wind River email account!
-> > Do not click links or open attachments unless you recognize the
-> > sender and know the content is safe.
-> >=20
-> > On Fri Sep 5, 2025 at 2:34 PM CEST, Haixiao (CN) via
-> > lists.openembedded.org Yan wrote:
-> > > From: Haixiao Yan <haixiao.yan.cn@windriver.com>
-> > >=20
-> > > When Bash runs with 'set -u' (nounset), accessing an unset
-> > > variable
-> > > directly (e.g. [ -z "$SSL_CERT_FILE" ]) causes a fatal "unbound
-> > > variable"
-> > > error. As a result, the fallback logic to set
-> > > SSL_CERT_FILE/SSL_CERT_DIR
-> > > is never triggered and the script aborts.
-> > >=20
-> > > The current code assumes these variables may be unset or empty,
-> > > but does
-> > > not guard against 'set -u'. This breaks builds in stricter shell
-> > > environments or when users explicitly enable 'set -u'.
-
-Thank you for working on this. We just ran into this issue after a
-small upgrade in the scarthgap branch, so I'm hoping this will also be
-backported to scarthgap.
-
-> > >=20
-> > > Fix this by using parameter expansion with a default value, e.g.
-> > > "${SSL_CERT_FILE:-}", so that unset variables are treated as
-> > > empty
-> > > strings. This preserves the intended logic (respect host env
-> > > first, then
-> > > CAFILE/CAPATH, then buildtools defaults) and makes the script
-> > > robust
-> > > under 'set -u'.
-> > >=20
-> > > Note: environment.d-curl.sh, environment.d-python3-requests.sh,
-> > > and environment.d-git.sh have the same issue and should be fixed
-> > > similarly.
-
-The patch title doesn't mention these changes.
-
-I don't know if changing the title or splitting the patches would be
-the preferred approach?
-
-
-> > >=20
-> > > Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
-> > > ---
-> > Hi Haixiao,
-> >=20
-> > Thanks for your patch.
-> >=20
-> > It looks like this is leading to failed SDK installations in some
-> > cases,
-> > as some other variables are undefined:
-> >=20
-> > ERROR: core-image-sato-1.0-r0 do_testsdkext: Couldn't install the
-> > extensible SDK:
-> > Poky (Yocto Project Reference Distro) Extensible SDK installer
-> > version 5.2.99+snapshot
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > You are about to install the SDK to "/srv/pokybuild/yocto-
-> > worker/qemuarm64-armhost/build/build/tmp/work/qemuarm64-poky-
-> > linux/core-image-sato/1.0/testsdkext". Proceed [Y/n]? Y
-> > Extracting SDK................................................done
-> > Setting it up...
-> > Extracting buildtools...
-> > Preparing build system...
-> >=20
-> >=20
-> > Contents of preparing_build_system.log:
-> > sh: 17: /srv/pokybuild/yocto-worker/qemuarm64-
-> > armhost/build/build/tmp/work/qemuarm64-poky-linux/core-image-
-> > sato/1.0/testsdkext/layers/build/oe-init-build-env: BASH_SOURCE:
-> > parameter not set
-> >=20
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/8/builds/2375
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/36/builds/2346
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/2197
-> >=20
-> >=20
-> > SDK testing environment: x86_64-pokysdk-linux
-> > Traceback (most recent call last):
-> > =C2=A0=C2=A0 File "/srv/pokybuild/yocto-
-> > worker/buildtools/build/meta/lib/oeqa/buildtools/cases/build.py",
-> > line 21, in test_libc
-> > =C2=A0=C2=A0=C2=A0=C2=A0 self._run('. %s/oe-init-build-env %s' % (coreb=
-ase, testdir))
-> > =C2=A0=C2=A0 File "/srv/pokybuild/yocto-
-> > worker/buildtools/build/meta/lib/oeqa/sdk/case.py", line 17, in
-> > _run
-> > =C2=A0=C2=A0=C2=A0=C2=A0 return subprocess.check_output(". %s > /dev/nu=
-ll; %s;" % \
-> > =C2=A0=C2=A0 File "/usr/lib64/python3.9/subprocess.py", line 424, in
-> > check_output
-> > =C2=A0=C2=A0=C2=A0=C2=A0 return run(*popenargs, stdout=3DPIPE, timeout=
-=3Dtimeout,
-> > check=3DTrue,
-> > =C2=A0=C2=A0 File "/usr/lib64/python3.9/subprocess.py", line 528, in ru=
+> ```
+> Traceback (most recent call last):
+> =C2=A0 File "/home/rg/temp_stuff/oe_2/./scripts/runqemu", line 1807, in m=
+ain
+> =C2=A0=C2=A0=C2=A0 config.check_args()
+> =C2=A0=C2=A0=C2=A0 ~~~~~~~~~~~~~~~~~^^
+> =C2=A0 File "/home/rg/temp_stuff/oe_2/./scripts/runqemu", line 624, in ch=
+eck_args
+> =C2=A0=C2=A0=C2=A0 s =3D re.search('^DEPLOY_DIR_IMAGE=3D"(.*)"', self.bit=
+bake_e, re.M)
+> =C2=A0 File "/usr/lib/python3.13/re/__init__.py", line 177, in search
+> =C2=A0=C2=A0=C2=A0 return _compile(pattern, flags).search(string)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~^^^^^^^^
+> TypeError: expected string or bytes-like object, got 'NoneType'
+> ```
+>=20
+> This patch adds a more helpful error message to inform the user that
+> bitbake was not found, e.g. because oe-init-build-env was not sourced.
+>=20
+> This is an example of the new error message after the patch:
+>=20
+> ```
+> runqemu - ERROR - In order for this script to dynamically infer paths
+> =C2=A0kernels or filesystem images, you either need bitbake in your PATH
+> =C2=A0or to source oe-init-build-env before running this script.
+>=20
+> =C2=A0Dynamic path inference can be avoided by passing a *.qemuboot.conf =
+to
+> =C2=A0runqemu, i.e. `runqemu /path/to/my-image-name.qemuboot.conf`
+>=20
+> =C2=A0Bitbake is needed to run 'bitbake -e', but it is not found in PATH.=
+ Please source the bitbake build environment.
+> ```
+>=20
+> CC: Richard Purdie <richard.purdie@linuxfoundation.org>
+> CC: Alexander Kanavin <alex.kanavin@gmail.com>
+>=20
+> Signed-off-by: Richard Gr=C3=BCnert <r.gruenert@pironex.com>
+> ---
+> changes in v4:
+> Changed commit message and error message string according
+> to suggestions by Alexander Kanavin.
+>=20
+> changes in v3:
+> Messed up the CC tag :)
+>=20
+> changes in v2:
+> Changed the position according to suggestion by Alexander Kanavin.
+> I also changed the error to OEPathError as this seems to be made for
+> this exact situation.
+> ---
+> =C2=A0scripts/runqemu | 7 ++++---
+> =C2=A01 file changed, 4 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index c24528eac8..69872f6de8 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -1713,9 +1713,6 @@ to your build configuration.
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.cleaned =3D True
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 def run_bitbake_env(self, mach=3DNone, target=3D=
+''):
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake =3D shutil.which('bit=
+bake')
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not bitbake:
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
 n
-> > =C2=A0=C2=A0=C2=A0=C2=A0 raise CalledProcessError(retcode, process.args=
-,
-> > oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '.
-> > /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-
-> > nativesdk-pokysdk-linux/buildtools-tarball/1.0/testimage-
-> > sdk/environment-setup-x86_64-pokysdk-linux > /dev/null; .
-> > /srv/pokybuild/yocto-worker/buildtools/build/oe-init-build-env
-> > /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-
-> > nativesdk-pokysdk-linux/buildtools-tarball/1.0/testimage-
-> > sdk/bitbake-build-vbmlrryg;' returned non-zero exit status 1.
-> > Standard Output: /srv/pokybuild/yocto-worker/buildtools/build/oe-
-> > init-build-env: line 29: BBSERVER: unbound variable
-> >=20
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/43/builds/2371
-> >=20
-> >=20
-> > Can you fix these failures please?
->=20
-> Remove 'set -eu' to avoid propagating strict mode to other
-> environment.d=20
-> scripts.
-
-Instead of using 'set -eu' in each script, which as can be seen above
-doesn't work, I'd suggest adding a test case that sources the
-environment-setup-* from a shell with 'set -eu' called.
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not mach:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+mach =3D self.get('MACHINE')
+> @@ -1732,6 +1729,10 @@ to your build configuration.
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+cmd =3D 'bitbake -e %s %s' % (multiconfig, target)
+> =C2=A0
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake =3D shutil.which('bit=
+bake')
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not bitbake:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise=
+ OEPathError("Bitbake is needed to run '%s', but it is not found in PATH. P=
+lease source the bitbake build environment." % cmd.strip())
+> +
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logger.info('Running %s.=
+..' % cmd)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+return subprocess.check_output(cmd, shell=3DTrue).decode('utf-8')
 
 
->=20
-> Sent v3.
->=20
-> Thanks,
->=20
-> Haixiao
->=20
-> >=20
-> > Thanks,
-> > Mathieu
-> >=20
-> > --
-> > Mathieu Dubois-Briand, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
-> >=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#223151):
-> https://lists.openembedded.org/g/openembedded-core/message/223151
-> Mute This Topic: https://lists.openembedded.org/mt/115081014/7501392
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> andreaskleist@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Sorry this has sat in review for a while, I needed to check into
+something as I had a feeling there was once a codepath this would
+break.
+
+In runqemu there are these comments:
+
+        # if we're running under testimage, or similarly as a child
+        # of an existing bitbake invocation, we can't invoke bitbake
+        # to validate the MACHINE setting and must assume it's correct...
+
+and more specifically this code:
+
+            if not self.bitbake_e:
+                self.load_bitbake_env()
+            if self.bitbake_e:
+                [...]
+            else:
+                # when we're invoked from a running bitbake instance we won=
+'t
+                # be able to call `bitbake -e`, then try:
+                # - get OE_TMPDIR from environment and guess paths based on=
+ it
+                # - get OECORE_NATIVE_SYSROOT from environment (for sdk)
+                tmpdir =3D self.get('OE_TMPDIR')
+
+
+i.e. there is a case where we do run the bitbake -e command, bitbake
+isn't found and we don't expect the issue to be fatal.
+
+OE_TMPDIR is only set by our internal qemu runners:
+
+meta/lib/oeqa/utils/qemurunner.py:            env["OE_TMPDIR"] =3D self.tmp=
+dir
+meta/lib/oeqa/utils/qemutinyrunner.py:            os.environ["OE_TMPDIR"] =
+=3D self.tmpdir
+
+i.e. in our automated testing, but that is a key workflow we need to suppor=
+t.
+
+What is interesting is that your patches do pass testing. It is
+therefore possible we've changed things and this codepath isn't
+actually needed any more. That may be due to the qemuboot config files,
+which we probably didn't have when OE_TMPDIR was added.
+
+Either way, we probably do need to try and clean up this codepath
+before this change can merge.
+
+Cheers,
+
+Richard
+
 
 
