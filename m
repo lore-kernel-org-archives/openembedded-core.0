@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57401CAC592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 573C7CA1016
 	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 08:51:48 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.41401.1757580697949318649
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.41416.1757580707433245679
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Sep 2025 01:51:38 -0700
+ Thu, 11 Sep 2025 01:51:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gb0nHgGb;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45b9a856dc2so2754425e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 01:51:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=F0zA0H3w;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3dae49b117bso447476f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 01:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757580696; x=1758185496; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1757580706; x=1758185506; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yzufoHzEg4n1eZTDRQHlyZI6q/VxDNwLU/ySJHWijos=;
-        b=Gb0nHgGbFO9+Pi0onzrbZ5IPlKmlKrjzURy2MLI0L0OPNSQILnzzkhySaAvDLmD33L
-         nVIj3sLixZqwEgwG+olxIbq7Sk4jK2k6sDYLTWdgpzZbR2NcCp1DNcUP4NmwfkqDP61Z
-         VWbTEHg4n0bvuNJh5MNTntJv2Vn+KF0YykCdDSG467wkkazPMD7PUst7zbLGh2VSGing
-         j7+p2UnVSahfK0BnWUKK383DBhcNLmhZDE8CaaTlaHMmxUI7KULq4LuYAwf/NzfbHtEe
-         2g8EySVw+ch2qm4P8Lt5xZnax4Q8Ysqh/fICFGmhMvEbc7b+GDLsMQZjnrxIcwGsxXWe
-         QE9A==
+        bh=nzySFHi7a7e6CXiLDVBY8slLtQvdmYYsjeqRU01cww4=;
+        b=F0zA0H3wkGVN1oaojKbdUqMUkwc0hFt6Wsvubwmv/EJ0qXOpFVO/f2GToWigYFB6Ih
+         Bo0BBmceAKpKmMJTEGp1xCRESCjDIzUJTFUhlCEKeo3/VHEYTM75PsoeckLS/BRUDbdn
+         /JhQZatc8OB+6tNtrKPh5yoGyqWdi53oPmMZaq7oZMB2L1GqGDKpwInUK7Ma9aqBTmDH
+         kdfUjfh5gDVEtCv5Em51jpazG1iLLJAWFBoszbZUeHaTWTiZCiTSjsdMWqbB4ebfGmBi
+         ojq6PIVIKaKoKJsY5JWpW7HIDp2MdRO1yts7hLaknOmWzUyHx9E9CO9tmV28CkcO5MYn
+         jIMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757580696; x=1758185496;
+        d=1e100.net; s=20230601; t=1757580706; x=1758185506;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yzufoHzEg4n1eZTDRQHlyZI6q/VxDNwLU/ySJHWijos=;
-        b=qdB1a3mBD4J8LDPNy7nJNBnLufm2izDXH7getta1hB2HOlH0MEcsfSF1o+fHnyLUv1
-         RF4TGSF/p+3xgGI/w2Wn/BGpZSNAWWNZUEtMIttOAC66ycx8ITDbmHM1pU4y/plom2WA
-         N38dLOmL2KOHwLnmkzXSQjjsPxHs7OFesJ6xf7IpiUUEoKq8fkIWTvoxPlsT9k/sMbsn
-         9yyZL6r9mdPA2BWahgepuFHYPt7ohuouGqIP3WEHyqyowyarGEmnq8Zt+qW2ZZKAl0y6
-         pytp9fLPYouqAwq0ernAyOilVqANfmToxMT5FSijQQgC8UYNi6P55KZ16V5hxn83wPIN
-         T7oA==
-X-Gm-Message-State: AOJu0Yw2W62yCPI+gic+/rcBkrUWrAya4vp4G//9VT0pjRp/ZelJgVKW
-	j7ej08MnZl/RSiwyYCG9EV5K+8l1M5FL4hdxJmbFLb1z4zfcfmacgL4sN3vGAg==
-X-Gm-Gg: ASbGncvuOhC1HwaC6xJiq8P6HpCrWkw484Vxu35vmiUHD6kjDqObeFL4hPw3D+jB1Nh
-	0q24YOxuJ8GLZOKKXgXSUYwpiSUSB04ll+uqSXKeghe6E9Azb0swZB5uvG85WCfA9bdgTaxb5sm
-	5GFRef1JqPKA20kWbggVkUqKajvbdF6LaWVTQKI4KFhbYCFGLxRfO4aXc5af7SjKgYR+A2TCJzg
-	GjAlFWqe1IX/eZsVlsLtvGUQiOhpJi3cfWS4Yx6Q/QuWrOLhu0XqrA27GruAWZp/DaZG8gz/ekl
-	aEN/zSq2l75O0vsqp5YmW824ahhO+d1OV+JRjPp89cV1ctAVbDW3n5sI1PsTAXOZKTwvcpCKEgL
-	07Wdcu6O6JoUFHK8ByuHltVtu9fYGbvjdcfwpGZJyUjRYBa3G8dfzIBNLuWfip5FZ5QUuRszb0X
-	4C2d9S8VloyE1tPEJ2LkKugHAdPFoyU6YSn/007jHyRR/gHHdOz0lnDm2Z80/Gio4KotaB
-X-Google-Smtp-Source: AGHT+IHOmYbrh4x5z+SlxPzQ966qPZOGpCC0mykx7HNyGAYCsJGIUrqgQfGKgObT/X4bDH8ORN5PsQ==
-X-Received: by 2002:a05:600c:4f09:b0:45d:e54b:fa29 with SMTP id 5b1f17b1804b1-45ded923f53mr78054035e9.14.1757580696076;
-        Thu, 11 Sep 2025 01:51:36 -0700 (PDT)
+        bh=nzySFHi7a7e6CXiLDVBY8slLtQvdmYYsjeqRU01cww4=;
+        b=mFnFlkEJOC1Xjfs1hUI683Q/y7UFe7pqeosuMz1u8TZeAmChVPk+c/zdx0F9aJuocO
+         4a4saUesPlW9imEpUJ9IlWuwDW6Nkv4lCL04VWCoDJIxQSndvRgDiInmAZE7V4Xkm9G3
+         evoihY6YfUg3R4olr3r6Xhw2/tsK2ghVabRl6/+OZ8msETdLhnzV/MW92PHuRGfFRfM7
+         Wqt7bZZPT/CEYLQO9490eUu1qT1gYqUf+ypNONIMoIjsgS161Jj7yDkM67GB8RbhV++T
+         c60K29T7Bix3zSLipocNXQQ3WMN2EKkcRKIhMR+SjPCvahL3HfiWu2zjADSvkD11QZq+
+         cjzQ==
+X-Gm-Message-State: AOJu0Yw/a8uAz3cuRY5ZRE2xLr/pw5UMCf4GNsjPHZFdiUa0hZiUAwdY
+	stKI3iUbje02W0uijWN9jraovJ+ynMdCoHHbXdRtCVXhpoV0goHTcQHuCqs+IQ==
+X-Gm-Gg: ASbGncvWlDmPL0BOZp95UG9koNnXQO+V0EJW2DEODGNBv1FPFDwCR4nA/SimWusbzgf
+	ohaTONqosQIJUQXceNQxuJpW/EptgFzkfv+R1/ahfOUnOx37T+JWSy5jkQDJQDKBbAQZ5mLBYgP
+	Lx2XTzyC0H28bEsx0EjAntYwsED+5cRJAZTQIXsF77IAQcS6mYjvMaRCbljXIPrxKtpSDVBOKPy
+	Ig8A00AjiFYyta429fkmEc6R2EVFsWCVM7SYOHmYmk01PRZPCilV9vKp5dL9pkbv/mBY1RWtKxg
+	01UpqFoERmRn2fZPOzdu/FUkBLNw9Hb9H1mE30Sso4ir68NI72YSf49BWlcyOSoXSnmvpPxqO6P
+	255SuH+ZSqHl7qHUpR6etJU/+rcJfsio3FEyIp3dLLQWRtmJHw+S7mMSU4dKhQidf+wh9GtMABe
+	8N5AqJS5V7hJDNE5bzXGMq0yPfYn8OLkVOKdZIA0hqH/JfC/jQ0IbOxdGC1A==
+X-Google-Smtp-Source: AGHT+IFQGPg1IqlJ07YVrPJ9sZ/dSkTFMhhhpE7uPyaD6t1HVUWpquAVsQzt/CdUelU2qgX6j6JNCg==
+X-Received: by 2002:a05:6000:1449:b0:3e2:804b:bfcd with SMTP id ffacd0b85a97d-3e642bb7cb5mr14417487f8f.19.1757580705751;
+        Thu, 11 Sep 2025 01:51:45 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017b2f4esm19382005e9.17.2025.09.11.01.51.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017b2f4esm19382005e9.17.2025.09.11.01.51.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 01:51:35 -0700 (PDT)
+        Thu, 11 Sep 2025 01:51:45 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 04/16] librepo: update 1.19.0 -> 1.20.0
-Date: Thu, 11 Sep 2025 10:51:11 +0200
-Message-Id: <20250911085123.1551425-4-alex.kanavin@gmail.com>
+Subject: [PATCH 16/16] ffmpeg: update 7.1.1 -> 8.0
+Date: Thu, 11 Sep 2025 10:51:23 +0200
+Message-Id: <20250911085123.1551425-16-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250911085123.1551425-1-alex.kanavin@gmail.com>
 References: <20250911085123.1551425-1-alex.kanavin@gmail.com>
@@ -68,86 +68,93 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 08:51:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223251
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223263
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Drop 0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
-as upstream added pkg-config support at last.
+libpostproc removed upstream.
+
+License-update: formatting.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...tain-PYTHON_INSTALL_DIR-by-running-p.patch |  2 +-
- ...les-with-pkg-config-not-with-cmake-m.patch | 26 -------------------
- .../{librepo_1.19.0.bb => librepo_1.20.0.bb}  |  5 ++--
- 3 files changed, 3 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
- rename meta/recipes-devtools/librepo/{librepo_1.19.0.bb => librepo_1.20.0.bb} (83%)
+ .../ffmpeg/{ffmpeg_7.1.1.bb => ffmpeg_8.0.bb}    | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_7.1.1.bb => ffmpeg_8.0.bb} (94%)
 
-diff --git a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
-index 1425041dad6..ac5373f2e76 100644
---- a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
-+++ b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
-@@ -1,4 +1,4 @@
--From e86f562d3cc6cea3e19c4bab77ffa2902f634615 Mon Sep 17 00:00:00 2001
-+From 0062f49b62ce014dc81485c6ae101d49399d22cf Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:05:36 +0200
- Subject: [PATCH] Do not try to obtain PYTHON_INSTALL_DIR by running python.
-diff --git a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
-deleted file mode 100644
-index edee8698d80..00000000000
---- a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From 93d3c49dbdf348eec9900d53a152457f6d1cb816 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 30 Dec 2016 18:23:27 +0200
--Subject: [PATCH] Set gpgme variables with pkg-config, not with cmake module
-- (which doesn't work properly)
--
--Upstream-Status: Inappropriate [gpgme upstream does not have pkg-config support and is not interested in it]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- CMakeLists.txt | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 68ce953..04f83b9 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -39,7 +39,8 @@ PKG_CHECK_MODULES(LIBXML2 libxml-2.0 REQUIRED)
-- FIND_PACKAGE(CURL 7.52.0 REQUIRED)
-- 
-- IF (USE_GPGME)
---    FIND_PACKAGE(Gpgme REQUIRED)
--+    PKG_CHECK_MODULES(GPGME gpgme REQUIRED)
--+    set(GPGME_VANILLA_LIBRARIES ${GPGME_LIBRARIES})
--     IF (ENABLE_SELINUX)
--         PKG_CHECK_MODULES(SELINUX REQUIRED libselinux)
--     ENDIF(ENABLE_SELINUX)
-diff --git a/meta/recipes-devtools/librepo/librepo_1.19.0.bb b/meta/recipes-devtools/librepo/librepo_1.20.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/librepo/librepo_1.19.0.bb
-rename to meta/recipes-devtools/librepo/librepo_1.20.0.bb
-index ba66c8ef68f..6557dda43a4 100644
---- a/meta/recipes-devtools/librepo/librepo_1.19.0.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.20.0.bb
-@@ -5,12 +5,11 @@ DESCRIPTION = "${SUMMARY}"
- LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
+similarity index 94%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.1.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
+index 5a86ad563f9..ecaced7690b 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
+@@ -12,19 +12,19 @@ LICENSE:libavdevice = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPL-2.0-or-
+ LICENSE:libavfilter = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPL-2.0-or-later', 'LGPL-2.1-or-later', d)}"
+ LICENSE:libavformat = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPL-2.0-or-later', 'LGPL-2.1-or-later', d)}"
+ LICENSE:libavutil = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPL-2.0-or-later', 'LGPL-2.1-or-later', d)}"
+-LICENSE:libpostproc = "GPL-2.0-or-later"
+ LICENSE:libswresample = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPL-2.0-or-later', 'LGPL-2.1-or-later', d)}"
+ LICENSE:libswscale = "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPL-2.0-or-later', 'LGPL-2.1-or-later', d)}"
+ LICENSE_FLAGS = "commercial"
  
--SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https \
-+SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https;tag=${PV} \
-            file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch \
--           file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
-            "
+ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+-                    file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
++                    file://COPYING.LGPLv2.1;md5=eed22b3456132611e3d4aa7a7ec64dac \
++                    file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02 \
++                    "
  
--SRCREV = "7955987e33ba98dddb3fc2c63bb6dc892e3505fa"
-+SRCREV = "363cb70c6548be900832bc9b18ced3e7569da15a"
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz"
  
- DEPENDS = "curl glib-2.0 openssl attr gpgme libxml2"
+-SRC_URI[sha256sum] = "733984395e0dbbe5c046abda2dc49a5544e7e0e1e2366bba849222ae9e3a03b1"
++SRC_URI[sha256sum] = "b2751fccb6cc4c77708113cd78b561059b6fa904b24162fa0be2d60273d27b8e"
  
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET:armv4 = "arm"
+@@ -32,15 +32,14 @@ ARM_INSTRUCTION_SET:armv5 = "arm"
+ ARM_INSTRUCTION_SET:armv6 = "arm"
+ 
+ # Should be API compatible with libav (which was a fork of ffmpeg)
+-# libpostproc was previously packaged from a separate recipe
+-PROVIDES = "libav libpostproc"
++PROVIDES = "libav"
+ 
+ DEPENDS:append:x86 = " nasm-native"
+ DEPENDS:append:x86-64 = " nasm-native"
+ 
+ inherit autotools pkgconfig
+ 
+-PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc \
++PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale \
+                    alsa bzlib lzma theora zlib \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv xcb', '', d)}"
+ 
+@@ -51,7 +50,6 @@ PACKAGECONFIG[avcodec] = "--enable-avcodec,--disable-avcodec"
+ PACKAGECONFIG[avformat] = "--enable-avformat,--disable-avformat"
+ PACKAGECONFIG[swresample] = "--enable-swresample,--disable-swresample"
+ PACKAGECONFIG[swscale] = "--enable-swscale,--disable-swscale"
+-PACKAGECONFIG[postproc] = "--enable-postproc,--disable-postproc"
+ 
+ # features to support
+ PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
+@@ -154,7 +152,6 @@ PACKAGES =+ "libavcodec \
+              libavfilter \
+              libavformat \
+              libavutil \
+-             libpostproc \
+              libswresample \
+              libswscale \
+              ${PN}-examples"
+@@ -164,7 +161,6 @@ FILES:libavdevice = "${libdir}/libavdevice${SOLIBS}"
+ FILES:libavfilter = "${libdir}/libavfilter${SOLIBS}"
+ FILES:libavformat = "${libdir}/libavformat${SOLIBS}"
+ FILES:libavutil = "${libdir}/libavutil${SOLIBS}"
+-FILES:libpostproc = "${libdir}/libpostproc${SOLIBS}"
+ FILES:libswresample = "${libdir}/libswresample${SOLIBS}"
+ FILES:libswscale = "${libdir}/libswscale${SOLIBS}"
+ FILES:${PN}-examples = "${datadir}/${BPN}/examples"
 -- 
 2.39.5
 
