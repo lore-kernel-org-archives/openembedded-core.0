@@ -1,106 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B36DCCAC59A
-	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 08:51:48 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.41404.1757580699338004494
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D20CBCA1016
+	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 09:07:38 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.41693.1757581656241900198
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Sep 2025 01:51:39 -0700
+ Thu, 11 Sep 2025 02:07:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=duwrUkl0;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3dea538b826so444639f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 01:51:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757580698; x=1758185498; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Zw5/gKQ2d4A+gg+7YutOIbEiLpcjYdwlchBk8mk+uU=;
-        b=duwrUkl0YrVyxkToT+rwn6VJIJbkAurbcXFGOazDnYqlo10PUsyu7b1BfuDErrOxih
-         8FdFiO5gRkLkIzD1eI7RnSIAUTS/ezuzyg+zSjJ4l3uelZBPlfcfXsN46r7Gra89n3L9
-         /PmotHQiR89DdLPir1ZvJHwCAvIq22l6FA2So3HjbceIRzP4yChlGp4a/cqbGxRUuUla
-         841h2T6nNA7b/0q2Nsoq/ldCRfaLr/x0PcFOeDrehEQJ5dQ3BALmmyLmiZ/UGNXCZPuM
-         kjGfx7yaQbTDkE4F5ev6I5fetINAJCGimUYf8vLp3rxc33tydApOAYnX5cQyzJBxyHy6
-         tgtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757580698; x=1758185498;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8Zw5/gKQ2d4A+gg+7YutOIbEiLpcjYdwlchBk8mk+uU=;
-        b=KXvBQ1/XclknfAGxAFKS4XQ4IQxI2lxUNrVVl1yqqP7xF1Mmex+14lgBo36URLVD41
-         hJpHzhULE/Atm4W/fRwHLfHC3Ldva+fFSGV1qAluy37l/g1EqxgIadVk+M1iYJPPHitX
-         BmVvA2fSHAOjxIMTKKOLB2nCnFa451UKDGpSJMu6hndPQapvLETGleuqff4uticowj1L
-         0adFdi3LTn7NIpNKlfYhI/bhc8qDkXPM1WzKAkJgMM0TzCT+v24ufgiyi2wrISO3Mlr4
-         VFibA8HnXE7OMjLKCmdMIjPhKtGHwraPWAVrQTosUqifRenMUVFor8qqzH/AyJRCBKRT
-         334w==
-X-Gm-Message-State: AOJu0Yx/0qUnKmY0xGfo+zvOgo+nBVG+vixQ+xIOXjG+XFYrSvRmSlBg
-	1L6DBEEebP9L8cQ674L+OMcpXJvpqZflaaZTuAmh+csrBpo+03u6dK7jUXY1sw==
-X-Gm-Gg: ASbGncvm16fdcv6OIO8J0t+7Wrj4nrBBeWPNHEvVN6vqKkINuW5fEZGHB03Ei991KEl
-	vfgz34xzkLOjMqLEnu6lY0wSY+EQNgDLZGMRD9g7ib26lC4n1ozvx/Yqb0+vXUHkkFSmSAvZy9S
-	AlFbT7ewL33IdJGMnXr/omBFEO0lhtbDa2/ICo3zQdbqsjWtugzGAFou53YzueRCYjmoWVl+ecN
-	54sO0CvT1rXnzuK8AtRbFEPb1C4ODlDZWeLZl+T2vBD5VWnoBTTz7bhX4sGZ4ypkr3JrykbJeNS
-	5Yv6nFOKtoIWU7Ht1ey3QNVGABsvxAFzLMoeb4OauTphParSuEbam8toXiYJljy/xkyJ4XV0/gF
-	NLjgjdrYuVwrHK8cLl4OslKA5Gy2cI49nmhIDD1u/UAWTI4MQEDmBueKwrGmW+oH6g56o+WK2WU
-	X42QAhmLCS3J4s7oXwgp/9dXER8R5Qnl5fujY5FwbKT0kPvL2Hofq7Cnxd0w==
-X-Google-Smtp-Source: AGHT+IGsKVAxQTmU0193hamlHrJj9IMhy+KQkUdl3kt7NWyH0WRV4x0eoC70t4+6R8J2nVtoOXwPGw==
-X-Received: by 2002:a05:6000:2281:b0:3e7:4c93:18bc with SMTP id ffacd0b85a97d-3e74c931a00mr9034974f8f.49.1757580697547;
-        Thu, 11 Sep 2025 01:51:37 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017b2f4esm19382005e9.17.2025.09.11.01.51.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 01:51:37 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/16] python3-booleanpy: update 4.0 -> 5.0
-Date: Thu, 11 Sep 2025 10:51:13 +0200
-Message-Id: <20250911085123.1551425-6-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250911085123.1551425-1-alex.kanavin@gmail.com>
-References: <20250911085123.1551425-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eu7KEAB3;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=A6s+H+NO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101993807bcec-5b34639b-3b8d-4177-bef0-08b3761b070f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1757581655; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=bybhpE9/UT69E5kLBbauxfeyl996osb/Sl+kFtNeoEU=;
+	b=eu7KEAB3SZ+nydq0sH2SOn6a4PkkDjSbKibazIywfMM7B7DdH6e3vNkTgHm3BXCK
+	pPa+jGhWE3u48KmzyADlhLXc9mcSE5DCEcOwpIkaBfOW5IKYjS3lXJC44go09G9+d9E
+	rSKUlNySDgr1NnGjz0V86dSzX9ux33XJ3rS4GQRw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757581655;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=bybhpE9/UT69E5kLBbauxfeyl996osb/Sl+kFtNeoEU=;
+	b=A6s+H+NO2H1NeHkOwxCAL0XZmSBrSRZlB9/emZ4SpIuUJfnNnqZtZQbvrT7KdeMg
+	XSmu8R51CitN3az4pkb7RnVOIqOi3gBn8b1Cs8wQJT0ZMrLzR/E55PsQInBzUNxl6Gw
+	Zx+MTMl68U3132kHJbN1fT3TcQvU3gaknhw95bwQ=
+From: patchtest@automation.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 15/16] xkeyboard-config: update 2.44 -> 2.45
+In-Reply-To: <20250911085123.1551425-15-alex.kanavin@gmail.com>
+References: <20250911085123.1551425-15-alex.kanavin@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101993807bcec-5b34639b-3b8d-4177-bef0-08b3761b070f-000000@us-west-2.amazonses.com>
+Date: Thu, 11 Sep 2025 09:07:35 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.09.11-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 08:51:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223253
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 09:07:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223264
 
-From: Alexander Kanavin <alex@linutronix.de>
+--NextPart
+Content-Type: text/plain
 
-pypi's inability to make up its mind regarding separators goes on
-(and on and on).
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../{python3-booleanpy_4.0.bb => python3-booleanpy_5.0.bb}    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-booleanpy_4.0.bb => python3-booleanpy_5.0.bb} (76%)
+Testing patch /home/patchtest/share/mboxes/15-16-xkeyboard-config-update-2.44---2.45.patch
 
-diff --git a/meta/recipes-devtools/python/python3-booleanpy_4.0.bb b/meta/recipes-devtools/python/python3-booleanpy_5.0.bb
-similarity index 76%
-rename from meta/recipes-devtools/python/python3-booleanpy_4.0.bb
-rename to meta/recipes-devtools/python/python3-booleanpy_5.0.bb
-index 4563cb8c4bd..e51ad9d2c16 100644
---- a/meta/recipes-devtools/python/python3-booleanpy_4.0.bb
-+++ b/meta/recipes-devtools/python/python3-booleanpy_5.0.bb
-@@ -4,9 +4,9 @@ HOMEPAGE = "https://github.com/bastikr/boolean.py"
- LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=d118b5feceee598ebeca76e13395c2bd"
- 
--SRC_URI[sha256sum] = "17b9a181630e43dde1851d42bef546d616d5d9b4480357514597e78b203d06e4"
-+SRC_URI[sha256sum] = "60cbc4bad079753721d32649545505362c754e121570ada4658b852a3a318d95"
- 
--PYPI_PACKAGE = "boolean.py"
-+PYPI_PACKAGE = "boolean_py"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
- 
- inherit pypi setuptools3
--- 
-2.39.5
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
