@@ -1,60 +1,65 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBB01CAC587
-	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 15:19:42 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web10.223.1757603979343221698
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3A39CAC58E
+	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 15:54:12 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.web10.1108.1757606044450267282
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Sep 2025 08:19:39 -0700
+ Thu, 11 Sep 2025 08:54:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
-Received: from fwd84.aul.t-online.de (fwd84.aul.t-online.de [10.223.144.110])
-	by mailout11.t-online.de (Postfix) with SMTP id BD5941CD91
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 17:19:35 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([79.219.225.207]) by fwd84.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1uwj5B-3sB7Tt0; Thu, 11 Sep 2025 17:19:33 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] freetype: add PACKAGECONFIG for brotli
-Date: Thu, 11 Sep 2025 17:19:22 +0200
-Message-ID: <20250911151922.65277-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1757603973-1DFF0977-B0069482/0/0 CLEAN NORMAL
-X-TOI-MSGID: fa21a586-1835-48fe-8856-c1c1d7765178
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=kvsRj5DE;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id B153D1A0984
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 15:54:02 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 884D860638;
+	Thu, 11 Sep 2025 15:54:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B8142102F29CE;
+	Thu, 11 Sep 2025 17:54:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1757606041; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=7x4GXhaHzwSJvYC59g6YTBSI128JiaWXvsDjR+6B8Ak=;
+	b=kvsRj5DEEPeVj5DUXM5X0FGcCJEldnrHKdj79+Ln5SGxN8+kawgCNZXYMS7/gMqumB9QEj
+	LHxhwCF3wnF/nXM1kJ85Ab6TroxsSjCmUZOFKawXyd43bXtGNYo/Sh2qF28uORShfdWUu7
+	WxroeoXVzN2JfDuJ2CkOftMKild0pU+EP/D4BP+gX6uwH/fTtZOSQBt7y/qHhsqRokaagc
+	sSGV74e44bKyAjvG67qVu6krOcqqF9ZVUeWIUswjPT/hAf2uyTXTHSH8LDnNfH31MsTgfb
+	+kFw3j+LwTfHtiCxVTDlRtceDgXLUGPFOmEj0jFaBeqyXr924awvzpTxfbzWHg==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 11 Sep 2025 17:54:00 +0200
+Message-Id: <DCQ3CC40D8Z3.3K5EL5BVFAGUT@bootlin.com>
+Subject: Re: [OE-core] [PATCH 3/3] libpng: upgrade 1.6.48 -> 1.6.50
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <skandigraun@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250722152701.1718859-1-skandigraun@gmail.com>
+ <18549C5120596710.28644@lists.openembedded.org>
+ <fbede54e-1365-4cf1-91d7-10d937e46439@gmail.com>
+In-Reply-To: <fbede54e-1365-4cf1-91d7-10d937e46439@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 15:19:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223282
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 15:54:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223283
 
-Enabling brotli adds support for processing WOFF2 fonts.
+On Wed Sep 10, 2025 at 2:03 PM CEST, Gyorgy Sarvari via lists.openembedded.=
+org wrote:
+> Out of curiosity, did this patch only fell through the cracks and that's
+> why it wasn't applied, or is there some issue with it?
+>
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/recipes-graphics/freetype/freetype_2.13.3.bb | 1 +
- 1 file changed, 1 insertion(+)
+I have no record of dropping these patches, so it might be we missed
+them in the first place.
 
-diff --git a/meta/recipes-graphics/freetype/freetype_2.13.3.bb b/meta/rec=
-ipes-graphics/freetype/freetype_2.13.3.bb
-index 100a7d95b6..dbfffdb65f 100644
---- a/meta/recipes-graphics/freetype/freetype_2.13.3.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.13.3.bb
-@@ -27,6 +27,7 @@ EXTRA_AUTORECONF +=3D "--exclude=3Dautoheader --exclude=
-=3Dautomake -I ."
-=20
- PACKAGECONFIG ??=3D "zlib pixmap"
-=20
-+PACKAGECONFIG[brotli] =3D "--with-brotli,--without-brotli,brotli"
- PACKAGECONFIG[bzip2] =3D "--with-bzip2,--without-bzip2,bzip2"
- # harfbuzz results in a circular dependency so enabling is non-trivial
- PACKAGECONFIG[harfbuzz] =3D "--with-harfbuzz,--without-harfbuzz,harfbuzz=
-"
---=20
-2.50.1
+libmicrohttpd and libwebp got other update patches, but libpng still has
+to be updated. I took the patch in my master-next branch this morning.
 
+Thanks,
+Mathieu
 
