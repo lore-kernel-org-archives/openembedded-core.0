@@ -1,224 +1,243 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <andreaskleist@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31EC0CAC58E
-	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 13:06:20 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web11.46255.1757595976927691863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59696CAC587
+	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 13:28:20 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.46527.1757597295715486976
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Sep 2025 06:06:16 -0700
+ Thu, 11 Sep 2025 06:28:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ry06Xljo;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-323266d6f57so714646a91.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 06:06:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LobIutdi;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: andreaskleist@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b042cc39551so115730266b.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 06:28:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757595976; x=1758200776; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=grw4LHcUHKKB2YNjmS6RSOTjKvRIAw1I20hspI4bX+w=;
-        b=Ry06Xljo0QroXurd4pg98NJr89Sm+1qJMoDtU3mf70OUTm8hMO0BRvImOl6lqFTuHL
-         6qSMzxbJ1Z8IZuLtmjnFYMjnafTE8hD/ZnImxG70nzEt0xZgNGtsSu3ecrNzpKxwC0xu
-         kGcaMRgbpUjesEnL/JHVzmqLH9utDp5JNJJOcbSlQy68wLHzCpUqOznH6uPTlqkL3HAW
-         o5GxOFVDk1R9Im18my40hEiJZpXgHXGnDUTVJtfK0vtUv5SwnFgFBvbsp5IwQFn6QhrV
-         EUXRhEHcixOWRx612vqrAC1/GzCf02VPV4KMyMkjRuV5ywh6U+ad4Qf1AuRVByod2Mdt
-         nuqA==
+        d=gmail.com; s=20230601; t=1757597294; x=1758202094; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1w6GOKLsFRZD17QMkzV+SIL8ZqpuO1tgq2Dfu4DPdaA=;
+        b=LobIutdikodABwEg3rGplyjZWLE7UBT92cc48idKXYxB7CjvvedX/FgZ9atw13awGm
+         qr0o1r0O1cvlemeA4HLbGsEUW3P65RELGuoEGl52/9wm8wD1W1C0s5LRQAoBEF5LlxNf
+         IeYTgH/ljPzBtvs4AHNla04eYww7Zshpl7S0dg2Q8WqIGBLCXJVNfx/OvBKWcHExM6ag
+         s1KOUPOVLVk2NGOLeuUjqmCfb8CEtHEft2j3Q9ifU34ekvvSLWcBnkrIajffU0PYq5xN
+         fFR+pqxSQH9IqOTHnovmiL1CYyNQ7uEHlcQZw/JFPyhC+rCLAQLu+bC6QX36hgpte2ir
+         05YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757595976; x=1758200776;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=grw4LHcUHKKB2YNjmS6RSOTjKvRIAw1I20hspI4bX+w=;
-        b=dKm2qbS659Pe6x9Wnv5AoPHKOlGT3LXwuk8faY+q6wMOdj2oH1QjclERW8AmqjdtcN
-         1pXL1lrPpLiNELiHXeQEiOEqbvDLHeXe0p84aSZpFOC2kDHgf8zFE9v3N3IDH/2U7XWu
-         6cTgTiIHIJEnPqTnral2Yo6QxKp1bkIuqAJ95i5rPCQ+DhKGfYT1B9WKR7GALYhE1uop
-         PfYFwaXa49c45KJ2yy8PtzNGRogLWIqZto161oJzub6DE10y+Gzh7BqcJVbOM5ztJ/0F
-         X7LQgfAvQfDl1Lda/WrRE/qFqIUz+g9RaLNuXbNUIOA9RllzL2uKZDdEofPM2eB5R3NL
-         mT5Q==
-X-Gm-Message-State: AOJu0Yw+f2DBuCmFy4+OmjvwOvp0rvZBkSDQ42GxjCnM/XjLk78DWOs1
-	2ZYLevt93ytLReYXpQMpGOfKYdgTf7T6zp650yS8KVqHbRSbQN22YCQKtToOCN9jn4JC4Yp7GWR
-	m9hFXtY/awcHtKhzlMnUYLC3Ex+uxKWg=
-X-Gm-Gg: ASbGncuEmKiCF8+p0N6Vk1tbkwI0QXZGuZV1q2EcKW/qEx4BOJ6bxs/7txNrg/4jt5q
-	lDPuIl7wiLsMXuiR5i0httyZ409RJkEHVNi/OwePoQib7b5thumbTHbx5S+V5V8kdGxcFixmC1v
-	JGCTIZVY9uRMOYg+QAS+ZY1wCIXVC8YEbxEiCe1gIqS/BhichXkLsut7ciIvPr1p06i719b5EVy
-	eMUnopkq+7o1/GbwlCSECJ5DaVKosaILJCTviDs
-X-Google-Smtp-Source: AGHT+IGtu9XT6+bh5GqdzFlgH9cHLLqY9GXLL6SuqdtHD4CpFKtij2hHEegn8e77hraxrbnXQK8/wDEb8+dNz5oITpY=
-X-Received: by 2002:a17:90b:4f41:b0:32d:d4c8:b64a with SMTP id
- 98e67ed59e1d1-32dd4c8bcfcmr2978916a91.6.1757595975515; Thu, 11 Sep 2025
- 06:06:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757597294; x=1758202094;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1w6GOKLsFRZD17QMkzV+SIL8ZqpuO1tgq2Dfu4DPdaA=;
+        b=w8gvZ7FDeh/U6bOlgEdeeOt2k+y+GTkxQMV05ANl/itZc5Iro9rfKv2+pkiSB5f21N
+         fbMgaqMNj3+pfpuzeqG4RlHrSte4V8vav2KT8kwdy3Vh9Yf1Jp5g+z+VBQSgWQ6Iqwv2
+         BnzsIc7jG409MGX2oXej3iKuS1i99wEnvR3y31flMtJiTWdKxPmkt6wj7RdontHQCsqs
+         Swfp7jsC0q3eAebpDrc43qt9Jh9R0GJ/4qvAcz4e5B/I2TV4IyP92u5EkCWtkoD3yV69
+         Sr7p8uh9A6TuuB99z+ERrmYyzh8UO0LVszt7rnPvGlOoQTk/Q8UBRyiYZuMO+pPPsHyU
+         ubag==
+X-Forwarded-Encrypted: i=1; AJvYcCX2fIoxHp+d07B/vT03yeOmW3jR4cStcDy6fWyQXtG9Ls6uENHNZWC5MxrE8NpMwyu+0R4gRChiuuLRCzzdWjqKwg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzvWXYb4n/L3GRrrHBGTuHcGCXSzJGlNpS91dEz3aEAYWeJbQuR
+	ShmQy6lxx6uJmOkcc5xM+YgUWqDgThnt9iWnB2I6O0Hi8iwT0yKjYMDI
+X-Gm-Gg: ASbGncu0TRTp0jZDHRmw8dgHioOjJsRLI+Z8jxzbjTJx1kShTbEfa2U0Yii0MottHhN
+	GRzRGThIOHZtsECVlxDWSaUurNBYqngYoRUHu2BqixVyd/vM2FYn05Soeo7+QgOMaJXiHszo7i9
+	gcxnb4zNImnea+NG5slHgKja8qZqADwCPAg+Um8xrKJMAw6SzwhOqdU6RYyp7vMNH5hBsuyYR3H
+	Q0fmVQwTI7bJmOZBIyrsd0vxfNiMa/MQBicTXKgHP82fk4+MAXlvpSu5aIf3bFANWiOxDZgAG+b
+	y1kzOFwJLKqyAVrJ3LwS+BBRqNNiiEb9AOmP8M5F5YP2UYHF6N5+kghWBOmZyE036s8+ZHUwSKM
+	JSZIxBJVycGydu+IciLT0+o2x
+X-Google-Smtp-Source: AGHT+IEgVMXFTa3p8uY9h8urIztb4fDfSk/o+ONzxKrG63TWRlSqYObKbNSEavVua7cXvqF9sea2Cw==
+X-Received: by 2002:a17:907:c10:b0:aff:2ed7:5f11 with SMTP id a640c23a62f3a-b04b1480ac1mr1874869066b.24.1757597293663;
+        Thu, 11 Sep 2025 06:28:13 -0700 (PDT)
+Received: from [10.9.136.51] ([87.62.83.1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b33478e4sm129172866b.96.2025.09.11.06.28.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Sep 2025 06:28:12 -0700 (PDT)
+Message-ID: <328cdeca6f32532f49f8b1a704f60cb06f76eb97.camel@gmail.com>
+Subject: Re: [OE-core][PATCH v2] environment.d-openssl.sh: fix unbound
+ variable with 'set -u'
+From: Andreas Helbech Kleist <andreaskleist@gmail.com>
+To: Haixiao.Yan.CN@windriver.com, Mathieu Dubois-Briand
+ <mathieu.dubois-briand@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+Date: Thu, 11 Sep 2025 15:28:12 +0200
+In-Reply-To: <c7039f90-656f-4076-a726-e931365091b9@windriver.com>
+References: <20250905123421.3940634-1-haixiao.yan.cn@windriver.com>
+	 <DCOC0GHAATJU.2COUF7546LC27@bootlin.com>
+	 <c7039f90-656f-4076-a726-e931365091b9@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-References: <20250910193942.4072450-1-bruce.ashfield@gmail.com> <3c290199cd4437f8dc25d19752c51ebd02cb4ab3.camel@linuxfoundation.org>
-In-Reply-To: <3c290199cd4437f8dc25d19752c51ebd02cb4ab3.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 11 Sep 2025 09:06:03 -0400
-X-Gm-Features: Ac12FXyB1mHSx3FeAfvzmmpLM4v4ZzTO2i4wZ-4xDxrAX5UZTU67dQa1zTnsED0
-Message-ID: <CADkTA4PzSzBTLWt2VWVL9=Ph1Qx0kdHRBT6FTVG-9jqU5M3m6g@mail.gmail.com>
-Subject: Re: [PATCH] linux-yocto/6.16: cfg: fix audit warnings
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Scott Murray <scott.murray@konsulko.com>, 
-	=?UTF-8?Q?Jan=2DSimon_M=C3=B6ller?= <jsmoeller@linuxfoundation.org>, 
-	Ross Burton <ross.burton@arm.com>, Jon Mason <Jon.Mason@arm.com>
-Content-Type: multipart/alternative; boundary="000000000000c7843c063e863321"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 13:06:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223277
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 13:28:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223278
 
---000000000000c7843c063e863321
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi=C2=A0Haixiao,
 
-On Thu, Sep 11, 2025 at 7:43=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Wed, 2025-09-10 at 16:52 +0800, Yan, Haixiao (CN) via
+lists.openembedded.org wrote:
+>=20
+> On 2025/9/9 22:16, Mathieu Dubois-Briand wrote:
+> > CAUTION: This email comes from a non Wind River email account!
+> > Do not click links or open attachments unless you recognize the
+> > sender and know the content is safe.
+> >=20
+> > On Fri Sep 5, 2025 at 2:34 PM CEST, Haixiao (CN) via
+> > lists.openembedded.org Yan wrote:
+> > > From: Haixiao Yan <haixiao.yan.cn@windriver.com>
+> > >=20
+> > > When Bash runs with 'set -u' (nounset), accessing an unset
+> > > variable
+> > > directly (e.g. [ -z "$SSL_CERT_FILE" ]) causes a fatal "unbound
+> > > variable"
+> > > error. As a result, the fallback logic to set
+> > > SSL_CERT_FILE/SSL_CERT_DIR
+> > > is never triggered and the script aborts.
+> > >=20
+> > > The current code assumes these variables may be unset or empty,
+> > > but does
+> > > not guard against 'set -u'. This breaks builds in stricter shell
+> > > environments or when users explicitly enable 'set -u'.
 
-> On Wed, 2025-09-10 at 15:39 -0400, bruce.ashfield@gmail.com wrote:
-> > Apply these on top of all my previous patches.
-> >
-> > They fix the overly agressive DRM options I enabled and address some
-> > of the warnings in other configurations that had slipped through.
-> >
-> > There may still be some issues lurking, but this will definitely
-> > improve things.
->
-> Thanks, this definitely looks better.
->
-> There are still config warnings for meta-agl-core and meta-arm:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/builds/2218
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/builds/2254
-> (copying people)
->
+Thank you for working on this. We just ran into this issue after a
+small upgrade in the scarthgap branch, so I'm hoping this will also be
+backported to scarthgap.
 
-I scanned the AGL one yesterday and removed one of the obsolete
-options from the kernel-cache fragments. But the rest of the warnings
-come from other places, so I didn't get to tracking down where they are
-in the AGL layers. If no-one can do it in the short term, I can have a
-look.
+> > >=20
+> > > Fix this by using parameter expansion with a default value, e.g.
+> > > "${SSL_CERT_FILE:-}", so that unset variables are treated as
+> > > empty
+> > > strings. This preserves the intended logic (respect host env
+> > > first, then
+> > > CAFILE/CAPATH, then buildtools defaults) and makes the script
+> > > robust
+> > > under 'set -u'.
+> > >=20
+> > > Note: environment.d-curl.sh, environment.d-python3-requests.sh,
+> > > and environment.d-git.sh have the same issue and should be fixed
+> > > similarly.
 
-The meta-arm one was CONFIG_SCHED_DEBUG, I removed it from
-the kernel-cache fragments, but if it is still showing in your build, there
-must be another fragment that is adding it from somewhere in the layers.
-My same offer exists for meta-arm, I can track it down if no one else has
-time.
+The patch title doesn't mention these changes.
 
-
->
-> There is also a reproducibility issue in perf:
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/2469
->
-> https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20250910-yq6y7z5=
-s/packages/diff-html/
->
-> I did a bit of digging on that one and sent out a possible patch.
->
-> I've merged the current queue of 6.16 patches in since we'd be doing it
-> eventually and I decided it would be easier to get people to
-> collaborate on the remaining issues with the patches merged.
->
->
-Agreed!
-
-Bruce
+I don't know if changing the title or splitting the patches would be
+the preferred approach?
 
 
+> > >=20
+> > > Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
+> > > ---
+> > Hi Haixiao,
+> >=20
+> > Thanks for your patch.
+> >=20
+> > It looks like this is leading to failed SDK installations in some
+> > cases,
+> > as some other variables are undefined:
+> >=20
+> > ERROR: core-image-sato-1.0-r0 do_testsdkext: Couldn't install the
+> > extensible SDK:
+> > Poky (Yocto Project Reference Distro) Extensible SDK installer
+> > version 5.2.99+snapshot
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > You are about to install the SDK to "/srv/pokybuild/yocto-
+> > worker/qemuarm64-armhost/build/build/tmp/work/qemuarm64-poky-
+> > linux/core-image-sato/1.0/testsdkext". Proceed [Y/n]? Y
+> > Extracting SDK................................................done
+> > Setting it up...
+> > Extracting buildtools...
+> > Preparing build system...
+> >=20
+> >=20
+> > Contents of preparing_build_system.log:
+> > sh: 17: /srv/pokybuild/yocto-worker/qemuarm64-
+> > armhost/build/build/tmp/work/qemuarm64-poky-linux/core-image-
+> > sato/1.0/testsdkext/layers/build/oe-init-build-env: BASH_SOURCE:
+> > parameter not set
+> >=20
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/8/builds/2375
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/36/builds/2346
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/2197
+> >=20
+> >=20
+> > SDK testing environment: x86_64-pokysdk-linux
+> > Traceback (most recent call last):
+> > =C2=A0=C2=A0 File "/srv/pokybuild/yocto-
+> > worker/buildtools/build/meta/lib/oeqa/buildtools/cases/build.py",
+> > line 21, in test_libc
+> > =C2=A0=C2=A0=C2=A0=C2=A0 self._run('. %s/oe-init-build-env %s' % (coreb=
+ase, testdir))
+> > =C2=A0=C2=A0 File "/srv/pokybuild/yocto-
+> > worker/buildtools/build/meta/lib/oeqa/sdk/case.py", line 17, in
+> > _run
+> > =C2=A0=C2=A0=C2=A0=C2=A0 return subprocess.check_output(". %s > /dev/nu=
+ll; %s;" % \
+> > =C2=A0=C2=A0 File "/usr/lib64/python3.9/subprocess.py", line 424, in
+> > check_output
+> > =C2=A0=C2=A0=C2=A0=C2=A0 return run(*popenargs, stdout=3DPIPE, timeout=
+=3Dtimeout,
+> > check=3DTrue,
+> > =C2=A0=C2=A0 File "/usr/lib64/python3.9/subprocess.py", line 528, in ru=
+n
+> > =C2=A0=C2=A0=C2=A0=C2=A0 raise CalledProcessError(retcode, process.args=
+,
+> > oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '.
+> > /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-
+> > nativesdk-pokysdk-linux/buildtools-tarball/1.0/testimage-
+> > sdk/environment-setup-x86_64-pokysdk-linux > /dev/null; .
+> > /srv/pokybuild/yocto-worker/buildtools/build/oe-init-build-env
+> > /srv/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_64-
+> > nativesdk-pokysdk-linux/buildtools-tarball/1.0/testimage-
+> > sdk/bitbake-build-vbmlrryg;' returned non-zero exit status 1.
+> > Standard Output: /srv/pokybuild/yocto-worker/buildtools/build/oe-
+> > init-build-env: line 29: BBSERVER: unbound variable
+> >=20
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/43/builds/2371
+> >=20
+> >=20
+> > Can you fix these failures please?
+>=20
+> Remove 'set -eu' to avoid propagating strict mode to other
+> environment.d=20
+> scripts.
 
-> Cheers,
->
-> Richard
->
->
+Instead of using 'set -eu' in each script, which as can be seen above
+doesn't work, I'd suggest adding a test case that sources the
+environment-setup-* from a shell with 'set -eu' called.
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000c7843c063e863321
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>=20
+> Sent v3.
+>=20
+> Thanks,
+>=20
+> Haixiao
+>=20
+> >=20
+> > Thanks,
+> > Mathieu
+> >=20
+> > --
+> > Mathieu Dubois-Briand, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
+> >=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#223151):
+> https://lists.openembedded.org/g/openembedded-core/message/223151
+> Mute This Topic: https://lists.openembedded.org/mt/115081014/7501392
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> andreaskleist@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 11, 2025 at 7:43=
-=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfounda=
-tion.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">On Wed, 2025-09-10 at 15:39 -04=
-00, <a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ash=
-field@gmail.com</a> wrote:<br>
-&gt; Apply these on top of all my previous patches.<br>
-&gt; <br>
-&gt; They fix the overly agressive DRM options I enabled and address some<b=
-r>
-&gt; of the warnings in other configurations that had slipped through.<br>
-&gt; <br>
-&gt; There may still be some issues lurking, but this will definitely<br>
-&gt; improve things.<br>
-<br>
-Thanks, this definitely looks better.<br>
-<br>
-There are still config warnings for meta-agl-core and meta-arm:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/55/buil=
-ds/2218" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/55/builds/2218</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/75/buil=
-ds/2254" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/75/builds/2254</a><br>
-(copying people)<br></blockquote><div><br></div><div><div class=3D"gmail_de=
-fault" style=3D"font-size:small">I scanned the AGL one yesterday and remove=
-d one of the obsolete</div><div class=3D"gmail_default" style=3D"font-size:=
-small">options from the kernel-cache fragments. But the rest of the warning=
-s</div><div class=3D"gmail_default" style=3D"font-size:small">come from oth=
-er places, so I didn&#39;t get to tracking down where they are</div><div cl=
-ass=3D"gmail_default" style=3D"font-size:small">in the AGL layers. If no-on=
-e can do it in the short term, I can have a</div><div class=3D"gmail_defaul=
-t" style=3D"font-size:small">look.</div><br></div><div><div class=3D"gmail_=
-default" style=3D"font-size:small">The meta-arm one was CONFIG_SCHED_DEBUG,=
- I removed it from</div></div><div class=3D"gmail_default" style=3D"font-si=
-ze:small">the kernel-cache fragments, but if it is still showing in your bu=
-ild, there</div><div class=3D"gmail_default" style=3D"font-size:small">must=
- be another fragment that is adding it from somewhere in the layers.</div><=
-div class=3D"gmail_default" style=3D"font-size:small">My same offer exists =
-for meta-arm, I can track it down if no one else has</div><div class=3D"gma=
-il_default" style=3D"font-size:small">time.</div><div class=3D"gmail_defaul=
-t" style=3D"font-size:small">=C2=A0</div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
-<br>
-There is also a reproducibility issue in perf:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/buil=
-ds/2469" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/37/builds/2469</a><br>
-<a href=3D"https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-2025091=
-0-yq6y7z5s/packages/diff-html/" rel=3D"noreferrer" target=3D"_blank">https:=
-//valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20250910-yq6y7z5s/packag=
-es/diff-html/</a><br>
-<br>
-I did a bit of digging on that one and sent out a possible patch.<br>
-<br>
-I&#39;ve merged the current queue of 6.16 patches in since we&#39;d be doin=
-g it<br>
-eventually and I decided it would be easier to get people to<br>
-collaborate on the remaining issues with the patches merged.<br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">Agreed!</div><div class=3D"gmail_default" style=3D"font-si=
-ze:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">=
-Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---000000000000c7843c063e863321--
 
