@@ -1,162 +1,100 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 808B6CAC58E
-	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 21:11:47 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.557.1757625100415438188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 842F5CAC58E
+	for <webhook@archiver.kernel.org>; Thu, 11 Sep 2025 21:16:07 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.666.1757625359346383112
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Sep 2025 14:11:40 -0700
+ Thu, 11 Sep 2025 14:15:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V5f9XIz9;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-afcb7a16441so179151766b.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 14:11:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757625099; x=1758229899; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mCluAc8/Fy20fxSCr5SqbPiGLr9YNLBlb5DYJPUFtV0=;
-        b=V5f9XIz9BMjgRRjXoUiwRgAvdIlWlS8ykGKXWXSi6H/6/P35jgs5M5rGprLLz29cxG
-         tR3N8gy9OrM8eSbfTU6cZfFQctgi5Cn+a/sU/QC1jsT+AjvFgj2uRuhRHAKuy+L4iJQ6
-         2ej4I05+nnmoi17XIMGp/K/9Ph2dcn8pUY4cIcG3TpzE0rmoIudUIMtl6pbNRCoQq2LT
-         9QxRl89DxBwH6hEioZ+QlZehVVc/CUX9KJCgtFafZw9mlVKJpMrsebma+mxedboRJo/f
-         nrfPfu543Bz7teDegTV2ebWn4Tv5lRiJozNjIrAe7jefoNN2zelvOs5KuWL59a9NFNo/
-         zoSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757625099; x=1758229899;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mCluAc8/Fy20fxSCr5SqbPiGLr9YNLBlb5DYJPUFtV0=;
-        b=up474I0SZM79H5/u6dwB62aTucFQ2GG8pLTDQ52SQqPRVneC7LGrKqA3pfoCFxozml
-         vLsH1Av/lAE4sEK7NxNPJOjjxP5YU89zTk2XImN9VuybDtMD89BovsmuQyMzL/CPdL4f
-         O4mNUW9d//1vCQAr4sVRI/TqWx7wTm8oPfqwsfilU3C3b3De5WGOfLWr8829tR1ld+2P
-         lOUD7rb8U66eXpH9LyO/yiPpCXPmNmHm4smbIj1IsxEBG28A96+SExBFSw+Kdx2Mll2M
-         KNVD2T/0RA67fALlw0xTqUhWCbBomKsGY0qpNsgoFUd5gZjlJs/rsBh4kzwaHKeAeQpp
-         x4Pw==
-X-Gm-Message-State: AOJu0YzjsFvuzWD5w+NpgpaociL+orzHGqehAsgJeQKiiJy86fSsztIh
-	RNbK/Wr5c9LiNI3fBc6/P7pVCfAT3nGd3jCAfv4BOmOjLdCUg4XfZo4Pmt0v+A==
-X-Gm-Gg: ASbGncvH0EfKCAdPaDV0GrNXE/eeVRGddQO+XDeGsCTG0LVmFfgFECUO9OxeLz9Yq/R
-	xW5FPZ4/SQbrkmnW8Wr0Ke+P5ROBkrim76Z17ggGKK1Bk+8UXxnb0PJPfkImUa1Lo93fMJ/JGbs
-	LhEEagjrOa5G5ClIUjlJ6Zb8EYmiXyj+th9MOP+VevIgnqEntYQpAmx0xXkmJzmct1flbkqsUxd
-	923qbaaDTAFRJjBtaTOyaXJq0c5wHl76T0FNrCs92s4RwftcI8spG1kFTXZuYJLtIi+vqbG3C6I
-	n92Fg/cGx6pdhw9sxsDO5YmPXaSP6LJ4RXoFcSIDLMWlqnzXBHIu3wMzFddaw+XucCzJF4hYzOt
-	kFwlwqcg7ZChQi8dz9Ujg2WVCnpls19cCfL68n3nEIw==
-X-Google-Smtp-Source: AGHT+IFLQ86YdDn+C8niF2zoOY0pRPfLjTuF4zzgOavFKyYaLIKsj8qHfJ7KvSj4jhZsmfiTaPEpCg==
-X-Received: by 2002:a17:907:86ab:b0:afe:dd76:7cd4 with SMTP id a640c23a62f3a-b07c37abc6bmr58591366b.57.1757625098463;
-        Thu, 11 Sep 2025 14:11:38 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b32f1e26sm208939566b.77.2025.09.11.14.11.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 14:11:38 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] vulkan-samples: update to latest revision
-Date: Thu, 11 Sep 2025 23:11:37 +0200
-Message-ID: <20250911211137.3678240-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.51.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=tyvhq8dt;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OaxDprWu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101993aa298da-81d08e0f-9e5e-4b96-9ede-3189499d928e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1757625358; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=bcODZHL9TX1XHU8vaFzhXU13Tmr5I1Z5fLbFXVh6tgs=;
+	b=tyvhq8dtuxL08ppmqi+t2whqB2SX6BA1N7v/ac3Fv9/KnOgTtr/OOWXGtV6tVWE+
+	73xEhyirwX8OXA0Q2sGwYxrXTTINTBCwY6ePhPTfX7nRXvrpfwovW/vz8vQmeOoHjS/
+	YPgFYtx6il0JE0ERu3VyCuDu0CDT+1vddvpXTlqY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757625358;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=bcODZHL9TX1XHU8vaFzhXU13Tmr5I1Z5fLbFXVh6tgs=;
+	b=OaxDprWuc5inAxXj/ool0BCN6WHq2qXShgbik+RU+u1+LwOQjC2xhl5sRZoVlOXs
+	HVPwgNK2V13snE9R4LEZK2g9jHxlTpL1RXUcMNkQlD84yhXB4Nxxv+TlSQx1S5lg6Dn
+	GiUXN2Yr+p2uvQblGTcAC39/06qVZp5FUxIWKdCQ=
+From: patchtest@automation.yoctoproject.org
+To: Gyorgy Sarvari <skandigraun@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] vulkan-samples: update to latest revision
+In-Reply-To: <20250911211137.3678240-1-skandigraun@gmail.com>
+References: <20250911211137.3678240-1-skandigraun@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101993aa298da-81d08e0f-9e5e-4b96-9ede-3189499d928e-000000@us-west-2.amazonses.com>
+Date: Thu, 11 Sep 2025 21:15:58 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.09.11-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 21:11:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223296
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Sep 2025 21:16:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223297
 
-Dropped 0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch,
-because the dependency it was patching (glslang submodule) has been
-removed by the project, so it became obsolete.
+--NextPart
+Content-Type: text/plain
 
-Shortlog:
-Unify vkb::PhysicalDevice and vkb::core::HPPPhysicalDevice into vkb::core::PhysicalDevice<bindingType>
-Update Apple min deployment versions and iOS Simulator build config
-Add example for dynamic_rendering_local_read
-Add Slang and HLSL shaders to first set of samples
-Fix use of --width and --height by setting extent earlier
-Unify vkb::Instance and vkb::core::HPPInstance into vkb::core::Instance<bindingType>
-Remove vkb::filesystem::init() from astc to fix memory leak and batch mode stability
-Update VVL version to 1.4.321.0 for Android
-Update NDK version to r28c for Android
-Fix variable descriptor count info not used in descriptor set creation
-Fix layer settings regression on Apple platforms for MoltenVK config
-Update shader interfaces to match sample's vertex input description
-Fix regression on iOS Simulator by including TargetConditionals.h in gui.h
-Add CMAKE_OSX_DEPLOYMENT_TARGET to macOS build docs and CI script
-Add possible Linux WSI options
-Unify vkb::Gui and vkb::HPPGui into vkb::Gui<bindingType>
-Remove submodule CTPL, replace its functionality by calls to std::async
-fix: fix the surface resize logic when use wayland wsi
-Implement simple cache for decoded ASTC textures
-Unify vkb::Device and vkb::core::HPPDevice into vkb::core::Device<bindingType>
-Port of latest changes in api sample hello_triangle to hpp_hello_triangle
-Fix crash in sample on android
-Improve and fix async compute sample
-Fix MacOS cmake build instructions
-Replace runtime shader compilation with offline compiled SPIR-V shaders
-Transcoded version of api sample hello_triangle_1_3 based on Vulkan-Hpp
-Unify vkb::RenderFrame and vkb::rendering::HPPRenderFrame into vkb::rendering::RenderFrame<bindingType>
-Increase base version to Vulkan 1.1
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- ...uilder.h-add-missing-cstdint-include.patch | 28 -------------------
- .../vulkan/vulkan-samples_git.bb              |  6 ++--
- 2 files changed, 2 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch
+Testing patch /home/patchtest/share/mboxes/vulkan-samples-update-to-latest-revision.patch
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch
-deleted file mode 100644
-index f50aa806da..0000000000
---- a/meta/recipes-graphics/vulkan/vulkan-samples/0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From e40c14a3e007fac0e4f2e4164fdf14d1712355bd Mon Sep 17 00:00:00 2001
--From: Sergei Trofimovich <slyich@gmail.com>
--Date: Fri, 2 Aug 2024 22:44:21 +0100
--Subject: [PATCH] SPIRV/SpvBuilder.h: add missing <cstdint> include
--
--Without the change `glslang` build fails on upcoming `gcc-15` as:
--
--    In file included from /build/source/SPIRV/GlslangToSpv.cpp:45:
--    SPIRV/SpvBuilder.h:248:30: error: 'uint32_t' has not been declared
--      248 |     Id makeDebugLexicalBlock(uint32_t line);
--          |                              ^~~~~~~~
--
--Upstream-Status: Backport [https://github.com/KhronosGroup/glslang/commit/e40c14a3e007fac0e4f2e4164fdf14d1712355bd]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- SPIRV/SpvBuilder.h | 1 +
-- 1 file changed, 1 insertion(+)
--
----- a/SPIRV/SpvBuilder.h
--+++ b/SPIRV/SpvBuilder.h
--@@ -56,6 +56,7 @@ namespace spv {
-- }
-- 
-- #include <algorithm>
--+#include <cstdint>
-- #include <map>
-- #include <memory>
-- #include <set>
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index b7c9ddd2fe..8011c3a81c 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -5,12 +5,10 @@ LICENSE = "Apache-2.0"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
- 
--SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protocol=https;lfs=0 \
--           file://0001-SPIRV-SpvBuilder.h-add-missing-cstdint-include.patch;patchdir=third_party/glslang \
--           "
-+SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protocol=https;lfs=0"
- 
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "d27205d14d01ea7d33efc8ba2862478612370182"
-+SRCREV = "b9961792604af2ede4c9d0868947de2a8eccd549"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
- 
+FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
