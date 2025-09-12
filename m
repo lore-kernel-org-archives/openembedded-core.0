@@ -2,39 +2,38 @@ Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C21BCAC582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E056CA101F
 	for <webhook@archiver.kernel.org>; Fri, 12 Sep 2025 03:33:42 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.7390.1757648021830673803
+ by mx.groups.io with SMTP id smtpd.web11.7389.1757648021269057954
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Sep 2025 20:33:42 -0700
+ Thu, 11 Sep 2025 20:33:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=LQM0LuCh;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=DWXq8glG;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1350ab43ad=qi.chen@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58C2Zg2M247567
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58C2Zg2K247567
 	for <openembedded-core@lists.openembedded.org>; Fri, 12 Sep 2025 03:33:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=axidoPMH0/BLqo30zmzTPhQ2R7eTlCcQBmjiFt3bI6Q=; b=LQM0LuChE524
-	OewVKvQkllWx4Le7rDGlblMRBDTNED9p+7LY+efUg8G6yEAa3UyzMyl2lADwObHu
-	vqgWdPV85NhEjhS6bRUyKBFLAX6PzfNJmyRxmPed3DRaytiOYplUg4maAEZhG+a9
-	HpbMgZLnFQdJopKy7+u2K0pJKem6EPYixY+9wI5mK0iznDbJKk6/VPv2DssXxCdY
-	hnMRVHA8sTRp9jbZz3yVezN/v1uNoOUHrIo0OIZgGin4KV2B3L6HbspQE1l02EBn
-	xy6bmnjhF0n5ljOPAg0FFCd6UBUTwJ6eVe/F8rBhTp3WBvBomoSvxaEK9z4VSok+
-	8K4jJzOUOQ==
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=mAJaxV7/FPREcmCf/nU+
+	trfGgZaFhbEhZ2udRWs6u54=; b=DWXq8glGdxOSCz1apA4cfPhLDyJ1MYJ32g2B
+	K3tgT/8309thwJbQg4g2+1GdzkHD9okxyip2eN1ozxPQlwP5r4jqbao7NOSJLViJ
+	6T99cnCbjzAqy+3xdbvcebIx4+Mi64m+n9wX9dBpv27JVSl4koQFQzfdu+pIecQI
+	7d3KvojN37FWbeK2fC5CcS8WLeaQKJNtFUloVssAZFB/D4qrTyEorRYxLNjYstkD
+	6Dz2bgKqTfh5tkrlb8VjMLW8/ZBIB7upBpWorRogkuQQGDc1B+LOMmx9AtG2hIEC
+	sZq1qaSgQddwkQwcqA+MLxYMyP02+3/lgngT9T2R/LuXKO6/sQ==
 Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 491ve35ckt-3
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 491ve35ckt-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Sep 2025 03:33:40 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 12 Sep 2025 03:33:39 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kGv/YmmLCwPpR0214vY7nxSUuUpJPor5Md76iFT8qJo0WyVrW3PrikL9Qdx/4WJ7yuCtk046YfZZ7wRmOiSrHBbeTRwn6mO/dKyCxKKXHxrJ/L29gU0TtwVDQQElgj1qH07oJtdF4BPdhrdfC7AP24rE5dRE+RNT/0dsDgELINMUSEl4olFdtc6qTKxwzQzo9mYEdfu3PTMPXC/BZBAwlacWFnlpIR6RDfzmoFhWO1uUGN7PwLWdgxqskL/6paChEEhHDkMRYTu+5by01uRQFS7P7Ay4ig23nOOEGd6u84vFas1Rb1zRbH61AMpnRKf5/VwI7sxCBrxZaSmNOIK1OA==
+ b=DEn+lw8PjJxegJbh9tAyjo69GvGadDDw17R2nJEzwzBJfG7g0SZDXDfC0Js1lNCk2YjSR3DkZvkkAirY8g20Y+IOblaZIyxPthaH7rleTva3kQ3A5YlijtOXdNh/FlvaMBM/uXMg9PrM7QomJhWBYAQvl7m9fRWMg3Y/6uLRxvkBdX8VkReWoZWGQBn/6EOFVLeQ5HRvDkdfdU77M9gVAJS9IgG/6B/Cf3w4Xjy54bAYArb3wyoJBCyhJvsHmnFgM4kTqODaxDsHDeWhgT/vp4TrIL1yN1+viEmDULJB6N2rAdIwrAKgNhs4CtQthXSfVVZVfquKRDCI/p0CpXgQbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=axidoPMH0/BLqo30zmzTPhQ2R7eTlCcQBmjiFt3bI6Q=;
- b=jjPnhDOPFNAT+K0Qsos9j7jHuFKDiE1hxxYRB8l3AqSJC8Ru136jXRtHqTqilfCCPIwxAMXuIF3JUYyCD68i0D29mH5DiDdsvP7dStuvyeISrdkn6Bl5GZ0wj/3XKm6efCudAr5ULlsXLObn+PXwqHmLugmzx5+Bov9Ox6ECJY63tvlaugM0BWwg7ZLwONBn9yTxlG4R6PqWUfRQd5Tj5ZrIO33Tf4pVu6UjVOrHWJqwM3jlpYzwHPUs0C4BbTLKNy9tIt1H1m0IdI7gOCUzNUsjzWU3Du7bKy6s8RS3s4li6PmHSCKECkfcaTSxCg8Q7gvyU9fzONLRLL3kenL44w==
+ bh=mAJaxV7/FPREcmCf/nU+trfGgZaFhbEhZ2udRWs6u54=;
+ b=CJbjNOFOzGVAWXEcstzPLZhMsbcSDrGndU/2Ix7S5DahXBRm8nHhXRsYm94DbkK/u/5B6opVasnE28zqJ5/o/zbdDRMKSbo3grZycBNGv/e56TSk8YyfBSelvpaACal7A2Y71dQt0JL9+171Lb8WaGbcoWwBCT+qL7IflJlEWXCZsepqQ9MDyoARxRRn7XfM1cgF+7o6Yvi403RjEiu6rVY8BmvWusyBEHET0W5sbdDuw1WcB5loUV0T1cWArAqd4XLcX9RAEGc1rWJQeW+2jnip/utgU+rJzh42nlGbAncunlwcv/0TaA4srWbhpfFh3pDJlsTBPANyDopMmDoujw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +41,17 @@ Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
  by IA3PR11MB9376.namprd11.prod.outlook.com (2603:10b6:208:570::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Fri, 12 Sep
- 2025 03:33:39 +0000
+ 2025 03:33:37 +0000
 Received: from CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::5ad6:8f90:b01d:2c62]) by CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::5ad6:8f90:b01d:2c62%4]) with mapi id 15.20.9094.021; Fri, 12 Sep 2025
- 03:33:38 +0000
+ 03:33:37 +0000
 From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 3/4] package_manager/deb: give out useful reason about an unmatched package
-Date: Thu, 11 Sep 2025 20:33:24 -0700
-Message-ID: <20250912033325.2887890-3-Qi.Chen@windriver.com>
+Subject: [OE-core][PATCH 1/4] package_manager/__init__.py: add function to give user reason about a missing package
+Date: Thu, 11 Sep 2025 20:33:22 -0700
+Message-ID: <20250912033325.2887890-1-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250912033325.2887890-1-Qi.Chen@windriver.com>
-References: <20250912033325.2887890-1-Qi.Chen@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SJ0PR03CA0081.namprd03.prod.outlook.com
@@ -63,94 +60,94 @@ X-ClientProxiedBy: SJ0PR03CA0081.namprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|IA3PR11MB9376:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7b863581-8ae3-48cc-e44a-08ddf1ad2971
+X-MS-Office365-Filtering-Correlation-Id: 9f9834f2-3cfe-43bb-6400-08ddf1ad28d8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?V4OiF73f/i/Qz/9D48rWTyTMXn8ewjHvBxBg/GJ83PfdR4FJjErmEHKjZJCv?=
- =?us-ascii?Q?UctadiioY+LUXd5HTJPjZUv9zmLwHf1p1kvi6SuZ0xkiEbYcbm8nG4LbYR+h?=
- =?us-ascii?Q?vP/Syqy0+bQSiYwQkgKfgFqCO/WaAL1khtgunGWL5S+KAQqCAeL5S3d+W5So?=
- =?us-ascii?Q?qzbMHxWP+DzHEqrj38oynwlUsgksfTBa8H8NLesckIvcBPYcPGaOo3kmLvjs?=
- =?us-ascii?Q?JjY06w7QYn7dWyboDarzpqx0j7fHxuR7bqSRFYSk9tszMCJ7IPZDBDqo4EZT?=
- =?us-ascii?Q?5AUlYrCh1erNsKDZlAM7TI3oDv6IE3mid7WpRiHPMU6A1+LHoWEITdzbYP2G?=
- =?us-ascii?Q?IVon8piGUJBzFVjUpHo0Eq0P+Oop10RW6b8yXniKRW24Ps/qA2DyJjyquhfI?=
- =?us-ascii?Q?HyAY7XbrQTTra0tWPKkpWqL0G7I0mfa5bjp3t1bSP0nW5+SFB8STZlGd91y2?=
- =?us-ascii?Q?u+LE1BVUno17wAzBSl4x5Otn2E3HKH+9xoxMvJo6iq7qFb+r/X6UkqrN8lsn?=
- =?us-ascii?Q?0mqYOggkCgh83TqO9QHoVvL11V92iyr/vVBgdE1nHiSVNhdaBoHhrfVXpqD+?=
- =?us-ascii?Q?ZaC+VPirztCf/sx7aov27jzh2jq+SzcNcZ4Hq4nd8U+ob5MgWp+9oXGO1qrg?=
- =?us-ascii?Q?C8NvOUbU1VhNgmHDw5j4L1IsEZ5uOE1y2kGVnk87kI+JXcNfAAaqhGcoN0Mp?=
- =?us-ascii?Q?2jVV9VQQ+Kr9cvF4MfaPeGHSbLOTPWaYy6yfBYaPNVMfxpioT06WDehc2ltQ?=
- =?us-ascii?Q?QuRkCWWDnVwAE0CXYeqgbsbwX6bAop1N/rvq6UBgKNKLuGgQlElB+3dABrYC?=
- =?us-ascii?Q?fmV0l9NwdjgUoOLqgmyyPs4/0+t+U22VG5zhPOOB1JwCbskgkTHOaP6CtBjc?=
- =?us-ascii?Q?EHeEEJ5tx0cuWM18SGpjpn58Ox7c84+NG2E2zGEzfgK8dOZORb+LXYpeTe82?=
- =?us-ascii?Q?9NqARd6Cn1fUmBeWVzMlyc9FN8w0JhYfvj+entlPsVx8fWJ+ORNNd1rWDvcd?=
- =?us-ascii?Q?UE8/0+IdpY47FrL/qIiGuEVcI9tFUegJlU6/odSvzd/KTWlL1AIWJTg6obgX?=
- =?us-ascii?Q?rv6VvDbz4Nivv6E7GHlAApVRQr4yNdk97a6io05pjYmhgyYGm62iOXSMJwhu?=
- =?us-ascii?Q?qjAXxnibvVykLkS6xPolerJMIypEX8MhOID9O/JHOkirzgznDo/4iN7CdEvK?=
- =?us-ascii?Q?z42BgRGbFc8Oorq2+XF0G+lma2odCsrLgStYMD5KDPsjgtoaBa62P/YdLfke?=
- =?us-ascii?Q?0yznzWlJ5H/lZ+jLm8AgwcSX7z33OSfFCoZbHkCrRINYHOzYjulUdqVA/qGh?=
- =?us-ascii?Q?iM8CwqSpvQvO7NK4Dm6nQKKD7awEqYgcCRUV+glPBO/ygwWP1Gu0zO3jyE7y?=
- =?us-ascii?Q?Lm/xr5UbF2H1Tv9Wc85kLplamw+qeTzFYnVk0sF1OnUZqTIFUGkABvUDulVE?=
- =?us-ascii?Q?u5llDC+E4Nt5LR3dgYXPQIK4ZS6vtHsgoIo3q1FoxqmO7H5mJq3WRA=3D=3D?=
+	=?us-ascii?Q?geJmhs8PGbJBAIf0YcbHL2r7YRE7jo3JX0jJP27BD1kBTRQZmU1zK6krchOy?=
+ =?us-ascii?Q?iT3WX2j8+CuwMoGhl0EHJpbTaNMEEtjArSZOa9jtEfVOECOn49gvx+eeERXi?=
+ =?us-ascii?Q?rth8+y/QeglcltyzPoSho3qWH4pOvYm/kpv1iqzXlBoaO0e8+8id70YK+AsM?=
+ =?us-ascii?Q?5qqq8TcqfxnCfmpbFK+a5FvWwbwk3UpJ9IsDpzgLnnpu9Zl7FEFJnafMCbcq?=
+ =?us-ascii?Q?72QrlAjV8KCO+DB0DXifXjID4kh4onjDuhYSmat7LEim2vdGUPUCWXJC5oxx?=
+ =?us-ascii?Q?XbbsGa9cnUQe6kipoMmodr4rtvlK1rRcilpwbO1Yh+m6Zy4HfGSiLWQGJmqR?=
+ =?us-ascii?Q?Ev6gblFTW/sNt9M6dkGfnjwSQk5BHkFtATRf4N+JPWcNHyjyJvwedz07Igs7?=
+ =?us-ascii?Q?1EAuJiY0uyJUdiOV+i4c+lgXdHz/o2ErEIQ1HdWJeGqysOoqs4Ue9Y90/JUR?=
+ =?us-ascii?Q?FC8Dr0+OB8i1qYueDDQXh9a05/wh/Fzc3stvmGltsp+RLTNtXaxmI3/Aa/86?=
+ =?us-ascii?Q?rf6DZgeRGkB6LcILXfrUyRt3mDc5/FkRwmT2DZ6mbje+kryqxBlLcAWC/QyT?=
+ =?us-ascii?Q?aPzmuURi0wTeVvnr8TWrLYmH/jqwPmWUyvRGRzAZWyyVQCXMcxddjt0tm2Us?=
+ =?us-ascii?Q?fUa34QPFWYl2XQ0u2AGYetjMyTtqWs0olpGdzfxu9Vz3biv52CCnNIYpadmc?=
+ =?us-ascii?Q?tM7jwllfhvI68RbCmHCtiipMJ/ID5YjzX9dSnNajFLxfpGcy2ZhpbVScPHik?=
+ =?us-ascii?Q?kVd/CI4XH7E1j8v/Xs39FMEVqgXQgn5m1KEVbu4yOpter8hYWN+rGpZ30mPr?=
+ =?us-ascii?Q?C5LUfD2zDwgZnEnIGEDiDxycefdL4bEt6DMLI48TrdfZl8YiX0uxjUJMUlC/?=
+ =?us-ascii?Q?G/7iIYLNnekzm5l3LiByyoqOaDDGmu0AftMpHJGTNdSATlxt0qASn5cQWIFu?=
+ =?us-ascii?Q?dW+PjexPwMYrmwMCObeT2q7jEC6ZtZ5PePTdIcekz5zf8oP0GAqyO22UyWLh?=
+ =?us-ascii?Q?sjyVf+82xuRvm0FyehP/oaBqL//JYWSCel5oB0kwV4V1PO3vUm8YKQb4JPcm?=
+ =?us-ascii?Q?xq5/FKE/NbayJ8qBjaNYcqujlTNzhhVKlHA+G2R1d5YNGnJIIxj1hjVRxgn+?=
+ =?us-ascii?Q?1SuNGa1fH+gEcnlcxC2kWSIDel7zEE1aUwYEcXqts9nSxdMlpR3lb2jkreBv?=
+ =?us-ascii?Q?I6QSGW92pzPuqLZmxMCU28CTG1gE8Rv5VCgTDDhBwkB6bMi7EiZAIBSY5arv?=
+ =?us-ascii?Q?U7DoXiWiPqjvpNZ00Nyv554JLbDkBXP3m9YNxWlQzrNxC0b8AR6OCgRlAANL?=
+ =?us-ascii?Q?uY9vNQwCcnMUBAJ9bKgx94N27JDkrKM2/lm4BfDTtE5oZkXrp6eXiaes9u2r?=
+ =?us-ascii?Q?fvP8kGJ+MajFJ2XrpirI+bX4EsdqLjEinvAqZsYYb1qkakeUys0K0tkEVWrs?=
+ =?us-ascii?Q?HDfuZ9KRH1C0vaf3SZIx6qzvlbKn0KLAzai/YcN9YkvObsFyRnKiMg=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ZGXWw3F2Fh7fn8VhXzRklabHbQoYMDLyFIjEsht2A7QMSOc1FmMmyqcApz6b?=
- =?us-ascii?Q?g1c3yJ7g/vgoxFR2SbX/pZynL1br0kEVcptdQ+iUUm2M2VvlX18zrktygRbo?=
- =?us-ascii?Q?KC86bmBnhKHLYOHTet1xhkSHk3wXsaLoyrvBiqJb/TERwA70dsWt/aCtlVR7?=
- =?us-ascii?Q?DFYwYUQEfMYYAX/p3i2PkG8Qw/i7DYzf0EiHQYU2TDMDZ9ocRRAOX9XxZXbJ?=
- =?us-ascii?Q?bq6DcoCm1Xhf5UuKKBctJkuIW5N8AjfGS6NtGLLvuxYF42wpmNmrjnDnAg/B?=
- =?us-ascii?Q?Crg3plROYYI67+jwNVEwdr5AlpL+cWdLx0CQ5K7fNHPsi2C5vD5t/ZlOqRYV?=
- =?us-ascii?Q?tAxuOfawQiyD1oyViG2p60SqGl2PoSXiHigUNdKUbhE1IZZxqkribIaS4Sry?=
- =?us-ascii?Q?gVv/22GAbU0zWvpxYxwI+oGziEwu2pMHe/+fJ2F/fEsvyhV+xnWgMgP2R4Pz?=
- =?us-ascii?Q?hG53UV09vU2Q4NYKu1BdOjnFaB9HrWErsD6n/ZptpmlfwGTXlcZeXRHvB6WR?=
- =?us-ascii?Q?XvU38G4g+Ajd/mHBYTZpxEBYLZCeU68Hv+81jt3K/hLPGUUrIMxczMyMr6Jy?=
- =?us-ascii?Q?xblvv8QkWqrMbHzuBHrQXk7ByI9zdVGwn4dd92Rf6zpqXJQR11PDbxlQbtLu?=
- =?us-ascii?Q?ZRId9GbPziLkptOeYH1CfEMfQP+NzSDRZQEMQVvGfYX6KKm3ttfemSgmiPaQ?=
- =?us-ascii?Q?PKPKCJpgmZVwD33rkLVB/V6QBoi0C58cZ9i6/JNWqXBLUkxrRYpb42b9wPRX?=
- =?us-ascii?Q?jtNXy5MJdCUSZtrZMH7gxLolqqPaQa1qZP9qvj+Av1syGoSInlsIlJpp6wdr?=
- =?us-ascii?Q?wVFPymozIZEKGR2f/tScyplSWkbhBeuVCpPW427kvi9I3JxV7yp3oqH5M9iy?=
- =?us-ascii?Q?C1S1tlP36Ms2tEHCMcSKQ6kLCGG9x26egm4QASyTX8UNMLKjFBDTCQrV0YLn?=
- =?us-ascii?Q?Dz3M3wTvAK1SHvj+w3kj+bTqCGKWpedA0SDxIe4tDsW8WrRHTdw15RTKfr0q?=
- =?us-ascii?Q?UVT5zMfb2FDBUPzPz9PGrnAOY9V2EWNvi7sVd288QPeXG4PTUCigD/6h1Vwy?=
- =?us-ascii?Q?fAC9SIGqn6nWnl1X4NBDZDnhw5nafjP030JiEght5ZhzcwOwq/1F3wVyttW1?=
- =?us-ascii?Q?X85x/64FQRR4v82MWV4AP7ZdVoFPkQlvRptydHyDoWWzSLf0TZznEG32ZNY6?=
- =?us-ascii?Q?PTZjGh8ATbhC7vkW0PEFO+EgIfwYUyEct6XwRuq0t4iSD1Nw4qHY7PfLk35S?=
- =?us-ascii?Q?7iy9U5Cyf9BScOnUmWXq9aBUHmcvbHcvfg4091OY/5+F7xBJZU2sfyvyqgIx?=
- =?us-ascii?Q?flHqMXAwGO3TWAaEMwNgYBHoo39M2r41r64v2Qu8HIyjuYMgu7xtbWdEcBB3?=
- =?us-ascii?Q?m4En4uTnZBUCqLmCa47N7CLKfcpy1QY7Nk4/LClrQQdQdOHuUrmr+PPdQCBJ?=
- =?us-ascii?Q?B6JHqS+1jhRTvsKNG1jdlPOcemvFuV2gTetRdAa1cJ34Hg1BpMHXkIxh5iQt?=
- =?us-ascii?Q?21gk3ntL33/Kwim5W8E/Vocr39R+kuORmKcE2BZG8rqC7q4B9ZVDRXzV6i1V?=
- =?us-ascii?Q?CdDnwWWvli3Oc5YuiDWx1aS7PwIGI5CnUw+RE1kvqo6YPgwEfU/5CVF3kMEu?=
- =?us-ascii?Q?bQ=3D=3D?=
+	=?us-ascii?Q?i3tLr9EqWFUWnsWPj24eCmw5DWP/xHRfxkwCPyypqUHxC0JT/g3hCADWeF5R?=
+ =?us-ascii?Q?pNNHYTv9XNXeSwbrCRfF1PE9YtXrtD73cjFON+Gz32EcxpEqmLCUy70ZPsf3?=
+ =?us-ascii?Q?uzSks48I1FPLonjU4287igs1u/UKsrUdbdhymH9fDyl1u6unBIL/38MKQDFo?=
+ =?us-ascii?Q?l4bN3mqj9kKzkWlwmO6Zinq3OPrwzGRwZEGLwSs4sKZ1F+N2B8Cs8LEmY6qZ?=
+ =?us-ascii?Q?kQCvEpJLX2Klo0VtXHFRL7YZGYm0kz3hSTy2/BhFuE0w5xNTRIc8tsEL0GLc?=
+ =?us-ascii?Q?KXlI6RSjMUIXsiQ6cUy8BfEFMWGg1aXG3CyGpEnXbca6MQCzy74AxBePOZWT?=
+ =?us-ascii?Q?DH36KCPyY0I+spBWHqtFeEI3n0SJyZngUNPLy8NezwecnEcbBwMWC4xidCHs?=
+ =?us-ascii?Q?IC5rcB0O8Yq6rE2ZOpSAKoZcua2ioAj8JR8fSYgtYtZ7wk1Kg6peqlkf1qLw?=
+ =?us-ascii?Q?CG8vBQb9VljbpIssQyMkcLuFif1cxPRTCiyY5qpS/EqDV3Mq34R7NFRKMUuo?=
+ =?us-ascii?Q?AH5hd3b7m8usri6dB924QgsWDzzGpZxBSWvzvL7eFda3Uxv+9pVdqekPe6bM?=
+ =?us-ascii?Q?9Lv4V77NM+Ekr/ZoUXASi4AQt4Ys4VKdjFvFjztRPmOM2Idq1v39qtP6D9zK?=
+ =?us-ascii?Q?zZ6mFR37Tlz0XoiK7CRS6SdOt5JNkhA7KzOolYxKIw4v3KD5WHWQNNvzxcmB?=
+ =?us-ascii?Q?G9gS7E8/eaIrl4taec1wt7HH0OcSVDUCy80fROJiD5t0wL/3JztNCNnkkdc/?=
+ =?us-ascii?Q?2iNYrTfe0d5vL+vIr8CpLhm4WvAo51jd2KE/3tmpDHfNTqZpSIgBucQ9oh/i?=
+ =?us-ascii?Q?MyTcwmczJCgjGlDpNrXP8JSvwRV9auleMu7BLD85avn4G6vVdi5K5wM/lbje?=
+ =?us-ascii?Q?IASrwvfFDs//p5aTdpJ21jXd8knMFY5mSHjJ0drlVnhIAQ4OHh2WS7zmt1+t?=
+ =?us-ascii?Q?7ldQBqV5wJfiMLRw6USexxq4ffv0FFK9QT0ZGhZ/mKpONJj1OOcDaGbFgbsO?=
+ =?us-ascii?Q?hxoUEZqKSd1saBIGaCzwxbPpSWw/EGoMj9lR8o4uG5vy4ehAXiTWhCbMIkiQ?=
+ =?us-ascii?Q?sJUOOuF/juOGutx5IhTkCgTKhFx7pj+mIgcOhf9e3VmzQvrXWJo8blctGnKT?=
+ =?us-ascii?Q?GBhjoZhQs4z96WEMAezbMV0JOSiaY3QhZKEwQPaJmpMpqBYE16iWEHNhqkDZ?=
+ =?us-ascii?Q?WR5yWpV19U5+JAs5FnYPQwLqL+i7EitmKoHVo4lOxhrIr1zCLluJAjRK8Tro?=
+ =?us-ascii?Q?yuydRq4ouELartsqzLQvjhz4peWA1uknd/KKkXnutSsouYk6rpuG5WZJDmZg?=
+ =?us-ascii?Q?9asEEr3IwNQrbo/66We+ha7Ch5fQpk3aksEQlaVhDwnpONgoV4KuF7fUchlZ?=
+ =?us-ascii?Q?tHGQ+b1rXN5cmeLhb4IeWHQHzArjrDi01yN5MPCapNyTLJZVNIp3QTzXu0lj?=
+ =?us-ascii?Q?kXzNYchSqSpV+JPSkSizK14j2WAfOxXEmnM5II9N9mDu6ZhLzq/JUXrphq3J?=
+ =?us-ascii?Q?R5J7vO8ehrEI5V4xBg3M+Ahp0lVqopckTmltCF48UdsjzHElq/PatMhAK6c6?=
+ =?us-ascii?Q?SmXuYr/7a6gzuXy+E4oSJtUQqHB8PpsbbZ8MYP3goHIGNE60UsW/2MddpfLS?=
+ =?us-ascii?Q?Ew=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b863581-8ae3-48cc-e44a-08ddf1ad2971
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f9834f2-3cfe-43bb-6400-08ddf1ad28d8
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 03:33:38.4226
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 03:33:37.4516
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U/cFiy/40WX/GV4FlsA9Ya5BC0ieq4gllbKJ+Km7/EgwZHB8HUjRvzr1AuT8SuwAdZU9dU2fPKmzI3Z/6o5ZIw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HNGEVS8MF1/qe8q8VXE7kzqpHJQzTUBzSGgZLgjDNem3T6YiGD2Ufn9rKz+b/3P6sjdOnzUD7ckG7Ng1fq0g4w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9376
-X-Proofpoint-GUID: 05-9Y6sgooD3pOWrmP7Jjrmne3xjZlPI
+X-Proofpoint-GUID: 2N5g_B4KSuSoTw0WUha-lYZ3RVXEjsVG
 X-Authority-Analysis: v=2.4 cv=U4mSDfru c=1 sm=1 tr=0 ts=68c39494 cx=c_pps
  a=QqSBEdqS7BUxypinyQlWrQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10 a=t7CeM3EgAAAA:8 a=87deq-WYKk37bI523yYA:9
+ a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10 a=t7CeM3EgAAAA:8 a=2v_pIiH9JfET4dE4qI0A:9
  a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: 05-9Y6sgooD3pOWrmP7Jjrmne3xjZlPI
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEyMDAzMyBTYWx0ZWRfX3q3OriQ77T63
- xxi6O4e48mMZRxEuy5KYkpBMyshQ+qI2B44nX/paM8+bwIjDeaqyQ8NHTRrs5V0q71FyEghvSfW
- TonqHBBK6wUPVVjUHEddHDLp43rKfMt+0MrGT/D0kntu+enXR1BW2fsoEvDprUtw6ociY9e/xwe
- baBqUAGIjtNUe9cfZpzVAg76bza+MBAE1KKMnpiLeAXU6qC05G0f8YmN5GNErFCLFPhnBbHIZeg
- +RLEjAeuwofEXhmuirg9Ffjfymu8mmXX9Lvz6c8Ee7Yuf5Rt5wMw5N/4eefeK7dRiZecWESTTRb
- sBM4j/h9QjBJB8oQbehEAWSPY56H+UC4qxCYhXb0Vqr9v6sAcBgR6LjV+NNouE=
+X-Proofpoint-ORIG-GUID: 2N5g_B4KSuSoTw0WUha-lYZ3RVXEjsVG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEyMDAzMyBTYWx0ZWRfX4zAH511FVprN
+ VeNVGHXRHcQZx4IxajXws6oRb5zE/MhOQLlTsSQ5Xvie4AuRfIgtB4H4cN5SHEGKch+IrFhd1w4
+ +T2U9H3vNAySliwLr7kx5Tb/06dKz2Ak9dHOc2+j0lAMflRlNAfllH8C0A1JvsiNxoZ+BtZTMwO
+ Xcax6g155q/gB32ul47PCBEXL30bqUcF94Q5328Vqo6Hl/khjqxtEmNMy5dCiOmUTpsZ7d4ruZR
+ hp1INPvCD+O+NvrG2ZtIfPvBfRgsgENcD3K6DeYySjWiIzZ/VhjPK5y9iUED0sZv48mEWbx94fr
+ HC8T6QB/S59EKk3J35hVJ2Z/C+jYowA219oDWSn8/quPGZGbzT5ud8hk7dvC8s=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-12_01,2025-09-11_02,2025-03-28_01
@@ -163,53 +160,64 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 12 Sep 2025 03:33:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223302
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223300
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-Give out useful information when a package could not be matched.
+When users specify some package in IMAGE_INSTALL, but get some error
+at rootfs time, the user might be confusing. This usually happens
+when the user puts a recipe name in IMAGE_INSTALL.
 
-Before the change:
-
-  E: Package 'catch2' has no installation candidate
-
-With this patch:
-
-  E: Package 'catch2' has no installation candidate
-  catch2 is a recipe. Its generated packages are: ['catch2-src', 'catch2-dbg', 'catch2-staticdev', 'catch2-dev', 'catch2-doc']
-  Either specify a generated package or set ALLOW_EMPTY:${PN} = "1" in catch2 recipe
+To helper user understand more about what's going on, add a common
+function here which makes use of pkgdata data to give the possible
+reason about a missing package. This function is expected to be used
+by package backends such as rpm.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/lib/oe/package_manager/deb/__init__.py | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ meta/lib/oe/package_manager/__init__.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager/deb/__init__.py b/meta/lib/oe/package_manager/deb/__init__.py
-index e09e81e490..eb48f3f982 100644
---- a/meta/lib/oe/package_manager/deb/__init__.py
-+++ b/meta/lib/oe/package_manager/deb/__init__.py
-@@ -244,9 +244,19 @@ class DpkgPM(OpkgDpkgPM):
-             output = subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
-             bb.note(output.decode("utf-8"))
-         except subprocess.CalledProcessError as e:
-+            e_output = e.output.decode("utf-8")
-+            extra_info = ""
-+            for e_line in e_output.split('\n'):
-+                if 'has no installation candidate' in e_line or 'Unable to locate package' in e_line:
-+                    match = re.search(r"E: Package '([a-z0-9+\-\._]+)' has no installation candidate", e_line)
-+                    if match:
-+                        pkg = match.group(1)
-+                    else:
-+                        pkg = re.search(r"E: Unable to locate package ([a-z0-9+\-\._]+)", e_line).group(1)
-+                    extra_info += self.get_missing_pkg_reason(pkg)
-             (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
--                                              "Command '%s' returned %d:\n%s" %
--                                              (cmd, e.returncode, e.output.decode("utf-8")))
-+                                              "Command '%s' returned %d:\n%s%s" %
-+                                              (cmd, e.returncode, e_output, extra_info))
+diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
+index 5c98a104be..88bc5ab195 100644
+--- a/meta/lib/oe/package_manager/__init__.py
++++ b/meta/lib/oe/package_manager/__init__.py
+@@ -17,6 +17,7 @@ import oe.utils
+ import oe.path
+ import string
+ from oe.gpg_sign import get_signer
++import oe.packagedata
+ import hashlib
+ import fnmatch
  
-         # rename *.dpkg-new files/dirs
-         for root, dirs, files in os.walk(self.target_rootfs):
+@@ -447,6 +448,27 @@ class PackageManager(object, metaclass=ABCMeta):
+             return res
+         return _append(uris, base_paths)
+ 
++    def get_missing_pkg_reason(self, pkg):
++        """
++        Return a string describing the possible reason of a missing package.
++        """
++        reason = ""
++        if not oe.packagedata.packaged(pkg, self.d):
++            if oe.packagedata.has_pkgdata(pkg, self.d):
++                packaged_pkgs = []
++                recipe_data = oe.packagedata.read_pkgdata(pkg, self.d)
++                for subpkg in recipe_data.get("PACKAGES", "").split():
++                    if oe.packagedata.packaged(subpkg, self.d):
++                        packaged_pkgs.append(subpkg)
++                reason = "%s is a recipe. Its generated packages are: %s\n" % (pkg, packaged_pkgs)
++                reason += "Either specify a generated package or set ALLOW_EMPTY:${PN} = \"1\" in %s recipe\n" % pkg
++            else:
++                reason = "%s is neither a recipe nor a generated package.\n" % pkg
++        else:
++            reason = "%s is a generated package.\n" % pkg
++            reason += "The reason it's not found might be that it's not in %s\n" % oe.path.join(self.d.getVar('WORKDIR'), "oe-rootfs-repo")
++        return reason
++
+ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencies, include_self=False):
+     """
+     Go through our do_package_write_X dependencies and hardlink the packages we depend
 -- 
 2.49.0
 
