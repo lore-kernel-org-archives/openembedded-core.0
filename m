@@ -1,80 +1,70 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A82ECAC582
-	for <webhook@archiver.kernel.org>; Fri, 12 Sep 2025 06:11:13 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web11.9496.1757657466990921982
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68488CA101F
+	for <webhook@archiver.kernel.org>; Fri, 12 Sep 2025 06:13:33 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web10.9526.1757657604698652204
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Sep 2025 23:11:08 -0700
+ Thu, 11 Sep 2025 23:13:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=YIjVf+9k;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1DD6E4E40C36;
-	Fri, 12 Sep 2025 06:11:05 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E793C60638;
-	Fri, 12 Sep 2025 06:11:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 275E0102F2883;
-	Fri, 12 Sep 2025 08:10:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757657464; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=5Ji/SdNu4r2bCy0J9I5OsI1GSTy4DeFf3ZVIwaOARlk=;
-	b=YIjVf+9k2VgB1pGJ0RQEqNEDgYi9d0WzLyn0+4B7s6LXvJlx5BcAUEwiPdMPkEeTOWByYH
-	nxih9pq5m7QwUdM2iA5jxpFFio1fybdcJh8LURggwdv2a8vItPzD1vCn+qxkmIO6F2Y5I1
-	HDFrP6HjcELZRdkA7sJcM5KH/n+zsFkJ+eaIqqY3d9/fpDW4vC7kvFZbSLMtw+7vNbn30b
-	tFHiCY2Ijzt0WgOE2K/vgbnNjrS53kv8dPH6HPq6jc6ZrgEkSIapFPKHDz4MK+ryE7sndz
-	wSlv32HUOyoPG0qXp4q31L36jVB6BrA50mUYK0mO9tTbOkg2UDVwkNOgDRZVIA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 12 Sep 2025 08:10:54 +0200
-Message-Id: <DCQLKFDJKMYF.1R7OO62UHIKFX@bootlin.com>
-To: <patchtest@automation.yoctoproject.org>, <rs@ti.com>
-Subject: Re: Patchtest results for [oe-core][PATCHv7 2/6] go: fix sigaction
- usage on i386 platforms
-Cc: <openembedded-core@lists.openembedded.org>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250910212855.2480561-3-rs@ti.com>
- <010101993599e96f-c5965afc-45bb-4c4c-b4d5-a9072245169d-000000@us-west-2.amazonses.com>
-In-Reply-To: <010101993599e96f-c5965afc-45bb-4c4c-b4d5-a9072245169d-000000@us-west-2.amazonses.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd76.aul.t-online.de (fwd76.aul.t-online.de [10.223.144.102])
+	by mailout01.t-online.de (Postfix) with SMTP id 5C14D1CE7E;
+	Fri, 12 Sep 2025 08:13:04 +0200 (CEST)
+Received: from [192.168.178.36] ([79.219.236.20]) by fwd76.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1uwx1p-4Fc7uK0; Fri, 12 Sep 2025 08:13:01 +0200
+Date: Fri, 12 Sep 2025 08:12:55 +0200
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCH] glib-2.0: update 2.84.4 -> 2.86.0
+To: alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org,
+	"Khem Raj via lists.openembedded.org"
+	<raj.khem=gmail.com@lists.openembedded.org>
+Message-Id: <J9PG2T.NK5VSUKA3AQO3@t-online.de>
+In-Reply-To: <CANNYZj89e_Q80kSO-E7_iByBw72=0TuJNgoyPV1DzM=Q73irJg@mail.gmail.com>
+References: <186275A42D34EEAB.19063@lists.openembedded.org>
+	<5I7F2T.KIGKW1QUPNT51@t-online.de>
+	<CANNYZj89e_Q80kSO-E7_iByBw72=0TuJNgoyPV1DzM=Q73irJg@mail.gmail.com>
+X-Mailer: geary/46.0
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-4QeI6R0321z4qACPK6dg"
+X-TOI-EXPURGATEID: 150726::1757657581-BAFFAC1C-D98940C4/0/0 CLEAN NORMAL
+X-TOI-MSGID: a31be6cb-80c2-4b90-aa45-cc6486ed4395
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Sep 2025 06:11:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223304
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Sep 2025 06:13:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223305
 
-On Wed Sep 10, 2025 at 11:48 PM CEST, Patchtest via lists.openembedded.org =
+--=-4QeI6R0321z4qACPK6dg
+Content-Type: text/plain; charset=us-ascii; format=flowed
+
+On Thu, Sep 11 2025 at 18:00:43 +02:00:00, Alexander Kanavin via 
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org> 
 wrote:
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->
-> ---
-> Testing patch /home/patchtest/share/mboxes/PATCHv7-2-6-go-fix-sigaction-u=
-sage-on-i386-platforms.patch
->
-> FAIL: test Signed-off-by presence: A patch file has been added without a =
-Signed-off-by tag: '0001-runtime-when-using-cgo-on-386-call-C-sigaction-fun=
-ct.patch' (test_patch.TestPatch.test_signed_off_by_presence)
->
+> so can we identify
+> what is specifically broken with current gnome shell 48 and see if it
+> can be fixed?
 
-Hi Randolph,
+<https://gitlab.gnome.org/GNOME/glib/-/commit/cb074a65c79a3b4ae4f3ae0e36775af46bcc8009>
 
-Have you seen the above message? I believe this is indeed an issue with
-this patch, so I haven't took your series so far. Any thought?
+Here's the problem. This commit breaks gir at least in gjs, causing 
+gnome-shell to crash.
+Reverting the commit fixed the runtime issue. Maybe we can adopt this 
+patch until we're ready to switch to gnome49?
 
-Thanks,
-Mathieu
+I'll send a RFC patch for it
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+
+--=-4QeI6R0321z4qACPK6dg
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto">On Thu, Sep 11 2025 at 18:00:43 +02:00:00, Alexander Kanavin via lists.openembedded.org &lt;alex.kanavin=gmail.com@lists.openembedded.org&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">so can we identify
+what is specifically broken with current gnome shell 48 and see if it
+can be fixed?</div></blockquote><div><br></div><div><a href="https://gitlab.gnome.org/GNOME/glib/-/commit/cb074a65c79a3b4ae4f3ae0e36775af46bcc8009">https://gitlab.gnome.org/GNOME/glib/-/commit/cb074a65c79a3b4ae4f3ae0e36775af46bcc8009</a></div><div><br></div><div><div>Here's the problem. This commit breaks gir at least in gjs, causing gnome-shell to crash.</div><div>Reverting the commit fixed the runtime issue. Maybe we can adopt this patch until we're ready to switch to gnome49?</div></div><div><br></div><div>I'll send a RFC patch for it&nbsp;</div></div>
+--=-4QeI6R0321z4qACPK6dg--
 
 
