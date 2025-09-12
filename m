@@ -1,158 +1,97 @@
-Return-Path: <a-christidis@ti.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AD0CA101F
-	for <webhook@archiver.kernel.org>; Fri, 12 Sep 2025 20:54:36 +0000 (UTC)
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web11.1341.1757710469698158546
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF544CAC582
+	for <webhook@archiver.kernel.org>; Fri, 12 Sep 2025 22:29:50 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.750.1757716182322026477
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Sep 2025 13:54:29 -0700
+ Fri, 12 Sep 2025 15:29:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=gP9zeH3v;
- spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: a-christidis@ti.com)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58CKsOt5682397;
-	Fri, 12 Sep 2025 15:54:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1757710464;
-	bh=TYWzSljXG8+VhA/GMa+qn7G5KUr/FypdTpa9r2RggWQ=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=gP9zeH3vRfi7EUpcmtX2Lc15T4n/aE1JU/rt9+7D3DLskWRkKpDQt7RSDGWemLyMZ
-	 BZzykpuXudXF37jEDUBqWNKtYvx0ZeYMRHRfmbUGnrLRAWQyCuwLjCJSnb+WGZ+q+v
-	 bzFdlXnFAsSo5Q/hBG8Rx0NmsGrFtDH+h3QyDaVg=
-Received: from DFLE203.ent.ti.com (dfle203.ent.ti.com [10.64.6.61])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58CKsOKX3036374
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 12 Sep 2025 15:54:24 -0500
-Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE203.ent.ti.com
- (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 12 Sep
- 2025 15:54:24 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 12 Sep 2025 15:54:24 -0500
-Received: from [128.247.81.112] (antonios-thinkstation-p3-tower.dhcp.ti.com [128.247.81.112])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58CKsOwK281513;
-	Fri, 12 Sep 2025 15:54:24 -0500
-Message-ID: <03616756-05e8-41d5-a85b-06f2d046bea6@ti.com>
-Date: Fri, 12 Sep 2025 15:54:24 -0500
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k/HX8TnG;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45b9c35bc0aso20680895e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Sep 2025 15:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757716180; x=1758320980; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gm8x34ejih21cPfHWL5XmuHDqB/THjIZn80mlcK/gQ4=;
+        b=k/HX8TnGtxiUwWBMHLcJ1JCqtcDCuXlLRd7igOK5TbHdJDYRzAcR6FjuvxyMSiihHM
+         EObXR1uq6EPsV/sJoPDyBYZoKmWrXhaCXztglmvwL3WVMvtyJg6eruZLSswL0qK1JpXG
+         ujF+KO87HYnTO2GS8ygdeG0sRb/uGd0gWh48dUfMG7bSjBvgY0TTHpxf2h6WxThQWlbY
+         Pq948AqcbP1V8tSUOy/BSZwbLSiz+7fXE+MXIWfiPwzpkoO8DITnBiQEvg90NS0AsJpz
+         cwRnvURzy7YJCW9JZ1udAACCU/Eo5pHe8jBmMUeseI+XvBrFKins/KSCls9pSdPkOkUr
+         mnjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757716180; x=1758320980;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gm8x34ejih21cPfHWL5XmuHDqB/THjIZn80mlcK/gQ4=;
+        b=H/0qQM8odWOS0+FaunMPzXA2ByiMJe9X9Huc8iiBYxKE641OxBi2Y5vIPbNw/OaPpq
+         rA9T9jZBjpAYCZgyVawKHpdsOhThSmzmLX/rjbH9Ezk33Q3gQXOUWkngApePpPL79YSA
+         NxOeuGh53ImsFUu2W6cTih+uPQL3PaV+muoy+33VVe5ysO7RPattT4TeqrnnMR8t2RS4
+         rZml2Zr7bi/jXPt0sGo2YZTHSnhayKxYfHOMXe6H138K+bq5r3AG/omHU7HvDzVZEwEt
+         s3WiYWywPIMAKSWDRxOWhGyVNbb6QrM1caQftNx6zs8bZluIzoZva36Oeb79wZrShLCm
+         bnrQ==
+X-Gm-Message-State: AOJu0YzvZMWMmeVK0k3NsN2pK4M1Vo4YuLwNqWTjJHzq8Y0FnzPccKHv
+	Xrh6rT2KTEe0ji3hPUChg4Ugltq1abxHKgjAGWia4lF4LpOGqu+g/DzaeioJf1lKQdE=
+X-Gm-Gg: ASbGnctRheH/DQsGFcuduLrjG0ZqLZXMZAmU78+XhFLMRDZkyx5xqAUHTdoeFZCjJ3H
+	LXG9utyS+638WpyuoXTNIgmC18ukw1lAFeXMtamk/tihjzcVurEiSfsVh0NXNgDV3F/jpYaS2Lf
+	teT+dC+UyBsnHcv66etKR0RG46WdbKFzEnhv1SmIg38jrwIdogSQevNuioRkPpxt9UgUsVMB8Pw
+	l0Loqep97gysibVlbJPyIx8BfX6BZA54pzzpKTQ51xC+DAf3W+e52l9TgKJ0/aFW3IQWjVjISMJ
+	2I68gOHvhavMqNGZA19Y4BHW4MFTrvU9CLDnDmp0ukUvdq+DIafEdnF595LdGmO82MRsm4KsJjs
+	eEvqunDfm9aNFwB/WWlfW8/Hmh+r46sWHels=
+X-Google-Smtp-Source: AGHT+IG+zluSr1aXatehygPOTZNB/YYYI0rXk8SbTBHkMcFfe93l8cAPVZJyYjilDKgTPCPmCwLqxA==
+X-Received: by 2002:a05:600c:4fd6:b0:45b:76c6:cfb8 with SMTP id 5b1f17b1804b1-45f211d5d7bmr44101065e9.9.1757716180115;
+        Fri, 12 Sep 2025 15:29:40 -0700 (PDT)
+Received: from Ubuntu-2204-jammy-amd64-base.. ([2a01:4f8:272:3f67::2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607cd9fasm7914065f8f.35.2025.09.12.15.29.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Sep 2025 15:29:39 -0700 (PDT)
+From: uvv.mail@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: mathieu.dubois-briand@bootlin.com,
+	randy.macleod@windriver.com,
+	Vyacheslav Yurkov <uvv.mail@gmail.com>
+Subject: [PATCH] overlayfs: Disable renaming of network interfaces
+Date: Fri, 12 Sep 2025 22:29:00 +0000
+Message-ID: <20250912222900.2772272-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] Re: [master][PATCH v2] libsdl2: Add tests package and
- ptest support
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>, <alex@linutronix.de>
-References: <20250904000724.1575300-1-a-christidis@ti.com>
- <CANNYZj-e1eYKD4Se3mHOWO-K5kA1BL0rSc25MPTNcuupa_hykw@mail.gmail.com>
-Content-Language: en-US
-From: Antonios Christidis <a-christidis@ti.com>
-In-Reply-To: <CANNYZj-e1eYKD4Se3mHOWO-K5kA1BL0rSc25MPTNcuupa_hykw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by lelvem-ot01.ext.ti.com id 58CKsOt5682397
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Sep 2025 20:54:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223336
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Sep 2025 22:29:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223337
 
-Dear Alexander,
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
 
+Current qemurunner implementation expects internal network interface to
+be eth0, but by default systemd renames network interfaces to have
+predictable names. This causes a race in the evaluation of results of
+susequent commands in case when qemurunner tries to setup the network
+after the interface was already renamed and fails to do that (because
+there's no eth0 interface present anymore).
 
-I ran the tests using the gnome-desktop-testing-runner. Here is what I=20
-found:
+[YOCTO #15962]
 
-libsdl2 has 70 tests. Currently, following the gnome standard and being=20
-packaged under /usr/libexec/installed-tests .
+Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+---
+ meta-selftest/wic/overlayfs_etc.wks.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-18 out of the 70 tests are executed with the=20
-gnome-desktop-testing-runner. The standard only covers tests that run=20
-for a finite amount of time, not infinitely, and requires ".test" files=20
-under /usr/share.
-
-However, when running the 18 tests on qemux86-64 qemuarm, the following=20
-tests fail:
-
-testaudioinfo
-
-testautomation
-
-testlocale
-
-testsurround
-
-Most of the test failures are due to the audio stack, which I do not=20
-have experience with in order to debug.
-
-Here's my questions, what should I do here ?
-
-It is acceptable to create a oe-core only patch for libsdl2, that would=20
-block the generation of the ".test" files for the above tests, ".test"=20
-files are what dictate which tests are run?
-
-Or, I can take a look into updating the version of gnome-desktop-testing=20
-? More recent versions of the software, have a CLI option to exclude=20
-tests. The current packages version within oe-core does not.
-
-I'm leaning on the 2nd option, but want to get your opinion on this=20
-since you have more experience on ptest and related topics.
-
-Kind Regards,
-
-Antonios
-
-On 9/4/25 6:27 AM, Alexander Kanavin wrote:
-> On Thu, 4 Sept 2025 at 02:=E2=80=8A07, <a-christidis@=E2=80=8Ati.=E2=80=
-=8Acom> wrote: >=20
-> +test_array=3D"testdraw2 testgeometry testsprite2 testgles2=20
-> testoffscreen" > +test_path=3D"/usr/libexec/installed-tests/SDL2/" > + =
->=20
-> +for test in ${test_array} > +do
-> ZjQcmQRYFpfptBannerStart
-> This message was sent from outside of Texas Instruments.
-> Do not click links or open attachments unless you recognize the source=20
-> of this email and know the content is safe.
-> Report=C2=A0Suspicious
-> <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK!tDdkczhAu0BQaazEF=
-n6sssEtcdxUhEvtTan3pBnTy9YsgLjvWwOA7YJejpfF1TdW-I8bxkDedD2ZVkPZUvwfaMUJ9S=
-DMz1bIjJfXyt52mx6YGg_dzNkYWXvJTDg$>=20
->
-> ZjQcmQRYFpfptBannerEnd
-> On Thu, 4 Sept 2025 at 02:07, <a-christidis@ti.com> wrote:
-> > +test_array=3D"testdraw2 testgeometry testsprite2 testgles2 testoffsc=
-reen"
-> > +test_path=3D"/usr/libexec/installed-tests/SDL2/"
-> > +
-> > +for test in ${test_array}
-> > +do
-> > +    timeout --preserve-status 10 "$test_path""$test"
-> > +    if [ $? -eq 0 ]; then
-> > +        echo "PASS: $test"
-> > +    else
-> > +        echo "FAIL: $test"
-> > +    fi
-> > +done
->
-> Hardcoding a list of tests is prone to regressions and incomplete cover=
-age.
->
-> I applied the patch and checked what actually gets installed. SDL
-> conforms to gnome's installed tests spec, which means you can inherit
-> ptest-gnome, and run-ptest should be as simple as:
->
-> #! /bin/sh
->
-> gnome-desktop-testing-runner SDL2
->
-> There are examples in oe-core if you need them for reference.
-> Obviously you should run it too and check that it passes.
->
-> meta-oe has a recipe for libsdl3, whether you want to forward-port the
-> test support to that recipe is at your discretion, but at some point
-> libsdl2 will be obsoleted and replaced by that in core.
->
-> Alex
+diff --git a/meta-selftest/wic/overlayfs_etc.wks.in b/meta-selftest/wic/overlayfs_etc.wks.in
+index 8375d73a9c..f45a042c1c 100644
+--- a/meta-selftest/wic/overlayfs_etc.wks.in
++++ b/meta-selftest/wic/overlayfs_etc.wks.in
+@@ -1,4 +1,4 @@
+ part /boot --active --source bootimg_biosplusefi --ondisk sda --sourceparams="loader=grub-efi" --align 1024
+ part / --source rootfs --ondisk sda --fstype=${OVERLAYFS_ROOTFS_TYPE} --use-uuid --align 1024
+ part --ondisk sda --fstype=ext4 --size=5 --align 1024
+-bootloader --ptable gpt --timeout=1 --append="rootfstype=${OVERLAYFS_ROOTFS_TYPE} console=ttyS0,115200 console=tty0 ${OVERLAYFS_INIT_OPTION}"
++bootloader --ptable gpt --timeout=1 --append="rootfstype=${OVERLAYFS_ROOTFS_TYPE} console=ttyS0,115200 console=tty0 ${OVERLAYFS_INIT_OPTION} net.ifnames=0"
 
