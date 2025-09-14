@@ -2,225 +2,110 @@ Return-Path: <osama.abdelkader@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0697ACA0EE8
-	for <webhook@archiver.kernel.org>; Sun, 14 Sep 2025 18:26:01 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.14936.1757874360139234055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E0E1CA0EE8
+	for <webhook@archiver.kernel.org>; Sun, 14 Sep 2025 18:40:11 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.15161.1757875204853892641
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Sep 2025 11:26:00 -0700
+ Sun, 14 Sep 2025 11:40:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EO1jShPb;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: osama.abdelkader@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3dad6252eacso1404193f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 11:25:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=McH7evOP;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: osama.abdelkader@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3ea3e223ba2so468101f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 11:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757874358; x=1758479158; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5TPO3d5uoBLb2VNXGQuqk5CvGelhwVLhKwd7IR+BJak=;
-        b=EO1jShPbhCEH0fq8G+EBwIYcVY5f4Ow4j/hAiOspPyrSPT/l6zurSYOZJVLU8xE/lb
-         ZXRge7ABvixTomxNLvT93nlFIDgLAWY4fD6os2ZLc8H6ON1OnE7VMqDIMer85rdlTaZf
-         o8red/BAJfCXmVhf6ri8PcAFbsTfku5dfUtzvKOMeUKUYD2ZkVHmwN9zbwW3DUdESvkd
-         bPmlTbgedVR65toc3dILSoj+Cmp36a3Ij6aIKLYUUGpV8Pk7ak5GNe4teTGL/YPt+x2Y
-         JFFJdhjs+wYJVS0u/ETQaABHjTToXswcGNTbx4AHpkNj9x8Yytsogwma+bCqhl1KfnM5
-         +l+Q==
+        d=gmail.com; s=20230601; t=1757875203; x=1758480003; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GTUlYS6rY6wL4aPo0B/h7nrN24RSRjyiJpky0LeR2fU=;
+        b=McH7evOP9v8LsA+OmFn5IdwdxKITuRiTgyFYfPEOGb5IAZjZi9aNJp9uoEu8RL3mQ0
+         82cAnzVSYu6bQ3/qXJxf1sSifpJM0nY0Ih+ucf/RJsMYQtZ45aZT5LaGM68MYL3uRAHB
+         VfZRkcFsSRxwajtuFDjwqtACiuxUYaW8iEE1uyN9BHgT27czAB8lvC8bojlhYHpPzh0L
+         hHah9C/NF4t1tk/V+CHb7lngD/idpbzHz1k6J9uQBukICqB6c7ptPwq94rAOFZwOdQwi
+         bgi0OWwE4xiE7aI2NxclzLWA14YwPIApVaU4yWUXNgqYOOsTM+cavXB7JC/F+kaMD8e1
+         MVvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757874358; x=1758479158;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5TPO3d5uoBLb2VNXGQuqk5CvGelhwVLhKwd7IR+BJak=;
-        b=slk75k9+nm0nwSLbFg/CmixgqEX1jyKmZNb4kSnML/h4y1Y3/Va2nBZlT0aw4WadUz
-         1O+KSpfmlrvcxLLMPSDanoGN2CmfN0E2celsUu5seObH2EW0/odVmG9N/6yK1HdSfPBN
-         0lHUudil2EywIkBn75Rh7Zxt6BN8W4gzvPNWMnparb9k/OZGKOJ8VoSWxwFdn7f3zrnj
-         H2kuGW72AA8xYUNcLeIrBI+7afkmDG7fuT+Nw8gDBMl7ICT9ue1SPdTDG2YyaRST2VrI
-         dKjUlZAc/iun2UWF/bhRb2lBABZ9mPh45lQ0ifoo0XatAsjB9TkAgFi4wdG8G6b9/Af8
-         Zq3w==
-X-Gm-Message-State: AOJu0YwSnAe1/+57wOtGJSqIquweA80tIsz//MDr1iCA727jUzo2myVj
-	3RL9ANQKmU3C/IdqWdxU6bmV1/Tn3/74fRtk/49fgh7yyyj3L6PvR3rJY2HtGA==
-X-Gm-Gg: ASbGnctw8GcNlCtb1O7o/zIoECW9HX+ICuyvB/Qm6pBqBhd7UIZfcKKeq+NfIvXaMUw
-	Brm6zKDQitQzn+OfWQJSunVLADogN464JPo/B6lgjPeonaO8AT5odRWKCACD8i9aFusZNRy+R+v
-	NrnZAyi6Xz2Crfa347ymuZZQZ2e1S2q6DBFBjqtfLsa8JD/7G5vnUTNyTV3Az2J0/q2VlNEa4Pm
-	jpK4Fixf/AZo65/kajvncgaGeRX5PMs1sDSbw3CAk1lTKaUSpfFpyr+TcyLhlLiDGtb8mOQenjQ
-	naM7toozTr4NtrnyWHoU6PAJ311KaPojgPEgbiiiNf6ZkUqVx4Y8FWTQhqyxEbdcyUbGye+3glR
-	npjRnvJnKj5FhWohD+7veMk4qgL6Tz0MIwjaRQJhhIhR9uL5Oxl96Ah10NqJrHJ42FtB01j6mvM
-	HvAD0=
-X-Google-Smtp-Source: AGHT+IFU+rpybMJkbITh60XZwmLAIOoJywgZLZ5uBfy2xBxisK3vxAOT4/d7inKjD4upBp3TaoBVCA==
-X-Received: by 2002:a05:6000:2012:b0:3e7:441e:c9e1 with SMTP id ffacd0b85a97d-3e765793127mr7876445f8f.18.1757874358188;
-        Sun, 14 Sep 2025 11:25:58 -0700 (PDT)
-Received: from osama.. ([156.223.20.4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e037c4490sm144833575e9.19.2025.09.14.11.25.56
+        d=1e100.net; s=20230601; t=1757875203; x=1758480003;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GTUlYS6rY6wL4aPo0B/h7nrN24RSRjyiJpky0LeR2fU=;
+        b=TaMBAj2DHoj1NyWAouznwMeLg0zlS6z0Me3ozSeTAjLbKOz2xOdU2QlAgoIowF/Otp
+         9SCIl64NjrIvG7+R9Bmz+zBpbIbiSBGKJeWf8KTQKyyca+W61VEZ4NJze4VYSH+h+PX/
+         oOgcKvs2D0AVaYnK01Zisc9DsytBIGMcMQ0XWQuqxlm8ScJnSaRkyRH8S3a8u1qIG/XN
+         e1wWiAlP0YolBPuxhv90Rj4z6kpDI0pHo/I0Q59LBuBrkIoCVWc0xU3gpZxIl/5QYfP6
+         Ckis/r45+FG0PdGJuuxWrUSNaX6ORqdwVlK4p6XSk0ONadGqexdXslLWYrLEJ8FtF8Vz
+         Kdqw==
+X-Gm-Message-State: AOJu0Yxix2kM73CctiVMVoyadBJdEw3xjI2lsnDZBpTj9rIV+ub9AYue
+	8MIHSUzZ0QljkJOwV+S4ZtDObD2yKQ59sQUZp0hQS7X9AabgOgwiYpIM
+X-Gm-Gg: ASbGncurK5y38g5fwaKyIQ/W5/5MLHrjugP5PFXtbhXLxslN2kB/aOXDF+Zb2vBsNXk
+	OYoGBhE583mzXEUao3XuXJdZbgvhgza0IF4K0cX8rhcYhQw8oI6D3NUiqX5RtcIZAJVvgOh0LYJ
+	s2lydpBEU4zy61CURftK0dpBmSM4hrNlkTa8D9xhlnI1MdSy6PitZbCQ29ToVxxEJgFIuobMmHt
+	pGo0XoyJFTot67GA74AqkOP4eBK5F15xTMHTshd46GWq9bjeaN6xirpy30AwMvsNDAyriGnwugW
+	36RZhosckAw5rIPpcaeHtPeirmEPi8FKJd5IHPF4zJXBEOqDpUWb71qk9Q7P24EB5bcBNKYfEtd
+	UU5GNwz2ZUqnRfKdcbWOAP1TesLRaZBcC3EluxdYbIQgVXqTOVlzOQYA0L5JsV/Pl97dxNKx9ty
+	bF
+X-Google-Smtp-Source: AGHT+IGsPSPrAfYn0vaGZtY55A5GOOecQw6FbQmm36TDauAgRTRopGdKdx6RCV7zzegXS89Wow6Cqw==
+X-Received: by 2002:a05:6000:430c:b0:3ea:87f8:da54 with SMTP id ffacd0b85a97d-3ea87f8de98mr1076781f8f.33.1757875202984;
+        Sun, 14 Sep 2025 11:40:02 -0700 (PDT)
+Received: from osama ([156.223.20.4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e774a3fb5bsm10287612f8f.58.2025.09.14.11.40.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Sep 2025 11:25:57 -0700 (PDT)
+        Sun, 14 Sep 2025 11:40:02 -0700 (PDT)
+Date: Sun, 14 Sep 2025 20:39:58 +0200
 From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	alex.kanavin@gmail.com,
-	mathieu.dubois-briand@bootlin.com
-Cc: Osama Abdelkader <osama.abdelkader@gmail.com>
-Subject: [PATCH v3 2/2] go: add sdk test
-Date: Sun, 14 Sep 2025 20:25:50 +0200
-Message-ID: <20250914182550.24959-2-osama.abdelkader@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250914182550.24959-1-osama.abdelkader@gmail.com>
-References: <20250914182550.24959-1-osama.abdelkader@gmail.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, alex.kanavin@gmail.com
+Subject: Re: [OE-core] [PATCH 1/2] go: extend runtime test
+Message-ID: <aMcL_v01pp3WPplX@osama>
+References: <20250912232110.1794088-1-osama.abdelkader@gmail.com>
+ <DCSFD04X28ZX.G5LWHQA6861E@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DCSFD04X28ZX.G5LWHQA6861E@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 18:26:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223369
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 18:40:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223370
 
-- Add meta/lib/oeqa/sdk/cases/go.py with GoCompileTest and GoHostCompileTest classes
-- Test validates Go cross-compilation toolchain functionality
-- Includes native compilation, cross-compilation, and Go module support
-- Uses dynamic architecture detection for portability
+On Sun, Sep 14, 2025 at 11:44:25AM +0200, Mathieu Dubois-Briand wrote:
+> On Sat Sep 13, 2025 at 1:21 AM CEST, Osama Abdelkader via lists.openembedded.org wrote:
+> > extend go runtime test with a simple test file, and simple
+> > go module test to validate go compilation and execution on
+> > target.
+> >
+> > Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+> > ---
+> 
+> Hi Osama,
+> 
+> Thanks for your patches.
+> 
+> It looks like one of these is triggering this error:
+> 
+> oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato/1.0/testimage-sdk/environment-setup-cortexa8hf-neon-poky-linux-gnueabi > /dev/null; cd /srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato/1.0/testimage-sdk/; go build -o test test.go;' returned non-zero exit status 127.
+> Standard Output: /bin/bash: line 1: go: command not found
+> 
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/2360
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/2408
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/2396
+> 
+> Can you have a look at this, please?
+> 
+> Thanks,
+> Mathieu
+> 
+> -- 
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+> 
 
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
----
-v2: add check for go command, skip tests if not found
-v3: add changelog
----
- meta/lib/oeqa/sdk/cases/go.py | 128 ++++++++++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
- create mode 100644 meta/lib/oeqa/sdk/cases/go.py
+Thanks Mathieu. It looks "go" & "go-runtime" are missing in the image
+I just sent v3 which skip those tests if "go & go-runtime" are missing.
 
-diff --git a/meta/lib/oeqa/sdk/cases/go.py b/meta/lib/oeqa/sdk/cases/go.py
-new file mode 100644
-index 0000000000..9c15124f6a
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/cases/go.py
-@@ -0,0 +1,128 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import os
-+import shutil
-+import unittest
-+
-+from oeqa.core.utils.path import remove_safe
-+from oeqa.sdk.case import OESDKTestCase
-+
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
-+class GoCompileTest(OESDKTestCase):
-+    td_vars = ['MACHINE', 'TARGET_ARCH']
-+
-+    @classmethod
-+    def setUpClass(self):
-+        # Copy test.go file to SDK directory (same as GCC test uses files_dir)
-+        shutil.copyfile(os.path.join(self.tc.files_dir, 'test.go'),
-+                        os.path.join(self.tc.sdk_dir, 'test.go'))
-+
-+    def setUp(self):
-+        target_arch = self.td.get("TARGET_ARCH")
-+        # Check for go-cross-canadian package (uses target architecture)
-+        if not self.tc.hasHostPackage("go-cross-canadian-%s" % target_arch):
-+            raise unittest.SkipTest("GoCompileTest class: SDK doesn't contain a Go cross-canadian toolchain")
-+
-+        # Additional runtime check for go command availability
-+        try:
-+            self._run('which go')
-+        except Exception as e:
-+            raise unittest.SkipTest("GoCompileTest class: go command not available: %s" % str(e))
-+
-+    def test_go_build(self):
-+        """Test Go build command (native compilation)"""
-+        self._run('cd %s; go build -o test test.go' % self.tc.sdk_dir)
-+
-+    def test_go_module(self):
-+        """Test Go module creation and building"""
-+        # Create a simple Go module
-+        self._run('cd %s; go mod init hello-go' % self.tc.sdk_dir)
-+        self._run('cd %s; go build -o hello-go' % self.tc.sdk_dir)
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        files = [os.path.join(self.tc.sdk_dir, f) \
-+                for f in ['test.go', 'test', 'hello-go', 'go.mod', 'go.sum']]
-+        for f in files:
-+            remove_safe(f)
-+
-+class GoHostCompileTest(OESDKTestCase):
-+    td_vars = ['MACHINE', 'SDK_SYS', 'TARGET_ARCH']
-+
-+    # Architecture mapping from Yocto/Poky to Go
-+    ARCH_MAP = {
-+        'aarch64': 'arm64',
-+        'cortexa57': 'arm64',  # ARM Cortex-A57 is ARM64
-+        'cortexa72': 'arm64',  # ARM Cortex-A72 is ARM64
-+        'cortexa53': 'arm64',  # ARM Cortex-A53 is ARM64
-+        'x86_64': 'amd64',
-+        'i586': '386',
-+        'i686': '386',
-+        'mips': 'mips',
-+        'mipsel': 'mipsle',
-+        'powerpc64': 'ppc64',
-+        'powerpc64le': 'ppc64le',
-+        'riscv64': 'riscv64',
-+    }
-+
-+    @classmethod
-+    def setUpClass(self):
-+        # Copy test.go file to SDK directory (same as GCC test uses files_dir)
-+        shutil.copyfile(os.path.join(self.tc.files_dir, 'test.go'),
-+                        os.path.join(self.tc.sdk_dir, 'test.go'))
-+
-+    def setUp(self):
-+        target_arch = self.td.get("TARGET_ARCH")
-+        # Check for go-cross-canadian package (uses target architecture)
-+        if not self.tc.hasHostPackage("go-cross-canadian-%s" % target_arch):
-+            raise unittest.SkipTest("GoHostCompileTest class: SDK doesn't contain a Go cross-canadian toolchain")
-+
-+        # Additional runtime check for go command availability
-+        try:
-+            self._run('which go')
-+        except Exception as e:
-+            raise unittest.SkipTest("GoHostCompileTest class: go command not available: %s" % str(e))
-+
-+    def _get_go_arch(self):
-+        """Get Go architecture from SDK_SYS"""
-+        sdksys = self.td.get("SDK_SYS")
-+        arch = sdksys.split('-')[0]
-+
-+        # Handle ARM variants
-+        if arch.startswith('arm'):
-+            return 'arm'
-+
-+        # Use mapping for other architectures
-+        return self.ARCH_MAP.get(arch, arch)
-+
-+    def test_go_cross_compile(self):
-+        """Test Go cross-compilation for target"""
-+        goarch = self._get_go_arch()
-+        self._run('cd %s; GOOS=linux GOARCH=%s go build -o test-%s test.go' % (self.tc.sdk_dir, goarch, goarch))
-+
-+    def test_go_module_cross_compile(self):
-+        """Test Go module cross-compilation"""
-+        goarch = self._get_go_arch()
-+        self._run('cd %s; go mod init hello-go' % self.tc.sdk_dir)
-+        self._run('cd %s; GOOS=linux GOARCH=%s go build -o hello-go-%s' % (self.tc.sdk_dir, goarch, goarch))
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        # Clean up files with dynamic architecture names
-+        files = [os.path.join(self.tc.sdk_dir, f) \
-+                for f in ['test.go', 'go.mod', 'go.sum']]
-+        # Add architecture-specific files using the same mapping
-+        for arch in self.ARCH_MAP.values():
-+            files.extend([os.path.join(self.tc.sdk_dir, f) \
-+                         for f in ['test-%s' % arch, 'hello-go-%s' % arch]])
-+        # Add 'arm' for ARM variants
-+        files.extend([os.path.join(self.tc.sdk_dir, f) \
-+                     for f in ['test-arm', 'hello-go-arm']])
-+        for f in files:
-+            remove_safe(f)
--- 
-2.43.0
-
+Thanks,
+Osama
 
