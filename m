@@ -1,79 +1,101 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2309CAC587
-	for <webhook@archiver.kernel.org>; Sun, 14 Sep 2025 17:53:50 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web10.14359.1757872424823995077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A0DCAC587
+	for <webhook@archiver.kernel.org>; Sun, 14 Sep 2025 18:01:00 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.14584.1757872859316995065
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Sep 2025 10:53:45 -0700
+ Sun, 14 Sep 2025 11:00:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=tLUhGXDq;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id AB2BB4E405D6
-	for <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 17:53:42 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9E11B6063F;
-	Sun, 14 Sep 2025 17:53:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C2C42102F29EC;
-	Sun, 14 Sep 2025 19:53:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757872421; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=gJwoEOPpmi9H4N8pUaGhagNoGt8JVV1AcCimuiaMo0o=;
-	b=tLUhGXDqsNPcD79vc8tQDJjzaxn08NqIqdT7vBI5BnD7BV5BttDK3/Qlswo4cUkXRTMt+T
-	w3mZY+tFwZeySfwo1UXPUM1ksdwDil+hAPd4/UWRAsuNEX6Iy3SfxPMOVqnfTE0LjqKsLh
-	yq3SclzhvbGXK5cuTfDvhwNKKxvC+9PoDVY39vs9O3z7K08oA1/m87XD2glHzV6FOhKiEm
-	poHY3RJKGRqGIlE8ujBis7YlzQ02vRhxDJgUQIoqwugavUF/HTaBTTOd6X8ozXF2jTwZSY
-	xumAYwsOGXUhaG3mXFjjX90tNnzUTL3mhnuOXCZqIjhKyZnQFooX57qwYjKhAw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 14 Sep 2025 19:53:39 +0200
-Message-Id: <DCSPRKWRDFBK.H6AT60ND74IR@bootlin.com>
-Subject: Re: [OE-core] Patch pushed but don't see in the mailing list
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <emailaddress.ashish@gmail.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <7JR7.1757863849293272270.zxTQ@lists.openembedded.org>
-In-Reply-To: <7JR7.1757863849293272270.zxTQ@lists.openembedded.org>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bdBC7pgj;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=tORnhw5h;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101994963248a-1abefdfa-f525-45cb-abaf-97cf905e7d28-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1757872858; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=MYCxczJ6aZCT6AkEyCk8TcfIi4+yTUKwRXzOXn+xbYE=;
+	b=bdBC7pgjSBmUnQygjOK38K0kBhfUNWyoHZLCm6Rak0/oRjR/NDH6rUSNxxGCi668
+	RFCeRevvKZSbKM1jDC4ZjKOArejT2tgLwIjB8h1MLjiWAeqoxEPiriPp4vQL+7mB0F5
+	QU42U/vQ7lugFuLmV6eKC6mdHZZGKSLfUjoCulFw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757872858;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=MYCxczJ6aZCT6AkEyCk8TcfIi4+yTUKwRXzOXn+xbYE=;
+	b=tORnhw5hBMxqtoy6UJfKKarMOwribZs3Fg4cQFroJdkKvr846jXC0u+3EywQSehK
+	62h0pIr3rBd7wvudsGEgHc6euUNjhSCsA3bkZ2rNN3kR0+EoQGzwtU238cfqc435sTb
+	UvnrvkKRMqDV/xDcHsRHcJteOY0wMZpOYxbwgZTQ=
+From: patchtest@automation.yoctoproject.org
+To: Gyorgy Sarvari <skandigraun@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] patchtest: don't match BitBake python expansion as GitHub
+ username
+In-Reply-To: <20250914174709.3230701-1-skandigraun@gmail.com>
+References: <20250914174709.3230701-1-skandigraun@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101994963248a-1abefdfa-f525-45cb-abaf-97cf905e7d28-000000@us-west-2.amazonses.com>
+Date: Sun, 14 Sep 2025 18:00:58 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.09.14-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 17:53:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223366
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 18:01:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223367
 
-On Sun Sep 14, 2025 at 5:30 PM CEST, Ashish Mishra via lists.openembedded.o=
-rg wrote:
-> Hi Team ,
->
-> I have pushed an patch in meta-openembedded layer .
-> But don't see it in mailing list .
-> Can member please help me where should i look for the patch submitted and=
- whats the status
->
-> Thanks ,
-> Ashish
->
+--NextPart
+Content-Type: text/plain
 
-Hi Ashish,
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-I can see your message here:
+---
+Testing patch /home/patchtest/share/mboxes/patchtest-don-t-match-BitBake-python-expansion-as-GitHub-username.patch
 
-https://lists.openembedded.org/g/openembedded-devel/message/119396
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
-Maybe it had to be manually validated by a moderator?
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-Thanks,
-Mathieu
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+---
 
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
