@@ -1,119 +1,101 @@
-Return-Path: <emailaddress.ashish@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 290E3CA0EE8
-	for <webhook@archiver.kernel.org>; Sun, 14 Sep 2025 15:40:30 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web10.11772.1757864427163554228
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C2BCA0EE8
+	for <webhook@archiver.kernel.org>; Sun, 14 Sep 2025 15:46:00 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.11958.1757864758234352688
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Sep 2025 08:40:27 -0700
+ Sun, 14 Sep 2025 08:45:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AcOKtrHT;
- spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: emailaddress.ashish@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b52196e8464so2091321a12.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 08:40:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757864426; x=1758469226; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UMwkzpHu4Mvyf1YoqsZdmdEf8KId/MsnWzGNj7lmpu4=;
-        b=AcOKtrHTM4uai/xwWQ6X5JyHmGM390ogdZ6l01wONfJ7vuktE5bArZfuL+vh4wQj1Z
-         occVVvOOCIrV0e1wb3VmM1B/yFsMxjTBVK52Hoa8Nl+ic32duYSNSoAwkBy2d9b/ceEJ
-         3E5Y0YzlcU8SOTkEaZAjPsYHadLeWeiXf3byZXu+B6wbIGdkw/LKSFvVTthLBaW2ooZi
-         rryypMCq+wFJz96mGHS70aGuwFzPAgX7/kmUPR7NqeCywPr2LsE4tSeCYK65Q1HCdUhx
-         7SGlXf54e5mOLs/dyScUSf4fejnnxaPxhHlCDoUl1Sb1iph3rnM5PQgvkrnpZBCeWOOh
-         y5Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757864426; x=1758469226;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UMwkzpHu4Mvyf1YoqsZdmdEf8KId/MsnWzGNj7lmpu4=;
-        b=sN8jDF64z00OOhraqm3SpkI5u3BJNRNhLy9eNMoz6xp02RlVnrJ5ekjXFW+n8DzYT0
-         uH6Lko7tfQkNkl4rB/nvdpnCMqlvvj32pfBEP5JUVYh+q58esqYbr/mv0jXIshD9fT+k
-         ZP8b8xe4MzF8/QW3zGzfc8Y6iNp2Czt5JuTOqGUNK+mE+YQJaPIAYrs6LwdsEcNVNAMK
-         bc50dcfuugWd2r5D160RePaxzO2TNV9otdhtvzt3OVL0X6UmuLOUaV/XAZt1BsxIgz9m
-         BwkW3WZszmgdFzFuJhYfZfOMlubldXTR2mhdrkjTsao/gUKk5XiPhX/hHOfeVtBNLxmy
-         wNMw==
-X-Gm-Message-State: AOJu0YytjG+JTVx4W7B325P6zVqK/mE1ikrq9Dmi/+7O4m1Ay8nc8vTv
-	Rs3FGF5t4rv/QhD8Ok1jmQU/99aY3bO4ZIuZHMzRWTJdfd0qFYd/5b521MRp+g==
-X-Gm-Gg: ASbGncuW2Nkwy7x06KJilvx2f/cx8tQzw4xJOG26W1rBIURnjbNwnU1lsqUwXaJBC3P
-	j/R4Tg4e8zagN82uGIykV1e5bzL/WJGbIwuiCO8WvTC8a+fD3xM7EvyIK2HEuNorX+/gkAYHr0O
-	x2JeW5biQrn4czBViYhiEPXFcB4awMMPfbh1v/AA6RMtIarTx518/TPzWA2NOQ0OfWEYT7VXz9N
-	QTXKKrg//CFMpss5LNcOTfgV5KnimGNIGlPAk24LLSRC9maj2Epard2CIFW/nn86lDdWdScC2vK
-	RZUhNDFT9m6CahQlxtig7dDznbODyGcfe3wF6ayxAS8nnn493YcgvFE3MnY8Utojk3xMfbPg9r5
-	z
-X-Google-Smtp-Source: AGHT+IHmR5ugUvQs7Ahhk1KpqIVVwO8O/pMu95hPDEydJpHFSAuUEXMfB9BnWsqxcQ4QTeAzMfQQpA==
-X-Received: by 2002:a17:902:ebc1:b0:240:9dd8:219b with SMTP id d9443c01a7336-25d2703a588mr129485995ad.49.1757864426399;
-        Sun, 14 Sep 2025 08:40:26 -0700 (PDT)
-Received: from ashishkumar.. ([2401:4900:1f27:b34:6012:935:7d1b:6dcb])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3ae2dd2csm103015765ad.121.2025.09.14.08.40.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Sep 2025 08:40:26 -0700 (PDT)
-From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
-X-Google-Original-From: AshishKumar Mishra
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Cc: raj.khem@gmail.com,
-	AshishKumar Mishra <emailaddress.ashish@gmail.com>
-Subject: [PATCH] meta-oe: image: optionally remove RAW image after sparse image creation
-Date: Sun, 14 Sep 2025 21:10:09 +0530
-Message-ID: <20250914154009.22042-1-emailaddress.ashish@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kw+fv6g2;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WlD+kjXG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019948e788dc-df254716-8b1c-4add-bb55-fbe157627d25-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1757864757; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=PVHh4QvHcYPvXU78j9/BvCR9ycUepmiap4sA3p12fo4=;
+	b=kw+fv6g25S3MM0kSFddhx6zqs2Hds+eQaOVjxqiyUfruhH7kT/rLIN+2wsHwUvrG
+	EO4QHMo/gLduQVSX7kb8hgNjjcsQWLXmEIGJpi4UWUlnncF6A/BRl+l65Pm6zJfli1f
+	HWL/sCGvsdyTdjBBmK8EoCDoCWIrAutc9+KfxeN8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757864757;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=PVHh4QvHcYPvXU78j9/BvCR9ycUepmiap4sA3p12fo4=;
+	b=WlD+kjXG+ue47zWkZqDcTl3nimxz85zWyXSjsvPRPoohxvtcmgouEDfEmmdUq39n
+	usBBW23V2A8iCJuXk9MKV8WJSIcS+Lo/y++jdwVllPRFrFdiDwbMPGPTwAZGM1/yf6B
+	I1BIbaZvKBBkp02WHZzNsKdDXTUCvbF72X2wA3cM=
+From: patchtest@automation.yoctoproject.org
+To: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] meta-oe: image: optionally remove RAW image after sparse
+ image creation
+In-Reply-To: <20250914154009.22042-1-emailaddress.ashish@gmail.com>
+References: <20250914154009.22042-1-emailaddress.ashish@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019948e788dc-df254716-8b1c-4add-bb55-fbe157627d25-000000@us-west-2.amazonses.com>
+Date: Sun, 14 Sep 2025 15:45:57 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.09.14-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 15:40:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223360
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Sep 2025 15:46:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223361
 
-From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+--NextPart
+Content-Type: text/plain
 
-When creating sparse images, the RAW image is no longer needed in
-some workflows such as Android and CI pipelines. These RAW images
-can be multi-GB artifacts and consume significant disk space.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-This change introduces a configuration option
-`DELETE_RAWIMAGE_AFTER_SPARSE_CMD` which, when set to "1",
-removes the RAW image after sparse image generation.
-
-This reduces disk usage in builds where sparse images are the
-final deliverables and RAW images are not required.
-
-Default behavior is unchanged: RAW images are kept unless the
-variable is explicitly enabled:
-
-    DELETE_RAWIMAGE_AFTER_SPARSE_CMD = "1"   # Delete RAW image
-    DELETE_RAWIMAGE_AFTER_SPARSE_CMD = "0"   # Default behavior
-
-Signed-off-by: AshishKumar Mishra <emailaddress.ashish@gmail.com>
 ---
- meta-oe/classes/image_types_sparse.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+Testing patch /home/patchtest/share/mboxes/meta-oe-image-optionally-remove-RAW-image-after-sparse-image-creation.patch
 
-diff --git a/meta-oe/classes/image_types_sparse.bbclass b/meta-oe/classes/image_types_sparse.bbclass
-index d6ea68968e..5416c2a019 100644
---- a/meta-oe/classes/image_types_sparse.bbclass
-+++ b/meta-oe/classes/image_types_sparse.bbclass
-@@ -9,9 +9,15 @@ SPARSE_BLOCK_SIZE ??= "4096"
- 
- CONVERSIONTYPES += "sparse"
- 
-+DELETE_RAWIMAGE_AFTER_SPARSE_CMD ??= "0"
-+
- CONVERSION_CMD:sparse = " \
-     truncate --no-create --size=%${SPARSE_BLOCK_SIZE} "${IMAGE_NAME}.${type}"; \
-     img2simg -s "${IMAGE_NAME}.${type}" "${IMAGE_NAME}.${type}.sparse" ${SPARSE_BLOCK_SIZE}; \
-+    if [ "${DELETE_RAWIMAGE_AFTER_SPARSE_CMD}" = "1" ]; then \
-+        rm -f ${IMAGE_NAME}.${type};\
-+        bbwarn "Raw file ${IMAGE_NAME}.${type} removed" ;\
-+    fi;\
-  "
- 
- CONVERSION_DEPENDS_sparse = "android-tools-native"
--- 
-2.43.0
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
