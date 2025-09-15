@@ -2,123 +2,122 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 322D0CAC592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3231DCAC59C
 	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:55:51 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.30932.1757937344526161860
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.30963.1757937343359499163
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Sep 2025 04:55:44 -0700
+ Mon, 15 Sep 2025 04:55:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=YFpBEMoh;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F8FhA9014105
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=RRg+tne6;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F9GKkt005160
 	for <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:55:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=P6IFepq59Bm
-	r12G3fxc3bZQym1tM/JizzG//SN+sRuA=; b=YFpBEMoh9OqZGqulXxRI5J1myft
-	pTI4c1ySlBlsqjXeclTb2KVpsuXVWSGiYMarNtoT8rVrsWxhY79Tjp+rmhTS0y3z
-	BFY0UHlWpOjP6BFLuvdYfd7mVJGocDoq9hz/TojaqDTCeziPOiqCuhxV/2vqrJ4A
-	PzCusV3SWnmDywt7ykCOTocj66gUCnZLJ0XXWwSy4J2lamT+/rJyUf0b8ENpunDB
-	xjz/CtVCDXysroozIc/wu9xQU5j9eZ24ojvpHsrhbU2pplNq+w360TwvqNqf98nZ
-	12QPrhOM3mWCMM3yz6RK5or+Xx15BMQDCOGEYfn+gFc1N6U/gTmeA7Qhw8A==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 494wyr50g1-1
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Bik27j+nxijKPQVmSRo6gsI4RvcJXEjwuzd
+	hg31qnWk=; b=RRg+tne6qIYm6rVohJ9HE0NnKvABaEvRr9tRHCTleRl/AC+QY5y
+	UIAPuCPtJiFF49bPLDstS48CAi5gpddk+U+NJocNcYDdKyZ4c3v8UebUghDUzrZH
+	s2rSRohAHKgnAJjrkeA+as6oQkDeljh0tCt98joxalUBekbSmI1vvs1WN6GhNB03
+	61giyma2FdfHAymZK1DFt+S+aSy6A2yc4B3/jaTlyzXOjhIssIzXHZ0c+0WKhohm
+	HmqdPvQ9rK5GzJhn6Twyehu+1dEpnZ6Z+pGU9JqyqnSPlFIpcjtfgmMS0XywW6Ur
+	q1/CxEIs36Y1Nyi9kycU1cZA2r7+ocvtVrQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 496g12gf8s-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:55:43 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-77d39d8f55aso19231106d6.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 04:55:43 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:55:42 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4b5f6eeb20eso160834971cf.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 04:55:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757937342; x=1758542142;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P6IFepq59Bmr12G3fxc3bZQym1tM/JizzG//SN+sRuA=;
-        b=otAAgsgmZvvGYarST4KOLYaIIakMxqbb/kR1/41iwkMLE83s+dSeuSb+whRKd+4Wu8
-         CyyWLP9yGno44m0eXxt9MKh99Pht0AfZSQg9tdcejQljBzdTz0fc4bF2Yu2ZKBpRqMHu
-         iOAIzgdTG7BkOyN0rjK1Q4PsbShnEN6h3MofLdLRcPIyTuj0fJv//Kjw846LLqHZfyhC
-         hGKaSJp6iv3cgbc9YrdQb1MXz9sN9DSuEQpMt4/YfmxRoVnCcN5UOGOSLQBuTDuhrWXg
-         h/dmCgpjNq7VTJLEfraJT+pUOuYEaLocKqg9VrdSoM9qMaq7cMJFP+eTYujrivb/lJt8
-         MX2w==
-X-Gm-Message-State: AOJu0YyWQayq1xpV63vTBYkQzepCwnk5lI2VtOEIUT8+pykLRhAQojdX
-	c4OTp6PSZzvDUGI5iiB58EUHIY5lsTAZPm4UfUsguhRoScvFQ2t+n9l3jyV5Ssz4T42cfhQB1dF
-	YrYyVzqkjwsZfJj8N4mDhNwu2+Am6h/yf+xiMY0ue9s2r3rftaIGX/dOSo/56LE931sSxpQrOqS
-	dBLcYFFCvXlFsOePY=
-X-Gm-Gg: ASbGncsNlH8S41ywwCPEfxUsHDFUbkip8bmOf1a2dLu767vmvO6V+wcEq2CE5bOAFgb
-	nvuFo1DRArpcJiBV82z+Z3y8QqMDbJ66gXcKiDXYLKgegXfv/x+mfTlizE3/b3Qja3xNKVUvtPs
-	OvLcrziKmTF4ge2Vu+xEBNvaLIMYuHiGinVtwvMBf+SQMSMGkPa3dcPpfAMi5cBp99fRZLrEhBU
-	2dhbDkL7IlTS7zan4L6yQXGLTt3I9Q/58HRBbdAJRuxJurMIdK6JyMD0uMJXQqxqQLVwASVWUsB
-	tWoZgiv01k4XlNk71nFaFZqYK+lJhROT69WJsZgfwoVe33+Y1nTCix818wy3LpYLpAOGUTdQknl
-	ZwnwDi1c7ANAixO4RoiFS5kEXG+mI9qkBMMyydjx0wa5LtWUjknFx
-X-Received: by 2002:a05:6214:1c0e:b0:72a:2e5b:af2f with SMTP id 6a1803df08f44-762279e50cdmr197221756d6.30.1757937342433;
-        Mon, 15 Sep 2025 04:55:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEj6wdLPh5fYOFCwHJcrIK+KgqEKYFyIzU5JxAtFIzC0mzz53Eokfs4VTBFlOA1paOiEoiZLA==
-X-Received: by 2002:a05:6214:1c0e:b0:72a:2e5b:af2f with SMTP id 6a1803df08f44-762279e50cdmr197221406d6.30.1757937341854;
+        d=1e100.net; s=20230601; t=1757937341; x=1758542141;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bik27j+nxijKPQVmSRo6gsI4RvcJXEjwuzdhg31qnWk=;
+        b=wRnpkIHz4xtE7yEvajTun7LtYhrfeOD4EdToMzYGaMMY+hKEjL4/EITOD+otjT6x9e
+         569s3y3oZ6y4XES/UKhmQS7PKBDVh92vXSM114sJjwap9gme52pxRxC0oLhYhgRTKDUK
+         L7x1YxkZPTBI+cW5ZjyF7EKxH+m4L9LyqQGbOZOrw5uG+vDmwPU8/2kLXut2mpKSRkFZ
+         Ajm/4p+g56vI1Km8bZMxkoTcnbEgGqJ+B5d6hj7wUwrv3ijPEU2BceEIHByvGVzrPfrw
+         YKbKTTEusWgE6lDux6ywGR1lgwGETDetOilu3sqA4cdvpG9M8zU3OoNM4iDW9D5HrKDj
+         DuqQ==
+X-Gm-Message-State: AOJu0YymQDdVjmLp/qH+Kgq1pXJXhnqSomHyiwuC9D30S1fjtMN3V0lZ
+	hmoM07mOh5fPxliabtVpeZolBSLfU6dSY+XSTX585sB//yal4613BcWe62XC/FgBA8LhdNfOaU5
+	XF3rbOdSaH6fghK2GWN3nVzbQHF6K8886wTFaQsJxQwoL9Vrmm4rEJZD2D21NcjqrdEsSc5gW2p
+	cL80opz7EURP+CK9Y=
+X-Gm-Gg: ASbGnctyrJNdvib/f02umBcE6NybS5VsIZEqIGZaBwKjUN9sY0cUVuyQKLNF3sgb/5s
+	2IosikNmV0N1Y9L3CkMxbC8Jk9axr0uspa50LqtvFPcP//pD/fsC0GqfBjCbMvfEWQv/YqQjKn0
+	vG4HB+hoEjRKefHzH/rXlxPIMONDW1i9eDSYq6hrLz9qmHN847nA5ot76j0onCze8cQ78ymdLwn
+	oJXRAlEduT9S/h2Puum7blsq7WmaiB0YZr1fe80Vz3U9iCBTGu4ihj8+ROes6xWQBSvwFxBYDef
+	8X6cROlnjF3C1Qm3wW4U4WuYoIYOzf+tRD2ysymjCZ2a/SN70L204o74ywsUzOk+sdiNDXGEIzW
+	1phg2pF967V8W0gZvcK1i7Nrc3r2TA1a0XsoQ2E7tmrnhqkWJfcVp
+X-Received: by 2002:a05:622a:1788:b0:4b0:77a3:2b12 with SMTP id d75a77b69052e-4b77cfc1fa3mr118139071cf.28.1757937341206;
         Mon, 15 Sep 2025 04:55:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE7TppSy9WnFeynMmDL4EtCR9CqObyzBPEtGunwP3jZ+lUbSlE0nxDDP+LxHuX8Joktfom/pg==
+X-Received: by 2002:a05:622a:1788:b0:4b0:77a3:2b12 with SMTP id d75a77b69052e-4b77cfc1fa3mr118138881cf.28.1757937340761;
+        Mon, 15 Sep 2025 04:55:40 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-34f1b491f4esm27893991fa.49.2025.09.15.04.55.40
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-34f1b491f4esm27893991fa.49.2025.09.15.04.55.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Sep 2025 04:55:41 -0700 (PDT)
+        Mon, 15 Sep 2025 04:55:40 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/2] vulkan-loader: switch RRECOMMENDS to use virtual package name
-Date: Mon, 15 Sep 2025 14:55:39 +0300
-Message-ID: <20250915115539.2685622-2-dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v2 1/2] mesa: add PROVIDES for Vulkan and OpenCL ICDs
+Date: Mon, 15 Sep 2025 14:55:38 +0300
+Message-ID: <20250915115539.2685622-1-dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250915115539.2685622-1-dmitry.baryshkov@oss.qualcomm.com>
-References: <20250915115539.2685622-1-dmitry.baryshkov@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: lSyJN-uW6x6QSzSDVjjB1hU38NqRFSM5
-X-Authority-Analysis: v=2.4 cv=SouQ6OO0 c=1 sm=1 tr=0 ts=68c7febf cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
- a=EUspDBNiAAAA:8 a=kl_ScBXZD0_wtlcJHykA:9 a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAwMCBTYWx0ZWRfX5m4VeHJXL04u
- 6B/uBC2rsZZEcVudo4M3OaSEBmeWOD16zjaDp2zt4H776mizK8PI+JJvMhAMjTelfy5vYN06dUl
- sq+Ylvw33maCU6CCeo9kcA0f+78YrTZx5usgi/W3g2zV6ZYDdFF113kHvacNrTW6r9gXC+0Sr1L
- 4HqMW8M5D33sqBp9dRbITcFLL5BuG/qPV5taLxYHV1yNeoITUTzAanmIiDw95vZ3Ef1k57WSxJD
- FQQcFwEtR7gxh+BSsHcKFkg/txsrGpmpvmU4qsHV2XH5qiW10kCEo4P38DhXEmeEKwQ91uIBkIy
- qIYEBkpUVJGUDLIWIWaceNlzcmbDR9DM34AAWsQ3FD2w3sCjJ3RgD5XG1B75yMyXjJKn98KGyBk
- 6Yt24pzi
-X-Proofpoint-GUID: lSyJN-uW6x6QSzSDVjjB1hU38NqRFSM5
+X-Proofpoint-ORIG-GUID: C5tu8bZW0Un-H7xC5r5d3u-advoeBQKA
+X-Proofpoint-GUID: C5tu8bZW0Un-H7xC5r5d3u-advoeBQKA
+X-Authority-Analysis: v=2.4 cv=E5PNpbdl c=1 sm=1 tr=0 ts=68c7febe cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
+ a=EUspDBNiAAAA:8 a=dDemT4ZAlSKyr2vjyC8A:9 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE1MDA4NiBTYWx0ZWRfXwbrZguZZuVYN
+ sYJuEHnqM6FWBWtH1FIwibAaJDHacsZN36PkZIhoxIk8x8Glv4zm0u3uyNe4sgIn3wPh8jtxNm2
+ aFAl0aOT5zLUbu+CBMbscaosfcLX9bpHjg8m0FFGW40/l64CxdbRw1SuMqJfkCDmH4ey0hZ68bF
+ 3QBnjR5IUuZparwUf8IeqcTkwgtDtEEcgt8auYN2W9Ms2attyRMIEXNmVf8er4d+5+3wgKXGu5p
+ LvlQdgAoa5QFTCYr5YP2J8TBbJr5xY4TvD+J6N6Fvl8lUgVYoEOtV7OD4EMl+DPW5ssTzMwpKc1
+ 1uTtuC6108oBOpzTx8KPq8Hbbt9h280yrg5X2rrouyenUMJDTxF88noZ8NQHkRu39TBANjwu82r
+ TlCAIa+p
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-15_05,2025-09-12_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 phishscore=0 adultscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 clxscore=1015
+ phishscore=0 clxscore=1015 adultscore=0 bulkscore=0 impostorscore=0
+ spamscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509130000
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509150086
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:55:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223487
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223486
 
-Instead of always pulling Mesa Vulkan drivers via RRECOMMENDS, make use
-of the new virtual-vulkan-icd package name, letting BSP layers specify a
-different preferred Vulkan driver.
+In order to let BSPs easily select OpenCL and Vulkan Installable Client
+Drivers, add two virtual package names: virtual-opencl-icd and
+virtual-vulkan-icd.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/recipes-graphics/vulkan/vulkan-loader_1.4.321.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/mesa/mesa.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.4.321.0.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.4.321.0.bb
-index 772705dff756..8ad088fa7edd 100644
---- a/meta/recipes-graphics/vulkan/vulkan-loader_1.4.321.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.4.321.0.bb
-@@ -31,7 +31,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
- PACKAGECONFIG[x11] = "-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON, -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_XCB_SUPPORT=OFF, libxcb libx11 libxrandr"
- PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 5dee19fae9ea..3f09cfd4df21 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -219,6 +219,10 @@ CFLAGS:append:armv6 = " -DMISSING_64BIT_ATOMICS"
+ # Remove the mesa dependency on mesa-dev, as mesa is empty
+ DEV_PKG_DEPENDENCY = ""
  
--RRECOMMENDS:${PN} = "mesa-vulkan-drivers"
-+RRECOMMENDS:${PN} = "virtual-vulkan-icd"
- 
- # These recipes need to be updated in lockstep with each other:
- # glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools,
++# Provide virtual names to allow selecting preferred rproviders
++RPROVIDES:mesa-vulkan-drivers += "virtual-vulkan-icd"
++RPROVIDES:libopencl-mesa += "virtual-opencl-icd"
++
+ # GLES2 and GLES3 implementations are packaged in a single library in libgles2-mesa.
+ # Add a dependency so the GLES3 dev package is associated with its implementation.
+ RPROVIDES:libgles2-mesa += "libgles3-mesa"
 -- 
 2.47.3
 
