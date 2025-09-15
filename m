@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9629CAC5B6
-	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:54:48 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.30919.1757937278907563967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A96CCA470
+	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:54:49 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.30934.1757937285474475671
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Sep 2025 04:54:39 -0700
+ Mon, 15 Sep 2025 04:54:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SNEkqVgO;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=QpFtyZ33;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101994d3a1ff4-8ff1d551-b508-48ee-a178-22aa47675443-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=3DZv5G3A;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Z7LJ37uB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101994d3a438b-2018c431-6ad4-4ffb-a03c-b0746a64b83d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1757937279;
+	t=1757937288;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7nmxlpCm0hiI0A/nBM9QQ+L1TivxYLT7ctVli5DOuSw=;
-	b=SNEkqVgOmwd1p4xXUaxkGib4lEbVEX5ZqyDiNuFbrwyENCjTdTycHS8+DuqgxgaK
-	Gg0/tj7VuHIpt8SAnMviBFUS+QmVagpxax8FXC1+GB1JLw9tlKMyv8/cYejONm9ToPS
-	udqbpkOlgChSSgy4XCrch6Wl9zs8q5bDEiqzNuuU=
+	bh=cKFnEt1u69lGBEGfvvJPvD1KaSFLYL2kU/L+r7FDGAo=;
+	b=3DZv5G3A/MnFWsqsU9HbQMjMRNUie07j8A1yJfTkg8iDEvThWou+lnb1owVbbWk9
+	szwBDACeYLpRTkQL756gtU+ag+pI+61vDOkTTI8hXOygPxLy23Cf7aU9/kSjvPrJJSD
+	gFJ6+xz91TaHX8uLskwrx7s6lH9zBeT4bEV0Z+L0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937279;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937288;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7nmxlpCm0hiI0A/nBM9QQ+L1TivxYLT7ctVli5DOuSw=;
-	b=QpFtyZ33LLac2RxZbEwS9vvRklOMkwtlPDTc4a9PAdd/8egACNJOhnDJaYV7iSHi
-	13Z316yNB0eh/PBOBkeNrt749dmFEF5QkAZf3sno+xCudo5Fgrog23r8qIquWQGVBiN
-	SCqMCbHGkCMpucg91VCfGT+6/Q0oYf8KVUsxb4QA=
-Content-Type: multipart/mixed; boundary="===============8562546273197781080=="
+	bh=cKFnEt1u69lGBEGfvvJPvD1KaSFLYL2kU/L+r7FDGAo=;
+	b=Z7LJ37uBns0oA5qRSg2/6IgIO4oO+7dkPikiQe6F8vKqw0cHpT/AB+EQATUsHpwM
+	8AM5hyZ64i62rOhiaHmAxwiU3m1WHp5QaD4xDUeu3SzuYSMxpOBj4fhrGB9z4Ew48FR
+	RneooQOOW1r+Uy3dB1mOMsNd2Ltau8pcHEnZkLGo=
+Content-Type: multipart/mixed; boundary="===============2152276474601864932=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] libcomps: upgrading to 0.1.23 SUCCEEDED
-Message-ID: <010101994d3a1ff4-8ff1d551-b508-48ee-a178-22aa47675443-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Sep 2025 11:54:38 +0000
+Subject: [AUH] gobject-introspection: upgrading to 1.86.0 SUCCEEDED
+Message-ID: <010101994d3a438b-2018c431-6ad4-4ffb-a03c-b0746a64b83d-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Sep 2025 11:54:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.15-54.240.27.192
+X-SES-Outgoing: 2025.09.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:54:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223420
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:54:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223448
 
---===============8562546273197781080==
+--===============2152276474601864932==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libcomps* to *0.1.23* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gobject-introspection* to *1.86.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libcomps-upgrade-0.1.22-0.1.23.patch
+    - apply the patch: git am 0001-gobject-introspection-upgrade-1.84.0-1.86.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,72 +72,127 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e1d2bcd6b01e70658503573b20e5ea27a5334a8f Mon Sep 17 00:00:00 2001
+From e6ef9b5aac61e3215a786f4ea3f2991526b35cd4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Sep 2025 07:52:54 +0000
-Subject: [PATCH] libcomps: upgrade 0.1.22 -> 0.1.23
+Date: Mon, 15 Sep 2025 09:36:43 +0000
+Subject: [PATCH] gobject-introspection: upgrade 1.84.0 -> 1.86.0
 
 ---
- .../0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch  | 2 +-
- .../libcomps/{libcomps_0.1.22.bb => libcomps_0.1.23.bb}         | 2 +-
+ ...01-Relocate-the-repository-directory-for-native-builds.patch | 2 +-
+ ...-introspection_1.84.0.bb => gobject-introspection_1.86.0.bb} | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/libcomps/{libcomps_0.1.22.bb => libcomps_0.1.23.bb} (94%)
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.84.0.bb => gobject-introspection_1.86.0.bb} (99%)
 
-diff --git a/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-index 6fc0a4177f..39d4347493 100644
---- a/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-+++ b/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+index 510bc426d1..0b87421414 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
 @@ -1,4 +1,4 @@
--From 159ad0e19f4c5d7fe357378c00db19c1106e62c4 Mon Sep 17 00:00:00 2001
-+From b408fd956fb22be6ba27064f3c4a0b1d67282bba Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:22:09 +0200
- Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python.
-diff --git a/meta/recipes-devtools/libcomps/libcomps_0.1.22.bb b/meta/recipes-devtools/libcomps/libcomps_0.1.23.bb
-similarity index 94%
-rename from meta/recipes-devtools/libcomps/libcomps_0.1.22.bb
-rename to meta/recipes-devtools/libcomps/libcomps_0.1.23.bb
-index 796b78ef65..0a9608297a 100644
---- a/meta/recipes-devtools/libcomps/libcomps_0.1.22.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_0.1.23.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git;branch=master;t
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+-From 4e1aa0ddbc43403ff24f644b4c4912b737290c41 Mon Sep 17 00:00:00 2001
++From 1c793642c0f6b198d63ace776559d789f4426442 Mon Sep 17 00:00:00 2001
+ From: Sascha Silbe <x-yo17@se-silbe.de>
+ Date: Fri, 8 Jun 2018 13:55:10 +0200
+ Subject: [PATCH] Relocate the repository directory for native builds
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+similarity index 99%
+rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb
+rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+index f6797cd2e5..2fff132b1d 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
             "
  
--SRCREV = "3f0d19b3c3273db4bf0497f08f22317835c1d426"
-+SRCREV = "e75e85ffd2c7f2a2a96d8eaf45d8dc4f2c73153d"
+-SRC_URI[sha256sum] = "945b57da7ec262e5c266b89e091d14be800cc424277d82a02872b7d794a84779"
++SRC_URI[sha256sum] = "920d1a3fcedeadc32acff95c2e203b319039dd4b4a08dd1a2dfd283d19c0b9ae"
  
- inherit cmake setuptools3-base
+ SRC_URI:append:class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
  
 -- 
 2.47.1
 
 
---===============8562546273197781080==
+--===============2152276474601864932==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gobject-introspection-upgrade-1.84.0-1.86.0.patch"
+
+RnJvbSBlNmVmOWI1YWFjNjFlMzIxNWE3ODZmNGVhM2YyOTkxNTI2YjM1Y2Q0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDk6MzY6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+b2JqZWN0LWludHJvc3BlY3Rpb246IHVwZ3JhZGUgMS44NC4wIC0+IDEuODYuMAoKLS0tCiAuLi4w
+MS1SZWxvY2F0ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0
+Y2ggfCAyICstCiAuLi4taW50cm9zcGVjdGlvbl8xLjg0LjAuYmIgPT4gZ29iamVjdC1pbnRyb3Nw
+ZWN0aW9uXzEuODYuMC5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRy
+b3NwZWN0aW9uL3tnb2JqZWN0LWludHJvc3BlY3Rpb25fMS44NC4wLmJiID0+IGdvYmplY3QtaW50
+cm9zcGVjdGlvbl8xLjg2LjAuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdu
+b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb24vMDAwMS1SZWxv
+Y2F0ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2ggYi9t
+ZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVj
+dGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1
+aWxkcy5wYXRjaAppbmRleCA1MTBiYzQyNmQxLi4wYjg3NDIxNDE0IDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlv
+bi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxk
+cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dv
+YmplY3QtaW50cm9zcGVjdGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9y
+eS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNGUxYWEwZGRi
+YzQzNDAzZmYyNGY2NDRiNGM0OTEyYjczNzI5MGM0MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb20gMWM3OTM2NDJjMGY2YjE5OGQ2M2FjZTc3NjU1OWQ3ODlmNDQyNjQ0MiBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKIEZyb206IFNhc2NoYSBTaWxiZSA8eC15bzE3QHNlLXNpbGJlLmRlPgog
+RGF0ZTogRnJpLCA4IEp1biAyMDE4IDEzOjU1OjEwICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJl
+bG9jYXRlIHRoZSByZXBvc2l0b3J5IGRpcmVjdG9yeSBmb3IgbmF0aXZlIGJ1aWxkcwpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWlu
+dHJvc3BlY3Rpb25fMS44NC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9z
+cGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS44Ni4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24v
+Z29iamVjdC1pbnRyb3NwZWN0aW9uXzEuODQuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdu
+b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS44Ni4wLmJi
+CmluZGV4IGY2Nzk3Y2QyZTUuLjJmZmYxMzJiMWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1n
+bm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9uXzEuODQuMC5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3Qt
+aW50cm9zcGVjdGlvbl8xLjg2LjAuYmIKQEAgLTE2LDcgKzE2LDcgQEAgTElDX0ZJTEVTX0NIS1NV
+TSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YzQzNGU4MTI4YTY4YmVkZDU5YjgwYjJhYzFlYjFjNGEg
+XAogU1JDX1VSSSA9ICIke0dOT01FX01JUlJPUn0vJHtCUE59LyR7QG9lLnV0aWxzLnRyaW1fdmVy
+c2lvbigiJHtQVn0iLCAyKX0vJHtCUE59LSR7UFZ9LnRhci54eiBcCiAgICAgICAgICAgICIKIAot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjk0NWI1N2RhN2VjMjYyZTVjMjY2Yjg5ZTA5MWQxNGJlODAw
+Y2M0MjQyNzdkODJhMDI4NzJiN2Q3OTRhODQ3NzkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTIw
+ZDFhM2ZjZWRlYWRjMzJhY2ZmOTVjMmUyMDNiMzE5MDM5ZGQ0YjRhMDhkZDFhMmRmZDI4M2QxOWMw
+YjlhZSIKIAogU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBmaWxlOi8vMDAwMS1SZWxv
+Y2F0ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2giCiAK
+LS0gCjIuNDcuMQoK
+
+--===============2152276474601864932==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libcomps: PV changed from "0.1.22" to "0.1.23"
-packages/x86-64-v3-poky-linux/libcomps: PKGV changed from 0.1.22 [default] to 0.1.23 [default]
-packages/x86-64-v3-poky-linux/libcomps: SRC_URI changed from "git://github.com/rpm-software-management/libcomps.git;branch=master;tag=0.1.22;protocol=https file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch" to "git://github.com/rpm-software-management/libcomps.git;branch=master;tag=0.1.23;protocol=https file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch"
-packages/x86-64-v3-poky-linux/libcomps/libcomps-dbg: PV changed from "0.1.22" to "0.1.23"
-packages/x86-64-v3-poky-linux/libcomps/libcomps-dbg: PKGV changed from 0.1.22 [default] to 0.1.23 [default]
-packages/x86-64-v3-poky-linux/libcomps/libcomps-dbg: PKGSIZE changed from 720032 to 721784 (+0%)
-packages/x86-64-v3-poky-linux/libcomps/libcomps-dev: PV changed from "0.1.22" to "0.1.23"
-packages/x86-64-v3-poky-linux/libcomps/libcomps-dev: PKGV changed from 0.1.22 [default] to 0.1.23 [default]
-packages/x86-64-v3-poky-linux/libcomps/libcomps-doc: PV changed from "0.1.22" to "0.1.23"
-packages/x86-64-v3-poky-linux/libcomps/libcomps-doc: PKGV changed from 0.1.22 [default] to 0.1.23 [default]
-packages/x86-64-v3-poky-linux/libcomps/libcomps-locale: PV changed from "0.1.22" to "0.1.23"
-packages/x86-64-v3-poky-linux/libcomps/libcomps-locale: PKGV changed from 0.1.22 [default] to 0.1.23 [default]
-packages/x86-64-v3-poky-linux/libcomps/libcomps-src: PV changed from "0.1.22" to "0.1.23"
-packages/x86-64-v3-poky-linux/libcomps/libcomps-src: PKGV changed from 0.1.22 [default] to 0.1.23 [default]
-packages/x86-64-v3-poky-linux/libcomps/libcomps-src: PKGSIZE changed from 816714 to 817484 (+0%)
-packages/x86-64-v3-poky-linux/libcomps/libcomps-staticdev: PV changed from "0.1.22" to "0.1.23"
-packages/x86-64-v3-poky-linux/libcomps/libcomps-staticdev: PKGV changed from 0.1.22 [default] to 0.1.23 [default]
-packages/x86-64-v3-poky-linux/libcomps/libcomps: PV changed from "0.1.22" to "0.1.23"
-packages/x86-64-v3-poky-linux/libcomps/libcomps: PKGV changed from 0.1.22 [default] to 0.1.23 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dbg: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGSIZE changed from 1872144 to 1872848 (+0%)
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dev: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-dev: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-doc: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-doc: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-locale: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-locale: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-src: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-src: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-src: PKGSIZE changed from 318659 to 322800 (+1%)
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-staticdev: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-staticdev: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-tools: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-tools: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection-tools: PKGSIZE changed from 981450 to 992235 (+1%)
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection/gobject-introspection: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection: PKGV changed from 1.84.0 [default] to 1.86.0 [default]
+packages/x86-64-v3-poky-linux/gobject-introspection: PV changed from "1.84.0" to "1.86.0"
+packages/x86-64-v3-poky-linux/gobject-introspection: SRC_URI changed from "https://download.gnome.org/sources//gobject-introspection/1.84/gobject-introspection-1.84.0.tar.xz" to "https://download.gnome.org/sources//gobject-introspection/1.86/gobject-introspection-1.86.0.tar.xz"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
@@ -2061,51 +2116,7 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============8562546273197781080==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libcomps-upgrade-0.1.22-0.1.23.patch"
-
-RnJvbSBlMWQyYmNkNmIwMWU3MDY1ODUwMzU3M2IyMGU1ZWEyN2E1MzM0YThmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDc6NTI6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJjb21wczogdXBncmFkZSAwLjEuMjIgLT4gMC4xLjIzCgotLS0KIC4uLi8wMDAxLURvLW5vdC1z
-ZXQtUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoICB8IDIgKy0KIC4u
-Li9saWJjb21wcy97bGliY29tcHNfMC4xLjIyLmJiID0+IGxpYmNvbXBzXzAuMS4yMy5iYn0gICAg
-ICAgICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
-cygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJjb21wcy97bGliY29tcHNfMC4x
-LjIyLmJiID0+IGxpYmNvbXBzXzAuMS4yMy5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvbGliY29tcHMvbGliY29tcHMvMDAwMS1Eby1ub3Qtc2V0LVBZVEhPTl9J
-TlNUQUxMX0RJUi1ieS1ydW5uaW5nLXB5dGhvbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9saWJjb21wcy9saWJjb21wcy8wMDAxLURvLW5vdC1zZXQtUFlUSE9OX0lOU1RBTExfRElSLWJ5
-LXJ1bm5pbmctcHl0aG9uLnBhdGNoCmluZGV4IDZmYzBhNDE3N2YuLjM5ZDQzNDc0OTMgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJjb21wcy9saWJjb21wcy8wMDAxLURvLW5v
-dC1zZXQtUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoCisrKyBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9saWJjb21wcy9saWJjb21wcy8wMDAxLURvLW5vdC1zZXQtUFlU
-SE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
-RnJvbSAxNTlhZDBlMTlmNGM1ZDdmZTM1NzM3OGMwMGRiMTljMTEwNmU2MmM0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQorRnJvbSBiNDA4ZmQ5NTZmYjIyYmU2YmEyNzA2NGYzYzRhMGIxZDY3Mjgy
-YmJhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFs
-ZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDMwIERlYyAyMDE2IDE4OjIyOjA5ICsw
-MjAwCiBTdWJqZWN0OiBbUEFUQ0hdIERvIG5vdCBzZXQgUFlUSE9OX0lOU1RBTExfRElSIGJ5IHJ1
-bm5pbmcgcHl0aG9uLgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmNvbXBz
-L2xpYmNvbXBzXzAuMS4yMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJjb21wcy9saWJj
-b21wc18wLjEuMjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2xpYmNvbXBzL2xpYmNvbXBzXzAuMS4yMi5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2xpYmNvbXBzL2xpYmNvbXBzXzAuMS4yMy5iYgppbmRleCA3OTZiNzhl
-ZjY1Li4wYTk2MDgyOTdhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliY29t
-cHMvbGliY29tcHNfMC4xLjIyLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJjb21w
-cy9saWJjb21wc18wLjEuMjMuYmIKQEAgLTgsNyArOCw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0
-aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVudC9saWJjb21wcy5naXQ7YnJhbmNoPW1hc3Rl
-cjt0CiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURvLW5vdC1zZXQtUFlUSE9OX0lOU1RBTExfRElS
-LWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAiM2Yw
-ZDE5YjNjMzI3M2RiNGJmMDQ5N2YwOGYyMjMxNzgzNWMxZDQyNiIKK1NSQ1JFViA9ICJlNzVlODVm
-ZmQyYzdmMmEyYTk2ZDhlYWY0NWQ4ZGM0ZjJjNzMxNTNkIgogCiBpbmhlcml0IGNtYWtlIHNldHVw
-dG9vbHMzLWJhc2UKIAotLSAKMi40Ny4xCgo=
-
---===============8562546273197781080==
+--===============2152276474601864932==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -4034,5 +4045,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============8562546273197781080==--
+--===============2152276474601864932==--
 
