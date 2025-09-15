@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C56A1CAC5B9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0D32CAC5BD
 	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:54:48 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.30886.1757937278971684233
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.30902.1757937287580118815
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Sep 2025 04:54:39 -0700
+ Mon, 15 Sep 2025 04:54:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=qjKkmuO+;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=sVfH1LZX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101994d3a1d4c-6cce3865-767b-416b-8cfb-98325702d8e5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=m1vAiGs2;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=jQovZTxI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101994d3a3f14-0b2a2c0a-ac9d-4a63-88ed-ba9df6250073-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1757937278;
+	t=1757937287;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=T88DY3Bj7g8Co28u5fLS6hV/kpD7LOe4kbsaY5r8m3o=;
-	b=qjKkmuO+Y3ajxkwJfr9wCbaaiGKcxpXRQUF64vCniQP+1wX0Uw2wgWhbI+ruQ8M4
-	RarJnEm6RA/z9E5Amx8/tss4wBYLD3KM5bLbqRfe63Hwl9q0eGxQ7D1as94eb+8ZbSh
-	b2k7HMT66FSsQBbXLRjd1px+1iXHA/aTLRpn3K4Q=
+	bh=PaOtRymbQ5OdkhDIIoaJ5cF778xhoq31c53Y/oj4Wmg=;
+	b=m1vAiGs2vYhwc7qlCXHuuPQe8PyfYNbZcBJ8zCsQ5wUD1TRRn13xBGIyYXB/NqR6
+	8f+TqgdUQFTGJrXPIQXslDLpFKuR0LuEeOoatSYvLtXV9mD/sSd1MiBJ5wG+leLwIaN
+	IyPFeJRk0ApeMSTfJp/P35ubzethsWKzHI1WhMBI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937278;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937287;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=T88DY3Bj7g8Co28u5fLS6hV/kpD7LOe4kbsaY5r8m3o=;
-	b=sVfH1LZXukrPuPpkEdt1jXwA+BC/fH/v7FnmjmwPQuvdT6xyGOxG8xcHCqFzCjD1
-	/pqKbKPNsG7/+S+MqGUKFgOxXSE1lPnXPAEXoGB+3/j5CSqU5Eq+3UP1d4EcRHF3j8B
-	7woSBJxI0SDB1WVi3wQll4yJ1YfpWPimJ9s9Njkk=
-Content-Type: multipart/mixed; boundary="===============1592505022907381722=="
+	bh=PaOtRymbQ5OdkhDIIoaJ5cF778xhoq31c53Y/oj4Wmg=;
+	b=jQovZTxIN80nq3HWmKI/7nW8a4iQGs9RasIwuaPmmxGbwL08Plak9P0ds167QyaC
+	/dr88+cijwoovmSM1dCYwkQNr09nt3o/fPO6U+uS1Ww4TY0B2RhE62tl06ALa05B/Xh
+	qPqxN5kgijPY61xl2VOMxrqI3PBKPgsWkxiBcZPY=
+Content-Type: multipart/mixed; boundary="===============3770861576928051320=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] kbd: upgrading to 2.9.0 FAILED
-Message-ID: <010101994d3a1d4c-6cce3865-767b-416b-8cfb-98325702d8e5-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Sep 2025 11:54:38 +0000
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gdk-pixbuf: upgrading to 2.44.1 FAILED
+Message-ID: <010101994d3a3f14-0b2a2c0a-ac9d-4a63-88ed-ba9df6250073-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Sep 2025 11:54:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.15-54.240.27.33
+X-SES-Outgoing: 2025.09.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:54:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223416
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223444
 
---===============1592505022907381722==
+--===============3770861576928051320==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,104 +51,15 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *kbd* to *2.9.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *gdk-pixbuf* to *2.44.1* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-kbd-upgrade-2.8.0-2.9.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 0e5ac8ae5404bb981887f56cdf2852aae47d7839 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Sep 2025 07:23:21 +0000
-Subject: [PATCH] kbd: upgrade 2.8.0 -> 2.9.0
-
----
- meta/recipes-core/kbd/{kbd_2.8.0.bb => kbd_2.9.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/kbd/{kbd_2.8.0.bb => kbd_2.9.0.bb} (96%)
-
-diff --git a/meta/recipes-core/kbd/kbd_2.8.0.bb b/meta/recipes-core/kbd/kbd_2.9.0.bb
-similarity index 96%
-rename from meta/recipes-core/kbd/kbd_2.8.0.bb
-rename to meta/recipes-core/kbd/kbd_2.9.0.bb
-index ababa09918..2a0c5bc1b1 100644
---- a/meta/recipes-core/kbd/kbd_2.8.0.bb
-+++ b/meta/recipes-core/kbd/kbd_2.9.0.bb
-@@ -26,7 +26,7 @@ RCONFLICTS:${PN} = "console-tools"
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
-            "
- 
--SRC_URI[sha256sum] = "01f5806da7d1d34f594b7b2a6ae1ab23215344cf1064e8edcd3a90fef9776a11"
-+SRC_URI[sha256sum] = "fb3197f17a99eb44d22a3a1a71f755f9622dd963e66acfdea1a45120951b02ed"
- 
- # 'gzip -n' is set due to https://github.com/legionus/kbd/issues/124
- EXTRA_OECONF = "--disable-tests --enable-compress='gzip -n'"
--- 
-2.47.1
-
-
---===============1592505022907381722==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-kbd-upgrade-2.8.0-2.9.0.patch"
-
-RnJvbSAwZTVhYzhhZTU0MDRiYjk4MTg4N2Y1NmNkZjI4NTJhYWU0N2Q3ODM5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDc6MjM6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
-YmQ6IHVwZ3JhZGUgMi44LjAgLT4gMi45LjAKCi0tLQogbWV0YS9yZWNpcGVzLWNvcmUva2JkL3tr
-YmRfMi44LjAuYmIgPT4ga2JkXzIuOS4wLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL2tiZC97
-a2JkXzIuOC4wLmJiID0+IGtiZF8yLjkuMC5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtY29yZS9rYmQva2JkXzIuOC4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8y
-LjkuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29y
-ZS9rYmQva2JkXzIuOC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkXzIu
-OS4wLmJiCmluZGV4IGFiYWJhMDk5MTguLjJhMGM1YmMxYjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1jb3JlL2tiZC9rYmRfMi44LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2ti
-ZF8yLjkuMC5iYgpAQCAtMjYsNyArMjYsNyBAQCBSQ09ORkxJQ1RTOiR7UE59ID0gImNvbnNvbGUt
-dG9vbHMiCiBTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vbGludXgvdXRpbHMvJHtCUE59
-LyR7QlB9LnRhci54eiBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAx
-ZjU4MDZkYTdkMWQzNGY1OTRiN2IyYTZhZTFhYjIzMjE1MzQ0Y2YxMDY0ZThlZGNkM2E5MGZlZjk3
-NzZhMTEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmIzMTk3ZjE3YTk5ZWI0NGQyMmEzYTFhNzFm
-NzU1Zjk2MjJkZDk2M2U2NmFjZmRlYTFhNDUxMjA5NTFiMDJlZCIKIAogIyAnZ3ppcCAtbicgaXMg
-c2V0IGR1ZSB0byBodHRwczovL2dpdGh1Yi5jb20vbGVnaW9udXMva2JkL2lzc3Vlcy8xMjQKIEVY
-VFJBX09FQ09ORiA9ICItLWRpc2FibGUtdGVzdHMgLS1lbmFibGUtY29tcHJlc3M9J2d6aXAgLW4n
-IgotLSAKMi40Ny4xCgo=
-
---===============1592505022907381722==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
+Running 'devtool upgrade' for recipe gdk-pixbuf failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1940 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (943 cached, 1 parsed). 1939 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
+Loaded 1939 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -158,145 +69,70 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-678649c60b8f50ebe92a0431ca11984f987f22de"
+DISTRO_VERSION       = "5.2.99+snapshot-8916a3c7c45899fcbb44a75c7072fb8391678c3b"
 TUNE_FEATURES        = "m64 x86-64-v3"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:678649c60b8f50ebe92a0431ca11984f987f22de"
+workspace            = "tmp-auh-upgrades:8916a3c7c45899fcbb44a75c7072fb8391678c3b"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 117 Local 105 Mirrors 0 Missed 12 Current 270 (89% match, 96% complete)
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1040 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_recipe_qa)
-NOTE: recipe kbd-2.9.0-r0: task do_recipe_qa: Started
-NOTE: recipe kbd-2.9.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1127 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_fetch)
-NOTE: recipe kbd-2.9.0-r0: task do_fetch: Started
-NOTE: recipe kbd-2.9.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1128 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_unpack)
-NOTE: Running task 1129 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe kbd-2.9.0-r0: task do_unpack: Started
-NOTE: recipe kbd-2.9.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe kbd-2.9.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1130 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_patch)
-NOTE: Running task 1131 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_collect_spdx_deps)
-NOTE: recipe kbd-2.9.0-r0: task do_patch: Started
-NOTE: recipe kbd-2.9.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe kbd-2.9.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe kbd-2.9.0-r0: task do_patch: Succeeded
-NOTE: Running task 1132 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1133 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_populate_lic)
-NOTE: recipe kbd-2.9.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe kbd-2.9.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe kbd-2.9.0-r0: task do_populate_lic: Started
-NOTE: recipe kbd-2.9.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe kbd-2.9.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1134 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_configure)
-NOTE: recipe kbd-2.9.0-r0: task do_configure: Started
-NOTE: recipe kbd-2.9.0-r0: task do_configure: Succeeded
-NOTE: Running task 1135 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_compile)
-NOTE: recipe kbd-2.9.0-r0: task do_compile: Started
-NOTE: recipe kbd-2.9.0-r0: task do_compile: Succeeded
-NOTE: Running task 1136 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_install)
-NOTE: recipe kbd-2.9.0-r0: task do_install: Started
-NOTE: recipe kbd-2.9.0-r0: task do_install: Succeeded
-NOTE: Running task 1137 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_package)
-NOTE: Running task 1138 of 1146 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_populate_sysroot)
-NOTE: recipe kbd-2.9.0-r0: task do_populate_sysroot: Started
-NOTE: recipe kbd-2.9.0-r0: task do_package: Started
-NOTE: recipe kbd-2.9.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe kbd-2.9.0-r0: task do_package: Failed
-NOTE: Tasks Summary: Attempted 1138 tasks of which 1125 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250915072252.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250915072252.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 945 .bb files complete (0 cached, 945 parsed). 1940 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_package
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/kbd/2.9.0/temp/log.do_package.3594836
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: kbd-2.9.0-r0 do_package: Error executing a python function in exec_func_python() autogenerated:
+Build Configuration:
+BB_VERSION           = "2.15.2"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-8916a3c7c45899fcbb44a75c7072fb8391678c3b"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:8916a3c7c45899fcbb44a75c7072fb8391678c3b"
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:sstate_report_unihash(d)
-     0003:
-File: '/srv/pokybuild/yocto-worker/auh/build/meta/classes-global/sstate.bbclass', lineno: 915, function: sstate_report_unihash
-     0911:    report_unihash = getattr(bb.parse.siggen, 'report_unihash', None)
-     0912:
-     0913:    if report_unihash:
-     0914:        ss = sstate_state_fromvars(d)
- *** 0915:        report_unihash(os.getcwd(), ss['task'], d)
-     0916:}
-     0917:
-     0918:#
-     0919:# Shell function to decompress and prepare a package for installation
-File: '/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/siggen.py', lineno: 784, function: report_unihash
-     0780:
-     0781:            if "." in self.method:
-     0782:                (module, method) = self.method.rsplit('.', 1)
-     0783:                locs['method'] = getattr(importlib.import_module(module), method)
- *** 0784:                outhash = bb.utils.better_eval('method(path, sigfile, task, d)', locs)
-     0785:            else:
-     0786:                outhash = bb.utils.better_eval(self.method + '(path, sigfile, task, d)', locs)
-     0787:
-     0788:            try:
-File: '/srv/pokybuild/yocto-worker/auh/build/bitbake/lib/bb/utils.py', lineno: 489, function: better_eval
-     0485:    if extraglobals:
-     0486:        ctx = copy.copy(ctx)
-     0487:        for g in extraglobals:
-     0488:            ctx[g] = extraglobals[g]
- *** 0489:    return eval(source, ctx, locals)
-     0490:
-     0491:@contextmanager
-     0492:def fileslocked(files, *args, **kwargs):
-     0493:    """Context manager for locking and unlocking file locks. Uses
-File: '<string>', lineno: 1, function: <module>
-  File "<string>", line 1, in <module>
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://download.gnome.org/sources//gdk-pixbuf/2.44/gdk-pixbuf-2.44.1.tar.xz...
+INFO: Rebasing devtool onto c9746547d7e795475dfc744f9483d98a66ecb916
+WARNING: Command 'git rebase c9746547d7e795475dfc744f9483d98a66ecb916' failed:
+Auto-merging meson.build
+CONFLICT (content): Merge conflict in meson.build
 
-File: '/srv/pokybuild/yocto-worker/auh/build/meta/lib/oe/sstatesig.py', lineno: 726, function: OEOuthashBasic
-     0722:                process(root)
-     0723:            for f in files:
-     0724:                if f == 'fixmepath':
-     0725:                    continue
- *** 0726:                process(os.path.join(root, f))
-     0727:
-     0728:            for dir in dirs:
-     0729:                if os.path.islink(os.path.join(root, dir)):
-     0730:                    process(os.path.join(root, dir))
-File: '/srv/pokybuild/yocto-worker/auh/build/meta/lib/oe/sstatesig.py', lineno: 661, function: process
-     0657:                    except KeyError as e:
-     0658:                        msg = ("KeyError: %s\nPath %s is owned by uid %d, gid %d, which doesn't match "
-     0659:                            "any user/group on target. This may be due to host contamination." %
-     0660:                            (e, os.path.abspath(path), s.st_uid, s.st_gid))
- *** 0661:                        raise Exception(msg).with_traceback(e.__traceback__)
-     0662:
-     0663:                if include_timestamps:
-     0664:                    # Need to clamp to SOURCE_DATE_EPOCH
-     0665:                    if s.st_mtime > source_date_epoch:
-File: '/srv/pokybuild/yocto-worker/auh/build/meta/lib/oe/sstatesig.py', lineno: 655, function: process
-     0651:                    else:
-     0652:                        add_perm(stat.S_IXOTH, 'x')
-     0653:
-     0654:                    try:
- *** 0655:                        update_hash(" %10s" % pwd.getpwuid(s.st_uid).pw_name)
-     0656:                        update_hash(" %10s" % grp.getgrgid(s.st_gid).gr_name)
-     0657:                    except KeyError as e:
-     0658:                        msg = ("KeyError: %s\nPath %s is owned by uid %d, gid %d, which doesn't match "
-     0659:                            "any user/group on target. This may be due to host contamination." %
-Exception: Exception: KeyError: 'getpwuid(): uid not found: 6000'
-Path /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/kbd/2.9.0/sstate-build-package/package/usr/share/consolefonts/161.cp.gz is owned by uid 6000, gid 6000, which doesn't match any user/group on target. This may be due to host contamination.
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/gdk-pixbuf
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/gdk-pixbuf/gdk-pixbuf_2.44.1.bb
 
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/kbd/2.9.0/temp/log.do_package.3594836
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/kbd/kbd_2.9.0.bb:do_package) failed with exit code '1'
 
---===============1592505022907381722==--
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============3770861576928051320==--
 
