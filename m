@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6B87CAC5A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBF7CAC5A6
 	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:54:47 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.30922.1757937279454211387
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.30884.1757937276286159986
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Sep 2025 04:54:45 -0700
+ Mon, 15 Sep 2025 04:54:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=mki1tufR;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=pIlP3k08;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101994d3a36b3-12bec4ab-6657-4023-80d6-859bdba85bb4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=0q3S6Lfe;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=c9ZL777L;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101994d3a1dce-1de30785-7439-49b3-9b86-59ad80a9aa56-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1757937284;
+	t=1757937278;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7pjyAaxVy048f6dnk1JI1cXXNKQ0sD8f3q+/Iog6ed0=;
-	b=mki1tufRJWT3knbLs302snK1ZR7kSZekSu9pWNQ2K/PpW24wXRShPqYF2UhunqIU
-	4lmEyxanrJvzziahvgkmQvtfQSqhEoex01sCJE+RZ56xbBFYuNUXBj//2wTBEUFf0YI
-	6cM/z2Hf7Cb7caQtARyLGTYWIk26U1Xn1q+rA8TY=
+	bh=GIfc55pGEYGTvjWj3W7HraQVlPocIbdSeSLvYXZjavo=;
+	b=0q3S6Lfe43Cq/YjeixO1E5v91SHrm4Zo5Njk/ZKmZ8eXtUVLWBr1lODKxDEiHZFj
+	M48KJj68H5evhGshcEXURUc+DATdEhFuspzyNqhEyeBV9iFfJPO/YMKsZBE6aTYs0Ox
+	Kb19V1+7C7LVuR+DX2uVRhczGrVPqUUu2EnY/dDI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937284;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937278;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7pjyAaxVy048f6dnk1JI1cXXNKQ0sD8f3q+/Iog6ed0=;
-	b=pIlP3k08mk5xdJh2fHG3b+DQDR3zbja27jHKCmOcq8LZxlZMYNRMru8myTGGTBsK
-	5of7Zag8znl3cWyp4Ty8zRcHQQdDw/GVkVCTOthWNi3s7IBYaO6MwHcRYm8Gqu2+0Zq
-	ntOCezDV/2zydok/FJKEGhAInwS64mAe9zhWvpCA=
-Content-Type: multipart/mixed; boundary="===============6448579956824323088=="
+	bh=GIfc55pGEYGTvjWj3W7HraQVlPocIbdSeSLvYXZjavo=;
+	b=c9ZL777LP7xEIADsOQIbuDV1J8s8jzWV8vCKrH1jaB8TDRH82tpzPn9xCXKKYep3
+	OsHsx5UKpCWs/C1Xo1qlb1L8kjmaGyvXAvnTp98X1RksxaQT1gbm1jbEK2bQnoN096a
+	fcIHpifFpEWrzF/gs1BIdwbAPDDHfqgagdkJpWiw=
+Content-Type: multipart/mixed; boundary="===============3858031650216913057=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] tcl8: upgrading to 8.6.17 SUCCEEDED
-Message-ID: <010101994d3a36b3-12bec4ab-6657-4023-80d6-859bdba85bb4-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Sep 2025 11:54:44 +0000
+Subject: [AUH] ccache: upgrading to 4.12 SUCCEEDED
+Message-ID: <010101994d3a1dce-1de30785-7439-49b3-9b86-59ad80a9aa56-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Sep 2025 11:54:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.15-54.240.27.30
+X-SES-Outgoing: 2025.09.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:54:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223436
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223413
 
---===============6448579956824323088==
+--===============3858031650216913057==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *tcl8* to *8.6.17* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ccache* to *4.12* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-tcl8-upgrade-8.6.16-8.6.17.patch
+    - apply the patch: git am 0001-ccache-upgrade-4.11.3-4.12.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,411 +72,194 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6955f3ca43b1a9a9673e82e4633fcca3e35780f4 Mon Sep 17 00:00:00 2001
+From 5cdbf2190f70622cedcdef9d4146be4cfd23e8fd Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Sep 2025 08:42:10 +0000
-Subject: [PATCH] tcl8: upgrade 8.6.16 -> 8.6.17
+Date: Mon, 15 Sep 2025 07:49:04 +0000
+Subject: [PATCH] ccache: upgrade 4.11.3 -> 4.12
 
 ---
- ...ric-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch | 6 +++---
- meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch  | 8 ++++----
- .../tcltk8/tcl8/fix_non_native_build_issue.patch          | 4 ++--
- meta/recipes-devtools/tcltk8/tcl8/interp.patch            | 6 +++---
- meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch    | 4 ++--
- .../tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch   | 4 ++--
- .../tcltk8/{tcl8_8.6.16.bb => tcl8_8.6.17.bb}             | 2 +-
- 7 files changed, 17 insertions(+), 17 deletions(-)
- rename meta/recipes-devtools/tcltk8/{tcl8_8.6.16.bb => tcl8_8.6.17.bb} (98%)
+ .../{ccache_4.11.3.bb => ccache_4.12.bb}      | 44 ++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/ccache/{ccache_4.11.3.bb => ccache_4.12.bb} (45%)
 
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch b/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch
-index 1859992838..a4b407bff9 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch
-@@ -1,4 +1,4 @@
--From ff508f2e6786df697876140f21855ecb92a3ed36 Mon Sep 17 00:00:00 2001
-+From 540c8f578216c6d591c9555d53f1b1d58f510dae Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 18 Aug 2023 12:25:11 +0200
- Subject: [PATCH] generic/tcl.h: use Tcl_WideInt for seconds in Tcl_Time
-@@ -19,10 +19,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/ccache/ccache_4.11.3.bb b/meta/recipes-devtools/ccache/ccache_4.12.bb
+similarity index 45%
+rename from meta/recipes-devtools/ccache/ccache_4.11.3.bb
+rename to meta/recipes-devtools/ccache/ccache_4.12.bb
+index 83374fa44c..e6be988acb 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.11.3.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.12.bb
+@@ -1,3 +1,43 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.adoc
++# +++ LICENSE.adoc
++# @@ -50,7 +50,7 @@
++#  
++#  === src/third_party/blake3/blake3/*
++#  
++# -This is a subset of https://github.com/BLAKE3-team/BLAKE3[BLAKE3] 1.6.1 with the
++# +This is a subset of https://github.com/BLAKE3-team/BLAKE3[BLAKE3] 1.8.2 with the
++#  following license:
++#  
++#  ----
++# @@ -390,7 +390,7 @@
++#  === src/third_party/cpp-httplib/httplib.h
++#  
++#  cpp-httplib - A C++11 cross-platform HTTP/HTTPS library. Copied from cpp-httplib
++# -v0.19.0 downloaded from https://github.com/yhirose/cpp-httplib[cpp-httplib]. The
++# +v0.20.0 downloaded from https://github.com/yhirose/cpp-httplib[cpp-httplib]. The
++#  library has the following license:
++#  
++#  ----
++# @@ -521,7 +521,7 @@
++#  
++#  === src/third_party/tl-expected/tl/expected.hpp
++#  
++# -This is https://github.com/TartanLlama/expected[TartanLlama expected] 1.1.0 with
++# +This is https://github.com/TartanLlama/expected[TartanLlama expected] 1.3.1 with
++#  the following license:
++#  
++#  ----
++# 
++#
++
+ SUMMARY = "a fast C/C++ compiler cache"
+ DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
+ by caching the result of previous compilations and detecting when the \
+@@ -7,7 +47,7 @@ HOMEPAGE = "http://ccache.samba.org"
+ SECTION = "devel"
  
- diff --git a/generic/tcl.h b/generic/tcl.h
--index 3a4622e..6204c57 100644
-+index d8fd70a..ffff4b1 100644
- --- a/generic/tcl.h
- +++ b/generic/tcl.h
--@@ -1418,7 +1418,7 @@ typedef enum {
-+@@ -1425,7 +1425,7 @@ typedef enum {
-   */
-  
-  typedef struct Tcl_Time {
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
-index 6ceb297cea..1db9b8a7fe 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
-@@ -1,4 +1,4 @@
--From 8bb8174e13c1c0e3b27fdf96a393f9fb1b7e14be Mon Sep 17 00:00:00 2001
-+From 7babb8e0bd8f37500d31f18d9b8a60f207d78eae Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Tue, 22 Nov 2022 18:48:27 +0800
- Subject: [PATCH] tcl: update the header location
-@@ -26,7 +26,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-  3 files changed, 4 insertions(+), 4 deletions(-)
+ LICENSE = "GPL-3.0-or-later & MIT & BSL-1.0 & ISC"
+-LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=b98c3470e22877fefa43a01a2dd0669c \
++LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=5633f18ca110f0d4cb907eba07c920ef \
+                     file://src/third_party/cpp-httplib/httplib.h;endline=6;md5=663aca6f84e7d67ade228aad32afc0ea \
+                     file://src/third_party/nonstd-span/nonstd/span.hpp;endline=9;md5=b4af92a7f068b38c5b3410dceb30c186 \
+                     file://src/third_party/win32-compat/win32/mktemp.c;endline=17;md5=d287e9c1f1cd2bb2bd164490e1cf449a \
+@@ -17,7 +57,7 @@ DEPENDS = "zstd fmt xxhash"
  
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index c3b75e3..60ed93e 100644
-+index 45e7b76..5a46e6a 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
- @@ -57,7 +57,7 @@ SCRIPT_INSTALL_DIR	= $(INSTALL_ROOT)$(TCL_LIBRARY)
-@@ -39,7 +39,7 @@ index c3b75e3..60ed93e 100644
-  # Path to the private tcl header dir:
-  PRIVATE_INCLUDE_DIR	= @PRIVATE_INCLUDE_DIR@
- diff --git a/unix/configure.in b/unix/configure.in
--index 8e6726b..2345689 100644
-+index 50b3e03..8a33d0c 100644
- --- a/unix/configure.in
- +++ b/unix/configure.in
- @@ -775,7 +775,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
-@@ -51,7 +51,7 @@ index 8e6726b..2345689 100644
-  HTML_DIR='$(DISTDIR)/html'
-  
-  # Note:  in the following variable, it's important to use the absolute
--@@ -898,7 +898,7 @@ TCL_BUILD_STUB_LIB_PATH="`pwd`/${TCL_STUB_LIB_FILE}"
-+@@ -896,7 +896,7 @@ TCL_BUILD_STUB_LIB_PATH="`pwd`/${TCL_STUB_LIB_FILE}"
-  TCL_STUB_LIB_PATH="${TCL_STUB_LIB_DIR}/${TCL_STUB_LIB_FILE}"
-  
-  # Install time header dir can be set via --includedir
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
-index 61153878fe..4ab2d852e5 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
-@@ -1,4 +1,4 @@
--From 3d11e7fd9aba6251974d990286347c06582e87b9 Mon Sep 17 00:00:00 2001
-+From b1a0866c3b9736d81feeb55201683e74ccd688d1 Mon Sep 17 00:00:00 2001
- From: Nitin A Kamble <nitin.a.kamble@intel.com>
- Date: Fri, 13 Aug 2010 12:24:00 -0700
- Subject: [PATCH] tcl: fix a build issue
-@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 10 insertions(+), 10 deletions(-)
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
  
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index a2f9e21..c3b75e3 100644
-+index ab2e7b5..45e7b76 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
- @@ -723,7 +723,7 @@ tcltest-real:
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/interp.patch b/meta/recipes-devtools/tcltk8/tcl8/interp.patch
-index aeebb038e3..94d270d719 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/interp.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/interp.patch
-@@ -1,4 +1,4 @@
--From 09049beed723243d092ffaa37939dfe0f2ed6828 Mon Sep 17 00:00:00 2001
-+From e129dd0d8caef525320578a0c4138c7195a71050 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Mon, 12 Jul 2021 14:50:13 +0100
- Subject: [PATCH] tcl: fix race in interp.test
-@@ -13,10 +13,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-  1 file changed, 4 insertions(+), 3 deletions(-)
+-SRC_URI[sha256sum] = "28a407314f03a7bd7a008038dbaffa83448bc670e2fc119609b1d99fb33bb600"
++SRC_URI[sha256sum] = "e884c62cbacae2e9488b8641a671a79fb7a1221db01310dacef61c9e55c2e55b"
  
- diff --git a/tests/interp.test b/tests/interp.test
--index 24ffb1b..c6460ad 100644
-+index d64fdd4..9931dd1 100644
- --- a/tests/interp.test
- +++ b/tests/interp.test
--@@ -3614,17 +3614,18 @@ test interp-36.7 {ChildBgerror sets error handler of child [1999035]} -setup {
-+@@ -3651,17 +3651,18 @@ test interp-36.7 {ChildBgerror sets error handler of child [1999035]} -setup {
-          variable result
-          set result [lindex $args 0]
-      }
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-index 898e8241fc..03ec186970 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-@@ -1,4 +1,4 @@
--From 0d8e567d132e050c5d4a8d8d9257417e0679483c Mon Sep 17 00:00:00 2001
-+From 2590b6937048f3fb5a87d1a94d9332055886185d Mon Sep 17 00:00:00 2001
- From: Richard Purdie <rpurdie@linux.intel.com>
- Date: Wed, 9 Dec 2009 23:59:44 +0000
- Subject: [PATCH] tcl: Add tcltk from OE.dev but with legacy staging function
-@@ -11,7 +11,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  2 files changed, 7 insertions(+), 1 deletion(-)
- 
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index bc743b3..a2f9e21 100644
-+index 3efdfec..ab2e7b5 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
- @@ -812,7 +812,10 @@ install-binaries: binaries
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-index f2a37add7d..4a81adf07b 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-@@ -1,4 +1,4 @@
--From 6e3cbc3600ac474776e92eb9a88abcb74299c321 Mon Sep 17 00:00:00 2001
-+From 9904bd5397489b2f8b4e65f0e9fdebb81ef88b30 Mon Sep 17 00:00:00 2001
- From: "Song.Li" <Song.Li@windriver.com>
- Date: Wed, 1 Aug 2012 19:05:51 +0800
- Subject: [PATCH] tcl:install tcl to lib64 instead of lib on 64bit target
-@@ -17,7 +17,7 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/unix/configure.in b/unix/configure.in
--index e88ec3c..8e6726b 100644
-+index ed07ca5..50b3e03 100644
- --- a/unix/configure.in
- +++ b/unix/configure.in
- @@ -774,7 +774,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
-diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-similarity index 98%
-rename from meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
-rename to meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-index 225f04be48..d4bdd71c05 100644
---- a/meta/recipes-devtools/tcltk8/tcl8_8.6.16.bb
-+++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-@@ -25,7 +25,7 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://run-ptest \
-            file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch \
-            "
--SRC_URI[sha256sum] = "3b371386a9a928eecdbf263bcab7d6a531e620ca3fbab4fdeeb3d6a9a56f38e9"
-+SRC_URI[sha256sum] = "a1d8cbe44b38beaa29fc2130c4e7b79b8bf02e2bcc028ffefd7a25a2122202a0"
- 
- SRC_URI:class-native = "${BASE_SRC_URI}"
+ inherit cmake github-releases
  
 -- 
 2.47.1
 
 
---===============6448579956824323088==
+--===============3858031650216913057==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ccache-upgrade-4.11.3-4.12.patch"
+
+RnJvbSA1Y2RiZjIxOTBmNzA2MjJjZWRjZGVmOWQ0MTQ2YmU0Y2ZkMjNlOGZkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDc6NDk6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+Y2FjaGU6IHVwZ3JhZGUgNC4xMS4zIC0+IDQuMTIKCi0tLQogLi4uL3tjY2FjaGVfNC4xMS4zLmJi
+ID0+IGNjYWNoZV80LjEyLmJifSAgICAgIHwgNDQgKysrKysrKysrKysrKysrKysrLQogMSBmaWxl
+IGNoYW5nZWQsIDQyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2NjYWNoZS97Y2NhY2hlXzQuMTEuMy5iYiA9PiBjY2FjaGVfNC4xMi5i
+Yn0gKDQ1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNo
+ZV80LjExLjMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjEyLmJi
+CnNpbWlsYXJpdHkgaW5kZXggNDUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9j
+Y2FjaGUvY2NhY2hlXzQuMTEuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Nj
+YWNoZS9jY2FjaGVfNC4xMi5iYgppbmRleCA4MzM3NGZhNDRjLi5lNmJlOTg4YWNiIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjExLjMuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xMi5iYgpAQCAtMSwzICsxLDQz
+IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0
+ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVu
+Y2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVw
+ZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5n
+ZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisj
+IChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisj
+CisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRS5hZG9jCisjICsrKyBMSUNFTlNFLmFk
+b2MKKyMgQEAgLTUwLDcgKzUwLDcgQEAKKyMgIAorIyAgPT09IHNyYy90aGlyZF9wYXJ0eS9ibGFr
+ZTMvYmxha2UzLyoKKyMgIAorIyAtVGhpcyBpcyBhIHN1YnNldCBvZiBodHRwczovL2dpdGh1Yi5j
+b20vQkxBS0UzLXRlYW0vQkxBS0UzW0JMQUtFM10gMS42LjEgd2l0aCB0aGUKKyMgK1RoaXMgaXMg
+YSBzdWJzZXQgb2YgaHR0cHM6Ly9naXRodWIuY29tL0JMQUtFMy10ZWFtL0JMQUtFM1tCTEFLRTNd
+IDEuOC4yIHdpdGggdGhlCisjICBmb2xsb3dpbmcgbGljZW5zZToKKyMgIAorIyAgLS0tLQorIyBA
+QCAtMzkwLDcgKzM5MCw3IEBACisjICA9PT0gc3JjL3RoaXJkX3BhcnR5L2NwcC1odHRwbGliL2h0
+dHBsaWIuaAorIyAgCisjICBjcHAtaHR0cGxpYiAtIEEgQysrMTEgY3Jvc3MtcGxhdGZvcm0gSFRU
+UC9IVFRQUyBsaWJyYXJ5LiBDb3BpZWQgZnJvbSBjcHAtaHR0cGxpYgorIyAtdjAuMTkuMCBkb3du
+bG9hZGVkIGZyb20gaHR0cHM6Ly9naXRodWIuY29tL3loaXJvc2UvY3BwLWh0dHBsaWJbY3BwLWh0
+dHBsaWJdLiBUaGUKKyMgK3YwLjIwLjAgZG93bmxvYWRlZCBmcm9tIGh0dHBzOi8vZ2l0aHViLmNv
+bS95aGlyb3NlL2NwcC1odHRwbGliW2NwcC1odHRwbGliXS4gVGhlCisjICBsaWJyYXJ5IGhhcyB0
+aGUgZm9sbG93aW5nIGxpY2Vuc2U6CisjICAKKyMgIC0tLS0KKyMgQEAgLTUyMSw3ICs1MjEsNyBA
+QAorIyAgCisjICA9PT0gc3JjL3RoaXJkX3BhcnR5L3RsLWV4cGVjdGVkL3RsL2V4cGVjdGVkLmhw
+cAorIyAgCisjIC1UaGlzIGlzIGh0dHBzOi8vZ2l0aHViLmNvbS9UYXJ0YW5MbGFtYS9leHBlY3Rl
+ZFtUYXJ0YW5MbGFtYSBleHBlY3RlZF0gMS4xLjAgd2l0aAorIyArVGhpcyBpcyBodHRwczovL2dp
+dGh1Yi5jb20vVGFydGFuTGxhbWEvZXhwZWN0ZWRbVGFydGFuTGxhbWEgZXhwZWN0ZWRdIDEuMy4x
+IHdpdGgKKyMgIHRoZSBmb2xsb3dpbmcgbGljZW5zZToKKyMgIAorIyAgLS0tLQorIyAKKyMKKwog
+U1VNTUFSWSA9ICJhIGZhc3QgQy9DKysgY29tcGlsZXIgY2FjaGUiCiBERVNDUklQVElPTiA9ICJj
+Y2FjaGUgaXMgYSBjb21waWxlciBjYWNoZS4gSXQgc3BlZWRzIHVwIHJlY29tcGlsYXRpb24gXAog
+YnkgY2FjaGluZyB0aGUgcmVzdWx0IG9mIHByZXZpb3VzIGNvbXBpbGF0aW9ucyBhbmQgZGV0ZWN0
+aW5nIHdoZW4gdGhlIFwKQEAgLTcsNyArNDcsNyBAQCBIT01FUEFHRSA9ICJodHRwOi8vY2NhY2hl
+LnNhbWJhLm9yZyIKIFNFQ1RJT04gPSAiZGV2ZWwiCiAKIExJQ0VOU0UgPSAiR1BMLTMuMC1vci1s
+YXRlciAmIE1JVCAmIEJTTC0xLjAgJiBJU0MiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9M
+SUNFTlNFLmFkb2M7bWQ1PWI5OGMzNDcwZTIyODc3ZmVmYTQzYTAxYTJkZDA2NjljIFwKK0xJQ19G
+SUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UuYWRvYzttZDU9NTYzM2YxOGNhMTEwZjBkNGNi
+OTA3ZWJhMDdjOTIwZWYgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vc3JjL3RoaXJkX3Bh
+cnR5L2NwcC1odHRwbGliL2h0dHBsaWIuaDtlbmRsaW5lPTY7bWQ1PTY2M2FjYTZmODRlN2Q2N2Fk
+ZTIyOGFhZDMyYWZjMGVhIFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3NyYy90aGlyZF9w
+YXJ0eS9ub25zdGQtc3Bhbi9ub25zdGQvc3Bhbi5ocHA7ZW5kbGluZT05O21kNT1iNGFmOTJhN2Yw
+NjhiMzhjNWIzNDEwZGNlYjMwYzE4NiBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9zcmMv
+dGhpcmRfcGFydHkvd2luMzItY29tcGF0L3dpbjMyL21rdGVtcC5jO2VuZGxpbmU9MTc7bWQ1PWQy
+ODdlOWMxZjFjZDJiYjJiZDE2NDQ5MGUxY2Y0NDlhIFwKQEAgLTE3LDcgKzU3LDcgQEAgREVQRU5E
+UyA9ICJ6c3RkIGZtdCB4eGhhc2giCiAKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rv
+d25sb2FkL3Yke1BWfS8ke0JQfS50YXIuZ3oiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyOGE0
+MDczMTRmMDNhN2JkN2EwMDgwMzhkYmFmZmE4MzQ0OGJjNjcwZTJmYzExOTYwOWIxZDk5ZmIzM2Ji
+NjAwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImU4ODRjNjJjYmFjYWUyZTk0ODhiODY0MWE2NzFh
+NzlmYjdhMTIyMWRiMDEzMTBkYWNlZjYxYzllNTVjMmU1NWIiCiAKIGluaGVyaXQgY21ha2UgZ2l0
+aHViLXJlbGVhc2VzCiAKLS0gCjIuNDcuMQoK
+
+--===============3858031650216913057==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/tcl8: SRC_URI changed from "https://downloads.sourceforge.net/tcl/tcl-core8.6.16-src.tar.gz file://tcl-add-soname.patch file://fix_non_native_build_issue.patch file://tcl-remove-hardcoded-install-path.patch file://alter-includedir.patch file://interp.patch file://run-ptest file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch" to "https://downloads.sourceforge.net/tcl/tcl-core8.6.17-src.tar.gz file://tcl-add-soname.patch file://fix_non_native_build_issue.patch file://tcl-remove-hardcoded-install-path.patch file://alter-includedir.patch file://interp.patch file://run-ptest file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch"
-packages/x86-64-v3-poky-linux/tcl8: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8: PV changed from "8.6.16" to "8.6.17"
-Changes to packages/x86-64-v3-poky-linux/tcl8 (sysroot):
-  /usr/include/tcl8.6.16 moved to /usr/include/tcl8.6.17
-  /usr/lib/tcl8.6/encoding/cp165.enc was added
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm was added
-  /usr/lib/tcl8/8.5/tcltest-2.5.9.tm was removed
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dbg: PKGSIZE changed from 8135800 to 8146600 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dbg: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dbg: PV changed from "8.6.16" to "8.6.17"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: PKGSIZE changed from 1457961 to 1456911 (-0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: PV changed from "8.6.16" to "8.6.17"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: PKGSIZE changed from 3173260 to 3176831 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: FILELIST: added "/usr/share/man/man3/Tcl_CloseEx.3tcl8"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: PV changed from "8.6.16" to "8.6.17"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-lib: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-lib: PV changed from "8.6.16" to "8.6.17"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-locale: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-locale: PV changed from "8.6.16" to "8.6.17"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: PKGSIZE changed from 10107596 to 10120696 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: FILELIST: added "/usr/lib/tcl8/ptest/library/tzdata/America/Coyhaique /usr/lib/tcl8/ptest/library/encoding/cp165.enc"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: PV changed from "8.6.16" to "8.6.17"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: PKGSIZE changed from 7650627 to 7653678 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: PV changed from "8.6.16" to "8.6.17"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-staticdev: PKGSIZE changed from 264164 to 264332 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-staticdev: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-staticdev: PV changed from "8.6.16" to "8.6.17"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: FILES: removed "/usr/lib/tcl8.6.16", added "/usr/lib/tcl8.6.17"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: PKGSIZE changed from 2232318 to 2233536 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8: PKGV changed from 8.6.16 [default] to 8.6.17 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8: FILELIST: removed "/usr/bin/tclsh8.6.16 /usr/lib/tcl8/8.5/tcltest-2.5.9.tm", added "/usr/lib/tcl8/8.5/tcltest-2.5.10.tm /usr/bin/tclsh8.6.17 /usr/lib/tcl8.6/encoding/cp165.enc"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: PV changed from "8.6.16" to "8.6.17"
-Changes to packages/x86_64-linux/tcl8-native (sysroot):
-  /usr/bin/tclsh8 changed symlink target from ./tclsh8.6.16 to ./tclsh8.6.17
-  /usr/bin/tclsh8.6.16 moved to /usr/bin/tclsh8.6.17
-  /usr/include/tcl8.6.16 moved to /usr/include/tcl8.6.17
-  /usr/lib/tcl8.6/encoding/cp165.enc was added
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm was added
-  /usr/lib/tcl8/8.5/tcltest-2.5.9.tm was removed
+packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 33681336 to 34501160 (+2%)
+packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PV changed from "4.11.3" to "4.12"
+packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGV changed from 4.11.3 [default] to 4.12 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-dev: PV changed from "4.11.3" to "4.12"
+packages/x86-64-v3-poky-linux/ccache/ccache-dev: PKGV changed from 4.11.3 [default] to 4.12 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-doc: PV changed from "4.11.3" to "4.12"
+packages/x86-64-v3-poky-linux/ccache/ccache-doc: PKGV changed from 4.11.3 [default] to 4.12 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-locale: PV changed from "4.11.3" to "4.12"
+packages/x86-64-v3-poky-linux/ccache/ccache-locale: PKGV changed from 4.11.3 [default] to 4.12 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGSIZE changed from 1775825 to 1801295 (+1%)
+packages/x86-64-v3-poky-linux/ccache/ccache-src: PV changed from "4.11.3" to "4.12"
+packages/x86-64-v3-poky-linux/ccache/ccache-src: FILELIST: directory renamed /usr/src/debug/ccache/4.11.3/src/ccache/core -> /usr/src/debug/ccache/4.12/src/ccache/core, directory renamed /usr/src/debug/ccache/4.11.3/src/ccache/storage/local -> /usr/src/debug/ccache/4.12/src/ccache/storage/local, directory renamed /usr/src/debug/ccache/4.11.3/src/third_party/cxxurl/cxxurl -> /usr/src/debug/ccache/4.12/src/third_party/cxxurl/cxxurl, directory renamed /usr/src/debug/ccache/4.11.3/src/third_party/tl-expected/tl -> /usr/src/debug/ccache/4.12/src/third_party/tl-expected/tl, directory renamed /usr/src/debug/ccache/4.11.3/src/ccache/storage/remote -> /usr/src/debug/ccache/4.12/src/ccache/storage/remote, directory renamed /usr/src/debug/ccache/4.11.3/src/third_party/blake3/blake3 -> /usr/src/debug/ccache/4.12/src/third_party/blake3/blake3, directory renamed /usr/src/debug/ccache/4.11.3/src/third_party/nonstd-span/nonstd -> /usr/src/debug/ccache/4.12/src/third_party/nonstd-span/nonstd, directo
+ ry renamed /usr/src/debug/ccache/4.11.3/src/third_party/cpp-httplib -> /usr/src/debug/ccache/4.12/src/third_party/cpp-httplib, removed "/usr/src/debug/ccache/4.11.3/src/ccache/util/path.hpp /usr/src/debug/ccache/4.11.3/src/ccache/ccache.hpp /usr/src/debug/ccache/4.11.3/src/ccache/config.hpp /usr/src/debug/ccache/4.11.3/src/ccache/ccache.cpp /usr/src/debug/ccache/4.11.3/src/ccache/config.cpp /usr/src/debug/ccache/4.11.3/src/ccache/main.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/zstd.hpp /usr/src/debug/ccache/4.11.3/src/ccache/hash.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/xxh3_64.hpp /usr/src/debug/ccache/4.11.3/src/ccache/argprocessing.hpp /usr/src/debug/ccache/4.11.3/src/ccache/argprocessing.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/temporaryfile.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/assertions.cpp /usr/src/debug/ccache/4.11.3/src/ccache/inodecache.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/umaskscope.hpp /usr/src/debug/ccache/4.11.3/src/ccache/
+ util/bytes.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/types.hpp /usr/src/debug/ccache/4.11.3/src/ccache/storage/storage.hpp /usr/src/debug/ccache/4.11.3/src/ccache/args.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/logging.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/string.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/bitset.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/environment.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/process.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/bytes.cpp /usr/src/debug/ccache/4.11.3/src/ccache/hash.hpp /usr/src/debug/ccache/4.11.3/src/ccache/progressbar.hpp /usr/src/debug/ccache/4.11.3/src/ccache/execute.cpp /usr/src/debug/ccache/4.11.3/src/ccache/compopt.cpp /usr/src/debug/ccache/4.11.3/src/ccache/context.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/environment.cpp /usr/src/debug/ccache/4.11.3/src/ccache/execute.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/process.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/
+ xxh3_128.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/longlivedlockfilemanager.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/lockfile.cpp /usr/src/debug/ccache/4.11.3/src/ccache/storage/storage.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/lockfile.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/longlivedlockfilemanager.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/texttable.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/texttable.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/file.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/time.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/direntry.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/direntry.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/filelock.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/filelock.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/filestream.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/filesystem.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/threadpool.hpp /usr/src/debug/ccache/
+ 4.11.3/src/ccache/depfile.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/cpu.hpp /usr/src/debug/ccache/4.11.3/src/ccache/signalhandler.cpp /usr/src/debug/ccache/4.11.3/src/ccache/signalhandler.hpp /usr/src/debug/ccache/4.11.3/src/ccache/progressbar.cpp /usr/src/debug/ccache/4.11.3/src/ccache/depfile.cpp /usr/src/debug/ccache/4.11.3/src/ccache/hashutil.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/string.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/zstd.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/path.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/duration.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/cpu.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/timepoint.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/timepoint.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/tokenizer.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/tokenizer.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/filesystem.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/threadpool.cpp /usr/s
+ rc/debug/ccache/4.11.3/src/ccache/util/defer.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/timer.hpp /usr/src/debug/ccache/4.11.3/src/ccache/inodecache.hpp /usr/src/debug/ccache/4.11.3/src/ccache/compopt.hpp /usr/src/debug/ccache/4.11.3/src/ccache/argsinfo.hpp /usr/src/debug/ccache/4.11.3/src/ccache/context.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/logging.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/memorymap.cpp /usr/src/debug/ccache/4.11.3/src/ccache/util/memorymap.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/temporaryfile.hpp /usr/src/debug/ccache/4.11.3/src/ccache/language.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/fd.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/file.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/time.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/format.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/noncopyable.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/pathstring.hpp /usr/src/debug/ccache/4.11.3/src/ccache/args.cpp /usr
+ /src/debug/ccache/4.11.3/src/ccache/macroskip.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/expected.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/assertions.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/conversion.hpp /usr/src/debug/ccache/4.11.3/src/ccache/util/umaskscope.cpp /usr/src/debug/ccache/4.11.3/src/ccache/hashutil.cpp /usr/src/debug/ccache/4.11.3/src/ccache/language.cpp /usr/src/debug/ccache/4.11.3/src/ccache/version.cpp", added "/usr/src/debug/ccache/4.12/src/ccache/util/filestream.hpp /usr/src/debug/ccache/4.12/src/ccache/util/pathstring.hpp /usr/src/debug/ccache/4.12/src/ccache/util/args.cpp /usr/src/debug/ccache/4.12/src/ccache/util/path.cpp /usr/src/debug/ccache/4.12/src/ccache/util/exec.cpp /usr/src/debug/ccache/4.12/src/ccache/util/file.cpp /usr/src/debug/ccache/4.12/src/ccache/util/time.cpp /usr/src/debug/ccache/4.12/src/ccache/util/texttable.cpp /usr/src/debug/ccache/4.12/src/ccache/util/zstd.cpp /usr/src/debug/ccache/4.12/src/ccache/hashutil.cpp /usr/s
+ rc/debug/ccache/4.12/src/ccache/hashutil.hpp /usr/src/debug/ccache/4.12/src/ccache/util/bitset.hpp /usr/src/debug/ccache/4.12/src/ccache/util/format.hpp /usr/src/debug/ccache/4.12/src/ccache/progressbar.cpp /usr/src/debug/ccache/4.12/src/ccache/config.hpp /usr/src/debug/ccache/4.12/src/ccache/util/filelock.hpp /usr/src/debug/ccache/4.12/src/ccache/execute.cpp /usr/src/debug/ccache/4.12/src/ccache/execute.hpp /usr/src/debug/ccache/4.12/src/ccache/util/filesystem.cpp /usr/src/debug/ccache/4.12/src/ccache/util/filesystem.hpp /usr/src/debug/ccache/4.12/src/ccache/argsinfo.hpp /usr/src/debug/ccache/4.12/src/ccache/storage/storage.cpp /usr/src/debug/ccache/4.12/src/ccache/storage/storage.hpp /usr/src/debug/ccache/4.12/src/ccache/util/string.hpp /usr/src/debug/ccache/4.12/src/ccache/util/tokenizer.hpp /usr/src/debug/ccache/4.12/src/ccache/macroskip.hpp /usr/src/debug/ccache/4.12/src/ccache/util/timepoint.hpp /usr/src/debug/ccache/4.12/src/ccache/inodecache.cpp /usr/src/debug/ccache/4.12/sr
+ c/ccache/util/xxh3_64.hpp /usr/src/debug/ccache/4.12/src/ccache/util/direntry.hpp /usr/src/debug/ccache/4.12/src/ccache/util/lockfile.hpp /usr/src/debug/ccache/4.12/src/ccache/util/tokenizer.cpp /usr/src/debug/ccache/4.12/src/ccache/compopt.cpp /usr/src/debug/ccache/4.12/src/ccache/compopt.hpp /usr/src/debug/ccache/4.12/src/ccache/util/noncopyable.hpp /usr/src/debug/ccache/4.12/src/ccache/signalhandler.cpp /usr/src/debug/ccache/4.12/src/ccache/util/threadpool.cpp /usr/src/debug/ccache/4.12/src/ccache/util/threadpool.hpp /usr/src/debug/ccache/4.12/src/ccache/util/temporaryfile.hpp /usr/src/debug/ccache/4.12/src/ccache/util/process.cpp /usr/src/debug/ccache/4.12/src/ccache/ccache.hpp /usr/src/debug/ccache/4.12/src/ccache/inodecache.hpp /usr/src/debug/ccache/4.12/src/ccache/util/logging.hpp /usr/src/debug/ccache/4.12/src/ccache/util/expected.hpp /usr/src/debug/ccache/4.12/src/ccache/util/assertions.cpp /usr/src/debug/ccache/4.12/src/ccache/util/assertions.hpp /usr/src/debug/ccache/4.12
+ /src/ccache/util/bytes.cpp /usr/src/debug/ccache/4.12/src/ccache/util/clang.cpp /usr/src/debug/ccache/4.12/src/ccache/context.cpp /usr/src/debug/ccache/4.12/src/ccache/progressbar.hpp /usr/src/debug/ccache/4.12/src/ccache/context.hpp /usr/src/debug/ccache/4.12/src/ccache/util/cpu.cpp /usr/src/debug/ccache/4.12/src/ccache/util/cpu.hpp /usr/src/debug/ccache/4.12/src/ccache/config.cpp /usr/src/debug/ccache/4.12/src/ccache/argprocessing.cpp /usr/src/debug/ccache/4.12/src/ccache/util/lockfile.cpp /usr/src/debug/ccache/4.12/src/ccache/language.cpp /usr/src/debug/ccache/4.12/src/ccache/language.hpp /usr/src/debug/ccache/4.12/src/ccache/util/temporaryfile.cpp /usr/src/debug/ccache/4.12/src/ccache/version.cpp /usr/src/debug/ccache/4.12/src/ccache/argprocessing.hpp /usr/src/debug/ccache/4.12/src/ccache/ccache.cpp /usr/src/debug/ccache/4.12/src/ccache/util/memorymap.cpp /usr/src/debug/ccache/4.12/src/ccache/util/longlivedlockfilemanager.hpp /usr/src/debug/ccache/4.12/src/ccache/util/logging.cp
+ p /usr/src/debug/ccache/4.12/src/ccache/util/duration.hpp /usr/src/debug/ccache/4.12/src/ccache/util/path.hpp /usr/src/debug/ccache/4.12/src/ccache/util/time.hpp /usr/src/debug/ccache/4.12/src/ccache/util/direntry.cpp /usr/src/debug/ccache/4.12/src/ccache/util/longlivedlockfilemanager.cpp /usr/src/debug/ccache/4.12/src/ccache/util/conversion.hpp /usr/src/debug/ccache/4.12/src/ccache/util/fd.hpp /usr/src/debug/ccache/4.12/src/ccache/util/memorymap.hpp /usr/src/debug/ccache/4.12/src/ccache/util/zstd.hpp /usr/src/debug/ccache/4.12/src/ccache/util/args.hpp /usr/src/debug/ccache/4.12/src/ccache/util/exec.hpp /usr/src/debug/ccache/4.12/src/ccache/util/types.hpp /usr/src/debug/ccache/4.12/src/ccache/util/file.hpp /usr/src/debug/ccache/4.12/src/ccache/util/bytes.hpp /usr/src/debug/ccache/4.12/src/ccache/util/clang.hpp /usr/src/debug/ccache/4.12/src/ccache/util/defer.hpp /usr/src/debug/ccache/4.12/src/ccache/util/environment.cpp /usr/src/debug/ccache/4.12/src/ccache/util/environment.hpp /usr
+ /src/debug/ccache/4.12/src/ccache/util/timer.hpp /usr/src/debug/ccache/4.12/src/ccache/util/texttable.hpp /usr/src/debug/ccache/4.12/src/ccache/storage/types.hpp /usr/src/debug/ccache/4.12/src/ccache/hash.cpp /usr/src/debug/ccache/4.12/src/ccache/depfile.cpp /usr/src/debug/ccache/4.12/src/ccache/depfile.hpp /usr/src/debug/ccache/4.12/src/ccache/util/process.hpp /usr/src/debug/ccache/4.12/src/ccache/util/umaskscope.cpp /usr/src/debug/ccache/4.12/src/ccache/util/umaskscope.hpp /usr/src/debug/ccache/4.12/src/ccache/util/filelock.cpp /usr/src/debug/ccache/4.12/src/ccache/util/timepoint.cpp /usr/src/debug/ccache/4.12/src/ccache/signalhandler.hpp /usr/src/debug/ccache/4.12/src/ccache/hash.hpp /usr/src/debug/ccache/4.12/src/ccache/main.cpp /usr/src/debug/ccache/4.12/src/ccache/util/string.cpp /usr/src/debug/ccache/4.12/src/ccache/util/xxh3_128.hpp"
+packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGV changed from 4.11.3 [default] to 4.12 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PV changed from "4.11.3" to "4.12"
+packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.11.3 [default] to 4.12 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache: PKGSIZE changed from 1551768 to 1576416 (+2%)
+packages/x86-64-v3-poky-linux/ccache/ccache: PV changed from "4.11.3" to "4.12"
+packages/x86-64-v3-poky-linux/ccache/ccache: PKGV changed from 4.11.3 [default] to 4.12 [default]
+packages/x86-64-v3-poky-linux/ccache: PV changed from "4.11.3" to "4.12"
+packages/x86-64-v3-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.11.3/ccache-4.11.3.tar.gz" to "https://github.com/ccache/ccache/releases//download/v4.12/ccache-4.12.tar.gz"
+packages/x86-64-v3-poky-linux/ccache: PKGV changed from 4.11.3 [default] to 4.12 [default]
 
---===============6448579956824323088==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-tcl8-upgrade-8.6.16-8.6.17.patch"
-
-RnJvbSA2OTU1ZjNjYTQzYjFhOWE5NjczZTgyZTQ2MzNmY2NhM2UzNTc4MGY0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDg6NDI6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
-Y2w4OiB1cGdyYWRlIDguNi4xNiAtPiA4LjYuMTcKCi0tLQogLi4ucmljLXRjbC5oLXVzZS1UY2xf
-V2lkZUludC1mb3Itc2Vjb25kcy1pbi1UY2xfVGltLnBhdGNoIHwgNiArKystLS0KIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC9hbHRlci1pbmNsdWRlZGlyLnBhdGNoICB8IDggKysr
-Ky0tLS0KIC4uLi90Y2x0azgvdGNsOC9maXhfbm9uX25hdGl2ZV9idWlsZF9pc3N1ZS5wYXRjaCAg
-ICAgICAgICB8IDQgKystLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2ludGVy
-cC5wYXRjaCAgICAgICAgICAgIHwgNiArKystLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0
-azgvdGNsOC90Y2wtYWRkLXNvbmFtZS5wYXRjaCAgICB8IDQgKystLQogLi4uL3RjbHRrOC90Y2w4
-L3RjbC1yZW1vdmUtaGFyZGNvZGVkLWluc3RhbGwtcGF0aC5wYXRjaCAgIHwgNCArKy0tCiAuLi4v
-dGNsdGs4L3t0Y2w4XzguNi4xNi5iYiA9PiB0Y2w4XzguNi4xNy5iYn0gICAgICAgICAgICAgfCAy
-ICstCiA3IGZpbGVzIGNoYW5nZWQsIDE3IGluc2VydGlvbnMoKyksIDE3IGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgve3RjbDhfOC42LjE2LmJiID0+IHRj
-bDhfOC42LjE3LmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90
-Y2x0azgvdGNsOC8wMDAxLWdlbmVyaWMtdGNsLmgtdXNlLVRjbF9XaWRlSW50LWZvci1zZWNvbmRz
-LWluLVRjbF9UaW0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvMDAw
-MS1nZW5lcmljLXRjbC5oLXVzZS1UY2xfV2lkZUludC1mb3Itc2Vjb25kcy1pbi1UY2xfVGltLnBh
-dGNoCmluZGV4IDE4NTk5OTI4MzguLmE0YjQwN2JmZjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy90Y2x0azgvdGNsOC8wMDAxLWdlbmVyaWMtdGNsLmgtdXNlLVRjbF9XaWRlSW50
-LWZvci1zZWNvbmRzLWluLVRjbF9UaW0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3RjbHRrOC90Y2w4LzAwMDEtZ2VuZXJpYy10Y2wuaC11c2UtVGNsX1dpZGVJbnQtZm9yLXNlY29u
-ZHMtaW4tVGNsX1RpbS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZmY1MDhmMmU2Nzg2ZGY2
-OTc4NzYxNDBmMjE4NTVlY2I5MmEzZWQzNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
-NTQwYzhmNTc4MjE2YzZkNTkxYzk1NTVkNTNmMWIxZDU4ZjUxMGRhZSBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiBE
-YXRlOiBGcmksIDE4IEF1ZyAyMDIzIDEyOjI1OjExICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdl
-bmVyaWMvdGNsLmg6IHVzZSBUY2xfV2lkZUludCBmb3Igc2Vjb25kcyBpbiBUY2xfVGltZQpAQCAt
-MTksMTAgKzE5LDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxp
-bnV0cm9uaXguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiAKIGRpZmYgLS1naXQgYS9nZW5lcmljL3RjbC5oIGIvZ2VuZXJpYy90Y2wuaAotaW5kZXgg
-M2E0NjIyZS4uNjIwNGM1NyAxMDA2NDQKK2luZGV4IGQ4ZmQ3MGEuLmZmZmY0YjEgMTAwNjQ0CiAt
-LS0gYS9nZW5lcmljL3RjbC5oCiArKysgYi9nZW5lcmljL3RjbC5oCi1AQCAtMTQxOCw3ICsxNDE4
-LDcgQEAgdHlwZWRlZiBlbnVtIHsKK0BAIC0xNDI1LDcgKzE0MjUsNyBAQCB0eXBlZGVmIGVudW0g
-ewogICAqLwogIAogIHR5cGVkZWYgc3RydWN0IFRjbF9UaW1lIHsKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC9hbHRlci1pbmNsdWRlZGlyLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2FsdGVyLWluY2x1ZGVkaXIucGF0Y2gKaW5k
-ZXggNmNlYjI5N2NlYS4uMWRiOWI4YTdmZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3RjbHRrOC90Y2w4L2FsdGVyLWluY2x1ZGVkaXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3RjbHRrOC90Y2w4L2FsdGVyLWluY2x1ZGVkaXIucGF0Y2gKQEAgLTEsNCArMSw0
-IEBACi1Gcm9tIDhiYjgxNzRlMTNjMWMwZTNiMjdmZGY5NmEzOTNmOWZiMWI3ZTE0YmUgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDdiYWJiOGUwYmQ4ZjM3NTAwZDMxZjE4ZDliOGE2MGYy
-MDdkNzhlYWUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBNaW5nbGkgWXUgPG1pbmds
-aS55dUB3aW5kcml2ZXIuY29tPgogRGF0ZTogVHVlLCAyMiBOb3YgMjAyMiAxODo0ODoyNyArMDgw
-MAogU3ViamVjdDogW1BBVENIXSB0Y2w6IHVwZGF0ZSB0aGUgaGVhZGVyIGxvY2F0aW9uCkBAIC0y
-Niw3ICsyNiw3IEBAIFNpZ25lZC1vZmYtYnk6IE1pbmdsaSBZdSA8bWluZ2xpLnl1QHdpbmRyaXZl
-ci5jb20+CiAgMyBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0p
-CiAKIGRpZmYgLS1naXQgYS91bml4L01ha2VmaWxlLmluIGIvdW5peC9NYWtlZmlsZS5pbgotaW5k
-ZXggYzNiNzVlMy4uNjBlZDkzZSAxMDA2NDQKK2luZGV4IDQ1ZTdiNzYuLjVhNDZlNmEgMTAwNjQ0
-CiAtLS0gYS91bml4L01ha2VmaWxlLmluCiArKysgYi91bml4L01ha2VmaWxlLmluCiBAQCAtNTcs
-NyArNTcsNyBAQCBTQ1JJUFRfSU5TVEFMTF9ESVIJPSAkKElOU1RBTExfUk9PVCkkKFRDTF9MSUJS
-QVJZKQpAQCAtMzksNyArMzksNyBAQCBpbmRleCBjM2I3NWUzLi42MGVkOTNlIDEwMDY0NAogICMg
-UGF0aCB0byB0aGUgcHJpdmF0ZSB0Y2wgaGVhZGVyIGRpcjoKICBQUklWQVRFX0lOQ0xVREVfRElS
-CT0gQFBSSVZBVEVfSU5DTFVERV9ESVJACiBkaWZmIC0tZ2l0IGEvdW5peC9jb25maWd1cmUuaW4g
-Yi91bml4L2NvbmZpZ3VyZS5pbgotaW5kZXggOGU2NzI2Yi4uMjM0NTY4OSAxMDA2NDQKK2luZGV4
-IDUwYjNlMDMuLjhhMzNkMGMgMTAwNjQ0CiAtLS0gYS91bml4L2NvbmZpZ3VyZS5pbgogKysrIGIv
-dW5peC9jb25maWd1cmUuaW4KIEBAIC03NzUsNyArNzc1LDcgQEAgZXZhbCAiVENMX0xJQl9GSUxF
-PWxpYnRjbCR7TElCX1NVRkZJWH0iCkBAIC01MSw3ICs1MSw3IEBAIGluZGV4IDhlNjcyNmIuLjIz
-NDU2ODkgMTAwNjQ0CiAgSFRNTF9ESVI9JyQoRElTVERJUikvaHRtbCcKICAKICAjIE5vdGU6ICBp
-biB0aGUgZm9sbG93aW5nIHZhcmlhYmxlLCBpdCdzIGltcG9ydGFudCB0byB1c2UgdGhlIGFic29s
-dXRlCi1AQCAtODk4LDcgKzg5OCw3IEBAIFRDTF9CVUlMRF9TVFVCX0xJQl9QQVRIPSJgcHdkYC8k
-e1RDTF9TVFVCX0xJQl9GSUxFfSIKK0BAIC04OTYsNyArODk2LDcgQEAgVENMX0JVSUxEX1NUVUJf
-TElCX1BBVEg9ImBwd2RgLyR7VENMX1NUVUJfTElCX0ZJTEV9IgogIFRDTF9TVFVCX0xJQl9QQVRI
-PSIke1RDTF9TVFVCX0xJQl9ESVJ9LyR7VENMX1NUVUJfTElCX0ZJTEV9IgogIAogICMgSW5zdGFs
-bCB0aW1lIGhlYWRlciBkaXIgY2FuIGJlIHNldCB2aWEgLS1pbmNsdWRlZGlyCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvZml4X25vbl9uYXRpdmVfYnVpbGRf
-aXNzdWUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvZml4X25vbl9u
-YXRpdmVfYnVpbGRfaXNzdWUucGF0Y2gKaW5kZXggNjExNTM4NzhmZS4uNGFiMmQ4NTJlNSAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2ZpeF9ub25fbmF0aXZl
-X2J1aWxkX2lzc3VlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNs
-OC9maXhfbm9uX25hdGl2ZV9idWlsZF9pc3N1ZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-M2QxMWU3ZmQ5YWJhNjI1MTk3NGQ5OTAyODYzNDdjMDY1ODJlODdiOSBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gYjFhMDg2NmMzYjk3MzZkODFmZWViNTUyMDE2ODNlNzRjY2Q2ODhkMSBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IE5pdGluIEEgS2FtYmxlIDxuaXRpbi5hLmth
-bWJsZUBpbnRlbC5jb20+CiBEYXRlOiBGcmksIDEzIEF1ZyAyMDEwIDEyOjI0OjAwIC0wNzAwCiBT
-dWJqZWN0OiBbUEFUQ0hdIHRjbDogZml4IGEgYnVpbGQgaXNzdWUKQEAgLTEwLDcgKzEwLDcgQEAg
-U2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KICAx
-IGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCiAKIGRpZmYg
-LS1naXQgYS91bml4L01ha2VmaWxlLmluIGIvdW5peC9NYWtlZmlsZS5pbgotaW5kZXggYTJmOWUy
-MS4uYzNiNzVlMyAxMDA2NDQKK2luZGV4IGFiMmU3YjUuLjQ1ZTdiNzYgMTAwNjQ0CiAtLS0gYS91
-bml4L01ha2VmaWxlLmluCiArKysgYi91bml4L01ha2VmaWxlLmluCiBAQCAtNzIzLDcgKzcyMyw3
-IEBAIHRjbHRlc3QtcmVhbDoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0
-azgvdGNsOC9pbnRlcnAucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgv
-aW50ZXJwLnBhdGNoCmluZGV4IGFlZWJiMDM4ZTMuLjk0ZDI3MGQ3MTkgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC9pbnRlcnAucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2ludGVycC5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
-LUZyb20gMDkwNDliZWVkNzIzMjQzZDA5MmZmYWEzNzkzOWRmZTBmMmVkNjgyOCBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKK0Zyb20gZTEyOWRkMGQ4Y2FlZjUyNTMyMDU3OGEwYzQxMzhjNzE5NWE3
-MTA1MCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3NzLmJ1
-cnRvbkBhcm0uY29tPgogRGF0ZTogTW9uLCAxMiBKdWwgMjAyMSAxNDo1MDoxMyArMDEwMAogU3Vi
-amVjdDogW1BBVENIXSB0Y2w6IGZpeCByYWNlIGluIGludGVycC50ZXN0CkBAIC0xMywxMCArMTMs
-MTAgQEAgU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAg
-MSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKIAogZGlmZiAt
-LWdpdCBhL3Rlc3RzL2ludGVycC50ZXN0IGIvdGVzdHMvaW50ZXJwLnRlc3QKLWluZGV4IDI0ZmZi
-MWIuLmM2NDYwYWQgMTAwNjQ0CitpbmRleCBkNjRmZGQ0Li45OTMxZGQxIDEwMDY0NAogLS0tIGEv
-dGVzdHMvaW50ZXJwLnRlc3QKICsrKyBiL3Rlc3RzL2ludGVycC50ZXN0Ci1AQCAtMzYxNCwxNyAr
-MzYxNCwxOCBAQCB0ZXN0IGludGVycC0zNi43IHtDaGlsZEJnZXJyb3Igc2V0cyBlcnJvciBoYW5k
-bGVyIG9mIGNoaWxkIFsxOTk5MDM1XX0gLXNldHVwIHsKK0BAIC0zNjUxLDE3ICszNjUxLDE4IEBA
-IHRlc3QgaW50ZXJwLTM2Ljcge0NoaWxkQmdlcnJvciBzZXRzIGVycm9yIGhhbmRsZXIgb2YgY2hp
-bGQgWzE5OTkwMzVdfSAtc2V0dXAgewogICAgICAgICAgdmFyaWFibGUgcmVzdWx0CiAgICAgICAg
-ICBzZXQgcmVzdWx0IFtsaW5kZXggJGFyZ3MgMF0KICAgICAgfQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L3RjbC1hZGQtc29uYW1lLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L3RjbC1hZGQtc29uYW1lLnBhdGNoCmluZGV4IDg5
-OGU4MjQxZmMuLjAzZWMxODY5NzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90
-Y2x0azgvdGNsOC90Y2wtYWRkLXNvbmFtZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvdGNsdGs4L3RjbDgvdGNsLWFkZC1zb25hbWUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
-IDBkOGU1NjdkMTMyZTA1MGM1ZDRhOGQ4ZDkyNTc0MTdlMDY3OTQ4M2MgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCitGcm9tIDI1OTBiNjkzNzA0OGYzZmI1YTg3ZDFhOTRkOTMzMjA1NTg4NjE4NWQg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cnB1cmRpZUBs
-aW51eC5pbnRlbC5jb20+CiBEYXRlOiBXZWQsIDkgRGVjIDIwMDkgMjM6NTk6NDQgKzAwMDAKIFN1
-YmplY3Q6IFtQQVRDSF0gdGNsOiBBZGQgdGNsdGsgZnJvbSBPRS5kZXYgYnV0IHdpdGggbGVnYWN5
-IHN0YWdpbmcgZnVuY3Rpb24KQEAgLTExLDcgKzExLDcgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFu
-ZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KICAyIGZpbGVzIGNoYW5nZWQsIDcgaW5z
-ZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvdW5peC9NYWtlZmlsZS5p
-biBiL3VuaXgvTWFrZWZpbGUuaW4KLWluZGV4IGJjNzQzYjMuLmEyZjllMjEgMTAwNjQ0CitpbmRl
-eCAzZWZkZmVjLi5hYjJlN2I1IDEwMDY0NAogLS0tIGEvdW5peC9NYWtlZmlsZS5pbgogKysrIGIv
-dW5peC9NYWtlZmlsZS5pbgogQEAgLTgxMiw3ICs4MTIsMTAgQEAgaW5zdGFsbC1iaW5hcmllczog
-YmluYXJpZXMKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC90
-Y2wtcmVtb3ZlLWhhcmRjb2RlZC1pbnN0YWxsLXBhdGgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvdGNsdGs4L3RjbDgvdGNsLXJlbW92ZS1oYXJkY29kZWQtaW5zdGFsbC1wYXRoLnBhdGNo
-CmluZGV4IGYyYTM3YWRkN2QuLjRhODFhZGYwN2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy90Y2x0azgvdGNsOC90Y2wtcmVtb3ZlLWhhcmRjb2RlZC1pbnN0YWxsLXBhdGgucGF0
-Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L3RjbC1yZW1vdmUtaGFy
-ZGNvZGVkLWluc3RhbGwtcGF0aC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNmUzY2JjMzYw
-MGFjNDc0Nzc2ZTkyZWI5YTg4YWJjYjc0Mjk5YzMyMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gOTkwNGJkNTM5NzQ4OWIyZjhiNGU2NWYwZTlmZGViYjgxZWY4OGIzMCBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206ICJTb25nLkxpIiA8U29uZy5MaUB3aW5kcml2ZXIuY29tPgog
-RGF0ZTogV2VkLCAxIEF1ZyAyMDEyIDE5OjA1OjUxICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRj
-bDppbnN0YWxsIHRjbCB0byBsaWI2NCBpbnN0ZWFkIG9mIGxpYiBvbiA2NGJpdCB0YXJnZXQKQEAg
-LTE3LDcgKzE3LDcgQEAgU2lnbmVkLW9mZi1ieTogWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIu
-Y29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBk
-aWZmIC0tZ2l0IGEvdW5peC9jb25maWd1cmUuaW4gYi91bml4L2NvbmZpZ3VyZS5pbgotaW5kZXgg
-ZTg4ZWMzYy4uOGU2NzI2YiAxMDA2NDQKK2luZGV4IGVkMDdjYTUuLjUwYjNlMDMgMTAwNjQ0CiAt
-LS0gYS91bml4L2NvbmZpZ3VyZS5pbgogKysrIGIvdW5peC9jb25maWd1cmUuaW4KIEBAIC03NzQs
-NyArNzc0LDcgQEAgZXZhbCAiVENMX0xJQl9GSUxFPWxpYnRjbCR7TElCX1NVRkZJWH0iCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDhfOC42LjE2LmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4XzguNi4xNy5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDhfOC42LjE2
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDhfOC42LjE3LmJi
-CmluZGV4IDIyNWYwNGJlNDguLmQ0YmRkNzFjMDUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy90Y2x0azgvdGNsOF84LjYuMTYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3RjbHRrOC90Y2w4XzguNi4xNy5iYgpAQCAtMjUsNyArMjUsNyBAQCBTUkNfVVJJID0gIiR7QkFT
-RV9TUkNfVVJJfSBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAgICBm
-aWxlOi8vMDAwMS1nZW5lcmljLXRjbC5oLXVzZS1UY2xfV2lkZUludC1mb3Itc2Vjb25kcy1pbi1U
-Y2xfVGltLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNiMzcx
-Mzg2YTlhOTI4ZWVjZGJmMjYzYmNhYjdkNmE1MzFlNjIwY2EzZmJhYjRmZGVlYjNkNmE5YTU2ZjM4
-ZTkiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTFkOGNiZTQ0YjM4YmVhYTI5ZmMyMTMwYzRlN2I3
-OWI4YmYwMmUyYmNjMDI4ZmZlZmQ3YTI1YTIxMjIyMDJhMCIKIAogU1JDX1VSSTpjbGFzcy1uYXRp
-dmUgPSAiJHtCQVNFX1NSQ19VUkl9IgogCi0tIAoyLjQ3LjEKCg==
-
---===============6448579956824323088==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/x86-64-v3-poky-linux/tcl8 (sysroot):
-  /usr/include/tcl8.6.16 moved to /usr/include/tcl8.6.17
-  /usr/lib/tcl8.6/encoding/cp165.enc was added
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm was added
-  /usr/lib/tcl8/8.5/tcltest-2.5.9.tm was removed
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: FILELIST: added "/usr/share/man/man3/Tcl_CloseEx.3tcl8"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: FILELIST: added "/usr/lib/tcl8/ptest/library/tzdata/America/Coyhaique /usr/lib/tcl8/ptest/library/encoding/cp165.enc"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: FILELIST: removed "/usr/bin/tclsh8.6.16 /usr/lib/tcl8/8.5/tcltest-2.5.9.tm", added "/usr/lib/tcl8/8.5/tcltest-2.5.10.tm /usr/bin/tclsh8.6.17 /usr/lib/tcl8.6/encoding/cp165.enc"
-Changes to packages/x86_64-linux/tcl8-native (sysroot):
-  /usr/bin/tclsh8 changed symlink target from ./tclsh8.6.16 to ./tclsh8.6.17
-  /usr/bin/tclsh8.6.16 moved to /usr/bin/tclsh8.6.17
-  /usr/include/tcl8.6.16 moved to /usr/include/tcl8.6.17
-  /usr/lib/tcl8.6/encoding/cp165.enc was added
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm was added
-  /usr/lib/tcl8/8.5/tcltest-2.5.9.tm was removed
-
---===============6448579956824323088==--
+--===============3858031650216913057==--
 
