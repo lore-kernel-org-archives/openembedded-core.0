@@ -2,426 +2,239 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DA8CAC592
-	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 19:11:28 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.1215.1757963479036205582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42197CAC592
+	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 19:25:58 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.24])
+ by mx.groups.io with SMTP id smtpd.web11.1671.1757964352566763811
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Sep 2025 12:11:19 -0700
+ Mon, 15 Sep 2025 12:25:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 798A21424
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 12:11:10 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5E06F3F694
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 12:11:18 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 6/8] clang: use llvm recipe
-Date: Mon, 15 Sep 2025 20:11:07 +0100
-Message-ID: <20250915191109.1117663-6-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250915191109.1117663-1-ross.burton@arm.com>
-References: <20250915191109.1117663-1-ross.burton@arm.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=fZNk2KG2;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=fZNk2KG2;
+ spf=pass (domain: arm.com, ip: 52.101.70.24, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=T6Ds8nA6PkiKN0qzs8b4ONtguIWht/8rgEO1xuawlY1IfzBi1tGljiPsiW37dDddUz3nLpd8IGSQKcnut6B5WE6DRuvT5Wu9/INAmwJIiz4DGdk3b26kfxOphkJKdf5CW/mLW4W9NgL370opbjv0DbmGIqU5qchCCICIPcLRUwKAV5nOczaEJ4L89MIRJvrnik/9TFeKhWThhXswgnBlMVb2izc+aT1oSnfpCealea09mJubCFprwAz7j7ej1+jw3Sgvz9KogmBVkN+nselj/GSbuRKrsWWNT0EzlPCDs0rQa4bWJxpHmUEGe7EYhUmDsFwLKp4SAfG1KWrlQdzZ4w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A8DiDDk9h2ORKrBPjKnXIOIWAEWh8K/7i2YWdT8nArs=;
+ b=ie2FYsU7jes9RG9Yg4kcRYBwExV/RdIubFDB7PmytKmtdK3w4Zj2J8njmIeT+G8XBHl5uZP7AO2O8H6JdvEG57EvpZZu61xq4TocR6TzW3Y69t49tgw1p6GBRvByT8nRwPVwcqoO1k5pS55ASFWqhbzMJ+P6ET9fi5+e4WivsGJNRpa1kjBah+q6uuzETQXPgQzyOXvcUCye6X/luemT8ickFhP7/XEO6jsXt76NKIv+qB+7+5EWstyLOWDhU+oGWtloKFsJRWmKLMp4w3bRX9LLXcSHIkAichrOkYmLQe26UHcqv/Z3MTFmI+OXE3Uw71FxoAM++HCESeeA8bQd5Q==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A8DiDDk9h2ORKrBPjKnXIOIWAEWh8K/7i2YWdT8nArs=;
+ b=fZNk2KG2zov1dJcYpw47eXKxdGa7xWDMqHNA5HTxVPagSvfYBrTAKldQGmlWEu5DB++BFXF9DFygBsPaJ7IgF9FEjdsaJf24VxYMYcnjmIiVTM7jgX8X4VVDijG5tt2EUHQSOaEeXQDJuTtN9am7J/8dHh3A5kYF+FVlf0/UlXw=
+Received: from DU2PR04CA0016.eurprd04.prod.outlook.com (2603:10a6:10:3b::21)
+ by AS2PR08MB8362.eurprd08.prod.outlook.com (2603:10a6:20b:545::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.21; Mon, 15 Sep
+ 2025 19:25:48 +0000
+Received: from DB5PEPF00014B92.eurprd02.prod.outlook.com
+ (2603:10a6:10:3b:cafe::97) by DU2PR04CA0016.outlook.office365.com
+ (2603:10a6:10:3b::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.22 via Frontend Transport; Mon,
+ 15 Sep 2025 19:25:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB5PEPF00014B92.mail.protection.outlook.com (10.167.8.230) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.12
+ via Frontend Transport; Mon, 15 Sep 2025 19:25:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GwnqwmWTTLU1E1eA54gkzTMjqW53sQkz7qShp8sBs0axyJHrNYsFYbvfkd4fmFh4LfBGP1gUBW4z44L7h2uC5jIkX3005avDN0YiCBOMp6TriY5izllMqCSj1qyzT4lNmMkjJeOXOUU020x9JShXcTt/fZQ+FA3aRWjADcCYYN/LTjx+A58cNA40u38oENCxZy4TLumG1zn4X+kg1XxPGA8zoEWsNmWRnXiV5qCmppdLKCRw2Bv4Qzr0h7H0QaW3kmXEj1F7ZLJsJn2hAm+Qnngs7x9UEJy63z3YnA4NzT+JjlXgOXtPkUwyguHVDNUK9zW+RK+41hJClWZcl8epvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A8DiDDk9h2ORKrBPjKnXIOIWAEWh8K/7i2YWdT8nArs=;
+ b=yRjNlz+OD48tE9t5hSy3FMg2xY28LNybg0dhb95pWy9Xvy2ehNjOhgA+IoxifWoG0my+RQSTy8bYQVcAUIhh0FYlgG/PYHsAsX3fuPiqSMjkGlUiL/iOdVPwHJ4NBp5rtsrDcu3Lrgfp3sLYBX4T1T73GiucTd8Y4KzWnlw39I3cDJ7//glALvXRWTmZB055XUz4swFfPe8xRwwPmypaR4t3uQd4vL8LIbqCMhHUtRxxLVQ6aoLyoaF/bEYsShvpN69Iudo6UzU8ycJ5kaePM2s+fMO+w8+VaTe9sVlsz+2EhhlYRxMwS3EwE4BinFKT1T5Wszw5BkylS3E6PRvI/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A8DiDDk9h2ORKrBPjKnXIOIWAEWh8K/7i2YWdT8nArs=;
+ b=fZNk2KG2zov1dJcYpw47eXKxdGa7xWDMqHNA5HTxVPagSvfYBrTAKldQGmlWEu5DB++BFXF9DFygBsPaJ7IgF9FEjdsaJf24VxYMYcnjmIiVTM7jgX8X4VVDijG5tt2EUHQSOaEeXQDJuTtN9am7J/8dHh3A5kYF+FVlf0/UlXw=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DB4PR08MB8152.eurprd08.prod.outlook.com (2603:10a6:10:380::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Mon, 15 Sep
+ 2025 19:25:12 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9115.020; Mon, 15 Sep 2025
+ 19:25:12 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 10/16] which: update 2.21 -> 2.23
+Thread-Topic: [OE-core] [PATCH 10/16] which: update 2.21 -> 2.23
+Thread-Index: AQHcIvmKNNTs/rZjmUmzewUTbrj9wLSUpuoA
+Date: Mon, 15 Sep 2025 19:25:12 +0000
+Message-ID: <37DE8CEE-A206-4A35-A6B4-DAA9E1378839@arm.com>
+References: <20250911085123.1551425-1-alex.kanavin@gmail.com>
+ <20250911085123.1551425-10-alex.kanavin@gmail.com>
+In-Reply-To: <20250911085123.1551425-10-alex.kanavin@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DB4PR08MB8152:EE_|DB5PEPF00014B92:EE_|AS2PR08MB8362:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c486135-edea-4322-2b8a-08ddf48dab88
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?WVZBdllYS28vazJ0QjlDMHRIdkY2RVljS0J3Y1JYQUJCUHc2Ni83cFViTnV2?=
+ =?utf-8?B?NWp4YVRhbEk0V20xR1BFK0kwWkROZUdheGJ5UW5nUUdTZjhUdW1NM2hZR2hQ?=
+ =?utf-8?B?MkNvRnNoRTNGanQwMnNQbnFwNmJNcjNRTkovdTBmU1cxWHl6NUlMTnJXdW9G?=
+ =?utf-8?B?bnlHOXhDWk1IVFl2THJYUVBabyszOFdYeUVocWhIY2duOXQxYXh6ZVFlZnIv?=
+ =?utf-8?B?TmtkSUZLMTQrbEl2SFRQRkNZMFUwTzR0Ty9ibFJhWDdOYis0VzlLczJhTURp?=
+ =?utf-8?B?UWs3ZkQ1RmhpQzk3YjU5NG5ZcUlvc0gweFBFQnp4NVhYSlBjaStWTTYrdGRM?=
+ =?utf-8?B?dlFnYk9GWFFmallJcVE2Y3dRdmhXcWdQMnE2UERlZ3dkaU1CM2haL0RsL2FB?=
+ =?utf-8?B?NHdpMTN6TCtmWmdrWG9VVS84cFplRGxSMlhsTUZtK24rQWc3K0RvRnB1UUt3?=
+ =?utf-8?B?S3FYN2VucURDUStlZE0vR0NOVytZYkFJRitDU1VOenVad3k4cHFVcXZka2ty?=
+ =?utf-8?B?blVCNzJvNnVaYWFqbk1QdlljWEtGSndhL0cwTWI4ajRwZGxsVjdEUGU4dktS?=
+ =?utf-8?B?dGh0K0dnNXVYU1pDOVpHZ3laMEV2OUxlMDN6Qmprd3V5dUU0cllkUlBSbWVP?=
+ =?utf-8?B?UTIvZzZBQ2E1eUx3ZEZjS0JVc1JrMVJPejhweWp0K3VHR2NsQlg5TzdGalph?=
+ =?utf-8?B?cHdnK1JLOHo1MjdWcy9Pa0xsKy9mSkhqczlabkJ3cjZia1JWQkdMakF0Ylcz?=
+ =?utf-8?B?L21hbUphM2VQRS9pVXlxeHZmamdHTHBycTYvMVczMzNidjVLZnBYUUdqN3V5?=
+ =?utf-8?B?SllDRUoxNWZqYzMwTkhuQWZueFduTm5nVXl0ZllWSHhhbC9BaStVOCtYVEZB?=
+ =?utf-8?B?Z05IMHFYRDBieEx5UTJTcDRqKzhlY3U5ZWZ3akl1V2IwektrbUQ2cFZJWFk0?=
+ =?utf-8?B?a2lwZUlLVUg4UmxWbGFlaklTRTQrTDhlMnRkdGo0Y1FWNytxaWJWdXhtV0k5?=
+ =?utf-8?B?UlNBbzhubTVrdnNVYjcxaC9mSVo2NWNwb1J0dFZvMEI0Ykp0VHlFRXQ4cGRz?=
+ =?utf-8?B?UXRJczNCZTA2SXJsNjNpMlh3TTRwMVo4dmJuWDlEYjB4dkp5aG1qWndQSmI2?=
+ =?utf-8?B?NDVRMVpLcmQvTzd3d2UzYW9tOFJMRjZNKy9SenZRUHFYakZ5bEFXYTFWNjhj?=
+ =?utf-8?B?ZFFYK0ZLQUhLbS84d0ZJNW14Z05aTjVHdjkwYzhJVjBsSXAwUGlQZjltZ2M2?=
+ =?utf-8?B?Rm9sdndFTWI3WWJnaFNlaTFBRVpzYTljb0pXUVNRb3hhZGRuTmNJMHNDUVBs?=
+ =?utf-8?B?ZHRvWFdJZWw4SGFpaU1IV1RYQWVBV2FTWHZ4SUErN1hzem9UeDF2eHJ1N2xL?=
+ =?utf-8?B?T0lHQjZSZFB3cE1TOUwvVEp5cC85TUFLRkVSTnBjQ0JJU0hzU0JSaGlDVUkv?=
+ =?utf-8?B?Yk5WZVl1NTJ3UnN6SXpSbHNTN2l3QUoweFUzM3M5QUJlZ3dmMWh6SG9mNmtq?=
+ =?utf-8?B?Q29ETXUzV1pIZjdPbmxSYmpUelpSUDE1T0ZrTlVrOTFkNnhYTi9QaGFvbEU0?=
+ =?utf-8?B?cGhFdkx1T1dvdHRBM1FkU0Y4NHEzUTdHamt0MGdjZHB0dXg3RXlsQVlGZjNQ?=
+ =?utf-8?B?OHFNODZJQVpTMUJBNTlMK2NXY1AzTU9OenBkSUtOWjlmUWVubEw2UUpwNit5?=
+ =?utf-8?B?SkV1NWVMNlBoN3A3SngwdHBzNUgvdGU1OU1JbGRyUlVxWHdNRFl5K2JNbnVj?=
+ =?utf-8?B?WUJpTCtsMUhTcHgvRHVXK1pjTXVzbzFBcm9yVjUxMXVWT0dOQ2Iyc1hiNDcr?=
+ =?utf-8?B?WXBhbU5kS0wzcU9mWXZxUi9MWWhFMU5GWEI3VkVWZVM5eFNnM0pCeFAwT2pn?=
+ =?utf-8?B?bTR4QThrSExqRk9QVFlKZ2Z6dUNnWlBtbGtnUUw2ME8yVStzMS90NlRnODF1?=
+ =?utf-8?B?YjF4UVJHL3BVaUJWTW1vUDdnc2thVy9BRytuMW9uQkhtb1ZHeWhMTWdsTnZM?=
+ =?utf-8?Q?o1MpCj6iBSuloUpoQwi0IwOh3gxyHs=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B46BC8EAE2483C47A40D19C3ABB5659A@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB8152
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B92.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	c283defa-3e26-4d8e-2828-08ddf48d979d
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|35042699022|14060799003|36860700013|1800799024|376014|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?WVdqdmhzekhyTVh4dHlEaEoxQVNwY2dkY3FDZjlaUGtXbWV1WldlSStlb3BU?=
+ =?utf-8?B?MFlGUFJnTWwyTDB3Yk5aVXNuQXJia3BjeVRZalRlUGxETVJIQ0F2RmRJUVFz?=
+ =?utf-8?B?K0VwbEVESDZ0eUxvN3lLay9YMmRydmxhQzYwU2MzWnBpOTFZL2lYMG0vOVYv?=
+ =?utf-8?B?REdPeFNGb1E3ei9oT3V5WWVQRE9kbFlCRTRZY2hVOWw3b01jdGcyT2s0NmVj?=
+ =?utf-8?B?eFpFSlFSV2p1SjY2VHB2RHk5NXU2OEdralFzK0loL2k3dWRlSS9wa3g4M1RI?=
+ =?utf-8?B?bmdVQXV5TUttRU5YUGZTSjZUWFJHNWZWUWlkbVNPR0FENUo2WVo2YVZocFVy?=
+ =?utf-8?B?OTA3RzJNSEJSTzBBWUxTSTVrZWs1WjFIcENKZ2NScTBuY1RaYmpUWTRmb1Q0?=
+ =?utf-8?B?bGhBZXZtc2tZSWZQeGxlTlgxSUJTOE9nLys1R25Bc3lrZzIyd1BMdTI2VlU2?=
+ =?utf-8?B?WGxoNUNCOW4vMjRvRVVhZElLVExMQWZ1bzBKVEZrMEpNKzdCRGl3YWNIZmtI?=
+ =?utf-8?B?bFA5STg1Q0dQNkFpYlZLNEZ4S3VmU09Tc1hhRkhyb3IwZTZGaE85VE0ra0I4?=
+ =?utf-8?B?aHlLa0NwaTRuemRreFdHWmxtTHAwRVFtUkpXM2Zvc3ZzNEhiVDlmZ3c5VGpu?=
+ =?utf-8?B?bkMrZ2JQSk9nbGZVa2VnQVBVdk5Wd2JoeVJCQTNDSFJZQWlHZWlMSVZsY3VW?=
+ =?utf-8?B?MTRFcEh2RE9ZZ1Zja1JXZGU0aUhMbm1ObEdLajRsUnZLMC9kd3IwTmo0V1Np?=
+ =?utf-8?B?UGZrditraXlFQkdLa1hISGRGQUI0UkRZWGZORGw4STU2cUkySnNvdjN3ckdY?=
+ =?utf-8?B?Y2R6dWV6b3J1WTVmRG9Dd1cyWUhBRldCRHRHQ1pDS01ZcXROWm14R1RqS25N?=
+ =?utf-8?B?ZTB0Y0daTkdMbWZUVUJZSDhHR2dCc01iSzJ5TmlyYWxBQ1NWRWFVNEhLN2s2?=
+ =?utf-8?B?ZVI4TWlDMDJOYW5jaERHR0ZXSElzMnhQanhmMitwNHN1Z0paVHRwcVBuMVZq?=
+ =?utf-8?B?aFYvQVZPbDhCWVB3Qk9veEMyVlNiNGNIS1VTMFg5emoyTVZtL2NYcERHZ2x1?=
+ =?utf-8?B?U01Day9DRWJhczNxZjNPQmsreEdRbnhYZzB3N2diUTF5RFBlaGFxR0hBQzd1?=
+ =?utf-8?B?bktZUERXTFFOZjBwNFl3V1VsRHFOcUpzZ3Z2Q1FmVmlkclV2OTJtNEd3N2Rp?=
+ =?utf-8?B?MU9vSXhZSFpNTU5ZL2pwNXFFNEFTNFYzSEF4R2pkV1R6SStJWktMSjZzZENl?=
+ =?utf-8?B?d0laK1JUUVJoSzhLWGFTdVJOOEZuT1M2cWFxVFhCWTVPVUhPeVZSVyt3b05n?=
+ =?utf-8?B?SGxGbDNvejVtMWVPVzFQYzhZQVBhYkh2cVdNSklIczdMVzZaRFBRQ1ZvbjlO?=
+ =?utf-8?B?L2dNVUJwVjNNYWlrajd6WWFLVEJjQUZEUndYOXNHdEdMbEorRDhZcGlYdWFH?=
+ =?utf-8?B?R1Q0QmFyYThaemdFb0FNUkdEbnhuZUJDVzkwOFFBeDVGSjdHcFUxMjBnbEpw?=
+ =?utf-8?B?cVRyNU9zY0s3aXRQUnltSm1EY200bDNCOWJDN3Q5NEZ5bWZzWVA3OW9ZU1Uy?=
+ =?utf-8?B?a0xPaVcxS2xqYUNjQzNPWk5iYjBUQjhnbzBrMWw4dWdNc0ZJUkN4dkZvczJp?=
+ =?utf-8?B?bXRaRmhPUTZDcXBZb1IxdFdOMWlvTDhIcWw5bkZaZDAwV05QZnFpVnpWMkg0?=
+ =?utf-8?B?c2wzS0grclJ1M0lLQ3pheWw1K2dJVldCMkJHck9jVzlVTVJpenhlSFBWS3Zl?=
+ =?utf-8?B?SEpXMmpkb2FkYm5tQkpaWVhtZmNuelJjWHdaeHl1NTFWZTFLclJWeVRKcGFq?=
+ =?utf-8?B?RVdYVDZnN0h1czNidisreXR1QmhHckFHdkYrdnZVRkVtcGxZNzU2RmVxdzNM?=
+ =?utf-8?B?NXBIMWZ6L0dTQU0xRGt4MWFzTUQ1M3JGQkY3UmRxeUx1U2FqTSt0ZHRlY0lY?=
+ =?utf-8?B?M1Mzby9pZUVqbTQzUEl0LzczK2x5UTdqaG5HQjFiSk1mc092K3ZsOFd3MGlK?=
+ =?utf-8?B?TXQ2TW85d2RZSEtYWG1JQUxaNmVHL1RZaHhXK1VCT1QxcU9xVCtIMzhpMHpV?=
+ =?utf-8?B?S3FQbUNCNmN4UXpIYjVCQThnZWNDZmJtYWJNQT09?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(14060799003)(36860700013)(1800799024)(376014)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 19:25:46.1274
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c486135-edea-4322-2b8a-08ddf48dab88
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B92.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8362
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 19:11:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223503
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 19:25:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223506
 
-Change this recipe to build just clang and clang-tools-extra, using the
-LLVM provided by the llvm recipe.
-
-This adds an 'extra-tools' PACKAGECONFIG (enabled by default) that
-controls whether to build the clang-tools-extra project. This includes
-clang-tidy and clangd, but the compile time and size for these
-components is not insignificant.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-devtools/clang/clang_git.bb | 165 ++++-------------------
- 1 file changed, 24 insertions(+), 141 deletions(-)
-
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devt=
-ools/clang/clang_git.bb
-index 9a19cefc961..9e977379325 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -19,7 +19,7 @@ require common-source.inc
-=20
- BPN =3D "clang"
-=20
--CVE_PRODUCT +=3D "llvm:clang"
-+CVE_PRODUCT =3D "llvm:clang"
-=20
- INHIBIT_DEFAULT_DEPS:class-native =3D "1"
-=20
-@@ -28,72 +28,31 @@ LDFLAGS:append:class-target:mips =3D " -Wl,--no-as-ne=
-eded -latomic -Wl,--as-needed
-=20
- inherit cmake pkgconfig multilib_header python3-dir
-=20
--PACKAGECONFIG_CLANG_COMMON =3D "build-id eh libedit rtti shared-libs lib=
-clang-python \
--                              ${@bb.utils.contains('DISTRO_FEATURES', 'l=
-d-is-lld', 'lld', '', d)} \
--                              ${@bb.utils.contains('TC_CXX_RUNTIME', 'll=
-vm', 'compiler-rt libcplusplus libomp unwindlib', '', d)} \
--                              "
--
--PACKAGECONFIG ??=3D "${PACKAGECONFIG_CLANG_COMMON} \
-+PACKAGECONFIG ??=3D "build-id extra-tools clangd libclang-python \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'lto thin-lto',=
- d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', =
-'lld', '', d)} \
-+                   ${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compi=
-ler-rt libcplusplus libomp unwindlib', '', d)} \
-                    "
--PACKAGECONFIG:class-native =3D "clangd \
--                              ${PACKAGECONFIG_CLANG_COMMON} \
--                              "
--PACKAGECONFIG:class-nativesdk =3D "clangd \
--                                 ${PACKAGECONFIG_CLANG_COMMON} \
--                                 ${@bb.utils.filter('DISTRO_FEATURES', '=
-lto thin-lto', d)} \
--                                 "
-+PACKAGECONFIG:remove:class-native =3D "lto thin-lto"
-=20
- PACKAGECONFIG[build-id] =3D "-DENABLE_LINKER_BUILD_ID=3DON,-DENABLE_LINK=
-ER_BUILD_ID=3DOFF,,"
- PACKAGECONFIG[clangd] =3D "-DCLANG_ENABLE_CLANGD=3DON,-DCLANG_ENABLE_CLA=
-NGD=3DOFF,,"
--
- # Activate to build the dexp tool in clangd
- # Disabled by default for -native since it is known to trigger compiler =
-failure on Debian 11
- # See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15803
- PACKAGECONFIG[clangd-dexp] =3D "-DCLANGD_BUILD_DEXP=3DON,-DCLANGD_BUILD_=
-DEXP=3DOFF,,"
--
- PACKAGECONFIG[compiler-rt] =3D "-DCLANG_DEFAULT_RTLIB=3Dcompiler-rt,,"
--PACKAGECONFIG[eh] =3D "-DLLVM_ENABLE_EH=3DON,-DLLVM_ENABLE_EH=3DOFF,,"
--PACKAGECONFIG[exegesis] =3D "-DLLVM_TOOL_LLVM_EXEGESIS_BUILD=3DON,-DLLVM=
-_TOOL_LLVM_EXEGESIS_BUILD=3DOFF"
-+PACKAGECONFIG[extra-tools] =3D "-DLLVM_EXTERNAL_CLANG_TOOLS_EXTRA_SOURCE=
-_DIR=3D${S}/clang-tools-extra"
- PACKAGECONFIG[libcplusplus] =3D "-DCLANG_DEFAULT_CXX_STDLIB=3Dlibc++,,"
--PACKAGECONFIG[libedit] =3D "-DLLVM_ENABLE_LIBEDIT=3DON,-DLLVM_ENABLE_LIB=
-EDIT=3DOFF,libedit libedit-native"
- PACKAGECONFIG[libomp] =3D "-DCLANG_DEFAULT_OPENMP_RUNTIME=3Dlibomp,,"
- PACKAGECONFIG[lld] =3D "-DCLANG_DEFAULT_LINKER=3Dlld,,,"
- PACKAGECONFIG[lto] =3D "-DLLVM_ENABLE_LTO=3DFull -DLLVM_BINUTILS_INCDIR=3D=
-${STAGING_INCDIR},,binutils,"
--PACKAGECONFIG[opt-viewer] =3D "-DLLVM_TOOL_OPT_VIEWER_BUILD=3DON,-DLLVM_=
-TOOL_OPT_VIEWER_BUILD=3DOFF, \
--                             python3-pyyaml-native python3-pygments-nati=
-ve python3-pyyaml python3-pygments, \
--                             python3-pyyaml python3-pygments,"
--PACKAGECONFIG[pfm] =3D "-DLLVM_ENABLE_LIBPFM=3DON,-DLLVM_ENABLE_LIBPFM=3D=
-OFF,libpfm,"
--PACKAGECONFIG[rtti] =3D "-DLLVM_ENABLE_RTTI=3DON,-DLLVM_ENABLE_RTTI=3DOF=
-F,,"
--PACKAGECONFIG[shared-libs] =3D "-DLLVM_BUILD_LLVM_DYLIB=3DON -DLLVM_LINK=
-_LLVM_DYLIB=3DON,,,"
--PACKAGECONFIG[split-dwarf] =3D "-DLLVM_USE_SPLIT_DWARF=3DON,-DLLVM_USE_S=
-PLIT_DWARF=3DOFF,,"
- PACKAGECONFIG[thin-lto] =3D "-DLLVM_ENABLE_LTO=3DThin -DLLVM_BINUTILS_IN=
-CDIR=3D${STAGING_INCDIR},,binutils,"
- PACKAGECONFIG[unwindlib] =3D "-DCLANG_DEFAULT_UNWINDLIB=3Dlibunwind,-DCL=
-ANG_DEFAULT_UNWINDLIB=3Dlibgcc,,"
- PACKAGECONFIG[libclang-python] =3D "-DCLANG_PYTHON_BINDINGS_VERSIONS=3D$=
-{PYTHON_BASEVERSION},,"
-=20
--OECMAKE_SOURCEPATH =3D "${S}/llvm"
-+OECMAKE_SOURCEPATH =3D "${S}/clang"
-=20
--# By default we build all the supported CPU architectures, and the GPU t=
-argets
--# if the opengl or vulkan DISTRO_FEATURES are enabled.
--#
--# For target builds we default to building that specific architecture, B=
-PF, and the GPU targets if required.
--#
--# The available target list can be seen in the source code
--# in the LLVM_ALL_TARGETS assignment:
--# https://github.com/llvm/llvm-project/blob/main/llvm/CMakeLists.txt
--LLVM_TARGETS_GPU ?=3D "${@bb.utils.contains_any('DISTRO_FEATURES', 'open=
-gl vulkan', 'AMDGPU;NVPTX;SPIRV', '', d)}"
--LLVM_TARGETS_TO_BUILD ?=3D "AArch64;ARM;BPF;Mips;PowerPC;RISCV;X86;Loong=
-Arch;${LLVM_TARGETS_GPU}"
--LLVM_TARGETS_TO_BUILD:class-target ?=3D "${@get_clang_host_arch(bb, d)};=
-BPF;${LLVM_TARGETS_GPU}"
--
--LLVM_EXPERIMENTAL_TARGETS_TO_BUILD ?=3D ""
--
--HF =3D ""
--HF:class-target =3D "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard',=
- 'hf', '', d)}"
--HF[vardepvalue] =3D "${HF}"
--
--# Ensure that LLVM_PROJECTS does not contain compiler runtime components=
- e.g. libcxx etc
--# they are enabled via LLVM_ENABLE_RUNTIMES
--LLVM_PROJECTS ?=3D "clang;clang-tools-extra"
-=20
- # linux hosts (.so) on Windows .pyd
- SOLIBSDEV:mingw32 =3D ".pyd"
-@@ -102,25 +61,18 @@ SOLIBSDEV:mingw32 =3D ".pyd"
-=20
- EXTRA_OECMAKE +=3D "-DLLVM_ENABLE_ASSERTIONS=3DOFF \
-                   -DLLVM_APPEND_VC_REV=3DOFF \
--                  -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=3DOFF \
-+                  -DLLVM_BUILD_LLVM_DYLIB=3DON \
-+                  -DLLVM_LINK_LLVM_DYLIB=3DON \
-                   -DLLVM_ENABLE_EXPENSIVE_CHECKS=3DOFF \
-                   -DLLVM_ENABLE_PIC=3DON \
-                   -DCLANG_DEFAULT_PIE_ON_LINUX=3DON \
--                  -DLLVM_BINDINGS_LIST=3D'' \
--                  -DLLVM_ENABLE_FFI=3DON \
--                  -DLLVM_ENABLE_ZSTD=3DON \
-                   -DFFI_INCLUDE_DIR=3D$(pkg-config --variable=3Dincluded=
-ir libffi) \
-                   -DLLVM_BUILD_EXTERNAL_COMPILER_RT=3DON \
-                   -DCMAKE_SYSTEM_NAME=3DLinux \
-                   -DCMAKE_BUILD_TYPE=3DRelease \
-                   -DLLVM_ENABLE_PROJECTS=3D'${LLVM_PROJECTS}' \
--                  -DLLVM_BINUTILS_INCDIR=3D${STAGING_INCDIR} \
-                   -DLLVM_VERSION_SUFFIX=3D'${VER_SUFFIX}' \
--                  -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=3DON \
--                  -DLLVM_TARGETS_TO_BUILD=3D'${LLVM_TARGETS_TO_BUILD}' \
--                  -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=3D'${LLVM_EXPERIM=
-ENTAL_TARGETS_TO_BUILD}' \
--                  -DLLVM_NATIVE_TOOL_DIR=3D${STAGING_BINDIR_NATIVE} \
--                  -DLLVM_HEADERS_TABLEGEN=3D${STAGING_BINDIR_NATIVE}/llv=
-m-min-tblgen \
-+                  -DLLVM_CMAKE_DIR=3D${STAGING_LIBDIR}/cmake/llvm \
-                   -DLLVM_INCLUDE_TESTS=3DOFF \
- "
-=20
-@@ -132,58 +84,27 @@ EXTRA_OECMAKE:append:class-nativesdk =3D "\
-                   -DCMAKE_STRIP=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_P=
-REFIX}llvm-strip \
- "
- EXTRA_OECMAKE:append:class-target =3D "\
-+                  -DLLVM_NATIVE_TOOL_DIR=3D${STAGING_BINDIR_NATIVE} \
-+                  -DLLVM_TABLEGEN_EXE=3D${STAGING_BINDIR_NATIVE}/llvm-tb=
-lgen \
-                   -DCMAKE_RANLIB=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_=
-PREFIX}llvm-ranlib \
-                   -DCMAKE_AR=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
-IX}llvm-ar \
-                   -DCMAKE_NM=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
-IX}llvm-nm \
-                   -DCMAKE_STRIP=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_P=
-REFIX}llvm-strip \
--                  -DLLVM_TARGET_ARCH=3D${HOST_ARCH} \
--                  -DLLVM_DEFAULT_TARGET_TRIPLE=3D${TARGET_SYS}${HF} \
--                  -DLLVM_HOST_TRIPLE=3D${TARGET_SYS}${HF} \
-                   -DLLVM_LIBDIR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \
- "
-=20
--DEPENDS =3D "binutils zlib zstd libffi libxml2 libxml2-native llvm-tblge=
-n-native"
-+DEPENDS =3D "llvm-tblgen-native llvm binutils zlib zstd libffi libxml2 l=
-ibxml2-native"
- DEPENDS:append:class-nativesdk =3D " clang-crosssdk-${SDK_SYS} virtual/n=
-ativesdk-cross-binutils"
- DEPENDS:append:class-target =3D " ${MLPREFIX}clang-cross-${TARGET_ARCH} =
-${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compiler-rt libcxx', '', =
-d)}"
-=20
- RDEPENDS:${PN}:append:class-target =3D "${@bb.utils.contains('DISTRO_FEA=
-TURES', 'ld-is-lld', ' lld', '', d)}"
- RRECOMMENDS:${PN}:append:class-target =3D "binutils ${@bb.utils.contains=
-('TC_CXX_RUNTIME', 'llvm', ' libcxx-dev', '', d)}"
-=20
--# patch out build host paths for reproducibility
--reproducible_build_variables() {
--    sed -i -e "s,${DEBUG_PREFIX_MAP},,g" \
--        -e "s,--sysroot=3D${RECIPE_SYSROOT},,g" \
--        -e "s,${STAGING_DIR_HOST},,g" \
--        -e "s,${S}/llvm,,g"  \
--        -e "s,${B},,g" \
--        ${B}/tools/llvm-config/BuildVariables.inc
--}
--
--do_configure:append:class-target() {
--    reproducible_build_variables
--}
--
--do_configure:append:class-nativesdk() {
--    reproducible_build_variables
--}
--
- do_install:append() {
--    oe_multilib_header llvm/Config/llvm-config.h
-     oe_multilib_header clang/Config/config.h
- }
-=20
- do_install:append:class-target () {
--    # Allow bin path to change based on YOCTO_ALTERNATE_EXE_PATH
--    sed -i 's;${_IMPORT_PREFIX}/bin;${_IMPORT_PREFIX_BIN};g' ${D}${libdi=
-r}/cmake/llvm/LLVMExports-release.cmake
--
--    # Insert function to populate Import Variables
--    sed -i "4i\
--if(DEFINED ENV{YOCTO_ALTERNATE_EXE_PATH})\n\
--  execute_process(COMMAND \"llvm-config\" \"--bindir\" OUTPUT_VARIABLE _=
-IMPORT_PREFIX_BIN OUTPUT_STRIP_TRAILING_WHITESPACE)\n\
--else()\n\
--  set(_IMPORT_PREFIX_BIN \"\${_IMPORT_PREFIX}/bin\")\n\
--endif()\n" ${D}${libdir}/cmake/llvm/LLVMExports-release.cmake
--
-     if [ -n "${LLVM_LIBDIR_SUFFIX}" ]; then
-         mkdir -p ${D}${nonarch_libdir}
-         mv ${D}${libdir}/clang ${D}${nonarch_libdir}/clang
-@@ -194,44 +115,18 @@ endif()\n" ${D}${libdir}/cmake/llvm/LLVMExports-rel=
-ease.cmake
-         llvm-addr2line llvm-dwp llvm-size llvm-strings llvm-cov; do
-         ln -sf $t ${D}${bindir}/${TARGET_PREFIX}$t
-     done
--
--    # reproducibility
--    sed -i -e 's,${B},,g' ${D}${libdir}/cmake/llvm/LLVMConfig.cmake
- }
-=20
- do_install:append:class-native () {
--    if ${@bb.utils.contains('PACKAGECONFIG', 'clangd', 'true', 'false', =
-d)}; then
--        install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clangd-indexer ${D}${b=
-indir}/clangd-indexer
-+    if ${@bb.utils.contains('PACKAGECONFIG', 'extra-tools', 'true', 'fal=
-se', d)}; then
-+        install -Dm 0755 ${B}/bin/clang-tidy-confusable-chars-gen ${D}${=
-bindir}/clang-tidy-confusable-chars-gen
-     fi
--    install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clang-tidy-confusable-char=
-s-gen ${D}${bindir}/clang-tidy-confusable-chars-gen
--
--    for f in `find ${D}${bindir} -executable -type f -not -type l`; do
--        test -n "`file -b $f|grep -i ELF`" && ${STRIP} $f
--        echo "stripped $f"
--    done
--    ln -sf llvm-config ${D}${bindir}/llvm-config${PV}
--
--    # These are provided by llvm-tblgen-native
--    rm ${D}${bindir}/*-tblgen
- }
-=20
- do_install:append:class-nativesdk () {
-     if [ -e ${D}${libdir}/cmake/llvm/LLVMConfig.cmake ] ; then
-         sed -i -e "s|${B}/./bin/||g" ${D}${libdir}/cmake/llvm/LLVMConfig=
-.cmake
-     fi
--    if ${@bb.utils.contains('PACKAGECONFIG', 'clangd', 'true', 'false', =
-d)}; then
--        install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clangd-indexer ${D}${b=
-indir}/clangd-indexer
--    fi
--    install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clang-tblgen ${D}${bindir}=
-/clang-tblgen
--    install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clang-tidy-confusable-char=
-s-gen ${D}${bindir}/clang-tidy-confusable-chars-gen
--    for f in `find ${D}${bindir} -executable -type f -not -type l`; do
--        test -n "`file -b $f|grep -i ELF`" && ${STRIP} $f
--    done
--    ln -sf clang-tblgen ${D}${bindir}/clang-tblgen${PV}
--    ln -sf llvm-tblgen ${D}${bindir}/llvm-tblgen${PV}
--    ln -sf llvm-config ${D}${bindir}/llvm-config${PV}
--    rm -rf ${D}${datadir}/llvm/cmake
--    rm -rf ${D}${datadir}/llvm
-=20
-     #reproducibility
-     if [ -e ${D}${libdir}/cmake/llvm/LLVMConfig.cmake ] ; then
-@@ -239,12 +134,7 @@ do_install:append:class-nativesdk () {
-     fi
- }
-=20
--PROVIDES:append:class-native =3D " llvm-native"
--PROVIDES:append:class-target =3D " llvm"
--PROVIDES:append:class-nativesdk =3D " nativesdk-llvm"
--
--PACKAGES =3D+ "${PN}-libllvm ${PN}-libclang-python ${PN}-libclang-cpp ${=
-PN}-tidy ${PN}-format ${PN}-tools \
--             libclang llvm-linker-tools"
-+PACKAGES =3D+ "${PN}-libclang-python ${PN}-libclang-cpp ${PN}-tidy ${PN}=
--format ${PN}-tools libclang"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-=20
-@@ -262,8 +152,6 @@ RDEPENDS:${PN}-tools +=3D "\
-=20
- RRECOMMENDS:${PN}-tidy +=3D "${PN}-tools"
-=20
--FILES:llvm-linker-tools =3D "${libdir}/LLVMgold* ${libdir}/libLTO.so.* $=
-{libdir}/LLVMPolly*"
--
- FILES:${PN}-libclang-cpp =3D "${libdir}/libclang-cpp.so.*"
-=20
- FILES:${PN}-libclang-python =3D "${PYTHON_SITEPACKAGES_DIR}/clang/*"
-@@ -326,12 +214,6 @@ FILES:${PN} +=3D "\
-   ${nonarch_libdir}/${BPN}/*/include/ \
- "
-=20
--FILES:${PN}-libllvm =3D+ "\
--  ${libdir}/libLLVM.so.${MAJOR_VER}.${MINOR_VER} \
--  ${libdir}/libLLVM-${MAJOR_VER}.so \
--  ${libdir}/libRemarks.so.* \
--"
--
- FILES:libclang =3D "\
-   ${libdir}/libclang.so.* \
- "
-@@ -352,7 +234,6 @@ FILES:${PN}:remove =3D "${libdir}/${BPN}/*"
-=20
- INSANE_SKIP:${PN} +=3D "already-stripped"
- #INSANE_SKIP:${PN}-dev +=3D "dev-elf"
--INSANE_SKIP:${PN}-libllvm =3D "dev-so"
-=20
- #Avoid SSTATE_SCAN_COMMAND running sed over llvm-config.
- SSTATE_SCAN_FILES:remove =3D "*-config"
-@@ -366,15 +247,17 @@ SYSROOT_PREPROCESS_FUNCS:append:class-target =3D " =
-clang_sysroot_preprocess"
- SYSROOT_PREPROCESS_FUNCS:append:class-nativesdk =3D " clang_sysroot_prep=
-rocess"
-=20
- clang_sysroot_preprocess() {
--	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}/
--	install -m 0755 ${S}/llvm/tools/llvm-config/llvm-config ${SYSROOT_DESTD=
-IR}${bindir_crossscripts}/
--	ln -sf llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/llvm-config=
-${PV}
-+	install -d ${SYSROOT_DESTDIR}${bindir}/
-=20
- 	binaries=3D"diagtool clang-${MAJOR_VER} clang-format clang-offload-pack=
-ager
- 	                clang-offload-bundler clang-scan-deps clang-repl
--	                clang-refactor clang-check clang-extdef-mapping clang-a=
-pply-replacements
--	                clang-reorder-fields clang-tidy clang-change-namespace =
-clang-doc clang-include-fixer
--	                find-all-symbols clang-move clang-query pp-trace modula=
-rize"
-+	                clang-refactor clang-check clang-extdef-mapping"
-+
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'extra-tools', 'true', 'false'=
-, d)}; then
-+	        binaries=3D"${binaries} clang-apply-replacements clang-reorder-=
-fields
-+                    clang-tidy clang-change-namespace clang-doc clang-in=
-clude-fixer
-+                    find-all-symbols clang-move clang-query pp-trace mod=
-ularize"
-+	fi
-=20
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'clangd', 'true', 'false', d)}=
-; then
- 	        binaries=3D"${binaries} clangd"
---=20
-2.43.0
-
+T24gMTEgU2VwIDIwMjUsIGF0IDA5OjUxLCBBbGV4YW5kZXIgS2FuYXZpbiB2aWEgbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZyA8YWxleC5rYW5hdmluPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnPiB3cm90ZToNCj4gVGhpcyAoYW5kIDIuMjIpIGlzIGEgZmlyc3QgcmVsZWFzZSBpbiBtYW55
+IHllYXJzLg0KDQpZYXkhDQoNCj4gLSBkcm9wIHR3ZWFrcyBhbmQgZGVwZW5kZW5jeSBvbiBjd2F1
+dG9tYWNyb3MgYXMgdGhhdCBpcyBubyBsb25nZXIgdXNlZA0KDQpZYXkhDQoNCj4gU2FkbHksIGN3
+YXV0b21hY3JvcyBoYXMgYmVlbiByZXBsYWNlZCBieSBhbiBlcXVhbGx5IGN1c3RvbSwgd2VpcmQg
+c2V0DQo+IG9mIG1hY3Jvcywgd3JpdHRlbiBieSAnd2hpY2gnIG1haW50YWluZXI6IGh0dHBzOi8v
+Z2l0aHViLmNvbS9DYXJsb1dvb2QvY3dtNA0KDQpPa2FhYWFheQ0KDQo+IC0gb25lIGVmZmVjdCBv
+ZiB0aGF0IGlzIHRoYXQgYXV0b3JlY29uZiBpc24ndCBoYXBweSB3aXRoIHdoaWNoJ3MgY29uZmln
+dXJlLmFjIGFuZCB3b24ndCBydW47DQo+IG9uZSBpcyBzdXBwb3NlZCB0byB1c2UgYSBjdXN0b20g
+c2NyaXB0IGluc3RlYWQ6IGh0dHBzOi8vZ2l0aHViLmNvbS9DYXJsb1dvb2QvY3dtNC9ibG9iL21h
+c3Rlci9zY3JpcHRzL2Jvb3RzdHJhcC5zaA0KDQpTaWdoLg0KDQo+IC0gYWxhcywgdGhhdCBzY3Jp
+cHQgaXMgbm90IHNoaXBwZWQgaW4gdGFyYmFsbHM7IHRoZSBtYWludGFpbmVyIHdhbnRzDQo+IGV2
+ZXJ5b25lIHRvIHRydXN0IHRoZWlyIDIwMGsgY29uZmlndXJlIHNjcmlwdCAoaGVsbG8geHogYmFj
+a2Rvb3IpDQoNCkZhY2VwYWxtLg0KDQo+IC0gYnVpbGRpbmcgZnJvbSBnaXQgKHdoZXJlIHRoZSBz
+Y3JpcHQgZXhpc3RzKSBpcyBub3QgaW1wb3NzaWJsZSwNCj4gYnV0IHRoYXQgaGFzIG5vIHZlcnNp
+b24gdGFncw0KDQpHcm9hbi4NCg0KPiAtIHNvIGluIHRoZSBlbmQgY29uZmlndXJlLmFjIGlzIGRl
+bGV0ZWQ7IHRoaXMgaGFzIGFuIGVmZmVjdA0KPiBvZiBhdXRvdG9vbHMuYmJjbGFzcyBydW5uaW5n
+IGNvbmZpZ3VyZSBpbnN0ZWFkDQoNCkljay4NCg0KPiBBbGwgdGhpcyAnc3BlY2lhbCBoYW5kbGlu
+ZycgZm9yIHdoYXQsIGV4YWN0bHk/IE9uZSBzaW5nbGUtZnVuY3Rpb24NCj4gZXhlY3V0YWJsZSwg
+b25lIG1hbnBhZ2UgYW5kIG9uZSBpbmZvIHBhZ2UsIHdoaWNoIHNob3VsZCBhbGwgYmUgaW4gY29y
+ZXV0aWxzDQo+IHRvIGJlZ2luIHdpdGguIEdOVSdzIGF0dGFjaG1lbnQgdG8gYXV0b3Rvb2xzIGRl
+ZmllcyByZWFzb24uDQoNClRoZSBhdHRhY2htZW50IHRvIG5vdCBldmVuIHN0YW5kYXJkIGF1dG90
+b29scywgZXZlbi4NCg0KQmV0d2VlbiB2YXJpb3VzIGZhY3RvcnMgaW5jbHVkaW5nIGhvdyBsYXRl
+IGluIHRoZSBjeWNsZSB3ZSBhcmUsIGhvdyB1Z2x5IHRoaXMgdXBncmFkZSBpcywgYW5kIGhvdyBt
+aW5vciBHTlUgd2hpY2ggaXMsIGFuZCB0aGUgbnVtYmVyIG9mIHBvc3QtcmVsZWFzZSDigJxmaXgg
+b3V0IG9mIGJvdW5kc+KAnSBwYXRjaGVzIGluIG1hc3RlciwgSSBwcm9wb3NlIGhvbGRpbmcgb2Zm
+IHRoaXMgZm9yIG5vdy4NCg0KV2UgY2FuIGZpbGUgYnVncyBhbmQgdGFsayB3aXRoIHVwc3RyZWFt
+IGFib3V0IHNvbWUgb2YgdGhlIHBhaW4gcG9pbnRzIChubyB0YWdzLCBubyByZWJ1aWxkcyBmcm9t
+IHRhcmJhbGxzLCBldGMgc291bmRzIGxpa2UgaGXigJlzIHRyeWluZyB0byBhY3RpdmVseSBlbmNv
+dXJhZ2UgYSBzdXBwbHkgY2hhaW4gYXR0YWNrKSBhbmQgaG9wZWZ1bGx5IGhhdmUgYSBzYW5lciBy
+ZWxlYXNlIGluIHRoZSBmdXR1cmU/DQoNClJvc3M=
 
