@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F1ECAC59A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE1ECAC5A1
 	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:54:59 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.30885.1757937278716776897
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.30901.1757937287103732334
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Sep 2025 04:54:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ww2jUD5Z;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=d0nxdUtz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101994d3a6547-dce44ec1-ab4c-4b64-bba0-89a5b0d58719-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VrEuKBdT;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=q4ZIo5Rm;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101994d3a6783-dd155a06-a9e9-4acd-8464-4983b736f393-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1757937296;
+	t=1757937297;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uP19u+0aneHCKfH/aflKuDPsYOqIVlvk2CHHZbgKYHc=;
-	b=ww2jUD5ZS0S+QZaC20pmXoqh093C8UgcB8U6VeLuoVp1KMxZrYOnr36a/J17gCNs
-	3bPzNeZ68zx1F9D/3DmPZHgdjoyB/dUP3zS7ff8hcG+iS+Q151A4BQCthztQm2T0ZSo
-	u90Uv2DgTTXvoAqAY7IewMAbkXTBPSkpJVHRj33M=
+	bh=PzLKlBwsafre01duZQR3kotja6bvSU4n1gncri1pCj4=;
+	b=VrEuKBdTe/FSs94i36xUgwZoPFZBsfTmS7uQUO68xI+JEa7sZvgvKdjZkIM/JjCP
+	XC57Ke22NYaJS8SrzRlNFJ9/96mszrV9Gpm9kBauON7ccnYVROP23Lf2ZX7QjmnnWmA
+	XM9/9qkmeyEMxgkBKtzCSTMM/QKbuX6hCDcjjJQA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937296;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937297;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uP19u+0aneHCKfH/aflKuDPsYOqIVlvk2CHHZbgKYHc=;
-	b=d0nxdUtzZS2Z5sfCHl009ZO6byjQ8sGEhfynkwGKTIOQJsgShlSL7Gc79NhJQSq0
-	ONgefZp04pvkasc4gE+OlFRwn3MvPx2JtQ7lPceBIUA8AdBteiqvocEUkhAP4GynNDh
-	bFcc/KxD7rfqne8mo0DjP8k1QsBtpfWL4csvgNtc=
-Content-Type: multipart/mixed; boundary="===============0443274348872477434=="
+	bh=PzLKlBwsafre01duZQR3kotja6bvSU4n1gncri1pCj4=;
+	b=q4ZIo5RmHcN0LEncFpoeXZHQVEJCDMznkPSORLOq4ZbSZyicXi0BGnnBCO6mleU/
+	amE1vQX/LEQkSJ0QoGLbq326kolmQTPH4DZsmU/Y0ulwPwdxlPyv2NNcfBbclBPM8tO
+	m9KWTbOTqUupLGsEL2o3WtTawzRCB4kFU4T0IPlk=
+Content-Type: multipart/mixed; boundary="===============0014597583586134727=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hiago De Franco <hiago.franco@toradex.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libdisplay-info: upgrading to 0.3.0 SUCCEEDED
-Message-ID: <010101994d3a6547-dce44ec1-ab4c-4b64-bba0-89a5b0d58719-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Sep 2025 11:54:56 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] nghttp2: upgrading to 1.67.0 SUCCEEDED
+Message-ID: <010101994d3a6783-dd155a06-a9e9-4acd-8464-4983b736f393-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Sep 2025 11:54:57 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.15-54.240.27.31
+X-SES-Outgoing: 2025.09.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:54:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223478
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223480
 
---===============0443274348872477434==
+--===============0014597583586134727==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libdisplay-info* to *0.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *nghttp2* to *1.67.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libdisplay-info-upgrade-0.2.0-0.3.0.patch
+    - apply the patch: git am 0001-nghttp2-upgrade-1.66.0-1.67.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,121 +72,123 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From c45652fed92e95efde483757cd0da464b1ffbd96 Mon Sep 17 00:00:00 2001
+From 54ea061bbf4eb7e1b513b9f42e02bfa9464447ea Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Sep 2025 11:40:47 +0000
-Subject: [PATCH] libdisplay-info: upgrade 0.2.0 -> 0.3.0
+Date: Mon, 15 Sep 2025 11:44:29 +0000
+Subject: [PATCH] nghttp2: upgrade 1.66.0 -> 1.67.0
 
 ---
- .../{libdisplay-info_0.2.0.bb => libdisplay-info_0.3.0.bb}      | 2 +-
+ .../nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.67.0.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libdisplay-info/{libdisplay-info_0.2.0.bb => libdisplay-info_0.3.0.bb} (92%)
+ rename meta/recipes-support/nghttp2/{nghttp2_1.66.0.bb => nghttp2_1.67.0.bb} (84%)
 
-diff --git a/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb b/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
-similarity index 92%
-rename from meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
-rename to meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
-index 812a30495e..3dc02261dd 100644
---- a/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
-+++ b/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
-@@ -9,6 +9,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e4426409957080ee0352128354cea2de"
- DEPENDS = "hwdata-native"
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.67.0.bb
+similarity index 84%
+rename from meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.67.0.bb
+index 49d6d7e632..bb31a36c1f 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.66.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.67.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
  
- SRC_URI = "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;branch=main;protocol=https"
--SRCREV = "66b802d05b374cd8f388dc6ad1e7ae4f08cb3300"
-+SRCREV = "47a5590e9c4eb35d67651b8c05a55f1a48259329"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "00ba1bdf0ba2c74b2a4fe6c8b1069dc9d82f82608af24442d430df97c6f9e631"
++SRC_URI[sha256sum] = "d21cf317837f5176b76bed7eded54a4e4583dfa378c9f915913329d9d4a1be86"
  
- inherit meson pkgconfig lib_package
+ inherit cmake manpages python3native github-releases
+ 
 -- 
 2.47.1
 
 
---===============0443274348872477434==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libdisplay-info-upgrade-0.2.0-0.3.0.patch"
-
-RnJvbSBjNDU2NTJmZWQ5MmU5NWVmZGU0ODM3NTdjZDBkYTQ2NGIxZmZiZDk2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMTE6NDA6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJkaXNwbGF5LWluZm86IHVwZ3JhZGUgMC4yLjAgLT4gMC4zLjAKCi0tLQogLi4uL3tsaWJkaXNw
-bGF5LWluZm9fMC4yLjAuYmIgPT4gbGliZGlzcGxheS1pbmZvXzAuMy4wLmJifSAgICAgIHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZGlzcGxheS1pbmZvL3tsaWJkaXNwbGF5LWluZm9fMC4y
-LjAuYmIgPT4gbGliZGlzcGxheS1pbmZvXzAuMy4wLmJifSAoOTIlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC4yLjAu
-YmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJkaXNwbGF5LWluZm8vbGliZGlzcGxheS1pbmZv
-XzAuMy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1z
-dXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC4yLjAuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC4z
-LjAuYmIKaW5kZXggODEyYTMwNDk1ZS4uM2RjMDIyNjFkZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvbGliZGlzcGxheS1pbmZvL2xpYmRpc3BsYXktaW5mb18wLjIuMC5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJkaXNwbGF5LWluZm8vbGliZGlzcGxheS1pbmZvXzAu
-My4wLmJiCkBAIC05LDYgKzksNiBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNF
-O21kNT1lNDQyNjQwOTk1NzA4MGVlMDM1MjEyODM1NGNlYTJkZSIKIERFUEVORFMgPSAiaHdkYXRh
-LW5hdGl2ZSIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2VtZXJz
-aW9uL2xpYmRpc3BsYXktaW5mby5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCi1TUkNS
-RVYgPSAiNjZiODAyZDA1YjM3NGNkOGYzODhkYzZhZDFlN2FlNGYwOGNiMzMwMCIKK1NSQ1JFViA9
-ICI0N2E1NTkwZTljNGViMzVkNjc2NTFiOGMwNWE1NWYxYTQ4MjU5MzI5IgogCiBpbmhlcml0IG1l
-c29uIHBrZ2NvbmZpZyBsaWJfcGFja2FnZQotLSAKMi40Ny4xCgo=
-
---===============0443274348872477434==
+--===============0014597583586134727==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libdisplay-info: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGSIZE changed from 63616 to 75904 (+19%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: FILELIST: removed "/usr/lib/.debug/libdisplay-info.so.0.2.0", added "/usr/lib/.debug/libdisplay-info.so.0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGSIZE changed from 565576 to 662288 (+17%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: FILELIST: added "/usr/include/libdisplay-info/displayid2.h"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGSIZE changed from 87045 to 104854 (+20%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-doc: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-doc: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-locale: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-locale: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-staticdev: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-staticdev: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKG changed from libdisplay-info2 to libdisplay-info3
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: FILELIST: removed "/usr/lib/libdisplay-info.so.0.2.0 /usr/lib/libdisplay-info.so.2", added "/usr/lib/libdisplay-info.so.0.3.0 /usr/lib/libdisplay-info.so.3"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKGSIZE changed from 227256 to 239544 (+5%)
-Changes to packages/x86-64-v3-poky-linux/libdisplay-info (sysroot):
-  /usr/lib/libdisplay-info.so changed symlink target from libdisplay-info.so.2 to libdisplay-info.so.3
-  /usr/lib/libdisplay-info.so.0.2.0 moved to /usr/lib/libdisplay-info.so.0.3.0
-  /usr/lib/libdisplay-info.so.2 moved to /usr/lib/libdisplay-info.so.3
-  /usr/include/libdisplay-info/displayid2.h was added
+packages/x86-64-v3-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.66.0/nghttp2-1.66.0.tar.xz" to "https://github.com/nghttp2/nghttp2/releases//download/v1.67.0/nghttp2-1.67.0.tar.xz"
+packages/x86-64-v3-poky-linux/nghttp2: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 561344 to 562672 (+0%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.28.5", added "/usr/lib/.debug/libnghttp2.so.14.29.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGSIZE changed from 248995 to 253583 (+2%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: FILELIST: removed "/usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake /usr/lib/cmake/nghttp2/nghttp2-targets.cmake", added "/usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake /usr/lib/cmake/nghttp2/nghttp2Targets.cmake /usr/lib/cmake/nghttp2/nghttp2Config.cmake /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 49545 to 49547 (+0%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1041649 to 1048450 (+1%)
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.5", added "/usr/lib/libnghttp2.so.14.29.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PV changed from "1.66.0" to "1.67.0"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PKGV changed from 1.66.0 [default] to 1.67.0 [default]
+Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.5 to libnghttp2.so.14.29.0
+  /usr/lib/libnghttp2.so.14.28.5 moved to /usr/lib/libnghttp2.so.14.29.0
+  /usr/lib/cmake/nghttp2/nghttp2Config.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2-targets.cmake was removed
+  /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake was removed
 
---===============0443274348872477434==
+--===============0014597583586134727==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGSIZE changed from 63616 to 75904 (+19%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGSIZE changed from 565576 to 662288 (+17%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGSIZE changed from 87045 to 104854 (+20%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: FILELIST: added "/usr/include/libdisplay-info/displayid2.h"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKG changed from libdisplay-info2 to libdisplay-info3
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: FILELIST: removed "/usr/lib/libdisplay-info.so.2 /usr/lib/libdisplay-info.so.0.2.0", added "/usr/lib/libdisplay-info.so.3 /usr/lib/libdisplay-info.so.0.3.0"
-Changes to packages/x86-64-v3-poky-linux/libdisplay-info (sysroot):
-  /usr/lib/libdisplay-info.so changed symlink target from libdisplay-info.so.2 to libdisplay-info.so.3
-  /usr/lib/libdisplay-info.so.0.2.0 moved to /usr/lib/libdisplay-info.so.0.3.0
-  /usr/lib/libdisplay-info.so.2 moved to /usr/lib/libdisplay-info.so.3
-  /usr/include/libdisplay-info/displayid2.h was added
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: FILELIST: removed "/usr/lib/cmake/nghttp2/nghttp2-targets.cmake /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake", added "/usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake /usr/lib/cmake/nghttp2/nghttp2Targets.cmake /usr/lib/cmake/nghttp2/nghttp2Config.cmake /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake"
+packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.5", added "/usr/lib/libnghttp2.so.14.29.0"
+Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.5 to libnghttp2.so.14.29.0
+  /usr/lib/libnghttp2.so.14.28.5 moved to /usr/lib/libnghttp2.so.14.29.0
+  /usr/lib/cmake/nghttp2/nghttp2Config.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2ConfigVersion.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2Targets-relwithdebinfo.cmake was added
+  /usr/lib/cmake/nghttp2/nghttp2-targets.cmake was removed
+  /usr/lib/cmake/nghttp2/nghttp2-targets-relwithdebinfo.cmake was removed
 
---===============0443274348872477434==--
+--===============0014597583586134727==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-nghttp2-upgrade-1.66.0-1.67.0.patch"
+
+RnJvbSA1NGVhMDYxYmJmNGViN2UxYjUxM2I5ZjQyZTAyYmZhOTQ2NDQ0N2VhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMTE6NDQ6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
+Z2h0dHAyOiB1cGdyYWRlIDEuNjYuMCAtPiAxLjY3LjAKCi0tLQogLi4uL25naHR0cDIve25naHR0
+cDJfMS42Ni4wLmJiID0+IG5naHR0cDJfMS42Ny4wLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbmdodHRwMi97bmdodHRwMl8xLjY2LjAuYmIgPT4gbmdodHRwMl8xLjY3
+LjAuYmJ9ICg4NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9u
+Z2h0dHAyXzEuNjYuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8x
+LjY3LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjYuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjcuMC5iYgppbmRleCA0OWQ2ZDdlNjMyLi5iYjMxYTM2
+YzFmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS42
+Ni4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjY3LjAu
+YmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9NzY0YWJkZjMwYjJlYWRkMzdjZTQ3ZGNiY2UwZWExZWMiCiAKIFNS
+Q19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS9uZ2h0dHAyLSR7UFZ9
+LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwMGJhMWJkZjBiYTJjNzRiMmE0ZmU2Yzhi
+MTA2OWRjOWQ4MmY4MjYwOGFmMjQ0NDJkNDMwZGY5N2M2ZjllNjMxIgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gImQyMWNmMzE3ODM3ZjUxNzZiNzZiZWQ3ZWRlZDU0YTRlNDU4M2RmYTM3OGM5ZjkxNTkx
+MzMyOWQ5ZDRhMWJlODYiCiAKIGluaGVyaXQgY21ha2UgbWFucGFnZXMgcHl0aG9uM25hdGl2ZSBn
+aXRodWItcmVsZWFzZXMKIAotLSAKMi40Ny4xCgo=
+
+--===============0014597583586134727==--
 
