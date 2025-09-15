@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7830ECCA46F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EA1DCAC5BF
 	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:54:49 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.30881.1757937273072046775
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.30922.1757937279454211387
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Sep 2025 04:54:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jFh9PKNV;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=n2ozVHIG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101994d3a44d2-2f03febf-62b9-4b84-aada-3c3e8b0b65f0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=yV8JTBwH;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=nx12ZZzK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101994d3a4418-783b9989-56d1-490d-a98b-049c7b77df97-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1757937288;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=6q08G/gR0hJ4OpjylhOsJ+p+aZZS5MBi4rHR4OOfEw8=;
-	b=jFh9PKNVlW4KHmD7oDmvUaxJSD8ajUm80XyR7LBPCBk20bzg1KF4xnr/8b4ZZpHy
-	Nq5+/aQ4rGkE6pWAn207qH6jWFfR5JdMA4ad5E2r1thhrICSVpfirixfXkfd31F/xtZ
-	SAqDXoWuN1YsF7lVeszzthAeUqfpJagp/HFMZdNY=
+	bh=v8iYCs4L71gjGHIWxlIHDzpLe6Ha7gPtBtAjsQuQ3uk=;
+	b=yV8JTBwH/RJSAgButflaIlb/lUUFICZ4CSWjh9e/Ey/aJixApBx2Ga5ieWstIoHb
+	ILF/V+TVIZTts0vutzUMleZKCdeiNRnvwhrSt5AqNxgMbI3Jho3D3tEJx9QhItiZYNv
+	uqDj8fQDmVSczQIf1MucFG7qHG+KLZUexeKzy+xs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937288;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=6q08G/gR0hJ4OpjylhOsJ+p+aZZS5MBi4rHR4OOfEw8=;
-	b=n2ozVHIGfK732EfQDFLp1hQs2E/F1ge0k4MLTMaTjwsGJRU3dR0x5DFyc1CZgTZx
-	gf4RVZnUXe4MCsyAvd5nY09Xa+fyXngtBNmISrc5iar6/h4hBsM5XNwBOgTG/2I1mAA
-	jMWtZoxDlTZjL/KdGPSCNYbxQjQ4sVgMhO1J7M/E=
-Content-Type: multipart/mixed; boundary="===============1337582140274140750=="
+	bh=v8iYCs4L71gjGHIWxlIHDzpLe6Ha7gPtBtAjsQuQ3uk=;
+	b=nx12ZZzKVWQWgb5UhCjT2C1d2BkV4SbBey7tomWUuqR0bIkxe/pftQMbTdp8nBLT
+	b1RFHLzLwgusCGbiCv88ysJOyHQ06EmKHXcSm56tzr8lBeKaDVDcnXEaR1ByY06ALzE
+	jfcG/oecdNQQ67MLHDCEUxGSxzEYhfLwIEaTFkKY=
+Content-Type: multipart/mixed; boundary="===============3845113488354805840=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: 
-	=?utf-8?q?Simone_Wei=C3=9F_=3Csimone=2Ep=2Eweiss=40posteo=2Ecom=3E?=@yoctoproject.org
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libadwaita: upgrading to 1.8.0 FAILED
-Message-ID: <010101994d3a44d2-2f03febf-62b9-4b84-aada-3c3e8b0b65f0-000000@us-west-2.amazonses.com>
+Subject: [AUH] json-glib: upgrading to 1.10.8 SUCCEEDED
+Message-ID: <010101994d3a4418-783b9989-56d1-490d-a98b-049c7b77df97-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Sep 2025 11:54:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.15-54.240.27.193
+X-SES-Outgoing: 2025.09.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:54:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223450
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223449
 
---===============1337582140274140750==
+--===============3845113488354805840==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libadwaita* to *1.8.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *json-glib* to *1.10.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libadwaita-upgrade-1.7.6-1.8.0.patch
+    - apply the patch: git am 0001-json-glib-upgrade-1.10.6-1.10.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -79,220 +72,240 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 00e3e58dedcd8e12f5268f2c20386a477ba3d5ca Mon Sep 17 00:00:00 2001
+From c432c4b6a665d89b1609e95f01bf740be872c142 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Sep 2025 09:46:09 +0000
-Subject: [PATCH] libadwaita: upgrade 1.7.6 -> 1.8.0
+Date: Mon, 15 Sep 2025 09:44:24 +0000
+Subject: [PATCH] json-glib: upgrade 1.10.6 -> 1.10.8
 
 ---
- .../libadwaita/{libadwaita_1.7.6.bb => libadwaita_1.8.0.bb}     | 2 +-
+ .../json-glib/{json-glib_1.10.6.bb => json-glib_1.10.8.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.7.6.bb => libadwaita_1.8.0.bb} (88%)
+ rename meta/recipes-gnome/json-glib/{json-glib_1.10.6.bb => json-glib_1.10.8.bb} (93%)
 
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb
-similarity index 88%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb
-index 6e5eca38de..9aedf2f43d 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.7.6.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb
-@@ -11,7 +11,7 @@ DEPENDS = " \
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb b/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb
+similarity index 93%
+rename from meta/recipes-gnome/json-glib/json-glib_1.10.6.bb
+rename to meta/recipes-gnome/json-glib/json-glib_1.10.8.bb
+index 8b009bc17b..1f68fb8c51 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.10.6.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb
+@@ -19,7 +19,7 @@ GIDOCGEN_MESON_ENABLE_FLAG = 'enabled'
+ GIDOCGEN_MESON_DISABLE_FLAG = 'disabled'
  
- inherit gnomebase gobject-introspection gi-docgen vala features_check
+ SRC_URI += " file://run-ptest"
+-SRC_URI[archive.sha256sum] = "77f4bcbf9339528f166b8073458693f0a20b77b7059dbc2db61746a1928b0293"
++SRC_URI[archive.sha256sum] = "55c5c141a564245b8f8fbe7698663c87a45a7333c2a2c56f06f811ab73b212dd"
  
--SRC_URI[archive.sha256sum] = "5eacc5550f0bdbba6a1568aebf25a3d88f5ee07d6b558becc6fd9487579c9a29"
-+SRC_URI[archive.sha256sum] = "2836d2c0c0f46dcdb52f94019477f537810283c710802d8e6671efdebe2637c9"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES = "opengl"
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+ PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native python3-docutils-native"
 -- 
 2.47.1
 
 
---===============1337582140274140750==
+--===============3845113488354805840==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1939 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (943 cached, 1 parsed). 1939 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/json-glib/json-glib-bin: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-bin: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-dbg: PKGSIZE changed from 1097584 to 1097600 (+0%)
+packages/x86-64-v3-poky-linux/json-glib/json-glib-dbg: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-dbg: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-dbg: FILELIST: removed "/usr/lib/.debug/libjson-glib-1.0.so.0.1000.6", added "/usr/lib/.debug/libjson-glib-1.0.so.0.1000.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-dev: PKGSIZE changed from 469616 to 470052 (+0%)
+packages/x86-64-v3-poky-linux/json-glib/json-glib-dev: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-dev: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-doc: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-doc: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ab: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ab: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-as: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-as: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-be: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-be: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-bg: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-bg: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-bn-in: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-bn-in: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-bs: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-bs: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ca+valencia: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ca+valencia: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ca: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ca: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-cs: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-cs: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-da: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-da: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-de: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-de: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-el: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-el: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-en-gb: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-en-gb: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-eo: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-eo: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-es: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-es: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-et: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-et: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-eu: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-eu: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-fa: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-fa: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-fr: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-fr: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-fur: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-fur: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-gl: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-gl: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-he: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-he: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-hi: PKGSIZE changed from 7674 to 7818 (+2%)
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-hi: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-hi: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-hr: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-hr: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-hu: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-hu: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-id: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-id: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-it: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-it: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ja: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ja: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ka: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ka: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-kab: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-kab: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ko: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ko: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ky: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ky: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-lt: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-lt: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-lv: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-lv: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ml: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ml: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ms: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ms: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-nb: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-nb: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ne: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ne: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-nl: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-nl: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-oc: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-oc: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-or: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-or: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-pa: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-pa: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-pl: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-pl: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-pt-br: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-pt-br: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-pt: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-pt: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ro: PKGSIZE changed from 5770 to 5829 (+1%)
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ro: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ro: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ru: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ru: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sk: PKGSIZE changed from 5535 to 5623 (+2%)
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sk: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sk: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sl: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sl: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sr+latin: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sr+latin: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sr: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sr: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sv: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-sv: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-te: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-te: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-tg: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-tg: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-th: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-th: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-tr: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-tr: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ug: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-ug: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-uk: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-uk: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-vi: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-vi: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-zh-cn: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-zh-cn: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-zh-hk: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-zh-hk: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-zh-tw: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-locale-zh-tw: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-ptest: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-ptest: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-src: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-src: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib-staticdev: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib-staticdev: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib/json-glib: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib/json-glib: FILELIST: removed "/usr/lib/libjson-glib-1.0.so.0.1000.6", added "/usr/lib/libjson-glib-1.0.so.0.1000.8"
+packages/x86-64-v3-poky-linux/json-glib: SRC_URI changed from "https://download.gnome.org/sources//json-glib/1.10/json-glib-1.10.6.tar.xz;name=archive file://run-ptest" to "https://download.gnome.org/sources//json-glib/1.10/json-glib-1.10.8.tar.xz;name=archive file://run-ptest"
+packages/x86-64-v3-poky-linux/json-glib: PV changed from "1.10.6" to "1.10.8"
+packages/x86-64-v3-poky-linux/json-glib: PKGV changed from 1.10.6 [default] to 1.10.8 [default]
+packages/x86-64-v3-poky-linux/json-glib: PACKAGES: added "json-glib-locale-uz"
+Changes to packages/x86-64-v3-poky-linux/json-glib (sysroot):
+  /usr/lib/libjson-glib-1.0.so.0 changed symlink target from libjson-glib-1.0.so.0.1000.6 to libjson-glib-1.0.so.0.1000.8
+  /usr/lib/libjson-glib-1.0.so.0.1000.6 moved to /usr/lib/libjson-glib-1.0.so.0.1000.8
 
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-57103df9ca51be3605684822329f10d4e3223e30"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:57103df9ca51be3605684822329f10d4e3223e30"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 634 Local 621 Mirrors 0 Missed 13 Current 872 (97% match, 99% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 930 of 1506 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.18.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 996 of 1506 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/appstream/appstream_1.0.6.bb:do_create_spdx_setscene)
-NOTE: recipe gtk4-4.18.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe appstream-1.0.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe appstream-1.0.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gtk4-4.18.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1113 of 1506 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.18.bb:do_create_spdx_setscene)
-NOTE: recipe vala-0.56.18-r0: task do_create_spdx_setscene: Started
-NOTE: recipe vala-0.56.18-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1403 of 1506 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_create_spdx_setscene)
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.84.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1468 of 1506 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1480 of 1506 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.42.bb:do_create_spdx_setscene)
-NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1489 of 1506 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1492 of 1506 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 2586 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_recipe_qa)
-NOTE: Running task 2681 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_write_config)
-NOTE: recipe libadwaita-1.8.0-r0: task do_recipe_qa: Started
-NOTE: recipe libadwaita-1.8.0-r0: task do_write_config: Started
-NOTE: recipe libadwaita-1.8.0-r0: task do_write_config: Succeeded
-NOTE: recipe libadwaita-1.8.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2780 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_fetch)
-NOTE: recipe libadwaita-1.8.0-r0: task do_fetch: Started
-NOTE: recipe libadwaita-1.8.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2781 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_unpack)
-NOTE: recipe libadwaita-1.8.0-r0: task do_unpack: Started
-NOTE: recipe libadwaita-1.8.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2782 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_patch)
-NOTE: recipe libadwaita-1.8.0-r0: task do_patch: Started
-NOTE: recipe libadwaita-1.8.0-r0: task do_patch: Succeeded
-NOTE: Running task 2783 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2784 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_populate_lic)
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe libadwaita-1.8.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libadwaita-1.8.0-r0: task do_populate_lic: Started
-NOTE: Running task 4019 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libadwaita-1.8.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe libadwaita-1.8.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 4126 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_collect_spdx_deps)
-NOTE: recipe libadwaita-1.8.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libadwaita-1.8.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libadwaita-1.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libadwaita-1.8.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 4127 of 4139 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_configure)
-NOTE: recipe libadwaita-1.8.0-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.42.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_10.0.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.18.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk+/gtk4_4.18.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/appstream/appstream_1.0.6.bb:do_popu
- late_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.9.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.13.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.7.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.18.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.8.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybu
- ild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sass/sassc_3.6.2.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'binutils', 'clang', 'libclc', 'cmake-native', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-setuptools', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gdk-pixbuf', 'gobject-introspection', 'gtk4', 'libgudev', 'librsvg', 'libxmlb', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu', 'mesa', 'pango', 'spirv-headers', 'spirv-llvm-translator', 'spirv-tools', 'vulkan-headers', 'vulkan-l
- oader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'appstream', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libgcrypt', 'libgpg-error', 'libical', 'libmicrohttpd', 'libpcre2', 'libseccomp', 'libunistring', 'libusb1', 'libyaml', 'nettle', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-nati
- ve', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'vala-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'libsass-native', 'sassc-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dgtk_doc=false -Dintrospection=enabled -Dvapi=true -Dexamples=false...
-| The Meson build system
-| Version: 1.9.0
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/sources/libadwaita-1.8.0
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/build
-| Build type: cross build
-| DEPRECATION: Option "gtk_doc" is replaced by 'documentation'
-| Project name: libadwaita
-| Project version: 1.8.0
-| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/recipe-sysroot (gcc 15.2.0 "x86_64-poky-linux-gcc (GCC) 15.2.0")
-| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/recipe-sysroot ld.bfd 2.45
-| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
-| Run-time dependency glib-2.0 found: YES 2.86.0
-| Run-time dependency gio-2.0 found: YES 2.86.0
-| Dependency gtk4 found: NO. Found 4.18.6 but need: '>= 4.19.4'
-| Found CMake: NO
-| Run-time dependency gtk4 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency gtk4
-| ERROR: Subproject gtk is buildable: NO
-| 
-| ../sources/libadwaita-1.8.0/meson.build:41:10: ERROR: Automatic wrap-based subproject downloading is disabled
-| 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/temp/run.do_configure.800183:177 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/temp/run.do_configure.800183, line 177
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/temp/run.do_configure.800183, line 166
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/temp/run.do_configure.800183, line 155
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/temp/run.do_configure.800183, line 190
-NOTE: recipe libadwaita-1.8.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 4127 tasks of which 4117 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250915094553.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250915094553.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/temp/log.do_configure.800183
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: libadwaita-1.8.0-r0 do_configure: meson failed
-ERROR: libadwaita-1.8.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/temp/run.do_configure.800183' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/libadwaita/1.8.0/temp/log.do_configure.800183
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libadwaita/libadwaita_1.8.0.bb:do_configure) failed with exit code '1'
-
---===============1337582140274140750==
+--===============3845113488354805840==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libadwaita-upgrade-1.7.6-1.8.0.patch"
+ filename="0001-json-glib-upgrade-1.10.6-1.10.8.patch"
 
-RnJvbSAwMGUzZTU4ZGVkY2Q4ZTEyZjUyNjhmMmMyMDM4NmE0NzdiYTNkNWNhIE1vbiBTZXAgMTcg
+RnJvbSBjNDMyYzRiNmE2NjVkODliMTYwOWU5NWYwMWJmNzQwYmU4NzJjMTQyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDk6NDY6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJhZHdhaXRhOiB1cGdyYWRlIDEuNy42IC0+IDEuOC4wCgotLS0KIC4uLi9saWJhZHdhaXRhL3ts
-aWJhZHdhaXRhXzEuNy42LmJiID0+IGxpYmFkd2FpdGFfMS44LjAuYmJ9ICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1nbm9tZS9saWJhZHdhaXRhL3tsaWJhZHdhaXRhXzEuNy42LmJiID0+IGxpYmFkd2Fp
-dGFfMS44LjAuYmJ9ICg4OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYmFk
-d2FpdGEvbGliYWR3YWl0YV8xLjcuNi5iYiBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJhZHdhaXRh
-L2xpYmFkd2FpdGFfMS44LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4OCUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLWdub21lL2xpYmFkd2FpdGEvbGliYWR3YWl0YV8xLjcuNi5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWdub21lL2xpYmFkd2FpdGEvbGliYWR3YWl0YV8xLjguMC5iYgppbmRleCA2
-ZTVlY2EzOGRlLi45YWVkZjJmNDNkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGli
-YWR3YWl0YS9saWJhZHdhaXRhXzEuNy42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJh
-ZHdhaXRhL2xpYmFkd2FpdGFfMS44LjAuYmIKQEAgLTExLDcgKzExLDcgQEAgREVQRU5EUyA9ICIg
-XAogCiBpbmhlcml0IGdub21lYmFzZSBnb2JqZWN0LWludHJvc3BlY3Rpb24gZ2ktZG9jZ2VuIHZh
-bGEgZmVhdHVyZXNfY2hlY2sKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiNWVhY2M1
-NTUwZjBiZGJiYTZhMTU2OGFlYmYyNWEzZDg4ZjVlZTA3ZDZiNTU4YmVjYzZmZDk0ODc1NzljOWEy
-OSIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjI4MzZkMmMwYzBmNDZkY2RiNTJmOTQw
-MTk0NzdmNTM3ODEwMjgzYzcxMDgwMmQ4ZTY2NzFlZmRlYmUyNjM3YzkiCiAKIEFOWV9PRl9ESVNU
-Uk9fRkVBVFVSRVMgPSAiJHtHVEszRElTVFJPRkVBVFVSRVN9IgogUkVRVUlSRURfRElTVFJPX0ZF
-QVRVUkVTID0gIm9wZW5nbCIKLS0gCjIuNDcuMQoK
+CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDk6NDQ6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBq
+c29uLWdsaWI6IHVwZ3JhZGUgMS4xMC42IC0+IDEuMTAuOAoKLS0tCiAuLi4vanNvbi1nbGliL3tq
+c29uLWdsaWJfMS4xMC42LmJiID0+IGpzb24tZ2xpYl8xLjEwLjguYmJ9ICAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZ25vbWUvanNvbi1nbGliL3tqc29uLWdsaWJfMS4xMC42LmJiID0+IGpzb24tZ2xp
+Yl8xLjEwLjguYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2pzb24t
+Z2xpYi9qc29uLWdsaWJfMS4xMC42LmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2pzb24tZ2xpYi9q
+c29uLWdsaWJfMS4xMC44LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1nbm9tZS9qc29uLWdsaWIvanNvbi1nbGliXzEuMTAuNi5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLWdub21lL2pzb24tZ2xpYi9qc29uLWdsaWJfMS4xMC44LmJiCmluZGV4IDhiMDA5
+YmMxN2IuLjFmNjhmYjhjNTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9qc29uLWds
+aWIvanNvbi1nbGliXzEuMTAuNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvanNvbi1nbGli
+L2pzb24tZ2xpYl8xLjEwLjguYmIKQEAgLTE5LDcgKzE5LDcgQEAgR0lET0NHRU5fTUVTT05fRU5B
+QkxFX0ZMQUcgPSAnZW5hYmxlZCcKIEdJRE9DR0VOX01FU09OX0RJU0FCTEVfRkxBRyA9ICdkaXNh
+YmxlZCcKIAogU1JDX1VSSSArPSAiIGZpbGU6Ly9ydW4tcHRlc3QiCi1TUkNfVVJJW2FyY2hpdmUu
+c2hhMjU2c3VtXSA9ICI3N2Y0YmNiZjkzMzk1MjhmMTY2YjgwNzM0NTg2OTNmMGEyMGI3N2I3MDU5
+ZGJjMmRiNjE3NDZhMTkyOGIwMjkzIgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiNTVj
+NWMxNDFhNTY0MjQ1YjhmOGZiZTc2OTg2NjNjODdhNDVhNzMzM2MyYTJjNTZmMDZmODExYWI3M2Iy
+MTJkZCIKIAogUEFDS0FHRUNPTkZJRyA/Pz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdQVEVTVF9F
+TkFCTEVEJywgJzEnLCAndGVzdHMnLCAnJywgZCl9IgogUEFDS0FHRUNPTkZJR1ttYW5wYWdlc10g
+PSAiLURtYW49dHJ1ZSwtRG1hbj1mYWxzZSxsaWJ4c2x0LW5hdGl2ZSB4bWx0by1uYXRpdmUgcHl0
+aG9uMy1kb2N1dGlscy1uYXRpdmUiCi0tIAoyLjQ3LjEKCg==
 
---===============1337582140274140750==--
+--===============3845113488354805840==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/json-glib/json-glib: FILELIST: removed "/usr/lib/libjson-glib-1.0.so.0.1000.6", added "/usr/lib/libjson-glib-1.0.so.0.1000.8"
+packages/x86-64-v3-poky-linux/json-glib: PACKAGES: added "json-glib-locale-uz"
+Changes to packages/x86-64-v3-poky-linux/json-glib (sysroot):
+  /usr/lib/libjson-glib-1.0.so.0 changed symlink target from libjson-glib-1.0.so.0.1000.6 to libjson-glib-1.0.so.0.1000.8
+  /usr/lib/libjson-glib-1.0.so.0.1000.6 moved to /usr/lib/libjson-glib-1.0.so.0.1000.8
+
+--===============3845113488354805840==--
 
