@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44091CCD192
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40646CCD18F
 	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:55:01 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.30885.1757937278716776897
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.30919.1757937278907563967
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Sep 2025 04:54:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kCH9OpSh;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=QwHEElYB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101994d3a4847-1340b30a-d6c4-4581-90c8-f1063d87ac90-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IABqKm2P;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ChrDM67b;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101994d3a4631-b05b6fdc-6e34-4413-9674-7b3440d4bd2f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1757937289;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Xhm2PuMsDFEUi9Aa0cn+4rwrmiIl9aty+YOhq9aKPiY=;
-	b=kCH9OpShewsKqcCbii9MgP0b10HKUfei8og/TsU1Gl8hUT+UxmupmslcJ/nqEI97
-	gLpuI8qFJ5kQGoPgTcrtiEuHdImPCpPbZL+ITdnbw8Cnllt6x1RJLRVj5r5R+V/whSB
-	cX7MZ/gNPi2hHLIpCGCw9eBf+DA0HrByrjy5lnLY=
+	bh=OdUyIWUwvr+CZdBrkBSu5FDCCPDX77XJhrPwOSTMlQ4=;
+	b=IABqKm2PnjM6nO7DZJKVVwb70Zhrz+uoDgd1IpZpjr+rR16b5Ig5SQOLFCjIBYpX
+	xp06D96c8VfYk8Zt8xyHSOSbMmDfYUZXIKkXYA8/9hXmDcEaMYToFBqION5fTwz+M3w
+	mUJ2/YUXwy9jRkmFeXeGhy73EF5jOQXnzSvtejEw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937289;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Xhm2PuMsDFEUi9Aa0cn+4rwrmiIl9aty+YOhq9aKPiY=;
-	b=QwHEElYBvz/xgLuDDcJlAgqZrww1+E9ZZGKKikix2cUFjM0RYVjKxAktR7xoSJ5x
-	LlvoB2kud9+6aDs0zs599ZrpoTWi4pEu6Sh24ZzzC/PjkKsC3FjA3AvRMpklK3XrRDf
-	6HKizOhM3RDCRMSES/cKOMIGcTN9sIOYS53Vg62k=
-Content-Type: multipart/mixed; boundary="===============9129987531826094005=="
+	bh=OdUyIWUwvr+CZdBrkBSu5FDCCPDX77XJhrPwOSTMlQ4=;
+	b=ChrDM67bA/P/j2qDgGK+eLPnR8o8UzjF9JdF2w9XcL1AiYbBGEjqm/p6g6ViudCl
+	ZQ8vd3J0uWR1ihCp69h/DxfzNoo9VQ9d54NCvhEzUCLRDv7tVzHgwSNB5CDDzyc2PGH
+	bZIF0LUVholfWX+dyd1da6XNLmrzJLb+7fv+Ir6k=
+Content-Type: multipart/mixed; boundary="===============7021158853269476000=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxmlb: upgrading to 0.3.24 SUCCEEDED
-Message-ID: <010101994d3a4847-1340b30a-d6c4-4581-90c8-f1063d87ac90-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Sep 2025 11:54:49 +0000
+Subject: [AUH] gsettings-desktop-schemas: upgrading to 49.0 SUCCEEDED
+Message-ID: <010101994d3a4631-b05b6fdc-6e34-4413-9674-7b3440d4bd2f-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Sep 2025 11:54:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.15-54.240.27.31
+X-SES-Outgoing: 2025.09.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:55:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223454
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223453
 
---===============9129987531826094005==
+--===============7021158853269476000==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxmlb* to *0.3.24* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gsettings-desktop-schemas* to *49.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxmlb-upgrade-0.3.23-0.3.24.patch
+    - apply the patch: git am 0001-gsettings-desktop-schemas-upgrade-48.0-49.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,88 +72,527 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 317116acd2277833b7b6d7da0ecb2774c9ac69bc Mon Sep 17 00:00:00 2001
+From aafce211edc2a1fab97e89d499fc65c5e81079a3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Sep 2025 09:55:23 +0000
-Subject: [PATCH] libxmlb: upgrade 0.3.23 -> 0.3.24
+Date: Mon, 15 Sep 2025 09:39:11 +0000
+Subject: [PATCH] gsettings-desktop-schemas: upgrade 48.0 -> 49.0
 
 ---
- .../libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch | 6 +++---
- .../libxmlb/{libxmlb_0.3.23.bb => libxmlb_0.3.24.bb}        | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.23.bb => libxmlb_0.3.24.bb} (93%)
+ ...esktop-schemas_48.0.bb => gsettings-desktop-schemas_49.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_48.0.bb => gsettings-desktop-schemas_49.0.bb} (84%)
 
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-index 1c46f6fc1e..fa7ee3066e 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-+++ b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-@@ -1,4 +1,4 @@
--From 2dbc50d49e2048f7227c406931a69f747e0eb12c Mon Sep 17 00:00:00 2001
-+From 7589cf04d49ad2e7e726df9b9bcc76f6425453f9 Mon Sep 17 00:00:00 2001
- From: Markus Volk <f_l_k@t-online.de>
- Date: Sat, 16 Sep 2023 14:02:57 +0200
- Subject: [PATCH] xb-self-test.c: hardcode G_TEST_SRCDIR
-@@ -18,10 +18,10 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_48.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb
+similarity index 84%
+rename from meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_48.0.bb
+rename to meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb
+index 30ab992db4..fc8492cac5 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_48.0.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb
+@@ -11,4 +11,4 @@ DEPENDS = "glib-2.0"
  
- diff --git a/src/xb-self-test.c b/src/xb-self-test.c
--index 76b2e12..c68c13a 100644
-+index 681fca8..3b14656 100644
- --- a/src/xb-self-test.c
- +++ b/src/xb-self-test.c
--@@ -2912,7 +2912,7 @@ xb_speed_func(void)
-+@@ -2918,7 +2918,7 @@ xb_speed_func(void)
-  int
-  main(int argc, char **argv)
-  {
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb_0.3.23.bb b/meta/recipes-gnome/libxmlb/libxmlb_0.3.24.bb
-similarity index 93%
-rename from meta/recipes-gnome/libxmlb/libxmlb_0.3.23.bb
-rename to meta/recipes-gnome/libxmlb/libxmlb_0.3.24.bb
-index 54df81c718..24eb62c98c 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb_0.3.23.bb
-+++ b/meta/recipes-gnome/libxmlb/libxmlb_0.3.24.bb
-@@ -8,7 +8,7 @@ SRC_URI = " \
- 	file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch \
- 	file://run-ptest \
- "
--SRCREV = "65bfb3099beeb7a5ffae995db124f55bea70f41e"
-+SRCREV = "d004cca465e5c5af3ce02c02a15978ff02b510c3"
+ inherit gnomebase gsettings gobject-introspection gettext
  
- DEPENDS = "glib-2.0 xz zstd"
- 
+-SRC_URI[archive.sha256sum] = "e68f155813bf18f865a8b2c8e9d473588b6ccadcafbb666ab788857c6c2d1bd3"
++SRC_URI[archive.sha256sum] = "912905cc45382888a47702ed1101c6b08ebd0122a32a67d940ab8116a96c520d"
 -- 
 2.47.1
 
 
---===============9129987531826094005==
+--===============7021158853269476000==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libxmlb: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-bin: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-bin: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PKGSIZE changed from 1830568 to 1830264 (-0%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PKGSIZE changed from 355632 to 355644 (+0%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-doc: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-doc: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-locale: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-locale: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-staticdev: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-staticdev: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb: PV changed from "0.3.23" to "0.3.24"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb: PKGV changed from 0.3.23 [default] to 0.3.24 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dbg: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dbg: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dev: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dev: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-doc: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-doc: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-as: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-as: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-be: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-be: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bg: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bg: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bs: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bs: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca+valencia: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca+valencia: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca: PKGSIZE changed from 121996 to 122011 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-cs: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-cs: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-cs: PKGSIZE changed from 119451 to 119651 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-da: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-da: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-da: PKGSIZE changed from 113981 to 114190 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-de: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-de: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-el: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-el: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-gb: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-gb: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-gb: PKGSIZE changed from 110552 to 111654 (+1%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-us: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-us: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eo: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eo: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eo: PKGSIZE changed from 35165 to 112196 (+219%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-es: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-es: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-es: PKGSIZE changed from 121226 to 121435 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eu: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eu: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eu: PKGSIZE changed from 118846 to 119046 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fa: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fa: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fa: PKGSIZE changed from 115885 to 116173 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fi: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fi: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fr: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fr: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fur: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fur: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gl: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gl: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gl: PKGSIZE changed from 119650 to 119860 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gu: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gu: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-he: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-he: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-he: PKGSIZE changed from 111585 to 111775 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hi: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hi: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hr: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hr: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hu: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hu: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hu: PKGSIZE changed from 123351 to 123604 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-id: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-id: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-is: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-is: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-it: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-it: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ja: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ja: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ja: PKGSIZE changed from 21753 to 127281 (+485%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PKGSIZE changed from 196118 to 196497 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-kab: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-kab: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-kk: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-kk: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lt: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lt: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lt: PKGSIZE changed from 114803 to 115000 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lv: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lv: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ml: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ml: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ms: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ms: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nb: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nb: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ne: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ne: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nl: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nl: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-oc: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-oc: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-or: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-or: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pa: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pa: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pl: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pl: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pl: PKGSIZE changed from 121788 to 122040 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt-br: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt-br: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt-br: PKGSIZE changed from 119625 to 119836 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt: PKGSIZE changed from 119141 to 119137 (-0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ro: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ro: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ro: PKGSIZE changed from 115711 to 121803 (+5%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ru: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ru: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ru: PKGSIZE changed from 158813 to 159111 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sk: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sk: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sl: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sl: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sl: PKGSIZE changed from 113333 to 113550 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr+latin: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr+latin: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sv: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sv: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sv: PKGSIZE changed from 116839 to 117050 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tg: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tg: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tr: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tr: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tr: PKGSIZE changed from 120975 to 121203 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ug: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ug: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-uk: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-uk: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-uk: PKGSIZE changed from 159050 to 159334 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-vi: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-vi: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-cn: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-cn: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-cn: PKGSIZE changed from 104791 to 104964 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-hk: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-hk: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-tw: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-tw: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-src: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-src: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-staticdev: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-staticdev: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas: PV changed from "48.0" to "49.0"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas: PKGSIZE changed from 161354 to 161680 (+0%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas: PKGV changed from 48.0 [default] to 49.0 [default]
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas: PACKAGES: added "gsettings-desktop-schemas-locale-uz"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas: SRC_URI changed from "https://download.gnome.org/sources//gsettings-desktop-schemas/48/gsettings-desktop-schemas-48.0.tar.xz;name=archive" to "https://download.gnome.org/sources//gsettings-desktop-schemas/49/gsettings-desktop-schemas-49.0.tar.xz;name=archive"
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas: PV changed from "48.0" to "49.0"
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1752,60 +2191,982 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============9129987531826094005==
+--===============7021158853269476000==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 944 .bb files complete (0 cached, 944 parsed). 1940 targets, 51 skipped, 0 masked, 0 errors.
+Removing 63 recipes from the qemux86_64 sysroot...done.
+Removing 28 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.2"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-57c0aec123766d6812b0535d9f4fd67279ab5711"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:57c0aec123766d6812b0535d9f4fd67279ab5711"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 419 Local 397 Mirrors 0 Missed 22 Current 268 (94% match, 96% complete)
+Removing 2 stale sstate objects for arch qemux86_64...done.
+Removing 3 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 298 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 338 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 343 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 344 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-packaging_25.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 345 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.16.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 346 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-dbusmock_0.33.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 348 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 349 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 351 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: Running setscene task 353 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 357 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 359 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 362 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe tzdata-2025b-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-dbusmock-0.33.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-packaging-25.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe coreutils-9.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.16.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 364 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_recipe_qa_setscene)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 365 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_recipe_qa_setscene)
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 367 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-dbusmock-0.33.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-packaging-25.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe tzdata-2025b-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 384 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_create_spdx_setscene)
+NOTE: recipe dbus-1.16.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 389 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 394 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 399 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 402 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 405 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 406 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 407 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-passwd-3.6.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 879 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_recipe_qa)
+NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe qemuwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 953 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_write_config)
+NOTE: Running task 967 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_fetch)
+NOTE: Running task 969 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
+NOTE: Running task 1028 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_write_config)
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe coreutils-9.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 429 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 432 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 435 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.76.bb:do_packagedata_setscene)
+NOTE: Running setscene task 436 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_recipe_qa: Started
+NOTE: Running setscene task 438 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: recipe libsm-1_1.2.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 441 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.2.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 455 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_fetch: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_write_config: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_fetch: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_write_config: Started
+NOTE: Running task 1091 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_unpack)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-2.76-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 459 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 460 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 462 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.14.6.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_write_config: Succeeded
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_write_config: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1099 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_unpack: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 466 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe libcap-2.76-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxml2-2.14.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_recipe_qa: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1115 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_fetch)
+NOTE: Running task 1116 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
+NOTE: recipe libice-1_1.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: Running setscene task 478 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: Running task 1122 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1123 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 485 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_unpack: Succeeded
+NOTE: Running task 1129 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_patch)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_fetch: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.14.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_fetch: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running setscene task 491 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 492 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 495 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 499 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
+NOTE: Running task 1140 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_unpack)
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 503 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_patch: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_patch: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1147 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 529 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 533 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 1242 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_patch)
+NOTE: Running task 1244 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_patch: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 534 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_package_setscene)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_patch: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: Running task 1256 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: Running task 1257 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1258 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: Running task 1260 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Succeeded
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: Running task 1262 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: Running task 1263 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 322b8f8b906444532279807f4b6d94c79a2dab3feaff9de6d084f1ef1555cf0a
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 541 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 542 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.41.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 543 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.41.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 544 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 545 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 546 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.46.bb:do_packagedata_setscene)
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpcre2-10.46-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.41.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-linux-2.41.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 547 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_recipe_qa_setscene)
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux-musl/gobject-introspection/1.84.0/temp/log.do_packagedata_setscene.673534
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 548 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_package_setscene)
+NOTE: recipe libpcre2-10.46-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.41.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_package_setscene: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 550 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 553 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.46.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 554 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 555 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-2.41.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 559 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 560 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 562 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 563 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 564 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.41.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 565 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 566 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.46-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.41.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.41.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 568 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.7.bb:do_packagedata_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpcre2-10.46-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 572 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.46.bb:do_recipe_qa_setscene)
+NOTE: recipe bash-completion-2.16.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 574 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.16.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 576 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libpam-1.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpcre2-10.46-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 577 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 579 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_80.9.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.13.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpcre2-10.46-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bash-completion-2.16.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.13.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-setuptools-80.9.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-3.13.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 581 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 582 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 583 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 584 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.41.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 585 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 586 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.7.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 587 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.8.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 588 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 589 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 590 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
+NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 593 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.48.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.8.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.13.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 594 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 595 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.8.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 596 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 597 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.41.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 598 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.7.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpam-1.7.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 599 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 600 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 602 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 603 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 604 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe sqlite3-3_3.48.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 606 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.7.bb:do_recipe_qa_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 612 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
+NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.48.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.13.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 618 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.41.1.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.8.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 620 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 622 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.8.1.bb:do_recipe_qa_setscene)
+NOTE: recipe expat-2.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 624 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.7.1.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-3.13.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libedit-20250104-3.1-r1: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 626 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 627 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 629 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.48.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 631 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 633 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 635 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.8.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.7.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 637 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.5.2.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 639 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.48.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xz-5.8.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.7.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libedit-20250104-3.1-r1: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.48.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 640 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 642 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 643 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 645 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 647 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 649 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 650 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 652 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 654 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 655 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 657 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 659 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 660 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 661 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.16.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 666 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 667 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 668 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 669 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 674 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 676 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 677 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 679 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 681 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.16.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 685 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.16.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 686 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.45.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.16-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.16-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1725 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.84.0.bb:do_packagedata)
+NOTE: Running task 1826 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1876 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1880 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_packagedata: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.84.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1936 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_collect_spdx_deps)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1937 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1938 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_configure)
+NOTE: Running task 1939 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_configure)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_configure: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_configure: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_configure: Succeeded
+NOTE: Running task 1940 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_compile)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_compile: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_configure: Succeeded
+NOTE: Running task 1941 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_compile)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_compile: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_compile: Succeeded
+NOTE: Running task 1942 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_install)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_install: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_compile: Succeeded
+NOTE: Running task 1943 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_install)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_install: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_install: Succeeded
+NOTE: Running task 1944 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_package)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_package: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_install: Succeeded
+NOTE: Running task 1945 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_package)
+NOTE: Running task 1946 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_populate_sysroot)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_populate_sysroot: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe desktop-file-utils-0.28-r0: task do_package: Succeeded
+NOTE: Running task 1947 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_packagedata)
+NOTE: recipe desktop-file-utils-0.28-r0: task do_packagedata: Started
+NOTE: recipe desktop-file-utils-0.28-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_packagedata unihash changed to e71fd4004540923c099b743d6338d730becb2886efe4c4a32cbb24c4bb329756
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
+NOTE: Running task 1948 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
+NOTE: Running task 1949 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
+NOTE: Running task 1950 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package: Succeeded
+NOTE: Running task 1951 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_packagedata)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_packagedata: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1952 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_create_spdx)
+NOTE: Running task 1953 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_package_write_ipk)
+NOTE: Running task 1954 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_package_write_deb)
+NOTE: Running task 1955 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_package_write_rpm)
+NOTE: Running task 1956 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_package_qa)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_create_spdx: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package_write_ipk: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package_write_deb: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package_write_rpm: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package_qa: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1957 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_create_package_spdx)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_create_package_spdx: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package: Succeeded
+NOTE: Running task 1958 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package_qa: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Started
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_create_package_spdx: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata unihash changed to 4a98ca5bef50b3f0b9b7a3b2d666ec92891e9791beef448bef95da490e9d2e9c
+NOTE: Setscene tasks completed
+NOTE: Running task 1959 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_package_write_ipk)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package_write_deb: Succeeded
+NOTE: Running task 1960 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_package_write_deb)
+NOTE: Running task 1961 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_package_write_rpm)
+NOTE: Running task 1962 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_package_qa)
+NOTE: recipe gsettings-desktop-schemas-49.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_write_ipk: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_write_deb: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_write_rpm: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_qa: Started
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_package_write_ipk unihash changed to 35a6d353fbf7c75782e8fdefd59932ea26e847f23f4d139e67bbc07a1e5adc66
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_package_write_rpm unihash changed to 5401e7a48e0bab0ab3cfae72bd772dd838e17a59e4b4ffa33855233cf0d5c541
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_package_qa unihash changed to be068b168af8d979a5f21276a8abfda23cddf8a7028ec93e3ab69355eec2c16e
+NOTE: recipe glib-2.0-1_2.86.0-r0: task do_package_write_deb: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.86.0.bb:do_package_write_deb unihash changed to 1f89e4f3262ccf1b2ae62a5a61ac2b7460eb460226e92965170918425cdc156d
+NOTE: Running noexec task 1963 of 1963 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_49.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1963 tasks of which 1909 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: gobject-introspection-1.84.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-src went backwards which would break package feeds (from 0:1.86.0-r0 to 0:1.84.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.84.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dbg went backwards which would break package feeds (from 0:1.86.0-r0 to 0:1.84.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.84.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-tools went backwards which would break package feeds (from 0:1.86.0-r0 to 0:1.84.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.84.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-staticdev went backwards which would break package feeds (from 0:1.86.0-r0 to 0:1.84.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.84.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dev went backwards which would break package feeds (from 0:1.86.0-r0 to 0:1.84.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.84.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-doc went backwards which would break package feeds (from 0:1.86.0-r0 to 0:1.84.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.84.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-locale went backwards which would break package feeds (from 0:1.86.0-r0 to 0:1.84.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.84.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection went backwards which would break package feeds (from 0:1.86.0-r0 to 0:1.84.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.84.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============7021158853269476000==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxmlb-upgrade-0.3.23-0.3.24.patch"
+ filename="0001-gsettings-desktop-schemas-upgrade-48.0-49.0.patch"
 
-RnJvbSAzMTcxMTZhY2QyMjc3ODMzYjdiNmQ3ZGEwZWNiMjc3NGM5YWM2OWJjIE1vbiBTZXAgMTcg
+RnJvbSBhYWZjZTIxMWVkYzJhMWZhYjk3ZTg5ZDQ5OWZjNjVjNWU4MTA3OWEzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDk6NTU6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4bWxiOiB1cGdyYWRlIDAuMy4yMyAtPiAwLjMuMjQKCi0tLQogLi4uL2xpYnhtbGIvMDAwMS14
-Yi1zZWxmdGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2ggfCA2ICsrKy0tLQogLi4u
-L2xpYnhtbGIve2xpYnhtbGJfMC4zLjIzLmJiID0+IGxpYnhtbGJfMC4zLjI0LmJifSAgICAgICAg
-fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi97bGlieG1sYl8wLjMuMjMuYmIgPT4g
-bGlieG1sYl8wLjMuMjQuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21l
-L2xpYnhtbGIvbGlieG1sYi8wMDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNvZGUtR19URVNUX1NSQ0RJ
-Ui5wYXRjaCBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJ4bWxiL2xpYnhtbGIvMDAwMS14Yi1zZWxm
-dGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2gKaW5kZXggMWM0NmY2ZmMxZS4uZmE3
-ZWUzMDY2ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYi8w
-MDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNvZGUtR19URVNUX1NSQ0RJUi5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiLzAwMDEteGItc2VsZnRlc3QuYy1oYXJkY29k
-ZS1HX1RFU1RfU1JDRElSLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyZGJjNTBkNDllMjA0
-OGY3MjI3YzQwNjkzMWE2OWY3NDdlMGViMTJjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSA3NTg5Y2YwNGQ0OWFkMmU3ZTcyNmRmOWI5YmNjNzZmNjQyNTQ1M2Y5IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogTWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogRGF0ZTog
-U2F0LCAxNiBTZXAgMjAyMyAxNDowMjo1NyArMDIwMAogU3ViamVjdDogW1BBVENIXSB4Yi1zZWxm
-LXRlc3QuYzogaGFyZGNvZGUgR19URVNUX1NSQ0RJUgpAQCAtMTgsMTAgKzE4LDEwIEBAIFNpZ25l
-ZC1vZmYtYnk6IE1hcmt1cyBWb2xrIDxmX2xfa0B0LW9ubGluZS5kZT4KICAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3NyYy94Yi1z
-ZWxmLXRlc3QuYyBiL3NyYy94Yi1zZWxmLXRlc3QuYwotaW5kZXggNzZiMmUxMi4uYzY4YzEzYSAx
-MDA2NDQKK2luZGV4IDY4MWZjYTguLjNiMTQ2NTYgMTAwNjQ0CiAtLS0gYS9zcmMveGItc2VsZi10
-ZXN0LmMKICsrKyBiL3NyYy94Yi1zZWxmLXRlc3QuYwotQEAgLTI5MTIsNyArMjkxMiw3IEBAIHhi
-X3NwZWVkX2Z1bmModm9pZCkKK0BAIC0yOTE4LDcgKzI5MTgsNyBAQCB4Yl9zcGVlZF9mdW5jKHZv
-aWQpCiAgaW50CiAgbWFpbihpbnQgYXJnYywgY2hhciAqKmFyZ3YpCiAgewpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYl8wLjMuMjMuYmIgYi9tZXRhL3JlY2lw
-ZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4yNC5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4yMy5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYl8wLjMuMjQuYmIKaW5k
-ZXggNTRkZjgxYzcxOC4uMjRlYjYyYzk4YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21l
-L2xpYnhtbGIvbGlieG1sYl8wLjMuMjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnht
-bGIvbGlieG1sYl8wLjMuMjQuYmIKQEAgLTgsNyArOCw3IEBAIFNSQ19VUkkgPSAiIFwKIAlmaWxl
-Oi8vMDAwMS14Yi1zZWxmdGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2ggXAogCWZp
-bGU6Ly9ydW4tcHRlc3QgXAogIgotU1JDUkVWID0gIjY1YmZiMzA5OWJlZWI3YTVmZmFlOTk1ZGIx
-MjRmNTViZWE3MGY0MWUiCitTUkNSRVYgPSAiZDAwNGNjYTQ2NWU1YzVhZjNjZTAyYzAyYTE1OTc4
-ZmYwMmI1MTBjMyIKIAogREVQRU5EUyA9ICJnbGliLTIuMCB4eiB6c3RkIgogCi0tIAoyLjQ3LjEK
-Cg==
+CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDk6Mzk6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzOiB1cGdyYWRlIDQ4LjAgLT4gNDkuMAoKLS0tCiAuLi5l
+c2t0b3Atc2NoZW1hc180OC4wLmJiID0+IGdzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXNfNDkuMC5i
+Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZ3NldHRpbmdzLWRlc2t0b3Atc2NoZW1hcy97Z3Nl
+dHRpbmdzLWRlc2t0b3Atc2NoZW1hc180OC4wLmJiID0+IGdzZXR0aW5ncy1kZXNrdG9wLXNjaGVt
+YXNfNDkuMC5iYn0gKDg0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ3NldHRp
+bmdzLWRlc2t0b3Atc2NoZW1hcy9nc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzXzQ4LjAuYmIgYi9t
+ZXRhL3JlY2lwZXMtZ25vbWUvZ3NldHRpbmdzLWRlc2t0b3Atc2NoZW1hcy9nc2V0dGluZ3MtZGVz
+a3RvcC1zY2hlbWFzXzQ5LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLWdub21lL2dzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXMvZ3NldHRpbmdzLWRlc2t0
+b3Atc2NoZW1hc180OC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUvZ3NldHRpbmdz
+LWRlc2t0b3Atc2NoZW1hcy9nc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzXzQ5LjAuYmIKaW5kZXgg
+MzBhYjk5MmRiNC4uZmM4NDkyY2FjNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2dz
+ZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXMvZ3NldHRpbmdzLWRlc2t0b3Atc2NoZW1hc180OC4wLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzL2dzZXR0
+aW5ncy1kZXNrdG9wLXNjaGVtYXNfNDkuMC5iYgpAQCAtMTEsNCArMTEsNCBAQCBERVBFTkRTID0g
+ImdsaWItMi4wIgogCiBpbmhlcml0IGdub21lYmFzZSBnc2V0dGluZ3MgZ29iamVjdC1pbnRyb3Nw
+ZWN0aW9uIGdldHRleHQKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiZTY4ZjE1NTgx
+M2JmMThmODY1YThiMmM4ZTlkNDczNTg4YjZjY2FkY2FmYmI2NjZhYjc4ODg1N2M2YzJkMWJkMyIK
+K1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjkxMjkwNWNjNDUzODI4ODhhNDc3MDJlZDEx
+MDFjNmIwOGViZDAxMjJhMzJhNjdkOTQwYWI4MTE2YTk2YzUyMGQiCi0tIAoyLjQ3LjEKCg==
 
---===============9129987531826094005==
+--===============7021158853269476000==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eo: PKGSIZE changed from 35165 to 112196 (+219%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ja: PKGSIZE changed from 21753 to 127281 (+485%)
+packages/x86-64-v3-poky-linux/gsettings-desktop-schemas: PACKAGES: added "gsettings-desktop-schemas-locale-uz"
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3404,5 +4765,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============9129987531826094005==--
+--===============7021158853269476000==--
 
