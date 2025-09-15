@@ -2,174 +2,212 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83FB6CAC5A0
-	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:54:59 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.30887.1757937280016281415
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62EB8CCD182
+	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:55:00 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.30919.1757937278907563967
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Sep 2025 04:54:50 -0700
+ Mon, 15 Sep 2025 04:54:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ZRtggusi;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=LuW2KsIY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101994d3a4bed-a522bd06-ec24-4ec7-b634-79935dd59898-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=e9N8NY/H;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WxMMiYxT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101994d3a52e7-5c09478e-b936-4f58-9a7e-5019f4ff7ee3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1757937290;
+	t=1757937292;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=R56+04xB7PuPG5cUIl9t3RNkbfa9h+j1/DcaK2koVAQ=;
-	b=ZRtggusiXDDoDcp0e/BkKN44uPRN2Koyc2fVhN4H8HBX7zfAw0J9lTuxFguOoZAR
-	L41t6JDSLIRn31L66Vs1cq9zejKfu4mKZEkh317ODqptgR0L4bXgTP0cOg7y1Kq4L8b
-	dpd/pB2NLMop7Csk+G+nmfJQB8S+itVT0CQJa/5I=
+	bh=K8W5P2mwoGDRFpr9GGuHkNQOVTHFECLpWaAVsG6AkBA=;
+	b=e9N8NY/Ha87d7Yk/1+PHK+rD4MyIz0KCxy9/UaXY2dnbckFiMwfitMyOuWhT0sDM
+	vq17aMhmNPaZQHk1dmQZUCKZUu7MzWi2GwTmgN5PCK/1qwP9VkV8kLKyq1Ve+nkc6PP
+	T/rKWuUPhYB/6lBapE8EdkOaVGioL9lPJdpYpw+I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937290;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937292;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=R56+04xB7PuPG5cUIl9t3RNkbfa9h+j1/DcaK2koVAQ=;
-	b=LuW2KsIYFZ9+TbwGvJYh+gMNlCI9zi+H0wdxh2hJs2ShIHdahVlOA0iR4yeC/kLO
-	Kj3MeMwFQJ/82aiNqB45cq6wStYmvalUL+wOcSRIyW5htDMxjalCpOUknYybfkLTQA0
-	6A/03cDgo5/P7LmEAPEAp0mCskRVmQeqxmmafY6I=
-Content-Type: multipart/mixed; boundary="===============2126696526787397236=="
+	bh=K8W5P2mwoGDRFpr9GGuHkNQOVTHFECLpWaAVsG6AkBA=;
+	b=WxMMiYxT0G26ZEhN2PBpCzJurO7w/FCF3s+v6c9Nd0bnPYWTHfRpNqGb8Kw4hmHV
+	5LSWxwgmscl6EwXYBP+KsrhDuitdbV4wo6/k/5oKv+YWivuPRBx6oD8Tbelzi/sZo4u
+	lWc64ok2ryrWfadjQwBWRdiz07n81i4qQbjFKk5s=
+Content-Type: multipart/mixed; boundary="===============0797681264072552284=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] freetype: upgrading to 2.14.1 SUCCEEDED
-Message-ID: <010101994d3a4bed-a522bd06-ec24-4ec7-b634-79935dd59898-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Sep 2025 11:54:50 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] virglrenderer: upgrading to 1.2.0 SUCCEEDED
+Message-ID: <010101994d3a52e7-5c09478e-b936-4f58-9a7e-5019f4ff7ee3-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Sep 2025 11:54:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.15-54.240.27.29
+X-SES-Outgoing: 2025.09.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:54:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223455
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:55:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223464
 
---===============2126696526787397236==
-Content-Type: text/plain; charset="utf-8"
+--===============0797681264072552284==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *virglrenderer* to *1.2.0* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-virglrenderer-upgrade-1.1.1-1.2.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 1f21ade6acf4f398e72dc7df02116450f4f2e8e5 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 15 Sep 2025 10:34:20 +0000
+Subject: [PATCH] virglrenderer: upgrade 1.1.1 -> 1.2.0
+
+---
+ .../0001-meson.build-use-python3-directly-for-python.patch    | 4 ++--
+ .../{virglrenderer_1.1.1.bb => virglrenderer_1.2.0.bb}        | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/virglrenderer/{virglrenderer_1.1.1.bb => virglrenderer_1.2.0.bb} (96%)
+
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
+index f9080d53c5..ffb63caa57 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
+@@ -1,4 +1,4 @@
+-From 9677f66a240a0513623aa26b47233b49193d0402 Mon Sep 17 00:00:00 2001
++From 280636a1082feec4e33f561364fb72100e4727b1 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 6 Jan 2020 12:44:42 +0100
+ Subject: [PATCH] meson.build: use 'python3' directly for python
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 10be099e..3bb6eec7 100644
++index 193ba32b..c01cae65 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -77,7 +77,7 @@ flags = [
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_1.2.0.bb
+similarity index 96%
+rename from meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
+rename to meta/recipes-graphics/virglrenderer/virglrenderer_1.2.0.bb
+index 89dd25de70..d4940e5d3e 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.1.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.2.0.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
+ 
+ DEPENDS = "libdrm libepoxy python3-pyyaml-native virtual/egl virtual/libgbm"
+-SRCREV = "0f1f43929724a6a414c01a29bc51feccb445c2f0"
++SRCREV = "500b41d5c8638f9b80dd558f4044f3301c7457a4"
+ SRC_URI = "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https;tag=${PV} \
+            file://0001-meson.build-use-python3-directly-for-python.patch \
+            "
+-- 
+2.47.1
+
+
+--===============0797681264072552284==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-virglrenderer-upgrade-1.1.1-1.2.0.patch"
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpmcmVldHlwZSogdG8gKjIuMTQuMSogaGFzIFN1Y2NlZWRlZC4KCk5leHQgc3RlcHM6CiAg
-ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtZnJlZXR5cGUtdXBncmFkZS0yLjEzLjMt
-Mi4xNC4xLnBhdGNoCiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFtIHBhdGNoZXMg
-YW5kIHN1bW1hcml6ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0gY29tcGlsZSBh
-biBpbWFnZSB0aGF0IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0gc29tZSBiYXNp
-YyBzYW5pdHkgdGVzdHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0IG9mZjogZ2l0
-IGNvbW1pdCAtcyAtLXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQgdG8gdGhlIGFw
-cHJvcHJpYXRlIG1haWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJlbGlldmUgdGhl
-IHJlY2lwZSBzaG91bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91IGNhbiBmaWxs
-IFJFQ0lQRV9OT19VUERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZpbGUgc28gdGhh
-dAphdXRvbWF0aWMgdXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRlZC4KClBsZWFz
-ZSByZXZpZXcgdGhlIGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIGFuZCBi
-dWlsZC91cGRhdGUgZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEgYnVnIGF0IGh0
-dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9QXV0
-b21hdGVkJTIwVXBkYXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUgSGVscGVyCgot
-LSA+OCAtLQpGcm9tIDA4MmY0MTVmYWFkMDhlZDU0MmI5NWFhMTM3MjZmNDNhNjY0MzFmNjkgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhAeW9jdG9wcm9q
-ZWN0Lm9yZz4KRGF0ZTogTW9uLCAxNSBTZXAgMjAyNSAwOTo1ODo0NiArMDAwMApTdWJqZWN0OiBb
-UEFUQ0hdIGZyZWV0eXBlOiB1cGdyYWRlIDIuMTMuMyAtPiAyLjE0LjEKCi0tLQogLi4ue2ZyZWV0
-eXBlXzIuMTMuMy5iYiA9PiBmcmVldHlwZV8yLjE0LjEuYmJ9IHwgNTMgKysrKysrKysrKysrKysr
-KystLQogMSBmaWxlIGNoYW5nZWQsIDUwIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ZyZWV0eXBlL3tmcmVldHlwZV8yLjEzLjMuYmIg
-PT4gZnJlZXR5cGVfMi4xNC4xLmJifSAoNDYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy9mcmVldHlwZS9mcmVldHlwZV8yLjEzLjMuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvZnJlZXR5cGUvZnJlZXR5cGVfMi4xNC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggNDYlCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9mcmVldHlwZS9mcmVldHlwZV8yLjEzLjMuYmIK
-cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9mcmVldHlwZS9mcmVldHlwZV8yLjE0LjEu
-YmIKaW5kZXggMTAwYTdkOTViNi4uNTAxMTMyYTM4NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTMuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvZnJlZXR5cGUvZnJlZXR5cGVfMi4xNC4xLmJiCkBAIC0xLDMgKzEsNTAgQEAKKyMg
-RklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAn
-ZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3
-ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRo
-ZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgor
-IyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1w
-bGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhl
-IGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFLlRYVAorIyArKysgTElDRU5TRS5UWFQKKyMgQEAg
-LTM1LDkgKzM1LDEwIEBACisjICBUaGUgZ3ppcCAgbW9kdWxlIHVzZXMgdGhlICB6bGliIGxpY2Vu
-c2UgKHNlZSAgYHNyYy9nemlwL3psaWIuaGApIHdoaWNoCisjICB0b28gaXMgY29tcGF0aWJsZSB0
-byB0aGUgYWJvdmUgdHdvIGxpY2Vuc2VzLgorIyAgCisjIC1UaGUgZmlsZXMgYHNyYy9hdXRvZml0
-L2Z0LWhiLmNgIGFuZCBgc3JjL2F1dG9maXQvZnQtaGIuaGAgY29udGFpbiBjb2RlCisjIC10YWtl
-biBhbG1vc3QgIHZlcmJhdGltIGZyb20gdGhlICBIYXJmQnV6eiBmaWxlIGBoYi1mdC5jY2AsICB3
-aGljaCB1c2VzCisjIC10aGUgJ09sZCBNSVQnIGxpY2Vuc2UsIGNvbXBhdGlibGUgdG8gdGhlIGFi
-b3ZlIHR3byBsaWNlbnNlcy4KKyMgK1RoZSAgIGZpbGVzICAgYHNyYy9hdXRvZml0L2Z0LWhiLWZ0
-LmNgLCAgIGBzcmMvYXV0b2ZpdC9mdC1oYi1kZWNscy5oYCwKKyMgK2BzcmMvYXV0b2ZpdC9mdC1o
-Yi10eXBlcy5oYCwgICAgIGFuZCAgICBgc3JjL2F1dG9maXQvaGItc2NyaXB0LWxpc3QuaGAKKyMg
-K2NvbnRhaW4gY29kZSB0YWtlbiAoYWxtb3N0KSB2ZXJiYXRpbSAgZnJvbSB0aGUgSGFyZkJ1enog
-bGlicmFyeSwgd2hpY2gKKyMgK3VzZXMgdGhlICdPbGQgTUlUJyBsaWNlbnNlIGNvbXBhdGlibGUg
-dG8gdGhlIGFib3ZlIHR3byBsaWNlbnNlcy4KKyMgIAorIyAgVGhlICBNRDUgY2hlY2tzdW0gIHN1
-cHBvcnQgIChvbmx5IHVzZWQgIGZvciAgZGVidWdnaW5nIGluICBkZXZlbG9wbWVudAorIyAgYnVp
-bGRzKSBpcyBpbiB0aGUgcHVibGljIGRvbWFpbi4KKyMgLS0tIGRvY3MvRlRMLlRYVAorIyArKysg
-ZG9jcy9GVEwuVFhUCisjIEBAIC00OSw3ICs0OSw3IEBACisjICAKKyMgICAgICIiIgorIyAgICAg
-IFBvcnRpb25zIG9mIHRoaXMgc29mdHdhcmUgYXJlIGNvcHlyaWdodCDCqSA8eWVhcj4gVGhlIEZy
-ZWVUeXBlCisjIC0gICAgUHJvamVjdCAod3d3LmZyZWV0eXBlLm9yZykuICBBbGwgcmlnaHRzIHJl
-c2VydmVkLgorIyArICAgIFByb2plY3QgKGh0dHBzOi8vZnJlZXR5cGUub3JnKS4gIEFsbCByaWdo
-dHMgcmVzZXJ2ZWQuCisjICAgICAiIiIKKyMgIAorIyAgICBQbGVhc2UgcmVwbGFjZSA8eWVhcj4g
-d2l0aCB0aGUgdmFsdWUgZnJvbSB0aGUgRnJlZVR5cGUgdmVyc2lvbiB5b3UKKyMgQEAgLTE2Myw3
-ICsxNjMsNyBAQAorIyAgCisjICAgIE91ciBob21lIHBhZ2UgY2FuIGJlIGZvdW5kIGF0CisjICAK
-KyMgLSAgICBodHRwczovL3d3dy5mcmVldHlwZS5vcmcKKyMgKyAgICBodHRwczovL2ZyZWV0eXBl
-Lm9yZworIyAgCisjICAKKyMgIC0tLSBlbmQgb2YgRlRMLlRYVCAtLS0KKyMgCisjCisKIFNVTU1B
-UlkgPSAiRnJlZXR5cGUgZm9udCByZW5kZXJpbmcgbGlicmFyeSIKIERFU0NSSVBUSU9OID0gIkZy
-ZWVUeXBlIGlzIGEgc29mdHdhcmUgZm9udCBlbmdpbmUgdGhhdCBpcyBkZXNpZ25lZCB0byBiZSBz
-bWFsbCwgZWZmaWNpZW50LCBcCiBoaWdobHkgY3VzdG9taXphYmxlLCBhbmQgcG9ydGFibGUgd2hp
-bGUgY2FwYWJsZSBvZiBwcm9kdWNpbmcgaGlnaC1xdWFsaXR5IG91dHB1dCAoZ2x5cGggXApAQCAt
-OCwxMyArNTUsMTMgQEAgQlVHVFJBQ0tFUiA9ICJodHRwczovL3NhdmFubmFoLm5vbmdudS5vcmcv
-YnVncy8/Z3JvdXA9ZnJlZXR5cGUiCiBTRUNUSU9OID0gImxpYnMiCiAKIExJQ0VOU0UgPSAiKEZU
-TCB8IEdQTC0yLjAtb3ItbGF0ZXIpICYgTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
-TElDRU5TRS5UWFQ7bWQ1PTg0M2I2ZWZjMTZmNmIxNjUyZWM5N2Y4OWQ1YTUxNmMwIFwKLSAgICAg
-ICAgICAgICAgICAgICAgZmlsZTovL2RvY3MvRlRMLlRYVDttZDU9OWYzN2I0ZTZhZmEzZmVmOWRi
-YTg5MzJiMTZiZDNmOTcgXAorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5UWFQ7
-bWQ1PWVlYjA3M2Q1ZmI4NmQyM2M1MmJiOWI4NGFhMjU2MzA3IFwKKyAgICAgICAgICAgICAgICAg
-ICAgZmlsZTovL2RvY3MvRlRMLlRYVDttZDU9NzJkODQ0Y2QyZjNiY2FmNmE4NTI0NGI1MDgwMzJi
-ZTcgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vZG9jcy9HUEx2Mi5UWFQ7bWQ1PThlZjM4
-MDQ3NmY2NDJjMjBlYmY0MGZlY2IwYWRkMmVjIFwKICAgICAgICAgICAgICAgICAgICAgIgogCiBT
-UkNfVVJJID0gIiR7U0FWQU5OQUhfTk9OR05VX01JUlJPUn0vJHtCUE59LyR7QlB9LnRhci54eiIK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwNTUwMzUwNjY2ZDQyN2M3NGRhZWI4NWQ1YWM3YmIzNTNh
-Y2JhNWY3Njk1NjM5NTk5NTMxMWE5YzZmMDYzMjg5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjMy
-NDI3ZThjNDcxYWMwOTU4NTMyMTJhMzdhZWY4MTZjNjBiNDIwNTJkNGQ5ZTQ4MjMwYmFiM2JkZjI5
-MzZjY2MiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImZyZWV0eXBlLSg/UDxwdmVyPlxkKyhc
-LlxkKykrKSIKIAotLSAKMi40Ny4xCgo=
+RnJvbSAxZjIxYWRlNmFjZjRmMzk4ZTcyZGM3ZGYwMjExNjQ1MGY0ZjJlOGU1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMTA6MzQ6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+aXJnbHJlbmRlcmVyOiB1cGdyYWRlIDEuMS4xIC0+IDEuMi4wCgotLS0KIC4uLi8wMDAxLW1lc29u
+LmJ1aWxkLXVzZS1weXRob24zLWRpcmVjdGx5LWZvci1weXRob24ucGF0Y2ggICAgfCA0ICsrLS0K
+IC4uLi97dmlyZ2xyZW5kZXJlcl8xLjEuMS5iYiA9PiB2aXJnbHJlbmRlcmVyXzEuMi4wLmJifSAg
+ICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlv
+bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci97dmlyZ2xy
+ZW5kZXJlcl8xLjEuMS5iYiA9PiB2aXJnbHJlbmRlcmVyXzEuMi4wLmJifSAoOTYlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3ZpcmdscmVuZGVyZXIv
+MDAwMS1tZXNvbi5idWlsZC11c2UtcHl0aG9uMy1kaXJlY3RseS1mb3ItcHl0aG9uLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3ZpcmdscmVuZGVyZXIvdmlyZ2xyZW5kZXJlci8wMDAxLW1l
+c29uLmJ1aWxkLXVzZS1weXRob24zLWRpcmVjdGx5LWZvci1weXRob24ucGF0Y2gKaW5kZXggZjkw
+ODBkNTNjNS4uZmZiNjNjYWE1NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Zp
+cmdscmVuZGVyZXIvdmlyZ2xyZW5kZXJlci8wMDAxLW1lc29uLmJ1aWxkLXVzZS1weXRob24zLWRp
+cmVjdGx5LWZvci1weXRob24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Zpcmds
+cmVuZGVyZXIvdmlyZ2xyZW5kZXJlci8wMDAxLW1lc29uLmJ1aWxkLXVzZS1weXRob24zLWRpcmVj
+dGx5LWZvci1weXRob24ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDk2NzdmNjZhMjQwYTA1
+MTM2MjNhYTI2YjQ3MjMzYjQ5MTkzZDA0MDIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDI4MDYzNmExMDgyZmVlYzRlMzNmNTYxMzY0ZmI3MjEwMGU0NzI3YjEgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
+bT4KIERhdGU6IE1vbiwgNiBKYW4gMjAyMCAxMjo0NDo0MiArMDEwMAogU3ViamVjdDogW1BBVENI
+XSBtZXNvbi5idWlsZDogdXNlICdweXRob24zJyBkaXJlY3RseSBmb3IgcHl0aG9uCkBAIC0xMyw3
+ICsxMyw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
+Z21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNvbi5idWlsZAotaW5kZXggMTBiZTA5
+OWUuLjNiYjZlZWM3IDEwMDY0NAoraW5kZXggMTkzYmEzMmIuLmMwMWNhZTY1IDEwMDY0NAogLS0t
+IGEvbWVzb24uYnVpbGQKICsrKyBiL21lc29uLmJ1aWxkCiBAQCAtNzcsNyArNzcsNyBAQCBmbGFn
+cyA9IFsKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3Zp
+cmdscmVuZGVyZXJfMS4xLjEuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJl
+ci92aXJnbHJlbmRlcmVyXzEuMi4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3ZpcmdscmVuZGVyZXJfMS4xLjEu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3ZpcmdscmVu
+ZGVyZXJfMS4yLjAuYmIKaW5kZXggODlkZDI1ZGU3MC4uZDQ5NDBlNWQzZSAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3ZpcmdscmVuZGVyZXIvdmlyZ2xyZW5kZXJlcl8xLjEuMS5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRlcmVy
+XzEuMi4wLmJiCkBAIC05LDcgKzksNyBAQCBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWM4MWMwOGVlZWZkOTQxOGZjYThmODgzMDlhNzZkYjEw
+IgogCiBERVBFTkRTID0gImxpYmRybSBsaWJlcG94eSBweXRob24zLXB5eWFtbC1uYXRpdmUgdmly
+dHVhbC9lZ2wgdmlydHVhbC9saWJnYm0iCi1TUkNSRVYgPSAiMGYxZjQzOTI5NzI0YTZhNDE0YzAx
+YTI5YmM1MWZlY2NiNDQ1YzJmMCIKK1NSQ1JFViA9ICI1MDBiNDFkNWM4NjM4ZjliODBkZDU1OGY0
+MDQ0ZjMzMDFjNzQ1N2E0IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3Jn
+L3ZpcmdsL3ZpcmdscmVuZGVyZXIuZ2l0O2JyYW5jaD1tYWluO3Byb3RvY29sPWh0dHBzO3RhZz0k
+e1BWfSBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLW1lc29uLmJ1aWxkLXVzZS1weXRob24zLWRp
+cmVjdGx5LWZvci1weXRob24ucGF0Y2ggXAogICAgICAgICAgICAiCi0tIAoyLjQ3LjEKCg==
 
---===============2126696526787397236==
+--===============0797681264072552284==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/freetype/freetype-dbg: PKGSIZE changed from 2685504 to 2705440 (+1%)
-packages/x86-64-v3-poky-linux/freetype/freetype-dbg: FILELIST: removed "/usr/lib/.debug/libfreetype.so.6.20.2", added "/usr/lib/.debug/libfreetype.so.6.20.4"
-packages/x86-64-v3-poky-linux/freetype/freetype-dbg: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-dbg: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-dev: PKGSIZE changed from 879678 to 885623 (+1%)
-packages/x86-64-v3-poky-linux/freetype/freetype-dev: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-dev: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-doc: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-doc: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-locale: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-locale: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-src: PKGSIZE changed from 5535548 to 5628258 (+2%)
-packages/x86-64-v3-poky-linux/freetype/freetype-src: FILELIST: directory renamed /usr/src/debug/freetype/2.13.3/src/truetype -> /usr/src/debug/freetype/2.14.1/src/truetype, directory renamed /usr/src/debug/freetype/2.13.3/src/sfnt -> /usr/src/debug/freetype/2.14.1/src/sfnt, directory renamed /usr/src/debug/freetype/2.13.3/builds/unix -> /usr/src/debug/freetype/2.14.1/builds/unix, directory renamed /usr/src/debug/freetype/2.13.3/src/pcf -> /usr/src/debug/freetype/2.14.1/src/pcf, directory renamed /usr/src/debug/freetype/2.13.3/src/psnames -> /usr/src/debug/freetype/2.14.1/src/psnames, directory renamed /usr/src/debug/freetype/2.13.3/include/freetype -> /usr/src/debug/freetype/2.14.1/include/freetype, directory renamed /usr/src/debug/freetype/2.13.3/src/raster -> /usr/src/debug/freetype/2.14.1/src/raster, directory renamed /usr/src/debug/freetype/2.13.3/src/svg -> /usr/src/debug/freetype/2.14.1/src/svg, directory renamed /usr/src/debug/freetype/2.13.3/src/winfonts -> /usr/src/debug/fre
- etype/2.14.1/src/winfonts, directory renamed /usr/src/debug/freetype/2.13.3/src/bzip2 -> /usr/src/debug/freetype/2.14.1/src/bzip2, directory renamed /usr/src/debug/freetype/2.13.3/src/psaux -> /usr/src/debug/freetype/2.14.1/src/psaux, directory renamed /usr/src/debug/freetype/2.13.3/src/base -> /usr/src/debug/freetype/2.14.1/src/base, directory renamed /usr/src/debug/freetype/2.13.3/src/pshinter -> /usr/src/debug/freetype/2.14.1/src/pshinter, directory renamed /usr/src/debug/freetype/2.13.3/src/type1 -> /usr/src/debug/freetype/2.14.1/src/type1, directory renamed /usr/src/debug/freetype/2.13.3/src/smooth -> /usr/src/debug/freetype/2.14.1/src/smooth, directory renamed /usr/src/debug/freetype/2.13.3/src/cache -> /usr/src/debug/freetype/2.14.1/src/cache, directory renamed /usr/src/debug/freetype/2.13.3/src/cff -> /usr/src/debug/freetype/2.14.1/src/cff, directory renamed /usr/src/debug/freetype/2.13.3/src/bdf -> /usr/src/debug/freetype/2.14.1/src/bdf, directory renamed /usr/src/debug/fre
- etype/2.13.3/src/gzip -> /usr/src/debug/freetype/2.14.1/src/gzip, directory renamed /usr/src/debug/freetype/2.13.3/include/freetype/internal -> /usr/src/debug/freetype/2.14.1/include/freetype/internal, directory renamed /usr/src/debug/freetype/2.13.3/src/type42 -> /usr/src/debug/freetype/2.14.1/src/type42, directory renamed /usr/src/debug/freetype/2.13.3/include/freetype/internal/services -> /usr/src/debug/freetype/2.14.1/include/freetype/internal/services, directory renamed /usr/src/debug/freetype/2.13.3/src/pfr -> /usr/src/debug/freetype/2.14.1/src/pfr, directory renamed /usr/src/debug/freetype/2.13.3/src/cid -> /usr/src/debug/freetype/2.14.1/src/cid, directory renamed /usr/src/debug/freetype/2.13.3 -> /usr/src/debug/freetype/2.14.1, directory renamed /usr/src/debug/freetype/2.13.3/src/sdf -> /usr/src/debug/freetype/2.14.1/src/sdf, directory renamed /usr/src/debug/freetype/2.13.3/src/lzw -> /usr/src/debug/freetype/2.14.1/src/lzw, directory renamed /usr/src/debug/freetype/2.13.3/in
- clude/freetype/config -> /usr/src/debug/freetype/2.14.1/include/freetype/config, removed "/usr/src/debug/freetype/2.13.3/src/autofit/afhints.c /usr/src/debug/freetype/2.13.3/src/autofit/aftypes.h /usr/src/debug/freetype/2.13.3/src/autofit/afhints.h /usr/src/debug/freetype/2.13.3/src/autofit/afblue.h /usr/src/debug/freetype/2.13.3/src/autofit/afcjk.c /usr/src/debug/freetype/2.13.3/src/autofit/afshaper.c /usr/src/debug/freetype/2.13.3/src/autofit/afstyles.h /usr/src/debug/freetype/2.13.3/src/autofit/afindic.c /usr/src/debug/freetype/2.13.3/src/autofit/afcjk.h /usr/src/debug/freetype/2.13.3/src/autofit/afblue.c /usr/src/debug/freetype/2.13.3/src/autofit/afindic.h /usr/src/debug/freetype/2.13.3/src/autofit/afranges.c /usr/src/debug/freetype/2.13.3/src/autofit/aflatin.h /usr/src/debug/freetype/2.13.3/src/autofit/aflatin.c /usr/src/debug/freetype/2.13.3/src/autofit/afglobal.h /usr/src/debug/freetype/2.13.3/src/autofit/afglobal.c /usr/src/debug/freetype/2.13.3/src/autofit/afscript.h /usr/s
- rc/debug/freetype/2.13.3/src/autofit/afdummy.c /usr/src/debug/freetype/2.13.3/src/autofit/afmodule.h /usr/src/debug/freetype/2.13.3/src/autofit/afloader.c /usr/src/debug/freetype/2.13.3/src/autofit/afmodule.c /usr/src/debug/freetype/2.13.3/src/autofit/afdummy.h /usr/src/debug/freetype/2.13.3/src/autofit/afloader.h", added "/usr/src/debug/freetype/2.14.1/src/autofit/afhints.c /usr/src/debug/freetype/2.14.1/src/autofit/aftypes.h /usr/src/debug/freetype/2.14.1/src/autofit/afhints.h /usr/src/debug/freetype/2.14.1/src/autofit/afblue.h /usr/src/debug/freetype/2.14.1/src/autofit/afcjk.c /usr/src/debug/freetype/2.14.1/src/autofit/afshaper.c /usr/src/debug/freetype/2.14.1/src/autofit/afstyles.h /usr/src/debug/freetype/2.14.1/src/autofit/ft-hb.c /usr/src/debug/freetype/2.14.1/src/autofit/afindic.c /usr/src/debug/freetype/2.14.1/src/autofit/afcjk.h /usr/src/debug/freetype/2.14.1/src/autofit/afblue.c /usr/src/debug/freetype/2.14.1/src/autofit/afindic.h /usr/src/debug/freetype/2.14.1/src/autofit
- /afranges.c /usr/src/debug/freetype/2.14.1/src/autofit/aflatin.h /usr/src/debug/freetype/2.14.1/src/autofit/aflatin.c /usr/src/debug/freetype/2.14.1/src/autofit/afglobal.h /usr/src/debug/freetype/2.14.1/src/autofit/afglobal.c /usr/src/debug/freetype/2.14.1/src/autofit/afadjust.c /usr/src/debug/freetype/2.14.1/src/autofit/afscript.h /usr/src/debug/freetype/2.14.1/src/autofit/afdummy.c /usr/src/debug/freetype/2.14.1/src/autofit/afmodule.h /usr/src/debug/freetype/2.14.1/src/autofit/afloader.c /usr/src/debug/freetype/2.14.1/src/autofit/afmodule.c /usr/src/debug/freetype/2.14.1/src/autofit/afdummy.h /usr/src/debug/freetype/2.14.1/src/autofit/afloader.h"
-packages/x86-64-v3-poky-linux/freetype/freetype-src: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-src: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype-staticdev: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype-staticdev: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype/freetype: PKGSIZE changed from 772093 to 776189 (+1%)
-packages/x86-64-v3-poky-linux/freetype/freetype: FILELIST: removed "/usr/lib/libfreetype.so.6.20.2", added "/usr/lib/libfreetype.so.6.20.4"
-packages/x86-64-v3-poky-linux/freetype/freetype: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype/freetype: PV changed from "2.13.3" to "2.14.1"
-packages/x86-64-v3-poky-linux/freetype: SRC_URI changed from "https://download.savannah.nongnu.org/releases/freetype/freetype-2.13.3.tar.xz" to "https://download.savannah.nongnu.org/releases/freetype/freetype-2.14.1.tar.xz"
-packages/x86-64-v3-poky-linux/freetype: PKGV changed from 2.13.3 [default] to 2.14.1 [default]
-packages/x86-64-v3-poky-linux/freetype: PV changed from "2.13.3" to "2.14.1"
-Changes to packages/x86-64-v3-poky-linux/freetype (sysroot):
-  /usr/lib/libfreetype.so.6 changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
-  /usr/lib/libfreetype.so changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
-  /usr/lib/libfreetype.so.6.20.2 moved to /usr/lib/libfreetype.so.6.20.4
+packages/x86-64-v3-poky-linux/virglrenderer: PKGV changed from 1.1.1 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/virglrenderer: PV changed from "1.1.1" to "1.2.0"
+packages/x86-64-v3-poky-linux/virglrenderer: SRC_URI changed from "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https;tag=1.1.1 file://0001-meson.build-use-python3-directly-for-python.patch" to "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https;tag=1.2.0 file://0001-meson.build-use-python3-directly-for-python.patch"
+Changes to packages/x86-64-v3-poky-linux/virglrenderer (sysroot):
+  /usr/lib/libvirglrenderer.so.1 changed symlink target from libvirglrenderer.so.1.9.1 to libvirglrenderer.so.1.10.0
+  /usr/lib/libvirglrenderer.so.1.10.0 was added
+  /usr/lib/libvirglrenderer.so.1.9.1 was removed
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-dbg: PKGV changed from 1.1.1 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-dbg: PV changed from "1.1.1" to "1.2.0"
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-dbg: PKGSIZE changed from 35442080 to 35539648 (+0%)
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-dbg: FILELIST: removed "/usr/lib/.debug/libvirglrenderer.so.1.9.1", added "/usr/lib/.debug/libvirglrenderer.so.1.10.0"
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-dev: PKGV changed from 1.1.1 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-dev: PV changed from "1.1.1" to "1.2.0"
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-dev: PKGSIZE changed from 21603 to 21828 (+1%)
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-doc: PKGV changed from 1.1.1 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-doc: PV changed from "1.1.1" to "1.2.0"
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-locale: PKGV changed from 1.1.1 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-locale: PV changed from "1.1.1" to "1.2.0"
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-src: PKGV changed from 1.1.1 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-src: PV changed from "1.1.1" to "1.2.0"
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-src: PKGSIZE changed from 602821 to 627939 (+4%)
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-staticdev: PKGV changed from 1.1.1 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer-staticdev: PV changed from "1.1.1" to "1.2.0"
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer: PKGV changed from 1.1.1 [default] to 1.2.0 [default]
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer: PV changed from "1.1.1" to "1.2.0"
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer: PKGSIZE changed from 3516985 to 3684858 (+5%)
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer: FILELIST: removed "/usr/lib/libvirglrenderer.so.1.9.1", added "/usr/lib/libvirglrenderer.so.1.10.0"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1768,90 +1806,17 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============2126696526787397236==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-freetype-upgrade-2.13.3-2.14.1.patch"
-
-RnJvbSAwODJmNDE1ZmFhZDA4ZWQ1NDJiOTVhYTEzNzI2ZjQzYTY2NDMxZjY5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDk6NTg6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBm
-cmVldHlwZTogdXBncmFkZSAyLjEzLjMgLT4gMi4xNC4xCgotLS0KIC4uLntmcmVldHlwZV8yLjEz
-LjMuYmIgPT4gZnJlZXR5cGVfMi4xNC4xLmJifSB8IDUzICsrKysrKysrKysrKysrKysrLS0KIDEg
-ZmlsZSBjaGFuZ2VkLCA1MCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy9mcmVldHlwZS97ZnJlZXR5cGVfMi4xMy4zLmJiID0+IGZyZWV0
-eXBlXzIuMTQuMS5iYn0gKDQ2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-ZnJlZXR5cGUvZnJlZXR5cGVfMi4xMy4zLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ZyZWV0
-eXBlL2ZyZWV0eXBlXzIuMTQuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDQ2JQpyZW5hbWUgZnJvbSBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZnJlZXR5cGUvZnJlZXR5cGVfMi4xMy4zLmJiCnJlbmFtZSB0
-byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZnJlZXR5cGUvZnJlZXR5cGVfMi4xNC4xLmJiCmluZGV4
-IDEwMGE3ZDk1YjYuLjUwMTEzMmEzODUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy9mcmVldHlwZS9mcmVldHlwZV8yLjEzLjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTQuMS5iYgpAQCAtMSwzICsxLDUwIEBACisjIEZJWE1FOiB0
-aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wg
-dXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUg
-b2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5T
-RSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNv
-bW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGlj
-ZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2Vz
-OgorIworIyAtLS0gTElDRU5TRS5UWFQKKyMgKysrIExJQ0VOU0UuVFhUCisjIEBAIC0zNSw5ICsz
-NSwxMCBAQAorIyAgVGhlIGd6aXAgIG1vZHVsZSB1c2VzIHRoZSAgemxpYiBsaWNlbnNlIChzZWUg
-IGBzcmMvZ3ppcC96bGliLmhgKSB3aGljaAorIyAgdG9vIGlzIGNvbXBhdGlibGUgdG8gdGhlIGFi
-b3ZlIHR3byBsaWNlbnNlcy4KKyMgIAorIyAtVGhlIGZpbGVzIGBzcmMvYXV0b2ZpdC9mdC1oYi5j
-YCBhbmQgYHNyYy9hdXRvZml0L2Z0LWhiLmhgIGNvbnRhaW4gY29kZQorIyAtdGFrZW4gYWxtb3N0
-ICB2ZXJiYXRpbSBmcm9tIHRoZSAgSGFyZkJ1enogZmlsZSBgaGItZnQuY2NgLCAgd2hpY2ggdXNl
-cworIyAtdGhlICdPbGQgTUlUJyBsaWNlbnNlLCBjb21wYXRpYmxlIHRvIHRoZSBhYm92ZSB0d28g
-bGljZW5zZXMuCisjICtUaGUgICBmaWxlcyAgIGBzcmMvYXV0b2ZpdC9mdC1oYi1mdC5jYCwgICBg
-c3JjL2F1dG9maXQvZnQtaGItZGVjbHMuaGAsCisjICtgc3JjL2F1dG9maXQvZnQtaGItdHlwZXMu
-aGAsICAgICBhbmQgICAgYHNyYy9hdXRvZml0L2hiLXNjcmlwdC1saXN0LmhgCisjICtjb250YWlu
-IGNvZGUgdGFrZW4gKGFsbW9zdCkgdmVyYmF0aW0gIGZyb20gdGhlIEhhcmZCdXp6IGxpYnJhcnks
-IHdoaWNoCisjICt1c2VzIHRoZSAnT2xkIE1JVCcgbGljZW5zZSBjb21wYXRpYmxlIHRvIHRoZSBh
-Ym92ZSB0d28gbGljZW5zZXMuCisjICAKKyMgIFRoZSAgTUQ1IGNoZWNrc3VtICBzdXBwb3J0ICAo
-b25seSB1c2VkICBmb3IgIGRlYnVnZ2luZyBpbiAgZGV2ZWxvcG1lbnQKKyMgIGJ1aWxkcykgaXMg
-aW4gdGhlIHB1YmxpYyBkb21haW4uCisjIC0tLSBkb2NzL0ZUTC5UWFQKKyMgKysrIGRvY3MvRlRM
-LlRYVAorIyBAQCAtNDksNyArNDksNyBAQAorIyAgCisjICAgICAiIiIKKyMgICAgICBQb3J0aW9u
-cyBvZiB0aGlzIHNvZnR3YXJlIGFyZSBjb3B5cmlnaHQgwqkgPHllYXI+IFRoZSBGcmVlVHlwZQor
-IyAtICAgIFByb2plY3QgKHd3dy5mcmVldHlwZS5vcmcpLiAgQWxsIHJpZ2h0cyByZXNlcnZlZC4K
-KyMgKyAgICBQcm9qZWN0IChodHRwczovL2ZyZWV0eXBlLm9yZykuICBBbGwgcmlnaHRzIHJlc2Vy
-dmVkLgorIyAgICAgIiIiCisjICAKKyMgICAgUGxlYXNlIHJlcGxhY2UgPHllYXI+IHdpdGggdGhl
-IHZhbHVlIGZyb20gdGhlIEZyZWVUeXBlIHZlcnNpb24geW91CisjIEBAIC0xNjMsNyArMTYzLDcg
-QEAKKyMgIAorIyAgICBPdXIgaG9tZSBwYWdlIGNhbiBiZSBmb3VuZCBhdAorIyAgCisjIC0gICAg
-aHR0cHM6Ly93d3cuZnJlZXR5cGUub3JnCisjICsgICAgaHR0cHM6Ly9mcmVldHlwZS5vcmcKKyMg
-IAorIyAgCisjICAtLS0gZW5kIG9mIEZUTC5UWFQgLS0tCisjIAorIworCiBTVU1NQVJZID0gIkZy
-ZWV0eXBlIGZvbnQgcmVuZGVyaW5nIGxpYnJhcnkiCiBERVNDUklQVElPTiA9ICJGcmVlVHlwZSBp
-cyBhIHNvZnR3YXJlIGZvbnQgZW5naW5lIHRoYXQgaXMgZGVzaWduZWQgdG8gYmUgc21hbGwsIGVm
-ZmljaWVudCwgXAogaGlnaGx5IGN1c3RvbWl6YWJsZSwgYW5kIHBvcnRhYmxlIHdoaWxlIGNhcGFi
-bGUgb2YgcHJvZHVjaW5nIGhpZ2gtcXVhbGl0eSBvdXRwdXQgKGdseXBoIFwKQEAgLTgsMTMgKzU1
-LDEzIEBAIEJVR1RSQUNLRVIgPSAiaHR0cHM6Ly9zYXZhbm5haC5ub25nbnUub3JnL2J1Z3MvP2dy
-b3VwPWZyZWV0eXBlIgogU0VDVElPTiA9ICJsaWJzIgogCiBMSUNFTlNFID0gIihGVEwgfCBHUEwt
-Mi4wLW9yLWxhdGVyKSAmIE1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0Uu
-VFhUO21kNT04NDNiNmVmYzE2ZjZiMTY1MmVjOTdmODlkNWE1MTZjMCBcCi0gICAgICAgICAgICAg
-ICAgICAgIGZpbGU6Ly9kb2NzL0ZUTC5UWFQ7bWQ1PTlmMzdiNGU2YWZhM2ZlZjlkYmE4OTMyYjE2
-YmQzZjk3IFwKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UuVFhUO21kNT1lZWIw
-NzNkNWZiODZkMjNjNTJiYjliODRhYTI1NjMwNyBcCisgICAgICAgICAgICAgICAgICAgIGZpbGU6
-Ly9kb2NzL0ZUTC5UWFQ7bWQ1PTcyZDg0NGNkMmYzYmNhZjZhODUyNDRiNTA4MDMyYmU3IFwKICAg
-ICAgICAgICAgICAgICAgICAgZmlsZTovL2RvY3MvR1BMdjIuVFhUO21kNT04ZWYzODA0NzZmNjQy
-YzIwZWJmNDBmZWNiMGFkZDJlYyBcCiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9
-ICIke1NBVkFOTkFIX05PTkdOVV9NSVJST1J9LyR7QlBOfS8ke0JQfS50YXIueHoiCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiMDU1MDM1MDY2NmQ0MjdjNzRkYWViODVkNWFjN2JiMzUzYWNiYTVmNzY5
-NTYzOTU5OTUzMTFhOWM2ZjA2MzI4OSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzMjQyN2U4YzQ3
-MWFjMDk1ODUzMjEyYTM3YWVmODE2YzYwYjQyMDUyZDRkOWU0ODIzMGJhYjNiZGYyOTM2Y2NjIgog
-CiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJmcmVldHlwZS0oP1A8cHZlcj5cZCsoXC5cZCspKyki
-CiAKLS0gCjIuNDcuMQoK
-
---===============2126696526787397236==
+--===============0797681264072552284==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/freetype/freetype: FILELIST: removed "/usr/lib/libfreetype.so.6.20.2", added "/usr/lib/libfreetype.so.6.20.4"
-Changes to packages/x86-64-v3-poky-linux/freetype (sysroot):
-  /usr/lib/libfreetype.so.6 changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
-  /usr/lib/libfreetype.so changed symlink target from libfreetype.so.6.20.2 to libfreetype.so.6.20.4
-  /usr/lib/libfreetype.so.6.20.2 moved to /usr/lib/libfreetype.so.6.20.4
+Changes to packages/x86-64-v3-poky-linux/virglrenderer (sysroot):
+  /usr/lib/libvirglrenderer.so.1 changed symlink target from libvirglrenderer.so.1.9.1 to libvirglrenderer.so.1.10.0
+  /usr/lib/libvirglrenderer.so.1.10.0 was added
+  /usr/lib/libvirglrenderer.so.1.9.1 was removed
+packages/x86-64-v3-poky-linux/virglrenderer/virglrenderer: FILELIST: removed "/usr/lib/libvirglrenderer.so.1.9.1", added "/usr/lib/libvirglrenderer.so.1.10.0"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3450,5 +3415,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============2126696526787397236==--
+--===============0797681264072552284==--
 
