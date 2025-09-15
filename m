@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51BA2CAC5AF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A37CAC5B1
 	for <webhook@archiver.kernel.org>; Mon, 15 Sep 2025 11:54:48 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.30911.1757937272301687583
+ by mx.groups.io with SMTP id smtpd.web10.30884.1757937276286159986
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Sep 2025 04:54:39 -0700
+ Mon, 15 Sep 2025 04:54:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ue8hM73d;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=c21//RcF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101994d3a1fe4-4e9640a5-2bd7-4385-9857-a0f69225f4cd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=b1DKHMku;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=SygwYQad;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101994d3a2976-4b459f61-9683-4105-a25c-649c1f4ee63a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1757937279;
+	t=1757937281;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=q9yHK4Jzfi671BiVe4Iv3SJp3mQXIlEIGn3bgcAdr0Y=;
-	b=ue8hM73daFwbxyyn729oA3OcnKKLjXtnaGR7xXHbbH2BZOJz/P/eT07ICxr8AwXr
-	1GoKWzQGas04eHJn2ZPhAHc5A+JaURGBc/WTid/n+eH3P021DBR8x7ojLhjLcnzxGCo
-	R5YXZQqoyB7iIVRbD5djuK52p7t3oJB4PjRcBfiw=
+	bh=jzXoI0ChEvW/tTmqXOvfThNTuiXMBbjFa8g1Wdn4A1E=;
+	b=b1DKHMkukJqWRlWEFev5L8qOLc2dA0aAmRP2tSPwgUW2wsn1RzLtYZLnY1C0WL9w
+	ISfAIGhWxbcf8llcG/aux4vIWathcHMiVbhpmY5GBFpmd8JZ+2ylK5qblFD43Q4dLR6
+	/dNphqjif5UosfokbQO1KF5ShNzfZwabRA5kdgeo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937279;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1757937281;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=q9yHK4Jzfi671BiVe4Iv3SJp3mQXIlEIGn3bgcAdr0Y=;
-	b=c21//RcFyVL/WwuYmZSHjDQWwe7prwHo+byDKxpTnmpoSsJJ6v+Ici2u1LSK9xe1
-	uAUaPucJU05dEtSEQ0FSFnCYo8baicEAnq1i5wvRjqRxFI0+yFfpeDiRlfxS9WCNNaU
-	c9ENqHPLZn1xUfS5fS5dfkAYd/5e6CPjZRdqWPQI=
-Content-Type: multipart/mixed; boundary="===============0796352046379362191=="
+	bh=jzXoI0ChEvW/tTmqXOvfThNTuiXMBbjFa8g1Wdn4A1E=;
+	b=SygwYQadzmTfhfQpM4DSq2oNOKtbidcni7sGCPtVXGfhDeFUAIrbJxbIosL5Eybg
+	U6VpXRehSuwzO/nW9su28w1SubiqdznGr3Airem8JgnxJ9wScqXRY4Ge91dTqUoKfsV
+	ZfXyrTNqQ3E5wO1qSihHnTsQjHBD3evKXXuys0sw=
+Content-Type: multipart/mixed; boundary="===============1304112129759627919=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: "zhengrq.fnst" <zhengrq.fnst@fujitsu.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-booleanpy: upgrading to 5.0 FAILED
-Message-ID: <010101994d3a1fe4-4e9640a5-2bd7-4385-9857-a0f69225f4cd-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Sep 2025 11:54:38 +0000
+Subject: [AUH] python3-poetry-core: upgrading to 2.2.0 SUCCEEDED
+Message-ID: <010101994d3a2976-4b459f61-9683-4105-a25c-649c1f4ee63a-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Sep 2025 11:54:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.09.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Sep 2025 11:54:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223417
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223425
 
---===============0796352046379362191==
+--===============1304112129759627919==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,86 +51,145 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-booleanpy* to *5.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-poetry-core* to *2.2.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-poetry-core-upgrade-2.1.3-2.2.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade python3-booleanpy -V 5.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1939 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-99821be78e5fcfa4a86b24caf776650f5281d9b7"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:99821be78e5fcfa4a86b24caf776650f5281d9b7"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 945 .bb files complete (0 cached, 945 parsed). 1940 targets, 43 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-99821be78e5fcfa4a86b24caf776650f5281d9b7"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:99821be78e5fcfa4a86b24caf776650f5281d9b7"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250915075757.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20250915075757.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-az3zuext/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-az3zuext/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-az3zuext/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-az3zuext/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
- cipetool-az3zuext/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-az3zuext/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget --tries=2 --timeout=100 --output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/boolean.py-5.0.tar.gz.tmp --continue --directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz' --progress=dot --verbose failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-az3zuext/work/temp/log.do_fetch.4002483
-ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/b/boolean.py/boolean.py-5.0.tar.gz;downloadfilename=boolean.py-5.0.tar.gz
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0796352046379362191==--
+
+-- >8 --
+From 91a5e4eb1c22d5730751a268578435f4f74cfb36 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 15 Sep 2025 08:16:24 +0000
+Subject: [PATCH] python3-poetry-core: upgrade 2.1.3 -> 2.2.0
+
+---
+ ...ython3-poetry-core_2.1.3.bb => python3-poetry-core_2.2.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-poetry-core_2.1.3.bb => python3-poetry-core_2.2.0.bb} (94%)
+
+diff --git a/meta/recipes-devtools/python/python3-poetry-core_2.1.3.bb b/meta/recipes-devtools/python/python3-poetry-core_2.2.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-poetry-core_2.1.3.bb
+rename to meta/recipes-devtools/python/python3-poetry-core_2.2.0.bb
+index 12c4751de8..95f7cfc1a2 100644
+--- a/meta/recipes-devtools/python/python3-poetry-core_2.1.3.bb
++++ b/meta/recipes-devtools/python/python3-poetry-core_2.2.0.bb
+@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "\
+     file://src/poetry/core/_vendor/tomli/LICENSE;md5=aaaaf0879d17df0110d1aa8c8c9f46f5 \
+ "
+ 
+-SRC_URI[sha256sum] = "0522a015477ed622c89aad56a477a57813cace0c8e7ff2a2906b7ef4a2e296a4"
++SRC_URI[sha256sum] = "b4033b71b99717a942030e074fec7e3082e5fde7a8ed10f02cd2413bdf940b1f"
+ 
+ inherit python_poetry_core pypi
+ 
+-- 
+2.47.1
+
+
+--===============1304112129759627919==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-poetry-core: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.1.3.tar.gz;downloadfilename=poetry_core-2.1.3.tar.gz" to "https://files.pythonhosted.org/packages/source/p/poetry_core/poetry_core-2.2.0.tar.gz;downloadfilename=poetry_core-2.2.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-poetry-core: PV changed from "2.1.3" to "2.2.0"
+packages/x86-64-v3-poky-linux/python3-poetry-core: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PV changed from "2.1.3" to "2.2.0"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dbg: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dev: PV changed from "2.1.3" to "2.2.0"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-dev: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-doc: PV changed from "2.1.3" to "2.2.0"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-doc: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-locale: PV changed from "2.1.3" to "2.2.0"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-locale: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-src: PV changed from "2.1.3" to "2.2.0"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-src: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PV changed from "2.1.3" to "2.2.0"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core-staticdev: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PKGSIZE changed from 2494216 to 2540904 (+2%)
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PV changed from "2.1.3" to "2.2.0"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: FILELIST: removed "/usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/LICENSE /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/WHEEL /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/METADATA", added "/usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/METADATA /usr/lib/python3.13/site-packages/poetry/core/json/schemas/dependency-groups-schema.json /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses/LICENSE /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/WHEEL"
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: PKGV changed from 2.1.3 [default] to 2.2.0 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-poetry-core (sysroot):
+  /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info moved to /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info
+  /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/poetry/core/json/schemas/dependency-groups-schema.json was added
+  /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/LICENSE was removed
+Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
+  /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info moved to /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info
+  /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/poetry/core/json/schemas/dependency-groups-schema.json was added
+  /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/LICENSE was removed
+
+--===============1304112129759627919==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-poetry-core/python3-poetry-core: FILELIST: removed "/usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/LICENSE /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/WHEEL /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/METADATA", added "/usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/METADATA /usr/lib/python3.13/site-packages/poetry/core/json/schemas/dependency-groups-schema.json /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/WHEEL /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses/LICENSE"
+Changes to packages/x86-64-v3-poky-linux/python3-poetry-core (sysroot):
+  /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info moved to /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info
+  /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/poetry/core/json/schemas/dependency-groups-schema.json was added
+  /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/LICENSE was removed
+Changes to packages/x86_64-linux/python3-poetry-core-native (sysroot):
+  /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info moved to /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info
+  /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses was added
+  /usr/lib/python3.13/site-packages/poetry_core-2.2.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.13/site-packages/poetry/core/json/schemas/dependency-groups-schema.json was added
+  /usr/lib/python3.13/site-packages/poetry_core-2.1.3.dist-info/LICENSE was removed
+
+--===============1304112129759627919==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-poetry-core-upgrade-2.1.3-2.2.0.patch"
+
+RnJvbSA5MWE1ZTRlYjFjMjJkNTczMDc1MWEyNjg1Nzg0MzVmNGY3NGNmYjM2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgU2VwIDIwMjUgMDg6MTY6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXBvZXRyeS1jb3JlOiB1cGdyYWRlIDIuMS4zIC0+IDIuMi4wCgotLS0KIC4uLnl0aG9u
+My1wb2V0cnktY29yZV8yLjEuMy5iYiA9PiBweXRob24zLXBvZXRyeS1jb3JlXzIuMi4wLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4x
+LjMuYmIgPT4gcHl0aG9uMy1wb2V0cnktY29yZV8yLjIuMC5iYn0gKDk0JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4xLjMu
+YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4y
+LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXBvZXRyeS1jb3JlXzIuMS4zLmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcG9ldHJ5LWNvcmVfMi4yLjAuYmIKaW5kZXgg
+MTJjNDc1MWRlOC4uOTVmN2NmYzFhMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXBvZXRyeS1jb3JlXzIuMS4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1wb2V0cnktY29yZV8yLjIuMC5iYgpAQCAtMTUsNyArMTUs
+NyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gIlwKICAgICBmaWxlOi8vc3JjL3BvZXRyeS9jb3JlL192
+ZW5kb3IvdG9tbGkvTElDRU5TRTttZDU9YWFhYWYwODc5ZDE3ZGYwMTEwZDFhYThjOGM5ZjQ2ZjUg
+XAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDUyMmEwMTU0NzdlZDYyMmM4OWFhZDU2YTQ3
+N2E1NzgxM2NhY2UwYzhlN2ZmMmEyOTA2YjdlZjRhMmUyOTZhNCIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJiNDAzM2I3MWI5OTcxN2E5NDIwMzBlMDc0ZmVjN2UzMDgyZTVmZGU3YThlZDEwZjAyY2Qy
+NDEzYmRmOTQwYjFmIgogCiBpbmhlcml0IHB5dGhvbl9wb2V0cnlfY29yZSBweXBpCiAKLS0gCjIu
+NDcuMQoK
+
+--===============1304112129759627919==--
 
