@@ -1,59 +1,80 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37027CAC592
-	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 16:22:37 +0000 (UTC)
-Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
- by mx.groups.io with SMTP id smtpd.web11.2925.1758039754235690660
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21695CAC592
+	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 16:26:47 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web11.3026.1758040005103690027
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Sep 2025 09:22:34 -0700
+ Tue, 16 Sep 2025 09:26:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
-Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
-	by mailout12.t-online.de (Postfix) with SMTP id F0DA4E74E
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 18:22:31 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.44.62]) by fwd79.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1uyYRr-2FBDlJ0; Tue, 16 Sep 2025 18:22:31 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] ffmpeg: make ffmpeg provide virtual/ffmpeg
-Date: Tue, 16 Sep 2025 18:21:52 +0200
-Message-ID: <20250916162152.3861331-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.50.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iC3aT/uq;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-78393b4490cso22904316d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 09:26:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758040004; x=1758644804; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JHO6Io94UGY97XVB+UPtHiZUlIUUn+GngtvzPBnlwdU=;
+        b=iC3aT/uq5id3Bw7yOSvMpdpd6KuZ9MArJ8ZRm1UBeKEYt18DYcvFP8sGu8ZYtjo50S
+         NIpg+5W2LQPkmhCd88hI9gVuaWboOWBU4xTvZpWe2k4kD4XMLfSEifx3j17z99mftrTk
+         C1n/sb4g+TRn7IGqsvd+yGgHD2hHUBwDIYgCPpwVPaLdixMgOo5Cgb9kfREAnPi/ZLWp
+         KuuLMq8sP/23zqdngqwvx7MK58kqyRIvC3/FYKFLutZiryCywVNiG5x59Jnb9EHAl1gO
+         npixa2cLIoM6Xl6hmMsEbizVjN7Yk38qlbwu/Pbqjt+PbRSmddWAIk2Mv+3Lzhhkezd7
+         jgiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758040004; x=1758644804;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JHO6Io94UGY97XVB+UPtHiZUlIUUn+GngtvzPBnlwdU=;
+        b=XoMWXCw4K0FIZARYcwaDkPb7JmkNKHDnP8eLncaWe6vHzKY9Ape+ph8gI3cdIgFEHB
+         2xrWugMoXIVM8Qnlx605dWsF4sM7JKgWYB1z4cu30Cy2GFnwsy2zjQ0NMbm3B1J1Vc+S
+         vOHnSjqgGLkZVR05chlluzs4SNnpIHpai4/Ym+T8CqCeLqIQOuPgirWCxU+PkpjKs52K
+         AW1DQfCRSmxCrPbhTiyOenwvb4BjMBNm4tpkfVeIlv3joee2lzjPfs/KDYo0tSe4ZTke
+         FWZRNxyIw5iQGkgZdzAXO9WfnPykTLKJEYfRdn9SOrRjyD1Yo5xH3Tac52Gn3KFB2O8h
+         b4og==
+X-Gm-Message-State: AOJu0YwcGut4YAApM6SFQnRUHmPOIGa2/ZXSyXtbP5t7ZlmLjG7d/NRP
+	iSHIVqBhdW5APvziITys5jiG+Mw5yegTLtG/BLsX8uexZk/eMq+YKus8EL9SKG1UxtGDsFyja4/
+	/xwonBE6p0n3jKWMkXFspyC4E+Lrdgqg=
+X-Gm-Gg: ASbGncvuHN6s50ZBDgIIHdvkrxhkEWy/ltbLirE5kQm/f0JT2e06he55VX76+sW3wP3
+	64cZG8pDpfT44dSMboGalDZEyI/ipRLzjOxOYleekCiHHt1SGU7WjewZvt1iGJO4RTUlKJZ6ehg
+	MIgs5ICNHbu3+Tm3XmSlRP3lNB2CBv1Z0IqE3yin2aAworZc6AVNKGM5r8FbUggk5bLfaRobSsK
+	2GwYhSw/W9uw0gOnBen/u72xwl38EYaeSq6pTsOP3uFknj3DfLM53UMb7mctfUHggXKvGVvbV/V
+	0W/LEPDlNE/nuPFiTWoRcWkswMyBSvl5RIKe0VhgAHGGFtIm1bA=
+X-Google-Smtp-Source: AGHT+IExKkYanizj8+K4REFttnfgPByCP3RVG1yNhnzQYXuVnO1YkKMS+drubaTUP/TcOMMVgUwRSzDWXTYTN1MxFU4=
+X-Received: by 2002:ad4:5943:0:b0:78d:4a9e:e95f with SMTP id
+ 6a1803df08f44-78d4a9eec1bmr33775596d6.13.1758040004158; Tue, 16 Sep 2025
+ 09:26:44 -0700 (PDT)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1758039751-04FF698D-F2D8ED1B/0/0 CLEAN NORMAL
-X-TOI-MSGID: 35f552e4-01c4-4981-a833-fae9d9e10d46
-Content-Transfer-Encoding: quoted-printable
+References: <20250916155800.3860178-1-f_l_k@t-online.de>
+In-Reply-To: <20250916155800.3860178-1-f_l_k@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 16 Sep 2025 18:26:32 +0200
+X-Gm-Features: AS18NWC6Ao3S0hhQAXg20sYdv_SwlrgoLNc2jCgHXq_ZWmw8O7Lo6rP3sqO1MH8
+Message-ID: <CANNYZj964ZPDbN7HjhCCkxS5a9dPR7-uVewK9pcrpcZp9ZVGLw@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 1/2] introduce virtual/ffmpeg
+To: f_l_k@t-online.de
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 16:22:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223574
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 16:26:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223575
 
-let ffmpeg provide virtual/ffmpeg
+On Tue, 16 Sept 2025 at 17:58, Markus Volk via lists.openembedded.org
+<f_l_k=t-online.de@lists.openembedded.org> wrote:
+> - add 'ffmpeg' as the preferred provider for virtual/ffmpeg
+>
+> Using virtual/ffmpeg can be useful for recipes that require a different version
+> to that provided by oe-core (e.g. kodi)
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This needs more detail. What else would be providing virtual/ffmpeg,
+other than ffmpeg itself? Why the justification is talking about
+'different versions', and not different providers?
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb b/meta/recipes-=
-multimedia/ffmpeg/ffmpeg_8.0.bb
-index ecaced7690..f147b3d109 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.bb
-@@ -32,7 +32,7 @@ ARM_INSTRUCTION_SET:armv5 =3D "arm"
- ARM_INSTRUCTION_SET:armv6 =3D "arm"
-=20
- # Should be API compatible with libav (which was a fork of ffmpeg)
--PROVIDES =3D "libav"
-+PROVIDES =3D "libav virtual/ffmpeg"
-=20
- DEPENDS:append:x86 =3D " nasm-native"
- DEPENDS:append:x86-64 =3D " nasm-native"
---=20
-2.50.1
-
+Alex
 
