@@ -1,88 +1,89 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <barne.carstensen@danfoss.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58B99CAC599
-	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 12:07:15 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.18063.1758024428375809718
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72165CAC59B
+	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 12:25:25 +0000 (UTC)
+Received: from o1678988x14.outbound-mail.sendgrid.net (o1678988x14.outbound-mail.sendgrid.net [167.89.88.14])
+ by mx.groups.io with SMTP id smtpd.web10.18328.1758025523861891348
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Sep 2025 05:07:08 -0700
+ Tue, 16 Sep 2025 05:25:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BD1641595
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 05:06:59 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9F3083F673
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 05:07:07 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] bzip2: improve symlink creation
-Date: Tue, 16 Sep 2025 13:07:03 +0100
-Message-ID: <20250916120703.622865-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250916120703.622865-1-ross.burton@arm.com>
-References: <20250916120703.622865-1-ross.burton@arm.com>
+ dkim=pass header.i=@danfoss.com header.s=s1 header.b=DIicOFDy;
+ spf=pass (domain: delivery.danfoss.com, ip: 167.89.88.14, mailfrom: bounces+41880229-a31a-openembedded-core=lists.openembedded.org@delivery.danfoss.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=danfoss.com;
+	h=from:subject:date:mime-version:to:cc:content-transfer-encoding:
+	content-type:cc:content-type:date:from:subject:to;
+	s=s1; bh=2kdRqCfD9hACw9KXGsHw2XNvggknBamyDtdZLza213M=;
+	b=DIicOFDyeiPeS5BfBjhYURWuy14BMOohNqMv9YosTIH65vNY/LLt3v+meg6fz/lGYT72
+	80m6UoNViTj8nIZvI36FrhNkoN2KRRGIxv+3Cp3VwbleKvvujGr2teC4ve6zE91FKYhbrJ
+	sWk5GbefY+J0VmTdih7Y4E8P0GNN660FlresVulUr+3ujbZUPGjtEQOXRXp6g+/+pa3E7l
+	HI6ui1WxAgiQLgrB1xV0j/Dp35oi/j6ov0o5jvxz+UWK/pbsn7PAJ2uiGRf8k3F6EbeY7c
+	xyZakwQp/eoSUXFHgUMAv+jJAlnxEf46QDQnuqLFa//v47toST7PGlfmeu7BDvGA==
+Received: by recvd-65696df74f-gsmz5 with SMTP id recvd-65696df74f-gsmz5-1-68C95732-32
+	2025-09-16 12:25:22.954698145 +0000 UTC m=+8970091.292328328
+Received: from PC-5CG2490WFQ.danfoss.net (unknown)
+	by geopod-ismtpd-5 (SG)
+	with ESMTP
+	id 6LYeJDxOS0qHM-qeB74TMg
+	Tue, 16 Sep 2025 12:25:22.846 +0000 (UTC)
+From: Barne Carstensen <barne.carstensen@danfoss.com>
+Subject: [PATCH] Fixes [YOCTO #15965]
+Date: Tue, 16 Sep 2025 12:25:22 +0000 (UTC)
+Message-Id: <20250916122517.1965-1-barne.carstensen@danfoss.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-SG-EID: 
+ =?us-ascii?Q?u001=2E=2FTauPrjZw6tdXz2Pck6EKIfeV+Osq25MJTGhiRon1Zqf4kmVhwvm=2FrBjK?=
+ =?us-ascii?Q?vlQ6LK6xhEtbMkLCUGXnBMfC+Pf+Xuf2moEc19x?=
+ =?us-ascii?Q?L9icZmQNekcTKKe667r2m5ymFuQ00rG2Kdr=2Feft?=
+ =?us-ascii?Q?bjE1F+VwQGk2esi0DOeZHs5EVahAtbzhXJtYZrm?=
+ =?us-ascii?Q?7ZHYiZc6+ZRninCDFw1DQKr3iJ9KXCELOCvGD4k?=
+ =?us-ascii?Q?QEqBUdF1YXlUERuCO2J8ZlS3d5mVhq052oO4vUN?=
+ =?us-ascii?Q?F=2Fcx8QjfuZBaS=2FZHudlfwzp9QKqZRo7gYjAcZkm?=
+ =?us-ascii?Q?4e2UfpxU=3D?=
+To: openembedded-core@lists.openembedded.org
+Cc: Barne Carstensen <barne.carstensen@danfoss.com>,
+	randy.macleod@windriver.com
+X-Entity-ID: u001.f20y1lF57MqL8KX+pChZqA==
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 12:07:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223545
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 12:25:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223546
 
-This recipe inherits relative_symlinks as otherwise ${bindir}/bunzip2 is
-an absolute link to ${bindir}/bzip2.  However, we drop the Makfile.am
-into the tree so instead of working around the problem, we can just fix
-the Makefile rules directly.
+Copy all the parselogs-ignores file so that they are always packed into the testexport.tar.gz (even when testsuite parselog is not selected)
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Barne Carstensen <barne.carstensen@danfoss.com>
+CC: randy.macleod@windriver.com
 ---
- meta/recipes-extended/bzip2/bzip2/Makefile.am | 12 ++++++------
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  2 +-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ meta/classes-recipe/testexport.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-extended/bzip2/bzip2/Makefile.am b/meta/recipes=
--extended/bzip2/bzip2/Makefile.am
-index d12d3a45e47..c0aed80ce62 100644
---- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
-+++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
-@@ -60,12 +60,12 @@ install-ptest:
- 	ln -s $(bindir)/bzip2		$(DESTDIR)/bzip2
-=20
- install-exec-hook:
--	ln -s $(bindir)/bzip2$(EXEEXT) $(DESTDIR)$(bindir)/bunzip2$(EXEEXT)
--	ln -s $(bindir)/bzip2$(EXEEXT) $(DESTDIR)$(bindir)/bzcat$(EXEEXT)
--	ln -s $(bindir)/bzgrep$(EXEEXT) $(DESTDIR)$(bindir)/bzegrep$(EXEEXT)
--	ln -s $(bindir)/bzgrep$(EXEEXT) $(DESTDIR)$(bindir)/bzfgrep$(EXEEXT)
--	ln -s $(bindir)/bzmore$(EXEEXT) $(DESTDIR)$(bindir)/bzless$(EXEEXT)
--	ln -s $(bindir)/bzdiff$(EXEEXT) $(DESTDIR)$(bindir)/bzcmp$(EXEEXT)
-+	ln -s bzip2$(EXEEXT) $(DESTDIR)$(bindir)/bunzip2$(EXEEXT)
-+	ln -s bzip2$(EXEEXT) $(DESTDIR)$(bindir)/bzcat$(EXEEXT)
-+	ln -s bzgrep$(EXEEXT) $(DESTDIR)$(bindir)/bzegrep$(EXEEXT)
-+	ln -s bzgrep$(EXEEXT) $(DESTDIR)$(bindir)/bzfgrep$(EXEEXT)
-+	ln -s bzmore$(EXEEXT) $(DESTDIR)$(bindir)/bzless$(EXEEXT)
-+	ln -s bzdiff$(EXEEXT) $(DESTDIR)$(bindir)/bzcmp$(EXEEXT)
-=20
- install-data-hook:
- 	echo ".so man1/bzgrep.1" > $(DESTDIR)$(mandir)/man1/bzegrep.1
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-ex=
-tended/bzip2/bzip2_1.0.8.bb
-index 5b10821ccb0..9cecf6a331b 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-@@ -38,7 +38,7 @@ PACKAGES =3D+ "libbz2"
-=20
- CFLAGS +=3D "-fPIC -fpic -Winline -fno-strength-reduce -D_FILE_OFFSET_BI=
-TS=3D64"
-=20
--inherit autotools update-alternatives ptest relative_symlinks
-+inherit autotools update-alternatives ptest
-=20
- ALTERNATIVE_PRIORITY =3D "100"
- ALTERNATIVE:${PN} =3D "bunzip2 bzcat bzip2"
---=20
-2.43.0
-
+diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/testexport.bbclass
+index 843d777e3b..2f473a8811 100644
+--- a/meta/classes-recipe/testexport.bbclass
++++ b/meta/classes-recipe/testexport.bbclass
+@@ -79,6 +79,7 @@ def testexport_main(d):
+ def copy_needed_files(d, tc):
+     import shutil
+     import oe.path
++    import glob
+ 
+     from oeqa.utils.package_manager import _get_json_file
+     from oeqa.core.utils.test import getSuiteCasesFiles
+@@ -120,6 +121,11 @@ def copy_needed_files(d, tc):
+                     oe.path.copytree(src, dst)
+                 else:
+                     shutil.copy2(src, dst)
++    
++    # Copy all parselogs-ignores files
++    parselogs_ignores = glob.glob(os.path.join(corebase_path, 'meta', 'lib', 'oeqa', 'runtime', 'cases', 'parselogs-ignores-*.txt'))
++    for f in parselogs_ignores:
++         shutil.copy2(f, cases_path)
+ 
+     # Copy test data
+     image_name = ("%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'),
 
