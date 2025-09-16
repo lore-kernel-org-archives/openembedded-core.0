@@ -1,213 +1,338 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D30CAC592
-	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 00:25:49 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.0])
- by mx.groups.io with SMTP id smtpd.web10.7952.1757982343830966055
- for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Sep 2025 17:25:44 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=ZR160BTV;
- spf=pass (domain: axis.com, ip: 52.101.84.0, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K3xtmryEWeYFt/D4hZmNVBdccLE598GX7wIxW30iVAvY3ElO0Cwvv2f2DzU8kT7TeN9YklADnPCXtnyJrNPB5GfXkiYt1II+g+ibnPMWP2EpZoxbicl9Pn8Nki7xdCoibn6Wk87fL1uJqrL6lSHxKv/J4DOc9Qfrf7UteQAONeyU+bZXLN2gGIGs3Akuqi+VP6rA+WEAYRTbnNulDZvF0jGz7yFtNJ3iKX5w26iEuQuiqRD1EF8dGxhFRKjTJBgYQWBg1QOqQDiMszwLU8U3jaRy4D2A+7exr/3XW05E+jedLaT4EOa9gE7CKM8VSoBWpdaoW4yteePwKKp+CTcX4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6AxeIqOnT8wiTJAI41eGehWkrEGscy+nH9KV4BCoxzE=;
- b=iBtlfUGb1LVKZ0YRPedTNffhTCffSh/djJo2kCKVMXz2j1HYmTsKwUxlT94oFI2ym3ExCfUrQkU05i6jiNEjQG/YHap2tdpPSeqnDL2IH5WhxEzn9Rn4Hbi/VSPbIKGQoTKdw3lx1eAftu6PiwIaZzPwzx92/GYjjaf8JRb0MmHNNB4d/c2c0a3mvXQNjcWwZMXHqSd6P7FGwitnKz7VO6rklIPa+rx9JCpkvT5YbbehMS/CY14Bg0jPkLaTKvjy6L96Fie75NsVR5SaDT45GWvBUS64TcWMfbedFN8QvApaMk9vlzr+Euyes83KmUsaMR2kq8cxeHkWZqFXIPxOAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6AxeIqOnT8wiTJAI41eGehWkrEGscy+nH9KV4BCoxzE=;
- b=ZR160BTVxOu9j4AP6jpN/0gjS75CjF8CncjGetWj9PG1Hh6/JAx/LW9LsMVSAFemXnItnt55gkk60I3TG7FISD0FrR6XzJQOV6CFH8jXd1NOtAnpv8b/56OGHZ9kVGc68aSAVVOGxm+W9gnf4bzLMLMD9HcKRPuH6WEfv5e6jOg=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by GV1PR02MB8403.eurprd02.prod.outlook.com (2603:10a6:150:5a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Tue, 16 Sep
- 2025 00:25:41 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9%7]) with mapi id 15.20.9115.020; Tue, 16 Sep 2025
- 00:25:41 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "hongxu.jia@eng.windriver.com" <hongxu.jia@eng.windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "randy.macleod@windriver.com" <randy.macleod@windriver.com>
-Subject: RE: [OE-core] [PATCH 8/8] debug_build.inc: override BUILD_MODE and
- BUILD_DIR for meson.bbclass
-Thread-Topic: [OE-core] [PATCH 8/8] debug_build.inc: override BUILD_MODE and
- BUILD_DIR for meson.bbclass
-Thread-Index: AQHcJghrq6TNK9g3OkOrzgIPcynbJLSU9MuA
-Date: Tue, 16 Sep 2025 00:25:41 +0000
-Message-ID: 
- <DB5PR02MB10213AF12B4F1EC0C66F3D78EEF14A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20250915061743.313230-1-hongxu.jia@windriver.com>
- <20250915061743.313230-8-hongxu.jia@windriver.com>
-In-Reply-To: <20250915061743.313230-8-hongxu.jia@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|GV1PR02MB8403:EE_
-x-ms-office365-filtering-correlation-id: bd20b45f-29c7-46bd-0904-08ddf4b79191
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700021;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?SOD/sNfDJEciFNDGBdCANNhQ7MGe8ohJ74k9Rg0mPopE/H9YeRZ9n5dMetW4?=
- =?us-ascii?Q?0vEX4c+TqaD9tSAaOMbYsXxttTYWaZZG5nUfIXJbiHVRudWcbYLc13DR1FM5?=
- =?us-ascii?Q?A3naptoiFwdALbXeWPgpS+30GAMylc8y62G6EgkjLjrU78Em//pmRCRojPqf?=
- =?us-ascii?Q?mOqZ92niD8vHCM+HwDnN3FUVx3Q6KNZ33ykxvgRpihlCQXS4RFcXfbxLUCqP?=
- =?us-ascii?Q?S64wcg5lK2I4gLESFBq77pXP4OhRTgxIbKkdHmxX2gbnBxmUaULrd4wLs+Lq?=
- =?us-ascii?Q?QuRikQ2/FQ4aAyHug5Z1T2DFOkNnEd2mCjtl+VPVDE4BAFG3dsuiPJjiYeQv?=
- =?us-ascii?Q?DYaMjfd7BB8+82N8wzsDTvklNqYg+sGd3u9BzWvefMnhB3Bh2jI3Sx9tJjkA?=
- =?us-ascii?Q?CjNJaQ51Vc/OMKw+ONic3Pq9DpxZLZtyy2p7tgiAO0D2VARWHZhQbeoMjP9Z?=
- =?us-ascii?Q?Ky8UpSaZ+Ye5F7W+bxuRFT+c2ryW71b3JS9yW4g6pxwohX9/Ulb6akcxDZcQ?=
- =?us-ascii?Q?mhfdUqyi4aKtPjGnnT7pqvS8+RB9JkIFyyVx+5m/HTP75CeqzkeIGnOdbLqB?=
- =?us-ascii?Q?Qm8N8OeVGAJXo9IJFCoz3f51Yt7/hqWCVFxfM42n2kCSDqMkTWrsKFOm0+az?=
- =?us-ascii?Q?CgBiD9fyZWP7BqJQwkPNBqc632mkMRsBXbKqOGTxyts7psSrnuprs35CJiil?=
- =?us-ascii?Q?yH0RRpZb1vQOtUJKwNkxzyIFd1vmOdPESuI10vVLAjTZ4TWEJLKRbg6n4VQq?=
- =?us-ascii?Q?O8A46EKfNr4wWXSktZcZmqfhLgMrhoRV1CA4suAnJrbEGUrpKrrGQ6nwNYy8?=
- =?us-ascii?Q?i36yCm4kQWxS+S+tVI33q7KkIye+0Ib9PULQ8jOXIcAsI7cYDMeS7r5gCMmo?=
- =?us-ascii?Q?f5gUXrZkBxDDR/BvfrzkI6aeTfr+MLo4jsHUZBGmV3l7QrrkM/RBzK/Jzcju?=
- =?us-ascii?Q?HJaIoqjzmO2OHzd3BlCNHjSDAfB3WL+BFdRcodsyO4XRKepyTdxmDr4W179z?=
- =?us-ascii?Q?FQRW7//giBzt8cBFzGLsMMybTS03RnENeXIn/IzlQ5JC2vsLHM58iQPtyAxP?=
- =?us-ascii?Q?E7w7DrhTaC0Is/d9bFpSfbJZ4mwW4StiXUGqg06AA1kK/XWMp3xE+0nRQrqg?=
- =?us-ascii?Q?/oC7JLVB+k1+Ma0+UtKaVJbMzbFNq+WKrrlUgNGvyjHtrgbOSux6TVN/bUXp?=
- =?us-ascii?Q?p3okRCn9CqxqsfUIIftLNSQfb0UtoxLgRGebvnRC7mJxsbnZZPDtdYYw9Xy4?=
- =?us-ascii?Q?h3BpE3VkTzRIGcaxdNZoA22yPswxV2Ydcr1Wn9ekCZa2bFcNMEGnPOJTnpAh?=
- =?us-ascii?Q?mFAXaasuMpUDMtSPzgOROVId6epj+G7DZ+kQ6OCMBEBnN22JKSNZK1pox7ym?=
- =?us-ascii?Q?IsmI6P32cxEv0/iRbWd+gKMQ49aaFItbUCOooKPDXW5zSNxhZBQWfu1u/f0e?=
- =?us-ascii?Q?zdG4NomjgnCBL2rmyqsTQMN67Pi9HUXhhw4ovO1Fn4ck5t9pjXpZiA=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?Yjao54038kWxbzNnTg56U/xmLvKtX4oDL7UJyUETnJqqOFZLO/6QpC76kVjh?=
- =?us-ascii?Q?JgDlTejZnOJ0wC3nc596aofSYK/AhFmo7oy4gerYfYsVJU91BuQ7jF6DsxmJ?=
- =?us-ascii?Q?6Givz0AWiV4Y4eQ4XlfMq7fBLzpXo4VfIpm1cP9ML2a9YabXBFJsVaYbMFHA?=
- =?us-ascii?Q?hOCIfqbjYR6Es7PKomXdIP8Ds9TO1GLuUaR49wO65l4CF2UhFvUUP1E9mq4E?=
- =?us-ascii?Q?llH+9q99LLAaY2AWSWbvEidT/vkI2ZJGcbWUSooh9eP//0RZvx/r4pz88mOM?=
- =?us-ascii?Q?dq9jn453IhuYzgWecj5/tJ7qvAA6lQHSzExkfBrBL+091Rt9s6PRmqzpTLKv?=
- =?us-ascii?Q?IQnrSMcMljhxzmH81Y5iWjQ+NNJU6/gEiPgQumekMYQuFNBVkUXygX/J1SbE?=
- =?us-ascii?Q?Ng8dS/UN7PPgjQ7Zes5aDrmYXJc3j1vx838MsNCey4TPf4nZdsxoCBKWgBFu?=
- =?us-ascii?Q?iyE3qPELUPkquoGe8oyd31R39kxwVt8tTB3shL9+HgEveioxwLcf+T2m132/?=
- =?us-ascii?Q?IyXWC8VDEE+oylKJ9wGy5usJl7TuAfqWsB0JXWD2ySEZAl7slIEiD38aZ3fz?=
- =?us-ascii?Q?hOG8rQH4iWE9kWnM4hxlKzoJwY0EAs6gKR70E8yWlOYvOW1dL9YfacAIzEqE?=
- =?us-ascii?Q?apoVQQPmtqBI8iqFzzXR+mbT+Ss8mEiiK1o/80jToqsB9u+IyT21zafovVFG?=
- =?us-ascii?Q?hiNpytVMAPCMx3ggRCmQb957SlTlWM1xpFHSXmigygetv+KerB2ZBKjXrYR+?=
- =?us-ascii?Q?xcrAjYaZc5Ao6lpzxFGqJdNY6BceE5KPFPF14RTeSO8jJdKo2iZOLnRaQ8ga?=
- =?us-ascii?Q?a93XsT6powVaxB5axa9DOPfpPMI3msN2S75fzCTEYlItl9Tuqe1gtKwYRkjl?=
- =?us-ascii?Q?fRJHWe0o/2aShcjYYh3rkTNxdDXFC99rKEWg0fLXyuzIQACeUJmjvb2P4lBs?=
- =?us-ascii?Q?JfpoF57Em60toZZIxSPS3aHfGtUxylP0XKbXmiPlsur7MAx0QdA8hq7a/PM7?=
- =?us-ascii?Q?W3Doqkks+3H6ZBIvtAwGWFLKrS7HTCMqCvQyg9HXInUXYZjuqGKoq/Dyqymo?=
- =?us-ascii?Q?2GhTtQHzWpwyAWnbdETK5Sp7IlPLN0YNF9HbNq7/jEV9AcwzkM8vjen+iM7f?=
- =?us-ascii?Q?cD1eaYazerUyY5r4MH+qcG2JEv8o2ywR34eKzAXu1fwuUqGFGg7wkCTAW7HM?=
- =?us-ascii?Q?ksFGs4+dtxvtbHZQXb8MBlItItQOC0UEyP3IxRr4Cf8dsqpVre7jxcD5wwW9?=
- =?us-ascii?Q?5rTQ6a/ngZx5QuqLPbdkI6cTKflXR+Uxlu1Tl2m+uqdEKX79TCf8+tByNdGQ?=
- =?us-ascii?Q?GNA1S8hHKnmB0y1G+AAy0VHlKHO2bpJM8zcgC0NTuVEQ1pqV1aI0iNHNRFz6?=
- =?us-ascii?Q?L1TQbEyjOoJqECctCr3YOTJaZDrvVdffsxrRAX1BoGnLt105BpSuWEnotckI?=
- =?us-ascii?Q?NmSWOPPgaKUJaHnbHs0VrM6gzoWKT7hmh/x96wjrIs25Pz3wFWnz4iAfU+ZE?=
- =?us-ascii?Q?o+qv9nOu1oXk7JtKKAUuDXaWyiR0TcyevQ+8J+xWztdn2dicn8RMXzEBeQ?=
- =?us-ascii?Q?=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 192E7CAC592
+	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 03:51:11 +0000 (UTC)
+Subject: Re: [PATCH v2 2/8] distro/include: Add debug_build.inc when DEBUG_BUILD is enabled
+To: openembedded-core@lists.openembedded.org
+From: "hongxu" <hongxu.jia@eng.windriver.com>
+X-Originating-Location: US (128.224.246.2)
+X-Originating-Platform: Linux Chrome 140
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd20b45f-29c7-46bd-0904-08ddf4b79191
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2025 00:25:41.4723
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hqCpSZ1/ONAn+QqszIAt0iH5aPQ3q0oURi9Tngl1Lsnx98uaBop0C1gEG4j3TrSm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR02MB8403
+Date: Mon, 15 Sep 2025 20:51:05 -0700
+References: <DB5PR02MB102139D0B56D4D14DDAC711ECEF14A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB102139D0B56D4D14DDAC711ECEF14A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Message-ID: <20091.1757994665184735903@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="RfhdeKYSbmdzRIQGQlUc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 00:25:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223513
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 03:51:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223514
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of hongxu via lists.openembedded.org
-> Sent: den 15 september 2025 08:17
-> To: openembedded-core@lists.openembedded.org
-> Cc: randy.macleod@windriver.com; Peter Kjellerstedt <peter.kjellerstedt@a=
-xis.com>
-> Subject: [OE-core] [PATCH 8/8] debug_build.inc: override BUILD_MODE and B=
-UILD_DIR for meson.bbclass
+--RfhdeKYSbmdzRIQGQlUc
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Correct "meson.bbclass" to "cargo.bbclass".
+On Mon, Sep 15, 2025 at 05:25 PM, Peter Kjellerstedt wrote:
 
 >=20
-> The debug_build.inc is used to collect debug build configuration,
-> override BUILD_MODE and BUILD_DIR for cargo.bbclass when DEBUG_BUILD is
-> enabled
 >=20
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/classes-recipe/cargo.bbclass        | 4 ++--
->  meta/conf/distro/include/debug_build.inc | 4 ++++
->  2 files changed, 6 insertions(+), 2 deletions(-)
+>> -----Original Message-----
+>> From: openembedded-core@... <openembedded-core@...> On Behalf Of hongxu
+>> via
+>> lists.openembedded.org
+>> Sent: den 15 september 2025 08:17
+>> To: openembedded-core@...
+>> Cc: randy.macleod@...; Peter Kjellerstedt <peter.kjellerstedt@...>
+>> Subject: [OE-core] [PATCH v2 2/8] distro/include: Add debug_build.inc wh=
+en
+>> DEBUG_BUILD is enabled
+>>=20
+>> Add a new include file debug_build.inc to override SELECTED_OPTIMIZATION
+>> and BUILD_OPTIMIZATION when DEBUG_BUILD is enabled
+>>=20
+>> Add separate variables FULL_OPTLEVEL, DEBUG_OPTLEVEL and BUILD_OPTLEVEL
+>> for the optimization level, and override it for specific recipe other
+>> than original remove and append DEBUG_OPTIMIZATION and BUILD_OPTIMIZATIO=
+N
+>>=20
+>> Update the documentation for FULL_OPTIMIZATION and DEBUG_OPTIMIZATION
+>>=20
+>> Require the include file when DEBUG_BUILD is enabled
+>>=20
+>> Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@...>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@...>
+>> ---
+>> meta/conf/bitbake.conf | 15 +++++++++------
+>> meta/conf/distro/include/debug_build.inc | 8 ++++++++
+>> meta/conf/documentation.conf | 8 +++++---
+>> 3 files changed, 22 insertions(+), 9 deletions(-)
+>> create mode 100644 meta/conf/distro/include/debug_build.inc
+>>=20
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 8e90c7bbc85..91dc51cd61d 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -658,13 +658,14 @@ DEBUG_PREFIX_MAP ?=3D "\
+>> "
+>> DEBUG_LEVELFLAG ?=3D "-g"
+>>=20
+>> -FULL_OPTIMIZATION =3D "-O2 ${DEBUG_LEVELFLAG}"
+>> -DEBUG_OPTIMIZATION =3D "-Og ${DEBUG_LEVELFLAG}"
+>> -SELECTED_OPTIMIZATION =3D "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD',
+>> 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
+>> -SELECTED_OPTIMIZATION[vardeps] +=3D "FULL_OPTIMIZATION DEBUG_OPTIMIZATI=
+ON
+>> DEBUG_BUILD"
+>> +FULL_OPTLEVEL ?=3D "-O2"
+>> +FULL_OPTIMIZATION =3D "${FULL_OPTLEVEL} ${DEBUG_LEVELFLAG}"
+>> +SELECTED_OPTIMIZATION =3D "${FULL_OPTIMIZATION}"
+>> +SELECTED_OPTIMIZATION[vardeps] +=3D "FULL_OPTIMIZATION DEBUG_LEVELFLAG
+>> FULL_OPTLEVEL"
 >=20
-> diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/carg=
-o.bbclass
-> index 2dd28e95d33..c90b8c18f0d 100644
-> --- a/meta/classes-recipe/cargo.bbclass
-> +++ b/meta/classes-recipe/cargo.bbclass
-> @@ -31,7 +31,7 @@ B =3D "${WORKDIR}/build"
->  export RUST_BACKTRACE =3D "1"
->=20
->  RUSTFLAGS ??=3D ""
-> -BUILD_MODE =3D "${@['--release', ''][d.getVar('DEBUG_BUILD') =3D=3D '1']=
-}"
-> +BUILD_MODE ??=3D "--release"
->  # --frozen flag will prevent network access (which is required since onl=
-y
->  # the do_fetch step is authorized to access network)
->  # and will require an up to date Cargo.lock file.
-> @@ -41,7 +41,7 @@ CARGO_BUILD_FLAGS =3D "-v --frozen --target ${RUST_HOST=
-_SYS} ${BUILD_MODE} --manif
->=20
->  # This is based on the content of CARGO_BUILD_FLAGS and generally will n=
-eed to
->  # change if CARGO_BUILD_FLAGS changes.
-> -BUILD_DIR =3D "${@['release', 'debug'][d.getVar('DEBUG_BUILD') =3D=3D '1=
-']}"
-> +BUILD_DIR ??=3D "release"
->  CARGO_TARGET_SUBDIR =3D "${RUST_HOST_SYS}/${BUILD_DIR}"
->  oe_cargo_build () {
->  	export RUSTFLAGS=3D"${RUSTFLAGS}"
-> diff --git a/meta/conf/distro/include/debug_build.inc b/meta/conf/distro/=
-include/debug_build.inc
-> index e446a71dd3f..e6f94504945 100644
-> --- a/meta/conf/distro/include/debug_build.inc
-> +++ b/meta/conf/distro/include/debug_build.inc
-> @@ -51,5 +51,9 @@ INHIBIT_SYSROOT_STRIP:class-native ?=3D "1"
->  # For meson.bbclass
->  MESON_BUILDTYPE ?=3D "debug"
->=20
-> +# For cargo.bbclass
-> +BUILD_MODE ?=3D ""
-> +BUILD_DIR ?=3D "debug"
-> +
->  # Allow other layers to add their own debug build configurations
->  include_all conf/include/debug_build.inc
-> --
-> 2.34.1
+> The vardeps is no longer needed.
 
-//Peter
+Copy
 
+>=20
+>=20
+>> # compiler flags for native/nativesdk
+>> -BUILD_OPTIMIZATION =3D "${@oe.utils.vartrue('DEBUG_BUILD', '-Og -g', '-=
+O2',
+>> d)}"
+>> -BUILD_OPTIMIZATION[vardeps] +=3D "DEBUG_BUILD"
+>> +BUILD_OPTLEVEL ?=3D "-O2"
+>> +BUILD_OPTIMIZATION =3D "${BUILD_OPTLEVEL}"
+>> +BUILD_OPTIMIZATION[vardeps] +=3D "BUILD_OPTLEVEL"
+>=20
+> The vardeps is no longer needed.
+
+Copy
+
+>=20
+>=20
+>> ##################################################################
+>> # Reproducibility
+>> @@ -831,6 +832,8 @@ include conf/licenses.conf
+>> require conf/sanity.conf
+>> include conf/bblock.conf
+>>=20
+>> +require ${@oe.utils.vartrue('DEBUG_BUILD',
+>> 'conf/distro/include/debug_build.inc', '', d)}
+>> +
+>> ##################################################################
+>> # Weak variables (usually to retain backwards compatibility)
+>> ##################################################################
+>> diff --git a/meta/conf/distro/include/debug_build.inc
+>> b/meta/conf/distro/include/debug_build.inc
+>> new file mode 100644
+>> index 00000000000..af947a80e8b
+>> --- /dev/null
+>> +++ b/meta/conf/distro/include/debug_build.inc
+>> @@ -0,0 +1,8 @@
+>> +# Override SELECTED_OPTIMIZATION and BUILD_OPTIMIZATION when DEBUG_BUIL=
+D
+>> is enabled.
+>> +DEBUG_OPTLEVEL ?=3D "-Og"
+>> +DEBUG_OPTIMIZATION =3D "${DEBUG_OPTLEVEL} ${DEBUG_LEVELFLAG}"
+>> +SELECTED_OPTIMIZATION =3D "${DEBUG_OPTIMIZATION}"
+>> +SELECTED_OPTIMIZATION[vardeps] +=3D "DEBUG_OPTIMIZATION DEBUG_OPTLEVEL"
+>=20
+> The vardeps is no longer needed.
+
+Copy
+
+>=20
+>=20
+>> +# compiler flags for native/nativesdk
+>> +BUILD_OPTLEVEL =3D "-Og"
+>> +BUILD_OPTIMIZATION =3D "${BUILD_OPTLEVEL} -g"
+>> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+>> index 741130a3921..824c4fb3801 100644
+>> --- a/meta/conf/documentation.conf
+>> +++ b/meta/conf/documentation.conf
+>> @@ -129,8 +129,9 @@ CVE_CHECK_LAYER_INCLUDELIST[doc] =3D "Defines which
+>> layers to include during cve-c
+>> D[doc] =3D "The destination directory."
+>> DATE[doc] =3D "The date the build was started using YMD format."
+>> DATETIME[doc] =3D "The date and time the build was started."
+>> -DEBUG_BUILD[doc] =3D "Specifies to build packages with debugging
+>> information. This influences the value of the SELECTED_OPTIMIZATION
+>> variable."
+>> -DEBUG_OPTIMIZATION[doc] =3D "The options to pass in TARGET_CFLAGS and
+>> CFLAGS when compiling a system for debugging. This variable defaults to
+>> '-Og ${DEBUG_LEVELFLAG}'."
+>> +DEBUG_BUILD[doc] =3D "Specifies to build packages with debugging
+>> information. This influences the value of the SELECTED_OPTIMIZATION
+>> variable and add include file conf/distro/include/debug_build.inc"
+>=20
+> Change "add include file" to "includes".
+
+Copy
+
+V3 incoming
+
+//Hongxu
+
+>=20
+>=20
+>=20
+>> +DEBUG_OPTLEVEL[doc] =3D "The toolchain optimization level flags for
+>> debugging. This variable defaults to '-Og'"
+>> +DEBUG_OPTIMIZATION[doc] =3D "The options to pass in TARGET_CFLAGS and
+>> CFLAGS when compiling a system for debugging. This variable defaults to
+>> '${DEBUG_OPTLEVEL} ${DEBUG_LEVELFLAG}'."
+>> DEFAULT_PREFERENCE[doc] =3D "Specifies a weak bias for recipe selection
+>> priority."
+>> DEPENDS[doc] =3D "Lists a recipe's build-time dependencies (i.e. other
+>> recipe files)."
+>> DEPLOY_DIR[doc] =3D "Points to the general area that the OpenEmbedded bu=
+ild
+>> system uses to place images, packages, SDKs and other output files that
+>> are ready to be used outside of the build system."
+>> @@ -178,7 +179,8 @@ FILESPATH[doc] =3D "The default set of directories t=
+he
+>> OpenEmbedded build system u
+>> FILESYSTEM_PERMS_TABLES[doc] =3D "Allows you to define your own file
+>> permissions settings table as part of your configuration for the packagi=
+ng
+>> process."
+>> FONT_EXTRA_RDEPENDS[doc] =3D "When a recipe inherits the fontcache class=
+,
+>> this variable specifies runtime dependencies for font packages. This
+>> variable defaults to 'fontconfig-utils'."
+>> FONT_PACKAGES[doc] =3D "When a recipe inherits the fontcache class, this
+>> variable identifies packages containing font files that need to be cache=
+d
+>> by Fontconfig."
+>> -FULL_OPTIMIZATION[doc] =3D "The options to pass in TARGET_CFLAGS and CF=
+LAGS
+>> when compiling an optimized system. This variable defaults to '-O2
+>> ${DEBUG_LEVELFLAG}'."
+>> +FULL_OPTLEVEL[doc] =3D "The toolchain optimization level flags. This
+>> variable defaults to '-O2'"
+>> +FULL_OPTIMIZATION[doc] =3D "The options to pass in TARGET_CFLAGS and CF=
+LAGS
+>> when compiling an optimized system. This variable defaults to
+>> '${FULL_OPTLEVEL} ${DEBUG_LEVELFLAG}'."
+>>=20
+>> #G
+>>=20
+>> --
+>> 2.34.1
+>=20
+>
+
+--RfhdeKYSbmdzRIQGQlUc
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>On Mon, Sep 15, 2025 at 05:25 PM, Peter Kjellerstedt wrote:</div>
+<div>
+<blockquote>
+<blockquote>-----Original Message-----<br />From: openembedded-core@... &lt=
+;openembedded-core@...&gt; On Behalf Of hongxu via<br />lists.openembedded.=
+org<br />Sent: den 15 september 2025 08:17<br />To: openembedded-core@...<b=
+r />Cc: randy.macleod@...; Peter Kjellerstedt &lt;peter.kjellerstedt@...&gt=
+;<br />Subject: [OE-core] [PATCH v2 2/8] distro/include: Add debug_build.in=
+c when DEBUG_BUILD is enabled<br /><br />Add a new include file debug_build=
+.inc to override SELECTED_OPTIMIZATION<br />and BUILD_OPTIMIZATION when DEB=
+UG_BUILD is enabled<br /><br />Add separate variables FULL_OPTLEVEL, DEBUG_=
+OPTLEVEL and BUILD_OPTLEVEL<br />for the optimization level, and override i=
+t for specific recipe other<br />than original remove and append DEBUG_OPTI=
+MIZATION and BUILD_OPTIMIZATION<br /><br />Update the documentation for FUL=
+L_OPTIMIZATION and DEBUG_OPTIMIZATION<br /><br />Require the include file w=
+hen DEBUG_BUILD is enabled<br /><br />Suggested-by: Peter Kjellerstedt &lt;=
+peter.kjellerstedt@...&gt;<br />Signed-off-by: Hongxu Jia &lt;hongxu.jia@..=
+.&gt;<br />---<br />meta/conf/bitbake.conf | 15 +++++++++------<br />meta/c=
+onf/distro/include/debug_build.inc | 8 ++++++++<br />meta/conf/documentatio=
+n.conf | 8 +++++---<br />3 files changed, 22 insertions(+), 9 deletions(-)<=
+br />create mode 100644 meta/conf/distro/include/debug_build.inc<br /><br /=
+>diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br />index 8e=
+90c7bbc85..91dc51cd61d 100644<br />--- a/meta/conf/bitbake.conf<br />+++ b/=
+meta/conf/bitbake.conf<br />@@ -658,13 +658,14 @@ DEBUG_PREFIX_MAP ?=3D "\<=
+br />"<br />DEBUG_LEVELFLAG ?=3D "-g"<br /><br />-FULL_OPTIMIZATION =3D "-O=
+2 ${DEBUG_LEVELFLAG}"<br />-DEBUG_OPTIMIZATION =3D "-Og ${DEBUG_LEVELFLAG}"=
+<br />-SELECTED_OPTIMIZATION =3D "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD=
+', 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}" -SELECTED_OPTIMIZATION[=
+vardeps] +=3D "FULL_OPTIMIZATION DEBUG_OPTIMIZATION DEBUG_BUILD"<br />+FULL=
+_OPTLEVEL ?=3D "-O2"<br />+FULL_OPTIMIZATION =3D "${FULL_OPTLEVEL} ${DEBUG_=
+LEVELFLAG}"<br />+SELECTED_OPTIMIZATION =3D "${FULL_OPTIMIZATION}"<br />+SE=
+LECTED_OPTIMIZATION[vardeps] +=3D "FULL_OPTIMIZATION DEBUG_LEVELFLAG FULL_O=
+PTLEVEL"</blockquote>
+The vardeps is no longer needed.</blockquote>
+Copy<br />
+<blockquote>
+<blockquote># compiler flags for native/nativesdk<br />-BUILD_OPTIMIZATION =
+=3D "${@oe.utils.vartrue('DEBUG_BUILD', '-Og -g', '-O2', d)}"<br />-BUILD_O=
+PTIMIZATION[vardeps] +=3D "DEBUG_BUILD"<br />+BUILD_OPTLEVEL ?=3D "-O2"<br =
+/>+BUILD_OPTIMIZATION =3D "${BUILD_OPTLEVEL}"<br />+BUILD_OPTIMIZATION[vard=
+eps] +=3D "BUILD_OPTLEVEL"</blockquote>
+The vardeps is no longer needed.</blockquote>
+Copy<br />
+<blockquote>
+<blockquote>###############################################################=
+###<br /># Reproducibility<br />@@ -831,6 +832,8 @@ include conf/licenses.c=
+onf<br />require conf/sanity.conf<br />include conf/bblock.conf<br /><br />=
++require ${@oe.utils.vartrue('DEBUG_BUILD', 'conf/distro/include/debug_buil=
+d.inc', '', d)}<br />+<br />###############################################=
+###################<br /># Weak variables (usually to retain backwards comp=
+atibility)<br />###########################################################=
+#######<br />diff --git a/meta/conf/distro/include/debug_build.inc b/meta/c=
+onf/distro/include/debug_build.inc<br />new file mode 100644<br />index 000=
+00000000..af947a80e8b<br />--- /dev/null<br />+++ b/meta/conf/distro/includ=
+e/debug_build.inc<br />@@ -0,0 +1,8 @@<br />+# Override SELECTED_OPTIMIZATI=
+ON and BUILD_OPTIMIZATION when DEBUG_BUILD is enabled.<br />+DEBUG_OPTLEVEL=
+ ?=3D "-Og"<br />+DEBUG_OPTIMIZATION =3D "${DEBUG_OPTLEVEL} ${DEBUG_LEVELFL=
+AG}"<br />+SELECTED_OPTIMIZATION =3D "${DEBUG_OPTIMIZATION}"<br />+SELECTED=
+_OPTIMIZATION[vardeps] +=3D "DEBUG_OPTIMIZATION DEBUG_OPTLEVEL"</blockquote=
+>
+The vardeps is no longer needed.</blockquote>
+Copy<br />
+<blockquote>
+<blockquote>+# compiler flags for native/nativesdk<br />+BUILD_OPTLEVEL =3D=
+ "-Og"<br />+BUILD_OPTIMIZATION =3D "${BUILD_OPTLEVEL} -g"<br />diff --git =
+a/meta/conf/documentation.conf b/meta/conf/documentation.conf<br />index 74=
+1130a3921..824c4fb3801 100644<br />--- a/meta/conf/documentation.conf<br />=
++++ b/meta/conf/documentation.conf<br />@@ -129,8 +129,9 @@ CVE_CHECK_LAYER=
+_INCLUDELIST[doc] =3D "Defines which layers to include during cve-c<br />D[=
+doc] =3D "The destination directory."<br />DATE[doc] =3D "The date the buil=
+d was started using YMD format."<br />DATETIME[doc] =3D "The date and time =
+the build was started."<br />-DEBUG_BUILD[doc] =3D "Specifies to build pack=
+ages with debugging information. This influences the value of the SELECTED_=
+OPTIMIZATION variable."<br />-DEBUG_OPTIMIZATION[doc] =3D "The options to p=
+ass in TARGET_CFLAGS and CFLAGS when compiling a system for debugging. This=
+ variable defaults to '-Og ${DEBUG_LEVELFLAG}'."<br />+DEBUG_BUILD[doc] =3D=
+ "Specifies to build packages with debugging information. This influences t=
+he value of the SELECTED_OPTIMIZATION variable and add include file conf/di=
+stro/include/debug_build.inc"</blockquote>
+Change "add include file" to "includes".</blockquote>
+Copy</div>
+<div>&nbsp;</div>
+<div>V3 incoming</div>
+<div>&nbsp;</div>
+<div>//Hongxu<br />
+<blockquote><br />
+<blockquote>+DEBUG_OPTLEVEL[doc] =3D "The toolchain optimization level flag=
+s for debugging. This variable defaults to '-Og'"<br />+DEBUG_OPTIMIZATION[=
+doc] =3D "The options to pass in TARGET_CFLAGS and CFLAGS when compiling a =
+system for debugging. This variable defaults to '${DEBUG_OPTLEVEL} ${DEBUG_=
+LEVELFLAG}'."<br />DEFAULT_PREFERENCE[doc] =3D "Specifies a weak bias for r=
+ecipe selection priority."<br />DEPENDS[doc] =3D "Lists a recipe's build-ti=
+me dependencies (i.e. other recipe files)."<br />DEPLOY_DIR[doc] =3D "Point=
+s to the general area that the OpenEmbedded build system uses to place imag=
+es, packages, SDKs and other output files that are ready to be used outside=
+ of the build system."<br />@@ -178,7 +179,8 @@ FILESPATH[doc] =3D "The def=
+ault set of directories the OpenEmbedded build system u<br />FILESYSTEM_PER=
+MS_TABLES[doc] =3D "Allows you to define your own file permissions settings=
+ table as part of your configuration for the packaging process."<br />FONT_=
+EXTRA_RDEPENDS[doc] =3D "When a recipe inherits the fontcache class, this v=
+ariable specifies runtime dependencies for font packages. This variable def=
+aults to 'fontconfig-utils'."<br />FONT_PACKAGES[doc] =3D "When a recipe in=
+herits the fontcache class, this variable identifies packages containing fo=
+nt files that need to be cached by Fontconfig."<br />-FULL_OPTIMIZATION[doc=
+] =3D "The options to pass in TARGET_CFLAGS and CFLAGS when compiling an op=
+timized system. This variable defaults to '-O2 ${DEBUG_LEVELFLAG}'."<br />+=
+FULL_OPTLEVEL[doc] =3D "The toolchain optimization level flags. This variab=
+le defaults to '-O2'"<br />+FULL_OPTIMIZATION[doc] =3D "The options to pass=
+ in TARGET_CFLAGS and CFLAGS when compiling an optimized system. This varia=
+ble defaults to '${FULL_OPTLEVEL} ${DEBUG_LEVELFLAG}'."<br /><br />#G<br />=
+<br />--<br />2.34.1</blockquote>
+</blockquote>
+</div>
+
+--RfhdeKYSbmdzRIQGQlUc--
 
