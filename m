@@ -1,220 +1,952 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90AC8CAC599
-	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 14:51:56 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.342.1758034307110792159
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8EAFCAC599
+	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 15:20:26 +0000 (UTC)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+ by mx.groups.io with SMTP id smtpd.web11.1205.1758036025235579570
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Sep 2025 07:51:47 -0700
+ Tue, 16 Sep 2025 08:20:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=nhfgRSzZ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1354292d0a=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58GBq7OP2100217
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 07:51:46 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=3vHh2ArGg
-	nwkc5g90qwPOB2p+M25INOSEiIP5f19s9g=; b=nhfgRSzZ4PGXmbnmlN6j4jjiL
-	eHZ5V8c76+C/ZQ21jYb0ifSi4rS3eWl2R3r9kjoyDJHuKKlTvXcGg4NmRpDbAAY9
-	znzf+BHoxnCxVTnCiieP/b1dPR7Dr14+ydFAyRPsFgvrrbCgux0mm2+zmtBRpNrQ
-	7PmzhAf2vK5LlhFOQyArmN7ad/uFJmHZWXkFzKdNnLEQfy2fWKwrqmL2wKBGr8De
-	QoV+Yk1reTZGUaE8tCxKDGtI2SI9LtM/4IU2nqHD3iwiiMSQftwuPptMo5LYxEBP
-	TiIjPDTQGdjrThqd5ZZJZlcPXQL7GRo+9qKjThWGNQGUFUEM3Ii1oCewoH50Q==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011016.outbound.protection.outlook.com [52.101.62.16])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49584hk5v6-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 16 Sep 2025 07:51:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oGQx7yd2CAcqemIEAOikzXAnlO89iWIQGI5K4IVZN7xwRibiF+OHu16EIkU7irofALw71yZl/7g5QYGAEbCGo4X009/O80Jo4qADLd56q5cCK+Zb7cEVqthwqC2rtocdPlcZ+BwQ7OXDkkIr6y4NfDyvT8UutQ5f72Ba51ottyqxLTKVSuADSJfQ+J175Ma5zNP6JSb5gY9KTbjHdUhRtO91nE30/S3rObH5B756x7jLq5cSEO2PiERzaC6kfjfEGZ6Glqxb/dZ7SomNclkrZjG44urOhTsF0zrOj+A13pLJ/6sUSTSIEGnBZyQN1p87xDcLYQQv6Q7my6IMxExApQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3vHh2ArGgnwkc5g90qwPOB2p+M25INOSEiIP5f19s9g=;
- b=zAzEC25KueQ7nCcWgTWdI8/iJZTVtwz5VJE8Wuzofx5+N0o86q+e5G2Xw86P+FskWOEJcBblQauJbemKssWa03a6jzyIAwdgdfNCZ8Plq1pf9k1lomsnTRst1GpgHyqSQPmEqYZxIYsYauBgXtr4sZIa/JfvOllw1Ub3UhXAp66cmUNK+i6Vi74Qu3t8I+vb0MqDeIAoycDBT0sYVA4MvIzmra7MxQb80fLrRm03ogss2w6h+RZ66AHsa2esUS5scuMF9TN4IS+qEkS1Q8Ziv7liVCNfA9fz6T+ODh46y4O1aH1hkLTAsXcJECRFRpW3Z+DepRij8twywpzZUkPQgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
- by CH3PR11MB8415.namprd11.prod.outlook.com (2603:10b6:610:17b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.21; Tue, 16 Sep
- 2025 14:51:42 +0000
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f%5]) with mapi id 15.20.9115.022; Tue, 16 Sep 2025
- 14:51:42 +0000
-Message-ID: <2906764e-7bca-4947-93f0-2564ccc75129@windriver.com>
-Date: Tue, 16 Sep 2025 20:21:35 +0530
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: Ross Burton <ross.burton@arm.com>,
-        "Kokkonda, Sundeep" <sundeep.kokkonda@windriver.com>
-From: Deepesh Varatharajan <deepesh.varatharajan@windriver.com>
-Subject: Remove rust-llvm dependency after LLVM split
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: MA0PR01CA0102.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:af::18) To SJ0PR11MB5648.namprd11.prod.outlook.com
- (2603:10b6:a03:302::11)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pGdv8P2r;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.177, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-ea409597fe1so1910757276.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 08:20:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1758036024; x=1758640824; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LJs9aQHGK1D3ZeCuDEAvKB1YfuiTeKS6PmpvmBdULFU=;
+        b=pGdv8P2r3KFKP3MA/8O0x1+czsRj1ZWPzfglLmGAganhGeS16IdRYdpClmiuKBm33t
+         mS4TsaCdMNzstXZZpYmNyIpnNwBDB1HAEig3euCr+w1mztg9ZvLk6UQp/fJVdBbQTQMe
+         fEIYTwZW1lg1iSTRpLOsdIjwbc7LdgAN2dI7APC7Y1tROPZwQvgAR3lz+fUKIn7VX4VU
+         0lT9wMbDu+aFW02PGkJu+a8FodqpRxIsUNHMvKYjmXtoKW618eblgXTcF7INrdTh8Z/z
+         Zhf0zCgYiXrHvpZcnVlXQMHn8JNpO5xZxf7Cku/+xT31QCOBBU3S1W6zNOUxQm9sT1we
+         ILoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758036024; x=1758640824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LJs9aQHGK1D3ZeCuDEAvKB1YfuiTeKS6PmpvmBdULFU=;
+        b=kMRml/ha+ERE7GL9lHlz4tt4sgFbB+5ngxDSTGvurN/Ab8tY5StlRFeHpfErlLN0/J
+         5vcu1QJJEtPvGnCxR/plvFdsBMer2SVT8HrfsuYi5DNy7hQktWabVwjMoCDT3M1/LJi8
+         ItMm7LI65FPZKj1lKW+OEKa9CVqnlDxRkRTg4l5PJVIHilKV82u2L7h1Z4fZF+oPQKzv
+         XJlgRgAN1rwLwANYIZ+9fbvAWuW9tUDPFImQ8sYhsK56p9qpiTcreSRUseok3QdXL3R7
+         iXgM+EEQtWmEboN4OrCqjGoqhTSPw4Wk6SDFHfM0h9tAWbJMxG03b+7kqhHLcLVEcOtc
+         5mXA==
+X-Gm-Message-State: AOJu0YznosoagrtoAVj6J8eBMEoa1cbEib+3kCb9ipIg9GX5Rqx2qTs3
+	IdYdFtBwB/vjFJqhQEftthhA5+6xvyNcWODUv97qwvTrv0EFMDIEBoo+yIs43kSMQa8QTWW6vjx
+	1NunRUG4OPtJUrB636slw5YTy6LRI4uJ7BKMTBfvOG7LKfm/GzqrsBZk=
+X-Gm-Gg: ASbGncspAHSQkidyT1004nBu2+1gynHO4YfwE3iLtkTB2w5NYJTb4BgdXB9WivkqY30
+	gnuR2sILCwJxPYkaQyyGB92mUg2VaBLjH2u1qZvxWLYb+PvPFgN2Fe4j5sJeJPKAyKfBFqIlwE+
+	hQIjUrfsKEOcKWyfL9F2xmO+oC5re4PvpV7DsiGBejF1iy3nFvPdUv1kgGeaCCpgfi6HtV3vF5L
+	u9oUIfTVZjn6/HkdL/yssba0nz2Zh15FSroawA=
+X-Google-Smtp-Source: AGHT+IFkRfFJcW3zMy1KQkeD0WAeUT4kLeIwjHXwazshyYjsNtxW6VgpUQgM8fcMSD9zbtP3KrZEEb63UKntmF6jL30=
+X-Received: by 2002:a05:6902:150d:b0:ea3:fc9a:8bdf with SMTP id
+ 3f1490d57ef6-ea3fc9a91f6mr7804161276.31.1758036023727; Tue, 16 Sep 2025
+ 08:20:23 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|CH3PR11MB8415:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97190566-a0c5-462a-56ab-08ddf5308c0d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?ZERkR1dVTXpLdlgyU0ZCYjlkWjVXcVdhU090T0VPd2czZmJYcmtNcUNQTG9U?=
- =?utf-8?B?azREZmtTVDY4MHY2ZUY2NjRqV0dQcTcyT0pPNmRPYXQ5ZXE5bWJGRHRDY1A1?=
- =?utf-8?B?NVFNMGUwZHpuVVNEUE0rbkFNc3FYbVVHSy85S0pUVloydUxtd3JsYjNkajI5?=
- =?utf-8?B?Qm15Nm1zd05EcTJUdHVhajE3RnhnajJJTHlQc0NmdnlSTVBEbVJ4VmFocUdm?=
- =?utf-8?B?Z1g1Sk1tYUZqZVdPRmh5eWY1SzhubTZpcU1hcnVCWDVBSm00VnVxekhFV2VV?=
- =?utf-8?B?MmJWUU8zSFBwSTNoOFAwTTQrQVF5VHdPVU9GUmVWRGl2Z2hyMzl3N21NOE5O?=
- =?utf-8?B?akdKSDZzbEltRWtNQ3NhVXRyTmxGdStHSWV4REFlZVVuWmpvUEwyY1FwVkpl?=
- =?utf-8?B?UTBUYkFjL05RL2VOMU9VOU10VVY2dHRRYjNraTRRbEFMK0IrdFU2SGxuWkFP?=
- =?utf-8?B?OVc2V2NVckZnU0NjM0xTY3ZsZE5Fa0t1VThqdUR5OG9qVDZXbkFtVDRpcFA3?=
- =?utf-8?B?dk9ZYVk4MDFuUFRTVjdOT0VEcHRtS3o5L3p2cG5FUCtOYTAycEc1SEFFS0kx?=
- =?utf-8?B?WTFKejNXdE55TElWRXh5Z2xMVFgxSGlja09hcDJybDA4TVAyVHNKakxZOEda?=
- =?utf-8?B?OTNDbGlxNVc0cmszMUFUTTJ6UEY2U2JoY1pRUWg0cjBNLzN6K1dtNG1tVlZt?=
- =?utf-8?B?WUplNG10Vyt1YWxCSGZoYlo2OVpkVWY1WWJrTFgrbzFBVnNTZ2ZQaEpKNytD?=
- =?utf-8?B?cXY5UEZ1d2tLWkZWdnZOVXNrd1NRTkNTNkpRUjVzOW0zMW9xVWkwNzhJMnRo?=
- =?utf-8?B?Y1hZbDZkRkRMSHRZdWVZbWIrNHM5ZGhuQ1k2UFNMV3NwandSMWIyZVBKSWZP?=
- =?utf-8?B?NitXK0FlOWxaZGF0T2FxVi9XaHpZanBIakNkV1QvK2hidW9ScUV0cWJHVnZ5?=
- =?utf-8?B?QmtnUm9WNjFNdzI2WldSeXdnTGQyZ3k1RmpXQVZpeFJwVlI0U2lNYlltWmN5?=
- =?utf-8?B?QXdWcDA3bU91TkNaMTZ1U0F6MHFpOW9PNEJnWmhVUjNtN2tOWHlBN0I1QVVl?=
- =?utf-8?B?UzZXM29uSjNsdytscWhOUzhXcm9LeGVTWWZoRlAzTlY4d1hwNVBDd1lYR0w5?=
- =?utf-8?B?aEtPVUVWR0RQaTRuSVlBdFFhYldjRjdiTWJMaEhiamJoWkRGczVWK251Mys5?=
- =?utf-8?B?SG9NUTZCTTVza2MwZU1TMTRzTlUvY01WUzdWTmREUUxQNVVGSTc2aStjc0t5?=
- =?utf-8?B?ZW1Hanc4M0VvOE9oNlUrZ2VXTDg0WUlNcEQ0VjdmbVJYcEVucWwrR2NwdjZU?=
- =?utf-8?B?M3orNTRZNDFJVTNzS2RJYkRMUEZ6WGFIUlltRWdSeGZBenozeWdPdDk1cVZ6?=
- =?utf-8?B?L0hQWnJWNGVwN3NMWFI5NTZ4Ym94M3NRNlZyZGRvOHhhQzhwUjc5bm1qamZ5?=
- =?utf-8?B?dEJHTGUvK056dlJZWlZTYnk2OHFuVk5RKzFQU1lKRlVCR2U2LysxZEQ2TnA5?=
- =?utf-8?B?U2xNakwzaUR6QkxoazhXZW93cFZaNGd1aG9iemMrQ253c2lBRkQvSVNNSXVG?=
- =?utf-8?B?VGRpakxkRURUckV6dUhWWDdXbWJSNDlGVGN5S0tnR2RwN3lhKzRjaVIxT21o?=
- =?utf-8?B?anZtaE14TUdnRG1KZXNGYURUWVlDaVBGU1lreERnUVVuMzUrU0t4V2xmRHdv?=
- =?utf-8?B?UFFXZVRXKzhhTlBBc3ZKUVNWWjJIckszSURUM3ZCcEp6SUpVaWYzb2F5RGlC?=
- =?utf-8?B?RG1kSk9yaGhhZy9wZHY0RjhSNzJlQkV2bEg1Y3ZWdEFEK2REYzZJdmFaeERp?=
- =?utf-8?B?YmY1RmdjUlo0dFlYYituTnowc0ZOOGwvSngvTDhPNERocFdpYzJuUHNiUFNh?=
- =?utf-8?B?MlQ5bXRqYTVVZTJybHJCQU9NRkp1aDBIK2k5ZUhzZzVMRnRjbFZTZThWeEFn?=
- =?utf-8?Q?ENmICst7Dbw=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?dGJIRmtpYnBkd2FlWVJIWFhWMU0vVGhhQjFRWHFQSmZVUWZhMjJvM2ZRVkdu?=
- =?utf-8?B?UHpKN3lGeUlpTEdTdkk0SDRsOGR3eFE1SXIzVFNLY2JOWm92R3U3VHBuWjFs?=
- =?utf-8?B?LzJFblJnUEZaZDlndmVaVDFlMjRlVVEwTTdIbWZqYy8wWEtpVFVBU2FwRGtN?=
- =?utf-8?B?enQ5dzd0MHhmK1JHaEdzU21QUHN2bWh1TEhyVnZqckJSK2puaHZGcTY4WVpm?=
- =?utf-8?B?WHBKSDlxbDRvREVTaEtGR29MTEVhV1J2YTh3QTUyM0JxaVlaQ0xzRDNPcjVq?=
- =?utf-8?B?RE9JQUhVTkVFMDZBT0IrcU9Ccnl5WHhvdWNBazZGMjFXbVBjNGt3Nm5xeHNN?=
- =?utf-8?B?a0lXRDJDQ3N0aDY4V1NqRFFmMndPOFFZTml1UjcrMXdHS3M3RTc0eWhSN04y?=
- =?utf-8?B?MXZrYlZzYnJKbFN4bExZS21aM0NBZHBtN3ZSaFkxUzBSb0ozcGxlRWhFZ1hu?=
- =?utf-8?B?dkRqWHl2NFprTnBNampBcktob0xYOUNjQWg3WXd5RWlDUDloVUdFZ0Q2UldM?=
- =?utf-8?B?clYxOGF2VytTU0VYOWxpbktqbTFNZXdLd2l2N1pWNjVyYXo1ZjBheURYeFBn?=
- =?utf-8?B?U0dGdkpTcjFiN3VwMGg1RTBOZWgrOSt2YjFQVUhKYVY2TGpiNlB4MEsrUmVv?=
- =?utf-8?B?ekhwRjhRUHJBZWtCSS9qbEUzYnlxbDAxQ1ZFdVQ2Y2VXSFBMUTFzaWxZMlEr?=
- =?utf-8?B?UGpSQmVWM0dwQ1hNajNYTGw0UE9HQko1RjFTaUFzeUtQMSswckZVM2kyM2w1?=
- =?utf-8?B?eHpNZXBUMitvdi9VSk1ML3dWMjN5V3MwM1JDVEp3ZDFmNGEweXFsWjdqQ2dN?=
- =?utf-8?B?aVBBaEZCM2F2dGhGQzVhWWpSUnV2c3JRa1FWdjVaZkRJTktjMThZN0RCOGRH?=
- =?utf-8?B?NkhVbWZBVEdpb2JWNEtHYXJqSTBXL28zSXQ4RjFZcTk5ZitIMGtmL3FkcXBX?=
- =?utf-8?B?YzNjU0xCWFZyYzQrWUlWYkU0WlRaLzlrbWpoVmp4Yjc2a2JNZGN5TWV6eXNB?=
- =?utf-8?B?RjBrcnJBNVN0aDdLOVo2MVZJVFdGYWpwOEpvNk0wZmpEalgyNG0yWGdVSWdy?=
- =?utf-8?B?OWFDd09IVit6S2xjRm1uUUtINlQydjJMdGJHK0VGVEppSUJTamtPYnV5UzRC?=
- =?utf-8?B?UmErTk80L1VXa1BrVC9iZWZuRVF1dlNxNXA3L3BCVjM0QjI0NVZWSUNobDhL?=
- =?utf-8?B?dTBxT1g0MXJ5UDFZMTlwdndXbjZzVTRXTXN2Z1RaMTJNeWJWRlNSWnJGODBZ?=
- =?utf-8?B?WmhFMFVpWnRoZ1ltZEQyQy9yQXgxR05xUFlnYmY5WjFJYVJ0MGN2MlBOWEhM?=
- =?utf-8?B?aWFQRFpkUk56K2h2VGFLa2RsQXlSUFQrdExLRndVb0hCanhvUXg0clVlNWJU?=
- =?utf-8?B?RWRtVzhwYk8xSUc2NGM0K0RHbFpyQTdFeDRXVE84dzUwM1lJaC9sVGtVbmEv?=
- =?utf-8?B?TXVKcTN5SXRnK3F2M21MQTdkWVFORXZGelErMmlpSXVhQjRpWnRIUUpLRnpV?=
- =?utf-8?B?UDNzOThUVnlLS2pEZVI2MVgrK21LaXF2WFF6b2FMS2ZnZWMzNTF4RjNGeXBU?=
- =?utf-8?B?a0Yyc3pNUXkxd2liNWFabjAwVWh3WFpIV0ZOdUt0ZWFrekhoUjhzQnNaOFpI?=
- =?utf-8?B?cVpPK0JyajUxdUhQVkxwWEt1Wis5N2ZVVmNtaWF5VEMzdjZSRTB0c1ZXOXpK?=
- =?utf-8?B?NEw4YkhJSzgvOHZncXdoVVFCWTBiMndUMExvSy9BRkFOZm4vYW1ESXN5Z2pT?=
- =?utf-8?B?TE42bWd6K3NrYlRzRFRZUjdTZW11ZDkzdXF1bm5LMHNwU2RNTnlFRjU4clZS?=
- =?utf-8?B?ak13cThUckloRFM0Ty9teDdNUXIyazZDSG1JSEhJSnN0emxRWENUV3lQdW9p?=
- =?utf-8?B?dzRsditxdnl0OWJvejNJWGl2ZVFYTVN3ZU5ZMFBGdURhWVJXZ1hvUnZpS1FN?=
- =?utf-8?B?OCtsb1htSllTSW0zVjZNQnArOVM3VEdGMVRON0RUQThjUlR2Kzh0NSt2RmZP?=
- =?utf-8?B?R0FPaU5VN0s4WVdCT25Ua0J0bklCSnF4R3FLUFdmdDYyMGhYdkJXejh4K21h?=
- =?utf-8?B?Rzh3ZUkvdVQweVdSbzFLNGx3bkp3SVM1eXdrN2c0NHFyYlRna0hGLzdkS1l4?=
- =?utf-8?B?RERlOVhISytGNEdmUEw3NjJ6QXQ0SnowdWNuTzVUV2RJOFphQVhEYVhpaTRm?=
- =?utf-8?Q?cAIkPWBlFwYQ42yvUqwrL4k=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97190566-a0c5-462a-56ab-08ddf5308c0d
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 14:51:42.1004
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NPwOSiKpLWfEIbeEqP+GIZjOQ/j9jHvq/EjtJ9xnRZujZ1+HScX+8TAs3btztDVqo3AAjdFjIzwGZCVsWxd1G3QR6MYh8W1lqwRqlatclUouHzZAFm9y9lDD4rCx6GAR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8415
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=Pbj/hjhd c=1 sm=1 tr=0 ts=68c97982 cx=c_pps
- a=4s+CrTYCAhIFSJe2+GBd1A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10
- a=eQaJi54MV42PVZSwhEEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDEzNyBTYWx0ZWRfX78UyT34W37du
- 7bxMdtiDUsElyFTeV1qdCCUPlLBY1VUAWSwLRqP0Z2rlluWBWpE7mZ2QcYV17/+QzQgAwyslnmo
- xssPXqyp/dZJc4Cr/+aw/u2TFLn2aekXlim7roXs8GRF+5BPgjuo+U8NfN45KJLAHpDK1GnHq3N
- U96YtA49K0EfgeQXHxKBPzmdupbudjjle1ZB3r06h5ot11OwWcRpLF9c3OE/+Jghk96tF3WEgsK
- jMPF4Z2jQf9G2tedtZYN6ZfLJVkYf/7qCk4i+sLUV815UFniTNNblf05ltPvQbXL7zC/M81BP2Y
- K8SAH3r4ZTRBfrw6t6nou5hxJHy+D+orB3j4lbU3Fgno+NFiAY58yvvh2vX2qs=
-X-Proofpoint-GUID: vPcy1FK4GZQ7K_AzXJACunq74kPzZ-0a
-X-Proofpoint-ORIG-GUID: RSynTK4tszBWdUT7ngnwgzlRAcDK7k-v
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 phishscore=0 malwarescore=0 priorityscore=1501
- suspectscore=0 adultscore=0 bulkscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2507300000 definitions=firstrun
+References: <20250916054238.117124-1-vanusuri@mvista.com>
+In-Reply-To: <20250916054238.117124-1-vanusuri@mvista.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 16 Sep 2025 08:20:11 -0700
+X-Gm-Features: AS18NWBu1fxY_Ut5wctQOAA4A_EctFB-M8AsiEFqxHOqjkSurTAcR3mwJ2qIYZU
+Message-ID: <CAOSpxdZ+Ns_xpudPFj5whtvbxLkCAah1L0d-e_re=KYRWD4AgA@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH v2 1/2] cups: upgrade 2.4.10 -> 2.4.11
+To: vanusuri@mvista.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 58GBq7OP2100217
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 14:51:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223561
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 15:20:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223562
 
-Hi All,
+Vijay,
 
-We have successfully built Rust 1.91 (nightly) using Clang 21.1.0 after=20
-removing rust-llvm dependency. Additionally, we used
-Ross's poky-contrib branch, which separates the LLVM recipe from Clang,=20
-to build Rust-1.89 with LLVM 21.1.0 without the
-rust-llvm dependency successfully and below are the results.
+I'm getting a build error with this patch:
 
-Rust Build Results
+ERROR: QA Issue: cups: Files/directories were installed but not
+shipped in any package:
+  /usr/lib/systemd/system/system-cups.slice
+Please set FILES such that these items are packaged. Alternatively if
+they are unneeded, avoid installing them or delete them within
+do_install.
+cups: 1 installed and not shipped files. [installed-vs-shipped]
 
-With rust-llvm :
+Steve
 
-real=C2=A0=C2=A0=C2=A0 50m1.506s
-user=C2=A0=C2=A0=C2=A0 0m13.196s
-sys=C2=A0=C2=A0=C2=A0=C2=A0 0m1.429s
-Disk usage 40G
-
- =C2=A0With LLVM :
-
-real=C2=A0=C2=A0=C2=A0 53m29.662s
-user=C2=A0=C2=A0=C2=A0 0m12.940s
-sys=C2=A0=C2=A0=C2=A0=C2=A0 0m1.176s
-Disk usage 43G
-
-Can we submit the rust-llvm=C2=A0removal patch once Ross's patch is merge=
-d=20
-into the poky=C2=A0master branch?
-
-Regards,
-Deepesh
-
-
-
+On Mon, Sep 15, 2025 at 10:43=E2=80=AFPM Vijay Anusuri via
+lists.openembedded.org <vanusuri=3Dmvista.com@lists.openembedded.org>
+wrote:
+>
+> From: Vijay Anusuri <vanusuri@mvista.com>
+>
+> Removed CVE-2024-47175 patches which is fixed by upgrade
+>
+> Chnagelog
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> v2.4.11
+>
+> CUPS 2.4.11 brings several bug fixes regarding IPP response validation, p=
+rocessing PPD values, Web UI support (checkbox support, modifying printers)=
+ and others fixes.
+>
+> Detailed list of changes is available in CHANGES.md
+>
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> ---
+>  meta/recipes-extended/cups/cups.inc           |   5 -
+>  .../cups/cups/CVE-2024-47175-1.patch          |  73 -----
+>  .../cups/cups/CVE-2024-47175-2.patch          | 151 -----------
+>  .../cups/cups/CVE-2024-47175-3.patch          | 119 ---------
+>  .../cups/cups/CVE-2024-47175-4.patch          | 249 ------------------
+>  .../cups/cups/CVE-2024-47175-5.patch          |  40 ---
+>  .../cups/{cups_2.4.10.bb =3D> cups_2.4.11.bb}   |   2 +-
+>  7 files changed, 1 insertion(+), 638 deletions(-)
+>  delete mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-1.patc=
+h
+>  delete mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-2.patc=
+h
+>  delete mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-3.patc=
+h
+>  delete mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-4.patc=
+h
+>  delete mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-5.patc=
+h
+>  rename meta/recipes-extended/cups/{cups_2.4.10.bb =3D> cups_2.4.11.bb} (=
+51%)
+>
+> diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/=
+cups/cups.inc
+> index 5590eb0fa0..b70ba3ae58 100644
+> --- a/meta/recipes-extended/cups/cups.inc
+> +++ b/meta/recipes-extended/cups/cups.inc
+> @@ -15,11 +15,6 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/cups-$=
+{PV}-source.tar.gz \
+>             file://0004-cups-fix-multilib-install-file-conflicts.patch \
+>             file://volatiles.99_cups \
+>             file://cups-volatiles.conf \
+> -           file://CVE-2024-47175-1.patch \
+> -           file://CVE-2024-47175-2.patch \
+> -           file://CVE-2024-47175-3.patch \
+> -           file://CVE-2024-47175-4.patch \
+> -           file://CVE-2024-47175-5.patch \
+>             "
+>
+>  GITHUB_BASE_URI =3D "https://github.com/OpenPrinting/cups/releases"
+> diff --git a/meta/recipes-extended/cups/cups/CVE-2024-47175-1.patch b/met=
+a/recipes-extended/cups/cups/CVE-2024-47175-1.patch
+> deleted file mode 100644
+> index 8ec720ea0d..0000000000
+> --- a/meta/recipes-extended/cups/cups/CVE-2024-47175-1.patch
+> +++ /dev/null
+> @@ -1,73 +0,0 @@
+> -From 9939a70b750edd9d05270060cc5cf62ca98cfbe5 Mon Sep 17 00:00:00 2001
+> -From: Michael R Sweet <msweet@msweet.org>
+> -Date: Mon, 9 Sep 2024 10:03:10 -0400
+> -Subject: [PATCH] Mirror IPP Everywhere printer changes from master.
+> -
+> -Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/9=
+939a70b750edd9d05270060cc5cf62ca98cfbe5]
+> -CVE: CVE-2024-47175
+> -Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ----
+> - cups/ppd-cache.c | 10 +++++-----
+> - scheduler/ipp.c  |  7 +++++++
+> - 2 files changed, 12 insertions(+), 5 deletions(-)
+> -
+> -diff --git a/cups/ppd-cache.c b/cups/ppd-cache.c
+> -index e750fcc..cd2d6cb 100644
+> ---- a/cups/ppd-cache.c
+> -+++ b/cups/ppd-cache.c
+> -@@ -3317,10 +3317,10 @@ _ppdCreateFromIPP2(
+> -   }
+> -   cupsFilePuts(fp, "\"\n");
+> -
+> --  if ((attr =3D ippFindAttribute(supported, "printer-more-info", IPP_TA=
+G_URI)) !=3D NULL)
+> -+  if ((attr =3D ippFindAttribute(supported, "printer-more-info", IPP_TA=
+G_URI)) !=3D NULL && ippValidateAttribute(attr))
+> -     cupsFilePrintf(fp, "*APSupplies: \"%s\"\n", ippGetString(attr, 0, N=
+ULL));
+> -
+> --  if ((attr =3D ippFindAttribute(supported, "printer-charge-info-uri", =
+IPP_TAG_URI)) !=3D NULL)
+> -+  if ((attr =3D ippFindAttribute(supported, "printer-charge-info-uri", =
+IPP_TAG_URI)) !=3D NULL && ippValidateAttribute(attr))
+> -     cupsFilePrintf(fp, "*cupsChargeInfoURI: \"%s\"\n", ippGetString(att=
+r, 0, NULL));
+> -
+> -   if ((attr =3D ippFindAttribute(supported, "printer-strings-uri", IPP_=
+TAG_URI)) !=3D NULL)
+> -@@ -3389,10 +3389,10 @@ _ppdCreateFromIPP2(
+> -   if (ippGetBoolean(ippFindAttribute(supported, "job-accounting-user-id=
+-supported", IPP_TAG_BOOLEAN), 0))
+> -     cupsFilePuts(fp, "*cupsJobAccountingUserId: True\n");
+> -
+> --  if ((attr =3D ippFindAttribute(supported, "printer-privacy-policy-uri=
+", IPP_TAG_URI)) !=3D NULL)
+> -+  if ((attr =3D ippFindAttribute(supported, "printer-privacy-policy-uri=
+", IPP_TAG_URI)) !=3D NULL && ippValidateAttribute(attr))
+> -     cupsFilePrintf(fp, "*cupsPrivacyURI: \"%s\"\n", ippGetString(attr, =
+0, NULL));
+> -
+> --  if ((attr =3D ippFindAttribute(supported, "printer-mandatory-job-attr=
+ibutes", IPP_TAG_KEYWORD)) !=3D NULL)
+> -+  if ((attr =3D ippFindAttribute(supported, "printer-mandatory-job-attr=
+ibutes", IPP_TAG_KEYWORD)) !=3D NULL && ippValidateAttribute(attr))
+> -   {
+> -     char      prefix =3D '\"';          // Prefix for string
+> -
+> -@@ -3410,7 +3410,7 @@ _ppdCreateFromIPP2(
+> -     cupsFilePuts(fp, "\"\n");
+> -   }
+> -
+> --  if ((attr =3D ippFindAttribute(supported, "printer-requested-job-attr=
+ibutes", IPP_TAG_KEYWORD)) !=3D NULL)
+> -+  if ((attr =3D ippFindAttribute(supported, "printer-requested-job-attr=
+ibutes", IPP_TAG_KEYWORD)) !=3D NULL && ippValidateAttribute(attr))
+> -   {
+> -     char      prefix =3D '\"';          // Prefix for string
+> -
+> -diff --git a/scheduler/ipp.c b/scheduler/ipp.c
+> -index 37623c5..836e41d 100644
+> ---- a/scheduler/ipp.c
+> -+++ b/scheduler/ipp.c
+> -@@ -5417,6 +5417,13 @@ create_local_bg_thread(
+> -     }
+> -   }
+> -
+> -+  // Validate response from printer...
+> -+  if (!ippValidateAttributes(response))
+> -+  {
+> -+    cupsdLogMessage(CUPSD_LOG_ERROR, "%s: Printer returned invalid data=
+: %s", printer->name, cupsLastErrorString());
+> -+    return (NULL);
+> -+  }
+> -+
+> -   // TODO: Grab printer icon file...
+> -   httpClose(http);
+> -
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-extended/cups/cups/CVE-2024-47175-2.patch b/met=
+a/recipes-extended/cups/cups/CVE-2024-47175-2.patch
+> deleted file mode 100644
+> index 11e8209626..0000000000
+> --- a/meta/recipes-extended/cups/cups/CVE-2024-47175-2.patch
+> +++ /dev/null
+> @@ -1,151 +0,0 @@
+> -From 04bb2af4521b56c1699a2c2431c56c05a7102e69 Mon Sep 17 00:00:00 2001
+> -From: Michael R Sweet <msweet@msweet.org>
+> -Date: Mon, 9 Sep 2024 14:05:42 -0400
+> -Subject: [PATCH] Refactor make-and-model code.
+> -
+> -Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/0=
+4bb2af4521b56c1699a2c2431c56c05a7102e69]
+> -CVE: CVE-2024-47175
+> -Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ----
+> - cups/ppd-cache.c | 103 +++++++++++++++++++++++++++++++++++++++--------
+> - 1 file changed, 87 insertions(+), 16 deletions(-)
+> -
+> -diff --git a/cups/ppd-cache.c b/cups/ppd-cache.c
+> -index cd2d6cb..a4d7403 100644
+> ---- a/cups/ppd-cache.c
+> -+++ b/cups/ppd-cache.c
+> -@@ -3197,9 +3197,10 @@ _ppdCreateFromIPP2(
+> -   ipp_t                       *media_col,     /* Media collection */
+> -                       *media_size;    /* Media size collection */
+> -   char                        make[256],      /* Make and model */
+> --                      *model,         /* Model name */
+> -+                      *mptr,          /* Pointer into make and model */
+> -                       ppdname[PPD_MAX_NAME];
+> -                                       /* PPD keyword */
+> -+  const char          *model;         /* Model name */
+> -   int                 i, j,           /* Looping vars */
+> -                       count,          /* Number of values */
+> -                       bottom,         /* Largest bottom margin */
+> -@@ -3260,34 +3261,104 @@ _ppdCreateFromIPP2(
+> -   }
+> -
+> -  /*
+> --  * Standard stuff for PPD file...
+> -+  * Get a sanitized make and model...
+> -   */
+> -
+> --  cupsFilePuts(fp, "*PPD-Adobe: \"4.3\"\n");
+> --  cupsFilePuts(fp, "*FormatVersion: \"4.3\"\n");
+> --  cupsFilePrintf(fp, "*FileVersion: \"%d.%d\"\n", CUPS_VERSION_MAJOR, C=
+UPS_VERSION_MINOR);
+> --  cupsFilePuts(fp, "*LanguageVersion: English\n");
+> --  cupsFilePuts(fp, "*LanguageEncoding: ISOLatin1\n");
+> --  cupsFilePuts(fp, "*PSVersion: \"(3010.000) 0\"\n");
+> --  cupsFilePuts(fp, "*LanguageLevel: \"3\"\n");
+> --  cupsFilePuts(fp, "*FileSystem: False\n");
+> --  cupsFilePuts(fp, "*PCFileName: \"ippeve.ppd\"\n");
+> -+  if ((attr =3D ippFindAttribute(supported, "printer-make-and-model", I=
+PP_TAG_TEXT)) !=3D NULL && ippValidateAttribute(attr))
+> -+  {
+> -+   /*
+> -+    * Sanitize the model name to only contain PPD-safe characters.
+> -+    */
+> -
+> --  if ((attr =3D ippFindAttribute(supported, "printer-make-and-model", I=
+PP_TAG_TEXT)) !=3D NULL)
+> -     strlcpy(make, ippGetString(attr, 0, NULL), sizeof(make));
+> -+
+> -+    for (mptr =3D make; *mptr; mptr ++)
+> -+    {
+> -+      if (*mptr < ' ' || *mptr >=3D 127 || *mptr =3D=3D '\"')
+> -+      {
+> -+       /*
+> -+      * Truncate the make and model on the first bad character...
+> -+      */
+> -+
+> -+      *mptr =3D '\0';
+> -+      break;
+> -+      }
+> -+    }
+> -+
+> -+    while (mptr > make)
+> -+    {
+> -+     /*
+> -+      * Strip trailing whitespace...
+> -+      */
+> -+
+> -+      mptr --;
+> -+      if (*mptr =3D=3D ' ')
+> -+      *mptr =3D '\0';
+> -+    }
+> -+
+> -+    if (!make[0])
+> -+    {
+> -+     /*
+> -+      * Use a default make and model if nothing remains...
+> -+      */
+> -+
+> -+      strlcpy(make, "Unknown", sizeof(make));
+> -+    }
+> -+  }
+> -   else
+> --    strlcpy(make, "Unknown Printer", sizeof(make));
+> -+  {
+> -+   /*
+> -+    * Use a default make and model...
+> -+    */
+> -+
+> -+    strlcpy(make, "Unknown", sizeof(make));
+> -+  }
+> -
+> -   if (!_cups_strncasecmp(make, "Hewlett Packard ", 16) || !_cups_strnca=
+secmp(make, "Hewlett-Packard ", 16))
+> -   {
+> -+   /*
+> -+    * Normalize HP printer make and model...
+> -+    */
+> -+
+> -     model =3D make + 16;
+> -     strlcpy(make, "HP", sizeof(make));
+> -+
+> -+    if (!_cups_strncasecmp(model, "HP ", 3))
+> -+      model +=3D 3;
+> -+  }
+> -+  else if ((mptr =3D strchr(make, ' ')) !=3D NULL)
+> -+  {
+> -+   /*
+> -+    * Separate "MAKE MODEL"...
+> -+    */
+> -+
+> -+    while (*mptr && *mptr =3D=3D ' ')
+> -+      *mptr++ =3D '\0';
+> -+
+> -+    model =3D mptr;
+> -   }
+> --  else if ((model =3D strchr(make, ' ')) !=3D NULL)
+> --    *model++ =3D '\0';
+> -   else
+> --    model =3D make;
+> -+  {
+> -+   /*
+> -+    * No separate model name...
+> -+    */
+> -
+> -+    model =3D "Printer";
+> -+  }
+> -+
+> -+ /*
+> -+  * Standard stuff for PPD file...
+> -+  */
+> -+
+> -+  cupsFilePuts(fp, "*PPD-Adobe: \"4.3\"\n");
+> -+  cupsFilePuts(fp, "*FormatVersion: \"4.3\"\n");
+> -+  cupsFilePrintf(fp, "*FileVersion: \"%d.%d\"\n", CUPS_VERSION_MAJOR, C=
+UPS_VERSION_MINOR);
+> -+  cupsFilePuts(fp, "*LanguageVersion: English\n");
+> -+  cupsFilePuts(fp, "*LanguageEncoding: ISOLatin1\n");
+> -+  cupsFilePuts(fp, "*PSVersion: \"(3010.000) 0\"\n");
+> -+  cupsFilePuts(fp, "*LanguageLevel: \"3\"\n");
+> -+  cupsFilePuts(fp, "*FileSystem: False\n");
+> -+  cupsFilePuts(fp, "*PCFileName: \"ippeve.ppd\"\n");
+> -   cupsFilePrintf(fp, "*Manufacturer: \"%s\"\n", make);
+> -   cupsFilePrintf(fp, "*ModelName: \"%s\"\n", model);
+> -   cupsFilePrintf(fp, "*Product: \"(%s)\"\n", model);
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-extended/cups/cups/CVE-2024-47175-3.patch b/met=
+a/recipes-extended/cups/cups/CVE-2024-47175-3.patch
+> deleted file mode 100644
+> index e7d012fb8a..0000000000
+> --- a/meta/recipes-extended/cups/cups/CVE-2024-47175-3.patch
+> +++ /dev/null
+> @@ -1,119 +0,0 @@
+> -From e0630cd18f76340d302000f2bf6516e99602b844 Mon Sep 17 00:00:00 2001
+> -From: Michael R Sweet <msweet@msweet.org>
+> -Date: Mon, 9 Sep 2024 15:59:57 -0400
+> -Subject: [PATCH] PPDize preset and template names.
+> -
+> -Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/e=
+0630cd18f76340d302000f2bf6516e99602b844]
+> -CVE: CVE-2024-47175
+> -Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ----
+> - cups/ppd-cache.c | 33 ++++++++++++++++++++++++---------
+> - 1 file changed, 24 insertions(+), 9 deletions(-)
+> -
+> -diff --git a/cups/ppd-cache.c b/cups/ppd-cache.c
+> -index a4d7403..53c22be 100644
+> ---- a/cups/ppd-cache.c
+> -+++ b/cups/ppd-cache.c
+> -@@ -4976,12 +4976,14 @@ _ppdCreateFromIPP2(
+> -
+> -       cupsArrayAdd(templates, (void *)keyword);
+> -
+> -+      pwg_ppdize_name(keyword, ppdname, sizeof(ppdname));
+> -+
+> -       snprintf(msgid, sizeof(msgid), "finishing-template.%s", keyword);
+> -       if ((msgstr =3D _cupsLangString(lang, msgid)) =3D=3D msgid || !st=
+rcmp(msgid, msgstr))
+> -       if ((msgstr =3D _cupsMessageLookup(strings, msgid)) =3D=3D msgid)
+> -         msgstr =3D keyword;
+> -
+> --      cupsFilePrintf(fp, "*cupsFinishingTemplate %s: \"\n", keyword);
+> -+      cupsFilePrintf(fp, "*cupsFinishingTemplate %s: \"\n", ppdname);
+> -       for (finishing_attr =3D ippFirstAttribute(finishing_col); finishi=
+ng_attr; finishing_attr =3D ippNextAttribute(finishing_col))
+> -       {
+> -         if (ippGetValueTag(finishing_attr) =3D=3D IPP_TAG_BEGIN_COLLECT=
+ION)
+> -@@ -4994,7 +4996,7 @@ _ppdCreateFromIPP2(
+> -       }
+> -       }
+> -       cupsFilePuts(fp, "\"\n");
+> --      cupsFilePrintf(fp, "*%s.cupsFinishingTemplate %s/%s: \"\"\n", lan=
+g->language, keyword, msgstr);
+> -+      cupsFilePrintf(fp, "*%s.cupsFinishingTemplate %s/%s: \"\"\n", lan=
+g->language, ppdname, msgstr);
+> -       cupsFilePuts(fp, "*End\n");
+> -     }
+> -
+> -@@ -5040,7 +5042,8 @@ _ppdCreateFromIPP2(
+> -       if (!preset || !preset_name)
+> -         continue;
+> -
+> --      cupsFilePrintf(fp, "*APPrinterPreset %s: \"\n", preset_name);
+> -+      pwg_ppdize_name(preset_name, ppdname, sizeof(ppdname));
+> -+      cupsFilePrintf(fp, "*APPrinterPreset %s: \"\n", ppdname);
+> -       for (member =3D ippFirstAttribute(preset); member; member =3D ipp=
+NextAttribute(preset))
+> -       {
+> -         member_name =3D ippGetName(member);
+> -@@ -5081,7 +5084,10 @@ _ppdCreateFromIPP2(
+> -             fin_col =3D ippGetCollection(member, i);
+> -
+> -             if ((keyword =3D ippGetString(ippFindAttribute(fin_col, "fi=
+nishing-template", IPP_TAG_ZERO), 0, NULL)) !=3D NULL)
+> --              cupsFilePrintf(fp, "*cupsFinishingTemplate %s\n", keyword=
+);
+> -+            {
+> -+              pwg_ppdize_name(keyword, ppdname, sizeof(ppdname));
+> -+              cupsFilePrintf(fp, "*cupsFinishingTemplate %s\n", ppdname=
+);
+> -+            }
+> -           }
+> -         }
+> -         else if (!strcmp(member_name, "media"))
+> -@@ -5108,13 +5114,13 @@ _ppdCreateFromIPP2(
+> -           if ((keyword =3D ippGetString(ippFindAttribute(media_col, "me=
+dia-source", IPP_TAG_ZERO), 0, NULL)) !=3D NULL)
+> -           {
+> -             pwg_ppdize_name(keyword, ppdname, sizeof(ppdname));
+> --            cupsFilePrintf(fp, "*InputSlot %s\n", keyword);
+> -+            cupsFilePrintf(fp, "*InputSlot %s\n", ppdname);
+> -         }
+> -
+> -           if ((keyword =3D ippGetString(ippFindAttribute(media_col, "me=
+dia-type", IPP_TAG_ZERO), 0, NULL)) !=3D NULL)
+> -           {
+> -             pwg_ppdize_name(keyword, ppdname, sizeof(ppdname));
+> --            cupsFilePrintf(fp, "*MediaType %s\n", keyword);
+> -+            cupsFilePrintf(fp, "*MediaType %s\n", ppdname);
+> -         }
+> -         }
+> -         else if (!strcmp(member_name, "print-quality"))
+> -@@ -5160,7 +5166,10 @@ _ppdCreateFromIPP2(
+> -       cupsFilePuts(fp, "\"\n*End\n");
+> -
+> -       if ((localized_name =3D _cupsMessageLookup(strings, preset_name))=
+ !=3D preset_name)
+> --        cupsFilePrintf(fp, "*%s.APPrinterPreset %s/%s: \"\"\n", lang->l=
+anguage, preset_name, localized_name);
+> -+      {
+> -+        pwg_ppdize_name(preset_name, ppdname, sizeof(ppdname));
+> -+        cupsFilePrintf(fp, "*%s.APPrinterPreset %s/%s: \"\"\n", lang->l=
+anguage, ppdname, localized_name);
+> -+      }
+> -     }
+> -   }
+> -
+> -@@ -5544,7 +5553,7 @@ pwg_ppdize_name(const char *ipp, /* I - IPP keywor=
+d */
+> -       *end;                           /* End of name buffer */
+> -
+> -
+> --  if (!ipp)
+> -+  if (!ipp || !_cups_isalnum(*ipp))
+> -   {
+> -     *name =3D '\0';
+> -     return;
+> -@@ -5559,8 +5568,14 @@ pwg_ppdize_name(const char *ipp,        /* I - IP=
+P keyword */
+> -       ipp ++;
+> -       *ptr++ =3D (char)toupper(*ipp++ & 255);
+> -     }
+> --    else
+> -+    else if (*ipp =3D=3D '_' || *ipp =3D=3D '.' || *ipp =3D=3D '-' || _=
+cups_isalnum(*ipp))
+> -+    {
+> -       *ptr++ =3D *ipp++;
+> -+    }
+> -+    else
+> -+    {
+> -+      ipp ++;
+> -+    }
+> -   }
+> -
+> -   *ptr =3D '\0';
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-extended/cups/cups/CVE-2024-47175-4.patch b/met=
+a/recipes-extended/cups/cups/CVE-2024-47175-4.patch
+> deleted file mode 100644
+> index 7665513485..0000000000
+> --- a/meta/recipes-extended/cups/cups/CVE-2024-47175-4.patch
+> +++ /dev/null
+> @@ -1,249 +0,0 @@
+> -From 1e6ca5913eceee906038bc04cc7ccfbe2923bdfd Mon Sep 17 00:00:00 2001
+> -From: Michael R Sweet <msweet@msweet.org>
+> -Date: Mon, 23 Sep 2024 09:36:39 -0400
+> -Subject: [PATCH] Quote PPD localized strings.
+> -
+> -Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/1=
+e6ca5913eceee906038bc04cc7ccfbe2923bdfd]
+> -CVE: CVE-2024-47175
+> -Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ----
+> - cups/ppd-cache.c | 93 +++++++++++++++++++++++++++---------------------
+> - 1 file changed, 53 insertions(+), 40 deletions(-)
+> -
+> -diff --git a/cups/ppd-cache.c b/cups/ppd-cache.c
+> -index 53c22be..f425ac0 100644
+> ---- a/cups/ppd-cache.c
+> -+++ b/cups/ppd-cache.c
+> -@@ -32,6 +32,7 @@
+> - static int    cups_connect(http_t **http, const char *url, char *resour=
+ce, size_t ressize);
+> - static int    cups_get_url(http_t **http, const char *url, char *name, =
+size_t namesize);
+> - static const char *ppd_inputslot_for_keyword(_ppd_cache_t *pc, const ch=
+ar *keyword);
+> -+static void   ppd_put_string(cups_file_t *fp, cups_lang_t *lang, cups_a=
+rray_t *strings, const char *ppd_option, const char *ppd_choice, const char=
+ *pwg_msgid);
+> - static void   pwg_add_finishing(cups_array_t *finishings, ipp_finishing=
+s_t template, const char *name, const char *value);
+> - static void   pwg_add_message(cups_array_t *a, const char *msg, const c=
+har *str);
+> - static int    pwg_compare_finishings(_pwg_finishings_t *a, _pwg_finishi=
+ngs_t *b);
+> -@@ -3394,7 +3395,7 @@ _ppdCreateFromIPP2(
+> -   if ((attr =3D ippFindAttribute(supported, "printer-charge-info-uri", =
+IPP_TAG_URI)) !=3D NULL && ippValidateAttribute(attr))
+> -     cupsFilePrintf(fp, "*cupsChargeInfoURI: \"%s\"\n", ippGetString(att=
+r, 0, NULL));
+> -
+> --  if ((attr =3D ippFindAttribute(supported, "printer-strings-uri", IPP_=
+TAG_URI)) !=3D NULL)
+> -+  if ((attr =3D ippFindAttribute(supported, "printer-strings-uri", IPP_=
+TAG_URI)) !=3D NULL && ippValidateAttribute(attr))
+> -   {
+> -     http_t    *http =3D NULL;           /* Connection to printer */
+> -     char      stringsfile[1024];      /* Temporary strings file */
+> -@@ -3438,7 +3439,7 @@ _ppdCreateFromIPP2(
+> -
+> -         response =3D cupsDoRequest(http, request, resource);
+> -
+> --        if ((attr =3D ippFindAttribute(response, "printer-strings-uri",=
+ IPP_TAG_URI)) !=3D NULL)
+> -+        if ((attr =3D ippFindAttribute(response, "printer-strings-uri",=
+ IPP_TAG_URI)) !=3D NULL && ippValidateAttribute(attr))
+> -           cupsFilePrintf(fp, "*cupsStringsURI %s: \"%s\"\n", keyword, i=
+ppGetString(attr, 0, NULL));
+> -
+> -         ippDelete(response);
+> -@@ -4044,18 +4045,16 @@ _ppdCreateFromIPP2(
+> -       cupsFilePrintf(fp, "*DefaultInputSlot: %s\n", ppdname);
+> -
+> -       for (j =3D 0; j < (int)(sizeof(sources) / sizeof(sources[0])); j =
+++)
+> -+      {
+> -         if (!strcmp(sources[j], keyword))
+> -       {
+> -         snprintf(msgid, sizeof(msgid), "media-source.%s", keyword);
+> -
+> --        if ((msgstr =3D _cupsLangString(lang, msgid)) =3D=3D msgid || !=
+strcmp(msgid, msgstr))
+> --          if ((msgstr =3D _cupsMessageLookup(strings, msgid)) =3D=3D ms=
+gid)
+> --            msgstr =3D keyword;
+> --
+> -         cupsFilePrintf(fp, "*InputSlot %s: \"<</MediaPosition %d>>setpa=
+gedevice\"\n", ppdname, j);
+> --        cupsFilePrintf(fp, "*%s.InputSlot %s/%s: \"\"\n", lang->languag=
+e, ppdname, msgstr);
+> -+        ppd_put_string(fp, lang, strings, "InputSlot", ppdname, msgid);
+> -         break;
+> -       }
+> -+      }
+> -     }
+> -     cupsFilePuts(fp, "*CloseUI: *InputSlot\n");
+> -   }
+> -@@ -4081,12 +4080,9 @@ _ppdCreateFromIPP2(
+> -       pwg_ppdize_name(keyword, ppdname, sizeof(ppdname));
+> -
+> -       snprintf(msgid, sizeof(msgid), "media-type.%s", keyword);
+> --      if ((msgstr =3D _cupsLangString(lang, msgid)) =3D=3D msgid || !st=
+rcmp(msgid, msgstr))
+> --      if ((msgstr =3D _cupsMessageLookup(strings, msgid)) =3D=3D msgid)
+> --        msgstr =3D keyword;
+> -
+> -       cupsFilePrintf(fp, "*MediaType %s: \"<</MediaType(%s)>>setpagedev=
+ice\"\n", ppdname, ppdname);
+> --      cupsFilePrintf(fp, "*%s.MediaType %s/%s: \"\"\n", lang->language,=
+ ppdname, msgstr);
+> -+      ppd_put_string(fp, lang, strings, "MediaType", ppdname, msgid);
+> -     }
+> -     cupsFilePuts(fp, "*CloseUI: *MediaType\n");
+> -   }
+> -@@ -4547,12 +4543,9 @@ _ppdCreateFromIPP2(
+> -       pwg_ppdize_name(keyword, ppdname, sizeof(ppdname));
+> -
+> -       snprintf(msgid, sizeof(msgid), "output-bin.%s", keyword);
+> --      if ((msgstr =3D _cupsLangString(lang, msgid)) =3D=3D msgid || !st=
+rcmp(msgid, msgstr))
+> --      if ((msgstr =3D _cupsMessageLookup(strings, msgid)) =3D=3D msgid)
+> --        msgstr =3D keyword;
+> -
+> -       cupsFilePrintf(fp, "*OutputBin %s: \"\"\n", ppdname);
+> --      cupsFilePrintf(fp, "*%s.OutputBin %s/%s: \"\"\n", lang->language,=
+ ppdname, msgstr);
+> -+      ppd_put_string(fp, lang, strings, "OutputBin", ppdname, msgid);
+> -
+> -       if ((tray_ptr =3D ippGetOctetString(trays, i, &tray_len)) !=3D NU=
+LL)
+> -       {
+> -@@ -4671,9 +4664,6 @@ _ppdCreateFromIPP2(
+> -         cupsArrayAdd(names, (char *)keyword);
+> -
+> -       snprintf(msgid, sizeof(msgid), "finishings.%d", value);
+> --      if ((msgstr =3D _cupsLangString(lang, msgid)) =3D=3D msgid || !st=
+rcmp(msgid, msgstr))
+> --        if ((msgstr =3D _cupsMessageLookup(strings, msgid)) =3D=3D msgi=
+d)
+> --          msgstr =3D keyword;
+> -
+> -         if (value >=3D IPP_FINISHINGS_NONE && value <=3D IPP_FINISHINGS=
+_LAMINATE)
+> -           ppd_keyword =3D base_keywords[value - IPP_FINISHINGS_NONE];
+> -@@ -4688,7 +4678,7 @@ _ppdCreateFromIPP2(
+> -           continue;
+> -
+> -       cupsFilePrintf(fp, "*StapleLocation %s: \"\"\n", ppd_keyword);
+> --      cupsFilePrintf(fp, "*%s.StapleLocation %s/%s: \"\"\n", lang->lang=
+uage, ppd_keyword, msgstr);
+> -+      ppd_put_string(fp, lang, strings, "StapleLocation", ppd_keyword, =
+msgid);
+> -       cupsFilePrintf(fp, "*cupsIPPFinishings %d/%s: \"*StapleLocation %=
+s\"\n", value, keyword, ppd_keyword);
+> -       }
+> -
+> -@@ -4751,9 +4741,6 @@ _ppdCreateFromIPP2(
+> -         cupsArrayAdd(names, (char *)keyword);
+> -
+> -       snprintf(msgid, sizeof(msgid), "finishings.%d", value);
+> --      if ((msgstr =3D _cupsLangString(lang, msgid)) =3D=3D msgid || !st=
+rcmp(msgid, msgstr))
+> --        if ((msgstr =3D _cupsMessageLookup(strings, msgid)) =3D=3D msgi=
+d)
+> --          msgstr =3D keyword;
+> -
+> -         if (value >=3D IPP_FINISHINGS_NONE && value <=3D IPP_FINISHINGS=
+_LAMINATE)
+> -           ppd_keyword =3D base_keywords[value - IPP_FINISHINGS_NONE];
+> -@@ -4768,7 +4755,7 @@ _ppdCreateFromIPP2(
+> -           continue;
+> -
+> -       cupsFilePrintf(fp, "*FoldType %s: \"\"\n", ppd_keyword);
+> --      cupsFilePrintf(fp, "*%s.FoldType %s/%s: \"\"\n", lang->language, =
+ppd_keyword, msgstr);
+> -+      ppd_put_string(fp, lang, strings, "FoldType", ppd_keyword, msgid)=
+;
+> -       cupsFilePrintf(fp, "*cupsIPPFinishings %d/%s: \"*FoldType %s\"\n"=
+, value, keyword, ppd_keyword);
+> -       }
+> -
+> -@@ -4839,9 +4826,6 @@ _ppdCreateFromIPP2(
+> -         cupsArrayAdd(names, (char *)keyword);
+> -
+> -       snprintf(msgid, sizeof(msgid), "finishings.%d", value);
+> --      if ((msgstr =3D _cupsLangString(lang, msgid)) =3D=3D msgid || !st=
+rcmp(msgid, msgstr))
+> --        if ((msgstr =3D _cupsMessageLookup(strings, msgid)) =3D=3D msgi=
+d)
+> --          msgstr =3D keyword;
+> -
+> -         if (value >=3D IPP_FINISHINGS_NONE && value <=3D IPP_FINISHINGS=
+_LAMINATE)
+> -           ppd_keyword =3D base_keywords[value - IPP_FINISHINGS_NONE];
+> -@@ -4856,7 +4840,7 @@ _ppdCreateFromIPP2(
+> -           continue;
+> -
+> -       cupsFilePrintf(fp, "*PunchMedia %s: \"\"\n", ppd_keyword);
+> --      cupsFilePrintf(fp, "*%s.PunchMedia %s/%s: \"\"\n", lang->language=
+, ppd_keyword, msgstr);
+> -+      ppd_put_string(fp, lang, strings, "PunchMedia", ppd_keyword, msgi=
+d);
+> -       cupsFilePrintf(fp, "*cupsIPPFinishings %d/%s: \"*PunchMedia %s\"\=
+n", value, keyword, ppd_keyword);
+> -       }
+> -
+> -@@ -4927,9 +4911,6 @@ _ppdCreateFromIPP2(
+> -         cupsArrayAdd(names, (char *)keyword);
+> -
+> -       snprintf(msgid, sizeof(msgid), "finishings.%d", value);
+> --      if ((msgstr =3D _cupsLangString(lang, msgid)) =3D=3D msgid || !st=
+rcmp(msgid, msgstr))
+> --        if ((msgstr =3D _cupsMessageLookup(strings, msgid)) =3D=3D msgi=
+d)
+> --          msgstr =3D keyword;
+> -
+> -         if (value =3D=3D IPP_FINISHINGS_TRIM)
+> -           ppd_keyword =3D "Auto";
+> -@@ -4937,7 +4918,7 @@ _ppdCreateFromIPP2(
+> -         ppd_keyword =3D trim_keywords[value - IPP_FINISHINGS_TRIM_AFTER=
+_PAGES];
+> -
+> -       cupsFilePrintf(fp, "*CutMedia %s: \"\"\n", ppd_keyword);
+> --      cupsFilePrintf(fp, "*%s.CutMedia %s/%s: \"\"\n", lang->language, =
+ppd_keyword, msgstr);
+> -+      ppd_put_string(fp, lang, strings, "CutMedia", ppd_keyword, msgid)=
+;
+> -       cupsFilePrintf(fp, "*cupsIPPFinishings %d/%s: \"*CutMedia %s\"\n"=
+, value, keyword, ppd_keyword);
+> -       }
+> -
+> -@@ -4979,9 +4960,6 @@ _ppdCreateFromIPP2(
+> -       pwg_ppdize_name(keyword, ppdname, sizeof(ppdname));
+> -
+> -       snprintf(msgid, sizeof(msgid), "finishing-template.%s", keyword);
+> --      if ((msgstr =3D _cupsLangString(lang, msgid)) =3D=3D msgid || !st=
+rcmp(msgid, msgstr))
+> --      if ((msgstr =3D _cupsMessageLookup(strings, msgid)) =3D=3D msgid)
+> --        msgstr =3D keyword;
+> -
+> -       cupsFilePrintf(fp, "*cupsFinishingTemplate %s: \"\n", ppdname);
+> -       for (finishing_attr =3D ippFirstAttribute(finishing_col); finishi=
+ng_attr; finishing_attr =3D ippNextAttribute(finishing_col))
+> -@@ -4996,7 +4974,7 @@ _ppdCreateFromIPP2(
+> -       }
+> -       }
+> -       cupsFilePuts(fp, "\"\n");
+> --      cupsFilePrintf(fp, "*%s.cupsFinishingTemplate %s/%s: \"\"\n", lan=
+g->language, ppdname, msgstr);
+> -+      ppd_put_string(fp, lang, strings, "cupsFinishingTemplate", ppdnam=
+e, msgid);
+> -       cupsFilePuts(fp, "*End\n");
+> -     }
+> -
+> -@@ -5165,11 +5143,9 @@ _ppdCreateFromIPP2(
+> -
+> -       cupsFilePuts(fp, "\"\n*End\n");
+> -
+> --      if ((localized_name =3D _cupsMessageLookup(strings, preset_name))=
+ !=3D preset_name)
+> --      {
+> --        pwg_ppdize_name(preset_name, ppdname, sizeof(ppdname));
+> --        cupsFilePrintf(fp, "*%s.APPrinterPreset %s/%s: \"\"\n", lang->l=
+anguage, ppdname, localized_name);
+> --      }
+> -+      snprintf(msgid, sizeof(msgid), "preset-name.%s", preset_name);
+> -+      pwg_ppdize_name(preset_name, ppdname, sizeof(ppdname));
+> -+      ppd_put_string(fp, lang, strings, "APPrinterPreset", ppdname, msg=
+id);
+> -     }
+> -   }
+> -
+> -@@ -5440,6 +5416,43 @@ cups_get_url(http_t     **http,         /* IO - C=
+urrent HTTP connection */
+> - }
+> -
+> -
+> -+/*
+> -+ * 'ppd_put_strings()' - Write localization attributes to a PPD file.
+> -+ */
+> -+
+> -+static void
+> -+ppd_put_string(cups_file_t  *fp,      /* I - PPD file */
+> -+               cups_lang_t  *lang,    /* I - Language */
+> -+               cups_array_t *strings, /* I - Strings */
+> -+             const char   *ppd_option,/* I - PPD option */
+> -+             const char   *ppd_choice,/* I - PPD choice */
+> -+             const char   *pwg_msgid) /* I - PWG message ID */
+> -+{
+> -+  const char  *text;                  /* Localized text */
+> -+
+> -+
+> -+  if ((text =3D _cupsLangString(lang, pwg_msgid)) =3D=3D pwg_msgid || !=
+strcmp(pwg_msgid, text))
+> -+  {
+> -+    if ((text =3D _cupsMessageLookup(strings, pwg_msgid)) =3D=3D pwg_ms=
+gid)
+> -+      return;
+> -+  }
+> -+
+> -+  // Add the first line of localized text...
+> -+  cupsFilePrintf(fp, "*%s.%s %s/", lang->language, ppd_option, ppd_choi=
+ce);
+> -+  while (*text && *text !=3D '\n')
+> -+  {
+> -+    // Escape ":" and "<"...
+> -+    if (*text =3D=3D ':' || *text =3D=3D '<')
+> -+      cupsFilePrintf(fp, "<%02X>", *text);
+> -+    else
+> -+      cupsFilePutChar(fp, *text);
+> -+
+> -+    text ++;
+> -+  }
+> -+  cupsFilePuts(fp, ": \"\"\n");
+> -+}
+> -+
+> -+
+> - /*
+> -  * 'pwg_add_finishing()' - Add a finishings value.
+> -  */
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-extended/cups/cups/CVE-2024-47175-5.patch b/met=
+a/recipes-extended/cups/cups/CVE-2024-47175-5.patch
+> deleted file mode 100644
+> index 77a30857e2..0000000000
+> --- a/meta/recipes-extended/cups/cups/CVE-2024-47175-5.patch
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -From 2abe1ba8a66864aa82cd9836b37e57103b8e1a3b Mon Sep 17 00:00:00 2001
+> -From: Michael R Sweet <msweet@msweet.org>
+> -Date: Mon, 23 Sep 2024 10:11:31 -0400
+> -Subject: [PATCH] Fix warnings for unused vars.
+> -
+> -Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/2=
+abe1ba8a66864aa82cd9836b37e57103b8e1a3b]
+> -CVE: CVE-2024-47175
+> -Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ----
+> - cups/ppd-cache.c | 6 ++----
+> - 1 file changed, 2 insertions(+), 4 deletions(-)
+> -
+> -diff --git a/cups/ppd-cache.c b/cups/ppd-cache.c
+> -index f425ac0..d2533b7 100644
+> ---- a/cups/ppd-cache.c
+> -+++ b/cups/ppd-cache.c
+> -@@ -3223,8 +3223,7 @@ _ppdCreateFromIPP2(
+> -   int                 have_qdraft =3D 0,/* Have draft quality? */
+> -                       have_qhigh =3D 0; /* Have high quality? */
+> -   char                        msgid[256];     /* Message identifier (at=
+tr.value) */
+> --  const char          *keyword,       /* Keyword value */
+> --                      *msgstr;        /* Localized string */
+> -+  const char          *keyword;       /* Keyword value */
+> -   cups_array_t                *strings =3D NULL;/* Printer strings file=
+ */
+> -   struct lconv                *loc =3D localeconv();
+> -                                       /* Locale data */
+> -@@ -5010,9 +5009,8 @@ _ppdCreateFromIPP2(
+> -     {
+> -       ipp_t   *preset =3D ippGetCollection(attr, i);
+> -                                       /* Preset collection */
+> --      const char *preset_name =3D ippGetString(ippFindAttribute(preset,=
+ "preset-name", IPP_TAG_ZERO), 0, NULL),
+> -+      const char *preset_name =3D ippGetString(ippFindAttribute(preset,=
+ "preset-name", IPP_TAG_ZERO), 0, NULL);
+> -                                       /* Preset name */
+> --              *localized_name;        /* Localized preset name */
+> -       ipp_attribute_t *member;                /* Member attribute in pr=
+eset */
+> -       const char *member_name;                /* Member attribute name =
+*/
+> -       char            member_value[256];      /* Member attribute value=
+ */
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-extended/cups/cups_2.4.10.bb b/meta/recipes-ext=
+ended/cups/cups_2.4.11.bb
+> similarity index 51%
+> rename from meta/recipes-extended/cups/cups_2.4.10.bb
+> rename to meta/recipes-extended/cups/cups_2.4.11.bb
+> index e16ad47cf5..71568295cb 100644
+> --- a/meta/recipes-extended/cups/cups_2.4.10.bb
+> +++ b/meta/recipes-extended/cups/cups_2.4.11.bb
+> @@ -2,4 +2,4 @@ require cups.inc
+>
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
+d57"
+>
+> -SRC_URI[sha256sum] =3D "d75757c2bc0f7a28b02ee4d52ca9e4b1aa1ba2affe16b985=
+854f5336940e5ad7"
+> +SRC_URI[sha256sum] =3D "9a88fe1da3a29a917c3fc67ce6eb3178399d68e1a548c6d8=
+6c70d9b13651fd71"
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#223529): https://lists.openembedded.org/g/openembedde=
+d-core/message/223529
+> Mute This Topic: https://lists.openembedded.org/mt/115268718/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
