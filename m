@@ -2,124 +2,111 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2965CAC598
-	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 09:38:32 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web10.15017.1758015512287284445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F31CCAC599
+	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 09:45:24 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web11.15464.1758015921484631084
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Sep 2025 02:38:32 -0700
+ Tue, 16 Sep 2025 02:45:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=egkTz3Zn;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-77766aae1abso22299526d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 02:38:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=V4krFGuY;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-70ba7aa131fso45996956d6.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 02:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758015511; x=1758620311; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1758015920; x=1758620720; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=oJp+iIV61T1PTowDQ36Fj2dszgU6zDXZz2pYWC6ob58=;
-        b=egkTz3ZnwvjeBtkxmA8MXD8ahk8d8+P+DCKPiijAPsu65tOn6hTf8LK6VRPn9vOmoO
-         qdBHCtW2xngBf1j9lUzQk0vwbP7kmeaB+wMO/BaG8uNzMHAzuHzm2HqzX9dhQhiKWCJn
-         WAKu1KvfIvOTn5E770jbPCw4zepOU+wYsDdwPYbJst4qCVd3/PIiL0ByAFFlBwJOBcDS
-         RF7Pk3Q6aKhASrCehnWm/zD6npctvHRVovxwSJxEGGBupxxQdwVnBiAakRZzQeWhHDpL
-         ZcaUnP938k/jjoCMIiXXyD5Ut1ykK+Z6vkg1N9yc8ZprOa7VaPIup9oWM+1QvEgO4DT/
-         zQbg==
+        bh=TbOAhp6LIdWO+Lvup/CDfUR8KJj1lsW4pAmJUw88MXA=;
+        b=V4krFGuYhNfBk9fFzTEBhpgVxeV1il3FDUU4uVTVi+asBr5pAaMYzybrSWHJLMjzws
+         LHhFM5901Gu7PCOk5FLLuuxJAtJBaSMyEr32v2xFXtntRNU/zcTlOVCtZXXz1snX9rYE
+         TxeulCjKCDT6LEYJr0Cw/Atzb828/T78IeLgTlij9kCg09BqUib76ME/i9oJG/CYy+gP
+         CPcIZCgJMODpbylAo5xCCUQZd4B5pq8tTA6c7WjBUEY62GMFqP+6C3NOtHDCmmyi51g4
+         WvuOKudrJkTaMQJcRuPOFO4RMZgahDAYTavDYZOsy5xy9zImBKr+XXLD1iYDH55XnE62
+         MZRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758015511; x=1758620311;
+        d=1e100.net; s=20230601; t=1758015920; x=1758620720;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oJp+iIV61T1PTowDQ36Fj2dszgU6zDXZz2pYWC6ob58=;
-        b=LHSbMARqzddNxrlP/Fn+GwZdh0PKIjSAbhBcEhJXe3Utu2xKJgtVUHO/D1ijx9/euf
-         sdxeFbfjtimBZ03IB/IaEXSZZZR5G5KFF5KZavVRSh7LdZxVTCedqzkzhvIirL0wh5Al
-         TJOPgvSrQONhTuf4cV9Z3nNWPiIwtjKs6vHiyJ6toihrfo/+egSrQyY0BOaisqMDU5NV
-         x/aZazkQudeLZH3x+Cr4VSiA773D1W4LIf7B3VM83yVwf+AMS6Zt8+rdbM5k/QwD4Ufn
-         ko9HvnO+VHXF6cpcxThtU0zMWT/uJVgDCDtGD3bxQTpMZvCOPciBAj63xItPlEFhUmf/
-         psvQ==
-X-Gm-Message-State: AOJu0YwmI4FvNT5S944OcA64G5r8WaUfNfbGeSreupTZqfgp8/3X1BDE
-	6R1Oi7HHBs79sXh3Sho/ZBrayraPNe53OcGSdZuA0QToJJ3wzuj2fMoPCjs5ojtqSBma3UD1xyG
-	jkZggEjA0beZkTKGwX+5M41NTcEW/G4ta1g==
-X-Gm-Gg: ASbGnctMM22s3ttv1MmLgqo7XRtVYCuD3rLVfyWPD5dkORG9zPQM+Vv/QU32uRSWcUp
-	MFPEZBJzsJnmLQU/BqtK0VtdQewvoX+Zz8LzJ7lAMHlDlM9zE+mfiyS4b4mLpbpiKWa3wEPTXkG
-	lENF45PFe4DteGhwwtSyM2boBILICbFd2daSZSSN592evrkzb8oL7Wh2KXD2osSaqfg4rfUEE6n
-	z5pfbWOhBTFtZe95x2kXKQIdwzFQ9+aWOPr9veVqHFC0QpIyD3Nye0qWPxovrVoAISN1+6tTGHe
-	+qCzD4d8wuRpzHejnEybVWuW9VBTH3t4Zk06Bgja
-X-Google-Smtp-Source: AGHT+IH8VDpM8EbyvhTzFDX8XQfFTqiPqpbgcu1/4rnm4UXqc9m6ZO9m1r8HvoTZfLfnJrLXr9M1SfdivMGLG0icAuE=
-X-Received: by 2002:a05:6214:2aac:b0:712:644:d9f2 with SMTP id
- 6a1803df08f44-767bb4ada8cmr200271006d6.10.1758015511163; Tue, 16 Sep 2025
- 02:38:31 -0700 (PDT)
+        bh=TbOAhp6LIdWO+Lvup/CDfUR8KJj1lsW4pAmJUw88MXA=;
+        b=tGiIPnde0RzQnwJsRkBaNvProbDuWtbXW0VyeIyf+uYmDtOvrpkB7X1RrUwrwSCQ+k
+         b9Z828gows/4SkZVsZI8urN2DqLq/ILkS7ZLYy4SmfWAiSnfFMuDlu9G11ekWpyiRGtC
+         lhyZlg8lCFAOcnBLndKOLf/VUygxiZDje/O27OJj/C35BiAoCzGbJILHhhK3CZjxcIL1
+         u+hs5vwh+TwnMtjJPGf0tCnsm2IamWFfe2gcOC/00jE7n8kCdwVEJQYenPq5lgl/C4KJ
+         I48IgY1lA6027iZHz/jZ0Qd9QfKgxXhsw/KCDolRthWUsgFAReTnlQIO192n5sU+1UQS
+         UAfg==
+X-Gm-Message-State: AOJu0YygGZxLSrk5uFZW+EtyMb4g/3CdiLbR0ZOksG6vkXVdfkZVE6gt
+	trb3ThzCA/HStnYH2VlUiEtiMEqh7SieznWQMDrir4T6ivyzvulzMZhFSOu4mxurDEXf22EimuA
+	HD1sBxSRXg1WFtbEizF8XijaWYpeIWV4=
+X-Gm-Gg: ASbGncvyORQFEuBcY+gMO/E8tLmyu0ldyDyuk1IVUcRZ4fF+3GNUwEW6dQV1j/Zl7u0
+	vNRNU/8KxGbaX8gwNtYfy3sp2LOqt4i0DPwjm5/6m8SzLyDNmKtzOWGI+S0/S7mhbqs+H7vFJF0
+	VJgZ6wkeqzNc8vB9lwaazPIRrtCQX0Rq2m3lJX0VKWD5qAQAOupoWJzVurKOt3uGVv1HebGAAcM
+	dE7UAH5z/S2OTydM/C6aX4VbJoy4oDcKvOhtmAZ6LW9Tl4YYRKDHt99tEPzePA20jw7hTNVHyaC
+	iN0jhqnxwv7QhOPZTXelyiFTsur8wLoFS3+YzfpILK9gMudpmoQ=
+X-Google-Smtp-Source: AGHT+IFWrCUv2QCGCCjc5au2AFK2Y6N8uhqRojS4CLkal4jlednaUn2Bk3mG9RBkkePPpeAfR53LRbthdQ5nyhYKNdA=
+X-Received: by 2002:a05:6214:4002:b0:78b:684e:88c5 with SMTP id
+ 6a1803df08f44-78b684e8bd6mr41133096d6.56.1758015920492; Tue, 16 Sep 2025
+ 02:45:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250914103848.2067604-1-skandigraun@gmail.com>
-In-Reply-To: <20250914103848.2067604-1-skandigraun@gmail.com>
+References: <20250904000724.1575300-1-a-christidis@ti.com> <CANNYZj-e1eYKD4Se3mHOWO-K5kA1BL0rSc25MPTNcuupa_hykw@mail.gmail.com>
+ <03616756-05e8-41d5-a85b-06f2d046bea6@ti.com>
+In-Reply-To: <03616756-05e8-41d5-a85b-06f2d046bea6@ti.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 16 Sep 2025 11:38:20 +0200
-X-Gm-Features: AS18NWBypNwFOWrkoPhTk1NVz7PdjoYuD3F-pqG0O6ykIYEOmDTQh3IEFsAlYGU
-Message-ID: <CANNYZj8YH72O6Ddj82tU-r=nkiBagSbd4ie4wTrutkyCRr9Pmg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] selftest/devtool: make 'git status' list all
- files separately
-To: skandigraun@gmail.com
+Date: Tue, 16 Sep 2025 11:45:08 +0200
+X-Gm-Features: AS18NWDwIyqnzrRQwoAaTCxFps-Jw2whjJamDWXuHl0jSA9t1dZkEkz6OpgO-J0
+Message-ID: <CANNYZj9QKR_cPo0=_=3F+5Ae4p+KHb53zNcE3D1VtoGv0iwiyg@mail.gmail.com>
+Subject: Re: [EXTERNAL] Re: [master][PATCH v2] libsdl2: Add tests package and
+ ptest support
+To: Antonios Christidis <a-christidis@ti.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 09:38:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223537
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 09:45:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223538
 
-Thanks, it would help to point that the recipe is vulkan-samples, and
-the breakage was observed in <insert link> after sending a version
-update in <insert link>.
+On Fri, 12 Sept 2025 at 22:54, Antonios Christidis <a-christidis@ti.com> wrote:
+> However, when running the 18 tests on qemux86-64 qemuarm, the following
+> tests fail:
+>
+> testaudioinfo
+>
+> testautomation
+>
+> testlocale
+>
+> testsurround
+>
+> Most of the test failures are due to the audio stack, which I do not
+> have experience with in order to debug.
+>
+> Here's my questions, what should I do here ?
+>
+> It is acceptable to create a oe-core only patch for libsdl2, that would
+> block the generation of the ".test" files for the above tests, ".test"
+> files are what dictate which tests are run?
+>
+> Or, I can take a look into updating the version of gnome-desktop-testing
+> ? More recent versions of the software, have a CLI option to exclude
+> tests. The current packages version within oe-core does not.
+>
+> I'm leaning on the 2nd option, but want to get your opinion on this
+> since you have more experience on ptest and related topics.
 
-alex
+If these tests are failing, then it is not right to just go and
+disable them without investigating why.
 
-On Sun, 14 Sept 2025 at 12:38, Gyorgy Sarvari via
-lists.openembedded.org <skandigraun=gmail.com@lists.openembedded.org>
-wrote:
->
-> By default, when running "git status", and git finds an untracked folder with some
-> files in it, it lists only the folder, without the file content. In case the folder
-> is already tracked, then the new/modified files inside the folder are displayed
-> separately.
->
-> Some tests rely on listing all the files separately to be able to determine the outcome
-> of the test. As an example, test_devtool_git_submodules creates a patch that's stored
-> in the meta layer. It verifies from git status that the patch is present in the layer.
-> However, when using the default "git status" behavior, to be able to see the file listed,
-> its parent folder must be tracked by git already, otherwise only the folder is listed.
->
-> The recipe that this testcase uses has carried patches for a long time - recently the
-> recipe was updated, and the last patch was also removed. This broke the test, because
-> git tracked no patch-folder anymore, and when the test couldn't find the test-patch's
-> name in the git status report, it failed.
->
-> To avoid this problem, add "--untracked-files=all" argument to the git status request,
-> which displays all untracked files, regardless of their parent folder tracking-status.
->
-> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-> ---
->  meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-> index 19a205912b..a59d9e123a 100644
-> --- a/meta/lib/oeqa/selftest/cases/devtool.py
-> +++ b/meta/lib/oeqa/selftest/cases/devtool.py
-> @@ -122,7 +122,7 @@ class DevtoolTestCase(OESelftestTestCase):
->
->      def _check_repo_status(self, repo_dir, expected_status):
->          """Check the worktree status of a repository"""
-> -        result = runCmd('git status . --porcelain',
-> +        result = runCmd('git status . --porcelain  --untracked-files=all',
->                          cwd=repo_dir)
->          for line in result.output.splitlines():
->              for ind, (f_status, fn_re) in enumerate(expected_status):
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#223346): https://lists.openembedded.org/g/openembedded-core/message/223346
-> Mute This Topic: https://lists.openembedded.org/mt/115235085/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Maybe the failures are due to real bugs, maybe something is
+misconfigured, or a test dependency is missing, we should try and get
+to the bottom of it. Otherwise what's the point of running tests in
+the first place, if any test failure results in adding the test to the
+skip list?
+
+Basically, show what the failures are, provide the patch and the steps
+to reproduce them, and we'll try to find a fix. I've fixed many a
+ptest over the years, and have a bag of tricks in my head.
+
+Alex
 
