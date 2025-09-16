@@ -1,112 +1,98 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F31CCAC599
-	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 09:45:24 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web11.15464.1758015921484631084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86CEECAC599
+	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 09:54:44 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.15248.1758016474244159932
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Sep 2025 02:45:21 -0700
+ Tue, 16 Sep 2025 02:54:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V4krFGuY;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-70ba7aa131fso45996956d6.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 02:45:21 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=LLvBWFPm;
+ spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5725e554ec1so1912228e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 02:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758015920; x=1758620720; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TbOAhp6LIdWO+Lvup/CDfUR8KJj1lsW4pAmJUw88MXA=;
-        b=V4krFGuYhNfBk9fFzTEBhpgVxeV1il3FDUU4uVTVi+asBr5pAaMYzybrSWHJLMjzws
-         LHhFM5901Gu7PCOk5FLLuuxJAtJBaSMyEr32v2xFXtntRNU/zcTlOVCtZXXz1snX9rYE
-         TxeulCjKCDT6LEYJr0Cw/Atzb828/T78IeLgTlij9kCg09BqUib76ME/i9oJG/CYy+gP
-         CPcIZCgJMODpbylAo5xCCUQZd4B5pq8tTA6c7WjBUEY62GMFqP+6C3NOtHDCmmyi51g4
-         WvuOKudrJkTaMQJcRuPOFO4RMZgahDAYTavDYZOsy5xy9zImBKr+XXLD1iYDH55XnE62
-         MZRw==
+        d=linaro.org; s=google; t=1758016472; x=1758621272; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Py3eR5VgNR/e1telq+gYrQzffENG1DjBUNm+gD1I+ik=;
+        b=LLvBWFPm90+YXPvvu5ZuXlNtx/Z4HJBjxXa4GKyKLgn3k7a6sn9HD0h40mdk36cvPp
+         ZGky7VHlO90pbYQpeSzDkMFVY77i3RrnoCFEAwZsf7dAsGGWjxKUnho2bzvULFrtZUyV
+         fvr+wOn8B2dFLyRuPHTqNVPukeDQKvDUaybcVkOEmQCIoAWizAw2Yz6SDA7Rc12KbM8S
+         3Xw/uoQF9Aj8lUcGvMPwPIeOD8eEHZncTtgKuTugeBL3rLvmLGNKNH74Sch87KWdoJ24
+         JfHizDPTCzZHo9Vu5QT8mth4wn/eRBNmFYPrxjxZ648/ZRVNW0gUcbi3zxakUUMi+MYO
+         wBLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758015920; x=1758620720;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1758016472; x=1758621272;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TbOAhp6LIdWO+Lvup/CDfUR8KJj1lsW4pAmJUw88MXA=;
-        b=tGiIPnde0RzQnwJsRkBaNvProbDuWtbXW0VyeIyf+uYmDtOvrpkB7X1RrUwrwSCQ+k
-         b9Z828gows/4SkZVsZI8urN2DqLq/ILkS7ZLYy4SmfWAiSnfFMuDlu9G11ekWpyiRGtC
-         lhyZlg8lCFAOcnBLndKOLf/VUygxiZDje/O27OJj/C35BiAoCzGbJILHhhK3CZjxcIL1
-         u+hs5vwh+TwnMtjJPGf0tCnsm2IamWFfe2gcOC/00jE7n8kCdwVEJQYenPq5lgl/C4KJ
-         I48IgY1lA6027iZHz/jZ0Qd9QfKgxXhsw/KCDolRthWUsgFAReTnlQIO192n5sU+1UQS
-         UAfg==
-X-Gm-Message-State: AOJu0YygGZxLSrk5uFZW+EtyMb4g/3CdiLbR0ZOksG6vkXVdfkZVE6gt
-	trb3ThzCA/HStnYH2VlUiEtiMEqh7SieznWQMDrir4T6ivyzvulzMZhFSOu4mxurDEXf22EimuA
-	HD1sBxSRXg1WFtbEizF8XijaWYpeIWV4=
-X-Gm-Gg: ASbGncvyORQFEuBcY+gMO/E8tLmyu0ldyDyuk1IVUcRZ4fF+3GNUwEW6dQV1j/Zl7u0
-	vNRNU/8KxGbaX8gwNtYfy3sp2LOqt4i0DPwjm5/6m8SzLyDNmKtzOWGI+S0/S7mhbqs+H7vFJF0
-	VJgZ6wkeqzNc8vB9lwaazPIRrtCQX0Rq2m3lJX0VKWD5qAQAOupoWJzVurKOt3uGVv1HebGAAcM
-	dE7UAH5z/S2OTydM/C6aX4VbJoy4oDcKvOhtmAZ6LW9Tl4YYRKDHt99tEPzePA20jw7hTNVHyaC
-	iN0jhqnxwv7QhOPZTXelyiFTsur8wLoFS3+YzfpILK9gMudpmoQ=
-X-Google-Smtp-Source: AGHT+IFWrCUv2QCGCCjc5au2AFK2Y6N8uhqRojS4CLkal4jlednaUn2Bk3mG9RBkkePPpeAfR53LRbthdQ5nyhYKNdA=
-X-Received: by 2002:a05:6214:4002:b0:78b:684e:88c5 with SMTP id
- 6a1803df08f44-78b684e8bd6mr41133096d6.56.1758015920492; Tue, 16 Sep 2025
- 02:45:20 -0700 (PDT)
+        bh=Py3eR5VgNR/e1telq+gYrQzffENG1DjBUNm+gD1I+ik=;
+        b=UT7t41HD73ePuUlEpOrWwK5CNHMdSiCvNYRyLnv/QB9z8iD8ww5RfQETcEfbRvRqf0
+         8cOg7g+RoFkYmd72s0kz0Y7npYHjkVHFCes10szMyr3/cUoxxDFaaZFxza6vjfBVAtck
+         C0sblLGcS8J029z5Xc65jCPJ33cWe9UTtejt49LNbSa+W8OSOOudw2W6pT29aVEQglut
+         viTb1qyS1xG2RzzLS8C2iDuALnP7pD42qGT/oDTvlhDzlbRua3WmPmCmRsothPVbLevN
+         QvZ5dUzOvBtNu52mYlXSq5+sG67vwEpqE8u9nnmZ+brwYfbfjVNtFo/CM6vO0U8F4ZDF
+         xWpQ==
+X-Gm-Message-State: AOJu0Yw2Ktf6t0z+qSzNcwHPHkM37HH/8SPTX80LKHvPYa8AJm49+ZdV
+	bSFeSuU8QPQM8AIEikGpYJYfcW0el+EE0FaIhtBITOQEWEwFRl/XNfSRrnHU0H84K3IfsLtADRZ
+	MXnwm8vQ=
+X-Gm-Gg: ASbGnctKFsl7Mq2PLYwwY2h9daW8wIfJJNIxP7qVUdXfILDksWETY0Yi1Ut8ZYsTvoZ
+	CTKjaj4s25uiH5fl6zNjiRZjsCRgOToX7clHTTGxi17bwK83spjZxoDmMkzir5vGcxK3/E67mdO
+	E6KobdJIL/eQe9ar0VUlkcrPs8C2c/h4DYA1AAsQN2fijDjj9WeilVd89QhyUwGgJRrsVUuEiAT
+	lkcdeGLNKWQGN+HtfO0DKShchfp7tUqSHEu6g7c05Dfgac2ilQV0CM0dFriwci1EZpR1e6p+su1
+	fm8Y6IIVG0LZZ89eh/C83oZE9kXmo9ltNg2nMO2ywXvxybviaOqBgrjMsaORrC/f/HLgSvAwpLH
+	C40cqWNjnxId3m5gj2Ezwjrx0yJ/r6W/AEJqB2VauoC9a+PpWjC+sQE8=
+X-Google-Smtp-Source: AGHT+IFo6fF9R04E/EsGi0mYdQr5JrdmXURJYXr8mWHlQgZgaC6gTEar+1AXZwKe+QPZdxczzm8t3Q==
+X-Received: by 2002:ac2:4bcc:0:b0:55f:4926:df1c with SMTP id 2adb3069b0e04-5705197acf7mr4253911e87.46.1758016472053;
+        Tue, 16 Sep 2025 02:54:32 -0700 (PDT)
+Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-570ba3d222bsm3759858e87.104.2025.09.16.02.54.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Sep 2025 02:54:31 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH] linux-firmware: fix wl1251 packaging
+Date: Tue, 16 Sep 2025 12:54:15 +0300
+Message-ID: <20250916095415.3014036-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-References: <20250904000724.1575300-1-a-christidis@ti.com> <CANNYZj-e1eYKD4Se3mHOWO-K5kA1BL0rSc25MPTNcuupa_hykw@mail.gmail.com>
- <03616756-05e8-41d5-a85b-06f2d046bea6@ti.com>
-In-Reply-To: <03616756-05e8-41d5-a85b-06f2d046bea6@ti.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 16 Sep 2025 11:45:08 +0200
-X-Gm-Features: AS18NWDwIyqnzrRQwoAaTCxFps-Jw2whjJamDWXuHl0jSA9t1dZkEkz6OpgO-J0
-Message-ID: <CANNYZj9QKR_cPo0=_=3F+5Ae4p+KHb53zNcE3D1VtoGv0iwiyg@mail.gmail.com>
-Subject: Re: [EXTERNAL] Re: [master][PATCH v2] libsdl2: Add tests package and
- ptest support
-To: Antonios Christidis <a-christidis@ti.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 09:45:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223538
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 09:54:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223539
 
-On Fri, 12 Sept 2025 at 22:54, Antonios Christidis <a-christidis@ti.com> wrote:
-> However, when running the 18 tests on qemux86-64 qemuarm, the following
-> tests fail:
->
-> testaudioinfo
->
-> testautomation
->
-> testlocale
->
-> testsurround
->
-> Most of the test failures are due to the audio stack, which I do not
-> have experience with in order to debug.
->
-> Here's my questions, what should I do here ?
->
-> It is acceptable to create a oe-core only patch for libsdl2, that would
-> block the generation of the ".test" files for the above tests, ".test"
-> files are what dictate which tests are run?
->
-> Or, I can take a look into updating the version of gnome-desktop-testing
-> ? More recent versions of the software, have a CLI option to exclude
-> tests. The current packages version within oe-core does not.
->
-> I'm leaning on the 2nd option, but want to get your opinion on this
-> since you have more experience on ptest and related topics.
+wl12xx package regex was taking all binaries also from wl1251
+which ends up empty and install to images fails. For wl1251 only
+license binary package was generated.
 
-If these tests are failing, then it is not right to just go and
-disable them without investigating why.
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Maybe the failures are due to real bugs, maybe something is
-misconfigured, or a test dependency is missing, we should try and get
-to the bottom of it. Otherwise what's the point of running tests in
-the first place, if any test failure results in adding the test to the
-skip list?
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb
+index 7c413e2b7c..be38a8edf3 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb
+@@ -1462,8 +1462,10 @@ FILES:${PN}-wlcommon = " \
+   ${nonarch_base_libdir}/firmware/ti-connectivity/wl127x-nvs.bin* \
+   ${nonarch_base_libdir}/firmware/ti-connectivity/wl1271-nvs.bin* \
+ "
++# All wl12* but wl125* which go to wl1251 package
+ FILES:${PN}-wl12xx = " \
+-  ${nonarch_base_libdir}/firmware/ti-connectivity/wl12* \
++  ${nonarch_base_libdir}/firmware/ti-connectivity/wl12[012346789]* \
++  ${nonarch_base_libdir}/firmware/ti-connectivity/wl12[a-z]* \
+ "
+ FILES:${PN}-wl18xx = " \
+   ${nonarch_base_libdir}/firmware/ti-connectivity/wl18* \
+-- 
+2.34.1
 
-Basically, show what the failures are, provide the patch and the steps
-to reproduce them, and we'll try to find a fix. I've fixed many a
-ptest over the years, and have a bag of tricks in my head.
-
-Alex
 
