@@ -1,100 +1,60 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83AA0CAC599
-	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 12:31:05 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.18459.1758025859781121342
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88875CAC598
+	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 12:41:45 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.19011.1758026501588787264
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Sep 2025 05:30:59 -0700
+ Tue, 16 Sep 2025 05:41:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Sn79jXUc;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=IfDLgwCN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101995281bf7f-ce80bb58-c3de-4e9c-ad24-5d1f2764448b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1758025859; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=dMHy15TuZrHiyymOXGfUx/PqXt9infvriQ3VaVUOQLs=;
-	b=Sn79jXUcjHgttMv/fZ0OGpXn5JTDAx/Za7okOScgW2x7qBELKKx9xUsQzl+EI97G
-	O7kiRW3wVU06GaYrd1JEE/0g6GLndXBJxflW6KcRrEcJIfpAFlIP+2LU9Xkklet6ia1
-	wyW121VONhymkXLgeJtOwmoHo78Vmp7wgUD9FwTM=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1758025859;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=dMHy15TuZrHiyymOXGfUx/PqXt9infvriQ3VaVUOQLs=;
-	b=IfDLgwCNz1/ivLx5G7grcXjwjHfK9QYrAcoII+pI7QB3fEExr8bj2bmPi2HlplB3
-	q9jurl4eCY831uoKcOgns1UdWDl/3pQaADKQwR9v2cFf6yTR72/ulsNC1jd0wsHX1ZT
-	PiSLqbHUS6+gePGdgyd1PGiGJAweNJW0Thj5FAhs=
-From: patchtest@automation.yoctoproject.org
-To: Barne Carstensen <barne.carstensen@danfoss.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] Fixes [YOCTO #15965]
-In-Reply-To: <20250916122517.1965-1-barne.carstensen@danfoss.com>
-References: <20250916122517.1965-1-barne.carstensen@danfoss.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101995281bf7f-ce80bb58-c3de-4e9c-ad24-5d1f2764448b-000000@us-west-2.amazonses.com>
-Date: Tue, 16 Sep 2025 12:30:58 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.16-54.240.27.193
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D21C712FC
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 05:41:32 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AA2633F673
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 05:41:40 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] fontconfig: clean up LICENSE
+Date: Tue, 16 Sep 2025 13:41:37 +0100
+Message-ID: <20250916124137.705324-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 12:31:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223547
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 12:41:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223548
 
---NextPart
-Content-Type: text/plain
+"MIT & MIT" is not a useful license statement.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/Fixes-YOCTO-15965.patch
+ meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb b/meta=
+/recipes-graphics/fontconfig/fontconfig_2.17.1.bb
+index 48151fe4f5f..22bdfb139cc 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb
+@@ -11,7 +11,7 @@ rasterize fonts."
+ HOMEPAGE =3D "http://www.fontconfig.org"
+ BUGTRACKER =3D "https://bugs.freedesktop.org/enter_bug.cgi?product=3Dfon=
+tconfig"
+=20
+-LICENSE =3D "MIT & MIT & PD"
++LICENSE =3D "MIT & PD"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D00252fd272bf2e722925613ad74cb=
+6c7 \
+                     file://src/fcfreetype.c;endline=3D23;md5=3Df7c0140c1=
+b0387cf4cf45420b059847c \
+                     "
+--=20
+2.43.0
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
