@@ -2,22 +2,22 @@ Return-Path: <chris.laplante@agilent.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0234CAC598
-	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 15:52:06 +0000 (UTC)
-Received: from CH4PR04CU002.outbound.protection.outlook.com (CH4PR04CU002.outbound.protection.outlook.com [40.107.201.63])
- by mx.groups.io with SMTP id smtpd.web11.2151.1758037923728357046
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A49CAC599
+	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 15:52:16 +0000 (UTC)
+Received: from PH8PR06CU001.outbound.protection.outlook.com (PH8PR06CU001.outbound.protection.outlook.com [40.107.209.59])
+ by mx.groups.io with SMTP id smtpd.web11.2155.1758037934673341099
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Sep 2025 08:52:04 -0700
+ Tue, 16 Sep 2025 08:52:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@agilent.com header.s=selector1 header.b=psqzqSB6;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.201.63, mailfrom: chris.laplante@agilent.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@agilent.com header.s=selector1 header.b=C64thOCt;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.209.59, mailfrom: chris.laplante@agilent.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zFB4YvkR0PcnPkK/1BQ7Ox8CzLa+fVlFj43OfPwdrJs48Ov3BQD+vse2HxXljyIBcBvcTAT5Xhq5REwuALn2P1nuODenIjwhLGwpAxQaw5Sx6OGbpaSBrOUu+8yJuvIdFhNUnQ6wWfSqmck3eqel5gWq0IwO0vyUDdPqqjsi8NBZRIIMz3hgwdYaxXKxqzZSvWsvFTTOx8pNfy5laB4MVjwJ5lfg/484O6ONJJwyYucHs70x9a7IzpB5zFJj7x9oT+YHDR4t/BainG6nL1zrlhSGC4EK97/jeWlxfWtscKwcyouBI4nYPDP+gbN4lyED/7AxO6eSXOjsQFCm6IsNFw==
+ b=eBBFpnQg9saEZoGHa9fg3WrS1QTbSA65o6O6Ogp1kwNJjRQRIEjMxtCqJWOpYVXpgP+2VfxcpOp/L/5eCeCeiAPzUAXSn6g7LCwShWLaQ5AwtdHsOXdCI2t5eM+JeutzvxHsO2sAXwITJmn3S5a/3Kh3czmhgr8MVFxOIDRSrNZjZsPMMPCgE/OvwiXznbtcO8pFXG2kVehYM5300PR6fXBWnblpUaDA9C12wUcOPH0jwAlZ/G2tSNCmsAGZAB0IUg6+S1oUXFYJQi7gZDbfx6Jtx/gtxzO65Hg4Hld5UZaoZouhOMpINbdfcJAdg9CekUwD14L5+sQyVKVny8TlYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vHL1pLEUCIXMikkxWmvLccHVxKRqddj2ywY0nukh7pM=;
- b=OrwmLlicDGTH6+ecsR3svMS0SbFCJDDcVpMUqwRvxzeRoKazOvFUB2OHRXRKEavRABLpVtyF2DuiXwdLSTl916WTVvOR/J3j8ICQ+c/1nShL+bw41aVg6GyBSQoLg7m84Pd9p/sreTyxyhI5nBrINSI+5q9n5/oenTHizs5qMS0D6V0ZSc2dKWBxJTgDZOz1HBDLIf/pJvD/2/D5vBvUs/UydLoLSfGKqtA9AZaLPbddfFE/IeoDpT3EaddHOyI0FLwWGoNoOHMSBBlZ8Ad5BfsnBnQTqXirJyl68yT4ZcEejsZGoY61ZKrC7FQoTfMjmGFnjj2HPwVFfORTIONV2w==
+ bh=wdoRi9pFrKIHAm3KgGZ0K5+8RMAh6qkPH+lWwhgiQkw=;
+ b=vEtVblkBGUHeHsPhZv0r7ZbYVksPya4qmLByCUj6cIef9WS5P1zAIBT80rkC4cwDD8EXHSYETaBcHKZbPgFWa+vs8WOQ3cxnI9cIjDnoxrWp2l5A7NkDXMeEMQS65s/XFZd1j0d7F4xlGT8mDsyvAoGW5CA5hcX/onvZfLgFqBh/EXcPa/wvSfP17P72DN9iJIHF19pqN0KutJTOBZTIkahYJ/w+/GLMMXlU/85b7BPE0eB+1CdObhOTK1Q2R6+bMylgJrv4s3mfBaXy+/NPGwRdlutFCSOP7fyxvgIxDEL6DNPZmw3PO3VulSYB3J/EnBsGCVShiePQ3i5U2HjyGA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.25.218.34) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -26,17 +26,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vHL1pLEUCIXMikkxWmvLccHVxKRqddj2ywY0nukh7pM=;
- b=psqzqSB69I2O6iXHHWwNiHeTf9x1wYfdpXkCZgzuehO+mX8mCGIVJ+CrgWqVKgeW28Jjww1pSDWxxBGD7UyRk/HUWK5Zy7VS2nlguek7pEkqUTfcWUfcfu29nsobF496v539vxaOb+L1HEOsCCGBW2IqYOWSblgB6c/ooWBrlmVimt6HzJZ8JpOFGZiWODHTcWFS1rlWZioZi7XIP0OtFaJxUSnqR3SFGWvvoX71YFbxK7bs2DU2FVQeydu0ZTdf9nPq4oOyCkRJKuyzn62qcmGYuDieYHovbEgFeOd892XBTbUJiHhDfENklmzSEY/WtXTxmAbPklH9zwSjg2l8xA==
-Received: from DM6PR02CA0142.namprd02.prod.outlook.com (2603:10b6:5:332::9) by
- MW3PR12MB4379.namprd12.prod.outlook.com (2603:10b6:303:5e::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9115.21; Tue, 16 Sep 2025 15:51:59 +0000
-Received: from DS1PEPF0001709B.namprd05.prod.outlook.com
- (2603:10b6:5:332:cafe::4b) by DM6PR02CA0142.outlook.office365.com
- (2603:10b6:5:332::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.21 via Frontend Transport; Tue,
- 16 Sep 2025 15:51:59 +0000
+ bh=wdoRi9pFrKIHAm3KgGZ0K5+8RMAh6qkPH+lWwhgiQkw=;
+ b=C64thOCtroG8t6XIXMU1O6IAsMF19kLuY74AGbuEQnFXuShW+vOUOua8I9mdsAjJ6WebWTgXPvN+yGu4eWc5xtBwXX4zVfzmIcIdLxtjA+8ijhtsDaBgTnW0XrMJ15XgQ91HJY6d6x6gBbYd+j4sf01mLg0QigbfV2WXDqcpg/Fl+W02W9lz0Z5FQh7MYhJM96hx+VyrcjLVCXxrMKSZx/gZI7lbisnejBGH57qlelAzH+iqQ8DXoTS6X5SW3esOVHsydjYlU04Ie31Hl0dmAMKL4Qu7Ad9ClbSJQFdkpgU7/jMCsq2nagYrLC/u5L8bubWaAV5mTmuJHtkkO/pZRA==
+Received: from DM6PR18CA0025.namprd18.prod.outlook.com (2603:10b6:5:15b::38)
+ by DS0PR12MB8042.namprd12.prod.outlook.com (2603:10b6:8:141::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Tue, 16 Sep
+ 2025 15:52:11 +0000
+Received: from DS1PEPF00017096.namprd05.prod.outlook.com
+ (2603:10b6:5:15b:cafe::dd) by DM6PR18CA0025.outlook.office365.com
+ (2603:10b6:5:15b::38) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.22 via Frontend Transport; Tue,
+ 16 Sep 2025 15:52:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.34)
  smtp.mailfrom=agilent.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=agilent.com;
@@ -44,158 +45,141 @@ Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
  192.25.218.34 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.25.218.34; helo=edgeappmail.agilent.com; pr=C
 Received: from edgeappmail.agilent.com (192.25.218.34) by
- DS1PEPF0001709B.mail.protection.outlook.com (10.167.18.105) with Microsoft
+ DS1PEPF00017096.mail.protection.outlook.com (10.167.18.100) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Tue, 16 Sep 2025 15:51:59 +0000
+ 15.20.9137.12 via Frontend Transport; Tue, 16 Sep 2025 15:52:10 +0000
 Received: from laplante-B650.lfs.agilent.com (192.25.126.5) by
  edgeappmail.agilent.com (192.25.218.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.58; Tue, 16 Sep 2025 09:51:51 -0600
+ 15.1.2507.58; Tue, 16 Sep 2025 09:52:04 -0600
 From: <chris.laplante@agilent.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Chris Laplante <chris.laplante@agilent.com>
-Subject: [PATCH 1/3] devtool: __init__: cleanup imports, including a missing 'import errno'
-Date: Tue, 16 Sep 2025 11:51:42 -0400
-Message-ID: <20250916155144.3279173-1-chris.laplante@agilent.com>
+Subject: [PATCH 3/3] devtool: __init__: simplify replace_from_file
+Date: Tue, 16 Sep 2025 11:51:44 -0400
+Message-ID: <20250916155144.3279173-3-chris.laplante@agilent.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250916155144.3279173-1-chris.laplante@agilent.com>
+References: <20250916155144.3279173-1-chris.laplante@agilent.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0001709B:EE_|MW3PR12MB4379:EE_
-X-MS-Office365-Filtering-Correlation-Id: 96add34b-40b0-443f-fdc1-08ddf538f880
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017096:EE_|DS0PR12MB8042:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7dad9afc-466f-4614-f7bd-08ddf538ff88
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?ZLogI3vUj9sWvkuSzaulsIqfK6T/lI/jr//0bHL752brQkjd9guLcGyzcHPS?=
- =?us-ascii?Q?uvpEKTGLRImWyNt2HmMUFz/UroIr2/QqWm0OpJHYkkDLR2mb6MFZ/2TCVIYW?=
- =?us-ascii?Q?vCNB5lbj+zgiv9BM1INGsl4brFePPM2yLUvOtxgH/MQSjqze93O+vs4TyM1X?=
- =?us-ascii?Q?3DGwrXRgcEueEZN+j40EpMuuJbAcHI+0EbP0KTUqAEQB2ZQ0TElxCPsSOs2j?=
- =?us-ascii?Q?O98oy++ob41EmXBhIkZ0qGiioYG47ftaAWJki3fN4G/QuY6rI8JVR1YK2rI8?=
- =?us-ascii?Q?HOkSOQKNGSteLrJPZOpkzkkhgQ9qQ8nyIDmdEBaisjJx2EoaJZ94K2GqXTBE?=
- =?us-ascii?Q?pdV3ahmJf4qD4LrqSN9XGP6rshrOClOgNyhYPYRV1Uvllw+QlgCZa8L0fACw?=
- =?us-ascii?Q?gKDyvXA8R7b0J94MpUZ3W3C0gGr0MvOqJT5dLM3kPzP+QOQ2uveVTlzMxv6k?=
- =?us-ascii?Q?m/Mnf2i5Jpiwj7CuN0vGoa7kvVVE6XMWyKc2c2PwbykohAx3kvZ5qH4ywJTJ?=
- =?us-ascii?Q?nYyLQdCpys5MdRuiOA+TREFa7dVvoeMSqjf+h5xf+Yxf7U8aD2KtukCYBIW+?=
- =?us-ascii?Q?MtRitgwZUJrfIrd25fYXm97HOE5qUSCINy88CNi7Pc0eS89zqG2Y8Xn0/du8?=
- =?us-ascii?Q?G7c0dfqa55sC8psbe88nH2wvofJQsApdXjJnG+zTpnJzL553R2Aj3y8lPRU+?=
- =?us-ascii?Q?dvKYhlGudRg/BdjtNms54i12eqf+zVwy4ef0gIl2+xONTCrf6ZaGQupYzX6D?=
- =?us-ascii?Q?OMNBBYvuyzPKvpUnmnYTNJp3sk7a423mLyNnY27RLTDt07C/yxKnUvZSsbZk?=
- =?us-ascii?Q?Rp/76WaFRcbRK/l26Bk6nROAbQu3dkLTy7Td3/pnEoFQhhs/FrvKhxxtwpow?=
- =?us-ascii?Q?+zN8UXwcQlHWZ39n2RtrEb1/e+g/vPJvDv8/rIEfABP0CO11F2Yp2W/S4Y3I?=
- =?us-ascii?Q?xaXkp+7rs8YnRvBvaPT6SJKPLgCq+myzvGPOwmO7ysD1FzckTj3QaDe7+oov?=
- =?us-ascii?Q?IP6rJ+F4/RA3QmHq2lZUMan4eWVQtK633FwfqUTETptR7oO+x48NpdQ79lEA?=
- =?us-ascii?Q?5kHnaTuoz9wId97G4jDI+sPMHzM7L9deReCgyFfWCxvxJ70F3kdiQxxLHXLQ?=
- =?us-ascii?Q?NEAl7To0i6Csq0OATk44SPjXPNaoqMhyJk0Z5qJe+c9WwJJfN5AQoWo0Ifhi?=
- =?us-ascii?Q?xxnwpz3Gt4E5eZCMt5cA0yry/JQWgtrqgpv1r3fwxM0vqZyTEoVPlfS5FM8X?=
- =?us-ascii?Q?ABCJ4ACswzPCG4kYV2uR1QfDDpP33qa6hfhbbl5exSog3p5N8KBAkdM2Sns/?=
- =?us-ascii?Q?tQvo9uqTmY94L7J2SJ3TKtfZAVpkZnnigj2kbyTYpMz6aeI2aqEvPgN7ZTOr?=
- =?us-ascii?Q?T+hi1bN+uOFgZ9CSCoP4fqjKQtX0yjCeAcZakwjpiUYZigbC3fZ8x5HpIetj?=
- =?us-ascii?Q?Nn/f3844g8lLqgfUpUwmAu7+7AdoxcZ89w37A0aBW+yE+bXU5NjdtpjrRdCU?=
- =?us-ascii?Q?NS7DSqViwiH+5BjmWrZ4V587xN4ZGJjVAnMq?=
+	=?us-ascii?Q?QnURV1xJc6MGiOgdBhQDlQPd0K8AxlXOxrUTsSHahaFmEAdrhSz5UJ1goYLr?=
+ =?us-ascii?Q?tPZuSRcfJniwMUGdVSYNSTFomU42QJrA9ufvBTXW32hkiecNv/Wnvo+g2Kug?=
+ =?us-ascii?Q?Kz0mFBSKd9vq+Ciob2D8ljx++ZheWXQtSe/87lWEgM9oHq6HOEpjluKlBv1Y?=
+ =?us-ascii?Q?a0tgWelpyGje23snsbC+y0aAEtPu97wYOO9BMQRDO5yGP0W+scrDPxfVDA2E?=
+ =?us-ascii?Q?UwEtt0yTtghhQaGxuXusDgCpO8sIk2SlSGwzu2D1/seCy2Oxzc/6XECyirQ2?=
+ =?us-ascii?Q?mntlUm1hZSGsPggtamqrlzp1hXl7/uth2GTXnCp5tzDFhrnudw0F9CZbmXZZ?=
+ =?us-ascii?Q?BSc3VE8eBm4/vkErnKPoOdvcxM8ihMMCuMBnrKz5Yu0wTvhidou+aJtAe1yJ?=
+ =?us-ascii?Q?J4gL49c7zQARW72qFbMYLIhEAJY2HQc7jJ0YdkMhXCv7KGGjazpuevM9LGcg?=
+ =?us-ascii?Q?TyhTooG5uimI0ii9VZ1SiC1Wvzj91e0FlUC4J1/zgsVGr7oIPh6hhEeuK4ya?=
+ =?us-ascii?Q?XJhmn6D1DkRl1emG/Vj1G8pkqHSp9qaR7m8QL31e4HV2MLEAC8+0a2NrwmKd?=
+ =?us-ascii?Q?l5QMOG3Yfvjhscl5dk8HOR1vn8I0p8irIfZtkJNWFpIuH1Hbss4Nhh+3iVuE?=
+ =?us-ascii?Q?2+AFwiOgabgKMYqO8k7RmOkER7ewDgqyehYtLxb9Hx+ReC9BL93Kglmkg5dg?=
+ =?us-ascii?Q?e3pNwpt/ZzrxPcRYgZSIIr594Oig+EzqKGuGADfhJneX5Xq2D2bbhw7hw/DQ?=
+ =?us-ascii?Q?EdQa0KrKXsOFgRyyxaVDmzScUSWfCXjugRB+l7d7SVkJMedcmemeDI61GqCg?=
+ =?us-ascii?Q?s/C90D7Su85Cg6Pj9XYBtvO1hOP+Rf2K3zHqc7J9dFjO2Zm/eNWx3j8PhTmL?=
+ =?us-ascii?Q?75DWo231XKQe/Flg26vXPupoG9CUJuS5rTEFDax2aLZ2+SV2MC25RnC8JxYh?=
+ =?us-ascii?Q?FFaxJdFky78hw6Fgq0FY0sK5/VFqZRSMZva+ZW4fIjupTN5XX4q/v+Oi5ol2?=
+ =?us-ascii?Q?BtJ2mMG57bVWjB5CWOEK0rxy9patnn4VLtrZMSankGBP0xVuq8kDfg7zTvAM?=
+ =?us-ascii?Q?zoDoFU1WBu/wKogZ7VYSQ+3sqNtYeVzTnDcKfcgN471us0b6gn2C827Kwy0v?=
+ =?us-ascii?Q?JOXhkVwRs9rf7Y82zGHs2l8JcBzf4Y32izSr14HYVLToBuDnMgrofjLJlQMg?=
+ =?us-ascii?Q?CXfS8dNBAvi9bl6L9js2sDPAGaYnYbwGsJJgIwBnVJ4k5yqz3JzVkkcCJulH?=
+ =?us-ascii?Q?NfRnvhjjyBB/O2wFqyHZzK4KsQ0ZCa90iWxXjW1AHqdys/wcV8EsO737omJQ?=
+ =?us-ascii?Q?lYa0P11VreYmxWTOZkjn2dm3W4zzJb5rZLjD82ZFURin5q9suu8Ie+Pxhf6l?=
+ =?us-ascii?Q?gZYTr2HD2yBqPzIxe62YEgjNNWhor8/4/euoj2fe3ZVZjGWZ6r/Zi+cLNrZv?=
+ =?us-ascii?Q?kbxv9Ydv37o58g/bErA2PsY0LEuGEf6FANfel4dy2Q7v4qERcf8WnfnqIdRS?=
+ =?us-ascii?Q?C7+jwdM4xx33j8sGvA05ZYD/MfpljUnWa00a?=
 X-Forefront-Antispam-Report: 
-	CIP:192.25.218.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg3.windmz.agilent.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
+	CIP:192.25.218.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg3.windmz.agilent.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 15:51:59.1617
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 15:52:10.9490
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96add34b-40b0-443f-fdc1-08ddf538f880
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7dad9afc-466f-4614-f7bd-08ddf538ff88
 X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.34];Helo=[edgeappmail.agilent.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS1PEPF0001709B.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS1PEPF00017096.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4379
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8042
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 15:52:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223568
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 15:52:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223569
 
 From: Chris Laplante <chris.laplante@agilent.com>
 
+Mostly just remove some useless helper functions
+
 Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
 ---
- scripts/lib/devtool/__init__.py | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ scripts/lib/devtool/__init__.py | 27 ++++++++-------------------
+ 1 file changed, 8 insertions(+), 19 deletions(-)
 
 diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__=
 .py
-index c9d7ade9ff7..396e8025b7f 100644
+index 717a60c039f..969d6dc13ab 100644
 --- a/scripts/lib/devtool/__init__.py
 +++ b/scripts/lib/devtool/__init__.py
-@@ -26,7 +26,7 @@ class DevtoolError(Exception):
+@@ -295,32 +295,18 @@ def get_bbclassextend_targets(recipefile, pn):
 =20
- def exec_build_env_command(init_path, builddir, cmd, watch=3DFalse, **opti=
-ons):
-     """Run a program in bitbake build context"""
--    import bb
-+    import bb.process
-     if not 'cwd' in options:
-         options["cwd"] =3D builddir
-     if init_path:
-@@ -50,7 +50,7 @@ def exec_build_env_command(init_path, builddir, cmd, watc=
-h=3DFalse, **options):
-=20
- def exec_watch(cmd, **options):
-     """Run program with stdout shown on sys.stdout"""
--    import bb
-+    import bb.process
-     if isinstance(cmd, str) and not "shell" in options:
-         options["shell"] =3D True
-=20
-@@ -122,6 +122,7 @@ def setup_tinfoil(config_only=3DFalse, basepath=3DNone,=
- tracking=3DFalse):
-=20
- def parse_recipe(config, tinfoil, pn, appends, filter_workspace=3DTrue):
-     """Parse the specified recipe"""
-+    import bb.providers
+ def replace_from_file(path, old, new):
+     """Replace strings on a file"""
+-
+-    def read_file(path):
+-        data =3D None
+-        with open(path) as f:
+-            data =3D f.read()
+-        return data
+-
+-    def write_file(path, data):
+-        if data is None:
+-            return
+-        wdata =3D data.rstrip() + "\n"
+-        with open(path, "w") as f:
+-            f.write(wdata)
+-
+-    # In case old is None, return immediately
+     if old is None:
+         return
++
      try:
-         recipefile =3D tinfoil.get_recipe_file(pn)
-     except bb.providers.NoProvider as e:
-@@ -178,6 +179,7 @@ def use_external_build(same_dir, no_same_dir, d):
-     """
-     Determine if we should use B!=3DS (separate build and source directori=
-es) or not
-     """
-+    import bb.data
-     b_is_s =3D True
-     if no_same_dir:
-         logger.info('Using separate build directory since --no-same-dir sp=
-ecified')
-@@ -320,6 +322,7 @@ def replace_from_file(path, old, new):
-     try:
-         rdata =3D read_file(path)
+-        rdata =3D read_file(path)
++        with open(path) as f:
++            rdata =3D f.read()
      except IOError as e:
-+        import errno
+         import errno
          # if file does not exit, just quit, otherwise raise an exception
          if e.errno =3D=3D errno.ENOENT:
              return
-@@ -339,6 +342,7 @@ def replace_from_file(path, old, new):
+-        else:
+-            raise
++        raise
+=20
+     old_contents =3D rdata.splitlines()
+     new_contents =3D []
+@@ -329,7 +315,10 @@ def replace_from_file(path, old, new):
+             new_contents.append(old_content.replace(old, new))
+         except ValueError:
+             pass
+-    write_file(path, "\n".join(new_contents))
++
++    wdata =3D ("\n".join(new_contents)).rstrip() + "\n"
++    with open(path, "w") as f:
++        f.write(wdata)
+=20
+=20
  def update_unlockedsigs(basepath, workspace, fixed_setup, extra=3DNone):
-     """ This function will make unlocked-sigs.inc match the recipes in the
-     workspace plus any extras we want unlocked. """
-+    import bb.utils
-=20
-     if not fixed_setup:
-         # Only need to write this out within the eSDK
-@@ -390,11 +394,13 @@ def check_prerelease_version(ver, operation):
-=20
- def check_git_repo_dirty(repodir):
-     """Check if a git repository is clean or not"""
-+    import bb.process
-     stdout, _ =3D bb.process.run('git status --porcelain', cwd=3Drepodir)
-     return stdout
-=20
- def check_git_repo_op(srctree, ignoredirs=3DNone):
-     """Check if a git repository is in the middle of a rebase"""
-+    import bb.process
-     stdout, _ =3D bb.process.run('git rev-parse --show-toplevel', cwd=3Dsr=
-ctree)
-     topleveldir =3D stdout.strip()
-     if ignoredirs and topleveldir in ignoredirs:
 --=20
 2.43.0
 
