@@ -1,323 +1,511 @@
-Return-Path: <Yash.Shinde@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE31CAC598
-	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 15:29:06 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.1437.1758036539802213144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23D1BCAC59E
+	for <webhook@archiver.kernel.org>; Tue, 16 Sep 2025 15:51:27 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web10.2133.1758037884276559360
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Sep 2025 08:29:00 -0700
+ Tue, 16 Sep 2025 08:51:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=ioXTXmJL;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1354f8bcfb=yash.shinde@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58G7Vk3O2080303
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 15:28:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=GrKbHkA1dBAmZ6JRMx3qT6
-	WZmow5tz7hHKfhyblHMxo=; b=ioXTXmJL8jvg2cM2DbSTm6FLWZlyP9iyktVtv3
-	dBPbWwMawqaWu7Liob+fjOgEkwq9qTTz0Ib03GQ48U8DrYuBIwGy0XUUzkFL5dTk
-	UKAkCpAzTxejqxRO87WnB6QskMqFQSf9d0JIcMfgKkwdN8XhVlE6AnaN1N3hLMXv
-	Tr5Yjo7hiQy+Rs6igh1ORllfoj1+9UaiCKYeGfkH22PpOspekBuqeYhak3XTMNE5
-	60MWCmn7kjtlpI5LwYBlepCoAkwpu6eR4y0aMIL3uTvN6iGujWI1bGyz2BZqobIt
-	Cjg2aSB1vHDAWB6Q5R780XTj4Gqh68kkKzkuaw26CSf0fnxA==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010043.outbound.protection.outlook.com [52.101.201.43])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 494wu13n8c-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 16 Sep 2025 15:28:58 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Vh0DgxHJ818/iuqqkk/yWXlRHKjWmt1bseQweQc3xPsqbwAsc6dw9och7SgavTqXEqBXqAHfJaAo0gPC2wOh1CzcgVgwxiFNkkCRsM1fCaUAFIB7eSux7lknprd2KzLGxe9wjcm7HA052oRnqBANGPkKiMznn0LSlgacVFfgDR23q0g2qLX0EAxUrcjevWBrqlYjhB60eACH02L3nLKCmllw5SKCFSMyqRm7cnNC3a0AS94axaTStvr9QCkt/nkZuyqJaVr7ZTzBaHp+DL7wdUtJQjYXmlz4VJaUBpQQ6ujTVV39EThOxQuTl937lSJJ0hqs/wned+3KL29R2ymd/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GrKbHkA1dBAmZ6JRMx3qT6WZmow5tz7hHKfhyblHMxo=;
- b=xQI7upkTBQb2MFozIbhwvmPj9FNh8V3gmwkjlX3pVljmB5AIUhJWf8cs9nGMOWrsoOgimWaXGe16N9VmCX6UHIHCKaaNR/sX+jAb3fICggX1ReaWc5sVWBqr8TzW/eclZLWoOZ0e4TVePA09l2GBdxBsFIW86X0bkr5wRayLWUnsWBZ7bTXEMURMnvsK/UHkny+94f2pBRxIPCxFCW2Y2nHsniv2j3fDWi901iIyB8Olwtwn5VVODxc4gkGyPzv3m7mTVnNXXZoORb6u5Gl/AGhQxs0tEFq5+R2zyYdbFnymWg8IEqEEUd1zWSSK6Es3wPdQtZkClsnrW/4tPRN7hg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
- by IA1PR11MB6242.namprd11.prod.outlook.com (2603:10b6:208:3e8::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Tue, 16 Sep
- 2025 15:28:54 +0000
-Received: from PH7PR11MB7593.namprd11.prod.outlook.com
- ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
- ([fe80::2688:e731:421b:5ebc%5]) with mapi id 15.20.9115.020; Tue, 16 Sep 2025
- 15:28:54 +0000
-Content-Type: multipart/alternative;
- boundary="------------6DEm0Q2Qol5d1b30nCzbv00w"
-Message-ID: <0254052d-c03c-4304-913d-1bd504db28fa@windriver.com>
-Date: Tue, 16 Sep 2025 20:58:47 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Performance Benchmark: ripgrep Linking Time Comparison
- (GNU ld vs rust-lld)
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-        "MacLeod, Randy" <randy.macleod@windriver.com>,
-        "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>,
-        "Dora, Sunil Kumar" <sunilkumar.dora@windriver.com>,
-        Deepesh Varatharajan <deepesh.varatharajan@windriver.com>
-References: <d602b56d-c8a7-4659-b962-d2d00cc9bc5f@windriver.com>
- <268e81f5-2ff6-4e8d-854a-a8faefb1dbd2@windriver.com>
- <9F392464-759A-4B10-803B-38FC9A78AC81@arm.com>
-Content-Language: en-US
-From: Yash Shinde <Yash.Shinde@windriver.com>
-In-Reply-To: <9F392464-759A-4B10-803B-38FC9A78AC81@arm.com>
-X-ClientProxiedBy: PN4PR01CA0098.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:2ac::8) To PH7PR11MB7593.namprd11.prod.outlook.com
- (2603:10b6:510:27f::9)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=P2gimA1N;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-77bec8ab89fso30723786d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 08:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758037883; x=1758642683; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uCmEUk+6z83oweYayU43cBGs27sLKL6/nccm/NbhGao=;
+        b=P2gimA1N0k7pVJQ5O6Qt+QMbCeW0HGSMk9st5pQSGYTW1n0Dvz4Gk/NyIcYCfiY/eN
+         Pq6qnBkHs6xVn9z/gM2riqWaqMG1YRs/wjKVHA5COBm3sumTlr3wED91J+t2XK0PQoM5
+         6cebzmXUUVnwpESJaCgOLAU7Kna5vGYTk+fdbBaBvYR71tHF/U1g2Oep4TgxjnfryvAJ
+         WkVDprnGFXcjSwcjybS+572Ph/tHVT9o+DCZvjSPuvVSaaeuC1487H5zlzk79S2jdp3N
+         VlvGymytEbEeUIO62jkP1BjbpqEoZ5KUN+w23amdfGzyrW0oNCMXHtDpx89Bt81d43LE
+         5z9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758037883; x=1758642683;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uCmEUk+6z83oweYayU43cBGs27sLKL6/nccm/NbhGao=;
+        b=hCcmd+iNHzjATpCxTJUeKQi0rV5+toGOGlyqWaWKjarcBGaxpMBcMwk9c4vgIBGar2
+         3VFstLzFCXaMuxFdKMWb0av73YvMsYgw7M1tnCIfxK1BCmiZAejdf5l2RndlXtY8484q
+         dXIu95oVILlaLSG7UIytAmVODLRaEFxQOyhxPP5enDGqrbsEe2BWwtw5GjalgYgoK072
+         hQdAicJDkdguEyHtWKOJFHulOB59lzOygWcBk0EOn2LSrtQ+FmuF/b/7MYw46jfmYrEv
+         Q/6GgYJjuay29F6Zai8LhmlqmPcsZTaFl9UONFpYDzU4mkH0bKy5R/4VDrxdOBiDCkq0
+         OHcQ==
+X-Gm-Message-State: AOJu0YznpYX76I1M+A7fxtZKVugueXuk4K27GVsFsVW/gwkR+rmBu7n4
+	YkZJtUNyV88mDHXJe4UHbvQkO8cPzCvEOxohmcDq5tkh8E/kud2nSTWFBHn7nhO8
+X-Gm-Gg: ASbGncsi2Wqzkjm71TyaS+Y6YBroY70nvMxZQwr3VVejrbe3kScLPC2eEOTCjACFerW
+	O1Mafw08DRBwizlwFNuptuT5Lng83pRIcAm53auKTqLcsSsu+VwXy6XIm5BLKZKjsU8J5M8RzLO
+	TzIEsAxkZvnhsng4KWuG1sN5bn+yl6yBnion3/4X9nzFpYxxKVrKG5P2aszeyXMbzyigaIspqVZ
+	5qSKTypM3l80RFiVRSYoG5J4doRgnxxgGmRSFjgPtAXbd+jPYkfNKiyB35dGWPN8giSAEfYIdDU
+	CEJKY2zveHlXo/7j8sSrRDOWt430S2diuHIIxObh95F2nlwnfrIxdo55OAq/POmQhiQhiD5UToa
+	JroK/zXeZ53JotBUdtaMot9hkeFNHiyg8O4b8sYpo33Px51Ze0fXq4QpPEGTfIVyan643qil8x0
+	MuBrPLruk+v9kQu5NdOK0TrBRaq/luaEGgLPRmRhBrfkdIKtBObeJxQdg=
+X-Google-Smtp-Source: AGHT+IFa2eGBmBIBjKnYsaMoebB8ej8ohZR8JArDrF6qaPTKaJsReqaZ3HHjCYseKqso+eeq0edoZQ==
+X-Received: by 2002:a05:6214:1945:b0:77e:2384:84b6 with SMTP id 6a1803df08f44-77e2393c8f5mr115063346d6.51.1758037882902;
+        Tue, 16 Sep 2025 08:51:22 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-786c9c68cd2sm33724456d6.7.2025.09.16.08.51.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Sep 2025 08:51:22 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/4] linux-yocto/6.16: update CVE exclusions (6.16.7)
+Date: Tue, 16 Sep 2025 11:51:17 -0400
+Message-Id: <20250916155119.1583243-2-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20250916155119.1583243-1-bruce.ashfield@gmail.com>
+References: <20250916155119.1583243-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|IA1PR11MB6242:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56bcfdf6-1e5a-4a9d-722f-08ddf535beae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|13003099007|8096899003;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?cmthM3p6LzJMbUYweVpuZWpvTkljZ3RMQzZrMTN1V0FJa2hMMG1NNThPdm02?=
- =?utf-8?B?dXVCa29xL3BSVVdiN0pGMnVBRVgrang2UFpjQk9wazF6b2tIZmovN29JNUZN?=
- =?utf-8?B?S1FyNXd6OFRYbG9mMkRGZS9pSVUxL3B2TnROcUx6NGw5djY1QXhhUXFZV1hv?=
- =?utf-8?B?T3oyQmYrdERWeitza0srTUtTTUgxdjQ5dkI1Ti9INmsvK1lxRlZvdFc1cG0v?=
- =?utf-8?B?NTBmeEREQ0U3bUJGZEQ1NXVaY3J4YVE2bzBFTUVsWDMyUWU3VTZjVHJCU0s2?=
- =?utf-8?B?MCttUjQ0WHNYTWdBeDArQUZGN3pIakpOcER3R205MDhqQW5OMGZGQUFWYlZK?=
- =?utf-8?B?Q0J1WnRmV0YwdGxacndMR2hXa2dJUnZZancrVURvR25rdlorbDBvdmE1UFor?=
- =?utf-8?B?MGxselM2T3J2aW5HQTNIeXdsWHEyZHZLOUYrRjJrWUJ5WWdVVEFkTUNpc1pl?=
- =?utf-8?B?eTlvSUx4Uk8wemxGejdJZzRJdHFnN0FEY2RZQm1TeEdwbUNRSkdycm85cWpC?=
- =?utf-8?B?MzBPUmNIek1QM2M3ajVYVmpxSTZCb0hmSVZ6T2ZsdWNzMmVPWkZ2OThuNXkx?=
- =?utf-8?B?R2kyZFFMVXdlZUlwOURiZG0vSExiMTlZOHI0THlBTFk2UFlCYWhkRnFiaEtD?=
- =?utf-8?B?K3N1Y29LeWpVbkhvY2VYK0d2SGdXaWdQbjRsTm9CL3FYVm84d0drd3Ryd1Bo?=
- =?utf-8?B?OUNWNTVGSUUrcFVHd3EvdmMvM08ycGNsVHVyM0dVZHNrRDQ5ZWpIa256VCtR?=
- =?utf-8?B?U2E2cUhlRFdqdTlLTTlnenBrOUpHS2tHRkhjTTZ2Zks3WS9CUnZ4RlAxTFJE?=
- =?utf-8?B?S3pkWHhQeUl1SS8wRE51T3NXcW9uSDdyWmVYdCtjWkJyYVh2V2c2WmR0M3A5?=
- =?utf-8?B?UnZSZkZYaVJhdmd3bHZ1WVFuT2NPSjc1TjJWcVpsdTFCbWQ1c1ZubkhkcEtV?=
- =?utf-8?B?elFpdm1ZVEx5YS9hdTQ5WjBnZUV3TnZMOEZTbU8vSk50ZFVEYUdvbFdESzYz?=
- =?utf-8?B?OGkzYUZHNytxOWE1aUcyRHJRekVmK1pubndoWDU5QnpZSFI4c3habElRK2U3?=
- =?utf-8?B?NHc2dFZ1aXh3R1poM2w1dFF6cHk3Z0hsOTAycFd4bmZSWU9RczV0UWVEWkdh?=
- =?utf-8?B?bzhtRVhhRkEzSFl2eVpXeFBuam5KMTVKQ3BNYTh5Rkx4VXpRMHNOOHhUOEtE?=
- =?utf-8?B?MnNsN2VpRmxVd1hUZXY0bVB3V295QjNKYXhpWXB4b1pMWFdwL3h6WXRrVUxY?=
- =?utf-8?B?dzlxSmhVSnhrQldHQ1hRdnl1R3UrNXVuUjdjNHBGSDJLVDNKTjgyVEVtWlA2?=
- =?utf-8?B?ZnJkRFpMWUdtK0RXRzhrN1BwQUlmcjNuV3VhODExV2xxNWJNRlF1NlpGZVJn?=
- =?utf-8?B?RXRRUWw2aEVqUThvdExYVXovUXNIUmlRTWhKMWNEQ3lQUU5QZXBTYzhud2dk?=
- =?utf-8?B?TVZtN1VtVWdGZFhBdVVoeU9pM1Nzc3VjS0V3K0JUOXFHb3pvWE5ReTd4WFBD?=
- =?utf-8?B?bWJCTGJxbVl6M1VJSnJZWVNHU1d4RzU5TExiMUpwOFp2Y1A5aXdEY0VEQlBn?=
- =?utf-8?B?MTcwRmJRTkMxM1hLY2V1R1ZucW5KbkVpNW1nckwzd1RSYnZoR3YwVGk5cVZx?=
- =?utf-8?B?aUViSm40cU5jaVhiaVpvVHZEemI1UndXYW5vMlVjVDVyYmhIeHJnQUVoQnVS?=
- =?utf-8?B?bUxENmVGT2hBZnpzeXQyVjZXQTZ0S1RCeGI5eUJSWDh4TEU4dmlVeWU0SE15?=
- =?utf-8?B?Nlo4TGJ1ZDR5czNMVi9UOHpaOE02ekNPWXRBbXV3eGw3YTRjVnZHdDREM0FY?=
- =?utf-8?B?TkdFZEZQd1pzUmQ1VkpGZlZSamhuQ245UE5Ldkg5Mzh5ZVBva3VlUWtwY2FR?=
- =?utf-8?Q?qPhPXC+4SF6qg?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(13003099007)(8096899003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NFhBbDM2K2RHN1FaUCtLc0NFNTlFd1BlU2FuWVZiV2RQbG51VWxVZHFJVVly?=
- =?utf-8?B?UlB1NWo2MHFhdUdTNkR6QTZoaFY1MEpaMnJKS040U3FYdXZoTVRjRlNTMEJY?=
- =?utf-8?B?REFVVE5KTHp2ZEk5SzFkYWNmYmR6QlRnL2RtKzZpWldRc25UbHJXL3Nmc1Nh?=
- =?utf-8?B?cG9xNTc4ZHp6MW9paGF5UW1qbVhrYm4zSUlTK2F4ZEk2K3k2RmtnemFGMHg5?=
- =?utf-8?B?VTlMUFA0bVlERHJhczJLek1ydWRQTmVqd1BnMFdZQzN5dU1LbFhlKzVwdGJF?=
- =?utf-8?B?Z1Q3Qkcwb3pPc3NYdC8rRG1YVlZoc3B4TEoyenpNVUNjSXJnNEZTcUM3Z0sy?=
- =?utf-8?B?ZnZ2TUZkUFg5MEFHVnVYZEtmeTQ1dUlVNmg0SElCU25aT2JvQ0xlM2RrczlI?=
- =?utf-8?B?a1pTbndpeEMyZEFXN280UEdNVWl0UUlCOTNLNFpLNGN4U25sV2RoNlliellT?=
- =?utf-8?B?QllCN042TSsxVTIwVE9mMzF2R0ZDNEdVYUNKL3EwMHdnSkV3a1dLV0NvRlNv?=
- =?utf-8?B?QzV2dnJ0WUhCSFJCdkpIdXl0bUxMeldqcU9WY2l1dXA5UmxWK29BUDhWM3B6?=
- =?utf-8?B?eWpmZzE2WDFWbU5FVXpVMUVncVl4QWRJcUVaMUwyTXpaL0t6RW5vNkJ5UHB6?=
- =?utf-8?B?UEhGQzI3bHlJZWFFRzZBbExWWXVVZlFtdWdBVkw5MWczOWJpU2RqY3I4VUJQ?=
- =?utf-8?B?K2d0eU83RzZpT3I4SjVXN1ZHNkNYdTl3Y3lUVzZHeFo3dUJ2eWkxU01XV0JC?=
- =?utf-8?B?WVBiSmR4QmRBVUFpWWtzdktReWljenZMbnlMV2dPTmc0eFFkbXVUN3JtSWhK?=
- =?utf-8?B?VWdORjFEWHBnK0ozWFBqSjg2YnoxOUFrY091OE5QZ2RyNHlqUG9QR2w0WHlj?=
- =?utf-8?B?Zi9YU2dyakJnRm5kc1pYRG9qakRXNmlhMzRnYkVOdXdJcStDMElYRCtHYy9s?=
- =?utf-8?B?SDVsWmZSQnlQZUpNMWI2elZBV093UmUxbWVqcDdMR1J1eXp2Y2NweGlVOWJE?=
- =?utf-8?B?SWJ1M3hzaFBXdHBCY1ZEcnZTTXJUSzFFNXIrZFpNMXdxZ2Zzc1NwaU1EZDRD?=
- =?utf-8?B?OFRkTjJIZHIrOUhXZ2VHcFJ5aXcyTUF6Vy9NZm9TY0RvV0FST3VIdkY2U0Zz?=
- =?utf-8?B?NUQ3Ym5yOTEyNnM4U1ZpRitoaVgremhGeExucjFWa0Y5d3FhdzZac0h6Yy9u?=
- =?utf-8?B?TjF6Unoxay92N3plTFpidU9vcDI5UTZqS3VyZUtYUHV5UHJYemgvWExPaWIv?=
- =?utf-8?B?cW54c1NJTjdSWkkrSVRDSWZEQStBNUlsbWNlY3Rmc1g2VjRBN1ZvNk4yYWJm?=
- =?utf-8?B?OEdxZGcybm53Njg3a3FCekk3ZzlHNzZOczJrcERnM3VRVHk0WUM4N1RJMnhy?=
- =?utf-8?B?QVNOdnE5TU9BQURxdGVZVk8vdUdEOHFxbEloelJETkp2NGNTcnBnUXVrRE0y?=
- =?utf-8?B?WkM2aWRPSnozV0laMTVKOGtIYnl1UzNSMmpEek1OSHkxclBkamY1bzlEUnFR?=
- =?utf-8?B?YTJDKzJWaHcxbStXRDEzNk9NZzZGTzY5YXVsTlFRNlBvMjUxS2dFNmUxYnE4?=
- =?utf-8?B?WjNUWFFvbFEwakc0bEMrQUdhK2FoSEIxNzlic1Ivc005L1RURlpqV1VmRGVV?=
- =?utf-8?B?SEcyOWg0MUljMG1vei9RdTNUNDlWT0N4SVJLMmFlNm1ibSt0SGxxaVF5WjJ2?=
- =?utf-8?B?NnliOFRUWnJGN2lQazR6dDdwM3pMdmU2UkR1cVJxRVlxSi84ZTE4NEtUcVpN?=
- =?utf-8?B?YjhoQWRNUWpSQjJaTXp1SWhocnFwd3FhS0kxTEFQVzYyS0JXaWZTWXFUcXR4?=
- =?utf-8?B?VmRaN2pGRXIvOFFuVEJ1dXdCWDVLOEEzY25pL0FFNDlLcTVKN2IyMVBlOHg2?=
- =?utf-8?B?UmRHNHRCQlhZT3YwTnJDZVNDMW5oTkJJdFp2OFJWNHJwLzVZTUNNVmtvaDU3?=
- =?utf-8?B?STc3dzJQT2ErNmdqZFZMK0FXWmowKys2d3BxVW13eTRvQkxiVnpBTmlyRmZr?=
- =?utf-8?B?ZGhDbUpIR3BTbTZORkZoVlRQRkwxaE9IMmVrdW1IRVJTcG5QbGo3MGgxVG1x?=
- =?utf-8?B?Uk9SSzcrSkd6MFZrQnFjc3MyS00zblg0TkJqbnd4eWxZMmtPSGJ3WEt1Rjgz?=
- =?utf-8?B?WVBJNHZxcDUxUjNxdU04SkxwQ2l4OXVhSTA2ZzA3b1ZYN2F4MlNGWGpaS3A4?=
- =?utf-8?B?ckE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56bcfdf6-1e5a-4a9d-722f-08ddf535beae
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 15:28:54.1824
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dPUl9DCF/wl2FtgI6xwj5rjFe5osG6iLaRrvHXZEdgG5b+E+AqYfWJGrdLi0vV+s2mnmGs2zZso2dK0q7fxCH58zR3WXCPFuYz7fq93m5ng=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6242
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: U7cl0VQpgScjoTe0s_Al3W6Nr-VnpP4M
-X-Authority-Analysis: v=2.4 cv=EP8G00ZC c=1 sm=1 tr=0 ts=68c9823a cx=c_pps
- a=MXKEcm+r4KK8PT7sjGsI9w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10 a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8
- a=0hQyLEuBAHEchtFIIRsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=7CQSdrXTAAAA:8
- a=iePJy_sQ7xn-1A-Ud7EA:9 a=ZkqhsPcilvYJRsZ0:21 a=_W_S_7VecoQA:10
- a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-GUID: XnMrUmjTMngPR7Lf-WMhYYMl-7zVn8FA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDE0MyBTYWx0ZWRfX3m6koTtRBgcY
- 4/qseK4EcWyjSAGRciO7aGDr92RTVh1/83pBFR30GrEFwBr3tSILGdjVX6nDe/ueRo703jcqmxk
- uMptQ0TJ0RAz1gJTyPfK0ppKVwhk4fy1ogJrkrSMAbxLQ/xDeQpmeDmw6kU+481kaq7mSl+PaxF
- Dw/n4bWuoIMetUmGFfRLxTabCXlYzzu9E0tKh1ZAaf5I3KIvNTlepo2VM4jrXqI97l8vNtG+oCN
- MQ9GYAHIHnJ6T6W892SQJqWac0YKnckDk1hd0Qb87KcT991nZQY56YA/BfNgzqoUlxKHjOmYy8N
- WM4opn0J4yzAviaysv99OuHVGMwWJF7ry7pSTsv70ToHMuUJP3CgLMrCIZ/k+I=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 malwarescore=0 suspectscore=0 bulkscore=0 spamscore=0
- phishscore=0 priorityscore=1501 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 15:29:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223563
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Sep 2025 15:51:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223565
 
---------------6DEm0Q2Qol5d1b30nCzbv00w
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 58G7Vk3O2080303
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
+Data pulled from: https://github.com/CVEProject/cvelistV5
 
-On 16-09-2025 20:09, Ross Burton wrote:
-> On 16 Sep 2025, at 15:16, Yash Shinde via lists.openembedded.org<Yash.S=
-hinde=3Dwindriver.com@lists.openembedded.org> wrote:
->> As part of evaluation of linker performance improvements in Rust-based=
- builds, I conducted a comparative analysis of
->> GNU ld and rust-lld using the ripgrep v14.1.1 crate.
->>
->> This analysis found similar reduction in link time of ~5x vs ~7x repor=
-ted in the Rust blog post that
->> highlighted rust-lld=E2=80=99s impact on reducing linking time for rip=
-grep.
-> Very interesting, thanks Yash.
->
-> Is =E2=80=98rust-lld=E2=80=99 actually just upstream lld from LLVM?  We=
- have a recipe for that, so if in the future we move our rust from rust-l=
-lvm.bb to llvm.bb then I hope we could just use our lld.bb too?
-Yes, rust-lld is a renamed lld from LLVM.
-Perhaps, we could use it if there are no regressions.
+    1/1 [
+        Author: cvelistV5 Github Action
+        Email: github_action@example.com
+        Subject: 1 changes (1 new | 0 updated): - 1 new CVEs: CVE-2025-10127 - 0 updated CVEs:
+        Date: Thu, 11 Sep 2025 19:51:09 +0000
 
-Deepesh has worked on dropping rust-llvm and tested the builds with LLVM=20
-21.1.0 successfully.
-https://lists.openembedded.org/g/openembedded-core/topic/remove_rust_llvm=
-_dependency/115274198
+    ]
 
-However, rust upstream has disabled lld as default due some known issues=20
-for the dist sources.
-It's seems to be unstable with some distributions for now.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/cve-exclusion_6.16.inc              | 360 +++++++++++++++++-
+ 1 file changed, 351 insertions(+), 9 deletions(-)
 
-https://github.com/rust-lang/rust/pull/143255
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.16.inc b/meta/recipes-kernel/linux/cve-exclusion_6.16.inc
+index f3fb0f9fb0..631d65f197 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.16.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.16.inc
+@@ -1,11 +1,11 @@
+ 
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2025-09-03 19:14:52.747326+00:00 for kernel version 6.16.4
+-# From linux_kernel_cves cve_2025-09-03_1900Z
++# Generated at 2025-09-11 19:55:57.111103+00:00 for kernel version 6.16.7
++# From linux_kernel_cves cve_2025-09-11_1900Z-3-gccd3d370b06
+ 
+ 
+ python check_kernel_cve_status_version() {
+-    this_version = "6.16.4"
++    this_version = "6.16.7"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+@@ -5848,8 +5848,6 @@ CVE_STATUS[CVE-2023-53135] = "fixed-version: Fixed from version 6.3"
+ 
+ CVE_STATUS[CVE-2023-53136] = "fixed-version: Fixed from version 6.3"
+ 
+-CVE_STATUS[CVE-2023-53137] = "fixed-version: Fixed from version 6.3"
+-
+ CVE_STATUS[CVE-2023-53138] = "fixed-version: Fixed from version 6.3"
+ 
+ CVE_STATUS[CVE-2023-53139] = "fixed-version: Fixed from version 6.3"
+@@ -14756,8 +14754,6 @@ CVE_STATUS[CVE-2025-38601] = "cpe-stable-backport: Backported in 6.16.1"
+ 
+ CVE_STATUS[CVE-2025-38602] = "cpe-stable-backport: Backported in 6.16.1"
+ 
+-CVE_STATUS[CVE-2025-38603] = "cpe-stable-backport: Backported in 6.16.1"
+-
+ CVE_STATUS[CVE-2025-38604] = "cpe-stable-backport: Backported in 6.16.1"
+ 
+ CVE_STATUS[CVE-2025-38605] = "cpe-stable-backport: Backported in 6.16.1"
+@@ -14772,8 +14768,6 @@ CVE_STATUS[CVE-2025-38609] = "cpe-stable-backport: Backported in 6.16.1"
+ 
+ CVE_STATUS[CVE-2025-38610] = "cpe-stable-backport: Backported in 6.16.1"
+ 
+-CVE_STATUS[CVE-2025-38611] = "cpe-stable-backport: Backported in 6.16.1"
+-
+ CVE_STATUS[CVE-2025-38612] = "cpe-stable-backport: Backported in 6.16.1"
+ 
+ CVE_STATUS[CVE-2025-38613] = "cpe-stable-backport: Backported in 6.16.1"
+@@ -14908,16 +14902,362 @@ CVE_STATUS[CVE-2025-38677] = "cpe-stable-backport: Backported in 6.16.4"
+ 
+ CVE_STATUS[CVE-2025-38678] = "cpe-stable-backport: Backported in 6.16.2"
+ 
++CVE_STATUS[CVE-2025-38679] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38680] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38681] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38682] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38683] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38684] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38685] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38686] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38687] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38688] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38689] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38690] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38691] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38692] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38693] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38694] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38695] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38696] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38697] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38698] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38699] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38700] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38701] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38702] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38703] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38704] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38705] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38706] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38707] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38708] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38709] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38710] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38711] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38712] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38713] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38714] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38715] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38716] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38717] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38718] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38719] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38720] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38721] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38722] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38723] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38724] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38725] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38726] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38727] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38728] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38729] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38730] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-38731] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-38732] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-38733] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-38734] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-38735] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-38736] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-38737] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39673] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39674] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39675] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39676] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39677] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39678] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39679] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39680] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39681] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39682] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39683] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39684] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39685] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39686] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39687] = "cpe-stable-backport: Backported in 6.16.4"
++
+ CVE_STATUS[CVE-2025-39688] = "fixed-version: Fixed from version 6.15"
+ 
++CVE_STATUS[CVE-2025-39689] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39690] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39691] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39692] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39693] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39694] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39695] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39696] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39697] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39698] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39699] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39700] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39701] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39702] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39703] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39704] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39705] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39706] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39707] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39708] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39709] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39710] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39711] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39712] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39713] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39714] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39715] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39716] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39717] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39718] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39719] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39720] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39721] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39722] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39723] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39724] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39725] = "fixed-version: Fixed from version 6.16"
++
++CVE_STATUS[CVE-2025-39726] = "fixed-version: Fixed from version 6.16"
++
++CVE_STATUS[CVE-2025-39727] = "cpe-stable-backport: Backported in 6.16.1"
++
+ CVE_STATUS[CVE-2025-39728] = "fixed-version: Fixed from version 6.15"
+ 
++CVE_STATUS[CVE-2025-39729] = "cpe-stable-backport: Backported in 6.16.1"
++
++CVE_STATUS[CVE-2025-39730] = "cpe-stable-backport: Backported in 6.16.1"
++
++CVE_STATUS[CVE-2025-39731] = "cpe-stable-backport: Backported in 6.16.1"
++
++CVE_STATUS[CVE-2025-39732] = "cpe-stable-backport: Backported in 6.16.1"
++
++CVE_STATUS[CVE-2025-39733] = "cpe-stable-backport: Backported in 6.16.1"
++
++CVE_STATUS[CVE-2025-39734] = "cpe-stable-backport: Backported in 6.16.1"
++
+ CVE_STATUS[CVE-2025-39735] = "fixed-version: Fixed from version 6.15"
+ 
++CVE_STATUS[CVE-2025-39736] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39737] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39738] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39739] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39740] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39741] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39742] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39743] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39744] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39745] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39746] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39747] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39748] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39749] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39750] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39751] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39752] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39753] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39754] = "cpe-stable-backport: Backported in 6.16.2"
++
+ CVE_STATUS[CVE-2025-39755] = "fixed-version: Fixed from version 6.15"
+ 
++CVE_STATUS[CVE-2025-39756] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39757] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39758] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39759] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39760] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39761] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39762] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39763] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39764] = "cpe-stable-backport: Backported in 6.16.2"
++
++CVE_STATUS[CVE-2025-39765] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39766] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39767] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39768] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39769] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39770] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39771] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39772] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39773] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39774] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39775] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39776] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39777] = "cpe-stable-backport: Backported in 6.16.4"
++
+ CVE_STATUS[CVE-2025-39778] = "fixed-version: Fixed from version 6.15"
+ 
++CVE_STATUS[CVE-2025-39779] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39780] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39781] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39782] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39783] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39784] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39785] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39786] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39787] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39788] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39789] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39790] = "cpe-stable-backport: Backported in 6.16.4"
++
++CVE_STATUS[CVE-2025-39791] = "cpe-stable-backport: Backported in 6.16.4"
++
+ CVE_STATUS[CVE-2025-39930] = "fixed-version: Fixed from version 6.15"
+ 
+ CVE_STATUS[CVE-2025-39989] = "fixed-version: Fixed from version 6.15"
+@@ -14926,6 +15266,8 @@ CVE_STATUS[CVE-2025-40014] = "fixed-version: Fixed from version 6.15"
+ 
+ CVE_STATUS[CVE-2025-40114] = "fixed-version: Fixed from version 6.15"
+ 
++# CVE-2025-40300 has no known resolution
++
+ CVE_STATUS[CVE-2025-40325] = "fixed-version: Fixed from version 6.15"
+ 
+ # CVE-2025-40364 has no known resolution
+-- 
+2.39.2
 
-
-
-Regards,
-Yash.
->
-> Cheers,
-> Ross
-
---=20
-Regards,
-Yash Shinde
-
---------------6DEm0Q2Qol5d1b30nCzbv00w
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 58G7Vk3O2080303
-
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 16-09-2025 20:09, Ross Burton wrote=
-:<span style=3D"white-space: pre-wrap">
-</span></div>
-    <blockquote type=3D"cite" cite=3D"mid:9F392464-759A-4B10-803B-38FC9A7=
-8AC81@arm.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-On 16 Sep 2025, at 15:16, Yash Shinde via lists.openembedded.org <a class=
-=3D"moz-txt-link-rfc2396E" href=3D"mailto:Yash.Shinde=3Dwindriver.com@lis=
-ts.openembedded.org">&lt;Yash.Shinde=3Dwindriver.com@lists.openembedded.o=
-rg&gt;</a> wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"" class=3D"moz-quote-pre">As part of evaluation of l=
-inker performance improvements in Rust-based builds, I conducted a compar=
-ative analysis of
-GNU ld and rust-lld using the ripgrep v14.1.1 crate.
-
-This analysis found similar reduction in link time of ~5x vs ~7x reported=
- in the Rust blog post that
-highlighted rust-lld=E2=80=99s impact on reducing linking time for ripgre=
-p.
-</pre>
-      </blockquote>
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-Very interesting, thanks Yash.
-
-Is =E2=80=98rust-lld=E2=80=99 actually just upstream lld from LLVM?  We h=
-ave a recipe for that, so if in the future we move our rust from rust-llv=
-m.bb to llvm.bb then I hope we could just use our lld.bb too?
-</pre>
-    </blockquote>
-    Yes, rust-lld is a renamed lld from LLVM.<br>
-    Perhaps, we could use it if there are no regressions.<br>
-    <br>
-    Deepesh has worked on dropping rust-llvm and tested the builds with
-    LLVM 21.1.0 successfully.<br>
-<a class=3D"moz-txt-link-freetext" href=3D"https://lists.openembedded.org=
-/g/openembedded-core/topic/remove_rust_llvm_dependency/115274198">https:/=
-/lists.openembedded.org/g/openembedded-core/topic/remove_rust_llvm_depend=
-ency/115274198</a><br>
-    <br>
-    However, rust upstream has disabled lld as default due some known
-    issues for the dist sources.<br>
-    It's seems to be unstable with some distributions for now.<br>
-    <br>
-    <a class=3D"moz-txt-link-freetext" href=3D"https://github.com/rust-la=
-ng/rust/pull/143255">https://github.com/rust-lang/rust/pull/143255</a><br=
->
-    <br>
-    <br>
-    <br>
-    Regards,<br>
-    Yash.
-    <blockquote type=3D"cite" cite=3D"mid:9F392464-759A-4B10-803B-38FC9A7=
-8AC81@arm.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-
-Cheers,
-Ross
-</pre>
-    </blockquote>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
-Regards,
-Yash Shinde</pre>
-  </body>
-</html>
-
---------------6DEm0Q2Qol5d1b30nCzbv00w--
 
