@@ -1,182 +1,188 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A74CAC599
-	for <webhook@archiver.kernel.org>; Wed, 17 Sep 2025 13:50:53 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.23552.1758117050913088910
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25445CAC59D
+	for <webhook@archiver.kernel.org>; Wed, 17 Sep 2025 13:52:13 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.23533.1758117128695644187
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Sep 2025 06:50:51 -0700
+ Wed, 17 Sep 2025 06:52:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=lQ09Q2Jp;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1355165e2e=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58HAc8hw576337;
-	Wed, 17 Sep 2025 06:50:49 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=ipX9R0gG5
-	aX2qAuBT98bLR9EyQYBWw7j/kzn927kY7Q=; b=lQ09Q2JpyI9sygF9QYVXkIJMq
-	CareLKcwZjFhcWdPrGYbIDncG3EptkNYetSqGBs0MPho5bUO8RQUWVET+f0OvZHP
-	ID8lsVkhdVlzTy17/kccDlHCSrBm+o/KTpGqqtJV4qNLeXBXRXDArWq9alNfafqj
-	HgW8qocnNxor7l7aFiejTznJAcZViOgTIF5j1G1pubzDN1BK3vXmKyZ4HSdmxMtQ
-	gUdzdzQvk+f6GG4/OysjbVd19dXvcuxgcPqAD5/fY0r29t8jas0x2xtUPqcxStMi
-	37NAOcdISrzIwZhLXlyYBjYWLEBQ6dUYeGHMJIxXXan+GtOuRP0o2Y5sOPAZw==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 497fwr0r4k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 17 Sep 2025 06:50:49 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Wed, 17 Sep 2025 06:50:48 -0700
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Wed, 17 Sep 2025 06:50:48 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <skandigraun@gmail.com>
-Subject: [PATCH v2] python3-cython: make generated source file be reproducible
-Date: Wed, 17 Sep 2025 21:50:47 +0800
-Message-ID: <20250917135047.2957170-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cmOt89IW;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: zboszor@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7724df82cabso6953824b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 06:52:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758117128; x=1758721928; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YGFGTFjvzTCIaPgJPj2717rBXzPJ8LLjRMN3xB/6xQ0=;
+        b=cmOt89IWj6TNMldIX/dEFF3C6Z+waSP/ENym3psr+Rj/fHvuKe6ZDj3GiesqjNOoTw
+         PdF9IuCRuYYMRVG+2XCrv+3JX+ycvkhk5BAVD+6FSTe4F+YujKAll7r8pHzuT7q1LZ8S
+         KsB7yOT6pE6jL+ms96/0UoVqh8M0sN5Pclhf/0G+c0zo0PJ+LUBLKDBbXNb52pJNTuAa
+         m07PyzvG+MMU8L9sNJ/5uq3IUitjREqIkqH7adOcDX9Huw9/XI3VOMhm0VhBsT2SSfnp
+         RicZFoYzgiDkeYCN5JojRkx78S4KwBK8xaj/q7Wt+Wby8ba7/3KLcobDt4Fie6qjzo88
+         /Xyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758117128; x=1758721928;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YGFGTFjvzTCIaPgJPj2717rBXzPJ8LLjRMN3xB/6xQ0=;
+        b=JqKBAuu/+l5fSFioZ45s4qAd8CZV+APieZzOJCy+23WMuVMd02PauS8pbQZ0Zhfmid
+         2dnQXX4MU/+KsQssr5qwqOANWrMrKE9UlhgiVTGMMxx7sBFYISjFxKk8itMT+8YmIl0Q
+         kZJyA9ANh8mlWvAKTv+zA2yar6UPjvPkL4yaNJbaTBT6TgWiGH9qkvlYSeMrBSuuFxaf
+         zqE2wRxphgLE0KQyP04rq5TyZn/1H/C/S0Cng2NobD1dD/omfX/SUwn7kFkJV9Z2g7ve
+         EJeDsfrRBKa3ZBrJz/2g0lO8la+f5s5+ZobV2G09FAXDi0qPKes4lt5VuB6DFv/pc4mR
+         l98A==
+X-Forwarded-Encrypted: i=1; AJvYcCUBoa/ikIigqwVCt/zDns+1JYKfnicizdz01NbpyLMebhm0HEsRa4UEL05d6a0s2TZ4ntv5IKhvD6MKDtcAVbM0eQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzVp3Mi/hk6Fe+N+DasPy5o4Mnwp4QJQ/xB4BKx45tGAeOtUOdz
+	bL150YETQai8ZjTbFsZCluKBFfU1Kotbx6GUBHFo/xmfZdAWzi6y9Gu0
+X-Gm-Gg: ASbGncsneECJqbwIH9rHMUkCsWroNwLk8ew+1gxy/X7EoiZOuPA/w7wWREPN64W97xY
+	NSCnt1LBiqfLHLETMCjM12qnJDCQoocIvibFknHM1AZF4nKj/EiMBeBR8zAmm0zhWhJGdT7Oy35
+	H+4aRZH0Z94eU72/YjMn60r0vIJ7x5XmMmMf2AJZtWDtaKCzLj32wZx9vKrF6ZhHjvxJQ/5DNKq
+	W1VOSARfN85byzgk2nH4z05j28CxNZItensysR/aucSr9CCru4jcNANWnPeTFwvH/22dB8xqyea
+	9wqTXm2jx3eLaKY1ovptBQC12jTFL9E6XFDSouF/EfkDQ7/aXxiM6PepCDdL5rNpnqkBCKDx1je
+	UfILrYVsV1ttSaLBVrgXNYwpImiwvO77HyaAipbzWkiQbp7yUcLg8PcZT
+X-Google-Smtp-Source: AGHT+IHqwffNdkxbqojWt2YDDqTFCff3yAxVYiF5LnkqHoS1852swiKJmil5JzsVUD/yt7wBii8lcw==
+X-Received: by 2002:aa7:8891:0:b0:772:7251:7148 with SMTP id d2e1a72fcca58-77bfa24e5d5mr2771442b3a.27.1758117127872;
+        Wed, 17 Sep 2025 06:52:07 -0700 (PDT)
+Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607c478d4sm19193700b3a.99.2025.09.17.06.52.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Sep 2025 06:52:07 -0700 (PDT)
+Message-ID: <6eacda50-485f-40c7-b19b-65b8671196b6@gmail.com>
+Date: Wed, 17 Sep 2025 15:52:01 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=Jay8rVKV c=1 sm=1 tr=0 ts=68cabcb9 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=yJojWOMRYYMA:10 a=SsMK-6ewAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
- a=ZYyfB17y-bkqDIpY4i4A:9 a=49hUO6naoDravHwzbBTq:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE3MDEzNSBTYWx0ZWRfX3Xu4NzXLEQqx
- jR9ZEDni94nwmrfl4arbvjgjs8K7XtApjqqMPO3ppOJWgIlEdo5VJUjAQAFrpXekI2dozmf3Brr
- m5r7ZJBt9XOTRC/Un2IIFrOEiMgiuWhnKvti8YybPX6ef72H7wvzAUSlrLbD8GHw7zfRMJowow8
- /JV1LBjzrqmGoHvB8QO0plNQBvK1jIcBRz+PAgWfV5ElCYQI3aDlQN6DTlcuFzIMoA5SoYfZosB
- O6BEx+nu8NHbHZbv0rpwGYlmyLI0lVWkYr8+LmUdGPbkMJScUkKLZFILe2TwEj2l3F0U32nGaH6
- LJmm3ZC930x/jEk6iP8KANuYRtTv0Nx7/CPCnK5jCmzAoYuChZPb/EssKANKn0=
-X-Proofpoint-GUID: I4FFcrVG8AmtTb8r61GXb45qhKDOZ0BB
-X-Proofpoint-ORIG-GUID: I4FFcrVG8AmtTb8r61GXb45qhKDOZ0BB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-17_01,2025-09-17_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 priorityscore=1501 malwarescore=0 suspectscore=0 adultscore=0
- bulkscore=0 phishscore=0 spamscore=0 impostorscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2507300000 definitions=firstrun
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 15/16] xkeyboard-config: update 2.44 -> 2.45
+To: alex.kanavin@gmail.com, Khem Raj <raj.khem@gmail.com>
+Cc: f_l_k@t-online.de, openembedded-core@lists.openembedded.org
+References: <20250911085123.1551425-1-alex.kanavin@gmail.com>
+ <20250911085123.1551425-15-alex.kanavin@gmail.com>
+ <P12O2T.G9TC7LOZ6AEG@t-online.de>
+ <CAMKF1sokUU3n1uDAXTD8ebxFTsSVmZX-4B9iSB1mFQ+3vp7K=Q@mail.gmail.com>
+ <CANNYZj994mKx9TLP+1uYf3YDK1ArbkzAJHtyrERhYX5NFT-=EA@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <CANNYZj994mKx9TLP+1uYf3YDK1ArbkzAJHtyrERhYX5NFT-=EA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 13:50:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223604
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 13:52:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223605
 
-While python3 module use cython to build library, the generated source file
-is not stable at each build and made the generated library not be reproducible
-
-This commit replaces un-predictable string with hardcode string in generated
-source file to assure the generated library should be reproducible
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...ictable-build-path-prefix-with-hardc.patch | 72 +++++++++++++++++++
- .../python/python3-cython_3.1.3.bb            |  4 ++
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-
-diff --git a/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-new file mode 100644
-index 0000000000..1fbbd8fd48
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-@@ -0,0 +1,72 @@
-+From 1690c505f1387e1884565021991a162e2f88f2b9 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 17 Sep 2025 01:42:08 -0700
-+Subject: [PATCH] Replace not predictable build path prefix with hardcode
-+ string in the generated output file
-+
-+The build path may contain tmp dir which is not predictable, it caused
-+the generated output file is not stable at each build and made
-+the generated library is not reproducible [1] between builds
-+
-+vim frozenlist/_frozenlist.cpp
-+...
-+/* BEGIN: Cython Metadata
-+{
-+    "distutils": {
-+        "depends": [],
-+        "language": "c++",
-+        "name": "frozenlist._frozenlist",
-+        "sources": [
-+            "/tmp/.tmp-frozenlist-pep517-cfdvygni/src/frozenlist/_frozenlist.pyx"
-+        ]
-+    },
-+    "module_name": "frozenlist._frozenlist"
-+}
-+END: Cython Metadata */
-+...
-+
-+Replace build path prefix with hardcode `build_path', it is no harm to
-+tweak comments in source file, after applied this commit,
-+vim frozenlist/_frozenlist.cpp
-+...
-+/* BEGIN: Cython Metadata
-+{
-+    "distutils": {
-+        "depends": [],
-+        "language": "c++",
-+        "name": "frozenlist._frozenlist",
-+        "sources": [
-+            "build_path/frozenlist/_frozenlist.pyx"
-+        ]
-+    },
-+    "module_name": "frozenlist._frozenlist"
-+}
-+END: Cython Metadata */
-+...
-+
-+[1] https://reproducible-builds.org/
-+
-+Upstream-Status: Submitted [https://github.com/cython/cython/pull/7162]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ Cython/Compiler/ModuleNode.py | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/Cython/Compiler/ModuleNode.py b/Cython/Compiler/ModuleNode.py
-+index 6672cb986..b1123515e 100644
-+--- a/Cython/Compiler/ModuleNode.py
-++++ b/Cython/Compiler/ModuleNode.py
-+@@ -779,7 +779,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
-+         code.put_generated_by()
-+         if metadata:
-+             code.putln("/* BEGIN: Cython Metadata")
-+-            code.putln(json.dumps(metadata, indent=4, sort_keys=True))
-++            _metadata = json.dumps(metadata, indent=4, sort_keys=True)
-++            _metadata = _metadata.replace(os.getcwd(), 'build_path')
-++            code.putln(_metadata)
-+             code.putln("END: Cython Metadata */")
-+             code.putln("")
-+ 
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-devtools/python/python3-cython_3.1.3.bb b/meta/recipes-devtools/python/python3-cython_3.1.3.bb
-index dcb61a3634..3b2835d9c5 100644
---- a/meta/recipes-devtools/python/python3-cython_3.1.3.bb
-+++ b/meta/recipes-devtools/python/python3-cython_3.1.3.bb
-@@ -11,6 +11,10 @@ SRC_URI[sha256sum] = "10ee785e42328924b78f75a74f66a813cb956b4a9bc91c44816d089d59
- 
- inherit pypi setuptools3 cython
- 
-+SRC_URI += " \
-+    file://0001-Replace-not-predictable-build-path-prefix-with-hardc.patch \
-+"
-+
- # No need to depend on self
- DEPENDS:remove = "python3-cython-native"
- 
--- 
-2.34.1
-
+SXQncyBub3QgdHJhbnNpZW50LiBJdCBoYXBwZW5zIGlmIEkgdHJ5IHRvIGJ1aWxkIHhrZXli
+b2FyZC1jb25maWctbmF0aXZlDQphZnRlciAtYyBjbGVhbmFsbC4gV2Fzbid0IHRoZXJlIGEg
+d2F5L2JiYXBwZW5kIHRvIHR1cm4gYWJzb2x1dGUgc3ltbGlua3MNCnRvIHJlbGF0aXZlIG9u
+ZXMgdW5kZXIgJHtXT1JLRElSfS9pbWFnZT8NCg0KMjAyNS4gMDkuIDE2LiAxMDo0NiBrZWx0
+ZXrDqXNzZWwsIEFsZXhhbmRlciBLYW5hdmluIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+IMOtcnRhOg0KPiBJIHRoaW5rIHRoZXNlIGFyZSBib3RoIHRyYW5zaWVudCBpc3N1ZXMgdGhh
+dCBoYXBwZW4gd2hlbiBidWlsZA0KPiBkaXJlY3RvcnkgaXMgcmV1c2VkIGJldHdlZW4gdGhl
+IG9sZCBhbmQgdGhlIG5ldyB2ZXJzaW9uLiBOb3QNCj4geGtleWJvYXJkLWNvbmZpZyBmYXVs
+dCBwZXIgc2UsIGl0IGp1c3QgcmVhcnJhbmdlcyB0aGUgaW5zdGFsbCBzZXQgaW4gYQ0KPiB3
+YXkgdGhhdCB0cmlnZ2VycyBhIGJ1ZyBzb21ld2hlcmUgaW4gb2UtY29yZSA6LS8NCj4NCj4g
+QWxleA0KPg0KPiBPbiBUdWUsIDE2IFNlcHQgMjAyNSBhdCAwNzo0MywgS2hlbSBSYWogPHJh
+ai5raGVtQGdtYWlsLmNvbT4gd3JvdGU6DQo+PiBJIGFtIHNlZWluZyBhIGJ1aWxkIGZhaWx1
+cmUgZm9yIHhrZXlib2FyZC1jb25maWctbmF0aXZlDQo+Pg0KPj4gRVJST1I6IHhrZXlib2Fy
+ZC1jb25maWctbmF0aXZlLTIuNDUtcjAgZG9fcG9wdWxhdGVfc3lzcm9vdDogc3N0YXRlDQo+
+PiBmb3VuZCBhbiBhYnNvbHV0ZSBwYXRoIHN5bWxpbmsNCj4+IC9tbnQvc3Rhc2gvdG1wL3dv
+cmsveDg2XzY0LWxpbnV4L3hrZXlib2FyZC1jb25maWctbmF0aXZlLzIuNDUvc3lzcm9vdC1k
+ZXN0ZGlyL21udC9zdGFzaC90bXAvd29yay94ODZfNjQtbGludXgveGtleWJvYXJkLWNvbmZp
+Zy1uYXRpdmUvMi40NS9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL3NoYXJlL1gxMS94a2IN
+Cj4+IHBvaW50aW5nIGF0IC9tbnQvc3Rhc2gvdG1wL3dvcmsveDg2XzY0LWxpbnV4L3hrZXli
+b2FyZC1jb25maWctbmF0aXZlLzIuNDUvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9zaGFy
+ZS94a2V5Ym9hcmQtY29uZmlnLTIuDQo+PiBQbGVhc2UgcmVwbGFjZSB0aGlzIHdpdGggYSBy
+ZWxhdGl2ZSBsaW5rLg0KPj4gRVJST1I6IHhrZXlib2FyZC1jb25maWctbmF0aXZlLTIuNDUt
+cjAgZG9fcG9wdWxhdGVfc3lzcm9vdDogRmFpbGluZw0KPj4gdGFzayBkdWUgdG8gYWJzb2x1
+dGUgcGF0aCBzeW1saW5rcw0KPj4gRVJST1I6IExvZ2ZpbGUgb2YgZmFpbHVyZSBzdG9yZWQg
+aW46DQo+PiAvbW50L3N0YXNoL3RtcC93b3JrL3g4Nl82NC1saW51eC94a2V5Ym9hcmQtY29u
+ZmlnLW5hdGl2ZS8yLjQ1L3RlbXAvbG9nLmRvX3BvcHVsYXRlX3N5c3Jvb3QuNzI2NjQwDQo+
+PiBOT1RFOiByZWNpcGUgeGtleWJvYXJkLWNvbmZpZy1uYXRpdmUtMi40NS1yMDogdGFzayBk
+b19wb3B1bGF0ZV9zeXNyb290OiBGYWlsZWQNCj4+IEVSUk9SOiBUYXNrICh2aXJ0dWFsOm5h
+dGl2ZTovbW50L2plbmtpbnMvd29ya3NwYWNlL1lvY3RvLXdvcmxkLWFybS9zb3VyY2VzL3Bv
+a3kvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3hrZXlib2FyZC1jb25maWdfMi40
+NS5iYjpkb19wb3B1bGF0ZV9zeXNyb290KQ0KPj4gZmFpbGVkIHdpdGggZXhpdCBjb2RlICcx
+Jw0KPj4NCj4+IE9uIE1vbiwgU2VwIDE1LCAyMDI1IGF0IDEwOjMy4oCvUE0gTWFya3VzIFZv
+bGsgdmlhDQo+PiBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxmX2xfaz10LW9ubGluZS5kZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPj4gd3JvdGU6DQo+Pj4gSSdtIHNlZWluZyBpc3N1
+ZXMgd2l0aCBzeW1saW5rIGNyZWF0aW9uOg0KPj4+IHwgSW5zdGFsbGluZyBzeW1saW5rIHBv
+aW50aW5nIHRvIHhrZXlib2FyZC1jb25maWctMi5wYyB0byAvaG9tZS9mbGsvcG9reS9idWls
+ZC90bXAvd29yay9jb3JlaTctNjQtcG9reS1saW51eC94a2V5Ym9hcmQtY29uZmlnLzIuNDUv
+aW1hZ2UvdXNyL3NoYXJlL3BrZ2NvbmZpZy94a2V5Ym9hcmQtY29uZmlnLnBjDQo+Pj4gfCBJ
+bnN0YWxsaW5nIHN5bWxpbmsgcG9pbnRpbmcgdG8gYmFzZSB0byAvaG9tZS9mbGsvcG9reS9i
+dWlsZC90bXAvd29yay9jb3JlaTctNjQtcG9reS1saW51eC94a2V5Ym9hcmQtY29uZmlnLzIu
+NDUvaW1hZ2UvdXNyL3NoYXJlL3hrZXlib2FyZC1jb25maWctMi9ydWxlcy94b3JnDQo+Pj4g
+fCBJbnN0YWxsaW5nIHN5bWxpbmsgcG9pbnRpbmcgdG8gYmFzZS5sc3QgdG8gL2hvbWUvZmxr
+L3Bva3kvYnVpbGQvdG1wL3dvcmsvY29yZWk3LTY0LXBva3ktbGludXgveGtleWJvYXJkLWNv
+bmZpZy8yLjQ1L2ltYWdlL3Vzci9zaGFyZS94a2V5Ym9hcmQtY29uZmlnLTIvcnVsZXMveG9y
+Zy5sc3QNCj4+PiB8IEluc3RhbGxpbmcgc3ltbGluayBwb2ludGluZyB0byBiYXNlLnhtbCB0
+byAvaG9tZS9mbGsvcG9reS9idWlsZC90bXAvd29yay9jb3JlaTctNjQtcG9reS1saW51eC94
+a2V5Ym9hcmQtY29uZmlnLzIuNDUvaW1hZ2UvdXNyL3NoYXJlL3hrZXlib2FyZC1jb25maWct
+Mi9ydWxlcy94b3JnLnhtbA0KPj4+IHwgSW5zdGFsbGluZyBzeW1saW5rIHBvaW50aW5nIHRv
+IHhrZXlib2FyZC1jb25maWctMi43IHRvIC9ob21lL2Zsay9wb2t5L2J1aWxkL3RtcC93b3Jr
+L2NvcmVpNy02NC1wb2t5LWxpbnV4L3hrZXlib2FyZC1jb25maWcvMi40NS9pbWFnZS91c3Iv
+c2hhcmUvbWFuL21hbjcveGtleWJvYXJkLWNvbmZpZy43DQo+Pj4gfCBJbnN0YWxsaW5nIHN5
+bWxpbmsgcG9pbnRpbmcgdG8gL3Vzci9zaGFyZS94a2V5Ym9hcmQtY29uZmlnLTIgdG8gL2hv
+bWUvZmxrL3Bva3kvYnVpbGQvdG1wL3dvcmsvY29yZWk3LTY0LXBva3ktbGludXgveGtleWJv
+YXJkLWNvbmZpZy8yLjQ1L2ltYWdlL3Vzci9zaGFyZS9YMTEveGtiDQo+Pj4gfCBsbjogZmFp
+bGVkIHRvIGNyZWF0ZSBzeW1ib2xpYyBsaW5rICcvaG9tZS9mbGsvcG9reS9idWlsZC90bXAv
+d29yay9jb3JlaTctNjQtcG9reS1saW51eC94a2V5Ym9hcmQtY29uZmlnLzIuNDUvaW1hZ2Uv
+dXNyL3NoYXJlL1gxMS94a2Ivc3ltYm9scy9lbic6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3Rv
+cnkNCj4+Pg0KPj4+IE9uIFRodSwgU2VwIDExIDIwMjUgYXQgMTA6NTE6MjIgKzAyOjAwOjAw
+LCBBbGV4YW5kZXIgS2FuYXZpbiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8YWxleC5r
+YW5hdmluPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4+Pg0K
+Pj4+IEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+IExpY2Vu
+c2UtdXBkYXRlOiBkaXNjbGFpbWVyIGFuZCBjb3B5cmlnaHQgY2xhcmlmaWNhdGlvbnMgcGVy
+IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy94a2V5Ym9hcmQtY29uZmlnL3hrZXli
+b2FyZC1jb25maWcvLS9tZXJnZV9yZXF1ZXN0cy84MjEgUmVwbGFjZSBtYW51YWwgc3ltbGlu
+ayBjcmVhdGlvbiB3aXRoIGEgbWVzb24gb3B0aW9uLiBEcm9wIG5vLW9wIGF1dG9jb25mIG9w
+dGlvbnMuIEFkanVzdCBwYWNrYWdpbmcgYXMgdGhpcyBpcyB3aGVyZSB1cHN0cmVhbSBpbnN0
+YWxscyBub3cuIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0
+cm9uaXguZGU+IC0tLSAuLi5vYXJkLWNvbmZpZ18yLjQ0LmJiID0+IHhrZXlib2FyZC1jb25m
+aWdfMi40NS5iYn0gfCAxMyArKysrLS0tLS0tLS0tIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2Vy
+dGlvbnMoKyksIDkgZGVsZXRpb25zKC0pIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+eG9yZy1saWIve3hrZXlib2FyZC1jb25maWdfMi40NC5iYiA9PiB4a2V5Ym9hcmQtY29uZmln
+XzIuNDUuYmJ9ICg2NSUpIGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9y
+Zy1saWIveGtleWJvYXJkLWNvbmZpZ18yLjQ0LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3hvcmctbGliL3hrZXlib2FyZC1jb25maWdfMi40NS5iYiBzaW1pbGFyaXR5IGluZGV4IDY1
+JSByZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIveGtleWJvYXJk
+LWNvbmZpZ18yLjQ0LmJiIHJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1s
+aWIveGtleWJvYXJkLWNvbmZpZ18yLjQ1LmJiIGluZGV4IDUyZDA3NGZkNWVkLi44NTdjY2M3
+NTE2MCAxMDA2NDQgLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3hrZXli
+b2FyZC1jb25maWdfMi40NC5iYiArKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1s
+aWIveGtleWJvYXJkLWNvbmZpZ18yLjQ1LmJiIEBAIC0xMCwyMyArMTAsMTggQEAgSE9NRVBB
+R0UgPSAiaHR0cDovL2ZyZWVkZXNrdG9wLm9yZy93aWtpL1NvZnR3YXJlL1hLZXlib2FyZENv
+bmZpZyIgQlVHVFJBQ0tFUiA9ICJodHRwczovL2J1Z3MuZnJlZWRlc2t0b3Aub3JnL2VudGVy
+X2J1Zy5jZ2k/cHJvZHVjdD14a2V5Ym9hcmQtY29uZmlnIiBMSUNFTlNFID0gIk1JVCAmIE1J
+VCIgLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PThmYzhhZTY5OTk3
+NGMzNjBlMmUyZTg4M2E2M2NlMjY0IiArTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9ZmFhNzU2ZTA0MDUzMDI5ZGRjNjAyY2FmOTllNWVmMWQiIFNSQ19VUkkgPSAi
+JHtYT1JHX01JUlJPUn0vaW5kaXZpZHVhbC9kYXRhL3hrZXlib2FyZC1jb25maWcvJHtCUE59
+LSR7UFZ9LnRhci54eiIgLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1NGQyYzMzZWVlYmIwMzFk
+NDhmYTU5MGM1NDNlNTRjOWJjYmQwZjAwMzg2ZWJjNjQ4OWIyZjQ3YTBkYTQzNDJhIiArU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjE2OWUwNzVhOTJkOTU3YTU3Nzg3YzE5OWU4NGUzNTlkZjI5
+MzFiNzE5NmMxYzViNGEzZDU3NmVlNjIzNWE4N2MiIFNFQ1RJT04gPSAieDExL2xpYnMiIERF
+UEVORFMgPSAidXRpbC1tYWNyb3MgbGlieHNsdC1uYXRpdmUiIC1FWFRSQV9PRUNPTkYgPSAi
+LS13aXRoLXhrYi1ydWxlcy1zeW1saW5rPXhvcmcgLS1kaXNhYmxlLXJ1bnRpbWUtZGVwcyIg
+LSAtRklMRVM6JHtQTn0gKz0gIiR7ZGF0YWRpcn0vWDExL3hrYiIgK0ZJTEVTOiR7UE59ICs9
+ICIke2RhdGFkaXJ9L1gxMS94a2IgJHtkYXRhZGlyfS94a2V5Ym9hcmQtY29uZmlnLTIiIGlu
+aGVyaXQgbWVzb24gcGtnY29uZmlnIGdldHRleHQgcHl0aG9uM25hdGl2ZSAtZG9faW5zdGFs
+bDphcHBlbmQgKCkgeyAtIGluc3RhbGwgLWQgJHtEfSR7ZGF0YWRpcn0vWDExL3hrYi9jb21w
+aWxlZCAtIGNkICR7RH0ke2RhdGFkaXJ9L1gxMS94a2IvcnVsZXMgJiYgbG4gLXNmIGJhc2Ug
+eG9yZyAtfSArRVhUUkFfT0VNRVNPTiArPSAiLUR4b3JnLXJ1bGVzLXN5bWxpbmtzPXRydWUi
+IEJCQ0xBU1NFWFRFTkQgKz0gIm5hdGl2ZSINCj4+PiAtLQ0KPj4+IDIuMzkuNQ0KPj4+DQo+
+Pj4NCj4+Pg0KPj4+DQo+Pj4NCj4+PiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPj4+IExp
+bmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPj4+
+IFZpZXcvUmVwbHkgT25saW5lICgjMjIzNTMyKTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
+ZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMjM1MzINCj4+PiBNdXRlIFRo
+aXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMTUxODQ3NzYv
+MzYxNzcyOA0KPj4+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnDQo+Pj4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViIFt6Ym9zem9yQGdtYWls
+LmNvbV0NCj4+PiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPj4+DQoNCg==
 
