@@ -1,142 +1,171 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98887CAC59A
-	for <webhook@archiver.kernel.org>; Wed, 17 Sep 2025 14:27:43 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.24562.1758119262347209633
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A76ACAC59A
+	for <webhook@archiver.kernel.org>; Wed, 17 Sep 2025 14:45:03 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web11.25312.1758120297326254896
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Sep 2025 07:27:42 -0700
+ Wed, 17 Sep 2025 07:44:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RSWN8Si4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45f2b062b86so25719195e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 07:27:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JB/46DUB;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4b5eee40cc0so65529361cf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 07:44:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1758119261; x=1758724061; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e1PgT6rzWiwdSjKXUSsl+bC1EfnN5OVl7xEOouoz4po=;
-        b=RSWN8Si4Fkky67MvaM1K+2Fly5BUrjrzQFMPUiJMq83qgvk8DkGjps7iKDljuIRWm4
-         euQqc4zseoHtO9q1eICMCsocOJ9n7FNV2o0Y3rlTM3HCiwfkO95a2Yx8dRxOQF858TaD
-         4LJXdJTOMSl+jWjSGxWg8yJH5Nm+EfjFhdXw4=
+        d=gmail.com; s=20230601; t=1758120296; x=1758725096; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=md6V5olEA9VUZhrzLuOOKNXC94bEE7C/lxwbvbYFsU4=;
+        b=JB/46DUBaYJ8CfCzZE1KdVOkhE81pw9Yn2DdmL/h5zogWfcmVgBImsfx698AxOhXgt
+         HMFRQIbHBoO6oployMKYrNXHBlgsI+lT3ORmf53ryoa14u6H4BQnPMVlUVhdVfB6+0KS
+         GLucwMXKzhJukWWzsIiA3fD+qleRzG7XZsw22ulpQ4iJk7taAEYup6NA9YDH+wBQNcju
+         DJCMXuGUCP1yx2jlIi/pfcTm1+2HXY7My55Llqtj1aXIVhxhKCLDftTD+34kYsympAhl
+         0Q2pyh6q1rwOAOC9og5M73VMFo+/Pb1l54QG3J78J95qxyLKvbgIlG5PpFN588u4+kyt
+         y6qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758119261; x=1758724061;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=e1PgT6rzWiwdSjKXUSsl+bC1EfnN5OVl7xEOouoz4po=;
-        b=whfzrzvpmIRYWKf76HW8x5qFVuhfGM0tiYVjCQ2XyhdpvGm3nyzGqQ0jP3/XeyH9YW
-         9CLjlzBLRvsmGJfUFZtxSmLDcXjXHeTf3gofn/aOeGn5SS0A36AH/LDJvw8u96flygL/
-         P9eNYFl45ugn+aAh+lTiCViC0dmbplrnDU9NLdI9DMnD21xkSKyE3nTtx6lBRdKbZDpo
-         jTLHaaO1Oa6AYmq2+ckp7Qy9Vx+VLz+6qtmdjHkxaEvi9OT5SusrimmEgvnWARKUeEbx
-         lWY4zpeG2qpf3CuTj42i8OHpOwvYKa3Qc3nkLfpkIX3nXjdvcgQEyFUJvZDJHniWrYwK
-         +DOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqJ2ccXfN2j+hNtOu+tE0f4C5y//I5rtbrz1JfMQVDsGz3pGdMROefZjCVGhLBneBkeWoAkPi1ZcaPBSIznt99Rg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzonlExCD5L7/ekJHTfKV8YONnxBnIle5m2ruP3DhwmlfkjUG7v
-	DaoSu6ECERzKZSChqKJ91rpMxbmMg40hOmmnQXTXgvhuRC1KmiQdzn3kVzpP9QkpLww=
-X-Gm-Gg: ASbGnctr7zCstPactYcumWxfP4eqLe0VlnZ6eoCSMvl7vanRb25ellwKsXPIuvj98Ki
-	fIp63wPCcFPVDju1+MSXbVwuxNMR/4NLiTUYpKKyhcNstjF1EnZkWOWahYc+HY+fuO2UUUjDvxA
-	9kM46YJQTzCQBFRf0OtMttptBs1hgg44+IkQ6GedhvQEX1jc/4uutSABgDdEcae3FH9lLyGeNBY
-	6IIziZUmuDSkbhoDUzdCm1J0Hk7usz/KeBKcXQ5PSyfU4TAJeAZixLUX6CVzLEJNFtlBIknjnWy
-	vQv8BS3zj7N5u1+JKIXxd97QSu6joTkATvV3cdixkAu3JvR6N6VbsjLodqk+CuFdrQuCfc+e06N
-	MtCtIj3Voo/MTbU31V9m8WWtMBJg8VhfbLCxMOe6wSEdSiPJvAsw6xZ4+zHVnOvQR0yynOWuRzE
-	euzOFVVcAln9w=
-X-Google-Smtp-Source: AGHT+IH8es8FjcUj2VH6xucvXawntdyPm6vqoC3ihN4DrmJL4Yrd42HyGWJe1ZseNdsZlw480ZZKNw==
-X-Received: by 2002:a05:600c:3b83:b0:45d:d88d:9ed9 with SMTP id 5b1f17b1804b1-4649c312cb1mr2537165e9.34.1758119260679;
-        Wed, 17 Sep 2025 07:27:40 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a42a:bde0:2db0:730d? ([2001:8b0:aba:5f3c:a42a:bde0:2db0:730d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-461371847d0sm40482775e9.2.2025.09.17.07.27.39
+        d=1e100.net; s=20230601; t=1758120296; x=1758725096;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=md6V5olEA9VUZhrzLuOOKNXC94bEE7C/lxwbvbYFsU4=;
+        b=RvMlRq4DViAs+Ocf/7EnI5prakoTetGbL3pxA1xwXmwylb0S82RPYff5TTJUv5LGbi
+         TBGgfhEZ7rlWu6gt8JwJpS/bKjt/gpfboFUk6KOIyD+Ygv1O8hoqoKa8RjiJOlL4ITvU
+         sV3z1BWmUhND4F9CKtlVpunEQBa78vO6GVMLy9M5JhKHWXIzCvPB5NqKrHHQ3EV9knFz
+         5hiOOW/i+geZoM3EHJwZQJDTyvvHWmNBKxCqy1gnq5VZSYzoBy7/Pgu0m0/vm7IjFgRw
+         rXuD7biP+IdloKAd+AD85miySEuOj+NE9BDAKU9U0v/SHf2Sfyv17CLmS69OOfLGxRs0
+         2/Mg==
+X-Gm-Message-State: AOJu0YxnwtNIfpgiJXrvcL8BHFUVJRz7yZZrVz72wkI8l0Yb7ibCKsYO
+	GGuR9wmMwJEJjajq170sMiMiU0bfFTx03tNr4C9Ua5FfAZcfMXo7cwNR
+X-Gm-Gg: ASbGnctkAVFeGQb9VVhx4vqmT6iD9HFCIYtNvqDHUni+xHdeZaGcy2pU8XCLPb0GevV
+	ZehGgE86kZA1lQ9fYHB5/fCZ3m5SXKv05cECT6xIUjfMalv0tPAakYE8E53Pzowwicmq43tZSo+
+	SWVM4wTzW+F0/LxggR99WamhOhK53xXJm9KBgTcU9RsUJcOVJyVgHQqvBcnmYEuPDHODKbl6whi
+	V4QvvDyJi2Vj/M0XrqnLGGkjwtryr5GXRXTCcdLSSedl2f7ZlbXfq3+qUe9avQRpPPDm1ILLjZ/
+	42gLQ7I7xSVMolksW5WlWMoOVQQuD3jEYxWg45OAXgDoU52eZp+abxo5i6+0vutEubinoM/iz1x
+	KsLdX9txKHJTVS7It441UraivD9ahwPmTihtrGl/aDR5XH7kvnRXrQk5PIWNtOy18G+evmXPbAQ
+	OGhwuZX7ok1IqDUzEO5tzEni2+YDr1J2LI10Y7JUizwqgS0EBgI0XTq4vttWo6+hMPKA==
+X-Google-Smtp-Source: AGHT+IHzIZRvbvAswY+eQYyv7hl8p6U3YGMEdPz5AUHhN2ufwNEgS0EoW6dzpdUNnc7T++UGvdYQxA==
+X-Received: by 2002:ac8:5813:0:b0:4b7:ad2a:7505 with SMTP id d75a77b69052e-4ba65bc1fcemr30220671cf.11.1758120296050;
+        Wed, 17 Sep 2025 07:44:56 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b639dab3f3sm99312381cf.34.2025.09.17.07.44.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Sep 2025 07:27:40 -0700 (PDT)
-Message-ID: <649e1641a6b3dac8cba302ea6b4b537da53ee892.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 1/8] clang: improve opt-viewer PACKAGECONFIG
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mathieu.dubois-briand@bootlin.com, ross.burton@arm.com, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 17 Sep 2025 15:27:39 +0100
-In-Reply-To: <DCV0ZAHF908J.1UVS55MZ1J8G3@bootlin.com>
-References: <20250915191109.1117663-1-ross.burton@arm.com>
-	 <DCV0ZAHF908J.1UVS55MZ1J8G3@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Wed, 17 Sep 2025 07:44:55 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/6.16: defconfig: fix configuration audit warning
+Date: Wed, 17 Sep 2025 10:44:54 -0400
+Message-Id: <20250917144454.3728184-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 14:27:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223608
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 14:45:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223609
 
-On Wed, 2025-09-17 at 13:06 +0200, Mathieu Dubois-Briand via lists.openembe=
-dded.org wrote:
-> On Mon Sep 15, 2025 at 9:11 PM CEST, Ross Burton via lists.openembedded.o=
-rg wrote:
-> > Instead of patching the python module detection, we can use the hidden
-> > option LLVM_TOOL_OPT_VIEWER_BUILD.
-> >=20
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
->=20
-> Hi Ross,
->=20
-> Sorry, but it looks like one of these patches is breaking tc tests:
->=20
-> ERROR: clang-native-21.1.1-r0 do_compile: Execution of '/srv/pokybuild/yo=
-cto-worker/qemuarm64-tc/build/build-st-3689262/tmp/work/x86_64-linux/clang-=
-native/21.1.1/temp/run.do_compile.1114131' failed with exit code 1
-> ...
-> /clang-tblgen.dir/ClangCommentHTMLNamedCharacterReferenceEmitter.cpp.o ut=
-ils/TableGen/CMakeFiles/clang-tblgen.dir/ClangCommentHTMLTagsEmitter.cpp.o =
-utils/TableGen/CMakeFiles/clang-tblgen.dir/ClangDataCollectorsEmitter.cpp.o=
- utils/TableGen/CMakeFiles/clang-tblgen.dir/ClangDiagnosticsEmitter.cpp.o u=
-tils/TableGen/CMakeFiles/clang-tblgen.dir/ClangOpcodesEmitter.cpp.o utils/T=
-ableGen/CMakeFiles/clang-tblgen.dir/ClangOpenCLBuiltinEmitter.cpp.o utils/T=
-ableGen/CMakeFiles/clang-tblgen.dir/ClangOptionDocEmitter.cpp.o utils/Table=
-Gen/CMakeFiles/clang-tblgen.dir/ClangSACheckersEmitter.cpp.o utils/TableGen=
-/CMakeFiles/clang-tblgen.dir/ClangSyntaxEmitter.cpp.o utils/TableGen/CMakeF=
-iles/clang-tblgen.dir/ClangTypeNodesEmitter.cpp.o utils/TableGen/CMakeFiles=
-/clang-tblgen.dir/MveEmitter.cpp.o utils/TableGen/CMakeFiles/clang-tblgen.d=
-ir/NeonEmitter.cpp.o utils/TableGen/CMakeFiles/clang-tblgen.dir/RISCVVEmitt=
-er.cpp.o utils/TableGen/CMakeFiles/clang-tblgen.dir/SveEmitter.cpp.o utils/=
-TableGen/CMakeFiles/clang-tblgen.dir/TableGen.cpp.o -o bin/clang-tblgen=C2=
-=A0 /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3689262/tmp/wor=
-k/x86_64-linux/clang-native/21.1.1/recipe-sysroot-native/usr/lib/libLLVMSup=
-port.a=C2=A0 /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-368926=
-2/tmp/work/x86_64-linux/clang-native/21.1.1/recipe-sysroot-native/usr/lib/l=
-ibLLVMTableGen.a=C2=A0 /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build=
--st-3689262/tmp/work/x86_64-linux/clang-native/21.1.1/recipe-sysroot-native=
-/usr/lib/libLLVMSupport.a=C2=A0 -lrt=C2=A0 -ldl=C2=A0 -lm=C2=A0 -lz=C2=A0 -=
-lzstd=C2=A0 /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3689262=
-/tmp/work/x86_64-linux/clang-native/21.1.1/recipe-sysroot-native/usr/lib/li=
-bLLVMDemangle.a && :
-> > /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3689262/tmp/hos=
-ttools/ld: /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3689262/=
-tmp/work/x86_64-linux/clang-native/21.1.1/recipe-sysroot-native/usr/lib/lib=
-LLVMTableGen.a(TGLexer.cpp.o): in function `llvm::TGLexer::LexNumber() [clo=
-ne .localalias]':
-> > TGLexer.cpp:(.text._ZN4llvm7TGLexer9LexNumberEv+0xea): undefined refere=
-nce to `__isoc23_strtoll'
-> > /srv/pokybuild/yocto-worker/qemuarm64-tc/build/build-st-3689262/tmp/hos=
-ttools/ld: TGLexer.cpp:(.text._ZN4llvm7TGLexer9LexNumberEv+0xf1): undefined=
- reference to `__isoc23_strtoull'
->=20
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/5/builds/2313
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/builds/2308
->=20
-> On the good news, reproducibility issues seem to be gone.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-This is a horrible one.
+Integrating the following commit(s) to linux-yocto/6.16:
 
-For a bit of background and the fun we had in pseudo with this:
+1/1 [
+    Author: Trevor Woerner
+    Email: twoerner@gmail.com
+    Subject: defconfig: cleanup orphaned CONFIG_SCHED_DEBUG
+    Date: Tue, 16 Sep 2025 16:33:24 +0100
 
-https://git.yoctoproject.org/pseudo/commit/?id=3D865ca5b647bba47ca5c4d3e655=
-97d9a25d4261bf
+    In commit b52173065e0a ("sched/debug: Remove CONFIG_SCHED_DEBUG") this
+    Kconfig option was removed since CONFIG_SCHED_DEBUG was made unconditional
+    by patches preceding it.
+
+    Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+    Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+
+Apply this after my recent -stable bumps to 6.16.
 
 Cheers,
 
-Richard
+Bruce
+
+ .../linux/linux-yocto-rt_6.16.bb              |  4 ++--
+ .../linux/linux-yocto-tiny_6.16.bb            |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.16.bb | 24 +++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+index 9f3f940b77..e541805938 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+@@ -14,8 +14,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "4ad01ee57e42c93abe2d26816875854c5e475f9e"
+-SRCREV_meta ?= "d32229904a43cdac64d57932f997990519b6b773"
++SRCREV_machine ?= "3b7f5e9e65320c4b0d5daf517e60a5f683ee1031"
++SRCREV_meta ?= "5cfae705d58ce214867b7b25653efb03b613c6df"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.16;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+index da4f1032ea..643f6e7923 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "4f0f726a99be121940c4fb44634584d4027073b3"
+-SRCREV_meta ?= "d32229904a43cdac64d57932f997990519b6b773"
++SRCREV_machine ?= "946b80132b9ce459ba84f90d4b2f63eeace6014d"
++SRCREV_meta ?= "5cfae705d58ce214867b7b25653efb03b613c6df"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+index 17d4ae35ee..ff4b8afc5f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+@@ -18,18 +18,18 @@ KBRANCH:qemux86-64 ?= "v6.16/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.16/standard/base"
+ KBRANCH:qemumips64 ?= "v6.16/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "29139e9a27fc305eb999bf2d02086deb441753ba"
+-SRCREV_machine:qemuarm64 ?= "4f0f726a99be121940c4fb44634584d4027073b3"
+-SRCREV_machine:qemuloongarch64 ?= "4f0f726a99be121940c4fb44634584d4027073b3"
+-SRCREV_machine:qemumips ?= "cd9be6bce5b979643b3ca76bbaf0fbe9680cc6c1"
+-SRCREV_machine:qemuppc ?= "4f0f726a99be121940c4fb44634584d4027073b3"
+-SRCREV_machine:qemuriscv64 ?= "4f0f726a99be121940c4fb44634584d4027073b3"
+-SRCREV_machine:qemuriscv32 ?= "4f0f726a99be121940c4fb44634584d4027073b3"
+-SRCREV_machine:qemux86 ?= "4f0f726a99be121940c4fb44634584d4027073b3"
+-SRCREV_machine:qemux86-64 ?= "4f0f726a99be121940c4fb44634584d4027073b3"
+-SRCREV_machine:qemumips64 ?= "14d54ff925a0fff26c30f6fe7eda8b0310f8f512"
+-SRCREV_machine ?= "4f0f726a99be121940c4fb44634584d4027073b3"
+-SRCREV_meta ?= "d32229904a43cdac64d57932f997990519b6b773"
++SRCREV_machine:qemuarm ?= "71e0898274de9dc6edff0f2d9d6fa213dae11272"
++SRCREV_machine:qemuarm64 ?= "946b80132b9ce459ba84f90d4b2f63eeace6014d"
++SRCREV_machine:qemuloongarch64 ?= "946b80132b9ce459ba84f90d4b2f63eeace6014d"
++SRCREV_machine:qemumips ?= "c2ab3a7b951876e2fcbcae9bfa816f8484cc66cc"
++SRCREV_machine:qemuppc ?= "946b80132b9ce459ba84f90d4b2f63eeace6014d"
++SRCREV_machine:qemuriscv64 ?= "946b80132b9ce459ba84f90d4b2f63eeace6014d"
++SRCREV_machine:qemuriscv32 ?= "946b80132b9ce459ba84f90d4b2f63eeace6014d"
++SRCREV_machine:qemux86 ?= "946b80132b9ce459ba84f90d4b2f63eeace6014d"
++SRCREV_machine:qemux86-64 ?= "946b80132b9ce459ba84f90d4b2f63eeace6014d"
++SRCREV_machine:qemumips64 ?= "14ae3e2469aa1e43fcb65a030d9c184bbec3585f"
++SRCREV_machine ?= "946b80132b9ce459ba84f90d4b2f63eeace6014d"
++SRCREV_meta ?= "5cfae705d58ce214867b7b25653efb03b613c6df"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+-- 
+2.39.2
 
 
