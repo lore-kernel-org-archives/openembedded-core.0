@@ -2,59 +2,59 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25445CAC59D
-	for <webhook@archiver.kernel.org>; Wed, 17 Sep 2025 13:52:13 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.23533.1758117128695644187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D5A4CAC59A
+	for <webhook@archiver.kernel.org>; Wed, 17 Sep 2025 13:53:13 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.23609.1758117189603272754
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Sep 2025 06:52:08 -0700
+ Wed, 17 Sep 2025 06:53:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cmOt89IW;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: zboszor@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7724df82cabso6953824b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 06:52:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z94ysxNz;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: zboszor@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-330469eb750so393817a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 06:53:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758117128; x=1758721928; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1758117189; x=1758721989; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YGFGTFjvzTCIaPgJPj2717rBXzPJ8LLjRMN3xB/6xQ0=;
-        b=cmOt89IWj6TNMldIX/dEFF3C6Z+waSP/ENym3psr+Rj/fHvuKe6ZDj3GiesqjNOoTw
-         PdF9IuCRuYYMRVG+2XCrv+3JX+ycvkhk5BAVD+6FSTe4F+YujKAll7r8pHzuT7q1LZ8S
-         KsB7yOT6pE6jL+ms96/0UoVqh8M0sN5Pclhf/0G+c0zo0PJ+LUBLKDBbXNb52pJNTuAa
-         m07PyzvG+MMU8L9sNJ/5uq3IUitjREqIkqH7adOcDX9Huw9/XI3VOMhm0VhBsT2SSfnp
-         RicZFoYzgiDkeYCN5JojRkx78S4KwBK8xaj/q7Wt+Wby8ba7/3KLcobDt4Fie6qjzo88
-         /Xyg==
+        bh=dmVvQQUP3VlEa1+0waOCKXhngxlaauv+7/YCyBgH1Jw=;
+        b=Z94ysxNzbeKQDfQkTQNC0NZImr7t+Sb7o6cvfLPjdmyT9MuUN9BoFWdLOET0fXipvX
+         Y+HqaTCSV0W67TXp/yW5xOFjePGKg6gBYQiCyIRTf6hnfL7hjmULYHJYBkH7DHfKcUT2
+         BblXKBBGSIungK9pvEcSLmN3VSjNJuKpStl8ilGnhai96l6KbyQPuVrNmg7hxTPzjAL8
+         rlBAe8SXmsPv8/aOtyGbNyAPrObLJKcF+4MizaJKRcwkKIzE/4yjgSbpf/eVdMs7HyCJ
+         fI7k/BwT3BNHTr0Y7zaRvnSGm4J7Etkx32YcHP7Tnv3bQL2WbjEf5EDoHxeT0nHK1J2G
+         dTCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758117128; x=1758721928;
+        d=1e100.net; s=20230601; t=1758117189; x=1758721989;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YGFGTFjvzTCIaPgJPj2717rBXzPJ8LLjRMN3xB/6xQ0=;
-        b=JqKBAuu/+l5fSFioZ45s4qAd8CZV+APieZzOJCy+23WMuVMd02PauS8pbQZ0Zhfmid
-         2dnQXX4MU/+KsQssr5qwqOANWrMrKE9UlhgiVTGMMxx7sBFYISjFxKk8itMT+8YmIl0Q
-         kZJyA9ANh8mlWvAKTv+zA2yar6UPjvPkL4yaNJbaTBT6TgWiGH9qkvlYSeMrBSuuFxaf
-         zqE2wRxphgLE0KQyP04rq5TyZn/1H/C/S0Cng2NobD1dD/omfX/SUwn7kFkJV9Z2g7ve
-         EJeDsfrRBKa3ZBrJz/2g0lO8la+f5s5+ZobV2G09FAXDi0qPKes4lt5VuB6DFv/pc4mR
-         l98A==
-X-Forwarded-Encrypted: i=1; AJvYcCUBoa/ikIigqwVCt/zDns+1JYKfnicizdz01NbpyLMebhm0HEsRa4UEL05d6a0s2TZ4ntv5IKhvD6MKDtcAVbM0eQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzVp3Mi/hk6Fe+N+DasPy5o4Mnwp4QJQ/xB4BKx45tGAeOtUOdz
-	bL150YETQai8ZjTbFsZCluKBFfU1Kotbx6GUBHFo/xmfZdAWzi6y9Gu0
-X-Gm-Gg: ASbGncsneECJqbwIH9rHMUkCsWroNwLk8ew+1gxy/X7EoiZOuPA/w7wWREPN64W97xY
-	NSCnt1LBiqfLHLETMCjM12qnJDCQoocIvibFknHM1AZF4nKj/EiMBeBR8zAmm0zhWhJGdT7Oy35
-	H+4aRZH0Z94eU72/YjMn60r0vIJ7x5XmMmMf2AJZtWDtaKCzLj32wZx9vKrF6ZhHjvxJQ/5DNKq
-	W1VOSARfN85byzgk2nH4z05j28CxNZItensysR/aucSr9CCru4jcNANWnPeTFwvH/22dB8xqyea
-	9wqTXm2jx3eLaKY1ovptBQC12jTFL9E6XFDSouF/EfkDQ7/aXxiM6PepCDdL5rNpnqkBCKDx1je
-	UfILrYVsV1ttSaLBVrgXNYwpImiwvO77HyaAipbzWkiQbp7yUcLg8PcZT
-X-Google-Smtp-Source: AGHT+IHqwffNdkxbqojWt2YDDqTFCff3yAxVYiF5LnkqHoS1852swiKJmil5JzsVUD/yt7wBii8lcw==
-X-Received: by 2002:aa7:8891:0:b0:772:7251:7148 with SMTP id d2e1a72fcca58-77bfa24e5d5mr2771442b3a.27.1758117127872;
-        Wed, 17 Sep 2025 06:52:07 -0700 (PDT)
+        bh=dmVvQQUP3VlEa1+0waOCKXhngxlaauv+7/YCyBgH1Jw=;
+        b=PeaEFu4sF1LuCjxtz5t/+8cqAI67PxMGoXqNSoZ757+4JSO3F3AJbxByhbThnxOfQo
+         pQkLSv/9fgZOwB3HRsxo8P+sd42kAL0WbPCyDfFAHdfdETDhPAFyGb/4BfLjms7yA1e7
+         7iSdrVhqVnCCbvQ2Yd6JyCX+CxLhkI1gKJ7WR7URKawvQQ1CoxlJug4DGfGWmlkszg63
+         spPKTAR1ACsSxE6tlgLn1Gb0Dkf376b9v3KEkYgmCm6v4E7kX/wgWAQmV7ceeWgUbn6d
+         eGIdmwdHwP0kkrS8VB3mvPd2eibz6OS6vSkCi4pIgPNvvIR+uH47IARXqkWlICFK6cPZ
+         aVAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVLesUBSgcz4C/NjLIuVHJvn7Yucu0TS0bYA/IupMUaDrZIBtWLgLxMMssYxvM3NiKSKWCGHH3fAlDLccDg2jDRMg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzHsSvVEMBtksxG8aY2b2bzZxEr8ZHc0z6YRyha9NKiPH+n89ES
+	tQ0APa4ZETlvTc0FDsulEvJ7Hbiy/VmpjP0dJ0TggOSIsJaCFmmNm8CK
+X-Gm-Gg: ASbGncs1UjN7bUofsraj8Erc4WpjnopLNoB6NdXHZ/ZATUIc1L2X29LIkGKPmTaPfSb
+	JG992qhl+kdSVXFUqK34mdlnYnimWdmxi16GRQ8eh5604DnI9kwofYNbkTJfVk3Dq/N8Kt2E4Vn
+	ToYzVJeZLeiqmIKY22Z3zcV/Ch1sSbaHulwImpW+T74lBaZLmvhLJMe2SvRLqEI7Wqt52Gb1N3I
+	3ZLYLGV0cCjLJvixPUxyQnTtEjwJ64btFbT8VQQP6cwMeg1lGBjzvEo0dZvPobCAhSy29xeyJ/d
+	ztM3xD76oRGjaBsKYmmMZSBUiyki5Z9LHolkj397EvW7/oxKBvxk6HwPqo8Uh81NvXDL6RrEzOc
+	y+fF9UlgumKWXTpX8e7OFKYsADE+xm3/B7l0hUBJxYy9sOZZt1RbMyDmG
+X-Google-Smtp-Source: AGHT+IHAWEd4SjkkFwrOU19Beggaa9F3B1eSBGe2+mekMO8cK8tysCF+MmmL+wnjMJn1XlaxzvjM1w==
+X-Received: by 2002:a17:90b:4c88:b0:32e:32e4:9789 with SMTP id 98e67ed59e1d1-32ee3eed45emr3064890a91.3.1758117188775;
+        Wed, 17 Sep 2025 06:53:08 -0700 (PDT)
 Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607c478d4sm19193700b3a.99.2025.09.17.06.52.04
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54b467382csm13582799a12.6.2025.09.17.06.53.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 06:52:07 -0700 (PDT)
-Message-ID: <6eacda50-485f-40c7-b19b-65b8671196b6@gmail.com>
-Date: Wed, 17 Sep 2025 15:52:01 +0200
+        Wed, 17 Sep 2025 06:53:08 -0700 (PDT)
+Message-ID: <a75581d2-8234-42c2-a9ff-1102753203c6@gmail.com>
+Date: Wed, 17 Sep 2025 15:53:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH 15/16] xkeyboard-config: update 2.44 -> 2.45
@@ -65,124 +65,126 @@ References: <20250911085123.1551425-1-alex.kanavin@gmail.com>
  <P12O2T.G9TC7LOZ6AEG@t-online.de>
  <CAMKF1sokUU3n1uDAXTD8ebxFTsSVmZX-4B9iSB1mFQ+3vp7K=Q@mail.gmail.com>
  <CANNYZj994mKx9TLP+1uYf3YDK1ArbkzAJHtyrERhYX5NFT-=EA@mail.gmail.com>
+ <18661636B9C9FA43.26272@lists.openembedded.org>
 Content-Language: en-US
 From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj994mKx9TLP+1uYf3YDK1ArbkzAJHtyrERhYX5NFT-=EA@mail.gmail.com>
+In-Reply-To: <18661636B9C9FA43.26272@lists.openembedded.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 13:52:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223605
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Sep 2025 13:53:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223606
 
-SXQncyBub3QgdHJhbnNpZW50LiBJdCBoYXBwZW5zIGlmIEkgdHJ5IHRvIGJ1aWxkIHhrZXli
-b2FyZC1jb25maWctbmF0aXZlDQphZnRlciAtYyBjbGVhbmFsbC4gV2Fzbid0IHRoZXJlIGEg
-d2F5L2JiYXBwZW5kIHRvIHR1cm4gYWJzb2x1dGUgc3ltbGlua3MNCnRvIHJlbGF0aXZlIG9u
-ZXMgdW5kZXIgJHtXT1JLRElSfS9pbWFnZT8NCg0KMjAyNS4gMDkuIDE2LiAxMDo0NiBrZWx0
-ZXrDqXNzZWwsIEFsZXhhbmRlciBLYW5hdmluIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-IMOtcnRhOg0KPiBJIHRoaW5rIHRoZXNlIGFyZSBib3RoIHRyYW5zaWVudCBpc3N1ZXMgdGhh
-dCBoYXBwZW4gd2hlbiBidWlsZA0KPiBkaXJlY3RvcnkgaXMgcmV1c2VkIGJldHdlZW4gdGhl
-IG9sZCBhbmQgdGhlIG5ldyB2ZXJzaW9uLiBOb3QNCj4geGtleWJvYXJkLWNvbmZpZyBmYXVs
-dCBwZXIgc2UsIGl0IGp1c3QgcmVhcnJhbmdlcyB0aGUgaW5zdGFsbCBzZXQgaW4gYQ0KPiB3
-YXkgdGhhdCB0cmlnZ2VycyBhIGJ1ZyBzb21ld2hlcmUgaW4gb2UtY29yZSA6LS8NCj4NCj4g
-QWxleA0KPg0KPiBPbiBUdWUsIDE2IFNlcHQgMjAyNSBhdCAwNzo0MywgS2hlbSBSYWogPHJh
-ai5raGVtQGdtYWlsLmNvbT4gd3JvdGU6DQo+PiBJIGFtIHNlZWluZyBhIGJ1aWxkIGZhaWx1
-cmUgZm9yIHhrZXlib2FyZC1jb25maWctbmF0aXZlDQo+Pg0KPj4gRVJST1I6IHhrZXlib2Fy
-ZC1jb25maWctbmF0aXZlLTIuNDUtcjAgZG9fcG9wdWxhdGVfc3lzcm9vdDogc3N0YXRlDQo+
-PiBmb3VuZCBhbiBhYnNvbHV0ZSBwYXRoIHN5bWxpbmsNCj4+IC9tbnQvc3Rhc2gvdG1wL3dv
-cmsveDg2XzY0LWxpbnV4L3hrZXlib2FyZC1jb25maWctbmF0aXZlLzIuNDUvc3lzcm9vdC1k
-ZXN0ZGlyL21udC9zdGFzaC90bXAvd29yay94ODZfNjQtbGludXgveGtleWJvYXJkLWNvbmZp
-Zy1uYXRpdmUvMi40NS9yZWNpcGUtc3lzcm9vdC1uYXRpdmUvdXNyL3NoYXJlL1gxMS94a2IN
-Cj4+IHBvaW50aW5nIGF0IC9tbnQvc3Rhc2gvdG1wL3dvcmsveDg2XzY0LWxpbnV4L3hrZXli
-b2FyZC1jb25maWctbmF0aXZlLzIuNDUvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9zaGFy
-ZS94a2V5Ym9hcmQtY29uZmlnLTIuDQo+PiBQbGVhc2UgcmVwbGFjZSB0aGlzIHdpdGggYSBy
-ZWxhdGl2ZSBsaW5rLg0KPj4gRVJST1I6IHhrZXlib2FyZC1jb25maWctbmF0aXZlLTIuNDUt
-cjAgZG9fcG9wdWxhdGVfc3lzcm9vdDogRmFpbGluZw0KPj4gdGFzayBkdWUgdG8gYWJzb2x1
-dGUgcGF0aCBzeW1saW5rcw0KPj4gRVJST1I6IExvZ2ZpbGUgb2YgZmFpbHVyZSBzdG9yZWQg
-aW46DQo+PiAvbW50L3N0YXNoL3RtcC93b3JrL3g4Nl82NC1saW51eC94a2V5Ym9hcmQtY29u
-ZmlnLW5hdGl2ZS8yLjQ1L3RlbXAvbG9nLmRvX3BvcHVsYXRlX3N5c3Jvb3QuNzI2NjQwDQo+
-PiBOT1RFOiByZWNpcGUgeGtleWJvYXJkLWNvbmZpZy1uYXRpdmUtMi40NS1yMDogdGFzayBk
-b19wb3B1bGF0ZV9zeXNyb290OiBGYWlsZWQNCj4+IEVSUk9SOiBUYXNrICh2aXJ0dWFsOm5h
-dGl2ZTovbW50L2plbmtpbnMvd29ya3NwYWNlL1lvY3RvLXdvcmxkLWFybS9zb3VyY2VzL3Bv
-a3kvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3hrZXlib2FyZC1jb25maWdfMi40
-NS5iYjpkb19wb3B1bGF0ZV9zeXNyb290KQ0KPj4gZmFpbGVkIHdpdGggZXhpdCBjb2RlICcx
-Jw0KPj4NCj4+IE9uIE1vbiwgU2VwIDE1LCAyMDI1IGF0IDEwOjMy4oCvUE0gTWFya3VzIFZv
-bGsgdmlhDQo+PiBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxmX2xfaz10LW9ubGluZS5kZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPj4gd3JvdGU6DQo+Pj4gSSdtIHNlZWluZyBpc3N1
-ZXMgd2l0aCBzeW1saW5rIGNyZWF0aW9uOg0KPj4+IHwgSW5zdGFsbGluZyBzeW1saW5rIHBv
-aW50aW5nIHRvIHhrZXlib2FyZC1jb25maWctMi5wYyB0byAvaG9tZS9mbGsvcG9reS9idWls
-ZC90bXAvd29yay9jb3JlaTctNjQtcG9reS1saW51eC94a2V5Ym9hcmQtY29uZmlnLzIuNDUv
-aW1hZ2UvdXNyL3NoYXJlL3BrZ2NvbmZpZy94a2V5Ym9hcmQtY29uZmlnLnBjDQo+Pj4gfCBJ
-bnN0YWxsaW5nIHN5bWxpbmsgcG9pbnRpbmcgdG8gYmFzZSB0byAvaG9tZS9mbGsvcG9reS9i
-dWlsZC90bXAvd29yay9jb3JlaTctNjQtcG9reS1saW51eC94a2V5Ym9hcmQtY29uZmlnLzIu
-NDUvaW1hZ2UvdXNyL3NoYXJlL3hrZXlib2FyZC1jb25maWctMi9ydWxlcy94b3JnDQo+Pj4g
-fCBJbnN0YWxsaW5nIHN5bWxpbmsgcG9pbnRpbmcgdG8gYmFzZS5sc3QgdG8gL2hvbWUvZmxr
-L3Bva3kvYnVpbGQvdG1wL3dvcmsvY29yZWk3LTY0LXBva3ktbGludXgveGtleWJvYXJkLWNv
-bmZpZy8yLjQ1L2ltYWdlL3Vzci9zaGFyZS94a2V5Ym9hcmQtY29uZmlnLTIvcnVsZXMveG9y
-Zy5sc3QNCj4+PiB8IEluc3RhbGxpbmcgc3ltbGluayBwb2ludGluZyB0byBiYXNlLnhtbCB0
-byAvaG9tZS9mbGsvcG9reS9idWlsZC90bXAvd29yay9jb3JlaTctNjQtcG9reS1saW51eC94
-a2V5Ym9hcmQtY29uZmlnLzIuNDUvaW1hZ2UvdXNyL3NoYXJlL3hrZXlib2FyZC1jb25maWct
-Mi9ydWxlcy94b3JnLnhtbA0KPj4+IHwgSW5zdGFsbGluZyBzeW1saW5rIHBvaW50aW5nIHRv
-IHhrZXlib2FyZC1jb25maWctMi43IHRvIC9ob21lL2Zsay9wb2t5L2J1aWxkL3RtcC93b3Jr
-L2NvcmVpNy02NC1wb2t5LWxpbnV4L3hrZXlib2FyZC1jb25maWcvMi40NS9pbWFnZS91c3Iv
-c2hhcmUvbWFuL21hbjcveGtleWJvYXJkLWNvbmZpZy43DQo+Pj4gfCBJbnN0YWxsaW5nIHN5
-bWxpbmsgcG9pbnRpbmcgdG8gL3Vzci9zaGFyZS94a2V5Ym9hcmQtY29uZmlnLTIgdG8gL2hv
-bWUvZmxrL3Bva3kvYnVpbGQvdG1wL3dvcmsvY29yZWk3LTY0LXBva3ktbGludXgveGtleWJv
-YXJkLWNvbmZpZy8yLjQ1L2ltYWdlL3Vzci9zaGFyZS9YMTEveGtiDQo+Pj4gfCBsbjogZmFp
-bGVkIHRvIGNyZWF0ZSBzeW1ib2xpYyBsaW5rICcvaG9tZS9mbGsvcG9reS9idWlsZC90bXAv
-d29yay9jb3JlaTctNjQtcG9reS1saW51eC94a2V5Ym9hcmQtY29uZmlnLzIuNDUvaW1hZ2Uv
-dXNyL3NoYXJlL1gxMS94a2Ivc3ltYm9scy9lbic6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3Rv
-cnkNCj4+Pg0KPj4+IE9uIFRodSwgU2VwIDExIDIwMjUgYXQgMTA6NTE6MjIgKzAyOjAwOjAw
-LCBBbGV4YW5kZXIgS2FuYXZpbiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8YWxleC5r
-YW5hdmluPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4+Pg0K
-Pj4+IEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+IExpY2Vu
-c2UtdXBkYXRlOiBkaXNjbGFpbWVyIGFuZCBjb3B5cmlnaHQgY2xhcmlmaWNhdGlvbnMgcGVy
-IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy94a2V5Ym9hcmQtY29uZmlnL3hrZXli
-b2FyZC1jb25maWcvLS9tZXJnZV9yZXF1ZXN0cy84MjEgUmVwbGFjZSBtYW51YWwgc3ltbGlu
-ayBjcmVhdGlvbiB3aXRoIGEgbWVzb24gb3B0aW9uLiBEcm9wIG5vLW9wIGF1dG9jb25mIG9w
-dGlvbnMuIEFkanVzdCBwYWNrYWdpbmcgYXMgdGhpcyBpcyB3aGVyZSB1cHN0cmVhbSBpbnN0
-YWxscyBub3cuIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0
-cm9uaXguZGU+IC0tLSAuLi5vYXJkLWNvbmZpZ18yLjQ0LmJiID0+IHhrZXlib2FyZC1jb25m
-aWdfMi40NS5iYn0gfCAxMyArKysrLS0tLS0tLS0tIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2Vy
-dGlvbnMoKyksIDkgZGVsZXRpb25zKC0pIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-eG9yZy1saWIve3hrZXlib2FyZC1jb25maWdfMi40NC5iYiA9PiB4a2V5Ym9hcmQtY29uZmln
-XzIuNDUuYmJ9ICg2NSUpIGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9y
-Zy1saWIveGtleWJvYXJkLWNvbmZpZ18yLjQ0LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3hvcmctbGliL3hrZXlib2FyZC1jb25maWdfMi40NS5iYiBzaW1pbGFyaXR5IGluZGV4IDY1
-JSByZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIveGtleWJvYXJk
-LWNvbmZpZ18yLjQ0LmJiIHJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1s
-aWIveGtleWJvYXJkLWNvbmZpZ18yLjQ1LmJiIGluZGV4IDUyZDA3NGZkNWVkLi44NTdjY2M3
-NTE2MCAxMDA2NDQgLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3hrZXli
-b2FyZC1jb25maWdfMi40NC5iYiArKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1s
-aWIveGtleWJvYXJkLWNvbmZpZ18yLjQ1LmJiIEBAIC0xMCwyMyArMTAsMTggQEAgSE9NRVBB
-R0UgPSAiaHR0cDovL2ZyZWVkZXNrdG9wLm9yZy93aWtpL1NvZnR3YXJlL1hLZXlib2FyZENv
-bmZpZyIgQlVHVFJBQ0tFUiA9ICJodHRwczovL2J1Z3MuZnJlZWRlc2t0b3Aub3JnL2VudGVy
-X2J1Zy5jZ2k/cHJvZHVjdD14a2V5Ym9hcmQtY29uZmlnIiBMSUNFTlNFID0gIk1JVCAmIE1J
-VCIgLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PThmYzhhZTY5OTk3
-NGMzNjBlMmUyZTg4M2E2M2NlMjY0IiArTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
-WUlORzttZDU9ZmFhNzU2ZTA0MDUzMDI5ZGRjNjAyY2FmOTllNWVmMWQiIFNSQ19VUkkgPSAi
-JHtYT1JHX01JUlJPUn0vaW5kaXZpZHVhbC9kYXRhL3hrZXlib2FyZC1jb25maWcvJHtCUE59
-LSR7UFZ9LnRhci54eiIgLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1NGQyYzMzZWVlYmIwMzFk
-NDhmYTU5MGM1NDNlNTRjOWJjYmQwZjAwMzg2ZWJjNjQ4OWIyZjQ3YTBkYTQzNDJhIiArU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjE2OWUwNzVhOTJkOTU3YTU3Nzg3YzE5OWU4NGUzNTlkZjI5
-MzFiNzE5NmMxYzViNGEzZDU3NmVlNjIzNWE4N2MiIFNFQ1RJT04gPSAieDExL2xpYnMiIERF
-UEVORFMgPSAidXRpbC1tYWNyb3MgbGlieHNsdC1uYXRpdmUiIC1FWFRSQV9PRUNPTkYgPSAi
-LS13aXRoLXhrYi1ydWxlcy1zeW1saW5rPXhvcmcgLS1kaXNhYmxlLXJ1bnRpbWUtZGVwcyIg
-LSAtRklMRVM6JHtQTn0gKz0gIiR7ZGF0YWRpcn0vWDExL3hrYiIgK0ZJTEVTOiR7UE59ICs9
-ICIke2RhdGFkaXJ9L1gxMS94a2IgJHtkYXRhZGlyfS94a2V5Ym9hcmQtY29uZmlnLTIiIGlu
-aGVyaXQgbWVzb24gcGtnY29uZmlnIGdldHRleHQgcHl0aG9uM25hdGl2ZSAtZG9faW5zdGFs
-bDphcHBlbmQgKCkgeyAtIGluc3RhbGwgLWQgJHtEfSR7ZGF0YWRpcn0vWDExL3hrYi9jb21w
-aWxlZCAtIGNkICR7RH0ke2RhdGFkaXJ9L1gxMS94a2IvcnVsZXMgJiYgbG4gLXNmIGJhc2Ug
-eG9yZyAtfSArRVhUUkFfT0VNRVNPTiArPSAiLUR4b3JnLXJ1bGVzLXN5bWxpbmtzPXRydWUi
-IEJCQ0xBU1NFWFRFTkQgKz0gIm5hdGl2ZSINCj4+PiAtLQ0KPj4+IDIuMzkuNQ0KPj4+DQo+
-Pj4NCj4+Pg0KPj4+DQo+Pj4NCj4+PiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPj4+IExp
-bmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPj4+
-IFZpZXcvUmVwbHkgT25saW5lICgjMjIzNTMyKTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
-ZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMjM1MzINCj4+PiBNdXRlIFRo
-aXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMTUxODQ3NzYv
-MzYxNzcyOA0KPj4+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnDQo+Pj4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViIFt6Ym9zem9yQGdtYWls
-LmNvbV0NCj4+PiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPj4+DQoNCg==
+2025. 09. 17. 15:52 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
+> It's not transient. It happens if I try to build xkeyboard-config-native
+> after -c cleanall. Wasn't there a way/bbappend to turn absolute symlinks
+
+Sorry, I meant bbclass.
+
+> to relative ones under ${WORKDIR}/image?
+>
+> 2025. 09. 16. 10:46 keltezéssel, Alexander Kanavin via lists.openembedded.org írta:
+>> I think these are both transient issues that happen when build
+>> directory is reused between the old and the new version. Not
+>> xkeyboard-config fault per se, it just rearranges the install set in a
+>> way that triggers a bug somewhere in oe-core :-/
+>>
+>> Alex
+>>
+>> On Tue, 16 Sept 2025 at 07:43, Khem Raj <raj.khem@gmail.com> wrote:
+>>> I am seeing a build failure for xkeyboard-config-native
+>>>
+>>> ERROR: xkeyboard-config-native-2.45-r0 do_populate_sysroot: sstate
+>>> found an absolute path symlink
+>>> /mnt/stash/tmp/work/x86_64-linux/xkeyboard-config-native/2.45/sysroot-destdir/mnt/stash/tmp/work/x86_64-linux/xkeyboard-config-native/2.45/recipe-sysroot-native/usr/share/X11/xkb 
+>>>
+>>> pointing at 
+>>> /mnt/stash/tmp/work/x86_64-linux/xkeyboard-config-native/2.45/recipe-sysroot-native/usr/share/xkeyboard-config-2.
+>>> Please replace this with a relative link.
+>>> ERROR: xkeyboard-config-native-2.45-r0 do_populate_sysroot: Failing
+>>> task due to absolute path symlinks
+>>> ERROR: Logfile of failure stored in:
+>>> /mnt/stash/tmp/work/x86_64-linux/xkeyboard-config-native/2.45/temp/log.do_populate_sysroot.726640 
+>>>
+>>> NOTE: recipe xkeyboard-config-native-2.45-r0: task do_populate_sysroot: Failed
+>>> ERROR: Task 
+>>> (virtual:native:/mnt/jenkins/workspace/Yocto-world-arm/sources/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb:do_populate_sysroot)
+>>> failed with exit code '1'
+>>>
+>>> On Mon, Sep 15, 2025 at 10:32 PM Markus Volk via
+>>> lists.openembedded.org <f_l_k=t-online.de@lists.openembedded.org>
+>>> wrote:
+>>>> I'm seeing issues with symlink creation:
+>>>> | Installing symlink pointing to xkeyboard-config-2.pc to 
+>>>> /home/flk/poky/build/tmp/work/corei7-64-poky-linux/xkeyboard-config/2.45/image/usr/share/pkgconfig/xkeyboard-config.pc
+>>>> | Installing symlink pointing to base to 
+>>>> /home/flk/poky/build/tmp/work/corei7-64-poky-linux/xkeyboard-config/2.45/image/usr/share/xkeyboard-config-2/rules/xorg
+>>>> | Installing symlink pointing to base.lst to 
+>>>> /home/flk/poky/build/tmp/work/corei7-64-poky-linux/xkeyboard-config/2.45/image/usr/share/xkeyboard-config-2/rules/xorg.lst
+>>>> | Installing symlink pointing to base.xml to 
+>>>> /home/flk/poky/build/tmp/work/corei7-64-poky-linux/xkeyboard-config/2.45/image/usr/share/xkeyboard-config-2/rules/xorg.xml
+>>>> | Installing symlink pointing to xkeyboard-config-2.7 to 
+>>>> /home/flk/poky/build/tmp/work/corei7-64-poky-linux/xkeyboard-config/2.45/image/usr/share/man/man7/xkeyboard-config.7
+>>>> | Installing symlink pointing to /usr/share/xkeyboard-config-2 to 
+>>>> /home/flk/poky/build/tmp/work/corei7-64-poky-linux/xkeyboard-config/2.45/image/usr/share/X11/xkb
+>>>> | ln: failed to create symbolic link 
+>>>> '/home/flk/poky/build/tmp/work/corei7-64-poky-linux/xkeyboard-config/2.45/image/usr/share/X11/xkb/symbols/en': 
+>>>> No such file or directory
+>>>>
+>>>> On Thu, Sep 11 2025 at 10:51:22 +02:00:00, Alexander Kanavin via 
+>>>> lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org> wrote:
+>>>>
+>>>> From: Alexander Kanavin <alex@linutronix.de> License-update: disclaimer and copyright 
+>>>> clarifications per 
+>>>> https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/merge_requests/821 
+>>>> Replace manual symlink creation with a meson option. Drop no-op autoconf options. 
+>>>> Adjust packaging as this is where upstream installs now. Signed-off-by: Alexander 
+>>>> Kanavin <alex@linutronix.de> --- ...oard-config_2.44.bb => xkeyboard-config_2.45.bb} 
+>>>> | 13 ++++--------- 1 file changed, 4 insertions(+), 9 deletions(-) rename 
+>>>> meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.44.bb => xkeyboard-config_2.45.bb} 
+>>>> (65%) diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.44.bb 
+>>>> b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb similarity index 65% rename 
+>>>> from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.44.bb rename to 
+>>>> meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb index 
+>>>> 52d074fd5ed..857ccc75160 100644 --- 
+>>>> a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.44.bb +++ 
+>>>> b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.45.bb @@ -10,23 +10,18 @@ 
+>>>> HOMEPAGE = "http://freedesktop.org/wiki/Software/XKeyboardConfig" BUGTRACKER = 
+>>>> "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-config" LICENSE = "MIT 
+>>>> & MIT" -LIC_FILES_CHKSUM = "file://COPYING;md5=8fc8ae699974c360e2e2e883a63ce264" 
+>>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=faa756e04053029ddc602caf99e5ef1d" SRC_URI = 
+>>>> "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.xz" 
+>>>> -SRC_URI[sha256sum] = 
+>>>> "54d2c33eeebb031d48fa590c543e54c9bcbd0f00386ebc6489b2f47a0da4342a" 
+>>>> +SRC_URI[sha256sum] = 
+>>>> "169e075a92d957a57787c199e84e359df2931b7196c1c5b4a3d576ee6235a87c" SECTION = 
+>>>> "x11/libs" DEPENDS = "util-macros libxslt-native" -EXTRA_OECONF = 
+>>>> "--with-xkb-rules-symlink=xorg --disable-runtime-deps" - -FILES:${PN} += 
+>>>> "${datadir}/X11/xkb" +FILES:${PN} += "${datadir}/X11/xkb 
+>>>> ${datadir}/xkeyboard-config-2" inherit meson pkgconfig gettext python3native 
+>>>> -do_install:append () { - install -d ${D}${datadir}/X11/xkb/compiled - cd 
+>>>> ${D}${datadir}/X11/xkb/rules && ln -sf base xorg -} +EXTRA_OEMESON += 
+>>>> "-Dxorg-rules-symlinks=true" BBCLASSEXTEND += "native"
+>>>> -- 
+>>>> 2.39.5
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#223605): https://lists.openembedded.org/g/openembedded-core/message/223605
+> Mute This Topic: https://lists.openembedded.org/mt/115184776/3617728
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
 
