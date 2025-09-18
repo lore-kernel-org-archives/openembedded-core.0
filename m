@@ -1,100 +1,102 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B6CBCA1013
-	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:23:31 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.568.1758230602133061363
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE9ACAC597
+	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:28:01 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web10.665.1758230880416517244
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 14:23:22 -0700
+ Thu, 18 Sep 2025 14:28:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QI+80UiE;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=D4m9WSRn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101995eb5de19-0a49d4fe-4bb4-4fe1-9439-8654bd84a6f0-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1758230601; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Pak15R01/ItuToeIDDUMjWaRkzn9qo+fl7wBUfrpJD4=;
-	b=QI+80UiEkH/XFsqE80+822clLt2udRuUEngJXQR2wn8dM2e8Ll/M29I4kXOA8u8z
-	fsPYZohK+AHCtQV+CbijNvNyCirSWSkspSVdU8ToquvTHQulTqEa6l8gt0tX26LRGe+
-	K6QpGmsarrxpoMY+CTwj1hIIv9PRh978+AWhq3ko=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1758230601;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Pak15R01/ItuToeIDDUMjWaRkzn9qo+fl7wBUfrpJD4=;
-	b=D4m9WSRnpikmRS+6QBHqMdDEVvpwbmSk09D1c/FQB6N62h9I13Kle5wdM4GcV6sM
-	+jCFthZWa73lbv/WfpR3WqIBU2jlOYio2Uc9XigGlihvbmrJ/ndS5s4f44gwdLLk3OK
-	12luM7LFtgUPsBI2NGsliWARNWg/KxyGgw3bmhKY=
-From: patchtest@automation.yoctoproject.org
-To: AdrianF <adrian.freihofer@siemens.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 01/19] fedora_essential.sh: add util-linux-script package
-In-Reply-To: <20250918210754.477049-2-adrian.freihofer@siemens.com>
-References: <20250918210754.477049-2-adrian.freihofer@siemens.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101995eb5de19-0a49d4fe-4bb4-4fe1-9439-8654bd84a6f0-000000@us-west-2.amazonses.com>
-Date: Thu, 18 Sep 2025 21:23:21 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.18-54.240.27.29
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eHi9BjuM;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8287fedae95so193691485a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 14:28:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758230879; x=1758835679; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vcEYYYxN0trghC1lOw0StMHxbusXXBGsszO8JBo1qjk=;
+        b=eHi9BjuM/VAJx1YRqa+6Voaj1x6bjVvrFgRZaqXLT+FYJVoW2/cijiTh8GacHRpBlR
+         iB3XD7GdQB/fDjm+Zy+b+mihx5FCNacak28sINm1B68g9PTiaWF9f/yppZS5OpOxqNKa
+         7+6ZdU20DupHOgR+Y/bRRFtuOQ2ZAvs3esgXj3SteHr9S17MPIkkOE0U3/2ZioiRmiCX
+         9dPA97uUr8wdHK8eTu5dw6J6OE1nnR3zZU53ygQVtQK8YEHVvCuoYyJn+1D6VKKmiu2T
+         cYNTFLKXqPfXt0WpaIY05i0NOdWJ55+wwaYI1exmzHnZx++16X6wiNjVHqXv2iZWzOe7
+         lkHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758230879; x=1758835679;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vcEYYYxN0trghC1lOw0StMHxbusXXBGsszO8JBo1qjk=;
+        b=IElIQGAxRClZQTt7aztDDx3DP7wGF3JSv9vd6v/hPc163ULcREbcLiFQ35qX/sDehi
+         i86E/mq/KcJ1FuKoWEivsAeA5LkQFMZYOiSYyhyV6C6X1DSNes/q9rRoeUPEkW5Nhw3Q
+         xMkiTmvljItXbZ4SK6A43nxxezWs4Ie3HD1ZYYPbjkwO0/swB52EvEaPcA2Aakp2FV63
+         KEPA94TGISZKweIGGX6Q3R04yeGi6QFfkRDlvPEe3Sl/kZZt2nTQ2skl1cqXvBpnPiC1
+         h/Q3vQBr6+iIXpJFuQSR49rSucIgulNibJpghjif48YpC+EArgMhepLqki/I7xREEXS0
+         lP9g==
+X-Gm-Message-State: AOJu0YxzOB89s8qmVKUc8HgbIH0O4b+nUZxeX12myIXQEaNQ55+tKQfa
+	F9qunXjDtmgZD7hadISux4j5S2/mlzNULf3fioKMYvLWkqD/u3CiAPMwDU8miw==
+X-Gm-Gg: ASbGncs4d2n+IG1i7FzaRtnKI+aS2GxT8lnoHjFhypwmk0JEWpyq3TwxU7RK1dTx49F
+	xotDQo7sTxqE2jsCJx9p4J5OUUjkZA5uAdT6VMHoV+p4RsFTJplSJfCNT5bYBZLSuj4uEskf9wT
+	oC93vTWYd0Ns67zG5rjqkbnV6pT3FBUaOpM0FPqEQsMfnTAv6V013ejHeyVSBIoZFN6aidTQdeF
+	Ftl7UcJrg0q+LM4OGOorUfqwxNh6w259xkfD4U3PLiA7cOP3kV6+LSpjdg2hBGHNMNORdminebj
+	EDoF21IhV2x5zGPnRX2Q4Kf854/d+OSQJk2B64HprttM6a95XXAwvF21ZqHmHWpRghR2RbQ0hcm
+	TGeU12613gYmLTMjlUb5fS6tt5acyv8qmUjcMM644Ww1KLjlUekWnKPI75UolrqJOCFOIDQlLrh
+	UnIu8=
+X-Google-Smtp-Source: AGHT+IHJc2nircbVZtu2qHSaEgRpQcMOA8Trp2PsBRz4tDecOY4xgxo6evQZInZkdD3kkWJuJ6bILQ==
+X-Received: by 2002:a05:620a:1902:b0:82a:6bde:30c7 with SMTP id af79cd13be357-83bac4aff02mr115270585a.84.1758230878657;
+        Thu, 18 Sep 2025 14:27:58 -0700 (PDT)
+Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-836263ab544sm235016185a.9.2025.09.18.14.27.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Sep 2025 14:27:57 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Trevor Gamblin <tgamblin@baylibre.com>
+Subject: [PATCH 1/6] patchtest.README: trivial fixes
+Date: Thu, 18 Sep 2025 17:27:24 -0400
+Message-ID: <20250918212743.3960-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.51.0.193.g4975ec3473b4
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:23:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223679
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:28:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223680
 
---NextPart
-Content-Type: text/plain
+Fix two small, trivial issues in the README.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/01-19-fedora_essential.sh-add-util-linux-script-package.patch
+ scripts/patchtest.README | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-FAIL: test max line length: Patch line too long (current length 420, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/scripts/patchtest.README b/scripts/patchtest.README
+index 3c1ee1af1d6c..1c674e23c9ab 100644
+--- a/scripts/patchtest.README
++++ b/scripts/patchtest.README
+@@ -18,7 +18,7 @@ baseline for development of similar suites for other layers as needed.
+ Patchtest can either run on a host or a guest machine, depending on
+ which environment you prefer. If you plan to test your own patches (a
+ good practice before these are sent to the mailing list), the easiest
+-way is to install and execute on your local host; in the other hand, if
++way is to install and execute on your local host; on the other hand, if
+ automatic testing is intended, the guest method is strongly recommended.
+ The guest method requires the use of the patchtest layer, in addition to
+ the tools available in oe-core: https://git.yoctoproject.org/patchtest/
+@@ -33,7 +33,7 @@ by running `pip install -r meta/lib/patchtest/requirements.txt`. Note
+ that git-pw is not automatically added to the user's PATH; by default,
+ it is installed at ~/.local/bin/git-pw.
+ 
+-For git-pw (and therefore scripts such as patchtest-get--series) to work, you need
++For git-pw (and therefore scripts such as patchtest-get-series) to work, you need
+ to provide a Patchwork instance in your user's .gitconfig, like so (the project
+ can be specified using the --project argument):
+ 
+-- 
+2.51.0.193.g4975ec3473b4
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
