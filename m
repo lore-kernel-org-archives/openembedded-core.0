@@ -1,240 +1,233 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78ECCCAC59A
-	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 12:34:43 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.13123.1758198877003230537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89561CAC5A0
+	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 12:47:53 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.143])
+ by mx.groups.io with SMTP id smtpd.web10.13187.1758199663375057639
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 05:34:37 -0700
+ Thu, 18 Sep 2025 05:47:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=UW348P7/;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1356544a94=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58I4pf1K2450787
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 12:34:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=oPqmgQJW+
-	AocHUlorOlpT/qR28SLAQc2t0k3m3Yj8AE=; b=UW348P7/656GAooCxTi4oJGRB
-	FQMGdYsCIqL5oFCJ0pPZLrRYu835AniNGrp0dhhRxmJeMYZB1w+pGiyrhV6f9dtY
-	W/7cfVlWv8ybr5yGvSaqcmBGI78M1PEIdTirsH+0PCQeFbTLzNn5D+xuNvTg/V2U
-	yU0o8KvB6XxImRxACzo8kuYy4eBf2zy+y10qS9fqEtpvN9mZbUQdXLeHc+udpj4M
-	hi+roE57IlkWxCFMZygMdXz5j002qOpOIbvwi/UwyqPuDR3cXD8V9n6/TFt0bhoY
-	5sgHcUJrPK8JaicFT4FkHlaaYqbyANbuVfiUAgNFg3YfyuKerCDAj7rbVK9Aw==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011008.outbound.protection.outlook.com [40.107.208.8])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 497fwst2t6-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 12:34:35 +0000 (GMT)
+ dkim=pass header.i=@vaisala.com header.s=selector1 header.b=Xg6umKOH;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 52.101.83.143, mailfrom: niko.mauno@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hS7B87ADK7ecE/NHvpmMdiF5lRFR7RinxTjqewA2PjM53LqJHpA8ZK+tDDvyb7J2OE4hg/Fsxz+7vyvaJdaukHonIQCAYWIQF9qD0KMRmZN1SzjR3G4M/weaJFhKJAmchyymSR7VKidAkLQhS3Xez49gXWsU2prNpuW6wAl56SAKiZ+5PQqftFjl7/N7/Q5mszocDXRvoJObKxH/EByzkvl4wjmaRGNiM2f4JKX1XLKUfZyFGTt4pDeXsvibqFVBBiSvsNbngWr9m4s+hi1dXSHf3skB3YyeW/ubaBzTegxh2DMQx7r58i4JmyrHHgfaiBdzRNZ4ITEw85U4PRcnQg==
+ b=kvlN9SA0ortDp5Rvgj83KTed/fW9nn494u3wClqs4MWIRbh3hlcNedQZsiaRrnD9pDzx4pGpVZ2q/qJfEA48u7qPeDbhtnh18KYfYSR+a4lSISZQuPM17Uu0aRVsHyaQsIr0FTlbRDMFly5PtbHyqPi08LVsgxDBNYIlvxyL8Oz7dMfsubhWrygXJqdjGzabQsq9DvTpSdsXPpkVvobPUxBcBKHv0A6andZx820/ZY+j5NHdjB4/qilh9LKcuCitFCQ5y/jT58vjz31G1V9w9RamCG54+AO3ZzOcA5Wisnb3lRboQNgXsIY5YDmIEZzHVicbnKVAdHd6zcPAmDLhgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oPqmgQJW+AocHUlorOlpT/qR28SLAQc2t0k3m3Yj8AE=;
- b=sdklIbvnzPZoXsFOfaxtP/Lgwx7CrXAnSc2ax+u2pSwEiQ1mk+5RmtWjfHFzgVRF3tP9JRpw38s1JCTVuU8eokpHKnxgEBAVSjj9iH3EMhk/S8wWYXmaGbOC7379XlYvvRRUVt8G9BqiLFqeucDti7bi46gKLYO50gColqV6kWRU6uxfoTcIT2SHus90v+QVdfAy4Refnu+a2S+YxzOPxdJyV9J4PvebSSnuWzhjQnwl6UW2qo083xQEiguJuRdHWIQJbj0K0HhJwxYchTUowFix+UBbwKgij7Z/mg6W69EI6idbwmnaehVCYLOeTmcyQu18l0o6SUV1zcUg5NM0Fg==
+ bh=BqoEh2E6soIS9bTUfen7Ka9pblF83/qP+K/Dk8w7u8k=;
+ b=UYa2fWnHCcMQXYo6cCuYlxbQsV8t47f+0OpjDoiiRVyGXkZhwUf+gPDr81eg3IcYyRNPlh1q4oCpB/F8a2Wrd90n5dpi3DBAyC+XRL7A3bUlVAD4eBMK6Ps0Zn7zZCJ6T6om+outw8wNOyYFdkaAxneg0A8j/qUAEpTMWPXtezd2MSAuDfPAPBLaHEUV3O8X859HeTd9ya12ToTlltoRBgJPdHHL/9CEVnQvM7vG7c7lBdmE2KTSVsvX0ikoTZ5i19VpjNQDXmejkiaEdWw0UhmXgcspZKMAHsDKIcyELEagvm6wwB3+NwHyHXC3Cl8W+mX5zIQMv4pXLUi3I+gWFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
- by PH8PR11MB6563.namprd11.prod.outlook.com (2603:10b6:510:1c2::12) with
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BqoEh2E6soIS9bTUfen7Ka9pblF83/qP+K/Dk8w7u8k=;
+ b=Xg6umKOHLUYciy68/62kIzvtcKpK6vcjRKuIE+O30m6o99E5NyivB8kRn6Y8ZGxKAq6bMw9bz053Qe/wf3Y6gNpT8F/xJXjtImxMT4kXd+9ujrd4Vz0Zt3jkdXPMGFHsgC53pIhW83o3QKa/s6HJ1lPZZseRpAoAKqgLfLrJB+45qwYp3FJBHoUzYQ5bR4TysUw3BvdGQnG+jwfoDfYew0oFLcYoKewmPQMUt97FQ/bBjFBZxBbLYhbrMdguTE5huPmp9Zx5a73xwMHSEPxMJxbYvoECuQ7Kqeu5TK2/1SBwmMQdSaF/N0ysgEyudd9oZ821uFPLuRbDLln2WvPzzA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by AS5PR06MB8941.eurprd06.prod.outlook.com (2603:10a6:20b:681::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 18 Sep
- 2025 12:34:33 +0000
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f%5]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
- 12:34:32 +0000
-From: Deepesh.Varatharajan@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
-Subject: [PATCH] glibc: stable 2.42 branch updates
-Date: Thu, 18 Sep 2025 05:33:50 -0700
-Message-ID: <20250918123350.3016822-1-Deepesh.Varatharajan@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR10CA0022.namprd10.prod.outlook.com
- (2603:10b6:a03:255::27) To SJ0PR11MB5648.namprd11.prod.outlook.com
- (2603:10b6:a03:302::11)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Thu, 18 Sep
+ 2025 12:47:38 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc%5]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
+ 12:47:38 +0000
+Message-ID: <a9a5777d-d622-4e89-9888-3989f884e816@vaisala.com>
+Date: Thu, 18 Sep 2025 15:47:36 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH] cve-update: log timestamps and add force update
+ for future time
+To: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
+References: <20250826185922.20154-1-peter.marko@siemens.com>
+Content-Language: en-US
+From: Niko Mauno <niko.mauno@vaisala.com>
+In-Reply-To: <20250826185922.20154-1-peter.marko@siemens.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: GV3P280CA0001.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:b::31) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|PH8PR11MB6563:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27c76269-5445-432c-fece-08ddf6afb845
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|AS5PR06MB8941:EE_
+X-MS-Office365-Filtering-Correlation-Id: 046ec2a0-f622-4340-6fd2-08ddf6b18c70
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
+	BCL:0;ARA:13230040|366016|1800799024|4022899009|376014|7053199007;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?eKH2yjK6IG/s9eFt93ApbgsMVeqIdWqJ3R8J0FlsAcRbbyyWWphKlGgogMjR?=
- =?us-ascii?Q?BanhMH/aaD4MaL1wKaI0sV79XveajRxnRxrOKLnvQpgV3gE9dp1Vsdf2MIzo?=
- =?us-ascii?Q?JUPIZaq2dLdJC1xH2zM4u/DCm+ZMs+Dt3yKEMKoTALVceZR+MDt997/8NQBC?=
- =?us-ascii?Q?0CKNZZ1HAOoMseOT6niludsc8wGy1PaP/zSpGMNJ1pv7v2lioUS2K9/Z3X7G?=
- =?us-ascii?Q?zNCYN/XF4Xda5Gt7Uuycl6Nnn8O76WqOAZNY3SbGgaV0rsmjdpY+Ziy5eA9g?=
- =?us-ascii?Q?i6Iz5r73OgsVYlDQ8jCuAkL/kFJJ5/Rnfq+kKPNJv3hPGFTRoBYlf69zRAgT?=
- =?us-ascii?Q?Pqki1eiodEAFzDXptHBjqAllm+8lHvrldrDo9IcaTIv4pnx2r3odDvVoh4cV?=
- =?us-ascii?Q?wRc57o/jZq/pWbvdxaDTHqgFU4jojDBsm2cH0bB9CqHrcusFpI/cxdrw3pUL?=
- =?us-ascii?Q?33Do7X7j8r/5U89Plx6rIqvTo5xaxCAsHZ160GyP/ZzgW9QhfvFrSv+WPmy3?=
- =?us-ascii?Q?M2AnXDkbNyESxe7cf8ZNCcHR16MHNuaPu+DqHHH+SSllabm3jgKbhnodvBmA?=
- =?us-ascii?Q?3FAPdsmxLjVLCC+m0jKvxyJjaizynYClxnBnjbKqzEvu6Usc5GbblB8Y299k?=
- =?us-ascii?Q?IeTlU6Lu6B7eUfke1qvSPm1Di2P6EpkIxLL/ZWac6ImnlQHl3X/APH9bzEn5?=
- =?us-ascii?Q?tnwwx+ajeIVcsU0OwGn0GR+69eFlwoHkfZUgvdzfuL1Wqp0vzJADn2Z4RMsj?=
- =?us-ascii?Q?mk1WtUKMkBU1KuQOKClY9TU9jEjGAe/X528joCdB/Bs5gUj6DfPjP3aPejo0?=
- =?us-ascii?Q?8KE7pQ8+nMPpsk4dwCwJeDSjYhaLEK7ghH47fXMgI4nm5Y808qbCbpMXsHlG?=
- =?us-ascii?Q?gk/QFl0otCWRI/3x9oQPQwHoOiB+1BcdkZvo4WKEroE83yH/qRo9X9d7YTQE?=
- =?us-ascii?Q?NG/Agxg2O2gDRSIP4LgHRUkO4jAMy20ryq6rjQygBhVhHTbP7lkj2dCz0+9e?=
- =?us-ascii?Q?LABV0bSf7wb4M+4plERni+UMvckyx6GyoboX4SnZve2sYdJfVLslN9eQM5C2?=
- =?us-ascii?Q?PenQMHOLyq8SIqhEDFBzjWE18OAogXCiZo1bIRHO3xZPRKT1cQ8wUS+ph1lZ?=
- =?us-ascii?Q?KZjwEUcRoXLxcAKF9XUaDcOivW5bnSfrWDizQLD73u9p/dT9wF2XF7gaHqFr?=
- =?us-ascii?Q?ZZ5pJrA6LfrV//ye1rEGXH22sjleWnbGg+bfubYgjBVr1Zcrby6irjWFypw9?=
- =?us-ascii?Q?Nw3g1r9ycz1cwcpD5ixRQxNANZpA9uLCMXbQ/V6x/5fzGBiYYkNanUnr6v8y?=
- =?us-ascii?Q?/QloW0UFyaWEH5T+E6LEG0zJCGzlI3l536ytUV1R4MU1Typ+2XSCiV3X0WXn?=
- =?us-ascii?Q?4mEz2OfsfOjMV4noY69U/nRzU6AA6uyOXz0jh9RdO5vAKory4D0KXPJz8gYl?=
- =?us-ascii?Q?IQa31zMfjJW2pu7RdeQsCngb6S6HY7DI01lpMbh5ScOZeEXIpkmktg=3D=3D?=
+	=?utf-8?B?T0w4Z3dKL1VMbFd1WEhUV0xYTkJ2RldpOGJNZVhQRlFPZG5zWTZmcEppVWlu?=
+ =?utf-8?B?anpobithY2F4eFVUcFB1ZnpXOWtKWW9tdDdyeGsySDFZVmJEY0tTV3U5TVR0?=
+ =?utf-8?B?MklxOTJyT25DZGtzTkxuQzVmMjFEZFRFVThGUzdDZFYzVng5UTBJc0dCbk1l?=
+ =?utf-8?B?SDRLRkZSS3hWc245eTE1eGhOdytkcGwySkZkMytvS0lFaHJwOVNaQUtFem1F?=
+ =?utf-8?B?OEp2WmFWeXdaOGcxa2E4UkZlS1ZXN1VBUWxUYkIraVFudE1KNncwWENiODhJ?=
+ =?utf-8?B?d2hTRmFreTdPY2dEVmdmTGRtYkxQd2YxeEtGL3FFNEQwL2xncVRvYXZkcjY5?=
+ =?utf-8?B?VWRjK3R6TTJ2NEZaM0xLbE1zWGhDTlBXNkNKVU51NTI4VHlUdmtFRm53Y0Zs?=
+ =?utf-8?B?bU93ZVl6cmdFNUdnRm9QSFRxZk5zWE1VNmF6Qzh3cGZmaXJ4R0ZxcGVhdkNa?=
+ =?utf-8?B?bytNOEdBSGUwWW1OYU1xbXQ0QjIxeVFxS1Y4NVpUTGJ1Mmt4SWE3UGFIRy8r?=
+ =?utf-8?B?azJ1UmtzV1NXMTE5c0RqQlZYY2pqZjZGL25kbHJZbW1NbnJuREQxc0lIejNQ?=
+ =?utf-8?B?Skc1RDZyQ1p1YjMwNnphU0NVWXB4ckNNYllMSTY0QVhidEZUa0paSHpjRHhM?=
+ =?utf-8?B?dURXTDg5czB3RzN1clIwNUowWW54cElYT3JRQjhtWEpZL1JWeCtJSEFaaEtq?=
+ =?utf-8?B?Q3VzK1RNRHprWkhxNGJOcExSTjNQV0FUMkI2VFBoK0lTeUdISURMUkhEb3JN?=
+ =?utf-8?B?UU9QZzJDM0ZjN2NvN1NNRGJybGlLZTZ0QnE4R2h2Zzd6ckZ3eGxIMTFYcHFG?=
+ =?utf-8?B?VjZNaHcxdmJtWGtMM3JFRU9GYk9MRDVRVkozMXp0Y3N0dlQ3dFVpVk1wdWl6?=
+ =?utf-8?B?ekJZZVR2UjNkSVI1NVdlQnVKN0tRdTVXYzM4VllTZTkyY3U2T3NQcWFaVnhQ?=
+ =?utf-8?B?SEpwRUxJeE8vZStYTCtrOUVMR1VPdW01NzlTMzdFMG1kaUh1eTlwR1ExbnFy?=
+ =?utf-8?B?ZzlCQWsrMDFWUkFKLzYrd0gwSHpkQmdLSjB4N3c3aWE5YXNIclQ3K0paVEVK?=
+ =?utf-8?B?U0Z3RkRTUDNkSG1hYUplYUl6T2V1cDdwYzl4YmlhRERMbTBKdlBzMStVUW5J?=
+ =?utf-8?B?dXVEYnRVckpLdUlEWVJVNDJscW5yTVd1VjVrWk1seU1iVllDdUhtaThjVTZZ?=
+ =?utf-8?B?Y21BLzhuR2M5WkNUZXlBR1NUeGNvcVFnN3BsNUtEYmEvOVJhMVlHUEdLS0do?=
+ =?utf-8?B?TVpFQVpYZTg0ZmQ2RGlrV211aytpWFBMcGg0a1l3ajJWeUNXSFEvK0JKckNq?=
+ =?utf-8?B?dkNJcVhiRmhkUWROWGRiM09Da1cyckxvWmlqWjhIZEQyNjV1S1EzRXZjMkJZ?=
+ =?utf-8?B?STVIQTlkY2lXOXBpWXNxTnVESFNVc2pZYjNZU1V4ZmF4UzRSMmpJZjdLbC9i?=
+ =?utf-8?B?R3dsNjNjZDNFaVM4UlZaUmMyUndoZEVNcm9xVWNRUk9xS1VHZ3hucnQ5RzZ3?=
+ =?utf-8?B?WUZWTzU5Qm1GTm1MNjNrbFFTRE9qVHdId2tUMndmT2FrWnFkcGE4c3kxWXFH?=
+ =?utf-8?B?VGFtU0RMaC9adjRZUkZSUno0QWJWK3BYdks1WGdEWGpVM2FpajdzVlZidWxs?=
+ =?utf-8?B?QjRvVTlXbmFTbmRQWUN5R3ZxY1NxNmJocTR1T1JKOWFLZm9XVEtWdWJjQWhx?=
+ =?utf-8?B?M2w3c3o0dE40V3dVanJKZUJvRU9VYk9yOGFZVklqTklodXM3Q2pKWnBqOHIz?=
+ =?utf-8?B?czdSNlo3ajB4eHlkMzkvYzE1VW5BYUxFVGZQaVZBNGs1NXN3czNjWHkzWDg1?=
+ =?utf-8?Q?/kyA7eZ2Z3+nKUOFX2zuXXC8BKcR+gYdBJajY=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(4022899009)(376014)(7053199007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?HbcCjBL3WmwAOPEFETMNJKlIaww4I22vOSI+9WifkX27CLDWB3gJsY0XDov9?=
- =?us-ascii?Q?ZZDqbxFeOPQIEfm6CVv5Zo8u01uVo3DPfchXWKC7Cm+kI4JHlRW5uG3NO2/e?=
- =?us-ascii?Q?4DcyyI63dU0K7TrOvAk4CLtAbvOf368OuU9oDspvPJxB61YnIodn+81XGwFJ?=
- =?us-ascii?Q?baiT+nzKmlBIPwHi60uNZef4PJrA/7llfHpHGWHWPgvUVJOlUIWHHgLkvReM?=
- =?us-ascii?Q?Q/3M/skeFg+OySAF3yO1oiLRjUfbC0i67UaVK1NHMEjqOK6sAuusBiTMTWc3?=
- =?us-ascii?Q?GqONRyimNsmAsoa4XP8xCbEk3RyQyUNROk6taFIxrmSqtyN8G9UCoCOKe2UB?=
- =?us-ascii?Q?a5AVXds5vHDBJH/2iEja5bfGrL/baS283rYPv7GJ9D+cFwZaiMzfJSkGKDEm?=
- =?us-ascii?Q?cYg+oIzHOwe2MzkEVqbrk72zmsGVIdeTJUmXM4kxJVp5uQT6WnMkRdd8YMvG?=
- =?us-ascii?Q?i6hLd1jRkKiI7dRwFSP8nKG0fgMex0h02w/7G6RP3HsHaBW2ecowzBVNU5nU?=
- =?us-ascii?Q?am3Jwah0O8fu6vZ1PYT62puRFljo5MrjKKsOnn2WuAKpJicUDBiJ+y9THxsC?=
- =?us-ascii?Q?SwrSPnLl0j/sCOII2dNuIwZHE07YD5cFCmMWMt/OEENzFWhnRTAUYBcb+MEV?=
- =?us-ascii?Q?+N2HLKamVo8AJBCyulnrGFKCckLoK55bOcP0eAKAFFk/nBni9KsHSckWv+wc?=
- =?us-ascii?Q?co+r47gMVcferykS49eYKqCW3aeB71+hbmqMeRBmRrLp4IcbmaF9lnBcSaHe?=
- =?us-ascii?Q?RcIzZuSq+J32FLw3yF8bXmjOLuCR6AX4vAtYLe0UeVOfwWSrL6zPd3yBqyZx?=
- =?us-ascii?Q?VMIv1rPKK24+2IbBXeqTpdxa96yXN1rWtTMJqAVmOIxGWokKOpChT/k8IJ8w?=
- =?us-ascii?Q?w/gkGY6C6s/uiN0uMebpYpW9kB3OgEUWEMceJojHldnV1M3adpECnAxfIBya?=
- =?us-ascii?Q?H7/a4d7KiL3NUwHE/hglWE9fverCbAdeBqRvuBWcU19RJHmU1CAihl1TsIdk?=
- =?us-ascii?Q?zPGR3P9Lrr0zggvytE2S9RnwB1ayIgWZ3O+D66A6+5MMeoA9UpfVd5CKf6EV?=
- =?us-ascii?Q?XiEglJweR32oiKzMDEQJKrA8qNTh1t3fha3w5MzSJhTL8w5tSg6r6IfmGEjH?=
- =?us-ascii?Q?w7neOdaDMc65qZuA1HThdC32KARrrCnnJdZkRaPz1zwKYcb8wQeWmLpFh5jR?=
- =?us-ascii?Q?puG9Y8jAAtU5/Tc75wiud0nMh+YgfiTXQsNEBMZ6CR8+5da2OA1GoBHz6mn/?=
- =?us-ascii?Q?lQofuJtm/7D+P3BNsnmWtPgMA+sluvr99oxNCosk133uLFEYoCw6j5Q/Pm5c?=
- =?us-ascii?Q?bBJp0ZWyWjA3KYzkMMHgbnyu8KGSZ5+vIh5iqevdJS2CHdY+h+a8NBtuVckb?=
- =?us-ascii?Q?lo3MFQeFBW1lkGL8uFI1M2EcBMEXzlU5HZR4QVV3J76GAg3OWYxS2NZQ+G1h?=
- =?us-ascii?Q?x5eygIAssODcU23pvcAyQOXhPl00hqaKbBYeM1rxSdCwsCfWqSBcgiilAVxu?=
- =?us-ascii?Q?EegU+AcBDFd8dbp1l8tE5oQGiZ2jTeoufTQ+3fMoh4+9/RAzp3/ythGbE+yM?=
- =?us-ascii?Q?Hs0Sdi8FM0N12aaqKNpG2LobuIj9hsi7mXEdt7pE8QRGlsAec6TgQMm8tfQl?=
- =?us-ascii?Q?JOwkqDdqGRjhQFkUh8k3Gto=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27c76269-5445-432c-fece-08ddf6afb845
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
+	=?utf-8?B?b1NZcW54Q1M0MXJPT2NBTG5wMnpkakxqODZBLzUwZlBFdEFkME9DSm5MdUNB?=
+ =?utf-8?B?K054V00wZkVGdG4ybzBzWkw5UnJqQ0lQWFc2ZVhDbGNZWFlyTi9IZ0pQbWJ3?=
+ =?utf-8?B?ZkhMS3F5LzBGenM5ZXhuMzNFTWVOTHpnTHV2UFNjNnZrS1FSeDBGNm5XMDF4?=
+ =?utf-8?B?NThqbFhQR29laHRFdlJZMFRmeWlScFhGY1p0MG9nNHJrbWRKclBQZ1AwL1o5?=
+ =?utf-8?B?L28zNHFHT2pOQ0JEUzlHOE5qRi9UTzFFMVo4RlF3NEhIUktMRnJsNmtIUlBL?=
+ =?utf-8?B?Unprc0ZaOEdSYitBdUJURnNVTmd4VERuLzkyV1Y0N0pwTkJFV055cG93UUVZ?=
+ =?utf-8?B?cW8wQVd4RHMzeTZWTGpFZlRoQ0U4ZTlHL1RFZXYwazdlOUQvR0ltZG9qeTVR?=
+ =?utf-8?B?U05YNXBrQ3drR2ZVVnNjUVI1MzVMTDRBejRzUDR4UHNyeGJ0UVhUaC8xODNV?=
+ =?utf-8?B?L29pckZmNUpPL0FicW5lUVNwNTVXZ1UxbnhUUkdiU2kzS25RcUNaRUxoVjZR?=
+ =?utf-8?B?OHBQUUdwNDhXSTRqa0F4VU9RWWhUU0FPbXo2K0tjUE10NlZLYlBCVkhRZHJk?=
+ =?utf-8?B?TFJRN0ZXck5wNm43em5jUjZiVTd0MHF0clE1Vk4vTEhrK0pNSGNKZG4xR243?=
+ =?utf-8?B?eW5IK0JDeGYrckFPdk0zQS81ZFNibjR3MCtnM1JpOHRlYTlpUGhEd1V2aUJF?=
+ =?utf-8?B?d1dPcS9Pek9rUUpYTHkvZTNKRW02TFFtTU1zNENrcGdmbnB2TDdtQXJyeHRm?=
+ =?utf-8?B?aUlNb0dPa0V5Y1gzbUsvd2NCZG1iVUUzYnBqaWJacGFDMGNDZHJabkFDSTd3?=
+ =?utf-8?B?VmlBRm1qRlNOdnNPUzRWYitXbmlCZGszMzQ4ZEtXU1lRR3NUVkc4c3pZc21F?=
+ =?utf-8?B?WUdFeVVKcFlxWm9EcVp6dEtLL0toMXNWb09UTFJVSnZyMTlBM1NvOTFrQ3V4?=
+ =?utf-8?B?UmxRUThWTG9DcFBFakx5VDgrWUtBdW42ZER3ZDdaL1g4elArZjdJRGNhVFZY?=
+ =?utf-8?B?ZEkxREtza2QxNFZHWnAyem1nMWRmRjU2Z1B3N2IzTjdKbUFHdFRTajNqc1Fi?=
+ =?utf-8?B?cFFmeEtvdHlpTXREY2pwclppTW9Xb21oTC81ZWtnd0g0em5WbFo5bDFTUSty?=
+ =?utf-8?B?V2R0YUkrSnVDbFBYVXVUTmFFRDIyRjhTb2JOaVZVU3pWL0UrRjdmUW9INjZr?=
+ =?utf-8?B?YWx3QUJtalhodTFWbkMwSS9QL1hxYVUvQjBiVVlkOC9kRmNKUUlBWTBDSS83?=
+ =?utf-8?B?ZWo1cU03SzBkWmJRUXpIc2t1VU9xaVdVcjExRkdOQUdUaWVWSUlMQVk3emdz?=
+ =?utf-8?B?SDgwQm5JVkNtQjRDcHBhZ1hhK0FFUmRIN0wzNStMeng1Y09CSS85UXpRSmtk?=
+ =?utf-8?B?ZUJZSVRTTVNTUEdmSllxdk56TldCTlZ6bVlCVjd4eGxndWdQQ3FFUTlhRmRF?=
+ =?utf-8?B?OFQ5c0Fac2RKTlhXeGZsOVU2cVFialUzNUJwLzdTYWtzeVprRWJVS0VHT3RK?=
+ =?utf-8?B?NVB3aHhSV3IrWUFoUDhveCtteWJ6RWhkOUQ2cS8wbnZmMVptV0tGMXZSUXFi?=
+ =?utf-8?B?NVVHWFRXeEpiaWRVdEZJT1FzYXk1ZmwyakVCUGlzQkt3WDVzSFZpa0V3LzZ2?=
+ =?utf-8?B?SGU4OEZpMCtKQTFJckFZOTJON3pCSTh2NTU2UkpnbGVRTXg4YitxMFRrcXlU?=
+ =?utf-8?B?WWxaZll5VmJjNUIxeEcvclM1UHEzTWtPR3BuK3BXcjhMUklPblRMNmlKdXN0?=
+ =?utf-8?B?RHloSzFXSUZ5Z1JGTkVMcFpmZk10VEQ2S1d1RTVzQ2N3R2FFR1duRFBrd3lO?=
+ =?utf-8?B?dVJYZW15ckMxeXdCWDJaN0xQaTNzYjZFQXpZU0p1SnJRRmtxL3VTOHYvazZH?=
+ =?utf-8?B?OVJuYUNkcUpLQ21uWVZDM1c0emtHSVd5ZHpPVTVoK3ZES3U4NzJtbkFQNDFO?=
+ =?utf-8?B?TUZpdU1Xa2hXZTkzcDBscU1XS0Z1OHN3T1U5bVVtM2kwU0ZLOFA4ZWM0UkVJ?=
+ =?utf-8?B?dmNOUTg1VnNLTU8zR04zUG9XOXFFT050TWFmVFViVTY1QmJXSkp6a3BvM1B3?=
+ =?utf-8?B?MGRXZjlXSkphOVM2bllUeCt5d1Ridk5FdjUzaGpHU0NRMm5JU2dzSVdpS2ZT?=
+ =?utf-8?B?aVZyUENVWE8zSjRQb0E5ZGdOZkt6LzkwaGFxWGxZS0tWMzlzMWRqZklIcHVP?=
+ =?utf-8?B?WVE9PQ==?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 046ec2a0-f622-4340-6fd2-08ddf6b18c70
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 12:34:32.9241
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 12:47:38.3722
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EglEYu9mPKF1mCnYpSY3xcpxjAkr8FfPee2jAVE6CVCKGxkwVrlC1tOhTxRb3IssI9KlJWSgqw/h/66/2HmXtK5fpUVl5fsONsfWxP83V0gCtsxtFdpGbv88GDIwBh9d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6563
-X-Proofpoint-GUID: HhrCJabIxXTpdoJQAHxP9lttWjeUjzuF
-X-Proofpoint-ORIG-GUID: HhrCJabIxXTpdoJQAHxP9lttWjeUjzuF
-X-Authority-Analysis: v=2.4 cv=C5zpyRP+ c=1 sm=1 tr=0 ts=68cbfc5b cx=c_pps
- a=1GamL6rn6SUPLdETXxLFew==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10 a=t7CeM3EgAAAA:8 a=CCpqsmhAAAAA:8
- a=Hsqy2Y5UlIJrBaD1AN4A:9 a=FdTzh2GWekK77mhwV6Dw:22 a=ul9cdbp4aOFLsgKbc677:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE4MDExNyBTYWx0ZWRfX29QVn0H1SlzB
- WWJPXqOBaHfnSElworIKjrfBPOkQkpdrqGOMa4EYpu7Cd+NX4h/0G4we8e1m9Ry8qo54wAF6ogf
- BfxVkpOVlUl/CbsuMZ/0SRJAV08qQMxvkc3epdH8CWB/YJF1JkmJ16uSkduasmMFmDuD+e+vjXL
- uk+8D6VgWp+LQhLjsYqrDEVMqkAgclSCEVi9zDnhJHu/eCIbtv3VpaIhpYFX+9pGOTfq/H7iqAB
- 5S16mMJP18T6wXWFJXzCIcPVF3UVG0gy2nBhk9bt5WPJdB/NrF0VOCliWcfp5p8bEqsNqol0VeH
- W++GLoL1wZ92Jq0v6uj0KJZSSeCzky1o3uqaFPxAQauYZ4QBgd/V/rmoEvhzCU=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-17_01,2025-09-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 spamscore=0 suspectscore=0 phishscore=0
- adultscore=0 impostorscore=0 bulkscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8YcvPICOa02fhfyv0MeAMoByyk4Upya5ehdFxGWtI+M9IGtec8qU29EmbCvV6v+b81nVaDc03ZJYWTlVKeMV9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR06MB8941
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 12:34:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223637
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 12:47:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223638
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+On 26.8.2025 21.59, Peter Marko via lists.openembedded.org wrote:
+> From: Peter Marko <peter.marko@siemens.com>
+> 
+> CVE update is currently not working properly on autobuilder.
+> This improves logging for problem analysis.
+> 
+> Future time is something which could be reason for current autobuilder
+> problems since the DB was not updated for more than 3 months by now.
+> 
 
-git log --oneline d2097651cc57834dbfcaa102ddfacae0d86cfb66..e34453cd6a8c592c325756ff3c7ac0afd3975cb4
+CVE check mechanism, which relies on a CVE database that can silently fail to update for several months, seems troubling to say the least.
 
-e34453cd6a (HEAD, origin/release/2.42/master) AArch64: Fix SVE powf routine [BZ #33299]
-e87844ec42 i386: Also add GLIBC_ABI_GNU2_TLS version [BZ #33129]
-7a8f3c6ee4 x86-64: Add GLIBC_ABI_DT_X86_64_PLT [BZ #33212]
-3970785beb x86-64: Add GLIBC_ABI_GNU2_TLS version [BZ #33129]
-d0f72b96f2 i386: Add GLIBC_ABI_GNU_TLS version [BZ #33221]
-8dbaecbe92 Use TLS initial-exec model for __libc_tsd_CTYPE_* thread variables [BZ #33234]
-d7274d718e malloc: Fix checking for small negative values of tcache_key
-a96a82c4a5 malloc: Make sure tcache_key is odd enough
-c491dabd8a malloc: Fix MAX_TCACHE_SMALL_SIZE
-8a726b6304 malloc: Remove redundant NULL check
-c5476b7907 hurd: support: Fix running SGID tests
-e5754399b5 Revert "tst-freopen4-main.c: Call support_capture_subprocess with chroot"
-c090b0cb1c tst-env-setuid: Delete LD_DEBUG_OUTPUT output
-41a77b78cf tst-freopen4-main.c: Call support_capture_subprocess with chroot
-9ec7a532ff tst-fopen-threaded.c: Delete temporary file
-9d5bf9c17d Delete temporary files in support_subprocess
-b38f3f60d5 nptl: Fix SYSCALL_CANCEL for return values larger than INT_MAX (BZ 33245)
-5e298d2d93 elf: Handle ld.so with LOAD segment gaps in _dl_find_object (bug 31943)
-2fadee5301 elf: Extract rtld_setup_phdr function from dl_main
-fd18059c0f stdlib: resolve a double lock init issue after fork [BZ #32994]
-bc13db7393 inet-fortified: fix namespace violation (bug 33227)
-3ec4dd77f6 NEWS: add new section
-bdea6c3719 Replace advisories directory with pointer file
+Looking at the do_fetch() method in both recipes they seem to use the os.path.getmtime() method to resolve the last modified time of the database. The value is however based on database file modification time. This seems inherently fragile, and I would be curious if there would be a less problem-prone approach that could be used to resolve the last modified date, such as resorting to the most recent CVE last modified date. Seems it can be extracted from the database file by issuing:
 
-Testing Results:
-           Before     After   Diff
-PASS         5842      5855     +13
-XPASS        4         4         0
-FAIL         868       859      -9
-XFAIL        16        16        0
-UNSUPPORTED  396       396       0
+   select MODIFIED from NVD order by MODIFIED desc limit 1;
 
-Testcases changes
+I'm not sure if all things considered it is completely appropriate to utilize the NVD MODIFIED value in this fashion, but it would feel at least less hazardous than referencing the modification time of the database file itself.
 
-testcase-name                              before           after
+-Niko
 
-elf/check-dt-x86-64-plt(new)                 -               PASS
-elf/check-gnu2-tls(new)                      -               PASS
-elf/tst-link-map-contiguous-ldso(new)        -               PASS
-elf/tst-link-map-contiguous-libc(new)        -               PASS
-malloc/tst-malloc_info-malloc-hugetlb1      FAIL             PASS
-nptl/tst-thread-affinity-pthread            FAIL             PASS
-resolv/tst-resolv-aliases                   FAIL             PASS
-stdio-common/tst-printf-format-d-llong      FAIL             PASS
-stdio-common/tst-printf-format-sn-ushort    FAIL             PASS
-stdio-common/tst-printf-format-vs-char      FAIL             PASS
-stdio-common/tst-printf-format-vd-ullong    FAIL             PASS
-string/test-strcmp                          FAIL             PASS
-string/tst-cmp                              FAIL             PASS
 
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 3a89e153bd..a3ce970c29 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.42/master"
- PV = "2.42+git"
--SRCREV_glibc ?= "d2097651cc57834dbfcaa102ddfacae0d86cfb66"
-+SRCREV_glibc ?= "e34453cd6a8c592c325756ff3c7ac0afd3975cb4"
- SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
--- 
-2.49.0
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>   meta/recipes-core/meta/cve-update-db-native.bb   |  7 ++++++-
+>   meta/recipes-core/meta/cve-update-nvd2-native.bb | 11 ++++++++---
+>   2 files changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+> index 0c7bc5f4151..713c73e574f 100644
+> --- a/meta/recipes-core/meta/cve-update-db-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-db-native.bb
+> @@ -57,7 +57,12 @@ python do_fetch() {
+>               if not os.path.exists(db_file):
+>                   bb.error("CVE database %s not present, database fetch/update skipped" % db_file)
+>               return
+> -        if time.time() - os.path.getmtime(db_file) < update_interval:
+> +        curr_time = time.time()
+> +        database_time = os.path.getmtime(db_file)
+> +        bb.note("Current time: %s; DB time: %s" % (time.ctime(curr_time), time.ctime(database_time)))
+> +        if curr_time < database_time:
+> +            bb.warn("Database time is in the future, force DB update")
+> +        elif curr_time - database_time < update_interval:
+>               bb.note("CVE database recently updated, skipping")
+>               return
+>   
+> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> index f7a306c995c..1411d16e20a 100644
+> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> @@ -71,10 +71,15 @@ python do_fetch() {
+>               if not os.path.exists(db_file):
+>                   bb.error("CVE database %s not present, database fetch/update skipped" % db_file)
+>               return
+> -        if time.time() - os.path.getmtime(db_file) < update_interval:
+> -            bb.note("CVE database recently updated, skipping")
+> -            return
+> +        curr_time = time.time()
+>           database_time = os.path.getmtime(db_file)
+> +        bb.note("Current time: %s; DB time: %s" % (time.ctime(curr_time), time.ctime(database_time)))
+> +        if curr_time < database_time:
+> +            bb.warn("Database time is in the future, force DB update")
+> +            database_time = 0
+> +        elif curr_time - database_time < update_interval:
+> +            bb.note("CVE database recently updated, skipping")
+> +            return
+>   
+>       except OSError:
+>           pass
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#222475): https://lists.openembedded.org/g/openembedded-core/message/222475
+> Mute This Topic: https://lists.openembedded.org/mt/114905419/3618471
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [niko.mauno@vaisala.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
