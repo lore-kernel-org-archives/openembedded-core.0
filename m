@@ -1,156 +1,87 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C772BCAC597
-	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 19:23:05 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.24039.1758223379551949220
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7DACCAC59A
+	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:08:20 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.272.1758229693678711923
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 12:22:59 -0700
+ Thu, 18 Sep 2025 14:08:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=c0WJoP1E;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58IBjPa3010746
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 19:22:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=NYA2r1Uq/WtNoErgrcSXzB5q
-	hz+iDC5XKCljwlNk27w=; b=c0WJoP1E5mum9AKN52Eqsb9ICTPsd198EjJEIq/H
-	cnhmcgpsYu68cI1JFU2TnZBs2xVojI0kObvfTBFsHkz4DijnoMkeWfC+vQkGrHJ1
-	orXokIaiRUsNSV9Fz3s2r8KcuEWyRhTmKpJljqYkv0Bdv8l5oigIVaul5mC5rxFr
-	JAP/PxoOJRSaexPzqz7JY5U0zgY37gMD+Ru3hawmfzUBS68N4zCGvTfDf4CSx8AQ
-	+z4dAhqVTJUiWZqUcUwlBThcnQagVHh19TjrgvEvcF/ZXDbS2Mk2mMxsFwhd6UgH
-	PzuqWqX6WPVWPtLbMzOXPf4jUghOrHXQoxfaVG8Z8BLUpw==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497fxxyqxr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 19:22:59 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-7966a34e19dso8880566d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 12:22:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758223377; x=1758828177;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NYA2r1Uq/WtNoErgrcSXzB5qhz+iDC5XKCljwlNk27w=;
-        b=rqnlFsHa7dIjsMsweIbqgJOtQIGmTrKvU1uAo0QAgWFztFlVW5Mx/xzy6Fwaqn0BtW
-         2D6tqljNpXS1magKvHHRoVoRIYHwoYK8SoEVZCwy+vdfZGtT8cWqm4b12wKqJ4DDOca1
-         /jhb1QzrmscHpBH38OeQSM277dQDkt9grmWeJOBoygPgWlumpCbsr6E20e6rr8IjVF08
-         M+5wpUpvyhW2LyGVj+chsvRIM+g3r7uLbKit+xDErBeEpWSTsf5NKY1dSlrPkV07QKJQ
-         KgAi3y4/ic7zdt/GT5H83Jlrvu8vx5tdFtIbIHXw+jbObc7jxY/gckba3NfUGidDgWrw
-         38+Q==
-X-Gm-Message-State: AOJu0YzkPapkUk/U6R0NtPVDV/O+c05wFvf7W1wX1WwQkEL5zYHL8TJH
-	FM5zBeUeIa0f0BnCAzcvav+80AoQMpXDHrESTJI2aw79MhCWXi1lOuaXUM/FLFGLiiAoIeGVdkE
-	RnYrbNAMl2lf/nGPeYSOiuVtAU1uCSnpZHOenpo5DgDwgrp896JNbHRn6CRSh2/m+jLca6mmBBA
-	o11o3QyjsuDZQukmg=
-X-Gm-Gg: ASbGncsyFIdNpfeOSVpc6FTshEpJ74p81YNh+b7BoXNdHuxA3nKlEgkb3fbfpFWRTak
-	thBsUQXALbaajDk08bEMrQT82WaD+FfKverMq+Z0C/L50fRV8lpFXurKuMA25uDOMuSw6mUmn+v
-	vGQPsYDwes8H2ywqtD2wP1W3JFpGZMbXe2xrzlxaEV1c20f5UaVsdbsyrLDMhGvEHS/Bj5ERA2J
-	2ImZbHGyG230H4ZgkWzUvqNpfr1fma4p3a+/XG4i18EKhK6+PXA2oNQBDL2GzSiW7MEiD01v6oa
-	SCCvzLsqKCqVbnxmJFqGUoi32yJg+zL4kIt3q1YO4t9V+YH7fodNMttW/y0kp19jiSJPYLsw+yR
-	wuRn5P+spfoZc8XH6lfCFfqGdPx6Ftj6KXvemnAWx7L3pwAENoBFj
-X-Received: by 2002:a05:6214:c22:b0:777:af69:4fb8 with SMTP id 6a1803df08f44-792621d915cmr55211446d6.4.1758223377059;
-        Thu, 18 Sep 2025 12:22:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFalCf/YefGs88Mz7emDNhcYmLq4jv9nRhbLJ3ea5aqdXyCIXxeYo7RQBQTUVwCcjPhOo7dMA==
-X-Received: by 2002:a05:6214:c22:b0:777:af69:4fb8 with SMTP id 6a1803df08f44-792621d915cmr55211126d6.4.1758223376366;
-        Thu, 18 Sep 2025 12:22:56 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-579c258c751sm235879e87.41.2025.09.18.12.22.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Sep 2025 12:22:54 -0700 (PDT)
-Date: Thu, 18 Sep 2025 22:22:53 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-firmware: upgrade 20250808 -> 20250917
-Message-ID: <jh32d44prsovi74bsjejr5vznxtf24jvisnbemnjthhe777lyd@gtzqezswvsvg>
-References: <20250918063521.1301502-1-vpuar@qti.qualcomm.com>
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=LeatWZRu;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2025091821081141ec2e213e00020795-465u0p@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2025091821081141ec2e213e00020795
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 18 Sep 2025 23:08:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=xIS3rbVE2szwqIXaoq8AjT6E4BvnEDcpuBitHLnwjVo=;
+ b=LeatWZRuLMQiMQKUCFV2kcyUEzcf8Q7wJa1cIacoONtlDJtKDR5mkXKyPQCKK/Np+Wal4t
+ YHZGnwyFA24T9KUzDha8jQ0tScAzGoDUVKJFT1CqJ5agsozPzotTx0GPLhpDInBwB/nonuig
+ 7ROdG46LglSfiAA8WiJWSG/J4rrD7Rp7lne8Y7FToY3N4w1sv60o8oLYjVANxH+e00PAnniZ
+ sfkAJcVy0t4TOk2dgVMuxj8ymPZCwp+vbPYo94d3GP0ZmZGoV5dbxWjGntE63MI6OPGVtlrR
+ IiTVrVz+BSXmLyu22dYzmTXDJG7lL1MXxTtAFwIEqnVzvnjD+Y69Qu2A==;
+From: AdrianF <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 01/19] fedora_essential.sh: add util-linux-script package
+Date: Thu, 18 Sep 2025 23:07:03 +0200
+Message-ID: <20250918210754.477049-2-adrian.freihofer@siemens.com>
+In-Reply-To: <20250918210754.477049-1-adrian.freihofer@siemens.com>
+References: <20250918210754.477049-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250918063521.1301502-1-vpuar@qti.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfXy3fM3QlSKfKn
- x14ObPZqAuazkL2ww/EfN5QsGisv1XILKrLLfSWbRtyfC9gUzrCz394HJzojEElBNjInL23dhi2
- vuwADwv8g0+0Nd0woiY6T/cEpyv6OlDgZ0VbMiLwy15+spfekago3ZuH0UPeq2p8syDmuF1liwZ
- 5bBrat9AjvhdWhWtfL6rhPqHOp15BwTwtX2cmmnVhlrh8OR2YzP87YdJeXIkq8hgWTxFkLYbOac
- UC3uzACcjT9t589ivzE7IHSDxUCHaPKsJg5zBQ1tUcjwVXyLDuLgqlDOOGPrCZw7pNh/YbWJWpw
- mkqDRzqF+5C4fmq4y2lB4LHwJapZwy5OG4RPKfqWFkDWcJLYme+Z+EH9TvjKtoh10R0Qt5T+MzL
- pNd8xni0
-X-Proofpoint-ORIG-GUID: kNa536hxJQdEtCdgfXI8oyrJbM3VlGC0
-X-Authority-Analysis: v=2.4 cv=KJZaDEFo c=1 sm=1 tr=0 ts=68cc5c13 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=FbBFmdHKsMKu-4dDvBMA:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-GUID: kNa536hxJQdEtCdgfXI8oyrJbM3VlGC0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-18_02,2025-09-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 bulkscore=0 adultscore=0 impostorscore=0
- suspectscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160202
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 19:23:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223658
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:08:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223659
 
-On Thu, Sep 18, 2025 at 12:05:21PM +0530, Vivek Puar wrote:
-> Add packages ${PN}-qcom-qcs615-{audio, compute} to include DSP firmware
-> for qcs615 platform, ${PN}-qcom-x1e80100-compute to include CDSP firmware
-> for x1e80100 platform.
-> 
-> Extend Qualcomm QCS8300 RIDE and SA8775P platform to include audio topology.
-> 
-> License-Update: additional files
-> 
-> Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  ...20250808.bb => linux-firmware_20250917.bb} | 21 +++++++++++++------
->  1 file changed, 15 insertions(+), 6 deletions(-)
->  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250808.bb => linux-firmware_20250917.bb} (99%)
-> 
-> @@ -2043,8 +2046,10 @@ FILES:${PN}-qcom-qcm6490-ipa = "${nonarch_base_libdir}/firmware/qcom/qcm6490/ipa
->  FILES:${PN}-qcom-qcm6490-wifi = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/wpss.mbn*"
->  FILES:${PN}-qcom-qcm6490-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/qupv3fw.elf*"
->  FILES:${PN}-qcom-qcs615-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs615/a612_zap.mbn*"
-> +FILES:${PN}-qcom-qcs615-audio = "${nonarch_base_libdir}/firmware/qcom/qcs615/adsp*.*"
-> +FILES:${PN}-qcom-qcs615-compute = "${nonarch_base_libdir}/firmware/qcom/qcs615/cdsp*.*"
->  FILES:${PN}-qcom-qcs8300-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs8300/a623_zap.mbn*"
-> -FILES:${PN}-qcom-qcs8300-audio = "${nonarch_base_libdir}/firmware/qcom/qcs8300/adsp*.*"
-> +FILES:${PN}-qcom-qcs8300-audio = "${nonarch_base_libdir}/firmware/qcom/qcs8300/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qcs8300/MONACO-EVK-tplg.bin*"
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-This means that the licence for the package also needs to be updated to
-include Linaro licence.
+The util-linux-script package provides the 'script' command which is
+required by devtool for terminal session recording functionality.
 
->  FILES:${PN}-qcom-qcs8300-compute = "${nonarch_base_libdir}/firmware/qcom/qcs8300/cdsp*.*"
->  FILES:${PN}-qcom-qcs8300-generalpurpose = "${nonarch_base_libdir}/firmware/qcom/qcs8300/gpdsp*.*"
->  FILES:${PN}-qcom-qcs8300-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qcs8300/qupv3fw.elf*"
-> @@ -2054,7 +2059,7 @@ FILES:${PN}-qcom-qrb4210-compute = "${nonarch_base_libdir}/firmware/qcom/qrb4210
->  FILES:${PN}-qcom-qrb4210-modem = "${nonarch_base_libdir}/firmware/qcom/qrb4210/modem*.*"
->  FILES:${PN}-qcom-qrb4210-wifi = "${nonarch_base_libdir}/firmware/qcom/qrb4210/wlanmdsp.mbn* ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/qrb4210/*"
->  FILES:${PN}-qcom-sa8775p-adreno = "${nonarch_base_libdir}/firmware/qcom/sa8775p/a663_zap.mbn*"
-> -FILES:${PN}-qcom-sa8775p-audio = "${nonarch_base_libdir}/firmware/qcom/sa8775p/adsp*.*"
-> +FILES:${PN}-qcom-sa8775p-audio = "${nonarch_base_libdir}/firmware/qcom/sa8775p/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qcs9100/LEMANS-EVK-tplg.bin*"
+Without this package this error can occur on Fedora 42:
 
-This means that the licence for the package also needs to be updated to
-include Linaro licence.
+/bin/sh: line 1: script: command not found
+Traceback (most recent call last):
+  File "/home/adrian/projets/oss/poky/scripts/devtool", line 352, in <module>
+    ret = main()
+  File "/home/adrian/projets/oss/poky/scripts/devtool", line 338, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/adrian/projets/oss/poky/scripts/lib/devtool/ide_sdk.py", line 980, in ide_setup
+    exec_build_env_command(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        config.init_path, basepath, bb_cmd_early, watch=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adrian/projets/oss/poky/scripts/lib/devtool/__init__.py", line 47, in exec_build_env_command
+    return exec_watch('%s%s' % (init_prefix, cmd), **options)
+  File "/home/adrian/projets/oss/poky/scripts/lib/devtool/__init__.py", line 73, in exec_watch
+    raise bb.process.ExecutionError(cmd, process.returncode, buf, None)
+bb.process.ExecutionError: Execution of 'script -e -q -c "bitbake oe-selftest-image:do_build \
+  cmake-example:do_install gdb-cross-x86_64:do_addto_recipe_sysroot meson-example:do_install" «
+  /dev/null' failed with exit code 127:
+/bin/sh: line 1: script: command not found
 
->  FILES:${PN}-qcom-sa8775p-compute = "${nonarch_base_libdir}/firmware/qcom/sa8775p/cdsp*.*"
->  FILES:${PN}-qcom-sa8775p-generalpurpose = "${nonarch_base_libdir}/firmware/qcom/sa8775p/gpdsp*.*"
->  FILES:${PN}-qcom-sa8775p-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/sa8775p/qupv3fw.elf*"
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ documentation/tools/host_packages_scripts/fedora_essential.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Several notes. You missed the following file, please package it
-correctly (${PN}-qcom-sm8350-adreno):
-
-./usr/lib/firmware/qcom/sm8350/a660_zap.mbn
-
-
+diff --git a/documentation/tools/host_packages_scripts/fedora_essential.sh b/documentation/tools/host_packages_scripts/fedora_essential.sh
+index ea14134398b..f65b0494e85 100644
+--- a/documentation/tools/host_packages_scripts/fedora_essential.sh
++++ b/documentation/tools/host_packages_scripts/fedora_essential.sh
+@@ -1 +1 @@
+-sudo dnf install bzip2 ccache chrpath cpio cpp diffstat diffutils file findutils gawk gcc gcc-c++ git glibc-devel glibc-langpack-en gzip hostname libacl make patch perl perl-Data-Dumper perl-File-Compare perl-File-Copy perl-FindBin perl-Text-ParseWords perl-Thread-Queue perl-bignum perl-locale python python3 python3-GitPython python3-jinja2 python3-pexpect python3-pip rpcgen socat tar texinfo unzip wget which xz zstd
++sudo dnf install bzip2 ccache chrpath cpio cpp diffstat diffutils file findutils gawk gcc gcc-c++ git glibc-devel glibc-langpack-en gzip hostname libacl make patch perl perl-Data-Dumper perl-File-Compare perl-File-Copy perl-FindBin perl-Text-ParseWords perl-Thread-Queue perl-bignum perl-locale python python3 python3-GitPython python3-jinja2 python3-pexpect python3-pip rpcgen socat tar texinfo unzip util-linux-script wget which xz zstd
 -- 
-With best wishes
-Dmitry
+2.51.0
+
 
