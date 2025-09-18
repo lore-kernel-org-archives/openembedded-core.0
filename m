@@ -1,134 +1,119 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A10CA1013
-	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 17:19:55 +0000 (UTC)
-Received: from smtp-bc0e.mail.infomaniak.ch (smtp-bc0e.mail.infomaniak.ch [45.157.188.14])
- by mx.groups.io with SMTP id smtpd.web11.21356.1758215988268141198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C0C1CA1013
+	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 18:03:55 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.22133.1758218629305291577
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 10:19:48 -0700
+ Thu, 18 Sep 2025 11:03:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 45.157.188.14, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4cSMnt2ty8z1q5;
-	Thu, 18 Sep 2025 19:19:46 +0200 (CEST)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4cSMns5YmQz8KR;
-	Thu, 18 Sep 2025 19:19:45 +0200 (CEST)
-From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Thu, 18 Sep 2025 19:19:30 +0200
-Subject: [PATCH] mesa: upgrade 25.2.2 -> 25.2.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=egms2iJO;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b07ba1c3df4so231582966b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 11:03:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758218627; x=1758823427; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=V4TV2o98uN02iAiGeV9hl6XjagMGh1yGnEYW0SAaFiQ=;
+        b=egms2iJOikh3ZBA98TZJtCXvrNt9ymLad92BaedML7UEdeWh/vBQskz8/xurfSPMq9
+         8loiQXSRRHkZZoAuHnOzQ9/g8uDI+mzxvXhlFdqCElwu9f9DQzRSIZF1pDvwXSpZ/6SS
+         ojBWyUN+vZmajE6xQReYf2v2vP03iuPsHffQr3D+9F74PSwPrmra5/lRhxWLspC7mCG9
+         cc2iC2xfY2zqSxiQi4cR/Lofg5PkCDmcFrYJ7PxPRxPXfzG6pqYqJZS4kKghNLBUx4gR
+         Ww1TmbVeJZR5gzA9XPHJi+6D/nRr5TUBpGRQ0lSgK0SKOGUMxHPfWI8Wk1Ds7n663WpV
+         t/mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758218627; x=1758823427;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V4TV2o98uN02iAiGeV9hl6XjagMGh1yGnEYW0SAaFiQ=;
+        b=cFwuVlNnO1cCXKGqatUhNNTQMjn/esjZByxN36jO2bZCvInp46+bMqCFFQbTjbGLYI
+         86u8kfUJU0WTbRpb1N3T4gukVAGBHmo0Y9V63EHzADk65Uun9UwsUcPjCTwbUUQpjhvN
+         pO6ivBZl5qiwWd/b2W8MBAayoUSUqOu3Mbp9qMEryxi22Nojg5Auij11l+9fQzjl0X4C
+         aa0w8AWp8wp0F4OeOBG4WAqZWKB6gONWV71y9Z/47HP6e27lJR9Nn1ZOZi/cJOoJTFbm
+         kv5uH2lZD63lXitNPyiWobO8D0+aSTsP/86UhOrD5QqUqvkWxP6FrVajC6beZ8aCnv2j
+         YKEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVoS3crIRmN9RD0vb4Ae5TYKEy3UBtfMn/C18VZS/WZTZzWyPgnzomeId9qBQt5lopKBnfnlx1P02+JFMwb6JAdpg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyqhBY8qx9sKmU4ryUg1Y0JP+LpeVYq/bv8EJkoyJCnPEA+HHMR
+	FYmk+UzrNmH1JD9JMyt18/KnRT2xYndB0G1gBhNO6bSyD0wW1Pws2xn6
+X-Gm-Gg: ASbGncsD515DIu8qet66Ue7/jCu7H0SYQ3Ngpxrzvhrr3+S/JDb1vLHgZA9sbDgfw3j
+	xUhDxnDnD0aGproFn03Sj79nGy9h/Msqyw5rD0yP2KLMy9w1XbasriEnLs6UZ/gfG9CeJWPjEXv
+	VGlfG1xhMK6PvYDjouuWdXuw0ahNHPD7LznCSa+fqnzewEIJIFEA1wHIlpYTwPyojVqnK00J/ze
+	AM1ny6G5Jjm0DNS31mB2jZeUt3ItJatNvCRoXhLpCRKoZB2YDh5xhh+N1IJbmTakKkKk96GRtPV
+	ogb+trVFDXOP/nlUET2Whl/9hHRgWhk2Zr8EWCEeTOwztfm7OXPlQtv9uHE/RpOrwDcmtLEzqmW
+	5mk8rsuJBc0L+EDeLy/YJVcDI+5HV43HvtcdZkV3nUPZu4Qa1uA==
+X-Google-Smtp-Source: AGHT+IHFpLQFdlL4NkpJAm/YX6M/MWRa52NPs08SeN7YY7ld3TzbG1Im129nn9sKXAK2jF8kmffwiA==
+X-Received: by 2002:a17:907:7288:b0:b04:6973:1ee9 with SMTP id a640c23a62f3a-b24eedc0766mr19299966b.16.1758218627306;
+        Thu, 18 Sep 2025 11:03:47 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b1fd1101cf4sm245113066b.86.2025.09.18.11.03.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Sep 2025 11:03:46 -0700 (PDT)
+Message-ID: <38ea17ba-8e9f-49db-8ba4-8d337081d936@gmail.com>
+Date: Thu, 18 Sep 2025 20:03:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250918-mesa-25-2-3-v1-1-75682a574388@cherry.de>
-X-B4-Tracking: v=1; b=H4sIACE/zGgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDS0ML3dzU4kRdI1NdI11jXaNUC6OUJPOUlDRjQyWgjoKi1LTMCrBp0bG
- 1tQCp4rO7XQAAAA==
-X-Change-ID: 20250918-mesa-25-2-3-2e82db7ddf31
-To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Quentin Schulz <quentin.schulz@cherry.de>
-X-Mailer: b4 0.14.2
-X-Infomaniak-Routing: alpha
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [yocto] [PATCH] systemd: backport fix for handle
+ USE_NLS from master
+To: emailaddress.ashish@gmail.com, openembedded-core@lists.openembedded.org
+References: <ea2af4ec-e7f9-45e2-b6b4-20aaa658c593@gmail.com>
+ <9753.1758210874547409740@lists.openembedded.org>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <9753.1758210874547409740@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 17:19:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223653
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 18:03:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223654
 
-From: Quentin Schulz <quentin.schulz@cherry.de>
+On 9/18/25 17:54, Ashish Mishra via lists.openembedded.org wrote:
+> Thanks for feedback @Gyorgy Sarvari 
+>
+> I have pushed the change
+> https://lists.openembedded.org/g/openembedded-core/message/223646 
+>  
+> Sorry if i may ask :
+> 1) As process since i have send the change , should i delete this thread 
 
-Changelog and sha256sum: https://docs.mesa3d.org/relnotes/25.2.3.html
+You don't have to delete it, it will be just ignored in this case.
 
-0001-meson-fix-libcl-assert-reproducibility.patch was merged in 25.2.3
-(see commit 3445cb5577058262a2648cff6fdcdbd289ce1147) so can be removed.
+> 2) Whats the suggested way to do handle such correction (no change in
+> patch nut just added missed branch  details ) 
 
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
----
-Not build tested, have quickly checked the diff and nothing stands out
-as requiring changes aside from the removal of one patch.
+If you notice it on your own, you can just send a reply to your own
+initial patch noting that it was a mistake, and send the correct one
+afterwards. It happens.
 
-I'll let the autobuilder scream at me otherwise :)
----
- ...01-meson-fix-libcl-assert-reproducibility.patch | 43 ----------------------
- meta/recipes-graphics/mesa/mesa.inc                |  5 +--
- 2 files changed, 2 insertions(+), 46 deletions(-)
+> 3) I will monitor scarthgap branch as suggested ,
+>     is there any other way to know if the patch is accepted or some
+> other modification is expected by maintainer 
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-fix-libcl-assert-reproducibility.patch b/meta/recipes-graphics/mesa/files/0001-meson-fix-libcl-assert-reproducibility.patch
-deleted file mode 100644
-index 118b52a22714594999f9c8d38a56b47afe4e4e66..0000000000000000000000000000000000000000
---- a/meta/recipes-graphics/mesa/files/0001-meson-fix-libcl-assert-reproducibility.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From b9d43acde2d2e21d321e57d632cac199e41048ef Mon Sep 17 00:00:00 2001
--From: Quentin Schulz <quentin.schulz@cherry.de>
--Date: Thu, 21 Aug 2025 17:24:08 +0200
--Subject: [PATCH] meson: fix libcl assert() reproducibility
--
--The current -fmacro-prefix-map only handles removal of relative paths
--but we still need to handle absolute paths.
--
--The following path can be found in libvulkan_panfrost.so when building
--with Yocto for example:
--/work/build/tmp/work/cortexa76-cortexa55-crypto-poky-linux/mesa/25.2.0/sources/mesa-25.2.0/src/panfrost/libpan/../../util/bitpack_helpers.h
--
--These paths currently seem to only appear in the binary in strings that
--start with "Shader assertion fail at " which seems to indicate there are
--calls to assert() with absolute paths as well as relative paths (which
--are already patched with fmacro-prefix-map).
--
--By stripping the global source and build root directories from the paths
--with -fmacro-prefix-map, we get rid of this reproducibility issue (which
--incidentally makes the build fail due to buildpaths QA issue).
--
--Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36927]
--
--Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-----
-- meson.build | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/meson.build b/meson.build
--index 9cc75f6636e..d4779905020 100644
----- a/meson.build
--+++ b/meson.build
--@@ -52,6 +52,8 @@ relative_dir = fs.relative_to(meson.global_source_root(), meson.global_build_roo
-- 
-- cl_args = [
--   '-fmacro-prefix-map=@0@/='.format(relative_dir),
--+  '-fmacro-prefix-map=@0@/='.format(meson.global_source_root()),
--+  '-fmacro-prefix-map=@0@/='.format(meson.global_build_root()),
-- 
--   # Set the OpenCL standard to CL 2.0, enabling everything at a frontend.
--   # Drivers may not actually support everything but that's ok.
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index ee83c9546fa14b5a09cf9db57fc17180d03a31c5..c3751f3414c1187202b73c9e4a50712a69e49e9a 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,11 +17,10 @@ PE = "2"
- SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
--           file://0001-meson-fix-libcl-assert-reproducibility.patch \
- "
- 
--SRC_URI[sha256sum] = "43d7abcd4aa8049d8fd75538344a374104765e81e17b4a6314cee2c0160e4412"
--PV = "25.2.2"
-+SRC_URI[sha256sum] = "f2d6b28562f1d6cb9c17ee8e58eeade7aa5faf927ae71065eadb41e17f92b4f8"
-+PV = "25.2.3"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
+If any modification is expected, you will get a response directly to the
+patch. Steve Sakoman (the the maintainer of the stable branches) sends
+out regularly patch reviews on this ML, that includes a list of patches
+that he intends to accept. Look for that mail.
 
----
-base-commit: 3710050655d8de5a1b4b7b5dcbc1366a8a9a6210
-change-id: 20250918-mesa-25-2-3-2e82db7ddf31
-
-Best regards,
--- 
-Quentin Schulz <quentin.schulz@cherry.de>
+>  
+> Just trying to create an mental process so do less mistake mistake     
+> I will share two more patches once this goes through 
+>  
+> Thanks Again .
+>  
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#223648): https://lists.openembedded.org/g/openembedded-core/message/223648
+> Mute This Topic: https://lists.openembedded.org/mt/115310928/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
