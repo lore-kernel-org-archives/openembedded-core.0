@@ -2,99 +2,123 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE9ACAC597
-	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:28:01 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web10.665.1758230880416517244
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E30CAC59A
+	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:28:11 +0000 (UTC)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web10.669.1758230882562739346
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 14:28:00 -0700
+ Thu, 18 Sep 2025 14:28:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eHi9BjuM;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8287fedae95so193691485a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 14:28:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ot/V4WnR;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4b7a8ceace8so16519031cf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 14:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758230879; x=1758835679; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vcEYYYxN0trghC1lOw0StMHxbusXXBGsszO8JBo1qjk=;
-        b=eHi9BjuM/VAJx1YRqa+6Voaj1x6bjVvrFgRZaqXLT+FYJVoW2/cijiTh8GacHRpBlR
-         iB3XD7GdQB/fDjm+Zy+b+mihx5FCNacak28sINm1B68g9PTiaWF9f/yppZS5OpOxqNKa
-         7+6ZdU20DupHOgR+Y/bRRFtuOQ2ZAvs3esgXj3SteHr9S17MPIkkOE0U3/2ZioiRmiCX
-         9dPA97uUr8wdHK8eTu5dw6J6OE1nnR3zZU53ygQVtQK8YEHVvCuoYyJn+1D6VKKmiu2T
-         cYNTFLKXqPfXt0WpaIY05i0NOdWJ55+wwaYI1exmzHnZx++16X6wiNjVHqXv2iZWzOe7
-         lkHA==
+        d=gmail.com; s=20230601; t=1758230881; x=1758835681; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w5G0izAOMBB34tEWiPkQO9hn16nlggIYvJ6JCBpvfGo=;
+        b=Ot/V4WnRipK9a2/5PG5Y9DK3VAxmwIfmdqUp5lGLktEugm82aFrbX4JkIyLnFfGy2B
+         b4rbbK+Y65q1asINlRa6fU279s08Uoi4NNQ0AIzzPM5OZHiLgxfmQBQJ8l0zGbW5J4BS
+         V7ZWxMIE5wfaytyRMrejcAJAM9raSzZZN4Z0gUJnJtqket5oq2d6B/YwmRuf61i6JuF/
+         6aT1WWK8Af4WU8iNaN8z44Gnn+bN9KFUvC/QDZjijCSQRaL4J6KHDryeA/26iqC555r4
+         WypDEvHdfpwFlTje+LM88Fm4Y/2JtaCy8Ubi+RT0EsKoOSVGdOCic00looI87kmqgl4q
+         aiiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758230879; x=1758835679;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vcEYYYxN0trghC1lOw0StMHxbusXXBGsszO8JBo1qjk=;
-        b=IElIQGAxRClZQTt7aztDDx3DP7wGF3JSv9vd6v/hPc163ULcREbcLiFQ35qX/sDehi
-         i86E/mq/KcJ1FuKoWEivsAeA5LkQFMZYOiSYyhyV6C6X1DSNes/q9rRoeUPEkW5Nhw3Q
-         xMkiTmvljItXbZ4SK6A43nxxezWs4Ie3HD1ZYYPbjkwO0/swB52EvEaPcA2Aakp2FV63
-         KEPA94TGISZKweIGGX6Q3R04yeGi6QFfkRDlvPEe3Sl/kZZt2nTQ2skl1cqXvBpnPiC1
-         h/Q3vQBr6+iIXpJFuQSR49rSucIgulNibJpghjif48YpC+EArgMhepLqki/I7xREEXS0
-         lP9g==
-X-Gm-Message-State: AOJu0YxzOB89s8qmVKUc8HgbIH0O4b+nUZxeX12myIXQEaNQ55+tKQfa
-	F9qunXjDtmgZD7hadISux4j5S2/mlzNULf3fioKMYvLWkqD/u3CiAPMwDU8miw==
-X-Gm-Gg: ASbGncs4d2n+IG1i7FzaRtnKI+aS2GxT8lnoHjFhypwmk0JEWpyq3TwxU7RK1dTx49F
-	xotDQo7sTxqE2jsCJx9p4J5OUUjkZA5uAdT6VMHoV+p4RsFTJplSJfCNT5bYBZLSuj4uEskf9wT
-	oC93vTWYd0Ns67zG5rjqkbnV6pT3FBUaOpM0FPqEQsMfnTAv6V013ejHeyVSBIoZFN6aidTQdeF
-	Ftl7UcJrg0q+LM4OGOorUfqwxNh6w259xkfD4U3PLiA7cOP3kV6+LSpjdg2hBGHNMNORdminebj
-	EDoF21IhV2x5zGPnRX2Q4Kf854/d+OSQJk2B64HprttM6a95XXAwvF21ZqHmHWpRghR2RbQ0hcm
-	TGeU12613gYmLTMjlUb5fS6tt5acyv8qmUjcMM644Ww1KLjlUekWnKPI75UolrqJOCFOIDQlLrh
-	UnIu8=
-X-Google-Smtp-Source: AGHT+IHJc2nircbVZtu2qHSaEgRpQcMOA8Trp2PsBRz4tDecOY4xgxo6evQZInZkdD3kkWJuJ6bILQ==
-X-Received: by 2002:a05:620a:1902:b0:82a:6bde:30c7 with SMTP id af79cd13be357-83bac4aff02mr115270585a.84.1758230878657;
-        Thu, 18 Sep 2025 14:27:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758230881; x=1758835681;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w5G0izAOMBB34tEWiPkQO9hn16nlggIYvJ6JCBpvfGo=;
+        b=HoROeyJSeyxcPJ/APYv8jPLzBhh2A3xQBOD6S/Xju24uQLvT4hUEzV1tTVztNF0sAu
+         22rW/A5CSRS7C4j5/IqqIDDNJ6W5Bh2rfUVZpS+r0AizWkrDTHnokt4hGE+TxY+gQJie
+         Rx09E0qEQwoCUi+6bumRy2oOpKMF5ZugO/5PyF9Gc9XvBsSZn5wTpoUQLZhDqf2vDsEY
+         rKo8xhMoj/OXhOowuDx+PT0RGHdHAZ/22VPZGmk7sA/EXnsLZrSNUxxNqHTuXYulSY0A
+         7w1xrbNi/uDU85U6opm2caRzitnq8E4ePC+ge88Y/Pgc2GqmIShyHukv99PoSYajRqQN
+         I1kQ==
+X-Gm-Message-State: AOJu0YxVZUDh2oQQl64rhlz1J2PNq+0gnaxXDkWxZ4V8JENtJJKiNVex
+	kHMOwzrT+VSbK7OLNa77fviPDqYEq2/Dstr42qRnc5obxl+6Sbv+XGpKQeagQw==
+X-Gm-Gg: ASbGncu+mO/ucA7miEhmHowYfyoqF/r+4RRh5uS1d0YYSRHiPaS1uHE6fFompnV2DlF
+	xxo4hh4SjsBbnKtZqiwizhNuKtL52V43ALCDD/ESdyKWS3nSCE0g9Sfo1duZqPym+bR76eyWaPn
+	m91IUqPvLlkiTErwG7E1Qjz5aHMZlRzyXPUsnLH/UaPjmeh2Cd6VFy7WG7ztte17NvDzcFmGfI6
+	FWU12LzqvvH6dQ9mB9AVc+05e1lYW6qMPTNbvv/YzJu6rLoipExq95pDnuUDGx1JUN7NIDPLwQ6
+	zMzcHP9Yx+gplDWvTrvny4u2G+esYdrG3Y+ZZDg0qoN7u2CkvUc9YzHvayVx1aSw9J7tqS36YWD
+	+rnH1348etAVuNrqpODO2G1dUSpu+Q3/cvwyFniKD7cL3rrVJRCEX3P38umQahZnzWdhMNMiMeV
+	GRTdE=
+X-Google-Smtp-Source: AGHT+IGPBtfEfaazRkkoH8FiPSJmJ/MvK9d+tQjMh+lvoyrMg/tmQhXvApCTIpi+Q/Qka19qje6r/Q==
+X-Received: by 2002:a05:622a:a953:20b0:4c0:e6f4:d5b3 with SMTP id d75a77b69052e-4c0e6f4d751mr628011cf.58.1758230880632;
+        Thu, 18 Sep 2025 14:28:00 -0700 (PDT)
 Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-836263ab544sm235016185a.9.2025.09.18.14.27.57
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-836263ab544sm235016185a.9.2025.09.18.14.27.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Sep 2025 14:27:57 -0700 (PDT)
+        Thu, 18 Sep 2025 14:27:59 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Trevor Gamblin <tgamblin@baylibre.com>
-Subject: [PATCH 1/6] patchtest.README: trivial fixes
-Date: Thu, 18 Sep 2025 17:27:24 -0400
-Message-ID: <20250918212743.3960-1-twoerner@gmail.com>
+Subject: [PATCH 2/6] patchtest.README: update name and location or patchtest layer
+Date: Thu, 18 Sep 2025 17:27:25 -0400
+Message-ID: <20250918212743.3960-2-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0.193.g4975ec3473b4
+In-Reply-To: <20250918212743.3960-1-twoerner@gmail.com>
+References: <20250918212743.3960-1-twoerner@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:28:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223680
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:28:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223681
 
-Fix two small, trivial issues in the README.
+The patchtest layer's name and location have changed from:
+  patchtest
+  https://git.yoctoproject.org/patchtest
+to:
+  meta-patchtest
+  https://git.yoctoproject.org/meta-patchtest
+
+Update any references of the old name and repository to the new ones.
 
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- scripts/patchtest.README | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/patchtest.README | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/patchtest.README b/scripts/patchtest.README
-index 3c1ee1af1d6c..1c674e23c9ab 100644
+index 1c674e23c9ab..5a9dabc50b44 100644
 --- a/scripts/patchtest.README
 +++ b/scripts/patchtest.README
-@@ -18,7 +18,7 @@ baseline for development of similar suites for other layers as needed.
- Patchtest can either run on a host or a guest machine, depending on
- which environment you prefer. If you plan to test your own patches (a
+@@ -20,8 +20,9 @@ which environment you prefer. If you plan to test your own patches (a
  good practice before these are sent to the mailing list), the easiest
--way is to install and execute on your local host; in the other hand, if
-+way is to install and execute on your local host; on the other hand, if
+ way is to install and execute on your local host; on the other hand, if
  automatic testing is intended, the guest method is strongly recommended.
- The guest method requires the use of the patchtest layer, in addition to
- the tools available in oe-core: https://git.yoctoproject.org/patchtest/
-@@ -33,7 +33,7 @@ by running `pip install -r meta/lib/patchtest/requirements.txt`. Note
- that git-pw is not automatically added to the user's PATH; by default,
- it is installed at ~/.local/bin/git-pw.
+-The guest method requires the use of the patchtest layer, in addition to
+-the tools available in oe-core: https://git.yoctoproject.org/patchtest/
++The guest method requires the use of the meta-patchtest layer, in
++addition to the tools available in oe-core:
++https://git.yoctoproject.org/meta-patchtest/
  
--For git-pw (and therefore scripts such as patchtest-get--series) to work, you need
-+For git-pw (and therefore scripts such as patchtest-get-series) to work, you need
- to provide a Patchwork instance in your user's .gitconfig, like so (the project
- can be specified using the --project argument):
+ ## Installation
+ 
+@@ -43,7 +44,7 @@ To work with patchtest, you should have the following repositories cloned:
+ 
+ 1. https://git.openembedded.org/openembedded-core/ (or https://git.yoctoproject.org/poky/)
+ 2. https://git.openembedded.org/bitbake/ (if not using poky)
+-3. https://git.yoctoproject.org/patchtest (if using guest mode)
++3. https://git.yoctoproject.org/meta-patchtest (if using guest mode)
+ 
+ ## Usage
+ 
+@@ -98,8 +99,8 @@ from the mailing lists. When executed this way, the test process is
+ essentially running random code from the internet and could be
+ catastrophic if malicious bits or even poorly-handled edge cases aren't
+ protected against. In order to use this mode, the
+-https://git.yoctoproject.org/patchtest/ repository must be cloned and
+-the meta-patchtest layer added to bblayers.conf.
++https://git.yoctoproject.org/meta-patchtest/ repository must be cloned
++and added to bblayers.conf.
+ 
+ The general flow of guest mode is:
  
 -- 
 2.51.0.193.g4975ec3473b4
