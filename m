@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F3A2CAC5B7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 553EECAC5B8
 	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:08:21 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web11.274.1758229693806732493
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web10.306.1758229693840009071
  for <openembedded-core@lists.openembedded.org>;
  Thu, 18 Sep 2025 14:08:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=ly3hq1kM;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-202509182108111c95df7ac50002073b-5xv5gs@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202509182108111c95df7ac50002073b
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Iw+90N42;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-2025091821081117dda0e9ec00020764-lyed7r@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2025091821081117dda0e9ec00020764
         for <openembedded-core@lists.openembedded.org>;
         Thu, 18 Sep 2025 23:08:11 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=W4lI11m6dg1yIwwLtXgjXaPUaXI1NLrbFD3tmysIrbc=;
- b=ly3hq1kMNUsXOG5lP7HqImQN1GLX/j+gsgXafNolcEcQSWCxaRwHuxEmHFTC0265UfEPew
- OiVR21Asa8j79ieeNAPDQsKKfpbdTT8/4YUrJDxl+FZrCsBanqK8088hj5Zj19UIjy2N0TVo
- V8SLDMejI9vh7kBW64zMZJPukBXjqc4MaFQxYz3Xrxkt8/5Bt6uAEscVMcP5tcmuxxSpGvee
- zkJ1UVIq7gL+sucB+GQck8Kf+OsQxaV3x7AmFSao9C2svMOYgO8ozOVtssFfhhQMz9LtH3zl
- ZS4AKouUDP2b29lSR4Rw5SekYbfxn3S75hFVnZm6UvEusNdZxMUh4Wwg==;
+ bh=Mg6S7gLojFlfbqSEm6HXb19Ic02W0gZ8mbPmBFrEbdY=;
+ b=Iw+90N428V+rmEPm5EVN3GsBMaM46s5LuvjwHenZ59U+kViutNJVKMUOP9J3zKrHhBZT8f
+ rVE5SzTzAO4cNhYfptZ9NDuExKQ2WdazACGdM4Cs57mC4mNpYwtKlY0yVDe3kAZaAbfVtm3I
+ 9stt5dP8ap2M/nAV/LOsHET1IrR4n+4GV/E0+0NDQ0S23ZD6ntyn5ILQZ27BnfoJ3b9Q7Mvl
+ I3rYIFbywgVeK32a7ULqGz3jFTR4zvzmvKJzwC43QxjJBkJR6dEx3+HqjpN8B7dn40CrqovQ
+ vNs4y5f/AwIKk0nAC84/Y5biE0lhDlfc8dc9XDt14SMfVNopoFu/eNAQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 06/19] oe-selftest: devtool: DevtoolIdeSdkTests debug logging
-Date: Thu, 18 Sep 2025 23:07:08 +0200
-Message-ID: <20250918210754.477049-7-adrian.freihofer@siemens.com>
+Subject: [PATCH 07/19] cpp-example: run as a service
+Date: Thu, 18 Sep 2025 23:07:09 +0200
+Message-ID: <20250918210754.477049-8-adrian.freihofer@siemens.com>
 In-Reply-To: <20250918210754.477049-1-adrian.freihofer@siemens.com>
 References: <20250918210754.477049-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,333 +39,501 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:08:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223664
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223666
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add optional debug logging to all runCmd calls in DevtoolIdeSdkTests
-to improve debugging capabilities when tests fail. The logging is only
-enabled when the test logger is set to DEBUG level.
+Extend the C++ example to run as systemd/SysV services
+
+This change adds service capability to the existing C++ example without
+modifying its original behavior. The example can now run either as:
+- One-shot executables (existing behavior)
+- Long-running services via systemd or SysV init
+
+The service runs as an unprivileged user/group, demonstrating security
+best practices for service development. This introduces additional
+complexity to the build process, particularly around proper pseudo usage
+in development builds. The implementation includes:
+- Service configuration files (systemd .service and SysV init script)
+- Dedicated user/group creation with appropriate permissions
+- JSON configuration file for runtime customization, owned by the
+  service user
+- Command-line --endless flag to enable service mode
+- Full support for both CMake and Meson build systems
+
+This enhancement enables testing debugger configurations that attach to
+running processes, expanding the examples' utility for development tools.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 92 ++++++++++++++-----------
- 1 file changed, 52 insertions(+), 40 deletions(-)
+ .../recipes-test/cpp/cpp-example.inc          | 52 +++++++++++-
+ .../recipes-test/cpp/files/CMakeLists.txt     | 14 +++-
+ .../recipes-test/cpp/files/config.h.in        | 10 +++
+ .../cpp/files/cpp-example-lib.cpp             | 29 +++++++
+ .../cpp/files/cpp-example-lib.hpp             |  3 +
+ .../recipes-test/cpp/files/cpp-example.conf   |  3 +
+ .../recipes-test/cpp/files/cpp-example.cpp    | 38 ++++++++-
+ .../recipes-test/cpp/files/cpp-example.init   | 84 +++++++++++++++++++
+ .../cpp/files/cpp-example.service             | 12 +++
+ .../recipes-test/cpp/files/meson.build        | 18 +++-
+ .../cpp/files/test-cpp-example.cpp            |  2 +
+ .../recipes-test/cpp/meson-example.bb         |  2 +
+ meta/lib/oeqa/selftest/cases/devtool.py       |  4 +-
+ 13 files changed, 264 insertions(+), 7 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/cpp/files/config.h.in
+ create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.conf
+ create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.init
+ create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.service
 
+diff --git a/meta-selftest/recipes-test/cpp/cpp-example.inc b/meta-selftest/recipes-test/cpp/cpp-example.inc
+index 76ff64e87f5..2653f45e901 100644
+--- a/meta-selftest/recipes-test/cpp/cpp-example.inc
++++ b/meta-selftest/recipes-test/cpp/cpp-example.inc
+@@ -16,9 +16,59 @@ SRC_URI = "\
+     file://cpp-example-lib.hpp \
+     file://cpp-example-lib.cpp \
+     file://test-cpp-example.cpp \
++    file://cpp-example.conf \
++    file://config.h.in \
++    file://cpp-example.service \
++    file://cpp-example.init \
+     file://run-ptest \
+ "
+ 
+ S = "${UNPACKDIR}"
+ 
+-inherit ptest
++inherit ptest useradd systemd update-rc.d
++
++# Systemd and SysV init support
++SYSTEMD_SERVICE:${PN} = "${BPN}.service"
++
++INITSCRIPT_NAME = "${BPN}"
++INITSCRIPT_PARAMS = "defaults 99"
++
++# Create cpp-example user and group
++USERADD_PACKAGES = "${PN}"
++GROUPADD_PARAM:${PN} = "--system ${BPN}"
++USERADD_PARAM:${PN} = "--system --home /var/lib/${BPN} --no-create-home --shell /bin/false --gid ${BPN} ${BPN}"
++
++EX_BINARY_NAME ?= "${BPN}"
++
++do_install:append() {
++    # Install configuration file owned by unprivileged user
++    install -d ${D}${sysconfdir}
++    install -m 0644 -g ${BPN} -o ${BPN} ${S}/cpp-example.conf ${D}${sysconfdir}/${BPN}.conf
++    sed -i -e 's|@BINARY_NAME@|${BPN}|g' ${D}${sysconfdir}/${BPN}.conf
++
++    # Install service files or init scripts and substitute placeholders in service files
++    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++        install -d ${D}${systemd_system_unitdir}
++        install -m 0644 ${S}/cpp-example.service ${D}${systemd_system_unitdir}/${BPN}.service
++        sed -i \
++            -e 's|@BINDIR@|${bindir}|g' \
++            -e 's|@BINARY_NAME@|${EX_BINARY_NAME}|g' \
++            -e 's|@USER@|${BPN}|g' \
++            -e 's|@GROUP@|${BPN}|g' \
++            ${D}${systemd_system_unitdir}/${BPN}.service
++    else
++        install -d ${D}${sysconfdir}/init.d
++        install -m 0755 ${S}/cpp-example.init ${D}${sysconfdir}/init.d/${BPN}
++        sed -i \
++            -e 's|@BINDIR@|${bindir}|g' \
++            -e 's|@BINARY_NAME@|${EX_BINARY_NAME}|g' \
++            -e 's|@USER@|${BPN}|g' \
++            -e 's|@GROUP@|${BPN}|g' \
++            ${D}${sysconfdir}/init.d/${BPN}
++    fi
++}
++
++FILES:${PN} += " \
++    ${systemd_system_unitdir}/${BPN}.service \
++    ${sysconfdir}/${BPN}.conf \
++"
+diff --git a/meta-selftest/recipes-test/cpp/files/CMakeLists.txt b/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
+index 6fa6917d89b..e363f31af2a 100644
+--- a/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
++++ b/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
+@@ -20,15 +20,25 @@ set(CMAKE_CXX_EXTENSIONS Off)
+ 
+ include(GNUInstallDirs)
+ 
++# Define the config file path as a constant
++set(CPP_EXAMPLE_CONFIG_PATH "${CMAKE_INSTALL_FULL_SYSCONFDIR}/cmake-example.conf")
++
++# Generate config.h from config.h.in
++configure_file(config.h.in config.h @ONLY)
++
+ # Linking a small library makes the example more useful for testing.
+ find_package(json-c)
+ 
+ # A simple library linking json-c library found by pkgconfig
+ add_library(cmake-example-lib cpp-example-lib.cpp cpp-example-lib.hpp)
+-set_target_properties(cmake-example-lib PROPERTIES 
++set_target_properties(cmake-example-lib PROPERTIES
+     VERSION ${PROJECT_VERSION}
+     SOVERSION ${PROJECT_VERSION_MAJOR}
+ )
++
++# Add the build directory to include path for config.h
++target_include_directories(cmake-example-lib PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
++
+ target_link_libraries(cmake-example-lib PRIVATE json-c::json-c)
+ 
+ install(TARGETS cmake-example-lib
+@@ -39,6 +49,7 @@ install(TARGETS cmake-example-lib
+ 
+ # A simple executable linking the library
+ add_executable(cmake-example cpp-example.cpp)
++target_include_directories(cmake-example PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(cmake-example PRIVATE cmake-example-lib)
+ 
+ install(TARGETS cmake-example
+@@ -47,6 +58,7 @@ install(TARGETS cmake-example
+ 
+ # A simple test executable for testing the library
+ add_executable(test-cmake-example test-cpp-example.cpp)
++target_include_directories(test-cmake-example PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(test-cmake-example PRIVATE cmake-example-lib)
+ 
+ if (FAILING_TEST)
+diff --git a/meta-selftest/recipes-test/cpp/files/config.h.in b/meta-selftest/recipes-test/cpp/files/config.h.in
+new file mode 100644
+index 00000000000..174e266847c
+--- /dev/null
++++ b/meta-selftest/recipes-test/cpp/files/config.h.in
+@@ -0,0 +1,10 @@
++/*
++ * Copyright OpenEmbedded Contributors
++ *
++ * SPDX-License-Identifier: MIT
++ */
++
++#pragma once
++
++/* Configuration file path */
++#define EXAMPLE_CONFIG_PATH "@CPP_EXAMPLE_CONFIG_PATH@"
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
+index d3dc976864b..c510a13893c 100644
+--- a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
+@@ -6,6 +6,7 @@
+ 
+ #include <iostream>
+ #include <string>
++#include <fstream>
+ #include <json-c/json.h>
+ #include "cpp-example-lib.hpp"
+ 
+@@ -31,3 +32,31 @@ void CppExample::print_json()
+ 
+     json_object_put(jobj); // Delete the json object
+ }
++
++std::string CppExample::read_config_message(const std::string &config_path)
++{
++    std::ifstream config_file(config_path);
++    if (!config_file.is_open()) {
++        return "Error: Could not open config file: " + config_path;
++    }
++
++    std::string config_content((std::istreambuf_iterator<char>(config_file)),
++                               std::istreambuf_iterator<char>());
++    config_file.close();
++
++    struct json_object *jobj = json_tokener_parse(config_content.c_str());
++    if (!jobj) {
++        return "Error: Invalid JSON in config file";
++    }
++
++    struct json_object *message_obj;
++    if (json_object_object_get_ex(jobj, "hello_world_message", &message_obj)) {
++        const char *message = json_object_get_string(message_obj);
++        std::string result = message ? message : "Error: Invalid message format";
++        json_object_put(jobj);
++        return result;
++    }
++
++    json_object_put(jobj);
++    return "Error: 'hello_world_message' not found in config file";
++}
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
+index 0ad9e7b7b2d..24dd0defb6f 100644
+--- a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
+@@ -7,6 +7,7 @@
+ #pragma once
+ 
+ #include <string>
++#include "config.h"
+ 
+ struct CppExample
+ {
+@@ -18,4 +19,6 @@ struct CppExample
+     const char *get_json_c_version();
+     /* Call a more advanced function from a library */
+     void print_json();
++    /* Read hello world message from config file */
++    std::string read_config_message(const std::string &config_path = EXAMPLE_CONFIG_PATH);
+ };
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.conf b/meta-selftest/recipes-test/cpp/files/cpp-example.conf
+new file mode 100644
+index 00000000000..4a666e5cdd5
+--- /dev/null
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example.conf
+@@ -0,0 +1,3 @@
++{
++  "hello_world_message": "Hello World from @BINARY_NAME@ example config file!"
++}
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
+index 9889554e0cb..dbf82f15d97 100644
+--- a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
+@@ -7,12 +7,48 @@
+ #include "cpp-example-lib.hpp"
+ 
+ #include <iostream>
++#include <unistd.h>
++#include <string>
+ 
+-int main()
++int main(int argc, char* argv[])
+ {
++    bool endless_mode = false;
++
++    // Parse command line arguments
++    for (int i = 1; i < argc; i++) {
++        if (std::string(argv[i]) == "--endless") {
++            endless_mode = true;
++        } else if (std::string(argv[i]) == "--help" || std::string(argv[i]) == "-h") {
++            std::cout << "Usage: " << argv[0] << " [OPTIONS]" << std::endl;
++            std::cout << "Options:" << std::endl;
++            std::cout << "  --endless    Run in endless loop mode (for service)" << std::endl;
++            std::cout << "  --help, -h   Show this help message" << std::endl;
++            return 0;
++        }
++    }
++
+     auto cpp_example = CppExample();
++
++    if (endless_mode) {
++        std::cout << "Starting cpp-example service in endless mode..." << std::endl;
++    } else {
++        std::cout << "Running cpp-example once..." << std::endl;
++    }
++
+     std::cout << "C++ example linking " << cpp_example.get_string() << std::endl;
+     std::cout << "Linking json-c version " << cpp_example.get_json_c_version() << std::endl;
+     cpp_example.print_json();
++
++    do {
++        // Read and print message from config file
++        std::string config_message = cpp_example.read_config_message();
++        std::cout << "Config file message: " << config_message << std::endl;
++
++        if (endless_mode) {
++            // Sleep for 1 second
++            sleep(1);
++        }
++    } while (endless_mode);
++
+     return 0;
+ }
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.init b/meta-selftest/recipes-test/cpp/files/cpp-example.init
+new file mode 100644
+index 00000000000..c154fd11265
+--- /dev/null
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example.init
+@@ -0,0 +1,84 @@
++#!/bin/sh
++#
++# cpp-example        C++ Example Service
++#
++# chkconfig: 35 99 99
++# description: C++ Example Service daemon
++#
++
++USER="@USER@"
++DAEMON="@BINARY_NAME@"
++DAEMON_PATH="@BINDIR@/$DAEMON"
++DAEMON_ARGS="--endless"
++PIDFILE="/var/run/$DAEMON.pid"
++LOCK_FILE="/var/lock/subsys/$DAEMON"
++
++start() {
++    if [ -f $PIDFILE ]; then
++        echo "$DAEMON is already running."
++        return 1
++    fi
++
++    echo -n "Starting $DAEMON: "
++    start-stop-daemon --start --quiet --pidfile $PIDFILE --make-pidfile \
++        --background --chuid $USER --exec $DAEMON_PATH -- $DAEMON_ARGS
++    RETVAL=$?
++    if [ $RETVAL -eq 0 ]; then
++        echo "OK"
++        touch $LOCK_FILE
++    else
++        echo "FAILED"
++    fi
++    return $RETVAL
++}
++
++stop() {
++    echo -n "Stopping $DAEMON: "
++    start-stop-daemon --stop --quiet --pidfile $PIDFILE
++    RETVAL=$?
++    if [ $RETVAL -eq 0 ]; then
++        echo "OK"
++        rm -f $PIDFILE $LOCK_FILE
++    else
++        echo "FAILED"
++    fi
++    return $RETVAL
++}
++
++status() {
++    if [ -f $PIDFILE ]; then
++        PID=$(cat $PIDFILE)
++        if ps -p $PID > /dev/null 2>&1; then
++            echo "$DAEMON is running (PID: $PID)"
++            return 0
++        else
++            echo "$DAEMON is not running (stale PID file)"
++            return 1
++        fi
++    else
++        echo "$DAEMON is not running"
++        return 1
++    fi
++}
++
++case "$1" in
++    start)
++        start
++        ;;
++    stop)
++        stop
++        ;;
++    restart)
++        stop
++        start
++        ;;
++    status)
++        status
++        ;;
++    *)
++        echo "Usage: $0 {start|stop|restart|status}"
++        exit 1
++        ;;
++esac
++
++exit $?
+diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.service b/meta-selftest/recipes-test/cpp/files/cpp-example.service
+new file mode 100644
+index 00000000000..4022fa291a3
+--- /dev/null
++++ b/meta-selftest/recipes-test/cpp/files/cpp-example.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=C++ Example Service
++After=network.target
++
++[Service]
++Type=simple
++User=@USER@
++Group=@GROUP@
++ExecStart=@BINDIR@/@BINARY_NAME@ --endless
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta-selftest/recipes-test/cpp/files/meson.build b/meta-selftest/recipes-test/cpp/files/meson.build
+index 74a0e0173ce..53248c43803 100644
+--- a/meta-selftest/recipes-test/cpp/files/meson.build
++++ b/meta-selftest/recipes-test/cpp/files/meson.build
+@@ -16,23 +16,37 @@ if get_option('FAILING_TEST').enabled()
+     add_project_arguments('-DFAIL_COMPARISON_STR=foo', language: 'cpp')
+ endif
+ 
++# Generate config.h from config.h.in
++config_path = get_option('sysconfdir') / 'meson-example.conf'
++conf_data = configuration_data()
++conf_data.set('CPP_EXAMPLE_CONFIG_PATH', config_path)
++configure_file(input : 'config.h.in',
++               output : 'config.h',
++               configuration : conf_data)
++
++# Include the build directory for config.h
++inc_dir = include_directories('.')
++
+ mesonexlib = shared_library('mesonexlib',
+     'cpp-example-lib.cpp', 'cpp-example-lib.hpp',
+-	version: meson.project_version(),
+-	soversion: meson.project_version().split('.')[0],
++    version: meson.project_version(),
++    soversion: meson.project_version().split('.')[0],
+     dependencies : jsoncdep,
++    include_directories : inc_dir,
+     install : true
+     )
+ 
+ executable('mesonex',
+     'cpp-example.cpp',
+     link_with : mesonexlib,
++    include_directories : inc_dir,
+     install : true
+     )
+ 
+ test_mesonex = executable('test-mesonex',
+     'test-cpp-example.cpp',
+     link_with : mesonexlib,
++    include_directories : inc_dir,
+     install : true
+ )
+ 
+diff --git a/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
+index 83c9bfa8444..e1909c31687 100644
+--- a/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
++++ b/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
+@@ -22,4 +22,6 @@ int main() {
+         std::cout << "FAIL: " << ret_string << " != " << CppExample::test_string << std::endl;
+         return 1;
+     }
++
++    return 0;
+ }
+diff --git a/meta-selftest/recipes-test/cpp/meson-example.bb b/meta-selftest/recipes-test/cpp/meson-example.bb
+index 14a7ca8dc91..da0ea183760 100644
+--- a/meta-selftest/recipes-test/cpp/meson-example.bb
++++ b/meta-selftest/recipes-test/cpp/meson-example.bb
+@@ -25,3 +25,5 @@ do_run_tests () {
+ do_run_tests[doc] = "Run meson test using qemu-user"
+ 
+ addtask do_run_tests after do_compile
++
++EX_BINARY_NAME = "mesonex"
 diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index f262e0e214c..c9d03cfcf51 100644
+index c9d03cfcf51..36a1819bd89 100644
 --- a/meta/lib/oeqa/selftest/cases/devtool.py
 +++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -13,6 +13,7 @@ import glob
- import fnmatch
- import unittest
- import json
-+import logging
- 
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer
-@@ -2523,6 +2524,13 @@ class DevtoolUpgradeTests(DevtoolBase):
- 
- 
- class DevtoolIdeSdkTests(DevtoolBase):
-+
-+    def setUp(self):
-+        super().setUp()
-+        self._cmd_logger = None
-+        if self.logger.isEnabledFor(logging.DEBUG):
-+            self._cmd_logger = self.logger
-+
-     def _write_bb_config(self, recipe_names):
-         """Helper to write the bitbake local.conf file"""
-         conf_lines = [
-@@ -2562,7 +2570,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self.track_for_cleanup(tempdir)
-         self.add_command_to_tearDown('bitbake -c clean %s' % recipe_name)
- 
--        result = runCmd('devtool modify %s -x %s --debug-build' % (recipe_name, tempdir))
-+        result = runCmd('devtool modify %s -x %s --debug-build' % (recipe_name, tempdir), output_log=self._cmd_logger)
-         self.assertExists(os.path.join(tempdir, build_file),
-                           'Extracted source could not be found')
-         self.assertExists(os.path.join(self.workspacedir, 'conf',
-@@ -2572,7 +2580,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self.assertTrue(matches, 'bbappend not created %s' % result.output)
- 
-         # Test devtool status
--        result = runCmd('devtool status')
-+        result = runCmd('devtool status', output_log=self._cmd_logger)
-         self.assertIn(recipe_name, result.output)
-         self.assertIn(tempdir, result.output)
-         self._check_src_repo(tempdir)
-@@ -2617,7 +2625,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         i_script = "bb_run_do_install_" + recipe_id
-         install_cmd_path = i_and_d_script_path.replace(i_and_d_script, i_script)
-         self.assertExists(install_cmd_path)
--        runCmd(install_cmd_path, cwd=tempdir)
-+        runCmd(install_cmd_path, cwd=tempdir, output_log=self._cmd_logger)
- 
-     def _devtool_ide_sdk_qemu(self, tempdir, qemu, recipe_name, example_exe):
-         """Verify deployment and execution in Qemu system work for one recipe.
-@@ -2632,7 +2640,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             self._workspace_scripts_dir(recipe_name), i_and_d_script)
-         self.assertExists(install_deploy_cmd,
-                           '%s script not found' % install_deploy_cmd)
--        runCmd(install_deploy_cmd)
-+        runCmd(install_deploy_cmd, output_log=self._cmd_logger)
- 
-         MAGIC_STRING_ORIG = "Magic: 123456789"
-         MAGIC_STRING_NEW = "Magic: 987654321"
-@@ -2665,7 +2673,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             cpp_code = cpp_code.replace(MAGIC_STRING_ORIG, MAGIC_STRING_NEW)
-         with open(cpp_example_lib_hpp, 'w') as file:
-             file.write(cpp_code)
--        runCmd(install_deploy_cmd, cwd=tempdir)
-+        runCmd(install_deploy_cmd, cwd=tempdir, output_log=self._cmd_logger)
- 
-         # Verify the modified example prints the modified magic string
-         status, output = qemu.run(example_exe)
-@@ -2692,7 +2700,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
- 
-         native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", gdb_recipe)
-         r = runCmd("%s --version" % gdb_binary,
--                   native_sysroot=native_sysroot, target_sys=target_sys)
-+                   native_sysroot=native_sysroot, target_sys=target_sys, output_log=self._cmd_logger)
-         self.assertEqual(r.status, 0)
-         self.assertIn("GNU gdb", r.output)
- 
-@@ -2720,18 +2728,18 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             recipe_name), 'gdb_1234_usr-bin-' + example_exe)
- 
-         # Start a gdbserver
--        r = runCmd(gdbserver_script)
-+        r = runCmd(gdbserver_script, output_log=self._cmd_logger)
-         self.assertEqual(r.status, 0)
- 
-         # Check there is a gdbserver running
--        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'))
-+        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'), output_log=self._cmd_logger)
-         self.assertEqual(r.status, 0)
-         self.assertIn("gdbserver ", r.output)
- 
-         # Check the pid file is correct
-         test_cmd = "cat /proc/$(cat /tmp/gdbserver_1234_usr-bin-" + \
-             example_exe + "/pid)/cmdline"
--        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, test_cmd))
-+        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, test_cmd), output_log=self._cmd_logger)
-         self.assertEqual(r.status, 0)
-         self.assertIn("gdbserver", r.output)
- 
-@@ -2742,7 +2750,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+@@ -2717,7 +2717,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         $1 = 0
+         print CppExample::test_string.compare("cpp-example-lib Magic: 123456789aaa")
+         $2 = -3
+-        list cpp-example-lib.hpp:13,13
++        list cpp-example-lib.hpp:14,14
+         13	    inline static const std::string test_string = "cpp-example-lib Magic: 123456789";
+         continue
+         """
+@@ -2748,7 +2748,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         gdb_batch_cmd += " -ex 'break CppExample::print_json()' -ex 'continue'"
+         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %s\")'" % magic_string
          gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %saaa\")'" % magic_string
-         gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:13,13'"
+-        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:13,13'"
++        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:14,14'"
          gdb_batch_cmd += " -ex 'continue'"
--        r = runCmd(gdb_script + gdb_batch_cmd)
-+        r = runCmd(gdb_script + gdb_batch_cmd, output_log=self._cmd_logger)
+         r = runCmd(gdb_script + gdb_batch_cmd, output_log=self._cmd_logger)
          self.logger.debug("%s %s returned: %s", gdb_script,
-                           gdb_batch_cmd, r.output)
-         self.assertEqual(r.status, 0)
-@@ -2754,11 +2762,11 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self.assertIn("exited normally", r.output)
- 
-         # Stop the gdbserver
--        r = runCmd(gdbserver_script + ' stop')
-+        r = runCmd(gdbserver_script + ' stop', output_log=self._cmd_logger)
-         self.assertEqual(r.status, 0)
- 
-         # Check there is no gdbserver running
--        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'))
-+        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'), output_log=self._cmd_logger)
-         self.assertEqual(r.status, 0)
-         self.assertNotIn("gdbserver ", r.output)
- 
-@@ -2779,29 +2787,29 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self.assertExists(cmake_exe)
- 
-         # Verify the cmake preset generated by devtool ide-sdk is available
--        result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir)
-+        result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir, output_log=self._cmd_logger)
-         self.assertIn(preset_name, result.output)
- 
-         # Verify cmake re-uses the o files compiled by bitbake
-         result = runCmd('%s --build --preset %s' %
--                        (cmake_exe, preset_name), cwd=tempdir)
-+                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
-         self.assertIn("ninja: no work to do.", result.output)
- 
-         # Verify the unit tests work (in Qemu user mode)
-         result = runCmd('%s --build --preset %s --target test' %
--                        (cmake_exe, preset_name), cwd=tempdir)
-+                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
-         self.assertIn("100% tests passed", result.output)
- 
-         # Verify re-building and testing works again
-         result = runCmd('%s --build --preset %s --target clean' %
--                        (cmake_exe, preset_name), cwd=tempdir)
-+                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
-         self.assertIn("Cleaning", result.output)
-         result = runCmd('%s --build --preset %s' %
--                        (cmake_exe, preset_name), cwd=tempdir)
-+                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
-         self.assertIn("Building", result.output)
-         self.assertIn("Linking", result.output)
-         result = runCmd('%s --build --preset %s --target test' %
--                        (cmake_exe, preset_name), cwd=tempdir)
-+                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
-         self.assertIn("Running tests...", result.output)
-         self.assertIn("100% tests passed", result.output)
- 
-@@ -2826,7 +2834,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-                 recipe_name, build_file, testimage)
-             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
-                 recipe_name, testimage, qemu.ip)
--            runCmd(bitbake_sdk_cmd)
-+            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
-             self._gdb_cross()
-             self._verify_cmake_preset(tempdir)
-             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
-@@ -2842,7 +2850,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-                 recipe_name, build_file, testimage)
-             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
-                 recipe_name, testimage, qemu.ip)
--            runCmd(bitbake_sdk_cmd)
-+            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
-             self._gdb_cross()
-             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
-             # Verify the oe-scripts sym-link is valid
-@@ -2861,7 +2869,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             recipe_name, build_file, testimage)
-         bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
-             recipe_name, testimage)
--        runCmd(bitbake_sdk_cmd)
-+        runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
-         self._verify_cmake_preset(tempdir)
-         self._verify_install_script_code(tempdir,  recipe_name)
-         self._gdb_cross()
-@@ -2878,7 +2886,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             recipe_name, build_file, testimage)
-         bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
-             recipe_name, testimage)
--        runCmd(bitbake_sdk_cmd)
-+        runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
- 
-         with open(os.path.join(tempdir, '.vscode', 'settings.json')) as settings_j:
-             settings_d = json.load(settings_j)
-@@ -2890,20 +2898,22 @@ class DevtoolIdeSdkTests(DevtoolBase):
- 
-         # Verify meson re-uses the o files compiled by bitbake
-         result = runCmd('%s compile -C  %s' %
--                        (meson_exe, meson_build_folder), cwd=tempdir)
-+                        (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
-         self.assertIn("ninja: no work to do.", result.output)
- 
-         # Verify the unit tests work (in Qemu)
--        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir)
-+        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
-+               output_log=self._cmd_logger)
- 
-         # Verify re-building and testing works again
-         result = runCmd('%s compile -C  %s --clean' %
--                        (meson_exe, meson_build_folder), cwd=tempdir)
-+                        (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
-         self.assertIn("Cleaning...", result.output)
-         result = runCmd('%s compile -C  %s' %
--                        (meson_exe, meson_build_folder), cwd=tempdir)
-+                        (meson_exe, meson_build_folder), cwd=tempdir, output_log=self._cmd_logger)
-         self.assertIn("Linking target", result.output)
--        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir)
-+        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
-+               output_log=self._cmd_logger)
- 
-         self._verify_install_script_code(tempdir,  recipe_name)
-         self._gdb_cross()
-@@ -2915,7 +2925,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self._check_workspace()
- 
-         result_init = runCmd(
--            'devtool ide-sdk -m shared oe-selftest-image cmake-example meson-example --ide=code')
-+            'devtool ide-sdk -m shared oe-selftest-image cmake-example meson-example --ide=code',
-+            output_log=self._cmd_logger)
-         bb_vars = get_bb_vars(
-             ['REAL_MULTIMACH_TARGET_SYS', 'DEPLOY_DIR_IMAGE', 'COREBASE'], "meta-ide-support")
-         environment_script = 'environment-setup-%s' % bb_vars['REAL_MULTIMACH_TARGET_SYS']
-@@ -2927,21 +2938,21 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         # Verify the cross environment script is available
-         self.assertExists(environment_script_path)
- 
--        def runCmdEnv(cmd, cwd):
-+        def runCmdEnv(cmd, cwd, output_log=self._cmd_logger):
-             cmd = '/bin/sh -c ". %s > /dev/null && %s"' % (
-                 environment_script_path, cmd)
--            return runCmd(cmd, cwd)
-+            return runCmd(cmd, cwd, output_log=output_log)
- 
-         # Verify building the C++ example works with CMake
-         tempdir_cmake = tempfile.mkdtemp(prefix='devtoolqa')
-         self.track_for_cleanup(tempdir_cmake)
- 
--        result_cmake = runCmdEnv("which cmake", cwd=tempdir_cmake)
-+        result_cmake = runCmdEnv("which cmake", cwd=tempdir_cmake, output_log=self._cmd_logger)
-         cmake_native = os.path.normpath(result_cmake.output.strip())
-         self.assertExists(cmake_native)
- 
--        runCmdEnv('cmake %s' % cpp_example_src, cwd=tempdir_cmake)
--        runCmdEnv('cmake --build %s' % tempdir_cmake, cwd=tempdir_cmake)
-+        runCmdEnv('cmake %s' % cpp_example_src, cwd=tempdir_cmake, output_log=self._cmd_logger)
-+        runCmdEnv('cmake --build %s' % tempdir_cmake, cwd=tempdir_cmake, output_log=self._cmd_logger)
- 
-         # Verify the printed note really referres to a cmake executable
-         cmake_native_code = ""
-@@ -2957,12 +2968,12 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         tempdir_meson = tempfile.mkdtemp(prefix='devtoolqa')
-         self.track_for_cleanup(tempdir_meson)
- 
--        result_cmake = runCmdEnv("which meson", cwd=tempdir_meson)
-+        result_cmake = runCmdEnv("which meson", cwd=tempdir_meson, output_log=self._cmd_logger)
-         meson_native = os.path.normpath(result_cmake.output.strip())
-         self.assertExists(meson_native)
- 
--        runCmdEnv('meson setup %s' % tempdir_meson, cwd=cpp_example_src)
--        runCmdEnv('meson compile', cwd=tempdir_meson)
-+        runCmdEnv('meson setup %s' % tempdir_meson, cwd=cpp_example_src, output_log=self._cmd_logger)
-+        runCmdEnv('meson compile', cwd=tempdir_meson, output_log=self._cmd_logger)
- 
-     def test_devtool_ide_sdk_plugins(self):
-         """Test that devtool ide-sdk can use plugins from other layers."""
-@@ -2985,7 +2996,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             return m.group(1).split(',')
- 
-         # verify the default plugins are available but the foo plugin is not
--        result = runCmd('devtool ide-sdk -h')
-+        result = runCmd('devtool ide-sdk -h', output_log=self._cmd_logger)
-         found_ides = get_ides_from_help(result.output)
-         self.assertIn('code', found_ides)
-         self.assertIn('none', found_ides)
-@@ -3016,7 +3027,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             plugin_file.write(plugin_code)
- 
-         # Verify the foo plugin is available as well
--        result = runCmd('devtool ide-sdk -h')
-+        result = runCmd('devtool ide-sdk -h', output_log=self._cmd_logger)
-         found_ides = get_ides_from_help(result.output)
-         self.assertIn('code', found_ides)
-         self.assertIn('none', found_ides)
-@@ -3024,14 +3035,15 @@ class DevtoolIdeSdkTests(DevtoolBase):
- 
-         # Verify the foo plugin generates a shared config
-         result = runCmd(
--            'devtool ide-sdk -m shared --skip-bitbake --ide foo %s' % shared_recipe_name)
-+            'devtool ide-sdk -m shared --skip-bitbake --ide foo %s' % shared_recipe_name,
-+            output_log=self._cmd_logger)
-         with open(shared_config_file) as shared_config:
-             shared_config_new = shared_config.read()
-         self.assertEqual(shared_config_str, shared_config_new)
- 
-         # Verify the foo plugin generates a modified config
-         result = runCmd('devtool ide-sdk --skip-bitbake --ide foo %s %s' %
--                        (modified_recipe_name, testimage))
-+                        (modified_recipe_name, testimage), output_log=self._cmd_logger)
-         with open(modified_config_file) as modified_config:
-             modified_config_new = modified_config.read()
-         self.assertEqual(modified_config_str, modified_config_new)
 -- 
 2.51.0
 
