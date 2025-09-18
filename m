@@ -1,100 +1,126 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8B33CA1013
-	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:48:21 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.1087.1758232094486891571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD58CCAC597
+	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:49:21 +0000 (UTC)
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by mx.groups.io with SMTP id smtpd.web11.1108.1758232156376652478
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 14:48:14 -0700
+ Thu, 18 Sep 2025 14:49:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fUSQeKA3;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=anQP0ONW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101995ecca344-ee88e3a5-6dd9-46b3-a410-2a94332e06ca-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1758232093; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Q8VFiGK++YricJ7t1PQlXlrHAKR3NUH4QwWfgJ1snt8=;
-	b=fUSQeKA3UhT4EsHk8VBI1vHe+ENiA8w7EvHX+KMnMI8NnQgoYJs5SQ/4T8h1/2u8
-	P+MG5/B9MgnVkTv42a4YWSP2lztrJ9gcORVGPfHOHHHbUg7hrRjT+dpFZJ48t/qZKfT
-	lnUobprnYckEqjDgFj1S1YodZq+kBLxmddoZl0MQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1758232093;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Q8VFiGK++YricJ7t1PQlXlrHAKR3NUH4QwWfgJ1snt8=;
-	b=anQP0ONWWU+Zkg31GziMeRyipnW4Q4GWD4hp69WvxHaclua0bZLY1/FlT+VGNCsA
-	9Jkv6NEvj2E0pNKaGS5IoebeaQQdZ29XfHEsLIZhI5poCI/MTBnDQ2T8Dl4Q9oKamz0
-	z6Af05+Hc2nZC9j+NUAzwyToZ/+zHlT4QLiMHDno=
-From: patchtest@automation.yoctoproject.org
-To: rs@ti.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][PATCHv8 4/6] weston-init: convert to virtual-emptty-conf
-In-Reply-To: <20250918213053.339280-6-rs@ti.com>
-References: <20250918213053.339280-6-rs@ti.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101995ecca344-ee88e3a5-6dd9-46b3-a410-2a94332e06ca-000000@us-west-2.amazonses.com>
-Date: Thu, 18 Sep 2025 21:48:13 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.18-54.240.27.29
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=A77gHv2O;
+ spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: rs@ti.com)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58ILn6Re573656;
+	Thu, 18 Sep 2025 16:49:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1758232146;
+	bh=8MRFHLGTD95iyBZgYVfcV9V1FMO6L+KSyiyA+4UiOeY=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=A77gHv2O8o/+MXcdw34+lFKsIHYXfopVUP4KmdkY5MCxATNvszTcv5qJA2pcwA7+5
+	 gezgpVSvJtx5jbDQVbsszYaGmHafJLP2dGRY4YM/EIFfv8ibyOPAR8IhHYzicZ1kmO
+	 QTSVCjhlc3Hd3StA5Lsyr0gFadcGqmixRH0EjF5s=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58ILn65W2655121
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 18 Sep 2025 16:49:06 -0500
+Received: from DFLE212.ent.ti.com (10.64.6.70) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 18
+ Sep 2025 16:49:06 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE212.ent.ti.com
+ (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 18 Sep 2025 16:49:06 -0500
+Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58ILn6Hi1525808;
+	Thu, 18 Sep 2025 16:49:06 -0500
+From: <rs@ti.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
+        <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>
+CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: [oe-core][PATCHv9 1/6] libx11: create tmpfile dir for x11 domain socket
+Date: Thu, 18 Sep 2025 16:48:56 -0500
+Message-ID: <20250918214903.341452-2-rs@ti.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250918214903.341452-1-rs@ti.com>
+References: <20250918214903.341452-1-rs@ti.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:48:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223693
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:49:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223696
 
---NextPart
-Content-Type: text/plain
+From: Randolph Sapp <rs@ti.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Register a volatile directory entry for the x11 domain socket when not
+using systemd. This will make sure the directory is always created with
+the correct permissions. Systemd already provides their own tmpfile.d
+entry for the same behavior.
 
+Currently some x11 related applications will create this directory if it
+doesn't already exist, but this is not true for everything. In addition,
+if the application in question isn't started as root, it's possible this
+directory can be owned by a non-root user. This isn't an issue by
+itself, but it can potentially lead to problems in a multi-user
+environment.
+
+Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
-Testing patch /home/patchtest/share/mboxes/PATCHv8-4-6-weston-init-convert-to-virtual-emptty-conf.patch
+ meta/recipes-graphics/xorg-lib/libx11/99_x11    |  1 +
+ meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb | 15 +++++++++++++--
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/99_x11
 
-FAIL: test max line length: Patch line too long (current length 256, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/99_x11 b/meta/recipes-graphics/xorg-lib/libx11/99_x11
+new file mode 100644
+index 0000000000..53c5b49d10
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/99_x11
+@@ -0,0 +1 @@
++d root root 1777 /tmp/.X11-unix none
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
+index 580e44889d..78713f4ac5 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.12.bb
+@@ -21,7 +21,8 @@ PE = "1"
+ 
+ XORG_PN = "libX11"
+ 
+-SRC_URI += "file://disable_tests.patch"
++SRC_URI += "file://disable_tests.patch \
++            file://99_x11"
+ 
+ SRC_URI[sha256sum] = "fa026f9bb0124f4d6c808f9aef4057aad65e7b35d8ff43951cef0abe06bb9a9a"
+ 
+@@ -35,7 +36,17 @@ PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
+ 
+ PACKAGES =+ "${PN}-xcb"
+ 
+-FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/Xcms.txt"
++do_install:append() {
++	# temporary directory required for x11 domain sockets
++        # systemd provides their own definition using tmpfiles.d
++	if ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'false', 'true', d)}; then
++		install -d ${D}${sysconfdir}/default/volatiles
++		install -m 0644 ${UNPACKDIR}/99_x11 ${D}${sysconfdir}/default/volatiles/99_x11
++	fi
++}
++
++FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/Xcms.txt \
++                ${libdir}/tmpfiles.d/x11.conf ${sysconfdir}/default/volatiles/99_x11"
+ FILES:${PN}-xcb += "${libdir}/libX11-xcb.so.*"
+ FILES:${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
+ 
+-- 
+2.51.0
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
