@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3382BCAC5B2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F321CAC5B5
 	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:08:21 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web10.311.1758229694888563036
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web11.282.1758229694658717523
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 14:08:15 -0700
+ Thu, 18 Sep 2025 14:08:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=QiJ/sYKS;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20250918210812fadd977925000207ff-2djerd@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20250918210812fadd977925000207ff
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=k8keUdv2;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-20250918210812dcf390ec5200020700-mixszz@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20250918210812dcf390ec5200020700
         for <openembedded-core@lists.openembedded.org>;
         Thu, 18 Sep 2025 23:08:12 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=NthMQ6FLd1D7slJbDwQcT2ulwgwAWH3GhMW8ZwuLVcw=;
- b=QiJ/sYKSCbvU4e5otJ3U711UhsmN50lZk4Sy1BAO5GmNxeGnN5u3oqpZj6md5HHceYrvnI
- tF3eftpzUoNpt6ZFp2EiatsG4rpSSbfjNY2nsHNC2rDSLbShKDoHIu0SBPGFUEu2yvyoUhpU
- GoTcDR/QHu0imvwbLX6Vx4uC1pYa+6BBPBGnOy6a9x1gTuxgdYOiX4nRdlrsLT+bB/isnc3N
- T9CUnltpjI8Cv035PfEif/Y3JUBnoCk680kPaNXb0KD/5ycPSiO1lxmySaNqQPdmtAtzKum7
- 5X3m8O5DtIGp4RxjeO9pbCr0hJxm/OnKujW/fStmuaFVH8yWx3OWi/3g==;
+ bh=iTxii7yekKUTXD5ju7T7nslgOgqmY8gAIxJoRvu4/ZA=;
+ b=k8keUdv20vmyl1N/EehtETdiQzdB7buh4IEY57T+evNcYkFVx520X12agmfuNEExVVcLvu
+ SWPFN0cZ7QvxsoDyQxnpDmR8CY7saUC5+X6A1zE6rMMFd9I9kxOJOSpcYbeLQA9eSR6o/QRr
+ J4TNyX/HjDteoDq9Mu+6RawdueJ63SoUKYhsY+phR1v196BzJm8+cne0ADVpvm1G8H7oTajS
+ 2FO3pKOEigFCyewpsCsdZjQ+VsPYeKVUsDkEYcN6FQe230QbcCd1rYDpqzCw7feTM3YXC8cA
+ qycZaLIGlrpUhCsJy1HPEylQRI1IT2KMT9EBL84baiyGvdWxIPSGlOyQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 17/19] oe-selftest: devtool: add test for gdb pretty-printing
-Date: Thu, 18 Sep 2025 23:07:19 +0200
-Message-ID: <20250918210754.477049-18-adrian.freihofer@siemens.com>
+Subject: [PATCH 16/19] devtool: ide-sdk: Support GDB pretty-printing for C++ STL types
+Date: Thu, 18 Sep 2025 23:07:18 +0200
+Message-ID: <20250918210754.477049-17-adrian.freihofer@siemens.com>
 In-Reply-To: <20250918210754.477049-1-adrian.freihofer@siemens.com>
 References: <20250918210754.477049-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,47 +39,151 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:08:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223677
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223675
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-This extends the existing devtool IDE SDK tests to verify that gdb
-pretty-printing is working correctly.
+GDB requires Python scripts provided by GCC to properly display C++ STL
+types. This commit adds support for configuring GDB to use these
+pretty-printers in the ide-sdk, covering both the ide_none and ide_code
+plugins.
+
+The implementation locates the GCC Python helper scripts in the sysroot
+and injects the necessary commands into the GDB initialization files and
+IDE debug configurations. This ensures that when debugging C++
+applications, STL containers and other complex types are displayed in a
+readable format.
+
+Without this:
+  (gdb) print numbers
+  $1 = {<std::_Vector_base<int, std::allocator<int> >> = {
+    _M_impl = {<std::allocator<int>> = {<std::__new_allocator<int>> =
+    {<No data fields>}, <No data fields>}, <std::_Vector_base<int,
+    std::allocator<int> >::_Vector_impl_data> =
+    {_M_start = 0x55555556c370, _M_finish = 0x55555556c37c,
+        _M_end_of_storage = 0x55555556c37c}, <No data fields>}},
+        <No data fields>}
+
+With this:
+  (gdb) print numbers
+  $1 = std::vector of length 3, capacity 3 = {1, 2, 3}
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ scripts/lib/devtool/ide_plugins/ide_code.py | 14 +++++++++++
+ scripts/lib/devtool/ide_plugins/ide_none.py |  8 +++++++
+ scripts/lib/devtool/ide_sdk.py              | 26 +++++++++++++++++++++
+ 3 files changed, 48 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 5f861fd3ecf..2c9660ef3a2 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2728,6 +2728,12 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %s\")'" % magic_string
-         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %saaa\")'" % magic_string
-         gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:14,14'"
-+
-+        # check if resolving std::vector works with python scripts
-+        gdb_batch_cmd += " -ex 'list cpp-example.cpp:55,55'"
-+        gdb_batch_cmd += " -ex 'break cpp-example.cpp:55'"
-+        gdb_batch_cmd += " -ex 'continue'"
-+        gdb_batch_cmd += " -ex 'print numbers'"
-         gdb_batch_cmd += " -ex 'continue'"
-         return gdb_batch_cmd
+diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
+index 7085e9bd267..d69da3862ff 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_code.py
++++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+@@ -279,6 +279,20 @@ class IdeVSCode(IdeBase):
+             logger.warning(
+                 "Cannot setup debug symbols configuration for GDB. IMAGE_GEN_DEBUGFS is not enabled.")
  
-@@ -2737,6 +2743,11 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self.assertIn("$2 = -3", gdb_output)  # test.string.compare longer
-         self.assertIn(
-             'inline static const std::string test_string = "cpp-example-lib %s";' % magic_string, gdb_output)
++        # Enable pretty-printing for gdb for resolving STL types with help of python scripts
++        pretty_printing_cmd = modified_recipe.gdb_pretty_print_scripts
++        if pretty_printing_cmd:
++            setup_commands += [
++                {
++                    "description": "Enable pretty-printing for gdb",
++                    "text": "python " +";".join(pretty_printing_cmd)
++                },
++                {
++                    "description": "Enable pretty-printing for gdb",
++                    "text": "-enable-pretty-printing"
++                }
++            ]
 +
-+        # check if resolving std::vector works with python scripts
-+        self.assertRegex(gdb_output, r"55\s+std::vector<int> numbers = \{1, 2, 3\};")
-+        self.assertIn("$3 = std::vector of length 3, capacity 3 = {1, 2, 3}", gdb_output)
+         launch_config['sourceFileMap'] = src_file_map
+         launch_config['setupCommands'] = setup_commands
+         return launch_config
+diff --git a/scripts/lib/devtool/ide_plugins/ide_none.py b/scripts/lib/devtool/ide_plugins/ide_none.py
+index ba65f6f7dae..ed96afa33c3 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_none.py
++++ b/scripts/lib/devtool/ide_plugins/ide_none.py
+@@ -102,6 +102,14 @@ class GdbCrossConfigNone(GdbCrossConfig):
+                 "Cannot setup debug symbols configuration for GDB. IMAGE_GEN_DEBUGFS is not enabled.")
+         # Disable debuginfod for now, the IDE configuration uses rootfs-dbg from the image workdir.
+         gdbinit_lines.append('set debuginfod enabled off')
 +
-         self.assertIn("exited normally", gdb_output)
++        # Enable pretty-printing for gdb for resolving STL types with help of python scripts
++        pretty_printing_cmd = self.modified_recipe.gdb_pretty_print_scripts
++        if pretty_printing_cmd:
++            gdbinit_lines.append(os.linesep +"python")
++            gdbinit_lines += pretty_printing_cmd
++            gdbinit_lines.append("end" + os.linesep)
++
+         gdbinit_lines.append(
+             '%s %s:%d' % (remote_cmd, self.gdb_cross.host, self.gdbserver_port))
+         gdbinit_lines.append('set remote exec-file ' + self.binary.binary_path)
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index aa228a265ff..432dba89d9b 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -15,6 +15,7 @@ import stat
+ import subprocess
+ import sys
+ import shlex
++import glob
+ from argparse import RawTextHelpFormatter
+ from enum import Enum
  
-     def _gdb_cross_debugging_multi(self, qemu, recipe_name, example_exe, magic_string):
+@@ -410,6 +411,7 @@ class RecipeModified:
+         self.staging_incdir = None
+         self.strip_cmd = None
+         self.target_arch = None
++        self.tcoverride = None
+         self.topdir = None
+         self.workdir = None
+         self.recipe_id = None
+@@ -437,6 +439,7 @@ class RecipeModified:
+ 
+         # Populated after bitbake built all the recipes
+         self._installed_binaries = None
++        self._gdb_pretty_print_scripts = None
+ 
+     def initialize(self, config, workspace, tinfoil):
+         recipe_d = parse_recipe(
+@@ -487,6 +490,7 @@ class RecipeModified:
+             recipe_d.getVar('STAGING_INCDIR'))
+         self.strip_cmd = recipe_d.getVar('STRIP')
+         self.target_arch = recipe_d.getVar('TARGET_ARCH')
++        self.tcoverride = recipe_d.getVar('TCOVERRIDE')
+         self.topdir = recipe_d.getVar('TOPDIR')
+         self.workdir = os.path.realpath(recipe_d.getVar('WORKDIR'))
+ 
+@@ -639,6 +643,28 @@ class RecipeModified:
+ 
+         return mappings
+ 
++    @property
++    def gdb_pretty_print_scripts(self):
++        if self._gdb_pretty_print_scripts is None:
++            if self.tcoverride == "toolchain-gcc":
++                gcc_python_helpers_pattern = os.path.join(self.recipe_sysroot, "usr", "share", "gcc-*", "python")
++                gcc_python_helpers_dirs = glob.glob(gcc_python_helpers_pattern)
++                if gcc_python_helpers_dirs:
++                    gcc_python_helpers = gcc_python_helpers_dirs[0]
++                else:
++                    logger.warning("Could not find gcc python helpers directory matching: %s", gcc_python_helpers_pattern)
++                    gcc_python_helpers = ""
++                pretty_print_scripts = [
++                    "import sys",
++                    "sys.path.insert(0, '" + gcc_python_helpers + "')",
++                    "from libstdcxx.v6.printers import register_libstdcxx_printers",
++                    "register_libstdcxx_printers(None)"
++                ]
++                self._gdb_pretty_print_scripts = pretty_print_scripts
++            else:
++                self._gdb_pretty_print_scripts = ""
++        return self._gdb_pretty_print_scripts
++
+     def __init_exported_variables(self, d):
+         """Find all variables with export flag set.
+ 
 -- 
 2.51.0
 
