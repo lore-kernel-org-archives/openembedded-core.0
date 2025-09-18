@@ -1,135 +1,150 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2323BCAC59A
-	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 17:12:15 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.20657.1758215529968230826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 204D6CA1013
+	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 17:15:05 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.20740.1758215702655646065
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 10:12:10 -0700
+ Thu, 18 Sep 2025 10:15:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FahDs8D9;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-78defc1a2afso14909476d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 10:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758215529; x=1758820329; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JGRDLGlq5tbXNGNBGNsPVrF69e6eDz+mXG8RqUvfhfU=;
-        b=FahDs8D9G0j7Xo88kAuMeAJm2+YdE0duzUI7xcO8YHl1oDk2XTiznG9L58S2E82rZC
-         Cpk1tUHHXQbsJBQx1xQIvEng3q4loykqBtcsVZqhHdYmQ72LC9sYVMotgy1uIX642ya0
-         sqZOiaT0KJS/O4OPsOM2mTf86BUt8jrDmydpZCwCv5FPhrQApM22ZF/z3SQadjKzwZGa
-         OAaPpSlN6hWp6+gZmbS/WENuvSS7976/AxbP3l3Xd+KyuomiaQ1/O6ae16JWz0YnSz/q
-         bR3rVHB3QtaUPXgOreyedeU4sddQRr8fbMZi8ukIICevTlJdmaMLQOv9Nmo4gDfJXUy5
-         okBg==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=TqysF9hj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58IBHhfI010750
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 17:15:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=5Et2LBV0hoDkXPHguzYWpJS2
+	2gcAI9OA9N51Js1jJkc=; b=TqysF9hjJfqNMqbuImPm+3eq4z8fAGhzO8ZO98QP
+	CJJS8JbK7adXEIEGrRBzumCXiZVN8UHfLgGsFCvm7Gt0fVCB0khLgZ/R50httdP4
+	u+ZNgbsE+rdqS31cxue7FPW4gZG8gfsu+8maeG5IktUsA1hzhgfmIubvGeqljwd0
+	rjzkRvhxLrFjj/+cP50NtMwqTHILtzkGOzUNzEr3NET0CNZ/j8ZUXoVDyQFrV9PT
+	mH2UIkWXU4mT2iaEoUsh66OvkFvuD5Zz0XYLtX25dGT7MO9jGu7dP/p6wLadfeLK
+	8IUIRdYhied5t6/Vq5vWFcOuWvP6FKq6jnvCiBhvqtPHRw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497fxxy8eb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 17:15:02 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-770c2440225so27700006d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 10:15:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758215529; x=1758820329;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JGRDLGlq5tbXNGNBGNsPVrF69e6eDz+mXG8RqUvfhfU=;
-        b=DNF1QvQNB4oYAotn5CjG3Z2ylSuxanjEkxVrlKZov7UUrKXxF5LwQek+AWzFib+04f
-         SxNNd4MGMpcZcAB97k2iaImyk5cN9mGmDjwtEEMg04CxaCi9/WKJA+nMm6JvOxzGj6Jf
-         VDh584o82JVSMpzHtRjuMJGT5ZUUGeOnxobNxXSeu57Q8LUio9AYKr5DPLyw5W9A5oZA
-         U1Osi2NhdoYmsTwxJbRV4Npv0Tksfhs7N9NPF/Ncv64Nc//aC6mFCvEM2VneOUlpVpnY
-         qhfWhbl2nmSI0/zTk390HSU8pep4ZXKGLWyay6sq7lILxU2bR6ap1nhsqjYONbOcq0sO
-         M8TQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXuWrGXBusIlpWYoKmqSEYTwsx2XObjoJPeE4W3XtYHNCbYgmMj/TXPYC2NoOKTr1vImypIelY94wWrfwmHix5YzA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YznnIDDHlUAcW97xP9RgIGIv02pFVp8thu0GGbD5AD3eGkAnUr9
-	aQeFHJK2NeE69MZBiyL/WCSMpW3H0MaIFELrSn8UqEZMFoMJ3wjWPFpHWk/wl2wEAiZZUEK4lOy
-	0n10gYrjhEsdhKOMAYu5rRDo1x1zHPls=
-X-Gm-Gg: ASbGncssUqmyUCJgSg0AuqDpy1R68DlantAmjEFK98RslcVYsGCv8QuFcYrk7C8defA
-	yi5Mrx2SS7uz2IEq4Hcf2Y+oZeL5IeKpyfCWlRDdgoJ2kPVC3NEkc6ta1WMRgbGzxqDLxTLs3rY
-	liK8v2aVnTKAxgoAOkThLC8mmPPFJdAmO6sVnAhefcVmC6o6q49BckhkhQOK1O32bS9q26S2PZ/
-	8lyPuuCK7o2paUgZsDeEXwhrW+5wsuxjMjmj3giLW10QfR00R++suL2fIKA0R6Mvz/v8+yIcHL0
-	9uvS0W60852TPOjH86KpqBw=
-X-Google-Smtp-Source: AGHT+IEdTm+AfMEoA/pWQzWbbtihhW1a5bIXRv1jteqoUqK+wSJ0Z1tIguvuht45btZqDgYCqWISSR/W8DsEUEOc40s=
-X-Received: by 2002:a05:6214:410a:b0:710:9995:ced4 with SMTP id
- 6a1803df08f44-799155a2a44mr2660536d6.17.1758215528687; Thu, 18 Sep 2025
- 10:12:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758215700; x=1758820500;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5Et2LBV0hoDkXPHguzYWpJS22gcAI9OA9N51Js1jJkc=;
+        b=O9h5SH0uBaONiWkte7zGs5ybkVLyLGHdpRWzt+gdLgeTX3iLJpGcUflj+Zznx13z1k
+         Ho/T1yXCtVoTpAjT1GsuvIjm/OGBD4213r62n4+BFx7ozcXji4yqhP30rtrZ9aZrgFfR
+         1CgxFMaAqYZP22YpgfGXGxKwP9sPP9qrLDc3MOtcwzZfR7JAd16G3JDpbib+ei5RGN6h
+         zbvULsZl8hviYcFtAjYhzPDSJJzmb6hOtXWCwFjbxGw0/tCHQiB3geO3nnXypBT4wRc6
+         Zx+OlVescq/1UIN1CNyzZMGWD2MKKTPvVeWicWazLNC4+6LkJtZu+sAmS9i5SAriDkfL
+         nKbw==
+X-Gm-Message-State: AOJu0YzAw3YcEsBnZ5FKTU+CdT9Ddwxy3Jc4izDnhewGcp4prgORiEcg
+	TiRJUE24B81b1wreP1Hn5KwW8f46RnovQlff+ozg1QGxy8UPiGbzSwsTKvm2zHXB6+DFaYCx5QO
+	CzvoDF6tJh16MFX7w6FnS/ZKYLgN0bDqnjWbqT8DQ7ezScXU58OhivhjRQ5HolCPwYvGokFtlB5
+	CJfZGLsEhtwsOM134=
+X-Gm-Gg: ASbGnctjZjtCtvljKyVKSLT7MsWZUtu64uYq8szQaa1UuNoQhyY3D8HZPFcWyCskO0M
+	aCS1SnwlErDw65cz7NArFxdMeeVLx+Ti9HN07pOTLXVC02Yck6YpxwY7koNkH4N3jvcfQ+rCAd0
+	yfMHkYgsok+bgIOKbrhhWOkvUsY0dBqDBiDoZa8lGyEUP82fCNXA7mVWNAcCvnWqEPBnOkMEkxG
+	vR7FeijViBEx0ZAXhl8zcxfwCZZd8JFLlpX2BvcDKDy2vQsgsgphC2MUFNvSTOdVZd+2gOwOzQc
+	5QA5tfWl+OGbMZiqtBydJXI93et/PCyYj3+V+PkfNiPaE5PYUMLKt3d0HZZ7n+bOvhlIs09XgvN
+	D8524UEszbdIHs3268VuI3qyMJWhXzJvdi/JyrdxL+IbhHpm821ta
+X-Received: by 2002:a05:6214:2626:b0:782:1086:f68c with SMTP id 6a1803df08f44-7991d54f9f8mr2093446d6.58.1758215700251;
+        Thu, 18 Sep 2025 10:15:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGtDrh3wOSN2rTNHGqpIsCVWYWRzLUQbghF4gRViT+Zt9gSxEPcBYEg+17swi+Nkc3Pq1XmRw==
+X-Received: by 2002:a05:6214:2626:b0:782:1086:f68c with SMTP id 6a1803df08f44-7991d54f9f8mr2093096d6.58.1758215699583;
+        Thu, 18 Sep 2025 10:14:59 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-578a99517a2sm807543e87.120.2025.09.18.10.14.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Sep 2025 10:14:58 -0700 (PDT)
+Date: Thu, 18 Sep 2025 20:14:57 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2 1/2] mesa: add opencl DISTRO_FEATURE
+Message-ID: <ynyqsuah2htlduvk374ssf4gz26qnlikklok6tdydiizd63zb3@rchzndwtmzfr>
+References: <20250915232557.536762-1-dmitry.baryshkov@oss.qualcomm.com>
+ <aace897a-b003-4929-995e-479740c109f3@cherry.de>
 MIME-Version: 1.0
-References: <20250827064940.16074-1-r.gruenert@pironex.com>
- <ea6b3f3beb56b2cb5d2eb92562b6dc9990d94b1f.camel@linuxfoundation.org> <1864457B0136FCCA.29923@lists.openembedded.org>
-In-Reply-To: <1864457B0136FCCA.29923@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 18 Sep 2025 19:11:57 +0200
-X-Gm-Features: AS18NWBZTOioTezbJT3upTtUfW4FOxSr4vSCOQN1bntiD0dLU7dQji7S9spT8Ww
-Message-ID: <CANNYZj8v+b6Hpo-YLGW7XWMNeoR2PfpFErDaya+CdEka0LDhfA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4] scripts/runqemu: raise an error when bitbake
- was not found
-To: alex.kanavin@gmail.com
-Cc: =?UTF-8?Q?Richard_Gr=C3=BCnert?= <r.gruenert@pironex.com>, 
-	openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aace897a-b003-4929-995e-479740c109f3@cherry.de>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfXw+eojygD8aBk
+ jpuyyTew7OZFt2NLmwNCfvUUIA9vC6GkfKjGaqYdjpIVgBQFVm6tquVSjoGZaHUSHQF/ja1RkK4
+ fEo+VyxwJ0oRd6nPBlVMO8agd2NOiXddmBr5DtiSIgCqlAWhnFkoDVNL6QUY3YHKEYPGaYW1EVO
+ 3ZQCn4hwwRvs5vkhRFxxIKhWyUIjt540QcTR4Ns0F/e9YwkkTNPBI79DDCp2Y/149B8vBRZb8OR
+ dfLFB1rOB1o1wfkqglWGFU9kr0wGKhT3Pk5HESPcgxjpHVkF66UJdxqblSwPnZqJoLkrkAdPliq
+ 8arvnQv1dGmidLhtnYn5D+q4xFO0GDhD0SSwDkQDv00sz1jFoYgQmR2oj8OucvJIfst/IvHm1Zn
+ WjrOVj/S
+X-Proofpoint-ORIG-GUID: B9jBacQ2URLfCIQ5P4lwY-f6uI5Odhg7
+X-Authority-Analysis: v=2.4 cv=KJZaDEFo c=1 sm=1 tr=0 ts=68cc3e16 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=Q4-j1AaZAAAA:8 a=AtMbiI4VLeQ8CfGJtfEA:9
+ a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: B9jBacQ2URLfCIQ5P4lwY-f6uI5Odhg7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-18_02,2025-09-18_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 bulkscore=0 adultscore=0 impostorscore=0
+ suspectscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160202
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 17:12:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223651
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 17:15:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223652
 
-On Thu, 11 Sept 2025 at 17:55, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> On Thu, 11 Sept 2025 at 15:31, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->
-> > What is interesting is that your patches do pass testing. It is
-> > therefore possible we've changed things and this codepath isn't
-> > actually needed any more. That may be due to the qemuboot config files,
-> > which we probably didn't have when OE_TMPDIR was added.
-> >
-> > Either way, we probably do need to try and clean up this codepath
-> > before this change can merge.
->
-> There's another spot at the end of the environment getter function
-> where a failure to obtain the environment results in the getter
-> returning nothing:
->
->             try:
->                 return subprocess.check_output(cmd, shell=True).decode('utf-8')
->             except subprocess.CalledProcessError as err:
->                 logger.warning("Couldn't run '%s' to gather
-> environment information, giving up with 'bitbake -e':\n%s" % (cmd,
-> err.output.decode('utf-8')))
->                 return ''
->
-> If this code path has been executed this *might* explain why testing had passed.
->
-> Anyway, I think this is all horrible code, and the environment getter
-> should fail if it can't get the environment, for any reason. Then it's
-> on the caller to either not try to get the environment in the first
-> place (by checking for presence of OE_TMPDIR first), or handle the
-> fail.
->
-> I apologize that a simple usability tweak has turned into a total rabbit hole.
->
-> So my suggestion is:
-> 1. Keep the current patch.
-> 2. Add a patch that removes the above try... except block so that the
-> environment getter function does not return nothing in any
-> circumstance, and always fails if it can't get the environment.
->
-> We take that on the autobuilder and see what fails and when, or if
-> nothing does. Then we can formulate what can be removed/reworked
-> around the OE_TMPDIR getting and setting.
+On Thu, Sep 18, 2025 at 02:16:07PM +0200, Quentin Schulz wrote:
+> Hi Dmitry,
+> 
+> On 9/16/25 1:25 AM, Dmitry Baryshkov via lists.openembedded.org wrote:
+> > OpenCL is an important part of the GPU-related world. It makes sense to
+> > be able to provide headless environment (without OpenGL and Vulkan), but
+> > having just OpenCL as a GPU user. Currently it is not possible since
+> > mesa requires either of those to be enabled for the DISTRO.
+> > 
+> > Add new 'opencl' DISTRO_FEATURE, controlling enablement of OpenCL.
+> > 
+> > Note: Mesa, if built with the libclc packageconfig (which is required
+> > for OpenCL driver) depends on the mesa-clc tool from the mesa-native
+> > package. It is required to propagate opencl DISTRO_FEATURE to the native
+> > set in order to be able to fulfill mesa -> mesa-native dependency as
+> > otherwise mesa-native package will be skipped.
+> > 
+> 
+> Ah, I think I see now.
+> 
+> Wouldn't that be handled by removing the dependency of mesa on mesa-native
+> for libclc if we switch to depending on mesa-tools-native instead? Something
+> I attempted to do here: https://lore.kernel.org/openembedded-core/20250822-mesa-libclc-panfrost-v6-12-393cf47e2fa2@cherry.de/
+> 
+> What's preventing me from doing this right now is that we have expat and
+> zlib in DEPENDS in mesa.inc and mesa-tools-native is including it but as a
+> native-only package. In that scenario, DEPENDS content is NOT automatically
+> replaced with -native recipes, but only through PACKAGECONFIG dependency
+> mechanism. Therefore, we would need to migrate expat and zlib to a
+> PACKAGECONFIG option (which can be enabled by default!) so that
+> mesa-tools-native can be merged and thus remove the need for a mesa's libclc
+> config to require mesa-native's config to contain libclc. Which means we
+> don't need to have opencl in the native/nativesdk filter?
 
-I added the patch in point 2, and ran a-full on the AB. The outcome is
-that nothing failed:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2401
-(the three oe-selftest fails are due to an unrelated issue in
-bitbake-selftest for which a fix has been sent)
+Yes, we can drop it as soon as that patch lands. If you don't mind, I
+will take a look if I can fix the dependencies in your patch in a nicer
+way.
 
-This means we can indeed remove the code paths that set and get of
-OE_TMPDIR, as they are never used, and then change the environment
-getter function in runqemu to always either return the environment or
-fail with an exception.
+> 
+> What do you think?
+> 
+> Cheers,
+> Quentin
+> 
 
-Richard G., are you still able to work on this subject?
-
-Cheers,
-Alex
+-- 
+With best wishes
+Dmitry
 
