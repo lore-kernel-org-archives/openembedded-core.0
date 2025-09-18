@@ -1,343 +1,164 @@
-Return-Path: <rs@ti.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A37CA1013
-	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 23:13:52 +0000 (UTC)
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web10.2803.1758237223996957625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A179CAC597
+	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 23:24:02 +0000 (UTC)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+ by mx.groups.io with SMTP id smtpd.web11.3013.1758237834253134576
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 16:13:44 -0700
+ Thu, 18 Sep 2025 16:23:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=ibcuDQbo;
- spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58INDXUv109866;
-	Thu, 18 Sep 2025 18:13:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1758237213;
-	bh=WQrIuK8uZuqP8cimuALFjYMnnHFebeSE77Yb6kQGhrg=;
-	h=Date:CC:Subject:From:To:References:In-Reply-To;
-	b=ibcuDQbolnTn8UFBEBpFSJ7AAPeYr8H4Yi29lEwNnP4Z1xpkf1j+s5n0wxUxrtD0N
-	 hZvSlBfX55+JofSYIbR/4gq+DgjLBkKpJzcEGLGzLPOjZya7PzwxCoJNtFKhzIgFkg
-	 d8iA6z3fxjDQQeqDk2QVkpMsAveTlRDocyg//HzU=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58INDXGn1888311
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 18 Sep 2025 18:13:33 -0500
-Received: from DFLE202.ent.ti.com (10.64.6.60) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 18
- Sep 2025 18:13:33 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE202.ent.ti.com
- (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 18 Sep 2025 18:13:33 -0500
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58INDXKi1611614;
-	Thu, 18 Sep 2025 18:13:33 -0500
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GwQgX9tx;
+ spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-ea5cbca279aso1159599276.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 16:23:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758237833; x=1758842633; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=USK3IGwJ2gz5aa5Qb0ZTeham70RjgJiAR0JARAON0iY=;
+        b=GwQgX9txWpYEapkZNvbJWzp+iLZFWTnSnt0a69K0kE244vMsPEhvEC20YBaIFK8bxu
+         2KvPJ9E9kb4PmXJ0iyY3jG4bZGqXT2SXWjt/u3q+vPpKe1aX7nLXLhzzB4rS1L8kHgqM
+         4ipnERFROPR/HdutzZ4JHskjXknP0QJFYjFFzvCVAldbYOljhNQ4IXH+eMdmDFsJyb/M
+         GTuT5SBy8jQr0f773Gsv5q2CEGOBNh/Wj6kNIcgQQfjjQm1VZMwNF36yXW4Kk66CCyBM
+         ++CPJQkU8lMHtVy7nk7nPct0kZHXCUVSa7qEQgs1SgBH+4wN+gDHBk8Km4LgyW3p+kHO
+         /XNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758237833; x=1758842633;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=USK3IGwJ2gz5aa5Qb0ZTeham70RjgJiAR0JARAON0iY=;
+        b=P2x/hQ2lBNwsisSiL0KSzwU+AA/Tvdo3cEGF4bWGl/wdisPYy65Qx9XRuvRKbPlzQl
+         q+iLfMp71atpu4M8MprglfFsJz/8zIFFGgq0V4w+zy8ZOdfJ/51D1DGN51CM2+hXatP/
+         PJBEtr8Hb6qGX77EFcLXCMnNhggAWcMOP04jJ7gkhmMPAw6nlw7Bie7Yt6J6++SHYrRx
+         axLh/RFiHRRgpqqEDMIW0bkZrQ7TtBD0OMgP6hD/JnV4o7/dJyq/48aAMOnwoZTSGDtl
+         O6wpxe1FGrhOAl22krtMhlSMnFfM2ZWd5tyr3k8g9wJgrpYKjzOdsvd95rmqdOg3yHCD
+         3owA==
+X-Gm-Message-State: AOJu0YygBo1jSiTdQ10k1Ll2fSg1PUsxdK0PQHdBzakxb7z0pMnSuR8R
+	eQ+pZ8UaylQbuwGoC/Wceeb3uNl73AH3zutlXGOr7PpJjFaMdqk0co/0VXO41hIyAoZ3dSFMjwr
+	IHkXl/PviZ8xEdhYO408ZQ8OVo5mZv94=
+X-Gm-Gg: ASbGncvy/K9G19yK/z0FmZurpT8039qHKosyxpgqsg+J4s4sdAMq0Lsb8eHSFxp8PVs
+	pXM98fEP4Ck6J49Y88j9a6By/W8/sxaQvr4EyZnRrqcmg9BfwGoFOCoLGyRSI9XGqhtuaQOiXWp
+	xIYQ8YM3ws3960C0nibnIDlHYo4u1jedJdykp4SChqOsziV8S//3g6l45/IlAEFe9QDa+dEeZ4/
+	TpmOZf6inMU1eVu2rjRg56C3E50VgoKOyxE7srNi5noIl5tKYb1MHSxQcYVqaDqhk9dlqP7GuGa
+	EwYDPasfHJ++1X3WRRnR4ZV3ikNZU15rThohSxt63Q==
+X-Google-Smtp-Source: AGHT+IGEqv6B/uij2Z0DR9g4itn0//O3QZhva832Z52qhrmmp7HpchZnfiEO/jx5B2AchTA5Sid0NoJ6ntPLrDUcVM0=
+X-Received: by 2002:a05:690c:9a09:b0:735:77b7:492a with SMTP id
+ 00721157ae682-73d3c5d5e75mr10795137b3.40.1758237833142; Thu, 18 Sep 2025
+ 16:23:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20250918030540.2172994-1-raj.khem@gmail.com> <0c19a1d8-712a-4fcd-aa8c-a994edc2d8ed@bootlin.com>
+ <CAMKF1srhBhGi82_O7KrP_FR92-Dq8_SxJy2g_TJcj875xexwqw@mail.gmail.com>
+In-Reply-To: <CAMKF1srhBhGi82_O7KrP_FR92-Dq8_SxJy2g_TJcj875xexwqw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 18 Sep 2025 16:23:26 -0700
+X-Gm-Features: AS18NWAAwbYmOIKFeHlwf4HfK3KS48Jx3zaBZX65snIWr8PZFsY0bjPt8bD6FUg
+Message-ID: <CAMKF1squ77P0N3G5buwBk0K0054R_pxdQpRjXBtskdHwVK0L2Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] clang: Fix nativesdk build after recipe splits
+To: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Ross Burton <ross.burton@arm.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
-Date: Thu, 18 Sep 2025 18:13:33 -0500
-Message-ID: <DCWB2OXGZMG7.1H205AVNHSCVT@ti.com>
-CC: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
-        <alex@linutronix.de>, <otavio@ossystems.com.br>,
-        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
-        <denis@denix.org>, <reatmon@ti.com>,
-        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: Re: [oe-core][PATCHv9 0/6] Display manager proposal for x11 and
- wayland
-From: Randolph Sapp <rs@ti.com>
-To: Joshua Watt <jpewhacker@gmail.com>, Randolph Sapp <rs@ti.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250918214903.341452-1-rs@ti.com>
- <CAJdd5GZFeR4OHG09g8z1RC1PFBzJh72EHUbLx2CPfa5CKK75sA@mail.gmail.com>
- <DCWA6GFPV2UX.3777W4JSPK51A@ti.com>
- <CAJdd5GZFK_1eoHLWSZ2_gf69Mp7Q2er6Q=KAoBHiMAGQpgjTDA@mail.gmail.com>
- <186681957172BF4C.23626@lists.openembedded.org>
- <DCWAEPXOFEE4.Q4F6GTPJ7TTZ@ti.com>
- <CAJdd5GbSE6A4B9c-euprk84Y5Qyn_JwyOksFA+nBhaDM8ZVSYw@mail.gmail.com>
-In-Reply-To: <CAJdd5GbSE6A4B9c-euprk84Y5Qyn_JwyOksFA+nBhaDM8ZVSYw@mail.gmail.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 23:13:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223711
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 23:24:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223712
 
-On Thu Sep 18, 2025 at 6:03 PM CDT, Joshua Watt wrote:
-> On Thu, Sep 18, 2025 at 4:42=E2=80=AFPM Randolph Sapp <rs@ti.com> wrote:
+On Thu, Sep 18, 2025 at 8:42=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote=
+:
+>
+>
+>
+> On Thu, Sep 18, 2025 at 1:31=E2=80=AFAM Joao Marcos Costa <joaomarcos.cos=
+ta@bootlin.com> wrote:
 >>
->> On Thu Sep 18, 2025 at 5:39 PM CDT, Randolph Sapp via lists.openembedded=
-.org wrote:
->> > On Thu Sep 18, 2025 at 5:35 PM CDT, Joshua Watt wrote:
->> >> On Thu, Sep 18, 2025 at 4:31=E2=80=AFPM Randolph Sapp <rs@ti.com> wro=
-te:
->> >>>
->> >>> On Thu Sep 18, 2025 at 5:25 PM CDT, Joshua Watt wrote:
->> >>> > On Thu, Sep 18, 2025 at 3:49=E2=80=AFPM Randolph Sapp via
->> >>> > lists.openembedded.org <rs=3Dti.com@lists.openembedded.org> wrote:
->> >>> >>
->> >>> >> From: Randolph Sapp <rs@ti.com>
->> >>> >>
->> >>> >> We've recently run into some issues with weston-init attempting t=
-o start Weston
->> >>> >> prior to all drm devices being registered. There's not really a g=
-ood, scriptable
->> >>> >> mechanism to listen in to device registration events that works w=
-ith the
->> >>> >> existing weston-init package. Well, at least one that doesn't inv=
-olve polling
->> >>> >> files or introducing more dependency on the init system being use=
-d.
->> >>> >
->> >>> > It's not clear how switching to emptty actually solves that proble=
-m; I
->> >>> > don't see anything in my (brief) look at the emptty code that woul=
-d
->> >>> > lead me to believe it actually cares about any drm devices being
->> >>> > present or handles devices showing up dynamically. Can you maybe
->> >>> > elaborate more on this?
->> >>>
->> >>> It doesn't currently have any tests to wait for the DRM device. I st=
-ill need to
->> >>> look into adding that, but what it currently does is add a retry eve=
-nt counter
->> >>> and a small delay between retries that is better than the current co=
-nsole
->> >>> implementations. Especially considering authentication is handled se=
-parately
->> >>> from this retry process.
->> >>>
->> >>> By centralizing display manager specific code, common checks and fal=
-lback logic
->> >>> can be more easily implemented in the future. I'm hoping this lays t=
-he
->> >>> groundwork to let me address some other issues I've seen in multi-ca=
-rd
->> >>> environments as well.
->> >>
->> >> For the systemd parts, is it also possible to solve this with e.g.
->> >>
->> >> Requires=3Ddev-dri-card0.device
->> >> After=3Ddev-dri-card0.device
->> >>
->> >> (or similar) ? Seems like anything emptty would be doing would be a
->> >> reimplementation of the logic that already exists in systemd to do
->> >> that.
+>> Hello, Khem
+>>
+>> On 9/18/25 05:05, Khem Raj via lists.openembedded.org wrote:
+>> > Splitting llvm, tblgen into their own recipes means we
+>> > have to ensure nativesdk clang build can find these tools
+>> > in native sysroot, which is would previously build and use
+>> > on its own.
 >> >
->> > It gets messy. A udev rule needs to be made to make systemd track that=
- device.
->
-> Ya, that's pretty normal.
-
-Udev is dependent on systemd. Eudev exists, but why would we pull that in s=
-imply
-to manage displays. It's not necessary for anything else at the moment.
-
->> > In a multi-card environment a device without an actual display may be =
-picked.
->> > Systemd cannot directly solve the issue on it's own.
->
-> Sure, but isn't that what udev is for? I don't think adding selection
-> of a drm device makes sense in emptty. Regardless of init system, it
-> really feels like selection of the correct device to use for display
-> should be a udev problem.
-
-Udev can track events but it does not report existing states. If a display =
-is
-already plugged in during boot then we won't know. We can catch the plug ev=
-ent
-and operate on it, but otherwise it's a guess to see what we can do at boot=
-.
-
-For quite some time there has been a service to *manage displays* prior to
-starting the desktop environment. GDM is a good example of that. Greetd is
-another. Lightdm is another. Emptty is just an example of a useful all-roun=
-der
-with a permissive license I thought people would appreciate.
-
->> Additionally, there are more init systems supported here than just syste=
-md...
+>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > Cc: Ross Burton <ross.burton@arm.com>
+>> > ---
+>> >   meta/recipes-devtools/clang/clang_git.bb | 2 ++
+>> >   1 file changed, 2 insertions(+)
+>> >
+>> > diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-d=
+evtools/clang/clang_git.bb
+>> > index 9e977379325..bcc799f286b 100644
+>> > --- a/meta/recipes-devtools/clang/clang_git.bb
+>> > +++ b/meta/recipes-devtools/clang/clang_git.bb
+>> > @@ -78,6 +78,8 @@ EXTRA_OECMAKE +=3D "-DLLVM_ENABLE_ASSERTIONS=3DOFF \
+>> >
+>> >   EXTRA_OECMAKE:append:class-nativesdk =3D "\
+>> >                     -DCROSS_TOOLCHAIN_FLAGS_NATIVE=3D'-DCMAKE_TOOLCHAI=
+N_FILE=3D${WORKDIR}/toolchain-native.cmake' \
+>> > +                  -DLLVM_TABLEGEN_EXE=3D${STAGING_BINDIR_NATIVE}/llvm=
+-tblgen \
+>> > +                  -DCLANG_TIDY_CONFUSABLE_CHARS_GEN=3D${STAGING_BINDI=
+R_NATIVE}/clang-tidy-confusable-chars-gen \
+>> >                     -DCMAKE_RANLIB=3D${STAGING_BINDIR_TOOLCHAIN}/${TAR=
+GET_PREFIX}llvm-ranlib \
+>> >                     -DCMAKE_AR=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_=
+PREFIX}llvm-ar \
+>> >                     -DCMAKE_NM=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_=
+PREFIX}llvm-nm \
+>> >
+>> >
+>> >
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> > Links: You receive all messages sent to this group.
+>> > View/Reply Online (#223625): https://lists.openembedded.org/g/openembe=
+dded-core/message/223625
+>> > Mute This Topic: https://lists.openembedded.org/mt/115304299/8026893
+>> > Group Owner: openembedded-core+owner@lists.openembedded.org
+>> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[joaomarcos.costa@bootlin.com]
+>> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> >
 >>
->> >>> >> I also see there is also a lot of scripting around starting X11,
->> >>> >> xserver-nodm-init, that (from my limited review) should experienc=
-e the same
->> >>> >> issue.
->> >>> >>
->> >>> >> I'd like to introduce the following display manager for oe-core, =
-emptty [1].
->> >>> >> This display manager is, as described upstream, a "Dead simple CL=
-I Display
->> >>> >> Manager on TTY". It supports both x11 and wayland sessions, with =
-togglable build
->> >>> >> parameters to completely remove x11 and pam dependencies. It's li=
-censed MIT,
->> >>> >> which shouldn't be an issue for any users. (It is written in Go, =
-if you have
->> >>> >> opinions about that.)
->> >>> >>
->> >>> >> With this, both weston-init and the xserver-nodm-init packages ca=
-n be re-tuned
->> >>> >> to leverage this display manager and simply add a user and emptty=
- config for an
->> >>> >> autologin session. This can resolve the current behavior across i=
-nit systems
->> >>> >> without additional scripting, and move some development out of th=
-is layer.
->> >>> >>
->> >>> >> This lists myself as a maintainer of emptty as well as xserver-no=
-dm-init and
->> >>> >> xuser-account since these are currently unassigned and I've rewor=
-ked them
->> >>> >> significantly here.
->> >>> >>
->> >>> >> Sorry for the delay on this series. I found a few bugs in emptty =
-that I wanted
->> >>> >> to address before submitting this officially.
->> >>> >>
->> >>> >> [1] https://github.com/tvrzna/emptty
->> >>> >>
->> >>> >> v2:
->> >>> >>         - Address spelling issues in commit messages
->> >>> >>         - Attempt to resolve some test related issues with weston
->> >>> >>         - Add additional logs to X11 related tests
->> >>> >> v3:
->> >>> >>         - Reset AUTOLOGIN_MAX_RETRY to the default value of 2. Wh=
-en running
->> >>> >>           under QEMU the first auth attempt almost always fails.
->> >>> >> v4:
->> >>> >>         - Add a tmpfile entry for the x11 domain socket directory=
-.
->> >>> >>         - Remove some scripts associated with weston-init that we=
-re being
->> >>> >>           shipped with weston
->> >>> >> v5:
->> >>> >>         - Move tmpfile data to individual files
->> >>> >>         - Add explicit entries for these in the FILES variable
->> >>> >> v6:
->> >>> >>         - Do not attempt to ship a tmpfiles.d entry in libx11
->> >>> >> v7:
->> >>> >>         - Include a backported fix for go/runtime to address segf=
-ault issues
->> >>> >>           reported on x86 platforms in previous revisions
->> >>> >> v8:
->> >>> >>         - Sign-off backported patch
->> >>> >> v9:
->> >>> >>         - Resolve merge conflict in maintainers file
->> >>> >>
->> >>> >> Randolph Sapp (6):
->> >>> >>   libx11: create tmpfile dir for x11 domain socket
->> >>> >>   go: fix sigaction usage on i386 platforms
->> >>> >>   emptty: add version 0.14.0
->> >>> >>   weston-init: convert to virtual-emptty-conf
->> >>> >>   weston: remove deprecated weston-start scripts
->> >>> >>   xserver-nodm-init: convert to virtual-emptty-conf
->> >>> >>
->> >>> >>  .../conf/distro/include/default-providers.inc |   1 +
->> >>> >>  meta/conf/distro/include/maintainers.inc      |   6 +-
->> >>> >>  meta/lib/oeqa/runtime/cases/weston.py         |  18 +-
->> >>> >>  meta/lib/oeqa/runtime/cases/xorg.py           |   8 +
->> >>> >>  meta/recipes-devtools/go/go-1.25.0.inc        |   1 +
->> >>> >>  ...ng-cgo-on-386-call-C-sigaction-funct.patch | 248 ++++++++++++
->> >>> >>  meta/recipes-graphics/emptty/emptty-conf.bb   |  14 +
->> >>> >>  meta/recipes-graphics/emptty/emptty.inc       |  26 ++
->> >>> >>  .../recipes-graphics/emptty/emptty/emptty.tab |   1 +
->> >>> >>  meta/recipes-graphics/emptty/emptty/pamconf   |  10 +
->> >>> >>  meta/recipes-graphics/emptty/emptty_0.14.0.bb |  53 +++
->> >>> >>  meta/recipes-graphics/wayland/weston-init.bb  |  61 +--
->> >>> >>  .../wayland/weston-init/emptty.conf           |  77 ++++
->> >>> >>  .../recipes-graphics/wayland/weston-init/init |  54 ---
->> >>> >>  .../wayland/weston-init/weston-autologin      |  11 -
->> >>> >>  .../wayland/weston-init/weston-socket.sh      |  20 -
->> >>> >>  .../wayland/weston-init/weston-start          |  76 ----
->> >>> >>  .../wayland/weston-init/weston.env            |   0
->> >>> >>  .../wayland/weston-init/weston.service        |  71 ----
->> >>> >>  .../wayland/weston-init/weston.socket         |  14 -
->> >>> >>  .../weston/systemd-notify.weston-start        |   9 -
->> >>> >>  .../wayland/weston/xwayland.weston-start      |   6 -
->> >>> >>  .../recipes-graphics/wayland/weston_14.0.2.bb |  10 -
->> >>> >>  .../x11-common/xserver-nodm-init/X11/Xsession |  38 --
->> >>> >>  .../X11/Xsession.d/13xdgbasedirs.sh           |  19 -
->> >>> >>  .../X11/Xsession.d/89xdgautostart.sh          |   7 -
->> >>> >>  .../X11/Xsession.d/90XWindowManager.sh        |   7 -
->> >>> >>  .../x11-common/xserver-nodm-init/Xserver      |  25 --
->> >>> >>  .../xserver-nodm-init/capability.conf         |   2 -
->> >>> >>  .../xserver-nodm-init/default.desktop         |   5 +
->> >>> >>  .../xserver-nodm-init/emptty.conf.in          |  77 ++++
->> >>> >>  .../xserver-nodm-init/gplv2-license.patch     | 355 ------------=
-------
->> >>> >>  .../x11-common/xserver-nodm-init/xserver-nodm |  75 ----
->> >>> >>  .../xserver-nodm-init/xserver-nodm.conf.in    |   7 -
->> >>> >>  .../xserver-nodm-init/xserver-nodm.service.in |  11 -
->> >>> >>  .../x11-common/xserver-nodm-init_3.0.bb       |  57 +--
->> >>> >>  meta/recipes-graphics/xorg-lib/libx11/99_x11  |   1 +
->> >>> >>  .../xorg-lib/libx11_1.8.12.bb                 |  15 +-
->> >>> >>  .../user-creation/xuser-account_0.1.bb        |   3 +-
->> >>> >>  39 files changed, 581 insertions(+), 918 deletions(-)
->> >>> >>  create mode 100644 meta/recipes-devtools/go/go/0001-runtime-when=
--using-cgo-on-386-call-C-sigaction-funct.patch
->> >>> >>  create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
->> >>> >>  create mode 100644 meta/recipes-graphics/emptty/emptty.inc
->> >>> >>  create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.ta=
-b
->> >>> >>  create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
->> >>> >>  create mode 100644 meta/recipes-graphics/emptty/emptty_0.14.0.bb
->> >>> >>  create mode 100644 meta/recipes-graphics/wayland/weston-init/emp=
-tty.conf
->> >>> >>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/ini=
+>>
+>> I spotted this error in the autobuilder:
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/2266/=
+steps/12/logs/stdio
+>>
+>> Could you please take a look?
+>> Thanks!
+>
+>
+> Logs are showing clang-native failure while the change in this patch is l=
+imited to nativesdk clang. So it is unrelated to this patch
+>
+> However change seems to be related to llvm recipe separation series since=
+ clang is building this tool during its build and trying to use it from its=
+ build area but it=E2=80=99s perhaps not finding libllvm from native sysroo=
 t
->> >>> >>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/wes=
-ton-autologin
->> >>> >>  delete mode 100755 meta/recipes-graphics/wayland/weston-init/wes=
-ton-socket.sh
->> >>> >>  delete mode 100755 meta/recipes-graphics/wayland/weston-init/wes=
-ton-start
->> >>> >>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/wes=
-ton.env
->> >>> >>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/wes=
-ton.service
->> >>> >>  delete mode 100644 meta/recipes-graphics/wayland/weston-init/wes=
-ton.socket
->> >>> >>  delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-=
-notify.weston-start
->> >>> >>  delete mode 100644 meta/recipes-graphics/wayland/weston/xwayland=
-.weston-start
->> >>> >>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/X11/Xsession
->> >>> >>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/X11/Xsession.d/13xdgbasedirs.sh
->> >>> >>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/X11/Xsession.d/89xdgautostart.sh
->> >>> >>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/X11/Xsession.d/90XWindowManager.sh
->> >>> >>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/Xserver
->> >>> >>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/capability.conf
->> >>> >>  create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/default.desktop
->> >>> >>  create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/emptty.conf.in
->> >>> >>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/gplv2-license.patch
->> >>> >>  delete mode 100755 meta/recipes-graphics/x11-common/xserver-nodm=
--init/xserver-nodm
->> >>> >>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/xserver-nodm.conf.in
->> >>> >>  delete mode 100644 meta/recipes-graphics/x11-common/xserver-nodm=
--init/xserver-nodm.service.in
->> >>> >>  create mode 100644 meta/recipes-graphics/xorg-lib/libx11/99_x11
->> >>> >>
->> >>> >> --
->> >>> >> 2.51.0
->> >>> >>
->> >>> >>
->> >>> >>
->> >>> >>
->> >>>
+
+I poked at the worker on AB where it is failing, I think there is a
+cmake patch which is problematic.
+
+https://patchwork.yoctoproject.org/project/oe-core/patch/20250915145134.192=
+581-1-ross.burton@arm.com/
+
+clang builds some tools during build and links them to in-tree libLLVM
+if it is built in monolithic builds ( which we do ) and this option
+omits build time rpaths which causes this problem.
+
 >>
 
+
+
+>>
+>> --
+>> Best regards,
+>> Jo=C3=A3o Marcos Costa
 
