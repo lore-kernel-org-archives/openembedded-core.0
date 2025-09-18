@@ -2,124 +2,175 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E30CAC59A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D41CCAC597
 	for <webhook@archiver.kernel.org>; Thu, 18 Sep 2025 21:28:11 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web10.669.1758230882562739346
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.671.1758230888591917797
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Sep 2025 14:28:02 -0700
+ Thu, 18 Sep 2025 14:28:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ot/V4WnR;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: twoerner@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4b7a8ceace8so16519031cf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 14:28:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WMslpcyq;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4b5f3e06ba9so28490071cf.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 14:28:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758230881; x=1758835681; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1758230883; x=1758835683; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=w5G0izAOMBB34tEWiPkQO9hn16nlggIYvJ6JCBpvfGo=;
-        b=Ot/V4WnRipK9a2/5PG5Y9DK3VAxmwIfmdqUp5lGLktEugm82aFrbX4JkIyLnFfGy2B
-         b4rbbK+Y65q1asINlRa6fU279s08Uoi4NNQ0AIzzPM5OZHiLgxfmQBQJ8l0zGbW5J4BS
-         V7ZWxMIE5wfaytyRMrejcAJAM9raSzZZN4Z0gUJnJtqket5oq2d6B/YwmRuf61i6JuF/
-         6aT1WWK8Af4WU8iNaN8z44Gnn+bN9KFUvC/QDZjijCSQRaL4J6KHDryeA/26iqC555r4
-         WypDEvHdfpwFlTje+LM88Fm4Y/2JtaCy8Ubi+RT0EsKoOSVGdOCic00looI87kmqgl4q
-         aiiQ==
+        bh=vvEkl2qruy5im8u/625nfyQB3aGKWIzwGlHkxlgxS9g=;
+        b=WMslpcyqN+jpI/SeC14p2hx+oPYoVpf5iumsjdNZmF6tUicmB+yLXthxjuLQoDC4zk
+         GjruwWfN9q6fTrz7nS4cta184hDreXzYxn3o9LtydSQPZXyJzK12/BvO8gKnTl7OrdPD
+         YFeWRSVqJXB/sHasBJCoprdlbnijX8umIDrHKGrxVj5XnanHAzZxsui7HZhZzdc7DsVV
+         3+fY5cYEzGbYQXw2jHdupLbLoQ0sECsdCCVHnjnC9AoDKuVkOMTgPBM8IdhV1/gNjnic
+         g5+pB707DId2cJN6/5yFnotFpl8gHA8T4hNu5uJ+zWvtcp4VzW00AL7qyuBfgSWcIAn7
+         sNVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758230881; x=1758835681;
+        d=1e100.net; s=20230601; t=1758230883; x=1758835683;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w5G0izAOMBB34tEWiPkQO9hn16nlggIYvJ6JCBpvfGo=;
-        b=HoROeyJSeyxcPJ/APYv8jPLzBhh2A3xQBOD6S/Xju24uQLvT4hUEzV1tTVztNF0sAu
-         22rW/A5CSRS7C4j5/IqqIDDNJ6W5Bh2rfUVZpS+r0AizWkrDTHnokt4hGE+TxY+gQJie
-         Rx09E0qEQwoCUi+6bumRy2oOpKMF5ZugO/5PyF9Gc9XvBsSZn5wTpoUQLZhDqf2vDsEY
-         rKo8xhMoj/OXhOowuDx+PT0RGHdHAZ/22VPZGmk7sA/EXnsLZrSNUxxNqHTuXYulSY0A
-         7w1xrbNi/uDU85U6opm2caRzitnq8E4ePC+ge88Y/Pgc2GqmIShyHukv99PoSYajRqQN
-         I1kQ==
-X-Gm-Message-State: AOJu0YxVZUDh2oQQl64rhlz1J2PNq+0gnaxXDkWxZ4V8JENtJJKiNVex
-	kHMOwzrT+VSbK7OLNa77fviPDqYEq2/Dstr42qRnc5obxl+6Sbv+XGpKQeagQw==
-X-Gm-Gg: ASbGncu+mO/ucA7miEhmHowYfyoqF/r+4RRh5uS1d0YYSRHiPaS1uHE6fFompnV2DlF
-	xxo4hh4SjsBbnKtZqiwizhNuKtL52V43ALCDD/ESdyKWS3nSCE0g9Sfo1duZqPym+bR76eyWaPn
-	m91IUqPvLlkiTErwG7E1Qjz5aHMZlRzyXPUsnLH/UaPjmeh2Cd6VFy7WG7ztte17NvDzcFmGfI6
-	FWU12LzqvvH6dQ9mB9AVc+05e1lYW6qMPTNbvv/YzJu6rLoipExq95pDnuUDGx1JUN7NIDPLwQ6
-	zMzcHP9Yx+gplDWvTrvny4u2G+esYdrG3Y+ZZDg0qoN7u2CkvUc9YzHvayVx1aSw9J7tqS36YWD
-	+rnH1348etAVuNrqpODO2G1dUSpu+Q3/cvwyFniKD7cL3rrVJRCEX3P38umQahZnzWdhMNMiMeV
-	GRTdE=
-X-Google-Smtp-Source: AGHT+IGPBtfEfaazRkkoH8FiPSJmJ/MvK9d+tQjMh+lvoyrMg/tmQhXvApCTIpi+Q/Qka19qje6r/Q==
-X-Received: by 2002:a05:622a:a953:20b0:4c0:e6f4:d5b3 with SMTP id d75a77b69052e-4c0e6f4d751mr628011cf.58.1758230880632;
-        Thu, 18 Sep 2025 14:28:00 -0700 (PDT)
+        bh=vvEkl2qruy5im8u/625nfyQB3aGKWIzwGlHkxlgxS9g=;
+        b=E+8zAZFdq2k6dlmxZBKsN8naHbwZdFFk60wswIeB4hFk2pSj+dG8VpDAGkOlL71DM8
+         R/BfbJptAF21U5XjpZnWq5ceayF2xxO4rpxz/iwLs1c+Eegp3ktzkIG6jY68yi4EXoNp
+         YOf8t0eUukOGSVaVKGCv7RVi6kgt9lLXbbZHGsktNSnP6HUK+q8U7KhdsDeq2cxDu64C
+         GWR8C3+eZCGkr29qecnwNDcLEmmBHzE9cP3hF3OrydJ1gkvDYh1P+J+QQRMHLeQxhP2o
+         Lf81ov35l7z4HnW0Ea4aNSgMTnXlzc00CUrUdU4MOIaGOvAtfsr7EjUoPQdqsA1TNvas
+         HFCg==
+X-Gm-Message-State: AOJu0YzYXM0G3ugGqtBpBiAYp2rGsV0TO3ZWt6FLXs2JA/GdvR3Kn6Lh
+	tKqb/Yw5tMJIMILJHMiBwMTjj2jnIBrTEHEzxyChtuCaJbPUCZDiUc6LBw423A==
+X-Gm-Gg: ASbGncvfeHiGtSkJvnXnkYxCX7WfTeuQLoI6hOD1thm0sb6l9Ibsvnnf3vbctk1fazg
+	oD2lCxEFxwhqE+rdkF+oZc4PegYqqgvbrYx257XQBTjRE2u4UFhsGoUh9Qi/FPv5Tqf7youKMVH
+	/UXjIsI6ThqDItOajq52FIDUKGQjDEaItiDrpSDltMl1xo6xbOEiy6zX8IRGmxISjRhf9ww6rGM
+	vzdrjdBpq0HOmFKSDexjwS+VvhtJZSnhrB4f6knspJQVQWjgx6W05Z8/V3hPm+j9wXAi2/ET1Oo
+	N6oIrh4OuuiNpvl4ii4fFF7o1Bd0i3m2dPe1YkUo9qnSGeu3sYahL6tBJjueWO5PJscK83h7g+7
+	EmJ7haNMxPNRuwdQFUaaWWq9Sh083UzovpoQ2Ua+8bFiF8yCf79L32iWsytccBobxBb2f
+X-Google-Smtp-Source: AGHT+IHc+RDNni17uEJnmTVNBuVIGfdA7HjfXEhV70WGIRVbJGGR7Dt0Z82uoUoo5l3hfFXd8QkHNA==
+X-Received: by 2002:ac8:7c50:0:b0:4b3:e964:7872 with SMTP id d75a77b69052e-4bdab340f3emr59220231cf.16.1758230882699;
+        Thu, 18 Sep 2025 14:28:02 -0700 (PDT)
 Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-836263ab544sm235016185a.9.2025.09.18.14.27.58
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-836263ab544sm235016185a.9.2025.09.18.14.28.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Sep 2025 14:27:59 -0700 (PDT)
+        Thu, 18 Sep 2025 14:28:01 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Trevor Gamblin <tgamblin@baylibre.com>
-Subject: [PATCH 2/6] patchtest.README: update name and location or patchtest layer
-Date: Thu, 18 Sep 2025 17:27:25 -0400
-Message-ID: <20250918212743.3960-2-twoerner@gmail.com>
+Subject: [PATCH 3/6] patchtest.README: update installation instructions
+Date: Thu, 18 Sep 2025 17:27:26 -0400
+Message-ID: <20250918212743.3960-3-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0.193.g4975ec3473b4
 In-Reply-To: <20250918212743.3960-1-twoerner@gmail.com>
 References: <20250918212743.3960-1-twoerner@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Sep 2025 21:28:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223681
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223684
 
-The patchtest layer's name and location have changed from:
-  patchtest
-  https://git.yoctoproject.org/patchtest
-to:
-  meta-patchtest
-  https://git.yoctoproject.org/meta-patchtest
-
-Update any references of the old name and repository to the new ones.
+Update the installation instructions to demonstrate using a Python
+virtual environment to install the patchtest module dependencies. Also
+provide example #exactsteps. Using a virtual environment is considered a
+best practice for Python programs, but also makes the git-pw tool
+available in the user's PATH automatically.
 
 Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- scripts/patchtest.README | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ scripts/patchtest.README | 74 ++++++++++++++++++++++++++++++++--------
+ 1 file changed, 59 insertions(+), 15 deletions(-)
 
 diff --git a/scripts/patchtest.README b/scripts/patchtest.README
-index 1c674e23c9ab..5a9dabc50b44 100644
+index 5a9dabc50b44..bfbe29a37997 100644
 --- a/scripts/patchtest.README
 +++ b/scripts/patchtest.README
-@@ -20,8 +20,9 @@ which environment you prefer. If you plan to test your own patches (a
- good practice before these are sent to the mailing list), the easiest
- way is to install and execute on your local host; on the other hand, if
- automatic testing is intended, the guest method is strongly recommended.
--The guest method requires the use of the patchtest layer, in addition to
--the tools available in oe-core: https://git.yoctoproject.org/patchtest/
-+The guest method requires the use of the meta-patchtest layer, in
-+addition to the tools available in oe-core:
-+https://git.yoctoproject.org/meta-patchtest/
+@@ -26,26 +26,70 @@ https://git.yoctoproject.org/meta-patchtest/
  
  ## Installation
  
-@@ -43,7 +44,7 @@ To work with patchtest, you should have the following repositories cloned:
+-As a tool for use with the Yocto Project, the [quick start
+-guide](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html)
+-contains the necessary prerequisites. In addition, patchtest relies on
+-several Python modules for parsing and analysis, which can be installed
+-by running `pip install -r meta/lib/patchtest/requirements.txt`. Note
+-that git-pw is not automatically added to the user's PATH; by default,
+-it is installed at ~/.local/bin/git-pw.
++Patchtest checks patches which are expected to be applied to
++Yocto layers. Therefore, familiarity with the Yocto Project, its
++functionality, and image-build processes is assumed. Otherwise the
++[quick start guide](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html)
++contains the necessary information.
++
++As a Python application, the recommended way it should be installed
++(following Python best practices) is to use a virtual environment. A
++Python virtual environment provides a convenient sandbox into which its
++requirements can also be installed with out affecting a user's entire
++system at large. Patchtest makes use of a test suite found in oe-core,
++so it needs to be available as well.
++
++For example, to install patchtest into a Python virtual environment
++called "patchtest.venv" located at some/where in your filesystem:
++
++    $ mkdir -p some/where
++    $ cd some/where
++    $ mkdir yocto
++    $ pushd yocto
++    $ git clone https://git.openembedded.org/openembedded-core
++    $ git clone https://git.openembedded.org/bitbake
++    $ git clone https://git.yoctoproject.org/meta-patchtest
++    $ popd
++    $ . yocto/openembedded-core/oe-init-build-env build yocto/bitbake
++    $ cd ..
++    $ python3 -m venv patchtest.venv
++    $ . patchtest.venv/bin/activate
++    (patchtest.venv) $ pip install -r yocto/openembedded-core/meta/lib/patchtest/requirements.txt
++
++In the above list of cloned repositories, the meta-patchtest layer is
++only needed if you intend to use patchtest in "guest" mode. Also the
++oe-core + bitbake clones can be replaced with poky instead.
++
++If "guest" mode will be used, the meta-patchtest layer needs to be added
++to the conf/bblayers.conf file generated above.
++
++If you would like to run the patchtest selftest found in oe-core, the
++openembedded-core/meta-selftest (or poky/meta-selftest, if using poky)
++layer also needs to be added to bblayers.conf.
++
++Once the installation is done, your directory layout will look like:
++    .
++    ├── build
++    │   └── conf
++    ├── yocto
++    │   ├── bitbake
++    │   ├── meta-patchtest
++    │   └── openembedded-core
++    └── patchtest.venv
++        ├── bin
++        ├── include
++        ├── lib
++        ├── lib64 -> lib
++        ├── pyvenv.cfg
++        └── share
  
- 1. https://git.openembedded.org/openembedded-core/ (or https://git.yoctoproject.org/poky/)
- 2. https://git.openembedded.org/bitbake/ (if not using poky)
--3. https://git.yoctoproject.org/patchtest (if using guest mode)
-+3. https://git.yoctoproject.org/meta-patchtest (if using guest mode)
+ For git-pw (and therefore scripts such as patchtest-get-series) to work, you need
+-to provide a Patchwork instance in your user's .gitconfig, like so (the project
+-can be specified using the --project argument):
++to provide a Patchwork instance in your user's .gitconfig, like so (alternatively
++the project can be specified using the --project argument to git-pw on its
++cmdline):
  
+     git config --global pw.server "https://patchwork.yoctoproject.org/api/1.2/"
+ 
+-To work with patchtest, you should have the following repositories cloned:
+-
+-1. https://git.openembedded.org/openembedded-core/ (or https://git.yoctoproject.org/poky/)
+-2. https://git.openembedded.org/bitbake/ (if not using poky)
+-3. https://git.yoctoproject.org/meta-patchtest (if using guest mode)
+-
  ## Usage
  
-@@ -98,8 +99,8 @@ from the mailing lists. When executed this way, the test process is
- essentially running random code from the internet and could be
- catastrophic if malicious bits or even poorly-handled edge cases aren't
- protected against. In order to use this mode, the
--https://git.yoctoproject.org/patchtest/ repository must be cloned and
--the meta-patchtest layer added to bblayers.conf.
-+https://git.yoctoproject.org/meta-patchtest/ repository must be cloned
-+and added to bblayers.conf.
- 
- The general flow of guest mode is:
- 
+ ### Obtaining Patches
 -- 
 2.51.0.193.g4975ec3473b4
 
