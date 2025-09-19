@@ -2,63 +2,63 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF7BCAC592
-	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 16:48:19 +0000 (UTC)
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web11.1271.1758300490600477740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CD2CAC59A
+	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 16:48:20 +0000 (UTC)
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
+ by mx.groups.io with SMTP id smtpd.web10.1268.1758300495581947124
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Sep 2025 09:48:10 -0700
+ Fri, 19 Sep 2025 09:48:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=pvd9GHTK;
- spf=pass (domain: baylibre.com, ip: 209.85.160.194, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f194.google.com with SMTP id d75a77b69052e-4b79773a389so24110251cf.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 09:48:10 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=k4ke2KUM;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.67, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f67.google.com with SMTP id 6a1803df08f44-78f30dac856so27032356d6.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 09:48:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758300488; x=1758905288; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758300494; x=1758905294; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=foBghxkZySE73neVmlTg4uqQOAUl8P2RWjzghOcO2qQ=;
-        b=pvd9GHTKLCWNOfJKMdXUGv/AjrpzNVs10GO/fGdquJFve+vJqrnDGw53aLYcS0lgVg
-         /Mc4QJ+S9GYM7HvE0089wCoYU1qI9CiPxVLvGZ3BZ10ad8yy2h8mxC6JoDEgrD2MD2aC
-         RSxQH2wivQrnwUx9ZfIn+5JT6d8NBS9dlXUexqE6SnGwAAmJHhjm/JBUGkWnlnoBzUJf
-         0L/lB6gA+pF6olvEnP1Ps2fPvxB7UH7Nsi5Uh09ybjLTFM3SwSrZdTdxnQUTLPBK3vSv
-         AUl9XcmFoSjgic5pt+iGilL0QNPBSzvyJLyIzdEtXNV7wienLQng2Uw1A0vwnOksuZnC
-         0BBw==
+        bh=eQzuJDuhG//8IxB7GxWqtibV7U+VlNosNj6ynslHwjA=;
+        b=k4ke2KUMU8jLlxwXWtqxcMz/ajum/4ZbFpk2r3780xJw6YMXyroyiNz2nPBfAen1jX
+         h7Y3W/DgiSGV+6g8vQR7GOby2C89+cEsoOqvsutAuAtb7rAP9nGVZy6n5Mf6oBBwpD4R
+         k4ZaKp6PWyVhUliNO/+G8y/aNhTClMivkY5NiZCP7CqNdDY7zuOtZDKBoYeVw3hLPzrh
+         RKEP/8z66v3pxpIqg4r+UjNqPWBYBasuhT7+1nJtltornzFO+MF9nKZk6NFXmfcobD4c
+         U+ozQcs1sYKVICBmQD5cRPUDF1igvy437CovnxscwVGR+nR/VsFhPYYI7JDEP0uymxSe
+         PrOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758300488; x=1758905288;
+        d=1e100.net; s=20230601; t=1758300494; x=1758905294;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=foBghxkZySE73neVmlTg4uqQOAUl8P2RWjzghOcO2qQ=;
-        b=DvpmXboTKF8lMy/Hom4gHJ4qraRk3QPorTyHkzhgjsGAWPQnB8Chc9geQ4ik2ywX7J
-         tle2lb/3QUynoTshMjK5jd63WW8mADw09opEh5tmYrdxOpeeLwKSnCupfPaBED3p0UEN
-         BlbIf7CpKUq3DQDKBoWMfredkj28Tn6VLl4k87z7n/ks3JRGYc23AfbEVGZUCOggcObC
-         m1p20c71JI5YJxXSsXSPtMLG/JUOtmrZkqJW6KJqmyZsSbgYtLSQ9VBW4ShmV/KcYWHt
-         Rwz0Qzd2i4WSlYbZ6H93FxNqbuaNPn9wKPeftlT5YojSgBRSovGUKEVSs39c3gXrov8k
-         Jgpw==
-X-Gm-Message-State: AOJu0Yz6VgUnw7dMP9TzWcLwxlSFlTILC0QnjZuaMLbg/obHAlyqhxnn
-	VpqB0J8q/N7dReiI+gkBsS4gONKj+whEti6g1L5VCjUZlu1trnwg1rWDp8Sl305rDeraAuhJjRW
-	dBk6YtPLFjA==
-X-Gm-Gg: ASbGncutL0j6pnsdsiMwAMw3eedd640L16YTYvdHWZMLlssp5TNII0r2FlN+BJPu75R
-	rIhWqCTCi23/12E0toYiHYLwJhKtfTeWW4ngbxIjdyGs5bZqcBL0/HPhKldbfnZSeciOsDMielo
-	C2z2Jp+zdKa6taRcAwIOpE7h1QfFnCd0VTwZAGu6E84viojq4RDa3BwZVU2qQIyY4Ilr63IwZy4
-	65QE+ztGi7zasteWE+y6TvNbOBQT2B13ZhFaYVN5lFdKCDfGSk/ondxmZuI3+ooK3/Z46U5r2tM
-	pAfdM06PLYSztewKmnAVhaKoRXVoupzfd+HELe6MLS5cNhu+96cSM7762vMWSZwoZf2xroDKz+t
-	Ck+DZHxeG/JzTMyWE+IDR55S8D8xT9t2lrhO8Gn5O2NnhZMyMf86vnVTX6b6Psq1s2GrL
-X-Google-Smtp-Source: AGHT+IEsDD0aaIShasO9Ozap2WDFSFhdC5rLySmOD/HsYj1rQC0IGwYAFxMBCHe5ecJtx96S89mnNg==
-X-Received: by 2002:a05:622a:230f:b0:4b2:f4e5:8eb1 with SMTP id d75a77b69052e-4c0724868e2mr43986861cf.55.1758300488571;
-        Fri, 19 Sep 2025 09:48:08 -0700 (PDT)
+        bh=eQzuJDuhG//8IxB7GxWqtibV7U+VlNosNj6ynslHwjA=;
+        b=upyBOjxbe6KzLCnNXnRyX9udsjacHD05Z76eVGDo4MtVIy/ZVPuTmVGC9Nq/h1uNNG
+         kBOimBVQEqk15vHm9uU8Ecxkupz8jierFtHCurmPruk47m4jmsz7GPMG2kDbMq+IOVID
+         VplhlyzlLsK8xaUv6pqshiQz3UgYXh9tLgoAd7bX6TDdP+TydKnCBwoD9ZdmBaaSTMNq
+         4vOM3MaGJhVxTZL3qe7EY29IjSGx9ZDYcT2AD0aWwcWe9URuaM2yWjIUPQ0XYL1HKhrO
+         H00DZdoO1yfzPlAYC0N28LVQ3EsBJUyRVwROGwBSttdbOlemQT8jYdfuJhihrKOZi425
+         tF5g==
+X-Gm-Message-State: AOJu0YwdgbkMsImJgOB0qZLKg+qnW6elgwvq96pSCevYR4xc+kDqE053
+	8RCiyQdVJjpcPgedyMhc9U2BQqj9C7hlHqZutQV77k2bi+Wry9kPTZtLFlEFPbnHAi+jRZJ2ZXU
+	yyFR3LnuJLA==
+X-Gm-Gg: ASbGncskorvAOAKVB2GEJkeWNVpLFJuXIiU76KrwdldFMcEXDvHmtKiY7P68C4oGxWW
+	MpoBnSH4L4j5MF3/gdKRKrIvRfAlDhYxgXTI4phII2iL6wy+N4b4O18U+nE+6Oyd3bUN4N3Md8W
+	zsO0Y1tHpBH2+UnbBRr7OultlmwlKiL7DEw4nC7XE7kqqlilR8Q7+VVYmrWtZjCBV2+ejNAgjp6
+	4we6TVbRp8F4E2E4tQOIN7MfBaUZSs+kjGotpeUixCb4ZZOqHohR88oeTcuDWEx37CWtk8nm1Nc
+	NUOggKRp1kSmdXBzR5tg5Y3gvv4PQcjT69g6HBoVMdYYfcIW7Y1Ch7mMRF53gMdiRc1WOwdYHao
+	SndVVecKKfx1+8J5CNXYmCLL7vREgf3bTc0KZcpyIHxP5b+bJDLo4fkS+UlTcikQUK9r9
+X-Google-Smtp-Source: AGHT+IFa4AyLT3Sud78EFYEevVlbN/NN8bOJUZXJ8F3l9jjtC5EL8oLzP4HKkZ3s5u81JEiwHTItPw==
+X-Received: by 2002:a05:6214:224e:b0:784:bd2b:abbf with SMTP id 6a1803df08f44-79912a787b3mr44607126d6.24.1758300493812;
+        Fri, 19 Sep 2025 09:48:13 -0700 (PDT)
 Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4bdaa0c5156sm31068521cf.45.2025.09.19.09.48.07
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7934636f947sm31683416d6.16.2025.09.19.09.48.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 09:48:07 -0700 (PDT)
+        Fri, 19 Sep 2025 09:48:12 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/6] python3-numpy: upgrade 2.3.2 -> 2.3.3
-Date: Fri, 19 Sep 2025 12:47:59 -0400
-Message-ID: <20250919164803.3174518-2-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 4/6] python3-hypothesis: upgrade 6.138.15 -> 6.139.2
+Date: Fri, 19 Sep 2025 12:48:01 -0400
+Message-ID: <20250919164803.3174518-4-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250919164803.3174518-1-tgamblin@baylibre.com>
 References: <20250919164803.3174518-1-tgamblin@baylibre.com>
@@ -67,57 +67,72 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 16:48:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223761
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 16:48:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223763
 
-Release notes (https://github.com/numpy/numpy/releases/tag/v2.3.3):
+Changelog: (https://hypothesis.readthedocs.io/en/latest/changelog.html#changelog):
 
-The NumPy 2.3.3 release is a patch release split between a number of maintenance
-updates and bug fixes. This release supports Python versions 3.11-3.14. Note
-that the 3.14.0 final is currently expected in Oct, 2025. This release is based
-on 3.14.0rc2.
+6.139.2:
 
-Reproducibility seems OK.
+- Internal refactoring for new lint rules.
+
+6.139.1:
+
+- Fixed another typo in error message around function-scoped fixtures.
+
+6.139.0:
+
+- Add get_current_profile_name(), which returns the name of the current settings profile.
+
+6.138.17:
+
+- Fixed typo in error message around function-scoped fixtures.
+
+6.138.16:
+
+- Improved error message for DeadlineExceeded.
+
+Reproducibility OK.
 
 ptests look OK:
 
 |============================================================================
 |Testsuite summary
-|# TOTAL: 48954
-|# PASS: 46490
-|# SKIP: 2426
-|# XFAIL: 33
+|# TOTAL: 5
+|# PASS: 5
+|# SKIP: 0
+|# XFAIL: 0
 |# FAIL: 0
-|# XPASS: 5
+|# XPASS: 0
 |# ERROR: 0
-|DURATION: 169
-|END: /usr/lib/python3-numpy/ptest
-|2025-09-19T15:20
+|DURATION: 1
+|END: /usr/lib/python3-hypothesis/ptest
+|2025-09-19T15:53
 |STOP: ptest-runner
 |TOTAL: 1 FAIL: 0
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- .../python/{python3-numpy_2.3.2.bb => python3-numpy_2.3.3.bb}   | 2 +-
+ ...on3-hypothesis_6.138.15.bb => python3-hypothesis_6.139.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-numpy_2.3.2.bb => python3-numpy_2.3.3.bb} (96%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.138.15.bb => python3-hypothesis_6.139.2.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy_2.3.2.bb b/meta/recipes-devtools/python/python3-numpy_2.3.3.bb
-similarity index 96%
-rename from meta/recipes-devtools/python/python3-numpy_2.3.2.bb
-rename to meta/recipes-devtools/python/python3-numpy_2.3.3.bb
-index 7ef353c420..dee3bfaa44 100644
---- a/meta/recipes-devtools/python/python3-numpy_2.3.2.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.3.3.bb
-@@ -12,7 +12,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://fix_reproducibility.patch \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "e0486a11ec30cdecb53f184d496d1c6a20786c81e55e41640270130056f8ee48"
-+SRC_URI[sha256sum] = "ddc7c39727ba62b80dfdbedf400d1c10ddfa8eefbd7ec8dcb118be8b56d31029"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.138.15.bb b/meta/recipes-devtools/python/python3-hypothesis_6.139.2.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.138.15.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.139.2.bb
+index 508f125e43..b03cc22fac 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.138.15.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.139.2.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+-SRC_URI[sha256sum] = "6b0e1aa182eacde87110995a3543530d69ef411f642162a656efcd46c2823ad1"
++SRC_URI[sha256sum] = "2dc2ff36ea977a9cb7fb68f24a5dbf5d673b88a2e502212676eafe09b699f511"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.51.0
 
