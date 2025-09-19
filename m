@@ -1,201 +1,239 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <vpuar@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 501B2CAC592
-	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 21:05:46 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.1041.1758315943979166786
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57584CAC59A
+	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 21:11:36 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.1161.1758316293033259043
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Sep 2025 14:05:44 -0700
+ Fri, 19 Sep 2025 14:11:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TSIUe4oH;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso2592376f8f.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 14:05:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758315942; x=1758920742; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ySeBrdXV14Y5TreHIdfqxjUFTF/VOsRTlUR5gogQmys=;
-        b=TSIUe4oHD07A/Ny/yXMcwjknPllG2ZcoSFxitCdK/334MGB6QMI6gun0ioXeLn0duV
-         2bLYzkzMcTZ6cGWKxWJ3O0/d2adwITGHOttrok8/yUQDsp062rQ+W8I0APCX4k5SfowA
-         XRzQaH6+7zNoQABWvQ/UrqgN7yXPTQhi+gnTvQgVLKA/2OGati6usZ8ojWbOLHx5Patz
-         LiAReJ/yVobQHW8oT7KFW9kj755dTEEUEfn8iT+PdbbJkGulSqfsOLtWeimOz10VJqxV
-         /TucEt8KKVkSiw1TEFuK7XU0gPuf/Wy+at1WS6NuFYYntamlTP5yLr6PnCtTPUH2/rR7
-         TLvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758315942; x=1758920742;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ySeBrdXV14Y5TreHIdfqxjUFTF/VOsRTlUR5gogQmys=;
-        b=uHpDlGB/RzDQEAqUmHbLnmgtHlU55iQpraA2x0LE/gsNORhIRS6g1aP8SJI9wWAGF+
-         P8wrCIScWmZBxy9/QEHVjaJXSStpdl0v34SiVAoVhLcMW2BjujUIXPUbpcaLFZNmm4KC
-         q31fxV/64sG77/6bVXSLWi1qLm2RrFEnvhV9G1fzZVJprsUCxGT8yfpeP/zSulCftvpG
-         vAGu6mhnvjHLDvZ58XgsCu2n5MIpkJwPNLEUbOzymuTUuqJ/pSFcl2fEJ9u2b11HqHfc
-         u1H/TfGPfXN3kRqXugJMCBbl3QiBFCb/wucehSEFkXBD4XNs8sSJPSaxEygJhTBT6r5k
-         +xGA==
-X-Gm-Message-State: AOJu0YyIoBeDwyUJD3G/U0eWTcIXuONEavYmVXkclxjcn0WVY8qzOO6M
-	4wknIN7fYLKmdsGoH0RZNoPoQ6IFVoP3JpIje1FOLM/hVeat0WfsleVqTcetRg==
-X-Gm-Gg: ASbGncv4r7/AqJBouVRvbT03VZOikNjkr15sul5B4MHhzD1ZMsD2ZJLjc4npJ0JU+Ai
-	gXmiIdbe2aMCct5BP2I1rXhv5D+vz3uCuJ+q7AKQagtiVT3gHyaOZKI3cU7h9k+deXxBs75mR9v
-	YgP4BipImy0LziWJD9E+HjCcKf4mUiqw83JQYrDXBY0dwLTMKhiTvuvfBU76c4oQPbTq3b1ujtz
-	nyp0gvScnVEqMMzzxwWVn09qI0Wmk1snYjb8HV5HmzQw5gSNmueqf2E2fNCZJMfx/PXHkJRQ7Xv
-	OKZwrruhOd6h3d7cjifAcEqv7j2OtV5N473IHn3zQb16DrcC8sHg3BLC2mxAr4jluqlDe3Y+4mk
-	Ob1x0z0tgexyeC2aY75jVDCqJJDZ9IQNHTqgmWZcSv14T+O8=
-X-Google-Smtp-Source: AGHT+IHCf6vdXRC9skpEqM4HR4oI4enguD6huVCb3AQL1EvpnTmrACtKiln+oJqnTYUdf+fOsiN7Rw==
-X-Received: by 2002:a05:6000:22c7:b0:3eb:df84:62e with SMTP id ffacd0b85a97d-3ee7c5535d9mr4330486f8f.3.1758315941626;
-        Fri, 19 Sep 2025 14:05:41 -0700 (PDT)
-Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-464f64ad359sm119939425e9.22.2025.09.19.14.05.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 14:05:40 -0700 (PDT)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH] bluez5: upgrade 5.83 -> 5.84
-Date: Fri, 19 Sep 2025 21:05:33 +0000
-Message-ID: <20250919210533.1528001-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=kbMBxbqd;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58JEMHI4001743
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 21:11:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=62cwXsFBIfBKLydD9EKWmq
+	UmHhgl0PByli9XRNP0u1E=; b=kbMBxbqdQ5BIeWfApieqrcLnprlRcHzz6a6oPe
+	FKj43bQ2OI1WlagK9g1hhabUclkpi7c/W58bR1l8E++xfXB3EbGIW+rfWZIRFsGx
+	Q1qC3a/trYxFtYATRPD4aAJ/Kq0kxTFvgAtNlhA1gjwCu6lHEwHVGKf6yaHOf4w0
+	OGagfiN0ss3RP72QiUmrXFANGWs733Su6wc0qlHWmzunN7zGvcjOPczYDuLoZP9+
+	JX33BTaYy5Lq2RRfZ9RzlR0AbPbikbNvCcTLG4VQPJg6L10sEcx74QvD4rFu8qwR
+	Jd2ROnd2MMFvDY0N6yZligii/CVBGWvpbYtihSGhNTsjskSw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497fxyuv2p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 21:11:32 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58JLBVmN024121
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 21:11:31 GMT
+Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Fri, 19 Sep 2025 14:11:30 -0700
+From: Vivek Puar <vpuar@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Vivek Puar <vpuar@qti.qualcomm.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v2] linux-firmware: upgrade 20250808 -> 20250917
+Date: Sat, 20 Sep 2025 02:41:16 +0530
+Message-ID: <20250919211116.3607622-1-vpuar@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=e50GSbp/ c=1 sm=1 tr=0 ts=68cdc704 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=RzyVtVh7Bo8LyOm6AtYA:9
+X-Proofpoint-GUID: ZqoZuAQMC_rBiz-8Pr34G72my9hlDbHt
+X-Proofpoint-ORIG-GUID: ZqoZuAQMC_rBiz-8Pr34G72my9hlDbHt
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfX33ZSkdtZTkSl
+ pKh93d7KRUU11SbeBydEG0N3LdTeyXP9qnHb7KlC+RWHHgjWjOcqQI3Jo2vL+Yy+J9C3DO4TpIv
+ yil6wT0cjackCOs6MrpWIOX3/xg9qcT3pBmyleIrdcLu7mnDT8H4eZ16BfeLlgp0jymmKuNyWNu
+ P+8FZgaMZgVJMLfAa+uO4pBnsolFoRmFBbB1L05CycgsfjedxCq/ZtxwnDwEXm2Uf5SR9+iEIAz
+ mgeqxX+mJofSrNtj55EmdyCv6BhkrgqfuaL3JQR0aDenCNsCWpQ+vRCL0jxmqbKr5C8uKQNQ5OC
+ OvpUumK8Rg5UX/4TbIjRISXpBld4nEFi0pjvufwToX4AahjGjteM0QMJPi8m/FTniLmnb3CVZgW
+ X205R2qv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-19_02,2025-09-19_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 clxscore=1015 spamscore=0 priorityscore=1501
+ phishscore=0 malwarescore=0 suspectscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160202
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 21:05:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223773
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 21:11:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223774
 
-* Enable aics tests again as the issue with them has been fixed
-* Remove threads package config as the option is removed
+Add packages ${PN}-qcom-qcs615-{audio, compute} to include DSP firmware
+for qcs615 platform, ${PN}-qcom-x1e80100-compute to include CDSP firmware
+for x1e80100 platform, and ${PN}-qcom-sm8350-adreno to include the GPU
+firmware for SM8350.
 
-Changelog:
-* Fix issue with AVRCP and handling invalid UTF-8 item name.
-* Fix issue with exposing coordinate sets if LE Audio is disabled.
-* Fix issue with BAP and not responding to SetConfiguration.
-* Add support for BAP unicast endpoint reconfiguration.
-* Add support for BASS and encrypted broadcast source.
-* Add support for HFP and Call Line Identification.
+Extend Qualcomm QCS8300 RIDE and SA8775P platform to include audio topology
+and include linaro license with both the packages.
 
-Full changelog:
-https://github.com/bluez/bluez/compare/5.83...5.84
+License-Update: additional files
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  2 -
- .../0001-bluez5-disable-aics-tests.patch      | 40 -------------------
- ...et-for-building-tests-without-runnin.patch |  6 +--
- .../bluez5/{bluez5_5.83.bb => bluez5_5.84.bb} |  2 +-
- 4 files changed, 4 insertions(+), 46 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
- rename meta/recipes-connectivity/bluez5/{bluez5_5.83.bb => bluez5_5.84.bb} (95%)
+ ...20250808.bb => linux-firmware_20250917.bb} | 31 +++++++++++++------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20250808.bb => linux-firmware_20250917.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 48aeff0aee..24a41f92df 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -54,7 +54,6 @@ PACKAGECONFIG[csip-profiles] = "--enable-csip,--disable-csip"
- PACKAGECONFIG[asha-profiles] = "--enable-asha,--disable-asha"
- PACKAGECONFIG[sixaxis] = "--enable-sixaxis,--disable-sixaxis"
- PACKAGECONFIG[tools] = "--enable-tools,--disable-tools"
--PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
- PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
- PACKAGECONFIG[mesh] = "--enable-mesh --enable-external-ell,--disable-mesh, json-c ell"
- PACKAGECONFIG[btpclient] = "--enable-btpclient --enable-external-ell,--disable-btpclient, ell"
-@@ -65,7 +64,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://init \
-            file://run-ptest \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
--           file://0001-bluez5-disable-aics-tests.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250917.bb
+similarity index 98%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20250917.bb
+index be38a8edf3..9888244eb6 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250808.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250917.bb
+@@ -246,7 +246,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "8417bc58fbaf0ae741a2bc8214db61f4"
++WHENCE_CHKSUM  = "714332457b96406b3ccff321b60680b1"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
-deleted file mode 100644
-index 3f01843ea3..0000000000
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 182545f2504255d67d9ec2071fd5c82ab53c5a2e Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
--Date: Sun, 30 Mar 2025 02:20:24 +0000
--Subject: [PATCH] bluez5: disable aics tests
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Temporarily disable aics tests as they can fail
--depending on how the tests are executed. Sometimes they pass,
--sometimes they fail. The issue has been observed since BlueZ 5.72 to 5.80
--
--Starting with BlueZ 5.80, the tests began failing when using the
--ptest-runner script. This is not a new issue in BlueZ 5.80 which is
--why the test is disabled with this commit until a solution is found.
--
--See discussion on Github:
--https://github.com/bluez/bluez/issues/726
--https://github.com/bluez/bluez/issues/683
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
-----
-- unit/test-vcp.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/unit/test-vcp.c b/unit/test-vcp.c
--index 6a61ea2..04b92e4 100644
----- a/unit/test-vcp.c
--+++ b/unit/test-vcp.c
--@@ -2754,7 +2754,7 @@ int main(int argc, char *argv[])
-- 	tester_init(&argc, &argv);
-- 
-- 	test_vocs_unit_testcases();
---	test_aics_unit_testcases();
--+	//test_aics_unit_testcases();
-- 
-- 	return tester_run();
-- }
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-index a9af56f141..cea7c10c3d 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-@@ -1,4 +1,4 @@
--From fa5da30786837b437707cea921056e9c1c22ffba Mon Sep 17 00:00:00 2001
-+From d8bbdd8e7166f481429b4999f520cd8306685f03 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 1 Apr 2016 17:07:34 +0300
- Subject: [PATCH] tests: add a target for building tests without running them
-@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 3 insertions(+)
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -379,7 +379,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
- diff --git a/Makefile.am b/Makefile.am
--index 02ad23c..169269d 100644
-+index 94f625d..a3c3512 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -722,6 +722,9 @@ endif
-+@@ -725,6 +725,9 @@ endif
-  TESTS = $(unit_tests)
-  AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
-  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.83.bb b/meta/recipes-connectivity/bluez5/bluez5_5.84.bb
-similarity index 95%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.83.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.84.bb
-index 8af6bdb67e..874db9df64 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.83.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.84.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
+-SRC_URI[sha256sum] = "c029551b45a15926c9d7a5df1a0b540044064f19157c57fc11d91fd0aade837f"
++SRC_URI[sha256sum] = "120575b756915a11e736f599316a756b6a29a76d6135ad86208868b21c58fb75"
  
--SRC_URI[sha256sum] = "108522d909d220581399bfec93daab62035539ceef3dda3e79970785c63bd24c"
-+SRC_URI[sha256sum] = "5ba73d030f7b00087d67800b0e321601aec0f892827c72e5a2c8390d8c886b11"
+ inherit allarch
  
- CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
- 
+@@ -610,7 +610,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
+              ${PN}-qcom-qcm6490-adreno ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute \
+              ${PN}-qcom-qcm6490-ipa ${PN}-qcom-qcm6490-wifi ${PN}-qcom-qcm6490-qupv3fw \
+-             ${PN}-qcom-qcs615-adreno \
++             ${PN}-qcom-qcs615-adreno ${PN}-qcom-qcs615-audio ${PN}-qcom-qcs615-compute \
+              ${PN}-qcom-qcs8300-adreno ${PN}-qcom-qcs8300-audio ${PN}-qcom-qcs8300-compute \
+              ${PN}-qcom-qcs8300-generalpurpose ${PN}-qcom-qcs8300-qupv3fw \
+              ${PN}-qcom-qrb4210-adreno \
+@@ -630,7 +630,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
+              ${PN}-qcom-sm8550-audio-tplg \
+              ${PN}-qcom-sm8650-audio-tplg \
+-             ${PN}-qcom-x1e80100-adreno ${PN}-qcom-x1e80100-audio \
++             ${PN}-qcom-sm8350-adreno \
++             ${PN}-qcom-x1e80100-adreno ${PN}-qcom-x1e80100-audio ${PN}-qcom-x1e80100-compute \
+              ${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno ${PN}-qcom-x1e80100-lenovo-t14s-g6-audio \
+              ${PN}-qcom-x1e80100-lenovo-t14s-g6-compute ${PN}-qcom-x1e80100-lenovo-t14s-g6-vpu \
+              ${PN}-qcom-x1e80100-lenovo-yoga-slim7x-adreno ${PN}-qcom-x1e80100-lenovo-yoga-slim7x-audio \
+@@ -1955,6 +1956,8 @@ LICENSE:${PN}-qcom-qcm6490-ipa  = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcm6490-wifi  = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcm6490-qupv3fw = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs615-adreno = "Firmware-qcom"
++LICENSE:${PN}-qcom-qcs615-audio = "Firmware-qcom"
++LICENSE:${PN}-qcom-qcs615-compute = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs8300-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcs8300-audio = "Firmware-qcom-2"
+ LICENSE:${PN}-qcom-qcs8300-compute = "Firmware-qcom-2"
+@@ -1987,8 +1990,10 @@ LICENSE:${PN}-qcom-sm8250-compute = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8550-audio-tplg = "Firmware-linaro"
+ LICENSE:${PN}-qcom-sm8650-audio-tplg = "Firmware-linaro"
++LICENSE:${PN}-qcom-sm8350-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-x1e80100-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-x1e80100-audio = "Firmware-qcom"
++LICENSE:${PN}-qcom-x1e80100-compute = "Firmware-qcom"
+ LICENSE:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "Firmware-qcom & Firmware-linaro"
+ LICENSE:${PN}-qcom-x1e80100-lenovo-t14s-g6-compute = "Firmware-qcom"
+@@ -2045,8 +2050,10 @@ FILES:${PN}-qcom-qcm6490-ipa = "${nonarch_base_libdir}/firmware/qcom/qcm6490/ipa
+ FILES:${PN}-qcom-qcm6490-wifi = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/wpss.mbn*"
+ FILES:${PN}-qcom-qcm6490-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/qupv3fw.elf*"
+ FILES:${PN}-qcom-qcs615-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs615/a612_zap.mbn*"
++FILES:${PN}-qcom-qcs615-audio = "${nonarch_base_libdir}/firmware/qcom/qcs615/adsp*.*"
++FILES:${PN}-qcom-qcs615-compute = "${nonarch_base_libdir}/firmware/qcom/qcs615/cdsp*.*"
+ FILES:${PN}-qcom-qcs8300-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs8300/a623_zap.mbn*"
+-FILES:${PN}-qcom-qcs8300-audio = "${nonarch_base_libdir}/firmware/qcom/qcs8300/adsp*.*"
++FILES:${PN}-qcom-qcs8300-audio = "${nonarch_base_libdir}/firmware/qcom/qcs8300/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qcs8300/MONACO-EVK-tplg.bin*"
+ FILES:${PN}-qcom-qcs8300-compute = "${nonarch_base_libdir}/firmware/qcom/qcs8300/cdsp*.*"
+ FILES:${PN}-qcom-qcs8300-generalpurpose = "${nonarch_base_libdir}/firmware/qcom/qcs8300/gpdsp*.*"
+ FILES:${PN}-qcom-qcs8300-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/qcs8300/qupv3fw.elf*"
+@@ -2056,7 +2063,7 @@ FILES:${PN}-qcom-qrb4210-compute = "${nonarch_base_libdir}/firmware/qcom/qrb4210
+ FILES:${PN}-qcom-qrb4210-modem = "${nonarch_base_libdir}/firmware/qcom/qrb4210/modem*.*"
+ FILES:${PN}-qcom-qrb4210-wifi = "${nonarch_base_libdir}/firmware/qcom/qrb4210/wlanmdsp.mbn* ${nonarch_base_libdir}/firmware/ath10k/WCN3990/hw1.0/qrb4210/*"
+ FILES:${PN}-qcom-sa8775p-adreno = "${nonarch_base_libdir}/firmware/qcom/sa8775p/a663_zap.mbn*"
+-FILES:${PN}-qcom-sa8775p-audio = "${nonarch_base_libdir}/firmware/qcom/sa8775p/adsp*.*"
++FILES:${PN}-qcom-sa8775p-audio = "${nonarch_base_libdir}/firmware/qcom/sa8775p/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qcs9100/LEMANS-EVK-tplg.bin*"
+ FILES:${PN}-qcom-sa8775p-compute = "${nonarch_base_libdir}/firmware/qcom/sa8775p/cdsp*.*"
+ FILES:${PN}-qcom-sa8775p-generalpurpose = "${nonarch_base_libdir}/firmware/qcom/sa8775p/gpdsp*.*"
+ FILES:${PN}-qcom-sa8775p-qupv3fw = "${nonarch_base_libdir}/firmware/qcom/sa8775p/qupv3fw.elf*"
+@@ -2079,8 +2086,10 @@ FILES:${PN}-qcom-sm8250-compute = "${nonarch_base_libdir}/firmware/qcom/sm8250/c
+ FILES:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${nonarch_base_libdir}/firmware/qcom/sm8250/Thundercomm/RB5/slpi*.*"
+ FILES:${PN}-qcom-sm8550-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8550/*tplg.bin*"
+ FILES:${PN}-qcom-sm8650-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8650/*tplg.bin*"
++FILES:${PN}-qcom-sm8350-adreno = "${nonarch_base_libdir}/firmware/qcom/sm8350/a660_zap.mbn*"
+ FILES:${PN}-qcom-x1e80100-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/gen70500_zap.mbn*"
+ FILES:${PN}-qcom-x1e80100-audio = "${nonarch_base_libdir}/firmware/qcom/x1e80100/adsp*.* ${nonarch_base_libdir}/firmware/qcom/x1e80100/battmgr.jsn"
++FILES:${PN}-qcom-x1e80100-compute = "${nonarch_base_libdir}/firmware/qcom/x1e80100/cdsp*.*"
+ FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/qcdxkmsuc8380.mbn*"
+ FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/battmgr.jsn* ${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/X1E80100-LENOVO-Thinkpad-T14s-tplg.bin* ${nonarch_base_libdir}/firmware/qcom/x1e80100/X1E80100-LENOVO-Thinkpad-T14s-tplg.bin*"
+ FILES:${PN}-qcom-x1e80100-lenovo-t14s-g6-compute = "${nonarch_base_libdir}/firmware/qcom/x1e80100/LENOVO/21N1/*cdsp*.*"
+@@ -2124,7 +2133,7 @@ RDEPENDS:${PN}-qcom-qcm2290-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcm2290-wifi = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcm6490-adreno = "${PN}-qcom-license"
+ RPROVIDES:${PN}-qcom-qcm6490-adreno = "${PN}-qcom-qcs6490-adreno"
+-RDEPENDS:${PN}-qcom-qcm6490-audio = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-qcm6490-audio = "${PN}-qcom-license ${PN}-linaro-license"
+ RPROVIDES:${PN}-qcom-qcm6490-audio = "${PN}-qcom-qcs6490-audio"
+ RDEPENDS:${PN}-qcom-qcm6490-compute = "${PN}-qcom-license"
+ RPROVIDES:${PN}-qcom-qcm6490-compute = "${PN}-qcom-qcs6490-compute"
+@@ -2133,8 +2142,10 @@ RDEPENDS:${PN}-qcom-qcm6490-wifi = "${PN}-qcom-license"
+ RPROVIDES:${PN}-qcom-qcm6490-wifi = "${PN}-qcom-qcs6490-wifi"
+ RDEPENDS:${PN}-qcom-qcm6490-qupv3fw = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs615-adreno = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-qcs615-audio = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-qcs615-compute = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qcs8300-adreno = "${PN}-qcom-license"
+-RDEPENDS:${PN}-qcom-qcs8300-audio = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-qcs8300-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-qcs8300-compute = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-qcs8300-generalpurpose = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-qcs8300-qupv3fw = "${PN}-qcom-license"
+@@ -2146,7 +2157,7 @@ RDEPENDS:${PN}-qcom-qrb4210-modem = "${PN}-qcom-license"
+ # c.f. https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=650e88378e76d5fad3997a5398f1ade47a74d924
+ RDEPENDS:${PN}-qcom-qrb4210-wifi = "${PN}-qcom-license ${PN}-qcom-qcm2290-wifi"
+ RDEPENDS:${PN}-qcom-sa8775p-adreno = "${PN}-qcom-license"
+-RDEPENDS:${PN}-qcom-sa8775p-audio = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-sa8775p-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-sa8775p-compute = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-sa8775p-generalpurpose = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-sa8775p-qupv3fw = "${PN}-qcom-license"
+@@ -2167,8 +2178,10 @@ RDEPENDS:${PN}-qcom-sm8250-compute = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8550-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-sm8650-audio-tplg = "${PN}-linaro-license"
++RDEPENDS:${PN}-qcom-sm8350-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-x1e80100-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-x1e80100-audio = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-x1e80100-compute = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "${PN}-qcom-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-x1e80100-lenovo-t14s-g6-compute = "${PN}-qcom-license"
 -- 
-2.43.0
+2.34.1
 
 
