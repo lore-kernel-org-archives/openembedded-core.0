@@ -2,32 +2,31 @@ Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9552CA1013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB1F7CAC5A0
 	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 02:55:03 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.7038.1758250498526324392
+ by mx.groups.io with SMTP id smtpd.web10.7037.1758250498077798506
  for <openembedded-core@lists.openembedded.org>;
  Thu, 18 Sep 2025 19:54:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=N/Zqwfun;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=UNlQwXbx;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1357189f71=liezhi.yang@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58J2W3mf404275
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58J2W3me404275
 	for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 02:54:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=/10os94uynt8OiB6lKn87KeyFeosYF1uA0NY6t3WZFM=; b=N/ZqwfuntW7O
-	sCD/GytNmrhPut9InrEP9Uf/gx+Rnqem/s0Zqo/88CEDCDSFRySiFbi6ew7G0jnT
-	ozjFHfJ2v3OUiTaFGOHL3FV8i/Te3Id5Wy85j9ETT4VUda3Vd5DL3n+YqqPLmfST
-	Xi6x2wdzwOLYyp3JaeO9WHDikd+lYbcW6mVPe3OCQtP8d6wo0Dr82pPGjvmHEYI8
-	vCRw5b1wqjNGyP+pAHPFxNZbO5Azv6zcHLyRVkEY4LZmkVQHkcRbhLjANOE5ffs6
-	Mz18DZqN/MbvKWcFQrU2mMyRljzRoHCNIDcENsaOP4G27Sta9r45ykigqXz3Nrdq
-	PjGQWiyIxw==
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=iOUENefy74JVpIUQk+wx
+	06NN/owkoYmQGxc/TEScbPo=; b=UNlQwXbxIpzBfADP9T3My+5rkaTfm34a3TSs
+	Z469gfp+qkZWoDl5Awr8anNj18ASIbbJ9zQTC/qELAAtMJx5a5xi6cCVqIb8Dswp
+	Y04uFA8qNe9DQEEYglp0JbuB9RRdH6irFWjvclHBvk7HSPzP6i8YFl9uamCruQNF
+	KZsob7WFbgXQ0nMxLVg7E4L8W5pOInG0rYTk0wsH6DMUur3Wn3kR815kUztCbESY
+	ygWr2kz3qhDDx0HlcNo/xAbkpmqxkX//qoT1QWjMFnKWS5eHrZwYidm5ESFkb7ZW
+	mlTvny7kWvnRiRWEmc/zz/JNNeWPm9Y1RcZf1BkT3x2576dcIA==
 Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 498vjw0381-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 498vjw0381-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 02:54:57 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 02:54:56 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -37,27 +36,25 @@ Received: from ala-lpggp7.wrs.com (10.11.232.110) by
  15.1.2507.59 via Frontend Transport; Thu, 18 Sep 2025 19:54:55 -0700
 From: <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] openssl: 3.4.2 -> 3.5.2
-Date: Thu, 18 Sep 2025 19:55:08 -0700
-Message-ID: <c33930b39db477506067200c5c4f19cec0079b95.1758250424.git.liezhi.yang@windriver.com>
+Subject: [walnascar][PATCH 0/1] openssl: 3.4.2 -> 3.5.2
+Date: Thu, 18 Sep 2025 19:55:07 -0700
+Message-ID: <cover.1758250424.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1758250424.git.liezhi.yang@windriver.com>
-References: <cover.1758250424.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Authority-Analysis: v=2.4 cv=Hrt2G1TS c=1 sm=1 tr=0 ts=68ccc601 cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=6fmMop8zc46llk8Z3TIA:9
+ a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=iI3V-C70qVcyW01IOVgA:9
  a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: UoqEJ5CyKd1o5AXakiJgo08qEG9ZIEGI
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE5MDAyNSBTYWx0ZWRfXymfzDkGv2/4L
- kZ8nrKmZ5PKxD1Kj0kEAjtzGIQyAQgbHZI4WBdMdO5TN8NOi3KhN4lDpFoBrRVD+FyN41uN2O/9
- OGQwYSZD/uDkuMUeByJcGRD0FZBeesPljs7ElYbJpuG4nxKjkzKEldOM1ynMSNQeDtQg/nGUwwO
- LOT/O5Ddrh4HwPttHgJ7fdSKaCuNxEUwLRXx8gGOm0tBlx90spDydV2hsEI8PQvbDWoksI8s9HT
- AcOFuodwwbjOXiFZyAVSlnux+EmeFcCPn0KYxtpErQUw8haDHeOoJRIYmit75EVEeI1R7Y62MkB
- DUJiZ99/W9L/dq+MDY41SNLXTyewS45mxJu/2/TQ/ER/upGaMNka6hfmfzZklE=
-X-Proofpoint-GUID: UoqEJ5CyKd1o5AXakiJgo08qEG9ZIEGI
+X-Proofpoint-ORIG-GUID: Mkcce3qL7j4A7mlaIaHIcLjCBLtPxxHr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE5MDAyNSBTYWx0ZWRfX/tf8nbj96VTK
+ MJyH9Iqw4QbhIggweHtyY9DdXy3x6lFLMRQE3da9A8OO5tsbidmMTcM7PUpZ7jMO9qu2QSRR9Fs
+ yorN9xJDMuMavTkOSrOe45/6H5XYABAjbpWuFPZsVHopzD7Fm33LjH9YOioQ6E5kvmRyfgzD3TR
+ ONAyxlRLb2l7bNqUCRdSnL/bvON9PU+vjH9lWeN+7cwkks2ZGvLYvD801oV7+IYGS20FyWJa0Hp
+ Zxov3X4N2xYj74cSjcQ8CgQ0KlJeqEayDui0OVIF/5tIZpqQF9LnTOHH4xTK767iKU5n/Hqeneo
+ f8pVvgdVTUr9Um0Ogh7PEgfCsU+rReJ+d3uzfmhGJKBMjvtvuLiYGERJbIk0Pw=
+X-Proofpoint-GUID: Mkcce3qL7j4A7mlaIaHIcLjCBLtPxxHr
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-18_03,2025-09-18_02,2025-03-28_01
@@ -70,7 +67,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 02:55:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223718
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223717
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
@@ -112,28 +109,25 @@ TOTAL: 1 FAIL: 0
 
 All tests successful, the similar results to minimal image.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+// Robert
+
+
+The following changes since commit 575a4316f661392eb73d1d97300511e2bca24ada:
+
+  rust-target-config: Add has-thread-local option (2025-09-02 10:15:23 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/robertlinux/yocto rbt/openssl
+  https://github.com/robertlinux/yocto/tree/rbt/openssl
+
+Robert Yang (1):
+  openssl: 3.4.2 -> 3.5.2
+
  .../openssl/{openssl_3.4.2.bb => openssl_3.5.2.bb}              | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
  rename meta/recipes-connectivity/openssl/{openssl_3.4.2.bb => openssl_3.5.2.bb} (99%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.4.2.bb b/meta/recipes-connectivity/openssl/openssl_3.5.2.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssl/openssl_3.4.2.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.5.2.bb
-index 2998e37e758..cd0d22e48ad 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.4.2.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.5.2.bb
-@@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[sha256sum] = "17b02459fc28be415470cccaae7434f3496cac1306b86b52c83886580e82834c"
-+SRC_URI[sha256sum] = "c53a47e5e441c930c3928cf7bf6fb00e5d129b630e0aa873b08258656e7345ec"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative manpages
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.49.0
 
