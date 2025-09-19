@@ -1,154 +1,201 @@
-Return-Path: <philip@balister.org>
+Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3DF8CAC5AD
-	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 18:58:10 +0000 (UTC)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web10.14331.1758282643005448173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 501B2CAC592
+	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 21:05:46 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.1041.1758315943979166786
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Sep 2025 04:50:43 -0700
+ Fri, 19 Sep 2025 14:05:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fuAgsgXG;
- spf=pass (domain: gmail.com, ip: 209.85.160.176, mailfrom: nmjain23@gmail.com)
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4b5eee40cc0so20228751cf.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 04:50:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TSIUe4oH;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso2592376f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 14:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758282642; x=1758887442; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1758315942; x=1758920742; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L8Z8TdFLkSAPYFglI4iO60g7cjZ02ky+SSX740vBgag=;
-        b=fuAgsgXGJZfo8TcQixIxve40qPq/EtaO5Frotmd1JR36kRv79+QwwGkoreiRO2UUre
-         drEnOWHNjqNLW40RJHvEY3i7xv3MF+QLUJRHJZksc4PFguOGqvtUHyFBea3kYmCKsxVB
-         9aCP2ftWZv7Qp+Qk0y8GiPsHDNZmP8opUM+ryH4zbYRXSe0FC+PRZww2G7UutLv+z/ba
-         RCG6wYtXoQF6B1Qr1GYfGheWVtFM581zEWDBUR2UZPG1EzWVmcdauX6b9vBG7HkusavC
-         /jRhSxxZb8HQx5V9DL/bQp0h/e6LB2Xx1+/3EB04j6zRMFKlSUj6TNqskBK0UcO4RmR5
-         zpWw==
+        bh=ySeBrdXV14Y5TreHIdfqxjUFTF/VOsRTlUR5gogQmys=;
+        b=TSIUe4oHD07A/Ny/yXMcwjknPllG2ZcoSFxitCdK/334MGB6QMI6gun0ioXeLn0duV
+         2bLYzkzMcTZ6cGWKxWJ3O0/d2adwITGHOttrok8/yUQDsp062rQ+W8I0APCX4k5SfowA
+         XRzQaH6+7zNoQABWvQ/UrqgN7yXPTQhi+gnTvQgVLKA/2OGati6usZ8ojWbOLHx5Patz
+         LiAReJ/yVobQHW8oT7KFW9kj755dTEEUEfn8iT+PdbbJkGulSqfsOLtWeimOz10VJqxV
+         /TucEt8KKVkSiw1TEFuK7XU0gPuf/Wy+at1WS6NuFYYntamlTP5yLr6PnCtTPUH2/rR7
+         TLvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758282642; x=1758887442;
+        d=1e100.net; s=20230601; t=1758315942; x=1758920742;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=L8Z8TdFLkSAPYFglI4iO60g7cjZ02ky+SSX740vBgag=;
-        b=YBaqKRMT3lyukqeqxoGrYJFZGlySYsLk8f3B1g8wXxnOtPxaR8nQkwcHO8X5SWGXXt
-         SYM9Ls+uRgVkb+nHC2T6i8ys1UqZByP4xYts6YlWstyULS/Mye+hzDfV468k0I4jwk2e
-         DQkh6mQOJpuzssMLcbmvqBVtMpNqpBdJSOGxlQyZBL/oL68HXKThhrSoVrhe9YMlEkUr
-         Pqk6dnWpex2PU8oAa9fYXBSTzEWxGYN0G/2K4mTesBSR2EB/YZwvne+P3DprSkitRHZr
-         Liztt667NjwxF3znMpMRlh9bKwurADdx1cf7uU7eMyVfZ8OflTYtWBPTMf96P4vNV/US
-         RXuA==
-X-Gm-Message-State: AOJu0YzirwKNcG39tcOLwDc51pm4kjp/sEqt/kfseLtweHTxTzBQ53VN
-	zwQRpex6m+p5R2jLeVtx2VhI0vfseprhVcLzlsskqAE2Hc2SzRSHnVBfpP31RQ==
-X-Gm-Gg: ASbGncszepaNw4mevpPBRrEfyGIgT1Q122RzF3d4PyeZdqusYA1RjPIbM48NmUwDepL
-	/q1f9aGUWDmN5phhLHVoE3u/hl9ScOzt3GFmpfBlqamN+nJSPusTxvB+hDTdY3eVm7LRn+1ChnJ
-	tgTStszPtQhcQJ7siJ33vac9nsun9kNEu0cZOuXFn7uL0DzV40E2y9NLAYYIauu4OUHd4w3Q7tf
-	tDg6YtS5ML700lsHx1xGHnQVCby95beS6OkVDHNZ1xfU4p7YZfKjrGqBBFB+KMHprLAJVzpTR1o
-	HIq4cUP4Fq7iNbD+JTXsW7gaf7rBNs9aMTzVmKy0zNUpTHoUN/56pOj8vguN2TILatOjiH2sv3G
-	WeuhP6s0SMacvScxAdWxG05xM6cbtt1u0TW0TkIo=
-X-Google-Smtp-Source: AGHT+IExZhbw5k+MC9D/mF3gObjLvV27mUBnn3r9mItbft1HYyMxSrYe4o7WxOAKCAEbtYPDQkorow==
-X-Received: by 2002:a17:902:fc46:b0:269:82a5:f9e9 with SMTP id d9443c01a7336-269ba534c77mr36525355ad.29.1758282247307;
-        Fri, 19 Sep 2025 04:44:07 -0700 (PDT)
-Received: from LL-3450LLL.kpit.com ([103.133.67.156])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2698033c922sm51385145ad.131.2025.09.19.04.44.05
+        bh=ySeBrdXV14Y5TreHIdfqxjUFTF/VOsRTlUR5gogQmys=;
+        b=uHpDlGB/RzDQEAqUmHbLnmgtHlU55iQpraA2x0LE/gsNORhIRS6g1aP8SJI9wWAGF+
+         P8wrCIScWmZBxy9/QEHVjaJXSStpdl0v34SiVAoVhLcMW2BjujUIXPUbpcaLFZNmm4KC
+         q31fxV/64sG77/6bVXSLWi1qLm2RrFEnvhV9G1fzZVJprsUCxGT8yfpeP/zSulCftvpG
+         vAGu6mhnvjHLDvZ58XgsCu2n5MIpkJwPNLEUbOzymuTUuqJ/pSFcl2fEJ9u2b11HqHfc
+         u1H/TfGPfXN3kRqXugJMCBbl3QiBFCb/wucehSEFkXBD4XNs8sSJPSaxEygJhTBT6r5k
+         +xGA==
+X-Gm-Message-State: AOJu0YyIoBeDwyUJD3G/U0eWTcIXuONEavYmVXkclxjcn0WVY8qzOO6M
+	4wknIN7fYLKmdsGoH0RZNoPoQ6IFVoP3JpIje1FOLM/hVeat0WfsleVqTcetRg==
+X-Gm-Gg: ASbGncv4r7/AqJBouVRvbT03VZOikNjkr15sul5B4MHhzD1ZMsD2ZJLjc4npJ0JU+Ai
+	gXmiIdbe2aMCct5BP2I1rXhv5D+vz3uCuJ+q7AKQagtiVT3gHyaOZKI3cU7h9k+deXxBs75mR9v
+	YgP4BipImy0LziWJD9E+HjCcKf4mUiqw83JQYrDXBY0dwLTMKhiTvuvfBU76c4oQPbTq3b1ujtz
+	nyp0gvScnVEqMMzzxwWVn09qI0Wmk1snYjb8HV5HmzQw5gSNmueqf2E2fNCZJMfx/PXHkJRQ7Xv
+	OKZwrruhOd6h3d7cjifAcEqv7j2OtV5N473IHn3zQb16DrcC8sHg3BLC2mxAr4jluqlDe3Y+4mk
+	Ob1x0z0tgexyeC2aY75jVDCqJJDZ9IQNHTqgmWZcSv14T+O8=
+X-Google-Smtp-Source: AGHT+IHCf6vdXRC9skpEqM4HR4oI4enguD6huVCb3AQL1EvpnTmrACtKiln+oJqnTYUdf+fOsiN7Rw==
+X-Received: by 2002:a05:6000:22c7:b0:3eb:df84:62e with SMTP id ffacd0b85a97d-3ee7c5535d9mr4330486f8f.3.1758315941626;
+        Fri, 19 Sep 2025 14:05:41 -0700 (PDT)
+Received: from localhost.localdomain ([81.15.100.92])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-464f64ad359sm119939425e9.22.2025.09.19.14.05.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 04:44:07 -0700 (PDT)
-From: Naman Jain <nmjain23@gmail.com>
-X-Google-Original-From: Naman Jain <namanj1@kpit.com>
+        Fri, 19 Sep 2025 14:05:40 -0700 (PDT)
+From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Virendra.Thakur@kpit.com
-Subject: [scarthgap][PATCH] libmd: add ptest for 'libmd'
-Date: Fri, 19 Sep 2025 17:13:32 +0530
-Message-Id: <20250919114332.1505081-1-namanj1@kpit.com>
-X-Mailer: git-send-email 2.34.1
+Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+Subject: [PATCH] bluez5: upgrade 5.83 -> 5.84
+Date: Fri, 19 Sep 2025 21:05:33 +0000
+Message-ID: <20250919210533.1528001-1-gudni.m.g@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 18:58:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223770
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 21:05:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223773
 
-Adapt the compile 'test' phony target from Makefile and deploy as
-ptest for libmd.
-It takes less than 30seconds for ptest completion
+* Enable aics tests again as the issue with them has been fixed
+* Remove threads package config as the option is removed
 
-Signed-off-by: Naman Jain <namanj1@kpit.com>
+Changelog:
+* Fix issue with AVRCP and handling invalid UTF-8 item name.
+* Fix issue with exposing coordinate sets if LE Audio is disabled.
+* Fix issue with BAP and not responding to SetConfiguration.
+* Add support for BAP unicast endpoint reconfiguration.
+* Add support for BASS and encrypted broadcast source.
+* Add support for HFP and Call Line Identification.
+
+Full changelog:
+https://github.com/bluez/bluez/compare/5.83...5.84
+
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-support/libmd/files/run-ptest    | 18 ++++++++++++++++
- meta/recipes-support/libmd/libmd_1.1.0.bb     | 21 +++++++++++++++++--
- 3 files changed, 38 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libmd/files/run-ptest
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  2 -
+ .../0001-bluez5-disable-aics-tests.patch      | 40 -------------------
+ ...et-for-building-tests-without-runnin.patch |  6 +--
+ .../bluez5/{bluez5_5.83.bb => bluez5_5.84.bb} |  2 +-
+ 4 files changed, 4 insertions(+), 46 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.83.bb => bluez5_5.84.bb} (95%)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 9950e46776..784176f579 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -29,6 +29,7 @@ PTESTS_FAST = "\
-     json-glib \
-     libconvert-asn1-perl \
-     libgpg-error\
-+    libmd\
-     libnl \
-     libpcre \
-     libssh2 \
-diff --git a/meta/recipes-support/libmd/files/run-ptest b/meta/recipes-support/libmd/files/run-ptest
-new file mode 100644
-index 0000000000..0c4a5f64ec
---- /dev/null
-+++ b/meta/recipes-support/libmd/files/run-ptest
-@@ -0,0 +1,18 @@
-+#!/bin/sh
-+
-+cd test
-+status = 0
-+
-+for testbin in *; do
-+    if [ -x "$testbin" ] && [ ! -d "$testbin" ]; then
-+        if "./$testbin"; then
-+            echo "PASS: $testbin"
-+        else
-+            echo "FAIL: $testbin"
-+            status=1
-+        fi
-+    fi
-+done
-+
-+return $status
-+
-diff --git a/meta/recipes-support/libmd/libmd_1.1.0.bb b/meta/recipes-support/libmd/libmd_1.1.0.bb
-index dc588a0f95..68a2ec7a16 100644
---- a/meta/recipes-support/libmd/libmd_1.1.0.bb
-+++ b/meta/recipes-support/libmd/libmd_1.1.0.bb
-@@ -8,9 +8,26 @@ HOMEPAGE = "https://www.hadrons.org/software/libmd/"
- LICENSE = "BSD-3-Clause & BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0436d4fb62a71f661d6e8b7812f9e1df"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 48aeff0aee..24a41f92df 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -54,7 +54,6 @@ PACKAGECONFIG[csip-profiles] = "--enable-csip,--disable-csip"
+ PACKAGECONFIG[asha-profiles] = "--enable-asha,--disable-asha"
+ PACKAGECONFIG[sixaxis] = "--enable-sixaxis,--disable-sixaxis"
+ PACKAGECONFIG[tools] = "--enable-tools,--disable-tools"
+-PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
+ PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
+ PACKAGECONFIG[mesh] = "--enable-mesh --enable-external-ell,--disable-mesh, json-c ell"
+ PACKAGECONFIG[btpclient] = "--enable-btpclient --enable-external-ell,--disable-btpclient, ell"
+@@ -65,7 +64,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://init \
+            file://run-ptest \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+-           file://0001-bluez5-disable-aics-tests.patch \
+            "
+ S = "${UNPACKDIR}/bluez-${PV}"
  
--SRC_URI = "https://archive.hadrons.org/software/libmd/libmd-${PV}.tar.xz"
-+SRC_URI = "https://archive.hadrons.org/software/libmd/libmd-${PV}.tar.xz \
-+	   file://run-ptest \
-+"
- SRC_URI[sha256sum] = "1bd6aa42275313af3141c7cf2e5b964e8b1fd488025caf2f971f43b00776b332"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
+deleted file mode 100644
+index 3f01843ea3..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-bluez5-disable-aics-tests.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 182545f2504255d67d9ec2071fd5c82ab53c5a2e Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+-Date: Sun, 30 Mar 2025 02:20:24 +0000
+-Subject: [PATCH] bluez5: disable aics tests
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Temporarily disable aics tests as they can fail
+-depending on how the tests are executed. Sometimes they pass,
+-sometimes they fail. The issue has been observed since BlueZ 5.72 to 5.80
+-
+-Starting with BlueZ 5.80, the tests began failing when using the
+-ptest-runner script. This is not a new issue in BlueZ 5.80 which is
+-why the test is disabled with this commit until a solution is found.
+-
+-See discussion on Github:
+-https://github.com/bluez/bluez/issues/726
+-https://github.com/bluez/bluez/issues/683
+-
+-Upstream-Status: Inappropriate [OE-Specific]
+-
+-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+----
+- unit/test-vcp.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/unit/test-vcp.c b/unit/test-vcp.c
+-index 6a61ea2..04b92e4 100644
+---- a/unit/test-vcp.c
+-+++ b/unit/test-vcp.c
+-@@ -2754,7 +2754,7 @@ int main(int argc, char *argv[])
+- 	tester_init(&argc, &argv);
+- 
+- 	test_vocs_unit_testcases();
+--	test_aics_unit_testcases();
+-+	//test_aics_unit_testcases();
+- 
+- 	return tester_run();
+- }
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+index a9af56f141..cea7c10c3d 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+@@ -1,4 +1,4 @@
+-From fa5da30786837b437707cea921056e9c1c22ffba Mon Sep 17 00:00:00 2001
++From d8bbdd8e7166f481429b4999f520cd8306685f03 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 1 Apr 2016 17:07:34 +0300
+ Subject: [PATCH] tests: add a target for building tests without running them
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 3 insertions(+)
  
--inherit autotools
-+inherit autotools ptest
-+
-+do_compile_ptest() {
-+    sed -i "/\$(MAKE) \$(AM_MAKEFLAGS) check-TESTS/d" test/Makefile
-+    oe_runmake check
-+}
-+
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/test
-+    for bin in ${B}/test/*; do
-+        if [ -x "$bin" ]; then
-+            libtool --mode=install install "$bin" ${D}${PTEST_PATH}/test/$(basename "$bin")
-+        fi
-+    done
-+}
+ diff --git a/Makefile.am b/Makefile.am
+-index 02ad23c..169269d 100644
++index 94f625d..a3c3512 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -722,6 +722,9 @@ endif
++@@ -725,6 +725,9 @@ endif
+  TESTS = $(unit_tests)
+  AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
+  
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.83.bb b/meta/recipes-connectivity/bluez5/bluez5_5.84.bb
+similarity index 95%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.83.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.84.bb
+index 8af6bdb67e..874db9df64 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.83.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.84.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
  
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI[sha256sum] = "108522d909d220581399bfec93daab62035539ceef3dda3e79970785c63bd24c"
++SRC_URI[sha256sum] = "5ba73d030f7b00087d67800b0e321601aec0f892827c72e5a2c8390d8c886b11"
+ 
+ CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
+ 
 -- 
-2.34.1
+2.43.0
 
 
