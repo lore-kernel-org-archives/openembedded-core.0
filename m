@@ -1,119 +1,112 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <osama.abdelkader@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05463CAC59A
-	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 16:48:30 +0000 (UTC)
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web11.1275.1758300501082190381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D58CAC59A
+	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 18:32:40 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.3823.1758306755844325976
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Sep 2025 09:48:21 -0700
+ Fri, 19 Sep 2025 11:32:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=PR8xV7mM;
- spf=pass (domain: baylibre.com, ip: 209.85.160.196, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f196.google.com with SMTP id d75a77b69052e-4b5ed9d7e20so24210671cf.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 09:48:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YrSLvJ+a;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: osama.abdelkader@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45f2f10502fso16162485e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 11:32:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758300499; x=1758905299; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=90wh3UjzwWi/UUa00/n0l1rLsaekns+98y8E3QLbr2k=;
-        b=PR8xV7mMB5Vd6dDrKgJQp8JUP/VsaRmbWI2L58b/i4uV/vHubsPdD0/d0K0RftsPWv
-         OEinJrNYDPzmIO1OXl136uEK4wgNlc0r125N+OR+KzRe7cGsVImC3ivhHhEPMo3VNYMB
-         dxk7RS5i0RaYWwl0P6PZxbap97wJOAQOMHPUBzogTlDPlV3GCBG/jbKLyZ0euBhAWsq8
-         CboFEXeDE/t84Rf6H7GGiqgb5pESBvJBqjgeJdmCJ3uPmCAm9jak0IIvQdpCr19hGjsa
-         Qx6Ac0W2hOGwNeBbgRNN2oP3KeKLB+THXx0T4NRKjLqmdrQ1h77sM+LPI+86xKbTZEBK
-         6JXw==
+        d=gmail.com; s=20230601; t=1758306754; x=1758911554; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ue8jYP4Zii9iscyTSuF9jBz0QigvOX/CS6AIp+eRJUk=;
+        b=YrSLvJ+agqGdCsNIP3Q7/dEVphGirvVj5T7WeK8KSrkrrrWgqnqkI5n5pm0KIy9bXV
+         4oJLZcZTPlqTTA9cnK5GUsBsME/2YK3k1DqLSrEpl0TbG8STApNHxMiN9fvFP+nX1nK/
+         W1WpfD4z2uU6eGR1tqgTsDx9+7lsYhy1e1SVtymzKc57saLShHL3aSVW/ujAUw8SkBo4
+         0PSylmM0LgdpKziSm6RpSYd6w86chKm0VNN/gkl//q+ZQUw2TqLkpz36yJJqrtwpfGsu
+         g+Se+KPb/47jtSoZc3UBnm2wFz6Th2ZgIgUM84XuBO1KFp+Cj3xkT2s7Gbrn4oEtRtn5
+         65hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758300499; x=1758905299;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=90wh3UjzwWi/UUa00/n0l1rLsaekns+98y8E3QLbr2k=;
-        b=bSnbMXtCD0PTM3enpayCIaWMt9UZNTlnlbKZ/G9/erOXqOiBEb2m4xkdWTQM9DiV2c
-         a1m9M3m/NH556CwZi6taT/XPFltGpC6qn4of0sPub6+WorN7HKls1xRAcxnEnAU7iPk2
-         iv/yemDZz0Dfd2zigC0uGmj9lsO+6tQxkgIyUovIJETYcXM4hwyP2DcVbzsbsn8Klpzm
-         jHrdEt+mG6fChUDcYCNHH9NBk3VmYwmEgxpnaNiM8neO2duuBDNLKJ1Vv/mdOo2UWsWp
-         XqntS1+lC9JMv9zsmGK8AOVdnkwOuoi58HaYie32yVAE8sz0L2o5wcoCQSLOry1QsOLr
-         juPg==
-X-Gm-Message-State: AOJu0Ywayao7SlxSHazJWDyTTveokpUoNu49cYEbeuvy882z1PDCGi0Z
-	Np4AbfuwiCJHpYR+MqiuUucKWe5dXWRoxDxPRp6wift3Pzw5vLCD49iU16L5wgjubdfT/F5e9wj
-	AsSBPeeP39A==
-X-Gm-Gg: ASbGncuzXSnY7Dn+GHsGvF6SoLOlLHgPDTSiCa755ZqKDRew3dxloouSIA8hXy9I3im
-	Sy+Q+y1vi7SpFd37DJahroziSyqgKcZOPE9UPnT/H7iE2qBYblq2eLCTGsv5sRovYCzoQhtTAmr
-	ebxretOZUzcum8zsffPDuhwUs60WRp9mMZXdnNh3ZnZyOqvDWzZ2dEwQ9gieXYzZj3Qy2ABhwJ6
-	CxWNA5zw6lRSgmx+c74d9oM3F7oZjZ2B6jsERVqXy4sCLIEDA2H5tHygk7a6zCU1+HYD+vG0ioq
-	0TKKEajlOARUM8fmVqdsikhZJLoHwcBz2m4cuS1QMkteB8zYBBsqQFn2o3t3iAPFHqiDlI3T67u
-	22HJbs5JT06NYTvVk1JN8SE6vxp1wcwohJnSk+iTqrE4n5W/Y3y3pJSMr8A==
-X-Google-Smtp-Source: AGHT+IEkQdApqv7JrLzYKfvFlANXSQHv99L0+Ft9NVbzc775S/vpVjI14MsH4F+nT/+/2UtUVLBlbg==
-X-Received: by 2002:a05:622a:1f0d:b0:4af:1912:5966 with SMTP id d75a77b69052e-4c072b441d8mr40750071cf.55.1758300498856;
-        Fri, 19 Sep 2025 09:48:18 -0700 (PDT)
-Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-83633fcab48sm372131785a.65.2025.09.19.09.48.17
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1758306754; x=1758911554;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ue8jYP4Zii9iscyTSuF9jBz0QigvOX/CS6AIp+eRJUk=;
+        b=OhZv4qZqh3IDYqV8W8vAA8D1gkDwFKqj0bLh/0pk5j70ccl7/3ot34niWARQ0bZD9+
+         LZAb8FFy9r6AASLA7S+g3xM4BjthXZBOOWjJIHCDWixaGB2eVb0BNA6fiBCF1r7rxwjQ
+         dOD/506GNyga5fLR1mg8Gyx+ClgunLhdkLy9kQmxnF8wUU3tesXji2OU2CwG9QA89mxw
+         XXWUPqeycgPTYXNEj5fdtmOrKHigV6Lp5J6o7WgC8TUwlPX6PE1mliItzcs6J0moB/RN
+         IUN28S57bieCoGKadVqAkakcZiiYrUTsgGqyNbQB8lxVKTI9wS9WG0veXDFmN6pD7MHi
+         0I3Q==
+X-Gm-Message-State: AOJu0YyyM2IZiAosXtzA3vWO77GEQdnKKkNk9pyjgalpqlP9vwvLlhMU
+	AgYszYXY/uuJWmXc6FjSTRD4uKcPBeTcaYr7ulrS0HM50Q88L2wbz3CD
+X-Gm-Gg: ASbGncvCR65Q1ABs4MDWM95M0XwjwyurZ6RzNgXJjdzhoI7rOS7BmG9hcMP2z0M1dro
+	kPKvfFVqRi1OYLGGVyIt/zAI2Gar5ve+TrD1fdQ+kHlIJFf8uXERIJXMQtCCysfgGCTgZMldRoa
+	cmnealXklLRVioxK1i3RIyhaBkSM1aZbzwkKDtMIFXwbcIJk/0b152Lk52ol6neOgflnygj5O0q
+	qGbi3/WCp8jHqJDpEVk7Ca6xgykftHcw3+9JNolgrZ+fLcps8dUCsXJ5JijPqTpX2WH7eLGRSTl
+	eAFI/MEsCNMAlSQP8Rt/qrVCXNEdQGs9NFaA2PQF0IUt/HnBrvQycEK/0uCnplHYbt9X/Q3yiBI
+	Yx0KPZrWnUfQ206BpiNSIF7LcJL4YwTGJrbY3pleXV7acQpzJhQkwBvaLwAyXexICl3PdG5B727
+	Gm
+X-Google-Smtp-Source: AGHT+IFEg21WoxbZmPlpAtAWC0nXt7fgxRgz1Rqick8+hVcDYh0zH2JbKjX8Z1zQxQZ+4693nn8wow==
+X-Received: by 2002:a05:6000:2486:b0:3ed:f690:a390 with SMTP id ffacd0b85a97d-3ee8481fdffmr3767115f8f.40.1758306749445;
+        Fri, 19 Sep 2025 11:32:29 -0700 (PDT)
+Received: from osama ([156.223.20.4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45f32085823sm87601475e9.0.2025.09.19.11.32.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 09:48:17 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 6/6] python3-setuptools-scm: upgrade 8.3.1 -> 9.2.0
-Date: Fri, 19 Sep 2025 12:48:03 -0400
-Message-ID: <20250919164803.3174518-6-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250919164803.3174518-1-tgamblin@baylibre.com>
-References: <20250919164803.3174518-1-tgamblin@baylibre.com>
+        Fri, 19 Sep 2025 11:32:29 -0700 (PDT)
+Date: Fri, 19 Sep 2025 21:32:26 +0300
+From: Osama Abdelkader <osama.abdelkader@gmail.com>
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v3 2/2] go: add sdk test
+Message-ID: <aM2huooiCa_LBfpb@osama>
+References: <20250914182550.24959-1-osama.abdelkader@gmail.com>
+ <20250914182550.24959-2-osama.abdelkader@gmail.com>
+ <DD553AF1-287D-4891-9584-F434A80A65BF@arm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <DD553AF1-287D-4891-9584-F434A80A65BF@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 16:48:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223765
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 18:32:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223766
 
-Release notes (https://github.com/pypa/setuptools-scm/releases):
+On Thu, Sep 18, 2025 at 02:00:01PM +0000, Ross Burton wrote:
+> Hi Osama,
+> 
+> On 14 Sep 2025, at 19:25, Osama Abdelkader via lists.openembedded.org <osama.abdelkader=gmail.com@lists.openembedded.org> wrote:
+> > 
+> > +class GoHostCompileTest(OESDKTestCase):
+> > +    td_vars = ['MACHINE', 'SDK_SYS', 'TARGET_ARCH']
+> > +
+> > +    # Architecture mapping from Yocto/Poky to Go
+> > +    ARCH_MAP = {
+> > +        'aarch64': 'arm64',
+> > +        'cortexa57': 'arm64',  # ARM Cortex-A57 is ARM64
+> > +        'cortexa72': 'arm64',  # ARM Cortex-A72 is ARM64
+> > +        'cortexa53': 'arm64',  # ARM Cortex-A53 is ARM64
+> > +        'x86_64': 'amd64',
+> > +        'i586': '386',
+> > +        'i686': '386',
+> > +        'mips': 'mips',
+> > +        'mipsel': 'mipsle',
+> > +        'powerpc64': 'ppc64',
+> > +        'powerpc64le': 'ppc64le',
+> > +        'riscv64': 'riscv64’,
+> 
+> We’ve merged these tests, thanks very much.
+> 
+> However, this mapping is duplicating an existing map that is in meta/lib/oe/go.py.  Can you instead use that directly (import oe.go)  and delete this copy?
+> 
+> Thanks,
+> Ross
 
-v9.2.0:
+Hi Ross,
 
-- reiterate version inference by RonnyPfannschmidt in #1202
-- simple activation now requires a extra instead of setting up many
-  pre-existing projects for failure/error
+Thanks for the notice, I'm going to do that yes.
 
-Note that there were several v9.2.x releases yanked upstream before this
-one was added on August 16th.
-
-Add python3-tomllib to the RDEPENDS list so that the module imports OK.
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- ...setuptools-scm_8.3.1.bb => python3-setuptools-scm_9.2.0.bb} | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-setuptools-scm_8.3.1.bb => python3-setuptools-scm_9.2.0.bb} (87%)
-
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_8.3.1.bb b/meta/recipes-devtools/python/python3-setuptools-scm_9.2.0.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-setuptools-scm_8.3.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools-scm_9.2.0.bb
-index 81e04ddea5..322bb1fe6c 100644
---- a/meta/recipes-devtools/python/python3-setuptools-scm_8.3.1.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-scm_9.2.0.bb
-@@ -6,7 +6,7 @@ argument or in a SCM managed file."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=838c366f69b72c5df05c96dff79b35f2"
- 
--SRC_URI[sha256sum] = "3d555e92b75dacd037d32bafdf94f97af51ea29ae8c7b234cf94b7a5bd242a63"
-+SRC_URI[sha256sum] = "6662c9b9497b6c9bf13bead9d7a9084756f68238302c5ed089fb4dbd29d102d7"
- 
- PYPI_PACKAGE = "setuptools_scm"
- UPSTREAM_CHECK_PYPI_PACKAGE = "${PYPI_PACKAGE}"
-@@ -18,6 +18,7 @@ DEPENDS += "python3-packaging-native"
- RDEPENDS:${PN} = "\
-     python3-packaging \
-     python3-setuptools \
-+    python3-tomllib \
- "
- 
- RDEPENDS:${PN}:append:class-target = " \
--- 
-2.51.0
-
+Thanks,
+Osama
 
