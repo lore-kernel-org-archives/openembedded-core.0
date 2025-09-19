@@ -2,130 +2,122 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C9BFCAC592
-	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 16:48:10 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web10.1265.1758300488231164506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF7BCAC592
+	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 16:48:19 +0000 (UTC)
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web11.1271.1758300490600477740
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Sep 2025 09:48:08 -0700
+ Fri, 19 Sep 2025 09:48:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=MFXh+RFa;
- spf=pass (domain: baylibre.com, ip: 209.85.222.177, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-80bdff6d1e4so231894685a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 09:48:08 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=pvd9GHTK;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.194, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f194.google.com with SMTP id d75a77b69052e-4b79773a389so24110251cf.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 09:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758300487; x=1758905287; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S0y5AfCPi//FjTp3XSgFfqOjHMdRQoNSc6UbHvwsxAo=;
-        b=MFXh+RFaMi3P0p/a/XiWn6eZrJZWCw9t0X88rwkXAIrj9Nuvg1ohGIYWOwB8vLVHnx
-         dbHs0b6gSiNw/Uindy6CU/Mew3ZNd2co430k6Sa6duFAU/C9CvzWW3GJBlKONh3ox09R
-         wloil/k+ySS8DjG2xaFFpVHtM3hHt+/9Unlw8PJrNy4QJIqFeGgQsa7SIa4dA9wmHx9t
-         6rnyREFevNESwbhGwmELOmDbUh87iv8tRyawCo08Ytvb38XJ9cIqAXP1WxByHnsGh0nP
-         B9U34C8Qsx50mE0jPddqVKNWwD7zoe6FHmBag8I0nXFICroRW+lBZZcimI7EuxXrtD4z
-         oYRA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758300488; x=1758905288; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=foBghxkZySE73neVmlTg4uqQOAUl8P2RWjzghOcO2qQ=;
+        b=pvd9GHTKLCWNOfJKMdXUGv/AjrpzNVs10GO/fGdquJFve+vJqrnDGw53aLYcS0lgVg
+         /Mc4QJ+S9GYM7HvE0089wCoYU1qI9CiPxVLvGZ3BZ10ad8yy2h8mxC6JoDEgrD2MD2aC
+         RSxQH2wivQrnwUx9ZfIn+5JT6d8NBS9dlXUexqE6SnGwAAmJHhjm/JBUGkWnlnoBzUJf
+         0L/lB6gA+pF6olvEnP1Ps2fPvxB7UH7Nsi5Uh09ybjLTFM3SwSrZdTdxnQUTLPBK3vSv
+         AUl9XcmFoSjgic5pt+iGilL0QNPBSzvyJLyIzdEtXNV7wienLQng2Uw1A0vwnOksuZnC
+         0BBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758300487; x=1758905287;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S0y5AfCPi//FjTp3XSgFfqOjHMdRQoNSc6UbHvwsxAo=;
-        b=BdlYQBO6Eyiqw+gLJowT2WNNja6xojuF5wnV8Y7yqjOVCsVpCHWNiQy8YtQ5j/3wbP
-         TeYAFtDVv6DrWQ5JT+UjhSrrB8uKXk43Rd3QzHNMeycIPBqYMZkQF2AmnqAlvVGMOBlJ
-         bdoYm422mVs9EIcq/tI0OMnr6e3N7TqK1Z1Pt9BPaQJC5w0zA2eAVw0lZRat/EpG5SJY
-         8Km1hPQZwSflwaO93VceEnTjxknxrru9GK5Jk9+0sj0l2FRQD2sgAu8vx8uYhrkqjcDp
-         5HmxdpbNwf7Ojj5z3rmVqjcvN1GnOq0xrCCQguBEn9g2wHEGqF+K7C11dD9gmHqOKBCJ
-         cz+g==
-X-Gm-Message-State: AOJu0YxteJGtixlr4s/tup5HWN5GODya83wzf3XXQLECo6SkKs/1lqzq
-	XkXUS+FgxIBi77pPXndSOXnjVVzD8y11WH/+3urtqZxQwVf5CwsJTpjWAWPLsMv+dF0aMGnTr1o
-	b0HeCMyc=
-X-Gm-Gg: ASbGncvkUC1Mdqu/9ho/BWpgkiNwoZOmFvAKl+cjlEYuFsP4PPdULy3fTU3HQ1iOzYR
-	UE5gGGBj8HMhjYS6mX9ku0HLBFsS/gcMDaPM4jbNniUTEOc1Ikgj9HHmbR6iMqtffPyE0fcia6l
-	MxgHhQvNSdu6MDirxFsw+EcV03xYoqc26kLhxWYGlffir73YCTFPda4n5dTiPXuw8GRmUbVlQt2
-	/TQocj5e1U//8OlELIaDdVIEAWddZtx57TE/sxT7a4flabPEir2u5QUcshwW9nIYrWaJsBo6Wj4
-	eINFCudzoX4UQ6Ei16CYrsXqVUXNSfrQvFpv1QiIDrjXgBr3WtsIQwX/EzM80Yqo+LUbN5gLRkc
-	tj33wEV/tZCT4PCd9W15hnDBE3JDCF1zrJmBcZeL1KvrWXeyZZSgyX8oZrQ==
-X-Google-Smtp-Source: AGHT+IGvn10grIQnjp9IWGJP+GD+mo2XpZA9I2u7mRtB02ZjjL6WV3HmVaPBX13bOPro+Q3UMtaFdQ==
-X-Received: by 2002:a05:620a:26ee:b0:827:e9b0:273e with SMTP id af79cd13be357-83babdfd4f5mr388043585a.68.1758300486358;
-        Fri, 19 Sep 2025 09:48:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758300488; x=1758905288;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=foBghxkZySE73neVmlTg4uqQOAUl8P2RWjzghOcO2qQ=;
+        b=DvpmXboTKF8lMy/Hom4gHJ4qraRk3QPorTyHkzhgjsGAWPQnB8Chc9geQ4ik2ywX7J
+         tle2lb/3QUynoTshMjK5jd63WW8mADw09opEh5tmYrdxOpeeLwKSnCupfPaBED3p0UEN
+         BlbIf7CpKUq3DQDKBoWMfredkj28Tn6VLl4k87z7n/ks3JRGYc23AfbEVGZUCOggcObC
+         m1p20c71JI5YJxXSsXSPtMLG/JUOtmrZkqJW6KJqmyZsSbgYtLSQ9VBW4ShmV/KcYWHt
+         Rwz0Qzd2i4WSlYbZ6H93FxNqbuaNPn9wKPeftlT5YojSgBRSovGUKEVSs39c3gXrov8k
+         Jgpw==
+X-Gm-Message-State: AOJu0Yz6VgUnw7dMP9TzWcLwxlSFlTILC0QnjZuaMLbg/obHAlyqhxnn
+	VpqB0J8q/N7dReiI+gkBsS4gONKj+whEti6g1L5VCjUZlu1trnwg1rWDp8Sl305rDeraAuhJjRW
+	dBk6YtPLFjA==
+X-Gm-Gg: ASbGncutL0j6pnsdsiMwAMw3eedd640L16YTYvdHWZMLlssp5TNII0r2FlN+BJPu75R
+	rIhWqCTCi23/12E0toYiHYLwJhKtfTeWW4ngbxIjdyGs5bZqcBL0/HPhKldbfnZSeciOsDMielo
+	C2z2Jp+zdKa6taRcAwIOpE7h1QfFnCd0VTwZAGu6E84viojq4RDa3BwZVU2qQIyY4Ilr63IwZy4
+	65QE+ztGi7zasteWE+y6TvNbOBQT2B13ZhFaYVN5lFdKCDfGSk/ondxmZuI3+ooK3/Z46U5r2tM
+	pAfdM06PLYSztewKmnAVhaKoRXVoupzfd+HELe6MLS5cNhu+96cSM7762vMWSZwoZf2xroDKz+t
+	Ck+DZHxeG/JzTMyWE+IDR55S8D8xT9t2lrhO8Gn5O2NnhZMyMf86vnVTX6b6Psq1s2GrL
+X-Google-Smtp-Source: AGHT+IEsDD0aaIShasO9Ozap2WDFSFhdC5rLySmOD/HsYj1rQC0IGwYAFxMBCHe5ecJtx96S89mnNg==
+X-Received: by 2002:a05:622a:230f:b0:4b2:f4e5:8eb1 with SMTP id d75a77b69052e-4c0724868e2mr43986861cf.55.1758300488571;
+        Fri, 19 Sep 2025 09:48:08 -0700 (PDT)
 Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-83627e71fd0sm373303085a.26.2025.09.19.09.48.04
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4bdaa0c5156sm31068521cf.45.2025.09.19.09.48.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 09:48:05 -0700 (PDT)
+        Fri, 19 Sep 2025 09:48:07 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 1/6] maintainers.inc: add self for python recipes
-Date: Fri, 19 Sep 2025 12:47:58 -0400
-Message-ID: <20250919164803.3174518-1-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 2/6] python3-numpy: upgrade 2.3.2 -> 2.3.3
+Date: Fri, 19 Sep 2025 12:47:59 -0400
+Message-ID: <20250919164803.3174518-2-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250919164803.3174518-1-tgamblin@baylibre.com>
+References: <20250919164803.3174518-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 16:48:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223760
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 16:48:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223761
 
-Add myself as maintainer for some newly-unassigned Python recipes.
-That'll allow them to be picked up on my upgrade checker.
+Release notes (https://github.com/numpy/numpy/releases/tag/v2.3.3):
+
+The NumPy 2.3.3 release is a patch release split between a number of maintenance
+updates and bug fixes. This release supports Python versions 3.11-3.14. Note
+that the 3.14.0 final is currently expected in Oct, 2025. This release is based
+on 3.14.0rc2.
+
+Reproducibility seems OK.
+
+ptests look OK:
+
+|============================================================================
+|Testsuite summary
+|# TOTAL: 48954
+|# PASS: 46490
+|# SKIP: 2426
+|# XFAIL: 33
+|# FAIL: 0
+|# XPASS: 5
+|# ERROR: 0
+|DURATION: 169
+|END: /usr/lib/python3-numpy/ptest
+|2025-09-19T15:20
+|STOP: ptest-runner
+|TOTAL: 1 FAIL: 0
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/conf/distro/include/maintainers.inc | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../python/{python3-numpy_2.3.2.bb => python3-numpy_2.3.3.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-numpy_2.3.2.bb => python3-numpy_2.3.3.bb} (96%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e80959749e..0988bf50a7 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -636,7 +636,7 @@ RECIPE_MAINTAINER:pn-python3-colorama = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-cryptography = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-cryptography-vectors = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-cython = "Trevor Gamblin <tgamblin@baylibre.com>"
--RECIPE_MAINTAINER:pn-python3-dbus = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-python3-dbus = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-dbusmock = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-docutils = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-dtc = "Trevor Gamblin <tgamblin@baylibre.com>"
-@@ -673,25 +673,25 @@ RECIPE_MAINTAINER:pn-python3-more-itertools = "Tim Orling <tim.orling@konsulko.c
- RECIPE_MAINTAINER:pn-python3-numpy = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-packaging = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-pathspec = "Ross Burton <ross.burton@arm.com>"
--RECIPE_MAINTAINER:pn-python3-pbr = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-python3-pbr = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-pdm = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-pdm-backend = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-pdm-build-locked = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-pefile = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-python3-pip = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-python3-pip = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-pluggy = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-ply = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-poetry-core = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-pretend = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-psutil = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-pyasn1 = "Tim Orling <tim.orling@konsulko.com>"
--RECIPE_MAINTAINER:pn-python3-pycairo = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-python3-pycairo = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-pycparser = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-pycryptodome = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-pycryptodomex = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-pyelftools = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-pygments = "Trevor Gamblin <tgamblin@baylibre.com>"
--RECIPE_MAINTAINER:pn-python3-pygobject = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-python3-pygobject = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-pyopenssl = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-pyparsing = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-pyproject-hooks = "Ross Burton <ross.burton@arm.com>"
-@@ -715,7 +715,7 @@ RECIPE_MAINTAINER:pn-python3-semantic-version = "Tim Orling <tim.orling@konsulko
- RECIPE_MAINTAINER:pn-python3-setuptools = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-setuptools-rust = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-setuptools-scm = "Trevor Gamblin <tgamblin@baylibre.com>"
--RECIPE_MAINTAINER:pn-python3-six = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-python3-six = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-smartypants = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-smmap = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-snowballstemmer = "Tim Orling <tim.orling@konsulko.com>"
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.3.2.bb b/meta/recipes-devtools/python/python3-numpy_2.3.3.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python3-numpy_2.3.2.bb
+rename to meta/recipes-devtools/python/python3-numpy_2.3.3.bb
+index 7ef353c420..dee3bfaa44 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.3.2.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.3.3.bb
+@@ -12,7 +12,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://fix_reproducibility.patch \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "e0486a11ec30cdecb53f184d496d1c6a20786c81e55e41640270130056f8ee48"
++SRC_URI[sha256sum] = "ddc7c39727ba62b80dfdbedf400d1c10ddfa8eefbd7ec8dcb118be8b56d31029"
+ 
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
 -- 
 2.51.0
 
