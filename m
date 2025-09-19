@@ -2,134 +2,231 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C414DCAC592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2705CAC5A8
 	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 18:58:10 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.14274.1758282832091740912
+Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
+ by mx.groups.io with SMTP id smtpd.web11.13180.1758278623680627835
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Sep 2025 04:53:52 -0700
+ Fri, 19 Sep 2025 03:43:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=f9OMxbu0;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: nmjain23@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-24c8ef94e5dso17178145ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 04:53:52 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=DeQj8aR3;
+ spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: adongare@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758282831; x=1758887631; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tb6hl4QkbyvespAayywYGJTEJTfhUd7CURz21M/nvi8=;
-        b=f9OMxbu0PR41BMEzHMJXGGKRuhjMsTlIf7+AQWpzJtiYDni4wPPGkSAx7zhJWkPjOY
-         KHfnWPoHB5HTZkmcuPBQlKIDtB8G7mtX7WakyXHIq8rwSjQT9S6Amr1TX4LU4Hh5UTeL
-         AIyI/X11aa1nZJFmEfNHUfL277UGuUk7xAtdglsVrXaGsr9Yc/36RsHPNlN6xdHpVtCS
-         HkPpDp2Vx7CXwEVv/L2crcIMXZjFhYz4ixO+vj2fSiJsXlkZ7/FTrImw6RxKLuN6F7hY
-         R6wnHPBR40QYjvdumbgp9502SPZAWTusVIN0+z1706XKabRmwNiZwYVieDlU6sPMlqGo
-         qWxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758282831; x=1758887631;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tb6hl4QkbyvespAayywYGJTEJTfhUd7CURz21M/nvi8=;
-        b=TrOzac0wxUIGRWLVFZOj+ZCfnnlVnlpF2mc4wFPXSMcIrmWnGtJwga6RHVWf4P9UC5
-         ZaTbcI3X1rGt8f4uCmWgiEGG4H/zKWxVb90EY/3vwknfsxziXVNUHDVTllnGAHAuxjSJ
-         b4Fj8bOYgdpshv/Tl1fWp1UlOuNcxPblQhUllA+thfO3bk44kDmafYx6UtT5b8X3ismi
-         06t4Jx2r2X9omGBUX6ce6ifcZZWBYNjz+y2uR+jUjY7sho5PH3GqMYKBWhEWQjBtiWRE
-         gDOTPOSLaLqrH8trFvGYmySJaVIbBDIRvl2wXziQsJGmb6l+OP/jR5vr3szFPt6Bqdmh
-         YjnQ==
-X-Gm-Message-State: AOJu0YwCsm6BvR5h+dhFxIA+ICn1pWC/nz21Rg1UR6WT//caHb8GUNRF
-	TLPGnxbSP/Ie31Ioh6vHVaKQClhSJnZMBJj7kj4OOVRKrF1Vncw67yGeAgqG4A==
-X-Gm-Gg: ASbGncvc+mburFzdieowCbBZYCY6q4E9A0mfptREqvLVSzWUhpQ1EBoh+m/1FGye23g
-	ruUU9ZkX+KjNeVnBR5w8Ej4mEttJcg3sDShQ6FcJukDDLsTaKVgwMEdzub0gYqL58Iq9BnF+1PG
-	yP+nJbS0mE8kra39ZH69k/rHbYB24QIfYIk20dYsPH++S5d1PltoJf7Oi/cIW+WKfU3YH/OlPYn
-	1T08p9YxtWdlEFBGTVJIx0rrqF/N6hqHeTXgaxmKV2EKJB0Ws6cXajPIGP2m98Grob4kgf0+ck4
-	QR2hGOdHXV87meOZMOlM5h1Kwd7RvmrmMquvTPeazyS2k9buNJufjHCVG+Yu3aX1PqvUB3LAyaX
-	9csWs6Odvqa8cv3lCSU58MF4UgBz5
-X-Google-Smtp-Source: AGHT+IFw/Wb+pRKUN8yuEn2B7vBTmDwWgPAExLa0rSBJYcCz1QKzhixxgNnYyKCtYX0LEJuSf5yDqA==
-X-Received: by 2002:a17:903:1212:b0:267:d7f8:405b with SMTP id d9443c01a7336-2697c6afddamr108093805ad.0.1758282831128;
-        Fri, 19 Sep 2025 04:53:51 -0700 (PDT)
-Received: from LL-3450LLL.kpit.com ([103.133.67.156])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2698030ee20sm53360325ad.109.2025.09.19.04.53.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 04:53:50 -0700 (PDT)
-From: Naman Jain <nmjain23@gmail.com>
-X-Google-Original-From: Naman Jain <namanj1@kpit.com>
+  d=cisco.com; i=@cisco.com; l=4978; q=dns/txt;
+  s=iport01; t=1758278623; x=1759488223;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lM7RpMLfRutQwsVUXtauV7JFoP2HnUW29yoBTm/gu3I=;
+  b=DeQj8aR32uGRHfO5+Nqn4LiKfttsajSnI0ayt+gRxZRX0bIh2fs5dU41
+   oCMk3/Fxy8zBgOfgr4J35AvD+kRe6+PNhujdSmg1zYL/cIay5/4rNJ57h
+   sCvCjmqe9RJ48IMdoYE//DLmdqQm+NAqTzoApmn4TJoHyRJJMh+98Flae
+   qYwDZYa8W9KbIMWrcyTIa6AFeeiUYNv5ogLbH4LSi/UbF9Yfq3/60/6bH
+   /DYO4Y1bgcxgh6jedeimmZDdB10glaeINlsvysI7HK7oer28Pi+cD2BlQ
+   Ei0oFfZsSk2sUA3mj/cThqM/tUnMk+hXXTz9tO6ua2t9dvz9sQZU7Izbn
+   g==;
+X-CSE-ConnectionGUID: JwUbEC7nQCWMzZ0v795AgA==
+X-CSE-MsgGUID: /2FJekEhSgSmgFbnjJvVBQ==
+X-IPAS-Result: =?us-ascii?q?A0ADAAD5Ms1o/5L/Ja1aGQEBAQEBAQEBAQEBAQEBAQEBA?=
+ =?us-ascii?q?RIBAQEBAQEBAQEBAQGBfwQBAQEBAQsBgkZ7WUNJjHCIaWyeHRSBaw8BAQEPP?=
+ =?us-ascii?q?RQEAQGCE4J0jDkCJjQJDgECBAEBAQEDAgMBAQEBAQEBAQEBAQsBAQUBAQECA?=
+ =?us-ascii?q?QcFgQ4Thk8NhloBAgEqCwEYAS0sAwECWiMhgwIBgnIDEbYWGjeBeTOBAYMoA?=
+ =?us-ascii?q?dx9gUkBjUxvAYR3JxsbgXKBFYE7gi2BBYFcBYEgBIZ9BIINFYECFIQOgiiJe?=
+ =?us-ascii?q?n2BXiAUiU5IgR4DWSwBVRMNCgsHBYFjAzUMCy4VbjIdgSeDYYEqhB0rT4UCh?=
+ =?us-ascii?q?Gskaw8GgRWDWwaHG0ADCxgNSBEsNxQbBj5uB5YTgmNPMTIBFxMBKyKBW0CTH?=
+ =?us-ascii?q?ZJGgTWfWQoog3SMHpU5GjOqa5kGjgiWUIRpgWg8gVlwFYMiCUkZD44tAQoLi?=
+ =?us-ascii?q?HG/diYyAjoCBwsBAQMJkWqBfQEB?=
+IronPort-Data: A9a23:PChnlKh/XZOzTxBu1XEUlk8BX161VREKZh0ujC45NGQN5FlHY01je
+ htvCG6Bb6uOajb9fdh0bd+2pEIDu5OAzdYySQI6ri4zFy1jpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FH1dOKn9CAmvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZSPULOZ82QsaD9MuvvS8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqU65dt9LEoR8
+ 8UzFxUfXEid2LPr6b2SH7wEasQLdKEHPasFsX1miDWcBvE8TNWbEuPB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZgl/5JEWxI9EglH2fzpep1uPqII84nPYy0p6172F3N/9J4HUHJwIxh/Az
+ o7A1yOjLDMXN/Gf8jW+932CjOnNvz3FcrtHQdVU8dYv2jV/3Fc7EhoNTh2xvOOljUiWUshab
+ UcT/0IGqKEu9E2mU5/xQhe/oWXBtAQdUtxcO+c97x2Jy6yS6AGcbkAeTzVBYcYq8tcrXzAr2
+ 3eNntX0FTJorbuZQG6c8bHSqim9UQASNWIEaCoOQAcJ7tWmq4YpgzrLT81/C+iyltDzFDT6z
+ jyGoSR4gK8c5fPnzI2h9lzBxjbprZ/TQ0ttt0PcX3mu6UVyY4vNi5GU1GU3JM1odO6xJmRtd
+ lBd8yRCxIji1a2wqRE=
+IronPort-HdrOrdr: A9a23:7vbKA6H4m2CdBusWpLqE48eALOsnbusQ8zAXPo5KJiC9Ffbo8v
+ xG88576faZslsssRIb6LK90cu7IU80nKQdieJ6AV7IZmfbUQWTQL2KlbGSoAEJ30bFh4lgPW
+ AKSdkbNOHN
+X-Talos-CUID: 9a23:IQ/D4Gy53le63yNNBhPdBgU2Bf0vX1aCyk77HGqqOz53F+zIYFC5rfY=
+X-Talos-MUID: =?us-ascii?q?9a23=3ATJ183A8aI3XKN9l8uotFqNqQf4AyzYajC20Nqpo?=
+ =?us-ascii?q?9vsaqPypyGSmjpg3iFw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.18,277,1751241600"; 
+   d="scan'208";a="556115010"
+Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
+  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Sep 2025 10:43:42 +0000
+Received: from sjc-ads-10055.cisco.com (sjc-ads-10055.cisco.com [10.30.210.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 9BF0418000493;
+	Fri, 19 Sep 2025 10:43:42 +0000 (GMT)
+Received: by sjc-ads-10055.cisco.com (Postfix, from userid 1870532)
+	id 4350BCC1288; Fri, 19 Sep 2025 03:43:42 -0700 (PDT)
+From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Virendra.Thakur@kpit.com
-Subject: [PATCH] libmd: add ptest for 'libmd'
-Date: Fri, 19 Sep 2025 17:23:31 +0530
-Message-Id: <20250919115331.1507683-1-namanj1@kpit.com>
-X-Mailer: git-send-email 2.34.1
+Cc: xe-linux-external@cisco.com,
+	Ross Burton <ross.burton@arm.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Anil Dongare <adongare@cisco.com>
+Subject: [OE-core] [scarthgap] [PATCH] libxslt: apply patch for CVE-2025-7424
+Date: Fri, 19 Sep 2025 03:43:37 -0700
+Message-ID: <20250919104338.3468737-1-adongare@cisco.com>
+X-Mailer: git-send-email 2.44.1
 MIME-Version: 1.0
+X-Outbound-SMTP-Client: 10.30.210.59, sjc-ads-10055.cisco.com
+X-Outbound-Node: rcdn-l-core-09.cisco.com
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 18:58:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223771
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223769
 
-Adapt the compile 'test' phony target from Makefile and deploy as
-ptest for libmd.
-It takes less than 30seconds for ptest completion
+From: Ross Burton <ross.burton@arm.com>
 
-Signed-off-by: Naman Jain <namanj1@kpit.com>
+This patch is taken from the upstream bug, and is used by Apple in their
+build of WebKit.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anil Dongare <adongare@cisco.com>
 ---
- meta/recipes-support/libmd/files/run-ptest | 18 ++++++++++++++++++
- meta/recipes-support/libmd/libmd_1.1.0.bb  | 17 ++++++++++++++++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libmd/files/run-ptest
+ .../gnome-libxslt-bug-139-apple-fix.diff      | 103 ++++++++++++++++++
+ .../recipes-support/libxslt/libxslt_1.1.43.bb |   3 +-
+ 2 files changed, 105 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libxslt/files/gnome-libxslt-bug-139-apple-fix.diff
 
-diff --git a/meta/recipes-support/libmd/files/run-ptest b/meta/recipes-support/libmd/files/run-ptest
+diff --git a/meta/recipes-support/libxslt/files/gnome-libxslt-bug-139-apple-fix.diff b/meta/recipes-support/libxslt/files/gnome-libxslt-bug-139-apple-fix.diff
 new file mode 100644
-index 0000000000..0c4a5f64ec
+index 0000000000..c7220ab954
 --- /dev/null
-+++ b/meta/recipes-support/libmd/files/run-ptest
-@@ -0,0 +1,18 @@
-+#!/bin/sh
++++ b/meta/recipes-support/libxslt/files/gnome-libxslt-bug-139-apple-fix.diff
+@@ -0,0 +1,103 @@
++From 345d6826d0eae6f0a962456b8ed6f6a1bad0877d Mon Sep 17 00:00:00 2001
++From: David Kilzer <ddkilzer@apple.com>
++Date: Sat, 24 May 2025 15:06:42 -0700
++Subject: [PATCH] libxslt: Type confusion in xmlNode.psvi between stylesheet
++ and source nodes
 +
-+cd test
-+status = 0
++* libxslt/functions.c:
++(xsltDocumentFunctionLoadDocument):
++- Implement fix suggested by Ivan Fratric.  This copies the xmlDoc,
++  calls xsltCleanupSourceDoc() to remove pvsi fields, then adds the
++  xmlDoc to tctxt->docList.
++- Add error handling for functions that may return NULL.
++* libxslt/transform.c:
++- Remove static keyword so this can be called from
++  xsltDocumentFunctionLoadDocument().
++* libxslt/transformInternals.h: Add.
++(xsltCleanupSourceDoc): Add declaration.
 +
-+for testbin in *; do
-+    if [ -x "$testbin" ] && [ ! -d "$testbin" ]; then
-+        if "./$testbin"; then
-+            echo "PASS: $testbin"
-+        else
-+            echo "FAIL: $testbin"
-+            status=1
-+        fi
-+    fi
-+done
++Fixes #139.
 +
-+return $status
++CVE: CVE-2025-7424
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libxslt/-/issues/139]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ libxslt/functions.c          | 16 +++++++++++++++-
++ libxslt/transform.c          |  3 ++-
++ libxslt/transformInternals.h |  9 +++++++++
++ 3 files changed, 26 insertions(+), 2 deletions(-)
++ create mode 100644 libxslt/transformInternals.h
 +
-diff --git a/meta/recipes-support/libmd/libmd_1.1.0.bb b/meta/recipes-support/libmd/libmd_1.1.0.bb
-index dc588a0f95..a39a5ec65b 100644
---- a/meta/recipes-support/libmd/libmd_1.1.0.bb
-+++ b/meta/recipes-support/libmd/libmd_1.1.0.bb
-@@ -11,6 +11,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0436d4fb62a71f661d6e8b7812f9e1df"
- SRC_URI = "https://archive.hadrons.org/software/libmd/libmd-${PV}.tar.xz"
- SRC_URI[sha256sum] = "1bd6aa42275313af3141c7cf2e5b964e8b1fd488025caf2f971f43b00776b332"
++diff --git a/libxslt/functions.c b/libxslt/functions.c
++index 72a58dc4..11ec039f 100644
++--- a/libxslt/functions.c
+++++ b/libxslt/functions.c
++@@ -34,6 +34,7 @@
++ #include "numbersInternals.h"
++ #include "keys.h"
++ #include "documents.h"
+++#include "transformInternals.h"
++ 
++ #ifdef WITH_XSLT_DEBUG
++ #define WITH_XSLT_DEBUG_FUNCTION
++@@ -125,7 +126,20 @@ xsltDocumentFunctionLoadDocument(xmlXPathParserContextPtr ctxt,
++ 	    /*
++ 	    * This selects the stylesheet's doc itself.
++ 	    */
++-	    doc = tctxt->style->doc;
+++	    doc = xmlCopyDoc(tctxt->style->doc, 1);
+++	    if (doc == NULL) {
+++		xsltTransformError(tctxt, NULL, NULL,
+++		    "document() : failed to copy style doc\n");
+++		goto out_fragment;
+++	    }
+++	    xsltCleanupSourceDoc(doc); /* Remove psvi fields. */
+++	    idoc = xsltNewDocument(tctxt, doc);
+++	    if (idoc == NULL) {
+++		xsltTransformError(tctxt, NULL, NULL,
+++		    "document() : failed to create xsltDocument\n");
+++		xmlFreeDoc(doc);
+++		goto out_fragment;
+++	    }
++ 	} else {
++             goto out_fragment;
++ 	}
++diff --git a/libxslt/transform.c b/libxslt/transform.c
++index 54ef821b..38c2dce6 100644
++--- a/libxslt/transform.c
+++++ b/libxslt/transform.c
++@@ -43,6 +43,7 @@
++ #include "xsltlocale.h"
++ #include "pattern.h"
++ #include "transform.h"
+++#include "transformInternals.h"
++ #include "variables.h"
++ #include "numbersInternals.h"
++ #include "namespaces.h"
++@@ -5757,7 +5758,7 @@ xsltCountKeys(xsltTransformContextPtr ctxt)
++  *
++  * Resets source node flags and ids stored in 'psvi' member.
++  */
++-static void
+++void
++ xsltCleanupSourceDoc(xmlDocPtr doc) {
++     xmlNodePtr cur = (xmlNodePtr) doc;
++     void **psviPtr;
++diff --git a/libxslt/transformInternals.h b/libxslt/transformInternals.h
++new file mode 100644
++index 00000000..d0f42823
++--- /dev/null
+++++ b/libxslt/transformInternals.h
++@@ -0,0 +1,9 @@
+++/*
+++ * Summary: set of internal interfaces for the XSLT engine transformation part.
+++ *
+++ * Copy: See Copyright for the status of this software.
+++ *
+++ * Author: David Kilzer <ddkilzer@apple.com>
+++ */
+++
+++void xsltCleanupSourceDoc(xmlDocPtr doc);
++-- 
++2.39.5 (Apple Git-154)
++
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.43.bb b/meta/recipes-support/libxslt/libxslt_1.1.43.bb
+index d251fa8122..e08e92085d 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.43.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.43.bb
+@@ -13,7 +13,8 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
+ SECTION = "libs"
+ DEPENDS = "libxml2"
  
--inherit autotools
-+inherit autotools ptest
-+
-+do_compile_ptest() {
-+    sed -i "/\$(MAKE) \$(AM_MAKEFLAGS) check-TESTS/d" test/Makefile
-+    oe_runmake check
-+}
-+
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/test
-+    for bin in ${B}/test/*; do
-+        if [ -x "$bin" ]; then
-+            libtool --mode=install install "$bin" ${D}${PTEST_PATH}/test/$(basename "$bin")
-+        fi
-+    done
-+}
+-SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz"
++SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz \
++           file://gnome-libxslt-bug-139-apple-fix.diff"
  
- BBCLASSEXTEND = "native nativesdk"
+ SRC_URI[sha256sum] = "5a3d6b383ca5afc235b171118e90f5ff6aa27e9fea3303065231a6d403f0183a"
+ 
 -- 
-2.34.1
+2.44.1
 
 
