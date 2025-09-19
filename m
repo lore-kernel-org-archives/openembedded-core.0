@@ -1,112 +1,117 @@
-Return-Path: <osama.abdelkader@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D58CAC59A
-	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 18:32:40 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.3823.1758306755844325976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4BA6CAC5A9
+	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 18:58:10 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.11278.1758270144408625833
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Sep 2025 11:32:36 -0700
+ Fri, 19 Sep 2025 01:22:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YrSLvJ+a;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: osama.abdelkader@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45f2f10502fso16162485e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 11:32:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758306754; x=1758911554; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ue8jYP4Zii9iscyTSuF9jBz0QigvOX/CS6AIp+eRJUk=;
-        b=YrSLvJ+agqGdCsNIP3Q7/dEVphGirvVj5T7WeK8KSrkrrrWgqnqkI5n5pm0KIy9bXV
-         4oJLZcZTPlqTTA9cnK5GUsBsME/2YK3k1DqLSrEpl0TbG8STApNHxMiN9fvFP+nX1nK/
-         W1WpfD4z2uU6eGR1tqgTsDx9+7lsYhy1e1SVtymzKc57saLShHL3aSVW/ujAUw8SkBo4
-         0PSylmM0LgdpKziSm6RpSYd6w86chKm0VNN/gkl//q+ZQUw2TqLkpz36yJJqrtwpfGsu
-         g+Se+KPb/47jtSoZc3UBnm2wFz6Th2ZgIgUM84XuBO1KFp+Cj3xkT2s7Gbrn4oEtRtn5
-         65hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758306754; x=1758911554;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ue8jYP4Zii9iscyTSuF9jBz0QigvOX/CS6AIp+eRJUk=;
-        b=OhZv4qZqh3IDYqV8W8vAA8D1gkDwFKqj0bLh/0pk5j70ccl7/3ot34niWARQ0bZD9+
-         LZAb8FFy9r6AASLA7S+g3xM4BjthXZBOOWjJIHCDWixaGB2eVb0BNA6fiBCF1r7rxwjQ
-         dOD/506GNyga5fLR1mg8Gyx+ClgunLhdkLy9kQmxnF8wUU3tesXji2OU2CwG9QA89mxw
-         XXWUPqeycgPTYXNEj5fdtmOrKHigV6Lp5J6o7WgC8TUwlPX6PE1mliItzcs6J0moB/RN
-         IUN28S57bieCoGKadVqAkakcZiiYrUTsgGqyNbQB8lxVKTI9wS9WG0veXDFmN6pD7MHi
-         0I3Q==
-X-Gm-Message-State: AOJu0YyyM2IZiAosXtzA3vWO77GEQdnKKkNk9pyjgalpqlP9vwvLlhMU
-	AgYszYXY/uuJWmXc6FjSTRD4uKcPBeTcaYr7ulrS0HM50Q88L2wbz3CD
-X-Gm-Gg: ASbGncvCR65Q1ABs4MDWM95M0XwjwyurZ6RzNgXJjdzhoI7rOS7BmG9hcMP2z0M1dro
-	kPKvfFVqRi1OYLGGVyIt/zAI2Gar5ve+TrD1fdQ+kHlIJFf8uXERIJXMQtCCysfgGCTgZMldRoa
-	cmnealXklLRVioxK1i3RIyhaBkSM1aZbzwkKDtMIFXwbcIJk/0b152Lk52ol6neOgflnygj5O0q
-	qGbi3/WCp8jHqJDpEVk7Ca6xgykftHcw3+9JNolgrZ+fLcps8dUCsXJ5JijPqTpX2WH7eLGRSTl
-	eAFI/MEsCNMAlSQP8Rt/qrVCXNEdQGs9NFaA2PQF0IUt/HnBrvQycEK/0uCnplHYbt9X/Q3yiBI
-	Yx0KPZrWnUfQ206BpiNSIF7LcJL4YwTGJrbY3pleXV7acQpzJhQkwBvaLwAyXexICl3PdG5B727
-	Gm
-X-Google-Smtp-Source: AGHT+IFEg21WoxbZmPlpAtAWC0nXt7fgxRgz1Rqick8+hVcDYh0zH2JbKjX8Z1zQxQZ+4693nn8wow==
-X-Received: by 2002:a05:6000:2486:b0:3ed:f690:a390 with SMTP id ffacd0b85a97d-3ee8481fdffmr3767115f8f.40.1758306749445;
-        Fri, 19 Sep 2025 11:32:29 -0700 (PDT)
-Received: from osama ([156.223.20.4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45f32085823sm87601475e9.0.2025.09.19.11.32.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Sep 2025 11:32:29 -0700 (PDT)
-Date: Fri, 19 Sep 2025 21:32:26 +0300
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v3 2/2] go: add sdk test
-Message-ID: <aM2huooiCa_LBfpb@osama>
-References: <20250914182550.24959-1-osama.abdelkader@gmail.com>
- <20250914182550.24959-2-osama.abdelkader@gmail.com>
- <DD553AF1-287D-4891-9584-F434A80A65BF@arm.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=QZryOI+r;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: kavinaya@qti.qualcomm.com)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58J1RlS1007439
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 07:34:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	PHIJ0lQmYKAncm1uvRnE+CK2xKN4MNFKR1xbCxMZOUg=; b=QZryOI+rx714ZAiz
+	8gVx97idRIMlcCCC6EtVXu48n0w4OQZQrqGucu6ltWyhCNZg+8aeEtHe1gLPXcWi
+	3Aw2H8a2NofMwuzSlZaTZ0mTLgedmS6eU28NvW13ATXmJ5RbYP6CEC5/9+YFJVmV
+	avCjkD+o4Gm6bfwPob4nXVzOPd+IDKHwGyk68ZSTmV4Z+loj3ODdRbnritq/TOGZ
+	nrHIzBaXi/y7bY/byzp1dyysS11oxJSXVV1HORTsOnJSzG2MvNsgeSiOdfEgmLuS
+	dV1b5Sqb4IttsWghY5Sx+6HE9gn2k6qGwazDSA2nCyKyZpQl5PnKc/yH57EvhqGE
+	vjzchA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 498ebeuybf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 07:34:03 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58J7Y2Lx002222
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 07:34:02 GMT
+Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Fri, 19 Sep 2025 00:34:01 -0700
+From: Kavinaya S <kavinaya@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Kavinaya S <kavinaya@qti.qualcomm.com>
+Subject: [PATCH 1/2] kernel-fitimage: add support for custom ITS file override
+Date: Fri, 19 Sep 2025 13:03:34 +0530
+Message-ID: <20250919073335.2069114-2-kavinaya@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250919073335.2069114-1-kavinaya@qti.qualcomm.com>
+References: <20250919073335.2069114-1-kavinaya@qti.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: K6u0HqKzfRSFyiBn2HlBNt6a1ZGWr63m
+X-Authority-Analysis: v=2.4 cv=H6/bw/Yi c=1 sm=1 tr=0 ts=68cd076b cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=ndsmC8xSO5GF6cpKoY0A:9
+X-Proofpoint-GUID: K6u0HqKzfRSFyiBn2HlBNt6a1ZGWr63m
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE4MDA3NCBTYWx0ZWRfX5IsbIcc2glPz
+ ILm5RpRwueBd9s6IA+m6U/DH/7oNpaS33xcs0ErrxJhw6iGEb1cXO4MmQ5MiYcOeRiYREU+4Dfl
+ JzpQjziKMVtaFJ7P94WONRjjo2btNPA9zqcQl/1oH72iWetAJOJ7x2WDPMuvwafkiosN+JXsOvU
+ 0bbIWEiVsMlwoRVtPFWm/xy5f1ca1BhwmeyCnXop3pk7BQnT9OuxN0bLUNaOaY/txHKP4SkA5wZ
+ vtZ+LmtME7U56quD2b6LbrYq1COjyK9FQSZlPVNTg58Wxi3wO4HgeU0uuUjNreBIhf3FnP38UzO
+ HfE0ofOJVH6S3IZ+I6C7HFI3VLxDX1OXAgTInCIBLkJfjGBK2YUU95SAIbKtoiM2Cw4CbpxNPit
+ Wqn1WLIW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-18_03,2025-09-19_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ malwarescore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509180074
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <DD553AF1-287D-4891-9584-F434A80A65BF@arm.com>
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 18:32:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223766
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 18:58:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223768
 
-On Thu, Sep 18, 2025 at 02:00:01PM +0000, Ross Burton wrote:
-> Hi Osama,
-> 
-> On 14 Sep 2025, at 19:25, Osama Abdelkader via lists.openembedded.org <osama.abdelkader=gmail.com@lists.openembedded.org> wrote:
-> > 
-> > +class GoHostCompileTest(OESDKTestCase):
-> > +    td_vars = ['MACHINE', 'SDK_SYS', 'TARGET_ARCH']
-> > +
-> > +    # Architecture mapping from Yocto/Poky to Go
-> > +    ARCH_MAP = {
-> > +        'aarch64': 'arm64',
-> > +        'cortexa57': 'arm64',  # ARM Cortex-A57 is ARM64
-> > +        'cortexa72': 'arm64',  # ARM Cortex-A72 is ARM64
-> > +        'cortexa53': 'arm64',  # ARM Cortex-A53 is ARM64
-> > +        'x86_64': 'amd64',
-> > +        'i586': '386',
-> > +        'i686': '386',
-> > +        'mips': 'mips',
-> > +        'mipsel': 'mipsle',
-> > +        'powerpc64': 'ppc64',
-> > +        'powerpc64le': 'ppc64le',
-> > +        'riscv64': 'riscv64’,
-> 
-> We’ve merged these tests, thanks very much.
-> 
-> However, this mapping is duplicating an existing map that is in meta/lib/oe/go.py.  Can you instead use that directly (import oe.go)  and delete this copy?
-> 
-> Thanks,
-> Ross
+Update kernel-fitimage.bbclass to use CUSTOM_ITS_FILE when provided.
+If the file exists, it will be used instead of generating an ITS file.
+This improves flexibility for advanced use cases while maintaining
+backward compatibility.
 
-Hi Ross,
+Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
+---
+ meta/classes-recipe/kernel-fit-image.bbclass | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Thanks for the notice, I'm going to do that yes.
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index f04aee1807..9258af938c 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -139,8 +139,15 @@ python do_compile() {
+     # Generate the configuration section
+     root_node.fitimage_emit_section_config(d.getVar("FIT_CONF_DEFAULT_DTB"))
+ 
+-    # Write the its file
+-    root_node.write_its_file(itsfile)
++    # Resolve the full path to the custom ITS file if one is specified.
++    # If CUSTOM_ITS_FILE is not set, the ITS file will be generated dynamically
++    custom_its_file = d.getVar('CUSTOM_ITS_FILE')
++    if custom_its_file:
++        custom_its_file = os.path.join(kernel_deploydir, custom_its_file)
++        bb.note(f"Using custom ITS file: {custom_its_file}")
++        shutil.copyfile(custom_its_file, itsfile)
++    else:
++        root_node.write_its_file(itsfile)
+ 
+     # Assemble the FIT image
+     root_node.run_mkimage_assemble(itsfile, fitname)
+-- 
+2.34.1
 
-Thanks,
-Osama
 
