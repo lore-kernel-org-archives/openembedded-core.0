@@ -1,147 +1,101 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A722BCAC592
-	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 07:55:55 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.10908.1758268543976553995
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB3BCAC592
+	for <webhook@archiver.kernel.org>; Fri, 19 Sep 2025 08:01:25 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.10977.1758268884616859976
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Sep 2025 00:55:43 -0700
+ Fri, 19 Sep 2025 01:01:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ZRx7Jihf;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=135712f5a8=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58J6ZkXQ1805908;
-	Fri, 19 Sep 2025 00:55:39 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=Vp9FoF1hUS3KsWrma65y3tr9ActFSaBOYPbWEb8BaW4=; b=ZRx7Jihf86JW
-	QwNKfJq7lLMKP/35hJ0tVhL9ds/SgAw5oP1w3cs9sTVsXPUe0c/gLqjHHS1feQmp
-	w3aoT+28KoNiPf+wtu8ysHgnvvY70frSc+Oz1AMBvVza2JNgV7A2x7AWNedQtff8
-	4VvEuK1+/IqtqWRy+q0Tx8bbpQ6UkOuumb1QzedsOKOgKg61kkea3l/W4g6gkt0F
-	lk9L+yP9x9+jsIz9a35F4we01fgwVAegPROy5DgypGX/cgggoAO0np412O7qGUL4
-	sIb7RJyKMiqqfSA7DoITaMzpY5KyVdnQQPlJLTKjLp06SV8ispDaMJche3j1THCE
-	5XCKftOKcQ==
-Received: from ala-exchng02.corp.ad.wrs.com ([128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 498vne88uv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 19 Sep 2025 00:55:39 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Fri, 19 Sep 2025 00:55:38 -0700
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Fri, 19 Sep 2025 00:55:37 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <peter.kjellerstedt@axis.com>
-Subject: [PATCH 9/9] debug_build.inc: support disable debug build for specific recipe when DEBUG_BUILD is enabled globally
-Date: Fri, 19 Sep 2025 15:55:36 +0800
-Message-ID: <20250919075536.1744673-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <1865A7D84B34509F.11775@lists.openembedded.org>
-References: <1865A7D84B34509F.11775@lists.openembedded.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=FbM3xI+6 c=1 sm=1 tr=0 ts=68cd0c7b cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=yJojWOMRYYMA:10 a=69wJf7TsAAAA:8 a=t7CeM3EgAAAA:8 a=LcyfQ99H4bsISVGycWMA:9
- a=STXwoKBC1RUA:10 a=Fg1AiH1G6rFz08G2ETeA:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: MfrUv42wHl8F6fkad5Z1dsFgVcrCe1vX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE5MDA3MSBTYWx0ZWRfX44sIwk8z+4YR
- J8Ssi4McKlhWUloUiwM/+GuVyfUP6QNfhq1NgSBZCiqVgTMWAZjy4rh4mdfUQzpXhwhPix7FmXf
- 6aUnSO2zu+kr55Dq27n8S0p+gokfy2uHTKvUF0fchAq9agrxEbgbfUpNGomtE5NPc9wetf5dwpM
- 3uZE/Gj3ZA7QbFxN+Uo4Y4r7G9PEbb6DcM3UBnnr8SSCYlLNrA0pIroDDRwP6Ri7KhCm1DiGd/g
- uIXpAYcRSqSQw0vnMKxajjc7JNqhAKuHczlBsjVoVEp+2nInQNSIFyo1rG1SwKQKZSaiELqptsi
- 4efck2NMyFA10FDC+VPAMLZDT6pmbmIn0jAEFBc6F1/8cbXD2xriXLnSqkU+tE=
-X-Proofpoint-ORIG-GUID: MfrUv42wHl8F6fkad5Z1dsFgVcrCe1vX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-18_03,2025-09-19_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 malwarescore=0 bulkscore=0 phishscore=0
- spamscore=0 priorityscore=1501 adultscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PnznbVl+;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=j0Pm5B8Y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019960fe0341-ef8329f4-03c9-4993-a36f-c159d45559f6-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1758268883; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=XM2wkuB6WMZwiHZj2Fw0eHzopCMLb7OudP4KY/291u0=;
+	b=PnznbVl+GLVNfhUnCP5r/GiJji7RLftSmMeHQtl44OBqG6/F7SnddzrWTIot0jLP
+	D5jWh0MTpTDtXzam/hm4ydqMIfpJm+iTIk2Gx3EhYde6OS2UP5FThWQ/mMMOt2EMpVH
+	MxmJ4blj9a03WkIzXCarCRMgszhINFQI1RlcH3Yc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1758268883;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=XM2wkuB6WMZwiHZj2Fw0eHzopCMLb7OudP4KY/291u0=;
+	b=j0Pm5B8YrGKCFzYkwjf7bxcc2E7nTIGPI1wg7Ipn78ezwCDYOIw2AA3zykh/S4FP
+	hvk9XD1YbDm5L9tJB67vt1HJPEXbuord3TXCehMs23FiNQsTTClB2sRnh9vey7lrrdo
+	AgadfklvO6idlj936BCBYUDem005ijZrKnheAcoY=
+From: patchtest@automation.yoctoproject.org
+To: Hongxu Jia <hongxu.jia@windriver.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 9/9] debug_build.inc: support disable debug build for specific
+ recipe when DEBUG_BUILD is enabled globally
+In-Reply-To: <20250919075536.1744673-1-hongxu.jia@windriver.com>
+References: <20250919075536.1744673-1-hongxu.jia@windriver.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019960fe0341-ef8329f4-03c9-4993-a36f-c159d45559f6-000000@us-west-2.amazonses.com>
+Date: Fri, 19 Sep 2025 08:01:23 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.09.19-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 07:55:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223727
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 08:01:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223728
 
-While setting DEBUG_BUILD = "1" in local.conf, the debug build is
-enabled globally. For the recipe (such as qemu) which doesn't work
-without optimization, we have to set DEBUG_BUILD = "0" in the recipe.
-In this situation, conf/distro/include/debug_build.inc is included,
-although set DEBUG_BUILD = "0" in qemu recipe, the debug build is still
-enabled for qemu and break qemu build.
+--NextPart
+Content-Type: text/plain
 
-This commit sets SELECTED_OPTIMIZATION, BUILD_OPTLEVE and
-BUILD_OPTIMIZATION conditionally according to the value of
-DEBUG_BUILD, then disable debug build for specific recipe
-could work
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Also move DEBUG_BUILD setting from qemu.inc to debug_build.inc
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/conf/distro/include/debug_build.inc | 18 +++++++++++++++---
- meta/recipes-devtools/qemu/qemu.inc      |  4 ----
- 2 files changed, 15 insertions(+), 7 deletions(-)
+Testing patch /home/patchtest/share/mboxes/9-9-debug_build.inc-support-disable-debug-build-for-specific-recipe-when-DEBUG_BUILD-is-enabled-globally.patch
 
-diff --git a/meta/conf/distro/include/debug_build.inc b/meta/conf/distro/include/debug_build.inc
-index 81b6a5f234..c3f19666e6 100644
---- a/meta/conf/distro/include/debug_build.inc
-+++ b/meta/conf/distro/include/debug_build.inc
-@@ -1,10 +1,14 @@
- # Override SELECTED_OPTIMIZATION and BUILD_OPTIMIZATION when DEBUG_BUILD is enabled.
- DEBUG_OPTLEVEL ?= "-Og"
- DEBUG_OPTIMIZATION = "${DEBUG_OPTLEVEL} ${DEBUG_LEVELFLAG}"
--SELECTED_OPTIMIZATION = "${DEBUG_OPTIMIZATION}"
-+SELECTED_OPTIMIZATION = "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
-+SELECTED_OPTIMIZATION[vardeps] += "DEBUG_BUILD"
-+
- # compiler flags for native/nativesdk
--BUILD_OPTLEVEL = "-Og"
--BUILD_OPTIMIZATION = "${BUILD_OPTLEVEL} -g"
-+BUILD_OPTLEVEL = "${@oe.utils.vartrue('DEBUG_BUILD', '-Og', '-O2', d)}"
-+BUILD_OPTLEVEL[vardeps] += "DEBUG_BUILD"
-+BUILD_OPTIMIZATION += "${@oe.utils.vartrue('DEBUG_BUILD', '-g', '', d)}"
-+BUILD_OPTIMIZATION[vardeps] += "DEBUG_BUILD"
- 
- # The modern compilers and code seem to require extra steps to avoid DEBUG errors,
- # this file collects debug tuning configuration to address DEBUG errors.
-@@ -53,3 +57,11 @@ MESON_BUILDTYPE ?= "debug"
- # For cargo.bbclass
- BUILD_MODE ?= ""
- BUILD_DIR ?= "debug"
-+
-+# Per https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg03873.html
-+# upstream states qemu doesn't work without optimization
-+DEBUG_BUILD:pn-qemu = "0"
-+DEBUG_BUILD:pn-qemu-native = "0"
-+DEBUG_BUILD:pn-qemu-system-native = "0"
-+DEBUG_BUILD:pn-nativesdk-qemu = "0"
-+
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 2ee76e9a7c..7bd28dbbb5 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -58,10 +58,6 @@ COMPATIBLE_HOST:mipsarchn32 = "null"
- COMPATIBLE_HOST:mipsarchn64 = "null"
- COMPATIBLE_HOST:riscv32 = "null"
- 
--# Per https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg03873.html
--# upstream states qemu doesn't work without optimization
--DEBUG_BUILD = "0"
--
- do_install:append() {
-     # Prevent QA warnings about installed ${localstatedir}/run
-     if [ -d ${D}${localstatedir}/run ]; then rmdir ${D}${localstatedir}/run; fi
--- 
-2.34.1
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 101 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
