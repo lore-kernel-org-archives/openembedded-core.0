@@ -1,146 +1,142 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B265CAC59A
-	for <webhook@archiver.kernel.org>; Sat, 20 Sep 2025 00:08:39 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.231.1758326914477547297
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 285F7CAC59A
+	for <webhook@archiver.kernel.org>; Sat, 20 Sep 2025 00:11:29 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.276.1758327088776716341
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Sep 2025 17:08:34 -0700
+ Fri, 19 Sep 2025 17:11:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Vosun3B0;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1358874a66=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58JNiWrF2504406;
-	Sat, 20 Sep 2025 00:08:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=+/7SBktgJ
-	gJnJMRf7rRlxSNPOi7fxUwLZx4XMovB3bo=; b=Vosun3B0/HriEqRmiyfOnQnJg
-	hQtUOclVNQTXEmVMlk2FtWPltrrxRJEzOtRbzhLWs1oVa0lpvOR0+2Km/972+vo/
-	gAkB8fQJ7n1TQgBKOYLB6HrjEXPZugUt/aAGl3viXkZYi0IWmrJXVSra4XR8I9JT
-	zbk3+RL/AjvkZIytvth8FyTEMDrMYBy5TWGRhPrE4WEGpcjeQo0DHrQdMkQ7bYDv
-	ZlPwMrtFWnH2+0InPmmadIh3uDvGN00tDbI0TyX8u4vUvoPqFzeai20rZWneq5cm
-	wxFMXqgYhpH1WYklOp5kh0A8L+sVUqH3jyhJNj5YqTKZ000eRzrtLCvb7LThA==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 498vjw15yr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 20 Sep 2025 00:08:25 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Fri, 19 Sep 2025 17:08:23 -0700
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Fri, 19 Sep 2025 17:08:22 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <mathieu.dubois-briand@bootlin.com>, <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] perf: Fix reproducibility issue
-Date: Sat, 20 Sep 2025 08:08:21 +0800
-Message-ID: <20250920000821.3374061-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=WH8kEPF0;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58JLhJlL028671
+	for <openembedded-core@lists.openembedded.org>; Sat, 20 Sep 2025 00:11:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Qtlkyk8cuQlT2fDP8EKSKvuN
+	Q9Ebc/UGYVZSz88sdPo=; b=WH8kEPF0ps5h0RdfGOKBarCn49HlyA7mRWlGGcee
+	kabCPki95cKbGJvf4TdoxE2TS3Bk6eJ5hIKuM77dS2QFDvPdWIHmguMkqpTRXx0X
+	hsjsOrHhiBJ9AVl3Bzd/hVOSNQQnmsrVxUqew11Prh96BxwjNzN+eOFNbe9yoLsO
+	O9vxGuny35n/YH01myeN791KS3yoLD2uCHxM6H5nX/Ay04kHf/zkJ0aHNcD9CueG
+	OsWxMEDWegy22/V/jrold920oX3uogBHa0XTgD8jyXhg7TFxEF8uPJzZY1OjPWfF
+	T3xenFYN1Z15WQ0eiwzR9uzjKp9sDMGDd1b0qpkky4fOBA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49916x3317-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sat, 20 Sep 2025 00:11:28 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-842b2ad7c28so11003885a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Sep 2025 17:11:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758327087; x=1758931887;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qtlkyk8cuQlT2fDP8EKSKvuNQ9Ebc/UGYVZSz88sdPo=;
+        b=svDtlGRVqsgGbtohiASXF6g82PgYz22r0QS3376Tpo+iDxoB0P1XaAbmInm10Qhov3
+         Ie63hDaaZgEZHaiiZJxTzV8RKRAbmt4p8geswc4aucl9bsSnafrwx2v/9zFBtGWK5ZoC
+         FZF9b0HeVnuupGSbLL7mnZjAd57nBZk8yHbedthAsXmp5lz0IrK4dtOSXhoGI7NRRLUt
+         DJiM8oyxoAM2lo/BFmkt9JGru0BlfwIqOocFvq4XhO7S9VqjMVlE2UOOuz46a5WK9Nxd
+         kDjenEu1WM24er6kncvd/yOscuZ/73LqONPNJZVJvVOIoXd5/hjNi8JyR9va9DaYAT8j
+         Y0IA==
+X-Gm-Message-State: AOJu0YwvF8lr1+VUNfw6FObg1qTVgfWfPaoajF+FRI60N1pnotCPRjlU
+	rvZ91dX9YavuGTLf/JZS8vdgWmuOeRcDe6jejgeo9K00CLZ/E5VIjBYyh9DkA4DLEPibJoYMvJY
+	RWI5d1T4jffZmYuwXplGHlBGZXamXCx6MWy0/IL4BX59UuYP8h0ryuYVJ5xjtFKGyZocJkMQxBV
+	dRSqBLHEs=
+X-Gm-Gg: ASbGncsE1zef2XjPEW+CMOhCqO9N9OZ+IiB1T3PCeo9YEyuJHraKGM8A/99h8+dhHCR
+	45eQ8x7Laf7CT9HZZpx/EBL/sdWphe100tzHqoGSqEjOkBqL+wDxiUg/pao8l0hjc8N4Mje+wWq
+	2MY4F6uJJF01zc4JiTcgHEIVYLeF0QX+kNt3OGw1GlmOigOw4QIKpkIf+4r3/RczQNfuTGDSEXA
+	dboGTQHbhNw/2ttGIrUdgoK+I7svURwK19eETKp/QOWXA04GPsGp9XoTrztRSUmWpFr6ihFbjgQ
+	GbHR+Yy8Vbu2wkaiIgBorQT82aaXttnYyzdThH4+ew+5Bp88uC+J0N0UkJb7SFUCW3kHIz8SoKD
+	5HcCYDKERhvxBu6aTnTuuufYjAQlvfevus0wBSuCyfCc+vpE3dxT7
+X-Received: by 2002:a05:620a:28cb:b0:829:7c30:e83 with SMTP id af79cd13be357-83ba29b6521mr662222285a.2.1758327086877;
+        Fri, 19 Sep 2025 17:11:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFPuA2WDnQyhQbEM+blLWtZ0tQt/dXO8JcoTj2XYtZlwQFqCiahKmTpZZxpUB1jhL7pIljrVA==
+X-Received: by 2002:a05:620a:28cb:b0:829:7c30:e83 with SMTP id af79cd13be357-83ba29b6521mr662220685a.2.1758327086402;
+        Fri, 19 Sep 2025 17:11:26 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3619c92cd02sm15484801fa.0.2025.09.19.17.11.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Sep 2025 17:11:24 -0700 (PDT)
+Date: Sat, 20 Sep 2025 03:11:21 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] linux-firmware: upgrade 20250808 -> 20250917
+Message-ID: <dvtmteaczr4linkwvzu773akab4iea7bhpyjocpruoc4qjw6to@tveqo7ktp6ez>
+References: <20250919211116.3607622-1-vpuar@qti.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=Hrt2G1TS c=1 sm=1 tr=0 ts=68cdf079 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=yJojWOMRYYMA:10 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=hOjxzNy0v5UpTo8hRW8A:9
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: GM4vpL0yAyfO_AYHFkqjMSy3vKOD4B7j
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE5MDIyNyBTYWx0ZWRfX2LwK8Ti/l+jq
- 3j3+g26Y5KmxXrTQ+MrKo/8vpy14Hr10vUYSqTKu+SPvVXs2EUUuGh7Y9Qyz6HAfvuFoVctiUhq
- VP/nKoBg80OPVtpyvq1V8Atr33hbpGhZbqj2/heuxvlemTFWLL0LRY0R46j5M4kGMQt0uQkRxbR
- O+oR9mIZd2Hho7C6Q1me1HpZP95k5C1PhfuSgbjwEbu5xIID92Dr0S+Zm2oSHfgqlGUeVBCi8CC
- XWC0lPWcwEJ0oMoDuB/e9M5uUttQr8lGPrPDkD3Z+bsADgwpdZ+8SXQsjNb5ZxLEp9hqYZadeSE
- x5vKzJtPKVPNlE4KuQzVF2qeYa0VUDd9cmm8Wtw/eOQDt1MiPtjKkx6b1ho6Jg=
-X-Proofpoint-GUID: GM4vpL0yAyfO_AYHFkqjMSy3vKOD4B7j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250919211116.3607622-1-vpuar@qti.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE5MDA0OCBTYWx0ZWRfXzD1h8Nc+mhYY
+ Dh9LTJXeL+YD67S8d8O8medcAjtVyLf1/UwHN9ZMZXngo+Sio/rzCpElQ7oIeWbfVC997h1fDnB
+ mml2lDgrJh33ztkYwkBLBK+Hcf8ldeCQ9yUfp85vQjw4qHWAFbZZDRTMgx2g/+dTr6/HIb+I8UV
+ ae9VEzDZDTl3+cUvNpUClAweuCWB0jIwbYK49HyFKF9BIn+t5oFYxFuPeNZ8tKmF740bPJa7q3C
+ 7+RjlvVP0ooPAijmNun5VKxo3OpFzydNXnhhwP3n+750lOF9cZlP3zIC6vc98kvg4t5mfIejE18
+ N1w4FnKTXnFq8BGqTVQ+YuAJUMOuhJdSmnQskzClieDanLfVNxPN4uvMQ8lPwIqE0/LNjhPZ9fe
+ +94yGXBv
+X-Proofpoint-GUID: fmNTgPPcZv32jF1q7CtbabyaO2l94T2A
+X-Authority-Analysis: v=2.4 cv=LcM86ifi c=1 sm=1 tr=0 ts=68cdf130 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=Vh1iVaj0qxPYo7AG0bwA:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: fmNTgPPcZv32jF1q7CtbabyaO2l94T2A
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-19_03,2025-09-19_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 impostorscore=0 bulkscore=0 phishscore=0
- adultscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ clxscore=1015 malwarescore=0 phishscore=0 spamscore=0 impostorscore=0
+ suspectscore=0 adultscore=0 bulkscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509190048
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Sep 2025 00:08:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223776
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Sep 2025 00:11:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223777
 
-Perf's build process generates two copies of its internal headers,
-one at tools/lib/perf/include/internal and one at libperf/include/internal
-with files like core.h. Although the files are identical, the binaries including
-them would see them at different paths and have different debuginfo data. [1]
+On Sat, Sep 20, 2025 at 02:41:16AM +0530, Vivek Puar wrote:
+> Add packages ${PN}-qcom-qcs615-{audio, compute} to include DSP firmware
+> for qcs615 platform, ${PN}-qcom-x1e80100-compute to include CDSP firmware
+> for x1e80100 platform, and ${PN}-qcom-sm8350-adreno to include the GPU
+> firmware for SM8350.
+> 
+> Extend Qualcomm QCS8300 RIDE and SA8775P platform to include audio topology
+> and include linaro license with both the packages.
 
-The reason is the order of include dir `tools/lib/perf/include' and
-`libperf/include' is not stable, such as
+This didn't happen. You haven't updated licence for the packages.
 
-$ x86_64-poky-linux-gcc  ... \
-   -Ipath-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/tools/lib/perf/include \
-   -Ipath-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/libperf/include \
-   -c -o path-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/libperf/core.o core.c
+> 
+> License-Update: additional files
+> 
+> Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+> @@ -1955,6 +1956,8 @@ LICENSE:${PN}-qcom-qcm6490-ipa  = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-qcm6490-wifi  = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-qcm6490-qupv3fw = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-qcs615-adreno = "Firmware-qcom"
+> +LICENSE:${PN}-qcom-qcs615-audio = "Firmware-qcom"
+> +LICENSE:${PN}-qcom-qcs615-compute = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-qcs8300-adreno = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-qcs8300-audio = "Firmware-qcom-2"
+>  LICENSE:${PN}-qcom-qcs8300-compute = "Firmware-qcom-2"
+> @@ -1987,8 +1990,10 @@ LICENSE:${PN}-qcom-sm8250-compute = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-sm8550-audio-tplg = "Firmware-linaro"
+>  LICENSE:${PN}-qcom-sm8650-audio-tplg = "Firmware-linaro"
+> +LICENSE:${PN}-qcom-sm8350-adreno = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-x1e80100-adreno = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-x1e80100-audio = "Firmware-qcom"
+> +LICENSE:${PN}-qcom-x1e80100-compute = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "Firmware-qcom & Firmware-linaro"
+>  LICENSE:${PN}-qcom-x1e80100-lenovo-t14s-g6-compute = "Firmware-qcom"
 
-$ recipe-sysroot-native/usr/bin/dwarfsrcfiles sources/perf-1.0/libperf/core.o
-/usr/src/debug/perf/1.0/tools/lib/perf/core.c
-...
-        /usr/src/debug/perf/1.0/tools/lib/perf/include/perf/core.h
-        /usr/src/debug/perf/1.0/tools/lib/perf/include/internal/lib.h
-...
-
-$ x86_64-poky-linux-gcc  ... \
-   -Ipath-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/libperf/include \
-   -Ipath-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/tools/lib/perf/include \
-   -c -o path-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/libperf/core.o core.c
-
-$ recipe-sysroot-native/usr/bin/dwarfsrcfiles sources/perf-1.0/libperf/core.o
-/usr/src/debug/perf/1.0/tools/lib/perf/core.c
-...
-    /usr/src/debug/perf/1.0/libperf/include/perf/core.h
-    /usr/src/debug/perf/1.0/libperf/include/internal/lib.h
-...
-
-This commit explicitly removes `tools/lib/perf/include' to assure only `libperf/include'
-is used
-
-Also enable verbose for compile to trace the detail of build
-
-[1] https://git.openembedded.org/openembedded-core/commit/?id=0a886fcacaab0fbce1306c0f99d482f940a8f705
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 98dffd1cc9..d0e144aa3f 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -174,8 +174,8 @@ do_compile() {
- 	# There are two copies of internal headers such as:
- 	# libperf/include/internal/xyarray.h and tools/lib/perf/include/internal/xyarray.h
- 	# For reproducibile binaries, we need to find one copy, hence force libperf to be created first
--	oe_runmake ${B}/libperf/libperf.a
--	oe_runmake all
-+	oe_runmake ${B}/libperf/libperf.a V=1
-+	oe_runmake all V=1
- }
- 
- do_install() {
-@@ -377,6 +377,10 @@ do_configure:prepend () {
-         sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
-     done
- 
-+    if [ -e ${S}/tools/lib/perf/Makefile ]; then
-+        sed -i 's#-I$(srctree)/tools/lib/perf/include##g' ${S}/tools/lib/perf/Makefile
-+    fi
-+
-     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
-     # so we copy it from the sysroot unistd.h to the perf unistd.h
-     install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
 -- 
-2.34.1
-
+With best wishes
+Dmitry
 
