@@ -1,147 +1,110 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A650BCAC5A8
-	for <webhook@archiver.kernel.org>; Sun, 21 Sep 2025 07:40:29 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web11.25430.1758440418469664439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE323CAC5A8
+	for <webhook@archiver.kernel.org>; Sun, 21 Sep 2025 11:02:40 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.27551.1758452550972286664
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Sep 2025 00:40:19 -0700
+ Sun, 21 Sep 2025 04:02:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=wH6n6lRB;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 654F44E40D86;
-	Sun, 21 Sep 2025 07:40:16 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 25BD560634;
-	Sun, 21 Sep 2025 07:40:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 58090102F16C2;
-	Sun, 21 Sep 2025 09:40:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758440415; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=kyJSnioNYWLA9XVinz/z1W5eM3johqzN4/hn/eyoPbk=;
-	b=wH6n6lRBzUNyAbFE94DyUOYlU0Xd9RxJ4IUbkNOwRQJTkH/luL1E1IZMcksm1LOdAPOvrC
-	WTDg0gOm+6eWDzoAXRCQbM1DZ2UOi2LxirzyazIRpD1QM97vqFn08IUbAqanLEXsZYbtck
-	SH3/+qIbIPve/uNKObHub/BRSTcF7bbMflBsGBaFHuf1jSdqQwyXPoctj/PIrdWE6hp8r2
-	IcBm1WQ0sHq1LKM7mTgNJP2Km2tvuFcUdb1P6Z/S6OjVE3A+UWJJDAj60wgTbLQPKbIBsK
-	kUCxTJQGq0DmKUK0GYpFYEeBz1juJwWv9upwBrkUeVVifjb0HL71SCXFUAtXwA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 21 Sep 2025 09:40:11 +0200
-Message-Id: <DCYB3P86O998.3GPS55UV93JDF@bootlin.com>
-Subject: Re: [OE-core][PATCH 6/6] python3-setuptools-scm: upgrade 8.3.1 ->
- 9.2.0
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Trevor Gamblin" <tgamblin@baylibre.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250919164803.3174518-1-tgamblin@baylibre.com>
- <20250919164803.3174518-6-tgamblin@baylibre.com>
-In-Reply-To: <20250919164803.3174518-6-tgamblin@baylibre.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jvFXuqsn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-273a0aeed57so5879525ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Sep 2025 04:02:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1758452550; x=1759057350; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PT9tqmmHSCFoIBi/yBp5CeDm1FEwnzbGhmWe436pJ2Y=;
+        b=jvFXuqsnTisKo+KtQM5gf+Zw6rf2b5LcLgAlUDryUhU94nERoCbcx48Z6xseSIwmMu
+         i9PRe8OYaerHpVAkauYEEY6va3sA7GzYoaT3cKo7XbdZSc2dtoKd7x+IrQ4RmCfvBTHE
+         3qIfzTVBf0FntZILhsr1XbikFQNyxfVnUpXMTmlLQ2RPSmZTkXYNNJ/GYS9XSrqxy8f1
+         RruSnmibF04p//5e+85x/NSm9oJ8b2pPAz9BsI0/tVt/qlI0b/koGZbJUw6lz/3/M+T1
+         hUhYeHngS1AOfpFurXQTYybuHhGbcXxdEm428LUBC5/LO4dbpj6KXnGneIWMBLFhACX0
+         244g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758452550; x=1759057350;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PT9tqmmHSCFoIBi/yBp5CeDm1FEwnzbGhmWe436pJ2Y=;
+        b=NCgk5K2NpDT9QrSY7aABrzG8bWJX21tj4R5pp73D5zSMgoW5zSW7U9p50Bu7ld0eA+
+         /z9cXxODR7o/lCDZlxfyBVMuSASVNZIbBogryawtdqQeNwXBit7JdKKlANxOm5ny3wWs
+         aPnbbPN0/VASX7FOFr1H0UVudcUSYvVVTmgYiov6lP9xbeVlgXusKf3bXTrTZLUAs+MZ
+         2dAuBX8N+rU9jPdy0TlTIo/zCbnUik7dQetdseVaCxDIuRFiEnbMFikrXtVou5qitFGN
+         RbeoiDo/YmIkBkt9BUPqqETlR579NESoQNtsqUq+3J9Ey5oJ+xEnDWNMF6TBUxnXxVZ0
+         c3gA==
+X-Gm-Message-State: AOJu0Yxhu/p5ZA/yINAQ7ePy2dve94rge0nv7yjbC3kLNnUuvI2YLKSH
+	hukIALfcg6owh27CmF0g9CXuTTGqCkoZ76eMCVted7ioFErZJRNtZ2Dx8csGJZIHjEbjNGxgAye
+	9Ej2H
+X-Gm-Gg: ASbGncuAUxVkWmt0WCoSkYc8sS8tNPrTVrkkofWhqa2beXTTc3b9Nb0lgV7je24G3KP
+	JvZM2DhY7+aus8W8vZtd3NONUXKYGvipvVI7mrXT+Q4lrSSYwgLzx6calMgRhL/KiBkdtsU5rJr
+	HWiGRiZSA2vYWbqtGNcYM2ROk9TlOgbsIXqGueIgGZrBYAv1nhS8ppME0d4MKAJ1H8XGnr5ah25
+	2iucVEj0d/yR62RjxBiC0u7w4jHSUyvpASEadnjSu6YI2fUrPcyOirWBSlZDN3P039nsEaO5KJ+
+	bS3T23w2BC7KmDEWgkbWH1AcEQa2/xwo3l3UIN7JM0GSiL3KkQO7nA4zjwi1CQWHk03ZC9ZNnRN
+	SDHMTztJPwoemqP3xYPjpj/6GlYM=
+X-Google-Smtp-Source: AGHT+IEzRgRDZDZK123qdR4F2PIGBOaRPxIhIJnlupQu/MpEghwrRNayFCRr3F+wlilAeqtYhT2ORQ==
+X-Received: by 2002:a17:902:f711:b0:25c:43f7:7e40 with SMTP id d9443c01a7336-269b7953d8emr105692685ad.10.1758452550077;
+        Sun, 21 Sep 2025 04:02:30 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2698016b675sm100312465ad.36.2025.09.21.04.02.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Sep 2025 04:02:29 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 21A01100387; Sun, 21 Sep 2025 01:02:29 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 21 Sep 2025 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 21 Sep 2025 01:02:29 -1000
+Message-Id: <20250921110229.21A01100387@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 21 Sep 2025 07:40:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223787
+ <openembedded-core@lists.openembedded.org>; Sun, 21 Sep 2025 11:02:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223788
 
-On Fri Sep 19, 2025 at 6:48 PM CEST, Trevor Gamblin wrote:
-> Release notes (https://github.com/pypa/setuptools-scm/releases):
->
-> v9.2.0:
->
-> - reiterate version inference by RonnyPfannschmidt in #1202
-> - simple activation now requires a extra instead of setting up many
->   pre-existing projects for failure/error
->
-> Note that there were several v9.2.x releases yanked upstream before this
-> one was added on August 16th.
->
-> Add python3-tomllib to the RDEPENDS list so that the module imports OK.
->
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> ---
+Branch: master
 
-Hi Trevor,
+New this week: 0 CVEs
 
-Thanks for your patch.
+Removed this week: 0 CVEs
 
-It looks like this is breaking the build of some package:
+Full list:  Found 26 unpatched CVEs
+CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
+CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
+CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
+CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
+CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
+CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
+CVE-2025-29087 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-29087 *
+CVE-2025-3277 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-3277 *
+CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
+CVE-2025-6965 (CVSS3: N/A): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-6965 *
+CVE-2025-8851 (CVSS3: N/A): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-8851 *
+CVE-2025-8961 (CVSS3: N/A): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-8961 *
+CVE-2025-9165 (CVSS3: N/A): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-9165 *
 
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/beaglebone=
-/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0=
-.33.0/temp/log.do_compile.2316634
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| /srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-ne=
-on-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native/usr/lib=
-/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarn=
-ing: License classifiers are deprecated.
-| !!
-|=20
-|         *****************************************************************=
-***************
-|         Please consider removing the following classifiers in favor of a =
-SPDX license expression:
-|=20
-|         License :: OSI Approved :: GNU Lesser General Public License v3 o=
-r later (LGPLv3+)
-|=20
-|         See https://packaging.python.org/en/latest/guides/writing-pyproje=
-ct-toml/#license for details.
-|         *****************************************************************=
-***************
-|=20
-| !!
-|   self._finalize_license_expression()
-| /srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-ne=
-on-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native/usr/lib=
-/python3.13/site-packages/setuptools_scm/_integration/version_inference.py:=
-51: UserWarning: version of python-dbusmock already set
-|   warnings.warn(self.message)
-| Traceback (most recent call last):
-|   File "/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/corte=
-xa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native=
-/usr/lib/python3.13/site-packages/setuptools/config/expand.py", line 71, in=
- __getattr__
-|     return next(
-|         ast.literal_eval(value)
-|         for target, value in self._find_assignments()
-|         if isinstance(target, ast.Name) and target.id =3D=3D attr
-|     )
-| StopIteration
-|=20
-| The above exception was the direct cause of the following exception:
-|=20
-| Traceback (most recent call last):
-|   File "/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/corte=
-xa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native=
-/usr/lib/python3.13/site-packages/setuptools/config/expand.py", line 185, i=
-n read_attr
-|     value =3D getattr(StaticModule(module_name, spec), attr_name)
-|   File "/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/corte=
-xa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native=
-/usr/lib/python3.13/site-packages/setuptools/config/expand.py", line 77, in=
- __getattr__
-|     raise AttributeError(f"{self.name} has no attribute {attr}") from e
-| AttributeError: dbusmock has no attribute __version__
-|=20
+Summary of CVE counts by recipe:
+  linux-yocto: 16
+  sqlite3:sqlite3-native: 3
+  tiff: 3
+  libsndfile1: 2
+  qemu:qemu-native:qemu-system-native: 2
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/2434
-
-Can you have a look at this issue please?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
