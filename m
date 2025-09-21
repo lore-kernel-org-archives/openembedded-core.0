@@ -2,94 +2,139 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B793CAC5A7
-	for <webhook@archiver.kernel.org>; Sun, 21 Sep 2025 06:30:39 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.web10.24439.1758436237260696868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A650BCAC5A8
+	for <webhook@archiver.kernel.org>; Sun, 21 Sep 2025 07:40:29 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.web11.25430.1758440418469664439
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Sep 2025 23:30:38 -0700
+ Sun, 21 Sep 2025 00:40:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=UWxz2hKu;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=wH6n6lRB;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 642721A0F38;
-	Sun, 21 Sep 2025 06:30:35 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 654F44E40D86;
+	Sun, 21 Sep 2025 07:40:16 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2F68A60634;
-	Sun, 21 Sep 2025 06:30:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8A990102F16A2;
-	Sun, 21 Sep 2025 08:30:27 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 25BD560634;
+	Sun, 21 Sep 2025 07:40:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 58090102F16C2;
+	Sun, 21 Sep 2025 09:40:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758436234; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1758440415; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=AwC7zyAo7/1nfBlOrL9HC0LcG8xPH3yVcGm4u13EH/Y=;
-	b=UWxz2hKuTCsghWtKeNhhr3lgnc3o1r8oKt5OHdNNh+R++tX9E1eaJqSwbWsfVG1ZHRhDB+
-	oh4U6rPHQ/Syf/HG9+9ccwFeXK3Q+k/g0WnTeKq06tDdCsxsy1i2yvseqCJdApi3qh6q/M
-	2EOTL5ZFv7RIRUNc6IuqzFbKrg0fSyNLzi2psK2xdz26Gqy7gib+hXpjbKeKhlmKCozFaU
-	SbCmvhggjSbwa9cyDSvwBFTC0fyWUM0LKoatW1TIqhqk+klIXV8Vbcz/YkdH8HPWJp0g+Z
-	O2aADzsUhEPRdPbqDFWV9+c1J222cuG8qxHHMDDhgHKAEoeuO5x/ADkYVbkGLg==
+	bh=kyJSnioNYWLA9XVinz/z1W5eM3johqzN4/hn/eyoPbk=;
+	b=wH6n6lRBzUNyAbFE94DyUOYlU0Xd9RxJ4IUbkNOwRQJTkH/luL1E1IZMcksm1LOdAPOvrC
+	WTDg0gOm+6eWDzoAXRCQbM1DZ2UOi2LxirzyazIRpD1QM97vqFn08IUbAqanLEXsZYbtck
+	SH3/+qIbIPve/uNKObHub/BRSTcF7bbMflBsGBaFHuf1jSdqQwyXPoctj/PIrdWE6hp8r2
+	IcBm1WQ0sHq1LKM7mTgNJP2Km2tvuFcUdb1P6Z/S6OjVE3A+UWJJDAj60wgTbLQPKbIBsK
+	kUCxTJQGq0DmKUK0GYpFYEeBz1juJwWv9upwBrkUeVVifjb0HL71SCXFUAtXwA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 21 Sep 2025 08:30:25 +0200
-Message-Id: <DCY9M9Y1UU2T.149Q1AZYDJVXG@bootlin.com>
-To: <hongxu.jia@eng.windriver.com>,
- <openembedded-core@lists.openembedded.org>, "Bruce Ashfield"
- <bruce.ashfield@gmail.com>
-Subject: Re: [OE-core] [PATCH 4/8] debug_build.inc: collect debug build
- tuning configuration
-Cc: <randy.macleod@windriver.com>, <peter.kjellerstedt@axis.com>
+Date: Sun, 21 Sep 2025 09:40:11 +0200
+Message-Id: <DCYB3P86O998.3GPS55UV93JDF@bootlin.com>
+Subject: Re: [OE-core][PATCH 6/6] python3-setuptools-scm: upgrade 8.3.1 ->
+ 9.2.0
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Trevor Gamblin" <tgamblin@baylibre.com>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250916040927.103722-1-hongxu.jia@windriver.com>
- <20250916040927.103722-4-hongxu.jia@windriver.com>
- <DCV1DEVKB7V0.2YZ96FPV5N3X6@bootlin.com>
-In-Reply-To: <DCV1DEVKB7V0.2YZ96FPV5N3X6@bootlin.com>
+References: <20250919164803.3174518-1-tgamblin@baylibre.com>
+ <20250919164803.3174518-6-tgamblin@baylibre.com>
+In-Reply-To: <20250919164803.3174518-6-tgamblin@baylibre.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 21 Sep 2025 06:30:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223786
+ <openembedded-core@lists.openembedded.org>; Sun, 21 Sep 2025 07:40:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223787
 
-On Wed Sep 17, 2025 at 1:24 PM CEST, Mathieu Dubois-Briand wrote:
-> On Tue Sep 16, 2025 at 6:09 AM CEST, hongxu via lists.openembedded.org wr=
-ote:
->> The modern compilers and code seem to require extra steps to avoid DEBUG=
- errors,
->> Move debug tuning configuration from recipes to an include file to addre=
-ss these
->> errors.
->>
->> Introduce separate variables to avoid the :remove operations, such DEBUG=
-_OPTLEVEL,
->> BUILD_OPTLEVEL and OECMAKE_WEBKIT_NO_INLINE_HINTS
->>
->> Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
+On Fri Sep 19, 2025 at 6:48 PM CEST, Trevor Gamblin wrote:
+> Release notes (https://github.com/pypa/setuptools-scm/releases):
 >
-> Just a note about this patches: I had perf reproducibility issues [1][2]
-> after taking this series and I believe this is linked with this patch. I
-> suspect this is not directly related with it, but more with the issue we
-> have had with perf reproducibility last week.
+> v9.2.0:
 >
-> So I dropped this patch for now, but I will take it a bit later this
-> week and try to go further. I still wanted to provide some feedback
-> here. Also, if anyone believes this issue IS related with this series,
-> please share your thoughts.
+> - reiterate version inference by RonnyPfannschmidt in #1202
+> - simple activation now requires a extra instead of setting up many
+>   pre-existing projects for failure/error
 >
-> [1] https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/25=
-05
-> [2] http://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20250916-0ss7=
-2vce/
+> Note that there were several v9.2.x releases yanked upstream before this
+> one was added on August 16th.
 >
+> Add python3-tomllib to the RDEPENDS list so that the module imports OK.
+>
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
 
-OK, I took again the series, and now the issue is gone. So clearly the
-AB-INT is still present.
+Hi Trevor,
 
-Bruce, I've been told you are the one to contact here. Do you have any
-opinion on this?
+Thanks for your patch.
+
+It looks like this is breaking the build of some package:
+
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/beaglebone=
+/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0=
+.33.0/temp/log.do_compile.2316634
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| /srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-ne=
+on-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native/usr/lib=
+/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarn=
+ing: License classifiers are deprecated.
+| !!
+|=20
+|         *****************************************************************=
+***************
+|         Please consider removing the following classifiers in favor of a =
+SPDX license expression:
+|=20
+|         License :: OSI Approved :: GNU Lesser General Public License v3 o=
+r later (LGPLv3+)
+|=20
+|         See https://packaging.python.org/en/latest/guides/writing-pyproje=
+ct-toml/#license for details.
+|         *****************************************************************=
+***************
+|=20
+| !!
+|   self._finalize_license_expression()
+| /srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-ne=
+on-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native/usr/lib=
+/python3.13/site-packages/setuptools_scm/_integration/version_inference.py:=
+51: UserWarning: version of python-dbusmock already set
+|   warnings.warn(self.message)
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/corte=
+xa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native=
+/usr/lib/python3.13/site-packages/setuptools/config/expand.py", line 71, in=
+ __getattr__
+|     return next(
+|         ast.literal_eval(value)
+|         for target, value in self._find_assignments()
+|         if isinstance(target, ast.Name) and target.id =3D=3D attr
+|     )
+| StopIteration
+|=20
+| The above exception was the direct cause of the following exception:
+|=20
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/corte=
+xa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native=
+/usr/lib/python3.13/site-packages/setuptools/config/expand.py", line 185, i=
+n read_attr
+|     value =3D getattr(StaticModule(module_name, spec), attr_name)
+|   File "/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/corte=
+xa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native=
+/usr/lib/python3.13/site-packages/setuptools/config/expand.py", line 77, in=
+ __getattr__
+|     raise AttributeError(f"{self.name} has no attribute {attr}") from e
+| AttributeError: dbusmock has no attribute __version__
+|=20
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/2434
+
+Can you have a look at this issue please?
 
 Thanks,
 Mathieu
