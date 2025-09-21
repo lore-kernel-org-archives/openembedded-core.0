@@ -2,138 +2,153 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC74CAC5A7
-	for <webhook@archiver.kernel.org>; Sun, 21 Sep 2025 14:08:51 +0000 (UTC)
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web11.29885.1758463726073631886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0ED5CAC5A7
+	for <webhook@archiver.kernel.org>; Sun, 21 Sep 2025 14:09:41 +0000 (UTC)
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web10.29524.1758463771405796450
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Sep 2025 07:08:46 -0700
+ Sun, 21 Sep 2025 07:09:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=OX+5ibTt;
- spf=pass (domain: baylibre.com, ip: 209.85.222.196, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-829243c1164so389309085a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Sep 2025 07:08:45 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=BhrvSucO;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.194, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-84827ef386aso27228585a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Sep 2025 07:09:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758463724; x=1759068524; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QGeB+RZkeoIHf01BscdOQJFtAYzQut9Zd3Yn78260RU=;
-        b=OX+5ibTtcrs+OdAKAHCykZ0vMwm4fmlWkyIfdy4VmQF6GkI0G42Z60uUHfZnixXZ5r
-         h8w9mHuC86flfc84Cxz+4g3G1E2FadKM00vw7G/IZWtA00/1QTFec4KbHe/AkqJjX3cJ
-         Q308MGfsS9GpLP1mMlDatKS+bmU4c3Y8hkGPOV9Q+Bu2bJc95sLt+Gcigj8FBP461HPO
-         B0fS40WqQe6EJRpR2uRGc9A9dPo0Uz7tZIzcAFDs30OHbcuOsM8R2wsUt/5lW8U5R227
-         ThJAS2pFO+H6vcWpwV41kww91VB3T55P/XOiiN0r44Lv/cxNCLDPUGZnnGSWm5F1UFqA
-         EsUQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758463770; x=1759068570; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=i7N5W4Jf5abzJaTXUdBwz5lfe3c62p5aX4UkB6m4CIQ=;
+        b=BhrvSucOW82LZ2TGA2DeOG3WxLELqGnkNembim+5zOgdmGHYRErRnwEdbornGFhT0q
+         Nc9tMyIsiCIvi3hG0MFjCbrzlKNxRXPvrJVorPqqPAYrHK/y6LbpavpVddDKNYKQfbiu
+         H4mNiwZrwNnwNxRUyN1jcs7ycKB/FZDiVQhV6Mzb27aIsxmsl9gL+PBomdy07Q4nZjsm
+         CJiob/iCywKvKar0OXdQ4JrmP7KqxPzMuTwyxV2dY5ZCqY75egOiD46bbefZWZO0xMFZ
+         rrO8sEYKexOfnxzcC8O5bUR+4QElYCUj9f/S75Uc6K89SZ+c+rJ37O1w5V/EtPBG+wBR
+         Ktyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758463724; x=1759068524;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QGeB+RZkeoIHf01BscdOQJFtAYzQut9Zd3Yn78260RU=;
-        b=PZVQPwtKzlPjhS7F4I+5LNSkPVkKW039uW3COrIuye4qdfB+2IPX/gyOsMBhqBK6Xi
-         sRibrzqRn5G5AX3WoErDNAr3gIXXoSPvEHjf2L3qgQwkuROLHm0F74Jdh7DfXhuXKDmW
-         Eon8PXLVFIuccbuuV7FZ5XXlvuXRrkNplTo1jXHxr6WBl/TbwNFcz88TE3nVhGmPmhVO
-         8q61/XcINmd3depAwkt48LadCf7XvP6oiXJfHCnXZlJQKOnJ2WkaS95oPXBT2+RjDVwP
-         SABE1QWcs4doqYmC02S0H1tcPvPj4ULnVgupb/4i5a+ZzJ4HEdtxTm/C5nknTANtVpY2
-         xVIw==
-X-Gm-Message-State: AOJu0YxgRazgEE7/nJB8NdAS2fXZbUG10l1IiRwXhS8/DvNcz+SUDd30
-	/pG4VAZxrXxRPTh94OzeWAIpjdnZzXT2ja2kWwviOXpeT+0JQldFInmofFy3ckP2Tf0H+raWxfc
-	DocppqPQmvA==
-X-Gm-Gg: ASbGncty3hzOpxPJdYWSI5GjlMUNsH/Ylfi2fQxje0GQIVMz4emmGuaQLMttEAZKrBV
-	+ei1AyIZQhBXcE0la/XGHBkX8uX/4qtqNsfXAbHAD817d2ltBxYcK61sdqv6fAoUXAmuxggmuNv
-	HKNY89Mf0vHmUhj8Hyfv6hh/pGfnjtl/iLwDkkz9gTLVtP/EdrajhZ3BaoDLkS15sP4aUxaz5ve
-	2LZ6BnU+SN/a+krJrVIWonw5rCbs/x3OE2V7KR2Ct7kw1ZchaTUR6gYjI0jV5dYLmCO/Ai9lWxB
-	v6pcq2dEjlQUj+dt6m9e4oDy28MYxfd6WLuWBH+jQhz0M8OKz/OeRvcZ27yPfwhXjg4rENNz9WM
-	kqCKNEvhOguA7wzaveqRdlwyV0qseqVr+jpC0AAJfBIYr2y76S5WhhgZIWdc=
-X-Google-Smtp-Source: AGHT+IFas7rK4+2oxIP08DUUDsUnD/o32njntxAid4p/97bWodVw0R0u9WwuTRWoKyTS8nr+hP5zAQ==
-X-Received: by 2002:a05:620a:70ef:b0:82a:bb78:20f9 with SMTP id af79cd13be357-83ba40ade19mr925505785a.19.1758463724101;
-        Sun, 21 Sep 2025 07:08:44 -0700 (PDT)
-Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-84aa50416e8sm15948585a.17.2025.09.21.07.08.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Sep 2025 07:08:43 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: mathieu.dubois-briand@bootlin.com
-Subject: [OE-core][PATCH] python3-dbusmock: upgrade 0.33.0 -> 0.37.0
-Date: Sun, 21 Sep 2025 10:08:40 -0400
-Message-ID: <20250921140840.2555040-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1758463770; x=1759068570;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i7N5W4Jf5abzJaTXUdBwz5lfe3c62p5aX4UkB6m4CIQ=;
+        b=PL7eqAbmXGZNCoon2MKRTGpVeiJl+JmspWgNGXrxruMnoyWw7XuULx/zKO3uiW/1Io
+         x7cUojYp11OepKNWURBq3fnJJla88y2kAAdP02IWmESQJwX6UFtDiZOka/suvaNKvccI
+         nKnJVSZZowKxdAlNCWSSwP30/v/JCJHMLnWKWQy3y+Vz73CI0rIRZZpEWmfYs520RdM/
+         9Hffn0MwlOWH+93caC9H6v8XPkR6gVozXzzFuDZKPtjneqDtqv3/Dd1zko/KFxXtu6oq
+         wMiwiTCYPm9lnYt74M2mSKdD11Uyr8P30oXcQNd0ehMKk86h53E5ZkM75Y6fQJpAFqR0
+         3S2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXklIFw99cM9OZVkMPmEAsOE+s1AMzpdtrSu+sySsFqUxBdZDOcK1A4HHvHE5Ly2R7GcZT7xE76tN1pzCc7pdrnmA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyR/oST9ah29xOd8JnTrewFY/nlYq8/vAaZzkN3Qxg1RzVbqlvI
+	JXt/hemvqkaC7XVPOXSR/XBMbYMaI2vlRVJo16ALiCe5PoBiOFugwVZ2O2gSPpXEExY=
+X-Gm-Gg: ASbGncvq5Z8764sUebDylvcyfZ7T8FQEr54Ra52eXD0LJLEffZqPZIVgk1mS4mqBYY0
+	y4SyqT8BHSOscpTkIRyWDEw/wGYnyYkQ4B5iG6oHA070juKS+qL2LLxBF3mDXaW15yHb0g58XIw
+	Z3rTBrzE5cVtY7bJCqMAQ8xSIYmL9/q5s8osraSN3VLrAOXDTKW84VNkikllVtcVTtD8hfInVUd
+	jl953AkKu5qfIGtvbeiaWkqklMBqvncN/Pw1Yy+BhZCjGmVwy+7CgfS8oDZAYpVPYpAMERHmOnT
+	HUpqCncc6CX92Q4QTRQYLnTOhPhwBBJMT+/v8TBnZZbh1utX+Sgl4hCr1aMfbRhkD/QZ0ujqejf
+	pJhqmXeCmzITMbCiv64Mi9nfu4xja2EMZNUu8cCD+02YpUqu4q1Yjm0Cc5l4H/O3hScw=
+X-Google-Smtp-Source: AGHT+IH0h9ZyzDpJW4qb4vqwcs7vH5ajRp1/SJul4M/kKfjenESk7wpinIUYfFWWaGpUMu15smgYkA==
+X-Received: by 2002:a05:620a:40d4:b0:84a:51a8:b28f with SMTP id af79cd13be357-84a51a8b324mr51609485a.15.1758463770064;
+        Sun, 21 Sep 2025 07:09:30 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-836278b8082sm661874985a.22.2025.09.21.07.09.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 21 Sep 2025 07:09:29 -0700 (PDT)
+Message-ID: <e639013c-4bc4-44f6-b1af-10ef025a3087@baylibre.com>
+Date: Sun, 21 Sep 2025 10:09:27 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH 6/6] python3-setuptools-scm: upgrade 8.3.1 ->
+ 9.2.0
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+References: <20250919164803.3174518-1-tgamblin@baylibre.com>
+ <20250919164803.3174518-6-tgamblin@baylibre.com>
+ <DCYB3P86O998.3GPS55UV93JDF@bootlin.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <DCYB3P86O998.3GPS55UV93JDF@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 21 Sep 2025 14:08:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223797
+ <openembedded-core@lists.openembedded.org>; Sun, 21 Sep 2025 14:09:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223798
 
-Upstream notably removed the setup.cfg/setup.py files in this period and
-updated pyproject.toml. It still uses setuptools as the build backend,
-and should be compatible with recent versions.
 
-Changelog (https://github.com/martinpitt/python-dbusmock/releases):
+On 2025-09-21 03:40, Mathieu Dubois-Briand wrote:
+> On Fri Sep 19, 2025 at 6:48 PM CEST, Trevor Gamblin wrote:
+>> Release notes (https://github.com/pypa/setuptools-scm/releases):
+>>
+>> v9.2.0:
+>>
+>> - reiterate version inference by RonnyPfannschmidt in #1202
+>> - simple activation now requires a extra instead of setting up many
+>>    pre-existing projects for failure/error
+>>
+>> Note that there were several v9.2.x releases yanked upstream before this
+>> one was added on August 16th.
+>>
+>> Add python3-tomllib to the RDEPENDS list so that the module imports OK.
+>>
+>> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+>> ---
+> Hi Trevor,
+>
+> Thanks for your patch.
+>
+> It looks like this is breaking the build of some package:
+>
+> ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/temp/log.do_compile.2316634
+> Log data follows:
+> | DEBUG: Executing shell function do_compile
+> | * Getting build dependencies for wheel...
+> | /srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native/usr/lib/python3.13/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+> | !!
+> |
+> |         ********************************************************************************
+> |         Please consider removing the following classifiers in favor of a SPDX license expression:
+> |
+> |         License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)
+> |
+> |         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+> |         ********************************************************************************
+> |
+> | !!
+> |   self._finalize_license_expression()
+> | /srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native/usr/lib/python3.13/site-packages/setuptools_scm/_integration/version_inference.py:51: UserWarning: version of python-dbusmock already set
+> |   warnings.warn(self.message)
+> | Traceback (most recent call last):
+> |   File "/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native/usr/lib/python3.13/site-packages/setuptools/config/expand.py", line 71, in __getattr__
+> |     return next(
+> |         ast.literal_eval(value)
+> |         for target, value in self._find_assignments()
+> |         if isinstance(target, ast.Name) and target.id == attr
+> |     )
+> | StopIteration
+> |
+> | The above exception was the direct cause of the following exception:
+> |
+> | Traceback (most recent call last):
+> |   File "/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native/usr/lib/python3.13/site-packages/setuptools/config/expand.py", line 185, in read_attr
+> |     value = getattr(StaticModule(module_name, spec), attr_name)
+> |   File "/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/python3-dbusmock/0.33.0/recipe-sysroot-native/usr/lib/python3.13/site-packages/setuptools/config/expand.py", line 77, in __getattr__
+> |     raise AttributeError(f"{self.name} has no attribute {attr}") from e
+> | AttributeError: dbusmock has no attribute __version__
+> |
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/2434
+>
+> Can you have a look at this issue please?
 
-0.37.0:
+Seems to be fixed with an upgrade to python3-dbusmock - they recently 
+changed the build configurations upstream. I've sent a patch to do that 
+upgrade and CC'd you.
 
-- templates: Drop iio-sensors-proxy (See #241)
-- DBusTestCase: Drop obsolete {start,stop}_dbus() methods
-- Fix dbus-daemon startup race condition (Debian#1109272)
+- Trevor
 
-0.36.0:
-
-- mockobject: Fix _wrap_in_dbus_variant for Struct and Dict types (thanks Sebastian Wick)
-- Drop setup.{cfg,py} and RHEL 9 support, move to pybuild (rhbz#2377609)
-- Drop iio-sensor-proxy tests, the template is broken (see #241)
-
-0.35.0:
-
-- modemmanager: Add operator code (thanks Guido Günther)
-- modemmanager: Allow to set CellBroadcast channel list (thanks Guido Günther)
-
-0.34.3:
-
-- tests: Relax libnotify expected format for libnotify 0.8.4
-
-0.34.2:
-
-- spec: Adjust %autosetup to PEP-625 tarball top-level directory
-
-0.34.1:
-
-- spec: Adjust Source URL to PEP-625 tarball name
-
-0.34.0:
-
-- modemmanager: Add cell broadcast messages (thanks Guido Günther)
-- Move release builds to pybuild for PEP-625 compatibility
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- ...{python3-dbusmock_0.33.0.bb => python3-dbusmock_0.37.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-dbusmock_0.33.0.bb => python3-dbusmock_0.37.0.bb} (82%)
-
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.33.0.bb b/meta/recipes-devtools/python/python3-dbusmock_0.37.0.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-dbusmock_0.33.0.bb
-rename to meta/recipes-devtools/python/python3-dbusmock_0.37.0.bb
-index c0ea64b6b8..9592c83727 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.33.0.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.37.0.bb
-@@ -4,9 +4,9 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
- LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
- 
--SRC_URI[sha256sum] = "04efd311dd1063ac2b8f7baa79a026b5c0aa3ed4ef18cd9226f52a273fa6193a"
-+SRC_URI[sha256sum] = "38754c5ad2ad8f3936ff67d4b058bca416588a72bc094e91ded9f8f401b06310"
- 
--PYPI_PACKAGE = "python-dbusmock"
-+PYPI_PACKAGE = "python_dbusmock"
- 
- inherit pypi python_setuptools_build_meta
- DEPENDS += "python3-setuptools-scm-native"
--- 
-2.51.0
-
+>
+> Thanks,
+> Mathieu
+>
 
