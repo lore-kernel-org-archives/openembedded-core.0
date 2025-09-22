@@ -1,192 +1,222 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE49CAC592
-	for <webhook@archiver.kernel.org>; Mon, 22 Sep 2025 14:02:20 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.52927.1758549732256418820
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B54BCAC592
+	for <webhook@archiver.kernel.org>; Mon, 22 Sep 2025 14:03:10 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.35])
+ by mx.groups.io with SMTP id smtpd.web11.52957.1758549788591368158
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Sep 2025 07:02:12 -0700
+ Mon, 22 Sep 2025 07:03:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jUqrd3ZF;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-323266d6f57so4554490a91.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 07:02:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758549732; x=1759154532; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RglyTAGStAZNGIbHnLxwuc3A+GIuMtDEpagFrjRHHPI=;
-        b=jUqrd3ZFfuo4zn6tj/lICulAO0DAuixGogzT3gAjScedPHcwaB+OMgVhbzcWfky+ux
-         4NhhWaAK7/1+NJ3MbBNn76HKfAUp8/BUOTkej5ZZmT+sgxUwPLJ1TE3NamYGoEPtsKUv
-         PC0YCs6snAgX+QEaEkxjIdkhYK5H6+5qN6DA0ByFqQtfYjoFa/iLg7DOTmiDjWWRF8jT
-         yBMnVTAm4br14eDKI5AQPYm5G+3HrJMzhee7RrMK2i14yMLIP4n8zxOLwhAGiENp29Zq
-         XnpZDG8ZHO3Ez3HeLlVJBVylto6otn5OJpYd1Kk2qtn3QtyTxCFiOeXKBfa4d4saSM99
-         GwdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758549732; x=1759154532;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RglyTAGStAZNGIbHnLxwuc3A+GIuMtDEpagFrjRHHPI=;
-        b=tAoNxVkre2WakO0jHwRFN7zP8g21rdInx+uNlSiLJEvy1pViYNxh0M7wn+4BPtzQxx
-         qGgedd1gIMv3rRY+2jZTeaTdW+T3h4RYslBn61l4+KpkYh1zPAGBcXPjfNkhs9NKvmK4
-         DUrCjqMwxIJ7G1Js4fJtCfRv86Mv6ESar5lZ/4E28gF1q3G6IgF9yoj19mL906K3eRmn
-         XuKpdZ1CmrfFk605xgVprc+9teZ6/o5zhDshLASq3RXzB2AgvRvFhBWO2AJFraJgK3L9
-         CW8SBvnHWbwyOm0j47djHrAeQrYgWVarmGy295w6n82ZgJ3zab66g0ZVmJ/7XR0HULzv
-         nlbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrg5/Bnz8pZWeM1xOZP86mnfWcvauq5LP1GQqFMAnn7lgrfKuGltFQ9NLvxxStGCY8eVbzFTbx2mPBuDSZrJFzug==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxd7N1T35mco0fQ9JO1tMBU4WWK3zHBejJXH4Bb+WlyVGzTcZsW
-	vVIREDxQN03dHHBsNcYs2fc/JZITNkmx8INRz5kmkGuwLPJUHzHXuuTrSeGfJCBm9VPKf2oBiG6
-	Y8V9H3iHjb5bSRKozG/ZwxWljfdISUqQ=
-X-Gm-Gg: ASbGncvga3EoouETUjlM97uXJgv6/d5i5vkXNC9LZYpERYFfNuVa1/04GWK1spQdFL7
-	iOQQfMcAQbxjuDuMRgX5rZ8/SZkHYE6CZs0mVei0v8UMGyoz3os0Gy4SODMbfkdYI4A4FnTCIvg
-	/V9WSdqzJAy9fCpQIxjvRbcQFnZtaUbT8sFnXPlaKq6313hcUPM4u75ygJ6GScFadyjT6e8T8CM
-	ef3KdEqKRhxXgCS89rGwcTw7EScDCKDw3SA4Mc7
-X-Google-Smtp-Source: AGHT+IGr93q55TvNRFtnbcnz9/Tqsb+wN+vSW/3lfVQWHkBp6VzCJuZ0mnQ6SirFXfM5wRHW03CpzGKQOxPycBcfzhU=
-X-Received: by 2002:a17:90b:3a48:b0:32e:a650:3ed5 with SMTP id
- 98e67ed59e1d1-330983817aemr13970429a91.31.1758549729589; Mon, 22 Sep 2025
- 07:02:09 -0700 (PDT)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=jG6qQ66N;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=jG6qQ66N;
+ spf=pass (domain: arm.com, ip: 52.101.72.35, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=C2Cadfs+J1zRowXWy4rRM1xni+X6+URUKkE6avwNdaZcAkpPiuIGl28n9cguqSmkQqd/LGUINFAUbp7MOf6FPaPKrZJXvqbEE44EFbRfHQMMqbOb9eislXDvoRYqFqKLroH7fjDEU0O+sf5KdPmxgMYICXJ261f0oxkizdVk4AA/VeMLolIOy5LirZTlM43hc4pZXxylfc7Tb7UvPz2uGdPZl7Kq9J9kUtDhX4Sci7mTxkKlTSnjGPVLaLB53y1MZtS9FN1l/fXKpi3gadN1L2HQHiay4vJMy+elRGmFz1Pj7Y9srEzV7BmSbVVqWg0UcFSVfBfcs04YaOHPmFyF3Q==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JW+vwZ2mP3SmtsA7n8r5nUfYZZgo2V+YawGkdK0tiYE=;
+ b=og6xlmKy8v95x5/sazkEV4wEID2RbcLHdkP8af1Xr7LIznoY7mB2azH5HzPw8kH8YRIdDNwT+j+6n3eegiM/2r4EzN8goOhROnTRiLdEBW6otn5LJFF0Ke0KuVWrWuETD4IAVuLUx6/ClrId5YgueuIeyBjKPqtUsV51ks7G5ZS+1YJls4V6nlD0VEu3qtUrb+kXr8TvaOW7cjZHEIc2EFhcwfOZ04Gc67eNoYqZkx++AZVjV4ZHWYppVzOHGXCtLc+tfhKUBtCwISIxj6bIYc1TgNI4g4EJZ0W5Qy+cWTfimwRFXVv7PPQxBYruALc3TuIbIvwl4AFao4c9dUOUsw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=fujitsu.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JW+vwZ2mP3SmtsA7n8r5nUfYZZgo2V+YawGkdK0tiYE=;
+ b=jG6qQ66NpmTCG68kenS0e+Z+ffWu3nSdZHEC/sCScjo4wDdw/R5fYmQvGr+aQFOxZe388hcHL/VKASu0zXHSTXhSQnHq0tLXogBamOAhJvmZjbtM5N9+fJd6gO845JcNMDGp41PAYahXZ1ZguzTAR7nufQOo2/ZBDvlYeK8FQLs=
+Received: from DB6PR0301CA0093.eurprd03.prod.outlook.com (2603:10a6:6:30::40)
+ by PAWPR08MB11067.eurprd08.prod.outlook.com (2603:10a6:102:469::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.21; Mon, 22 Sep
+ 2025 14:03:04 +0000
+Received: from DU6PEPF0000A7DF.eurprd02.prod.outlook.com
+ (2603:10a6:6:30:cafe::b6) by DB6PR0301CA0093.outlook.office365.com
+ (2603:10a6:6:30::40) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.16 via Frontend Transport; Mon,
+ 22 Sep 2025 14:03:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU6PEPF0000A7DF.mail.protection.outlook.com (10.167.8.36) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.12 via
+ Frontend Transport; Mon, 22 Sep 2025 14:03:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OHsO4iT2TiO/DeUvCYc0Ts5WIsP99xXNRFl6UVTA/JQa+GqOJN4MAeS9VpxyTlbfyTE9+lDP+as6UgWD/faFrRJz8hvzEk0GOGqXnpKlsFqPJJY0s0N2t5WHfZkQkdY+SNCdwItYHr+quIeoQEXhE4qVIlvRdeJ7UfGLeSKLgnY58S/lHw9khsa3b/VRh4RwnJxmfXxB8a+d/9QSHnZhlUdKH9bcmkvDrzg4YuRIXCZthMkNzQx5ERhKoMzSG/R+ZFLp0rlcvO4t3sW1c/zilPiwqSS8N0kfR7aCWTd2s+IO/aiNAL8A8plrua0YhNP9ctSGtBkyKlgm8FNLr7fC9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JW+vwZ2mP3SmtsA7n8r5nUfYZZgo2V+YawGkdK0tiYE=;
+ b=frtKi6XAlPa/8OPmSp41yheqssp9FkTmF8ETYHj9bqK4SSj5RJSO9McL/FMU07v38DECRvxjRp+pL5YkRUYhRfWEE1iwhupiX5S8ADeod1OCL9YrAOGy2YQGW0NLW9yibkM/HkHKVmaVFnUBl3NBksZhPscDs4pQ/62SXPRyCsX8r+B2LRs44HoPjNLfxUl7jgXghRuHohX6Mr6hq28h9JsZ/KFaX7X/YQtDLvOWH2L1JeoMW6flNUn2dPY3X83KsL35drbxuspLCRnYdDikR46dHLVWjUa5bt+JYscgyQ7CMReMDyMXjSsTOsl/8kwy76pYPOkx1EN3HyXhPUidGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JW+vwZ2mP3SmtsA7n8r5nUfYZZgo2V+YawGkdK0tiYE=;
+ b=jG6qQ66NpmTCG68kenS0e+Z+ffWu3nSdZHEC/sCScjo4wDdw/R5fYmQvGr+aQFOxZe388hcHL/VKASu0zXHSTXhSQnHq0tLXogBamOAhJvmZjbtM5N9+fJd6gO845JcNMDGp41PAYahXZ1ZguzTAR7nufQOo2/ZBDvlYeK8FQLs=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AM9PR08MB6082.eurprd08.prod.outlook.com (2603:10a6:20b:2dc::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
+ 2025 14:02:32 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
+ 14:02:31 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "leimaohui@fujitsu.com" <leimaohui@fujitsu.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Why nativesdk-pkgconfig isn't installed into sdk?
+Thread-Topic: [OE-core] Why nativesdk-pkgconfig isn't installed into sdk?
+Thread-Index: AQHcK2E1CjJUNHz/B0y+ZeKdZ92XebSfPESA
+Date: Mon, 22 Sep 2025 14:02:31 +0000
+Message-ID: <23153FF5-4E2B-4868-AE5F-C83822DCB14C@arm.com>
+References: 
+ <TYCPR01MB11055F8440AAD67D3CFEC64F3A012A@TYCPR01MB11055.jpnprd01.prod.outlook.com>
+In-Reply-To: 
+ <TYCPR01MB11055F8440AAD67D3CFEC64F3A012A@TYCPR01MB11055.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AM9PR08MB6082:EE_|DU6PEPF0000A7DF:EE_|PAWPR08MB11067:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f71159a-a69c-454c-5a3b-08ddf9e0bf83
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?dEFWRzBRNDN5QkJiSHBqMjArVkpJc1RCODdxZnhleEliR3ZTM1VMMkdKRjho?=
+ =?utf-8?B?RVZQMDRUNE5qQ1R0RXB5S00xUWxLTFlHdHBoRTkxSHZyRUxoT0hyYThaZmxS?=
+ =?utf-8?B?L1MrOXpCK1lRN09CdDVXUWxycXEvMlNFK0p4U0hpUkMzVW9SY2FvK2F3d3BO?=
+ =?utf-8?B?R1hNQ24wYU9hMUJ2RkpISXQ4L0h1ZXg4aU5uQnhnUm9EYmZYZHBwRkErTFor?=
+ =?utf-8?B?bFFrVG10VndEbTFQN3h0R0lDVWVNWU94WWxnSHRxaTFaYVdMcGVOb1hXdTE0?=
+ =?utf-8?B?WEpCYnVXbzgwb0pKMi9XK2JmUC8ycENjNXRjRWxmVjJuaDYrYnhLRVdKZ3Ru?=
+ =?utf-8?B?MDVybDd2UHYwYWdSbTVmSU5xV0JpYXl6RmJRSm95REhreVNuTVVNRVROUDIy?=
+ =?utf-8?B?VGZDUno0aHlxUWIxcFljL0l2K0pxQnJLWEg0L1BvQnpGdytsalYydmlnbk1m?=
+ =?utf-8?B?aDZOL1RZbnNQSENLcWthVzhiOGQ2R0g0MzBjV0o3UlFXSEFtVXNTcUtaRDhV?=
+ =?utf-8?B?VlBETGkxckhUMnpNWm1VcmRaN0FUTTZ4QWE3bUE1ZEwxeGVCQndlMmF5enRs?=
+ =?utf-8?B?NXFxMDBSTG54TzVEWU5IRkt2Q2NWTUw1WkhqT2VGeU5OWkxwRmhXL3kzMWFy?=
+ =?utf-8?B?Yk1iWWUxVlp3MFNTRzEzR2lvMXQ1bHB1NmtCY3NGc0t2bS9sTHdwVHVXVkpp?=
+ =?utf-8?B?S3Z5YXlWNk5MRXA5cFppd3B6QVZ1akMrdjh1TTA4eVpMaDNyUHlzSXFZRzhL?=
+ =?utf-8?B?S01oekV0LzhVOXFpSkZzazB2dmJQNko1VktPaFNMaVU2TDVPRDc3N09oTTB2?=
+ =?utf-8?B?aFNDRm0vL3BaT3Uza1kydWhzRmNtcTRja0dRMTBJdDRvTDB2RkdEa0UwRXg2?=
+ =?utf-8?B?MzZIS1d2VDJhc2o2eHZhVlhWMWZWMjl5NWJROHVkSzFqUmRlaUdSMFFZVy9H?=
+ =?utf-8?B?bkRzWlBPOEpHTUZyOFN3MlM0WG1yRlJoOVNOaE82V0dvUnJ4dFdqK1JvVkhO?=
+ =?utf-8?B?dm1HaVZTYU0zeTdCWEhpZDkyanRHSHRmN0x6RUErZ1dGUGVFSHRtb0VJTHFy?=
+ =?utf-8?B?OEFRdTBPZDZTSVJjanhnT3Y3K1pTOVdCeGcyZ2N0VmRMN2dzU3NhUmNBblpG?=
+ =?utf-8?B?WGZjcURPNVdReHhMTTBoZjRVSml2UUJhYUE3amYxdmF3SC9PaDZscVVOckRO?=
+ =?utf-8?B?Y1JXcjh3dDZ0NXdac3J6MytRbXFCNzBkRGhKcENBbkFqbmk5QUVqNkxKbXdu?=
+ =?utf-8?B?dkpKbzdSRTdQVmFFcXVkVktUMHFEMlpEOEF3Mkd2T2FlZS9lb1ZIRFJPamYr?=
+ =?utf-8?B?QkFGV2JUUUZnYTZZaWN1bXhwZlpTa2ZxNXIxL0UxMFhGNFdwUlRBSjdwK0lk?=
+ =?utf-8?B?MHo5cHdQeEtnejVVVzdPYkM5bGsvcFg5ZnBXMmlrbHJ3VXhzbnFYQzdvNmxl?=
+ =?utf-8?B?WVJ6TCtpNFNCSVdML2FSaUt0RHJRd2x0bnl1djBJTmFQdnh3YzdETGpBQWJJ?=
+ =?utf-8?B?QkoySW9SbEttK3JlaWQ2RGg0SlBuNXBQdnZld0U3YlFicTBmUkVEcXAwcVNa?=
+ =?utf-8?B?Tk0rNnhqMmdFWWExbnJhLzMvTGtMaFlvdlVHZzJqL21HdGM4SjFPOWJaeDMr?=
+ =?utf-8?B?SEFjTzhCT0p3TmtIS3p1OWdHZUVrZ0VIcHJNUWMwL2RMMURKc2g3RmxCWDlS?=
+ =?utf-8?B?clB5QUpIS2V3MFFQWWszeE9zUSs4MUg0ZERTWDFUNHJaek8zNG44VE1lNHN2?=
+ =?utf-8?B?SlNja01UT3hDSGpwbXRWQW9BekRzOTZ0Y1kwMm1ubFpMb3Mrb05nVkNKYjRE?=
+ =?utf-8?B?WDZLY0d1TDdQRGVjWHJwKzBqZHZyQ2l3NU4zUmx0SEZJYk9sZGZNN2VBRFNX?=
+ =?utf-8?B?VGpwRjkwVEdhTVJLaFlvbmZlM1ptWkxMMFhqTFI5WDNKK0owOWZYajdHengx?=
+ =?utf-8?B?cU1BUzZOa05Nbm9PcHFtblRqVmFJVHJTQjJtK3h6YVkvTzV0YmZpcHNhcFdq?=
+ =?utf-8?Q?ja7U7PlWQ16zHR9x1GkX8GEZDR/5HE=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <93B83F58B8C1E14DBB23D30B22C1C880@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <cover.1757088383.git.bruce.ashfield@gmail.com>
- <0074b1cd80c242493c1e50d9ff58cc4427272a50.1757088383.git.bruce.ashfield@gmail.com>
- <AS1PR10MB5697E637960455A217026DBBFD11A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <1866AF8ECC88AFA1.22280@lists.openembedded.org> <CADkTA4NRGBeFNS_UE4YYOXh+RFPnTM8QoZYMizUAsD_d9tHKww@mail.gmail.com>
- <AS1PR10MB5697EA7DF788318E41839751FD11A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <CADkTA4OFS8WJmggeqTRMwQbifmanQxGxtJos8FEzr_KzMev=aA@mail.gmail.com> <8f537cc82b3a42d0f9d960992926a36eca4ca066.camel@siemens.com>
-In-Reply-To: <8f537cc82b3a42d0f9d960992926a36eca4ca066.camel@siemens.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 22 Sep 2025 10:01:58 -0400
-X-Gm-Features: AS18NWBSQMGKY8dehK_lg3rLkGjNRD79arjxmrCvjyQnYsknmWxD0biEQzlSAqg
-Message-ID: <CADkTA4Me2Odonj_zsP9CSRW57_TR+fXEniw2ss7Omf8r1AQ4hA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/5] poky: bump default kernel reference to 6.16
-To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-Cc: "Marko, Peter" <Peter.Marko@siemens.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"Freihofer, Adrian" <adrian.freihofer@siemens.com>
-Content-Type: multipart/alternative; boundary="000000000000f3bd92063f644318"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6082
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU6PEPF0000A7DF.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	8ec343e6-038c-40a9-7952-08ddf9e0ac87
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|35042699022|376014|36860700013|1800799024|14060799003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?RSsrNDNBZ1ErcmNTNDZIamxVSkQ2ZGNoSVp3OHRIaW1GRFB2RERTWGN0ZVFH?=
+ =?utf-8?B?MWtQWDdhSXVXN2kwMEkzeDNLSFpzSjYvcExrRURqcFZpWUNMYnkrRFozdXpv?=
+ =?utf-8?B?OFpXT3JSbTJCbjF0T2ZpTWxLWUhDQkgwa1dqUUVlanZtYUlndklrMFdoVkdj?=
+ =?utf-8?B?T1BUVWlTQVYvdUZubW1QVFZHTFJQV2x4b0JkcEM1OTlwZmRxdWV6a2YvTy95?=
+ =?utf-8?B?MXZKbjgyNXRLQ0l1RXRiU1owQml2aHlRdExKVEkvTGtZYUE3dEsrQURydTVj?=
+ =?utf-8?B?Y3FtSU9aVUdZSVBTbXdrZDdkL2s4UWZHMDRVZ3FZd0dXNlVsWDZieXJxcmh3?=
+ =?utf-8?B?bElZOVhaTGZ6cDNSMURIY3RzT1Z1MkpuRDZYTFczcTYveXR6Qnd0SkQveEw0?=
+ =?utf-8?B?cFE5MldnaUpZS096TlZnZEI2dmlpWDFhMDRnMlVtQlJKVWRQVU01NGFlbjdS?=
+ =?utf-8?B?ZlFpTEJZRy9tNDdvcW4rdTdqQjdDem84Wnd5cUp5ZFF2Rm5ULzk5eHR0MzIz?=
+ =?utf-8?B?dkF6Wkk0ZnNYWWVSQ2x6M1hRWWRNditoMHNscDhBK1VHbjZNL3RBVzBLZlpG?=
+ =?utf-8?B?NUt5QTBObXV6MEg1Rmp3MEN1OVBNL1NyM3ZTU0RuVEcvaG9zUWcrWVE1cDVz?=
+ =?utf-8?B?bjlWeGdnZXdCckI1ZHlzL3NMa3IydERXWVJ2Vk10d2pLY3VNaTA2UWdtUkRn?=
+ =?utf-8?B?Slp5VnpyU21OYlRXQW43UmlwdnBGWTlTWkFsdVJwa1Uwb1BoY0EzblVxLzly?=
+ =?utf-8?B?ZUhBc3NtaFFzbThNSXcyRnpGc0pjdWl3dlB6M3B4ZE5WOGk0ZG0wUjI1R29j?=
+ =?utf-8?B?Yi9RNUc1eCs3UTRhdDRHZzF3TG9uUlV0cWlGRUlGbDVwNktjb3VRWnNkZlpE?=
+ =?utf-8?B?TXJlTDM4c2c0cUFlcS80dk9LbG03ZEFJQUx0dWQ1emFteDU0U3dPa1pmaFo0?=
+ =?utf-8?B?VkpEY3NhZjNoenZtM1VUL0tEWEtzdTVqakRxYjRpUnorVnBUSENRaWI1aTc5?=
+ =?utf-8?B?MlhKZDVmdmVLRmcxbkVkcDJHbnhML204REhzcUNMdlFHUksrdWtoRjE2Ylcr?=
+ =?utf-8?B?ZUcyTXU5RUd4Vm8zOUZadGUrN3ZBNFBaWHpFOGJUbDhVYXk2ZXIvWHgxcktm?=
+ =?utf-8?B?aUR6enB6dFVZOVdVMmJJVzU1SDNtMUdleXNLdmZ2RHBVdHV6MzRWeFNSbGNY?=
+ =?utf-8?B?bWFQT3V1UysxNzI2TjdMZC9IWi9jNGF5ck9ELzA1WGcyYjFOUHFZeG5PeFhs?=
+ =?utf-8?B?Ri9XRUdIbGxpMHI5QU81dXFTRjFlN2F3bi9zclE1TmlqZ1ZEcmdUQndwOEVR?=
+ =?utf-8?B?T2daWmFFeWFoVENoeFNNcWJjVUFmQjA4WXNyY2RPQXA5MXg4ZEVDc09zSkF4?=
+ =?utf-8?B?RVhwcnJ0RGVKOXFoaC9kT1lodWxRVFROaFo3S1E1aHB2T2dPWG51VXpzNnpP?=
+ =?utf-8?B?Yjd6QUZSWE5sUUxXZHFUMjJXL2JqTENITDNLWGVIZEJyOVdNSkk2ZmJqT21y?=
+ =?utf-8?B?TnBJYW85eGpsYVJ2N3U2bHpMVnlkZFY2UE0vMUcvWHFnWFoxa1lWS1Y4KzNI?=
+ =?utf-8?B?UEpTNHV2dTJHQ3AyM2pIazFRWGlZUU5ydFZjTENSaHBiK1BkZjk2YWdqMEUz?=
+ =?utf-8?B?dGpBaFplNlBKMnpkQm9aSXh6V2pYVnhnV01mdzdSNmlZRmFSM25JSEQrUWVr?=
+ =?utf-8?B?UHg0ZUQveW1XT2xkNG9JWWlvbFJGdkhYSEtwZHhKd29iemtFYVJsUnRHWGRo?=
+ =?utf-8?B?ci80Tmd2R1hWTkI0R1NVMWd0MWNSbTJOcHZVcjZVL3ZsK09nZVBGeUxjRktX?=
+ =?utf-8?B?YVoxdVkvU21vN1VPNU9Jd09lRGJFeEhJZWJnSTE4QVUxK0R0L2lXa1FVQTZ5?=
+ =?utf-8?B?Tkx5Q3laLzZnYWMrMVRubEQ3TkM2dUVaNW10WWUyL0s3NGxQeDBlZjhQa1c2?=
+ =?utf-8?B?bWlOYytGOVEvMWRvZmRUQjUxV0J5RUJzeG9adWgwN0czSTBkNnd6K1BsRFZz?=
+ =?utf-8?B?ckMvQUE5c3NMbUI1UlM2ZURvVWRVY2F6eVY0ZHgvaHl2SWxzUitscE5BcHJr?=
+ =?utf-8?Q?h2bOmb?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(376014)(36860700013)(1800799024)(14060799003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 14:03:03.7068
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f71159a-a69c-454c-5a3b-08ddf9e0bf83
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF0000A7DF.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB11067
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 14:02:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223824
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 14:03:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223825
 
---000000000000f3bd92063f644318
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Sep 22, 2025 at 9:54=E2=80=AFAM Sverdlin, Alexander <
-alexander.sverdlin@siemens.com> wrote:
-
-> Hi all,
->
-> On Fri, 2025-09-19 at 09:05 -0400, Bruce Ashfield wrote:
-> > > I=E2=80=99ll probably wait until it gets merged to kernel master befo=
-re
-> submitting to linux-yocto.
-> >
-> > That's up to you, or I can always go track it down on the upstream
-> mailing list.
-> > Whatever is easiest on your end.
-> >
-> > I don't mind taking in-progress patches, as my workflow can handle it
-> without
-> > much fuss.
->
-> it turns out, it has been fixed (by the very same change) already in
-> February!
->
-> https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20250218-buildfix=
--extmod-powerpc-v2-1-1e78fcf12b56@efficios.com/
->
-> But remained in linux-next until now (and I didn't check that).
-> It's 46104a7d3ccd ("kbuild: Add missing $(objtree) prefix to powerpc
-> crtsavres.o artifact").
->
-
-Aha!
-
-Thanks for the follow up. I merged the latest -stable last night, so there
-will be more bumps
-to 6.16 today. (I didn't check if it is only in the latest stable or
-somewhere else, but will have
-a look later).
-
-Bruce
-
-
-
->
-> --
-> Alexander Sverdlin
-> Siemens AG
-> www.siemens.com
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000f3bd92063f644318
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 22, 2025 at 9:54=
-=E2=80=AFAM Sverdlin, Alexander &lt;<a href=3D"mailto:alexander.sverdlin@si=
-emens.com">alexander.sverdlin@siemens.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">Hi all,<br>
-<br>
-On Fri, 2025-09-19 at 09:05 -0400, Bruce Ashfield wrote:<br>
-&gt; &gt; I=E2=80=99ll probably wait until it gets merged to kernel master =
-before submitting to linux-yocto.<br>
-&gt; <br>
-&gt; That&#39;s up to you, or I can always go track it down on the upstream=
- mailing list.<br>
-&gt; Whatever is easiest on your end.<br>
-&gt; <br>
-&gt; I don&#39;t mind taking in-progress patches, as my workflow can handle=
- it without<br>
-&gt; much fuss.<br>
-<br>
-it turns out, it has been fixed (by the very same change) already in Februa=
-ry!<br>
-<a href=3D"https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20250218=
--buildfix-extmod-powerpc-v2-1-1e78fcf12b56@efficios.com/" rel=3D"noreferrer=
-" target=3D"_blank">https://patchwork.ozlabs.org/project/linuxppc-dev/patch=
-/20250218-buildfix-extmod-powerpc-v2-1-1e78fcf12b56@efficios.com/</a><br>
-<br>
-But remained in linux-next until now (and I didn&#39;t check that).<br>
-It&#39;s 46104a7d3ccd (&quot;kbuild: Add missing $(objtree) prefix to power=
-pc crtsavres.o artifact&quot;).<br></blockquote><div><br></div><div><div cl=
-ass=3D"gmail_default" style=3D"font-size:small">Aha!</div><div class=3D"gma=
-il_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default=
-" style=3D"font-size:small">Thanks for the follow up. I merged the latest -=
-stable last night, so there will be more bumps</div><div class=3D"gmail_def=
-ault" style=3D"font-size:small">to 6.16 today. (I didn&#39;t check if it is=
- only in the latest stable or somewhere else, but will have</div><div class=
-=3D"gmail_default" style=3D"font-size:small">a look later).</div><div class=
-=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_=
-default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
--- <br>
-Alexander Sverdlin<br>
-Siemens AG<br>
-<a href=3D"http://www.siemens.com" rel=3D"noreferrer" target=3D"_blank">www=
-.siemens.com</a><br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---000000000000f3bd92063f644318--
+T24gMjIgU2VwIDIwMjUsIGF0IDA4OjMyLCBsZWltYW9odWkgdmlhIGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcgPGxlaW1hb2h1aT1mdWppdHN1LmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90
+ZToNCj4gUmVjZW50bHksIHdoZW4gSSBjcmVhdGVkIGFuIFNESyB1c2luZyB0aGUgbGF0ZXN0IFBv
+a3kgYnkgImJpdGJha2UgbWV0YS10b29sY2hhaW4iLiBJIG5vdGljZWQgdGhhdCBuYXRpdmVzZGst
+cGtnY29uZmlnIHdhcyBub3QgaW5zdGFsbGVkIGludG8gdGhlIFNESyBhbnkgbW9yZS4gSG93ZXZl
+ciwgSSBjaGVja2VkIHRoZSBSREVQRU5EUyBvZiBuYXRpdmVzZGstcGFja2FnZWdyb3VwLXNkay1o
+b3N0LmJiIGFuZCBpdCBkaWQgaW5jbHVkZXMgbmF0aXZlc2RrLXBrZ2NvbmZpZywgc28gSSB1bmRl
+cnN0b29kIHRoYXQgaXQgc2hvdWxkIGJlIGluc3RhbGxlZCBpbnRvIHRoZSBTREsuIElzIHRoaXMg
+YSBidWc/DQoNClllcywgYW5kIEkgc3RhcnRlZCB0byBmaXggdGhpczoNCg0KaHR0cHM6Ly9sb3Jl
+Lmtlcm5lbC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvMjAyNTA5MDMxNjQ0NTkuMjc1ODEyOC0xLXJv
+c3MuYnVydG9uQGFybS5jb20vDQoNCkJ1dCB0aGVyZSB3ZXJlIGNvbmNlcm5zIHRoaXMgd291bGQg
+YnJlYWsgc29tZXRoaW5nIGVsc2Ugc28gd2XigJl2ZSBub3QgeWV0IG1lcmdlZCBpdC4NCg0KUm9z
+cw==
 
