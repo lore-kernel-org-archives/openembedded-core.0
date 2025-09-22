@@ -1,131 +1,88 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54819CAC5AC
-	for <webhook@archiver.kernel.org>; Mon, 22 Sep 2025 11:39:39 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.50044.1758541170094134522
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F00FECAC5A8
+	for <webhook@archiver.kernel.org>; Mon, 22 Sep 2025 13:35:29 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.52136.1758548120447353343
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Sep 2025 04:39:30 -0700
+ Mon, 22 Sep 2025 06:35:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GPYcL/3Y;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3f42b54d1b9so1576782f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 04:39:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=P5vdq7md;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-62fc28843ecso4136977a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 06:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758541168; x=1759145968; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wM18QRLWKoeKvPLmZoQTU82R+q1N2oGNR+BhlIXyEk0=;
-        b=GPYcL/3YJQQ6Ofr4T4C70ftSPuMrRmPFbsi3GcYFGbFXP7bZ34RGAbiNUBeOXFGuIb
-         trl/4H8sAZKGMv2owbBnJ04A7Lxyr3If/xNPmLj3QBNWPIUEkiA/SUIR9HIXw7EJpKJt
-         60aoBsnsZDhhRrzNa4ALXsbZ2Y3UBca25hYndltetba5XDdFMu7dh2Ey+nbMX7lFPAEO
-         6m4guqMtss7crzvoyCwwZsPGWiYB6Bc6rFa9XTbaDvtfbjMNKxNMQFxX1gsF03bLd2R1
-         dSZNySUjjnJ77UPHEXxJgcqMkBZWclw3aRA3GBa/fCRKojDei/9LtpSCMxv7os5vIcnZ
-         0V8w==
+        d=gmail.com; s=20230601; t=1758548119; x=1759152919; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4GCjEciDRPb5iA+23Kja1uaPg2Ky+hZOV8bB5RpOJKU=;
+        b=P5vdq7md/Ed+Yt0LepR0MoEcINR8O0xA2YJzM5DQBClioW8FsXimjEA59TMq3K9GpK
+         LDmLS5bgPGSl5R033ldP1pIZDkFgKI3ld83mW8W6xrbSpHGmqYZaeXl8cm/CrDZdQpeH
+         jnmiacumsWzxFGO8/c/Zs6cN9QP4gDl/b4lpA4zXV9hYDF1xpwwibEwVAD0Gjk8DhzqQ
+         0+4xxHjxbmNv977+8q6JHuMJRcqTrQ/4x4poZWkSCOTB/s5DjEIZ9Bea15O7tNQxnFxk
+         ri5d9GAPuaNpJX0Tvj/b86EkcNFNcPRFvEz+cehTzBc0yOhpZTF0n0NvmMR3fjokx/nW
+         ITAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758541168; x=1759145968;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wM18QRLWKoeKvPLmZoQTU82R+q1N2oGNR+BhlIXyEk0=;
-        b=WkqJUFvRAw+yHvegFtVVBEL8kCEIe6BB5zlE9D8vYQlylvbVhO/43HpT0xxWJP6HVT
-         ZD2e6SeCRcyMBYEFACum7WDhD2PInsCK0tQEO2c4bK/Zkn8hAHGa02P1HYHrG3tA22HK
-         bDpAFocExTS9cX2uwNTjCNdsNbPhOZZBY8hRzrvmnN0IEA5TKWighej3c7o2OsgVSIZX
-         +ctJ9kMSY3CnnjrZYY3B/o7nfQ8SxfN6FtDDy0ipapAhOFq8rRg5zKBTvSEE8oebykEe
-         mNXqN0J2i3PDm94H16Yak9FlstkKcqUhhGBgc70O8XoqF7oRv+I9d58OVN+S6bOdo36e
-         6nlA==
-X-Gm-Message-State: AOJu0YyP0waKg27b6d80jetghGzvtgYg4O1i0WTX6WV7apLtgOf6xiJV
-	UX0TGEUmonfKxCl5ECFV5kadgmVEd+XZN7TakRIiQbUw9WiGcBqEXYZHdwRcxw==
-X-Gm-Gg: ASbGncvlKKkKZ0hiJVegBuJ2wYI/6KPxES/0lXebpafTrJ8fON6E2yPOC8QdIrW3XqX
-	H1dr5FXLmal7r3YBeF1TSl6PXa4LCFZTUy70h2Hz8soawSYigRMIeuBpJr+O5dl51fVFOmZR1Qk
-	Lj7qctYnL2ZZt1klZqOxw0shfd9FKg313o+vXwW5gEKdu9aK4QdHnN7CcgU3VDT44xmfa9FdXVo
-	75kKX9T2azkRuwzhrdvYcJdkrDFARzcFiNNK0tCJcrpGntLoIe5zO3JlRdwkno6H/YTrRzFyhcu
-	+aeNZQWJLEP6QqGm/b/YcRYq6dMlcyXiA45qaIFjDQW7nfQJHmHkmcGQM7ROsgoJ4dKddkTuCMr
-	1S3bxPnj/YmPWADcIqea6iefnLAx4TPZPX+MWj5CrWweUhBH2mzU8SHY4Oi8b3HkAKtSvmTCgXz
-	HtaXZneP4gWDnZVE2RJrxn9pRAosIfbezscb0GR5ZPeEuBSBcsOlWTPsWzPA==
-X-Google-Smtp-Source: AGHT+IEsNcyjMyoIJ6p1OCPxzPouY8QySZIPYqe2JXe2DTSyNVfKmnKO1FhKPRdVN+JxMaaKcUKqQQ==
-X-Received: by 2002:a05:6000:410d:b0:3f5:d7c0:8e20 with SMTP id ffacd0b85a97d-3f5d7c0d9f5mr4096410f8f.59.1758541168334;
-        Mon, 22 Sep 2025 04:39:28 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46d1c97a87csm44400205e9.20.2025.09.22.04.39.27
+        d=1e100.net; s=20230601; t=1758548119; x=1759152919;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4GCjEciDRPb5iA+23Kja1uaPg2Ky+hZOV8bB5RpOJKU=;
+        b=oS/Be7KKQ/p2j8XxAcyobihuR1HrKkayukK4jaaFBa81I+oY+5bV1BVnxOiPuHuBFi
+         UgYJo1+Ex5oDhpEQkO4ELvyhsx0rMCgJHsWGXPu4H8Gl4+lchCowD7aZZ6lOcdOf4b7s
+         MayTh0DDOHLnA6ZofHR5519HAUY6f0iQKBPvYz+W210ugUYdRYZHggL5DCSR6CCi0qtu
+         FsYHO6Ly463uV/RP0caPrbfPt6aJ7Li/SZOhEfO3ckwqsY/ZFzlYIz5EQKWu4W2Ztg5r
+         himcWGz10d2IsW2ZEPGNV2RweXF5vrqhHHcjUgOZjG8ujmWPrBVEfXrzF5dz3E5X93hC
+         6v3Q==
+X-Gm-Message-State: AOJu0Ywppxd8HBIT4QvOQLnIIg2tLu7Q1lmGRvR3/RokoBpUCCtXXGpQ
+	o51ubiQlP2OvuPI0BvrDQtIuHnuMN90E/IP9fTNuTVN/cFJahulT23yFVJ4tCw==
+X-Gm-Gg: ASbGnctuyh2pcuu1ONE32nJrJC/TSz89dgKTZHuesXVPVWBNjHSC2BSbthZHLhybNps
+	s3hR3iIr6GGyCMmbRYQcbYAPOI/MIfoI2vtBZVBIBU5SQrRUc3BQePb4AelI0sztvuU7O/fasf4
+	gaMFRNx8SIqvC7sAbcrO6QEWW6oCTg25e8sZrFyeAaeSazZXaKsSunGdgLv386FFFm1eE9L4TEC
+	TOksqgmnuIaYXkgIS2zKWAb9sQ9tMSwVo6m1tUn+8P1srvDiWS4L7740nH7EER2Ghj7+UrO4QW1
+	Gmt+hN8CpzqeAKmawADh0lnC9gb0M6mhhTMFpv67a3bWUWYMNl6afHEz+kGTF36XwMGesthyDJo
+	FQvVvKcaOh5C6VpsFg0Z1
+X-Google-Smtp-Source: AGHT+IGjiV3uiHFO73ttW6tjHKWJyWi2L6/9ejMtDGKfEkHUUroi6qOEOSAzUYHs6HKopXR8mSde9g==
+X-Received: by 2002:a05:6402:280a:b0:634:4e56:ba02 with SMTP id 4fb4d7f45d1cf-6344e56bdd1mr1725974a12.23.1758548118601;
+        Mon, 22 Sep 2025 06:35:18 -0700 (PDT)
+Received: from desktop ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-62fa5f28511sm8763402a12.40.2025.09.22.06.35.18
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 04:39:28 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+        Mon, 22 Sep 2025 06:35:18 -0700 (PDT)
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/2] cwautomacros: delete the recipe
-Date: Mon, 22 Sep 2025 13:39:20 +0200
-Message-Id: <20250922113920.2693840-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250922113920.2693840-1-alex.kanavin@gmail.com>
-References: <20250922113920.2693840-1-alex.kanavin@gmail.com>
+Subject: [kirkstone][PATCH] libhandy: update git branch name
+Date: Mon, 22 Sep 2025 15:35:17 +0200
+Message-ID: <20250922133517.243697-1-skandigraun@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 11:39:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223819
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 13:35:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223820
 
-From: Alexander Kanavin <alex@linutronix.de>
+Master branch was renamed to main.
 
-This is a long-obsolete set of custom autotools macros;
-'which' was the last consumer in core or meta-oe.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 -
- .../cwautomacros/cwautomacros_20110201.bb     | 25 -------------------
- 2 files changed, 26 deletions(-)
- delete mode 100644 meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb
+ meta/recipes-gnome/libhandy/libhandy_1.5.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e80959749e1..00c5eadc824 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -139,7 +139,6 @@ RECIPE_MAINTAINER:pn-cryptodev-tests = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-cups = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-curl = "Robert Joslyn <robert.joslyn@redrectangle.org>"
- RECIPE_MAINTAINER:pn-cve-update-nvd2-native = "Ross Burton <ross.burton@arm.com>"
--RECIPE_MAINTAINER:pn-cwautomacros = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-db = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-dbus = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-dbus-glib = "Chen Qi <Qi.Chen@windriver.com>"
-diff --git a/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb b/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb
-deleted file mode 100644
-index 7efe5cc5922..00000000000
---- a/meta/recipes-extended/cwautomacros/cwautomacros_20110201.bb
-+++ /dev/null
-@@ -1,25 +0,0 @@
--SUMMARY = "Collection of autoconf m4 macros"
--SECTION = "base"
--HOMEPAGE = "http://sourceforge.net/projects/cwautomacros.berlios/"
--DESCRIPTION = "A collection of autoconf macros, plus an autogen.sh script that can be used with them."
--LICENSE = "GPL-2.0-only"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=eb723b61539feef013de476e68b5c50a"
--
--SOURCEFORGE_PROJECT = "${BPN}.berlios"
--SRC_URI = "${SOURCEFORGE_MIRROR}/${SOURCEFORGE_PROJECT}/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "3115603b891f3a163c0bbb5fea2f3742113a183fa6745ee5e89e5f6d0e9f6121"
--
--inherit sourceforge-releases
--
--do_configure() {
--	:
--}
--
--do_install() {
--	oe_runmake LABEL=`date -d @${SOURCE_DATE_EPOCH} +%Y%m%d` CWAUTOMACROSPREFIX=${D}${prefix} install
--
--	# cleanup buildpaths in autogen.sh
--	sed -i -e 's,${D},,g' ${D}${prefix}/share/cwautomacros/scripts/autogen.sh
--}
--
--BBCLASSEXTEND = "native"
--- 
-2.39.5
-
+diff --git a/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb b/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb
+index 722593dfb1..4b3f43df1c 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb
+@@ -9,7 +9,7 @@ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libhandy/-/issues"
+ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=master \
++SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=main \
+            file://0001-Add-private-headers.patch \
+ "
+ SRCREV = "8fa8306a79215fc6ebf2483145da98bf9b2495ab"
 
