@@ -1,212 +1,180 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39013CA100F
-	for <webhook@archiver.kernel.org>; Mon, 22 Sep 2025 21:40:56 +0000 (UTC)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
- by mx.groups.io with SMTP id smtpd.web10.2025.1758577249383751404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D382CAC592
+	for <webhook@archiver.kernel.org>; Mon, 22 Sep 2025 21:52:26 +0000 (UTC)
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by mx.groups.io with SMTP id smtpd.web10.2251.1758577940112459613
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Sep 2025 14:40:49 -0700
+ Mon, 22 Sep 2025 14:52:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ljuu4rCR;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.178, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e96c48e7101so4040950276.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 14:40:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1758577248; x=1759182048; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TzMa8sjqIuGP74kOTPnU1/edyOa7lgEY6U6KJSW3Snw=;
-        b=Ljuu4rCRggw9Kv85dheT9f5C70Ey0fiwYb4aipSlHjgNzGsjV4X1eDaijLycrXYnGJ
-         DF+16PU2q6sZ/py9tx4KciEZaQN+ak4vf/Hez3Q/4W6l36ETLKu4husqaduQBRERgXA6
-         YHRBm3RUMmzTC310CkBSXnNgc3FBC7yAZvVjPWO962c7hR//Ps+SMJ+D22GEgz3c187O
-         Ls+vrAPSydEBMgA31LpJgK6m4ov8be25+gXqp3fvWoYSl2O4bB7trQju94ynNfe4rKjH
-         AlaMGH28rkRdNd5ttNJFykbkbBw+Irx+GSbxdEpMATZ2/RQ1o1vyJ+cLFnBt5npGMfkY
-         jjjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758577248; x=1759182048;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TzMa8sjqIuGP74kOTPnU1/edyOa7lgEY6U6KJSW3Snw=;
-        b=A6fe7hmRWM9GbUxq2Q8BS/uX6MMrY4hPcp1mEbyA+oi7+q6eP4m888OCPs0/fHWtEa
-         Wc0ANrBiTKbhsaGVdY7Mrjnxtf75C9ac65axJ0kMF7xkyCzCdHiC3twJc2hqPWBzhj5X
-         fzj2ca08BNhTQDc5HqQefDyTlr0VUPnY0etmxeQmRpBZaMSWaj07zNztm3NiCRjcFUkC
-         4MRMIVgsMUA1G2mNpKt6dz8pp20MfwwJTuQjCbK2VhtRAlTyExn+e2aav7pHd3LM5U+z
-         w9c5suzxS0pGlvgf8GK/dDRns4BUIMjfF0IXBCddcIbFSln9K8VpAF1/fcrW11DTpd5I
-         goLQ==
-X-Gm-Message-State: AOJu0YwHPaoXgMkEieN2Te/kGSx9Ds9RRI+zhT8FZwFMsG4deW7rouMW
-	AHfOd0bbQsMgC3hPt+oqGyB61Iq17QGSKRWA63aak+V/u9pEBK2yysDogtr3TKANU7T60yqxMVW
-	mRnZdqQ712i3X07jioLoGuJbWSiVfZ1IubOH209YaXA==
-X-Gm-Gg: ASbGncvb/qxusYLzzyiTuq0PSPc9qMmzHrKLtM+xTSZHg2H4JKR40jyfhFJIiJp/qXD
-	EtK0Jg8WnPC8zPvNDhhYZC4F740bebC9XZHpuZvV9gM0q+wp+XDcwBqDXmtSsnwuvQboOlHEL3t
-	+u8/qhjg64vbAXKC8reP4RZo1JnFlEtTuuRetjF5Q3nRuwXE+d/aRCexGcFnQlKWunxtgU0JP+a
-	7i6NV+cKUcr0nqvvOTJgDfSLtwJxvk1MW+mcFE=
-X-Google-Smtp-Source: AGHT+IG0aeaWmJjeED41iaAZpW1AOZhp0oyYYQEazb3ckPsi+Wuo7+vhcbg0i1q9Un8qHZCUEtk0sT3sATZFZ3QNWik=
-X-Received: by 2002:a05:6902:20c7:b0:ea4:229:594f with SMTP id
- 3f1490d57ef6-eb32de5e763mr315762276.6.1758577248415; Mon, 22 Sep 2025
- 14:40:48 -0700 (PDT)
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=BIIhwE38;
+ spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58MLpqjW869570;
+	Mon, 22 Sep 2025 16:51:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1758577912;
+	bh=lIII2Mf4ML7aMHH8GFHUL1rGiZtvzCd8dEOnGpuAnfk=;
+	h=Date:To:CC:Subject:From:References:In-Reply-To;
+	b=BIIhwE38EvDrUCpHmJ5dTxgNsSHYbcK44bROFTYg6gUeYLOl7ftJ/NafcnFx2MH2F
+	 ubAQOlBSMezeb0VtPPQwlGbBekubMPN8wN7N6P8591i5PxguHX7XIme18SYA+0T1s0
+	 JjXRPlpRTfnN8PdT1B/HSjXosvRgSd+U2os04op0=
+Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58MLpqeU2287304
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Mon, 22 Sep 2025 16:51:52 -0500
+Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 22
+ Sep 2025 16:51:52 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE212.ent.ti.com
+ (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 22 Sep 2025 16:51:52 -0500
+Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58MLpqvJ3191196;
+	Mon, 22 Sep 2025 16:51:52 -0500
 MIME-Version: 1.0
-References: <20250919114332.1505081-1-namanj1@kpit.com>
-In-Reply-To: <20250919114332.1505081-1-namanj1@kpit.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 22 Sep 2025 14:40:36 -0700
-X-Gm-Features: AS18NWBzm894M0Rr9BPvT-WUmpzZ6vA6IgVv9Jd3cj0NEpU2GO_dRsKQWSUWEAQ
-Message-ID: <CAOSpxdayi3cn=BrVtKwfO_FXBZga59R4ZEtvStvnMOdyLhC4kg@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] libmd: add ptest for 'libmd'
-To: nmjain23@gmail.com
-Cc: openembedded-core@lists.openembedded.org, Virendra.Thakur@kpit.com
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 22 Sep 2025 16:51:52 -0500
+Message-ID: <DCZNUBXRXA5R.33FN59ODCD5VQ@ti.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, <rs@ti.com>,
+        <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
+        <alex@linutronix.de>, <otavio@ossystems.com.br>,
+        <kexin.hao@windriver.com>, <afd@ti.com>, <detheridge@ti.com>,
+        <denis@denix.org>, <reatmon@ti.com>
+CC: <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: Re: [oe-core][PATCHv9 0/6] Display manager proposal for x11 and
+ wayland
+From: Randolph Sapp <rs@ti.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250918214903.341452-1-rs@ti.com>
+ <DCYH5V5GB1LB.1KAPRIVKZGTWO@bootlin.com>
+In-Reply-To: <DCYH5V5GB1LB.1KAPRIVKZGTWO@bootlin.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 21:40:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223857
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 21:52:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223858
 
-I'm seeing errors in autobuilder testing:
+On Sun Sep 21, 2025 at 7:25 AM CDT, Mathieu Dubois-Briand wrote:
+> On Thu Sep 18, 2025 at 11:48 PM CEST, rs wrote:
+>> From: Randolph Sapp <rs@ti.com>
+>>
+>> We've recently run into some issues with weston-init attempting to start=
+ Weston
+>> prior to all drm devices being registered. There's not really a good, sc=
+riptable
+>> mechanism to listen in to device registration events that works with the
+>> existing weston-init package. Well, at least one that doesn't involve po=
+lling
+>> files or introducing more dependency on the init system being used.
+>>
+>> I also see there is also a lot of scripting around starting X11,
+>> xserver-nodm-init, that (from my limited review) should experience the s=
+ame
+>> issue.
+>>
+>> I'd like to introduce the following display manager for oe-core, emptty =
+[1].
+>> This display manager is, as described upstream, a "Dead simple CLI Displ=
+ay
+>> Manager on TTY". It supports both x11 and wayland sessions, with togglab=
+le build
+>> parameters to completely remove x11 and pam dependencies. It's licensed =
+MIT,
+>> which shouldn't be an issue for any users. (It is written in Go, if you =
+have
+>> opinions about that.)
+>>
+>> With this, both weston-init and the xserver-nodm-init packages can be re=
+-tuned
+>> to leverage this display manager and simply add a user and emptty config=
+ for an
+>> autologin session. This can resolve the current behavior across init sys=
+tems
+>> without additional scripting, and move some development out of this laye=
+r.
+>>
+>> This lists myself as a maintainer of emptty as well as xserver-nodm-init=
+ and
+>> xuser-account since these are currently unassigned and I've reworked the=
+m
+>> significantly here.
+>>
+>> Sorry for the delay on this series. I found a few bugs in emptty that I =
+wanted
+>> to address before submitting this officially.
+>>
+>
+> Hi Randolph,
+>
+> Thanks for your patch.
+>
+> I took this series, but it looks like we have a build issue, maybe only
+> with altcfg distro:
+>
+> Traceback (most recent call last):
+>   File "/srv/pokybuild/yocto-worker/qemux86-alt/build/meta/lib/oeqa/core/=
+decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/srv/pokybuild/yocto-worker/qemux86-alt/build/meta/lib/oeqa/core/=
+decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/srv/pokybuild/yocto-worker/qemux86-alt/build/meta/lib/oeqa/core/=
+decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/srv/pokybuild/yocto-worker/qemux86-alt/build/meta/lib/oeqa/runti=
+me/cases/xorg.py", line 31, in test_xorg_running
+>     self.assertEqual(status, 0, msg=3Dmsg)
+> AssertionError: 1 !=3D 0 : Xorg does not appear to be running   PID USER =
+      VSZ STAT COMMAND
+> ...
+> 2025/09/21 11:59:34 Closing PAM auth
+> 2025/09/21 11:59:34 Failure setting user credentials
+> 2025/09/21 11:59:34 Authentication failure
+> ...
+> RESULTS - xorg.XorgTest.test_xorg_running: FAILED (1.41s)
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/2402
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/2407
+>
+> Can you have a look at it please?
+>
+> Thanks,
+> Mathieu
 
-stdio: ERROR: libmd-1.1.0-r0 do_package_qa: QA Issue:
-/usr/lib/libmd/ptest/test/sha2 contained in package libmd-ptest
-requires /bin/bash, but no providers found in RDEPENDS:libmd-ptest?
-[file-rdeps]
-stdio: ERROR: libmd-1.1.0-r0 do_package_qa: Fatal QA errors were
-found, failing task.
-stdio: ERROR: Logfile of failure stored in:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/w=
-ork/core2-64-poky-linux/libmd/1.1.0/temp/log.do_package_qa.2268695
-stdio: ERROR: Task
-(/srv/pokybuild/yocto-worker/reproducible/build/meta/recipes-support/libmd/=
-libmd_1.1.0.bb:do_package_qa)
-failed with exit code '1'
-stdio: ERROR: libmd-1.1.0-r0 do_package_qa: QA Issue:
-/usr/lib/libmd/ptest/test/sha2 contained in package libmd-ptest
-requires /bin/bash, but no providers found in RDEPENDS:libmd-ptest?
-[file-rdeps]
-stdio: ERROR: libmd-1.1.0-r0 do_package_qa: Fatal QA errors were
-found, failing task.
-stdio: ERROR: Logfile of failure stored in:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/w=
-ork/core2-64-poky-linux/libmd/1.1.0/temp/log.do_package_qa.2268695
-stdio: ERROR: Task
-(/srv/pokybuild/yocto-worker/reproducible/build/meta/recipes-support/libmd/=
-libmd_1.1.0.bb:do_package_qa)
-failed with exit code '1'
-stdio: ERROR: Command . ./oe-init-build-env; ${SCRIPTSDIR}/checkvnc;
-OEQA_DEBUGGING_SAVED_OUTPUT=3D/srv/autobuilder/valkyrie.yocto.io/pub/repro-=
-fail/
-DISPLAY=3D:1 oe-selftest -r reproducible failed with exit code 1, see
-errors above. (1758576888.2: 938.7)
+In the past auth issues can occur if the user was created after the current
+system time (of which the default would be the kernel build time if it is u=
+nable
+to get a value from NTP).
 
-Steve
+I've already tested this series with an equivalent config to poky-altcfg, w=
+ith
+both root and rootless x11. I reset my cache and did another local build to
+match that CICD failure and it still works for me.
 
-On Fri, Sep 19, 2025 at 11:58=E2=80=AFAM Naman Jain via lists.openembedded.=
-org
-<nmjain23=3Dgmail.com@lists.openembedded.org> wrote:
->
-> Adapt the compile 'test' phony target from Makefile and deploy as
-> ptest for libmd.
-> It takes less than 30seconds for ptest completion
->
-> Signed-off-by: Naman Jain <namanj1@kpit.com>
-> ---
->  .../distro/include/ptest-packagelists.inc     |  1 +
->  meta/recipes-support/libmd/files/run-ptest    | 18 ++++++++++++++++
->  meta/recipes-support/libmd/libmd_1.1.0.bb     | 21 +++++++++++++++++--
->  3 files changed, 38 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-support/libmd/files/run-ptest
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc
-> index 9950e46776..784176f579 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -29,6 +29,7 @@ PTESTS_FAST =3D "\
->      json-glib \
->      libconvert-asn1-perl \
->      libgpg-error\
-> +    libmd\
->      libnl \
->      libpcre \
->      libssh2 \
-> diff --git a/meta/recipes-support/libmd/files/run-ptest b/meta/recipes-su=
-pport/libmd/files/run-ptest
-> new file mode 100644
-> index 0000000000..0c4a5f64ec
-> --- /dev/null
-> +++ b/meta/recipes-support/libmd/files/run-ptest
-> @@ -0,0 +1,18 @@
-> +#!/bin/sh
-> +
-> +cd test
-> +status =3D 0
-> +
-> +for testbin in *; do
-> +    if [ -x "$testbin" ] && [ ! -d "$testbin" ]; then
-> +        if "./$testbin"; then
-> +            echo "PASS: $testbin"
-> +        else
-> +            echo "FAIL: $testbin"
-> +            status=3D1
-> +        fi
-> +    fi
-> +done
-> +
-> +return $status
-> +
-> diff --git a/meta/recipes-support/libmd/libmd_1.1.0.bb b/meta/recipes-sup=
-port/libmd/libmd_1.1.0.bb
-> index dc588a0f95..68a2ec7a16 100644
-> --- a/meta/recipes-support/libmd/libmd_1.1.0.bb
-> +++ b/meta/recipes-support/libmd/libmd_1.1.0.bb
-> @@ -8,9 +8,26 @@ HOMEPAGE =3D "https://www.hadrons.org/software/libmd/"
->  LICENSE =3D "BSD-3-Clause & BSD-2-Clause"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0436d4fb62a71f661d6e8b7812f9e=
-1df"
->
-> -SRC_URI =3D "https://archive.hadrons.org/software/libmd/libmd-${PV}.tar.=
-xz"
-> +SRC_URI =3D "https://archive.hadrons.org/software/libmd/libmd-${PV}.tar.=
-xz \
-> +          file://run-ptest \
-> +"
->  SRC_URI[sha256sum] =3D "1bd6aa42275313af3141c7cf2e5b964e8b1fd488025caf2f=
-971f43b00776b332"
->
-> -inherit autotools
-> +inherit autotools ptest
-> +
-> +do_compile_ptest() {
-> +    sed -i "/\$(MAKE) \$(AM_MAKEFLAGS) check-TESTS/d" test/Makefile
-> +    oe_runmake check
-> +}
-> +
-> +
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/test
-> +    for bin in ${B}/test/*; do
-> +        if [ -x "$bin" ]; then
-> +            libtool --mode=3Dinstall install "$bin" ${D}${PTEST_PATH}/te=
-st/$(basename "$bin")
-> +        fi
-> +    done
-> +}
->
->  BBCLASSEXTEND =3D "native nativesdk"
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#223770): https://lists.openembedded.org/g/openembedde=
-d-core/message/223770
-> Mute This Topic: https://lists.openembedded.org/mt/115333712/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+My local.conf for my test build was:
+
+MACHINE ??=3D "qemux86"
+DISTRO ??=3D "poky-altcfg"
+BBMULTICONFIG ?=3D ""
+IMAGE_CLASSES +=3D "testimage"
+
+Other variables were dictated by templateconf.cfg:
+
+meta-poky/conf/templates/default
+
+Is that automation setting anything that could possibly play with the build=
+ time
+or system time values for the testimage? I'm not seeing anything in the log=
+s,
+but I'm also not seeing anything that reports the current config outright.
+
+I guess I should add some messages for that as part of the test function
+regardless.
 
