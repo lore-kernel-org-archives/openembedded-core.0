@@ -2,205 +2,218 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2B3CA100F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3A3CAC5B2
 	for <webhook@archiver.kernel.org>; Mon, 22 Sep 2025 17:54:41 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.42])
- by mx.groups.io with SMTP id smtpd.web11.47556.1758531649665426756
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web10.46698.1758529683900218983
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Sep 2025 02:00:49 -0700
+ Mon, 22 Sep 2025 01:28:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=nH8kYWEu;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.162.42, mailfrom: jie.gu@leica-geosystems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RPEaXsi85BCwCUZPZ4vLbpzw6XX/dx7uudLTYe5bVBKlEmWhkFBZ+QvHzBfLwDcmaO6c2kOm+Efb02woDn1XxFa0w9C3wlfqaRPjA5pVJPprwtJtXFtkb+3e0iNbQ10M4lNGf+/EbWlu6URJhBBwKs28kZw9R2EgJ4b+ey8pW4SnsISdWbna0nO+m627DtKS1Bv8IOtG3Us3Ix4bxgtsJgt4sQJFmzDPfE24PZQGQ1xuSe3Zj2cq9miybyDl0UTYgzTpHDarMBkubHF+viTszUSzsBh3AMhekKRnq3cK3RtM5csLCjozHHHWS2/TFBX6noFDyO6PqSB0WCQuEkqQ+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2E1jr241eo2lIm0J1Dd3vm4tBG67+m7if6UrS9KoQVA=;
- b=XF8CX3Dva02jd8+VJhEpSdzxRGoCHn4M6bab6eqKMbrr+rRkeCY//RaDEmmls1e9hP+qMFpT58edDLkjcEe66K7+8syFAl95xnUjY/gQ46Yzwm8xGxKtPsIqvBaqXKUJpwLCkVHmYwxjjBfwZs4WNK4jrPio3eWi59KAjAWxpZwXdOxk/NKj5lRZv1Arbu1KNy5TE33mkLaNOufLnEJVgYtDrJcO1sFgfySzgv+4qUc0+dYI3gpsLVN8ZLK7ZkD3FPlc4jadPnlbOK+oIg+E0m/v1mQhGtuBXWFLCIY62FWTRxBtpIASzEdUrjjIh0YSqVTnxJMb4DpRb7YG4s1FRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.8.40.99) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=leica-geosystems.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2E1jr241eo2lIm0J1Dd3vm4tBG67+m7if6UrS9KoQVA=;
- b=nH8kYWEu9eGIyDULSnQ8KUJ1/djYc/lVmKIugPsgYPFf9P6viZ3Szmi0rEgM6yKHm/N8yTTD8l8nLMEAj0ASkQ7u5+eWnERh+LIlxJCm9coS8WjBWe/2C56d6C18YWGVebPQLBQlEjTT5XBeOIV9yT7yMF/3G0LAXRWrEP0ZtBg=
-Received: from DUZPR01CA0007.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:3c3::11) by AM8PR06MB7635.eurprd06.prod.outlook.com
- (2603:10a6:20b:362::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.18; Mon, 22 Sep
- 2025 09:00:45 +0000
-Received: from DU2PEPF00028D02.eurprd03.prod.outlook.com
- (2603:10a6:10:3c3:cafe::b6) by DUZPR01CA0007.outlook.office365.com
- (2603:10a6:10:3c3::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.19 via Frontend Transport; Mon,
- 22 Sep 2025 09:00:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
- smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
-Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
- designates 193.8.40.99 as permitted sender) receiver=protection.outlook.com;
- client-ip=193.8.40.99; helo=hexagon.com; pr=C
-Received: from hexagon.com (193.8.40.99) by
- DU2PEPF00028D02.mail.protection.outlook.com (10.167.242.186) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Mon, 22 Sep 2025 09:00:45 +0000
-Received: from aherlnxbspsrv01.lgs-net.com ([10.61.228.61]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Mon, 22 Sep 2025 11:00:42 +0200
-From: jiegu <jie.gu@leica-geosystems.com>
-To: openembedded-core@lists.openembedded.org
-CC: jie.gu@leica-geosystems.com.cn,
-	Artur Kowalski <arturkow2000@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH v2 3/8] systemd.bbclass: factor out service lookup logic into separate function
-Date: Mon, 22 Sep 2025 09:00:35 +0000
-Message-ID: <20250922090040.2859103-4-jie.gu@leica-geosystems.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250922090040.2859103-1-jie.gu@leica-geosystems.com>
-References: <20250922090040.2859103-1-jie.gu@leica-geosystems.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SJN9YtpW;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: nmjain23@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-30ccea8f43cso3801546fac.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 01:28:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758529683; x=1759134483; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3COkUsMnjhS4cn2ixy3E8a9g0WMgFOzGjmphTdizNOY=;
+        b=SJN9YtpW+U+Owr8Q4rlNQGg5L3yrebCiDuXghQCrOQMkoE2bRstYc6a2cB8eI5mf2F
+         JcdA3ddssFyheMXcbnLBOmgjwcrD9+xxwEpizLN17ERaWIrpPvbawwIExYrfWh2v/TIH
+         x5GMEya4Yd/uy7Jz4r0wdTsurLL3mEWTinuVKNBsDBhKvl3bz9nXhsel4SFIxIdsJKWS
+         J/QYbUThjcpsx0/Z+XQFMu+JYJe/GZDnV35RT19lAH+ASSasznWwOl9z28QwIAbETGk9
+         eMlMjGSpRfdSIt5Xs307/9ijtkPTCwDaPYLi1Gksiv/j/RXbv3pOYYb39pDHsh7cta+r
+         Tdig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758529683; x=1759134483;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3COkUsMnjhS4cn2ixy3E8a9g0WMgFOzGjmphTdizNOY=;
+        b=Ut/J4VaNP9AR1WQSIpWOEI+6qAodt6t4OGgzJCGnAx/1xab50h8igTJKgdhennXQ15
+         L3SJHN9zDGTyE/bW6cs1FqWgB78MAeK2tVQ+U4ZT2NCps+ut1tgTJ6ZePGz35cEKShNE
+         Bf13JgA6c3SbFNAogxmRMr51jA9Xb8z7eFtPEewetAi/eatKUVa5cNj3rhpYopmbyLVl
+         oj46W50ti75IN4eW3NK++7p9raG9xkr44+ae6RWzPvg0G7qdagFu8hUCy0Nb8tk8cNrl
+         pnLTiXDUtxbzv7ZNJAdfvmGN8fQ3jT1gxCE3l2rO6XFEJc0sxDoGrQhiAZvXOp1NoMMY
+         1MRw==
+X-Gm-Message-State: AOJu0YzM+ZgiWDqgbgNXZlEMtjtkKwIE0R5JybPzO09zxdeIZAOKIlQA
+	UBk2BEJ22XaQd0Bx93aPIF8udu7a1rYMiGy5xcvTAd+84xlErlByiimRfVGciLpEFl1yXwBnAdY
+	s9bn8MGw1sJFXtp8SmyCyL1Ukslj1bNrxdw==
+X-Gm-Gg: ASbGnctsIQf0jHDt5Iu5Cy+pBhhaMksbUyKGUobXQsG+bvISBrQEL/+8+TnnWaGWqOX
+	wIk/037JR9uA6SprKDg8da+oaeN+viNttO/UiTlsd9CLfW9Gy0ayF64xMunmfz5T13gViAZ9zLa
+	FHSdo5NeV5DpoSQmHgR8Wi6QwuVCufzIZxYDgcV6CxsK9hJC/V3HOJykUzvvmdBolEFZWpaJ+At
+	GZYZbhadKrY4oSVExsMoBfB
+X-Google-Smtp-Source: AGHT+IFn5uU4Ni0ZLJVjPGQeYVUyCpl9cVG73GGg9+ff+HJGr3EcH4q3b0ATqsvAP7oAeXpv/e1JVX1L+JM8vI+0liU=
+X-Received: by 2002:a05:620a:4085:b0:848:af6f:cb94 with SMTP id
+ af79cd13be357-848af6fcbfdmr267965985a.43.1758529377752; Mon, 22 Sep 2025
+ 01:22:57 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginalArrivalTime: 22 Sep 2025 09:00:42.0868 (UTC) FILETIME=[603D0B40:01DC2B9F]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D02:EE_|AM8PR06MB7635:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7452e9d5-d6c0-4807-2484-08ddf9b68455
-X-SET-LOWER-SCL-SCANNER: YES
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|82310400026|36860700013|61400799027|43062017;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?Zb09Ln3k0jp1g7/pgflxvAnb6Dfl8Kll876KHb9WoNBh6gxgMer5cZ0mzLUJ?=
- =?us-ascii?Q?SShp31eluVTUqcKPlpHhqsxT2PCA5ak2u3xjrDhudLTYkOgBBK7ANGRN6HnB?=
- =?us-ascii?Q?orIaMHSI1aNLoTYWW44/Xvcgkqp9PjTu3wc8YpsBIHzRl91DUUw2Ew8NLNtX?=
- =?us-ascii?Q?Tf3ub2D1vOGBXnEK809ndmNSM6DlTkpSPH3NKGD13Qn2wjBryVIxG0klkblR?=
- =?us-ascii?Q?jtEVJx415NO33B3RuKv/pIK8NNtamWUNWiJ0vToOwg5u5I8vofStK7xBWKTQ?=
- =?us-ascii?Q?czLKz0bvB6DlrJbNHEj2FUVxMYBOk2KT9H18oV1kYqI2EAlcnKmnD4CiKMJQ?=
- =?us-ascii?Q?ga12iYGRkfHt8bN67H60AkcGgRaEVo4vuZ5UCXrG4uIWwS2YNxOJtvHodrL4?=
- =?us-ascii?Q?+TjFG6SJT1XVvhGUFV5VXKjOU7QZJhA56rtWSHeHW9nZcnxyYgN2mneVnKOM?=
- =?us-ascii?Q?tH6NbEfYf4kb92HNYLFJffm+Mf5ae5K9cYNJRdkeGUfogvAQL1LQldBXmGbY?=
- =?us-ascii?Q?ika79E4Wofe7AKiZswNGBF2Njikh90jidTwagB0VxLakneQ+cbtQZMY6zccw?=
- =?us-ascii?Q?pSwbgPT+fEj+30FrBMvEtWi69hJDcWRMsKEL35ejdewqtD5OT6Fbr/5UKdlT?=
- =?us-ascii?Q?AhBuko7b/7EnmCEoTgWWTU04YxHv3tqqvDNapv90b94kKHCuou7J4OVRDFe7?=
- =?us-ascii?Q?I1TmLx1DCer9rGOiNW1ZqIQw+O4HcHzh2yWwX+xGIhLfwJanjywa+kErNX3Z?=
- =?us-ascii?Q?vpttUqFhpsBw4WbEytvCTphOYIE7W0DYEYKpwZbzjL0qkXv6ODZmjQQ/x69j?=
- =?us-ascii?Q?TetKAIE2ciE88L9+J+xj4FsgDyZc6xStvWflZTlLiSg3A+Gy8PJqXNxSpkUF?=
- =?us-ascii?Q?G4md8cpOO0X695WojvpXovvBwp+Rl3Pd2YUiwkkJDUhZJju8JtAzlBlanSp5?=
- =?us-ascii?Q?brWCX6vfr/57pPu2wDZI8o0dB1jemL1m/a8N8EsM+F96HKLV2zUw6AwSK3YM?=
- =?us-ascii?Q?r1aCV0gfDwBIz+VM+IZ12hlh5cI4Zaw+eNC6TGHrhliObm2bbNZVHrVOrlPM?=
- =?us-ascii?Q?SQzbq3gbPQZb/fADE03zyWQBhZmLs3BZnzs6wyzHsm9AhpbFWgZoamwFDOHR?=
- =?us-ascii?Q?4MIUFB8ChzSRyJSdyea0pxUMw+7Gc2H1Bpbh41Z/GORWvFDXztktNow+jMrJ?=
- =?us-ascii?Q?HdoLSClE9HSIBwSCzxftzhKVgluGwI6NjEArU8rXTWjP9e2tD4D6uAwo40uT?=
- =?us-ascii?Q?/Zo0ELlmjaoAc84wtD6eCF94yLeU5vQYC0NHBbD5T+a6Q/TIUwVY7bjMBQVB?=
- =?us-ascii?Q?i7u/58pqqdebBD2P3YvT+3d1Z7lAhT9uhdJJT9W91bmXiaIa7vN2nVbT+olj?=
- =?us-ascii?Q?3D0jwveesvENQhtNeDqC7Djtu0e/+Wyko7eh3s3th3WbbLA9bE1mT44/Aeme?=
- =?us-ascii?Q?cSl7XSleaTFCeiAqavQQaF9wHpWI8ixveeElqVvu/EHpA9rN9BU4sqwSZZaB?=
- =?us-ascii?Q?diIE++jqRvLEk2VH0BQlmK2a6B4DX7RxHdHBHNYPOn6I7qZlWCoWl3gDjg?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(61400799027)(43062017);DIR:OUT;SFP:1101;
-X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 09:00:45.5378
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7452e9d5-d6c0-4807-2484-08ddf9b68455
-X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D02.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR06MB7635
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+References: <20250919120527.1517036-1-namanj1@kpit.com> <DCYH88L0WFBM.21MZNVP7CEWW6@bootlin.com>
+In-Reply-To: <DCYH88L0WFBM.21MZNVP7CEWW6@bootlin.com>
+From: Naman Jain <nmjain23@gmail.com>
+Date: Mon, 22 Sep 2025 13:52:29 +0530
+X-Gm-Features: AS18NWC9SrCLf4xRRZS0H2khNOEXp2sg-KwXwjg0ClARRiy6Zyu_iSY1fvPuLo0
+Message-ID: <CALCkg5YDY1dh=zy9apSX7b-M-a3Nm09zaubxgf_Gbm-EZjFd+w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libmd: add ptest for 'libmd'
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, Virendra.Thakur@kpit.com
+Content-Type: multipart/alternative; boundary="000000000000e36b69063f5f865b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Sep 2025 17:54:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223850
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223845
 
-From: Artur Kowalski <arturkow2000@gmail.com>
+--000000000000e36b69063f5f865b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Factor out the logic into systemd_service_path(). This will be needed by
-following commits to avoid code duplication.
+Hi Mathieu,
+Thanks for the information. It seems the patch is working for us in master
+and scarthgap branch. Can you please suggest the steps to reproduce this
+error in our build so that we can provide the fix for it.
 
-Signed-off-by: Artur Kowalski <arturkow2000@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d383e18138050490f3dcb95377f63a2a31c3149f)
----
- meta/classes-recipe/systemd.bbclass | 41 ++++++++++++++++-------------
- 1 file changed, 23 insertions(+), 18 deletions(-)
+Thanks,
+Naman Jain
 
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/syst=
-emd.bbclass
-index 4cc23018c7..3f6c8bc131 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -68,6 +68,28 @@ systemd_populate_packages[vardeps] +=3D "systemd_prerm s=
-ystemd_postinst"
- systemd_populate_packages[vardepsexclude] +=3D "OVERRIDES"
-=20
-=20
-+def systemd_service_path(service, searchpaths, d):
-+    path_found =3D ''
-+
-+    # Deal with adding, for example, 'ifplugd@eth0.service' from
-+    # 'ifplugd@.service'
-+    base =3D None
-+    at =3D service.find('@')
-+    if at !=3D -1:
-+        ext =3D service.rfind('.')
-+        base =3D service[:at] + '@' + service[ext:]
-+
-+    for path in searchpaths:
-+        if os.path.lexists(oe.path.join(d.getVar("D"), path, service)):
-+            path_found =3D path
-+            break
-+        elif base is not None:
-+            if os.path.exists(oe.path.join(d.getVar("D"), path, base)):
-+                path_found =3D path
-+                break
-+
-+    return path_found, base
-+
- python systemd_populate_packages() {
-     import re
-     import shlex
-@@ -162,24 +184,7 @@ python systemd_populate_packages() {
-         # scan for all in SYSTEMD_SERVICE[]
-         for pkg_systemd in systemd_packages.split():
-             for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_syste=
-md).split():
--                path_found =3D ''
--
--                # Deal with adding, for example, 'ifplugd@eth0.service' fr=
-om
--                # 'ifplugd@.service'
--                base =3D None
--                at =3D service.find('@')
--                if at !=3D -1:
--                    ext =3D service.rfind('.')
--                    base =3D service[:at] + '@' + service[ext:]
--
--                for path in searchpaths:
--                    if os.path.lexists(oe.path.join(d.getVar("D"), path, s=
-ervice)):
--                        path_found =3D path
--                        break
--                    elif base is not None:
--                        if os.path.exists(oe.path.join(d.getVar("D"), path=
-, base)):
--                            path_found =3D path
--                            break
-+                path_found, base =3D systemd_service_path(service, searchp=
-aths, d)
-=20
-                 if path_found !=3D '':
-                     systemd_add_files_and_parse(pkg_systemd, path_found, s=
-ervice, keys)
---=20
-2.43.0
+On Sun, 21 Sept, 2025, 5:58=E2=80=AFpm Mathieu Dubois-Briand, <
+mathieu.dubois-briand@bootlin.com> wrote:
 
+> On Fri Sep 19, 2025 at 2:05 PM CEST, Naman Jain via lists.openembedded.or=
+g
+> wrote:
+> > Adapt the compile 'test' phony target from Makefile and deploy as
+> > ptest for libmd.
+> > It takes less than 30seconds for ptest completion
+> >
+> > Signed-off-by: Naman Jain <namanj1@kpit.com>
+> > ---
+>
+> Hi Naman,
+>
+> Thanks for your patch.
+>
+> It looks like we have a QA issue with it:
+>
+> ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File
+> /usr/lib/libmd/ptest/test/sha1 in package lib32-libmd-ptest contains
+> reference to TMPDIR [buildpaths]
+> ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File
+> /usr/lib/libmd/ptest/test/rmd160 in package lib32-libmd-ptest contains
+> reference to TMPDIR [buildpaths]
+> ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File
+> /usr/lib/libmd/ptest/test/md5 in package lib32-libmd-ptest contains
+> reference to TMPDIR [buildpaths]
+> ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File
+> /usr/lib/libmd/ptest/test/md4 in package lib32-libmd-ptest contains
+> reference to TMPDIR [buildpaths]
+> ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File
+> /usr/lib/libmd/ptest/test/md2 in package lib32-libmd-ptest contains
+> reference to TMPDIR [buildpaths]
+> ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File
+> /usr/lib/libmd/ptest/test/sha2 in package lib32-libmd-ptest contains
+> reference to TMPDIR [buildpaths]
+> ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue:
+> /usr/lib/libmd/ptest/test/sha2 contained in package lib32-libmd-ptest
+> requires /bin/bash, but no providers found in RDEPENDS:lib32-libmd-ptest?
+> [file-rdeps]
+> ERROR: lib32-libmd-1.1.0-r0 do_package_qa: Fatal QA errors were found,
+> failing task.
+> ERROR: Logfile of failure stored in:
+> /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-pokyml=
+lib32-linux/lib32-libmd/1.1.0/temp/log.do_package_qa.1674361
+> NOTE: recipe lib32-libmd-1.1.0-r0: task do_package_qa: Failed
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/2419
+>
+> Can you fix it, please?
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+
+--000000000000e36b69063f5f865b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hi=C2=A0Mathieu,<div dir=3D"auto">Thanks for the informat=
+ion. It seems the patch is working for us in master and scarthgap branch. C=
+an you please suggest the steps to reproduce this error in our build so tha=
+t we can provide the fix for it.</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Thanks,=C2=A0</div><div dir=3D"auto">Naman Jain=C2=A0</div></div>=
+<br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sun, 21 Sept, 2025, 5:58=E2=80=AFpm Mathieu Dubois-Brian=
+d, &lt;<a href=3D"mailto:mathieu.dubois-briand@bootlin.com">mathieu.dubois-=
+briand@bootlin.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">O=
+n Fri Sep 19, 2025 at 2:05 PM CEST, Naman Jain via <a href=3D"http://lists.=
+openembedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank">lists.ope=
+nembedded.org</a> wrote:<br>
+&gt; Adapt the compile &#39;test&#39; phony target from Makefile and deploy=
+ as<br>
+&gt; ptest for libmd.<br>
+&gt; It takes less than 30seconds for ptest completion<br>
+&gt;<br>
+&gt; Signed-off-by: Naman Jain &lt;<a href=3D"mailto:namanj1@kpit.com" targ=
+et=3D"_blank" rel=3D"noreferrer">namanj1@kpit.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Naman,<br>
+<br>
+Thanks for your patch.<br>
+<br>
+It looks like we have a QA issue with it:<br>
+<br>
+ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File /usr/lib/libmd/pt=
+est/test/sha1 in package lib32-libmd-ptest contains reference to TMPDIR [bu=
+ildpaths]<br>
+ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File /usr/lib/libmd/pt=
+est/test/rmd160 in package lib32-libmd-ptest contains reference to TMPDIR [=
+buildpaths]<br>
+ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File /usr/lib/libmd/pt=
+est/test/md5 in package lib32-libmd-ptest contains reference to TMPDIR [bui=
+ldpaths]<br>
+ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File /usr/lib/libmd/pt=
+est/test/md4 in package lib32-libmd-ptest contains reference to TMPDIR [bui=
+ldpaths]<br>
+ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File /usr/lib/libmd/pt=
+est/test/md2 in package lib32-libmd-ptest contains reference to TMPDIR [bui=
+ldpaths]<br>
+ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: File /usr/lib/libmd/pt=
+est/test/sha2 in package lib32-libmd-ptest contains reference to TMPDIR [bu=
+ildpaths]<br>
+ERROR: lib32-libmd-1.1.0-r0 do_package_qa: QA Issue: /usr/lib/libmd/ptest/t=
+est/sha2 contained in package lib32-libmd-ptest requires /bin/bash, but no =
+providers found in RDEPENDS:lib32-libmd-ptest? [file-rdeps]<br>
+ERROR: lib32-libmd-1.1.0-r0 do_package_qa: Fatal QA errors were found, fail=
+ing task.<br>
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/qemux86-wo=
+rld/build/build/tmp/work/x86-pokymllib32-linux/lib32-libmd/1.1.0/temp/log.d=
+o_package_qa.1674361<br>
+NOTE: recipe lib32-libmd-1.1.0-r0: task do_package_qa: Failed<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/buil=
+ds/2419" rel=3D"noreferrer noreferrer" target=3D"_blank">https://autobuilde=
+r.yoctoproject.org/valkyrie/#/builders/59/builds/2419</a><br>
+<br>
+Can you fix it, please?<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://bootlin.com</a><br>
+<br>
+</blockquote></div>
+
+--000000000000e36b69063f5f865b--
 
