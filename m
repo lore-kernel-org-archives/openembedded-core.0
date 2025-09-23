@@ -1,137 +1,91 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48C70CAC5AA
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 00:52:47 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.5719.1758588759050021527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E68BCAC5A5
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 06:48:39 +0000 (UTC)
+Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
+ by mx.groups.io with SMTP id smtpd.web11.10707.1758610114988497432
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Sep 2025 17:52:39 -0700
+ Mon, 22 Sep 2025 23:48:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=k9tz5d7p;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1361e06115=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58N0cJPb1202518
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 00:52:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=wx7N/ozHET96Ih2Vegd7
-	lhf1+BkwGVAS/BajmmTUojM=; b=k9tz5d7pcLuMXctm4TCY2P2kZmltNfTrM9qS
-	YdRN8VMa8Z3pNPXrsD6i2uZ+L5HdH/wQAuO8k7XAeLif5V94ldKmm72PP6fFR9to
-	jX3c9UOsWSDp6DF66KK5RRqJHGwNX9cIxnffaMpHmsqTEdHB64Qk4IjmwsaY8I3R
-	5dD4612n3oPMd0TjzyrHTppKF7CCTwMeU+QrObDtzrHQwZsu19GbsxiowUW1iCtR
-	zTKWm+GFwD5iWN3fqwhetWJFNyrUv0bQfnZRXYWnp4qEIfKAiIdB/klEsiqfDy/e
-	wehYyUnS95Qtcy7FwtK2zb0GHaHx7apI24cJT9a1KtiJMVj0yA==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 499k89ag4y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 00:52:37 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Mon, 22 Sep 2025 17:52:36 -0700
-Received: from pop-os.wrs.com (10.11.232.110) by ala-exchng01.corp.ad.wrs.com
- (10.11.224.121) with Microsoft SMTP Server id 15.1.2507.59 via Frontend
- Transport; Mon, 22 Sep 2025 17:52:36 -0700
-From: <Randy.MacLeod@windriver.com>
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=gS5Cuzcj;
+ spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=354c56002=moritz.haase@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1758610115; x=1790146115;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=InZIbvgzn37H5z92/6clxv0PxH38pZ0NBoMic+h9H80=;
+  b=gS5Cuzcj6ncTyDdPnCM9quKFIPUMVF/S0M0jhd07Yenp8Y/sP7oUX0Wv
+   36Ix22nZWPUU2tmp48MTiiB27GQ4omxDN1q84jmz907KPZasIacu2WGy0
+   OH97lNC8v4JC/F3oldpJffaoLor29xAAilbR5V7bvDXHiArRKnnRG5ymd
+   8=;
+X-CSE-ConnectionGUID: +DCxFFS8SRONJj5AwlS2FA==
+X-CSE-MsgGUID: ZeExtW02QIyx0M22oS3AJQ==
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+ esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 23 Sep 2025 08:48:32 +0200
+Received: from unknown (HELO esabb2.muc) ([10.31.187.133]) by esagw6.muc with
+ ESMTP/TLS; 23 Sep 2025 08:48:32 +0200
+Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
+ by esabb2.muc with ESMTP/TLS; 23 Sep 2025 08:48:31 +0200
+Received: from q1054628.de-cci.bmwgroup.net (10.30.85.211) by
+ smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
+ Server (version=TLS; Tue, 23 Sep 2025 08:48:31 +0200
+X-CSE-ConnectionGUID: oCengc24QK6W06MvdOV5BQ==
+X-CSE-MsgGUID: t75Pg00DQhuJt4KYRXzDog==
+X-CSE-ConnectionGUID: psuWd6irSR2u3EMAvePymg==
+X-CSE-MsgGUID: Wo7oV8k6SlKXXxwRQ5P9gA==
+From: Moritz Haase <Moritz.Haase@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v3] gawk: disable persistent memory allocator due to licensing
-Date: Mon, 22 Sep 2025 20:52:34 -0400
-Message-ID: <20250923005234.2952070-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.34.1
+CC: Moritz Haase <Moritz.Haase@bmw.de>
+Subject: [PATCH] cmake: upgrade 4.1.0 -> 4.1.1
+Date: Tue, 23 Sep 2025 08:47:53 +0200
+Message-ID: <20250923064753.189961-1-Moritz.Haase@bmw.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDAwNSBTYWx0ZWRfXzQSHx2h+dy/i
- H7FYOS0jZZceDYQKVaO+WYWQfxPCy0a/XCkiKMu59YxYcSq0qlX/SXDns5L5eqqY2QiQ8CO+yq5
- Kq9cNbM9zOcNgmVa6ZGBMljTMJI1g1q0rFQSzcAs4e3y8bpqYsMKpHG0e6JpXX9wlbEgALLHD6c
- Jy/oQ20F1p98vmaTjijgo9SLlVen3uF8uPfd3bqJpfWqxayU/Gp5rFsSqa262Ro41cD3oaowPBd
- 2oO9FylToRbM2KW3YyDMraQNQq8S7UzsMQUrbFes7pDTg/RW3IwdhQVv1J7RxN8jUg6F1+Fnx94
- rl2TY9E5gCSQE+3DN40mJdzh0hkMY6X/+FoaTr3SnC5X7ksMloKKyKZpBNRT2E=
-X-Authority-Analysis: v=2.4 cv=YZS95xRf c=1 sm=1 tr=0 ts=68d1ef55 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=yJojWOMRYYMA:10 a=mDV3o1hIAAAA:8 a=t7CeM3EgAAAA:8 a=scvIX7LikjUrHsk1bxYA:9
- a=1N9iHcwoX80A:10 a=yLXxm-r16ukA:10 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: Jrs0wJT3eNaQOG_s3B50HzCpBZyRLqfV
-X-Proofpoint-ORIG-GUID: Jrs0wJT3eNaQOG_s3B50HzCpBZyRLqfV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-22_05,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 impostorscore=0 priorityscore=1501
- suspectscore=0 bulkscore=0 phishscore=0 spamscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+X-ClientProxiedBy: smucmp18e.europe.bmw.corp (2a03:1e80:a15:58f::1:75) To
+ smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 00:52:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223864
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 06:48:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223865
 
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
+Release notes are available at [0].
 
-In gawk-5.2, a feature that allows gawk to preserve memory between runs:
-   https://www.gnu.org/software/gawk/manual/html_node/Persistent-Memory.html
-was added. The files that implement this, support/pma.[ch], are licensed
-under the AGPL which some entities perfer to avoid. Force people to knowingly
-opt into using this feature and license using:
-   PACKAGECONFIG:append:pn-gawk = " pma"
-where pma is an abbreviation for persistent memory allocator. Also add AGPL
-to LICENSE if using pma.
+[0]: https://cmake.org/cmake/help/v4.1/release/4.1.html#id1
 
-License-Update: Reflects conditional AGPL use as described above.
-
-Testing requires a non-root account and following the example in the link above:
-  $ truncate -s <size> data.pma
-  $ chmod 0600 data.pma
-  $ GAWK_PERSIST_FILE=data.pma gawk 'BEGIN { print ++i }'
-  1
-  $ GAWK_PERSIST_FILE=data.pma gawk 'BEGIN { print ++i }'
-  2
-  $ GAWK_PERSIST_FILE=data.pma gawk 'BEGIN { print ++i }'
-  3
-
-This works on qemu[x86-|arm|riscv]64 but not on qemuarm where the
---enable-pma is ignored for unknown reasons.
-
-Finally, remove an old comment about GPLv2, GPLv3 versions of gawk
-since this is no longer important as the GPLv2 version is not maintained.
-
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 ---
- meta/recipes-extended/gawk/gawk_5.3.2.bb | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ .../cmake/{cmake-native_4.1.0.bb => cmake-native_4.1.1.bb}      | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ meta/recipes-devtools/cmake/{cmake_4.1.0.bb => cmake_4.1.1.bb}  | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_4.1.0.bb => cmake-native_4.1.1.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_4.1.0.bb => cmake_4.1.1.bb} (100%)
 
-diff --git a/meta/recipes-extended/gawk/gawk_5.3.2.bb b/meta/recipes-extended/gawk/gawk_5.3.2.bb
-index 833fe78bf9..b4b7419c34 100644
---- a/meta/recipes-extended/gawk/gawk_5.3.2.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.3.2.bb
-@@ -6,14 +6,21 @@ HOMEPAGE = "https://www.gnu.org/software/gawk/"
- BUGTRACKER  = "bug-gawk@gnu.org"
- SECTION = "console/utils"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_4.1.0.bb b/meta/recipes-devtools/cmake/cmake-native_4.1.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_4.1.0.bb
+rename to meta/recipes-devtools/cmake/cmake-native_4.1.1.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index b2d3d60ef9..e86bb3dec1 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -20,7 +20,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0001-cmCTestCurl-Avoid-using-undocumented-type-for-CURLOP.patch \
+            "
  
--# gawk <= 3.1.5: GPL-2.0-only
--# gawk >= 3.1.6: GPL-3.0-only
- LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+-SRC_URI[sha256sum] = "81ee8170028865581a8e10eaf055afb620fa4baa0beb6387241241a975033508"
++SRC_URI[sha256sum] = "b29f6f19733aa224b7763507a108a427ed48c688e1faf22b29c44e1c30549282"
  
-+# pma adds AGPL license
-+LICENSE:append = " ${@bb.utils.contains('PACKAGECONFIG', 'pma', ' & AGPL-3.0-or-later', '', d)}"
-+LIC_FILES_CHKSUM:append = " ${@bb.utils.contains('PACKAGECONFIG', 'pma', \
-+    'file://support/pma.c;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19 \
-+     file://support/pma.h;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19', '', d) \
-+}"
-+
- PACKAGECONFIG ??= "readline mpfr"
- PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
- PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
-+# pma: persistent memory allocator: off by default due to licensing.
-+PACKAGECONFIG[pma] = "--enable-pma,--disable-pma, "
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-            file://run-ptest \
--- 
-2.34.1
-
+diff --git a/meta/recipes-devtools/cmake/cmake_4.1.0.bb b/meta/recipes-devtools/cmake/cmake_4.1.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_4.1.0.bb
+rename to meta/recipes-devtools/cmake/cmake_4.1.1.bb
 
