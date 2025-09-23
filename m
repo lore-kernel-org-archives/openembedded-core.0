@@ -1,100 +1,124 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D20CAC5B0
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 23:03:54 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.91.1758668628959379315
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B27CACAC5A5
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 23:38:34 +0000 (UTC)
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by mx.groups.io with SMTP id smtpd.web11.714.1758670706157058043
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 16:03:49 -0700
+ Tue, 23 Sep 2025 16:38:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=j15u3a0b;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=oNED5wDh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019978d1a06e-3265bd57-7c8a-458c-83c6-0187506c56c5-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1758668628; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=fwp3Oas2TdPJU5dOQ2FSPgWcyuUIuGP+ZIsAPdmDJa4=;
-	b=j15u3a0bwCreGj2m3zgGHXGF5+pDegPnInCEkeQf0g1DMW4iH1nt1QDEIRdYEW8M
-	oXuY9OiUq1WxFufn4ovOIImMNQ0YmIW922axNfrb4gNZqzg+zAORwCVHons39OnHXR1
-	gkwlYYKLboPirAXOnrWR4Sa8QgqBKiQQldr7VoQQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1758668628;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=fwp3Oas2TdPJU5dOQ2FSPgWcyuUIuGP+ZIsAPdmDJa4=;
-	b=oNED5wDhyBCQQTT+BYgBISnwny7IaUhTO/DD58PQvgN9qZKzQuHSzSlMoD/o5iWa
-	ffwE2MuVx9pfoCNmj1kHvdjWezAAJGFL7TUCOifTT8Hdil1DsKg15kkv9fQuOeIKuZU
-	2IXG0ZlvmZnieh4xmhjiHLSXl//BkJlx/olyf8Wg=
-From: patchtest@automation.yoctoproject.org
-To: rs@ti.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][PATCHv10 4/7] weston-init: convert to virtual-emptty-conf
-In-Reply-To: <20250923225150.2407390-5-rs@ti.com>
-References: <20250923225150.2407390-5-rs@ti.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019978d1a06e-3265bd57-7c8a-458c-83c6-0187506c56c5-000000@us-west-2.amazonses.com>
-Date: Tue, 23 Sep 2025 23:03:48 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.23-54.240.27.30
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=RQLCA2Lp;
+ spf=pass (domain: ti.com, ip: 198.47.19.245, mailfrom: rs@ti.com)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58NNcI081087631;
+	Tue, 23 Sep 2025 18:38:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1758670698;
+	bh=PcvNgILVccExe9vM41AvcdFNSBue+Og3azAJuTKRSnA=;
+	h=Date:CC:Subject:From:To:References:In-Reply-To;
+	b=RQLCA2LpwZYAgLw2vdA6zoQCHtdJCXfBLkE4ZxFzd7isQ192i0MpC4TpJZ0XujyDQ
+	 5hKnj1bRA5ga1Z5hUhzpAyjUI86dC+aMV/Nj0Ufg5jqIxoRUCwzuhM+x8QqtBQRhYG
+	 KbwPnVdmOF28+7j0+6lwlCfDU1uL7kHkb+UVnEuE=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58NNcIJ61427712
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Tue, 23 Sep 2025 18:38:18 -0500
+Received: from DLEE213.ent.ti.com (157.170.170.116) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 23
+ Sep 2025 18:38:17 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE213.ent.ti.com
+ (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 23 Sep 2025 18:38:17 -0500
+Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58NNcH4j1053931;
+	Tue, 23 Sep 2025 18:38:17 -0500
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Date: Tue, 23 Sep 2025 18:38:17 -0500
+Message-ID: <DD0KQD1AFT03.1FP6NSP775W2P@ti.com>
+CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
+        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+Subject: Re: [oe-core][PATCHv10 7/7] xuser-account: merge with
+ xserver-nodm-init
+From: Randolph Sapp <rs@ti.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, <rs@ti.com>,
+        <mathieu.dubois-briand@bootlin.com>, <alex@linutronix.de>,
+        <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250923225150.2407390-1-rs@ti.com>
+ <20250923225150.2407390-8-rs@ti.com>
+ <2868d1ad803cb9d135c09104470c0614a7cd2f17.camel@linuxfoundation.org>
+In-Reply-To: <2868d1ad803cb9d135c09104470c0614a7cd2f17.camel@linuxfoundation.org>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 23:03:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223941
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 23:38:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223943
 
---NextPart
-Content-Type: text/plain
+On Tue Sep 23, 2025 at 5:57 PM CDT, Richard Purdie wrote:
+> On Tue, 2025-09-23 at 17:51 -0500, rs@ti.com wrote:
+>> From: Randolph Sapp <rs@ti.com>
+>>=20
+>> Merge the xuser-account recipe with xserver-nodm-init, since:
+>>=20
+>> =C2=A0- This is the only recipe dependent on it
+>
+> This is not a good reason to merge them. The reason they were kept
+> separate was so that people could replace the user with their own user
+> setup whilst reusing the xserver init code (or vice versa).
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Sure, but now this is all encompassed by the virtual-emptty-conf providers,=
+ as
+the conf dictates what user is to be automatically logged in. This conf nee=
+ds to
+be kept in sync with whatever user is submitted.
 
----
-Testing patch /home/patchtest/share/mboxes/PATCHv10-4-7-weston-init-convert-to-virtual-emptty-conf.patch
+If people want to forgo managing the conf and just manage their own users t=
+hen
+they can just set the preferred rprovider for virtual-emptty-conf to emptty=
+-conf
+and add their own users in their own recipes. This will give them the deskt=
+op
+like experience where they are greeted with a console login prompt and sess=
+ion
+picker on tty7.
 
-FAIL: test max line length: Patch line too long (current length 256, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+I guess this also means that the x-session-manager recipes should be update=
+d to
+provide their desktop files for their sessions instead of us doing that in
+xserver-nodm-init though. I may need to address that in another revision.
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+>> =C2=A0- This matches the current behavior in weston-init
+>> =C2=A0- Running x11 as root is no longer a supported path in
+>> =C2=A0=C2=A0 xserver-nodm-init
+>
+> Does rootless X work everywhere now?=20
+>
+> Cheers,
+>
+> Richard
 
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Uh, that's a good question. I didn't think there were any particular usecas=
+es
+left that were limited by rootless X. It's been a desktop thing for so long=
+ now
+the only issues I remember were specifically around the way the handoff to =
+the
+user account occurred.
 
----
+Gentoo cites the difference between using a login manager / display manager=
+ vs
+the old suid scheme as being problematic for remote start depending on how =
+seat
+management is handled. We didn't seem to be relying on that behavior so I w=
+ant
+to say it's fine.
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+- Randolph
 
