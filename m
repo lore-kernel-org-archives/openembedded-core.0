@@ -1,124 +1,56 @@
-Return-Path: <rs@ti.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B27CACAC5A5
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 23:38:34 +0000 (UTC)
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by mx.groups.io with SMTP id smtpd.web11.714.1758670706157058043
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A46CAC5AC
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 23:44:34 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.826.1758671071363855158
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 16:38:26 -0700
+ Tue, 23 Sep 2025 16:44:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=RQLCA2Lp;
- spf=pass (domain: ti.com, ip: 198.47.19.245, mailfrom: rs@ti.com)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58NNcI081087631;
-	Tue, 23 Sep 2025 18:38:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1758670698;
-	bh=PcvNgILVccExe9vM41AvcdFNSBue+Og3azAJuTKRSnA=;
-	h=Date:CC:Subject:From:To:References:In-Reply-To;
-	b=RQLCA2LpwZYAgLw2vdA6zoQCHtdJCXfBLkE4ZxFzd7isQ192i0MpC4TpJZ0XujyDQ
-	 5hKnj1bRA5ga1Z5hUhzpAyjUI86dC+aMV/Nj0Ufg5jqIxoRUCwzuhM+x8QqtBQRhYG
-	 KbwPnVdmOF28+7j0+6lwlCfDU1uL7kHkb+UVnEuE=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58NNcIJ61427712
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 23 Sep 2025 18:38:18 -0500
-Received: from DLEE213.ent.ti.com (157.170.170.116) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 23
- Sep 2025 18:38:17 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE213.ent.ti.com
- (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 23 Sep 2025 18:38:17 -0500
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58NNcH4j1053931;
-	Tue, 23 Sep 2025 18:38:17 -0500
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 3045340C8C;
+	Tue, 23 Sep 2025 23:44:30 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lGyWV_uauTwV; Tue, 23 Sep 2025 23:44:30 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id EC476406B5;
+	Tue, 23 Sep 2025 23:44:26 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 2218C1639A6; Tue, 23 Sep 2025 19:44:26 -0400 (EDT)
+Date: Tue, 23 Sep 2025 19:44:26 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@lists.yoctoproject.org>,
+	openembedded-members@lists.openembedded.org
+Subject: OpenEmbedded Happy Hour September 24 5pm/1700 UTC
+Message-ID: <20250923234426.GT3125@denix.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Tue, 23 Sep 2025 18:38:17 -0500
-Message-ID: <DD0KQD1AFT03.1FP6NSP775W2P@ti.com>
-CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
-        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: Re: [oe-core][PATCHv10 7/7] xuser-account: merge with
- xserver-nodm-init
-From: Randolph Sapp <rs@ti.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, <rs@ti.com>,
-        <mathieu.dubois-briand@bootlin.com>, <alex@linutronix.de>,
-        <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250923225150.2407390-1-rs@ti.com>
- <20250923225150.2407390-8-rs@ti.com>
- <2868d1ad803cb9d135c09104470c0614a7cd2f17.camel@linuxfoundation.org>
-In-Reply-To: <2868d1ad803cb9d135c09104470c0614a7cd2f17.camel@linuxfoundation.org>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 23:38:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223943
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 23:44:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223944
 
-On Tue Sep 23, 2025 at 5:57 PM CDT, Richard Purdie wrote:
-> On Tue, 2025-09-23 at 17:51 -0500, rs@ti.com wrote:
->> From: Randolph Sapp <rs@ti.com>
->>=20
->> Merge the xuser-account recipe with xserver-nodm-init, since:
->>=20
->> =C2=A0- This is the only recipe dependent on it
->
-> This is not a good reason to merge them. The reason they were kept
-> separate was so that people could replace the user with their own user
-> setup whilst reusing the xserver init code (or vice versa).
+All,
 
-Sure, but now this is all encompassed by the virtual-emptty-conf providers,=
- as
-the conf dictates what user is to be automatically logged in. This conf nee=
-ds to
-be kept in sync with whatever user is submitted.
+Please join us for our monthly OpenEmbedded Happy Hour tomorrow, Wednesday 
+September 24 at 1700/5pm UTC (1pm ET/10am PT).
 
-If people want to forgo managing the conf and just manage their own users t=
-hen
-they can just set the preferred rprovider for virtual-emptty-conf to emptty=
--conf
-and add their own users in their own recipes. This will give them the deskt=
-op
-like experience where they are greeted with a console login prompt and sess=
-ion
-picker on tty7.
+https://www.openembedded.org/wiki/Calendar
+https://www.openembedded.org/wiki/Happy_Hours
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+September+24&iso=20250924T17
 
-I guess this also means that the x-session-manager recipes should be update=
-d to
-provide their desktop files for their sessions instead of us doing that in
-xserver-nodm-init though. I may need to address that in another revision.
-
->> =C2=A0- This matches the current behavior in weston-init
->> =C2=A0- Running x11 as root is no longer a supported path in
->> =C2=A0=C2=A0 xserver-nodm-init
->
-> Does rootless X work everywhere now?=20
->
-> Cheers,
->
-> Richard
-
-Uh, that's a good question. I didn't think there were any particular usecas=
-es
-left that were limited by rootless X. It's been a desktop thing for so long=
- now
-the only issues I remember were specifically around the way the handoff to =
-the
-user account occurred.
-
-Gentoo cites the difference between using a login manager / display manager=
- vs
-the old suid scheme as being problematic for remote start depending on how =
-seat
-management is handled. We didn't seem to be relying on that behavior so I w=
-ant
-to say it's fine.
-
-- Randolph
+Best regards,
+Denys Dmytriyenko
+OpenEmbedded Board of Directors
 
