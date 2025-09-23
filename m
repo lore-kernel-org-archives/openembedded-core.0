@@ -1,404 +1,232 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12039CAC5AC
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 15:00:04 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.19211.1758639595322812356
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 527BFCAC5AC
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 15:15:11 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.46])
+ by mx.groups.io with SMTP id smtpd.web11.277.1758640501171623928
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 07:59:55 -0700
+ Tue, 23 Sep 2025 08:15:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=H6ub3PFb;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: rybczynska@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-27d2c35c459so6240105ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 07:59:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758639595; x=1759244395; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=P+1m+umODx/bYjm2ixRGIBPQ5t1im45LsBkJvTDv0yc=;
-        b=H6ub3PFbF3erbvg5kPmLJ+i4CqfhNejvc36SpYGTetn41ESdsCOWduimCL9SOgE0XV
-         8JmxORmlQjl/8gqzy3GJej+8ZOveU5uiLz7pDJvfdqgy8vXnSd+fs9+AcDbxmfoMvUSY
-         hg1TdxiVARgLMbm24B1MLm4Uu20knDqVCpkm19vaoJ2rpbpeWPxwxRy2uLAs9m3sVMH/
-         ccD/UO4iPw7fLYoJ4ESoz9Hrznagzb3heaXgZh79ddEe4hWWC+3jNt5MXavcwJk98+52
-         Qs9ThvjhTlHEoI/5hLo9bBKXndQ0bjom7tkGcVU9rk1Kl2MLVlxfbvuwMjYBfDavDYSc
-         z69w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758639595; x=1759244395;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P+1m+umODx/bYjm2ixRGIBPQ5t1im45LsBkJvTDv0yc=;
-        b=bCESuWRS2tnILfkUGZjORl3ZweZCbM67MjlDuGgi9PPOAPj2BcTay/lRo5JIDr8rOj
-         xFVgM4jZIEGda9+UoU1S1BTAKnNoReVdHYGIclPfAxZfkA0lKxysHmP9ohGb7s6cdmAs
-         l2HrrDd+wYrInQEDRquLJF84FPg22a103mH9PjUCf3KgTrC3Kff68PXUgNi8+M8o7TAI
-         oftmaFR9v1RfXSwceOepIfeARp2E1YZGp34t2fMgkvwhAM5N15DlQeHezub58aa2J+wO
-         FWgDJ9Bldo/S8GhyLEYAAggvLWE3tQ4VIIqFOgdEqftCovZbR9hSXu7tMwA4U9OYaqjS
-         nddA==
-X-Forwarded-Encrypted: i=1; AJvYcCWq32JxkBMbxZaywXzbDrHrPyfZHU9IdibCXgtLpoYKmAVX8a9sXWvinAn8D5sFmCYYEoi704j9plkNUgg11/wULA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxyksFY4e5KGzH+hLwDshIs603FWTxuPWE3OYr6/qW+6mLADPo4
-	Q4cd6rHaB1Q7gE3RVEe5v3+BO92cu79AfRONNs6CpuXXoJP6AvrcRMAQlleF3KkW4UfHZT2r6vC
-	+p+AktExgDDI39C6JJ5yX/Wwi+reH01s=
-X-Gm-Gg: ASbGncv0HAB+grJdK8UstwXiIMy6u+4L75D7RuqvNPx2PV9Z5LE0cCEZBTJms+0Yq3B
-	6VPKd8zgBAmo0XC6wRyCJoNIf5ehapE3JSgSvmB5W2oUpe1B9Vr3YDNfVKAUoi4rE7EGoQM/mRK
-	jOb+jivmCDgJzp6Jphd5bNxPm3ALlacu5s+lJpMKUvuBi30/KebThf9YywZj4ere5YNoqyusI7Y
-	PeemV8etAIlokAioqwBN3iDcO4/btVh2xCtcMf8
-X-Google-Smtp-Source: AGHT+IH6IcET2Yo9ywA+2hL0kGpff/BqFVJc67prQlvYTDiLHybuAqYkP5WMOicLdXVoQ3wSdqdsaFD/M6tWcRx5rJw=
-X-Received: by 2002:a17:902:ce0f:b0:276:842a:f9a7 with SMTP id
- d9443c01a7336-27cc7f8edb9mr42649295ad.57.1758639594535; Tue, 23 Sep 2025
- 07:59:54 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=PimnRUpj;
+ spf=pass (domain: axis.com, ip: 40.107.159.46, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ddFJ+W1RksWaw91XS6udjevRogJaVsz8qyP210Vjxobw0RVPun4sBJmaZo49517fvDbwySrMBhWNH59Xff4U0B8mMz4ZtMP5TSC4g7J6XjpslhQDDoNrY2NmePnu5QxkuPrqUgXxBiGULjNto1aDxD7Jgrt7uhMmANCLKk8dyDjYL5/NS3ADqjZHULcPq2QLrFuUGJvxKs8DEis5x96UK0gvdIfOoTNh2qhR/jidLCuGYTbwmj8baO1jQvM8wtLW8w5a7gviQ7qswGrWSeNMNjYRoxSsu167tUGuHVOY6hjIioNithJxrnhs8+I7V9KAIRl1Nf+gz2g22t6yhGMIXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CcaBBCpmN862aT8rs8i696Q00NfUPddrQrjnp1Jjf7s=;
+ b=a/D6rOqIE2Nxinya9WIdtM0PNmXsFW5PagaMOpmektqnBxAY2VuN4JynA6XHNKhrFZ+12M3t+2YQSAcKbclYOJcsxuyJhSQg43oBZc/4ACZgzPV8uHfRhkxQrcumT1KV3SPK/a6HR3pG1YipT1kaKs5XS0cRu/UN4HReZyoBOYUgkm8GeN2VY1y1c3zmlj8xvppgx36DZJvukYJAVbP9rjQZmggG0F0faUEXYJoHazi9GC8drkqFfjClSFRpkuI91DkJ3Zv8X/Zd2YxLbHPsjpXLa7yjPFFfwaFamUhSfqJIsmvR1KW0vYfZJ79JavrpJekA15sQ8rlnI3j40D4/Fw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CcaBBCpmN862aT8rs8i696Q00NfUPddrQrjnp1Jjf7s=;
+ b=PimnRUpj6HuFNNO7ToWg9eVrjbBSkgK3QgvOf/ml87KYzZgfYBEcTUeA8vbdfIm6QejPClKBw2m7Oze3wdPjOYpzvnok0u7A1LbWxzxKFxWYh31zXRsMto+TdIbfcQa0ZsJdBLC+E0So0n24Z3AXqUAbqK1CyXKoiSQIAbNAiTk=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by DU0PR02MB8361.eurprd02.prod.outlook.com (2603:10a6:10:3bb::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Tue, 23 Sep
+ 2025 15:14:57 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9%7]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
+ 15:14:57 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "ross.burton@arm.com" <ross.burton@arm.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 4/4] libdnf: remove obsolete path path
+Thread-Topic: [OE-core] [PATCH 4/4] libdnf: remove obsolete path path
+Thread-Index: AQHcK8w6rrCzX0Em/kK+TRG4p84wyrSg4ZkA
+Date: Tue, 23 Sep 2025 15:14:57 +0000
+Message-ID: 
+ <DB5PR02MB1021385D2083103EE78504FF6EF1DA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20250922142031.3625684-1-ross.burton@arm.com>
+ <20250922142031.3625684-4-ross.burton@arm.com>
+In-Reply-To: <20250922142031.3625684-4-ross.burton@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DU0PR02MB8361:EE_
+x-ms-office365-filtering-correlation-id: a9e0e751-d3b5-4ff1-1c3c-08ddfab3f526
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?xoRm55xuBi3T/nFexj5oBcSkUyF/Qeqq9z3LpMnkn/WQs9mx2DQDTREm7M9s?=
+ =?us-ascii?Q?SeCI0H5QvEYp0V1UNuCBL6y9r8AzxoCwJ3sVJBEGUWpfvOwrC1KnMoZE+6Jv?=
+ =?us-ascii?Q?c1uxvLfXuRfD28kX6kFAJcA334gY8ogB7sw/hk16qKhtr7wP7lP2NlJV3LZX?=
+ =?us-ascii?Q?q0bW9PT14vzmEp+aIwg6jqXy4vqv6agpQF3r9GFDrc6TR7zodkWbJzQFW4Wp?=
+ =?us-ascii?Q?nyAVque5ke5ji7mIVbCg4GVxXMuzP8QQQ/AHejRIX5mE4JG4Hgdjnhq5wTJB?=
+ =?us-ascii?Q?s+z5TJ9B39lc+GqokYHf509yVqHGqypi8G/wx7R3utYOm/28SI/5MDvjHPHA?=
+ =?us-ascii?Q?+6Dmu9kKOQlCT0VXKjVKiDD/bEuW+HLaxqVSqT5oBkj22Pzlec8Vf34++9p+?=
+ =?us-ascii?Q?RooknIA07Q90fwm4aSeRSMyP7MGL4UGUQ6VMQMwAQ1O6gv3/Jpo6FbP+wC0i?=
+ =?us-ascii?Q?ilsmetE7QicvCLW3oPYhVeATwJvWz9hjUA/pzJbBz1+bycb9x4aBTq46+CNc?=
+ =?us-ascii?Q?HOgdVMMAXjWzQXXAwnn1VLcRZjRTVFFirWF1TJBy+Dj9pVqjQGzDC5IS5pRo?=
+ =?us-ascii?Q?kF73JST78kyaQzdUAE2alcArSdZV7kBbtM5BmN49E8a+MUicFcBPgGVupjux?=
+ =?us-ascii?Q?vMOsBJFXMXj2pEtUyj2Sliz9IkA/OdleQy+x9dyYRkrcZ2RPWnL3tM43/Soy?=
+ =?us-ascii?Q?j+VuCyZNUjU5ma0jAbLQGruQl+zaBnOXy4MkfNN9T+kpdiEgT1ai023KUc6i?=
+ =?us-ascii?Q?XBLGf+bE4PLOs6bgHg5vexD218JydGHXwFUEsa8VtOmHfbQ1+rG/ea8Vt4Wc?=
+ =?us-ascii?Q?Hkzd6o/gaOy8OV4Xc0WmdK+nTEcVZCM3uxPaBtncBNrFME9GeyHmTpwGxMde?=
+ =?us-ascii?Q?IzGyFFD4PKVEM8a/8FD0saPQYEmtR87iEmCUho2zggeuO/dIrrFgkFn9Sx2d?=
+ =?us-ascii?Q?q6cx6vJt40j4TUqYk64o2AX9BTn/r5nRm8bhGOCl5bGl+ppohwdtNjjIm4cv?=
+ =?us-ascii?Q?g1jDI8pm9L35LXm+DfAMBI5A0jX2HdI3ZLF7Ya7NXf9Pvys6K5RN1ze9iKVY?=
+ =?us-ascii?Q?Bq3ZZWX9t9KsS3RjzaD9cIuLTlG5nsyZlSPWa/vxRS2e1nrNOl4+UbKMfUFh?=
+ =?us-ascii?Q?sOlYXqgVv3RdDYiYNK0UoqZVdNSZMtbXD+1qnYkQXQyV98iyqLXoIcE/+zIJ?=
+ =?us-ascii?Q?rL9sxmIyfROh6RlvLFg5NLmX0RN9LptYdDTjNa5zexERiqj7xyd7zJ5KSZF6?=
+ =?us-ascii?Q?y9CKscVr/zcQc4vY10PGFg13v7hoMpUkzcK8EU4ICoHZZAu6GnX8DJuylSOG?=
+ =?us-ascii?Q?0fQlHYw4EgLAdIp7ScM4+57KQ+hc7wVKJ1H4a2z/C6pscmZZ5yZ9x66+Je1V?=
+ =?us-ascii?Q?8t7RFv/PxU7e9/g5q01dEaCbf76nJs9ye8EDksu70HCNMbEGup1tM0wpBSut?=
+ =?us-ascii?Q?jYU8alipX1Sw3x8lT56mkQfxZEHAUOl7Y30b0LaPn6kg89wFpOA0lJDmoVMJ?=
+ =?us-ascii?Q?nPex5eP6vjkQcyY=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?/GbSxmFxqN22fJloPAzqeaiK7lktXLAtnsLb0o3a0xu8w+34ZWKXQuxh/oEk?=
+ =?us-ascii?Q?wOJ+0L00HpLvuEe5WI6sh14wtx4k3U0B0boCoyaYzyOzRkobuvMTbbB9yFML?=
+ =?us-ascii?Q?cfcez/Qy7G4vd/76aeIC2AFHktMWEXIoKmPBnDTuhQvjjbJJsI+X2TshPxSM?=
+ =?us-ascii?Q?qC65ozyLB96ftNOYMUSQ1hWm0gLjNAPshpqLyoIL748VHzsbx+MuYkt7QlB3?=
+ =?us-ascii?Q?EJwY6T9/bt9C0vsFqqV3aF2Pan5Rp9AVuhBoCeZslgivZ9hETrNtObozC6np?=
+ =?us-ascii?Q?9BegidLyuFwmR4xnfJEe2K738frMKzWFK1x7MHUAVgLNUqQIWpieNggJY8KD?=
+ =?us-ascii?Q?ovcST+xfGhjV346q0lvBrS5s/SKNxZibvbdQeGxgoWPqS6W+8sJrFNlaRylH?=
+ =?us-ascii?Q?DIG4SamiHsD12MO+UUVnVfpyffqfefbYNK/QZO2YO9g/O2LzmBc8yWwLGiRr?=
+ =?us-ascii?Q?qTOnBmsxVYPuMe7tDnT+NLpNkXs5fHscUuYtd1jW591R1cCckSSruvO1+a11?=
+ =?us-ascii?Q?L9FR94C21eKfgumq0L1nK3cm/ljXIfj/PFA57G2btxnWpTwt1lXZZshxZFUn?=
+ =?us-ascii?Q?zGthJkCf+X5t/IB0Wx7rz+tqJw+WMfZnMJRkyZUWJVVw4Kcq7EacwdsgC8hP?=
+ =?us-ascii?Q?gDrg3TP/7+OiizHxr6vu6OTCUxZ3UB2o0T4HR0ul+ska3b8fNSzkw0mE/Kr4?=
+ =?us-ascii?Q?K1xYEKRNnKpT0ozMTXw9OqYlud0CDrY8y1ulbafFKETNtyMDU8BGMn8ELYS3?=
+ =?us-ascii?Q?9UOVA5nhvURx2URwI5ULj5uHkM5yzT1EfaGpRWcWLDeXO61W3QGOj8Nd3MQL?=
+ =?us-ascii?Q?S+QW6fAuOx9hxr7wnZk8UO0o8/sdBvpO7wavJbc6+dYzcFpfqQ+Go/2Brjor?=
+ =?us-ascii?Q?bT61filRX3ktw9OHQ44bBaX7BV79rr+L5nznMsGq2v1rY16udJyS4Lpsc+4o?=
+ =?us-ascii?Q?O41qupbu2MQRvokeQekm+TknolI5aCiDOAauBCNmCvfvQoXo6EOxtrCjFN2z?=
+ =?us-ascii?Q?ywH1xDIeu1EhBhxmh9Y6PnvQqe/sI/8RKucxqiK7T6GySD+TuTppNW2icRmE?=
+ =?us-ascii?Q?ATArILIg1+Q9UGPaTOTgdWgH16eQOzwLe7941hcjt4mQx1VyE2Yr6m7XMA8K?=
+ =?us-ascii?Q?ZI+q62YhAZ3kZPz7A8IlplU04fsPoqlcCovkQfHJxEZl+3Isix1l7slAlmLX?=
+ =?us-ascii?Q?jqZV1pVWkk08qzK5jDCoWErdbMrSONML2Ga5T/8gS9LGURl0U9U9z5M9sbTE?=
+ =?us-ascii?Q?X5eoSkLdaWuCdN/VmjWZ9M+2/l7MnT7P/ikFt9rNgLYAKot2Jr5PQhn+BN6E?=
+ =?us-ascii?Q?KZzyDByv0z+HXSInmWJGNMab9PoZR53jRJwUW1XPWQQ8pI0xxliNPZlo0Gb3?=
+ =?us-ascii?Q?wX3E+CNR8iFrGE1GFzzxEHT2a7zS+MwqdghGeIbjN+0jlatuqJaiVZtRAZT8?=
+ =?us-ascii?Q?NLwACI6vNJZ24Bci7V9JcksoUYUeM9LUNgoqt4UpcMcRd/IdYvuynb90rvuP?=
+ =?us-ascii?Q?ucORAQ7tlTnvt5gHvd5K50f+AubH2Z2cLM3fGesVM74D6lMU3h3WFXNMww?=
+ =?us-ascii?Q?=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20250826185922.20154-1-peter.marko@siemens.com>
- <a9a5777d-d622-4e89-9888-3989f884e816@vaisala.com> <PA4PR10MB5707144A5B4B39EEDF739AEFFD16A@PA4PR10MB5707.EURPRD10.PROD.OUTLOOK.COM>
- <50952460f2bf31d8f1632d20f696a4e06985386b.camel@linuxfoundation.org>
- <AS1PR10MB5697B95623B2339AA021CA90FD1DA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <201b074a0d05dda923ff4ba10d86d74357cf45d6.camel@linuxfoundation.org>
-In-Reply-To: <201b074a0d05dda923ff4ba10d86d74357cf45d6.camel@linuxfoundation.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 23 Sep 2025 16:59:41 +0200
-X-Gm-Features: AS18NWB-GQpQTjZrHxkETtDz_ZTjY-dlbTaxluJH8LpOyW6ol0GyyugJxkmisFM
-Message-ID: <CAApg2=Q03BYUXtUtaHm3aAAD3ms=CiMMmYKUVoa7SJ8JF3iG9A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] cve-update: log timestamps and add force update
- for future time
-To: richard.purdie@linuxfoundation.org
-Cc: "Marko, Peter" <Peter.Marko@siemens.com>, Niko Mauno <niko.mauno@vaisala.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000052021b063f793099"
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9e0e751-d3b5-4ff1-1c3c-08ddfab3f526
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2025 15:14:57.5073
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HU8wu1NJdip6+NRTZvqasNy00qoFfsttr9kxDPoUJLv7fHNApaHdUmLCqn5fHf5S
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB8361
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 15:00:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223892
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 15:15:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223893
 
---00000000000052021b063f793099
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Ross Burton via lists.openembedded.org
+> Sent: den 22 september 2025 16:21
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 4/4] libdnf: remove obsolete path path
 
-On Tue, Sep 23, 2025 at 2:47=E2=80=AFPM Richard Purdie via lists.openembedd=
-ed.org
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+path path -> path patch
 
-> On Tue, 2025-09-23 at 12:30 +0000, Marko, Peter wrote:
-> >
-> >
-> > > -----Original Message-----
-> > > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > Sent: Friday, September 19, 2025 0:16
-> > > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>; Niko
-> > > Mauno
-> > > <niko.mauno@vaisala.com>; openembedded-core@lists.openembedded.org
-> > > Subject: Re: [OE-core][PATCH] cve-update: log timestamps and add
-> > > force update
-> > > for future time
-> > >
-> > > On Thu, 2025-09-18 at 12:55 +0000, Marko, Peter wrote:
-> > > >
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Niko Mauno <niko.mauno@vaisala.com>
-> > > > > Sent: Thursday, September 18, 2025 14:48
-> > > > > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
-> > > > > openembedded-core@lists.openembedded.org
-> > > > > Subject: Re: [OE-core][PATCH] cve-update: log timestamps and
-> > > > > add force
-> > > update
-> > > > > for future time
-> > > > >
-> > > > > On 26.8.2025 21.59, Peter Marko via lists.openembedded.org
-> > > > > wrote:
-> > > > > > From: Peter Marko <peter.marko@siemens.com>
-> > > > > >
-> > > > > > CVE update is currently not working properly on autobuilder.
-> > > > > > This improves logging for problem analysis.
-> > > > > >
-> > > > > > Future time is something which could be reason for current
-> > > > > > autobuilder
-> > > > > > problems since the DB was not updated for more than 3 months
-> > > > > > by now.
-> > > > > >
-> > > > >
-> > > > > CVE check mechanism, which relies on a CVE database that can
-> > > > > silently fail to
-> > > > > update for several months, seems troubling to say the least.
-> > > > >
-> > > > > Looking at the do_fetch() method in both recipes they seem to
-> > > > > use the
-> > > > > os.path.getmtime() method to resolve the last modified time of
-> > > > > the database.
-> > > The
-> > > > > value is however based on database file modification time. This
-> > > > > seems
-> > > inherently
-> > > > > fragile, and I would be curious if there would be a less
-> > > > > problem-prone
-> > > approach
-> > > > > that could be used to resolve the last modified date, such as
-> > > > > resorting to the
-> > > most
-> > > > > recent CVE last modified date. Seems it can be extracted from
-> > > > > the database
-> > > file
-> > > > > by issuing:
-> > > > >
-> > > > >    select MODIFIED from NVD order by MODIFIED desc limit 1;
-> > > > >
-> > > > > I'm not sure if all things considered it is completely
-> > > > > appropriate to utilize the
-> > > NVD
-> > > > > MODIFIED value in this fashion, but it would feel at least less
-> > > > > hazardous than
-> > > > > referencing the modification time of the database file itself.
-> > > > >
-> > > >
-> > > > I was considering multiple options, also using a text file with
-> > > > timestamp instead
-> > > of the getmtime.
-> > > > Your proposal looks nicer.
-> > > > But I decided to first look at the AB logs before implementing
-> > > > something.
-> > > >
-> > > > Unfortunately, my patch to expose the logs was not merged yet :-(
-> > > > https://lists.yoctoproject.org/g/yocto-patches/message/2083
-> > >
-> > > Basically I'm worried that this is something to debug a one off
-> > > issue
-> > > but we'll be left with files building up on the shared storage.
-> > > We've
-> > > multiple other debugging experiments like this from previous such
-> > > situations. People add them but never remove things.
-> >
-> > I believe that I have written the patches in a way that they are not
-> > temporary.
-> > Then focus on improving logging which will be hopefully kept also
-> > after the potential rework of timestamp handling.
-> > Please let me know if this can be merged or in which other direction
-> > do you think that we could go in investigating the clearly non-
-> > working yocto CVE statistics.
->
-> I get lots of requests to keep all kinds of build data "just in case".
-> If I said yes to all of them, we'd just end up with mountains of files
-> in an unmaintainable mess. In fact that already happens, hence the
-> source of frustration and my reluctance to save more logs, especially
-> since this isn't apparently temporary for debugging but permanent :(.
->
-> I'm frustrated as where I have said "yes" to adding extra files in the
-> past, they're cluttering up UIs, space on the NAS and it is left to
-> others to try and cleanup the mess that builds up. These files are
-> probably only useful to you and you alone since nobody else knows where
-> they end up, why or how to use them. There is no documentation on any
-> of this.
->
-> Yes, we could develop policies and processes to clean these things up.
-> Nobody has actually done that though, or has much interest in it, they
-> just hope someone else does.
->
-> I'm trying really hard to sort bitbake-setup and I'm sorry but I simply
-> don't have the bandwidth to try and work out how to resolve this :(
->
-> I guess I just merge the patch and get quietly upset/annoyed/frustrated
-> since if I'm seen to "block" any form of CVE work, that is a huge
-> problem too.
->
->
-The design decision until now was that the database update is not a critica=
-l
-function and not to cause an error in case it breaks.
+//Peter
 
-I think it might be more appropriate to make the build with cve-check
-enabled break instead. Especially when you have FKIE flow that just
-should not break.
+>=20
+> We needed to remove the build path from the source tree because it was
+> embedded into libdnf/dnf-repo.cpp.  However, this was replaced with an
+> environment variable in 0.67.0 onwards[1].
+>=20
+> [1] libdnf 04d7fba0 ("Use environment variable in unittest instead of ugl=
+y hack in libdnf")
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  .../libdnf/enable_test_data_dir_set.patch     | 36 -------------------
+>  meta/recipes-devtools/libdnf/libdnf_0.74.0.bb |  1 -
+>  2 files changed, 37 deletions(-)
+>  delete mode 100644 meta/recipes-
+> devtools/libdnf/libdnf/enable_test_data_dir_set.patch
+>=20
+> diff --git a/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set=
+.patch b/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch
+> deleted file mode 100644
+> index 6fc05d9ff8a..00000000000
+> --- a/meta/recipes-devtools/libdnf/libdnf/enable_test_data_dir_set.patch
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -From 870f50ba4761317f2db018ac130a42087230dded Mon Sep 17 00:00:00 2001
+> -From: Joe Slater <joe.slater@windriver.com>
+> -Date: Wed, 22 Jul 2020 13:31:11 -0700
+> -Subject: [PATCH] libdnf: allow reproducible binary builds
+> -
+> -Use a dummy directory for test data if not built WITH_TESTS.  Allow for =
+overriding
+> -TESTDATADIR, since the default is guaranteed to be wrong for target buil=
+ds.
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> ----
+> - CMakeLists.txt | 7 ++++++-
+> - 1 file changed, 6 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/CMakeLists.txt b/CMakeLists.txt
+> -index b1daacb..f461e54 100644
+> ---- a/CMakeLists.txt
+> -+++ b/CMakeLists.txt
+> -@@ -131,7 +131,12 @@ add_definitions(-DGETTEXT_DOMAIN=3D"libdnf")
+> - add_definitions(-DG_LOG_DOMAIN=3D"libdnf")
+> -
+> - # tests
+> --add_definitions(-DTESTDATADIR=3D"${CMAKE_SOURCE_DIR}/data/tests")
+> -+if(NOT WITH_TESTS)
+> -+  set(TEST_DATA_DIR "/notests")
+> -+elseif(NOT DEFINED TEST_DATA_DIR)
+> -+  set(TEST_DATA_DIR "${CMAKE_SOURCE_DIR}/data/tests")
+> -+endif()
+> -+add_definitions(-DTESTDATADIR=3D\\"${TEST_DATA_DIR}\\")
+> -
+> - # librhsm
+> - if(ENABLE_RHSM_SUPPORT)
+> ---
+> -2.43.0
+> -
+> diff --git a/meta/recipes-devtools/libdnf/libdnf_0.74.0.bb b/meta/recipes=
+-devtools/libdnf/libdnf_0.74.0.bb
+> index fafd8c5905a..720e7d6e6f7 100644
+> --- a/meta/recipes-devtools/libdnf/libdnf_0.74.0.bb
+> +++ b/meta/recipes-devtools/libdnf/libdnf_0.74.0.bb
+> @@ -7,7 +7,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd25=
+5951079008b364516c"
+>  SRC_URI =3D "git://github.com/rpm-software-management/libdnf;branch=3Ddn=
+f-4-master;protocol=3Dhttps \
+>             file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own=
+-mo.patch \
+>             file://0001-Get-parameters-for-both-libsolv-and-libsolvext-li=
+bdn.patch \
+> -           file://enable_test_data_dir_set.patch \
+>             file://0001-drop-FindPythonInstDir.cmake.patch \
+>             file://armarch.patch \
+>             file://optional-check.patch \
+> --
+> 2.43.0
 
-What do you think?
-
-Kind regards,
-Marta
-
---00000000000052021b063f793099
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 23,=
- 2025 at 2:47=E2=80=AFPM Richard Purdie via <a href=3D"http://lists.openemb=
-edded.org">lists.openembedded.org</a> &lt;richard.purdie=3D<a href=3D"mailt=
-o:linuxfoundation.org@lists.openembedded.org">linuxfoundation.org@lists.ope=
-nembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">On Tue, 2025-09-23 at 12:30 +0000, Marko, Peter wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; &gt; -----Original Message-----<br>
-&gt; &gt; From: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<=
-br>
-&gt; &gt; Sent: Friday, September 19, 2025 0:16<br>
-&gt; &gt; To: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Ma=
-rko@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;; Niko<br=
->
-&gt; &gt; Mauno<br>
-&gt; &gt; &lt;<a href=3D"mailto:niko.mauno@vaisala.com" target=3D"_blank">n=
-iko.mauno@vaisala.com</a>&gt;; <a href=3D"mailto:openembedded-core@lists.op=
-enembedded.org" target=3D"_blank">openembedded-core@lists.openembedded.org<=
-/a><br>
-&gt; &gt; Subject: Re: [OE-core][PATCH] cve-update: log timestamps and add<=
-br>
-&gt; &gt; force update<br>
-&gt; &gt; for future time<br>
-&gt; &gt; <br>
-&gt; &gt; On Thu, 2025-09-18 at 12:55 +0000, Marko, Peter wrote:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; -----Original Message-----<br>
-&gt; &gt; &gt; &gt; From: Niko Mauno &lt;<a href=3D"mailto:niko.mauno@vaisa=
-la.com" target=3D"_blank">niko.mauno@vaisala.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; Sent: Thursday, September 18, 2025 14:48<br>
-&gt; &gt; &gt; &gt; To: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailt=
-o:Peter.Marko@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt=
-;;<br>
-&gt; &gt; &gt; &gt; <a href=3D"mailto:openembedded-core@lists.openembedded.=
-org" target=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; &gt; &gt; &gt; Subject: Re: [OE-core][PATCH] cve-update: log timestamp=
-s and<br>
-&gt; &gt; &gt; &gt; add force<br>
-&gt; &gt; update<br>
-&gt; &gt; &gt; &gt; for future time<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; On 26.8.2025 21.59, Peter Marko via <a href=3D"http://l=
-ists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembed=
-ded.org</a><br>
-&gt; &gt; &gt; &gt; wrote:<br>
-&gt; &gt; &gt; &gt; &gt; From: Peter Marko &lt;<a href=3D"mailto:peter.mark=
-o@siemens.com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; CVE update is currently not working properly on au=
-tobuilder.<br>
-&gt; &gt; &gt; &gt; &gt; This improves logging for problem analysis.<br>
-&gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; &gt; Future time is something which could be reason for=
- current<br>
-&gt; &gt; &gt; &gt; &gt; autobuilder<br>
-&gt; &gt; &gt; &gt; &gt; problems since the DB was not updated for more tha=
-n 3 months<br>
-&gt; &gt; &gt; &gt; &gt; by now.<br>
-&gt; &gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; CVE check mechanism, which relies on a CVE database tha=
-t can<br>
-&gt; &gt; &gt; &gt; silently fail to<br>
-&gt; &gt; &gt; &gt; update for several months, seems troubling to say the l=
-east.<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; Looking at the do_fetch() method in both recipes they s=
-eem to<br>
-&gt; &gt; &gt; &gt; use the<br>
-&gt; &gt; &gt; &gt; os.path.getmtime() method to resolve the last modified =
-time of<br>
-&gt; &gt; &gt; &gt; the database.<br>
-&gt; &gt; The<br>
-&gt; &gt; &gt; &gt; value is however based on database file modification ti=
-me. This<br>
-&gt; &gt; &gt; &gt; seems<br>
-&gt; &gt; inherently<br>
-&gt; &gt; &gt; &gt; fragile, and I would be curious if there would be a les=
-s<br>
-&gt; &gt; &gt; &gt; problem-prone<br>
-&gt; &gt; approach<br>
-&gt; &gt; &gt; &gt; that could be used to resolve the last modified date, s=
-uch as<br>
-&gt; &gt; &gt; &gt; resorting to the<br>
-&gt; &gt; most<br>
-&gt; &gt; &gt; &gt; recent CVE last modified date. Seems it can be extracte=
-d from<br>
-&gt; &gt; &gt; &gt; the database<br>
-&gt; &gt; file<br>
-&gt; &gt; &gt; &gt; by issuing:<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; =C2=A0=C2=A0 select MODIFIED from NVD order by MODIFIED=
- desc limit 1;<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; I&#39;m not sure if all things considered it is complet=
-ely<br>
-&gt; &gt; &gt; &gt; appropriate to utilize the<br>
-&gt; &gt; NVD<br>
-&gt; &gt; &gt; &gt; MODIFIED value in this fashion, but it would feel at le=
-ast less<br>
-&gt; &gt; &gt; &gt; hazardous than<br>
-&gt; &gt; &gt; &gt; referencing the modification time of the database file =
-itself.<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; I was considering multiple options, also using a text file w=
-ith<br>
-&gt; &gt; &gt; timestamp instead<br>
-&gt; &gt; of the getmtime.<br>
-&gt; &gt; &gt; Your proposal looks nicer.<br>
-&gt; &gt; &gt; But I decided to first look at the AB logs before implementi=
-ng<br>
-&gt; &gt; &gt; something.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Unfortunately, my patch to expose the logs was not merged ye=
-t :-(<br>
-&gt; &gt; &gt; <a href=3D"https://lists.yoctoproject.org/g/yocto-patches/me=
-ssage/2083" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject=
-.org/g/yocto-patches/message/2083</a><br>
-&gt; &gt; <br>
-&gt; &gt; Basically I&#39;m worried that this is something to debug a one o=
-ff<br>
-&gt; &gt; issue<br>
-&gt; &gt; but we&#39;ll be left with files building up on the shared storag=
-e.<br>
-&gt; &gt; We&#39;ve<br>
-&gt; &gt; multiple other debugging experiments like this from previous such=
-<br>
-&gt; &gt; situations. People add them but never remove things.<br>
-&gt; <br>
-&gt; I believe that I have written the patches in a way that they are not<b=
-r>
-&gt; temporary.<br>
-&gt; Then focus on improving logging which will be hopefully kept also<br>
-&gt; after the potential rework of timestamp handling.<br>
-&gt; Please let me know if this can be merged or in which other direction<b=
-r>
-&gt; do you think that we could go in investigating the clearly non-<br>
-&gt; working yocto CVE statistics.<br>
-<br>
-I get lots of requests to keep all kinds of build data &quot;just in case&q=
-uot;.<br>
-If I said yes to all of them, we&#39;d just end up with mountains of files<=
-br>
-in an unmaintainable mess. In fact that already happens, hence the<br>
-source of frustration and my reluctance to save more logs, especially<br>
-since this isn&#39;t apparently temporary for debugging but permanent :(.<b=
-r>
-<br>
-I&#39;m frustrated as where I have said &quot;yes&quot; to adding extra fil=
-es in the<br>
-past, they&#39;re cluttering up UIs, space on the NAS and it is left to<br>
-others to try and cleanup the mess that builds up. These files are<br>
-probably only useful to you and you alone since nobody else knows where<br>
-they end up, why or how to use them. There is no documentation on any<br>
-of this.<br>
-<br>
-Yes, we could develop policies and processes to clean these things up.<br>
-Nobody has actually done that though, or has much interest in it, they<br>
-just hope someone else does.<br>
-<br>
-I&#39;m trying really hard to sort bitbake-setup and I&#39;m sorry but I si=
-mply<br>
-don&#39;t have the bandwidth to try and work out how to resolve this :(<br>
-<br>
-I guess I just merge the patch and get quietly upset/annoyed/frustrated<br>
-since if I&#39;m seen to &quot;block&quot; any form of CVE work, that is a =
-huge<br>
-problem too.<br>
-<br></blockquote><div><br></div><div>The design decision until now was that=
- the database update is not a critical</div><div>function and not to cause =
-an error in case it breaks.</div><div><br></div><div>I think it might be mo=
-re appropriate to make the build with cve-check</div><div>enabled break ins=
-tead. Especially when you have FKIE flow that just</div><div>should not bre=
-ak.</div><div><br></div><div>What do you think?</div><div><br></div><div>Ki=
-nd regards,</div><div>Marta<br></div></div></div>
-
---00000000000052021b063f793099--
 
