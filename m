@@ -2,114 +2,187 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D59CAC5A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D8CCAC5AE
 	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 19:05:43 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web10.42.1758654334564383628
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.51.1758654340809555227
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 12:05:34 -0700
+ Tue, 23 Sep 2025 12:05:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PnOW00gm;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4d00ad6337cso28686331cf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 12:05:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ayJwsfbp;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-7960d69f14bso32572186d6.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 12:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758654333; x=1759259133; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xJyJqAB4jjaTrQM2Ho29s7cR0eJGouf7drAd+TyLjHg=;
-        b=PnOW00gm+aZeoK9vTcdeWqz265bJub+mh1FZ4C1HhIR1/IkyzonK6H6VkeNIDWURgY
-         GvtUBpW3VoDxxOZBCZQPNrp0HqveCEiqKQgdm7qusg0mCA6RiGncHzkhc5cdBldJPUms
-         P2MdAzCONkaxOODi2bUH3nR+jjkpBcFncAUGVyW9BErC9/Y46Qa3iNDyfP2ZLdAPEDlM
-         uxv2+Er2fcQTXYWUYzMxEHhkh+lX6d2dgkTLzdj+5TRrPkNLEg/Tl5mepgBFwHwaHsUn
-         mBLLgJty1TpiId1UIpP3LcINhUPjTUF2AJXUKK3Bv/5kobkNbmAjooZy/qQ/O25I8gyS
-         /pzw==
+        d=gmail.com; s=20230601; t=1758654340; x=1759259140; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P4KpjkTUI8MmnJjLUVO2LhLRhjwVfUxlof7gRl7Cox4=;
+        b=ayJwsfbpzwa9qm5s82pMZ6QVO0zHvjG4f1RSIfxb3UZZpdzkj2bmMpdy9LPOWCuIyd
+         WGNq4l54s+ifRusm3FT76hKEAbNITIjI3Ulo67uYLl9LeaGxcETXqDf2pDtHbLFjOh0M
+         74AVlu4V0HIYzcPU0YzAkwCzeyfKL3ocSTmBJbm+3zAU7609dJfWEcMPz+qP890TCC84
+         o3epUpMZPAjWvZsvyoc73cxuXLYXFX5pIeY3NLbB8VpVNT/L5CqZI974qq25GUcpdzRg
+         cyAjWWXNjgbWBfxMHj0U0sz6KjqlqPaZic/yIvTrnXss/gHMzEnB6RIgbUqBAKvhjNce
+         tZ5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758654333; x=1759259133;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xJyJqAB4jjaTrQM2Ho29s7cR0eJGouf7drAd+TyLjHg=;
-        b=VBxUDxDAQto62fcQAXS9dDRlF2uPWlL0w19m7P8H0XVoFCBIq9pK5DegoIL6H4TqK4
-         wrqbDnFHSe+ACF8QrHyG6k8kvhVTZpWz/gRaGbeuboxQ6VBZhJ4kuWJRrL/XhXcG5aib
-         T4wC0565BLFIBLrS/NenRukGzderYM+BavnsTeIPxLH8YHilZ7Rcs9S1Mc5hh0MG+LrP
-         NmZiLVt+W2rsiMHSooHR7woHELfTwQT1C1FVWMAZlKqMQX6w7qzaUrPJib/1C6GJMM0O
-         eYqiZq2PjdCRsHreuHe+NyirWgR+Rw5YJET7GZ3iK9L4b6WrDDmhZVwfKr9YMuKIHJVa
-         JBSA==
-X-Gm-Message-State: AOJu0YyeLlzXOQLgqiwKvdZt79Q6G2cxnwY/FArLeyN2gaAXE4+ohHXX
-	dVZlS5nQZG17EoiCQvRXoe5jKMB3H3Bu25fJhRjWwlkeDp1a+E4iKCx6
-X-Gm-Gg: ASbGncsqKMy4F7v24CN3y53FLfvLaJDvaREXf3vy/k5Gv0X+3NOmA07scZhONOWQvJ6
-	01PA/RlsowByhKNVkg8f3LmFN54gR6EDLaVSeQ1YzefS3L6cYNBbwSmZwN4zUrTFDhLUC/MrHgl
-	LrXKuHsWsT1yG25qukXOwcXezF6t6IMYlqra7QcXZOV2CeEeQKZQwhq6pCMgdziL5PSDur8qc/S
-	3rvqwQNLN/m94JHo+8U0DXT8synZFTGZ8yPVyxQ8LmpbopAGp9YcCPi/CxrI0jxzCW2f8oiLu6n
-	ho9TDTQNX51WWP4K4wHEGvi45BJSo0fUFjB79HUgbMDTKbvBMREPsGN/xhzNwP4Pf3djxAyi/aa
-	8RHZGX+Bp6Nwf63z8xCzB215qR2Vqqdg0Acyk/vq/JJtn1+OKtiVo3tod8xDqWW2SjQCsiKdrEm
-	QXdlrab4+P3PJEqUZHl0MYBO9/ZL/tmhgehaltou67EQ7vt+DUDqSjOIo=
-X-Google-Smtp-Source: AGHT+IHFVZ9kerX+Ci4AgjE+PzRZKQ0gYy53uZvwYXMDUbynVNElBqsNzyUfk6+eIrw2fADj/GDLzw==
-X-Received: by 2002:a05:622a:1aa7:b0:4b7:ad2a:750c with SMTP id d75a77b69052e-4d36773de63mr40103421cf.2.1758654333315;
-        Tue, 23 Sep 2025 12:05:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758654340; x=1759259140;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P4KpjkTUI8MmnJjLUVO2LhLRhjwVfUxlof7gRl7Cox4=;
+        b=UGzXPvHSM79dfjyautbJOv97jbTm1HX+VcaSs0Bo42LXr/Ige6xAPPTT2N1Utr2XtW
+         VBaSvRan0oxaExfcYKXSY4A4XPF8tp1pylHEPpY6vi0jEQkl+DM9mMN/IK/uHd8HGHxX
+         FR5NriZR5yWvNX7LpyIiErmikWBtPcvQUVMMgom8HMSw/Hw3IVjjLHtSqj+yxRPVNbg3
+         OQ5j2lBdZRAaDJHdMvMwK0LgV3Ox2LlRKu3OErJQgCptRKqoy0zDPFq2Qnm8VRTMemYX
+         onD52a2p6plXsDv/DDjJ4p/LR6y0d5tx84OxnB4mx9oKCyGVTIZkih1rxckGA5oNd0mW
+         Py5g==
+X-Gm-Message-State: AOJu0YxVRdvasmQL7OF3nBlK8IXn4wYmHEW9QDjpxIE0rJfOY4cFASD2
+	RUko2UchLjkD4gfVRvQXDdCV3iaEUQdFKbLzfJg1t7+91TrpnpuvJkFGBLRn2Lwfpyw=
+X-Gm-Gg: ASbGncv6VdUMytYUhNwbLAl3TbdMiLIRNicNgxQ8pV6xp+lcqCXQQRcYW4qbYF9fPyW
+	9jwFvRbgU8Vf3M9OrQTn02tHnptQ8Y1IaGBnfbfN1lPju9feT0Z/QCQONXqZSeazL71qUxXTyBf
+	KiY3KYQ+3b8o092j+8PnusdMeLYmnm5uRyj9qlgFFwqtc1RfG60qx2hEWRzSMwlCO0x7LQSC4Rh
+	mpc09pceLIwe/fFxm24N8BohCz8nrf7jW4bIfGbGOgSsMp41W3u5DCtiybqJ1scsleQtTfMPyN7
+	GBVCw5/9xjtS3KD+PA8NBM68JmQvL4qOQUJPzQQyv0sBMeZlvD0TtaOBZBjuVX6XQ6/ImMbU5mm
+	dBjYmBV9p/E/CMqIagV33vUhwas6mhiZFNDczk09wpoWTMFNVigtyORkN86y3boVHz5BGXWojqV
+	kVjiRe6fYoTjbUKrE2gKyVzUTVa4jO6Zu2duHEFtFPW+J/EEdy2EkAulE=
+X-Google-Smtp-Source: AGHT+IHowscakaA5Bn35NxBVaQVteY1es01SXeMDhOkWuKrmCkCvC6Ci4G0WdI2zVI99xehzzRfVjQ==
+X-Received: by 2002:a05:6214:262d:b0:78f:5313:1417 with SMTP id 6a1803df08f44-7e70df9b79dmr42492936d6.32.1758654339561;
+        Tue, 23 Sep 2025 12:05:39 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7b0c0934e27sm55463576d6.64.2025.09.23.12.05.32
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7b0c0934e27sm55463576d6.64.2025.09.23.12.05.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 12:05:32 -0700 (PDT)
+        Tue, 23 Sep 2025 12:05:38 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/5] kernel-yocto: -stable and genericarm64 configuration updates
-Date: Tue, 23 Sep 2025 15:05:26 -0400
-Message-Id: <cover.1758654194.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 5/5] linux-yocto/6.16: genericarm64 refactoring, extension and clean-up
+Date: Tue, 23 Sep 2025 15:05:31 -0400
+Message-Id: <b6882b7b2be25789af7b2acd8259d85dc851b68b.1758654194.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1758654194.git.bruce.ashfield@gmail.com>
+References: <cover.1758654194.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 19:05:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223913
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223918
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+Integrating the following commit(s) to linux-yocto/.:
 
-Here's the latest -stable bumps for our active kernels, and a nice
-extension / cleanup series from Mikko for genericarm64.
+no ids found, dumping:
+    58666126 genericarm64.scc: enable OP-TEE support
+    90e118e5 features optee.cfg: enable RPMB support
+    1d4363c2 genericarm64.cfg: add MTD support for Hyperbus
+    a6091c0a genericarm64.cfg: improve pmdomain support
+    fb4ff102 genericarm64.cfg: add MTD SPI NAND support
+    ce35b9dd genericarm64.cfg: enable Altera and Broadcom PCIe drivers
+    7701e479 genericarm64-arch.cfg: add new archs
+    20574dcf genericarm64.cfg: improve SPI support
+    6575e9c2 genericarm64.cfg: extend sound support via genericarm64-sound.cfg
+    7af0fff7 genericarm64.cfg: add more thermal drivers
+    5baf746c genericarm64.cfg: add more ADC support
+    82b8b2f2 genericarm64.cfg: add more mailbox support
+    6bcc928b genericarm64-arch.cfg: add Rockchip IO domain and DTPM support
+    4bd654f3 genericarm64.cfg: enable more Arm extensions
+    2e7a98fb genericarm64.cfg: add more PHY support
+    93405670 genericarm64.cfg: add Freescale and Rockchip NAND support
+    206f0249 genericarm64.cfg: enable more graphics DRM support
+    e475a5ba genericarm64.cfg: enable more CRYPTO_DEV drivers
+    65ca974e genericarm64.cfg: add Renesas STM memory controller drivers
+    20592693 genericarm64.cfg: enable DEVFREQ governors and drivers
+    c23b00f6 genericarm64.cfg: add CONFIG_ROCKCHIP_PM_DOMAINS=y
+    900c4d7c genericarm64.scc: enable SRAM support
+    952ea4f7 zynq: use sram.scc for SRAM support
+    93fdb4a1 sram: add feature with .scc and .cfg
+    d75a77bc genericarm64.cfg: enable Qualcomm RTC and DSP drivers
+    34a37d36 genericarm64.scc: enable nvme support
+    a50d70a8 intel-x86: use nvme.scc
+    0e4311da intel amd-x86-64: use nvme.scc
+    8df9e176 marvell-cn96xx.scc: use nvme.scc
+    c975d9dc bcm-2xxx-rpi.cfg: use nvme.scc
+    64047a98 nvme.scc: add feature for NVMe support
+    8e0c5d1e genericarm64.cfg: enable Tegra firmware drivers
+    1badd0c5 genericarm64.cfg: enable Qualcomm security firmware interfaces
+    a4393b2a genericarm64.cfg: add Google and MediaTek firmware drivers
+    93cf7834 genericarm64.cfg: enable CONFIG_MHI_BUS_PCI_GENERIC=m
+    413c8ca8 genericarm64.scc: enable firmware driver support
+    8d812d85 firmware.cfg: enable CONFIG_FW_LOADER_PAGED_BUF=y and CONFIG_FW_LOADER_SYSFS=y
+    624046ca genericarm64.cfg: enable more PCI/PCIe support
+    8fb9f378 genericarm64.scc: enable more Bluetooth HW drivers
+    bedb9b8a bluetooth-hw.scc: add config for Bluetooth HW drivers
+    35baf131 bluetooth-usb.cfg: enable more drivers
+    47061600 genericarm64.scc: add bluetooth-usb support
+    5b21b9d9 bluetooth.cfg: enable LED events
+    9cc05195 genericarm64.cfg: enable Qualcomm IPC drivers
+    52932f92 genericarm64.cfg: enable CONFIG_NET_SWITCHDEV=y
+    2bc84172 genericarm64.scc: enable kubernetes support
+    6b383a08 qemu-kvm-arm64.cfg: enable KSM with KVM
+    b58e205f genericarm64.scc: enable KVM support
+    715986a3 genericarm64.cfg: enable ACPI memory hotplug and error reporting
+    f362ed14 features: add memory/failure.scc
+    ec58a666 genericarm64.cfg: enable CONFIG_BLK_DEV_INTEGRITY=y
+    85984f29 features: add block/integrity.scc
+    3a49bdb6 genericarm64.cfg: enable CONFIG_JUMP_LABEL=y
+    19800309 genericarm64-arch.cfg: extend Tegra support
+    ffcf3235 genericarm64.cfg: enable CONFIG_CPU_FREQ_STAT=y
+    c594a800 features: add power/cpu_freq_stat.scc
+    000bfa8a genericarm64-arch.cfg: enable CONFIG_ARCH_AIROHA=y
+    e64dea75 genericarm64.cfg: enable CONFIG_SCHED_AUTOGROUP=y
+    270015f9 features: add sched/sched-desktop.scc
+    e711e072 genericarm64.cfg: add CONFIG_SCHED_HW_PRESSURE=y
 
-Everything has passed my build and boot testing. I did see a OOM with
-genericarm64 and systemd (using runqemu), but that seems unrelated to
-the configuration changes.
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.16.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-For anyone reading the -dev kernel has also gone to 6.17-rc7.
-
-Cheers,
-
-Bruce
-
-The following changes since commit e90bc48bdaa2234cad52bbb2800f5246c277ffbd:
-
-  bitbake: tests/fetch: Update tests after bitbake tag removal (2025-09-23 09:37:35 +0100)
-
-are available in the Git repository at:
-
-  https://git.yoctoproject.org/poky-contrib zedd/kernel
-  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (5):
-  linux-yocto/6.12: update to v6.12.48
-  linux-yocto/6.12: update CVE exclusions (6.12.48)
-  linux-yocto/6.16: update to v6.16.8
-  linux-yocto/6.16: update CVE exclusions (6.16.8)
-  linux-yocto/6.16: genericarm64 refactoring, extension and clean-up
-
- .../linux/cve-exclusion_6.12.inc              | 1464 ++++++++++++++---
- .../linux/cve-exclusion_6.16.inc              | 1462 +++++++++++++---
- .../linux/linux-yocto-rt_6.12.bb              |    6 +-
- .../linux/linux-yocto-rt_6.16.bb              |    6 +-
- .../linux/linux-yocto-tiny_6.12.bb            |    6 +-
- .../linux/linux-yocto-tiny_6.16.bb            |    6 +-
- meta/recipes-kernel/linux/linux-yocto_6.12.bb |   28 +-
- meta/recipes-kernel/linux/linux-yocto_6.16.bb |   28 +-
- 8 files changed, 2585 insertions(+), 421 deletions(-)
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+index e3cc651f76..ddd97d02fd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+@@ -15,7 +15,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "d9ac79e651b849ad8b16bc3f96af4cc54c30148e"
+-SRCREV_meta ?= "abd3e56cdb1c200bac4e2496005649e3261cb9c3"
++SRCREV_meta ?= "58666126fdb734568fed6166d39940208a35d53f"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.16;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+index a63d7a198b..e9e8019a63 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "ff2318af3a2513c944b2598ab3df356dd7f15f34"
+-SRCREV_meta ?= "abd3e56cdb1c200bac4e2496005649e3261cb9c3"
++SRCREV_meta ?= "58666126fdb734568fed6166d39940208a35d53f"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+index 580df960ae..0d9306cd8f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "ff2318af3a2513c944b2598ab3df356dd7f15f34"
+ SRCREV_machine:qemux86-64 ?= "ff2318af3a2513c944b2598ab3df356dd7f15f34"
+ SRCREV_machine:qemumips64 ?= "e6f7e24a7b76c6d1b3eaa3716fa1c4185de94aa5"
+ SRCREV_machine ?= "ff2318af3a2513c944b2598ab3df356dd7f15f34"
+-SRCREV_meta ?= "abd3e56cdb1c200bac4e2496005649e3261cb9c3"
++SRCREV_meta ?= "58666126fdb734568fed6166d39940208a35d53f"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.39.2
 
