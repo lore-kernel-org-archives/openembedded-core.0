@@ -1,218 +1,232 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 808E1CAC5A5
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 18:45:02 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web10.5368.1758653095960781763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D586CAC5A5
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 18:49:02 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.5472.1758653334077684378
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 11:44:56 -0700
+ Tue, 23 Sep 2025 11:48:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=eDPygz+r;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 341BF4E40CAD;
-	Tue, 23 Sep 2025 18:44:54 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E486560690;
-	Tue, 23 Sep 2025 18:44:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C0B97102F173F;
-	Tue, 23 Sep 2025 20:44:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758653093; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Z7lLEe37yy+jGvM5xnDMmS+YQvKRxrfTrhN/cVPIRfA=;
-	b=eDPygz+rmgy9WaCpMo/qZ2x2BE4zj+5lHnu8hNTrvIGu86m6PUpHR96CXtS680kAfDWVYe
-	M1pq+8HSjhYdk6/Sq/wO8+bm4MyfV3OPVM0zXLpNQ3bkXWxnEEGyFd3VBRH7/zKHWjXnOV
-	xStMAyTo/oQE0BcLX8xsMqr+VAcNrOjUIkwiEST+HMPP+5IGWD4H6h/UjGLOBUWFe7vgK8
-	buC9pmEt7rmlv/otDwmpZZinkfwEnJ9wacQmnG2npWoKyocrnsZwkf0eSCtlCHCHqkjRjR
-	TPnBYkEnnZ4+0AAy3rHMF/7a79euBRQW6cyRp8jZiUZuJ7QuK3CyA4GOyvPN5Q==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 23 Sep 2025 20:44:47 +0200
-Message-Id: <DD0EHMY9ITYL.3KAYD72BZUUIJ@bootlin.com>
-Subject: Re: [OE-core] [PATCH 0/1] wic: updated fstab does not preserve
- metadata of the original file
-Cc: <hongxu.jia@windriver.com>, <trevor.woerner@linaro.org>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Daniel Andrade" <dani.barra25@gmail.com>, "Randy MacLeod"
- <randy.macleod@windriver.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250902190555.7929-1-dani.barra25@gmail.com>
- <DCK51OC59LCA.XXERUU1OP7Y@bootlin.com>
- <16907d6c-a28d-4369-95fd-199fcccba105@windriver.com>
- <CA+-=zY2PzZ3RqtzLbFzd6TxSdBVft2KrSvzKQqP2oxZZUMnWhg@mail.gmail.com>
- <CA+-=zY09Um_hG1knpWFBRHx-mTBgNUN3vH9WA0nhiY7ub-PKvw@mail.gmail.com>
-In-Reply-To: <CA+-=zY09Um_hG1knpWFBRHx-mTBgNUN3vH9WA0nhiY7ub-PKvw@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TNM8OYv4;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: rybczynska@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b55562f3130so1498726a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 11:48:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758653333; x=1759258133; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cbExkDQMFtWYt5su5MQG0q2o+Rdtll9qxru9zdetR8o=;
+        b=TNM8OYv46Vi8v9RJeAm7FR3Tp4COt4npg0SlGXYei+lJsKTL6nap7sH4MbuFDs/bSz
+         OkwVLQ6j8RQc7faSe+GD61uCPxCrtXJyaR2xxCMrajv3nZJMM6ehsTWe5LSuUl74J7i3
+         BnE2T4m327wa0aJ0hWtqnMpC/vkWNpdhF/jkOPU1AG9RHj4oRRMh6bhDla7emoIoRxIR
+         z4GeGuZfNISC6/ZNP1LA70TjF7ivSWyqivtybokbhp0Pqm4J0nEUXElFtpvLcGyNdqLj
+         IQlPDWW0hWHV+Yla7TVjU74f/HLE6EE/JHVtkcoxA16u5xUCSEyKZZD2JQ5R0svNTv04
+         IejA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758653333; x=1759258133;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cbExkDQMFtWYt5su5MQG0q2o+Rdtll9qxru9zdetR8o=;
+        b=f532K25h7nVPhtIcQODulWmUoDM3kvWYDBFFqWv2wI7QLKjDFBelEb4bpqXUlllvH8
+         4wVHeV6f0CbrQvgLKsqO7/lj489T/dSG73kBPPyWeBOQeYj9Q0R/debNcsB9xe+kue6y
+         2dA9/kO0FuNjYA10yvAA1b8IncVbYR4WCAX5YLSRl2cTpZF65bdxOil53NjsJlFAXDna
+         GO++PPmEdLUsYgxiJHULOGU7YmotmsrW6rJD5fwzKkJ6m5E3yo01moAWB2aHJEFg4Tb2
+         BH7C/FO4FA6lMYPXgHrv97TvZqiNj3kOXNnMf7b+EFva5y6Gjuv8XJFkJD+axWfSFoIs
+         TirQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUnANU8QpKTt8Zaaolql+izJPsOYUEuz0ib2r9V190lG0fVJv2Fp0z+FKGSUCzdWqe2QIFsfdLX6Sd1YOGGC33LsA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz5hT4eB2eMbpZWTzLCN5y87CBq34a/VhDsiNlAGubF5Yv1BXGh
+	GgvfZyMXIWJUsDyfM1zGBidytVgXv/ATzR+cgP6pJIB74se0zYSjtYBHRz37rMFYXs36em+ijpV
+	qFaA2FkAZwq7WVvJXASRhZNcQAN39TV0=
+X-Gm-Gg: ASbGncuSswfKX96JWSYMtEcL6gWT7DLABWfF4Ln9/17l5ISZ0aXJmmLfY8XrxfCmnHP
+	ybvT+n4HhrZt73Q22odfOrSAGxy5LuEioXLmdQaoaW5eZ11hv1xkLtZU6hgCHKjCFquJIpiEozc
+	nQLJJv+YAmunxWaO7zgNBQFRDYR1umD3GTvUz3JRwMraq07/Tp89IJPdmkGZB0OHs0hzZ8Pli0Q
+	Q5zb0M+NoZVtRFWbAhYStFjK3j5RInQic6lvlsnSB057/yR1Ps=
+X-Google-Smtp-Source: AGHT+IEfUd2zRJczRv7CuMcil/jBEV6CaoSj7zfFws6kVJRy0ERsfyWmgqPtxq3rwvNlW6Ga2bjq5CuVTgQs4OhtYZQ=
+X-Received: by 2002:a17:90b:540f:b0:327:734a:ae7a with SMTP id
+ 98e67ed59e1d1-332a92da6ebmr3967384a91.11.1758653332461; Tue, 23 Sep 2025
+ 11:48:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250804164100.9355-1-peter.marko@siemens.com> <DB5PR02MB102136F23FE32048C946C6102EF1DA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB102136F23FE32048C946C6102EF1DA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Tue, 23 Sep 2025 20:48:40 +0200
+X-Gm-Features: AS18NWBNelkC40JG98pA49E8hNuTB0A4Glahi5pNA-x9nh6M5UKZ91aLi7AuRyI
+Message-ID: <CAApg2=SX2-2FoL6F-v9d0DFBq-2FVzkH=y9paKWw6xM0reBF5w@mail.gmail.com>
+Subject: Re: [OE-core][walnascar][PATCH] sqlite3: patch CVE-2025-6965
+To: peter.kjellerstedt@axis.com
+Cc: "peter.marko@siemens.com" <peter.marko@siemens.com>, Steve Sakoman <steve@sakoman.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000002a1ad3063f7c63e3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 18:45:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223910
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 18:49:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223911
 
-Hi Daniel,
+--0000000000002a1ad3063f7c63e3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry, but I'm not sure to get your point.
+In my opinion master should go to 3.50.4, there are other commits that look
+like potential vulnerabilities.
 
-I ran the test locally, and it does fail. It also fails if I modify it
-to use squashfs instead of ext4.
+M.
 
-My reproduction procedure:
-git clone https://git.yoctoproject.org/poky-ci-archive -b autobuilder.yocto=
-project.org/valkyrie/a-full-2320
-. oe-init-build-env
-echo 'SANITY_TESTED_DISTROS =3D ""' >> conf/local.conf
-oe-selftest -r wic.Wic.test_no_fstab_update
+On Tue, Sep 23, 2025 at 8:34=E2=80=AFPM Peter Kjellerstedt via
+lists.openembedded.org <peter.kjellerstedt=3Daxis.com@lists.openembedded.or=
+g>
+wrote:
 
-Thanks,
-Mathieu
-
-On Tue Sep 23, 2025 at 5:05 PM CEST, Daniel Andrade wrote:
-> Good Afternoon,
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> On Behalf Of Peter Marko via
+> lists.openembedded.org
+> > Sent: den 4 augusti 2025 18:41
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Peter Marko <peter.marko@siemens.com>
+> > Subject: [OE-core][walnascar][PATCH] sqlite3: patch CVE-2025-6965
+> >
+> > From: Peter Marko <peter.marko@siemens.com>
+> >
+> > Pick patch [1] mentioned in NVD report [2] from github mirror [3].
+> >
+> > [1]
+> https://www.sqlite.org/src/info/5508b56fd24016c13981ec280ecdd833007c9d8dd=
+595edb295b984c2b487b5c8
+> > [2] https://nvd.nist.gov/vuln/detail/CVE-2025-6965
+> > [3]
+> https://github.com/sqlite/sqlite/commit/c52e9d97d485a3eb168e3f8f3674a7bc4=
+b419703
+> >
+> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > ---
+> >  .../sqlite/sqlite3/CVE-2025-6965.patch        | 112 ++++++++++++++++++
+> >  meta/recipes-support/sqlite/sqlite3_3.48.0.bb |   1 +
+> >  2 files changed, 113 insertions(+)
+> >  create mode 100644
+> meta/recipes-support/sqlite/sqlite3/CVE-2025-6965.patch
+> >
 >
-> I have been trying to figure it out and something seems off.
-> The specific test you refer to may be hiding a problem or maybe I have my
-> testbench compromised and I would like your help to test.
-> The test `test_no_fstab_update ` verifies if the fstab was updated or not
-> because on the wks file used to do it there is a --no-fstab-update. The
-> thing is, I think this test is passing because what is forcing it to not
-> update is a constraint that I removed previously on the patch (the one th=
-at
-> checks if the system is ext* or msdos) and not because the flag is
-> triggering its intended functionality.
-> The crosscheck I did was modifying the fstype from ext4 to squashfs and
-> indeed the test failed.
-> Can someone also verify this?
+> [cut]
 >
-> Daniel
+> > diff --git a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+> b/meta/recipes-
+> > support/sqlite/sqlite3_3.48.0.bb
+> > index 11f103dddc..6c9f1ed5d9 100644
+> > --- a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+> > +++ b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+> > @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM =3D
+> > "file://sqlite3.h;endline=3D11;md5=3D786d3dc581eff03f4fd9e4a77ed0
+> >  SRC_URI =3D "
+> http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+> >      file://CVE-2025-3277.patch \
+> >      file://CVE-2025-29088.patch \
+> > +    file://CVE-2025-6965.patch \
+> >  "
+> >  SRC_URI[sha256sum] =3D
+> "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
+> >
 >
-> Daniel Andrade <dani.barra25@gmail.com> escreveu (s=C3=A1bado, 13/09/2025=
- =C3=A0(s)
-> 11:02):
+> Why aren't these three patches on master? It still uses the same version
+> of sqlite3 as Walnascar so they should be needed on master as well.
 >
->> Hello guys, sorry for the delay.
->> I have been busy, but I hope to provide you with a fix in the next few
->> days.
->>
->> Sorry about that,
->> Daniel
->>
->> Randy MacLeod <randy.macleod@windriver.com> escreveu (quinta, 11/09/2025
->> =C3=A0(s) 17:56):
->>
->>> On 2025-09-04 11:58 a.m., Mathieu Dubois-Briand via
->>> lists.openembedded.org wrote:
->>>
->>> On Tue Sep 2, 2025 at 9:05 PM CEST, dani.barra25 via lists.openembedded=
-.org wrote:
->>>
->>> From: Daniel Andrade <dani.barra25@gmail.com> <dani.barra25@gmail.com>
->>>
->>> Using `install` in the rootfs plugin forces fstab to be replaced entire=
-ly, meaning that even its Inodes will change, leading xattrs and SELinux co=
-ntext stored by pseudo not to be applied.
->>> The fix just uses `cp` without preserving attributes from the temporary=
- fstab since none of them are needed, just the content.
->>> Same thing happens with the predefined mechanisms for ext4 and msdos. U=
-sing debugfs there is no way to replace contents while maintaining metadata=
-, so the approach taken on the path was to remove the different fstab logic=
- for those fstypes and also use the same modified cp command. Reviewing the=
- builds I did it seems to work for all of the fstypes.
->>>
->>> Another problem is that the timestamp applied to fstab is not the same =
-as every other file. It seems like the `SOURCE_DATE_EPOCH` variable goes to=
- the fallback timestamp (`SOURCE_DATE_EPOCH_FALLBACK`).
->>> Since you are using that variable everywhere, it is not the same value =
-as ` REPRODUCIBLE_TIMESTAMP_ROOTFS` under `poky/meta/conf/bitbake.conf` tha=
-t is applied in every other file.
->>>
->>> Daniel Andrade (1):
->>>   wic: Content of the temporary updated fstab should be copied into the
->>>     original not replacing it entirely.
->>>
->>>  meta/conf/bitbake.conf                   |  4 +++-
->>>  scripts/lib/wic/partition.py             | 15 +--------------
->>>  scripts/lib/wic/plugins/source/rootfs.py |  4 ++--
->>>  3 files changed, 6 insertions(+), 17 deletions(-)
->>>
->>> Hi Daniel,
->>>
->>> Thanks for your patch.
->>>
->>> It looks like it is breaking a test:
->>>
->>> 2025-09-04 15:28:11,112 - oe-selftest - INFO - wic.Wic.test_no_fstab_up=
-date (subunit.RemotedTestCase)
->>> 2025-09-04 15:28:11,113 - oe-selftest - INFO -  ... FAIL
->>> ...
->>> 2025-09-04 15:28:11,114 - oe-selftest - INFO - testtools.testresult.rea=
-l._StringException: Traceback (most recent call last):
->>>   File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/lib/=
-oeqa/selftest/cases/wic.py", line 859, in test_no_fstab_update
->>>     self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
->>>   File "/usr/lib/python3.12/unittest/case.py", line 885, in assertEqual
->>>     assertion_func(first, second, msg=3Dmsg)
->>>   File "/usr/lib/python3.12/unittest/case.py", line 1251, in assertMult=
-iLineEqual
->>>     self.fail(self._formatMessage(msg, standardMsg))
->>>   File "/usr/lib/python3.12/unittest/case.py", line 715, in fail
->>>     raise self.failureException(msg)
->>> AssertionError: 'af3c087d6c9131735c8d1f270a226892' !=3D '9edb8255abd217=
-fdb20e118833afb856'
->>> - af3c087d6c9131735c8d1f270a226892
->>> + 9edb8255abd217fdb20e118833afb856
->>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2412=
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2268
->>>
->>> Can you fix it please?
->>>
->>> Ping?
->>>
->>> I think this is being tracked by:
->>>
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15947
->>>
->>> "WIC does not preserve metadata when updating fstab"
->>>
->>> Btw, we were just following the "Need Info" process during the bug revi=
-ew
->>> meeting
->>> so that's why I'm sending this email.
->>>
->>> ../Randy
->>>
->>> Thanks,
->>> Mathieu
->>>
->>>
->>>
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#222962): https://lists.openembedded.org/g/openembed=
-ded-core/message/222962
->>> Mute This Topic: https://lists.openembedded.org/mt/115043355/3616765
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-randy.macleod@windriver.com]
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>
->>>
->>>
->>> --
->>> # Randy MacLeod
->>> # Wind River Linux
->>>
->>>
+> In my opinion master should go to 3.50.4, there are other commits that
+look like potential vulnerabilities.
 
+M.
 
+--0000000000002a1ad3063f7c63e3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>In my opinion master should go to 3.50.4, there are o=
+ther commits that look like potential vulnerabilities.</div><div><br></div>=
+<div>M.</div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Tue, Sep 23, 2025 at 8:34=E2=80=AFPM Peter=
+ Kjellerstedt via <a href=3D"http://lists.openembedded.org">lists.openembed=
+ded.org</a> &lt;peter.kjellerstedt=3D<a href=3D"mailto:axis.com@lists.opene=
+mbedded.org">axis.com@lists.openembedded.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">&gt; -----Original Message-----=
+<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
+ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
+ded-core@lists.openembedded.org</a>&gt; On Behalf Of Peter Marko via <a hre=
+f=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">li=
+sts.openembedded.org</a><br>
+&gt; Sent: den 4 augusti 2025 18:41<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Cc: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" target=
+=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; Subject: [OE-core][walnascar][PATCH] sqlite3: patch CVE-2025-6965<br>
+&gt; <br>
+&gt; From: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" targe=
+t=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; <br>
+&gt; Pick patch [1] mentioned in NVD report [2] from github mirror [3].<br>
+&gt; <br>
+&gt; [1] <a href=3D"https://www.sqlite.org/src/info/5508b56fd24016c13981ec2=
+80ecdd833007c9d8dd595edb295b984c2b487b5c8" rel=3D"noreferrer" target=3D"_bl=
+ank">https://www.sqlite.org/src/info/5508b56fd24016c13981ec280ecdd833007c9d=
+8dd595edb295b984c2b487b5c8</a><br>
+&gt; [2] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2025-6965" rel=3D"=
+noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2025-696=
+5</a><br>
+&gt; [3] <a href=3D"https://github.com/sqlite/sqlite/commit/c52e9d97d485a3e=
+b168e3f8f3674a7bc4b419703" rel=3D"noreferrer" target=3D"_blank">https://git=
+hub.com/sqlite/sqlite/commit/c52e9d97d485a3eb168e3f8f3674a7bc4b419703</a><b=
+r>
+&gt; <br>
+&gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.c=
+om" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../sqlite/sqlite3/CVE-2025-6965.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 112 ++++++++++++++++++<br>
+&gt;=C2=A0 meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.48.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">sqlite3_3.48.0.bb</a> |=C2=A0 =C2=A01=
+ +<br>
+&gt;=C2=A0 2 files changed, 113 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2025-=
+6965.patch<br>
+&gt; <br>
+<br>
+[cut]<br>
+<br>
+&gt; diff --git a/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.4=
+8.0.bb" rel=3D"noreferrer" target=3D"_blank">sqlite3_3.48.0.bb</a> b/meta/r=
+ecipes-<br>
+&gt; support/sqlite/<a href=3D"http://sqlite3_3.48.0.bb" rel=3D"noreferrer"=
+ target=3D"_blank">sqlite3_3.48.0.bb</a><br>
+&gt; index 11f103dddc..6c9f1ed5d9 100644<br>
+&gt; --- a/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.48.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">sqlite3_3.48.0.bb</a><br>
+&gt; +++ b/meta/recipes-support/sqlite/<a href=3D"http://sqlite3_3.48.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">sqlite3_3.48.0.bb</a><br>
+&gt; @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM =3D<br>
+&gt; &quot;file://sqlite3.h;endline=3D11;md5=3D786d3dc581eff03f4fd9e4a77ed0=
+<br>
+&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"http://www.sqlite.org/2025/sqlite-a=
+utoconf-$%7BSQLITE_PV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">http:=
+//www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz</a> \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 file://CVE-2025-3277.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 file://CVE-2025-29088.patch \<br>
+&gt; +=C2=A0 =C2=A0 file://CVE-2025-6965.patch \<br>
+&gt;=C2=A0 &quot;<br>
+&gt;=C2=A0 SRC_URI[sha256sum] =3D &quot;ac992f7fca3989de7ed1fe99c16363f8487=
+94c8c32a158dafd4eb927a2e02fd5&quot;<br>
+&gt; <br>
+<br>
+Why aren&#39;t these three patches on master? It still uses the same versio=
+n <br>
+of sqlite3 as Walnascar so they should be needed on master as well.<br>
+<br></blockquote><div><div>In my opinion master should go to 3.50.4, there =
+are other commits that look like potential vulnerabilities.</div><div><br><=
+/div><div>M.</div></div></div></div>
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+--0000000000002a1ad3063f7c63e3--
 
