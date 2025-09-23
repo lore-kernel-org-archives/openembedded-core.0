@@ -1,150 +1,211 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47168CAC5A7
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 12:59:13 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.16304.1758632348624571704
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 524EACAC5B0
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 13:07:03 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.60])
+ by mx.groups.io with SMTP id smtpd.web10.16495.1758632819617256896
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 05:59:08 -0700
+ Tue, 23 Sep 2025 06:06:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=CMM7lbF5;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1361b91c1a=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58N50LkF2639947;
-	Tue, 23 Sep 2025 05:59:00 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=d7gljnkAo
-	zkJzDMn6MgAE3DC4k6d6kPZY0f4vlwwUPo=; b=CMM7lbF5IVqRDDZsYMJSCXSn2
-	B5l5BaI5lPTabHuft/v25aXtvjEU2KfA7T3e1ChltfQcQijgQbcXdr90Ag4oQAQc
-	nH8jBsmIKnIa8tYPXuot7mCoczh42uoSfCip/rOUrE13mUre1P5rF4c9JyjOur+G
-	85AgemGm1QmIAuPdSRleTncmixy8S9/nrCGNxJoZmV5tM830fElYcbgcuuwrsty6
-	9H7Z6H5/Aukjmq4El3XxzMRnxSYwKpi4DlQhkXBBQzFgXDS2JFwcJD0MuvW7YdJu
-	088WssbYgnjg4X2jzdrc9eFjmyGQ392g/kCjTFVwBAdVa7HlxWHUUY6rrTkHA==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 499qj2tycu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 23 Sep 2025 05:58:59 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Tue, 23 Sep 2025 05:58:59 -0700
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Tue, 23 Sep 2025 05:58:58 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH v2] perf: fix reproducibility issue occasionally
-Date: Tue, 23 Sep 2025 20:58:57 +0800
-Message-ID: <20250923125857.340991-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=C5q6Y7r6;
+ spf=pass (domain: cherry.de, ip: 52.101.69.60, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KZ4IRQMtaLKdSG6yMFaEyg8iY5048OuB8RgBcRCJdunjfZ9zg0HyHWTulQx9DHVlcJLy7GMnyU7PJdVUyHBE7gpulL3R1QnlxMP1VEILQzIC44waO97ZWFx55Vd3fNJ6i7w4dxo8Oi8ywtfIMMj8+Fy3Mk9RdUB1Ys08Fs6BV3BQW3vPj9u0rOfppNLKgxe6SfIiz72nWTbsUd0pcSIK1eDKgc4XbZOeh1Ojf2fHRUYTefK8xzddsxXXFUA6Qo76adIABlVwZqqRE2JoQBuCbakx+Rqza9v3atqHUQgNnGcicL1W2kOnPg7Drp4zVx41OWenCEFG1BdxE3krJZb8Lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Usxf77XFR9+kZrVUt5sJGMV80rph2HsNDklNJ/m4IZ0=;
+ b=vZpV2ZnJ5ar7rRyh8+Hx5+M9y32cY5PVuiZ3LWJgJLxy52jbFXth6+gF+uLxzxTjWdjyjb0KFy6TcT3miLE7gtHKA2kQkYXTg6E1D3G8SxG1zNMSN51EmAxXwGvZ+ySsTeknKE/eJAGB9MHV1y7e66e0HEIxcXXGf88v8RtFOk65mJuknZDHyBXd/ETvYJtFM4clQctSW3TT/elZSiZz+7+nJwfjyYhWxaZxl5u9Q3zgdMo/fe/66y1UPf4if0J20UWJSJzOGLEnUXdVFUrwR/q1XG1oXstBWN+pJMlQhbSd3bhBkwmn5QrsXk6I25XJIYodR01qxdRn3al6T8J/TQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Usxf77XFR9+kZrVUt5sJGMV80rph2HsNDklNJ/m4IZ0=;
+ b=C5q6Y7r6RA3sMlCv4bbrSp1ngnu5Rrqu9HPo48our43kgN9oThTN6+UpTC4cf4kNKEpy5GoUkNtO/VideUahEa5s1YmGAqUKdthkP9nYw0woTKL0Kz1vYNHkuso2mJ9dQAsZVHanBmqDGu3GdiTXzeWvv9zM+BhrT77t9OnXeNk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by PAXPR04MB8511.eurprd04.prod.outlook.com (2603:10a6:102:212::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Tue, 23 Sep
+ 2025 13:06:53 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1%6]) with mapi id 15.20.9160.008; Tue, 23 Sep 2025
+ 13:06:53 +0000
+Message-ID: <aea3691c-e260-4bdf-ba4e-32bfada69511@cherry.de>
+Date: Tue, 23 Sep 2025 15:06:52 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] kernel.bbclass: add lz4-native dependency for
+ Image.lz4
+To: Tudor Ambarus <tudor.ambarus@linaro.org>,
+ richard.purdie@linuxfoundation.org, openembedded-core@lists.openembedded.org
+CC: peter.griffin@linaro.org, willmcvicker@google.com,
+ =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
+References: <20250918-kernel-lz4-v1-1-b40ccf21bbe3@linaro.org>
+ <2bcb17c0-d527-478b-9692-00a043a4608f@cherry.de>
+ <edd6fa44-ee62-4bd4-afca-e862507c23f5@linaro.org>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <edd6fa44-ee62-4bd4-afca-e862507c23f5@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR0P281CA0268.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b5::12) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDEyMCBTYWx0ZWRfXx/+Jqsxbxwj0
- 1DMj/OGJbuqpkaCuHLzAq16/ISF4ktv6GZ0ydp9s7afDECeC1dRmFXoFylWPPDDst4f9myoJNNc
- 0D1ZJXr19QT+qER1V83gSjtBVd2M88WH06V+lxOsAug+hEcN/789TaZSAzS5nm+9RHAUDiqd0Ig
- EdxiemVKOo1YR50jUvZWKh+OeH5t9EnEf2VCP0eoVzeOhuZ07UXQb717GDmJ9Yru5pv4n5c+6Nc
- BjFZMxZTJbU86X3IEpaF0+bbbDjqK2XePqF58XgWij9JIRMkpeSSMPMpGIafyQqtXgBLH1QlsG3
- el5M1IN7oeG9CKN8GSYOce4DB/9J2BX140wnPXN+pJdj5glSG92Ie87f7U8Xl4=
-X-Authority-Analysis: v=2.4 cv=btpMBFai c=1 sm=1 tr=0 ts=68d29993 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
- a=hOjxzNy0v5UpTo8hRW8A:9 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: 9EZ2OY_OpyJJNtlH2fdWO0hELMg5z_v6
-X-Proofpoint-ORIG-GUID: 9EZ2OY_OpyJJNtlH2fdWO0hELMg5z_v6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-23_02,2025-09-22_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0 clxscore=1015
- phishscore=0 suspectscore=0 adultscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|PAXPR04MB8511:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9e8dd02-b915-4688-9c69-08ddfaa2110d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?2lbYLvq6mT67LVl6yBw/FJTikQf4Ohz8kt2yMzmjcp9L1i5Nq7L9GYP/vNpg?=
+ =?us-ascii?Q?hi2IA9Js6dDf+Vi/p23zB2eaJqg+haOeIJds30sgHsAIhsCMPB0t1wmalF6t?=
+ =?us-ascii?Q?S4nk7hqCskHGMXEOUAxOYzv/t7O7XIwrqcoefZtqt5UTkxwKcIXF+mqkDhWE?=
+ =?us-ascii?Q?2oeY/OYKYH5/dGx4EiR0U5nHy/Py5pyPJb/Be76xY/iU93MGAe1hPjl9Yiqt?=
+ =?us-ascii?Q?KAO21bE/dpENgUrq6mS7h/4ajcyKz43+44I8JN/4IMYQpgqRsOU1TKotQCwe?=
+ =?us-ascii?Q?UCn/cnjbtWMLYaNn5wliiZcb12tVnRm9ud1PpSDB49Zs+UL7kv1nRwi909ER?=
+ =?us-ascii?Q?vRBc9p4KLHyKc9NJNjajVfECTy/lFBZ7LGB5YL3PkxszzQkfY7NvLdO66uEU?=
+ =?us-ascii?Q?47L3PamvUa9n0aZ/6uubh0hngmxT1ea7h79AT6q7vCam2vdQY4lnqRt+K44a?=
+ =?us-ascii?Q?dG9uOaNXdEi0YY7go7krNRt5RXuUyhqXgQoER6Urmu42M0uhoPHYQJRKBmIE?=
+ =?us-ascii?Q?A4JeRMzsOfJRB500ecKrEFv06ZNdwJ3lTX9huE4xM5WWPq3H/HHwpFXHsxW6?=
+ =?us-ascii?Q?K9BQJbgxOoWmOJ725baPMjNbC7Wd2a6Lu1V6EvEHBjnYh+6noUXyOqM1Hv5C?=
+ =?us-ascii?Q?+Gx9RFtfSfDZTF19tOYnUVw3Ynm1nTrYg22pYiYZbmspAs2lE5dNTZWdRLVJ?=
+ =?us-ascii?Q?YCFFUOMPt9++LZd3u0pLlXLKVDj1b+ZqOIdRs8DItjf26BQJrlNFWrU5f2Z7?=
+ =?us-ascii?Q?AR6NQdLcw++kgY5vytS71/jArGagYQQuAPMo/vAZ3fMSRZzLkY2A2kKglhPN?=
+ =?us-ascii?Q?DHiVot5xUL4rvECRKMr0wJrR6h74XjIkcy5DEICjTwcUgsiZhR7JzmWUYFEX?=
+ =?us-ascii?Q?KAeVIb2ivqGsGrGtuSCa5LUv1InGvpmfD/KLklB4+AeLPfivO0Niv23iz8Ry?=
+ =?us-ascii?Q?teuNPFajuJsutbktzCbtMIWIGkXVmRRMP1RDDCnD9qlvlm6O88ih/wPgVGXI?=
+ =?us-ascii?Q?CYV7wui7o7i46guLcCucd4/o1irodKfAiod15E4GaOdYiJgx1g9S4nNu/XXH?=
+ =?us-ascii?Q?Xb6v1ct6MW04c89TS6rRfqRJnKPAHyMdK/ppvVZJZat8JgjAU5jo0Q7vFKs8?=
+ =?us-ascii?Q?0zG8n6qL3I5utF82yCSnS4H9z3JUVzoVUwWGvDssC9ux5JbkDaWJzO9hywBX?=
+ =?us-ascii?Q?1w1TBOuEx01ZT/onsk+7Qxw0E/5lko0Jw123WeFrZ9kMlCaUhIpcI2iCq/vf?=
+ =?us-ascii?Q?hOxM9s3Dcbc1pKDFn09AKFvMYCu7Ww/MxjkHBqq2tb41o0eGFNe0rOYrWs3m?=
+ =?us-ascii?Q?i5J0h9n5gS49MR1ziZq1dG1TviRklCUTHN9s52UaafG/oLyx00tHgbsi8FOg?=
+ =?us-ascii?Q?RN+68W5iau9URI+uNZinL011m529GXMziglL9efGIEyptwGplg=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?CEEblRmFlGHTXNa0JLeXEDIpQS6gv7wR0rsnCUjRzn77rGOzuxoX/DH943H/?=
+ =?us-ascii?Q?UmrtJU7iO8LL5L0eeTuH3Ma7tX3dVKo4FSYDVNFh7yhpqM6Ol0uGDul4rFLv?=
+ =?us-ascii?Q?wCdrEWRa/jmnvL1Vqr1diVI7stonJWbTMppIqRE6AAG5WOhIoCQB+y2OTbxq?=
+ =?us-ascii?Q?4BQnEoAZ7vo41t9muWmSw5VSTYoq62NIxF6GkRex7agZ5ZZtW5xpPsi37p9c?=
+ =?us-ascii?Q?d7OLKx7tzLags0qwyT3tMvjVHQI2FeyasAvGGIdstaLG28rq5CQJ+HMeZXdR?=
+ =?us-ascii?Q?/FZXDcUCPZOOU94GeeJXaUPvAiWM9nagtLRJa7zLnfWCmKZAHW2yXXHdKLUA?=
+ =?us-ascii?Q?Y3UbqOhPppvznPS3ygAznSb2RPy+H290nNpTZLwv3LZ9jYGB8ur8pg9svB0Q?=
+ =?us-ascii?Q?Jg8yF+4pZ3X+Htl2TZdgVHSPy9PhW6D0ssHlQDGvix6ER6MfbZQ8aA6AXuqY?=
+ =?us-ascii?Q?BlVxRqvTF999SdYhTsqhUfEsk2UGP2P9D5IPq+sm6Tbc0U4y7i7j4kz+i/Qk?=
+ =?us-ascii?Q?kyCeH8gpsJdltMpYb+g28/QqpmQvo5C/LXXcFLwFWaw8WJGH6a0QYsuEX84g?=
+ =?us-ascii?Q?2Lk/nJuDJZswvF1rPEvgcyVSepIniDdZLteNWjuPjEPgZHW4U6MXZJ0iQa5y?=
+ =?us-ascii?Q?f6z/gRQT07ve4jNZ6K5xrbtmiIV0ShHK8pDU61K3+HzF6Fj/47Rf38hMlI06?=
+ =?us-ascii?Q?fr4EBDuKoHqRZSrZ8Xw8JQVhfzBm8rnue3lw+FhGK8r4Jj2U7RMcCl5EcwSq?=
+ =?us-ascii?Q?GAU5mFRagISPgl9O+sOUbuCloPtWsPHNu8VTGfwMU62BmQR3WM8tJi6LiWbO?=
+ =?us-ascii?Q?nYflQqQT2qJaP3hwXF9i0y1WZdnmheglGaTPGxaU4DVWq5T8ENkKJpmMAlbg?=
+ =?us-ascii?Q?G7qbGdD2CtjeADZDgxfKGm5YojoWNidQav4Fo70b7xbjiYjSaco3OS/QxwbT?=
+ =?us-ascii?Q?hvo8fug2/vK7SAiOd/UJNr62WK9HOYCsIHOV9BaFZ0QdffcXzMzBmIfGTfYN?=
+ =?us-ascii?Q?aSsdfdeq4QwWK1u2t5lIaU0X3oR1AXee5OJJAD2/zWY3saLeTErTxdZ7Xgol?=
+ =?us-ascii?Q?Hx6qTxDcOimz9roiFKQxYNMMhUCB4FhA0Kcvf4VWQXkDqBMpqDFnmuurTLIs?=
+ =?us-ascii?Q?sb6Z/EBJFl7ujuRPJs1uSab6+lAU2Hy+Z4aIkxEgRXkMStK+DeAoXJAyfgy4?=
+ =?us-ascii?Q?jP6O4unFhYL+zzm9ibC6jeJUw6/9m3+kMcWvvZMseX3a4jUC7l/DGWS12He/?=
+ =?us-ascii?Q?pmN9o663X2pxaHf+N38y9vybqzPTMjZ12HkF2yBTkZkLX/n/b9zLP2BPVJ2d?=
+ =?us-ascii?Q?Rh9uF2owRVxwcot1GJbFtdlk8pCr0X20EqY1vF4gSVEGoK9aJ8+usKtGwiiz?=
+ =?us-ascii?Q?vYImdfudx8VDLfAqMR1nWRdCO4pUa1QiOsev4gRsOzXeCpqJERiXjaSNAZc9?=
+ =?us-ascii?Q?GkLvm43JeU4BBRckiw7/tWZm2RLwY/C7Lq9gID0b+q8oj5dl9foLIMJxg+Hp?=
+ =?us-ascii?Q?TnCDo/ckws5K7Oi3EMSgb+ibcuhhVCIxD/lucj1ECX0+DeTSqvm2Y/rl/9N4?=
+ =?us-ascii?Q?r9SBK+jvA5txIIpGMcJPnr1X7LuMumlvxgXsFrwo7u15PL1+auV+b/y4q2Gv?=
+ =?us-ascii?Q?Cw=3D=3D?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9e8dd02-b915-4688-9c69-08ddfaa2110d
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 13:06:53.5640
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0yEDBIZWzvexQIZ/BatADCsLvhORQU13BJz6J0oHY1vDaaRO6JS8vQ9pldvR2bW4h+PLzJuGFn9CuW2xudWspkPjyVhCxsy53D+XIp7WCSk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8511
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 12:59:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223875
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 13:07:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223876
 
-Due to commit [1] applied in kernel v6.16 (such as qemux86-64),
-perl has reproducibility issue occasionally.
+On 9/23/25 2:36 PM, Tudor Ambarus wrote:
+>=20
+>=20
+> On 9/23/25 1:29 PM, Quentin Schulz wrote:
+>> Hi Tudor,
+>=20
+> Hi!
+>=20
+>>
+>> On 9/18/25 3:01 PM, Tudor Ambarus via lists.openembedded.org wrote:
+>>> [You don't often get email from tudor.ambarus=3Dlinaro.org@lists.openem=
+bedded.org. Learn why this is important at https://aka.ms/LearnAboutSenderI=
+dentification ]
+>>>
+>>> The pixel6 kernel build fails with "lz4: command not found"
+>>> when KERNEL_IMAGETYPE is set to `Image.lz4`.
+>>>
+>>> Upstream commit 0c7dc5bae1 ("bitbake.conf: Drop lz4 from HOSTTOOLS")
+>>> dropped lz4 from the global `HOSTTOOLS` variable. This meant that
+>>> the lz4 binary was no longer automatically provided to build tasks,
+>>> causing the compilation to fail.
+>>>
+>>> Add a conditional dependency on `lz4-native` directly to
+>>> `kernel.bbclass`. It ties the dependency directly to the image type
+>>> that requires it, making the build more robust.
+>>>
+>>> Suggested-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org>
+>>> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+>>> ---
+>>>  =C2=A0 meta/classes-recipe/kernel.bbclass | 1 +
+>>>  =C2=A0 1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/k=
+ernel.bbclass
+>>> index eb03424dfc3e023842f7b67ef47468210af72cd1..003a155e794388efd3fa29c=
+2c946b18542f4cef8 100644
+>>> --- a/meta/classes-recipe/kernel.bbclass
+>>> +++ b/meta/classes-recipe/kernel.bbclass
+>>> @@ -20,6 +20,7 @@ DEPENDS +=3D "virtual/cross-binutils virtual/cross-cc=
+ kmod-native bc-native bison-
+>>>  =C2=A0 DEPENDS +=3D "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.l=
+zo", "lzop-native", "", d)}"
+>>>  =C2=A0 DEPENDS +=3D "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.l=
+z4", "lz4-native", "", d)}"
+>>>  =C2=A0 DEPENDS +=3D "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.z=
+st", "zstd-native", "", d)}"
+>>> +DEPENDS +=3D "${@bb.utils.contains("KERNEL_IMAGETYPES", "Image.lz4", "=
+lz4-native", "", d)}"
+>>
+>> There's also gzip, lzo, lzma and xz support for aarch32 per arch/arm/boo=
+t/compressed/Makefile.
+>>
+>> Additionally also bz2, zst and fit for Aarch64 per arch/arm64/boot/Makef=
+ile.
+>>
+>> What about adding those as well so we cover everything?
+>>
+>=20
+> I guess that would be alright, but maybe in a different patch? This one
+> adds back something that worked before, but no longer works, the others
+> are an extension maybe?
+>=20
 
-Perf's build process generates two copies of its internal headers,
-one at tools/lib/perf/include/internal and one at libperf/include/internal
-with files like core.h. Although the files are identical, the binaries including
-them would see them at different paths and have different debuginfo data. [2]
+Indeed, I read a bit too fast the commit log :)
 
-The reason is the order of include dir `tools/lib/perf/include' and
-`libperf/include' is not stable, such as
+In any case, the patch is already merged so it's necessarily in a new=20
+patch :)
 
-$ x86_64-poky-linux-gcc  ... \
-   -Ipath-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/tools/lib/perf/include \
-   -Ipath-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/libperf/include \
-   -c -o path-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/libperf/core.o core.c
-
-$ recipe-sysroot-native/usr/bin/dwarfsrcfiles sources/perf-1.0/libperf/core.o
-/usr/src/debug/perf/1.0/tools/lib/perf/core.c
-...
-        /usr/src/debug/perf/1.0/tools/lib/perf/include/perf/core.h
-        /usr/src/debug/perf/1.0/tools/lib/perf/include/internal/lib.h
-...
-
-$ x86_64-poky-linux-gcc  ... \
-   -Ipath-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/libperf/include \
-   -Ipath-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/tools/lib/perf/include \
-   -c -o path-to/tmp/work/qemux86_64-poky-linux/perf/1.0/sources/perf-1.0/libperf/core.o core.c
-
-$ recipe-sysroot-native/usr/bin/dwarfsrcfiles sources/perf-1.0/libperf/core.o
-/usr/src/debug/perf/1.0/tools/lib/perf/core.c
-...
-    /usr/src/debug/perf/1.0/libperf/include/perf/core.h
-    /usr/src/debug/perf/1.0/libperf/include/internal/lib.h
-...
-
-This commit explicitly sets the order of these two include dirs
-in EXTRA_CFLAGS.
-
-This commit has no regression for kernel v6.6 (such as genericx86-64)
-
-Also enable verbose for compile to trace the detail of build
-
-[1] https://github.com/torvalds/linux/commit/f5b07010c13c77541e8ade167d05bef3b8a63739
-[2] https://git.openembedded.org/openembedded-core/commit/?id=0a886fcacaab0fbce1306c0f99d482f940a8f705
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 98dffd1cc9..58476796d3 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -105,7 +105,7 @@ EXTRA_OEMAKE = '\
-     LDSHARED="${CC} -shared" \
-     AR="${AR}" \
-     LD="${LD}" \
--    EXTRA_CFLAGS="-ldw -I${S}" \
-+    EXTRA_CFLAGS="-ldw -I${S} -I${S}/libperf/include -I${S}/tools/lib/perf/include" \
-     YFLAGS='-y --file-prefix-map=${WORKDIR}=${TARGET_DBGSRC_DIR}' \
-     EXTRA_LDFLAGS="${PERF_EXTRA_LDFLAGS}" \
-     perfexecdir=${libexecdir} \
-@@ -174,8 +174,8 @@ do_compile() {
- 	# There are two copies of internal headers such as:
- 	# libperf/include/internal/xyarray.h and tools/lib/perf/include/internal/xyarray.h
- 	# For reproducibile binaries, we need to find one copy, hence force libperf to be created first
--	oe_runmake ${B}/libperf/libperf.a
--	oe_runmake all
-+	oe_runmake ${B}/libperf/libperf.a V=1
-+	oe_runmake all V=1
- }
- 
- do_install() {
--- 
-2.34.1
-
+Cheers,
+Quentin
 
