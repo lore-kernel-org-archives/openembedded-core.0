@@ -1,211 +1,321 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 524EACAC5B0
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 13:07:03 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.60])
- by mx.groups.io with SMTP id smtpd.web10.16495.1758632819617256896
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5939BCAC5B1
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 13:08:23 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.16535.1758632902018399667
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 06:06:59 -0700
+ Tue, 23 Sep 2025 06:08:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=C5q6Y7r6;
- spf=pass (domain: cherry.de, ip: 52.101.69.60, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=H8q2iyFd;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1361e06115=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58NC7JXA3345290
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 06:08:21 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=NZfQPctbSW1isQLPr1Wa+I
+	YQ/ofvFBHHde+t1r1BxeA=; b=H8q2iyFdaYsCv+VS6pOsbLxZOn4dzzW/Ruivv+
+	KP2GFzoeFg5SlGqSv9/u5qRbAR8ELJl54ePM56FJfdd2/zctJyjvRpNrV5oA2tt1
+	Ycu+6hd04AHjOkHVTSUjlICNF1U+JgUoiORqM4k745IgAcEiYfto6HVSryMZuWhe
+	2K/LAEOxeKscJlCG7hD8EwL+k/xxLxiV+SBZ7a2w0ePQIsfGcayr+GjiB7wt/147
+	n3QtpfNKEX+UtIJp9CdX9xee7qa2T5Vfpe85X3WuBr8GecUEjTy8s4unEC0omfQl
+	GafVFnkfbCRpKdn3nw7f4ga2aS6pvJQXijdoKKqJc59rQBwA==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012023.outbound.protection.outlook.com [40.93.195.23])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 499qj2tysy-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 23 Sep 2025 06:08:21 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KZ4IRQMtaLKdSG6yMFaEyg8iY5048OuB8RgBcRCJdunjfZ9zg0HyHWTulQx9DHVlcJLy7GMnyU7PJdVUyHBE7gpulL3R1QnlxMP1VEILQzIC44waO97ZWFx55Vd3fNJ6i7w4dxo8Oi8ywtfIMMj8+Fy3Mk9RdUB1Ys08Fs6BV3BQW3vPj9u0rOfppNLKgxe6SfIiz72nWTbsUd0pcSIK1eDKgc4XbZOeh1Ojf2fHRUYTefK8xzddsxXXFUA6Qo76adIABlVwZqqRE2JoQBuCbakx+Rqza9v3atqHUQgNnGcicL1W2kOnPg7Drp4zVx41OWenCEFG1BdxE3krJZb8Lg==
+ b=ekJiXetIRV1qGajp4FxURenUyF2SJgkXe3Z9dC9iT4vddTR1hKq/flaHMCdifvF7HXaP1JSz1bEe8OgHYZW6gVVMJmDThbct7TcRyvulNjGLjU7HBVMgjtIdsga4q6do9FsFNJduLCt1pFWLqKGDck+xzmQWQjnFhP7ZqlwEtyNnm9OKk3W2tcxHLOu2CqlppY3tqnbfHZNP4JOTEvg7u1EEqsml1QYvy+xOYqAefi5oVZAo7Kg3ITTpDHnkoBMphbNQpXh1Ai7H3ULXwuIyqmihXMJFNkWFBf6o3sN27076L5UbRmog7pILSvuLqQ21dVRmypDBLkFTiJ58wn/cIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Usxf77XFR9+kZrVUt5sJGMV80rph2HsNDklNJ/m4IZ0=;
- b=vZpV2ZnJ5ar7rRyh8+Hx5+M9y32cY5PVuiZ3LWJgJLxy52jbFXth6+gF+uLxzxTjWdjyjb0KFy6TcT3miLE7gtHKA2kQkYXTg6E1D3G8SxG1zNMSN51EmAxXwGvZ+ySsTeknKE/eJAGB9MHV1y7e66e0HEIxcXXGf88v8RtFOk65mJuknZDHyBXd/ETvYJtFM4clQctSW3TT/elZSiZz+7+nJwfjyYhWxaZxl5u9Q3zgdMo/fe/66y1UPf4if0J20UWJSJzOGLEnUXdVFUrwR/q1XG1oXstBWN+pJMlQhbSd3bhBkwmn5QrsXk6I25XJIYodR01qxdRn3al6T8J/TQ==
+ bh=NZfQPctbSW1isQLPr1Wa+IYQ/ofvFBHHde+t1r1BxeA=;
+ b=EGDhHruLVAOHt3FMs0IPmDnnloTBWEvt2+ijxhdmnjbqbXOQ332vK4a/YpuSIjnHRul3/p1L3lOSzkqLNXNLf2B2fubID45ajKQGxFUwQFnBn7kL+7gGCb5HmIXZpU9dMd6PkKrevwRdq80BxOOsvDbzgcAjFiRS+8/g0pJ6S9X/a3ynbEm+n8FdIzxbTdjZ5FcsPduGfngqPLT8vumQ/D8W3yZfXHVvlj+7ubdUS0e5vQeZsvEzSrwHtevvo1i1Lfy1BhAstZYdHrLnlf54CqpxeoD7xpX90Tj76m3M7CShhYXdSfQSrkWgghczGy0zp/ItJQuNfaDTblCWCWIvWg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Usxf77XFR9+kZrVUt5sJGMV80rph2HsNDklNJ/m4IZ0=;
- b=C5q6Y7r6RA3sMlCv4bbrSp1ngnu5Rrqu9HPo48our43kgN9oThTN6+UpTC4cf4kNKEpy5GoUkNtO/VideUahEa5s1YmGAqUKdthkP9nYw0woTKL0Kz1vYNHkuso2mJ9dQAsZVHanBmqDGu3GdiTXzeWvv9zM+BhrT77t9OnXeNk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
- by PAXPR04MB8511.eurprd04.prod.outlook.com (2603:10a6:102:212::6) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by DM4PR11MB5277.namprd11.prod.outlook.com (2603:10b6:5:388::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Tue, 23 Sep
- 2025 13:06:53 +0000
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1%6]) with mapi id 15.20.9160.008; Tue, 23 Sep 2025
- 13:06:53 +0000
-Message-ID: <aea3691c-e260-4bdf-ba4e-32bfada69511@cherry.de>
-Date: Tue, 23 Sep 2025 15:06:52 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Tue, 23 Sep
+ 2025 13:08:18 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552%4]) with mapi id 15.20.9137.018; Tue, 23 Sep 2025
+ 13:08:17 +0000
+Content-Type: multipart/alternative;
+ boundary="------------F3PmzR1Ljakg5HJWI2XgEXtY"
+Message-ID: <27eb27a1-578e-4feb-a69c-adf1cb588fbd@windriver.com>
+Date: Tue, 23 Sep 2025 09:08:16 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: add lz4-native dependency for
- Image.lz4
-To: Tudor Ambarus <tudor.ambarus@linaro.org>,
- richard.purdie@linuxfoundation.org, openembedded-core@lists.openembedded.org
-CC: peter.griffin@linaro.org, willmcvicker@google.com,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
-References: <20250918-kernel-lz4-v1-1-b40ccf21bbe3@linaro.org>
- <2bcb17c0-d527-478b-9692-00a043a4608f@cherry.de>
- <edd6fa44-ee62-4bd4-afca-e862507c23f5@linaro.org>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <edd6fa44-ee62-4bd4-afca-e862507c23f5@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR0P281CA0268.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b5::12) To AS8PR04MB8897.eurprd04.prod.outlook.com
- (2603:10a6:20b:42c::20)
+Subject: Re: [OE-core] [PATCH v3] gawk: disable persistent memory allocator
+ due to licensing
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+        Ross Burton <ross.burton@arm.com>,
+        "Yang, Liezhi"
+ <Liezhi.Yang@windriver.com>,
+        Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+References: <20250923005234.2952070-1-Randy.MacLeod@windriver.com>
+ <CANNYZj8xQKdfsJQP-r_qAEqYFHCnzZVCC_NLHbX6yFj1OU7mZw@mail.gmail.com>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <CANNYZj8xQKdfsJQP-r_qAEqYFHCnzZVCC_NLHbX6yFj1OU7mZw@mail.gmail.com>
+X-ClientProxiedBy: CH0PR04CA0083.namprd04.prod.outlook.com
+ (2603:10b6:610:74::28) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|PAXPR04MB8511:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9e8dd02-b915-4688-9c69-08ddfaa2110d
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|DM4PR11MB5277:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4a21d44-e160-497b-610c-08ddfaa24331
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|13003099007|8096899003;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?2lbYLvq6mT67LVl6yBw/FJTikQf4Ohz8kt2yMzmjcp9L1i5Nq7L9GYP/vNpg?=
- =?us-ascii?Q?hi2IA9Js6dDf+Vi/p23zB2eaJqg+haOeIJds30sgHsAIhsCMPB0t1wmalF6t?=
- =?us-ascii?Q?S4nk7hqCskHGMXEOUAxOYzv/t7O7XIwrqcoefZtqt5UTkxwKcIXF+mqkDhWE?=
- =?us-ascii?Q?2oeY/OYKYH5/dGx4EiR0U5nHy/Py5pyPJb/Be76xY/iU93MGAe1hPjl9Yiqt?=
- =?us-ascii?Q?KAO21bE/dpENgUrq6mS7h/4ajcyKz43+44I8JN/4IMYQpgqRsOU1TKotQCwe?=
- =?us-ascii?Q?UCn/cnjbtWMLYaNn5wliiZcb12tVnRm9ud1PpSDB49Zs+UL7kv1nRwi909ER?=
- =?us-ascii?Q?vRBc9p4KLHyKc9NJNjajVfECTy/lFBZ7LGB5YL3PkxszzQkfY7NvLdO66uEU?=
- =?us-ascii?Q?47L3PamvUa9n0aZ/6uubh0hngmxT1ea7h79AT6q7vCam2vdQY4lnqRt+K44a?=
- =?us-ascii?Q?dG9uOaNXdEi0YY7go7krNRt5RXuUyhqXgQoER6Urmu42M0uhoPHYQJRKBmIE?=
- =?us-ascii?Q?A4JeRMzsOfJRB500ecKrEFv06ZNdwJ3lTX9huE4xM5WWPq3H/HHwpFXHsxW6?=
- =?us-ascii?Q?K9BQJbgxOoWmOJ725baPMjNbC7Wd2a6Lu1V6EvEHBjnYh+6noUXyOqM1Hv5C?=
- =?us-ascii?Q?+Gx9RFtfSfDZTF19tOYnUVw3Ynm1nTrYg22pYiYZbmspAs2lE5dNTZWdRLVJ?=
- =?us-ascii?Q?YCFFUOMPt9++LZd3u0pLlXLKVDj1b+ZqOIdRs8DItjf26BQJrlNFWrU5f2Z7?=
- =?us-ascii?Q?AR6NQdLcw++kgY5vytS71/jArGagYQQuAPMo/vAZ3fMSRZzLkY2A2kKglhPN?=
- =?us-ascii?Q?DHiVot5xUL4rvECRKMr0wJrR6h74XjIkcy5DEICjTwcUgsiZhR7JzmWUYFEX?=
- =?us-ascii?Q?KAeVIb2ivqGsGrGtuSCa5LUv1InGvpmfD/KLklB4+AeLPfivO0Niv23iz8Ry?=
- =?us-ascii?Q?teuNPFajuJsutbktzCbtMIWIGkXVmRRMP1RDDCnD9qlvlm6O88ih/wPgVGXI?=
- =?us-ascii?Q?CYV7wui7o7i46guLcCucd4/o1irodKfAiod15E4GaOdYiJgx1g9S4nNu/XXH?=
- =?us-ascii?Q?Xb6v1ct6MW04c89TS6rRfqRJnKPAHyMdK/ppvVZJZat8JgjAU5jo0Q7vFKs8?=
- =?us-ascii?Q?0zG8n6qL3I5utF82yCSnS4H9z3JUVzoVUwWGvDssC9ux5JbkDaWJzO9hywBX?=
- =?us-ascii?Q?1w1TBOuEx01ZT/onsk+7Qxw0E/5lko0Jw123WeFrZ9kMlCaUhIpcI2iCq/vf?=
- =?us-ascii?Q?hOxM9s3Dcbc1pKDFn09AKFvMYCu7Ww/MxjkHBqq2tb41o0eGFNe0rOYrWs3m?=
- =?us-ascii?Q?i5J0h9n5gS49MR1ziZq1dG1TviRklCUTHN9s52UaafG/oLyx00tHgbsi8FOg?=
- =?us-ascii?Q?RN+68W5iau9URI+uNZinL011m529GXMziglL9efGIEyptwGplg=3D=3D?=
+	=?utf-8?B?K0M4T1V0NWhwaGs1U1VnRjloS0lmWlh6VjRVY0N3L3l0cWljMytsdC9lUDJV?=
+ =?utf-8?B?WVpxMC9EVk5YSnFpeW1lVVVvSTZiL2JUL29ZeTZjUmNQUlNvMG1FK2N0OFpx?=
+ =?utf-8?B?blB2bzRHQUdvdzh1Rk9QNy9VTHZLeEQ1a1J1dGZqNFhvc0I5Wk1Mdjd2ZVI3?=
+ =?utf-8?B?WU1iQTRNR1p4b24rRzhJQks3M1QxQ3VxSEd1d3pEVFJ2UGtISzNRS1JDdUhv?=
+ =?utf-8?B?ZEtaVXN6Q09IaFZlNFNwUVo1WEVUVVN5cHRIL2FkZ0VZTHo3N0JYbzlqL1NZ?=
+ =?utf-8?B?Sk81RisrZzhqODFPZUFSS3ZvRkV4WEltNllLMXpta1MzUEdodVNlNURhTXF5?=
+ =?utf-8?B?ZnRqL09vL005NlZjc3h2QTUwUzlZMElabTd1NXpGNVd0WENvZ2k2RkVjUmxJ?=
+ =?utf-8?B?ZnROc0g1a3BvZmtGR0hvbmpCdGVjZ0lsb3RJR0d5NEZ4d3Y0TStXTGtxMFla?=
+ =?utf-8?B?amZjTWV2SklVVjVmaEpsWmxzYTB5aHNISmxLQ2FNYUJJU1g3SUQ1QkIxVVdz?=
+ =?utf-8?B?LzI4Q0RyOTBNakNsdVZObHlnMzlqaEZEQnZKQ0xPZ0Y1aTljYytNUkYwblNL?=
+ =?utf-8?B?cVU3WTBhcG1JeHYwRlVOMU85TGxxcjBWQkxBMVFJVnV6N1ZncTd0QW4zbG94?=
+ =?utf-8?B?Y3NyWFViUm1pUEkrOFlXbnR2eFpFQm5qMW5kTVBYOGFlQUsvWENVTkdOTjcr?=
+ =?utf-8?B?RUJJVEFkSWJQd0NwZ2tzZnVHK0RPL3N3cHc5djlSaUtmSHhaZ1Rsb1AzcmhJ?=
+ =?utf-8?B?cG1BSXNPT2QzTzFNenVqbGZmNTJxMXo3QUZuNi9yelZjUmNzcHhaU3A0bkdp?=
+ =?utf-8?B?b0puT3BvdVJobHhXbjgrTmN0dzBlbGlzMEZZZThmRzA4ZXpNOGljQWF4S0lH?=
+ =?utf-8?B?ZGcya3NxNlFzZjhvY3ArekZuNHpiVHRnMEFQTXczb3V6b2NjV1FGMUJUYWRh?=
+ =?utf-8?B?V2xXUUxZVFF6WWdZWjhXZUwvdG13eGwvUU5uOWtWdVZ3TVdFTjRhdzl3V1ll?=
+ =?utf-8?B?T3ZtRnF0V1gzWWREMHFxblg2b2xzeE5VMlpTNjh4WTQ2Z282c1ZrdWpHaXVw?=
+ =?utf-8?B?dUlRaHhEYzBGTGpNNkVlN1lBZFRHMDNLMll0M0phOVowb0E0TCszZkN1amor?=
+ =?utf-8?B?OUJOSGQxT3lRdW1rS05yTCtVaDFGNTJkOUt5eHlzVzQyZkdMOFczOXJXSmNl?=
+ =?utf-8?B?ZUxXWFN5SkpMUXNXalNoOExrTVhKR3RMVmMxUnhGd2FoWTJWRWZKMzBhbXhB?=
+ =?utf-8?B?eUgzbGs4QlRwck05V2JLTzlDbnhsMjhhc1N6akVLNlBHNjE1SnFQUjJld0xE?=
+ =?utf-8?B?d1ZvZ0pOeUQveTJiOEx5b0l1eVAzY2hYQTQvcW1ENjVLQVo1QkJMTFp2NVVu?=
+ =?utf-8?B?UGdiZDdhbVhnSk1RUEsvRVlMRkxIanNQTXNKTmpSSUVzZm5jWU44bkYyMHZT?=
+ =?utf-8?B?S1ZkbGJsZzFLbmVldUM0SmlnKzNTYVBiZ1dPNTdyTHdqakFMMGo4cktqSGw4?=
+ =?utf-8?B?RzJqSHBzWXZWdGMxNk9YZXM4S0M2RUdGb29yYUk4WGJUOWs2OUhTbFZMaFQy?=
+ =?utf-8?B?bFFuZWtJN1hja0g4NVY5eU1OVlNXekcrbVVTcEc5ZHZkR3dtU1dyaFUwdnR1?=
+ =?utf-8?B?eXFUYUJSODY0cUEwVjVXMUJWQ3YwZkNnRDNsMXNpdWlQTTJKUjdsWmUvdGJJ?=
+ =?utf-8?B?QUZ4dmNjNjNWMUs1ZnF6OFNUY3RZRUNUQ2x0YVJ5ZlFGZUpzQ3hMNnVIdFpt?=
+ =?utf-8?B?bUhIMjd4VFN6WUxNczRhVGk1UzZUb2ZsTFJSY2M3NFlPTU9VVUJ5ckNDWm54?=
+ =?utf-8?B?YzRXczd3MnY0cytUU0pUM0JlSTVYcGE3SjNzczZOK3pWSE55MzJBbFZwTGhz?=
+ =?utf-8?B?YzhaRWVrdVRVYjBmUGFmdWt3Ump0Y1pWNjNIZjYzTVQ4bnpMSE1hbnUyNklw?=
+ =?utf-8?Q?XvZUBA8ZZz8=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(13003099007)(8096899003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?CEEblRmFlGHTXNa0JLeXEDIpQS6gv7wR0rsnCUjRzn77rGOzuxoX/DH943H/?=
- =?us-ascii?Q?UmrtJU7iO8LL5L0eeTuH3Ma7tX3dVKo4FSYDVNFh7yhpqM6Ol0uGDul4rFLv?=
- =?us-ascii?Q?wCdrEWRa/jmnvL1Vqr1diVI7stonJWbTMppIqRE6AAG5WOhIoCQB+y2OTbxq?=
- =?us-ascii?Q?4BQnEoAZ7vo41t9muWmSw5VSTYoq62NIxF6GkRex7agZ5ZZtW5xpPsi37p9c?=
- =?us-ascii?Q?d7OLKx7tzLags0qwyT3tMvjVHQI2FeyasAvGGIdstaLG28rq5CQJ+HMeZXdR?=
- =?us-ascii?Q?/FZXDcUCPZOOU94GeeJXaUPvAiWM9nagtLRJa7zLnfWCmKZAHW2yXXHdKLUA?=
- =?us-ascii?Q?Y3UbqOhPppvznPS3ygAznSb2RPy+H290nNpTZLwv3LZ9jYGB8ur8pg9svB0Q?=
- =?us-ascii?Q?Jg8yF+4pZ3X+Htl2TZdgVHSPy9PhW6D0ssHlQDGvix6ER6MfbZQ8aA6AXuqY?=
- =?us-ascii?Q?BlVxRqvTF999SdYhTsqhUfEsk2UGP2P9D5IPq+sm6Tbc0U4y7i7j4kz+i/Qk?=
- =?us-ascii?Q?kyCeH8gpsJdltMpYb+g28/QqpmQvo5C/LXXcFLwFWaw8WJGH6a0QYsuEX84g?=
- =?us-ascii?Q?2Lk/nJuDJZswvF1rPEvgcyVSepIniDdZLteNWjuPjEPgZHW4U6MXZJ0iQa5y?=
- =?us-ascii?Q?f6z/gRQT07ve4jNZ6K5xrbtmiIV0ShHK8pDU61K3+HzF6Fj/47Rf38hMlI06?=
- =?us-ascii?Q?fr4EBDuKoHqRZSrZ8Xw8JQVhfzBm8rnue3lw+FhGK8r4Jj2U7RMcCl5EcwSq?=
- =?us-ascii?Q?GAU5mFRagISPgl9O+sOUbuCloPtWsPHNu8VTGfwMU62BmQR3WM8tJi6LiWbO?=
- =?us-ascii?Q?nYflQqQT2qJaP3hwXF9i0y1WZdnmheglGaTPGxaU4DVWq5T8ENkKJpmMAlbg?=
- =?us-ascii?Q?G7qbGdD2CtjeADZDgxfKGm5YojoWNidQav4Fo70b7xbjiYjSaco3OS/QxwbT?=
- =?us-ascii?Q?hvo8fug2/vK7SAiOd/UJNr62WK9HOYCsIHOV9BaFZ0QdffcXzMzBmIfGTfYN?=
- =?us-ascii?Q?aSsdfdeq4QwWK1u2t5lIaU0X3oR1AXee5OJJAD2/zWY3saLeTErTxdZ7Xgol?=
- =?us-ascii?Q?Hx6qTxDcOimz9roiFKQxYNMMhUCB4FhA0Kcvf4VWQXkDqBMpqDFnmuurTLIs?=
- =?us-ascii?Q?sb6Z/EBJFl7ujuRPJs1uSab6+lAU2Hy+Z4aIkxEgRXkMStK+DeAoXJAyfgy4?=
- =?us-ascii?Q?jP6O4unFhYL+zzm9ibC6jeJUw6/9m3+kMcWvvZMseX3a4jUC7l/DGWS12He/?=
- =?us-ascii?Q?pmN9o663X2pxaHf+N38y9vybqzPTMjZ12HkF2yBTkZkLX/n/b9zLP2BPVJ2d?=
- =?us-ascii?Q?Rh9uF2owRVxwcot1GJbFtdlk8pCr0X20EqY1vF4gSVEGoK9aJ8+usKtGwiiz?=
- =?us-ascii?Q?vYImdfudx8VDLfAqMR1nWRdCO4pUa1QiOsev4gRsOzXeCpqJERiXjaSNAZc9?=
- =?us-ascii?Q?GkLvm43JeU4BBRckiw7/tWZm2RLwY/C7Lq9gID0b+q8oj5dl9foLIMJxg+Hp?=
- =?us-ascii?Q?TnCDo/ckws5K7Oi3EMSgb+ibcuhhVCIxD/lucj1ECX0+DeTSqvm2Y/rl/9N4?=
- =?us-ascii?Q?r9SBK+jvA5txIIpGMcJPnr1X7LuMumlvxgXsFrwo7u15PL1+auV+b/y4q2Gv?=
- =?us-ascii?Q?Cw=3D=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9e8dd02-b915-4688-9c69-08ddfaa2110d
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+	=?utf-8?B?bWZ3QmRyRG15bEFrRUpuS0NEbHhUaGlDREtPbzVzL0dTNU85bVRQenNKMGNw?=
+ =?utf-8?B?KzB3dmt0N0QzQmxnRis2NExyMDB5YTZWV3lhOGE3ZkJ0N0VnMXJtdm1kRU8y?=
+ =?utf-8?B?OFV3NVVvN08zY3g5cXloU09YdFAxTjN5RUgzNnhtdGcycUVqMXBGOU1DR09h?=
+ =?utf-8?B?YWcyV0FzQnVSNk1LVVYrcDhxTTFtRHZsbDcwb0Z2aUdBLzJnQ2VOTjdXQkEx?=
+ =?utf-8?B?eUZnUnZqYzZ3U05DdEdSZWRyQTE1azhkd0lkbG95MGhjcFE2RHRURkV2TUVo?=
+ =?utf-8?B?MnFVdkM2OVlrMXNoQ0JtL2RuVFBPMVpMUDhONDh2LzczVjgrL3EvdFozUGpy?=
+ =?utf-8?B?aFN0ZXpaOUN5L0ttNzNTK2hGVVhPYnkyOGZ5ZjQ3NTZNRnB2UWNWRE04RWpY?=
+ =?utf-8?B?eUJrUnQveTJvWkx4Y3NQNWdGNzBSU3pJdkNLaHI4TXBpTGFWNG4zM0N1dE50?=
+ =?utf-8?B?Q3JLOE1YYW1tdkROMmhlZUhuSVhoT3g2RWtDc0ZqeTBHcTlyMS93NzYwZGFB?=
+ =?utf-8?B?cVNyR2ZFRENidjZidWNBQ1BESlZMaDRZa0l0UW9LQ0lBWXlYMWkrVGF6Lzc3?=
+ =?utf-8?B?UDBPUFRCazFwblpQbW5vTTFpYkJEUURORHhzMzBqa3RnRWcvSEh5bVUwQ0FI?=
+ =?utf-8?B?K216Wi9nR3ZyS1ozZnNIanJUQ012SWdBMHE4QVFvaXlsbFU0NFJrQy8rVElh?=
+ =?utf-8?B?VG5DR0RTK25ZU3IrYzBneUc3dnkwM0lHMjJNc3R4QVBXbVlBOTIxKzFWczFS?=
+ =?utf-8?B?NHc5amVCa3pMODRpMEVFQnhmRkdJRGRIOC90UmZucFRUVGpUbFg1TFBCaldz?=
+ =?utf-8?B?dlZkTDdEZHpMYnhjQmdyMTZjbkJFOXNKUXdWZldHM28xbE5lSkNFcUp4aElC?=
+ =?utf-8?B?amozTW95NGVsL3F5WjhLVlg4WVFvVXRPNlNaTms4WlQrQ0pBOStvTFc1d3lQ?=
+ =?utf-8?B?eUhpUFNsUDNHbXhTdlE4QTRSVTkvYkdoSzRMSlRGcWtqdHljOTFrcFNFQ2Jz?=
+ =?utf-8?B?cFpSVnZvWVQyc1Q2NVVwSTZqTDRrYWprWGNWdlJyeWVzSSs1UUJmRmdwdGxT?=
+ =?utf-8?B?RzNVbjJDejYxRkw4VGRsVnNiZWl6ejBZSVJ2bWI5TFRBbVIvazhIQlNGZ0JW?=
+ =?utf-8?B?YWZHdC85YW0wM3BIRVpBcnQ4L2VKZlBWMXFDZmhmM2JDbU5rTFpubzl6SUF6?=
+ =?utf-8?B?bFRZZHIxeHltcjhKUUFYbW4vT1VRWlhtdktNaGxKeElEVmhUME5MSzlLN1hl?=
+ =?utf-8?B?c3JXMURRTEw3YXJJZC9xQTYzOXFOMm9wVGlFTkJEWUMxK0UzZlkwVU1pTjBQ?=
+ =?utf-8?B?WVIzL2JTK2tSRUQvMWxGMzRnVU94NURlSUVVM1M1V3ErY0xkUDU4VjhQYTdK?=
+ =?utf-8?B?L0hKMGgxc1FyRFFPdXV0YUNSc2p1TzJFY0cxY0hVR2dyNlFoRHUyNTJOSDhH?=
+ =?utf-8?B?eUlqYTZTTjJBTVRTRHZiUEsyWnczMTExdDFMZlpRdmN5L2d1M0t4a3pqbllw?=
+ =?utf-8?B?UUU1MUppQUZJalkyakZZMEpOeHF0L05yMVpEK0c3bCtzdFRwMTBJdThXc0Vj?=
+ =?utf-8?B?ZmN2L1lwMThmdjRyVmVlK2h0ZDNTMGZwaHdqLzRIUmNwNTdYTkJ1WEpwT3Iy?=
+ =?utf-8?B?Ry9RRGZNUzB3OXpnTml6MVplT2o4RmVQUHlEV2N5TzQxNjNRQUZJMHB3NGtB?=
+ =?utf-8?B?UkY5M3RYdnJJai9pVW5FNy9GckNLMFNLMHVLdndMejlqZnRSRlI3MXlFTTF4?=
+ =?utf-8?B?eFdWb2lBTVp3dWJnYzlNTDR1cm41emhiMDN6ZlE1RXRleC80TXFjVzlNbk0x?=
+ =?utf-8?B?RFRjRkJ2OTBrTk1lY3ZsZWdzeFcvR09TU2E3VXNHY2ZmOXdlZjFpLzIzaGhy?=
+ =?utf-8?B?dmVidlJlcUF0b0w4RDVRcThlVnZGTGtJekxsbk9ra1dxL3FhMkhXUDNzZkww?=
+ =?utf-8?B?djExTzNUaVhlWHJST0dVZjhIMmI1OTUwVE02b0FHZkdyYUwvOGQwekgwaHFB?=
+ =?utf-8?B?UFN3L3QzRW0xUVd4d2lITUZGa0VSZGZlOVlLQUo1TFpMck9jeTFHc2phanlQ?=
+ =?utf-8?B?Mk5YQ2dBYnREM1oxWGdkZmU0MGV6L2ZZV0tHRHo2U2hlWEltWGtYbUlRdkwy?=
+ =?utf-8?B?ZHBlT3RRNGZ3M0VGenJYczRTZ2RRT01MZW1WNGJFazI1YnBsWXd4MDVzRlZl?=
+ =?utf-8?B?dXc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4a21d44-e160-497b-610c-08ddfaa24331
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 13:06:53.5640
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2025 13:08:17.7142
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0yEDBIZWzvexQIZ/BatADCsLvhORQU13BJz6J0oHY1vDaaRO6JS8vQ9pldvR2bW4h+PLzJuGFn9CuW2xudWspkPjyVhCxsy53D+XIp7WCSk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8511
+X-MS-Exchange-CrossTenant-UserPrincipalName: foFLYAE5HJ/DNEuoCY5NuBSWDVjwsGPIKlUqTJkAkYI01z/zuOC9uCcPQ3X5F0V2xsPlVRyJTbLUEoNplE0VnVIo4+Am8cKhlea2kasBhLY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5277
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDEyMSBTYWx0ZWRfX1v8Z9rCtMHVi
+ CHNbsmjboEvoq+L6tTTKupT/cZVX/ugYVK23oo/Xzot7kEFsYRSuvf4sNM8f0eGmS5jltHJwupc
+ CyzRh34u0LHVrBWaQEqeatTn0eSd/QeY5YaE+FbiPpGjN3BO7eRoVbmdiVfB/ecHh07MIe17EfD
+ 4XgDL6KHz0qmvYfIs1Q8a2N+Av/lenIrslF/wO8OQqc7dkLijpbvO+JiQ2dLOL4MqaRbwtcgYIq
+ 1vbR5Vlh6Z28QzSjc2morDTWVlfoZFPJ/Y9CPloxAI/CDcRP+sWNFbXvuDcauTpuyZ3WcjjJajf
+ lnaFMWXijvkxFUltRsnJMGCZMljt6qMbSy7Ew90KIBXc8x7/N9WXyZ/a1mqav8=
+X-Authority-Analysis: v=2.4 cv=btpMBFai c=1 sm=1 tr=0 ts=68d29bc5 cx=c_pps
+ a=CfFGriBY15yWSKnMtEY+og==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8
+ a=Q4-j1AaZAAAA:8 a=2BYrlvPEXFgAfg36SmkA:9 a=QEXdDO2ut3YA:10 a=pGLkceISAAAA:8
+ a=DJuZ4nUg5rC9E1TYpr8A:9 a=phw4HXlrNj4NkLT1:21 a=_W_S_7VecoQA:10
+ a=lqcHg5cX4UMA:10 a=FdTzh2GWekK77mhwV6Dw:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: cGQ69n49nmxIU0ez-d36zwXBhZg2UFP3
+X-Proofpoint-ORIG-GUID: oIZcq3WwdMU1I0nK2QGMVfizkjTBnTAP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-23_02,2025-09-22_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0 clxscore=1015
+ phishscore=0 suspectscore=0 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 13:07:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223876
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 13:08:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223877
 
-On 9/23/25 2:36 PM, Tudor Ambarus wrote:
->=20
->=20
-> On 9/23/25 1:29 PM, Quentin Schulz wrote:
->> Hi Tudor,
->=20
-> Hi!
->=20
->>
->> On 9/18/25 3:01 PM, Tudor Ambarus via lists.openembedded.org wrote:
->>> [You don't often get email from tudor.ambarus=3Dlinaro.org@lists.openem=
-bedded.org. Learn why this is important at https://aka.ms/LearnAboutSenderI=
-dentification ]
->>>
->>> The pixel6 kernel build fails with "lz4: command not found"
->>> when KERNEL_IMAGETYPE is set to `Image.lz4`.
->>>
->>> Upstream commit 0c7dc5bae1 ("bitbake.conf: Drop lz4 from HOSTTOOLS")
->>> dropped lz4 from the global `HOSTTOOLS` variable. This meant that
->>> the lz4 binary was no longer automatically provided to build tasks,
->>> causing the compilation to fail.
->>>
->>> Add a conditional dependency on `lz4-native` directly to
->>> `kernel.bbclass`. It ties the dependency directly to the image type
->>> that requires it, making the build more robust.
->>>
->>> Suggested-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org>
->>> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
->>> ---
->>>  =C2=A0 meta/classes-recipe/kernel.bbclass | 1 +
->>>  =C2=A0 1 file changed, 1 insertion(+)
->>>
->>> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/k=
-ernel.bbclass
->>> index eb03424dfc3e023842f7b67ef47468210af72cd1..003a155e794388efd3fa29c=
-2c946b18542f4cef8 100644
->>> --- a/meta/classes-recipe/kernel.bbclass
->>> +++ b/meta/classes-recipe/kernel.bbclass
->>> @@ -20,6 +20,7 @@ DEPENDS +=3D "virtual/cross-binutils virtual/cross-cc=
- kmod-native bc-native bison-
->>>  =C2=A0 DEPENDS +=3D "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.l=
-zo", "lzop-native", "", d)}"
->>>  =C2=A0 DEPENDS +=3D "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.l=
-z4", "lz4-native", "", d)}"
->>>  =C2=A0 DEPENDS +=3D "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.z=
-st", "zstd-native", "", d)}"
->>> +DEPENDS +=3D "${@bb.utils.contains("KERNEL_IMAGETYPES", "Image.lz4", "=
-lz4-native", "", d)}"
->>
->> There's also gzip, lzo, lzma and xz support for aarch32 per arch/arm/boo=
-t/compressed/Makefile.
->>
->> Additionally also bz2, zst and fit for Aarch64 per arch/arm64/boot/Makef=
-ile.
->>
->> What about adding those as well so we cover everything?
->>
->=20
-> I guess that would be alright, but maybe in a different patch? This one
-> adds back something that worked before, but no longer works, the others
-> are an extension maybe?
->=20
+--------------F3PmzR1Ljakg5HJWI2XgEXtY
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Indeed, I read a bit too fast the commit log :)
+On 2025-09-23 4:14 a.m., Alexander Kanavin wrote:
+> On Tue, 23 Sept 2025 at 02:52, Randy MacLeod via
+> lists.openembedded.org
+> <randy.macleod=windriver.com@lists.openembedded.org> wrote:
+>> +# pma adds AGPL license
+>> +LICENSE:append = " ${@bb.utils.contains('PACKAGECONFIG', 'pma', ' & AGPL-3.0-or-later', '', d)}"
+>> +LIC_FILES_CHKSUM:append = " ${@bb.utils.contains('PACKAGECONFIG', 'pma', \
+>> +    'file://support/pma.c;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19 \
+>> +file://support/pma.h;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19', '', d) \
+>> +}"
+> This is incorrect, and has already been discussed in a similar patch.
+Ah, I had missed Robert's email since I wasn't CCed:
 
-In any case, the patch is already merged so it's necessarily in a new=20
-patch :)
+https://lore.kernel.org/openembedded-core/cover.1758264088.git.liezhi.yang@windriver.com/
 
-Cheers,
-Quentin
+
+> LICENSE is for the source code license, and should be set
+> unconditionally regardless of whether pma is enabled. Then you can set
+> licenses for particular binary packages subject to whether pma is
+> enabled or not.
+I don't think that rule/guideline applies here since pma.o is added or 
+excluded from
+being linked with the main gawk binary based on the outcome of configure.
+That's now determined by what PACKAGECONFIG is set, so one or both 
+licenses applies to the gawk binary.
+There is no separate binary produced using uses pma.o unlike the cairo 
+case that
+
+
+Do we really want:
+LICENSE = "GPL-3.0-or-later & AGPL-3.0-or-later"
+LICENSE:${PN} = "GPL-3.0-or-later"
+LICENSE${PN}:append = " ${@bb.utils.contains('PACKAGECONFIG', 'pma', ' & 
+AGPL-3.0-or-later', '', d)}"
+
+?
+
+../Randy
+
+
+
+>
+> Alex
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
+
+--------------F3PmzR1Ljakg5HJWI2XgEXtY
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 2025-09-23 4:14 a.m., Alexander
+      Kanavin wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:CANNYZj8xQKdfsJQP-r_qAEqYFHCnzZVCC_NLHbX6yFj1OU7mZw@mail.gmail.com">
+      <pre wrap="" class="moz-quote-pre">On Tue, 23 Sept 2025 at 02:52, Randy MacLeod via
+lists.openembedded.org
+<a class="moz-txt-link-rfc2396E" href="mailto:randy.macleod=windriver.com@lists.openembedded.org">&lt;randy.macleod=windriver.com@lists.openembedded.org&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">+# pma adds AGPL license
++LICENSE:append = &quot; ${@bb.utils.contains('PACKAGECONFIG', 'pma', ' &amp; AGPL-3.0-or-later', '', d)}&quot;
++LIC_FILES_CHKSUM:append = &quot; ${@bb.utils.contains('PACKAGECONFIG', 'pma', \
++    '<a class="moz-txt-link-freetext" href="file://support/pma.c;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19">file://support/pma.c;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19</a> \
++     <a class="moz-txt-link-freetext" href="file://support/pma.h;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19">file://support/pma.h;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19</a>', '', d) \
++}&quot;
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">This is incorrect, and has already been discussed in a similar patch.</pre>
+    </blockquote>
+    Ah, I had missed Robert's email since I wasn't CCed:<br>
+    <br>
+<a class="moz-txt-link-freetext" href="https://lore.kernel.org/openembedded-core/cover.1758264088.git.liezhi.yang@windriver.com/">https://lore.kernel.org/openembedded-core/cover.1758264088.git.liezhi.yang@windriver.com/</a><br>
+    <br>
+    <br>
+    <blockquote type="cite" cite="mid:CANNYZj8xQKdfsJQP-r_qAEqYFHCnzZVCC_NLHbX6yFj1OU7mZw@mail.gmail.com">
+      <pre wrap="" class="moz-quote-pre">
+LICENSE is for the source code license, and should be set
+unconditionally regardless of whether pma is enabled. Then you can set
+licenses for particular binary packages subject to whether pma is
+enabled or not.</pre>
+    </blockquote>
+    I don't think that rule/guideline applies here since pma.o is added
+    or excluded from<br>
+    being linked with the main gawk binary based on the outcome of
+    configure. <br>
+    That's now determined by what PACKAGECONFIG is set, so one or both
+    licenses applies to the gawk binary. <br>
+    There is no separate binary produced using uses pma.o unlike the
+    cairo case that <br>
+    <p><br>
+      Do we really want:<br>
+      LICENSE = &quot;GPL-3.0-or-later &amp; AGPL-3.0-or-later&quot;<br>
+      LICENSE:${PN} = &quot;GPL-3.0-or-later&quot;<br>
+      <span style="white-space: pre-wrap">LICENSE${PN}:append = &quot; ${@bb.utils.contains('PACKAGECONFIG', 'pma', ' &amp; AGPL-3.0-or-later', '', d)}&quot;</span></p>
+    <p>?<br>
+    </p>
+    <p>../Randy</p>
+    <p><br>
+      <br>
+    </p>
+    <blockquote type="cite" cite="mid:CANNYZj8xQKdfsJQP-r_qAEqYFHCnzZVCC_NLHbX6yFj1OU7mZw@mail.gmail.com">
+      <pre wrap="" class="moz-quote-pre">
+
+Alex
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------F3PmzR1Ljakg5HJWI2XgEXtY--
 
