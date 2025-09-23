@@ -1,138 +1,88 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD1D2CAC5A7
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 16:22:21 +0000 (UTC)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
- by mx.groups.io with SMTP id smtpd.web11.1938.1758644533702058857
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCBC6CAC5A7
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 16:28:41 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.2093.1758644915622056177
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 09:22:13 -0700
+ Tue, 23 Sep 2025 09:28:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eu4eOYMK;
- spf=pass (domain: gmail.com, ip: 209.85.219.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-ea5aa2fdac8so5159220276.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 09:22:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KAwmv5s/;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b2bddecc51aso395954066b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 09:28:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758644533; x=1759249333; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cxJraiZkhJwlmkFhu1G6kBRIIbB0oBKeC/n0GVdriUU=;
-        b=eu4eOYMKfhb5nrt0KTLW7t+/GT6AE4BCXO6/6dfe563pG/N78fBiJTZheBeBWs6h/Z
-         odD8D3B0wKJ7a0oXq9xPKNvcmhbj9+zPz0lG7BR/Wm6gulPEa3+SojLcWeCmb0kTt8Z0
-         NSB8dWOiQSdu/xuYP+3GMHcMGZQtQUv7a28tlHSdJuKCyGYlsdGJlVVhF7Qd+Ap4bCar
-         oJHGMiuCMvOwaBj9pR0A+pjHOqcP31Fd8gmiTDXaaW8crJHvva+65xY4wM3QaXy9cjeA
-         qtmc0EQj/YV1J7eA5u3vdMTZzzf0pyHvNL8TWp5mXedTGTxJyYYmkEfM/rR12rbvSjur
-         Gfmw==
+        d=gmail.com; s=20230601; t=1758644914; x=1759249714; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r9iAkw3t0+Er8FtOKTk4CeY1SoTfLDWD38uYjnf9TWA=;
+        b=KAwmv5s/v1+AridwIyXTcz34ype1KHnIZr4vd74NeQpLPrUmT1Qi+KrhaPKswyQex7
+         BTUdHi+5H7vbacBWKFXU5oQD/a9csdsm47ezYwqmpd00mm92BKa+tLhkv3Lwvqh0zg7t
+         XlddKnEnVKhC7sd6RWsp8Wluu48TY2IE68IFB3PtVuymyjWJgAfkkY/3Ge70J1DR/3Pg
+         /iyMsXwEYXDkcW7A0tACuqpXSoJBoxpbQTRgzaYSqoIL21dduS0C9VvI5/iM7esA5mr/
+         IlFlBjXjRNFOQ7iAl7t0L9UWN515Fvcqi7ZVmYr0dTRvOrPGjs3xtacoc5jJHKNOZvhD
+         X/OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758644533; x=1759249333;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cxJraiZkhJwlmkFhu1G6kBRIIbB0oBKeC/n0GVdriUU=;
-        b=KA70efSE7IJM+kkhxytx3gbkLA4HZo9kvFKS5zb4bxG0bPpGPFrIPoXU2Byl/5VMJT
-         C48fNwgKMwfPpvlSqmCOQTSbB0zCnsq2Igvcn+8zXMWGD/kidOvWj0WW9jSBQsAQ9+2y
-         Xu9I704vK1yB/mzs7tMcVGP8foT7CtTeLZ9pnzVP/mRXJo+KkO207d7xn4EFiE4IQEQR
-         76E3IMNnVqjqqlxnmxjkBhlkRYxoxyP3yV0qm17EHsxCEviwuo0wVhZ/89TkZbZc9huq
-         CHFShRxyPJrS6hwnXYEXfJTPNm+1tOSoxobFENEeGeBvy2qF5G8dKT3DHVVWLSGjLexj
-         HtrQ==
-X-Gm-Message-State: AOJu0YxFIUU/t2GROSCAcLrhhPHnAxhvAkK3kQISFMsz+O04WZH6zno1
-	eKGn27z2m2zrxvwVI1DkBmnJmQXtCwQjRNNC6167BS+g1TQw0orXiRdodKzhDhAUVSr87ka2c7O
-	E5P7NzYlHtprUniieMqap5cgQZE1jbtrzKtvqfR4=
-X-Gm-Gg: ASbGncs/ttaGqD47MI9fp8V6Tp8hIN0W8T8fxxNcTDqVLgYB5FMK7z1Nozq+uDDsO8r
-	B3n2tG/0hQsLvlvdV4S9jgW8VnsULbYI+DCFyGxL0Tv0JeqJC+lcDoZlnIoiQVVudvik6ut5Ph3
-	ErfDEUosUoSOOKISXQ0lYm+ERDBGXGwyGVFlSs49hO4iZMdDYFuYxAOmM7qcWlNn2G8iDvOCuWe
-	j2Toz6i6lyqktb1TqlZ5aB9jXe1CIqmrVBFk/SVgmCP5w7nFd8E3rueiAxLkXnF3yJIlIZWYQ5Y
-	jUqXDNg37TnN1JbCpXbxVXA=
-X-Google-Smtp-Source: AGHT+IGnpSjjG6GEn7Z37RfXYnVwz29vEqJlMsV8rFD+EoRPl/pHKifSo6OenqnvZFPdacpvP5Hzh1PlBbPb7QOpiKs=
-X-Received: by 2002:a05:6902:4408:b0:ea4:1741:10af with SMTP id
- 3f1490d57ef6-eb32fda9cf6mr2468859276.29.1758644532696; Tue, 23 Sep 2025
- 09:22:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758644914; x=1759249714;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r9iAkw3t0+Er8FtOKTk4CeY1SoTfLDWD38uYjnf9TWA=;
+        b=h+SFjKySWJ72OOlMKoRVCGCOCTYtMfgYdFDsVhkmuPQlGTzycKUMs3Audm6ghXMA/+
+         Xv31GVAPi9OKmFy3cYNQdEHuBu4Y1EiRFXPT7NfISvGUsIReuM2MdmNRnBQoXG7fsgdj
+         W34CpXWGUn3GBY61QRO8G/00c9+KsdKnq1SnIJKIncNztINCrqesDJ3AaPbXWY8XPS6H
+         lOB5QGHY6y9iyW2/7sh+9mJKGhuKAfdtG1vuUDTPRJMnGaFUIeC0eMST8hlZ7huEegtB
+         uDTDYxarj4PeC84Wdz64P/hfBziiDa1Aas1xtPdj7f8vP/nQUWmc9bGtEZesMiHBYeet
+         qqzQ==
+X-Gm-Message-State: AOJu0YxlMplmM8v9rlnu9siUSXOkiH3BU2UGyrXOQJEJUMCKZCjpE8wV
+	l90am3oAsvz97nii0LpE0qrBj+KiTKQy8Mg+6iM2bnflnPy3tTW3pvZV
+X-Gm-Gg: ASbGncsp/gUGoA3+TgHBJL+NV4oncBwqxw/ma7eq/Ms5MDA+c7HoTFIz6vl0mLNOiDT
+	reHxPh0wzXtgPnvr99iocDeH0PjCmJhIj7D42v3oD4giJJJWDLe/Ogd0yFrJLEZyRcznjccLvg7
+	hFOqMNKgtcMTJdJyXFX9PZuPtpO3C7LQlWvcnV3F4MyXIlfEYry+XBJZ4IkKOhkn/MP+Z5Jqhfu
+	QUsaqARZdRJUTCf+RBw1zJemcW1OHfOz4jGNuu+3c8PdhNcfNorG/gvL4I77Y2T1dGbcY7sb66O
+	DjSderfLWUn2udCPMrwc6R5UhE53jkk40MuQbQv2s7akkpKjPGHRZmrQxhGSCfZG6srzwY5Unkr
+	KEw5FlPr+HqXm2FSnCUTdJ+8Tsx4qM8Y=
+X-Google-Smtp-Source: AGHT+IGN3x96b7cMa3GnVNV6jFclUIlLrqci0c5QWihqExPa2vwsjMG3kMgOuxoDg76aiuDadWB2Lw==
+X-Received: by 2002:a17:907:72c6:b0:b2e:34f1:9ddc with SMTP id a640c23a62f3a-b30272604c1mr317307166b.15.1758644913853;
+        Tue, 23 Sep 2025 09:28:33 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b2d4309ab9asm443972166b.74.2025.09.23.09.28.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Sep 2025 09:28:33 -0700 (PDT)
+Message-ID: <947d1c8d-1a45-453c-8049-bd0ec4fcd1ee@gmail.com>
+Date: Tue, 23 Sep 2025 18:28:32 +0200
 MIME-Version: 1.0
-References: <a6ccd7f6-effb-4cc3-803e-faf6a9d52b2d@collabora.co.uk>
-In-Reply-To: <a6ccd7f6-effb-4cc3-803e-faf6a9d52b2d@collabora.co.uk>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 23 Sep 2025 09:21:46 -0700
-X-Gm-Features: AS18NWBX3Ja8B1yS7qkeuT-YcMKTb5Q1vIBC6FfKzPT7xxpV-Ij_qlpoTvZG724
-Message-ID: <CAMKF1srKh7HDCNCuCwJ9BWgyHCtiZkmbLFsGy=_o45JkuiubVA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] pseudo FTBFS on 32-bit arm{el,hf} on Debian
-To: andrew.shadura@collabora.co.uk
+To: alex.kanavin@gmail.com, Andrej Shadura <andrew.shadura@collabora.co.uk>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <a6ccd7f6-effb-4cc3-803e-faf6a9d52b2d@collabora.co.uk>
+ <CANNYZj_AfcRqE0sOpkfOizCVwPHq2OPbhTgVxTMomvDeHsr5ig@mail.gmail.com>
+ <86472a10-6e12-47ed-83e5-e0842ece9849@collabora.co.uk>
+ <CANNYZj-9bhX_v4ts=-xDpzBaGKZXDmuosNQW8DTDL_gCaT_nNQ@mail.gmail.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <CANNYZj-9bhX_v4ts=-xDpzBaGKZXDmuosNQW8DTDL_gCaT_nNQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 16:22:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223903
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 16:28:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223904
 
-On Tue, Sep 23, 2025 at 12:23=E2=80=AFAM Andrej Shadura via
-lists.openembedded.org
-<andrew.shadura=3Dcollabora.co.uk@lists.openembedded.org> wrote:
+On 9/23/25 17:46, Alexander Kanavin via lists.openembedded.org wrote:
+> So I'm not sure what the difference is. Can you share the full log, or
+> a tarball of the source/build directory?
 >
-> Hello,
->
-> pseudo no longer buildable on armel and armhf in Debian, as well as on
-> other non-i386 32-bit architectures. The common thing they share is that
-> they have all switched to 64 time recently.
->
-> >     pseudo_db.o pseudo_tables.o pseudo_util.o -Wl,-z,relro -lsqlite3 -l=
-pthread -ldl -lpthread
-> > {standard input}: Assembler messages:
-> > {standard input}:26700: Error: symbol `open64' is already defined
-> > {standard input}:27909: Error: symbol `openat64' is already defined
-> > {standard input}:38225: Error: symbol `__openat64_2' is already defined
-> > {standard input}:49933: Error: symbol `creat64' is already defined
-> > {standard input}:59933: Error: symbol `__fcntl_time64' is already defin=
-ed
-> > {standard input}:63000: Error: symbol `fopen64' is already defined
-> > {standard input}:64806: Error: symbol `freopen64' is already defined
-> > {standard input}:66053: Error: symbol `__fstat64_time64' is already def=
-ined
-> > {standard input}:67392: Error: symbol `__fstatat64_time64' is already d=
-efined
-> > {standard input}:69921: Error: symbol `__ftw64_time64' is already defin=
-ed
-> > {standard input}:78178: Error: symbol `__glob64_time64' is already defi=
-ned
-> > {standard input}:85034: Error: symbol `__lstat64_time64' is already def=
-ined
-> > {standard input}:93605: Error: symbol `mkostemp64' is already defined
-> > {standard input}:95360: Error: symbol `mkstemp64' is already defined
-> > {standard input}:98362: Error: symbol `__nftw64_time64' is already defi=
-ned
-> > {standard input}:104764: Error: symbol `scandir64' is already defined
-> > {standard input}:123344: Error: symbol `__stat64_time64' is already def=
-ined
-> > {standard input}:130262: Error: symbol `truncate64' is already defined
-> > make[1]: *** [Makefile:157: pseudo_wrappers.o] Error 1
->
-> Unfortunately, I don=E2=80=99t know how to make pseudo compatible with su=
-ch a
-> setup. Any hints?
->
-> Thanks in advance.
->
-> P.S. You can find more logs at <https://bugs.debian.org/1069487>.
 
-Would it be possible to generate a preprocessed file for pseudo_wrappers.c
-and post it somewhere ?
+If you are using a debian based machine, you can do
 
->
-> --
-> Cheers,
->    Andrej
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#223867): https://lists.openembedded.org/g/openembedde=
-d-core/message/223867
-> Mute This Topic: https://lists.openembedded.org/mt/115390427/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+sudo apt install devscripts
+getbuildlog pseudo last
+
+This will pull their last build logs, including the failed ones too.
 
