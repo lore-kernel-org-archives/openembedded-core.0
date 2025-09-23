@@ -1,93 +1,311 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C0BACAC5A5
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 21:09:23 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.92.1758661762573005843
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED48FCAC5A5
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 22:41:53 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.1893.1758667309109736855
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 14:09:22 -0700
+ Tue, 23 Sep 2025 15:41:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XM2PpTrm;
- spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-77d94c6562fso6088018b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 14:09:22 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EwE3GtuD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-46c889b310dso3083225e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 15:41:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758661762; x=1759266562; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DYkd/85Uk7DfrWJxYQC+C4ACxfbLsVZJ0wjtrM5LJ00=;
-        b=XM2PpTrmK5CfBFTbHxE5HiGFTPd6fj/yNPrinNRpWH0RfFk5Cic2t1UpGcoLXdttJ6
-         kjEtjzD4xA1DRk/UGyR/QqsfSepUC4326UQtWOeP60sxK+yoXwHB2hcMwd0t4/0MdSr7
-         U3kpmHcxS0MAbQqqYbg+umi4UWcuXZlKufDjYmO4muYiX4H1W0uL80/6lqpp5SYTAlcX
-         mwmpEs1mvnbjI2OYfe6RTs7YEfA7S6bdqIUg/3kJgHmG4v3If3Ecr2YYe2oTxvqarXwr
-         ZILq0vegwpNjwP/NfNrsRgQHTJHmY9X9p10Sq5XQRGDwld73+K2I0wt1PVRS1tO5NH0/
-         suyA==
+        d=linuxfoundation.org; s=google; t=1758667307; x=1759272107; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/fV6aGKCAVKMCcx+hWlRLX8nBssKK0s/NRiioLtTpq4=;
+        b=EwE3GtuDfMDtZuQEEzlAFL+5tyAqYFa4yQtS/G/SNtttvgqzRGC81zjQtj1S6q5SAw
+         TSc4Pi8yjU0pBxsniKOhbY2wo0XsrZmjCmqLELM6MEf4nCNfqkQIsiaxXf+HQJGLj20+
+         Z9kLUXLlVD9PCWOHVGqKfJUFjVHdo0oP+7fXU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758661762; x=1759266562;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DYkd/85Uk7DfrWJxYQC+C4ACxfbLsVZJ0wjtrM5LJ00=;
-        b=L8cvn4UoeKPVS5gkNTY+gTxmOsYAOUDfRmm75xHHenXWi9G8ddwdXfPGmdqYF1ZoA/
-         uzGxoOpzjH3gKaOCKaKDUKEowStnS9x01zzDtjERrTYmaOk98E55XpXkDZaoMiKFzIpd
-         Fhi+k2tuMiAPf2/7mQ1sq4sHBckabJ05rjJdQ8TtAeDSeYEhws47D/TvClFpyyxHht0y
-         rHm828v6k9mQZWM4noEChld94Hl7n6cNdUYpA0kpvgaBV91XW/tSH6utU5jgyEUIEaLz
-         K4uBxChnfcee04xYoNQH9+ZJbpMl6aIVenMEhdLGzosCwpzEZPjZuWhlYBTODpnWu7ZT
-         jbjA==
-X-Gm-Message-State: AOJu0YyA2YrR6yyP+iXeMXplCAA4LMeCuzdBHQFXzF9xH3W7PVi0cYvq
-	xgVeP4oZRl3zwHy5eRuT9s9nbUd8of0S8wtzkto/XDgSvG8y3RfXvA7jr8xHCUAB
-X-Gm-Gg: ASbGncunE8LxWF0HcGp95dkQ4G4u1aoSbcRuVK9Ca3gMNPSguFw2RP/ZqCqexr9BtjA
-	ZTrKqrqcD9uQhaF7njV3DUu77M9tdSLdxtgpFPJXrgDtmoL0W7+jwc54GfLcF756oJoAyQOi+/o
-	RiJnHz4k4hzLmRYiqcfjRqLKOLQdUnsPqZ55JNateahof7Dj16ryLX3ONy5FCdt43KFU9CplzVD
-	cOR6O2fGDfWZn2MTtAHjlWCiT3HHk+bq3mmeZ1I1k/6jRwyMvu9sA3ob5phLF4C45Zc5mkmQKUK
-	n5y6pbn3oHAWPv2Eya5vTyc7DVIlh+R6PsY0I6TOEqll64SXnbWiJjNn337WulT/M4cgVW3O5nk
-	cGNkLyPJ3SUcid8EfcLwn+adhT3TjmSIha9JuRYTZ9JbHx59PAQ7eNYAa4/le7FiOhpFaDXephu
-	XDvgKWhYcAJq5aTNUnnhgD7GiUaS6T32gEoV8QLDWZ
-X-Google-Smtp-Source: AGHT+IFBzAxDKSBOx2L8euGPwXeWS4AB/D8thTuX8nEneCghSYD7+Jnj99RO6pb6p9oEiJI/A+ohCw==
-X-Received: by 2002:a05:6a20:3d0a:b0:2c9:1323:f800 with SMTP id adf61e73a8af0-2d0008e9840mr4609869637.9.1758661761677;
-        Tue, 23 Sep 2025 14:09:21 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::7309])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f4594a76bsm5331103b3a.62.2025.09.23.14.09.20
+        d=1e100.net; s=20230601; t=1758667307; x=1759272107;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/fV6aGKCAVKMCcx+hWlRLX8nBssKK0s/NRiioLtTpq4=;
+        b=pqAHyR1jaCEcg4DuFQB+mgFY0Xb71x+pzAWKBULX7Omh6d6Kc2JXL1oGzC8yXhf6//
+         1N2R/v+vgTZAEu/gojRcEQ6caDjsN5Uzj8No4paNv1035KF8pyaLAF2wFIQGOQqpXuUN
+         ZkC++nBc8nytDSgUNpfAEmuVaqCWKvI8hNGogFaudgrzCDHPrRN9c2Jm+vDl8Z/5IldN
+         HpjAv65qgsyPIxj/aocY6yRAVtXmzjLT9FKc7e6682HvzCqBpG+rawLdl4MKci97I6EE
+         /gAUrhXaU+EtsVVFS+wxHQdeScOpiYwenUnvXvzDNRCTOVFeibAJVeODtC/D73ysWP5U
+         Ev9w==
+X-Gm-Message-State: AOJu0YzhMNGT8un7Rdx84UwUTp2rnym4O25iRtjaP4kLu8NBTszoIJce
+	VNVJqiUBdDfA1/S0ZmXi5uqWKRuM8dsQoyjC6+OqJU98S48ysSb3Cqclea2w4HT0HVo=
+X-Gm-Gg: ASbGnctuTjPdosvQPDnk7LGvfEf6lFmD/2gitPY4tJbQ4TAetZx8RQmh7AZUhibCpVb
+	dCtV86BhUFGpwYkRFA7GqhpiO733KnsfXWDQUFTatF/LCESULLydfEugJ1tJVYGL8dQhnzlmS5W
+	HUS5zIz89I2A48phWYpEh/3Mk2RiIt0D+qaf4lVrJDI8Pwftw83Nzl1f9M07W51sK2kF6znDL8b
+	whZ/dMrwvukKrsP7Xz0j/DEFnp4y1chlhnsSvUEya6zsJv1lmn/KpFjFFQHGHjKHcQ8ixTXxxcD
+	nOn7cDm0gPdxTjuAL9s+F9DYN6Kuxj/D4LhVUvAy5iGwByI5i60EdRrnrIWlus8YHMXUqKJ/m2j
+	CzSqYQU6j+b7Ov87Jlb40TTzAlqe2NZmxIUmU/B3hdZot+J0+Qk4Ozjv38jzMAhA378+cMtxcfa
+	G7UtyeKs9gmzU=
+X-Google-Smtp-Source: AGHT+IHdZ6CCNmAjilAxefgdbXWotfwXyDMahKths8sTUvy/Y8F31tDXEqhGOckjdQHnkOSqy5nI7A==
+X-Received: by 2002:a05:600c:4204:b0:46e:24a4:c247 with SMTP id 5b1f17b1804b1-46e2b52efc8mr1402285e9.5.1758667307359;
+        Tue, 23 Sep 2025 15:41:47 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5838:93cb:ccd2:5e08? ([2001:8b0:aba:5f3c:5838:93cb:ccd2:5e08])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e1daa4a4fsm26815365e9.1.2025.09.23.15.41.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Sep 2025 14:09:21 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] bitbake.conf: Filter in ld-is-lld to nativesdk recipes
-Date: Tue, 23 Sep 2025 14:09:19 -0700
-Message-ID: <20250923210919.3708631-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        Tue, 23 Sep 2025 15:41:46 -0700 (PDT)
+Message-ID: <a3a453a9648aa9e4589d93c1a7e197a8425c7cd6.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCHv9 0/6] Display manager proposal for x11 and
+ wayland
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randolph Sapp <rs@ti.com>, Mathieu Dubois-Briand	
+ <mathieu.dubois-briand@bootlin.com>, ross.burton@arm.com,
+ alex@linutronix.de, 	otavio@ossystems.com.br, kexin.hao@windriver.com,
+ afd@ti.com, detheridge@ti.com, 	denis@denix.org, reatmon@ti.com
+Cc: openembedded-core@lists.openembedded.org, vijayp@ti.com
+Date: Tue, 23 Sep 2025 23:41:42 +0100
+In-Reply-To: <DD0DMJUIN3JE.1Z24P0IZR2CFL@ti.com>
+References: <20250918214903.341452-1-rs@ti.com>
+	 <DCYH5V5GB1LB.1KAPRIVKZGTWO@bootlin.com>
+	 <1867B951D10D3F9C.23856@lists.openembedded.org>
+	 <1867BAF5F353054B.23856@lists.openembedded.org>
+	 <DCZPMZBQPTOP.2OZDXN58O263N@ti.com>
+	 <cee4b39698f8607acf3f396e06d94a713a66d134.camel@linuxfoundation.org>
+	 <1867FB133639FF67.16927@lists.openembedded.org>
+	 <DD0DMJUIN3JE.1Z24P0IZR2CFL@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 21:09:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223928
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 22:41:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223929
 
-when DISTRO_FEATURES have ld-is-lld, the intent is to use
-it as default not only for target builds but also for SDKs
-which is generated. Therefore this feature should be applied
-to nativesdk sub-system when it is specified as distro policy
+On Tue, 2025-09-23 at 13:04 -0500, Randolph Sapp wrote:
+> On Tue Sep 23, 2025 at 12:56 PM CDT, Randolph Sapp via
+> lists.openembedded.org wrote:
+> > On Tue Sep 23, 2025 at 4:03 AM CDT, Richard Purdie wrote:
+> > > On Mon, 2025-09-22 at 18:16 -0500, Randolph Sapp wrote:
+> > > > On Mon Sep 22, 2025 at 5:21 PM CDT, Randolph Sapp via
+> > > > lists.openembedded.org wrote:
+> > > > > On Mon Sep 22, 2025 at 4:51 PM CDT, Randolph Sapp via
+> > > > > lists.openembedded.org wrote:
+> > > > > > On Sun Sep 21, 2025 at 7:25 AM CDT, Mathieu Dubois-Briand
+> > > > > > wrote:
+> > > > > > > On Thu Sep 18, 2025 at 11:48 PM CEST, rs wrote:
+> > > > > > > > From: Randolph Sapp <rs@ti.com>
+> > > > > > > >=20
+> > > > > > > > We've recently run into some issues with weston-init
+> > > > > > > > attempting to start Weston
+> > > > > > > > prior to all drm devices being registered. There's not
+> > > > > > > > really a good, scriptable
+> > > > > > > > mechanism to listen in to device registration events
+> > > > > > > > that works with the
+> > > > > > > > existing weston-init package. Well, at least one that
+> > > > > > > > doesn't involve polling
+> > > > > > > > files or introducing more dependency on the init system
+> > > > > > > > being used.
+> > > > > > > >=20
+> > > > > > > > I also see there is also a lot of scripting around
+> > > > > > > > starting X11,
+> > > > > > > > xserver-nodm-init, that (from my limited review) should
+> > > > > > > > experience the same
+> > > > > > > > issue.
+> > > > > > > >=20
+> > > > > > > > I'd like to introduce the following display manager for
+> > > > > > > > oe-core, emptty [1].
+> > > > > > > > This display manager is, as described upstream, a "Dead
+> > > > > > > > simple CLI Display
+> > > > > > > > Manager on TTY". It supports both x11 and wayland
+> > > > > > > > sessions, with togglable build
+> > > > > > > > parameters to completely remove x11 and pam
+> > > > > > > > dependencies. It's licensed MIT,
+> > > > > > > > which shouldn't be an issue for any users. (It is
+> > > > > > > > written in Go, if you have
+> > > > > > > > opinions about that.)
+> > > > > > > >=20
+> > > > > > > > With this, both weston-init and the xserver-nodm-init
+> > > > > > > > packages can be re-tuned
+> > > > > > > > to leverage this display manager and simply add a user
+> > > > > > > > and emptty config for an
+> > > > > > > > autologin session. This can resolve the current
+> > > > > > > > behavior across init systems
+> > > > > > > > without additional scripting, and move some development
+> > > > > > > > out of this layer.
+> > > > > > > >=20
+> > > > > > > > This lists myself as a maintainer of emptty as well as
+> > > > > > > > xserver-nodm-init and
+> > > > > > > > xuser-account since these are currently unassigned and
+> > > > > > > > I've reworked them
+> > > > > > > > significantly here.
+> > > > > > > >=20
+> > > > > > > > Sorry for the delay on this series. I found a few bugs
+> > > > > > > > in emptty that I wanted
+> > > > > > > > to address before submitting this officially.
+> > > > > > > >=20
+> > > > > > >=20
+> > > > > > > Hi Randolph,
+> > > > > > >=20
+> > > > > > > Thanks for your patch.
+> > > > > > >=20
+> > > > > > > I took this series, but it looks like we have a build
+> > > > > > > issue, maybe only
+> > > > > > > with altcfg distro:
+> > > > > > >=20
+> > > > > > > Traceback (most recent call last):
+> > > > > > > =C2=A0 File "/srv/pokybuild/yocto-worker/qemux86-
+> > > > > > > alt/build/meta/lib/oeqa/core/decorator/__init__.py", line
+> > > > > > > 35, in wrapped_f
+> > > > > > > =C2=A0=C2=A0=C2=A0 return func(*args, **kwargs)
+> > > > > > > =C2=A0 File "/srv/pokybuild/yocto-worker/qemux86-
+> > > > > > > alt/build/meta/lib/oeqa/core/decorator/__init__.py", line
+> > > > > > > 35, in wrapped_f
+> > > > > > > =C2=A0=C2=A0=C2=A0 return func(*args, **kwargs)
+> > > > > > > =C2=A0 File "/srv/pokybuild/yocto-worker/qemux86-
+> > > > > > > alt/build/meta/lib/oeqa/core/decorator/__init__.py", line
+> > > > > > > 35, in wrapped_f
+> > > > > > > =C2=A0=C2=A0=C2=A0 return func(*args, **kwargs)
+> > > > > > > =C2=A0 File "/srv/pokybuild/yocto-worker/qemux86-
+> > > > > > > alt/build/meta/lib/oeqa/runtime/cases/xorg.py", line 31,
+> > > > > > > in test_xorg_running
+> > > > > > > =C2=A0=C2=A0=C2=A0 self.assertEqual(status, 0, msg=3Dmsg)
+> > > > > > > AssertionError: 1 !=3D 0 : Xorg does not appear to be
+> > > > > > > running=C2=A0=C2=A0 PID USER=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 VSZ STAT COMMAND
+> > > > > > > ...
+> > > > > > > 2025/09/21 11:59:34 Closing PAM auth
+> > > > > > > 2025/09/21 11:59:34 Failure setting user credentials
+> > > > > > > 2025/09/21 11:59:34 Authentication failure
+> > > > > > > ...
+> > > > > > > RESULTS - xorg.XorgTest.test_xorg_running: FAILED (1.41s)
+> > > > > > >=20
+> > > > > > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/b=
+uilds/2402
+> > > > > > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/bu=
+ilds/2407
+> > > > > > >=20
+> > > > > > > Can you have a look at it please?
+> > > > > > >=20
+> > > > > > > Thanks,
+> > > > > > > Mathieu
+> > > > > >=20
+> > > > > > In the past auth issues can occur if the user was created
+> > > > > > after the current
+> > > > > > system time (of which the default would be the kernel build
+> > > > > > time if it is unable
+> > > > > > to get a value from NTP).
+> > > > > >=20
+> > > > > > I've already tested this series with an equivalent config
+> > > > > > to poky-altcfg, with
+> > > > > > both root and rootless x11. I reset my cache and did
+> > > > > > another local build to
+> > > > > > match that CICD failure and it still works for me.
+> > > > > >=20
+> > > > > > My local.conf for my test build was:
+> > > > > >=20
+> > > > > > MACHINE ??=3D "qemux86"
+> > > > > > DISTRO ??=3D "poky-altcfg"
+> > > > > > BBMULTICONFIG ?=3D ""
+> > > > > > IMAGE_CLASSES +=3D "testimage"
+> > > > > >=20
+> > > > > > Other variables were dictated by templateconf.cfg:
+> > > > > >=20
+> > > > > > meta-poky/conf/templates/default
+> > > > > >=20
+> > > > > > Is that automation setting anything that could possibly
+> > > > > > play with the build time
+> > > > > > or system time values for the testimage? I'm not seeing
+> > > > > > anything in the logs,
+> > > > > > but I'm also not seeing anything that reports the current
+> > > > > > config outright.
+> > > > > >=20
+> > > > > > I guess I should add some messages for that as part of the
+> > > > > > test function
+> > > > > > regardless.
+> > > > >=20
+> > > > > Whoops, I see the issue now. v10 inbound.
+> > > >=20
+> > > > Well, I know what the issue is, but I guess I should ask how
+> > > > people want to
+> > > > address it. Currently, that test expect a root x11 instance to
+> > > > autostart. I have
+> > > > it attempt to do that currently, and my old test images were
+> > > > being built with
+> > > > "empty-root-password allow-empty-password allow-root-login"
+> > > > features enabled,
+> > > > allowing it to proceed as usual. The password auth is what is
+> > > > currently failing.
+> > > >=20
+> > > > 1. We can do passwordless root auth for these by adjusting the
+> > > > pam rule for
+> > > > emptty to allow auth as root for that application.
+> > > >=20
+> > > > 2. I would suggest that we instead make sure the root user is
+> > > > in the
+> > > > nopasswdlogin group, as it makes it clear that the user has
+> > > > unprotected GUI
+> > > > access.
+> > > >=20
+> > > > I'm not sure either of these should really be allowed in a
+> > > > production
+> > > > environment though. Technically we can disable this behavior
+> > > > outright when
+> > > > ROOTLESS_X is set, but it's still a little odd to me.
+> > > >=20
+> > > > 3. Should the test images explicitly enable the empty-root-
+> > > > password
+> > > > allow-empty-password? That means the x11 test will have to move
+> > > > from an
+> > > > arbitrary runtime test to something like the way locales are
+> > > > currently tested.
+> > > >=20
+> > > > Seems like solution 2 is the easiest and preserves the expected
+> > > > behavior for
+> > > > that test, assuming people are okay with that behavior.
+> > >=20
+> > > Ideally, we'd create a normal user and have the tests use that
+> > > normal
+> > > user. The "root" based tests are historical and were done as
+> > > testing
+> > > something was better than nothing. The world expects better
+> > > security
+> > > practises and it would be good to ideally update the tests to
+> > > better
+> > > match real world usage.
+> > >=20
+> > > I say ideally since I appreciate it sometimes can be too much
+> > > work but
+> > > in this case it might not be, I haven't dug into the details
+> > > though and
+> > > I'm a bit distracted. I just thought that info might be helpful
+> > > for
+> > > direction.
+> > >=20
+> > > Cheers,
+> > >=20
+> > > Richard
+> >=20
+> > Thanks for the feedback Richard. There is currently already an
+> > xuser account
+> > that is pulled in when ROOTLESS_X =3D 0. I assume the default
+> > behavior of x11
+> > running as root is a holdover from that period before rootless x
+> > was possible.
+> >=20
+> > I can rework these tests and drop the root x11 compatibility path
+> > if everyone is
+> > alright with that.
+> >=20
+> > - Randolph
+>=20
+> Ah, should have proof read that a little more.
+> ... when ROOTLESS_X =3D 1 ...
+>=20
+> Point still stands. I'll drop the root x11 path unless anyone
+> objects.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think it works on some architectures but not all so dropping it may
+not be quite that simple.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index eebefc48406..e0f9d59cecd 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -916,7 +916,7 @@ DISTRO_FEATURES_NATIVESDK:mingw32 = "x11 ipv6"
- # Normally target distro features will not be applied to native builds:
- # Native distro features on this list will use the target feature value
- DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opencl opengl wayland"
--DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opencl opengl wayland"
-+DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod ld-is-lld opencl opengl wayland"
- 
- DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
- MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
+Cheers,
+
+Richard
 
