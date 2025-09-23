@@ -1,167 +1,86 @@
-Return-Path: <andrew.shadura@collabora.co.uk>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64EF0CAC5A5
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 07:23:19 +0000 (UTC)
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
- by mx.groups.io with SMTP id smtpd.web11.11098.1758612197895390418
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFEB1CAC5B0
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 08:14:29 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web10.11658.1758615267856574249
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 00:23:18 -0700
+ Tue, 23 Sep 2025 01:14:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: key syntax error: missing public key data" header.i=@collabora.co.uk header.s=mail header.b=agpRR5hU;
- spf=pass (domain: collabora.co.uk, ip: 148.251.105.195, mailfrom: andrew.shadura@collabora.co.uk)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.co.uk;
-	s=mail; t=1758612195;
-	bh=Zc5X0OgNeHHnmsiPzjDiVlV8xrZKpn0zfCpveY565JI=;
-	h=Date:To:From:Subject:From;
-	b=agpRR5hUTwPXOyCRJrJoajnHGf9RlEzIBbMMGwrgixhzFfD8DSpVCJ/t7H/a1VH62
-	 nI+xq97DGs9jxpfp6oZqwdxlrLSnVvgOcmyYPNEqEgaR1wM2aNT1a7BtY4XStG+oV/
-	 sXt6Cnl83MZ0eIPQ+OttfZFF9XNhYWlMXuoc0oAf9PK4HA9+saPrR0ByWYIwKtJGJc
-	 TfavVEG5U+ScX3QLRfhoBqTf24K4n3rndZ+A54nQ8V0gJET/h3703lhlVJedPrK6ds
-	 h/hdjPqJZhGHjIETn+gIrszSSO0i1hIDl9+E9w5p1R5hkRfMpL7WHUjHa9MxBT5mtu
-	 YMcfOpQZwpg4A==
-Received: from [IPV6:2a01:c846:1a49:2b00:2f12:5257:2d0c:3232] (unknown [IPv6:2a01:c846:1a49:2b00:2f12:5257:2d0c:3232])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrewsh)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5148617E12C1
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 09:23:15 +0200 (CEST)
-Message-ID: <a6ccd7f6-effb-4cc3-803e-faf6a9d52b2d@collabora.co.uk>
-Date: Tue, 23 Sep 2025 09:23:14 +0200
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iySdQgHN;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-84d0bdc64abso193555885a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 01:14:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758615267; x=1759220067; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=N3/XXMcEeOKjRSQxjAPE6WM2BVxkHbTBaeTJQ5dBZLM=;
+        b=iySdQgHNw1NZFUxO+Rp1mI2LmG1GHtXFM+TwYWPloOkJTv6j9aOWWwihJNBVrYopSh
+         9sXhhheM5Kv8CiARcfc7EogOFQ6VN3DM8DjP8CuKYUYHhEZzJpCbWWRD6s9fGbEVFRPs
+         GEL3sPEwJ2Eq9fGkFGSeKvCWTb/9z66w8OSHlJLOaUc1241y8108xSenPC1uzD0xTbS7
+         vnkBuTYoWXEZzhHlsB80r/B0kI7XmG7HepOWRqNB+tR9yZfe2iG7K3td5PrNJlhFXBoh
+         xbojda80+VeubjlDRDO1oyqWOsAyo+LXwsIpRoS1jjpGR0cIJGoADzfHmin7OZMqK3Is
+         ukRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758615267; x=1759220067;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N3/XXMcEeOKjRSQxjAPE6WM2BVxkHbTBaeTJQ5dBZLM=;
+        b=OyPIpj0Q7min+ydXKRIUoOYJjY8TXcu2FiXi5nVYtpE014xIrM0PClqrP90GTTINvz
+         lxE563FNSkmgoOVeide5ozEerUNmCQ2Yd8cYjF15lgFIF31OatIK6LwpA3t1DERsIyBL
+         9aydW4aj1Y4DL1f/LRqqHc9u6qbH7tL8gOnsy+0wGuzVvzoQ7wgTE09Q2c4t/iR172YP
+         cFGaSds7ykl4dWMmVQberjLVfuwLmI3TDCRG9cFu1889bWmaW0Fq4pFX5f6Q5YtGD8U0
+         NYxN6hcB5RHpzIynYjah9DuYpZHqZ5wlBERA8COWAiavJB4RO4+yOJce1UwmUTjbMVMc
+         PJlQ==
+X-Gm-Message-State: AOJu0YwMwBsbiF9h0+yTp39hXnl4vhsXnsWBhX504et30+/l5DI3tQyT
+	VZGzYDPRV55Lsr70ri+X+S1Ygo3myMmB+BtFETM6nQ6vHsdV/zFQVyKiswtRBQd45gZKs9TdUSY
+	LSb1u5wdcbUtlGC02T3nfjJ25wPqzXZaBeA==
+X-Gm-Gg: ASbGncvjHafgTCK84Srps6SSpee5/kLriR+NY1jMmfTVNC9N5gOwAhB/+JvV2YuPqtp
+	W4ux0hbPwOac2BcqDVVl9ydxNA3fq0Z8au/CMd/BTL26QVnJVfsh1ExUZ47ZP2AGF1tiz8rzf4K
+	iYZnH5cBse7AMocgLSmLOyayXh0NsL3uAbDJSiQR3Ln56lOg4QHoOScKhNsIsyChWRi8UF0Up+G
+	0PXKFhNYM1xhHwDGi+Ykm+AYWjQRoJ62n7VlqXo6O0xE/+dG9e7cUbKTreRr9zIRhI5um06x+/z
+	JFbI
+X-Google-Smtp-Source: AGHT+IHy/zV3ABSFAKO+awOWVP0T2LHT4zcpCdtZJmv70QapxUfPZtLUHpv7zXtvBrSMUqX+dT8bKRxcZupWxnhlpPE=
+X-Received: by 2002:a05:620a:471f:b0:849:ec39:e98d with SMTP id
+ af79cd13be357-851708f8f90mr189704885a.46.1758615266601; Tue, 23 Sep 2025
+ 01:14:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: openembedded-core@lists.openembedded.org
-Content-Language: en-GB, sk-SK
-From: Andrej Shadura <andrew.shadura@collabora.co.uk>
-Subject: pseudo FTBFS on 32-bit arm{el,hf} on Debian
-Autocrypt: addr=andrew.shadura@collabora.co.uk; keydata=
- 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
- lu6jeag=
-Organization: Collabora
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20250923005234.2952070-1-Randy.MacLeod@windriver.com>
+In-Reply-To: <20250923005234.2952070-1-Randy.MacLeod@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 23 Sep 2025 10:14:15 +0200
+X-Gm-Features: AS18NWAweIEZls5LgWL6LwN2P6RU7VDN5tRk_Epq4BAGhNDh_Xe3Pw7H9dYcdkw
+Message-ID: <CANNYZj8xQKdfsJQP-r_qAEqYFHCnzZVCC_NLHbX6yFj1OU7mZw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] gawk: disable persistent memory allocator
+ due to licensing
+To: randy.macleod@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 07:23:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223867
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 08:14:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223868
 
-Hello,
+On Tue, 23 Sept 2025 at 02:52, Randy MacLeod via
+lists.openembedded.org
+<randy.macleod=windriver.com@lists.openembedded.org> wrote:
+> +# pma adds AGPL license
+> +LICENSE:append = " ${@bb.utils.contains('PACKAGECONFIG', 'pma', ' & AGPL-3.0-or-later', '', d)}"
+> +LIC_FILES_CHKSUM:append = " ${@bb.utils.contains('PACKAGECONFIG', 'pma', \
+> +    'file://support/pma.c;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19 \
+> +     file://support/pma.h;md5=bb0026ee5e8b950e67d670dd2d60cc93;beginline=8;endline=19', '', d) \
+> +}"
 
-pseudo no longer buildable on armel and armhf in Debian, as well as on=20
-other non-i386 32-bit architectures. The common thing they share is that=20
-they have all switched to 64 time recently.
+This is incorrect, and has already been discussed in a similar patch.
+LICENSE is for the source code license, and should be set
+unconditionally regardless of whether pma is enabled. Then you can set
+licenses for particular binary packages subject to whether pma is
+enabled or not.
 
->     pseudo_db.o pseudo_tables.o pseudo_util.o -Wl,-z,relro -lsqlite3 -l=
-pthread -ldl -lpthread
-> {standard input}: Assembler messages:
-> {standard input}:26700: Error: symbol `open64' is already defined
-> {standard input}:27909: Error: symbol `openat64' is already defined
-> {standard input}:38225: Error: symbol `__openat64_2' is already defined
-> {standard input}:49933: Error: symbol `creat64' is already defined
-> {standard input}:59933: Error: symbol `__fcntl_time64' is already defin=
-ed
-> {standard input}:63000: Error: symbol `fopen64' is already defined
-> {standard input}:64806: Error: symbol `freopen64' is already defined
-> {standard input}:66053: Error: symbol `__fstat64_time64' is already def=
-ined
-> {standard input}:67392: Error: symbol `__fstatat64_time64' is already d=
-efined
-> {standard input}:69921: Error: symbol `__ftw64_time64' is already defin=
-ed
-> {standard input}:78178: Error: symbol `__glob64_time64' is already defi=
-ned
-> {standard input}:85034: Error: symbol `__lstat64_time64' is already def=
-ined
-> {standard input}:93605: Error: symbol `mkostemp64' is already defined
-> {standard input}:95360: Error: symbol `mkstemp64' is already defined
-> {standard input}:98362: Error: symbol `__nftw64_time64' is already defi=
-ned
-> {standard input}:104764: Error: symbol `scandir64' is already defined
-> {standard input}:123344: Error: symbol `__stat64_time64' is already def=
-ined
-> {standard input}:130262: Error: symbol `truncate64' is already defined
-> make[1]: *** [Makefile:157: pseudo_wrappers.o] Error 1=20
-
-Unfortunately, I don=E2=80=99t know how to make pseudo compatible with su=
-ch a=20
-setup. Any hints?
-
-Thanks in advance.
-
-P.S. You can find more logs at <https://bugs.debian.org/1069487>.
-
---=20
-Cheers,
-   Andrej
-
+Alex
 
