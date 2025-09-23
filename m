@@ -2,39 +2,39 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0847CAC5A5
-	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 22:52:33 +0000 (UTC)
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by mx.groups.io with SMTP id smtpd.web10.2088.1758667952786673629
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07613CAC5A5
+	for <webhook@archiver.kernel.org>; Tue, 23 Sep 2025 22:52:44 +0000 (UTC)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by mx.groups.io with SMTP id smtpd.web11.2111.1758667958076685189
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 15:52:32 -0700
+ Tue, 23 Sep 2025 15:52:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=riC2vwPz;
- spf=pass (domain: ti.com, ip: 198.47.23.234, mailfrom: rs@ti.com)
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=vKZLegrv;
+ spf=pass (domain: ti.com, ip: 198.47.19.246, mailfrom: rs@ti.com)
 Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58NMq9FZ1098385;
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58NMq9tY1545329;
 	Tue, 23 Sep 2025 17:52:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
 	s=ti-com-17Q1; t=1758667929;
-	bh=ojZFOl4FAYqW3gTa0nTvWQsxLPaSEeoPQBk5QZpGZS8=;
+	bh=VJx8eF5zOxLu93UKZRVLiQVpfYsi2Kx2UFQiyNTbN4M=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=riC2vwPzMnFTd91gj5XLyzuxTzBvlx769wYYDpu7dNOs0JqwciyqYt3mPGRfpe/yH
-	 8w5x/qE7qLznB/F0e98VSaPLtd28m7538hZVh+XZjcQCMiVNqY9tyBor8a7C9Xd0IF
-	 Y69XuuZQj8fvNE8KSrYOzt1ykGr3o4ieCmUTxaXI=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58NMq9Z42303651
+	b=vKZLegrvwW843D7X8xU8RZ/6xrRbACBESqVllGFU6Bk+lExI5UZSMH1P63H+vqP0e
+	 TfCKz1xSgag/u6C7D2HmTgmgPkSdD6uVuw1lL3n7Fyy6JInMYZx9UR0IycRjvheiSu
+	 2IAPqlBcTY1kkD3RTDML00paw7Pv5QIkLGU7juv4=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58NMq96P2303654
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
 	Tue, 23 Sep 2025 17:52:09 -0500
-Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE203.ent.ti.com (10.64.6.61) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 23
  Sep 2025 17:52:08 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE203.ent.ti.com
+ (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 23 Sep 2025 17:52:08 -0500
+ Transport; Tue, 23 Sep 2025 17:52:09 -0500
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58NMq8TJ750856;
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58NMq8TN750856;
 	Tue, 23 Sep 2025 17:52:08 -0500
 From: <rs@ti.com>
 To: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
@@ -42,9 +42,9 @@ To: <richard.purdie@linuxfoundation.org>, <mathieu.dubois-briand@bootlin.com>,
         <kexin.hao@windriver.com>
 CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
         <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv10 3/7] emptty: add version 0.14.0
-Date: Tue, 23 Sep 2025 17:51:39 -0500
-Message-ID: <20250923225150.2407390-4-rs@ti.com>
+Subject: [oe-core][PATCHv10 7/7] xuser-account: merge with xserver-nodm-init
+Date: Tue, 23 Sep 2025 17:51:43 -0500
+Message-ID: <20250923225150.2407390-8-rs@ti.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250923225150.2407390-1-rs@ti.com>
 References: <20250923225150.2407390-1-rs@ti.com>
@@ -55,197 +55,126 @@ X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 22:52:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223931
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 22:52:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223937
 
 From: Randolph Sapp <rs@ti.com>
 
-Add emptty, a "Dead simple CLI Display Manager on TTY". This is a
-relatively lightweight display manager that supports x11 as well as
-wayland through both a CLI and an automatic login mechanism.
+Merge the xuser-account recipe with xserver-nodm-init, since:
 
-This can effectively replace the custom init scripts for both x11
-(xserver-nodm-init) and wayland (weston-init) with a single tool with
-more verbose logging capabilities.
-
-This is split into two recipes. The emptty package provides the binary
-and various agnostic configs while the emptty-conf package provides the
-default configuration for the application itself. This RPROVIDES
-virtual-emptty-conf, allowing other recipes to provide their own
-configurations to override the default behavior.
+ - This is the only recipe dependent on it
+ - This matches the current behavior in weston-init
+ - Running x11 as root is no longer a supported path in
+   xserver-nodm-init
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
- .../conf/distro/include/default-providers.inc |  1 +
- meta/conf/distro/include/maintainers.inc      |  2 +
- meta/recipes-graphics/emptty/emptty-conf.bb   | 14 +++++
- meta/recipes-graphics/emptty/emptty.inc       | 26 +++++++++
- .../recipes-graphics/emptty/emptty/emptty.tab |  1 +
- meta/recipes-graphics/emptty/emptty/pamconf   | 10 ++++
- meta/recipes-graphics/emptty/emptty_0.14.0.bb | 53 +++++++++++++++++++
- 7 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-graphics/emptty/emptty-conf.bb
- create mode 100644 meta/recipes-graphics/emptty/emptty.inc
- create mode 100644 meta/recipes-graphics/emptty/emptty/emptty.tab
- create mode 100644 meta/recipes-graphics/emptty/emptty/pamconf
- create mode 100644 meta/recipes-graphics/emptty/emptty_0.14.0.bb
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ .../xserver-nodm-init}/system-xuser.conf      |  0
+ .../x11-common/xserver-nodm-init_3.0.bb       | 20 +++++++++---
+ .../user-creation/xuser-account_0.1.bb        | 31 -------------------
+ 4 files changed, 15 insertions(+), 37 deletions(-)
+ rename meta/{recipes-support/user-creation/files => recipes-graphics/x11-common/xserver-nodm-init}/system-xuser.conf (100%)
+ delete mode 100644 meta/recipes-support/user-creation/xuser-account_0.1.bb
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 3f113543cd..820a5d1342 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -69,3 +69,4 @@ PREFERRED_PROVIDER_virtual/nativesdk-libsdl2 ?= "nativesdk-libsdl2"
- PREFERRED_RPROVIDER_virtual-libegl-icd ?= "mesa"
- PREFERRED_RPROVIDER_virtual-libglx-icd ?= "mesa"
- PREFERRED_RPROVIDER_virtual-x-terminal-emulator ?= "rxvt-unicode"
-+PREFERRED_RPROVIDER_virtual-emptty-conf ?= "emptty-conf"
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e80959749e..db5e2fa9c9 100644
+index 621bf32066..b8f405741c 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -171,6 +171,8 @@ RECIPE_MAINTAINER:pn-efivar = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-elfutils = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-ell = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-emptty = "Randolph Sapp <rs@ti.com>"
-+RECIPE_MAINTAINER:pn-emptty-conf = "Randolph Sapp <rs@ti.com>"
- RECIPE_MAINTAINER:pn-enchant2 = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-epiphany = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-graphics/emptty/emptty-conf.bb b/meta/recipes-graphics/emptty/emptty-conf.bb
-new file mode 100644
-index 0000000000..0b98e2e13e
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty-conf.bb
-@@ -0,0 +1,14 @@
-+require emptty.inc
+@@ -931,7 +931,6 @@ RECIPE_MAINTAINER:pn-xserver-xf86-config = "Unassigned <unassigned@yoctoproject.
+ RECIPE_MAINTAINER:pn-xserver-xorg = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xset = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xtrans = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-xuser-account = "Randolph Sapp <rs@ti.com>"
+ RECIPE_MAINTAINER:pn-xvinfo = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xwayland = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-xwininfo = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-support/user-creation/files/system-xuser.conf b/meta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.conf
+similarity index 100%
+rename from meta/recipes-support/user-creation/files/system-xuser.conf
+rename to meta/recipes-graphics/x11-common/xserver-nodm-init/system-xuser.conf
+diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+index 1fc10159e8..e4fe1f3c27 100644
+--- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
++++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
+@@ -1,14 +1,15 @@
+-SUMMARY = "Simple Xserver Init Script (no dm)"
++SUMMARY = "Simple Xserver Init Script and user account"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ SECTION = "x11"
+ 
+ SRC_URI = "file://emptty.conf.in \
+-           file://default.desktop"
++           file://default.desktop \
++           file://system-xuser.conf"
+ 
+ S = "${UNPACKDIR}"
+ 
+-inherit features_check
++inherit features_check useradd
+ 
+ REQUIRED_DISTRO_FEATURES = "x11 pam"
+ 
+@@ -26,10 +27,19 @@ do_install() {
+ 
+     sed -i "s:@NO_CURSOR_ARG@:${NO_CURSOR_ARG}:" ${D}${sysconfdir}/emptty/conf
+     sed -i "s:@BLANK_ARGS@:${BLANK_ARGS}:" ${D}${sysconfdir}/emptty/conf
 +
-+SUMMARY += " (Default config)"
++    install -D -m 0644 ${S}/system-xuser.conf ${D}${sysconfdir}/dbus-1/system.d/system-xuser.conf
+ }
+ 
+ FILES:${PN} = "${sysconfdir}/emptty/conf \
+-               ${datadir}/xsessions/default.desktop"
++               ${datadir}/xsessions/default.desktop \
++               ${sysconfdir}/dbus-1/system.d/system-xuser.conf"
 +
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+
-+do_install () {
-+    oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-config
-+}
-+
-+FILES:${PN} = "${sysconfdir}/emptty/conf"
-+CONFFILES:${PN} = "${sysconfdir}/emptty/conf"
-+RPROVIDES:${PN} += "virtual-emptty-conf"
-diff --git a/meta/recipes-graphics/emptty/emptty.inc b/meta/recipes-graphics/emptty/emptty.inc
-new file mode 100644
-index 0000000000..11d5770f3a
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty.inc
-@@ -0,0 +1,26 @@
-+SUMMARY = "Dead simple CLI Display Manager on TTY"
-+DESCRIPTION = "Emptty is a simple display manager with a command line greeter \
-+It supports both X11 and Wayland sessions, exporting required variables and \
-+creating user paths as necessary."
-+
-+HOMEPAGE = "https://github.com/tvrzna/emptty"
-+BUGTRACKER = "https://github.com/tvrzna/emptty/issues"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=d1e4d12c7d1d17367ba5668706a405ba"
-+
-+S = "${UNPACKDIR}"
-+
-+FILESEXTRAPATHS:append = ":${THISDIR}/emptty"
-+
-+GO_IMPORT = "github.com/tvrzna/emptty"
-+GO_IMPORT_pam = "github.com/msteinert/pam"
-+SRC_URI = "\
-+    git://${GO_IMPORT}.git;protocol=https;branch=master;destsuffix=src/${GO_IMPORT} \
-+    git://${GO_IMPORT_pam}.git;protocol=https;branch=master;name=pam;destsuffix=src/${GO_IMPORT_pam} \
-+    file://pamconf \
-+    file://emptty.tab \
-+    "
-+SRCREV = "d162bef75fadc8ae1d8e33dbb3de5e2795a196e0"
-+SRCREV_pam = "50ded1b0e7864b9bf75005eb945a8ec826bcf69d"
-+
-+SRCREV_FORMAT .= "_pam"
-diff --git a/meta/recipes-graphics/emptty/emptty/emptty.tab b/meta/recipes-graphics/emptty/emptty/emptty.tab
-new file mode 100644
-index 0000000000..6359c7224d
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/emptty.tab
-@@ -0,0 +1 @@
-+7:5:respawn:/usr/bin/emptty -t 7 -d
-diff --git a/meta/recipes-graphics/emptty/emptty/pamconf b/meta/recipes-graphics/emptty/emptty/pamconf
-new file mode 100644
-index 0000000000..9cbfd6c4a5
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty/pamconf
-@@ -0,0 +1,10 @@
-+#%PAM-1.0
-+auth            sufficient      pam_succeed_if.so user ingroup nopasswdlogin
-+auth            include         common-auth
-+-auth           optional        pam_gnome_keyring.so
-+-auth           optional        pam_kwallet5.so
-+account         include         common-account
-+session         include         common-session
-+-session        optional        pam_gnome_keyring.so auto_start
-+-session        optional        pam_kwallet5.so auto_start force_run
-+password        include         common-password
-diff --git a/meta/recipes-graphics/emptty/emptty_0.14.0.bb b/meta/recipes-graphics/emptty/emptty_0.14.0.bb
-new file mode 100644
-index 0000000000..11d306a56d
---- /dev/null
-+++ b/meta/recipes-graphics/emptty/emptty_0.14.0.bb
-@@ -0,0 +1,53 @@
-+require emptty.inc
-+
-+PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam x11', d)}"
-+PACKAGECONFIG[pam] = ",,libpam,pam-plugin-succeed-if"
-+PACKAGECONFIG[x11] = ",,virtual/libx11"
-+
-+DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', 'virtual/crypt', d)}"
-+
-+GO_TAGS = ""
-+GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'pam', '', ',nopam', d)}"
-+GO_TAGS:append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', '', ',noxlib', d)}"
-+
-+GOBUILDFLAGS:append = " -tags=${GO_TAGS}"
-+
-+export GO111MODULE = "off"
-+
-+inherit go
-+
-+DEPENDS += "gzip"
-+
-+do_install () {
-+    # general collateral
-+    install -Dm755 ${B}/${GO_BUILD_BINDIR}/emptty ${D}${bindir}/emptty
-+    install -d ${D}${mandir}/man1
-+    gzip -cn ${S}/src/${GO_IMPORT}/res/emptty.1 > ${D}${mandir}/man1/emptty.1.gz
-+
-+    # pam config
-+    if "${@bb.utils.contains('PACKAGECONFIG','pam','true','false',d)}"
-+    then
-+        install -Dm644 ${S}/pamconf ${D}${sysconfdir}/pam.d/emptty
-+    fi
-+
-+    # init services
-+    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}
-+    then
-+        oe_runmake -C ${S}/src/${GO_IMPORT} DESTDIR=${D} install-systemd
-+    else
-+        install -Dm644 ${S}/emptty.tab ${D}${sysconfdir}/inittab.d/emptty.tab
-+    fi
-+}
-+
-+FILES:${PN} = "\
-+    ${systemd_system_unitdir}/emptty.service \
-+    ${sysconfdir}/inittab.d/emptty.tab \
-+    ${bindir}/emptty \
-+    ${mandir}/man1/emptty.1.gz \
-+    ${sysconfdir}/pam.d/emptty \
-+"
-+
-+RDEPENDS:${PN} += "virtual-emptty-conf"
-+SYSTEMD_SERVICE:${PN} = "emptty.service"
-+
-+inherit systemd
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM:${PN} = "--create-home \
++                       --groups video,tty,audio,input,shutdown,disk,nopasswdlogin \
++                       --user-group xuser"
++GROUPADD_PARAM:${PN} = "-r nopasswdlogin"
+ 
+-RDEPENDS:${PN} = "emptty xuser-account"
++RDEPENDS:${PN} = "emptty"
+ RPROVIDES:${PN} += "virtual-emptty-conf"
+diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb b/meta/recipes-support/user-creation/xuser-account_0.1.bb
+deleted file mode 100644
+index f1e4cb674f..0000000000
+--- a/meta/recipes-support/user-creation/xuser-account_0.1.bb
++++ /dev/null
+@@ -1,31 +0,0 @@
+-SUMMARY = "Creates an 'xuser' account used for running X11"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-
+-SRC_URI = "file://system-xuser.conf"
+-
+-inherit allarch useradd
+-
+-S = "${UNPACKDIR}"
+-
+-do_configure() {
+-    :
+-}
+-
+-do_compile() {
+-    :
+-}
+-
+-do_install() {
+-    install -D -m 0644 ${UNPACKDIR}/system-xuser.conf ${D}${sysconfdir}/dbus-1/system.d/system-xuser.conf
+-}
+-
+-FILES:${PN} = "${sysconfdir}/dbus-1/system.d/system-xuser.conf"
+-
+-USERADD_PACKAGES = "${PN}"
+-USERADD_PARAM:${PN} = "--create-home \
+-                       --groups video,tty,audio,input,shutdown,disk,nopasswdlogin \
+-                       --user-group xuser"
+-GROUPADD_PARAM:${PN} = "-r nopasswdlogin"
+-
+-ALLOW_EMPTY:${PN} = "1"
 -- 
 2.51.0
 
