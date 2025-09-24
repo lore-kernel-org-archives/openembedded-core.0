@@ -2,174 +2,175 @@ Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF51CAC5A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F00C8CAC5B2
 	for <webhook@archiver.kernel.org>; Wed, 24 Sep 2025 08:27:34 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.7919.1758702446184649668
+ by mx.groups.io with SMTP id smtpd.web10.7920.1758702447848281811
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Sep 2025 01:27:26 -0700
+ Wed, 24 Sep 2025 01:27:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=s3nj+xHr;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Wq80AojJ;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1362f596f5=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58O8KcR2132747
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 08:27:25 GMT
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58O5qD3o387470
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 08:27:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=HffzA3PPh2I3ELx7Z08g
-	++GmcfQ4hS+JzhyLMh2i0Os=; b=s3nj+xHr8jGK3bqfXTFgzmPjxsDT7BWsbJLk
-	QOQp8MPfy7wgotFe57W7ip0UWR1TdEk598LOz8RBPnklJJDP1zN37j7J1Hh72NNU
-	ChdlnIoqU43mf2GOIUV27r6G0sQvrrYNdE7n+54aNq7stoHyqXOKzDEZpviCS4aB
-	BAqbWx6sTG5wrps5YmqegqEeT3/R++80YDQmyqg+MWx9MO0b7tdAgt9qFCWD7wfA
-	1cTIJXj6IZSbogr+Twr2Oeuko36ZhO5rU0m563qRIkmxa87PrXBNznWbG3HbebFK
-	Ek7tLDEVVavfC3Fzt4OKuaUAzLnnHnNBLZ+/syo3VSqCYsEyvQ==
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=1K0oAroBOtzvjC7/4UMuYWLOnPDFgep/n4DzPigMXnc=; b=Wq80AojJsfh1
+	gC41VMZ9fDDC89c1omPgJFMqeOX8ECvUJ13cIJ0Ei03MvVBPjvbI36Vi2Fb6ZSkb
+	12mmXqNaRjm3JXlu0dOIWw4e5wTN/I/CslVKlxqJdbUtUu3JAPDEp/n2/mY+rbna
+	TI34F8nuVYfaGcvqS2opec2BqlpN/vzSU+vwGnUCzDeiY2V2dGMqGZBFxlRMHqRk
+	4WT29f3V2l2tWxtorqz51v1/kd4tEqDCzWtU4ck+xek4SCZFd2nQgwJsncCUiLH2
+	mSUgNAwZqY78fa/5ROCLY7GmZgADTyWyRWewPCXkX+HsSN6607YeGSN37LGJRsoS
+	rJcmGt+IOA==
 Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 499k89cfh0-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 499hg1mj6c-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 08:27:24 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 08:27:26 +0000 (GMT)
 Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Wed, 24 Sep 2025 01:27:23 -0700
+ 15.1.2507.59; Wed, 24 Sep 2025 01:27:25 -0700
 From: yurade <yogita.urade@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][walnascar][PATCH 1/3] curl: fix CVE-2025-9086
-Date: Wed, 24 Sep 2025 13:56:55 +0530
-Message-ID: <20250924082657.3624748-1-yogita.urade@windriver.com>
+Subject: [OE-core][walnascar][PATCH 2/3] curl: fix CVE-2025-10148
+Date: Wed, 24 Sep 2025 13:56:56 +0530
+Message-ID: <20250924082657.3624748-2-yogita.urade@windriver.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20250924082657.3624748-1-yogita.urade@windriver.com>
+References: <20250924082657.3624748-1-yogita.urade@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.11.232.110]
 X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (10.11.224.121) To
  ala-exchng01.corp.ad.wrs.com (10.11.224.121)
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI0MDA3MCBTYWx0ZWRfX5e6/9EeG9vE0
- xl/ra0BR3XKcJKk5wXaHtkY6+tuZCqVUFqMR7h5+yTxaXta/OEwGoeFPn/n8U7ihyuJYjXjnY4N
- i34OhtTfhKCYWn7ZUBQMU63E5zKaJC9f6J4zpEn35Ndgp3e1vILdCEgO8P8j1HmxLbGHz3NSGrq
- yIh8NXf5fmgNjG5cHcuhb7R+BPbSbOXdeMtVJaQuFCm5bTVTH0fGCBdo68xojOn8nSM2go1Omyf
- Sm+x3bRXIcnoGNM9GOrF/rFC3/L6WcZFzPGRcFzBRiUqQm+oFmhweBmU0Yg96l+FvN833flYFdr
- HjjHmQLOf8yOJsYSpPdgHePgMHji7XT0LJiEExcOBElLNjBWkDqnofRNA4RRSo=
-X-Authority-Analysis: v=2.4 cv=YZS95xRf c=1 sm=1 tr=0 ts=68d3ab6d cx=c_pps
+X-Proofpoint-GUID: OeHsiOtmKEKhGN9oh7JmQXsdnl5yqqRX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI0MDA3MCBTYWx0ZWRfX8mt03UIr1IXI
+ wBLx6bO8u/zkjXnFFnUTllOXXcr1kZBYNDOA2o/n8IEUxb8skLRI42VPCQW9JalfKeVU4I9qMuC
+ nIut5PP4mgD19JIwQP84TqkpLL4Ra9Yf8Toq5h49zGkLk0ixnwB9lYZ0qkqclw8RNienjSJpzzA
+ qcbNVx5jgiLtUQYyXJKM2U59rxtwoHSQEJK3Wq8BmGLLrjM+U7PUerJxJAN+sZ11DbuBXlLK9KX
+ Q8Dxv0fRkzPpz5l36NtsF9neEd4U84e9hUoK+eTw/1bJ2jjwFV8p2+YvXVzVMSMW1sB9i0ECgl9
+ U6S3HcDgvH1deX/hZQhGJX4XYaBoYPe28m7SVWlmi7IMEl4f2J058eJwLIO/Sc=
+X-Authority-Analysis: v=2.4 cv=Yfi95xRf c=1 sm=1 tr=0 ts=68d3ab6e cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
  a=gmxlzscTznEA:10 a=yJojWOMRYYMA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8
- a=t7CeM3EgAAAA:8 a=U2pbwLoH-MOwAsqTANMA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: AfoJrZ4fYxvLMqe-3LXSXbUL7E0EyOSY
-X-Proofpoint-ORIG-GUID: AfoJrZ4fYxvLMqe-3LXSXbUL7E0EyOSY
+ a=t7CeM3EgAAAA:8 a=T1gC0KlOHmOShRfXnVIA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: OeHsiOtmKEKhGN9oh7JmQXsdnl5yqqRX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-24_02,2025-09-22_05,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 impostorscore=0 priorityscore=1501
- suspectscore=0 bulkscore=0 phishscore=0 spamscore=0 adultscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 clxscore=1015 impostorscore=0
+ spamscore=0 suspectscore=0 adultscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 08:27:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223950
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223951
 
 From: Yogita Urade <yogita.urade@windriver.com>
 
-1, A cookie is set using the secure keyword for https://target
-2, curl is redirected to or otherwise made to speak with http://target
-(same hostname, but using clear text HTTP) using the same cookie set
-3, The same cookie name is set - but with just a slash as path (path="/").
-Since this site is not secure, the cookie should just be ignored.
-4, A bug in the path comparison logic makes curl read outside a heap buffer boundary
+curl's websocket code did not update the 32 bit mask pattern
+for each new outgoing frame as the specification says. Instead
+it used a fixed mask that persisted and was used throughout
+the entire connection.
 
-The bug either causes a crash or it potentially makes the comparison come to
-the wrong conclusion and lets the clear-text site override the contents of
-the secure cookie, contrary to expectations and depending on the memory contents
-immediately following the single-byte allocation that holds the path.
-
-The presumed and correct behavior would be to plainly ignore the second set of
-the cookie since it was already set as secure on a secure host so overriding
-it on an insecure host should not be okay.
+A predictable mask pattern allows for a malicious server to induce
+traffic between the two communicating parties that could be
+interpreted by an involved proxy (configured or transparent) as
+genuine, real, HTTP traffic with content and thereby poison its
+cache. That cached poisoned content could then be served to all
+users of that proxy.
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-9086
+https://nvd.nist.gov/vuln/detail/CVE-2025-10148
 
 Upstream patch:
-https://github.com/curl/curl/commit/c6ae07c6a541e0e96d0040afb6
+https://github.com/curl/curl/commit/84db7a9eae8468c0445b15aa806fa
 
 Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
- .../curl/curl/CVE-2025-9086.patch             | 55 +++++++++++++++++++
+ .../curl/curl/CVE-2025-10148.patch            | 57 +++++++++++++++++++
  meta/recipes-support/curl/curl_8.12.1.bb      |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2025-9086.patch
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-10148.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2025-9086.patch b/meta/recipes-support/curl/curl/CVE-2025-9086.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-10148.patch b/meta/recipes-support/curl/curl/CVE-2025-10148.patch
 new file mode 100644
-index 0000000000..0055d23076
+index 0000000000..7bc5d18396
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2025-9086.patch
-@@ -0,0 +1,55 @@
-+From c6ae07c6a541e0e96d0040afb62b45dd37711300 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2025-10148.patch
+@@ -0,0 +1,57 @@
++From 84db7a9eae8468c0445b15aa806fa7fa806fa0f2 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 11 Aug 2025 20:23:05 +0200
-+Subject: [PATCH] cookie: don't treat the leading slash as trailing
++Date: Mon, 8 Sep 2025 14:14:15 +0200
++Subject: [PATCH] ws: get a new mask for each new outgoing frame
 +
-+If there is only a leading slash in the path, keep that. Also add an
-+assert to make sure the path is never blank.
++Reported-by: Calvin Ruocco
++Closes #18496
 +
-+Reported-by: Google Big Sleep
-+Closes #18266
-+
-+CVE: CVE-2025-9086
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/c6ae07c6a541e0e96d0040afb6]
++CVE: CVE-2025-10148
++Upstream-Status: Backport [https://github.com/curl/curl/commit/84db7a9eae8468c0445b15aa806fa]
 +
 +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 +---
-+ lib/cookie.c | 9 +++++----
-+ 1 file changed, 5 insertions(+), 4 deletions(-)
++ lib/ws.c | 21 +++++++++++++--------
++ 1 file changed, 13 insertions(+), 8 deletions(-)
 +
-+diff --git a/lib/cookie.c b/lib/cookie.c
-+index 9819768..d7ee757 100644
-+--- a/lib/cookie.c
-++++ b/lib/cookie.c
-+@@ -324,7 +324,7 @@ static char *sanitize_cookie_path(const char *cookie_path)
-+   }
++diff --git a/lib/ws.c b/lib/ws.c
++index 25d19c6..029172d 100644
++--- a/lib/ws.c
+++++ b/lib/ws.c
++@@ -637,6 +637,18 @@ static ssize_t ws_enc_write_head(struct Curl_easy *data,
++   enc->payload_remain = enc->payload_len = payload_len;
++   ws_enc_info(enc, data, "sending");
 +
-+   /* convert /hoge/ to /hoge */
-+-  if(len && new_path[len - 1] == '/') {
-++  if(len > 1 && new_path[len - 1] == '/') {
-+     new_path[len - 1] = 0x0;
-+   }
+++    /* 4 bytes random */
+++
+++  result = Curl_rand(data, (unsigned char *)&enc->mask, sizeof(enc->mask));
+++  if(result)
+++    return result;
+++
+++#ifdef DEBUGBUILD
+++  if(getenv("CURL_WS_FORCE_ZERO_MASK"))
+++    /* force the bit mask to 0x00000000, effectively disabling masking */
+++    memset(&enc->mask, 0, sizeof(enc->mask));
+++#endif
+++
++   /* add 4 bytes mask */
++   memcpy(&head[hlen], &enc->mask, 4);
++   hlen += 4;
++@@ -819,14 +831,7 @@ CURLcode Curl_ws_accept(struct Curl_easy *data,
++      subprotocol not requested by the client), the client MUST Fail
++      the WebSocket Connection. */
 +
-+@@ -1039,7 +1039,7 @@ replace_existing(struct Curl_easy *data,
-+          clist->spath && co->spath && /* both have paths */
-+          clist->secure && !co->secure && !secure) {
-+         size_t cllen;
-+-        const char *sep;
-++        const char *sep = NULL;
-+
-+         /*
-+          * A non-secure cookie may not overlay an existing secure cookie.
-+@@ -1048,8 +1048,9 @@ replace_existing(struct Curl_easy *data,
-+          * "/loginhelper" is ok.
-+          */
-+
-+-        sep = strchr(clist->spath + 1, '/');
++-  /* 4 bytes random */
 +-
-++        DEBUGASSERT(clist->spath[0]);
-++        if(clist->spath[0])
-++          sep = strchr(clist->spath + 1, '/');
-+         if(sep)
-+           cllen = sep - clist->spath;
-+         else
++-  result = Curl_rand(data, (unsigned char *)&ws->enc.mask,
++-                     sizeof(ws->enc.mask));
++-  if(result)
++-    return result;
++-  infof(data, "Received 101, switch to WebSocket; mask %02x%02x%02x%02x",
++-        ws->enc.mask[0], ws->enc.mask[1], ws->enc.mask[2], ws->enc.mask[3]);
+++  infof(data, "Received 101, switch to WebSocket");
++
++   /* Install our client writer that decodes WS frames payload */
++   result = Curl_cwriter_create(&ws_dec_writer, data, &ws_cw_decode,
 +--
 +2.40.0
 diff --git a/meta/recipes-support/curl/curl_8.12.1.bb b/meta/recipes-support/curl/curl_8.12.1.bb
-index 9e279bbad1..0fb3719ac2 100644
+index 0fb3719ac2..bfe0075af7 100644
 --- a/meta/recipes-support/curl/curl_8.12.1.bb
 +++ b/meta/recipes-support/curl/curl_8.12.1.bb
-@@ -14,6 +14,7 @@ SRC_URI = " \
-     file://run-ptest \
+@@ -15,6 +15,7 @@ SRC_URI = " \
      file://disable-tests \
      file://no-test-timeout.patch \
-+    file://CVE-2025-9086.patch \
+     file://CVE-2025-9086.patch \
++    file://CVE-2025-10148.patch \
  "
  
  SRC_URI:append:class-nativesdk = " \
