@@ -1,232 +1,162 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED7DFCAC5A5
-	for <webhook@archiver.kernel.org>; Wed, 24 Sep 2025 20:09:00 +0000 (UTC)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
- by mx.groups.io with SMTP id smtpd.web10.24058.1758744538447738332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C41DCAC5A5
+	for <webhook@archiver.kernel.org>; Wed, 24 Sep 2025 20:25:41 +0000 (UTC)
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+ by mx.groups.io with SMTP id smtpd.web10.24459.1758745533872623754
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Sep 2025 13:08:58 -0700
+ Wed, 24 Sep 2025 13:25:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iF9vCl+6;
- spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-8cf4f90b6f0so17190439f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 13:08:58 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=jxcUPjBn;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.193, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-85630d17586so37884785a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 13:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758744537; x=1759349337; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758745533; x=1759350333; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=NStPYntbghYVeUamdIoR0T4eFxqTxuQUf8ZBQXDgoJY=;
-        b=iF9vCl+6LhdGPvdmlxKhF+dIg5B86DFu0ug4LvYb/6YggFBMLH9ZaqdwTS3EeVkbtH
-         uXpp60/ojTgynGZl56OA10sfW1beDD7EFB4LAzvYciJcMu3V0HKkTiBd7S2FTEL2rI/C
-         CzAMO6VapGEVOls8xBFoX3jH68u6x7y9BrV3bqcygTXtjFNaB+qV0hD/VdOd7z4IKuIy
-         v08k1pqcBGz8fPbXCowJxtAGxOHURvsWAtniC7iKMItUibIQJA4hgD7NRQQ+36hHHj/G
-         w5ifTcGs7zRNMpqNvYvro3OQUeRq6ow8CmdcssOUqfWarIcTC+CgX3/nStMwW/xrX8Uq
-         Ljug==
+        bh=mvDkw3McO4L2JB8O5GQPNtuahm8GLVhmupt+T4Stnbs=;
+        b=jxcUPjBnKTqRUlqpvVjksVdX5P7JDBWAF8U8Lejzi9CNjvsFhgQeGV4VppF1igIt46
+         LHtt+WIQCj5m5phS+6lWxCAT/hEa5de0o6PEENcsKTjPEJbDAKhH5pyjLVbDJzVKOiKv
+         WclvHbx8fwh44AMf3atNZGWw24b9TQPIOl3UiaEq7Vo7tRc4jCmp3EJgXXzeFROar6on
+         2iSsNNwfv83w7SUgPdc1cqESoz015frwnANtgY4Yve54752m/kMoTmy5+Xowz9flStch
+         8YqoRkzbayQ4XLEDrH5RV8+TCP0EIUVRUA7gGKGLC0UDsKcYITmBAAT/haPXEvSPkGj6
+         Vtog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758744537; x=1759349337;
+        d=1e100.net; s=20230601; t=1758745533; x=1759350333;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NStPYntbghYVeUamdIoR0T4eFxqTxuQUf8ZBQXDgoJY=;
-        b=CFTORzQiVmphFGMXUgkSE7sJ186gL2I1C0jbgbiCwhJpKehkv7PMdo8FZ7jhsFfrHL
-         rxAfvefRaEZI5SKQp/ckoSVESNEwhyuiWVAxF21ZHdU3vLatFFeZHGaXbnoYOO3HLBBc
-         f4Af4rm8IEPQjsgDcBDZ1Gpu4Tt6F1HWdOrtK2KAZQXoSFKn0GCnl7MRkRsVc0cEMYNh
-         cv3RBfjDuLNlNKWFrkoGThExrWP6oqYRqcf1k6B3MTxT2t2h+8HcQr5XweMoHvKDiE/B
-         g5geGyU0NrPx94E4J5PkM3nulF+lla54OskvcI39J67vh8AaI7QpSdJxKwZ8E+HN4E7p
-         j0cA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRe6eulyvgZqvF5e9sdu/CcEWr8odrH8UPVC5/BVShPdolcyEwYQWbNQ7KaHVTQmYuMHsuBWP8/JRQRwZkSsWBlw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwOeA+YL4vQNrWs6+hFOOmjt4TJKsEB8NaQJafgh6mFFK9mtOD0
-	NxDic1DmmEWQMULEB3ZDZ1xcovmtwxXieGcmod5y+ioOcVILy2uZlmJo
-X-Gm-Gg: ASbGncuGOKRbt7vuCGxQCcGGokQgFQ51JiPnt9MqzRd+7L7k7RSAWSGbKKS+UW5iHiN
-	44lHzh1B9D0ZYl8qPanlCNQK4nGUhyhkf6muaIij+t+JIMTOCuPxGu2ljNTi0nka6vRvhTVhS9C
-	fvCnm8aZQZ+qYKYIEE9kGHXEXf+E+Wm1OcuUKg3gRsz49/o+ulol/g1K3rx4XCNmvChJp0shfVk
-	FtzAcS00+VMC1gn8ydB5F67H5kFS8QL1sJg7eLgxIXbgmaRBsLInQV7GDBf1aEZFBqAK7L26Pe3
-	X2poNHMpIA9A+lEZ66kUbPxtILSiecWS7RzziCchEC/CgOhhx8lvJnpSlyKb5CsLfiWg5tV6bxw
-	OjwItYt78PNLV8cir3mQ/FzLQTB6bSF16lZwtCb1iJ4/A0XXt8QPrc65Sjo7R28xO70JFPpH8gw
-	vBnhPPTVNgMvU8/ERkiOQrZj49Qr//KTE9I/69flQptgd9rF1XmlSDneiPD4rwvZ3LikZPz4CUf
-	Og4oet3oHa63OfGHpzH2gunDSfG9m4=
-X-Google-Smtp-Source: AGHT+IFjynuKCoKGO30ujdqgWojbLwiNUJnayuWK5v24c2F5N7SxjDCPd2LSWV0GE7heOqd+J8oafw==
-X-Received: by 2002:a05:6602:1b14:b0:8b9:3c36:4303 with SMTP id ca18e2360f4ac-901567eebd2mr155915639f.7.1758744537441;
-        Wed, 24 Sep 2025 13:08:57 -0700 (PDT)
-Received: from ?IPV6:2601:646:8201:fd20:289b:c5dd:de6c:a09f? ([2601:646:8201:fd20:289b:c5dd:de6c:a09f])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-56a65463b89sm55540173.24.2025.09.24.13.08.56
+        bh=mvDkw3McO4L2JB8O5GQPNtuahm8GLVhmupt+T4Stnbs=;
+        b=gQCikBA/YCo77sfytuoa5qOyJ4VnPJF7PiItjklbWO7E40v5KfJ7/s9sUd4lMeL26h
+         uE1baaYRFgkhOytdo80EALbqUColzrDnphN8LykfQ4TNT6/VB29yd/GA4ogaJkWbNr2k
+         eO5Cx2Qb6CrUuEKM9r0bs/q+N3coIwf+cVnqMKa8r5CkuP9tSReRLxuiyIIYBVxwK8mV
+         2nsn5I8g5ZQh7GqDFZ5GYamZyQVTnnBUDSn+67U/JchN2hdO1jR8uOusvJD6VpK+vXjK
+         Q+JekMaFBlpYGthMPclAH7gKrdG0DEsKAywl/4QOntBThRLAWINgJVXUgtZzmpEfRAWl
+         Xx6g==
+X-Forwarded-Encrypted: i=1; AJvYcCWlz3wMVHOKUGtyn51Tv5SaUpx76crafZZvknf8CuPIux3ncTH2I6QZ+J19Mrqgl4uvMj9RgSzkn5Fuw5KcKnoi9w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxBe6pZOPYLKWYg1XqtbOMnbd+BM0VCMfgTsaUFTR/crZkKtByt
+	9FrE5sbKDTxSD3YeGN3GaEdfjo5MXf6QKeIrhpPo3hUmrlanrv87mNk2OsbIu0BVMD0=
+X-Gm-Gg: ASbGncufk7CPdA64PPcm3tC+jc7vc4cEfyFnc+gXjk2UaqdBAJkzrwzH894mUWGlVVg
+	TyZkZU6HYy3KA1lm+rPkVS9up4V3uBg+pfaz3BtXKFOMYbuI9PD7+nu59qXJWsmfasHZQ342EQ8
+	BiYMMN5hKaFO6rnbXHOo16D+OaHE+Pv5bCoTI0NSnOVkv0rcMWrO8K7CMj9z5avjnPG76PB02dG
+	mmRmbPfZd8RJoLj/I3qLuGBEmZ+i+x0bB6tyuZlGMDfdQu5RrRH4m8mNR/LPmo9xIEH0ijrlHqr
+	nP5R9/oazxgePyWGe0HMxxIlUPtQMRu7cquADGFHMcRmRl28SN1oSY7pNaCjX3C1T+CHOGvJ+8I
+	5+LFrz99rAFYNThLcZcGsL2GqvYWtVWwNiK3dGyytDtGQjxnoEdGgTpNFex9qONJBtLw=
+X-Google-Smtp-Source: AGHT+IEzmbWnrrojH2QW7w/qT2iJjLXpmJCPVSvgWzeLvUng3sc3p53RKNH2e43YE+BKYTz0g03u8w==
+X-Received: by 2002:a05:620a:3182:b0:7fe:9d98:4806 with SMTP id af79cd13be357-85aebd00f0bmr138227785a.59.1758745532730;
+        Wed, 24 Sep 2025 13:25:32 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-85bc981457fsm7392485a.56.2025.09.24.13.25.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Sep 2025 13:08:57 -0700 (PDT)
-Message-ID: <fa1ae7ce-fb58-4171-86f4-c43b9341de25@gmail.com>
-Date: Wed, 24 Sep 2025 13:08:56 -0700
+        Wed, 24 Sep 2025 13:25:32 -0700 (PDT)
+Message-ID: <5dab2d28-4a15-491c-bb12-623a37f9a72c@baylibre.com>
+Date: Wed, 24 Sep 2025 16:25:30 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/5] lame: don't use -march=native when building
- with clang
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-References: <20250924120745.2883969-1-ross.burton@arm.com>
+Subject: Re: [PATCH 2/2] patchtest: Use raw strings for regex patterns
+To: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
+References: <20250924-minor-fixes-v1-0-affc85657a66@pbarker.dev>
+ <20250924-minor-fixes-v1-2-affc85657a66@pbarker.dev>
 Content-Language: en-US
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20250924120745.2883969-1-ross.burton@arm.com>
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <20250924-minor-fixes-v1-2-affc85657a66@pbarker.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 20:09:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223987
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 20:25:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223988
 
 
-
-On 9/24/25 5:07 AM, Ross Burton via lists.openembedded.org wrote:
-> Because of a logic error, lame's configure always passes -march=native
-> when building with clang.
-
-It perhaps is useful when build == host i.e. native builds only.
-
-> 
-> This is a terrible idea in general as it's not often your build machine
-> and target hardware aligns, and leads to some amusing errors:
-> 
->    unknown target CPU 'neoverse-n1'
->    note: valid target CPU values are: i386, i486, ...
-> 
-> Move the HAVE_CLANG block up into the FULL_OPTIMIZATION case, alongside
-> HAVE_GCC.  This option is never enabled (as it's basically "use native")
-> so resolves the build failure.
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+On 2025-09-24 15:57, Paul Barker wrote:
+> This fixes several 'SyntaxWarning: invalid escape sequence' messages
+> printed when running patchtest.
+>
+> Cc: Trevor Gamblin <tgamblin@baylibre.com>
+> Signed-off-by: Paul Barker <paul@pbarker.dev>
+Thanks for this! LGTM.
 > ---
->   meta/recipes-multimedia/lame/lame/clang.patch | 99 +++++++++++++++++++
->   meta/recipes-multimedia/lame/lame_3.100.bb    |  1 +
->   2 files changed, 100 insertions(+)
->   create mode 100644 meta/recipes-multimedia/lame/lame/clang.patch
-> 
-> diff --git a/meta/recipes-multimedia/lame/lame/clang.patch b/meta/recipes-multimedia/lame/lame/clang.patch
-> new file mode 100644
-> index 00000000000..116000c577b
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/lame/lame/clang.patch
-> @@ -0,0 +1,99 @@
-> +Don't use -march=native when building with clang
-> +
-> +Because of a logic error, lame's configure always passes -march=native
-> +when building with clang.
-> +
-> +This is a terrible idea in general as it's not often your build machine
-> +and target hardware aligns, and leads to some amusing errors:
-> +
-> +	unknown target CPU 'neoverse-n1'
-> +	note: valid target CPU values are: i386, i486, ...
-> +
-> +Move the HAVE_CLANG block up into the FULL_OPTIMIZATION case, alongside
-> +HAVE_GCC.  This option is never enabled (as it's basically "use native")
-> +so resolves the build failure.
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +
-> +diff --git i/configure.in w/configure.in
-> +index 5e43179..d51b017 100644
-> +--- i/configure.in
-> ++++ w/configure.in
-> +@@ -960,45 +960,43 @@ if test "x$HAVE_GCC" = "xyes" -o "x$HAVE_CLANG" = "xyes"; then
-> + 				;;
-> + 			esac
-> + 		fi
-> ++
-> ++		if test "x${HAVE_CLANG}" = "xyes"; then
-> ++			case "${CLANG_VERSION}" in
-> ++			3.[89]*|[45].*)
-> ++				OPTIMIZATION="-Ofast"
-> ++				;;
-> ++			*)
-> ++				OPTIMIZATION="-O3"
-> ++				;;
-> ++			esac
-> ++
-> ++			# generic CPU specific options
-> ++			case ${host_cpu} in
-> ++			*486)
-> ++				OPTIMIZATION="${OPTIMIZATION} -march=i486"
-> ++				;;
-> ++			*586)
-> ++				OPTIMIZATION="${OPTIMIZATION} -march=i586 \
-> ++					-mtune=native"
-> ++				;;
-> ++			*686)
-> ++				OPTIMIZATION="${OPTIMIZATION} -march=i686 \
-> ++					-mtune=native"
-> ++				;;
-> ++			*86)
-> ++				OPTIMIZATION="${OPTIMIZATION} -march=native \
-> ++					-mtune=native"
-> ++				;;
-> ++			esac
-> ++
-> ++		fi
-> + 		;;
-> + 	*)
-> + 		AC_MSG_ERROR(bad value �${CONFIG_EXPOPT}� for expopt option)
-> + 		;;
-> + 	esac
-> +
-> +-
-> +-	if test "x${HAVE_CLANG}" = "xyes"; then
-> +-		case "${CLANG_VERSION}" in
-> +-		3.[89]*|[45].*)
-> +-			OPTIMIZATION="-Ofast"
-> +-			;;
-> +-		*)
-> +-			OPTIMIZATION="-O3"
-> +-			;;
-> +-		esac
-> +-
-> +-		# generic CPU specific options
-> +-		case ${host_cpu} in
-> +-		*486)
-> +-			OPTIMIZATION="${OPTIMIZATION} -march=i486"
-> +-			;;
-> +-		*586)
-> +-			OPTIMIZATION="${OPTIMIZATION} -march=i586 \
-> +-				-mtune=native"
-> +-			;;
-> +-		*686)
-> +-			OPTIMIZATION="${OPTIMIZATION} -march=i686 \
-> +-				-mtune=native"
-> +-			;;
-> +-		*86)
-> +-			OPTIMIZATION="${OPTIMIZATION} -march=native \
-> +-				-mtune=native"
-> +-			;;
-> +-		esac
-> +-
-> +-	fi
-> +-
-> +-
-> + 	if test "${expopt_msg_result_printed}" = "no" ; then
-> + 		AC_MSG_RESULT(${CONFIG_EXPOPT})
-> + 	fi
-> diff --git a/meta/recipes-multimedia/lame/lame_3.100.bb b/meta/recipes-multimedia/lame/lame_3.100.bb
-> index efaf3b9817a..42689df3511 100644
-> --- a/meta/recipes-multimedia/lame/lame_3.100.bb
-> +++ b/meta/recipes-multimedia/lame/lame_3.100.bb
-> @@ -12,6 +12,7 @@ DEPENDS = "ncurses gettext-native"
+>   meta/lib/patchtest/patchtest_patterns.py | 20 ++++++++++----------
+>   meta/lib/patchtest/tests/test_mbox.py    |  4 ++--
+>   2 files changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/meta/lib/patchtest/patchtest_patterns.py b/meta/lib/patchtest/patchtest_patterns.py
+> index 655ecfd049191b9b5e1990c31ad1bb7c96811fa6..1a8db92aa5372c481164604c0dee2c2367c9fd87 100644
+> --- a/meta/lib/patchtest/patchtest_patterns.py
+> +++ b/meta/lib/patchtest/patchtest_patterns.py
+> @@ -33,7 +33,7 @@ closed   = 'CLOSED'
+>   lictag_re  = pyparsing.AtLineStart("License-Update:")
+>   lic_chksum_added = pyparsing.AtLineStart("+" + metadata_chksum)
+>   lic_chksum_removed = pyparsing.AtLineStart("-" + metadata_chksum)
+> -add_mark = pyparsing.Regex('\\+ ')
+> +add_mark = pyparsing.Regex(r'\+ ')
+>   patch_max_line_length = 200
+>   metadata_src_uri = "SRC_URI"
+>   metadata_summary = "SUMMARY"
+> @@ -51,20 +51,20 @@ auh_email = 'auh@yoctoproject.org'
 >   
->   SRC_URI = "${SOURCEFORGE_MIRROR}/lame/lame-${PV}.tar.gz \
->              file://no-gtk1.patch \
-> +           file://clang.patch \
->              "
+>   invalid_submitters = [pyparsing.Regex("^Upgrade Helper.+"),
+>               pyparsing.Regex(auh_email),
+> -            pyparsing.Regex("uh@not\.set"),
+> -            pyparsing.Regex("\S+@example\.com")]
+> +            pyparsing.Regex(r"uh@not\.set"),
+> +            pyparsing.Regex(r"\S+@example\.com")]
 >   
->   SRC_URI[sha256sum] = "ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e"
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#223962): https://lists.openembedded.org/g/openembedded-core/message/223962
-> Mute This Topic: https://lists.openembedded.org/mt/115410427/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+> -mbox_bugzilla = pyparsing.Regex('\[\s?YOCTO.*\]')
+> -mbox_bugzilla_validation = pyparsing.Regex('\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]')
+> -mbox_revert_shortlog_regex = pyparsing.Regex('Revert\s+".*"')
+> +mbox_bugzilla = pyparsing.Regex(r'\[\s?YOCTO.*\]')
+> +mbox_bugzilla_validation = pyparsing.Regex(r'\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]')
+> +mbox_revert_shortlog_regex = pyparsing.Regex(r'Revert\s+".*"')
+>   mbox_shortlog_maxlength = 90
+>   # based on https://stackoverflow.com/questions/30281026/regex-parsing-github-usernames-javascript
+> -mbox_github_username = pyparsing.Regex('\B(?<!\${)@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))')
+> +mbox_github_username = pyparsing.Regex(r'\B(?<!\${)@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))')
+>   
+>   # patch
+>   
+> -cve = pyparsing.Regex("CVE\-\d{4}\-\d+")
+> -cve_payload_tag = pyparsing.Regex("\+CVE:(\s+CVE\-\d{4}\-\d+)+")
+> +cve = pyparsing.Regex(r"CVE\-\d{4}\-\d+")
+> +cve_payload_tag = pyparsing.Regex(r"\+CVE:(\s+CVE\-\d{4}\-\d+)+")
+>   upstream_status_regex = pyparsing.AtLineStart("+" + "Upstream-Status")
+>   
+>   # shortlog
+> @@ -78,7 +78,7 @@ shortlog = line_start + shortlog_target + colon + shortlog_summary + line_end
+>   email_pattern = pyparsing.Regex(r"(?P<user>[A-Za-z0-9._%+-]+)@(?P<hostname>[A-Za-z0-9.-]+)\.(?P<domain>[A-Za-z]{2,})")
+>   
+>   signed_off_by_prefix = pyparsing.Literal("Signed-off-by:")
+> -signed_off_by_name = pyparsing.Regex('\S+.*(?= <)')
+> +signed_off_by_name = pyparsing.Regex(r'\S+.*(?= <)')
+>   signed_off_by_email = lessthan + email_pattern + greaterthan
+>   signed_off_by = pyparsing.AtLineStart(signed_off_by_prefix + signed_off_by_name + signed_off_by_email)
+>   patch_signed_off_by = pyparsing.AtLineStart("+" + signed_off_by_prefix + signed_off_by_name + signed_off_by_email)
+> diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
+> index 714c9b30af5c7ad705079a67903e038354de0195..5cf02af7bd5e761ed3f08254897861ec401841b8 100644
+> --- a/meta/lib/patchtest/tests/test_mbox.py
+> +++ b/meta/lib/patchtest/tests/test_mbox.py
+> @@ -71,7 +71,7 @@ class TestMbox(base.Base):
+>       def test_shortlog_length(self):
+>           for commit in self.commits:
+>               # no reason to re-check on revert shortlogs
+> -            shortlog = re.sub('^(\[.*?\])+ ', '', commit.shortlog)
+> +            shortlog = re.sub(r'^(\[.*?\])+ ', '', commit.shortlog)
+>               if shortlog.startswith('Revert "'):
+>                   continue
+>               l = len(shortlog)
+> @@ -109,7 +109,7 @@ class TestMbox(base.Base):
+>   
+>           # a meta project may be indicted in the message subject, if this is the case, just fail
+>           # TODO: there may be other project with no-meta prefix, we also need to detect these
+> -        project_regex = pyparsing.Regex("\[(?P<project>meta-.+)\]")
+> +        project_regex = pyparsing.Regex(r"\[(?P<project>meta-.+)\]")
+>           for commit in self.commits:
+>               match = project_regex.search_string(commit.subject)
+>               if match:
+>
 
