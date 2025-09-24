@@ -1,132 +1,93 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C966CAC5A5
-	for <webhook@archiver.kernel.org>; Wed, 24 Sep 2025 05:56:04 +0000 (UTC)
-Received: from esa2.hc324-48.eu.iphmx.com (esa2.hc324-48.eu.iphmx.com [207.54.68.120])
- by mx.groups.io with SMTP id smtpd.web10.6049.1758693362241392710
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F661CAC5A5
+	for <webhook@archiver.kernel.org>; Wed, 24 Sep 2025 06:24:54 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.6365.1758695093786358483
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Sep 2025 22:56:03 -0700
+ Tue, 23 Sep 2025 23:24:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=my0TFaZO;
- spf=pass (domain: bmw.de, ip: 207.54.68.120, mailfrom: prvs=35556fb92=moritz.haase@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=g7SmaK6b;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b555b0fb839so1793854a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Sep 2025 23:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1758693362; x=1790229362;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=20622tdgakL1TzodIF4G5BX18I7mBs/4rZ5d5kQx5V0=;
-  b=my0TFaZOpXoDN7x5xcfoHHwxmb1wDkZTgwoF4CRSvBM97SDxOVhtWRjk
-   hA9QeX08MX5LvRHdC1B0jwjXrEflLXuGpGg9ur8igPiT+cvxHlrkeAdXa
-   1hsVXZirhqio/A20XPdYg98QHy3v3O4iyYy6rXdXBRQca0WdbFojCY0t4
-   M=;
-X-CSE-ConnectionGUID: vDs645rRTWiDn5weFIJxFg==
-X-CSE-MsgGUID: O+GdNefKRNemTMdpYdFqgg==
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa2.hc324-48.eu.iphmx.com with ESMTP/TLS; 24 Sep 2025 07:56:00 +0200
-Received: from unknown (HELO esabb2.muc) ([10.31.187.133]) by esagw1.muc with
- ESMTP/TLS; 24 Sep 2025 07:56:00 +0200
-Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
- by esabb2.muc with ESMTP/TLS; 24 Sep 2025 07:56:00 +0200
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.212) by
- smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
- Server (version=TLS; Wed, 24 Sep 2025 07:55:59 +0200
-X-CSE-ConnectionGUID: v9gIR9aMSiWQH17oIzQheg==
-X-CSE-MsgGUID: CSvJRL6aQQGUNfgl4PBNIg==
-X-CSE-ConnectionGUID: SIzG9rC1RleAJ+KM81CbKA==
-X-CSE-MsgGUID: FCDXv3B9S2uyn7B5eK5MXA==
-From: Moritz Haase <Moritz.Haase@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>
-Subject: [PATCH] libwpe: upgrade 1.16.2 -> 1.16.3
-Date: Wed, 24 Sep 2025 07:55:36 +0200
-Message-ID: <20250924055536.907389-1-Moritz.Haase@bmw.de>
+        d=gmail.com; s=20230601; t=1758695093; x=1759299893; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qfpyBkbxEw6wjSO2HI8CqXt71UpHd3xwR/S3l68qLRM=;
+        b=g7SmaK6bA4fvNbVY8XY1dtyVCT7z3fckVDnQdQ9eZOPXvMnrhC0jaDYAOgflRA67dt
+         hH0fcMmTzStFSA/aivsVma/id9qFaMlgpQfX0qSUgPqiNC0fJDf+doIVxmp0Ss3hq39n
+         IgUD04/6aFzTlzIoPXs6smtjOPqSN2QPQB7GlHRbt7dy3WXdFHFhpb5632YrnMBnIkNJ
+         nzFloZDzz6+OMSycPCtn7zZkZNhU+W+bmSgo0YPus59O3bYl3FZ+mGjRbEQkRl6QczmZ
+         Y5cX9qmQ7vm2TkhpPn8qxoumpZWLXkHDRLxRKH0xxOWYBy7TGFzuObHeYI4LVDVMh8PJ
+         O8cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758695093; x=1759299893;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qfpyBkbxEw6wjSO2HI8CqXt71UpHd3xwR/S3l68qLRM=;
+        b=AS4hv5W9k/vrPkXqO0O5kycwx0CPopnJ7thLwAnyzuK2l/AHMsmh2ieg3OHw12A2+D
+         AwA/qm0X9l7gKdTq9CQ4fGpHnnH/3i/TF9i6+pZCq9pu1+JqCGbcVYKr/Fv9K4kPdYhW
+         JFt5UKCfAUipRorWjXndgTscXct20PJ9X7OYBNCIL6+4sPIQ4UKmpmznUAntDHsHng/p
+         RhhZ6m7xsNb91GDxMcNevmr6DS1Sd2HLA7nF3Y3vyxdUJCC+GssLyh/rYFeV9nqauMHB
+         w+eCZTKxwj40oWcJYqYvkhb2DBjZQb8kqFInXbjXcxPn4WM6d3ZV34f3kVbqkghAvHjt
+         FzQA==
+X-Gm-Message-State: AOJu0YxKdr3siZpcb0GfmFEy1XvovJ60vQr7mwhkUaR29ePDw3mNNxfu
+	zHKqqC7mL0NQekt87tImj3LGhK52dpWLAXm2UwvFvv1pt8IK2VJ8MeFFn0Vt/GeI
+X-Gm-Gg: ASbGncuoR7WLimFEJQqOfVE+3DeoPnheXKQ81zwpBvzDfzS61A53rjOOrMH6oso8FRY
+	hduRegbvVx/Sz8XK65C6GG8FoAjhvP5E2c73FXdg5bpS7CCt+jzqaS7gPdIbfFRCm6/e0HkE68o
+	m8j18tdvBUkXuQWLNvtL9pYo1/eKOlOy2LYyqlqKH8lk4iX6L3dn6EY27rxI5oel6O4BBNH1mNx
+	10T3FPl38b2gLJyOXpacBdkwm5R5CdbtsUTkCkVhffjnVo6Qx74mrJY+1ZPtF1pt0BYhktMTwat
+	/yBg95tQXPYW3TY8d0yKumT2Bbw/4oUP0F04D++lzoNLEWfUZvj3PtLLv3yIK4LE8Q3N/llRuar
+	hEDKwrULmhjUqeuQYQgivqqpsRn/T6lXB0Hk0wX4pZvYB/EXYqOgjSdTLYjTM98zPRPYQPxOcml
+	X7zd79oRD1JE0NLp4TDdfo3RqgbUlBz9PtLNHtyqXr
+X-Google-Smtp-Source: AGHT+IHOVUOUpq5l3bp4qtr4UmIdfVaG9FKTj6pgtZQjLN7yp1sEnTXZTL5yx/KjkeapuT8G0OlbEQ==
+X-Received: by 2002:a17:903:190:b0:277:9193:f2da with SMTP id d9443c01a7336-27cc0dbb137mr67847325ad.5.1758695092747;
+        Tue, 23 Sep 2025 23:24:52 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::7309])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-26980053594sm181264065ad.21.2025.09.23.23.24.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Sep 2025 23:24:52 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] qemuriscv: Use RVA23S64 profile for cpu
+Date: Tue, 23 Sep 2025 23:24:50 -0700
+Message-ID: <20250924062450.3626668-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: smucmp16f.europe.bmw.corp (2a03:1e80:a15:58f::1:148) To
- smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 05:56:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223946
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 06:24:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223947
 
-Release notes are available at [0]. The new release contains a CMake-related
-patch that we can now drop.
+Enables RVV extensions uniformly across gcc and clang
+as it is mandatory in RVA23 spec.
 
-[0]: https://github.com/WebPlatformForEmbedded/libwpe/releases/tag/1.16.3
+https://github.com/riscv/riscv-profiles/blob/main/src/rva23-profile.adoc
 
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...red-CMake-version-to-3.5-to-allow-bu.patch | 38 -------------------
- .../{libwpe_1.16.2.bb => libwpe_1.16.3.bb}    |  3 +-
- 2 files changed, 1 insertion(+), 40 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/libwpe/0001-cmake-Bump-required-CMake-version-to-3.5-to-allow-bu.patch
- rename meta/recipes-sato/webkit/{libwpe_1.16.2.bb => libwpe_1.16.3.bb} (80%)
+ meta/conf/machine/include/riscv/qemuriscv.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/webkit/libwpe/0001-cmake-Bump-required-CMake-version-to-3.5-to-allow-bu.patch b/meta/recipes-sato/webkit/libwpe/0001-cmake-Bump-required-CMake-version-to-3.5-to-allow-bu.patch
-deleted file mode 100644
-index 05688ee463..0000000000
---- a/meta/recipes-sato/webkit/libwpe/0001-cmake-Bump-required-CMake-version-to-3.5-to-allow-bu.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--From 7b227c7c1ac226498b1ea3987f87350d0f14f49f Mon Sep 17 00:00:00 2001
--From: Moritz Haase <Moritz.Haase@bmw.de>
--Date: Wed, 2 Jul 2025 09:19:44 +0200
--Subject: [PATCH] cmake: Bump required CMake version to 3.5 to allow builds
-- with CMake 4+
--
--This enables builds with CMake 4+, fixing:
--
--    CMake Error at CMakeLists.txt:1 (cmake_minimum_required):
--      Compatibility with CMake < 3.5 has been removed from CMake.
--
--      Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
--      to tell CMake that the project requires at least <min> but has been
--      updated to work with policies introduced by <max> or earlier.
--
--      Or, add -DCMAKE_POLICY_VERSION_MINIMUM=3.5 to try configuring anyway.
--
--While at it, remove the extra call to 'cmake_policy()'. When passing the same
--version as to 'cmake_minimum_required()' it's not needed, as the latter calls
--the former automatically.
--
--Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
--Upstream-Status: Submitted [https://github.com/WebPlatformForEmbedded/libwpe/pull/136]
-----
-- CMakeLists.txt | 3 +--
-- 1 file changed, 1 insertion(+), 2 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index db9ae50..2a01daf 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -1,5 +1,4 @@
---cmake_minimum_required(VERSION 3.0)
---cmake_policy(VERSION 3.0)
--+cmake_minimum_required(VERSION 3.5)
--
-- set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-- include(VersioningUtils)
-diff --git a/meta/recipes-sato/webkit/libwpe_1.16.2.bb b/meta/recipes-sato/webkit/libwpe_1.16.3.bb
-similarity index 80%
-rename from meta/recipes-sato/webkit/libwpe_1.16.2.bb
-rename to meta/recipes-sato/webkit/libwpe_1.16.3.bb
-index 6cb6818acc..abfc631a5b 100644
---- a/meta/recipes-sato/webkit/libwpe_1.16.2.bb
-+++ b/meta/recipes-sato/webkit/libwpe_1.16.3.bb
-@@ -11,9 +11,8 @@ inherit cmake features_check pkgconfig
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz \
--           file://0001-cmake-Bump-required-CMake-version-to-3.5-to-allow-bu.patch \
-            "
--SRC_URI[sha256sum] = "960bdd11c3f2cf5bd91569603ed6d2aa42fd4000ed7cac930a804eac367888d7"
-+SRC_URI[sha256sum] = "c880fa8d607b2aa6eadde7d6d6302b1396ebc38368fe2332fa20e193c7ee1420"
- 
- # This is a tweak of upstream-version-is-even needed because
- # upstream directory contains tarballs for other components as well.
+diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
+index 35961272022..b755d32c9d1 100644
+--- a/meta/conf/machine/include/riscv/qemuriscv.inc
++++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+@@ -27,7 +27,7 @@ UBOOT_ENTRYPOINT:riscv64 = "0x80200000"
+ # qemuboot options
+ QB_SMP ?= "-smp 4"
+ QB_KERNEL_CMDLINE_APPEND = "earlycon=sbi"
+-QB_CPU:riscv64 ?= "-cpu rva22s64"
++QB_CPU:riscv64 ?= "-cpu rva23s64"
+ QB_MACHINE = "-machine virt"
+ QB_DEFAULT_BIOS = "fw_jump.elf"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
 
