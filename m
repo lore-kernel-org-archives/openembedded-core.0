@@ -1,162 +1,104 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C41DCAC5A5
-	for <webhook@archiver.kernel.org>; Wed, 24 Sep 2025 20:25:41 +0000 (UTC)
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web10.24459.1758745533872623754
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A896CAC5B0
+	for <webhook@archiver.kernel.org>; Wed, 24 Sep 2025 21:18:01 +0000 (UTC)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web10.25999.1758748675624585840
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Sep 2025 13:25:34 -0700
+ Wed, 24 Sep 2025 14:17:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=jxcUPjBn;
- spf=pass (domain: baylibre.com, ip: 209.85.222.193, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-85630d17586so37884785a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 13:25:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3WZycZiI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b5565f0488bso196537a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 14:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1758745533; x=1759350333; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mvDkw3McO4L2JB8O5GQPNtuahm8GLVhmupt+T4Stnbs=;
-        b=jxcUPjBnKTqRUlqpvVjksVdX5P7JDBWAF8U8Lejzi9CNjvsFhgQeGV4VppF1igIt46
-         LHtt+WIQCj5m5phS+6lWxCAT/hEa5de0o6PEENcsKTjPEJbDAKhH5pyjLVbDJzVKOiKv
-         WclvHbx8fwh44AMf3atNZGWw24b9TQPIOl3UiaEq7Vo7tRc4jCmp3EJgXXzeFROar6on
-         2iSsNNwfv83w7SUgPdc1cqESoz015frwnANtgY4Yve54752m/kMoTmy5+Xowz9flStch
-         8YqoRkzbayQ4XLEDrH5RV8+TCP0EIUVRUA7gGKGLC0UDsKcYITmBAAT/haPXEvSPkGj6
-         Vtog==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1758748675; x=1759353475; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k0+BIpiRAUuLjHOnrTlWCXa8NFTdVnCmgA2nEAx+CBs=;
+        b=3WZycZiI6qgREmU2AKMtI8QoYCsFWNwY7iwoxMdE3XhSbQzEXyLoGWWt84AltB1YLi
+         9MiRdQ1l1cHGvrKI0RAh8gUZadDO36Dbj/6HZV7936w8gu5n0OXq8hP+X4LD8yBFl26o
+         mrSE8kxDvDhhLTtHKHr74VNOimdAB2sW3UCHXYYc3mfAwcUQQqOxIZB1Tw/MyYWL0OJd
+         X5nd+TlhkeM4fN3sUN1PUbU7lnVUTxZCstQEvFaoKXq4JGHS5o3xj1jmf/Pb3uGMNBBJ
+         qH4DYHgNsJRnvr1u1Y4KuXG/mU9P4YJZxfPslIq9eGMWudd4tHvS7wDa+VzR+Lm5j6sA
+         k4Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758745533; x=1759350333;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mvDkw3McO4L2JB8O5GQPNtuahm8GLVhmupt+T4Stnbs=;
-        b=gQCikBA/YCo77sfytuoa5qOyJ4VnPJF7PiItjklbWO7E40v5KfJ7/s9sUd4lMeL26h
-         uE1baaYRFgkhOytdo80EALbqUColzrDnphN8LykfQ4TNT6/VB29yd/GA4ogaJkWbNr2k
-         eO5Cx2Qb6CrUuEKM9r0bs/q+N3coIwf+cVnqMKa8r5CkuP9tSReRLxuiyIIYBVxwK8mV
-         2nsn5I8g5ZQh7GqDFZ5GYamZyQVTnnBUDSn+67U/JchN2hdO1jR8uOusvJD6VpK+vXjK
-         Q+JekMaFBlpYGthMPclAH7gKrdG0DEsKAywl/4QOntBThRLAWINgJVXUgtZzmpEfRAWl
-         Xx6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWlz3wMVHOKUGtyn51Tv5SaUpx76crafZZvknf8CuPIux3ncTH2I6QZ+J19Mrqgl4uvMj9RgSzkn5Fuw5KcKnoi9w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxBe6pZOPYLKWYg1XqtbOMnbd+BM0VCMfgTsaUFTR/crZkKtByt
-	9FrE5sbKDTxSD3YeGN3GaEdfjo5MXf6QKeIrhpPo3hUmrlanrv87mNk2OsbIu0BVMD0=
-X-Gm-Gg: ASbGncufk7CPdA64PPcm3tC+jc7vc4cEfyFnc+gXjk2UaqdBAJkzrwzH894mUWGlVVg
-	TyZkZU6HYy3KA1lm+rPkVS9up4V3uBg+pfaz3BtXKFOMYbuI9PD7+nu59qXJWsmfasHZQ342EQ8
-	BiYMMN5hKaFO6rnbXHOo16D+OaHE+Pv5bCoTI0NSnOVkv0rcMWrO8K7CMj9z5avjnPG76PB02dG
-	mmRmbPfZd8RJoLj/I3qLuGBEmZ+i+x0bB6tyuZlGMDfdQu5RrRH4m8mNR/LPmo9xIEH0ijrlHqr
-	nP5R9/oazxgePyWGe0HMxxIlUPtQMRu7cquADGFHMcRmRl28SN1oSY7pNaCjX3C1T+CHOGvJ+8I
-	5+LFrz99rAFYNThLcZcGsL2GqvYWtVWwNiK3dGyytDtGQjxnoEdGgTpNFex9qONJBtLw=
-X-Google-Smtp-Source: AGHT+IEzmbWnrrojH2QW7w/qT2iJjLXpmJCPVSvgWzeLvUng3sc3p53RKNH2e43YE+BKYTz0g03u8w==
-X-Received: by 2002:a05:620a:3182:b0:7fe:9d98:4806 with SMTP id af79cd13be357-85aebd00f0bmr138227785a.59.1758745532730;
-        Wed, 24 Sep 2025 13:25:32 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-85bc981457fsm7392485a.56.2025.09.24.13.25.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Sep 2025 13:25:32 -0700 (PDT)
-Message-ID: <5dab2d28-4a15-491c-bb12-623a37f9a72c@baylibre.com>
-Date: Wed, 24 Sep 2025 16:25:30 -0400
+        d=1e100.net; s=20230601; t=1758748675; x=1759353475;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k0+BIpiRAUuLjHOnrTlWCXa8NFTdVnCmgA2nEAx+CBs=;
+        b=bV/cCWA8BPkF3DpW6gmwKbAOijwgYt4cgWYXrvrc7VhYkEdsIbryFCtPMGY03k6FU4
+         vngvLHcSp1AfLfYjm4ZXU7ltkwyTZw3GGBwwcL1DJaSQOqxxG+/HS17sRHIdyd5647WC
+         bAiuUb0GWcqYD4zbiX7GBLo3zjw5oblOB3gPLou00hdtAaTPdjup/+zN4M5pO/jOsd96
+         QnkbKJS/F1V//aWi23rmRLdNcsw4aI6mySU5tcICYmd2+WpPItoGHRQhZMiXnHr/c0jD
+         0MGIDWD5GTUU9T3yL5Difwk5IaqYqYC0EH+UrKf8dXKLUf6ONcAO7qHcq46/OOGMshvr
+         MtDw==
+X-Gm-Message-State: AOJu0Yw0/jGP6kVRywBZ7T19Id3wI3ieKJvvqg9lDCyBp/RCcCXONOcq
+	7BxKqGe4QsUIvASq1hrIJqtlMjZw5VvYBVS2GodaJts/TjiZj5iVngQ2UAjeEAkRFz7MX1RObc1
+	smZ/qq2M=
+X-Gm-Gg: ASbGncveNAwlV5u0HFe9KYvmRcQnlYpiBKQlO7Mxbqxe6YMmVetdJG/lvTyyQ3dreI3
+	no93CWzznROTPq93r5cvzVA09NyYKsNRj019p0ZOVEaq9UOv+5k3v8NlFgp8uLNetZKX+IQETOe
+	Ajlpo6rQsM64zjbSqcH5JalA+tXU2z5aVyt2MZ9PelX+RN9yb0xWIddgV1QjF7vh5F13c1SWYCB
+	2IFKZH0CSo0uAlcsKtWh3oUx/ENZYTE7fzCwEda9CBzjF+1AcitQLl8gbRyBOcjUObZVCi35aDO
+	Uaf6uFpUwaGTG7F2HIFOKG3blYYywy1bl6IXCNCpAGdX/Oc4HIpq+nMxoeIZUc+K2l6Ga5T7oLN
+	JLGxvqiodgjCo6Q==
+X-Google-Smtp-Source: AGHT+IH5TawzpJQrYfPjXAQu9Vk++Jgwou2G4RdKb9QUpJ/jHzjvLcGokge+qhA8VykCrmIITbENYw==
+X-Received: by 2002:a17:902:d60d:b0:269:8edf:67f8 with SMTP id d9443c01a7336-27ed4ab6084mr11316695ad.52.1758748674885;
+        Wed, 24 Sep 2025 14:17:54 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:5e34:462b:e2f0:5898])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6702cf9sm2194555ad.38.2025.09.24.14.17.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Sep 2025 14:17:54 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][walnascar 0/3] Patch review
+Date: Wed, 24 Sep 2025 14:17:47 -0700
+Message-ID: <cover.1758748538.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] patchtest: Use raw strings for regex patterns
-To: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
-References: <20250924-minor-fixes-v1-0-affc85657a66@pbarker.dev>
- <20250924-minor-fixes-v1-2-affc85657a66@pbarker.dev>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <20250924-minor-fixes-v1-2-affc85657a66@pbarker.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 20:25:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223988
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 21:18:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223989
 
+Please review this set of changes for walnascar and have comments back by
+end of day Friday, September 26
 
-On 2025-09-24 15:57, Paul Barker wrote:
-> This fixes several 'SyntaxWarning: invalid escape sequence' messages
-> printed when running patchtest.
->
-> Cc: Trevor Gamblin <tgamblin@baylibre.com>
-> Signed-off-by: Paul Barker <paul@pbarker.dev>
-Thanks for this! LGTM.
-> ---
->   meta/lib/patchtest/patchtest_patterns.py | 20 ++++++++++----------
->   meta/lib/patchtest/tests/test_mbox.py    |  4 ++--
->   2 files changed, 12 insertions(+), 12 deletions(-)
->
-> diff --git a/meta/lib/patchtest/patchtest_patterns.py b/meta/lib/patchtest/patchtest_patterns.py
-> index 655ecfd049191b9b5e1990c31ad1bb7c96811fa6..1a8db92aa5372c481164604c0dee2c2367c9fd87 100644
-> --- a/meta/lib/patchtest/patchtest_patterns.py
-> +++ b/meta/lib/patchtest/patchtest_patterns.py
-> @@ -33,7 +33,7 @@ closed   = 'CLOSED'
->   lictag_re  = pyparsing.AtLineStart("License-Update:")
->   lic_chksum_added = pyparsing.AtLineStart("+" + metadata_chksum)
->   lic_chksum_removed = pyparsing.AtLineStart("-" + metadata_chksum)
-> -add_mark = pyparsing.Regex('\\+ ')
-> +add_mark = pyparsing.Regex(r'\+ ')
->   patch_max_line_length = 200
->   metadata_src_uri = "SRC_URI"
->   metadata_summary = "SUMMARY"
-> @@ -51,20 +51,20 @@ auh_email = 'auh@yoctoproject.org'
->   
->   invalid_submitters = [pyparsing.Regex("^Upgrade Helper.+"),
->               pyparsing.Regex(auh_email),
-> -            pyparsing.Regex("uh@not\.set"),
-> -            pyparsing.Regex("\S+@example\.com")]
-> +            pyparsing.Regex(r"uh@not\.set"),
-> +            pyparsing.Regex(r"\S+@example\.com")]
->   
-> -mbox_bugzilla = pyparsing.Regex('\[\s?YOCTO.*\]')
-> -mbox_bugzilla_validation = pyparsing.Regex('\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]')
-> -mbox_revert_shortlog_regex = pyparsing.Regex('Revert\s+".*"')
-> +mbox_bugzilla = pyparsing.Regex(r'\[\s?YOCTO.*\]')
-> +mbox_bugzilla_validation = pyparsing.Regex(r'\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]')
-> +mbox_revert_shortlog_regex = pyparsing.Regex(r'Revert\s+".*"')
->   mbox_shortlog_maxlength = 90
->   # based on https://stackoverflow.com/questions/30281026/regex-parsing-github-usernames-javascript
-> -mbox_github_username = pyparsing.Regex('\B(?<!\${)@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))')
-> +mbox_github_username = pyparsing.Regex(r'\B(?<!\${)@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))')
->   
->   # patch
->   
-> -cve = pyparsing.Regex("CVE\-\d{4}\-\d+")
-> -cve_payload_tag = pyparsing.Regex("\+CVE:(\s+CVE\-\d{4}\-\d+)+")
-> +cve = pyparsing.Regex(r"CVE\-\d{4}\-\d+")
-> +cve_payload_tag = pyparsing.Regex(r"\+CVE:(\s+CVE\-\d{4}\-\d+)+")
->   upstream_status_regex = pyparsing.AtLineStart("+" + "Upstream-Status")
->   
->   # shortlog
-> @@ -78,7 +78,7 @@ shortlog = line_start + shortlog_target + colon + shortlog_summary + line_end
->   email_pattern = pyparsing.Regex(r"(?P<user>[A-Za-z0-9._%+-]+)@(?P<hostname>[A-Za-z0-9.-]+)\.(?P<domain>[A-Za-z]{2,})")
->   
->   signed_off_by_prefix = pyparsing.Literal("Signed-off-by:")
-> -signed_off_by_name = pyparsing.Regex('\S+.*(?= <)')
-> +signed_off_by_name = pyparsing.Regex(r'\S+.*(?= <)')
->   signed_off_by_email = lessthan + email_pattern + greaterthan
->   signed_off_by = pyparsing.AtLineStart(signed_off_by_prefix + signed_off_by_name + signed_off_by_email)
->   patch_signed_off_by = pyparsing.AtLineStart("+" + signed_off_by_prefix + signed_off_by_name + signed_off_by_email)
-> diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
-> index 714c9b30af5c7ad705079a67903e038354de0195..5cf02af7bd5e761ed3f08254897861ec401841b8 100644
-> --- a/meta/lib/patchtest/tests/test_mbox.py
-> +++ b/meta/lib/patchtest/tests/test_mbox.py
-> @@ -71,7 +71,7 @@ class TestMbox(base.Base):
->       def test_shortlog_length(self):
->           for commit in self.commits:
->               # no reason to re-check on revert shortlogs
-> -            shortlog = re.sub('^(\[.*?\])+ ', '', commit.shortlog)
-> +            shortlog = re.sub(r'^(\[.*?\])+ ', '', commit.shortlog)
->               if shortlog.startswith('Revert "'):
->                   continue
->               l = len(shortlog)
-> @@ -109,7 +109,7 @@ class TestMbox(base.Base):
->   
->           # a meta project may be indicted in the message subject, if this is the case, just fail
->           # TODO: there may be other project with no-meta prefix, we also need to detect these
-> -        project_regex = pyparsing.Regex("\[(?P<project>meta-.+)\]")
-> +        project_regex = pyparsing.Regex(r"\[(?P<project>meta-.+)\]")
->           for commit in self.commits:
->               match = project_regex.search_string(commit.subject)
->               if match:
->
+Passed a-full on autobuilder:
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2435
+
+The following changes since commit d728ec95291f05cbfb436eabe8717ebe9a0dc11d:
+
+  python3-setuptools: restore build_scripts.executable support (2025-09-22 12:42:57 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/walnascar-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/walnascar-nut
+
+Ross Burton (1):
+  expat: upgrade to 2.7.2
+
+Yogita Urade (2):
+  curl: fix CVE-2025-9086
+  curl: fix CVE-2025-10148
+
+ .../expat/{expat_2.7.1.bb => expat_2.7.2.bb}  |  2 +-
+ .../curl/curl/CVE-2025-10148.patch            | 57 +++++++++++++++++++
+ .../curl/curl/CVE-2025-9086.patch             | 55 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.12.1.bb      |  2 +
+ 4 files changed, 115 insertions(+), 1 deletion(-)
+ rename meta/recipes-core/expat/{expat_2.7.1.bb => expat_2.7.2.bb} (92%)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-10148.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-9086.patch
+
+-- 
+2.43.0
+
 
