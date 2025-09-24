@@ -1,98 +1,76 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0749CAC5A5
-	for <webhook@archiver.kernel.org>; Wed, 24 Sep 2025 10:38:06 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.9477.1758710281566437419
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9C3ACAC5B0
+	for <webhook@archiver.kernel.org>; Wed, 24 Sep 2025 10:41:46 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web10.9622.1758710500296853630
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Sep 2025 03:38:01 -0700
+ Wed, 24 Sep 2025 03:41:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=jAXeTArg;
- spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-57afc648b7dso5027587e87.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 03:38:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Yxy9UW+F;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-7639af4c4acso75411586d6.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 03:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758710279; x=1759315079; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4dNhPELIxfX3HJrI4jeBdmQxt07TlqinmHw6t2YpJBs=;
-        b=jAXeTArgFIWyEEKjMqCFhKF5P8dOutFUw3CFjiRCIB81ebxT0GVR32tyCpEdFQ89cu
-         TBdMS5uR/tHyeRCRsHLcK1qu22Vp7a4s9rw8AmK0B/liKgdEnUC+p/gh+rtMwyni9KHc
-         WVEHJfiN4aLJUaUj9GiBOl6MB3KRtF08jts+A63GOcDIX4D2CAbplA6iWuyEBL9dzP/p
-         lxQ9/bH60xZY3cOsocWvJus+0/LGN7ZhiNkzfpSzMEpHkxTW71L18DZi5dplJ8Hnk6op
-         qnvDmDwE3Yr4kcIQ4cQkOQ6fo4pJ1QPZ0eypAjIh+7u5iyHnIFtV7uIJbuLgwQbk8bS/
-         8KFw==
+        d=gmail.com; s=20230601; t=1758710499; x=1759315299; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pslinVdFcMDZE/Z5mR2SqG/biUuuf0boMxx/pQ4pzyo=;
+        b=Yxy9UW+F3JU0jOYgqh9Ft9S7ZEHgN2a5/oKLRcqP7CHWohZ066IQqEPDr/ppW1ptxX
+         mvpxi8BTsBH2q/1AenDqpucn1u77wQQVzBjyESnbxhSfIRsTPHQGPXeqkSLpQECv4nWA
+         U/c3Ah1HrqDesbrvFTcYY1uCPqDcnx+kgMhQXkBgoxo34fORS5QmoNeURO5T39neeTJ8
+         PxigLYdBQJI610qYG/peN2Fp8WYYLLhR3L2fR/EAqFd5k3W9WARmKLbzYi40VRsinyEC
+         oYXcZHGYsOhpnxxQlA9PN0/yfJaVWiPiCNjlRKrZZODrcVQymbTKS+E1iBCh3mHMVgaR
+         TQcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758710279; x=1759315079;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1758710499; x=1759315299;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4dNhPELIxfX3HJrI4jeBdmQxt07TlqinmHw6t2YpJBs=;
-        b=cx68OBgmynwPvndJ+lKteDwXvqfqs5uEnBtB3yxUgCcO/5VVvXLHU5wy24Pcq4RpMQ
-         rubBXDuNxOKiJUvVLZCRPMwh11EiRNEvHaruXgusKmFRwWmtNSyGl/c6KvkZ3qTtsawx
-         lwkSPPJixvCrNnELkybutWS0WqYUEw+TfJiBGYcfoZY4eiXu0aXR8G+TrBn3REcay7cE
-         73OidhONd0QwgiJ+MJYNQH0IpiCtJ9RVTqMANEgFocqryRQvj6EVzMoypoMe+MRzPjga
-         YDmsG6pCNiKFBTSz7y0hbDFePH8+JQFItalwbg++wUeiHf/L88+WMoq2SUFS3xBJ1ga7
-         pb3A==
-X-Gm-Message-State: AOJu0Yz4kxUX+T2UzV4ShLzjKx9uBenqJiE4mENjliub1oKJmjI3q2D6
-	gKezoPdFVpel65jhXPnQRsHv+3N9eASasuWY1Zw2txBUfbTIbIJaWhhcz3PA8tYX6UnQaMRBFub
-	hP5Wljos=
-X-Gm-Gg: ASbGncve8aNA5abHwOYv5mZ+VnDnCMOkag10c03F7pBg25/ufykFBhUCacWtUkgBmhF
-	6FxRWinRxUw3N7a+v7yPSw8HmZWtKS28oAfiPFch/HOwtkPGeVAG6zpErKEgWyZHs/orZ2FLNJ6
-	VO2/4rydag2z4GoXnZTro+/xBx6gnF2JIrBSLsc8oo+kbAip0B4CQglk456jAyjAwnZcLfVTzrc
-	2/aC1edOel5+hRtX9VqEA1LpZNXBD8jIyfYjeu3WLAZQQhIqy4X7o3TCGNbvZG+l7OH0xwP2grd
-	5iDENUpaH6pNA1DEwDn/d3heVlniBIkkxqFOJDS+xPAzu+/nU4TvQg5g/lD1cgbdnlRa0TbcCxQ
-	WY9nwPPSf+oX8nFyQdzzSsPpZkCi4H3aEtWZ8+SX3nKKCp1/9F/p6A2+7
-X-Google-Smtp-Source: AGHT+IHZ5rdkpwvGDU1t3328pcqojczcIgDJvsTp5FlAJYTs1YK4Y/fOpBEHvO1yuW3Mq8Qc4wY/yg==
-X-Received: by 2002:a05:6512:4018:b0:57a:3d7e:7274 with SMTP id 2adb3069b0e04-580708fc92cmr2225813e87.15.1758710279379;
-        Wed, 24 Sep 2025 03:37:59 -0700 (PDT)
-Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-57fcb8914f6sm1798976e87.60.2025.09.24.03.37.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 03:37:59 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH] fontconfig: disable tests on native builds
-Date: Wed, 24 Sep 2025 13:37:29 +0300
-Message-ID: <20250924103729.111501-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.51.0
+        bh=pslinVdFcMDZE/Z5mR2SqG/biUuuf0boMxx/pQ4pzyo=;
+        b=sSJ7Pw4PGs0XTpaJuVHfuyvafUDL4HrchIBI3T0Vy/MbgW9Z9eDFuzFC/SLC7WBtKw
+         6qd0S6VuNcr8VSlsfMG28F2QK/V/rMcJtolr3I31EEN7PhraYRgzvGl59xtExfRxaPu5
+         lr3J6GQ8ZVS22k1W8MqBY/8vE8mrlaOhEp4Qs9CauFC0hIbULSJHojJDv5z030Xw4mfc
+         FzxDFf05uwL7dPhgEUmWp1rDml4ljbDBNMgIYwG6xYvAu2cYzBgtWE3xmEMDyjVG+RB1
+         NiQwmhvSiwkFVdnyJCt0/Jp6vdOgR3UfVYTWNA21Ihp/pIWg70YAAwSbF8Hd0tTGtkR2
+         pCjw==
+X-Gm-Message-State: AOJu0YwLBzay6kuJ/fxPqR0wgFeW5nxRjWyStZ63fHTJpfi/nGYyTCT7
+	XKwzcfCkY7g+bTG1ZLBBQTRKoJs1JHVZ4InXsoSbSEIBq/SPTLZODeL7QRKMFQHCo0yqm3iDoYR
+	yOW3UwdrKE3yv/19Vc2y4UeX2tSx4bU2kFQ==
+X-Gm-Gg: ASbGncu9POYD6p+w90DYh+fV93BlX5liEy6MFZ5lnTQCoeeR8px1uR5x7nQcDYoyCCz
+	WIZSpCjrBpFRIJoA8kZL3Z6/UVaPKXfuhtjFjJYgbpXaa36fzghbIvbM2MhjLzux2g7lN5UOLxn
+	wRkxcuMnvUl1uOxHsnORKR+kwtYl5U8TSIsPGdWriOh0Hek4I7+Br/nymusFkgirFtzMic9kB0j
+	C/81Dy3DN5VP4uZeB9tfJq4cizcwUN+E4hlA4mKGR/VM2UmZ8tASyxWUYTRjQdgu9mzogKv94bQ
+	2Ojk262nu5zCEusoCCR1gomzM4J1f6UdFo5ITexGiW8FUae5Oyk=
+X-Google-Smtp-Source: AGHT+IEmpb0KRYLT0FfPrZNUo4sFzRtJcegXTkVBgDsYwLwmIbjS7rAe+fcNr3AxIcAzk7ZMuWEOHvhuXplYWhr/3ec=
+X-Received: by 2002:a05:6214:529b:b0:798:95da:611f with SMTP id
+ 6a1803df08f44-7e6e4011a15mr64268016d6.0.1758710499380; Wed, 24 Sep 2025
+ 03:41:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250924103729.111501-1-mikko.rapeli@linaro.org>
+In-Reply-To: <20250924103729.111501-1-mikko.rapeli@linaro.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 24 Sep 2025 12:41:28 +0200
+X-Gm-Features: AS18NWBQGXaE5SEbiayZb8XkVeiRgZYOGpb539394exRbbuEpCEpsBEOLAKjBfo
+Message-ID: <CANNYZj_vhzWn0i33xKAWbfU=YCzrj+GyPPFVe-Ygc4wAHb+S2w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] fontconfig: disable tests on native builds
+To: mikko.rapeli@linaro.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 10:38:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223959
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 10:41:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223960
 
-The tests require json library which is not in build
-dependencies:
+On Wed, 24 Sept 2025 at 12:38, Mikko Rapeli via lists.openembedded.org
+<mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+> +EXTRA_OEMESON:append:class-native = " -Dtests=disabled"
 
-../sources/fontconfig-2.17.1/test/test-conf.c:27:10: fatal error:
-json.h: No such file or directory
-   27 | #include <json.h>
+This should be unconditional to avoid non-deterministic configuration
+in target builds.
 
-The tests will not be run in native build so just disable them.
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb
-index 22bdfb139c..54a4c33e62 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb
-+++ b/meta/recipes-graphics/fontconfig/fontconfig_2.17.1.bb
-@@ -66,5 +66,6 @@ FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
- FONTCONFIG_FONT_DIRS ?= "no"
- 
- EXTRA_OEMESON = " -Ddoc=disabled -Ddefault-fonts-dirs=${datadir}/fonts -Dcache-dir=${FONTCONFIG_CACHE_DIR} -Dadditional-fonts-dirs=${FONTCONFIG_FONT_DIRS}"
-+EXTRA_OEMESON:append:class-native = " -Dtests=disabled"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.34.1
-
+Alex
 
