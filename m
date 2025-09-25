@@ -1,134 +1,329 @@
-Return-Path: <peter@berginkonsult.se>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE83CAC5A7
-	for <webhook@archiver.kernel.org>; Thu, 25 Sep 2025 10:58:18 +0000 (UTC)
-Received: from mailrelay-egress8.pub.mailoutpod2-cph3.one.com (mailrelay-egress8.pub.mailoutpod2-cph3.one.com [46.30.211.183])
- by mx.groups.io with SMTP id smtpd.web10.8589.1758797887517237534
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE292CAC5A5
+	for <webhook@archiver.kernel.org>; Thu, 25 Sep 2025 11:11:58 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.web10.8836.1758798711863296884
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Sep 2025 03:58:09 -0700
+ Thu, 25 Sep 2025 04:11:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@berginkonsult.se header.s=rsa1 header.b=gKNiiVBP;
- dkim=pass header.i=@berginkonsult.se header.s=ed1 header.b=mnUvLTQG;
- spf=none, err=SPF record not found (domain: berginkonsult.se, ip: 46.30.211.183, mailfrom: peter@berginkonsult.se)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1758797885; x=1759402685;
-	d=berginkonsult.se; s=rsa1;
-	h=in-reply-to:from:references:cc:to:subject:mime-version:date:message-id:
-	 content-type:from;
-	bh=2PSpcVzTIRXV2Fej7qbk3JsRVe8kNC/uuCDtCc9fHUc=;
-	b=gKNiiVBP1I8OV6aOMogllipb9LjWFellxl2ngUbGd6WakNBbJ4FGHdz8XNNxr8/uqdO+gQFTwuUh2
-	 tc5L+XcgXn3/ppTdeTm1KRAIhJr9+rTCkVDrPNgHZIZW8ivw4T38cVp1rZ4X4+UVSqSXDBJ6TvZlfK
-	 vjZ4R2JhKodG5JkOSUsyw+TJ3B0hXzDSwtbQ1huN1Hqem8zEC6WdF/K7l97qFdTkbGrcEGYShV/xVZ
-	 mmwS2FLjsL5l8H2EU2uBvd8aX5EUtQCwvbHmGnNDC4gPbAvYR3ENkL8MuPqVod20PX3LAjbrY0tswa
-	 Mqkjgh+xVFMDI/mT9z2/FgfhE+xPvsQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1758797885; x=1759402685;
-	d=berginkonsult.se; s=ed1;
-	h=in-reply-to:from:references:cc:to:subject:mime-version:date:message-id:
-	 content-type:from;
-	bh=2PSpcVzTIRXV2Fej7qbk3JsRVe8kNC/uuCDtCc9fHUc=;
-	b=mnUvLTQGzoeiCEcrLJ1M8BttolEaHKDq3OpQ03q9pnEPIFStmjB7Kwv8Kmd+VcQTg1K61+VgL4n5q
-	 EIG7ybBCg==
-X-HalOne-ID: 82b41c13-99fe-11f0-917a-494313b7f784
-Received: from [192.168.100.34] (c83-191-168-223.bredband.tele2.se [83.191.168.223])
-	by mailrelay6.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
-	id 82b41c13-99fe-11f0-917a-494313b7f784;
-	Thu, 25 Sep 2025 10:58:04 +0000 (UTC)
-Content-Type: multipart/alternative;
- boundary="------------V6H1r6xUDaYK49tWvJHqhQmG"
-Message-ID: <6371e7d1-1d57-4b6a-bb6d-eb3ce0f0ba9d@berginkonsult.se>
-Date: Thu, 25 Sep 2025 12:58:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 1/1] wic: extra partition plugin
-To: pierre-loup.gosse@smile.fr, Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
-References: <20250925072203.3490596-1-pierre-loup.gosse@smile.fr>
- <20250925072203.3490596-2-pierre-loup.gosse@smile.fr>
- <CAMSfU+4LjK0K9Mh20oJxhTvW8Dw87nriJakCwQiFfr_T6TSLOg@mail.gmail.com>
- <CANNYZj9PfFUcESHwT_6-CzDw8QB30hva_o5V2gVX5uB+LjaOng@mail.gmail.com>
- <CAHT-cZtsPnCk3_6-48D3uRJbVxmexjeSayhphzCWm_OTraQR4A@mail.gmail.com>
-Content-Language: en-US, sv-SE
-From: Peter Bergin <peter@berginkonsult.se>
-In-Reply-To: <CAHT-cZtsPnCk3_6-48D3uRJbVxmexjeSayhphzCWm_OTraQR4A@mail.gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=Oa/Ie1n/;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id DEE2D4E40DD3;
+	Thu, 25 Sep 2025 11:11:49 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A3B396062C;
+	Thu, 25 Sep 2025 11:11:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3B949102F1724;
+	Thu, 25 Sep 2025 13:11:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1758798708; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=oOEv5kvXWKcrGyBwFZAhmf8JAnjv3uQLcQfY7lL3FMg=;
+	b=Oa/Ie1n/5ej2KOCGKGz27JVX21hgG04daW+ZUY+KFhKi9SCBxB3AeoMWK1CRNyPnntWpCF
+	oz01N36TJJ0c4C3+qInAEXV6EyljpAYa9Pr3f6E1CvpN+Z/kgu3XScDfnsIYDc3m6SeC3G
+	LsBSKAwpucjECDfYmqnrtwX5hMkXg1PpMtkattsA2N32lIvh3Nwa4qP6QbeZHzXpi/3Pl5
+	pYL90oiVq6x3JvzCW9i/Pvqt5uyAoZHZi/6qaIhIu0yfcJzDKvArx4i3vDTvtSB4Krc3hQ
+	tp5lx1OlggnaBJG4w2hJ+86t30sVWhmkrRgHl6nUmWrI6k6DvEpGwdBxb0Yc4w==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 25 Sep 2025 13:11:39 +0200
+Message-Id: <DD1U3SCOKELE.2CRIIUQH4JCZ3@bootlin.com>
+Subject: Re: [OE-core] [PATCH 0/1] wic: updated fstab does not preserve
+ metadata of the original file
+Cc: "Randy MacLeod" <randy.macleod@windriver.com>,
+ <openembedded-core@lists.openembedded.org>, <hongxu.jia@windriver.com>,
+ <trevor.woerner@linaro.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Daniel Andrade" <dani.barra25@gmail.com>, "Trevor Woerner"
+ <twoerner@gmail.com>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250902190555.7929-1-dani.barra25@gmail.com>
+ <DCK51OC59LCA.XXERUU1OP7Y@bootlin.com>
+ <16907d6c-a28d-4369-95fd-199fcccba105@windriver.com>
+ <CA+-=zY2PzZ3RqtzLbFzd6TxSdBVft2KrSvzKQqP2oxZZUMnWhg@mail.gmail.com>
+ <CA+-=zY09Um_hG1knpWFBRHx-mTBgNUN3vH9WA0nhiY7ub-PKvw@mail.gmail.com>
+ <DD0EHMY9ITYL.3KAYD72BZUUIJ@bootlin.com>
+ <CA+-=zY2HNd2r-Ux8vUbSU72dGXtPArRtzTaSnHiF0JEvC_jC-Q@mail.gmail.com>
+ <DD1R90GRFNVC.24IBY55KSXN0@bootlin.com>
+In-Reply-To: <DD1R90GRFNVC.24IBY55KSXN0@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 10:58:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224014
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 11:11:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224015
 
-This is a multi-part message in MIME format.
---------------V6H1r6xUDaYK49tWvJHqhQmG
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi Trevor,
 
-Hi,
+I'm not sure you have seen the following mail thread. It was suggested
+we seek for your advices during today patch review call.
 
-On 9/25/25 11:13, Pierre-loup GOSSE via lists.openembedded.org wrote:
-> Maybe these 'extra' partitions are populated at runtime (first boot) 
-> from the rootfs?
-> I wrote this plugin for a project because I couldn’t find an easy way 
-> like |bootimg_partition to install 'extra' files at build time.|
-> If a similar solution already exists in Yocto, I’d be interested to know.
+Do you have any opinion about this test, and if the behaviour we are
+seeing is expected?
+
+Thanks,
+Mathieu
+
+On Thu Sep 25, 2025 at 10:57 AM CEST, Mathieu Dubois-Briand wrote:
+> OK! So I misunderstood your previous mail.
 >
-in the past I have used to rootfs plugin with '--exclude-path' [1] and 
-'--change-directory' [2] assuming that I have isolated all files going 
-in to the extra partition in to one directory of rootfs.
+> I confirm that on master branch the test succeed, but fails if I change
+> the filesystem to squashfs or btrfs.
+>
+> On a first glance, it looks like you are right, but I can't say I am
+> experienced with wic internals. We might want a second opinion here.
+>
+> If the test is wrong, it has to be fixed. And so probably the tested
+> code also have to be fixed. I this something you can do?
+>
+> Thanks,
+> Mathieu
+>
+> On Wed Sep 24, 2025 at 6:04 PM CEST, Daniel Andrade wrote:
+>> Hello Mathieu,
+>>
+>> Thank you for the quick answer.
+>> Ok, I will start from the beginning.
+>>
+>> The failing test is supposed to test `--no-fstab-update` flags on wks fi=
+le.
+>> According to the understanding of the code, the flag is being passed acr=
+oss
+>> python scripts either as `self.no_fstab_update`, like in
+>> scripts/lib/wic/partition.py, or `part.no_fstab_update`, on
+>> scripts/lib/wic/plugins/source/rootfs.py.
+>> The issue that is arising from the `oe-selftest -r
+>> wic.Wic.test_no_fstab_update` is that it is not actually testing it,
+>> because somehow the assigning of the previous variables is not correct,
+>> which leads to a later assumption.
+>> The thing that is really doing the "no update" is the line 134 of
+>> `scripts/lib/wic/partition.py` where it excludes ext* and msdos partitio=
+ns
+>> from falling in the common plugin for Rootfs.
+>> Because of this, I suggested someone to, in a clean and a different
+>> environment compared to mine, change the wks file used to `squashfs` fst=
+ype
+>> (or any other supported wic fstype) instead of `ext4` which indeed also
+>> made the test fail.
+>> In summary, the test is failing not because of the patch (even though ma=
+ybe
+>> something can be improved or fixed later), but because it is just checki=
+ng
+>> for ext4 partitions that fall in a different way of approaching fstab wh=
+ile
+>> the real mechanism is not behaving as desired.
+>>
+>> TLDR: The test is getting passed not because it is enforcing
+>> `--no-fstab-update` but because the partition is ext* or msdos. Changing=
+ it
+>> to squashfs, btrfs or any other wic supported partition, with or without
+>> the patch, will cause this to fail. This is an extra thing non-related w=
+ith
+>> the proposed patch but that is preventing it to behave correctly as
+>> intended by the test.
+>>
+>> Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com> escreveu (ter=
+=C3=A7a,
+>> 23/09/2025 =C3=A0(s) 19:44):
+>>
+>>> Hi Daniel,
+>>>
+>>> Sorry, but I'm not sure to get your point.
+>>>
+>>> I ran the test locally, and it does fail. It also fails if I modify it
+>>> to use squashfs instead of ext4.
+>>>
+>>> My reproduction procedure:
+>>> git clone https://git.yoctoproject.org/poky-ci-archive -b
+>>> autobuilder.yoctoproject.org/valkyrie/a-full-2320
+>>> . oe-init-build-env
+>>> echo 'SANITY_TESTED_DISTROS =3D ""' >> conf/local.conf
+>>> oe-selftest -r wic.Wic.test_no_fstab_update
+>>>
+>>> Thanks,
+>>> Mathieu
+>>>
+>>> On Tue Sep 23, 2025 at 5:05 PM CEST, Daniel Andrade wrote:
+>>> > Good Afternoon,
+>>> >
+>>> > I have been trying to figure it out and something seems off.
+>>> > The specific test you refer to may be hiding a problem or maybe I hav=
+e my
+>>> > testbench compromised and I would like your help to test.
+>>> > The test `test_no_fstab_update ` verifies if the fstab was updated or=
+ not
+>>> > because on the wks file used to do it there is a --no-fstab-update. T=
+he
+>>> > thing is, I think this test is passing because what is forcing it to =
+not
+>>> > update is a constraint that I removed previously on the patch (the on=
+e
+>>> that
+>>> > checks if the system is ext* or msdos) and not because the flag is
+>>> > triggering its intended functionality.
+>>> > The crosscheck I did was modifying the fstype from ext4 to squashfs a=
+nd
+>>> > indeed the test failed.
+>>> > Can someone also verify this?
+>>> >
+>>> > Daniel
+>>> >
+>>> > Daniel Andrade <dani.barra25@gmail.com> escreveu (s=C3=A1bado, 13/09/=
+2025
+>>> =C3=A0(s)
+>>> > 11:02):
+>>> >
+>>> >> Hello guys, sorry for the delay.
+>>> >> I have been busy, but I hope to provide you with a fix in the next f=
+ew
+>>> >> days.
+>>> >>
+>>> >> Sorry about that,
+>>> >> Daniel
+>>> >>
+>>> >> Randy MacLeod <randy.macleod@windriver.com> escreveu (quinta,
+>>> 11/09/2025
+>>> >> =C3=A0(s) 17:56):
+>>> >>
+>>> >>> On 2025-09-04 11:58 a.m., Mathieu Dubois-Briand via
+>>> >>> lists.openembedded.org wrote:
+>>> >>>
+>>> >>> On Tue Sep 2, 2025 at 9:05 PM CEST, dani.barra25 via
+>>> lists.openembedded.org wrote:
+>>> >>>
+>>> >>> From: Daniel Andrade <dani.barra25@gmail.com> <dani.barra25@gmail.c=
+om>
+>>> >>>
+>>> >>> Using `install` in the rootfs plugin forces fstab to be replaced
+>>> entirely, meaning that even its Inodes will change, leading xattrs and
+>>> SELinux context stored by pseudo not to be applied.
+>>> >>> The fix just uses `cp` without preserving attributes from the
+>>> temporary fstab since none of them are needed, just the content.
+>>> >>> Same thing happens with the predefined mechanisms for ext4 and msdo=
+s.
+>>> Using debugfs there is no way to replace contents while maintaining
+>>> metadata, so the approach taken on the path was to remove the different
+>>> fstab logic for those fstypes and also use the same modified cp command=
+.
+>>> Reviewing the builds I did it seems to work for all of the fstypes.
+>>> >>>
+>>> >>> Another problem is that the timestamp applied to fstab is not the s=
+ame
+>>> as every other file. It seems like the `SOURCE_DATE_EPOCH` variable goe=
+s to
+>>> the fallback timestamp (`SOURCE_DATE_EPOCH_FALLBACK`).
+>>> >>> Since you are using that variable everywhere, it is not the same va=
+lue
+>>> as ` REPRODUCIBLE_TIMESTAMP_ROOTFS` under `poky/meta/conf/bitbake.conf`
+>>> that is applied in every other file.
+>>> >>>
+>>> >>> Daniel Andrade (1):
+>>> >>>   wic: Content of the temporary updated fstab should be copied into=
+ the
+>>> >>>     original not replacing it entirely.
+>>> >>>
+>>> >>>  meta/conf/bitbake.conf                   |  4 +++-
+>>> >>>  scripts/lib/wic/partition.py             | 15 +--------------
+>>> >>>  scripts/lib/wic/plugins/source/rootfs.py |  4 ++--
+>>> >>>  3 files changed, 6 insertions(+), 17 deletions(-)
+>>> >>>
+>>> >>> Hi Daniel,
+>>> >>>
+>>> >>> Thanks for your patch.
+>>> >>>
+>>> >>> It looks like it is breaking a test:
+>>> >>>
+>>> >>> 2025-09-04 15:28:11,112 - oe-selftest - INFO -
+>>> wic.Wic.test_no_fstab_update (subunit.RemotedTestCase)
+>>> >>> 2025-09-04 15:28:11,113 - oe-selftest - INFO -  ... FAIL
+>>> >>> ...
+>>> >>> 2025-09-04 15:28:11,114 - oe-selftest - INFO -
+>>> testtools.testresult.real._StringException: Traceback (most recent call
+>>> last):
+>>> >>>   File
+>>> "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/lib/oeqa/se=
+lftest/cases/wic.py",
+>>> line 859, in test_no_fstab_update
+>>> >>>     self.assertEqual(bf_fstab_md5sum, part_fstab_md5sum[1])
+>>> >>>   File "/usr/lib/python3.12/unittest/case.py", line 885, in assertE=
+qual
+>>> >>>     assertion_func(first, second, msg=3Dmsg)
+>>> >>>   File "/usr/lib/python3.12/unittest/case.py", line 1251, in
+>>> assertMultiLineEqual
+>>> >>>     self.fail(self._formatMessage(msg, standardMsg))
+>>> >>>   File "/usr/lib/python3.12/unittest/case.py", line 715, in fail
+>>> >>>     raise self.failureException(msg)
+>>> >>> AssertionError: 'af3c087d6c9131735c8d1f270a226892' !=3D
+>>> '9edb8255abd217fdb20e118833afb856'
+>>> >>> - af3c087d6c9131735c8d1f270a226892
+>>> >>> + 9edb8255abd217fdb20e118833afb856
+>>> >>>
+>>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/2412=
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2268
+>>> >>>
+>>> >>> Can you fix it please?
+>>> >>>
+>>> >>> Ping?
+>>> >>>
+>>> >>> I think this is being tracked by:
+>>> >>>
+>>> >>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15947
+>>> >>>
+>>> >>> "WIC does not preserve metadata when updating fstab"
+>>> >>>
+>>> >>> Btw, we were just following the "Need Info" process during the bug
+>>> review
+>>> >>> meeting
+>>> >>> so that's why I'm sending this email.
+>>> >>>
+>>> >>> ../Randy
+>>> >>>
+>>> >>> Thanks,
+>>> >>> Mathieu
+>>> >>>
+>>> >>>
+>>> >>>
+>>> >>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>> >>> Links: You receive all messages sent to this group.
+>>> >>> View/Reply Online (#222962):
+>>> https://lists.openembedded.org/g/openembedded-core/message/222962
+>>> >>> Mute This Topic: https://lists.openembedded.org/mt/115043355/361676=
+5
+>>> >>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> >>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/uns=
+ub
+>>> [randy.macleod@windriver.com]
+>>> >>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>> >>>
+>>> >>>
+>>> >>>
+>>> >>> --
+>>> >>> # Randy MacLeod
+>>> >>> # Wind River Linux
+>>> >>>
+>>> >>>
+>>>
+>>>
+>>>
+>>>
+>>> --
+>>> Mathieu Dubois-Briand, Bootlin
+>>> Embedded Linux and Kernel engineering
+>>> https://bootlin.com
+>>>
+>>>
 
-   part / --source rootfs --exclude-path=config/ ...
-   part /config --source rootfs --change-directory=config
 
-[1] https://git.yoctoproject.org/poky/tree/scripts/lib/wic/help.py#n987
 
-[2] https://git.yoctoproject.org/poky/tree/scripts/lib/wic/help.py#n1007
 
-Best regards,
-/Peter
---------------V6H1r6xUDaYK49tWvJHqhQmG
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi,</p>
-    <div class="moz-cite-prefix">On 9/25/25 11:13, Pierre-loup GOSSE via
-      lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAHT-cZtsPnCk3_6-48D3uRJbVxmexjeSayhphzCWm_OTraQR4A@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div>Maybe these 'extra' partitions are populated at runtime
-          (first boot) from the rootfs?</div>
-        <div>I wrote this plugin for a project because I couldn’t find
-          an easy way like <code
-class="gmail-font-weight-400 gmail-rounded-md gmail-bg-state-ghost-hover gmail-p-1 gmail-text-sm gmail-whitespace-normal">bootimg_partition<font
-              face="arial,sans-serif"> to install 'extra' files at build
-              time.</font></code></div>
-        <div>If a similar solution already exists in Yocto, I’d be
-          interested to know.</div>
-        <div><br>
-        </div>
-      </div>
-    </blockquote>
-    <p>in the past I have used to rootfs plugin with '--exclude-path'
-      [1] and '--change-directory' [2] assuming that I have isolated all
-      files going in to the extra partition in to one directory of
-      rootfs.</p>
-    <p>  part / --source rootfs --exclude-path=config/ ...<br>
-        part /config --source rootfs --change-directory=config</p>
-    <p>[1]
-      <a class="moz-txt-link-freetext" href="https://git.yoctoproject.org/poky/tree/scripts/lib/wic/help.py#n987">https://git.yoctoproject.org/poky/tree/scripts/lib/wic/help.py#n987</a></p>
-    <p>[2]
-      <a class="moz-txt-link-freetext" href="https://git.yoctoproject.org/poky/tree/scripts/lib/wic/help.py#n1007">https://git.yoctoproject.org/poky/tree/scripts/lib/wic/help.py#n1007</a></p>
-    Best regards,<br>
-    /Peter
-  </body>
-</html>
-
---------------V6H1r6xUDaYK49tWvJHqhQmG--
 
