@@ -1,192 +1,181 @@
-Return-Path: <pierre-loup.gosse@smile.fr>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC80CCAC5A7
-	for <webhook@archiver.kernel.org>; Thu, 25 Sep 2025 12:43:19 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.10692.1758804194475137020
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9CBCAC5B0
+	for <webhook@archiver.kernel.org>; Thu, 25 Sep 2025 13:41:10 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.12030.1758807665859424040
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Sep 2025 05:43:14 -0700
+ Thu, 25 Sep 2025 06:41:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=scjVGp4q;
- spf=pass (domain: smile.fr, ip: 209.85.167.50, mailfrom: pierre-loup.gosse@smile.fr)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-57992ba129eso1050647e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 05:43:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=poK74oar;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-329e1c8e079so876177a91.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 06:41:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1758804192; x=1759408992; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cdobeS+8RaPzFstTmnZ+f8/hT95IzZYeXsvcu+t5Jf8=;
-        b=scjVGp4q5zxv6sSGF4pny8FaM4RTK+9y6y6RcCZrFm4RW3+jL5Jgn5fIVBDDryXkPN
-         dxNZedW8tOAjcoIkLR54XxNcag9cXU/q9eCfo8XuBUCi3XAZJzCYCzdQY6IWP3CfmKBp
-         Y3HhKbCcyuiC9zaYZURbxLZokSixpfp6ryyes=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758804192; x=1759408992;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1758807665; x=1759412465; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cdobeS+8RaPzFstTmnZ+f8/hT95IzZYeXsvcu+t5Jf8=;
-        b=s9fX5sOiUxsbklF+46ii4CnPSffmOn7YrxfX3n90xb5Y3DRE037mcN0qiwYhpW2fZO
-         Gyc6T5AY8vI2dAzDWTgth3ZZHRbdHp80Ch8DSDeWU8Se5eZa+3R0WmbiKrKEtZITJ+vO
-         QahzC1V/k88EK6NrgjyAw6rlxL5i0jDYi4KyZ7B0q/NZWjo6MrxRPzGnzDkX+E2HWwsv
-         JvVN5cLXKPz9iDmp118jot3ke8/uXX8l0zfoeKvRuUfY5zMBrLJ+WvMwwipQaMMkI7/C
-         PnxTPa1/Se8kIKrk9sXLwoC0R+chg7LYsCMXeAzh2uAHRCKxl8tRkeaKcdAy73231snQ
-         aS5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX+87ee+55l7xJMyTfkW249rjUrJPzRFOG7/vqyWfSYfHAlsernk7eKwt7X7Jtq/WF4E/4rIiF5xXEShO0xEcmJUA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzGtwinFgEu2dO3QRs+0mieeVO0d2UOveydtgW8h0QJoAAmB/eP
-	O9XYKuUB8sKOym9W1s7T1Fo9PHJWHUN7n7sFydNJ971atyHG6zebUNEDJel/9Edr9+4PDh8PXKG
-	mHIJPR2gO011Xp/P3pwTyDP2+5Kb/FzznyQ6fuAsP3A==
-X-Gm-Gg: ASbGnctWClpVlsPmZfiWBbPRVJDz9mztcJndgWNH+ehz2CFjDUwm/FrIwNSlIAnc1Rp
-	RNIoE1NPdFfGbwvJGJdwWrcVpCPRt+tfsMjUOy5nn7rltwlB30/PQV9Sh0rzCpnxwmNkGqXWvHv
-	fXcC6ZGrn62j9G4oAo5pyj6a5IwE+H0icx8yIiqD8HVOlBsSp20xPZ97XG0BYmI2VOvDrBf9f3P
-	VTvMm4=
-X-Google-Smtp-Source: AGHT+IFnR0b9bw4I+L0lf7uZ3ta5eec/Y+VE3GEq6CSHq+uwIwmXY8G85ULp4gFDOFHbojch+g4oSInY4pj4nn2IGiA=
-X-Received: by 2002:a2e:a99c:0:b0:337:e697:c9aa with SMTP id
- 38308e7fff4ca-36f7d0c529amr9403871fa.15.1758804192426; Thu, 25 Sep 2025
- 05:43:12 -0700 (PDT)
+        bh=YR031m3gw6N9C0Bzj2dihlku4pWpOJmUxyfJ+Jmq+7Q=;
+        b=poK74oarjWwIF/Qv2xPqPchEu8uOO9ZW3s+FaQeNq4Vn9cBjd4fTwTnYjw1ILOFU7J
+         nbhqsHN01GuA5qc93Tt7nqIiesNf1S1LTdkVv3GGaXwJvfpzs/8ftgLU/04FHN0pV+pU
+         sC14hzJ5FV/e0cCSfn/zKxZNNy5awDgAZxp1F8YasORXB0VHLIDPTQsx7Y0xPb3kQ4Nw
+         lOaRyrLUSU2Ms+uOAxSo6A4smaGN/bkKz1U0zSiAjWCtOMrZo+opPk+tbr82sMS7XL+O
+         rJ+WNAwg7JZJLXIAgj/Su3xLbieYgbtXos0k+F2cTox60XcEjB61E3lIBD0rfw4kH0ED
+         bM2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758807665; x=1759412465;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YR031m3gw6N9C0Bzj2dihlku4pWpOJmUxyfJ+Jmq+7Q=;
+        b=LrGtK3YK7+SuDASj2MUMfBoQV/kqs3s1/0AX+JuoHS6Uwfpp2VBGk5NxloYHVtkpXM
+         3mTNpbETTZrtgPWf9763rlTuY8+NyNTYoMXF1JfbgbJecjzaOorRpvlRHvMrnFFAUD00
+         Ycqp0eI5MGVUHYcZ7ALaqFErvOyv7OwROBam1Xe7so1w5fC9BQk/VLhfjTNdV3+7Z8DM
+         sWu+WrXGJxi3DdaznQsJPrRU8Bw+D7NuFScW45Uy6Ek1+XMFVoDnq1cbmxIJrvCyilsS
+         mbGjEfiV+H8qWSWWzHeRiMhr0fodwZEH0U9cHqzizKWwz3iCnluJ0esRxmoF4ZLRTePy
+         cP7w==
+X-Gm-Message-State: AOJu0Yy27hEmBEWN9vdhfQr2yAGMSNONWo6YZXKUg3ZViF9sDFxq3+K8
+	r8gyzeT0Ggf28x3Sf8fa5ppvNmsTbDLDtrbqQsKpL5COnmcMJJnlf9JccWCmTBG+MGH45BSMBmy
+	yniGp
+X-Gm-Gg: ASbGncuA4ECH+FIRZ+8bRkVrZD962KM5CEGXmYM6ZKnT7QqD2K3JO/lwuiKka605n3b
+	AMP96cI+LgbHKxlV5dRdiAYcEzsrkDSONvFxEI+jn7dajHu4VdRbspQVbRTCOYfDKAW62AozXao
+	YCGbwUbJroZROxZmW8EbW/FDgse+j0UNEo1Y6ZjfWODOb2ACbax4iJr0CzI1PN2MMJDlz/eUFF9
+	2aFrib+PSwArpuJxVw3KMGFHeyeNcx2jNA9oZQBL8BIm97tiQASkjqJiSmCj+JcAfUqre9KeEYK
+	wn341QsVSv2s3icpTKwrRiPVJHkVOZvzEwhvYFiyhnRwXdeQELvY6MvdFJAQVd1LHmGCo669EBM
+	ia2vPkaS/QccobXBaVQhXL67V
+X-Google-Smtp-Source: AGHT+IHGr0+xI+10UMPn9igyG/6YkPAd8pkGq6PmcpN6IMUB8WJkbO6nUKmDpBqxTY3n1qcqtUO7qA==
+X-Received: by 2002:a17:90b:4d88:b0:330:4d30:5009 with SMTP id 98e67ed59e1d1-3342a2498cbmr3918457a91.2.1758807664829;
+        Thu, 25 Sep 2025 06:41:04 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:127b:348d:dc99:9937])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3346e9eba87sm2430014a91.0.2025.09.25.06.41.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 06:41:04 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 02/11] curl: fix CVE-2025-9086
+Date: Thu, 25 Sep 2025 06:40:46 -0700
+Message-ID: <b0cc7001a628deaa96d1aebb5ded52797898a0be.1758807463.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1758807463.git.steve@sakoman.com>
+References: <cover.1758807463.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <20250925072203.3490596-1-pierre-loup.gosse@smile.fr>
- <20250925072203.3490596-2-pierre-loup.gosse@smile.fr> <CAMSfU+4LjK0K9Mh20oJxhTvW8Dw87nriJakCwQiFfr_T6TSLOg@mail.gmail.com>
- <CANNYZj9PfFUcESHwT_6-CzDw8QB30hva_o5V2gVX5uB+LjaOng@mail.gmail.com>
- <CAHT-cZtsPnCk3_6-48D3uRJbVxmexjeSayhphzCWm_OTraQR4A@mail.gmail.com> <6371e7d1-1d57-4b6a-bb6d-eb3ce0f0ba9d@berginkonsult.se>
-In-Reply-To: <6371e7d1-1d57-4b6a-bb6d-eb3ce0f0ba9d@berginkonsult.se>
-From: Pierre-loup GOSSE <pierre-loup.gosse@smile.fr>
-Date: Thu, 25 Sep 2025 14:43:00 +0200
-X-Gm-Features: AS18NWCkTJ5VhNRLBNsGNU4PcSIBiKMRIW6eOXunteCpl83hzwM0VXvJwFlAZzs
-Message-ID: <CAHT-cZtr-en6sc7JaPfN9s7BFbwiV+iGrv9rQDKjr8rcXSpWFA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/1] wic: extra partition plugin
-To: Peter Bergin <peter@berginkonsult.se>, Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001e8e8d063f9f838d"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 12:43:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224017
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 13:41:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224020
 
---0000000000001e8e8d063f9f838d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Yogita Urade <yogita.urade@windriver.com>
 
->
-> in the past I have used to rootfs plugin with '--exclude-path' [1] and
-> '--change-directory' [2] assuming that I have isolated all files going in
-> to the extra partition in to one directory of rootfs.
+1, A cookie is set using the secure keyword for https://target
+2, curl is redirected to or otherwise made to speak with http://target
+(same hostname, but using clear text HTTP) using the same cookie set
+3, The same cookie name is set - but with just a slash as path (path="/").
+Since this site is not secure, the cookie should just be ignored.
+4, A bug in the path comparison logic makes curl read outside a heap buffer boundary
 
-This is a solution when files are installed in the rootfs but need to be
-split across multiple partitions.
+The bug either causes a crash or it potentially makes the comparison come to
+the wrong conclusion and lets the clear-text site override the contents of
+the secure cookie, contrary to expectations and depending on the memory contents
+immediately following the single-byte allocation that holds the path.
 
-However, some files aren't or shouldn=E2=80=99t be in the rootfs. For insta=
-nce,
-I=E2=80=99ve worked on boards requiring a dedicated VFAT partition just for=
- the
-U-Boot script. Other use cases include keeping business software separate
-from the rootfs, especially when they are installed and updated
-independently (with a SWU package).
-Pierre-Loup,
+The presumed and correct behavior would be to plainly ignore the second set of
+the cookie since it was already set as secure on a secure host so overriding
+it on an insecure host should not be okay.
 
-On Thu, Sep 25, 2025 at 12:58=E2=80=AFPM Peter Bergin <peter@berginkonsult.=
-se>
-wrote:
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-9086
 
-> Hi,
-> On 9/25/25 11:13, Pierre-loup GOSSE via lists.openembedded.org wrote:
->
-> Maybe these 'extra' partitions are populated at runtime (first boot) from
-> the rootfs?
-> I wrote this plugin for a project because I couldn=E2=80=99t find an easy=
- way like
-> bootimg_partition to install 'extra' files at build time.
-> If a similar solution already exists in Yocto, I=E2=80=99d be interested =
-to know.
->
-> in the past I have used to rootfs plugin with '--exclude-path' [1] and
-> '--change-directory' [2] assuming that I have isolated all files going in
-> to the extra partition in to one directory of rootfs.
->
->   part / --source rootfs --exclude-path=3Dconfig/ ...
->   part /config --source rootfs --change-directory=3Dconfig
->
-> [1] https://git.yoctoproject.org/poky/tree/scripts/lib/wic/help.py#n987
->
-> [2] https://git.yoctoproject.org/poky/tree/scripts/lib/wic/help.py#n1007
-> Best regards,
-> /Peter
->
+Upstream patch:
+https://github.com/curl/curl/commit/c6ae07c6a541e0e96d0040afb6
 
---0000000000001e8e8d063f9f838d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../curl/curl/CVE-2025-9086.patch             | 55 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-9086.patch
 
-<div dir=3D"ltr"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">in the p=
-ast I have used to rootfs plugin with &#39;--exclude-path&#39;
-      [1] and &#39;--change-directory&#39; [2] assuming that I have isolate=
-d all
-      files going in to the extra partition in to one directory of
-      rootfs.</blockquote><div></div><p class=3D"gmail-whitespace-break-spa=
-ces">This is a solution when files are installed in the rootfs but need to =
-be split across multiple partitions.</p>
-<p class=3D"gmail-whitespace-break-spaces">However, some files aren&#39;t o=
-r shouldn=E2=80=99t be in the rootfs. For instance, I=E2=80=99ve worked on =
-boards requiring a dedicated VFAT partition just for the U-Boot script. Oth=
-er use cases include keeping business software separate from the rootfs, es=
-pecially when they are installed and updated independently (with a SWU pack=
-age).</p><div>Pierre-Loup,</div></div><br><div class=3D"gmail_quote gmail_q=
-uote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 25, 2025 =
-at 12:58=E2=80=AFPM Peter Bergin &lt;<a href=3D"mailto:peter@berginkonsult.=
-se">peter@berginkonsult.se</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><u></u>
+diff --git a/meta/recipes-support/curl/curl/CVE-2025-9086.patch b/meta/recipes-support/curl/curl/CVE-2025-9086.patch
+new file mode 100644
+index 0000000000..c77d8fe33d
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2025-9086.patch
+@@ -0,0 +1,55 @@
++From c6ae07c6a541e0e96d0040afb62b45dd37711300 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 11 Aug 2025 20:23:05 +0200
++Subject: [PATCH] cookie: don't treat the leading slash as trailing
++
++If there is only a leading slash in the path, keep that. Also add an
++assert to make sure the path is never blank.
++
++Reported-by: Google Big Sleep
++Closes #18266
++
++CVE: CVE-2025-9086
++Upstream-Status: Backport [https://github.com/curl/curl/commit/c6ae07c6a541e0e96d0040afb6]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ lib/cookie.c | 9 +++++----
++ 1 file changed, 5 insertions(+), 4 deletions(-)
++
++diff --git a/lib/cookie.c b/lib/cookie.c
++index c1ed291..67494d2 100644
++--- a/lib/cookie.c
+++++ b/lib/cookie.c
++@@ -316,7 +316,7 @@ static char *sanitize_cookie_path(const char *cookie_path)
++   }
++
++   /* convert /hoge/ to /hoge */
++-  if(len && new_path[len - 1] == '/') {
+++  if(len > 1 && new_path[len - 1] == '/') {
++     new_path[len - 1] = 0x0;
++   }
++
++@@ -1074,7 +1074,7 @@ Curl_cookie_add(struct Curl_easy *data,
++          clist->spath && co->spath && /* both have paths */
++          clist->secure && !co->secure && !secure) {
++         size_t cllen;
++-        const char *sep;
+++        const char *sep = NULL;
++
++         /*
++          * A non-secure cookie may not overlay an existing secure cookie.
++@@ -1083,8 +1083,9 @@ Curl_cookie_add(struct Curl_easy *data,
++          * "/loginhelper" is ok.
++          */
++
++-        sep = strchr(clist->spath + 1, '/');
++-
+++        DEBUGASSERT(clist->spath[0]);
+++        if(clist->spath[0])
+++          sep = strchr(clist->spath + 1, '/');
++         if(sep)
++           cllen = sep - clist->spath;
++         else
++--
++2.40.0
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 6845a43cd2..6ed3d6e84d 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -24,6 +24,7 @@ SRC_URI = " \
+     file://CVE-2024-11053-0002.patch \
+     file://CVE-2024-11053-0003.patch \
+     file://CVE-2025-0167.patch \
++    file://CVE-2025-9086.patch \
+ "
+ 
+ SRC_URI:append:class-nativesdk = " \
+-- 
+2.43.0
 
- =20
-   =20
- =20
-  <div>
-    <p>Hi,</p>
-    <div>On 9/25/25 11:13, Pierre-loup GOSSE via
-      <a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.ope=
-nembedded.org</a> wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-     =20
-      <div dir=3D"ltr">
-        <div>Maybe these &#39;extra&#39; partitions are populated at runtim=
-e
-          (first boot) from the rootfs?</div>
-        <div>I wrote this plugin for a project because I couldn=E2=80=99t f=
-ind
-          an easy way like <code>bootimg_partition<font face=3D"arial,sans-=
-serif">=C2=A0to install &#39;extra&#39; files at build
-              time.</font></code></div>
-        <div>If a similar solution already exists in Yocto, I=E2=80=99d be
-          interested to know.</div>
-        <div><br>
-        </div>
-      </div>
-    </blockquote>
-    <p>in the past I have used to rootfs plugin with &#39;--exclude-path&#3=
-9;
-      [1] and &#39;--change-directory&#39; [2] assuming that I have isolate=
-d all
-      files going in to the extra partition in to one directory of
-      rootfs.</p>
-    <p>=C2=A0 part / --source rootfs --exclude-path=3Dconfig/ ...<br>
-      =C2=A0 part /config --source rootfs --change-directory=3Dconfig</p>
-    <p>[1]
-      <a href=3D"https://git.yoctoproject.org/poky/tree/scripts/lib/wic/hel=
-p.py#n987" target=3D"_blank">https://git.yoctoproject.org/poky/tree/scripts=
-/lib/wic/help.py#n987</a></p>
-    <p>[2]
-      <a href=3D"https://git.yoctoproject.org/poky/tree/scripts/lib/wic/hel=
-p.py#n1007" target=3D"_blank">https://git.yoctoproject.org/poky/tree/script=
-s/lib/wic/help.py#n1007</a></p>
-    Best regards,<br>
-    /Peter
-  </div>
-
-</blockquote></div>
-
---0000000000001e8e8d063f9f838d--
 
