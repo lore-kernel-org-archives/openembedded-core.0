@@ -2,179 +2,139 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9CBCAC5B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B990CAC5A7
 	for <webhook@archiver.kernel.org>; Thu, 25 Sep 2025 13:41:10 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web11.12030.1758807665859424040
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.11855.1758807661331099152
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Sep 2025 06:41:05 -0700
+ Thu, 25 Sep 2025 06:41:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=poK74oar;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-329e1c8e079so876177a91.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 06:41:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZuQGAfok;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-77f198bd8eeso783460b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 06:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1758807665; x=1759412465; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YR031m3gw6N9C0Bzj2dihlku4pWpOJmUxyfJ+Jmq+7Q=;
-        b=poK74oarjWwIF/Qv2xPqPchEu8uOO9ZW3s+FaQeNq4Vn9cBjd4fTwTnYjw1ILOFU7J
-         nbhqsHN01GuA5qc93Tt7nqIiesNf1S1LTdkVv3GGaXwJvfpzs/8ftgLU/04FHN0pV+pU
-         sC14hzJ5FV/e0cCSfn/zKxZNNy5awDgAZxp1F8YasORXB0VHLIDPTQsx7Y0xPb3kQ4Nw
-         lOaRyrLUSU2Ms+uOAxSo6A4smaGN/bkKz1U0zSiAjWCtOMrZo+opPk+tbr82sMS7XL+O
-         rJ+WNAwg7JZJLXIAgj/Su3xLbieYgbtXos0k+F2cTox60XcEjB61E3lIBD0rfw4kH0ED
-         bM2A==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1758807660; x=1759412460; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kSXXop8rpXclhT/6T5Ql0bYggodwQYNcpCokDz/OXUg=;
+        b=ZuQGAfoks7QnRoXAa7IFWKPDz6mHdwRFmOt3pJr5LPVuP3XLo39Qhoobbm42xKQBlB
+         n+fK7vnxA3/1NWmN/wROgPsAf4l/fKSfbN6no5IFd5LN17hW4QqPQOnFHK4c4qldBEsf
+         qHYvkWqSz2BMMcp7rQLInZ8Jg4n72oXc+6b44mxz280pbFlQwn813SRC0rDnrNrwKYOY
+         pNb8FfhVsPh5KUuZZExrulB6ypn0rZf3oIvnVQWHnnfNsrmV3wP0CkxGomYqiPb3MrRk
+         aKLeEVPTukzgMFwFIGcQF81Cr0Qo3sy9OXbt/vC3qsJwGfK6SLpG/PH69eebYUaisb4d
+         a5cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758807665; x=1759412465;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YR031m3gw6N9C0Bzj2dihlku4pWpOJmUxyfJ+Jmq+7Q=;
-        b=LrGtK3YK7+SuDASj2MUMfBoQV/kqs3s1/0AX+JuoHS6Uwfpp2VBGk5NxloYHVtkpXM
-         3mTNpbETTZrtgPWf9763rlTuY8+NyNTYoMXF1JfbgbJecjzaOorRpvlRHvMrnFFAUD00
-         Ycqp0eI5MGVUHYcZ7ALaqFErvOyv7OwROBam1Xe7so1w5fC9BQk/VLhfjTNdV3+7Z8DM
-         sWu+WrXGJxi3DdaznQsJPrRU8Bw+D7NuFScW45Uy6Ek1+XMFVoDnq1cbmxIJrvCyilsS
-         mbGjEfiV+H8qWSWWzHeRiMhr0fodwZEH0U9cHqzizKWwz3iCnluJ0esRxmoF4ZLRTePy
-         cP7w==
-X-Gm-Message-State: AOJu0Yy27hEmBEWN9vdhfQr2yAGMSNONWo6YZXKUg3ZViF9sDFxq3+K8
-	r8gyzeT0Ggf28x3Sf8fa5ppvNmsTbDLDtrbqQsKpL5COnmcMJJnlf9JccWCmTBG+MGH45BSMBmy
-	yniGp
-X-Gm-Gg: ASbGncuA4ECH+FIRZ+8bRkVrZD962KM5CEGXmYM6ZKnT7QqD2K3JO/lwuiKka605n3b
-	AMP96cI+LgbHKxlV5dRdiAYcEzsrkDSONvFxEI+jn7dajHu4VdRbspQVbRTCOYfDKAW62AozXao
-	YCGbwUbJroZROxZmW8EbW/FDgse+j0UNEo1Y6ZjfWODOb2ACbax4iJr0CzI1PN2MMJDlz/eUFF9
-	2aFrib+PSwArpuJxVw3KMGFHeyeNcx2jNA9oZQBL8BIm97tiQASkjqJiSmCj+JcAfUqre9KeEYK
-	wn341QsVSv2s3icpTKwrRiPVJHkVOZvzEwhvYFiyhnRwXdeQELvY6MvdFJAQVd1LHmGCo669EBM
-	ia2vPkaS/QccobXBaVQhXL67V
-X-Google-Smtp-Source: AGHT+IHGr0+xI+10UMPn9igyG/6YkPAd8pkGq6PmcpN6IMUB8WJkbO6nUKmDpBqxTY3n1qcqtUO7qA==
-X-Received: by 2002:a17:90b:4d88:b0:330:4d30:5009 with SMTP id 98e67ed59e1d1-3342a2498cbmr3918457a91.2.1758807664829;
-        Thu, 25 Sep 2025 06:41:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758807660; x=1759412460;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kSXXop8rpXclhT/6T5Ql0bYggodwQYNcpCokDz/OXUg=;
+        b=HZKlLSf3XDKnhCbGZNB8ORQK3MsyE4HCZo0InUQ2Jt3nJEceC/VOv6yK/hyuQhVByH
+         hc1EB94A6b7Om3DODDzS1N8fl+JHAab7izUzZXbO/9WE+uT1lKh55dblhYaP4l8uMa55
+         8N/n680Ido6NVdXgOQLYhDBChWak+7Nvkui9EgUiCtX8CUNfsKQjiUy4ArlNZ8WG5U9Q
+         jIZk26JegaCSnoP7xUYixDSMxLpxGhtVuViI4xdROSlrpaVEYZwlFxsnT88s+3x0ATYs
+         wXYf74ykFYFjXnVPyB6kK9k/y5oUHGbWMYrpKvsmjpmhG40IPPSq1Oz2OItB4wL6ZXx4
+         u+8Q==
+X-Gm-Message-State: AOJu0YwuKwUZL98MZkAnfotdThARY4EmaktrIMG73/mjHol55UQPTuro
+	VIDrXFE6ZI8qYzNs7nqAFcKg28fOE+rVYi4KCHym/l3RFNwiYw0YeUdLlVgtIPsLanYTRN23xTx
+	XGFhR
+X-Gm-Gg: ASbGnctc5iYabLb2BK6AHHLi65I5cTiQIFib+se80xSS+aEju+yow7Q4zkPEH7pCZm9
+	+yM1C3BwWjNq4R2NYuB8oZLA6YvRFUPhM1WjkgybLcgjsGk7P6IKhnCzOLniBaOlg8sagNVM2lr
+	OouMAsOomJe6fOcQ8p7z7o4Nz8+V+R7iuAp8v361xfs1sCiAO62yaaU7BQYbL2dZcGFx5XCnd7o
+	Lr3lCklLbJEmVTnTTcXThqE6eYk8y/Ja/F+rwn5fmhG8R7BNrWWuFA0ay7zHSFiMu6rOQ9woePF
+	Gnfh7Op7q4c1FhsYx4D491ybbfqXVf0s1abh1Nu/gwgstQb02UqjHueC9232LyzGNJ71fzu3urM
+	2pZtWMnDnyEbGlw==
+X-Google-Smtp-Source: AGHT+IHG8Z9sGK0kXB4lxTj9EUFFfeYdPyjrCnIFaJUjy3XHoymf5hBVwIWcgNi+AgVu067s09IFLQ==
+X-Received: by 2002:a05:6a20:7343:b0:262:4378:9ddb with SMTP id adf61e73a8af0-2e7ca214e3cmr4606826637.23.1758807660430;
+        Thu, 25 Sep 2025 06:41:00 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:127b:348d:dc99:9937])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3346e9eba87sm2430014a91.0.2025.09.25.06.41.04
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3346e9eba87sm2430014a91.0.2025.09.25.06.40.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 06:41:04 -0700 (PDT)
+        Thu, 25 Sep 2025 06:41:00 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/11] curl: fix CVE-2025-9086
-Date: Thu, 25 Sep 2025 06:40:46 -0700
-Message-ID: <b0cc7001a628deaa96d1aebb5ded52797898a0be.1758807463.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 00/11] Patch review
+Date: Thu, 25 Sep 2025 06:40:44 -0700
+Message-ID: <cover.1758807463.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1758807463.git.steve@sakoman.com>
-References: <cover.1758807463.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 13:41:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224020
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224018
 
-From: Yogita Urade <yogita.urade@windriver.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Monday, September 29
 
-1, A cookie is set using the secure keyword for https://target
-2, curl is redirected to or otherwise made to speak with http://target
-(same hostname, but using clear text HTTP) using the same cookie set
-3, The same cookie name is set - but with just a slash as path (path="/").
-Since this site is not secure, the cookie should just be ignored.
-4, A bug in the path comparison logic makes curl read outside a heap buffer boundary
+Passed a-full on autobuilder:
 
-The bug either causes a crash or it potentially makes the comparison come to
-the wrong conclusion and lets the clear-text site override the contents of
-the secure cookie, contrary to expectations and depending on the memory contents
-immediately following the single-byte allocation that holds the path.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2436
 
-The presumed and correct behavior would be to plainly ignore the second set of
-the cookie since it was already set as secure on a secure host so overriding
-it on an insecure host should not be okay.
+The following changes since commit 4cf131ebd157b79226533b5a5074691dd0e1a4ab:
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-9086
+  buildtools-tarball: fix unbound variable issues under 'set -u' (2025-09-17 09:32:52 -0700)
 
-Upstream patch:
-https://github.com/curl/curl/commit/c6ae07c6a541e0e96d0040afb6
+are available in the Git repository at:
 
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../curl/curl/CVE-2025-9086.patch             | 55 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
- 2 files changed, 56 insertions(+)
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Adrian Freihofer (2):
+  llvm: update from 18.1.6 to 18.1.8
+  llvm: fix build with gcc-15
+
+AshishKumar Mishra (2):
+  systemd: backport fix for handle USE_NLS from master
+  p11-kit: backport fix for handle USE_NLS from master
+
+Chris Laplante (1):
+  util-linux: use ${B} instead of ${WORKDIR}/build, to fix building
+    under devtool
+
+Martin Jansa (2):
+  sanity.conf: Update minimum bitbake version to 2.8.1
+  lib/oe/utils: use multiprocessing from bb
+
+Nitin Wankhade (1):
+  examples: genl: fix wrong attribute size
+
+Philip Lorenz (1):
+  shared-mime-info: Handle USE_NLS
+
+Ross Burton (1):
+  libxslt: apply patch for CVE-2025-7424
+
+Yogita Urade (1):
+  curl: fix CVE-2025-9086
+
+ meta/conf/sanity.conf                         |   2 +-
+ meta/lib/oe/utils.py                          |   3 +-
+ meta/recipes-core/systemd/systemd_255.21.bb   |   1 +
+ .../util-linux/util-linux_2.39.3.bb           |   2 +-
+ ...36-Add-cstdint-to-SmallVector-101761.patch |  28 +++++
+ ...cstdint-in-AMDGPUMCTargetDesc-101766.patch |  23 ++++
+ ...-include-to-X86MCTargetDesc.h-123320.patch |  32 ++++++
+ .../llvm/{llvm_18.1.6.bb => llvm_18.1.8.bb}   |   5 +-
+ ...amples-genl-fix-wrong-attribute-size.patch |  44 ++++++++
+ meta/recipes-extended/libmnl/libmnl_1.0.5.bb  |   5 +-
+ .../curl/curl/CVE-2025-9086.patch             |  55 ++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
+ .../gnome-libxslt-bug-139-apple-fix.diff      | 103 ++++++++++++++++++
+ .../recipes-support/libxslt/libxslt_1.1.43.bb |   3 +-
+ .../recipes-support/p11-kit/p11-kit_0.25.3.bb |   1 +
+ .../shared-mime-info/shared-mime-info_2.4.bb  |   5 +-
+ 16 files changed, 306 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0036-Add-cstdint-to-SmallVector-101761.patch
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0037-Include-cstdint-in-AMDGPUMCTargetDesc-101766.patch
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0038-Add-missing-include-to-X86MCTargetDesc.h-123320.patch
+ rename meta/recipes-devtools/llvm/{llvm_18.1.6.bb => llvm_18.1.8.bb} (94%)
+ create mode 100644 meta/recipes-extended/libmnl/files/0001-examples-genl-fix-wrong-attribute-size.patch
  create mode 100644 meta/recipes-support/curl/curl/CVE-2025-9086.patch
+ create mode 100644 meta/recipes-support/libxslt/files/gnome-libxslt-bug-139-apple-fix.diff
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2025-9086.patch b/meta/recipes-support/curl/curl/CVE-2025-9086.patch
-new file mode 100644
-index 0000000000..c77d8fe33d
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2025-9086.patch
-@@ -0,0 +1,55 @@
-+From c6ae07c6a541e0e96d0040afb62b45dd37711300 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 11 Aug 2025 20:23:05 +0200
-+Subject: [PATCH] cookie: don't treat the leading slash as trailing
-+
-+If there is only a leading slash in the path, keep that. Also add an
-+assert to make sure the path is never blank.
-+
-+Reported-by: Google Big Sleep
-+Closes #18266
-+
-+CVE: CVE-2025-9086
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/c6ae07c6a541e0e96d0040afb6]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ lib/cookie.c | 9 +++++----
-+ 1 file changed, 5 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/cookie.c b/lib/cookie.c
-+index c1ed291..67494d2 100644
-+--- a/lib/cookie.c
-++++ b/lib/cookie.c
-+@@ -316,7 +316,7 @@ static char *sanitize_cookie_path(const char *cookie_path)
-+   }
-+
-+   /* convert /hoge/ to /hoge */
-+-  if(len && new_path[len - 1] == '/') {
-++  if(len > 1 && new_path[len - 1] == '/') {
-+     new_path[len - 1] = 0x0;
-+   }
-+
-+@@ -1074,7 +1074,7 @@ Curl_cookie_add(struct Curl_easy *data,
-+          clist->spath && co->spath && /* both have paths */
-+          clist->secure && !co->secure && !secure) {
-+         size_t cllen;
-+-        const char *sep;
-++        const char *sep = NULL;
-+
-+         /*
-+          * A non-secure cookie may not overlay an existing secure cookie.
-+@@ -1083,8 +1083,9 @@ Curl_cookie_add(struct Curl_easy *data,
-+          * "/loginhelper" is ok.
-+          */
-+
-+-        sep = strchr(clist->spath + 1, '/');
-+-
-++        DEBUGASSERT(clist->spath[0]);
-++        if(clist->spath[0])
-++          sep = strchr(clist->spath + 1, '/');
-+         if(sep)
-+           cllen = sep - clist->spath;
-+         else
-+--
-+2.40.0
-diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index 6845a43cd2..6ed3d6e84d 100644
---- a/meta/recipes-support/curl/curl_8.7.1.bb
-+++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -24,6 +24,7 @@ SRC_URI = " \
-     file://CVE-2024-11053-0002.patch \
-     file://CVE-2024-11053-0003.patch \
-     file://CVE-2025-0167.patch \
-+    file://CVE-2025-9086.patch \
- "
- 
- SRC_URI:append:class-nativesdk = " \
 -- 
 2.43.0
 
