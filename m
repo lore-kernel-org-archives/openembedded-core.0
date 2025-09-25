@@ -1,103 +1,132 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <mns@gomspace.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDEA1CAC5A5
-	for <webhook@archiver.kernel.org>; Thu, 25 Sep 2025 06:08:16 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.4928.1758780495361512323
- for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Sep 2025 23:08:15 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=qFfh/F8j;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=13630281d0=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58P5ocfU2662771
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 23:08:15 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=iwUkkmXObkHangM4g/el
-	l9gKhD21zvYM3yzStsXu1oU=; b=qFfh/F8jCmkpACYMLuvO0Q4pyHQg3XrIxNEJ
-	RELktPAR9sWVUlKf5BDpqzBKr4AXosdbzs1xdYcdWGC4r+bO+8qjFqpPATlMZUXb
-	JIM6y+Qvfnd44nbnLyv/qv39DOUrgQsDK6EhL1MhevGbVeh74WF3vsc5wff5PVq4
-	zs5vn/KOuRUoWpj1boXGqw22k8DpUZUzoVA0dR+zEBb7ExnfGzTgSSmnZ/mEUPhf
-	QMASDS/RhhhwUPfpP3I4peeqEc0ecFjlFidkg+9dLIhGZ/7B3VIgjFU7wWSfqT9W
-	iiEeQSDNzk9hfiXUQtSqZ+AVyLcVtKw15rQuzM5/gjTPX09zZQ==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 499usfnnhj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Sep 2025 23:08:14 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Wed, 24 Sep 2025 23:07:32 -0700
-From: dchellam <divya.chellam@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] vim: upgrade 9.1.1652 -> 9.1.1683
-Date: Thu, 25 Sep 2025 11:37:12 +0530
-Message-ID: <20250925060712.3466958-1-divya.chellam@windriver.com>
-X-Mailer: git-send-email 2.40.0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ADA0CAC5A5
+	for <webhook@archiver.kernel.org>; Thu, 25 Sep 2025 06:37:07 +0000 (UTC)
+Subject: Re: [walnascar][PATCH 3/3] systemd.bbclass: Make systemd_postinst run as intended
+To: openembedded-core@lists.openembedded.org
+From: "Martin Siegumfeldt" <mns@gomspace.com>
+X-Originating-Location: DK (79.171.149.174)
+X-Originating-Platform: Linux Chrome 140
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.11.232.110]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) To
- ala-exchng01.corp.ad.wrs.com (10.11.224.121)
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDA1NyBTYWx0ZWRfX/huzuxo66ytq
- 16KbmKmcIAQNvi7rqo9ndKiUBrnk6mXos4MxFj3cWFbL56PlW9jtNiDUy4Gvtblent2FQD6seUM
- rUkIGymVQ+yqpcMRTmwy8uUifv6KGSZnWpgubUBHJDcUZu/8hgcKZS/P0A+dD6NqkqXaUQ5H1wZ
- 6yFA3Psrhy3y7A3ebiB3dRGkTuK0/gfztwERqfiYnr1MN4qZ+p379gu5s8uw8uMDdFwRGCkqowi
- yWY8cb/dU0Z3+HczZBHI1NgIQqv4he/zbLRj457anCZAli1ZwUPuZipKzH1l4tiBCKby4PHeNPe
- iq/rCVZn1M9Fs970X65ZqLmzYCy510WHpSjlrkviW0N6wXjLi8QDj6sbceKlw0=
-X-Authority-Analysis: v=2.4 cv=DrxW+H/+ c=1 sm=1 tr=0 ts=68d4dc4e cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=gmxlzscTznEA:10 a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
- a=CO6_6GR02mM01ndywr8A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: FDsfL8lohCxXFAINbqZd9TAOcfzjJDB9
-X-Proofpoint-GUID: FDsfL8lohCxXFAINbqZd9TAOcfzjJDB9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-24_07,2025-09-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
- malwarescore=0 impostorscore=0 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
+Date: Wed, 24 Sep 2025 23:36:59 -0700
+References: <DB5PR02MB10213F2B4B71975FD52650035EF1CA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB10213F2B4B71975FD52650035EF1CA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Message-ID: <20743.1758782219733650322@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="uXI8MW70VGnoetaY2lE6"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 06:08:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/223999
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 06:37:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224000
 
-From: Divya Chellam <divya.chellam@windriver.com>
+--uXI8MW70VGnoetaY2lE6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Handles CVE-2025-9389
+Thanks Peter,
 
-Changes between 9.1.1652 -> 9.1.1683
-====================================
-https://github.com/vim/vim/compare/v9.1.1652...v9.1.1683
+Below is what I expect to be the relevant part of the log file:
 
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
----
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Created symlink '/home/martin/work/distro-gomspace_tmp/build/tmp/work/nanom=
+ind_z7020_zed-gomspace-linux-gnueabi/nanomind-dev-image/1.0/rootfs/etc/syst=
+emd/system/multi-user.target.wants/busybox-klogd.service' =E2=86=92 '/usr/l=
+ib/systemd/system/busybox-klogd.service'.
+Created symlink '/home/martin/work/distro-gomspace_tmp/build/tmp/work/nanom=
+ind_z7020_zed-gomspace-linux-gnueabi/nanomind-dev-image/1.0/rootfs/etc/syst=
+emd/system/multi-user.target.wants/sysstat.service' =E2=86=92 '/usr/lib/sys=
+temd/system/sysstat.service'.
+Failed to enable unit: Refusing to operate on template unit nanomind-gpio-c=
+trl@.service when destination unit multi-user.target is a non-template unit
+Failed to enable unit: Refusing to operate on template unit nanomind-bank-c=
+trl@.service when destination unit multi-user.target is a non-template unit
+Created symlink '/home/martin/work/distro-gomspace_tmp/build/tmp/work/nanom=
+ind_z7020_zed-gomspace-linux-gnueabi/nanomind-dev-image/1.0/rootfs/etc/syst=
+emd/system/multi-user.target.wants/redis.service' =E2=86=92 '/usr/lib/syste=
+md/system/redis.service'.
+.
+.
+.
+Configuring sysstat.
+Configuring nanomind-gpio-ctrl.
+nanomind-gpio-ctrl.postinst returned 1, marking as unpacked only, configura=
+tion required on target.
+Configuring nanomind-bank-ctrl.
+nanomind-bank-ctrl.postinst returned 1, marking as unpacked only, configura=
+tion required on target.
+Configuring bash-completion.
+Configuring libiio-bash-completion.
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 7bcd2d346c..c730f1d0cf 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".1652"
--SRCREV = "3e152c76adb9542af86760786d42a0beffe5354b"
-+PV .= ".1683"
-+SRCREV = "b922b30cfe4c044c83bac3cc908084ed20a83598"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
--- 
-2.40.0
+The particular service file is described as:
 
+[Unit]
+Description=3DGPIO Control Service (%i)
+[Service]
+Type=3Doneshot
+RemainAfterExit=3Dyes
+ExecStart=3D/usr/bin/gpioset --daemonize --chip gpiochip0 %i=3D1
+ExecStartPost=3D/bin/sleep .3
+ExecStopPost=3D/usr/bin/gpioset --toggle 0 --chip gpiochip0 %i=3D0
+ExecStopPost=3D/bin/sleep .3
+[Install]
+WantedBy=3Dmulti-user.target
+
+AFAICT, the issue only applies for template units - other seem to install/c=
+onfigure fine.
+
+What puzzles me is why I am seemingly the only one running into this - I co=
+nsider both the recipe and service file to be quite standard...
+
+--uXI8MW70VGnoetaY2lE6
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Thanks Peter,</div>
+<div>&nbsp;</div>
+<div>Below is what I expect to be the relevant part of the log file:</div>
+<div>&nbsp;</div>
+<div>Created symlink '/home/martin/work/distro-gomspace_tmp/build/tmp/work/=
+nanomind_z7020_zed-gomspace-linux-gnueabi/nanomind-dev-image/1.0/rootfs/etc=
+/systemd/system/multi-user.target.wants/busybox-klogd.service' &rarr; '/usr=
+/lib/systemd/system/busybox-klogd.service'.<br />Created symlink '/home/mar=
+tin/work/distro-gomspace_tmp/build/tmp/work/nanomind_z7020_zed-gomspace-lin=
+ux-gnueabi/nanomind-dev-image/1.0/rootfs/etc/systemd/system/multi-user.targ=
+et.wants/sysstat.service' &rarr; '/usr/lib/systemd/system/sysstat.service'.=
+<br />Failed to enable unit: Refusing to operate on template unit nanomind-=
+gpio-ctrl@.service when destination unit multi-user.target is a non-templat=
+e unit<br />Failed to enable unit: Refusing to operate on template unit nan=
+omind-bank-ctrl@.service when destination unit multi-user.target is a non-t=
+emplate unit<br />Created symlink '/home/martin/work/distro-gomspace_tmp/bu=
+ild/tmp/work/nanomind_z7020_zed-gomspace-linux-gnueabi/nanomind-dev-image/1=
+.0/rootfs/etc/systemd/system/multi-user.target.wants/redis.service' &rarr; =
+'/usr/lib/systemd/system/redis.service'.<br />.</div>
+<div>.</div>
+<div>.</div>
+<div>Configuring sysstat.<br />Configuring nanomind-gpio-ctrl.<br />nanomin=
+d-gpio-ctrl.postinst returned 1, marking as unpacked only, configuration re=
+quired on target.<br />Configuring nanomind-bank-ctrl.<br />nanomind-bank-c=
+trl.postinst returned 1, marking as unpacked only, configuration required o=
+n target.<br />Configuring bash-completion.<br />Configuring libiio-bash-co=
+mpletion.</div>
+<div>&nbsp;</div>
+<div>The particular service file is described as:</div>
+<div>&nbsp;</div>
+<div>
+<div>[Unit]<br />Description=3DGPIO Control Service (%i)</div>
+<div>[Service]<br />Type=3Doneshot<br />RemainAfterExit=3Dyes<br />ExecStar=
+t=3D/usr/bin/gpioset --daemonize --chip gpiochip0 %i=3D1<br />ExecStartPost=
+=3D/bin/sleep .3<br />ExecStopPost=3D/usr/bin/gpioset --toggle 0 --chip gpi=
+ochip0 %i=3D0<br />ExecStopPost=3D/bin/sleep .3</div>
+<div>[Install]<br />WantedBy=3Dmulti-user.target</div>
+<div>&nbsp;</div>
+<div>AFAICT, the issue only applies for template units - other seem to inst=
+all/configure fine.</div>
+<div>&nbsp;</div>
+<div>What puzzles me is why I am seemingly the only one running into this -=
+ I consider both the recipe and service file to be quite standard...</div>
+</div>
+
+--uXI8MW70VGnoetaY2lE6--
 
