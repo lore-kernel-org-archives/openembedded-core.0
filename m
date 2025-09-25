@@ -2,36 +2,36 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EE9CAC5A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9340CAC5B1
 	for <webhook@archiver.kernel.org>; Thu, 25 Sep 2025 14:06:20 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.12676.1758809179711039364
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web11.12673.1758809174773334691
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Sep 2025 07:06:20 -0700
+ Thu, 25 Sep 2025 07:06:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=CLUpS33d;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202509251406171322dbb782000207cc-g2x7qb@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202509251406171322dbb782000207cc
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ulyXy9Ay;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20250925140612c9da336b71000207f3-qbwe82@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20250925140612c9da336b71000207f3
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 25 Sep 2025 16:06:17 +0200
+        Thu, 25 Sep 2025 16:06:12 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=QctQrvhS6OA7DvYQeAIiZDkMTVV1LdcK7tztY4kSATA=;
- b=CLUpS33dIxbVaiM7Lu++atIIsK8piP6SYiTfvQOkWvGqqbTZI7p8ZfUF1GusT12P/xuV72
- 4Jt9OIWmMKbLGs+mFYqUy+73sB9cejobYHd8xg6msHMxUe86SvVsJ450YJCCN76n9gh7pE8Z
- p7t7ehA/vKLoMYD8D8UkVNsbojs9WqUhr3m2LgJLpCziIm8X+VCfkPYm3jCuLllunbPmFHOv
- iEidKOw4/8TxajqqmjRro02+FD4wbfnvftmAOorZDHcVapsv2aJSQKOIIn946WmFZDeUACIj
- ZH7YSa1jxF4a9xXGlWmfDlS0aUpqAiPSfD5Qd4XW16Cn2DY1Qcy+2ydw==;
+ bh=kQkHbNuNqZ+TEbA+dqGJEwPVhLS/7TrSTPgP03DOnOo=;
+ b=ulyXy9AyLAF1C8ZPGWIlVwOjHjVxocmbazEu4FlHmMqq5rPneVnp189pdxFOztk/fReAcW
+ ZnIo0Zq6e7t6vf32M5bWE3nnAbcm+67aMN4BeTMUM0fevw0qCxxXY+ZdSgtl0u1nJUhc9bTi
+ ZqQ8+/OCg054PHXcYvUS6TXRW+RM6LMD0kShEIBM68CxSelTAoXeby9eBGpH49IWvQlgWZbj
+ ChPIkffvAhI9dUl6QhbwZ+1qmzJuOw7yQhvkXJP3N0lBphAaaKqrwVAdjhx9i8RKYR0OW2Wt
+ EFfTOhfUKdOOx/IdxU+61LSmWEo9U/XXYcvPjC1sKgWgWygL2dIEqEEA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Ross Burton <ross.burton@arm.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][walnascar][PATCH 05/10] grub2: mark CVE-2024-2312 as not applicable
-Date: Thu, 25 Sep 2025 16:05:09 +0200
-Message-Id: <20250925140514.1103300-5-peter.marko@siemens.com>
+Subject: [OE-core][walnascar][PATCH 04/10] pulseaudio: ignore CVE-2024-11586
+Date: Thu, 25 Sep 2025 16:05:08 +0200
+Message-Id: <20250925140514.1103300-4-peter.marko@siemens.com>
 In-Reply-To: <20250925140514.1103300-1-peter.marko@siemens.com>
 References: <20250925140514.1103300-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -42,33 +42,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 25 Sep 2025 14:06:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224034
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224033
 
 From: Ross Burton <ross.burton@arm.com>
 
-This issue is specific to the peimage module that Ubuntu add, and is not
-an upstream issue.
+As per the linked ticket, this issue is related to an Ubuntu-specific
+patch that we don't have.
 
-(From OE-Core rev: 8d2fe3f403e6435e1ffe122a6776381090752d8a)
+(From OE-Core rev: dc81fdc6bdf8ab39b7f2fd994d50256430c36558)
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-bsp/grub/grub2.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 1fe39a59d2d..0563e5f7616 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -43,6 +43,7 @@ SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154
- CVE_STATUS[CVE-2019-14865] = "not-applicable-platform: applies only to RHEL"
- CVE_STATUS[CVE-2023-4001]  = "not-applicable-platform: Applies only to RHEL/Fedora"
- CVE_STATUS[CVE-2024-1048]  = "not-applicable-platform: Applies only to RHEL/Fedora"
-+CVE_STATUS[CVE-2024-2312]  = "not-applicable-platform: Applies only to Ubuntu"
- 
- DEPENDS = "flex-native bison-native gettext-native"
- 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 4708145bb96..9aa40a4779a 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -282,3 +282,5 @@ RDEPENDS:pulseaudio-server += "\
+ RDEPENDS:pulseaudio-server += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', \
+                                   bb.utils.contains('DISTRO_FEATURES', 'systemd', 'pulseaudio-module-systemd-login', 'pulseaudio-module-console-kit', d), \
+                                   '', d)}"
++
++CVE_STATUS[CVE-2024-11586] = "not-applicable-platform: specific to Ubuntu 16.04"
 
