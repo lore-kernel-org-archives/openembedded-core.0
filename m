@@ -1,100 +1,94 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD7ECAC5AE
-	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 07:16:19 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.11921.1758870976546949720
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9644ECAC5AC
+	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 07:31:59 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web10.12030.1758871910675760130
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 00:16:16 -0700
+ Fri, 26 Sep 2025 00:31:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=xWEhEFCy;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=chlZJ3tX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019984e134f8-3acc1754-10d1-482e-bb43-870e89f4b4d5-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1758870975; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=sFWDGBSWTs4nTLhR4bZ0sk3f7l32Wod2xb4rOEA7mac=;
-	b=xWEhEFCyVfgXBNhiG/uxVb+Ee9zfJljKmMwMwu2mxk373/JY74m+JehgCMRpnZ37
-	xc+tfTKnj7eLljIdiBn3++mffziyhS1bnaAECF+780tG01TfwhkYRUHQCf8k1AFDdFr
-	IiIg7U9zSq/PB5OEpGmWXapePy2e87bJ3HF+/pI0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1758870975;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=sFWDGBSWTs4nTLhR4bZ0sk3f7l32Wod2xb4rOEA7mac=;
-	b=chlZJ3tX66arWpFzfBmLpeHpXBMTwrTlDJn7ZFEHm++ZbfznyCBr8phf81FJe1c5
-	OhHeB5pHsptXrM+JKZ1rdAqQZNasimGjZQtjgpM19uPhjrlZ774UOuOwWOrNGuxfkMS
-	YwdAgZ17t5rtEFWVig0bmd8OuFIvs1iwqxu2veMA=
-From: patchtest@automation.yoctoproject.org
-To: Deepesh.Varatharajan@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] rust: Drop rust-llvm use clang instead
-In-Reply-To: <20250926071158.3439500-1-Deepesh.Varatharajan@windriver.com>
-References: <20250926071158.3439500-1-Deepesh.Varatharajan@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019984e134f8-3acc1754-10d1-482e-bb43-870e89f4b4d5-000000@us-west-2.amazonses.com>
-Date: Fri, 26 Sep 2025 07:16:15 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.26-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z0DKlT6A;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-856cbf74c4aso256740385a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 00:31:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758871909; x=1759476709; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f7TPiweVzryOPevD753WMMF2GoyIJlMfs0TJmpIWUDY=;
+        b=Z0DKlT6Ahs0M2gY+72OL7UwGSqX7/wdiFfXHlJ81s/E77tP+suUrH68IU+c+SEcsZf
+         OmQd6bsIRNmKFS4lwyPs2YBgobirqzgw/aceLfdyVolnoBIaOPIHZTq+asrR/X279Lgj
+         Oyl5m/tDcGoLu4qUDGryX8JiNrnyWgS5I1NEyVlEKCgq2+Ux7Mu3c7HwlWo+p2XDyJvb
+         cmZIh2ZC7kxTEzga1VfDWRMebp6AENfZa1a4j9tvFEeSpw2TxC3EZcvti96tFX9ejUY4
+         k3E76alLs5y5BiYGLEfFdrjjuvuL2VFedZ7HLT7PcWDnrGOBQ+LvLvEYDh5n/0om7HP5
+         O13Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758871909; x=1759476709;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f7TPiweVzryOPevD753WMMF2GoyIJlMfs0TJmpIWUDY=;
+        b=a81UZS1xp5u6F6IcJVoEZ/zjwnbqlstp4RQCQzvxQ1Mw0JMrFXRkFoaK4Jlmp3/RNa
+         p52HT7+1BntCvYbaaWVEP7VwyRQasF1pJKBV0slnm5LLd0U5kFt4nZwYzoiniqrwaIHo
+         AKbA7yl4seAiIaSiRX8TXzmUuTfKgW7MuNToiUhUsx9+IkevObt5zBcA2PXBLZzAGgtM
+         19qsUZ1vvkL3pti5ODF/URrKuxxE9qmkKz+nmR6nzzckpkP9LUJpZsfA411GMUbHyXzV
+         rygwtLnH8raNRQrQycEW54Y4Z9qXNO6Bs0OEv+f4mA5klhE6z8mS93Gzo69mKv0Vg++e
+         m0OQ==
+X-Gm-Message-State: AOJu0YzguEZEcm1eNaIWT9fo1J7RhBCyDvjERrQP2KoyDaFO0KWoeO8t
+	MgqiCNYt87spCchNbEaDpqRHQhU9k75s2J/b9bW2irbv1eUQE0qRSkijUgMnEJ4E/eYjv7IkkYi
+	nDMNhZqaMmmaAoCO7VwA7TpsbS+Jq66g=
+X-Gm-Gg: ASbGncvFjf0PBtsTWz5/kEdwAx2VhezS5I7QJT9GxxnhQarB4CZPlN7W5/m6XI3N69U
+	bibN4yzKCoW/s2g2oLmaTkpYYAJHvVY9/LQ/JzCqDp5NATfLN9gReG0vrSPGnEoGB/DNaLyt44t
+	lddv2CQgCDWDp8FK1CQtGT/dDjjKsesB4ULT9yY7AL7rLEWuRU40J7/GpAHYuZ58a6Y2tzpbj8O
+	sQMgTItonvYTteVQ1qxj1lAKAfa1zViyU42KLb8ax4zsRDF/yLH4CcYnxlVh6CnWShJG9Jm8Slz
+	1QaJGX7nf3i4Ktk=
+X-Google-Smtp-Source: AGHT+IF0PWUwHPx2BKV/alUm2iGhooPO1tqwwowm08PRF46KXzjd7YF0Em88VewftuItb009xJa4Uq40ruYw5SX1lKQ=
+X-Received: by 2002:a05:6214:6115:b0:7eb:2915:e499 with SMTP id
+ 6a1803df08f44-7fc3b6ded36mr66604106d6.40.1758871909570; Fri, 26 Sep 2025
+ 00:31:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <29002.1758707163729683981@lists.openembedded.org> <27560.1758858140781391880@lists.openembedded.org>
+In-Reply-To: <27560.1758858140781391880@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 26 Sep 2025 09:31:37 +0200
+X-Gm-Features: AS18NWAXVh9YEFX14fNCwUAMfRIo7U70IPKTdPaJY_uOo42TROVU6pUzEcaMq1U
+Message-ID: <CANNYZj9RXcePZWt4VfMqxdyARDLyoEkmdhnmF0vueTskcJgE5Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] kernel-fitimage: add support for custom ITS
+ file override
+To: kavinaya@qti.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 07:16:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224056
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 07:31:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224057
 
---NextPart
-Content-Type: text/plain
+On Fri, 26 Sept 2025 at 05:42, kavinaya via lists.openembedded.org
+<kavinaya=3Dqti.qualcomm.com@lists.openembedded.org> wrote:
+> We are not hardcoding anything or bypassing upstream logic. All BitBake v=
+ariables and artifact handling remain unchanged. The only difference is tha=
+t if FIT_CUSTOM_ITS_FILE is set, we use that file instead of generating one=
+ dynamically.
+> This ensures we still rely on the existing process for preparing kernel, =
+DTBs, and other artifacts.
+> Regarding extending the ITS generator: yes, we considered it, but our req=
+uired compatible string format is very specific and would need major change=
+s to the generator, adding complexity and maintenance overhead. Using a cus=
+tom ITS file is simpler, low-impact, and keeps upstream behavior intact whi=
+le meeting our UEFI compatibility needs.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Using custom files with unclear, unspecified ways to produce them also
+fragments the ecosystem and inserts vendor magic and
+non-reproducibility into the build process. That is a negative impact
+on the project, and goes against its principles.
 
----
-Testing patch /home/patchtest/share/mboxes/rust-Drop-rust-llvm-use-clang-instead.patch
+Fixing the ITS generator is still the preferred solution, even if it
+requires more work on your part, possibly including writing tests.
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Alex
 
