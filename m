@@ -1,104 +1,87 @@
-Return-Path: <Divya.Chellam@windriver.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EEEECAC5AE
-	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 11:15:41 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.14867.1758885331478921725
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE80CAC5AE
+	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 13:10:51 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.16964.1758892245776563898
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 04:15:31 -0700
+ Fri, 26 Sep 2025 06:10:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=G5vHLNcD;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=13648e1d86=divya.chellam@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58QAnn7W1346203
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 04:15:31 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=UxSRmg9QIm+zyEesSdHO
-	6oQJrctQxZLxbEDsfhZuMn0=; b=G5vHLNcD6wsBYzfOBg6UNQoh59BvJud/cMuc
-	8cV5/FfJCgjmgPjsnAyg52Z8LxKgduTnOX8sGR20i+nVqxFU6fcQwRyFitywcHcQ
-	o4WWP6F7jC9QO02eTl0nL/1hxiEBSJ1kjvxrvPTeBmVB4x3ZOQ7Vd3IoJpTQdHdk
-	Gakzp/XOJST8I+npUhNCld12cxe4cQI7NMXdlkYLcbpfguVaSjbpc/+OBrbRyCqX
-	/ybG/5dUTagZRs0k3AgGXlHXbJPzza1JJY6sNQDtTG1TKzhDDHqrHvnw4uT/dMLJ
-	n/hLBORNqDYiJ/9bKU9yCLDwksU3Z+siapka1V8Bowk5X4g/sA==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49dbse0qge-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 04:15:30 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Fri, 26 Sep 2025 04:15:28 -0700
-From: dchellam <divya.chellam@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] vim: upgrade 9.1.1652 -> 9.1.1683
-Date: Fri, 26 Sep 2025 16:44:59 +0530
-Message-ID: <20250926111459.979150-1-divya.chellam@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42389168F
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 06:10:37 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 004353F66E
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 06:10:44 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] classes/cmake: unset LDFLAGS in toolchain-native.bbclass
+Date: Fri, 26 Sep 2025 14:10:41 +0100
+Message-ID: <20250926131041.3342321-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.11.232.110]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) To
- ala-exchng01.corp.ad.wrs.com (10.11.224.121)
-X-Proofpoint-GUID: pKEo8R73-93GSvE505SeD9CHQox34rF0
-X-Authority-Analysis: v=2.4 cv=NanrFmD4 c=1 sm=1 tr=0 ts=68d675d2 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=gmxlzscTznEA:10 a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
- a=CO6_6GR02mM01ndywr8A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDEwMyBTYWx0ZWRfXyYI8w2XWCZaZ
- fXJ3HlegyZedQDBr2Y1QMcbB40S5oUptxid1IiAxpWpe4W9dVlvLanciODNl6NdG3KB2TvkBxy6
- LQ821+HUr7elNeV69WwhXFvr5SYE7U9rqVmhMk75fXEZ8NuPb4L7/6933z4vUfOj/6Ve0Y5Klcl
- f7Fbr/D/X+Im+/lhKSsL9Y5qsfZ7smaGcLnMZff0R6CO8HQaCHFoqMtWvCrNIotEIwm6Bbazj2/
- CgqNI8wHBoSatFfXmhlvFLmyGjkOj9WUw7m9ItcCdjjJ3ySqXyfno/Gw5mDOCzb0fdYArn0Rios
- WmgN+QYnbbANZSKnwnLZTG4wwv7MTBwxk2eJVNDJLaqX9hosrq5a6p09J0a4g3jkl+VvDYalkDw
- FuPgQDcq4ZUPGgW0jlZ5ZjGHUPp6Uw==
-X-Proofpoint-ORIG-GUID: pKEo8R73-93GSvE505SeD9CHQox34rF0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-26_03,2025-09-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- suspectscore=0 malwarescore=0 spamscore=0 adultscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2509150000 definitions=main-2509260103
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 11:15:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224079
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 13:10:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224080
 
-From: Divya Chellam <divya.chellam@windriver.com>
+If a recipe is using toolchain-native.cmake to build native portion in a
+non-native build, the target LDFLAGS from the environment will leak into
+the native build.
 
-Handles CVE-2025-9389
+This was noticed as building a SDK with clang means that LDFLAGS contains
+a --dynamic-loader argument, so native binaries were trying to use the
+target loader.
 
-Changes between 9.1.1652 -> 9.1.1683
-====================================
-https://github.com/vim/vim/compare/v9.1.1652...v9.1.1683
+There are several variables that are set from LDFLAGS[1] so instead of
+setting them all, we can simply unset the environment variable in the
+toolchain.
 
-Signed-off-by: Divya Chellam <divya.chellam@windriver.com>
+[1] https://cmake.org/cmake/help/latest/envvar/LDFLAGS.html
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes-recipe/cmake.bbclass | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 2a9fda5376..289f31be70 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".1652"
--SRCREV = "3e152c76adb9542af86760786d42a0beffe5354b"
-+PV .= ".1683"
-+SRCREV = "b922b30cfe4c044c83bac3cc908084ed20a83598"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
--- 
-2.40.0
+diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmak=
+e.bbclass
+index 2c83056273b..4f59966521e 100644
+--- a/meta/classes-recipe/cmake.bbclass
++++ b/meta/classes-recipe/cmake.bbclass
+@@ -212,11 +212,14 @@ set( CMAKE_LIBRARY_PATH ${STAGING_BASE_LIBDIR_NATIV=
+E} ${STAGING_LIBDIR_NATIVE})
+ list(APPEND CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES ${STAGING_INCDIR_NATIVE=
+})
+ list(APPEND CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES ${STAGING_INCDIR_NATI=
+VE})
+=20
+-# We need to be sure that the environment variables exported by bitbake.=
+conf
+-# which are for the _target_ build are not respected, as otherwise you c=
+an
+-# end up mixing native and target flags.
++# The assignmens above override CFLAGS and CXXFLAGS from the environment=
+ but
++# not LDFLAGS, which ends up in CMAKE_EXE_LINKER_FLAGS. This then means =
+our
++# native builds use target flags, and can fail.
+ #
+-# https://cmake.org/cmake/help/latest/manual/cmake-env-variables.7.html#=
+environment-variables-for-languages
++# As there are a number of variables that are set from LDFLAGS,
++# clear it at source.
++#
++# https://cmake.org/cmake/help/latest/envvar/LDFLAGS.html
+ unset(ENV{LDFLAGS})
+ EOF
+ }
+--=20
+2.43.0
 
 
