@@ -1,92 +1,260 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 171D2CAC5B8
-	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 16:32:43 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.52.1758904357480067304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C1FCAC5B8
+	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 16:50:06 +0000 (UTC)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+ by mx.groups.io with SMTP id smtpd.web11.155.1758905404858514761
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 09:32:37 -0700
+ Fri, 26 Sep 2025 09:50:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3156168F
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 09:32:28 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A109D3F5A1
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 09:32:36 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] expat: upgrade to 2.7.3
-Date: Fri, 26 Sep 2025 17:32:31 +0100
-Message-ID: <20250926163231.1478264-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WohmarGC;
+ spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-9032edd72c1so205250139f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 09:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758905404; x=1759510204; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iULGvmfZraU2K4IBR6kxA8m6poW2ST+JIZ9HpTKgYpg=;
+        b=WohmarGC88OyDBdM4bjK5goA++gWuaonEGE2Q+68G3mJHZ8sxeGko+Eg3wHvgEwTBR
+         Hu/FflENvvUg1ib3+KDqYnyong7ePa4z77f1YN++fRImOEfHZLJzuzDhTaTbxr57PDCe
+         l+VGkQMm/PX36GcvxRUpkNkUO9mWkZzVqcrd8ok8gTwaJkSX48hx7RFdXXTTZT+ElSXO
+         rRinBqbWCTPIxK1u3xQbafAPZeu/9i4RB6+nCuCaUtt8yLMojYi03uXuRkrI3ObLjvE2
+         UkQK+xudG56NInsnVO0Y+VKZWTnxWp/Em3xwKeLKGFK03MeVIPjCvTbYYOWH+XqjN30D
+         8SLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758905404; x=1759510204;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iULGvmfZraU2K4IBR6kxA8m6poW2ST+JIZ9HpTKgYpg=;
+        b=pBHnWXyP4VFRUL3oa9ZILfzuzJdOV0HRQqrOMqYA55ZS4rtwVWJWTCBygSQFVIxFYS
+         rk0ZYPpHkhGtWx2L6ukWyXQw9rwIj72WKMk32XwmJdpHCkzDt2NV8vO5SPEdRzyfS+UX
+         Yn1nC+HEWqOqJ3KtqiFXEjpxRx0uXw1h/dwcl2K+rqi5iNPUvt/OzTKi6CUSvicpHU7Q
+         Z1u9tm7PZ96mI6dRLiYiBz9D1kuEOMNayKbPPgWWoM1hJyWKQVlQSbj+93061eGaPS4y
+         uI+eDyf5du/+kRgaFhDSQhLw4yjAriJE6/ky/wmpOiJLyY8uS54npLbglbBUdyujnWSz
+         CANg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxAv0LmADVHDFN4JLJBNzRUb66K8/SxlQK9Htx5ZPQCh42xuzEXd74d9IuzjL+j+7BJOEWgg2TKHBfOAtV96UhgA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzcbMJJ6Pfa3GMT5LotXjWtJlvhvigWCO8uBFfIpJJj9MMNU3pi
+	gEJspvd/dV3oFSC8QfYhXiotXFQaBYE3RunybcT2P0gj6Kx/jzbUIooLEbbN5TqX
+X-Gm-Gg: ASbGnctwKoF6kPttnNXVNEQcmsJw1cQZ9hX5peVCzbzsxTZPtf0TXhEHD+y00SGUCsO
+	28JbAC4/RhHH2z5XfrlQhEV1j9vRq3i1eUXqS2PCvg8LO2RACs3BL/wj4mK4T6alK3qmLHOJv+2
+	uYX+LhKoTSyhkmZzIUUU6eSGK2BiVXqkBSd1oL6KckxhBJO/o0pQWG/yJJJcCMbPUi1f7dAyI94
+	2yv7WG/yjkupWXmDhleyypIcZ7dVaWTRkYXoWumBvxUeGZp5cwCHPexgopp26J4kJujVtRNpQia
+	uMKi2QMfAuNPOundREGyoULphAIISAM8AY4+/x3nSQdyjQbd6H3P0dhVPYKBi/cZDS5PrN3DF8j
+	K/qW2l4Vrd3JE1dm20BYo6IWr+o76tGFG4yT1fRtbyeyjophS2wBq8xcsrXrWLtgRwzRQav/bEF
+	ZWCsy0KRUNssrbCdkBzZDXets/i8YpSa6sSboVMbkuaIKs7dl4IX1j1Gdts25Chg3/KYZPgblJr
+	UUyUvwsbXgJ8senH2hLr32Q/PBkD6IrY1BWXgCG2JIiQghcNa0L
+X-Google-Smtp-Source: AGHT+IG3xrzCQzMoMfi2RaFEqonb7+WvwIzF0qqrbSfuxxI6ELrd+pg0gc3moiNswYvCcA11H/dm8g==
+X-Received: by 2002:a05:6602:29c1:b0:915:3f6f:9801 with SMTP id ca18e2360f4ac-9153f6f9c69mr211836139f.19.1758905403724;
+        Fri, 26 Sep 2025 09:50:03 -0700 (PDT)
+Received: from ?IPV6:2601:646:8201:fd20:8d7c:fa44:7948:cb52? ([2601:646:8201:fd20:8d7c:fa44:7948:cb52])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-56a6b152a1asm2014005173.84.2025.09.26.09.50.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Sep 2025 09:50:03 -0700 (PDT)
+Message-ID: <09c1040b-742f-49a2-a36b-629104f1d1d2@gmail.com>
+Date: Fri, 26 Sep 2025 09:50:02 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH V3 1/2] rust: Use clang instead of rust-llvm
+To: deepesh.varatharajan@windriver.com,
+ openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+References: <20250926102411.3742996-1-Deepesh.Varatharajan@windriver.com>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20250926102411.3742996-1-Deepesh.Varatharajan@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 16:32:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224086
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 16:50:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224087
 
-Security fixes:
-- Fix alignment of internal allocations for some non-amd64 architectures
-  (e.g. sparc32); fixes up on the fix to CVE-2025-59375 from #1034 (of
-  Expat 2.7.2 and related backports)
 
-- Fix a class of false positives where input should have been rejected
-  with error XML_ERROR_ASYNC_ENTITY; regression from CVE-2024-8176 fix
-  pull request #973 (of Expat 2.7.0 and related backports). Please check
-  the added unit tests for example documents.
 
-Other changes:
-- Prove and regression-proof absence of integer overflow from function
-  expat_realloc
-- Remove "harmless" cast that truncated a size_t to unsigned
-- Autotools: Remove "ln -s" discovery
-- docs: Be consistent with use of floating point around
-  XML_SetAllocTrackerMaximumAmplification
-- docs: Make it explicit that XML_GetCurrentColumnNumber starts at 0
-- docs: Better integrate the effect of the activation thresholds
-- docs: Fix an in-comment typo in expat.h
-- docs: Fix a typo in README.md
-- docs: Improve change log of release 2.7.2
-- xmlwf: Resolve use of functions XML_GetErrorLineNumber and
-  XML_GetErrorColumnNumber
-- Windows: Normalize .bat files to CRLF line endings
-- Version info bumped from 12:0:11 (libexpat*.so.1.11.0) to 12:1:11
-  (libexpat*.so.1.11.1); see https://verbump.de/ for what these numbers
-  do
+On 9/26/25 3:24 AM, Varatharajan, Deepesh via lists.openembedded.org wrote:
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> 
+> Updated the Rust build to depend on Clang instead.
+> 
+> *Summary of discussion with the rust upstream about using latest LLVM instead of Rust maintained LLVM fork.
+> https://internals.rust-lang.org/t/can-we-use-proper-clang-instead-of-llvm-fork-what-rust-uses/23489
+> 
+> *Upstream LLVM is generally compatible:
+> - Rust does support building with upstream (vanilla) LLVM, especially the latest
+> major release and the one or two preceding ones.
+> https://rustc-dev-guide.rust-lang.org/backend/updating-llvm.html#updating-llvm
+> 
+> *Impact on Yocto Rust upgrades:
+> - Rust upgrades shall always check for updates on rust forked llvm and backport
+> the relevant patches to clang's llvm.
+> 
+> *Regarding the rust forked llvm local patches:
+> - There are no local patches on rust forked llvm other than the backported fixes
+> from llvm master.
+> 
+> *We now add these flags "-Clink-arg=-lz -Clink-arg=-lzstd" because of this following
+> diff otherwise we will get errors during link time.
+> 
+> Setup in rust-llvm
+> -DLLVM_ENABLE_ZLIB=OFF \
+> -DLLVM_ENABLE_ZSTD=OFF \
+> -DLLVM_ENABLE_FFI=OFF \
+> 
+> Setup in clang
+> -DLLVM_ENABLE_FFI=ON \
+> -DLLVM_ENABLE_ZSTD=ON \
+> 
+> *When multilibs enabled:
+> 
+> llvm-config expects static libraries to be located in the lib directory rather than
+> lib64. However, since LLVM is built as a non-multilib component, the lib directory
+> doesn't contain any library files. To accommodate this without breaking multilib
+> behavior, we copy the required library files appropriately.
+> 
+> Previously, when we depended on rust-llvm, this worked because we specified:
+> -DCMAKE_INSTALL_PREFIX:PATH=${libdir}/llvm-rust
+> 
+> With this setup, llvm-config was installed inside ${libdir}/llvm-rust, which included
+> its own bin and lib directories. Thus, llvm-config located in bin would correctly find
+> the libraries in the adjacent lib directory.
+> 
+> Even when multilib was enabled or not, llvm-config would still look for libraries under
+> lib in this structure, so everything functioned as expected.
+> 
+> *Changes needs to be done when llvm splits from clang:
+> In rust recipe:
+> Update the dependency from:
+> DEPENDS += "ninja-native clang" to DEPENDS += "ninja-native llvm"
+> 
+> In llvm recipe:
+> Apply the same changes that were made in the Clang recipe, as those
+> configurations have now been moved to the LLVM recipe after the split.
+> 
+> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> ---
+>   meta/recipes-devtools/clang/clang_git.bb     |  4 ++--
+>   meta/recipes-devtools/clang/common-clang.inc |  6 +++---
+>   meta/recipes-devtools/rust/rust_1.90.0.bb    | 18 ++++++++++++++----
+>   3 files changed, 19 insertions(+), 9 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
+> index 53bca1c24f..3e117b308b 100644
+> --- a/meta/recipes-devtools/clang/clang_git.bb
+> +++ b/meta/recipes-devtools/clang/clang_git.bb
+> @@ -83,7 +83,6 @@ OECMAKE_SOURCEPATH = "${S}/llvm"
+>   # https://github.com/llvm/llvm-project/blob/main/llvm/CMakeLists.txt
+>   LLVM_TARGETS_GPU ?= "${@bb.utils.contains_any('DISTRO_FEATURES', 'opencl opengl vulkan', 'AMDGPU;NVPTX;SPIRV', '', d)}"
+>   LLVM_TARGETS_TO_BUILD ?= "AArch64;ARM;BPF;Mips;PowerPC;RISCV;X86;LoongArch;${LLVM_TARGETS_GPU}"
+> -LLVM_TARGETS_TO_BUILD:class-target ?= "${@get_clang_host_arch(bb, d)};BPF;${LLVM_TARGETS_GPU}"
+>   
+>   LLVM_EXPERIMENTAL_TARGETS_TO_BUILD ?= ""
+>   
+> @@ -107,6 +106,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
+>                     -DLLVM_ENABLE_PIC=ON \
+>                     -DCLANG_DEFAULT_PIE_ON_LINUX=ON \
+>                     -DLLVM_BINDINGS_LIST='' \
+> +		  -DLLVM_INSTALL_UTILS=ON \
+>                     -DLLVM_ENABLE_FFI=ON \
+>                     -DLLVM_ENABLE_ZSTD=ON \
+>                     -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
+> @@ -137,7 +137,7 @@ EXTRA_OECMAKE:append:class-target = "\
+>                     -DCMAKE_AR=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ar \
+>                     -DCMAKE_NM=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
+>                     -DCMAKE_STRIP=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-strip \
+> -                  -DLLVM_TARGET_ARCH=${HOST_ARCH} \
+> +                  -DLLVM_TARGET_ARCH=${@get_clang_target_arch(bb, d)} \
+>                     -DLLVM_DEFAULT_TARGET_TRIPLE=${TARGET_SYS}${HF} \
+>                     -DLLVM_HOST_TRIPLE=${TARGET_SYS}${HF} \
+>                     -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
+> diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
+> index bf3a63914a..c22e3c1b19 100644
+> --- a/meta/recipes-devtools/clang/common-clang.inc
+> +++ b/meta/recipes-devtools/clang/common-clang.inc
+> @@ -30,10 +30,10 @@ def get_clang_arch(bb, d, arch_var):
+>       elif re.match('aarch64$', a):                      return 'AArch64'
+>       elif re.match('aarch64_be$', a):                   return 'AArch64'
+>       elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a): return 'Mips'
+> -    elif re.match('riscv32$', a):                      return 'RISCV'
+> -    elif re.match('riscv64$', a):                      return 'RISCV'
+> +    elif re.match('riscv32$', a):                      return 'riscv32'
+> +    elif re.match('riscv64$', a):                      return 'riscv64'
+>       elif re.match('p(pc|owerpc)(|64)', a):             return 'PowerPC'
+> -    elif re.match('loongarch64$', a):                  return 'LoongArch'
+> +    elif re.match('loongarch64$', a):                  return 'loongarch64'
+>       else:
+>           bb.fatal("Unhandled architecture %s" % arch_val)
+>           return ""
+> diff --git a/meta/recipes-devtools/rust/rust_1.90.0.bb b/meta/recipes-devtools/rust/rust_1.90.0.bb
+> index 5d804c7398..c2cb8f8829 100644
+> --- a/meta/recipes-devtools/rust/rust_1.90.0.bb
+> +++ b/meta/recipes-devtools/rust/rust_1.90.0.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=11a3899825f4376896e438c8c753f8dc"
+>   inherit rust
+>   inherit cargo_common
+>   
+> -DEPENDS += "rust-llvm"
+> +DEPENDS += "ninja-native clang"
+>   # native rust uses cargo/rustc from binary snapshots to bootstrap
+>   # but everything else should use our native builds
+>   DEPENDS:append:class-target = " cargo-native rust-native"
+> @@ -28,8 +28,8 @@ PV .= "${@bb.utils.contains('RUST_CHANNEL', 'stable', '', '-${RUST_CHANNEL}', d)
+>   
+>   export FORCE_CRATE_HASH = "${BB_TASKHASH}"
+>   
+> -RUST_ALTERNATE_EXE_PATH ?= "${STAGING_LIBDIR}/llvm-rust/bin/llvm-config"
+> -RUST_ALTERNATE_EXE_PATH_NATIVE = "${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config"
+> +RUST_ALTERNATE_EXE_PATH ?= "${STAGING_BINDIR}/llvm-config"
+> +RUST_ALTERNATE_EXE_PATH_NATIVE = "${STAGING_BINDIR_NATIVE}/llvm-config"
+>   
+>   # We don't want to use bitbakes vendoring because the rust sources do their
+>   # own vendoring.
+> @@ -188,6 +188,16 @@ python do_configure() {
+>       bb.build.exec_func("setup_cargo_environment", d)
+>   }
+>   
+> +#llvm-config expecting static libraries in 'lib' instead of 'lib64'.
+> +#Since LLVM is built as a non-multilib component, the 'lib' directory
+> +#doesn't have any library files when multilibs enabled. So, copying
+> +#library files without impacting multilib behavior.
+> +do_compile:append:class-target() {
+> +if [ -d ${STAGING_DIR_TARGET}/usr/lib64 ]; then
+> +    cp ${STAGING_DIR_TARGET}/usr/lib64/libLLVM*.a ${STAGING_DIR_TARGET}/usr/lib/.
+> +fi
+> +}
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-core/expat/{expat_2.7.2.bb =3D> expat_2.7.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/expat/{expat_2.7.2.bb =3D> expat_2.7.3.bb} (92%=
-)
+llvm-config can deduce paths to be self-relative, You might try to 
+create a copy of native llvm-config in STAGING_LIBDIR or STAGING_BINDIR 
+and that might help
 
-diff --git a/meta/recipes-core/expat/expat_2.7.2.bb b/meta/recipes-core/e=
-xpat/expat_2.7.3.bb
-similarity index 92%
-rename from meta/recipes-core/expat/expat_2.7.2.bb
-rename to meta/recipes-core/expat/expat_2.7.3.bb
-index 952235d7a04..069254e13c3 100644
---- a/meta/recipes-core/expat/expat_2.7.2.bb
-+++ b/meta/recipes-core/expat/expat_2.7.3.bb
-@@ -15,7 +15,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/R_${VERSION_TA=
-G}/expat-${PV}.tar.bz2  \
- GITHUB_BASE_URI =3D "https://github.com/libexpat/libexpat/releases/"
- UPSTREAM_CHECK_REGEX =3D "releases/tag/R_(?P<pver>.+)"
-=20
--SRC_URI[sha256sum] =3D "976f6c2d358953c22398d64cd93790ba5abc62e02a1bbc20=
-4a3a264adea149b8"
-+SRC_URI[sha256sum] =3D "59c31441fec9a66205307749eccfee551055f2d792f329f1=
-8d97099e919a3b2f"
-=20
- EXTRA_OECMAKE:class-native +=3D "-DEXPAT_BUILD_DOCS=3DOFF"
-=20
---=20
-2.43.0
+> +
+>   rust_runx () {
+>       echo "COMPILE ${PN}" "$@"
+>   
+> @@ -199,7 +209,7 @@ rust_runx () {
+>       unset CXXFLAGS
+>       unset CPPFLAGS
+>   
+> -    export RUSTFLAGS="${RUST_DEBUG_REMAP}"
+> +    export RUSTFLAGS="${RUST_DEBUG_REMAP} -Clink-arg=-lz -Clink-arg=-lzstd"
+>   
+>       # Copy the natively built llvm-config into the target so we can run it. Horrible,
+>       # but works!
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#224075): https://lists.openembedded.org/g/openembedded-core/message/224075
+> Mute This Topic: https://lists.openembedded.org/mt/115446166/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
