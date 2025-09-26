@@ -2,38 +2,39 @@ Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1085CAC5B9
-	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 10:01:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C66BDCAC5AE
+	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 10:03:40 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.13749.1758880907096763483
+ by mx.groups.io with SMTP id smtpd.web10.13777.1758881011764261511
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 03:01:47 -0700
+ Fri, 26 Sep 2025 03:03:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=N8V9mRaC;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=fqoSXIRb;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1364670208=deepesh.varatharajan@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58Q6UMdA1801024
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 10:01:46 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58Q4tDM61645808
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 10:03:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=BPUPv+FtZ
-	9MH4ofYoVs1HuO+aMKNim2HIJRbs+N1WRI=; b=N8V9mRaCt9FNVHAGFYwapuQSR
-	MBNhlSLuXRAI+VocoblPTGyUuKSlg5XS8U3nEtDWeBuSaTba/yFCTvC9D2HAFUtJ
-	fbFVm2BNFZ6xWSoNu5W4DEVC0Bh4G75v8T7qSqfr+9aYs4zFefahRmL5iMhuEDr+
-	5sYZOt70ZNvzibILNlOWIshPz73zAnYWAYVt6wGuew/8ehAQ+R6G687sQQJOEH7q
-	v6MLYnifjGfrde4RmSD7bq/Xb1H0sPWgKHAuXOotKkFNn76i+b7+Qm/OyMl/b2/o
-	5kUO8vT8eA1kJvIElI836j8d7/AM2WBAcZzt0t37nZGYkl2ZRzu0WG3jX6KqA==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012035.outbound.protection.outlook.com [52.101.53.35])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49dbsm8n9w-1
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=OxxIgHSTY731IJO4ENBcEW57swaqNi6oYKNvtR8nrug=; b=
+	fqoSXIRbcplZRATHWAAEycLwCJjauxaSPo5YAqwM353LoCnuLbX20JX857IegZrZ
+	s1OdEpP40h+NQ/5UXd7pzSfuMO1tre5ZyA+VXcC49vv2YQwELSoG90cGWmh98I3a
+	sq+9GlDobkKHgHbfm8AlZ0e+DXhh9a7hweb6wi4evmG54LBO6l/uCP+OpifQXnHX
+	Wxo8s+D4bk8mh6KGC+YI+l2cL/c1nKW5jkHVs8jyVS29X9FzOkEHLc1qjD9pKhcg
+	TOi1rhM78vSMLDVFrsOK/KNT6de7Z43xRNJhIIj6ii34p4CxVuQMi40CZP0ZyOPM
+	53n8yNeM4UyAvPnP/4mYbA==
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012017.outbound.protection.outlook.com [52.101.53.17])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49dbsm8nbp-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 10:01:46 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 10:03:30 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xxgB40SAKw4jRcGZoPhjY8wfJm8eYpZ20bZXPw8vXQl6AgD7bsVkIvvycIoHdGRe6MR4JMVeoXaytglVtO2R21HBur4Oh0R0b4j97OKtvpRHa6vnH/B2q4rmvudGvAITvNCkhDwViML8HycDluG3uY/nIAG/+6Neq91XJtFVI3vMHo6vSs6la3K8NoYS1MoiXmtAOV0Hiov4WSj6p4PvWP5oL5eiqdxRFIMT9AWLx4QeouO9O7UmaKrZEu2MwzyZnD2RaSZNwJGrRn+AETu9NnESy7XpJP3b918YRWg2tKAoUEPS+NnuUSEZuP4Z9cVQbYa2zZ+CaLnZQA+HDFkBjQ==
+ b=EUYfQsZRw10qQmTMWimEB6TRm90MzS4IIv9sI/J5mbI+WtvdYW/47bAvIwgyPzAhjFa4RSVv3yzkqQWB6nT/smob/nTilfx/v7WIftmv2p0HoO9Jh6edQtEgtuhOQD3E4M4+czX0eqjpv4q1adDZgwb3CWV9iCWvkjlq1AhpCqbmL079KY4rHrd2Y6qEiFuVH/By4+FVBN/5MGi1JtcTcdocjt3HnlkMLT/3YM7hOikt6jBrgdr/Z4h9FS5g88XCX20cjaRSm7N8CUwetaExx5t1UwIRUAdOJH6N/YM5rnVpfO8mBWQJwK3xQge0UTPUZgYO3s6Wg5Tp0XPc5K9nBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BPUPv+FtZ9MH4ofYoVs1HuO+aMKNim2HIJRbs+N1WRI=;
- b=eN3C3wOGxuJ4fpIX+c/TaywIm5N2S34982I+dg3CxFXFIroz/RDseromqkFSHnrCIWN4mE0+0g0LjwJ+T/JMp+L8QmnWFue69iL7mLTmGVdOkrjPVWpgHWeDsoFueQb4ubmWrG+Orkm8NmXGZIvuntARQan1NJeAOKEZgHQegDGf8qoTNUw+UcdUtr36y3lf1Jy1iN5a5cSI72cDa8rUBatXfo3D9aTsrB+gHDToTbHMXiPf7UdtFvmJwk1qASOZ0/BjZ8Y2Tu/i7WIcUXCb7dqIfOH9Fesn8pJ8mo40A0R9/mlgVtBjRSbALhC8PnlHRV+D0EYY1QN/3SefqfEacQ==
+ bh=OxxIgHSTY731IJO4ENBcEW57swaqNi6oYKNvtR8nrug=;
+ b=UK+3ynJGkIBl1Yi75xHQfUi57LAMhQHNXT2zRKCyrYSw1NRF6DVbIkZJktg+sFCVCc7aZxCPQ7uHolCnA8xTG/sALsGQ038OkMo4GnkRdGKNjT55CM//vg0wvlyzOJdv+Arcfgi+uIHs0gYnChVLk0tTgG9OYi9XRnm1GMiX3ld0Tf4g0alj3tt+aAl+aPhrq/22jc/xRu0BeddPqyt2x+6/DCSNZKHiVP+mLQPBCrfqrJ3A4Of0g1GaTX+zNBIFhp5oc5A7KV+kV+oQs7MpPNEgbVHE29I5q0XeHIor1AEbCTgiHKjO95m24zLo60ylGrd9sCn59hqHqI/kSVSCAw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -41,116 +42,139 @@ Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
  by SA1PR11MB5948.namprd11.prod.outlook.com (2603:10b6:806:23c::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Fri, 26 Sep
- 2025 10:01:44 +0000
+ 2025 10:01:46 +0000
 Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
  ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
  ([fe80::c784:dce5:4b7b:54f%5]) with mapi id 15.20.9160.008; Fri, 26 Sep 2025
- 10:01:44 +0000
+ 10:01:46 +0000
 From: Deepesh.Varatharajan@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
-Subject: [PATCH V2 1/2] rust: Use clang instead of rust-llvm
-Date: Fri, 26 Sep 2025 03:01:13 -0700
-Message-ID: <20250926100120.3731171-1-Deepesh.Varatharajan@windriver.com>
+Subject: [PATCH V2 2/2] rust: Drop rust-llvm
+Date: Fri, 26 Sep 2025 03:01:14 -0700
+Message-ID: <20250926100120.3731171-2-Deepesh.Varatharajan@windriver.com>
 X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <20250926100120.3731171-1-Deepesh.Varatharajan@windriver.com>
+References: <20250926100120.3731171-1-Deepesh.Varatharajan@windriver.com>
+Content-Type: text/plain; charset=UTF-8
 X-ClientProxiedBy: SJ0PR03CA0133.namprd03.prod.outlook.com
  (2603:10b6:a03:33c::18) To SJ0PR11MB5648.namprd11.prod.outlook.com
  (2603:10b6:a03:302::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|SA1PR11MB5948:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d6a153a-673d-4c3c-f455-08ddfce3b29a
+X-MS-Office365-Filtering-Correlation-Id: c0128a31-15cb-4163-e588-08ddfce3b416
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?lTgbthMYqNLwV0KwK/r/pI1y/72GPLmxmjXPhaAxZ6MsUGJrxl2gatjI3oQO?=
- =?us-ascii?Q?QhNUF6hxw9Q0bZn/AklvMoy8qWneo8E+gIFV6Ue1GiLDgnnKfkZBkAJhQGFU?=
- =?us-ascii?Q?5TTTCMX2UwUZpYl9hZi2VkAcODbHP3+Zulbhgq4O1AXMpGyCZJ5AFVTxnxkR?=
- =?us-ascii?Q?H6bWTp/xEexhpND9dAvn7sj3I7e5e0CBC0cmM72C2KYMDQ5UmYrgZZ2dzCCk?=
- =?us-ascii?Q?DJg53wyJZHkKu954wJ8InOBzFijSfPnni2iqO4G+b4HsflvNoKbkfyU6HEBR?=
- =?us-ascii?Q?xf9098c/FLhF95Wiz1ko1vInqxEaNtSuNg1G8n6zUYYWfn5f7VYxVXH29Mzk?=
- =?us-ascii?Q?U/Pz7Byd/cy3FHUF9YC3RS++0iuyidVLUhAAuKTgPe0+iCWjXdZiaG9gTpfV?=
- =?us-ascii?Q?4Ut1ATQw/mehWNF+p8fwdz9p+PObxhnHxJ6ONVZ/U9B6EK8KYEVrXgg2ZZLB?=
- =?us-ascii?Q?VStV1ypNB7NkvZwpp9P4q9jSiJUGIkLoAEi0MVCbhLU8gpK53NE/z+luDKLB?=
- =?us-ascii?Q?ypCdOebVPaCHybcgpOgmpEHmkiNwlj9wdPmCjgJNwyJ/b0Xo/YknMDMEO+17?=
- =?us-ascii?Q?7nRu5yS8txKJEpW6peqYUE5YHHK9K+yWUM/Q35rHYfl/T5cOiN+irRDpzc6F?=
- =?us-ascii?Q?Ob9S/Tn9UaOCa8VlnVprcB4BuPOiIHsia1E+2QqdcOd7F/jvoW3lMSpOG56I?=
- =?us-ascii?Q?o7rYKSzLyyt5NIYL55ICbXaePqpVEdjCD0IHVtOUZITAirUCjahFKgqW+e0F?=
- =?us-ascii?Q?s4z+wpvOijZpRzgeg3KxMSXKf/wuMGQaqvenR4NJS/I/CtZl6kUl0XzyHKLL?=
- =?us-ascii?Q?nGPXu0fC+prw3O3fIKGyymlOKDNAJm5Nlzk3lsyrXaT9sqKC4iXDa3IrXE+P?=
- =?us-ascii?Q?MOgwXWMTN4oh85Pj8E7VmhDUIaj6/oRLicXkGI5U5P758EeUIvlverXvBSAg?=
- =?us-ascii?Q?ffxHxZnfsAX15H3FrDaZ07WC4lp+n9Be8A6n9SZ5pM3w7WpPdSomvPVcwCPx?=
- =?us-ascii?Q?IAophp+fQ5+im5s8OQdpZm4GfzzVGwZrQxDFo5BiSKzJkBJtJHbFulKmUFJU?=
- =?us-ascii?Q?zPiIW92UAz027MKtAVq3tVcVaKPBv/Y9oS+VxrijlnwtYRcoWtKl2X7yMlWP?=
- =?us-ascii?Q?uySJDCn0ATe7GPu9hRiDSkn6nEv0UeERaw49aTTq1oerEjLC3aw8HvvKG40g?=
- =?us-ascii?Q?xzyxdK/YCj0dkdfGhu7+PKmlewzwhIorPtMf3E7BUFy54dtqASNhsddwCFsH?=
- =?us-ascii?Q?iv9/mFFmHNOxqgu7WaaqEpZv3xkWpNi4Cwt1uHOJI1o/22uVWPRxpC5/ZQGd?=
- =?us-ascii?Q?dhcdzWN5rOz8MY0r7GFzwHZzbiqIQmQVmo1QeWP/C6qHzeHrMuUxQqpRQbpk?=
- =?us-ascii?Q?4S3O1pX1XpX0wGeLJuq7yQed9zU4giRRnKXXbihFf9ctxnclMAIU9DV0V99D?=
- =?us-ascii?Q?1dYOm/dbBxMpT1zlUwG3Vowjh5uHPqy2Kv+CMO3J6kjtlGi9thMysQ=3D=3D?=
+	=?utf-8?B?c04wTWhsc3FWSWNRczNQWXJIK3BuMnNoOCs4SVMxWDhFWU9VZXJxd3ZpUGZq?=
+ =?utf-8?B?NVYwcEFCS3VGdm5qNzZLTlZmTVpZeWhuNThPQ29HN2xTc09uUXhjeTZURVlX?=
+ =?utf-8?B?Wm5FOFJZaHdMbDVxd0tGRWtTdmNONHozRmMwS1ZqQ3pQTHVvMjZINEs4RHZk?=
+ =?utf-8?B?LzhoWGhuWUZtYm1nd3J1Sm9VWWQ0eHZsQ0xtai9CVjhlVWFHaGdQTlZkRXJU?=
+ =?utf-8?B?VkhqcTRrK0grd3pwRFBPOE5UenYxTDN1OUxYL2t0azJ1U1BSL0lzRHZieW9G?=
+ =?utf-8?B?dHBFbVJEeFZTKzl6UmRHTk00Vi9SY0NMTnBCdE5PK1c2NkRsSGw4eWhKcHEw?=
+ =?utf-8?B?S3RqWHV6YjZqazJLdWZCZ04rUG5zd1ZHaHZUMzBFamowaFY4d09uTW1vT1ZX?=
+ =?utf-8?B?dTJDY0t5QW1McEJieXR2d2ZUSXFmQW80Q3A3Y2dCdTN5bngvbW41c2tQWlRY?=
+ =?utf-8?B?cXdKYmZNWkhjRC9FU2w0TjVFMWIzWTR6WVB0V0xiMy9vUmo4QkdId2JpQkJG?=
+ =?utf-8?B?Q3BxRTJSRldySGhJWjdaM21rYURVeUNub2xnSTVScVlUNWQ0a0sydGg0TDZQ?=
+ =?utf-8?B?MEhzZEZpQzN3M0RNZW1IY1NVUWswekx2UUcrM04wd28vZE5FaDdyaUwydDJF?=
+ =?utf-8?B?VWxzOC8rVTBJSVFQck1HRFloS1p2TkJRSGdnekNJQlpyTG4yMkNRSjVqRmFz?=
+ =?utf-8?B?WUQ5VE53eUJlRU9VOEhtV244aDc0NDZKa2NTS1laWGVIeFJDT1RzeFVQRG05?=
+ =?utf-8?B?KzVuTE5SS0QyamFhWGROcXI2RWkySGwzWDIvOUwxa1ZCaU5BVkZZOGRVTGl5?=
+ =?utf-8?B?R3d5YUFkYU9UZG5vQlcvbzF6eUdSL3M2UEQ1YlFrNnk3NzZaQ3ByWXNaZ0xG?=
+ =?utf-8?B?SVBQU1lHMTRZS0xBYzA1ckZMdTIwQjJBc3hzWk5zM0tBdU5kdzVuNTA5RWhs?=
+ =?utf-8?B?SHRrcklpdXpFZVNIUlN3S3YrNGxuUmhZSWhocExocjI3RUl1WGFYTDBjdE1B?=
+ =?utf-8?B?U00yS3I5TG9WYmdVTGpPL1JQYnl1Z2pPR29lRVF0NGFZVmpsZ3phNk81U0Qv?=
+ =?utf-8?B?VjEwV1RLV0c2bjMwTytQU1RudEIyT3Jzd2xkaTJvT2FFbFhZTytpNjN0eURC?=
+ =?utf-8?B?NUN2RXY2TnpyYVVpNkZYR2FVRTN1ME1lTWRxYlQvMHA2ajRZQ3FRZWhMMFlq?=
+ =?utf-8?B?TEJwVm8rSDRpZWM3VDJodm9YNUx2US9oK0RUMC9wM3BXNGFqZGx0NXpDQXdB?=
+ =?utf-8?B?blNhUSt6SWdrRGYzK3R4ZTh4RUg1NXVQWXVJOHhGVjQwRVJOZW4rK3FKSTlm?=
+ =?utf-8?B?NFZ3OVBYcGh6bUpqYTEwVHlKZUt6NTZvaGk1eWp2VnBwR2pSak9JQm5sYnl2?=
+ =?utf-8?B?b3BqZkJ6Z2R3VFB6T2luZnRZSmYrWlkvc3FjNVRhaS9EaUJlRXV6aVByc0dr?=
+ =?utf-8?B?NklkYWdscXc2ODdWZzVTa0IwbmxGRDY1YSs3ZWg3K3ZYaDlDVjFNcUM1U3RF?=
+ =?utf-8?B?Y2tVSURjWithMytxS1RaMW9uMk9kSXNFb0VHNnFhWElKTGhwVGd4VkVHc0xi?=
+ =?utf-8?B?RlkwNjVmQS9BcVRGUjR0YTdyRlVFcWpPZlJybUl1bUdPMjYySy9nWDdoMzRZ?=
+ =?utf-8?B?bjJGQk40MFpVZ1NVVGNaZUdqVk5BQytzbU9lLzEzT0JsWHcxMUdBbUhycjdm?=
+ =?utf-8?B?elRZLzJLVjU2MXg3LzV2UTJTTU5KTllHc2dPL1hVZ0N5NXl1cm9TVm00UGw4?=
+ =?utf-8?B?U1FHY3IxUnZDdnJpRVgzSWpvQjdJWFZQRTVIdS83eklJQlViWFd1RzloMkVy?=
+ =?utf-8?B?VDFvYUc4RGNtWHRiUUZNU1NqcWlDQkZ0Ty9xVWtPZ2k1NWVHZGFKa0N4Z0d4?=
+ =?utf-8?B?SmlmcXpzbCtqaXRtOHJtWjljanpuMlhWVnRUU0k1N21VY1d5MmZ6OEtKd1Vm?=
+ =?utf-8?B?QXByb0ZhWnN5aEdOaEJCS0xjV3R3bWxLY1hYckhHZTQ3NEhnNXI5UEtUcmY3?=
+ =?utf-8?B?SzMxZW1lS21BPT0=?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?wLMRvhW4RVch0Ek+6EpvAGp7DpamIzfPG58C0LIk4p+BI4V2otW/CX/VFWKy?=
- =?us-ascii?Q?cau+oCc1+S0cTmg9xpOvKBOfgKT6Bbs5TKjNX8qYsruZ7DkXhpA0v/H22Ux6?=
- =?us-ascii?Q?jLzpT/PgfNaHvfmq8QvgNYRwP1vlCqAeer+BiU+xpKWBdt4zM+VK7EmlG7Zp?=
- =?us-ascii?Q?Bnw6XwrZuO29sgqMA3fSj7bKJOTlKiWv6QR04sAQD5rLx5diUEZwFgTokefI?=
- =?us-ascii?Q?d5Mfn7ToI6rZHik6NauMjyyKsU7A69WBKA7khqR4GbPONMmB1T1hafsP2K5T?=
- =?us-ascii?Q?J34JTh9YIPM4rwceA9Bt2rud6U7CgbuhZtLGMi5s6eKfa+0csMzAtX/91hzh?=
- =?us-ascii?Q?lr7qksIR5hDYfB2vGk7qaqSDnkN7Kc/vVV+vxPCikaZrzxmC3BPV+DmdN1S8?=
- =?us-ascii?Q?kubz7ZYyQHnmYynH9A/pH66bGwBPMpuDPwntr3zRNHXJP+h/iFkkxeRL6j45?=
- =?us-ascii?Q?B5yK+joJrMtI06t5ajfFReza3mWwZZ+20vzVToUduCCuZLqHMqsjqMAI6OMK?=
- =?us-ascii?Q?SjnLLasop6eSAmGtgTzdn/mrspnXkL0E0x/f/vKGNoD/8l4ZSo/2A3mrjBMk?=
- =?us-ascii?Q?57dZqXUtEJ1B4Ga04ti4GxLG6v1RTSAXu2ymW0wBE+fIQ2ZRFDqU5ELD4hqt?=
- =?us-ascii?Q?T2ghHgXAPWumkYuhiUXSxDbGWY0OnIqozKN7Zm6Rjbt5ZkZgoD+5/33tIYhQ?=
- =?us-ascii?Q?ZM3TOccRrOXhw0fWUYB1romcN74F9mxEixoCAb+RENZEMLMWeZlSVrFOQRbn?=
- =?us-ascii?Q?BZptBipx7UhCZFcSTiW6bJDZtNb+EOW4kFmTeYzhXCiQbJrE2gBBOjUgCXXg?=
- =?us-ascii?Q?aCKJHkzoLSG4F8IG7ZeTHlrtwJ/WwZ5kBTDAXO6hEzxYlPPtmKJONCScIUC9?=
- =?us-ascii?Q?jzEjHcLsol/0YaER8pMUTX9uwfo+tXwKG8WWStPAmm7vbMucmHyNoKEQpalT?=
- =?us-ascii?Q?u3m5TyAP2gMbvvHDqd+iDH+nd2/xoE0ymofgZo7OoYJMSFMbYDYbZHw1ZFnG?=
- =?us-ascii?Q?5j7FSHPB/7PXDqQcHX/Ug5RXtHlI+r91HEWcRTLtkNomlWTc0+SnuO1nV2px?=
- =?us-ascii?Q?1n1ZB1KtYoDQbhoT4rLlrRfYks8nbGtQpt50YcisSf7wZU/EjUqbYLsrOXEf?=
- =?us-ascii?Q?LbnF4k5T3boOK0sCNpbXCJt9/fhxYOKKGTc02ePmWSDIDjWYszTqG16tlRYB?=
- =?us-ascii?Q?8dzHCn0kr6Awyf/mJ4iRohMsdcI15V+nS4MzlAjN3BJKAwmwhAEgXJwE4M8u?=
- =?us-ascii?Q?JwWhXcXNbST0I8ncFIFeggINKv7Og57eFljdF1/sb7zL3V4TfghgJP/f7YOz?=
- =?us-ascii?Q?LAUWrhaSgJakAn/k0l/svygzvQYfhggP/F1xIuCYNGPl5IcyVQehXzuDMEqU?=
- =?us-ascii?Q?/q67U9ss2gag2ncGbcCXhyX5t3XWAlikTUZU+aZXHF5BnuSTwfnhYUy2nYXN?=
- =?us-ascii?Q?52hA83lL4hPWCk6FJ/TSxnmrRtRs3iYbquMcGYQUTkZPfX/qV3DZo2l0505o?=
- =?us-ascii?Q?2IcVSf3i0setqvED+RBFK5s9f3D033G8UmjohD120iWZbOBj8RQJOq0UXGQa?=
- =?us-ascii?Q?1wAJXwXHNxWQZ7+9NNeJRBrrNxzdH/qasoHr8jblKlsM6gNUOShHObl6X5u8?=
- =?us-ascii?Q?Q3fceuQuRTta5Yj4pXJX1MA=3D?=
+	=?utf-8?B?SUpMRGdYM2l5R1d5dWlTQlhxRTdibEp3RE5FbjMxWWFLRHl3MzVwdjk4ajB1?=
+ =?utf-8?B?eW8zTkVQMm1tNSt2TGN6WjBOTC92cndQZnBUVFRKWFlBelB4Ym5WcG1IWjlQ?=
+ =?utf-8?B?b1hldEphTzlFeUJGNzdzcERXWkswMUNQR2RLMjIzSHVrZGFzVC9mcnVLbXpo?=
+ =?utf-8?B?Ly92eno1Y2NoWDZwZU5HMXcwUXp3UkFsNUxpcDRmVEJ1RStEZDlDY2dlalhy?=
+ =?utf-8?B?andnY3hReFR6Qi9iWHhuemI2TTJNWjY1emgzdTlCZVYyem90STk0R2lZTFE4?=
+ =?utf-8?B?S1c4cTd1cGxveFQvK1pLbXVhci9HSHdwanpETXp0NTVWeDFkT2Fnblhra295?=
+ =?utf-8?B?TTRmYU01TUpodEZpek9GbUI2YTA2MWJpMUJlem01R28wdzFQVmM0a3dMUFdC?=
+ =?utf-8?B?Q1k2U1Z1Zkd2RElCM1czNWtQb3ZWdzVHbXRaY0ZKMVdERlRkbVI4Q1FCNjFH?=
+ =?utf-8?B?MXpyQitkM3JsakU4Y2NhaUR3RlVIQUwybkxMSEx5WVRuaTZHaXFHdG8yblg2?=
+ =?utf-8?B?NjF6dWhIU21EVUprU2JDd0Z6MjdEV05PUWxlVVVWNkFla3UxL2pXTXhLSTFX?=
+ =?utf-8?B?dDYwWE4zQ1I2TmJXVFZNLzNWcGNkV3V2bXpyVW0wYTRSREpTR1FzYkFSZFo4?=
+ =?utf-8?B?ZzNvR0dQQWVycW05eGZCWFN2REQzYXlGK3NJa21IZVBEY2x3TzZURFFVK1Jo?=
+ =?utf-8?B?VFBtblNpNk5LRmxWUTVjZ2wzZ1UvWXFxeHluNmp1bTNMSnY0M29HR3ZDZUMy?=
+ =?utf-8?B?UHpSYUlsZzZ4Q2hlbkhCVjFWYWRJV210ZHNUb0RtL0JRSmx6RVNwc1BIRHJY?=
+ =?utf-8?B?SHl5UmNLMHQrOHN4SlhiMStTUDhkMWdjbC91L2liTXZJWXZQNE1UWWhBYjYy?=
+ =?utf-8?B?dmZhSk9QamtUaHFWcWt6bm5oQll0NlVvblNsRlcrb085b3EyU2JLTjBIazBX?=
+ =?utf-8?B?cFBXN2JJWDJ6TTFKVWg0dm9iVjdyamVCaXVHeFdrUTNPMmVjS0EyT0ZYbGlD?=
+ =?utf-8?B?Mys2UnhBMVhET2l5RzFweU9ZN3ZTTlFYNkFlcklZVE5LU1QxdVcyN1lqREd1?=
+ =?utf-8?B?VmVTcjJmTUtFZkZsMU0xcjBPbmtDbG9CSHhFV29OL1BNTkk2bWJreHJWR1Fr?=
+ =?utf-8?B?dUZmUy9BSEZMaG5WTDBWS1U4OW5tZzd3bGxsSTY3OWIyYm5VYTgrcU11dDgz?=
+ =?utf-8?B?UmhHdDNwK2NiZDVLYzdpTWN6U09sM3hPL08xb1hzVWV4bWRtUUtScXhiRnN0?=
+ =?utf-8?B?QTdkZGM4WHlBOG53elU2L01lcy92bUhwV2VBL3YrRXgrL205VDBkWFVMSGxE?=
+ =?utf-8?B?alM3eU0wZHFuM0pKUWM5UGdleTlyV3paUkQ3V1c5R1JONzV2bjdhVDk5bUs0?=
+ =?utf-8?B?VEJFNEg3R1lHbWY0NGFYTDdoUm1NaFE0MWh3ZjVobnVpcmhKdUt6VHNWaVlv?=
+ =?utf-8?B?U1c0aXB2RFhObkhCRXdHRENFUEVhLzNyaDcwV1JTQXlUek81TU5nL3ZDdit2?=
+ =?utf-8?B?OUFReGpuQUxTMk5RdDVFS3hMS3NxYkhITGdramRJMzZVR3lwOGpxSThVZXJo?=
+ =?utf-8?B?SU5DYTdRaHJzZFBTeHExbHAvMU5TckdLQ1VoK1hZYXFuNldTTU5RMStUQWlC?=
+ =?utf-8?B?QmlVV0haeFNqbDFiNTczSnlpTi9PNE5vM2k1aTZwenIwcGRHU2t0a1A2UktL?=
+ =?utf-8?B?U1lrM0lBaDVxcGJaclBSblpVZEwzQXZ1ZXg3eGlxdFZWSEE2MnU5WG5MVUtB?=
+ =?utf-8?B?Q2l6QUkyMWo1UEZ6Mkl4bHh0RDYxUzhBTUtpWDR0SXhhRnpnZkVMOWlPUlli?=
+ =?utf-8?B?OHlNcy96c2pDVGdxZFlMcWZqMWtSay9OU1l0NkhxS3lCV1N2bldGR0tlQ0Fl?=
+ =?utf-8?B?NG9MT3cwWVdhQmRRaWVtTXVaOVNjUmVtR1JtNkZoZWRWWTRrQ2hLbTRMUGNR?=
+ =?utf-8?B?a0pVblNVcGxNcGU1REJGMEpTNW4wQTBrdUhtY1NEcUJyUnB5ZkVwWXBNSTc1?=
+ =?utf-8?B?MnErTFk4eFF0ZUhVTkc3V1FQSm45M3JtOGlFSVpxdlVrTXBMdG5wZnpuWGUw?=
+ =?utf-8?B?M2tiUmhqT2hjM3BaR3cwazdEQ2JVWTJCbHpXUE5YQzZMTGFYZ000QmMwendZ?=
+ =?utf-8?B?SnFJSDJnc0hoTG1VdmE4WTd0dWQ1VGxYeFNQUW94WWd5WkEzalhGR3ZORDRJ?=
+ =?utf-8?Q?C4zRH6427Dj8IArfAQp9VXM=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d6a153a-673d-4c3c-f455-08ddfce3b29a
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0128a31-15cb-4163-e588-08ddfce3b416
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 10:01:44.1796
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 10:01:46.6666
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RQ24U+1w7Avlc0W/ddt4GaL4lM4UBYMXGsXVLnX9bhabhpJlF7xfpw8cdz0ZeHsNjdneFMcJ30OZCbq8eR6vMwE2si1bNjxA0k6mHOTBsZgNl37+bsPWzlgtoQLdinlT
+X-MS-Exchange-CrossTenant-UserPrincipalName: D8Dq5nkT5pG0vvvlH1gFnOs1Sfh1ADF2z45JoMPuBGKMWW4+X4U6XJAhZ2G/XhtbLaRDHVnOkeUlv+0Vt2kmF6wt1Q49KvSCWWuJfOhHUBIP39hCxGXsfkOvfxUFuVko
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5948
-X-Proofpoint-GUID: InphSJHGWnWL9HnO3WNjTpYKPiTmHiTd
-X-Authority-Analysis: v=2.4 cv=TJhIilla c=1 sm=1 tr=0 ts=68d6648a cx=c_pps
- a=3/9ZW+mBBPtU5+OO10+n1Q==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-GUID: G1b3Mc5ITZF5fhBDvqIJin9OlvrLNiuJ
+X-Authority-Analysis: v=2.4 cv=TJhIilla c=1 sm=1 tr=0 ts=68d664f2 cx=c_pps
+ a=8SVoR3TXwnQnu/Z+5+8XkA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10 a=ei4SEBeUAAAA:8 a=NEAV23lmAAAA:8
- a=t7CeM3EgAAAA:8 a=dT9Y9HKPEq8aplpvp-8A:9 a=Hqou25T6mLgA:10
- a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: InphSJHGWnWL9HnO3WNjTpYKPiTmHiTd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDA5MSBTYWx0ZWRfX1wE6Xb3vnt/S
- 97TTLrP4wMSpufA3eI3lxmxTmxNTnTR/xnf757eq6MbInEP/oUy4zhAPyAoV578gpsQ2sMXIIsH
- WSQtYZf2mobh22/UabZoYLV+MSnq62EE90hxlYmkCBkRZXde+Umlc+fRdyLUnI0e4WjAM8DtRCH
- vrr1tby9MFEnCL7qb6Kzeqvljm0y2xqKN1G2m371dq9ZPmInbgeYRvaWC+HKa2agnx7AZfK6fDe
- ZxoG6LWMZ/1nnCgqn77eYEfpsJunlS6xbVdGplKWbmrxvehJMtPJgVlbM7T3yPDsvjb9yw2s7cD
- EskdL+xy9RDfScKFu+DAkZTcZHvxEpcV0T5j0l7MCXuNiaHyhmai0+eZ7aFk7in1gddn3rTClM6
- N96FTLFZswO+cQ54Pb+oKNf4dixQYw==
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8
+ a=mDV3o1hIAAAA:8 a=Twlkf-z8AAAA:8 a=ei4SEBeUAAAA:8 a=t7CeM3EgAAAA:8
+ a=7CQSdrXTAAAA:8 a=iGHA9ds3AAAA:8 a=8wEic9LhAAAA:8 a=pGLkceISAAAA:8
+ a=IvTj1HvjAAAA:8 a=JVUAX_dDDhsBa-RCHgwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=-74SuR6ZdpOK_LpdRCUo:22 a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=a-qgeE7W1pNrGK8U0ZQC:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=M9VCcFR7d36vLOFuqMn8:22
+ a=kmyLcwvAnC_t3PsnBtKb:22
+X-Proofpoint-ORIG-GUID: G1b3Mc5ITZF5fhBDvqIJin9OlvrLNiuJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDA5MSBTYWx0ZWRfX+zjdzBn+8QmR
+ dVpOmgDzUCM8dXU3vIiD5wROFz1P9DT3t256R66L5YOobnBBK6GRXrvldIipTIyFK8DU8mRt1z0
+ sv7t9sVwFm4dxl57nZe5kWaai9WTz0dmAIJsIJyZ/Y1vomdMNlandBc4pe2mKiZBaVtKoGueF0D
+ a0nQet3yJySvF6xFF3lKdeS/j4w2DU4neIt9J4IKuesO1VgXmwolqwdp/xINkumTu9TW16vSui0
+ fvfK4Z4VYcHscV1GObblLiRT9AB68GmSNnsx31S805+pWEGZklbijVexQpwa92uoQsY/GurrtMM
+ olN1xCyqQvri1A6p0pVrU0Rmz/aoMijzZQLRUnm1jVbJ+WsAftobMKtwlAzcyJr5s3GQx/leIbg
+ onnaUL13syOBd+YiJMmxsCTAOWuBsA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-26_02,2025-09-26_01,2025-03-28_01
@@ -160,188 +184,362 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
  adjust=0 reason=mlx scancount=1 engine=8.22.0-2509150000
  definitions=main-2509260091
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 58Q4tDM61645808
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 10:01:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224070
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 10:03:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224071
 
 From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-Updated the Rust build to depend on Clang instead.
+Drop rust-llvm recipe because now rust depends on clang for building
 
-*Summary of discussion with the rust upstream about using latest LLVM instead of Rust maintained LLVM fork.
-https://internals.rust-lang.org/t/can-we-use-proper-clang-instead-of-llvm-fork-what-rust-uses/23489
+*Dropped Patches:
 
-*Upstream LLVM is generally compatible:
-- Rust does support building with upstream (vanilla) LLVM, especially the latest
-major release and the one or two preceding ones.
-https://rustc-dev-guide.rust-lang.org/backend/updating-llvm.html#updating-llvm
+0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch(Merged)
+https://github.com/llvm/llvm-project/commit/b46f34452e9dec50eee6ddbe07875=
+f05e421a81c
 
-*Impact on Yocto Rust upgrades:
-- Rust upgrades shall always check for updates on rust forked llvm and backport
-the relevant patches to clang's llvm.
-
-*Regarding the rust forked llvm local patches:
-- There are no local patches on rust forked llvm other than the backported fixes
-from llvm master.
-
-*We now add these flags "-Clink-arg=-lz -Clink-arg=-lzstd" because of this following
-diff otherwise we will get errors during link time.
-
-Setup in rust-llvm
--DLLVM_ENABLE_ZLIB=OFF \
--DLLVM_ENABLE_ZSTD=OFF \
--DLLVM_ENABLE_FFI=OFF \
-
-Setup in clang
--DLLVM_ENABLE_FFI=ON \
--DLLVM_ENABLE_ZSTD=ON \
-
-*When multilibs enabled:
-
-llvm-config expects static libraries to be located in the lib directory rather than
-lib64. However, since LLVM is built as a non-multilib component, the lib directory
-doesn't contain any library files. To accommodate this without breaking multilib
-behavior, we copy the required library files appropriately.
-
-Previously, when we depended on rust-llvm, this worked because we specified:
--DCMAKE_INSTALL_PREFIX:PATH=${libdir}/llvm-rust
-
-With this setup, llvm-config was installed inside ${libdir}/llvm-rust, which included
-its own bin and lib directories. Thus, llvm-config located in bin would correctly find
-the libraries in the adjacent lib directory.
-
-Even when multilib was enabled or not, llvm-config would still look for libraries under
-lib in this structure, so everything functioned as expected.
-
-*Changes needs to be done when llvm splits from clang:
-In rust recipe:
-Update the dependency from:
-DEPENDS += "ninja-native clang" to DEPENDS += "ninja-native llvm"
-
-In llvm recipe:
-Apply the same changes that were made in the Clang recipe, as those
-configurations have now been moved to the LLVM recipe after the split.
+0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
+0002-llvm-allow-env-override-of-exe-path.patch
+(We have the above two patches in clang)
 
 Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 ---
- meta/recipes-devtools/clang/clang_git.bb     |  4 ++--
- meta/recipes-devtools/clang/common-clang.inc |  6 +++---
- meta/recipes-devtools/rust/rust-source.inc   |  1 -
- meta/recipes-devtools/rust/rust_1.90.0.bb    | 18 ++++++++++++++----
- 4 files changed, 19 insertions(+), 10 deletions(-)
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ ...-gcs-instead-of-gcs-target-attribute.patch | 66 -------------
+ ...r-sort-ClassInfo-lists-by-name-as-we.patch | 31 ------
+ ...-llvm-allow-env-override-of-exe-path.patch | 33 -------
+ .../recipes-devtools/rust/rust-llvm_1.90.0.bb | 98 -------------------
+ 5 files changed, 229 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rust/files/0001-libunwind-Use-g=
+cs-instead-of-gcs-target-attribute.patch
+ delete mode 100644 meta/recipes-devtools/rust/rust-llvm/0001-AsmMatcherE=
+mitter-sort-ClassInfo-lists-by-name-as-we.patch
+ delete mode 100644 meta/recipes-devtools/rust/rust-llvm/0002-llvm-allow-=
+env-override-of-exe-path.patch
+ delete mode 100644 meta/recipes-devtools/rust/rust-llvm_1.90.0.bb
 
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
-index 53bca1c24f..3e117b308b 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -83,7 +83,6 @@ OECMAKE_SOURCEPATH = "${S}/llvm"
- # https://github.com/llvm/llvm-project/blob/main/llvm/CMakeLists.txt
- LLVM_TARGETS_GPU ?= "${@bb.utils.contains_any('DISTRO_FEATURES', 'opencl opengl vulkan', 'AMDGPU;NVPTX;SPIRV', '', d)}"
- LLVM_TARGETS_TO_BUILD ?= "AArch64;ARM;BPF;Mips;PowerPC;RISCV;X86;LoongArch;${LLVM_TARGETS_GPU}"
--LLVM_TARGETS_TO_BUILD:class-target ?= "${@get_clang_host_arch(bb, d)};BPF;${LLVM_TARGETS_GPU}"
- 
- LLVM_EXPERIMENTAL_TARGETS_TO_BUILD ?= ""
- 
-@@ -107,6 +106,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
-                   -DLLVM_ENABLE_PIC=ON \
-                   -DCLANG_DEFAULT_PIE_ON_LINUX=ON \
-                   -DLLVM_BINDINGS_LIST='' \
-+		  -DLLVM_INSTALL_UTILS=ON \
-                   -DLLVM_ENABLE_FFI=ON \
-                   -DLLVM_ENABLE_ZSTD=ON \
-                   -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
-@@ -137,7 +137,7 @@ EXTRA_OECMAKE:append:class-target = "\
-                   -DCMAKE_AR=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ar \
-                   -DCMAKE_NM=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
-                   -DCMAKE_STRIP=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-strip \
--                  -DLLVM_TARGET_ARCH=${HOST_ARCH} \
-+                  -DLLVM_TARGET_ARCH=${@get_clang_target_arch(bb, d)} \
-                   -DLLVM_DEFAULT_TARGET_TRIPLE=${TARGET_SYS}${HF} \
-                   -DLLVM_HOST_TRIPLE=${TARGET_SYS}${HF} \
-                   -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
-diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-index bf3a63914a..c22e3c1b19 100644
---- a/meta/recipes-devtools/clang/common-clang.inc
-+++ b/meta/recipes-devtools/clang/common-clang.inc
-@@ -30,10 +30,10 @@ def get_clang_arch(bb, d, arch_var):
-     elif re.match('aarch64$', a):                      return 'AArch64'
-     elif re.match('aarch64_be$', a):                   return 'AArch64'
-     elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a): return 'Mips'
--    elif re.match('riscv32$', a):                      return 'RISCV'
--    elif re.match('riscv64$', a):                      return 'RISCV'
-+    elif re.match('riscv32$', a):                      return 'riscv32'
-+    elif re.match('riscv64$', a):                      return 'riscv64'
-     elif re.match('p(pc|owerpc)(|64)', a):             return 'PowerPC'
--    elif re.match('loongarch64$', a):                  return 'LoongArch'
-+    elif re.match('loongarch64$', a):                  return 'loongarch64'
-     else:
-         bb.fatal("Unhandled architecture %s" % arch_val)
-         return ""
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index cf8274b443..ac814c67b6 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -7,7 +7,6 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://oeqa-selftest-Increase-timeout-in-process-sigpipe-ru.patch;patchdir=${RUSTSRC} \
-             file://0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch;patchdir=${RUSTSRC} \
-             file://revert-link-std-statically-in-rustc_driver-feature.patch;patchdir=${RUSTSRC} \
--            file://0001-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch;patchdir=${RUSTSRC} \
-             file://0001-riscv32-Define-plain-syscalls-as-their-time64-varian.patch;patchdir=${RUSTSRC} \
- "
- SRC_URI[rust.sha256sum] = "6bfeaddd90ffda2f063492b092bfed925c4b8c701579baf4b1316e021470daac"
-diff --git a/meta/recipes-devtools/rust/rust_1.90.0.bb b/meta/recipes-devtools/rust/rust_1.90.0.bb
-index 5d804c7398..c2cb8f8829 100644
---- a/meta/recipes-devtools/rust/rust_1.90.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.90.0.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=11a3899825f4376896e438c8c753f8dc"
- inherit rust
- inherit cargo_common
- 
--DEPENDS += "rust-llvm"
-+DEPENDS += "ninja-native clang"
- # native rust uses cargo/rustc from binary snapshots to bootstrap
- # but everything else should use our native builds
- DEPENDS:append:class-target = " cargo-native rust-native"
-@@ -28,8 +28,8 @@ PV .= "${@bb.utils.contains('RUST_CHANNEL', 'stable', '', '-${RUST_CHANNEL}', d)
- 
- export FORCE_CRATE_HASH = "${BB_TASKHASH}"
- 
--RUST_ALTERNATE_EXE_PATH ?= "${STAGING_LIBDIR}/llvm-rust/bin/llvm-config"
--RUST_ALTERNATE_EXE_PATH_NATIVE = "${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config"
-+RUST_ALTERNATE_EXE_PATH ?= "${STAGING_BINDIR}/llvm-config"
-+RUST_ALTERNATE_EXE_PATH_NATIVE = "${STAGING_BINDIR_NATIVE}/llvm-config"
- 
- # We don't want to use bitbakes vendoring because the rust sources do their
- # own vendoring.
-@@ -188,6 +188,16 @@ python do_configure() {
-     bb.build.exec_func("setup_cargo_environment", d)
- }
- 
-+#llvm-config expecting static libraries in 'lib' instead of 'lib64'.
-+#Since LLVM is built as a non-multilib component, the 'lib' directory 
-+#doesn't have any library files when multilibs enabled. So, copying 
-+#library files without impacting multilib behavior.
-+do_compile:append:class-target() {
-+if [ -d ${STAGING_DIR_TARGET}/usr/lib64 ]; then
-+    cp ${STAGING_DIR_TARGET}/usr/lib64/libLLVM*.a ${STAGING_DIR_TARGET}/usr/lib/.
-+fi
-+}
-+
- rust_runx () {
-     echo "COMPILE ${PN}" "$@"
- 
-@@ -199,7 +209,7 @@ rust_runx () {
-     unset CXXFLAGS
-     unset CPPFLAGS
- 
--    export RUSTFLAGS="${RUST_DEBUG_REMAP}"
-+    export RUSTFLAGS="${RUST_DEBUG_REMAP} -Clink-arg=-lz -Clink-arg=-lzstd"
- 
-     # Copy the natively built llvm-config into the target so we can run it. Horrible,
-     # but works!
--- 
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index 0988bf50a7..7eec664619 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -773,7 +773,6 @@ RECIPE_MAINTAINER:pn-ruby =3D "Ross Burton <ross.burt=
+on@arm.com>"
+ RECIPE_MAINTAINER:pn-run-postinsts =3D "Ross Burton <ross.burton@arm.com=
+>"
+ RECIPE_MAINTAINER:pn-rust =3D "Randy MacLeod <Randy.MacLeod@windriver.co=
+m>"
+ RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} =3D "=
+Randy MacLeod <Randy.MacLeod@windriver.com>"
+-RECIPE_MAINTAINER:pn-rust-llvm =3D "Randy MacLeod <Randy.MacLeod@windriv=
+er.com>"
+ RECIPE_MAINTAINER:pn-rxvt-unicode =3D "Unassigned <unassigned@yoctoproje=
+ct.org>"
+ RECIPE_MAINTAINER:pn-sassc =3D "Simone Wei=C3=9F <simone.p.weiss@posteo.=
+com>"
+ RECIPE_MAINTAINER:pn-sato-screenshot =3D "Ross Burton <ross.burton@arm.c=
+om>"
+diff --git a/meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-inst=
+ead-of-gcs-target-attribute.patch b/meta/recipes-devtools/rust/files/0001=
+-libunwind-Use-gcs-instead-of-gcs-target-attribute.patch
+deleted file mode 100644
+index a704671fb9..0000000000
+--- a/meta/recipes-devtools/rust/files/0001-libunwind-Use-gcs-instead-of-=
+gcs-target-attribute.patch
++++ /dev/null
+@@ -1,66 +0,0 @@
+-From e4f4094de8ddcbe6d5ff1cdf782d2b89e0563903 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 30 Apr 2025 19:51:19 -0700
+-Subject: [PATCH] libunwind: Use +gcs instead of gcs target attribute
+-
+-__attribute__((target("gcs"))) does not work with gcc
+-
+-GCC-15 has added gcs intrinsics [1] but the syntax for enabling it is
+-slightly different. This syntax works with clang too.
+-
+-With gcc15 compiler libunwind's check for this macros is succeeding and =
+it
+-ends up enabling 'gcs' by using function attribute, this works with clan=
+g
+-but not with gcc but '+gcs' works with both
+-
+-We can see this in rust compiler bootstrap for aarch64/musl when system
+-uses gcc15, it ends up with these errors
+-
+-Building libunwind.a for aarch64-poky-linux-musl
+-cargo:warning=3D/mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-=
+poky-linux-musl/rust/1.85.1/rustc-1.85.1-src/src/llvm-project/libunwind/s=
+rc/UnwindLevel1.c:191:1: error: arch extension 'gcs' should be prefixed b=
+y '+'
+-cargo:warning=3D  191 | unwind_phase2(unw_context_t *uc, unw_cursor_t *c=
+ursor, _Unwind_Exception *exception_object) {
+-cargo:warning=3D      | ^~~~~~~~~~~~~
+-cargo:warning=3D/mnt/b/yoe/master/sources/poky/build/tmp/work/cortexa57-=
+poky-linux-musl/rust/1.85.1/rustc-1.85.1-src/src/llvm-project/libunwind/s=
+rc/UnwindLevel1.c:337:22: error: arch extension 'gcs' should be prefixed =
+by '+'
+-cargo:warning=3D  337 |                      _Unwind_Stop_Fn stop, void =
+*stop_parameter) {
+-cargo:warning=3D      |                      ^~~~~~~~~~~~~~~
+-
+-[1] https://gcc.gnu.org/git/?p=3Dgcc.git;a=3Dcommit;h=3D5a6af707f0af
+-
+-Upstream-Status: Submitted [https://github.com/llvm/llvm-project/pull/13=
+8077]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/llvm-project/libunwind/src/UnwindLevel1.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+---- a/src/llvm-project/libunwind/src/UnwindLevel1.c
+-+++ b/src/llvm-project/libunwind/src/UnwindLevel1.c
+-@@ -185,7 +185,7 @@ extern int __unw_step_stage2(unw_cursor_
+-=20
+- #if defined(_LIBUNWIND_USE_GCS)
+- // Enable the GCS target feature to permit gcspop instructions to be us=
+ed.
+--__attribute__((target("gcs")))
+-+__attribute__((target("+gcs")))
+- #endif
+- static _Unwind_Reason_Code
+- unwind_phase2(unw_context_t *uc, unw_cursor_t *cursor, _Unwind_Exceptio=
+n *exception_object) {
+-@@ -329,7 +329,7 @@ unwind_phase2(unw_context_t *uc, unw_cur
+-=20
+- #if defined(_LIBUNWIND_USE_GCS)
+- // Enable the GCS target feature to permit gcspop instructions to be us=
+ed.
+--__attribute__((target("gcs")))
+-+__attribute__((target("+gcs")))
+- #endif
+- static _Unwind_Reason_Code
+- unwind_phase2_forced(unw_context_t *uc, unw_cursor_t *cursor,
+---- a/src/llvm-project/libunwind/src/cet_unwind.h
+-+++ b/src/llvm-project/libunwind/src/cet_unwind.h
+-@@ -42,7 +42,8 @@
+- #include <arm_acle.h>
+-=20
+- // We can only use GCS if arm_acle.h defines the GCS intrinsics.
+--#ifdef _CHKFEAT_GCS
+-+// Enable gcs with clang for now, gcc does not build unwindlevel1.c cor=
+rectly
+-+#if defined(_CHKFEAT_GCS) && defined(__clang__)
+- #define _LIBUNWIND_USE_GCS 1
+- #endif
+-=20
+diff --git a/meta/recipes-devtools/rust/rust-llvm/0001-AsmMatcherEmitter-=
+sort-ClassInfo-lists-by-name-as-we.patch b/meta/recipes-devtools/rust/rus=
+t-llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
+deleted file mode 100644
+index 48af6fc283..0000000000
+--- a/meta/recipes-devtools/rust/rust-llvm/0001-AsmMatcherEmitter-sort-Cl=
+assInfo-lists-by-name-as-we.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From 86940d87026432683fb6741cd8a34d3b9b18e40d Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 27 Nov 2020 10:11:08 +0000
+-Subject: [PATCH] AsmMatcherEmitter: sort ClassInfo lists by name as well
+-
+-Otherwise, there are instances which are identical in
+-every other field and therefore sort non-reproducibly
+-(which breaks binary and source reproducibiliy).
+-
+-Upstream-Status: Submitted [https://reviews.llvm.org/D97477]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- llvm/utils/TableGen/AsmMatcherEmitter.cpp | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/llvm/utils/TableGen/AsmMatcherEmitter.cpp b/llvm/utils/Tabl=
+eGen/AsmMatcherEmitter.cpp
+-index ccf0959389b..1f801e83b7d 100644
+---- a/llvm/utils/TableGen/AsmMatcherEmitter.cpp
+-+++ b/llvm/utils/TableGen/AsmMatcherEmitter.cpp
+-@@ -359,7 +359,10 @@ public:
+-     // name of a class shouldn't be significant. However, some of the b=
+ackends
+-     // accidentally rely on this behaviour, so it will have to stay lik=
+e this
+-     // until they are fixed.
+--    return ValueName < RHS.ValueName;
+-+    if (ValueName !=3D RHS.ValueName)
+-+        return ValueName < RHS.ValueName;
+-+    // All else being equal, we should sort by name, for source and bin=
+ary reproducibility
+-+    return Name < RHS.Name;
+-   }
+- };
+-=20
+diff --git a/meta/recipes-devtools/rust/rust-llvm/0002-llvm-allow-env-ove=
+rride-of-exe-path.patch b/meta/recipes-devtools/rust/rust-llvm/0002-llvm-=
+allow-env-override-of-exe-path.patch
+deleted file mode 100644
+index 9be26677a9..0000000000
+--- a/meta/recipes-devtools/rust/rust-llvm/0002-llvm-allow-env-override-o=
+f-exe-path.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 7111770e8290082530d920e120995bf81431b0aa Mon Sep 17 00:00:00 2001
+-From: Martin Kelly <mkelly@xevo.com>
+-Date: Fri, 19 May 2017 00:22:57 -0700
+-Subject: [PATCH 12/18] llvm: allow env override of exe path
+-
+-When using a native llvm-config from inside a sysroot, we need llvm-conf=
+ig to
+-return the libraries, include directories, etc. from inside the sysroot =
+rather
+-than from the native sysroot. Thus provide an env override for calling
+-llvm-config from a target sysroot.
+-
+-Upstream-Status: Inappropriate [oe-core specific]
+-Signed-off-by: Martin Kelly <mkelly@xevo.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- llvm/tools/llvm-config/llvm-config.cpp | 7 +++++++
+- 1 file changed, 7 insertions(+)
+-
+---- a/llvm/tools/llvm-config/llvm-config.cpp
+-+++ b/llvm/tools/llvm-config/llvm-config.cpp
+-@@ -226,6 +226,13 @@ Typical components:\n\
+-=20
+- /// Compute the path to the main executable.
+- std::string GetExecutablePath(const char *Argv0) {
+-+  // Hack for Yocto: we need to override the root path when we are usin=
+g
+-+  // llvm-config from within a target sysroot.
+-+  const char *Sysroot =3D std::getenv("YOCTO_ALTERNATE_EXE_PATH");
+-+  if (Sysroot !=3D nullptr) {
+-+    return Sysroot;
+-+  }
+-+
+-   // This just needs to be some symbol in the binary; C++ doesn't
+-   // allow taking the address of ::main however.
+-   void *P =3D (void *)(intptr_t)GetExecutablePath;
+diff --git a/meta/recipes-devtools/rust/rust-llvm_1.90.0.bb b/meta/recipe=
+s-devtools/rust/rust-llvm_1.90.0.bb
+deleted file mode 100644
+index 42d4031da1..0000000000
+--- a/meta/recipes-devtools/rust/rust-llvm_1.90.0.bb
++++ /dev/null
+@@ -1,98 +0,0 @@
+-SUMMARY =3D "LLVM compiler framework (packaged with rust)"
+-LICENSE ?=3D "Apache-2.0-with-LLVM-exception"
+-HOMEPAGE =3D "http://www.rust-lang.org"
+-
+-# check src/llvm-project/llvm/CMakeLists.txt for llvm version in use
+-#
+-LLVM_RELEASE =3D "20.1.8"
+-
+-require rust-source.inc
+-
+-SRC_URI +=3D "file://0002-llvm-allow-env-override-of-exe-path.patch;stri=
+plevel=3D2 \
+-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-a=
+s-we.patch;striplevel=3D2 \
+-           "
+-
+-S =3D "${RUSTSRC}/src/llvm-project/llvm"
+-
+-LIC_FILES_CHKSUM =3D "file://LICENSE.TXT;md5=3D8a15a0759ef07f2682d2ba4b8=
+93c9afe"
+-
+-inherit cmake
+-
+-DEPENDS +=3D "ninja-native rust-llvm-native"
+-
+-ARM_INSTRUCTION_SET:armv5 =3D "arm"
+-ARM_INSTRUCTION_SET:armv4t =3D "arm"
+-
+-# rustc_llvm with debug info is not recognized as a valid crate that's
+-# generated by rust-llvm-native.
+-CFLAGS:remove =3D "-g"
+-CXXFLAGS:remove =3D "-g"
+-
+-LLVM_DIR =3D "llvm${LLVM_RELEASE}"
+-
+-RUST_LLVM_TARGETS ?=3D "ARM;AArch64;Mips;PowerPC;RISCV;X86"
+-
+-EXTRA_OECMAKE =3D " \
+-    -DCMAKE_BUILD_TYPE=3DRelease \
+-    -DLLVM_TARGETS_TO_BUILD=3D'${RUST_LLVM_TARGETS}' \
+-    -DLLVM_BUILD_DOCS=3DOFF \
+-    -DLLVM_ENABLE_TERMINFO=3DOFF \
+-    -DLLVM_ENABLE_ZLIB=3DOFF \
+-    -DLLVM_ENABLE_ZSTD=3DOFF \
+-    -DLLVM_ENABLE_LIBXML2=3DOFF \
+-    -DLLVM_ENABLE_FFI=3DOFF \
+-    -DLLVM_ENABLE_LIBEDIT=3DOFF \
+-    -DLLVM_INSTALL_UTILS=3DON \
+-    -DLLVM_BUILD_EXAMPLES=3DOFF \
+-    -DLLVM_BUILD_LLVM_DYLIB=3DON \
+-    -DLLVM_LINK_LLVM_DYLIB=3DON \
+-    -DLLVM_INCLUDE_EXAMPLES=3DOFF \
+-    -DLLVM_BUILD_TESTS=3DOFF \
+-    -DLLVM_INCLUDE_TESTS=3DOFF \
+-    -DLLVM_INCLUDE_BENCHMARKS=3DOFF \
+-    -DLLVM_TARGET_ARCH=3D${TARGET_ARCH} \
+-    -DCMAKE_INSTALL_PREFIX:PATH=3D${libdir}/llvm-rust \
+-"
+-
+-# Forcibly disable the detection of these packages as otherwise
+-# it will look at the host Python install
+-EXTRA_OECMAKE +=3D "\
+-    -DPY_PYGMENTS_FOUND=3DOFF \
+-    -DPY_PYGMENTS_LEXERS_C_CPP_FOUND=3DOFF \
+-    -DPY_YAML_FOUND=3DOFF \
+-"
+-
+-EXTRA_OECMAKE:append:class-target =3D "\
+-    -DLLVM_BUILD_TOOLS=3DOFF \
+-    -DLLVM_TABLEGEN=3D${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-tblgen=
+ \
+-    -DLLVM_CONFIG_PATH=3D${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-con=
+fig \
+-"
+-
+-EXTRA_OECMAKE:append:class-nativesdk =3D "\
+-    -DLLVM_BUILD_TOOLS=3DOFF \
+-    -DLLVM_TABLEGEN=3D${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-tblgen=
+ \
+-    -DLLVM_CONFIG_PATH=3D${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-con=
+fig \
+-"
+-
+-# The debug symbols are huge here (>2GB) so suppress them since they
+-# provide almost no value. If you really need them then override this
+-INHIBIT_PACKAGE_DEBUG_SPLIT =3D "1"
+-
+-export YOCTO_ALTERNATE_EXE_PATH =3D "${STAGING_LIBDIR}/llvm-rust/bin/llv=
+m-config"
+-
+-do_install:append () {
+-    # we don't need any of this stuff to build Rust
+-    rm -rf "${D}/usr/lib/cmake"
+-}
+-
+-PACKAGES =3D+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liblto"
+-
+-# Add the extra locations to avoid the complaints about unpackaged files
+-FILES:${PN}-bugpointpasses =3D "${libdir}/llvm-rust/lib/BugpointPasses.s=
+o"
+-FILES:${PN}-llvmhello =3D "${libdir}/llvm-rust/lib/LLVMHello.so"
+-FILES:${PN}-liblto =3D "${libdir}/llvm-rust/lib/libLTO.so.*"
+-FILES:${PN}-staticdev =3D+ "${libdir}/llvm-rust/*/*.a"
+-FILES:${PN} +=3D "${libdir}/libLLVM*.so.* ${libdir}/llvm-rust/lib/*.so.*=
+ ${libdir}/llvm-rust/bin"
+-FILES:${PN}-dev +=3D "${datadir}/llvm ${libdir}/llvm-rust/lib/*.so ${lib=
+dir}/llvm-rust/include ${libdir}/llvm-rust/share ${libdir}/llvm-rust/lib/=
+cmake"
+-
+-BBCLASSEXTEND =3D "native nativesdk"
+--=20
 2.49.0
 
 
