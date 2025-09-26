@@ -1,116 +1,135 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A7C2CAC5B8
-	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 15:21:13 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web10.20043.1758900067221942808
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5550CCAC5B8
+	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 15:31:43 +0000 (UTC)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+ by mx.groups.io with SMTP id smtpd.web10.20336.1758900694075458324
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 08:21:07 -0700
+ Fri, 26 Sep 2025 08:31:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iY42TPfm;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-81efcad9c90so8266636d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 08:21:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kS0shmLv;
+ spf=pass (domain: gmail.com, ip: 209.85.128.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-71d60501806so24248157b3.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 08:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758900066; x=1759504866; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gc/fbCXZzaSVu5RUJvYbDkkvtmz+L6eV8p0WjGJVCcc=;
-        b=iY42TPfmTTnnK+1ps6uVOmsQPo6h2LQTGdZt1GJbnoV9oBbMcZnSeE6Lx+dQeeKMLZ
-         TNzRmK1lMsZTg7/JwVq25vpPZUPirACDruu/nStdPvGyldKdRWRJtXQJ49rE5PppJ0i2
-         huADTz0T6JzOzmtzlAmxdTdKKDFgvuxXQPYmG34wrZYCYWI0s0twe+rqbFFv42DjsjF6
-         R/1/nngBaqfZIIE0+LmeMWaW2MsKqws1FnPpsmRtogQDeI47JUPlbmMwcqkFpnnWnzym
-         fN7AJK44nHzKC3iZforKN0Dc3MyBO6gUrUBGePxNu7iFZWbTJ7U+H88HlStIQ0RF/uSp
-         4Vag==
+        d=gmail.com; s=20230601; t=1758900693; x=1759505493; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lgmKWarsUWOS/1LDHcf6/g8yZjjznkuQZNZLBvvVW68=;
+        b=kS0shmLvVPpzrhE82uYYLE7BD2utwZCY73O78SboxMd62BxHvSvlfTRlBkdOULwtGm
+         P065GDI3v+p/hvkOyggPpez65mhaXXFhMUBQs5dCZAr8biL/guNz3Qdk9tuyqovwCUSU
+         DEYri41A+mD4mCP++PBf5T7LLjsBIbXT3UAdgXTVm2V0DeNJJkGGddA8KH9F0HUs9aXA
+         y79X/IrtIQSMlFdb78uLedUjZs54nzxRANXJXOwNLrzIzODeV/Fmw7mF3h8R6e6ov93K
+         J1Tn2yOtGSfw/A+A/x9AHqJMEq9lYRlhw8KGZQwLBhe0r1WlVLM42cJ6jCVXN/hX1xDH
+         yfog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758900066; x=1759504866;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gc/fbCXZzaSVu5RUJvYbDkkvtmz+L6eV8p0WjGJVCcc=;
-        b=FPNhOgcGmDxW7Q2j8flNX50aYP3+aJ6cUohMBelYTga7CZRoVCoLJDKYy86Lny4j+v
-         yfKHqKeEMwzDRWq4dePAb688iW62XTDzOS6Eu9FgCjl3egsiJMZAScFdhqjMCCFvd7jV
-         oOVPlNTV7lOukSV/8tGReHCW9WQniXcmxxmvmNVZ8lrAcpLqwzXmlDOlJpFn72vYJM+i
-         QAdfi+woyccpu8tef4vu/HdzNLjmlNkExg7Mdtxfbe/Xl25JIZMlKxay8x8Rvke/vI8k
-         L711fYNwRX4vtenqNEhySzqwHIZMDfibYqq1OkymEiX4e0tcFSDj41MG7JekStknDMxi
-         OY6g==
-X-Gm-Message-State: AOJu0Ywq+lqBgke4hxn67GH41w6SQYhCoyPCBJBefiwokErQ8ByRp5zy
-	d9GlSg1mSHVj4KkM15i2c9RbMmxnSgWIGoX7YL/BoJeQ/4JXhJP0dasnM0kxrvUEpTGUQFs9nPQ
-	0/ooV/mwY6O67wf6nO4PpuKhP558iLTY=
-X-Gm-Gg: ASbGnctP/KOg9LUE2i452ch6hPnYf7nrQeTcoM+z9xvxj8PxyDBwyXphxbMFDKVBFlZ
-	KvZnK2XTARnYOa04S3SJWGqJnXCWkdavj5X6SwDzCYqcDJ8Ay1MZOfGKy99sOMOKjx5379rhBen
-	zGVacdWrIs+3d8TLdf+yvQRtRxp0ImFRM5lXR7sYYw6SlY8bzZVqNdlo3JVST02iOJMXM2LlH7+
-	uqqHd8CF0f8aUKwcr1rCTU2IJkeqvKWGgRI3Ur90X8GgddHJOD2IwejZxdt8y4JotzPRrm65ez3
-	AXDxWP5XF+9PzIrViQku/+6fHHIBSgasyZkZjcg6bMXF+9HmuZw=
-X-Google-Smtp-Source: AGHT+IHoaWvfl1g/giLn669LM6YGzXVbXlIkl49FDKMHuGpA4pR1Zk5X6q/DJhQ3V3o+jDx73I6unAxATj0JxsQa1X4=
-X-Received: by 2002:a05:6214:20ec:b0:78d:f7f:62ac with SMTP id
- 6a1803df08f44-7fc2fd733e2mr116231806d6.25.1758900066017; Fri, 26 Sep 2025
- 08:21:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758900693; x=1759505493;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lgmKWarsUWOS/1LDHcf6/g8yZjjznkuQZNZLBvvVW68=;
+        b=B+jpow/+xbMnY5iB7aCre83549R+nizryEREoMofQDftoQeWIxFQpylUIevw9f+CFU
+         clePogteUqAlq4Dgh24TU8hfBRuY1I1EHYSZ9nQQnpNRXl4VlE7qNFf2W5BYZ2ZsfhcC
+         C9LbGf056p8nkpQ1n9Y1xjLWaGWuLWzTM10HlCJba9GC2zyApMO7xaZ+f9kZxE28Ahcr
+         SNpMjGpYL8qmsJ6qLL6yFij12O0pp4M6eflMahax1SomlzKIjcQj9AEKX2IAFTmPmAYX
+         zDd5l9KENraU07DYrvBFJzitZIIulSsEEsK2yKZUUK1KcREBs1pMtj5+9HF/3P+ZtHhJ
+         14sQ==
+X-Gm-Message-State: AOJu0YxnWTFQNwWQUALQ17JhR/XBhA3UjZ2H14jMStMSGk/fsJk15bm+
+	MDyLCzH3ETaTqnJUdOrmDQCCBN4YqPmNNM7L/mCjMr4kQ/Qd+n/M5wr2baUvMD1gjUnuUXE+mVO
+	qU+neEJgo23MOc2iyB9IL7xFRMSrhcJI=
+X-Gm-Gg: ASbGncuqxw2HxjBARkxIPucm3EClTcKp7n30TzH9JTsPEDsd5iORElLYK36hNRM2MCA
+	bn5ZH0cMpP1y3a0/50ZDmwSMXaAEVHSAWhXY5adFxz4mmpI+WwT20qAwCNsLp4IIOG2dOwByINt
+	ENXX8tcjwhZV7/gIg0VTXAwL0icGJp8EwpeuLAxgHtAIYclp3HjJI8Mxow5m24gA14VXkUT76/4
+	MVj0RUldms9zoNAdisDFDc1KCE/PLb2pFFJysMdNybazFvuEWmGWDIiv6Zo5h7Zora/qVTbDaUL
+	BItjek6NRA06+m5SHczpa3qUVP9MJOv2upU8C7Y7vBdiWwdq7holdPH08g==
+X-Google-Smtp-Source: AGHT+IERRGQIK5pVVR2v/h6ubiZiyangB3qePrBe0CsMw9l8h12xy/JyPgTj+OkzPRHY41934XBouLsPMiuE1b/rURA=
+X-Received: by 2002:a05:690e:2402:b0:635:4ecd:5fcc with SMTP id
+ 956f58d0204a3-6361a88aff4mr6591985d50.41.1758900692541; Fri, 26 Sep 2025
+ 08:31:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250926145305.528133-1-yoann.congal@smile.fr>
-In-Reply-To: <20250926145305.528133-1-yoann.congal@smile.fr>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 Sep 2025 17:20:54 +0200
-X-Gm-Features: AS18NWDR3fDi_L6rFnSyxO4JZ7pblRA_-Szt5r7g-WlansfOynnvCn8Enzkf_wo
-Message-ID: <CANNYZj_cDXSYvBi6jxyTr_ER17h2bGP5uwcUvPv4SGiXm5t3hw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oe-setup-build: fix dash support
-To: yoann.congal@smile.fr
+References: <20250926143339.3542389-1-ross.burton@arm.com>
+In-Reply-To: <20250926143339.3542389-1-ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 26 Sep 2025 08:31:06 -0700
+X-Gm-Features: AS18NWCSM_UKhz_k3Voj9YsmhoiAwdG6B9r1pecwNp3UxMcodSTSHv-tr38ihYI
+Message-ID: <CAMKF1sq7WtMH_GJnsc4oVDVgx4BqpqVU1qQadjJZOChCG0p94A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] classes/cmake: unset LDFLAGS in toolchain-native.bbclass
+To: ross.burton@arm.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 15:21:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224084
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 15:31:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224085
 
-Thanks, lgtm.
+Thanks for adding more context. LGTM
 
-Alex
-
-On Fri, 26 Sept 2025 at 16:53, Yoann Congal via lists.openembedded.org
-<yoann.congal=smile.fr@lists.openembedded.org> wrote:
+On Fri, Sep 26, 2025 at 7:33=E2=80=AFAM Ross Burton via lists.openembedded.=
+org
+<ross.burton=3Darm.com@lists.openembedded.org> wrote:
 >
-> From: Yoann Congal <yoann.congal@smile.fr>
+> If a recipe is using toolchain-native.cmake to build native portion in a
+> non-native build, the target LDFLAGS from the environment will leak into
+> the native build.
 >
-> Being minimalist, dash does not support the (non-POSIX) feature of
-> passing an argument while sourcing a script. Like in
->   . <some path>/oe-init-build-env <build dir>
+> This was noticed as building a SDK with clang means that LDFLAGS contains
+> a --dynamic-loader argument, so native binaries were trying to use the
+> target loader.
 >
-> With dash, one must instead use:
->   cd <some path>
->   set <build dir>       # puts <build dir> in $1
->   . ./oe-init-build-env # can only be called from its directory in dash
+> There are several variables that are set from LDFLAGS[1] so instead of
+> setting them all, we can simply unset the environment variable in the
+> toolchain.
 >
-> oe-setup-build generate a sourcable "init-build-env" script, this script
-> must use the above snippet to be used in dash.
+> [1] https://cmake.org/cmake/help/latest/envvar/LDFLAGS.html
 >
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  scripts/oe-setup-build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/classes-recipe/cmake.bbclass | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
-> index 49603d9fd1..edbcd48355 100755
-> --- a/scripts/oe-setup-build
-> +++ b/scripts/oe-setup-build
-> @@ -89,7 +89,7 @@ def setup_build_env(args):
->      builddir = args.b if args.b else template["buildpath"]
->      no_shell = args.no_shell
->      coredir = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-> -    cmd_base = ". {} {}".format(os.path.join(coredir, 'oe-init-build-env'), os.path.abspath(builddir))
-> +    cmd_base = "cd {}\nset {}\n. ./oe-init-build-env\n".format(coredir, os.path.abspath(builddir))
+> diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmak=
+e.bbclass
+> index b8cd622c2df..4f59966521e 100644
+> --- a/meta/classes-recipe/cmake.bbclass
+> +++ b/meta/classes-recipe/cmake.bbclass
+> @@ -212,6 +212,15 @@ set( CMAKE_LIBRARY_PATH ${STAGING_BASE_LIBDIR_NATIVE=
+} ${STAGING_LIBDIR_NATIVE})
+>  list(APPEND CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES ${STAGING_INCDIR_NATIVE=
+})
+>  list(APPEND CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES ${STAGING_INCDIR_NATI=
+VE})
 >
->      initbuild = os.path.join(builddir, 'init-build-env')
->      if not os.path.exists(initbuild):
+> +# The assignmens above override CFLAGS and CXXFLAGS from the environment=
+ but
+> +# not LDFLAGS, which ends up in CMAKE_EXE_LINKER_FLAGS. This then means =
+our
+> +# native builds use target flags, and can fail.
+> +#
+> +# As there are a number of variables that are set from LDFLAGS,
+> +# clear it at source.
+> +#
+> +# https://cmake.org/cmake/help/latest/envvar/LDFLAGS.html
+> +unset(ENV{LDFLAGS})
+>  EOF
+>  }
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#224083): https://lists.openembedded.org/g/openembedded-core/message/224083
-> Mute This Topic: https://lists.openembedded.org/mt/115450065/1686489
+> View/Reply Online (#224082): https://lists.openembedded.org/g/openembedde=
+d-core/message/224082
+> Mute This Topic: https://lists.openembedded.org/mt/115449745/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
