@@ -1,125 +1,104 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31704CAC5AE
-	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 17:06:06 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web11.508.1758906360402478108
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 454BDCAC5AE
+	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 17:19:06 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.836.1758907144312502012
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 10:06:00 -0700
+ Fri, 26 Sep 2025 10:19:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bhcxQHjo;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-91122373653so34427639f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 10:06:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bf/yewcJ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-62ecd3c21d3so4433182a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 10:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758906359; x=1759511159; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1758907143; x=1759511943; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TXyUJjbRODRsx+oURtwVjv5FThhW+Y+sllrzk85sDEk=;
-        b=bhcxQHjoC90k+XK/Go363tAjY9eUNOoFhaThauWHPvmf+lr3X0KPAAd3IZWrgmBFf4
-         FNqUW2eUCPgwh1qU/BhCvlKBFaBP7WYvZfeCtLF5BxQyZl/qf2Eyxe36CzOaT+6RQ7T6
-         0MJmMyHzJXO0VJbVzYoxB5tmcIFZe21WPdXoMFnteaVO8e6jermKFdnRhHPAVhS3djN3
-         nzknas22xDI9kJEyFXwySkof+BP4YPRNZbEL6sFKiIitbfX08y+KYEGnzRG/OZirtO69
-         VklebcutgHtUHV/wQHBD392UyXxedcTofSDoZ2SLaebS2BBtXUT+zVaifWMrIx+MXVva
-         B76Q==
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AA42XuDwh2XYKusvMv7P2YKuhm7bt2dmTWeltn2xqZI=;
+        b=bf/yewcJBL4G2wlpLhvOgE5BZf8ql+d/SBgwX/kAvveq9CQcoc3qDzRoN4qtckaGDW
+         ebbAYqAqIzZ02DvNbvz7H2MqaZ83iE91q8L7Lx13AD6SzQAVPJPq3VaI2EGleORlU93D
+         /ux5O2xQhvznFN6QzutY+IK38TKL0ZzJBhP1mc8Y/itW68rVZny8qOImWPA2mYVM5ZJI
+         AdyoBrU9UefafO730774+Jq0zGHA16KY8wUrvx0KCnpbG066e7pGAp6Pmf/PKbqOHufL
+         Rob1Q6H/by4Gehj8tCSM7AVIV1yjrt/in0YknEla9p/9wd5uwAgyoAbjJ8O3Xio5iSJO
+         WkKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758906359; x=1759511159;
+        d=1e100.net; s=20230601; t=1758907143; x=1759511943;
         h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TXyUJjbRODRsx+oURtwVjv5FThhW+Y+sllrzk85sDEk=;
-        b=hv2OQXPB4dTeGGZwaXzPiO8fQstYbG2AFzq15RRAsU/Jf44sNZ5P+VWatT/kIVjwoH
-         A8/2Qkit67TrqbQxmhI1ukPYGFsEXTgThac13ZWLcgxb7GHmzyQdh/mgj6wWYV2Et35e
-         zzhHNTe7IJPL0VuThSafg3OsMvH2XSc//B5IZmK0npRK2MNJl5QNxzSm+PSjnYbPqK/u
-         /nnur5I3zEUjnbOI4uNnEVR4/8XIXEoIT/AAoFFx8T641qkkqo8zhlg8JAWccgNT+k0s
-         Ph9Fvhyayw2v91sj0T5TbkITqRuUKv/9gjMVcq4DleioaClq35lw4hrCTro3G6OOCH0w
-         0y3w==
-X-Gm-Message-State: AOJu0YyYnt1maQ+xtzgYxCPop8ZlcewQQeVTLk4eV10/feKJ1RTkjOF0
-	i1gj7ZmfDCZMD4yK9L1c4kNJqRxAKUUXBWgu3xqmuF6De7ZN+u+8izEXMkHL8zyV
-X-Gm-Gg: ASbGncuCA8tseCW+/MjlDYoWmw1eH7H0m9VCJWIn+F64tPuqUqmJxgVE26uOQFhfAFC
-	gXnt5aEGFWFn4cuGuEgvaMk85VW9AwCdi2ozoElVvpiv8fNbxydXuTST/o2dGmgaCzBqTBjM4BD
-	HDLoyDRJ6bB4H+g/xv0fsY4cg14vXJ1CXSZlQFWoekCC4sCUc46epWcnRgdSo195GXd0OTr+bf1
-	9XHMeuXrp6ljvwHG9+ocO+v3XNAMeWRxRMrDZulsjQ0g9KW/E1hqypg4QH0Zlf2Eo1Yy/opYjtr
-	L0IAJ8vH1ELZNxPwqxqrR0d1rzZuBtb7jiQqf9+HotqjUS7FCzskvte0pq7El6GDVKYS4i8Pkkg
-	JhJEAF0J8sezLiB3Qw5wHJi4/kqUFCt+UKPQ1dSUm5cnmIJ5B9rYH5JBQjv0BnzZPEq+KoDoVss
-	gKo06AUCuBwXuDtaX/MbaFXJmhHWlwiCwhKXnURuBFmOCp3tkVNwPL+ZUuBivVSxHObL0IS8YoL
-	MZII6821X8JLHLIxRkjlammPkqahmY5IhlBA3l9sg==
-X-Google-Smtp-Source: AGHT+IEwQz42TANkCWupxJGvzQYf+Z09lEkx3T2FldJYi5EmW6ZSZa1qOAJEI8ZGvAz//7Mo+9QuVw==
-X-Received: by 2002:a92:b704:0:b0:420:f97:7446 with SMTP id e9e14a558f8ab-4259567c94emr88932985ab.22.1758906359341;
-        Fri, 26 Sep 2025 10:05:59 -0700 (PDT)
-Received: from ?IPV6:2601:646:8201:fd20:8d7c:fa44:7948:cb52? ([2601:646:8201:fd20:8d7c:fa44:7948:cb52])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-425c016c7f2sm23268395ab.36.2025.09.26.10.05.58
+        bh=AA42XuDwh2XYKusvMv7P2YKuhm7bt2dmTWeltn2xqZI=;
+        b=DZm9IABv1xDHcXb4hs7RnBT2tphRQEvHvzOy9vQAEDQ12BO+5YEtXUJwgpkvGx5EYx
+         Kt7KwY40aUkXbxwdmUMvWifYNZjB6cl/hxdAQaSqNc9EsNBiOgayFrQ8TeEMiGLunl5+
+         PWZecxhK2DmiGCUt5oq4Yfs5bZqiojkvSn4gE+wNcMF9zx13AYE7RvClf2rCsqEymITX
+         5xv3hZYg+GhQHw6mZo0FC0N6Dcgu3/7IGaUrUtfAQT2olWirf1KsC8GPyhaDYGtA9/Mi
+         snSAlExJgAmZqzo+LIoCtbW34vE4UmHxu2luUvMMhrHboGnfJxLrnR1crp8JTla27K9/
+         KEpw==
+X-Forwarded-Encrypted: i=1; AJvYcCX+61P1D2OWSke3XGh265eCQTEvgC8f0huQE4E5Y3+lqAIHkNXEidctwMnhHcICwJQJhaw3tpn1ZLEpMZWLE+SzWQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxjxqOZuutKmQDoQSkNYmJGTo5HrHgbUKCY0q/zxzO7Oxe9XISD
+	f4E/HOmkpeM22BcNE7sAXl+FDKFdsyDmkIqFGTydgRcqrQU3giP3aPNRw98Lpg==
+X-Gm-Gg: ASbGncusWZTOsp9Y86l3nJzTzpHGS28MdBDJ2bTDg2EotIvVsr9zWQulid9cckLnqtL
+	JoC5kXK8AhRcjSdMDyALQqwjgyGIpOhNXABgs79Fxyuf1ZKqmqkbWHoOjjSwTRNbJpfxrO3z7Pi
+	esJxrPeQYDXzfPD4KEXaiIhhuO1RbtjtHwqFcjp96F1kicmj54npnYHatWzAVIDkiTMmPEYjhDl
+	pbBO3s0lIK8061aaut34zHDJ+99cj+p2M+B3dfcixQP3BlcHd4RNnssc2wSX1WC3fENkmQ+kb/X
+	Og14/BHMAdZAZvUTsBu+xKD+WygeWFDeJt6usrRz3gx+IYQZ0GMqCq61w4eXz7nGn/oYrr2kU/O
+	//uZ49ndE+7+A1UN8BMw72wCVLvszQ6Q=
+X-Google-Smtp-Source: AGHT+IFy4cnC8aIjC0C07PQtUNRi4UDi7LTrmQvDwi+VGANtf/PRyD3ROKVHiClPjhc6r2MLsB08YA==
+X-Received: by 2002:a05:6402:14d2:b0:632:d9b:271e with SMTP id 4fb4d7f45d1cf-6349fa7f9e3mr5983184a12.22.1758907142178;
+        Fri, 26 Sep 2025 10:19:02 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-634c1ca9ac9sm860157a12.38.2025.09.26.10.19.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Sep 2025 10:05:58 -0700 (PDT)
-Message-ID: <551f878a-05d0-47a1-98f3-5eb31bafc6ea@gmail.com>
-Date: Fri, 26 Sep 2025 10:05:57 -0700
+        Fri, 26 Sep 2025 10:19:01 -0700 (PDT)
+Message-ID: <04553a26-5d53-406f-b230-c3474d969322@gmail.com>
+Date: Fri, 26 Sep 2025 19:19:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH] syslinux: clean old object and dependency files
- before do_install
-To: alex.kanavin@gmail.com, Haixiao Yan <haixiao.yan.cn@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20250926073618.4162662-1-haixiao.yan.cn@windriver.com>
- <CANNYZj_QnvcztWCEeDa98DVJjbrpZYhsb56D1jMe+pL+=_uwUA@mail.gmail.com>
- <8f9969b9-aa03-4225-b72d-7df98d3f9490@windriver.com>
- <CANNYZj_+3yOR14u2s6ooqQg8CuQYZqOhmi3M=k903gedmgTLLw@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap 09/11] glibc: fix CVE-2025-8058
+To: Jinfeng.Wang.CN@windriver.com, openembedded-core@lists.openembedded.org
+References: <c2b63f171719e2b1c12ba049cbe776adf9e0244b.1753910853.git.steve@sakoman.com>
+ <21409.1758873962886905830@lists.openembedded.org>
 Content-Language: en-US
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CANNYZj_+3yOR14u2s6ooqQg8CuQYZqOhmi3M=k903gedmgTLLw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <21409.1758873962886905830@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 17:06:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224088
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 17:19:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224089
 
+On 9/26/25 10:06, Wang, Jinfeng (CN) via lists.openembedded.org wrote:
+> Hi all,
+>  
+> With this patch, after I add INHERIT += "buildhistory" in
+> conf/local.conf, I found the following build errors:
+>   ERROR: glibc-2.39+git-r0.wr2413 do_packagedata: QA Issue: Package
+> version for package ldconfig went backwards which would break package
+> feeds (from 0:2.39+git0+cff1042cce-r0.wr2408.0 to  
+> 0:2.39+git0+b027d5b145-r0.wr2413.0) [version-going-backwards]
+>   ERROR: glibc-2.39+git-r0.wr2413 do_packagedata: QA Issue: Package
+> version for package ldd went backwards which would break package feeds
+> (from 0:2.39+git0+cff1042cce-r0.wr2408.0 to
+> 0:2.39+git0+b027d5b145-r0.wr2413.0) [version-going-backwards]
+>   ERROR: glibc-2.39+git-r0.wr2413 do_packagedata: QA Issue: Package
+> version for package ldso went backwards which would break package
+> feeds (from 0:2.39+git0+cff1042cce-r0.wr2408.0 to 
+> I found in the buildhistory.bbclass, bb.utils.vercmp((pkge, pkgv,
+> pkgr), (last_pkge, last_pkgv, last_pkgr)) will compare the version,
+> the hash is part of the version.
+> The commit(d9b992de0da6be8e9bc26c39c4e5aa7bb9c2049e) in oe-core glibc,
+> upgrade from cff1042cce to b027d5b145. c < b, so it is thought as
+> version-going-backwards. How to deal with this situation?
 
-
-On 9/26/25 1:27 AM, Alexander Kanavin via lists.openembedded.org wrote:
-> On Fri, 26 Sept 2025 at 10:03, Haixiao Yan <haixiao.yan.cn@windriver.com> wrote:
-> 
->> Executing `make clean` deletes all existing .o and .d files from the OBJ
->> directories, ensuring that zlib is rebuilt from scratch and preventing
->> stale dependencies from causing build errors.
-> 
-> Thanks for the explanation. The next question I had was why the
-> standard clean mechanism that is usually triggered in do_configure()
-> isn't working, and indeed I am seeing this in the recipe:
-> 
-> do_configure() {
->          oe_runmake firmware="bios" clean
-> }
-> ...
-> 
-> do_configure:class-target() {
->          # No need to do anything as we're mostly shipping the
-> precompiled binaries
->          :
-> }
-> 
-> Should this second function be removed instead, so that the standard
-> one takes over and does the cleaning?
-
-I wonder, if it is cleaning the pre-compiled stuff too, it seems
-the intent is to use pre-compiled binaries for target. So checking
-if those are kept intact after clean might be prudent.
-
-> 
-> Alex
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#224063): https://lists.openembedded.org/g/openembedded-core/message/224063
-> Mute This Topic: https://lists.openembedded.org/mt/115444935/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+I think this is more like a general behavior with all packages using the
++git PV postfix. I suspect using buildhistory has an implied requirement
+of using pr service too? That supposed set an increasing number in the
+"git0" part (instead of the static 0), which should ensure that it's a
+monotonic sequence.
 
 
