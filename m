@@ -1,154 +1,218 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAEB5CAC5B9
-	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 09:58:10 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web11.13739.1758880686213738559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD4BACAC5B9
+	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 09:59:40 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.13722.1758880771237385271
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 02:58:06 -0700
+ Fri, 26 Sep 2025 02:59:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BV8DJnQ/;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-78febbe521cso14846676d6.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 02:58:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758880685; x=1759485485; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Wxb/XkmnCcIs38wguWVR4WJocEISUJM1xSuPT33DC0=;
-        b=BV8DJnQ/Lvrsyt4TCH6y5R9QVVJAt2Zo6SeeMU3TZ2EB3TH8HG72I5EEGa6kzO9mrD
-         7NcrftIeXMPiscsOD5cdA5Rid9x/wacmG/fBk6oI/pwKI7UIHksNZ+bUSZLLdhZaMP8Q
-         gzGiaj+sRH02/Fj3QSA0D3FEe7WnRRg4UwspAvdFlafUqbTQ7ICXVeyrXjY3v5lOX/Iy
-         jUFzoqU9OXUEO4w79WoBVN98QbT57h/bPleC2BP8nmQiu3sQSPiZZxS1F/vq2z7rCmRf
-         ii3VmmpjGvMXA/P9yq3QFn1Nx9SRcU4bFrS8y0JJtvtFmlJ29nSJLfmcbridSjjZRfrg
-         j56g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758880685; x=1759485485;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4Wxb/XkmnCcIs38wguWVR4WJocEISUJM1xSuPT33DC0=;
-        b=LaVrqHnyT7V0G7AtnV8gcUNlw41RnpDnSq6CnG2uDjf/gKwmP2pU7dtN/Ku2moQnKU
-         tEvkIuVuf6EGcDUnEYGllXpXbGoOxtrX2JFHVa2f+9ustLEAdM2YsVrn4jLFcRmLtXkr
-         HlJi4ydhck5k0+t3lnKHposTP+SwGXH+Wq9vNBzbWomYsXfyJnLz4dBkuwkALs4ioe6n
-         l1neaguAaiDD+1l7R/8gndshz+/jyEmsiFPO4hp4QS8twIzAWaRBTVgMIdrymySatt3P
-         4+ndVdCGZRe+T8769+Ywan8Yjckd9x5g/VfRN3b2hN44v1abfANaw2H0ArrTAWwb+mH8
-         2+ew==
-X-Gm-Message-State: AOJu0YyFTuixbiLb3pQY70IXVbRyCus8xtaRW6SSqZwpWOc4418d96UP
-	oM7K4LaLFsR7duD7XeYm03UtoZ9h7WyLnLaI/HXNAEMUD4RZryLWqWsBHj9sOaWserdCNWsmERJ
-	SzkJ/3bsc8BYmnccpMFRqi5K2illZRWQ=
-X-Gm-Gg: ASbGncsEk8UUqF98Ko7KjfJ3Pad/eaRt/kNRom08fxByR83TOtLNunL2tJ0YC2Z/ll7
-	iQYuYY9Cqe1z1T61g+8+qZvioN8hGCH9G8tOTYP0l4lbCHyc+BQBVXKTgsQTyH7VeLmXUfoxNv+
-	p2nPpRxCtU64KFrbh+D59HNBgVqWzhTWWnylwpPwEIrb1CLB9gCqhcwtdqHTZZtsr1Vp50loGKs
-	dblhXSd+zv0zMeQYZwbPlSG38IOt+Sj178QeIZYLIz3V8rF/DoKuAtW1Z7iKiXx/j/WkEFXcsRg
-	cZcL1rGDVUl51pEusVlhN+sjxe/xzqQRa7kEf2hrVp4N3j7tSVk=
-X-Google-Smtp-Source: AGHT+IE7oOZdvDTBdNQ5p0t38hl+s7UOuUxX5dpfNyb3Hv0+tyvjkBoTWbtz6CxIgVtaGiGzLsQoq6iwuT2tCyx7SrU=
-X-Received: by 2002:ad4:4eea:0:b0:78e:c5c7:1225 with SMTP id
- 6a1803df08f44-7fc25df02afmr81730356d6.9.1758880685057; Fri, 26 Sep 2025
- 02:58:05 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=lV7xYBqU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1364670208=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58Q59u8l1135257
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 09:59:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=ZcDa2mglsDckOr3g9vsfIVXdChkM/IxOMirssHg5bSM=; b=
+	lV7xYBqUteJPIWe6at/4r9TtX2EtJq1KDJmBMCGvZEzLX/4ye8EOvikp60bzE2xT
+	7yO6h12xG5rRDUqg11nsrcXM7TndjWJI+++IidQTgEdrJEQle9T/wGDcTPXm881o
+	9zInWbuQPiP57esJQ8K2BCRY/c2/eUvE3y8lY5rpIKrgS+MOKQiWZYQbRlB890S9
+	EuRxNfmyI6/7OXOrC8mV6ytpxQP3nB2uiYorfUEZVQx27u6U7+RHM3zB63d9iS7l
+	koVKT4f67pk8V+9oIGVvBq3TMXF/PH3JRV4iEt5SmuRKklPmLxqEpI0M7ex2WYcx
+	LuL3ZRNiw/qW29BuWK43cQ==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012014.outbound.protection.outlook.com [40.93.195.14])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49dbsh8n0a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 26 Sep 2025 09:59:29 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=t+kCtkLIbok9Hn7P/lE7oTfkweqx6to9tfJ9oe4QEskAOpGHkjuLSQpBSyDQjFw0qwQ0TfYI6mYQgGMPyuD5WqZRCLWHWwAOMXiBLzrGi4vCikw35iodrONGXjB1ll44Cx5tkU9D2ufmGl1It2r2G2+xsPwgeN0QySgqYFcVE2rGuhkSsDz+UCSsKwdWWbLwomcet83G81GSaCB0vQ9sEZhZjy5xkMpsOMxOPd87TzYX0LkQ31wt1oxl3wuMx8ws5yMI1QoGUyaPc35OpoxGuL+2A6dcmC0XljXFVTK8ouKcqck5ObyiRQ/qGqpdFWl+2rKGG/9y0ghxltSDBuFNzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZcDa2mglsDckOr3g9vsfIVXdChkM/IxOMirssHg5bSM=;
+ b=LOddexHlW8jEkM+s8naO5SHjrgdIO9PbSEmCcNv4/OR9zdMGijfj7+9czVXHHD4c0yqlZz/+TA1ZAo43N9sXbUrdel3J/WQrkTSGYk1MxON58zjr70YE7cnROI2K2uNuaYdgOQmJSDk9PIRFFe4/7UHpGGO1l03rbWRZuUrbBiTbvO6fljyPzeyXxvEPeOtr61a1KrIkMpvfWmtiqOIjbC/776LlXw2PHs0gEFwHPHM6sPnsYs8JlkjDfdCsL/H57q6J/nPr98MFylf2bTTCjBjXaM1WGrFE2zKbgy6TNSlzIVFoTBMvypAnPQFhhD2yo6h5kjH7UVMl3J6MP1TaTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
+ by SA1PR11MB5948.namprd11.prod.outlook.com (2603:10b6:806:23c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Fri, 26 Sep
+ 2025 09:59:28 +0000
+Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
+ ([fe80::c784:dce5:4b7b:54f%5]) with mapi id 15.20.9160.008; Fri, 26 Sep 2025
+ 09:59:28 +0000
+Message-ID: <ffcbdf27-539f-42d2-9baa-db2313d0fd36@windriver.com>
+Date: Fri, 26 Sep 2025 15:29:20 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] rust: Drop rust-llvm use clang instead
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
+References: <20250926071158.3439500-1-Deepesh.Varatharajan@windriver.com>
+ <CANNYZj-=rkw_rpYXK9FA5wQDbXRXthUk2y_LWRs4Mym+_em6iw@mail.gmail.com>
+ <80e911a6-ff3e-4f2e-ac0d-6f6043d43670@windriver.com>
+ <CANNYZj_E99VW1o5pSJtPAmU_mJXK5HoWvo6Ns1zsN5s5uOcqwQ@mail.gmail.com>
+Content-Language: en-US
+From: Deepesh Varatharajan <deepesh.varatharajan@windriver.com>
+In-Reply-To: <CANNYZj_E99VW1o5pSJtPAmU_mJXK5HoWvo6Ns1zsN5s5uOcqwQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: MA5P287CA0028.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:17a::12) To SJ0PR11MB5648.namprd11.prod.outlook.com
+ (2603:10b6:a03:302::11)
 MIME-Version: 1.0
-References: <20250926-builtin-fragments-tests-v1-1-28c32d45bc15@bootlin.com>
-In-Reply-To: <20250926-builtin-fragments-tests-v1-1-28c32d45bc15@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 Sep 2025 11:57:53 +0200
-X-Gm-Features: AS18NWAurT6K5WCUzHnFPhwZLCBwcM93wWE7EwfUZJhg5CVR0lM1jiMT-9zk9_I
-Message-ID: <CANNYZj9pMpU=47=u1zc0TtOgOVv37xciotA==ek2HHV5eqyzVw@mail.gmail.com>
-Subject: Re: [PATCH] oeqa/bblayers.py: add tests for adding new built-in fragments
-To: Antonin Godard <antonin.godard@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|SA1PR11MB5948:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a504f58-a8c6-454d-67a3-08ddfce3616c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|10070799003|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?SGE0OCsyVWR5Wk9sWjRRanJuVTdFaXcvYnhKMUtGRWZjM2dEeCt0em1ITmFY?=
+ =?utf-8?B?dG93N2wydFlKc1VpMDEwQWxDTVFHQ3M3WUJvNys5aVc1YmdxUnNoaXBwZWEx?=
+ =?utf-8?B?bEU1NHB2ZzdPZDRWVHdJS3ZnRFlGTkxGNnR4cXB3UktsZ3dRTzdnd3dDUmxh?=
+ =?utf-8?B?QUtpUkw0d2o5NHdqbDVycEpKTnRpWDdrK0pya3hmdGdzU1pJM01ObnFQZ09F?=
+ =?utf-8?B?VVI4NGxHVnE0NG55ZGZhR0lwOUg2YzliQnBIMytObnRtcGJXMWFtY3I2L2NI?=
+ =?utf-8?B?VVpxelYxZldScTU4a1NoTTZUSlpLOHViMVFnTWJUSTB3eSs4b2JySGlQNWEw?=
+ =?utf-8?B?MnRGRkpSMXl6VXpVdHhsVnZWWmZsTWxwWTg2SFNMQ3NkcStJU09mdS9qbWFO?=
+ =?utf-8?B?bGh4S2lQbFNRakRpMmx4OFczVlpWb21takVueGtEbTNlTDg5ZmZHdW1xTDdU?=
+ =?utf-8?B?bm9qZ1hMck5sVnZqWDBManRpck9vVEVzVzdmQjF1K045bTFTcUZlaWJoZ29o?=
+ =?utf-8?B?dGpFL0pCTDZOWHdsOG9XbWFsckZ1YkVwRHZlQ1JDdlloS2pnQi9hWmJwbVZO?=
+ =?utf-8?B?RFRkdnNvRCt5dW12T3dCZXF2dFhYSnovek40djI5azZMTFpQcWxkbjM1QWto?=
+ =?utf-8?B?azZOdnBUY3lDM0hUbS9sa0ZKN2dMblE3S0Q2QUFJaHlId1Ntb2dIZHBleEtY?=
+ =?utf-8?B?L0k5UE5sK01uTGlFVjhxc1JvQzV2MjlnbjROUWxRbGVlQzF5djBtWGYxMUN1?=
+ =?utf-8?B?cmRhRUhDSzFoTk9HMElLUXlpcVhnQWJDeXJobE5KcEZYV240K21OWlQ4eTZm?=
+ =?utf-8?B?MXBOWWxEWXQ4aWhRMnd2alJ1ZitBUUFtdXVjOHR6VXA0aWlJZllCbmdRdmtk?=
+ =?utf-8?B?QXVUejRlSks0L0M3czAzUjRiZ2lnTlNxckNzcjVtc0s0TlNYQU5FV210b1Jn?=
+ =?utf-8?B?RUdvZjNWelgrV0VrUUM4S25UZDZEY1l2OTR3VWxjSnNXTDdWVjhlZm16eTUr?=
+ =?utf-8?B?SDhNNi9YMzVCMzZpc1JnYnFrbFZ6Tjd5eXZnZkpjeVZjZSt0MUpzaGRERVU3?=
+ =?utf-8?B?T3p1WU9YcEpsMkFOV282ZTU2VDdkZi9kMHgxNHk0Uk1aT0VJR1lJMW9oeUFG?=
+ =?utf-8?B?VDZPSkhiYStld3dWSWZVU25OeDhJZEU5WFlpbTE1dHpqVVFvNzdmb2t0MG5v?=
+ =?utf-8?B?amlsS0poMTFLZzJ4Z3FON1NqK3drS2JQOHEyM21nMHprNHlVT3lsd2hvY3F4?=
+ =?utf-8?B?eStOWGFEaHdTeXIxdE10VjhoQ2tqNnhzZ2UvbXJKUFBYdkVaVmVDTmVXRjI4?=
+ =?utf-8?B?ekQyVDdKNzYwTktrdWJ5OWM2QW1vUXdlUHpiQnVyZXU2OXl5MXNOeDRkK1JG?=
+ =?utf-8?B?a2Z6RjlIYzdDUjdTN0VPa1g4dmloNEV0eFdZU2kycFQxaEd3Qm9hVjBPdGh1?=
+ =?utf-8?B?aFlxTlVIcUVlTzUvdlpNc0Qvb01yZ2FTTFUzUDJOYndPRG0ybmhYTUY4VFow?=
+ =?utf-8?B?NWlaL1NkNFFGNkU4eUNBUGFDc1FMUUhiWGJQbTFQUEtVN016RndBWStUSnIv?=
+ =?utf-8?B?emRFNlJ5Y1RkbUtzeFRHYkdQMFJ4Nk1OaU8vajZsWlpLVktuWDl6K1YxWE9W?=
+ =?utf-8?B?OFY2SG0zOG9oS2JaYW5yWXFUbysrQjRUcWRtRHlhUm5oMTBVQ3F0Zk1xZEZ3?=
+ =?utf-8?B?ckhET2ZXbDg3MzVGYjdiS2tNL1l5dkV3dEMrRXdRUStaR25RNm15d0dGbWJQ?=
+ =?utf-8?B?NmFYbXFwdGsxUFdPM2tYOXRlVitaZlpQdWNJRTE2b0xObnd2R1JWVXBCYSto?=
+ =?utf-8?B?MWE2bXhrMTZndk5HOFlpMVZycytvZXc0T1FidC83STRGNHdzUE95b0dYd0xF?=
+ =?utf-8?B?ZDBJNFJ0YVZrWXVuRmdCZitKUXM1K1NoNTlHREdIeWQwK0FGaVFsRDlMeUZI?=
+ =?utf-8?Q?9mZXIYaZZvy4v45B7Cr0xqOU1is+N2f+?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?Zi82VW5SemNrMGV0TE5oUUNXY3VidGsxQnhWTnlrMHl1MGt0ZDdpNi8wVHVX?=
+ =?utf-8?B?R052NWFuYTdFRVgrNnVvazVnTG4wLzlJdVltS0pvdTMrQm9YU1U3NnV0Zml4?=
+ =?utf-8?B?MXdaRXpzZStxY3p4ckpyUlFXVDlTQnJER1BERFBaWmpGRjZkVkkwV002VW14?=
+ =?utf-8?B?ek5nMTF0REVWc0djSVd0QzZVYmd5SGNwa1BIMHhLN0dnYmNlZ0hvVDM3Z2l0?=
+ =?utf-8?B?Tm9lRXR1Y3pZcUlVMGRMN2xwbHFBUTU3N0dmb213OEJmL1JPYTIzSzlocXNZ?=
+ =?utf-8?B?ZG9wSTFWQ1kzdHljV2ppT3ZhSFVkQW9iejR2Q1IzWFBKUC9oVCtqWkRnVHp1?=
+ =?utf-8?B?YlZzMExyTHYzZGxZNmFCUHpaU3JjV3plaGJJTElNV01saDYyWW5PQWJkOVNs?=
+ =?utf-8?B?bk56MVhpalpUZmUyWEdMMCtUNzd3Y0x2WmFvWWFmNnBvUWVFMHk3TkltM0h4?=
+ =?utf-8?B?ejVRMEh4NnIyeG5qUGpOTWJZdTZZaUtmZWd1azl1UVgzUmxKcEtHVGxFVW9U?=
+ =?utf-8?B?NUYzMnkwWk1HTllWam5NdUU1b093RmUycDNkR3NvTlN3dVFpVFZzUms0UjBv?=
+ =?utf-8?B?WndpZkFwYnhKdlh1SSt3cEhwMU14N01lUWNMU1FwQlRiemc1bWNEOGc3M0tQ?=
+ =?utf-8?B?SGZRc1VtQVZHU3NzWkF4MUFHVHQyVDExSjhLSUtQenBuSkdnUzhuQVAxOE1K?=
+ =?utf-8?B?WVAvU29HN2FzWGJRZGoreXYxS0xDYTZRcUM2WXQwRVVBWEVnQjNyYmJxNGpD?=
+ =?utf-8?B?cUljOEQwMzk4bVpETHJnZ3k5dGsza1VpaXQ4eUlmTDNYTnFwejBtU3RLUDll?=
+ =?utf-8?B?aHpGdTZXK2JTdzNFbCtJT0wwNzhMeGNLcHFSaWkxbmptRGFJWGlTc2Nyemla?=
+ =?utf-8?B?ZmIzelhySFFKZEdqRzhwVTR4S1EwQXYyRjQwMWh5RTdDQmtYT0M3VStXTkRu?=
+ =?utf-8?B?QVN5bVFaNDFnc0R4VHVQcnVhcFV2ZHh4b3l0aHVCYlhHS0IyK09nVzdNS21l?=
+ =?utf-8?B?ODZyeTlURzBoVSt0cVlic2tyZnNEaUJtWi81ditISjdOWDlkRDc0UnRKK05Q?=
+ =?utf-8?B?SWpINzgvM1lIYVp3SmhEejdaLzN2UEZOSVg1V216djdkK2N2L1MxQ1QrT0Rh?=
+ =?utf-8?B?S0YzRU95dXU0STJDZnE2MUwyWjJhcEIvTjFzSDN6V0NJcGw3SEw0UTRtR2Fr?=
+ =?utf-8?B?ZTM1M3I1Q28vMUxyeElpVnNmSEJ4bVFRc3BVdmJYVmVjM1VKak9FRGZMRy9i?=
+ =?utf-8?B?V3dpMFpiRHZ4eWY2STZhZ0pGR3JuY0FaRndSVEJpQkVwYUE3WGQ4WnlZNGNK?=
+ =?utf-8?B?RlRtK3kwN0RURWtQcTkzbzdYdWZtSDJuUTdTSVV1REJhck5xRjNJZlp1a2Vs?=
+ =?utf-8?B?NzFLRUVwSDFIZ1FVREVER1ZqWDZaUCthb3psR3Y0VHBWSVJYN29KY2lGbDRP?=
+ =?utf-8?B?RFhWVUlydkN3Tkd1M1BxRWNFdTdCUzVML28wUTdkUTB3ekpKd3VUVm5Zekx2?=
+ =?utf-8?B?K1ZFMG5udGVUT0NvSnpwY3JacVgzNHNnUytsQk80eFBXeDJSVm9ReTZsNm1Z?=
+ =?utf-8?B?NXRtTmVJYXJlcmtwV0MrQndZZTdQSGIxQzVKRmJ5bFlKNEIyUlhOWkNxMnVr?=
+ =?utf-8?B?R0FoUHZqbHlrNG54MmpYemdVbHFtT2hZdndoSjAyT1o4YVNOZ08wa2lYUzBL?=
+ =?utf-8?B?eVVQa3ZSUkRvQnpkN0ZJaE9XVkNJNUxGZ0tlSExDOGViRkRNSkR4OVR6Nk03?=
+ =?utf-8?B?VlV3bnRhbFovRE94QUIvQXF5UGpBY1g4djROWkQvbjNCYXVuVmxSUDBrRGJV?=
+ =?utf-8?B?aWV6NHFNZXcyM2RRR1hxalMxMGlvaTdzKy9YYURBendqSHhLTUQxd3RrUnVa?=
+ =?utf-8?B?UGRaTzdVeXJPeFRDMGE3VFBHSEJpMHZad1dkcC9LTThnZ0NrTjAwZmtQZWhu?=
+ =?utf-8?B?MWRtVnVIS1Zobml2R2JKbGJRdlBsRzM3eGtMRUJLdkJPVjZ2d2xIR3R3Y0Jz?=
+ =?utf-8?B?YnJnY1h0aEY0T1BHK0V3SlMzVGhIS2NSYUd2ZHBkM3FURnJGUzl2SXA1TU1j?=
+ =?utf-8?B?eDJJczJmZUd1YTI5bTlTQm45cElyTXVXL3VxZ0dBQTY5L0FHRHk5MkxTN3M1?=
+ =?utf-8?B?OVR4OEltQVBkYlpLc1J0V2dWcktwaGRVOEFPVmtzU1dZRUlzNktWS1B0MytG?=
+ =?utf-8?B?VEdVdFBkOStjTS9kTnFaMFBUNG5lNGI2bkF6aFowc2pXdHZ3YUx6TGpLSW5w?=
+ =?utf-8?Q?oJgZ/s7fCx/35wjOOhpqHmfgsZeVTprzAQCatGgSiQ=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a504f58-a8c6-454d-67a3-08ddfce3616c
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2025 09:59:28.2489
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: chzd/0GeRz8PnwBoS437Nh1gKMl5fbAtOJmil/MEIYFn4VMjVSNI0fDANffi44A8B03ZoxDnmKl2yO0dmCpCFpYhLFjTV01sDwJHSisViukliHLf0SCLKlBdv8XR0nxp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5948
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI2MDA5MSBTYWx0ZWRfX0QNL7zuKiasl
+ FpnflYrElwkpkGTjIeCQL+6huZnK8OTAcmwpkNxGiz9ARj0TibRhGSuoT2XMXJcceXRB9Tyhid3
+ 2bT0cBtq5fdZmfwqL6XeNraLLz6yhFstjZzUdSWsh7bAwo5KGkob+UHEZpgcOo7g6PUIgt3Ir2f
+ ayRopG8w6KztrRyyXcllGRwpZeB0CV45kchiyimg5fuUBnME6IY5+h+vIWgH2rUT3Upmxq0lxn0
+ kybF5KfFWolCdBRPrky+jNL6gTvqPYncoujtz0GQyAC6hcKPIdcYNsNCwW7LQafro+2qTFZSTcX
+ rjliuu2TlcKUp0avI6q024f19dIYNtw8tyyROoP9vfdA3VuO+5YMxsve9xEReph+PZ76ySPqcOa
+ s/7bqKKDmos92Dhy6oO2nOpJKbbGTA==
+X-Proofpoint-ORIG-GUID: 0I0kaQm1WIdUyNwbyjG9temuTNITmjuH
+X-Proofpoint-GUID: oKeGrzwlFcZ0ucBenYdHv59hNOjnlSuF
+X-Authority-Analysis: v=2.4 cv=U4WfzOru c=1 sm=1 tr=0 ts=68d66402 cx=c_pps
+ a=C5q/T6pJLpFJxMBEEzTjbA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=t7CeM3EgAAAA:8
+ a=dAaDURE6MltIYV8_kNoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=zgiPjhLxNE0A:10 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-26_02,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ impostorscore=0 clxscore=1015 suspectscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2509150000
+ definitions=main-2509260091
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 58Q59u8l1135257
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 09:58:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224068
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 09:59:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224069
 
-Thanks, lgtm.
 
-Alex
+On 26-09-2025 14:46, Alexander Kanavin wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> On Fri, 26 Sept 2025 at 11:03, Deepesh Varatharajan
+> <deepesh.varatharajan@windriver.com> wrote:
+>
+>> I=E2=80=99ve also rebased these changes on top of Ross=E2=80=99s poky-=
+contrib branch that splits LLVM from Clang. The rebase went smoothly, and=
+ the build completed successfully without
+>> requiring major changes, the only adjustment needed was to depend on l=
+lvm recipe instead of clang. Given this, would it be appropriate to send =
+a v2 now ? or should I wait till Ross's patch to merge first ?
+> Don't wait. You can include a comment about what needs to be done
+> if/when llvm is split.
+Updated and sent a V2.
 
-On Fri, 26 Sept 2025 at 11:47, Antonin Godard
-<antonin.godard@bootlin.com> wrote:
+Regards,
+Deepesh
 >
-> Add discussed in [1], our best option for customizing built-in fragments
-> is to pass them from a layer configuration. In short, the reason is that
-> our statement must be parsed before the addfragments call is parsed.We
-> also have to use the :append override as using += would override the
-> original definition of OE_FRAGMENTS_BUILTIN (since it uses a ?=
-> assignment).
->
-> Provide a test case for customizing built-in fragments with
-> meta-selftest.
->
-> [1]: https://lore.kernel.org/yocto-docs/20250925-fragments-v1-0-c9f747361fb2@bootlin.com/T/#m9f7c9f110c084eba17e0f64d8b2ac7a88af3f38e
->
-> Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-> Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-> ---
->  meta-selftest/conf/layer.conf            |  2 ++
->  meta/lib/oeqa/selftest/cases/bblayers.py | 29 +++++++++++++++++++++++++++++
->  2 files changed, 31 insertions(+)
->
-> diff --git a/meta-selftest/conf/layer.conf b/meta-selftest/conf/layer.conf
-> index ecc45ded8c..de7d6340ed 100644
-> --- a/meta-selftest/conf/layer.conf
-> +++ b/meta-selftest/conf/layer.conf
-> @@ -12,3 +12,5 @@ BBFILE_PRIORITY_selftest = "5"
->  addpylib ${LAYERDIR}/lib oeqa
->
->  LAYERSERIES_COMPAT_selftest = "whinlatter"
-> +
-> +OE_FRAGMENTS_BUILTIN:append = " selftest-fragment:SELFTEST_BUILTIN_FRAGMENT_VARIABLE"
-> diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
-> index 8c05ec5d3d..d82c5aaf37 100644
-> --- a/meta/lib/oeqa/selftest/cases/bblayers.py
-> +++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-> @@ -272,6 +272,35 @@ class BitbakeConfigBuild(OESelftestTestCase):
->          self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_VARIABLE'), None)
->          self.assertEqual(get_bb_var('SELFTEST_FRAGMENT_ANOTHER_VARIABLE'), None)
->
-> +    def test_enable_disable_builtin_fragments(self):
-> +        """
-> +        Tests that the meta-selftest properly adds a new built-in fragment from
-> +        its layer.conf configuration file.
-> +        The test sequence goes as follows:
-> +        1. Verify that SELFTEST_BUILTIN_FRAGMENT_VARIABLE is not set yet.
-> +        2. Verify that SELFTEST_BUILTIN_FRAGMENT_VARIABLE is set after setting
-> +           the fragment.
-> +        3. Verify that SELFTEST_BUILTIN_FRAGMENT_VARIABLE is set after setting
-> +           the fragment with another value that overrides the first one.
-> +        4. Verify that SELFTEST_BUILTIN_FRAGMENT_VARIABLE is set to the previous
-> +           value after removing the second assignment (from step 3).
-> +        5. Verify that SELFTEST_BUILTIN_FRAGMENT_VARIABLE is not set after
-> +           removing the original assignment.
-> +        """
-> +        self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), None)
-> +
-> +        runCmd('bitbake-config-build enable-fragment selftest-fragment/somevalue')
-> +        self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), 'somevalue')
-> +
-> +        runCmd('bitbake-config-build enable-fragment selftest-fragment/someothervalue')
-> +        self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), 'someothervalue')
-> +
-> +        runCmd('bitbake-config-build disable-fragment selftest-fragment/someothervalue')
-> +        self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), 'somevalue')
-> +
-> +        runCmd('bitbake-config-build disable-fragment selftest-fragment/somevalue')
-> +        self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), None)
-> +
->      def test_show_fragment(self):
->          """
->          Test that bitbake-config-build show-fragment returns the expected
->
-> ---
-> base-commit: 07747aa7390e98bf2853154e5fd473e4984a1d3d
-> change-id: 20250926-builtin-fragments-tests-e2d3672c1fff
->
-> Best regards,
-> --
-> Antonin Godard <antonin.godard@bootlin.com>
->
+> Alex
 
