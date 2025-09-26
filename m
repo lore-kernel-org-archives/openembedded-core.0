@@ -2,88 +2,97 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D01CAC5AC
-	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 07:38:29 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web11.12144.1758872306709763298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F23CAC5AE
+	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 07:43:19 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.12140.1758872594226409855
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 00:38:26 -0700
+ Fri, 26 Sep 2025 00:43:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lp/q4Ipl;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-78f15d5846dso17953186d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 00:38:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hxPPYgsp;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-7a97ed209cfso14490286d6.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 00:43:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758872306; x=1759477106; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1758872593; x=1759477393; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cccK2ga6t3Gpn0q1PeOvxM2J2ThmzIbZou9KJcmdyDI=;
-        b=lp/q4IplAeHQUa6i236Q7+3EhuLfoZ1AVASCvGlZFmUtZQWsXQ3U8jY8HA/Il4xUvS
-         FrvAOkRznxVvdrZmSd453EcYGrT6YBjcEqKBjv9pqdgFKNIal8hSCBYERvwOSrFKg5Iu
-         Fuhf0US1oxsiudUqEQQa3Un0eebfzW4kRgKvxxmf6nk735ObR+Wgl+zMoG0fCAxzO9oO
-         D/JJnRX3u0wRic9+fF7XHtgzcY9ojpdL/Bnrky8WWq1YtTGUG/SeG1ewATJMfgRL+pnG
-         akohVkKNglfcKypkP76/PvnYsMF5bNNOwqmed2L5CcOHvypDuZMrWF2JKKinqkJz2MLa
-         0vww==
+        bh=b1bMvrdfE+MHvQnDMsLaRyF3cOaI7ovHZ7H5x9myT5s=;
+        b=hxPPYgspoRP+xBvkc3hgKr9vwxGJ2hOBRqXn4tBjFTHQvz+m2sCCB450FPJChURMlM
+         Xv3gNtQIm8qcV6kBI5ymwQvYLADN9Me7dxmLZY/O+LV6vJy84+3eOOyMuQxQrsv5v0sh
+         5P1AhqMqidlhuSkkSv0NKoW5CjZWzW6Bb0EsS403lMm1+LgiFG3+6QdLrk7On/9kgGw/
+         lFZESfI1NlsoeyIu/uYREAVUz8ozPtfxl/C0wrQ7k6FjRY/q5WyAtA3F1Jdz0d+hMUVn
+         EbAGfBJO92SVaoGZ+FLsuJ/qLdZJ7szQb2Tufz7AaccijsSF8O1h/e5GktM8iuZjcf4I
+         z7sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758872306; x=1759477106;
+        d=1e100.net; s=20230601; t=1758872593; x=1759477393;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cccK2ga6t3Gpn0q1PeOvxM2J2ThmzIbZou9KJcmdyDI=;
-        b=RDhY6sZQTkh69nx12LuIRdROeJLZXfFaBBA3crW3qr7/eMwm6ch/MDN86f0dyb95G1
-         9lk403Ljyl/m7si+Ck8b9stQKNIOmCPb35dr6MVmzTef848laqYLCBtEmnLakqy3qS0p
-         79uPFQKe2ugiLVgBy1AuBTz9w2Px7xhukKMxkoUnaDNGF0qjlua7iSN32goae0ck5p2Z
-         fUr0CTJ+DzA7cBFnaDPNYFG7NjYoFfpDAiHFBt9jekPDu5eGdrkGojye9RDRo47GVw+8
-         V9dBrzEm0rpxDUfOQC5Y1kMJxBJD7GiTw0UXJSkgG+9PWgc1oBzubYgQeOrxc6LV3N63
-         mWHw==
-X-Gm-Message-State: AOJu0YyiB6gwomnr0P7UaT0CC/1arf9QO8aI4TUT/y/tAKObM1+KaD+e
-	nXB7hx1CHUJ1iox/PGA3XAUE4/Xhxp/dDIrbs2cp5ba5e4xmiSYAnptx+dIczhT/6Uyurxqt2PV
-	0AGU0cFJEp6rkCPwTcqBrp4GV37mEbQlizA==
-X-Gm-Gg: ASbGnctoFXHQ4V7fNX78mz3BjHZpFqp7ZUs3LiIe1ws1/XaLgvlXJtC7/NoUqGLdxFy
-	HXaRLaKkLizrsHN9ChceWG3l2RcmMD1LFyd2T+Xvuqv76ICSFUDjlEfOie+AlEsjS5l4aGeZA4K
-	VxSUvmUoQgKIPNsxaYHPXwYsMMYGdrxEwtQFjeqIdfH9GfxzJGQ4BRkGgrTUSB75Gc6Lk1Y+SDS
-	khkrAZ1J5b1nZuotlac7ekUraRut2MjtctrdgBEUayB6qBso4RxVMW81JAV795v1iLGK8muo78b
-	xXxR
-X-Google-Smtp-Source: AGHT+IHv9Yhpy9pPpCTyhCoWaZvC4JxUAcQHxqVWhT0tiZ0N1cvJVFVVDuSdZAfRUJmsTLDCqwkiBi0qLo4ik2eX58M=
-X-Received: by 2002:a05:6214:224c:b0:80c:2633:4831 with SMTP id
- 6a1803df08f44-80c26334bf0mr65534456d6.18.1758872305577; Fri, 26 Sep 2025
- 00:38:25 -0700 (PDT)
+        bh=b1bMvrdfE+MHvQnDMsLaRyF3cOaI7ovHZ7H5x9myT5s=;
+        b=SzmLGU5LqiNIE7nUcKBRXUvZ3xWOnpwYgbrQAvRpp9RFmd+J4UNXxnWk0vp2C6w6jN
+         MnWnwqhZnBgRKJ8+CBgXxP07cUa2wTYF84emZiqNc2OSxmwGX245e+YNHZA75W85+L7f
+         2AQZQ3jx2Zhv8XXRdtw0B6JKgND5vxPXROb0X90yTRAudsRG13ehZhDFjiAC0icK+qNn
+         ynJMlV8SacJxkr/ABQNUGMRIElfvLS/2LeTCeLnE7W009G/LJGgw8pyQpeNE9UFB9VBd
+         r82MFEhw8e6ccWghylVpD07jx11r2BuLx85TFU8DQvVgDIwan9+CrUviEkhyuMpk4Osn
+         On+A==
+X-Gm-Message-State: AOJu0Yzv/98VSfggJEu6sdOGna3feRFLqBRIoLkNe66yxCpKO31BWGcY
+	2kHvuGF+x/2RQR8DPGjdiNrjziAttcaO4XlqdtBFc0QDGctkZ4L6mZCD436kA1BKyiOtUJ+YiRx
+	LH5C7qwTuhWLoF37AifI9k7H77gu3n8uBtQ==
+X-Gm-Gg: ASbGncu0R5/6YGFfzsR/Sd9LpZlhTEeXzmKD9PxVU7cg5X80WGIPjuhJbiCxtSwanIJ
+	kkJG/8vl1X9XrTfcZnBdNY0TK0NXrsqhjRumoqN7jV/3UQf5dKgiKcuFks7DACIXNcLglET0Vb1
+	2sbibAyYa4MDIor93hKmgAix9DRaQlHOL/pO67zsb+2fouT4qu+21+KUd8znyLk8xi25AHMZCTl
+	hBng6tastnqpBJLspQ0kOanui/7gEaod9dLTxgTkiZm6jU6zUji0fVXkJWl5BzfOOuquTCK7iiY
+	JNVX24x8MLDDAU8=
+X-Google-Smtp-Source: AGHT+IEkZ8y+o3g7+n7bUPFzwT8gQDL8q6rYTy0QrIC4syFZgKowdS+KlCEy7ZT3cc4ovaIP7x+NkWD2F343Vp+++SA=
+X-Received: by 2002:a05:6214:1c4b:b0:792:fd55:c30c with SMTP id
+ 6a1803df08f44-80103dc44fbmr55400356d6.17.1758872593128; Fri, 26 Sep 2025
+ 00:43:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250926071158.3439500-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20250926071158.3439500-1-Deepesh.Varatharajan@windriver.com>
+References: <20250926073618.4162662-1-haixiao.yan.cn@windriver.com>
+In-Reply-To: <20250926073618.4162662-1-haixiao.yan.cn@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 Sep 2025 09:38:14 +0200
-X-Gm-Features: AS18NWCo40jqCJxpnAwrWruzjCAXm310SwDmqOTRWGprV__pQMSazQXbw4q8KJA
-Message-ID: <CANNYZj-=rkw_rpYXK9FA5wQDbXRXthUk2y_LWRs4Mym+_em6iw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: Drop rust-llvm use clang instead
-To: deepesh.varatharajan@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
+Date: Fri, 26 Sep 2025 09:43:02 +0200
+X-Gm-Features: AS18NWDKaf6b11UdEj_QXpmfEFZ7lYcpD2xFQp8YY-oDP6yOr_Hwuqh3w59ccjQ
+Message-ID: <CANNYZj_QnvcztWCEeDa98DVJjbrpZYhsb56D1jMe+pL+=_uwUA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] syslinux: clean old object and dependency files
+ before do_install
+To: Haixiao.Yan.CN@windriver.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 07:38:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224059
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 07:43:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224060
 
-On Fri, 26 Sept 2025 at 09:12, Varatharajan, Deepesh via
+On Fri, 26 Sept 2025 at 09:37, Yan, Haixiao (CN) via
 lists.openembedded.org
-<deepesh.varatharajan=windriver.com@lists.openembedded.org> wrote:
->  meta/conf/distro/include/maintainers.inc      |  1 -
->  meta/recipes-devtools/clang/clang_git.bb      |  4 +-
->  meta/recipes-devtools/clang/common-clang.inc  |  6 +-
->  ...-gcs-instead-of-gcs-target-attribute.patch | 66 -------------
->  ...r-sort-ClassInfo-lists-by-name-as-we.patch | 31 ------
->  ...-llvm-allow-env-override-of-exe-path.patch | 33 -------
->  .../recipes-devtools/rust/rust-llvm_1.90.0.bb | 98 -------------------
->  meta/recipes-devtools/rust/rust-source.inc    |  1 -
->  meta/recipes-devtools/rust/rust_1.90.0.bb     | 18 +++-
+<Haixiao.Yan.CN=windriver.com@lists.openembedded.org> wrote:
+> make[4]: *** No rule to make target
+> '/build/tmp-glibc/work/corei7-64-wrs-linux/syslinux/6.04-pre2-r1/recipe-sysroot-native/
+> usr/lib/x86_64-wrs-linux/gcc/x86_64-wrs-linux/12.4.0/include/stdarg.h',
+> needed by 'zlib/adler32.o'.  Stop.
+>
+> Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
+> ---
+>  meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+> index 449a75ebf8ab..ea4bf6e6a88b 100644
+> --- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+> +++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+> @@ -107,6 +107,7 @@ do_compile:class-target() {
+>  }
+>
+>  do_install:class-target() {
+> +       oe_runmake firmware="bios" clean
+>         oe_runmake firmware="bios" install INSTALLROOT="${D}"
 
-1. Can you please split this patch in two? One that switches rust to
-use upstream clang, another that drops rust-llvm recipe. I'm not sure
-we should do the latter, having two patches would allow separate
-reviews.
-2. There is an upcoming patch from Ross that splits llvm from clang, I
-guess this would have to be rebased on it first?
+I'm not sure I understand what happens here. The issue seem to be that
+Makefile refers to a file that no longer exists in the sysroot. How
+would performing a 'make clean' address that issue?
 
 Alex
 
