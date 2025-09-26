@@ -2,256 +2,121 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C1FCAC5B8
-	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 16:50:06 +0000 (UTC)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
- by mx.groups.io with SMTP id smtpd.web11.155.1758905404858514761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31704CAC5AE
+	for <webhook@archiver.kernel.org>; Fri, 26 Sep 2025 17:06:06 +0000 (UTC)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+ by mx.groups.io with SMTP id smtpd.web11.508.1758906360402478108
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 09:50:04 -0700
+ Fri, 26 Sep 2025 10:06:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WohmarGC;
- spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-9032edd72c1so205250139f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 09:50:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bhcxQHjo;
+ spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-91122373653so34427639f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 10:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758905404; x=1759510204; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1758906359; x=1759511159; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iULGvmfZraU2K4IBR6kxA8m6poW2ST+JIZ9HpTKgYpg=;
-        b=WohmarGC88OyDBdM4bjK5goA++gWuaonEGE2Q+68G3mJHZ8sxeGko+Eg3wHvgEwTBR
-         Hu/FflENvvUg1ib3+KDqYnyong7ePa4z77f1YN++fRImOEfHZLJzuzDhTaTbxr57PDCe
-         l+VGkQMm/PX36GcvxRUpkNkUO9mWkZzVqcrd8ok8gTwaJkSX48hx7RFdXXTTZT+ElSXO
-         rRinBqbWCTPIxK1u3xQbafAPZeu/9i4RB6+nCuCaUtt8yLMojYi03uXuRkrI3ObLjvE2
-         UkQK+xudG56NInsnVO0Y+VKZWTnxWp/Em3xwKeLKGFK03MeVIPjCvTbYYOWH+XqjN30D
-         8SLw==
+        bh=TXyUJjbRODRsx+oURtwVjv5FThhW+Y+sllrzk85sDEk=;
+        b=bhcxQHjoC90k+XK/Go363tAjY9eUNOoFhaThauWHPvmf+lr3X0KPAAd3IZWrgmBFf4
+         FNqUW2eUCPgwh1qU/BhCvlKBFaBP7WYvZfeCtLF5BxQyZl/qf2Eyxe36CzOaT+6RQ7T6
+         0MJmMyHzJXO0VJbVzYoxB5tmcIFZe21WPdXoMFnteaVO8e6jermKFdnRhHPAVhS3djN3
+         nzknas22xDI9kJEyFXwySkof+BP4YPRNZbEL6sFKiIitbfX08y+KYEGnzRG/OZirtO69
+         VklebcutgHtUHV/wQHBD392UyXxedcTofSDoZ2SLaebS2BBtXUT+zVaifWMrIx+MXVva
+         B76Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758905404; x=1759510204;
+        d=1e100.net; s=20230601; t=1758906359; x=1759511159;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iULGvmfZraU2K4IBR6kxA8m6poW2ST+JIZ9HpTKgYpg=;
-        b=pBHnWXyP4VFRUL3oa9ZILfzuzJdOV0HRQqrOMqYA55ZS4rtwVWJWTCBygSQFVIxFYS
-         rk0ZYPpHkhGtWx2L6ukWyXQw9rwIj72WKMk32XwmJdpHCkzDt2NV8vO5SPEdRzyfS+UX
-         Yn1nC+HEWqOqJ3KtqiFXEjpxRx0uXw1h/dwcl2K+rqi5iNPUvt/OzTKi6CUSvicpHU7Q
-         Z1u9tm7PZ96mI6dRLiYiBz9D1kuEOMNayKbPPgWWoM1hJyWKQVlQSbj+93061eGaPS4y
-         uI+eDyf5du/+kRgaFhDSQhLw4yjAriJE6/ky/wmpOiJLyY8uS54npLbglbBUdyujnWSz
-         CANg==
-X-Forwarded-Encrypted: i=1; AJvYcCVxAv0LmADVHDFN4JLJBNzRUb66K8/SxlQK9Htx5ZPQCh42xuzEXd74d9IuzjL+j+7BJOEWgg2TKHBfOAtV96UhgA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzcbMJJ6Pfa3GMT5LotXjWtJlvhvigWCO8uBFfIpJJj9MMNU3pi
-	gEJspvd/dV3oFSC8QfYhXiotXFQaBYE3RunybcT2P0gj6Kx/jzbUIooLEbbN5TqX
-X-Gm-Gg: ASbGnctwKoF6kPttnNXVNEQcmsJw1cQZ9hX5peVCzbzsxTZPtf0TXhEHD+y00SGUCsO
-	28JbAC4/RhHH2z5XfrlQhEV1j9vRq3i1eUXqS2PCvg8LO2RACs3BL/wj4mK4T6alK3qmLHOJv+2
-	uYX+LhKoTSyhkmZzIUUU6eSGK2BiVXqkBSd1oL6KckxhBJO/o0pQWG/yJJJcCMbPUi1f7dAyI94
-	2yv7WG/yjkupWXmDhleyypIcZ7dVaWTRkYXoWumBvxUeGZp5cwCHPexgopp26J4kJujVtRNpQia
-	uMKi2QMfAuNPOundREGyoULphAIISAM8AY4+/x3nSQdyjQbd6H3P0dhVPYKBi/cZDS5PrN3DF8j
-	K/qW2l4Vrd3JE1dm20BYo6IWr+o76tGFG4yT1fRtbyeyjophS2wBq8xcsrXrWLtgRwzRQav/bEF
-	ZWCsy0KRUNssrbCdkBzZDXets/i8YpSa6sSboVMbkuaIKs7dl4IX1j1Gdts25Chg3/KYZPgblJr
-	UUyUvwsbXgJ8senH2hLr32Q/PBkD6IrY1BWXgCG2JIiQghcNa0L
-X-Google-Smtp-Source: AGHT+IG3xrzCQzMoMfi2RaFEqonb7+WvwIzF0qqrbSfuxxI6ELrd+pg0gc3moiNswYvCcA11H/dm8g==
-X-Received: by 2002:a05:6602:29c1:b0:915:3f6f:9801 with SMTP id ca18e2360f4ac-9153f6f9c69mr211836139f.19.1758905403724;
-        Fri, 26 Sep 2025 09:50:03 -0700 (PDT)
+        bh=TXyUJjbRODRsx+oURtwVjv5FThhW+Y+sllrzk85sDEk=;
+        b=hv2OQXPB4dTeGGZwaXzPiO8fQstYbG2AFzq15RRAsU/Jf44sNZ5P+VWatT/kIVjwoH
+         A8/2Qkit67TrqbQxmhI1ukPYGFsEXTgThac13ZWLcgxb7GHmzyQdh/mgj6wWYV2Et35e
+         zzhHNTe7IJPL0VuThSafg3OsMvH2XSc//B5IZmK0npRK2MNJl5QNxzSm+PSjnYbPqK/u
+         /nnur5I3zEUjnbOI4uNnEVR4/8XIXEoIT/AAoFFx8T641qkkqo8zhlg8JAWccgNT+k0s
+         Ph9Fvhyayw2v91sj0T5TbkITqRuUKv/9gjMVcq4DleioaClq35lw4hrCTro3G6OOCH0w
+         0y3w==
+X-Gm-Message-State: AOJu0YyYnt1maQ+xtzgYxCPop8ZlcewQQeVTLk4eV10/feKJ1RTkjOF0
+	i1gj7ZmfDCZMD4yK9L1c4kNJqRxAKUUXBWgu3xqmuF6De7ZN+u+8izEXMkHL8zyV
+X-Gm-Gg: ASbGncuCA8tseCW+/MjlDYoWmw1eH7H0m9VCJWIn+F64tPuqUqmJxgVE26uOQFhfAFC
+	gXnt5aEGFWFn4cuGuEgvaMk85VW9AwCdi2ozoElVvpiv8fNbxydXuTST/o2dGmgaCzBqTBjM4BD
+	HDLoyDRJ6bB4H+g/xv0fsY4cg14vXJ1CXSZlQFWoekCC4sCUc46epWcnRgdSo195GXd0OTr+bf1
+	9XHMeuXrp6ljvwHG9+ocO+v3XNAMeWRxRMrDZulsjQ0g9KW/E1hqypg4QH0Zlf2Eo1Yy/opYjtr
+	L0IAJ8vH1ELZNxPwqxqrR0d1rzZuBtb7jiQqf9+HotqjUS7FCzskvte0pq7El6GDVKYS4i8Pkkg
+	JhJEAF0J8sezLiB3Qw5wHJi4/kqUFCt+UKPQ1dSUm5cnmIJ5B9rYH5JBQjv0BnzZPEq+KoDoVss
+	gKo06AUCuBwXuDtaX/MbaFXJmhHWlwiCwhKXnURuBFmOCp3tkVNwPL+ZUuBivVSxHObL0IS8YoL
+	MZII6821X8JLHLIxRkjlammPkqahmY5IhlBA3l9sg==
+X-Google-Smtp-Source: AGHT+IEwQz42TANkCWupxJGvzQYf+Z09lEkx3T2FldJYi5EmW6ZSZa1qOAJEI8ZGvAz//7Mo+9QuVw==
+X-Received: by 2002:a92:b704:0:b0:420:f97:7446 with SMTP id e9e14a558f8ab-4259567c94emr88932985ab.22.1758906359341;
+        Fri, 26 Sep 2025 10:05:59 -0700 (PDT)
 Received: from ?IPV6:2601:646:8201:fd20:8d7c:fa44:7948:cb52? ([2601:646:8201:fd20:8d7c:fa44:7948:cb52])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-56a6b152a1asm2014005173.84.2025.09.26.09.50.02
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-425c016c7f2sm23268395ab.36.2025.09.26.10.05.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Sep 2025 09:50:03 -0700 (PDT)
-Message-ID: <09c1040b-742f-49a2-a36b-629104f1d1d2@gmail.com>
-Date: Fri, 26 Sep 2025 09:50:02 -0700
+        Fri, 26 Sep 2025 10:05:58 -0700 (PDT)
+Message-ID: <551f878a-05d0-47a1-98f3-5eb31bafc6ea@gmail.com>
+Date: Fri, 26 Sep 2025 10:05:57 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH V3 1/2] rust: Use clang instead of rust-llvm
-To: deepesh.varatharajan@windriver.com,
- openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-References: <20250926102411.3742996-1-Deepesh.Varatharajan@windriver.com>
+Subject: Re: [OE-core][PATCH] syslinux: clean old object and dependency files
+ before do_install
+To: alex.kanavin@gmail.com, Haixiao Yan <haixiao.yan.cn@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20250926073618.4162662-1-haixiao.yan.cn@windriver.com>
+ <CANNYZj_QnvcztWCEeDa98DVJjbrpZYhsb56D1jMe+pL+=_uwUA@mail.gmail.com>
+ <8f9969b9-aa03-4225-b72d-7df98d3f9490@windriver.com>
+ <CANNYZj_+3yOR14u2s6ooqQg8CuQYZqOhmi3M=k903gedmgTLLw@mail.gmail.com>
 Content-Language: en-US
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20250926102411.3742996-1-Deepesh.Varatharajan@windriver.com>
+In-Reply-To: <CANNYZj_+3yOR14u2s6ooqQg8CuQYZqOhmi3M=k903gedmgTLLw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 16:50:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224087
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 17:06:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224088
 
 
 
-On 9/26/25 3:24 AM, Varatharajan, Deepesh via lists.openembedded.org wrote:
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+On 9/26/25 1:27 AM, Alexander Kanavin via lists.openembedded.org wrote:
+> On Fri, 26 Sept 2025 at 10:03, Haixiao Yan <haixiao.yan.cn@windriver.com> wrote:
 > 
-> Updated the Rust build to depend on Clang instead.
+>> Executing `make clean` deletes all existing .o and .d files from the OBJ
+>> directories, ensuring that zlib is rebuilt from scratch and preventing
+>> stale dependencies from causing build errors.
 > 
-> *Summary of discussion with the rust upstream about using latest LLVM instead of Rust maintained LLVM fork.
-> https://internals.rust-lang.org/t/can-we-use-proper-clang-instead-of-llvm-fork-what-rust-uses/23489
+> Thanks for the explanation. The next question I had was why the
+> standard clean mechanism that is usually triggered in do_configure()
+> isn't working, and indeed I am seeing this in the recipe:
 > 
-> *Upstream LLVM is generally compatible:
-> - Rust does support building with upstream (vanilla) LLVM, especially the latest
-> major release and the one or two preceding ones.
-> https://rustc-dev-guide.rust-lang.org/backend/updating-llvm.html#updating-llvm
+> do_configure() {
+>          oe_runmake firmware="bios" clean
+> }
+> ...
 > 
-> *Impact on Yocto Rust upgrades:
-> - Rust upgrades shall always check for updates on rust forked llvm and backport
-> the relevant patches to clang's llvm.
+> do_configure:class-target() {
+>          # No need to do anything as we're mostly shipping the
+> precompiled binaries
+>          :
+> }
 > 
-> *Regarding the rust forked llvm local patches:
-> - There are no local patches on rust forked llvm other than the backported fixes
-> from llvm master.
-> 
-> *We now add these flags "-Clink-arg=-lz -Clink-arg=-lzstd" because of this following
-> diff otherwise we will get errors during link time.
-> 
-> Setup in rust-llvm
-> -DLLVM_ENABLE_ZLIB=OFF \
-> -DLLVM_ENABLE_ZSTD=OFF \
-> -DLLVM_ENABLE_FFI=OFF \
-> 
-> Setup in clang
-> -DLLVM_ENABLE_FFI=ON \
-> -DLLVM_ENABLE_ZSTD=ON \
-> 
-> *When multilibs enabled:
-> 
-> llvm-config expects static libraries to be located in the lib directory rather than
-> lib64. However, since LLVM is built as a non-multilib component, the lib directory
-> doesn't contain any library files. To accommodate this without breaking multilib
-> behavior, we copy the required library files appropriately.
-> 
-> Previously, when we depended on rust-llvm, this worked because we specified:
-> -DCMAKE_INSTALL_PREFIX:PATH=${libdir}/llvm-rust
-> 
-> With this setup, llvm-config was installed inside ${libdir}/llvm-rust, which included
-> its own bin and lib directories. Thus, llvm-config located in bin would correctly find
-> the libraries in the adjacent lib directory.
-> 
-> Even when multilib was enabled or not, llvm-config would still look for libraries under
-> lib in this structure, so everything functioned as expected.
-> 
-> *Changes needs to be done when llvm splits from clang:
-> In rust recipe:
-> Update the dependency from:
-> DEPENDS += "ninja-native clang" to DEPENDS += "ninja-native llvm"
-> 
-> In llvm recipe:
-> Apply the same changes that were made in the Clang recipe, as those
-> configurations have now been moved to the LLVM recipe after the split.
-> 
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> ---
->   meta/recipes-devtools/clang/clang_git.bb     |  4 ++--
->   meta/recipes-devtools/clang/common-clang.inc |  6 +++---
->   meta/recipes-devtools/rust/rust_1.90.0.bb    | 18 ++++++++++++++----
->   3 files changed, 19 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
-> index 53bca1c24f..3e117b308b 100644
-> --- a/meta/recipes-devtools/clang/clang_git.bb
-> +++ b/meta/recipes-devtools/clang/clang_git.bb
-> @@ -83,7 +83,6 @@ OECMAKE_SOURCEPATH = "${S}/llvm"
->   # https://github.com/llvm/llvm-project/blob/main/llvm/CMakeLists.txt
->   LLVM_TARGETS_GPU ?= "${@bb.utils.contains_any('DISTRO_FEATURES', 'opencl opengl vulkan', 'AMDGPU;NVPTX;SPIRV', '', d)}"
->   LLVM_TARGETS_TO_BUILD ?= "AArch64;ARM;BPF;Mips;PowerPC;RISCV;X86;LoongArch;${LLVM_TARGETS_GPU}"
-> -LLVM_TARGETS_TO_BUILD:class-target ?= "${@get_clang_host_arch(bb, d)};BPF;${LLVM_TARGETS_GPU}"
->   
->   LLVM_EXPERIMENTAL_TARGETS_TO_BUILD ?= ""
->   
-> @@ -107,6 +106,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
->                     -DLLVM_ENABLE_PIC=ON \
->                     -DCLANG_DEFAULT_PIE_ON_LINUX=ON \
->                     -DLLVM_BINDINGS_LIST='' \
-> +		  -DLLVM_INSTALL_UTILS=ON \
->                     -DLLVM_ENABLE_FFI=ON \
->                     -DLLVM_ENABLE_ZSTD=ON \
->                     -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
-> @@ -137,7 +137,7 @@ EXTRA_OECMAKE:append:class-target = "\
->                     -DCMAKE_AR=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ar \
->                     -DCMAKE_NM=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
->                     -DCMAKE_STRIP=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-strip \
-> -                  -DLLVM_TARGET_ARCH=${HOST_ARCH} \
-> +                  -DLLVM_TARGET_ARCH=${@get_clang_target_arch(bb, d)} \
->                     -DLLVM_DEFAULT_TARGET_TRIPLE=${TARGET_SYS}${HF} \
->                     -DLLVM_HOST_TRIPLE=${TARGET_SYS}${HF} \
->                     -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
-> diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-> index bf3a63914a..c22e3c1b19 100644
-> --- a/meta/recipes-devtools/clang/common-clang.inc
-> +++ b/meta/recipes-devtools/clang/common-clang.inc
-> @@ -30,10 +30,10 @@ def get_clang_arch(bb, d, arch_var):
->       elif re.match('aarch64$', a):                      return 'AArch64'
->       elif re.match('aarch64_be$', a):                   return 'AArch64'
->       elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a): return 'Mips'
-> -    elif re.match('riscv32$', a):                      return 'RISCV'
-> -    elif re.match('riscv64$', a):                      return 'RISCV'
-> +    elif re.match('riscv32$', a):                      return 'riscv32'
-> +    elif re.match('riscv64$', a):                      return 'riscv64'
->       elif re.match('p(pc|owerpc)(|64)', a):             return 'PowerPC'
-> -    elif re.match('loongarch64$', a):                  return 'LoongArch'
-> +    elif re.match('loongarch64$', a):                  return 'loongarch64'
->       else:
->           bb.fatal("Unhandled architecture %s" % arch_val)
->           return ""
-> diff --git a/meta/recipes-devtools/rust/rust_1.90.0.bb b/meta/recipes-devtools/rust/rust_1.90.0.bb
-> index 5d804c7398..c2cb8f8829 100644
-> --- a/meta/recipes-devtools/rust/rust_1.90.0.bb
-> +++ b/meta/recipes-devtools/rust/rust_1.90.0.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=11a3899825f4376896e438c8c753f8dc"
->   inherit rust
->   inherit cargo_common
->   
-> -DEPENDS += "rust-llvm"
-> +DEPENDS += "ninja-native clang"
->   # native rust uses cargo/rustc from binary snapshots to bootstrap
->   # but everything else should use our native builds
->   DEPENDS:append:class-target = " cargo-native rust-native"
-> @@ -28,8 +28,8 @@ PV .= "${@bb.utils.contains('RUST_CHANNEL', 'stable', '', '-${RUST_CHANNEL}', d)
->   
->   export FORCE_CRATE_HASH = "${BB_TASKHASH}"
->   
-> -RUST_ALTERNATE_EXE_PATH ?= "${STAGING_LIBDIR}/llvm-rust/bin/llvm-config"
-> -RUST_ALTERNATE_EXE_PATH_NATIVE = "${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config"
-> +RUST_ALTERNATE_EXE_PATH ?= "${STAGING_BINDIR}/llvm-config"
-> +RUST_ALTERNATE_EXE_PATH_NATIVE = "${STAGING_BINDIR_NATIVE}/llvm-config"
->   
->   # We don't want to use bitbakes vendoring because the rust sources do their
->   # own vendoring.
-> @@ -188,6 +188,16 @@ python do_configure() {
->       bb.build.exec_func("setup_cargo_environment", d)
->   }
->   
-> +#llvm-config expecting static libraries in 'lib' instead of 'lib64'.
-> +#Since LLVM is built as a non-multilib component, the 'lib' directory
-> +#doesn't have any library files when multilibs enabled. So, copying
-> +#library files without impacting multilib behavior.
-> +do_compile:append:class-target() {
-> +if [ -d ${STAGING_DIR_TARGET}/usr/lib64 ]; then
-> +    cp ${STAGING_DIR_TARGET}/usr/lib64/libLLVM*.a ${STAGING_DIR_TARGET}/usr/lib/.
-> +fi
-> +}
+> Should this second function be removed instead, so that the standard
+> one takes over and does the cleaning?
 
-llvm-config can deduce paths to be self-relative, You might try to 
-create a copy of native llvm-config in STAGING_LIBDIR or STAGING_BINDIR 
-and that might help
+I wonder, if it is cleaning the pre-compiled stuff too, it seems
+the intent is to use pre-compiled binaries for target. So checking
+if those are kept intact after clean might be prudent.
 
-> +
->   rust_runx () {
->       echo "COMPILE ${PN}" "$@"
->   
-> @@ -199,7 +209,7 @@ rust_runx () {
->       unset CXXFLAGS
->       unset CPPFLAGS
->   
-> -    export RUSTFLAGS="${RUST_DEBUG_REMAP}"
-> +    export RUSTFLAGS="${RUST_DEBUG_REMAP} -Clink-arg=-lz -Clink-arg=-lzstd"
->   
->       # Copy the natively built llvm-config into the target so we can run it. Horrible,
->       # but works!
+> 
+> Alex
 > 
 > 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#224075): https://lists.openembedded.org/g/openembedded-core/message/224075
-> Mute This Topic: https://lists.openembedded.org/mt/115446166/1997914
+> View/Reply Online (#224063): https://lists.openembedded.org/g/openembedded-core/message/224063
+> Mute This Topic: https://lists.openembedded.org/mt/115444935/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
