@@ -1,161 +1,314 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 679B1CAC5B9
-	for <webhook@archiver.kernel.org>; Sat, 27 Sep 2025 06:37:16 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.6946.1758955035992783457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D588DCAC5B9
+	for <webhook@archiver.kernel.org>; Sat, 27 Sep 2025 10:41:47 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.9112.1758969701024260100
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Sep 2025 23:37:16 -0700
+ Sat, 27 Sep 2025 03:41:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LsdVFobZ;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3304dd2f119so2314117a91.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Sep 2025 23:37:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758955035; x=1759559835; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RSLgZTyaKLZtxpN8OYBanQ/QZJtzJiozyJSRiiZp82o=;
-        b=LsdVFobZ8OT/unB1b93RAMZQWlwsKUc9ezttxK4WJ53uF1bv69HfZIT5BZW8nljY9N
-         oxEDPXFhdeJPMHLjLH12M9A3YP3nmHDTQNncp93z6XRbNnKXs50CtdDk7PUtE0A5Zi+d
-         lzvm2wXrqN+seHWMZX/UR0TABeKD61M+odFpnVLsEKvM4kVoaJgOl7pte1ZyqnzWNfq7
-         x5aE21C7MKeYpV/3gQFIngnFd6NPbXF6071mCTD6WUMD4oPGHffJ9J3iLOhen4a6+dQu
-         33uFDpxiHJq12cdCyqsIecGnD3pPUaCLIJiE1A6rgH7nwWh3ljg3gViJoyXZsuOn8dt8
-         E1rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758955035; x=1759559835;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RSLgZTyaKLZtxpN8OYBanQ/QZJtzJiozyJSRiiZp82o=;
-        b=L0y9WT7UKr7xRAfXwaUDKw96y539+KmgpO5v5u+1lkvbDO+u907Ba2qV8KSDuDv5XC
-         41Bstj80LGvPRlchiS6j5IxbhDmOFy0XF5LSijVrUvxW7yXGnHleufo5Il9ZJixcj5nn
-         RNiS+AXAEV0out6fA7oZ129XVqraS5TqN+FVDeA/SG2d0+ohERwgfeZlZ/jxBr7ZyoU/
-         cLQpmoYh/AzXkLkQisa1Qjr9dPd53fuaiDkL768+WPBBZ+518yoiZoyyKlQDyuKCyiFP
-         NX9PGR5qYUIHGUJ+Lz6yf2oeXVXyGQ9pSlM+nyQ8zHn37T5eTXTfCXU4AxBMKDCC4ezk
-         HfmQ==
-X-Gm-Message-State: AOJu0YySUaOw+GZBaMtp4fO17Ckx+yLXBjHY2RbVdZ1RsuBPCXoOtvJl
-	4KHGESpQ94eRm1cahHrOzeti7Uv7/iR5vYt5Xt/dhUPWxMqLpt/5MUVBJdO72wZr
-X-Gm-Gg: ASbGnctvAXnfcTKMti3VYSVLKNImj6/K9+G4FL7GgXEwcSMv78eJcYh4lzNeJMLVJHK
-	OFSytWnVRZO8k4ZlcRGRZzHSxJ6v8i/SOwHnkg171NDeASrXzUubokWimGRK6ka54izhgwSu27q
-	+GQ5N2dv7N1ujCVATzIzlObBhdILoCBBcu/Hjz72END2MyoLLI8dfdUsjpdyJzGezcznwF/xCUm
-	NygLd8OPHwdecLVdA3w2kD5WBUqbWL9T+iDDhLqEBgxzw/VQk5A6jR3C5AKIriXJYo6iAqRghwy
-	f3sUpUKPR4mjkeHNkr72+k2p5XOxHluHzpqWkeKVw0aQbXPdBe4rSGCrhsWlkG+8a3xO9D3nXLK
-	GfZEGghb7podr4aE/o9ExWvZDVSac8d0iPHkSQw7vWHZGH1ikP0f8BdAQB+OI32NpVPz96JAmYg
-	2d57TV+ZweoeRfRMG26l29BXiraywFudIHb/vqwzpijQIPuY/mq4Q=
-X-Google-Smtp-Source: AGHT+IFSnc9ZzRja2JR/B+dNNRnH62J9aTBi09V5XUYuwqOhJo8mXGfqKhxL3TQYShfv+phGiF/Nzg==
-X-Received: by 2002:a17:90a:dfd0:b0:32e:18fb:f05f with SMTP id 98e67ed59e1d1-3342a2bed85mr11146845a91.20.1758955034866;
-        Fri, 26 Sep 2025 23:37:14 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::fa7e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bda71bdsm10789990a91.11.2025.09.26.23.37.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 23:37:14 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3E370152B
+	for <openembedded-core@lists.openembedded.org>; Sat, 27 Sep 2025 03:41:32 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F18483F5A1
+	for <openembedded-core@lists.openembedded.org>; Sat, 27 Sep 2025 03:41:39 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] gn: Add recipe
-Date: Fri, 26 Sep 2025 23:37:12 -0700
-Message-ID: <20250927063712.387453-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.0
+Subject: [PATCH v2] meson: upgrade to 1.9.1
+Date: Sat, 27 Sep 2025 11:41:36 +0100
+Message-ID: <20250927104136.614365-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Sep 2025 06:37:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224095
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Sep 2025 10:41:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224096
 
-gn is a commonly used build tool to generate ninja files, used
-in a lot of recipes e.g. chromium, qtwebengine, perfetto, hafnium etc.
-these recipes come from different layers e.g. meta-qt6/meta-arm/meta-oe
+Changes in this release:
 
-since not all layers depend on meta-oe ( meta-arm does not ), its not
-a possible option.
+751b09390 Bump versions to 1.9.1 for release
+d0abb2133 Boost python must have a library component.
+e6732c220 Check for header only Boost libraries.
+08429813b get_llvm_tool_names: add llvm 21
+f3b383217 docs: fix pre-1.8 order for per-subproject options
+a2d395498 Revert "test cases: do not pass global option on command line"
+d0f82544e Revert "tests: skip test common/223 in the -Ddefault_library=3D=
+... jobs"
+2abdb2f0b options: put back in place 1.7 ordering of opt=3Dvalue vs subp:=
+opt=3Dvalue
+83cbc65c2 Fix not passing user option args to scan-build build
+e746db0b4 Document internal dep support in pkgconfig.generate `requires` =
+arg
+f6ab732b7 msetup: not-found subprojects do not have known options
+5d21e653a utils: make .wraplock optional
+d1e219cb8 Fix Cygwin test failure.
+0fc77e2d7 coredata: do not write None to cmd_line.txt
+533ba5cb3 options: do not raise exception for unknown options in -U comma=
+nd
+ae822d1d4 test cases/common/32 has header: disable undef with libcxx
+c58f0d951 rustdoc: skip --crate-type option
+b8e0e9d3d fix transient failure on rust/12 bindgen
+75cf757b7 coredata: check for per-subproject compiler and linker argument=
+s
+a747c4ea8 coredata: check for per-subproject compiler options
 
-Given the usecases, putting it in core will benefit the ecosystem
-and reduce some duplication. This recipe is taken from meta-arm
+Drop the two backported patches.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-v2:
- * Disable shallow clone, build fails gen.py does not work with it
- * Add build progress for do_compile
- * Update to latest commit on main
-    
- meta/conf/distro/include/maintainers.inc |  1 +
- meta/recipes-devtools/gn/gn_git.bb       | 51 ++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/gn/gn_git.bb
+ ...heck-for-header-only-Boost-libraries.patch | 58 -------------------
+ .../0001-Make-CPU-family-warnings-fatal.patch |  6 +-
+ ...-not-manipulate-the-environment-when.patch |  8 +--
+ ...python-must-have-a-library-component.patch | 34 -----------
+ ...pport-building-allarch-recipes-again.patch |  2 +-
+ .../meson/{meson_1.9.0.bb =3D> meson_1.9.1.bb}  |  4 +-
+ 6 files changed, 9 insertions(+), 103 deletions(-)
+ delete mode 100644 meta/recipes-devtools/meson/meson/0001-Check-for-head=
+er-only-Boost-libraries.patch
+ delete mode 100644 meta/recipes-devtools/meson/meson/0002-Boost-python-m=
+ust-have-a-library-component.patch
+ rename meta/recipes-devtools/meson/{meson_1.9.0.bb =3D> meson_1.9.1.bb} =
+(95%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 0988bf50a72..85a9914469b 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -224,6 +224,7 @@ RECIPE_MAINTAINER:pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gmp = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glslang = "Jose Quaresma <quaresma.jose@gmail.com>"
-+RECIPE_MAINTAINER:pn-gn = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gnome-desktop-testing = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-gnu-config = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-gnu-efi = "Yi Zhao <yi.zhao@windriver.com>"
-diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/gn/gn_git.bb
-new file mode 100644
-index 00000000000..0bd4320b635
---- /dev/null
-+++ b/meta/recipes-devtools/gn/gn_git.bb
-@@ -0,0 +1,51 @@
-+SUMMARY = "GN is a meta-build system that generates build files for Ninja"
-+HOMEPAGE = "https://gn.googlesource.com/gn/"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=0fca02217a5d49a14dfe2d11837bb34d"
-+
-+DEPENDS += "ninja-native"
-+UPSTREAM_CHECK_COMMITS = "1"
-+
-+SRC_URI = "git://gn.googlesource.com/gn;protocol=https;branch=main"
-+SRCREV = "81b24e01531ecf0eff12ec9359a555ec3944ec4e"
-+PV = "0+git"
-+
-+BB_GIT_SHALLOW = ""
-+
-+B = "${WORKDIR}/build"
-+
-+# Map from our _OS strings to the GN's platform values.
-+def gn_platform(variable, d):
-+    os = d.getVar(variable)
-+    if "linux" in os:
-+        return "linux"
-+    elif "mingw" in os:
-+        return "mingw"
-+    else:
-+        return os
-+
-+do_configure[cleandirs] += "${B}"
-+do_configure() {
-+    python3 ${S}/build/gen.py \
-+        --platform=${@gn_platform("TARGET_OS", d)} \
-+        --out-path=${B} \
-+        --no-static-libstdc++ \
-+        --no-strip
-+}
-+
-+# Catch build progress from ninja
-+do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
-+
-+do_compile() {
-+    ninja -C ${B} --verbose
-+}
-+
-+do_install() {
-+    install -d ${D}${bindir}
-+    install ${B}/gn ${D}${bindir}
-+}
-+
-+BBCLASSEXTEND = "native"
-+
-+COMPATIBLE_HOST = "^(?!riscv32).*"
-+CFLAGS += "-Wno-error=maybe-uninitialized"
+diff --git a/meta/recipes-devtools/meson/meson/0001-Check-for-header-only=
+-Boost-libraries.patch b/meta/recipes-devtools/meson/meson/0001-Check-for=
+-header-only-Boost-libraries.patch
+deleted file mode 100644
+index 3d2810aff92..00000000000
+--- a/meta/recipes-devtools/meson/meson/0001-Check-for-header-only-Boost-=
+libraries.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From f16897135c394d36656da0078613864076300e07 Mon Sep 17 00:00:00 2001
+-From: Jussi Pakkanen <jussi.pakkanen@mailbox.org>
+-Date: Fri, 29 Aug 2025 14:57:06 +0300
+-Subject: [PATCH] Check for header only Boost libraries.
+-
+-Upstream-Status: Backport [https://github.com/mesonbuild/meson/commit/6a=
+9a81619c139d0f6ae3d265f7366e61615d92a1]
+-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+----
+- mesonbuild/dependencies/boost.py | 22 ++++++++++++++++++++--
+- 1 file changed, 20 insertions(+), 2 deletions(-)
+-
+-diff --git a/mesonbuild/dependencies/boost.py b/mesonbuild/dependencies/=
+boost.py
+-index 662f985..e153e8f 100644
+---- a/mesonbuild/dependencies/boost.py
+-+++ b/mesonbuild/dependencies/boost.py
+-@@ -452,6 +452,10 @@ class BoostDependency(SystemDependency):
+-                 break
+-         libs =3D sorted(set(libs))
+-=20
+-+        any_libs_found =3D len(libs) > 0
+-+        if not any_libs_found:
+-+            return False
+-+
+-         modules =3D ['boost_' + x for x in self.modules]
+-         for inc in inc_dirs:
+-             mlog.debug(f'  - found boost {inc.version} include dir: {in=
+c.path}')
+-@@ -462,7 +466,7 @@ class BoostDependency(SystemDependency):
+-                 mlog.debug(f'    - {j}')
+-=20
+-             #   3. Select the libraries matching the requested modules
+--            not_found: T.List[str] =3D []
+-+            not_found_as_libs: T.List[str] =3D []
+-             selected_modules: T.List[BoostLibraryFile] =3D []
+-             for mod in modules:
+-                 found =3D False
+-@@ -472,7 +476,21 @@ class BoostDependency(SystemDependency):
+-                         found =3D True
+-                         break
+-                 if not found:
+--                    not_found +=3D [mod]
+-+                    not_found_as_libs +=3D [mod]
+-+
+-+            # If a lib is not found, but an include directory exists,
+-+            # assume it is a header only module.
+-+            not_found: T.List[str] =3D []
+-+            for boost_modulename in not_found_as_libs:
+-+                assert boost_modulename.startswith('boost_')
+-+                include_subdir =3D boost_modulename.replace('boost_', '=
+boost/', 1)
+-+                headerdir_found =3D False
+-+                for inc_dir in inc_dirs:
+-+                    if (inc_dir.path / include_subdir).is_dir():
+-+                        headerdir_found =3D True
+-+                        break
+-+                if not headerdir_found:
+-+                    not_found.append(boost_modulename)
+-=20
+-             # log the result
+-             mlog.debug('  - found:')
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warni=
+ngs-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-=
+warnings-fatal.patch
+index 98ca08c2ca9..46754bf5084 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fat=
+al.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fat=
+al.patch
+@@ -1,4 +1,4 @@
+-From c01e5e29953e0302988f2d60adc50ebfa0e5d670 Mon Sep 17 00:00:00 2001
++From 9854e557b77612afb095e9868bb7cba12bc1b1cb Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -26,10 +26,10 @@ index 43fad0c..27be871 100644
+          endian =3D literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index 2a9cf16..6b2bd6b 100644
++index 489ef50..1567efa 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+-@@ -436,10 +436,8 @@ def detect_cpu_family(compilers: CompilersDict) -> =
+str:
++@@ -438,10 +438,8 @@ def detect_cpu_family(compilers: CompilersDict) -> =
+str:
+          if compilers and not any_compiler_has_define(compilers, '__mips=
+64'):
+              trial =3D 'mips'
+ =20
+diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-=
+manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson=
+/0001-python-module-do-not-manipulate-the-environment-when.patch
+index f6544470132..c1b82935931 100644
+--- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipul=
+ate-the-environment-when.patch
++++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipul=
+ate-the-environment-when.patch
+@@ -1,4 +1,4 @@
+-From 6c3734f533ee7ad493188c8fc17bb1c65b65f0bd Mon Sep 17 00:00:00 2001
++From c0ffc404415a52bfa3358e32ecd17f064a241b38 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 19 Nov 2018 14:24:26 +0100
+ Subject: [PATCH] python module: do not manipulate the environment when c=
+alling
+@@ -12,10 +12,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.=
+com>
+  1 file changed, 1 insertion(+), 5 deletions(-)
+=20
+ diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies=
+/python.py
+-index ab040b5..a34b271 100644
++index b028d9f..3d7cd9b 100644
+ --- a/mesonbuild/dependencies/python.py
+ +++ b/mesonbuild/dependencies/python.py
+-@@ -412,9 +412,6 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
++@@ -418,9 +418,6 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
+                      empty.name =3D 'python'
+                      return empty
+ =20
+@@ -25,7 +25,7 @@ index ab040b5..a34b271 100644
+                  try:
+                      return PythonPkgConfigDependency(name, env, kwargs,=
+ installation, True)
+                  finally:
+-@@ -423,8 +420,7 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
++@@ -429,8 +426,7 @@ def python_factory(env: 'Environment', for_machine: =
+'MachineChoice',
+                              os.environ[name] =3D value
+                          elif name in os.environ:
+                              del os.environ[name]
+diff --git a/meta/recipes-devtools/meson/meson/0002-Boost-python-must-hav=
+e-a-library-component.patch b/meta/recipes-devtools/meson/meson/0002-Boos=
+t-python-must-have-a-library-component.patch
+deleted file mode 100644
+index c03c47534e9..00000000000
+--- a/meta/recipes-devtools/meson/meson/0002-Boost-python-must-have-a-lib=
+rary-component.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From d0644d543f4df39cf2ba14337000ee019cb20b6d Mon Sep 17 00:00:00 2001
+-From: Jussi Pakkanen <jussi.pakkanen@mailbox.org>
+-Date: Fri, 29 Aug 2025 22:51:48 +0300
+-Subject: [PATCH] Boost python must have a library component.
+-
+-Upstream-Status: Backport [https://github.com/mesonbuild/meson/commit/80=
+917ca8c1a5af499cc6e004ad5d5a050da9045e]
+-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+----
+- mesonbuild/dependencies/boost.py | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/mesonbuild/dependencies/boost.py b/mesonbuild/dependencies/=
+boost.py
+-index e153e8f..fdb35d4 100644
+---- a/mesonbuild/dependencies/boost.py
+-+++ b/mesonbuild/dependencies/boost.py
+-@@ -440,6 +440,8 @@ class BoostDependency(SystemDependency):
+-         mlog.debug('  - potential library dirs: {}'.format([x.as_posix(=
+) for x in lib_dirs]))
+-         mlog.debug('  - potential include dirs: {}'.format([x.path.as_p=
+osix() for x in inc_dirs]))
+-=20
+-+        must_have_library =3D ['boost_python']
+-+
+-         #   2. Find all boost libraries
+-         libs: T.List[BoostLibraryFile] =3D []
+-         for i in lib_dirs:
+-@@ -483,6 +485,9 @@ class BoostDependency(SystemDependency):
+-             not_found: T.List[str] =3D []
+-             for boost_modulename in not_found_as_libs:
+-                 assert boost_modulename.startswith('boost_')
+-+                if boost_modulename in must_have_library:
+-+                    not_found.append(boost_modulename)
+-+                    continue
+-                 include_subdir =3D boost_modulename.replace('boost_', '=
+boost/', 1)
+-                 headerdir_found =3D False
+-                 for inc_dir in inc_dirs:
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-alla=
+rch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-=
+building-allarch-recipes-again.patch
+index ed35498c306..2e294b5b7f2 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-rec=
+ipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-rec=
+ipes-again.patch
+@@ -1,4 +1,4 @@
+-From e123195e5990c3071385defd96dfab1211e98c08 Mon Sep 17 00:00:00 2001
++From fac479734d7f6e04eba71c8193623465d9eb0228 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+diff --git a/meta/recipes-devtools/meson/meson_1.9.0.bb b/meta/recipes-de=
+vtools/meson/meson_1.9.1.bb
+similarity index 95%
+rename from meta/recipes-devtools/meson/meson_1.9.0.bb
+rename to meta/recipes-devtools/meson/meson_1.9.1.bb
+index 10ac7d9697e..4738484bbbf 100644
+--- a/meta/recipes-devtools/meson/meson_1.9.0.bb
++++ b/meta/recipes-devtools/meson/meson_1.9.1.bb
+@@ -14,10 +14,8 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/meson-$=
+{PV}.tar.gz \
+            file://0001-python-module-do-not-manipulate-the-environment-w=
+hen.patch \
+            file://0001-Make-CPU-family-warnings-fatal.patch \
+            file://0002-Support-building-allarch-recipes-again.patch \
+-           file://0001-Check-for-header-only-Boost-libraries.patch \
+-           file://0002-Boost-python-must-have-a-library-component.patch =
+\
+            "
+-SRC_URI[sha256sum] =3D "cd27277649b5ed50d19875031de516e270b22e890d9db65e=
+d9af57d18ebc498d"
++SRC_URI[sha256sum] =3D "4e076606f2afff7881d195574bddcd8d89286f35a17b4977=
+a216f535dc0c74ac"
+ UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)$"
+=20
+ inherit python_setuptools_build_meta github-releases
+--=20
+2.43.0
+
 
