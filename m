@@ -1,139 +1,150 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5525DCAC5B5
-	for <webhook@archiver.kernel.org>; Sun, 28 Sep 2025 11:48:46 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.30922.1759060119259451487
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0142BCAC5BB
+	for <webhook@archiver.kernel.org>; Sun, 28 Sep 2025 16:37:47 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.30])
+ by mx.groups.io with SMTP id smtpd.web11.35324.1759077465136673611
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Sep 2025 04:48:39 -0700
+ Sun, 28 Sep 2025 09:37:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nhl+Ffvk;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3322e63602eso4490841a91.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Sep 2025 04:48:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1759060118; x=1759664918; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FYTmYNceF9BoOPB1lckhlZHHMBU65QSAX0eCGGj9i9M=;
-        b=nhl+Ffvk25h+8K6LzxQbapjS7nSZRIk+jpxaFr3kaEx11h4ZrYgVrwHbhcdepccJxM
-         sf5MO52C/LmT7ndxRgJ6N2GzfPSZsPylol4LUQAytINNIpeHvkDAI5un9Zrso/lglfzq
-         OoHm7PzlJZ9ZCE+2QAoQf1dCbaZIl9uifVd3zSPBI0CjpwJT7KYjbSWT76dCPwjSMh2v
-         km6dqbNFcSFstb6UXGL0xpLp1D7coXbmB7/h5uwcrP/ZV+jO489IM6ezjlbuCQXBGuYH
-         VydXSmxTejz7dndQdXg6P6VF2bth4p22BK8xE4Lo1R6vDz3gAH7YFLcg9FyFFqB9h2Pa
-         P4jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759060118; x=1759664918;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FYTmYNceF9BoOPB1lckhlZHHMBU65QSAX0eCGGj9i9M=;
-        b=fIYNv4o7KQvCiC8U+m50nTbhRgx2GtdAw4tB4039UW8RZHVBh5VYCFs65MiHZaHFYd
-         L2DbxtyhPga2hydOYBVAJhHuVH21aemdp+pn5qhAKmDR4gURmiByb0KjB1X8CPskLOBQ
-         MTHvJuyLY9Fn+rWG5Rijckak6fO+WABAr30uoyu1UbHHFmCTP/pU14nrGZ3ysZY300jt
-         39u7E4rKUt9nq2bgoFDKqGpbXIfE2Duo/CD4ZJ1sq7RcyRABZQFw7xQmeYEf41O2GEpi
-         l2R0uXG0y0cuM3/Jlix8oxJw7C7jgG7SgZA2jLgEiGUY3lmEkjr35OW+Dy496uD/GAS0
-         RIeQ==
-X-Gm-Message-State: AOJu0YzP/32bDXh10EHKDHyqwE/SJyaHJKYWrfGwBNQ9tBspGWjtSF+C
-	RkxX2ho64o3Raua3cHUhxaOyGDLm5BUbVkzJdAcYgH/aJiAjSe7TJD91j+McUTbE6KI5OMBlT90
-	xbDYIKaM=
-X-Gm-Gg: ASbGncuNt2rYHNzD3Xrd1Un5etf3/gqpV4yOImyQXqtZp3Uhq7o55T01bTn1XvkJ/Be
-	Mxez9wFJdufLtKrkJ5vHa9XF1kFBzWd1ugh5ry+/2Is3KzaDkT8K2+WZN9vZN9HNnAt9Uip0Bae
-	UE/KHQCKmpFUoGBboN+j1ovueeCaaFZMiC4OEd5dKQToMkJSeVdCCOhCkt8pb2xCescUQzplLGy
-	oIt49pM9oriJUGitHGRwS8ATNAbhSz+ktJZMp/7xYMq+SDqzCq1JpjK1pqWWZsr8W6+n6mY7KAQ
-	aHDnc9dJ991DOcIxzo8g9Og3ZxNlcGPBob7woqdsWZ34xBtLgpUKkcM9i1tlqGiLtcbjlFowvkL
-	H1yRIK97jrBRmDnbZnrPWS3d8pft9oFER9buajBBSsIisa874
-X-Google-Smtp-Source: AGHT+IHCT2M/3SSfnnH9PAU6UryAXMX4SarJBNIxJbQOCRTGSepEIz+wk4lDMX10nuxoxwecibfzlQ==
-X-Received: by 2002:a17:90b:4d84:b0:332:84c1:31de with SMTP id 98e67ed59e1d1-3342a2c2308mr13071021a91.25.1759060118555;
-        Sun, 28 Sep 2025 04:48:38 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341be2338csm13980829a91.22.2025.09.28.04.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Sep 2025 04:48:38 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id C53D710031D; Sun, 28 Sep 2025 01:48:37 -1000 (HST)
-Subject: OE-core CVE metrics for walnascar on Sun 28 Sep 2025 01:45:50 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 28 Sep 2025 01:48:37 -1000
-Message-Id: <20250928114837.C53D710031D@builder.sakoman.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=Zux1Fl77;
+ spf=pass (domain: axis.com, ip: 40.107.159.30, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ml9/GxMMMlahSg0OdCrzIOXzyEmotpJGyFaZQoZwjpBmLg50VGfPhRpqFJZeUYpHOEeOtcDrtpK3/sOmTYKjvnLR/IwcUB15RL3Gxff9nIkdTfmBCZfrSyyjKJHpPd5+j/GVgNLHExNeC/H49sXldcLoiizSJ45B6ECbq/lGWMKPvoO1jlL7JX69YEgCMgaIR7v6cucpuNOheGpIqnVpAcjhgB1jFPnTCda5GCBCcF1rr2zV8AkpQoeOKJqLqJV34BLLv4yhWoGCdU6A3KBthzjMrlig97f1vHCoLbpYzdb7p2vADgCxPPyruDJjWacr5OwSzMASB6RhXew+gYK2EA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kl8wJY2Lk+YldHEiBcP01eiTlxn41X6QZ6eOyFkrqYs=;
+ b=n4V7CO5rkYtlyB5IrIxlBiHO7r4QpIQT4J+uKRBjRN+TbRnB4zEvzRL/DDJO+vz6HqZDVPmOnbutJIMiiE30M2f5hPYzDikYAYM/yvbQ6+e51LY8Ax4VhgD7rdYq72eUDAAIwhtUJxQGSRXjxJOmu9640QA9OvfUc63lukSAfqq6k5ZZx31rUCNAcdZzyfAH/GzoMXrZGAltFaeinCsaLeaZSnR/FHdixxVkny62CbO787qk/sAJTo5JY2XdGlfilwJl64CVpOZcFNPuy2pggXebz6zcHvx/X51fiywYnJkkKNdVAW/JJsf+KjDAioUQLN/e/Ib1OUC6xSO0+OH8UA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kl8wJY2Lk+YldHEiBcP01eiTlxn41X6QZ6eOyFkrqYs=;
+ b=Zux1Fl77H3SrOIWQBlj9psB5652vynCBF/lPRDHJz2tKrx5ZEoWBc5wS2eT/wKDQqYzdeymCglUp4j81l3KEp5GTe79l3YhRxvS4Fc/zdCyZxYUwP5kDFIf9aLVVLJVhUBm1yZxhq3o4mRtVSP8xaEo7jO32ONYLqwR/gmNdO50=
+Received: from DUZP191CA0019.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4f9::29)
+ by DU5PR02MB10820.eurprd02.prod.outlook.com (2603:10a6:10:521::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.16; Sun, 28 Sep
+ 2025 16:37:39 +0000
+Received: from DB5PEPF00014B98.eurprd02.prod.outlook.com
+ (2603:10a6:10:4f9:cafe::1d) by DUZP191CA0019.outlook.office365.com
+ (2603:10a6:10:4f9::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.16 via Frontend Transport; Sun,
+ 28 Sep 2025 16:37:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB5PEPF00014B98.mail.protection.outlook.com (10.167.8.165) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9160.9 via Frontend Transport; Sun, 28 Sep 2025 16:37:38 +0000
+Received: from se-mail01w.axis.com (10.20.40.7) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Sun, 28 Sep
+ 2025 18:37:37 +0200
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Sun, 28 Sep 2025 18:37:37 +0200
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id E12FE8A9
+	for <openembedded-core@lists.openembedded.org>; Sun, 28 Sep 2025 18:37:37 +0200 (CEST)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id F1FDA12025A; Sun, 28 Sep 2025 18:37:36 +0200 (CEST)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] shadow: Increase the maximum group name length to 32 (the default)
+Date: Sun, 28 Sep 2025 18:37:33 +0200
+Message-ID: <20250928163733.1250308-1-pkj@axis.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B98:EE_|DU5PR02MB10820:EE_
+X-MS-Office365-Filtering-Correlation-Id: 579796b8-d989-45c0-dd80-08ddfead5617
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?Zd9oOPtdc91ZbfhCEIGguWfV3MTE5FF1oJEpUHp7qpyRvPIKdV50YUecoCV+?=
+ =?us-ascii?Q?ou8aAuxfwzVZ0V/JBwVIq+0gGCDvAHOKzprMNDZLzLM+wp9tnNf2KR6SekfV?=
+ =?us-ascii?Q?aILVkA6RpPTnCDs2ds80R7gFPH1rvgeiVFwvDS+3IAqWTjSNhqb3WzDmZfhA?=
+ =?us-ascii?Q?YQ7p0Wag1Mb5RF0weQwiDVOw2/wdhFeqXHqGyCirAAYYh7E+aPcJmg6n2Jq/?=
+ =?us-ascii?Q?+LICCisaLotv2BbWOPsAY95AUWu35gYLaRVSaHHiLBvTHQBfjuXTFXmQg7pQ?=
+ =?us-ascii?Q?SCGi01jPqalFcqQps2SHH17lWb4QrgeNFwsu97SX//AfbWNdzp6A9awWYytJ?=
+ =?us-ascii?Q?qrRlWUpbnThjxRygy56Pw1xx1wilKRL+g5ZcwO4F0CuyOULamOo3t4CwAMIq?=
+ =?us-ascii?Q?eLtOHbBRH+XgTv5dewJsHWsnFVhtYbUiTGAY8QcHovX40XQy3M5zviNno83e?=
+ =?us-ascii?Q?5CAJfBfMVNhPrQda98doaMOYH7lkbKOdwrnm1LlwT9HGrkOdHrQSow2TBfEa?=
+ =?us-ascii?Q?VAW2B/DhvOX+3Jrc4tRy+2e96pHhPuJrjJxcQdh9C4Wrk9mvVbhKPDJAOfd6?=
+ =?us-ascii?Q?WlBxAqsU7Rtqmk84FHbUKW8n9NxAa6KSFO8RfIsLtyeJSwo+VHG+oyLw/Ptb?=
+ =?us-ascii?Q?8POote9ohslYPX8Ol99TFDXwbeYeWieTLxnKYFnRZuBLrbs6/NMfrj/TDxS4?=
+ =?us-ascii?Q?r3Kzfbi7hTx0UxRWGtSs0v9SRScZqKWkIsZwuimcccEvnyMNeHlzoGUf/slb?=
+ =?us-ascii?Q?3Wdawss7GfXeiXOpMN9eSeUoz0NWrICaYA9NBUWlXpER2vyrR1+RNy0x9xH/?=
+ =?us-ascii?Q?JHuqWXalxyDotS3Fz1KCSL0Hd8DTOlb7dZPseIAp2Q3ykED70dZdeOpLk0lh?=
+ =?us-ascii?Q?XPycfu3QXwDEQbwp2/D2aqDzYvSCk+BavKdnNHwq/hXiEtyWmQlyr3PdS+wa?=
+ =?us-ascii?Q?u/tL7LgYz3YDqRvhDiV9Uah31JU1gwY3AMUPsiGURh1GsGx9wh4FDVpNTLmZ?=
+ =?us-ascii?Q?OIsiCKb5ntMbLqqqrjqylGxWd21QTKlz9ujpClX7iq0q+2y4LPmKRMhol0bE?=
+ =?us-ascii?Q?av93aX60RTVY04SFy3PTSTsWu1QK4nVoUZWRRIudePQyxcCVXBj/IxwiVTej?=
+ =?us-ascii?Q?/BPbRUV0sYcZHrr3AhJVs6A77ApWw20gBVH297JaA0bW+XYMfjZNonWnA4nm?=
+ =?us-ascii?Q?Yxr5ZHhe7t2dvCI2akNPiFdNvku8WZdQNOwrbLXkjk+jGWKgMLVu1Icvamir?=
+ =?us-ascii?Q?LB0sOuEwSrnS1mIybZPBQVdtVYP2aV43RUcibjFlteYDAjE+u1mwIwNlsygP?=
+ =?us-ascii?Q?w1ZE2AT8LUOHWP+7ZAcX7VCsQ5mG5bQBwB6aTJyJhcLkUttcAHlH5W6ybolP?=
+ =?us-ascii?Q?Fkxpm3ZA1iaiCS0UH67pgaAXuAy2QjtTZlvaZnZyeeSARYLwI+f2qZBsrl6T?=
+ =?us-ascii?Q?+AcznGL3jsIKe+JLB3+zSuZymYru5xHDnMFCNoQMN80R81gALK82zEsAueFa?=
+ =?us-ascii?Q?6yQrfzeBnIHcX3ycvd1yMvlD4PCj+2UxL7z0QT8guhHCiQ43iywlR1kMwBAH?=
+ =?us-ascii?Q?8PKyzeBetE5ueSPvmXQ=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2025 16:37:38.3053
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 579796b8-d989-45c0-dd80-08ddfead5617
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B98.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR02MB10820
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Sep 2025 11:48:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224101
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Sep 2025 16:37:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224102
 
-Branch: walnascar
+Back in 2014, the maximum group name length was increased from 16 (the
+default) to 24. Since then, the default has increased to 32, and our
+configuration is now actually a decrease in maximum group name length.
 
-New this week: 4 CVEs
-CVE-2025-46394 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-46394 *
-CVE-2025-59798 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59798 *
-CVE-2025-59799 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59799 *
-CVE-2025-59800 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59800 *
+Remove the configuration to use the default instead, which aligns the
+maximum group name length with the maximum user name length.
 
-Removed this week: 18 CVEs
-CVE-2024-11586 (CVSS3: N/A): pulseaudio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-11586 *
-CVE-2024-2312 (CVSS3: N/A): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-2312 *
-CVE-2024-56738 (CVSS3: N/A): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-56738 *
-CVE-2025-2759 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-2759 *
-CVE-2025-37925 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37925 *
-CVE-2025-3887 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-3887 *
-CVE-2025-47183 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47183 *
-CVE-2025-47219 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47219 *
-CVE-2025-47806 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47806 *
-CVE-2025-47807 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47807 *
-CVE-2025-47808 (CVSS3: N/A): gstreamer1.0 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-47808 *
-CVE-2025-58050 (CVSS3: N/A): libpcre2:libpcre2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-58050 *
-CVE-2025-58060 (CVSS3: N/A): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-58060 *
-CVE-2025-58364 (CVSS3: N/A): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-58364 *
-CVE-2025-7424 (CVSS3: N/A): libxslt:libxslt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-7424 *
-CVE-2025-8851 (CVSS3: N/A): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-8851 *
-CVE-2025-8961 (CVSS3: N/A): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-8961 *
-CVE-2025-9165 (CVSS3: N/A): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-9165 *
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-extended/shadow/shadow_4.18.0.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-Full list:  Found 33 unpatched CVEs
-CVE-2019-14899 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-38096 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2023-3397 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-39176 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39176 *
-CVE-2023-39179 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39179 *
-CVE-2023-39180 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39180 *
-CVE-2023-4010 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-6238 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6535 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2024-50613 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-50613 *
-CVE-2024-57995 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-57995 *
-CVE-2024-58097 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-58097 *
-CVE-2024-6519 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6519 *
-CVE-2024-8354 (CVSS3: N/A): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
-CVE-2025-21751 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21751 *
-CVE-2025-21833 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21833 *
-CVE-2025-21949 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-21949 *
-CVE-2025-37803 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37803 *
-CVE-2025-37860 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-37860 *
-CVE-2025-40014 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-40014 *
-CVE-2025-4598 (CVSS3: N/A): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-4598 *
-CVE-2025-46394 (CVSS3: N/A): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-46394 *
-CVE-2025-52194 (CVSS3: N/A): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-52194 *
-CVE-2025-59798 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59798 *
-CVE-2025-59799 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59799 *
-CVE-2025-59800 (CVSS3: N/A): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2025-59800 *
-
-Summary of CVE counts by recipe:
-  linux-yocto: 25
-  ghostscript: 3
-  libsndfile1: 2
-  qemu:qemu-native:qemu-system-native: 2
-  busybox: 1
-
-For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+diff --git a/meta/recipes-extended/shadow/shadow_4.18.0.bb b/meta/recipes-e=
+xtended/shadow/shadow_4.18.0.bb
+index 6842a46dd7..ba65fc7196 100644
+--- a/meta/recipes-extended/shadow/shadow_4.18.0.bb
++++ b/meta/recipes-extended/shadow/shadow_4.18.0.bb
+@@ -42,7 +42,6 @@ inherit autotools gettext github-releases pkgconfig
+ export CONFIG_SHELL =3D "/bin/sh"
+=20
+ EXTRA_OECONF +=3D " \
+-                 --with-group-name-max-length=3D24 \
+                  --enable-subordinate-ids=3Dyes \
+                  --without-sssd \
+                  ${NSCDOPT}"
 
