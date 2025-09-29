@@ -1,160 +1,205 @@
-Return-Path: <kavinaya@qti.qualcomm.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16490CAC5B9
-	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 16:13:03 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.2133.1759162372947297768
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52080CAC5B9
+	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 16:41:53 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.63])
+ by mx.groups.io with SMTP id smtpd.web10.3153.1759164111003501291
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Sep 2025 09:12:53 -0700
+ Mon, 29 Sep 2025 09:41:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Z8yZNMHm;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: kavinaya@qti.qualcomm.com)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58T9nMTu017957;
-	Mon, 29 Sep 2025 16:12:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	enfNZ40hFGmKcrJgtmbtyej/OTYA2PlsxBdYSpm1uKw=; b=Z8yZNMHm+jqKun1D
-	mslEIqh1gQc+9j8mqqr5IsnjDgfzqYa40wgaE3asLgaBnBFL/1RwgNhr9S2jQcL4
-	jPkoBhR4Ki1FErl1bGuNFHH44xa1A2eHi5UNwIty14CCg30dngcgkylmVxGAtjnS
-	iHULDc6A8iSn7rvoM4Tq3Sz5+GJ8+cGF0cPTOU3OYJfPIRVl3azCeqr1c1cVqfRW
-	zDKOWf53jjX9h+r13Uq2LldFD+F9UUIoPXgo6qjutYaOU3Xu2P/4/DbYE97fZ6MD
-	qb+6VifJK9znXpoRleQmrZRbAXmQwKq8Oi8CViBuvMOQkU3OhEmWDrfvWcsut99A
-	4m4f9Q==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e80tp07b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 29 Sep 2025 16:12:51 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58TGCo1b005310
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 29 Sep 2025 16:12:50 GMT
-Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.24; Mon, 29 Sep 2025 09:12:48 -0700
-From: Kavinaya S <kavinaya@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Kavinaya S <kavinaya@qti.qualcomm.com>,
-        Alexander Kanavin
-	<alex.kanavin@gmail.com>
-Subject: [PATCH v3 1/1] fitimage: Add support for custom compatible string via optional parameter
-Date: Mon, 29 Sep 2025 21:42:25 +0530
-Message-ID: <20250929161225.1290751-2-kavinaya@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250929161225.1290751-1-kavinaya@qti.qualcomm.com>
-References: <20250929161225.1290751-1-kavinaya@qti.qualcomm.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=TK5nELEl;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=TK5nELEl;
+ spf=pass (domain: arm.com, ip: 40.107.130.63, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=bOIgCXBV3083ipAG5bvI8TQYfXqErPetkSBhYDgR3i1mJgWe3+ncEJ/n4Sesh3TCqRwmunGAK0v+mlPXM3EYqSGzAM+N0M+sDZ9VMPNlOE9JphKqMvWLuWkpUOLLEds3SzQoLDdDyHh4nMAw6Vuco1L57fZhk2ad2zq3/f2xSnwGYpb92cADxro46UnKRNJ7Jna5sCXGbLTgZLUgt2zJM2zzE4Qjny+XSdWjXA9c/vcX3warhNx44LJ4pysGMp2J3gzSnzPzwkpHxh5c1tkBZeslfZ3Jm7ZZyVJ8Xx8c/5dJR8w+iT+8K1Pw4Jkc+lgGltQ+6RqMd4W7iH+7XlG1/g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p36pnC1m9jtCZ1EoKsFx+LijWlZx8gMvHbtQpfNYKYQ=;
+ b=GYAb3133ebqYbUsaJensaWj5BfAhD3McA1EqjIvD4DYgVpWKP4PvgYwTdEQwXTw9dwlH7GaNwtU5nSDMyEm46IMzh0V25Nfz45wmh9J0S5y0vZsxgprXUzp4OORdsRv95N9IQmQXsQavEEsZdRiw22YvyTcU417YnZUnostqbfXZxo4fIX9126lIZYN3rGzc4eIja7ji4DsCHnoMf4w+kxjL+ESavmHXh34+p+XQz3CXoxI+cs33iIWrGEflbk9hJ3BcGp99Hg4FM66pyNfLBCUiri7u7hKk2noMZotL+olZ5iG827CG0gKm/TyZJ8j3o/DLOSWElNk2QGuJpQl3aw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=eng.windriver.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p36pnC1m9jtCZ1EoKsFx+LijWlZx8gMvHbtQpfNYKYQ=;
+ b=TK5nELElyZAhp7NLxYIB5gqZjfIAK3Jm3CKlSkcJhpxczhSzyaEe8VaBlNwn2hXmQRzzcFWblTDctpl7jtyYVUUGmmrDfJ8wo2j53qHrgY7M76sCnlG25Ha43zgYo1hRQBCQJ6GgIfEAbNGMQC6gc0XM8iYpCx48LhvclVWlqZ0=
+Received: from DUZPR01CA0132.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bc::22) by AS8PR08MB6582.eurprd08.prod.outlook.com
+ (2603:10a6:20b:339::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Mon, 29 Sep
+ 2025 16:41:46 +0000
+Received: from DB5PEPF00014B91.eurprd02.prod.outlook.com
+ (2603:10a6:10:4bc:cafe::ae) by DUZPR01CA0132.outlook.office365.com
+ (2603:10a6:10:4bc::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.17 via Frontend Transport; Mon,
+ 29 Sep 2025 16:42:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB5PEPF00014B91.mail.protection.outlook.com (10.167.8.229) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.9
+ via Frontend Transport; Mon, 29 Sep 2025 16:41:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=skjd532AHfLfqggKsQcsh42snyGBQxocfzaJ81rMD7VIYX2gs7edBYNgJt15ht2pd9/LQJX0J6TpPAyEmWNp2P+baprq/dirW2xQwEGpwXmQD+mANz1CtgHB578DD5bT5KoqL0Cx+ALkyI7IgoLAURsy9K0JYSrXtJAxEWVTxwnYcyVhN1eU97Ev4Am1q6eUS9gt71zPbXaOkAlKMaJLVBOvkC5it1f19n6bdxsbtPufZf5pRfEyy6R2lo3JG8giYwRXQIEr/xTEgn08bJdHKKUJlz0wMB3GoU9LPSA1b0rDwqOgu5uBbwyYH0cTf7gzEwyHRw7gpePNfUNkeMKjDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p36pnC1m9jtCZ1EoKsFx+LijWlZx8gMvHbtQpfNYKYQ=;
+ b=LZGwMPj+V+rDAIkoMFjNRmQgpoApZuiCRM5A5h76Nrt1yuhKCuTRI9MfrJv6EsrtzsvRx+5ndADs79568MT6jkliLHwoq1lQKzkfm+T0j/03SxO3ZC4Hlm6DZVCL5IhDtFHbq1OY0D/bx7xHzRnOAjf4KuMFEEqGrKCQsLtKucLP5plycC9v7ppLwUaaN5u9b6AogfLp4tbkzfdcwBoOJdQTMvqmGNe7QDV5WgDH1ta5f3rTsytNFy0FO1TDy4gGXQOQNSPbx9fAwtu1u4hBhHZ56OS81NYQMDvEpfl08CKbwdnPVAWrKYvLBXeyHBujdMkz1388gDAx7TF/tdDGmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p36pnC1m9jtCZ1EoKsFx+LijWlZx8gMvHbtQpfNYKYQ=;
+ b=TK5nELElyZAhp7NLxYIB5gqZjfIAK3Jm3CKlSkcJhpxczhSzyaEe8VaBlNwn2hXmQRzzcFWblTDctpl7jtyYVUUGmmrDfJ8wo2j53qHrgY7M76sCnlG25Ha43zgYo1hRQBCQJ6GgIfEAbNGMQC6gc0XM8iYpCx48LhvclVWlqZ0=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS2PR08MB9293.eurprd08.prod.outlook.com (2603:10a6:20b:59b::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.16; Mon, 29 Sep
+ 2025 16:41:11 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9160.014; Mon, 29 Sep 2025
+ 16:41:10 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "hongxu.jia@eng.windriver.com" <hongxu.jia@eng.windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] xcb-util-errors: fix racing on out of source
+ tree build
+Thread-Topic: [OE-core] [PATCH] xcb-util-errors: fix racing on out of source
+ tree build
+Thread-Index: AQHcLfIUzKD9rraIwUyBc1ye2+rfybSqY8gA
+Date: Mon, 29 Sep 2025 16:41:10 +0000
+Message-ID: <A5A09505-7119-485C-A0C6-C88DE980263C@arm.com>
+References: <20250925075646.1146511-1-hongxu.jia@windriver.com>
+In-Reply-To: <20250925075646.1146511-1-hongxu.jia@windriver.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS2PR08MB9293:EE_|DB5PEPF00014B91:EE_|AS8PR08MB6582:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c1caf9a-a1fd-4862-16df-08ddff771315
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?us-ascii?Q?QIz7eXAEGbvipLXP0rtQRHjTBTYmZoayU2qTER+TP34kCHpMwpA5m6GJ5MGW?=
+ =?us-ascii?Q?39AkDLmv9q/lpqLeeb8TUmtQqiQYl+ysKflPks0+jZ5wnxhC3UMPSCOammjY?=
+ =?us-ascii?Q?shwIiHNQGHd+NFKWc0Ew1sJVlwsREbGloQrE72iKsMXJatxSP/uLeZMzWCC0?=
+ =?us-ascii?Q?LCBce1u8zDyko/IRjWWsQSTYIGlTSfyCVZHC1/9AR0iQbyNpKfUcW420VsBe?=
+ =?us-ascii?Q?m/T3agzRs8r0+RGhtLs82pYepaYbxOpAGVB2QCCHgZmLgymtbofPDK3GUWIH?=
+ =?us-ascii?Q?oHqz9S+vc/1WmmAmViw/R5AH7r0IzAWeUWcWjI5BkslLBWC+ao3pbHuOH36F?=
+ =?us-ascii?Q?AcPg4/ufEzIT4JEqwPypXGGPQKLEvSREFpE5rv1ZioMeT97UGvuW+hGwUlvC?=
+ =?us-ascii?Q?UDJ5FqNA3wWTEA551EZ9K2fEW/ED4ttZVtkBzTooI59MIgQ67hYzaRKlPvt+?=
+ =?us-ascii?Q?vMFAPsGAqWzgLjkh4lsaEhQaff4YJhFEzZNQtc6C4Y/T3AB6hYZcf1ITHmGF?=
+ =?us-ascii?Q?VX5P8Q11XCwaVNYzgup3B4+1uAClC/LYNm+YOgshVLl+tYmMpT0ejZ++hSYp?=
+ =?us-ascii?Q?Yvoc4eZm5bV7IhVRJu1wHaKjL4Gus4NO8OSK8kvMCiRi/4OrfRqFgW60wwyl?=
+ =?us-ascii?Q?9A0YRznOLyuMt+SPDH4qoJRRw+SSzH5wIlup/fFaUciw5iDXHboTRpXILfdd?=
+ =?us-ascii?Q?LNaQ7Y1yRpHjjOhYCgp66XoB+La9z0f0EjE4TGFuE5hEN+0/3oUCBqw/oBKA?=
+ =?us-ascii?Q?s/Q7q+GtSu3OcHob3J4r2B8CdjpsLuQz+iSGio6953DokhANA9Z7R9zj4q1P?=
+ =?us-ascii?Q?dKm69Ny6uBBXcFQvGCYl89dNximkp/enGMGT31jnyjQZKoBkah1emjYJ90Rl?=
+ =?us-ascii?Q?S5fBVxv8gH4AwFiCcbIurYjsuwJeRudQIKitUT+cNvP2SVTPPJYj/k91RUXa?=
+ =?us-ascii?Q?L3tEt3RFQeaIP1hjfP3UUB2XPiq5HooNSAE3Lv2FOeRsyjGSS/38oqQmJEOZ?=
+ =?us-ascii?Q?4sQxddFJMVrB40FeBFMYN3jQYzqPI8CH158mLErzNsMvzfhhx/il+KwPGHUR?=
+ =?us-ascii?Q?OaKe24BjxWtZHa0sCxQHq7Tzud38xG5/C7HM5URnPjWMIp9ns4iTuPVYPO8q?=
+ =?us-ascii?Q?9Z/CrrHnRQ5WBt7s0PiTxCuTPxUJYvOv+fgfvcDA0fUuU9gXSnQvG3Mvst4p?=
+ =?us-ascii?Q?OWZ+V73fx2kZT4fgvP6Xzu21lsjsRTCaCiyWPhhk2CVeo1QxR7MT44Nqg3FY?=
+ =?us-ascii?Q?8+piPC8eSq8Qi/7zqEwIWyFdfSo1FBKOaT12OtZ+8CuP/ulFsr4M+3nC12uE?=
+ =?us-ascii?Q?+CPxbKZYuYLGitwM5dKGz7RpDE9pmuGB0HarVtW8pW783Lex1a8o8ppwZQnA?=
+ =?us-ascii?Q?7S7Qjx85q9afE4kAmiC/Gd43AWQuhZd0udeejJfrdKnp0UGefD+Z8qt18IM4?=
+ =?us-ascii?Q?JRQfRnubs4+Yn0xO2Hyj3/J/poUyPY/sVa/GLq5acwfZNoscEGYREw=3D=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <655EB98CCFEBF5478532D40E3A8BF54E@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAyOSBTYWx0ZWRfXz6mBwM+i+/6e
- u45nS41iPK3hCdA7QqEAhC9oaWp+pixUT572MKIwT9rnUTbXo9FdWNQ7f/RyQ4UWe/PhTiCh/o2
- q3u5+rczaO4CXL6rtwIajrDep5uYO7znlph1mSp40kmf4AbFDnk4JNMIwYkJPXZpzDgGgxi1Ryf
- 4Oe4i2QYqALe0fMXEv3iR3/eB7kF78//U73iKJoVPQEM6r96a06E7gkjeyxGkYYY9q+aS9UnhjO
- xk7D/Sqf5MlBM6FkX+x6Bzuga4u2SJv7RKMx6bgPdu3Es1TFczb8NFGGu7Qm23q5Aklbyw4i9nV
- sV6hwHag2Jhg95qZYSgxF/EfnlGgJCYbuZMr2cmLuNDls/axXIKj5PSIEP6jgjUsWhGL/5y0qiT
- A3MGdPRzgKbxtnAYuTwLYTmsMlY1ww==
-X-Proofpoint-GUID: 5004nbQs1IDBW8vhz-EiK-JxOEev3C1G
-X-Authority-Analysis: v=2.4 cv=OMkqHCaB c=1 sm=1 tr=0 ts=68dab003 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8
- a=1BC9iaNsXRMBJFzlubMA:9
-X-Proofpoint-ORIG-GUID: 5004nbQs1IDBW8vhz-EiK-JxOEev3C1G
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-29_05,2025-09-29_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1011 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2509270029
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9293
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B91.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	4c9f285a-3e72-4ec7-6f1f-08ddff76ff2a
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|1800799024|35042699022|376014|82310400026|14060799003;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?R73d7toncFidsDg396GT8FdYeOKCGpQKWsrTIfSldJ1bhzxhZHOBmw9DJvdh?=
+ =?us-ascii?Q?kO5+8ow7TCSjWvp5h5wCsdg9WyWSdQlGyLEMjJ9QmVaBdCgNFwAGVJa/ow9A?=
+ =?us-ascii?Q?jh7ra+OqQMFSmunPGwTsx9VJcUjMIfQB39FdD0S0KYz4ytbiu9qAnPAuTW14?=
+ =?us-ascii?Q?EfPhGPAGau8eWnJKEy7pBHV06YNf1hGJSBEJFsPdmcIpJD+kFLQkVnxZQFrP?=
+ =?us-ascii?Q?n6qNg0ChNySIV0i2M3o/6v/CS5co/Ih6kKb1/0iirgv47MVIWYctrBTFthi0?=
+ =?us-ascii?Q?htmDNZ0VEGOPTn+Tgev41stiOLJKeLzctTqDVGW17YQD5StnmWSIqTh9Ucsh?=
+ =?us-ascii?Q?Y5Bb2AFaLzKNyGOLrwU+n6r1O7SbSNCtmoVe5yvLiVPLnNFCEc5eTh+az+OQ?=
+ =?us-ascii?Q?wzJ4CF4WkOp4vYyHTmMkawhRKEP960fJkyVkuch1I/7pgULlwT7SErGHyZU1?=
+ =?us-ascii?Q?32a2A2TZO5biLiSkYHM2mjt/s5UcJkRSVvMJudsH62rdSFiJ7/w8opm09lPL?=
+ =?us-ascii?Q?TINwGVZ7b55D3EkDxUE6ZQk+Rn5iUDGRtE3CmhoYLfpuyMIjExx7prZc9qdQ?=
+ =?us-ascii?Q?uZS3ldmasBlOs1uLRkMJjAOjLfTXzunT5w/9TNkm05jPPEX8LrVmiYnXap5k?=
+ =?us-ascii?Q?szDxDnlxaUGcNVY2uWcn0Bqbg9nt3QCADqiRq/LJjoq0qzJNbJc3rQAoaV4H?=
+ =?us-ascii?Q?jmILfL1xvfllRWdKPXVHQUV7v9SE+NFprpfBd/cgbT1WEraAGsQPZOLSp0Of?=
+ =?us-ascii?Q?C09xbHskIpUDkyt6A0TAFEVUskPUjt/16C1y4b3CKqpcnEQJa0T4pzDZMnga?=
+ =?us-ascii?Q?CjvyceKb+jRBIuUR/QrrrD4KtzCexy+X8HIhF+XUnLFK5y5IKlVwdjMglmqs?=
+ =?us-ascii?Q?9lzN8aZwJK84y1AoZlfmXuJ9JrfUKhWJ3Rht+t0lAf1NDlB9GypN7LHMJKD5?=
+ =?us-ascii?Q?rHVGeOGkrBWqaeRvE70lw+2vcEhJbxCCZ38oaIU/S+AEL8aqTfnj2oWluBXK?=
+ =?us-ascii?Q?BVmOqpOPEGKeFGR4uK9ltoyBYeYInVIJikX24UIa7Uo4Sua72XBUIGCBOx/9?=
+ =?us-ascii?Q?U9CQiTgidOZn8+4Xrf7krJjOisfzoBeoc6JwcQ4sDYE4XwGyISxG0CVrCkPS?=
+ =?us-ascii?Q?Sxpens2w0C0kfzJ/8O+bv5EdRSElGDFrvqUpRlpV55kwbMkkOnRxc45lfKRt?=
+ =?us-ascii?Q?W0OIAkdQsj+w5QNGpKHH+d/OzeLT96DlTYzPlakVfSIH1MLngREqt6/H8PP/?=
+ =?us-ascii?Q?OYbVnjz7u7cTF8R30cwa3uwBrdBt48OmDDN1cZtMocIKMydVP67U+hWRW6n1?=
+ =?us-ascii?Q?7hNoDNu7vr2zMz9PczHdnvMmn2Ug6iE7acqs7p6JjJvd1CUEJJVw3vDjwYMB?=
+ =?us-ascii?Q?9XGENkeK8j1wlGMV5bpXGU9uKLjgHES5QyZhH/vm4t6IGym2VuS2wzMQwEvu?=
+ =?us-ascii?Q?s81d85bg8rNx4diyKPCf+P0ITNVkNysJTzqYQdlsnbU7NLyi0V/QenvWrGYT?=
+ =?us-ascii?Q?966aF3iJPTaiN6GmOKxpb+8fdu65xuCaRUOk?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(35042699022)(376014)(82310400026)(14060799003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 16:41:44.2294
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c1caf9a-a1fd-4862-16df-08ddff771315
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B91.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6582
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 16:13:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224154
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 16:41:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224155
 
-Currently, fitimage_emit_section_dtb() always reads the 'compatible'
-property from the DTB when add_compatible=True. This patch adds an
-optional 'custom_compatible' parameter that, when set, overrides the
-value from the DTB. If not provided, the existing behavior remains.
+On 25 Sep 2025, at 08:56, hongxu via lists.openembedded.org <hongxu.jia=3De=
+ng.windriver.com@lists.openembedded.org> wrote:
+> +Upstream-Status: Submitted [xorg-devel@lists.x.org]
 
-The compatible property is also skipped for DTBO nodes.
+Patches should be submitted to GitLab I believe:
 
-Suggested-By: Alexander Kanavin <alex.kanavin@gmail.com>
-Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
----
- meta/classes-recipe/kernel-fit-image.bbclass | 3 ++-
- meta/conf/image-fitimage.conf                | 6 ++++++
- meta/lib/oe/fitimage.py                      | 9 ++++++---
- 3 files changed, 14 insertions(+), 4 deletions(-)
+https://gitlab.freedesktop.org/xorg/lib/libxcb-errors
 
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index f04aee1807..2a266242d0 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -84,8 +84,9 @@ python do_compile() {
- 
-             # Copy the dtb or dtbo file into the FIT image assembly directory
-             shutil.copyfile(os.path.join(kernel_deploydir, dtb_name), dtb_name)
-+            custom_compatible_str = d.getVar(f"FIT_DTB_COMPATIBLE_OVERRIDE:{dtb_name}") or None
-             root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
--                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
-+                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"), True, custom_compatible=custom_compatible_str)
- 
-     if external_kernel_devicetree:
-         # iterate over all .dtb and .dtbo files in the external kernel devicetree directory
-diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
-index 090ee148f4..62f7bcde6c 100644
---- a/meta/conf/image-fitimage.conf
-+++ b/meta/conf/image-fitimage.conf
-@@ -65,3 +65,9 @@ FIT_ADDRESS_CELLS ?= "1"
- # Machine configurations needing such a script file should include it in the
- # SRC_URI of the kernel recipe and set the FIT_UBOOT_ENV parameter.
- FIT_UBOOT_ENV ?= ""
-+
-+
-+# To override the DTB 'compatible' string in the FIT image, add in your
-+# machine.conf or local.conf:
-+#
-+#  FIT_DTB_COMPATIBLE_OVERRIDE:<dtb-filename.dtb> = "custom-compatible-string"
-diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
-index f303799155..0d42bca5d7 100644
---- a/meta/lib/oe/fitimage.py
-+++ b/meta/lib/oe/fitimage.py
-@@ -289,7 +289,7 @@ class ItsNodeRootKernel(ItsNode):
-         self._kernel = kernel_node
- 
-     def fitimage_emit_section_dtb(self, dtb_id, dtb_path, dtb_loadaddress=None,
--                                  dtbo_loadaddress=None, add_compatible=False):
-+                                  dtbo_loadaddress=None, add_compatible=False, custom_compatible=None):
-         """Emit the fitImage ITS DTB section"""
-         load=None
-         dtb_ext = os.path.splitext(dtb_path)[1]
-@@ -308,8 +308,11 @@ class ItsNodeRootKernel(ItsNode):
- 
-         # Preserve the DTB's compatible string to be added to the configuration node
-         compatible = None
--        if add_compatible:
--            compatible = get_compatible_from_dtb(dtb_path)
-+        if add_compatible and dtb_ext != ".dtbo":
-+            if custom_compatible:
-+                compatible = str(custom_compatible).split()
-+            else:
-+                compatible = get_compatible_from_dtb(dtb_path)
- 
-         dtb_node = self.its_add_node_dtb(
-             "fdt-" + dtb_id,
--- 
-2.34.1
+> +inherit python3native
+
+There is no need for this, we have a perfectly good python running bitbake.
+
+Ross
 
 
