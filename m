@@ -1,91 +1,110 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <kavinaya@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6EECAC5B5
-	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 14:47:26 +0000 (UTC)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
- by mx.groups.io with SMTP id smtpd.web11.55809.1759157237642858746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B649BCAC5B5
+	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 14:47:46 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.55817.1759157262876199251
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Sep 2025 07:47:17 -0700
+ Mon, 29 Sep 2025 07:47:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NUxvMa9z;
- spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-81fdd5d7b59so32321846d6.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 07:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759157237; x=1759762037; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hXwKSMhpGC1GSwXVnHYWMk6rZU70t9P98HvFTRSLJuA=;
-        b=NUxvMa9zjRJUCm8wE36Y4HXTYpEWFpMY0X4cnFbWSAIMe35md+9bNNWpR/HGSx3S6V
-         d0BGwiMukQueq6bxKQzJobDEnV3eTLyG9shnBFuwzd+ba5aw8kZ2atozDtbZleev9hwu
-         O0Kfqle5IucpenzIXRm3IWQKg1oEdNUhAAWISrV2k8RQVRs4/hdn7pCQnKUBtA10sBa1
-         LU8rBHm98gICEvqEy7P8aLhdf3r08T1iVdyysenLfq2CisfRlzdZ1+23hhFIZQIqjY42
-         DDThdDFEl0mpmp7HMvOkTxnqq9UBq1x6OpRpKOVOdNlVImJlncIF3KACdhCSBl3gw78J
-         wQhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759157237; x=1759762037;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hXwKSMhpGC1GSwXVnHYWMk6rZU70t9P98HvFTRSLJuA=;
-        b=ruLMLiCASLOCeQQ6G8MVlzt6Ec1+5TbH/VMUFbf9GJH2xaRXTvEVlNK8TWPj1JH2i1
-         twIJ7iiLEC3cmUQzp7gXb27+3rGirlTCtT52c8DFIgDMa8TgNcP3cElcaw/bMr75fohx
-         BOFQNTQMEti1G0YiYqJZAyQkDDdeFunBdO7ip+MG8ggCPHUutqQRTOj5zUJ//UQK3NAL
-         kb+rQ3M2clKDaJUbnM8YSm1/Ts+ZDStdp0t/zLhuezCJbzquT6Mwd6faNmCj5vPwU1Ff
-         LLHu3pGY+KqlV73gnZj080ZTQ6CZc/Z+ozOYn3wW9tkCTGxQxwgoyPIrMJJkTKFkPXVu
-         Wapw==
-X-Gm-Message-State: AOJu0YxEIuBuMiJ4vX/Ql/bn5URKlKRuoBifINHOqwzrj8+k3uxm/SQz
-	FUrv9Rje7McKqNULUlzIn/LK1h8u2lpj0PLmRf3WmE1xweETOcEpljCVqdWExQVntC3DBH24Slt
-	Djox4SBJqvz9MSfE1ocp9wtYzU2eHoLs=
-X-Gm-Gg: ASbGnctT/y21I+2Kcgu+vxTGu7fT9+hejBAVaIZypWDYGASG2ko2bp7FFoPHx3EWXd6
-	fUDMhqsOATWipgr0ORACjnr+aJIg2OCx2jYwedePwlnfRSTruyPe+sex8YQwrOLFNCO7j/nOWGb
-	aYoX8Ogyx+WSt1ZZpL7P/XXiJ1IhXHERZKhm6CcSKtmxP7pljO8c8lxWdEDE7Qozd+IFMHnWVqi
-	Qal6yjFyAjy7b9H+mtI2yv1b3IzNyrUx1ZYyRyhAiwc06wgB4WVqQlf4gXdtbcmo7XvCCXMaICB
-	cpPNkO69tYSyUAXaRqqA78Zxgm4BlD4sCtSEt7k+
-X-Google-Smtp-Source: AGHT+IGQ6ftH8t0ZaSTjlPhWuvgrwP5g69rmmYoI7dOPpwUKf9EK7grn2/m9FnpaNVKbjFNzPN3j5CqTgreK2VlGm/A=
-X-Received: by 2002:a05:6214:21c8:b0:798:513e:3bd with SMTP id
- 6a1803df08f44-7fc25df1a0cmr219944606d6.3.1759157236504; Mon, 29 Sep 2025
- 07:47:16 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=HVOY9lQb;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: kavinaya@qti.qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58TAKKwf021204
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 14:47:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=1FulzoaGIw1UsQuJyFf8Cs
+	/qXmyOQrPreGwIIIyMZ4M=; b=HVOY9lQbBWTgARrSV2UxoGxah7bgHMyc5UIfb3
+	GH6N2loR03tDlLfjvHbZXKuk/BPaMpIfT6AAdVJeCfhgWa1IGjM+4lnsahP1miH6
+	H3lZgjFtq6ITzmGmnHMP7iSaSaPkffNkwPJeFtFv1he/3ZSpc7uz2xrg9WI7TNZj
+	emd7bcjB1n8Q2mo37dEVWs0KEuGtKOFPGv2ShaTKakqdL+285sCFfIKwS6xBGCIV
+	omj3KLRhTYIuugZw22b8McJGXEERYei4EZq1RB6EaGvP4GIKNmEASEwKAQ849hKh
+	ynWlhL8H5t5y0CJJzC3maU5saQuW3vJP0J90ZdC5lKQcYs/w==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e8a5wnmc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 14:47:41 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58TElebb007330
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 14:47:40 GMT
+Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Mon, 29 Sep 2025 07:47:39 -0700
+From: Kavinaya S <kavinaya@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Kavinaya S <kavinaya@qti.qualcomm.com>
+Subject: [PATCH v2 0/1] Add support for custom compatible string via optional parameter
+Date: Mon, 29 Sep 2025 20:17:20 +0530
+Message-ID: <20250929144721.1001156-1-kavinaya@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <a5b379d1-88b8-499c-bfe6-d741e508ca84@gmail.com>
- <CANNYZj9PM=Sn5zy+6-N6ZFvzEt4eJpM5dGNAMong8WMtOHtNeA@mail.gmail.com> <9d9b71c6-76f2-4964-8341-4918eb9d66b4@gmail.com>
-In-Reply-To: <9d9b71c6-76f2-4964-8341-4918eb9d66b4@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 29 Sep 2025 16:47:05 +0200
-X-Gm-Features: AS18NWCiw3aZYDpspaR2LXPNSWnbobCzihhaP4ophbcPs5yAlgnAsdqm_4w5Os8
-Message-ID: <CANNYZj8e8dpdpZe41O_N1P44Ki61tcFNX4jVQ8rn0EG__j+RKg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rpm-sequoia-crypto-policy: add nativesdk to BBCLASSEXTEND
-To: Clayton Casciato <majortomtosourcecontrol@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, zboszor@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=RZKdyltv c=1 sm=1 tr=0 ts=68da9c0d cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=W_rC6kvHAqJi0TaMlnUA:9
+X-Proofpoint-GUID: n3NQUXKK39FFJvr3LJvaIvqBi2fzpys3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzMyBTYWx0ZWRfXyEe2srqQV3vG
+ PkhkDpG9HKKh01dwkuiOg0QdjmP+F1WjWXts1XuCbk1SVCP0FkbFJyXe44UY9yb+cBd5HBRdZl8
+ wMJuYIfOpi24EYkLFeNkMSgvOJExLUiJp5jHPV9BVmMVcC38ShshBL/EyoYGt8y5ymrNUzUmVyP
+ ctDPlilQy9Ui71ItJdwDiknYlKCNQQsM31ylyZBa+/JnnZsSgCDuDt5/XlVl5xyG5r/C+4D2gde
+ rrsjSWc5mZyGogLCHFNyj/XRlIeMQOvtt1WK6ixrIqxvDY/zEhlF+F7x9Kf6MIKrflIdOuF6g5z
+ UHAKN869a5V881oMKp5xGg6ZIlv9wv9zP9iGJ5PodcJsYuwuwGcG8Ws5gX7hG670f/sJHkq6Cu/
+ gEWEYPZJUl57w7pLP1UT5w2Fnw1zKg==
+X-Proofpoint-ORIG-GUID: n3NQUXKK39FFJvr3LJvaIvqBi2fzpys3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-29_05,2025-09-29_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 priorityscore=1501 adultscore=0 phishscore=0
+ impostorscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270033
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 14:47:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224144
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 14:47:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224145
 
-On Mon, 29 Sept 2025 at 15:47, Clayton Casciato
-<majortomtosourcecontrol@gmail.com> wrote:
-> I understand the pushback against unnecessary functionality.
->
-> I would still like to resolve the case where "sequoia" is in the ??.
->
-> What are your thoughts on this alternative?
->
-> PACKAGECONFIG:remove:class-nativesdk = "sequoia"
+This update adds flexibility to FIT image generation by introducing 
+an optional mechanism to override the DTB compatible string. 
+Instead of always extracting the value from the DTB, the generator 
+can now use a custom string defined in build metadata. This is 
+particularly useful when the FIT configuration requires a different 
+compatible value than what is embedded in the DTB.
 
-I would rather add it separately like the signing selftest does:
+Key changes:
+Adds a custom_compatible parameter to fitimage_emit_section_dtb().
+Preserves existing behavior when no override is specified.
 
-meta/lib/oeqa/selftest/cases/signing.py:        feature +=
-'PACKAGECONFIG:append:pn-rpm-native = " sequoia"\n'
-meta/lib/oeqa/selftest/cases/signing.py:        feature +=
-'PACKAGECONFIG:append:pn-rpm = " sequoia"\n'
+Usage:
+To override the default behavior, define in machine configuration 
+or local.conf:
+COMPATIBLE:<dtb-filename.dtb> = "custom-compatible-string"
 
-_remove works 'after the fact' and complicates understanding how the
-configuration ends up with the final values. It also cannot be undone
-with any other statement.
+This method avoids using custom ITS files, keeps the build process 
+consistent, and makes it easy to understand and track changes.
 
-Alex
+Kavinaya S (1):
+  fitimage: Add support for custom compatible string via optional
+    parameter
+
+ meta/classes-recipe/kernel-fit-image.bbclass |  3 ++-
+ meta/conf/image-fitimage.conf                |  6 ++++++
+ meta/lib/oe/fitimage.py                      | 12 ++++++++++--
+ 3 files changed, 18 insertions(+), 3 deletions(-)
+
+-- 
+2.34.1
+
 
