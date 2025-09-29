@@ -1,129 +1,172 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F0E0CAC5B0
-	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 04:34:02 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.46499.1759120439824772220
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96DADCAC5B5
+	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 05:14:42 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.46944.1759122880801306743
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Sep 2025 21:34:00 -0700
+ Sun, 28 Sep 2025 22:14:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nBqmK25C;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46e504975dbso5140265e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Sep 2025 21:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759120438; x=1759725238; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bA8F6+mc+T5QdNUcZqCT6MbBxjkMF3hX5XFIhYiwhKg=;
-        b=nBqmK25CZk+sYF7rCigEXysD5JpQYkxFe0d4nNEXM/6lmxtGT1YayedBvyyM0lI6cV
-         DJLvHCmEbXzejzWndKOqN5KkmcZoLUNiquafWUWeAtdYBEEEvoR713nQoojBTkC7OlV0
-         QK7BGNghKcnoXfVB/dprTSAFwyZnxeS/twSKSdnAGMJ5VJYxq619ZPKuW3TbO13aLSWZ
-         YkGdfoNYYfjrOEy5HP6n8e1VQ7RyHMEDK/x0dC03Ng+DIsQWs2VioRVsjnM3eMhfcSH7
-         VRpWPP2CwGxv/2PIpYPMEw4Ut7dbZmTsPvtnWyaVXANcQzfgXsxNMB0Nx77rmGF20BfL
-         PlTQ==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=XhLCy0fN;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58SNIHT9017582
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 05:14:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=htMZGJPPu6mwihHm+fjcm4bmecO2t7kCyAS
+	rHB35xDM=; b=XhLCy0fN2P7JF33pnTKxCJKDg6SMn5QPA3tNsQocsprgQSZPicH
+	AzGBJQEvyYRaNd3XkzOJ7mGmp70VxuIxA9w1ZI3xINAseBYvf+zBdxT7aUWo/oNB
+	3xvYy+qDAUUjyqS4SPhp15veBvIRWRWfWTukleulMQCINDsNIKV7XVW2d8dwt7wK
+	r6yzLL1Y4Vy5/sIBV9u4jjDLxwIaySdec6I9gbRKfdnirvUWrNyOjnIxgtXN2buj
+	+z/5PquCNdPhOsaejEN9/kMrmurM7DxSQla2ZgXvm+OppEgvzqWslZl5DVs94yuJ
+	/qtN+2vMo5gu0WnBxAtdCNp4Uog4xNuTDxw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e78fv0ar-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 05:14:39 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4de53348322so102767991cf.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Sep 2025 22:14:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759120438; x=1759725238;
+        d=1e100.net; s=20230601; t=1759122878; x=1759727678;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bA8F6+mc+T5QdNUcZqCT6MbBxjkMF3hX5XFIhYiwhKg=;
-        b=dBrUiflp+VFdKegxHOEIsIho/+AEza95FDmlaa8jwkhA3RfFdM3eS0XcTk40cRi3ui
-         Q+VWltBjq37k5IA3+IDVluG2CCB4fh0ArwepkM+TAKipF8VVPgGQEQWfJhkiUGpgvffz
-         lfDjeWMknUjYp8rdnHordMe/FF8tvO1XuayQjXCLoM21PH5YV57UwTysSLLGsd8JRgT2
-         /2CUseO8WZlopJS/BbTd1T+NDpyR69bSXR0TnppWnUw7bFQ7ESfF/QOB3S8TjUIZv6dV
-         917EskKF67zagGScCjTRwEv5cobrWBkJRV9J8kl5aNehjI058TXY246e0MpFTrY+aQiD
-         UjKQ==
-X-Gm-Message-State: AOJu0YwIrygWi4ncirzGTy3L/sbw3Y0/+KAizK79/1huVJyNnwdDLRzn
-	aN4PEBCI0lsD1cd61sOEOd1pW2bR4Vie2YpNHPVL8ZZG+Dq4JxnjIPweS8owBQ==
-X-Gm-Gg: ASbGnctt1eKYmoBZK+NxH7d80ca5y3aomHE7lwGzz2JQS6DCcJpmhNHMSfFvQ5+4Reg
-	BKMQkY8LNqZ3SD0kzRIxLhFq2ClvKoxwqxEx8C3MFv2VCzyMwCXuUtq5IAkcRV0bsTCjf8Kh0/R
-	1nRhXhGn7Oj+jFmuez/8zZehAE0QyhanKm+ykyiEnvwSFdxUm2WlBNA4UProwpSz+EiDw5RDM/n
-	woizxyzbNwj0VeRirVnAI3t/xV3eGQQNnDpuV6+8im1ivK14nXiVNPQgLXLQdJLh1nfaPyEgsZ0
-	PF7zwz4CSSNytDVOe3czsFysIbHq1QnmDGyiRB2Lx7sYfpPpAd3xmVEPA4eVm/ip6QtQ+1Jq+xz
-	y6iTVdNCF24K2HtSLi6mUuBVPHcx9Hyq4w5lBOMYWk5+RgSw=
-X-Google-Smtp-Source: AGHT+IEDlxT4ebzoiCphv1mcwBuiCA5nss4AL7VWap5LtaBCodSmOgWUQD0+CIxIIfLwdq1KDaULAw==
-X-Received: by 2002:a05:600c:358f:b0:46e:43ee:3809 with SMTP id 5b1f17b1804b1-46e43ee3ac6mr75676815e9.7.1759120437693;
-        Sun, 28 Sep 2025 21:33:57 -0700 (PDT)
-Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e2a9af27dsm213472565e9.8.2025.09.28.21.33.56
+        bh=htMZGJPPu6mwihHm+fjcm4bmecO2t7kCyASrHB35xDM=;
+        b=Ip+Zs4JM8v/wxVfW2fbEGvvAFxTYHUtOeNoZxW/wn0MBP7ZyGtYsCT8qW/1Ugz5ezx
+         Y/R5V7cvPuIek9JU4f1aPYv6QEI/vdyYBMAm8Vz5uhXWWoj8B+txMWGU29iH8f7cvoA9
+         Hd6uLs5tCLfHzgkH0Kq0k2Z8pA2P0W8vim0O4WcYV7bpf/J8iUg0E7qvuoB4WqD7q2Le
+         wHAQkAUEzyz8OdjYvqgXYTxp6XXC77sG61tvCNzN2ZvAgyXNmK2bi0EhSAFqw6q4TRDx
+         v/ezeNP3vR37lL1dL9ydVS76sHucVksdFpGXReF+am1LoaKPML6Ot4kBR11MxVtgGz95
+         GIKQ==
+X-Gm-Message-State: AOJu0Yx7UjnuXaapqxUraTP6opqPMqC2dxVsc2LW2auDT71F2wOUUQr/
+	W6yL0mKmKcp9/qdMUjm76r0uaJ4WH3OCc4mQpShj8p5WU9Gd2wlGN+jb9+yuBZsUQqxIQIVmvs3
+	RAocJGDprD237nqv5FER2i3ldvptjoUl+0EpJLGk7e4omvFSqXBQhuOszqtC9Y/1zRPSHsYZbyM
+	1uUw76wzgoJ8lD9Gewy2TW
+X-Gm-Gg: ASbGnctQkRUIF4muxkD5efVo5yx6SyMRbAsdJIdjsEpAGotSmXvjtrfMOpQB8vVDb79
+	2yoVTnR1GWTKBxOPAZc8vxkzCL3/0Lufysh5FWavsgWGPC0OmQv1PR2TIJfdJbftRwC71Ohqg/H
+	ReomA5u97/IXCf5QMU5lSxW+4mIXXGxHOJ+rGoLrtlQsXO/ToreM4MFWnT4IY9bN63Vrk4BIHLg
+	oZY3/RBVv4MbccED54KAiHt146G8AZUd+FXH3sJjl/KJkxRFQGSlR2K+S7Szp6shl5GYXwJ9Wie
+	Tq4Jh+fZoH9/jpaodfL1bokkWsJKJeW8pOBXuOIigTM7ywBA6sHEo0lxpRH3XJ8XgkC1B/6vq1u
+	B/B4rbdNBFm+nqeq58tmnKnFEj34IA0F5fjt2aJn1Tb1NsnDrDxr5
+X-Received: by 2002:ac8:5852:0:b0:4b5:ebe7:ac11 with SMTP id d75a77b69052e-4da4cd4a256mr186808621cf.67.1759122878448;
+        Sun, 28 Sep 2025 22:14:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEd7O5lpJFSBzerTdsUEWezPQulnCn79yLsStTMj5QO/EVOvS24KWmq9B0yK2E07RtXuo0U4w==
+X-Received: by 2002:ac8:5852:0:b0:4b5:ebe7:ac11 with SMTP id d75a77b69052e-4da4cd4a256mr186808471cf.67.1759122877946;
+        Sun, 28 Sep 2025 22:14:37 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-36fb7fe6b29sm26093671fa.63.2025.09.28.22.14.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Sep 2025 21:33:57 -0700 (PDT)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+        Sun, 28 Sep 2025 22:14:35 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH] bluez5: fix Bluetooth LE audio regression
-Date: Mon, 29 Sep 2025 04:33:52 +0000
-Message-ID: <20250929043352.723306-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Vivek Puar <vpuar@qti.qualcomm.com>
+Subject: [PATCH] linux-firmware: backport the topology rename patch
+Date: Mon, 29 Sep 2025 08:14:34 +0300
+Message-ID: <20250929051434.2323514-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=DZAaa/tW c=1 sm=1 tr=0 ts=68da15bf cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
+ a=p0WdMEafAAAA:8 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=GJFxg2uu5FJILhYF5qsA:9
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=poXaRoVlC6wW9_mwW8W4:22 a=pHzHmUro8NiASowvMSCR:22
+ a=n87TN5wuljxrRezIQYnT:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAyMiBTYWx0ZWRfX8aJpyqr4Uq28
+ MShpgBWlIC3jbTghM61DBc8XfcONlKFt/JLaV8QjIZMw8ZRBt6ixLYWxLqI49rGWzj0KtM7P3Hz
+ VOXIoNteVhmwMxUMzAvii/o/VYExSQ03+KgRthBOD6E9mZFVbbgZbG+KkDsNUV74Zl2Ku19yOjA
+ Dc4dXN8AY2evLmAq9oVdawxG+VXDF/iSabcGsVonPuBWNZik1RXKh6t4DpxeYxYQJ+b76OJ034b
+ 6LGbj7QO01DCM2nAyHUO2ce8rhZISYkggl65Z16QhFhQ80QsrbjmzPd9GbRRfDmw+LWzfEaA17h
+ akiPZdhGli+fr56LpUild40W9HxshT82QUaOndAqQ7C+v+LkqUXaPeJtQm8lJYiKy933Gb4j/L1
+ BMokeDvt56lRPO2AKf78zkm5SzNshw==
+X-Proofpoint-GUID: scpz2gimDbusOWNia9c406BJZ82bGJh3
+X-Proofpoint-ORIG-GUID: scpz2gimDbusOWNia9c406BJZ82bGJh3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-29_02,2025-09-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 bulkscore=0 clxscore=1015 adultscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2509270022
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 04:34:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224113
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 05:14:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224114
 
-Backport a fix for a regression introduced in 5.84 which breaks Bluetooth LE audio
+Backport the patch from the trunk, renaming topology file for one of
+Qualcomm boards in order to reduce possible compatibility issues.
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
+Cc: Vivek Puar <vpuar@qti.qualcomm.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...-fix-pac_config_cb-error-code-return.patch | 29 +++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_config_cb-error-code-return.patch
+ ...ANS-EVK-firmware-to-correct-location.patch | 39 +++++++++++++++++++
+ .../linux-firmware/linux-firmware_20250917.bb |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-move-LEMANS-EVK-firmware-to-correct-location.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 24a41f92df..aac38a54a9 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -64,6 +64,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://init \
-            file://run-ptest \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-+           file://0001-media-fix-pac_config_cb-error-code-return.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_config_cb-error-code-return.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_config_cb-error-code-return.patch
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-move-LEMANS-EVK-firmware-to-correct-location.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-move-LEMANS-EVK-firmware-to-correct-location.patch
 new file mode 100644
-index 0000000000..a67fd07137
+index 000000000000..01e555cbebc7
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-media-fix-pac_config_cb-error-code-return.patch
-@@ -0,0 +1,29 @@
-+From d7966dbb7bcf39f9615c906c47ef7ad895796756 Mon Sep 17 00:00:00 2001
-+From: Pauli Virtanen <pav@iki.fi>
-+Date: Thu, 18 Sep 2025 20:19:35 +0300
-+Subject: [PATCH] media: fix pac_config_cb() error code return
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-move-LEMANS-EVK-firmware-to-correct-location.patch
+@@ -0,0 +1,39 @@
++From 6625e563d600eba34cf2c71df7572ad1c421c6fd Mon Sep 17 00:00:00 2001
++From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
++Date: Thu, 18 Sep 2025 05:37:13 +0300
++Subject: [PATCH] qcom: move LEMANS EVK firmware to correct location
 +
-+Fixes: a887b1a1b91f ("audio: Add support for specific error codes for A2DP configuration")
++All firmware for the Lemans platform is located under qcom/sa8775p/
++subdir. Move audio topology for Lemans EVK to the same location and
++provide (ugh) backwards-compatible symlink.
 +
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/6b0a08776ae44a9102d7c6875a77e83dc6a11a37]
-+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
++Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
++Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
++Upstream-Status: Backport [https://gitlab.com/kernel-firmware/linux-firmware/-/commit/6625e563d600eba34cf2c71df7572ad1c421c6fd]
 +---
-+ profiles/audio/media.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ WHENCE                                        |   3 ++-
++ qcom/{qcs9100 => sa8775p}/LEMANS-EVK-tplg.bin | Bin
++ 2 files changed, 2 insertions(+), 1 deletion(-)
++ rename qcom/{qcs9100 => sa8775p}/LEMANS-EVK-tplg.bin (100%)
 +
-+diff --git a/profiles/audio/media.c b/profiles/audio/media.c
-+index 332f643bb..deb321e6c 100644
-+--- a/profiles/audio/media.c
-++++ b/profiles/audio/media.c
-+@@ -1110,7 +1110,7 @@ static void pac_config_cb(struct media_endpoint *endpoint, void *ret, int size,
-+ 	if (!transport)
-+ 		return;
++diff --git a/WHENCE b/WHENCE
++index a93effa5008b..e22d8218959f 100644
++--- a/WHENCE
+++++ b/WHENCE
++@@ -8469,7 +8469,8 @@ Originates from https://github.com/linux-msm/audioreach-topology.git
++ --------------------------------------------------------------------------
 + 
-+-	data->cb(data->stream, error_code == 0 ? 0 : -EINVAL);
-++	data->cb(data->stream, (error_code && *error_code == 0) ? 0 : -EINVAL);
-+ }
++ Driver: qcom-qcs9100 - Qualcomm ASoC topology
++-File: qcom/qcs9100/LEMANS-EVK-tplg.bin
+++File: qcom/sa8775p/LEMANS-EVK-tplg.bin
+++Link: qcom/qcs9100/LEMANS-EVK-tplg.bin -> ../sa8775p/LEMANS-EVK-tplg.bin
++ Version: v0.1.0
 + 
-+ static struct media_transport *pac_ucast_config(struct bt_bap_stream *stream,
++ Licence: Redistributable. See LICENCE.linaro for details
++diff --git a/qcom/qcs9100/LEMANS-EVK-tplg.bin b/qcom/sa8775p/LEMANS-EVK-tplg.bin
++similarity index 100%
++rename from qcom/qcs9100/LEMANS-EVK-tplg.bin
++rename to qcom/sa8775p/LEMANS-EVK-tplg.bin
 +-- 
-+2.43.0
++2.51.0
 +
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20250917.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20250917.bb
+index 5d5a5c8caeef..7608464a32b1 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250917.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250917.bb
+@@ -372,6 +372,7 @@ PE = "1"
+ 
+ SRC_URI = "\
+   ${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz \
++  file://0001-qcom-move-LEMANS-EVK-firmware-to-correct-location.patch \
+ "
+ 
+ BBCLASSEXTEND = "devupstream:target"
 -- 
-2.43.0
+2.47.3
 
 
