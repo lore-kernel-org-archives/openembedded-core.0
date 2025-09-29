@@ -2,118 +2,123 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0854CAC5B0
-	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 18:39:33 +0000 (UTC)
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
- by mx.groups.io with SMTP id smtpd.web10.6091.1759171171294534247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03288CAC5B9
+	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 18:43:13 +0000 (UTC)
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+ by mx.groups.io with SMTP id smtpd.web11.6033.1759171392212336851
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Sep 2025 11:39:31 -0700
+ Mon, 29 Sep 2025 11:43:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MZVMOLbH;
- spf=pass (domain: gmail.com, ip: 74.125.224.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-63605347eeeso3389949d50.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 11:39:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EApGaRro;
+ spf=pass (domain: gmail.com, ip: 74.125.224.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-6353ff1a78dso3630239d50.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 11:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759171170; x=1759775970; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1759171391; x=1759776191; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yb4zNfpiuQ1Ykig6ri3yhZLxuDeHdmHjn6RsWiVIKNc=;
-        b=MZVMOLbHMvY9Q3Aw1Bg5fFoUW+p580S7qTYL0aVAVBa83jL1txfqFrFhJdOuniqsD3
-         11gl8nmjCPKzJHX0PXvIiz4Qz+LqvRNLVwzl3iSQ2AHx1pDocvkg/L8Z8qGClRsVye8a
-         P5lq4mbqrI5gfUGjz7w/jWhPyt0DwgxpbR62a6YzmszEaJY8PEDUNCglEl/T3m+iKBgJ
-         vWLDfGBMSrwywIwsm3q4TJhPie8d9gzFHPNSZTC4vBR91+NUfL2bAYR9JooF/Q7pSJC7
-         DFLqpOpEFpkwATMfinuetlbV9kaHeA0XFymGZl88LlJvqNb5m1HhpDqJyfVTwCDClY04
-         fBpg==
+        bh=F+JEm+w4mcaHL+XHGngMUB7DoKaxNAAK6Yqg11VmPJQ=;
+        b=EApGaRrooc2ukxZM0I/vgjO5dZ3V5tB7XfBvQdyj6K3B2byV4ecRbkUB8i2SJe6gc3
+         ySKbQpzYiVAxvPvrbmoPivXCf2/VrpAKeIUVKVE+W0Hx6YYDzN8bQEykTHWgJ+6IED5O
+         4/DwUbINo1ESygnpUdRayn1ppPrv9pp05akgZbGyTRSM+qG4dVMg6hecHBZFUDr6kt3M
+         BsFbauDjZaTdvZLv/Xwi0FOez6k1FnSm91JD7S5u8RF9st+EKoAigZPT08cFkYHPu47+
+         9CwcZXCfT467wXz0ku/L/uFhtBN6/riHowRiFIYxyHxaGsGTbl25mobN45/cL7vQyIwi
+         asgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759171170; x=1759775970;
+        d=1e100.net; s=20230601; t=1759171391; x=1759776191;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yb4zNfpiuQ1Ykig6ri3yhZLxuDeHdmHjn6RsWiVIKNc=;
-        b=POZLsCI/mUqLE72/mLk1Sre0a4uxjZlhg4K5KvesLX95m1/5YonBu2JdMZJEnYChMO
-         3LrxZjVha+iNi7xkcS/ftNGayqn94wNqA2cU7OaWb9YOMFkIsYDbC2HR3m6WJXm/QCac
-         jOvsa3708c5ymwGI1jUa5X553jKPXiZwTXHLR7wANuiTHbFI4MpP5EAXKgQsJzlkqqfV
-         zKlqg+fl2ljYIKFGiEpZXgNxj7XW9rvkbLlq6fJWqL/JnpObh/InDohltouGJGLGwIsJ
-         GoFeaQzO7cawCJfZqIhSsHKHOO5vyavMLP3KjbMavmCOSiN1VxzxOTDsOB80O4SWKI6W
-         xXLg==
-X-Forwarded-Encrypted: i=1; AJvYcCWO+tU9dyjIXZuj0xFS3brJuvG2sl71JVZC54HRpGNMpza85lteFKT7NuAbHmDoHJ0OwvVguL936iIYTtXGdeNDDQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwUZJzcjSnIMulpcmYelhIMuzPSEb9gadgezQzT4SyS3k07yxZN
-	U7gW9naCKWm9QeTu7P1Eskox4boCBsoEIbmOSBNhsG6H9C+NN3l3cp+HYtBL+zgjihkG4UDaoU8
-	fPTucNlXvk6cT952tMbenGP4MR5AqI5Y=
-X-Gm-Gg: ASbGncvVpj0ylCMOjCB/4IVOKnmlfCd02NIwL+5ExX2Z9clAZG7tD7bnnzs594Sohb2
-	Sjv5y7NBY3C2JpBNf9EqdgYI6cbPB6UWniuobCAo6c2+Vl4MZ7Yk5k5VS/kloF1estN7pjKiHrA
-	q+ktNZZ2l/vkW5hH9/2Og62U8tH+t53XR0FFd21Oh30W17QrVKGKXn8JmnutiQ5f+lXD94O2CP/
-	ZfFPxJ+i6yjyOwXyMev2TBojQn+H/fZP7CsJbTh/u/l+yM6Y/fOvPqmYAouti2m1hcZjywjTBtj
-	lz102sxamOWrVyT70C9Yl4Yfl6kqaCQeoRB6NpuLZPW+Ld+WAHAh2w==
-X-Google-Smtp-Source: AGHT+IGB7Ob/qkNf8ttF682MRIwE4f4CH4HwSLz9VXTBzS3WchT3Q8zJRxRg4sKcg4FMQn26wSVI10KFBWZ1abovkP0=
-X-Received: by 2002:a05:690e:1652:b0:636:18cc:fefb with SMTP id
- 956f58d0204a3-6361a70dee8mr16596920d50.5.1759171170265; Mon, 29 Sep 2025
- 11:39:30 -0700 (PDT)
+        bh=F+JEm+w4mcaHL+XHGngMUB7DoKaxNAAK6Yqg11VmPJQ=;
+        b=V6mQAYNIky549Chx4UohcV2nELbCY1pLg2plzo1xExenW27t05vgZORnB8XSJdaxU+
+         +HQ/du5TGlhm8nZ+IVLlDscUJmbMRi5yvRkFQqrdJPel3VCpFkmmLX4RdCblDi2Rf0ik
+         iiCdZ1cgli3GujhlolMStbm7AA0hjGD6q2ShpGLzzZSltoevshyQMpdmc0nqxTJZXjpO
+         Eipg2YF6eo91yltVNAzhyYkg/MWNHGdeqiyaCO9tilwL1zvgMSGMVKeNXsSovYlcsMxv
+         juhpbL2I7PufYYTqxLYUTC803MZ55hdx20Q7R6AyHvPuar+kOibXZmKmBk6TnDguTAnX
+         ac6w==
+X-Gm-Message-State: AOJu0Yxt/vsESk/CPkZg6hCuFpr4l7eVm4cwVt722XqGgsGmgmXm7tqB
+	R++SwvEkZuFhqcRjHVonSYZqAdkzibFDkfjNykNDPru58RCxOIrRd7vJfOkSqIGJAqNZiQKtpb4
+	PRn2mzrs8gk8FXw+20M8bUnurbrthmy0ArTlE
+X-Gm-Gg: ASbGnctLsOsIhA0J5Vh0wMOpYkLYb6QhLpWQjRdOafU17iM6NIvxJXgneqCPgNq5Q+K
+	x/HdU2yuTasEx1ATQh+nbxa2lFp68K55MRqBssCvTopaUWe28uQxbD/WerPf5H1wUQrwvo2WR+B
+	YO67lj0+E+fVk790lw3iHUl3XodzjH+U/lWBcSRLQ6xbrXxPRaZRxrQcAL/sT1phRiwGaz3naEV
+	pP29FTCz4pgJpwqCSuArsSdD3xAenZoX8Y3r3DlZUbLnINkmgTdMCmKRBKZMA47JUJkV072fqnO
+	ODcqGmpXtRXw8/sWYc+S/+NCNbIL/GWP2p9KLENXxbmSEVLW6TwKjLZMUp/uHCPb
+X-Google-Smtp-Source: AGHT+IHDjdMH43M4JR/44izAZAc2138m/4L2u3nI0LH3Q9aPjGVzBtsUz66MpKVgF+2emA0069kxG/we56PSW/ha1Ow=
+X-Received: by 2002:a05:690e:4304:b0:635:4ecd:75a6 with SMTP id
+ 956f58d0204a3-6361a8ad738mr15712821d50.52.1759171391179; Mon, 29 Sep 2025
+ 11:43:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250925152651.3059868-1-ross.burton@arm.com> <DD54UINT52DH.VW1D1BWNHWD6@bootlin.com>
-In-Reply-To: <DD54UINT52DH.VW1D1BWNHWD6@bootlin.com>
+References: <CAD_4BXiwzc0VBdNjptP3N2Hj2=czhEEbLw4GOphNNnwnj9uTPQ@mail.gmail.com>
+In-Reply-To: <CAD_4BXiwzc0VBdNjptP3N2Hj2=czhEEbLw4GOphNNnwnj9uTPQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 29 Sep 2025 11:39:03 -0700
-X-Gm-Features: AS18NWDCg9dntXJbQ2fTTatPzn6iqH5och-lsFMFwveINDsdVR8S4-p5xJTMDJY
-Message-ID: <CAMKF1sqsuY3ngnAGPVdUvhB+yjW4C8GkdQRQm80e+ExGAmCkpA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] perf: do builds in a clean build tree
-To: mathieu.dubois-briand@bootlin.com
-Cc: ross.burton@arm.com, openembedded-core@lists.openembedded.org
+Date: Mon, 29 Sep 2025 11:42:43 -0700
+X-Gm-Features: AS18NWC64kSyq9uEdHkc1bH2SXywnngMZoyxzkPEfqUe66yrsYyPhEsxzWuwTiA
+Message-ID: <CAMKF1soVEKaJcH=J99=eUKor+1gzE3RAB0cHaTnET68f4DnAeQ@mail.gmail.com>
+Subject: Re: [OE-core] Distro wide LTO broken?
+To: william@wkennington.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 18:39:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224163
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 18:43:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224164
 
-On Mon, Sep 29, 2025 at 1:14=E2=80=AFAM Mathieu Dubois-Briand via
+On Mon, Sep 29, 2025 at 3:51=E2=80=AFAM William Kennington via
 lists.openembedded.org
-<mathieu.dubois-briand=3Dbootlin.com@lists.openembedded.org> wrote:
+<william=3Dwkennington.com@lists.openembedded.org> wrote:
 >
-> On Thu Sep 25, 2025 at 5:26 PM CEST, Ross Burton via lists.openembedded.o=
-rg wrote:
-> > Set B to WORKDIR/build and clean that on configure so we ensure that th=
-e
-> > build tree is clean.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
+> If I add the following to my distro, the build breaks for the openssl
+> and other core packages due to having build path impurities in the
+> static libraries created.
 >
-> Hi Ross,
+> ```
+> require conf/distro/include/lto.inc
+> DISTRO_FEATURES +=3D "lto"
+> ```
 >
-> It looks like this is breaking some arm64 builds:
+> The errors I get are all like
+> ```
+> ERROR: openssl-3.5.2-r0 do_package_qa: QA Issue: File
+> /usr/lib/libssl.a in package openssl-staticdev contains reference to
+> TMPDIR [buildpaths]
+> ERROR: openssl-3.5.2-r0 do_package_qa: QA Issue: File
+> /usr/lib/libcrypto.a in package openssl-staticdev contains reference
+> to TMPDIR [buildpaths]
+> ERROR: openssl-3.5.2-r0 do_package_qa: Fatal QA errors were found, failin=
+g task.
+> ERROR: Logfile of failure stored in:
+> /home/builder/yocto/build/tmp/work/cortexa76-cortexa55-crypto-oe-linux/op=
+enssl/3.5.2/temp/log.do_package_qa.118335
+> ERROR: Task (/srv/yocto/poky/meta/recipes-connectivity/openssl/openssl_3.=
+5.2.bb:do_package_qa)
+> failed with exit code '1'
+> ```
 >
-> ERROR: perf-1.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/=
-qemuarm64-alt/build/build/tmp/work/qemuarm64-poky-linux/perf/1.0/temp/run.d=
-o_compile.221036' failed with exit code 1
-> ...
-> | make[2]: *** No rule to make target 'tools/arch/arm64/include/uapi/asm/=
-unistd.h', needed by '/srv/pokybuild/yocto-worker/qemuarm64-alt/build/build=
-/tmp/work/qemuarm64-poky-linux/perf/1.0/build/arch/arm64/include/generated/=
-asm/syscalls.c'.  Stop.
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/2440
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/2487
+> Probably there is just some kind of flag missing in the LTO build
+> options to filter out the build directory, as -ffile-prefix-map and
+> whatnot are already present in the builds. I haven't yet figured out
+> exactly what is contributing to this impurity.
 >
 
-I wonder if we now need to define KERNEL_SRC in EXTRA_OECONF as well.
+Inspect the .a files ( maybe using strings or binary viewing tools
+like xxd ), with LTO they are flat objects with additional information
+for
+LTO to work and I think it will give more information.
 
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
+> Prior to rebasing on the latest master, LTO was working fine globally.
+
+what is the delta we are talking about here ?
+
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#224123): https://lists.openembedded.org/g/openembedde=
-d-core/message/224123
-> Mute This Topic: https://lists.openembedded.org/mt/115432523/1997914
+> View/Reply Online (#224137): https://lists.openembedded.org/g/openembedde=
+d-core/message/224137
+> Mute This Topic: https://lists.openembedded.org/mt/115492623/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
 j.khem@gmail.com]
