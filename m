@@ -1,219 +1,185 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF93CAC5B0
-	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 18:49:34 +0000 (UTC)
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
- by mx.groups.io with SMTP id smtpd.web10.6360.1759171763764006561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1221CCAC5B0
+	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 18:59:44 +0000 (UTC)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.web10.6641.1759172374890021321
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Sep 2025 11:49:23 -0700
+ Mon, 29 Sep 2025 11:59:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ci6AiApw;
- spf=pass (domain: gmail.com, ip: 74.125.224.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-636d5cefab2so6714374d50.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 11:49:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=M/kQZcy2;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-869ecba3bd2so182399685a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 11:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759171763; x=1759776563; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1759172374; x=1759777174; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7gnBcfoY9nv/nxYhFW7cgtfAXuud6vTuKAnKKeSUakY=;
-        b=ci6AiApwaI8CgN4f65XCW3xeZX3whpoEUDkk8zayju4vCxqBofVJAssPiJ7JyTHKYK
-         QNFBJtokBUOtnOh68kiBmm8VDxW9wb3adU7yudSrFo5AMINBCkKOGiYh3+EJNbIWzOmB
-         n5eQHJ+S4GbJArUdbfQpYmGOoPft34yXQBphVX+FGjKN0tD+RS17Y9Dlh+Ec5Xkw78+5
-         9+hBFAZtPgXA8jDhGJGJvS+XvhenSwYuRFjpGYKF7ef20IMGbKHHLslb8MXfilrGwPp/
-         ktMvNc5y+8EG3SJth+UDHhx5HmoFRFYqbNUd9ReR+HFHWkAwFCXEcALZByZWh9asR9RS
-         +7Yg==
+        bh=FfvU23zbsMlZG+rEGc8QfedKPtGEAsX+Xu/Sv4QPA+Q=;
+        b=M/kQZcy23QqoqC4v0TaLDJHkrxyxiHVusZ5IRO+CoZGr22h5pGwJitcX2HoiXV/FsI
+         l0d3XTpaBhGwk/CbWGsFHw6IPebipGPpF34hKCOyXYNmQO/cI1YpFAJBlhVpec5/QY0b
+         gheltlhSkzunU/AKOZoMB4CQ1NOfsMuV5RCLU//U8PQ/GxBbOK8Mv1DxAeuWD89wa9B3
+         uirouhG46fH1GTOMsVrYglj6E35aywcFoSoNEL6JknVinIbaYOHrgbL85kkMhGozipFY
+         cYn/Wolir5VlDn8sGtjqUBQLT6/oD8BWVeveOrMwGxl7GIGBxHNcZnGCkztEluPqd4IR
+         Hzsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759171763; x=1759776563;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1759172374; x=1759777174;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7gnBcfoY9nv/nxYhFW7cgtfAXuud6vTuKAnKKeSUakY=;
-        b=Qzr8xr9GXn4jfzh1yvfrLD6axn9ZAFzzMq2wtb2OjEEYttrY2CHxvzAVc1HoVzq4+S
-         aZM3jK4ihgZaw+oy02UgGg+21aEKCtjjZ3zkEfDoq5H/0JWbFo912Qkd9Rer9ieLkmGC
-         oNI/mpgBcRvtzFHfzx5tOfPHMEpcDoWvM70oqI+keSdF3nCKV++OEOnNsszcIBLMe0Fp
-         jZzEnlupgz2SVWRA9Ce5kOe4YqfriyVqhtiqo5iWDGXLMzOqSn0lvZvK3ipm+Satm6et
-         FRf91ZVaoFzwkcfdmC+3R91pHo2dY4CPYy8XA1Aqx0ooQ3usr1TauAySNCFaaQolv74t
-         Ce4Q==
-X-Gm-Message-State: AOJu0YxgIZdTmVu+tsVhzEqnmuCAfw43YnMqCi2XUurBZZLUfeUW+M0k
-	o+BkrETqmW6TUJXng/b/wq0/sMEEX9OBMrB+7tQqiLD4cfPJcNSkEvsPUcx0IMziVLLpYayXtd0
-	Dm3TKQt0O6uuKXutNOU013aZ3mwlw7t/XiCU0
-X-Gm-Gg: ASbGncuEMvAtajnHkCZO1pQPbgfpfsy8Pk+xvoaDcAaIw0+5CItCV+h+AVxX9F/uTub
-	xasUKvf4ks1orwueOhk9MJCmgH3k0tz+567YotstFWETP0Q3DwaKMGwCoOAveEDtXchxjCzjIbK
-	nJHPgMcyrfQHLGOh8LtMR11Kyrmc1jLaOMuC8L4iko5uS7LcLVJ2sq408Q5oXWMtg/SJ2dGKYyC
-	J38PaSyt+TH3gKNGspicOGUvsJLC1x96a6Ihjjo992XASJbzrtA7C8lE60psQhVx1taQylp8cE1
-	3+o8HlJ1G5EH6xpyC4UTEmKHBoj7CgEfPX993b7eMURYUj84zDTbRw==
-X-Google-Smtp-Source: AGHT+IGBGSFoPd46N/8Rw4sdGNG6Zy/ixE+HC6BzU15fdpGV1rzvWqyIsYpxa3PwMu/iqYOkdxLp/Yiplo1WlkMmgss=
-X-Received: by 2002:a05:690e:4299:10b0:636:ca97:d6dc with SMTP id
- 956f58d0204a3-636ca97d8dbmr13407423d50.9.1759171762739; Mon, 29 Sep 2025
- 11:49:22 -0700 (PDT)
+        bh=FfvU23zbsMlZG+rEGc8QfedKPtGEAsX+Xu/Sv4QPA+Q=;
+        b=MoDjBHYs4cd7ZiYhg24vP9W9CiYExtPyR5sdr2ke8q6ZXZ8TrFGKPKkF1lLDbakUCq
+         dfnq8A+lsuJ9rULNTBc74mf8rnzOBencfvJleZoL9kHQnKN2tJ3L124Eett3vrSwV2GN
+         3nvNi9vz+rg7gh2Nt5rb+DGV5IZ49H45QSzS5aSLGu8PCUt99C1SWUroWgpSG+AtEi9u
+         5cIG9B3+qpnso8dCVj9X8hGZ07/gSoHYu9BaEfY1W0hsJaGHEoe/aq2bS9irb6ERf3cD
+         e8/i4bZX5Zoxk2hkLEwhEr3jRGV7mOhteyq+5V5qvGdyMImYYuTxwE/ZU9vYGFC1AFmQ
+         2T+A==
+X-Gm-Message-State: AOJu0YzoxLUEhvXHxqvi56d2glu4rKtJceHSmsIM6Gmzc2TM3442Ylfx
+	QOU1JUUA+1DKXd2vimzHSyJt9MQSR9F5/IhkoJ9OytlF3rqXYu+sNbUo2mnlWLhACnw=
+X-Gm-Gg: ASbGnctfaHWiIfBIcM5auVpO8ROeNEwytXcVv8o7UoTE3eLWKk7tAMuzQ0mPixvmTa5
+	0QNVard2BLx8Ew+sw9HZi5O+1mFWqS+cei9sNfp/9+eYZyq/pnifhUKPBrYcWbqz+XA/hHjKhu+
+	HiuI85b2Bmm4Nx5/3ucdcEQDVyov3SHh8gj07ruzRiIXPQrEStaKQfUbS5JqtRAKW8of1gyp5Go
+	qfPPaOVd4kAm18nfkxC99j/BUrRuxqpz/ZlqBWt3Zx6vu2L5Y7vVx3vxSo0zwtBn2lUpDkdJpul
+	Gs6C4PC6/EMKB8vBdZTawDVuCtXTvsYWs1DV9A+nn7lW2qTqmEjNx3YsHQFtE+snZxqRAc3el1g
+	E0vHEAmlG1NqsiHLIJvT0QHheqAsEP2B9Z/7e4BGoS42Ql56IN1Wdeirm6zi9Dbmg8EAjhXxP2H
+	cePMRf7yL1s1WAqP033y3S3/CuWShEC8od85cJL0QKTFcum29cn1/TpcePWmL3eHC0ug==
+X-Google-Smtp-Source: AGHT+IGLQcFJ13/sNX6JRHLY6bdA7XeMwpc7tXwg54FgoHtcvwLIHD8+688j17XeDY2YF0SmbrFuOw==
+X-Received: by 2002:a05:620a:7083:b0:857:3c07:cd28 with SMTP id af79cd13be357-85ae8b3253emr2181369485a.69.1759172373604;
+        Mon, 29 Sep 2025 11:59:33 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-85c337a1e1csm873240285a.62.2025.09.29.11.59.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Sep 2025 11:59:33 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/4] linux-yocto/6.16: update CVE exclusions (6.16.9)
+Date: Mon, 29 Sep 2025 14:59:28 -0400
+Message-Id: <20250929185930.1689034-2-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20250929185930.1689034-1-bruce.ashfield@gmail.com>
+References: <20250929185930.1689034-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-References: <20250916040927.103722-1-hongxu.jia@windriver.com> <20250916040927.103722-2-hongxu.jia@windriver.com>
-In-Reply-To: <20250916040927.103722-2-hongxu.jia@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 29 Sep 2025 11:48:56 -0700
-X-Gm-Features: AS18NWDyz8f7XKpdX8B7bZK_9X-lcha_-c_jIkklU8eEA-7KR_uvo6AY7SSIR5A
-Message-ID: <CAMKF1srfMTwtqXnsq0LbKh2hMVgSB_5VJW8Hu7gmv2wGsBaACg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 2/8] distro/include: Add debug_build.inc when
- DEBUG_BUILD is enabled
-To: hongxu.jia@eng.windriver.com
-Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com, 
-	peter.kjellerstedt@axis.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 18:49:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224165
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 18:59:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224167
 
-On Mon, Sep 15, 2025 at 9:09=E2=80=AFPM hongxu via lists.openembedded.org
-<hongxu.jia=3Deng.windriver.com@lists.openembedded.org> wrote:
->
-> Add a new include file debug_build.inc to override SELECTED_OPTIMIZATION
-> and BUILD_OPTIMIZATION when DEBUG_BUILD is enabled
->
-> Add separate variables FULL_OPTLEVEL, DEBUG_OPTLEVEL and BUILD_OPTLEVEL
-> for the optimization level, and override it for specific recipe other
-> than original remove and append DEBUG_OPTIMIZATION and BUILD_OPTIMIZATION
->
-> Update the documentation for FULL_OPTIMIZATION and DEBUG_OPTIMIZATION
->
-> Require the include file when DEBUG_BUILD is enabled
->
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-I was hoping that adding DEBUG_BUILD would reduce number of global
-variables to manage
-but it seems to introduce another one in form of DEBUG_OPTLEVEL, this
-makes the logic a bit complicated
-I think it will be good to explore a bit more and see if we do not
-have to do it.
+Data pulled from: https://github.com/CVEProject/cvelistV5
 
-> Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/conf/bitbake.conf                   | 13 +++++++------
->  meta/conf/distro/include/debug_build.inc |  7 +++++++
->  meta/conf/documentation.conf             |  8 +++++---
->  3 files changed, 19 insertions(+), 9 deletions(-)
->  create mode 100644 meta/conf/distro/include/debug_build.inc
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 8e90c7bbc8..0e614c6b21 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -658,13 +658,12 @@ DEBUG_PREFIX_MAP ?=3D "\
->  "
->  DEBUG_LEVELFLAG ?=3D "-g"
->
-> -FULL_OPTIMIZATION =3D "-O2 ${DEBUG_LEVELFLAG}"
-> -DEBUG_OPTIMIZATION =3D "-Og ${DEBUG_LEVELFLAG}"
-> -SELECTED_OPTIMIZATION =3D "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', '=
-DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
-> -SELECTED_OPTIMIZATION[vardeps] +=3D "FULL_OPTIMIZATION DEBUG_OPTIMIZATIO=
-N DEBUG_BUILD"
-> +FULL_OPTLEVEL ?=3D "-O2"
-> +FULL_OPTIMIZATION =3D "${FULL_OPTLEVEL} ${DEBUG_LEVELFLAG}"
-> +SELECTED_OPTIMIZATION =3D "${FULL_OPTIMIZATION}"
->  # compiler flags for native/nativesdk
-> -BUILD_OPTIMIZATION =3D "${@oe.utils.vartrue('DEBUG_BUILD', '-Og -g', '-O=
-2', d)}"
-> -BUILD_OPTIMIZATION[vardeps] +=3D "DEBUG_BUILD"
-> +BUILD_OPTLEVEL ?=3D "-O2"
-> +BUILD_OPTIMIZATION =3D "${BUILD_OPTLEVEL}"
->
->  ##################################################################
->  # Reproducibility
-> @@ -831,6 +830,8 @@ include conf/licenses.conf
->  require conf/sanity.conf
->  include conf/bblock.conf
->
-> +require ${@oe.utils.vartrue('DEBUG_BUILD', 'conf/distro/include/debug_bu=
-ild.inc', '', d)}
-> +
->  ##################################################################
->  # Weak variables (usually to retain backwards compatibility)
->  ##################################################################
-> diff --git a/meta/conf/distro/include/debug_build.inc b/meta/conf/distro/=
-include/debug_build.inc
-> new file mode 100644
-> index 0000000000..a9222a442a
-> --- /dev/null
-> +++ b/meta/conf/distro/include/debug_build.inc
-> @@ -0,0 +1,7 @@
-> +# Override SELECTED_OPTIMIZATION and BUILD_OPTIMIZATION when DEBUG_BUILD=
- is enabled.
-> +DEBUG_OPTLEVEL ?=3D "-Og"
-> +DEBUG_OPTIMIZATION =3D "${DEBUG_OPTLEVEL} ${DEBUG_LEVELFLAG}"
-> +SELECTED_OPTIMIZATION =3D "${DEBUG_OPTIMIZATION}"
-> +# compiler flags for native/nativesdk
-> +BUILD_OPTLEVEL =3D "-Og"
-> +BUILD_OPTIMIZATION =3D "${BUILD_OPTLEVEL} -g"
-> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> index 741130a392..b643724e27 100644
-> --- a/meta/conf/documentation.conf
-> +++ b/meta/conf/documentation.conf
-> @@ -129,8 +129,9 @@ CVE_CHECK_LAYER_INCLUDELIST[doc] =3D "Defines which l=
-ayers to include during cve-c
->  D[doc] =3D "The destination directory."
->  DATE[doc] =3D "The date the build was started using YMD format."
->  DATETIME[doc] =3D "The date and time the build was started."
-> -DEBUG_BUILD[doc] =3D "Specifies to build packages with debugging informa=
-tion. This influences the value of the SELECTED_OPTIMIZATION variable."
-> -DEBUG_OPTIMIZATION[doc] =3D "The options to pass in TARGET_CFLAGS and CF=
-LAGS when compiling a system for debugging. This variable defaults to '-Og =
-${DEBUG_LEVELFLAG}'."
-> +DEBUG_BUILD[doc] =3D "Specifies to build packages with debugging informa=
-tion. This influences the value of the SELECTED_OPTIMIZATION variable and i=
-ncludes file conf/distro/include/debug_build.inc"
-> +DEBUG_OPTLEVEL[doc] =3D "The toolchain optimization level flags for debu=
-gging. This variable defaults to '-Og'"
-> +DEBUG_OPTIMIZATION[doc] =3D "The options to pass in TARGET_CFLAGS and CF=
-LAGS when compiling a system for debugging. This variable defaults to '${DE=
-BUG_OPTLEVEL} ${DEBUG_LEVELFLAG}'."
->  DEFAULT_PREFERENCE[doc] =3D "Specifies a weak bias for recipe selection =
-priority."
->  DEPENDS[doc] =3D "Lists a recipe's build-time dependencies (i.e. other r=
-ecipe files)."
->  DEPLOY_DIR[doc] =3D "Points to the general area that the OpenEmbedded bu=
-ild system uses to place images, packages, SDKs and other output files that=
- are ready to be used outside of the build system."
-> @@ -178,7 +179,8 @@ FILESPATH[doc] =3D "The default set of directories th=
-e OpenEmbedded build system u
->  FILESYSTEM_PERMS_TABLES[doc] =3D "Allows you to define your own file per=
-missions settings table as part of your configuration for the packaging pro=
-cess."
->  FONT_EXTRA_RDEPENDS[doc] =3D "When a recipe inherits the fontcache class=
-, this variable specifies runtime dependencies for font packages. This vari=
-able defaults to 'fontconfig-utils'."
->  FONT_PACKAGES[doc] =3D "When a recipe inherits the fontcache class, this=
- variable identifies packages containing font files that need to be cached =
-by Fontconfig."
-> -FULL_OPTIMIZATION[doc] =3D "The options to pass in TARGET_CFLAGS and CFL=
-AGS when compiling an optimized system. This variable defaults to '-O2 ${DE=
-BUG_LEVELFLAG}'."
-> +FULL_OPTLEVEL[doc] =3D "The toolchain optimization level flags. This var=
-iable defaults to '-O2'"
-> +FULL_OPTIMIZATION[doc] =3D "The options to pass in TARGET_CFLAGS and CFL=
-AGS when compiling an optimized system. This variable defaults to '${FULL_O=
-PTLEVEL} ${DEBUG_LEVELFLAG}'."
->
->  #G
->
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#223516): https://lists.openembedded.org/g/openembedde=
-d-core/message/223516
-> Mute This Topic: https://lists.openembedded.org/mt/115268057/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+    1/1 [
+        Author: cvelistV5 Github Action
+        Email: github_action@example.com
+        Subject: 1 changes (1 new | 0 updated): - 1 new CVEs: CVE-2025-11135 - 0 updated CVEs:
+        Date: Mon, 29 Sep 2025 01:40:51 +0000
+
+    ]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/cve-exclusion_6.16.inc              | 58 +++++++++++++++++--
+ 1 file changed, 53 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.16.inc b/meta/recipes-kernel/linux/cve-exclusion_6.16.inc
+index a6d72242e2..17776b59a0 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.16.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.16.inc
+@@ -1,11 +1,11 @@
+ 
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2025-09-22 03:24:59.110083+00:00 for kernel version 6.16.8
+-# From linux_kernel_cves cve_2025-09-22_0200Z-2-gd662e5ed470
++# Generated at 2025-09-29 01:46:30.994598+00:00 for kernel version 6.16.9
++# From linux_kernel_cves cve_2025-09-29_0100Z
+ 
+ 
+ python check_kernel_cve_status_version() {
+-    this_version = "6.16.8"
++    this_version = "6.16.9"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+@@ -4984,8 +4984,6 @@ CVE_STATUS[CVE-2022-50401] = "fixed-version: Fixed from version 6.2"
+ 
+ CVE_STATUS[CVE-2022-50402] = "fixed-version: Fixed from version 6.2"
+ 
+-CVE_STATUS[CVE-2022-50403] = "fixed-version: Fixed from version 6.2"
+-
+ CVE_STATUS[CVE-2022-50404] = "fixed-version: Fixed from version 6.2"
+ 
+ CVE_STATUS[CVE-2022-50405] = "fixed-version: Fixed from version 6.2"
+@@ -12944,6 +12942,8 @@ CVE_STATUS[CVE-2024-58239] = "fixed-version: Fixed from version 6.8"
+ 
+ CVE_STATUS[CVE-2024-58240] = "fixed-version: Fixed from version 6.8"
+ 
++CVE_STATUS[CVE-2024-58241] = "fixed-version: Fixed from version 6.12"
++
+ CVE_STATUS[CVE-2025-21629] = "fixed-version: Fixed from version 6.13"
+ 
+ CVE_STATUS[CVE-2025-21631] = "fixed-version: Fixed from version 6.13"
+@@ -16348,6 +16348,54 @@ CVE_STATUS[CVE-2025-39865] = "cpe-stable-backport: Backported in 6.16.6"
+ 
+ CVE_STATUS[CVE-2025-39866] = "cpe-stable-backport: Backported in 6.16.6"
+ 
++CVE_STATUS[CVE-2025-39867] = "fixed-version: only affects 6.17rc1 onwards"
++
++CVE_STATUS[CVE-2025-39868] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39869] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39870] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39871] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39872] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39873] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39874] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39875] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39876] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39877] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39878] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39879] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39880] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39881] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39882] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39883] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39884] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39885] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39886] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39887] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39888] = "cpe-stable-backport: Backported in 6.16.8"
++
++CVE_STATUS[CVE-2025-39889] = "fixed-version: Fixed from version 6.15"
++
++CVE_STATUS[CVE-2025-39890] = "fixed-version: Fixed from version 6.16"
++
+ CVE_STATUS[CVE-2025-39930] = "fixed-version: Fixed from version 6.15"
+ 
+ CVE_STATUS[CVE-2025-39989] = "fixed-version: Fixed from version 6.15"
+-- 
+2.39.2
+
 
