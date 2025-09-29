@@ -1,80 +1,95 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB98CCAC5B0
-	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 08:32:13 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.web10.48907.1759134723424842053
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB20CAC5B0
+	for <webhook@archiver.kernel.org>; Mon, 29 Sep 2025 08:35:03 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.web11.48800.1759134894689773946
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Sep 2025 01:32:04 -0700
+ Mon, 29 Sep 2025 01:34:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=yMVkiSzW;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=zt9S7Yp7;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: antonin.godard@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 7DD871A0FDF;
-	Mon, 29 Sep 2025 08:32:01 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 4B98AC0078E;
+	Mon, 29 Sep 2025 08:34:35 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 42FC3606AE;
-	Mon, 29 Sep 2025 08:32:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9D306102F1845;
-	Mon, 29 Sep 2025 10:31:58 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E6D2F606AE;
+	Mon, 29 Sep 2025 08:34:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 828C3102F1849;
+	Mon, 29 Sep 2025 10:34:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1759134720; h=from:subject:date:message-id:to:mime-version:content-type:
+	t=1759134892; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=extd7zutWPptLWyV3NhcReX/+HD8m5tqYi4CYDfbEwo=;
-	b=yMVkiSzWXw6BHtAOGZZqz8XHjY/klzhNjMX1wr+0hzUxq+f0CIKWQ4cQWZl30qilNjd9vT
-	2XrYvFrEVS0nufzd0gmmBwtj2WvbjF3cgCow3+Sq7bbkWyggOSavbe+41TPBI/Tkxt4OtD
-	f7ANct/Uq+lyMhr+6jy9FBbAdqJCPUUUZQatmuVW9ySmIlLXyRfJuuLu4Aejc1gB4v7v5Y
-	668koJn5h7Adw96AzHi4+aQ31Sfzp62219zLEYX9plXUW+Kcnn51WuHqp/5JeymsSEHCzU
-	Ygfb6nzZo/nQLSl4fooSZXp6avVs5R+P3BBGt3ms8FD6ODZ4vKOrQFWbUGlApQ==
+	bh=SWX+XOQAp5W0Eq0VQH/vzhKYKtqFEA+VbsAE6XS465A=;
+	b=zt9S7Yp7gHBNDPF8BT/uWmg7ab5JgKQ1AFWr+i7iftq/xYn/c5+i5/2xTxKNBqGzbHUoEz
+	c9Nep4m+QdTwUW3NHoFZj1hYqbaxgl+DDt9ZuLHcqbUI4cgSTWAAPfz3BxPrN1uuNc5/f4
+	P/26HmH25L96Mu57rdd5QXdJ0Xd0l++WvdCO6ViznVhpo14NoGqjF4O4jxfxw50cWmoxp5
+	1hHPJaorZaG220+8u6yk7bvMyWY9uEaJKM25jpwyNUauWPdsJ4C1qHN54BWoeW8dozDFNx
+	Iz5IrWXUJ8bAAYiI8xP9rSPjuSrso6HU2enm5eeZZwCOwzMYviOh4oENFkP/YA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 29 Sep 2025 10:31:58 +0200
-Message-Id: <DD557PAIIKMB.2BLYUBOUGXS9C@bootlin.com>
-Subject: Re: [OE-core] [PATCH v2 9/9] debug_build: defer inherit bblcass
- debug_build when DEBUG_BUILD is true
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <hongxu.jia@eng.windriver.com>,
- <openembedded-core@lists.openembedded.org>, <peter.kjellerstedt@axis.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <18669FECD58FB457.22280@lists.openembedded.org>
- <18678856A5E59549.12551@lists.openembedded.org>
- <f238b771-5b28-4244-9907-ceb29dd80fef@windriver.com>
-In-Reply-To: <f238b771-5b28-4244-9907-ceb29dd80fef@windriver.com>
+Date: Mon, 29 Sep 2025 10:34:50 +0200
+Message-Id: <DD559WH6JH42.39SI3VILMNKY4@bootlin.com>
+Cc: <openembedded-core@lists.openembedded.org>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>
+From: "Antonin Godard" <antonin.godard@bootlin.com>
+To: <yoann.congal@smile.fr>
+Subject: Re: [OE-core] [PATCH] sanity: Update minimum gcc version to 10.1
+References: <20250929-min-gcc-version-v1-1-c93d7f5a4f49@bootlin.com>
+ <CAMSfU+5b1Dd2fohNSgs1pT-9By8cPkv-HLpg3BoO0cveY_78Qg@mail.gmail.com>
+In-Reply-To: <CAMSfU+5b1Dd2fohNSgs1pT-9By8cPkv-HLpg3BoO0cveY_78Qg@mail.gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 08:32:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224126
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Sep 2025 08:35:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224127
 
-On Fri Sep 26, 2025 at 3:04 AM CEST, hongxu via lists.openembedded.org wrot=
-e:
-> Hi Mathieu,
+On Mon Sep 29, 2025 at 10:25 AM CEST, Yoann Congal via lists.openembedded.o=
+rg wrote:
+[...]
+>> -# Require at least gcc version 8.0
+>> -#
+>> -# This can be fixed on CentOS-7 with devtoolset-6+
+>> -# https://www.softwarecollections.org/en/scls/rhscl/devtoolset-6/
+>> +# Require at least gcc version 10.1
+>>  #
+>>  # A less invasive fix is with scripts/install-buildtools (or with user
+>>  # built buildtools-extended-tarball)
+>>  #
+>>  def check_gcc_version(sanity_data):
+>>      version =3D oe.utils.get_host_gcc_version(sanity_data)
+>> -    if bb.utils.vercmp_string_op(version, "8.0", "<"):
+>> -        return "Your version of gcc is older than 8.0 and will break
+>> builds. Please install a newer version of gcc (you could use the project=
+'s
+>> buildtools-extended-tarball or use scripts/install-buildtools).\n"
+>> +    if bb.utils.vercmp_string_op(version, "10.1", "<"):
+>> +        return "Your version of gcc is older than 10.1 and will break
+>> builds. Please install a newer version of gcc (you could use the project=
+'s
+>> buildtools-extended-tarball or use scripts/install-buildtools).\n"
+>>
 >
-> Ping, or should I resend the whole series?
->
-> //Hongxu
->
+> While you are modifying this line could you make the version a single
+> variable instead of repeating it twice? (I know I would forget to update
+> the one in the message -_-')
 
-Hi Hongxu,
+Hi Yoann,
 
-The other part of the series was discussed in the Thursday patch review
-meeting. As far as I remember, it was rejected because it complicates a
-bit the whole thing while it should be simplifying. I was not directly
-involved in the discussion, so I might miss a few points here. You
-should have got some feedback about it, but it looks like it was lost
-somehow.
-
-You might want to resend the whole series to trigger discussion.
+This is not limited to this test, I think most of the check_*_version tests
+could benefit from that improvement. Maybe it's more relevant to have a sep=
+arate
+patch for this improvement, instead of just here?
 
 Thanks,
-Mathieu
+Antonin
 
 --=20
-Mathieu Dubois-Briand, Bootlin
+Antonin Godard, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
 
