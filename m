@@ -1,119 +1,251 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DD44CCA468
-	for <webhook@archiver.kernel.org>; Tue, 30 Sep 2025 13:48:01 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.25710.1759240074505666278
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F696CCA470
+	for <webhook@archiver.kernel.org>; Tue, 30 Sep 2025 14:55:41 +0000 (UTC)
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+ by mx.groups.io with SMTP id smtpd.web11.27452.1759244132311079156
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Sep 2025 06:47:54 -0700
+ Tue, 30 Sep 2025 07:55:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ol0YqsOF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3f44000626bso3687432f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 06:47:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gavAjFpx;
+ spf=pass (domain: gmail.com, ip: 74.125.224.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-635401a8f5aso4812695d50.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 07:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1759240073; x=1759844873; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=HEtyJM6a9ZADLPGF0S1a+yzioBTJd0kUpPypjeaBuAw=;
-        b=Ol0YqsOF61ZdpGW4LlbkXovZDb4VrIvEvF0FWFvjjB4Wc+V/y3T5uGwLYamUylplA+
-         eef//yVIVVjeNkIMvHbgpWqqY4KjizZ/CYMy3Rnhe4Zg27jp0eAUi+0gLATr/ogtuNkP
-         1QMcc0r0+A4hLgaUmf/9UYhgwgtRoro3P/d3M=
+        d=gmail.com; s=20230601; t=1759244131; x=1759848931; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GW9C2dc6obWbLBw2JwkiKtnYRlI5MfqJHh5byvEWMcM=;
+        b=gavAjFpxEcdsxBwFVwmRxgtWrOm4xJzBDJ/wlwWMXVnGjG/ptCDW8OmaD4UFHSReRe
+         mijLFhnQ6a9iEcY3qFtIJzVrChcjO9THa+ddqciVutqOr5NYDUZLWinaBoIpVxCZ8tlK
+         j713uiIRZbHcW0aupHgkt2SgeOulMRe1CuYNCdEtSHFj7nFvm4GNFFoCHAyjZkFwBysh
+         KJCfcHfXVgUxjNMZoq5+Dftk/FJscHPIln2r34FiFvGbJDhjEJu7jNoMuzv7pNpieDKi
+         mX9Ob+wU9L3uGgeJ6u0QSWwJd8mwMw0zfaLZ7mqfiDIJuvxx4aM+qbqX0/HJzOnVo+fE
+         LgmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759240073; x=1759844873;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HEtyJM6a9ZADLPGF0S1a+yzioBTJd0kUpPypjeaBuAw=;
-        b=KFVv1F4Hva+3LdSPDVR8lpG0ZKxl4WL3h4BHb5iP0Qyv7tJB1w/7SVpTdqXUMbyJUg
-         sAx+Ew8g6iOUyd4M3qmIYil6+IZrfRHoYwdDINyClRFXVywopMQIL6g4hDuDKNQ9Eh5K
-         4WQXcYOdiMpfnODs2MaRdD3NVT8pX52VOcVel4Ku/jqU0leM0AN80q2OuEiaZt/nDbji
-         3JcOd/oDg0iVHqYTuZN9lqVMrJ/EIo58eN1EtlfNErGuRf5sMNY5CQw/FNqLx5sgBRVo
-         HxImSp7ijGFuJNkjyEdwWdVuWW7VEhmzGYp+6pU1E7vd/P1DipTX13/ucejIp955W26z
-         jY0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVejPN9wQB8xnXntWkrJM95/La5VXSQ0cOAcB7lsnNAjvRNkKfZQH1d7OzUxuHwbtNcjenH8HHASwLItodsLtf9LQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzxPeHLuXsk6M0K8F/xPtpDpmgc6MycBUC31U8MNV7SyvZ7Qi0c
-	vjR/n9KVqg5D3UmYLxTJZMucf+zU+U/dfgb+SiXXkM3GFGUXdHx9QT/wQWk7wdf4Bb8=
-X-Gm-Gg: ASbGncuGcLbBu0WtFtEWad+wWEQrZGQOCswubhq0dRpm5DZ3LAbmRpt1IQZxyE/FkqN
-	PtN3ZZCFphVFIb3exZeKfiX6BKXgfzlzly0QBBN9KolnhdxdsocwQnwR4PMwtHgB8QuL+OqoX0a
-	Fxvdgvwq217ZztIyHxdXYxXt/GvfMyixmJsqRAbbLpxzxGyFGO+CpwzNTIktvWOirwoCJcsvaFi
-	fwcxAZj/5h1GXGrhW80iX36BPh0LFVm48ly4RGBYjZpMiOHpJNl7xH7lwiECgFJTg/6jhFNBjah
-	DhvNTFjuIlyEO96HwyIstYUnulikZ2VHeFr/QH/GM/eyAjCO9p2YGI6c/nMZRPCeFtNUjA2FX+D
-	VJFW1JMGKuNf57WPYiTljy+tu61sZe02JC0jXRvSdQ06dfZcwgVh8oHc7BBxNXV3QmHXBjSJoi9
-	TtdWjtBly2T3q/Ip8EmVYUa1ZuDrYEsIjM
-X-Google-Smtp-Source: AGHT+IE8YWaTPFmtk9SLvITBcp+uHXgQa8iLAqAowf5FzF+V7Dh8W70so3EXDpHM3vEqWqpncyuzYw==
-X-Received: by 2002:a05:6000:26ce:b0:3e7:471c:1de3 with SMTP id ffacd0b85a97d-40e436422e6mr19971722f8f.14.1759240072777;
-        Tue, 30 Sep 2025 06:47:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:55be:9f8:6c8b:6835? ([2001:8b0:aba:5f3c:55be:9f8:6c8b:6835])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fb9e1bd14sm23999297f8f.28.2025.09.30.06.47.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 06:47:52 -0700 (PDT)
-Message-ID: <d04d310ec882ddea6f9578eeb65d99cfae1abe69.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] binutils-cross-canadian: Add missing perl
- mpodules to RDEPENDS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Date: Tue, 30 Sep 2025 14:47:51 +0100
-In-Reply-To: <20250930123901.949798-1-Harish.Sadineni@windriver.com>
-References: <20250930123901.949798-1-Harish.Sadineni@windriver.com>
+        d=1e100.net; s=20230601; t=1759244131; x=1759848931;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GW9C2dc6obWbLBw2JwkiKtnYRlI5MfqJHh5byvEWMcM=;
+        b=f3wySXwQeiElV+0bRUQQMEae/vBy/1TYX3kr8512qdzFTRETWuGiHxIl32T2mxURe/
+         YdZ4fSeI7KKVUHG9QSM/76g9FHwx81+GEes09jrb/YCQjUB1XA3enKpp+59qxXLsOMsm
+         eGmLGJ1jIhp8AS3vzeIrxModkPm6RwueKwXVm9u7NTADjvG8+LDZ2xpcNUJRkGa55RDJ
+         0it7L7LIh0D/zowTgaFU0TSEFS4E7gUvuwYjIGuYAfjz/v6zA873t2gUB7ygUHgSRmy/
+         TTdFUa6fEmJ6YAHcX4t3e8Ej70GmkAilbDVp9RtnODp7BxVhawFtPoxARH5khDBTlO7O
+         ajSg==
+X-Gm-Message-State: AOJu0Yzu/jqQG9E4mBbINQ1YKJOexjG+DHSWhotubq2NOz36ZUjRmgPN
+	H4VN7GlZEIjtDheg5/6OtDm1zXRAvkNFIc2kFilvlkkR+5KfxWrVAgUbDUpF2VdA3EZm0g5BAtj
+	P+y9QuJywqdHhav64ujArMLB+V72cmbk9oTQwGiA=
+X-Gm-Gg: ASbGncsoC/SYuspFrAW/KbaVRP37WJN634/Y4v+RSGThoEdV3ZVvt24Ho3wmRUnh6xb
+	BdltVr6riAXrmAG9oLRBRa+X4eB5c37IXrPP8m7kvEAJdlDS4IjKVktJur7Nd3WSlnnLwX/hLYQ
+	/SLOP91kPt5/i8AcIjwbhSSgRt1mLUBUd6ehk/d5bbNmOQ39nGqHeUWE8ogI2qsDVJP1UuNiTCL
+	Ql+2KaFxzm+TdRRLTLP+OSZT4qgOcPiBmd3Ov0Kcu5D2TjOF6vC1KDpaDy8qEz8YahcEf1TXf80
+	DPhaPn85aBWhc5tx26p5GzyHqH2/8xGnL3Ri06RzuQKjzQnSA0yGbJp1WyjfK4KjR/RtNA==
+X-Google-Smtp-Source: AGHT+IEt5rA/TL4vUBldkQPiqjTd94kgpiZu375CZtrifdQPrwT/ADnQ0JmOHgtbmKbmc5XLembUZABOMRCq1O2RRd4=
+X-Received: by 2002:a05:690e:1583:20b0:635:4ecc:fc28 with SMTP id
+ 956f58d0204a3-63b6ff75980mr172068d50.48.1759244131063; Tue, 30 Sep 2025
+ 07:55:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAD_4BXiwzc0VBdNjptP3N2Hj2=czhEEbLw4GOphNNnwnj9uTPQ@mail.gmail.com>
+ <CAMKF1soVEKaJcH=J99=eUKor+1gzE3RAB0cHaTnET68f4DnAeQ@mail.gmail.com>
+ <CAD_4BXiRTKx5HPNqmroz1fO3T8ggmQUVXa+=HJT=saLtg5PJzw@mail.gmail.com>
+ <CAMKF1sqwuC=AGzEa7W+EtfZM4fKvdXv-BP7YYhvhX5RD68owJw@mail.gmail.com> <CAD_4BXi_7XRk9KGvwvfoea6_uZQ2bgtpqqP51ht1JU4nC6D1-Q@mail.gmail.com>
+In-Reply-To: <CAD_4BXi_7XRk9KGvwvfoea6_uZQ2bgtpqqP51ht1JU4nC6D1-Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 30 Sep 2025 07:55:04 -0700
+X-Gm-Features: AS18NWBuF1yZ7SwPbP5bCGH65MkkhftJksaPNIv8nfdEMK2AqBH_kwriDb3slV4
+Message-ID: <CAMKF1srtMC5ATe8Cm81aUFwZ5B+uazzx6RPvOggodB_BK1gfHQ@mail.gmail.com>
+Subject: Re: [OE-core] Distro wide LTO broken?
+To: William Kennington <william@wkennington.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 13:48:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224188
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 14:55:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224189
 
-On Tue, 2025-09-30 at 05:39 -0700, Sadineni, Harish via lists.openembedded.=
-org wrote:
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->=20
-> In sdk while running "x86_64-poky-linux-gp-display-html --help" gives
-> following error:
-> $sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux->
-> ./x86_64-poky-linux-gp-display-html --help
-> Can't locate bigint.pm in @INC (you may need to install the bigint module
->=20
-> By adding the following perl modules to RDEPENDS fixes the above errors:
-> =C2=A0 nativesdk-perl-module-bignum
-> =C2=A0 nativesdk-perl-module-bigint
-> =C2=A0 nativesdk-perl-module-math-bigint
->=20
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
-> =C2=A0meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b=
-/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-> index 7d7ffe92ce..9dc73fbdf1 100644
-> --- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-> @@ -5,6 +5,7 @@ PN =3D "binutils-cross-canadian-${TRANSLATED_TARGET_ARCH}=
-"
-> =C2=A0BPN =3D "binutils"
-> =C2=A0
-> =C2=A0DEPENDS =3D "flex-native bison-native virtual/nativesdk-cross-cc vi=
-rtual/nativesdk-libc nativesdk-zlib nativesdk-gettext nativesdk-flex"
-> +RDEPENDS:${PN} +=3D "nativesdk-perl-module-bignum=C2=A0 nativesdk-perl-m=
-odule-bigint nativesdk-perl-module-math-bigint"
-> =C2=A0EXTRA_OECONF +=3D "--with-sysroot=3D${SDKPATH}/sysroots/${TUNE_PKGA=
-RCH}${TARGET_VENDOR}-${TARGET_OS} \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 --enable-poison-system-directories \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 "
+On Tue, Sep 30, 2025 at 12:50=E2=80=AFAM William Kennington
+<william@wkennington.com> wrote:
+>
+> On Mon, Sep 29, 2025 at 7:58=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wro=
+te:
+> >
+> > On Mon, Sep 29, 2025 at 5:19=E2=80=AFPM William Kennington
+> > <william@wkennington.com> wrote:
+> > >
+> > > On Mon, Sep 29, 2025 at 11:43=E2=80=AFAM Khem Raj <raj.khem@gmail.com=
+> wrote:
+> > > >
+> > > > On Mon, Sep 29, 2025 at 3:51=E2=80=AFAM William Kennington via
+> > > > lists.openembedded.org
+> > > > <william=3Dwkennington.com@lists.openembedded.org> wrote:
+> > > > >
+> > > > > If I add the following to my distro, the build breaks for the ope=
+nssl
+> > > > > and other core packages due to having build path impurities in th=
+e
+> > > > > static libraries created.
+> > > > >
+> > > > > ```
+> > > > > require conf/distro/include/lto.inc
+> > > > > DISTRO_FEATURES +=3D "lto"
+> > > > > ```
+> > > > >
+> > > > > The errors I get are all like
+> > > > > ```
+> > > > > ERROR: openssl-3.5.2-r0 do_package_qa: QA Issue: File
+> > > > > /usr/lib/libssl.a in package openssl-staticdev contains reference=
+ to
+> > > > > TMPDIR [buildpaths]
+> > > > > ERROR: openssl-3.5.2-r0 do_package_qa: QA Issue: File
+> > > > > /usr/lib/libcrypto.a in package openssl-staticdev contains refere=
+nce
+> > > > > to TMPDIR [buildpaths]
+> > > > > ERROR: openssl-3.5.2-r0 do_package_qa: Fatal QA errors were found=
+, failing task.
+> > > > > ERROR: Logfile of failure stored in:
+> > > > > /home/builder/yocto/build/tmp/work/cortexa76-cortexa55-crypto-oe-=
+linux/openssl/3.5.2/temp/log.do_package_qa.118335
+> > > > > ERROR: Task (/srv/yocto/poky/meta/recipes-connectivity/openssl/op=
+enssl_3.5.2.bb:do_package_qa)
+> > > > > failed with exit code '1'
+> > > > > ```
+> > > > >
+> > > > > Probably there is just some kind of flag missing in the LTO build
+> > > > > options to filter out the build directory, as -ffile-prefix-map a=
+nd
+> > > > > whatnot are already present in the builds. I haven't yet figured =
+out
+> > > > > exactly what is contributing to this impurity.
+> > > > >
+> > > >
+> > > > Inspect the .a files ( maybe using strings or binary viewing tools
+> > > > like xxd ), with LTO they are flat objects with additional informat=
+ion
+> > > > for
+> > > > LTO to work and I think it will give more information.
+> > >
+> > > Yeah, I believe it's just a single remapping we are missing somewhere
+> > > that is allowing the extra string to be added into the binary. It's
+> > > been a while since I've worked on this kind of impurity stripping, so
+> > > it will probably take a bit to get used to the tooling again.
+> > > Hopefully I find the root cause and we can strip it out
+> > >
+> > > An example invocation looks like the following. All other object file=
+s
+> > > I looked at share the same impurity which ends up in the static
+> > > library later
+> > > ```
+> > > aarch64-oe-linux-gcc  -mcpu=3Dcortex-a76.cortex-a55+crypto
+> > > -mbranch-protection=3Dstandard -fstack-protector-strong  -O2
+> > > -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-sec=
+urity
+> > > --sysroot=3D/home/builder/yocto/build/tmp/work/cortexa76-cortexa55-cr=
+ypto-oe-linux/openssl/3.5.2/recipe-sysroot
+> > >  -I. -Iinclude -Iapps/include -I../sources/openssl-3.5.2
+> > > -I../sources/openssl-3.5.2/include
+> > > -I../sources/openssl-3.5.2/apps/include  -fPIC -pthread
+> > > -Wa,--noexecstack -O2 -g -flto -ffat-lto-objects -fuse-linker-plugin
+> > > -ffile-prefix-map=3D/home/builder/yocto/build/tmp/work/cortexa76-cort=
+exa55-crypto-oe-linux/openssl/3.5.2/s
+> > > ources/openssl-3.5.2=3D/usr/src/debug/openssl/3.5.2
+> > > -ffile-prefix-map=3D/home/builder/yocto/build/tmp/work/cortexa76-cort=
+exa55-
+> > > crypto-oe-linux/openssl/3.5.2/build=3D/usr/src/debug/openssl/3.5.2
+> > > -ffile-prefix-map=3D/home/builder/yocto/build/tmp/work/cortexa76-cort=
+exa55-crypto-oe-linux/openssl/3.5.2/recipe-sysroot=3D
+> > >  -ffile-prefix-map=3D/home/builder/yocto/build/tmp/work/cortexa76-cor=
+texa55-crypto-oe-linux/openssl/3.5.2/recipe-sysroot-native=3D
+> > >  -pipe -DOPENSSL_USE_NODELETE -DOPENSSL_PIC
+> > > -DOPENSSLDIR=3D"\"/usr/lib/ssl-3\""
+> > > -DENGINESDIR=3D"\"/usr/lib/engines-3\""
+> > > -DMODULESDIR=3D"\"/usr/lib/ossl-modules\"" -DOPENSSL_BUILDING_OPENSSL
+> > > -DNDEBUG  -MMD -MF apps/lib/libapps-lib-app_x509.d.tmp -c -o
+> > > apps/lib/libapps-lib-app_x509.o ../sources/openssl-3.5.2/apps/l
+> > > ib/app_x509.c
+> > > ```
+> > > and the partial strings dump with the impurity looks like
+> > > ```
+> > > vtmp
+> > > unsigned int
+> > > /usr/src/debug/openssl/3.5.2
+> > > ../sources/openssl-3.5.2/apps/lib/app_x509.c
+> > > /home/builder/yocto/build/tmp/work/cortexa76-cortexa55-crypto-oe-linu=
+x/openssl/3.5.2/build
+> > > include/openssl
+> > > /usr/lib/aarch64-oe-linux/gcc/aarch64-oe-linux/15.2.0/include
+> > > ../sources/openssl-3.5.2/include/openssl
+> > > /usr/include
+> > > ../sources/openssl-3.5.2/apps/lib
+> > > ../sources/openssl-3.5.2/apps/include
+> > > app_x509.c
+> > > ```
+> >
+> > If you already know its coming from  app_x509.c, then you have
+> > narrowed it down a step. Next, would be
+> To be fair, it's basically every invocation of `gcc ... -c` that
+> produces it. I just picked an arbitrary file that was easy to find
+> that happens to carry the issue.
+>
+> > to build just this file with -dD -E option and inspect if it contains
+> > any live string containing
+> > "/home/builder/yocto/build/tmp/work/cortexa76-cortexa55-crypto-oe-linux=
+/openssl/3.5.2/build"
+> > if it does not find it. then perhaps build the assembly output with
+> > -fverbose-asm -S
+> > option and look for this string in the generated asm file.
+>
+> I ran this, and didn't see anything containing the path. I think it's
+> just a bug with the handling of `-ffile-prefix-map` because it looks
+> like the PWD being used is exactly listed
+>
+> Tried the latest snapshot of gcc 15 too just to see if they fixed
+> anything. Nothing in the git log looks relevant and it doesn't fix the
+> issue.
+>
+> Did some more digging and found out that if i remove
+> `-ffat-lto-objects` I don't have the issue anymore.
+> Seems like maybe this is related to
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D109805
 
-This is probably the right direction but shouldn't this be for the
-gprofng package rather than ${PN}?
+yeah seems to be the problem you are seeing as well. For tests try passing
 
-Cheers,
+LDFLAGS +=3D "${DEBUG_PREFIX_MAP}"
 
-Richard
+and see if it helps.
+>
+> >
+> > > >
+> > > > > Prior to rebasing on the latest master, LTO was working fine glob=
+ally.
+> > > >
+> > > > what is the delta we are talking about here ?
+> > >
+> > > Sadly this was long ago `25d60ac6f61cc186b4c5a961554bee583736fd17`
+> > > from early 2024. Doing any kind of bisection is probably pointless so
+> > > I just need to figure out this new impurity (or maybe just the check
+> > > got added since then)
+> >
+> > Yeah that will take too long to bisect so leave that aside.
+> >
+> > >
+> > > >
+> > > > >
+> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > > Links: You receive all messages sent to this group.
+> > > > > View/Reply Online (#224137): https://lists.openembedded.org/g/ope=
+nembedded-core/message/224137
+> > > > > Mute This Topic: https://lists.openembedded.org/mt/115492623/1997=
+914
+> > > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/u=
+nsub [raj.khem@gmail.com]
+> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > >
 
