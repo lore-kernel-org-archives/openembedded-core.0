@@ -1,100 +1,127 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFBE8CAC5B8
-	for <webhook@archiver.kernel.org>; Tue, 30 Sep 2025 15:46:01 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.28820.1759247160371583116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B83DCCA472
+	for <webhook@archiver.kernel.org>; Tue, 30 Sep 2025 19:50:21 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.226.1759261816743793457
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Sep 2025 08:46:00 -0700
+ Tue, 30 Sep 2025 12:50:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TExYpHy0;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=AxVPD23B;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101999b4d50a2-7ca2afb9-a768-48d5-bdfe-7baa9e066b9c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1759247159; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=DyG/KSj8PUeSUDPuq/qpoCbXuOUltN39AuXryP3z/rE=;
-	b=TExYpHy0znpheniSlT9mAFs0SraWSZ6CJ7a7Up5sIdhVzW1Al1RYqrd1PU5CsiQV
-	XvV+SRHuMsctfjuAzszSBk8YyfKIlWWOER9JPHMNnZvtRfglV745rruYuAAhC2Esk0d
-	x4IIp2/FZLb0u/2sSc0nlmUHjaDu1x58j1/QrgAk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759247159;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=DyG/KSj8PUeSUDPuq/qpoCbXuOUltN39AuXryP3z/rE=;
-	b=AxVPD23B/Ax9O2l9ceixHkPhwDKlNL42c06mAYAGORlMQgUz9wpvPpbkRNS2M27J
-	2wX6wWaxxEKsckSlCzM2OuH6fcZZ1AjKHcrreP43n2PE7JJKEEOOYGF1rhac6z0oqT8
-	yhzJOsJB9tqRJ9eL0fHxI0JeaZj9c7omIFs1bnKk=
-From: patchtest@automation.yoctoproject.org
-To: vanusuri@mvista.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH v2] ghostscript: upgrade 10.05.1 -> 10.06.0
-In-Reply-To: <20250930153901.246829-1-vanusuri@mvista.com>
-References: <20250930153901.246829-1-vanusuri@mvista.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101999b4d50a2-7ca2afb9-a768-48d5-bdfe-7baa9e066b9c-000000@us-west-2.amazonses.com>
-Date: Tue, 30 Sep 2025 15:45:59 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.09.30-54.240.27.33
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nN8MQAxG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-781010ff051so4421794b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 12:50:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1759261816; x=1759866616; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y8jZYtKo0NX19i4K84QvGXVSTEOwulKS4RFoBGX9ucs=;
+        b=nN8MQAxGBBculxPJ8+hMHHfaxp2WdWcFv8E1QJpdjSvK/k/FmR9nsRVVbXjd11pDZQ
+         +QyH4TwF9Xj8oECUhhFjgbot9yBRdKHxn1emXl75AtegCXJnkwE/sHjqq5d8ynXwI5C5
+         p2i7gwLuBOZHhZakOMA7wl+xBrNJEMPdE0IEpd0Y25JgcCogPVI4x6PZxbtdsacE0YLF
+         vzpi5TYa3oEf871wJU16mtPVzX8ph5MH2FTR7U6oLdlQM2bYxHH7k9IzEz72JnFKe+0m
+         A9EJz7XQ3zpR7aJYzC+8lz8/PJeQIXOKx0u0ZWZfPXRZTev1G3oqiaNj7Oab7LJPXS0y
+         6zcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759261816; x=1759866616;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y8jZYtKo0NX19i4K84QvGXVSTEOwulKS4RFoBGX9ucs=;
+        b=gcECcUtATl8Tb/sYK6EXK2YJ2e6rOd9GH1YcA0sGH4ODkvQQxKqwAI+We57ucaqViq
+         6JoavJPcncN6+8ZVfM7sHRWzyAHeWJSxIMyno/Kve03aSVWQ9abHCnRyQJaqUF+1vlti
+         30pAIINn6T2q23NblwWYDn5E9qnrWCS5c7OccwLqMiMm4QL95dSalljzky9n65A3foFI
+         5bfC3Dp4jKdvfX7vf5bbCn3mIS+KhD8QUeVZ6P08roHE1IJxLq8yskHETzWQLuyrJcxk
+         6WI9bpfqioAQGN056e6QKJcLEq6t64PbvzjQdHEmRm9TngoIbQ72HKBsK2pLdvQoaejE
+         RieA==
+X-Gm-Message-State: AOJu0YzooZ8COemt/LZ0T4LkS2mHhTla2DHl2klNYAxFP22B2LhjMGAf
+	biS3W8YxF7nKKGicnV0W+LtxHRKutK/nlKlKc9+HdSCq1bM03hOls7Zni9+jblDa61NA674KYmm
+	mdWEU
+X-Gm-Gg: ASbGncsvHVKMgVGnTcpgfZqq282eSDF+KpBj5uLr8LUG5NfZxB8+HaVrglAIdR7Pm0L
+	vNHowKlJDxioBSU64vrbCUAXEyU91gFMcngfcFSVl5zITqYxZsgigN8+LqnslOodoe+r1gjP05l
+	lQ0zjhygXBPKlAV9l7Bdj3gEy6xg/g36k6rF/7xGzQuKF7IUMUQHAV5EZnsmMCyiR7If2j7Ba6S
+	FpR0RM3HJ0m7HEpb35JX8CIVn53hyAXMbCa853en2sx3W4ACE0DRmQa+XLVpIv7YEjmbBBgzKFT
+	wG11JIr85t0cVo1GKdu2RLatErtaKULcmcZOEmbmjbNbyEpUfpU4+EMsc1Fj0wc4ReSrHPzCaW1
+	8JUgR9Gprcp/iqiy3vCEeVIDYG9EExvxGtdSQkA==
+X-Google-Smtp-Source: AGHT+IHbLD2ozW3KORS2HWpGTTu77qlcDStvRvTjK53TWkrJGyZUxSQrMo+liVgVRDn9ksSPDWLVjw==
+X-Received: by 2002:a05:6a00:1828:b0:781:2271:50ed with SMTP id d2e1a72fcca58-78af3ff6b02mr677752b3a.5.1759261815743;
+        Tue, 30 Sep 2025 12:50:15 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:5e34:462b:e2f0:5898])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7810238ca6dsm14411202b3a.8.2025.09.30.12.50.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Sep 2025 12:50:15 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/7] Patch review
+Date: Tue, 30 Sep 2025 12:50:02 -0700
+Message-ID: <cover.1759260542.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 15:46:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224192
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 19:50:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224193
 
---NextPart
-Content-Type: text/plain
+Please review this set of changes for kirkstone ande have comments back by
+end of day Thursday, October 2
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Passed a-full on autobuilder:
 
----
-Testing patch /home/patchtest/share/mboxes/v2-ghostscript-upgrade-10.05.1---10.06.0.patch
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2467
 
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
+The following changes since commit d381eeb5e70bd0ce9e78032c909e4a23564f4dd7:
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+  build-appliance-image: Update to kirkstone head revision (2025-09-19 07:04:23 -0700)
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+are available in the Git repository at:
 
----
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Divya Chellam (1):
+  vim: upgrade 9.1.1652 -> 9.1.1683
 
---NextPart
+Gyorgy Sarvari (1):
+  libhandy: update git branch name
 
+Praveen Kumar (1):
+  go: fix CVE-2025-47907
 
---NextPart--
+Soumya Sambu (1):
+  python3-jinja2: upgrade 3.1.4 -> 3.1.6
+
+Yogita Urade (3):
+  grub2: fix CVE-2024-56738
+  curl: fix CVE-2025-9086
+  tiff: fix CVE-2025-9900
+
+ .../grub/files/CVE-2024-56738.patch           |  75 ++++
+ meta/recipes-bsp/grub/grub2.inc               |   1 +
+ meta/recipes-devtools/go/go-1.17.13.inc       | 125 ++++---
+ .../go/go-1.21/CVE-2025-47907-pre-0001.patch  | 354 ++++++++++++++++++
+ .../go/go-1.21/CVE-2025-47907-pre-0002.patch  | 232 ++++++++++++
+ .../go/go-1.21/CVE-2025-47907.patch           | 327 ++++++++++++++++
+ ...inja2_3.1.4.bb => python3-jinja2_3.1.6.bb} |   5 +-
+ meta/recipes-gnome/libhandy/libhandy_1.5.0.bb |   2 +-
+ .../libtiff/tiff/CVE-2025-9900.patch          |  57 +++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   1 +
+ .../curl/curl/CVE-2025-9086.patch             |  55 +++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 13 files changed, 1174 insertions(+), 65 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2024-56738.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2025-47907-pre-0001.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2025-47907-pre-0002.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2025-47907.patch
+ rename meta/recipes-devtools/python/{python3-jinja2_3.1.4.bb => python3-jinja2_3.1.6.bb} (82%)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-9900.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2025-9086.patch
+
+-- 
+2.43.0
+
 
