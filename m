@@ -1,176 +1,116 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <pierre-loup.gosse@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3398CAC5B9
-	for <webhook@archiver.kernel.org>; Tue, 30 Sep 2025 08:19:48 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.20326.1759220387923855960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A67DCCA470
+	for <webhook@archiver.kernel.org>; Tue, 30 Sep 2025 09:43:59 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.21301.1759225431083923908
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Sep 2025 01:19:47 -0700
+ Tue, 30 Sep 2025 02:43:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=LetDed56;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2368835a42=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58U6UMm62903808
-	for <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 01:19:47 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=YGT5aSPME83N7DiqMFAA
-	1nWZ4xqCGYRnff9mFU73EqI=; b=LetDed56sCSCUGwocH2yiqh6e/eIvA6flRjt
-	Q2PwrVgvQYWo6Me//9d0RuP7GwwMzZW3jhWlKXBu2XQhuF7a1WPsd60nI+fndMSH
-	09J9hub+GZYW4lLkhtWLWzcv51M9Ot8kAhcV80vnMFlaImckBIUO1RLFfjQNHsDI
-	kBK5WrQzHVNa+U28bWL7Wm2WBPvYiCpbCvSd8iXxu4Kxrw+cfj1zOAhPwpCT/OZ4
-	cj3JZwY4GMwgu41/gJmt5xLzZgYg6gDeJY5Oc+kIUad3rPaqd+2QjNrCh2dnNBLM
-	CcG8vnCjcxM5MIqA/1OVRuwMF8Mtrh2vdEz04h7fmyt/FumgnA==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49eb6yjy7h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 01:19:47 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Tue, 30 Sep 2025 01:19:45 -0700
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] tiff: fix CVE-2025-9900
-Date: Tue, 30 Sep 2025 13:49:25 +0530
-Message-ID: <20250930081925.2774032-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=d+yqEQQN;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: pierre-loup.gosse@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-46e30ef74b0so39485035e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 02:43:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1759225429; x=1759830229; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WNcMKBudcKBmwe6dseVPIyowpJrXUGlMUvGZxEI6Xds=;
+        b=d+yqEQQNwA2NC0p0Kd0CHqvwgVLqxDF663z0eFGM0TFHc+P4Zd3ILI8UxVYZhmGQ9Y
+         wY4zc7hYhPl2MHCcU+nO3FsL6IjMgoWREILBVsxDgaJLUkBF1ohAHSPiFvg4RV/Wrv4D
+         LqeMOSqjkxE0WPwTrf46ZarSWQclkY8EzOKXw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759225429; x=1759830229;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WNcMKBudcKBmwe6dseVPIyowpJrXUGlMUvGZxEI6Xds=;
+        b=W2MZPcsdayIp1iI41SN23AHqhsgcdqdN2JSnq0aIPVzV2YBnbnJJqXONlAOaH1lHBU
+         lT3CLiy3/afn903b3WtpDwbM+CRcnh5nXTtTJxfXa0QjCC7nD1BPJh0m/Bc1RARkdN1X
+         1B084e7shOjtFUuhTcz7Og1Jfz1/uuyhCkhW2UB2GDwQM09Ly6CrC4RhgxOAVIfzSE31
+         e2XaicD7UjBc9Czt/5VFPXZR35sc1t7CIYqZ7A89+P4cfN9wtrQ0EaVp1Kz87OCOF9qu
+         mMDKnujWoFj4LCP7cOt9qQHUlsXVSPjPWxmK+Ghx59NsRMHQB9sNtnKGQbHEy9sEb+PR
+         cZkQ==
+X-Gm-Message-State: AOJu0Yzd27YKRS1XxIhiSaBYJPHfKknDJxdsnb7vtk7n7fDkkXFdDiGC
+	hSnDWbg35irnDVwd4gTZU2IbjgmlVNhydzAmrit4s93WqLkjbgjncPONV46IOAUOwrfSdp2/Js9
+	eRHRj
+X-Gm-Gg: ASbGncvxfDoZlzpMhK648m1z53n59E+ynfcHN4V8UBHEDbU0XWTXGuLPxRBqMEjxKet
+	TJYSU+mqAGVGKyF3J0cncpconz6im1YpvxpIBWAmjnrnI/XleM2TgQfFGfevyp56iRWdnnVR8iq
+	oqY/7nsPJkf/TUj3YmofkJjdMR6N2BxEBhnPf5eC7zXmmz0AlrvtrlvTyFi7kr6ErKbyxxKq91M
+	u+qbSAJDORuYdKvk/FJ7Gru5T7bRFzFM/IhKvoN3zVsr9kqDLhXFfFVOzieYcIGwJdU62SyBb2m
+	65biCKFHGyDKTi01js8S3tjHpoAx/P5BLkSI0K5k0R3zys/pFZ4jlE1zrRcJuk9iilswE+LinCf
+	D1eaGzy3OlltedfO743cs/0YxvuDV82onnHS5k1BTrNbWU+SVoKGZXjSk+LRJC7xzMG28Ymw=
+X-Google-Smtp-Source: AGHT+IEs41+aH0wi3Gmuy0QHY+6ydWhIKPvkzz+rsD0zN3lZIBro3cmnNzC4tavyB2uM26hewRH+Vw==
+X-Received: by 2002:a05:600c:1d16:b0:46b:932f:9201 with SMTP id 5b1f17b1804b1-46e32931330mr181895835e9.0.1759225429342;
+        Tue, 30 Sep 2025 02:43:49 -0700 (PDT)
+Received: from FRSMI24-BLUE.example.com ([195.68.54.115])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e5c3cad50sm9721485e9.3.2025.09.30.02.43.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Sep 2025 02:43:48 -0700 (PDT)
+From: pierre-loup.gosse@smile.fr
+To: openembedded-core@lists.openembedded.org
+Cc: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
+Subject: [PATCH v3 0/1] wic: extra partition plugin
+Date: Tue, 30 Sep 2025 11:43:43 +0200
+Message-Id: <20250930094344.3049278-1-pierre-loup.gosse@smile.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.11.232.110]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (10.11.224.121) To
- ala-exchng01.corp.ad.wrs.com (10.11.224.121)
-X-Proofpoint-ORIG-GUID: SW0drADimjhk32rYTsnu13wFUaLsBWVi
-X-Authority-Analysis: v=2.4 cv=cYHfb3DM c=1 sm=1 tr=0 ts=68db92a3 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=gmxlzscTznEA:10 a=yJojWOMRYYMA:10 a=PYnjg3YJAAAA:8 a=p0WdMEafAAAA:8
- a=Qs8GJauRAAAA:8 a=t7CeM3EgAAAA:8 a=5-NjjZwsQCTHZl0p56MA:9
- a=-MsOl3yrPmtpHepMbiy1:22 a=FdTzh2GWekK77mhwV6Dw:22 a=poXaRoVlC6wW9_mwW8W4:22
- a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTMwMDA3NCBTYWx0ZWRfX5mvcNhJqAmhP
- ALF8+2gIiX2kUFK60YNHvn4YSqvxwl6tRV0W6Pt2zlns+N9B2XutWfGzW60WyLLzutorOmTDIS+
- xPTCWV+AidGVOlkzDy3cmwHoM8+5yaeiefKT4ULjrI70qQbY7bkdsgYTvfHYhyRbhhCpIcnCpyR
- tr4zQhdGhao1Vq4pm6OQeejGIXJm0Pirzh3EwBc0h8IsbbHzsrh6UV0uC0OUw84LN8CAbNr7Fdc
- vCjE0GKxWrg9a7lkUtCUytkYW3mtOyx57d3zm6BwbBLFWI+gC6CSSnK/2GUW6+Quh/txR3dhCkh
- JMSBt71DTN9DtzyoRNrkD8YZo4RV0xk6311a7/Y7riEpN+091Cbfw/E8X/dp4jFpXPAJHljrr4Z
- F96IuUkHgr8RGUE0RkZecgy2Hfi3tQ==
-X-Proofpoint-GUID: SW0drADimjhk32rYTsnu13wFUaLsBWVi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-30_01,2025-09-29_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0
- clxscore=1015 priorityscore=1501 phishscore=0 spamscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2509150000 definitions=main-2509300074
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 08:19:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224179
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 09:43:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224180
 
-From: Yogita Urade <yogita.urade@windriver.com>
+From: Pierre-Loup GOSSE <pierre-loup.gosse@smile.fr>
 
-A flaw was found in Libtiff. This vulnerability is a "write-what-where"
-condition, triggered when the library processes a specially crafted TIFF
-image file.[EOL][EOL]By providing an abnormally large image height value
-in the file's metadata, an attacker can trick the library into writing
-attacker-controlled color data to an arbitrary memory location. This
-memory corruption can be exploited to cause a denial of service (application
-crash) or to achieve arbitrary code execution with the permissions of the user.
+Some files are not part of the root filesystem and must be installed in a
+separate partition. This is already handled for boot files by the
+bootimg_partition plugin and its IMAGE_BOOT_FILES BitBake variable.
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-9900
+This patch introduces a similar approach for generic "extra" files. A new
+extra_partition plugin is added, which populates a partition with files
+listed in the new IMAGE_EXTRA_FILES BitBake variable. Like the
+bootimg_partition plugin, files should be deployed to the DEPLOY_DIR_IMAGE
+directory.
 
-Upstream patch:
-https://gitlab.com/libtiff/libtiff/-/commit/3e0dcf0ec651638b2bd849b2e6f3124b36890d99
+The plugin supports:
+ - Glob pattern matching for file selection.
+ - File renaming.
+ - Suffixes to specify the target partition (by label, UUID, or partname),
+   enabling multiple extra partitions to coexist, similar to the
+   bootimg_partition plugin.
 
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
----
- .../libtiff/tiff/CVE-2025-9900.patch          | 57 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-9900.patch
+For example, with the following (simplified) wks file:
+  part / --source extra_partition --fstype=ext4 --label foo --size 5M
+  part / --source extra_partition --fstype=ext4 --uuid e7d0824e-cda3-4bed-9f54-9ef5312d105d --size 5M
+  part / --source extra_partition --fstype=ext4 --label bar --size 5M
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2025-9900.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-9900.patch
-new file mode 100644
-index 0000000000..9199cc6090
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2025-9900.patch
-@@ -0,0 +1,57 @@
-+From 3e0dcf0ec651638b2bd849b2e6f3124b36890d99 Mon Sep 17 00:00:00 2001
-+From: Su Laus <sulau@freenet.de>
-+Date: Wed, 11 Jun 2025 19:45:19 +0000
-+Subject: [PATCH] tif_getimage.c: Fix buffer underflow crash for less raster
-+ rows at TIFFReadRGBAImageOriented()
-+
-+CVE: CVE-2025-9900
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/3e0dcf0ec651638b2bd849b2e6f3124b36890d99]
-+
-+Changes-
-+- Use old API TIFFWarningExt instead of TIFFWarningExtR.
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ libtiff/tif_getimage.c | 20 +++++++++++++++++---
-+ 1 file changed, 17 insertions(+), 3 deletions(-)
-+
-+diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
-+index a9cd48f..4c807ad 100644
-+--- a/libtiff/tif_getimage.c
-++++ b/libtiff/tif_getimage.c
-+@@ -509,6 +509,22 @@ TIFFRGBAImageGet(TIFFRGBAImage* img, uint32_t* raster, uint32_t w, uint32_t h)
-+		"No \"put\" routine setupl; probably can not handle image format");
-+		return (0);
-+     }
-++    /* Verify raster width and height against image width and height. */
-++    if (h > img->height)
-++    {
-++        /* Adapt parameters to read only available lines and put image at
-++         * the bottom of the raster. */
-++        raster += (size_t)(h - img->height) * w;
-++        h = img->height;
-++    }
-++    if (w > img->width)
-++    {
-++        TIFFWarningExt(img->tif, TIFFFileName(img->tif),
-++                        "Raster width of %d shall not be larger than image "
-++                        "width of %d -> raster width adapted for reading",
-++                        w, img->width);
-++        w = img->width;
-++    }
-+     return (*img->get)(img, raster, w, h);
-+ }
-+
-+@@ -527,9 +543,7 @@ TIFFReadRGBAImageOriented(TIFF* tif,
-+
-+	if (TIFFRGBAImageOK(tif, emsg) && TIFFRGBAImageBegin(&img, tif, stop, emsg)) {
-+		img.req_orientation = (uint16_t)orientation;
-+-		/* XXX verify rwidth and rheight against width and height */
-+-		ok = TIFFRGBAImageGet(&img, raster+(rheight-img.height)*rwidth,
-+-			rwidth, img.height);
-++        ok = TIFFRGBAImageGet(&img, raster, rwidth, rheight);
-+		TIFFRGBAImageEnd(&img);
-+	} else {
-+		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "%s", emsg);
-+--
-+2.40.0
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index 6db4d80cdf..0b4bef4c41 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -62,6 +62,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2024-13978.patch \
-            file://CVE-2025-8534.patch \
-            file://CVE-2025-8851.patch \
-+           file://CVE-2025-9900.patch \
-            "
- 
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+And this configuration:
+  IMAGE_EXTRA_FILES_label-foo = "bar.conf;foo.conf"
+  IMAGE_EXTRA_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d = "bar.conf;foobar.conf"
+  IMAGE_EXTRA_FILES = "foo/*"
+  WICVARS:append = "\
+      IMAGE_EXTRA_FILES_label-foo \
+      IMAGE_EXTRA_FILES_uuid-e7d0824e-cda3-4bed-9f54-9ef5312d105d \
+  "
+
+The file bar.conf is installed as foo.conf in the first partition, as
+foobar.conf in the second partition, and the last partition installs all
+files from the foo directory.
+
+Pierre-Loup GOSSE (1):
+  wic: extra partition plugin
+
+ meta/classes-recipe/image_types_wic.bbclass   |   1 +
+ meta/lib/oeqa/selftest/cases/wic.py           |  43 +++++-
+ .../lib/wic/plugins/source/extra_partition.py | 134 ++++++++++++++++++
+ 3 files changed, 177 insertions(+), 1 deletion(-)
+ create mode 100644 scripts/lib/wic/plugins/source/extra_partition.py
+
 -- 
-2.40.0
+2.34.1
 
 
