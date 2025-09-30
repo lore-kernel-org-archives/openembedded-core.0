@@ -2,254 +2,304 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F0C4CCA470
-	for <webhook@archiver.kernel.org>; Tue, 30 Sep 2025 11:57:50 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.23638.1759233465771967364
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADE2ECCA470
+	for <webhook@archiver.kernel.org>; Tue, 30 Sep 2025 12:16:00 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web10.24016.1759234556081016644
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Sep 2025 04:57:46 -0700
+ Tue, 30 Sep 2025 05:15:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=AkfDu0VN;
- spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-77f343231fcso3311424b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 04:57:45 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=KHFtQwkX;
+ spf=pass (domain: mvista.com, ip: 209.85.218.49, mailfrom: vanusuri@mvista.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b457d93c155so92392066b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 05:15:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1759233465; x=1759838265; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XPOnP6nd4OWmaU4GmGFrTh2gTbHeXtxgbbylUv9tKzw=;
-        b=AkfDu0VNlQ2E8LLrSm6r08f9c2MIOhOnObRgBPtRbhXoqDyFuvWGw5jmNXVrEGfhc1
-         Eb8Yn9ncRg9NGXoWemmD7VNpxlG/iazuY4sIa7iDmxekrf1S5+eWHPDH5GlAavaPAlOf
-         B4Sl0BpM3w/kUozRBrWRnF5m/9oDRCxA8YZQU=
+        d=mvista.com; s=google; t=1759234554; x=1759839354; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gnoczrB/uapWtSTZl+LhCjEUsdFeng0N3H5YOwi69o8=;
+        b=KHFtQwkXxNH4QqZXQv9itOBzGkR6nN1aWeQdg+Y0R7/op9Kli4zCze+ywUEkRSb9hY
+         F3ehnOaAyZYCC/NOl/FTZ6e+cusTgEvtzd8YbWgoXFY6OIWuJ7Br9TN4Bun8hvvWKAt6
+         A1TY7p4rZv4vxCtvg71abvZfB80HKJRpN8v2E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759233465; x=1759838265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1759234554; x=1759839354;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XPOnP6nd4OWmaU4GmGFrTh2gTbHeXtxgbbylUv9tKzw=;
-        b=KqeH3j2iVHDVJsjhJtaBReOpb2MevI9EwfUQZhQhm2wL+aOy4LGhZfJuW27pLe+1Wi
-         lg9/I7dyGIdTt2vbDi/xZybkZF/PuySXRsOTXAd/VI+jUnz63YXB23V9/J92h/xyscT0
-         XiiuE0b8MBA09HdPpaE4vwFO5GEwBggpY7ZlEg8/RHXbYKuqUZW2bLUf9Gg03+pqCWEZ
-         qzLG3OeBewGkrQhzkYnQrtUxuh0ID4zw45p6rCcTJ2WqQYkGbrDKhsiPdcIyD7psve4b
-         XMk4N+UYg/IHcw+tyuhZwzdVVqhNgAmkbu7ylHHzM/ZPwHqfHG8Czggy8OlQy7QMDO60
-         javg==
-X-Gm-Message-State: AOJu0Yx7EVxw8TbxQxnkRGBVmqO1ApA06TKommHbETItngk+UjiaH0PA
-	ZOqhzdc43gdLqxa0efMX+TqPkzToGM9yypcBfNywqfFHoxEVd1gZjqaHU9XUW44JweeOUAq3VK9
-	Vhpv+gDI=
-X-Gm-Gg: ASbGncvUjvYIExbVpESRY6Hb6GRSRICj3ZKNcRt+KR+geZ7ePZQztL2BY5O7VLthrjI
-	xh/j6jYE5YbekABMYIZzJGw8XnQrEGanAcv6TrpvtIIhMIApVLCN7PX53JwD5zL1+DNJksqHkjQ
-	TeYNOnBF7uZZ/zxOWTZknT3y3p+3z+YT0SQSrCC2q+375jCldgfKBwM/wxoMdotXWqTOsdhOHMT
-	OMICqAA0jLbttFHYYxTZAdemEkcKEc3MOzWiuDnklybo78Ehp/q+7G5oWba3c4V5+3m1qaFh6PJ
-	Ci10JBz5fob5FkHCk3u3BdoqhQuDPw5Q2gDhW866Wy1iWx3+yjMkjw71Z93Px60ghQG52xxy0+n
-	g24932YqwHdFKkIUhZskJAzU+ZIL7JoYWFs6fh07FQHdWpe9JSKWT15eSd7noS34/y09txwU=
-X-Google-Smtp-Source: AGHT+IEe1Ob4D77h4ovBHBZnNzjRYGM1jhxpPyqM7cnTzJFa5bDCCGHyndv2bqNLnFK1i4C+AuTnCw==
-X-Received: by 2002:a05:6a21:78c:b0:300:f598:9179 with SMTP id adf61e73a8af0-300f5989321mr14713083637.15.1759233464485;
-        Tue, 30 Sep 2025 04:57:44 -0700 (PDT)
-Received: from localhost.localdomain ([123.201.170.254])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b57c53bb255sm13828115a12.5.2025.09.30.04.57.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 04:57:43 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] gstreamer1.0-plugins-bad: Fix CVE-2025-3887
-Date: Tue, 30 Sep 2025 17:27:24 +0530
-Message-Id: <20250930115724.239288-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        bh=gnoczrB/uapWtSTZl+LhCjEUsdFeng0N3H5YOwi69o8=;
+        b=Z7NB2Ehrnk275Tr2rNcLs1l+WMNAgRFWtna6tjdetPZY2PbeYbGkaBSPOX3VOazqvN
+         5aJluJIEu03D/5d66jyM86JyANVxgQVV+n0ddquUTBIf/UENHhr8EFcUdW9I+6KFSOYo
+         kbgf9d35B3ttNmiS/ianGt1RsogTGW4ldAc2IQdUjmBpIg3E2l6QqrVFNelH6Y2edRv1
+         SeJerIg5P5cHF4XroE/VyzvnTH0wLMlp4yPfklJ7RSPLnD/lpv96iSz4fCTywKGc9FWY
+         2JmGPzidn9l5Y+e7V66eP82qHIUsJwipiPMf0dvrq6CdBdO4r1x7Ric3gmEEwH6qLfNk
+         uKtQ==
+X-Gm-Message-State: AOJu0YydSxyBMBTaalf9V7vus+9ShWzuR0j5xGl5cjffQhJKvafJMEaJ
+	pUh6sJxM942PLKrCFMZG5rDwvyEE9NJQDUbutiUWlkIql4vHWMlKSF3uJRfvP0n/A2bAMlKnEAE
+	1z5yYkAHlZCvxlnWhll9+AsM7cd+/VkVK3DcwgOhmDA==
+X-Gm-Gg: ASbGnctlzioKPKw2Y6rL+JJ3x2p0Oh5Cy4PRqK3VqBPLDCgWYpDoXKrLjw9HQnULZZl
+	mQwaY1AY7hysA7VwdSzxCwNGZnGoHJzECy8TMuaqZGm0mMBbYcZntJvFdVsy2t3h8EM8+RgoTx6
+	495p590hwUYflHc13snGlYEqAhX1Q2fek0eRPzSCDSUsTQ1/DZu4cxDOLWm+cjbR/vJwBWdiZj+
+	hrYdMwhrqkNwERAS6unqL1QFmGbWPYmnA==
+X-Google-Smtp-Source: AGHT+IF0cpDOQ/z6brC7cv/sENau8sPLpzoKDGtw88092agGaqrhCeTzy2JuFzRZRgiSMV+p+P2chAuBKH9f02vtjSs=
+X-Received: by 2002:a17:907:3e8e:b0:b41:660:13b8 with SMTP id
+ a640c23a62f3a-b41067eac71mr592349266b.31.1759234554226; Tue, 30 Sep 2025
+ 05:15:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250929104731.19684-1-vanusuri@mvista.com> <DD628XZDM8VH.11V78L41VKXH8@bootlin.com>
+In-Reply-To: <DD628XZDM8VH.11V78L41VKXH8@bootlin.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Tue, 30 Sep 2025 17:45:42 +0530
+X-Gm-Features: AS18NWBkxyBgItmlgBWzAxcqZOPozLZKcTXhSG2c0t7NKWm_XyGQW0X0uVQepCs
+Message-ID: <CANQUz18kHk-xSJ=qjDXsAJq5G7w1RTguRz36qFXJQ9U5dcOuhw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] ghostscript: upgrade 10.05.1 -> 10.06.0
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000ae81f5064003b6d6"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 11:57:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224184
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Sep 2025 12:16:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224185
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+--000000000000ae81f5064003b6d6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Upstream-Status: Backport from
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/5463f0e09768ca90aa8c58357c1f4c645db580db
-& https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/bcaab3609805ea10fb3d9ac0c9d947b4c3563948
+Hi Mathieu,
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../CVE-2025-3887-1.patch                     | 50 ++++++++++
- .../CVE-2025-3887-2.patch                     | 95 +++++++++++++++++++
- .../gstreamer1.0-plugins-bad_1.22.12.bb       |  2 +
- 3 files changed, 147 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-1.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-2.patch
+Thank you for testing the patch.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-1.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-1.patch
-new file mode 100644
-index 0000000000..3508f62409
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-1.patch
-@@ -0,0 +1,50 @@
-+From 5463f0e09768ca90aa8c58357c1f4c645db580db Mon Sep 17 00:00:00 2001
-+From: Seungha Yang <seungha@centricular.com>
-+Date: Sat, 15 Mar 2025 22:39:44 +0900
-+Subject: [PATCH] h265parser: Fix max_dec_pic_buffering_minus1 bound check
-+
-+Allowed max value is MaxDpbSize - 1
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8885>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/5463f0e09768ca90aa8c58357c1f4c645db580db]
-+CVE: CVE-2025-3887
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ gst-libs/gst/codecparsers/gsth265parser.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/gst-libs/gst/codecparsers/gsth265parser.c b/gst-libs/gst/codecparsers/gsth265parser.c
-+index 44b7237..5d5a2db 100644
-+--- a/gst-libs/gst/codecparsers/gsth265parser.c
-++++ b/gst-libs/gst/codecparsers/gsth265parser.c
-+@@ -72,6 +72,8 @@
-+ #include <string.h>
-+ #include <math.h>
-+ 
-++#define MAX_DPB_SIZE 16
-++
-+ #ifndef GST_DISABLE_GST_DEBUG
-+ #define GST_CAT_DEFAULT gst_h265_debug_category_get()
-+ static GstDebugCategory *
-+@@ -1861,7 +1863,7 @@ gst_h265_parse_vps (GstH265NalUnit * nalu, GstH265VPS * vps)
-+   for (i =
-+       (vps->sub_layer_ordering_info_present_flag ? 0 :
-+           vps->max_sub_layers_minus1); i <= vps->max_sub_layers_minus1; i++) {
-+-    READ_UE_MAX (&nr, vps->max_dec_pic_buffering_minus1[i], G_MAXUINT32 - 1);
-++    READ_UE_MAX (&nr, vps->max_dec_pic_buffering_minus1[i], MAX_DPB_SIZE - 1);
-+     READ_UE_MAX (&nr, vps->max_num_reorder_pics[i],
-+         vps->max_dec_pic_buffering_minus1[i]);
-+     READ_UE_MAX (&nr, vps->max_latency_increase_plus1[i], G_MAXUINT32 - 1);
-+@@ -2048,7 +2050,7 @@ gst_h265_parse_sps (GstH265Parser * parser, GstH265NalUnit * nalu,
-+   for (i =
-+       (sps->sub_layer_ordering_info_present_flag ? 0 :
-+           sps->max_sub_layers_minus1); i <= sps->max_sub_layers_minus1; i++) {
-+-    READ_UE_MAX (&nr, sps->max_dec_pic_buffering_minus1[i], 16);
-++    READ_UE_MAX (&nr, sps->max_dec_pic_buffering_minus1[i], MAX_DPB_SIZE - 1);
-+     READ_UE_MAX (&nr, sps->max_num_reorder_pics[i],
-+         sps->max_dec_pic_buffering_minus1[i]);
-+     READ_UE_MAX (&nr, sps->max_latency_increase_plus1[i], G_MAXUINT32 - 1);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-2.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-2.patch
-new file mode 100644
-index 0000000000..be663c2530
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-2.patch
-@@ -0,0 +1,95 @@
-+From bcaab3609805ea10fb3d9ac0c9d947b4c3563948 Mon Sep 17 00:00:00 2001
-+From: Seungha Yang <seungha@centricular.com>
-+Date: Sat, 15 Mar 2025 23:48:52 +0900
-+Subject: [PATCH] h265parser: Fix num_long_term_pics bound check
-+
-+As defined in the spec 7.4.7.1, calculates allowed maximum
-+value of num_long_term_pics
-+
-+Fixes ZDI-CAN-26596
-+
-+Fixes: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4285
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8885>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/bcaab3609805ea10fb3d9ac0c9d947b4c3563948]
-+CVE: CVE-2025-3887
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ gst-libs/gst/codecparsers/gsth265parser.c | 40 +++++++++++++++++++++--
-+ 1 file changed, 37 insertions(+), 3 deletions(-)
-+
-+diff --git a/gst-libs/gst/codecparsers/gsth265parser.c b/gst-libs/gst/codecparsers/gsth265parser.c
-+index 5d5a2db..abcc05d 100644
-+--- a/gst-libs/gst/codecparsers/gsth265parser.c
-++++ b/gst-libs/gst/codecparsers/gsth265parser.c
-+@@ -2779,6 +2779,8 @@ gst_h265_parser_parse_slice_hdr (GstH265Parser * parser,
-+       READ_UINT8 (&nr, slice->colour_plane_id, 2);
-+ 
-+     if (!GST_H265_IS_NAL_TYPE_IDR (nalu->type)) {
-++      const GstH265ShortTermRefPicSet *ref_pic_sets = NULL;
-++
-+       READ_UINT16 (&nr, slice->pic_order_cnt_lsb,
-+           (sps->log2_max_pic_order_cnt_lsb_minus4 + 4));
-+ 
-+@@ -2795,23 +2797,55 @@ gst_h265_parser_parse_slice_hdr (GstH265Parser * parser,
-+         slice->short_term_ref_pic_set_size =
-+             (nal_reader_get_pos (&nr) - pos) -
-+             (8 * (nal_reader_get_epb_count (&nr) - epb_pos));
-++
-++	ref_pic_sets = &slice->short_term_ref_pic_sets;
-+       } else if (sps->num_short_term_ref_pic_sets > 1) {
-+         const guint n = ceil_log2 (sps->num_short_term_ref_pic_sets);
-+         READ_UINT8 (&nr, slice->short_term_ref_pic_set_idx, n);
-+         CHECK_ALLOWED_MAX (slice->short_term_ref_pic_set_idx,
-+             sps->num_short_term_ref_pic_sets - 1);
-++	ref_pic_sets =
-++	    &sps->short_term_ref_pic_set[slice->short_term_ref_pic_set_idx];
-++      } else {
-++	ref_pic_sets = &sps->short_term_ref_pic_set[0];
-+       }
-+ 
-+       if (sps->long_term_ref_pics_present_flag) {
-+         guint32 limit;
-+         guint pos = nal_reader_get_pos (&nr);
-+         guint epb_pos = nal_reader_get_epb_count (&nr);
-++	gint max_num_long_term_pics = 0;
-++	gint TwoVersionsOfCurrDecPicFlag = 0;
-+ 
-+-        if (sps->num_long_term_ref_pics_sps > 0)
-++        if (sps->num_long_term_ref_pics_sps > 0) {
-+           READ_UE_MAX (&nr, slice->num_long_term_sps,
-+               sps->num_long_term_ref_pics_sps);
-+-
-+-        READ_UE_MAX (&nr, slice->num_long_term_pics, 16);
-++	}
-++
-++	/* 7.4.3.3.3 */
-++	if (pps->pps_scc_extension_flag &&
-++	    pps->pps_scc_extension_params.pps_curr_pic_ref_enabled_flag &&
-++	    (sps->sample_adaptive_offset_enabled_flag ||
-++	        !pps->deblocking_filter_disabled_flag ||
-++		pps->deblocking_filter_override_enabled_flag)) {
-++	  TwoVersionsOfCurrDecPicFlag = 1;
-++	}
-++
-++	/* Calculated upper bound num_long_term_pics can have. 7.4.7.1 */
-++	max_num_long_term_pics =
-++	    /* sps_max_dec_pic_buffering_minus1[TemporalId], allowed max is
-++	     * MaxDpbSize - 1 */
-++	    MAX_DPB_SIZE - 1
-++	    - (gint) slice->num_long_term_sps
-++	    - (gint) ref_pic_sets->NumNegativePics
-++	    - (gint) ref_pic_sets->NumPositivePics -
-++	    TwoVersionsOfCurrDecPicFlag;
-++	if (max_num_long_term_pics < 0) {
-++	  GST_WARNING ("Invalid stream, too many reference pictures");
-++	  goto error;
-++	}
-++
-++        READ_UE_MAX (&nr, slice->num_long_term_pics, max_num_long_term_pics);
-+         limit = slice->num_long_term_sps + slice->num_long_term_pics;
-+         for (i = 0; i < limit; i++) {
-+           if (i < slice->num_long_term_sps) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
-index 01c95ac85f..e4fa2a412f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
-@@ -9,6 +9,8 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch \
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-+           file://CVE-2025-3887-1.patch \
-+           file://CVE-2025-3887-2.patch \
-            "
- SRC_URI[sha256sum] = "388b4c4412f42e36a38b17cc34119bc11879bd4d9fbd4ff6d03b2c7fc6b4d494"
- 
--- 
-2.25.1
+I tested the patch on a 64-bit system and didn't checked on 32-bit builds.
 
+It appears the following commit from ArtifexSoftware might address the
+issue you're seeing:
+[
+https://github.com/ArtifexSoftware/ghostpdl/commit/3c0be6e4fcffa63e4a5a1b0a=
+ec057cebc4d2562f
+].
+I will try to reproduce the error locally and check if this commit indeed
+resolves the problem.
+
+Thanks,
+Vijay
+
+On Tue, Sep 30, 2025 at 3:55=E2=80=AFPM Mathieu Dubois-Briand <
+mathieu.dubois-briand@bootlin.com> wrote:
+
+> On Mon Sep 29, 2025 at 12:47 PM CEST, Vijay Anusuri via
+> lists.openembedded.org wrote:
+> > From: Vijay Anusuri <vanusuri@mvista.com>
+> >
+> > Dropped 0001-Bug-708160-Fix-compatibility-with-C23-compilers.patch
+> >
+> > Added fPIC flag needed to prevent a linker error during the build
+> process.
+> >
+> > This upgrade addresses CVEs:
+> > CVE-2025-59798, CVE-2025-59799, CVE-2025-59800, CVE-2025-59801
+> >
+> > Changelog:
+> > https://ghostscript.readthedocs.io/en/gs10.06.0/News.html
+> >
+> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> > ---
+>
+> Hi Vijay,
+>
+> Thanks for your patch.
+>
+> We got some build issues on the autobuilder:
+>
+> ERROR: ghostscript-10.06.0-r0 do_compile: Execution of
+> '/srv/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-p=
+oky-linux-musl/ghostscript/10.06.0/temp/run.do_compile.9882'
+> failed with exit code 1
+> ...
+> | ./base/gdevmpla.c: In function 'mem_planar_strip_copy_rop2':
+> | ./base/gdevmpla.c:1962:58: error: passing argument 3 of
+> 'check_64bit_multiply' from incompatible pointer type
+> [-Wincompatible-pointer-types]
+> |  1962 |         if (check_64bit_multiply(height, chunky_sraster, (size_=
+t
+> *)&nbytes) !=3D 0)
+> |       |
+> ^~~~~~~~~~~~~~~~~
+> |       |                                                          |
+> |       |                                                          size_t
+> * {aka unsigned int *}
+> | In file included from ./base/gdevmpla.c:21:
+> | ./base/gxdevice.h:694:71: note: expected 'int64_t *' {aka 'long long in=
+t
+> *'} but argument is of type 'size_t *' {aka 'unsigned int *'}
+> |   694 | static inline int check_64bit_multiply(int64_t x, int64_t y,
+> int64_t *result)
+> |       |
+> ~~~~~~~~~^~~~~~
+> | ./base/gdevmpla.c:2022:68: error: passing argument 3 of
+> 'check_64bit_multiply' from incompatible pointer type
+> [-Wincompatible-pointer-types]
+> |  2022 |         if (check_64bit_multiply(chunky_t_height,
+> chunky_t_raster, &nbytes) !=3D 0)
+> |       |
+>   ^~~~~~~
+> |       |
+>   |
+> |       |
+>   intptr_t * {aka int *}
+> | ./base/gxdevice.h:694:71: note: expected 'int64_t *' {aka 'long long in=
+t
+> *'} but argument is of type 'intptr_t *' {aka 'int *'}
+> |   694 | static inline int check_64bit_multiply(int64_t x, int64_t y,
+> int64_t *result)
+> |       |
+> ~~~~~~~~~^~~~~~
+> | make: *** [base/lib.mak:1207: obj/gdevmpla.o] Error 1
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/2498
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/2316
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/2476
+>
+> Can you look into these, please?
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+
+--000000000000ae81f5064003b6d6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Mathieu,</div><div><br></div><div>Thank you for te=
+sting the patch.</div><div><br></div><div>I tested the patch on a 64-bit sy=
+stem and didn&#39;t checked on 32-bit builds.</div><div><br></div><div>It a=
+ppears the following commit from ArtifexSoftware might address the issue yo=
+u&#39;re seeing:=C2=A0</div><div>[<a href=3D"https://github.com/ArtifexSoft=
+ware/ghostpdl/commit/3c0be6e4fcffa63e4a5a1b0aec057cebc4d2562f">https://gith=
+ub.com/ArtifexSoftware/ghostpdl/commit/3c0be6e4fcffa63e4a5a1b0aec057cebc4d2=
+562f</a>].=C2=A0</div><div>I will try to reproduce the error locally and ch=
+eck if this commit indeed resolves the problem.</div><div><br></div><div>Th=
+anks,</div><div>Vijay</div></div><br><div class=3D"gmail_quote gmail_quote_=
+container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 30, 2025 at 3:=
+55=E2=80=AFPM Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-br=
+iand@bootlin.com">mathieu.dubois-briand@bootlin.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon Sep 29, 2025 at 1=
+2:47 PM CEST, Vijay Anusuri via <a href=3D"http://lists.openembedded.org" r=
+el=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=
+=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;<br>
+&gt; Dropped 0001-Bug-708160-Fix-compatibility-with-C23-compilers.patch<br>
+&gt;<br>
+&gt; Added fPIC flag needed to prevent a linker error during the build proc=
+ess.<br>
+&gt;<br>
+&gt; This upgrade addresses CVEs:<br>
+&gt; CVE-2025-59798, CVE-2025-59799, CVE-2025-59800, CVE-2025-59801<br>
+&gt;<br>
+&gt; Changelog:<br>
+&gt; <a href=3D"https://ghostscript.readthedocs.io/en/gs10.06.0/News.html" =
+rel=3D"noreferrer" target=3D"_blank">https://ghostscript.readthedocs.io/en/=
+gs10.06.0/News.html</a><br>
+&gt;<br>
+&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
+" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Vijay,<br>
+<br>
+Thanks for your patch.<br>
+<br>
+We got some build issues on the autobuilder:<br>
+<br>
+ERROR: ghostscript-10.06.0-r0 do_compile: Execution of &#39;/srv/pokybuild/=
+yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/gho=
+stscript/10.06.0/temp/run.do_compile.9882&#39; failed with exit code 1<br>
+...<br>
+| ./base/gdevmpla.c: In function &#39;mem_planar_strip_copy_rop2&#39;:<br>
+| ./base/gdevmpla.c:1962:58: error: passing argument 3 of &#39;check_64bit_=
+multiply&#39; from incompatible pointer type [-Wincompatible-pointer-types]=
+<br>
+|=C2=A0 1962 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (check_64bit_multiply(he=
+ight, chunky_sraster, (size_t *)&amp;nbytes) !=3D 0)<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ^~~~~~~~~~~~~~~~~<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 size_t * {aka unsigned int *}<br>
+| In file included from ./base/gdevmpla.c:21:<br>
+| ./base/gxdevice.h:694:71: note: expected &#39;int64_t *&#39; {aka &#39;lo=
+ng long int *&#39;} but argument is of type &#39;size_t *&#39; {aka &#39;un=
+signed int *&#39;}<br>
+|=C2=A0 =C2=A0694 | static inline int check_64bit_multiply(int64_t x, int64=
+_t y, int64_t *result)<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ~~~~~~~~~^~~~~~<br>
+| ./base/gdevmpla.c:2022:68: error: passing argument 3 of &#39;check_64bit_=
+multiply&#39; from incompatible pointer type [-Wincompatible-pointer-types]=
+<br>
+|=C2=A0 2022 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (check_64bit_multiply(ch=
+unky_t_height, chunky_t_raster, &amp;nbytes) !=3D 0)<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 intptr_t * {aka int *}<br>
+| ./base/gxdevice.h:694:71: note: expected &#39;int64_t *&#39; {aka &#39;lo=
+ng long int *&#39;} but argument is of type &#39;intptr_t *&#39; {aka &#39;=
+int *&#39;}<br>
+|=C2=A0 =C2=A0694 | static inline int check_64bit_multiply(int64_t x, int64=
+_t y, int64_t *result)<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ~~~~~~~~~^~~~~~<br>
+| make: *** [base/lib.mak:1207: obj/gdevmpla.o] Error 1<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/build=
+s/2498" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/valkyrie/#/builders/6/builds/2498</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/buil=
+ds/2316" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/17/builds/2316</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/buil=
+ds/2476" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/59/builds/2476</a><br>
+<br>
+Can you look into these, please?<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+</blockquote></div>
+
+--000000000000ae81f5064003b6d6--
 
