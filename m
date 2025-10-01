@@ -1,132 +1,170 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Adam.X.Nilsson@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7637CAC5BB
-	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 15:59:26 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.web10.832.1759334364271333248
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAB86CCA470
+	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 16:06:26 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.5])
+ by mx.groups.io with SMTP id smtpd.web10.1032.1759334779011872471
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 08:59:24 -0700
+ Wed, 01 Oct 2025 09:06:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QsV4KptQ;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.170, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-71d71bcab69so612687b3.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 08:59:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1759334363; x=1759939163; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WegX5ijV88AIzKzhFpbjKOZ7B0NKG2kgdex5Ex1+rOc=;
-        b=QsV4KptQaYTjHZHRB1hq47d65A2rVlGenrF04KFPCSubWv0qiNgfVqHAJ8SyeYsCU1
-         MUpOSE6vBOn0Gsw3MBaeVTkYZfgw0r/G+0dvbL1LVv5cVq5Pl+uuj7DrF5/r4WSEIG2a
-         K7BHf0hjImzOtxo1VgBMAdhxP5a+RJ+Ts79uWMwlihCwwiBl+7bqFNW/tlOfRf9PcJBs
-         yoUT2Dsqg4asInUGYP+QbPi8PFszMbkUcB9nmxHxiHmh+OzyfmdheGpnQEu23lWLFZGZ
-         K6Ic1YZJEFWLdiv8Pm4QjR1W4rlMCxXPc3a+SvJIWUyqGKFmcnvojtnJd0TeUMSsnrtA
-         ra1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759334363; x=1759939163;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WegX5ijV88AIzKzhFpbjKOZ7B0NKG2kgdex5Ex1+rOc=;
-        b=upp0yda/PoYIcszvClFn2ptcK2USUp+XRyZnV9Akkqiv8c8pAZ/6gwVhM5udyHLaVV
-         uJUojjwoDJgu/K0itBSe3AkYbeSxNiUWeGzUkRFFpMKs2lGMrujYSuNXDzJVchlcSXXu
-         svADCd0A8jJt8a0CFqNLh96ZXB7SODaaE2Y83BP22Fnc+wLbE3jLNbPEgrIGF6PgSg9c
-         omsDxXeoeFSgd5gjB4JwTEJ+FuEmvK1e8IcN295iiYAn2pW4ku66hHN4IiGhTsjXp6dY
-         SRiXmil3DGVKfErCjB8XaXDg0AHcLguuj3xwYkJtBPrcgnTx/tp2ul36FJREXw5/q/Pp
-         C9Tw==
-X-Gm-Message-State: AOJu0Yw7Gdbf6J39PRgKnoSYu9u1dg0yRuthTqxUGYHvMhGkzw6E83gS
-	fDp4CN84UuvERExEJmzvRmF04BuGb/Xrc5BLqaRJ22Osci0Qu0g8hyjIRyX6pLMKWEd9ni6LmI7
-	mRHlCPrw5LWHPAj/l8pxioqyvE1fYuMzRb5S6ZZx62A==
-X-Gm-Gg: ASbGnctomQUrak15vpqwZxp4ZjYNL//UmVZJybo0s74reDrZUkOd/bwbq5KS7yh5ISI
-	1tlxfcNvQv+TeXwIJ8dCOrcOzMyJ2sFgy2c8weRiLL9z2OEYQJuYb0K+4ap8uR2Z5nuq4GHPL7x
-	KOarlckKkgaE2bIX1SMTWCLPVe0JH5PAQ/baLfUzB1PV7L/gIWrhgybPHWJ1/be7heVRCRgaBtn
-	p8uLiugiBBE7OezHQ/1kBmAyEgEKgm6NOKqA4jGf6/rLzLx5/a4PTLIMaciP3Y=
-X-Google-Smtp-Source: AGHT+IHV6HVnOmzH5GMMi5VXAob0AdY7q1epaSip5MkFaoNQlEm74twNYh0q7FaxX+X1SxkWORsVvS9QEweFZ9s3mnM=
-X-Received: by 2002:a05:690e:2490:b0:633:b9eb:85e9 with SMTP id
- 956f58d0204a3-63b6ff98eb2mr4744698d50.32.1759334363413; Wed, 01 Oct 2025
- 08:59:23 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=q0KQy3ar;
+ spf=pass (domain: axis.com, ip: 40.107.130.5, mailfrom: adam.x.nilsson@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GvknDr8e6Jy8cqMEFeWav9yyF+scqK+YGxqJdCUXcRt769KtCODqgNGNzwpsiLWXJ0NTfjtt39rkocLM4xP/Zztz+fnUKgAalxe5iO+vGN+HPxt6+Yl77EJYKRXOpWe7kEyjLS+p4nE4tKBfxrHrTM/VOL1vi4jFT3Rra/2rBFJaT+IuykEGROfsFDVX8SUU7+pRDFO7nXvwL8+cDF2hV8rFin2cJPkGDkroIgt7cjB2ofClw1LK3CP+SXAuE60uV+iSpJ1wBuvAahSSsBJytM4/ndk/+o3E7db1T+dgrk0De/PQqBMFPvzOJXrAJmpPiWM2dB/KvrqUWhsHgqe7UQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0r1gKQcfk15S67h+8Mshkps7CUBxl5C0gjrnUEtJG8E=;
+ b=ghtb90cNfOuzCNWoSa0dk+8FMXNKfBH5nKPkLV/sIKYUxkOrBTBg8Sr3Jw9JB03J/bpspm0Wl52KQAQ0oHur+wOPKba/L8ohtyFoARYHsdxJTYNi4FDd1msO+2CysAuYKVjyndJq2IBORz/3xycnlXRoZ1l7/7vSCVWWBY/UUNWFmh+1PupP8oWR3uhPmNOsXkkvSOIxR1sx6MSIfLMVrX6q8h9HDhc9ROZzYNbXkb279iTlUkoebgiqs1AgMO2K61zHWSJw6BsItuSonPm96h0/kEI4oCLnnGO7zdap4hj9CPUYRmwwCDivhHQenkVxcYh3eoeeac9oUg6747WVeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0r1gKQcfk15S67h+8Mshkps7CUBxl5C0gjrnUEtJG8E=;
+ b=q0KQy3arWy+Cs8dG1xTtHmtX0HN2mcDr1ynQ+WQ/nmio90nuxbsClq23rdWExE29LIoMxVWQqfndhzDsyjBNMWwYfvXVnWENqCz7FXmm2yebb1S0DiAicQ5v1jLn5PvMxlsmeX3f205N1+QTtEeY0zQ+roE6gnaFfdgrqWe004c=
+Received: from AS4P189CA0026.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5db::13)
+ by DB9PR02MB7370.eurprd02.prod.outlook.com (2603:10a6:10:244::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.18; Wed, 1 Oct
+ 2025 16:06:15 +0000
+Received: from AM2PEPF0001C711.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5db:cafe::7f) by AS4P189CA0026.outlook.office365.com
+ (2603:10a6:20b:5db::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9182.14 via Frontend Transport; Wed,
+ 1 Oct 2025 16:06:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ AM2PEPF0001C711.mail.protection.outlook.com (10.167.16.181) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9182.15 via Frontend Transport; Wed, 1 Oct 2025 16:06:14 +0000
+Received: from se-mail01w.axis.com (10.20.40.7) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Wed, 1 Oct
+ 2025 18:06:14 +0200
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Wed, 1 Oct 2025 18:06:14 +0200
+Received: from pc51388-2240.se.axis.com (pc51388-2240.se.axis.com [10.86.130.217])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 8BE4FB43;
+	Wed,  1 Oct 2025 18:06:14 +0200 (CEST)
+Received: by pc51388-2240.se.axis.com (Postfix, from userid 11596)
+	id 7351242303CB; Wed,  1 Oct 2025 18:06:14 +0200 (CEST)
+From: Adam Nilsson <Adam.X.Nilsson@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Adam Nilsson <adamni@axis.com>, Peter Kjellerstedt
+	<peter.kjellerstedt@axis.com>, Adam Nilsson <Adam.X.Nilsson@axis.com>
+Subject: [PATCH v1]  core-image, populate_sdk_base: Add zsh-completion-pkgs image feature
+Date: Wed, 1 Oct 2025 18:02:13 +0200
+Message-ID: <20251001160212.2588471-1-Adam.X.Nilsson@axis.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <fefec75a-d849-430a-a503-1369dee54671@gmail.com>
-In-Reply-To: <fefec75a-d849-430a-a503-1369dee54671@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 1 Oct 2025 08:59:12 -0700
-X-Gm-Features: AS18NWDpR49LyLOgQGBj57mUd77O4hL1lDngx4mSKcaFnsQTzLV21gbdWpN2nvY
-Message-ID: <CAOSpxda8nVnM9Yxn13rGYHUZxczD_duoZkbU+f_HWBN7SKZUNQ@mail.gmail.com>
-Subject: Re: [scarthgap][PATCH] vim: fix xxd-native RPROVIDES
-To: Clayton Casciato <majortomtosourcecontrol@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, denys@konsulko.com, 
-	richard.purdie@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM2PEPF0001C711:EE_|DB9PR02MB7370:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83b356ca-81b0-4572-70e2-08de010472bc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?KSqwkjhbpQTgrBjMvUiWo1WsKiihodcLDzOvFXxGcvVTdWoIR1/R9CI7UbvM?=
+ =?us-ascii?Q?o0569cQDbvI0Zr91Qg6RSgYGscEzs8nwMBkP9UQQ3L3xA338VEDclO3FkjGH?=
+ =?us-ascii?Q?cGx2wjlCJ9VYxhJuxjirDrdxde0/AWVpOCl6UEJFwGH9DxchMd8RmmqgXMOZ?=
+ =?us-ascii?Q?WBY2mkI9XuNCJerrt755PVl07HwzK0izgT76a6gpaeExNEAEP6zzeXNkLnGv?=
+ =?us-ascii?Q?NUmlF5WyHuDtytF4rmG1EbI66NtA1rcs0r+f99i3T+rusSFBBxGzLLvduxyF?=
+ =?us-ascii?Q?f8TnmuGEZAtHAgtyJI8jj04upc3EyCSLGkp9LbV1y5Lb7mhVbpHCSuR3TyHd?=
+ =?us-ascii?Q?sZs0CnwhnOheRD0T/lWvE7j24ZiMgABYQXJyNed1vwQSK8bcS+sfNHw18xTx?=
+ =?us-ascii?Q?ulBnFcsPYAnEPb8/WqEQ4KbwDFj6VXl2kwdpb5jt7QIonNPNJ01YJN1jTQ+3?=
+ =?us-ascii?Q?iMi9M+90Y7lbtZWVQ0sd2U/uHsPRoS6TpDHjva9MXSgn6iEIoVNSUTqtSKkT?=
+ =?us-ascii?Q?YLJl2u3qrZhFoufpxETDayQt7JkfjtIug0WH0jTt3Px86kYFEcPcZtW39529?=
+ =?us-ascii?Q?YB/5npfDsv01TcC1pYk31nGT28DPXC2J32YPJqrBJcoE7E9OodSOwAWfIfyu?=
+ =?us-ascii?Q?vLUIeD0ucWc6G+Bu+2YdXrT2aQsQveDh5pj+V35HoHr6QR2wM8zmmDBSWWiR?=
+ =?us-ascii?Q?IUT5NhH85L6WZhBYA9hmEGiefJ+NVulDUKSJxxRc+jsxhH64A4KIcyPEsNvZ?=
+ =?us-ascii?Q?FBoHA908H3mTUwCwfvbVFL2hKwE/QakPfnfJTIigomq0wNFEAJXHQyrs2bW1?=
+ =?us-ascii?Q?qZA6DfmQTgVX25YECgDANezNXbvlheCJghMR/QD9+xzOVk27g1RkrGB6s1pq?=
+ =?us-ascii?Q?xEaUhrUB0kiDvs7wYiJBsycLIqOtXK/PtMkCu86T3up5QBiAZ4TwkngqtGNT?=
+ =?us-ascii?Q?5tPve+dy5YMEPrIH6gL524Nlt2vYwsgZ9q2rAWsMi8XmFrqH8IvNbayqzgAU?=
+ =?us-ascii?Q?PY7x8vNaMwssqbsCeASutZ8RofMDmgVzl5r/pu3Dk+FeWrAzQYFyEpfJnymo?=
+ =?us-ascii?Q?tY8P3rvf5lgL/a94uvzKuvFjLrpAiA2xLKsp7Wr1m6PY9zHlTNVHqmO+bMFB?=
+ =?us-ascii?Q?wAMIbfK7RpCiZ355CZiFVV+vS2lR+DrBRmFKhjhnqtrCdmdHvBpZe/oo739/?=
+ =?us-ascii?Q?X29id97UQ5ISIe1ZNwPsOQC1FvMIVanA/F03q9If5tRP13fRfA1xVUKMNI4i?=
+ =?us-ascii?Q?M7ek4EahBjvu9ut07kglEqqgYGDKWBZeTA8FBxynwkTZ0w3oFi+tIlZxjPDo?=
+ =?us-ascii?Q?KI7p3TtSjh5QPow9FfVMAn74iUtiyxCV2OzgE7JAI8t8t3VsHJw/JK92ibdz?=
+ =?us-ascii?Q?aDHLk6pr0TOLdzOKzjy0ILwCUQs1qCdakk8WiemP2J2xCx8tnP/xX1nVYEo3?=
+ =?us-ascii?Q?Ml2/IhdQI9SSOL//nCeoQJm1YaQij73S8MvQKHi+89UKeIR/m1kB74GgJlrz?=
+ =?us-ascii?Q?gazdbQPzs4RRUZ4H0YfvXU4Jq4NaZ8gmwgNn3MzOE8htf068HcwvP2jNIdXg?=
+ =?us-ascii?Q?jrJIR8x5Ya94s5noPTY=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2025 16:06:14.9120
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83b356ca-81b0-4572-70e2-08de010472bc
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM2PEPF0001C711.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7370
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 15:59:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224310
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 16:06:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224311
 
-On Sun, Sep 28, 2025 at 9:14=E2=80=AFAM Clayton Casciato
-<majortomtosourcecontrol@gmail.com> wrote:
->
-> BBCLASSEXTEND doesn't handle overrides with suffixed ${PN} for
-> native class, e.g.:
->
-> RPROVIDES:${PN}-xxd =3D "xxd"
->
-> becomes:
->
-> RPROVIDES:vim-native-xxd =3D "xxd-native"
->
-> instead of:
->
-> RPROVIDES:vim-xxd-native =3D "xxd-native"
->
-> This results in "Nothing RPROVIDES xxd-native" error when
-> something RDEPENDS on xxd-native because there's no such
-> package as vim-native-xxd.
->
-> Use ${BPN} and explicitly handle RPROVIDES.
->
-> Since native class does not produce packages, other variables
-> using :${PN}-xxd override don't matter. And nativesdk class
-> is not affected, as it uses a prefix, not suffix.
->
-> Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
-> Signed-off-by: Clayton Casciato <majortomtosourcecontrol@gmail.com>
-> ---
-> Sponsor: 21SoftWare LLC
->
-> Patch from:
-> https://lists.openembedded.org/g/openembedded-core/topic/109930389
+From: Adam Nilsson <adamni@axis.com>
 
-Richard rejected this patch for master in the above thread, so I can't
-take it for a stable release.
+Add a zsh-completion-pkgs image feature to install *-zsh-completion
+packages into an image. This is similar to the existing
+bash-completion-pkgs feature.
 
-Steve
+Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Adam Nilsson <Adam.X.Nilsson@axis.com>
+---
+ meta/classes-recipe/core-image.bbclass        | 1 +
+ meta/classes-recipe/populate_sdk_base.bbclass | 1 +
+ 2 files changed, 2 insertions(+)
 
->
-> Walnascar:
-> e2fd81e221c2 ("native: Improve ${PN}-XXX package name handling")
->
->  meta/recipes-support/vim/vim_9.1.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/vim/vim_9.1.bb b/meta/recipes-support/v=
-im/vim_9.1.bb
-> index fee9f055e9..8968b8cb07 100644
-> --- a/meta/recipes-support/vim/vim_9.1.bb
-> +++ b/meta/recipes-support/vim/vim_9.1.bb
-> @@ -11,7 +11,9 @@ BBCLASSEXTEND =3D "native nativesdk"
->
->  PACKAGES =3D+ "${PN}-xxd"
->  FILES:${PN}-xxd =3D "${bindir}/xxd"
-> -RPROVIDES:${PN}-xxd =3D "xxd"
-> +RPROVIDES:${BPN}-xxd =3D "xxd"
-> +RPROVIDES:${BPN}-xxd-native =3D "xxd-native"
-> +RPROVIDES:nativesdk-${BPN}-xxd =3D "nativesdk-xxd"
->
->  ALTERNATIVE:${PN}-xxd =3D "xxd"
->  ALTERNATIVE_TARGET[xxd] =3D "${bindir}/xxd"
+diff --git a/meta/classes-recipe/core-image.bbclass b/meta/classes-recipe/c=
+ore-image.bbclass
+index 4072e420c5..309a7c577b 100644
+--- a/meta/classes-recipe/core-image.bbclass
++++ b/meta/classes-recipe/core-image.bbclass
+@@ -33,6 +33,7 @@
+ #                         LICENSE_CREATE_PACKAGE=3D"1" to be set when buil=
+ding packages too
+ # - doc-pkgs            - documentation packages for all installed package=
+s in the rootfs
+ # - bash-completion-pkgs - bash-completion packages for recipes using bash=
+-completion bbclass
++# - zsh-completion-pkgs - zsh-completion packages
+ # - ptest-pkgs          - ptest packages for all ptest-enabled recipes
+ # - read-only-rootfs    - tweaks an image to support read-only rootfs
+ # - stateless-rootfs    - systemctl-native not run, image populated by sys=
+temd at runtime
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-r=
+ecipe/populate_sdk_base.bbclass
+index 0c2fd26e6f..8e671cf28f 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -24,6 +24,7 @@ COMPLEMENTARY_GLOB[dbg-pkgs] =3D '*-dbg'
+ COMPLEMENTARY_GLOB[src-pkgs] =3D '*-src'
+ COMPLEMENTARY_GLOB[ptest-pkgs] =3D '*-ptest ${MLPREFIX}ptest-runner'
+ COMPLEMENTARY_GLOB[bash-completion-pkgs] =3D '*-bash-completion'
++COMPLEMENTARY_GLOB[zsh-completion-pkgs] =3D '*-zsh-completion'
+
+ def complementary_globs(featurevar, d):
+     all_globs =3D d.getVarFlags('COMPLEMENTARY_GLOB')
 
