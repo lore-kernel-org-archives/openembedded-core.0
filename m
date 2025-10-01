@@ -1,99 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E9BCAC5BB
-	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 18:18:47 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web10.4550.1759342722795857459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65BACCCA470
+	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 18:31:27 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.4683.1759343485823054304
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 11:18:42 -0700
+ Wed, 01 Oct 2025 11:31:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VJksZ0zX;
- spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b55640a2e33so107296a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 11:18:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759342722; x=1759947522; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mdprP9T65D0//OIFd4jrZAdWnaXBOGs6sStx3MRWjzk=;
-        b=VJksZ0zXlWB5NpR0IzqQBvMKAZGz7G+hpd+5oPu72TMN3Gd1Q4kVWCjnVmRh62mSSP
-         L7y5WiF4282ivRmcW1SAF5hrK9upZc8AltD8Z1qH+BXCrKvakQlMfrbbrL60KZyJUdT8
-         C87mEJix0DHUt2BHpVQvVIUgftEld3RGEV6RHiI8Q7Cmk2bpYPkSwXeT878ITTXSo7rt
-         REM0VcHHc4ftgbhlqcX2z+leEyXotFyTVFjrJViMUmP7Kit7uSj/PduQ9fqeEdcOLiZO
-         XYod2eU5KCjgxLfthcFdfkPb2y0wPkBmoJC4KrufZWsdftM+hQWaGsIE9DdUiuP02k82
-         38qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759342722; x=1759947522;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mdprP9T65D0//OIFd4jrZAdWnaXBOGs6sStx3MRWjzk=;
-        b=gsJAtWI4K2UuXmvE+CyvkAoftjh48t8CVAHkBrG1q7kTE1RRpapJhBjtltztEWOJGl
-         BfIjLue4KljCH5Ab1bfGU3UPrHqQM2JQGN5QjK0dRFPY5ZqavtVWcCjm2CJoWNSrp5XG
-         dvJ11Csw4nggmShWf4rLmmK5ejjZ0XgXitZeUB7YymHRO7aUxt1ppHrCc8EE3S1IVUVF
-         VGCQtUgfnuacJOobhrGhODVPxjSHNPtrJgkDl8+u3lNzqjCWw6Cr44L3h2FoDrEfnitm
-         hn3bTFrDxYTsQMfjWBcPMU23YJTc0TsSUJVoPp3LWI7nn38mvdZOm+G2Z417knPdJKxI
-         Mqsw==
-X-Gm-Message-State: AOJu0YyPwa+/KGpjIh5Cy3ZA4QSEOHjlNwsBQEjxbjdvCn4sVFfV3IPq
-	Za4w2PuAHE0g8jYTfr8f08ZsiK0rr6wYpR3NSoQIThjxqQBQye/3KXfwPSamexWc
-X-Gm-Gg: ASbGncv8awOptBfO9fN9mqGsw1n/SapFIhDVWX/qT+rg/8cnclqHTd42RcF0LkW0czp
-	otZ4AzhuA7w6h05076XTyZRpWMKUZm07NEDZstNly5lbRjlGR7nngQ+BQn9xf0gcZRQfGRinqOv
-	P8Zm5x/igwbxQwXtWvL3ANLuG/+mvO7H6PWtWFvNP1uPXt8RlX6F5vq5HIwUUK6vrEOM4BU01Vf
-	kalLoRab4MnK9g5IT39sUDwSeMkoxVtWeMTUit205bLcK2rALYmrAUlmdBmeCjZegP/s9iZO1Bl
-	2ARNqOd878ZqXIlUNsPfWVnn4Jnc/T2H6k2lJ2ZDI7eTiEHsERR8GWVZPze4LP8pCVc1GKS+vwj
-	F5uaiMe2SEPfXP+SfVulCS+Sy0HrcRAZqdP60zmcpZzrHjoJ14IQxXrl4DWiVTPGidj+mJsBRVu
-	DEyxd9jlrPhzZfP2YSZYd24cjIZGpEH4JDh/u1GD4levmqSk2lHUTzJsSezDHqLGGt
-X-Google-Smtp-Source: AGHT+IHjJJhrYlfJfEDfc/AG3zaurNL6JM9giDcukHdZxUEYEPVZxMCAxmjglMHgGA8k5I5dOuF4LQ==
-X-Received: by 2002:a17:903:46ce:b0:266:2e6b:f592 with SMTP id d9443c01a7336-28e7f2a3c2cmr57322885ad.25.1759342721673;
-        Wed, 01 Oct 2025 11:18:41 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::d851])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d135d71sm2683895ad.58.2025.10.01.11.18.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 11:18:41 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] spirv-llvm-translator: Upgrade to 21.1.1
-Date: Wed,  1 Oct 2025 11:18:38 -0700
-Message-ID: <20251001181839.1618366-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=hs/p6MT8;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=UTfGOqhk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010199a10b2018-d23810ca-e206-4202-85d2-6c16dd812810-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1759343485; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=PmpgXozprjfknD/HGLLJp/6NyV5tKMnb0LVGvWxJ5eU=;
+	b=hs/p6MT8lNcF0vmvn2EJWrpysCd3a1dRqzNOaMnit7yWeZ+Aadu9LVcJkP8ztZWg
+	bmUp4A+WDilk4ggJPMFEaNQsJN/wb8QF03LBy8Ptiv3mccUn56ctVgbTVcEIsz2Rycs
+	CWXCbVkNLmB6thHqIEsGU9Y/rjBiJQ/KtoMZG3LI=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759343485;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=PmpgXozprjfknD/HGLLJp/6NyV5tKMnb0LVGvWxJ5eU=;
+	b=UTfGOqhksnbYi2fiDC0mKUo8AFAv9zQ/V/vm0EcuhIoSyDmjBfVUZRFLzbDJZ4Mm
+	Qqy9G0hG20ulX4RTqG/eBhymkY3ryo+Tk8mPuwY/e0d5lEYTKqJsFsFGk57O0XddrYU
+	6oMUHqnzgFq1y4Xt15Ruo6lTv4buLbMXdkI6nrqU=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 2/2] python3-lxml: upgrade 6.0.1 -> 6.0.2
+In-Reply-To: <20251001181839.1618366-2-raj.khem@gmail.com>
+References: <20251001181839.1618366-2-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010199a10b2018-d23810ca-e206-4202-85d2-6c16dd812810-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Oct 2025 18:31:24 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2025.10.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 18:18:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224319
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 18:31:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224321
 
-Backports following fixes to 21 branch
+--NextPart
+Content-Type: text/plain
 
-* 29758b55 [Backport to llvm_release_210] Fix error propagation in parseSPIRV (#3365)
-* 615cc15b Fix BFloat16 mangling (#3355)
-* 9aae1acb [Backport to 21] Implement SPV_INTEL_bfloat16_arithmetic (#3290)
-* b50fc5ca [Backport to 21] Support for SPV_INTEL_shader_atomic_bfloat16 extension (#3343) (#3349)
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...lvm-translator_21.1.0.bb => spirv-llvm-translator_21.1.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-llvm-translator_21.1.0.bb => spirv-llvm-translator_21.1.1.bb} (94%)
+Testing patch /home/patchtest/share/mboxes/2-2-python3-lxml-upgrade-6.0.1---6.0.2.patch
 
-diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
-similarity index 94%
-rename from meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
-rename to meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
-index 13a93f3c5e5..503e7df6440 100644
---- a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
- 
- # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
- SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
--SRCREV = "acb023b63a4bafd53d0ba6a1a452b1f0e5671458"
-+SRCREV = "29758b55816c14abb3e4142d42aca7a95bf46710"
- SRC_URI = " \
-     git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
- "
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
