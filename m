@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 425B6CCF9F4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46928CCF9F3
 	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:37 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.17930.1759325533110206195
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.18072.1759325536079836896
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 06:32:36 -0700
+ Wed, 01 Oct 2025 06:32:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SulH02Gv;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=WGQ6/ukW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101999ff98cde-36365cf5-998a-4a68-ba61-9f18b70379c8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=epYVunU9;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ahbpmKqZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101999ff98e2e-824829e1-f1f8-4a20-9d3b-10d09f7755cf-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1759325556;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ckq95j4q4KtcOMNOtofRdcl7R58Fzu//wiJyOsuE1LM=;
-	b=SulH02GvqlFGR0biPF2vjI9UCAr4h6AhbJcNOlmy0SaIqmqwODsvHbii5jswLQzs
-	6oAxEqx5B6rmhS5aMPpUbiHNQgwhnysblgkLC8/tatydlSzJ8OWXaFTI/7xwwyb5vVA
-	SGnxqd6MFQMzajOFg9Ro90rdKYrwMzuzM1os46wc=
+	bh=CiD6T9R9qrCzQinNDXFCN1FnGf0mAuVfnQcxCS8NDZA=;
+	b=epYVunU9/40Cinsb/AfvzaYmRaotoxc73kA6aL2eIxeDrlRuyXMSCXgX38QrfngL
+	TFEz5qKFe28HcjbMqQyQz+4axtwiYYdw+1NZN5/C+1B6hrcorBEDQWwhj5nkSxGS2kF
+	yCgNtceZT9d6NQpXkMwZmlRrARH+uTRhRyGW9awg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325556;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ckq95j4q4KtcOMNOtofRdcl7R58Fzu//wiJyOsuE1LM=;
-	b=WGQ6/ukWQF6FfORg9IE3hHGUvJ0DNl/ixyihLEpIfmcIchKqrQSRGoe2QlQouVLT
-	K/DUZ9YDAjtiLIlpJ04Gi8zsx4wgNcXsnCKetox3uRrWmA/OkxqWSbTF6H2YLRqA1h1
-	mkHY7ThWmIoBUZ7PGJot1ClBQCkOLGn0hEZR0rfI=
-Content-Type: multipart/mixed; boundary="===============8642222488613783131=="
+	bh=CiD6T9R9qrCzQinNDXFCN1FnGf0mAuVfnQcxCS8NDZA=;
+	b=ahbpmKqZurWdI7vRNy4wvjRWV4Upe9z6Nn79/qfkOkOOE/QeZhWbKmX0QUZ0oUaB
+	CmCm6jyGmWZcrNoEy8F5Td9FmLuX7U2kLPkkgCZ5xTQHuW+ZcWsmgEg8mKc3n09vaVc
+	UGBNhkrtepsbmW+2vqfE6WGT44l0s201bn8nmuuQ=
+Content-Type: multipart/mixed; boundary="===============7131736975275653501=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hiago De Franco <hiago.franco@toradex.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libdisplay-info: upgrading to 0.3.0 SUCCEEDED
-Message-ID: <010101999ff98cde-36365cf5-998a-4a68-ba61-9f18b70379c8-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Oct 2025 13:32:35 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] p11-kit: upgrading to 0.25.10 FAILED
+Message-ID: <010101999ff98e2e-824829e1-f1f8-4a20-9d3b-10d09f7755cf-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Oct 2025 13:32:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.10.01-54.240.27.45
+X-SES-Outgoing: 2025.10.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224298
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224300
 
---===============8642222488613783131==
+--===============7131736975275653501==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libdisplay-info* to *0.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *p11-kit* to *0.25.10* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-libdisplay-info-upgrade-0.2.0-0.3.0.patch
+    - apply the patch: git am 0001-p11-kit-upgrade-0.25.5-0.25.10.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,121 +78,186 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 76361aefb7fd2d2800b8e8cebd79af2ad23f336f Mon Sep 17 00:00:00 2001
+From 7598f6a2fa7e54b597ce5c608a222fcad14a9b9a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Oct 2025 13:07:35 +0000
-Subject: [PATCH] libdisplay-info: upgrade 0.2.0 -> 0.3.0
+Date: Wed, 1 Oct 2025 13:23:34 +0000
+Subject: [PATCH] p11-kit: upgrade 0.25.5 -> 0.25.10
 
 ---
- .../{libdisplay-info_0.2.0.bb => libdisplay-info_0.3.0.bb}      | 2 +-
+ .../p11-kit/{p11-kit_0.25.5.bb => p11-kit_0.25.10.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libdisplay-info/{libdisplay-info_0.2.0.bb => libdisplay-info_0.3.0.bb} (92%)
+ rename meta/recipes-support/p11-kit/{p11-kit_0.25.5.bb => p11-kit_0.25.10.bb} (97%)
 
-diff --git a/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb b/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
-similarity index 92%
-rename from meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
-rename to meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
-index 812a30495e..3dc02261dd 100644
---- a/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
-+++ b/meta/recipes-support/libdisplay-info/libdisplay-info_0.3.0.bb
-@@ -9,6 +9,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e4426409957080ee0352128354cea2de"
- DEPENDS = "hwdata-native"
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.25.5.bb b/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb
+similarity index 97%
+rename from meta/recipes-support/p11-kit/p11-kit_0.25.5.bb
+rename to meta/recipes-support/p11-kit/p11-kit_0.25.10.bb
+index 1c982a2aab..8bfe9c08ad 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.25.5.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb
+@@ -12,7 +12,7 @@ DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''
  
- SRC_URI = "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;branch=main;protocol=https"
--SRCREV = "66b802d05b374cd8f388dc6ad1e7ae4f08cb3300"
-+SRCREV = "47a5590e9c4eb35d67651b8c05a55f1a48259329"
+ SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https \
+            "
+-SRCREV = "0dd113361057e477f40ff4d8788f3e7e400af5f9"
++SRCREV = "90dba4ded391c6232a78ee14db0da76efda7b1c3"
  
- inherit meson pkgconfig lib_package
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native"
 -- 
 2.47.1
 
 
---===============8642222488613783131==
+--===============7131736975275653501==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/libdisplay-info: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGSIZE changed from 63616 to 75904 (+19%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGSIZE changed from 565576 to 662288 (+17%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: FILELIST: removed "/usr/lib/.debug/libdisplay-info.so.0.2.0", added "/usr/lib/.debug/libdisplay-info.so.0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGSIZE changed from 87045 to 104854 (+20%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: FILELIST: added "/usr/include/libdisplay-info/displayid2.h"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-doc: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-doc: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-locale: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-locale: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-src: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-staticdev: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-staticdev: PV changed from "0.2.0" to "0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKGSIZE changed from 227256 to 239544 (+5%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: FILELIST: removed "/usr/lib/libdisplay-info.so.2 /usr/lib/libdisplay-info.so.0.2.0", added "/usr/lib/libdisplay-info.so.3 /usr/lib/libdisplay-info.so.0.3.0"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKG changed from libdisplay-info2 to libdisplay-info3
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKGV changed from 0.2.0 [default] to 0.3.0 [default]
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PV changed from "0.2.0" to "0.3.0"
-Changes to packages/x86-64-v3-poky-linux/libdisplay-info (sysroot):
-  /usr/lib/libdisplay-info.so changed symlink target from libdisplay-info.so.2 to libdisplay-info.so.3
-  /usr/lib/libdisplay-info.so.0.2.0 moved to /usr/lib/libdisplay-info.so.0.3.0
-  /usr/lib/libdisplay-info.so.2 moved to /usr/lib/libdisplay-info.so.3
-  /usr/include/libdisplay-info/displayid2.h was added
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1941 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 944 .bb files complete (943 cached, 1 parsed). 1939 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============8642222488613783131==
+Build Configuration:
+BB_VERSION           = "2.15.2"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-765bc80df702a99e0f4538542c1e5a3d76e8a151"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:765bc80df702a99e0f4538542c1e5a3d76e8a151"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 119 Local 107 Mirrors 0 Missed 12 Current 283 (89% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 355 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.5.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 357 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_create_spdx_setscene)
+NOTE: Running task 903 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_recipe_qa)
+NOTE: Running task 936 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_write_config)
+NOTE: recipe libffi-3.5.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libtasn1-4.20.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_recipe_qa: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_write_config: Started
+NOTE: recipe libffi-3.5.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe p11-kit-0.25.10-r0: task do_write_config: Succeeded
+NOTE: recipe libtasn1-4.20.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 371 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 988 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_fetch)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 379 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.42.bb:do_create_spdx_setscene)
+NOTE: recipe p11-kit-0.25.10-r0: task do_fetch: Started
+NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 386 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 392 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_fetch: Succeeded
+NOTE: Running task 1026 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_unpack)
+NOTE: recipe p11-kit-0.25.10-r0: task do_unpack: Started
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 400 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.45.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_unpack: Succeeded
+NOTE: Running task 1037 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_patch)
+NOTE: recipe p11-kit-0.25.10-r0: task do_patch: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_patch: Succeeded
+NOTE: Running task 1038 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1039 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_populate_lic)
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1140 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1158 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_collect_spdx_deps)
+NOTE: recipe p11-kit-0.25.10-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_populate_lic: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_collect_spdx_deps: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_populate_lic: Succeeded
+NOTE: recipe p11-kit-0.25.10-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe p11-kit-0.25.10-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe p11-kit-0.25.10-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1163 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_configure)
+NOTE: recipe p11-kit-0.25.10-r0: task do_configure: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_configure: Succeeded
+NOTE: Running task 1164 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_compile)
+NOTE: recipe p11-kit-0.25.10-r0: task do_compile: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_compile: Succeeded
+NOTE: Running task 1165 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_install)
+NOTE: recipe p11-kit-0.25.10-r0: task do_install: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_install: Succeeded
+NOTE: Running task 1166 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_package)
+NOTE: Running task 1167 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_populate_sysroot)
+NOTE: recipe p11-kit-0.25.10-r0: task do_populate_sysroot: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_package: Started
+NOTE: recipe p11-kit-0.25.10-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe p11-kit-0.25.10-r0: task do_package: Failed
+NOTE: Tasks Summary: Attempted 1167 tasks of which 1153 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251001132255.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251001132255.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_package
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/p11-kit/0.25.10/temp/log.do_package.676039
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: p11-kit-0.25.10-r0 do_package: QA Issue: p11-kit: Files/directories were installed but not shipped in any package:
+  /usr/share/zsh
+  /usr/share/zsh/site-functions
+  /usr/share/zsh/site-functions/_p11-kit
+  /usr/share/zsh/site-functions/_trust
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+p11-kit: 4 installed and not shipped files. [installed-vs-shipped]
+ERROR: p11-kit-0.25.10-r0 do_package: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/p11-kit/0.25.10/temp/log.do_package.676039
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_package) failed with exit code '1'
+
+--===============7131736975275653501==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libdisplay-info-upgrade-0.2.0-0.3.0.patch"
+ filename="0001-p11-kit-upgrade-0.25.5-0.25.10.patch"
 
-RnJvbSA3NjM2MWFlZmI3ZmQyZDI4MDBiOGU4Y2ViZDc5YWYyYWQyM2YzMzZmIE1vbiBTZXAgMTcg
+RnJvbSA3NTk4ZjZhMmZhN2U1NGI1OTdjZTVjNjA4YTIyMmZjYWQxNGE5YjlhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMzowNzozNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YmRpc3BsYXktaW5mbzogdXBncmFkZSAwLjIuMCAtPiAwLjMuMAoKLS0tCiAuLi4ve2xpYmRpc3Bs
-YXktaW5mb18wLjIuMC5iYiA9PiBsaWJkaXNwbGF5LWluZm9fMC4zLjAuYmJ9ICAgICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJkaXNwbGF5LWluZm8ve2xpYmRpc3BsYXktaW5mb18wLjIu
-MC5iYiA9PiBsaWJkaXNwbGF5LWluZm9fMC4zLjAuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGliZGlzcGxheS1pbmZvL2xpYmRpc3BsYXktaW5mb18wLjIuMC5i
-YiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9f
-MC4zLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvbGliZGlzcGxheS1pbmZvL2xpYmRpc3BsYXktaW5mb18wLjIuMC5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZGlzcGxheS1pbmZvL2xpYmRpc3BsYXktaW5mb18wLjMu
-MC5iYgppbmRleCA4MTJhMzA0OTVlLi4zZGMwMjI2MWRkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9saWJkaXNwbGF5LWluZm8vbGliZGlzcGxheS1pbmZvXzAuMi4wLmJiCisrKyBi
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmRpc3BsYXktaW5mby9saWJkaXNwbGF5LWluZm9fMC4z
-LjAuYmIKQEAgLTksNiArOSw2IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7
-bWQ1PWU0NDI2NDA5OTU3MDgwZWUwMzUyMTI4MzU0Y2VhMmRlIgogREVQRU5EUyA9ICJod2RhdGEt
-bmF0aXZlIgogCiBTUkNfVVJJID0gImdpdDovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvZW1lcnNp
-b24vbGliZGlzcGxheS1pbmZvLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIKLVNSQ1JF
-ViA9ICI2NmI4MDJkMDViMzc0Y2Q4ZjM4OGRjNmFkMWU3YWU0ZjA4Y2IzMzAwIgorU1JDUkVWID0g
-IjQ3YTU1OTBlOWM0ZWIzNWQ2NzY1MWI4YzA1YTU1ZjFhNDgyNTkzMjkiCiAKIGluaGVyaXQgbWVz
-b24gcGtnY29uZmlnIGxpYl9wYWNrYWdlCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMzoyMzozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHAx
+MS1raXQ6IHVwZ3JhZGUgMC4yNS41IC0+IDAuMjUuMTAKCi0tLQogLi4uL3AxMS1raXQve3AxMS1r
+aXRfMC4yNS41LmJiID0+IHAxMS1raXRfMC4yNS4xMC5iYn0gICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvcDExLWtpdC97cDExLWtpdF8wLjI1LjUuYmIgPT4gcDExLWtpdF8wLjI1
+LjEwLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3AxMS1raXQv
+cDExLWtpdF8wLjI1LjUuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9wMTEta2l0L3AxMS1raXRf
+MC4yNS4xMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9wMTEta2l0L3AxMS1raXRfMC4yNS41LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9wMTEta2l0L3AxMS1raXRfMC4yNS4xMC5iYgppbmRleCAxYzk4MmEyYWFiLi44YmZl
+OWMwOGFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9wMTEta2l0L3AxMS1raXRf
+MC4yNS41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3AxMS1raXQvcDExLWtpdF8wLjI1
+LjEwLmJiCkBAIC0xMiw3ICsxMiw3IEBAIERFUEVORFM6YXBwZW5kID0gIiR7QCcgZ2xpYi0yLjAn
+IGlmIGQuZ2V0VmFyKCdHVEtET0NfRU5BQkxFRCcpID09ICdUcnVlJyBlbHNlICcnCiAKIFNSQ19V
+UkkgPSAiZ2l0c206Ly9naXRodWIuY29tL3AxMS1nbHVlL3AxMS1raXQ7YnJhbmNoPW1hc3Rlcjtw
+cm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgICIKLVNSQ1JFViA9ICIwZGQxMTMzNjEwNTdlNDc3
+ZjQwZmY0ZDg3ODhmM2U3ZTQwMGFmNWY5IgorU1JDUkVWID0gIjkwZGJhNGRlZDM5MWM2MjMyYTc4
+ZWUxNGRiMGRhNzZlZmRhN2IxYzMiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIiCiBQQUNLQUdFQ09O
+RklHW21hbnBhZ2VzXSA9ICItRG1hbj10cnVlLC1EbWFuPWZhbHNlLGxpYnhzbHQtbmF0aXZlIgot
+LSAKMi40Ny4xCgo=
 
---===============8642222488613783131==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-bin: PKGSIZE changed from 63616 to 75904 (+19%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dbg: PKGSIZE changed from 565576 to 662288 (+17%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: FILELIST: added "/usr/include/libdisplay-info/displayid2.h"
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info-dev: PKGSIZE changed from 87045 to 104854 (+20%)
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: PKG changed from libdisplay-info2 to libdisplay-info3
-packages/x86-64-v3-poky-linux/libdisplay-info/libdisplay-info: FILELIST: removed "/usr/lib/libdisplay-info.so.2 /usr/lib/libdisplay-info.so.0.2.0", added "/usr/lib/libdisplay-info.so.3 /usr/lib/libdisplay-info.so.0.3.0"
-Changes to packages/x86-64-v3-poky-linux/libdisplay-info (sysroot):
-  /usr/lib/libdisplay-info.so changed symlink target from libdisplay-info.so.2 to libdisplay-info.so.3
-  /usr/lib/libdisplay-info.so.0.2.0 moved to /usr/lib/libdisplay-info.so.0.3.0
-  /usr/lib/libdisplay-info.so.2 moved to /usr/lib/libdisplay-info.so.3
-  /usr/include/libdisplay-info/displayid2.h was added
-
---===============8642222488613783131==--
+--===============7131736975275653501==--
 
