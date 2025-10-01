@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06A02CCF9E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4531FCCF9E5
 	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:36 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.17942.1759325536398818985
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.17946.1759325538806715840
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 06:32:26 -0700
+ Wed, 01 Oct 2025 06:32:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=uvfEpJvz;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=P0GzExLY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101999ff9676f-2ca09771-4071-4c4b-aaa0-b40aae7bee4d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NLPiNjDV;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=NTJkHSYD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101999ff95f09-d3a43ecd-5b30-47ad-8ae0-17aad57b1d3e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1759325546;
+	t=1759325544;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sVhfGuMK55LdRoIyZ9MtoxrvVxqd39UhjJIITUix3sk=;
-	b=uvfEpJvz8IkCfaluEg3a8lwvnh6Apo9cKqIl5nmsZ+60vW6aTlyyUt83QVtkWlZr
-	aHJIrVTtBwyIl7x7wSmilKbnArr6eb5tftg/g3Wrt0rP0tnNDqvC3v7Aadc6DaiAtqn
-	ekAL2H53xn1rUkSh34rHkZ0pkOXYpHMNoLsPx6Ts=
+	bh=IxXSdy2gyB9u1+N+dFg3O6TdXK0FAzn6t1Jq1UxhcjA=;
+	b=NLPiNjDVZC2h6i0df8EYgKniiPb93Gl7qcxPxXpSpoCGo4LiusGhhAi778RhxDSr
+	bgwgvJluGCJqRHbZcmtQZn1UUHxBuL725E3b09nGX3K942/nBWIvJObi4z6a6VqlRtT
+	VpLZlWnvk2FcssdusK+hpDWIVZxiTf1uhKWhK+5w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325546;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325544;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sVhfGuMK55LdRoIyZ9MtoxrvVxqd39UhjJIITUix3sk=;
-	b=P0GzExLYwqtqb47exW6+FjDFifSK6DP7hfXXJhWDjxAQLTzkp9wAP/Q4qCqujPzA
-	BIE+gc0VGKa7zWcn55mIiCe+p6QqnDBw9PnVIatNcKuZDcolEOnaYIx8XtR9x3OLNs3
-	m5XlTN7I4N7pudOP3QY1caUXUp5dD3T/YL+8ka9A=
-Content-Type: multipart/mixed; boundary="===============7461205012289094608=="
+	bh=IxXSdy2gyB9u1+N+dFg3O6TdXK0FAzn6t1Jq1UxhcjA=;
+	b=NTJkHSYD8ka5YOuUi4fCxmAGk9IpdxVbp4zHnP/bqOt7wdUIm0pclZeUqcdKYmPR
+	12xaUb44HPIN96XT30PCfYT+SgC20j9tZFKkLOjCKkohtClu5DaEw1whWgeTZH+urko
+	MDsmwW+rTEPw5e8F0hv1Ia6k5nfdLAQ9Uda6BacU=
+Content-Type: multipart/mixed; boundary="===============8211701368005067246=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] lighttpd: upgrading to 1.4.82 SUCCEEDED
-Message-ID: <010101999ff9676f-2ca09771-4071-4c4b-aaa0-b40aae7bee4d-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Oct 2025 13:32:26 +0000
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-wcwidth: upgrading to 0.2.14 SUCCEEDED
+Message-ID: <010101999ff95f09-d3a43ecd-5b30-47ad-8ae0-17aad57b1d3e-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Oct 2025 13:32:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.10.01-54.240.27.193
+X-SES-Outgoing: 2025.10.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224260
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224253
 
---===============7461205012289094608==
+--===============8211701368005067246==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *lighttpd* to *1.4.82* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-wcwidth* to *0.2.14* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lighttpd-upgrade-1.4.81-1.4.82.patch
+    - apply the patch: git am 0001-python3-wcwidth-upgrade-0.2.13-0.2.14.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,128 +72,106 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 43fcfa05ef037238d0003d415097f3c2b3e6814c Mon Sep 17 00:00:00 2001
+From 79c890faf61ea5fd371bf46a0c029e79d2b42577 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Oct 2025 10:18:20 +0000
-Subject: [PATCH] lighttpd: upgrade 1.4.81 -> 1.4.82
+Date: Wed, 1 Oct 2025 09:37:21 +0000
+Subject: [PATCH] python3-wcwidth: upgrade 0.2.13 -> 0.2.14
 
 ---
- .../lighttpd/{lighttpd_1.4.81.bb => lighttpd_1.4.82.bb}         | 2 +-
+ .../{python3-wcwidth_0.2.13.bb => python3-wcwidth_0.2.14.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/lighttpd/{lighttpd_1.4.81.bb => lighttpd_1.4.82.bb} (97%)
+ rename meta/recipes-devtools/python/{python3-wcwidth_0.2.13.bb => python3-wcwidth_0.2.14.bb} (84%)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.81.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.82.bb
-similarity index 97%
-rename from meta/recipes-extended/lighttpd/lighttpd_1.4.81.bb
-rename to meta/recipes-extended/lighttpd/lighttpd_1.4.82.bb
-index 40abef784b..8221d30283 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.81.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.82.bb
-@@ -16,7 +16,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-            file://lighttpd \
-            "
+diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb b/meta/recipes-devtools/python/python3-wcwidth_0.2.14.bb
+similarity index 84%
+rename from meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
+rename to meta/recipes-devtools/python/python3-wcwidth_0.2.14.bb
+index 71bb1a2703..da2dc60263 100644
+--- a/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
++++ b/meta/recipes-devtools/python/python3-wcwidth_0.2.14.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/jquast/wcwidth"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
  
--SRC_URI[sha256sum] = "d7d42c3fd2fd94b63c915aa7d18f4da3cac5937ddba33e909f81cf50842a5840"
-+SRC_URI[sha256sum] = "abfe74391f9cbd66ab154ea07e64f194dbe7e906ef4ed47eb3b0f3b46246c962"
+-SRC_URI[sha256sum] = "72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"
++SRC_URI[sha256sum] = "4d478375d31bc5395a3c55c40ccdf3354688364cd61c4f6adacaa9215d0b3605"
  
- DEPENDS = "virtual/crypt"
+ inherit pypi setuptools3 ptest-python-pytest
  
 -- 
 2.47.1
 
 
---===============7461205012289094608==
+--===============8211701368005067246==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/lighttpd: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd: SRC_URI changed from "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.81.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd" to "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.82.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd"
-packages/x86-64-v3-poky-linux/lighttpd: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-dbg: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-dbg: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-dbg: PKGSIZE changed from 2751464 to 2754152 (+0%)
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-dev: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-dev: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-doc: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-doc: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-locale: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-locale: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-accesslog: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-accesslog: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-ajp13: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-ajp13: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-auth: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-auth: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-authn-file: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-authn-file: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-cgi: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-cgi: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-deflate: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-deflate: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-dirlisting: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-dirlisting: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-extforward: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-extforward: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-h2: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-h2: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-openssl: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-openssl: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-proxy: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-proxy: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-rrdtool: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-rrdtool: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-sockproxy: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-sockproxy: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-ssi: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-ssi: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-status: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-status: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-userdir: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-userdir: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-vhostdb: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-vhostdb: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-webdav: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-webdav: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-wstunnel: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-module-wstunnel: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-src: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-src: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-staticdev: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd-staticdev: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd: PV changed from "1.4.81" to "1.4.82"
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd: PKGV changed from 1.4.81 [default] to 1.4.82 [default]
-packages/x86-64-v3-poky-linux/lighttpd/lighttpd: PKGSIZE changed from 392439 to 396535 (+1%)
+packages/x86-64-v3-poky-linux/python3-wcwidth: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
+packages/x86-64-v3-poky-linux/python3-wcwidth: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.2.13.tar.gz;downloadfilename=wcwidth-0.2.13.tar.gz" to "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.2.14.tar.gz;downloadfilename=wcwidth-0.2.14.tar.gz"
+packages/x86-64-v3-poky-linux/python3-wcwidth: PV changed from "0.2.13" to "0.2.14"
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PV changed from "0.2.13" to "0.2.14"
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PV changed from "0.2.13" to "0.2.14"
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PV changed from "0.2.13" to "0.2.14"
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PV changed from "0.2.13" to "0.2.14"
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PV changed from "0.2.13" to "0.2.14"
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGSIZE changed from 317339 to 317322 (-0%)
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PV changed from "0.2.13" to "0.2.14"
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PV changed from "0.2.13" to "0.2.14"
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGV changed from 0.2.13 [default] to 0.2.14 [default]
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PV changed from "0.2.13" to "0.2.14"
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGSIZE changed from 546870 to 616750 (+13%)
+Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
+  /usr/lib/python3.13/site-packages/wcwidth-0.2.13.dist-info moved to /usr/lib/python3.13/site-packages/wcwidth-0.2.14.dist-info
 
---===============7461205012289094608==
+--===============8211701368005067246==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-lighttpd-upgrade-1.4.81-1.4.82.patch"
+ filename="0001-python3-wcwidth-upgrade-0.2.13-0.2.14.patch"
 
-RnJvbSA0M2ZjZmEwNWVmMDM3MjM4ZDAwMDNkNDE1MDk3ZjNjMmIzZTY4MTRjIE1vbiBTZXAgMTcg
+RnJvbSA3OWM4OTBmYWY2MWVhNWZkMzcxYmY0NmEwYzAyOWU3OWQyYjQyNTc3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMDoxODoyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-Z2h0dHBkOiB1cGdyYWRlIDEuNC44MSAtPiAxLjQuODIKCi0tLQogLi4uL2xpZ2h0dHBkL3tsaWdo
-dHRwZF8xLjQuODEuYmIgPT4gbGlnaHR0cGRfMS40LjgyLmJifSAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2xpZ2h0dHBkL3tsaWdodHRwZF8xLjQuODEuYmIgPT4gbGlnaHR0cGRf
-MS40LjgyLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWdo
-dHRwZC9saWdodHRwZF8xLjQuODEuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlnaHR0cGQv
-bGlnaHR0cGRfMS40LjgyLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1leHRlbmRlZC9saWdodHRwZC9saWdodHRwZF8xLjQuODEuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1leHRlbmRlZC9saWdodHRwZC9saWdodHRwZF8xLjQuODIuYmIKaW5kZXggNDBh
-YmVmNzg0Yi4uODIyMWQzMDI4MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xp
-Z2h0dHBkL2xpZ2h0dHBkXzEuNC44MS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGln
-aHR0cGQvbGlnaHR0cGRfMS40LjgyLmJiCkBAIC0xNiw3ICsxNiw3IEBAIFNSQ19VUkkgPSAiaHR0
-cDovL2Rvd25sb2FkLmxpZ2h0dHBkLm5ldC9saWdodHRwZC9yZWxlYXNlcy0xLjQueC9saWdodHRw
-ZC0ke1BWfS50CiAgICAgICAgICAgIGZpbGU6Ly9saWdodHRwZCBcCiAgICAgICAgICAgICIKIAot
-U1JDX1VSSVtzaGEyNTZzdW1dID0gImQ3ZDQyYzNmZDJmZDk0YjYzYzkxNWFhN2QxOGY0ZGEzY2Fj
-NTkzN2RkYmEzM2U5MDlmODFjZjUwODQyYTU4NDAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYWJm
-ZTc0MzkxZjljYmQ2NmFiMTU0ZWEwN2U2NGYxOTRkYmU3ZTkwNmVmNGVkNDdlYjNiMGYzYjQ2MjQ2
-Yzk2MiIKIAogREVQRU5EUyA9ICJ2aXJ0dWFsL2NyeXB0IgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAwOTozNzoyMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtd2N3aWR0aDogdXBncmFkZSAwLjIuMTMgLT4gMC4yLjE0CgotLS0KIC4uLi97cHl0aG9u
+My13Y3dpZHRoXzAuMi4xMy5iYiA9PiBweXRob24zLXdjd2lkdGhfMC4yLjE0LmJifSAgICB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtd2N3aWR0aF8wLjIuMTMuYmIg
+PT4gcHl0aG9uMy13Y3dpZHRoXzAuMi4xNC5iYn0gKDg0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2N3aWR0aF8wLjIuMTMuYmIgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2N3aWR0aF8wLjIuMTQuYmIKc2ltaWxhcml0
+eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLXdjd2lkdGhfMC4yLjEzLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMtd2N3aWR0aF8wLjIuMTQuYmIKaW5kZXggNzFiYjFhMjcwMy4uZGEyZGM2MDI2
+MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdjd2lk
+dGhfMC4yLjEzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13
+Y3dpZHRoXzAuMi4xNC5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRo
+dWIuY29tL2pxdWFzdC93Y3dpZHRoIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9MSUNFTlNFO21kNT1iMTU5NzljMzlhMjU0Mzg5MmZjYThjZDg2YjRiNTJjYiIK
+IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjcyZWEwYzA2Mzk5ZWIyODZkOTc4ZmRlZGI2OTIzYTll
+YjQ3ZTFjNDg2Y2U2M2U5YjRlNjRmYzE4MzAzOTcyYjUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+NGQ0NzgzNzVkMzFiYzUzOTVhM2M1NWM0MGNjZGYzMzU0Njg4MzY0Y2Q2MWM0ZjZhZGFjYWE5MjE1
+ZDBiMzYwNSIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzIHB0ZXN0LXB5dGhvbi1weXRlc3QK
+IAotLSAKMi40Ny4xCgo=
 
---===============7461205012289094608==--
+--===============8211701368005067246==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGSIZE changed from 546870 to 616750 (+13%)
+Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
+  /usr/lib/python3.13/site-packages/wcwidth-0.2.13.dist-info moved to /usr/lib/python3.13/site-packages/wcwidth-0.2.14.dist-info
+
+--===============8211701368005067246==--
 
