@@ -1,147 +1,139 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53FBDCCA470
-	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 09:57:31 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.13284.1759312643340862386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE54CAC5BB
+	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 10:03:11 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.13399.1759312985497646272
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 02:57:23 -0700
+ Wed, 01 Oct 2025 03:03:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=anz8s00X;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-421851bca51so1965361f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 02:57:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PPPu6CMn;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: liu.ming50@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-782bfd0a977so3384189b3a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 03:03:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1759312642; x=1759917442; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=oB9qDr/izV6FfzKIX87jjINY4FjR/Y8NbUdyR23dKbY=;
-        b=anz8s00Xd3kt5b8HumJjUJV0d14K1qucJdyZFUn4KpTKTLjQHuKa8jpgtVFdobdDj2
-         z2sZh57avCNw+UmH45nOZctofN2Bf7AXLJrohS3abVcMHenq1BBQlHNLUdpePKaKdg6i
-         YgEmZqLPkzTbRlnRxoWwsBUyvD4Z7J6VzToKw=
+        d=gmail.com; s=20230601; t=1759312985; x=1759917785; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=E6TtH8XP66sIEqZ/RpNAruT0Oa7mmI6zRbKrYd4zVSQ=;
+        b=PPPu6CMnxWyMJtYYIFACLIZOtWhn7Lsl1xFtj84HrqFQtK4bvR1n9hZWz7L32bModu
+         xsgxAb1i3a/p2tY0Tex0YJhOf22oOC4h8LsTeHz7bV0unA/4Dy9foF8LilqWfvhkj8MH
+         SQ1Si2T2X9HjAa4zjCABbuPn0VbuoplLDeKewoBRfJOFOjuvYWcZhErOCxdXL6G0lVIj
+         dfwaXXpgLh0hZ6kDhjSPy+mkH0J//2VJ1B0hbmDvRdD3Wry53Azah8n39+oCUjadhv40
+         G5rV01gyAQmF8J+U2KPWRYoSs0BE4ZD5I7EAk1P7bdJy9wxOtfbCPnCjeWGAIYB31QhK
+         fXVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759312642; x=1759917442;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oB9qDr/izV6FfzKIX87jjINY4FjR/Y8NbUdyR23dKbY=;
-        b=sczbC3x1TlKKwfhrWS9YVA3lhIuzjA1Ta74qwCnOVRi2Vi0CCv5CQyPFcFOiuJVz6g
-         x+3TSfKHhrKqFGo++t6jTJ0h87Nl4PjMZssfwRJ5QLVRy676mYGVhJ8+oNVM6LUWxE91
-         sNJ2MbKKxYgIa+6ON9INO+dY2ZVE7XwBPngGJjZBedMKodVvduHfIM2AvWQOIBIrRVUs
-         V01LyzxklxvSE/oj24KN00X89LUP4dcHCQF7unQ/H/IAOUU/WxAbpwAv9pUb9YikAoHe
-         2a2B53Rou2lDL3e3j33L7BBRzUnaAHz29YiTIFENtfW0gBuzCqz12MSZXoztrJSbnYYA
-         winQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXtxK5MaXkwCUq7w1GtkQS5oG1yVv2UOx2fXgLduBH4PlDgoUiLDzlb4990UUwqNRnji7wY7AjfpBD9epOnlgNGhw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzlq5OuCLXSsJs8CfH287llsUOuYDSgTMtaonfMqITkg348JF/d
-	ii6/h52ouP3pxUvYv2gba4Xc/8Jdknj2P5cOYpsVafjc8OTDR5YMoQ91tbaObUYVonVJs9xD7X1
-	S5XIQ
-X-Gm-Gg: ASbGncssZwCNFIEbQ5BhNm4E9BBXG1VqzCofysOruEOzUnDl7g4FKvJGMuuYhTopF3P
-	EQ9+K05RwRPQ4dqlsQmaoKbhVDAhEn/daRzrsY3kezOR+gkOLSPMyhmCN9lV/ZwsNVPCQ9tPqD6
-	KL1Lv478E/gtKOfn1Fli3Zz+uQvR6kP024oCIED/5ZNit61mDaVcxcN0guTOKiQ8GYiky2Qi/El
-	hdVAnqHm/j1Tk47AXr3YHdD4sSTKBBs0Uw4392Lk4McAIP6TCv/NzIrQA+0ftrAYVeBtMFg9R+d
-	2Slu2V1BqnraS8n09X3s+6pZB0UJk7O5gKiA1hFcM516MDabgh7ImLguVvZ+n1f6wiXSWfvpMDY
-	6e7kBHS2w++PlCJsX7b1s8ghcqebyLJdPalJIXDJLXLOduInOPikFLhG4b/e9p97FFT4SLsnAu2
-	06vnHGo+vLbetW7q64YX0btOjzqY4udtP/9lw=
-X-Google-Smtp-Source: AGHT+IHJaE59K/6XRS+ot4RITnPs4oNd6ET7bgB4FMZdD4dy1KsmVcvJaHubMUkgG15nY5ZKh7+JhQ==
-X-Received: by 2002:a05:6000:2401:b0:3ec:db18:1695 with SMTP id ffacd0b85a97d-42557819214mr2586920f8f.45.1759312641532;
-        Wed, 01 Oct 2025 02:57:21 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d53b:59af:db6b:d4f7? ([2001:8b0:aba:5f3c:d53b:59af:db6b:d4f7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e61991e9fsm32556165e9.5.2025.10.01.02.57.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 02:57:20 -0700 (PDT)
-Message-ID: <d63a917901287e45aeee4b6b256615537124c2a6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] binutils-cross-canadian: Add missing perl
- mpodules to RDEPENDS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Harish Sadineni <Harish.Sadineni@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Date: Wed, 01 Oct 2025 10:57:20 +0100
-In-Reply-To: <93d2d7a5-a6c7-4b0c-ad89-01be28b407ed@windriver.com>
-References: <20250930123901.949798-1-Harish.Sadineni@windriver.com>
-	 <d04d310ec882ddea6f9578eeb65d99cfae1abe69.camel@linuxfoundation.org>
-	 <93d2d7a5-a6c7-4b0c-ad89-01be28b407ed@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        d=1e100.net; s=20230601; t=1759312985; x=1759917785;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E6TtH8XP66sIEqZ/RpNAruT0Oa7mmI6zRbKrYd4zVSQ=;
+        b=TIJD/gTr2RsaSt1rpA0La69ODDoV5LZDbeskyppSRdU9I5LDGgihcSmb4JL8nSM8aq
+         aCWuiJsL2FHgGfs4eZGeIvRb6G5ed+BELNTFthDIZwIWipOM05sSqnczMvCwhYFz1G8L
+         eWI4BkuH51H4JI7SnLVEqJMWlhkS1URInL2/R8W5DqXdRXDiXpl41bSudkiJjclAppeu
+         lILmo7jZeqz8HyNcB3AhMFLU6bTcGrASqpf/iHBbic4hvZtYPrU5zI4GQK+fhjNW9Fpo
+         epFrPD2IkGnXK8n4H6uSZu6N3DIAuGqUjQOkegUOlHoFL6IKlg3OLPERloQAuS5iT61H
+         jP9w==
+X-Gm-Message-State: AOJu0Yz80ODc82nmLlzMOYM0ytO1N0a4wCUhM65eSNoUfzdtULET1EzV
+	UhP02wzcvBj82EFgUi14QJImSdkkuHACXzWks6N6OqvtKyDF/ttnKmiiWRM6iny1LUfCeNV+Lpm
+	6bgzjoH0gSr6WXUIhgSHtQVhafGgNerg=
+X-Gm-Gg: ASbGncvMrXTIoVG31CZkeltsm+3IszjxEXJwSt2d/CIFDb+QWLU0LSZYh+6ffnEL+CG
+	TDopYrXozxl3JTZdZoYcZ5FvSt2INsDsxS2gUYelh4rDZLj36IyL09SI98Dq+vF0RnSkOOYUuc9
+	fTm6f4AafqTDeuQ1tA/i40tUpr920xmPrYUWKbZkSsM8/hWbA9pM2GJpvofk6z9LduIUig80/X+
+	G1Iove5VJsKEcyB2qyyLGln6KV/3WMX12p7E+5uifC933FnZY4Qe459jVpLXke4T51l31hsjqU=
+X-Google-Smtp-Source: AGHT+IEYSA/Fnk4x7waD7C/udcaHl08XmqCUhvbaIeDUNmIdM0c/6TrVRWENJ6EHdT8gNVpiew6DBaMmuJV4ap7yXUw=
+X-Received: by 2002:a17:90b:3b92:b0:32e:9da9:3e60 with SMTP id
+ 98e67ed59e1d1-339a6f58d2emr2840275a91.36.1759312984653; Wed, 01 Oct 2025
+ 03:03:04 -0700 (PDT)
 MIME-Version: 1.0
+References: <20251001093453.185784-1-liu.ming50@gmail.com> <CANNYZj8ka0t576ifJKNvrahors+QsPz+0xj2JZNZ8x91sJX=hw@mail.gmail.com>
+In-Reply-To: <CANNYZj8ka0t576ifJKNvrahors+QsPz+0xj2JZNZ8x91sJX=hw@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Wed, 1 Oct 2025 12:02:53 +0200
+X-Gm-Features: AS18NWBydZwLSOT-gWoI3sxeP9dpvuVoVNyzw20lvziaGNbGhcikOIlsDmILWDQ
+Message-ID: <CALatG=61tOh728dLdkmTwuKRSd9Tm1O0cTOrWncCW8Y=uPkzLg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel-module-split.bbclass: support muti-lines
+ in module conf
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Mathias Thore <mathias.thore@atlascopco.com>
+Content-Type: multipart/alternative; boundary="0000000000007fc4f5064015f93e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 09:57:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224204
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 10:03:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224205
 
-On Wed, 2025-10-01 at 14:17 +0530, Harish Sadineni wrote:
-> =C2=A0On 9/30/2025 7:17 PM, Richard Purdie wrote:
-> =C2=A0On Tue, 2025-09-30 at 05:39 -0700, Sadineni, Harish via lists.opene=
-mbedded.org wrote:
-> > > From: Harish Sadineni <Harish.Sadineni@windriver.com>
-> > >=20
-> > > In sdk while running "x86_64-poky-linux-gp-display-html --help" gives
-> > > following error:
-> > > $sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux->
-> > > ./x86_64-poky-linux-gp-display-html --help
-> > > Can't locate bigint.pm in @INC (you may need to install the bigint mo=
-dule
-> > >=20
-> > > By adding the following perl modules to RDEPENDS fixes the above erro=
-rs:
-> > > =C2=A0=C2=A0nativesdk-perl-module-bignum
-> > > =C2=A0=C2=A0nativesdk-perl-module-bigint
-> > > =C2=A0=C2=A0nativesdk-perl-module-math-bigint
-> > >=20
-> > > Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> > > ---
-> > > =C2=A0meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 1 =
-+
-> > > =C2=A01 file changed, 1 insertion(+)
-> > >=20
-> > > diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.i=
-nc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-> > > index 7d7ffe92ce..9dc73fbdf1 100644
-> > > --- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-> > > +++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-> > > @@ -5,6 +5,7 @@ PN =3D "binutils-cross-canadian-${TRANSLATED_TARGET_A=
-RCH}"
-> > > =C2=A0BPN =3D "binutils"
-> > >=20
-> > > =C2=A0DEPENDS =3D "flex-native bison-native virtual/nativesdk-cross-c=
-c virtual/nativesdk-libc nativesdk-zlib nativesdk-gettext nativesdk-flex"
-> > > +RDEPENDS:${PN} +=3D "nativesdk-perl-module-bignum  nativesdk-perl-mo=
-dule-bigint nativesdk-perl-module-math-bigint"
-> > > =C2=A0EXTRA_OECONF +=3D "--with-sysroot=3D${SDKPATH}/sysroots/${TUNE_=
-PKGARCH}${TARGET_VENDOR}-${TARGET_OS} \
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0--enable-poison-system-directories \
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0"
-> > > =C2=A0
-> > This is probably the right direction but shouldn't this be for the
-> > gprofng package rather than ${PN}?
-> > =C2=A0=C2=A0=C2=A0
-> Hi Richard,
-> =C2=A0=C2=A0
-> =C2=A0In the SDK at $sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-
-> poky-linux, the script "x86_64-poky-linux-gp-display-html" is not
-> pulled or packaged by the gprofng package.=C2=A0
-> =C2=A0Instead, it is installed as part of the binutils-cross-canadian
-> package.
-> =C2=A0
-> Adding the perl module dependencies to gprofng package will not
-> resolve this issue , it would be effective only if "nativesdk-
-> gprofng" is explicitly installed by the user.
-> =C2=A0
+--0000000000007fc4f5064015f93e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fair enough. Should x86_64-poky-linux-gp-display-html not be part of
-the gprofng package though? Perhaps we should change it to be packaged
-there, then add the dependency to that?
+> Can you provide an example of such a variable which causes the issue?
 
-Cheers,
+Sure, when we have the following settings:
 
-Richard
+```
+KERNEL_MODULE_AUTOLOAD =3D "mod1"
+module_conf_mod1 =3D "line1\nline2\nline3"
+```
 
+// MIng
 
+Alexander Kanavin <alex.kanavin@gmail.com> =E6=96=BC 2025=E5=B9=B410=E6=9C=
+=881=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8811:49=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+
+> On Wed, 1 Oct 2025 at 11:35, Ming Liu via lists.openembedded.org
+> <liu.ming50=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > The expanded bitbake variables are raw strings so it does not support
+> > writting multiple lines to a kernel module conf, add the support by
+> > decoding it with 'unicode-escape'.
+> > -                f.write("%s\n" % modconf)
+> > +                f.write("%s\n" %
+> modconf.encode().decode('unicode-escape'))
+>
+> Can you provide an example of such a variable which causes the issue?
+>
+> Alex
+>
+
+--0000000000007fc4f5064015f93e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">&gt; Can you provide an example of such a variable which c=
+auses the issue?<div><br></div><div>Sure, when we have the following settin=
+gs:</div><div><br></div><div>```</div><div>KERNEL_MODULE_AUTOLOAD =3D &quot=
+;mod1&quot;</div><div>module_conf_mod1 =3D &quot;line1\nline2\nline3&quot;<=
+/div><div>```</div><div><br></div><div>// MIng</div></div><br><div class=3D=
+"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">A=
+lexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin=
+@gmail.com</a>&gt; =E6=96=BC 2025=E5=B9=B410=E6=9C=881=E6=97=A5 =E9=80=B1=
+=E4=B8=89 =E4=B8=8A=E5=8D=8811:49=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">On Wed, 1 Oct 2025 at 11:35, M=
+ing Liu via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" ta=
+rget=3D"_blank">lists.openembedded.org</a><br>
+&lt;liu.ming50=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
+=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; The expanded bitbake variables are raw strings so it does not support<=
+br>
+&gt; writting multiple lines to a kernel module conf, add the support by<br=
+>
+&gt; decoding it with &#39;unicode-escape&#39;.<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&quot=
+;%s\n&quot; % modconf)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&quot=
+;%s\n&quot; % modconf.encode().decode(&#39;unicode-escape&#39;))<br>
+<br>
+Can you provide an example of such a variable which causes the issue?<br>
+<br>
+Alex<br>
+</blockquote></div>
+
+--0000000000007fc4f5064015f93e--
 
