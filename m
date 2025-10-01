@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27491CCD187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10554CCD185
 	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:23 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.17914.1759325528936938531
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.18082.1759325542346498099
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 06:32:17 -0700
+ Wed, 01 Oct 2025 06:32:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Tc3K/D7S;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=qRP+Kjll;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101999ff9441f-e8260db0-9c60-4621-b5ac-b53ee1723df6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Haapk1D6;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=eH0Dd1x3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101999ff95561-6e49c96e-5cfe-444d-a726-2ca01a53b406-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1759325537;
+	t=1759325541;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dFGivEpW2by1FwZ1R8zzQ/mMb/hvQAbhwUBUyLs5Dzk=;
-	b=Tc3K/D7SDGPPb/JdZC3Xw4XsGxjSBYNtncH4pPBLgID/prGbU0zQKElFARqdeY8D
-	Xq63IcbfvNG+2OktZ1ihfyGfgl7Jn2O9SYUD5YT1kbUDJbnjqfX2YDEqGvKv1CiU2Xc
-	WQtrCyCABmpX9RZ9llUjOLQAGHjvNivxnxzE9RoM=
+	bh=Xko2cUU9aTPGEAdG5Jbxf1iGRkLUut+xW9fXuqCxKnM=;
+	b=Haapk1D6zC4ndVxY8Y1NghmFgPgeXtAfkPwrGH8IeEB3nuQGBJFxJvwbzMCSYUyh
+	MF0MK2hD27VGUZMJURX7hMLbtnDuOseITtDP+wjHmqwPkfHS/JEfLmn1vLxCyTu1cg1
+	IcvFaltyBzA32CbN8QR3aT2WJThw3840uU1O8mjc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325537;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325541;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dFGivEpW2by1FwZ1R8zzQ/mMb/hvQAbhwUBUyLs5Dzk=;
-	b=qRP+KjllUHdPUKJftRlfw1xZxRjygyjpFMiMAQG6l09VLl6enSsHkZdmCJSAY1M2
-	p3LQpw8G2VOLWuzPXbohIhxkDioUuTD8A6qLuGrGtdwsjI75UMSp3121ztpsjtNUDsd
-	QfvSwynYJkPWGvfxiZUHsDgj+3vnB7nLs7LQ3UMs=
-Content-Type: multipart/mixed; boundary="===============7747638078689439075=="
+	bh=Xko2cUU9aTPGEAdG5Jbxf1iGRkLUut+xW9fXuqCxKnM=;
+	b=eH0Dd1x3/04e0DGljywJUH5XVFDhojEBsL3sImeNxLSqkzwBw2MyTqEriFNXzGhy
+	kEVLRhbg7hueeFQbYb/NJq/BbZZszy0IEUbtvUGSwkHfbAPd5AghcN/Gp+YkW0hb+3m
+	vjjq3sGaTwsD0Rd/w15xH5dDvixSfJdAD2qCWYTg=
+Content-Type: multipart/mixed; boundary="===============2342055084021800713=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-binary-native: upgrading to 1.25.1 SUCCEEDED
-Message-ID: <010101999ff9441f-e8260db0-9c60-4621-b5ac-b53ee1723df6-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Oct 2025 13:32:17 +0000
+Subject: [AUH] python3-pygobject: upgrading to 3.54.3 SUCCEEDED
+Message-ID: <010101999ff95561-6e49c96e-5cfe-444d-a726-2ca01a53b406-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Oct 2025 13:32:21 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.10.01-54.240.27.33
+X-SES-Outgoing: 2025.10.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224231
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224244
 
---===============7747638078689439075==
+--===============2342055084021800713==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *go-binary-native* to *1.25.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pygobject* to *3.54.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-go-binary-native-upgrade-1.25.0-1.25.1.patch
+    - apply the patch: git am 0001-python3-pygobject-upgrade-3.52.3-3.54.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,73 +72,305 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 06109a7e827fa62eeaf40da4a80bfb27615eefea Mon Sep 17 00:00:00 2001
+From 164dfaedd5023becf2ef6b7bbc87f12d2523514e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Oct 2025 08:35:48 +0000
-Subject: [PATCH] go-binary-native: upgrade 1.25.0 -> 1.25.1
+Date: Wed, 1 Oct 2025 09:20:19 +0000
+Subject: [PATCH] python3-pygobject: upgrade 3.52.3 -> 3.54.3
 
 ---
- ...{go-binary-native_1.25.0.bb => go-binary-native_1.25.1.bb} | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.0.bb => go-binary-native_1.25.1.bb} (79%)
+ ..._3.52.3.bb => python3-pygobject_3.54.3.bb} | 107 +++++++++++++++++-
+ 1 file changed, 105 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pygobject_3.52.3.bb => python3-pygobject_3.54.3.bb} (23%)
 
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.0.bb b/meta/recipes-devtools/go/go-binary-native_1.25.1.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.25.0.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.25.1.bb
-index 2b9ad19d70..1cd3ddb25e 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.25.0.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.25.1.bb
-@@ -9,9 +9,7 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.52.3.bb b/meta/recipes-devtools/python/python3-pygobject_3.54.3.bb
+similarity index 23%
+rename from meta/recipes-devtools/python/python3-pygobject_3.52.3.bb
+rename to meta/recipes-devtools/python/python3-pygobject_3.54.3.bb
+index 42b071ca08..8fe232cba6 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.52.3.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.54.3.bb
+@@ -1,9 +1,112 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING
++# +++ COPYING
++# @@ -55,7 +55,7 @@
++#  that what they have is not the original version, so that the original
++#  author's reputation will not be affected by problems that might be
++#  introduced by others.
++# -
++# +
++#    Finally, software patents pose a constant threat to the existence of
++#  any free program.  We wish to make sure that a company cannot
++#  effectively restrict the users of a free program by obtaining a
++# @@ -111,7 +111,7 @@
++#  "work based on the library" and a "work that uses the library".  The
++#  former contains code derived from the library, whereas the latter must
++#  be combined with the library in order to run.
++# -
++# +
++#  		  GNU LESSER GENERAL PUBLIC LICENSE
++#     TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
++#  
++# @@ -146,7 +146,7 @@
++#  on the Library (independent of the use of the Library in a tool for
++#  writing it).  Whether that is true depends on what the Library does
++#  and what the program that uses the Library does.
++# -  
++# +
++#    1. You may copy and distribute verbatim copies of the Library's
++#  complete source code as you receive it, in any medium, provided that
++#  you conspicuously and appropriately publish on each copy an
++# @@ -158,7 +158,7 @@
++#    You may charge a fee for the physical act of transferring a copy,
++#  and you may at your option offer warranty protection in exchange for a
++#  fee.
++# -
++# +
++#    2. You may modify your copy or copies of the Library or any portion
++#  of it, thus forming a work based on the Library, and copy and
++#  distribute such modifications or work under the terms of Section 1
++# @@ -216,7 +216,7 @@
++#  ordinary GNU General Public License has appeared, then you can specify
++#  that version instead if you wish.)  Do not make any other change in
++#  these notices.
++# -
++# +
++#    Once this change is made in a given copy, it is irreversible for
++#  that copy, so the ordinary GNU General Public License applies to all
++#  subsequent copies and derivative works made from that copy.
++# @@ -267,7 +267,7 @@
++#  distribute the object code for the work under the terms of Section 6.
++#  Any executables containing that work also fall under Section 6,
++#  whether or not they are linked directly with the Library itself.
++# -
++# +
++#    6. As an exception to the Sections above, you may also combine or
++#  link a "work that uses the Library" with the Library to produce a
++#  work containing portions of the Library, and distribute that work
++# @@ -329,7 +329,7 @@
++#  accompany the operating system.  Such a contradiction means you cannot
++#  use both them and the Library together in an executable that you
++#  distribute.
++# -
++# +
++#    7. You may place library facilities that are a work based on the
++#  Library side-by-side in a single library together with other library
++#  facilities not covered by this License, and distribute such a combined
++# @@ -370,7 +370,7 @@
++#  restrictions on the recipients' exercise of the rights granted herein.
++#  You are not responsible for enforcing compliance by third parties with
++#  this License.
++# -
++# +
++#    11. If, as a consequence of a court judgment or allegation of patent
++#  infringement or for any other reason (not limited to patent issues),
++#  conditions are imposed on you (whether by court order, agreement or
++# @@ -422,7 +422,7 @@
++#  the Free Software Foundation.  If the Library does not specify a
++#  license version number, you may choose any version ever published by
++#  the Free Software Foundation.
++# -
++# +
++#    14. If you wish to incorporate parts of the Library into other free
++#  programs whose distribution conditions are incompatible with these,
++#  write to the author to ask for permission.  For software which is
++# @@ -456,7 +456,7 @@
++#  DAMAGES.
++#  
++#  		     END OF TERMS AND CONDITIONS
++# -
++# +
++#             How to Apply These Terms to Your New Libraries
++#  
++#    If you develop a new library, and you want it to be of the greatest
++# 
++#
++
+ SUMMARY = "Python GObject bindings"
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/pygobject"
+ DESCRIPTION = "PyGObject is a Python package which provides bindings for GObject based libraries such as GTK, GStreamer, WebKitGTK, GLib, GIO and many more."
+ SECTION = "devel/python"
+ LICENSE = "LGPL-2.1-only"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
++LIC_FILES_CHKSUM = "file://COPYING;md5=91db794c3adc9d824d4eddabb341e816"
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "2852af0cb20a13139b3448992e69b868e50ed0f8a1e5940ee1de9e19a123b613"
--SRC_URI[go_linux_arm64.sha256sum] = "05de75d6994a2783699815ee553bd5a9327d8b79991de36e38b66862782f54ae"
--SRC_URI[go_linux_ppc64le.sha256sum] = "0f18a89e7576cf2c5fa0b487a1635d9bcbf843df5f110e9982c64df52a983ad0"
-+SRC_URI[go_linux_amd64.sha256sum] = "7716a0d940a0f6ae8e1f3b3f4f36299dc53e31b16840dbd171254312c41ca12e"
+ GIR_MESON_OPTION = ""
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+@@ -19,7 +122,7 @@ DEPENDS += "python3 glib-2.0"
+ SRCNAME = "pygobject"
+ 
+ SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "00e427d291e957462a8fad659a9f9c8be776ff82a8b76bdf402f1eaeec086d82"
++SRC_URI[sha256sum] = "a8da09134a0f7d56491cf2412145e35aa74e91d760e8f337096a1cda0b92bae7"
+ 
+ S = "${UNPACKDIR}/${SRCNAME}-${PV}"
+ 
 -- 
 2.47.1
 
 
---===============7747638078689439075==
+--===============2342055084021800713==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-pygobject: PV changed from "3.52.3" to "3.54.3"
+packages/x86-64-v3-poky-linux/python3-pygobject: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject: SRC_URI changed from "http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.52/pygobject-3.52.3.tar.gz" to "http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.54/pygobject-3.54.3.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PV changed from "3.52.3" to "3.54.3"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PKGSIZE changed from 1457704 to 1463200 (+0%)
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PV changed from "3.52.3" to "3.54.3"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PKGSIZE changed from 25227 to 28308 (+12%)
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-doc: PV changed from "3.52.3" to "3.54.3"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-doc: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-locale: PV changed from "3.52.3" to "3.54.3"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-locale: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PV changed from "3.52.3" to "3.54.3"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-staticdev: PV changed from "3.52.3" to "3.54.3"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-staticdev: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PV changed from "3.52.3" to "3.54.3"
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PKGSIZE changed from 1094057 to 1112850 (+2%)
+Changes to packages/x86-64-v3-poky-linux/python3-pygobject (sysroot):
+  /usr/lib/python3.13/site-packages/PyGObject-3.52.3.dist-info moved to /usr/lib/python3.13/site-packages/PyGObject-3.54.3.dist-info
+
+--===============2342055084021800713==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-go-binary-native-upgrade-1.25.0-1.25.1.patch"
+ filename="0001-python3-pygobject-upgrade-3.52.3-3.54.3.patch"
 
-RnJvbSAwNjEwOWE3ZTgyN2ZhNjJlZWFmNDBkYTRhODBiZmIyNzYxNWVlZmVhIE1vbiBTZXAgMTcg
+RnJvbSAxNjRkZmFlZGQ1MDIzYmVjZjJlZjZiN2JiYzg3ZjEyZDI1MjM1MTRlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAwODozNTo0OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdv
-LWJpbmFyeS1uYXRpdmU6IHVwZ3JhZGUgMS4yNS4wIC0+IDEuMjUuMQoKLS0tCiAuLi57Z28tYmlu
-YXJ5LW5hdGl2ZV8xLjI1LjAuYmIgPT4gZ28tYmluYXJ5LW5hdGl2ZV8xLjI1LjEuYmJ9IHwgNCAr
-LS0tCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDMgZGVsZXRpb25zKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL3tnby1iaW5hcnktbmF0aXZlXzEuMjUuMC5iYiA9
-PiBnby1iaW5hcnktbmF0aXZlXzEuMjUuMS5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZ28vZ28tYmluYXJ5LW5hdGl2ZV8xLjI1LjAuYmIgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvZ28vZ28tYmluYXJ5LW5hdGl2ZV8xLjI1LjEuYmIKc2ltaWxhcml0eSBpbmRl
-eCA3OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRp
-dmVfMS4yNS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28tYmluYXJ5
-LW5hdGl2ZV8xLjI1LjEuYmIKaW5kZXggMmI5YWQxOWQ3MC4uMWNkM2RkYjI1ZSAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLWJpbmFyeS1uYXRpdmVfMS4yNS4wLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby1iaW5hcnktbmF0aXZlXzEuMjUuMS5iYgpA
-QCAtOSw5ICs5LDcgQEAgUFJPVklERVMgPSAiZ28tbmF0aXZlIgogCiAjIENoZWNrc3VtcyBhdmFp
-bGFibGUgYXQgaHR0cHM6Ly9nby5kZXYvZGwvCiBTUkNfVVJJID0gImh0dHBzOi8vZGwuZ29vZ2xl
-LmNvbS9nby9nbyR7UFZ9LiR7QlVJTERfR09PU30tJHtCVUlMRF9HT0FSQ0h9LnRhci5nejtuYW1l
-PWdvXyR7QlVJTERfR09UVVBMRX0iCi1TUkNfVVJJW2dvX2xpbnV4X2FtZDY0LnNoYTI1NnN1bV0g
-PSAiMjg1MmFmMGNiMjBhMTMxMzliMzQ0ODk5MmU2OWI4NjhlNTBlZDBmOGExZTU5NDBlZTFkZTll
-MTlhMTIzYjYxMyIKLVNSQ19VUklbZ29fbGludXhfYXJtNjQuc2hhMjU2c3VtXSA9ICIwNWRlNzVk
-Njk5NGEyNzgzNjk5ODE1ZWU1NTNiZDVhOTMyN2Q4Yjc5OTkxZGUzNmUzOGI2Njg2Mjc4MmY1NGFl
-IgotU1JDX1VSSVtnb19saW51eF9wcGM2NGxlLnNoYTI1NnN1bV0gPSAiMGYxOGE4OWU3NTc2Y2Yy
-YzVmYTBiNDg3YTE2MzVkOWJjYmY4NDNkZjVmMTEwZTk5ODJjNjRkZjUyYTk4M2FkMCIKK1NSQ19V
-UklbZ29fbGludXhfYW1kNjQuc2hhMjU2c3VtXSA9ICI3NzE2YTBkOTQwYTBmNmFlOGUxZjNiM2Y0
-ZjM2Mjk5ZGM1M2UzMWIxNjg0MGRiZDE3MTI1NDMxMmM0MWNhMTJlIgogCiBVUFNUUkVBTV9DSEVD
-S19VUkkgPSAiaHR0cHM6Ly9nb2xhbmcub3JnL2RsLyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0g
-ImdvKD9QPHB2ZXI+XGQrKFwuXGQrKSspXC5saW51eCIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAwOToyMDoxOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHlnb2JqZWN0OiB1cGdyYWRlIDMuNTIuMyAtPiAzLjU0LjMKCi0tLQogLi4uXzMuNTIu
+My5iYiA9PiBweXRob24zLXB5Z29iamVjdF8zLjU0LjMuYmJ9IHwgMTA3ICsrKysrKysrKysrKysr
+KysrLQogMSBmaWxlIGNoYW5nZWQsIDEwNSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlnb2JqZWN0XzMu
+NTIuMy5iYiA9PiBweXRob24zLXB5Z29iamVjdF8zLjU0LjMuYmJ9ICgyMyUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjUyLjMu
+YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlnb2JqZWN0XzMuNTQu
+My5iYgpzaW1pbGFyaXR5IGluZGV4IDIzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtcHlnb2JqZWN0XzMuNTIuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjU0LjMuYmIKaW5kZXggNDJi
+MDcxY2EwOC4uOGZlMjMyY2JhNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjUyLjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjU0LjMuYmIKQEAgLTEsOSArMSwxMTIgQEAK
+KyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBi
+eSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBi
+ZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRl
+IHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBp
+bgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4
+YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMg
+VGhlIGNoYW5nZXM6CisjCisjIC0tLSBDT1BZSU5HCisjICsrKyBDT1BZSU5HCisjIEBAIC01NSw3
+ICs1NSw3IEBACisjICB0aGF0IHdoYXQgdGhleSBoYXZlIGlzIG5vdCB0aGUgb3JpZ2luYWwgdmVy
+c2lvbiwgc28gdGhhdCB0aGUgb3JpZ2luYWwKKyMgIGF1dGhvcidzIHJlcHV0YXRpb24gd2lsbCBu
+b3QgYmUgYWZmZWN0ZWQgYnkgcHJvYmxlbXMgdGhhdCBtaWdodCBiZQorIyAgaW50cm9kdWNlZCBi
+eSBvdGhlcnMuCisjIC0MCisjICsKKyMgICAgRmluYWxseSwgc29mdHdhcmUgcGF0ZW50cyBwb3Nl
+IGEgY29uc3RhbnQgdGhyZWF0IHRvIHRoZSBleGlzdGVuY2Ugb2YKKyMgIGFueSBmcmVlIHByb2dy
+YW0uICBXZSB3aXNoIHRvIG1ha2Ugc3VyZSB0aGF0IGEgY29tcGFueSBjYW5ub3QKKyMgIGVmZmVj
+dGl2ZWx5IHJlc3RyaWN0IHRoZSB1c2VycyBvZiBhIGZyZWUgcHJvZ3JhbSBieSBvYnRhaW5pbmcg
+YQorIyBAQCAtMTExLDcgKzExMSw3IEBACisjICAid29yayBiYXNlZCBvbiB0aGUgbGlicmFyeSIg
+YW5kIGEgIndvcmsgdGhhdCB1c2VzIHRoZSBsaWJyYXJ5Ii4gIFRoZQorIyAgZm9ybWVyIGNvbnRh
+aW5zIGNvZGUgZGVyaXZlZCBmcm9tIHRoZSBsaWJyYXJ5LCB3aGVyZWFzIHRoZSBsYXR0ZXIgbXVz
+dAorIyAgYmUgY29tYmluZWQgd2l0aCB0aGUgbGlicmFyeSBpbiBvcmRlciB0byBydW4uCisjIC0M
+CisjICsKKyMgIAkJICBHTlUgTEVTU0VSIEdFTkVSQUwgUFVCTElDIExJQ0VOU0UKKyMgICAgIFRF
+Uk1TIEFORCBDT05ESVRJT05TIEZPUiBDT1BZSU5HLCBESVNUUklCVVRJT04gQU5EIE1PRElGSUNB
+VElPTgorIyAgCisjIEBAIC0xNDYsNyArMTQ2LDcgQEAKKyMgIG9uIHRoZSBMaWJyYXJ5IChpbmRl
+cGVuZGVudCBvZiB0aGUgdXNlIG9mIHRoZSBMaWJyYXJ5IGluIGEgdG9vbCBmb3IKKyMgIHdyaXRp
+bmcgaXQpLiAgV2hldGhlciB0aGF0IGlzIHRydWUgZGVwZW5kcyBvbiB3aGF0IHRoZSBMaWJyYXJ5
+IGRvZXMKKyMgIGFuZCB3aGF0IHRoZSBwcm9ncmFtIHRoYXQgdXNlcyB0aGUgTGlicmFyeSBkb2Vz
+LgorIyAtICAKKyMgKworIyAgICAxLiBZb3UgbWF5IGNvcHkgYW5kIGRpc3RyaWJ1dGUgdmVyYmF0
+aW0gY29waWVzIG9mIHRoZSBMaWJyYXJ5J3MKKyMgIGNvbXBsZXRlIHNvdXJjZSBjb2RlIGFzIHlv
+dSByZWNlaXZlIGl0LCBpbiBhbnkgbWVkaXVtLCBwcm92aWRlZCB0aGF0CisjICB5b3UgY29uc3Bp
+Y3VvdXNseSBhbmQgYXBwcm9wcmlhdGVseSBwdWJsaXNoIG9uIGVhY2ggY29weSBhbgorIyBAQCAt
+MTU4LDcgKzE1OCw3IEBACisjICAgIFlvdSBtYXkgY2hhcmdlIGEgZmVlIGZvciB0aGUgcGh5c2lj
+YWwgYWN0IG9mIHRyYW5zZmVycmluZyBhIGNvcHksCisjICBhbmQgeW91IG1heSBhdCB5b3VyIG9w
+dGlvbiBvZmZlciB3YXJyYW50eSBwcm90ZWN0aW9uIGluIGV4Y2hhbmdlIGZvciBhCisjICBmZWUu
+CisjIC0MCisjICsKKyMgICAgMi4gWW91IG1heSBtb2RpZnkgeW91ciBjb3B5IG9yIGNvcGllcyBv
+ZiB0aGUgTGlicmFyeSBvciBhbnkgcG9ydGlvbgorIyAgb2YgaXQsIHRodXMgZm9ybWluZyBhIHdv
+cmsgYmFzZWQgb24gdGhlIExpYnJhcnksIGFuZCBjb3B5IGFuZAorIyAgZGlzdHJpYnV0ZSBzdWNo
+IG1vZGlmaWNhdGlvbnMgb3Igd29yayB1bmRlciB0aGUgdGVybXMgb2YgU2VjdGlvbiAxCisjIEBA
+IC0yMTYsNyArMjE2LDcgQEAKKyMgIG9yZGluYXJ5IEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNl
+IGhhcyBhcHBlYXJlZCwgdGhlbiB5b3UgY2FuIHNwZWNpZnkKKyMgIHRoYXQgdmVyc2lvbiBpbnN0
+ZWFkIGlmIHlvdSB3aXNoLikgIERvIG5vdCBtYWtlIGFueSBvdGhlciBjaGFuZ2UgaW4KKyMgIHRo
+ZXNlIG5vdGljZXMuCisjIC0MCisjICsKKyMgICAgT25jZSB0aGlzIGNoYW5nZSBpcyBtYWRlIGlu
+IGEgZ2l2ZW4gY29weSwgaXQgaXMgaXJyZXZlcnNpYmxlIGZvcgorIyAgdGhhdCBjb3B5LCBzbyB0
+aGUgb3JkaW5hcnkgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgYXBwbGllcyB0byBhbGwKKyMg
+IHN1YnNlcXVlbnQgY29waWVzIGFuZCBkZXJpdmF0aXZlIHdvcmtzIG1hZGUgZnJvbSB0aGF0IGNv
+cHkuCisjIEBAIC0yNjcsNyArMjY3LDcgQEAKKyMgIGRpc3RyaWJ1dGUgdGhlIG9iamVjdCBjb2Rl
+IGZvciB0aGUgd29yayB1bmRlciB0aGUgdGVybXMgb2YgU2VjdGlvbiA2LgorIyAgQW55IGV4ZWN1
+dGFibGVzIGNvbnRhaW5pbmcgdGhhdCB3b3JrIGFsc28gZmFsbCB1bmRlciBTZWN0aW9uIDYsCisj
+ICB3aGV0aGVyIG9yIG5vdCB0aGV5IGFyZSBsaW5rZWQgZGlyZWN0bHkgd2l0aCB0aGUgTGlicmFy
+eSBpdHNlbGYuCisjIC0MCisjICsKKyMgICAgNi4gQXMgYW4gZXhjZXB0aW9uIHRvIHRoZSBTZWN0
+aW9ucyBhYm92ZSwgeW91IG1heSBhbHNvIGNvbWJpbmUgb3IKKyMgIGxpbmsgYSAid29yayB0aGF0
+IHVzZXMgdGhlIExpYnJhcnkiIHdpdGggdGhlIExpYnJhcnkgdG8gcHJvZHVjZSBhCisjICB3b3Jr
+IGNvbnRhaW5pbmcgcG9ydGlvbnMgb2YgdGhlIExpYnJhcnksIGFuZCBkaXN0cmlidXRlIHRoYXQg
+d29yaworIyBAQCAtMzI5LDcgKzMyOSw3IEBACisjICBhY2NvbXBhbnkgdGhlIG9wZXJhdGluZyBz
+eXN0ZW0uICBTdWNoIGEgY29udHJhZGljdGlvbiBtZWFucyB5b3UgY2Fubm90CisjICB1c2UgYm90
+aCB0aGVtIGFuZCB0aGUgTGlicmFyeSB0b2dldGhlciBpbiBhbiBleGVjdXRhYmxlIHRoYXQgeW91
+CisjICBkaXN0cmlidXRlLgorIyAtDAorIyArCisjICAgIDcuIFlvdSBtYXkgcGxhY2UgbGlicmFy
+eSBmYWNpbGl0aWVzIHRoYXQgYXJlIGEgd29yayBiYXNlZCBvbiB0aGUKKyMgIExpYnJhcnkgc2lk
+ZS1ieS1zaWRlIGluIGEgc2luZ2xlIGxpYnJhcnkgdG9nZXRoZXIgd2l0aCBvdGhlciBsaWJyYXJ5
+CisjICBmYWNpbGl0aWVzIG5vdCBjb3ZlcmVkIGJ5IHRoaXMgTGljZW5zZSwgYW5kIGRpc3RyaWJ1
+dGUgc3VjaCBhIGNvbWJpbmVkCisjIEBAIC0zNzAsNyArMzcwLDcgQEAKKyMgIHJlc3RyaWN0aW9u
+cyBvbiB0aGUgcmVjaXBpZW50cycgZXhlcmNpc2Ugb2YgdGhlIHJpZ2h0cyBncmFudGVkIGhlcmVp
+bi4KKyMgIFlvdSBhcmUgbm90IHJlc3BvbnNpYmxlIGZvciBlbmZvcmNpbmcgY29tcGxpYW5jZSBi
+eSB0aGlyZCBwYXJ0aWVzIHdpdGgKKyMgIHRoaXMgTGljZW5zZS4KKyMgLQwKKyMgKworIyAgICAx
+MS4gSWYsIGFzIGEgY29uc2VxdWVuY2Ugb2YgYSBjb3VydCBqdWRnbWVudCBvciBhbGxlZ2F0aW9u
+IG9mIHBhdGVudAorIyAgaW5mcmluZ2VtZW50IG9yIGZvciBhbnkgb3RoZXIgcmVhc29uIChub3Qg
+bGltaXRlZCB0byBwYXRlbnQgaXNzdWVzKSwKKyMgIGNvbmRpdGlvbnMgYXJlIGltcG9zZWQgb24g
+eW91ICh3aGV0aGVyIGJ5IGNvdXJ0IG9yZGVyLCBhZ3JlZW1lbnQgb3IKKyMgQEAgLTQyMiw3ICs0
+MjIsNyBAQAorIyAgdGhlIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbi4gIElmIHRoZSBMaWJyYXJ5
+IGRvZXMgbm90IHNwZWNpZnkgYQorIyAgbGljZW5zZSB2ZXJzaW9uIG51bWJlciwgeW91IG1heSBj
+aG9vc2UgYW55IHZlcnNpb24gZXZlciBwdWJsaXNoZWQgYnkKKyMgIHRoZSBGcmVlIFNvZnR3YXJl
+IEZvdW5kYXRpb24uCisjIC0MCisjICsKKyMgICAgMTQuIElmIHlvdSB3aXNoIHRvIGluY29ycG9y
+YXRlIHBhcnRzIG9mIHRoZSBMaWJyYXJ5IGludG8gb3RoZXIgZnJlZQorIyAgcHJvZ3JhbXMgd2hv
+c2UgZGlzdHJpYnV0aW9uIGNvbmRpdGlvbnMgYXJlIGluY29tcGF0aWJsZSB3aXRoIHRoZXNlLAor
+IyAgd3JpdGUgdG8gdGhlIGF1dGhvciB0byBhc2sgZm9yIHBlcm1pc3Npb24uICBGb3Igc29mdHdh
+cmUgd2hpY2ggaXMKKyMgQEAgLTQ1Niw3ICs0NTYsNyBAQAorIyAgREFNQUdFUy4KKyMgIAorIyAg
+CQkgICAgIEVORCBPRiBURVJNUyBBTkQgQ09ORElUSU9OUworIyAtDAorIyArCisjICAgICAgICAg
+ICAgIEhvdyB0byBBcHBseSBUaGVzZSBUZXJtcyB0byBZb3VyIE5ldyBMaWJyYXJpZXMKKyMgIAor
+IyAgICBJZiB5b3UgZGV2ZWxvcCBhIG5ldyBsaWJyYXJ5LCBhbmQgeW91IHdhbnQgaXQgdG8gYmUg
+b2YgdGhlIGdyZWF0ZXN0CisjIAorIworCiBTVU1NQVJZID0gIlB5dGhvbiBHT2JqZWN0IGJpbmRp
+bmdzIgogSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRsYWIuZ25vbWUub3JnL0dOT01FL3B5Z29iamVj
+dCIKIERFU0NSSVBUSU9OID0gIlB5R09iamVjdCBpcyBhIFB5dGhvbiBwYWNrYWdlIHdoaWNoIHBy
+b3ZpZGVzIGJpbmRpbmdzIGZvciBHT2JqZWN0IGJhc2VkIGxpYnJhcmllcyBzdWNoIGFzIEdUSywg
+R1N0cmVhbWVyLCBXZWJLaXRHVEssIEdMaWIsIEdJTyBhbmQgbWFueSBtb3JlLiIKIFNFQ1RJT04g
+PSAiZGV2ZWwvcHl0aG9uIgogTElDRU5TRSA9ICJMR1BMLTIuMS1vbmx5IgotTElDX0ZJTEVTX0NI
+S1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YTkxNjQ2N2I5MTA3NmU2MzFkZDhlZGI3NDI0NzY5
+YzciCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT05MWRiNzk0YzNhZGM5
+ZDgyNGQ0ZWRkYWJiMzQxZTgxNiIKIAogR0lSX01FU09OX09QVElPTiA9ICIiCiAKQEAgLTE5LDcg
+KzEyMiw3IEBAIERFUEVORFMgKz0gInB5dGhvbjMgZ2xpYi0yLjAiCiBTUkNOQU1FID0gInB5Z29i
+amVjdCIKIAogU1JDX1VSSSA9ICJodHRwOi8vZnRwLmdub21lLm9yZy9wdWIvR05PTUUvc291cmNl
+cy8ke1NSQ05BTUV9LyR7QGdub21lX3ZlcmRpcigiJHtQVn0iKX0vJHtTUkNOQU1FfS0ke1BWfS50
+YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDBlNDI3ZDI5MWU5NTc0NjJhOGZhZDY1OWE5
+ZjljOGJlNzc2ZmY4MmE4Yjc2YmRmNDAyZjFlYWVlYzA4NmQ4MiIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJhOGRhMDkxMzRhMGY3ZDU2NDkxY2YyNDEyMTQ1ZTM1YWE3NGU5MWQ3NjBlOGYzMzcwOTZh
+MWNkYTBiOTJiYWU3IgogCiBTID0gIiR7VU5QQUNLRElSfS8ke1NSQ05BTUV9LSR7UFZ9IgogCi0t
+IAoyLjQ3LjEKCg==
 
---===============7747638078689439075==--
+--===============2342055084021800713==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PKGSIZE changed from 25227 to 28308 (+12%)
+Changes to packages/x86-64-v3-poky-linux/python3-pygobject (sysroot):
+  /usr/lib/python3.13/site-packages/PyGObject-3.52.3.dist-info moved to /usr/lib/python3.13/site-packages/PyGObject-3.54.3.dist-info
+
+--===============2342055084021800713==--
 
