@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46928CCF9F3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B45BCCF9F5
 	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:37 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.18072.1759325536079836896
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.18107.1759325554691373816
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 06:32:37 -0700
+ Wed, 01 Oct 2025 06:32:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=epYVunU9;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=ahbpmKqZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101999ff98e2e-824829e1-f1f8-4a20-9d3b-10d09f7755cf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YEQPI1+g;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=c856mWYR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101999ff98e74-c415e048-3f67-4b7a-a846-6572a7f2f8cb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1759325556;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=CiD6T9R9qrCzQinNDXFCN1FnGf0mAuVfnQcxCS8NDZA=;
-	b=epYVunU9/40Cinsb/AfvzaYmRaotoxc73kA6aL2eIxeDrlRuyXMSCXgX38QrfngL
-	TFEz5qKFe28HcjbMqQyQz+4axtwiYYdw+1NZN5/C+1B6hrcorBEDQWwhj5nkSxGS2kF
-	yCgNtceZT9d6NQpXkMwZmlRrARH+uTRhRyGW9awg=
+	bh=DKvbVm8FQvormtv3Mr//L6dFGHZqBNjCbQZMUAmJVxA=;
+	b=YEQPI1+gJAvd8d3OfqlZcLE294y38h6cD37BMxber5uEARRfJfdaUe2OGQbZuRLR
+	s2Fx+sLi9G0//EPGY1vB0dxMyEK4Jj5YpimBJ8TN+mcUjKOlFDw8Fp2k1AQsE74viEZ
+	O9KFEeQryyABRKE/CwNBli2I0mETP5vGhxFFp0rY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325556;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=CiD6T9R9qrCzQinNDXFCN1FnGf0mAuVfnQcxCS8NDZA=;
-	b=ahbpmKqZurWdI7vRNy4wvjRWV4Upe9z6Nn79/qfkOkOOE/QeZhWbKmX0QUZ0oUaB
-	CmCm6jyGmWZcrNoEy8F5Td9FmLuX7U2kLPkkgCZ5xTQHuW+ZcWsmgEg8mKc3n09vaVc
-	UGBNhkrtepsbmW+2vqfE6WGT44l0s201bn8nmuuQ=
-Content-Type: multipart/mixed; boundary="===============7131736975275653501=="
+	bh=DKvbVm8FQvormtv3Mr//L6dFGHZqBNjCbQZMUAmJVxA=;
+	b=c856mWYRA/3VrWvc95mzZtwhjt/hJfvIPW4GUdzdUC1Pl8ULnhIjuXtNYjb0K1Sq
+	eEfp3FJKp88A8GnsfMtMMBTx5ckkAn4bz9LcumlCp9U10FWkXBq9uYcivrA9PoI2003
+	/p4J5xUbu87kVy38IKoM9napWZUZbc085L9xmRFw=
+Content-Type: multipart/mixed; boundary="===============6568827709240790197=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] p11-kit: upgrading to 0.25.10 FAILED
-Message-ID: <010101999ff98e2e-824829e1-f1f8-4a20-9d3b-10d09f7755cf-000000@us-west-2.amazonses.com>
+Subject: [AUH] libproxy: upgrading to 0.5.11 SUCCEEDED
+Message-ID: <010101999ff98e74-c415e048-3f67-4b7a-a846-6572a7f2f8cb-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Oct 2025 13:32:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.10.01-54.240.27.191
+X-SES-Outgoing: 2025.10.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224300
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224299
 
---===============7131736975275653501==
+--===============6568827709240790197==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *p11-kit* to *0.25.10* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *libproxy* to *0.5.11* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-p11-kit-upgrade-0.25.5-0.25.10.patch
+    - apply the patch: git am 0001-libproxy-upgrade-0.5.10-0.5.11.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,186 +72,106 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7598f6a2fa7e54b597ce5c608a222fcad14a9b9a Mon Sep 17 00:00:00 2001
+From c99285862c5d52830e5047a65f0c9b3280a6af46 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Oct 2025 13:23:34 +0000
-Subject: [PATCH] p11-kit: upgrade 0.25.5 -> 0.25.10
+Date: Wed, 1 Oct 2025 13:09:42 +0000
+Subject: [PATCH] libproxy: upgrade 0.5.10 -> 0.5.11
 
 ---
- .../p11-kit/{p11-kit_0.25.5.bb => p11-kit_0.25.10.bb}           | 2 +-
+ .../libproxy/{libproxy_0.5.10.bb => libproxy_0.5.11.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/p11-kit/{p11-kit_0.25.5.bb => p11-kit_0.25.10.bb} (97%)
+ rename meta/recipes-support/libproxy/{libproxy_0.5.10.bb => libproxy_0.5.11.bb} (95%)
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.25.5.bb b/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb
-similarity index 97%
-rename from meta/recipes-support/p11-kit/p11-kit_0.25.5.bb
-rename to meta/recipes-support/p11-kit/p11-kit_0.25.10.bb
-index 1c982a2aab..8bfe9c08ad 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.25.5.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb
-@@ -12,7 +12,7 @@ DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''
+diff --git a/meta/recipes-support/libproxy/libproxy_0.5.10.bb b/meta/recipes-support/libproxy/libproxy_0.5.11.bb
+similarity index 95%
+rename from meta/recipes-support/libproxy/libproxy_0.5.10.bb
+rename to meta/recipes-support/libproxy/libproxy_0.5.11.bb
+index 21930ada00..1efa3cdc0e 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.5.10.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.5.11.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ DEPENDS = "glib-2.0"
  
- SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https \
-            "
--SRCREV = "0dd113361057e477f40ff4d8788f3e7e400af5f9"
-+SRCREV = "90dba4ded391c6232a78ee14db0da76efda7b1c3"
+ SRC_URI = "git://github.com/libproxy/libproxy;protocol=https;branch=main;tag=${PV}"
+-SRCREV = "7e4852f9658084c61a95973b8a1d720b1763437a"
++SRCREV = "3fd3a6e845c0386d91abc742453d0f29bf28c404"
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native"
+ inherit meson pkgconfig gobject-introspection vala gi-docgen
+ GIDOCGEN_MESON_OPTION = 'docs'
 -- 
 2.47.1
 
 
---===============7131736975275653501==
+--===============6568827709240790197==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1941 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 944 .bb files complete (943 cached, 1 parsed). 1939 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/libproxy: PV changed from "0.5.10" to "0.5.11"
+packages/x86-64-v3-poky-linux/libproxy: PKGV changed from 0.5.10 [default] to 0.5.11 [default]
+packages/x86-64-v3-poky-linux/libproxy: SRC_URI changed from "git://github.com/libproxy/libproxy;protocol=https;branch=main;tag=0.5.10" to "git://github.com/libproxy/libproxy;protocol=https;branch=main;tag=0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy-dbg: PV changed from "0.5.10" to "0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy-dbg: PKGV changed from 0.5.10 [default] to 0.5.11 [default]
+packages/x86-64-v3-poky-linux/libproxy/libproxy-dbg: FILELIST: removed "/usr/lib/.debug/libproxy.so.0.5.10", added "/usr/lib/.debug/libproxy.so.0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy-dev: PV changed from "0.5.10" to "0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy-dev: PKGV changed from 0.5.10 [default] to 0.5.11 [default]
+packages/x86-64-v3-poky-linux/libproxy/libproxy-doc: PV changed from "0.5.10" to "0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy-doc: PKGV changed from 0.5.10 [default] to 0.5.11 [default]
+packages/x86-64-v3-poky-linux/libproxy/libproxy-locale: PV changed from "0.5.10" to "0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy-locale: PKGV changed from 0.5.10 [default] to 0.5.11 [default]
+packages/x86-64-v3-poky-linux/libproxy/libproxy-src: PV changed from "0.5.10" to "0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy-src: PKGV changed from 0.5.10 [default] to 0.5.11 [default]
+packages/x86-64-v3-poky-linux/libproxy/libproxy-staticdev: PV changed from "0.5.10" to "0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy-staticdev: PKGV changed from 0.5.10 [default] to 0.5.11 [default]
+packages/x86-64-v3-poky-linux/libproxy/libproxy: PV changed from "0.5.10" to "0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy: PKGV changed from 0.5.10 [default] to 0.5.11 [default]
+packages/x86-64-v3-poky-linux/libproxy/libproxy: FILELIST: removed "/usr/lib/libproxy.so.0.5.10", added "/usr/lib/libproxy.so.0.5.11"
+packages/x86-64-v3-poky-linux/libproxy/libproxy: FILES: removed "/usr/lib/libproxy/0.5.10/modules", added "/usr/lib/libproxy/0.5.11/modules"
+Changes to packages/x86-64-v3-poky-linux/libproxy (sysroot):
+  /usr/lib/libproxy.so.1 changed symlink target from libproxy.so.0.5.10 to libproxy.so.0.5.11
+  /usr/lib/libproxy.so.0.5.10 moved to /usr/lib/libproxy.so.0.5.11
 
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-765bc80df702a99e0f4538542c1e5a3d76e8a151"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:765bc80df702a99e0f4538542c1e5a3d76e8a151"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 119 Local 107 Mirrors 0 Missed 12 Current 283 (89% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 355 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.5.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 357 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.20.0.bb:do_create_spdx_setscene)
-NOTE: Running task 903 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_recipe_qa)
-NOTE: Running task 936 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_write_config)
-NOTE: recipe libffi-3.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtasn1-4.20.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_recipe_qa: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_write_config: Started
-NOTE: recipe libffi-3.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe p11-kit-0.25.10-r0: task do_write_config: Succeeded
-NOTE: recipe libtasn1-4.20.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 371 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 988 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_fetch)
-NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 379 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.42.bb:do_create_spdx_setscene)
-NOTE: recipe p11-kit-0.25.10-r0: task do_fetch: Started
-NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.42+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 386 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 392 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_fetch: Succeeded
-NOTE: Running task 1026 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_unpack)
-NOTE: recipe p11-kit-0.25.10-r0: task do_unpack: Started
-NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 400 of 402 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.45.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_unpack: Succeeded
-NOTE: Running task 1037 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_patch)
-NOTE: recipe p11-kit-0.25.10-r0: task do_patch: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_patch: Succeeded
-NOTE: Running task 1038 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1039 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_populate_lic)
-NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1140 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1158 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_collect_spdx_deps)
-NOTE: recipe p11-kit-0.25.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_populate_lic: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_collect_spdx_deps: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_populate_lic: Succeeded
-NOTE: recipe p11-kit-0.25.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe p11-kit-0.25.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe p11-kit-0.25.10-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1163 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_configure)
-NOTE: recipe p11-kit-0.25.10-r0: task do_configure: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_configure: Succeeded
-NOTE: Running task 1164 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_compile)
-NOTE: recipe p11-kit-0.25.10-r0: task do_compile: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_compile: Succeeded
-NOTE: Running task 1165 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_install)
-NOTE: recipe p11-kit-0.25.10-r0: task do_install: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_install: Succeeded
-NOTE: Running task 1166 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_package)
-NOTE: Running task 1167 of 1175 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_populate_sysroot)
-NOTE: recipe p11-kit-0.25.10-r0: task do_populate_sysroot: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_package: Started
-NOTE: recipe p11-kit-0.25.10-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe p11-kit-0.25.10-r0: task do_package: Failed
-NOTE: Tasks Summary: Attempted 1167 tasks of which 1153 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251001132255.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251001132255.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_package
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/p11-kit/0.25.10/temp/log.do_package.676039
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: p11-kit-0.25.10-r0 do_package: QA Issue: p11-kit: Files/directories were installed but not shipped in any package:
-  /usr/share/zsh
-  /usr/share/zsh/site-functions
-  /usr/share/zsh/site-functions/_p11-kit
-  /usr/share/zsh/site-functions/_trust
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-p11-kit: 4 installed and not shipped files. [installed-vs-shipped]
-ERROR: p11-kit-0.25.10-r0 do_package: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/p11-kit/0.25.10/temp/log.do_package.676039
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/p11-kit/p11-kit_0.25.10.bb:do_package) failed with exit code '1'
-
---===============7131736975275653501==
+--===============6568827709240790197==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-p11-kit-upgrade-0.25.5-0.25.10.patch"
+ filename="0001-libproxy-upgrade-0.5.10-0.5.11.patch"
 
-RnJvbSA3NTk4ZjZhMmZhN2U1NGI1OTdjZTVjNjA4YTIyMmZjYWQxNGE5YjlhIE1vbiBTZXAgMTcg
+RnJvbSBjOTkyODU4NjJjNWQ1MjgzMGU1MDQ3YTY1ZjBjOWIzMjgwYTZhZjQ2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMzoyMzozNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHAx
-MS1raXQ6IHVwZ3JhZGUgMC4yNS41IC0+IDAuMjUuMTAKCi0tLQogLi4uL3AxMS1raXQve3AxMS1r
-aXRfMC4yNS41LmJiID0+IHAxMS1raXRfMC4yNS4xMC5iYn0gICAgICAgICAgIHwgMiArLQogMSBm
+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMzowOTo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnByb3h5OiB1cGdyYWRlIDAuNS4xMCAtPiAwLjUuMTEKCi0tLQogLi4uL2xpYnByb3h5L3tsaWJw
+cm94eV8wLjUuMTAuYmIgPT4gbGlicHJveHlfMC41LjExLmJifSAgICAgICAgIHwgMiArLQogMSBm
 aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvcDExLWtpdC97cDExLWtpdF8wLjI1LjUuYmIgPT4gcDExLWtpdF8wLjI1
-LjEwLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3AxMS1raXQv
-cDExLWtpdF8wLjI1LjUuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9wMTEta2l0L3AxMS1raXRf
-MC4yNS4xMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9wMTEta2l0L3AxMS1raXRfMC4yNS41LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9wMTEta2l0L3AxMS1raXRfMC4yNS4xMC5iYgppbmRleCAxYzk4MmEyYWFiLi44YmZl
-OWMwOGFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9wMTEta2l0L3AxMS1raXRf
-MC4yNS41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3AxMS1raXQvcDExLWtpdF8wLjI1
-LjEwLmJiCkBAIC0xMiw3ICsxMiw3IEBAIERFUEVORFM6YXBwZW5kID0gIiR7QCcgZ2xpYi0yLjAn
-IGlmIGQuZ2V0VmFyKCdHVEtET0NfRU5BQkxFRCcpID09ICdUcnVlJyBlbHNlICcnCiAKIFNSQ19V
-UkkgPSAiZ2l0c206Ly9naXRodWIuY29tL3AxMS1nbHVlL3AxMS1raXQ7YnJhbmNoPW1hc3Rlcjtw
-cm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgICIKLVNSQ1JFViA9ICIwZGQxMTMzNjEwNTdlNDc3
-ZjQwZmY0ZDg3ODhmM2U3ZTQwMGFmNWY5IgorU1JDUkVWID0gIjkwZGJhNGRlZDM5MWM2MjMyYTc4
-ZWUxNGRiMGRhNzZlZmRhN2IxYzMiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIiCiBQQUNLQUdFQ09O
-RklHW21hbnBhZ2VzXSA9ICItRG1hbj10cnVlLC1EbWFuPWZhbHNlLGxpYnhzbHQtbmF0aXZlIgot
-LSAKMi40Ny4xCgo=
+ZWNpcGVzLXN1cHBvcnQvbGlicHJveHkve2xpYnByb3h5XzAuNS4xMC5iYiA9PiBsaWJwcm94eV8w
+LjUuMTEuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHJv
+eHkvbGlicHJveHlfMC41LjEwLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHJveHkvbGli
+cHJveHlfMC41LjExLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1zdXBwb3J0L2xpYnByb3h5L2xpYnByb3h5XzAuNS4xMC5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbGlicHJveHkvbGlicHJveHlfMC41LjExLmJiCmluZGV4IDIxOTMwYWRh
+MDAuLjFlZmEzY2RjMGUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnByb3h5
+L2xpYnByb3h5XzAuNS4xMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwcm94eS9s
+aWJwcm94eV8wLjUuMTEuYmIKQEAgLTE0LDcgKzE0LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMgXAogREVQ
+RU5EUyA9ICJnbGliLTIuMCIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2xpYnByb3h5
+L2xpYnByb3h5O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluO3RhZz0ke1BWfSIKLVNSQ1JFViA9
+ICI3ZTQ4NTJmOTY1ODA4NGM2MWE5NTk3M2I4YTFkNzIwYjE3NjM0MzdhIgorU1JDUkVWID0gIjNm
+ZDNhNmU4NDVjMDM4NmQ5MWFiYzc0MjQ1M2QwZjI5YmYyOGM0MDQiCiAKIGluaGVyaXQgbWVzb24g
+cGtnY29uZmlnIGdvYmplY3QtaW50cm9zcGVjdGlvbiB2YWxhIGdpLWRvY2dlbgogR0lET0NHRU5f
+TUVTT05fT1BUSU9OID0gJ2RvY3MnCi0tIAoyLjQ3LjEKCg==
 
---===============7131736975275653501==--
+--===============6568827709240790197==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/libproxy/libproxy: FILELIST: removed "/usr/lib/libproxy.so.0.5.10", added "/usr/lib/libproxy.so.0.5.11"
+Changes to packages/x86-64-v3-poky-linux/libproxy (sysroot):
+  /usr/lib/libproxy.so.1 changed symlink target from libproxy.so.0.5.10 to libproxy.so.0.5.11
+  /usr/lib/libproxy.so.0.5.10 moved to /usr/lib/libproxy.so.0.5.11
+
+--===============6568827709240790197==--
 
