@@ -1,110 +1,100 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <jon.mason@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 482FBCAC5BB
-	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 17:50:37 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web10.3721.1759341030992000826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 549AACAC5BB
+	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 17:57:07 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.3942.1759341424694144946
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 10:50:31 -0700
+ Wed, 01 Oct 2025 10:57:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=K7HNdJZE;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.167.170, mailfrom: jdmason@kudzu.us)
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-43f935f8dd3so67125b6e.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 10:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1759341030; x=1759945830; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qCuRyKwg0+LkZ9LjfwoArLDtZfa3q1/NZJACfNMkcFk=;
-        b=K7HNdJZEBPh8+uQJteWbYc4Bdql2h9GewVqmg8LOPqX0BjWdP4SY30O7rhMy1MEdRd
-         DYYWDxygnNGba1p0nztcD4AAzkiHNP1qRbjWS+PqSEs6NPDrHyfqDa7RLolLgkEJoElF
-         YuZB7X2t63FH4BqCy/QPbLzKl5M44v5Xi47iYGMD8lHa5gBL6VRRrjwTfeMeBCb66uAN
-         Q8TGXMAQlIOBUeSX+k56LAmMqafWbW6YWnGEv1Ld0xFq44JXx2ZuYJAhtBfJ6fv7lCps
-         SnArYyESFEzW5Mvxd3oBx1vAe+CEHSGfLnIht0JTcLHY/GsBDEsJJzHI5g2Yt4CMwelX
-         eZUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759341030; x=1759945830;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qCuRyKwg0+LkZ9LjfwoArLDtZfa3q1/NZJACfNMkcFk=;
-        b=mx/+mnxj8XQnupl0uZyW9AXJWDkThMS584RrNzG1qdozo9LGZuOr2QKgB8dPCSjgC1
-         nf3unt8OIBXVhaOJq3iwU6/ravXClWZNxxKcpP9BttYQJypcwJc5ZlludBMo6UVGaLiv
-         RJG9cuvwyJgNZUb24yKnCxc+moZM6byq3aFvw9sJ0kMInjQvSh0WG8puXos0axtuo6w5
-         iuo1kh5HN5CHXkjZKfhwJhRd5nlAU28Wwt8WYsFh/kfx50KAY15CyoDGfIs4L7+NNI2R
-         +eeEX0LVXfsxnTdv4yyQ7gPAT8zKuaCnHcNjyKOMvyL48nnlvMtoWKkUj8sQotiPubKJ
-         Yctg==
-X-Forwarded-Encrypted: i=1; AJvYcCUBYPZ51O/8NvBjoAyG8GBYsfd3E0mBuYRPzDtVGq+bZ0o2wIn9erbPQ6y8sHQltYeEfvTvGOZgXvYQRx8qx9KLiA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yyu9VBPRjpMpaSz/pVHB1hPifNTcOSQoJ++tm2gTjLsy9SwDuiB
-	+Q5SSh9/+mIi6A3ftHDlUbGevLJo/CnVZUpWJ7eIEhGvPR6xnTP7bTslKThz760NVaUqhBJi8HT
-	s7JOLLbKdOevXxwI2rj1OmJfXOX5oQ/FKvNaC0MavmzoJ14/mmSY=
-X-Gm-Gg: ASbGncvtzJt21s+eGzPi5esusi/cqdrjvT6qrC3b+mMLEL3M2SYZUNCP9psjJa05Pxl
-	C3PC3QKQsOpLWWQkcPHa2xYjZatyfipxxarHv1Xsb5zhtHOqF5vJytKpewplRy2sjt9TsYH9OVP
-	ewt8P6XINsmzYeDSEGxB7HBLv8+W2xSUJrCh5ZjzDPX6a3miw58oj6pQHuCYJDmH127s3ORTw4h
-	CWKZCPNvxVIecbQ/Nov1QGQvlHeaPSz
-X-Google-Smtp-Source: AGHT+IGxgRXP3hTeK0ReK+jQz/dpgfAvRbeHt2eclWuoSJFVYSD6rIL7xPekl5E0tdApPno7tk4XZWoyyclU9Mti6FI=
-X-Received: by 2002:a05:6808:140a:b0:43f:713c:a38e with SMTP id
- 5614622812f47-43fa41f7357mr2448398b6e.30.1759341030090; Wed, 01 Oct 2025
- 10:50:30 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: jon.mason@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41BED26AC
+	for <openembedded-core@lists.openembedded.org>; Wed,  1 Oct 2025 10:56:56 -0700 (PDT)
+Received: from H24V3P4C17.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 233093F66E
+	for <openembedded-core@lists.openembedded.org>; Wed,  1 Oct 2025 10:57:04 -0700 (PDT)
+From: Jon Mason <jon.mason@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RESEND PATCH 2/2] runqemu: resize rootfs image to power of 2 for SD or pflash
+Date: Wed,  1 Oct 2025 13:57:02 -0400
+Message-ID: <20251001175702.62563-2-jon.mason@arm.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20251001175702.62563-1-jon.mason@arm.com>
+References: <20251001175702.62563-1-jon.mason@arm.com>
 MIME-Version: 1.0
-References: <20250828091630.82819-1-jon.mason@arm.com> <8F25672B-4A67-4E8B-AA89-842439E5D228@arm.com>
-In-Reply-To: <8F25672B-4A67-4E8B-AA89-842439E5D228@arm.com>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Wed, 1 Oct 2025 13:50:19 -0400
-X-Gm-Features: AS18NWDdakDWU0edZAreRGCHDxzKPeutgJkVZNFaPH7rSxlqNwDAz48gvc0QZc8
-Message-ID: <CAPoiz9zGVk0z6zgDBdiunz-z07vjps6xtbpyxpTZWOmA3g2ryg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] runqemu: remove setting of mem on kernel
- command line for certain systems
-To: ross.burton@arm.com
-Cc: Jon Mason <Jon.Mason@arm.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 17:50:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224314
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 17:57:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224315
 
-On Mon, Sep 1, 2025 at 2:45=E2=80=AFPM Ross Burton via lists.openembedded.o=
-rg
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
->
-> On 28 Aug 2025, at 10:16, Jon Mason via lists.openembedded.org <jon.mason=
-=3Darm.com@lists.openembedded.org> wrote:
-> >
-> > Some emulated hardware will not boot if mem is set on the kernel comman=
-d
-> > line.  Also, it is not necessary if the device tree file, as that
-> > _should_ have the memory size specified in it.  Add a check for QB_DTB
-> > and don't set it if specified.
->
-> Can you elaborate on =E2=80=9Csome=E2=80=9D so this can be verified or te=
-sted in the future?
+QEMU requires that SD and pflash images are sized to be a power of 2
+(e.g., 32M, 64M, etc).  So, if the image being used is not a power of 2
+and it's being used for SD or pflash, increase it to the next power of 2
+size via the truncate command.
 
-The machines in question are the QEMU emulated Raspberry Pis, all of
-them.  Given the amount of time since I originally sent this, I'll
-resend the series with a modified comment saying this.  Also, I
-managed to mess up the intended mailing list (but it magically landed
-there somehow).  So, another reason to resend.
+This might not be an actual spec requirement, and is being investigated
+in https://gitlab.com/qemu-project/qemu/-/issues/1754
 
-Thanks,
-Jon
+Signed-off-by: Jon Mason <jon.mason@arm.com>
+---
+ scripts/runqemu | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
+diff --git a/scripts/runqemu b/scripts/runqemu
+index a8144aa68c3d..cd2ded69916a 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -421,7 +421,27 @@ class BaseConfig(object):
+         else:
+             raise RunQemuError("Unknown path arg %s" % p)
+=20
+-    def uncompress_rootfs(self):
++    def rootfs_fixups(self):
++
++        """Resize rootfs image if needed"""
++        qb_rootfs_opt =3D self.get('QB_ROOTFS_OPT')
++
++        # Check if sdcard size is a power of 2, as that is currently a r=
+equirement for qemu
++        # See https://gitlab.com/qemu-project/qemu/-/issues/1754
++        rootfs_size =3D os.path.getsize(self.rootfs)
++        rootfs_size_pwr2 =3D 1 << (rootfs_size - 1).bit_length()
++        if ("if=3Dsd" in qb_rootfs_opt or "if=3Dpflash" in qb_rootfs_opt=
+) and rootfs_size !=3D rootfs_size_pwr2:
++            logger.info("Using sd-card or pflash and is not power of 2. =
+File size %d, power of 2 size %d" %(rootfs_size, rootfs_size_pwr2))
++            logger.info("Attempting to use truncate to correct this.")
++
++            # Ensure the 'truncate' tool is installed before attempting =
+to make a power of 2.
++            if not shutil.which('truncate'):
++                raise RunQemuError(f"'truncate' is required to make {sel=
+f.rootfs} a power of 2 in size but was not found in PATH")
++            try:
++                subprocess.check_call(['truncate', '-s', str(rootfs_size=
+_pwr2), self.rootfs])
++            except subprocess.CalledProcessError as e:
++                raise RunQemuError(f"Failed to make {self.rootfs} power =
+of 2 in size: {e}")
++
+         """Decompress ZST rootfs image if needed"""
+         if not self.rootfs or not self.fstype.endswith('.zst'):
+             return
+@@ -1808,7 +1828,7 @@ def main():
+         config.check_args()
+         config.read_qemuboot()
+         config.check_and_set()
+-        config.uncompress_rootfs()
++        config.rootfs_fixups()
+         # Check whether the combos is valid or not
+         config.validate_combos()
+         config.print_config()
+--=20
+2.50.1 (Apple Git-155)
 
->
-> Ross
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#222676): https://lists.openembedded.org/g/openembedde=
-d-core/message/222676
-> Mute This Topic: https://lists.openembedded.org/mt/114931906/3616920
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jd=
-mason@kudzu.us]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
