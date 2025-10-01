@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF1FCCD19A
-	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:23 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.18078.1759325539201890818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D520CCD184
+	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:34 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.17950.1759325539367655155
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 06:32:23 -0700
+ Wed, 01 Oct 2025 06:32:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=b4tDiqMg;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=Oa58dFsb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101999ff9591a-9fe383b0-6bef-4d52-ab9f-43c98a14644f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=H/TfXFV1;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=aUcIpor0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101999ff98254-2bdb1a38-3af7-4643-b535-8db6fa2d0697-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1759325542;
+	t=1759325553;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=u6z2M/oq8xKjqXPOACtG7wCauetf06AW1t0Cz6mcbsE=;
-	b=b4tDiqMgc30kfgAy11WRRGOysxTYqMdft+9zmGJVtkQ/9grnb499tEHrAimXXAt0
-	6EQKTMpvBPslg7h+jFEAVlXorHwvyVplY+gQwR2s2H7gNFtvJuJLVD0yp7Gyb7B+SZc
-	zRGGBIq/AnBwxYJ5om5wZzIeyr6AVTLX5IE4YsxQ=
+	bh=Z8Ou1ofawGddEmJuzeEicP9Byo532ChOFcHPDC5Fe8A=;
+	b=H/TfXFV16TeP8gx7A6aq7ojNoxZjadnWivrpQWqolQCX1/tkC8xUi64FrPcNEm5J
+	byvwy6QNh/VA8f922x5ftcjCWKaYe5SJyvO8v4hgVzN5yGG/Urqp2HDZm7j6eIqyEMz
+	Rp3WbLCeAZLu+T/s40gYdw2G3iiyLkbm/xHxWITA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325542;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325553;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=u6z2M/oq8xKjqXPOACtG7wCauetf06AW1t0Cz6mcbsE=;
-	b=Oa58dFsbqZhXw7YtVPZlIHjx5VgTSlLB2bZkgJ7k59S5LWheMKsCLlz98NoVHplE
-	JfZtNtpm5y7AwJqbPuZBRrf0syqln8M3N98Ymmkg7eiaLQZBr8VpGixMVwgQ9ZFQdyu
-	ihYHoiGFjWaKrguN8QWtyEsYPE8ywXG+adnCG+lk=
-Content-Type: multipart/mixed; boundary="===============1797464809927626395=="
+	bh=Z8Ou1ofawGddEmJuzeEicP9Byo532ChOFcHPDC5Fe8A=;
+	b=aUcIpor0QvL5jOzxCEB7LA7fCkOMGEKH1TNBeCyr4i2GnSDnMJFA05resnVaExM2
+	ak1V7b57UBetm9tMvB+mx9JcysZAZD9qpQ9d7ylJ7vGkaF06m9mEWpVzEF78G1qviUp
+	4LucUkrwJteOcEu0Lu5rgxd7Rs9P3zved6cI1i90=
+Content-Type: multipart/mixed; boundary="===============8561634744080297083=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-psutil: upgrading to 7.1.0 SUCCEEDED
-Message-ID: <010101999ff9591a-9fe383b0-6bef-4d52-ab9f-43c98a14644f-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Oct 2025 13:32:22 +0000
+Subject: [AUH] spirv-llvm-translator: upgrading to 21.1.1 SUCCEEDED
+Message-ID: <010101999ff98254-2bdb1a38-3af7-4643-b535-8db6fa2d0697-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Oct 2025 13:32:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.10.01-54.240.27.192
+X-SES-Outgoing: 2025.10.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224248
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224285
 
---===============1797464809927626395==
+--===============8561634744080297083==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-psutil* to *7.1.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *spirv-llvm-translator* to *21.1.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-psutil-upgrade-7.0.0-7.1.0.patch
+    - apply the patch: git am 0001-spirv-llvm-translator-upgrade-21.1.0-21.1.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,72 +72,65 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 16cb8b619afb0f5b7dfdf3f63cbfaa88f1962fff Mon Sep 17 00:00:00 2001
+From c4d17ef24d84536a014e43d16af149a1215c14f3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Oct 2025 09:15:31 +0000
-Subject: [PATCH] python3-psutil: upgrade 7.0.0 -> 7.1.0
+Date: Wed, 1 Oct 2025 12:19:41 +0000
+Subject: [PATCH] spirv-llvm-translator: upgrade 21.1.0 -> 21.1.1
 
 ---
- .../python/{python3-psutil_7.0.0.bb => python3-psutil_7.1.0.bb} | 2 +-
+ ...lvm-translator_21.1.0.bb => spirv-llvm-translator_21.1.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-psutil_7.0.0.bb => python3-psutil_7.1.0.bb} (90%)
+ rename meta/recipes-graphics/spir/{spirv-llvm-translator_21.1.0.bb => spirv-llvm-translator_21.1.1.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-psutil_7.0.0.bb b/meta/recipes-devtools/python/python3-psutil_7.1.0.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-psutil_7.0.0.bb
-rename to meta/recipes-devtools/python/python3-psutil_7.1.0.bb
-index a2af198083..2a0f9b5ca3 100644
---- a/meta/recipes-devtools/python/python3-psutil_7.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-psutil_7.1.0.bb
-@@ -3,7 +3,7 @@ LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a9c72113a843d0d732a0ac1c200d81b1"
- HOMEPAGE = "https://pypi.org/project/psutil/"
+diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
+similarity index 94%
+rename from meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
+rename to meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
+index 13a93f3c5e..503e7df644 100644
+--- a/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.0.bb
++++ b/meta/recipes-graphics/spir/spirv-llvm-translator_21.1.1.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=47e311aa9caedd1b3abf098bd7814d1d"
  
--SRC_URI[sha256sum] = "7be9c3eba38beccb6495ea33afd982a44074b78f28c434a1f51cc07fd315c456"
-+SRC_URI[sha256sum] = "655708b3c069387c8b77b072fc429a57d0e214221d01c0a772df7dfedcb3bcd2"
- 
- inherit pypi python_setuptools_build_meta
- 
+ # pattern: llvm_branch_200, currently there are no minor releases, so, no llvm_branch_201
+ SPIRV_BRANCH = "llvm_release_${@oe.utils.trim_version('${PV}', 1).replace('.', '')}0"
+-SRCREV = "acb023b63a4bafd53d0ba6a1a452b1f0e5671458"
++SRCREV = "29758b55816c14abb3e4142d42aca7a95bf46710"
+ SRC_URI = " \
+     git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v${PV};branch=${SPIRV_BRANCH} \
+ "
 -- 
 2.47.1
 
 
---===============1797464809927626395==
+--===============8561634744080297083==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-psutil: PV changed from "7.0.0" to "7.1.0"
-packages/x86-64-v3-poky-linux/python3-psutil: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/psutil/psutil-7.0.0.tar.gz;downloadfilename=psutil-7.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/psutil/psutil-7.1.0.tar.gz;downloadfilename=psutil-7.1.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-psutil: PKGV changed from 7.0.0 [default] to 7.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dbg: PV changed from "7.0.0" to "7.1.0"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dbg: PKGV changed from 7.0.0 [default] to 7.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dbg: PKGSIZE changed from 120584 to 134984 (+12%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dev: PV changed from "7.0.0" to "7.1.0"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dev: PKGV changed from 7.0.0 [default] to 7.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-doc: PV changed from "7.0.0" to "7.1.0"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-doc: PKGV changed from 7.0.0 [default] to 7.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-locale: PV changed from "7.0.0" to "7.1.0"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-locale: PKGV changed from 7.0.0 [default] to 7.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-src: PV changed from "7.0.0" to "7.1.0"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-src: FILELIST: removed "/usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/mem.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/disk.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/net.c /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/users.c /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/mem.c /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/users.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/disk.c /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/net.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/proc.c /usr/src/debug/python3-psutil/7.0.0/psutil/_psutil_posix.c /usr/src/debug/python3-psutil/7.0.0/psutil/_psutil_linux.c /usr/src/debug/python3-psutil/7.0.0/psutil/_psutil_common.h /usr/src/debug/python3-psutil/7.0.0/psutil/arch/linux/proc.h /usr/src/debug/python3-psutil/7.0.0/psutil/_psutil_common.c", added "/usr/src/debug/python3-psutil/7.1.0/psutil/arch/all/init.c 
- /usr/src/debug/python3-psutil/7.1.0/psutil/arch/posix/users.c /usr/src/debug/python3-psutil/7.1.0/psutil/_psutil_linux.c /usr/src/debug/python3-psutil/7.1.0/psutil/arch/all/init.h /usr/src/debug/python3-psutil/7.1.0/psutil/arch/linux/proc.c /usr/src/debug/python3-psutil/7.1.0/psutil/arch/linux/disk.c /usr/src/debug/python3-psutil/7.1.0/psutil/arch/linux/init.h /usr/src/debug/python3-psutil/7.1.0/psutil/arch/linux/net.c /usr/src/debug/python3-psutil/7.1.0/psutil/arch/posix/init.h /usr/src/debug/python3-psutil/7.1.0/psutil/arch/posix/net.c /usr/src/debug/python3-psutil/7.1.0/psutil/arch/posix/init.c /usr/src/debug/python3-psutil/7.1.0/psutil/_psutil_posix.c /usr/src/debug/python3-psutil/7.1.0/psutil/arch/linux/mem.c /usr/src/debug/python3-psutil/7.1.0/psutil/arch/posix/proc.c"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-src: PKGV changed from 7.0.0 [default] to 7.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-src: PKGSIZE changed from 63785 to 52973 (-17%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-staticdev: PV changed from "7.0.0" to "7.1.0"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-staticdev: PKGV changed from 7.0.0 [default] to 7.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: PV changed from "7.0.0" to "7.1.0"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: FILELIST: added "/usr/lib/python3.13/site-packages/psutil/tests/test_sudo.py /usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_sudo.cpython-313.pyc"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: PKGV changed from 7.0.0 [default] to 7.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: PKGSIZE changed from 1222429 to 1243023 (+2%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil: PV changed from "7.0.0" to "7.1.0"
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil: PKGV changed from 7.0.0 [default] to 7.1.0 [default]
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil: PKGSIZE changed from 781685 to 791687 (+1%)
-Changes to packages/x86-64-v3-poky-linux/python3-psutil (sysroot):
-  /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info moved to /usr/lib/python3.13/site-packages/psutil-7.1.0.dist-info
-  /usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_sudo.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/psutil/tests/test_sudo.py was added
+packages/x86-64-v3-poky-linux/spirv-llvm-translator: PKGV changed from 21.1.0 [default] to 21.1.1 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator: PV changed from "21.1.0" to "21.1.1"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator: SRC_URI changed from "git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v21.1.0;branch=llvm_release_210" to "git://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=https;tag=v21.1.1;branch=llvm_release_210"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-bin: PKGV changed from 21.1.0 [default] to 21.1.1 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-bin: PV changed from "21.1.0" to "21.1.1"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PKGV changed from 21.1.0 [default] to 21.1.1 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PKGSIZE changed from 131422584 to 131464712 (+0%)
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dbg: PV changed from "21.1.0" to "21.1.1"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PKGV changed from 21.1.0 [default] to 21.1.1 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PKGSIZE changed from 26082 to 26155 (+0%)
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-dev: PV changed from "21.1.0" to "21.1.1"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PKGV changed from 21.1.0 [default] to 21.1.1 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-doc: PV changed from "21.1.0" to "21.1.1"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PKGV changed from 21.1.0 [default] to 21.1.1 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-locale: PV changed from "21.1.0" to "21.1.1"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PKGV changed from 21.1.0 [default] to 21.1.1 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PKGSIZE changed from 2380013 to 2382593 (+0%)
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-src: PV changed from "21.1.0" to "21.1.1"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PKGV changed from 21.1.0 [default] to 21.1.1 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator-staticdev: PV changed from "21.1.0" to "21.1.1"
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PKGV changed from 21.1.0 [default] to 21.1.1 [default]
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PKGSIZE changed from 5820816 to 5829008 (+0%)
+packages/x86-64-v3-poky-linux/spirv-llvm-translator/spirv-llvm-translator: PV changed from "21.1.0" to "21.1.1"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -1736,49 +1729,46 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============1797464809927626395==
+--===============8561634744080297083==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-psutil-upgrade-7.0.0-7.1.0.patch"
+ filename="0001-spirv-llvm-translator-upgrade-21.1.0-21.1.1.patch"
 
-RnJvbSAxNmNiOGI2MTlhZmIwZjViN2RmZGYzZjYzY2JmYWE4OGYxOTYyZmZmIE1vbiBTZXAgMTcg
+RnJvbSBjNGQxN2VmMjRkODQ1MzZhMDE0ZTQzZDE2YWYxNDlhMTIxNWMxNGYzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAwOToxNTozMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHN1dGlsOiB1cGdyYWRlIDcuMC4wIC0+IDcuMS4wCgotLS0KIC4uLi9weXRob24ve3B5
-dGhvbjMtcHN1dGlsXzcuMC4wLmJiID0+IHB5dGhvbjMtcHN1dGlsXzcuMS4wLmJifSB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHN1dGlsXzcuMC4wLmJiID0+IHB5
-dGhvbjMtcHN1dGlsXzcuMS4wLmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1wc3V0aWxfNy4wLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGlsXzcuMS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTAl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wc3V0aWxf
-Ny4wLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
-c3V0aWxfNy4xLjAuYmIKaW5kZXggYTJhZjE5ODA4My4uMmEwZjliNWNhMyAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBzdXRpbF83LjAuMC5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHN1dGlsXzcuMS4wLmJiCkBA
-IC0zLDcgKzMsNyBAQCBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSIKIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWE5YzcyMTEzYTg0M2QwZDczMmEwYWMxYzIwMGQ4MWIxIgog
-SE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9yZy9wcm9qZWN0L3BzdXRpbC8iCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICI3YmU5YzNlYmEzOGJlY2NiNjQ5NWVhMzNhZmQ5ODJhNDQwNzRiNzhmMjhj
-NDM0YTFmNTFjYzA3ZmQzMTVjNDU2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY1NTcwOGIzYzA2
-OTM4N2M4Yjc3YjA3MmZjNDI5YTU3ZDBlMjE0MjIxZDAxYzBhNzcyZGY3ZGZlZGNiM2JjZDIiCiAK
-IGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMjoxOTo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
+aXJ2LWxsdm0tdHJhbnNsYXRvcjogdXBncmFkZSAyMS4xLjAgLT4gMjEuMS4xCgotLS0KIC4uLmx2
+bS10cmFuc2xhdG9yXzIxLjEuMC5iYiA9PiBzcGlydi1sbHZtLXRyYW5zbGF0b3JfMjEuMS4xLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3tzcGlydi1sbHZtLXRyYW5zbGF0b3Jf
+MjEuMS4wLmJiID0+IHNwaXJ2LWxsdm0tdHJhbnNsYXRvcl8yMS4xLjEuYmJ9ICg5NCUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtbGx2bS10cmFuc2xhdG9y
+XzIxLjEuMC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNs
+YXRvcl8yMS4xLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIxLjEuMC5iYgpyZW5hbWUg
+dG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtbGx2bS10cmFuc2xhdG9yXzIxLjEu
+MS5iYgppbmRleCAxM2E5M2YzYzVlLi41MDNlN2RmNjQ0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1sbHZtLXRyYW5zbGF0b3JfMjEuMS4wLmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWxsdm0tdHJhbnNsYXRvcl8yMS4xLjEuYmIK
+QEAgLTYsNyArNiw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UuVFhUO21k
+NT00N2UzMTFhYTljYWVkZDFiM2FiZjA5OGJkNzgxNGQxZCIKIAogIyBwYXR0ZXJuOiBsbHZtX2Jy
+YW5jaF8yMDAsIGN1cnJlbnRseSB0aGVyZSBhcmUgbm8gbWlub3IgcmVsZWFzZXMsIHNvLCBubyBs
+bHZtX2JyYW5jaF8yMDEKIFNQSVJWX0JSQU5DSCA9ICJsbHZtX3JlbGVhc2VfJHtAb2UudXRpbHMu
+dHJpbV92ZXJzaW9uKCcke1BWfScsIDEpLnJlcGxhY2UoJy4nLCAnJyl9MCIKLVNSQ1JFViA9ICJh
+Y2IwMjNiNjNhNGJhZmQ1M2QwYmE2YTFhNDUyYjFmMGU1NjcxNDU4IgorU1JDUkVWID0gIjI5NzU4
+YjU1ODE2YzE0YWJiM2U0MTQyZDQyYWNhN2E5NWJmNDY3MTAiCiBTUkNfVVJJID0gIiBcCiAgICAg
+Z2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvU1BJUlYtTExWTS1UcmFuc2xhdG9yO3Byb3Rv
+Y29sPWh0dHBzO3RhZz12JHtQVn07YnJhbmNoPSR7U1BJUlZfQlJBTkNIfSBcCiAiCi0tIAoyLjQ3
+LjEKCg==
 
---===============1797464809927626395==
+--===============8561634744080297083==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-dbg: PKGSIZE changed from 120584 to 134984 (+12%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-src: PKGSIZE changed from 63785 to 52973 (-17%)
-packages/x86-64-v3-poky-linux/python3-psutil/python3-psutil-tests: FILELIST: added "/usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_sudo.cpython-313.pyc /usr/lib/python3.13/site-packages/psutil/tests/test_sudo.py"
-Changes to packages/x86-64-v3-poky-linux/python3-psutil (sysroot):
-  /usr/lib/python3.13/site-packages/psutil-7.0.0.dist-info moved to /usr/lib/python3.13/site-packages/psutil-7.1.0.dist-info
-  /usr/lib/python3.13/site-packages/psutil/tests/__pycache__/test_sudo.cpython-313.pyc was added
-  /usr/lib/python3.13/site-packages/psutil/tests/test_sudo.py was added
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/bin/x86_64-poky-linux was added
   /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
@@ -3377,5 +3367,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/15.2.0/plugin/include/xcoff.h was removed
 
---===============1797464809927626395==--
+--===============8561634744080297083==--
 
