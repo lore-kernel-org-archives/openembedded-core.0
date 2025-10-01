@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10554CCD185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D10CCD189
 	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:23 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.18082.1759325542346498099
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.17929.1759325532725308262
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 06:32:22 -0700
+ Wed, 01 Oct 2025 06:32:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Haapk1D6;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=eH0Dd1x3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101999ff95561-6e49c96e-5cfe-444d-a726-2ca01a53b406-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=tA2YyjVP;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OMtHi5b1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101999ff93bae-fa0f46c6-5576-4f11-855e-496a1cada092-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1759325541;
+	t=1759325535;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Xko2cUU9aTPGEAdG5Jbxf1iGRkLUut+xW9fXuqCxKnM=;
-	b=Haapk1D6zC4ndVxY8Y1NghmFgPgeXtAfkPwrGH8IeEB3nuQGBJFxJvwbzMCSYUyh
-	MF0MK2hD27VGUZMJURX7hMLbtnDuOseITtDP+wjHmqwPkfHS/JEfLmn1vLxCyTu1cg1
-	IcvFaltyBzA32CbN8QR3aT2WJThw3840uU1O8mjc=
+	bh=6J2MV9+LxMZLSVlvcNaMFCt3noj1KX8McPf0/SIEvV4=;
+	b=tA2YyjVPTmMst9jCdNAH70gXW1vtLC2R6fan+Muif6HGSgvo94suKTeGyuW1Tl/G
+	vGVr9lEX94kR6ylEhjGLV+ryGCxzeEF7VhrWjV2JJOhWcuBuP4C5ux5+Yd7Vim27BUW
+	KGVZncHIAkiWVkFXfEq9uhb7uaF4l8CMSTLQHmWI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325541;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325535;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Xko2cUU9aTPGEAdG5Jbxf1iGRkLUut+xW9fXuqCxKnM=;
-	b=eH0Dd1x3/04e0DGljywJUH5XVFDhojEBsL3sImeNxLSqkzwBw2MyTqEriFNXzGhy
-	kEVLRhbg7hueeFQbYb/NJq/BbZZszy0IEUbtvUGSwkHfbAPd5AghcN/Gp+YkW0hb+3m
-	vjjq3sGaTwsD0Rd/w15xH5dDvixSfJdAD2qCWYTg=
-Content-Type: multipart/mixed; boundary="===============2342055084021800713=="
+	bh=6J2MV9+LxMZLSVlvcNaMFCt3noj1KX8McPf0/SIEvV4=;
+	b=OMtHi5b1kJF16JeETnwlt2H5SiEpWpgSMmT+OBcgmMNIeC9HgIhYF0SmXIJsRgPh
+	q3wrKbfMch/hjwumYQ1x1jHFXgYl1+WDrBUamKdm1XGwkycNkRs9DqPL01Q+wL947cP
+	b7ZOnG041VoqTNofWTkrJKmFtaz7wBJ0K1Phod5A=
+Content-Type: multipart/mixed; boundary="===============1378018674617942351=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pygobject: upgrading to 3.54.3 SUCCEEDED
-Message-ID: <010101999ff95561-6e49c96e-5cfe-444d-a726-2ca01a53b406-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Oct 2025 13:32:21 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] openssl: upgrading to 3.5.4 SUCCEEDED
+Message-ID: <010101999ff93bae-fa0f46c6-5576-4f11-855e-496a1cada092-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Oct 2025 13:32:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.10.01-54.240.27.191
+X-SES-Outgoing: 2025.10.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224244
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224221
 
---===============2342055084021800713==
+--===============1378018674617942351==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pygobject* to *3.54.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *openssl* to *3.5.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pygobject-upgrade-3.52.3-3.54.3.patch
+    - apply the patch: git am 0001-openssl-upgrade-3.5.2-3.5.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,305 +72,343 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 164dfaedd5023becf2ef6b7bbc87f12d2523514e Mon Sep 17 00:00:00 2001
+From 1abf82323d9fa4e1ec7d2f2c46a77c6dfb4463ce Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Oct 2025 09:20:19 +0000
-Subject: [PATCH] python3-pygobject: upgrade 3.52.3 -> 3.54.3
+Date: Wed, 1 Oct 2025 07:57:21 +0000
+Subject: [PATCH] openssl: upgrade 3.5.2 -> 3.5.4
 
 ---
- ..._3.52.3.bb => python3-pygobject_3.54.3.bb} | 107 +++++++++++++++++-
- 1 file changed, 105 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pygobject_3.52.3.bb => python3-pygobject_3.54.3.bb} (23%)
+ ...-handshake-history-reporting-when-test-fails.patch | 11 ++++-------
+ .../0001-Configure-do-not-tweak-mips-cflags.patch     |  4 ++--
+ ...o-strip-sysroot-and-debug-prefix-map-from-co.patch |  7 +++----
+ .../openssl/{openssl_3.5.2.bb => openssl_3.5.4.bb}    |  2 +-
+ 4 files changed, 10 insertions(+), 14 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.2.bb => openssl_3.5.4.bb} (99%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.52.3.bb b/meta/recipes-devtools/python/python3-pygobject_3.54.3.bb
-similarity index 23%
-rename from meta/recipes-devtools/python/python3-pygobject_3.52.3.bb
-rename to meta/recipes-devtools/python/python3-pygobject_3.54.3.bb
-index 42b071ca08..8fe232cba6 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.52.3.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.54.3.bb
-@@ -1,9 +1,112 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING
-+# +++ COPYING
-+# @@ -55,7 +55,7 @@
-+#  that what they have is not the original version, so that the original
-+#  author's reputation will not be affected by problems that might be
-+#  introduced by others.
-+# -
-+# +
-+#    Finally, software patents pose a constant threat to the existence of
-+#  any free program.  We wish to make sure that a company cannot
-+#  effectively restrict the users of a free program by obtaining a
-+# @@ -111,7 +111,7 @@
-+#  "work based on the library" and a "work that uses the library".  The
-+#  former contains code derived from the library, whereas the latter must
-+#  be combined with the library in order to run.
-+# -
-+# +
-+#  		  GNU LESSER GENERAL PUBLIC LICENSE
-+#     TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-+#  
-+# @@ -146,7 +146,7 @@
-+#  on the Library (independent of the use of the Library in a tool for
-+#  writing it).  Whether that is true depends on what the Library does
-+#  and what the program that uses the Library does.
-+# -  
-+# +
-+#    1. You may copy and distribute verbatim copies of the Library's
-+#  complete source code as you receive it, in any medium, provided that
-+#  you conspicuously and appropriately publish on each copy an
-+# @@ -158,7 +158,7 @@
-+#    You may charge a fee for the physical act of transferring a copy,
-+#  and you may at your option offer warranty protection in exchange for a
-+#  fee.
-+# -
-+# +
-+#    2. You may modify your copy or copies of the Library or any portion
-+#  of it, thus forming a work based on the Library, and copy and
-+#  distribute such modifications or work under the terms of Section 1
-+# @@ -216,7 +216,7 @@
-+#  ordinary GNU General Public License has appeared, then you can specify
-+#  that version instead if you wish.)  Do not make any other change in
-+#  these notices.
-+# -
-+# +
-+#    Once this change is made in a given copy, it is irreversible for
-+#  that copy, so the ordinary GNU General Public License applies to all
-+#  subsequent copies and derivative works made from that copy.
-+# @@ -267,7 +267,7 @@
-+#  distribute the object code for the work under the terms of Section 6.
-+#  Any executables containing that work also fall under Section 6,
-+#  whether or not they are linked directly with the Library itself.
-+# -
-+# +
-+#    6. As an exception to the Sections above, you may also combine or
-+#  link a "work that uses the Library" with the Library to produce a
-+#  work containing portions of the Library, and distribute that work
-+# @@ -329,7 +329,7 @@
-+#  accompany the operating system.  Such a contradiction means you cannot
-+#  use both them and the Library together in an executable that you
-+#  distribute.
-+# -
-+# +
-+#    7. You may place library facilities that are a work based on the
-+#  Library side-by-side in a single library together with other library
-+#  facilities not covered by this License, and distribute such a combined
-+# @@ -370,7 +370,7 @@
-+#  restrictions on the recipients' exercise of the rights granted herein.
-+#  You are not responsible for enforcing compliance by third parties with
-+#  this License.
-+# -
-+# +
-+#    11. If, as a consequence of a court judgment or allegation of patent
-+#  infringement or for any other reason (not limited to patent issues),
-+#  conditions are imposed on you (whether by court order, agreement or
-+# @@ -422,7 +422,7 @@
-+#  the Free Software Foundation.  If the Library does not specify a
-+#  license version number, you may choose any version ever published by
-+#  the Free Software Foundation.
-+# -
-+# +
-+#    14. If you wish to incorporate parts of the Library into other free
-+#  programs whose distribution conditions are incompatible with these,
-+#  write to the author to ask for permission.  For software which is
-+# @@ -456,7 +456,7 @@
-+#  DAMAGES.
-+#  
-+#  		     END OF TERMS AND CONDITIONS
-+# -
-+# +
-+#             How to Apply These Terms to Your New Libraries
-+#  
-+#    If you develop a new library, and you want it to be of the greatest
-+# 
-+#
-+
- SUMMARY = "Python GObject bindings"
- HOMEPAGE = "https://gitlab.gnome.org/GNOME/pygobject"
- DESCRIPTION = "PyGObject is a Python package which provides bindings for GObject based libraries such as GTK, GStreamer, WebKitGTK, GLib, GIO and many more."
- SECTION = "devel/python"
- LICENSE = "LGPL-2.1-only"
--LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=91db794c3adc9d824d4eddabb341e816"
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+index 5b7365a353..02cb812371 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+@@ -1,4 +1,4 @@
+-From 5ba65051fea0513db0d997f0ab7cafb9826ed74a Mon Sep 17 00:00:00 2001
++From a1d4c4241436ff26bfba896cf9d5d63251f64738 Mon Sep 17 00:00:00 2001
+ From: William Lyu <William.Lyu@windriver.com>
+ Date: Fri, 20 Oct 2023 16:22:37 -0400
+ Subject: [PATCH] Added handshake history reporting when test fails
+@@ -13,7 +13,7 @@ Signed-off-by: William Lyu <William.Lyu@windriver.com>
+  3 files changed, 217 insertions(+), 34 deletions(-)
  
- GIR_MESON_OPTION = ""
+ diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
+-index f611b3a..5703b48 100644
++index 64eb6ae..61e4b1d 100644
+ --- a/test/helpers/handshake.c
+ +++ b/test/helpers/handshake.c
+ @@ -25,6 +25,102 @@
+@@ -301,7 +301,7 @@ index 78b03f9..b9967c2 100644
+ +
+  #endif  /* OSSL_TEST_HANDSHAKE_HELPER_H */
+ diff --git a/test/ssl_test.c b/test/ssl_test.c
+-index ea60851..9d6b093 100644
++index 841d229..327867a 100644
+ --- a/test/ssl_test.c
+ +++ b/test/ssl_test.c
+ @@ -26,6 +26,44 @@ static OSSL_LIB_CTX *libctx = NULL;
+@@ -361,7 +361,4 @@ index ea60851..9d6b093 100644
+ +
+      return ret;
+  }
+-
+---
+-2.25.1
+-
++ 
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+index cf5ff356ee..c121ca0594 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+@@ -1,4 +1,4 @@
+-From 0377f0d5b5c1079e3b9a80881f4dcc891cbe9f9a Mon Sep 17 00:00:00 2001
++From 01dc6ae00abfb00085e3b19ebd92464c9ee278b1 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 30 May 2023 09:11:27 -0700
+ Subject: [PATCH] Configure: do not tweak mips cflags
+@@ -17,7 +17,7 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+  1 file changed, 10 deletions(-)
  
-@@ -19,7 +122,7 @@ DEPENDS += "python3 glib-2.0"
- SRCNAME = "pygobject"
+ diff --git a/Configure b/Configure
+-index fff97bd..5ee54c1 100755
++index 4995854..b50d780 100755
+ --- a/Configure
+ +++ b/Configure
+ @@ -1552,16 +1552,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+index 687d682976..ffe4d43860 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch
+@@ -1,4 +1,4 @@
+-From 5985253f2c9025d7c127443a3a9938946f80c2a1 Mon Sep 17 00:00:00 2001
++From 0bebe55c00d3384727f97e442d70bb9fc5703f8c Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
+ Date: Tue, 6 Nov 2018 14:50:47 +0100
+ Subject: [PATCH] buildinfo: strip sysroot and debug-prefix-map from compiler
+@@ -28,17 +28,16 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+ Update to fix buildpaths qa issue for '-ffile-prefix-map'.
  
- SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.gz"
--SRC_URI[sha256sum] = "00e427d291e957462a8fad659a9f9c8be776ff82a8b76bdf402f1eaeec086d82"
-+SRC_URI[sha256sum] = "a8da09134a0f7d56491cf2412145e35aa74e91d760e8f337096a1cda0b92bae7"
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+ ---
+  Configurations/unix-Makefile.tmpl | 16 +++++++++++++++-
+  crypto/build.info                 |  2 +-
+  2 files changed, 16 insertions(+), 2 deletions(-)
  
- S = "${UNPACKDIR}/${SRCNAME}-${PV}"
+ diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
+-index 09303c4..011bda1 100644
++index 81f4992..f9dc03c 100644
+ --- a/Configurations/unix-Makefile.tmpl
+ +++ b/Configurations/unix-Makefile.tmpl
+-@@ -502,13 +502,27 @@ BIN_LDFLAGS={- join(' ', $target{bin_lflags} || (),
++@@ -513,13 +513,27 @@ BIN_LDFLAGS={- join(' ', $target{bin_lflags} || (),
+                           '$(CNF_LDFLAGS)', '$(LDFLAGS)') -}
+  BIN_EX_LIBS=$(CNF_EX_LIBS) $(EX_LIBS)
+  
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.2.bb b/meta/recipes-connectivity/openssl/openssl_3.5.4.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.5.2.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.5.4.bb
+index 396e69d7e7..c222b1533b 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.2.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.4.bb
+@@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
  
+-SRC_URI[sha256sum] = "c53a47e5e441c930c3928cf7bf6fb00e5d129b630e0aa873b08258656e7345ec"
++SRC_URI[sha256sum] = "967311f84955316969bdb1d8d4b983718ef42338639c621ec4c34fddef355e99"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.47.1
 
 
---===============2342055084021800713==
+--===============1378018674617942351==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pygobject: PV changed from "3.52.3" to "3.54.3"
-packages/x86-64-v3-poky-linux/python3-pygobject: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
-packages/x86-64-v3-poky-linux/python3-pygobject: SRC_URI changed from "http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.52/pygobject-3.52.3.tar.gz" to "http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.54/pygobject-3.54.3.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PV changed from "3.52.3" to "3.54.3"
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dbg: PKGSIZE changed from 1457704 to 1463200 (+0%)
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PV changed from "3.52.3" to "3.54.3"
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PKGSIZE changed from 25227 to 28308 (+12%)
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-doc: PV changed from "3.52.3" to "3.54.3"
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-doc: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-locale: PV changed from "3.52.3" to "3.54.3"
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-locale: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PV changed from "3.52.3" to "3.54.3"
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-src: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-staticdev: PV changed from "3.52.3" to "3.54.3"
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-staticdev: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PV changed from "3.52.3" to "3.54.3"
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PKGV changed from 3.52.3 [default] to 3.54.3 [default]
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject: PKGSIZE changed from 1094057 to 1112850 (+2%)
-Changes to packages/x86-64-v3-poky-linux/python3-pygobject (sysroot):
-  /usr/lib/python3.13/site-packages/PyGObject-3.52.3.dist-info moved to /usr/lib/python3.13/site-packages/PyGObject-3.54.3.dist-info
+packages/x86-64-v3-poky-linux/openssl: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl: SRC_URI changed from "http://www.openssl.org/source/openssl-3.5.2.tar.gz file://run-ptest file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch file://0001-Configure-do-not-tweak-mips-cflags.patch file://0001-Added-handshake-history-reporting-when-test-fails.patch" to "http://www.openssl.org/source/openssl-3.5.4.tar.gz file://run-ptest file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch file://0001-Configure-do-not-tweak-mips-cflags.patch file://0001-Added-handshake-history-reporting-when-test-fails.patch"
+packages/x86-64-v3-poky-linux/openssl: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/libcrypto: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/libcrypto: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/libssl: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/libssl: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-bin: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-bin: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-conf: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-conf: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-dbg: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-dbg: PKGSIZE changed from 20479384 to 20489592 (+0%)
+packages/x86-64-v3-poky-linux/openssl/openssl-dbg: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-dev: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-dev: PKGSIZE changed from 2206017 to 2205925 (-0%)
+packages/x86-64-v3-poky-linux/openssl/openssl-dev: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-doc: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-doc: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-engines: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-engines: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-locale: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-locale: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-misc: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-misc: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-ossl-module-fips: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-ossl-module-fips: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-ossl-module-legacy: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-ossl-module-legacy: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: FILELIST: added "/usr/lib/openssl/ptest/test/recipes/90-test_sslapi_data/ssltraceref-zlib.txt /usr/lib/openssl/ptest/test/recipes/20-test_cli_list.t /usr/lib/openssl/ptest/test/recipes/90-test_threads_data/store/8489a545.0 /usr/lib/openssl/ptest/test/recipes/90-test_sslapi_data/ssltraceref.txt /usr/lib/openssl/ptest/test/recipes/95-test_external_oqsprovider_data/oqsprovider-ca.sh"
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: PKGSIZE changed from 711029933 to 711374507 (+0%)
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-src: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-src: PKGSIZE changed from 6984544 to 6984490 (-0%)
+packages/x86-64-v3-poky-linux/openssl/openssl-src: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl-staticdev: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl-staticdev: PKGSIZE changed from 37649294 to 37663052 (+0%)
+packages/x86-64-v3-poky-linux/openssl/openssl-staticdev: PV changed from "3.5.2" to "3.5.4"
+packages/x86-64-v3-poky-linux/openssl/openssl: PKGV changed from 3.5.2 [default] to 3.5.4 [default]
+packages/x86-64-v3-poky-linux/openssl/openssl: PV changed from "3.5.2" to "3.5.4"
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.0-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.0-gdb.py was removed
 
---===============2342055084021800713==
+--===============1378018674617942351==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pygobject-upgrade-3.52.3-3.54.3.patch"
+ filename="0001-openssl-upgrade-3.5.2-3.5.4.patch"
 
-RnJvbSAxNjRkZmFlZGQ1MDIzYmVjZjJlZjZiN2JiYzg3ZjEyZDI1MjM1MTRlIE1vbiBTZXAgMTcg
+RnJvbSAxYWJmODIzMjNkOWZhNGUxZWM3ZDJmMmM0NmE3N2M2ZGZiNDQ2M2NlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAwOToyMDoxOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHlnb2JqZWN0OiB1cGdyYWRlIDMuNTIuMyAtPiAzLjU0LjMKCi0tLQogLi4uXzMuNTIu
-My5iYiA9PiBweXRob24zLXB5Z29iamVjdF8zLjU0LjMuYmJ9IHwgMTA3ICsrKysrKysrKysrKysr
-KysrLQogMSBmaWxlIGNoYW5nZWQsIDEwNSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlnb2JqZWN0XzMu
-NTIuMy5iYiA9PiBweXRob24zLXB5Z29iamVjdF8zLjU0LjMuYmJ9ICgyMyUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjUyLjMu
-YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlnb2JqZWN0XzMuNTQu
-My5iYgpzaW1pbGFyaXR5IGluZGV4IDIzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcHlnb2JqZWN0XzMuNTIuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjU0LjMuYmIKaW5kZXggNDJi
-MDcxY2EwOC4uOGZlMjMyY2JhNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjUyLjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXB5Z29iamVjdF8zLjU0LjMuYmIKQEAgLTEsOSArMSwxMTIgQEAK
-KyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBi
-eSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBi
-ZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRl
-IHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBp
-bgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4
-YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMg
-VGhlIGNoYW5nZXM6CisjCisjIC0tLSBDT1BZSU5HCisjICsrKyBDT1BZSU5HCisjIEBAIC01NSw3
-ICs1NSw3IEBACisjICB0aGF0IHdoYXQgdGhleSBoYXZlIGlzIG5vdCB0aGUgb3JpZ2luYWwgdmVy
-c2lvbiwgc28gdGhhdCB0aGUgb3JpZ2luYWwKKyMgIGF1dGhvcidzIHJlcHV0YXRpb24gd2lsbCBu
-b3QgYmUgYWZmZWN0ZWQgYnkgcHJvYmxlbXMgdGhhdCBtaWdodCBiZQorIyAgaW50cm9kdWNlZCBi
-eSBvdGhlcnMuCisjIC0MCisjICsKKyMgICAgRmluYWxseSwgc29mdHdhcmUgcGF0ZW50cyBwb3Nl
-IGEgY29uc3RhbnQgdGhyZWF0IHRvIHRoZSBleGlzdGVuY2Ugb2YKKyMgIGFueSBmcmVlIHByb2dy
-YW0uICBXZSB3aXNoIHRvIG1ha2Ugc3VyZSB0aGF0IGEgY29tcGFueSBjYW5ub3QKKyMgIGVmZmVj
-dGl2ZWx5IHJlc3RyaWN0IHRoZSB1c2VycyBvZiBhIGZyZWUgcHJvZ3JhbSBieSBvYnRhaW5pbmcg
-YQorIyBAQCAtMTExLDcgKzExMSw3IEBACisjICAid29yayBiYXNlZCBvbiB0aGUgbGlicmFyeSIg
-YW5kIGEgIndvcmsgdGhhdCB1c2VzIHRoZSBsaWJyYXJ5Ii4gIFRoZQorIyAgZm9ybWVyIGNvbnRh
-aW5zIGNvZGUgZGVyaXZlZCBmcm9tIHRoZSBsaWJyYXJ5LCB3aGVyZWFzIHRoZSBsYXR0ZXIgbXVz
-dAorIyAgYmUgY29tYmluZWQgd2l0aCB0aGUgbGlicmFyeSBpbiBvcmRlciB0byBydW4uCisjIC0M
-CisjICsKKyMgIAkJICBHTlUgTEVTU0VSIEdFTkVSQUwgUFVCTElDIExJQ0VOU0UKKyMgICAgIFRF
-Uk1TIEFORCBDT05ESVRJT05TIEZPUiBDT1BZSU5HLCBESVNUUklCVVRJT04gQU5EIE1PRElGSUNB
-VElPTgorIyAgCisjIEBAIC0xNDYsNyArMTQ2LDcgQEAKKyMgIG9uIHRoZSBMaWJyYXJ5IChpbmRl
-cGVuZGVudCBvZiB0aGUgdXNlIG9mIHRoZSBMaWJyYXJ5IGluIGEgdG9vbCBmb3IKKyMgIHdyaXRp
-bmcgaXQpLiAgV2hldGhlciB0aGF0IGlzIHRydWUgZGVwZW5kcyBvbiB3aGF0IHRoZSBMaWJyYXJ5
-IGRvZXMKKyMgIGFuZCB3aGF0IHRoZSBwcm9ncmFtIHRoYXQgdXNlcyB0aGUgTGlicmFyeSBkb2Vz
-LgorIyAtICAKKyMgKworIyAgICAxLiBZb3UgbWF5IGNvcHkgYW5kIGRpc3RyaWJ1dGUgdmVyYmF0
-aW0gY29waWVzIG9mIHRoZSBMaWJyYXJ5J3MKKyMgIGNvbXBsZXRlIHNvdXJjZSBjb2RlIGFzIHlv
-dSByZWNlaXZlIGl0LCBpbiBhbnkgbWVkaXVtLCBwcm92aWRlZCB0aGF0CisjICB5b3UgY29uc3Bp
-Y3VvdXNseSBhbmQgYXBwcm9wcmlhdGVseSBwdWJsaXNoIG9uIGVhY2ggY29weSBhbgorIyBAQCAt
-MTU4LDcgKzE1OCw3IEBACisjICAgIFlvdSBtYXkgY2hhcmdlIGEgZmVlIGZvciB0aGUgcGh5c2lj
-YWwgYWN0IG9mIHRyYW5zZmVycmluZyBhIGNvcHksCisjICBhbmQgeW91IG1heSBhdCB5b3VyIG9w
-dGlvbiBvZmZlciB3YXJyYW50eSBwcm90ZWN0aW9uIGluIGV4Y2hhbmdlIGZvciBhCisjICBmZWUu
-CisjIC0MCisjICsKKyMgICAgMi4gWW91IG1heSBtb2RpZnkgeW91ciBjb3B5IG9yIGNvcGllcyBv
-ZiB0aGUgTGlicmFyeSBvciBhbnkgcG9ydGlvbgorIyAgb2YgaXQsIHRodXMgZm9ybWluZyBhIHdv
-cmsgYmFzZWQgb24gdGhlIExpYnJhcnksIGFuZCBjb3B5IGFuZAorIyAgZGlzdHJpYnV0ZSBzdWNo
-IG1vZGlmaWNhdGlvbnMgb3Igd29yayB1bmRlciB0aGUgdGVybXMgb2YgU2VjdGlvbiAxCisjIEBA
-IC0yMTYsNyArMjE2LDcgQEAKKyMgIG9yZGluYXJ5IEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNl
-IGhhcyBhcHBlYXJlZCwgdGhlbiB5b3UgY2FuIHNwZWNpZnkKKyMgIHRoYXQgdmVyc2lvbiBpbnN0
-ZWFkIGlmIHlvdSB3aXNoLikgIERvIG5vdCBtYWtlIGFueSBvdGhlciBjaGFuZ2UgaW4KKyMgIHRo
-ZXNlIG5vdGljZXMuCisjIC0MCisjICsKKyMgICAgT25jZSB0aGlzIGNoYW5nZSBpcyBtYWRlIGlu
-IGEgZ2l2ZW4gY29weSwgaXQgaXMgaXJyZXZlcnNpYmxlIGZvcgorIyAgdGhhdCBjb3B5LCBzbyB0
-aGUgb3JkaW5hcnkgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgYXBwbGllcyB0byBhbGwKKyMg
-IHN1YnNlcXVlbnQgY29waWVzIGFuZCBkZXJpdmF0aXZlIHdvcmtzIG1hZGUgZnJvbSB0aGF0IGNv
-cHkuCisjIEBAIC0yNjcsNyArMjY3LDcgQEAKKyMgIGRpc3RyaWJ1dGUgdGhlIG9iamVjdCBjb2Rl
-IGZvciB0aGUgd29yayB1bmRlciB0aGUgdGVybXMgb2YgU2VjdGlvbiA2LgorIyAgQW55IGV4ZWN1
-dGFibGVzIGNvbnRhaW5pbmcgdGhhdCB3b3JrIGFsc28gZmFsbCB1bmRlciBTZWN0aW9uIDYsCisj
-ICB3aGV0aGVyIG9yIG5vdCB0aGV5IGFyZSBsaW5rZWQgZGlyZWN0bHkgd2l0aCB0aGUgTGlicmFy
-eSBpdHNlbGYuCisjIC0MCisjICsKKyMgICAgNi4gQXMgYW4gZXhjZXB0aW9uIHRvIHRoZSBTZWN0
-aW9ucyBhYm92ZSwgeW91IG1heSBhbHNvIGNvbWJpbmUgb3IKKyMgIGxpbmsgYSAid29yayB0aGF0
-IHVzZXMgdGhlIExpYnJhcnkiIHdpdGggdGhlIExpYnJhcnkgdG8gcHJvZHVjZSBhCisjICB3b3Jr
-IGNvbnRhaW5pbmcgcG9ydGlvbnMgb2YgdGhlIExpYnJhcnksIGFuZCBkaXN0cmlidXRlIHRoYXQg
-d29yaworIyBAQCAtMzI5LDcgKzMyOSw3IEBACisjICBhY2NvbXBhbnkgdGhlIG9wZXJhdGluZyBz
-eXN0ZW0uICBTdWNoIGEgY29udHJhZGljdGlvbiBtZWFucyB5b3UgY2Fubm90CisjICB1c2UgYm90
-aCB0aGVtIGFuZCB0aGUgTGlicmFyeSB0b2dldGhlciBpbiBhbiBleGVjdXRhYmxlIHRoYXQgeW91
-CisjICBkaXN0cmlidXRlLgorIyAtDAorIyArCisjICAgIDcuIFlvdSBtYXkgcGxhY2UgbGlicmFy
-eSBmYWNpbGl0aWVzIHRoYXQgYXJlIGEgd29yayBiYXNlZCBvbiB0aGUKKyMgIExpYnJhcnkgc2lk
-ZS1ieS1zaWRlIGluIGEgc2luZ2xlIGxpYnJhcnkgdG9nZXRoZXIgd2l0aCBvdGhlciBsaWJyYXJ5
-CisjICBmYWNpbGl0aWVzIG5vdCBjb3ZlcmVkIGJ5IHRoaXMgTGljZW5zZSwgYW5kIGRpc3RyaWJ1
-dGUgc3VjaCBhIGNvbWJpbmVkCisjIEBAIC0zNzAsNyArMzcwLDcgQEAKKyMgIHJlc3RyaWN0aW9u
-cyBvbiB0aGUgcmVjaXBpZW50cycgZXhlcmNpc2Ugb2YgdGhlIHJpZ2h0cyBncmFudGVkIGhlcmVp
-bi4KKyMgIFlvdSBhcmUgbm90IHJlc3BvbnNpYmxlIGZvciBlbmZvcmNpbmcgY29tcGxpYW5jZSBi
-eSB0aGlyZCBwYXJ0aWVzIHdpdGgKKyMgIHRoaXMgTGljZW5zZS4KKyMgLQwKKyMgKworIyAgICAx
-MS4gSWYsIGFzIGEgY29uc2VxdWVuY2Ugb2YgYSBjb3VydCBqdWRnbWVudCBvciBhbGxlZ2F0aW9u
-IG9mIHBhdGVudAorIyAgaW5mcmluZ2VtZW50IG9yIGZvciBhbnkgb3RoZXIgcmVhc29uIChub3Qg
-bGltaXRlZCB0byBwYXRlbnQgaXNzdWVzKSwKKyMgIGNvbmRpdGlvbnMgYXJlIGltcG9zZWQgb24g
-eW91ICh3aGV0aGVyIGJ5IGNvdXJ0IG9yZGVyLCBhZ3JlZW1lbnQgb3IKKyMgQEAgLTQyMiw3ICs0
-MjIsNyBAQAorIyAgdGhlIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbi4gIElmIHRoZSBMaWJyYXJ5
-IGRvZXMgbm90IHNwZWNpZnkgYQorIyAgbGljZW5zZSB2ZXJzaW9uIG51bWJlciwgeW91IG1heSBj
-aG9vc2UgYW55IHZlcnNpb24gZXZlciBwdWJsaXNoZWQgYnkKKyMgIHRoZSBGcmVlIFNvZnR3YXJl
-IEZvdW5kYXRpb24uCisjIC0MCisjICsKKyMgICAgMTQuIElmIHlvdSB3aXNoIHRvIGluY29ycG9y
-YXRlIHBhcnRzIG9mIHRoZSBMaWJyYXJ5IGludG8gb3RoZXIgZnJlZQorIyAgcHJvZ3JhbXMgd2hv
-c2UgZGlzdHJpYnV0aW9uIGNvbmRpdGlvbnMgYXJlIGluY29tcGF0aWJsZSB3aXRoIHRoZXNlLAor
-IyAgd3JpdGUgdG8gdGhlIGF1dGhvciB0byBhc2sgZm9yIHBlcm1pc3Npb24uICBGb3Igc29mdHdh
-cmUgd2hpY2ggaXMKKyMgQEAgLTQ1Niw3ICs0NTYsNyBAQAorIyAgREFNQUdFUy4KKyMgIAorIyAg
-CQkgICAgIEVORCBPRiBURVJNUyBBTkQgQ09ORElUSU9OUworIyAtDAorIyArCisjICAgICAgICAg
-ICAgIEhvdyB0byBBcHBseSBUaGVzZSBUZXJtcyB0byBZb3VyIE5ldyBMaWJyYXJpZXMKKyMgIAor
-IyAgICBJZiB5b3UgZGV2ZWxvcCBhIG5ldyBsaWJyYXJ5LCBhbmQgeW91IHdhbnQgaXQgdG8gYmUg
-b2YgdGhlIGdyZWF0ZXN0CisjIAorIworCiBTVU1NQVJZID0gIlB5dGhvbiBHT2JqZWN0IGJpbmRp
-bmdzIgogSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRsYWIuZ25vbWUub3JnL0dOT01FL3B5Z29iamVj
-dCIKIERFU0NSSVBUSU9OID0gIlB5R09iamVjdCBpcyBhIFB5dGhvbiBwYWNrYWdlIHdoaWNoIHBy
-b3ZpZGVzIGJpbmRpbmdzIGZvciBHT2JqZWN0IGJhc2VkIGxpYnJhcmllcyBzdWNoIGFzIEdUSywg
-R1N0cmVhbWVyLCBXZWJLaXRHVEssIEdMaWIsIEdJTyBhbmQgbWFueSBtb3JlLiIKIFNFQ1RJT04g
-PSAiZGV2ZWwvcHl0aG9uIgogTElDRU5TRSA9ICJMR1BMLTIuMS1vbmx5IgotTElDX0ZJTEVTX0NI
-S1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YTkxNjQ2N2I5MTA3NmU2MzFkZDhlZGI3NDI0NzY5
-YzciCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT05MWRiNzk0YzNhZGM5
-ZDgyNGQ0ZWRkYWJiMzQxZTgxNiIKIAogR0lSX01FU09OX09QVElPTiA9ICIiCiAKQEAgLTE5LDcg
-KzEyMiw3IEBAIERFUEVORFMgKz0gInB5dGhvbjMgZ2xpYi0yLjAiCiBTUkNOQU1FID0gInB5Z29i
-amVjdCIKIAogU1JDX1VSSSA9ICJodHRwOi8vZnRwLmdub21lLm9yZy9wdWIvR05PTUUvc291cmNl
-cy8ke1NSQ05BTUV9LyR7QGdub21lX3ZlcmRpcigiJHtQVn0iKX0vJHtTUkNOQU1FfS0ke1BWfS50
-YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDBlNDI3ZDI5MWU5NTc0NjJhOGZhZDY1OWE5
-ZjljOGJlNzc2ZmY4MmE4Yjc2YmRmNDAyZjFlYWVlYzA4NmQ4MiIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICJhOGRhMDkxMzRhMGY3ZDU2NDkxY2YyNDEyMTQ1ZTM1YWE3NGU5MWQ3NjBlOGYzMzcwOTZh
-MWNkYTBiOTJiYWU3IgogCiBTID0gIiR7VU5QQUNLRElSfS8ke1NSQ05BTUV9LSR7UFZ9IgogCi0t
-IAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAwNzo1NzoyMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9w
+ZW5zc2w6IHVwZ3JhZGUgMy41LjIgLT4gMy41LjQKCi0tLQogLi4uLWhhbmRzaGFrZS1oaXN0b3J5
+LXJlcG9ydGluZy13aGVuLXRlc3QtZmFpbHMucGF0Y2ggfCAxMSArKysrLS0tLS0tLQogLi4uLzAw
+MDEtQ29uZmlndXJlLWRvLW5vdC10d2Vhay1taXBzLWNmbGFncy5wYXRjaCAgICAgfCAgNCArKy0t
+CiAuLi5vLXN0cmlwLXN5c3Jvb3QtYW5kLWRlYnVnLXByZWZpeC1tYXAtZnJvbS1jby5wYXRjaCB8
+ICA3ICsrKy0tLS0KIC4uLi9vcGVuc3NsL3tvcGVuc3NsXzMuNS4yLmJiID0+IG9wZW5zc2xfMy41
+LjQuYmJ9ICAgIHwgIDIgKy0KIDQgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgMTQg
+ZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL3tv
+cGVuc3NsXzMuNS4yLmJiID0+IG9wZW5zc2xfMy41LjQuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS1BZGRlZC1oYW5k
+c2hha2UtaGlzdG9yeS1yZXBvcnRpbmctd2hlbi10ZXN0LWZhaWxzLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS1BZGRlZC1oYW5kc2hha2UtaGlz
+dG9yeS1yZXBvcnRpbmctd2hlbi10ZXN0LWZhaWxzLnBhdGNoCmluZGV4IDViNzM2NWEzNTMuLjAy
+Y2I4MTIzNzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9v
+cGVuc3NsLzAwMDEtQWRkZWQtaGFuZHNoYWtlLWhpc3RvcnktcmVwb3J0aW5nLXdoZW4tdGVzdC1m
+YWlscy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNz
+bC8wMDAxLUFkZGVkLWhhbmRzaGFrZS1oaXN0b3J5LXJlcG9ydGluZy13aGVuLXRlc3QtZmFpbHMu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDViYTY1MDUxZmVhMDUxM2RiMGQ5OTdmMGFiN2Nh
+ZmI5ODI2ZWQ3NGEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGExZDRjNDI0MTQzNmZm
+MjZiZmJhODk2Y2Y5ZDVkNjMyNTFmNjQ3MzggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBXaWxsaWFtIEx5dSA8V2lsbGlhbS5MeXVAd2luZHJpdmVyLmNvbT4KIERhdGU6IEZyaSwgMjAg
+T2N0IDIwMjMgMTY6MjI6MzcgLTA0MDAKIFN1YmplY3Q6IFtQQVRDSF0gQWRkZWQgaGFuZHNoYWtl
+IGhpc3RvcnkgcmVwb3J0aW5nIHdoZW4gdGVzdCBmYWlscwpAQCAtMTMsNyArMTMsNyBAQCBTaWdu
+ZWQtb2ZmLWJ5OiBXaWxsaWFtIEx5dSA8V2lsbGlhbS5MeXVAd2luZHJpdmVyLmNvbT4KICAzIGZp
+bGVzIGNoYW5nZWQsIDIxNyBpbnNlcnRpb25zKCspLCAzNCBkZWxldGlvbnMoLSkKIAogZGlmZiAt
+LWdpdCBhL3Rlc3QvaGVscGVycy9oYW5kc2hha2UuYyBiL3Rlc3QvaGVscGVycy9oYW5kc2hha2Uu
+YwotaW5kZXggZjYxMWIzYS4uNTcwM2I0OCAxMDA2NDQKK2luZGV4IDY0ZWI2YWUuLjYxZTRiMWQg
+MTAwNjQ0CiAtLS0gYS90ZXN0L2hlbHBlcnMvaGFuZHNoYWtlLmMKICsrKyBiL3Rlc3QvaGVscGVy
+cy9oYW5kc2hha2UuYwogQEAgLTI1LDYgKzI1LDEwMiBAQApAQCAtMzAxLDcgKzMwMSw3IEBAIGlu
+ZGV4IDc4YjAzZjkuLmI5OTY3YzIgMTAwNjQ0CiArCiAgI2VuZGlmICAvKiBPU1NMX1RFU1RfSEFO
+RFNIQUtFX0hFTFBFUl9IICovCiBkaWZmIC0tZ2l0IGEvdGVzdC9zc2xfdGVzdC5jIGIvdGVzdC9z
+c2xfdGVzdC5jCi1pbmRleCBlYTYwODUxLi45ZDZiMDkzIDEwMDY0NAoraW5kZXggODQxZDIyOS4u
+MzI3ODY3YSAxMDA2NDQKIC0tLSBhL3Rlc3Qvc3NsX3Rlc3QuYwogKysrIGIvdGVzdC9zc2xfdGVz
+dC5jCiBAQCAtMjYsNiArMjYsNDQgQEAgc3RhdGljIE9TU0xfTElCX0NUWCAqbGliY3R4ID0gTlVM
+TDsKQEAgLTM2MSw3ICszNjEsNCBAQCBpbmRleCBlYTYwODUxLi45ZDZiMDkzIDEwMDY0NAogKwog
+ICAgICByZXR1cm4gcmV0OwogIH0KLQotLS0KLTIuMjUuMQotCisgCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8wMDAxLUNvbmZpZ3VyZS1kby1u
+b3QtdHdlYWstbWlwcy1jZmxhZ3MucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29w
+ZW5zc2wvb3BlbnNzbC8wMDAxLUNvbmZpZ3VyZS1kby1ub3QtdHdlYWstbWlwcy1jZmxhZ3MucGF0
+Y2gKaW5kZXggY2Y1ZmYzNTZlZS4uYzEyMWNhMDU5NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS1Db25maWd1cmUtZG8tbm90LXR3ZWFr
+LW1pcHMtY2ZsYWdzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNz
+bC9vcGVuc3NsLzAwMDEtQ29uZmlndXJlLWRvLW5vdC10d2Vhay1taXBzLWNmbGFncy5wYXRjaApA
+QCAtMSw0ICsxLDQgQEAKLUZyb20gMDM3N2YwZDViNWMxMDc5ZTNiOWE4MDg4MWY0ZGNjODkxY2Jl
+OWY5YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMDFkYzZhZTAwYWJmYjAwMDg1ZTNi
+MTllYmQ5MjQ2NGM5ZWUyNzhiMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhh
+bmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiBEYXRlOiBUdWUsIDMwIE1heSAyMDIz
+IDA5OjExOjI3IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIENvbmZpZ3VyZTogZG8gbm90IHR3ZWFr
+IG1pcHMgY2ZsYWdzCkBAIC0xNyw3ICsxNyw3IEBAIFNpZ25lZC1vZmYtYnk6IFRpbSBPcmxpbmcg
+PHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxMCBkZWxldGlvbnMo
+LSkKIAogZGlmZiAtLWdpdCBhL0NvbmZpZ3VyZSBiL0NvbmZpZ3VyZQotaW5kZXggZmZmOTdiZC4u
+NWVlNTRjMSAxMDA3NTUKK2luZGV4IDQ5OTU4NTQuLmI1MGQ3ODAgMTAwNzU1CiAtLS0gYS9Db25m
+aWd1cmUKICsrKyBiL0NvbmZpZ3VyZQogQEAgLTE1NTIsMTYgKzE1NTIsNiBAQCBpZiAoJHRhcmdl
+dCA9fiAvXm1pbmd3LyAmJiBgJGNvbmZpZ3tDQ30gLS10YXJnZXQtaGVscCAyPiYxYCA9fiBtLy1t
+bm8tY3lnd2luL20pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5z
+c2wvb3BlbnNzbC8wMDAxLWJ1aWxkaW5mby1zdHJpcC1zeXNyb290LWFuZC1kZWJ1Zy1wcmVmaXgt
+bWFwLWZyb20tY28ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3Bl
+bnNzbC8wMDAxLWJ1aWxkaW5mby1zdHJpcC1zeXNyb290LWFuZC1kZWJ1Zy1wcmVmaXgtbWFwLWZy
+b20tY28ucGF0Y2gKaW5kZXggNjg3ZDY4Mjk3Ni4uZmZlNGQ0Mzg2MCAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMS1idWlsZGluZm8tc3Ry
+aXAtc3lzcm9vdC1hbmQtZGVidWctcHJlZml4LW1hcC1mcm9tLWNvLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtYnVpbGRpbmZvLXN0cmlw
+LXN5c3Jvb3QtYW5kLWRlYnVnLXByZWZpeC1tYXAtZnJvbS1jby5wYXRjaApAQCAtMSw0ICsxLDQg
+QEAKLUZyb20gNTk4NTI1M2YyYzkwMjVkN2MxMjc0NDNhM2E5OTM4OTQ2ZjgwYzJhMSBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMGJlYmU1NWMwMGQzMzg0NzI3Zjk3ZTQ0MmQ3MGJiOWZj
+NTcwM2Y4YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206ID0/VVRGLTg/cT9NYXJ0aW49
+MjBIdW5kZWI9QzM9QjhsbD89IDxtYXJ0aW5AZ2Vhbml4LmNvbT4KIERhdGU6IFR1ZSwgNiBOb3Yg
+MjAxOCAxNDo1MDo0NyArMDEwMAogU3ViamVjdDogW1BBVENIXSBidWlsZGluZm86IHN0cmlwIHN5
+c3Jvb3QgYW5kIGRlYnVnLXByZWZpeC1tYXAgZnJvbSBjb21waWxlcgpAQCAtMjgsMTcgKzI4LDE2
+IEBAIFNpZ25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPgogVXBk
+YXRlIHRvIGZpeCBidWlsZHBhdGhzIHFhIGlzc3VlIGZvciAnLWZmaWxlLXByZWZpeC1tYXAnLgog
+CiBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotCiAtLS0KICBD
+b25maWd1cmF0aW9ucy91bml4LU1ha2VmaWxlLnRtcGwgfCAxNiArKysrKysrKysrKysrKystCiAg
+Y3J5cHRvL2J1aWxkLmluZm8gICAgICAgICAgICAgICAgIHwgIDIgKy0KICAyIGZpbGVzIGNoYW5n
+ZWQsIDE2IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9Db25m
+aWd1cmF0aW9ucy91bml4LU1ha2VmaWxlLnRtcGwgYi9Db25maWd1cmF0aW9ucy91bml4LU1ha2Vm
+aWxlLnRtcGwKLWluZGV4IDA5MzAzYzQuLjAxMWJkYTEgMTAwNjQ0CitpbmRleCA4MWY0OTkyLi5m
+OWRjMDNjIDEwMDY0NAogLS0tIGEvQ29uZmlndXJhdGlvbnMvdW5peC1NYWtlZmlsZS50bXBsCiAr
+KysgYi9Db25maWd1cmF0aW9ucy91bml4LU1ha2VmaWxlLnRtcGwKLUBAIC01MDIsMTMgKzUwMiwy
+NyBAQCBCSU5fTERGTEFHUz17LSBqb2luKCcgJywgJHRhcmdldHtiaW5fbGZsYWdzfSB8fCAoKSwK
+K0BAIC01MTMsMTMgKzUxMywyNyBAQCBCSU5fTERGTEFHUz17LSBqb2luKCcgJywgJHRhcmdldHti
+aW5fbGZsYWdzfSB8fCAoKSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgJyQoQ05GX0xERkxB
+R1MpJywgJyQoTERGTEFHUyknKSAtfQogIEJJTl9FWF9MSUJTPSQoQ05GX0VYX0xJQlMpICQoRVhf
+TElCUykKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9v
+cGVuc3NsXzMuNS4yLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5z
+c2xfMy41LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMy41LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzMuNS40LmJiCmluZGV4IDM5NmU2OWQ3
+ZTcuLmMyMjJiMTUzM2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3Bl
+bnNzbC9vcGVuc3NsXzMuNS4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3Bl
+bnNzbC9vcGVuc3NsXzMuNS40LmJiCkBAIC0xOCw3ICsxOCw3IEBAIFNSQ19VUkk6YXBwZW5kOmNs
+YXNzLW5hdGl2ZXNkayA9ICIgXAogICAgICAgICAgICBmaWxlOi8vZW52aXJvbm1lbnQuZC1vcGVu
+c3NsLnNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzUzYTQ3ZTVl
+NDQxYzkzMGMzOTI4Y2Y3YmY2ZmIwMGU1ZDEyOWI2MzBlMGFhODczYjA4MjU4NjU2ZTczNDVlYyIK
+K1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5NjczMTFmODQ5NTUzMTY5NjliZGIxZDhkNGI5ODM3MThl
+ZjQyMzM4NjM5YzYyMWVjNGMzNGZkZGVmMzU1ZTk5IgogCiBpbmhlcml0IGxpYl9wYWNrYWdlIG11
+bHRpbGliX2hlYWRlciBtdWx0aWxpYl9zY3JpcHQgcHRlc3QgcGVybG5hdGl2ZSBtYW5wYWdlcwog
+TVVMVElMSUJfU0NSSVBUUyA9ICIke1BOfS1iaW46JHtiaW5kaXJ9L2NfcmVoYXNoIgotLSAKMi40
+Ny4xCgo=
 
---===============2342055084021800713==
+--===============1378018674617942351==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-pygobject/python3-pygobject-dev: PKGSIZE changed from 25227 to 28308 (+12%)
-Changes to packages/x86-64-v3-poky-linux/python3-pygobject (sysroot):
-  /usr/lib/python3.13/site-packages/PyGObject-3.52.3.dist-info moved to /usr/lib/python3.13/site-packages/PyGObject-3.54.3.dist-info
+packages/x86-64-v3-poky-linux/openssl/openssl-ptest: FILELIST: added "/usr/lib/openssl/ptest/test/recipes/90-test_sslapi_data/ssltraceref.txt /usr/lib/openssl/ptest/test/recipes/20-test_cli_list.t /usr/lib/openssl/ptest/test/recipes/90-test_sslapi_data/ssltraceref-zlib.txt /usr/lib/openssl/ptest/test/recipes/90-test_threads_data/store/8489a545.0 /usr/lib/openssl/ptest/test/recipes/95-test_external_oqsprovider_data/oqsprovider-ca.sh"
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0 was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.0-gdb.py was added
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0 was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.8600.0-gdb.py was removed
+  /usr/share/gdb/auto-load/srv/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.86.0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.8600.0-gdb.py was removed
 
---===============2342055084021800713==--
+--===============1378018674617942351==--
 
