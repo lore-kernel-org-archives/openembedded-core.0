@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4496DCCD1A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EEBFCCD183
 	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:34 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
  by mx.groups.io with SMTP id smtpd.web10.17925.1759325532145562689
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 06:32:25 -0700
+ Wed, 01 Oct 2025 06:32:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=I4Lgh1LG;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=s5s9iFeb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101999ff96236-b55e3566-95c5-4c63-bba7-2794b5fb0f29-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dYV/dnew;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=qJg+eW3P;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101999ff97edb-c48bbe54-ba8f-4f13-a669-d9781de712a5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1759325545;
+	t=1759325552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=s4Vzwymn5IpGj0GMsfbGR7uzk0DdDSs9yohetU2jsmE=;
-	b=I4Lgh1LGTvs8y9yVtK/x60+d6xkj5Zd4C5eYnR1HbFo0ItiUOuLztXlZTCcpsvGZ
-	yqfUZ/pk5gOkW+PjQlhvyo4BHGyxneRiA/FnT8aKicANiIInjcleqzVDGChKoj0cJP5
-	Cq1aJYjqI9XUZYv5AnG561RmvVttdjiBWqrobfXY=
+	bh=/U149YdBHPITcE0JFsRfIWdps6Yrqv/inaEF6R4KPx8=;
+	b=dYV/dnewkwhEKc+JBGEUm9PJO9oOBQPS/zK5jUPsdpU7gaDZM/ytIs5vReFf9Gq6
+	XaKFlAPZol61tMgGzd2XtbAB66nIs7SVUH0tBg9SCbv0gEtKke3llVJOAd3MKWy+kty
+	mU8x6L6AXFAPVrzJkRLFgXW24FQOnru8eVHZee3E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325545;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=s4Vzwymn5IpGj0GMsfbGR7uzk0DdDSs9yohetU2jsmE=;
-	b=s5s9iFebGif/kwLcPNmiopG+Mh+vj+vt4fNojf/WrsZrQpcVorn55vRCVX8ojG4W
-	Z3GLHy1xget0CdbzNeBYV2Litvp3IL6FVjBrU/MG3DLSnzQx1ikLfatlRJVN2tgOmjJ
-	CYtpfED5EsbwXnz2f7TjdqE6I6j4RBzM9svjLl2c=
-Content-Type: multipart/mixed; boundary="===============4358997501894041299=="
+	bh=/U149YdBHPITcE0JFsRfIWdps6Yrqv/inaEF6R4KPx8=;
+	b=qJg+eW3P/Y7ROWXq6GnUj4913JhTKWIQ/bNF+TIKusmzzagm3B+gifUS7uBexsFj
+	eyurEo5yvNlWnt+2G5+FoXtUo/5Zfy7SVPWnNA7fva2ai9R/dkterBWyuiFx38/2DQ5
+	ffBDYstvB06LEFuX764L624RxrI0sfOgGReto+QU=
+Content-Type: multipart/mixed; boundary="===============2452970956468486854=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rpm: upgrading to 6.0.0 FAILED
-Message-ID: <010101999ff96236-b55e3566-95c5-4c63-bba7-2794b5fb0f29-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Oct 2025 13:32:25 +0000
+Subject: [AUH] shaderc: upgrading to 2025.4 SUCCEEDED
+Message-ID: <010101999ff97edb-c48bbe54-ba8f-4f13-a669-d9781de712a5-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Oct 2025 13:32:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2025.10.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224254
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224281
 
---===============4358997501894041299==
+--===============2452970956468486854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,58 +51,182 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *rpm* to *6.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *shaderc* to *2025.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-shaderc-upgrade-2025.3-2025.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe rpm failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1939 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.15.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.2.99+snapshot-1fcfa51a56161b386a98eaaa33afac71e4499327"
-TUNE_FEATURES        = "m64 x86-64-v3"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:1fcfa51a56161b386a98eaaa33afac71e4499327"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 867c7cb199f94f65270afaf63f9f249c44ed7c9d
-WARNING: Command 'git rebase 867c7cb199f94f65270afaf63f9f249c44ed7c9d' failed:
-Auto-merging CMakeLists.txt
-CONFLICT (content): Merge conflict in CMakeLists.txt
-Auto-merging tests/pinned/rpmlibver.txt
-CONFLICT (content): Merge conflict in tests/pinned/rpmlibver.txt
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/rpm
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/rpm/rpm_6.0.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4358997501894041299==--
+
+-- >8 --
+From 4756547ca027866d704bdf7f7aca1b653343894e Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 1 Oct 2025 12:16:02 +0000
+Subject: [PATCH] shaderc: upgrade 2025.3 -> 2025.4
+
+---
+ .../0001-cmake-disable-building-external-dependencies.patch   | 2 +-
+ ...002-libshaderc_util-fix-glslang-header-file-location.patch | 4 ++--
+ .../shaderc/{shaderc_2025.3.bb => shaderc_2025.4.bb}          | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/shaderc/{shaderc_2025.3.bb => shaderc_2025.4.bb} (95%)
+
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+index 77b81635b6..8be371dc49 100644
+--- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
++++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+@@ -1,4 +1,4 @@
+-From 3db09ee0d0bf6390eb3dcd835bd4ef786188bf16 Mon Sep 17 00:00:00 2001
++From 6de304f85bd15be59b06331ee759edbdce4d3ddf Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 13 Feb 2021 00:45:56 +0000
+ Subject: [PATCH] cmake: disable building external dependencies
+diff --git a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
+index 429b53c308..7002e6e4c6 100644
+--- a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
++++ b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
+@@ -1,4 +1,4 @@
+-From 4797642a6394ad7e5a23aaa3bdf8e2d011f69adf Mon Sep 17 00:00:00 2001
++From 6ec47736d1c47d81ca51aa8ea68da9d8d6d06075 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 13 Feb 2021 00:45:56 +0000
+ Subject: [PATCH] libshaderc_util: fix glslang header file location
+@@ -11,7 +11,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/libshaderc_util/src/compiler.cc b/libshaderc_util/src/compiler.cc
+-index 9bf9a43..dc0efd2 100644
++index f2ed3c7..59b262a 100644
+ --- a/libshaderc_util/src/compiler.cc
+ +++ b/libshaderc_util/src/compiler.cc
+ @@ -20,7 +20,7 @@
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2025.3.bb b/meta/recipes-graphics/shaderc/shaderc_2025.4.bb
+similarity index 95%
+rename from meta/recipes-graphics/shaderc/shaderc_2025.3.bb
+rename to meta/recipes-graphics/shaderc/shaderc_2025.4.bb
+index 692e85e56c..8312831b88 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2025.3.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2025.4.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+-SRCREV = "eb0bc20d0c31320fe834e4ee8eb02807292b9703"
++SRCREV = "17c1832c132ccfb11a3050945389f64dd485e327"
+ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v${PV} \
+            file://0001-cmake-disable-building-external-dependencies.patch \
+            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
+-- 
+2.47.1
+
+
+--===============2452970956468486854==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/shaderc: PV changed from "2025.3" to "2025.4"
+packages/x86-64-v3-poky-linux/shaderc: SRC_URI changed from "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v2025.3 file://0001-cmake-disable-building-external-dependencies.patch file://0002-libshaderc_util-fix-glslang-header-file-location.patch" to "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v2025.4 file://0001-cmake-disable-building-external-dependencies.patch file://0002-libshaderc_util-fix-glslang-header-file-location.patch"
+packages/x86-64-v3-poky-linux/shaderc: PKGV changed from 2025.3 [default] to 2025.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dbg: PV changed from "2025.3" to "2025.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dbg: PKGV changed from 2025.3 [default] to 2025.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dbg: PKGSIZE changed from 5063992 to 5066920 (+0%)
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dev: PV changed from "2025.3" to "2025.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dev: PKGV changed from 2025.3 [default] to 2025.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dev: PKGSIZE changed from 64025 to 64272 (+0%)
+packages/x86-64-v3-poky-linux/shaderc/shaderc-doc: PV changed from "2025.3" to "2025.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-doc: PKGV changed from 2025.3 [default] to 2025.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-locale: PV changed from "2025.3" to "2025.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-locale: PKGV changed from 2025.3 [default] to 2025.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-src: PV changed from "2025.3" to "2025.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-src: PKGV changed from 2025.3 [default] to 2025.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-src: PKGSIZE changed from 326761 to 327800 (+0%)
+packages/x86-64-v3-poky-linux/shaderc/shaderc-staticdev: PV changed from "2025.3" to "2025.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-staticdev: PKGV changed from 2025.3 [default] to 2025.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-staticdev: PKGSIZE changed from 3769082 to 3771106 (+0%)
+packages/x86-64-v3-poky-linux/shaderc/shaderc: PV changed from "2025.3" to "2025.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc: PKGV changed from 2025.3 [default] to 2025.4 [default]
+
+--===============2452970956468486854==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-shaderc-upgrade-2025.3-2025.4.patch"
+
+RnJvbSA0NzU2NTQ3Y2EwMjc4NjZkNzA0YmRmN2Y3YWNhMWI2NTMzNDM4OTRlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMjoxNjowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNo
+YWRlcmM6IHVwZ3JhZGUgMjAyNS4zIC0+IDIwMjUuNAoKLS0tCiAuLi4vMDAwMS1jbWFrZS1kaXNh
+YmxlLWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCAgIHwgMiArLQogLi4uMDAy
+LWxpYnNoYWRlcmNfdXRpbC1maXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaCB8
+IDQgKystLQogLi4uL3NoYWRlcmMve3NoYWRlcmNfMjAyNS4zLmJiID0+IHNoYWRlcmNfMjAyNS40
+LmJifSAgICAgICAgICB8IDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0
+IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL3tzaGFk
+ZXJjXzIwMjUuMy5iYiA9PiBzaGFkZXJjXzIwMjUuNC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAxLWNtYWtlLWRpc2FibGUtYnVp
+bGRpbmctZXh0ZXJuYWwtZGVwZW5kZW5jaWVzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3NoYWRlcmMvZmlsZXMvMDAwMS1jbWFrZS1kaXNhYmxlLWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVu
+ZGVuY2llcy5wYXRjaAppbmRleCA3N2I4MTYzNWI2Li44YmUzNzFkYzQ5IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAxLWNtYWtlLWRpc2FibGUtYnVp
+bGRpbmctZXh0ZXJuYWwtZGVwZW5kZW5jaWVzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9zaGFkZXJjL2ZpbGVzLzAwMDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1k
+ZXBlbmRlbmNpZXMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDNkYjA5ZWUwZDBiZjYzOTBl
+YjNkY2Q4MzViZDRlZjc4NjE4OGJmMTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDZk
+ZTMwNGY4NWJkMTViZTU5YjA2MzMxZWU3NTllZGJkY2U0ZDNkZGYgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCiBGcm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KIERh
+dGU6IFNhdCwgMTMgRmViIDIwMjEgMDA6NDU6NTYgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gY21h
+a2U6IGRpc2FibGUgYnVpbGRpbmcgZXh0ZXJuYWwgZGVwZW5kZW5jaWVzCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9maWxlcy8wMDAyLWxpYnNoYWRlcmNfdXRpbC1m
+aXgtZ2xzbGFuZy1oZWFkZXItZmlsZS1sb2NhdGlvbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9zaGFkZXJjL2ZpbGVzLzAwMDItbGlic2hhZGVyY191dGlsLWZpeC1nbHNsYW5nLWhlYWRl
+ci1maWxlLWxvY2F0aW9uLnBhdGNoCmluZGV4IDQyOWI1M2MzMDguLjcwMDJlNmU0YzYgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL2ZpbGVzLzAwMDItbGlic2hhZGVy
+Y191dGlsLWZpeC1nbHNsYW5nLWhlYWRlci1maWxlLWxvY2F0aW9uLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9zaGFkZXJjL2ZpbGVzLzAwMDItbGlic2hhZGVyY191dGlsLWZpeC1n
+bHNsYW5nLWhlYWRlci1maWxlLWxvY2F0aW9uLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0
+Nzk3NjQyYTYzOTRhZDdlNWEyM2FhYTNiZGY4ZTJkMDExZjY5YWRmIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSA2ZWM0NzczNmQxYzQ3ZDgxY2E1MWFhOGVhNjhkYTlkOGQ2ZDA2MDc1IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9z
+ZUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDEzIEZlYiAyMDIxIDAwOjQ1OjU2ICswMDAwCiBTdWJq
+ZWN0OiBbUEFUQ0hdIGxpYnNoYWRlcmNfdXRpbDogZml4IGdsc2xhbmcgaGVhZGVyIGZpbGUgbG9j
+YXRpb24KQEAgLTExLDcgKzExLDcgQEAgU2lnbmVkLW9mZi1ieTogSm9zZSBRdWFyZXNtYSA8cXVh
+cmVzbWEuam9zZUBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
+IGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9saWJzaGFkZXJjX3V0aWwvc3JjL2NvbXBpbGVy
+LmNjIGIvbGlic2hhZGVyY191dGlsL3NyYy9jb21waWxlci5jYwotaW5kZXggOWJmOWE0My4uZGMw
+ZWZkMiAxMDA2NDQKK2luZGV4IGYyZWQzYzcuLjU5YjI2MmEgMTAwNjQ0CiAtLS0gYS9saWJzaGFk
+ZXJjX3V0aWwvc3JjL2NvbXBpbGVyLmNjCiArKysgYi9saWJzaGFkZXJjX3V0aWwvc3JjL2NvbXBp
+bGVyLmNjCiBAQCAtMjAsNyArMjAsNyBAQApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3NoYWRlcmMvc2hhZGVyY18yMDI1LjMuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hh
+ZGVyYy9zaGFkZXJjXzIwMjUuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjUuMy5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvc2hhZGVyY18yMDI1LjQuYmIKaW5kZXggNjky
+ZTg1ZTU2Yy4uODMxMjgzMWI4OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3No
+YWRlcmMvc2hhZGVyY18yMDI1LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRl
+cmMvc2hhZGVyY18yMDI1LjQuYmIKQEAgLTYsNyArNiw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8v
+Z2l0aHViLmNvbS9nb29nbGUvc2hhZGVyYyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19G
+SUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTg2ZDNmM2E5NWMzMjRjOTQ3OWJkODk4
+Njk2OGY0MzI3IgogCi1TUkNSRVYgPSAiZWIwYmMyMGQwYzMxMzIwZmU4MzRlNGVlOGViMDI4MDcy
+OTJiOTcwMyIKK1NSQ1JFViA9ICIxN2MxODMyYzEzMmNjZmIxMWEzMDUwOTQ1Mzg5ZjY0ZGQ0ODVl
+MzI3IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2dvb2dsZS9zaGFkZXJjLmdpdDtwcm90
+b2NvbD1odHRwczticmFuY2g9bWFpbjt0YWc9diR7UFZ9IFwKICAgICAgICAgICAgZmlsZTovLzAw
+MDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNpZXMucGF0Y2ggXAog
+ICAgICAgICAgICBmaWxlOi8vMDAwMi1saWJzaGFkZXJjX3V0aWwtZml4LWdsc2xhbmctaGVhZGVy
+LWZpbGUtbG9jYXRpb24ucGF0Y2ggXAotLSAKMi40Ny4xCgo=
+
+--===============2452970956468486854==--
 
