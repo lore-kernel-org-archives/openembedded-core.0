@@ -1,166 +1,110 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 164B2CCA470
-	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 17:04:47 +0000 (UTC)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
- by mx.groups.io with SMTP id smtpd.web11.2431.1759338283375969002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 482FBCAC5BB
+	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 17:50:37 +0000 (UTC)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+ by mx.groups.io with SMTP id smtpd.web10.3721.1759341030992000826
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 10:04:43 -0700
+ Wed, 01 Oct 2025 10:50:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aXKzE2uE;
- spf=pass (domain: gmail.com, ip: 209.85.166.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-42571642aa7so518215ab.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 10:04:43 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=K7HNdJZE;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.167.170, mailfrom: jdmason@kudzu.us)
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-43f935f8dd3so67125b6e.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 10:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759338282; x=1759943082; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9ohSzY9CxRuAyG/z1tFwj6BAO1VsMWZS1/fVDbCFAKI=;
-        b=aXKzE2uEWbg917Mc0988tp/fs5tbOcTIWuWwuND3dCRBVHZbAK4n9DMa3Uy2voBCaQ
-         8vOWpa2OkzKghoh/NIbsav9wP9nvBfUcRtnHof7Uh2t/mQr6vuJawSD6QqiaYRz4/E1A
-         l/ggxIWcmtCt5yB5rm4W2mWpKeTa0OSDzMW84RxMQjKAe7K2O80qIs3cMbl383UNuPOp
-         Ao0Ena+TO+tlYTwLMsMUVnyBA3efNpfRLnXs359+eY71FTEJ1GXf8/lWSthdpEnXmSjU
-         R0pS1fxn3zcbesRsz20RawsK0LSmqQWNMJdSs5ChXZGiJkUv5bRJCdNIUEZcbsqJWm0w
-         ajIA==
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1759341030; x=1759945830; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qCuRyKwg0+LkZ9LjfwoArLDtZfa3q1/NZJACfNMkcFk=;
+        b=K7HNdJZEBPh8+uQJteWbYc4Bdql2h9GewVqmg8LOPqX0BjWdP4SY30O7rhMy1MEdRd
+         DYYWDxygnNGba1p0nztcD4AAzkiHNP1qRbjWS+PqSEs6NPDrHyfqDa7RLolLgkEJoElF
+         YuZB7X2t63FH4BqCy/QPbLzKl5M44v5Xi47iYGMD8lHa5gBL6VRRrjwTfeMeBCb66uAN
+         Q8TGXMAQlIOBUeSX+k56LAmMqafWbW6YWnGEv1Ld0xFq44JXx2ZuYJAhtBfJ6fv7lCps
+         SnArYyESFEzW5Mvxd3oBx1vAe+CEHSGfLnIht0JTcLHY/GsBDEsJJzHI5g2Yt4CMwelX
+         eZUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759338282; x=1759943082;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ohSzY9CxRuAyG/z1tFwj6BAO1VsMWZS1/fVDbCFAKI=;
-        b=vGTvyM4CNp1N1SBRRhVyiMj2HxtJyEA8w3CyG14JEod1ckALXp6GCqzkn/SfP6DTnc
-         hGhdpNbLyQvMlYCbx0Qgr4bGx3NuTiRss0rGhpZtWk1/R1+jm7Fh6aM3Ij3FT9cGrKxb
-         6gddLo4df1+MCMVX7xE+MnRGugqJ4m+fj1AUDyhm6f5MF5TTBT7Aev6XEhvxRVfnf7vn
-         ITTltXOGbAu5LhLRAPrsNJfxnst0IROxHQxQWrJBqZhpYK6REz0u7wAKRefpck7p6oDY
-         R+PTGbYlRy9cTAxplkVice9WQCRb4dfqKb076JM9p8l0WG1ZttC3uIe8vAn5o7Ofkw4w
-         cAuw==
-X-Gm-Message-State: AOJu0YzG4Ez9ZtmUYWmc8SWfTrLSGNkq90QXsnu1WNCsg47iMMtxETJ7
-	uJx2CclPUkeB2pZJwyD8mqr6xnhsg84niPD/UR4eydDkIPrZIbxCAd0XT3WUrboG
-X-Gm-Gg: ASbGncsbTJ2PAcYXuEBYD7nnH2M3DweuL9/5grkD93fNLQQAH+1yUN5iOjFlxRgILt8
-	ZeE8opw3XRxJa8GxWTtQlyjCaE0iZqHKvcKN2/T00+7EUaQSbw7rEyef5+kMjF97qgXPNvTUpai
-	vVuu3R5gp1gfuZzqgdq+DBmPvaaCfIDt9jQFRBgjSUNv2VCtPqceUdayo+/YNznOtpE091DvFqE
-	rTsiJcaqFXexmlJN0dqvHXns30zY48Z6OXbhWi/Z66vFuBLbZwjoX6HaGYxCgWilmF4X1QAKhRl
-	fu3fU9yO37Zk/OM0Pv0IQpfDZYa9qyLQGH9xBKLw/AzfxsHkJsNJQV6lEh+jp6J+WzEdGcwml/J
-	OIzfW1gwUJ9z2qDwRhefXOPYW3DqtNNyi/MU1hIsgcip8DpvrxNp4ZUPczdFfgIVRa0a77bcyrI
-	EB0M9HcsEga9c78kqtquyF9Qb4s2lrOJS3Cscm0rK3DuLSdz6lqj/j8gpiU7Ccxc4YpJh3bmKOv
-	EzI6jc5YxbFvLmcpHNwCCrCgBpcVDthCDyf2VfjcymBw+bqq7d6Op8=
-X-Google-Smtp-Source: AGHT+IHMyRn//wEpSGmlrKqMO8fXoLkEp9UF3SY9iad5OZ738zjZAZnf3ikN1qS7CJT5pHNm+FV8yg==
-X-Received: by 2002:a05:6e02:2589:b0:424:b860:7d84 with SMTP id e9e14a558f8ab-42d8167fdefmr50479995ab.27.1759338280573;
-        Wed, 01 Oct 2025 10:04:40 -0700 (PDT)
-Received: from ?IPV6:2601:646:8201:fd20:8593:d4dc:f652:ce93? ([2601:646:8201:fd20:8593:d4dc:f652:ce93])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-57b5e9ec3basm5996173.13.2025.10.01.10.04.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Oct 2025 10:04:39 -0700 (PDT)
-Message-ID: <d3ccec42-7aed-4ee9-bacf-55f204d9d887@gmail.com>
-Date: Wed, 1 Oct 2025 10:04:39 -0700
+        d=1e100.net; s=20230601; t=1759341030; x=1759945830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qCuRyKwg0+LkZ9LjfwoArLDtZfa3q1/NZJACfNMkcFk=;
+        b=mx/+mnxj8XQnupl0uZyW9AXJWDkThMS584RrNzG1qdozo9LGZuOr2QKgB8dPCSjgC1
+         nf3unt8OIBXVhaOJq3iwU6/ravXClWZNxxKcpP9BttYQJypcwJc5ZlludBMo6UVGaLiv
+         RJG9cuvwyJgNZUb24yKnCxc+moZM6byq3aFvw9sJ0kMInjQvSh0WG8puXos0axtuo6w5
+         iuo1kh5HN5CHXkjZKfhwJhRd5nlAU28Wwt8WYsFh/kfx50KAY15CyoDGfIs4L7+NNI2R
+         +eeEX0LVXfsxnTdv4yyQ7gPAT8zKuaCnHcNjyKOMvyL48nnlvMtoWKkUj8sQotiPubKJ
+         Yctg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBYPZ51O/8NvBjoAyG8GBYsfd3E0mBuYRPzDtVGq+bZ0o2wIn9erbPQ6y8sHQltYeEfvTvGOZgXvYQRx8qx9KLiA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyu9VBPRjpMpaSz/pVHB1hPifNTcOSQoJ++tm2gTjLsy9SwDuiB
+	+Q5SSh9/+mIi6A3ftHDlUbGevLJo/CnVZUpWJ7eIEhGvPR6xnTP7bTslKThz760NVaUqhBJi8HT
+	s7JOLLbKdOevXxwI2rj1OmJfXOX5oQ/FKvNaC0MavmzoJ14/mmSY=
+X-Gm-Gg: ASbGncvtzJt21s+eGzPi5esusi/cqdrjvT6qrC3b+mMLEL3M2SYZUNCP9psjJa05Pxl
+	C3PC3QKQsOpLWWQkcPHa2xYjZatyfipxxarHv1Xsb5zhtHOqF5vJytKpewplRy2sjt9TsYH9OVP
+	ewt8P6XINsmzYeDSEGxB7HBLv8+W2xSUJrCh5ZjzDPX6a3miw58oj6pQHuCYJDmH127s3ORTw4h
+	CWKZCPNvxVIecbQ/Nov1QGQvlHeaPSz
+X-Google-Smtp-Source: AGHT+IGxgRXP3hTeK0ReK+jQz/dpgfAvRbeHt2eclWuoSJFVYSD6rIL7xPekl5E0tdApPno7tk4XZWoyyclU9Mti6FI=
+X-Received: by 2002:a05:6808:140a:b0:43f:713c:a38e with SMTP id
+ 5614622812f47-43fa41f7357mr2448398b6e.30.1759341030090; Wed, 01 Oct 2025
+ 10:50:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] clang: Upgrade to 21.1.2 release
-To: openembedded-core@lists.openembedded.org
-References: <20251001103516.2768272-1-Deepesh.Varatharajan@windriver.com>
-Content-Language: en-US
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20251001103516.2768272-1-Deepesh.Varatharajan@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250828091630.82819-1-jon.mason@arm.com> <8F25672B-4A67-4E8B-AA89-842439E5D228@arm.com>
+In-Reply-To: <8F25672B-4A67-4E8B-AA89-842439E5D228@arm.com>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Wed, 1 Oct 2025 13:50:19 -0400
+X-Gm-Features: AS18NWDdakDWU0edZAreRGCHDxzKPeutgJkVZNFaPH7rSxlqNwDAz48gvc0QZc8
+Message-ID: <CAPoiz9zGVk0z6zgDBdiunz-z07vjps6xtbpyxpTZWOmA3g2ryg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] runqemu: remove setting of mem on kernel
+ command line for certain systems
+To: ross.burton@arm.com
+Cc: Jon Mason <Jon.Mason@arm.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 17:04:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224313
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 17:50:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224314
 
-LGTM
+On Mon, Sep 1, 2025 at 2:45=E2=80=AFPM Ross Burton via lists.openembedded.o=
+rg
+<ross.burton=3Darm.com@lists.openembedded.org> wrote:
+>
+> On 28 Aug 2025, at 10:16, Jon Mason via lists.openembedded.org <jon.mason=
+=3Darm.com@lists.openembedded.org> wrote:
+> >
+> > Some emulated hardware will not boot if mem is set on the kernel comman=
+d
+> > line.  Also, it is not necessary if the device tree file, as that
+> > _should_ have the memory size specified in it.  Add a check for QB_DTB
+> > and don't set it if specified.
+>
+> Can you elaborate on =E2=80=9Csome=E2=80=9D so this can be verified or te=
+sted in the future?
 
-On 10/1/25 3:35 AM, Varatharajan, Deepesh via lists.openembedded.org wrote:
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> 
-> Brings following bugfixes on top of 21.1.1
-> 
-> b708aea0bc71 [SCEV] Don't perform implication checks with many predicates (#158652)
-> 77a3b0eda361 [RISCV] Refactor RVV builtin code generation for reduce compilation time [NFC] (#154906)
-> f14551dbc4e8 [RISCV] Reduce ManualCodeGen for RVV intrinsics with rounding mode. NFC
-> dcc2c1c933be [RISCV] Reduce ManualCodeGen for segment load/store intrinsics. NFC
-> e625a781211e [LLVM] Update CUDA ELF flags for their new ABI (#149534)
-> 3e93017936b5 MC: Better handle backslash-escaped symbols (#158780)
-> bc5e9a5e2009 [MC] Add parseSymbol() helper (NFC) (#158106)
-> e2e5eb2f1cd9 [Loads] Check for overflow when adding MaxPtrDiff + Offset.
-> 661c387fc2f1 release/21.x: [VPlan] Don't narrow op multiple times in narrowInterleaveGroups.
-> f5c1b5206cbe [PowerPC] Avoid working on deleted node in ext bool trunc combine (#160050)
-> db70369f400e [Clang] Fix an error-recovery crash after d1a80dea (#159976)
-> 9c8736f348e0 [ELF] -r/--emit-relocs: Fix crash when processing .rela.text before .text (#156354)
-> 15a31832eab7 [RISCV] Re-work how VWADD_W_VL and similar _W_VL nodes are handled in combineOp_VLToVWOp_VL. (#159205)
-> f089fb21fffa [LoongArch] Fix MergeBaseOffset for constant pool index operand (#159336)
-> 9eedaf5b1001 [VectorCombine] Fix scalarizeExtExtract for big-endian (#157962)
-> 5af5cfb60d9e [clang-format] Handle C digit separators (#158418)
-> 0174263ac214 Bump version to 21.1.2
-> ff039a98523f [RISCV] Support PreserveMost calling convention (#148214)
-> 1a644bc50948 [X86] Fix assertion in AVX512 setcc combine due to invalid APInt mask width (#155775)
-> 2c8cb316b5d2 [lldb][test] Only assert function name is in user-code on Darwin platforms
-> f5ba88341e7c [lldb][test] TestTsanBasic.py: fix function name assertion
-> faedeb1a2420 [lldb][Instrumentation] Set selected frame to outside sanitizer libraries (#133079)
-> 54896838ca5e [lldb][Target] Clear selected frame index after a StopInfo::PerformAction (#133078)
-> f4907049285c [Clang][Cygwin] Use correct mangling rule (#158404)
-> 
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> ---
->   meta/conf/distro/include/maintainers.inc     | 2 +-
->   meta/recipes-devtools/clang/common-clang.inc | 2 +-
->   meta/recipes-devtools/clang/common.inc       | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 0988bf50a7..699cfd0aca 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -481,7 +481,7 @@ RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>
->   RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
->   RECIPE_MAINTAINER:pn-lld = "Khem Raj <raj.khem@gmail.com>"
->   RECIPE_MAINTAINER:pn-lldb = "Khem Raj <raj.khem@gmail.com>"
-> -RECIPE_MAINTAINER:pn-llvm-project-source-21.1.1 = "Khem Raj <raj.khem@gmail.com>"
-> +RECIPE_MAINTAINER:pn-llvm-project-source-21.1.2 = "Khem Raj <raj.khem@gmail.com>"
->   RECIPE_MAINTAINER:pn-llvm-tblgen-native = "Khem Raj <raj.khem@gmail.com>"
->   RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
->   RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
-> diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-> index bf3a63914a..ca3a3a08b4 100644
-> --- a/meta/recipes-devtools/clang/common-clang.inc
-> +++ b/meta/recipes-devtools/clang/common-clang.inc
-> @@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
->   
->   MAJOR_VER = "21"
->   MINOR_VER = "1"
-> -PATCH_VER = "1"
-> +PATCH_VER = "2"
->   # could be 'rcX' or 'git' or empty ( for release )
->   VER_SUFFIX = ""
->   
-> diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-> index 512bf1dd02..59d164adba 100644
-> --- a/meta/recipes-devtools/clang/common.inc
-> +++ b/meta/recipes-devtools/clang/common.inc
-> @@ -17,7 +17,7 @@ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}${VER_SUFFI
->   UPSTREAM_CHECK_URI = "${LLVM_HTTP}/llvm-project/releases/"
->   UPSTREAM_CHECK_REGEX = "releases/tag/llvmorg-?(?P<pver>\d+(\.\d+)+)"
->   SOURCEDIR ?= "llvm-project-${PV}${VER_SUFFIX}.src"
-> -SRC_URI[sha256sum] = "8863980e14484a72a9b7d2c80500e1749054d74f08f8c5102fd540a3c5ac9f8a"
-> +SRC_URI[sha256sum] = "1a417d1c8faf8d93e73fec1cbb76d393ed3218974c2283c7bac9672d3d47c54b"
->   
->   SRC_URI = "\
->       ${BASEURI} \
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
+The machines in question are the QEMU emulated Raspberry Pis, all of
+them.  Given the amount of time since I originally sent this, I'll
+resend the series with a modified comment saying this.  Also, I
+managed to mess up the intended mailing list (but it magically landed
+there somehow).  So, another reason to resend.
+
+Thanks,
+Jon
+
+
+>
+> Ross
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#224206): https://lists.openembedded.org/g/openembedded-core/message/224206
-> Mute This Topic: https://lists.openembedded.org/mt/115530053/1997914
+> View/Reply Online (#222676): https://lists.openembedded.org/g/openembedde=
+d-core/message/222676
+> Mute This Topic: https://lists.openembedded.org/mt/114931906/3616920
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jd=
+mason@kudzu.us]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
