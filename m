@@ -1,170 +1,161 @@
-Return-Path: <Adam.X.Nilsson@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAB86CCA470
-	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 16:06:26 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.5])
- by mx.groups.io with SMTP id smtpd.web10.1032.1759334779011872471
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D87CAC5BB
+	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 16:56:37 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.web10.2264.1759337794682556944
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 09:06:19 -0700
+ Wed, 01 Oct 2025 09:56:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=q0KQy3ar;
- spf=pass (domain: axis.com, ip: 40.107.130.5, mailfrom: adam.x.nilsson@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GvknDr8e6Jy8cqMEFeWav9yyF+scqK+YGxqJdCUXcRt769KtCODqgNGNzwpsiLWXJ0NTfjtt39rkocLM4xP/Zztz+fnUKgAalxe5iO+vGN+HPxt6+Yl77EJYKRXOpWe7kEyjLS+p4nE4tKBfxrHrTM/VOL1vi4jFT3Rra/2rBFJaT+IuykEGROfsFDVX8SUU7+pRDFO7nXvwL8+cDF2hV8rFin2cJPkGDkroIgt7cjB2ofClw1LK3CP+SXAuE60uV+iSpJ1wBuvAahSSsBJytM4/ndk/+o3E7db1T+dgrk0De/PQqBMFPvzOJXrAJmpPiWM2dB/KvrqUWhsHgqe7UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0r1gKQcfk15S67h+8Mshkps7CUBxl5C0gjrnUEtJG8E=;
- b=ghtb90cNfOuzCNWoSa0dk+8FMXNKfBH5nKPkLV/sIKYUxkOrBTBg8Sr3Jw9JB03J/bpspm0Wl52KQAQ0oHur+wOPKba/L8ohtyFoARYHsdxJTYNi4FDd1msO+2CysAuYKVjyndJq2IBORz/3xycnlXRoZ1l7/7vSCVWWBY/UUNWFmh+1PupP8oWR3uhPmNOsXkkvSOIxR1sx6MSIfLMVrX6q8h9HDhc9ROZzYNbXkb279iTlUkoebgiqs1AgMO2K61zHWSJw6BsItuSonPm96h0/kEI4oCLnnGO7zdap4hj9CPUYRmwwCDivhHQenkVxcYh3eoeeac9oUg6747WVeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0r1gKQcfk15S67h+8Mshkps7CUBxl5C0gjrnUEtJG8E=;
- b=q0KQy3arWy+Cs8dG1xTtHmtX0HN2mcDr1ynQ+WQ/nmio90nuxbsClq23rdWExE29LIoMxVWQqfndhzDsyjBNMWwYfvXVnWENqCz7FXmm2yebb1S0DiAicQ5v1jLn5PvMxlsmeX3f205N1+QTtEeY0zQ+roE6gnaFfdgrqWe004c=
-Received: from AS4P189CA0026.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5db::13)
- by DB9PR02MB7370.eurprd02.prod.outlook.com (2603:10a6:10:244::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.18; Wed, 1 Oct
- 2025 16:06:15 +0000
-Received: from AM2PEPF0001C711.eurprd05.prod.outlook.com
- (2603:10a6:20b:5db:cafe::7f) by AS4P189CA0026.outlook.office365.com
- (2603:10a6:20b:5db::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9182.14 via Frontend Transport; Wed,
- 1 Oct 2025 16:06:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AM2PEPF0001C711.mail.protection.outlook.com (10.167.16.181) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9182.15 via Frontend Transport; Wed, 1 Oct 2025 16:06:14 +0000
-Received: from se-mail01w.axis.com (10.20.40.7) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Wed, 1 Oct
- 2025 18:06:14 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Wed, 1 Oct 2025 18:06:14 +0200
-Received: from pc51388-2240.se.axis.com (pc51388-2240.se.axis.com [10.86.130.217])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 8BE4FB43;
-	Wed,  1 Oct 2025 18:06:14 +0200 (CEST)
-Received: by pc51388-2240.se.axis.com (Postfix, from userid 11596)
-	id 7351242303CB; Wed,  1 Oct 2025 18:06:14 +0200 (CEST)
-From: Adam Nilsson <Adam.X.Nilsson@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Adam Nilsson <adamni@axis.com>, Peter Kjellerstedt
-	<peter.kjellerstedt@axis.com>, Adam Nilsson <Adam.X.Nilsson@axis.com>
-Subject: [PATCH v1]  core-image, populate_sdk_base: Add zsh-completion-pkgs image feature
-Date: Wed, 1 Oct 2025 18:02:13 +0200
-Message-ID: <20251001160212.2588471-1-Adam.X.Nilsson@axis.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GTJm/5Yd;
+ spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-71d71bcac45so1438537b3.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 09:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759337794; x=1759942594; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ByDSpJskjZ4ZyF2COa7mNS+MrhFGJzqr2L4SA1HNczs=;
+        b=GTJm/5YdGgm4MDth0FjlMzJbne6RKcPdP7ZpaDbO1AM8i+3CY7ZomBLzDBVtzu5sid
+         GzkgPbuKNfVhshgTBwXT1h4w257K90gHTHa+SpvcjZ7FOF76c5rEZocezMrTX5Afub3K
+         F8BOSLGaGDze9/7Z/04OvIOT221+evvESmPlck/SjdwmbEeWU+uFvEHKAUedv/pbkUFi
+         lY+j42BcpO+xOcVTESC4k+qkWkkUDavo1FNhg36zlu03UDpNQTzExgXgssF0wpSbK6kY
+         6qWHLkxUEmOQlVk3rytu0ysefK+xx3/VW/04P1g+coIEjD/qGmdrHuTDJG7ydwzO0xDu
+         GLzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759337794; x=1759942594;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ByDSpJskjZ4ZyF2COa7mNS+MrhFGJzqr2L4SA1HNczs=;
+        b=ZShp6scsd0A5uPrDeGJApqV4nhbm1ZbYhEMZmewVp+Umbve+6euSFWMfP45oJbHp2J
+         CDHK+7xRynBchAXIdm8EV8dxQuAyNeZtcfUUPF0551oNsau+Dvxw00HHFX3uE9a3k4Ol
+         NROrmPShvDxF62ans6dBCulnGbL4HuR0XRxvVuD8FRAPehuFWtfwhujYWBmEqDWyWfVz
+         4hMI4SBwDa5j6/5Kbds2pqWXD/vSYm3g4269MZDhZPBW2hFSYkF19mCRuM6iuYQ4H4cM
+         hzp/x6epSc8sCO1VJmGoMsDeS/jRKxIPMhpPg2bPPaRYUNNI+GNCl1Qey9S8hj1M6TQ9
+         vkVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV7fx3bPq2KEV3lQbpmO3pA8q2kp3TufZhZDX545hRXCgWC5HbTxMX9ey6y/8MM5sX2r2j85FOHCSXVSzev1JygbA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwrOmqmAl/F7/Tus68etdTKkBqkso/73mLZniis1oyslooVOSky
+	BbjMVsfZkhaZEmOVaUu9tDiapMGnM6ZRNsYToXJt577vxhUu64JhddDT8MIA2bwYCFxG3PNxZfG
+	nuUd2yuI8sbKjPmG2+tHGV+SXPbJ5ep4=
+X-Gm-Gg: ASbGncvwZsgdKooonYeR0By+PygsgJaj1qDlw9O/M4QOo+cd9RUHo9rAPQjEXAHFw/f
+	dNjS72QPNeQSjosslTcKyKll8zIXInHKh8DA503hnXhiy+b4w4O2JaFgNHztDvf3vJvUrQkf0NA
+	Zzh7ntr2R6NcFXxZYQIj5FKX2jtYQ8t89hKGr5jMtRu2YtomBffsYtYa5APoIkinG7T1bdiEYgD
+	oM0KCiMG0v/RYyVa3aCYunwfJrtP1ASw+oMHrTuCV8oq9GhZE+S46lRp5I+mIK7Y3X5MrLVp7/u
+	3O9ujoJ9zDhOC/+OaPyRCQGIod4uXxcQ5uhbOUv0cl1OxdFh
+X-Google-Smtp-Source: AGHT+IGX8DCBiUiVgOk09Qb8KY/1Xs+kG9jJlY3qzTI3CxIpI93ZUTaX+cOw+jfrzB6inJlJ9gw3Ii29JVFxGUVGGUE=
+X-Received: by 2002:a53:ac48:0:b0:636:3ff2:c89d with SMTP id
+ 956f58d0204a3-63b6ff23927mr4699166d50.20.1759337793668; Wed, 01 Oct 2025
+ 09:56:33 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250930123901.949798-1-Harish.Sadineni@windriver.com>
+ <d04d310ec882ddea6f9578eeb65d99cfae1abe69.camel@linuxfoundation.org>
+ <93d2d7a5-a6c7-4b0c-ad89-01be28b407ed@windriver.com> <d63a917901287e45aeee4b6b256615537124c2a6.camel@linuxfoundation.org>
+In-Reply-To: <d63a917901287e45aeee4b6b256615537124c2a6.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 1 Oct 2025 09:56:06 -0700
+X-Gm-Features: AS18NWCVK21ywyqYTFCQ7k5VNPolZrvbcKXAT2AsJI_9HGo2xZIAZnjMrXpS2hk
+Message-ID: <CAMKF1sqqwTwN2z1=rFbUVgFm3sFdd48MvtXPt3=B5_+MZJi26Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] binutils-cross-canadian: Add missing perl
+ mpodules to RDEPENDS
+To: richard.purdie@linuxfoundation.org
+Cc: Harish Sadineni <Harish.Sadineni@windriver.com>, openembedded-core@lists.openembedded.org, 
+	Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF0001C711:EE_|DB9PR02MB7370:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83b356ca-81b0-4572-70e2-08de010472bc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?KSqwkjhbpQTgrBjMvUiWo1WsKiihodcLDzOvFXxGcvVTdWoIR1/R9CI7UbvM?=
- =?us-ascii?Q?o0569cQDbvI0Zr91Qg6RSgYGscEzs8nwMBkP9UQQ3L3xA338VEDclO3FkjGH?=
- =?us-ascii?Q?cGx2wjlCJ9VYxhJuxjirDrdxde0/AWVpOCl6UEJFwGH9DxchMd8RmmqgXMOZ?=
- =?us-ascii?Q?WBY2mkI9XuNCJerrt755PVl07HwzK0izgT76a6gpaeExNEAEP6zzeXNkLnGv?=
- =?us-ascii?Q?NUmlF5WyHuDtytF4rmG1EbI66NtA1rcs0r+f99i3T+rusSFBBxGzLLvduxyF?=
- =?us-ascii?Q?f8TnmuGEZAtHAgtyJI8jj04upc3EyCSLGkp9LbV1y5Lb7mhVbpHCSuR3TyHd?=
- =?us-ascii?Q?sZs0CnwhnOheRD0T/lWvE7j24ZiMgABYQXJyNed1vwQSK8bcS+sfNHw18xTx?=
- =?us-ascii?Q?ulBnFcsPYAnEPb8/WqEQ4KbwDFj6VXl2kwdpb5jt7QIonNPNJ01YJN1jTQ+3?=
- =?us-ascii?Q?iMi9M+90Y7lbtZWVQ0sd2U/uHsPRoS6TpDHjva9MXSgn6iEIoVNSUTqtSKkT?=
- =?us-ascii?Q?YLJl2u3qrZhFoufpxETDayQt7JkfjtIug0WH0jTt3Px86kYFEcPcZtW39529?=
- =?us-ascii?Q?YB/5npfDsv01TcC1pYk31nGT28DPXC2J32YPJqrBJcoE7E9OodSOwAWfIfyu?=
- =?us-ascii?Q?vLUIeD0ucWc6G+Bu+2YdXrT2aQsQveDh5pj+V35HoHr6QR2wM8zmmDBSWWiR?=
- =?us-ascii?Q?IUT5NhH85L6WZhBYA9hmEGiefJ+NVulDUKSJxxRc+jsxhH64A4KIcyPEsNvZ?=
- =?us-ascii?Q?FBoHA908H3mTUwCwfvbVFL2hKwE/QakPfnfJTIigomq0wNFEAJXHQyrs2bW1?=
- =?us-ascii?Q?qZA6DfmQTgVX25YECgDANezNXbvlheCJghMR/QD9+xzOVk27g1RkrGB6s1pq?=
- =?us-ascii?Q?xEaUhrUB0kiDvs7wYiJBsycLIqOtXK/PtMkCu86T3up5QBiAZ4TwkngqtGNT?=
- =?us-ascii?Q?5tPve+dy5YMEPrIH6gL524Nlt2vYwsgZ9q2rAWsMi8XmFrqH8IvNbayqzgAU?=
- =?us-ascii?Q?PY7x8vNaMwssqbsCeASutZ8RofMDmgVzl5r/pu3Dk+FeWrAzQYFyEpfJnymo?=
- =?us-ascii?Q?tY8P3rvf5lgL/a94uvzKuvFjLrpAiA2xLKsp7Wr1m6PY9zHlTNVHqmO+bMFB?=
- =?us-ascii?Q?wAMIbfK7RpCiZ355CZiFVV+vS2lR+DrBRmFKhjhnqtrCdmdHvBpZe/oo739/?=
- =?us-ascii?Q?X29id97UQ5ISIe1ZNwPsOQC1FvMIVanA/F03q9If5tRP13fRfA1xVUKMNI4i?=
- =?us-ascii?Q?M7ek4EahBjvu9ut07kglEqqgYGDKWBZeTA8FBxynwkTZ0w3oFi+tIlZxjPDo?=
- =?us-ascii?Q?KI7p3TtSjh5QPow9FfVMAn74iUtiyxCV2OzgE7JAI8t8t3VsHJw/JK92ibdz?=
- =?us-ascii?Q?aDHLk6pr0TOLdzOKzjy0ILwCUQs1qCdakk8WiemP2J2xCx8tnP/xX1nVYEo3?=
- =?us-ascii?Q?Ml2/IhdQI9SSOL//nCeoQJm1YaQij73S8MvQKHi+89UKeIR/m1kB74GgJlrz?=
- =?us-ascii?Q?gazdbQPzs4RRUZ4H0YfvXU4Jq4NaZ8gmwgNn3MzOE8htf068HcwvP2jNIdXg?=
- =?us-ascii?Q?jrJIR8x5Ya94s5noPTY=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2025 16:06:14.9120
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83b356ca-81b0-4572-70e2-08de010472bc
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM2PEPF0001C711.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7370
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 16:06:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224311
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 16:56:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224312
 
-From: Adam Nilsson <adamni@axis.com>
+On Wed, Oct 1, 2025 at 2:57=E2=80=AFAM Richard Purdie via
+lists.openembedded.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>
+> On Wed, 2025-10-01 at 14:17 +0530, Harish Sadineni wrote:
+> >  On 9/30/2025 7:17 PM, Richard Purdie wrote:
+> >  On Tue, 2025-09-30 at 05:39 -0700, Sadineni, Harish via lists.openembe=
+dded.org wrote:
+> > > > From: Harish Sadineni <Harish.Sadineni@windriver.com>
+> > > >
+> > > > In sdk while running "x86_64-poky-linux-gp-display-html --help" giv=
+es
+> > > > following error:
+> > > > $sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux->
+> > > > ./x86_64-poky-linux-gp-display-html --help
+> > > > Can't locate bigint.pm in @INC (you may need to install the bigint =
+module
+> > > >
+> > > > By adding the following perl modules to RDEPENDS fixes the above er=
+rors:
+> > > >   nativesdk-perl-module-bignum
+> > > >   nativesdk-perl-module-bigint
+> > > >   nativesdk-perl-module-math-bigint
+> > > >
+> > > > Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> > > > ---
+> > > >  meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian=
+.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+> > > > index 7d7ffe92ce..9dc73fbdf1 100644
+> > > > --- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+> > > > +++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
+> > > > @@ -5,6 +5,7 @@ PN =3D "binutils-cross-canadian-${TRANSLATED_TARGET=
+_ARCH}"
+> > > >  BPN =3D "binutils"
+> > > >
+> > > >  DEPENDS =3D "flex-native bison-native virtual/nativesdk-cross-cc v=
+irtual/nativesdk-libc nativesdk-zlib nativesdk-gettext nativesdk-flex"
+> > > > +RDEPENDS:${PN} +=3D "nativesdk-perl-module-bignum  nativesdk-perl-=
+module-bigint nativesdk-perl-module-math-bigint"
+> > > >  EXTRA_OECONF +=3D "--with-sysroot=3D${SDKPATH}/sysroots/${TUNE_PKG=
+ARCH}${TARGET_VENDOR}-${TARGET_OS} \
+> > > >                  --enable-poison-system-directories \
+> > > >                  "
+> > > >
+> > > This is probably the right direction but shouldn't this be for the
+> > > gprofng package rather than ${PN}?
+> > >
+> > Hi Richard,
+> >
+> >  In the SDK at $sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-
+> > poky-linux, the script "x86_64-poky-linux-gp-display-html" is not
+> > pulled or packaged by the gprofng package.
+> >  Instead, it is installed as part of the binutils-cross-canadian
+> > package.
+> >
+> > Adding the perl module dependencies to gprofng package will not
+> > resolve this issue , it would be effective only if "nativesdk-
+> > gprofng" is explicitly installed by the user.
+> >
+>
+> Fair enough. Should x86_64-poky-linux-gp-display-html not be part of
+> the gprofng package though? Perhaps we should change it to be packaged
+> there, then add the dependency to that?
 
-Add a zsh-completion-pkgs image feature to install *-zsh-completion
-packages into an image. This is similar to the existing
-bash-completion-pkgs feature.
+right, that would make it live with the right set of sub-package as well.
 
-Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Adam Nilsson <Adam.X.Nilsson@axis.com>
----
- meta/classes-recipe/core-image.bbclass        | 1 +
- meta/classes-recipe/populate_sdk_base.bbclass | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/meta/classes-recipe/core-image.bbclass b/meta/classes-recipe/c=
-ore-image.bbclass
-index 4072e420c5..309a7c577b 100644
---- a/meta/classes-recipe/core-image.bbclass
-+++ b/meta/classes-recipe/core-image.bbclass
-@@ -33,6 +33,7 @@
- #                         LICENSE_CREATE_PACKAGE=3D"1" to be set when buil=
-ding packages too
- # - doc-pkgs            - documentation packages for all installed package=
-s in the rootfs
- # - bash-completion-pkgs - bash-completion packages for recipes using bash=
--completion bbclass
-+# - zsh-completion-pkgs - zsh-completion packages
- # - ptest-pkgs          - ptest packages for all ptest-enabled recipes
- # - read-only-rootfs    - tweaks an image to support read-only rootfs
- # - stateless-rootfs    - systemctl-native not run, image populated by sys=
-temd at runtime
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-r=
-ecipe/populate_sdk_base.bbclass
-index 0c2fd26e6f..8e671cf28f 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -24,6 +24,7 @@ COMPLEMENTARY_GLOB[dbg-pkgs] =3D '*-dbg'
- COMPLEMENTARY_GLOB[src-pkgs] =3D '*-src'
- COMPLEMENTARY_GLOB[ptest-pkgs] =3D '*-ptest ${MLPREFIX}ptest-runner'
- COMPLEMENTARY_GLOB[bash-completion-pkgs] =3D '*-bash-completion'
-+COMPLEMENTARY_GLOB[zsh-completion-pkgs] =3D '*-zsh-completion'
-
- def complementary_globs(featurevar, d):
-     all_globs =3D d.getVarFlags('COMPLEMENTARY_GLOB')
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#224204): https://lists.openembedded.org/g/openembedde=
+d-core/message/224204
+> Mute This Topic: https://lists.openembedded.org/mt/115512852/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
