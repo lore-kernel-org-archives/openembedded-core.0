@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BE0BCCD190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 838CACCD192
 	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:23 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.17926.1759325532268342921
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.17947.1759325538970919619
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Oct 2025 06:32:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ct6cofat;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=oZy8olJB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101999ff94a24-9f5ce8b0-fbe9-4e4f-8851-46be1d98b405-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=wdzE8fWp;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=mtmOFqPQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101999ff9484a-c62f6baf-c736-40c9-bac8-b9b4ae88a9c3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1759325538;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=NbfZkwWuZSo6HBAlXYBEHVPE41FqfNTWd1xikuKqIcg=;
-	b=ct6cofatqnR2bwC88UbU63IQyV6mqwzVGDQqo+Kl6+GtHoDiCCIo6rRa7xnia3po
-	jbYZHvVpGidIVu4a46nM6UpamAKxUmWnB0vJ3BQglhfRXFLN8Q0dHAI/LNU4Ele8wNP
-	BRcfDeosXxkSlHR2Ou424G3EqoWxfYtJRu1SYqE4=
+	bh=WuY6DqemsUpacvSEnyycvKed1q7i1vJHGdA4oVggdzQ=;
+	b=wdzE8fWp9fo2yc3jVFJOnRFC62V0ZKY6JoufT+VlJMK60Btj964tLGNfKSLJNcA2
+	M1h/9wItJl6IY9Xpfb3w1RhhCt6YzQzsGLnE1BuVpS/tCVLjPUAajQM90+KWkFnBjEP
+	DLYHgt+oagelSkzOhr9X7N6h88XoIYaZO8Z7vZYs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325538;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=NbfZkwWuZSo6HBAlXYBEHVPE41FqfNTWd1xikuKqIcg=;
-	b=oZy8olJBYHh2mxyIcjPH3HDlMGmbd9JB1aMSvAWGZA0N/FdzzR9/1hH1aQXdc5ag
-	VLtvgET3WRVZZzTgN0alCik64qqKu6S2fM8UetAQRDM3k/3ZBerfSnD3vjfXWNZR0Io
-	LkF9BJhWFURuh+0u9VTKYDwpvXloAJ/uAGMbopnw=
-Content-Type: multipart/mixed; boundary="===============0458114102971621578=="
+	bh=WuY6DqemsUpacvSEnyycvKed1q7i1vJHGdA4oVggdzQ=;
+	b=mtmOFqPQFXgOV4cC9Z78Ij5GmmhwBYFCmHG4U43dXlHovjfEEf0uhV7WRifEJH2i
+	UWwfmSFGqbqus3ieyDSk5b4kGyCBkV2iDAJFbgqllq9Vz25pmxXESrsyhO4zlj9n6KQ
+	5zAuSSXP2kdiX6m53OfKbKqpf5Rp9uoBZxjfyhJM=
+Content-Type: multipart/mixed; boundary="===============9013078887541214621=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-docutils: upgrading to 0.22.2 SUCCEEDED
-Message-ID: <010101999ff94a24-9f5ce8b0-fbe9-4e4f-8851-46be1d98b405-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-click: upgrading to 8.3.0 SUCCEEDED
+Message-ID: <010101999ff9484a-c62f6baf-c736-40c9-bac8-b9b4ae88a9c3-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Oct 2025 13:32:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.10.01-54.240.27.31
+X-SES-Outgoing: 2025.10.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224234
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224233
 
---===============0458114102971621578==
+--===============9013078887541214621==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-docutils* to *0.22.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-click* to *8.3.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-docutils-upgrade-0.22-0.22.2.patch
+    - apply the patch: git am 0001-python3-click-upgrade-8.2.2-8.3.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,140 +72,113 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8a8b9914b64ab3182eb058e03551d67988bebfc6 Mon Sep 17 00:00:00 2001
+From bbe1c3eca50c1db152bdf2a80d376056e8890059 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Oct 2025 08:56:45 +0000
-Subject: [PATCH] python3-docutils: upgrade 0.22 -> 0.22.2
+Date: Wed, 1 Oct 2025 08:49:51 +0000
+Subject: [PATCH] python3-click: upgrade 8.2.2 -> 8.3.0
 
 ---
- .../{python3-docutils_0.22.bb => python3-docutils_0.22.2.bb}    | 2 +-
+ .../python/{python3-click_8.2.2.bb => python3-click_8.3.0.bb}   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-docutils_0.22.bb => python3-docutils_0.22.2.bb} (85%)
+ rename meta/recipes-devtools/python/{python3-click_8.2.2.bb => python3-click_8.3.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-docutils_0.22.bb b/meta/recipes-devtools/python/python3-docutils_0.22.2.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-docutils_0.22.bb
-rename to meta/recipes-devtools/python/python3-docutils_0.22.2.bb
-index 2dafa034fb..014cda556a 100644
---- a/meta/recipes-devtools/python/python3-docutils_0.22.bb
-+++ b/meta/recipes-devtools/python/python3-docutils_0.22.2.bb
-@@ -4,7 +4,7 @@ SECTION = "devel/python"
- LICENSE = "CC0-1.0 & BSD-2-Clause & GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING.rst;md5=ce467b04b35c7ac3429b6908fc8b318e"
+diff --git a/meta/recipes-devtools/python/python3-click_8.2.2.bb b/meta/recipes-devtools/python/python3-click_8.3.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-click_8.2.2.bb
+rename to meta/recipes-devtools/python/python3-click_8.3.0.bb
+index 9710e8a71c..4794c06e7b 100644
+--- a/meta/recipes-devtools/python/python3-click_8.2.2.bb
++++ b/meta/recipes-devtools/python/python3-click_8.3.0.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "http://click.pocoo.org/"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1fa98232fd645608937a0fdc82e999b8"
  
--SRC_URI[sha256sum] = "ba9d57750e92331ebe7c08a1bbf7a7f8143b86c476acd51528b042216a6aad0f"
-+SRC_URI[sha256sum] = "9fdb771707c8784c8f2728b67cb2c691305933d68137ef95a75db5f4dfbc213d"
+-SRC_URI[sha256sum] = "068616e6ef9705a07b6db727cb9c248f4eb9dae437a30239f56fa94b18b852ef"
++SRC_URI[sha256sum] = "e7b8232224eba16f4ebe410c25ced9f7875cb5f3263ffc93cc3e8da705e229c4"
  
- inherit pypi python_flit_core
+ inherit pypi python_flit_core ptest-python-pytest
  
 -- 
 2.47.1
 
 
---===============0458114102971621578==
+--===============9013078887541214621==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-docutils: PV changed from "0.22" to "0.22.2"
-packages/x86-64-v3-poky-linux/python3-docutils: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/docutils/docutils-0.22.tar.gz;downloadfilename=docutils-0.22.tar.gz" to "https://files.pythonhosted.org/packages/source/d/docutils/docutils-0.22.2.tar.gz;downloadfilename=docutils-0.22.2.tar.gz"
-packages/x86-64-v3-poky-linux/python3-docutils: PKGV changed from 0.22 [default] to 0.22.2 [default]
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-dbg: PV changed from "0.22" to "0.22.2"
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-dbg: PKGV changed from 0.22 [default] to 0.22.2 [default]
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-dev: PV changed from "0.22" to "0.22.2"
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-dev: PKGV changed from 0.22 [default] to 0.22.2 [default]
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-doc: PV changed from "0.22" to "0.22.2"
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-doc: PKGV changed from 0.22 [default] to 0.22.2 [default]
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-locale: PV changed from "0.22" to "0.22.2"
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-locale: PKGV changed from 0.22 [default] to 0.22.2 [default]
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-src: PV changed from "0.22" to "0.22.2"
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-src: PKGV changed from 0.22 [default] to 0.22.2 [default]
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-staticdev: PV changed from "0.22" to "0.22.2"
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils-staticdev: PKGV changed from 0.22 [default] to 0.22.2 [default]
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils: PV changed from "0.22" to "0.22.2"
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils: PKGSIZE changed from 4227190 to 4242761 (+0%)
-packages/x86-64-v3-poky-linux/python3-docutils/python3-docutils: PKGV changed from 0.22 [default] to 0.22.2 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-docutils (sysroot):
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/COPYING.rst was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/licenses was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/licenses/BSD-0-Clause.rst was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/licenses/BSD-2-Clause.rst was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/licenses/gpl-3-0.txt was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/COPYING.rst was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/licenses was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/licenses/BSD-0-Clause.rst was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/licenses/BSD-2-Clause.rst was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/licenses/gpl-3-0.txt was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/python3-click: PKGV changed from 8.2.2 [default] to 8.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-click: PV changed from "8.2.2" to "8.3.0"
+packages/x86-64-v3-poky-linux/python3-click: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/click/click-8.2.2.tar.gz;downloadfilename=click-8.2.2.tar.gz" to "https://files.pythonhosted.org/packages/source/c/click/click-8.3.0.tar.gz;downloadfilename=click-8.3.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-click/python3-click-dbg: PKGV changed from 8.2.2 [default] to 8.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-click/python3-click-dbg: PV changed from "8.2.2" to "8.3.0"
+packages/x86-64-v3-poky-linux/python3-click/python3-click-dev: PKGV changed from 8.2.2 [default] to 8.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-click/python3-click-dev: PV changed from "8.2.2" to "8.3.0"
+packages/x86-64-v3-poky-linux/python3-click/python3-click-doc: PKGV changed from 8.2.2 [default] to 8.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-click/python3-click-doc: PV changed from "8.2.2" to "8.3.0"
+packages/x86-64-v3-poky-linux/python3-click/python3-click-locale: PKGV changed from 8.2.2 [default] to 8.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-click/python3-click-locale: PV changed from "8.2.2" to "8.3.0"
+packages/x86-64-v3-poky-linux/python3-click/python3-click-ptest: PKGSIZE changed from 411734 to 462323 (+12%)
+packages/x86-64-v3-poky-linux/python3-click/python3-click-ptest: FILELIST: removed "/usr/lib/python3-click/ptest/docs/setuptools.rst /usr/lib/python3-click/ptest/docs/shell-completion.rst /usr/lib/python3-click/ptest/docs/quickstart.rst /usr/lib/python3-click/ptest/docs/prompts.rst", added "/usr/lib/python3-click/ptest/docs/shell-completion.md /usr/lib/python3-click/ptest/docs/setuptools.md /usr/lib/python3-click/ptest/docs/prompts.md /usr/lib/python3-click/ptest/docs/quickstart.md"
+packages/x86-64-v3-poky-linux/python3-click/python3-click-ptest: PKGV changed from 8.2.2 [default] to 8.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-click/python3-click-ptest: PV changed from "8.2.2" to "8.3.0"
+packages/x86-64-v3-poky-linux/python3-click/python3-click-src: PKGV changed from 8.2.2 [default] to 8.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-click/python3-click-src: PV changed from "8.2.2" to "8.3.0"
+packages/x86-64-v3-poky-linux/python3-click/python3-click-staticdev: PKGV changed from 8.2.2 [default] to 8.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-click/python3-click-staticdev: PV changed from "8.2.2" to "8.3.0"
+packages/x86-64-v3-poky-linux/python3-click/python3-click: PKGSIZE changed from 809363 to 825549 (+2%)
+packages/x86-64-v3-poky-linux/python3-click/python3-click: FILELIST: directory renamed /usr/lib/python3.13/site-packages/click-8.2.2.dist-info -> /usr/lib/python3.13/site-packages/click-8.3.0.dist-info, directory renamed /usr/lib/python3.13/site-packages/click-8.2.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/click-8.3.0.dist-info/licenses, added "/usr/lib/python3.13/site-packages/click/_utils.py /usr/lib/python3.13/site-packages/click/__pycache__/_utils.cpython-313.pyc"
+packages/x86-64-v3-poky-linux/python3-click/python3-click: PKGV changed from 8.2.2 [default] to 8.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-click/python3-click: PV changed from "8.2.2" to "8.3.0"
+Changes to packages/x86-64-v3-poky-linux/python3-click (sysroot):
+  /usr/lib/python3.13/site-packages/click-8.2.2.dist-info moved to /usr/lib/python3.13/site-packages/click-8.3.0.dist-info
+  /usr/lib/python3.13/site-packages/click/__pycache__/_utils.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/click/_utils.py was added
 
---===============0458114102971621578==
+--===============9013078887541214621==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-docutils-upgrade-0.22-0.22.2.patch"
+ filename="0001-python3-click-upgrade-8.2.2-8.3.0.patch"
 
-RnJvbSA4YThiOTkxNGI2NGFiMzE4MmViMDU4ZTAzNTUxZDY3OTg4YmViZmM2IE1vbiBTZXAgMTcg
+RnJvbSBiYmUxYzNlY2E1MGMxZGIxNTJiZGYyYTgwZDM3NjA1NmU4ODkwMDU5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAwODo1Njo0NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtZG9jdXRpbHM6IHVwZ3JhZGUgMC4yMiAtPiAwLjIyLjIKCi0tLQogLi4uL3tweXRob24z
-LWRvY3V0aWxzXzAuMjIuYmIgPT4gcHl0aG9uMy1kb2N1dGlsc18wLjIyLjIuYmJ9ICAgIHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1kb2N1dGlsc18wLjIyLmJiID0+
-IHB5dGhvbjMtZG9jdXRpbHNfMC4yMi4yLmJifSAoODUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kb2N1dGlsc18wLjIyLmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRvY3V0aWxzXzAuMjIuMi5iYgpzaW1pbGFyaXR5
-IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtZG9jdXRpbHNfMC4yMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWRvY3V0aWxzXzAuMjIuMi5iYgppbmRleCAyZGFmYTAzNGZiLi4wMTRjZGE1NTZh
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9jdXRp
-bHNfMC4yMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZG9j
-dXRpbHNfMC4yMi4yLmJiCkBAIC00LDcgKzQsNyBAQCBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIK
-IExJQ0VOU0UgPSAiQ0MwLTEuMCAmIEJTRC0yLUNsYXVzZSAmIEdQTC0zLjAtb25seSIKIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkcucnN0O21kNT1jZTQ2N2IwNGIzNWM3YWMzNDI5
-YjY5MDhmYzhiMzE4ZSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImJhOWQ1Nzc1MGU5MjMzMWVi
-ZTdjMDhhMWJiZjdhN2Y4MTQzYjg2YzQ3NmFjZDUxNTI4YjA0MjIxNmE2YWFkMGYiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiOWZkYjc3MTcwN2M4Nzg0YzhmMjcyOGI2N2NiMmM2OTEzMDU5MzNkNjgx
-MzdlZjk1YTc1ZGI1ZjRkZmJjMjEzZCIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9mbGl0X2NvcmUK
-IAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAwODo0OTo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtY2xpY2s6IHVwZ3JhZGUgOC4yLjIgLT4gOC4zLjAKCi0tLQogLi4uL3B5dGhvbi97cHl0
+aG9uMy1jbGlja184LjIuMi5iYiA9PiBweXRob24zLWNsaWNrXzguMy4wLmJifSAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1jbGlja184LjIuMi5iYiA9PiBweXRo
+b24zLWNsaWNrXzguMy4wLmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1jbGlja184LjIuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1jbGlja184LjMuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tfOC4yLjIu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jbGlja184
+LjMuMC5iYgppbmRleCA5NzEwZThhNzFjLi40Nzk0YzA2ZTdiIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2xpY2tfOC4yLjIuYmIKKysrIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNsaWNrXzguMy4wLmJiCkBAIC04LDcgKzgs
+NyBAQCBIT01FUEFHRSA9ICJodHRwOi8vY2xpY2sucG9jb28ub3JnLyIKIExJQ0VOU0UgPSAiQlNE
+LTMtQ2xhdXNlIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS50eHQ7bWQ1PTFm
+YTk4MjMyZmQ2NDU2MDg5MzdhMGZkYzgyZTk5OWI4IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+MDY4NjE2ZTZlZjk3MDVhMDdiNmRiNzI3Y2I5YzI0OGY0ZWI5ZGFlNDM3YTMwMjM5ZjU2ZmE5NGIx
+OGI4NTJlZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlN2I4MjMyMjI0ZWJhMTZmNGViZTQxMGMy
+NWNlZDlmNzg3NWNiNWYzMjYzZmZjOTNjYzNlOGRhNzA1ZTIyOWM0IgogCiBpbmhlcml0IHB5cGkg
+cHl0aG9uX2ZsaXRfY29yZSBwdGVzdC1weXRob24tcHl0ZXN0CiAKLS0gCjIuNDcuMQoK
 
---===============0458114102971621578==
+--===============9013078887541214621==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86-64-v3-poky-linux/python3-docutils (sysroot):
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/entry_points.txt was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/COPYING.rst was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/licenses was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/licenses/BSD-0-Clause.rst was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/licenses/BSD-2-Clause.rst was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/licenses/licenses/gpl-3-0.txt was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/METADATA was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.2.dist-info/WHEEL was added
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/entry_points.txt was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/COPYING.rst was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/licenses was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/licenses/BSD-0-Clause.rst was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/licenses/BSD-2-Clause.rst was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/licenses/licenses/gpl-3-0.txt was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/METADATA was removed
-  /usr/lib/python3.13/site-packages/docutils-0.22.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/python3-click/python3-click-ptest: FILELIST: removed "/usr/lib/python3-click/ptest/docs/quickstart.rst /usr/lib/python3-click/ptest/docs/shell-completion.rst /usr/lib/python3-click/ptest/docs/setuptools.rst /usr/lib/python3-click/ptest/docs/prompts.rst", added "/usr/lib/python3-click/ptest/docs/quickstart.md /usr/lib/python3-click/ptest/docs/shell-completion.md /usr/lib/python3-click/ptest/docs/setuptools.md /usr/lib/python3-click/ptest/docs/prompts.md"
+packages/x86-64-v3-poky-linux/python3-click/python3-click-ptest: PKGSIZE changed from 411734 to 462323 (+12%)
+packages/x86-64-v3-poky-linux/python3-click/python3-click: FILELIST: directory renamed /usr/lib/python3.13/site-packages/click-8.2.2.dist-info/licenses -> /usr/lib/python3.13/site-packages/click-8.3.0.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/click-8.2.2.dist-info -> /usr/lib/python3.13/site-packages/click-8.3.0.dist-info, added "/usr/lib/python3.13/site-packages/click/_utils.py /usr/lib/python3.13/site-packages/click/__pycache__/_utils.cpython-313.pyc"
+Changes to packages/x86-64-v3-poky-linux/python3-click (sysroot):
+  /usr/lib/python3.13/site-packages/click-8.2.2.dist-info moved to /usr/lib/python3.13/site-packages/click-8.3.0.dist-info
+  /usr/lib/python3.13/site-packages/click/__pycache__/_utils.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/click/_utils.py was added
 
---===============0458114102971621578==--
+--===============9013078887541214621==--
 
