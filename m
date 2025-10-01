@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FDDDCCD1B7
-	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:35 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.18103.1759325552441794116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29EEFCCF9E6
+	for <webhook@archiver.kernel.org>; Wed,  1 Oct 2025 13:32:36 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.17946.1759325538806715840
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 06:32:32 -0700
+ Wed, 01 Oct 2025 06:32:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=llf+l8AS;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=A2n2AhZr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101999ff97cf9-d312ba4b-d8b3-4ef3-b62c-0fc4a42f93d1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=agOquicq;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=L+VbhfCB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101999ff96505-5c0852b0-7f49-4933-921d-15a3b9ba39f7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1759325552;
+	t=1759325545;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BOPJ4uqwyZfUJWSvtpgZcYhXWPSsxHiOl3t6f0NjemY=;
-	b=llf+l8ASyQ9B1LfRF7xOf0z5yrMW+LegLVf+HDeqNvmPMXmDX8hQhkXjbOXnufsn
-	GmuJ/WieNLL9LwOzXwoHkWqoWX5k0mk3Vmww/g37J0DmruptXVneXmVR8314q0cLALi
-	WtX3t3QpuLaa+Jm3288S2Ya3izf6ddLzx8EBTY/c=
+	bh=99lDpAO2KMAQCHgrqiaS8mfP3xcDBpuS38bl7LFyuzc=;
+	b=agOquicqoNxURUJTa5W8qZ/SJ2sVoExBx4Bg0B202DhfGThXz9d1ZsCPKsimR6hD
+	8rDeMulP6dX5LPf6lwr43uRTP9s6R1dyEuXRMARh9bOqrMF31PyRKDuVdOZnnPyCTjl
+	jnjqNuW2Wj4ZmvVbUY/EOPmTzhRzFAqqKlqomV34=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325552;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759325545;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BOPJ4uqwyZfUJWSvtpgZcYhXWPSsxHiOl3t6f0NjemY=;
-	b=A2n2AhZrGnWtpaP9DYw+D9YL42Tbf3vco3b/2anfYdQKCcLyAtZUYWT529GEJDhb
-	1f1mwu5RYJI01wC/DCFKj1+WbA4gxXmL3/UZIIl1PQuXx0RGs2F9xMtTGdh/BuPRY5C
-	g4XxbwKBEdXOwBxPEpJcG6whBQuZ/4UAPoTJr094=
-Content-Type: multipart/mixed; boundary="===============5878559228880175627=="
+	bh=99lDpAO2KMAQCHgrqiaS8mfP3xcDBpuS38bl7LFyuzc=;
+	b=L+VbhfCB09Sr4fkdoP/6x8eU8xbcJKFjkyXJEVzA747ArfmrtsE0v7sD5C/09Egj
+	boQpoxSFHa+hC462AfoIWMIx5EHv2aFgfdfv0RwOWWE48y8wOXvSBWMvtOwq+IYhwlN
+	gh79vbvEEQVZbiD7lwwYdLOCCe369HbSfKv8O0pM=
+Content-Type: multipart/mixed; boundary="===============4186197817155485318=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] piglit: upgrading to a70c33045c59310f972dbbdb33f322eb209971bc
- SUCCEEDED
-Message-ID: <010101999ff97cf9-d312ba4b-d8b3-4ef3-b62c-0fc4a42f93d1-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Oct 2025 13:32:31 +0000
+Subject: [AUH] strace: upgrading to 6.17 FAILED
+Message-ID: <010101999ff96505-5c0852b0-7f49-4933-921d-15a3b9ba39f7-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Oct 2025 13:32:25 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.10.01-54.240.27.193
+X-SES-Outgoing: 2025.10.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224280
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 13:32:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224258
 
---===============5878559228880175627==
+--===============4186197817155485318==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *piglit* to *a70c33045c59310f972dbbdb33f322eb209971bc* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *strace* to *6.17* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-strace-upgrade-6.16-6.17.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,461 +78,992 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 58d93d09803239732b32526cee5c5b746f4be029 Mon Sep 17 00:00:00 2001
+From 331526932eadffd5ecdac97adf5e100e2f5e3501 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Oct 2025 12:13:26 +0000
-Subject: [PATCH] piglit: upgrade to latest revision
+Date: Wed, 1 Oct 2025 10:02:39 +0000
+Subject: [PATCH] strace: upgrade 6.16 -> 6.17
 
 ---
- ...MakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch | 4 ++--
- .../0001-tests-Fix-narrowing-errors-seen-with-clang.patch    | 2 +-
- ...ests-egl-spec-make-egl_ext_surface_compression-cond.patch | 2 +-
- ...1-tests-no_error.py-modify-_command-and-not-command.patch | 5 +----
- ...0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch | 2 +-
- ...ests-util-piglit-shader.c-do-not-hardcode-build-pat.patch | 2 +-
- meta/recipes-graphics/piglit/piglit_git.bb                   | 2 +-
- 7 files changed, 8 insertions(+), 11 deletions(-)
+ ...gnore-pwritev-pwrite64-tests-on-musl.patch | 62 +++++++++++++++++++
+ ...toconf-macro-to-detect-largefile-sup.patch |  2 +-
+ ...001-strace-fix-reproducibilty-issues.patch |  2 +-
+ ...01-tests-fix-uio.test-with-musl-libc.patch | 30 ---------
+ ...002-tests-Replace-off64_t-with-off_t.patch |  2 +-
+ .../strace/strace/Makefile-ptest.patch        |  6 +-
+ .../strace/strace/ptest-spacesave.patch       |  2 +-
+ .../strace/strace/skip-load.patch             | 13 ++--
+ .../strace/strace/update-gawk-paths.patch     |  2 +-
+ .../strace/{strace_6.16.bb => strace_6.17.bb} |  4 +-
+ 10 files changed, 77 insertions(+), 48 deletions(-)
+ create mode 100644 meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace/0001-tests-fix-uio.test-with-musl-libc.patch
+ rename meta/recipes-devtools/strace/{strace_6.16.bb => strace_6.17.bb} (93%)
 
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
-index 6ce2348a71..41af73cc02 100644
---- a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
+diff --git a/meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch b/meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
+new file mode 100644
+index 0000000000..71f4ea9522
+--- /dev/null
++++ b/meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
+@@ -0,0 +1,62 @@
++From ce3cc64ca639fbc2d8d8eab7665c46d92829fe02 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 18 Aug 2025 22:18:58 -0700
++Subject: [PATCH] Ignore pwritev/pwrite64 tests on musl
++
++musl uses wrappers for pwritev and pwrite64 using
++pwritev2 syscall [1], however the test exepcts that the
++program will call pwritev and pwrite64 ( glibc behavior )
++
++This can be fixed if the function calls are changed to
++use syscall() API directly, but that needs change upstream [2]
++
++Issue is reported upstream [3]
++
++[1] https://git.musl-libc.org/cgit/musl/commit/src?id=5370070fded61b569196764673a4fc8440aac79e
++[2] https://github.com/strace/strace/pull/347
++[3] https://github.com/strace/strace/issues/349
++
++Upstream-Status: Inappropriate [Musl Specific]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ tests/pread64-pwrite64.gen.test | 3 +++
++ tests/preadv-pwritev.gen.test   | 3 +++
++ tests/pwritev.gen.test          | 3 +++
++ 3 files changed, 9 insertions(+)
++
++diff --git a/tests/pread64-pwrite64.gen.test b/tests/pread64-pwrite64.gen.test
++index b53e069..0a1e6e6 100755
++--- a/tests/pread64-pwrite64.gen.test
+++++ b/tests/pread64-pwrite64.gen.test
++@@ -1,4 +1,7 @@
++ #!/bin/sh -efu
++ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (pread64-pwrite64 -a21 -eread=0 -ewrite=1 -e trace=pread64,pwrite64 -P pread64-pwrite64-tmpfile -P /dev/zero -P /dev/null); do not edit.
++ . "${srcdir=.}/init.sh"
+++
+++skip_ "Test not ported to musl, musl generates pwritev2"
+++
++ run_strace_match_diff -a21 -eread=0 -ewrite=1 -e trace=pread64,pwrite64 -P pread64-pwrite64-tmpfile -P /dev/zero -P /dev/null
++diff --git a/tests/preadv-pwritev.gen.test b/tests/preadv-pwritev.gen.test
++index 5ed8297..b83f129 100755
++--- a/tests/preadv-pwritev.gen.test
+++++ b/tests/preadv-pwritev.gen.test
++@@ -1,4 +1,7 @@
++ #!/bin/sh -efu
++ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (preadv-pwritev -a19 -eread=0 -ewrite=1 -e trace=preadv,pwritev); do not edit.
++ . "${srcdir=.}/init.sh"
+++
+++skip_ "Test not ported to musl, musl generates pwritev2"
+++
++ run_strace_match_diff -a19 -eread=0 -ewrite=1 -e trace=preadv,pwritev
++diff --git a/tests/pwritev.gen.test b/tests/pwritev.gen.test
++index e54fd15..4999816 100755
++--- a/tests/pwritev.gen.test
+++++ b/tests/pwritev.gen.test
++@@ -1,4 +1,7 @@
++ #!/bin/sh -efu
++ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (pwritev -a22 -s7); do not edit.
++ . "${srcdir=.}/init.sh"
+++
+++skip_ "Test not ported to musl, musl generates pwritev2"
+++
++ run_strace_match_diff -a22 -s7
+diff --git a/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
+index 46894cd9d0..345f3cf86e 100644
+--- a/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
++++ b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
 @@ -1,4 +1,4 @@
--From 9ffd24add3263e24975318e693309881eadd99a2 Mon Sep 17 00:00:00 2001
-+From 6d4cea13cf036dbbc17fc890eda14b7bdc908b5a Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 23 Aug 2024 15:29:45 +0200
- Subject: [PATCH] CMakeLists.txt: do not obtain wayland-scanner path from
-@@ -17,7 +17,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 1 insertion(+), 5 deletions(-)
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 99ae07a4a..d5ee9cc22 100644
-+index 147bd8e17..ffc910354 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
- @@ -211,11 +211,7 @@ if(PIGLIT_USE_WAYLAND)
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
-index 9751b20673..20f520483a 100644
---- a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
-@@ -1,4 +1,4 @@
--From 0ba2f908f2a2a897e8e06e34f99893d11ee4734c Mon Sep 17 00:00:00 2001
-+From 4090bba41274056be0d94c2e052506ee3f30feee Mon Sep 17 00:00:00 2001
+-From 267989559370a9f34646bf8a02001755bf64fb25 Mon Sep 17 00:00:00 2001
++From a6c62d0e8769085e5d5ad9dfe289d9e4aeb48ab4 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 3 May 2023 21:59:43 -0700
- Subject: [PATCH] tests: Fix narrowing errors seen with clang
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
-index c6c072c7e0..221468a0c0 100644
---- a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
+ Date: Thu, 15 Dec 2022 15:54:27 -0800
+ Subject: [PATCH] configure: Use autoconf macro to detect largefile support
+diff --git a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
+index ee379688bf..8ae4e2df09 100644
+--- a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
++++ b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
 @@ -1,4 +1,4 @@
--From d6ed4c477f22309c09accd4fee68486d7714f205 Mon Sep 17 00:00:00 2001
-+From ce572ab6f405ff5a7e870f945c09614570bb0200 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 22 Nov 2024 22:52:31 +0100
- Subject: [PATCH] tests/egl/spec: make egl_ext_surface_compression conditional
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
-index f8600556e5..961822201f 100644
---- a/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
-@@ -1,4 +1,4 @@
--From 846efe923932d66810305b228fa09f83a172296d Mon Sep 17 00:00:00 2001
-+From c02963ebde35027db20d1962c553e70b5686d42d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Thu, 22 May 2025 17:34:15 +0200
- Subject: [PATCH] tests/no_error.py: modify _command and not command
-@@ -27,6 +27,3 @@ index 4ecaa9a01..c64eec0a1 100644
-          profile.test_list['{} khr_no_error'.format(name)] = test
- -        test.command += ['-khr_no_error']
- +        test._command += ['-khr_no_error']
---- 
--2.39.5
+-From 59077f39cce499d11de5b0a9c23c9ded67ddb22e Mon Sep 17 00:00:00 2001
++From 511b1b60d480ba7c23531e066ef0e458d838a265 Mon Sep 17 00:00:00 2001
+ From: Jeremy Puhlman <jpuhlman@mvista.com>
+ Date: Wed, 11 Mar 2020 19:56:55 +0000
+ Subject: [PATCH] strace: fix reproducibilty issues
+diff --git a/meta/recipes-devtools/strace/strace/0001-tests-fix-uio.test-with-musl-libc.patch b/meta/recipes-devtools/strace/strace/0001-tests-fix-uio.test-with-musl-libc.patch
+deleted file mode 100644
+index a879ca50ca..0000000000
+--- a/meta/recipes-devtools/strace/strace/0001-tests-fix-uio.test-with-musl-libc.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 7fadf6947761cc5248aa4a376bb9517481dbaa52 Mon Sep 17 00:00:00 2001
+-From: Gyorgy Sarvari <skandigraun@gmail.com>
+-Date: Tue, 12 Aug 2025 20:02:31 +0200
+-Subject: [PATCH] tests: fix uio.test with musl-libc
 -
-diff --git a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
-index 6cb561c3f2..be70f54d48 100644
---- a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+-musl-libc handles the pwrite calls differently than glibc, making
+-the uio test fail.  Using glibc, there are separated pwrite and pwritev
+-calls, however musl uses only pwritev2 for both pwrite and pwritev.
+-
+-To account to this difference, modify the expected matching regexp
+-to also match the musl output (append it with an OR).
+-
+-Upstream-Status: Backport [https://github.com/strace/strace/pull/347]
+-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- tests/uio.expected | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/tests/uio.expected b/tests/uio.expected
+-index 98d5c06..2a712a1 100644
+---- a/tests/uio.expected
+-+++ b/tests/uio.expected
+-@@ -1,4 +1,4 @@
+- pread(64)?\(0, "\\0\\0\\0\\0", 4, 1004211379570065135\) += 4
+- preadv\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4\}\], 1, 1004211379570065135\) += 4
+--pwrite(64)?\(0, "\\0\\0\\0\\0", 4, 1004211379570065135\) += 4
+--pwritev\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4\}\], 1, 1004211379570065135\) += 4
+-+pwrite(64)?\(0, "\\0\\0\\0\\0", 4, 1004211379570065135\) += 4|pwritev2\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4}], 1, 1004211379570065135, RWF_NOAPPEND\) += 4
+-+pwritev\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4\}\], 1, 1004211379570065135\) += 4|pwritev2\(0, \[\{iov_base="\\0\\0\\0\\0", iov_len=4}], 1, 1004211379570065135, RWF_NOAPPEND\) += 4
+diff --git a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
+index ca909d573d..dc747d449a 100644
+--- a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
++++ b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
 @@ -1,4 +1,4 @@
--From deb0c15890fb9d0f4fc7074dde2a51c89cb5bf6d Mon Sep 17 00:00:00 2001
-+From df02c7bc261a8bd5a3146452bb5b54bf3b030790 Mon Sep 17 00:00:00 2001
- From: Pascal Bach <pascal.bach@siemens.com>
- Date: Thu, 4 Oct 2018 14:43:17 +0200
- Subject: [PATCH] cmake: use proper WAYLAND_INCLUDE_DIRS variable
-diff --git a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
-index 7706d88086..eb6b9c6c49 100644
---- a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
-+++ b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+-From 69083e93e92437e8d9d4225fca71a053906a4af0 Mon Sep 17 00:00:00 2001
++From 2e7795782679bd50bd2fa42adc2319d68c36b3a8 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 15 Dec 2022 15:56:13 -0800
+ Subject: [PATCH] tests: Replace off64_t with off_t
+diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
+index 212eea8618..39dca631e8 100644
+--- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
++++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
 @@ -1,4 +1,4 @@
--From 66d1d86ff8be33df265d0dda717be385fe8637cd Mon Sep 17 00:00:00 2001
-+From 33713f1132ce1956bedaadfd7da167171c7b9c7c Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 10 Nov 2020 17:13:50 +0000
- Subject: [PATCH] tests/util/piglit-shader.c: do not hardcode build path into
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 63c0cf1ac0..dca63d4066 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -16,7 +16,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
-            "
- UPSTREAM_CHECK_COMMITS = "1"
+-From 9d40d293ff73dea734f1353c354f51e51992a813 Mon Sep 17 00:00:00 2001
++From cab1a0adeb64018957b11e1093f7f949cd19c8b5 Mon Sep 17 00:00:00 2001
+ From: Gabriel Barbu <gabriel.barbu@enea.com>
+ Date: Thu, 25 Jul 2013 15:28:33 +0200
+ Subject: [PATCH] strace: Add ptest
+@@ -13,7 +13,7 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+  1 file changed, 20 insertions(+)
  
--SRCREV = "a0a27e528f643dfeb785350a1213bfff09681950"
-+SRCREV = "a70c33045c59310f972dbbdb33f322eb209971bc"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr"
+ diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index 6e942b1..7a707d7 100644
++index d76b5c6..d4fc206 100644
+ --- a/tests/Makefile.am
+ +++ b/tests/Makefile.am
+ @@ -18,6 +18,7 @@ SIZEOF_LONG = @SIZEOF_LONG@
+@@ -24,7 +24,7 @@ index 6e942b1..7a707d7 100644
+  AM_CFLAGS = $(WARN_CFLAGS) $(TEST_WARN_CFLAGS)
+  bundled_CPPFLAGS =
+  if USE_BUNDLED_HEADERS
+-@@ -937,3 +938,22 @@ BUILT_SOURCES = ksysent.h
++@@ -939,3 +940,22 @@ BUILT_SOURCES = ksysent.h
+  CLEANFILES = ksysent.h
+  
+  include ../src/scno.am
+diff --git a/meta/recipes-devtools/strace/strace/ptest-spacesave.patch b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
+index 661ed2c7bb..3a6fe52604 100644
+--- a/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
++++ b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
+@@ -1,4 +1,4 @@
+-From 8bd827339ae72eab99dc9ad6a68b0ae98e5bbb49 Mon Sep 17 00:00:00 2001
++From e1a000a885b4ff4a19ac79f57774a16aa29a45a5 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 29 May 2019 00:10:32 +0100
+ Subject: [PATCH] strace: Tweak ptest disk space management
+diff --git a/meta/recipes-devtools/strace/strace/skip-load.patch b/meta/recipes-devtools/strace/strace/skip-load.patch
+index 34948fd2ba..e0b9ceae89 100644
+--- a/meta/recipes-devtools/strace/strace/skip-load.patch
++++ b/meta/recipes-devtools/strace/strace/skip-load.patch
+@@ -1,4 +1,4 @@
+-From 46eceefb3bd184354cdaf0fd3dff6f2ad979aad9 Mon Sep 17 00:00:00 2001
++From fdc76b393d95f0173729f2b4a5c9855018879637 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Sat, 30 Aug 2025 00:47:03 +0200
+ Subject: [PATCH] strace: skip a number of load-sensitive tests
+@@ -17,7 +17,7 @@ Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+  4 files changed, 4 insertions(+)
+ 
+ diff --git a/tests/clock_nanosleep.gen.test b/tests/clock_nanosleep.gen.test
+-index 7a6025bbd..f0e6dbb73 100755
++index 7a6025b..f0e6dbb 100755
+ --- a/tests/clock_nanosleep.gen.test
+ +++ b/tests/clock_nanosleep.gen.test
+ @@ -1,4 +1,5 @@
+@@ -27,7 +27,7 @@ index 7a6025bbd..f0e6dbb73 100755
+ +skip_ "Test not reliable under load"
+  run_strace_match_diff -e trace=clock_nanosleep,clock_gettime
+ diff --git a/tests/delay.test b/tests/delay.test
+-index f74e27f1e..1510c7647 100755
++index f74e27f..1510c76 100755
+ --- a/tests/delay.test
+ +++ b/tests/delay.test
+ @@ -9,6 +9,7 @@
+@@ -39,7 +39,7 @@ index f74e27f1e..1510c7647 100755
+  	[ -n "$denter" ] || continue
+  
+ diff --git a/tests/nanosleep.gen.test b/tests/nanosleep.gen.test
+-index 41928ded8..f8a87cb8e 100755
++index 41928de..f8a87cb 100755
+ --- a/tests/nanosleep.gen.test
+ +++ b/tests/nanosleep.gen.test
+ @@ -1,4 +1,5 @@
+@@ -49,7 +49,7 @@ index 41928ded8..f8a87cb8e 100755
+ +skip_ "Test not reliable under load"
+  run_strace_match_diff -a20 
+ diff --git a/tests/strace-r.test b/tests/strace-r.test
+-index 829973753..e89423485 100755
++index 8299737..e894234 100755
+ --- a/tests/strace-r.test
+ +++ b/tests/strace-r.test
+ @@ -9,6 +9,7 @@
+@@ -60,6 +60,3 @@ index 829973753..e89423485 100755
+  r_opt="${1:--r}"
+  
+  run_prog ../sleep 0
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-devtools/strace/strace/update-gawk-paths.patch b/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
+index 193a4819ef..0c3f843218 100644
+--- a/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
++++ b/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
+@@ -1,4 +1,4 @@
+-From c11380609788ff9c802d6527adc6b2c756d5f715 Mon Sep 17 00:00:00 2001
++From a7fc16d42ada251e7935696dad52b84e936e88ac Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Mon, 18 Jan 2016 11:01:00 -0800
+ Subject: [PATCH] update gawk paths, /bin/gawk -> /usr/bin/gawk
+diff --git a/meta/recipes-devtools/strace/strace_6.16.bb b/meta/recipes-devtools/strace/strace_6.17.bb
+similarity index 93%
+rename from meta/recipes-devtools/strace/strace_6.16.bb
+rename to meta/recipes-devtools/strace/strace_6.17.bb
+index 0552caa2b6..530525fa70 100644
+--- a/meta/recipes-devtools/strace/strace_6.16.bb
++++ b/meta/recipes-devtools/strace/strace_6.17.bb
+@@ -14,12 +14,12 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
+            file://skip-load.patch \
+            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
+            file://0002-tests-Replace-off64_t-with-off_t.patch \
+-           file://0001-tests-fix-uio.test-with-musl-libc.patch \
++           file://0001-Ignore-pwritev-pwrite64-tests-on-musl.patch \
+            "
+ SRC_URI:append:libc-musl = "\
+            file://0001-Ignore-pwritev-pwrite64-tests-on-musl.patch \
+            "
+-SRC_URI[sha256sum] = "3d7aee7e4f044b2f67f3d51a8a76eda18076e9fb2774de54ac351d777d4ebffa"
++SRC_URI[sha256sum] = "0a7c7bedc7efc076f3242a0310af2ae63c292a36dd4236f079e88a93e98cb9c0"
+ 
+ inherit autotools github-releases ptest
  
 -- 
 2.47.1
 
 
---===============5878559228880175627==
+--===============4186197817155485318==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-doc: PKGSIZE changed from 22455 to 22527 (+0%)
-packages/x86-64-v3-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit: FILELIST: removed "/usr/lib/piglit/tests/shaders/ssa/fs-if-def-else-break.shader_test", added "/usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-ivec3-ivec3.shader_test /usr/lib/pigli
- t/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat3x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-eq-bool-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-ivec2-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-ivec4-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-ivec3-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-uvec2-uvec2.shader_test /usr/lib/pigl
- it/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-refract-vec2-vec2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-refract-vec3-vec3-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-refract-vec4-vec4-float.shader_t
- est /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-int64_t-int64_t.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/function-call-glslang-issue-1285.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-abs-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-length-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-xor-bool-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-uvec3-uvec3.shader_test /usr/lib/
- piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-cosh-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sinh-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-tanh-float.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/origin-lower-left.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-ivec4-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-ivec4-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-ivec4-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/
- spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-vec4-vec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/va64/simple.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-roundEven-vec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/block.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/fs.shader_source /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/vs.shader_source /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-round-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-sign-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/executi
- on/built-in-functions/fs-sign-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-sign-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-eq-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-ge-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-notEqual-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spi
- rv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-gt-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mult-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-ne-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-le-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lt-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-int64_t-int64_t.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/xfb/vs_two_sets_mixing_order.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-int64_t-int64_t.shader_test /usr/
- lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sign-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/
- execution/built-in-functions/fs-op-rshift-i64vec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-faceforward-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x4-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x4-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-u64vec3-u64vec3.shader_test /usr/lib/piglit/bin/arb_gl_spirv-sample-position /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-abs-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-cos-vec2.shader_test /usr/
- lib/piglit/tests/spec/arb_gl_spirv/execution/xfb/gs_two_invocations.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-cos-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-cos-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-abs-vec2.shader_test /usr/lib/piglit/bin/glx-multithread-buffer-busy-tracking-bug /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x4-mat2x3.shader_test /usr/lib/piglit/generated_
- tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x4-mat4x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-reflect-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-ne-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-ge-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-le-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-normalize-vec3.shader_test /usr/lib/piglit/generated_tests/spec
- /arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitxor-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitand-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu
- _shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-trunc-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-cross-vec3-vec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/tcs-patch-vertices-in.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/all-scalar.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-abs-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-abs-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-abs-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spir
- v/glsl-1.10/execution/built-in-functions/fs-normalize-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-ivec4-ivec4.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/basic-fs.shader_source /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sign-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-function
- s/fs-sqrt-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sqrt-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-acos-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-acos-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-acos-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-asin-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-asin-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-asin-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.1
- 0/execution/built-in-functions/fs-atan-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-step-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-distance-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-roundEven-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-uint64_t-uint64_t.shader_test /usr/lib/piglit
- /generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-int-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-int-int-in
- t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-int-int-int.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/mat/mat-arb.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-div-large-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-uint.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/shader_draw_parameters/vs-drawid.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-int64_t-int64
- _t.shader_test /usr/lib/piglit/bin/arb_fragment_program-recompile /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-mix-i64vec3-i64vec3-bvec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/cs-basic-ssbo.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-uint64_t-uint64_t.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/shader_draw_parameters/vs-basevertex.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-int-int-int.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-02.shader_test.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-inversesqrt-float.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/component-layout-vs-gs-fs.shader_test /usr/lib/piglit/generate
- d_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-div-uint-uint.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/atomic-counter-other-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/executi
- on/built-in-functions/fs-op-rshift-i64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x3-mat2x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x3-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.40/execution/built-in-functions/fs-inverse-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.40/execution/built-in-functions/fs-inverse-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-abs-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/ar
- b_gl_spirv/glsl-1.40/execution/built-in-functions/fs-inverse-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-all-bvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-all-bvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-all-bvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-any-bvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-any-bvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-any-bvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-not-bvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-float-float.shader_tes
- t /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-not-bvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-not-bvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x4-mat4x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-acos-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-asin-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spir
- v/glsl-1.10/execution/built-in-functions/fs-ceil-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-equal-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-equal-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-equal-uvec4-uvec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/simple-types-name-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log2-float.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/array-of-arrays-inside-ssbo.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-o
- p-mod-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-roundEven-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_s
- pirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-ivec2-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-ivec2-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-ivec2-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.
- 20/execution/built-in-functions/fs-op-mult-mat2x4-mat3x2.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/sample-shading-fs.shader_source /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitor-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_g
- l_spirv/glsl-1.10/execution/built-in-functions/fs-distance-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-faceforward-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-acosh-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-length-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-length-vec3.shader_test /usr/lib/piglit/tests/spec/glsl-1.50/linker/instance-mat
- ching-uniform-blocks-member-name-mismatch-varying-opt.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-length-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-asinh-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-atanh-float.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/all-data-types.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sign-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sqrt-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-u64vec3-u64vec3.shad
- er_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-ivec4-ivec4.shader_test /usr/lib/piglit/bin/arb_spirv_extensions-post_depth_coverage-sample-shading /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/mat/mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-u64vec2-u64vec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/pixel-center-integer.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-int-int.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/two-ssbo-different-layout
- s.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program/max-length-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-faceforward-vec3-vec3-vec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/all-stages-test.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-add-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x2-mat2x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x2-mat4x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec
- /arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-or-bool-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-step-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat2x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat2x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-int.shader_test /usr/lib/piglit/generated
- _tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-vec4.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/array-inside-ssbo.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-uvec3-uvec3.shader_test /usr/lib/pi
- glit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat2-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat3-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat4-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec2-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec3-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec4-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-gt-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mix-vec2-vec2-vec2.shader_test /usr/lib/pigli
- t/tests/spec/arb_gl_spirv/execution/queries/program-interface/xfb-name-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-tanh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sin-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-tan-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-eq-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-tanh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-tanh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sinh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-cosh-vec2.
- shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-cosh-vec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/ubo-matrices-other-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-abs-vec3.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/array-indirect.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/component-layout-sso-vs-gs-fs-array-interleave.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-ivec3-ivec3-ivec3.shader_test /usr/lib/piglit/bin/arb_spirv_extensions-post_depth_coverage-multisampling /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-
- in-functions/fs-op-rshift-ivec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-ivec3-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-ivec3-ivec3-ivec3.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/shader_draw_parameters/vs-baseinstance.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/array_of_input_output_block.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-distance-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-gt-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lt-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-fu
- nctions/fs-max3-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-clamp-i64vec2-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-clamp-i64vec3-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-clamp-i64vec4-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-uvec2-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-uvec
- 4-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-uvec3-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-gt-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-lt-int-int.shader_test /usr/lib/piglit/bin/egl_ext_device_persistent_id /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/atomic-image.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThan-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThan-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThan-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions
- /fs-mix-i64vec4-i64vec4-bvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-mix-i64vec2-i64vec2-bvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-gt-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-lt-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-float-float.shader_test /usr/lib/piglit/bin/egl_ext_device_query_name /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-ne-uint64_t-uint64_t.shader_test /usr/
- lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-le-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lt-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-eq-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-ge-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sin-vec3.shader_test /usr/lib/piglit/bin/arb_spirv_extensions-post_depth_coverage-basic /usr/lib/piglit/generated_tests/spec/arb
- _gl_spirv/glsl-1.10/execution/built-in-functions/fs-tan-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sin-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-tan-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-normalize-vec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program/max-length-xfb-query.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec2-mat3x2.shader_test /usr/lib/piglit/g
- enerated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec2-mat4x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec3-mat2x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3-mat2x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec3-mat4x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec4-mat2x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec4-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3-mat4x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-i64vec2-i64vec2.shader_test /usr/lib
- /piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-eq-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-round-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-f
- unctions/fs-round-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-round-vec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/va64/array.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-cosh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sinh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sinh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution
- /built-in-functions/fs-op-mult-mat3-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat4-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec3-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec4-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x4-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/ex
- ecution/built-in-functions/fs-op-mult-mat3x4-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uint-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uint-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-vec3.
- shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.50/execution/built-in-functions/fs-determinant-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-floor-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.50/execution/built-in-functions/fs-determinant-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.50/execution/built-in-functions/fs-determinant-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-uvec4-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-uvec4-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functi
- ons/fs-min3-uvec4-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-sub-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-int.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/unsized-array.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/pixel-center-half.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThan-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-abs-int64_t.shader_test /usr/lib/piglit/tests/spec
- /arb_gl_spirv/execution/varying/mat/mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-inversesqrt-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-inversesqrt-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-inversesqrt-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec2-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec4-vec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/simple-geometry.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-abs-float.shader_test /usr/lib
- /piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-cos-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sin-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-tan-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThanEqual-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-vec3-vec3.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/e
- xecution/glsl-fs-textureLod-mipmap-const-lod-01.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-02.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-03.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-04.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-05.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-06.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-07.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_
- minmax/execution/built-in-functions/fs-min3-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-refract-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-ivec4-ivec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/sso-block-member-layout-location.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_
- gpu_shader_int64/execution/built-in-functions/fs-op-mult-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-smoothstep-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-smoothstep-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-clamp-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-
- i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-u64vec3-u64vec3.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/array.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-smoothstep-vec3-vec3-vec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/all-array-types.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat4x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat4x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-int64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-uint64_t
- .shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-int64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitor-int64_t-int64_t.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/vs-instance-id.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x2-mat2x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x2-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/
- fs-notEqual-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-abs-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mult-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-sub-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-sub-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-sub-uvec4-
- uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-uint-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mix-vec4-vec4-vec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/ubo-nested-structs-other-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x3-mat3x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/shared-uint-atomic-mem-functions.shader_test /usr/lib/piglit/generated_tests
- /spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x3-mat4x2.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/simple.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-ne-bool-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-uint64_t-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-uint64_t-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-not-bool.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/component-layout-vs-gs-fs-double.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/
- built-in-functions/fs-op-and-bool-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-notEqual-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-clamp-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-clamp-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-clamp-vec3-vec3-vec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/xfb-simple-other-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-function
- s/fs-distance-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-ge-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-le-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-ne-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-degrees-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/exec
- ution/built-in-functions/fs-op-div-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-trunc-vec2.sha
- der_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThan-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-trunc-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-trunc-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec3-ivec3.shader_test /us
- r/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-int64_t-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-int64_t-uint.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/mat/mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2-mat3x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2-ma
- t4x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4-mat2x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-sign-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec3-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec4-vec2.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/aoa-2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-ivec4-ivec4.shader
- _test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-radians-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThanEqual-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-vec2-vec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/aggregate-types-name-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-max-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-min-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mod-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-pow-vec3-vec3.shader_test /usr/lib/piglit/gene
- rated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-dot-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mult-uvec3-uvec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/uniform/atomic-uint-fs.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-normalize-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitand-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitxor-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated
- _tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/gl
- sl-1.30/execution/built-in-functions/fs-op-complement-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-uvec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/unordered-comparison.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-int.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/simple-function.shader_test /usr/lib/piglit/bin/depth_clamp_quirks /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mix-float-float
- -float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-atanh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-atanh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-atanh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-acosh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-acosh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-asinh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-asinh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-asinh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.3
- 0/execution/built-in-functions/fs-acosh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-step-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/f
- s-op-mod-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-neg-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-degrees-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-degrees-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-degrees-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-eq-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-neg-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-neg-uvec3.shader_test /usr/lib/piglit/gen
- erated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl
- _spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-uvec2-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-uvec2-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-roundEven-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-uv
- ec2-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mix-vec3-vec3-vec3.shader_test /usr/lib/piglit/bin/ext_image_dma_buf_import-render-rgb24 /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-notEqual-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/g
- lsl-1.10/execution/built-in-functions/fs-greaterThan-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-ceil-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sign-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sqrt-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp2-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp2-vec4.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/multisampling-fs-1.shader_source /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/multisampling-fs-2.shader_source /usr/lib
- /piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/multisampling-fs-3.shader_source /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program/other-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThan-uvec2-uvec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/vs-vertex-id.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-pow-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x2-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x2-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functio
- ns/fs-max-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-dot-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-max-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-min-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mod-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-pow-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThanEqual-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-iv
- ec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-add-uvec2-uvec2.shader_test /usr/lib/piglit
- /generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-add-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-add-uvec4-uvec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/aggregate-types-other-queries.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-01.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-03.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-04.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-05.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-ge-uint-uint.shader_test /usr/
- lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-le-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-ne-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-mix-float-float-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-i64vec2-i64vec2.shader_test 
- /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-floor-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-floor-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-floor-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-uvec4-uvec4.shader_test /usr/lib/piglit/gene
- rated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-int64_t-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-int64_t-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-
- mix-vec3-vec3-bvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-neg-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-mix-vec2-vec2-bvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-mix-vec4-vec4-bvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-ivec3-ivec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/linker/simple-function-call.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-ivec4-ivec4.shader_test /usr/lib/piglit/generated_te
- sts/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-dot-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-max-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-min-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-reflect-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-reflect-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-reflect-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mod-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-div-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/exec
- ution/built-in-functions/fs-op-div-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-div-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-abs-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x3-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x3-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sign-ivec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/origin-upper-left.shader_test /usr/lib
- /piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-smoothstep-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sign-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sign-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-step-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-faceforward-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-radians-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-radians-vec3.shader_test /usr/lib/piglit/generated_tests/spec/ar
- b_gl_spirv/glsl-1.10/execution/built-in-functions/fs-radians-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-uvec3-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-uvec3-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-uvec3-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-min-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mod-float-float.shader_test /usr/l
- ib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-pow-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-max-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThanEqual-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThanEqual-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThanEqual-uvec4-uvec4.shader_test /usr/lib/piglit/bin/glx-multi-context-ib-2 /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-funct
- ions/fs-fract-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-mix-int64_t-int64_t-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-fract-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-fract-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-fract-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-int-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-int-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec4-i
- vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-uint-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-uint-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_m
- inmax/execution/built-in-functions/fs-min3-uint-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x3-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x3-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mult-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec2-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec3-vec4.shader_test /usr/lib/piglit/generated
- _tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-clamp-int64_t-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log2-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log2-ve
- c4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sign-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-ceil-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-ceil-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/g
- lsl-1.10/execution/built-in-functions/fs-greaterThan-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-vec3-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-vec3-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-vec3-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-ivec2-ivec2.shader_test /usr/lib/pigli
- t/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-uint64_t-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-uint64_t-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-ivec4-ivec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/simple-types-other-queries.shader_test"
-packages/x86-64-v3-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit: PKGSIZE changed from 2054165834 to 2058886328 (+0%)
+packages/x86-64-v3-poky-linux/strace: SRC_URI changed from "https://github.com/strace/strace/releases//download/v6.16/strace-6.16.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch file://0001-tests-fix-uio.test-with-musl-libc.patch" to "https://github.com/strace/strace/releases//download/v6.17/strace-6.17.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch file://0001-Ignore-pwritev-pwrite64-tests-on-musl.patch"
+packages/x86-64-v3-poky-linux/strace: PV changed from "6.16" to "6.17"
+packages/x86-64-v3-poky-linux/strace: PKGV changed from 6.16 [default] to 6.17 [default]
+packages/x86-64-v3-poky-linux/strace/strace-dbg: PV changed from "6.16" to "6.17"
+packages/x86-64-v3-poky-linux/strace/strace-dbg: PKGSIZE changed from 72930440 to 73851600 (+1%)
+packages/x86-64-v3-poky-linux/strace/strace-dbg: FILELIST: added "/usr/lib/strace/ptest/tests/.debug/file_getattr-y /usr/lib/strace/ptest/tests/.debug/file_setattr-Xverbose /usr/lib/strace/ptest/tests/.debug/file_setattr-P /usr/lib/strace/ptest/tests/.debug/file_setattr-Xraw /usr/lib/strace/ptest/tests/.debug/file_getattr-success-Xverbose /usr/lib/strace/ptest/tests/.debug/file_getattr-P /usr/lib/strace/ptest/tests/.debug/file_setattr /usr/lib/strace/ptest/tests/.debug/file_setattr-Xabbrev /usr/lib/strace/ptest/tests/.debug/file_setattr-y /usr/lib/strace/ptest/tests/.debug/file_getattr-success /usr/lib/strace/ptest/tests/.debug/file_getattr-success-Xabbrev /usr/lib/strace/ptest/tests/.debug/file_getattr-success-Xraw /usr/lib/strace/ptest/tests/.debug/file_getattr-yy /usr/lib/strace/ptest/tests/.debug/file_setattr-yy /usr/lib/strace/ptest/tests/.debug/file_getattr"
+packages/x86-64-v3-poky-linux/strace/strace-dbg: PKGV changed from 6.16 [default] to 6.17 [default]
+packages/x86-64-v3-poky-linux/strace/strace-dev: PV changed from "6.16" to "6.17"
+packages/x86-64-v3-poky-linux/strace/strace-dev: PKGV changed from 6.16 [default] to 6.17 [default]
+packages/x86-64-v3-poky-linux/strace/strace-doc: PV changed from "6.16" to "6.17"
+packages/x86-64-v3-poky-linux/strace/strace-doc: PKGV changed from 6.16 [default] to 6.17 [default]
+packages/x86-64-v3-poky-linux/strace/strace-locale: PV changed from "6.16" to "6.17"
+packages/x86-64-v3-poky-linux/strace/strace-locale: PKGV changed from 6.16 [default] to 6.17 [default]
+packages/x86-64-v3-poky-linux/strace/strace-ptest: PV changed from "6.16" to "6.17"
+packages/x86-64-v3-poky-linux/strace/strace-ptest: PKGSIZE changed from 34707595 to 35094737 (+1%)
+packages/x86-64-v3-poky-linux/strace/strace-ptest: FILELIST: added "/usr/lib/strace/ptest/tests/file_setattr-P.gen.test /usr/lib/strace/ptest/tests/file_getattr-success-Xabbrev /usr/lib/strace/ptest/tests/file_setattr-Xverbose /usr/lib/strace/ptest/tests/file_xetattr-common.c /usr/lib/strace/ptest/tests/file_setattr-y /usr/lib/strace/ptest/tests/file_getattr-y /usr/lib/strace/ptest/tests/file_getattr-success-Xverbose.gen.test /usr/lib/strace/ptest/tests/file_setattr-Xraw /usr/lib/strace/ptest/tests/file_setattr-yy.gen.test /usr/lib/strace/ptest/tests/file_getattr-yy.gen.test /usr/lib/strace/ptest/tests/file_setattr-y.gen.test /usr/lib/strace/ptest/tests/file_setattr /usr/lib/strace/ptest/tests/file_getattr-P.gen.test /usr/lib/strace/ptest/tests/file_setattr-P /usr/lib/strace/ptest/tests/file_getattr-P /usr/lib/strace/ptest/tests/file_getattr /usr/lib/strace/ptest/tests/file_getattr-success-Xverbose /usr/lib/strace/ptest/tests/file_setattr-Xraw.gen.test /usr/lib/strace/ptest/tests/fil
+ e_setattr-Xabbrev /usr/lib/strace/ptest/tests/file_getattr-success /usr/lib/strace/ptest/tests/file_getattr-success-Xabbrev.gen.test /usr/lib/strace/ptest/tests/file_setattr.gen.test /usr/lib/strace/ptest/tests/file_getattr.gen.test /usr/lib/strace/ptest/tests/file_getattr-success-Xraw /usr/lib/strace/ptest/tests/file_setattr-yy /usr/lib/strace/ptest/tests/file_getattr-yy /usr/lib/strace/ptest/tests/file_getattr-success-Xraw.gen.test /usr/lib/strace/ptest/tests/file_getattr-success.gen.test /usr/lib/strace/ptest/tests/file_setattr-Xabbrev.gen.test /usr/lib/strace/ptest/tests/file_getattr-y.gen.test /usr/lib/strace/ptest/tests/test_fs_xflags.h /usr/lib/strace/ptest/tests/file_setattr-Xverbose.gen.test"
+packages/x86-64-v3-poky-linux/strace/strace-ptest: PKGV changed from 6.16 [default] to 6.17 [default]
+packages/x86-64-v3-poky-linux/strace/strace-src: PV changed from "6.16" to "6.17"
+packages/x86-64-v3-poky-linux/strace/strace-src: PKGSIZE changed from 32990 to 33088 (+0%)
+packages/x86-64-v3-poky-linux/strace/strace-src: PKGV changed from 6.16 [default] to 6.17 [default]
+packages/x86-64-v3-poky-linux/strace/strace-staticdev: PV changed from "6.16" to "6.17"
+packages/x86-64-v3-poky-linux/strace/strace-staticdev: PKGV changed from 6.16 [default] to 6.17 [default]
+packages/x86-64-v3-poky-linux/strace/strace: PV changed from "6.16" to "6.17"
+packages/x86-64-v3-poky-linux/strace/strace: PKGSIZE changed from 2011419 to 2015515 (+0%)
+packages/x86-64-v3-poky-linux/strace/strace: PKGV changed from 6.16 [default] to 6.17 [default]
 
---===============5878559228880175627==
+--===============4186197817155485318==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-piglit-upgrade-to-latest-revision.patch"
+ filename="0001-strace-upgrade-6.16-6.17.patch"
 
-RnJvbSA1OGQ5M2QwOTgwMzIzOTczMmIzMjUyNmNlZTVjNWI3NDZmNGJlMDI5IE1vbiBTZXAgMTcg
+RnJvbSAzMzE1MjY5MzJlYWRmZmQ1ZWNkYWM5N2FkZjVlMTAwZTJmNWUzNTAxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMjoxMzoyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBp
-Z2xpdDogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogLi4uTWFrZUxpc3RzLnR4dC1k
-by1ub3Qtb2J0YWluLXdheWxhbmQtc2Nhbm5lci1wYXRoLWZyLnBhdGNoIHwgNCArKy0tCiAuLi4v
-MDAwMS10ZXN0cy1GaXgtbmFycm93aW5nLWVycm9ycy1zZWVuLXdpdGgtY2xhbmcucGF0Y2ggICAg
-fCAyICstCiAuLi5lc3RzLWVnbC1zcGVjLW1ha2UtZWdsX2V4dF9zdXJmYWNlX2NvbXByZXNzaW9u
-LWNvbmQucGF0Y2ggfCAyICstCiAuLi4xLXRlc3RzLW5vX2Vycm9yLnB5LW1vZGlmeS1fY29tbWFu
-ZC1hbmQtbm90LWNvbW1hbmQucGF0Y2ggfCA1ICstLS0tCiAuLi4wMDAyLWNtYWtlLXVzZS1wcm9w
-ZXItV0FZTEFORF9JTkNMVURFX0RJUlMtdmFyaWFibGUucGF0Y2ggfCAyICstCiAuLi5lc3RzLXV0
-aWwtcGlnbGl0LXNoYWRlci5jLWRvLW5vdC1oYXJkY29kZS1idWlsZC1wYXQucGF0Y2ggfCAyICst
-CiBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdF9naXQuYmIgICAgICAgICAgICAg
-ICAgICAgfCAyICstCiA3IGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRp
-b25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQv
-MDAwMS1DTWFrZUxpc3RzLnR4dC1kby1ub3Qtb2J0YWluLXdheWxhbmQtc2Nhbm5lci1wYXRoLWZy
-LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS1DTWFrZUxp
-c3RzLnR4dC1kby1ub3Qtb2J0YWluLXdheWxhbmQtc2Nhbm5lci1wYXRoLWZyLnBhdGNoCmluZGV4
-IDZjZTIzNDhhNzEuLjQxYWY3M2NjMDIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy9waWdsaXQvcGlnbGl0LzAwMDEtQ01ha2VMaXN0cy50eHQtZG8tbm90LW9idGFpbi13YXlsYW5k
-LXNjYW5uZXItcGF0aC1mci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0
-L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0LWRvLW5vdC1vYnRhaW4td2F5bGFuZC1zY2FubmVy
-LXBhdGgtZnIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDlmZmQyNGFkZDMyNjNlMjQ5NzUz
-MThlNjkzMzA5ODgxZWFkZDk5YTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDZkNGNl
-YTEzY2YwMzZkYmJjMTdmYzg5MGVkYTE0YjdiZGM5MDhiNWEgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgogRGF0ZTog
-RnJpLCAyMyBBdWcgMjAyNCAxNToyOTo0NSArMDIwMAogU3ViamVjdDogW1BBVENIXSBDTWFrZUxp
-c3RzLnR4dDogZG8gbm90IG9idGFpbiB3YXlsYW5kLXNjYW5uZXIgcGF0aCBmcm9tCkBAIC0xNyw3
-ICsxNyw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9u
-aXguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA1IGRlbGV0aW9ucygtKQog
-CiBkaWZmIC0tZ2l0IGEvQ01ha2VMaXN0cy50eHQgYi9DTWFrZUxpc3RzLnR4dAotaW5kZXggOTlh
-ZTA3YTRhLi5kNWVlOWNjMjIgMTAwNjQ0CitpbmRleCAxNDdiZDhlMTcuLmZmYzkxMDM1NCAxMDA2
-NDQKIC0tLSBhL0NNYWtlTGlzdHMudHh0CiArKysgYi9DTWFrZUxpc3RzLnR4dAogQEAgLTIxMSwx
-MSArMjExLDcgQEAgaWYoUElHTElUX1VTRV9XQVlMQU5EKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10ZXN0cy1GaXgtbmFycm93aW5nLWVycm9y
-cy1zZWVuLXdpdGgtY2xhbmcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3Bp
-Z2xpdC8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNlZW4td2l0aC1jbGFuZy5wYXRj
-aAppbmRleCA5NzUxYjIwNjczLi4yMGY1MjA0ODNhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNl
-ZW4td2l0aC1jbGFuZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3Bp
-Z2xpdC8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNlZW4td2l0aC1jbGFuZy5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMGJhMmY5MDhmMmEyYTg5N2U4ZTA2ZTM0Zjk5ODkzZDEx
-ZWU0NzM0YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDA5MGJiYTQxMjc0MDU2YmUw
-ZDk0YzJlMDUyNTA2ZWUzZjMwZmVlZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEto
-ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDMgTWF5IDIwMjMgMjE6NTk6
-NDMgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IEZpeCBuYXJyb3dpbmcgZXJyb3JzIHNl
-ZW4gd2l0aCBjbGFuZwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9w
-aWdsaXQvMDAwMS10ZXN0cy1lZ2wtc3BlYy1tYWtlLWVnbF9leHRfc3VyZmFjZV9jb21wcmVzc2lv
-bi1jb25kLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10
-ZXN0cy1lZ2wtc3BlYy1tYWtlLWVnbF9leHRfc3VyZmFjZV9jb21wcmVzc2lvbi1jb25kLnBhdGNo
-CmluZGV4IGM2YzA3MmM3ZTAuLjIyMTQ2OGEwYzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtdGVzdHMtZWdsLXNwZWMtbWFrZS1lZ2xfZXh0X3N1
-cmZhY2VfY29tcHJlc3Npb24tY29uZC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-cGlnbGl0L3BpZ2xpdC8wMDAxLXRlc3RzLWVnbC1zcGVjLW1ha2UtZWdsX2V4dF9zdXJmYWNlX2Nv
-bXByZXNzaW9uLWNvbmQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQ2ZWQ0YzQ3N2YyMjMw
-OWMwOWFjY2Q0ZmVlNjg0ODZkNzcxNGYyMDUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IGNlNTcyYWI2ZjQwNWZmNWE3ZTg3MGY5NDVjMDk2MTQ1NzBiYjAyMDAgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgog
-RGF0ZTogRnJpLCAyMiBOb3YgMjAyNCAyMjo1MjozMSArMDEwMAogU3ViamVjdDogW1BBVENIXSB0
-ZXN0cy9lZ2wvc3BlYzogbWFrZSBlZ2xfZXh0X3N1cmZhY2VfY29tcHJlc3Npb24gY29uZGl0aW9u
-YWwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEt
-dGVzdHMtbm9fZXJyb3IucHktbW9kaWZ5LV9jb21tYW5kLWFuZC1ub3QtY29tbWFuZC5wYXRjaCBi
-L21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtdGVzdHMtbm9fZXJyb3Iu
-cHktbW9kaWZ5LV9jb21tYW5kLWFuZC1ub3QtY29tbWFuZC5wYXRjaAppbmRleCBmODYwMDU1NmU1
-Li45NjE4MjIyMDFmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3Bp
-Z2xpdC8wMDAxLXRlc3RzLW5vX2Vycm9yLnB5LW1vZGlmeS1fY29tbWFuZC1hbmQtbm90LWNvbW1h
-bmQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10
-ZXN0cy1ub19lcnJvci5weS1tb2RpZnktX2NvbW1hbmQtYW5kLW5vdC1jb21tYW5kLnBhdGNoCkBA
-IC0xLDQgKzEsNCBAQAotRnJvbSA4NDZlZmU5MjM5MzJkNjY4MTAzMDViMjI4ZmEwOWY4M2ExNzIy
-OTZkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBjMDI5NjNlYmRlMzUwMjdkYjIwZDE5
-NjJjNTUzZTcwYjU2ODZkNDJkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFu
-ZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IFRodSwgMjIgTWF5IDIwMjUg
-MTc6MzQ6MTUgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHMvbm9fZXJyb3IucHk6IG1vZGlm
-eSBfY29tbWFuZCBhbmQgbm90IGNvbW1hbmQKQEAgLTI3LDYgKzI3LDMgQEAgaW5kZXggNGVjYWE5
-YTAxLi5jNjRlZWMwYTEgMTAwNjQ0CiAgICAgICAgICBwcm9maWxlLnRlc3RfbGlzdFsne30ga2hy
-X25vX2Vycm9yJy5mb3JtYXQobmFtZSldID0gdGVzdAogLSAgICAgICAgdGVzdC5jb21tYW5kICs9
-IFsnLWtocl9ub19lcnJvciddCiArICAgICAgICB0ZXN0Ll9jb21tYW5kICs9IFsnLWtocl9ub19l
-cnJvciddCi0tLSAKLTIuMzkuNQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-cGlnbGl0L3BpZ2xpdC8wMDAyLWNtYWtlLXVzZS1wcm9wZXItV0FZTEFORF9JTkNMVURFX0RJUlMt
-dmFyaWFibGUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAy
-LWNtYWtlLXVzZS1wcm9wZXItV0FZTEFORF9JTkNMVURFX0RJUlMtdmFyaWFibGUucGF0Y2gKaW5k
-ZXggNmNiNTYxYzNmMi4uYmU3MGY1NGQ0OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL3BpZ2xpdC9waWdsaXQvMDAwMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9E
-SVJTLXZhcmlhYmxlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGln
-bGl0LzAwMDItY21ha2UtdXNlLXByb3Blci1XQVlMQU5EX0lOQ0xVREVfRElSUy12YXJpYWJsZS5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZGViMGMxNTg5MGZiOWQwZjRmYzcwNzRkZGUyYTUx
-Yzg5Y2I1YmY2ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZGYwMmM3YmMyNjFhOGJk
-NWEzMTQ2NDUyYmI1YjU0YmYzYjAzMDc5MCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaEBzaWVtZW5zLmNvbT4KIERhdGU6IFRodSwgNCBPY3Qg
-MjAxOCAxNDo0MzoxNyArMDIwMAogU3ViamVjdDogW1BBVENIXSBjbWFrZTogdXNlIHByb3BlciBX
-QVlMQU5EX0lOQ0xVREVfRElSUyB2YXJpYWJsZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMy10ZXN0cy11dGlsLXBpZ2xpdC1zaGFkZXIuYy1kby1u
-b3QtaGFyZGNvZGUtYnVpbGQtcGF0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xp
-dC9waWdsaXQvMDAwMy10ZXN0cy11dGlsLXBpZ2xpdC1zaGFkZXIuYy1kby1ub3QtaGFyZGNvZGUt
-YnVpbGQtcGF0LnBhdGNoCmluZGV4IDc3MDZkODgwODYuLmViNmI5YzZjNDkgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWds
-aXQtc2hhZGVyLmMtZG8tbm90LWhhcmRjb2RlLWJ1aWxkLXBhdC5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAzLXRlc3RzLXV0aWwtcGlnbGl0LXNoYWRl
-ci5jLWRvLW5vdC1oYXJkY29kZS1idWlsZC1wYXQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
-IDY2ZDFkODZmZjhiZTMzZGYyNjVkMGRkYTcxN2JlMzg1ZmU4NjM3Y2QgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCitGcm9tIDMzNzEzZjExMzJjZTE5NTZiZWRhYWRmZDdkYTE2NzE3MWM3YjljN2Mg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5r
-YW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgMTAgTm92IDIwMjAgMTc6MTM6NTAgKzAwMDAK
-IFN1YmplY3Q6IFtQQVRDSF0gdGVzdHMvdXRpbC9waWdsaXQtc2hhZGVyLmM6IGRvIG5vdCBoYXJk
-Y29kZSBidWlsZCBwYXRoIGludG8KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9w
-aWdsaXQvcGlnbGl0X2dpdC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0
-X2dpdC5iYgppbmRleCA2M2MwY2YxYWMwLi5kY2E2M2Q0MDY2IDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdF9naXQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL3BpZ2xpdC9waWdsaXRfZ2l0LmJiCkBAIC0xNiw3ICsxNiw3IEBAIFNSQ19VUkkgPSAi
-Z2l0Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9tZXNhL3BpZ2xpdC5naXQ7cHJvdG9jb2w9aHR0
-cHM7YnJhbmNoPW1hCiAgICAgICAgICAgICIKIFVQU1RSRUFNX0NIRUNLX0NPTU1JVFMgPSAiMSIK
-IAotU1JDUkVWID0gImEwYTI3ZTUyOGY2NDNkZmViNzg1MzUwYTEyMTNiZmZmMDk2ODE5NTAiCitT
-UkNSRVYgPSAiYTcwYzMzMDQ1YzU5MzEwZjk3MmRiYmRiMzNmMzIyZWIyMDk5NzFiYyIKICMgKHdo
-ZW4gUFYgZ29lcyBhYm92ZSAxLjAgcmVtb3ZlIHRoZSB0cmFpbGluZyByKQogUFYgPSAiMS4wK2dp
-dHIiCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMSBPY3QgMjAyNSAxMDowMjozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN0
+cmFjZTogdXBncmFkZSA2LjE2IC0+IDYuMTcKCi0tLQogLi4uZ25vcmUtcHdyaXRldi1wd3JpdGU2
+NC10ZXN0cy1vbi1tdXNsLnBhdGNoIHwgNjIgKysrKysrKysrKysrKysrKysrKwogLi4udG9jb25m
+LW1hY3JvLXRvLWRldGVjdC1sYXJnZWZpbGUtc3VwLnBhdGNoIHwgIDIgKy0KIC4uLjAwMS1zdHJh
+Y2UtZml4LXJlcHJvZHVjaWJpbHR5LWlzc3Vlcy5wYXRjaCB8ICAyICstCiAuLi4wMS10ZXN0cy1m
+aXgtdWlvLnRlc3Qtd2l0aC1tdXNsLWxpYmMucGF0Y2ggfCAzMCAtLS0tLS0tLS0KIC4uLjAwMi10
+ZXN0cy1SZXBsYWNlLW9mZjY0X3Qtd2l0aC1vZmZfdC5wYXRjaCB8ICAyICstCiAuLi4vc3RyYWNl
+L3N0cmFjZS9NYWtlZmlsZS1wdGVzdC5wYXRjaCAgICAgICAgfCAgNiArLQogLi4uL3N0cmFjZS9z
+dHJhY2UvcHRlc3Qtc3BhY2VzYXZlLnBhdGNoICAgICAgIHwgIDIgKy0KIC4uLi9zdHJhY2Uvc3Ry
+YWNlL3NraXAtbG9hZC5wYXRjaCAgICAgICAgICAgICB8IDEzICsrLS0KIC4uLi9zdHJhY2Uvc3Ry
+YWNlL3VwZGF0ZS1nYXdrLXBhdGhzLnBhdGNoICAgICB8ICAyICstCiAuLi4vc3RyYWNlL3tzdHJh
+Y2VfNi4xNi5iYiA9PiBzdHJhY2VfNi4xNy5iYn0gfCAgNCArLQogMTAgZmlsZXMgY2hhbmdlZCwg
+NzcgaW5zZXJ0aW9ucygrKSwgNDggZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9maWxlcy8wMDAxLUlnbm9yZS1wd3JpdGV2LXB3cml0
+ZTY0LXRlc3RzLW9uLW11c2wucGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAxLXRlc3RzLWZpeC11aW8udGVzdC13aXRoLW11c2wt
+bGliYy5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uve3N0cmFjZV82
+LjE2LmJiID0+IHN0cmFjZV82LjE3LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9zdHJhY2UvZmlsZXMvMDAwMS1JZ25vcmUtcHdyaXRldi1wd3JpdGU2NC10ZXN0
+cy1vbi1tdXNsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9maWxlcy8wMDAx
+LUlnbm9yZS1wd3JpdGV2LXB3cml0ZTY0LXRlc3RzLW9uLW11c2wucGF0Y2gKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMC4uNzFmNGVhOTUyMgotLS0gL2Rldi9udWxsCisrKyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2UvZmlsZXMvMDAwMS1JZ25vcmUtcHdyaXRldi1w
+d3JpdGU2NC10ZXN0cy1vbi1tdXNsLnBhdGNoCkBAIC0wLDAgKzEsNjIgQEAKK0Zyb20gY2UzY2M2
+NGNhNjM5ZmJjMmQ4ZDhlYWI3NjY1YzQ2ZDkyODI5ZmUwMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CitEYXRlOiBNb24sIDE4IEF1
+ZyAyMDI1IDIyOjE4OjU4IC0wNzAwCitTdWJqZWN0OiBbUEFUQ0hdIElnbm9yZSBwd3JpdGV2L3B3
+cml0ZTY0IHRlc3RzIG9uIG11c2wKKworbXVzbCB1c2VzIHdyYXBwZXJzIGZvciBwd3JpdGV2IGFu
+ZCBwd3JpdGU2NCB1c2luZworcHdyaXRldjIgc3lzY2FsbCBbMV0sIGhvd2V2ZXIgdGhlIHRlc3Qg
+ZXhlcGN0cyB0aGF0IHRoZQorcHJvZ3JhbSB3aWxsIGNhbGwgcHdyaXRldiBhbmQgcHdyaXRlNjQg
+KCBnbGliYyBiZWhhdmlvciApCisKK1RoaXMgY2FuIGJlIGZpeGVkIGlmIHRoZSBmdW5jdGlvbiBj
+YWxscyBhcmUgY2hhbmdlZCB0bwordXNlIHN5c2NhbGwoKSBBUEkgZGlyZWN0bHksIGJ1dCB0aGF0
+IG5lZWRzIGNoYW5nZSB1cHN0cmVhbSBbMl0KKworSXNzdWUgaXMgcmVwb3J0ZWQgdXBzdHJlYW0g
+WzNdCisKK1sxXSBodHRwczovL2dpdC5tdXNsLWxpYmMub3JnL2NnaXQvbXVzbC9jb21taXQvc3Jj
+P2lkPTUzNzAwNzBmZGVkNjFiNTY5MTk2NzY0NjczYTRmYzg0NDBhYWM3OWUKK1syXSBodHRwczov
+L2dpdGh1Yi5jb20vc3RyYWNlL3N0cmFjZS9wdWxsLzM0NworWzNdIGh0dHBzOi8vZ2l0aHViLmNv
+bS9zdHJhY2Uvc3RyYWNlL2lzc3Vlcy8zNDkKKworVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJp
+YXRlIFtNdXNsIFNwZWNpZmljXQorU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdt
+YWlsLmNvbT4KKy0tLQorIHRlc3RzL3ByZWFkNjQtcHdyaXRlNjQuZ2VuLnRlc3QgfCAzICsrKwor
+IHRlc3RzL3ByZWFkdi1wd3JpdGV2Lmdlbi50ZXN0ICAgfCAzICsrKworIHRlc3RzL3B3cml0ZXYu
+Z2VuLnRlc3QgICAgICAgICAgfCAzICsrKworIDMgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25z
+KCspCisKK2RpZmYgLS1naXQgYS90ZXN0cy9wcmVhZDY0LXB3cml0ZTY0Lmdlbi50ZXN0IGIvdGVz
+dHMvcHJlYWQ2NC1wd3JpdGU2NC5nZW4udGVzdAoraW5kZXggYjUzZTA2OS4uMGExZTZlNiAxMDA3
+NTUKKy0tLSBhL3Rlc3RzL3ByZWFkNjQtcHdyaXRlNjQuZ2VuLnRlc3QKKysrKyBiL3Rlc3RzL3By
+ZWFkNjQtcHdyaXRlNjQuZ2VuLnRlc3QKK0BAIC0xLDQgKzEsNyBAQAorICMhL2Jpbi9zaCAtZWZ1
+CisgIyBHZW5lcmF0ZWQgYnkgLi90ZXN0cy9nZW5fdGVzdHMuc2ggZnJvbSAuL3Rlc3RzL2dlbl90
+ZXN0cy5pbiAocHJlYWQ2NC1wd3JpdGU2NCAtYTIxIC1lcmVhZD0wIC1ld3JpdGU9MSAtZSB0cmFj
+ZT1wcmVhZDY0LHB3cml0ZTY0IC1QIHByZWFkNjQtcHdyaXRlNjQtdG1wZmlsZSAtUCAvZGV2L3pl
+cm8gLVAgL2Rldi9udWxsKTsgZG8gbm90IGVkaXQuCisgLiAiJHtzcmNkaXI9Ln0vaW5pdC5zaCIK
+KysKKytza2lwXyAiVGVzdCBub3QgcG9ydGVkIHRvIG11c2wsIG11c2wgZ2VuZXJhdGVzIHB3cml0
+ZXYyIgorKworIHJ1bl9zdHJhY2VfbWF0Y2hfZGlmZiAtYTIxIC1lcmVhZD0wIC1ld3JpdGU9MSAt
+ZSB0cmFjZT1wcmVhZDY0LHB3cml0ZTY0IC1QIHByZWFkNjQtcHdyaXRlNjQtdG1wZmlsZSAtUCAv
+ZGV2L3plcm8gLVAgL2Rldi9udWxsCitkaWZmIC0tZ2l0IGEvdGVzdHMvcHJlYWR2LXB3cml0ZXYu
+Z2VuLnRlc3QgYi90ZXN0cy9wcmVhZHYtcHdyaXRldi5nZW4udGVzdAoraW5kZXggNWVkODI5Ny4u
+YjgzZjEyOSAxMDA3NTUKKy0tLSBhL3Rlc3RzL3ByZWFkdi1wd3JpdGV2Lmdlbi50ZXN0CisrKysg
+Yi90ZXN0cy9wcmVhZHYtcHdyaXRldi5nZW4udGVzdAorQEAgLTEsNCArMSw3IEBACisgIyEvYmlu
+L3NoIC1lZnUKKyAjIEdlbmVyYXRlZCBieSAuL3Rlc3RzL2dlbl90ZXN0cy5zaCBmcm9tIC4vdGVz
+dHMvZ2VuX3Rlc3RzLmluIChwcmVhZHYtcHdyaXRldiAtYTE5IC1lcmVhZD0wIC1ld3JpdGU9MSAt
+ZSB0cmFjZT1wcmVhZHYscHdyaXRldik7IGRvIG5vdCBlZGl0LgorIC4gIiR7c3JjZGlyPS59L2lu
+aXQuc2giCisrCisrc2tpcF8gIlRlc3Qgbm90IHBvcnRlZCB0byBtdXNsLCBtdXNsIGdlbmVyYXRl
+cyBwd3JpdGV2MiIKKysKKyBydW5fc3RyYWNlX21hdGNoX2RpZmYgLWExOSAtZXJlYWQ9MCAtZXdy
+aXRlPTEgLWUgdHJhY2U9cHJlYWR2LHB3cml0ZXYKK2RpZmYgLS1naXQgYS90ZXN0cy9wd3JpdGV2
+Lmdlbi50ZXN0IGIvdGVzdHMvcHdyaXRldi5nZW4udGVzdAoraW5kZXggZTU0ZmQxNS4uNDk5OTgx
+NiAxMDA3NTUKKy0tLSBhL3Rlc3RzL3B3cml0ZXYuZ2VuLnRlc3QKKysrKyBiL3Rlc3RzL3B3cml0
+ZXYuZ2VuLnRlc3QKK0BAIC0xLDQgKzEsNyBAQAorICMhL2Jpbi9zaCAtZWZ1CisgIyBHZW5lcmF0
+ZWQgYnkgLi90ZXN0cy9nZW5fdGVzdHMuc2ggZnJvbSAuL3Rlc3RzL2dlbl90ZXN0cy5pbiAocHdy
+aXRldiAtYTIyIC1zNyk7IGRvIG5vdCBlZGl0LgorIC4gIiR7c3JjZGlyPS59L2luaXQuc2giCisr
+Cisrc2tpcF8gIlRlc3Qgbm90IHBvcnRlZCB0byBtdXNsLCBtdXNsIGdlbmVyYXRlcyBwd3JpdGV2
+MiIKKysKKyBydW5fc3RyYWNlX21hdGNoX2RpZmYgLWEyMiAtczcKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzAwMDEtY29uZmlndXJlLVVzZS1hdXRvY29u
+Zi1tYWNyby10by1kZXRlY3QtbGFyZ2VmaWxlLXN1cC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9zdHJhY2Uvc3RyYWNlLzAwMDEtY29uZmlndXJlLVVzZS1hdXRvY29uZi1tYWNyby10by1k
+ZXRlY3QtbGFyZ2VmaWxlLXN1cC5wYXRjaAppbmRleCA0Njg5NGNkOWQwLi4zNDVmM2NmODZlIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAxLWNvbmZp
+Z3VyZS1Vc2UtYXV0b2NvbmYtbWFjcm8tdG8tZGV0ZWN0LWxhcmdlZmlsZS1zdXAucGF0Y2gKKysr
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMS1jb25maWd1cmUtVXNl
+LWF1dG9jb25mLW1hY3JvLXRvLWRldGVjdC1sYXJnZWZpbGUtc3VwLnBhdGNoCkBAIC0xLDQgKzEs
+NCBAQAotRnJvbSAyNjc5ODk1NTkzNzBhOWYzNDY0NmJmOGEwMjAwMTc1NWJmNjRmYjI1IE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhNmM2MmQwZTg3NjkwODVlNWQ1YWQ5ZGZlMjg5ZDll
+NGFlYjQ4YWI0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5r
+aGVtQGdtYWlsLmNvbT4KIERhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTU6NTQ6MjcgLTA4MDAKIFN1
+YmplY3Q6IFtQQVRDSF0gY29uZmlndXJlOiBVc2UgYXV0b2NvbmYgbWFjcm8gdG8gZGV0ZWN0IGxh
+cmdlZmlsZSBzdXBwb3J0CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNl
+L3N0cmFjZS8wMDAxLXN0cmFjZS1maXgtcmVwcm9kdWNpYmlsdHktaXNzdWVzLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMS1zdHJhY2UtZml4LXJlcHJvZHVj
+aWJpbHR5LWlzc3Vlcy5wYXRjaAppbmRleCBlZTM3OTY4OGJmLi44YWU0ZTJkZjA5IDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAxLXN0cmFjZS1maXgt
+cmVwcm9kdWNpYmlsdHktaXNzdWVzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9z
+dHJhY2Uvc3RyYWNlLzAwMDEtc3RyYWNlLWZpeC1yZXByb2R1Y2liaWx0eS1pc3N1ZXMucGF0Y2gK
+QEAgLTEsNCArMSw0IEBACi1Gcm9tIDU5MDc3ZjM5Y2NlNDk5ZDExZGU1YjBhOWMyM2M5ZGVkNjdk
+ZGIyMmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDUxMWIxYjYwZDQ4MGJhN2MyMzUz
+MWUwNjZlZjBlNDU4ZDgzOGEyNjUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKZXJl
+bXkgUHVobG1hbiA8anB1aGxtYW5AbXZpc3RhLmNvbT4KIERhdGU6IFdlZCwgMTEgTWFyIDIwMjAg
+MTk6NTY6NTUgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gc3RyYWNlOiBmaXggcmVwcm9kdWNpYmls
+dHkgaXNzdWVzCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFj
+ZS8wMDAxLXRlc3RzLWZpeC11aW8udGVzdC13aXRoLW11c2wtbGliYy5wYXRjaCBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzAwMDEtdGVzdHMtZml4LXVpby50ZXN0LXdpdGgt
+bXVzbC1saWJjLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBhODc5Y2E1MGNh
+Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzAw
+MDEtdGVzdHMtZml4LXVpby50ZXN0LXdpdGgtbXVzbC1saWJjLnBhdGNoCisrKyAvZGV2L251bGwK
+QEAgLTEsMzAgKzAsMCBAQAotRnJvbSA3ZmFkZjY5NDc3NjFjYzUyNDhhYTRhMzc2YmI5NTE3NDgx
+ZGJhYTUyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogR3lvcmd5IFNhcnZhcmkgPHNr
+YW5kaWdyYXVuQGdtYWlsLmNvbT4KLURhdGU6IFR1ZSwgMTIgQXVnIDIwMjUgMjA6MDI6MzEgKzAy
+MDAKLVN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IGZpeCB1aW8udGVzdCB3aXRoIG11c2wtbGliYwot
+Ci1tdXNsLWxpYmMgaGFuZGxlcyB0aGUgcHdyaXRlIGNhbGxzIGRpZmZlcmVudGx5IHRoYW4gZ2xp
+YmMsIG1ha2luZwotdGhlIHVpbyB0ZXN0IGZhaWwuICBVc2luZyBnbGliYywgdGhlcmUgYXJlIHNl
+cGFyYXRlZCBwd3JpdGUgYW5kIHB3cml0ZXYKLWNhbGxzLCBob3dldmVyIG11c2wgdXNlcyBvbmx5
+IHB3cml0ZXYyIGZvciBib3RoIHB3cml0ZSBhbmQgcHdyaXRldi4KLQotVG8gYWNjb3VudCB0byB0
+aGlzIGRpZmZlcmVuY2UsIG1vZGlmeSB0aGUgZXhwZWN0ZWQgbWF0Y2hpbmcgcmVnZXhwCi10byBh
+bHNvIG1hdGNoIHRoZSBtdXNsIG91dHB1dCAoYXBwZW5kIGl0IHdpdGggYW4gT1IpLgotCi1VcHN0
+cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGh1Yi5jb20vc3RyYWNlL3N0cmFjZS9w
+dWxsLzM0N10KLVNpZ25lZC1vZmYtYnk6IEd5b3JneSBTYXJ2YXJpIDxza2FuZGlncmF1bkBnbWFp
+bC5jb20+Ci1TaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0t
+Ci0gdGVzdHMvdWlvLmV4cGVjdGVkIHwgNCArKy0tCi0gMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0
+aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKLQotZGlmZiAtLWdpdCBhL3Rlc3RzL3Vpby5leHBlY3Rl
+ZCBiL3Rlc3RzL3Vpby5leHBlY3RlZAotaW5kZXggOThkNWMwNi4uMmE3MTJhMSAxMDA2NDQKLS0t
+LSBhL3Rlc3RzL3Vpby5leHBlY3RlZAotKysrIGIvdGVzdHMvdWlvLmV4cGVjdGVkCi1AQCAtMSw0
+ICsxLDQgQEAKLSBwcmVhZCg2NCk/XCgwLCAiXFwwXFwwXFwwXFwwIiwgNCwgMTAwNDIxMTM3OTU3
+MDA2NTEzNVwpICs9IDQKLSBwcmVhZHZcKDAsIFxbXHtpb3ZfYmFzZT0iXFwwXFwwXFwwXFwwIiwg
+aW92X2xlbj00XH1cXSwgMSwgMTAwNDIxMTM3OTU3MDA2NTEzNVwpICs9IDQKLS1wd3JpdGUoNjQp
+P1woMCwgIlxcMFxcMFxcMFxcMCIsIDQsIDEwMDQyMTEzNzk1NzAwNjUxMzVcKSArPSA0Ci0tcHdy
+aXRldlwoMCwgXFtce2lvdl9iYXNlPSJcXDBcXDBcXDBcXDAiLCBpb3ZfbGVuPTRcfVxdLCAxLCAx
+MDA0MjExMzc5NTcwMDY1MTM1XCkgKz0gNAotK3B3cml0ZSg2NCk/XCgwLCAiXFwwXFwwXFwwXFww
+IiwgNCwgMTAwNDIxMTM3OTU3MDA2NTEzNVwpICs9IDR8cHdyaXRldjJcKDAsIFxbXHtpb3ZfYmFz
+ZT0iXFwwXFwwXFwwXFwwIiwgaW92X2xlbj00fV0sIDEsIDEwMDQyMTEzNzk1NzAwNjUxMzUsIFJX
+Rl9OT0FQUEVORFwpICs9IDQKLStwd3JpdGV2XCgwLCBcW1x7aW92X2Jhc2U9IlxcMFxcMFxcMFxc
+MCIsIGlvdl9sZW49NFx9XF0sIDEsIDEwMDQyMTEzNzk1NzAwNjUxMzVcKSArPSA0fHB3cml0ZXYy
+XCgwLCBcW1x7aW92X2Jhc2U9IlxcMFxcMFxcMFxcMCIsIGlvdl9sZW49NH1dLCAxLCAxMDA0MjEx
+Mzc5NTcwMDY1MTM1LCBSV0ZfTk9BUFBFTkRcKSArPSA0CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAyLXRlc3RzLVJlcGxhY2Utb2ZmNjRfdC13aXRo
+LW9mZl90LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMi10
+ZXN0cy1SZXBsYWNlLW9mZjY0X3Qtd2l0aC1vZmZfdC5wYXRjaAppbmRleCBjYTkwOWQ1NzNkLi5k
+Yzc0N2Q0NDlhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFj
+ZS8wMDAyLXRlc3RzLVJlcGxhY2Utb2ZmNjRfdC13aXRoLW9mZl90LnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzAwMDItdGVzdHMtUmVwbGFjZS1vZmY2NF90
+LXdpdGgtb2ZmX3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDY5MDgzZTkzZTkyNDM3ZThk
+OWQ0MjI1ZmNhNzFhMDUzOTA2YTRhZjAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDJl
+Nzc5NTc4MjY3OWJkNTBiZDJmYTQyYWRjMjMxOWQ2OGMzNmIzYTggTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogVGh1LCAx
+NSBEZWMgMjAyMiAxNTo1NjoxMyAtMDgwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0czogUmVwbGFj
+ZSBvZmY2NF90IHdpdGggb2ZmX3QKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9z
+dHJhY2Uvc3RyYWNlL01ha2VmaWxlLXB0ZXN0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3N0cmFjZS9zdHJhY2UvTWFrZWZpbGUtcHRlc3QucGF0Y2gKaW5kZXggMjEyZWVhODYxOC4uMzlk
+Y2E2MzFlOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2Uv
+TWFrZWZpbGUtcHRlc3QucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9z
+dHJhY2UvTWFrZWZpbGUtcHRlc3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDlkNDBkMjkz
+ZmY3M2RlYTczNGYxMzUzYzM1NGY1MWU1MTk5MmE4MTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CitGcm9tIGNhYjFhMGFkZWI2NDAxODk1N2IxMWUxMDkzZjdmOTQ5Y2QxOWM4YjUgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCiBGcm9tOiBHYWJyaWVsIEJhcmJ1IDxnYWJyaWVsLmJhcmJ1QGVuZWEu
+Y29tPgogRGF0ZTogVGh1LCAyNSBKdWwgMjAxMyAxNToyODozMyArMDIwMAogU3ViamVjdDogW1BB
+VENIXSBzdHJhY2U6IEFkZCBwdGVzdApAQCAtMTMsNyArMTMsNyBAQCBTaWduZWQtb2ZmLWJ5OiBB
+bnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAyMCBp
+bnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS90ZXN0cy9NYWtlZmlsZS5hbSBiL3Rlc3RzL01h
+a2VmaWxlLmFtCi1pbmRleCA2ZTk0MmIxLi43YTcwN2Q3IDEwMDY0NAoraW5kZXggZDc2YjVjNi4u
+ZDRmYzIwNiAxMDA2NDQKIC0tLSBhL3Rlc3RzL01ha2VmaWxlLmFtCiArKysgYi90ZXN0cy9NYWtl
+ZmlsZS5hbQogQEAgLTE4LDYgKzE4LDcgQEAgU0laRU9GX0xPTkcgPSBAU0laRU9GX0xPTkdACkBA
+IC0yNCw3ICsyNCw3IEBAIGluZGV4IDZlOTQyYjEuLjdhNzA3ZDcgMTAwNjQ0CiAgQU1fQ0ZMQUdT
+ID0gJChXQVJOX0NGTEFHUykgJChURVNUX1dBUk5fQ0ZMQUdTKQogIGJ1bmRsZWRfQ1BQRkxBR1Mg
+PQogIGlmIFVTRV9CVU5ETEVEX0hFQURFUlMKLUBAIC05MzcsMyArOTM4LDIyIEBAIEJVSUxUX1NP
+VVJDRVMgPSBrc3lzZW50LmgKK0BAIC05MzksMyArOTQwLDIyIEBAIEJVSUxUX1NPVVJDRVMgPSBr
+c3lzZW50LmgKICBDTEVBTkZJTEVTID0ga3N5c2VudC5oCiAgCiAgaW5jbHVkZSAuLi9zcmMvc2Nu
+by5hbQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvcHRl
+c3Qtc3BhY2VzYXZlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2Uv
+cHRlc3Qtc3BhY2VzYXZlLnBhdGNoCmluZGV4IDY2MWVkMmM3YmIuLjNhNmZlNTI2MDQgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlL3B0ZXN0LXNwYWNlc2F2
+ZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS9wdGVzdC1z
+cGFjZXNhdmUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDhiZDgyNzMzOWFlNzJlYWI5OWRj
+OWFkNmE2OGIwYWU5OGU1YmJiNDkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGUxYTAw
+MGE4ODViNGZmNGExOWFjNzlmNTc3NzRhMTZhYTI5YTQ1YTUgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9u
+Lm9yZz4KIERhdGU6IFdlZCwgMjkgTWF5IDIwMTkgMDA6MTA6MzIgKzAxMDAKIFN1YmplY3Q6IFtQ
+QVRDSF0gc3RyYWNlOiBUd2VhayBwdGVzdCBkaXNrIHNwYWNlIG1hbmFnZW1lbnQKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlL3NraXAtbG9hZC5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlL3NraXAtbG9hZC5wYXRjaAppbmRl
+eCAzNDk0OGZkMmJhLi5lMGI5Y2VhZTg5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvc3RyYWNlL3N0cmFjZS9za2lwLWxvYWQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3N0cmFjZS9zdHJhY2Uvc2tpcC1sb2FkLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0
+NmVjZWVmYjNiZDE4NDM1NGNkYWYwZmQzZGZmNmYyYWQ5NzlhYWQ5IE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSBmZGM3NmIzOTNkOTVmMDE3MzcyOWYyYjRhNWM5ODU1MDE4ODc5NjM3IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFy
+bS5jb20+CiBEYXRlOiBTYXQsIDMwIEF1ZyAyMDI1IDAwOjQ3OjAzICswMjAwCiBTdWJqZWN0OiBb
+UEFUQ0hdIHN0cmFjZTogc2tpcCBhIG51bWJlciBvZiBsb2FkLXNlbnNpdGl2ZSB0ZXN0cwpAQCAt
+MTcsNyArMTcsNyBAQCBTaWduZWQtb2ZmLWJ5OiBPc2FtYSBBYmRlbGthZGVyIDxvc2FtYS5hYmRl
+bGthZGVyQGdtYWlsLmNvbT4KICA0IGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQogCiBk
+aWZmIC0tZ2l0IGEvdGVzdHMvY2xvY2tfbmFub3NsZWVwLmdlbi50ZXN0IGIvdGVzdHMvY2xvY2tf
+bmFub3NsZWVwLmdlbi50ZXN0Ci1pbmRleCA3YTYwMjViYmQuLmYwZTZkYmI3MyAxMDA3NTUKK2lu
+ZGV4IDdhNjAyNWIuLmYwZTZkYmIgMTAwNzU1CiAtLS0gYS90ZXN0cy9jbG9ja19uYW5vc2xlZXAu
+Z2VuLnRlc3QKICsrKyBiL3Rlc3RzL2Nsb2NrX25hbm9zbGVlcC5nZW4udGVzdAogQEAgLTEsNCAr
+MSw1IEBACkBAIC0yNyw3ICsyNyw3IEBAIGluZGV4IDdhNjAyNWJiZC4uZjBlNmRiYjczIDEwMDc1
+NQogK3NraXBfICJUZXN0IG5vdCByZWxpYWJsZSB1bmRlciBsb2FkIgogIHJ1bl9zdHJhY2VfbWF0
+Y2hfZGlmZiAtZSB0cmFjZT1jbG9ja19uYW5vc2xlZXAsY2xvY2tfZ2V0dGltZQogZGlmZiAtLWdp
+dCBhL3Rlc3RzL2RlbGF5LnRlc3QgYi90ZXN0cy9kZWxheS50ZXN0Ci1pbmRleCBmNzRlMjdmMWUu
+LjE1MTBjNzY0NyAxMDA3NTUKK2luZGV4IGY3NGUyN2YuLjE1MTBjNzYgMTAwNzU1CiAtLS0gYS90
+ZXN0cy9kZWxheS50ZXN0CiArKysgYi90ZXN0cy9kZWxheS50ZXN0CiBAQCAtOSw2ICs5LDcgQEAK
+QEAgLTM5LDcgKzM5LDcgQEAgaW5kZXggZjc0ZTI3ZjFlLi4xNTEwYzc2NDcgMTAwNzU1CiAgCVsg
+LW4gIiRkZW50ZXIiIF0gfHwgY29udGludWUKICAKIGRpZmYgLS1naXQgYS90ZXN0cy9uYW5vc2xl
+ZXAuZ2VuLnRlc3QgYi90ZXN0cy9uYW5vc2xlZXAuZ2VuLnRlc3QKLWluZGV4IDQxOTI4ZGVkOC4u
+ZjhhODdjYjhlIDEwMDc1NQoraW5kZXggNDE5MjhkZS4uZjhhODdjYiAxMDA3NTUKIC0tLSBhL3Rl
+c3RzL25hbm9zbGVlcC5nZW4udGVzdAogKysrIGIvdGVzdHMvbmFub3NsZWVwLmdlbi50ZXN0CiBA
+QCAtMSw0ICsxLDUgQEAKQEAgLTQ5LDcgKzQ5LDcgQEAgaW5kZXggNDE5MjhkZWQ4Li5mOGE4N2Ni
+OGUgMTAwNzU1CiArc2tpcF8gIlRlc3Qgbm90IHJlbGlhYmxlIHVuZGVyIGxvYWQiCiAgcnVuX3N0
+cmFjZV9tYXRjaF9kaWZmIC1hMjAgCiBkaWZmIC0tZ2l0IGEvdGVzdHMvc3RyYWNlLXIudGVzdCBi
+L3Rlc3RzL3N0cmFjZS1yLnRlc3QKLWluZGV4IDgyOTk3Mzc1My4uZTg5NDIzNDg1IDEwMDc1NQor
+aW5kZXggODI5OTczNy4uZTg5NDIzNCAxMDA3NTUKIC0tLSBhL3Rlc3RzL3N0cmFjZS1yLnRlc3QK
+ICsrKyBiL3Rlc3RzL3N0cmFjZS1yLnRlc3QKIEBAIC05LDYgKzksNyBAQApAQCAtNjAsNiArNjAs
+MyBAQCBpbmRleCA4Mjk5NzM3NTMuLmU4OTQyMzQ4NSAxMDA3NTUKICByX29wdD0iJHsxOi0tcn0i
+CiAgCiAgcnVuX3Byb2cgLi4vc2xlZXAgMAotLS0gCi0yLjQzLjAKLQpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvdXBkYXRlLWdhd2stcGF0aHMucGF0Y2gg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS91cGRhdGUtZ2F3ay1wYXRocy5w
+YXRjaAppbmRleCAxOTNhNDgxOWVmLi4wYzNmODQzMjE4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS91cGRhdGUtZ2F3ay1wYXRocy5wYXRjaAorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS91cGRhdGUtZ2F3ay1wYXRocy5wYXRj
+aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYzExMzgwNjA5Nzg4ZmY5YzgwMmQ2NTI3YWRjNmIyYzc1
+NmQ1ZjcxNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTdmYzE2ZDQyYWRhMjUxZTc5
+MzU2OTZkYWQ1MmI4NGU5MzZlODhhYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFu
+ZHJlIE1jQ3VyZHkgPGFybWNjdXJkeUBnbWFpbC5jb20+CiBEYXRlOiBNb24sIDE4IEphbiAyMDE2
+IDExOjAxOjAwIC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHVwZGF0ZSBnYXdrIHBhdGhzLCAvYmlu
+L2dhd2sgLT4gL3Vzci9iaW4vZ2F3awpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3N0cmFjZS9zdHJhY2VfNi4xNi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3Ry
+YWNlXzYuMTcuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNi4xNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3N0cmFjZS9zdHJhY2VfNi4xNy5iYgppbmRleCAwNTUyY2FhMmI2Li41MzA1MjVmYTcw
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZV82LjE2LmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlXzYuMTcuYmIKQEAgLTE0
+LDEyICsxNCwxMiBAQCBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQ
+Vn0vc3RyYWNlLSR7UFZ9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly9za2lwLWxvYWQucGF0
+Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1jb25maWd1cmUtVXNlLWF1dG9jb25mLW1hY3Jv
+LXRvLWRldGVjdC1sYXJnZWZpbGUtc3VwLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDIt
+dGVzdHMtUmVwbGFjZS1vZmY2NF90LXdpdGgtb2ZmX3QucGF0Y2ggXAotICAgICAgICAgICBmaWxl
+Oi8vMDAwMS10ZXN0cy1maXgtdWlvLnRlc3Qtd2l0aC1tdXNsLWxpYmMucGF0Y2ggXAorICAgICAg
+ICAgICBmaWxlOi8vMDAwMS1JZ25vcmUtcHdyaXRldi1wd3JpdGU2NC10ZXN0cy1vbi1tdXNsLnBh
+dGNoIFwKICAgICAgICAgICAgIgogU1JDX1VSSTphcHBlbmQ6bGliYy1tdXNsID0gIlwKICAgICAg
+ICAgICAgZmlsZTovLzAwMDEtSWdub3JlLXB3cml0ZXYtcHdyaXRlNjQtdGVzdHMtb24tbXVzbC5w
+YXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzZDdhZWU3ZTRmMDQ0
+YjJmNjdmM2Q1MWE4YTc2ZWRhMTgwNzZlOWZiMjc3NGRlNTRhYzM1MWQ3NzdkNGViZmZhIgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjBhN2M3YmVkYzdlZmMwNzZmMzI0MmEwMzEwYWYyYWU2M2MyOTJh
+MzZkZDQyMzZmMDc5ZTg4YTkzZTk4Y2I5YzAiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGdpdGh1Yi1y
+ZWxlYXNlcyBwdGVzdAogCi0tIAoyLjQ3LjEKCg==
 
---===============5878559228880175627==
+--===============4186197817155485318==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+a0a27e528f to 1.0+gitr0+a70c33045c
-packages/x86-64-v3-poky-linux/piglit/piglit: FILELIST: removed "/usr/lib/piglit/tests/shaders/ssa/fs-if-def-else-break.shader_test", added "/usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-abs-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-abs-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-abs-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-cos-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-cos-vec3.shader_test /usr/lib/piglit
- /generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-cos-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-radians-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-radians-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-radians-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-m
- ult-mat3x2-mat2x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x2-mat4x3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/atomic-image.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/
- execution/built-in-functions/fs-op-lshift-i64vec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x2-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x2-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-vec3-vec3.shader_test /usr/
- lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-and-bool-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-sub-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-uint.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/xfb-simple-other-queries.shade
- r_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-int64_t-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-int64_t-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-mix-i64vec3-i64vec3-bvec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program/max-length-queries.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/simple-geometry.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-uint64_t-uint64_t.shader_
- test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-trunc-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-trunc-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-trunc-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-uvec2-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-uvec4-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec3-uve
- c3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/
- fs-op-mod-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-roundEven-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-eq-bool-bool.shader_test /usr/lib/piglit/bin/ext_image_dma_buf_import-render-rgb24 /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-mix-float-float-b
- ool.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/all-stages-test.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/unordered-comparison.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-dot-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-max-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-min-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-dot-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-max-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-min-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mod-vec2-vec
- 2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-pow-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec3-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec4-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-ivec4-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-ivec4-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minma
- x/execution/built-in-functions/fs-min3-ivec4-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-mix-int64_t-int64_t-bool.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/uniform/atomic-uint-fs.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-eq-uint-uint.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/simple-function.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-ne-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-le-int64_t
- -int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lt-int64_t-int64_t.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/simple-types-name-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-eq-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-ge-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-gt-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/executi
- on/built-in-functions/fs-lessThanEqual-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThanEqual-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThanEqual-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-vec3.shader_test /usr/lib/pigl
- it/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-vec4.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/two-ssbo-different-layouts.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-int-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThan-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-
- sub-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-u64vec3-u64vec3.shader_test
-  /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-notEqual-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat4x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat4x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-sub-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-sub-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-sub-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-sign-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-sign-i64vec4.shader_test /usr
- /lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-sign-i64vec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/xfb/vs_two_sets_mixing_order.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-int-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-xor-bool-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-int-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-radians-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-u64vec2-u64vec2.shader_test /usr/lib/piglit/gener
- ated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitor-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-floor-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-floor-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-floor-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-ivec4-ivec4.shad
- er_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-degrees-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-degrees-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-degrees-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-neg-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-neg-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-neg-uvec4.shader_test /usr/lib/piglit/generated_tests/spec
- /arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-uvec3-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec4-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec2-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/ar
- b_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mult-uint-uint.shader_test /usr/lib/piglit/bin/arb_spirv_extensions-post_depth_coverage-basic /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-length-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-length-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-length-vec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/vs-instance-id.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-uvec3-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-uvec3-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-uvec3-uvec3-uvec3.shade
- r_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec2-mat3x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec2-mat4x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-ge-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-le-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-ne-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-roundEven-vec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/component-layout-sso-vs-gs-fs-array-interleave.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitand-int64_t-int64_t.shader_test /usr/lib/pigl
- it/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitxor-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitand-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitxor-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-eq-int-int.shader_test /usr/lib/piglit/generated_tests/spec/a
- rb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x4-mat2x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x4-mat4x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-u64vec3-u64vec3.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/unsized-array.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-faceforward-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x2-mat2x4.shader_test /usr/lib/piglit/generat
- ed_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x2-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-clamp-vec3-vec3-vec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/vs-vertex-id.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThan-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-add-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mod-int64_t-int64_t.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/array.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/
- arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-ivec3-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-ivec2-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-ivec4-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-uint64_t-uint64_t.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/simple-types-other-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-mix-i64vec4-i64vec4-bvec4.shader_test /usr/lib/
- piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat3x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-mix-i64vec2-i64vec2-bvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-or-bool-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-abs-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-uint64_t-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-ui
- nt64_t-int.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/xfb-name-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-uint64_t-uint64_t.shader_test /usr/lib/piglit/bin/glx-multi-context-ib-2 /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat4-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec3-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-clamp-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/bu
- ilt-in-functions/fs-clamp-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat3-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec4-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-inversesqrt-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-inversesqrt-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-inversesqrt-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-acosh-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-asinh-float.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program/other-queries.shader_test /usr/lib/pi
- glit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-atanh-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-ge-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-le-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x4-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x4-float.shader_test /usr/lib/piglit/generated_tes
- ts/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-cosh-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sinh-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-tanh-float.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/array_of_input_output_block.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-normalize-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec2-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-clamp-int64_t-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-i
- n-functions/fs-outerProduct-vec3-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-outerProduct-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-max-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-min-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mod-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-pow-float-float.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/va64/simple.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x3-mat3x2.shader_test /usr/lib/
- piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x3-mat4x2.shader_test /usr/lib/piglit/tests/spec/glsl-1.50/linker/instance-matching-uniform-blocks-member-name-mismatch-varying-opt.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-ivec2-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-ivec2-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-div-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-ivec2-ivec2-ivec2.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/array-inside-ssbo.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/tcs-patch-vertices-in.shader_test /usr/li
- b/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-abs-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-int64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-int64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-roundEven-vec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/pixel-center-
- half.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mult-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/e
- xecution/built-in-functions/fs-length-float.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/ubo-nested-structs-other-queries.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/origin-lower-left.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-neg-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-refract-vec2-vec2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-
- functions/fs-refract-vec3-vec3-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-refract-vec4-vec4-float.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/basic-fs.shader_source /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-distance-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x3-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x3-mat4.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/fs.shader_source /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/vs.shader_source /usr/lib/piglit/gener
- ated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-notEqual-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-mix-vec3-vec3-bvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv
- /glsl-1.10/execution/built-in-functions/fs-cross-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mod-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat2x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat2x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tes
- ts/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-uvec4-uvec4.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/multisampling-fs-1.shader_source /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/exec
- ution/built-in-functions/fs-op-add-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-sign-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-ivec3-ivec3.shader_test /usr/lib/
- piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-ivec4-ivec4.shader_test /usr/lib/piglit/bin/depth_clamp_quirks /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sign-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sqrt-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sqrt-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-ceil-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-ceil-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-pow-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-asinh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_
- gl_spirv/glsl-1.30/execution/built-in-functions/fs-asinh-vec4.shader_test /usr/lib/piglit/bin/arb_gl_spirv-sample-position /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x3-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x3-float.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/function-call-glslang-issue-1285.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-int64_t-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-uint64_t-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-uint64_t-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-vec4-
- vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-mult-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sign-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sign-ivec3.shader
- _test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sign-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_test
- s/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sign-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThan-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThan-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThan-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-vec2-vec2.shader_test /usr/lib/pigli
- t/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThanEqual-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-round-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mult-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.50/execution/built-in-functions/fs-determinant-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.50/execution/built-in-functions/fs-determinant-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.50/execution/built-in-functions/fs-determinant-mat4.shader_test /usr/lib/pigli
- t/tests/spec/arb_gl_spirv/execution/varying/mat/mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-inversesqrt-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-ne-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-le-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lt-uint64_t-uint64_t.shader_test /usr/lib/piglit/bin/glx-multithread-buffer-busy-tracking-bug /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-eq-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_
- shader_int64/execution/built-in-functions/fs-min-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-ge-uint64_t-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-gt-uint64_t-uint64_t.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/origin-upper-left.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-smoothstep-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec4-uvec4.shader_test /usr/lib/pig
- lit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-smoothstep-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-smoothstep-vec4-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs
- -min-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-clamp-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-smoothstep-vec3-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-not-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-degrees-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-ge-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-le-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-ne-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-notEqual-uvec3-uvec3.shader_test /
- usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-vec3-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-vec3-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-vec3-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_g
- l_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-abs-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-int-int-int.shader_test /usr/lib/piglit/gen
- erated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-int-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-int-int-int.shader_test /usr/lib/piglit/bin/arb_spirv_extensions-post_depth_coverage-multisampling /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-add-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-uint-uint.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/aggregate-types-other-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.
- 10/execution/built-in-functions/fs-op-ne-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-uint-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-uint-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-uint-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-acos-float.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/array-of-arrays-inside-ssbo.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-asin-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-float.shader_test /usr/lib/piglit/generated_tests/spec/arb
- _gl_spirv/glsl-1.10/execution/built-in-functions/fs-ceil-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log2-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sign-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sqrt-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-floor-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-int-in
- t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-step-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-normalize-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-reflect-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec3-vec3.shader_test /us
- r/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-fract-float.shader_test /usr/lib/piglit/bin/egl_ext_device_persistent_id /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-uvec4-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-uvec4-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-uvec4-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-reflect-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-reflect-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb
- _gl_spirv/glsl-1.10/execution/built-in-functions/fs-reflect-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sin-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sin-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sin-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-tan-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-tan-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-tan-vec4.shader_test /usr/lib/pi
- glit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-roundEven-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mix-vec3-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x3-mat2x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4x3-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-distance-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-ivec4-ivec4.shader_t
- est /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-equal-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-equal-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-equal-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThanEqual-ivec4-ivec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/component-layout-vs-gs-fs.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/cs-basic-ssbo.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/bui
- lt-in-functions/fs-mix-vec4-vec4-bvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp2-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-acos-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-acos-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-acos-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-asin-vec2.shader_test /usr/lib/pigli
- t/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-asin-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-asin-vec4.shader_test /usr/lib/piglit/bin/arb_fragment_program-recompile /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp2-vec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/ubo-matrices-other-queries.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/va64/array.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-add-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-add-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-add-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/e
- xecution/built-in-functions/fs-op-neg-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mult-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-distance-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-mix-vec2-vec2-bvec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/pixel-center-integer.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/s
- hader_source/sample-shading-fs.shader_source /usr/lib/piglit/bin/egl_ext_device_query_name /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-gt-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-lt-int-int.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/aggregate-types-name-queries.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-div-large-uint-uint.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/xfb/gs_two_invocations.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-o
- p-complement-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-complement-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3-mat4x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec3-mat2x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec3-mat4x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-vec4-mat2x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mul
- t-vec4-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2-mat3x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2-mat4x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4-mat2x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3-mat2x3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat4-mat3x4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-ivec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshi
- ft-uvec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-faceforward-vec3-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-lessThan-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-clamp-uint-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-transpose-mat2.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-02.shader_test.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThan
- Equal-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-div-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-div-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-div-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-ivec3-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execu
- tion/built-in-functions/fs-mid3-ivec3-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-ivec3-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-ivec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x4-mat3x2.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/shader_draw_parameters/vs-baseinstance.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x4-mat4x2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/gls
- l-1.10/execution/built-in-functions/fs-faceforward-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-distance-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-abs-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-abs-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-abs-ivec4.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-01.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-round-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-round-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-round-vec4.shader_test /usr/lib/
- piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-02.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-03.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-04.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-05.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-06.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/mat/mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-bitor-int64_t-int64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-trunc-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mix-vec2-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_
- shader_int64/execution/built-in-functions/fs-op-sub-u64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-max-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-min-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-sub-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.40/execution/built-in-functions/fs-inverse-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.40/execution/built-in-functions/fs-inverse-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.40/execution/built-in-functions/fs-inverse-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-normalize-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/e
- xecution/built-in-functions/fs-max-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-max-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-u64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-min-u64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-dot-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-max-vec4-vec4.shader_test /usr/lib/piglit/generat
- ed_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-min-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mod-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-pow-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat2x4-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.20/execution/built-in-functions/fs-op-mult-mat3x4-mat3.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-01.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-03.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-04.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/execution/glsl-fs-texture2d-mipmap-const-bias-05.shader_test /usr/lib/piglit/generated_
- tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-ivec2-ivec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/all-data-types.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-uvec2-uvec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/all-scalar.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThanEqual-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functio
- ns/fs-op-lshift-i64vec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-gt-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lt-uint-uint.shader_test /usr/lib/piglit/gene
- rated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-refract-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-gt-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-lt-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-abs-i64vec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/component-layout-vs-gs-fs-double.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-mod-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/gl
- sl-1.10/execution/built-in-functions/fs-exp2-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-ceil-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sqrt-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log2-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log2-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sign-vec2.shader_test /usr/lib/piglit/generat
- ed_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sign-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mix-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-u64vec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program-interface/atomic-counter-other-queries.sh
- ader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec2-u64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec3-u64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-i64vec4-u64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-step-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/buil
- t-in-functions/fs-op-bitxor-ivec4-ivec4.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/shader_draw_parameters/vs-basevertex.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-uvec4-uvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-greaterThanEqual-uvec3-uvec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/mat/mat-arb.shader_test /usr/lib/piglit/tests/spec/glsl-1.30/execution/glsl-fs-textureLod-mipmap-const-lod-07.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-faceforward-float-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-float-float.shader_test /usr/lib/piglit/gen
- erated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-max3-uvec2-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-mid3-uvec2-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/amd_shader_trinary_minmax/execution/built-in-functions/fs-min3-uvec2-uvec2-uvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-equal-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-function
- s/fs-equal-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec3-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec4-uint64_t.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-lshift-uint-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-rshift-uint-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec
- /arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-uvec3-uvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-uvec3-uvec3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/mat/mat3.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/queries/program/max-length-xfb-query.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-clamp-i64vec2-i64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-clamp-i64vec3-i64vec3-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-clamp-i64vec4-i64vec4-i64vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_g
- l_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec2-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec3-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-i64vec4-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-int64_t-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-any-bvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-not-bvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-not-bvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-not-bvec4.shader_test /usr/lib/piglit/generated_tests/spe
- c/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-all-bvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-all-bvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-all-bvec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-any-bvec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-any-bvec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-mix-vec
- 4-vec4-vec4.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/simple.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-lessThan-uvec4-uvec4.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/linker/simple-function-call.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-ne-bool-bool.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-notEqual-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sinh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sinh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-sinh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built
- -in-functions/fs-tanh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-tanh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-tanh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-cosh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-cosh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-cosh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitor-uint-uint.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/shared-uint-atomic-mem-functions.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_depth_coverage/shader_source/multisampling-fs-2.shader_source /usr/lib/piglit/tests/spec/arb_spirv_extensions/post_de
- pth_coverage/shader_source/multisampling-fs-3.shader_source /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-abs-i64vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-fract-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-fract-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-fract-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitand-
- uint-uint.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/array-indirect.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-op-bitxor-uint-uint.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-acosh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-acosh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-acosh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-asinh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-atanh-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.30/execution/built-in-functions/fs-atanh-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spi
- rv/glsl-1.30/execution/built-in-functions/fs-atanh-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-greaterThan-vec2-vec2.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/all-array-types.shader_test /usr/lib/piglit/bin/arb_spirv_extensions-post_depth_coverage-sample-shading /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/storage_buffer_storage_class/aoa-2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-add-int-int.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-lshift-u64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-rshift-u64vec2-i64vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-exp-float.shader_test /usr/lib/piglit/gener
- ated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-log-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-sin-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-tan-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-abs-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-cos-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-
- vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-step-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-neg-ivec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-normalize-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-eq-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat3-mat3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat4-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec2-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec3-mat3.shader_test /usr/lib/p
- iglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-vec4-mat4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-mult-mat2-mat2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-vec2-vec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-vec3-vec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-sub-vec4-vec4.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-ivec2-ivec2.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-ivec3-ivec3.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-op-div-ivec4-ivec4.shader_test /usr/lib/piglit/generated_tests
- /spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-atan-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/glsl-1.10/execution/built-in-functions/fs-step-float-float.shader_test /usr/lib/piglit/generated_tests/spec/arb_gl_spirv/arb_gpu_shader_int64/execution/built-in-functions/fs-op-div-u64vec4-u64vec4.shader_test /usr/lib/piglit/tests/spec/arb_spirv_extensions/execution/shader_draw_parameters/vs-drawid.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/sso-block-member-layout-location.shader_test /usr/lib/piglit/tests/spec/arb_gl_spirv/execution/varying/block.shader_test"
+packages/x86-64-v3-poky-linux/strace/strace-ptest: FILELIST: added "/usr/lib/strace/ptest/tests/file_setattr-Xabbrev.gen.test /usr/lib/strace/ptest/tests/file_getattr-success.gen.test /usr/lib/strace/ptest/tests/file_setattr-Xraw.gen.test /usr/lib/strace/ptest/tests/file_setattr.gen.test /usr/lib/strace/ptest/tests/file_getattr.gen.test /usr/lib/strace/ptest/tests/test_fs_xflags.h /usr/lib/strace/ptest/tests/file_getattr-success-Xraw.gen.test /usr/lib/strace/ptest/tests/file_getattr-success-Xabbrev /usr/lib/strace/ptest/tests/file_setattr /usr/lib/strace/ptest/tests/file_getattr-success-Xabbrev.gen.test /usr/lib/strace/ptest/tests/file_getattr-success /usr/lib/strace/ptest/tests/file_setattr-P.gen.test /usr/lib/strace/ptest/tests/file_getattr-y.gen.test /usr/lib/strace/ptest/tests/file_setattr-y.gen.test /usr/lib/strace/ptest/tests/file_getattr-P.gen.test /usr/lib/strace/ptest/tests/file_setattr-Xverbose.gen.test /usr/lib/strace/ptest/tests/file_getattr-success-Xraw /usr/lib/strace/p
+ test/tests/file_setattr-Xraw /usr/lib/strace/ptest/tests/file_getattr-y /usr/lib/strace/ptest/tests/file_setattr-y /usr/lib/strace/ptest/tests/file_getattr-success-Xverbose /usr/lib/strace/ptest/tests/file_xetattr-common.c /usr/lib/strace/ptest/tests/file_setattr-Xverbose /usr/lib/strace/ptest/tests/file_setattr-Xabbrev /usr/lib/strace/ptest/tests/file_getattr-success-Xverbose.gen.test /usr/lib/strace/ptest/tests/file_setattr-yy /usr/lib/strace/ptest/tests/file_getattr-yy /usr/lib/strace/ptest/tests/file_getattr-yy.gen.test /usr/lib/strace/ptest/tests/file_setattr-yy.gen.test /usr/lib/strace/ptest/tests/file_getattr-P /usr/lib/strace/ptest/tests/file_getattr /usr/lib/strace/ptest/tests/file_setattr-P"
 
---===============5878559228880175627==--
+--===============4186197817155485318==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 944 .bb files complete (0 cached, 944 parsed). 1940 targets, 51 skipped, 0 masked, 0 errors.
+Removing 46 recipes from the qemux86_64 sysroot...done.
+Removing 21 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.15.2"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.2.99+snapshot-7b4eb011645424ed223eabd418db6bc4772ddd0e"
+TUNE_FEATURES        = "m64 x86-64-v3"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:7b4eb011645424ed223eabd418db6bc4772ddd0e"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 351 Local 335 Mirrors 0 Missed 16 Current 247 (95% match, 97% complete)
+Removing 3 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 248 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.7.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 251 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 256 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_package_qa_setscene)
+NOTE: Running setscene task 259 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 267 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.12.bb:do_package_qa_setscene)
+NOTE: Running setscene task 268 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 271 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 273 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 278 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.12.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 279 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.12.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 280 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 281 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_qa_setscene)
+NOTE: Running setscene task 284 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 288 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.7.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 291 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 292 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_create_spdx_setscene)
+NOTE: recipe make-4.4.1-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_package_qa_setscene: Started
+NOTE: recipe grep-3.12-r0: task do_package_qa_setscene: Started
+NOTE: recipe coreutils-9.7-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe grep-3.12-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_qa_setscene: Started
+NOTE: recipe grep-3.12-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe gawk-5.3.2-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gawk-5.3.2-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_create_spdx_setscene: Started
+NOTE: recipe coreutils-9.7-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe grep-3.12-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 293 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_package_qa_setscene)
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 296 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 304 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_rpm_setscene)
+NOTE: recipe make-4.4.1-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe sed-4.9-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 307 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 308 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.7.bb:do_package_qa_setscene)
+NOTE: recipe musl-locales-1.0+git-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe musl-locales-1.0+git-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe grep-3.12-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe grep-3.12-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 309 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_package_qa_setscene)
+NOTE: recipe musl-locales-1.0+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 314 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_qa_setscene)
+NOTE: Running setscene task 317 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 320 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 324 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.12.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 328 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_ipk_setscene)
+NOTE: recipe gawk-5.3.2-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 329 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_package_write_ipk_setscene)
+NOTE: recipe gawk-5.3.2-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe sed-4.9-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 333 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 340 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_create_spdx_setscene)
+NOTE: recipe coreutils-9.7-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 341 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.7.bb:do_package_write_deb_setscene)
+NOTE: recipe gawk-5.3.2-r0: task do_package_qa_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe coreutils-9.7-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe gawk-5.3.2-r0: task do_package_write_ipk_setscene: Started
+NOTE: Running setscene task 342 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_rpm_setscene)
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_package_qa_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe grep-3.12-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe coreutils-9.7-r0: task do_package_qa_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_package_qa_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe gawk-5.3.2-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 343 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.12.bb:do_create_spdx_setscene)
+NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe coreutils-9.7-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 347 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 348 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.7.bb:do_create_spdx_setscene)
+NOTE: recipe coreutils-9.7-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe musl-locales-1.0+git-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe gawk-5.3.2-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe grep-3.12-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe musl-locales-1.0+git-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe sed-4.9-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 364 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: recipe grep-3.12-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gawk-5.3.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 365 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
+NOTE: recipe coreutils-9.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe coreutils-9.7-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 366 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 367 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/findutils/findutils_4.10.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 368 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 369 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 370 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 371 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 372 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe grep-3.12-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 376 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.12.bb:do_packagedata_setscene)
+NOTE: recipe gawk-5.3.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 381 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_packagedata_setscene)
+NOTE: recipe coreutils-9.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 387 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 391 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe findutils-4.10.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe perl-5.40.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe grep-3.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.13.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gawk-5.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.7-r0: task do_packagedata_setscene: Started
+NOTE: Running task 856 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/strace/strace_6.17.bb:do_recipe_qa)
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 393 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 399 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.18.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 402 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 403 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 407 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe strace-6.17-r0: task do_recipe_qa: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 408 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_recipe_qa_setscene)
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 414 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 415 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe findutils-4.10.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gawk-5.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 423 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 424 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.3.bb:do_packagedata_setscene)
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 425 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/gawk/gawk_5.3.2.bb:do_recipe_qa_setscene)
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 431 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_recipe_qa_setscene)
+NOTE: recipe grep-3.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 434 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.46.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 436 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/grep/grep_3.12.bb:do_recipe_qa_setscene)
+NOTE: recipe make-4.4.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 442 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe readline-8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe strace-6.17-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 971 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/strace/strace_6.17.bb:do_fetch)
+NOTE: recipe gawk-5.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe coreutils-9.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sed-4.9-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 445 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.76.bb:do_packagedata_setscene)
+NOTE: Running setscene task 447 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.13.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe make-4.4.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-locales-1.0+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 449 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.7.bb:do_recipe_qa_setscene)
+NOTE: recipe libpcre2-10.46-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 452 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 454 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.7.2.bb:do_packagedata_setscene)
+NOTE: recipe grep-3.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 458 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.41.1.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gawk-5.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sed-4.9-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 460 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 461 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20250104-3.1.bb:do_packagedata_setscene)
+NOTE: recipe shadow-4.18.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 462 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.48.0.bb:do_packagedata_setscene)
+NOTE: recipe strace-6.17-r0: task do_fetch: Started
+NOTE: recipe libcap-2.76-r0: task do_packagedata_setscene: Started
+NOTE: recipe grep-3.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 467 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.8.1.bb:do_packagedata_setscene)
+NOTE: recipe readline-8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 472 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: Running task 994 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe coreutils-9.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.7.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe strace-6.17-r0: task do_fetch: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 995 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/strace/strace_6.17.bb:do_unpack)
+NOTE: Running setscene task 481 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_create_spdx_setscene)
+NOTE: recipe libpcre2-10.46-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 486 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.48.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.8.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe libcap-2.76-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 490 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.7.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 1036 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: recipe strace-6.17-r0: task do_unpack: Started
+NOTE: Running task 1037 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe util-linux-libuuid-2.41.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe expat-2.7.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 502 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20250104-3.1-r1: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 511 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
+NOTE: recipe sqlite3-3_3.48.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe xz-5.8.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1107 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 1120 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: Running task 1121 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: Running task 1122 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe strace-6.17-r0: task do_unpack: Succeeded
+NOTE: recipe libpam-1.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1129 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/strace/strace_6.17.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe strace-6.17-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: Running task 1130 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe perl-5.40.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 540 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 541 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 542 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 555 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 558 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_packagedata_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 560 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 561 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 563 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_packagedata_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 565 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 567 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 568 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 570 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 571 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 572 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.16.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: recipe libgcc-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 577 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_15.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 578 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1158 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe libgcc-15.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 579 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 581 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 582 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 587 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 322b8f8b906444532279807f4b6d94c79a2dab3feaff9de6d084f1ef1555cf0a
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 0c265e3160a9b9a73377dddeb7d1568ddf4c77e5268c5c4984ac1f9a894c5ff5 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '09e2fc9245e43a3f0270fb46d5c2f8c3781dde5b48151bd1f8217dda8cdb97fd', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '0c265e3160a9b9a73377dddeb7d1568ddf4c77e5268c5c4984ac1f9a894c5ff5'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed 09e2fc9245e43a3f0270fb46d5c2f8c3781dde5b48151bd1f8217dda8cdb97fd -> 0c265e3160a9b9a73377dddeb7d1568ddf4c77e5268c5c4984ac1f9a894c5ff5 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: Running setscene task 589 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 590 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-15.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 593 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.16.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 596 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.45.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 597 of 598 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.16.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.16-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.16-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1375 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/strace/strace_6.17.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1575 of 1663 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/strace/strace_6.17.bb:do_collect_spdx_deps)
+NOTE: recipe strace-6.17-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe strace-6.17-r0: task do_collect_spdx_deps: Started
+NOTE: recipe strace-6.17-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe strace-6.17-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe strace-6.17-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1645 tasks of which 1630 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251001100224.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20251001100224.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/strace/strace_6.17.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux-musl/strace/6.17/temp/log.do_patch.2362442
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: strace-6.17-r0 do_patch: Applying patch '0001-Ignore-pwritev-pwrite64-tests-on-musl.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux-musl/strace/6.17/sources/strace-6.17'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux-musl/strace/6.17/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Patch 0001-Ignore-pwritev-pwrite64-tests-on-musl.patch is already applied; check your series file
+
+stderr: ')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux-musl/strace/6.17/temp/log.do_patch.2362442
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/strace/strace_6.17.bb:do_patch) failed with exit code '1'
+
+--===============4186197817155485318==--
 
