@@ -1,147 +1,134 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65861CAC5B8
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 17:29:19 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.14721.1759426156397148865
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45590CAC5B0
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 19:31:19 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.2710.1759433476488645861
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 10:29:16 -0700
+ Thu, 02 Oct 2025 12:31:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IZ1g9Z+e;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b3e25a4bfd5so258012366b.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 10:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759426155; x=1760030955; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QO2HZ+7jyAmfq0fBzdgLMOyi2EeEWq/2h75xR1wItKI=;
-        b=IZ1g9Z+emYDblSORkbtJ4DPx1KB0i+CUgkzUZffDcANLWlx4YSXyIH81rsEVrtHoY0
-         4a+HtZBFzjTH+yNI/EogRrl8FIeGUm5zoRsHwyDqq2Tg7GH1G4XQ/qvOehnydOtkIDvL
-         mW1rOU4lJztn+4BaDWow+LBEcpJoT1M+0P1AXO6MxHUA9l7D/Rhb34qwhP39kj2KzpqE
-         JbWNyMUaCaW2hAzOodFXePz0vRDevtJOC8jBRA8VcuMA/iyXLshHGExgzfN1IGmX3ksP
-         Ok2LVngUauqgusIAmXRD2blmrlkrbLNCgNdsPasGs7wQ0qeYbdNDBVaWOUuRF2Rv1fJC
-         92fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759426155; x=1760030955;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QO2HZ+7jyAmfq0fBzdgLMOyi2EeEWq/2h75xR1wItKI=;
-        b=Ll6ZWoLThO3rOXfI+hEGiNJt4TUlFhkdFdDKPPeT6R4sh2f9MUsbywfuTfv2NWgsVe
-         cA66Bdn44Nm5gbuC4Cu8r1efb7Al4za86Cra7z9k0HGGReUIvDvC+8egGn5XJGTU7PTs
-         wUtRXznRLwrmChOjGQp9Yev26tHmexgVA4zDwRyyGtd5U1kuamnqW0x2bG330i0BRuUW
-         xlKlPGR+5GZdBq2XUkIO2KLMpUEpwwYiJ1Vc/qOVHwh2IdbHi/ebkoqOXwHTgyjwRmht
-         5nVxdjIIc5EFu2Pl9vRPVIgCjxNJpnZaqxPSbyy81KcUOLeyjqO+hCcvaRo7afGeqo0C
-         f3hQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW7JVkn9GExvXOs2d6rilVtsDF9s0c4lCZVP3DjjDsjcZ1FmnX9OBWvIvP9+dCQ7+k6ZAc83BFpGVQt1+5zfU972A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzHogHXc9lW9FAu4hClclxu1edd7ySuTI1zZXChSR62tLu8eVqg
-	d5Ch1ig1g+Mu/fvxvdw1JyxxBEkaWtcUTuU6IuVg7txPpQ2TajovsgTj
-X-Gm-Gg: ASbGncuD+Z4cJYJPxgvBPkM/RdUOIFUqnkAVC7R1rWiKWruAZaDGg/7oBxYfUeWBJcc
-	tq2r2TuNQ6GV5pAqw43BeXYKfKr39MpD5IuxDd2oInllD4Skrup3Ahf/sUK3NhRFQns7rUr+P1C
-	MtISvcU57hoywBm76hDQm4VGHG85lXgVQJUTBMc87KU2jy81nK+ly11T4jPF6wyjGHIh5uxSPiF
-	i0T0uYigOuZ2hJpxqgG8H2icQvt89kxs5ILULGm9YgCLQrv2PFFLPUYRA8ckvUGJvAAY+5uMHM+
-	9DtRzTF02GS9t+mZiFmtgbm4jyP+jjYRVl5TzkBCo9aQZZInL0uNLMuLmQx0Re80JhZ+WxjjCk0
-	2O1crF3hXogJ3NnZIpsYTQVUnNFX1TrTWy1Gdu8oP/A/qqxmYBtCxtV/AwgO/sWtwuw==
-X-Google-Smtp-Source: AGHT+IHrHGxA15Ywu1HEKRt9jnIhota22uQctFQZbGGlimRfv17TRDESlLGq+OFceWxFUMHpOBIJZQ==
-X-Received: by 2002:a17:906:794b:b0:b40:b54d:e687 with SMTP id a640c23a62f3a-b49c3f7da07mr27080666b.47.1759426154365;
-        Thu, 02 Oct 2025 10:29:14 -0700 (PDT)
-Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b486a169555sm233406066b.88.2025.10.02.10.29.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Oct 2025 10:29:13 -0700 (PDT)
-Message-ID: <5cc51968-6aeb-4b61-9724-17bf112c771f@gmail.com>
-Date: Thu, 2 Oct 2025 19:29:13 +0200
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id B532140C85;
+	Thu,  2 Oct 2025 19:31:15 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PrtJDbZFzyoX; Thu,  2 Oct 2025 19:31:15 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 88FAB40C2E;
+	Thu,  2 Oct 2025 19:31:13 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 4686016421A; Thu,  2 Oct 2025 15:31:13 -0400 (EDT)
+Date: Thu, 2 Oct 2025 15:31:13 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Denys Dmytriyenko <denys@konsulko.com>
+Subject: Re: [OE-core] [RFC PATCH 3/5] musl: set compatibility a bit more
+ flexible
+Message-ID: <20251002193113.GF3125@denix.org>
+References: <20251002000810.226673-1-denis@denix.org>
+ <20251002000810.226673-3-denis@denix.org>
+ <CAMKF1spcHAvNJtsStzG0OgigTKkU_QHgApdY1m5Q+Zf4aecTRg@mail.gmail.com>
+ <20251002140404.GC3125@denix.org>
+ <CAMKF1sonoReY5oR-eB9-_UmDGeLX_htXS53+rJ3VFL+Fs0wqAw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RESEND PATCH 2/2] runqemu: resize rootfs image to
- power of 2 for SD or pflash
-To: jon.mason@arm.com, openembedded-core@lists.openembedded.org
-References: <20251001175702.62563-1-jon.mason@arm.com>
- <20251001175702.62563-2-jon.mason@arm.com>
-Content-Language: en-US
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <20251001175702.62563-2-jon.mason@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMKF1sonoReY5oR-eB9-_UmDGeLX_htXS53+rJ3VFL+Fs0wqAw@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 17:29:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224377
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 19:31:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224378
 
-On 10/1/25 19:57, Jon Mason via lists.openembedded.org wrote:
-> QEMU requires that SD and pflash images are sized to be a power of 2
-> (e.g., 32M, 64M, etc).  So, if the image being used is not a power of 2
-> and it's being used for SD or pflash, increase it to the next power of 2
-> size via the truncate command.
->
-> This might not be an actual spec requirement, and is being investigated
-> in https://gitlab.com/qemu-project/qemu/-/issues/1754
->
-> Signed-off-by: Jon Mason <jon.mason@arm.com>
-> ---
->  scripts/runqemu | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index a8144aa68c3d..cd2ded69916a 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -421,7 +421,27 @@ class BaseConfig(object):
->          else:
->              raise RunQemuError("Unknown path arg %s" % p)
->  
-> -    def uncompress_rootfs(self):
-> +    def rootfs_fixups(self):
-> +
-> +        """Resize rootfs image if needed"""
+On Thu, Oct 02, 2025 at 10:23:25AM -0700, Khem Raj wrote:
+> On Thu, Oct 2, 2025 at 7:04=E2=80=AFAM Denys Dmytriyenko <denis@denix.o=
+rg> wrote:
+> >
+> > On Wed, Oct 01, 2025 at 07:12:34PM -0700, Khem Raj wrote:
+> > > On Wed, Oct 1, 2025 at 5:08=E2=80=AFPM Denys Dmytriyenko via
+> > > lists.openembedded.org <denis=3Ddenix.org@lists.openembedded.org> w=
+rote:
+> > > >
+> > > > From: Denys Dmytriyenko <denys@konsulko.com>
+> > > >
+> > > > Like musl Linux config, baremetal also uses musl as a libc, but
+> > > > it has a different host triplet set. Hence adjust COMPATIBLE_HOST
+> > > > to accomodate this use case by checking that musl is a preferred
+> > > > provider of libc.
+> > >
+> > > This sounds a bit odd. Why do we use musl for baremetal targets ?
+> >
+> > Was like that for 10 years since the beginning of baremetal support:
+> > https://git.openembedded.org/openembedded-core/commit/?id=3Dcb010e306=
+a6a856c589db5f41fdcaea4e5035d93
+> >
+>=20
+> A lot has changed since then in terms of toolchain sequences and depend=
+encies
+> it might be a good time to revise this
 
-Nit: the docstring now only describes the newly added behavior, but not
-the original. The original docstring is also present, but it is now in
-the middle of the method.
+Yeah, that would be the next step and is part of my longer todo list.
 
-> +        qb_rootfs_opt = self.get('QB_ROOTFS_OPT')
-> +
-> +        # Check if sdcard size is a power of 2, as that is currently a requirement for qemu
-> +        # See https://gitlab.com/qemu-project/qemu/-/issues/1754
-> +        rootfs_size = os.path.getsize(self.rootfs)
-> +        rootfs_size_pwr2 = 1 << (rootfs_size - 1).bit_length()
-> +        if ("if=sd" in qb_rootfs_opt or "if=pflash" in qb_rootfs_opt) and rootfs_size != rootfs_size_pwr2:
-> +            logger.info("Using sd-card or pflash and is not power of 2. File size %d, power of 2 size %d" %(rootfs_size, rootfs_size_pwr2))
-> +            logger.info("Attempting to use truncate to correct this.")
-> +
-> +            # Ensure the 'truncate' tool is installed before attempting to make a power of 2.
-> +            if not shutil.which('truncate'):
-> +                raise RunQemuError(f"'truncate' is required to make {self.rootfs} a power of 2 in size but was not found in PATH")
-> +            try:
-> +                subprocess.check_call(['truncate', '-s', str(rootfs_size_pwr2), self.rootfs])
-> +            except subprocess.CalledProcessError as e:
-> +                raise RunQemuError(f"Failed to make {self.rootfs} power of 2 in size: {e}")
-> +
->          """Decompress ZST rootfs image if needed"""
->          if not self.rootfs or not self.fstype.endswith('.zst'):
->              return
-> @@ -1808,7 +1828,7 @@ def main():
->          config.check_args()
->          config.read_qemuboot()
->          config.check_and_set()
-> -        config.uncompress_rootfs()
-> +        config.rootfs_fixups()
->          # Check whether the combos is valid or not
->          config.validate_combos()
->          config.print_config()
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#224315): https://lists.openembedded.org/g/openembedded-core/message/224315
-> Mute This Topic: https://lists.openembedded.org/mt/115538558/6084445
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+We've noticed that the baremetal toolchain build is now much larger and m=
+uch=20
+longer than how it used to be several years ago - there seems to be a lot=
+ of=20
+unnecessary dependencies being pulled just to build a couple of self-cont=
+ained=20
+firmware images... Still need to investigate further though.
 
+
+> > > while musl does have FDPIC support but I don't think thats how we
+> > > use it.
+> > >
+> > > >
+> > > > [YOCTO #15982]
+> > > >
+> > > > Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
+> > > > ---
+> > > >  meta/recipes-core/musl/bsd-headers.bb      | 2 +-
+> > > >  meta/recipes-core/musl/libssp-nonshared.bb | 3 ++-
+> > > >  2 files changed, 3 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/meta/recipes-core/musl/bsd-headers.bb b/meta/recipes=
+-core/musl/bsd-headers.bb
+> > > > index ad9ba81e4f..c6a3814a49 100644
+> > > > --- a/meta/recipes-core/musl/bsd-headers.bb
+> > > > +++ b/meta/recipes-core/musl/bsd-headers.bb
+> > > > @@ -25,7 +25,7 @@ do_install() {
+> > > >  #
+> > > >  # We will skip parsing for non-musl systems
+> > > >  #
+> > > > +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER=
+_virtual/libc', 'musl', '.*', 'null', d)}"
+> > > >
+> > > > -COMPATIBLE_HOST =3D ".*-musl.*"
+> > > >  DEV_PKG_DEPENDENCY =3D ""
+> > > >  RRECOMMENDS:${PN}-dbg =3D "${PN}-dev (=3D ${EXTENDPKGV})"
+> > > > diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/re=
+cipes-core/musl/libssp-nonshared.bb
+> > > > index 4bcbaef7ea..6f12ff0c9b 100644
+> > > > --- a/meta/recipes-core/musl/libssp-nonshared.bb
+> > > > +++ b/meta/recipes-core/musl/libssp-nonshared.bb
+> > > > @@ -29,7 +29,8 @@ do_install() {
+> > > >  #
+> > > >  # We will skip parsing for non-musl systems
+> > > >  #
+> > > > -COMPATIBLE_HOST =3D ".*-musl.*"
+> > > > +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER=
+_virtual/libc', 'musl', '.*', 'null', d)}"
+> > > > +
+> > > >  RDEPENDS:${PN}-staticdev =3D ""
+> > > >  DEV_PKG_DEPENDENCY =3D ""
+> > > >  RRECOMMENDS:${PN}-dbg =3D "${PN}-staticdev (=3D ${EXTENDPKGV})"
+> > > > --
+> > > > 2.25.1
 
