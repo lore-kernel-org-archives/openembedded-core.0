@@ -1,145 +1,127 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 576C5CAC5B8
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 17:23:59 +0000 (UTC)
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
- by mx.groups.io with SMTP id smtpd.web10.14581.1759425835554354451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59434CAC5B8
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 17:25:59 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.14649.1759425953920699537
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 10:23:55 -0700
+ Thu, 02 Oct 2025 10:25:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UVBLjokT;
- spf=pass (domain: gmail.com, ip: 74.125.224.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-635380a4a67so1466750d50.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 10:23:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IA9sCZEx;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6228de280a4so2570406a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 10:25:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759425835; x=1760030635; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5kXk/HRhxK4dmJFhXFce3gWvRYsoKqENY8Lsy1ahR4M=;
-        b=UVBLjokT2N9lV33oOkZHG+iGMflgfAKMhQB2rXGTzZ9nB46Bol2TrvG4mpBA13Du2q
-         PuEl/ZCPsnA5pSf9rgAbxujHVK1sUShGzQjgHFUpLK2y9BSzb2VLiW/QNj+6Wlugl0EF
-         di6cMZSKWgt9h5vGbSbjUP9OO8d/xBR0fnzzlcsZWeTplRMs6kldBormdo+A0pvFa/CR
-         eevPRQQ4EuA0mTMwO7RwXpXQm+kf4NNPkVlc7nZOxbJA5PZPOqZ2J524qaLK6/tJXHmW
-         QguIlOj9fb/D8/9tEretE+7XhfOILUt9k7Y+m8l53G/UGqf230VpRSUlkI3VhnKPpCME
-         6Owg==
+        d=gmail.com; s=20230601; t=1759425952; x=1760030752; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dhDxgJ6vBPHIL6eSjYafaCh4w086WMyINjLhHw8SeuI=;
+        b=IA9sCZExVvnxiVxe434lSrJn6qn7epnxVmZv1bqY1/6E+cX51d9BRW93uY0s4y1PWg
+         Ht1aVivsAifsGboBk5TzsnK2UODRV20k+SvmHhiJr717GrHy32fT3/J0EPC2iJFwolx2
+         ed1k1aYlu24GF6KohMioGC7+kra/kLlSbf5OI1GjENPbjnmQ5J6qC9mba5AIHnlQm2fw
+         xBRyhnHPWVLL48zl8lMYTasLXxYqXz4KerjHHhSg8c7MtjEdLIQSXnkAPbkifG+Qkqyb
+         xdTKuY+lcIE724dDiRGVJouqudnNbiCCZMmqbaWa4VFBJXdD6b0+2ZGh51c+Bh76XtT3
+         IRpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759425835; x=1760030635;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5kXk/HRhxK4dmJFhXFce3gWvRYsoKqENY8Lsy1ahR4M=;
-        b=dPjazl6/aEEY6aZad5Rv+Ac9aRTaBQ5TQBXSta+TlvCcH3hi7+33gN5eYEJuShxjy1
-         kGNODQvyHiPDgY0LkkHzCd0ZSwFAoaCb/PdLa6Rms3guuIt3kYF2UcehuVoq01a1h9Zc
-         bznkbzAEqWvfYJiYK6m7oeZSOPNnmzOAprcLIBn/xhoFzYsjY6C2bFoFIwKLiOvytur7
-         Qq/IvWpy37wJgl+hOSv7pKkuavFVHLV+/rpuzZEeJ2QkPSeJVvOqVi7CspgvqNnI+HHZ
-         v8uzgxiiWH2DEaVfQqqJBQmXtfgWBBo7HFLneypcCHsUS9kvjKRayDuBNlVSqSWjGkte
-         GhEA==
-X-Gm-Message-State: AOJu0YzciGRclb8aZJOkAoR/ap+DcugT94ZYw+8Mb1bvRk6DXxMPSVTc
-	lECF4Dj3iyWlPiS+bsbXJsqtGcb+V9BXpSibgBbEv1duRVq6zuVVlUHa0sCgPcZRVrbq+Ybs2pm
-	L7bPm0zum6SUxnrjyYm09HFNT5U8CKBE=
-X-Gm-Gg: ASbGnctEvqkWdHTX7XvJcmxwkj0mATF78dDrAhTG9lB94A5RtcDZRQ6k6hxGE9FDBfr
-	k4kWPKSL3VtfYYAuMs81vbJZPOS3oLNrdjJyTx0KvwrcW4CUAKYrfvIXq/xgO2y6JPxzh07OzHJ
-	C1Y/GTp5zILrPbiWK6Pk3bAHNI12eQdc8Mx8QxoDlm6C38fUEQx7sCH/tcO1TBTzK5EknVNi87X
-	YSBrn3PRWQE4caW0J+bRv90Zag60v8SrzZDV6tuGay4YnzA2dK+aYTu0wI7Ki+N6/DNhqV9wUzy
-	RyIy1PZd5w7nMMM6JzLdxcef78/fjdUU+WvmlVgEOgo2RLEkjFNJt1Oiu0FkLBtY+kJs3ezq7pS
-	YzKQlhw==
-X-Google-Smtp-Source: AGHT+IHl/BJXYJgAsu8QNOmOG7kp3Sg5TowJqU3r7RPlMRGMDgLOcYlab9Q10XdWAn521QVoKvWYs5HtyCBpa4izUsI=
-X-Received: by 2002:a53:cc0d:0:b0:63b:5b6e:2967 with SMTP id
- 956f58d0204a3-63b9a0823bdmr52992d50.5.1759425834512; Thu, 02 Oct 2025
- 10:23:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759425952; x=1760030752;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dhDxgJ6vBPHIL6eSjYafaCh4w086WMyINjLhHw8SeuI=;
+        b=diPUU06JC/E4U3gTlp9NOWx8/NRgm1c81yE6fG2aqJz1639aIltfhpskqQmt3JsEYE
+         Fra4uBPEUOGJJf05qiEALxly0Phq6Zu6fCCup69cpHFrJLSk6Nwsmxmq7jg3suo3oCBK
+         FQumLv0EmOYSluekv3ZWXFn/v6e+k/szt7IIR/z+nwv7IVXz5DdHa0wdPzUGSAQWBJLy
+         S7mbHCpWftDAJAi25RZk0qAuQW+qgwZy2QfURzRbHAfCbSVT+QQ5KtrKu2jeML39RtNm
+         G+Nocf1gsXOnm2qbMewfmyQiD4AK5zJJGgeNsV9acov8UgZGMZdarvPeui0nbwnmeNBX
+         HeVg==
+X-Forwarded-Encrypted: i=1; AJvYcCWUg/dgjJm9TJMy4TLq/j8lM7rK5I6UsqRJ+n7974gCxSg+F8HRlaXvx+1Y+RdL8JEji6SvwctvlBUvA7MZPcbC/w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzlvcBRfyhhLN1QNc7/lRG3NJQO5VPuzee32tabeyT+LmTd2zoz
+	W4fhfC57aCQg7NpND8m1PxU1XKtrH0NQHNDVc8GEwE+u2HCTEPFsBkmS
+X-Gm-Gg: ASbGnct93xHXjPK03Er7MeUglzqbYvghsf+UqQ3semm60ao/tq6ymUhMIX4IM3IAWWY
+	lIpoBhin0iJobNe27nFyseiPVfsm1S4/FqZwraNELjdNTOVYnC64DOIvJ4dapyu+PtyiqTt4cNa
+	sf6IWHQuaQl2Nw0GbkSthadhfn8BaB22r6HEkgfoQDmoHz7EcC0Y7lZyRVMtWXBxKdNmFh/n/7/
+	9xiP6ko75hiIDZWR+wlLC+uii1dydx7fhbd+nE52ElRml5a0QkAipdjK64X2dTadcLqbG+Ealum
+	41iWJASpZTLKnt+Nj1yll7o6voM0sxnQSJUfI2agpKQAi/3GZyxMIQJasbw/xWC9rc/7iFGielD
+	cXTRj6DviSNq66K8OaVbhrFQKN5gQa3xTQ1NG1GpTtA11FoiXRcTygi14dW8N5WAJDg==
+X-Google-Smtp-Source: AGHT+IGIJCoMC/cYKqh2ATJomgloIRde0e2+KbwnHxoqvIsGW4VheI16QV7VBFkP7aJPY9gNCfDrTA==
+X-Received: by 2002:a05:6402:1e95:b0:638:3f72:125a with SMTP id 4fb4d7f45d1cf-6383f72157dmr1167417a12.14.1759425951985;
+        Thu, 02 Oct 2025 10:25:51 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6375eb397fbsm2194174a12.0.2025.10.02.10.25.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Oct 2025 10:25:51 -0700 (PDT)
+Message-ID: <10ca15f7-f5b7-41a5-bdcf-f678e91aec37@gmail.com>
+Date: Thu, 2 Oct 2025 19:25:49 +0200
 MIME-Version: 1.0
-References: <20251002000810.226673-1-denis@denix.org> <20251002000810.226673-3-denis@denix.org>
- <CAMKF1spcHAvNJtsStzG0OgigTKkU_QHgApdY1m5Q+Zf4aecTRg@mail.gmail.com> <20251002140404.GC3125@denix.org>
-In-Reply-To: <20251002140404.GC3125@denix.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 2 Oct 2025 10:23:25 -0700
-X-Gm-Features: AS18NWCLCGOIs1mdFTtgNzmywkaBk1--2CgktnTdjtxoS8xGEd7f91zJS2blxUA
-Message-ID: <CAMKF1sonoReY5oR-eB9-_UmDGeLX_htXS53+rJ3VFL+Fs0wqAw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 3/5] musl: set compatibility a bit more flexible
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Denys Dmytriyenko <denys@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] meta/lib/oe/recipeutils.py: Handle multi-repo
+ recipes for upgrade check
+To: u.kleine-koenig@baylibre.com, openembedded-core@lists.openembedded.org
+References: <20250923154701.1506704-2-u.kleine-koenig@baylibre.com>
+ <ibynx6jvvawtrkybl66at6dqikjuexuuis5ymq5r4cylv6sxzy@zcnbtottsekq>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <ibynx6jvvawtrkybl66at6dqikjuexuuis5ymq5r4cylv6sxzy@zcnbtottsekq>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 17:23:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224375
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 17:25:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224376
 
-On Thu, Oct 2, 2025 at 7:04=E2=80=AFAM Denys Dmytriyenko <denis@denix.org> =
-wrote:
+On 10/2/25 11:48, Uwe Kleine-König via lists.openembedded.org wrote:
+> Hello,
 >
-> On Wed, Oct 01, 2025 at 07:12:34PM -0700, Khem Raj wrote:
-> > On Wed, Oct 1, 2025 at 5:08=E2=80=AFPM Denys Dmytriyenko via
-> > lists.openembedded.org <denis=3Ddenix.org@lists.openembedded.org> wrote=
-:
-> > >
-> > > From: Denys Dmytriyenko <denys@konsulko.com>
-> > >
-> > > Like musl Linux config, baremetal also uses musl as a libc, but
-> > > it has a different host triplet set. Hence adjust COMPATIBLE_HOST
-> > > to accomodate this use case by checking that musl is a preferred
-> > > provider of libc.
-> >
-> > This sounds a bit odd. Why do we use musl for baremetal targets ?
->
-> Was like that for 10 years since the beginning of baremetal support:
-> https://git.openembedded.org/openembedded-core/commit/?id=3Dcb010e306a6a8=
-56c589db5f41fdcaea4e5035d93
->
+> On Tue, Sep 23, 2025 at 05:47:02PM +0200, Uwe Kleine-König wrote:
+>> For a recipe that uses more than one git repo there isn't a single
+>> SRCREV variable. For example for linux-yocto there is SRCREV_machine and
+>> SRCREV_meta and rd.getVar("SRCREV") yields "INVALID".
+>>
+>> Luckily bb.fetch2 already handles all the details and exposes the
+>> currently used revision in ud. So just use that.
+>>
+>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+>> ---
+>> Hello,
+>>
+>> note this is my first OpenEmbedded-Core patch, so please apply some
+>> extra caution before applying this patch.
+>>
+>> Note that for testing with linux-yocto I also set
+>>
+>> 	UPSTREAM_CHECK_COMMITS = "1"
+>>
+>> for that recipe. (I'm not sure this is completely right to do in
+>> general, but that's a separate discussion. Without it `devtool
+>> check-upgrade-status linux-yocto` suggested to go to 6.16.y instead of
+>> 6.12.$latest.)
+> This patch was applied to oe-core/master as
+> ddf00d6aee955878c070327ee8d751fdb6099444 (and cherry-picked to poky as
+> 441313eecbd45cfcbf0368e4d1d54bd2e9e59c6b). Would you consider that a fix
+> enough to backport it to walnascar and scarthgap, too?
 
-A lot has changed since then in terms of toolchain sequences and dependenci=
-es
-it might be a good time to revise this
+It is most likely too late for Walnascar - there is only one more
+release planned, and it is already in QA phase.
+Scarthgap is however very much alive - you can rebase your patch on top
+of the latest Scarthgap branch, and send it with the appropriate subject[1]
 
+[1]:
+https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#submitting-changes-to-stable-release-branches
+
+> For walnascar it can be cleanly cherry picked. For scarthgap I
+> additionally need:
 >
-> > while musl does have FDPIC support but I don't think thats how we
-> > use it.
-> >
-> > >
-> > > [YOCTO #15982]
-> > >
-> > > Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
-> > > ---
-> > >  meta/recipes-core/musl/bsd-headers.bb      | 2 +-
-> > >  meta/recipes-core/musl/libssp-nonshared.bb | 3 ++-
-> > >  2 files changed, 3 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-core/musl/bsd-headers.bb b/meta/recipes-cor=
-e/musl/bsd-headers.bb
-> > > index ad9ba81e4f..c6a3814a49 100644
-> > > --- a/meta/recipes-core/musl/bsd-headers.bb
-> > > +++ b/meta/recipes-core/musl/bsd-headers.bb
-> > > @@ -25,7 +25,7 @@ do_install() {
-> > >  #
-> > >  # We will skip parsing for non-musl systems
-> > >  #
-> > > +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER_vir=
-tual/libc', 'musl', '.*', 'null', d)}"
-> > >
-> > > -COMPATIBLE_HOST =3D ".*-musl.*"
-> > >  DEV_PKG_DEPENDENCY =3D ""
-> > >  RRECOMMENDS:${PN}-dbg =3D "${PN}-dev (=3D ${EXTENDPKGV})"
-> > > diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipe=
-s-core/musl/libssp-nonshared.bb
-> > > index 4bcbaef7ea..6f12ff0c9b 100644
-> > > --- a/meta/recipes-core/musl/libssp-nonshared.bb
-> > > +++ b/meta/recipes-core/musl/libssp-nonshared.bb
-> > > @@ -29,7 +29,8 @@ do_install() {
-> > >  #
-> > >  # We will skip parsing for non-musl systems
-> > >  #
-> > > -COMPATIBLE_HOST =3D ".*-musl.*"
-> > > +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER_vir=
-tual/libc', 'musl', '.*', 'null', d)}"
-> > > +
-> > >  RDEPENDS:${PN}-staticdev =3D ""
-> > >  DEV_PKG_DEPENDENCY =3D ""
-> > >  RRECOMMENDS:${PN}-dbg =3D "${PN}-staticdev (=3D ${EXTENDPKGV})"
-> > > --
-> > > 2.25.1
+> -            revision = ud.method.latest_revision(ud, rd, 'default')
+> +            revision = ud.method.latest_revision(ud, rd, ud.names[0])
+>
+> I don't understand that completely yet, bisecting points at
+> 6dea2e6332835bd7b646a520e28ce840f0d98f24.
+>
+> Best regards
+> Uwe
+>
 
