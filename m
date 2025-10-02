@@ -1,246 +1,127 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70FD7CCA470
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 00:43:59 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web11.1535.1759365830816121836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D167ACAC5BB
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 01:50:49 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.2727.1759369842489652224
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 17:43:51 -0700
+ Wed, 01 Oct 2025 18:50:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=QgWF/eiW;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.167.179, mailfrom: jdmason@kudzu.us)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-43f5dbebf02so194720b6e.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 17:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1759365830; x=1759970630; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LmquxOes98ePH+tuOoVVz8sCm0p7xxv8sBz8c8nCEcg=;
-        b=QgWF/eiWcQYQSDoi2ZHj/XJKGtU7WYyq3XhwwNSmMGYszIGkvlrn2xQ3uzeZcPcN3V
-         U4ec7IcW1+HW+Ljd3Dlftui/zGxQ3wMKPsnidtCdfmU+gj3d/cDhou16J6UtTVxTh9gv
-         FdNB6CwWmYQnDTWvM2bPDK3qArx5Jt0VNmazVn2GOWQBqRKrmFpZb7YkbH+fAwI0ppEN
-         jFajkiisIujuTwcnqa1cxwMh0dDCpBmez6m7p5BHcy+oKBRbJBJsbg8IndX+DofMZnRD
-         Ju6tCXOf2xMjSrcV/QjeocYdJxETYxOHrS2ZWwE/XoISNFEEcV51Do4L11mLMIqlu97z
-         GdFQ==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=TQOtv4xJ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 591IbwBo031236
+	for <openembedded-core@lists.openembedded.org>; Thu, 2 Oct 2025 01:50:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=YeXJaWyVrbuLA3SGrZw1oYnISoYjb7OZHP5
+	hJ+mGDQU=; b=TQOtv4xJM4QCLNf92J9ixrf+scpVKkKl5KwTPvy8baO4Y8VjHzn
+	NcsjG/WddHbmtLv/3Lp5ijVfi6E5BJByhw+4tZbPqWR0IxS1rvNOFSvBke+jGSya
+	vmVjmLyAnviIpk8CvDfXWnaU9FYbrN0ULFUSO0U0cqdoF9wB5OQ/fIhX2jfCpc9R
+	KUC+PWzGw9qWi9DzXA2qsvnaFk+ZQW2b/OzNK4AL1WbOvuFC/Bxs5YjWVgU4EUGR
+	usmPdVsxIhkYLKLnj5WEdKlA4Xemd2NpY+4LabrAOGvw/5b3FUOFZ9c7FubVwVaw
+	w/o7NZj2UDCLjG5YWU3KCX2a2UnatfKf+hQ==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e6vr6dp4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 01:50:41 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-828bd08624aso106942485a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 18:50:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759365830; x=1759970630;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LmquxOes98ePH+tuOoVVz8sCm0p7xxv8sBz8c8nCEcg=;
-        b=eST8O6wvpJjC8JS1d0ZCSXufokIzr86SGCYKQlV/Dez4tsBOxKPYUP5Vjs1dqK4sM+
-         8oUQ7B7pWlhdPe0vEJ8ZX5QXmp5WxTN3UtDFalwSKxSNQXKZvDDC5oXE1W37SV4xavQ4
-         BKU1OOenazOuVfpaqs1+VZ5VsXooi+RT8iYCy46wz09PX5gbTWdEbK+dJrb0RTlIQ9KV
-         qR2n34Neh8vowbmsluR+meCTagNQAn+Wz6r6SY4rVylOhbHytxHpPNg/0HZFKXTMMWC0
-         uUG71FSWXPAjMlVsC88amuQcXl43SoizGfSm8sJdLh+NL4Z4FZxCiSDOiJiZALlw3p13
-         DczQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWcx2rMN4a615bnFO+KB3p1lCXA8SmdDLqd0xRddpkQ37fM7yIwWAIWzXZXhZVRfTNEMz/R/h2/cxCa78BS81L+Ow==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwiBY9/5hb8cm0m7j+HYKUf/tHrWAs5JsdqphjJkR+vubnJwXo7
-	XO3cH48OJovPUIQAp34x3k4L0piH4W4mTjzrfhrkxUA3Natb+CFPnU6J3HJxS4fPslf7pAQf2Ei
-	W8TzU/cqvfFimAmMwcnMcZxEC1Q2B04xSVgMZudH5
-X-Gm-Gg: ASbGncuAUULIoRJL+Z+cm35dWwLXNv/RJYM4S9wpje/gPeTNgIcjNa+JZZf1pbSy2VX
-	haitBYXOqc6OddWskEL3g5DIebaOp5jurYNXY0TQ4JvpoA0Vaz6BxgdMErOvUnp/i4Bwdj81koH
-	5zxJBiQKvBIO29SMvR02GNsVw/+4r5vLjsggvMvE1cVsFO3vrxSjIc6By5exCteuccXFCj82JbT
-	L6x3kUUfHsKpVtlKUwTjbFwzOEV1P+G
-X-Google-Smtp-Source: AGHT+IFp2nBxqfABYoaoPSl5mFIuVO6Dn6iNGy26xIeOwMnBw25Q/R7SAEfy32h6LdjYUk6jpWe3v0baEwXlB3TpIo4=
-X-Received: by 2002:a05:6808:189d:b0:43f:5c61:448c with SMTP id
- 5614622812f47-43fa431d9e8mr2684094b6e.39.1759365829948; Wed, 01 Oct 2025
- 17:43:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759369840; x=1759974640;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YeXJaWyVrbuLA3SGrZw1oYnISoYjb7OZHP5hJ+mGDQU=;
+        b=axnnLp7oMcv3vmm5Xx9dWGo7PHFFB0ID8o051kbki6fIdJvBNEOn6fNKEVeBoBBdMD
+         hh51SimLbfMtc/v611+jP7WadHHnX0Zo0SyPoweoUTAyfbT/iFkz3ZigSc1PtryivbWX
+         pNNCiLMTp6C1Zmki2CRN6rH9pd60iQQzaaN112xYtsldzPJXUmtNK6JC93zEqZlm3wVo
+         HJrbCWtcwgErqbBZGix6fXz0KBKEYkpnY95bFEqAhuqOMqHWZXyZXQe4syRqsXN4ytW0
+         6fpiQnX1/CDCg3ERMswivNDZq/C2WoB4/MQbhV8WU1Y7BbcvUwIrOVNiKrnhT1QULgIC
+         /C8Q==
+X-Gm-Message-State: AOJu0YxC9ryqxwitL+PP6fXYWpvjiZq7CfRHLa1FaO6AEnus0520b7MA
+	eJ8DqRMqB97QkzL/GCtDmvsO9tJMihP+iV47cfecnoMQrPjYCfs8cQ5p80zsAlegbCaR68NqahZ
+	g2kt9HwzUhl25MnKENfw/wxORKCerqyzgy7ji1UG8pQELWQnr8nbYOWy+Nce/hVFSNaAXx6glSQ
+	Fep9hc1XBR7CCzMdn+sg==
+X-Gm-Gg: ASbGnctoXma3AncsSQ4ElIeI20n5TisNECDE/aWK1CYd7r244NQ3JodOOeKSJ1gjrYL
+	q3Dj3zqMk9FoBcs2h28K/hYfTEngbisJ/fpYKmCKV0FLpAOZ4ttGz/j/11WvG9oC8o5qUsuEaYi
+	EvC9hwu4Z3AgodY2P0WoLriNLVUHGOO3KUri+qWwgsfujtF3ONu2BtJu6/GuTRPecihKBsgEW++
+	ywb9oJhHaJtjsRGGKQ9uXwTlxwKB7t+sLrGtItEwrEK5JEfs4VXpfqGSzqlIkha+FMbi0u+lSn+
+	X+uHIf8FXSljKfKdzjkItqu6VPeCknui/5JaZBPFmfpNwvNZVWls6w0ZbNZqb9gsbFBu12wzXDj
+	vkPQ09ddsmKFOlNnuraF/QqLGfln7u77Kk2ALBQzLh39OZR5M3EYXakLrEg==
+X-Received: by 2002:a05:622a:559a:b0:4b5:e8f4:3f51 with SMTP id d75a77b69052e-4e41eb148cemr80511241cf.70.1759369840379;
+        Wed, 01 Oct 2025 18:50:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFZnz23Nl+UPNH72lgilYIsIRPfREYk1pLjUJirqPtRaOyFFcUlB2arMu4Sa3ZlYFzfWYOTCA==
+X-Received: by 2002:a05:622a:559a:b0:4b5:e8f4:3f51 with SMTP id d75a77b69052e-4e41eb148cemr80511111cf.70.1759369839800;
+        Wed, 01 Oct 2025 18:50:39 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b011b120bsm363842e87.129.2025.10.01.18.50.31
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Oct 2025 18:50:33 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] mesa-demos: split info tools to a separate package
+Date: Thu,  2 Oct 2025 04:50:30 +0300
+Message-ID: <20251002015030.2464972-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <20251001175814.62654-1-jon.mason@arm.com> <CAMKF1spNLy87m4tKzxwctbj3MhmXiCp4-e7cNWdg2D+kzZ1wzw@mail.gmail.com>
-In-Reply-To: <CAMKF1spNLy87m4tKzxwctbj3MhmXiCp4-e7cNWdg2D+kzZ1wzw@mail.gmail.com>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Wed, 1 Oct 2025 20:43:39 -0400
-X-Gm-Features: AS18NWAzjdGv-tMY1PhOdim2umIHyketESJ4uhbJIOoS5CKXtN3nnn0uLsuojCI
-Message-ID: <CAPoiz9xyAK8zzCkDc_qWKjSun2B0s7uBh08by-z8dgtoEmzJHA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] tunes/arm: add support for newer arm64 cores
-To: raj.khem@gmail.com
-Cc: jon.mason@arm.com, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: nui-URZUjgGCcoKm7VSWg91xdHMcYEx8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAxNyBTYWx0ZWRfX9/TL9evAwfgH
+ vtlUdtwB9fcGcYklKcBQp/+WcqwdYRc8z1DV8bHzj849jT/QNbDCc0d1iZVa+g4n6pAKX3JPidV
+ 6ZIiZgL+Y9Sb+ll3P8DNeD8bNVUFDIIzNW9bneH2sSUN8e1wu2zrmszIXGjU+HW4X8qsGPtfVK0
+ bFBmOjrSL3ZowvjEzM7PUC+5+YM7Ou6l79vJi2rugdFJ+SrnLnqtHIUsZHYeogYJVhOjYHWRacR
+ HnFgW1LKeOT9iJ3I8c7wkwThEtQ+nmGvAGSRt6/7j0XoxfHzWvi/PY97ImUVOiN0Ph5+8vm11kS
+ VgK5xnxg3+Rc0NalDkHbieHKEmXJdPc5wrFFSbVbVLmNNZD66GmR+a0WqogunNq/NtxHjRjDyRS
+ wZ9xDnRcHNmvFg9VQkh2OqD/LHLyTQ==
+X-Authority-Analysis: v=2.4 cv=IeiKmGqa c=1 sm=1 tr=0 ts=68ddda72 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
+ a=EUspDBNiAAAA:8 a=f7a6eG5gFZbr4CpXDKwA:9 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: nui-URZUjgGCcoKm7VSWg91xdHMcYEx8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-02_01,2025-09-29_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
+ suspectscore=0 spamscore=0 adultscore=0 impostorscore=0 phishscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2509270017
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 00:43:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224340
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 01:50:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224341
 
-On Wed, Oct 1, 2025 at 2:10=E2=80=AFPM Khem Raj via lists.openembedded.org
-<raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
->
-> On Wed, Oct 1, 2025 at 10:58=E2=80=AFAM Jon Mason via lists.openembedded.=
-org
-> <jon.mason=3Darm.com@lists.openembedded.org> wrote:
-> >
-> > Add tunes for cores that have been present since GCC 14.1.0.
-> > These have been present in meta-arm since mid-July, and have all been
-> > verified with fvp-base and testimage.  Of those present in meta-arm,
-> > arch-armv8-9a.inc, arch-armv9-4a.inc, and arch-armv9-5a.inc have been
-> > excluded from this commit, as there are currently issues compiling some
-> > packages (but still present in meta-arm for those that want to use them
-> > despite those issues).
-> >
->
-> I checked that these options are also available in clang 20+ as well. So
-> these changes are ok. It will be good to verify some builds with clang
-> as TOOLCHAIN
-> and see all holds
+While the rest of programs inside mesa-demos are really "demos", several
+*info utilities have separate value as they allow gathering information
+about the running system in a manner similar to clinfo or vulkaninfo.
+Split them into a separate package in order to allow picking them info
+the images without picking up the rest of "demos".
 
-I checked armv8-8a and armv9-3a with fvp-base and clang, and it passes
-testimage.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks,
-Jon
+diff --git a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
+index a9e84039d2c9..0bc8519e90e2 100644
+--- a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
++++ b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
+@@ -20,6 +20,10 @@ REQUIRED_DISTRO_FEATURES = "opengl x11"
+ 
+ EXTRA_OEMESON = "-Dwith-system-data-files=true"
+ 
++PACKAGE_BEFORE_PN = "${PN}-info"
++RDEPENDS:${PN} += " ${PN}-info"
++FILES:${PN}-info = "${bindir}/*info"
++
+ # Note: wayland is not included as the feature requires libdecor recipe,
+ # which is not currently in core
+ PACKAGECONFIG ?= "drm egl gles1 gles2 \
+-- 
+2.47.3
 
->
-> > Signed-off-by: Jon Mason <jon.mason@arm.com>
-> > ---
-> >  meta/conf/machine/include/arm/arch-armv8-7a.inc | 14 ++++++++++++++
-> >  meta/conf/machine/include/arm/arch-armv8-8a.inc | 14 ++++++++++++++
-> >  meta/conf/machine/include/arm/arch-armv9-1a.inc | 13 +++++++++++++
-> >  meta/conf/machine/include/arm/arch-armv9-2a.inc | 13 +++++++++++++
-> >  meta/conf/machine/include/arm/arch-armv9-3a.inc | 13 +++++++++++++
-> >  5 files changed, 67 insertions(+)
-> >  create mode 100644 meta/conf/machine/include/arm/arch-armv8-7a.inc
-> >  create mode 100644 meta/conf/machine/include/arm/arch-armv8-8a.inc
-> >  create mode 100644 meta/conf/machine/include/arm/arch-armv9-1a.inc
-> >  create mode 100644 meta/conf/machine/include/arm/arch-armv9-2a.inc
-> >  create mode 100644 meta/conf/machine/include/arm/arch-armv9-3a.inc
-> >
-> > diff --git a/meta/conf/machine/include/arm/arch-armv8-7a.inc b/meta/con=
-f/machine/include/arm/arch-armv8-7a.inc
-> > new file mode 100644
-> > index 000000000000..6039baca3568
-> > --- /dev/null
-> > +++ b/meta/conf/machine/include/arm/arch-armv8-7a.inc
-> > @@ -0,0 +1,14 @@
-> > +DEFAULTTUNE ?=3D "armv8-7a"
-> > +
-> > +TUNEVALID[armv8-7a] =3D "Enable instructions for ARMv8.7-a"
-> > +TUNE_CCARGS_MARCH .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv8-7=
-a', ' -march=3Darmv8.7-a', '', d)}"
-> > +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-7a=
-', 'armv8-7a:', '', d)}"
-> > +
-> > +require conf/machine/include/arm/arch-armv8a.inc
-> > +
-> > +# Little Endian base configs
-> > +AVAILTUNES +=3D "armv8-7a"
-> > +ARMPKGARCH:tune-armv8-7a                    ?=3D "armv8-7a"
-> > +TUNE_FEATURES:tune-armv8-7a                  =3D "aarch64 armv8-7a"
-> > +PACKAGE_EXTRA_ARCHS:tune-armv8-7a            =3D "${PACKAGE_EXTRA_ARCH=
-S:tune-armv8a} armv8-7a"
-> > +BASE_LIB:tune-armv8-7a                       =3D "lib64"
-> > diff --git a/meta/conf/machine/include/arm/arch-armv8-8a.inc b/meta/con=
-f/machine/include/arm/arch-armv8-8a.inc
-> > new file mode 100644
-> > index 000000000000..5694330a1d22
-> > --- /dev/null
-> > +++ b/meta/conf/machine/include/arm/arch-armv8-8a.inc
-> > @@ -0,0 +1,14 @@
-> > +DEFAULTTUNE ?=3D "armv8-8a"
-> > +
-> > +TUNEVALID[armv8-8a] =3D "Enable instructions for ARMv8.8-a"
-> > +TUNE_CCARGS_MARCH .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv8-8=
-a', ' -march=3Darmv8.8-a', '', d)}"
-> > +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-8a=
-', 'armv8-8a:', '', d)}"
-> > +
-> > +require conf/machine/include/arm/arch-armv8a.inc
-> > +
-> > +# Little Endian base configs
-> > +AVAILTUNES +=3D "armv8-8a"
-> > +ARMPKGARCH:tune-armv8-8a                    ?=3D "armv8-8a"
-> > +TUNE_FEATURES:tune-armv8-8a                  =3D "aarch64 armv8-8a"
-> > +PACKAGE_EXTRA_ARCHS:tune-armv8-8a            =3D "${PACKAGE_EXTRA_ARCH=
-S:tune-armv8a} armv8-8a"
-> > +BASE_LIB:tune-armv8-8a                       =3D "lib64"
-> > diff --git a/meta/conf/machine/include/arm/arch-armv9-1a.inc b/meta/con=
-f/machine/include/arm/arch-armv9-1a.inc
-> > new file mode 100644
-> > index 000000000000..f9e6dce77c82
-> > --- /dev/null
-> > +++ b/meta/conf/machine/include/arm/arch-armv9-1a.inc
-> > @@ -0,0 +1,13 @@
-> > +DEFAULTTUNE ?=3D "armv9-1a"
-> > +
-> > +TUNEVALID[armv9-1a] =3D "Enable instructions for ARMv9.1-a"
-> > +TUNE_CCARGS_MARCH .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv9-1=
-a', ' -march=3Darmv9.1-a', '', d)}"
-> > +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'armv9-1a=
-', 'armv9-1a:', '', d)}"
-> > +
-> > +require conf/machine/include/arm/arch-armv9a.inc
-> > +
-> > +AVAILTUNES                                  +=3D "armv9-1a"
-> > +ARMPKGARCH:tune-armv9-1a                    ?=3D "armv9-1a"
-> > +TUNE_FEATURES:tune-armv9-1a                  =3D "aarch64 armv9-1a"
-> > +PACKAGE_EXTRA_ARCHS:tune-armv9-1a            =3D "${PACKAGE_EXTRA_ARCH=
-S:tune-armv9a} armv9-1a"
-> > +BASE_LIB:tune-armv9-1a                       =3D "lib64"
-> > diff --git a/meta/conf/machine/include/arm/arch-armv9-2a.inc b/meta/con=
-f/machine/include/arm/arch-armv9-2a.inc
-> > new file mode 100644
-> > index 000000000000..4b5cf3ed156a
-> > --- /dev/null
-> > +++ b/meta/conf/machine/include/arm/arch-armv9-2a.inc
-> > @@ -0,0 +1,13 @@
-> > +DEFAULTTUNE ?=3D "armv9-2a"
-> > +
-> > +TUNEVALID[armv9-2a] =3D "Enable instructions for ARMv9.2-a"
-> > +TUNE_CCARGS_MARCH .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv9-2=
-a', ' -march=3Darmv9.2-a', '', d)}"
-> > +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'armv9-2a=
-', 'armv9-2a:', '', d)}"
-> > +
-> > +require conf/machine/include/arm/arch-armv9a.inc
-> > +
-> > +AVAILTUNES                                  +=3D "armv9-2a"
-> > +ARMPKGARCH:tune-armv9-2a                    ?=3D "armv9-2a"
-> > +TUNE_FEATURES:tune-armv9-2a                  =3D "aarch64 armv9-2a"
-> > +PACKAGE_EXTRA_ARCHS:tune-armv9-2a            =3D "${PACKAGE_EXTRA_ARCH=
-S:tune-armv9a} armv9-2a"
-> > +BASE_LIB:tune-armv9-2a                       =3D "lib64"
-> > diff --git a/meta/conf/machine/include/arm/arch-armv9-3a.inc b/meta/con=
-f/machine/include/arm/arch-armv9-3a.inc
-> > new file mode 100644
-> > index 000000000000..c345f1532c48
-> > --- /dev/null
-> > +++ b/meta/conf/machine/include/arm/arch-armv9-3a.inc
-> > @@ -0,0 +1,13 @@
-> > +DEFAULTTUNE ?=3D "armv9-3a"
-> > +
-> > +TUNEVALID[armv9-3a] =3D "Enable instructions for ARMv9.3-a"
-> > +TUNE_CCARGS_MARCH .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv9-3=
-a', ' -march=3Darmv9.3-a', '', d)}"
-> > +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'armv9-3a=
-', 'armv9-3a:', '', d)}"
-> > +
-> > +require conf/machine/include/arm/arch-armv9a.inc
-> > +
-> > +AVAILTUNES                                  +=3D "armv9-3a"
-> > +ARMPKGARCH:tune-armv9-3a                    ?=3D "armv9-3a"
-> > +TUNE_FEATURES:tune-armv9-3a                  =3D "aarch64 armv9-3a"
-> > +PACKAGE_EXTRA_ARCHS:tune-armv9-3a            =3D "${PACKAGE_EXTRA_ARCH=
-S:tune-armv9a} armv9-3a"
-> > +BASE_LIB:tune-armv9-3a                       =3D "lib64"
-> > --
-> > 2.50.1 (Apple Git-155)
-> >
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#224318): https://lists.openembedded.org/g/openembedde=
-d-core/message/224318
-> Mute This Topic: https://lists.openembedded.org/mt/115538599/3616920
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jd=
-mason@kudzu.us]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
