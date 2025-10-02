@@ -1,154 +1,72 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jester@theyoctojester.info>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA30CAC5B0
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 16:17:08 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.12977.1759421826653010687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CB67CCD182
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 16:30:39 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.13249.1759422630411862923
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 09:17:06 -0700
+ Thu, 02 Oct 2025 09:30:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Dongaf41;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3b9edf4cf6cso919892f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 09:17:06 -0700 (PDT)
+ dkim=pass header.i=@theyoctojester-info.20230601.gappssmtp.com header.s=20230601 header.b=kKUcP1xB;
+ spf=neutral (domain: theyoctojester.info, ip: 209.85.214.177, mailfrom: jester@theyoctojester.info)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-27eec33b737so15901745ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 09:30:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759421825; x=1760026625; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ca9sTkvSAgHtLMLNLuW1L0huPZEBYu9Nz05hQobjQSg=;
-        b=Dongaf41TYrd/87doseMJ611nxvG+XOhfU2Jex89qAVV/1fpH0kSjuhWxqs44nFSh+
-         QHjbVv5aBhdLsVS/mcZj79umdpwzOOhNsYoUVDCfCSZweJpKoypD+8/eLkg76jjvZk4q
-         2P55UzI0SSytfAVvd/S0I6dk6gdhx1W2vPdlatFqREZlJxnq3uHHrwDXBohG5Com1vVc
-         96w8ezKRFef+JwGCMuWMwBkI5LQFeGytPtKHnf7HNOFvq9b9wfzRGc3yHTHyy5w689qr
-         Y2OXEmwxARBFtk4+BZ7Yj29CzIZt0307vUynpSfQ6S/9aaJ5/u00XFDD8vjSGc305/HA
-         CU0A==
+        d=theyoctojester-info.20230601.gappssmtp.com; s=20230601; t=1759422629; x=1760027429; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FXd+3bmgzFKOxSsARkU947DO5x1ocL+VU1rjRq3EgQM=;
+        b=kKUcP1xBKFapttrPeaYUBgy0L/4FB5Sri5ZObrkRftNWV6ObRJdIaAZa/XPzooVkn/
+         B4ITV7yLcyO++c3L3p+tzy2BHUHveYT1UWIDaiQPgdxLD4B8sfzIoBKqwzDuro+z7GkN
+         W0BZU/x1Qol/2abp0HC+dcGp+CDeswpvkFinEOS6Ir44IdZY01GGtqWkT6Rldu5qUGvX
+         6mgAkVwHvygbcl0WU8+QsOCLttzgSV/0JCAsfPYeFWar1TyjOx+wFW76DjLrRerLIuPm
+         NkRxkIGZljZ+iq3RGUktbYVgI/hVTpf1/RuMpEhFOOAqYyrPu9piC0hTpSQVuynx4Zet
+         eo7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759421825; x=1760026625;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ca9sTkvSAgHtLMLNLuW1L0huPZEBYu9Nz05hQobjQSg=;
-        b=mhSSPxfqK7we0UYScL0OpPOzhjPwC1roely33IFHZOPkX3S7bzP3/uohJWt3+D+7H7
-         afApyoCL91e2VuAjupHUDV2tvuR34XsUV5HDGZiJUD3HhIZLTCKFodab2MO1xu91eICr
-         XOUcCnSRszJ1sWqgmzk0xlNB9Kme/11OM1bqTb98Uth6zfPO8lI0o5eVrjDxhhjNH3hx
-         eJIVxw/OSRo2eoVOh+PWZbPnq5ji62GWpBrUqTHDfxICRVSZeHUWmeZedDFkxkHSe/lU
-         77hdigu0JCF3fGpjrQQsdRUqFRC9Y0anNHQrgso6Ya+8XQv/7lTMJvP8gghxPe0/sl/0
-         uXaQ==
-X-Gm-Message-State: AOJu0YxeVadB3sxDz2u5rnmd7POxBr9+APbeC+0VKZC8Lz6YdTDXkxbY
-	ew5XTpX2mNXNJVSBtptnahbsFMkTaOVK8oQUZQq6GIV1Yr63ptOeWYtco07gCw==
-X-Gm-Gg: ASbGnctK1flEWb4XvY3+pLa1IIdqWOii3gZv4s6Lr3XM6Yl0m+RCpI/qAsR2W4tagBz
-	zgddWfF0ail4HCsoneEgVacb3dR8d9/kAyS+r/RTmlYJvRMTUo9El2Z9D+hpRdsHoJguMC5pIUU
-	PvG0LtkPYe64UL/unaPhq3WcEaobPPznL3cLIzkfcWm6nyvG8ltXbV8umT8ROTujqZVzGf4qbhg
-	eJ66jNDlWw6O4AA7ipG9uBXLbB14SCwHIEXF2XIS+tGq3X4vDrywTbY+Pa5fzUvhsJgPVK7gWPA
-	XmZbb5CGFodAaDc4j4F5CwWrj1pHgegKvG0m4wILzUbcjEifU1o04LcYsN8may1Uos9LymZcm6I
-	HRNUQ8n6q1r2j32/5hzYbwhQFSv5zP5abZO0KOspFvT1q2K6L0PvOWRHbl1Cu1uve2HKZAlzlDK
-	BqsPzuIRoDec3eT49OhNpf7jTdNpR2z251c6EuM7NUS/SdKME91dA6tRGD5ZuikKNmrqyHbkVve
-	2KYAZ3vEw==
-X-Google-Smtp-Source: AGHT+IFHNCgGUHnFK1AzKj+OUW6CJQb2ji6RxnqXZzmka4Ypo0etYNcXD4dTrqP9PAPJIHLmYoDvIg==
-X-Received: by 2002:a05:6000:2284:b0:3ee:154e:504 with SMTP id ffacd0b85a97d-425577f1c60mr5540682f8f.19.1759421824737;
-        Thu, 02 Oct 2025 09:17:04 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e693c33adsm39445145e9.18.2025.10.02.09.17.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 09:17:04 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] lib/bbconfigbuild/configfragments: disable the previous builtin fragment when enabling a new one
-Date: Thu,  2 Oct 2025 18:16:58 +0200
-Message-Id: <20251002161658.1356793-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1759422629; x=1760027429;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FXd+3bmgzFKOxSsARkU947DO5x1ocL+VU1rjRq3EgQM=;
+        b=nI899vRfnKfU6wpYx4PSQowcvrkcJqUdkxtkQB3/mwtJSzILC7bgROcZSFIDAUBQ6A
+         ET5r15UbdgMID6jRLIO9C7+/y6+N+tvDNO2qB7fPqlyav/hnczv/4ksD0iBHDZmXizCP
+         t4NTlSt6GcZ5sZmH/4D1cMnBiApgfhPB+o/spvs2TbAOotL07o1hdhMgjDyGrD1ytN80
+         ynQoipzLuHuDqlaqvBv5ZlQg55wP1U8s7QWTberls0tUgR23FssMWwFbfPZ7GUX/l4R2
+         wfzJqVJ0bDfjIpboEgYWiD8zGH5af4HkYEBPPQ7ERGn5rSwdwMPqZuPxzup/n1mw1IZC
+         8qyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUI5tRtaJFRWjxc1BcW/UCSH6+CQ3sFocTik9hAwK9Owg4oLsSsR34cx354VSv9/FdlhxquBAr13Quqtpfi3fgP4w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxabPeldgHgSBFGi1al7OHEhP2vs1bvgfVWAoHt5rmx2z1c1qGz
+	8HXxCyoHVn/ixBAHGmyP/WZCsqSuw3KL0mBabywnjf33kOuvOpdUaYY9wiRdZ2PRxWDQPFSk514
+	++uZNnnj83mhfTAg+R6KRMf9KrGEUyvrwqrjhM+/k9Q==
+X-Gm-Gg: ASbGncsSMT9YysKkhnIoqBmG11bc7qsUX7wD/vTT4FkzRX7w28CzfrZe5+MlZ+jJwHy
+	k7AVe0L3UpERO6u57h5OwTg6nUtyHpLgGtk6hveRtTNLLrRsiAPewbjEvFV7bpIoLpAPQtNEma+
+	ohjM0rPRyp4zjh9n/yYWQ5UoeOWKAD04ntuh0PFmn/FVtmUx9Q0BuAJ+oYdx+V7FQ5ZuXxhKD1t
+	infDe/BSQkl2srMH7MZhRnklOn3JqxJC4fyfKKuz3/nAlG8vVALktyOC4kHuAHb/eY1NrzWy5ZX
+X-Google-Smtp-Source: AGHT+IF0oLXMb5y4l+iqwomp3/f6AbSlTUJJgwgOKRg/ure+4t9JwIHBllhnlntkUlX1vLY1ODQTW5x5tB+U3dXVC20=
+X-Received: by 2002:a17:903:fa7:b0:264:ee2:c40f with SMTP id
+ d9443c01a7336-28e7f45448dmr91775455ad.52.1759422629498; Thu, 02 Oct 2025
+ 09:30:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Thu, 2 Oct 2025 18:30:03 +0200
+X-Gm-Features: AS18NWCirtmmLQolD9eh5lHCW3i4_X_96mndztU259OD8IgaRfw068bI4rNroXM
+Message-ID: <CAEt6Nwrci00muZsVX0aCyeQcW3GD1aYDntwei4Goxpm3qudnow@mail.gmail.com>
+Subject: Shh... RFQ
+To: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>, openembedded-devel@lists.openembedded.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	members <members@lists.yoctoproject.org>, members@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 16:17:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224372
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 16:30:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224373
 
-From: Alexander Kanavin <alex@linutronix.de>
+Shhhh... have you heard of our opening as Ecosystem and Engineering
+Operations Lead? If not, hurry up! Applications will close on October
+6th.
 
-There was a flaw in the logic that allowed multiple builtin fragments with
-the same prefix to be enabled at the same time. The correct behaviour
-is that only one of them should be enabled, and when enabling it
-all previously enabled fragments should be removed.
-
-The issues that this caused are further explained in
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15987
-
-[YOCTO #15987]
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/bbconfigbuild/configfragments.py |  7 ++++++-
- meta/lib/oeqa/selftest/cases/bblayers.py  | 15 +++++++++------
- 2 files changed, 15 insertions(+), 7 deletions(-)
-
-diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
-index fce3301bac9..34c6a3b4bcc 100644
---- a/meta/lib/bbconfigbuild/configfragments.py
-+++ b/meta/lib/bbconfigbuild/configfragments.py
-@@ -104,8 +104,11 @@ class ConfigFragmentsPlugin(LayerPlugin):
-                   return True
-         return False
- 
-+    def fragment_prefix(self, fragmentname):
-+        return fragmentname.split("/",1)[0]
-+
-     def builtin_fragment_exists(self, fragmentname):
--        fragment_prefix = fragmentname.split("/",1)[0]
-+        fragment_prefix = self.fragment_prefix(fragmentname)
-         fragment_prefix_defs = set([f.split(':')[0] for f in self.tinfoil.config_data.getVar('OE_FRAGMENTS_BUILTIN').split()])
-         return fragment_prefix in fragment_prefix_defs
- 
-@@ -128,6 +131,8 @@ class ConfigFragmentsPlugin(LayerPlugin):
-                 if f in enabled_fragments:
-                     print("Fragment {} already included in {}".format(f, args.confpath))
-                 else:
-+                    # first filter out all built-in fragments with the same prefix as the one that is being enabled
-+                    enabled_fragments = [fragment for fragment in enabled_fragments if not(self.builtin_fragment_exists(fragment) and self.fragment_prefix(fragment) == self.fragment_prefix(f))]
-                     enabled_fragments.append(f)
-             return " ".join(enabled_fragments), None, 0, True
- 
-diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
-index d82c5aaf376..7eb176aa04b 100644
---- a/meta/lib/oeqa/selftest/cases/bblayers.py
-+++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-@@ -281,11 +281,11 @@ class BitbakeConfigBuild(OESelftestTestCase):
-         2. Verify that SELFTEST_BUILTIN_FRAGMENT_VARIABLE is set after setting
-            the fragment.
-         3. Verify that SELFTEST_BUILTIN_FRAGMENT_VARIABLE is set after setting
--           the fragment with another value that overrides the first one.
--        4. Verify that SELFTEST_BUILTIN_FRAGMENT_VARIABLE is set to the previous
--           value after removing the second assignment (from step 3).
-+           the fragment with another value that replaces the first one.
-+        4. Repeat steps 2 and 3 to verify that going back and forth between values
-+           works.
-         5. Verify that SELFTEST_BUILTIN_FRAGMENT_VARIABLE is not set after
--           removing the original assignment.
-+           removing the final assignment.
-         """
-         self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), None)
- 
-@@ -295,10 +295,13 @@ class BitbakeConfigBuild(OESelftestTestCase):
-         runCmd('bitbake-config-build enable-fragment selftest-fragment/someothervalue')
-         self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), 'someothervalue')
- 
--        runCmd('bitbake-config-build disable-fragment selftest-fragment/someothervalue')
-+        runCmd('bitbake-config-build enable-fragment selftest-fragment/somevalue')
-         self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), 'somevalue')
- 
--        runCmd('bitbake-config-build disable-fragment selftest-fragment/somevalue')
-+        runCmd('bitbake-config-build enable-fragment selftest-fragment/someothervalue')
-+        self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), 'someothervalue')
-+
-+        runCmd('bitbake-config-build disable-fragment selftest-fragment/someothervalue')
-         self.assertEqual(get_bb_var('SELFTEST_BUILTIN_FRAGMENT_VARIABLE'), None)
- 
-     def test_show_fragment(self):
--- 
-2.39.5
-
+https://jobs.smartrecruiters.com/LinuxFoundation/744000080228346-ecosystem-engineering-and-operations-lead-remote-contractor
 
