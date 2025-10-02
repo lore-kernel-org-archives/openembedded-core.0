@@ -1,189 +1,292 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <tgaige.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 907F7CAC5B0
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 06:02:54 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.70])
- by mx.groups.io with SMTP id smtpd.web11.2532.1759384972164812600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAECFCAC5B8
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 06:59:04 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.97])
+ by mx.groups.io with SMTP id smtpd.web10.2932.1759388337515458511
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 23:02:52 -0700
+ Wed, 01 Oct 2025 23:58:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=KkJwPFPq;
- spf=pass (domain: siemens.com, ip: 52.101.72.70, mailfrom: adrian.freihofer@siemens.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@witekio.com header.s=selector1 header.b=dIkD1W/D;
+ spf=pass (domain: witekio.com, ip: 52.101.72.97, mailfrom: tgaige@witekio.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ChYnJNs/FanGXW0qx3FGstG3zzJ7JfrlStgrZo4IEpoZWqPvjtOKTJFzlVAEYmHtxLCE9dcPo9RgwPEyl4hmLoqYRvEiKGHW0UGkVbwG0KIgCasKyzXBs2iTEFYOeiM6VlsTTWdA4jBxaTHXs5r1ryb8/g2S747A9NtcZZ5s1GBmcgHDS9KMTP5I8VoDndVGXeV/z/7zi/3hEF+FS+kUVFHNbrPjJJAl6DyrfDm62lGJvsJfMoWmOVDlvjtdI6LNxJuqv3wupbt9h/IQQM7MY4AqxKTgJCRMYvHohdH2VlRj+a8uuuiih7taAN+DRN4eZMtNtHIuk81J18lP7ZmCPg==
+ b=L8oMLlRlrP2zUDcufejwzaEnqaxvyR2tnaAhIayz04ETyM8SqU6siCgpW3TfXWI83Y2M0SoUhX8a+Vstr/GQfKXXxfFJ1VQI0wfjhVDDbPDGZE8gH5p/VYE9kKEgcbrj3thOex1KgrpehabwOjDnpY7qcrFN7beBnt2XR15wAVkaq5WsxGKNgHKPW/KfLb74M6TS/TdolR0B05wNuMcZJV32lswE0ddyseDZaRBUtxL0DuNsF/44NRT5yM392HQ0cAiy5e9kEQTLatBXsOnyJUa+W/bRlTGGR0zZ5Hm4JwgnSi8Sq0lq+FE+8ECtdBQEiLWMpvGcaA/h0VYnQ3CQ8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TpbzSxiZSbAx8Lfon17+diStRH9B8j5JzOUVscVtuRU=;
- b=RDZKIi1q+y1bekSeSPNU/lBlkUgyIIAA399yxc6PLrB+cKAIvb0iYHE8GvuT5dOL63EveUNx0gQYkfMQPhH371N05Z+2tbXYLfkSKZfvtW5DTC5BKrkHqRQPhVQ08nKk3JtT3f59++FyTnuLPdor8xsFLplsdIycTDRePKqlItY/4PKmilgM/JLlbC6PrLVdjkm50z+TNnc8c69No40y5g2X3Dn39a73CtceTXnrxuQfmDks3U5YrgxShuc6Pn3aPM70Hp8+/J7j2ptRMk2djw/ukhqS26o+8/YF28vW+V4EcXRRITUSXotmKeIT/1d36gJBjP06Nl2BazR+w0lkVQ==
+ bh=YTor193wnzvAhtzUFlWrIO9mt9/myYiBcsxGmo1dYak=;
+ b=MISi+xnu8evqfZ/gw5LI6O3cgVUI9xLA7HaxHQxcLvlHBWdOUuDbCzaEKESRoRGTuusWyWbcRLFXaDOny//CCw2dCoOSgJ7MMCviuiDkxS7PGArkd5V4XPMKeQ28ASpga46GA5y1TN90G0w1UsuUXD91RfL+odyJttj/Z43O5ZiBJppHR+WdfQ17O/6q0DK3GyL1aQ63Cjhi63IpZZjJRjG00Dnuwt5eJ62xRJyBw9Dovdi8/bNUTii81Pplx2iXcqPqrO/0N3Zl8fHuO4nKuj8+eJNYW3XuUrJr7RPj3BMpqmadrt6dKnQPmHbfy/WgbTjtur1R8zaq1Js8HnEwgA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
+ smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
+ dkim=pass header.d=witekio.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TpbzSxiZSbAx8Lfon17+diStRH9B8j5JzOUVscVtuRU=;
- b=KkJwPFPq1UD9VUHdr1IEoqZwUkto2eqD4xpniEu0TQKNic2yLiowafl9MXLF8g6NUcNmHCtSsHf7qA0GZVmbEfpXdsjH29UuhGIHvhqZ+ThgHlVuqCaKh2nOgsZtD/F3AN/uKaLnuAF3+kb6bNt4sgjv8Qe+Bj9f9sbDsCrNkjj1u/ifmZDN9XxdK+9zamStsUVUQRKwoZIHZBZ9F9AWpABlF7l1T3RtrWvUJp+5ELexV3uB8RqGxBVL0Z3bGZpNlg7wWJqpwlA8kDluNceGKJEK38zetQpThu7kYjoR/mu0zflLj0JII8ixUo0hg2bxnFZsKIPhErSg63N576KcUA==
-Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:13e::17)
- by AS4PR10MB5990.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:51d::9) with
+ bh=YTor193wnzvAhtzUFlWrIO9mt9/myYiBcsxGmo1dYak=;
+ b=dIkD1W/Dl1CGouDBdsz/LyL7AkELMV6Ko924kFzzcVlq8WxFmo0MY7uoFbMRHJzOAGTGv6u46l3pV36Svu103hv9K+oTzh5kih1V5aOZ22ofpghSiRYl9PJU/0+qroKKD3iAbQCcopUaeCRYkKqAWeiGhcqT0rzRWOqoFQNr3OetQE2bUpwQ9P4t7VHCVRLGlc0qHa5g7phZLGLl/bkuFFnDWl9A7YzZQnJ9oazAvKP/SwJeNo+bA5NHHYJX9FbaI4TikyQmCm1/NUE4qIrbZLS9i140vGlKPnOYklB1ocK0Q9UK1Cb6NzCH51H1XP2nr7u+PCs1HZvztB/Wh4WrNw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=witekio.com;
+Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3ad::23)
+ by PR3P192MB0619.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:2b::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.18; Thu, 2 Oct
- 2025 06:02:47 +0000
-Received: from DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e586:9cf8:7696:cbda]) by DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e586:9cf8:7696:cbda%6]) with mapi id 15.20.9160.017; Thu, 2 Oct 2025
- 06:02:47 +0000
-From: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] expect: fix native build with GCC 15
-Thread-Topic: [OE-core] [PATCH] expect: fix native build with GCC 15
-Thread-Index: AQHcMxSF5JjsXyabWUqAZ1GjWQeuXLSt2wwAgACDIQA=
-Date: Thu, 2 Oct 2025 06:02:46 +0000
-Message-ID: <0b8f8b4bd1c7562a22640722a8b5a8c81e639c24.camel@siemens.com>
-References: <20251001204638.1442908-1-adrian.freihofer@siemens.com>
-	 <1d3aba29ea3d06c9c6066df0ce4728ece53680a0.camel@linuxfoundation.org>
-In-Reply-To: 
- <1d3aba29ea3d06c9c6066df0ce4728ece53680a0.camel@linuxfoundation.org>
-Accept-Language: en-US, de-CH
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.54.3 (3.54.3-2.fc41) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB8PR10MB3529:EE_|AS4PR10MB5990:EE_
-x-ms-office365-filtering-correlation-id: 3773b0f9-8c9f-4b96-d8eb-08de01794fa0
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?MXE2QTRwNlBvUlpmQjRRSVYxdjRGYi9lK0JHQU5WVFdMUWRJVDk5a2pyK2ow?=
- =?utf-8?B?Y0diOUdxUUFpMm5kK09pMnhoNXg1OFZRdGNlZ3lSblRiL1VCZEJ1TkVBaWhP?=
- =?utf-8?B?LzhOcmxXcFo3WG44bFpuOTBxNlhRV0Y0LzFQNERqWmZ0MkdJdGVqdFA1OFk1?=
- =?utf-8?B?SlR2dGUvZnFIajJIRHM1bTh5ZkxBWUVmRU1wdWVoU2hlZHVrMkRMQjhCNVJG?=
- =?utf-8?B?YkpadENQQlVRcHNrSjBMclNYOHh2UjZhQnpTV1VNcXgwYWFJT2VXV2JuaGdJ?=
- =?utf-8?B?aE5TZERJeUNwQmN2aXRaemhTZ1JoTGNjU1BlNERBMENlUjdCZWM0TXord0Y2?=
- =?utf-8?B?U3YyL25BQ2hxWUU1czAydTI0ZThHL1dEdkpXRk9LYW9HS3I5UkRlTU9Ed080?=
- =?utf-8?B?V0xtRlVERUIzQWVIdWZIcGh1QzZQem5vb1I4WTRFUnFSaFFOa1FMeDJxc3M3?=
- =?utf-8?B?S2R6MnhieG51Q05IODg5UzE4cEN4UGRROUtHR3pacW56Z0ptVEMrTnBqRms3?=
- =?utf-8?B?aXlDbk5NMzFLZStPYnlLMTR5ZFFnRjMxN1FUMHc1TjU3c0V3RTllMVcvSUY0?=
- =?utf-8?B?VnJDNUFWeGpkRE5vc1o3MjZ5a1N0OXFBcTUxaEM1WHQ0Rnd4VVVsQllMMnBF?=
- =?utf-8?B?RDJaU0FveGVEaWN6NW1VYmdjR3MybkdjemcreG14UmVNVFBDeWVUbXBYdnc2?=
- =?utf-8?B?eGRnbyt1UFU2ZlJpcjZYbCs0d2VJNmpDd0gwK3lhNjdyMmUzS0lTQXhYa1pO?=
- =?utf-8?B?V0FtYXhjT1lCVk8rVEtsVFBLdEs2OHdUUTIxd2NGQXdrbEpPdnRIL1lCNzdj?=
- =?utf-8?B?ZE54YVoxdGJWRXYvd1lCQk1qWUlKemVSU08vQmRSRkNBZzA3dlZlVERybTBu?=
- =?utf-8?B?VjhyTUxzUXBYR25KRXNqdm9uZUxiTlF1UHJ3MFdQY3pTT2kvZHAxZ0JWYktE?=
- =?utf-8?B?UUhWeFpDUkdOeXVnT2I0T3NqcEYvZXdiVUtpMTQ0M3FTOXlYUHJ6U2U2YWJW?=
- =?utf-8?B?NDB5cjNrMzNNeGovUEtiQytRMnBvVUN5Q3BqRTd1Sm5PSElENDkyQTlTNmJr?=
- =?utf-8?B?SWRwekV1NUF4K0VVZ1NXSlQ3Uk9ONEVjMDlRNTJnZnZZay9nZDh1WUlucmVO?=
- =?utf-8?B?dW5xNTdtaWhsNXZxSlQ4UUVKdkxUUmltRHdQbjgwZVNqeEFxY0xqR0JTUFBn?=
- =?utf-8?B?REZEa2xjSmpqVnlHckJ2eUZtWm1NZEx4UTZLS1RBczNTOEIrKzVtQm4vRWhk?=
- =?utf-8?B?OFEwSnJGM2VCR3dxa2YrZWxiZ3JkYXV6Zkx1NjlqMWRoMTRRYVRoUzJncUNL?=
- =?utf-8?B?dUFPa3lEdTl1WjlGT3lDa2ZmeDEzcFpON29HajJ1ZHc2Vk1DQnpQUnRLaDZP?=
- =?utf-8?B?aWlsQWdPUWZ6bFdDVlBmOW96STU4T25mS3d2SEdSWmxOUHlkR0M0b1MxT01J?=
- =?utf-8?B?OGp4YWN5SkFla3RIUUVLNW41L0ZwZDZqMW5OTmttU0dHU0ZoYVlVVUpoMjB6?=
- =?utf-8?B?MHp3TzlvV1lNdkhqWXE3b3JTUEwvOGJNTXJld3IxOENkcDQ0Zmwxdm1IaHRZ?=
- =?utf-8?B?Yk0xQUx5bTJCbXJRUEo1RXJERytFOGUwczhBUExPZFNBTTdtUUxqbnJlWElw?=
- =?utf-8?B?VHROZHpqdGx1bDUzNGRpRGh0N3FwZ2VrTFhHQ0hSWEJyZDBnVGJnL3duNzZw?=
- =?utf-8?B?NmtLdEkzamxFUEhGelIvYzRNeHBOWjNhRDV1YnZHVnVHZFVWWlZRU24ycUFS?=
- =?utf-8?B?cGpUeTdjQ3NwR054MVpYN0pIMkRBS3NjNGt0akkrYk16aitYcy81aC9GeGVV?=
- =?utf-8?B?OG4xa3l0RGU1UzNLK1JLSTc2N0hsM2hNWXdmS1oxVzAvMk1Nb28vNFROamJu?=
- =?utf-8?B?RXFsZmtjeEhEcGlPankrQjBKTjZBTDVnQ2x4bXEyOUZlSzNIQzhsOHJJcDlS?=
- =?utf-8?B?YjFidzJrQk0wZjZGR0VZOUF5S0RmT1Q2aDZkS1pCNFdyVVFxN2lqVS95eFFF?=
- =?utf-8?B?T0huNnc3S2VqMTBPaS8zYnZzdTdDdFlPWDdvRENTWDQ3VjFsQStSSCtMYTFS?=
- =?utf-8?Q?Ooc69E?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?c05SQmxDOFIxZ0RRQ0Riekt0YVFHeS90YW5Ec0lMZ3hqV2Z2U01pWlVCQ3Ro?=
- =?utf-8?B?ck9HV0MzdkFPMi9vV3JmcTR3dmNhYkFYeFYxWnZUNXpUZE5Sd1VBcDJaZzFt?=
- =?utf-8?B?bDBUK2RQallXclprTlNsb3NUWkdEYW83L3F6ZlBlMEIzeXhZcyt2cytRYzc4?=
- =?utf-8?B?VVVucmEvb09nb01EUHBLNVA5ajVoOEFCRnV1aTlva2Mwa0hoanlXSmg4RXho?=
- =?utf-8?B?WUNoWWdPNG80Y2xFOFVwT1BRQThWV1ZZejFYMkZtN1JvQ2NMdm5JWnRoU2dW?=
- =?utf-8?B?TFRsU0k3M3NzbVFXNThuODFvMjJtTWNBSkRYMXpncE5DUVgzMWQ0SWpkM1dj?=
- =?utf-8?B?Y1NSU1dXbWQ0L2ZLNnU2bEI0M3p4SG44cS80WUdZcW5TM2ZhQzViWk5wMXBi?=
- =?utf-8?B?bnI3LzlmVHViMjNMQ0RvempYMk9jdllTV2Q0aXozQjFVaWlrNHNMdVNhcUVE?=
- =?utf-8?B?bGRtcGZ2Z096VC9FVThYZ2hiSUkxZXd5ZkNVVmc2ZTdhQWdscVo0OGl6RXc1?=
- =?utf-8?B?NXZrY2pLclpidUJrZXFldDR6ZU1MVTNvdFkzTElLVjhVc1VrcXRQOHNqTURP?=
- =?utf-8?B?UHF2UDhoNmU0TkQ3SExMMDI3akl5M2ltckJZZVovUG1jUTdVTlJhdk5Fa1Bx?=
- =?utf-8?B?MFZuUWtwczhlYXJJMTAyRE5qZGp5dVAzcXF3eGEzQWgzZFFIRWZvQ3NQbHhl?=
- =?utf-8?B?dzFYaXY1dE1CNGVmcTJ5QkJzVERldjhrUXM4Ty9EbWk5ak54b0dhYzZIZ09T?=
- =?utf-8?B?bWFTblJscFdsZERKSVkzU01tLy92UXI3QjJMbi9peFdiQ01acFhFWnJmNHl2?=
- =?utf-8?B?M1NCSVFsRWt5dGlsWXRqclgyRjY3clRzbkpZaGh0YmRtZmpYZ0p5S1FmTERL?=
- =?utf-8?B?LzEvd0hHZjlVZS9NTWlJVzRYc3Z2aHBsVmNOMHc0aWRUWWJTZkJVRERPSWVr?=
- =?utf-8?B?UUJncHV0NFRER2tTeXFNYjF2dFpaQTZMRmF1S0dNL2J0cUxoRWVOUHpsM1VV?=
- =?utf-8?B?UmlrcWtodlIxaTFWLzRLZHV4ZUNpUjRaTHlJVWp5V2Q5c0toRGdpaGJuSGNp?=
- =?utf-8?B?VnRxU1MvRnRzdGllSUpZMkMvbGVjRnkyVEF5V21Ta0Q4RWxudjdzb01KenFh?=
- =?utf-8?B?OU1LM3F6TlhEa2xzN0U2Qm5aSmJYcGczeUo3ajA0dlJVQ1FpRG5tU0V5OFRw?=
- =?utf-8?B?MVd5b0xPZTR2V0hqeXZnRFhhejhEYWZnVU9hSk81WFhJMm9LZ1pEMWRSNEZw?=
- =?utf-8?B?MU1EaUM0cUFJckZDUHJXeDBOQXlOcTFUS0tiS1pUd1VTZTYvQmFQSFRobFVK?=
- =?utf-8?B?TVd3NWFPc0EzNGVUcE1idlVUcm9LQVp4dTZuYll1ZGhvRFIrQksxcjc5dlZa?=
- =?utf-8?B?dU5xSWxsM1lKQVpUY2o4WDc1V0hpTWVTMkZTM2RrOXlvcjduYXhlVERQN3F5?=
- =?utf-8?B?YngyVUtWKzBYNENITmcvWWI2bFdSU29NNm1RS3BHVUo0NVVmY1BwWEdydGQ1?=
- =?utf-8?B?T0hJQnc0dWtCODZqUW1SZnhiVDcvVzZxZTJOVlRKUkE1blVyQmZOdXlmMnVW?=
- =?utf-8?B?V3YwcXFXVXNuSitYUFdoOTVqTkExNjJGS2Zzd1liYUpwK0QyM0h5U2dmQ2k2?=
- =?utf-8?B?VWlGVEJwWU5hKzFqOUticmsrbTNxOUVtYUxlaDhmOEZKc0xiZ3VWVEVqVnFs?=
- =?utf-8?B?NVM5YXR0bklObmNHZmZuSTkyc0R4SjhGeTljZVZJamtlbDhQdk8rTHQ1WFJr?=
- =?utf-8?B?UlIxS3cwbFRwQnA4TEh0WE9OcnhPMVBJblpSWG5HMC9NZ2lOMW5waWZDbGQw?=
- =?utf-8?B?K1hmYktQTXNVTWJFVHJPNG9nNXJTRFZlMm1FQUY1cEpRQ0xkMjg3MXZSNm8w?=
- =?utf-8?B?MUZpNFhCOUVUUEUxb1ZqVk5ISi9GZ1cxbGxvb05yOHZIa0FaVHV2cE1vVTdK?=
- =?utf-8?B?TjZOODRkSEMvajdqNU5XdWQwSEEvdEJJTnZyd1ZWMXNWSGQyUlpPbzgwZjNY?=
- =?utf-8?B?bHJXckJrMXRwYTlrK2ZzNmpsMjJ6UkZyK1BialN0VXozY3BrWGM1MzRzdmZD?=
- =?utf-8?B?VEZUcFNiSlZPWkJYb2kwcE1mbW5QSnFmYWx1UzVPMEdBZWdzRThOZzdNRHEy?=
- =?utf-8?B?cXM1M05ISUdGVDFZL20vM0xJZ0FUQ0QwOC9NTVQwa21PVGQranFtbTVtcXdm?=
- =?utf-8?B?Qmc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1AD08553B2C0AB48A57CB5DC72A16E21@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ 2025 06:58:53 +0000
+Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
+ ([fe80::25ed:86ef:4d24:3d38]) by AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
+ ([fe80::25ed:86ef:4d24:3d38%6]) with mapi id 15.20.9160.017; Thu, 2 Oct 2025
+ 06:58:53 +0000
+From: tgaige.opensource@witekio.com
+To: openembedded-core@lists.openembedded.org
+CC: Theo GAIGE <tgaige.opensource@witekio.com>
+Subject: [OE-core][kirkstone][PATCH v2] libxml2: fix CVE-2025-9714
+Date: Thu,  2 Oct 2025 08:58:32 +0200
+Message-ID: <20251002065832.493029-1-tgaige.opensource@witekio.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: ZR0P278CA0170.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:45::12) To AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:3ad::23)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|PR3P192MB0619:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b18909d-f10d-433e-23b1-08de018125fa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|13003099007|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?On9dPb/LL4EUphnCDCpwAYrI8zyRMQNIxg6cGEJhN0fxcORdsD206gxWqSut?=
+ =?us-ascii?Q?aB/Bv9vZ1+UPL9FTxJDybGJg64uNLLBgL5J5dm2I31OFi98NrGqS0KmQ188Z?=
+ =?us-ascii?Q?ZrLEV61Q0uCtsY9t4BC/J9kKciOJVuvYWcqGSvvCEI01F7eDTgNSQKbStkFX?=
+ =?us-ascii?Q?Dwxahwpninw2aeSInJH7DMAHEB0j6TjyEZbMdRLi/PdCdWGlugXncleRU3Sq?=
+ =?us-ascii?Q?LzTUrTV3y9b9L1D4Urgs3SrrsgJjCrGYz5C9/+6NiYtU8jFU9SJvRFk+WKBh?=
+ =?us-ascii?Q?3MaDQvBbSLVh7wKnpRE5goka2g2iIGpq94oJF579i4OGxfPqns/wIB6d284K?=
+ =?us-ascii?Q?jAHPxoKrcwNsysnf0IKpBViHZIiAGBptl3tbz/GOGEhQX2Rg/bWxD2hhDBM8?=
+ =?us-ascii?Q?SEuXJlWrat6K8Bamq+gLo085EALroPEgyCb46Pp/xYLTC8oQ1qWhdIJfakGX?=
+ =?us-ascii?Q?YCIZIwqu0wiSSEQGSlbaWmx+/2Zn2GJce7tVa6gHztw07E22pH9mtkAyzg6e?=
+ =?us-ascii?Q?OEmZC5ageSrfnFY+PvpwzX++I4uvCpGcNxszvDkqlB0VrsdE/LNiS48F8Hrr?=
+ =?us-ascii?Q?NY6KR1pVJHGmIB3JLSbDMCg3OlH2X9hyo4Uc0073O+bAZifw4LZ/oToSqAJy?=
+ =?us-ascii?Q?IwPZ4DVzVyQhVa4CGQfNy1a79qnIUEajZFii6D4gpfEzDWQjiLRxbLWoqT30?=
+ =?us-ascii?Q?B8kPrMMy46qI6E4sDgtM6fXf+AzPiXYN909orXkoedrnMhdUh0lWp0LSeI5p?=
+ =?us-ascii?Q?W7W1rFS/m+x3rynU2AgXpIuDR9gZYRkIxF0wy1fD892+79LgSqxQz43oSh7P?=
+ =?us-ascii?Q?35IuQB6f0XCERk6qi4jxZRc6OqOqCO29+5+w11mOM6yfxtvOkcCnrTf0ciDb?=
+ =?us-ascii?Q?iGWueHj9AMZ9b9VC2uBKWD1ejPg7x812vxmlZnyc0dbhIP7wmqwMAK4Bk/Sf?=
+ =?us-ascii?Q?nm6KPi7maZtyAeSQv118mDzCVvJ4a0gfIn3FMB0YiZop+gADvxFMDmbf/pY7?=
+ =?us-ascii?Q?N6sdOhGG340HL/GOM3w7uHkqlS7fy3rTEgBFrf1QIX6x8byGp6uLpaPpOca1?=
+ =?us-ascii?Q?r3uUktGFn7vw0QUEAlX6awpUdoV4G7/jFgDexBeri31URqE9VpCcJwyYzzCG?=
+ =?us-ascii?Q?2hfN8t+HlI8M4yTuh3kSiLUjTCDwUxJsxKY5LFJaRFWjjIY1bcl6At1hNnRC?=
+ =?us-ascii?Q?AvDbNtDEDeTCUarndIychPz/fGe+ZY2pCl3LGxWeeWFjYF3NtBvS8Gd3nCnQ?=
+ =?us-ascii?Q?LhB3x53/Y0a/e+THlJg2zv8mGVbwPrdJqb8qhZ00e7OT+wMUGVAQ3zFeZZCC?=
+ =?us-ascii?Q?A6Jo8UU99k2X4XU4C4cMbQVj+kv9O7flL/xrfc/ukLo3orO36V3xYk/ld4md?=
+ =?us-ascii?Q?y3XItliPzwuOrAj+pVNFTFj68U913iFZTG6CbHc778cgviM9zQSMxmljxlRW?=
+ =?us-ascii?Q?86GqOk/7hFqPFpR9oqsyHup+jpb9KDb3PHnBCpxxDRU8WdVdWL3nIA=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(13003099007)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?C+a0zIJKKDuzgY+XX8r4ctpD7dEVIScDvpj4lLqX1f1PdU35ys8gN4O53Zdh?=
+ =?us-ascii?Q?c0Zf3JMFiFCIM5HtnR/Gcr3Y26ZsYSd0PsjlC7omAgAbLqMS6hQICOqNmre4?=
+ =?us-ascii?Q?AikkFDLXC3EUDKCj6U9MmdG0rYsXpCRyufXHHg9qP3X9Q8BEE0/mQD86PNng?=
+ =?us-ascii?Q?nG1GiCp2xfIyeuL0cIzj2UnzGzoHffN0h9i0EVS9b08LpkDpK2i8I+7V6KQU?=
+ =?us-ascii?Q?SvQbxI8v5XlkR1/aUsES4eEwgnNKzWj0J9WXJ2yui4uAR39cILVYp6uPTOpK?=
+ =?us-ascii?Q?uGQzsey2e9A7hako3q7W+5aZKektgmCBYxuYNvc0yJAMJNO080FVqCXNmECJ?=
+ =?us-ascii?Q?zkrOyZH8UGHfQzlY+4m3HPSdeK864KFC/xhAGx8HSGj+YmaL7V+JpHpmC+C7?=
+ =?us-ascii?Q?UT9hvchN5nYTdMLeYIWySP295l1JL+ez8fkfQeGw3yorZtmrT3t9mopJsLYn?=
+ =?us-ascii?Q?vo93JuwTBictKdQ4Qbc+cFoM86K6FLDiOcgCElPjhMOsqYpkai7AAjU5oIYl?=
+ =?us-ascii?Q?fytNyelOGPXcVaE3R8epI7VUZEmbT5J8JqHDWTEGwX+d+VGA1xGxRv06+lw1?=
+ =?us-ascii?Q?Q7uMp7cS06pr6tq1HsqXnrjWMPfbcvfhwZdQdfrz040W+zCuIZ6ICb57XJKv?=
+ =?us-ascii?Q?sbMG28bt4qimjIQKwAXtV1ilKXCwSHH8UFjg9kjZ8C/B12cvLU13SRTfy0YS?=
+ =?us-ascii?Q?kTmSqqWF4MmRq1uXPc2dQ4i/COtQZiUIAP23RiID8wvwlkFE1axhBzofprpJ?=
+ =?us-ascii?Q?l1bgyxJubwRbNE9LKezbp5js5J6Jv0wT0eNYXZiw6PKOaATIGWDSbUH4iK3K?=
+ =?us-ascii?Q?4N7xVMnd8y/jjwfal5THeOwIq/9VwxVSt+kvMmYBqbF2HImuNAV2TZ7W56hx?=
+ =?us-ascii?Q?UWMRYDYYTG4WHgkrstJsDIpAZUAImHvHTYCwjkk8HyJQjkcmUZP4Y+hdJX2O?=
+ =?us-ascii?Q?rCVf2f7sz2YvlfiM/yVHq+ZXzZGe26jqODDOpuc49U4jGVs3Um9so61A9xxY?=
+ =?us-ascii?Q?hHjdt5yR2trcLg9YhVyow1by021FMJqEH/aJPK4kxUeyJkIlIxalw41UA6j+?=
+ =?us-ascii?Q?ob4lJGjwChFr9Ub2yZLaeWSqa7pMECryuauW3RUjPvRJLsIcaly1wH8tH+AD?=
+ =?us-ascii?Q?vvS39WCpyIxfuLsaWd9UpVREsJ+h8siCYWWcdmgyox1+aFLV0nsmK/l7P5c0?=
+ =?us-ascii?Q?Vu0eyjNywhRcwtH+eBVPwIbasML+HwrlgCxd7eXjzS+3SQOKT7uqlIFhXQuq?=
+ =?us-ascii?Q?RQXwDfOMvD0wzzShx7erYD/pZHtFjVnAQBl+PHdsrl//9Q6ZnF3hjgWO0sjk?=
+ =?us-ascii?Q?PyoNbxez0L4Rz8XJA0sLO9/Ww75y7Ng6rXt5U5LklcANPy309EcR+wXpXXXs?=
+ =?us-ascii?Q?3V3oG0npD2LXxA9c6ezZLSXcf5fasEbYgx9pC/anDQp5cjTFuCz1TMICN2Ur?=
+ =?us-ascii?Q?z+d99rIZrQEJldROwCADjDjprtky2vSaRK/lHl0OebBE2bpr+U9N2K++0Vc0?=
+ =?us-ascii?Q?UVTjoeVW8km4t8Lk9NYddhC9hxMztQAnGdmrY71QU97FFhvwuO1SKrMlwJOt?=
+ =?us-ascii?Q?oZmNzUog76ARroDypGg4nIfTum5K1qn0OYyIp163?=
+X-OriginatorOrg: witekio.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b18909d-f10d-433e-23b1-08de018125fa
+X-MS-Exchange-CrossTenant-AuthSource: AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3529.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3773b0f9-8c9f-4b96-d8eb-08de01794fa0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2025 06:02:47.1286
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2025 06:58:53.4868
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xMlq9fBftg1u/I/tmYyT0Y9diE5e+MKDU4N8PUEURCLtQnDwE2HvDsl+pELezMDcS5TpTFJLfDylBLJ7aQAn+I9f6CYuMkizQw9xeginzQs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB5990
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C/oe9LWr4OyOPaQVJtAM4+3hgSeWeffm75bfcf6HsMTnts8+jyLESvdshYvnIrj7HhKXA+nwCyvyHPA8yz4Mkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P192MB0619
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 06:02:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224343
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 06:59:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224344
 
-T24gV2VkLCAyMDI1LTEwLTAxIGF0IDIzOjEzICswMTAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToK
-PiBPbiBXZWQsIDIwMjUtMTAtMDEgYXQgMjI6NDYgKzAyMDAsIEFkcmlhbiBGcmVpaG9mZXIgdmlh
-Cj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToKPiA+IEZyb206IEFkcmlhbiBGcmVpaG9m
-ZXIgPGFkcmlhbi5mcmVpaG9mZXJAc2llbWVucy5jb20+Cj4gPiAKPiA+IFRoaXMgZG9lcyBub3Qg
-d29yayBmb3IgbmF0aXZlIGJ1aWxkczoKPiA+IMKgIENGTEFHUyArPSAiLXN0ZD1nbnUxNyIKPiA+
-IFRoZSBsaW5lIGZyb20gbmF0aXZlLmJiY2xhc3MgZ2V0cyBwcmlvcml0eToKPiA+IMKgIENGTEFH
-UyA9ICIke0JVSUxEX0NGTEFHU30iCj4gPiAKPiA+IEZyb20gYml0YmFrZS1nZXR2YXIgLXIgZXhw
-ZWN0LW5hdGl2ZSBDRkxBR1MKPiA+IMKgIC4uLgo+ID4gwqAgYXBwZW5kIC4uLnBva3kvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2V4cGVjdC9leHBlY3RfNS40NS40LmJiOjQ0Cj4gPiDCoMKgwqDCoCAi
-LXN0ZD1nbnUxNyIKPiA+IMKgIHNldCAuLi5wb2t5L21ldGEvY2xhc3Nlcy1yZWNpcGUvbmF0aXZl
-LmJiY2xhc3M6NDQKPiA+IMKgwqDCoMKgICIke0JVSUxEX0NGTEFHU30iCj4gPiDCoCAuLi4KPiA+
-IAo+ID4gU2lnbmVkLW9mZi1ieTogQWRyaWFuIEZyZWlob2ZlciA8YWRyaWFuLmZyZWlob2ZlckBz
-aWVtZW5zLmNvbT4KPiA+IC0tLQo+ID4gwqBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZXhwZWN0L2V4
-cGVjdF81LjQ1LjQuYmIgfCAyICstCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQo+IAo+IFdoaWxzdCB0aGUgcGF0Y2ggYXBwbGllcyBjbGVhbmx5IG9u
-IG1hc3Rlciwgd2FzIHRoZSBjb21tYW5kIG91dHB1dAo+IGFib3ZlIGZyb20gbWFzdGVyPyBJIHN1
-c3BlY3QgaXQgd2FzIG5vdC4uLgoKWW91J3JlIGNvcnJlY3QuIFRoaXMgZXJyb3Igb2NjdXJzIG9u
-IFNjYXJ0c2dyYXBoLiBTaW5jZSBJIGNvdWxkbid0IGZpbmQKYW4gZXhwbGFuYXRpb24gZm9yIHdo
-eSBpdCBkb2Vzbid0IG9jY3VyIG9uIG1hc3RlciwgSSB0aG91Z2h0IEknZCBzZW5kCnRoaXMgcGF0
-Y2ggZm9yIG1hc3RlciBhcyB3ZWxsIHNvIHdlIGNhbiBkaXNjdXNzIGl0IHF1aWNrbHkuIEl0CnNo
-b3VsZG4ndCBjYXVzZSBhbnkgaGFybSBhbnl3YXkuCgpCdXQgeW91ciBxdWVzdGlvbiBndWlkZWQg
-bWUgdG8gdGhlIE9FLWNvcmUgY29tbWl0CmExNTdiMmY5ZDkzNDI4Y2EyMTI2NWNjODYwYTNiNThi
-MzY5OGIzYWEgd2hpY2ggc29sdmVzIHRoaXMgaXNzdWUgYXQgdGhlCnJvb3QuIFRoZSBwYXRjaCBj
-YW4gYmUgaWdub3JlZCBmb3IgbWFzdGVyLiBCdXQgZm9yIFNjYXJ0c2dyYXBoIGl0IHN0aWxsCm1h
-a2VzIHNlbnNlLgoKVGhhbmsgeW91IGFuZCByZWdhcmRzLApBZHJpYW4KCj4gCj4gQ2hlZXJzLAo+
-IAo+IFJpY2hhcmQKCg==
+From: Theo GAIGE <tgaige.opensource@witekio.com>
+
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libxml2/-/com=
+mit/677a42645ef22b5a50741bad5facf9d8a8bc6d21
+
+Signed-off-by: Theo GAIGE <tgaige.opensource@witekio.com>
+---
+ .../libxml/libxml2/CVE-2025-9714.patch        | 117 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
+ 2 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-9714.patch
+
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-9714.patch b/meta/re=
+cipes-core/libxml/libxml2/CVE-2025-9714.patch
+new file mode 100644
+index 0000000000..24d1a8348c
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2025-9714.patch
+@@ -0,0 +1,117 @@
++From 6ef8b9f05cc21d3fc28156fe5d1251834c29c7d7 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Thu, 28 Jul 2022 20:21:24 +0200
++Subject: [PATCH] Make XPath depth check work with recursive invocations
++
++EXSLT functions like dyn:map or dyn:evaluate invoke xmlXPathRunEval
++recursively. Don't set depth to zero but keep and restore the original
++value to avoid stack overflows when abusing these functions.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit=
+/677a42645ef22b5a50741bad5facf9d8a8bc6d21]
++CVE: CVE-2025-9714
++
++Signed-off-by: Theo GAIGE <tgaige.opensource@witekio.com>
++---
++ xpath.c | 23 +++++++++++++++++------
++ 1 file changed, 17 insertions(+), 6 deletions(-)
++
++diff --git a/xpath.c b/xpath.c
++index c2d845888..028471d53 100644
++--- a/xpath.c
+++++ b/xpath.c
++@@ -13883,12 +13883,11 @@ static int
++ xmlXPathRunEval(xmlXPathParserContextPtr ctxt, int toBool)
++ {
++     xmlXPathCompExprPtr comp;
+++    int oldDepth;
++=20
++     if ((ctxt =3D=3D NULL) || (ctxt->comp =3D=3D NULL))
++ 	return(-1);
++=20
++-    ctxt->context->depth =3D 0;
++-
++     if (ctxt->valueTab =3D=3D NULL) {
++ 	/* Allocate the value stack */
++ 	ctxt->valueTab =3D (xmlXPathObjectPtr *)
++@@ -13942,11 +13941,13 @@ xmlXPathRunEval(xmlXPathParserContextPtr ctxt, i=
+nt toBool)
++ 	    "xmlXPathRunEval: last is less than zero\n");
++ 	return(-1);
++     }
+++    oldDepth =3D ctxt->context->depth;
++     if (toBool)
++ 	return(xmlXPathCompOpEvalToBoolean(ctxt,
++ 	    &comp->steps[comp->last], 0));
++     else
++ 	xmlXPathCompOpEval(ctxt, &comp->steps[comp->last]);
+++    ctxt->context->depth =3D oldDepth;
++=20
++     return(0);
++ }
++@@ -14217,6 +14218,7 @@ xmlXPathCompExprPtr
++ xmlXPathCtxtCompile(xmlXPathContextPtr ctxt, const xmlChar *str) {
++     xmlXPathParserContextPtr pctxt;
++     xmlXPathCompExprPtr comp;
+++    int oldDepth =3D 0;
++=20
++ #ifdef XPATH_STREAMING
++     comp =3D xmlXPathTryStreamCompile(ctxt, str);
++@@ -14230,8 +14232,10 @@ xmlXPathCtxtCompile(xmlXPathContextPtr ctxt, cons=
+t xmlChar *str) {
++     if (pctxt =3D=3D NULL)
++         return NULL;
++     if (ctxt !=3D NULL)
++-        ctxt->depth =3D 0;
+++        oldDepth =3D ctxt->depth;
++     xmlXPathCompileExpr(pctxt, 1);
+++    if (ctxt !=3D NULL)
+++        ctxt->depth =3D oldDepth;
++=20
++     if( pctxt->error !=3D XPATH_EXPRESSION_OK )
++     {
++@@ -14252,8 +14256,10 @@ xmlXPathCtxtCompile(xmlXPathContextPtr ctxt, cons=
+t xmlChar *str) {
++ 	comp =3D pctxt->comp;
++ 	if ((comp->nbStep > 1) && (comp->last >=3D 0)) {
++             if (ctxt !=3D NULL)
++-                ctxt->depth =3D 0;
+++                oldDepth =3D ctxt->depth;
++ 	    xmlXPathOptimizeExpression(pctxt, &comp->steps[comp->last]);
+++            if (ctxt !=3D NULL)
+++                ctxt->depth =3D oldDepth;
++ 	}
++ 	pctxt->comp =3D NULL;
++     }
++@@ -14409,6 +14415,7 @@ xmlXPathEvalExpr(xmlXPathParserContextPtr ctxt) {
++ #ifdef XPATH_STREAMING
++     xmlXPathCompExprPtr comp;
++ #endif
+++    int oldDepth =3D 0;
++=20
++     if (ctxt =3D=3D NULL) return;
++=20
++@@ -14422,8 +14429,10 @@ xmlXPathEvalExpr(xmlXPathParserContextPtr ctxt) {
++ #endif
++     {
++         if (ctxt->context !=3D NULL)
++-            ctxt->context->depth =3D 0;
+++            oldDepth =3D ctxt->context->depth;
++ 	xmlXPathCompileExpr(ctxt, 1);
+++        if (ctxt->context !=3D NULL)
+++            ctxt->context->depth =3D oldDepth;
++         CHECK_ERROR;
++=20
++         /* Check for trailing characters. */
++@@ -14432,9 +14441,11 @@ xmlXPathEvalExpr(xmlXPathParserContextPtr ctxt) {
++=20
++ 	if ((ctxt->comp->nbStep > 1) && (ctxt->comp->last >=3D 0)) {
++             if (ctxt->context !=3D NULL)
++-                ctxt->context->depth =3D 0;
+++                oldDepth =3D ctxt->context->depth;
++ 	    xmlXPathOptimizeExpression(ctxt,
++ 		&ctxt->comp->steps[ctxt->comp->last]);
+++            if (ctxt->context !=3D NULL)
+++                ctxt->context->depth =3D oldDepth;
++         }
++     }
++=20
++--=20
++2.43.0
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core=
+/libxml/libxml2_2.9.14.bb
+index f34b0c25ca..932251da98 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -42,6 +42,7 @@ SRC_URI +=3D "http://www.w3.org/XML/Test/xmlts20080827.ta=
+r;subdir=3D${BP};name=3Dtestt
+            file://CVE-2025-6021.patch \
+            file://CVE-2025-49794-CVE-2025-49796.patch \
+            file://CVE-2025-6170.patch \
++           file://CVE-2025-9714.patch \
+            "
+=20
+ SRC_URI[archive.sha256sum] =3D "60d74a257d1ccec0475e749cba2f21559e48139efb=
+a6ff28224357c7c798dfee"
+--=20
+2.43.0
+
 
