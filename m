@@ -2,148 +2,133 @@ Return-Path: <rtie@gmx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD933CAC5B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF82CCD182
 	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 09:59:35 +0000 (UTC)
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by mx.groups.io with SMTP id smtpd.web10.4695.1759399169679534878
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by mx.groups.io with SMTP id smtpd.web11.5054.1759399169459277978
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 02:59:30 -0700
+ Thu, 02 Oct 2025 02:59:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: signature did not verify: crypto/rsa: verification error" header.i=rtie@gmx.de header.s=s31663417 header.b=X6B6bInL;
- spf=pass (domain: gmx.de, ip: 212.227.17.22, mailfrom: rtie@gmx.de)
+ dkim=fail reason="dkim: signature did not verify: crypto/rsa: verification error" header.i=rtie@gmx.de header.s=s31663417 header.b=hFUax3ki;
+ spf=pass (domain: gmx.de, ip: 212.227.17.21, mailfrom: rtie@gmx.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
 	s=s31663417; t=1759399168; x=1760003968; i=rtie@gmx.de;
-	bh=ABDA8UfhtSMfZjIzU6dU1lzLMiuFjZgML6r641Y7nzM=;
+	bh=TVInS+hWZTzmlrn1pAlFOYtq5PwUmOQ0VLlrVHyvUPk=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=X6B6bInLSbeqjpWnc8kFbXdHUPY+8aej9Yp+yUTBSvk/9CQlfhrf7spPQVlFvHjy
-	 unmUyTlC+CN1RMYyVpl1gcu8TD5Vty6DeqAs/Tb2puq8d4aIPLCqV0260iXhHV016
-	 qcpxASUHVM39N8pdeqSLBX/t+mc/HbZFTdwzT/MyVwgNxsTI2EaYHXccNecCzcbeR
-	 wJ2JoHjD2xMwww72kOM+bDQisVtbnKexmiLCs7zXqNWSrrG5toAmabuwCxUHuQFPQ
-	 QV8FIa59eJYBYdLU0fyanJAPOQDK44ZWeuMS0JAB6MivVfVt0TsPKjFl1sc1shZCa
-	 mMKAovwerxH1B+46RA==
+	b=hFUax3kiCSSkNsqICbFnaOemRY180CKGby9YDJOaST+TYHTkOTmh7ejKfJF1v4U/
+	 avlIVEZxyrJDc1+NKVo+ozraVELZr3yS0v3cc99MD/RGvg2mwx82amhmGr4mjK9fy
+	 Qm0VH0e6JCg154WewoWhYSBXCSulF1Ud9OF9an0AOnhPo05YaB8J6wifauXATO/SR
+	 kBVEQHGGB25q3eoBeNstFCOdzYxbXjh5HDTuVGYKzAbroAjDU8l2Oo65+ARdR0Qlr
+	 mL9/rQ8EuBmXpeDPtTesasfyYtUPF6E/OLjg6lO8IlMasYh/rwcGb2jQJeVBF+ro7
+	 822mdJWq6DK0mWI5YQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from bugfish.tua.local ([87.245.7.122]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MeCtj-1uTp0q3LPz-00pzJS; Thu, 02
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MrhQC-1uYXpT3pSu-00d5Hd; Thu, 02
  Oct 2025 11:59:27 +0200
 From: Robert Tiemann <rtie@gmx.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Robert Tiemann <rtie@gmx.de>
-Subject: [PATCH 1/2] udev-extraconf: Speed up mount.sh
-Date: Thu,  2 Oct 2025 11:59:24 +0200
-Message-ID: <20251002095925.2521779-2-rtie@gmx.de>
+Subject: [PATCH 2/2] udev-extraconf: Avoid slashes in mountpoint names
+Date: Thu,  2 Oct 2025 11:59:25 +0200
+Message-ID: <20251002095925.2521779-3-rtie@gmx.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251002095925.2521779-1-rtie@gmx.de>
 References: <20251002095925.2521779-1-rtie@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ao3iDKkTYKEhXsElQJjmOuPZXjSS1KOY0zA3kE6dBbzvBcI4ERj
- tY8/Oo2tGNUmYu7fdSnkvCJX714rZJSU+vM5tJuDmlXwkIkNUXtCkgO2mJoL0/iCE81nrdO
- CehF1JeJq2AQIRY7z4Hzoets5O3o4G0xp+Hqh7vr6BIKL/SnJ7TiChWNiKlDq+wLGhNwhoA
- krfWwFGwllOs2tQKdNI4w==
-UI-OutboundReport: notjunk:1;M01:P0:zeVzZwAO0WM=;aQSr0Et4Z6g26Tth1F+GzCQnK/F
- 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
- SFmyo+y5ccc13ZYdFXmIJFgvRE=
+X-Provags-ID: V03:K1:SbHftrMKx4A/4GqelLdu0bVOHM4bVDixjNUXEUrUR1d4BM+bFEt
+ XRd+2gDcYdkIZA1MomvEzbV/0wXYFVNni7M4VN8BVMvxiTa1Pybz0CwQLF2qDcfueYzpYuw
+ Vh6INnBJn0k7NTqOIHg3qrPAOSYzmC3hP6GsZD2IdsaRcHOfAPcpDznii1BnTTXfHRC1jwl
+ FXZAk2Gee1vquYMR9I9aQ==
+UI-OutboundReport: notjunk:1;M01:P0:E/YfTjcFwdo=;d4apGTQq/UWo2sAOZqzkkLy2Zjl
+ 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
+ od5dhi6Gqmqh8qWc8=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 09:59:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224347
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224346
 
-On devices with many partitions, running blkid without parameters can
-be rather slow because all block devices are inspected:
+Devices with labels such as "Hello/World/Foo/Bar" cause mount.sh to
+create the directory structure @MOUNT_BASE@/Hello/World/Foo/Bar. The
+partition is mounted to the nested "Bar" directory. On device removal,
+the directory structure is not cleaned up.
 
-$ time /sbin/blkid
-real    0m0.474s
-user    0m0.026s
-sys     0m0.172s
-
-versus
-
-$ time /sbin/blkid /dev/mmcblk0p10
-real    0m0.027s
-user    0m0.002s
-sys     0m0.018s
-
-Plugging in a device with 5 partitions means that mount.sh is going to
-be executed 5 times, and so will be blkid. In the real-world case
-outlined above, this adds up to an overhead of about 2.3 seconds for
-blkid alone.
-
-This commit changes mount.sh so that the block device of interest is
-passed directly to blkid such that blkid inspects only that device,
-leading to significant speedup.
+This commit replaces all forward slashes in partition labels by
+underscores to avoid this edge case.
 
 Signed-off-by: Robert Tiemann <rtie@gmx.de>
 =2D--
@@ -152,16 +137,16 @@ Signed-off-by: Robert Tiemann <rtie@gmx.de>
 
 diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes=
 -core/udev/udev-extraconf/mount.sh
-index 0cbae48729..fe78f3aba5 100644
+index fe78f3aba5..4827779e2f 100644
 =2D-- a/meta/recipes-core/udev/udev-extraconf/mount.sh
 +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
 @@ -178,7 +178,7 @@ rm_dir() {
 =20
  get_label_name() {
  	# Get the LABEL or PARTLABEL
--	LABEL=3D`/sbin/blkid | grep "$1:" | grep -o 'LABEL=3D".*"' | cut -d '"' =
--f2`
-+	LABEL=3D`/sbin/blkid "$1" | grep -o 'LABEL=3D".*"' | cut -d '"' -f2`
+-	LABEL=3D`/sbin/blkid "$1" | grep -o 'LABEL=3D".*"' | cut -d '"' -f2`
++	LABEL=3D`/sbin/blkid "$1" | grep -o 'LABEL=3D".*"' | cut -d '"' -f2 | se=
+d 's,/,_,g'`
  	# If the $DEVNAME has a LABEL or a PARTLABEL
  	if [ -n "$LABEL" ]; then
  	        # Set the mount location dir name to LABEL appended
