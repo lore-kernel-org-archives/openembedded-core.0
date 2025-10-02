@@ -1,142 +1,96 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83306CAC5B8
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 14:57:48 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.11315.1759417060937527463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77C24CAC5B8
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 15:12:38 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.11786.1759417955862462805
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 07:57:41 -0700
+ Thu, 02 Oct 2025 08:12:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=1fucBvWv;
- spf=pass (domain: baylibre.com, ip: 209.85.128.44, mailfrom: tgamblin@baylibre.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-46b303f755aso8773185e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 07:57:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bN7yFdfJ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: zboszor@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-781206cce18so1038359b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 08:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1759417059; x=1760021859; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mhTDTpeVGcWjfB541DT/SkL92PJ6UyioGtLHApPTybg=;
-        b=1fucBvWvXIhx3tx1jma5i7JBtHydfjeLRIYHgjV0RlzjPrtTHT3eXhmAz6+3DRjjfN
-         /oMOp0tF3lvKlDJpnO7o/SeX8PWwH1KJRu90LeW1p7tPNTXPkoase//6dlSLT/2+pxce
-         hpqHt2WxboCp3Jgjhjj2mmuKUYdA0fPKF4Eatd2chKpP5QZJgETpd9LtFxHcZLiz48pX
-         58z2jtcXtddfUKEaoTZGz70BHBx/6FEatMsd+lpg3E568YfWPfrA5nl+XxYdEDWZDbhl
-         BYTqS+grIo7ifbJOeMPgBce8V8p6Oj93ZsE1m+EiBOEvOHNaiUyAhWMtZsDRh5XCdzFG
-         bRyA==
+        d=gmail.com; s=20230601; t=1759417955; x=1760022755; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pXupBgtFj1VGB0dxyc10WZrvuUd920WAnORj7O8iWHE=;
+        b=bN7yFdfJEMnGe4kXKl1HaJjAvyh6znzrIAs+iDKPzqgAmxFevMLRNfiHUvxprlyww1
+         qu+H0UPrgKRiPr8RgtuiJ4ypnEFKdvYqWskJi8K/lHDvk01VKMUIYPUNeATLyuXqu/rl
+         DNjQarBNUTIN1z/P9ThDOsZ/Feadg4rWJz/rmz0KEALq/aDNcpKI/BFXa/lYw7dYOlDm
+         j6jKlxbmI4/kGgd8zro+xBcMvdNWwbi1B6D/U6UPA46sgU9+I2nELr8GmOl0S50yGHjV
+         tD2TuEy1eAbe0LpRF07hSM52meXAfwK/YQmSNNWaQszOO0n9NkVWxOouaJWXLLqRxhBh
+         OfGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759417059; x=1760021859;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mhTDTpeVGcWjfB541DT/SkL92PJ6UyioGtLHApPTybg=;
-        b=kDgNX8lIMmaFztArP0KAUPf+O/cIns0bKtGN4Y3NcCIm2P0NWkkPAJ6TcgwrE6wGKg
-         /vhc+7DslgNgjPDAcLeHxtQEpJE+1/zrV9/VdPw0U+5JQzjyObdPaCsofoEzvzwgtZyz
-         tDpAzYva9U+tdPB+dXmvoe56HUIslhlUWB0QodFeC8FZypCAuCNbHA8T+84/hMIISpFe
-         LjFqvYr2sC6lr4wHkUA1Bo7aYrKniHVyBDaO18p+R8+h0XAg3lL4Wb2IdTT4BGqG+CkO
-         aFHum8HBuWoK5Lp+fxZKjOGfuHX0y/MpyGxSzsJTPtzo00kai+63QlZkqdepkGIZoa7i
-         27xA==
-X-Forwarded-Encrypted: i=1; AJvYcCX5PxSinxqBIvBISUBk9ixbAVTsbUAqVMzmyQiqeG0BzzkRIJKm4oHYVfGYQKqIgg867Vaa220TbAd0LtSz1w96/w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwH59K+5sulcLBoAuWmd34Gl3pSaig1UsYm25rjnbQGAdDaQY1+
-	VV2Dd79BRvUfqMgrZaBh8nAmEY9Z52vPuwDPrq4WSW+JzmZb0FCSsL5GwkG9mYMwV2E=
-X-Gm-Gg: ASbGncvh0Fb8El6qVcibG244DeveBE74MVV6I4KVIaA6H1jaFSDu80/EHG7jsz5MICo
-	SshYUBPztN00nStlXp0UseCVusBQJN4WyZZiMfZe0zhcgPHC/KDWVa4X3+10uCCmAWpQjdLVszA
-	fzHKpxP0Rlfn1iNcYCMXZoj+oVsGsoJ9r2CSLdkOV+3uAAzdXaz1XX4n/gDq5LNyEnqF14jq4N7
-	qI5VddmPeqU5jFvIDudrK2F3933Ma8yiKlyXOz4H+Jlv2Hlj/pqWBY2T9n6PDwwtJL6HJJwCBXx
-	4vQjIeT69QsghzCZ+WSvIBXeR+88yMswQIWiCSyvmOJ0hMFTo1rPnIXq1nDtFKpnoYgL6Ut9nlE
-	JYrP9mp4HJ/H6MAO3SguBbFe1+PbeoqV78QjMDwPKu+m1zRv4ZLAkZmTcgklH4JyXmy3VftFNBA
-	dHGtVT
-X-Google-Smtp-Source: AGHT+IHPO5OdEL6sKJPbjyefTztfY7UkaNGxza4icEo1azb0O+P3g6PdNr5MIzF2HII//MvYua31oA==
-X-Received: by 2002:a05:600c:4689:b0:46d:b665:1d95 with SMTP id 5b1f17b1804b1-46e612cb810mr48550535e9.32.1759417059260;
-        Thu, 02 Oct 2025 07:57:39 -0700 (PDT)
-Received: from [10.1.5.150] (88-127-129-70.subs.proxad.net. [88.127.129.70])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e619c3a58sm85033845e9.6.2025.10.02.07.57.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Oct 2025 07:57:38 -0700 (PDT)
-Message-ID: <9ef1677b-9a76-4130-9fba-fd8db07ccbd2@baylibre.com>
-Date: Thu, 2 Oct 2025 10:57:38 -0400
+        d=1e100.net; s=20230601; t=1759417955; x=1760022755;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pXupBgtFj1VGB0dxyc10WZrvuUd920WAnORj7O8iWHE=;
+        b=Yojy6s2b1o7QrJ8PIeuD/U9fu4iEwaJQWLy/gucGX3NwKzfWTDgxa78XF3UGqXzteZ
+         iQD9B7t0iKS3rPcwzMOrp6q2te68lh3pSHmU/fsXBHAjKpPiXRqgEu9tUnvp/DNrpWjX
+         7AL0QvbiE6hc0nr3XH+o/xiXBO/G42SK0xUlNNgeJwfdn16hTjBTbC0DnH2hqH1HgnpP
+         Dw2+qiqalcXH9WpeshD9mab3CjykH/IsxFeqpddbaAAns4wtSeKLZSR6vBK+7+bg1GjY
+         RsMKZJ+/TK+8f4Batn8VVn8r56/yRcB1qiCzCljs/WhPIWyJbPLt8OTpx6HMErnj0KeG
+         CBIw==
+X-Gm-Message-State: AOJu0YzP+ekkJRjzszZDS6fQem0JKmiFz9H6WVu7qAFVLyWSW34NMxco
+	Rb8tBFJdxvSewkh4iEIbZzWKvGgNS2NFVZEWHtldeVG9PdsGtgP3NdJcIXcXuv/T
+X-Gm-Gg: ASbGncsSNZE/dkArPBYE2QfAhTxVj2ZwX4v+m7mdLak6wLkNxlxXCLwgP80EAWc0hIT
+	tUvjhzDYPCzgeXp00z9EDpWkA7FtteRJNGK54GWDw3tVL4Mns2m5/+jHioDOqocdi3O6sAwUJMj
+	hjJHgsYs/6xcfFDJipBP10CfmgGGjg7b4zNtRgxe1tQA7coJTY7DA+/xKz1txsEVW6qGiBW0L07
+	mJyTcEWoDksTfxzftv1+cSbFPjGSFkR5mTZZZxjt+UDD/49EcsVhgJPuh6rTbd5ROX/WqZI6ORl
+	0qmrBJgasIdtV9QGqVzxGkBAzkVgw7Xb0Bj4VW74gJtA6//M3Gh36WOOWpAepkZsCLzkOzUo7vc
+	+M/c31hdxaLLNoSe4IlNxBNDps4eUnTLDworCscCyGD2boimxaBV6744D4vpkPA3cKhyn
+X-Google-Smtp-Source: AGHT+IHWLrwlVLHPUHttcld8WiuTSQkZ1WNSUEbWSAmn9kyYf505ffJeegMeETboU8EGVKUqd301Ag==
+X-Received: by 2002:a05:6a00:116:b0:77d:98ee:e1c5 with SMTP id d2e1a72fcca58-78b024eac5dmr3067558b3a.15.1759417954804;
+        Thu, 02 Oct 2025 08:12:34 -0700 (PDT)
+Received: from fedora (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b02053a3asm2438614b3a.48.2025.10.02.08.12.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Oct 2025 08:12:34 -0700 (PDT)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH] mesa: update 25.2.3 -> 25.2.4
+Date: Thu,  2 Oct 2025 17:12:26 +0200
+Message-ID: <20251002151226.1985845-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] patchtest: fix failure when oe-core repo is in
- detached HEAD
-To: naftaly.ralamboarivony@smile.fr, openembedded-core@lists.openembedded.org
-References: <20251002131024.48843-1-naftaly.ralamboarivony@smile.fr>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <20251002131024.48843-1-naftaly.ralamboarivony@smile.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 14:57:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224364
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 15:12:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224365
 
+Announcement:
+https://lists.freedesktop.org/archives/mesa-dev/2025-October/226554.html
 
-On 2025-10-02 09:10, naftaly.ralamboarivony via lists.openembedded.org 
-wrote:
-> From: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
->
-> Patchtest fails when oe-core git repo is in a "detached HEAD" state:
->
-> Error log:
->
->> File "/usr/lib/python3/dist-packages/git/repo/base.py", line 881, in
-> active_branch return self.head.reference ^^^^^^^^^^^^^^^^^^^
->
->> File "/usr/lib/python3/dist-packages/git/refs/symbolic.py", line 311, in
-> _get_reference raise TypeError("%s is a detached symbolic reference as it
-> points to %r" % (self, sha)) TypeError: HEAD is a detached symbolic reference
-> as it points to '3dd31d3b29730fa1130645d76bb71914ac036335' None
->
-> In this case, no current branch is available for the clean operation.
->
-> To fix this, updates the checkout logic:
-> - if a current branch is available, use it,
-> - otherwise, fall back to the commit pointed to by HEAD.
->
-> This ensures that the script works correctly even when HEAD is detached.
->
-> Signed-off-by: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
-Thanks for this. LGTM.
-> ---
->   meta/lib/patchtest/repo.py | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py
-> index 2cdd6736e4..6a7d7d2d3b 100644
-> --- a/meta/lib/patchtest/repo.py
-> +++ b/meta/lib/patchtest/repo.py
-> @@ -21,7 +21,12 @@ class PatchTestRepo(object):
->           self.repodir = repodir
->           self.repo = git.Repo.init(repodir)
->           self.patch = mbox.PatchSeries(patch)
-> -        self.current_branch = self.repo.active_branch.name
-> +
-> +        if self.repo.head.is_detached:
-> +            self.current_commit = self.repo.head.commit.hexsha
-> +            self.current_branch = None
-> +        else:
-> +            self.current_branch = self.repo.active_branch.name
->   
->           # targeted branch defined on the patch may be invalid, so make sure there
->           # is a corresponding remote branch
-> @@ -80,6 +85,6 @@ class PatchTestRepo(object):
->               self._patchmerged = True
->   
->       def clean(self):
-> -        self.repo.git.execute(['git', 'checkout', self.current_branch])
-> +        self.repo.git.execute(['git', 'checkout', self.current_branch if self.current_branch else self.current_commit])
->           self.repo.git.execute(['git', 'branch', '-D', self._workingbranch])
->           self._patchmerged = False
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#224357): https://lists.openembedded.org/g/openembedded-core/message/224357
-> Mute This Topic: https://lists.openembedded.org/mt/115551792/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index c3751f3414..7046deeb2b 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,8 +19,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "f2d6b28562f1d6cb9c17ee8e58eeade7aa5faf927ae71065eadb41e17f92b4f8"
+-PV = "25.2.3"
++SRC_URI[sha256sum] = "a370b4c549cbfbe646b319e34d73edb50ed883978f5e95133f282f0eae39ab52"
++PV = "25.2.4"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+-- 
+2.51.0
+
 
