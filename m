@@ -2,126 +2,146 @@ Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59434CAC5B8
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 17:25:59 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web10.14649.1759425953920699537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65861CAC5B8
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 17:29:19 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.14721.1759426156397148865
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 10:25:54 -0700
+ Thu, 02 Oct 2025 10:29:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IA9sCZEx;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6228de280a4so2570406a12.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 10:25:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IZ1g9Z+e;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b3e25a4bfd5so258012366b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 10:29:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759425952; x=1760030752; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1759426155; x=1760030955; darn=lists.openembedded.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dhDxgJ6vBPHIL6eSjYafaCh4w086WMyINjLhHw8SeuI=;
-        b=IA9sCZExVvnxiVxe434lSrJn6qn7epnxVmZv1bqY1/6E+cX51d9BRW93uY0s4y1PWg
-         Ht1aVivsAifsGboBk5TzsnK2UODRV20k+SvmHhiJr717GrHy32fT3/J0EPC2iJFwolx2
-         ed1k1aYlu24GF6KohMioGC7+kra/kLlSbf5OI1GjENPbjnmQ5J6qC9mba5AIHnlQm2fw
-         xBRyhnHPWVLL48zl8lMYTasLXxYqXz4KerjHHhSg8c7MtjEdLIQSXnkAPbkifG+Qkqyb
-         xdTKuY+lcIE724dDiRGVJouqudnNbiCCZMmqbaWa4VFBJXdD6b0+2ZGh51c+Bh76XtT3
-         IRpQ==
+        bh=QO2HZ+7jyAmfq0fBzdgLMOyi2EeEWq/2h75xR1wItKI=;
+        b=IZ1g9Z+emYDblSORkbtJ4DPx1KB0i+CUgkzUZffDcANLWlx4YSXyIH81rsEVrtHoY0
+         4a+HtZBFzjTH+yNI/EogRrl8FIeGUm5zoRsHwyDqq2Tg7GH1G4XQ/qvOehnydOtkIDvL
+         mW1rOU4lJztn+4BaDWow+LBEcpJoT1M+0P1AXO6MxHUA9l7D/Rhb34qwhP39kj2KzpqE
+         JbWNyMUaCaW2hAzOodFXePz0vRDevtJOC8jBRA8VcuMA/iyXLshHGExgzfN1IGmX3ksP
+         Ok2LVngUauqgusIAmXRD2blmrlkrbLNCgNdsPasGs7wQ0qeYbdNDBVaWOUuRF2Rv1fJC
+         92fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759425952; x=1760030752;
+        d=1e100.net; s=20230601; t=1759426155; x=1760030955;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dhDxgJ6vBPHIL6eSjYafaCh4w086WMyINjLhHw8SeuI=;
-        b=diPUU06JC/E4U3gTlp9NOWx8/NRgm1c81yE6fG2aqJz1639aIltfhpskqQmt3JsEYE
-         Fra4uBPEUOGJJf05qiEALxly0Phq6Zu6fCCup69cpHFrJLSk6Nwsmxmq7jg3suo3oCBK
-         FQumLv0EmOYSluekv3ZWXFn/v6e+k/szt7IIR/z+nwv7IVXz5DdHa0wdPzUGSAQWBJLy
-         S7mbHCpWftDAJAi25RZk0qAuQW+qgwZy2QfURzRbHAfCbSVT+QQ5KtrKu2jeML39RtNm
-         G+Nocf1gsXOnm2qbMewfmyQiD4AK5zJJGgeNsV9acov8UgZGMZdarvPeui0nbwnmeNBX
-         HeVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWUg/dgjJm9TJMy4TLq/j8lM7rK5I6UsqRJ+n7974gCxSg+F8HRlaXvx+1Y+RdL8JEji6SvwctvlBUvA7MZPcbC/w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzlvcBRfyhhLN1QNc7/lRG3NJQO5VPuzee32tabeyT+LmTd2zoz
-	W4fhfC57aCQg7NpND8m1PxU1XKtrH0NQHNDVc8GEwE+u2HCTEPFsBkmS
-X-Gm-Gg: ASbGnct93xHXjPK03Er7MeUglzqbYvghsf+UqQ3semm60ao/tq6ymUhMIX4IM3IAWWY
-	lIpoBhin0iJobNe27nFyseiPVfsm1S4/FqZwraNELjdNTOVYnC64DOIvJ4dapyu+PtyiqTt4cNa
-	sf6IWHQuaQl2Nw0GbkSthadhfn8BaB22r6HEkgfoQDmoHz7EcC0Y7lZyRVMtWXBxKdNmFh/n/7/
-	9xiP6ko75hiIDZWR+wlLC+uii1dydx7fhbd+nE52ElRml5a0QkAipdjK64X2dTadcLqbG+Ealum
-	41iWJASpZTLKnt+Nj1yll7o6voM0sxnQSJUfI2agpKQAi/3GZyxMIQJasbw/xWC9rc/7iFGielD
-	cXTRj6DviSNq66K8OaVbhrFQKN5gQa3xTQ1NG1GpTtA11FoiXRcTygi14dW8N5WAJDg==
-X-Google-Smtp-Source: AGHT+IGIJCoMC/cYKqh2ATJomgloIRde0e2+KbwnHxoqvIsGW4VheI16QV7VBFkP7aJPY9gNCfDrTA==
-X-Received: by 2002:a05:6402:1e95:b0:638:3f72:125a with SMTP id 4fb4d7f45d1cf-6383f72157dmr1167417a12.14.1759425951985;
-        Thu, 02 Oct 2025 10:25:51 -0700 (PDT)
+        bh=QO2HZ+7jyAmfq0fBzdgLMOyi2EeEWq/2h75xR1wItKI=;
+        b=Ll6ZWoLThO3rOXfI+hEGiNJt4TUlFhkdFdDKPPeT6R4sh2f9MUsbywfuTfv2NWgsVe
+         cA66Bdn44Nm5gbuC4Cu8r1efb7Al4za86Cra7z9k0HGGReUIvDvC+8egGn5XJGTU7PTs
+         wUtRXznRLwrmChOjGQp9Yev26tHmexgVA4zDwRyyGtd5U1kuamnqW0x2bG330i0BRuUW
+         xlKlPGR+5GZdBq2XUkIO2KLMpUEpwwYiJ1Vc/qOVHwh2IdbHi/ebkoqOXwHTgyjwRmht
+         5nVxdjIIc5EFu2Pl9vRPVIgCjxNJpnZaqxPSbyy81KcUOLeyjqO+hCcvaRo7afGeqo0C
+         f3hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW7JVkn9GExvXOs2d6rilVtsDF9s0c4lCZVP3DjjDsjcZ1FmnX9OBWvIvP9+dCQ7+k6ZAc83BFpGVQt1+5zfU972A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzHogHXc9lW9FAu4hClclxu1edd7ySuTI1zZXChSR62tLu8eVqg
+	d5Ch1ig1g+Mu/fvxvdw1JyxxBEkaWtcUTuU6IuVg7txPpQ2TajovsgTj
+X-Gm-Gg: ASbGncuD+Z4cJYJPxgvBPkM/RdUOIFUqnkAVC7R1rWiKWruAZaDGg/7oBxYfUeWBJcc
+	tq2r2TuNQ6GV5pAqw43BeXYKfKr39MpD5IuxDd2oInllD4Skrup3Ahf/sUK3NhRFQns7rUr+P1C
+	MtISvcU57hoywBm76hDQm4VGHG85lXgVQJUTBMc87KU2jy81nK+ly11T4jPF6wyjGHIh5uxSPiF
+	i0T0uYigOuZ2hJpxqgG8H2icQvt89kxs5ILULGm9YgCLQrv2PFFLPUYRA8ckvUGJvAAY+5uMHM+
+	9DtRzTF02GS9t+mZiFmtgbm4jyP+jjYRVl5TzkBCo9aQZZInL0uNLMuLmQx0Re80JhZ+WxjjCk0
+	2O1crF3hXogJ3NnZIpsYTQVUnNFX1TrTWy1Gdu8oP/A/qqxmYBtCxtV/AwgO/sWtwuw==
+X-Google-Smtp-Source: AGHT+IHrHGxA15Ywu1HEKRt9jnIhota22uQctFQZbGGlimRfv17TRDESlLGq+OFceWxFUMHpOBIJZQ==
+X-Received: by 2002:a17:906:794b:b0:b40:b54d:e687 with SMTP id a640c23a62f3a-b49c3f7da07mr27080666b.47.1759426154365;
+        Thu, 02 Oct 2025 10:29:14 -0700 (PDT)
 Received: from [192.168.1.106] ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6375eb397fbsm2194174a12.0.2025.10.02.10.25.49
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b486a169555sm233406066b.88.2025.10.02.10.29.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Oct 2025 10:25:51 -0700 (PDT)
-Message-ID: <10ca15f7-f5b7-41a5-bdcf-f678e91aec37@gmail.com>
-Date: Thu, 2 Oct 2025 19:25:49 +0200
+        Thu, 02 Oct 2025 10:29:13 -0700 (PDT)
+Message-ID: <5cc51968-6aeb-4b61-9724-17bf112c771f@gmail.com>
+Date: Thu, 2 Oct 2025 19:29:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] meta/lib/oe/recipeutils.py: Handle multi-repo
- recipes for upgrade check
-To: u.kleine-koenig@baylibre.com, openembedded-core@lists.openembedded.org
-References: <20250923154701.1506704-2-u.kleine-koenig@baylibre.com>
- <ibynx6jvvawtrkybl66at6dqikjuexuuis5ymq5r4cylv6sxzy@zcnbtottsekq>
+Subject: Re: [OE-core] [RESEND PATCH 2/2] runqemu: resize rootfs image to
+ power of 2 for SD or pflash
+To: jon.mason@arm.com, openembedded-core@lists.openembedded.org
+References: <20251001175702.62563-1-jon.mason@arm.com>
+ <20251001175702.62563-2-jon.mason@arm.com>
 Content-Language: en-US
 From: Gyorgy Sarvari <skandigraun@gmail.com>
-In-Reply-To: <ibynx6jvvawtrkybl66at6dqikjuexuuis5ymq5r4cylv6sxzy@zcnbtottsekq>
+In-Reply-To: <20251001175702.62563-2-jon.mason@arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 17:25:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224376
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 17:29:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224377
 
-On 10/2/25 11:48, Uwe Kleine-König via lists.openembedded.org wrote:
-> Hello,
+On 10/1/25 19:57, Jon Mason via lists.openembedded.org wrote:
+> QEMU requires that SD and pflash images are sized to be a power of 2
+> (e.g., 32M, 64M, etc).  So, if the image being used is not a power of 2
+> and it's being used for SD or pflash, increase it to the next power of 2
+> size via the truncate command.
 >
-> On Tue, Sep 23, 2025 at 05:47:02PM +0200, Uwe Kleine-König wrote:
->> For a recipe that uses more than one git repo there isn't a single
->> SRCREV variable. For example for linux-yocto there is SRCREV_machine and
->> SRCREV_meta and rd.getVar("SRCREV") yields "INVALID".
->>
->> Luckily bb.fetch2 already handles all the details and exposes the
->> currently used revision in ud. So just use that.
->>
->> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
->> ---
->> Hello,
->>
->> note this is my first OpenEmbedded-Core patch, so please apply some
->> extra caution before applying this patch.
->>
->> Note that for testing with linux-yocto I also set
->>
->> 	UPSTREAM_CHECK_COMMITS = "1"
->>
->> for that recipe. (I'm not sure this is completely right to do in
->> general, but that's a separate discussion. Without it `devtool
->> check-upgrade-status linux-yocto` suggested to go to 6.16.y instead of
->> 6.12.$latest.)
-> This patch was applied to oe-core/master as
-> ddf00d6aee955878c070327ee8d751fdb6099444 (and cherry-picked to poky as
-> 441313eecbd45cfcbf0368e4d1d54bd2e9e59c6b). Would you consider that a fix
-> enough to backport it to walnascar and scarthgap, too?
+> This might not be an actual spec requirement, and is being investigated
+> in https://gitlab.com/qemu-project/qemu/-/issues/1754
+>
+> Signed-off-by: Jon Mason <jon.mason@arm.com>
+> ---
+>  scripts/runqemu | 24 ++++++++++++++++++++++--
+>  1 file changed, 22 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index a8144aa68c3d..cd2ded69916a 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -421,7 +421,27 @@ class BaseConfig(object):
+>          else:
+>              raise RunQemuError("Unknown path arg %s" % p)
+>  
+> -    def uncompress_rootfs(self):
+> +    def rootfs_fixups(self):
+> +
+> +        """Resize rootfs image if needed"""
 
-It is most likely too late for Walnascar - there is only one more
-release planned, and it is already in QA phase.
-Scarthgap is however very much alive - you can rebase your patch on top
-of the latest Scarthgap branch, and send it with the appropriate subject[1]
+Nit: the docstring now only describes the newly added behavior, but not
+the original. The original docstring is also present, but it is now in
+the middle of the method.
 
-[1]:
-https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#submitting-changes-to-stable-release-branches
+> +        qb_rootfs_opt = self.get('QB_ROOTFS_OPT')
+> +
+> +        # Check if sdcard size is a power of 2, as that is currently a requirement for qemu
+> +        # See https://gitlab.com/qemu-project/qemu/-/issues/1754
+> +        rootfs_size = os.path.getsize(self.rootfs)
+> +        rootfs_size_pwr2 = 1 << (rootfs_size - 1).bit_length()
+> +        if ("if=sd" in qb_rootfs_opt or "if=pflash" in qb_rootfs_opt) and rootfs_size != rootfs_size_pwr2:
+> +            logger.info("Using sd-card or pflash and is not power of 2. File size %d, power of 2 size %d" %(rootfs_size, rootfs_size_pwr2))
+> +            logger.info("Attempting to use truncate to correct this.")
+> +
+> +            # Ensure the 'truncate' tool is installed before attempting to make a power of 2.
+> +            if not shutil.which('truncate'):
+> +                raise RunQemuError(f"'truncate' is required to make {self.rootfs} a power of 2 in size but was not found in PATH")
+> +            try:
+> +                subprocess.check_call(['truncate', '-s', str(rootfs_size_pwr2), self.rootfs])
+> +            except subprocess.CalledProcessError as e:
+> +                raise RunQemuError(f"Failed to make {self.rootfs} power of 2 in size: {e}")
+> +
+>          """Decompress ZST rootfs image if needed"""
+>          if not self.rootfs or not self.fstype.endswith('.zst'):
+>              return
+> @@ -1808,7 +1828,7 @@ def main():
+>          config.check_args()
+>          config.read_qemuboot()
+>          config.check_and_set()
+> -        config.uncompress_rootfs()
+> +        config.rootfs_fixups()
+>          # Check whether the combos is valid or not
+>          config.validate_combos()
+>          config.print_config()
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#224315): https://lists.openembedded.org/g/openembedded-core/message/224315
+> Mute This Topic: https://lists.openembedded.org/mt/115538558/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-> For walnascar it can be cleanly cherry picked. For scarthgap I
-> additionally need:
->
-> -            revision = ud.method.latest_revision(ud, rd, 'default')
-> +            revision = ud.method.latest_revision(ud, rd, ud.names[0])
->
-> I don't understand that completely yet, bisecting points at
-> 6dea2e6332835bd7b646a520e28ce840f0d98f24.
->
-> Best regards
-> Uwe
->
 
