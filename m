@@ -1,113 +1,98 @@
-Return-Path: <denis@denix.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AFCACAC5B0
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 14:04:18 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web11.9869.1759413848731677497
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16ABCCAC5B8
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 14:04:58 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.web11.9886.1759413893390855308
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 07:04:09 -0700
+ Thu, 02 Oct 2025 07:04:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id DCF9940C85;
-	Thu,  2 Oct 2025 14:04:07 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3SXsZuoIeW7p; Thu,  2 Oct 2025 14:04:07 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id AFF8740C2E;
-	Thu,  2 Oct 2025 14:04:05 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id EC4211640DC; Thu,  2 Oct 2025 10:04:04 -0400 (EDT)
-Date: Thu, 2 Oct 2025 10:04:04 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Denys Dmytriyenko <denys@konsulko.com>
-Subject: Re: [OE-core] [RFC PATCH 3/5] musl: set compatibility a bit more
- flexible
-Message-ID: <20251002140404.GC3125@denix.org>
-References: <20251002000810.226673-1-denis@denix.org>
- <20251002000810.226673-3-denis@denix.org>
- <CAMKF1spcHAvNJtsStzG0OgigTKkU_QHgApdY1m5Q+Zf4aecTRg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMKF1spcHAvNJtsStzG0OgigTKkU_QHgApdY1m5Q+Zf4aecTRg@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=ia3WcTvY;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 73AFE4E40E09
+	for <openembedded-core@lists.openembedded.org>; Thu,  2 Oct 2025 14:04:51 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 499166062C;
+	Thu,  2 Oct 2025 14:04:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E72A3102F199F;
+	Thu,  2 Oct 2025 16:04:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1759413890; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=f+vJGjNnC2pHkkKMpFAMHiALB6Wz2848381enkiTsOA=;
+	b=ia3WcTvYXRcxqZ0Xd838Ds70MO5AN10cllpiaA1roAtrrs+ZNTGrvyw00SC2iBzWNyLs0x
+	kyQtpzs35/lh0BzsCUpTXQPSjy7EzxBIvBXf9OJp1LhkQogST6fSXVoJZSnqlWDFDZOdvV
+	wVpuzFL8/WGVm0aYda2mUGKjF6pmDQYtry0VIKotveIAKL9ef9LFvQFbWmcF/Z2ohcURaW
+	iXRsuYAgATg5bkETHaIE79PMd7uYpZhe1JLXtXxqwVHbXUt37hWnLv9RqDUSJs1C+bhwOx
+	T95pXCzAZApwx/vC4YCePtivuegyTo+pihfddJ4egosl3L1nSmcU5u+NRYQyPw==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 02 Oct 2025 16:04:47 +0200
+Message-Id: <DD7W65Q8DO16.FT6E3EYXCZOT@bootlin.com>
+Subject: Re: [OE-core] [PATCH 1/2] binutils-cross-canadian: Add missing perl
+ mpodules to RDEPENDS
+Cc: <Sundeep.Kokkonda@windriver.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <Harish.Sadineni@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.19.0-0-gadd9e15e475d
+References: <20250930123901.949798-1-Harish.Sadineni@windriver.com>
+In-Reply-To: <20250930123901.949798-1-Harish.Sadineni@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 14:04:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224359
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 14:04:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224360
 
-On Wed, Oct 01, 2025 at 07:12:34PM -0700, Khem Raj wrote:
-> On Wed, Oct 1, 2025 at 5:08=E2=80=AFPM Denys Dmytriyenko via
-> lists.openembedded.org <denis=3Ddenix.org@lists.openembedded.org> wrote=
-:
-> >
-> > From: Denys Dmytriyenko <denys@konsulko.com>
-> >
-> > Like musl Linux config, baremetal also uses musl as a libc, but
-> > it has a different host triplet set. Hence adjust COMPATIBLE_HOST
-> > to accomodate this use case by checking that musl is a preferred
-> > provider of libc.
->=20
-> This sounds a bit odd. Why do we use musl for baremetal targets ?
+On Tue Sep 30, 2025 at 2:39 PM CEST, Harish via lists.openembedded.org Sadi=
+neni wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>
+> In sdk while running "x86_64-poky-linux-gp-display-html --help" gives
+> following error:
+> $sdk/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux->
+> ./x86_64-poky-linux-gp-display-html --help
+> Can't locate bigint.pm in @INC (you may need to install the bigint module
+>
+> By adding the following perl modules to RDEPENDS fixes the above errors:
+>   nativesdk-perl-module-bignum
+>   nativesdk-perl-module-bigint
+>   nativesdk-perl-module-math-bigint
+>
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
 
-Was like that for 10 years since the beginning of baremetal support:
-https://git.openembedded.org/openembedded-core/commit/?id=3Dcb010e306a6a8=
-56c589db5f41fdcaea4e5035d93
+Hi Harish,
 
+Thanks for your patches.
 
-> while musl does have FDPIC support but I don't think thats how we
-> use it.
->=20
-> >
-> > [YOCTO #15982]
-> >
-> > Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
-> > ---
-> >  meta/recipes-core/musl/bsd-headers.bb      | 2 +-
-> >  meta/recipes-core/musl/libssp-nonshared.bb | 3 ++-
-> >  2 files changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/musl/bsd-headers.bb b/meta/recipes-cor=
-e/musl/bsd-headers.bb
-> > index ad9ba81e4f..c6a3814a49 100644
-> > --- a/meta/recipes-core/musl/bsd-headers.bb
-> > +++ b/meta/recipes-core/musl/bsd-headers.bb
-> > @@ -25,7 +25,7 @@ do_install() {
-> >  #
-> >  # We will skip parsing for non-musl systems
-> >  #
-> > +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER_vir=
-tual/libc', 'musl', '.*', 'null', d)}"
-> >
-> > -COMPATIBLE_HOST =3D ".*-musl.*"
-> >  DEV_PKG_DEPENDENCY =3D ""
-> >  RRECOMMENDS:${PN}-dbg =3D "${PN}-dev (=3D ${EXTENDPKGV})"
-> > diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipe=
-s-core/musl/libssp-nonshared.bb
-> > index 4bcbaef7ea..6f12ff0c9b 100644
-> > --- a/meta/recipes-core/musl/libssp-nonshared.bb
-> > +++ b/meta/recipes-core/musl/libssp-nonshared.bb
-> > @@ -29,7 +29,8 @@ do_install() {
-> >  #
-> >  # We will skip parsing for non-musl systems
-> >  #
-> > -COMPATIBLE_HOST =3D ".*-musl.*"
-> > +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER_vir=
-tual/libc', 'musl', '.*', 'null', d)}"
-> > +
-> >  RDEPENDS:${PN}-staticdev =3D ""
-> >  DEV_PKG_DEPENDENCY =3D ""
-> >  RRECOMMENDS:${PN}-dbg =3D "${PN}-staticdev (=3D ${EXTENDPKGV})"
-> > --
-> > 2.25.1
+I'm seeing some strange things on the autobuilder with this series. I
+had a first build without errors, on another build I got:
+
+ERROR: nativesdk-binutils-2.45-r0 do_package_qa: QA Issue: nativesdk-gprofn=
+g rdepends on nativesdk-perl-module-bigint, but it isn't a build dependency=
+, missing one of nativesdk-perl in DEPENDS or PACKAGECONFIG? [build-deps]
+ERROR: nativesdk-binutils-2.45-r0 do_package_qa: QA Issue: nativesdk-gprofn=
+g rdepends on nativesdk-perl-module-bignum, but it isn't a build dependency=
+, missing one of nativesdk-perl in DEPENDS or PACKAGECONFIG? [build-deps]
+ERROR: nativesdk-binutils-2.45-r0 do_package_qa: QA Issue: nativesdk-gprofn=
+g rdepends on nativesdk-perl-module-math-bigint, but it isn't a build depen=
+dency, missing one of nativesdk-perl in DEPENDS or PACKAGECONFIG? [build-de=
+ps]
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/2495
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
