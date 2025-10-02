@@ -1,127 +1,139 @@
-Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D167ACAC5BB
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 01:50:49 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.2727.1759369842489652224
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB389CAC5BB
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 02:13:09 +0000 (UTC)
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+ by mx.groups.io with SMTP id smtpd.web10.3111.1759371182292370277
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Oct 2025 18:50:42 -0700
+ Wed, 01 Oct 2025 19:13:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=TQOtv4xJ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 591IbwBo031236
-	for <openembedded-core@lists.openembedded.org>; Thu, 2 Oct 2025 01:50:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=YeXJaWyVrbuLA3SGrZw1oYnISoYjb7OZHP5
-	hJ+mGDQU=; b=TQOtv4xJM4QCLNf92J9ixrf+scpVKkKl5KwTPvy8baO4Y8VjHzn
-	NcsjG/WddHbmtLv/3Lp5ijVfi6E5BJByhw+4tZbPqWR0IxS1rvNOFSvBke+jGSya
-	vmVjmLyAnviIpk8CvDfXWnaU9FYbrN0ULFUSO0U0cqdoF9wB5OQ/fIhX2jfCpc9R
-	KUC+PWzGw9qWi9DzXA2qsvnaFk+ZQW2b/OzNK4AL1WbOvuFC/Bxs5YjWVgU4EUGR
-	usmPdVsxIhkYLKLnj5WEdKlA4Xemd2NpY+4LabrAOGvw/5b3FUOFZ9c7FubVwVaw
-	w/o7NZj2UDCLjG5YWU3KCX2a2UnatfKf+hQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e6vr6dp4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 01:50:41 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-828bd08624aso106942485a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 18:50:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wc2D1lcq;
+ spf=pass (domain: gmail.com, ip: 74.125.224.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-6353e91a04aso687808d50.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Oct 2025 19:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759371181; x=1759975981; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gGy+kkAeKbovs7spksrPbIwC+P8bdfJrZnnZ5hkzj48=;
+        b=Wc2D1lcqjA/29/Hs+KwF8ElBiQYtO4ZkadJsRdF4LkkffRGxa2dKnMJcqKcS/httnQ
+         CmqfHQuJS0wgo9bvNS5j2VRYvE/+mMKa6oE72MFBsBIULtCHHgpTfNHb2cAUFXYxIjhz
+         tyWs24mAY5tIzBcCHZENi5qAydpYuff9qvAwr2QHTHEhE2YVH+FAj3U0zVgJ/TRFWHf4
+         +3eTZE4TG0rbeV6pQ+xiOo7FCKIVhFOZyRSwUUbWlePTBT2zp9dPJDIz8GsBsGFRPXFA
+         yaoSZ5G4rPTDal+viCr0b/ET2dAnKyZUpzVbVImJ3oeLht/JGXHfIkW+f6NeJvdfp3uh
+         Sjpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759369840; x=1759974640;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YeXJaWyVrbuLA3SGrZw1oYnISoYjb7OZHP5hJ+mGDQU=;
-        b=axnnLp7oMcv3vmm5Xx9dWGo7PHFFB0ID8o051kbki6fIdJvBNEOn6fNKEVeBoBBdMD
-         hh51SimLbfMtc/v611+jP7WadHHnX0Zo0SyPoweoUTAyfbT/iFkz3ZigSc1PtryivbWX
-         pNNCiLMTp6C1Zmki2CRN6rH9pd60iQQzaaN112xYtsldzPJXUmtNK6JC93zEqZlm3wVo
-         HJrbCWtcwgErqbBZGix6fXz0KBKEYkpnY95bFEqAhuqOMqHWZXyZXQe4syRqsXN4ytW0
-         6fpiQnX1/CDCg3ERMswivNDZq/C2WoB4/MQbhV8WU1Y7BbcvUwIrOVNiKrnhT1QULgIC
-         /C8Q==
-X-Gm-Message-State: AOJu0YxC9ryqxwitL+PP6fXYWpvjiZq7CfRHLa1FaO6AEnus0520b7MA
-	eJ8DqRMqB97QkzL/GCtDmvsO9tJMihP+iV47cfecnoMQrPjYCfs8cQ5p80zsAlegbCaR68NqahZ
-	g2kt9HwzUhl25MnKENfw/wxORKCerqyzgy7ji1UG8pQELWQnr8nbYOWy+Nce/hVFSNaAXx6glSQ
-	Fep9hc1XBR7CCzMdn+sg==
-X-Gm-Gg: ASbGnctoXma3AncsSQ4ElIeI20n5TisNECDE/aWK1CYd7r244NQ3JodOOeKSJ1gjrYL
-	q3Dj3zqMk9FoBcs2h28K/hYfTEngbisJ/fpYKmCKV0FLpAOZ4ttGz/j/11WvG9oC8o5qUsuEaYi
-	EvC9hwu4Z3AgodY2P0WoLriNLVUHGOO3KUri+qWwgsfujtF3ONu2BtJu6/GuTRPecihKBsgEW++
-	ywb9oJhHaJtjsRGGKQ9uXwTlxwKB7t+sLrGtItEwrEK5JEfs4VXpfqGSzqlIkha+FMbi0u+lSn+
-	X+uHIf8FXSljKfKdzjkItqu6VPeCknui/5JaZBPFmfpNwvNZVWls6w0ZbNZqb9gsbFBu12wzXDj
-	vkPQ09ddsmKFOlNnuraF/QqLGfln7u77Kk2ALBQzLh39OZR5M3EYXakLrEg==
-X-Received: by 2002:a05:622a:559a:b0:4b5:e8f4:3f51 with SMTP id d75a77b69052e-4e41eb148cemr80511241cf.70.1759369840379;
-        Wed, 01 Oct 2025 18:50:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFZnz23Nl+UPNH72lgilYIsIRPfREYk1pLjUJirqPtRaOyFFcUlB2arMu4Sa3ZlYFzfWYOTCA==
-X-Received: by 2002:a05:622a:559a:b0:4b5:e8f4:3f51 with SMTP id d75a77b69052e-4e41eb148cemr80511111cf.70.1759369839800;
-        Wed, 01 Oct 2025 18:50:39 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b011b120bsm363842e87.129.2025.10.01.18.50.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 18:50:33 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mesa-demos: split info tools to a separate package
-Date: Thu,  2 Oct 2025 04:50:30 +0300
-Message-ID: <20251002015030.2464972-1-dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20230601; t=1759371181; x=1759975981;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gGy+kkAeKbovs7spksrPbIwC+P8bdfJrZnnZ5hkzj48=;
+        b=oCyAmM34PXtvpvmz879gWwG/HG4H4iIEcS1g78buhf6AUtueLU9KWQ22VdokD0VLf3
+         iwz1QXfkAezoztNDVGogLTin8xBoNI+wwG6NpROlXBPc4IsKSwoy9bSeYWsASrOTVsQ/
+         /NLjWVb5BSn0MUsYC8fV7TXZIXuiO5Kh3RRpZaOhc0xKjV9PsQEw7lP35VlE03WoyLBS
+         rZ5482OpR8xuntpxY0eOlkArxQnDxHWMXvv9BvtQ/hWxrn2/NNyB5s4WoCotpVKUx29s
+         tj3xJiAGywdgzGbHrhZuniQpvVt8135nwjR01qHv9n61xxzT0YnkRrXMCFBP+yivnMcC
+         iI4g==
+X-Gm-Message-State: AOJu0YwelsB6Mx4Mmkt6uLRR2hCVm/qUFKz0DwFsjjL3iamxccKn32Gu
+	StGl1FTTlMovKMM9KD8JRC5X1P/gS4P7HKxK/KujdZDVv7B2Bmt3J2mpSHqFXLTG5ygkQCALTtv
+	Tz8I1bytXV1ZLNW1zW3su/rcHm5QJ1OU=
+X-Gm-Gg: ASbGncuVn0zrpQWst+GgG/YQTBJ90P8O1w7k2SjlJ0C65owqWikbY9ZAHAPaF35XVoQ
+	IsJfE/8n3k/3VO2q3bmiObxVPM68gpkfRgI88VzgYe+AnqwkG9jz+QWBtvtOopTKRDmwph+pUb9
+	AAP3bscQpU3qQlsbrNkr4Eg6rsDPFJfJT466c+/79ULcXkt3c3s5dCQNOH6/KaT3UXIzb3oukxH
+	RfdTCvvE9JHLx01EIOdRl45a5Hht1i0429tx1MmyC/u8W50dyU2W2e2G9zmr+mRrZRu203W0KqC
+	GsfSzbeqe0yKwYP9vVczQeMuvyEsObpTztB81zkj0IT81kg24NuyQLO4dxv/rCg=
+X-Google-Smtp-Source: AGHT+IFhms+am70Y3J09krzLx7CwzRzNessgk+zBDb7n7ulOlZkMzsGpJ1+bmIdFvGWLwh5DpZlr4S8UcALlZr2cSAs=
+X-Received: by 2002:a05:690e:25f2:b0:636:d7b8:c56f with SMTP id
+ 956f58d0204a3-63b6ff96750mr5532309d50.36.1759371181269; Wed, 01 Oct 2025
+ 19:13:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: nui-URZUjgGCcoKm7VSWg91xdHMcYEx8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAxNyBTYWx0ZWRfX9/TL9evAwfgH
- vtlUdtwB9fcGcYklKcBQp/+WcqwdYRc8z1DV8bHzj849jT/QNbDCc0d1iZVa+g4n6pAKX3JPidV
- 6ZIiZgL+Y9Sb+ll3P8DNeD8bNVUFDIIzNW9bneH2sSUN8e1wu2zrmszIXGjU+HW4X8qsGPtfVK0
- bFBmOjrSL3ZowvjEzM7PUC+5+YM7Ou6l79vJi2rugdFJ+SrnLnqtHIUsZHYeogYJVhOjYHWRacR
- HnFgW1LKeOT9iJ3I8c7wkwThEtQ+nmGvAGSRt6/7j0XoxfHzWvi/PY97ImUVOiN0Ph5+8vm11kS
- VgK5xnxg3+Rc0NalDkHbieHKEmXJdPc5wrFFSbVbVLmNNZD66GmR+a0WqogunNq/NtxHjRjDyRS
- wZ9xDnRcHNmvFg9VQkh2OqD/LHLyTQ==
-X-Authority-Analysis: v=2.4 cv=IeiKmGqa c=1 sm=1 tr=0 ts=68ddda72 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
- a=EUspDBNiAAAA:8 a=f7a6eG5gFZbr4CpXDKwA:9 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-ORIG-GUID: nui-URZUjgGCcoKm7VSWg91xdHMcYEx8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-02_01,2025-09-29_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 impostorscore=0 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2509270017
+References: <20251002000810.226673-1-denis@denix.org> <20251002000810.226673-3-denis@denix.org>
+In-Reply-To: <20251002000810.226673-3-denis@denix.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 1 Oct 2025 19:12:34 -0700
+X-Gm-Features: AS18NWBS-qnthDft-F2BNTcugo5njQsH9LwPPOFy-Pop4Ed1U0dzkTGB_p1RTxc
+Message-ID: <CAMKF1spcHAvNJtsStzG0OgigTKkU_QHgApdY1m5Q+Zf4aecTRg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 3/5] musl: set compatibility a bit more flexible
+To: denis@denix.org
+Cc: openembedded-core@lists.openembedded.org, 
+	Denys Dmytriyenko <denys@konsulko.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 01:50:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224341
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 02:13:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224342
 
-While the rest of programs inside mesa-demos are really "demos", several
-*info utilities have separate value as they allow gathering information
-about the running system in a manner similar to clinfo or vulkaninfo.
-Split them into a separate package in order to allow picking them info
-the images without picking up the rest of "demos".
+On Wed, Oct 1, 2025 at 5:08=E2=80=AFPM Denys Dmytriyenko via
+lists.openembedded.org <denis=3Ddenix.org@lists.openembedded.org> wrote:
+>
+> From: Denys Dmytriyenko <denys@konsulko.com>
+>
+> Like musl Linux config, baremetal also uses musl as a libc, but
+> it has a different host triplet set. Hence adjust COMPATIBLE_HOST
+> to accomodate this use case by checking that musl is a preferred
+> provider of libc.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+This sounds a bit odd. Why do we use musl for baremetal targets ?
+while musl does have FDPIC support but I don't think thats how we
+use it.
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
-index a9e84039d2c9..0bc8519e90e2 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
-@@ -20,6 +20,10 @@ REQUIRED_DISTRO_FEATURES = "opengl x11"
- 
- EXTRA_OEMESON = "-Dwith-system-data-files=true"
- 
-+PACKAGE_BEFORE_PN = "${PN}-info"
-+RDEPENDS:${PN} += " ${PN}-info"
-+FILES:${PN}-info = "${bindir}/*info"
-+
- # Note: wayland is not included as the feature requires libdecor recipe,
- # which is not currently in core
- PACKAGECONFIG ?= "drm egl gles1 gles2 \
--- 
-2.47.3
-
+>
+> [YOCTO #15982]
+>
+> Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
+> ---
+>  meta/recipes-core/musl/bsd-headers.bb      | 2 +-
+>  meta/recipes-core/musl/libssp-nonshared.bb | 3 ++-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/musl/bsd-headers.bb b/meta/recipes-core/mu=
+sl/bsd-headers.bb
+> index ad9ba81e4f..c6a3814a49 100644
+> --- a/meta/recipes-core/musl/bsd-headers.bb
+> +++ b/meta/recipes-core/musl/bsd-headers.bb
+> @@ -25,7 +25,7 @@ do_install() {
+>  #
+>  # We will skip parsing for non-musl systems
+>  #
+> +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual=
+/libc', 'musl', '.*', 'null', d)}"
+>
+> -COMPATIBLE_HOST =3D ".*-musl.*"
+>  DEV_PKG_DEPENDENCY =3D ""
+>  RRECOMMENDS:${PN}-dbg =3D "${PN}-dev (=3D ${EXTENDPKGV})"
+> diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipes-co=
+re/musl/libssp-nonshared.bb
+> index 4bcbaef7ea..6f12ff0c9b 100644
+> --- a/meta/recipes-core/musl/libssp-nonshared.bb
+> +++ b/meta/recipes-core/musl/libssp-nonshared.bb
+> @@ -29,7 +29,8 @@ do_install() {
+>  #
+>  # We will skip parsing for non-musl systems
+>  #
+> -COMPATIBLE_HOST =3D ".*-musl.*"
+> +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER_virtual=
+/libc', 'musl', '.*', 'null', d)}"
+> +
+>  RDEPENDS:${PN}-staticdev =3D ""
+>  DEV_PKG_DEPENDENCY =3D ""
+>  RRECOMMENDS:${PN}-dbg =3D "${PN}-staticdev (=3D ${EXTENDPKGV})"
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#224333): https://lists.openembedded.org/g/openembedde=
+d-core/message/224333
+> Mute This Topic: https://lists.openembedded.org/mt/115544473/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
