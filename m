@@ -1,141 +1,121 @@
-Return-Path: <philip@balister.org>
+Return-Path: <naftaly.ralamboarivony@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CA3CAC5B0
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 11:56:56 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.4658.1759399039145051877
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB5C6CCA471
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 13:10:47 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.8213.1759410638548665952
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 02:57:19 -0700
+ Thu, 02 Oct 2025 06:10:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=cdS1TdDM;
- spf=pass (domain: baylibre.com, ip: 209.85.218.43, mailfrom: ukleinek@baylibre.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b3c2db014easo168949666b.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 02:57:18 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=qQIR86sF;
+ spf=pass (domain: smile.fr, ip: 209.85.208.48, mailfrom: naftaly.ralamboarivony@smile.fr)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-62fc89cd68bso1780109a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 06:10:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1759399037; x=1760003837; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o12xShts5o+3ysyRBJmbVmbe40IxbLga2wMvDqzwtQw=;
-        b=cdS1TdDMxVdhqLjv8mPydVrWESNtjw620J9IUBRdHJ6D+4gHmYeTZjdVQoZ3znr5v5
-         nmyKxFDBfGfx8Vwu7yNOmCS8iNsvhZoNS6V4i+V7HXlFAdmXHRWuwd1nC8MM68KWI6UV
-         07uOiW/jn0S61jy8dBiVpoVMcjOFG68AsUfPNhDIDFcY7K42ecurusT0s1Pv1VMedA9F
-         QbJA92digpNSgk/5tnxUTic8Te8x/SFAU2X3/V0RcGAOAH+0VAlpQDIT20cxPwqyuPov
-         usBhY0C3VBgeL3EM9jZK8ta65N3JJkE/hR+73Kzd0mzsS+F7F7wEp3IgMQ6AYcNGeBpI
-         rgmw==
+        d=smile.fr; s=google; t=1759410637; x=1760015437; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rj9TkxFdu5isGQ9OXGna9LM1/ciFtjAxo3pry0VaGdo=;
+        b=qQIR86sFJObk2a77iuVN6bxXM+ZYBfywZkGWxeXavdkCQzgF+h5iZiZLbhA7gGvB+j
+         d+w9OhXXu0KBJADwD/NmitQnMGxgAwCQdwfB83fukHxVNYvNPJiuIaf1S5qeWFjWjGC8
+         R+GYF9E1YfDXlTHwvPY1ZJyKJS/d07q/4ELFE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759399037; x=1760003837;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o12xShts5o+3ysyRBJmbVmbe40IxbLga2wMvDqzwtQw=;
-        b=PzXT/mfYPbbZUmV2NRWvfW66t/mOpFm58sdlY0ttIOtTFfJUfcDkeahQECQuEPT6G1
-         SjdYmPyFVHt85aMl5S031YPS3teatsUYjNRpaBY7i6mdKIgpaCzr53+QrFSbH351trLD
-         8TVh1ZMJshFPP3lqMveoAgpVMpq/7DLYjhHie5CfxcTYOVTzeVTXAi/vISWfHmoVcDuO
-         IEBmT7LVLUduCjZL6bwOBq2+vWkbX3UWtSw9krhmoH1wJnoXLJmSIZZL9slY3rsmu2B8
-         l11YzljF0q/0UIuEoS0/EFrXppxOZl+B/hUcr7pIleIBNRLofyRA7UB2aRM3Ri/EaxT6
-         VoxA==
-X-Gm-Message-State: AOJu0Yy+QYzi+503k8CwxvSx6SC+ITwlVjiRwpaoOCT3iCT6qO63SZV7
-	5HuAkbkXxtKiJNzsJ9Bbgq2vyjTU/L3uENSW3CxAuH6erPVkH8kH6dIYzNH5snpDy1szYS0K/dB
-	zAYPkFmY=
-X-Gm-Gg: ASbGncszoXIUoWhnLV5mYgkj1+83+0NgABOjDVyA+8xNFxj/FnN2KuBtcsfyHLxBpV/
-	iqsTNlO6jWrH3nYuQdL6G3EpEJKFBruoZZ/PUG+fOkzEZTzyGRRzBZyxq33hjMwx8lQCOVBnsmz
-	48gXzWCohNFRsrl/AEww3Pmv5mXe1VFffERVYmngEZVFlWld4MOR0G2C7epwAYTFF4J/+KppHeI
-	XUR6mtZX/pqzm9dWhi1UlOP48vR6gHrO5AUP5vj/vhUd56JFLElPOlaye8oHTbke09z94RhE9p5
-	fA064+7NrIVBMlhWEPzpHVSBUKMampy7ewXg9fdxuQ4G/Zm1jMjgkd4DkWrZGHmHzjNZ3yv+dyS
-	uUgc5R8oBVnQgn6eH+8ksc3neAg0zCZ8wDMFW2DsqWB16iPPq5zL4K12bWDej9lmDasGhuBHtYM
-	0=
-X-Google-Smtp-Source: AGHT+IEiZc4OKdltZtnspbKSY1d8fB4zue9wu6+EjlMwrGlVmNKpeeEwyjx86f2h/QI1pxWp6nak6A==
-X-Received: by 2002:a05:600c:c093:b0:45b:4a98:91cf with SMTP id 5b1f17b1804b1-46e61faa217mr34779375e9.15.1759398539497;
-        Thu, 02 Oct 2025 02:48:59 -0700 (PDT)
-Received: from localhost (88-127-129-70.subs.proxad.net. [88.127.129.70])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e5b576badsm56999605e9.0.2025.10.02.02.48.58
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1759410637; x=1760015437;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Rj9TkxFdu5isGQ9OXGna9LM1/ciFtjAxo3pry0VaGdo=;
+        b=URnLr+/J5Ei8aQUVk96nCCj7IYtt/mdDPLgXIzjmaO0kJE/9FyvtJiKIDaDpz4No5G
+         IMDcyRtvJlA6Ju5LSA/H6zrajBLwFgC7gsA91yZBzAkmrypVqv2IzJORi86ES2aTUBJs
+         xKoqDKFqNmqn6fYWRNDNw05muqJg1jNmM3m57r/5+l/SNRijFbQfO9QAGEkLsNU2xRZ+
+         a+o803GNqnKUBHDfzzBmTd2q2K+D7aV1yueGAJqwvF50NLqKes/ijXVdbaQExT2X5R4z
+         XgEy6mtkpoJuhYnk/useyCFtpUghxvkMzMPO1SH9a2iH26zAfDieRDd5CXZRe5/dRcU2
+         dMNQ==
+X-Gm-Message-State: AOJu0YwQ3IaFWkz/GyEnB5sghDaYS9jc2Q5p/wgX8G+km8KGCS0DGBZC
+	L4qW1c6zeB4xfsANrcYaKAjeCtcE5ce5TD54PJbAyQB9TvI1qIaBsYACMgMqIZG8QSQdAOqKSxh
+	7w/RC
+X-Gm-Gg: ASbGncsqBWMWwaXcGpDplL1InsDIvfojD0K3SmWURey0DbBoReVM2plm5AhDnvLMDzw
+	wgLr4VBoUtDLtxCrhUsqiAqHfcsV22Lx735pLM1wJY7zlOFNffNMmrTmQ6vIvdQaVvTyxlVdHXF
+	nf5dqVJB0ZwJ45R3QAX7hT+7xihCIx8G9+bohT8aty44E5ZJTVV4/wzKDz2I1CNaSEYDE/Ju+95
+	ddLAUrGQytbaFPj/xUAgIfH/pS0+fK/YpIrFeBQoaK/UdLaz8UoA0DTpeX8AwQjla6ElL2mwSHj
+	AgKWrccRi3HaP64+bPXDvtvyIrtjBZraZWZ+FD5UUc8Gt9MYc83IUG2LDOWnffNI5OHaJiNGcy3
+	NAjP/fEF9hrgTXlKbYVuoDv3eO3dTIOthNT/Qbk83WrIQ/d1ZRSvAv5GKMvsQp5gJo2TGUdf9Cz
+	iyUZoCxb5B+kZiNU7AUOPLgymdGPhVqAfqYO7WDA2QjEUlsEt0PvdgHak=
+X-Google-Smtp-Source: AGHT+IGn7iHOZ29wJjKrN/LwpgKYn60D7zqo1dOGO6fNJGmH55z4vcgjOa8ORbopYK/kMWyaNTK60g==
+X-Received: by 2002:a05:6402:254c:b0:636:67c8:59d0 with SMTP id 4fb4d7f45d1cf-63678bfe9d1mr8573518a12.10.1759410636708;
+        Thu, 02 Oct 2025 06:10:36 -0700 (PDT)
+Received: from P-ASN-DERVAUX.. (2a02-8434-8fe1-4f01-6026-9b79-a82d-e35a.rev.sfr.net. [2a02:8434:8fe1:4f01:6026:9b79:a82d:e35a])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6376b3aaf87sm1872187a12.4.2025.10.02.06.10.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 02:48:58 -0700 (PDT)
-Date: Thu, 2 Oct 2025 11:48:57 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+        Thu, 02 Oct 2025 06:10:36 -0700 (PDT)
+From: naftaly.ralamboarivony@smile.fr
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] meta/lib/oe/recipeutils.py: Handle multi-repo recipes for upgrade check
-Message-ID: <ibynx6jvvawtrkybl66at6dqikjuexuuis5ymq5r4cylv6sxzy@zcnbtottsekq>
-References: <20250923154701.1506704-2-u.kleine-koenig@baylibre.com>
+Cc: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
+Subject: [PATCH] patchtest: fix failure when oe-core repo is in detached HEAD
+Date: Thu,  2 Oct 2025 15:10:24 +0200
+Message-Id: <20251002131024.48843-1-naftaly.ralamboarivony@smile.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <20250923154701.1506704-2-u.kleine-koenig@baylibre.com>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="z75zsonhv2hxoptj"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 11:56:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224356
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 13:10:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224357
 
---z75zsonhv2hxoptj
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] meta/lib/oe/recipeutils.py: Handle multi-repo recipes
- for upgrade check
-MIME-Version: 1.0
+From: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
 
-Hello,
+Patchtest fails when oe-core git repo is in a "detached HEAD" state:
 
-On Tue, Sep 23, 2025 at 05:47:02PM +0200, Uwe Kleine-K=F6nig wrote:
-> For a recipe that uses more than one git repo there isn't a single
-> SRCREV variable. For example for linux-yocto there is SRCREV_machine and
-> SRCREV_meta and rd.getVar("SRCREV") yields "INVALID".
->=20
-> Luckily bb.fetch2 already handles all the details and exposes the
-> currently used revision in ud. So just use that.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
-> ---
-> Hello,
->=20
-> note this is my first OpenEmbedded-Core patch, so please apply some
-> extra caution before applying this patch.
->=20
-> Note that for testing with linux-yocto I also set
->=20
-> 	UPSTREAM_CHECK_COMMITS =3D "1"
->=20
-> for that recipe. (I'm not sure this is completely right to do in
-> general, but that's a separate discussion. Without it `devtool
-> check-upgrade-status linux-yocto` suggested to go to 6.16.y instead of
-> 6.12.$latest.)
+Error log:
 
-This patch was applied to oe-core/master as
-ddf00d6aee955878c070327ee8d751fdb6099444 (and cherry-picked to poky as
-441313eecbd45cfcbf0368e4d1d54bd2e9e59c6b). Would you consider that a fix
-enough to backport it to walnascar and scarthgap, too?
+> File "/usr/lib/python3/dist-packages/git/repo/base.py", line 881, in
+active_branch return self.head.reference ^^^^^^^^^^^^^^^^^^^
 
-For walnascar it can be cleanly cherry picked. For scarthgap I
-additionally need:
+> File "/usr/lib/python3/dist-packages/git/refs/symbolic.py", line 311, in
+_get_reference raise TypeError("%s is a detached symbolic reference as it
+points to %r" % (self, sha)) TypeError: HEAD is a detached symbolic reference
+as it points to '3dd31d3b29730fa1130645d76bb71914ac036335' None
 
--            revision =3D ud.method.latest_revision(ud, rd, 'default')
-+            revision =3D ud.method.latest_revision(ud, rd, ud.names[0])
+In this case, no current branch is available for the clean operation.
 
-I don't understand that completely yet, bisecting points at
-6dea2e6332835bd7b646a520e28ce840f0d98f24.
+To fix this, updates the checkout logic:
+- if a current branch is available, use it,
+- otherwise, fall back to the commit pointed to by HEAD.
 
-Best regards
-Uwe
+This ensures that the script works correctly even when HEAD is detached.
 
---z75zsonhv2hxoptj
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
+---
+ meta/lib/patchtest/repo.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjeSoQACgkQj4D7WH0S
-/k7yLQf/ct9KrbNJsHePbjMjz9RYKtObJOM3ZcC77lwbgPxaBSH8bl11brzfwC9Q
-//ClfFeMvJr4GGnd59hnxHn3vYQ9hltm4OY/hvL6cGFZzL9op/pxdzY+pXYvbp2q
-JOxywWNNfiMTCNn28lL7im3hLUZcPvm+ZtQxq4fi8uR3SyAd5ClMd6qiunxoFcAw
-coNojEypZvvk31YY4D71mPm4agXaXB9/72xi0S19JaTOsfkoKxf7gvf2ypWF8P+f
-nLT8ugPexEzt3UU76wQDDlAoVUFpiYZr49olkUMtyKjcTFqYoTmnQMt/nwORweGo
-UiKsBdzc31D7RxqsjFTT73o3rbKaEg==
-=q3nl
------END PGP SIGNATURE-----
-
---z75zsonhv2hxoptj--
+diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py
+index 2cdd6736e4..6a7d7d2d3b 100644
+--- a/meta/lib/patchtest/repo.py
++++ b/meta/lib/patchtest/repo.py
+@@ -21,7 +21,12 @@ class PatchTestRepo(object):
+         self.repodir = repodir
+         self.repo = git.Repo.init(repodir)
+         self.patch = mbox.PatchSeries(patch)
+-        self.current_branch = self.repo.active_branch.name
++
++        if self.repo.head.is_detached:
++            self.current_commit = self.repo.head.commit.hexsha
++            self.current_branch = None
++        else:
++            self.current_branch = self.repo.active_branch.name
+ 
+         # targeted branch defined on the patch may be invalid, so make sure there
+         # is a corresponding remote branch
+@@ -80,6 +85,6 @@ class PatchTestRepo(object):
+             self._patchmerged = True
+ 
+     def clean(self):
+-        self.repo.git.execute(['git', 'checkout', self.current_branch])
++        self.repo.git.execute(['git', 'checkout', self.current_branch if self.current_branch else self.current_commit])
+         self.repo.git.execute(['git', 'branch', '-D', self._workingbranch])
+         self._patchmerged = False
 
