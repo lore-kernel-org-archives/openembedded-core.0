@@ -1,122 +1,113 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B48CAC5B8
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 14:03:48 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web10.9523.1759413822935650934
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AFCACAC5B0
+	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 14:04:18 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.9869.1759413848731677497
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 07:03:43 -0700
+ Thu, 02 Oct 2025 07:04:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IU5UDblZ;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-79390b83c7dso9375926d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 07:03:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759413822; x=1760018622; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TfzKmFH/y/Cc2MDpgDBQjXIoJcC1y1Z9ClNU1A4gy/w=;
-        b=IU5UDblZjEWRN3+4LlwdsiWCi6+/JVxCt4W5p8j4/22jaVqt0nz5oS9Alv8PKelHOX
-         X82Tr6sNpq3e8/LNR808Lfgb1PcOf1A4Cd5Gdm6espItYs6YFQK4iIYW7a09IF1Kf2uW
-         l4/sRvtYkEDHpgPpsEvsaRxnWR8ePzN9L1it71QJ8mT/tMG6Y2RrrmwVhIB8y+VMc/C4
-         2ImzNL6KxVqYkT/HaqcOQ3OvuLdn+3hwCEzmy4esVubGO8o6maq8Zow1wFkVPJLSp2ud
-         D3fpWqT8FqJ7385/sHNcuNkn80JJ6rayxedwNT0pEOzRgGD9ZAiReN3ztb4bggGXNx5D
-         Q2mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759413822; x=1760018622;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TfzKmFH/y/Cc2MDpgDBQjXIoJcC1y1Z9ClNU1A4gy/w=;
-        b=bXmuPAEJwSPBovhzzR6fb6G5xY3uTZNUrgu3PkQhtQM66sK+zInK/picBh2k7ou/am
-         NfZ7km2s/sqm1pFs2FaIF/v7YmQ+d1jHvUBzo0e9moi+B3TSgCE39xmqRSRxcIBzJKTI
-         SPPOjAA23qnCRkjZALSgJc7p2l9QTjxWVZXAjLiK35N/TOEcKkqXXQAbUGOfDpz6Adu8
-         zRhZsBJoYzKly7xdx0ZY75RrX0aqRONFDwobL0p3v+A7nHn+PblBsehbdczqKCSk8f/2
-         PpEhDMN4EOrq2JqqrnVMsmiT1RQ2FrrgtAVMZA1qHlrKrv6janUiyAuAq1R31hidufAj
-         PxqQ==
-X-Gm-Message-State: AOJu0Ywl2eZAC6CuvYuAGgR7Q1h/6LFELTTQbxODitPHAtR52hS6xlJB
-	vYXYF9UXqzo/nhxnxjOHXQ6OUggT6mBOg42oEHsyQVaeitIAU6ekGxA4JXvQwM4igVLu62/KBrb
-	RZHK9bO/0ItU/pCB5KMYWwxDJtj7ft/s=
-X-Gm-Gg: ASbGncuj5PWNeIPAPbEgFbOxbMwOG1pu01i58+b4IrZ8FaXu1trb6VjwuzgTEwQUMGA
-	WCScKKotWOP9VM0t4Kv5ksCbhig0zuQjPyPKvBcE9BVQjVjH86XEc9H6y3Av6735D7FqQpEBz/Z
-	Hz65ljWv4l2RR8Yrnih3vKUI41e0HRhFbD2FVRPD5aS3mpTlxG+HS1fhatp175MWIohrsFO5lq9
-	dtG1G0Tcb6xRNRYgy95BOBgHEJ1TNniC8Ewank2b1xEmxDZRQc/dLj+qZSZDqx10qnUotmkDO5C
-	dTpjB2EwziAWGBOTPPZkvi0QHo7NggkFEtVCR+qID1dWjxIh+exgqi4G3Lah00qq
-X-Google-Smtp-Source: AGHT+IG6Ak86GBo7rGjbKQ4MoqKLcIUdeu5ak+GrC0H3zyTXsHxmLuQueoXR0jusFlI85rJQO+BO80pvIsAN4iQh6S0=
-X-Received: by 2002:a05:6214:d87:b0:80c:67cb:af29 with SMTP id
- 6a1803df08f44-873a6a8df50mr96992166d6.53.1759413821753; Thu, 02 Oct 2025
- 07:03:41 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id DCF9940C85;
+	Thu,  2 Oct 2025 14:04:07 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3SXsZuoIeW7p; Thu,  2 Oct 2025 14:04:07 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id AFF8740C2E;
+	Thu,  2 Oct 2025 14:04:05 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id EC4211640DC; Thu,  2 Oct 2025 10:04:04 -0400 (EDT)
+Date: Thu, 2 Oct 2025 10:04:04 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Denys Dmytriyenko <denys@konsulko.com>
+Subject: Re: [OE-core] [RFC PATCH 3/5] musl: set compatibility a bit more
+ flexible
+Message-ID: <20251002140404.GC3125@denix.org>
+References: <20251002000810.226673-1-denis@denix.org>
+ <20251002000810.226673-3-denis@denix.org>
+ <CAMKF1spcHAvNJtsStzG0OgigTKkU_QHgApdY1m5Q+Zf4aecTRg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20251002113526.23868-1-zboszor@gmail.com>
-In-Reply-To: <20251002113526.23868-1-zboszor@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 2 Oct 2025 16:03:30 +0200
-X-Gm-Features: AS18NWBF_8v8ljHq-kULR2emYY6z8h1fbZ14f43qYnfUrksOI88_u8Yo_rBwj98
-Message-ID: <CANNYZj_+RfipvMPLkkPQKp+77nebodtE0cjYHX8Yc_wueNMqig@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mesa: 25.2.4
-To: zboszor@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMKF1spcHAvNJtsStzG0OgigTKkU_QHgApdY1m5Q+Zf4aecTRg@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 14:03:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224358
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 14:04:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224359
 
-Please adjust the header:
+On Wed, Oct 01, 2025 at 07:12:34PM -0700, Khem Raj wrote:
+> On Wed, Oct 1, 2025 at 5:08=E2=80=AFPM Denys Dmytriyenko via
+> lists.openembedded.org <denis=3Ddenix.org@lists.openembedded.org> wrote=
+:
+> >
+> > From: Denys Dmytriyenko <denys@konsulko.com>
+> >
+> > Like musl Linux config, baremetal also uses musl as a libc, but
+> > it has a different host triplet set. Hence adjust COMPATIBLE_HOST
+> > to accomodate this use case by checking that musl is a preferred
+> > provider of libc.
+>=20
+> This sounds a bit odd. Why do we use musl for baremetal targets ?
 
-mesa: update 25.2.3 -> 25.2.4
+Was like that for 10 years since the beginning of baremetal support:
+https://git.openembedded.org/openembedded-core/commit/?id=3Dcb010e306a6a8=
+56c589db5f41fdcaea4e5035d93
 
-Alex
 
-On Thu, 2 Oct 2025 at 13:35, Zoltan Boszormenyi via
-lists.openembedded.org <zboszor=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> Announcement:
-> https://lists.freedesktop.org/archives/mesa-dev/2025-October/226554.html
->
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-> index c3751f3414..7046deeb2b 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -19,8 +19,8 @@ SRC_URI =3D "https://archive.mesa3d.org/mesa-${PV}.tar.=
-xz \
->             file://0001-freedreno-don-t-encode-build-path-into-binaries.p=
-atch \
->  "
->
-> -SRC_URI[sha256sum] =3D "f2d6b28562f1d6cb9c17ee8e58eeade7aa5faf927ae71065=
-eadb41e17f92b4f8"
-> -PV =3D "25.2.3"
-> +SRC_URI[sha256sum] =3D "a370b4c549cbfbe646b319e34d73edb50ed883978f5e9513=
-3f282f0eae39ab52"
-> +PV =3D "25.2.4"
->
->  UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
->
-> --
-> 2.51.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#224355): https://lists.openembedded.org/g/openembedde=
-d-core/message/224355
-> Mute This Topic: https://lists.openembedded.org/mt/115550439/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> while musl does have FDPIC support but I don't think thats how we
+> use it.
+>=20
+> >
+> > [YOCTO #15982]
+> >
+> > Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
+> > ---
+> >  meta/recipes-core/musl/bsd-headers.bb      | 2 +-
+> >  meta/recipes-core/musl/libssp-nonshared.bb | 3 ++-
+> >  2 files changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/musl/bsd-headers.bb b/meta/recipes-cor=
+e/musl/bsd-headers.bb
+> > index ad9ba81e4f..c6a3814a49 100644
+> > --- a/meta/recipes-core/musl/bsd-headers.bb
+> > +++ b/meta/recipes-core/musl/bsd-headers.bb
+> > @@ -25,7 +25,7 @@ do_install() {
+> >  #
+> >  # We will skip parsing for non-musl systems
+> >  #
+> > +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER_vir=
+tual/libc', 'musl', '.*', 'null', d)}"
+> >
+> > -COMPATIBLE_HOST =3D ".*-musl.*"
+> >  DEV_PKG_DEPENDENCY =3D ""
+> >  RRECOMMENDS:${PN}-dbg =3D "${PN}-dev (=3D ${EXTENDPKGV})"
+> > diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipe=
+s-core/musl/libssp-nonshared.bb
+> > index 4bcbaef7ea..6f12ff0c9b 100644
+> > --- a/meta/recipes-core/musl/libssp-nonshared.bb
+> > +++ b/meta/recipes-core/musl/libssp-nonshared.bb
+> > @@ -29,7 +29,8 @@ do_install() {
+> >  #
+> >  # We will skip parsing for non-musl systems
+> >  #
+> > -COMPATIBLE_HOST =3D ".*-musl.*"
+> > +COMPATIBLE_HOST =3D "${@oe.utils.conditional('PREFERRED_PROVIDER_vir=
+tual/libc', 'musl', '.*', 'null', d)}"
+> > +
+> >  RDEPENDS:${PN}-staticdev =3D ""
+> >  DEV_PKG_DEPENDENCY =3D ""
+> >  RRECOMMENDS:${PN}-dbg =3D "${PN}-staticdev (=3D ${EXTENDPKGV})"
+> > --
+> > 2.25.1
 
