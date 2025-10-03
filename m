@@ -1,134 +1,111 @@
-Return-Path: <philip@balister.org>
+Return-Path: <emailaddress.ashish@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CE03CAC5B0
-	for <webhook@archiver.kernel.org>; Thu,  2 Oct 2025 23:33:26 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.880.1759443186799468002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2146CAC5B0
+	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 04:58:07 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.860.1759467484992706590
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Oct 2025 15:13:07 -0700
+ Thu, 02 Oct 2025 21:58:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=y1yO3l14;
- spf=pass (domain: baylibre.com, ip: 209.85.221.44, mailfrom: ukleinek@baylibre.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-42420c7de22so932907f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 15:13:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BiU0oKaR;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: emailaddress.ashish@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-77f1f29a551so2483529b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 21:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1759443185; x=1760047985; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/YiR/phiB1bDcHcqBQxpNLK/SytYu4DryPXj4Aa7xeI=;
-        b=y1yO3l14/8n53QG2riGI5eC5Q3CAzTGQSS4aYcgATPc3WQg6FT3ea6WjqH2cZi69Nh
-         e6oMysptCD1Q1O2zDkGaANAvX+roPHPIZOmn/FKm5tYBG4r7+RbU9JRBz5JKuttt7e+O
-         6f59TJM9Sxg+AqL3WT+fQO058uqFQz3cpS9l3+Tx5w/kZIWWxOYxmS4Z5KjN0oQ0QXgc
-         VeaissJT6Z5eIdfAAwckgh0nAi0nAahWHzua67xxHXkrLRbXETOsNtlHJdovc07HcnwK
-         h+180vvlh51gKsAVYf3TBt6cGL5YJqjoEiDElMIt+fC+S24X88HtqO99G/HIfCGkHZJQ
-         Pg8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759443185; x=1760047985;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1759467484; x=1760072284; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/YiR/phiB1bDcHcqBQxpNLK/SytYu4DryPXj4Aa7xeI=;
-        b=Bkc5ojjM5bziHNaOm+FK0Tpku3xiIzKVbuM3kn9LxM2NxHa5ZIGG+qy4I9QesuZaCU
-         l4GV6Hv+G9ZZUb9UVtaQx6QPa54FRX1nKa1AirpvALmCgFfwMVN8fpWXmZws1G/rGvFd
-         ZA/sy1QTO7ZSfSa/HrHIxaslcPU9yfVKJD+2yrdqbWolAqKHCewKHio/jRkNppu8aqrV
-         RFNHY2AUhi2umBuIM3NyiT4QagnfeWcBJa73hRvyab0tgoSlcJBfGGZFvjL8e1uikBh6
-         RutpCfbcmiUihkjHzpbvpCVnn/QrcYcfPx9rZvs2q5YJDwnK8JE2EbKzSHQicNapW9vy
-         qGNQ==
-X-Gm-Message-State: AOJu0YwjPQXaEYodvaGFqg84ORkPkK0GPMemVwA2/VutiiyGFUY7j1O/
-	4ez/iAEeu3IQFW9c5tYsQYLguaxCFvTo7lUMiFQ9AJptPDl2JWe16uzC5nKKWV8ReJY=
-X-Gm-Gg: ASbGncsGd5BQMJDs1nfHr/Rif8mWcrcWYtSIfbiBL1wXn/llE9hn3fNw9u4KYsRLpv/
-	G1zBySTQE4brRbCaX/YvybQLMPvZhpenPlTNmyxJ08GGGcSXT+zrSvWIBHx47/jQLvWHcE62hGl
-	2fyLQJhzI2NsDOIru8z/DdbvwdgRGDw4zQwDQXTB7OBm1Okphy092UR6I8uZ1eGV4YwHWWMHmzv
-	zi4kxIYyj0EF1cuH5CTH36dRbCFJnE6doEf5MP4xRoPMm2lmSqkecsC2rNnUhgCAsr6BC24c8m2
-	xkrVsv+dJPL/pV5mM6qfkvE6iceatfPu1to6mWLrtXntqr7H0B1hvT7+PJVEtqHqgJiZtoT6AUV
-	6uU7+C+/hp/zWKmtUY6ZAt/Fk2fbqgT+oYtU9gZRmYyVEj3eVnDov5VEmy9hi86hrv0YQL43Rcn
-	xK5YUoeEJg
-X-Google-Smtp-Source: AGHT+IEJJoE2jvV6r7YsC6LgviVFRqMod9LndOcqZUZEhnYaW+IbzEnK/kWKlagGQJPcjD64XaJPMQ==
-X-Received: by 2002:a05:6000:288d:b0:3e5:190b:b04e with SMTP id ffacd0b85a97d-425671763d6mr379777f8f.37.1759443184810;
-        Thu, 02 Oct 2025 15:13:04 -0700 (PDT)
-Received: from localhost (lfbn-nic-1-153-96.w2-15.abo.wanadoo.fr. [2.15.235.96])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e72359e2bsm1518245e9.13.2025.10.02.15.13.03
+        bh=x04liVQf8lCjqu7/IX9KpgxfZCko7kcdoiyCP2CRL+g=;
+        b=BiU0oKaROJ4pBBX2lnOBKk0m9yDHXnnM4Cpjo9LEN9yyLkjQOx+mJvYPFML8wjS7gb
+         kwFI4k+aoJQN8btknYrs/IedQmH14sHqD11LYpk4ww+zkpSy6O3gMR7GnBrfC1+MdEWm
+         bqA+8AUQYH9YoT4/Z7ThGVGOH7NgJRhqa3beGLRmMWr7dgiFf91BuEcP1eVvscjeekJP
+         uw/lry3dsFpt2E2AwhxeA/6OO/kXku8R43PKE48vuvWgNEQGdI/20GcSZBJIH+BsLWEy
+         RZYyarZ39aEFF5VoYTBYN5Y2DTFb2jXtCiHj8BUIrdRR1PEGwiOkx3XG4JTY31dLJDjQ
+         ce2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759467484; x=1760072284;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x04liVQf8lCjqu7/IX9KpgxfZCko7kcdoiyCP2CRL+g=;
+        b=MYK0no8sk6/wvepKNciGRSCM6JVsvPXcx7tSNjOROClErUjI9o2bLkUnVLZ0/Vamds
+         R0xtmXkHCpKR0Ys/WGyb3AtG8JJTnL1WyH1g1kIc79W1VDTIt/o/Vbtrvf1lF6IWd2r1
+         YNvM1Y2B9NBh65n1dBHyA9l5dxAizm2SG1NmEU6u8un9zwZumZI7GcNL2CPHivjbWXob
+         YhAxqKve6rZCO8Hr3ioLMrE/DipO0j+xQV0pnABI5ij3uL8DCXnZ9DTi8VUkj7Ai2vU6
+         sO+6kKkp3F3kVVA/aBv6AILZxw8PapCmItDmZaHjNIgy74EvOnP08UZCFp7Lu6l75awt
+         37Ng==
+X-Gm-Message-State: AOJu0Yw3m1OYaLwo4U5tJojuxYJ7EbMwpNZrgkpW20oQ1PMScGXmGVjP
+	AYdAGF/b4a6y+QfHjiTCH/wltRS/YddUTEFmhgbobAX1Mv3Pz4DTd2C70Y11+Q==
+X-Gm-Gg: ASbGnctfKvp4vugWfAA0W/o0NpIjPBNOY+lUkwyP4EHWBNu+88pv3xRpHUVtQDC1iCF
+	Ng3+fUBlmUECi88xAq7RwZ/0SPSJAoyLNHB8HhIkYP0oeyd1ObuM/Vk63MTpBhIXujn/DH0cakG
+	nmt31fJuxOzH2WdlZ4QZBz9XepimqAPLwhZ8BwINuyGNKZLZEvcjwqYNeEMyZ71SsKptGgRsPBn
+	YSvUjZbthB5H110ns5uvzMdYfZoYWnkVVEIzt4Tvmo4U3LY5/ycgmOLBCLwn8x55dgAxXPl7QJb
+	3AaOevtmoEb1mpXW7kfvp9/CO2CGw1nhd2nD5qHY+P5WkYzdwV69piugo6shApffb5PkNvvRSQ+
+	s7AtfDgTeJMnTipLufiya0ZW/Em+dxen+f4LtUwOaZ0xQRz4D
+X-Google-Smtp-Source: AGHT+IHona1jXwiXArGVzHdZ6mNpPWyuTWZVf4wyhCqAqa/Ek2prW5Z/c5IKAEcdIjzafLEGim2RFw==
+X-Received: by 2002:a05:6a20:7493:b0:262:8422:5774 with SMTP id adf61e73a8af0-32b62093e50mr2562027637.39.1759467484255;
+        Thu, 02 Oct 2025 21:58:04 -0700 (PDT)
+Received: from ashishkumar.. ([2401:4900:1f27:a6d9:4cd4:d55f:a1b9:36d2])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6099f3bc40sm3340592a12.25.2025.10.02.21.58.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 15:13:03 -0700 (PDT)
-Date: Fri, 3 Oct 2025 00:13:01 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Gyorgy Sarvari <skandigraun@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] meta/lib/oe/recipeutils.py: Handle multi-repo recipes for upgrade check
-Message-ID: <pwy7kngno6lgedlcc5fcxpgt5vwhmvxfh7qgabvx2zsbopc5gm@guulmzc3xtpf>
-References: <20250923154701.1506704-2-u.kleine-koenig@baylibre.com>
- <ibynx6jvvawtrkybl66at6dqikjuexuuis5ymq5r4cylv6sxzy@zcnbtottsekq>
- <10ca15f7-f5b7-41a5-bdcf-f678e91aec37@gmail.com>
+        Thu, 02 Oct 2025 21:58:03 -0700 (PDT)
+From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+X-Google-Original-From: AshishKumar Mishra
+To: openembedded-core@lists.openembedded.org
+Cc: skandigraun@gmail.com,
+	AshishKumar Mishra <emailaddress.ashish@gmail.com>,
+	Philip Lorenz <philip.lorenz@bmw.de>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone][PATCH] 2/2] p11-kit: backport fix for handle USE_NLS from master
+Date: Fri,  3 Oct 2025 10:27:40 +0530
+Message-ID: <20251003045740.7695-2-emailaddress.ashish@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251003045740.7695-1-emailaddress.ashish@gmail.com>
+References: <20251003045740.7695-1-emailaddress.ashish@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <10ca15f7-f5b7-41a5-bdcf-f678e91aec37@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="akzcni3xab5p2las"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Oct 2025 23:33:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224384
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 04:58:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224386
 
---akzcni3xab5p2las
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [OE-core] [PATCH] meta/lib/oe/recipeutils.py: Handle multi-repo
- recipes for upgrade check
-MIME-Version: 1.0
+From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
 
-Hello Gyorgy,
+Disable NLS in the build when USE_NLS is off.
 
-On Thu, Oct 02, 2025 at 07:25:49PM +0200, Gyorgy Sarvari wrote:
-> On 10/2/25 11:48, Uwe Kleine-K=F6nig via lists.openembedded.org wrote:
-> > This patch was applied to oe-core/master as
-> > ddf00d6aee955878c070327ee8d751fdb6099444 (and cherry-picked to poky as
-> > 441313eecbd45cfcbf0368e4d1d54bd2e9e59c6b). Would you consider that a fix
-> > enough to backport it to walnascar and scarthgap, too?
->=20
-> It is most likely too late for Walnascar - there is only one more
-> release planned, and it is already in QA phase.
-> Scarthgap is however very much alive - you can rebase your patch on top
-> of the latest Scarthgap branch, and send it with the appropriate subject[=
-1]
+(From OE-Core rev: b94798ecd535956ef4565663710ea9a701ff21ed)
 
-That's fine for me. I care about Scarthgap and expected that I'm
-not allowed to get anything into that in which isn't in Walnascar.
+This change corresponds to upstream eeb3974472429a99a724f324dc8a63e435741f68
+from master .
+Since the p11-kit version are different between master & kirkstone
+applied the patch manually
 
-> > For walnascar it can be cleanly cherry picked. For scarthgap I
-> > additionally need:
-> >
-> > -            revision =3D ud.method.latest_revision(ud, rd, 'default')
-> > +            revision =3D ud.method.latest_revision(ud, rd, ud.names[0])
-> >
-> > I don't understand that completely yet, bisecting points at
-> > 6dea2e6332835bd7b646a520e28ce840f0d98f24.
+Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+---
+ meta/recipes-support/p11-kit/p11-kit_0.24.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-6dea2e6332835bd7b646a520e28ce840f0d98f24 looks very unsuspicious. I
-understood where I did the bisection wrong. Once I understood the need
-for the additional changed line I'll send a patch for Scarthgap (with
-the correct marker in the Subject).
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb b/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
+index 72b446204a..62aca0cfee 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
+@@ -18,6 +18,7 @@ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native"
+ PACKAGECONFIG[trust-paths] = "-Dtrust_paths=/etc/ssl/certs/ca-certificates.crt,,,ca-certificates"
+ 
++EXTRA_OEMESON:append = " -Dnls=${@'false' if d.getVar('USE_NLS') == 'no' else 'true'}"
+ GTKDOC_MESON_OPTION = 'gtk_doc'
+ 
+ FILES:${PN} += " \
+-- 
+2.43.0
 
-Thanks
-Uwe
-
---akzcni3xab5p2las
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmje+NkACgkQj4D7WH0S
-/k79xwgAhYVHQmoSw4/LpRZqpI5tSvY4AQADODI3uFn3bHthB/R4yoZlevGqsx7j
-CqO9iVXjHR53+msFVBZ/AgppZw5FUL11c/iN4oILc4uzVtrsKQhVCZt5tdIejgEp
-jVe3nCMgP/tvjRxvsheqTLLuwtf6s0So27gpXz0gaEKc/tdxl6S5LmgwGBcNrvrJ
-JLsKzzvQWmB7AzHX7dVtn2+/ILTgLr6t1t2Y2qotn1irhy8tbM8r4L0T1wpW8UtJ
-XEjjh2OJxFIfz3wyZv8eg/829wfSAp2piLvTKjr27mzodnPO1ua4913+viBt6h+I
-VdNAcozvZUNuSOpRzI0uCwsINEvtsw==
-=LZLV
------END PGP SIGNATURE-----
-
---akzcni3xab5p2las--
 
