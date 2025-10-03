@@ -2,295 +2,227 @@ Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F00ACCAC5B0
-	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 21:30:05 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web10.1788.1759527004174303750
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 016F7CCA471
+	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 21:40:36 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web11.2068.1759527635112822796
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Oct 2025 14:30:04 -0700
+ Fri, 03 Oct 2025 14:40:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WpUmXNcA;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: skandigraun@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b48d8deafaeso530854466b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 14:30:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k3kDr4kC;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b4736e043f9so492615066b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 14:40:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759527002; x=1760131802; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KxmIu8T0cnFBh+2OS8AWS6LcVt87zwKQ/PQfB+y29RI=;
-        b=WpUmXNcAw0jjql4bQd1u2RiDfB8AjmflPnIRpMazOA3cMHVSJ9cF0P+ezZ5z4vZrY9
-         cYAtJE3P9rx1w2Mx0iehWVy2Yjz0kCzH4Cb1uBUpP1CdERLR9Mkt1lAJ68/PVPd4ev1d
-         WXsbHM8rWJOgU1/nWpZiyNam3uX2Dpvmtn42awbpqLnm4giT2tuhMLebt6Z6HYK55X7Q
-         iijGoa0Rp4RyIs1Rg90/tpg2cErOT+8StOZv3/FBNZy6FSERWqN2ssGD6H7T+YoU8fh1
-         1b3hErgL1W5KKWjLj2x8Ir7N8wzSBxfnoA7yEv1M+8NgvRbQ24xbZEALi2Pbkpozfu9t
-         irmw==
+        d=gmail.com; s=20230601; t=1759527633; x=1760132433; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FMFc3LJKjYpjA5E/xRKy+tumTs+9S38uoZdJUTmRxzQ=;
+        b=k3kDr4kCJS5PgS32CfU8dddwNh0rrRMxzb3qWYu3eHlJuGCW3fPKYI1XdYNJYhBnG+
+         o5mNjZwhNTVdYfggVv26G2mw4NwChX3kXj/LcAuGZ8PjN1Z/56kKMSY9pUMlzKCAsT4E
+         MxeLhlxi5hqf3yggpVkLj6Fm0kc87/VjQ3UJKHnfKAZgK3NlohGRlCaihAdSh/GEn3eG
+         yxOr2As0jOn1NsK4jTmOgvVqSZF1Pw3lKron5x1kpFbOpb3PvYSyeGZFCwXWvo+8mSAV
+         IbbkFdY1UPb+oMSU5rpjlZLVYyoBBFv4uNk62crckXfRAa+KBZ63fj8oiILWNv/KeYbg
+         RfPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759527002; x=1760131802;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KxmIu8T0cnFBh+2OS8AWS6LcVt87zwKQ/PQfB+y29RI=;
-        b=bz/7cF3bsMqXO/d/qaixixQZUk5waQtZVxKOSVNhtlOnKiDP8bQwk1UQ9pi8Q9AZL2
-         5QL5GLoBCSF0QBaBMk5hHLhrVIBBBhX+u3052k7JYoR6KdmyVia4r17sO/3ARevp7QQX
-         WHhARFoDen7ez0XfCt3z9EgNAcCUSMkxEkOWxRw3gBI5elidXSSeAGyFQuImbIn7egET
-         rZ61RK5Kgly+y6EaIOprO3+zMJY6y0bSW2lq0RrZxM04mHx/DZYfCoXvaNC/0llzBI3H
-         adFFfC1kzU8DkRMrbGYZMpMnW9MfUzbKLAfyDMLP54BG0Lx3chgwFeiDLFBD6B12qxAr
-         TQEw==
-X-Gm-Message-State: AOJu0YwmsPu8qFGhkn9Tugfdd/KwWl0jfC1wKTPvVNMh5JDvOJP6ESWX
-	V5AttM6wPN8X8b/W+juAhq0e0Hl5ATN6MtYhHcPR2PlTRdmFiSowvEX/H9I2gA==
-X-Gm-Gg: ASbGncuz/wzlHvHBShJXWrua+kyY9yqGeDSinKK015gLjzUwkGGkcKiVkcuq4mDhwhS
-	QAtn9G125DDfVLKrbsxH9sBpzcpwdcDKH8xT7OBim45gAFzc85F8+bJLIOejMV7JILD6XdS6bKm
-	4UkhJiEIw0QI+mgyBpLEv2fCmGPol4KwMKY75SDtCJcVxfsBEZj6L/r1K+uaGtDHrv2BXlPl5BU
-	K1sMnqaCeaCYqF4/rNrncLrlFlZbg9pQ9eDvbxDMmwOAZiKq4eRuK5YsjQlxtf02gdeF3+sYdcU
-	5q4x86TUxgeEQZnRynqKrHsBxszlRVfe1PIFdQMl0I1pw7Aoe2c3BPEn09Dt17AFMGLkfQBDZCn
-	llTgkwKOmJKS7J25Ii18UVAplq5Vqq5QuYW4BJTTbbQi3+nGTvv+5Sesc0Lw7U04Sog==
-X-Google-Smtp-Source: AGHT+IG4ExhW116nyPWfaHskPFGOMHiYKozewd5rZ4zmVZiwjB66Ur1bKvCzJaOWlBM/fYfdASepYA==
-X-Received: by 2002:a17:906:4fce:b0:b40:98b1:7457 with SMTP id a640c23a62f3a-b49c4cde268mr457577266b.47.1759527002311;
-        Fri, 03 Oct 2025 14:30:02 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b486970b2basm530363466b.51.2025.10.03.14.30.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 14:30:01 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tom Geelen <t.f.g.geelen@gmail.com>
-Subject: [RFC PATCH] cargo_common.bbclass: use source replacement instead of dependency patching
-Date: Fri,  3 Oct 2025 23:30:00 +0200
-Message-ID: <20251003213000.2256939-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1759527633; x=1760132433;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FMFc3LJKjYpjA5E/xRKy+tumTs+9S38uoZdJUTmRxzQ=;
+        b=rfoZgA6xV1y9hP4c0PeHzJXsCXNUsVUclZ8T6/dDRP1j3VdP1TOYlez7+8FHh52iEO
+         3xyORS2OACR9jjU6JHQaA/RHpXPyCOMWRvOH5Ukr8qaFE/UZKQ/E9YFssYHUn3qlHTQv
+         O5lEo1Owu3ovCCYCtYqlwePcMBKgRfj9bLWRlIxSbRXOxOIutpuZc/oHr8tuSvk79VYi
+         aEpRoIoMK4IjC+d2QP3DDxbS/+KX+gtyv/5aCMcFVbZVmYSUHkhh8AXcGzL6d7+JQT7A
+         yS8Po7bXBFSZ11UIzg66PrRpDkksxFYUhXJPM5V3vM96UBB+2+wpu1s4G+uvEEjINQ4N
+         rT0w==
+X-Gm-Message-State: AOJu0YzBYYknvPvSnL6FeAHGctgX0KkjsP6LASYWFfIT8l5ykpLfe66G
+	w9xKqu/FuSkTjupWdBB/2NON0bQT1So14f6A/iWpGKIGDBnMk/hbOKV5
+X-Gm-Gg: ASbGncvpTzdAw9JWVp7qZuOcUVzZonHNUzC3P+bLYBhCO+f3eg7/M/H2u6UEfobtSGF
+	1mQZWrVe825Y7ZLZGTCK+o0mde+QLEg92TdQK+oSJRxdtqYatTyN3rPj1eRuiSmNb+3kHofyYk/
+	aog80kkOqPINmBASQ8EZk9f5rBhCmDPuMWs23zxOxuMeK7Z6O8ATb0Z6cUg7BYQBZYfvYBmcjIH
+	FGcuMrtRcgtoaqruF7RoNFwZbMYRrHJ22bOevAS/lI9S+mqgbsBxfop4VRRf1dK3ZPPUyyYxOOB
+	M7Pld8HqT4Zu8tByyqquVTSf6bzS6tiduCuOGCqdMxbH9jyjQYZpVUx5LZPJfKJ8mf4kS55tSYJ
+	x6/n3BrHCcylxgl+pOGIg+hygGjLMYzzMVS69O0FBvdqyP6nU5pIOJ3A=
+X-Google-Smtp-Source: AGHT+IHR4ftA7CiqPevRGQGx7FKEu0a1rPKWKEZRgi4s+09QOz9eG2NizmaAcG1AhcrBP+zYxbuGVA==
+X-Received: by 2002:a17:906:4fce:b0:b40:98b1:7457 with SMTP id a640c23a62f3a-b49c4cde268mr459823366b.47.1759527633327;
+        Fri, 03 Oct 2025 14:40:33 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b4865e7e8cdsm525251966b.38.2025.10.03.14.40.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Oct 2025 14:40:32 -0700 (PDT)
+Message-ID: <74071025-691b-48ff-8b3a-b982b735adac@gmail.com>
+Date: Fri, 3 Oct 2025 23:40:32 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] How to have multiple rust cargo vendors
+To: Tom Geelen <t.f.g.geelen@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <CAJo0Az632gtPBnWcszxzodqHTnagfqCDW5_d33WnbL_m_Hoezw@mail.gmail.com>
+ <186AC5F2410FD5FD.16131@lists.openembedded.org>
+ <6c530b3d-83b0-45b1-856b-78bb29f370ef@gmail.com>
+ <CAJo0Az40OEnqyuzU_G3uvyf_+bB=+TRd-tsoHDUoGs9xduJ78A@mail.gmail.com>
+ <6db7fc77-9c35-4f5a-90c4-b0f3c9e983ba@gmail.com>
+ <CAJo0Az68Swx2Fh54fW6KhihnQRVfUJ8OE_dquQGhyJc86cC2hQ@mail.gmail.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <CAJo0Az68Swx2Fh54fW6KhihnQRVfUJ8OE_dquQGhyJc86cC2hQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 21:30:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224426
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 21:40:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224427
 
-Cargo.toml files usually contain a list of dependencies in one of two forms:
-either a crate name that can be fetched from some registry (like crates.io), or
-as a source crate, which is most often fetched from a git repository.
+On 10/3/25 21:38, Tom Geelen wrote:
+> I've trying some items as well now. I've updated the recipe to the
+> version in the patch.
+>
+> Now all the sources are in CARGO_VENDORING_DIRECTORY as needed.
+> Then it still tried to fetch sources via the network, but I tackled
+> that by commenting out the following in the source Cargo.toml:
+>
+> #[patch.crates-io]
+> #reqwest-middleware = { git =
+> "https://github.com/astral-sh/reqwest-middleware", rev =
+> "7650ed76215a962a96d94a79be71c27bffde7ab2" }
+> #reqwest-retry = { git =
+> "https://github.com/astral-sh/reqwest-middleware", rev =
+> "7650ed76215a962a96d94a79be71c27bffde7ab2" }
+>
+> However it does not compile yet. Stuck on a rust compile error about
+> the sources fetched via git:
+> - found a virtual manifest at
+> `/home/tom/projects/meta-sanctum/build/tmp/work/x86-64-v3-oe-linux/python3-uv/0.8.22/sources/cargo_home/bitbake/reqwest-middleware-0.4.2/Cargo.toml`
+> instead of a package manifest
 
-Normally cargo handles fetching the crates from both the registry and from git,
-however with Yocto this task is taken over by Bitbake.
+Yes, that's the workspace-not-supported issue. When patching the
+dependencies, the patch needs to point to the crate folder, not to the
+parent workspace. You need to do two things:
+1. Make cargo_common not to add these dependency patches. You can find
+an example here[1] (not my proudest thing, but that's why I worked on
+workspace support). You can limit it only to workspace crates.
+2. You need to patch the dependencies in Cargo.toml (or in cargo's
+config.toml, similar to what cargo_common does currently, but with the
+crate paths.
+For example: https://github.com/astral-sh/reqwest-middleware - this has
+3 subfolders, reqwest-middleware, -retry and -tracing. Each of this is a
+crate. To make them visible for cargo, you need add something like this
+to one of the configs:
 
-After fetching these crates, they are made available to cargo by adding the location
-to $CARGO_HOME/config.toml. The source crates are of interest here: each git repository
-that can be found in the SRC_URI is added as one source crate.
+[patch."https://github.com/astral-sh/reqwest-middleware"]
+request-middleware = {path = "$UNPACKDIR/reqwest/reqwest-middleware"}
+request-retry = {path = "$UNPACKDIR/reqwest/reqwest-retry"}
+request-tracing = {path = "$UNPACKDIR/reqwest/reqwest-tracing"}
 
-This works most of the time, as long as the repository really contains one crate only.
+(Make sure to set the correct paths to the checked out repos, without
+variables, the above is just example. The path can be relative also)
 
-However in case the repository is a cargo workspace, it contains multiple crates in
-different subfolders, and in order to allow cargo to process them, they need to be
-listed separately. This is not happening with the current implementation of cargo_common.
+Regarding the patch I just sent:
+- I have sent a v1 patch, which refactors the cargo_common class'
+dependency patching behavior. It works on my machine, and did some
+testing, but it can always use more. If you would like to, feel free to
+try it - I'd be happy to get any feedback.
+- That patch will change for sure, I already know that if it won't be
+shot down, there will be at least a v2 (and probably more).
+- It won't be merged into Whinlatter though most likely in any case, it
+is already too late for that.
 
-This change introduces the following:
-- instead of patching the dependencies, use source replacement (the primary motivation for
-  this was that maturin seems to ignore source crate patches from config.toml)
-- the above also allows to keep the original Cargo.lock untouched (the original implementation
-  deleted git repository lines from it)
-- it adds a new folder, currently ${UNPACKDIR}/yocto-vendored-source-crates. During processing
-  the separate crate folders are copied into this folder, and it is used as the central
-  vendoring folder. This is needed for source replacements: the folder that is used for
-  vendoring needs to contain the crates separately, one crate in one folder. Each folder
-  has the name of the crate that it contains. Workspaces are not included here (unless the
-  given manifest is a workspace AND a package at once)
-- previuosly the SRC_URI had to contain a "name" and a "destsuffix" parameter to be considered
-  to be a rust crate. The name is not derived from the Cargo.toml file, not from the SRC_URI.
-  Having destsuffix is still mandatory though.
+A note regarding uv 0.8.22: it seems to use some detached orphan
+commits, which is not easy to fetch in any case, but I think it's not
+possible to do so with Bitbake fetcher at all (without changing it). The
+last where I could find all revisions was 0.8.19.
 
-The change does not handle nested workspaces, only the top level Cargo.toml is processed.
+[1]:
+https://github.com/OSSystems/meta-browser/blob/master/meta-firefox/recipes-browser/firefox/firefox.inc#L155
 
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-Cc: Tom Geelen <t.f.g.geelen@gmail.com>
+>
+> On Fri, Oct 3, 2025 at 2:39 PM Gyorgy Sarvari <skandigraun@gmail.com> wrote:
+>> On 10/2/25 22:39, Tom Geelen wrote:
+>>> Ah that would be great. Actually I had seen the firefox recipes and
+>>> did notice something which looked like something what I would be
+>>> needing. So if you could send an RFC that would be awesome.
+>> I found it my patch... but for some reason it doesn't work with your
+>> recipe :D
+>> I think that my change does what I intended it to do, but maturin still
+>> tries to fetch the workspace crate from the network, just like without
+>> my patch. Going look into this a bit deeper, if I can... will get back.
+>>
+>>> On Thu, Oct 2, 2025 at 10:33 PM Gyorgy Sarvari <skandigraun@gmail.com> wrote:
+>>>> On 10/2/25 22:17, Gyorgy Sarvari via lists.openembedded.org wrote:
+>>>>> You can add those in the SRC_URI, as regular git repos, with +=. Make
+>>>>> sure to set the "name" parameter to the crate name, and set the
+>>>>> "destsuffix" to ensure the sources won't mix. After do_configure step
+>>>>> one of the cargo/rust classes will go through the SRC_URI content, and
+>>>>> add these git-crates to the cargo config as local patches.
+>>>> Oh, now I see that this is a workspace - sorry for not looking closer
+>>>> before.
+>>>>
+>>>> At this time cargo_common doesn't support workspaces from git crates...
+>>>>
+>>>> I find it interesting on a personal level, because I just implemented
+>>>> workspace support like 2 weeks ago, but couldn't find any project using
+>>>> workspace crates from git beside Firefox, and didn't want to submit it
+>>>> only for that. (And since Firefox recipe switched away too)
+>>>>
+>>>> If I find my implementation again, will submit it tomorrow as an RFC.
+>>>>
+>>>>> On 10/2/25 21:40, Tom Geelen via lists.openembedded.org wrote:
+>>>>>> I'm trying to create a recipe for uv (https://docs.astral.sh/uv/) to
+>>>>>> be added to meta-python.
+>>>>>> Problem I currently cannot seem to resolve is that I need multiple
+>>>>>> cargo vendor support.
+>>>>>>
+>>>>>> I have created the draft recipe and added the inc file with the crates
+>>>>>> using the update-crates command.
+>>>>>> However it missed several crates as they are not from crates.io but
+>>>>>> via git (see below).
+>>>>>>
+>>>>>> How would I add this to the recipe below?
+>>>>>>
+>>>>>> SUMMARY = "An extremely fast Python package and project manager,
+>>>>>> written in Rust."
+>>>>>> HOMEPAGE = "https://pypi.org/project/uv/"
+>>>>>> LICENSE = "Apache-2.0 & BSD-2-Clause & MIT"
+>>>>>> LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=86d3f3a95c324c9479bd8986968f4327 \
+>>>>>>                     file://LICENSE-MIT;md5=45674e482567aa99fe883d3270b11184"
+>>>>>> RECIPE_MAINTAINER = "Tom Geelen <t.f.g.geelen@gmail.com>"
+>>>>>>
+>>>>>> SRC_URI[sha256sum] =
+>>>>>> "e6e1289c411d43e0ca245f46e76457f3807de646d90b656591b6cf46348bed5c"
+>>>>>>
+>>>>>> inherit pypi python_maturin cargo-update-recipe-crates
+>>>>>>
+>>>>>> require ${BPN}-crates.inc
+>>>>>>
+>>>>>> SRCREV = "d8efd77673c9a90792da9da31b6c0da7ea8a324b"
+>>>>>>
+>>>>>> PYPI_PACKAGE = "uv"
+>>>>>>
+>>>>>>
+>>>>>> [[package]]
+>>>>>> name = "version-ranges"
+>>>>>> version = "0.1.1"
+>>>>>> source = "git+https://github.com/astral-sh/pubgrub?rev=d8efd77673c9a90792da9da31b6c0da7ea8a324b#d8efd77673c9a90792da9da31b6c0da7ea8a324b"
+>>>>>> dependencies = [
+>>>>>>  "smallvec",
+>>>>>> ]
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> Tom
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>>> Links: You receive all messages sent to this group.
+>>>>> View/Reply Online (#224380): https://lists.openembedded.org/g/openembedded-core/message/224380
+>>>>> Mute This Topic: https://lists.openembedded.org/mt/115558933/6084445
+>>>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+>>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>>>
 
----
- meta/classes-recipe/cargo_common.bbclass | 158 ++++++++++++++++-------
- 1 file changed, 108 insertions(+), 50 deletions(-)
-
-diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
-index c9eb2d09a5..79c1351298 100644
---- a/meta/classes-recipe/cargo_common.bbclass
-+++ b/meta/classes-recipe/cargo_common.bbclass
-@@ -129,6 +129,44 @@ cargo_common_do_configure () {
- python cargo_common_do_patch_paths() {
-     import shutil
- 
-+    def is_rust_crate_folder(path):
-+        cargo_toml_path = os.path.join(path, 'Cargo.toml')
-+        return os.path.exists(cargo_toml_path)
-+
-+    def load_toml_file(toml_path):
-+        import tomllib
-+        with open(toml_path, 'rb') as f:
-+            toml = tomllib.load(f)
-+        return toml
-+
-+    def get_matching_repo_from_lockfile(lockfile_repos, repo, revision):
-+        for lf_repo in lockfile_repos.keys():
-+            if repo in lf_repo and lf_repo.endswith(revision):
-+                lockfile_repos[lf_repo] = True
-+                return lf_repo.split("#")[0]
-+        bb.fatal('Cannot find %s (%s) repository from SRC_URI in Cargo.lock file' % (repo, revision))
-+
-+    def create_cargo_checksum(folder_path):
-+        checksum_path = os.path.join(folder_path, '.cargo-checksum.json')
-+        if os.path.exists(checksum_path):
-+            return
-+
-+        import hashlib, json
-+
-+        checksum = {'files': {}}
-+        for root, _, files in os.walk(folder_path):
-+            for f in files:
-+                full_path = os.path.join(root, f)
-+                relative_path = os.path.relpath(full_path, folder_path)
-+                if relative_path.startswith(".git/"):
-+                    continue
-+                with open(full_path, 'rb') as f2:
-+                    file_sha = hashlib.sha256(f2.read()).hexdigest()
-+                checksum["files"][relative_path] = file_sha
-+
-+        with open(checksum_path, 'w') as f:
-+            json.dump(checksum, f)
-+
-     cargo_config = os.path.join(d.getVar("CARGO_HOME"), "config.toml")
-     if not os.path.exists(cargo_config):
-         return
-@@ -137,66 +175,86 @@ python cargo_common_do_patch_paths() {
-     if len(src_uri) == 0:
-         return
- 
--    patches = dict()
-+    lockfile = d.getVar("CARGO_LOCK_PATH")
-+    if not os.path.exists(lockfile):
-+        bb.fatal(f"{lockfile} file doesn't exist")
-+
-+    lockfile = load_toml_file(lockfile)
-+
-+    # key is the repo url, value is a boolean, which is used later
-+    # to indicate if there is a matching repository in SRC_URI also
-+    lockfile_git_repos = {}
-+    for p in lockfile['package']:
-+        if 'source' in p and p['source'].startswith('git+'):
-+            lockfile_git_repos[p['source']] = False
-+
-+    sources = dict()
-     workdir = d.getVar('UNPACKDIR')
-     fetcher = bb.fetch2.Fetch(src_uri, d)
-+
-+    vendor_folder = os.path.join(workdir, 'yocto-vendored-source-crates')
-+
-+    os.makedirs(vendor_folder)
-+
-     for url in fetcher.urls:
-         ud = fetcher.ud[url]
--        if ud.type == 'git' or ud.type == 'gitsm':
--            name = ud.parm.get('name')
--            destsuffix = ud.parm.get('destsuffix')
--            if name is not None and destsuffix is not None:
--                if ud.user:
--                    repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
--                else:
--                    repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
--                path = '%s = { path = "%s" }' % (name, os.path.join(workdir, destsuffix))
--                patches.setdefault(repo, []).append(path)
-+        if ud.type != 'git' and ud.type != 'gitsm':
-+            continue
- 
--    with open(cargo_config, "a+") as config:
--        for k, v in patches.items():
--            print('\n[patch."%s"]' % k, file=config)
--            for name in v:
--                print(name, file=config)
-+        destsuffix = ud.parm.get('destsuffix')
-+        crate_folder = os.path.join(workdir, destsuffix)
- 
--    if not patches:
--        return
-+        if destsuffix is None or not is_rust_crate_folder(crate_folder):
-+            continue
- 
--    # Cargo.lock file is needed for to be sure that artifacts
--    # downloaded by the fetch steps are those expected by the
--    # project and that the possible patches are correctly applied.
--    # Moreover since we do not want any modification
--    # of this file (for reproducibility purpose), we prevent it by
--    # using --frozen flag (in CARGO_BUILD_FLAGS) and raise a clear error
--    # here is better than letting cargo tell (in case the file is missing)
--    # "Cargo.lock should be modified but --frozen was given"
-+        if ud.user:
-+            repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
-+        else:
-+            repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
- 
--    lockfile = d.getVar("CARGO_LOCK_PATH")
--    if not os.path.exists(lockfile):
--        bb.fatal(f"{lockfile} file doesn't exist")
-+        sources[destsuffix] = (repo, ud.revision, crate_folder)
-+
-+        cargo_toml_path = os.path.join(workdir, destsuffix, 'Cargo.toml')
-+        cargo_toml = load_toml_file(cargo_toml_path)
-+
-+        if 'workspace' in cargo_toml:
-+            members = cargo_toml['workspace']['members']
-+            for member in members:
-+                member_crate_folder = os.path.join(workdir, destsuffix, member)
-+                member_crate_cargo_toml = os.path.join(member_crate_folder, 'Cargo.toml')
-+                member_cargo_toml = load_toml_file(member_crate_cargo_toml)
-+                member_crate_name = member_cargo_toml['package']['name']
-+                shutil.copytree(member_crate_folder, os.path.join(vendor_folder, member_crate_name))
-+
-+        if 'package' in cargo_toml:
-+            crate_folder = os.path.join(workdir, destsuffix)
-+            crate_name = cargo_toml['package']['name']
-+            shutil.copytree(crate_folder, os.path.join(vendor_folder, crate_name))
-+
-+    for d in os.scandir(vendor_folder):
-+        if d.is_dir():
-+            create_cargo_checksum(d.path)
-+
-+
-+    with open(cargo_config, "a+") as config:
-+        print('\n[source."yocto-vendored-sources"]', file=config)
-+        print('directory = "%s"' % vendor_folder, file=config)
-+
-+        for destsuffix, (repo, revision, repo_path) in sources.items():
-+            lockfile_repo = get_matching_repo_from_lockfile(lockfile_git_repos, repo, revision)
-+            print('\n[source."%s"]' % lockfile_repo, file=config)
-+            print('git = "%s"' % repo, file=config)
-+            print('rev = "%s"' % revision, file=config)
-+            print('replace-with = "yocto-vendored-sources"', file=config)
-+
-+    # check if there are any git repos in the lock file that were not visited
-+    # in the previous loop, when the source replacement was created, and warn about it
-+    for lf_repo, found_in_src_uri in lockfile_git_repos.items():
-+        if not found_in_src_uri:
-+            bb.warn(f"{lf_repo} is present in lockfile, but not found in SRC_URI")
- 
--    # There are patched files and so Cargo.lock should be modified but we use
--    # --frozen so let's handle that modifications here.
--    #
--    # Note that a "better" (more elegant ?) would have been to use cargo update for
--    # patched packages:
--    #  cargo update --offline -p package_1 -p package_2
--    # But this is not possible since it requires that cargo local git db
--    # to be populated and this is not the case as we fetch git repo ourself.
--
--    lockfile_orig = lockfile + ".orig"
--    if not os.path.exists(lockfile_orig):
--        shutil.copy(lockfile, lockfile_orig)
--
--    newlines = []
--    with open(lockfile_orig, "r") as f:
--        for line in f.readlines():
--            if not line.startswith("source = \"git"):
--                newlines.append(line)
--
--    with open(lockfile, "w") as f:
--        f.writelines(newlines)
- }
-+
- do_configure[postfuncs] += "cargo_common_do_patch_paths"
- 
- do_compile:prepend () {
 
