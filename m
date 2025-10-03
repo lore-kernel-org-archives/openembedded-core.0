@@ -1,171 +1,218 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3D7ACCA471
-	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 18:54:22 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.1900.1759517659672352584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D59A2CCA471
+	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 19:08:52 +0000 (UTC)
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+ by mx.groups.io with SMTP id smtpd.web11.2337.1759518528595268458
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Oct 2025 11:54:19 -0700
+ Fri, 03 Oct 2025 12:08:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=QujE8W7i;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20251003185417473666b67c000207de-nnqu15@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20251003185417473666b67c000207de
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 03 Oct 2025 20:54:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=K+CQ3Q1k5vqy/GEMF7RowKQF+F3+JstD7s0eOBat3X0=;
- b=QujE8W7iFVj+U/PSqQmFyOj7TdVW2ROv4LsUUYm67aBcWc1qK5rU5JBKAcC7W1XaxjzVnl
- NpaEflRbAuXr5GG6eecZrROo9CVTRG44M6KbW0jwKRZRWYwBZ1PmDqTAEpkk/SAq7aC1MEsu
- 3hthsF3f5VCV7PBmCUfNjgZs6aHM1qaWF+CoFbs4iLz2HVq3hGb8ZG8kBWkHnAh2aQuLLuC7
- nAWutFrioKFEafpgM9g7SP504zd5yw39QCDN/1I9Z/g7NIi/QOHdV4gfdQV4L7C7RFUJfmxs
- N9FdSWmJl8+j8sDvUSIbBxg/LE2G6Ad2u+JiAoPndpBqqh2hXTsTdVzw==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH v2] busybox: patch CVE-2025-46394
-Date: Fri,  3 Oct 2025 20:54:15 +0200
-Message-Id: <20251003185415.1443463-1-peter.marko@siemens.com>
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=K6vyU2uX;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.45, mailfrom: jdmason@kudzu.us)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-378aa12c13dso1074958fac.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 12:08:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1759518528; x=1760123328; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jTUzg/kZjKiz5oKfjw08JHx5oeP6YKVmoeGsnu9nNFQ=;
+        b=K6vyU2uXc1SY95ybZVSw0xx9Y3huSl6vn2hjFkWHm0AdNl8/w2Tjw/7kY3NR3qHrSP
+         kKbNOUtjnvQG1eLsjnFwDXq4Dbqp2ROv/12aDlwja5DR8VBag2AqlnrVjPecmsbBKP0+
+         kVqx9abNrtTyi6Y/uXriq2VB02ODBrPD96dc0+e2PTpgWs8HeUW+Yxb/eS8KQdbrfWS0
+         x8w64LWYrJeLV0SqvjnUCw8SLewPOBGEjCmYEDDfoVAeLAwnscp1aDybevY+aqGWdsUc
+         P5B4VjPCXj7I0iYaJRIt1X2rxVzY3d1949HsRE4tezfBF7e8cGhQuaA0AqVYB6fofMlB
+         pGpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759518528; x=1760123328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jTUzg/kZjKiz5oKfjw08JHx5oeP6YKVmoeGsnu9nNFQ=;
+        b=xSxGUvOR9i58aeh72DTuebeB2NgV+IHKfKt6985zzzUcequzX7c8xG+KuMUsgta02k
+         zflq2XHzl60KFkvl1cGwYLhthNXXHYgjm6Iy5asKPlitlKR/zX/wSMZIpZD8/qDWaIRn
+         RNb1qJSIQRAO9FD4QxUq0aWZk7V6sczxWScb3z9Kz6SfgAy2fVhHAil2K09mb47WE2ko
+         GR8B3oXO8MJoRlOsDlOsGM8PYVfosRD/vrxADfIAF2LJri/LX1rRpg63VbBFuKD0UD+S
+         wVl2fz1CiVvJIfGAT/drtEu8g+ouc+7/unI051vXi2c6l2ywR3nfQobgUPtsNatybOwg
+         ba/Q==
+X-Gm-Message-State: AOJu0Yzv8exsl5Uh0VNAKd4AglrbuEHV53Cy1PIUpDfmGGUJPsLrSaNa
+	xMEBW6QEazzTq/CgJo6W0Ssfm8yPqfGybkXUonQDZjKqjmeCd/a6LIFJJhK04sC311pwZ5W9nQA
+	B78znLi0JW26c+z0BsgD4Ceh4fVSF6WJ2Xxp8CWDR
+X-Gm-Gg: ASbGncv226ohTsPCyONjtyp0Dkzw9jSuaNjArbtzzoKMYdpFqjLuvrZS1Cw/tvtP2NA
+	1XLKZCcgdArlk22Eq/jSxyV21Hs8hAKxvaWNYCmOfqaLkEP0sRwIImo6oIxWbXtMoOKKopq0Ahk
+	9+W/UTVMKJJB8UT6y8yoSRhY3JWrVi/2hJKoRvzprqSF1Q83sIlcmqyhxWZE/yVCp7Jzqftwoi6
+	/8NO1scnxHwmn17Yw5IG+NDs0TPtdNgJRswzBXNlQ==
+X-Google-Smtp-Source: AGHT+IFVTwF+vSc214dl3KQZ49Vckj4UwvB6yycR/rEImFri3cuWwpfCYwVmg/M/rgxWTBWxWS5PIfPQDM5imM6dJ6Y=
+X-Received: by 2002:a05:6870:1484:b0:349:805a:dc75 with SMTP id
+ 586e51a60fabf-3b0fa43ef58mr2281500fac.42.1759518527744; Fri, 03 Oct 2025
+ 12:08:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20250929153647.1258488-1-raj.khem@gmail.com>
+In-Reply-To: <20250929153647.1258488-1-raj.khem@gmail.com>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Fri, 3 Oct 2025 15:08:37 -0400
+X-Gm-Features: AS18NWCzXeCks9NAwuT9NnAh7lmK4sMJS2BFzs70marNnjevz7JRWLOmQXOe8G4
+Message-ID: <CAPoiz9zpXWb3HMsaTLhhB5bOfHsdk4tbcPdBe4+Pt-KkbH28iA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] gn: Add recipe
+To: raj.khem@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 18:54:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224419
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 19:08:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224420
 
-From: Peter Marko <peter.marko@siemens.com>
+On Mon, Sep 29, 2025 at 11:36=E2=80=AFAM Khem Raj via lists.openembedded.or=
+g
+<raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> gn is a commonly used build tool to generate ninja files, used
+> in a lot of recipes e.g. chromium, qtwebengine, perfetto, hafnium etc.
+> these recipes come from different layers e.g. meta-qt6/meta-arm/meta-oe
+>
+> since not all layers depend on meta-oe ( meta-arm does not ), its not
+> a possible option.
+>
+> Given the usecases, putting it in core will benefit the ecosystem
+> and reduce some duplication. This recipe is taken from meta-arm
+>
+> Disable maybe-initialized is a gcc specific option as error
+>
+> Disable format warnings as errors, it adds -Wno-format explictly in
+> its build system
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2:
+>  * Disable shallow clone, build fails gen.py does not work with it
+>  * Add build progress for do_compile
+>  * Update to latest commit on main
+> v3:
+>  * Make maybe-intialized opton to be gcc specific
 
-Pick commit mentioning this CVE.
-Additionally fix test broken by the CVE fix.
+I'm seeing this causing issues with qemuarm64-secureboot and clang,
+and needs to be added back.  See
+https://gitlab.com/jonmason00/meta-arm/-/jobs/11586703411/viewer#L10702
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../busybox/busybox/CVE-2025-46394-01.patch   | 57 +++++++++++++++++++
- .../busybox/busybox/CVE-2025-46394-02.patch   | 32 +++++++++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |  2 +
- 3 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
+Want me to send a patch to remove the gcc specificity?
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch b/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
-new file mode 100644
-index 00000000000..c95cba3c33b
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
-@@ -0,0 +1,57 @@
-+From f5e1bf966b19ea1821f00a8c9ecd7774598689b4 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Wed, 24 Sep 2025 03:28:47 +0200
-+Subject: [PATCH] archival/libarchive: sanitize filenames on output (prevent
-+ control sequence attacks
-+
-+This fixes CVE-2025-46394 (terminal escape sequence injection)
-+
-+Original credit: Ian.Norton at entrust.com
-+
-+function                                             old     new   delta
-+header_list                                            9      15      +6
-+header_verbose_list                                  239     244      +5
-+------------------------------------------------------------------------------
-+(add/remove: 0/0 grow/shrink: 2/0 up/down: 11/0)               Total: 11 bytes
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+CVE: CVE-2025-46394
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=f5e1bf966b19ea1821f00a8c9ecd7774598689b4]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ archival/libarchive/header_list.c         | 2 +-
-+ archival/libarchive/header_verbose_list.c | 4 ++--
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/archival/libarchive/header_list.c b/archival/libarchive/header_list.c
-+index 0621aa406..9490b3635 100644
-+--- a/archival/libarchive/header_list.c
-++++ b/archival/libarchive/header_list.c
-+@@ -8,5 +8,5 @@
-+ void FAST_FUNC header_list(const file_header_t *file_header)
-+ {
-+ //TODO: cpio -vp DIR should output "DIR/NAME", not just "NAME" */
-+-	puts(file_header->name);
-++	puts(printable_string(file_header->name));
-+ }
-+diff --git a/archival/libarchive/header_verbose_list.c b/archival/libarchive/header_verbose_list.c
-+index a575a08a0..e7a09430d 100644
-+--- a/archival/libarchive/header_verbose_list.c
-++++ b/archival/libarchive/header_verbose_list.c
-+@@ -57,13 +57,13 @@ void FAST_FUNC header_verbose_list(const file_header_t *file_header)
-+ 		ptm->tm_hour,
-+ 		ptm->tm_min,
-+ 		ptm->tm_sec,
-+-		file_header->name);
-++		printable_string(file_header->name));
-+ 
-+ #endif /* FEATURE_TAR_UNAME_GNAME */
-+ 
-+ 	/* NB: GNU tar shows "->" for symlinks and "link to" for hardlinks */
-+ 	if (file_header->link_target) {
-+-		printf(" -> %s", file_header->link_target);
-++		printf(" -> %s", printable_string(file_header->link_target));
-+ 	}
-+ 	bb_putchar('\n');
-+ }
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch b/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
-new file mode 100644
-index 00000000000..ec17b9285a7
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
-@@ -0,0 +1,32 @@
-+From 7378db981d87b4a2264e14d60340a7fb5c67ae59 Mon Sep 17 00:00:00 2001
-+From: Peter Marko <peter.marko@siemens.com>
-+Date: Fri, 3 Oct 2025 16:12:56 +0200
-+Subject: [PATCH] testsuite/tar.tests: fix test after CVE-2025-46394
-+
-+tar now sanitizes output and this test needs to expect that.
-+
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+
-+CVE: CVE-2025-46394
-+Upstream-Status: Submitted [https://lists.busybox.net/pipermail/busybox/2025-October/091743.html]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ testsuite/tar.tests | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/testsuite/tar.tests b/testsuite/tar.tests
-+index 0f2e89112..48fc38114 100755
-+--- a/testsuite/tar.tests
-++++ b/testsuite/tar.tests
-+@@ -325,9 +325,9 @@ unset LANG
-+ rm -rf etc usr
-+ ' "\
-+ etc/ssl/certs/3b2716e5.0
-+-etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
-++etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sa??lay??c??s??.pem
-+ etc/ssl/certs/f80cc7f6.0
-+-usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
-++usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sa??lay??c??s??.crt
-+ 0
-+ etc/ssl/certs/3b2716e5.0 -> EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
-+ etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem -> /usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
-diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
-index 069544cc8a8..d3f259d45b4 100644
---- a/meta/recipes-core/busybox/busybox_1.36.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
-@@ -59,6 +59,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-cut-Fix-s-flag-to-omit-blank-lines.patch \
-            file://CVE-2022-48174.patch \
-            file://CVE-2023-39810.patch \
-+           file://CVE-2025-46394-01.patch \
-+           file://CVE-2025-46394-02.patch \
-            "
- SRC_URI:append:libc-musl = " file://musl.cfg "
- # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
+Thanks,
+Jon
+
+>  * Disable format string warnings as errors
+>
+>  meta/conf/distro/include/maintainers.inc    |  1 +
+>  meta/conf/distro/include/security_flags.inc |  1 +
+>  meta/recipes-devtools/gn/gn_git.bb          | 52 +++++++++++++++++++++
+>  3 files changed, 54 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gn/gn_git.bb
+>
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+> index 0988bf50a72..85a9914469b 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -224,6 +224,7 @@ RECIPE_MAINTAINER:pn-glibc-scripts =3D "Khem Raj <raj=
+.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-glibc-testsuite =3D "Khem Raj <raj.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-gmp =3D "Khem Raj <raj.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-glslang =3D "Jose Quaresma <quaresma.jose@gmail.com=
+>"
+> +RECIPE_MAINTAINER:pn-gn =3D "Khem Raj <raj.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-gnome-desktop-testing =3D "Ross Burton <ross.burton=
+@arm.com>"
+>  RECIPE_MAINTAINER:pn-gnu-config =3D "Robert Yang <liezhi.yang@windriver.=
+com>"
+>  RECIPE_MAINTAINER:pn-gnu-efi =3D "Yi Zhao <yi.zhao@windriver.com>"
+> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/dist=
+ro/include/security_flags.inc
+> index f713a994651..824ba2c0e3f 100644
+> --- a/meta/conf/distro/include/security_flags.inc
+> +++ b/meta/conf/distro/include/security_flags.inc
+> @@ -46,6 +46,7 @@ SECURITY_LDFLAGS:pn-sysklogd =3D ""
+>  # Recipes which fail to compile when elevating -Wformat-security to an e=
+rror
+>  SECURITY_STRINGFORMAT:pn-busybox =3D ""
+>  SECURITY_STRINGFORMAT:pn-gcc =3D ""
+> +SECURITY_STRINGFORMAT:pn-gn =3D ""
+>
+>  TARGET_CC_ARCH:append:class-target =3D " ${SECURITY_CFLAGS}"
+>  TARGET_LDFLAGS:append:class-target =3D " ${SECURITY_LDFLAGS}"
+> diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/g=
+n/gn_git.bb
+> new file mode 100644
+> index 00000000000..d8896609b19
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gn/gn_git.bb
+> @@ -0,0 +1,52 @@
+> +SUMMARY =3D "GN is a meta-build system that generates build files for Ni=
+nja"
+> +HOMEPAGE =3D "https://gn.googlesource.com/gn/"
+> +LICENSE =3D "BSD-3-Clause"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D0fca02217a5d49a14dfe2d11837bb=
+34d"
+> +
+> +DEPENDS +=3D "ninja-native"
+> +UPSTREAM_CHECK_COMMITS =3D "1"
+> +
+> +SRC_URI =3D "git://gn.googlesource.com/gn;protocol=3Dhttps;branch=3Dmain=
+"
+> +SRCREV =3D "81b24e01531ecf0eff12ec9359a555ec3944ec4e"
+> +PV =3D "0+git"
+> +
+> +BB_GIT_SHALLOW =3D ""
+> +
+> +B =3D "${WORKDIR}/build"
+> +
+> +# Map from our _OS strings to the GN's platform values.
+> +def gn_platform(variable, d):
+> +    os =3D d.getVar(variable)
+> +    if "linux" in os:
+> +        return "linux"
+> +    elif "mingw" in os:
+> +        return "mingw"
+> +    else:
+> +        return os
+> +
+> +do_configure[cleandirs] +=3D "${B}"
+> +do_configure() {
+> +    python3 ${S}/build/gen.py \
+> +        --platform=3D${@gn_platform("TARGET_OS", d)} \
+> +        --out-path=3D${B} \
+> +        --no-static-libstdc++ \
+> +        --no-strip
+> +}
+> +
+> +# Catch build progress from ninja
+> +do_compile[progress] =3D "outof:^\[(\d+)/(\d+)\]\s+"
+> +
+> +do_compile() {
+> +    ninja -C ${B} --verbose
+> +}
+> +
+> +do_install() {
+> +    install -d ${D}${bindir}
+> +    install ${B}/gn ${D}${bindir}
+> +}
+> +
+> +BBCLASSEXTEND =3D "native"
+> +
+> +COMPATIBLE_HOST =3D "^(?!riscv32).*"
+> +
+> +CFLAGS:append:toolchain-gcc =3D " -Wno-error=3Dmaybe-uninitialized"
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#224149): https://lists.openembedded.org/g/openembedde=
+d-core/message/224149
+> Mute This Topic: https://lists.openembedded.org/mt/115497351/3616920
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jd=
+mason@kudzu.us]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
