@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B65EDCAC5B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C89CCA471
 	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 18:46:32 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.1727.1759517187409399589
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.1725.1759517186542290910
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Oct 2025 11:46:27 -0700
+ Fri, 03 Oct 2025 11:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bwyBe20e;
- dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=OVYEt+rN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010199ab6599af-e18849e3-4958-451d-b8d1-70f046c51f14-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=h+cnbwNd;
+ dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=FYbinypN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010199ab659651-25c65392-9a3a-42bf-89ce-f4f86be2c2e3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1759517186; i=@automation.yoctoproject.org;
+	t=1759517185; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=8b712m5Rq/koWAXM2NrhkyyZ7eRHn2ZsOE1QHftE2qs=;
-	b=bwyBe20ezEl0psMnkvtX06eOM/GauGFAK0rYL0nK+QqkRzv5ucJS9HjQ4OQz9YX+
-	35NyZFVC5uRgIMEY8/jw3rZ/dj/G94naM0Xjf+GXwbuIDn3e4EoJv9LAN7crIT01Q6P
-	hsVa8NnvVemFP7sJmbZh0HCB8rTZB179MSykFQWs=
+	bh=jNBkBFgRXl+RnYcdQf4QakG66wIAMx+UTLQHtnza68k=;
+	b=h+cnbwNdWDrkkIxV/k4wltE3jhFHPrpQqWKOAq5UVQantsPsPx+uhOXbojkbJYxP
+	mAJKZe+X5RVjk6MdekLxHEdeP879ELQKULvsQPIyEk6PRrCJ0u9lHGVdrQxpr1Z/0c0
+	EUnG1vXct5qS3Pp+cDESeWHqO2Q6ssF2ZMD8PfTA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759517186;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1759517185;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=8b712m5Rq/koWAXM2NrhkyyZ7eRHn2ZsOE1QHftE2qs=;
-	b=OVYEt+rNdbyFBsmPioKMsoCy6RpLCHCHsCnmVEFCBSIQinH81QXVZaVjyCe0dlwU
-	xRfzjbp3rWSciqaGmFtQs8LlFT1s7azDWZosFaSslE0dI+qZuUNNnDnHuUmr+E511aT
-	BFrHU/AuyHTsuxY6DoM/kLo2yI3XTqNGqklJseWU=
+	bh=jNBkBFgRXl+RnYcdQf4QakG66wIAMx+UTLQHtnza68k=;
+	b=FYbinypNJqQ0KGjJS73aEQ32kcGk6Z07/rsRGMpP60Azm59nqPTxsKaqOXX6wGb2
+	YKtJljb8JKV1GdDNLLV9J3lhdy2h8ehLoMJBYYP6kzph8TCd7Pmymzvdq7lRDdixrIG
+	v43PBR8ApfxCGAShPaFY0NI0Hi7nj0TEzejmDL5g=
 From: patchtest@automation.yoctoproject.org
 To: Peter Marko <peter.marko@siemens.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-oe][scarthgap][PATCH v2] busybox: patch CVE-2025-46394
-In-Reply-To: <20251003183806.480997-1-peter.marko@siemens.com>
-References: <20251003183806.480997-1-peter.marko@siemens.com>
+Subject: Patchtest results for [meta-oe][kirkstone][PATCH v2] busybox: patch CVE-2025-46394
+In-Reply-To: <20251003183812.493053-1-peter.marko@siemens.com>
+References: <20251003183812.493053-1-peter.marko@siemens.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010199ab6599af-e18849e3-4958-451d-b8d1-70f046c51f14-000000@us-west-2.amazonses.com>
-Date: Fri, 3 Oct 2025 18:46:26 +0000
+Message-ID: <01010199ab659651-25c65392-9a3a-42bf-89ce-f4f86be2c2e3-000000@us-west-2.amazonses.com>
+Date: Fri, 3 Oct 2025 18:46:25 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2025.10.03-54.240.27.30
+X-SES-Outgoing: 2025.10.03-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 18:46:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224416
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224415
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-oe-scarthgap-v2-busybox-patch-CVE-2025-46394.patch
+Testing patch /home/patchtest/share/mboxes/meta-oe-kirkstone-v2-busybox-patch-CVE-2025-46394.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
