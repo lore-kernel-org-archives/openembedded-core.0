@@ -1,126 +1,185 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25765CCA471
-	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 20:02:23 +0000 (UTC)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web11.3457.1759521733196093344
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDEE7CAC5B0
+	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 21:13:15 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.1516.1759525994078114936
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Oct 2025 13:02:13 -0700
+ Fri, 03 Oct 2025 14:13:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=G/1aO93W;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.171, mailfrom: jdmason@kudzu.us)
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b109c6b9fcso27618631cf.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 13:02:13 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=1nPcEfwj;
+ spf=pass (domain: smile.fr, ip: 209.85.167.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-57ea78e0618so3015465e87.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 14:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1759521732; x=1760126532; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NZiDc1X/GXJh6DKJJ6AeZwKAMZ23nOq8vjaTSLIiUlY=;
-        b=G/1aO93WDs/wevDIXTj82HXM69O1ieUAtdmE0JMqjiEgYT+obNZJ0QSeXmLyfI/vbt
-         nRfzTOyTFXbDxHr8tEuOjZ5XQ1x3DQQpPPoxolfGvjRiqY0o9EgtRvFw7uQKOAoumvFw
-         koK6s5qbSxA7OZNzibV5GUHbvHsfhA2cqr3rhZ16E7eNaqON/hBjYBCR8gaqwL56EveT
-         ldfdTho+7oyYxXFkgRgR3eiZ1rnVQxFmsaKlcis20KIS/RLm4b2/hRUynQs71kvI4KdZ
-         INEfcuYp2HzZiAeIG/MYAFLOjYElXMqiXoMB/L9YCJxZgjCskauvWlAQ7Q5gEXFrvHDg
-         P55Q==
+        d=smile.fr; s=google; t=1759525992; x=1760130792; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v2MVppYAz04Vbs+gxMbvw4m3OMzsWK5Ppm2Dwu0KOtA=;
+        b=1nPcEfwjbTUChxFWyBXGI01B9aS3nUphJVjwuvUYkD2rUddik/WiwTpEBGmxAQXhDa
+         sy1qEO3X6qTD5DB5FKNuhISyZYcPhOpJN6yLQPYsQRx16b7c8k8Awk346PlSiUfIY58h
+         RVjvGVdX1JrRzUP4A4IKMiZckapaZvRFeHrvk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759521732; x=1760126532;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NZiDc1X/GXJh6DKJJ6AeZwKAMZ23nOq8vjaTSLIiUlY=;
-        b=mXlDdo4LmCPlk93yHu4qs8E/d0lnX0KJIZhEN8vVlksUS+59oj2RMRV/vLhDaLHiaw
-         UV+ErlIn41eHbymg18Dbn6PtpCk1tQfb/sG3xs/kLRlUQz8XczHtIPtTV69vtbDAOVJg
-         uvawQ6wBfn4UleA1bS32kpM3usipLLzOEQBTChADe3TdM58ns1eDVcvMTwe5ORspXDSQ
-         lZO2VPloC2eOBhBp+oU2n3SSh1/Z2K0Duo8T5Nyn8BIiGvzpdjdURCcZMFE2xIlAl+6l
-         M6ey95B2PORxY+jWfb7LTNjxQwFdz3tHr5GscTpaSE8S+l7sBC4LxiuEfete3Sz1Ec55
-         PHdA==
-X-Gm-Message-State: AOJu0YzQzqRy7eAtDI+3RtfcNh9m6AF9PGPjMyP9eZzygUA2424Hp35x
-	mn+eJ/bU/tGHrpecLyBSeDxYWKS2zDMo1FVPth43MELlD8wqD1rxttfigfN4YQxfjiFIccg0j7q
-	ZpFQ=
-X-Gm-Gg: ASbGnct1+EKG0+bna7SgbNkUMHW6rFYWccWucu9dj086CLJqxwbzW8FTN04Cc/WkDgj
-	0ULaSkEYyY429aCugBAw/wha+XY2GK5E2eAxLBrDnuQQy7SsOlV2fNOIvH6YpdYTO4VHiZSBIsq
-	nONLlHN66WB7PLEKPXSFEVLjDBZPvER8FXXeziYfuZMi5ymzN7T2T670TSJmtkbijMivKqkLghc
-	qQG2MpheeJi7shRBstE7AZK79BNRz76fy5ouArCxzfVW8410drXWrvx9EFhj7w+l+yUmlzKOo7j
-	Oq7rooedUazHOQiMlzYYtg04+Ome/FNj7Fbhfv6QDPCAN20Pgcr0+wCo+L0JaOU806kXWamuHka
-	YQPaivk5h4mbqBpdbUz+LLls5jIGQksseiPJHYPTcNG986zZN
-X-Google-Smtp-Source: AGHT+IETKJV2di+DD46Dc8Wp0yN/L3Q/SIKtPoxcAJ0hSrxVmo/qxH+duHTCfsLEtDqo5zpsj09hkw==
-X-Received: by 2002:a05:622a:8c1a:b0:4cd:53ea:2346 with SMTP id d75a77b69052e-4e57e3afe9emr29849221cf.19.1759521730603;
-        Fri, 03 Oct 2025 13:02:10 -0700 (PDT)
-Received: from localhost ([136.56.27.188])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-87771129491sm525254585a.2.2025.10.03.13.02.10
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1759525992; x=1760130792;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v2MVppYAz04Vbs+gxMbvw4m3OMzsWK5Ppm2Dwu0KOtA=;
+        b=TCbgXI8zZ2l5B4lzwbgQR5dGU/9UtRpEjh7wi+as25I5KVcxcRyDR4jmYEM4DnWNYK
+         U+g0KxALacmvDUj9WcL+X0xDqaLnJxSJHAxEicoKfT4hMJB9cald+DhJH89NTOXBXqzc
+         nsk4i4sLZ9+PwNng9UJRgHo7Ui2aXB6E4LTYAnzVoBHFEGiBoNTUqXGZekGkwnj1kMTh
+         gc8sU2yet3MgWpHoyciiNjxx+V8A5KPBx10GiZ6UNDKuvQKypqvuRBSDDpDVtvD2JA4g
+         ZhtByur59IuinH87Y8yOuxI/b2j9ZBq4lI5RQwxtsbeGnh8yKqjXGrpdKH/5Z6BoOMCS
+         4gNQ==
+X-Gm-Message-State: AOJu0Yw+Cb3kjsn0lt3QF3c64+sORWVjil7IaXwf4X2I//VPF6ibYKwm
+	mGfb9A+cJKxzMv2+oFoXQAdo+Gxh+bSLrGz/Lr6D7zASe1x1G3nXDpIZYR/2r6Kr3YwuCNPHylo
+	yz40qfrM=
+X-Gm-Gg: ASbGncse1vUVfqUbP62+yns1ZFnzG5km+oyFmHZA98j4/wkUSBGcCK2/043coSzPh0L
+	xCzm8bU+32A0GzrmUVS6twAXok/pUvBcqM1Y7UQ5WexXlrgiKRN9piM+f1sEOsQxdj13HSq9dTH
+	Z6IJL9EttqJfb8Uqt86Pu4WjhgmPHXbjyuzdKnXVwpSUMwJjEZzPLAQr2drYfx2MuICnwIWQOzA
+	Wz2JbFDay44g+wk6y8FvUpQ9C0lvTUGWs2X8cOOSx7zCb1PIg2K9zJUI+uFP6ZiC9iBmw9mJJby
+	MCT0S1RDj45Rw5IEeWzWOG/h3GANUGu/VNWk9+H5dim3wDj9XHzaemjz8gB5/Ox1IwalZTay7cx
+	E69toJhsJ2w2fQJSM+Fkvc8uuxsMH5/GdmI8eBkAYq8MXiUc3njcAiC9vVi8879iAMIeePagdhr
+	vM+BdKNWcwXmF+hNLZKTGJy9aHRtvTCmDRpDTdX3Vgrru3EevX40QkOw==
+X-Google-Smtp-Source: AGHT+IFIg6gCPUQqswpM1ic87sP+GAC4JaToPYAE500PH6MFsx2kAGK9+UgVoWG8rR7CRliEHToqBQ==
+X-Received: by 2002:a05:6512:3b88:b0:578:4239:162e with SMTP id 2adb3069b0e04-58cb96627d3mr1428871e87.11.1759525991530;
+        Fri, 03 Oct 2025 14:13:11 -0700 (PDT)
+Received: from P-ASN-ECS-830T8C3.local (2a01cb001331aa0036c6349435ab0707.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:36c6:3494:35ab:707])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b0119e878sm2168290e87.99.2025.10.03.14.13.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 13:02:10 -0700 (PDT)
-From: Jon Mason <jdmason@kudzu.us>
-X-Google-Original-From: Jon Mason <jon.mason@arm.com>
+        Fri, 03 Oct 2025 14:13:11 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gn: remove gcc override
-Date: Fri,  3 Oct 2025 16:02:06 -0400
-Message-Id: <20251003200206.1201180-1-jon.mason@arm.com>
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH 1/2] oeqa/selftest/wic: fix PATH for wic.Wic2.test_extra_partition_space
+Date: Fri,  3 Oct 2025 23:12:47 +0200
+Message-Id: <20251003211248.1660154-1-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 20:02:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224422
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 21:13:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224423
 
-When compiling gn with clang, the following errors are being seen (with
-qemuarm64-secureboot machine, possibly others):
+From: Yoann Congal <yoann.congal@smile.fr>
 
-In file included from /usr/include/c++/12/string:40,
-                 from ../sources/gn-0+git/src/base/strings/string_number_conversions.h:11,
-                 from ../sources/gn-0+git/src/gn/operators.cc:10:
-In static member function ‘static constexpr void std::char_traits<char>::assign(char_type&, const char_type&)’,
-    inlined from ‘static constexpr void std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::_S_copy(_CharT*, const _CharT*, size_type) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ at /usr/include/c++/12/bits/basic_string.h:421:23,
-    inlined from ‘constexpr std::__cxx11::basic_string<_CharT, _Traits, _Allocator>& std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::_M_replace(size_type, size_type, const _CharT*, size_type) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ at /usr/include/c++/12/bits/basic_string.tcc:532:22,
-    inlined from ‘constexpr std::__cxx11::basic_string<_CharT, _Traits, _Alloc>& std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::assign(const _CharT*) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ at /usr/include/c++/12/bits/basic_string.h:1647:19,
-    inlined from ‘constexpr std::__cxx11::basic_string<_CharT, _Traits, _Alloc>& std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::operator=(const _CharT*) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ at /usr/include/c++/12/bits/basic_string.h:815:28,
-    inlined from ‘Err {anonymous}::MakeOverwriteError(const BinaryOpNode*, const Value&)’ at ../sources/gn-0+git/src/gn/operators.cc:202:17:
-/usr/include/c++/12/bits/char_traits.h:354:16: error: ‘((const std::char_traits<char>::char_type*)((char*)&empty_def + offsetof(std::__cxx11::string, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::<unnamed>)))[2]’ may be used uninitialized [-Werror=maybe-uninitialized]
-  354 |         __c1 = __c2;
-      |                ^~~~
-../sources/gn-0+git/src/gn/operators.cc: In function ‘Err {anonymous}::MakeOverwriteError(const BinaryOpNode*, const Value&)’:
-../sources/gn-0+git/src/gn/operators.cc:198:15: note: ‘empty_def’ declared here
-  198 |   std::string empty_def;
-      |               ^~~~~~~~~
-In static member function ‘static constexpr void std::char_traits<char>::assign(char_type&, const char_type&)’,
-    inlined from ‘static constexpr void std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::_S_copy(_CharT*, const _CharT*, size_type) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ at /usr/include/c++/12/bits/basic_string.h:421:23,
-    inlined from ‘constexpr std::__cxx11::basic_string<_CharT, _Traits, _Allocator>& std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::_M_replace(size_type, size_type, const _CharT*, size_type) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ at /usr/include/c++/12/bits/basic_string.tcc:532:22,
-    inlined from ‘constexpr std::__cxx11::basic_string<_CharT, _Traits, _Alloc>& std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::assign(const _CharT*) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ at /usr/include/c++/12/bits/basic_string.h:1647:19,
-    inlined from ‘constexpr std::__cxx11::basic_string<_CharT, _Traits, _Alloc>& std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::operator=(const _CharT*) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ at /usr/include/c++/12/bits/basic_string.h:815:28,
-    inlined from ‘Err {anonymous}::MakeOverwriteError(const BinaryOpNode*, const Value&)’ at ../sources/gn-0+git/src/gn/operators.cc:205:17:
-/usr/include/c++/12/bits/char_traits.h:354:16: error: ‘((const std::char_traits<char>::char_type*)((char*)&empty_def + offsetof(std::__cxx11::string, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::<unnamed>)))[2]’ may be used uninitialized [-Werror=maybe-uninitialized]
-  354 |         __c1 = __c2;
-      |                ^~~~
-../sources/gn-0+git/src/gn/operators.cc: In function ‘Err {anonymous}::MakeOverwriteError(const BinaryOpNode*, const Value&)’:
-../sources/gn-0+git/src/gn/operators.cc:198:15: note: ‘empty_def’ declared here
-  198 |   std::string empty_def;
-      |               ^~~~~~~~~
-cc1plus: all warnings being treated as errors
+Without importing PATH from the wic-tools recipes, the build host PATH
+is used and this test may fail depending on tools (parted, dumpe2fs,
+...) availability. This triggers build faillure on AB (e.g. [0])
 
-Remove the toolchain-gcc override to allow the cflag
--Wno-error=maybe-uninitialized to be applied.
+To fix this, import PATH from wic-tools and ensure the original
+environment is restored after.
 
-Signed-off-by: Jon Mason <jon.mason@arm.com>
+Since this indent a block of code into a try/finally block, here is the
+diff ignoring white spaces change:
+  diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+  index b1c318bd4e..34d844b90b 100644
+  --- a/meta/lib/oeqa/selftest/cases/wic.py
+  +++ b/meta/lib/oeqa/selftest/cases/wic.py
+  @@ -1331,0 +1332,4 @@
+  +        oldpath = os.environ['PATH']
+  +        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
+  +
+  +        try:
+  @@ -1366,0 +1371,2 @@
+  +        finally:
+  +            os.environ['PATH'] = oldpath
+
+[0]: https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2456
+
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/gn/gn_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 74 ++++++++++++++++-------------
+ 1 file changed, 40 insertions(+), 34 deletions(-)
 
-diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/gn/gn_git.bb
-index d8896609b193..2443ea7139f4 100644
---- a/meta/recipes-devtools/gn/gn_git.bb
-+++ b/meta/recipes-devtools/gn/gn_git.bb
-@@ -49,4 +49,4 @@ BBCLASSEXTEND = "native"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 1b59980f1c..bff3842305 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -1330,41 +1330,47 @@ run_wic_cmd() {
+     def test_extra_partition_space(self):
+         native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
  
- COMPATIBLE_HOST = "^(?!riscv32).*"
+-        with NamedTemporaryFile("w", suffix=".wks") as tempf:
+-            tempf.write("bootloader --ptable gpt\n" \
+-                        "part                 --ondisk hda --size 10M        --extra-partition-space 10M --fstype=ext4\n" \
+-                        "part                 --ondisk hda --fixed-size 20M  --extra-partition-space 10M --fstype=ext4\n" \
+-                        "part --source rootfs --ondisk hda                   --extra-partition-space 10M --fstype=ext4\n" \
+-                        "part --source rootfs --ondisk hda --fixed-size 200M --extra-partition-space 10M --fstype=ext4\n")
+-            tempf.flush()
+-
+-            _, wicimg = self._get_wic(tempf.name)
+-
+-            res = runCmd("parted -m %s unit b p" % wicimg,
+-                            native_sysroot=native_sysroot, stderr=subprocess.PIPE)
+-
+-            # parse parted output which looks like this:
+-            # BYT;\n
+-            # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
+-            # 1:0.00MiB:200MiB:200MiB:ext4::;\n
+-            partlns = res.output.splitlines()[2:]
+-
+-            self.assertEqual(4, len(partlns))
++        oldpath = os.environ['PATH']
++        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
  
--CFLAGS:append:toolchain-gcc = " -Wno-error=maybe-uninitialized"
-+CFLAGS:append = " -Wno-error=maybe-uninitialized"
--- 
-2.39.5
-
+-            # Test for each partitions that the extra part space exists
+-            for part in range(0, len(partlns)):
+-                part_file = os.path.join(self.resultdir, "selftest_img.part%d" % (part + 1))
+-                partln = partlns[part].split(":")
+-                self.assertEqual(7, len(partln))
+-                self.assertRegex(partln[3], r'^[0-9]+B$')
+-                part_size = int(partln[3].rstrip("B"))
+-                start = int(partln[1].rstrip("B")) / 512
+-                length = part_size / 512
+-                runCmd("dd if=%s of=%s skip=%d count=%d" %
+-                                            (wicimg, part_file, start, length))
+-                res = runCmd("dumpe2fs %s -h | grep \"^Block count\"" % part_file)
+-                fs_size = int(res.output.split(":")[1].strip()) * 1024
+-                self.assertLessEqual(fs_size + 10485760, part_size, "part file: %s" % part_file)
++        try:
++            with NamedTemporaryFile("w", suffix=".wks") as tempf:
++                tempf.write("bootloader --ptable gpt\n" \
++                            "part                 --ondisk hda --size 10M        --extra-partition-space 10M --fstype=ext4\n" \
++                            "part                 --ondisk hda --fixed-size 20M  --extra-partition-space 10M --fstype=ext4\n" \
++                            "part --source rootfs --ondisk hda                   --extra-partition-space 10M --fstype=ext4\n" \
++                            "part --source rootfs --ondisk hda --fixed-size 200M --extra-partition-space 10M --fstype=ext4\n")
++                tempf.flush()
++
++                _, wicimg = self._get_wic(tempf.name)
++
++                res = runCmd("parted -m %s unit b p" % wicimg,
++                                native_sysroot=native_sysroot, stderr=subprocess.PIPE)
++
++                # parse parted output which looks like this:
++                # BYT;\n
++                # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
++                # 1:0.00MiB:200MiB:200MiB:ext4::;\n
++                partlns = res.output.splitlines()[2:]
++
++                self.assertEqual(4, len(partlns))
++
++                # Test for each partitions that the extra part space exists
++                for part in range(0, len(partlns)):
++                    part_file = os.path.join(self.resultdir, "selftest_img.part%d" % (part + 1))
++                    partln = partlns[part].split(":")
++                    self.assertEqual(7, len(partln))
++                    self.assertRegex(partln[3], r'^[0-9]+B$')
++                    part_size = int(partln[3].rstrip("B"))
++                    start = int(partln[1].rstrip("B")) / 512
++                    length = part_size / 512
++                    runCmd("dd if=%s of=%s skip=%d count=%d" %
++                                                (wicimg, part_file, start, length))
++                    res = runCmd("dumpe2fs %s -h | grep \"^Block count\"" % part_file)
++                    fs_size = int(res.output.split(":")[1].strip()) * 1024
++                    self.assertLessEqual(fs_size + 10485760, part_size, "part file: %s" % part_file)
++        finally:
++            os.environ['PATH'] = oldpath
+ 
+     # TODO this test could also work on aarch64
+     @skipIfNotArch(['i586', 'i686', 'x86_64'])
 
