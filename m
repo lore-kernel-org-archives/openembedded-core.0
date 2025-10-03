@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2175CCA471
-	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 18:54:02 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.1997.1759517632774214574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3D7ACCA471
+	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 18:54:22 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.1900.1759517659672352584
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Oct 2025 11:53:53 -0700
+ Fri, 03 Oct 2025 11:54:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=PxKrdtG3;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202510031853508f13f29bfe00020701-07l1nf@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202510031853508f13f29bfe00020701
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=QujE8W7i;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20251003185417473666b67c000207de-nnqu15@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20251003185417473666b67c000207de
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 03 Oct 2025 20:53:50 +0200
+        Fri, 03 Oct 2025 20:54:17 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=I22ydr8whUKmmixNoc8D+c75FUtHRvFwKwt9aUW3FSQ=;
- b=PxKrdtG37gfPFLiODtNbscvE4tH8bEjqAv5mB5bdL+pqzWy712rMoPjeSotZ2+aqGPmAP3
- /etWpUW9ZUQDz5cMvrLa+Ku14DN0xZZARXW9ztV8t7N81io3t9znIXwmFJUZsKjOE9n85lxq
- ajAKvFv/m/vKL5DXaG+g8O0H0ERw0UdmPRGnKGrtGBDNjCjB1ZaUFlDzNtj7WZJBddMfq2EC
- qEMmdamfKCaiK3IO+qJIv8+gJ+ovDK3mX4kyb/8azz+3LXR4yoZhlGECmMYJK1qzf+7Uwiti
- 7HDE0UcDnYRJh+5oJmx39OdD6bMnm2qJBEhAKI2Xen1WEu0CjuGIE2Dg==;
+ bh=K+CQ3Q1k5vqy/GEMF7RowKQF+F3+JstD7s0eOBat3X0=;
+ b=QujE8W7iFVj+U/PSqQmFyOj7TdVW2ROv4LsUUYm67aBcWc1qK5rU5JBKAcC7W1XaxjzVnl
+ NpaEflRbAuXr5GG6eecZrROo9CVTRG44M6KbW0jwKRZRWYwBZ1PmDqTAEpkk/SAq7aC1MEsu
+ 3hthsF3f5VCV7PBmCUfNjgZs6aHM1qaWF+CoFbs4iLz2HVq3hGb8ZG8kBWkHnAh2aQuLLuC7
+ nAWutFrioKFEafpgM9g7SP504zd5yw39QCDN/1I9Z/g7NIi/QOHdV4gfdQV4L7C7RFUJfmxs
+ N9FdSWmJl8+j8sDvUSIbBxg/LE2G6Ad2u+JiAoPndpBqqh2hXTsTdVzw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH v2] busybox: patch CVE-2025-46394
-Date: Fri,  3 Oct 2025 20:53:48 +0200
-Message-Id: <20251003185348.1433611-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH v2] busybox: patch CVE-2025-46394
+Date: Fri,  3 Oct 2025 20:54:15 +0200
+Message-Id: <20251003185415.1443463-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,8 +37,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 18:54:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224418
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 18:54:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224419
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -49,14 +49,14 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../busybox/busybox/CVE-2025-46394-01.patch   | 57 +++++++++++++++++++
  .../busybox/busybox/CVE-2025-46394-02.patch   | 32 +++++++++++
- meta/recipes-core/busybox/busybox_1.35.0.bb   |  2 +
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |  2 +
  3 files changed, 91 insertions(+)
  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
 
 diff --git a/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch b/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
 new file mode 100644
-index 0000000000..c95cba3c33
+index 00000000000..c95cba3c33b
 --- /dev/null
 +++ b/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
 @@ -0,0 +1,57 @@
@@ -119,7 +119,7 @@ index 0000000000..c95cba3c33
 + }
 diff --git a/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch b/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
 new file mode 100644
-index 0000000000..ec17b9285a
+index 00000000000..ec17b9285a7
 --- /dev/null
 +++ b/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
 @@ -0,0 +1,32 @@
@@ -155,17 +155,17 @@ index 0000000000..ec17b9285a
 + 0
 + etc/ssl/certs/3b2716e5.0 -> EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
 + etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem -> /usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
-diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
-index 1886410dd2..57a5747a48 100644
---- a/meta/recipes-core/busybox/busybox_1.35.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
+diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
+index 069544cc8a8..d3f259d45b4 100644
+--- a/meta/recipes-core/busybox/busybox_1.36.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
 @@ -59,6 +59,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2023-42366.patch \
             file://0001-cut-Fix-s-flag-to-omit-blank-lines.patch \
+            file://CVE-2022-48174.patch \
             file://CVE-2023-39810.patch \
 +           file://CVE-2025-46394-01.patch \
 +           file://CVE-2025-46394-02.patch \
             "
  SRC_URI:append:libc-musl = " file://musl.cfg "
- 
+ # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
 
