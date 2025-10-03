@@ -2,237 +2,118 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83A7BCCA471
-	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 16:44:03 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.web10.785.1759509836889083974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88105CAC5B0
+	for <webhook@archiver.kernel.org>; Fri,  3 Oct 2025 16:48:03 +0000 (UTC)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.869.1759510081760901978
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Oct 2025 09:43:57 -0700
+ Fri, 03 Oct 2025 09:48:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=p5aqCPRq;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.170, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-71d71bcab6fso26458217b3.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 09:43:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=A0u47Ceb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b4fb8d3a2dbso1948958a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 09:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1759509836; x=1760114636; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=osTA+1MnY8vMOIg/ia0iCz1iWvG6E3XprUFHpf0qWaA=;
-        b=p5aqCPRqKZ0QkqMcpHx+NdzWwwPMjZlgZhrcQBq/6TxOsRddrUiuCqEgNKMkwSc0K9
-         xX6OrL6zzRW+CV74lTv8SUdCw3rroa2RCKf2LUfgKTp21ut+3wlnD5sgQ9CkYeWcLBQ0
-         N4OZZ4p2i9wOcNRAj5FsaipvOGOww6bJZZ/dyE3Ur6F6fGUUyNB1+k2UhSGavPO690nv
-         HrMzvkOHapphlMnu6ZaaUOfx8N2vsE4QGPLNjMoNDL4Yan1c7zG59W1IkcB0Cf9i0dyF
-         BV8Dxfk7FV9APCV5rqOb880knXr3id6llFLPOnpOJ5pqfxpJhJ2LKPqbu7Ea1VxriCde
-         /pEQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1759510081; x=1760114881; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y6xIWYwlafehHervuknWIEkwUFj7jNKY7GePC5MOSII=;
+        b=A0u47Ceby3FxiPR92y5oWIDUHbQfloEDOwmoR9DfztbXOSujJJ60TFeMwpTuYiATLy
+         X1sYqW5tqfBH7Kilmak8zMFfXUjRqHFx2WU9Jd69Jz1LzxZTZO7SpuNfGedfjikpMPAf
+         HmSeSgrigh2wICtMWFkn6dXPW7ZMg9dqTwTJsc0dJV8Ch98k9puXD6+oLSmX2Inn6ysy
+         6QaJILnhYTLlmjyXVaeAGdrWLUkTEgaHJuWxKTy+fFsbMg2Qexvcftcd+Ufu3aT8uiiT
+         fX9zbeKhfsrtJVfVCJrkrUCuMTE+ftuwXk4HcAy6idUEYxpj6U+MaENJR9sS2JOkGvGT
+         0IWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759509836; x=1760114636;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=osTA+1MnY8vMOIg/ia0iCz1iWvG6E3XprUFHpf0qWaA=;
-        b=PM+X3KdrplpkbTPo1Reku7T+mEMcH69iUhIXwFFL++32ABN0DyI7/6/AvZLK0LWz9S
-         y7L/3D46oiyT/LYMGbeubewsVx3hbSmkumloNZUmU6Avyxne8fo3cgOq+FhR3dePeQUF
-         qRHvtrikN9qzIxlVcjoIkz1QeeeY1Zbfn1eGVfw2M9pB8X9ZGk/6gGch8hwcCf8lelrn
-         /A08XWST8/tL2Ty3kSgRhA+bbcC+BhDoqa4sTYj+j88nVA5Bqr6laZFJ+4126tJKLVvN
-         xoSDPWSGjmRhJWbpwRCRxFtIV/uGfH70lWHkMO8lWeGH03TlQAZm23qaAWi8k0wI+zMV
-         9DRg==
-X-Gm-Message-State: AOJu0Yw/tC858IpvMoAHtoO6yGEAAl4bSA67oNv6+hKTT1zNb44xjLeE
-	qadjfDT+4Mfg9EHouEVb94+qFKTj303lzmUMiTPJ8ERFsN3D5q83LWtdvPOYuKnNbDAL0AnTAmT
-	2CH5NO+R87vPFmwS8imWPTqGQEbOKKixqTMb2xLopqk9+ttFLnkWR
-X-Gm-Gg: ASbGncuLeun7lIQTeAK13aHqhvcSxVduheHFgzYv8hZ2znJnE1ullJ6+7LtHid6Y4qn
-	8IfHxvSPhAkJ4lnsrHp8ZxH6pgx4eXwUrX9ztFGLceduA9I5Jz2V+5Yw8P/5TjrNNpHWL+B1jqF
-	fWKqBI80sIa/dfBoMAYLrfCQsZmSgK8Bu6ZeQXYTmE+RvdbJoPhZtcgAfdGdnZBdYWG3+ozOHZf
-	y6wv4Rpnalx+88nitSDy/SVqCuhS2eHnN6uyDYOZG21FA/ZtYNz/5izm3wjyBDdkbpFNlsGPw==
-X-Google-Smtp-Source: AGHT+IEph5zAU8J/MVWxtIcVmYnyNCUf1GWCW5spOgTdv0Hl5QHyOOSJWYosUxLHI58uskS7DZsGcnR+2FaooXLWHY8=
-X-Received: by 2002:a53:7406:0:b0:634:73aa:d06d with SMTP id
- 956f58d0204a3-63b9a0e3137mr2596186d50.32.1759509835577; Fri, 03 Oct 2025
- 09:43:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251001163457.49114-1-daniel.dragomir@windriver.com>
- <CAOSpxdas1e33jheu0ELXgQQf9e9+8ccwbFTkffhPPYObAnjJRA@mail.gmail.com> <BY1PR11MB79813ED8D397932BA1178D36F7E4A@BY1PR11MB7981.namprd11.prod.outlook.com>
-In-Reply-To: <BY1PR11MB79813ED8D397932BA1178D36F7E4A@BY1PR11MB7981.namprd11.prod.outlook.com>
+        d=1e100.net; s=20230601; t=1759510081; x=1760114881;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y6xIWYwlafehHervuknWIEkwUFj7jNKY7GePC5MOSII=;
+        b=OiBrsvUFduP4oZaUsgsE7I0LEr8HenmpQU9tqnu0MI43xyMD5A0BrxgJTbUQhc02gu
+         mdx/eTmgQWe6yQ/X8dvgTWSBFR1smw4Abmq8emwLyb9aXdBP0Kf2PdkwKu0HGHt1UPnP
+         jUOxybMMTpFTEkKbbXPek/O+8k0QMNXR7V7Ak3aiwUDuLNAfltxCGSdqwDPhHOgLvdz2
+         NCaPjYsoDz7xkxgiw355b8rCPmcTl4MneN3QXz+JEazkXyHHxllQwWEAqgSBQW4Cx/j6
+         hsSuBP7hwb6UogYNR2XkV/6vr3KGP4eqhqu9cuRCiWVTjFU1YwHLKDpGaTXb7+ZbV8xo
+         ieXA==
+X-Gm-Message-State: AOJu0Yx07NhvIGvOLk1VtyY/LvJ4byJJTfZJlyAWkjmpDzEH9lH7TzoZ
+	qQTertr10d6jIBV3ZzQhqSEXOK45uGbHRgDru7kVpNRMh58THLFkMJWvmQUPzDa1tcngQOXZwLp
+	SJXyD
+X-Gm-Gg: ASbGncssWLnxCE6LsogisipzmqUOC9x3dmZCdPFCrNNLK9JScGUm9fG6UrOQWys1GZA
+	1aKE8CQkL4QsuU2GfGthu/LmudwG4F4MmHA9WjtXW/E5HVeYRc8F0+nlWiC5wcFiiC0bDo/NjyU
+	Np6mU/HbNjOLgAAx2uyfShAhNLLhtSP91W1mmehi6V8NpdTPMAG0ger4cUTpoQV0Z+hwrY5wwaz
+	VqBbTxIvC8moZP8K4A/CZrO6IZ8V1xrGatqvGkBKGXwBSeEF3IvAei5xfMfSK5bWdUl4HFt9hYZ
+	lm1zWFhKTDtrfm1HOxv5Hk0W3Eu0XeqryWZjwc4U9+N5yYs+xY1gCTtzX03JFDx5+0jPErXGYag
+	upEiNw0iy7jkEd11kwZa8T1regK4kBkn697M+og==
+X-Google-Smtp-Source: AGHT+IHAP80fm6IZind3MhZkLDocxi4DgsBdTvuBQcoODCkem4PdE+Gz0k1dCit3wPC8t0zyvSF8lQ==
+X-Received: by 2002:a17:903:3c70:b0:278:704:d6d0 with SMTP id d9443c01a7336-28e9a56603fmr49534385ad.19.1759510080874;
+        Fri, 03 Oct 2025 09:48:00 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:5bdb:26c8:eafe:889c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d568bsm54352445ad.100.2025.10.03.09.48.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Oct 2025 09:48:00 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 3 Oct 2025 09:43:44 -0700
-X-Gm-Features: AS18NWB_KoYUt7ON7N927XmZ8KWnf30uoDrb4z_MK3keaa_f3dPWdJwGn5WITUE
-Message-ID: <CAOSpxdZwfQG_8JUbmvqnpGg=0oTimNv2q=XOc4iW71rX8G04zA@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH] wic/engine: fix copying directories
- into wic image with ext* partition
-To: "Dragomir, Daniel" <Daniel.Dragomir@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 0/8] Patch review
+Date: Fri,  3 Oct 2025 09:47:46 -0700
+Message-ID: <cover.1759509931.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 16:44:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224401
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Oct 2025 16:48:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224402
 
-On Fri, Oct 3, 2025 at 12:13=E2=80=AFAM Dragomir, Daniel
-<Daniel.Dragomir@windriver.com> wrote:
->
-> Yes, this is an issue on master/master-next too.
-> I tested and the same patch can be applied fine on both master and scarth=
-gap branches.
+Please review this set of changes for scarthgap and have comments back by
+end of day Tuesday, October 7
 
-Thanks for checking.
+Passed a-full on autobuilder:
 
-Please submit the patch for the master branch.  It would be helpful if
-you would then ping me when you see that it has been accepted.  I'll
-try to remember to watch for it, but a ping would ensure I don't miss
-it :-)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2495
 
-Steve
+The following changes since commit 55e0c38dc28b73fa689446e2d5e564d235a24084:
 
->
-> Regards,
-> Daniel
->
-> ________________________________
-> From: Steve Sakoman <steve@sakoman.com>
-> Sent: Thursday, October 2, 2025 5:55 PM
-> To: Dragomir, Daniel <Daniel.Dragomir@windriver.com>
-> Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org>
-> Subject: Re: [OE-core][scarthgap][PATCH] wic/engine: fix copying director=
-ies into wic image with ext* partition
->
-> Is this also an issue on master?  If so, you will need to submit this
-> patch for master before I can take it for scarthgap.  If not, can you
-> explain why it isn't needed there?
->
-> Thanks,
->
-> Steve
->
-> On Wed, Oct 1, 2025 at 2:25=E2=80=AFPM Dragomir, Daniel via
-> lists.openembedded.org
-> <daniel.dragomir=3Dwindriver.com@lists.openembedded.org> wrote:
-> >
-> > wic uses debugfs to write on ext* partitions, but debugfs can only
-> > write to the current working directory and it cannot copy complete
-> > directory trees. Running 'wic ls' on a copied directory show this:
-> >     -l: Ext2 inode is not a directory
-> >
-> > Fix this by creating a command list for debugfs (-f parameter) when
-> > recursive parsing the host directory in order to create a similar
-> > directory structure (mkdir) and copy files (write) on each level
-> > into the destination directory from the wic's ext* partition.
-> >
-> > Signed-off-by: Daniel Dragomir <daniel.dragomir@windriver.com>
-> > ---
-> >  scripts/lib/wic/engine.py | 63 ++++++++++++++++++++++++++++++---------
-> >  1 file changed, 49 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-> > index b9e60cbe4e..9d596be3a7 100644
-> > --- a/scripts/lib/wic/engine.py
-> > +++ b/scripts/lib/wic/engine.py
-> > @@ -345,29 +345,64 @@ class Disk:
-> >                                                     path))
-> >
-> >      def copy(self, src, dest):
-> > -        """Copy partition image into wic image."""
-> > -        pnum =3D  dest.part if isinstance(src, str) else src.part
-> > +        """Copy files or directories to/from the vfat or ext* partitio=
-n."""
-> > +        pnum =3D dest.part if isinstance(src, str) else src.part
-> > +        partimg =3D self._get_part_image(pnum)
-> >
-> >          if self.partitions[pnum].fstype.startswith('ext'):
-> > -            if isinstance(src, str):
-> > -                cmd =3D "printf 'cd {}\nwrite {} {}\n' | {} -w {}".\
-> > -                      format(os.path.dirname(dest.path), src, os.path.=
-basename(src),
-> > -                             self.debugfs, self._get_part_image(pnum))
-> > -            else: # copy from wic
-> > -                # run both dump and rdump to support both files and di=
-rectory
-> > +            if isinstance(src, str): # host to image case
-> > +                if os.path.isdir(src):
-> > +                    base =3D os.path.abspath(src)
-> > +                    base_parent =3D os.path.dirname(base)
-> > +                    cmds =3D []
-> > +                    made =3D set()
-> > +
-> > +                    for root, dirs, files in os.walk(base):
-> > +                        for fname in files:
-> > +                            host_file =3D os.path.join(root, fname)
-> > +                            rel =3D os.path.relpath(host_file, base_pa=
-rent)
-> > +                            dest_file =3D os.path.join(dest.path, rel)
-> > +                            dest_dir =3D os.path.dirname(dest_file)
-> > +
-> > +                            # create dir structure (mkdir -p)
-> > +                            parts =3D dest_dir.strip('/').split('/')
-> > +                            cur =3D ''
-> > +                            for p in parts:
-> > +                                cur =3D cur + '/' + p
-> > +                                if cur not in made:
-> > +                                    cmds.append(f'mkdir "{cur}"')
-> > +                                    made.add(cur)
-> > +
-> > +                            cmds.append(f'write "{host_file}" "{dest_f=
-ile}"')
-> > +
-> > +                    # write script to a temp file
-> > +                    with tempfile.NamedTemporaryFile(mode=3D'w', delet=
-e=3DFalse,
-> > +                                                     prefix=3D'wic-deb=
-ugfs-') as tf:
-> > +                        for line in cmds:
-> > +                            tf.write(line + '\n')
-> > +                        scriptname =3D tf.name
-> > +
-> > +                    cmd =3D f"{self.debugfs} -w -f {scriptname} {parti=
-mg}"
-> > +
-> > +                else: # single file
-> > +                    cmd =3D "printf 'cd {}\nwrite {} {}\n' | {} -w {}"=
-.\
-> > +                          format(os.path.dirname(dest.path), src,
-> > +                                 os.path.basename(src), self.debugfs, =
-partimg)
-> > +
-> > +            else: # image to host case
-> >                  cmd =3D "printf 'cd {}\ndump /{} {}\nrdump /{} {}\n' |=
- {} {}".\
-> >                        format(os.path.dirname(src.path), src.path,
-> > -                             dest, src.path, dest, self.debugfs,
-> > -                             self._get_part_image(pnum))
-> > +                             dest, src.path, dest, self.debugfs, parti=
-mg)
-> > +
-> >          else: # fat
-> >              if isinstance(src, str):
-> >                  cmd =3D "{} -i {} -snop {} ::{}".format(self.mcopy,
-> > -                                                  self._get_part_image=
-(pnum),
-> > -                                                  src, dest.path)
-> > +                                                      partimg,
-> > +                                                      src, dest.path)
-> >              else:
-> >                  cmd =3D "{} -i {} -snop ::{} {}".format(self.mcopy,
-> > -                                                  self._get_part_image=
-(pnum),
-> > -                                                  src.path, dest)
-> > +                                                      partimg,
-> > +                                                      src.path, dest)
-> >
-> >          exec_cmd(cmd, as_shell=3DTrue)
-> >          self._put_part_image(pnum)
-> > --
-> > 2.39.5
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#224331): https://lists.openembedded.org/g/openembed=
-ded-core/message/224331
-> > Mute This Topic: https://lists.openembedded.org/mt/115542019/3620601
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-steve@sakoman.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+  vim: upgrade 9.1.1652 -> 9.1.1683 (2025-09-29 13:04:14 -0700)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Adrian Freihofer (2):
+  expect: Revert "expect-native: fix do_compile failure with gcc-14"
+  expect: fix native build with GCC 15
+
+Khem Raj (1):
+  expect: Fix build with GCC 15
+
+Ross Burton (3):
+  expect: update code for Tcl channel implementation
+  expect: don't run aclocal in do_configure
+  expect: cleanup do_install
+
+Vijay Anusuri (1):
+  gstreamer1.0-plugins-bad: Fix CVE-2025-3887
+
+Yogita Urade (1):
+  tiff: fix CVE-2025-9900
+
+ .../expect/expect/tcl840.patch                | 27 ++++++
+ meta/recipes-devtools/expect/expect_5.45.4.bb | 18 ++--
+ .../CVE-2025-3887-1.patch                     | 50 ++++++++++
+ .../CVE-2025-3887-2.patch                     | 95 +++++++++++++++++++
+ .../gstreamer1.0-plugins-bad_1.22.12.bb       |  2 +
+ .../libtiff/tiff/CVE-2025-9900.patch          | 54 +++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.6.0.bb |  1 +
+ 7 files changed, 237 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-devtools/expect/expect/tcl840.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-1.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-2.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-9900.patch
+
+-- 
+2.43.0
+
 
