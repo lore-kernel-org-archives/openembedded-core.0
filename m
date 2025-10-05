@@ -2,120 +2,123 @@ Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 022E6CAC5BB
-	for <webhook@archiver.kernel.org>; Sun,  5 Oct 2025 22:39:23 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.20869.1759703956483769651
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F28FCAC5BB
+	for <webhook@archiver.kernel.org>; Sun,  5 Oct 2025 22:44:44 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.20908.1759704275933340464
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Oct 2025 15:39:16 -0700
+ Sun, 05 Oct 2025 15:44:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=finrmy2h;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 595MVkL6022473
-	for <openembedded-core@lists.openembedded.org>; Sun, 5 Oct 2025 22:39:16 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=gE4Y61Q9;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 595MKqXu019851
+	for <openembedded-core@lists.openembedded.org>; Sun, 5 Oct 2025 22:44:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	QK5sE3lzNT++fbvq/x2Qkjx6CyRGTC/sWVMsxre1Tw8=; b=finrmy2hMyc9rxiz
-	XeFIDuB0eBxRrkzF+IpEVbG48Doulx1t99yMfwa6REcpkGlQ4jQv+HSYHSbQQgQD
-	MhsJHUkC50gm07l+pLmHimnO2K4XJLDJ9trfCMFYKn2rqZscy7p4CC9W+1wh6E4o
-	eeBHR6EaGLVbMpuyvWC7fiX24g/9oHbTP1ii9wA5U53qGi70o+jQCncwDAvZbTOM
-	isl9TaeVliqFNjH26PmXQXUHi7MBwQ95qHMOLPxVtQAztKLcH/mUB2cHfFOIl/sp
-	QqkSyBOHagpLScCfj9CoHGqI/O99BhkjB4yhf/BqWwF1fVVbNxPL8ULLOMke/bkL
-	qdPtOg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49js9dtrt9-1
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=HgsCNhKDBGo9UwReneTBYfVGukYwWhY5m5L
+	8nVAx+e0=; b=gE4Y61Q9T4Vy7evb4oJMMbSZfkWKGpD5w4oHf+6EPc29BYuGLYB
+	WQE2A1BX3IUYiLjyHFLS2gQD13rbCp0bo3sgVtWoTHJ9Vx+WltUmUfPhZ1BIOmTv
+	xmdMavXRHs47WnEjSmIln1pmXJbz4lemZD5p1qaMjo8dOfl+SaGFi5Doagd9JP08
+	pt+5ljI2uhJIX2XtzeD9VGJ/MoW74bKpzMLoPAGX/xYXHVkl7Ujbk4fnfj7Tav7v
+	zHXAVCQiX7qEBT8ieAAAa2NH9RPhP5Ts780XpCOsf+PNZXZZeZwIgGavKAa2vHLN
+	y3Gfek4amYZlpOu+3Cs1sf7WePccMM/EqmQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jtwgjnc4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 05 Oct 2025 22:39:16 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4d6a41b5b66so113723231cf.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Oct 2025 15:39:15 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 05 Oct 2025 22:44:34 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4e57359997aso44507981cf.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Oct 2025 15:44:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759703954; x=1760308754;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QK5sE3lzNT++fbvq/x2Qkjx6CyRGTC/sWVMsxre1Tw8=;
-        b=a2947/THAbXnlHt62QmE4nwGV0H/DUL09QF4BYzdBhh+l2CaPhIT7iJ6ws2Ji04eZU
-         Y7g6R/vJ3x0EVme6leFSNXEEhAyVbqoOx/8I0Mbt03Yq2+ZpcH5Y+1J1Fg4yELf458Dv
-         JZvXhuFsbzftuZ1J1JS1sYzUV1EZURSZoHCB2/nMxcYs5uJHin3aJIyROZk/gJTGV8gN
-         x0GN3DtD3mDCnCn2aLwMpq4RVqQl4WtLCeKqQq9SoXWFUoU4LuMatpmAL99zag1h69q8
-         V/3bVaHwg5taJ/EhQvMh8zyOm4TcQnZKSNMUghun9N+GCKCslctMVOtT0HFpQu9vvTff
-         imSw==
-X-Gm-Message-State: AOJu0Yw/M4BDoPDh2UdqUg8yyfdZ93UmJQsHC48vZJn9pKIEEFjLXU3I
-	N5thkQkFTT4+Lam4FiGeYNPuOBgtG2UOHGYBvWBKUpj/o0/m/IXKjl5S7m8dVsrXP6uDCWqoRbl
-	D3p2n3ZFBVd7GlRTzupedQpe5QOYbN69ST7FGG3IMg+U3kv9ilYlfTqxFsUwP2ZyaFzqqJJ2TvR
-	t6yKCBW/a3XHTQhcs=
-X-Gm-Gg: ASbGncta0/9ql14MvZTBssKF1C62uP49CTD1T7S7mRkrNQv3cEruV0CCWWSP7xCvFQ/
-	CJq4BXMyMZGHWsKKwcd4WbURqTTnfRd11n8rWP3+YHgTe41xLUxjxbvdkb2Qv/mrH4H+KSxf/LS
-	Svfs5Iw9lyOgR55vassxpqYrM1D0CUPadBShc5wZQBy4vVYtPEa2+/Du7lGDekbVvlUf/aV/ryI
-	rj3gGM5hQkNNNWu4734PignHsp4EPVJp2+f/aWf8KrD+Emq5S7xTPUv19uPFcWFtkb53eNX/cve
-	1IK+SaRf6SHhmLX22g0VjFplsrvh1wKl7Oq4D9DCv8hEkjsvEd0Zp4i4vnbKhShDxEbo5uamctY
-	GOUKFC1ucI+yGi/Kh30rcRQ55b2Z8PrdgP2yHWsQ41dTzGdTp8mupYouNsw==
-X-Received: by 2002:ac8:5fc3:0:b0:4df:2f33:2601 with SMTP id d75a77b69052e-4e576b42235mr123802661cf.83.1759703954087;
-        Sun, 05 Oct 2025 15:39:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGgObyJ0KieK5yzJF/0sfKM2g2yH6OxKXix0yxGZEb3/8aMilSjypbgLYZk7u5kZMR7nGaA+A==
-X-Received: by 2002:ac8:5fc3:0:b0:4df:2f33:2601 with SMTP id d75a77b69052e-4e576b42235mr123802441cf.83.1759703953555;
-        Sun, 05 Oct 2025 15:39:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759704274; x=1760309074;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HgsCNhKDBGo9UwReneTBYfVGukYwWhY5m5L8nVAx+e0=;
+        b=aOWCvFzpEEo4mLSsQh8qas1je22pOn2+ddxBLaOi3/MIoRl/2NWPu0wdP58YC9UKW5
+         +7bBN/x0Na+oxqMMHEfJt7FUw9vh8SQanUXy+rYwAI2UWD7OypWQKOdGrhInZbbFKKnu
+         tu1z7AREDn4SCsNpHo1bCg80JxsMKDPFRl0c0JjDf1qbgvAlNPAOaiaj/3MZrtyRLv4d
+         JjUcfl17utEigccVq/TJpuUD/w4YKM+FjjMnqHNNGnFdkDe5W0gwwFq5/VPF5HeHGK0V
+         8P4aqgaW6k5SYaWWkivYrbWOYlKvwdA654499lLoU4BjeZrs+SO3Q+Vm9ZJkPVXw/GN2
+         262w==
+X-Gm-Message-State: AOJu0Yxt1EPe3OSYC9A8zKfMcszetQmOXKuOqOuxGLytbmKQSfNlO5JF
+	DRtnOYikzyeUWA5lSOjiug9baWYocbRSv5S/wwRgOuUWUB7ydR5Bs8K8HmkiPoZ52j07xNXi2LF
+	JElFs4AsrbWOJeFxPlXRPuFk9J7uzz/0LzeWQt0HTP6+3Zp1rykrru1uVjkfKwrjxK1peJfqGsD
+	T8ZKSRdvfDNm779pY=
+X-Gm-Gg: ASbGnctYguBPnF53gxpjuog0/21sXzhKf7ecY5xWOSp5iQKSDV1Ea5EsKvSzuxdAxWn
+	9EsShUk4u0zb1BX0yovA+VUxzZqnZ0zcFZdfFx7z7jVDw8xPIyKMoQJEAS+QdxU9gkZz+MCwBiK
+	farNN03rY7nTaeSaFbGPmWAN7QyBT52WK2wzTuM1hLpkGGpDSQcG9U4WFNyjdBAKscNpj2u3c8J
+	vSDvflHIk54Jt3VO7xqwshu6Pa/t087LcfGBJwVCmRWsDyJiOkYrGCSoJotf2JU5KLozy0JOHet
+	9N0OxfydmL6kXM+40ZafKJuY2XL7Fkod2CUtZGbYuqtf8+uwEc293YWCcI+mzkHrOCw3LcXvnmr
+	RshoVewLVc9O5UgOWzKU+mDDdzJbK3/FqKQmHhfxESqoAXEmnLKNSj0Jb8Q==
+X-Received: by 2002:a05:622a:550f:b0:4d8:9577:6fd7 with SMTP id d75a77b69052e-4e576a4439dmr145533621cf.8.1759704273716;
+        Sun, 05 Oct 2025 15:44:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IECaau7hQSMj0FTthnJRt3psax+1dVfTq9jQEiD0fDSqUEuLHBfUeS0DMhwCgTajYxzEzmr9Q==
+X-Received: by 2002:a05:622a:550f:b0:4d8:9577:6fd7 with SMTP id d75a77b69052e-4e576a4439dmr145533431cf.8.1759704273213;
+        Sun, 05 Oct 2025 15:44:33 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b0113f46csm4346574e87.49.2025.10.05.15.39.10
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b01141752sm4390479e87.58.2025.10.05.15.44.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Oct 2025 15:39:11 -0700 (PDT)
-Date: Mon, 6 Oct 2025 01:39:09 +0300
+        Sun, 05 Oct 2025 15:44:31 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Kavinaya S <kavinaya@qti.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 0/1] Add support for custom compatible string via
- optional parameter
-Message-ID: <h362wbo5qajrlclm7vufccizdu2kceqdlqemoac6i33qzfmjyt@lkalb5fxc5po>
-References: <CAA_5yos1jzc55U=Ct4NSt9B+Mf_ES8yx0YKSrSYu9N94oTHc2w@mail.gmail.com>
- <22989.1759164878731751541@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Ryan Eatmon <reatmon@ti.com>
+Subject: [PATCH] piglit: enable OpenCL support if distro has enabled it
+Date: Mon,  6 Oct 2025 01:44:30 +0300
+Message-ID: <20251005224430.82999-1-dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <22989.1759164878731751541@lists.openembedded.org>
-X-Authority-Analysis: v=2.4 cv=Hrl72kTS c=1 sm=1 tr=0 ts=68e2f394 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=x6icFKpwvdMA:10 a=W1o9KpiOoRotVmjblioA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: 1X-SKtyIRdxE8nn1yVVDVw51rL5TXldB
-X-Proofpoint-ORIG-GUID: 1X-SKtyIRdxE8nn1yVVDVw51rL5TXldB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAwNCBTYWx0ZWRfX2uWnhqgn0DG1
- vguG2G4+re1TjvA1/Ys5rBFjHwnn03TXpzabnogjXKDrpABmGh24bCJt6X0ez9x5yEjK/eZE0a9
- lxNNCPshwDs1aRENK2XsiGaQPsi7WgwzVz/BhQdXEAB4gBVVTjxspsp8OgkiNwMGJepgSPn8BH/
- cF155ctCRby63bA0amNDMYlJD2XfCB/6/idLJAgw7B0tGsjQF4AjpNIii+g/HoYZUZgo0TqAmgo
- PRaRyDStFdCCtYl0Ff0Hw/RWn0KnwD4nHMMAGidk3eKtFsiZ0AacbbwombhZTlJgE/m2WaQRCx4
- 76kcMacCce23FU0oklan1ZE/TTw3whjjt8b+DJ7vyiMgQKvzyk522S3n0OBl5XOtRoKucvot3oA
- iHsTMYf1GwWGa+k0ZrkCY9rJ2eZcCA==
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAxOSBTYWx0ZWRfX7kJDsZzTh6Ln
+ FUB6l9gz18wRqrsRrb3JCVhgJ66qW8l4w8U1B9y8rLJLqmP5Ely2l4YSxtceaLsEii1ld71u+2U
+ coFQNFbiKGQqpdWR2HuRk+fkR2DqECaIBr8u3IX0uUpM/Iy/ZyRc4DW0wdJER3ErEO6cW2ZUkmD
+ PszJ5+8/sRa0cyiM8bmLh1Ht5h4NYdiEstXxj3w35bEI/32FLWRpgRM02PCC3XcsFTmBZSayRe8
+ svPoVsacLcee6o0vqnGZ+iftKZMLJnA2eyMHfoqz/qVIulWVkvce4/LIMKM3A50nDbFw9RkNYWR
+ KQPPrZi49q/Bq5n84lOtK09EgQh6ZAOcuR3ylsfcVMYzVs3BXIFoeQIaXi9fMeaPiSt2Nqi3Qz6
+ jyqZzUAGzzS2cyFYGysHIAL1CZ/W6Q==
+X-Authority-Analysis: v=2.4 cv=B6O0EetM c=1 sm=1 tr=0 ts=68e2f4d2 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
+ a=sozttTNsAAAA:8 a=EUspDBNiAAAA:8 a=kbudkyUGUx3IG2ls07wA:9
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: Yr1a8RNB-vin1q4l_plByBuDoS_f-rxh
+X-Proofpoint-ORIG-GUID: Yr1a8RNB-vin1q4l_plByBuDoS_f-rxh
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-05_07,2025-10-02_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040004
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 595MVkL6022473
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ impostorscore=0 spamscore=0 bulkscore=0 phishscore=0 malwarescore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2510040019
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Oct 2025 22:39:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224455
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Oct 2025 22:44:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224456
 
-On Mon, Sep 29, 2025 at 09:54:38AM -0700, Kavinaya S wrote:
-> Hi Ricardo,
+Enable 'opencl' PACKAGECONFIG if it is also set in DISTRO_FEATURES.
 
-Don't delete the whole message you are responding to. How do we know
-what are you talking about?
+Cc: Ryan Eatmon <reatmon@ti.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->=20
-> I=E2=80=99ve implemented this change by adding a custom compatible stri=
-ng for one specific DTB in my machine.conf:
-> FIT_DTB_COMPATIBLE_OVERRIDE:qcs6490-rb3gen2-vision-mezzanine.dtb =3D "q=
-com,qcs6490-rb-subtype5"
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 63c0cf1ac0bb..060e287f267e 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -38,7 +38,7 @@ do_compile[dirs] =+ "${B}/temp/"
+ 
+ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 glx', '', d)} \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'opencl wayland', d)} \
+ "
+ PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,-DPIGLIT_USE_GLUT=0,freeglut,"
+ PACKAGECONFIG[glx] = "-DPIGLIT_BUILD_GLX_TESTS=ON,-DPIGLIT_BUILD_GLX_TESTS=OFF"
+-- 
+2.47.3
 
---=20
-With best wishes
-Dmitry
 
