@@ -1,209 +1,372 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F12CAC5B8
-	for <webhook@archiver.kernel.org>; Sun,  5 Oct 2025 20:12:33 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.71])
- by mx.groups.io with SMTP id smtpd.web11.17919.1759695150165313784
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97DBECCD183
+	for <webhook@archiver.kernel.org>; Sun,  5 Oct 2025 22:01:03 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.20223.1759701661440345322
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Oct 2025 13:12:30 -0700
+ Sun, 05 Oct 2025 15:01:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=qRxW7rBX;
- spf=pass (domain: siemens.com, ip: 52.101.65.71, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ej4XbxS5yfijH3Ki9n8+uo89ANWXbc10hhpT1DRg89IUQxmOVBK/8DrlebqzUuJBj5JRHYkPTZkVk94u8Ter/RI5qddwDMl6H0y2Rx7qZw0b63CCVVoog0NAGZ49hbdGMXQiW8XRk3L7DNgj1LngXbC46YsrjbL7xHFGhiRAFNSWNAY++TW0FqugjqitivDc1xOvGBmPVFRK1IWBWFEMnDrKKihwzhucU1N2aHmSFt7Zrznbb3MUWTGHvMEAxktqWOlOgik3RW99igwHUgySfudtJOdqs+GpmytZ5bCbGkQ4ZG196pFCCUBoUj8sjd4M83mKATbhWiSud7kYEPvy3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8DKC4DiZYgwaik/vNidDhNibNsXNO/9P3kZpBaN9Be0=;
- b=cw8p+sEnEWrxUK71o9FXvfnj93xrBtENU/WVF4kKdaK0cSo18d5nWpm98FJxvpK6S8+/sZTGuNpHfrdva+nj4O7svgQY8tx/Lw9e19SkB8G2s/OCxignxK+l59a75KwawAobUww3mlhZzPHLPKfkivjFtqootG/DmiExg1oaCekqALRIzQq0g2qdW6UScqc4DhyYcXtxX6TbjEzUZB17DW2WxoJAn5u3FSMW3wdhenORhth4u1oQUfX1dsHijuwedhu8WwMo7HpJgKys93VTt6F94gTene2d4N8OzitIunkCbO0csV3fOZmH0m4eykHqYrll2RlZL19zCPUwQ7J37w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8DKC4DiZYgwaik/vNidDhNibNsXNO/9P3kZpBaN9Be0=;
- b=qRxW7rBXVTWhWIKG4IzfIUayr/q0tiZpavHGC9TBzGo2VL96Z7HxRi5TNlp9YmsmcmJAKfrFKG0eEShR8MrtB/Lv0w0Lgjgt2oPtj+A15QWROIS67/xbULK0Cif1Lanczk8kAcZabuEOW6K2QxCF67xiON4xoM+ZpTKk9WG320hl80JowP8xMqu3kizC2IiT+6UA4zT5RwXXx4YAsPaN2cWhogqauMx2aWH+o+6pwWLcZtLUO1mAlKQoYSDnYzUJ58GZ67Ucymn1c4SEZUjVHHCkih49upTpn9/nP9DNS+q28209DauGxU0dbJci1vIatlAhV8DkHKdFRvFKPoArdQ==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by AS4PR10MB5317.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4bf::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Sun, 5 Oct
- 2025 20:12:23 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.9182.015; Sun, 5 Oct 2025
- 20:12:23 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>,
-	Anna-Lena Marx <anna-lena.marx@inovex.de>, "alex.kanavin@gmail.com"
-	<alex.kanavin@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "denis@denix.org" <denis@denix.org>
-Subject: RE: [OE-core] [PATCH v3] sqlite3: upgrade 3.48.0 -> 3.50.4
-Thread-Topic: [OE-core] [PATCH v3] sqlite3: upgrade 3.48.0 -> 3.50.4
-Thread-Index: AQHcM+IW5V7mczVqoku9hCI63tXdzLSz7YgAgAASIxA=
-Date: Sun, 5 Oct 2025 20:12:22 +0000
-Message-ID: 
- <AS1PR10MB5697EBCA8CA9CC068CEB8EBEFDE2A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20251001152850.1342075-1-anna-lena.marx@inovex.de>
- <20251002211744.3418535-1-anna-lena.marx@inovex.de>
- <DDAME0P70H0A.3G3G7DPYEVKK3@bootlin.com>
-In-Reply-To: <DDAME0P70H0A.3G3G7DPYEVKK3@bootlin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=f456c631-46f9-4241-a0f1-e6fa0e218577;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-10-05T20:07:46Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AS4PR10MB5317:EE_
-x-ms-office365-filtering-correlation-id: e7893bc0-b352-499d-f2f3-08de044b7ed6
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?by9Xcllva09XSnBoaHNjQ0NUZWhoc0ZHNWlhUmJ0SmNRMWZoRE8zWURXZkhU?=
- =?utf-8?B?YmgvNlZKVVEvRWI2UElwTEx3VDN5S2tDRlJDQVVXMkpxYit2eGtMZWl2RWJ6?=
- =?utf-8?B?NG01eEJJdUJpYTVSSnNqZEdKL2hMQi9ndHVMUEp0ZFRwemVkaVV3M1Zlc1Nm?=
- =?utf-8?B?QzRKVm1sajMrdHRCdUhxY2NrYWc2VTlaVm5CTHRVTklJWnFvZnpnVlAzbW9r?=
- =?utf-8?B?Z1Z3Skd1cEV0YklNU05ibFoyVmJ5d0h1Mm1NbXBjeDgzeHBkTENQdWoxRFBN?=
- =?utf-8?B?RDdESkVRSGJjTTFHZ2pNbnY4TTlRRjY4N3h6Q1Fic2R3MUNrWVE1dEd1cCsz?=
- =?utf-8?B?YXZncG41Rk9xdVFrRUlhVHdyZmpKWmxac3Q2SW8zTnBtb2EraDM1S1lUWUFR?=
- =?utf-8?B?UmxoUS9oUWMxNWRDL0tDVXA2V3gvRWZRZWVVdkZmakI5VENNN0R5TysrQTNP?=
- =?utf-8?B?bnY0S3RhcE4zRXFZRk0ydzNhNnVLeE4wVXRYcG9DRlpWWG1STGI0b3ZpTGpR?=
- =?utf-8?B?cGltNnVJUEF5WGU5KzNZODhidE4xcG1IUStzWm9HK3RENlgrS2ltaTNDZUd4?=
- =?utf-8?B?aFZmeGp6UFlBUHIvSTNBRWUwMW9NOXg1czNsTXpsSHFpZlBVRytTT1kwYWRB?=
- =?utf-8?B?Vm0yRUlCOXFuejhnYnRWTWFqcTRDZUU4c3UyWlpzbHBSUG90TWpMNXA4M3N6?=
- =?utf-8?B?VU1MMlFvaHNzdnJpek5TZGFGQ1IxUURxdUdqaGh4Nkt2MERYMm9SSTdwS0Jo?=
- =?utf-8?B?V2ovUzREZ3IyZzl5cEtlZmNrK082Yk9jMEcvVk5MMGlGMmphbUg0Y3M3YVRD?=
- =?utf-8?B?SGhwcmZldkk1b2RZNE5uVnFJaUtobzNMZ2V3cnZsL3NrWFVNd1hJSGpTaFBh?=
- =?utf-8?B?N2xzSjhQbUJmQ1U4dlJPSnFvUWZyVnl3TDFsVkVyN0JlcmtzSnF6SmgzaFph?=
- =?utf-8?B?clgvV3lXRXoxVmRaZHdnSldvVmswTVdYWDFKNHorZFA4b2JYTXhPNzV1elkx?=
- =?utf-8?B?MndyNk1rT2VqU2NHVlhOWEF6Ulg1TDVrZnk5TlR2TnpnS2ZQVy84cTR6M2Nr?=
- =?utf-8?B?aU5DK05ZN2Z4V1lPV2oyaExKRXpIdnRXb0N6MXNiSGZvMVRvUjR0NklvcHZD?=
- =?utf-8?B?OXVrWTBaYTQyRXJZVHAwNS9zZnlSVGZsRDRLTUh2bEJzMTlHd0ZDTXdSc3Qw?=
- =?utf-8?B?a3hLSW5Pdnc1UjlLakhKOUpCYTg1MWhoVlBkblJZT0prNWRZVkxPcGMxN0Jv?=
- =?utf-8?B?Ui9xaDlldjQ2b2VCNHZnNjByN2cwaDY3RDRGMkh4QnVGRmpZSEVreFdwblps?=
- =?utf-8?B?d3dabHZaYndrMStYMGwreU1RUy9TcVV0Mko5U1VRNlk5Y0kyOVF5TUtnc1dH?=
- =?utf-8?B?dFB2dG44cmJnNTRUL0ZMRkNyR3ZvSzgvclNuZzVwQy9oaHk2dCtHUFM3MTd1?=
- =?utf-8?B?TURQOWlBVjkzM2ZIQUxLVW5LTkU0U09la21DYVF6VG5yc244enlIcXNmekdh?=
- =?utf-8?B?V251VkxsbVRVZitva3JVdG9vWkxOWlVWVUNBdkFia0dUeW1mOU5kbEErSDg1?=
- =?utf-8?B?VTB6ejVwVnlHWVZKR3pTL1I5VEp1OE44bUlUY3BEdHlzc0JxUjNyV1phZ0xK?=
- =?utf-8?B?V3orYm03NnphWDZjeWprNWYvWkREY2R3MDNRQ2V6MVBVdk9xN2cwWGJPQVg4?=
- =?utf-8?B?LzlHL1RrUUdkWUMvVy9nd0N6cWNRT09yaUdHSlJiNFYybDhLMFdGaU9meUJR?=
- =?utf-8?B?cU5tUVVWeWRuSTNmMlZmbjJJTnBzczRITCtLSVlQSUNYZEhLKzJRZ3J1T0Nk?=
- =?utf-8?B?TmxmZXpoMXFmSjJ6cmdVNUtSdGlWcmRWY1FFZHZNQndzTEJ2T2pHQUJvMjRX?=
- =?utf-8?B?QWNIdnM4c2ljcU95Mi9IYVdYU1dJQ3NIZ2xpTjVIYmFJN0lLWFM3YnBFOE9Z?=
- =?utf-8?B?U2FRK2VxNUZWRTFDb2pIWTZCWEpiYWZmZmtnTlJGUEpmVnd1RS95WGJEamZa?=
- =?utf-8?B?VWZzbVlVT1BBPT0=?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?VDVTZ1R6eEFEVkNuOTIzUW16OEV3OWRuYjRkbWlZNHVDVlA0OHd2UzFQdUVE?=
- =?utf-8?B?eGhzSURaWXprN1h0S09FekpnZHFDU3lIVWlweXJKZHpuVUtyQWFQLy9NOUt5?=
- =?utf-8?B?N3Y4anVlOFhIS3ZsSTdGMVVWM3pUbU9QakU4aC85Zkx3QVZXRktLSnlXc3Q0?=
- =?utf-8?B?ZWcyRHMySUZxY3lqVDhsdGdnUnlCeW9PbDQrZUdkL0dDRmFEaVlSS3A0Ulpu?=
- =?utf-8?B?a1RkeXoyZ0tVT1Z5ZWdTNXBDNm5RWlVtSUN4SVhSVEljM2pJOHYzNFRiTFFx?=
- =?utf-8?B?V3UvZmVNeDd2VFEwWWV4eThuTUZ4VnNSYWNvRFZ0cy9BWE5DdGJ1eFdPU21S?=
- =?utf-8?B?bk5kNDlVUE9jSFRRNTJRMXIvZ3A0Z0hjQ1c5TVU2SDhMWVhxYXdKNXdqbjVx?=
- =?utf-8?B?STAzUkZTZEZ6SHEza3Zsc005RjJ4NzZ5bjdHNGJ3V0F4Tzh1Rzh1djNrdW80?=
- =?utf-8?B?alZTb3lKa0UvMDhGay8zQmxSUkFmOHZpUzNUNzZHb2xselZhOVROQ3VnWVY5?=
- =?utf-8?B?Y2YwdExPUjdmbDdoNWl6NjhSczd2b2g2YlZPTEpyL0J2OGZYa0VKMW1Vdjlj?=
- =?utf-8?B?cTVjc2dNdWI5eHFDZTlMaEV0WjJaaVUxeHBZanRDa2ZtdWNUdjFLVzZ5THAw?=
- =?utf-8?B?TGpPd3RTZHJCNG5tVFczdU9QQ1JxSFhQS1gwVVMwU0FrR3dFQk1uK3F4ZnVv?=
- =?utf-8?B?VFVOazVKYzg4WTAzVTltOUhBZ3J4M0J0SmdhclRVNFg2NzJvZ2JWVFpWelVv?=
- =?utf-8?B?TlUvdmpEeCt6SFBzK0RxYUlld1FDNkQwRmc1OE1pK3R3ZmlIZW9EQlR6dHdC?=
- =?utf-8?B?WEUwTDI3SE05Z0xRbnRiLzRjV1pLMkZZWDNoSHRkNEJscnd2NU5aUjl1NHB0?=
- =?utf-8?B?SitUemtnajRCNWduN2tmaXJhSjJCQzMrVTh2RnpkOVpOVjFBZGlHQnZnTXpK?=
- =?utf-8?B?eWpHOXBPMjdrKzNIb2F4WUVkZkptQ0UvRzhwN0xBbU9kSFprZ25uVDJRQnE2?=
- =?utf-8?B?UHlUck9naVVES25IaHpydFY0aDM5OXJxYzJ0aHFyc0FMa2h2UjQxZ3prMG9W?=
- =?utf-8?B?VnNydG5Qb3IrNUw4NXRhWEJpUVVjVGdValIrVjl1RHFrRGhIb0syb00wOU9y?=
- =?utf-8?B?d0JkMlJXNGFPdWI2WkMzSHRFWXV6aHcwcUg3NXpSSHdoRFNmbDc0cGoyYS9z?=
- =?utf-8?B?TVJDV2RnN3QwLzZzTzRCMldSTmRScW4yMjhuVzVLS0hLMzBmNUQ3OW0wMFVx?=
- =?utf-8?B?SnhrSEJkcXVkN0RaNSt6RUIxN3JBdXpBcEYrVmhrSVVXTkZwaE5IS2pLTUx3?=
- =?utf-8?B?YWZWZC9GSGs1dU80Ky9LV3R6a3FEc01BVUZ4bXEvK2xRZzY3M2NQbm1KaTlv?=
- =?utf-8?B?dDNoVEorN0ROZzdmUEVLcWE1dWFWSmFuS1l6SXJBSk0zNkNXRk16WHlwMGNW?=
- =?utf-8?B?bWYySnpLejR5QkdQRU80K3hNaXBjLzlSVXRhc2U3SHZ3ZkdHMUNmOUhtQ3du?=
- =?utf-8?B?WkRENVpjUnNlR1ovS3VieklBQ2tUWVo1cnN4YVRnMGtWTllUMzEzOGNOWlRB?=
- =?utf-8?B?VWlEY2dDYzI2TXpuWHdrTTY3TW44OVNXZk5udGEzZ0VINlB1MGpTckVOSEF6?=
- =?utf-8?B?MzhoditXLzQrWGNnTk5jZ0svMVFMNE5QUkhMaTJCSStVYzZTMkR1ZzlsTDRh?=
- =?utf-8?B?ejFzekdxekRvYXk1Y2NNRGFlNUFJT1h1UDZLRjVhVE8wRHRwVk1Gbm5tbUNY?=
- =?utf-8?B?d3IyUHlxRnpUY21ocEpRcHRkY1h6T0NTTlpGVTRlalVOV2tGSkhJY014bzJL?=
- =?utf-8?B?VnA4UFdqTHc4Z0hEOUJpc0VDRWhCeTFTSjkxWDBXOURqa3F1RWZnSE9MRVh5?=
- =?utf-8?B?YmxMc0w0bEs1QXhDaXI4Y2Fwa1NteWZpS2FVWjFDbngweStRRUk3R3pzVVRh?=
- =?utf-8?B?OGFmNzVOM29hZUNaZ1J3Q0RubGdJclI5Rm55d0dRQkR3SFRoNmFxTFhPRDg5?=
- =?utf-8?B?OC85OHIwMStnL0pUcWE4K28ya0VaYmI4bDJwQkVwQ3hQamJkc01UMzZ6djg3?=
- =?utf-8?B?UnQrMVZuQ1RWUkRQakRLcG5mdS9RczFmekRKcFp3YU5sRnJHM0lsN3JsdGhH?=
- =?utf-8?Q?MgZKsv3dxN9unZiPN/5bzzAfQ?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=FLYIIoim;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-2025100522005834d3bd826200020755-_qbluy@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2025100522005834d3bd826200020755
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 06 Oct 2025 00:00:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=Dbo7+i+PAJxvg2VlMtMjvPJ0QtWtfZwDw5ji5hDs224=;
+ b=FLYIIoimOiltAPpT2PngJx+l73E8r7sWd10iwqp8XUYpeO8xLKL/qV4EElzghv8LeNN2P8
+ pSlBtCD7gFy+2P9rKme/JsAfBM92uCgjn9v7pPC2HH8zT9iGGeeIvcejpmuWoWVYsTjnlOZp
+ /wCsI8jcXeUS3Mc8uXX1mSkBQOU2eshCE7zGVvJ+VxQdVz7srIJD73xoSEEwDHuFwToVU1X1
+ i1ycSUsUjuXcBjfLKmaWyx6YoAa9CCzLBEYChldjTT0wpj9eVj45i45C0wp4bJtg+gs+A7Ob
+ xLi3Q1wUQHMnHHAm2iDGwggr41OU+gO8S73SAwOeSK4+JyMmwMvNcKEw==;
+From: AdrianF <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 4/4] oe-selftest: devtool: DevtoolIdeSdkTests debug logging
+Date: Mon,  6 Oct 2025 00:00:34 +0200
+Message-ID: <20251005220047.4101591-5-adrian.freihofer@siemens.com>
+In-Reply-To: <20251005220047.4101591-1-adrian.freihofer@siemens.com>
+References: <20251005220047.4101591-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7893bc0-b352-499d-f2f3-08de044b7ed6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2025 20:12:22.9891
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JyYx1u06MdhzQmdyIDr8IZbLYS/NA5fAjfGFR27p6JBxrXtvN9hvy6Q271iQ6QOILCTuVf4L+e4OntOisKLusA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB5317
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Oct 2025 20:12:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224446
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Oct 2025 22:01:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224450
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBNYXRoaWV1IER1Ym9pcy1CcmlhbmQgdmlhDQo+
-IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU2VudDogU3VuZGF5LCBPY3RvYmVyIDUsIDIwMjUg
-MjE6MDMNCj4gVG86IEFubmEtTGVuYSBNYXJ4IDxhbm5hLWxlbmEubWFyeEBpbm92ZXguZGU+OyBh
-bGV4LmthbmF2aW5AZ21haWwuY29tOw0KPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnDQo+IENjOiBkZW5pc0BkZW5peC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0ggdjNdIHNxbGl0ZTM6IHVwZ3JhZGUgMy40OC4wIC0+IDMuNTAuNA0KPiANCj4gT24g
-VGh1IE9jdCAyLCAyMDI1IGF0IDExOjE3IFBNIENFU1QsIEFubmEtTGVuYSBNYXJ4IHdyb3RlOg0K
-PiA+IFdpdGggdGhlIHVwZ3JhZGUgdG8gMy41MC40LCBzb21lIGNvbmZpZ3VyZSBvcHRpb25zIGNo
-YW5nZWQNCj4gPiBhcyB0aGUgcHJvamVjdCBzd2l0Y2hlZCBmcm9tIGBhdXRvdG9vbHNgIHRvIGBh
-dXRvc2V0dXBgLg0KPiA+IFRoZSBQQUNLQUdFQ09ORklHICJkeW5fZXh0IiBpcyBub3QgbG9uZ2Vy
-IGF2YWlsYWJsZS4NCj4gPiBCZXNpZGVzLCB0aGUgZGVmYXVsdCBDT05GSUdVUkVPUFRTICJ0YXJn
-ZXQiLCAiZXhlY19wcmVmaXgiDQo+ID4gYW5kICJvbGRpbmNsdWRlZGlyIiBiZWNhbWUgaW52YWxp
-ZC4NCj4gPg0KPiA+IENoYW5nZWxvZzogaHR0cHM6Ly9zcWxpdGUub3JnL3JlbGVhc2Vsb2cvM181
-MF80Lmh0bWwNCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEFubmEtTGVuYSBNYXJ4IDxhbm5hLWxl
-bmEubWFyeEBpbm92ZXguZGU+DQo+ID4gLS0tDQo+IA0KPiBIaSBBbm5hLUxlbmEsDQo+IA0KPiBU
-aGFua3MgZm9yIHRoZSBuZXcgdmVyc2lvbi4NCj4gDQo+IEkgY2FuJ3QgZXhwbGFpbiB3aHksIGJ1
-dCBpdCBsb29rcyBsaWtlIHRoaXMgaXMgYnJlYWtpbmcgdGhlDQo+IGltYWdlZmVhdHVyZXMuSW1h
-Z2VGZWF0dXJlcy50ZXN0X21hbmRiIHRlc3Q6DQo+IA0KPiBFUlJPUjogY29yZS1pbWFnZS1taW5p
-bWFsLTEuMC1yMCBkb19yb290ZnM6IFBvc3RpbnN0YWxsIHNjcmlwdGxldHMgb2YgWydrZXJuZWwt
-DQo+IDYuMTYuOS15b2N0by1zdGFuZGFyZCddIGhhdmUgZmFpbGVkLiBJZiB0aGUgaW50ZW50aW9u
-IGlzIHRvIGRlZmVyIHRoZW0gdG8gZmlyc3QgYm9vdCwNCj4gdGhlbiBwbGVhc2UgcGxhY2UgdGhl
-bSBpbnRvIHBrZ19wb3N0aW5zdF9vbnRhcmdldDoke1BOfSAoKS4NCj4gRGVmZXJyaW5nIHRvIGZp
-cnN0IGJvb3QgdmlhICdleGl0IDEnIGlzIG5vIGxvbmdlciBzdXBwb3J0ZWQuDQo+IC4uLg0KPiAy
-MDI1LTEwLTA1IDE0OjE0OjU5LDU4NCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtDQo+IGltYWdlZmVh
-dHVyZXMuSW1hZ2VGZWF0dXJlcy50ZXN0X21hbmRiIChzdWJ1bml0LlJlbW90ZWRUZXN0Q2FzZSkN
-Cj4gMjAyNS0xMC0wNSAxNDoxNDo1OSw1ODYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAgLi4uIEZB
-SUwNCj4gDQo+IGh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy92YWxreXJpZS8j
-L2J1aWxkZXJzLzM1L2J1aWxkcy8yNDc4DQo+IGh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9q
-ZWN0Lm9yZy92YWxreXJpZS8jL2J1aWxkZXJzLzQ4L2J1aWxkcy8yMzkxDQo+IA0KPiBJIHdhcyBu
-b3QgYWJsZSB0byByZXByb2R1Y2UgdGhpcyBsb2NhbGx5LCBJIHdpbGwgdHJ5IHRvIGV4dHJhY3Qg
-bG9ncw0KPiBmcm9tIHRoZSBhdXRvYnVpbGRlciBpbiB0aGUgY29taW5nIGRheXMgdG8gcHJvdmlk
-ZSBhIGJpdCBtb3JlIGNvbnRleHQuDQoNCk15IHR3byBjZW50cyAtIGl0IGNhbiBiZSB0aGUgc2Ft
-ZSBpc3N1ZSBhcyBpbiBteSBmaXJzdCBwYXRjaCAtIHdyb25nIHNvbmFtZSBhbmQgcmVzdG9yaW5n
-IGZyb20gc3N0YXRlLWNhY2hlLg0KDQpCdXQgaW4gZ2VuZXJhbCwgSSBkb24ndCBsaWtlIHRoaXMg
-cGF0Y2ggYXMgaXQncyBub3QgYWRkcmVzc2luZyB0aGUgc3dpdGNoIGZyb20gYXV0b3Rvb2xzIHRv
-IGF1dG9zZXR1cCBwcm9wZXJseS4NClR3byB0b3BpY3MgaW4gcGFydGljdWxhciAtIGl0IGtlZXBz
-IGF1dG90b29scyBjbGFzcyBhbmQgaXQga2VlcHMgbm93IGJyb2tlbiBjb2RlIHdoaWNoIGlzIHRy
-eWluZyB0byBkaXNhYmxlIHpsaWIuDQpJIGhvcGUgSSdsbCBmaW5kIHNvbWUgdGltZSBkdXJpbmcg
-dGhlIG5leHQgd2VlayBhbmQgc2VuZCBhIG5ldyByZXNwaW4gb2YgbXkgc3FsaXRlIHVwZ3JhZGUg
-cGF0Y2guDQoNClBldGVyDQoNClBldGVyDQoNCj4gDQo+IFRoYW5rcywNCj4gTWF0aGlldQ0KPiAN
-Cj4gLS0NCj4gTWF0aGlldSBEdWJvaXMtQnJpYW5kLCBCb290bGluDQo+IEVtYmVkZGVkIExpbnV4
-IGFuZCBLZXJuZWwgZW5naW5lZXJpbmcNCj4gaHR0cHM6Ly9ib290bGluLmNvbQ0KDQo=
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
+
+Add optional debug logging to all runCmd calls in DevtoolIdeSdkTests
+to improve debugging capabilities when tests fail. The logging is only
+enabled when the test logger is set to DEBUG level.
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py | 101 +++++++++++++++---------
+ 1 file changed, 63 insertions(+), 38 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index b92f017b81..2b7c02ec6a 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -13,6 +13,7 @@ import glob
+ import fnmatch
+ import unittest
+ import json
++import logging
+ 
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer
+@@ -2523,6 +2524,13 @@ class DevtoolUpgradeTests(DevtoolBase):
+ 
+ 
+ class DevtoolIdeSdkTests(DevtoolBase):
++
++    def setUp(self):
++        super().setUp()
++        self._cmd_logger = None
++        if self.logger.isEnabledFor(logging.DEBUG):
++            self._cmd_logger = self.logger
++
+     def _write_bb_config(self, recipe_names):
+         """Helper to write the bitbake local.conf file"""
+         conf_lines = [
+@@ -2562,7 +2570,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.track_for_cleanup(tempdir)
+         self.add_command_to_tearDown('bitbake -c clean %s' % recipe_name)
+ 
+-        result = runCmd('devtool modify %s -x %s --debug-build' % (recipe_name, tempdir))
++        result = runCmd('devtool modify %s -x %s --debug-build' % (recipe_name, tempdir),
++                        output_log=self._cmd_logger)
+         self.assertExists(os.path.join(tempdir, build_file),
+                           'Extracted source could not be found')
+         self.assertExists(os.path.join(self.workspacedir, 'conf',
+@@ -2572,7 +2581,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertTrue(matches, 'bbappend not created %s' % result.output)
+ 
+         # Test devtool status
+-        result = runCmd('devtool status')
++        result = runCmd('devtool status', output_log=self._cmd_logger)
+         self.assertIn(recipe_name, result.output)
+         self.assertIn(tempdir, result.output)
+         self._check_src_repo(tempdir)
+@@ -2628,7 +2637,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             self._workspace_scripts_dir(recipe_name), i_and_d_script)
+         self.assertExists(install_deploy_cmd,
+                           '%s script not found' % install_deploy_cmd)
+-        runCmd(install_deploy_cmd)
++        runCmd(install_deploy_cmd, output_log=self._cmd_logger)
+ 
+         MAGIC_STRING_ORIG = "Magic: 123456789"
+         MAGIC_STRING_NEW = "Magic: 987654321"
+@@ -2661,7 +2670,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             cpp_code = cpp_code.replace(MAGIC_STRING_ORIG, MAGIC_STRING_NEW)
+         with open(cpp_example_lib_hpp, 'w') as file:
+             file.write(cpp_code)
+-        runCmd(install_deploy_cmd, cwd=tempdir)
++        runCmd(install_deploy_cmd, cwd=tempdir, output_log=self._cmd_logger)
+ 
+         # Verify the modified example prints the modified magic string
+         status, output = qemu.run(example_exe)
+@@ -2688,7 +2697,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+ 
+         native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", gdb_recipe)
+         r = runCmd("%s --version" % gdb_binary,
+-                   native_sysroot=native_sysroot, target_sys=target_sys)
++                   native_sysroot=native_sysroot, target_sys=target_sys,
++                   output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+         self.assertIn("GNU gdb", r.output)
+ 
+@@ -2716,18 +2726,20 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             recipe_name), 'gdb_1234_usr-bin-' + example_exe)
+ 
+         # Start a gdbserver
+-        r = runCmd(gdbserver_script)
++        r = runCmd(gdbserver_script, output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+ 
+         # Check there is a gdbserver running
+-        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'))
++        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'),
++                   output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+         self.assertIn("gdbserver ", r.output)
+ 
+         # Check the pid file is correct
+         test_cmd = "cat /proc/$(cat /tmp/gdbserver_1234_usr-bin-" + \
+             example_exe + "/pid)/cmdline"
+-        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, test_cmd))
++        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, test_cmd),
++                   output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+         self.assertIn("gdbserver", r.output)
+ 
+@@ -2738,7 +2750,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %saaa\")'" % magic_string
+         gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:13,13'"
+         gdb_batch_cmd += " -ex 'continue'"
+-        r = runCmd(gdb_script + gdb_batch_cmd)
++        r = runCmd(gdb_script + gdb_batch_cmd, output_log=self._cmd_logger)
+         self.logger.debug("%s %s returned: %s", gdb_script,
+                           gdb_batch_cmd, r.output)
+         self.assertEqual(r.status, 0)
+@@ -2750,11 +2762,11 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertIn("exited normally", r.output)
+ 
+         # Stop the gdbserver
+-        r = runCmd(gdbserver_script + ' stop')
++        r = runCmd(gdbserver_script + ' stop', output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+ 
+         # Check there is no gdbserver running
+-        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'))
++        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'), output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
+         self.assertNotIn("gdbserver ", r.output)
+ 
+@@ -2775,29 +2787,29 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertExists(cmake_exe)
+ 
+         # Verify the cmake preset generated by devtool ide-sdk is available
+-        result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir)
++        result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn(preset_name, result.output)
+ 
+         # Verify cmake re-uses the o files compiled by bitbake
+         result = runCmd('%s --build --preset %s' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("ninja: no work to do.", result.output)
+ 
+         # Verify the unit tests work (in Qemu user mode)
+         result = runCmd('%s --build --preset %s --target test' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("100% tests passed", result.output)
+ 
+         # Verify re-building and testing works again
+         result = runCmd('%s --build --preset %s --target clean' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Cleaning", result.output)
+         result = runCmd('%s --build --preset %s' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Building", result.output)
+         self.assertIn("Linking", result.output)
+         result = runCmd('%s --build --preset %s --target test' %
+-                        (cmake_exe, preset_name), cwd=tempdir)
++                        (cmake_exe, preset_name), cwd=tempdir, output_log=self._cmd_logger)
+         self.assertIn("Running tests...", result.output)
+         self.assertIn("100% tests passed", result.output)
+ 
+@@ -2822,7 +2834,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+                 recipe_name, build_file, testimage)
+             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+-            runCmd(bitbake_sdk_cmd)
++            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+             self._gdb_cross()
+             self._verify_cmake_preset(tempdir)
+             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
+@@ -2838,7 +2850,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+                 recipe_name, build_file, testimage)
+             bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+-            runCmd(bitbake_sdk_cmd)
++            runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+             self._gdb_cross()
+             self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
+             # Verify the oe-scripts sym-link is valid
+@@ -2857,7 +2869,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             recipe_name, build_file, testimage)
+         bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
+             recipe_name, testimage)
+-        runCmd(bitbake_sdk_cmd)
++        runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+         self._verify_cmake_preset(tempdir)
+         self._verify_install_script_code(tempdir,  recipe_name)
+         self._gdb_cross()
+@@ -2874,7 +2886,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             recipe_name, build_file, testimage)
+         bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
+             recipe_name, testimage)
+-        runCmd(bitbake_sdk_cmd)
++        runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+         with open(os.path.join(tempdir, '.vscode', 'settings.json')) as settings_j:
+             settings_d = json.load(settings_j)
+@@ -2886,20 +2898,25 @@ class DevtoolIdeSdkTests(DevtoolBase):
+ 
+         # Verify meson re-uses the o files compiled by bitbake
+         result = runCmd('%s compile -C  %s' %
+-                        (meson_exe, meson_build_folder), cwd=tempdir)
++                       (meson_exe, meson_build_folder), cwd=tempdir,
++                       output_log=self._cmd_logger)
+         self.assertIn("ninja: no work to do.", result.output)
+ 
+         # Verify the unit tests work (in Qemu)
+-        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
++               output_log=self._cmd_logger)
+ 
+         # Verify re-building and testing works again
+         result = runCmd('%s compile -C  %s --clean' %
+-                        (meson_exe, meson_build_folder), cwd=tempdir)
++                        (meson_exe, meson_build_folder), cwd=tempdir,
++                        output_log=self._cmd_logger)
+         self.assertIn("Cleaning...", result.output)
+         result = runCmd('%s compile -C  %s' %
+-                        (meson_exe, meson_build_folder), cwd=tempdir)
++                        (meson_exe, meson_build_folder), cwd=tempdir,
++                        output_log=self._cmd_logger)
+         self.assertIn("Linking target", result.output)
+-        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir,
++               output_log=self._cmd_logger)
+ 
+         self._verify_install_script_code(tempdir,  recipe_name)
+         self._gdb_cross()
+@@ -2911,7 +2928,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self._check_workspace()
+ 
+         result_init = runCmd(
+-            'devtool ide-sdk -m shared oe-selftest-image cmake-example meson-example --ide=code')
++            'devtool ide-sdk -m shared oe-selftest-image cmake-example meson-example --ide=code',
++            output_log=self._cmd_logger)
+         bb_vars = get_bb_vars(
+             ['REAL_MULTIMACH_TARGET_SYS', 'DEPLOY_DIR_IMAGE', 'COREBASE'], "meta-ide-support")
+         environment_script = 'environment-setup-%s' % bb_vars['REAL_MULTIMACH_TARGET_SYS']
+@@ -2926,18 +2944,21 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         def runCmdEnv(cmd, cwd):
+             cmd = '/bin/sh -c ". %s > /dev/null && %s"' % (
+                 environment_script_path, cmd)
+-            return runCmd(cmd, cwd)
++            return runCmd(cmd, cwd, output_log=self._cmd_logger)
+ 
+         # Verify building the C++ example works with CMake
+         tempdir_cmake = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir_cmake)
+ 
+-        result_cmake = runCmdEnv("which cmake", cwd=tempdir_cmake)
++        result_cmake = runCmdEnv("which cmake", cwd=tempdir_cmake,
++                                 output_log=self._cmd_logger)
+         cmake_native = os.path.normpath(result_cmake.output.strip())
+         self.assertExists(cmake_native)
+ 
+-        runCmdEnv('cmake %s' % cpp_example_src, cwd=tempdir_cmake)
+-        runCmdEnv('cmake --build %s' % tempdir_cmake, cwd=tempdir_cmake)
++        runCmdEnv('cmake %s' % cpp_example_src, cwd=tempdir_cmake,
++                  output_log=self._cmd_logger)
++        runCmdEnv('cmake --build %s' % tempdir_cmake, cwd=tempdir_cmake,
++                  output_log=self._cmd_logger)
+ 
+         # Verify the printed note really referres to a cmake executable
+         cmake_native_code = ""
+@@ -2953,12 +2974,14 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         tempdir_meson = tempfile.mkdtemp(prefix='devtoolqa')
+         self.track_for_cleanup(tempdir_meson)
+ 
+-        result_cmake = runCmdEnv("which meson", cwd=tempdir_meson)
++        result_cmake = runCmdEnv("which meson", cwd=tempdir_meson,
++                                 output_log=self._cmd_logger)
+         meson_native = os.path.normpath(result_cmake.output.strip())
+         self.assertExists(meson_native)
+ 
+-        runCmdEnv('meson setup %s' % tempdir_meson, cwd=cpp_example_src)
+-        runCmdEnv('meson compile', cwd=tempdir_meson)
++        runCmdEnv('meson setup %s' % tempdir_meson, cwd=cpp_example_src,
++                  output_log=self._cmd_logger)
++        runCmdEnv('meson compile', cwd=tempdir_meson, output_log=self._cmd_logger)
+ 
+     def test_devtool_ide_sdk_plugins(self):
+         """Test that devtool ide-sdk can use plugins from other layers."""
+@@ -2981,7 +3004,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             return m.group(1).split(',')
+ 
+         # verify the default plugins are available but the foo plugin is not
+-        result = runCmd('devtool ide-sdk -h')
++        result = runCmd('devtool ide-sdk -h', output_log=self._cmd_logger)
+         found_ides = get_ides_from_help(result.output)
+         self.assertIn('code', found_ides)
+         self.assertIn('none', found_ides)
+@@ -3012,7 +3035,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             plugin_file.write(plugin_code)
+ 
+         # Verify the foo plugin is available as well
+-        result = runCmd('devtool ide-sdk -h')
++        result = runCmd('devtool ide-sdk -h', output_log=self._cmd_logger)
+         found_ides = get_ides_from_help(result.output)
+         self.assertIn('code', found_ides)
+         self.assertIn('none', found_ides)
+@@ -3020,14 +3043,16 @@ class DevtoolIdeSdkTests(DevtoolBase):
+ 
+         # Verify the foo plugin generates a shared config
+         result = runCmd(
+-            'devtool ide-sdk -m shared --skip-bitbake --ide foo %s' % shared_recipe_name)
++            'devtool ide-sdk -m shared --skip-bitbake --ide foo %s' % shared_recipe_name,
++            output_log=self._cmd_logger)
+         with open(shared_config_file) as shared_config:
+             shared_config_new = shared_config.read()
+         self.assertEqual(shared_config_str, shared_config_new)
+ 
+         # Verify the foo plugin generates a modified config
+         result = runCmd('devtool ide-sdk --skip-bitbake --ide foo %s %s' %
+-                        (modified_recipe_name, testimage))
++                        (modified_recipe_name, testimage),
++                        output_log=self._cmd_logger)
+         with open(modified_config_file) as modified_config:
+             modified_config_new = modified_config.read()
+         self.assertEqual(modified_config_str, modified_config_new)
+-- 
+2.51.0
+
 
