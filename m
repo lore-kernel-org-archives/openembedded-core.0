@@ -1,131 +1,114 @@
-Return-Path: <anna-lena.marx@inovex.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B719CCA471
-	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 13:19:59 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web11.33701.1759756797994670363
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AF53CAC5B8
+	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 13:21:19 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.33723.1759756876365198875
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Oct 2025 06:19:58 -0700
+ Mon, 06 Oct 2025 06:21:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@inovex.de header.s=google header.b=d//KRjSy;
- spf=pass (domain: inovex.de, ip: 209.85.208.53, mailfrom: anna-lena.marx@inovex.de)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-637e74e92easo8144114a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 06:19:57 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZnAkiI9+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-46e61ebddd6so46966435e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 06:21:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inovex.de; s=google; t=1759756796; x=1760361596; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2mjFi+ahu8yWGYe2LCWb0VFbH/zI5z2YB/vn7cYsl5c=;
-        b=d//KRjSy7pZwc97cuQuTvbFup9+K46Pwi792mVWYem4RMugM2H1hdRzPXEqDARpZnY
-         4MqcoIj1aV/s/px0amtw6djMwIMLqxpmCjC1q3CM++mOKyIjh6ZMHUs3IG0DeN0cFY4k
-         RlDDk4rKaJPKfrMVmLZU8WiSpZqkL7jehu2xuPXTtGH5S3lsZfanowAc2V09N7DZ7Ize
-         4EPe9JhZQZTUdrI9k7AqFhDJPNAI+u5TJncoJ8IwpXK9aDMwCW86hXjf0yZ3pmjA8VBZ
-         g9OQ8LPv1uDKSwQg5TXQ2UjFcQide1yd38+tilQXVR2QXj+6bNBPbrHjwNEGAabKnQwu
-         wq4w==
+        d=linuxfoundation.org; s=google; t=1759756874; x=1760361674; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jZdhQukWj6gEtIRAMs6nUCpAjBE/pPJRrrvOsA5FtIQ=;
+        b=ZnAkiI9+/gv8NuPrNeIPr0TShRx4njcP1hGHdyOXvJXqDIpWvObfAaFk1I9tbA/kRi
+         ZuegPeakWfNKHqAbEkz/Bnz2hcyvUnF+7Pg4rhTBbICn6nwKEtftarxJpenXof4i+Vkt
+         vfRuNODf07UYKSsRPz5SofJMktT01OoMfQNYU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759756796; x=1760361596;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2mjFi+ahu8yWGYe2LCWb0VFbH/zI5z2YB/vn7cYsl5c=;
-        b=uGYXoURGwtqfyrCOmQpHcoqc+UE1AkuG4JmchL7MwCMw/5xWXWF3KPzJpHoFOlctYA
-         Hb59Co5xJ0Bb/CBHrPBXk7iLBuPz54yyiMjQje2dmfG5BgM6XgRGPGkZOD43qXcUcrwq
-         mbHct1VpjR9Qniiust0ZZ0P21LHmdf/eBDW9KOdc4IUGZD0vzdnU8KIkFzo9QfAM0H+3
-         0mo4SDTt980fLPAmLrm+83iHjuHZSzy0GHndgEAT/3Y/gu8GuesPxZmxvdgJAGsIqr2G
-         Rb3Y1hVBOs5XbCS3VzPueKyGZTS1qlSroqp8BK1EXfNuHdgY4APt69qoEiYQ0Yg8g8rh
-         EdEg==
-X-Gm-Message-State: AOJu0Yx6SoM0956pWk6l8W5wwJAj5+LgouwosOkS+1rXC8wgZgQWH6E9
-	vvjgI2lWBbAS+8SYI/ezaKapWhXunkD2cH8jzHBpd6aHZVAitV7YcsFDeeT5TEv0zuVN4zi9QW1
-	DI37dOwPIlL+s5b495deeFekTPhrTWS2eKA7djLtzF1JX0CaD5j/dW+Q=
-X-Gm-Gg: ASbGncszxrkZv1Uyz/mhb6XTJfBP+8ur0YxexjZMH6JDau11MgoCP718aUxMI0ATLX6
-	K92L50cbuKj7a28QXArw1q/tlObgZdLy2kUTj7+xRc+3HNufA8SwdyoCQkoBFpWdwcy/vbzcWjG
-	1+HxlY/r0CuSF1mR4qczkSiG7vDDrWd3RKM7QLdb1KuvuQaNh5DQt8S92HMCR/894ZUILqph/VN
-	qxCF/u47Tc9qzk+BJKnlEKMKRgJdCcpm+U3gnjSIho=
-X-Google-Smtp-Source: AGHT+IFuhF4XAxf56mJkYxSSHgQaXr6fn+JuuO/NZROkggI6LQ+POqtDydfahTGhE0RnlV3p9q3dW3XOBQvheuW24nM=
-X-Received: by 2002:a17:906:f599:b0:b45:a03f:d172 with SMTP id
- a640c23a62f3a-b49c407397bmr1574229766b.57.1759756796160; Mon, 06 Oct 2025
- 06:19:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759756874; x=1760361674;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jZdhQukWj6gEtIRAMs6nUCpAjBE/pPJRrrvOsA5FtIQ=;
+        b=Nfd1EeRMJkuyePr57GzMh4LaMFsPPIO9+XgvlzSD17sMAOFmgtRhv9QG5+2w4JXnxC
+         CZqK2LWhiOc/G66x8yhvnNe7ycfjrfbZwQ0tSHFlJpwRgTVbPrilIFG+Qn3CQRXVAShw
+         qKP+vMbGaCc7i5lrNiJwQQobP3LaJ0l/Con/Ac9Zryhsrv0f4VzIxxIfYpmMts3kn9BD
+         su58AQ59RKRW2dPtKVkP8q5V5M6ic/S877qG/365Zq0mX89s09NSmyxcoJohiwLLYeXH
+         4StcJN8WX68kShEAa37r/XMIor3zYtbMc2LHBqbYWPGk9t8MA8XHpu8xaj+nJ9gosYX2
+         Q6+A==
+X-Gm-Message-State: AOJu0Yzu5aseFFvXkbteHgg9KnqnJtTU1BcU7JFfUlXkmnTluua8GO/6
+	58AISafx/gpNAvqiRndJejZCVAWpkAeHTKAXFPCc/IWx9y+MVEg8zfNccn4MrVeSs23bQC3jLTd
+	q9pwP
+X-Gm-Gg: ASbGncvtZSmp9YmZyFzZJjOzXCNzyEo5hSO2jxtW4O0cavP/O3ETu3vnQNGVX/xDMJz
+	2FGS4pCiUafzkQ9XR4NPErP33MEVmpfRlF9PydSJwuNHE3bmkuD2Va0wjvFCUybEqXe+02zW29P
+	/xhQ6Cli6thOhscu6QWJvAPlAFXelXARNFFufofm+SfPnPP424UdVlFFOI9EVdx21AkCG4H4Bky
+	TQpuz0ASJ76n9X22L9DShqoZRANUBmb+z3EUmtd/hLr6lajkOJ5leEEEw2AY/4DMcqPM0TV75nh
+	FjwY4b+evhJkvhFqfTBErOOHSG2xmP+vAtKN8hsShAZppTdsRRhx1Wswowi4D4+iPYRHVIqnumH
+	BtpOLCdjqf8hke5pB2XLU4VhnZehLRMebbg40OoE1I1XMUI2AN+7wRH+YeorR/j3BmV1eZXBPLQ
+	==
+X-Google-Smtp-Source: AGHT+IH0BpeeCCGVDHvIaLVBzDZhdmL/gfQSxxPZur5RbKkjTPyCdHinx6K9JlS88PFmB6FsgvUyUg==
+X-Received: by 2002:a05:600c:3d90:b0:45f:2bc5:41c3 with SMTP id 5b1f17b1804b1-46e714ac847mr76407715e9.8.1759756874187;
+        Mon, 06 Oct 2025 06:21:14 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3e9a:117:edd2:a796])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e5b5e4922sm140218165e9.1.2025.10.06.06.21.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Oct 2025 06:21:13 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] bitbake.conf,lib/configfragments: Use a new dedicated toolcfg.conf file
+Date: Mon,  6 Oct 2025 14:21:12 +0100
+Message-ID: <20251006132112.847125-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-References: <20251001152850.1342075-1-anna-lena.marx@inovex.de>
- <20251002211744.3418535-1-anna-lena.marx@inovex.de> <DDAME0P70H0A.3G3G7DPYEVKK3@bootlin.com>
- <DDB48HY9ROCL.LSTRL7ZMUFM1@bootlin.com>
-In-Reply-To: <DDB48HY9ROCL.LSTRL7ZMUFM1@bootlin.com>
-From: Anna-Lena Marx <anna-lena.marx@inovex.de>
-Date: Mon, 6 Oct 2025 15:19:44 +0200
-X-Gm-Features: AS18NWBlTanbdEeOhbWKp5wu54f3GcQHkVEKJZRDnnlwd3LCGni26P5XN_sOedU
-Message-ID: <CABFt5om2Px+=56RRDszvXg19TVPVpQN1qPt+28o-OpCL3vEoMA@mail.gmail.com>
-Subject: Re: [PATCH v3] sqlite3: upgrade 3.48.0 -> 3.50.4
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, denis@denix.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 13:19:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224484
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 13:21:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224485
 
-> > Hi Anna-Lena,
-> >
-> > Thanks for the new version.
-> >
-> > I can't explain why, but it looks like this is breaking the
-> > imagefeatures.ImageFeatures.test_mandb test:
-> >
-> > ERROR: core-image-minimal-1.0-r0 do_rootfs: Postinstall scriptlets of ['kernel-6.16.9-yocto-standard'] have failed. If the intention is to defer them to first boot,
-> > then please place them into pkg_postinst_ontarget:${PN} ().
-> > Deferring to first boot via 'exit 1' is no longer supported.
-> > ...
-> > 2025-10-05 14:14:59,584 - oe-selftest - INFO - imagefeatures.ImageFeatures.test_mandb (subunit.RemotedTestCase)
-> > 2025-10-05 14:14:59,586 - oe-selftest - INFO -  ... FAIL
-> >
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/2478
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/2391
-> >
-> > I was not able to reproduce this locally, I will try to extract logs
-> > from the autobuilder in the coming days to provide a bit more context.
-> >
->
-> Here is some log from the autobuilder, not sure it helps much:
->
->   Installing       : kernel-6.16.9-yocto-standard-6.16.9+git0+1ac1d0ff7   17/56
->   Running scriptlet: kernel-6.16.9-yocto-standard-6.16.9+git0+1ac1d0ff7   17/56
-> %post(kernel-6.16.9-yocto-standard-6.16.9+git0+1ac1d0ff73_3f9db490a8-r0.qemux86_64): scriptlet start
-> %post(kernel-6.16.9-yocto-standard-6.16.9+git0+1ac1d0ff73_3f9db490a8-r0.qemux86_64): execv(/bin/sh) pid 1421854
-> + set -e
-> + [ ! -e /srv/pokybuild/yocto-worker/oe-selftest-debian-mathieu-20251004/build/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/rootfs/lib/modules/6.16.9-yocto-standard ]
-> + [ -n /srv/pokybuild/yocto-worker/oe-selftest-debian-mathieu-20251004/build/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/rootfs ]
-> + depmodwrapper -a -b /srv/pokybuild/yocto-worker/oe-selftest-debian-mathieu-20251004/build/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/rootfs 6.16.9-yocto-standard kernel
-> Segmentation fault
-> %post(kernel-6.16.9-yocto-standard-6.16.9+git0+1ac1d0ff73_3f9db490a8-r0.qemux86_64): waitpid(1421854) rc 1421854 status 8b00
-> warning: %post(kernel-6.16.9-yocto-standard-6.16.9+git0+1ac1d0ff73_3f9db490a8-r0.qemux86_64) scriptlet failed, exit status 139
->
-> Error in POSTIN scriptlet in rpm package kernel-6.16.9-yocto-standard
->   Installing       : kernel-image-bzimage-6.16.9-yocto-standard-6.16.9+   18/56
->   Running scriptlet: kernel-image-bzimage-6.16.9-yocto-standard-6.16.9+   18/56
-> %post(kernel-image-bzimage-6.16.9-yocto-standard-6.16.9+git0+1ac1d0ff73_3f9db490a8-r0.qemux86_64): scriptlet start
-> %post(kernel-image-bzimage-6.16.9-yocto-standard-6.16.9+git0+1ac1d0ff73_3f9db490a8-r0.qemux86_64): execv(/bin/sh) pid 1421928
-> + set -e
-> + set +e
-> + [ -n /srv/pokybuild/yocto-worker/oe-selftest-debian-mathieu-20251004/build/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/rootfs ]
-> + ln -sf bzImage-6.16.9-yocto-standard /srv/pokybuild/yocto-worker/oe-selftest-debian-mathieu-20251004/build/build-st/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0/rootfs/boot/bzImage
-> + set -e
-> %post(kernel-image-bzimage-6.16.9-yocto-standard-6.16.9+git0+1ac1d0ff73_3f9db490a8-r0.qemux86_64): waitpid(1421928) rc 1421928 status 0
+Rather than using auto.conf which already has established use in CI, or
+local.conf which users expect to own/control, start writing "tooling"
+controlled settings to a toolcfg.conf.
 
-Hi Mathieu,
-interesting, I also can not reproduce it on my machine and cannot see
-a clear dependency, but let me do some research.
+This frees CI to handle auto.conf as it wants, but avoids the tooling
+breaking users local.conf files.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/bitbake.conf                    | 1 +
+ meta/lib/bbconfigbuild/configfragments.py | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-> My two cents - it can be the same issue as in my first patch - wrong soname and restoring from sstate-cache.
->
-> But in general, I don't like this patch as it's not addressing the switch from autotools to autosetup properly.
-> Two topics in particular - it keeps autotools class and it keeps now broken code which is trying to disable zlib.
-> I hope I'll find some time during the next week and send a new respin of my sqlite upgrade patch.
-
-I agree a proper autosetup class would be the best solution for this.
-I could maybe help in development or testing.
-
-Anna
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index eebefc48406..8d1ea5491de 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -813,6 +813,7 @@ FILESOVERRIDES = "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDE
+ require conf/abi_version.conf
+ include conf/site.conf
+ include conf/auto.conf
++include conf/toolcfg.conf
+ include conf/local.conf
+ 
+ OE_FRAGMENTS_PREFIX ?= "conf/fragments"
+diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
+index 34c6a3b4bcc..21baedc9a42 100644
+--- a/meta/lib/bbconfigbuild/configfragments.py
++++ b/meta/lib/bbconfigbuild/configfragments.py
+@@ -115,7 +115,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
+     def create_conf(self, confpath):
+         if not os.path.exists(confpath):
+             with open(confpath, 'w') as f:
+-                f.write('')
++                f.write('# Automated config file controlled by tools\n')
+         with open(confpath, 'r') as f:
+             lines = f.read()
+         if "OE_FRAGMENTS += " not in lines:
+@@ -184,7 +184,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
+             print("All fragments removed from {}.".format(args.confpath))
+ 
+     def register_commands(self, sp):
+-        default_confpath = os.path.join(os.environ["BBPATH"], "conf/auto.conf")
++        default_confpath = os.path.join(os.environ["BBPATH"], "conf/toolcfg.conf")
+ 
+         parser_list_fragments = self.add_command(sp, 'list-fragments', self.do_list_fragments, parserecipes=False)
+         parser_list_fragments.add_argument("--confpath", default=default_confpath, help='Configuration file which contains a list of enabled fragments (default is {}).'.format(default_confpath))
 
