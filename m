@@ -1,222 +1,680 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D99CAC5B8
-	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 20:10:38 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.64])
- by mx.groups.io with SMTP id smtpd.web10.2234.1759781432730359685
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 076CECAC5B8
+	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 20:11:58 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.2180.1759781512800071179
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Oct 2025 13:10:33 -0700
+ Mon, 06 Oct 2025 13:11:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=kkLTfbhV;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=kkLTfbhV;
- spf=pass (domain: arm.com, ip: 52.101.83.64, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=bjL1mD4+yQbmlhz9K9j/ri8NwFvpf0IhNWH2cRLJYFALY5e7v743YH6Gr7CDYJ4pRn2MbrkBezWdDmuv18IaiM1z4Wx1w4v4Vo7+JKSmb5KHio1i9LYj6oDvRmPv2SYWelM5FZANmJUWx3V6Sl2Fx5eNiisiNE9jyZUd22sNLAjubGrVJF2zroJ6nv4++WIrwZl5T1HF13bw/aas9MZIWCUY168I8vBEf+lC6MUxuS+AWWGmAlwWPCSnYwMHjKABocX0Zlm3F0E491+jbQzjzXg3mTeVE2zOoegZm6inthT4GwpEx8nP357dWZsytnnYC09rDIU/tNIUs/8OWY4oEw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BULQs3qW3FNDF6JVU4b0g4jUUEBVPmREm2ZfNU69ldc=;
- b=E5bsEP3PeNwEDO7kpWVMTxCHO9lQQ3gPJok0hWWWAlhQoV9hMMUjEeW962Oqk/H7UhVNHHnogWKIGInKz+zSEVKRPFiUjsNpwiBSTZYZfLMaCwUKr0TYF9qCQ7Jc/1MhXnvfKLDU9OjfBqrUiWnwoJEm4wq+PftMzHJtgtVTM6swotiAIJi+4eYYN/9mwCfoVRYtcWNU3QWdJMM+WMvTK0kUkUISs066MOkOswVsXRsGZAzs7aKw6CIVtcrsxYZNksnNLWb8WIZ4+j0i0N2RR95ValH8taBWda/gFJ0dcNb7hU8HtQuZYnTbGIQN2DGuLZ2SCpqxN4u0IOnlyDKATg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=axis.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BULQs3qW3FNDF6JVU4b0g4jUUEBVPmREm2ZfNU69ldc=;
- b=kkLTfbhVTEBp6W4aYvx0Pg25WskdC07K+o/K4Rt/bYvAMbe3tH5ooLd/G7USYGAx3n6PP1JyyZxCVXWVfUQK7ZsI7bNjmeAiyuVXgLa8YWXphhRtLOBeUrea90NPAqtMyXhlzBEDifGcVF9efxT5QXvPrS1QoIG9kNDgriX4/QA=
-Received: from DB8PR06CA0042.eurprd06.prod.outlook.com (2603:10a6:10:120::16)
- by AM7PR08MB5304.eurprd08.prod.outlook.com (2603:10a6:20b:10e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Mon, 6 Oct
- 2025 20:10:22 +0000
-Received: from DU6PEPF0000B61F.eurprd02.prod.outlook.com
- (2603:10a6:10:120:cafe::34) by DB8PR06CA0042.outlook.office365.com
- (2603:10a6:10:120::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9182.20 via Frontend Transport; Mon,
- 6 Oct 2025 20:10:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU6PEPF0000B61F.mail.protection.outlook.com (10.167.8.134) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.9
- via Frontend Transport; Mon, 6 Oct 2025 20:10:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h/RPoep7qt0pz8qE9Y1CgeJBhE/Ew3pXfQqxSzpA2STQqrdo+Ku1bd/QqEFXw7yBLSq4901tMxZN/Vc2jcwznp94NIc37ZSFWopZZcc8hznqv2bfb1WLwfMQbaxKo1m48ss1w5x+6ZXmxBM781oPF4veesJbCrEvGCXEpsL9H5CAYzrpHWtDiSI3EqVddTfIAyIjqQHT9Sm914yvxqvVYnc4hVbeaXLxwTBXyDre1guP3nrIxUnRfpPc/J0uSx2FWDbIaeT2KGfawN+eew9M5oHtjnmQH+c2yTU+yqsPUHf8j0o3+lEl1yEIvCu8ggI4eYWPwzpAyL2Lke5h9tc+EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BULQs3qW3FNDF6JVU4b0g4jUUEBVPmREm2ZfNU69ldc=;
- b=nWQWpjhqCzeE+TIF6N7WhscInsd9zFkcPtr3RuZSo15hbGGO0TkmnDEIEqWhWg7b9Ux0LCnFCW0l5Q/lCa8UdvbQ5Lmo1B9lC3enBFH8GRswsEI+crn/M+qVaBCsvcy1U6ZIYnd1ei535uKXtUozhCsJ0kNYRCXzrJ+w7JbuNhvV8zXEd5Qkqh2+ioBUTQ2Nq7TJjq+T5v7zKjNJNp16BDMaBPr0BTPrZSglZpJ1g2b3uE3YFlNWfTzYirc+RvxdqS8ZI8beaoAXeD+wqgnJXvN5/W/BWbwJ+CY+oxlMezXpLolpEjfklFksWjlujWK9l/By/JH4GRMzyjZh94uUUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BULQs3qW3FNDF6JVU4b0g4jUUEBVPmREm2ZfNU69ldc=;
- b=kkLTfbhVTEBp6W4aYvx0Pg25WskdC07K+o/K4Rt/bYvAMbe3tH5ooLd/G7USYGAx3n6PP1JyyZxCVXWVfUQK7ZsI7bNjmeAiyuVXgLa8YWXphhRtLOBeUrea90NPAqtMyXhlzBEDifGcVF9efxT5QXvPrS1QoIG9kNDgriX4/QA=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS8PR08MB9551.eurprd08.prod.outlook.com (2603:10a6:20b:61c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Mon, 6 Oct
- 2025 20:09:45 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9182.017; Mon, 6 Oct 2025
- 20:09:44 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "Adam.X.Nilsson@axis.com" <Adam.X.Nilsson@axis.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Adam Nilsson <adamni@axis.com>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: Re: [OE-core] [PATCH v1] core-image, populate_sdk_base: Add
- zsh-completion-pkgs image feature
-Thread-Topic: [OE-core] [PATCH v1] core-image, populate_sdk_base: Add
- zsh-completion-pkgs image feature
-Thread-Index: AQHcMu1bm4eWL7OysEKcbvVDSC82UbS1lGkA
-Date: Mon, 6 Oct 2025 20:09:44 +0000
-Message-ID: <FF7BA9D0-A09D-4D43-9CBB-5CA991E825BF@arm.com>
-References: <20251001160212.2588471-1-Adam.X.Nilsson@axis.com>
-In-Reply-To: <20251001160212.2588471-1-Adam.X.Nilsson@axis.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS8PR08MB9551:EE_|DU6PEPF0000B61F:EE_|AM7PR08MB5304:EE_
-X-MS-Office365-Filtering-Correlation-Id: c54d1b42-d82d-44a4-347d-08de05146146
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?RW1qTEZDWGgxMjMrZjdJS00rMUdBN1ZrMWlQM25YOUkwMlFHeUJ4ODVKMmRj?=
- =?utf-8?B?RzIxNjRlTkxUSzU5aVZiQWV5aEZ0RzN4YTQ4UzYrbXVCNkNmS3lJVkNDYjFl?=
- =?utf-8?B?bHR3K1pycW5ZUFQweHFYQ3NqdnA5OXY0bWpJUG44cnBKdHZmRy83SGJaZkFE?=
- =?utf-8?B?akJaTTRsS2Nmd2pVTzZyS0pwZzNoUGRiQVBKeWZNR01lWWZrUWVFekE2ZkR4?=
- =?utf-8?B?QlpOY1ZyNVZPNllkQTMrb3pIM3BhVE0wakNkY010SldhR01RNmpkaDIrKzdX?=
- =?utf-8?B?Q0lOSzRINjl6a0Zqd3dxTUF0K2Z5V0lWd0EzNG82dCttUUFNTlcvcTZqazYy?=
- =?utf-8?B?c0lEcUhJK3RpWUd2V0hBTkU4V2ExNmhab09vaEhTZ0pYM3E3eHkweFlLeDJ5?=
- =?utf-8?B?QVJ3QkNRa0paRWNCVzMyeGZWMXJ4R0ozU09VaEtWUCtBam9tNGVQZ0l3UnVl?=
- =?utf-8?B?TUcxRnNSemhXeVc4MWVvNi9CWTRYSCtaeGllaHdJZEVYVk5WcUpEeTREVHFS?=
- =?utf-8?B?QnhmeWs4QXZHSld4K2d4QnNYbWtrNnJlL2xtM09yM2tybEdJM1pKaURKdUQ5?=
- =?utf-8?B?VGdqU053MWZCRHoxNldaSGQ1ZXRjdVowL0pyV2xrbGxwT2t0Q1R6RDNyczVk?=
- =?utf-8?B?Y3p5N2o4ZXdQam5jWGhKUkJxQ1VhVnQzeGVwSnBRdG56L1NNc05GQkFpK21U?=
- =?utf-8?B?WDZXYThRR3ArQm9Lb3NVNEgvYzZqNDNqLzlnMGtjUWkrYyt2QWFnU1I4dHhO?=
- =?utf-8?B?UW8yc2NXZEM4WFFjL3JlbjNKL2Yvd0V6U2NRb3o4QlRQS1ZaTStwdTcyMjZI?=
- =?utf-8?B?VHlPL1AweGJGTG5XNnJIUm8xVUthMW9PMGh1SEcvSkdtS3dsNXp5Q1U3c21l?=
- =?utf-8?B?ZVF1cXdJakVoK0dpRmFXUDF2Z0tvNVNiWitwSFRRNXI2Y2xaTkNyNnJTOXpI?=
- =?utf-8?B?TW5kcU5MOXhnaFZYL1AvUlZRV1ZTdmxFajNqczUrdXgrSk1kRklBVDdNeWpD?=
- =?utf-8?B?eEl6WWpwVzlDNFpnRDY5Yk5iZ0hkUVFkZUVmMEJ3bGlVbTMzVk0zY3h1Y29Z?=
- =?utf-8?B?cThtamR0b25tekVlYVVNc0dFeVQ2RlJiQlBVc21ubXpXZ0kvcWRKM3VaalYw?=
- =?utf-8?B?RkYrc3JYaGI5bFc3bHJrbHUraEpPN2VyZ2hNS1hBZnhEM0pSd3lDT3BwQUlH?=
- =?utf-8?B?R0I1Q1cwUE9XZ0RoVmh4ZXZxSjFZWUdyc2E2VksrWGtMN2RpNklNcDhBNk83?=
- =?utf-8?B?d00vR3JtN01YSTFaZWJZNy9MZk9lSkd1V3I3M1o2RUhzUjdtV254SDZ6T1l0?=
- =?utf-8?B?SHoycVhicEsveStmdHVxWitVVjExRkJINFBLZWlkTHRJZkdvalE2U1BmWTR1?=
- =?utf-8?B?MkVCVUZpUTVEN2VjbmhCeUVQSHdaRlduU2Z0VWFoVFdEOXFhVnNxcUFRSUFx?=
- =?utf-8?B?RlBBMmhiL0dZSHMvWFhIeVplL00rZUFSTjdZLzc2eFY1dEFlVUw5YVdHNjBk?=
- =?utf-8?B?WlBOc1EybGZVbEw3S01LRWhzdXYxZ0thcUswVjI1bk4yS1ZrTHJsU3R1NWhj?=
- =?utf-8?B?QnZLOXYvcU5ZRWtnRFhMRm44NHJrK0NtNGRzVWlpOW9jSk1INkxyd1dWYmxT?=
- =?utf-8?B?a0ZLeWNKTm5hOVUvekFzNjNuWjB3K0ROUmdxMTNRUW5IQVI2c0h0VUVqN2pE?=
- =?utf-8?B?Y0dkSFhBbGhnVmVybDB0OXdsclZnZG9NNWVpN0RMckRtSC9IeitwQnJ4aFlI?=
- =?utf-8?B?ZVNXUEs1UW1mYkx5SXVTdzlpbzk4SElqUjVtYWtTNWhXOVMrMEF4U1pQT2tN?=
- =?utf-8?B?RlNqRnpvRk1oejVYT295dEJoU0R4VmlmV05IdjdIVnVFU1A0VkFOZUxnUFdl?=
- =?utf-8?B?NWRqOTNINFBPWGZaN240N3BNcWhBUXZ3YUVSZ2p2Y25RSnVTSVc1VzFKa0Za?=
- =?utf-8?B?Yk8zeXB4NkxFdnl2b3JzMHFtS3dSNUhQZVNXTERETWYwcjVjUjcrTnBJSHlC?=
- =?utf-8?B?M2traFNpeko5b0VYN3lTOU1XSWFualpkQndNd0MyVEtTdCt4NnVvZ1YyZG1T?=
- =?utf-8?Q?WUGLk5?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C2F1A56607273946972F11F26C454FF3@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=abibNug0;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: festevam@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7835321bc98so5108889b3a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 13:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759781512; x=1760386312; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jzZpqy+q6nIVLWbiaD77qTb2knCoWy4AVpU8BWlKAbw=;
+        b=abibNug0ybNBGnKOWT2q1rIXFdsf6n++VpATfqw3+spCv07tMtSAJ3J1cmMThZ50z/
+         aAQxoHD0NEb4eeA9vVcekaWg/um+j2HSexfiNjhCSOUEGY3iGc4lKkAGOGKpYdrQaxJe
+         X9uuHZ170dJW1wVk6T/FevmupVkAJQ/J3PaHN//dtNb2uCeCefUDX9fwszASrwb0mcM3
+         S3/S5EhGkiUJECLOmxUbGEfTEahcsUdrM5Y1P92NUubF4cBuIXfRyOsWFGRj6V/LX20O
+         O4dXq9nwYLKvnJ9axKVWXzQI8GRlxZdffIph4plDZQKgRCiC3Dtp8j1/NcsazrHcvqE7
+         87ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759781512; x=1760386312;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jzZpqy+q6nIVLWbiaD77qTb2knCoWy4AVpU8BWlKAbw=;
+        b=V6TedkknAi9J4ISoMkXHYoMktlpqQxoO9vl1W9Ts5Cl7ODmz2LKq2qc+e6ZEQz2iGZ
+         r/mPhfN6IBmFUlyirWAWpXdmEah6Wb06/3tyjZUwfQ7rLsWZgXy22ofuPgHJlVpPtfpk
+         /+mq9wSZ/36rYDyk8urBFZ3TLhH22KTR45EWuOs8DUAMDSTUhX+zpSEpYScT5hGT4jlx
+         JnEtNoWQZoU0cbti2GDm03sr8zqw9+1gqrHxuYUuJgJ6pDSDGMwo/LmKd1vvPbuvUWX2
+         oHPRd0WeCEkMhigG+t6WWJYwgmRF6LAZe/Cd+pSJPKO7ev+o7a93G5oaMb2WRU6b7j98
+         4lag==
+X-Gm-Message-State: AOJu0YyAcJiNvoBVxd9igDLYlSdTTgz7KhI0k/AbLCd6uMuzNgFDfvae
+	aekE/PKqtDlNp9MtWW1mPHiOXWXq7sH5Wd/Ec4PTTlmLXeBqcj+XsNWfe0huPg==
+X-Gm-Gg: ASbGncsXyu/DEKU8QZFVJtkfLkW6v4U+jKMYH+Z84mdIrnip9fRuAR17o7dz7EsS4EG
+	msKtDxF5JcMHuJzz1makyazCDXzhta25uaqiXlVii9lup7u0tRqxwYbco/xMY2PmEr+0QQl5BaN
+	kfE8EO2BC2PezgKxUnd3rQ9RBGEKRW4SclAImsX7kDDVBz6gIr+hp/vl/4+jC6KE7w6F5WL0VGv
+	rlVdwkSDIesXx1aq+INrzkf3YOqTOZFRgP72ONAwJHj1W13LKAkg99rke8KaicfMtw8zxRefKWy
+	6fEVbvIdQxlMY25NyZboLk2aWkjNnJI84fZEsJrmvWhxpwVnf1APG1c9oF21zbF9/lU+D+TnumT
+	K37EZjWG79H18If+TNtqqn3Z14F374CiTO2MLNoxV8cfVvBtBZtVeYUWF7FR/veesdKIudSA=
+X-Google-Smtp-Source: AGHT+IFJd74RduHteYepI9PGRMb1n2bWwon+jPRP7TLhKolT9TCgxPaD4laRTpnyrClhIAASMR2A8g==
+X-Received: by 2002:a05:6a00:2304:b0:781:1e91:fd8c with SMTP id d2e1a72fcca58-78c98d5d579mr15224489b3a.11.1759781511417;
+        Mon, 06 Oct 2025 13:11:51 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:76ff:e777:b915:1894])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-790e25c1c88sm3196782b3a.72.2025.10.06.13.11.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Oct 2025 13:11:50 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] u-boot: upgrade 2025.07 -> 2025.10
+Date: Mon,  6 Oct 2025 17:10:56 -0300
+Message-Id: <20251006201056.43185-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9551
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU6PEPF0000B61F.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	a9aa6490-f73a-4a9f-bc37-08de05144b03
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|14060799003|376014|35042699022|82310400026|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?QmM5U2Mrb01VeGdXRUtZemlHSmxFVUNHdmtMMTlZYjZzdlF0L2c0RWd2MC9l?=
- =?utf-8?B?aHFGVVhiSjFNY2tUUFphTFovZW5aMFdDMEUva1V5OHd6OUVRUkxjODg1Q0pM?=
- =?utf-8?B?WDZJemZkZ0k4WjlCbndSVkdUSlVMSXR2RnVmWDBOaFJzcFFzY2R4R09udHNr?=
- =?utf-8?B?bXdsUmtIVkFScHBhNkh4eTkzVUhOd2xaWlFnMWZqYVRsSjZDUTJmdzhUVTZK?=
- =?utf-8?B?SE5mY2U4ZVN4WHR0c09XYzJ5YVZDeFZaOWtSWktieG0rSUo0Qk9aN3RMQjR5?=
- =?utf-8?B?OWpvOGVocENSYWdia2IxczNKNVFuaE8wS3NSdmxobkIvMkh3UHQ1WTBrMnQw?=
- =?utf-8?B?NlkwSGxyTFBxK2gyWTN2dGpDSmpEb0FPeTBpY1dOQmhXU3Z3Rkc0MkwyRjNu?=
- =?utf-8?B?bGprbjhQK0NxWTB3bTJyWVlQNTJKK2dBUjhmb2xNVXVJSTNUM2JoSjRCZG8z?=
- =?utf-8?B?UkJuaWYyZVBpWUtOZ3lGc2ZtSURKaXpWUjZVQXExZ2lEcjc2L1FTaG0rMTJC?=
- =?utf-8?B?S1ExSDVDTzRPV0ROSFhPYktSYjhOSFB2NkdSYkFMU05HSWlDSzRsODFCUjZp?=
- =?utf-8?B?M1RyZlhHUjczMXVQR3MyMTN2TStoRlFGampSaWJGSHd4RmR2aEVNN1hyUEJL?=
- =?utf-8?B?aFB4cXJXRWFnUy9YNEpsSVByKzh3cXBPRUw3WDVlWG56LzRxeXROMkNMcHNl?=
- =?utf-8?B?YUZ6L2JIYXpEbHBzTFdGSXFuRkZIWlRlT09HR0tnZFZNaWdtT2VSN0lvdEda?=
- =?utf-8?B?amo1dVNUWDhvZGNTay95azRUNzBXUHZ4RytuTlZBWmtFWjBLMG16bFVqWVpG?=
- =?utf-8?B?STZZRDBZcGxmLzAxT0piYnJSdzZUM01Yc1o3K1ZVSUtjRUFTV25LYUFVMmky?=
- =?utf-8?B?ZVpHS3hJUS8yaHh4Y0tsVkR1Y3JsTzFDZlJXKzIwY2JuQUdESzN0RmQ5Z1Vt?=
- =?utf-8?B?Ym8vU0hwck1uUW1SeFU0b2IrRVF6MTZOckIxOGdTZVVDcUhYOXhYTDBIKy9L?=
- =?utf-8?B?ZzROVVBESGI5em84OXFLdFdETDJYaXBhQS9tZTFFMlZJU3ZZSVdBZnVoeGJI?=
- =?utf-8?B?eVNIY25kZllpRlBIa0RQQmxrYnlCTGdHaTFYdkxOcndVdFBkYThTUHloVUJK?=
- =?utf-8?B?QmNub1lyVVl5ekw3RTU3NS9PV0tLNm5OMVlVcU5nSHdrWWRMZDNBK0xWc0Jo?=
- =?utf-8?B?RmpTUmRlTkJoUFJLMlZFcThudXJDKzZxU2I0VHlwcjJ3ZStUOHU4YWtkZTNn?=
- =?utf-8?B?NlZKdTRnVzlJUDNsdHAraGhHL2c2UWhoZTNZZDF4TWYxazZwTGl6WHhndldH?=
- =?utf-8?B?TW9xK2VOT05rQVZldTlZLzV0UkZqUUVrSVFyZ0ZwQWxPMlE5SVlyWTRsMDJa?=
- =?utf-8?B?K2pRWDZjNG1ydXRXVzNyWTdFVDRsYkFEMEYzTmFVdFVRWk83c2RuRW9VQ2Vk?=
- =?utf-8?B?ZitZM3RpNGJ0SFEvQXJaa3Jqd1lLcjVtQlBSQkRtd3ZjeWdsNU8zTnhzSWRC?=
- =?utf-8?B?aU5LSGc4cE45cm83SGVMbXdTU3hYQzJwQzZLK1JGUkV1RDMwNFc3aGt2THdh?=
- =?utf-8?B?YVB4b1pJMDBjYTZHZnIzSW5JTFNWcWFGcDd1Qmt4T2ZGMmoyVXRPb2ZndFc0?=
- =?utf-8?B?TUtOS0pUV3RNT2Y5ZkJKZnFFcUs1aXY4UTlOS1FhNkhRT25NTjFBci9rTFFR?=
- =?utf-8?B?K0dlbEdRQm8wa3ljR2gwWVN1L2lQQ2kwZHZXaDhWdUlYaWgyVzNaQUtBWDFX?=
- =?utf-8?B?QWFNWjBDZlhDRXh2UnI4RDhiWnFzL3RQdDd2YzBYRW9Tc24wZ3M3eHcvUTlK?=
- =?utf-8?B?QjJramFyS1MrOTI2ZVJxTFlzV1AwSTBFZFFnaHM0ZDNGR00zd00yQ0lESERR?=
- =?utf-8?B?dDNHWDlDdnE2eFlxQmRvYmZWa2VDQkMxdmdzNjN6bmVWT0pQd0RpWlZZL0xM?=
- =?utf-8?B?RmsyUVd3Y2U3bkxUNklGQ3VJQTF3SVlNUkhMZklEQ1gzTkc3SHpiQkx3OTg5?=
- =?utf-8?B?YlYzZ3RGeXV2YmR1M2JqVTRwSTFEc1NObEVNU0RRSnJqYVQ2WHhUekdKelFX?=
- =?utf-8?B?U1ROSjZNWXc0VGU3dUJsVi9EQWhsRFNtR3Myazcra1lsMUtNNEpHeEdPYURa?=
- =?utf-8?Q?SFj4=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(376014)(35042699022)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2025 20:10:22.1682
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c54d1b42-d82d-44a4-347d-08de05146146
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000B61F.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5304
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 20:10:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224503
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 20:11:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224504
 
-T24gMSBPY3QgMjAyNSwgYXQgMTc6MDIsIEFkYW0gTmlsc3NvbiB2aWEgbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZyA8QWRhbS5YLk5pbHNzb249YXhpcy5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4g
-d3JvdGU6DQo+IA0KPiBGcm9tOiBBZGFtIE5pbHNzb24gPGFkYW1uaUBheGlzLmNvbT4NCj4gDQo+
-IEFkZCBhIHpzaC1jb21wbGV0aW9uLXBrZ3MgaW1hZ2UgZmVhdHVyZSB0byBpbnN0YWxsICotenNo
-LWNvbXBsZXRpb24NCj4gcGFja2FnZXMgaW50byBhbiBpbWFnZS4gVGhpcyBpcyBzaW1pbGFyIHRv
-IHRoZSBleGlzdGluZw0KPiBiYXNoLWNvbXBsZXRpb24tcGtncyBmZWF0dXJlLg0KDQpCeSBteSBj
-b3VudCB0aGVyZeKAmXMganVzdCB0aHJlZSByZWNpcGVzIGluIGNvcmUgdGhhdCBoYXZlIC16c2gt
-Y29tcGxldGlvbiBwYWNrYWdlcy4gIFVudGlsIGl04oCZcyBtb3JlIGNvbW1vbiwgSeKAmWQgc3Vn
-Z2VzdCBwdXR0aW5nIHRoZSBDT01QTEVNRU5UQVJZX0dMT0JTIGFzc2lnbm1lbnQgaW4geW91ciBv
-d24gaW1hZ2UgcmVjaXBlIGlmIHlvdSB3YW50IHRvIHVzZSBpdC4NCg0KQ2hlZXJzLA0KUm9zcw==
+Upgrade to U-Boot 2025.10.
+
+Drop all the applied patches.
+
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ ...dependency-from-lib-to-arch-ARCH-lib.patch |  81 -----
+ ...1-nxp-Prepare-macros-for-KVM-changes.patch | 100 ------
+ ...02-arm-io.h-Fix-io-accessors-for-KVM.patch | 310 ------------------
+ ...rm-Enable-virtualizable-IO-accessors.patch |  41 ---
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |  12 +-
+ ...ols_2025.07.bb => u-boot-tools_2025.10.bb} |   0
+ .../{u-boot_2025.07.bb => u-boot_2025.10.bb}  |   0
+ 7 files changed, 3 insertions(+), 541 deletions(-)
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0001-Makefile-add-dependency-from-lib-to-arch-ARCH-lib.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0001-nxp-Prepare-macros-for-KVM-changes.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0002-arm-io.h-Fix-io-accessors-for-KVM.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0003-qemu-arm-Enable-virtualizable-IO-accessors.patch
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2025.07.bb => u-boot-tools_2025.10.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2025.07.bb => u-boot_2025.10.bb} (100%)
+
+diff --git a/meta/recipes-bsp/u-boot/files/0001-Makefile-add-dependency-from-lib-to-arch-ARCH-lib.patch b/meta/recipes-bsp/u-boot/files/0001-Makefile-add-dependency-from-lib-to-arch-ARCH-lib.patch
+deleted file mode 100644
+index 06fdaf5b0a37..000000000000
+--- a/meta/recipes-bsp/u-boot/files/0001-Makefile-add-dependency-from-lib-to-arch-ARCH-lib.patch
++++ /dev/null
+@@ -1,81 +0,0 @@
+-From d0075e2d730a4fa48aa763a669e5edbc02c33a22 Mon Sep 17 00:00:00 2001
+-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+-Date: Thu, 31 Jul 2025 14:52:48 +0300
+-Subject: [PATCH] Makefile: add dependency from lib to arch/$(ARCH)/lib
+-
+-Top level Makefile starts separate "make" processes for each each
+-subdirectory. lib/efi_loader apps now depend on lib.a from
+-arch/$(ARCH)/lib if CONFIG_USE_PRIVATE_LIBGCC is enabled which creates
+-a race conditions since dependency from lib/efi_loader EFI apps to
+-arch/$(ARCH)/lib/lib.a is not explicit:
+-
+-arm-poky-linux-gnueabi-ld.bfd: cannot find arch/arm/lib/lib.a: No such file or directory
+-make[3]: *** [scripts/Makefile.lib:512: lib/efi_loader/testapp_efi.so] Error 1
+-
+-This error was seen on yocto/OE-core CI builds after u-boot 2025.07 update:
+-
+-https://lists.openembedded.org/g/openembedded-core/message/220004
+-
+-https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/2914600/raw_inline
+-
+-    |    rm -f lib/efi_loader/built-in.o; arm-poky-linux-gnueabi-ar cDPrsT lib/efi_loader/built-in.o lib/efi_loader/efi_bootmgr.o lib/efi_loader/efi_bootbin.o lib/efi_loader
+-/efi_boottime.o lib/efi_loader/efi_helper.o lib/efi_loader/efi_console.o lib/efi_loader/efi_device_path.o lib/efi_loader/efi_device_path_to_text.o lib/efi_loader/efi_device_
+-path_utilities.o lib/efi_loader/efi_dt_fixup.o lib/efi_loader/efi_fdt.o lib/efi_loader/efi_file.o lib/efi_loader/efi_hii.o lib/efi_loader/efi_hii_config.o lib/efi_loader/efi
+-_image_loader.o lib/efi_loader/efi_load_options.o lib/efi_loader/efi_memory.o lib/efi_loader/efi_root_node.o lib/efi_loader/efi_runtime.o lib/efi_loader/efi_setup.o lib/efi_
+-loader/efi_string.o lib/efi_loader/efi_unicode_collation.o lib/efi_loader/efi_var_common.o lib/efi_loader/efi_var_mem.o lib/efi_loader/efi_variable.o lib/efi_loader/efi_var_
+-file.o lib/efi_loader/efi_watchdog.o lib/efi_loader/efi_disk.o lib/efi_loader/efi_net.o lib/efi_loader/efi_smbios.o lib/efi_loader/efi_load_initrd.o lib/efi_loader/efi_confo
+-rmance.o
+-    |   arm-poky-linux-gnueabi-ld.bfd -nostdlib -zexecstack -znocombreloc -znorelro --no-warn-rwx-segments -L /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-
+-3119200/tmp/work/beaglebone_yocto-poky-linux-gnueabi/u-boot/2025.07/sources/u-boot-2025.07 -T arch/arm/lib/elf_arm_efi.lds -shared -Bsymbolic -s lib/efi_loader/helloworld.o
+-lib/efi_loader/efi_crt0.o lib/efi_loader/efi_reloc.o lib/efi_loader/efi_freestanding.o arch/arm/lib/lib.a -o lib/efi_loader/helloworld_efi.so
+-    | arm-poky-linux-gnueabi-ld.bfd: cannot find arch/arm/lib/lib.a: No such file or directory
+-    | make[3]: *** [scripts/Makefile.lib:512: lib/efi_loader/helloworld_efi.so] Error 1
+-
+-The different "make" processes share common scripts/Makefile.build
+-and scripts/Makefile.libs but since they are separate processes
+-the Makefile rules can't add a dependency from lib/uefi_loader targets
+-to arch/$(ARCH)/lib/lib.a. Or the file level dependency can be added but
+-then "make" produces a too sparse error message which does not mention
+-that one of the dependencies like arch/$(ARCH)/lib/lib.a was not found:
+-
+-make[3]: *** No rule to make target 'lib/efi_loader/helloworld.efi', needed by '__build'.  Stop.
+-
+-Fix this dependency problem by building arch/$(ARCH)/lib before lib
+-if CONFIG_USE_PRIVATE_LIBGCC was enabled.
+-
+-To reproduce the race condition more reliably, add a "sleep 10" delay
+-before linker command cmd_link_l_target with 2025.07
+-or to $(lib-target): target in scripts/Makefile.build with master branch
+-after Kbuild update.
+-
+-Fixes: 43d43241d1c9 ("scripts/Makefile.lib: add PLATFORM_LIBGCC to efi linking")
+-
+-Cc: Adriano Cordova <adrianox@gmail.com>
+-Cc: Fabio Estevam <festevam@gmail.com>
+-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+-Reviewed-by: Fabio Estevam <festevam@gmail.com>
+----
+- Makefile | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-Upstream-Status: Backport
+-
+-diff --git a/Makefile b/Makefile
+-index c31bf7ecea97..b03f87a93fb9 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -2131,6 +2131,11 @@ $(filter-out tools, $(u-boot-dirs)): tools
+- # is "yes"), so compile examples after U-Boot is compiled.
+- examples: $(filter-out examples, $(u-boot-dirs))
+- 
+-+ifeq ($(CONFIG_USE_PRIVATE_LIBGCC),y)
+-+# lib/efi_loader apps depend on arch/$(ARCH)/lib for lib.a
+-+lib: $(filter arch/$(ARCH)/lib, $(u-boot-dirs))
+-+endif
+-+
+- # The setlocalversion script comes from linux and expects a
+- # KERNELVERSION variable in the environment for figuring out which
+- # annotated tags are relevant. Pass UBOOTVERSION.
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0001-nxp-Prepare-macros-for-KVM-changes.patch b/meta/recipes-bsp/u-boot/files/0001-nxp-Prepare-macros-for-KVM-changes.patch
+deleted file mode 100644
+index fa34c8033ec6..000000000000
+--- a/meta/recipes-bsp/u-boot/files/0001-nxp-Prepare-macros-for-KVM-changes.patch
++++ /dev/null
+@@ -1,100 +0,0 @@
+-From 9be804cbfde1df715d79247b27de4b388c714cde Mon Sep 17 00:00:00 2001
+-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+-Date: Wed, 18 Jun 2025 09:58:12 +0300
+-Subject: [PATCH 1/3] nxp: Prepare macros for KVM changes
+-
+-A following patch is replacing our IO accessors with
+-do { ... } while(0) ones in order to make them usable with KVM.
+-
+-That leads to an error eventually looking like this:
+-arch/arm/include/asm/io.h:62:9: error: expected expression before 'do'
+-   62 |         do {                                            \
+-      |         ^~
+-arch/arm/include/asm/io.h:211:41: note: in expansion of macro '__raw_writel'
+-  211 | #define out_arch(type,endian,a,v)       __raw_write##type(cpu_to_##endian(v),a)
+-      |                                         ^~~~~~~~~~~
+-arch/arm/include/asm/io.h:223:25: note: in expansion of macro 'out_arch'
+-  223 | #define out_be32(a,v)   out_arch(l,be32,a,v)
+-      |                         ^~~~~~~~
+-drivers/spi/fsl_dspi.c:127:17: note: in expansion of macro 'out_be32'
+-  127 |                 out_be32(addr, val) : out_le32(addr, val);
+-      |                 ^~~~~~~~
+-
+-So adjust the current macros and code to be compatible with the upcoming
+-change.
+-
+-Upstream-Status: Backport [https://github.com/u-boot/u-boot/commit/b56c0632ad62]
+-Signed-off-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+-Reviewed-by: Tom Rini <trini@konsulko.com>
+-Signed-off-by: Fabio Estevam <festevam@gmail.com>
+----
+- drivers/spi/fsl_dspi.c |  6 ++++--
+- include/fsl_ifc.h      | 24 ++++++++++++------------
+- 2 files changed, 16 insertions(+), 14 deletions(-)
+-
+-diff --git a/drivers/spi/fsl_dspi.c b/drivers/spi/fsl_dspi.c
+-index f2393c041f44..545561ad1169 100644
+---- a/drivers/spi/fsl_dspi.c
+-+++ b/drivers/spi/fsl_dspi.c
+-@@ -123,8 +123,10 @@ static uint dspi_read32(uint flags, uint *addr)
+- 
+- static void dspi_write32(uint flags, uint *addr, uint val)
+- {
+--	flags & DSPI_FLAG_REGMAP_ENDIAN_BIG ?
+--		out_be32(addr, val) : out_le32(addr, val);
+-+	if (flags & DSPI_FLAG_REGMAP_ENDIAN_BIG)
+-+		out_be32(addr, val);
+-+	else
+-+		out_le32(addr, val);
+- }
+- 
+- static void dspi_halt(struct fsl_dspi_priv *priv, u8 halt)
+-diff --git a/include/fsl_ifc.h b/include/fsl_ifc.h
+-index 3ac226879303..1c363115beb2 100644
+---- a/include/fsl_ifc.h
+-+++ b/include/fsl_ifc.h
+-@@ -803,29 +803,29 @@ void init_final_memctl_regs(void);
+- 	((struct fsl_ifc_fcm *)CFG_SYS_IFC_ADDR)
+- 
+- #define get_ifc_cspr_ext(i)	\
+--		(ifc_in32(&(IFC_FCM_BASE_ADDR)->cspr_cs[i].cspr_ext))
+-+		ifc_in32(&(IFC_FCM_BASE_ADDR)->cspr_cs[i].cspr_ext)
+- #define get_ifc_cspr(i)		\
+--		(ifc_in32(&(IFC_FCM_BASE_ADDR)->cspr_cs[i].cspr))
+-+		ifc_in32(&(IFC_FCM_BASE_ADDR)->cspr_cs[i].cspr)
+- #define get_ifc_csor_ext(i)	\
+--		(ifc_in32(&(IFC_FCM_BASE_ADDR)->csor_cs[i].csor_ext))
+-+		ifc_in32(&(IFC_FCM_BASE_ADDR)->csor_cs[i].csor_ext)
+- #define get_ifc_csor(i)		\
+--		(ifc_in32(&(IFC_FCM_BASE_ADDR)->csor_cs[i].csor))
+-+		ifc_in32(&(IFC_FCM_BASE_ADDR)->csor_cs[i].csor)
+- #define get_ifc_amask(i)	\
+--		(ifc_in32(&(IFC_FCM_BASE_ADDR)->amask_cs[i].amask))
+-+		ifc_in32(&(IFC_FCM_BASE_ADDR)->amask_cs[i].amask)
+- #define get_ifc_ftim(i, j)	\
+--		(ifc_in32(&(IFC_FCM_BASE_ADDR)->ftim_cs[i].ftim[j]))
+-+		ifc_in32(&(IFC_FCM_BASE_ADDR)->ftim_cs[i].ftim[j])
+- #define set_ifc_cspr_ext(i, v)	\
+--		(ifc_out32(&(IFC_FCM_BASE_ADDR)->cspr_cs[i].cspr_ext, v))
+-+		ifc_out32(&(IFC_FCM_BASE_ADDR)->cspr_cs[i].cspr_ext, v)
+- #define set_ifc_cspr(i, v)	\
+--		(ifc_out32(&(IFC_FCM_BASE_ADDR)->cspr_cs[i].cspr, v))
+-+		ifc_out32(&(IFC_FCM_BASE_ADDR)->cspr_cs[i].cspr, v)
+- #define set_ifc_csor_ext(i, v)	\
+--		(ifc_out32(&(IFC_FCM_BASE_ADDR)->csor_cs[i].csor_ext, v))
+-+		ifc_out32(&(IFC_FCM_BASE_ADDR)->csor_cs[i].csor_ext, v)
+- #define set_ifc_csor(i, v)	\
+--		(ifc_out32(&(IFC_FCM_BASE_ADDR)->csor_cs[i].csor, v))
+-+		ifc_out32(&(IFC_FCM_BASE_ADDR)->csor_cs[i].csor, v)
+- #define set_ifc_amask(i, v)	\
+--		(ifc_out32(&(IFC_FCM_BASE_ADDR)->amask_cs[i].amask, v))
+-+		ifc_out32(&(IFC_FCM_BASE_ADDR)->amask_cs[i].amask, v)
+- #define set_ifc_ftim(i, j, v)	\
+--		(ifc_out32(&(IFC_FCM_BASE_ADDR)->ftim_cs[i].ftim[j], v))
+-+		ifc_out32(&(IFC_FCM_BASE_ADDR)->ftim_cs[i].ftim[j], v)
+- 
+- enum ifc_chip_sel {
+- 	IFC_CS0,
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0002-arm-io.h-Fix-io-accessors-for-KVM.patch b/meta/recipes-bsp/u-boot/files/0002-arm-io.h-Fix-io-accessors-for-KVM.patch
+deleted file mode 100644
+index 558d753d4a39..000000000000
+--- a/meta/recipes-bsp/u-boot/files/0002-arm-io.h-Fix-io-accessors-for-KVM.patch
++++ /dev/null
+@@ -1,310 +0,0 @@
+-From 2fc16d8de5bbe2a40ab25445936150c3250a9077 Mon Sep 17 00:00:00 2001
+-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+-Date: Wed, 18 Jun 2025 09:58:13 +0300
+-Subject: [PATCH 2/3] arm: io.h: Fix io accessors for KVM
+-
+-commit 2e2c2a5e72a8 ("arm: qemu: override flash accessors to use virtualizable instructions")
+-explains why we can't have instructions with multiple output registers
+-when running under QEMU + KVM and the instruction leads to an exception
+-to the hypervisor.
+-
+-USB XHCI is such a case (MMIO) where a ldr w1, [x0], #4 is emitted for
+-xhci_start() which works fine with QEMU but crashes for QEMU + KVM.
+-
+-These instructions cannot be emulated by KVM as they do not produce
+-syndrome information data that KVM can use to infer the destination
+-register, the faulting address, whether it was a load or store, or
+-if it's a 32 or 64 bit general-purpose register.
+-As a result an external abort is injected from QEMU, via ext_dabt_pending
+-to KVM and we end up throwing an exception that looks like
+-
+- U-Boot 2025.07-rc4 (Jun 10 2025 - 12:00:15 +0000)
+- [...]
+- Register 8001040 NbrPorts 8
+- Starting the controller
+- "Synchronous Abort" handler, esr 0x96000010, far 0x10100040
+- elr: 000000000005b1c8 lr : 000000000005b1ac (reloc)
+- elr: 00000000476fc1c8 lr : 00000000476fc1ac
+- x0 : 0000000010100040 x1 : 0000000000000001
+- x2 : 0000000000000000 x3 : 0000000000003e80
+- x4 : 0000000000000000 x5 : 00000000477a5694
+- x6 : 0000000000000038 x7 : 000000004666f360
+- x8 : 0000000000000000 x9 : 00000000ffffffd8
+- x10: 000000000000000d x11: 0000000000000006
+- x12: 0000000046560a78 x13: 0000000046560dd0
+- x14: 00000000ffffffff x15: 000000004666eed2
+- x16: 00000000476ee2f0 x17: 0000000000000000
+- x18: 0000000046660dd0 x19: 000000004666f480
+- x20: 0000000000000000 x21: 0000000010100040
+- x22: 0000000010100000 x23: 0000000000000000
+- x24: 0000000000000000 x25: 0000000000000000
+- x26: 0000000000000000 x27: 0000000000000000
+- x28: 0000000000000000 x29: 000000004666f360
+-
+- Code: d5033fbf aa1503e0 5287d003 52800002 (b8004401)
+- Resetting CPU ...
+-
+-There are two problems making this the default.
+-- It will emit ldr + add or str + add instead of ldr/str(post increment)
+-  in somne cases
+-- Some platforms that depend on TPL/SPL grow in size enough so that the
+-  binary doesn't fit anymore.
+-
+-So let's add proper I/O accessors add a Kconfig option
+-to turn it off by default apart from our QEMU builds.
+-
+-Upstream-Status: Backport [https://github.com/u-boot/u-boot/commit/dc512700ad46]
+-Reported-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+-Tested-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+-Signed-off-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+-Signed-off-by: Fabio Estevam <festevam@gmail.com>
+----
+- arch/arm/Kconfig          |  12 +++
+- arch/arm/include/asm/io.h | 152 ++++++++++++++++++++++++++++----------
+- 2 files changed, 124 insertions(+), 40 deletions(-)
+-
+-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+-index 6ff3f2750ea8..f6430a5aaf07 100644
+---- a/arch/arm/Kconfig
+-+++ b/arch/arm/Kconfig
+-@@ -108,6 +108,18 @@ config LNX_KRNL_IMG_TEXT_OFFSET_BASE
+- 	  The value subtracted from CONFIG_TEXT_BASE to calculate the
+- 	  TEXT_OFFSET value written to the Linux kernel image header.
+- 
+-+config KVM_VIRT_INS
+-+	bool "Emit virtualizable instructions"
+-+	help
+-+	  Instructions in the ARM ISA that have multiple output registers,
+-+	  can't be used if the instruction leads to an exception to the hypervisor.
+-+	  These instructions cannot be emulated by KVM because they do not produce
+-+	  syndrome information data that KVM can use to infer the destination
+-+	  register, the faulting address, whether it was a load or store,
+-+	  if it's a 32 or 64 bit general-purpose register amongst other things.
+-+	  Use this to produce virtualizable instructions if you plan to run U-Boot
+-+	  with KVM.
+-+
+- config NVIC
+- 	bool
+- 
+-diff --git a/arch/arm/include/asm/io.h b/arch/arm/include/asm/io.h
+-index 89b1015bc4d3..85ec0e6937e8 100644
+---- a/arch/arm/include/asm/io.h
+-+++ b/arch/arm/include/asm/io.h
+-@@ -20,23 +20,108 @@ static inline void sync(void)
+- {
+- }
+- 
+--/* Generic virtual read/write. */
+--#define __arch_getb(a)			(*(volatile unsigned char *)(a))
+--#define __arch_getw(a)			(*(volatile unsigned short *)(a))
+--#define __arch_getl(a)			(*(volatile unsigned int *)(a))
+--#define __arch_getq(a)			(*(volatile unsigned long long *)(a))
+-+#ifdef CONFIG_ARM64
+-+#define __W	"w"
+-+#else
+-+#define __W
+-+#endif
+-+
+-+#if CONFIG_IS_ENABLED(SYS_THUMB_BUILD)
+-+#define __R "l"
+-+#define __RM "=l"
+-+#else
+-+#define __R "r"
+-+#define __RM "=r"
+-+#endif
+- 
+--#define __arch_putb(v,a)		(*(volatile unsigned char *)(a) = (v))
+--#define __arch_putw(v,a)		(*(volatile unsigned short *)(a) = (v))
+--#define __arch_putl(v,a)		(*(volatile unsigned int *)(a) = (v))
+--#define __arch_putq(v,a)		(*(volatile unsigned long long *)(a) = (v))
+-+#ifdef CONFIG_KVM_VIRT_INS
+-+/*
+-+ * The __raw_writeX/__raw_readX below should be converted to static inline
+-+ * functions. However doing so produces a lot of compilation warnings when
+-+ * called with a raw address. Convert these once the callers have been fixed.
+-+ */
+-+#define __raw_writeb(val, addr)			\
+-+	do {					\
+-+		asm volatile("strb %" __W "0, [%1]"	\
+-+		:				\
+-+		: __R ((u8)(val)), __R (addr));	\
+-+	} while (0)
+-+
+-+#define __raw_readb(addr)				\
+-+	({						\
+-+		u32 __val;				\
+-+		asm volatile("ldrb %" __W "0, [%1]"		\
+-+		: __RM (__val)				\
+-+		: __R (addr));				\
+-+		__val;					\
+-+	})
+-+
+-+#define __raw_writew(val, addr)			\
+-+	do {					\
+-+		asm volatile("strh %" __W "0, [%1]"	\
+-+		:					\
+-+		: __R ((u16)(val)), __R (addr));	\
+-+	} while (0)
+-+
+-+#define __raw_readw(addr)				\
+-+	({						\
+-+		u32 __val;				\
+-+		asm volatile("ldrh %" __W "0, [%1]"		\
+-+		: __RM (__val)				\
+-+		: __R (addr));				\
+-+	__val;						\
+-+    })
+-+
+-+#define __raw_writel(val, addr)				\
+-+	do {						\
+-+		asm volatile("str %" __W "0, [%1]"		\
+-+		:					\
+-+		: __R ((u32)(val)), __R (addr));	\
+-+	} while (0)
+-+
+-+#define __raw_readl(addr)				\
+-+	({						\
+-+		u32 __val;				\
+-+		asm volatile("ldr %" __W "0, [%1]"		\
+-+		: __RM (__val)				\
+-+		: __R (addr));				\
+-+		__val;					\
+-+	})
+-+
+-+#define __raw_writeq(val, addr)				\
+-+	do {						\
+-+		asm volatile("str %0, [%1]"		\
+-+		:					\
+-+		: __R ((u64)(val)), __R (addr));	\
+-+	} while (0)
+-+
+-+#define __raw_readq(addr)				\
+-+	({						\
+-+		u64 __val;				\
+-+		asm volatile("ldr %0, [%1]"		\
+-+		: __RM (__val)				\
+-+		: __R (addr));				\
+-+		__val;					\
+-+	    })
+-+#else
+-+/* Generic virtual read/write. */
+-+#define __raw_readb(a)			(*(volatile unsigned char *)(a))
+-+#define __raw_readw(a)			(*(volatile unsigned short *)(a))
+-+#define __raw_readl(a)			(*(volatile unsigned int *)(a))
+-+#define __raw_readq(a)			(*(volatile unsigned long long *)(a))
+-+
+-+#define __raw_writeb(v, a)		(*(volatile unsigned char *)(a) = (v))
+-+#define __raw_writew(v, a)		(*(volatile unsigned short *)(a) = (v))
+-+#define __raw_writel(v, a)		(*(volatile unsigned int *)(a) = (v))
+-+#define __raw_writeq(v, a)		(*(volatile unsigned long long *)(a) = (v))
+-+#endif
+- 
+- static inline void __raw_writesb(unsigned long addr, const void *data,
+- 				 int bytelen)
+- {
+- 	uint8_t *buf = (uint8_t *)data;
+- 	while(bytelen--)
+--		__arch_putb(*buf++, addr);
+-+		__raw_writeb(*buf++, addr);
+- }
+- 
+- static inline void __raw_writesw(unsigned long addr, const void *data,
+-@@ -44,7 +129,7 @@ static inline void __raw_writesw(unsigned long addr, const void *data,
+- {
+- 	uint16_t *buf = (uint16_t *)data;
+- 	while(wordlen--)
+--		__arch_putw(*buf++, addr);
+-+		__raw_writew(*buf++, addr);
+- }
+- 
+- static inline void __raw_writesl(unsigned long addr, const void *data,
+-@@ -52,40 +137,30 @@ static inline void __raw_writesl(unsigned long addr, const void *data,
+- {
+- 	uint32_t *buf = (uint32_t *)data;
+- 	while(longlen--)
+--		__arch_putl(*buf++, addr);
+-+		__raw_writel(*buf++, addr);
+- }
+- 
+- static inline void __raw_readsb(unsigned long addr, void *data, int bytelen)
+- {
+- 	uint8_t *buf = (uint8_t *)data;
+- 	while(bytelen--)
+--		*buf++ = __arch_getb(addr);
+-+		*buf++ = __raw_readb(addr);
+- }
+- 
+- static inline void __raw_readsw(unsigned long addr, void *data, int wordlen)
+- {
+- 	uint16_t *buf = (uint16_t *)data;
+- 	while(wordlen--)
+--		*buf++ = __arch_getw(addr);
+-+		*buf++ = __raw_readw(addr);
+- }
+- 
+- static inline void __raw_readsl(unsigned long addr, void *data, int longlen)
+- {
+- 	uint32_t *buf = (uint32_t *)data;
+- 	while(longlen--)
+--		*buf++ = __arch_getl(addr);
+-+		*buf++ = __raw_readl(addr);
+- }
+- 
+--#define __raw_writeb(v,a)	__arch_putb(v,a)
+--#define __raw_writew(v,a)	__arch_putw(v,a)
+--#define __raw_writel(v,a)	__arch_putl(v,a)
+--#define __raw_writeq(v,a)	__arch_putq(v,a)
+--
+--#define __raw_readb(a)		__arch_getb(a)
+--#define __raw_readw(a)		__arch_getw(a)
+--#define __raw_readl(a)		__arch_getl(a)
+--#define __raw_readq(a)		__arch_getq(a)
+--
+- /*
+-  * TODO: The kernel offers some more advanced versions of barriers, it might
+-  * have some advantages to use them instead of the simple one here.
+-@@ -98,15 +173,15 @@ static inline void __raw_readsl(unsigned long addr, void *data, int longlen)
+- 
+- #define smp_processor_id()	0
+- 
+--#define writeb(v,c)	({ u8  __v = v; __iowmb(); __arch_putb(__v,c); __v; })
+--#define writew(v,c)	({ u16 __v = v; __iowmb(); __arch_putw(__v,c); __v; })
+--#define writel(v,c)	({ u32 __v = v; __iowmb(); __arch_putl(__v,c); __v; })
+--#define writeq(v,c)	({ u64 __v = v; __iowmb(); __arch_putq(__v,c); __v; })
+-+#define writeb(v, c)	({ u8  __v = v; __iowmb(); writeb_relaxed(__v, c); __v; })
+-+#define writew(v, c)	({ u16 __v = v; __iowmb(); writew_relaxed(__v, c); __v; })
+-+#define writel(v, c)	({ u32 __v = v; __iowmb(); writel_relaxed(__v, c); __v; })
+-+#define writeq(v, c)	({ u64 __v = v; __iowmb(); writeq_relaxed(__v, c); __v; })
+- 
+--#define readb(c)	({ u8  __v = __arch_getb(c); __iormb(); __v; })
+--#define readw(c)	({ u16 __v = __arch_getw(c); __iormb(); __v; })
+--#define readl(c)	({ u32 __v = __arch_getl(c); __iormb(); __v; })
+--#define readq(c)	({ u64 __v = __arch_getq(c); __iormb(); __v; })
+-+#define readb(c)	({ u8  __v = readb_relaxed(c); __iormb(); __v; })
+-+#define readw(c)	({ u16 __v = readw_relaxed(c); __iormb(); __v; })
+-+#define readl(c)	({ u32 __v = readl_relaxed(c); __iormb(); __v; })
+-+#define readq(c)	({ u64 __v = readq_relaxed(c); __iormb(); __v; })
+- 
+- /*
+-  * Relaxed I/O memory access primitives. These follow the Device memory
+-@@ -121,13 +196,10 @@ static inline void __raw_readsl(unsigned long addr, void *data, int longlen)
+- #define readq_relaxed(c)	({ u64 __r = le64_to_cpu((__force __le64) \
+- 						__raw_readq(c)); __r; })
+- 
+--#define writeb_relaxed(v, c)	((void)__raw_writeb((v), (c)))
+--#define writew_relaxed(v, c)	((void)__raw_writew((__force u16) \
+--						    cpu_to_le16(v), (c)))
+--#define writel_relaxed(v, c)	((void)__raw_writel((__force u32) \
+--						    cpu_to_le32(v), (c)))
+--#define writeq_relaxed(v, c)	((void)__raw_writeq((__force u64) \
+--						    cpu_to_le64(v), (c)))
+-+#define writeb_relaxed(v, c)	__raw_writeb((v), (c))
+-+#define writew_relaxed(v, c)	__raw_writew((__force u16)cpu_to_le16(v), (c))
+-+#define writel_relaxed(v, c)	__raw_writel((__force u32)cpu_to_le32(v), (c))
+-+#define writeq_relaxed(v, c)	__raw_writeq((__force u64)cpu_to_le64(v), (c))
+- 
+- /*
+-  * The compiler seems to be incapable of optimising constants
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0003-qemu-arm-Enable-virtualizable-IO-accessors.patch b/meta/recipes-bsp/u-boot/files/0003-qemu-arm-Enable-virtualizable-IO-accessors.patch
+deleted file mode 100644
+index 520c9226b40e..000000000000
+--- a/meta/recipes-bsp/u-boot/files/0003-qemu-arm-Enable-virtualizable-IO-accessors.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From cb6120b4bfd8b24dde7e0d1eda882e203a849d3f Mon Sep 17 00:00:00 2001
+-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+-Date: Wed, 18 Jun 2025 09:58:14 +0300
+-Subject: [PATCH 3/3] qemu: arm: Enable virtualizable IO accessors
+-
+-We recently added IO accessors that will work with KVM for any MMIO
+-access that casues an exception to the hypervisor. Enable them by
+-default for QEMU.
+-
+-Upstream-Status: Backport [https://github.com/u-boot/u-boot/commit/fcc60481ae75]
+-Signed-off-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+-Tested-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+-Signed-off-by: Fabio Estevam <festevam@gmail.com>
+----
+- configs/qemu_arm64_defconfig | 1 +
+- configs/qemu_arm_defconfig   | 1 +
+- 2 files changed, 2 insertions(+)
+-
+-diff --git a/configs/qemu_arm64_defconfig b/configs/qemu_arm64_defconfig
+-index 72bd255eafa3..39afb837e411 100644
+---- a/configs/qemu_arm64_defconfig
+-+++ b/configs/qemu_arm64_defconfig
+-@@ -1,4 +1,5 @@
+- CONFIG_ARM=y
+-+CONFIG_KVM_VIRT_INS=y
+- CONFIG_ARCH_QEMU=y
+- CONFIG_SYS_MALLOC_LEN=0x1000000
+- CONFIG_BLOBLIST_SIZE_RELOC=0x2000
+-diff --git a/configs/qemu_arm_defconfig b/configs/qemu_arm_defconfig
+-index f13001390d4d..92ba48f6af97 100644
+---- a/configs/qemu_arm_defconfig
+-+++ b/configs/qemu_arm_defconfig
+-@@ -1,4 +1,5 @@
+- CONFIG_ARM=y
+-+CONFIG_KVM_VIRT_INS=y
+- CONFIG_ARM_SMCCC=y
+- CONFIG_ARCH_QEMU=y
+- CONFIG_SYS_MALLOC_LEN=0x1000000
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index ea55545db34f..93ff0ca6cae2 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -12,15 +12,9 @@ PE = "1"
+ 
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "e37de002fac3895e8d0b60ae2015e17bb33e2b5b"
+-
+-SRC_URI = "\
+-    git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV} \
+-    file://0001-Makefile-add-dependency-from-lib-to-arch-ARCH-lib.patch \
+-    file://0001-nxp-Prepare-macros-for-KVM-changes.patch \
+-    file://0002-arm-io.h-Fix-io-accessors-for-KVM.patch \
+-    file://0003-qemu-arm-Enable-virtualizable-IO-accessors.patch \
+-"
++SRCREV = "e50b1e8715011def8aff1588081a2649a2c6cd47"
++
++SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master;tag=v${PV}"
+ 
+ SRC_URI_RISCV = "\
+     file://u-boot-riscv-isa_clear.cfg \
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2025.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2025.10.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2025.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2025.10.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2025.07.bb b/meta/recipes-bsp/u-boot/u-boot_2025.10.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2025.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2025.10.bb
+-- 
+2.34.1
+
 
