@@ -1,214 +1,292 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A9B1CAC5B8
-	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 10:39:18 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.51])
- by mx.groups.io with SMTP id smtpd.web11.31052.1759747139583450188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C960CAC5B8
+	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 10:53:08 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.31142.1759747971781161255
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Oct 2025 03:39:00 -0700
+ Mon, 06 Oct 2025 03:52:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=hkwwNktB;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=hkwwNktB;
- spf=pass (domain: arm.com, ip: 40.107.130.51, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=dOXFjj8c5sqA7EUxPQVWXchGhnOVip0M/jphmIEMdYPaBxfCCpP6TIJpEmwDebiytTQqrzW9puFbwSliZUO7eFTwa5f2g4Cf3TFFTCysAbrQZvYjMjds0ibenjILcdMMUdIZhKg3R7t7e/eICgAAZ77oYqueXbrThgDHyXW9oHpg56ItjFA2wgqF0kW0OgA1P9K+E06wGAK+Ax1OTP3qk+6u+k6xa7inQ9Eg8k6vVlLC2B5HfcKbbxoDQF/6C8tkNmXUod9fazGq95ApoGTwpRuNPDoTgQnIcE831dF552q6YuypC6GGfxB8A8PE0LH00m/u3rO7Y8EwJx07jZ+nkw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kPHzHrK7VN/GQHiuP+Hpgsi6kZDFFLYcQIZvSIVa0nU=;
- b=a35yl/0HkvvW2im2RqWpUDTlkUy4jpXhN2n0RdCUh5PGef4+dO6am/1aD47GiXK1AbSjJh66xnD2pR5vOAkDaontic/LQ8UUtvVcW4JCMkS6A8FN664Vwz5OjvocCDve4MlISyTO7LPz0rtydOD5HFxfsSBsBCV9PthDhwsVVqrijXXfqsbZfa6JV0C7lbnvPiujPNbX/D7FciGTCcaQAa5xRYU9QTdkgNYvZ1OVdnsYg5kYvCrGrjIFZ0m9lMr3yKvkdAZy3zr9rUtkg89pmdorY1hiW3Li0TKFqYJ8HCX/POsCnL4lUWkEWJNb3sdYugo6LrwQrS8QwmlLmFhStg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=ti.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kPHzHrK7VN/GQHiuP+Hpgsi6kZDFFLYcQIZvSIVa0nU=;
- b=hkwwNktB3RLJHlq2gB9czkFmSI0mq+qBJbH0HSKa4D1b/GkUManPyUS6A0PtCD3A5IIWiQBzS8pSSEAsM6Dw/AqYLNkN8oahZoqJjWsE7+iROdn0cVWoiFS1LdwNdbbBkgunG0jLWOG6u8DAUkz6gwCWFZTxd8S60cOjo8Zxn7Y=
-Received: from AS4P191CA0028.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:5d9::20)
- by AS2PR08MB10153.eurprd08.prod.outlook.com (2603:10a6:20b:64c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Mon, 6 Oct
- 2025 10:38:50 +0000
-Received: from AMS0EPF00000198.eurprd05.prod.outlook.com
- (2603:10a6:20b:5d9:cafe::4c) by AS4P191CA0028.outlook.office365.com
- (2603:10a6:20b:5d9::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9182.14 via Frontend Transport; Mon,
- 6 Oct 2025 10:38:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF00000198.mail.protection.outlook.com (10.167.16.244) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.9
- via Frontend Transport; Mon, 6 Oct 2025 10:38:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vX8k9qk56HFpZptcsToCOC9erig0tdqxtJCAbNqt1AELpF0z6ST95Da4sv97uAJfHk0nvnSvIhoeDx/vF7vdi1RHicdqb0VZ8ELzDNIgp70HFtjPO+TAVg/XeAH/aWjsSF7z4Shc2wjgwK3DpdzXcxGWqfMQr2YwS6oEJMj4mHUIX+rhDH573SL6dYuVrBOMf7HoGEHyNp0/lAER0j0NzJCOw3yqH+LbwHNLV7NBaJFIo250ni3l/wy6hxoCC/nwJsS1xlzNNf/n7dhJyoDBJnAYb1Yg+k6VKTqKkP18ZZVc4xSQ7altV5idv6L1VQ83xqADpT+d7BPIxIikOeqrNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kPHzHrK7VN/GQHiuP+Hpgsi6kZDFFLYcQIZvSIVa0nU=;
- b=RnWiMuVb26/Aen1JrqMKtSV+MUNFyU+IotD/9AgKG+qWpo7iZke5c8kK6XB9qP1u/Bvd9USNl8fQerQkGzOjQvfABz4PQJe1hfeUek8zBkq/xOyXjUjOzYIqB1+xQ5HQDj5c9hISDqSUVDdgOf0jfLRuPTC72Z4zSXo6HCLln/qbOl+NUZC4SCEkEr/5+DeEiam5cAodVWmiCoPl8ODvQxPU+VsYSGU2OaDn1ACMj2QdqKtNUrJtdw2IjtLLoWMuPaMbz5U6+KmZke+t2FeiFFnWzOXLBUC9559s9GHYBzFQ5j+uZOMQzQ5KXv83gSsNgDhnl3vMIWDPDXpphGKShg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kPHzHrK7VN/GQHiuP+Hpgsi6kZDFFLYcQIZvSIVa0nU=;
- b=hkwwNktB3RLJHlq2gB9czkFmSI0mq+qBJbH0HSKa4D1b/GkUManPyUS6A0PtCD3A5IIWiQBzS8pSSEAsM6Dw/AqYLNkN8oahZoqJjWsE7+iROdn0cVWoiFS1LdwNdbbBkgunG0jLWOG6u8DAUkz6gwCWFZTxd8S60cOjo8Zxn7Y=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DU0PR08MB8953.eurprd08.prod.outlook.com (2603:10a6:10:464::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Mon, 6 Oct
- 2025 10:38:12 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9182.017; Mon, 6 Oct 2025
- 10:38:12 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "rs@ti.com" <rs@ti.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core][PATCH] libx11: create tmpfile dir for x11 domain socket
-Thread-Topic: [oe-core][PATCH] libx11: create tmpfile dir for x11 domain
- socket
-Thread-Index: AQHcMzPOncWa6hpH2EuKL4UvJwBNsrS09CyA
-Date: Mon, 6 Oct 2025 10:38:12 +0000
-Message-ID: <CE558C16-AD4F-401B-9734-E57067101F56@arm.com>
-References: <20251002003034.344992-1-rs@ti.com>
-In-Reply-To: <20251002003034.344992-1-rs@ti.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DU0PR08MB8953:EE_|AMS0EPF00000198:EE_|AS2PR08MB10153:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1e604a0d-6b0e-4c82-29a9-08de04c48969
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|7053199007|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?wNUp6A8jvvFvSBsHlMZ+SaKT96oQUXuoUK9zTiV1F4EDEcSq6m1nAAaBLK5A?=
- =?us-ascii?Q?/SDPup/hnOk+k1+urvd0icQpxdT7/6UJ534BKUEpr5uGph3kZ40q1vYbA21k?=
- =?us-ascii?Q?DJxBejTpC631nKjGykndbUt/kMoelaavskGuKL0q5Utbsk2/mixn23k114Rt?=
- =?us-ascii?Q?MZpZ9HxUfAJPpyHG+qc/kggyqGgbBLeDiF1fdA6vw6IUMDVYTvRXvOrgtsFw?=
- =?us-ascii?Q?hz85TBbjD/j27A2uJ8XWthf3+YI2lER1ZpNd2LmIlvQPsNB7UGoc0Zik+ga/?=
- =?us-ascii?Q?Jxq1F15krkrEn1FTVspWAqVgJdrHwWZu/WYKSYZIBeONJ+IVz49wtS1bTf6y?=
- =?us-ascii?Q?JYsCOdVPa4kmGeHY8G+OnIbxDFXw+ibAZGZhLj+HFgMvohMxFwxgWCZUA564?=
- =?us-ascii?Q?m9K8mjQ53RX/ts+VNNDG91VdAf6I7b+IiAyZrQPHNN6MD8fblUDes1EN2RVN?=
- =?us-ascii?Q?UZL7tQ5IsBCVNr2Afm8mf9YhXjJrak+wnfgYfXek6j2ApD889+rKEASd7S8y?=
- =?us-ascii?Q?RrHHw+CQlAvE0HgQU6i/I6kZRkYK0jBrqnZVmu1HcUrKsREsvGX4gvYxYazW?=
- =?us-ascii?Q?CD1JVHC0SmdETxH3Qd5UEh5OTwV/PZVLVrarz3Qow0gpyBUtzIoRcakAh4aE?=
- =?us-ascii?Q?21rwZDuiiLEq6Q7usvQL6zwNGp6bIPVEg6Nbw5KjNMRN405CQXsb76ZxOyCu?=
- =?us-ascii?Q?XwbmcG7Gjxx2hjfJYNzalMoy/uDYcgpJ4nJvQHOfUL8gIhXPZMcjAF/o/+l6?=
- =?us-ascii?Q?ayIqpO/dEwXxORwdCU9yIqEGoeZDeSeu0+gbRscvMaxf+y7Xuafh3d9pSllN?=
- =?us-ascii?Q?dzjJXdne7D66cVJitCndAWh1R6NqOI9YeAwcqVDxs1ctD0vzn0E1swRRHenF?=
- =?us-ascii?Q?vzy/Hr5zN+VE7wYnWqR9ooogP+ZK7GI4B+xH5okPvt5gK/pbYH5drMLvbCUp?=
- =?us-ascii?Q?eaECS8yNTiOgnE7k5Q0QNgLYgThcmaGiGZUW3vwENCsXLFdfGNfsRFnAHYLz?=
- =?us-ascii?Q?DAWayQlanHyDtC88mQ+XWT/I+yBDeRTwvOkWtP1KFKMUSiDi2s8m+q+Cdk+z?=
- =?us-ascii?Q?Kc9nCbp/Dm/3ziU+et+auSf4Ga3mfDtWNeAkSDWp6ui+rz0EmFEtCAhMpnfP?=
- =?us-ascii?Q?SHSkOsDnKqV6/tOgJ1f+YzLH/XtcGQ+iODnYAaC0W684xTbH8rQkfIjFUNME?=
- =?us-ascii?Q?qAkiHWcCAC2uU3BxpNiQ8M+Jqlc/2zNPGSyz6fekfvPye9wcuIVLOppUQcjs?=
- =?us-ascii?Q?gXe80ArnVif2dg0JxmTkOlyk3vBVY4axjEgG9kqFMUH/ssvMfhrBrE//iZTJ?=
- =?us-ascii?Q?huye3iaYX4poXzINoEkTHA5J2E8Jf+iOY5Yf1rLV0R+MNtdAvO07XeWBurdg?=
- =?us-ascii?Q?ZFOSgb6rbHlcQqAZSMGFLJrfbWuUrXRVXHhULB+hJrgBpQ+doDZzGTmL43N7?=
- =?us-ascii?Q?Cim6xQEP0GAn59S1lqZpkuiiaHa/za4gj7GBpHDwV+r0JBEs12JK4voJnJmu?=
- =?us-ascii?Q?5qdoTxknH2BqhvUGPbsaqIjxPiLpWsV/iHst?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <B18AC28961056845AB4B15E424C0DC30@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=W44CE2rG;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=237466cedc=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5966J4K53870216
+	for <openembedded-core@lists.openembedded.org>; Mon, 6 Oct 2025 03:52:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=ZFTbyye9qK5LY5xhE6nz
+	LR6rQ2Rj4op1JGg4tKcFSZA=; b=W44CE2rGSy0aIBCwfe9QWYKWIFL+xb6SKtMN
+	wCFk4ioM1B0JYa4dro0RIDPBwFntGMK+lFjKZtBSeAIo3r1G7XVw94Ic3JsqkSDd
+	dHfVOePuRBK+Im4xQ3biuZNMPDKCrfnPoyd8F9Kky2b00mRrgPmx+msO8FnsTR69
+	6T3/Hpw3RgcXDUJfW7qvzyxSdbGBDsjBbhSs8txhOyJ7E/O9GhsIdIdTUr2CoiOQ
+	TIaYM2jgl2kRL4iZDHvh2acr0tQH3G7haN3Ti/0mDgK8hEyusDoITNRkmI1xKQB0
+	iE+SXPs5KHqwMK2nQGSnKbP+BaejHgAG1OMt+fw++xH8/rgnQA==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49k33f1auu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 03:52:51 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.59; Mon, 6 Oct 2025 03:52:50 -0700
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.59 via Frontend Transport; Mon, 6 Oct 2025 03:52:49 -0700
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][scarthgap][PATCH 1/1] go: fix CVE-2025-47906
+Date: Mon, 6 Oct 2025 16:22:47 +0530
+Message-ID: <20251006105247.611808-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8953
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF00000198.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	5220e622-5577-413a-27c4-08de04c4730a
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|14060799003|376014|35042699022|82310400026|36860700013|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?kfAn0nk+Yt0SBe66673b4hHXjgYreYWMaQ7cfIHF15sRSWRjfcTq/pGOeTvO?=
- =?us-ascii?Q?sZ2jWS/V6s8whV/UTSIICHFD6f2Qo9AE1y6ED90eVEF0upbygVOjXYm7oD+M?=
- =?us-ascii?Q?v/c2GwA8R4+ky5ZmEMNGg1K0ZQQmEkW6aCnTfoBSyZV1f90WPVnv5VSbvdiL?=
- =?us-ascii?Q?8CfbZHxWfJD8+otBl35IvNlxaDvtqAVZDB3sit2QSiOP2F8wLSIFrb6X99G6?=
- =?us-ascii?Q?Rlr4s9pnhnq8qcaa1UR4sC4NteLr5XVbCA3hwaVLOieO1IhnHVKPwrALqhJ+?=
- =?us-ascii?Q?xvfUoJgDkpbOjJa8gAD0SvrjtYlKscdi4cCRxPZvW9UgbrFh7Jf1os7Erxho?=
- =?us-ascii?Q?bxGflRMpXOKUU9FcQef3XuHKPTbn5I97pU6t0T6k5h1MNuHjt6KSJKtITFTz?=
- =?us-ascii?Q?qQsKVLqI/0XhgF0GqNZ9MYNxaqFqF3LdVmU5JllAvHO3yE8mltHaoTVmyTey?=
- =?us-ascii?Q?qG6hrYZAq9CkpnqCC9Aic8gF/R9hghRSTcf/gEwyWuXvkiAGM+JIu8pQmEoI?=
- =?us-ascii?Q?VPVZXCMmvjJTwrebsORBwjxwMXGTjiZwiKyXe5vmZQDyNIrtxEVvceV8tHgv?=
- =?us-ascii?Q?/VbzSNet3LV/fXPhqFWpfJon0sKpdeTQqcowrjQ41N2K7FJ6ibZlakjboRId?=
- =?us-ascii?Q?zjRhKtTaxRkPzTSYsPPZNvj+lw+7AKiD5m4F4u/0alZHxQOQcZozeDQiLIFo?=
- =?us-ascii?Q?gghzUkkvFYNtFnlk6DQXSQP74LO4FKwJ8OtUJS4Ll3vYLRRfFDHWeZZHFNz4?=
- =?us-ascii?Q?txAcglvskQvQ6qJyUOtZPbaDvcox7xIzpzLl6Rp130ReaJ162xovkDvEY4AY?=
- =?us-ascii?Q?TFn8ACoMHy7tJNSLPswg52jn9Ui9J6PFCj4Rgv3tnsxmFlw6BG/L8QRi5DgG?=
- =?us-ascii?Q?hzEztrMuyK+1HhqCZ7+9RtLM9MGOs22t8bAaz80QQlNqZQbhidIygCoHv2ew?=
- =?us-ascii?Q?5KQzAftok9eh/mAxkU1ra/8eiGX5FCv3pVjMdvKXMVsJP3R3m4nrTPVejrJU?=
- =?us-ascii?Q?AO9cc8IfalvR1peq1sAScJewpY4Uj1ZQN1AH3AQkpNaVw6Pv0SPc9ttWpdrp?=
- =?us-ascii?Q?8rcSsQDQJ2hDDL6bg+1E7r1J4zv8fpQMnV7g0CpZf8QTOcz7x09ue0wGxqc9?=
- =?us-ascii?Q?6fOHcCwFX5C345NFpK1QhHLTv5v9SCdo7Ad5IvStulKsUICXiE+YiCisos+l?=
- =?us-ascii?Q?tfYtPpbeFkHexzHa4GTWQdjNEKKIaa/5SKPmZSQx81IYnWecQ/4Yfg6vFKhH?=
- =?us-ascii?Q?Zhvvmm/s8NZTFZA3N4WfqQJq07YC0k5Bv1Ud5dZb67kin8B1xyBROTaCQkxw?=
- =?us-ascii?Q?ZcIfxxTH4iNgnZFMvv34cUQqvJRR8WrnEUnRTB8E6iYmlEK59IxZEWmg5ix/?=
- =?us-ascii?Q?yx6RzEsF4s0erUl8/mBQ2K3AffKFelY/gwIffcMraWjZStVZx8uGidbU+qYV?=
- =?us-ascii?Q?K9bzOq17dBxAipQth4yDe6HLlEMpqxEqMOcPIU4UWl0+NzzozGhkteegMBkX?=
- =?us-ascii?Q?v/Aqhble502XW9LlfST8Zg++i/NZDyHiGgE5eQEddbm/NKXUIONBuT42JMuy?=
- =?us-ascii?Q?c/0SR/jSDCIgEngzfSE=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(376014)(35042699022)(82310400026)(36860700013)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2025 10:38:49.7721
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e604a0d-6b0e-4c82-29a9-08de04c48969
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF00000198.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB10153
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA2MDA4NyBTYWx0ZWRfX7+Xf0jJWNh0Y
+ woZKGRggJLsO0ZOUHNQYfC55/Z9Ba11YJZov/c7cCrgNwxAX1TG2g3XnDagfGMmusi1Ad48z9Rz
+ ASm7C5pCvVGf4cvc15VqJzzEJwDCHAUoGAuWZUe1r818BbB01zqG5cH0/T1bqa4o61LJRlEOupk
+ 3h4GENMpUZfoiVaF3ebuRngTWQEwWo6ypqxlOpqFp9DTJsLsmmvgoejKV9LVOSQ20l6TcQ5gubJ
+ hzK6GGVTrJQNlc3H0uoxR9Ac4P04xmsm+0/M9QqQHNOgKX4KhUw7ZXSF8aJ29ZoRLTGWSkGyxyb
+ aJW9udDG+Som2KFAoG0S0QjCFKxhQUTBHMaOr3RTCzimZ02Eycr5IQLAcoXa/qMHV2/hjt8PZ4W
+ qhc/ee+4JElkPmOCqVV38pURt7hVIg==
+X-Proofpoint-ORIG-GUID: VYrei0k5wogWkfEOtiH4YuL0mAFsVKdm
+X-Authority-Analysis: v=2.4 cv=XeCEDY55 c=1 sm=1 tr=0 ts=68e39f83 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=x6icFKpwvdMA:10 a=Oh2cFVv5AAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
+ a=pGLkceISAAAA:8 a=yhUri8FnAAAA:8 a=1XWaLZrsAAAA:8 a=pM9yUfARAAAA:8
+ a=A1X0JdhQAAAA:8 a=2-90-CEY0x8OdAcwCrEA:9 a=7KeoIwV6GZqOttXkcoxL:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=8nbOMqh3J4Vhtx036jbE:22 a=YH-7kEGJnRg4CV3apUU-:22
+X-Proofpoint-GUID: VYrei0k5wogWkfEOtiH4YuL0mAFsVKdm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-06_04,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 phishscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2509150000 definitions=main-2510060087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 10:39:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224475
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 10:53:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224476
 
-On 2 Oct 2025, at 01:30, rs@ti.com wrote:
->=20
-> From: Randolph Sapp <rs@ti.com>
->=20
-> Register a volatile directory entry for the x11 domain socket when not
-> using systemd. This will make sure the directory is always created with
-> the correct permissions. Systemd already provides their own tmpfile.d
-> entry for the same behavior.
->=20
-> Currently some x11 related applications will create this directory if it
-> doesn't already exist, but this is not true for everything. In addition,
-> if the application in question isn't started as root, it's possible this
-> directory can be owned by a non-root user. This isn't an issue by
-> itself, but it can potentially lead to problems in a multi-user
-> environment.
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Feel like this should be in xserver (as the xserver is the one creating the=
- sockets), not libx11.
+If the PATH environment variable contains paths which are executables
+(rather than just directories), passing certain strings to LookPath
+("", ".", and ".."), can result in the binaries listed in the PATH
+ being unexpectedly returned.
 
-Ross=
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
+ .../go/go/CVE-2025-47906.patch                | 183 ++++++++++++++++++
+ 2 files changed, 184 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2025-47906.patch
+
+diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
+index 4de087170c..af4ec39f56 100644
+--- a/meta/recipes-devtools/go/go-1.22.12.inc
++++ b/meta/recipes-devtools/go/go-1.22.12.inc
+@@ -18,5 +18,6 @@ SRC_URI += "\
+     file://CVE-2025-22871.patch \
+     file://CVE-2025-4673.patch \
+     file://CVE-2025-4674.patch \
++    file://CVE-2025-47906.patch \
+ "
+ SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
+diff --git a/meta/recipes-devtools/go/go/CVE-2025-47906.patch b/meta/recipes-devtools/go/go/CVE-2025-47906.patch
+new file mode 100644
+index 0000000000..88895f496d
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/CVE-2025-47906.patch
+@@ -0,0 +1,183 @@
++From 8fa31a2d7d9e60c50a3a94080c097b6e65773f4b Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Olivier=20Mengu=C3=A9?= <olivier.mengue@gmail.com>
++Date: Mon, 30 Jun 2025 16:58:59 +0200
++Subject: [PATCH] [release-branch.go1.23] os/exec: fix incorrect expansion of
++ "", "." and ".." in LookPath Fix incorrect expansion of "" and "." when $PATH
++ contains an executable file or, on Windows, a parent directory of a %PATH%
++ element contains an file with the same name as the %PATH% element but with
++ one of the %PATHEXT% extension (ex: C:\utils\bin is in PATH, and
++ C:\utils\bin.exe exists).
++
++Fix incorrect expansion of ".." when $PATH contains an element which is
++an the concatenation of the path to an executable file (or on Windows
++a path that can be expanded to an executable by appending a %PATHEXT%
++extension), a path separator and a name.
++
++"", "." and ".." are now rejected early with ErrNotFound.
++
++Fixes CVE-2025-47906
++Fixes #74803
++
++Change-Id: Ie50cc0a660fce8fbdc952a7f2e05c36062dcb50e
++Reviewed-on: https://go-review.googlesource.com/c/go/+/685755
++LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Auto-Submit: Damien Neil <dneil@google.com>
++Reviewed-by: Roland Shoemaker <roland@golang.org>
++Reviewed-by: Damien Neil <dneil@google.com>
++(cherry picked from commit e0b07dc)
++Reviewed-on: https://go-review.googlesource.com/c/go/+/691855
++Reviewed-by: Michael Knyszek <mknyszek@google.com>
++
++CVE: CVE-2025-47906
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/8fa31a2d7d9e60c50a3a94080c097b6e65773f4b]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ src/os/exec/dot_test.go   | 56 +++++++++++++++++++++++++++++++++++++++
++ src/os/exec/exec.go       | 10 +++++++
++ src/os/exec/lp_plan9.go   |  4 +++
++ src/os/exec/lp_unix.go    |  4 +++
++ src/os/exec/lp_windows.go |  7 +++++
++ 5 files changed, 81 insertions(+)
++
++diff --git a/src/os/exec/dot_test.go b/src/os/exec/dot_test.go
++index ed4bad2..86e9cbb 100644
++--- a/src/os/exec/dot_test.go
+++++ b/src/os/exec/dot_test.go
++@@ -178,4 +178,60 @@ func TestLookPath(t *testing.T) {
++			}
++		}
++	})
+++
+++	checker := func(test string) func(t *testing.T) {
+++		return func(t *testing.T) {
+++			t.Helper()
+++			t.Logf("PATH=%s", os.Getenv("PATH"))
+++			p, err := LookPath(test)
+++			if err == nil {
+++				t.Errorf("%q: error expected, got nil", test)
+++			}
+++			if p != "" {
+++				t.Errorf("%q: path returned should be \"\". Got %q", test, p)
+++			}
+++		}
+++	}
+++
+++	// Reference behavior for the next test
+++	t.Run(pathVar+"=$OTHER2", func(t *testing.T) {
+++		t.Run("empty", checker(""))
+++		t.Run("dot", checker("."))
+++		t.Run("dotdot1", checker("abc/.."))
+++		t.Run("dotdot2", checker(".."))
+++	})
+++
+++	// Test the behavior when PATH contains an executable file which is not a directory
+++	t.Run(pathVar+"=exe", func(t *testing.T) {
+++		// Inject an executable file (not a directory) in PATH.
+++		// Use our own binary os.Args[0].
+++		testenv.MustHaveExec(t)
+++		exe, err := os.Executable()
+++		if err != nil {
+++			t.Fatal(err)
+++		}
+++
+++		t.Setenv(pathVar, exe)
+++		t.Run("empty", checker(""))
+++		t.Run("dot", checker("."))
+++		t.Run("dotdot1", checker("abc/.."))
+++		t.Run("dotdot2", checker(".."))
+++	})
+++
+++	// Test the behavior when PATH contains an executable file which is not a directory
+++	t.Run(pathVar+"=exe/xx", func(t *testing.T) {
+++		// Inject an executable file (not a directory) in PATH.
+++		// Use our own binary os.Args[0].
+++		testenv.MustHaveExec(t)
+++		exe, err := os.Executable()
+++		if err != nil {
+++			t.Fatal(err)
+++		}
+++
+++		t.Setenv(pathVar, filepath.Join(exe, "xx"))
+++		t.Run("empty", checker(""))
+++		t.Run("dot", checker("."))
+++		t.Run("dotdot1", checker("abc/.."))
+++		t.Run("dotdot2", checker(".."))
+++	})
++ }
++diff --git a/src/os/exec/exec.go b/src/os/exec/exec.go
++index b8ef5a0..2c7f510 100644
++--- a/src/os/exec/exec.go
+++++ b/src/os/exec/exec.go
++@@ -1310,3 +1310,13 @@ func addCriticalEnv(env []string) []string {
++ // Code should use errors.Is(err, ErrDot), not err == ErrDot,
++ // to test whether a returned error err is due to this condition.
++ var ErrDot = errors.New("cannot run executable found relative to current directory")
+++
+++// validateLookPath excludes paths that can't be valid
+++// executable names. See issue #74466 and CVE-2025-47906.
+++func validateLookPath(s string) error {
+++	switch s {
+++	case "", ".", "..":
+++		return ErrNotFound
+++	}
+++	return nil
+++}
++diff --git a/src/os/exec/lp_plan9.go b/src/os/exec/lp_plan9.go
++index dffdbac..39f3d33 100644
++--- a/src/os/exec/lp_plan9.go
+++++ b/src/os/exec/lp_plan9.go
++@@ -36,6 +36,10 @@ func findExecutable(file string) error {
++ // As of Go 1.19, LookPath will instead return that path along with an error satisfying
++ // errors.Is(err, ErrDot). See the package documentation for more details.
++ func LookPath(file string) (string, error) {
+++	if err := validateLookPath(file); err != nil {
+++		return "", &Error{file, err}
+++	}
+++
++	// skip the path lookup for these prefixes
++	skip := []string{"/", "#", "./", "../"}
++
++diff --git a/src/os/exec/lp_unix.go b/src/os/exec/lp_unix.go
++index 3787132..2543525 100644
++--- a/src/os/exec/lp_unix.go
+++++ b/src/os/exec/lp_unix.go
++@@ -54,6 +54,10 @@ func LookPath(file string) (string, error) {
++	// (only bypass the path if file begins with / or ./ or ../)
++	// but that would not match all the Unix shells.
++
+++	if err := validateLookPath(file); err != nil {
+++		return "", &Error{file, err}
+++	}
+++
++	if strings.Contains(file, "/") {
++		err := findExecutable(file)
++		if err == nil {
++diff --git a/src/os/exec/lp_windows.go b/src/os/exec/lp_windows.go
++index 698a97c..e0b74e3 100644
++--- a/src/os/exec/lp_windows.go
+++++ b/src/os/exec/lp_windows.go
++@@ -68,6 +68,9 @@ func findExecutable(file string, exts []string) (string, error) {
++ // As of Go 1.19, LookPath will instead return that path along with an error satisfying
++ // errors.Is(err, ErrDot). See the package documentation for more details.
++ func LookPath(file string) (string, error) {
+++	if err := validateLookPath(file); err != nil {
+++		return "", &Error{file, err}
+++	}
++	return lookPath(file, pathExt())
++ }
++
++@@ -81,6 +84,10 @@ func LookPath(file string) (string, error) {
++ // "C:\foo\example.com" would be returned as-is even if the
++ // program is actually "C:\foo\example.com.exe".
++ func lookExtensions(path, dir string) (string, error) {
+++	if err := validateLookPath(path); err != nil {
+++		return "", &Error{path, err}
+++	}
+++
++	if filepath.Base(path) == path {
++		path = "." + string(filepath.Separator) + path
++	}
++--
++2.40.0
+-- 
+2.40.0
+
 
