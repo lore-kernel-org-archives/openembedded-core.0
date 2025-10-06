@@ -1,211 +1,142 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09584CCA470
-	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 16:56:30 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.19])
- by mx.groups.io with SMTP id smtpd.web10.676.1759769782929004855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08298CCA470
+	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 16:59:20 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.web10.743.1759769953106406748
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Oct 2025 09:56:23 -0700
+ Mon, 06 Oct 2025 09:59:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=mxM/S0Qt;
- spf=pass (domain: cherry.de, ip: 52.101.70.19, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fFEYXusjzJVE2hwePKfQAXPzKOU6eXPJW4aPW9AFMuFx7wDcebVHlgUkddrPvUGk3/7pD8kdOpl6buTITWPxLmtI/FBRcg7L5Py+qgjPtc+M+ZBbjLlUwQ76haCt2V8hhzvvzzsyCOGCfRQtgOPbAJMkJN16QYyaRDNYphjkGkfHUv3FgduoDhZC9rWtXatRnqY3MvW+fD+813CYA+1eDT4boE/ClqKrq5vn/tpOV+hyedrs536bFxzp/QJbP9bAcP5LOqsZWf7r6YDJI9C5GhSITdR3o6R8Mf1P5k0UfowzBq1noe0HgkAjYznBrNZF69akoN8tImv0N+lRpRKfZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3F+1S7edcMUxB/k6kBfxcGsypnNlGkd/L6SQjm5d6EU=;
- b=EnF/dE8gmiQjaZS8x0HWMT5NoAU7P7yM/XfUEA0ESoSCIqCpOOutsBAiq9EbEVZttRP58YCmJ8CUxGkyxWPoBVILzuldWTLwqJ0JESZrmghQiqsEyjyTmVjHc9/HGRgY7AojQY9pqZZU1d8bkcbdzfH3CHDzZwSR3G/5f0CGZvbGD5TS3lOUnl8iaA1bWa6f4fGUyGV14GjyH776V9/5gevLSgPlLa4ibJMaG9BDU+ftJVT0oQXUBVsHk52CC67eFE2OU8na0hOSXGrwzFVJ9WSkEQgUhZECk/xiWD1mw7DOdt0W8rjSiCUwaE+jqPwD2m2/6lG0lDSvSBBqObCsGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3F+1S7edcMUxB/k6kBfxcGsypnNlGkd/L6SQjm5d6EU=;
- b=mxM/S0QtMhB7+D+RUCOlEPClPuRS9RigQAw0JmFEY5xl1qYadZA9xJgwwMJUtk1CXBEoA3wc5/O6uxokNLgAl7FYuxK7WR56IhVwNsstY9kcZzD6kDv5bEI/3gucHbqyg2tvuF9RCVdF/QL8dfpjG9R1hbI0C2MKeQBO0zB49/0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
- by DU4PR04MB10530.eurprd04.prod.outlook.com (2603:10a6:10:55a::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Mon, 6 Oct
- 2025 16:56:16 +0000
-Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
- ([fe80::5ee:7297:93b4:a8d1%6]) with mapi id 15.20.9182.017; Mon, 6 Oct 2025
- 16:56:16 +0000
-Message-ID: <ff5c5818-a596-4f5b-8a50-dfda83a3664e@cherry.de>
-Date: Mon, 6 Oct 2025 18:56:15 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] oeqa/selftest: Fix single threaded race issue
-To: richard.purdie@linuxfoundation.org,
- openembedded-core@lists.openembedded.org
-References: <20251006130902.846106-1-richard.purdie@linuxfoundation.org>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20251006130902.846106-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0097.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a1::15) To AS8PR04MB8897.eurprd04.prod.outlook.com
- (2603:10a6:20b:42c::20)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fHwPjBEn;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-72ce9790acdso56505097b3.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 09:59:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759769952; x=1760374752; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NcxUmXLurWup1h3sNDFLEsR9JbJNQKi/CrkchM/vDDs=;
+        b=fHwPjBEnnLJY7Ba7PgzriISPpzQYp0NULBHhm/qt3SHJpx1Ao+U9frh1LSij+wyMJM
+         l14yLpEQjd55o2ha5ltSg9de1EYz1CZb5MOccAhBA77td/jAcMpSgO4OCOMI5ZEW8k1n
+         qQG0l06RHiV4kEt4hTGHFU2cbEJeRZNtnhLfFRadjlvkZd4HuUDPBsh93TgCRCJ8px20
+         bpu1eKcKZw0IY7lMTgEBFGPaAyNYirf+Tddpr9Pl4P17KVioGgOuzvqecMm1+QUDkA7O
+         lrwnQuS8T5RX6zu4ZLTqbSubzvy/RRSAkl+qZzrmF3uF7aMh7DDydO/TQbTz1iIFBrc+
+         c1sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759769952; x=1760374752;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NcxUmXLurWup1h3sNDFLEsR9JbJNQKi/CrkchM/vDDs=;
+        b=YWuT3gr9GzK8sYL7W2gbjn3Zmw6/+fhaUycPPbYiaX1d2/0FO+welj23pjYn+RmP6o
+         HIdm7jOop5fvv2nWfAFNJ4L8/pFAjN3xQ/zfpUuPdgPCDFo78Uu6F3mrwEV+8XndslHR
+         KHgidD/Iz9EeocXNSuwKAzFsbBuQ7ggy9msgNa1OPKXmyWX0CK27QKScqe4Bx1yzH9X5
+         cfCNGzECFw47WrXZJMizVPq7XmRTnDN8GZ4evXvO6y2w8MTZDROVfm1V6Br5U0YzTEsQ
+         AI08DvLC+0f816WSZ4rZUqYCntiSf1EFJWaUvXzW0CK+tmmCxIeCdepdWQJSz37OnnbI
+         wC5w==
+X-Gm-Message-State: AOJu0YwfGsQ95gMWG8yC4iYhgRQzDGPWJr4dySYjHtZfCEz4QWnLeU1V
+	QzgR4/1l7CusNB3Nq8Wmq5Adt5UnDbCtZoXhJzdy/hCNTc66zGEZBesnkAm5V/OFtvwvVq1914D
+	UA1Nl/rieOKZHsYwg0MSax1u+TgcND+djBO8z
+X-Gm-Gg: ASbGncupBDT6f9Al3XZs+zrDNilCwd1lYGFdbW7MkzhR23x9LfdSM+FHYEYC220mvRN
+	IawPSAxbX64ITz8oskAOAS1lIgWwvEV7NviwHDL0fJPMu2rGDZ1jbv5SBbNYN4MYf5Ksyytw9Fl
+	aGOLJQ/hHqwm4lONo7X58jTHXwl411/Wm//fVcPG+kSWdjfgXQfo6v0UbtpiiyuU8KsOXLjFayf
+	KexISmr28a67gsLGrCkxyeDbURwfPmW/fLaSe1mdXBXf9ZyBOlmcHjYoH85NlVQkJdpamvtjnW3
+	F0j20Dsa15vazc3qxf097RdH6CH1SaWs0S6GsSRYgl6YKpO0HlDcO5AV8NzJkMxUlJ0UczTbA3l
+	iV//knA==
+X-Google-Smtp-Source: AGHT+IEgeWxB35+AP0PFRAk8JALOzkYdlpO7E7p+iZpqGmziycO2fSk62Xthgm6kSZB99NFPIHJ5+p2dv4J4LNoHXaM=
+X-Received: by 2002:a05:690e:1a07:b0:615:14:8320 with SMTP id
+ 956f58d0204a3-63b9a0e0efemr10653015d50.34.1759769951961; Mon, 06 Oct 2025
+ 09:59:11 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|DU4PR04MB10530:EE_
-X-MS-Office365-Filtering-Correlation-Id: f9a6cf27-c9bf-4b0b-0c54-08de04f94371
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?QWtWaFJpam5YelRSR0dlSGVzaTBUNGlkMmEwQThrV2VRSHJ3RGN2aGtrMlBa?=
- =?utf-8?B?NWFiNEZVK2tIU2w1dW9kVDR0dmZYS3ZuNTBrQTYyVkZ0bHNuUm1UWTBhL3Jv?=
- =?utf-8?B?SjYxWnhQZGd4WjdURnY3VVZyb0I3U21qZXhCRnlsVDkwMHlpTDBnWUU1Rytv?=
- =?utf-8?B?dnd4bzRCaHVrWjRRUGpRbGh5N2NZNnp6bHpyTm81bVZvQWV2NWY3RmZnTU8z?=
- =?utf-8?B?b2svTm9GdkNoYTREaFcxWFIvVkxRZTA2YURrU1hNcXp5WklEc3YwWjA5YVFr?=
- =?utf-8?B?Yk9YQ3c0S3NkN1BVTjVXUklQVTJ6SzA3b2hsRUJyeUZyc043NkZRMGVzcG1r?=
- =?utf-8?B?Wk9DdHdFMnlteEpVbUVqd3I2QlBCUktYL3hZWXFLVkV2TkZJY0ZvV2dJNk9Y?=
- =?utf-8?B?d2hnTGI0a3dWWUpqK2xQdUNnckxPeHA0em50Z2lFRlkrQXBsTDZNOHMwKzVO?=
- =?utf-8?B?YkJVSGRKdmhvNkxCdVFSNzlXNERydXRzMjd2QmRQWWl3TmoxYks0WG8yU3hr?=
- =?utf-8?B?M01wUWFwR2FhNFNRTFR1U0FDN0dST1hjckUxR3FUd1JwcExGUmFpVXRXSFZT?=
- =?utf-8?B?TGMvemIzeXRFSFp0Uk5ybU4wcEZUTWdwS2lDZWhlZjB1V0s4RWNDT0U3Ni9N?=
- =?utf-8?B?cDZWOTV5UHZRbzRCK3FTeHhjZTNxT1l1blpHSFZMYmZka1E5VHF6bUN4VWJT?=
- =?utf-8?B?N1AxQ3FiQ1pjMW4zcVFQSUdDbnZkdGRVcUMyaTJhVkhFeFNxY1lpSHVrNDBi?=
- =?utf-8?B?MlduTDZHMEQwR3F1SktGWVcreVNzcEt6OGRiUWFNb2xaNGVkVXd6ZUNiNzlR?=
- =?utf-8?B?djRTQjdwdFFhM1pjZFN4L0xVclJDT1dRb3pobWF5SDFidXJESkJCQml4VGJK?=
- =?utf-8?B?QWRzYzdVVnFYZzlWOW9HZkFGbjAxZ1Vlakx5aFhIeEc4VVpmdUx6UldVRnZB?=
- =?utf-8?B?bkkzdkQzc2FvaWREWktieVdjTjZId0RFZzA1ZXQ0Y0s4MkNGcHRESGI1QUpy?=
- =?utf-8?B?a2tZb0RzWVNzZWFDZVBQMktDb1N1WEpFRGFra3RpcnFMKzJYK2hpMlIvajZF?=
- =?utf-8?B?ZjMzeUhiT253RmFLc3JGbDVqZHNDSFNLbGkrR05DbE5wNldwd1l3R0kwVVo0?=
- =?utf-8?B?R2ZOWlVwajJYV0tsK09WSExnbmxNVVJ2Uk41c1Exa0p6THRYSlBrT0VENFJp?=
- =?utf-8?B?Qk02bzRCbnd2VmdwSDNNaU9FUjFQL2tVOGRDR3NaWS9QTm5MZmRwWFJEbkRt?=
- =?utf-8?B?N01MWWxFM2sveEVUalMvdHMwZ2Y1bEVORmpTS0tRYzNnemU4Mlc3bjJNallK?=
- =?utf-8?B?c0lLSko1SmdvN0Q3bDNReit5M3Vmak5tZGFTN1U0RDB3b0NsWHR5UnRjK0Ny?=
- =?utf-8?B?eXNFMDNNaTFNRUFqTEZBS0pyQUt6REI5T0RTQ2dlRXBzdEV6Mi9TRTgwVFBp?=
- =?utf-8?B?SVdRRDFUVXpSL2djQzlLV1ZDMkFNVVdGbmFMVEZ5c0RhdEVpSmVDSmpVc3RN?=
- =?utf-8?B?ZU5sTGpBWjVUdjM4U045Q2hoVkRHYStQYUlUOE5MV2pvSFF2b0J4ZEpZS3Z0?=
- =?utf-8?B?c0luVk5hOE1XMUJ3ejROeEJHeVNLbDV5RkJ2Um1HMFQ2RGVZemhuWUxCSy95?=
- =?utf-8?B?dDloZDdCUXVRSUJWMXBxQmw4L1FoSkZRckpFMnJiMkpxSjQ2ZGpSR0liMG9t?=
- =?utf-8?B?WjVHdkhaZFpGUWR4U2JUV1JYWWhUU25BYmhENkY2S3ZyK0tGMG9HQjhtaTZr?=
- =?utf-8?B?bXdYeDJ4NkkwWWNiQ1hibHp6SzdiaERPcGZudEEwMlNYQzh4U1NiWHVpSVUv?=
- =?utf-8?B?WkJTeitKTHkxVHlValBWUWFpSU9HUWhSdXAxRWdqVkU1aW5vRFlrSkI3Rjl6?=
- =?utf-8?B?RnNrdUZTeWZFbURMdVJVbjZPTVdEclZ0K1U2RnlRYjJJYkV5TWk0U2g2MmUr?=
- =?utf-8?Q?nwMozIGD3X89ovtVECGFTJlUBkHMslkA?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SHBRazhqcjZCbCtxRGh1SElVOCttZGlPTENYWFE5bzhEMGQydDR0N2lXcUJ6?=
- =?utf-8?B?eDVuandBL2NVSG80S25SVWU4VGprMXNQMzh6REkveHFaeHBUWjJqdmc1Yk1j?=
- =?utf-8?B?L3lqVDg2V3hUYTdScXhacHFxZVM3OXN5Zy9KblJVc0ltNE01QVZvMFM4Wmwy?=
- =?utf-8?B?ZHptRVIrY2ZBMlZGdGZZSUozMklON0IxSkJNb3NuSVIzUHhaTUU2T1lacDk5?=
- =?utf-8?B?OWE5WDlwRlhCaDhVeFhTU3lLUVFrc2lxeGgwUSt4ck1UTkphcUEvb1lkNUVv?=
- =?utf-8?B?UEhEM0VJYldaenpJREsrT3RYajdFVEU3cVk2dGROSHZPcXYzUjk1bnU0L2tN?=
- =?utf-8?B?RDhDdWNQL2hJcnhmb0swQkNodlF6bEgyOWpqZEE5UnB2UnpwSXROV1g5TG11?=
- =?utf-8?B?R0JMenIrMHNrcXdjZGdWRG52SjZuKzNINGVBeDJjUEJxNXNjWUdBdDFjRm4x?=
- =?utf-8?B?SmR3a3ZpM1hSQ2oyb3pyYUszMzFabG5qNkdxMlZGZXdMRjJoNlU1UHc0eXdJ?=
- =?utf-8?B?ZTdMUzY2UUxIZmVFYS9XS0IvS3J1Qnc5blpaQXpMajNKY0RKSVdyYno5d3VW?=
- =?utf-8?B?TlNlSU9UN3VZOHQrLzQrR3d6aXFhN2VTNmNIeThhUDIxdFJ5VmZGbG1lcHhX?=
- =?utf-8?B?ZmJZWkQvK3h2S3c3U2FVMUpRS2tJSnkxSkpQK3BSK09LTUIrdkt3QTZZNmFP?=
- =?utf-8?B?WVF0Z1ZpMTd2STliVlFZamk3N0xpQ0Y5M2ZFL1hVaUU0b3BHa25RbE9HMWZa?=
- =?utf-8?B?bVhOVHgrajc5bGp5eWJETWRaR3lCQVZYMTg0djljNmIvSG5RL1N1dDNGWU9I?=
- =?utf-8?B?YWYvM2lGR0FMQ2dtYlJ0RkFFN0FreEZ3cGF4VTFkdWxQUmx5TTljaFpMNFls?=
- =?utf-8?B?bi9oaWxRQWFVRkN6WUNwUEprb2tsM0dLUUtlMnQxN2pHN09CSkU1bUZ1VlUr?=
- =?utf-8?B?c1IwVUVjWE91Y2tsVTR6UDZTTzNZMHhsS2JqcWsyU0JyNXpKeWlPaVl2TS83?=
- =?utf-8?B?ME1zaDFLS0IwQ0wwSU9reXV4OU51NVhLMmRxcUdobHhTV3ZPUDR1blhrb2R5?=
- =?utf-8?B?cmFJNTZxWjQwVWFuN0F3STJBZjJjbWJsWFpJYWZrSldXMWhncmFqUTJMb1RD?=
- =?utf-8?B?b21kWUtjNVRIK01Kc3NYYytGNlZJUGlyUmwzS2RjMzhDRTU4ZkVMdzhGSU82?=
- =?utf-8?B?K0lrL2U5WkVoSHpFR21jL1IyYzkxdzgrWWNQU0ljSTVXenNuZVJNVmphTENx?=
- =?utf-8?B?K2FEQnZweXJaVDVTNFlYVjhrQ3B1a1I2MytjeHluQTNmV1A1d1p5UHhiQ3Vx?=
- =?utf-8?B?S3RqN2pvZVJLRFFXbGZoZFlrMUo2cndLVXJGbmVYOWM3c3ZpT2FJd3MvWC9m?=
- =?utf-8?B?L1pPeTRLd210WlJXU0ZKcm1hMk83TWRmTHdaeFFleHFrZzI4a01LaWtlcUpP?=
- =?utf-8?B?cjhVYkwwdHVRbXVDRUFSdlVub3d1NVlwYUJSWmR6WjlWZ3NvMXNuaDJDS1hj?=
- =?utf-8?B?TWZzZDZxQTcyZllMYTBhbGMrc0d5amdyUDVzTTBRVExiSE1pZ2xCSS9wVmdH?=
- =?utf-8?B?Z3JjSVN4M2RCZDMyRkhYa0phRWVoNUtvSE16Z3IyeFBENEN4VHQ4V09QT3gz?=
- =?utf-8?B?dnhodDh6SVE0YkVsTnhLVllVNEpHbGlzSUptaFNoUVdvS0NWREJ4NUZrUjVq?=
- =?utf-8?B?bDZKeUdEQndkaWZWUW52V040bTVhV2o5cVd0RVlxaGRYQjA2TzBNTElJY1E4?=
- =?utf-8?B?U1lGUkNuaVU2STM5VW9CcWduMDlFM0NxYmJaa2N0TVVMbU1IeVQ1TVRoR25o?=
- =?utf-8?B?LzRmRXFDTFVVYnVVRXN1OTc5dzByaldvMnFtaHdpT2JGSXlWeHpzNlkvamJD?=
- =?utf-8?B?Rm0vRFRUdkZITkVsTDNXaFFSQTdCMTNVS25RR0JiL3FyeExYRmxlbUxISVFX?=
- =?utf-8?B?UnVjS3JHZ0tKcUt0Q2lHdXdrWUtJZ042eTBoRUpsclJCRmlhbTROYTBuNHRH?=
- =?utf-8?B?Kys5WHJ4Y0p3QlhWcE5hR1ZSN1hacDBuVmMrR3hxLzBIOW9GSVR2WTRTTWVr?=
- =?utf-8?B?RmovdEZtUTNqVllQcXVnUTg2YVBvZGxKZnVvZ0tac2paMmVaMFloY0p0MVQ1?=
- =?utf-8?B?SXozMTF2V2tETnMwbkloNTVoa0VCRCtBQUJjczltc2gzWWdKRW5nZGZkZVFk?=
- =?utf-8?B?Q0E9PQ==?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9a6cf27-c9bf-4b0b-0c54-08de04f94371
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2025 16:56:15.9454
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rQAARq4FqAmVtKUEeUmpvplcK59dPc9aZLVdN6gWb8EaAPlzc0cGOtLBym7cUJyU2aqYK4IIP08tMcsO442rsVHswKdKYMJVNk7nPxdZ6Ck=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10530
+References: <20251006125127.2156281-1-Deepesh.Varatharajan@windriver.com>
+In-Reply-To: <20251006125127.2156281-1-Deepesh.Varatharajan@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 6 Oct 2025 09:58:43 -0700
+X-Gm-Features: AS18NWCVr3X6bBIA9cZ0zEpz0zC7Sgh5eDj3t4j8Jqi7GraJzueJocYWQuNZuNE
+Message-ID: <CAMKF1spp0=HpeP3X=Cb5Ti-nzuDY7pgxFjC9dQ9gsHpowAecEA@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH] glibc: stable 2.35 branch updates
+To: deepesh.varatharajan@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 16:56:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224496
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 16:59:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224497
 
-Hi Richard,
+LGTM
 
-On 10/6/25 3:09 PM, Richard Purdie via lists.openembedded.org wrote:
-> oe-selftest sets up separate build directories to run the tests in.
-> To to this, environment paths pointing at the previous build directory
-> are updated. In the multi-threaded case this is fine as the thread is
-> destroyed and the parent remains unchanged but in the single threaded
-> case, the environment is broken afterwards. This can mean we try and access
-> a directory which is in the process of being deleted (e.g. by clobberdir).
-> 
-> Restore the environment afterwards regardless to ensure the single threaded
-> case doesn't try and access the build directory which is now being deleted.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Mon, Oct 6, 2025 at 5:51=E2=80=AFAM Varatharajan, Deepesh via
+lists.openembedded.org
+<deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+>
+> git log --oneline a66bc3941ff298e474d5f02d0c3303401951141f..4e50046821f05=
+ada5f14c76803845125ddb3ed7d
+>
+> 4e50046821 (HEAD, origin/release/2.35/master) x86-64: Add GLIBC_ABI_DT_X8=
+6_64_PLT [BZ #33212]
+> c97735cfde elf: Handle ld.so with LOAD segment gaps in _dl_find_object (b=
+ug 31943)
+> 96cc65a28a elf: Extract rtld_setup_phdr function from dl_main
+> e3f04f64fa elf: Do not add a copy of _dl_find_object to libc.so
+> bfae8bf49c arm: Use _dl_find_object on __gnu_Unwind_Find_exidx (BZ 31405)
+>
+> Testing Results:
+>            Before     After   Diff
+> PASS         4605      4609     +4
+> XPASS           6         6      0
+> FAIL          358       356     -2
+> XFAIL          16        16      0
+> UNRESOLVED      0         1     +1
+> UNSUPPORTED   197       197      0
+>
+> Testcases changes
+>
+> testcase-name                              before           after
+>
+> elf/tst-link-map-contiguous-libc(new)        -               PASS
+> elf/tst-link-map-contiguous-ldso(new)        -               FAIL
+> elf/check-dt-x86-64-plt(new)                 -               UNRESOLVED
+> misc/tst-tsearch                            FAIL             PASS
+> posix/bug-regex24                           FAIL             PASS
+> string/tst-cmp                              FAIL             PASS
+>
+> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 > ---
->   meta/lib/oeqa/selftest/context.py | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-> index 16f82c6737d..c9eb4817253 100644
-> --- a/meta/lib/oeqa/selftest/context.py
-> +++ b/meta/lib/oeqa/selftest/context.py
-> @@ -44,9 +44,13 @@ class NonConcurrentTestSuite(unittest.TestSuite):
->           self.bb_vars = bb_vars
->   
->       def run(self, result):
-> +        origenv = os.environ.copy()
->           (builddir, newbuilddir) = self.setupfunc("-st", None, self.suite)
->           ret = super().run(result)
-> +        # In forks we don't have to restore but in a single process, restore cwd and the env
->           os.chdir(builddir)
-> +        for e in origenv:
-> +            os.environ[e] = origenv[e]
-
-Wondering if we cannot replace the loop with
-
-os.environ.update(origenv)
-
-which should have the same behavior?
-
-Note that keys that didn't exist in origenv but exists in os.environ 
-after the copy() will stay there (in the update() and suggested implem 
-in the patch). If you want to really have the same one, I'm wondering if 
-os.environ = origenv[:] would work, but I'm assuming there's a reason 
-you didn't go for that that I am missing. Another option could be to 
-delete/pop all keys that do not exist in both, e.g. with (not tested)
-
-del_keys = set(os.environ.keys()) - set(origenv.keys())
-for del_key in del_keys:
-     del os.environ[del_key]
-
-Though I'm wondering if we cannot simply call os.environ.clear() before? 
-Not sure what the side effects could be, I have a feeling this 
-os.environ is a bit more than a dict :)
-
-Cheers,
-Quentin
+>  meta/recipes-core/glibc/glibc-version.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
+e/glibc/glibc-version.inc
+> index 0b06005b25..b9f5e8fb8f 100644
+> --- a/meta/recipes-core/glibc/glibc-version.inc
+> +++ b/meta/recipes-core/glibc/glibc-version.inc
+> @@ -1,6 +1,6 @@
+>  SRCBRANCH ?=3D "release/2.35/master"
+>  PV =3D "2.35"
+> -SRCREV_glibc ?=3D "a66bc3941ff298e474d5f02d0c3303401951141f"
+> +SRCREV_glibc ?=3D "4e50046821f05ada5f14c76803845125ddb3ed7d"
+>  SRCREV_localedef ?=3D "794da69788cbf9bf57b59a852f9f11307663fa87"
+>
+>  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git"
+> --
+> 2.49.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#224478): https://lists.openembedded.org/g/openembedde=
+d-core/message/224478
+> Mute This Topic: https://lists.openembedded.org/mt/115616204/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
