@@ -2,107 +2,98 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97FA9CAC5B8
-	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 21:28:38 +0000 (UTC)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
- by mx.groups.io with SMTP id smtpd.web11.4019.1759786108744435054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C6FCAC5B8
+	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 21:48:58 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.4429.1759787331892196540
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Oct 2025 14:28:28 -0700
+ Mon, 06 Oct 2025 14:48:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fC/6Mimu;
- spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-71d60157747so60861007b3.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 14:28:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=U9b8sj+x;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-77f605f22easo4649864b3a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 14:48:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759786108; x=1760390908; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AAHeH8hry1JcNuuQBDumYuN4ZNxEgMGc932KDf23cUM=;
-        b=fC/6MimuBhmMzZU/CRsZ2j3EyzYKKLCv9rRcLEKNdizDBEURfiDGaWxirGw5nJRr30
-         Uw/hfZAhFANnmNKkqlfRFlMr+vpDxDwm8rCPs9QzLjk6fIF1OkBaB/pDuiSGj9+ltHTB
-         aXmJpd1yo84viCqiKZqdxcawMMYWSmA/Vhm/yghkuEzZhpe25fO9TgRbGK0G6wSwilAo
-         tWv7VRL/MtmgzJPM67OuB6J7Utg+IDk/TSQrb/sjS+4Rp9yesRLa5H8Fa0pqgn8NXx+N
-         M6RCj2ZuyrlmgXZX2lywjSVPRZyMYfSXEO7G8hkt/H1jAyBfefVSID/Z8Pki8zAm8k+o
-         4emg==
+        d=gmail.com; s=20230601; t=1759787331; x=1760392131; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OX/uAsGxVA2PCYk0HQEpyj+b8TGjMGsR6jA4rRGLJBA=;
+        b=U9b8sj+xvJkeUtKB1HuZnBUA6zzI5zEqO7ez1OhY43YGNuOefHR3n/4asJ7rI2Lovv
+         IbTJor451DwrdghFL18C7DT5Sb+BZf46ahthvVKx6GYTtGdFEezfEhxeHxjH6J1+PSiA
+         LRL6GAk1+w1iX8UkWT7O3rcgxGELyeklPmMFLKgY60C+GUO0FFjOxdUdQXzpu6x4agDt
+         W2cHgZopDltvqhHAAjZkLjQfwI1UytfIaZJYWPnNXetz4UFNQ3F55NyNObCwPoMr85/e
+         c++1PGS3yznIsEmV+tSymkLyfiqdZKN2dEg61h64t3GbmpQTKyluPAy0Uwye6tU8W8xD
+         ccUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759786108; x=1760390908;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AAHeH8hry1JcNuuQBDumYuN4ZNxEgMGc932KDf23cUM=;
-        b=rNdb7j0VTOKkWTpnuwm72fGEYkMn/GP+HUyACN4L7TAS8/px1N1QChSAns8RN6Ya2q
-         KppPQeYyGT6OfCJ40adViJk7HXWfNu8Tvmd+x5Gb+f5goI+yJjRAbqrPnYXcFRbqozn1
-         B/42dVkxhnFWCXbKqQqlUSivENAI+skD1qjaGtPpicw05aEQUIfvWwjH+iaK9Uo3Gb2B
-         ja9l87ftJsMAothjD/DMj2lnbzVEgTmY0ry4PrEPWHG+JUXW5TGgZMvx9myha9kIeqjY
-         adoHCmDpEE8VEEWqyLcvWPd1OyVv5/xRBF4zVoH8XxqMVfOrpi7zoNGHCB+xpajxtJN+
-         yjzw==
-X-Forwarded-Encrypted: i=1; AJvYcCUGScSDqiAxkoSQ0uFIwCOUKJS4eGffqZMqZ4k4YgF2MTB8X78XdgWricfPspovOnjxj8Rzv2oGCuS/6JjT4/VYsw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxxwBBTs12lB4ynK1JpCXWUMFN+Na8BZMEgxv4dhdqxdK/n2F7n
-	hjXYqc35FIZryXkKE1AVDftw5BgrDEggwnKaxVJZIXmU1Wio55In4PmkwvZDmjNNRJlx9lEmaoj
-	GTyBPaUpgKR5D3XI4Moir1u3VLtiHGQI=
-X-Gm-Gg: ASbGncvXtbtbI+25FTyWlnKEbCazHqLiyhgE3XEl97WRk/RX+saT77JsSnx2qI3m/1z
-	HzjSbbcnCe71+zx455syWA+/UvrxZ7O7Xisz73oLEOR2sFfGfEN+2V69bPZ2duiPCQpsHxRuU/q
-	OyJnZYIwkJXStxfB5QUROBprsu5FQi7QDRNZBp3XU7ISd4ukyLmgcIc1Kc3SDDIB3PbBGZ+cDAi
-	rL8Rpxkj7t6XcrlX4jaY0wLPyzrqLJtxU0OQ9uFcZi4AZyc2/8qtKpkF8lui/maPpgafGO/HYuG
-	SOE5IcUqcYA2yAj/acBtHJdny/0dm2LDsBobaot1vK8HW2rYHArvUbBbXyWmtJlbQijfH1yLRDq
-	mmJwXQg==
-X-Google-Smtp-Source: AGHT+IGnutryjvxOOpvcrG6tjzuV9EtGfAzdCae2VzpjvTyCQ8oE4ifu/kQ+YnYElyOtZwEEBUw33guTFLhL8GjUUfI=
-X-Received: by 2002:a53:c40e:0:b0:635:4ed0:570d with SMTP id
- 956f58d0204a3-63b9a11dbebmr10277620d50.39.1759786107594; Mon, 06 Oct 2025
- 14:28:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251001160212.2588471-1-Adam.X.Nilsson@axis.com> <FF7BA9D0-A09D-4D43-9CBB-5CA991E825BF@arm.com>
-In-Reply-To: <FF7BA9D0-A09D-4D43-9CBB-5CA991E825BF@arm.com>
+        d=1e100.net; s=20230601; t=1759787331; x=1760392131;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OX/uAsGxVA2PCYk0HQEpyj+b8TGjMGsR6jA4rRGLJBA=;
+        b=V5yWz/kQZsTXuKPB6Jy0iNQhO4flwilAwyFckNrkpvm2YIUV96mbUkNNb29y5uMw+y
+         1LQNhe3xyCwO687JAdPFLCMQE85XIlsEWi3IXibkO0n1amYdri7Vw31cw8FnNnbqyMZN
+         LO2SxOwTQGfJUMSRZpd7OIOlQnw5K99DQokJqr1O0yuR4utA/EgrGZHjWbzw3A5MSPr/
+         WV1V3zkCZZtZ0OCl6kFrLTlCvYdmFoAW5R7fbJw/VUjZ/g9mJIQsD1Z/UDHZgNDzIBT2
+         yeF93cM/Co05vkLxRYVrAYjlTDsaZ6Pq3As7bI0lzcAcDvwkFwKoI2Wm6qHiEnOAENHk
+         j8+A==
+X-Gm-Message-State: AOJu0Yz/YrB+VA3rJ9RM2TQGXhskQ2p1zgP2mUKksMsfCdYmVpVVy2dz
+	60g0xIRXT2G+4+HWnpA8k4sug1GdPdKef9Jwmx98Crp6d1hhUUqFSciUoKmA6Mot
+X-Gm-Gg: ASbGncsIMMTjEEvPWFqxVydhB5HNcsAdN/axmPP5NIWO14VEINHTSBjr0RPE4WRBAgi
+	ro1a4Q8Z2daVGhZyPW0FS1bbxGEx9WDX9p3Ham4f2AtKp2HkpGzQtI4Oe1zcj0ttAi9tGS0xNxo
+	C2Ycxp4U+XjAZ++9t/yapSLqhSNfhHtq8+c6wJEfWB8ys3VQfz+dyKAxT1yYRmVt1Lyg6V2KOfj
+	4utd3znCBwCUmI4PtNiH0vyFEyes9D5+uRtBsnu7BuWjfqLmSJL11fj4AaoP3BTh5JrP2f9gsaS
+	JSbUY2HNazVdyRavys8eHA+imoHNQmlq7oycmbhgAjwLq4olQ1G2MU23VfGISFuRAXWw1Jzvzqr
+	E9QhUM201pSrjg0LYk44kxf0QbBwjZSmsnTUdxNmYeoocic6Nb7bS+wdiFBeT3ffCdEcW+sUXeJ
+	0eT7JFMQCPEuowQvEsaQhB0ZW+oIsUT2qa0txbZnqdacFwSxhQSapqb3sOGQwefXNXu4wuhkJsp
+	g==
+X-Google-Smtp-Source: AGHT+IF5qEyzBEFuWY6fHQQr7/lt/Gmrz0h2l0UAOsBCKawoN9qW8I1d1jTjB3VQa68ynlklouzOAA==
+X-Received: by 2002:a05:6a20:3d82:b0:24c:f8f:2b95 with SMTP id adf61e73a8af0-32b620eab70mr20450637637.40.1759787330929;
+        Mon, 06 Oct 2025 14:48:50 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::fc3])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b62ebe500c1sm7564747a12.0.2025.10.06.14.48.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Oct 2025 14:48:50 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 6 Oct 2025 14:28:01 -0700
-X-Gm-Features: AS18NWAILQsXr4gHovP2aPTJQklCI2lUip7fCZpZ3d9qhDykiUZ8ChqJ_S6qsU0
-Message-ID: <CAMKF1sp1hb6ZSr=B6iAThoXcRQFD+h7vKxVcmPq2RoqeF2in0A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v1] core-image, populate_sdk_base: Add
- zsh-completion-pkgs image feature
-To: ross.burton@arm.com
-Cc: "Adam.X.Nilsson@axis.com" <Adam.X.Nilsson@axis.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, Adam Nilsson <adamni@axis.com>, 
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] ghostscript: Do not treat declaration-after-statement warning as error
+Date: Mon,  6 Oct 2025 14:48:48 -0700
+Message-ID: <20251006214848.3633921-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 21:28:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224506
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 21:48:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224507
 
-On Mon, Oct 6, 2025 at 1:10=E2=80=AFPM Ross Burton via lists.openembedded.o=
-rg
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
->
-> On 1 Oct 2025, at 17:02, Adam Nilsson via lists.openembedded.org <Adam.X.=
-Nilsson=3Daxis.com@lists.openembedded.org> wrote:
-> >
-> > From: Adam Nilsson <adamni@axis.com>
-> >
-> > Add a zsh-completion-pkgs image feature to install *-zsh-completion
-> > packages into an image. This is similar to the existing
-> > bash-completion-pkgs feature.
->
-> By my count there=E2=80=99s just three recipes in core that have -zsh-com=
-pletion packages.  Until it=E2=80=99s more common, I=E2=80=99d suggest putt=
-ing the COMPLEMENTARY_GLOBS assignment in your own image recipe if you want=
- to use it.
+This option is added by ghostscript and is passed down to its modules
+e.g. brotli, brotli does expect c99 or newer standard and hence uses
+declarations after statement. This option causes compiler e.g. clang
+to find this warning and treat it as error on 32bit builds
 
-It does help people using zsh as default shell and working with yocto SDKs.
+./brotli/c/dec/decode.c:440:12: error: mixing declarations and code is incompatible with standards before C99 [-Werror,-Wdeclaration-after-statement]
+  440 |   uint32_t __fastload_table = (*table);
+      |            ^
+1 error generated.
 
->
-> Cheers,
-> Ross
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#224503): https://lists.openembedded.org/g/openembedde=
-d-core/message/224503
-> Mute This Topic: https://lists.openembedded.org/mt/115536491/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb
+index 4f6cb454122..4cea8984328 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb
+@@ -47,7 +47,7 @@ EXTRA_OECONF:append:mipsarcho32 = " --with-large_color_index=0"
+ EXTRA_OECONF:append:armv7a = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
+ EXTRA_OECONF:append:armv7ve = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
+ 
+-TARGET_CFLAGS += "-std=gnu17 -fPIC"
++TARGET_CFLAGS += "-std=gnu17 -Wno-error=declaration-after-statement -fPIC"
+ 
+ # Uses autoconf but not automake, can't do out-of-tree
+ inherit autotools-brokensep pkgconfig
 
