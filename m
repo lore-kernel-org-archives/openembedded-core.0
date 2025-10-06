@@ -1,99 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C6FCAC5B8
-	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 21:48:58 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.4429.1759787331892196540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA8E7CCA470
+	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 22:31:18 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.31801.1759750840945976097
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Oct 2025 14:48:51 -0700
+ Mon, 06 Oct 2025 04:40:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U9b8sj+x;
- spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-77f605f22easo4649864b3a.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 14:48:51 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=da07Iezk;
+ spf=pass (domain: baylibre.com, ip: 209.85.218.42, mailfrom: ukleinek@baylibre.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b3d50882cc2so923403866b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 04:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759787331; x=1760392131; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OX/uAsGxVA2PCYk0HQEpyj+b8TGjMGsR6jA4rRGLJBA=;
-        b=U9b8sj+xvJkeUtKB1HuZnBUA6zzI5zEqO7ez1OhY43YGNuOefHR3n/4asJ7rI2Lovv
-         IbTJor451DwrdghFL18C7DT5Sb+BZf46ahthvVKx6GYTtGdFEezfEhxeHxjH6J1+PSiA
-         LRL6GAk1+w1iX8UkWT7O3rcgxGELyeklPmMFLKgY60C+GUO0FFjOxdUdQXzpu6x4agDt
-         W2cHgZopDltvqhHAAjZkLjQfwI1UytfIaZJYWPnNXetz4UFNQ3F55NyNObCwPoMr85/e
-         c++1PGS3yznIsEmV+tSymkLyfiqdZKN2dEg61h64t3GbmpQTKyluPAy0Uwye6tU8W8xD
-         ccUA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1759750839; x=1760355639; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NHFkDwbtN6fxGV4HfM6/MckfKYRAoB01edhk52YS2N0=;
+        b=da07IezkrTSi0jNnH1aR1fyodDUXIdtKfNykGv+ZVCYrvxpou4haYDcCLqIOAM5uj+
+         s4vic3zeu4dixPFlE3DbPxrrGZJ/wf/wEMU7diLnQC6kdVA9bmhHR38/wdS5l72dFA/H
+         Of4dtOtj83U7cfY3U6vH5GSiGPLHGp7EPtO3kiu0uh7Vqs4S1eToKkUC7qoPN2AM01XM
+         XoK8vDmvQzVzZbLnyxFyrpbDRAdZuTZGvNrZ+qfQtZWsOaHIoZCSAwuiU/2zClpoZt+I
+         X1RPJ/P8c7PKAfHsl/Id5CAOJ00tx5RVp83OmZgczyX8nm0As31mjHT6wCPHW+wnlgzv
+         mxdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759787331; x=1760392131;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OX/uAsGxVA2PCYk0HQEpyj+b8TGjMGsR6jA4rRGLJBA=;
-        b=V5yWz/kQZsTXuKPB6Jy0iNQhO4flwilAwyFckNrkpvm2YIUV96mbUkNNb29y5uMw+y
-         1LQNhe3xyCwO687JAdPFLCMQE85XIlsEWi3IXibkO0n1amYdri7Vw31cw8FnNnbqyMZN
-         LO2SxOwTQGfJUMSRZpd7OIOlQnw5K99DQokJqr1O0yuR4utA/EgrGZHjWbzw3A5MSPr/
-         WV1V3zkCZZtZ0OCl6kFrLTlCvYdmFoAW5R7fbJw/VUjZ/g9mJIQsD1Z/UDHZgNDzIBT2
-         yeF93cM/Co05vkLxRYVrAYjlTDsaZ6Pq3As7bI0lzcAcDvwkFwKoI2Wm6qHiEnOAENHk
-         j8+A==
-X-Gm-Message-State: AOJu0Yz/YrB+VA3rJ9RM2TQGXhskQ2p1zgP2mUKksMsfCdYmVpVVy2dz
-	60g0xIRXT2G+4+HWnpA8k4sug1GdPdKef9Jwmx98Crp6d1hhUUqFSciUoKmA6Mot
-X-Gm-Gg: ASbGncsIMMTjEEvPWFqxVydhB5HNcsAdN/axmPP5NIWO14VEINHTSBjr0RPE4WRBAgi
-	ro1a4Q8Z2daVGhZyPW0FS1bbxGEx9WDX9p3Ham4f2AtKp2HkpGzQtI4Oe1zcj0ttAi9tGS0xNxo
-	C2Ycxp4U+XjAZ++9t/yapSLqhSNfhHtq8+c6wJEfWB8ys3VQfz+dyKAxT1yYRmVt1Lyg6V2KOfj
-	4utd3znCBwCUmI4PtNiH0vyFEyes9D5+uRtBsnu7BuWjfqLmSJL11fj4AaoP3BTh5JrP2f9gsaS
-	JSbUY2HNazVdyRavys8eHA+imoHNQmlq7oycmbhgAjwLq4olQ1G2MU23VfGISFuRAXWw1Jzvzqr
-	E9QhUM201pSrjg0LYk44kxf0QbBwjZSmsnTUdxNmYeoocic6Nb7bS+wdiFBeT3ffCdEcW+sUXeJ
-	0eT7JFMQCPEuowQvEsaQhB0ZW+oIsUT2qa0txbZnqdacFwSxhQSapqb3sOGQwefXNXu4wuhkJsp
-	g==
-X-Google-Smtp-Source: AGHT+IF5qEyzBEFuWY6fHQQr7/lt/Gmrz0h2l0UAOsBCKawoN9qW8I1d1jTjB3VQa68ynlklouzOAA==
-X-Received: by 2002:a05:6a20:3d82:b0:24c:f8f:2b95 with SMTP id adf61e73a8af0-32b620eab70mr20450637637.40.1759787330929;
-        Mon, 06 Oct 2025 14:48:50 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::fc3])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b62ebe500c1sm7564747a12.0.2025.10.06.14.48.50
+        d=1e100.net; s=20230601; t=1759750839; x=1760355639;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NHFkDwbtN6fxGV4HfM6/MckfKYRAoB01edhk52YS2N0=;
+        b=Y210GkxQB66bHl4lcsLOg4wwGsG3gTXgJLRN33baIdz9ArYVv4NXnt+T1zBKYS7p+o
+         UBCR9u4LP1tr+gu1r2XcNXCd4AWxcG0xRwH1qDEXws2T1Keo85yvvLv4nD7py/t5McuS
+         f1aabWv2TpxtTpFvirAQ83Sfp3XryjTKuOVx2k6mgfzmZ0nIXSsPTWfDLB0a+kVWlzm/
+         8zproqlZjvzcHj5o2LYF9avFh+rcynH0oUpZ799vL/XcOw4EifCTlWNymtZOGnPi6xDu
+         GjgE2HutqXi3DH3tAICqTx6gacCDQXxgz+EejCUpMU03LZ/rO8/CpDnEzZp5RX8duBb8
+         rGWQ==
+X-Gm-Message-State: AOJu0YzgkT+7B9kSz3lXwpusd5yY47+wi5cjpU8jbYkeWzB50ZCGHxaH
+	4NNKE9bsM+cj/zVof8ZAiYsMXX8D/0xmDj/FwadQZdBM1wKcxA03LaXyy+becDaMgV5pHwTf3/H
+	JF64P
+X-Gm-Gg: ASbGncvoTb7LCxbK/ZhzYn4S7QDp1KApEPjhBtWQUlp4QS6VLDjOY5OZECsbLwVKl+I
+	Oj7be/w20Ag0EMGarCvgXd3hsnLCqrM/Cy309gmjbWTJEQBzOLM4l/zP62cO2HQgyXfEElQQBU8
+	yrZWkkC5VWHW4hGeBqZaSWBB+9IfJ62t2+EAlEFqUhrvyWqm75Erl+xbIAQcj021kSv2uMZEYTJ
+	Aq08+DpvlegZQ4MRF4h1YFpXhr5I4iy9kuVD6/uWscRfmYztWZnIrKLnokLfHC6tQwBDOJmj3kl
+	S8GvK4zSEhVS8mv2zPSt1eOyDHlpeV/ZyLGpmGIQBTG/OCTGgJEVUoNMmLNK0plskIwcjIl0kZF
+	247JvDxCew3Uq7EVMROuAjb580QFice1UzA3MDMmvrjgVS9w+xznMlqHGJwb9AlU2zgvd5RubyN
+	c3XWtBHXHxsuWICQ+yi9dpbwony4UiYoOjsQ==
+X-Google-Smtp-Source: AGHT+IG74x83J7p5c+18LydPJsgECZGAbQ9YziaGvqcikiOwhNmG/S2R+jAx0YiWiAaeONMMSKB71A==
+X-Received: by 2002:a05:6000:2305:b0:414:6fe6:8f97 with SMTP id ffacd0b85a97d-42567176cc5mr7841938f8f.38.1759750439759;
+        Mon, 06 Oct 2025 04:33:59 -0700 (PDT)
+Received: from localhost (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f06:ab04::1b9])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4255d8a6c49sm20598485f8f.3.2025.10.06.04.33.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 14:48:50 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Mon, 06 Oct 2025 04:33:59 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] ghostscript: Do not treat declaration-after-statement warning as error
-Date: Mon,  6 Oct 2025 14:48:48 -0700
-Message-ID: <20251006214848.3633921-1-raj.khem@gmail.com>
+Subject: [PATCH] recipeutils/get_recipe_upstream_version: pass ud.name instead of 'default'
+Date: Mon,  6 Oct 2025 13:33:52 +0200
+Message-ID: <20251006113352.2448172-1-u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 21:48:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224507
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 22:31:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224508
 
-This option is added by ghostscript and is passed down to its modules
-e.g. brotli, brotli does expect c99 or newer standard and hence uses
-declarations after statement. This option causes compiler e.g. clang
-to find this warning and treat it as error on 32bit builds
+While all but the osc fetcher ignore the third parameter of their
+latest_revision implementation, 'default' isn't a valid name in general.
 
-./brotli/c/dec/decode.c:440:12: error: mixing declarations and code is incompatible with standards before C99 [-Werror,-Wdeclaration-after-statement]
-  440 |   uint32_t __fastload_table = (*table);
-      |            ^
-1 error generated.
+Since commit 2515fbd10824 ("fetch: Drop multiple branch/revision support
+for single git urls") in bitbake a fetcher only handles a single
+branch/revision and the only sensible thing to pass is `ud.name`.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb | 2 +-
+ meta/lib/oe/recipeutils.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb
-index 4f6cb454122..4cea8984328 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.06.0.bb
-@@ -47,7 +47,7 @@ EXTRA_OECONF:append:mipsarcho32 = " --with-large_color_index=0"
- EXTRA_OECONF:append:armv7a = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
- EXTRA_OECONF:append:armv7ve = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
- 
--TARGET_CFLAGS += "-std=gnu17 -fPIC"
-+TARGET_CFLAGS += "-std=gnu17 -Wno-error=declaration-after-statement -fPIC"
- 
- # Uses autoconf but not automake, can't do out-of-tree
- inherit autotools-brokensep pkgconfig
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index 102789ce735a..54bc3d766627 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -1073,7 +1073,7 @@ def get_recipe_upstream_version(rd):
+             upversion = None
+             revision = None
+             try:
+-                revision = ud.method.latest_revision(ud, rd, 'default')
++                revision = ud.method.latest_revision(ud, rd, ud.name)
+                 upversion = pv
+                 if revision != ud.revision:
+                     upversion = upversion + "-new-commits-available"
+
+base-commit: 9f1a1fc1a163e74602d8a359483087f1117f23c2
+-- 
+2.51.0
+
 
