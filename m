@@ -1,91 +1,92 @@
-Return-Path: <rs@ti.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE90CAC5B8
-	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 17:21:40 +0000 (UTC)
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by mx.groups.io with SMTP id smtpd.web10.1382.1759771295871221089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7990CAC5B8
+	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 19:11:07 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web11.671.1759777864531831429
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Oct 2025 10:21:36 -0700
+ Mon, 06 Oct 2025 12:11:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=ZDYN4eXB;
- spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: rs@ti.com)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 596HLN5D4105139;
-	Mon, 6 Oct 2025 12:21:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1759771283;
-	bh=G0Sw+VJMjSfWncGjmRfy+xsOFiodjj0JZPig3aScjRo=;
-	h=Date:CC:Subject:From:To:References:In-Reply-To;
-	b=ZDYN4eXBFXJJM63tVnj1Ze3vijOAlNCpU7thC7SUtwxstoNMA6hXwk2T/50c7WfHE
-	 C4hsy8oTO5K13GlFvQsyyc1PKLH/6q2d+ZyoMnppysrq65e6RD/OUl2SbeWxPgtdDR
-	 PkioAw2cjfWo87HshUgwAGR0aTKZdcBHv43TuaHM=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 596HLNV62997040
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Mon, 6 Oct 2025 12:21:23 -0500
-Received: from DFLE204.ent.ti.com (10.64.6.62) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 6
- Oct 2025 12:21:23 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE204.ent.ti.com
- (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 6 Oct 2025 12:21:23 -0500
-Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 596HLNCv3781422;
-	Mon, 6 Oct 2025 12:21:23 -0500
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=bTxvrGRd;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-2025100619110050926844bd000207ab-sw_jjr@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2025100619110050926844bd000207ab
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 06 Oct 2025 21:11:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=7bVAOyo+N+zo7GksLNCFxng8UKtHeOZxRKY+jMO73P8=;
+ b=bTxvrGRdc5v77gAAnA7QUJ4I3Btf/KW8EqhCAKAJ6X7xNk7y2DEf3LltoAtup+1knJFORt
+ dnbMtyff8wMqfMDYqAv3EXSjMPWb/SgDZIWpZqgA6+gDgLuRymk6QCNs0OJFHl685/mz9FA9
+ kllyvn+mzhraiVVWvxdmGo0vGPDBP7kj6cpiTPF4F0jiwzoIrNSauDvUktvbyt0KuldclaMj
+ YbxpUqa5I27RHTpP2yIRas6GgxiXOVD2Adasjcfx9QfOA+j1nTCLA88FKHgutdHgPk664+Mu
+ /bCSJiTWBEeKhuo3Z8Ts4dvL5nF/sC0cUBViohaxUYOBQrjHUMke924A==;
+From: AdrianF <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH] toolchain-scripts.bbclass: fix bitbake-setup compatibility
+Date: Mon,  6 Oct 2025 21:10:55 +0200
+Message-ID: <20251006191055.729066-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Date: Mon, 6 Oct 2025 12:21:23 -0500
-Message-ID: <DDBEUV3YD4MO.2KQ3UC10EUWFZ@ti.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        "mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core][PATCH] libx11: create tmpfile dir for x11 domain
- socket
-From: Randolph Sapp <rs@ti.com>
-To: Ross Burton <Ross.Burton@arm.com>, "rs@ti.com" <rs@ti.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251002003034.344992-1-rs@ti.com>
- <CE558C16-AD4F-401B-9734-E57067101F56@arm.com>
-In-Reply-To: <CE558C16-AD4F-401B-9734-E57067101F56@arm.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 17:21:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224500
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 19:11:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224501
 
-On Mon Oct 6, 2025 at 5:38 AM CDT, Ross Burton wrote:
-> On 2 Oct 2025, at 01:30, rs@ti.com wrote:
->>=20
->> From: Randolph Sapp <rs@ti.com>
->>=20
->> Register a volatile directory entry for the x11 domain socket when not
->> using systemd. This will make sure the directory is always created with
->> the correct permissions. Systemd already provides their own tmpfile.d
->> entry for the same behavior.
->>=20
->> Currently some x11 related applications will create this directory if it
->> doesn't already exist, but this is not true for everything. In addition,
->> if the application in question isn't started as root, it's possible this
->> directory can be owned by a non-root user. This isn't an issue by
->> itself, but it can potentially lead to problems in a multi-user
->> environment.
->
-> Feel like this should be in xserver (as the xserver is the one creating t=
-he sockets), not libx11.
->
-> Ross
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Fair enough. That got me thinking though, with potentially multiple xserver
-providers, and systemd already shipping it's own version of that tmpfiles e=
-ntry,
-should this instead be part of sysvinit? If anything, just to be symmetric?
+Pass the BITBAKEDIR parameter to oe-init-build-env when called from the
+environment-setup script. This fixes compatibility with bitbake-setup,
+which places bitbake in a different directory structure than the
+standard poky repository layout where bitbake is located alongside
+oe-init-build-env.
 
-- Randolph
+The issue was discovered when running the oe-selftest test
+DevtoolIdeSdkTests.test_devtool_ide_sdk_shared_sysroots, which failed
+because the environment-setup script was not able to find bitbake.
+
+File ".../openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py",
+  line 2955, in test_devtool_ide_sdk_shared_sysroots
+  self.assertExists(cmake_native)
+  ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+File ".../openembedded-core/meta/lib/oeqa/selftest/case.py", line 251,
+  in assertExists
+  raise self.failureException(msg)
+AssertionError: 'Error: The bitbake directory (/tmp/devtoolqah9ndff2x/bitbake)
+  does not exist!  Please ensure a copy of bitbake exists at this location or
+  specify an alternative path on the command line\n
+  .../build-st/tmp/sysroots/x86_64/usr/bin/cmake' does not exist
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/classes-recipe/toolchain-scripts.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes-recipe/toolchain-scripts.bbclass b/meta/classes-recipe/toolchain-scripts.bbclass
+index 5d28df845b..ec040b5ebb 100644
+--- a/meta/classes-recipe/toolchain-scripts.bbclass
++++ b/meta/classes-recipe/toolchain-scripts.bbclass
+@@ -87,11 +87,12 @@ toolchain_create_sdk_env_script () {
+ # Caller must ensure CONFIG_SITE is setup
+ toolchain_create_tree_env_script () {
+ 	script=${B}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}
++	bitbakedir=$(readlink -f ${BITBAKEPATH}/..)
+ 	rm -f $script
+ 	touch $script
+ 	echo 'standalone_sysroot_target="${STAGING_DIR}/${MACHINE}"' >> $script
+ 	echo 'standalone_sysroot_native="${STAGING_DIR}/${BUILD_ARCH}"' >> $script
+-	echo 'orig=`pwd`; cd ${COREBASE}; . ./oe-init-build-env ${TOPDIR}; cd $orig' >> $script
++	echo "orig=`pwd`; cd ${COREBASE}; . ./oe-init-build-env ${TOPDIR} $bitbakedir; cd \$orig" >> $script
+ 	echo 'export PATH=$standalone_sysroot_native/${bindir_native}:$standalone_sysroot_native/${bindir_native}/${TARGET_SYS}:$PATH' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$standalone_sysroot_target' >> $script
+ 	echo 'export PKG_CONFIG_PATH=$standalone_sysroot_target'"$libdir"'/pkgconfig:$standalone_sysroot_target'"$prefix"'/share/pkgconfig' >> $script
+-- 
+2.51.0
+
 
