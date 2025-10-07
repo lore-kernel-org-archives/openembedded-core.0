@@ -1,576 +1,241 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F4028CCA470
-	for <webhook@archiver.kernel.org>; Tue,  7 Oct 2025 10:43:02 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.15415.1759833774660841436
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D62CCA476
+	for <webhook@archiver.kernel.org>; Tue,  7 Oct 2025 11:03:03 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.1])
+ by mx.groups.io with SMTP id smtpd.web10.15688.1759834981714262033
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Oct 2025 03:42:54 -0700
+ Tue, 07 Oct 2025 04:03:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 48D2E1424
-	for <openembedded-core@lists.openembedded.org>; Tue,  7 Oct 2025 03:42:46 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C2C5E3F59E
-	for <openembedded-core@lists.openembedded.org>; Tue,  7 Oct 2025 03:42:53 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] clang: use llvm recipe
-Date: Tue,  7 Oct 2025 11:42:46 +0100
-Message-ID: <20251007104247.1530073-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251007104247.1530073-1-ross.burton@arm.com>
-References: <20251007104247.1530073-1-ross.burton@arm.com>
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=eRswDMnw;
+ spf=pass (domain: cherry.de, ip: 52.101.65.1, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=epPneW3NeYwEAjeF13XjHwUJM8x0r7PpUF4QkKUzBwfaD3dEO7PP/GkgcUIsDNAUAa41UKz8pCwXIFdmwaa+vFT16DcdYM8UodTCwo18eZwHL29lSLwvOn5MaH8A+KOqiqfvTx9kmRckNNyTuEZmhDzNpZZFxv1S3pI1UxhEa8N9n2cyE+uRol8FaG9F2nYznxJfGOMeCT5Ru+ig+BL47IfnmI3DbEg23ZMpaUg0Pv5XsrkzFafmGLKHleUJganW66Yuczytzs+X2Esu5fvwIMgChwDnZjjrUMxkube06DMRcRARWmUpW1PaSHsPj7x/XFUCXHOTkdwuSl3t82B2Cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eiePGa2YAys6EMtXRJ3XlogMS73oH5W61frvsCdSg8w=;
+ b=UXmTwqMskHsbILDi5Mv7koFM2Jb6rqV+62Y98UPMbDBwyZFfpcC18EV8ISOj25KkFBu9GrZIqMkLX8f3X8GxQN9tDgPLOklyP25f32P1wg0iCzRAAJL/LhA3o9brA2gNNl6WJtlwavx1Sg+CP3jujdd+wqnMxJbDSB0EVqy5IGVkCGZ69LBJOVFXmOMxKltEfuk2YPwGdHZ1LPEgYo0Xt3Ozr2yxaUDEv+kObfaFgKhI6ZJSyYqyTLNiPEg/E6mvagrzeyF+sSlArsdxJSt+blUfS5jGn/bgXH7y0xikslM/GFzgnxvWYb/FTy3TQQ4xcYRuRBQTD12K9Dy1DTPe5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eiePGa2YAys6EMtXRJ3XlogMS73oH5W61frvsCdSg8w=;
+ b=eRswDMnwjHBaLCLASNHhigRFlyK18hFigiVN0mSAtG3EvfM8CaAzBQw905xL9oHyM+hSn3n69cVOwyOkNikL5LaUWYhaMDbsZ0a2U54/8AmjyPh4svoxYfz6HOcPUUzdy3LMkxTWbSfN0C+0u9xUL3F0XsRfWtt1WAgfxcx0vqw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by VI2PR04MB11073.eurprd04.prod.outlook.com (2603:10a6:800:26e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Tue, 7 Oct
+ 2025 11:02:52 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::5ee:7297:93b4:a8d1%6]) with mapi id 15.20.9182.017; Tue, 7 Oct 2025
+ 11:02:52 +0000
+Message-ID: <3a2503db-3bde-45cc-afea-92d9f5120023@cherry.de>
+Date: Tue, 7 Oct 2025 13:02:51 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] mesa-demos: split info tools to a separate
+ package
+To: alex.kanavin@gmail.com
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Ross Burton <Ross.Burton@arm.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20251002015030.2464972-1-dmitry.baryshkov@oss.qualcomm.com>
+ <feae4e64-0969-4e02-84b4-3ecba5e41a02@cherry.de>
+ <282130EB-8DFE-45D1-A1C1-B7720DCB615D@arm.com>
+ <9179d213-ebd5-43d9-8748-6981807c29f6@oss.qualcomm.com>
+ <18ea0a5d-036e-407e-96bd-ac1e6209ccc3@cherry.de>
+ <CANNYZj-KyG5yJKLS8+ew7GEdc_7+NCLSsmmUtT5KXx9_-1PkMA@mail.gmail.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <CANNYZj-KyG5yJKLS8+ew7GEdc_7+NCLSsmmUtT5KXx9_-1PkMA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0273.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e6::10) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|VI2PR04MB11073:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0104d810-ac74-413d-d652-08de05910f8b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?REZLS0RGWDVGTkMxaUQvcGZCbkVmSjJ1QnZNY2ZmWklIdVp6a01QalREZzJt?=
+ =?utf-8?B?Nktwd2gxN3N4TWx5cGFnOUt6cUtIaFhoS01NZTJVWUs0WmVmM2NQVC9pOXZq?=
+ =?utf-8?B?RXM4Z2lpdFhuUEpMT255QVl2cjlvLzdSMGFEWEJxOFk5emVRWE1jWmhWckc2?=
+ =?utf-8?B?UHlCRkFmRXI3RkF1N0JldytuaFViMWhyS3lDQ2ZpWlFmSUcwajZvRkxLeWNE?=
+ =?utf-8?B?MVFCNTZucEdnczRoZUF1VmNYMlNyTXNZczJGeWVaWjNjcWFrZHhmRFRETDBH?=
+ =?utf-8?B?bkxiQVFYTWpMb1FEMTBRTTZrS3lpVHB2TDFtU05GMDZRb0xXTmk4bis4aXY3?=
+ =?utf-8?B?LzF6Qk9QcC9MdE9vMlgwNmhCSG5WbGRSQUNVS0ZoekszK2hWbFd5d2Y1Tnlp?=
+ =?utf-8?B?Zk94TStoRFZoZENONjZQTnk4VUQ0SVgwQVJ4UVBYeTd2dFp1OXFTOE5YNC84?=
+ =?utf-8?B?WEpDdEFBNnF5QzIzTGpobmY5OWhQQ29PWjFHbXJ2ekFrQUt4bytGY3MxZzhn?=
+ =?utf-8?B?d1R0MmdZRkpJd1g4SEdpTzNLWGlvYVo5TVp6TmloTzF4TW0vMHB2UEoyelhB?=
+ =?utf-8?B?VzlsRDAyRVNwWHBzZlZiVU5paG96WkswMkxUZENjTjJTTjJnckJpVDRoc2N0?=
+ =?utf-8?B?Y2ZMVUpYNGdpdmlaOGF4UHNCN3BGMkUzaVJmVWRCeE1PV1pYbmx2Y3ZQSHpV?=
+ =?utf-8?B?TXBJK21lY0ZTZjRGQ3gzaTBad01pczd5TUVXeHdmWFlvNjI1aDF5Q0NYQWc4?=
+ =?utf-8?B?U1BjcC9RaEFLYk55cGk4SmQ5bE8yQ3ZIRDFrYVJ6eWIvMjVUVEovU05kc3pR?=
+ =?utf-8?B?UFNHUnFXamU2UmVOTzlEOWpZT3pXeGdRUHBlTjhrRm1qNTM2RUZtTm1FdXhu?=
+ =?utf-8?B?b0w0SFFpQ2pmRTE2TndCNGMrSm44a1MwdEtqc1pGbUpmeGtCQTkrUFNYTjhU?=
+ =?utf-8?B?NG1xQnBBbThnOVZUZzhzbzJlZE1TY3hGV1NNNk9IK1NYV3V1dEFIaXFCMlJO?=
+ =?utf-8?B?b3ZzZG94WWExd3gxZVRhYTRkL1k3YjdyNUU0Tzd3V05TNVdKSllGVHFCK0hK?=
+ =?utf-8?B?aXVlcTVnUjNXcFordzVZQTV0YTVrSUd0ZEZQV0s3QnNXZU1XRUdBdTRFaGpN?=
+ =?utf-8?B?UENsZ1NYMHo1WEhyNGNwVE1CanlraXpyTjdsSGJkK09UOU5rRVA4WStWVWlZ?=
+ =?utf-8?B?bTNKSE45cEFDK3gyRlVKTnpiRzcwN3lVZFJFZG42azJmTGFtT1VidThuRVZN?=
+ =?utf-8?B?ZE1rUFRac0dxZ1lGSXJFYkxRR3BtMlduZHY4U3JrRkxEazBJWHlOeld3VzRD?=
+ =?utf-8?B?dnpxa09CR3dlRitVL2psbUgvTmdHdWxrRkJCNTdNVUNSY2FmN3ZkSmtFN0Jy?=
+ =?utf-8?B?T05iM0VyUy9YWUc5Zys4VmJLeDBxd1JvYVhMRHRYSzFRTE9xUUdqUUNCT2xB?=
+ =?utf-8?B?RHo2bnVoS1hmTWJyS1hrYkRhdHNXdUpiMnVVcHR6c3AxU3F3WlIwcXB1VnN1?=
+ =?utf-8?B?cDhEM2c3blNyaHY4ZFhXNy95dnJrNjY4cmVFVmJEL3hUMUpOblJyRzFlRE1H?=
+ =?utf-8?B?WEwrZmQrc3NNT1BaWTk5eXZNZXdhVVcya3UyY0pWaGNDR01Mc2QyZG44TzFs?=
+ =?utf-8?B?a0RjVWhnQWlDZld3eFBMamdsZU5LcExOQ3Z1U0FRT3RYbXhMZm1YZWNkNVVP?=
+ =?utf-8?B?aXc2dGZFVExPeS9LVDN0WEc5QitaNHE5b1BGYnh3SzFZdXU2V0g2VEtkZTlw?=
+ =?utf-8?B?UFh0OFRSRVNOT1d4dGI1MWVsTmI0dXh1Zk1wU0tKUjMyRFdHSkNqRC92bksx?=
+ =?utf-8?B?ZTAwZUo3N0JSNjJrWXJ3ckc3MVpTeVBvRTVYZ3RzYm5wc0wvelJPQ3dvMWJh?=
+ =?utf-8?B?QlFaUzd2NUtzcCt1VVRXZjE2UUR6N0tmY0xOR0c1MUVBbC9rSlcybS9QZ0Zx?=
+ =?utf-8?B?OE85OFdGRkpJQWhWWjJPcUNRVmxQSlBGQlhhQ2JiY291ajREMUFnbm4zWlZS?=
+ =?utf-8?B?TVo1RTNNY0pRPT0=?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?bmh0K3E4VTlaak9xcXRvZDYzYjR1c3BJMnp2S0s1aU9EdWUvQVpzL014bUtz?=
+ =?utf-8?B?ekVxRmpSMXNmQVl0VU1kVnpxaDlkdncxOThKdTJiWHpJems5d2FtZkFuQzZu?=
+ =?utf-8?B?bWZ0OHJQZE1RL25GSDRQeTRqRjUxYit3ZUVMSHdWRVo2TkVGNDBhSHdPMDFn?=
+ =?utf-8?B?WHM2Yk5relc2TkxZOW5BMFI3Z1g2d0FCajFBZFcyeC80ZmhNWmorWTRReHk5?=
+ =?utf-8?B?Vm9BV0dJRWZUanR0em1mV3BTMjhEZkw2eHNOWHZ1RThkSDRMb3RMMlBHbDZ6?=
+ =?utf-8?B?ZGR4U0VkQWFZM2pYK3NYeU0vSHIyTkdTRUZSZDc5NUl0UGMrQnhVTS85cjlJ?=
+ =?utf-8?B?VEk4Qk0xNlpOanV6ZjBuT04wd2ZxUmZXNndGUXF5aFdNck1HaFNLcjZrTVd0?=
+ =?utf-8?B?U2x5Uno1RXdKNTFkQnFidzRhSTdVM3E0QmltS3BpSndPODFxYkIyWTdjWU9r?=
+ =?utf-8?B?L2NzZWNDTStCMEcxakJSZ2VCc1pPNFhQb1lwK1VmRVJLZUxvN2tzT1ovTGNC?=
+ =?utf-8?B?dGxjem1KVTNMellHQlJid212M09LS2pDVTFCWnNrb3VVbVFsaVBDaktmZ0sw?=
+ =?utf-8?B?NlRVci9ZYTJ3S1NLS3ZPczFIb1hNb1lLc1NMVTRjOG5va2cwZEtjVlpXWE53?=
+ =?utf-8?B?NnpXb2hrNUtPNnFhOXFINzhpS09GZUcyb1RHZDNmRXVFOFZ5c3JwbW5LT2Vu?=
+ =?utf-8?B?MEp6dlpBaEJqQWloWnhkU0xoY1VVQ2VaUDl3b204SXlDb1FYWWloK3lhZy9p?=
+ =?utf-8?B?Ujl6aTB4SFRxRG9KaFVKOHdiQjRUS0RmeEpxM3BKK2lsd3pGMGsrUkViSCt3?=
+ =?utf-8?B?SHZHYklJVkVpRzY2NU5Vb0g4cllwcy9WNTZkU0hnTnNMaHJ3d2toelRuVVBD?=
+ =?utf-8?B?b1Rsdkx5Mkc0dTV0QjNsdDV5NDlIcUtRN2NHVVNCekZCT0hpdnBsNlZ0eUNK?=
+ =?utf-8?B?cWhTS21Kb2ZkbHE2Wi9NVERYRmtKZHN0UE0yNmdSdjNJdVNRSm9aNUJxVVVz?=
+ =?utf-8?B?dFNZeG0rbWlLRGVTclMvWXNVY1pwSWxtN1J3c0I3ZnpXTkQyV3k2WktsN2RM?=
+ =?utf-8?B?MkNYb2xmRWNFQnFyMTh6cFhNWmpJWkhPMWZFT2txTGVOSURjRWJhaytjM29E?=
+ =?utf-8?B?SmlYSzlmSU0zTzVMOGpFdGRtYnJ6M25DTTNycUZqRlo2MTJ6NzltenBLYXBo?=
+ =?utf-8?B?ODJMWUF4QS9HTmtHUldCU0ZtVi9uNTVaQ2dwUjhFOFM5MnBETzlsYjl4WWlx?=
+ =?utf-8?B?Nzd5dEV4R1pjRFpFWmNwWFkrdE1PS2Q2V2JWWTVsb3B4ZnVRKzJhLzBvSkpx?=
+ =?utf-8?B?UTNYZjlDYmN1Y2pkSHo2R2NoT1NmTGlLMTdiODBmRWx0dWdvd0hxMnBTT1Bp?=
+ =?utf-8?B?VzAxUDJKNG5yRVNYRCtHOTZpYURtTWttUkRkNFF4ZmVwV0U3TUNoV2RaTXFB?=
+ =?utf-8?B?SHFWelZXWWNsZDhmeEUwQS8rWkNsZytHN1ZWMk0wbTdveEFsTlFYdytzenNT?=
+ =?utf-8?B?ZGFNY3dpaDYwVGtNNllRS1F2Rm90MnZwa3V5R3ZvSkxvZTFrZkF5cU91S0dn?=
+ =?utf-8?B?OU1LM0ErTit6NFBLQmQvOHNIWkdCOGMxTnBXWENzYk1XR0dHVEx1Uy9kdGRt?=
+ =?utf-8?B?RmxZdEdmbWNiZFdyN05QbmRwUU13bmhybnkyTHl2bHBoZlk4WmxGVExxUE0y?=
+ =?utf-8?B?TGlWaFpLVktGbmhCSTVnclZwaFhlY2pvNjN4Zkc1MFNLQ3paM0c4TWgvUzda?=
+ =?utf-8?B?MGtiMGN4dk5GMHBuaVp2NjdaT0d0cWlSTnVoZm1UVyt5clB6UEkrRmVrY0tW?=
+ =?utf-8?B?bDNVRkhHTTFVYmo2T0E2THk0UDNDTmFJeGsvdU9kKzVYVDg2Rkpqci85R1lL?=
+ =?utf-8?B?RDgvQy91Y1RUQ1crRm01Mm8xWG1YdGM5QlZ0M20wVGdQM3NCcTRxWkt0L0Vl?=
+ =?utf-8?B?NEIzN1lHSHVOdzArQTZMcTV3RmtXNnhCVHBrNmZZVEQ1dkVvTzgvR2JvQXVH?=
+ =?utf-8?B?bVVhNUliRUljWjlycEVWdThDelN4RkhRNDdwZjZYY2w2cWtvTWpZaC9tSlpK?=
+ =?utf-8?B?QlZuS3B6UjYyVzd2MktqMzRubU1DcDl2eHQwV1dydmp0OEpJT2VvRkN5dFFW?=
+ =?utf-8?B?dm9CcGlMdVY1a0FETCtmOUVTdE5xNnZTMGZIemJGb0x6eXljeEE0NEY1Y0JD?=
+ =?utf-8?B?c2c9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0104d810-ac74-413d-d652-08de05910f8b
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2025 11:02:52.4944
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AyaKpoeR3yvFX+z6bY8MbddSh4hkEN1zInaE2+trBqEVJ0VL8Um/3XKzQXInd4csFRqySo3ukDUi5l1Pk19+RiqKqGvlNee+E4qK3Iqebf4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB11073
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Oct 2025 10:43:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224521
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Oct 2025 11:03:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224523
 
-Change this recipe to build just clang and clang-tools-extra, using the
-LLVM provided by the llvm recipe.
+Hi Alex,
 
-This adds an 'extra-tools' PACKAGECONFIG (enabled by default) that
-controls whether to build the clang-tools-extra project. This includes
-clang-tidy and clangd, but the compile time and size for these
-components is not insignificant.
+On 10/7/25 12:30 PM, Alexander Kanavin via lists.openembedded.org wrote:
+> On Tue, 7 Oct 2025 at 11:36, Quentin Schulz via lists.openembedded.org
+> <quentin.schulz=cherry.de@lists.openembedded.org> wrote:
+>> That's making mesa-demos kind of a meta package that pulls in everything
+>> built by the recipe and at the same time the only package bringing
+>> binaries other than the info ones.
+>>
+>> Can you simply add this to the commit log/as a comment so that we can
+>> remove this RDEPENDS in the future if we want to without having to guess
+>> why it's there? It doesn't reflect an actual dependency but a personal
+>> preference.
+>>
+>> We could also use RRECOMMENDS here to show it's even not required per-se
+>> but we think you probably want the info packages too.
+> 
+> FWIW, I agree with Ross and Dmitry: preserving existing behavior is
 
-Add a patch from upstream to support using native prebuilt tools (such
-as clang-tblgen) when building standalone.
+This is personal preference. We need to do it with existing releases, 
+but nothing forces us to do it with master.
 
-Add a patch that is being worked on with upstream to not rebuild clang-
-tblgen if it has already been provided. This saves a little build time,
-but more importantly for us resolves a static linking/uninative problem.
+I've pushed for that for linux-firmware in the past for the release 
+branches, but this simply doesn't scale if we want to ever be preserving 
+existing behavior. We split linux-firmware recipe into even more 
+packages quite often, that's never been an issue. That's what the 
+migration manuals are for, documenting changes.
 
-Remove the dependency on clang-cross in non-native builds by just
-depending on llvm-native and using the un-prefixed tools directly.
+Now imagine I don't actually need the mesa-demos-info package and only 
+want the benchmark/test tools. Would it really be possible for me to do 
+this? I don't know because of the RDEPENDS being there which seems to 
+indicate at least "something" needs one of the info tools to work at 
+runtime. So now I have to do research to figure out if something 
+actually requires it or not.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...ilding-native-tools-when-cross-compi.patch |  63 ++++++
- .../clang/clang/clang-no-tblgen.patch         |  24 +++
- meta/recipes-devtools/clang/clang_git.bb      | 190 +++---------------
- meta/recipes-devtools/clang/common.inc        |   2 +
- 4 files changed, 117 insertions(+), 162 deletions(-)
- create mode 100644 meta/recipes-devtools/clang/clang/0001-clang-Support-=
-building-native-tools-when-cross-compi.patch
- create mode 100644 meta/recipes-devtools/clang/clang/clang-no-tblgen.pat=
-ch
+> the right call here, and that is not a matter of personal preference.
+> The patch has now merged, so anything needs to be done as followup,
+> whether you want to add a comment, or split demos into
+> mesa-demos-demos, and make mesa-demos an empty meta-package is up to
+> you, but I'd really rather see you spend your time on high-impact
+> things that matter to the project as a whole.
+> 
+> Such as:
+> - sorting out the ungodly mess that is linux-firmware packaging (if
+> the packaging subject is close to your heart)
 
-diff --git a/meta/recipes-devtools/clang/clang/0001-clang-Support-buildin=
-g-native-tools-when-cross-compi.patch b/meta/recipes-devtools/clang/clang=
-/0001-clang-Support-building-native-tools-when-cross-compi.patch
-new file mode 100644
-index 00000000000..c4198394acf
---- /dev/null
-+++ b/meta/recipes-devtools/clang/clang/0001-clang-Support-building-nativ=
-e-tools-when-cross-compi.patch
-@@ -0,0 +1,63 @@
-+From 2ff1134d1d2b9f3c207e3ebd98de922f9ef6c15a Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Wed, 24 Sep 2025 17:02:57 +0100
-+Subject: [PATCH] [clang] Support building native tools when cross-compil=
-ing
-+ standalone clang
-+
-+When cross-compiling the LLVM project as a whole (from llvm/), if it
-+cannot find presupplied tools it will create a native build environment
-+to build the tools it needs.
-+
-+However, when doing a standalone build of clang (that is, from clang/
-+and linking against an existing libLLVM) this doesn't work. Instead
-+a _target_ binary is built which predictably then fails.
-+
-+The conventional workaround for this is to build the native tools in a
-+separate native compile phase and pass the paths to the cross build, for
-+example see OpenEmbedded[1] or Nix[2]. But we can do better!
-+
-+The first problem is that LLVM_USE_HOST_TOOLS is only set in the llvm/
-+CMakeLists.txt, so setup_host_tool() will never consider building a
-+native binary.  This can be solved by setting LLVM_USE_HOST_TOOLS based
-+on CMAKE_CROSSCOMPILING in clang/CMakeLists.txt in the standalone case.
-+
-+Now setup_host_tool() will try to build a native tool, but it needs
-+build_native_tool() from CrossCompile.cmake, so that also needs to be
-+included.
-+
-+Finally, the native binary then fails because there's no provider for
-+the dependency "CONFIGURE_Clang_NATIVE", so use llvm_create_cross_target
-+to create the native environment.
-+
-+These few lines mirror what the lldb CMakeLists.txt does in the
-+standalone case, so there is prior art for this.
-+
-+[1] https://git.openembedded.org/openembedded-core/tree/meta/recipes-dev=
-tools/clang/clang_git.bb?id=3De18d697e92b55e57124e80234369d46575226386#n2=
-12
-+[2] https://github.com/NixOS/nixpkgs/blob/3354d448f2a26117a74638957b0131=
-ce3da9c8c4/pkgs/development/compilers/llvm/common/tblgen.nix#L54
-+
-+Upstream-Status: Submitted [https://github.com/llvm/llvm-project/pull/16=
-0605]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ clang/CMakeLists.txt | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/clang/CMakeLists.txt b/clang/CMakeLists.txt
-+index 1bb73599970c..4eaa71289985 100644
-+--- a/clang/CMakeLists.txt
-++++ b/clang/CMakeLists.txt
-+@@ -80,6 +80,12 @@ if(CLANG_BUILT_STANDALONE)
-+   include(GetErrcMessages)
-+   include(LLVMDistributionSupport)
-+=20
-++  if(CMAKE_CROSSCOMPILING)
-++    set(LLVM_USE_HOST_TOOLS ON)
-++    include(CrossCompile)
-++    llvm_create_cross_target(Clang NATIVE "" Release)
-++  endif()
-++
-+   set(PACKAGE_VERSION "${LLVM_PACKAGE_VERSION}")
-+   set(BUG_REPORT_URL "${LLVM_PACKAGE_BUGREPORT}" CACHE STRING
-+     "Default URL where bug reports are to be submitted.")
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/clang/clang/clang-no-tblgen.patch b/me=
-ta/recipes-devtools/clang/clang/clang-no-tblgen.patch
-new file mode 100644
-index 00000000000..e89cad8dc83
---- /dev/null
-+++ b/meta/recipes-devtools/clang/clang/clang-no-tblgen.patch
-@@ -0,0 +1,24 @@
-+[clang] Only build clang-tblgen if it is actually needed
-+
-+It's possible to build clang with an existing clang-tblgen (common when
-+cross-compiling, for instance) by setting CLANG_TABLEGEN_EXE.  If this
-+is the case there's no need to build it, as it won't be used.
-+
-+Upstream-Status: Submitted [https://github.com/llvm/llvm-project/pull/16=
-1952]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git a/clang/CMakeLists.txt b/clang/CMakeLists.txt
-+index e4cb1a359620..b650b3b986f4 100644
-+--- a/clang/CMakeLists.txt
-++++ b/clang/CMakeLists.txt
-+@@ -479,7 +479,9 @@ option(CLANG_ENABLE_HLSL "Include HLSL build product=
-s" Off)
-+ # While HLSL support is experimental this should stay hidden.
-+ mark_as_advanced(CLANG_ENABLE_HLSL)
-+=20
-+-add_subdirectory(utils/TableGen)
-++if (NOT DEFINED CLANG_TABLEGEN_EXE OR CLANG_INCLUDE_TESTS)
-++  add_subdirectory(utils/TableGen)
-++endif()
-+=20
-+ # Export CLANG_TABLEGEN_EXE for use by flang docs.
-+ set(CLANG_TABLEGEN_EXE "${CLANG_TABLEGEN_EXE}" CACHE INTERNAL "")
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devt=
-ools/clang/clang_git.bb
-index f25633a5861..ca539635902 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -19,81 +19,37 @@ require common-source.inc
-=20
- BPN =3D "clang"
-=20
--CVE_PRODUCT +=3D "llvm:clang"
--
--INHIBIT_DEFAULT_DEPS:class-native =3D "1"
-+CVE_PRODUCT =3D "llvm:clang"
-=20
- LDFLAGS:append:class-target:riscv32 =3D " -Wl,--no-as-needed -latomic -W=
-l,--as-needed"
- LDFLAGS:append:class-target:mips =3D " -Wl,--no-as-needed -latomic -Wl,-=
--as-needed"
-=20
- inherit cmake pkgconfig multilib_header python3-dir
-=20
--PACKAGECONFIG_CLANG_COMMON =3D "build-id eh libedit rtti shared-libs lib=
-clang-python \
--                              ${@bb.utils.contains('DISTRO_FEATURES', 'l=
-d-is-lld', 'lld', '', d)} \
--                              ${@bb.utils.contains('TC_CXX_RUNTIME', 'll=
-vm', 'compiler-rt libcplusplus libomp unwindlib', '', d)} \
--                              "
--
--PACKAGECONFIG ??=3D "${PACKAGECONFIG_CLANG_COMMON} \
-+PACKAGECONFIG ??=3D "build-id clangd libclang-python \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'lto thin-lto',=
- d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', =
-'lld', '', d)} \
-+                   ${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compi=
-ler-rt libcplusplus libomp unwindlib', '', d)} \
-                    "
--PACKAGECONFIG:class-native =3D "clangd \
--                              ${PACKAGECONFIG_CLANG_COMMON} \
--                              "
--PACKAGECONFIG:class-nativesdk =3D "clangd \
--                                 ${PACKAGECONFIG_CLANG_COMMON} \
--                                 ${@bb.utils.filter('DISTRO_FEATURES', '=
-lto thin-lto', d)} \
--                                 "
-+PACKAGECONFIG:remove:class-native =3D "lto thin-lto"
-=20
- PACKAGECONFIG[build-id] =3D "-DENABLE_LINKER_BUILD_ID=3DON,-DENABLE_LINK=
-ER_BUILD_ID=3DOFF,,"
- PACKAGECONFIG[clangd] =3D "-DCLANG_ENABLE_CLANGD=3DON,-DCLANG_ENABLE_CLA=
-NGD=3DOFF,,"
--
- # Activate to build the dexp tool in clangd
- # Disabled by default for -native since it is known to trigger compiler =
-failure on Debian 11
- # See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15803
- PACKAGECONFIG[clangd-dexp] =3D "-DCLANGD_BUILD_DEXP=3DON,-DCLANGD_BUILD_=
-DEXP=3DOFF,,"
--
- PACKAGECONFIG[compiler-rt] =3D "-DCLANG_DEFAULT_RTLIB=3Dcompiler-rt,,"
--PACKAGECONFIG[eh] =3D "-DLLVM_ENABLE_EH=3DON,-DLLVM_ENABLE_EH=3DOFF,,"
--PACKAGECONFIG[exegesis] =3D "-DLLVM_TOOL_LLVM_EXEGESIS_BUILD=3DON,-DLLVM=
-_TOOL_LLVM_EXEGESIS_BUILD=3DOFF"
- PACKAGECONFIG[libcplusplus] =3D "-DCLANG_DEFAULT_CXX_STDLIB=3Dlibc++,,"
--PACKAGECONFIG[libedit] =3D "-DLLVM_ENABLE_LIBEDIT=3DON,-DLLVM_ENABLE_LIB=
-EDIT=3DOFF,libedit libedit-native"
- PACKAGECONFIG[libomp] =3D "-DCLANG_DEFAULT_OPENMP_RUNTIME=3Dlibomp,,"
- PACKAGECONFIG[lld] =3D "-DCLANG_DEFAULT_LINKER=3Dlld,,,"
- PACKAGECONFIG[lto] =3D "-DLLVM_ENABLE_LTO=3DFull -DLLVM_BINUTILS_INCDIR=3D=
-${STAGING_INCDIR},,binutils,"
--PACKAGECONFIG[opt-viewer] =3D "-DLLVM_TOOL_OPT_VIEWER_BUILD=3DON,-DLLVM_=
-TOOL_OPT_VIEWER_BUILD=3DOFF, \
--                             python3-pyyaml-native python3-pygments-nati=
-ve python3-pyyaml python3-pygments, \
--                             python3-pyyaml python3-pygments,"
--PACKAGECONFIG[pfm] =3D "-DLLVM_ENABLE_LIBPFM=3DON,-DLLVM_ENABLE_LIBPFM=3D=
-OFF,libpfm,"
--PACKAGECONFIG[rtti] =3D "-DLLVM_ENABLE_RTTI=3DON,-DLLVM_ENABLE_RTTI=3DOF=
-F,,"
--PACKAGECONFIG[shared-libs] =3D "-DLLVM_BUILD_LLVM_DYLIB=3DON -DLLVM_LINK=
-_LLVM_DYLIB=3DON,,,"
--PACKAGECONFIG[split-dwarf] =3D "-DLLVM_USE_SPLIT_DWARF=3DON,-DLLVM_USE_S=
-PLIT_DWARF=3DOFF,,"
- PACKAGECONFIG[thin-lto] =3D "-DLLVM_ENABLE_LTO=3DThin -DLLVM_BINUTILS_IN=
-CDIR=3D${STAGING_INCDIR},,binutils,"
- PACKAGECONFIG[unwindlib] =3D "-DCLANG_DEFAULT_UNWINDLIB=3Dlibunwind,-DCL=
-ANG_DEFAULT_UNWINDLIB=3Dlibgcc,,"
- PACKAGECONFIG[libclang-python] =3D "-DCLANG_PYTHON_BINDINGS_VERSIONS=3D$=
-{PYTHON_BASEVERSION},,"
-=20
--OECMAKE_SOURCEPATH =3D "${S}/llvm"
-+OECMAKE_SOURCEPATH =3D "${S}/clang"
-=20
--# By default we build all the supported CPU architectures, and the GPU t=
-argets
--# if the opencl, opengl or vulkan DISTRO_FEATURES are enabled.
--#
--# For target builds we default to building that specific architecture, B=
-PF, and the GPU targets if required.
--#
--# The available target list can be seen in the source code
--# in the LLVM_ALL_TARGETS assignment:
--# https://github.com/llvm/llvm-project/blob/main/llvm/CMakeLists.txt
--LLVM_TARGETS_GPU ?=3D "${@bb.utils.contains_any('DISTRO_FEATURES', 'open=
-cl opengl vulkan', 'AMDGPU;NVPTX;SPIRV', '', d)}"
--LLVM_TARGETS_TO_BUILD ?=3D "AArch64;ARM;BPF;Mips;PowerPC;RISCV;X86;Loong=
-Arch;${LLVM_TARGETS_GPU}"
--LLVM_TARGETS_TO_BUILD:class-target ?=3D "${@get_clang_host_arch(bb, d)};=
-BPF;${LLVM_TARGETS_GPU}"
--
--LLVM_EXPERIMENTAL_TARGETS_TO_BUILD ?=3D ""
--
--HF =3D ""
--HF:class-target =3D "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard',=
- 'hf', '', d)}"
--HF[vardepvalue] =3D "${HF}"
--
--# Ensure that LLVM_PROJECTS does not contain compiler runtime components=
- e.g. libcxx etc
--# they are enabled via LLVM_ENABLE_RUNTIMES
--LLVM_PROJECTS ?=3D "clang;clang-tools-extra"
-=20
- # linux hosts (.so) on Windows .pyd
- SOLIBSDEV:mingw32 =3D ".pyd"
-@@ -102,89 +58,43 @@ SOLIBSDEV:mingw32 =3D ".pyd"
-=20
- EXTRA_OECMAKE +=3D "-DLLVM_ENABLE_ASSERTIONS=3DOFF \
-                   -DLLVM_APPEND_VC_REV=3DOFF \
--                  -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=3DOFF \
--                  -DLLVM_ENABLE_EXPENSIVE_CHECKS=3DOFF \
-                   -DLLVM_ENABLE_PIC=3DON \
-                   -DCLANG_DEFAULT_PIE_ON_LINUX=3DON \
--                  -DLLVM_BINDINGS_LIST=3D'' \
--                  -DLLVM_ENABLE_FFI=3DON \
--                  -DLLVM_ENABLE_ZSTD=3DON \
-                   -DFFI_INCLUDE_DIR=3D$(pkg-config --variable=3Dincluded=
-ir libffi) \
-                   -DLLVM_BUILD_EXTERNAL_COMPILER_RT=3DON \
-                   -DCMAKE_SYSTEM_NAME=3DLinux \
-                   -DCMAKE_BUILD_TYPE=3DMinSizeRel \
--                  -DLLVM_ENABLE_PROJECTS=3D'${LLVM_PROJECTS}' \
--                  -DLLVM_BINUTILS_INCDIR=3D${STAGING_INCDIR} \
-                   -DLLVM_VERSION_SUFFIX=3D'${VER_SUFFIX}' \
--                  -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=3DON \
--                  -DLLVM_TARGETS_TO_BUILD=3D'${LLVM_TARGETS_TO_BUILD}' \
--                  -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=3D'${LLVM_EXPERIM=
-ENTAL_TARGETS_TO_BUILD}' \
-+                  -DLLVM_CMAKE_DIR=3D${STAGING_LIBDIR}/cmake/llvm \
-                   -DLLVM_NATIVE_TOOL_DIR=3D${STAGING_BINDIR_NATIVE} \
--                  -DLLVM_TABLEGEN=3D${STAGING_BINDIR_NATIVE}/llvm-tblgen=
- \
-                   -DLLVM_TABLEGEN_EXE=3D${STAGING_BINDIR_NATIVE}/llvm-tb=
-lgen \
-+                  -DCLANG_TABLEGEN_EXE=3D${STAGING_BINDIR_NATIVE}/clang-=
-tblgen \
-                   -DLLVM_INCLUDE_TESTS=3DOFF \
-                   -DCROSS_TOOLCHAIN_FLAGS_NATIVE=3D'-DCMAKE_TOOLCHAIN_FI=
-LE=3D${WORKDIR}/toolchain-native.cmake' \
--"
--
--EXTRA_OECMAKE:append:class-nativesdk =3D "\
--                  -DCMAKE_RANLIB=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_=
-PREFIX}llvm-ranlib \
--                  -DCMAKE_AR=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
-IX}llvm-ar \
--                  -DCMAKE_NM=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
-IX}llvm-nm \
--                  -DCMAKE_STRIP=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_P=
-REFIX}llvm-strip \
--"
--EXTRA_OECMAKE:append:class-target =3D "\
--                  -DCMAKE_RANLIB=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_=
-PREFIX}llvm-ranlib \
--                  -DCMAKE_AR=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
-IX}llvm-ar \
--                  -DCMAKE_NM=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREF=
-IX}llvm-nm \
--                  -DCMAKE_STRIP=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_P=
-REFIX}llvm-strip \
--                  -DLLVM_TARGET_ARCH=3D${HOST_ARCH} \
--                  -DLLVM_DEFAULT_TARGET_TRIPLE=3D${TARGET_SYS}${HF} \
--                  -DLLVM_HOST_TRIPLE=3D${TARGET_SYS}${HF} \
-                   -DLLVM_LIBDIR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \
-+                  -DCMAKE_AR=3D${STAGING_BINDIR_NATIVE}/llvm-ar \
-+                  -DCMAKE_NM=3D${STAGING_BINDIR_NATIVE}/llvm-nm \
-+                  -DCMAKE_RANLIB=3D${STAGING_BINDIR_NATIVE}/llvm-ranlib =
-\
-+                  -DCMAKE_STRIP=3D${STAGING_BINDIR_NATIVE}/llvm-strip \
- "
-=20
--DEPENDS =3D "binutils zlib zstd libffi libxml2 libxml2-native llvm-tblge=
-n-native"
--DEPENDS:append:class-nativesdk =3D " clang-crosssdk-${SDK_SYS} virtual/n=
-ativesdk-cross-binutils"
--DEPENDS:append:class-target =3D " ${MLPREFIX}clang-cross-${TARGET_ARCH} =
-${@bb.utils.contains('TC_CXX_RUNTIME', 'llvm', 'compiler-rt libcxx', '', =
-d)}"
-+DEPENDS =3D "llvm-tblgen-native llvm-native llvm binutils zlib zstd libf=
-fi libxml2 libxml2-native"
-+DEPENDS:append:class-target =3D " ${@bb.utils.contains('TC_CXX_RUNTIME',=
- 'llvm', 'compiler-rt libcxx', '', d)}"
-=20
- RDEPENDS:${PN}:append:class-target =3D "${@bb.utils.contains('DISTRO_FEA=
-TURES', 'ld-is-lld', ' lld', '', d)}"
- RRECOMMENDS:${PN}:append:class-target =3D "binutils ${@bb.utils.contains=
-('TC_CXX_RUNTIME', 'llvm', ' libcxx-dev', '', d)}"
-=20
--# patch out build host paths for reproducibility
--reproducible_build_variables() {
--    sed -i -e "s,${DEBUG_PREFIX_MAP},,g" \
--        -e "s,--sysroot=3D${RECIPE_SYSROOT},,g" \
--        -e "s,${STAGING_DIR_HOST},,g" \
--        -e "s,${S}/llvm,,g"  \
--        -e "s,${B},,g" \
--        ${B}/tools/llvm-config/BuildVariables.inc
--}
--
--do_configure:append:class-target() {
--    reproducible_build_variables
--}
--
--do_configure:append:class-nativesdk() {
--    reproducible_build_variables
-+do_configure:prepend() {
-+  # Link clang-tools-extra into the clang tree as clang will look for it=
- here
-+  # if it's doing a standalone build.
-+  ln -srf ${S}/clang-tools-extra ${S}/clang/tools/extra
- }
-=20
- do_install:append() {
--    oe_multilib_header llvm/Config/llvm-config.h
-     oe_multilib_header clang/Config/config.h
- }
-=20
- do_install:append:class-target () {
--    # Allow bin path to change based on YOCTO_ALTERNATE_EXE_PATH
--    sed -i 's;${_IMPORT_PREFIX}/bin;${_IMPORT_PREFIX_BIN};g' ${D}${libdi=
-r}/cmake/llvm/LLVMExports-*.cmake
--
--    # Insert function to populate Import Variables
--    sed -i "4i\
--if(DEFINED ENV{YOCTO_ALTERNATE_EXE_PATH})\n\
--  execute_process(COMMAND \"llvm-config\" \"--bindir\" OUTPUT_VARIABLE _=
-IMPORT_PREFIX_BIN OUTPUT_STRIP_TRAILING_WHITESPACE)\n\
--else()\n\
--  set(_IMPORT_PREFIX_BIN \"\${_IMPORT_PREFIX}/bin\")\n\
--endif()\n" ${D}${libdir}/cmake/llvm/LLVMExports-*.cmake
--
-     if [ -n "${LLVM_LIBDIR_SUFFIX}" ]; then
-         mkdir -p ${D}${nonarch_libdir}
-         mv ${D}${libdir}/clang ${D}${nonarch_libdir}/clang
-@@ -195,53 +105,16 @@ endif()\n" ${D}${libdir}/cmake/llvm/LLVMExports-*.c=
-make
-         llvm-addr2line llvm-dwp llvm-size llvm-strings llvm-cov; do
-         ln -sf $t ${D}${bindir}/${TARGET_PREFIX}$t
-     done
--
--    # reproducibility
--    sed -i -e 's,${B},,g' ${D}${libdir}/cmake/llvm/LLVMConfig.cmake
--}
--
--do_install:append:class-native () {
--    if ${@bb.utils.contains('PACKAGECONFIG', 'clangd', 'true', 'false', =
-d)}; then
--        install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clangd-indexer ${D}${b=
-indir}/clangd-indexer
--    fi
--
--    for f in `find ${D}${bindir} -executable -type f -not -type l`; do
--        test -n "`file -b $f|grep -i ELF`" && ${STRIP} $f
--        echo "stripped $f"
--    done
--    ln -sf llvm-config ${D}${bindir}/llvm-config${PV}
--
--    # These are provided by llvm-tblgen-native
--    rm ${D}${bindir}/*-tblgen
- }
-=20
- do_install:append:class-nativesdk () {
--    if [ -e ${D}${libdir}/cmake/llvm/LLVMConfig.cmake ] ; then
--        sed -i -e "s|${B}/./bin/||g" ${D}${libdir}/cmake/llvm/LLVMConfig=
-.cmake
--    fi
--    if ${@bb.utils.contains('PACKAGECONFIG', 'clangd', 'true', 'false', =
-d)}; then
--        install -Dm 0755 ${B}${BINPATHPREFIX}/bin/clangd-indexer ${D}${b=
-indir}/clangd-indexer
--    fi
--
--    for f in `find ${D}${bindir} -executable -type f -not -type l`; do
--        test -n "`file -b $f|grep -i ELF`" && ${STRIP} $f
--    done
--
--    rm -rf ${D}${datadir}/llvm/cmake
--    rm -rf ${D}${datadir}/llvm
--
-     #reproducibility
-     if [ -e ${D}${libdir}/cmake/llvm/LLVMConfig.cmake ] ; then
-         sed -i -e 's,${B},,g' ${D}${libdir}/cmake/llvm/LLVMConfig.cmake
-     fi
- }
-=20
--PROVIDES:append:class-native =3D " llvm-native"
--PROVIDES:append:class-target =3D " llvm"
--PROVIDES:append:class-nativesdk =3D " nativesdk-llvm"
--
--PACKAGES =3D+ "${PN}-libllvm ${PN}-libclang-python ${PN}-libclang-cpp ${=
-PN}-tidy ${PN}-format ${PN}-tools \
--             libclang llvm-linker-tools"
-+PACKAGES =3D+ "${PN}-libclang-python ${PN}-libclang-cpp ${PN}-tidy ${PN}=
--format ${PN}-tools libclang"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-=20
-@@ -259,8 +132,6 @@ RDEPENDS:${PN}-tools +=3D "\
-=20
- RRECOMMENDS:${PN}-tidy +=3D "${PN}-tools"
-=20
--FILES:llvm-linker-tools =3D "${libdir}/LLVMgold* ${libdir}/libLTO.so.* $=
-{libdir}/LLVMPolly*"
--
- FILES:${PN}-libclang-cpp =3D "${libdir}/libclang-cpp.so.*"
-=20
- FILES:${PN}-libclang-python =3D "${PYTHON_SITEPACKAGES_DIR}/clang/*"
-@@ -323,12 +194,6 @@ FILES:${PN} +=3D "\
-   ${nonarch_libdir}/${BPN}/*/include/ \
- "
-=20
--FILES:${PN}-libllvm =3D+ "\
--  ${libdir}/libLLVM.so.${MAJOR_VER}.${MINOR_VER} \
--  ${libdir}/libLLVM-${MAJOR_VER}.so \
--  ${libdir}/libRemarks.so.* \
--"
--
- FILES:libclang =3D "\
-   ${libdir}/libclang.so.* \
- "
-@@ -349,7 +214,6 @@ FILES:${PN}:remove =3D "${libdir}/${BPN}/*"
-=20
- INSANE_SKIP:${PN} +=3D "already-stripped"
- #INSANE_SKIP:${PN}-dev +=3D "dev-elf"
--INSANE_SKIP:${PN}-libllvm =3D "dev-so"
-=20
- #Avoid SSTATE_SCAN_COMMAND running sed over llvm-config.
- SSTATE_SCAN_FILES:remove =3D "*-config"
-@@ -363,15 +227,17 @@ SYSROOT_PREPROCESS_FUNCS:append:class-target =3D " =
-clang_sysroot_preprocess"
- SYSROOT_PREPROCESS_FUNCS:append:class-nativesdk =3D " clang_sysroot_prep=
-rocess"
-=20
- clang_sysroot_preprocess() {
--	install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}/
--	install -m 0755 ${S}/llvm/tools/llvm-config/llvm-config ${SYSROOT_DESTD=
-IR}${bindir_crossscripts}/
--	ln -sf llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/llvm-config=
-${PV}
-+	install -d ${SYSROOT_DESTDIR}${bindir}/
-=20
-+	# clang and clang-tools
- 	binaries=3D"diagtool clang-${MAJOR_VER} clang-format clang-offload-pack=
-ager
--	                clang-offload-bundler clang-scan-deps clang-repl
--	                clang-refactor clang-check clang-extdef-mapping clang-a=
-pply-replacements
--	                clang-reorder-fields clang-tidy clang-change-namespace =
-clang-doc clang-include-fixer
--	                find-all-symbols clang-move clang-query pp-trace modula=
-rize"
-+	          clang-offload-bundler clang-scan-deps clang-repl
-+	          clang-refactor clang-check clang-extdef-mapping"
-+
-+	# clang-extra-tools
-+	binaries=3D"${binaries} clang-apply-replacements clang-reorder-fields
-+	          clang-tidy clang-change-namespace clang-doc clang-include-fix=
-er
-+	          find-all-symbols clang-move clang-query pp-trace modularize"
-=20
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'clangd', 'true', 'false', d)}=
-; then
- 	        binaries=3D"${binaries} clangd"
-diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtoo=
-ls/clang/common.inc
-index d7f069d2533..a89831ce8f5 100644
---- a/meta/recipes-devtools/clang/common.inc
-+++ b/meta/recipes-devtools/clang/common.inc
-@@ -62,6 +62,8 @@ SRC_URI =3D "\
-     file://0039-Only-build-c-index-test-when-clang-tests-are-include.pat=
-ch \
-     file://0001-Install-lldb-tblgen.patch \
-     file://0001-dont-expose-LLVM_HAVE_OPT_VIEWER_MODULES.patch \
-+    file://0001-clang-Support-building-native-tools-when-cross-compi.pat=
-ch \
-+    file://clang-no-tblgen.patch \
- "
- # Fallback to no-PIE if not set
- GCCPIE ??=3D ""
---=20
-2.43.0
+I've read Ross (?) was working with upstream to have some packaging 
+script we could call based on WHENCE or whatever else to prevent us from 
+doing the error-prone task of splitting things manually like we do 
+currently. I don't know if this was pursued and if it's going on.
 
+We have someone currently adding even more packages, see 
+https://lore.kernel.org/openembedded-core/20251006170804.9664-1-reatmon@ti.com/
+
+> - solving perf reproducibility problems, which is holding up the
+> upcoming release
+> - writing documentation for bitbake-setup
+
+There's currently work being done on that side. See 
+https://lore.kernel.org/yocto-docs/20250819213530.3616042-1-tim.orling@konsulko.com/.
+
+Alex, I don't appreciate the tone used in this mail. You can disagree 
+with what I'm suggesting, but you can't simply say "we are not 
+interested in your review, please rather send patches for these other 
+issues that are more important to me" which is how I took it. We are 
+already lacking reviewers, there's no need to alienate the existing ones.
+
+Finally, this isn't (always) me nitpicking about "useless" stuff. I've 
+tried to understand some changes made to some recipes (sometimes decades 
+ago) to know if I can undo them or what I need to keep if I'm cleaning 
+things up. mesa comes to mind a lot lately. If we don't put this 
+information out there, I cannot know without spending a lot of time 
+figuring it out and/or risking regressing the recipe because I 
+removed/reworked something I shouldn't have.
+
+Cheers,
+Quentin
 
