@@ -1,153 +1,92 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 319EACCA470
-	for <webhook@archiver.kernel.org>; Mon,  6 Oct 2025 23:12:59 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.6157.1759792372580010126
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7D7CAC5B8
+	for <webhook@archiver.kernel.org>; Tue,  7 Oct 2025 06:02:21 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.12448.1759816940392350737
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Oct 2025 16:12:53 -0700
+ Mon, 06 Oct 2025 23:02:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F4BEAwuL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-46e52279279so37079415e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 16:12:51 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=kbSt/Ky6;
+ spf=pass (domain: mvista.com, ip: 209.85.210.179, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-78af3fe5b17so4470058b3a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 23:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1759792370; x=1760397170; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IalI5uZ/TB2cWJzsUs5rT+UuGRBY2gHIrWOvQrkNPaA=;
-        b=F4BEAwuL5MPcB8lIqDEXGDL+5wMChJ34vvPuiVHGzWsNOWj7g+YEfkoHna9Fm9Xnjv
-         tnmqEcvBaB9w/xwTlvf0bXqDK2PD1D5Lo9NAPIbKk3kbl1rnQ2DGvSDwBDz8XH5lr3Mu
-         EJTXEmwWcnk8EXo/Mbi1sbep8JpU5GzeYdcT0=
+        d=mvista.com; s=google; t=1759816940; x=1760421740; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Amj3+f6ObCyyj0SdwC+TJz9UMBO/GlWpyodylnC9IwU=;
+        b=kbSt/Ky6D9O6pBMwWwEioTDA9WJGTxc8QAhSB1gH9ucTnKZI8bJs03zGawtY1TwoFc
+         1WZE/u6yk6jL28w/US0/Vn5iaLYNOM0vVJ8Y/ILX5ueHczv5mfcDnCbrD81XDg3DQXwI
+         uv9zMP2QGrcuv5Z5VXvzQUbVShQR6GtEVqr5U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759792370; x=1760397170;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IalI5uZ/TB2cWJzsUs5rT+UuGRBY2gHIrWOvQrkNPaA=;
-        b=AYloZFkBwWjqdgtewfv15QKdTL7S1/H2XVDY974DxCskYRPPuU/IldRXEniYX7KlP8
-         AsGqcBnxB8BJGg/Oy75Qkt96O4f1LV6C4YRAjHC5i6SuuAgUUfuD59kVUQktMGU/bYR+
-         6+jRECyGmiXyNU8RV75DFZCqmwAwszphuk1ocw6jmK5RIyu3E1zwA1Lfsu5zxDEVa0Jp
-         EnY4HQxDytzoZoMsHyPUmmmn6hAKGKlIHQDB7ZCJQAbMx5gTFEUOhmjqauouBpofuUei
-         njLz7kaHFUURbabSU0EGbDON9CWFMprxI3Yt4TMQziSE6qiozAb9RDleP6Tr9V0LcoGF
-         hiIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX6pdoWIL81Jxrbf3UE8fb7F6+SCHI6ekKVZoI/jLKGQDy1RYte3U+2AmQ3WmWS+kjiQP+/UQVG0BtrfcACCy4PHQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz6PfUTXd4hne9QCjz1RWC8VO7VA+iC+JFu0ATvdvsxRKyxxVFr
-	rJv8kDqCnucEKZChlCP9gkOwlcEqyWbLRhedZNnvlFWwG5Wj2WSOGhQV86U5ZYSncRY=
-X-Gm-Gg: ASbGncvtIedYdHCufT3UB/KHknPTQ28pma7ngShn00TDGwm5u2KeCPuByLYAxy9F1mc
-	rDOtc53m4m/Q6Nbk9Iz+eAhKFI+mrekaHYfEPRY3I2lJjpILWk3+luLO4+m082TYFTZyzrWipyG
-	nUQmB5NnU3eSyg5WUbrWL4XiG2Z0z86Hra+lc+NwOSTh6vlL6kQ1RinjvbqXq8hKUOpuFJw0CMa
-	wHu4Z/CnvKshkMppRtVtBPwsiEXuA16x5LntOnAsDsGGptjj0dLk6syy/1KuQloERjt/CYSH3t2
-	Ponw0ep+KD6H+iLTQO+mL0t2PvUwJeuP2Mzrb/Wypzn7pt9sWF+JWWqLm7EkoX8b/z4M3VXFBBp
-	duEqoO4xarVOqe7BfuAEKgO6AgmpZ4qVi7pAOiHrrlq0ekjGyPwDYWlKGs4MWbhdsSxW/acFsno
-	b8KyDHyFO6DREXTHo/UthoIGR+bR4P0CXVOhc=
-X-Google-Smtp-Source: AGHT+IFomX4aIus90FxCSgmmrBTBJXbqd3ob9BSd3Xcmz0+gF0oKZ54j5iy5OZ06LOXnvgj7U1XbdQ==
-X-Received: by 2002:a05:600c:3505:b0:46e:49fb:4776 with SMTP id 5b1f17b1804b1-46e71109eeamr86516495e9.11.1759792370546;
-        Mon, 06 Oct 2025 16:12:50 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8b4a:4bca:6299:1557? ([2001:8b0:aba:5f3c:8b4a:4bca:6299:1557])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e61a18b76sm281050615e9.18.2025.10.06.16.12.49
+        d=1e100.net; s=20230601; t=1759816940; x=1760421740;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Amj3+f6ObCyyj0SdwC+TJz9UMBO/GlWpyodylnC9IwU=;
+        b=UEWLhmWD/3d9ZbCe/6/4gGAyZ7An6X86YkeyqacGyDsJMge3M4S5iuzYZnG3VnkiO8
+         qa/aFWJruZ/Fxbe/LO7sLtmF7gcSfqEmEgJUk1FLifOrxXpgIxuEBhdIn5NlUfU/3zB1
+         SJax3RWNB4Fotwha6LP/mBROdmDVZAXElU7YvsBg5fqoj7B4kIqDH86VvgcfS2cxth/t
+         NmW6hHrWCCS6BFG1jdcYtKmZ3WEMNWuEuXcSJPS8hxiISEk39HQeUfRk4gVxcLwi9WYu
+         fU0CzNJWEBgiIHLtR8d64slfE98clyk2AqJxXwN+f5lEgeExb8Bz/r/cCYXert2+9V68
+         27Hg==
+X-Gm-Message-State: AOJu0YweuPTnniUDrd+DsYc4EWj0tD4FmuKQgxwnhI7JRu7Aeb/IeveT
+	X4NOtjs0QUmzdOAy2hCalzUv0QF/BnPxTJogyeaGSFW3sZn1nkXLSeuzu1gkz+hApJiymS4TnxW
+	KMxkEGek=
+X-Gm-Gg: ASbGncubbD+5r1PufjqD0LOzqR/jOa2vAsr2FxcEuyu3oywjYBTS+9tARdZnLD/OuCr
+	gC72BdvpZXdaqmIVbYiIeKZjT5dEYT/ATSg6MdYfe7kMdPSI8Av53yiCMZ5ws/cYWwr3P5VmZqf
+	VCd7NjXruTuVdaPe7xrxfjvzZVN+xyMyh5n5F2nNaOVbpxGNQ+7gcwhrnEp5PgI9KrPrj1ojFA6
+	vSXK0b6GGQ1dU75faPJxM8eWkCBAEIZu25xBUxVxsx4GjdRweNZfuYE561Z9dCyr61C9VHsvdMC
+	U5TCvAMDY258aG/I1iHTpxKYDNMTr53S3tlr6EWyHu57Q87z/p2VBhgeN/8yTkW9XdvJGQnh93l
+	BF5OLibAz50A7RARnDrl9WsAcIaQjGyFpz/pRzLqkFjgd
+X-Google-Smtp-Source: AGHT+IG+u0NpG1tEgjr/Ckd2XUY2/8Kuuevcu8cV+xdfyIm3gX83F2VW/rdxVO0R24f4d83byfNUPQ==
+X-Received: by 2002:a17:903:1a2b:b0:265:47:a7b0 with SMTP id d9443c01a7336-28e9a5435e2mr185612565ad.10.1759816939517;
+        Mon, 06 Oct 2025 23:02:19 -0700 (PDT)
+Received: from MVIN00013 ([43.249.234.250])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1f1a75sm151570685ad.125.2025.10.06.23.02.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 16:12:49 -0700 (PDT)
-Message-ID: <810b6c235ccbd74e6b0fcf295ab2db9ca21583e0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] oeqa/selftest: Fix single threaded race issue
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Quentin Schulz <quentin.schulz@cherry.de>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 07 Oct 2025 00:12:49 +0100
-In-Reply-To: <ff5c5818-a596-4f5b-8a50-dfda83a3664e@cherry.de>
-References: <20251006130902.846106-1-richard.purdie@linuxfoundation.org>
-	 <ff5c5818-a596-4f5b-8a50-dfda83a3664e@cherry.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+        Mon, 06 Oct 2025 23:02:19 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] grub2: mark CVE-2024-2312 as not applicable
+Date: Tue,  7 Oct 2025 11:32:06 +0530
+Message-ID: <20251007060206.72978-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Oct 2025 23:12:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224510
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Oct 2025 06:02:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224511
 
-On Mon, 2025-10-06 at 18:56 +0200, Quentin Schulz wrote:
-> Hi Richard,
->=20
-> On 10/6/25 3:09 PM, Richard Purdie via lists.openembedded.org wrote:
-> > oe-selftest sets up separate build directories to run the tests in.
-> > To to this, environment paths pointing at the previous build directory
-> > are updated. In the multi-threaded case this is fine as the thread is
-> > destroyed and the parent remains unchanged but in the single threaded
-> > case, the environment is broken afterwards. This can mean we try and ac=
-cess
-> > a directory which is in the process of being deleted (e.g. by clobberdi=
-r).
-> >=20
-> > Restore the environment afterwards regardless to ensure the single thre=
-aded
-> > case doesn't try and access the build directory which is now being dele=
-ted.
-> >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > =C2=A0 meta/lib/oeqa/selftest/context.py | 4 ++++
-> > =C2=A0 1 file changed, 4 insertions(+)
-> >=20
-> > diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest=
-/context.py
-> > index 16f82c6737d..c9eb4817253 100644
-> > --- a/meta/lib/oeqa/selftest/context.py
-> > +++ b/meta/lib/oeqa/selftest/context.py
-> > @@ -44,9 +44,13 @@ class NonConcurrentTestSuite(unittest.TestSuite):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.bb_vars =3D=
- bb_vars
-> > =C2=A0=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 def run(self, result):
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 origenv =3D os.environ.copy=
-()
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (builddir, newbu=
-ilddir) =3D self.setupfunc("-st", None, self.suite)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D super().=
-run(result)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # In forks we don't have to=
- restore but in a single process, restore cwd and the env
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.chdir(builddi=
-r)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for e in origenv:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.=
-environ[e] =3D origenv[e]
->=20
-> Wondering if we cannot replace the loop with
->=20
-> os.environ.update(origenv)
->=20
-> which should have the same behavior?
->=20
-> Note that keys that didn't exist in origenv but exists in os.environ=20
-> after the copy() will stay there (in the update() and suggested implem=
-=20
-> in the patch). If you want to really have the same one, I'm wondering if=
-=20
-> os.environ =3D origenv[:] would work, but I'm assuming there's a reason
-> you didn't go for that that I am missing. Another option could be to=20
-> delete/pop all keys that do not exist in both, e.g. with (not tested)
->=20
-> del_keys =3D set(os.environ.keys()) - set(origenv.keys())
-> for del_key in del_keys:
-> =C2=A0=C2=A0=C2=A0=C2=A0 del os.environ[del_key]
->=20
-> Though I'm wondering if we cannot simply call os.environ.clear() before?=
-=20
-> Not sure what the side effects could be, I have a feeling this=20
-> os.environ is a bit more than a dict :)
+This issue is specific to the peimage module that Ubuntu add, and is not
+an upstream issue.
 
-os.environ is magic and I've been burnt by trying to be too clever with
-it in the past, it is definitely not a dict. It has been massively
-improved since I was burnt by it too but the memories make me want to
-just treat it carefully and clearly.
+(From OE-Core rev: 8d2fe3f403e6435e1ffe122a6776381090752d8a)
 
-Cheers,
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ meta/recipes-bsp/grub/grub2.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Richard
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index fd671d88ad..edb87ef2ea 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -45,6 +45,7 @@ SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154
+ CVE_STATUS[CVE-2019-14865] = "not-applicable-platform: applies only to RHEL"
+ CVE_STATUS[CVE-2023-4001]  = "not-applicable-platform: Applies only to RHEL/Fedora"
+ CVE_STATUS[CVE-2024-1048]  = "not-applicable-platform: Applies only to RHEL/Fedora"
++CVE_STATUS[CVE-2024-2312]  = "not-applicable-platform: Applies only to Ubuntu"
+ 
+ DEPENDS = "flex-native bison-native gettext-native"
+ 
+-- 
+2.50.1
 
 
