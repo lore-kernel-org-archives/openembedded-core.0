@@ -1,613 +1,10886 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <kamel.bouhara@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6F7CCA476
-	for <webhook@archiver.kernel.org>; Tue,  7 Oct 2025 11:10:43 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.15903.1759835441504234938
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B73ECCA472
+	for <webhook@archiver.kernel.org>; Tue,  7 Oct 2025 11:43:53 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.web11.16457.1759837429097250573
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Oct 2025 04:10:41 -0700
+ Tue, 07 Oct 2025 04:43:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=moUydyxl;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2375bebcce=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 597AEMeg3405382
-	for <openembedded-core@lists.openembedded.org>; Tue, 7 Oct 2025 11:10:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=ijFhpxe79Zpfv/RLnVsAfvl6ATplg4HdEeDIxVYuxzE=; b=
-	moUydyxlZ8RZDdSVr3mtXa74LZJvLBs+AuPPAYYjxD+/AUuAP4po+Sko32YU9ssr
-	cwwnsKSeKw6ctw7I96IpKHcfwMrb3NPnG+dz10FnUW08e0f0oGjtHtCvPs74EaeW
-	GR6FwRtVHhuVqypN6TpGp9/mEpjMkReO+hbz8CX77nHD7qamVRfoxQSlou5dajrl
-	gEpUEORX4FFYx8uvXXWRywMl0JLICnl/JYoAokMGgK8M0hXQWbx5f/dyYCIP4uMn
-	X/ZydftIP36L819yCA9y1QvwwHWrDbAK+7ohaInIWwZHvqCKvSzx1tHRv/k/I6p8
-	j9+2mp4AjS+pTEY2DIHH8g==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011063.outbound.protection.outlook.com [52.101.62.63])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49jrxgtucc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 07 Oct 2025 11:10:39 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WG+jAm8ZDMwmi/rkaoO5vMHpDcpAehdhrAMBybddjDodQZIjt4Gu+AwDvYVj3MFhkJTmUemp+CxbuG7INCctGW1DOYsmhBv5MaqFhQUfT+rHN0kNGmZPZFNGQ5vMMovz+e9MDt7n5xfDSc1mKopkQJ49JMJmYkeR6yfEvfLFP5rqBvc8wUlrbAHtB+UTVBrT9qovXOqza0P70mLau6hU0I7MoYZv6YMylmbspe3quZRVu6uozziYd+DggUPBzdxuTu+gWMcuAhrinVfkpRlBlqnsWCHgrAUND7pSRO3ZbVKycoTkpB+84JB7D+0xnJc5je3qPOUotRLuPpw4apS88A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ijFhpxe79Zpfv/RLnVsAfvl6ATplg4HdEeDIxVYuxzE=;
- b=S54WytKc5qGks3Z9jHrC8uTtx0fwBrF5Phza7yXoplaOGcyQeVRY2QTx620oWA+co+Cc+jPoPJtsZKmyK6KDnuVOLN63gHe7oJqpvk/lQgel7PeScM70mUC1zm5hpN6PtPbRUtfyGyVidfuOW7P1XneUv7VaAhZQLbnk8f/bdoo61cBVOE11b7UgXh2I/RLBThAFFUmuQjozfIrlYHxFX3out6U/5xmn/Hw0M1LpAWjxWCE5z/eNAHKwmTeX41uSEB9ggLotWYbRn4srYkwMCHJvBLeMFidnB4bAOzLjtxBY2JiEP4C/lyAfwkXyoWMTyd7CiKSGPy9XhpS7Jb8gbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
- by MN6PR11MB8171.namprd11.prod.outlook.com (2603:10b6:208:471::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Tue, 7 Oct
- 2025 11:10:32 +0000
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f%5]) with mapi id 15.20.9182.017; Tue, 7 Oct 2025
- 11:10:32 +0000
-Message-ID: <55dd2edb-6faf-446d-b28a-4bace9859169@windriver.com>
-Date: Tue, 7 Oct 2025 16:40:24 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH V3 1/2] rust: Use clang instead of rust-llvm
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
-References: <20250926102411.3742996-1-Deepesh.Varatharajan@windriver.com>
- <9433bf5a-8648-4142-a17f-69092253dd46@gmail.com>
- <f07bc225-e3b6-4ac9-b6e4-de52d4053618@windriver.com>
- <CAMKF1spO_MP=CtN8rdG3S=YE2qmUEVYfCDsRrxzo6pipvpJD6w@mail.gmail.com>
-Content-Language: en-US
-From: Deepesh Varatharajan <deepesh.varatharajan@windriver.com>
-In-Reply-To: <CAMKF1spO_MP=CtN8rdG3S=YE2qmUEVYfCDsRrxzo6pipvpJD6w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: MA1PR01CA0146.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:71::16) To SJ0PR11MB5648.namprd11.prod.outlook.com
- (2603:10b6:a03:302::11)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=dZvjR6ip;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: kamel.bouhara@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 6522BC085EB;
+	Tue,  7 Oct 2025 11:43:28 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BCF78606EB;
+	Tue,  7 Oct 2025 11:43:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 31E61102F213F;
+	Tue,  7 Oct 2025 13:43:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1759837424; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=B21r0CXYfj+Q+jNOU3Idb+dWixtp+yaAE+P6BkEcnGo=;
+	b=dZvjR6ip85M2m4o0qE2eioT97iNl3cQakmsvfxV9sDujVaJdI9oNLqbK9Nihe4QqdaIO0F
+	PWBoTlR+TjX6Eq7z06wHnvs/1+veM51/CQFjoImLS5zWMgwOxvZNHszpdaBeC6zWM0hUJd
+	KVkbhOVdyc/oBg5CYGYYSjVRnGwHPrS+L1Xkm8HssgcJwKE1SAxPBxUiMn9Ae5KAtcHH83
+	O+KOgGY/XokrSmv+vuUMU8KJN+eLdzAHH4PYSgf34UgYYrmHWKgBoG96iHSSsYTHAnPzKt
+	Z3PZYeg3jCVbSt0nkxZyMpaf0H7juVTdmUryr+NbJdcOK/9uijnxmYHeVqQ80Q==
+Date: Tue, 7 Oct 2025 13:43:31 +0200
+From: Kamel Bouhara <kamel.bouhara@bootlin.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, thomas.petazzoni@bootlin.com, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, mathieu.dubois-briand@bootlin.com, antonin.godard@bootlin.com, 
+	Pascal Eberhard <pascal.eberhard@se.com>
+Subject: Re: [PATCH 1/6] backport: SPDX 3.0 fixes and tasks from upstream
+ version Walnascar
+Message-ID: <7ouum3sgbrdp6atsay5ihoee5wuvylvfknyasuu6miuhqizzun@srkbphaw4fal>
+References: <20250905171154.182825-1-kamel.bouhara@bootlin.com>
+ <20250905171154.182825-2-kamel.bouhara@bootlin.com>
+ <CAJdd5GaQvU03EXRgCybsy9wvJA4X=xGj6f3XULEtoL4DUPapAw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|MN6PR11MB8171:EE_
-X-MS-Office365-Filtering-Correlation-Id: a27c2daf-f6c6-45ef-f54c-08de05922150
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|4022899009|366016|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?THd2c0x1QlFKNUFyRWxYdnpPQ3VIZVlwU0FlYmVOME4xMVR5d2RlMlE4Y2o4?=
- =?utf-8?B?Rmdic29qOGFHaTcvd3R2RmpqK3lFWVBDMFZ2RWFLQVkrYlhtSGRCenR5SU9x?=
- =?utf-8?B?VXlVUVVVKzUwaTFIbVVlNGNudjlEdWdpODY5QXdCZGVWNmVNbm5JaEY4enQ4?=
- =?utf-8?B?OCtjeWM0ZnZRT2dnWTZrQmJ1UVJUL1ZyYmxMU1FkMFR0SFZTcFl1a3NKaFpq?=
- =?utf-8?B?OUcyWGZrc1FNR2p1aWlGOXFUelVkeVptdHlLS3ZVaFl3eXEwdkRxWUprYWkz?=
- =?utf-8?B?V0cydkVPQldEN3JGZ0NTM3JrR2RIVmhveFlSb0Y3Q09YdXI3L1ZIaXZOMzdo?=
- =?utf-8?B?N3A4WWtHb2ZwRlRiVnQrWmF1OEd0WW5TUnZOTFppMnp6RExHYUFJYXRZYUtp?=
- =?utf-8?B?cUNVWllUbEJ4U1MvTklMalFXWTJwbWhCNGN4cFJZYWZwSkpzTTNjaUFiM0ww?=
- =?utf-8?B?a2lPeXR2REo1SFRHVzFwZzVHSTB1a1k2MDBXUGxVTVZoWjM2dWZRWTVtMlRV?=
- =?utf-8?B?UVlFQ3NhOVZKSGhyR3Flb0JSUGNYWUpXRlpvbHBWeUVQM21wVSt5dEs5Z0ZL?=
- =?utf-8?B?cHN4S05BTkxJcUNUajFNNHRTY2JZZi9SV0JGcnp5cWJqWXpDYlZySDlWaDdY?=
- =?utf-8?B?VUNnMnZoVmQzakk4RjJ1R1M3c1dOZ2JDNE93QTl1emZNOUNDRGF2Z3BIQ1RS?=
- =?utf-8?B?aUNEN1JhTjhiTGk1K2hsOTFmOWdjS2dQNC9yZloxVGNObVZJY0xXNEFFTGU5?=
- =?utf-8?B?UGNxeGxnK3RWWksvMDVZTlJQQ2RlR0M2OGZ3enRIaW5hN0dXMnNEeWRvVWhj?=
- =?utf-8?B?QnlRckJ2cWdRYmFHMkI0cTlWR3ptcURtWGNWalJ2ZGZkaFRQeFFtc3AyMUEw?=
- =?utf-8?B?N2ZtM2wyYjFRMVArclJJQ3FYK0F3REFnSkM5T1hTV3lHM3lDS3VEaFc0LzBh?=
- =?utf-8?B?bHQwYlZpTFpaZGFrZGNNY2JMYTlzWWVtbDllVVlsYit6eUxUdHB5Y1B2K21t?=
- =?utf-8?B?S1JoaXlFV3lwem04cEo1OG1jczRwekc2dmhCR0xzTW53aFh4OGM5ZVdxay9p?=
- =?utf-8?B?UXM5TmhUM29RRjdEdmZlOXlaWm5WVnN0VTJ6THI4U3pBWTRLWlZEaW4rb0lQ?=
- =?utf-8?B?Mi9FcjVtQTl3Ym1ZanR1M0tIdFlObjNneEtIQXhuczhSaTVDL0FZNFMwYjlU?=
- =?utf-8?B?WndnOHFvZHZyS0EwL1Q4MHR0NThPbk5qcFpFRGh1NFY2ZlRnZ3VFeVBXNnpM?=
- =?utf-8?B?bTExdHJWMEtZbDg3T1BORlZ0VVRlQ2g5ZkphNS9uajU1THNxRjhZNXFZWmdu?=
- =?utf-8?B?V2piU08yaTVIWndwUk4ydVBYNTJXOVZYLy9EaFhScDBuQ3JyMWlNTFAycGVV?=
- =?utf-8?B?d2pQMjBoMzJPZmErMGFHNE4yNExDbHBNNm1NRHFwNGtzTGd6QUFoMHBKRmJh?=
- =?utf-8?B?dnFrbW9YS1J4VUhvUE1Rclh4Q2ZqQlk1bCtGUERrOExPdmlEbDRjczBpck9n?=
- =?utf-8?B?RFdybVZWZWhDTURrNWlEZHBZR283d2NpU09oMWJrbWdrSXRYRzIzZ0ZOajRh?=
- =?utf-8?B?NkpGbzQ4VWFKdXJSZ2pKRndSbk1Ra0ZTN1duYW9lbTlnbW1TakJ5N21RN3dN?=
- =?utf-8?B?aGllUEpiN0VGOWo5akdpZ05ERWlublhLcWdoTW9mZlBYazkrZ2drY1lqbito?=
- =?utf-8?B?NzVwQXRkSmFNTGhRSGpsMkE5ZVQ4VU16RW5DK0toS0FpQjVwdzc2OVBKSnBM?=
- =?utf-8?B?ZVM4MWVpUUszRVF1N2hzakR2SWZOSGNXK2J0T3ltOEZGSDN5UzI4YVlyR29K?=
- =?utf-8?B?ZzRkUENWZWtwWkovcDlCNjRsaXNFTFZ3enZobVN6RXZsbTNVVXBVT3ZvaFFJ?=
- =?utf-8?B?WWlINTZPUnZrOEZpOGt3UWNmLzVNOVBadFRWa2dLMmZFdHc9PQ==?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(4022899009)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MVdMZ2hHS0FkVnRFcDRVQkpkVjVsT0cxbkdMclFPNlpVNE1uUVhHcXVOdGJT?=
- =?utf-8?B?R1k3K2RGWVJPWVBLZ2hZa21Xd0VQd2hoeEhDRjYzT3o4WDZjSmZkZ3JXMUNS?=
- =?utf-8?B?WmtoaTNOYVpMVEZKbnBHa1ZaNjFKUWpLRDJVeXM0YmFoMHRRdEVSNHIrbTda?=
- =?utf-8?B?dTFRVm94OXVoQnE1WXNET0IrTE9HWnBFTFFrWnpmV3NzcFZtbzlIZENUcDlU?=
- =?utf-8?B?eFMvQjdyekl4dkNLb25lN1hSNHZnVEtEMS9aN0dvUjhlM1BqeW1WQVMwMjgv?=
- =?utf-8?B?dWl2ckNoRm5CcUZLYW1xYXBybjZLK2t1VTdUaUM4T0hFaHBaWktEenY0OUtM?=
- =?utf-8?B?dDFjSksxWWRjazVQdFQrclN4TXYvK0tPNG5CRWJXNHNiS0p2REdkV2JHcWh6?=
- =?utf-8?B?NklKd3YrM3IremhJNEhoWWswS0ZtSmN4Z1VlNW8wTzZ2NENTNVM0UXZrVity?=
- =?utf-8?B?ekJtR3h3dzF5M2Y5WTU1bVhRK0RwRHJhWnFKQUNxdnhUWForWHpJTzBnRmlU?=
- =?utf-8?B?QkhKbWJKaWF3dkxkVVdsZkNDREtoSlFLNDVTSmxHMkhKa2VlTWQrUmNkT2VV?=
- =?utf-8?B?aEZpb3dMZ1dJZVFsWWJRZlFWNnkvMVQ4Vm9xSUVTTDVXYlVzSTBqc3ZmNDdl?=
- =?utf-8?B?QlFCTWxPZDk3NkhBTkVHRDJuQWg0WHM2YTRlU2VXQVMwWENxZDA5cUV6b2lX?=
- =?utf-8?B?cjJObEYxa0pHaHVhNzZuSWw3QWlvTTk4S2E0RHVqNTRkeVVGV3NEOWNZUW9O?=
- =?utf-8?B?MHNuc08yRkpaSjhCS1cyZUxIejZadFlPK2NxODRERUhvbXczTVZKcFZxK1hj?=
- =?utf-8?B?WngrZFlobHNIeUp0cUo2eUYrNkpxTXN2bjd4cklYNVViSnFmM01FOGQ2RTEw?=
- =?utf-8?B?a2hadUx0YVN1OHkvaVhzVUlsdnhoa2RxY2ZkdnVlYXZSSHpYY0JpN0ROVTdJ?=
- =?utf-8?B?b2JIY2ZPOXd6L2N6czIrenc1eVEyeUgreFVYdldxWXdvRjdCU3NyaEZYV2JM?=
- =?utf-8?B?VWprQ3lwNFBkUFdsVWZ5RHNDUUpRNUNCVXNVNGcvczdJVklaWUVMZWRIMTNk?=
- =?utf-8?B?ZnI0Q2pJclU2L0ZOV0F1eDZjRTZwU2JlZmw2RWtZL2R2S0R3eW1CK0xhSzVV?=
- =?utf-8?B?TDcyaHVZaWs0b0NocHplQzdWbjd3azVNWnJYRW5xdXlFbUNUT2lhU3VRSUFl?=
- =?utf-8?B?aDhJcUp6TElZWnk3dHl5ditQcEF4cFNha1d1MUcyLzN6NEloTTA3U0JaTUk0?=
- =?utf-8?B?MEttekZiOHhDMGU5ZmhqdWJvUHRld2g5akF0WFY2VEhsa0Z1SVlSdjhOWFU4?=
- =?utf-8?B?VjJSSHdlSVhHd3lpNnhUMjVQVGdjZlpqZTlLeVE2ODhMZ2lsT2xCVVhlV050?=
- =?utf-8?B?U1ExOWp1aFNjM0Jtc1p1VGp0WEt6My9BZVZUcUd1Y3E3R1RCMzNaNTVuQWlv?=
- =?utf-8?B?NlRaVlRtTjJRbkh4UGcxcURZUStFbHUrVnJ5KzFKTnJxdlRXUXNoQ1hkUUM4?=
- =?utf-8?B?K0FWUkxiQllKbDBkNTZNU3VYUTE5N1VoL3hUUXljNlFrY0RnZHpVOURhRGJH?=
- =?utf-8?B?RXVwUyt3Z0xNQktDZzEybjRuWjRlR2IrS2lyM3UrLzV6RkFvNmFMMkovOWxh?=
- =?utf-8?B?L1E2OHpKSDNKZFlleFN1ZTRKNXFyc20zZm9VVk5pMERXY25iakcyRWxkQUps?=
- =?utf-8?B?RWhVdmcwaHJJajJOZTdjREJlazhDb2kzVXIxRnNmbTM3eXhxMnl5ZjZPUXNR?=
- =?utf-8?B?MUg1OWpyMURUYWZoTlVjSWJ6QVd3NXMwR2t0WUF2aFUzQTM1WEc5bWRWUjNR?=
- =?utf-8?B?bXJkY3VBQk44cDk1N3c5VXI2ZkdIKzMvR2xTc1dVNXNBRDhlOWdSaW1tdlZ1?=
- =?utf-8?B?YnIzdmFxZE1kSXlTdWVtc0ZybEZNVmpaTjM0YXNTeGtOWEJPam5CandDdmtS?=
- =?utf-8?B?cHcrRUlabThXcmtwN2h2VkZtNmhKbkhyeDltd1FvU1FtTHB3RVF1TUswTXl0?=
- =?utf-8?B?VzNRWGFpTXo3YTVXWXR3Ly9HSk5XQjQ4SnNCZHlJTUdmZUhndzR1RVBNdUhR?=
- =?utf-8?B?WjAxeS9icUtQb3Z2YjdyUEhOa3A2ME0vWWk1TDMxc2ordk83MWlQMUR4ZFI5?=
- =?utf-8?B?ZFBOd3VQdndJUmZpTjEydWJubkNtZ0FyZm5FTnNJRWtBeUdqVVRyVDkwRlBE?=
- =?utf-8?Q?oYPO/DmDPOeTxAOT76I3GnM=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a27c2daf-f6c6-45ef-f54c-08de05922150
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2025 11:10:31.9753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cREVVSmoCk2mW+Y/NxwTOpdTC4RhX0pK4yGgoAhwr4PhiChUOCVKJTcTqyS1W0BzI7LXaXEZqouEytix9WmDx7berQRlXinIeuZBMW20Kn/jlMrDwwdKDzPo/zgIljEC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8171
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: A1ExnWdFy9wHmPCEuB3I_mnf4mqNa1K0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA3MDA4OSBTYWx0ZWRfX4+vpOHaan8F+
- hNaeeHuocGJdD+yYvFUF6TrJxv5up9wEh4FwGZM3oI0X0XWEWdNsv6Cq6kMFgl64h4/lNiwvPe5
- Ukd0Ua498trBKZ5tr9rpr/MrXBB9RAalJ/F2jBgztMYjF5KdPLGSnc7WwKFkLG5eN1KmAYKHelV
- U0CEU0HVeYH4Ox7N5uWCsEm9Qs74XqFKociFPO6brc7pYzJT6DJ+8YLqPY8Ji8uNmZfpTzbEJcA
- 4gELiR+5fnMHyK2bgwjcWGGkLfbpK2RNhaON0ZxsSMMZP4jJ/DUQWvNPLSXe/B4JFg6bi+WnBmm
- 6bxjBq4ypIzEhPwemEy32BpIMuMsoF+sBpH+q41vvIaysoZr0fwkxNaOBvyOF6gMdCXIFO/XSRQ
- FVHOjx2ac+OvQUCCTs+5z/GimsGiWw==
-X-Proofpoint-ORIG-GUID: qfvFjbA3z0Ho8lV8C7RbKsWAZECiKxE0
-X-Authority-Analysis: v=2.4 cv=ari/yCZV c=1 sm=1 tr=0 ts=68e4f530 cx=c_pps
- a=1HqfSBmQQ8HGCHze6/9uFg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=ei4SEBeUAAAA:8
- a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
- a=sKHWOaTUltQzQMvHVrsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=Hqou25T6mLgA:10 a=8zIOOLb7Ym0NljyPXbuS:22 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-06_07,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- spamscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2509150000 definitions=main-2510070089
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 597AEMeg3405382
+In-Reply-To: <CAJdd5GaQvU03EXRgCybsy9wvJA4X=xGj6f3XULEtoL4DUPapAw@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Oct 2025 11:10:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224524
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Oct 2025 11:43:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224525
 
-
-On 02-10-2025 00:59, Khem Raj wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
+On Mon, Oct 06, 2025 at 04:35:55PM -0600, Joshua Watt wrote:
+> I reviewed this and the code that is here LGTM. The Yocto TSC approved
+> it on the condition that the test code is implemented.
 >
-> On Mon, Sep 29, 2025 at 1:29=E2=80=AFAM Deepesh Varatharajan
-> <deepesh.varatharajan@windriver.com> wrote:
->>
->> On 26-09-2025 23:00, Khem Raj wrote:
->>> CAUTION: This email comes from a non Wind River email account!
->>> Do not click links or open attachments unless you recognize the sende=
-r
->>> and know the content is safe.
->>>
->>> On 9/26/25 3:24 AM, Varatharajan, Deepesh via lists.openembedded.org
->>> wrote:
->>>> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->>>>
->>>> Updated the Rust build to depend on Clang instead.
->>>>
->>>> *Summary of discussion with the rust upstream about using latest LLV=
-M
->>>> instead of Rust maintained LLVM fork.
->>>> https://internals.rust-lang.org/t/can-we-use-proper-clang-instead-of=
--llvm-fork-what-rust-uses/23489
->>>>
->>>>
->>>> *Upstream LLVM is generally compatible:
->>>> - Rust does support building with upstream (vanilla) LLVM, especiall=
-y
->>>> the latest
->>>> major release and the one or two preceding ones.
->>>> https://rustc-dev-guide.rust-lang.org/backend/updating-llvm.html#upd=
-ating-llvm
->>>>
->>>>
->>>> *Impact on Yocto Rust upgrades:
->>>> - Rust upgrades shall always check for updates on rust forked llvm
->>>> and backport
->>>> the relevant patches to clang's llvm.
->>>>
->>>> *Regarding the rust forked llvm local patches:
->>>> - There are no local patches on rust forked llvm other than the
->>>> backported fixes
->>>> from llvm master.
->>>>
->>>> *We now add these flags "-Clink-arg=3D-lz -Clink-arg=3D-lzstd" becau=
-se of
->>>> this following
->>>> diff otherwise we will get errors during link time.
->>>>
->>>> Setup in rust-llvm
->>>> -DLLVM_ENABLE_ZLIB=3DOFF \
->>>> -DLLVM_ENABLE_ZSTD=3DOFF \
->>>> -DLLVM_ENABLE_FFI=3DOFF \
->>>>
->>>> Setup in clang
->>>> -DLLVM_ENABLE_FFI=3DON \
->>>> -DLLVM_ENABLE_ZSTD=3DON \
->>>>
->>>> *When multilibs enabled:
->>>>
->>>> llvm-config expects static libraries to be located in the lib
->>>> directory rather than
->>>> lib64. However, since LLVM is built as a non-multilib component, the
->>>> lib directory
->>>> doesn't contain any library files. To accommodate this without
->>>> breaking multilib
->>>> behavior, we copy the required library files appropriately.
->>>>
->>>> Previously, when we depended on rust-llvm, this worked because we
->>>> specified:
->>>> -DCMAKE_INSTALL_PREFIX:PATH=3D${libdir}/llvm-rust
->>>>
->>>> With this setup, llvm-config was installed inside
->>>> ${libdir}/llvm-rust, which included
->>>> its own bin and lib directories. Thus, llvm-config located in bin
->>>> would correctly find
->>>> the libraries in the adjacent lib directory.
->>>>
->>>> Even when multilib was enabled or not, llvm-config would still look
->>>> for libraries under
->>>> lib in this structure, so everything functioned as expected.
->>>>
->>>> *Changes needs to be done when llvm splits from clang:
->>>> In rust recipe:
->>>> Update the dependency from:
->>>> DEPENDS +=3D "ninja-native clang" to DEPENDS +=3D "ninja-native llvm=
-"
->>>>
->>>> In llvm recipe:
->>>> Apply the same changes that were made in the Clang recipe, as those
->>>> configurations have now been moved to the LLVM recipe after the spli=
-t.
->>>>
->>>> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.=
-com>
->>>> ---
->>>>    meta/recipes-devtools/clang/clang_git.bb     |  4 ++--
->>>>    meta/recipes-devtools/clang/common-clang.inc |  6 +++---
->>>>    meta/recipes-devtools/rust/rust_1.90.0.bb    | 18 ++++++++++++++-=
----
->>>>    3 files changed, 19 insertions(+), 9 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-devtools/clang/clang_git.bb
->>>> b/meta/recipes-devtools/clang/clang_git.bb
->>>> index 53bca1c24f..3e117b308b 100644
->>>> --- a/meta/recipes-devtools/clang/clang_git.bb
->>>> +++ b/meta/recipes-devtools/clang/clang_git.bb
->>>> @@ -83,7 +83,6 @@ OECMAKE_SOURCEPATH =3D "${S}/llvm"
->>>>    # https://github.com/llvm/llvm-project/blob/main/llvm/CMakeLists.=
-txt
->>>>    LLVM_TARGETS_GPU ?=3D "${@bb.utils.contains_any('DISTRO_FEATURES'=
-,
->>>> 'opencl opengl vulkan', 'AMDGPU;NVPTX;SPIRV', '', d)}"
->>>>    LLVM_TARGETS_TO_BUILD ?=3D
->>>> "AArch64;ARM;BPF;Mips;PowerPC;RISCV;X86;LoongArch;${LLVM_TARGETS_GPU=
+
+Hi Joshua,
+
+Thanks for the review.
+
+V2 of the backport is almost ready and includes the test code as
+requested.
+
+The only remaining issue is with CVE/VEX handling, which can cause
+do_create_spdx to fail when SPDX_INCLUDE_VEX !=3D "none".
+
+I=E2=80=99ll investigate a proper fix for this before finalizing the patch
+series.
+
+Greetings,
+
+> On Fri, Sep 5, 2025 at 11:11=E2=80=AFAM Kamel Bouhara <kamel.bouhara@boot=
+lin.com> wrote:
+> >
+> > From: "Kamel Bouhara (Schneider Electric)" <kamel.bouhara@bootlin.com>
+> >
+> > Backports the SPDX 3.0 support and fixes from upstream walnascar
+> > commit 49f47169953b807d430461ca33f3a2b076119712 into upstream
+> > scarthgap.
+> >
+> > Signed-off-by: Kamel Bouhara (Schneider Electric) <kamel.bouhara@bootli=
+n.com>
+> > ---
+> >  .../create-spdx-image-3.0.bbclass             |   85 +
+> >  .../create-spdx-sdk-3.0.bbclass               |   74 +
+> >  meta/classes-recipe/nospdx.bbclass            |   13 +
+> >  meta/classes/create-spdx-3.0.bbclass          |  200 +
+> >  meta/classes/spdx-common.bbclass              |   99 +
+> >  meta/lib/oe/__init__.py                       |    2 +-
+> >  meta/lib/oe/sbom30.py                         | 1096 ++++
+> >  meta/lib/oe/spdx30.py                         | 5593 +++++++++++++++++
+> >  meta/lib/oe/spdx30_tasks.py                   | 1348 ++++
+> >  meta/lib/oe/spdx_common.py                    |  244 +
+> >  10 files changed, 8753 insertions(+), 1 deletion(-)
+> >  create mode 100644 meta/classes-recipe/create-spdx-image-3.0.bbclass
+> >  create mode 100644 meta/classes-recipe/create-spdx-sdk-3.0.bbclass
+> >  create mode 100644 meta/classes-recipe/nospdx.bbclass
+> >  create mode 100644 meta/classes/create-spdx-3.0.bbclass
+> >  create mode 100644 meta/classes/spdx-common.bbclass
+> >  create mode 100644 meta/lib/oe/sbom30.py
+> >  create mode 100644 meta/lib/oe/spdx30.py
+> >  create mode 100644 meta/lib/oe/spdx30_tasks.py
+> >  create mode 100644 meta/lib/oe/spdx_common.py
+> >
+> > diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/c=
+lasses-recipe/create-spdx-image-3.0.bbclass
+> > new file mode 100644
+> > index 0000000000..e0f1766bb7
+> > --- /dev/null
+> > +++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+> > @@ -0,0 +1,85 @@
+> > +#
+> > +# Copyright OpenEmbedded Contributors
+> > +#
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +# SPDX image tasks
+> > +
+> > +SPDX_ROOTFS_PACKAGES =3D "${SPDXDIR}/rootfs-packages.json"
+> > +SPDXIMAGEDEPLOYDIR =3D "${SPDXDIR}/image-deploy"
+> > +SPDXROOTFSDEPLOY =3D "${SPDXDIR}/rootfs-deploy"
+> > +
+> > +python spdx_collect_rootfs_packages() {
+> > +    import json
+> > +    from pathlib import Path
+> > +    from oe.rootfs import image_list_installed_packages
+> > +
+> > +    root_packages_file =3D Path(d.getVar("SPDX_ROOTFS_PACKAGES"))
+> > +
+> > +    packages =3D image_list_installed_packages(d)
+> > +    if not packages:
+> > +        packages =3D {}
+> > +
+> > +    root_packages_file.parent.mkdir(parents=3DTrue, exist_ok=3DTrue)
+> > +    with root_packages_file.open("w") as f:
+> > +        json.dump(packages, f)
+> > +}
+> > +ROOTFS_POSTUNINSTALL_COMMAND =3D+ "spdx_collect_rootfs_packages"
+> > +
+> > +python do_create_rootfs_spdx() {
+> > +    import oe.spdx30_tasks
+> > +    oe.spdx30_tasks.create_rootfs_spdx(d)
+> > +}
+> > +addtask do_create_rootfs_spdx after do_rootfs before do_image
+> > +SSTATETASKS +=3D "do_create_rootfs_spdx"
+> > +do_create_rootfs_spdx[sstate-inputdirs] =3D "${SPDXROOTFSDEPLOY}"
+> > +do_create_rootfs_spdx[sstate-outputdirs] =3D "${DEPLOY_DIR_SPDX}"
+> > +do_create_rootfs_spdx[recrdeptask] +=3D "do_create_spdx do_create_pack=
+age_spdx"
+> > +do_create_rootfs_spdx[cleandirs] +=3D "${SPDXROOTFSDEPLOY}"
+> > +do_create_rootfs_spdx[file-checksums] +=3D "${SPDX3_LIB_DEP_FILES}"
+> > +
+> > +python do_create_rootfs_spdx_setscene() {
+> > +    sstate_setscene(d)
+> > +}
+> > +addtask do_create_rootfs_spdx_setscene
+> > +
+> > +python do_create_image_spdx() {
+> > +    import oe.spdx30_tasks
+> > +    oe.spdx30_tasks.create_image_spdx(d)
+> > +}
+> > +addtask do_create_image_spdx after do_image_complete do_create_rootfs_=
+spdx before do_build
+> > +SSTATETASKS +=3D "do_create_image_spdx"
+> > +SSTATE_SKIP_CREATION:task-create-image-spdx =3D "1"
+> > +do_create_image_spdx[sstate-inputdirs] =3D "${SPDXIMAGEWORK}"
+> > +do_create_image_spdx[sstate-outputdirs] =3D "${DEPLOY_DIR_SPDX}"
+> > +do_create_image_spdx[cleandirs] =3D "${SPDXIMAGEWORK}"
+> > +do_create_image_spdx[dirs] =3D "${SPDXIMAGEWORK}"
+> > +do_create_image_spdx[file-checksums] +=3D "${SPDX3_LIB_DEP_FILES}"
+> > +do_create_image_spdx[vardeps] +=3D "\
+> > +    SPDX_IMAGE_PURPOSE \
+> > +    "
+> > +
+> > +python do_create_image_spdx_setscene() {
+> > +    sstate_setscene(d)
+> > +}
+> > +addtask do_create_image_spdx_setscene
+> > +
+> > +
+> > +python do_create_image_sbom_spdx() {
+> > +    import oe.spdx30_tasks
+> > +    oe.spdx30_tasks.create_image_sbom_spdx(d)
+> > +}
+> > +addtask do_create_image_sbom_spdx after do_create_rootfs_spdx do_creat=
+e_image_spdx before do_build
+> > +SSTATETASKS +=3D "do_create_image_sbom_spdx"
+> > +SSTATE_SKIP_CREATION:task-create-image-sbom =3D "1"
+> > +do_create_image_sbom_spdx[sstate-inputdirs] =3D "${SPDXIMAGEDEPLOYDIR}"
+> > +do_create_image_sbom_spdx[sstate-outputdirs] =3D "${DEPLOY_DIR_IMAGE}"
+> > +do_create_image_sbom_spdx[stamp-extra-info] =3D "${MACHINE_ARCH}"
+> > +do_create_image_sbom_spdx[cleandirs] =3D "${SPDXIMAGEDEPLOYDIR}"
+> > +do_create_image_sbom_spdx[recrdeptask] +=3D "do_create_spdx do_create_=
+package_spdx"
+> > +do_create_image_sbom_spdx[file-checksums] +=3D "${SPDX3_LIB_DEP_FILES}"
+> > +
+> > +python do_create_image_sbom_spdx_setscene() {
+> > +    sstate_setscene(d)
+> > +}
+> > +addtask do_create_image_sbom_spdx_setscene
+> > diff --git a/meta/classes-recipe/create-spdx-sdk-3.0.bbclass b/meta/cla=
+sses-recipe/create-spdx-sdk-3.0.bbclass
+> > new file mode 100644
+> > index 0000000000..855fb3d09f
+> > --- /dev/null
+> > +++ b/meta/classes-recipe/create-spdx-sdk-3.0.bbclass
+> > @@ -0,0 +1,74 @@
+> > +#
+> > +# Copyright OpenEmbedded Contributors
+> > +#
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +# SPDX SDK tasks
+> > +
+> > +do_populate_sdk[recrdeptask] +=3D "do_create_spdx do_create_package_sp=
+dx"
+> > +do_populate_sdk[cleandirs] +=3D "${SPDXSDKWORK}"
+> > +do_populate_sdk[postfuncs] +=3D "sdk_create_sbom"
+> > +do_populate_sdk[file-checksums] +=3D "${SPDX3_LIB_DEP_FILES}"
+> > +POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk =3D " sdk_host=
+_create_spdx"
+> > +POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk =3D " sdk_ta=
+rget_create_spdx"
+> > +
+> > +do_populate_sdk_ext[recrdeptask] +=3D "do_create_spdx do_create_packag=
+e_spdx"
+> > +do_populate_sdk_ext[cleandirs] +=3D "${SPDXSDKEXTWORK}"
+> > +do_populate_sdk_ext[postfuncs] +=3D "sdk_ext_create_sbom"
+> > +do_populate_sdk_ext[file-checksums] +=3D "${SPDX3_LIB_DEP_FILES}"
+> > +POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk-ext =3D " sdk_=
+ext_host_create_spdx"
+> > +POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk-ext =3D " sd=
+k_ext_target_create_spdx"
+> > +
+> > +python sdk_host_create_spdx() {
+> > +    from pathlib import Path
+> > +    import oe.spdx30_tasks
+> > +    spdx_work_dir =3D Path(d.getVar('SPDXSDKWORK'))
+> > +
+> > +    oe.spdx30_tasks.sdk_create_spdx(d, "host", spdx_work_dir, d.getVar=
+("TOOLCHAIN_OUTPUTNAME"))
+> > +}
+> > +
+> > +python sdk_target_create_spdx() {
+> > +    from pathlib import Path
+> > +    import oe.spdx30_tasks
+> > +    spdx_work_dir =3D Path(d.getVar('SPDXSDKWORK'))
+> > +
+> > +    oe.spdx30_tasks.sdk_create_spdx(d, "target", spdx_work_dir, d.getV=
+ar("TOOLCHAIN_OUTPUTNAME"))
+> > +}
+> > +
+> > +python sdk_ext_host_create_spdx() {
+> > +    from pathlib import Path
+> > +    import oe.spdx30_tasks
+> > +    spdx_work_dir =3D Path(d.getVar('SPDXSDKEXTWORK'))
+> > +
+> > +    # TODO: This doesn't seem to work
+> > +    oe.spdx30_tasks.sdk_create_spdx(d, "host", spdx_work_dir, d.getVar=
+("TOOLCHAINEXT_OUTPUTNAME"))
+> > +}
+> > +
+> > +python sdk_ext_target_create_spdx() {
+> > +    from pathlib import Path
+> > +    import oe.spdx30_tasks
+> > +    spdx_work_dir =3D Path(d.getVar('SPDXSDKEXTWORK'))
+> > +
+> > +    # TODO: This doesn't seem to work
+> > +    oe.spdx30_tasks.sdk_create_spdx(d, "target", spdx_work_dir, d.getV=
+ar("TOOLCHAINEXT_OUTPUTNAME"))
+> > +}
+> > +
+> > +
+> > +python sdk_create_sbom() {
+> > +    from pathlib import Path
+> > +    import oe.spdx30_tasks
+> > +    sdk_deploydir =3D Path(d.getVar("SDKDEPLOYDIR"))
+> > +    spdx_work_dir =3D Path(d.getVar('SPDXSDKWORK'))
+> > +
+> > +    oe.spdx30_tasks.create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, d=
+=2EgetVar("TOOLCHAIN_OUTPUTNAME"))
+> > +}
+> > +
+> > +python sdk_ext_create_sbom() {
+> > +    from pathlib import Path
+> > +    import oe.spdx30_tasks
+> > +    sdk_deploydir =3D Path(d.getVar("SDKEXTDEPLOYDIR"))
+> > +    spdx_work_dir =3D Path(d.getVar('SPDXSDKEXTWORK'))
+> > +
+> > +    oe.spdx30_tasks.create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, d=
+=2EgetVar("TOOLCHAINEXT_OUTPUTNAME"))
+> > +}
+> > +
+> > diff --git a/meta/classes-recipe/nospdx.bbclass b/meta/classes-recipe/n=
+ospdx.bbclass
+> > new file mode 100644
+> > index 0000000000..b20e28218b
+> > --- /dev/null
+> > +++ b/meta/classes-recipe/nospdx.bbclass
+> > @@ -0,0 +1,13 @@
+> > +#
+> > +# Copyright OpenEmbedded Contributors
+> > +#
+> > +# SPDX-License-Identifier: MIT
+> > +#
+> > +
+> > +deltask do_collect_spdx_deps
+> > +deltask do_create_spdx
+> > +deltask do_create_spdx_runtime
+> > +deltask do_create_package_spdx
+> > +deltask do_create_rootfs_spdx
+> > +deltask do_create_image_spdx
+> > +deltask do_create_image_sbom
+> > diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create=
+-spdx-3.0.bbclass
+> > new file mode 100644
+> > index 0000000000..044517d9f7
+> > --- /dev/null
+> > +++ b/meta/classes/create-spdx-3.0.bbclass
+> > @@ -0,0 +1,200 @@
+> > +#
+> > +# Copyright OpenEmbedded Contributors
+> > +#
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +
+> > +inherit spdx-common
+> > +
+> > +SPDX_VERSION =3D "3.0.1"
+> > +
+> > +# The list of SPDX profiles generated documents will conform to
+> > +SPDX_PROFILES ?=3D "core build software simpleLicensing security"
+> > +
+> > +SPDX_INCLUDE_BUILD_VARIABLES ??=3D "0"
+> > +SPDX_INCLUDE_BUILD_VARIABLES[doc] =3D "If set to '1', the bitbake vari=
+ables for a \
+> > +    recipe will be included in the Build object. This will most likely=
+ result \
+> > +    in non-reproducible SPDX output"
+> > +
+> > +SPDX_INCLUDE_BITBAKE_PARENT_BUILD ??=3D "0"
+> > +SPDX_INCLUDE_BITBAKE_PARENT_BUILD[doc] =3D "Report the parent invocati=
+on of bitbake \
+> > +    for each Build object. This allows you to know who invoked bitbake=
+ to perform \
+> > +    a build, but will result in non-reproducible SPDX output."
+> > +
+> > +SPDX_PACKAGE_ADDITIONAL_PURPOSE ?=3D ""
+> > +SPDX_PACKAGE_ADDITIONAL_PURPOSE[doc] =3D "The list of additional purpo=
+ses to assign to \
+> > +    the generated packages for a recipe. The primary purpose is always=
+ `install`. \
+> > +    Packages overrides are allowed to override the additional purposes=
+ for \
+> > +    individual packages."
+> > +
+> > +SPDX_IMAGE_PURPOSE ?=3D "filesystemImage"
+> > +SPDX_IMAGE_PURPOSE[doc] =3D "The list of purposes to assign to the gen=
+erated images. \
+> > +    The first listed item will be the Primary Purpose and all addition=
+al items will \
+> > +    be added as additional purposes"
+> > +
+> > +SPDX_SDK_PURPOSE ?=3D "install"
+> > +SPDX_SDK_PURPOSE[doc] =3D "The list of purposes to assign to the gener=
+ate SDK installer. \
+> > +    The first listed item will be the Primary Purpose and all addition=
+al items will \
+> > +    be added as additional purposes"
+> > +
+> > +SPDX_INCLUDE_VEX ??=3D "current"
+> > +SPDX_INCLUDE_VEX[doc] =3D "Controls what VEX information is in the out=
+put. Set to \
+> > +    'none' to disable all VEX data. Set to 'current' to only include V=
+EX data \
+> > +    for vulnerabilities not already fixed in the upstream source code \
+> > +    (recommended). Set  to 'all' to get all known historical vulnerabi=
+lities, \
+> > +    including those already fixed upstream (warning: This can be large=
+ and \
+> > +    slow)."
+> > +
+> > +SPDX_INCLUDE_TIMESTAMPS ?=3D "0"
+> > +SPDX_INCLUDE_TIMESTAMPS[doc] =3D "Include time stamps in SPDX output. =
+This is \
+> > +    useful if you want to know when artifacts were produced and when b=
+uilds \
+> > +    occurred, but will result in non-reproducible SPDX output"
+> > +
+> > +SPDX_IMPORTS ??=3D ""
+> > +SPDX_IMPORTS[doc] =3D "SPDX_IMPORTS is the base variable that describe=
+s how to \
+> > +    reference external SPDX ids. Each import is defined as a key in th=
+is \
+> > +    variable with a suffix to describe to as a suffix to look up more \
+> > +    information about the import. Each key can have the following vari=
+ables: \
+> > +        SPDX_IMPORTS_<key>_spdxid: The Fully qualified SPDX ID of the =
+object \
+> > +        SPDX_IMPORTS_<key>_uri: The URI where the SPDX Document that c=
+ontains \
+> > +            the external object can be found. Optional but recommended=
+ \
+> > +        SPDX_IMPORTS_<key>_hash_<hash>: The Checksum of the SPDX Docum=
+ent that \
+> > +            contains the External ID. <hash> must be one the valid SPD=
+X hashing \
+> > +            algorithms, as described by the HashAlgorithm vocabulary i=
+n the\
+> > +            SPDX 3 spec. Optional but recommended"
+> > +
+> > +# Agents
+> > +#   Bitbake variables can be used to describe an SPDX Agent that may b=
+e used
+> > +#   during the build. An Agent is specified using a set of variables w=
+hich all
+> > +#   start with some common base name:
+> > +#
+> > +#   <BASE>_name: The name of the Agent (required)
+> > +#   <BASE>_type: The type of Agent. Must be one of "person", "organiza=
+tion",
+> > +#       "software", or "agent" (the default if not specified)
+> > +#   <BASE>_comment: The comment for the Agent (optional)
+> > +#   <BASE>_id_<ID>: And External Identifier for the Agent. <ID> must b=
+e a valid
+> > +#       ExternalIdentifierType from the SPDX 3 spec. Commonly, an E-ma=
+il address
+> > +#       can be specified with <BASE>_id_email
+> > +#
+> > +#   Alternatively, an Agent can be an external reference by referencin=
+g a key
+> > +#   in SPDX_IMPORTS like so:
+> > +#
+> > +#   <BASE>_import =3D "<key>"
+> > +#
+> > +#   Finally, the same agent described by another set of agent variable=
+s can be
+> > +#   referenced by specifying the basename of the variable that should =
+be
+> > +#   referenced:
+> > +#
+> > +#   SPDX_PACKAGE_SUPPLIER_ref =3D "SPDX_AUTHORS_openembedded"
+> > +
+> > +SPDX_AUTHORS ??=3D "openembedded"
+> > +SPDX_AUTHORS[doc] =3D "A space separated list of the document authors.=
+ Each item \
+> > +    is used to name a base variable like SPDX_AUTHORS_<AUTHOR> that \
+> > +    describes the author."
+> > +
+> > +SPDX_AUTHORS_openembedded_name =3D "OpenEmbedded"
+> > +SPDX_AUTHORS_openembedded_type =3D "organization"
+> > +
+> > +SPDX_BUILD_HOST[doc] =3D "The base variable name to describe the build=
+ host on \
+> > +    which a build is running. Must be an SPDX_IMPORTS key. Requires \
+> > +    SPDX_INCLUDE_BITBAKE_PARENT_BUILD. NOTE: Setting this will result =
+in \
+> > +    non-reproducible SPDX output"
+> > +
+> > +SPDX_INVOKED_BY[doc] =3D "The base variable name to describe the Agent=
+ that \
+> > +    invoked the build, which builds will link to if specified. Require=
+s \
+> > +    SPDX_INCLUDE_BITBAKE_PARENT_BUILD. NOTE: Setting this will likely =
+result in \
+> > +    non-reproducible SPDX output"
+> > +
+> > +SPDX_ON_BEHALF_OF[doc] =3D "The base variable name to describe the Age=
+nt on who's \
+> > +    behalf the invoking Agent (SPDX_INVOKED_BY) is running the build. =
+Requires \
+> > +    SPDX_INCLUDE_BITBAKE_PARENT_BUILD. NOTE: Setting this will likely =
+result in \
+> > +    non-reproducible SPDX output"
+> > +
+> > +SPDX_PACKAGE_SUPPLIER[doc] =3D "The base variable name to describe the=
+ Agent who \
+> > +    is supplying artifacts produced by the build"
+> > +
+> > +SPDX_PACKAGE_VERSION ??=3D "${PV}"
+> > +SPDX_PACKAGE_VERSION[doc] =3D "The version of a package, software_pack=
+ageVersion \
+> > +    in software_Package"
+> > +
+> > +IMAGE_CLASSES:append =3D " create-spdx-image-3.0"
+> > +SDK_CLASSES +=3D "create-spdx-sdk-3.0"
+> > +
+> > +oe.spdx30_tasks.set_timestamp_now[vardepsexclude] =3D "SPDX_INCLUDE_TI=
+MESTAMPS"
+> > +oe.spdx30_tasks.get_package_sources_from_debug[vardepsexclude] +=3D "S=
+TAGING_KERNEL_DIR"
+> > +oe.spdx30_tasks.collect_dep_objsets[vardepsexclude] =3D "SPDX_MULTILIB=
+_SSTATE_ARCHS"
+> > +
+> > +
+> > +# SPDX library code makes heavy use of classes, which bitbake cannot e=
+asily
+> > +# parse out dependencies. As such, the library code files that make us=
+e of
+> > +# classes are explicitly added as file checksum dependencies.
+> > +SPDX3_LIB_DEP_FILES =3D "\
+> > +    ${COREBASE}/meta/lib/oe/sbom30.py:True \
+> > +    ${COREBASE}/meta/lib/oe/spdx30.py:True \
+> > +    "
+> > +
+> > +python do_create_spdx() {
+> > +    import oe.spdx30_tasks
+> > +    oe.spdx30_tasks.create_spdx(d)
+> > +}
+> > +do_create_spdx[vardeps] +=3D "\
+> > +    SPDX_INCLUDE_BITBAKE_PARENT_BUILD \
+> > +    SPDX_PACKAGE_ADDITIONAL_PURPOSE \
+> > +    SPDX_PROFILES \
+> > +    SPDX_NAMESPACE_PREFIX \
+> > +    SPDX_UUID_NAMESPACE \
+> > +    "
+> > +
+> > +addtask do_create_spdx after \
+> > +    do_collect_spdx_deps \
+> > +    do_deploy_source_date_epoch \
+> > +    do_populate_sysroot do_package do_packagedata \
+> > +    before do_populate_sdk do_populate_sdk_ext do_build do_rm_work
+> > +
+> > +SSTATETASKS +=3D "do_create_spdx"
+> > +do_create_spdx[sstate-inputdirs] =3D "${SPDXDEPLOY}"
+> > +do_create_spdx[sstate-outputdirs] =3D "${DEPLOY_DIR_SPDX}"
+> > +do_create_spdx[file-checksums] +=3D "${SPDX3_LIB_DEP_FILES}"
+> > +
+> > +python do_create_spdx_setscene () {
+> > +    sstate_setscene(d)
+> > +}
+> > +addtask do_create_spdx_setscene
+> > +
+> > +do_create_spdx[dirs] =3D "${SPDXWORK}"
+> > +do_create_spdx[cleandirs] =3D "${SPDXDEPLOY} ${SPDXWORK}"
+> > +do_create_spdx[depends] +=3D " \
+> > +    ${PATCHDEPENDENCY} \
+> > +    ${@create_spdx_source_deps(d)} \
+> > +"
+> > +
+> > +python do_create_package_spdx() {
+> > +    import oe.spdx30_tasks
+> > +    oe.spdx30_tasks.create_package_spdx(d)
+> > +}
+> > +oe.spdx30_tasks.create_package_spdx[vardepsexclude] =3D "OVERRIDES"
+> > +
+> > +addtask do_create_package_spdx after do_create_spdx before do_build do=
+_rm_work
+> > +SSTATETASKS +=3D "do_create_package_spdx"
+> > +do_create_package_spdx[sstate-inputdirs] =3D "${SPDXRUNTIMEDEPLOY}"
+> > +do_create_package_spdx[sstate-outputdirs] =3D "${DEPLOY_DIR_SPDX}"
+> > +do_create_package_spdx[file-checksums] +=3D "${SPDX3_LIB_DEP_FILES}"
+> > +
+> > +python do_create_package_spdx_setscene () {
+> > +    sstate_setscene(d)
+> > +}
+> > +addtask do_create_package_spdx_setscene
+> > +
+> > +do_create_package_spdx[dirs] =3D "${SPDXRUNTIMEDEPLOY}"
+> > +do_create_package_spdx[cleandirs] =3D "${SPDXRUNTIMEDEPLOY}"
+> > +do_create_package_spdx[rdeptask] =3D "do_create_spdx"
+> > +
+> > +python spdx30_build_started_handler () {
+> > +    import oe.spdx30_tasks
+> > +    d =3D e.data.createCopy()
+> > +    oe.spdx30_tasks.write_bitbake_spdx(d)
+> > +}
+> > +
+> > +addhandler spdx30_build_started_handler
+> > +spdx30_build_started_handler[eventmask] =3D "bb.event.BuildStarted"
+> > +
+> > diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-commo=
+n.bbclass
+> > new file mode 100644
+> > index 0000000000..36feb56807
+> > --- /dev/null
+> > +++ b/meta/classes/spdx-common.bbclass
+> > @@ -0,0 +1,99 @@
+> > +#
+> > +# Copyright OpenEmbedded Contributors
+> > +#
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +
+> > +SPDX_VERSION ??=3D ""
+> > +DEPLOY_DIR_SPDX ??=3D "${DEPLOY_DIR}/spdx/${SPDX_VERSION}"
+> > +
+> > +# The product name that the CVE database uses.  Defaults to BPN, but m=
+ay need to
+> > +# be overriden per recipe (for example tiff.bb sets CVE_PRODUCT=3Dlibt=
+iff).
+> > +CVE_PRODUCT ??=3D "${BPN}"
+> > +CVE_VERSION ??=3D "${PV}"
+> > +
+> > +SPDXDIR ??=3D "${WORKDIR}/spdx/${SPDX_VERSION}"
+> > +SPDXDEPLOY =3D "${SPDXDIR}/deploy"
+> > +SPDXWORK =3D "${SPDXDIR}/work"
+> > +SPDXIMAGEWORK =3D "${SPDXDIR}/image-work"
+> > +SPDXSDKWORK =3D "${SPDXDIR}/sdk-work"
+> > +SPDXSDKEXTWORK =3D "${SPDXDIR}/sdk-ext-work"
+> > +SPDXDEPS =3D "${SPDXDIR}/deps.json"
+> > +
+> > +SPDX_TOOL_NAME ??=3D "oe-spdx-creator"
+> > +SPDX_TOOL_VERSION ??=3D "1.0"
+> > +
+> > +SPDXRUNTIMEDEPLOY =3D "${SPDXDIR}/runtime-deploy"
+> > +
+> > +SPDX_INCLUDE_SOURCES ??=3D "0"
+> > +
+> > +SPDX_UUID_NAMESPACE ??=3D "sbom.openembedded.org"
+> > +SPDX_NAMESPACE_PREFIX ??=3D "http://spdx.org/spdxdocs"
+> > +SPDX_PRETTY ??=3D "0"
+> > +
+> > +SPDX_LICENSES ??=3D "${COREBASE}/meta/files/spdx-licenses.json"
+> > +
+> > +SPDX_CUSTOM_ANNOTATION_VARS ??=3D ""
+> > +
+> > +SPDX_MULTILIB_SSTATE_ARCHS ??=3D "${SSTATE_ARCHS}"
+> > +
+> > +def create_spdx_source_deps(d):
+> > +    import oe.spdx_common
+> > +
+> > +    deps =3D []
+> > +    if d.getVar("SPDX_INCLUDE_SOURCES") =3D=3D "1":
+> > +        pn =3D d.getVar('PN')
+> > +        # do_unpack is a hack for now; we only need it to get the
+> > +        # dependencies do_unpack already has so we can extract the sou=
+rce
+> > +        # ourselves
+> > +        if oe.spdx_common.has_task(d, "do_unpack"):
+> > +            deps.append("%s:do_unpack" % pn)
+> > +
+> > +        if oe.spdx_common.is_work_shared_spdx(d) and \
+> > +           oe.spdx_common.process_sources(d):
+> > +            # For kernel source code
+> > +            if oe.spdx_common.has_task(d, "do_shared_workdir"):
+> > +                deps.append("%s:do_shared_workdir" % pn)
+> > +            elif d.getVar('S') =3D=3D d.getVar('STAGING_KERNEL_DIR'):
+> > +                deps.append("virtual/kernel:do_shared_workdir")
+> > +
+> > +            # For gcc-source-${PV} source code
+> > +            if oe.spdx_common.has_task(d, "do_preconfigure"):
+> > +                deps.append("%s:do_preconfigure" % pn)
+> > +            elif oe.spdx_common.has_task(d, "do_patch"):
+> > +                deps.append("%s:do_patch" % pn)
+> > +            # For gcc-cross-x86_64 source code
+> > +            elif oe.spdx_common.has_task(d, "do_configure"):
+> > +                deps.append("%s:do_configure" % pn)
+> > +
+> > +    return " ".join(deps)
+> > +
+> > +
+> > +python do_collect_spdx_deps() {
+> > +    # This task calculates the build time dependencies of the recipe, =
+and is
+> > +    # required because while a task can deptask on itself, those depen=
+dencies
+> > +    # do not show up in BB_TASKDEPDATA. To work around that, this task=
+ does the
+> > +    # deptask on do_create_spdx and writes out the dependencies it fin=
+ds, then
+> > +    # do_create_spdx reads in the found dependencies when writing the =
+actual
+> > +    # SPDX document
+> > +    import json
+> > +    import oe.spdx_common
+> > +    from pathlib import Path
+> > +
+> > +    spdx_deps_file =3D Path(d.getVar("SPDXDEPS"))
+> > +
+> > +    deps =3D oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
+> > +
+> > +    with spdx_deps_file.open("w") as f:
+> > +        json.dump(deps, f)
+> > +}
+> > +# NOTE: depending on do_unpack is a hack that is necessary to get it's=
+ dependencies for archive the source
+> > +addtask do_collect_spdx_deps after do_unpack
+> > +do_collect_spdx_deps[depends] +=3D "${PATCHDEPENDENCY}"
+> > +do_collect_spdx_deps[deptask] =3D "do_create_spdx"
+> > +do_collect_spdx_deps[dirs] =3D "${SPDXDIR}"
+> > +
+> > +oe.spdx_common.collect_direct_deps[vardepsexclude] +=3D "BB_TASKDEPDAT=
+A"
+> > +oe.spdx_common.collect_direct_deps[vardeps] +=3D "DEPENDS"
+> > +oe.spdx_common.collect_package_providers[vardepsexclude] +=3D "BB_TASK=
+DEPDATA"
+> > +oe.spdx_common.get_patched_src[vardepsexclude] +=3D "STAGING_KERNEL_DI=
+R"
+> > diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
+> > index 6eb536ad28..dd9338ec2c 100644
+> > --- a/meta/lib/oe/__init__.py
+> > +++ b/meta/lib/oe/__init__.py
+> > @@ -9,4 +9,4 @@ __path__ =3D extend_path(__path__, __name__)
+> >
+> >  BBIMPORTS =3D ["data", "path", "utils", "types", "package", "packageda=
+ta", \
+> >               "packagegroup", "sstatesig", "lsb", "cachedpath", "licens=
+e", \
+> > -             "qa", "reproducible", "rust", "buildcfg", "go"]
+> > +             "qa", "reproducible", "rust", "buildcfg", "go", "spdx30_t=
+asks", "spdx_common"]
+> > diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+> > new file mode 100644
+> > index 0000000000..227ac51877
+> > --- /dev/null
+> > +++ b/meta/lib/oe/sbom30.py
+> > @@ -0,0 +1,1096 @@
+> > +#
+> > +# Copyright OpenEmbedded Contributors
+> > +#
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +
+> > +from pathlib import Path
+> > +
+> > +import oe.spdx30
+> > +import bb
+> > +import re
+> > +import hashlib
+> > +import uuid
+> > +import os
+> > +import oe.spdx_common
+> > +from datetime import datetime, timezone
+> > +
+> > +OE_SPDX_BASE =3D "https://rdf.openembedded.org/spdx/3.0/"
+> > +
+> > +VEX_VERSION =3D "1.0.0"
+> > +
+> > +SPDX_BUILD_TYPE =3D "http://openembedded.org/bitbake"
+> > +
+> > +OE_ALIAS_PREFIX =3D "http://spdxdocs.org/openembedded-alias/by-doc-has=
+h/"
+> > +OE_DOC_ALIAS_PREFIX =3D "http://spdxdocs.org/openembedded-alias/doc/"
+> > +
+> > +
+> > +@oe.spdx30.register(OE_SPDX_BASE + "id-alias")
+> > +class OEIdAliasExtension(oe.spdx30.extension_Extension):
+> > +    """
+> > +    This extension allows an Element to provide an internal alias for =
+the SPDX
+> > +    ID. Since SPDX requires unique URIs for each SPDX ID, most of the =
+objects
+> > +    created have a unique UUID namespace and the unihash of the task e=
+ncoded in
+> > +    their SPDX ID. However, this causes a problem for referencing docu=
+ments
+> > +    across recipes, since the taskhash of a dependency may not factor =
+into the
+> > +    taskhash of the current task and thus the current task won't rebui=
+ld and
+> > +    see the new SPDX ID when the dependency changes (e.g. ABI safe rec=
+ipes and
+> > +    tasks).
+> > +
+> > +    To help work around this, this extension provides a non-unique ali=
+as for an
+> > +    Element by which it can be referenced from other tasks/recipes. Wh=
+en a
+> > +    final SBoM is created, references to these aliases will be replace=
+d with
+> > +    the actual unique SPDX ID.
+> > +
+> > +    Most Elements will automatically get an alias created when they ar=
+e written
+> > +    out if they do not already have one. To suppress the creation of a=
+n alias,
+> > +    add an extension with a blank `alias` property.
+> > +
+> > +
+> > +    It is in internal extension that should be removed when writing ou=
+t a final
+> > +    SBoM
+> > +    """
+> > +
+> > +    CLOSED =3D True
+> > +    INTERNAL =3D True
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        cls._add_property(
+> > +            "alias",
+> > +            oe.spdx30.StringProp(),
+> > +            OE_SPDX_BASE + "alias",
+> > +            max_count=3D1,
+> > +        )
+> > +
+> > +        cls._add_property(
+> > +            "link_name",
+> > +            oe.spdx30.StringProp(),
+> > +            OE_SPDX_BASE + "link-name",
+> > +            max_count=3D1,
+> > +        )
+> > +
+> > +
+> > +@oe.spdx30.register(OE_SPDX_BASE + "file-name-alias")
+> > +class OEFileNameAliasExtension(oe.spdx30.extension_Extension):
+> > +    CLOSED =3D True
+> > +    INTERNAL =3D True
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        cls._add_property(
+> > +            "aliases",
+> > +            oe.spdx30.ListProp(oe.spdx30.StringProp()),
+> > +            OE_SPDX_BASE + "filename-alias",
+> > +        )
+> > +
+> > +
+> > +@oe.spdx30.register(OE_SPDX_BASE + "license-scanned")
+> > +class OELicenseScannedExtension(oe.spdx30.extension_Extension):
+> > +    """
+> > +    The presence of this extension means the file has already been sca=
+nned for
+> > +    license information
+> > +    """
+> > +
+> > +    CLOSED =3D True
+> > +    INTERNAL =3D True
+> > +
+> > +
+> > +@oe.spdx30.register(OE_SPDX_BASE + "document-extension")
+> > +class OEDocumentExtension(oe.spdx30.extension_Extension):
+> > +    """
+> > +    This extension is added to a SpdxDocument to indicate various usef=
+ul bits
+> > +    of information about its contents
+> > +    """
+> > +
+> > +    CLOSED =3D True
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        cls._add_property(
+> > +            "is_native",
+> > +            oe.spdx30.BooleanProp(),
+> > +            OE_SPDX_BASE + "is-native",
+> > +            max_count=3D1,
+> > +        )
+> > +
+> > +
+> > +def spdxid_hash(*items):
+> > +    h =3D hashlib.md5()
+> > +    for i in items:
+> > +        if isinstance(i, oe.spdx30.Element):
+> > +            h.update(i._id.encode("utf-8"))
+> > +        else:
+> > +            h.update(i.encode("utf-8"))
+> > +    return h.hexdigest()
+> > +
+> > +
+> > +def spdx_sde(d):
+> > +    sde =3D d.getVar("SOURCE_DATE_EPOCH")
+> > +    if not sde:
+> > +        return datetime.now(timezone.utc)
+> > +
+> > +    return datetime.fromtimestamp(int(sde), timezone.utc)
+> > +
+> > +
+> > +def get_element_link_id(e):
+> > +    """
+> > +    Get the string ID which should be used to link to an Element. If t=
+he
+> > +    element has an alias, that will be preferred, otherwise its SPDX I=
+D will be
+> > +    used.
+> > +    """
+> > +    ext =3D get_alias(e)
+> > +    if ext is not None and ext.alias:
+> > +        return ext.alias
+> > +    return e._id
+> > +
+> > +
+> > +def get_alias(obj):
+> > +    for ext in obj.extension:
+> > +        if not isinstance(ext, OEIdAliasExtension):
+> > +            continue
+> > +        return ext
+> > +
+> > +    return None
+> > +
+> > +
+> > +def hash_id(_id):
+> > +    return hashlib.sha256(_id.encode("utf-8")).hexdigest()
+> > +
+> > +
+> > +def to_list(l):
+> > +    if isinstance(l, set):
+> > +        l =3D sorted(list(l))
+> > +
+> > +    if not isinstance(l, (list, tuple)):
+> > +        raise TypeError("Must be a list or tuple. Got %s" % type(l))
+> > +
+> > +    return l
+> > +
+> > +
+> > +class ObjectSet(oe.spdx30.SHACLObjectSet):
+> > +    def __init__(self, d):
+> > +        super().__init__()
+> > +        self.d =3D d
+> > +        self.alias_prefix =3D None
+> > +
+> > +    def create_index(self):
+> > +        self.by_sha256_hash =3D {}
+> > +        super().create_index()
+> > +
+> > +    def add_index(self, obj):
+> > +        # Check that all elements are given an ID before being inserted
+> > +        if isinstance(obj, oe.spdx30.Element):
+> > +            if not obj._id:
+> > +                raise ValueError("Element missing ID")
+> > +
+> > +            alias_ext =3D get_alias(obj)
+> > +            if alias_ext is not None and alias_ext.alias:
+> > +                self.obj_by_id[alias_ext.alias] =3D obj
+> > +
+> > +            for v in obj.verifiedUsing:
+> > +                if not isinstance(v, oe.spdx30.Hash):
+> > +                    continue
+> > +
+> > +                if v.algorithm !=3D oe.spdx30.HashAlgorithm.sha256:
+> > +                    continue
+> > +
+> > +                self.by_sha256_hash.setdefault(v.hashValue, set()).add=
+(obj)
+> > +
+> > +        super().add_index(obj)
+> > +        if isinstance(obj, oe.spdx30.SpdxDocument):
+> > +            self.doc =3D obj
+> > +            alias_ext =3D get_alias(obj)
+> > +            if alias_ext is not None and alias_ext.alias:
+> > +                self.alias_prefix =3D OE_ALIAS_PREFIX + hash_id(alias_=
+ext.alias) + "/"
+> > +
+> > +    def __filter_obj(self, obj, attr_filter):
+> > +        return all(getattr(obj, k) =3D=3D v for k, v in attr_filter.it=
+ems())
+> > +
+> > +    def foreach_filter(self, typ, *, match_subclass=3DTrue, **attr_fil=
+ter):
+> > +        for obj in self.foreach_type(typ, match_subclass=3Dmatch_subcl=
+ass):
+> > +            if self.__filter_obj(obj, attr_filter):
+> > +                yield obj
+> > +
+> > +    def find_filter(self, typ, *, match_subclass=3DTrue, **attr_filter=
+):
+> > +        for obj in self.foreach_filter(
+> > +            typ, match_subclass=3Dmatch_subclass, **attr_filter
+> > +        ):
+> > +            return obj
+> > +        return None
+> > +
+> > +    def foreach_root(self, typ, **attr_filter):
+> > +        for obj in self.doc.rootElement:
+> > +            if not isinstance(obj, typ):
+> > +                continue
+> > +
+> > +            if self.__filter_obj(obj, attr_filter):
+> > +                yield obj
+> > +
+> > +    def find_root(self, typ, **attr_filter):
+> > +        for obj in self.foreach_root(typ, **attr_filter):
+> > +            return obj
+> > +        return None
+> > +
+> > +    def add_root(self, obj):
+> > +        self.add(obj)
+> > +        self.doc.rootElement.append(obj)
+> > +        return obj
+> > +
+> > +    def is_native(self):
+> > +        for e in self.doc.extension:
+> > +            if not isinstance(e, oe.sbom30.OEDocumentExtension):
+> > +                continue
+> > +
+> > +            if e.is_native is not None:
+> > +                return e.is_native
+> > +
+> > +        return False
+> > +
+> > +    def set_is_native(self, is_native):
+> > +        for e in self.doc.extension:
+> > +            if not isinstance(e, oe.sbom30.OEDocumentExtension):
+> > +                continue
+> > +
+> > +            e.is_native =3D is_native
+> > +            return
+> > +
+> > +        if is_native:
+> > +            self.doc.extension.append(oe.sbom30.OEDocumentExtension(is=
+_native=3DTrue))
+> > +
+> > +    def add_aliases(self):
+> > +        for o in self.foreach_type(oe.spdx30.Element):
+> > +            self.set_element_alias(o)
+> > +
+> > +    def new_alias_id(self, obj, replace):
+> > +        unihash =3D self.d.getVar("BB_UNIHASH")
+> > +        namespace =3D self.get_namespace()
+> > +        if unihash not in obj._id:
+> > +            bb.warn(f"Unihash {unihash} not found in {obj._id}")
+> > +            return None
+> > +
+> > +        if namespace not in obj._id:
+> > +            bb.warn(f"Namespace {namespace} not found in {obj._id}")
+> > +            return None
+> > +
+> > +        return obj._id.replace(unihash, "UNIHASH").replace(
+> > +            namespace, replace + self.d.getVar("PN")
+> > +        )
+> > +
+> > +    def remove_internal_extensions(self):
+> > +        def remove(o):
+> > +            o.extension =3D [e for e in o.extension if not getattr(e, =
+"INTERNAL", False)]
+> > +
+> > +        for o in self.foreach_type(oe.spdx30.Element):
+> > +            remove(o)
+> > +
+> > +        if self.doc:
+> > +            remove(self.doc)
+> > +
+> > +    def get_namespace(self):
+> > +        namespace_uuid =3D uuid.uuid5(
+> > +            uuid.NAMESPACE_DNS, self.d.getVar("SPDX_UUID_NAMESPACE")
+> > +        )
+> > +        pn =3D self.d.getVar("PN")
+> > +        return "%s/%s-%s" % (
+> > +            self.d.getVar("SPDX_NAMESPACE_PREFIX"),
+> > +            pn,
+> > +            str(uuid.uuid5(namespace_uuid, pn)),
+> > +        )
+> > +
+> > +    def set_element_alias(self, e):
+> > +        if not e._id or e._id.startswith("_:"):
+> > +            return
+> > +
+> > +        alias_ext =3D get_alias(e)
+> > +        if alias_ext is None:
+> > +            alias_id =3D self.new_alias_id(e, self.alias_prefix)
+> > +            if alias_id is not None:
+> > +                e.extension.append(OEIdAliasExtension(alias=3Dalias_id=
+))
+> > +        elif (
+> > +            alias_ext.alias
+> > +            and not isinstance(e, oe.spdx30.SpdxDocument)
+> > +            and not alias_ext.alias.startswith(self.alias_prefix)
+> > +        ):
+> > +            bb.warn(
+> > +                f"Element {e._id} has alias {alias_ext.alias}, but it =
+should have prefix {self.alias_prefix}"
+> > +            )
+> > +
+> > +    def new_spdxid(self, *suffix, include_unihash=3DTrue):
+> > +        items =3D [self.get_namespace()]
+> > +        if include_unihash:
+> > +            unihash =3D self.d.getVar("BB_UNIHASH")
+> > +            items.append(unihash)
+> > +        items.extend(re.sub(r"[^a-zA-Z0-9_-]", "_", s) for s in suffix)
+> > +        return "/".join(items)
+> > +
+> > +    def new_import(self, key):
+> > +        base =3D f"SPDX_IMPORTS_{key}"
+> > +        spdxid =3D self.d.getVar(f"{base}_spdxid")
+> > +        if not spdxid:
+> > +            bb.fatal(f"{key} is not a valid SPDX_IMPORTS key")
+> > +
+> > +        for i in self.doc.import_:
+> > +            if i.externalSpdxId =3D=3D spdxid:
+> > +                # Already imported
+> > +                return spdxid
+> > +
+> > +        m =3D oe.spdx30.ExternalMap(externalSpdxId=3Dspdxid)
+> > +
+> > +        uri =3D self.d.getVar(f"{base}_uri")
+> > +        if uri:
+> > +            m.locationHint =3D uri
+> > +
+> > +        for pyname, algorithm in oe.spdx30.HashAlgorithm.NAMED_INDIVID=
+UALS.items():
+> > +            value =3D self.d.getVar(f"{base}_hash_{pyname}")
+> > +            if value:
+> > +                m.verifiedUsing.append(
+> > +                    oe.spdx30.Hash(
+> > +                        algorithm=3Dalgorithm,
+> > +                        hashValue=3Dvalue,
+> > +                    )
+> > +                )
+> > +
+> > +        self.doc.import_.append(m)
+> > +        return spdxid
+> > +
+> > +    def new_agent(self, varname, *, creation_info=3DNone, add=3DTrue):
+> > +        ref_varname =3D self.d.getVar(f"{varname}_ref")
+> > +        if ref_varname:
+> > +            if ref_varname =3D=3D varname:
+> > +                bb.fatal(f"{varname} cannot reference itself")
+> > +            return self.new_agent(ref_varname, creation_info=3Dcreatio=
+n_info)
+> > +
+> > +        import_key =3D self.d.getVar(f"{varname}_import")
+> > +        if import_key:
+> > +            return self.new_import(import_key)
+> > +
+> > +        name =3D self.d.getVar(f"{varname}_name")
+> > +        if not name:
+> > +            return None
+> > +
+> > +        spdxid =3D self.new_spdxid("agent", name)
+> > +        agent =3D self.find_by_id(spdxid)
+> > +        if agent is not None:
+> > +            return agent
+> > +
+> > +        agent_type =3D self.d.getVar("%s_type" % varname)
+> > +        if agent_type =3D=3D "person":
+> > +            agent =3D oe.spdx30.Person()
+> > +        elif agent_type =3D=3D "software":
+> > +            agent =3D oe.spdx30.SoftwareAgent()
+> > +        elif agent_type =3D=3D "organization":
+> > +            agent =3D oe.spdx30.Organization()
+> > +        elif not agent_type or agent_type =3D=3D "agent":
+> > +            agent =3D oe.spdx30.Agent()
+> > +        else:
+> > +            bb.fatal("Unknown agent type '%s' in %s_type" % (agent_typ=
+e, varname))
+> > +
+> > +        agent._id =3D spdxid
+> > +        agent.creationInfo =3D creation_info or self.doc.creationInfo
+> > +        agent.name =3D name
+> > +
+> > +        comment =3D self.d.getVar("%s_comment" % varname)
+> > +        if comment:
+> > +            agent.comment =3D comment
+> > +
+> > +        for (
+> > +            pyname,
+> > +            idtype,
+> > +        ) in oe.spdx30.ExternalIdentifierType.NAMED_INDIVIDUALS.items(=
+):
+> > +            value =3D self.d.getVar("%s_id_%s" % (varname, pyname))
+> > +            if value:
+> > +                agent.externalIdentifier.append(
+> > +                    oe.spdx30.ExternalIdentifier(
+> > +                        externalIdentifierType=3Didtype,
+> > +                        identifier=3Dvalue,
+> > +                    )
+> > +                )
+> > +
+> > +        if add:
+> > +            self.add(agent)
+> > +
+> > +        return agent
+> > +
+> > +    def new_creation_info(self):
+> > +        creation_info =3D oe.spdx30.CreationInfo()
+> > +
+> > +        name =3D "%s %s" % (
+> > +            self.d.getVar("SPDX_TOOL_NAME"),
+> > +            self.d.getVar("SPDX_TOOL_VERSION"),
+> > +        )
+> > +        tool =3D self.add(
+> > +            oe.spdx30.Tool(
+> > +                _id=3Dself.new_spdxid("tool", name),
+> > +                creationInfo=3Dcreation_info,
+> > +                name=3Dname,
+> > +            )
+> > +        )
+> > +
+> > +        authors =3D []
+> > +        for a in self.d.getVar("SPDX_AUTHORS").split():
+> > +            varname =3D "SPDX_AUTHORS_%s" % a
+> > +            author =3D self.new_agent(varname, creation_info=3Dcreatio=
+n_info)
+> > +
+> > +            if not author:
+> > +                bb.fatal("Unable to find or create author %s" % a)
+> > +
+> > +            authors.append(author)
+> > +
+> > +        creation_info.created =3D spdx_sde(self.d)
+> > +        creation_info.specVersion =3D self.d.getVar("SPDX_VERSION")
+> > +        creation_info.createdBy =3D authors
+> > +        creation_info.createdUsing =3D [tool]
+> > +
+> > +        return creation_info
+> > +
+> > +    def copy_creation_info(self, copy):
+> > +        c =3D oe.spdx30.CreationInfo(
+> > +            created=3Dspdx_sde(self.d),
+> > +            specVersion=3Dself.d.getVar("SPDX_VERSION"),
+> > +        )
+> > +
+> > +        for author in copy.createdBy:
+> > +            if isinstance(author, str):
+> > +                c.createdBy.append(author)
+> > +            else:
+> > +                c.createdBy.append(author._id)
+> > +
+> > +        for tool in copy.createdUsing:
+> > +            if isinstance(tool, str):
+> > +                c.createdUsing.append(tool)
+> > +            else:
+> > +                c.createdUsing.append(tool._id)
+> > +
+> > +        return c
+> > +
+> > +    def new_annotation(self, subject, comment, typ):
+> > +        return self.add(
+> > +            oe.spdx30.Annotation(
+> > +                _id=3Dself.new_spdxid("annotation", spdxid_hash(commen=
+t, typ)),
+> > +                creationInfo=3Dself.doc.creationInfo,
+> > +                annotationType=3Dtyp,
+> > +                subject=3Dsubject,
+> > +                statement=3Dcomment,
+> > +            )
+> > +        )
+> > +
+> > +    def _new_relationship(
+> > +        self,
+> > +        cls,
+> > +        from_,
+> > +        typ,
+> > +        to,
+> > +        *,
+> > +        spdxid_name=3D"relationship",
+> > +        **props,
+> > +    ):
+> > +        from_ =3D to_list(from_)
+> > +        to =3D to_list(to)
+> > +
+> > +        if not from_:
+> > +            return []
+> > +
+> > +        if not to:
+> > +            to =3D [oe.spdx30.IndividualElement.NoneElement]
+> > +
+> > +        ret =3D []
+> > +
+> > +        for f in from_:
+> > +            hash_args =3D [typ, f]
+> > +            for k in sorted(props.keys()):
+> > +                hash_args.append(props[k])
+> > +            hash_args.extend(to)
+> > +
+> > +            relationship =3D self.add(
+> > +                cls(
+> > +                    _id=3Dself.new_spdxid(spdxid_name, spdxid_hash(*ha=
+sh_args)),
+> > +                    creationInfo=3Dself.doc.creationInfo,
+> > +                    from_=3Df,
+> > +                    relationshipType=3Dtyp,
+> > +                    to=3Dto,
+> > +                    **props,
+> > +                )
+> > +            )
+> > +            ret.append(relationship)
+> > +
+> > +        return ret
+> > +
+> > +    def new_relationship(self, from_, typ, to):
+> > +        return self._new_relationship(oe.spdx30.Relationship, from_, t=
+yp, to)
+> > +
+> > +    def new_scoped_relationship(self, from_, typ, scope, to):
+> > +        return self._new_relationship(
+> > +            oe.spdx30.LifecycleScopedRelationship,
+> > +            from_,
+> > +            typ,
+> > +            to,
+> > +            scope=3Dscope,
+> > +        )
+> > +
+> > +    def new_license_expression(
+> > +        self, license_expression, license_data, license_text_map=3D{}
+> > +    ):
+> > +        license_list_version =3D license_data["licenseListVersion"]
+> > +        # SPDX 3 requires that the license list version be a semver
+> > +        # MAJOR.MINOR.MICRO, but the actual license version might be
+> > +        # MAJOR.MINOR on some older versions. As such, manually append=
+ a .0
+> > +        # micro version if its missing to keep SPDX happy
+> > +        if license_list_version.count(".") < 2:
+> > +            license_list_version +=3D ".0"
+> > +
+> > +        spdxid =3D [
+> > +            "license",
+> > +            license_list_version,
+> > +            re.sub(r"[^a-zA-Z0-9_-]", "_", license_expression),
+> > +        ]
+> > +
+> > +        license_text =3D [
+> > +            (k, license_text_map[k]) for k in sorted(license_text_map.=
+keys())
+> > +        ]
+> > +
+> > +        if not license_text:
+> > +            lic =3D self.find_filter(
+> > +                oe.spdx30.simplelicensing_LicenseExpression,
+> > +                simplelicensing_licenseExpression=3Dlicense_expression,
+> > +                simplelicensing_licenseListVersion=3Dlicense_list_vers=
+ion,
+> > +            )
+> > +            if lic is not None:
+> > +                return lic
+> > +        else:
+> > +            spdxid.append(spdxid_hash(*(v for _, v in license_text)))
+> > +            lic =3D self.find_by_id(self.new_spdxid(*spdxid))
+> > +            if lic is not None:
+> > +                return lic
+> > +
+> > +        lic =3D self.add(
+> > +            oe.spdx30.simplelicensing_LicenseExpression(
+> > +                _id=3Dself.new_spdxid(*spdxid),
+> > +                creationInfo=3Dself.doc.creationInfo,
+> > +                simplelicensing_licenseExpression=3Dlicense_expression,
+> > +                simplelicensing_licenseListVersion=3Dlicense_list_vers=
+ion,
+> > +            )
+> > +        )
+> > +
+> > +        for key, value in license_text:
+> > +            lic.simplelicensing_customIdToUri.append(
+> > +                oe.spdx30.DictionaryEntry(key=3Dkey, value=3Dvalue)
+> > +            )
+> > +
+> > +        return lic
+> > +
+> > +    def scan_declared_licenses(self, spdx_file, filepath, license_data=
+):
+> > +        for e in spdx_file.extension:
+> > +            if isinstance(e, OELicenseScannedExtension):
+> > +                return
+> > +
+> > +        file_licenses =3D set()
+> > +        for extracted_lic in oe.spdx_common.extract_licenses(filepath):
+> > +            lic =3D self.new_license_expression(extracted_lic, license=
+_data)
+> > +            self.set_element_alias(lic)
+> > +            file_licenses.add(lic)
+> > +
+> > +        self.new_relationship(
+> > +            [spdx_file],
+> > +            oe.spdx30.RelationshipType.hasDeclaredLicense,
+> > +            [oe.sbom30.get_element_link_id(lic_alias) for lic_alias in=
+ file_licenses],
+> > +        )
+> > +        spdx_file.extension.append(OELicenseScannedExtension())
+> > +
+> > +    def new_file(self, _id, name, path, *, purposes=3D[]):
+> > +        sha256_hash =3D bb.utils.sha256_file(path)
+> > +
+> > +        for f in self.by_sha256_hash.get(sha256_hash, []):
+> > +            if not isinstance(f, oe.spdx30.software_File):
+> > +                continue
+> > +
+> > +            if purposes:
+> > +                new_primary =3D purposes[0]
+> > +                new_additional =3D []
+> > +
+> > +                if f.software_primaryPurpose:
+> > +                    new_additional.append(f.software_primaryPurpose)
+> > +                new_additional.extend(f.software_additionalPurpose)
+> > +
+> > +                new_additional =3D sorted(
+> > +                    list(set(p for p in new_additional if p !=3D new_p=
+rimary))
+> > +                )
+> > +
+> > +                f.software_primaryPurpose =3D new_primary
+> > +                f.software_additionalPurpose =3D new_additional
+> > +
+> > +            if f.name !=3D name:
+> > +                for e in f.extension:
+> > +                    if isinstance(e, OEFileNameAliasExtension):
+> > +                        e.aliases.append(name)
+> > +                        break
+> > +                else:
+> > +                    f.extension.append(OEFileNameAliasExtension(aliase=
+s=3D[name]))
+> > +
+> > +            return f
+> > +
+> > +        spdx_file =3D oe.spdx30.software_File(
+> > +            _id=3D_id,
+> > +            creationInfo=3Dself.doc.creationInfo,
+> > +            name=3Dname,
+> > +        )
+> > +        if purposes:
+> > +            spdx_file.software_primaryPurpose =3D purposes[0]
+> > +            spdx_file.software_additionalPurpose =3D purposes[1:]
+> > +
+> > +        spdx_file.verifiedUsing.append(
+> > +            oe.spdx30.Hash(
+> > +                algorithm=3Doe.spdx30.HashAlgorithm.sha256,
+> > +                hashValue=3Dsha256_hash,
+> > +            )
+> > +        )
+> > +
+> > +        return self.add(spdx_file)
+> > +
+> > +    def new_cve_vuln(self, cve):
+> > +        v =3D oe.spdx30.security_Vulnerability()
+> > +        v._id =3D self.new_spdxid("vulnerability", cve)
+> > +        v.creationInfo =3D self.doc.creationInfo
+> > +
+> > +        v.externalIdentifier.append(
+> > +            oe.spdx30.ExternalIdentifier(
+> > +                externalIdentifierType=3Doe.spdx30.ExternalIdentifierT=
+ype.cve,
+> > +                identifier=3Dcve,
+> > +                identifierLocator=3D[
+> > +                    f"https://cveawg.mitre.org/api/cve/{cve}",
+> > +                    f"https://www.cve.org/CVERecord?id=3D{cve}",
+> > +                ],
+> > +            )
+> > +        )
+> > +        return self.add(v)
+> > +
+> > +    def new_vex_patched_relationship(self, from_, to):
+> > +        return self._new_relationship(
+> > +            oe.spdx30.security_VexFixedVulnAssessmentRelationship,
+> > +            from_,
+> > +            oe.spdx30.RelationshipType.fixedIn,
+> > +            to,
+> > +            spdxid_name=3D"vex-fixed",
+> > +            security_vexVersion=3DVEX_VERSION,
+> > +        )
+> > +
+> > +    def new_vex_unpatched_relationship(self, from_, to):
+> > +        return self._new_relationship(
+> > +            oe.spdx30.security_VexAffectedVulnAssessmentRelationship,
+> > +            from_,
+> > +            oe.spdx30.RelationshipType.affects,
+> > +            to,
+> > +            spdxid_name=3D"vex-affected",
+> > +            security_vexVersion=3DVEX_VERSION,
+> > +            security_actionStatement=3D"Mitigation action unknown",
+> > +        )
+> > +
+> > +    def new_vex_ignored_relationship(self, from_, to, *, impact_statem=
+ent):
+> > +        return self._new_relationship(
+> > +            oe.spdx30.security_VexNotAffectedVulnAssessmentRelationshi=
+p,
+> > +            from_,
+> > +            oe.spdx30.RelationshipType.doesNotAffect,
+> > +            to,
+> > +            spdxid_name=3D"vex-not-affected",
+> > +            security_vexVersion=3DVEX_VERSION,
+> > +            security_impactStatement=3Dimpact_statement,
+> > +        )
+> > +
+> > +    def import_bitbake_build_objset(self):
+> > +        deploy_dir_spdx =3D Path(self.d.getVar("DEPLOY_DIR_SPDX"))
+> > +        bb_objset =3D load_jsonld(
+> > +            self.d, deploy_dir_spdx / "bitbake.spdx.json", required=3D=
+True
+> > +        )
+> > +        self.doc.import_.extend(bb_objset.doc.import_)
+> > +        self.update(bb_objset.objects)
+> > +
+> > +        return bb_objset
+> > +
+> > +    def import_bitbake_build(self):
+> > +        def find_bitbake_build(objset):
+> > +            return objset.find_filter(
+> > +                oe.spdx30.build_Build,
+> > +                build_buildType=3DSPDX_BUILD_TYPE,
+> > +            )
+> > +
+> > +        build =3D find_bitbake_build(self)
+> > +        if build:
+> > +            return build
+> > +
+> > +        bb_objset =3D self.import_bitbake_build_objset()
+> > +        build =3D find_bitbake_build(bb_objset)
+> > +        if build is None:
+> > +            bb.fatal(f"No build found in {deploy_dir_spdx}")
+> > +
+> > +        return build
+> > +
+> > +    def new_task_build(self, name, typ):
+> > +        current_task =3D self.d.getVar("BB_CURRENTTASK")
+> > +        pn =3D self.d.getVar("PN")
+> > +
+> > +        build =3D self.add(
+> > +            oe.spdx30.build_Build(
+> > +                _id=3Dself.new_spdxid("build", name),
+> > +                creationInfo=3Dself.doc.creationInfo,
+> > +                name=3Df"{pn}:do_{current_task}:{name}",
+> > +                build_buildType=3Df"{SPDX_BUILD_TYPE}/do_{current_task=
+}/{typ}",
+> > +            )
+> > +        )
+> > +
+> > +        if self.d.getVar("SPDX_INCLUDE_BITBAKE_PARENT_BUILD") =3D=3D "=
+1":
+> > +            bitbake_build =3D self.import_bitbake_build()
+> > +
+> > +            self.new_relationship(
+> > +                [bitbake_build],
+> > +                oe.spdx30.RelationshipType.ancestorOf,
+> > +                [build],
+> > +            )
+> > +
+> > +        if self.d.getVar("SPDX_INCLUDE_BUILD_VARIABLES") =3D=3D "1":
+> > +            for varname in sorted(self.d.keys()):
+> > +                if varname.startswith("__"):
+> > +                    continue
+> > +
+> > +                value =3D self.d.getVar(varname, expand=3DFalse)
+> > +
+> > +                # TODO: Deal with non-string values
+> > +                if not isinstance(value, str):
+> > +                    continue
+> > +
+> > +                build.build_parameter.append(
+> > +                    oe.spdx30.DictionaryEntry(key=3Dvarname, value=3Dv=
+alue)
+> > +                )
+> > +
+> > +        return build
+> > +
+> > +    def new_archive(self, archive_name):
+> > +        return self.add(
+> > +            oe.spdx30.software_File(
+> > +                _id=3Dself.new_spdxid("archive", str(archive_name)),
+> > +                creationInfo=3Dself.doc.creationInfo,
+> > +                name=3Dstr(archive_name),
+> > +                software_primaryPurpose=3Doe.spdx30.software_SoftwareP=
+urpose.archive,
+> > +            )
+> > +        )
+> > +
+> > +    @classmethod
+> > +    def new_objset(cls, d, name, copy_from_bitbake_doc=3DTrue):
+> > +        objset =3D cls(d)
+> > +
+> > +        document =3D oe.spdx30.SpdxDocument(
+> > +            _id=3Dobjset.new_spdxid("document", name),
+> > +            name=3Dname,
+> > +        )
+> > +
+> > +        document.extension.append(
+> > +            OEIdAliasExtension(
+> > +                alias=3Dobjset.new_alias_id(
+> > +                    document,
+> > +                    OE_DOC_ALIAS_PREFIX + d.getVar("PN") + "/" + name =
++ "/",
+> > +                ),
+> > +            )
+> > +        )
+> > +        objset.doc =3D document
+> > +        objset.add_index(document)
+> > +
+> > +        if copy_from_bitbake_doc:
+> > +            bb_objset =3D objset.import_bitbake_build_objset()
+> > +            document.creationInfo =3D objset.copy_creation_info(
+> > +                bb_objset.doc.creationInfo
+> > +            )
+> > +        else:
+> > +            document.creationInfo =3D objset.new_creation_info()
+> > +
+> > +        return objset
+> > +
+> > +    def expand_collection(self, *, add_objectsets=3D[]):
+> > +        """
+> > +        Expands a collection to pull in all missing elements
+> > +
+> > +        Returns the set of ids that could not be found to link into th=
+e document
+> > +        """
+> > +        missing_spdxids =3D set()
+> > +        imports =3D {e.externalSpdxId: e for e in self.doc.import_}
+> > +
+> > +        def merge_doc(other):
+> > +            nonlocal imports
+> > +
+> > +            for e in other.doc.import_:
+> > +                if not e.externalSpdxId in imports:
+> > +                    imports[e.externalSpdxId] =3D e
+> > +
+> > +            self.objects |=3D other.objects
+> > +
+> > +        for o in add_objectsets:
+> > +            merge_doc(o)
+> > +
+> > +        needed_spdxids =3D self.link()
+> > +        provided_spdxids =3D set(self.obj_by_id.keys())
+> > +
+> > +        while True:
+> > +            import_spdxids =3D set(imports.keys())
+> > +            searching_spdxids =3D (
+> > +                needed_spdxids - provided_spdxids - missing_spdxids - =
+import_spdxids
+> > +            )
+> > +            if not searching_spdxids:
+> > +                break
+> > +
+> > +            spdxid =3D searching_spdxids.pop()
+> > +            bb.debug(
+> > +                1,
+> > +                f"Searching for {spdxid}. Remaining: {len(searching_sp=
+dxids)}, Total: {len(provided_spdxids)}, Missing: {len(missing_spdxids)}, I=
+mports: {len(import_spdxids)}",
+> > +            )
+> > +            dep_objset, dep_path =3D find_by_spdxid(self.d, spdxid)
+> > +
+> > +            if dep_objset:
+> > +                dep_provided =3D set(dep_objset.obj_by_id.keys())
+> > +                if spdxid not in dep_provided:
+> > +                    bb.fatal(f"{spdxid} not found in {dep_path}")
+> > +                provided_spdxids |=3D dep_provided
+> > +                needed_spdxids |=3D dep_objset.missing_ids
+> > +                merge_doc(dep_objset)
+> > +            else:
+> > +                missing_spdxids.add(spdxid)
+> > +
+> > +        self.doc.import_ =3D sorted(imports.values(), key=3Dlambda e: =
+e.externalSpdxId)
+> > +        bb.debug(1, "Linking...")
+> > +        self.link()
+> > +
+> > +        # Manually go through all of the simplelicensing_customIdToUri=
+ DictionaryEntry
+> > +        # items and resolve any aliases to actual objects.
+> > +        for lic in self.foreach_type(oe.spdx30.simplelicensing_License=
+Expression):
+> > +            for d in lic.simplelicensing_customIdToUri:
+> > +                if d.value.startswith(OE_ALIAS_PREFIX):
+> > +                    obj =3D self.find_by_id(d.value)
+> > +                    if obj is not None:
+> > +                        d.value =3D obj._id
+> > +                    else:
+> > +                        self.missing_ids.add(d.value)
+> > +
+> > +        self.missing_ids -=3D set(imports.keys())
+> > +        return self.missing_ids
+> > +
+> > +
+> > +def load_jsonld(d, path, required=3DFalse):
+> > +    deserializer =3D oe.spdx30.JSONLDDeserializer()
+> > +    objset =3D ObjectSet(d)
+> > +    try:
+> > +        with path.open("rb") as f:
+> > +            deserializer.read(f, objset)
+> > +    except FileNotFoundError:
+> > +        if required:
+> > +            bb.fatal("No SPDX document named %s found" % path)
+> > +        return None
+> > +
+> > +    if not objset.doc:
+> > +        bb.fatal("SPDX Document %s has no SPDXDocument element" % path)
+> > +        return None
+> > +
+> > +    objset.objects.remove(objset.doc)
+> > +    return objset
+> > +
+> > +
+> > +def jsonld_arch_path(d, arch, subdir, name, deploydir=3DNone):
+> > +    if deploydir is None:
+> > +        deploydir =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
+> > +    return deploydir / arch / subdir / (name + ".spdx.json")
+> > +
+> > +
+> > +def jsonld_hash_path(h):
+> > +    return Path("by-spdxid-hash") / h[:2], h
+> > +
+> > +
+> > +def load_jsonld_by_arch(d, arch, subdir, name, *, required=3DFalse):
+> > +    path =3D jsonld_arch_path(d, arch, subdir, name)
+> > +    objset =3D load_jsonld(d, path, required=3Drequired)
+> > +    if objset is not None:
+> > +        return (objset, path)
+> > +    return (None, None)
+> > +
+> > +
+> > +def find_jsonld(d, subdir, name, *, required=3DFalse):
+> > +    package_archs =3D d.getVar("SPDX_MULTILIB_SSTATE_ARCHS").split()
+> > +    package_archs.reverse()
+> > +
+> > +    for arch in package_archs:
+> > +        objset, path =3D load_jsonld_by_arch(d, arch, subdir, name)
+> > +        if objset is not None:
+> > +            return (objset, path)
+> > +
+> > +    if required:
+> > +        bb.fatal("Could not find a %s SPDX document named %s" % (subdi=
+r, name))
+> > +
+> > +    return (None, None)
+> > +
+> > +
+> > +def write_jsonld_doc(d, objset, dest):
+> > +    if not isinstance(objset, ObjectSet):
+> > +        bb.fatal("Only an ObjsetSet can be serialized")
+> > +        return
+> > +
+> > +    if not objset.doc:
+> > +        bb.fatal("ObjectSet is missing a SpdxDocument")
+> > +        return
+> > +
+> > +    objset.doc.rootElement =3D sorted(list(set(objset.doc.rootElement)=
+))
+> > +    objset.doc.profileConformance =3D sorted(
+> > +        list(
+> > +            getattr(oe.spdx30.ProfileIdentifierType, p)
+> > +            for p in d.getVar("SPDX_PROFILES").split()
+> > +        )
+> > +    )
+> > +
+> > +    dest.parent.mkdir(exist_ok=3DTrue, parents=3DTrue)
+> > +
+> > +    if d.getVar("SPDX_PRETTY") =3D=3D "1":
+> > +        serializer =3D oe.spdx30.JSONLDSerializer(
+> > +            indent=3D2,
+> > +        )
+> > +    else:
+> > +        serializer =3D oe.spdx30.JSONLDInlineSerializer()
+> > +
+> > +    objset.objects.add(objset.doc)
+> > +    with dest.open("wb") as f:
+> > +        serializer.write(objset, f, force_at_graph=3DTrue)
+> > +    objset.objects.remove(objset.doc)
+> > +
+> > +
+> > +def write_recipe_jsonld_doc(
+> > +    d,
+> > +    objset,
+> > +    subdir,
+> > +    deploydir,
+> > +    *,
+> > +    create_spdx_id_links=3DTrue,
+> > +):
+> > +    pkg_arch =3D d.getVar("SSTATE_PKGARCH")
+> > +
+> > +    dest =3D jsonld_arch_path(d, pkg_arch, subdir, objset.doc.name, de=
+ploydir=3Ddeploydir)
+> > +
+> > +    def link_id(_id):
+> > +        hash_path =3D jsonld_hash_path(hash_id(_id))
+> > +
+> > +        link_name =3D jsonld_arch_path(
+> > +            d,
+> > +            pkg_arch,
+> > +            *hash_path,
+> > +            deploydir=3Ddeploydir,
+> > +        )
+> > +        try:
+> > +            link_name.parent.mkdir(exist_ok=3DTrue, parents=3DTrue)
+> > +            link_name.symlink_to(os.path.relpath(dest, link_name.paren=
+t))
+> > +        except:
+> > +            target =3D link_name.readlink()
+> > +            bb.warn(
+> > +                f"Unable to link {_id} in {dest} as {link_name}. Alrea=
+dy points to {target}"
+> > +            )
+> > +            raise
+> > +
+> > +        return hash_path[-1]
+> > +
+> > +    objset.add_aliases()
+> > +
+> > +    try:
+> > +        if create_spdx_id_links:
+> > +            alias_ext =3D get_alias(objset.doc)
+> > +            if alias_ext is not None and alias_ext.alias:
+> > +                alias_ext.link_name =3D link_id(alias_ext.alias)
+> > +
+> > +    finally:
+> > +        # It is really helpful for debugging if the JSON document is w=
+ritten
+> > +        # out, so always do that even if there is an error making the =
+links
+> > +        write_jsonld_doc(d, objset, dest)
+> > +
+> > +
+> > +def find_root_obj_in_jsonld(d, subdir, fn_name, obj_type, **attr_filte=
+r):
+> > +    objset, fn =3D find_jsonld(d, subdir, fn_name, required=3DTrue)
+> > +
+> > +    spdx_obj =3D objset.find_root(obj_type, **attr_filter)
+> > +    if not spdx_obj:
+> > +        bb.fatal("No root %s found in %s" % (obj_type.__name__, fn))
+> > +
+> > +    return spdx_obj, objset
+> > +
+> > +
+> > +def load_obj_in_jsonld(d, arch, subdir, fn_name, obj_type, **attr_filt=
+er):
+> > +    objset, fn =3D load_jsonld_by_arch(d, arch, subdir, fn_name, requi=
+red=3DTrue)
+> > +
+> > +    spdx_obj =3D objset.find_filter(obj_type, **attr_filter)
+> > +    if not spdx_obj:
+> > +        bb.fatal("No %s found in %s" % (obj_type.__name__, fn))
+> > +
+> > +    return spdx_obj, objset
+> > +
+> > +
+> > +def find_by_spdxid(d, spdxid, *, required=3DFalse):
+> > +    if spdxid.startswith(OE_ALIAS_PREFIX):
+> > +        h =3D spdxid[len(OE_ALIAS_PREFIX) :].split("/", 1)[0]
+> > +        return find_jsonld(d, *jsonld_hash_path(h), required=3Drequire=
+d)
+> > +    return find_jsonld(d, *jsonld_hash_path(hash_id(spdxid)), required=
+=3Drequired)
+> > +
+> > +
+> > +def create_sbom(d, name, root_elements, add_objectsets=3D[]):
+> > +    objset =3D ObjectSet.new_objset(d, name)
+> > +
+> > +    sbom =3D objset.add(
+> > +        oe.spdx30.software_Sbom(
+> > +            _id=3Dobjset.new_spdxid("sbom", name),
+> > +            name=3Dname,
+> > +            creationInfo=3Dobjset.doc.creationInfo,
+> > +            software_sbomType=3D[oe.spdx30.software_SbomType.build],
+> > +            rootElement=3Droot_elements,
+> > +        )
+> > +    )
+> > +
+> > +    missing_spdxids =3D objset.expand_collection(add_objectsets=3Dadd_=
+objectsets)
+> > +    if missing_spdxids:
+> > +        bb.warn(
+> > +            "The following SPDX IDs were unable to be resolved:\n  "
+> > +            + "\n  ".join(sorted(list(missing_spdxids)))
+> > +        )
+> > +
+> > +    # Filter out internal extensions from final SBoMs
+> > +    objset.remove_internal_extensions()
+> > +
+> > +    # SBoM should be the only root element of the document
+> > +    objset.doc.rootElement =3D [sbom]
+> > +
+> > +    # De-duplicate licenses
+> > +    unique =3D set()
+> > +    dedup =3D {}
+> > +    for lic in objset.foreach_type(oe.spdx30.simplelicensing_LicenseEx=
+pression):
+> > +        for u in unique:
+> > +            if (
+> > +                u.simplelicensing_licenseExpression
+> > +                =3D=3D lic.simplelicensing_licenseExpression
+> > +                and u.simplelicensing_licenseListVersion
+> > +                =3D=3D lic.simplelicensing_licenseListVersion
+> > +            ):
+> > +                dedup[lic] =3D u
+> > +                break
+> > +        else:
+> > +            unique.add(lic)
+> > +
+> > +    if dedup:
+> > +        for rel in objset.foreach_filter(
+> > +            oe.spdx30.Relationship,
+> > +            relationshipType=3Doe.spdx30.RelationshipType.hasDeclaredL=
+icense,
+> > +        ):
+> > +            rel.to =3D [dedup.get(to, to) for to in rel.to]
+> > +
+> > +        for rel in objset.foreach_filter(
+> > +            oe.spdx30.Relationship,
+> > +            relationshipType=3Doe.spdx30.RelationshipType.hasConcluded=
+License,
+> > +        ):
+> > +            rel.to =3D [dedup.get(to, to) for to in rel.to]
+> > +
+> > +        for k, v in dedup.items():
+> > +            bb.debug(1, f"Removing duplicate License {k._id} -> {v._id=
+}")
+> > +            objset.objects.remove(k)
+> > +
+> > +        objset.create_index()
+> > +
+> > +    return objset, sbom
+> > diff --git a/meta/lib/oe/spdx30.py b/meta/lib/oe/spdx30.py
+> > new file mode 100644
+> > index 0000000000..cd97eebd18
+> > --- /dev/null
+> > +++ b/meta/lib/oe/spdx30.py
+> > @@ -0,0 +1,5593 @@
+> > +#! /usr/bin/env python3
+> > +#
+> > +# Generated Python bindings from a SHACL model
+> > +#
+> > +# This file was automatically generated by shacl2code. DO NOT MANUALLY=
+ MODIFY IT
+> > +#
+> > +# SPDX-License-Identifier: MIT
+> > +
+> > +import functools
+> > +import hashlib
+> > +import json
+> > +import re
+> > +import sys
+> > +import threading
+> > +import time
+> > +from contextlib import contextmanager
+> > +from datetime import datetime, timezone, timedelta
+> > +from enum import Enum
+> > +from abc import ABC, abstractmethod
+> > +
+> > +
+> > +def check_type(obj, types):
+> > +    if not isinstance(obj, types):
+> > +        if isinstance(types, (list, tuple)):
+> > +            raise TypeError(
+> > +                f"Value must be one of type: {', '.join(t.__name__ for=
+ t in types)}. Got {type(obj)}"
+> > +            )
+> > +        raise TypeError(f"Value must be of type {types.__name__}. Got =
+{type(obj)}")
+> > +
+> > +
+> > +class Property(ABC):
+> > +    """
+> > +    A generic SHACL object property. The different types will derive f=
+rom this
+> > +    class
+> > +    """
+> > +
+> > +    def __init__(self, *, pattern=3DNone):
+> > +        self.pattern =3D pattern
+> > +
+> > +    def init(self):
+> > +        return None
+> > +
+> > +    def validate(self, value):
+> > +        check_type(value, self.VALID_TYPES)
+> > +        if self.pattern is not None and not re.search(
+> > +            self.pattern, self.to_string(value)
+> > +        ):
+> > +            raise ValueError(
+> > +                f"Value is not correctly formatted. Got '{self.to_stri=
+ng(value)}'"
+> > +            )
+> > +
+> > +    def set(self, value):
+> > +        return value
+> > +
+> > +    def check_min_count(self, value, min_count):
+> > +        return min_count =3D=3D 1
+> > +
+> > +    def check_max_count(self, value, max_count):
+> > +        return max_count =3D=3D 1
+> > +
+> > +    def elide(self, value):
+> > +        return value is None
+> > +
+> > +    def walk(self, value, callback, path):
+> > +        callback(value, path)
+> > +
+> > +    def iter_objects(self, value, recursive, visited):
+> > +        return []
+> > +
+> > +    def link_prop(self, value, objectset, missing, visited):
+> > +        return value
+> > +
+> > +    def to_string(self, value):
+> > +        return str(value)
+> > +
+> > +    @abstractmethod
+> > +    def encode(self, encoder, value, state):
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        pass
+> > +
+> > +
+> > +class StringProp(Property):
+> > +    """
+> > +    A scalar string property for an SHACL object
+> > +    """
+> > +
+> > +    VALID_TYPES =3D str
+> > +
+> > +    def set(self, value):
+> > +        return str(value)
+> > +
+> > +    def encode(self, encoder, value, state):
+> > +        encoder.write_string(value)
+> > +
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        return decoder.read_string()
+> > +
+> > +
+> > +class AnyURIProp(StringProp):
+> > +    def encode(self, encoder, value, state):
+> > +        encoder.write_iri(value)
+> > +
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        return decoder.read_iri()
+> > +
+> > +
+> > +class DateTimeProp(Property):
+> > +    """
+> > +    A Date/Time Object with optional timezone
+> > +    """
+> > +
+> > +    VALID_TYPES =3D datetime
+> > +    UTC_FORMAT_STR =3D "%Y-%m-%dT%H:%M:%SZ"
+> > +    REGEX =3D r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2}=
+)?$"
+> > +
+> > +    def set(self, value):
+> > +        return self._normalize(value)
+> > +
+> > +    def encode(self, encoder, value, state):
+> > +        encoder.write_datetime(self.to_string(value))
+> > +
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        s =3D decoder.read_datetime()
+> > +        if s is None:
+> > +            return None
+> > +        v =3D self.from_string(s)
+> > +        return self._normalize(v)
+> > +
+> > +    def _normalize(self, value):
+> > +        if value.utcoffset() is None:
+> > +            value =3D value.astimezone()
+> > +        offset =3D value.utcoffset()
+> > +        seconds =3D offset % timedelta(minutes=3D-1 if offset.total_se=
+conds() < 0 else 1)
+> > +        if seconds:
+> > +            offset =3D offset - seconds
+> > +            value =3D value.replace(tzinfo=3Dtimezone(offset))
+> > +        value =3D value.replace(microsecond=3D0)
+> > +        return value
+> > +
+> > +    def to_string(self, value):
+> > +        value =3D self._normalize(value)
+> > +        if value.tzinfo =3D=3D timezone.utc:
+> > +            return value.strftime(self.UTC_FORMAT_STR)
+> > +        return value.isoformat()
+> > +
+> > +    def from_string(self, value):
+> > +        if not re.match(self.REGEX, value):
+> > +            raise ValueError(f"'{value}' is not a correctly formatted =
+datetime")
+> > +        if "Z" in value:
+> > +            d =3D datetime(
+> > +                *(time.strptime(value, self.UTC_FORMAT_STR)[0:6]),
+> > +                tzinfo=3Dtimezone.utc,
+> > +            )
+> > +        else:
+> > +            d =3D datetime.fromisoformat(value)
+> > +
+> > +        return self._normalize(d)
+> > +
+> > +
+> > +class DateTimeStampProp(DateTimeProp):
+> > +    """
+> > +    A Date/Time Object with required timestamp
+> > +    """
+> > +
+> > +    REGEX =3D r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2}=
+)$"
+> > +
+> > +
+> > +class IntegerProp(Property):
+> > +    VALID_TYPES =3D int
+> > +
+> > +    def set(self, value):
+> > +        return int(value)
+> > +
+> > +    def encode(self, encoder, value, state):
+> > +        encoder.write_integer(value)
+> > +
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        return decoder.read_integer()
+> > +
+> > +
+> > +class PositiveIntegerProp(IntegerProp):
+> > +    def validate(self, value):
+> > +        super().validate(value)
+> > +        if value < 1:
+> > +            raise ValueError(f"Value must be >=3D1. Got {value}")
+> > +
+> > +
+> > +class NonNegativeIntegerProp(IntegerProp):
+> > +    def validate(self, value):
+> > +        super().validate(value)
+> > +        if value < 0:
+> > +            raise ValueError(f"Value must be >=3D 0. Got {value}")
+> > +
+> > +
+> > +class BooleanProp(Property):
+> > +    VALID_TYPES =3D bool
+> > +
+> > +    def set(self, value):
+> > +        return bool(value)
+> > +
+> > +    def encode(self, encoder, value, state):
+> > +        encoder.write_bool(value)
+> > +
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        return decoder.read_bool()
+> > +
+> > +
+> > +class FloatProp(Property):
+> > +    VALID_TYPES =3D (float, int)
+> > +
+> > +    def set(self, value):
+> > +        return float(value)
+> > +
+> > +    def encode(self, encoder, value, state):
+> > +        encoder.write_float(value)
+> > +
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        return decoder.read_float()
+> > +
+> > +
+> > +class IRIProp(Property):
+> > +    def __init__(self, context=3D[], *, pattern=3DNone):
+> > +        super().__init__(pattern=3Dpattern)
+> > +        self.context =3D context
+> > +
+> > +    def compact(self, value):
+> > +        for iri, compact in self.context:
+> > +            if value =3D=3D iri:
+> > +                return compact
+> > +        return None
+> > +
+> > +    def expand(self, value):
+> > +        for iri, compact in self.context:
+> > +            if value =3D=3D compact:
+> > +                return iri
+> > +        return None
+> > +
+> > +    def iri_values(self):
+> > +        return (iri for iri, _ in self.context)
+> > +
+> > +
+> > +class ObjectProp(IRIProp):
+> > +    """
+> > +    A scalar SHACL object property of a SHACL object
+> > +    """
+> > +
+> > +    def __init__(self, cls, required, context=3D[]):
+> > +        super().__init__(context)
+> > +        self.cls =3D cls
+> > +        self.required =3D required
+> > +
+> > +    def init(self):
+> > +        if self.required and not self.cls.IS_ABSTRACT:
+> > +            return self.cls()
+> > +        return None
+> > +
+> > +    def validate(self, value):
+> > +        check_type(value, (self.cls, str))
+> > +
+> > +    def walk(self, value, callback, path):
+> > +        if value is None:
+> > +            return
+> > +
+> > +        if not isinstance(value, str):
+> > +            value.walk(callback, path)
+> > +        else:
+> > +            callback(value, path)
+> > +
+> > +    def iter_objects(self, value, recursive, visited):
+> > +        if value is None or isinstance(value, str):
+> > +            return
+> > +
+> > +        if value not in visited:
+> > +            visited.add(value)
+> > +            yield value
+> > +
+> > +            if recursive:
+> > +                for c in value.iter_objects(recursive=3DTrue, visited=
+=3Dvisited):
+> > +                    yield c
+> > +
+> > +    def encode(self, encoder, value, state):
+> > +        if value is None:
+> > +            raise ValueError("Object cannot be None")
+> > +
+> > +        if isinstance(value, str):
+> > +            encoder.write_iri(value, self.compact(value))
+> > +            return
+> > +
+> > +        return value.encode(encoder, state)
+> > +
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        iri =3D decoder.read_iri()
+> > +        if iri is None:
+> > +            return self.cls.decode(decoder, objectset=3Dobjectset)
+> > +
+> > +        iri =3D self.expand(iri) or iri
+> > +
+> > +        if objectset is None:
+> > +            return iri
+> > +
+> > +        obj =3D objectset.find_by_id(iri)
+> > +        if obj is None:
+> > +            return iri
+> > +
+> > +        self.validate(obj)
+> > +        return obj
+> > +
+> > +    def link_prop(self, value, objectset, missing, visited):
+> > +        if value is None:
+> > +            return value
+> > +
+> > +        if isinstance(value, str):
+> > +            o =3D objectset.find_by_id(value)
+> > +            if o is not None:
+> > +                self.validate(o)
+> > +                return o
+> > +
+> > +            if missing is not None:
+> > +                missing.add(value)
+> > +
+> > +            return value
+> > +
+> > +        # De-duplicate IDs
+> > +        if value._id:
+> > +            value =3D objectset.find_by_id(value._id, value)
+> > +            self.validate(value)
+> > +
+> > +        value.link_helper(objectset, missing, visited)
+> > +        return value
+> > +
+> > +
+> > +class ListProxy(object):
+> > +    def __init__(self, prop, data=3DNone):
+> > +        if data is None:
+> > +            self.__data =3D []
+> > +        else:
+> > +            self.__data =3D data
+> > +        self.__prop =3D prop
+> > +
+> > +    def append(self, value):
+> > +        self.__prop.validate(value)
+> > +        self.__data.append(self.__prop.set(value))
+> > +
+> > +    def insert(self, idx, value):
+> > +        self.__prop.validate(value)
+> > +        self.__data.insert(idx, self.__prop.set(value))
+> > +
+> > +    def extend(self, items):
+> > +        for i in items:
+> > +            self.append(i)
+> > +
+> > +    def sort(self, *args, **kwargs):
+> > +        self.__data.sort(*args, **kwargs)
+> > +
+> > +    def __getitem__(self, key):
+> > +        return self.__data[key]
+> > +
+> > +    def __setitem__(self, key, value):
+> > +        if isinstance(key, slice):
+> > +            for v in value:
+> > +                self.__prop.validate(v)
+> > +            self.__data[key] =3D [self.__prop.set(v) for v in value]
+> > +        else:
+> > +            self.__prop.validate(value)
+> > +            self.__data[key] =3D self.__prop.set(value)
+> > +
+> > +    def __delitem__(self, key):
+> > +        del self.__data[key]
+> > +
+> > +    def __contains__(self, item):
+> > +        return item in self.__data
+> > +
+> > +    def __iter__(self):
+> > +        return iter(self.__data)
+> > +
+> > +    def __len__(self):
+> > +        return len(self.__data)
+> > +
+> > +    def __str__(self):
+> > +        return str(self.__data)
+> > +
+> > +    def __repr__(self):
+> > +        return repr(self.__data)
+> > +
+> > +    def __eq__(self, other):
+> > +        if isinstance(other, ListProxy):
+> > +            return self.__data =3D=3D other.__data
+> > +
+> > +        return self.__data =3D=3D other
+> > +
+> > +
+> > +class ListProp(Property):
+> > +    """
+> > +    A list of SHACL properties
+> > +    """
+> > +
+> > +    VALID_TYPES =3D (list, ListProxy)
+> > +
+> > +    def __init__(self, prop):
+> > +        super().__init__()
+> > +        self.prop =3D prop
+> > +
+> > +    def init(self):
+> > +        return ListProxy(self.prop)
+> > +
+> > +    def validate(self, value):
+> > +        super().validate(value)
+> > +
+> > +        for i in value:
+> > +            self.prop.validate(i)
+> > +
+> > +    def set(self, value):
+> > +        if isinstance(value, ListProxy):
+> > +            return value
+> > +
+> > +        return ListProxy(self.prop, [self.prop.set(d) for d in value])
+> > +
+> > +    def check_min_count(self, value, min_count):
+> > +        check_type(value, ListProxy)
+> > +        return len(value) >=3D min_count
+> > +
+> > +    def check_max_count(self, value, max_count):
+> > +        check_type(value, ListProxy)
+> > +        return len(value) <=3D max_count
+> > +
+> > +    def elide(self, value):
+> > +        check_type(value, ListProxy)
+> > +        return len(value) =3D=3D 0
+> > +
+> > +    def walk(self, value, callback, path):
+> > +        callback(value, path)
+> > +        for idx, v in enumerate(value):
+> > +            self.prop.walk(v, callback, path + [f"[{idx}]"])
+> > +
+> > +    def iter_objects(self, value, recursive, visited):
+> > +        for v in value:
+> > +            for c in self.prop.iter_objects(v, recursive, visited):
+> > +                yield c
+> > +
+> > +    def link_prop(self, value, objectset, missing, visited):
+> > +        if isinstance(value, ListProxy):
+> > +            data =3D [self.prop.link_prop(v, objectset, missing, visit=
+ed) for v in value]
+> > +        else:
+> > +            data =3D [self.prop.link_prop(v, objectset, missing, visit=
+ed) for v in value]
+> > +
+> > +        return ListProxy(self.prop, data=3Ddata)
+> > +
+> > +    def encode(self, encoder, value, state):
+> > +        check_type(value, ListProxy)
+> > +
+> > +        with encoder.write_list() as list_s:
+> > +            for v in value:
+> > +                with list_s.write_list_item() as item_s:
+> > +                    self.prop.encode(item_s, v, state)
+> > +
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        data =3D []
+> > +        for val_d in decoder.read_list():
+> > +            v =3D self.prop.decode(val_d, objectset=3Dobjectset)
+> > +            self.prop.validate(v)
+> > +            data.append(v)
+> > +
+> > +        return ListProxy(self.prop, data=3Ddata)
+> > +
+> > +
+> > +class EnumProp(IRIProp):
+> > +    VALID_TYPES =3D str
+> > +
+> > +    def __init__(self, values, *, pattern=3DNone):
+> > +        super().__init__(values, pattern=3Dpattern)
+> > +
+> > +    def validate(self, value):
+> > +        super().validate(value)
+> > +
+> > +        valid_values =3D self.iri_values()
+> > +        if value not in valid_values:
+> > +            raise ValueError(
+> > +                f"'{value}' is not a valid value. Choose one of {' '.j=
+oin(valid_values)}"
+> > +            )
+> > +
+> > +    def encode(self, encoder, value, state):
+> > +        encoder.write_enum(value, self, self.compact(value))
+> > +
+> > +    def decode(self, decoder, *, objectset=3DNone):
+> > +        v =3D decoder.read_enum(self)
+> > +        return self.expand(v) or v
+> > +
+> > +
+> > +class NodeKind(Enum):
+> > +    BlankNode =3D 1
+> > +    IRI =3D 2
+> > +    BlankNodeOrIRI =3D 3
+> > +
+> > +
+> > +def is_IRI(s):
+> > +    if not isinstance(s, str):
+> > +        return False
+> > +    if s.startswith("_:"):
+> > +        return False
+> > +    if ":" not in s:
+> > +        return False
+> > +    return True
+> > +
+> > +
+> > +def is_blank_node(s):
+> > +    if not isinstance(s, str):
+> > +        return False
+> > +    if not s.startswith("_:"):
+> > +        return False
+> > +    return True
+> > +
+> > +
+> > +def register(type_iri, *, compact_type=3DNone, abstract=3DFalse):
+> > +    def add_class(key, c):
+> > +        assert (
+> > +            key not in SHACLObject.CLASSES
+> > +        ), f"{key} already registered to {SHACLObject.CLASSES[key].__n=
+ame__}"
+> > +        SHACLObject.CLASSES[key] =3D c
+> > +
+> > +    def decorator(c):
+> > +        global NAMED_INDIVIDUALS
+> > +
+> > +        assert issubclass(
+> > +            c, SHACLObject
+> > +        ), f"{c.__name__} is not derived from SHACLObject"
+> > +
+> > +        c._OBJ_TYPE =3D type_iri
+> > +        c.IS_ABSTRACT =3D abstract
+> > +        add_class(type_iri, c)
+> > +
+> > +        c._OBJ_COMPACT_TYPE =3D compact_type
+> > +        if compact_type:
+> > +            add_class(compact_type, c)
+> > +
+> > +        NAMED_INDIVIDUALS |=3D set(c.NAMED_INDIVIDUALS.values())
+> > +
+> > +        # Registration is deferred until the first instance of class i=
+s created
+> > +        # so that it has access to any other defined class
+> > +        c._NEEDS_REG =3D True
+> > +        return c
+> > +
+> > +    return decorator
+> > +
+> > +
+> > +register_lock =3D threading.Lock()
+> > +NAMED_INDIVIDUALS =3D set()
+> > +
+> > +
+> > +@functools.total_ordering
+> > +class SHACLObject(object):
+> > +    CLASSES =3D {}
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    ID_ALIAS =3D None
+> > +    IS_ABSTRACT =3D True
+> > +
+> > +    def __init__(self, **kwargs):
+> > +        if self._is_abstract():
+> > +            raise NotImplementedError(
+> > +                f"{self.__class__.__name__} is abstract and cannot be =
+implemented"
+> > +            )
+> > +
+> > +        with register_lock:
+> > +            cls =3D self.__class__
+> > +            if cls._NEEDS_REG:
+> > +                cls._OBJ_PROPERTIES =3D {}
+> > +                cls._OBJ_IRIS =3D {}
+> > +                cls._register_props()
+> > +                cls._NEEDS_REG =3D False
+> > +
+> > +        self.__dict__["_obj_data"] =3D {}
+> > +        self.__dict__["_obj_metadata"] =3D {}
+> > +
+> > +        for iri, prop, _, _, _, _ in self.__iter_props():
+> > +            self.__dict__["_obj_data"][iri] =3D prop.init()
+> > +
+> > +        for k, v in kwargs.items():
+> > +            setattr(self, k, v)
+> > +
+> > +    def _is_abstract(self):
+> > +        return self.__class__.IS_ABSTRACT
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        cls._add_property("_id", StringProp(), iri=3D"@id")
+> > +
+> > +    @classmethod
+> > +    def _add_property(
+> > +        cls,
+> > +        pyname,
+> > +        prop,
+> > +        iri,
+> > +        min_count=3DNone,
+> > +        max_count=3DNone,
+> > +        compact=3DNone,
+> > +    ):
+> > +        if pyname in cls._OBJ_IRIS:
+> > +            raise KeyError(f"'{pyname}' is already defined for '{cls._=
+_name__}'")
+> > +        if iri in cls._OBJ_PROPERTIES:
+> > +            raise KeyError(f"'{iri}' is already defined for '{cls.__na=
+me__}'")
+> > +
+> > +        while hasattr(cls, pyname):
+> > +            pyname =3D pyname + "_"
+> > +
+> > +        pyname =3D sys.intern(pyname)
+> > +        iri =3D sys.intern(iri)
+> > +
+> > +        cls._OBJ_IRIS[pyname] =3D iri
+> > +        cls._OBJ_PROPERTIES[iri] =3D (prop, min_count, max_count, pyna=
+me, compact)
+> > +
+> > +    def __setattr__(self, name, value):
+> > +        if name =3D=3D self.ID_ALIAS:
+> > +            self["@id"] =3D value
+> > +            return
+> > +
+> > +        try:
+> > +            iri =3D self._OBJ_IRIS[name]
+> > +            self[iri] =3D value
+> > +        except KeyError:
+> > +            raise AttributeError(
+> > +                f"'{name}' is not a valid property of {self.__class__.=
+__name__}"
+> > +            )
+> > +
+> > +    def __getattr__(self, name):
+> > +        if name in self._OBJ_IRIS:
+> > +            return self.__dict__["_obj_data"][self._OBJ_IRIS[name]]
+> > +
+> > +        if name =3D=3D self.ID_ALIAS:
+> > +            return self.__dict__["_obj_data"]["@id"]
+> > +
+> > +        if name =3D=3D "_metadata":
+> > +            return self.__dict__["_obj_metadata"]
+> > +
+> > +        if name =3D=3D "_IRI":
+> > +            return self._OBJ_IRIS
+> > +
+> > +        if name =3D=3D "TYPE":
+> > +            return self.__class__._OBJ_TYPE
+> > +
+> > +        if name =3D=3D "COMPACT_TYPE":
+> > +            return self.__class__._OBJ_COMPACT_TYPE
+> > +
+> > +        raise AttributeError(
+> > +            f"'{name}' is not a valid property of {self.__class__.__na=
+me__}"
+> > +        )
+> > +
+> > +    def __delattr__(self, name):
+> > +        if name =3D=3D self.ID_ALIAS:
+> > +            del self["@id"]
+> > +            return
+> > +
+> > +        try:
+> > +            iri =3D self._OBJ_IRIS[name]
+> > +            del self[iri]
+> > +        except KeyError:
+> > +            raise AttributeError(
+> > +                f"'{name}' is not a valid property of {self.__class__.=
+__name__}"
+> > +            )
+> > +
+> > +    def __get_prop(self, iri):
+> > +        if iri not in self._OBJ_PROPERTIES:
+> > +            raise KeyError(
+> > +                f"'{iri}' is not a valid property of {self.__class__._=
+_name__}"
+> > +            )
+> > +
+> > +        return self._OBJ_PROPERTIES[iri]
+> > +
+> > +    def __iter_props(self):
+> > +        for iri, v in self._OBJ_PROPERTIES.items():
+> > +            yield iri, *v
+> > +
+> > +    def __getitem__(self, iri):
+> > +        return self.__dict__["_obj_data"][iri]
+> > +
+> > +    def __setitem__(self, iri, value):
+> > +        if iri =3D=3D "@id":
+> > +            if self.NODE_KIND =3D=3D NodeKind.BlankNode:
+> > +                if not is_blank_node(value):
+> > +                    raise ValueError(
+> > +                        f"{self.__class__.__name__} ({id(self)}) can o=
+nly have local reference. Property '{iri}' cannot be set to '{value}' and m=
+ust start with '_:'"
+> > +                    )
+> > +            elif self.NODE_KIND =3D=3D NodeKind.IRI:
+> > +                if not is_IRI(value):
+> > +                    raise ValueError(
+> > +                        f"{self.__class__.__name__} ({id(self)}) can o=
+nly have an IRI value. Property '{iri}' cannot be set to '{value}'"
+> > +                    )
+> > +            else:
+> > +                if not is_blank_node(value) and not is_IRI(value):
+> > +                    raise ValueError(
+> > +                        f"{self.__class__.__name__} ({id(self)}) Has i=
+nvalid Property '{iri}' '{value}'. Must be a blank node or IRI"
+> > +                    )
+> > +
+> > +        prop, _, _, _, _ =3D self.__get_prop(iri)
+> > +        prop.validate(value)
+> > +        self.__dict__["_obj_data"][iri] =3D prop.set(value)
+> > +
+> > +    def __delitem__(self, iri):
+> > +        prop, _, _, _, _ =3D self.__get_prop(iri)
+> > +        self.__dict__["_obj_data"][iri] =3D prop.init()
+> > +
+> > +    def __iter__(self):
+> > +        return self._OBJ_PROPERTIES.keys()
+> > +
+> > +    def walk(self, callback, path=3DNone):
+> > +        """
+> > +        Walk object tree, invoking the callback for each item
+> > +
+> > +        Callback has the form:
+> > +
+> > +        def callback(object, path):
+> > +        """
+> > +        if path is None:
+> > +            path =3D ["."]
+> > +
+> > +        if callback(self, path):
+> > +            for iri, prop, _, _, _, _ in self.__iter_props():
+> > +                prop.walk(self.__dict__["_obj_data"][iri], callback, p=
+ath + [f".{iri}"])
+> > +
+> > +    def property_keys(self):
+> > +        for iri, _, _, _, pyname, compact in self.__iter_props():
+> > +            if iri =3D=3D "@id":
+> > +                compact =3D self.ID_ALIAS
+> > +            yield pyname, iri, compact
+> > +
+> > +    def iter_objects(self, *, recursive=3DFalse, visited=3DNone):
+> > +        """
+> > +        Iterate of all objects that are a child of this one
+> > +        """
+> > +        if visited is None:
+> > +            visited =3D set()
+> > +
+> > +        for iri, prop, _, _, _, _ in self.__iter_props():
+> > +            for c in prop.iter_objects(
+> > +                self.__dict__["_obj_data"][iri], recursive=3Drecursive=
+, visited=3Dvisited
+> > +            ):
+> > +                yield c
+> > +
+> > +    def encode(self, encoder, state):
+> > +        idname =3D self.ID_ALIAS or self._OBJ_IRIS["_id"]
+> > +        if not self._id and self.NODE_KIND =3D=3D NodeKind.IRI:
+> > +            raise ValueError(
+> > +                f"{self.__class__.__name__} ({id(self)}) must have a I=
+RI for property '{idname}'"
+> > +            )
+> > +
+> > +        if state.is_written(self):
+> > +            encoder.write_iri(state.get_object_id(self))
+> > +            return
+> > +
+> > +        state.add_written(self)
+> > +
+> > +        with encoder.write_object(
+> > +            self,
+> > +            state.get_object_id(self),
+> > +            bool(self._id) or state.is_refed(self),
+> > +        ) as obj_s:
+> > +            self._encode_properties(obj_s, state)
+> > +
+> > +    def _encode_properties(self, encoder, state):
+> > +        for iri, prop, min_count, max_count, pyname, compact in self._=
+_iter_props():
+> > +            value =3D self.__dict__["_obj_data"][iri]
+> > +            if prop.elide(value):
+> > +                if min_count:
+> > +                    raise ValueError(
+> > +                        f"Property '{pyname}' in {self.__class__.__nam=
+e__} ({id(self)}) is required (currently {value!r})"
+> > +                    )
+> > +                continue
+> > +
+> > +            if min_count is not None:
+> > +                if not prop.check_min_count(value, min_count):
+> > +                    raise ValueError(
+> > +                        f"Property '{pyname}' in {self.__class__.__nam=
+e__} ({id(self)}) requires a minimum of {min_count} elements"
+> > +                    )
+> > +
+> > +            if max_count is not None:
+> > +                if not prop.check_max_count(value, max_count):
+> > +                    raise ValueError(
+> > +                        f"Property '{pyname}' in {self.__class__.__nam=
+e__} ({id(self)}) requires a maximum of {max_count} elements"
+> > +                    )
+> > +
+> > +            if iri =3D=3D self._OBJ_IRIS["_id"]:
+> > +                continue
+> > +
+> > +            with encoder.write_property(iri, compact) as prop_s:
+> > +                prop.encode(prop_s, value, state)
+> > +
+> > +    @classmethod
+> > +    def _make_object(cls, typ):
+> > +        if typ not in cls.CLASSES:
+> > +            raise TypeError(f"Unknown type {typ}")
+> > +
+> > +        return cls.CLASSES[typ]()
+> > +
+> > +    @classmethod
+> > +    def decode(cls, decoder, *, objectset=3DNone):
+> > +        typ, obj_d =3D decoder.read_object()
+> > +        if typ is None:
+> > +            raise TypeError("Unable to determine type for object")
+> > +
+> > +        obj =3D cls._make_object(typ)
+> > +        for key in (obj.ID_ALIAS, obj._OBJ_IRIS["_id"]):
+> > +            with obj_d.read_property(key) as prop_d:
+> > +                if prop_d is None:
+> > +                    continue
+> > +
+> > +                _id =3D prop_d.read_iri()
+> > +                if _id is None:
+> > +                    raise TypeError(f"Object key '{key}' is the wrong =
+type")
+> > +
+> > +                obj._id =3D _id
+> > +                break
+> > +
+> > +        if obj.NODE_KIND =3D=3D NodeKind.IRI and not obj._id:
+> > +            raise ValueError("Object is missing required IRI")
+> > +
+> > +        if objectset is not None:
+> > +            if obj._id:
+> > +                v =3D objectset.find_by_id(_id)
+> > +                if v is not None:
+> > +                    return v
+> > +
+> > +        obj._decode_properties(obj_d, objectset=3Dobjectset)
+> > +
+> > +        if objectset is not None:
+> > +            objectset.add_index(obj)
+> > +        return obj
+> > +
+> > +    def _decode_properties(self, decoder, objectset=3DNone):
+> > +        for key in decoder.object_keys():
+> > +            if not self._decode_prop(decoder, key, objectset=3Dobjects=
+et):
+> > +                raise KeyError(f"Unknown property '{key}'")
+> > +
+> > +    def _decode_prop(self, decoder, key, objectset=3DNone):
+> > +        if key in (self._OBJ_IRIS["_id"], self.ID_ALIAS):
+> > +            return True
+> > +
+> > +        for iri, prop, _, _, _, compact in self.__iter_props():
+> > +            if compact =3D=3D key:
+> > +                read_key =3D compact
+> > +            elif iri =3D=3D key:
+> > +                read_key =3D iri
+> > +            else:
+> > +                continue
+> > +
+> > +            with decoder.read_property(read_key) as prop_d:
+> > +                v =3D prop.decode(prop_d, objectset=3Dobjectset)
+> > +                prop.validate(v)
+> > +                self.__dict__["_obj_data"][iri] =3D v
+> > +            return True
+> > +
+> > +        return False
+> > +
+> > +    def link_helper(self, objectset, missing, visited):
+> > +        if self in visited:
+> > +            return
+> > +
+> > +        visited.add(self)
+> > +
+> > +        for iri, prop, _, _, _, _ in self.__iter_props():
+> > +            self.__dict__["_obj_data"][iri] =3D prop.link_prop(
+> > +                self.__dict__["_obj_data"][iri],
+> > +                objectset,
+> > +                missing,
+> > +                visited,
+> > +            )
+> > +
+> > +    def __str__(self):
+> > +        parts =3D [
+> > +            f"{self.__class__.__name__}(",
+> > +        ]
+> > +        if self._id:
+> > +            parts.append(f"@id=3D'{self._id}'")
+> > +        parts.append(")")
+> > +        return "".join(parts)
+> > +
+> > +    def __hash__(self):
+> > +        return super().__hash__()
+> > +
+> > +    def __eq__(self, other):
+> > +        return super().__eq__(other)
+> > +
+> > +    def __lt__(self, other):
+> > +        def sort_key(obj):
+> > +            if isinstance(obj, str):
+> > +                return (obj, "", "", "")
+> > +            return (
+> > +                obj._id or "",
+> > +                obj.TYPE,
+> > +                getattr(obj, "name", None) or "",
+> > +                id(obj),
+> > +            )
+> > +
+> > +        return sort_key(self) < sort_key(other)
+> > +
+> > +
+> > +class SHACLExtensibleObject(object):
+> > +    CLOSED =3D False
+> > +
+> > +    def __init__(self, typ=3DNone, **kwargs):
+> > +        if typ:
+> > +            self.__dict__["_obj_TYPE"] =3D (typ, None)
+> > +        else:
+> > +            self.__dict__["_obj_TYPE"] =3D (self._OBJ_TYPE, self._OBJ_=
+COMPACT_TYPE)
+> > +        super().__init__(**kwargs)
+> > +
+> > +    def _is_abstract(self):
+> > +        # Unknown classes are assumed to not be abstract so that they =
+can be
+> > +        # deserialized
+> > +        typ =3D self.__dict__["_obj_TYPE"][0]
+> > +        if typ in self.__class__.CLASSES:
+> > +            return self.__class__.CLASSES[typ].IS_ABSTRACT
+> > +
+> > +        return False
+> > +
+> > +    @classmethod
+> > +    def _make_object(cls, typ):
+> > +        # Check for a known type, and if so, deserialize as that inste=
+ad
+> > +        if typ in cls.CLASSES:
+> > +            return cls.CLASSES[typ]()
+> > +
+> > +        obj =3D cls(typ)
+> > +        return obj
+> > +
+> > +    def _decode_properties(self, decoder, objectset=3DNone):
+> > +        def decode_value(d):
+> > +            if not d.is_list():
+> > +                return d.read_value()
+> > +
+> > +            return [decode_value(val_d) for val_d in d.read_list()]
+> > +
+> > +        if self.CLOSED:
+> > +            super()._decode_properties(decoder, objectset=3Dobjectset)
+> > +            return
+> > +
+> > +        for key in decoder.object_keys():
+> > +            if self._decode_prop(decoder, key, objectset=3Dobjectset):
+> > +                continue
+> > +
+> > +            if not is_IRI(key):
+> > +                raise KeyError(
+> > +                    f"Extensible object properties must be IRIs. Got '=
+{key}'"
+> > +                )
+> > +
+> > +            with decoder.read_property(key) as prop_d:
+> > +                self.__dict__["_obj_data"][key] =3D decode_value(prop_=
+d)
+> > +
+> > +    def _encode_properties(self, encoder, state):
+> > +        def encode_value(encoder, v):
+> > +            if isinstance(v, bool):
+> > +                encoder.write_bool(v)
+> > +            elif isinstance(v, str):
+> > +                encoder.write_string(v)
+> > +            elif isinstance(v, int):
+> > +                encoder.write_integer(v)
+> > +            elif isinstance(v, float):
+> > +                encoder.write_float(v)
+> > +            elif isinstance(v, list):
+> > +                with encoder.write_list() as list_s:
+> > +                    for i in v:
+> > +                        with list_s.write_list_item() as item_s:
+> > +                            encode_value(item_s, i)
+> > +            else:
+> > +                raise TypeError(
+> > +                    f"Unsupported serialized type {type(v)} with value=
+ '{v}'"
+> > +                )
+> > +
+> > +        super()._encode_properties(encoder, state)
+> > +        if self.CLOSED:
+> > +            return
+> > +
+> > +        for iri, value in self.__dict__["_obj_data"].items():
+> > +            if iri in self._OBJ_PROPERTIES:
+> > +                continue
+> > +
+> > +            with encoder.write_property(iri) as prop_s:
+> > +                encode_value(prop_s, value)
+> > +
+> > +    def __setitem__(self, iri, value):
+> > +        try:
+> > +            super().__setitem__(iri, value)
+> > +        except KeyError:
+> > +            if self.CLOSED:
+> > +                raise
+> > +
+> > +            if not is_IRI(iri):
+> > +                raise KeyError(f"Key '{iri}' must be an IRI")
+> > +            self.__dict__["_obj_data"][iri] =3D value
+> > +
+> > +    def __delitem__(self, iri):
+> > +        try:
+> > +            super().__delitem__(iri)
+> > +        except KeyError:
+> > +            if self.CLOSED:
+> > +                raise
+> > +
+> > +            if not is_IRI(iri):
+> > +                raise KeyError(f"Key '{iri}' must be an IRI")
+> > +            del self.__dict__["_obj_data"][iri]
+> > +
+> > +    def __getattr__(self, name):
+> > +        if name =3D=3D "TYPE":
+> > +            return self.__dict__["_obj_TYPE"][0]
+> > +        if name =3D=3D "COMPACT_TYPE":
+> > +            return self.__dict__["_obj_TYPE"][1]
+> > +        return super().__getattr__(name)
+> > +
+> > +    def property_keys(self):
+> > +        iris =3D set()
+> > +        for pyname, iri, compact in super().property_keys():
+> > +            iris.add(iri)
+> > +            yield pyname, iri, compact
+> > +
+> > +        if self.CLOSED:
+> > +            return
+> > +
+> > +        for iri in self.__dict__["_obj_data"].keys():
+> > +            if iri not in iris:
+> > +                yield None, iri, None
+> > +
+> > +
+> > +class SHACLObjectSet(object):
+> > +    def __init__(self, objects=3D[], *, link=3DFalse):
+> > +        self.objects =3D set()
+> > +        self.missing_ids =3D set()
+> > +        for o in objects:
+> > +            self.objects.add(o)
+> > +        self.create_index()
+> > +        if link:
+> > +            self._link()
+> > +
+> > +    def create_index(self):
+> > +        """
+> > +        (re)Create object index
+> > +
+> > +        Creates or recreates the indices for the object set to enable =
+fast
+> > +        lookup. All objects and their children are walked and indexed
+> > +        """
+> > +        self.obj_by_id =3D {}
+> > +        self.obj_by_type =3D {}
+> > +        for o in self.foreach():
+> > +            self.add_index(o)
+> > +
+> > +    def add_index(self, obj):
+> > +        """
+> > +        Add object to index
+> > +
+> > +        Adds the object to all appropriate indices
+> > +        """
+> > +
+> > +        def reg_type(typ, compact, o, exact):
+> > +            self.obj_by_type.setdefault(typ, set()).add((exact, o))
+> > +            if compact:
+> > +                self.obj_by_type.setdefault(compact, set()).add((exact=
+, o))
+> > +
+> > +        if not isinstance(obj, SHACLObject):
+> > +            raise TypeError("Object is not of type SHACLObject")
+> > +
+> > +        for typ in SHACLObject.CLASSES.values():
+> > +            if isinstance(obj, typ):
+> > +                reg_type(
+> > +                    typ._OBJ_TYPE, typ._OBJ_COMPACT_TYPE, obj, obj.__c=
+lass__ is typ
+> > +                )
+> > +
+> > +        # This covers custom extensions
+> > +        reg_type(obj.TYPE, obj.COMPACT_TYPE, obj, True)
+> > +
+> > +        if not obj._id:
+> > +            return
+> > +
+> > +        self.missing_ids.discard(obj._id)
+> > +
+> > +        if obj._id in self.obj_by_id:
+> > +            return
+> > +
+> > +        self.obj_by_id[obj._id] =3D obj
+> > +
+> > +    def add(self, obj):
+> > +        """
+> > +        Add object to object set
+> > +
+> > +        Adds a SHACLObject to the object set and index it.
+> > +
+> > +        NOTE: Child objects of the attached object are not indexes
+> > +        """
+> > +        if not isinstance(obj, SHACLObject):
+> > +            raise TypeError("Object is not of type SHACLObject")
+> > +
+> > +        if obj not in self.objects:
+> > +            self.objects.add(obj)
+> > +            self.add_index(obj)
+> > +        return obj
+> > +
+> > +    def update(self, *others):
+> > +        """
+> > +        Update object set adding all objects in each other iterable
+> > +        """
+> > +        for o in others:
+> > +            for obj in o:
+> > +                self.add(obj)
+> > +
+> > +    def __contains__(self, item):
+> > +        """
+> > +        Returns True if the item is in the object set
+> > +        """
+> > +        return item in self.objects
+> > +
+> > +    def link(self):
+> > +        """
+> > +        Link object set
+> > +
+> > +        Links the object in the object set by replacing string object
+> > +        references with references to the objects themselves. e.g.
+> > +        a property that references object "https://foo/bar" by a string
+> > +        reference will be replaced with an actual reference to the obj=
+ect in
+> > +        the object set with the same ID if it exists in the object set
+> > +
+> > +        If multiple objects with the same ID are found, the duplicates=
+ are
+> > +        eliminated
+> > +        """
+> > +        self.create_index()
+> > +        return self._link()
+> > +
+> > +    def _link(self):
+> > +        global NAMED_INDIVIDUALS
+> > +
+> > +        self.missing_ids =3D set()
+> > +        visited =3D set()
+> > +
+> > +        new_objects =3D set()
+> > +
+> > +        for o in self.objects:
+> > +            if o._id:
+> > +                o =3D self.find_by_id(o._id, o)
+> > +            o.link_helper(self, self.missing_ids, visited)
+> > +            new_objects.add(o)
+> > +
+> > +        self.objects =3D new_objects
+> > +
+> > +        # Remove blank nodes
+> > +        obj_by_id =3D {}
+> > +        for _id, obj in self.obj_by_id.items():
+> > +            if _id.startswith("_:"):
+> > +                del obj._id
+> > +            else:
+> > +                obj_by_id[_id] =3D obj
+> > +        self.obj_by_id =3D obj_by_id
+> > +
+> > +        # Named individuals aren't considered missing
+> > +        self.missing_ids -=3D NAMED_INDIVIDUALS
+> > +
+> > +        return self.missing_ids
+> > +
+> > +    def find_by_id(self, _id, default=3DNone):
+> > +        """
+> > +        Find object by ID
+> > +
+> > +        Returns objects that match the specified ID, or default if the=
+re is no
+> > +        object with the specified ID
+> > +        """
+> > +        if _id not in self.obj_by_id:
+> > +            return default
+> > +        return self.obj_by_id[_id]
+> > +
+> > +    def foreach(self):
+> > +        """
+> > +        Iterate over every object in the object set, and all child obj=
+ects
+> > +        """
+> > +        visited =3D set()
+> > +        for o in self.objects:
+> > +            if o not in visited:
+> > +                yield o
+> > +                visited.add(o)
+> > +
+> > +            for child in o.iter_objects(recursive=3DTrue, visited=3Dvi=
+sited):
+> > +                yield child
+> > +
+> > +    def foreach_type(self, typ, *, match_subclass=3DTrue):
+> > +        """
+> > +        Iterate over each object of a specified type (or subclass ther=
+e of)
+> > +
+> > +        If match_subclass is True, and class derived from typ will als=
+o match
+> > +        (similar to isinstance()). If False, only exact matches will be
+> > +        returned
+> > +        """
+> > +        if not isinstance(typ, str):
+> > +            if not issubclass(typ, SHACLObject):
+> > +                raise TypeError(f"Type must be derived from SHACLObjec=
+t, got {typ}")
+> > +            typ =3D typ._OBJ_TYPE
+> > +
+> > +        if typ not in self.obj_by_type:
+> > +            return
+> > +
+> > +        for exact, o in self.obj_by_type[typ]:
+> > +            if match_subclass or exact:
+> > +                yield o
+> > +
+> > +    def merge(self, *objectsets):
+> > +        """
+> > +        Merge object sets
+> > +
+> > +        Returns a new object set that is the combination of this objec=
+t set and
+> > +        all provided arguments
+> > +        """
+> > +        new_objects =3D set()
+> > +        new_objects |=3D self.objects
+> > +        for d in objectsets:
+> > +            new_objects |=3D d.objects
+> > +
+> > +        return SHACLObjectSet(new_objects, link=3DTrue)
+> > +
+> > +    def encode(self, encoder, force_list=3DFalse, *, key=3DNone):
+> > +        """
+> > +        Serialize a list of objects to a serialization encoder
+> > +
+> > +        If force_list is true, a list will always be written using the=
+ encoder.
+> > +        """
+> > +        ref_counts =3D {}
+> > +        state =3D EncodeState()
+> > +
+> > +        def walk_callback(value, path):
+> > +            nonlocal state
+> > +            nonlocal ref_counts
+> > +
+> > +            if not isinstance(value, SHACLObject):
+> > +                return True
+> > +
+> > +            # Remove blank node ID for re-assignment
+> > +            if value._id and value._id.startswith("_:"):
+> > +                del value._id
+> > +
+> > +            if value._id:
+> > +                state.add_refed(value)
+> > +
+> > +            # If the object is referenced more than once, add it to th=
+e set of
+> > +            # referenced objects
+> > +            ref_counts.setdefault(value, 0)
+> > +            ref_counts[value] +=3D 1
+> > +            if ref_counts[value] > 1:
+> > +                state.add_refed(value)
+> > +                return False
+> > +
+> > +            return True
+> > +
+> > +        for o in self.objects:
+> > +            if o._id:
+> > +                state.add_refed(o)
+> > +            o.walk(walk_callback)
+> > +
+> > +        use_list =3D force_list or len(self.objects) > 1
+> > +
+> > +        if use_list:
+> > +            # If we are making a list add all the objects referred to =
+by reference
+> > +            # to the list
+> > +            objects =3D list(self.objects | state.ref_objects)
+> > +        else:
+> > +            objects =3D list(self.objects)
+> > +
+> > +        objects.sort(key=3Dkey)
+> > +
+> > +        if use_list:
+> > +            # Ensure top level objects are only written in the top lev=
+el graph
+> > +            # node, and referenced by ID everywhere else. This is done=
+ by setting
+> > +            # the flag that indicates this object has been written for=
+ all the top
+> > +            # level objects, then clearing it right before serializing=
+ the object.
+> > +            #
+> > +            # In this way, if an object is referenced before it is sup=
+posed to be
+> > +            # serialized into the @graph, it will serialize as a strin=
+g instead of
+> > +            # the actual object
+> > +            for o in objects:
+> > +                state.written_objects.add(o)
+> > +
+> > +            with encoder.write_list() as list_s:
+> > +                for o in objects:
+> > +                    # Allow this specific object to be written now
+> > +                    state.written_objects.remove(o)
+> > +                    with list_s.write_list_item() as item_s:
+> > +                        o.encode(item_s, state)
+> > +
+> > +        elif objects:
+> > +            objects[0].encode(encoder, state)
+> > +
+> > +    def decode(self, decoder):
+> > +        self.create_index()
+> > +
+> > +        for obj_d in decoder.read_list():
+> > +            o =3D SHACLObject.decode(obj_d, objectset=3Dself)
+> > +            self.objects.add(o)
+> > +
+> > +        self._link()
+> > +
+> > +
+> > +class EncodeState(object):
+> > +    def __init__(self):
+> > +        self.ref_objects =3D set()
+> > +        self.written_objects =3D set()
+> > +        self.blank_objects =3D {}
+> > +
+> > +    def get_object_id(self, o):
+> > +        if o._id:
+> > +            return o._id
+> > +
+> > +        if o not in self.blank_objects:
+> > +            _id =3D f"_:{o.__class__.__name__}{len(self.blank_objects)=
 }"
->>>> -LLVM_TARGETS_TO_BUILD:class-target ?=3D "${@get_clang_host_arch(bb,
->>>> d)};BPF;${LLVM_TARGETS_GPU}"
->>> compiler we build is building all architectures once because it then
->>> reuses same compiler for all cross compilers just by creating canonic=
-al
->>> symlinks, this change is not going to work.
->> We removed this line because, for the clang class-target build, LLVM w=
-as
->> only compiling
->> libraries for the target architecture and GPU targets and kept inside
->> the target
->> sysroot. Since we use the llvm-config built for the class-target durin=
-g
->> the Rust target build,
->> it was failing due to the absence of static libraries for other
->> architectures in the target sysroot.
->> Here the target is x86 arch. So, it compiled libraries for x86 arch on=
-ly
->> and we can see the error
->> for missing libraries for other archs as below:
->>
->> |   --- stderr
->> |   llvm-config: error: missing:
->> poky/build/tmp/work/x86-64-v3-poky-linux/rust/1.90.0/recipe-sysroot/us=
-r/lib/libLLVMAArch64Info.a
->> |   llvm-config: error: missing:
->> poky/build/tmp/work/x86-64-v3-poky-linux/rust/1.90.0/recipe-sysroot/us=
-r/lib/libLLVMLoongArchInfo.a
->> |   llvm-config: error: missing:
->> poky/build/tmp/work/x86-64-v3-poky-linux/rust/1.90.0/recipe-sysroot/us=
-r/lib/libLLVMLoongArchDisassembler.a
->> |   llvm-config: error: missing:
->> poky/build/tmp/work/x86-64-v3-poky-linux/rust/1.90.0/recipe-sysroot/us=
-r/lib/libLLVMMipsInfo.a
->> |   llvm-config: error: missing:
->> poky/build/tmp/work/x86-64-v3-poky-linux/rust/1.90.0/recipe-sysroot/us=
-r/lib/libLLVMPowerPCInfo.a
->> |   llvm-config: error: missing:
->> poky/build/tmp/work/x86-64-v3-poky-linux/rust/1.90.0/recipe-sysroot/us=
-r/lib/libLLVMRISCVTargetMCA.a
->> .
->> .
->> .
->> |   thread 'main' panicked at compiler/rustc_llvm/build.rs:277:16:
->> |   command did not execute successfully:
->> "poky/build/tmp/work/x86-64-v3-poky-linux/rust/1.90.0/recipe-sysroot/u=
-sr/lib/llvm-config"
->>
->> "--link-static" "--libs" "aarch64" "amdgpu" "arm" "asmparser"
->> "bitreader" "bitwriter" "bpf" "coverage" "instrumentation" "ipo" "link=
+> > +            self.blank_objects[o] =3D _id
+> > +
+> > +        return self.blank_objects[o]
+> > +
+> > +    def is_refed(self, o):
+> > +        return o in self.ref_objects
+> > +
+> > +    def add_refed(self, o):
+> > +        self.ref_objects.add(o)
+> > +
+> > +    def is_written(self, o):
+> > +        return o in self.written_objects
+> > +
+> > +    def add_written(self, o):
+> > +        self.written_objects.add(o)
+> > +
+> > +
+> > +class Decoder(ABC):
+> > +    @abstractmethod
+> > +    def read_value(self):
+> > +        """
+> > +        Consume next item
+> > +
+> > +        Consumes the next item of any type
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_string(self):
+> > +        """
+> > +        Consume the next item as a string.
+> > +
+> > +        Returns the string value of the next item, or `None` if the ne=
+xt item
+> > +        is not a string
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_datetime(self):
+> > +        """
+> > +        Consumes the next item as a date & time string
+> > +
+> > +        Returns the string value of the next item, if it is a ISO date=
+time, or
+> > +        `None` if the next item is not a ISO datetime string.
+> > +
+> > +        Note that validation of the string is done by the caller, so a=
+ minimal
+> > +        implementation can just check if the next item is a string wit=
+hout
+> > +        worrying about the format
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_integer(self):
+> > +        """
+> > +        Consumes the next item as an integer
+> > +
+> > +        Returns the integer value of the next item, or `None` if the n=
+ext item
+> > +        is not an integer
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_iri(self):
+> > +        """
+> > +        Consumes the next item as an IRI string
+> > +
+> > +        Returns the string value of the next item an IRI, or `None` if=
+ the next
+> > +        item is not an IRI.
+> > +
+> > +        The returned string should be either a fully-qualified IRI, or=
+ a blank
+> > +        node ID
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_enum(self, e):
+> > +        """
+> > +        Consumes the next item as an Enum value string
+> > +
+> > +        Returns the fully qualified IRI of the next enum item, or `Non=
+e` if the
+> > +        next item is not an enum value.
+> > +
+> > +        The callee is responsible for validating that the returned IRI=
+ is
+> > +        actually a member of the specified Enum, so the `Decoder` does=
+ not need
+> > +        to check that, but can if it wishes
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_bool(self):
+> > +        """
+> > +        Consume the next item as a boolean value
+> > +
+> > +        Returns the boolean value of the next item, or `None` if the n=
+ext item
+> > +        is not a boolean
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_float(self):
+> > +        """
+> > +        Consume the next item as a float value
+> > +
+> > +        Returns the float value of the next item, or `None` if the nex=
+t item is
+> > +        not a float
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_list(self):
+> > +        """
+> > +        Consume the next item as a list generator
+> > +
+> > +        This should generate a `Decoder` object for each item in the l=
+ist. The
+> > +        generated `Decoder` can be used to read the corresponding item=
+ from the
+> > +        list
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def is_list(self):
+> > +        """
+> > +        Checks if the next item is a list
+> > +
+> > +        Returns True if the next item is a list, or False if it is a s=
+calar
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_object(self):
+> > +        """
+> > +        Consume next item as an object
+> > +
+> > +        A context manager that "enters" the next item as a object and =
+yields a
+> > +        `Decoder` that can read properties from it. If the next item i=
+s not an
+> > +        object, yields `None`
+> > +
+> > +        Properties will be read out of the object using `read_property=
+` and
+> > +        `read_object_id`
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    @contextmanager
+> > +    def read_property(self, key):
+> > +        """
+> > +        Read property from object
+> > +
+> > +        A context manager that yields a `Decoder` that can be used to =
+read the
+> > +        value of the property with the given key in current object, or=
+ `None`
+> > +        if the property does not exist in the current object.
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def object_keys(self):
+> > +        """
+> > +        Read property keys from an object
+> > +
+> > +        Iterates over all the serialized keys for the current object
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def read_object_id(self, alias=3DNone):
+> > +        """
+> > +        Read current object ID property
+> > +
+> > +        Returns the ID of the current object if one is defined, or `No=
+ne` if
+> > +        the current object has no ID.
+> > +
+> > +        The ID must be a fully qualified IRI or a blank node
+> > +
+> > +        If `alias` is provided, is is a hint as to another name by whi=
+ch the ID
+> > +        might be found, if the `Decoder` supports aliases for an ID
+> > +        """
+> > +        pass
+> > +
+> > +
+> > +class JSONLDDecoder(Decoder):
+> > +    def __init__(self, data, root=3DFalse):
+> > +        self.data =3D data
+> > +        self.root =3D root
+> > +
+> > +    def read_value(self):
+> > +        if isinstance(self.data, str):
+> > +            try:
+> > +                return float(self.data)
+> > +            except ValueError:
+> > +                pass
+> > +        return self.data
+> > +
+> > +    def read_string(self):
+> > +        if isinstance(self.data, str):
+> > +            return self.data
+> > +        return None
+> > +
+> > +    def read_datetime(self):
+> > +        return self.read_string()
+> > +
+> > +    def read_integer(self):
+> > +        if isinstance(self.data, int):
+> > +            return self.data
+> > +        return None
+> > +
+> > +    def read_bool(self):
+> > +        if isinstance(self.data, bool):
+> > +            return self.data
+> > +        return None
+> > +
+> > +    def read_float(self):
+> > +        if isinstance(self.data, (int, float, str)):
+> > +            return float(self.data)
+> > +        return None
+> > +
+> > +    def read_iri(self):
+> > +        if isinstance(self.data, str):
+> > +            return self.data
+> > +        return None
+> > +
+> > +    def read_enum(self, e):
+> > +        if isinstance(self.data, str):
+> > +            return self.data
+> > +        return None
+> > +
+> > +    def read_list(self):
+> > +        if self.is_list():
+> > +            for v in self.data:
+> > +                yield self.__class__(v)
+> > +        else:
+> > +            yield self
+> > +
+> > +    def is_list(self):
+> > +        return isinstance(self.data, (list, tuple, set))
+> > +
+> > +    def __get_value(self, *keys):
+> > +        for k in keys:
+> > +            if k and k in self.data:
+> > +                return self.data[k]
+> > +        return None
+> > +
+> > +    @contextmanager
+> > +    def read_property(self, key):
+> > +        v =3D self.__get_value(key)
+> > +        if v is not None:
+> > +            yield self.__class__(v)
+> > +        else:
+> > +            yield None
+> > +
+> > +    def object_keys(self):
+> > +        for key in self.data.keys():
+> > +            if key in ("@type", "type"):
+> > +                continue
+> > +            if self.root and key =3D=3D "@context":
+> > +                continue
+> > +            yield key
+> > +
+> > +    def read_object(self):
+> > +        typ =3D self.__get_value("@type", "type")
+> > +        if typ is not None:
+> > +            return typ, self
+> > +
+> > +        return None, self
+> > +
+> > +    def read_object_id(self, alias=3DNone):
+> > +        return self.__get_value(alias, "@id")
+> > +
+> > +
+> > +class JSONLDDeserializer(object):
+> > +    def deserialize_data(self, data, objectset: SHACLObjectSet):
+> > +        if "@graph" in data:
+> > +            h =3D JSONLDDecoder(data["@graph"], True)
+> > +        else:
+> > +            h =3D JSONLDDecoder(data, True)
+> > +
+> > +        objectset.decode(h)
+> > +
+> > +    def read(self, f, objectset: SHACLObjectSet):
+> > +        data =3D json.load(f)
+> > +        self.deserialize_data(data, objectset)
+> > +
+> > +
+> > +class Encoder(ABC):
+> > +    @abstractmethod
+> > +    def write_string(self, v):
+> > +        """
+> > +        Write a string value
+> > +
+> > +        Encodes the value as a string in the output
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def write_datetime(self, v):
+> > +        """
+> > +        Write a date & time string
+> > +
+> > +        Encodes the value as an ISO datetime string
+> > +
+> > +        Note: The provided string is already correctly encoded as an I=
+SO datetime
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def write_integer(self, v):
+> > +        """
+> > +        Write an integer value
+> > +
+> > +        Encodes the value as an integer in the output
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def write_iri(self, v, compact=3DNone):
+> > +        """
+> > +        Write IRI
+> > +
+> > +        Encodes the string as an IRI. Note that the string will be eit=
+her a
+> > +        fully qualified IRI or a blank node ID. If `compact` is provid=
+ed and
+> > +        the serialization supports compacted IRIs, it should be prefer=
+red to
+> > +        the full IRI
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def write_enum(self, v, e, compact=3DNone):
+> > +        """
+> > +        Write enum value IRI
+> > +
+> > +        Encodes the string enum value IRI. Note that the string will b=
+e a fully
+> > +        qualified IRI. If `compact` is provided and the serialization =
+supports
+> > +        compacted IRIs, it should be preferred to the full IRI.
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def write_bool(self, v):
+> > +        """
+> > +        Write boolean
+> > +
+> > +        Encodes the value as a boolean in the output
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    def write_float(self, v):
+> > +        """
+> > +        Write float
+> > +
+> > +        Encodes the value as a floating point number in the output
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    @contextmanager
+> > +    def write_object(self, o, _id, needs_id):
+> > +        """
+> > +        Write object
+> > +
+> > +        A context manager that yields an `Encoder` that can be used to=
+ encode
+> > +        the given object properties.
+> > +
+> > +        The provided ID will always be a valid ID (even if o._id is `N=
+one`), in
+> > +        case the `Encoder` _must_ have an ID. `needs_id` is a hint to =
+indicate
+> > +        to the `Encoder` if an ID must be written or not (if that is e=
+ven an
+> > +        option). If it is `True`, the `Encoder` must encode an ID for =
+the
+> > +        object. If `False`, the encoder is not required to encode an I=
+D and may
+> > +        omit it.
+> > +
+> > +        The ID will be either a fully qualified IRI, or a blank node I=
+RI.
+> > +
+> > +        Properties will be written the object using `write_property`
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    @contextmanager
+> > +    def write_property(self, iri, compact=3DNone):
+> > +        """
+> > +        Write object property
+> > +
+> > +        A context manager that yields an `Encoder` that can be used to=
+ encode
+> > +        the value for the property with the given IRI in the current o=
+bject
+> > +
+> > +        Note that the IRI will be fully qualified. If `compact` is pro=
+vided and
+> > +        the serialization supports compacted IRIs, it should be prefer=
+red to
+> > +        the full IRI.
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    @contextmanager
+> > +    def write_list(self):
+> > +        """
+> > +        Write list
+> > +
+> > +        A context manager that yields an `Encoder` that can be used to=
+ encode a
+> > +        list.
+> > +
+> > +        Each item of the list will be added using `write_list_item`
+> > +        """
+> > +        pass
+> > +
+> > +    @abstractmethod
+> > +    @contextmanager
+> > +    def write_list_item(self):
+> > +        """
+> > +        Write list item
+> > +
+> > +        A context manager that yields an `Encoder` that can be used to=
+ encode
+> > +        the value for a list item
+> > +        """
+> > +        pass
+> > +
+> > +
+> > +class JSONLDEncoder(Encoder):
+> > +    def __init__(self, data=3DNone):
+> > +        self.data =3D data
+> > +
+> > +    def write_string(self, v):
+> > +        self.data =3D v
+> > +
+> > +    def write_datetime(self, v):
+> > +        self.data =3D v
+> > +
+> > +    def write_integer(self, v):
+> > +        self.data =3D v
+> > +
+> > +    def write_iri(self, v, compact=3DNone):
+> > +        self.write_string(compact or v)
+> > +
+> > +    def write_enum(self, v, e, compact=3DNone):
+> > +        self.write_string(compact or v)
+> > +
+> > +    def write_bool(self, v):
+> > +        self.data =3D v
+> > +
+> > +    def write_float(self, v):
+> > +        self.data =3D str(v)
+> > +
+> > +    @contextmanager
+> > +    def write_property(self, iri, compact=3DNone):
+> > +        s =3D self.__class__(None)
+> > +        yield s
+> > +        if s.data is not None:
+> > +            self.data[compact or iri] =3D s.data
+> > +
+> > +    @contextmanager
+> > +    def write_object(self, o, _id, needs_id):
+> > +        self.data =3D {
+> > +            "type": o.COMPACT_TYPE or o.TYPE,
+> > +        }
+> > +        if needs_id:
+> > +            self.data[o.ID_ALIAS or "@id"] =3D _id
+> > +        yield self
+> > +
+> > +    @contextmanager
+> > +    def write_list(self):
+> > +        self.data =3D []
+> > +        yield self
+> > +        if not self.data:
+> > +            self.data =3D None
+> > +
+> > +    @contextmanager
+> > +    def write_list_item(self):
+> > +        s =3D self.__class__(None)
+> > +        yield s
+> > +        if s.data is not None:
+> > +            self.data.append(s.data)
+> > +
+> > +
+> > +class JSONLDSerializer(object):
+> > +    def __init__(self, **args):
+> > +        self.args =3D args
+> > +
+> > +    def serialize_data(
+> > +        self,
+> > +        objectset: SHACLObjectSet,
+> > +        force_at_graph=3DFalse,
+> > +    ):
+> > +        h =3D JSONLDEncoder()
+> > +        objectset.encode(h, force_at_graph)
+> > +        data =3D {}
+> > +        if len(CONTEXT_URLS) =3D=3D 1:
+> > +            data["@context"] =3D CONTEXT_URLS[0]
+> > +        elif CONTEXT_URLS:
+> > +            data["@context"] =3D CONTEXT_URLS
+> > +
+> > +        if isinstance(h.data, list):
+> > +            data["@graph"] =3D h.data
+> > +        else:
+> > +            for k, v in h.data.items():
+> > +                data[k] =3D v
+> > +
+> > +        return data
+> > +
+> > +    def write(
+> > +        self,
+> > +        objectset: SHACLObjectSet,
+> > +        f,
+> > +        force_at_graph=3DFalse,
+> > +        **kwargs,
+> > +    ):
+> > +        """
+> > +        Write a SHACLObjectSet to a JSON LD file
+> > +
+> > +        If force_at_graph is True, a @graph node will always be written
+> > +        """
+> > +        data =3D self.serialize_data(objectset, force_at_graph)
+> > +
+> > +        args =3D {**self.args, **kwargs}
+> > +
+> > +        sha1 =3D hashlib.sha1()
+> > +        for chunk in json.JSONEncoder(**args).iterencode(data):
+> > +            chunk =3D chunk.encode("utf-8")
+> > +            f.write(chunk)
+> > +            sha1.update(chunk)
+> > +
+> > +        return sha1.hexdigest()
+> > +
+> > +
+> > +class JSONLDInlineEncoder(Encoder):
+> > +    def __init__(self, f, sha1):
+> > +        self.f =3D f
+> > +        self.comma =3D False
+> > +        self.sha1 =3D sha1
+> > +
+> > +    def write(self, s):
+> > +        s =3D s.encode("utf-8")
+> > +        self.f.write(s)
+> > +        self.sha1.update(s)
+> > +
+> > +    def _write_comma(self):
+> > +        if self.comma:
+> > +            self.write(",")
+> > +            self.comma =3D False
+> > +
+> > +    def write_string(self, v):
+> > +        self.write(json.dumps(v))
+> > +
+> > +    def write_datetime(self, v):
+> > +        self.write_string(v)
+> > +
+> > +    def write_integer(self, v):
+> > +        self.write(f"{v}")
+> > +
+> > +    def write_iri(self, v, compact=3DNone):
+> > +        self.write_string(compact or v)
+> > +
+> > +    def write_enum(self, v, e, compact=3DNone):
+> > +        self.write_iri(v, compact)
+> > +
+> > +    def write_bool(self, v):
+> > +        if v:
+> > +            self.write("true")
+> > +        else:
+> > +            self.write("false")
+> > +
+> > +    def write_float(self, v):
+> > +        self.write(json.dumps(str(v)))
+> > +
+> > +    @contextmanager
+> > +    def write_property(self, iri, compact=3DNone):
+> > +        self._write_comma()
+> > +        self.write_string(compact or iri)
+> > +        self.write(":")
+> > +        yield self
+> > +        self.comma =3D True
+> > +
+> > +    @contextmanager
+> > +    def write_object(self, o, _id, needs_id):
+> > +        self._write_comma()
+> > +
+> > +        self.write("{")
+> > +        self.write_string("type")
+> > +        self.write(":")
+> > +        self.write_string(o.COMPACT_TYPE or o.TYPE)
+> > +        self.comma =3D True
+> > +
+> > +        if needs_id:
+> > +            self._write_comma()
+> > +            self.write_string(o.ID_ALIAS or "@id")
+> > +            self.write(":")
+> > +            self.write_string(_id)
+> > +            self.comma =3D True
+> > +
+> > +        self.comma =3D True
+> > +        yield self
+> > +
+> > +        self.write("}")
+> > +        self.comma =3D True
+> > +
+> > +    @contextmanager
+> > +    def write_list(self):
+> > +        self._write_comma()
+> > +        self.write("[")
+> > +        yield self.__class__(self.f, self.sha1)
+> > +        self.write("]")
+> > +        self.comma =3D True
+> > +
+> > +    @contextmanager
+> > +    def write_list_item(self):
+> > +        self._write_comma()
+> > +        yield self.__class__(self.f, self.sha1)
+> > +        self.comma =3D True
+> > +
+> > +
+> > +class JSONLDInlineSerializer(object):
+> > +    def write(
+> > +        self,
+> > +        objectset: SHACLObjectSet,
+> > +        f,
+> > +        force_at_graph=3DFalse,
+> > +    ):
+> > +        """
+> > +        Write a SHACLObjectSet to a JSON LD file
+> > +
+> > +        Note: force_at_graph is included for compatibility, but ignore=
+d. This
+> > +        serializer always writes out a graph
+> > +        """
+> > +        sha1 =3D hashlib.sha1()
+> > +        h =3D JSONLDInlineEncoder(f, sha1)
+> > +        h.write('{"@context":')
+> > +        if len(CONTEXT_URLS) =3D=3D 1:
+> > +            h.write(f'"{CONTEXT_URLS[0]}"')
+> > +        elif CONTEXT_URLS:
+> > +            h.write('["')
+> > +            h.write('","'.join(CONTEXT_URLS))
+> > +            h.write('"]')
+> > +        h.write(",")
+> > +
+> > +        h.write('"@graph":')
+> > +
+> > +        objectset.encode(h, True)
+> > +        h.write("}")
+> > +        return sha1.hexdigest()
+> > +
+> > +
+> > +def print_tree(objects, all_fields=3DFalse):
+> > +    """
+> > +    Print object tree
+> > +    """
+> > +    seen =3D set()
+> > +
+> > +    def callback(value, path):
+> > +        nonlocal seen
+> > +
+> > +        s =3D ("  " * (len(path) - 1)) + f"{path[-1]}"
+> > +        if isinstance(value, SHACLObject):
+> > +            s +=3D f" {value} ({id(value)})"
+> > +            is_empty =3D False
+> > +        elif isinstance(value, ListProxy):
+> > +            is_empty =3D len(value) =3D=3D 0
+> > +            if is_empty:
+> > +                s +=3D " []"
+> > +        else:
+> > +            s +=3D f" {value!r}"
+> > +            is_empty =3D value is None
+> > +
+> > +        if all_fields or not is_empty:
+> > +            print(s)
+> > +
+> > +        if isinstance(value, SHACLObject):
+> > +            if value in seen:
+> > +                return False
+> > +            seen.add(value)
+> > +            return True
+> > +
+> > +        return True
+> > +
+> > +    for o in objects:
+> > +        o.walk(callback)
+> > +
+> > +
+> > +# fmt: off
+> > +"""Format Guard"""
+> > +
+> > +
+> > +CONTEXT_URLS =3D [
+> > +    "https://spdx.org/rdf/3.0.1/spdx-context.jsonld",
+> > +]
+> > +
+> > +
+> > +# CLASSES
+> > +# A class for describing the energy consumption incurred by an AI mode=
+l in
+> > +# different stages of its lifecycle.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/AI/EnergyConsumption", com=
+pact_type=3D"ai_EnergyConsumption", abstract=3DFalse)
+> > +class ai_EnergyConsumption(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies the amount of energy consumed when finetuning the =
+AI model that is
+> > +        # being used in the AI system.
+> > +        cls._add_property(
+> > +            "ai_finetuningEnergyConsumption",
+> > +            ListProp(ObjectProp(ai_EnergyConsumptionDescription, False=
+)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/finetuningEnerg=
+yConsumption",
+> > +            compact=3D"ai_finetuningEnergyConsumption",
+> > +        )
+> > +        # Specifies the amount of energy consumed during inference tim=
+e by an AI model
+> > +        # that is being used in the AI system.
+> > +        cls._add_property(
+> > +            "ai_inferenceEnergyConsumption",
+> > +            ListProp(ObjectProp(ai_EnergyConsumptionDescription, False=
+)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/inferenceEnergy=
+Consumption",
+> > +            compact=3D"ai_inferenceEnergyConsumption",
+> > +        )
+> > +        # Specifies the amount of energy consumed when training the AI=
+ model that is
+> > +        # being used in the AI system.
+> > +        cls._add_property(
+> > +            "ai_trainingEnergyConsumption",
+> > +            ListProp(ObjectProp(ai_EnergyConsumptionDescription, False=
+)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/trainingEnergyC=
+onsumption",
+> > +            compact=3D"ai_trainingEnergyConsumption",
+> > +        )
+> > +
+> > +
+> > +# The class that helps note down the quantity of energy consumption an=
+d the unit
+> > +# used for measurement.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/AI/EnergyConsumptionDescri=
+ption", compact_type=3D"ai_EnergyConsumptionDescription", abstract=3DFalse)
+> > +class ai_EnergyConsumptionDescription(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Represents the energy quantity.
+> > +        cls._add_property(
+> > +            "ai_energyQuantity",
+> > +            FloatProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/energyQuantity",
+> > +            min_count=3D1,
+> > +            compact=3D"ai_energyQuantity",
+> > +        )
+> > +        # Specifies the unit in which energy is measured.
+> > +        cls._add_property(
+> > +            "ai_energyUnit",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/AI/EnergyUnitTy=
+pe/kilowattHour", "kilowattHour"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/AI/EnergyUnitTy=
+pe/megajoule", "megajoule"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/AI/EnergyUnitTy=
+pe/other", "other"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/energyUnit",
+> > +            min_count=3D1,
+> > +            compact=3D"ai_energyUnit",
+> > +        )
+> > +
+> > +
+> > +# Specifies the unit of energy consumption.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/AI/EnergyUnitType", compac=
+t_type=3D"ai_EnergyUnitType", abstract=3DFalse)
+> > +class ai_EnergyUnitType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "kilowattHour": "https://spdx.org/rdf/3.0.1/terms/AI/EnergyUni=
+tType/kilowattHour",
+> > +        "megajoule": "https://spdx.org/rdf/3.0.1/terms/AI/EnergyUnitTy=
+pe/megajoule",
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/AI/EnergyUnitType/o=
+ther",
+> > +    }
+> > +    # Kilowatt-hour.
+> > +    kilowattHour =3D "https://spdx.org/rdf/3.0.1/terms/AI/EnergyUnitTy=
+pe/kilowattHour"
+> > +    # Megajoule.
+> > +    megajoule =3D "https://spdx.org/rdf/3.0.1/terms/AI/EnergyUnitType/=
+megajoule"
+> > +    # Any other units of energy measurement.
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/AI/EnergyUnitType/othe=
+r"
+> > +
+> > +
+> > +# Specifies the safety risk level.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAssessmentTyp=
+e", compact_type=3D"ai_SafetyRiskAssessmentType", abstract=3DFalse)
+> > +class ai_SafetyRiskAssessmentType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "high": "https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAssessm=
+entType/high",
+> > +        "low": "https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAssessme=
+ntType/low",
+> > +        "medium": "https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAsses=
+smentType/medium",
+> > +        "serious": "https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAsse=
+ssmentType/serious",
+> > +    }
+> > +    # The second-highest level of risk posed by an AI system.
+> > +    high =3D "https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAssessment=
+Type/high"
+> > +    # Low/no risk is posed by an AI system.
+> > +    low =3D "https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAssessmentT=
+ype/low"
+> > +    # The third-highest level of risk posed by an AI system.
+> > +    medium =3D "https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAssessme=
+ntType/medium"
+> > +    # The highest level of risk posed by an AI system.
+> > +    serious =3D "https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAssessm=
+entType/serious"
+> > +
+> > +
+> > +# Specifies the type of an annotation.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/AnnotationType", comp=
+act_type=3D"AnnotationType", abstract=3DFalse)
+> > +class AnnotationType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/Core/AnnotationType=
+/other",
+> > +        "review": "https://spdx.org/rdf/3.0.1/terms/Core/AnnotationTyp=
+e/review",
+> > +    }
+> > +    # Used to store extra information about an Element which is not pa=
+rt of a review (e.g. extra information provided during the creation of the =
+Element).
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/Core/AnnotationType/ot=
+her"
+> > +    # Used when someone reviews the Element.
+> > +    review =3D "https://spdx.org/rdf/3.0.1/terms/Core/AnnotationType/r=
+eview"
+> > +
+> > +
+> > +# Provides information about the creation of the Element.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/CreationInfo", compac=
+t_type=3D"CreationInfo", abstract=3DFalse)
+> > +class CreationInfo(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provide consumers with comments by the creator of the Elemen=
+t about the
+> > +        # Element.
+> > +        cls._add_property(
+> > +            "comment",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/comment",
+> > +            compact=3D"comment",
+> > +        )
+> > +        # Identifies when the Element was originally created.
+> > +        cls._add_property(
+> > +            "created",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/created",
+> > +            min_count=3D1,
+> > +            compact=3D"created",
+> > +        )
+> > +        # Identifies who or what created the Element.
+> > +        cls._add_property(
+> > +            "createdBy",
+> > +            ListProp(ObjectProp(Agent, False, context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SpdxOrgani=
+zation", "SpdxOrganization"),
+> > +                ],)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/createdBy",
+> > +            min_count=3D1,
+> > +            compact=3D"createdBy",
+> > +        )
+> > +        # Identifies the tooling that was used during the creation of =
+the Element.
+> > +        cls._add_property(
+> > +            "createdUsing",
+> > +            ListProp(ObjectProp(Tool, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/createdUsing",
+> > +            compact=3D"createdUsing",
+> > +        )
+> > +        # Provides a reference number that can be used to understand h=
+ow to parse and
+> > +        # interpret an Element.
+> > +        cls._add_property(
+> > +            "specVersion",
+> > +            StringProp(pattern=3Dr"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-=
+9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a=
+-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/specVersion",
+> > +            min_count=3D1,
+> > +            compact=3D"specVersion",
+> > +        )
+> > +
+> > +
+> > +# A key with an associated value.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/DictionaryEntry", com=
+pact_type=3D"DictionaryEntry", abstract=3DFalse)
+> > +class DictionaryEntry(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # A key used in a generic key-value pair.
+> > +        cls._add_property(
+> > +            "key",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/key",
+> > +            min_count=3D1,
+> > +            compact=3D"key",
+> > +        )
+> > +        # A value used in a generic key-value pair.
+> > +        cls._add_property(
+> > +            "value",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/value",
+> > +            compact=3D"value",
+> > +        )
+> > +
+> > +
+> > +# Base domain class from which all other SPDX-3.0 domain classes deriv=
+e.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Element", compact_typ=
+e=3D"Element", abstract=3DTrue)
+> > +class Element(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provide consumers with comments by the creator of the Elemen=
+t about the
+> > +        # Element.
+> > +        cls._add_property(
+> > +            "comment",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/comment",
+> > +            compact=3D"comment",
+> > +        )
+> > +        # Provides information about the creation of the Element.
+> > +        cls._add_property(
+> > +            "creationInfo",
+> > +            ObjectProp(CreationInfo, True),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/creationInfo",
+> > +            min_count=3D1,
+> > +            compact=3D"creationInfo",
+> > +        )
+> > +        # Provides a detailed description of the Element.
+> > +        cls._add_property(
+> > +            "description",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/description",
+> > +            compact=3D"description",
+> > +        )
+> > +        # Specifies an Extension characterization of some aspect of an=
+ Element.
+> > +        cls._add_property(
+> > +            "extension",
+> > +            ListProp(ObjectProp(extension_Extension, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/extension",
+> > +            compact=3D"extension",
+> > +        )
+> > +        # Provides a reference to a resource outside the scope of SPDX=
+-3.0 content
+> > +        # that uniquely identifies an Element.
+> > +        cls._add_property(
+> > +            "externalIdentifier",
+> > +            ListProp(ObjectProp(ExternalIdentifier, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/externalIdent=
+ifier",
+> > +            compact=3D"externalIdentifier",
+> > +        )
+> > +        # Points to a resource outside the scope of the SPDX-3.0 conte=
+nt
+> > +        # that provides additional characteristics of an Element.
+> > +        cls._add_property(
+> > +            "externalRef",
+> > +            ListProp(ObjectProp(ExternalRef, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/externalRef",
+> > +            compact=3D"externalRef",
+> > +        )
+> > +        # Identifies the name of an Element as designated by the creat=
+or.
+> > +        cls._add_property(
+> > +            "name",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/name",
+> > +            compact=3D"name",
+> > +        )
+> > +        # A short description of an Element.
+> > +        cls._add_property(
+> > +            "summary",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/summary",
+> > +            compact=3D"summary",
+> > +        )
+> > +        # Provides an IntegrityMethod with which the integrity of an E=
+lement can be
+> > +        # asserted.
+> > +        cls._add_property(
+> > +            "verifiedUsing",
+> > +            ListProp(ObjectProp(IntegrityMethod, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/verifiedUsing=
+",
+> > +            compact=3D"verifiedUsing",
+> > +        )
+> > +
+> > +
+> > +# A collection of Elements, not necessarily with unifying context.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/ElementCollection", c=
+ompact_type=3D"ElementCollection", abstract=3DTrue)
+> > +class ElementCollection(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Refers to one or more Elements that are part of an ElementCo=
+llection.
+> > +        cls._add_property(
+> > +            "element",
+> > +            ListProp(ObjectProp(Element, False, context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoneElemen=
+t", "NoneElement"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoAssertionLicense", "expandedlicensing_NoAssertionLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoneLicense", "expandedlicensing_NoneLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SpdxOrgani=
+zation", "SpdxOrganization"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoAssertio=
+nElement", "NoAssertionElement"),
+> > +                ],)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/element",
+> > +            compact=3D"element",
+> > +        )
+> > +        # Describes one a profile which the creator of this ElementCol=
+lection intends to
+> > +        # conform to.
+> > +        cls._add_property(
+> > +            "profileConformance",
+> > +            ListProp(EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/ai", "ai"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/build", "build"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/core", "core"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/dataset", "dataset"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/expandedLicensing", "expandedLicensing"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/extension", "extension"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/lite", "lite"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/security", "security"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/simpleLicensing", "simpleLicensing"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/software", "software"),
+> > +                ])),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/profileConfor=
+mance",
+> > +            compact=3D"profileConformance",
+> > +        )
+> > +        # This property is used to denote the root Element(s) of a tre=
+e of elements contained in a BOM.
+> > +        cls._add_property(
+> > +            "rootElement",
+> > +            ListProp(ObjectProp(Element, False, context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoneElemen=
+t", "NoneElement"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoAssertionLicense", "expandedlicensing_NoAssertionLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoneLicense", "expandedlicensing_NoneLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SpdxOrgani=
+zation", "SpdxOrganization"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoAssertio=
+nElement", "NoAssertionElement"),
+> > +                ],)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/rootElement",
+> > +            compact=3D"rootElement",
+> > +        )
+> > +
+> > +
+> > +# A reference to a resource identifier defined outside the scope of SP=
+DX-3.0 content that uniquely identifies an Element.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifier", =
+compact_type=3D"ExternalIdentifier", abstract=3DFalse)
+> > +class ExternalIdentifier(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provide consumers with comments by the creator of the Elemen=
+t about the
+> > +        # Element.
+> > +        cls._add_property(
+> > +            "comment",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/comment",
+> > +            compact=3D"comment",
+> > +        )
+> > +        # Specifies the type of the external identifier.
+> > +        cls._add_property(
+> > +            "externalIdentifierType",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/cpe22", "cpe22"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/cpe23", "cpe23"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/cve", "cve"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/email", "email"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/gitoid", "gitoid"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/packageUrl", "packageUrl"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/securityOther", "securityOther"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/swhid", "swhid"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/swid", "swid"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/urlScheme", "urlScheme"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/externalIdent=
+ifierType",
+> > +            min_count=3D1,
+> > +            compact=3D"externalIdentifierType",
+> > +        )
+> > +        # Uniquely identifies an external element.
+> > +        cls._add_property(
+> > +            "identifier",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/identifier",
+> > +            min_count=3D1,
+> > +            compact=3D"identifier",
+> > +        )
+> > +        # Provides the location for more information regarding an exte=
+rnal identifier.
+> > +        cls._add_property(
+> > +            "identifierLocator",
+> > +            ListProp(AnyURIProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/identifierLoc=
+ator",
+> > +            compact=3D"identifierLocator",
+> > +        )
+> > +        # An entity that is authorized to issue identification credent=
+ials.
+> > +        cls._add_property(
+> > +            "issuingAuthority",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/issuingAuthor=
+ity",
+> > +            compact=3D"issuingAuthority",
+> > +        )
+> > +
+> > +
+> > +# Specifies the type of an external identifier.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifierTyp=
+e", compact_type=3D"ExternalIdentifierType", abstract=3DFalse)
+> > +class ExternalIdentifierType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "cpe22": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdenti=
+fierType/cpe22",
+> > +        "cpe23": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdenti=
+fierType/cpe23",
+> > +        "cve": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifi=
+erType/cve",
+> > +        "email": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdenti=
+fierType/email",
+> > +        "gitoid": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdent=
+ifierType/gitoid",
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdenti=
+fierType/other",
+> > +        "packageUrl": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalI=
+dentifierType/packageUrl",
+> > +        "securityOther": "https://spdx.org/rdf/3.0.1/terms/Core/Extern=
+alIdentifierType/securityOther",
+> > +        "swhid": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdenti=
+fierType/swhid",
+> > +        "swid": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentif=
+ierType/swid",
+> > +        "urlScheme": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalId=
+entifierType/urlScheme",
+> > +    }
+> > +    # [Common Platform Enumeration Specification 2.2](https://cpe.mitr=
+e.org/files/cpe-specification_2.2.pdf)
+> > +    cpe22 =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifie=
+rType/cpe22"
+> > +    # [Common Platform Enumeration: Naming Specification Version 2.3](=
+https://csrc.nist.gov/publications/detail/nistir/7695/final)
+> > +    cpe23 =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifie=
+rType/cpe23"
+> > +    # Common Vulnerabilities and Exposures identifiers, an identifier =
+for a specific software flaw defined within the official CVE Dictionary and=
+ that conforms to the [CVE specification](https://csrc.nist.gov/glossary/te=
+rm/cve_id).
+> > +    cve =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifierT=
+ype/cve"
+> > +    # Email address, as defined in [RFC 3696](https://datatracker.ietf=
+=2Eorg/doc/rfc3986/) Section 3.
+> > +    email =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifie=
+rType/email"
+> > +    # [Gitoid](https://www.iana.org/assignments/uri-schemes/prov/gitoi=
+d), stands for [Git Object ID](https://git-scm.com/book/en/v2/Git-Internals=
+-Git-Objects). A gitoid of type blob is a unique hash of a binary artifact.=
+ A gitoid may represent either an [Artifact Identifier](https://github.com/=
+omnibor/spec/blob/eb1ee5c961c16215eb8709b2975d193a2007a35d/spec/SPEC.md#art=
+ifact-identifier-types) for the software artifact or an [Input Manifest Ide=
+ntifier](https://github.com/omnibor/spec/blob/eb1ee5c961c16215eb8709b2975d1=
+93a2007a35d/spec/SPEC.md#input-manifest-identifier) for the software artifa=
+ct's associated [Artifact Input Manifest](https://github.com/omnibor/spec/b=
+lob/eb1ee5c961c16215eb8709b2975d193a2007a35d/spec/SPEC.md#artifact-input-ma=
+nifest); this ambiguity exists because the Artifact Input Manifest is itsel=
+f an artifact, and the gitoid of that artifact is its valid identifier. Git=
+oids calculated on software artifacts (Snippet, File, or Package Elements) =
+should be recorded in the SPDX 3.0 SoftwareArtifact's contentIdentifier pro=
+perty. Gitoids calculated on the Artifact Input Manifest (Input Manifest Id=
+entifier) should be recorded in the SPDX 3.0 Element's externalIdentifier p=
+roperty. See [OmniBOR Specification](https://github.com/omnibor/spec/), a m=
+inimalistic specification for describing software [Artifact Dependency Grap=
+hs](https://github.com/omnibor/spec/blob/eb1ee5c961c16215eb8709b2975d193a20=
+07a35d/spec/SPEC.md#artifact-dependency-graph-adg).
+> > +    gitoid =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifi=
+erType/gitoid"
+> > +    # Used when the type does not match any of the other options.
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifie=
+rType/other"
+> > +    # Package URL, as defined in the corresponding [Annex](../../../an=
+nexes/pkg-url-specification.md) of this specification.
+> > +    packageUrl =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIden=
+tifierType/packageUrl"
+> > +    # Used when there is a security related identifier of unspecified =
+type.
+> > +    securityOther =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalI=
+dentifierType/securityOther"
+> > +    # SoftWare Hash IDentifier, a persistent intrinsic identifier for =
+digital artifacts, such as files, trees (also known as directories or folde=
+rs), commits, and other objects typically found in version control systems.=
+ The format of the identifiers is defined in the [SWHID specification](http=
+s://www.swhid.org/specification/v1.1/4.Syntax) (ISO/IEC DIS 18670). They ty=
+pically look like `swh:1:cnt:94a9ed024d3859793618152ea559a168bbcbb5e2`.
+> > +    swhid =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifie=
+rType/swhid"
+> > +    # Concise Software Identification (CoSWID) tag, as defined in [RFC=
+ 9393](https://datatracker.ietf.org/doc/rfc9393/) Section 2.3.
+> > +    swid =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdentifier=
+Type/swid"
+> > +    # [Uniform Resource Identifier (URI) Schemes](https://www.iana.org=
+/assignments/uri-schemes/uri-schemes.xhtml). The scheme used in order to lo=
+cate a resource.
+> > +    urlScheme =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalIdent=
+ifierType/urlScheme"
+> > +
+> > +
+> > +# A map of Element identifiers that are used within an SpdxDocument bu=
+t defined
+> > +# external to that SpdxDocument.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/ExternalMap", compact=
+_type=3D"ExternalMap", abstract=3DFalse)
+> > +class ExternalMap(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Artifact representing a serialization instance of SPDX data =
+containing the
+> > +        # definition of a particular Element.
+> > +        cls._add_property(
+> > +            "definingArtifact",
+> > +            ObjectProp(Artifact, False),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/definingArtif=
+act",
+> > +            compact=3D"definingArtifact",
+> > +        )
+> > +        # Identifies an external Element used within an SpdxDocument b=
+ut defined
+> > +        # external to that SpdxDocument.
+> > +        cls._add_property(
+> > +            "externalSpdxId",
+> > +            AnyURIProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/externalSpdxI=
+d",
+> > +            min_count=3D1,
+> > +            compact=3D"externalSpdxId",
+> > +        )
+> > +        # Provides an indication of where to retrieve an external Elem=
+ent.
+> > +        cls._add_property(
+> > +            "locationHint",
+> > +            AnyURIProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/locationHint",
+> > +            compact=3D"locationHint",
+> > +        )
+> > +        # Provides an IntegrityMethod with which the integrity of an E=
+lement can be
+> > +        # asserted.
+> > +        cls._add_property(
+> > +            "verifiedUsing",
+> > +            ListProp(ObjectProp(IntegrityMethod, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/verifiedUsing=
+",
+> > +            compact=3D"verifiedUsing",
+> > +        )
+> > +
+> > +
+> > +# A reference to a resource outside the scope of SPDX-3.0 content rela=
+ted to an Element.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRef", compact=
+_type=3D"ExternalRef", abstract=3DFalse)
+> > +class ExternalRef(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provide consumers with comments by the creator of the Elemen=
+t about the
+> > +        # Element.
+> > +        cls._add_property(
+> > +            "comment",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/comment",
+> > +            compact=3D"comment",
+> > +        )
+> > +        # Provides information about the content type of an Element or=
+ a Property.
+> > +        cls._add_property(
+> > +            "contentType",
+> > +            StringProp(pattern=3Dr"^[^\/]+\/[^\/]+$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/contentType",
+> > +            compact=3D"contentType",
+> > +        )
+> > +        # Specifies the type of the external reference.
+> > +        cls._add_property(
+> > +            "externalRefType",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/altDownloadLocation", "altDownloadLocation"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/altWebPage", "altWebPage"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/binaryArtifact", "binaryArtifact"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/bower", "bower"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/buildMeta", "buildMeta"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/buildSystem", "buildSystem"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/certificationReport", "certificationReport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/chat", "chat"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/componentAnalysisReport", "componentAnalysisReport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/cwe", "cwe"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/documentation", "documentation"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/dynamicAnalysisReport", "dynamicAnalysisReport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/eolNotice", "eolNotice"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/exportControlAssessment", "exportControlAssessment"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/funding", "funding"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/issueTracker", "issueTracker"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/license", "license"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/mailingList", "mailingList"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/mavenCentral", "mavenCentral"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/metrics", "metrics"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/npm", "npm"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/nuget", "nuget"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/privacyAssessment", "privacyAssessment"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/productMetadata", "productMetadata"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/purchaseOrder", "purchaseOrder"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/qualityAssessmentReport", "qualityAssessmentReport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/releaseHistory", "releaseHistory"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/releaseNotes", "releaseNotes"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/riskAssessment", "riskAssessment"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/runtimeAnalysisReport", "runtimeAnalysisReport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/secureSoftwareAttestation", "secureSoftwareAttestation"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/securityAdversaryModel", "securityAdversaryModel"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/securityAdvisory", "securityAdvisory"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/securityFix", "securityFix"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/securityOther", "securityOther"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/securityPenTestReport", "securityPenTestReport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/securityPolicy", "securityPolicy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/securityThreatModel", "securityThreatModel"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/socialMedia", "socialMedia"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/sourceArtifact", "sourceArtifact"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/staticAnalysisReport", "staticAnalysisReport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/support", "support"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/vcs", "vcs"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/vulnerabilityDisclosureReport", "vulnerabilityDisclosureReport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/vulnerabilityExploitabilityAssessment", "vulnerabilityExploitabilityA=
+ssessment"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/externalRefTy=
+pe",
+> > +            compact=3D"externalRefType",
+> > +        )
+> > +        # Provides the location of an external reference.
+> > +        cls._add_property(
+> > +            "locator",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/locator",
+> > +            compact=3D"locator",
+> > +        )
+> > +
+> > +
+> > +# Specifies the type of an external reference.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType", com=
+pact_type=3D"ExternalRefType", abstract=3DFalse)
+> > +class ExternalRefType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "altDownloadLocation": "https://spdx.org/rdf/3.0.1/terms/Core/=
+ExternalRefType/altDownloadLocation",
+> > +        "altWebPage": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalR=
+efType/altWebPage",
+> > +        "binaryArtifact": "https://spdx.org/rdf/3.0.1/terms/Core/Exter=
+nalRefType/binaryArtifact",
+> > +        "bower": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefTyp=
+e/bower",
+> > +        "buildMeta": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/buildMeta",
+> > +        "buildSystem": "https://spdx.org/rdf/3.0.1/terms/Core/External=
+RefType/buildSystem",
+> > +        "certificationReport": "https://spdx.org/rdf/3.0.1/terms/Core/=
+ExternalRefType/certificationReport",
+> > +        "chat": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType=
+/chat",
+> > +        "componentAnalysisReport": "https://spdx.org/rdf/3.0.1/terms/C=
+ore/ExternalRefType/componentAnalysisReport",
+> > +        "cwe": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/=
+cwe",
+> > +        "documentation": "https://spdx.org/rdf/3.0.1/terms/Core/Extern=
+alRefType/documentation",
+> > +        "dynamicAnalysisReport": "https://spdx.org/rdf/3.0.1/terms/Cor=
+e/ExternalRefType/dynamicAnalysisReport",
+> > +        "eolNotice": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/eolNotice",
+> > +        "exportControlAssessment": "https://spdx.org/rdf/3.0.1/terms/C=
+ore/ExternalRefType/exportControlAssessment",
+> > +        "funding": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefT=
+ype/funding",
+> > +        "issueTracker": "https://spdx.org/rdf/3.0.1/terms/Core/Externa=
+lRefType/issueTracker",
+> > +        "license": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefT=
+ype/license",
+> > +        "mailingList": "https://spdx.org/rdf/3.0.1/terms/Core/External=
+RefType/mailingList",
+> > +        "mavenCentral": "https://spdx.org/rdf/3.0.1/terms/Core/Externa=
+lRefType/mavenCentral",
+> > +        "metrics": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefT=
+ype/metrics",
+> > +        "npm": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/=
+npm",
+> > +        "nuget": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefTyp=
+e/nuget",
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefTyp=
+e/other",
+> > +        "privacyAssessment": "https://spdx.org/rdf/3.0.1/terms/Core/Ex=
+ternalRefType/privacyAssessment",
+> > +        "productMetadata": "https://spdx.org/rdf/3.0.1/terms/Core/Exte=
+rnalRefType/productMetadata",
+> > +        "purchaseOrder": "https://spdx.org/rdf/3.0.1/terms/Core/Extern=
+alRefType/purchaseOrder",
+> > +        "qualityAssessmentReport": "https://spdx.org/rdf/3.0.1/terms/C=
+ore/ExternalRefType/qualityAssessmentReport",
+> > +        "releaseHistory": "https://spdx.org/rdf/3.0.1/terms/Core/Exter=
+nalRefType/releaseHistory",
+> > +        "releaseNotes": "https://spdx.org/rdf/3.0.1/terms/Core/Externa=
+lRefType/releaseNotes",
+> > +        "riskAssessment": "https://spdx.org/rdf/3.0.1/terms/Core/Exter=
+nalRefType/riskAssessment",
+> > +        "runtimeAnalysisReport": "https://spdx.org/rdf/3.0.1/terms/Cor=
+e/ExternalRefType/runtimeAnalysisReport",
+> > +        "secureSoftwareAttestation": "https://spdx.org/rdf/3.0.1/terms=
+/Core/ExternalRefType/secureSoftwareAttestation",
+> > +        "securityAdversaryModel": "https://spdx.org/rdf/3.0.1/terms/Co=
+re/ExternalRefType/securityAdversaryModel",
+> > +        "securityAdvisory": "https://spdx.org/rdf/3.0.1/terms/Core/Ext=
+ernalRefType/securityAdvisory",
+> > +        "securityFix": "https://spdx.org/rdf/3.0.1/terms/Core/External=
+RefType/securityFix",
+> > +        "securityOther": "https://spdx.org/rdf/3.0.1/terms/Core/Extern=
+alRefType/securityOther",
+> > +        "securityPenTestReport": "https://spdx.org/rdf/3.0.1/terms/Cor=
+e/ExternalRefType/securityPenTestReport",
+> > +        "securityPolicy": "https://spdx.org/rdf/3.0.1/terms/Core/Exter=
+nalRefType/securityPolicy",
+> > +        "securityThreatModel": "https://spdx.org/rdf/3.0.1/terms/Core/=
+ExternalRefType/securityThreatModel",
+> > +        "socialMedia": "https://spdx.org/rdf/3.0.1/terms/Core/External=
+RefType/socialMedia",
+> > +        "sourceArtifact": "https://spdx.org/rdf/3.0.1/terms/Core/Exter=
+nalRefType/sourceArtifact",
+> > +        "staticAnalysisReport": "https://spdx.org/rdf/3.0.1/terms/Core=
+/ExternalRefType/staticAnalysisReport",
+> > +        "support": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefT=
+ype/support",
+> > +        "vcs": "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/=
+vcs",
+> > +        "vulnerabilityDisclosureReport": "https://spdx.org/rdf/3.0.1/t=
+erms/Core/ExternalRefType/vulnerabilityDisclosureReport",
+> > +        "vulnerabilityExploitabilityAssessment": "https://spdx.org/rdf=
+/3.0.1/terms/Core/ExternalRefType/vulnerabilityExploitabilityAssessment",
+> > +    }
+> > +    # A reference to an alternative download location.
+> > +    altDownloadLocation =3D "https://spdx.org/rdf/3.0.1/terms/Core/Ext=
+ernalRefType/altDownloadLocation"
+> > +    # A reference to an alternative web page.
+> > +    altWebPage =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefT=
+ype/altWebPage"
+> > +    # A reference to binary artifacts related to a package.
+> > +    binaryArtifact =3D "https://spdx.org/rdf/3.0.1/terms/Core/External=
+RefType/binaryArtifact"
+> > +    # A reference to a Bower package. The package locator format, look=
+s like `package#version`, is defined in the "install" section of [Bower API=
+ documentation](https://bower.io/docs/api/#install).
+> > +    bower =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/b=
+ower"
+> > +    # A reference build metadata related to a published package.
+> > +    buildMeta =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefTy=
+pe/buildMeta"
+> > +    # A reference build system used to create or publish the package.
+> > +    buildSystem =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRef=
+Type/buildSystem"
+> > +    # A reference to a certification report for a package from an accr=
+edited/independent body.
+> > +    certificationReport =3D "https://spdx.org/rdf/3.0.1/terms/Core/Ext=
+ernalRefType/certificationReport"
+> > +    # A reference to the instant messaging system used by the maintain=
+er for a package.
+> > +    chat =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/ch=
+at"
+> > +    # A reference to a Software Composition Analysis (SCA) report.
+> > +    componentAnalysisReport =3D "https://spdx.org/rdf/3.0.1/terms/Core=
+/ExternalRefType/componentAnalysisReport"
+> > +    # [Common Weakness Enumeration](https://csrc.nist.gov/glossary/ter=
+m/common_weakness_enumeration). A reference to a source of software flaw de=
+fined within the official [CWE List](https://cwe.mitre.org/data/) that conf=
+orms to the [CWE specification](https://cwe.mitre.org/).
+> > +    cwe =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/cwe"
+> > +    # A reference to the documentation for a package.
+> > +    documentation =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalR=
+efType/documentation"
+> > +    # A reference to a dynamic analysis report for a package.
+> > +    dynamicAnalysisReport =3D "https://spdx.org/rdf/3.0.1/terms/Core/E=
+xternalRefType/dynamicAnalysisReport"
+> > +    # A reference to the End Of Sale (EOS) and/or End Of Life (EOL) in=
+formation related to a package.
+> > +    eolNotice =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefTy=
+pe/eolNotice"
+> > +    # A reference to a export control assessment for a package.
+> > +    exportControlAssessment =3D "https://spdx.org/rdf/3.0.1/terms/Core=
+/ExternalRefType/exportControlAssessment"
+> > +    # A reference to funding information related to a package.
+> > +    funding =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType=
+/funding"
+> > +    # A reference to the issue tracker for a package.
+> > +    issueTracker =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/issueTracker"
+> > +    # A reference to additional license information related to an arti=
+fact.
+> > +    license =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType=
+/license"
+> > +    # A reference to the mailing list used by the maintainer for a pac=
+kage.
+> > +    mailingList =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRef=
+Type/mailingList"
+> > +    # A reference to a Maven repository artifact. The artifact locator=
+ format is defined in the [Maven documentation](https://maven.apache.org/gu=
+ides/mini/guide-naming-conventions.html) and looks like `groupId:artifactId=
+[:version]`.
+> > +    mavenCentral =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/mavenCentral"
+> > +    # A reference to metrics related to package such as OpenSSF scorec=
+ards.
+> > +    metrics =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType=
+/metrics"
+> > +    # A reference to an npm package. The package locator format is def=
+ined in the [npm documentation](https://docs.npmjs.com/cli/v10/configuring-=
+npm/package-json) and looks like `package@version`.
+> > +    npm =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/npm"
+> > +    # A reference to a NuGet package. The package locator format is de=
+fined in the [NuGet documentation](https://docs.nuget.org) and looks like `=
+package/version`.
+> > +    nuget =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/n=
+uget"
+> > +    # Used when the type does not match any of the other options.
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/o=
+ther"
+> > +    # A reference to a privacy assessment for a package.
+> > +    privacyAssessment =3D "https://spdx.org/rdf/3.0.1/terms/Core/Exter=
+nalRefType/privacyAssessment"
+> > +    # A reference to additional product metadata such as reference wit=
+hin organization's product catalog.
+> > +    productMetadata =3D "https://spdx.org/rdf/3.0.1/terms/Core/Externa=
+lRefType/productMetadata"
+> > +    # A reference to a purchase order for a package.
+> > +    purchaseOrder =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalR=
+efType/purchaseOrder"
+> > +    # A reference to a quality assessment for a package.
+> > +    qualityAssessmentReport =3D "https://spdx.org/rdf/3.0.1/terms/Core=
+/ExternalRefType/qualityAssessmentReport"
+> > +    # A reference to a published list of releases for a package.
+> > +    releaseHistory =3D "https://spdx.org/rdf/3.0.1/terms/Core/External=
+RefType/releaseHistory"
+> > +    # A reference to the release notes for a package.
+> > +    releaseNotes =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRe=
+fType/releaseNotes"
+> > +    # A reference to a risk assessment for a package.
+> > +    riskAssessment =3D "https://spdx.org/rdf/3.0.1/terms/Core/External=
+RefType/riskAssessment"
+> > +    # A reference to a runtime analysis report for a package.
+> > +    runtimeAnalysisReport =3D "https://spdx.org/rdf/3.0.1/terms/Core/E=
+xternalRefType/runtimeAnalysisReport"
+> > +    # A reference to information assuring that the software is develop=
+ed using security practices as defined by [NIST SP 800-218 Secure Software =
+Development Framework (SSDF) Version 1.1](https://csrc.nist.gov/pubs/sp/800=
+/218/final) or [CISA Secure Software Development Attestation Form](https://=
+www.cisa.gov/resources-tools/resources/secure-software-development-attestat=
+ion-form).
+> > +    secureSoftwareAttestation =3D "https://spdx.org/rdf/3.0.1/terms/Co=
+re/ExternalRefType/secureSoftwareAttestation"
+> > +    # A reference to the security adversary model for a package.
+> > +    securityAdversaryModel =3D "https://spdx.org/rdf/3.0.1/terms/Core/=
+ExternalRefType/securityAdversaryModel"
+> > +    # A reference to a published security advisory (where advisory as =
+defined per [ISO 29147:2018](https://www.iso.org/standard/72311.html)) that=
+ may affect one or more elements, e.g., vendor advisories or specific NVD e=
+ntries.
+> > +    securityAdvisory =3D "https://spdx.org/rdf/3.0.1/terms/Core/Extern=
+alRefType/securityAdvisory"
+> > +    # A reference to the patch or source code that fixes a vulnerabili=
+ty.
+> > +    securityFix =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRef=
+Type/securityFix"
+> > +    # A reference to related security information of unspecified type.
+> > +    securityOther =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalR=
+efType/securityOther"
+> > +    # A reference to a [penetration test](https://en.wikipedia.org/wik=
+i/Penetration_test) report for a package.
+> > +    securityPenTestReport =3D "https://spdx.org/rdf/3.0.1/terms/Core/E=
+xternalRefType/securityPenTestReport"
+> > +    # A reference to instructions for reporting newly discovered secur=
+ity vulnerabilities for a package.
+> > +    securityPolicy =3D "https://spdx.org/rdf/3.0.1/terms/Core/External=
+RefType/securityPolicy"
+> > +    # A reference the [security threat model](https://en.wikipedia.org=
+/wiki/Threat_model) for a package.
+> > +    securityThreatModel =3D "https://spdx.org/rdf/3.0.1/terms/Core/Ext=
+ernalRefType/securityThreatModel"
+> > +    # A reference to a social media channel for a package.
+> > +    socialMedia =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRef=
+Type/socialMedia"
+> > +    # A reference to an artifact containing the sources for a package.
+> > +    sourceArtifact =3D "https://spdx.org/rdf/3.0.1/terms/Core/External=
+RefType/sourceArtifact"
+> > +    # A reference to a static analysis report for a package.
+> > +    staticAnalysisReport =3D "https://spdx.org/rdf/3.0.1/terms/Core/Ex=
+ternalRefType/staticAnalysisReport"
+> > +    # A reference to the software support channel or other support inf=
+ormation for a package.
+> > +    support =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType=
+/support"
+> > +    # A reference to a version control system related to a software ar=
+tifact.
+> > +    vcs =3D "https://spdx.org/rdf/3.0.1/terms/Core/ExternalRefType/vcs"
+> > +    # A reference to a Vulnerability Disclosure Report (VDR) which pro=
+vides the software supplier's analysis and findings describing the impact (=
+or lack of impact) that reported vulnerabilities have on packages or produc=
+ts in the supplier's SBOM as defined in [NIST SP 800-161 Cybersecurity Supp=
+ly Chain Risk Management Practices for Systems and Organizations](https://c=
+src.nist.gov/pubs/sp/800/161/r1/final).
+> > +    vulnerabilityDisclosureReport =3D "https://spdx.org/rdf/3.0.1/term=
+s/Core/ExternalRefType/vulnerabilityDisclosureReport"
+> > +    # A reference to a Vulnerability Exploitability eXchange (VEX) sta=
+tement which provides information on whether a product is impacted by a spe=
+cific vulnerability in an included package and, if affected, whether there =
+are actions recommended to remediate. See also [NTIA VEX one-page summary](=
+https://ntia.gov/files/ntia/publications/vex_one-page_summary.pdf).
+> > +    vulnerabilityExploitabilityAssessment =3D "https://spdx.org/rdf/3.=
+0.1/terms/Core/ExternalRefType/vulnerabilityExploitabilityAssessment"
+> > +
+> > +
+> > +# A mathematical algorithm that maps data of arbitrary size to a bit s=
+tring.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm", compa=
+ct_type=3D"HashAlgorithm", abstract=3DFalse)
+> > +class HashAlgorithm(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "adler32": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorith=
+m/adler32",
+> > +        "blake2b256": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgor=
+ithm/blake2b256",
+> > +        "blake2b384": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgor=
+ithm/blake2b384",
+> > +        "blake2b512": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgor=
+ithm/blake2b512",
+> > +        "blake3": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm=
+/blake3",
+> > +        "crystalsDilithium": "https://spdx.org/rdf/3.0.1/terms/Core/Ha=
+shAlgorithm/crystalsDilithium",
+> > +        "crystalsKyber": "https://spdx.org/rdf/3.0.1/terms/Core/HashAl=
+gorithm/crystalsKyber",
+> > +        "falcon": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm=
+/falcon",
+> > +        "md2": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/md=
+2",
+> > +        "md4": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/md=
+4",
+> > +        "md5": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/md=
+5",
+> > +        "md6": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/md=
+6",
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/=
+other",
+> > +        "sha1": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/s=
+ha1",
+> > +        "sha224": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm=
+/sha224",
+> > +        "sha256": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm=
+/sha256",
+> > +        "sha384": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm=
+/sha384",
+> > +        "sha3_224": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorit=
+hm/sha3_224",
+> > +        "sha3_256": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorit=
+hm/sha3_256",
+> > +        "sha3_384": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorit=
+hm/sha3_384",
+> > +        "sha3_512": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorit=
+hm/sha3_512",
+> > +        "sha512": "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm=
+/sha512",
+> > +    }
+> > +    # Adler-32 checksum is part of the widely used zlib compression li=
+brary as defined in [RFC 1950](https://datatracker.ietf.org/doc/rfc1950/) S=
+ection 2.3.
+> > +    adler32 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/a=
+dler32"
+> > +    # BLAKE2b algorithm with a digest size of 256, as defined in [RFC =
+7693](https://datatracker.ietf.org/doc/rfc7693/) Section 4.
+> > +    blake2b256 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorith=
+m/blake2b256"
+> > +    # BLAKE2b algorithm with a digest size of 384, as defined in [RFC =
+7693](https://datatracker.ietf.org/doc/rfc7693/) Section 4.
+> > +    blake2b384 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorith=
+m/blake2b384"
+> > +    # BLAKE2b algorithm with a digest size of 512, as defined in [RFC =
+7693](https://datatracker.ietf.org/doc/rfc7693/) Section 4.
+> > +    blake2b512 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorith=
+m/blake2b512"
+> > +    # [BLAKE3](https://github.com/BLAKE3-team/BLAKE3-specs/blob/master=
+/blake3.pdf)
+> > +    blake3 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/bl=
+ake3"
+> > +    # [Dilithium](https://pq-crystals.org/dilithium/)
+> > +    crystalsDilithium =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashA=
+lgorithm/crystalsDilithium"
+> > +    # [Kyber](https://pq-crystals.org/kyber/)
+> > +    crystalsKyber =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgor=
+ithm/crystalsKyber"
+> > +    # [FALCON](https://falcon-sign.info/falcon.pdf)
+> > +    falcon =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/fa=
+lcon"
+> > +    # MD2 message-digest algorithm, as defined in [RFC 1319](https://d=
+atatracker.ietf.org/doc/rfc1319/).
+> > +    md2 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/md2"
+> > +    # MD4 message-digest algorithm, as defined in [RFC 1186](https://d=
+atatracker.ietf.org/doc/rfc1186/).
+> > +    md4 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/md4"
+> > +    # MD5 message-digest algorithm, as defined in [RFC 1321](https://d=
+atatracker.ietf.org/doc/rfc1321/).
+> > +    md5 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/md5"
+> > +    # [MD6 hash function](https://people.csail.mit.edu/rivest/pubs/RAB=
+Cx08.pdf)
+> > +    md6 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/md6"
+> > +    # any hashing algorithm that does not exist in this list of entries
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/oth=
 er"
->> "loongarch" "lto" "mips" "nvptx" "powerpc" "riscv" "x86"
->> |   expected success, got: exit status: 1
->>
->> Maybe instead of removing. Can we change
->> -LLVM_TARGETS_TO_BUILD:class-target ?=3D "${@get_clang_host_arch(bb,
->> d)};BPF;${LLVM_TARGETS_GPU}"
->> to
->> -LLVM_TARGETS_TO_BUILD:class-target ?=3D
->> "AArch64;ARM;BPF;Mips;PowerPC;RISCV;X86;LoongArch;;BPF;${LLVM_TARGETS_=
-GPU}"
->> ?
-> I think we don't want to build all the general arches for target, only
-> the target arch and gpu arches
-> is what is needed.  If we build all the backends, that will slow down
-> things. But if target rust needs
-> to support all the architectures to generate code for, then we don't
-> have much choice. Can you see
-> if we are ok to just target one architecture ?
-The issue doesn't originate from Rust directly, it stems from the=20
-following logic
-in the Rust recipe, where the natively built llvm-config is copied into=20
-the target sysroot:
+> > +    # SHA-1, a secure hashing algorithm, as defined in [RFC 3174](http=
+s://datatracker.ietf.org/doc/rfc3174/).
+> > +    sha1 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/sha1"
+> > +    # SHA-2 with a digest length of 224, as defined in [RFC 3874](http=
+s://datatracker.ietf.org/doc/rfc3874/).
+> > +    sha224 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/sh=
+a224"
+> > +    # SHA-2 with a digest length of 256, as defined in [RFC 6234](http=
+s://datatracker.ietf.org/doc/rfc6234/).
+> > +    sha256 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/sh=
+a256"
+> > +    # SHA-2 with a digest length of 384, as defined in [RFC 6234](http=
+s://datatracker.ietf.org/doc/rfc6234/).
+> > +    sha384 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/sh=
+a384"
+> > +    # SHA-3 with a digest length of 224, as defined in [FIPS 202](http=
+s://csrc.nist.gov/pubs/fips/202/final).
+> > +    sha3_224 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/=
+sha3_224"
+> > +    # SHA-3 with a digest length of 256, as defined in [FIPS 202](http=
+s://csrc.nist.gov/pubs/fips/202/final).
+> > +    sha3_256 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/=
+sha3_256"
+> > +    # SHA-3 with a digest length of 384, as defined in [FIPS 202](http=
+s://csrc.nist.gov/pubs/fips/202/final).
+> > +    sha3_384 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/=
+sha3_384"
+> > +    # SHA-3 with a digest length of 512, as defined in [FIPS 202](http=
+s://csrc.nist.gov/pubs/fips/202/final).
+> > +    sha3_512 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/=
+sha3_512"
+> > +    # SHA-2 with a digest length of 512, as defined in [RFC 6234](http=
+s://datatracker.ietf.org/doc/rfc6234/).
+> > +    sha512 =3D "https://spdx.org/rdf/3.0.1/terms/Core/HashAlgorithm/sh=
+a512"
+> > +
+> > +
+> > +# A concrete subclass of Element used by Individuals in the
+> > +# Core profile.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/IndividualElement", c=
+ompact_type=3D"IndividualElement", abstract=3DFalse)
+> > +class IndividualElement(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "NoAssertionElement": "https://spdx.org/rdf/3.0.1/terms/Core/N=
+oAssertionElement",
+> > +        "NoneElement": "https://spdx.org/rdf/3.0.1/terms/Core/NoneElem=
+ent",
+> > +    }
+> > +    # An Individual Value for Element representing a set of Elements o=
+f unknown
+> > +    # identify or cardinality (number).
+> > +    NoAssertionElement =3D "https://spdx.org/rdf/3.0.1/terms/Core/NoAs=
+sertionElement"
+> > +    # An Individual Value for Element representing a set of Elements w=
+ith
+> > +    # cardinality (number/count) of zero.
+> > +    NoneElement =3D "https://spdx.org/rdf/3.0.1/terms/Core/NoneElement"
+> > +
+> > +
+> > +# Provides an independently reproducible mechanism that permits verifi=
+cation of a specific Element.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/IntegrityMethod", com=
+pact_type=3D"IntegrityMethod", abstract=3DTrue)
+> > +class IntegrityMethod(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provide consumers with comments by the creator of the Elemen=
+t about the
+> > +        # Element.
+> > +        cls._add_property(
+> > +            "comment",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/comment",
+> > +            compact=3D"comment",
+> > +        )
+> > +
+> > +
+> > +# Provide an enumerated set of lifecycle phases that can provide conte=
+xt to relationships.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScopeType", =
+compact_type=3D"LifecycleScopeType", abstract=3DFalse)
+> > +class LifecycleScopeType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "build": "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScope=
+Type/build",
+> > +        "design": "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScop=
+eType/design",
+> > +        "development": "https://spdx.org/rdf/3.0.1/terms/Core/Lifecycl=
+eScopeType/development",
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScope=
+Type/other",
+> > +        "runtime": "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleSco=
+peType/runtime",
+> > +        "test": "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScopeT=
+ype/test",
+> > +    }
+> > +    # A relationship has specific context implications during an eleme=
+nt's build phase, during development.
+> > +    build =3D "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScopeTyp=
+e/build"
+> > +    # A relationship has specific context implications during an eleme=
+nt's design.
+> > +    design =3D "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScopeTy=
+pe/design"
+> > +    # A relationship has specific context implications during developm=
+ent phase of an element.
+> > +    development =3D "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleSc=
+opeType/development"
+> > +    # A relationship has other specific context information necessary =
+to capture that the above set of enumerations does not handle.
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScopeTyp=
+e/other"
+> > +    # A relationship has specific context implications during the exec=
+ution phase of an element.
+> > +    runtime =3D "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScopeT=
+ype/runtime"
+> > +    # A relationship has specific context implications during an eleme=
+nt's testing phase, during development.
+> > +    test =3D "https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScopeType=
+/test"
+> > +
+> > +
+> > +# A mapping between prefixes and namespace partial URIs.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/NamespaceMap", compac=
+t_type=3D"NamespaceMap", abstract=3DFalse)
+> > +class NamespaceMap(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides an unambiguous mechanism for conveying a URI fragme=
+nt portion of an
+> > +        # Element ID.
+> > +        cls._add_property(
+> > +            "namespace",
+> > +            AnyURIProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/namespace",
+> > +            min_count=3D1,
+> > +            compact=3D"namespace",
+> > +        )
+> > +        # A substitute for a URI.
+> > +        cls._add_property(
+> > +            "prefix",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/prefix",
+> > +            min_count=3D1,
+> > +            compact=3D"prefix",
+> > +        )
+> > +
+> > +
+> > +# An SPDX version 2.X compatible verification method for software pack=
+ages.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/PackageVerificationCo=
+de", compact_type=3D"PackageVerificationCode", abstract=3DFalse)
+> > +class PackageVerificationCode(IntegrityMethod):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies the algorithm used for calculating the hash value.
+> > +        cls._add_property(
+> > +            "algorithm",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/adler32", "adler32"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/blake2b256", "blake2b256"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/blake2b384", "blake2b384"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/blake2b512", "blake2b512"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/blake3", "blake3"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/crystalsDilithium", "crystalsDilithium"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/crystalsKyber", "crystalsKyber"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/falcon", "falcon"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/md2", "md2"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/md4", "md4"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/md5", "md5"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/md6", "md6"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha1", "sha1"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha224", "sha224"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha256", "sha256"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha384", "sha384"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha3_224", "sha3_224"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha3_256", "sha3_256"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha3_384", "sha3_384"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha3_512", "sha3_512"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha512", "sha512"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/algorithm",
+> > +            min_count=3D1,
+> > +            compact=3D"algorithm",
+> > +        )
+> > +        # The result of applying a hash algorithm to an Element.
+> > +        cls._add_property(
+> > +            "hashValue",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/hashValue",
+> > +            min_count=3D1,
+> > +            compact=3D"hashValue",
+> > +        )
+> > +        # The relative file name of a file to be excluded from the
+> > +        # `PackageVerificationCode`.
+> > +        cls._add_property(
+> > +            "packageVerificationCodeExcludedFile",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/packageVerifi=
+cationCodeExcludedFile",
+> > +            compact=3D"packageVerificationCodeExcludedFile",
+> > +        )
+> > +
+> > +
+> > +# A tuple of two positive integers that define a range.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/PositiveIntegerRange"=
+, compact_type=3D"PositiveIntegerRange", abstract=3DFalse)
+> > +class PositiveIntegerRange(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Defines the beginning of a range.
+> > +        cls._add_property(
+> > +            "beginIntegerRange",
+> > +            PositiveIntegerProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/beginIntegerR=
+ange",
+> > +            min_count=3D1,
+> > +            compact=3D"beginIntegerRange",
+> > +        )
+> > +        # Defines the end of a range.
+> > +        cls._add_property(
+> > +            "endIntegerRange",
+> > +            PositiveIntegerProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/endIntegerRan=
+ge",
+> > +            min_count=3D1,
+> > +            compact=3D"endIntegerRange",
+> > +        )
+> > +
+> > +
+> > +# Categories of presence or absence.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/PresenceType", compac=
+t_type=3D"PresenceType", abstract=3DFalse)
+> > +class PresenceType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "no": "https://spdx.org/rdf/3.0.1/terms/Core/PresenceType/no",
+> > +        "noAssertion": "https://spdx.org/rdf/3.0.1/terms/Core/Presence=
+Type/noAssertion",
+> > +        "yes": "https://spdx.org/rdf/3.0.1/terms/Core/PresenceType/yes=
+",
+> > +    }
+> > +    # Indicates absence of the field.
+> > +    no =3D "https://spdx.org/rdf/3.0.1/terms/Core/PresenceType/no"
+> > +    # Makes no assertion about the field.
+> > +    noAssertion =3D "https://spdx.org/rdf/3.0.1/terms/Core/PresenceTyp=
+e/noAssertion"
+> > +    # Indicates presence of the field.
+> > +    yes =3D "https://spdx.org/rdf/3.0.1/terms/Core/PresenceType/yes"
+> > +
+> > +
+> > +# Enumeration of the valid profiles.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentifierType=
+", compact_type=3D"ProfileIdentifierType", abstract=3DFalse)
+> > +class ProfileIdentifierType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "ai": "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentifier=
+Type/ai",
+> > +        "build": "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentif=
+ierType/build",
+> > +        "core": "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentifi=
+erType/core",
+> > +        "dataset": "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdent=
+ifierType/dataset",
+> > +        "expandedLicensing": "https://spdx.org/rdf/3.0.1/terms/Core/Pr=
+ofileIdentifierType/expandedLicensing",
+> > +        "extension": "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIde=
+ntifierType/extension",
+> > +        "lite": "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentifi=
+erType/lite",
+> > +        "security": "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIden=
+tifierType/security",
+> > +        "simpleLicensing": "https://spdx.org/rdf/3.0.1/terms/Core/Prof=
+ileIdentifierType/simpleLicensing",
+> > +        "software": "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIden=
+tifierType/software",
+> > +    }
+> > +    # the element follows the AI profile specification
+> > +    ai =3D "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentifierTyp=
+e/ai"
+> > +    # the element follows the Build profile specification
+> > +    build =3D "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentifier=
+Type/build"
+> > +    # the element follows the Core profile specification
+> > +    core =3D "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentifierT=
+ype/core"
+> > +    # the element follows the Dataset profile specification
+> > +    dataset =3D "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentifi=
+erType/dataset"
+> > +    # the element follows the ExpandedLicensing profile specification
+> > +    expandedLicensing =3D "https://spdx.org/rdf/3.0.1/terms/Core/Profi=
+leIdentifierType/expandedLicensing"
+> > +    # the element follows the Extension profile specification
+> > +    extension =3D "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdenti=
+fierType/extension"
+> > +    # the element follows the Lite profile specification
+> > +    lite =3D "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentifierT=
+ype/lite"
+> > +    # the element follows the Security profile specification
+> > +    security =3D "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentif=
+ierType/security"
+> > +    # the element follows the SimpleLicensing profile specification
+> > +    simpleLicensing =3D "https://spdx.org/rdf/3.0.1/terms/Core/Profile=
+IdentifierType/simpleLicensing"
+> > +    # the element follows the Software profile specification
+> > +    software =3D "https://spdx.org/rdf/3.0.1/terms/Core/ProfileIdentif=
+ierType/software"
+> > +
+> > +
+> > +# Describes a relationship between one or more elements.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Relationship", compac=
+t_type=3D"Relationship", abstract=3DFalse)
+> > +class Relationship(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides information about the completeness of relationships.
+> > +        cls._add_property(
+> > +            "completeness",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipCompleteness/complete", "complete"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipCompleteness/incomplete", "incomplete"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipCompleteness/noAssertion", "noAssertion"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/completeness",
+> > +            compact=3D"completeness",
+> > +        )
+> > +        # Specifies the time from which an element is no longer applic=
+able / valid.
+> > +        cls._add_property(
+> > +            "endTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/endTime",
+> > +            compact=3D"endTime",
+> > +        )
+> > +        # References the Element on the left-hand side of a relationsh=
+ip.
+> > +        cls._add_property(
+> > +            "from_",
+> > +            ObjectProp(Element, True, context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoneElemen=
+t", "NoneElement"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoAssertionLicense", "expandedlicensing_NoAssertionLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoneLicense", "expandedlicensing_NoneLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SpdxOrgani=
+zation", "SpdxOrganization"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoAssertio=
+nElement", "NoAssertionElement"),
+> > +                ],),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/from",
+> > +            min_count=3D1,
+> > +            compact=3D"from",
+> > +        )
+> > +        # Information about the relationship between two Elements.
+> > +        cls._add_property(
+> > +            "relationshipType",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/affects", "affects"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/amendedBy", "amendedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/ancestorOf", "ancestorOf"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/availableFrom", "availableFrom"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/configures", "configures"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/contains", "contains"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/coordinatedBy", "coordinatedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/copiedTo", "copiedTo"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/delegatedTo", "delegatedTo"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/dependsOn", "dependsOn"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/descendantOf", "descendantOf"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/describes", "describes"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/doesNotAffect", "doesNotAffect"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/expandsTo", "expandsTo"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/exploitCreatedBy", "exploitCreatedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/fixedBy", "fixedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/fixedIn", "fixedIn"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/foundBy", "foundBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/generates", "generates"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasAddedFile", "hasAddedFile"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasAssessmentFor", "hasAssessmentFor"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasAssociatedVulnerability", "hasAssociatedVulnerability"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasConcludedLicense", "hasConcludedLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasDataFile", "hasDataFile"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasDeclaredLicense", "hasDeclaredLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasDeletedFile", "hasDeletedFile"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasDependencyManifest", "hasDependencyManifest"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasDistributionArtifact", "hasDistributionArtifact"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasDocumentation", "hasDocumentation"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasDynamicLink", "hasDynamicLink"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasEvidence", "hasEvidence"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasExample", "hasExample"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasHost", "hasHost"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasInput", "hasInput"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasMetadata", "hasMetadata"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasOptionalComponent", "hasOptionalComponent"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasOptionalDependency", "hasOptionalDependency"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasOutput", "hasOutput"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasPrerequisite", "hasPrerequisite"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasProvidedDependency", "hasProvidedDependency"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasRequirement", "hasRequirement"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasSpecification", "hasSpecification"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasStaticLink", "hasStaticLink"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasTest", "hasTest"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasTestCase", "hasTestCase"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasVariant", "hasVariant"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/invokedBy", "invokedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/modifiedBy", "modifiedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/packagedBy", "packagedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/patchedBy", "patchedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/publishedBy", "publishedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/reportedBy", "reportedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/republishedBy", "republishedBy"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/serializedInArtifact", "serializedInArtifact"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/testedOn", "testedOn"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/trainedOn", "trainedOn"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/underInvestigationFor", "underInvestigationFor"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/usesTool", "usesTool"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/relationshipT=
+ype",
+> > +            min_count=3D1,
+> > +            compact=3D"relationshipType",
+> > +        )
+> > +        # Specifies the time from which an element is applicable / val=
+id.
+> > +        cls._add_property(
+> > +            "startTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/startTime",
+> > +            compact=3D"startTime",
+> > +        )
+> > +        # References an Element on the right-hand side of a relationsh=
+ip.
+> > +        cls._add_property(
+> > +            "to",
+> > +            ListProp(ObjectProp(Element, False, context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoneElemen=
+t", "NoneElement"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoAssertionLicense", "expandedlicensing_NoAssertionLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoneLicense", "expandedlicensing_NoneLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SpdxOrgani=
+zation", "SpdxOrganization"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoAssertio=
+nElement", "NoAssertionElement"),
+> > +                ],)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/to",
+> > +            min_count=3D1,
+> > +            compact=3D"to",
+> > +        )
+> > +
+> > +
+> > +# Indicates whether a relationship is known to be complete, incomplete=
+, or if no assertion is made with respect to relationship completeness.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/RelationshipCompleten=
+ess", compact_type=3D"RelationshipCompleteness", abstract=3DFalse)
+> > +class RelationshipCompleteness(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "complete": "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pCompleteness/complete",
+> > +        "incomplete": "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipCompleteness/incomplete",
+> > +        "noAssertion": "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipCompleteness/noAssertion",
+> > +    }
+> > +    # The relationship is known to be exhaustive.
+> > +    complete =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipCo=
+mpleteness/complete"
+> > +    # The relationship is known not to be exhaustive.
+> > +    incomplete =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Completeness/incomplete"
+> > +    # No assertion can be made about the completeness of the relations=
+hip.
+> > +    noAssertion =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pCompleteness/noAssertion"
+> > +
+> > +
+> > +# Information about the relationship between two Elements.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/RelationshipType", co=
+mpact_type=3D"RelationshipType", abstract=3DFalse)
+> > +class RelationshipType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "affects": "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/affects",
+> > +        "amendedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/amendedBy",
+> > +        "ancestorOf": "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/ancestorOf",
+> > +        "availableFrom": "https://spdx.org/rdf/3.0.1/terms/Core/Relati=
+onshipType/availableFrom",
+> > +        "configures": "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/configures",
+> > +        "contains": "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/contains",
+> > +        "coordinatedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relati=
+onshipType/coordinatedBy",
+> > +        "copiedTo": "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/copiedTo",
+> > +        "delegatedTo": "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipType/delegatedTo",
+> > +        "dependsOn": "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/dependsOn",
+> > +        "descendantOf": "https://spdx.org/rdf/3.0.1/terms/Core/Relatio=
+nshipType/descendantOf",
+> > +        "describes": "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/describes",
+> > +        "doesNotAffect": "https://spdx.org/rdf/3.0.1/terms/Core/Relati=
+onshipType/doesNotAffect",
+> > +        "expandsTo": "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/expandsTo",
+> > +        "exploitCreatedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Rel=
+ationshipType/exploitCreatedBy",
+> > +        "fixedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/fixedBy",
+> > +        "fixedIn": "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/fixedIn",
+> > +        "foundBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/foundBy",
+> > +        "generates": "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/generates",
+> > +        "hasAddedFile": "https://spdx.org/rdf/3.0.1/terms/Core/Relatio=
+nshipType/hasAddedFile",
+> > +        "hasAssessmentFor": "https://spdx.org/rdf/3.0.1/terms/Core/Rel=
+ationshipType/hasAssessmentFor",
+> > +        "hasAssociatedVulnerability": "https://spdx.org/rdf/3.0.1/term=
+s/Core/RelationshipType/hasAssociatedVulnerability",
+> > +        "hasConcludedLicense": "https://spdx.org/rdf/3.0.1/terms/Core/=
+RelationshipType/hasConcludedLicense",
+> > +        "hasDataFile": "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipType/hasDataFile",
+> > +        "hasDeclaredLicense": "https://spdx.org/rdf/3.0.1/terms/Core/R=
+elationshipType/hasDeclaredLicense",
+> > +        "hasDeletedFile": "https://spdx.org/rdf/3.0.1/terms/Core/Relat=
+ionshipType/hasDeletedFile",
+> > +        "hasDependencyManifest": "https://spdx.org/rdf/3.0.1/terms/Cor=
+e/RelationshipType/hasDependencyManifest",
+> > +        "hasDistributionArtifact": "https://spdx.org/rdf/3.0.1/terms/C=
+ore/RelationshipType/hasDistributionArtifact",
+> > +        "hasDocumentation": "https://spdx.org/rdf/3.0.1/terms/Core/Rel=
+ationshipType/hasDocumentation",
+> > +        "hasDynamicLink": "https://spdx.org/rdf/3.0.1/terms/Core/Relat=
+ionshipType/hasDynamicLink",
+> > +        "hasEvidence": "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipType/hasEvidence",
+> > +        "hasExample": "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/hasExample",
+> > +        "hasHost": "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/hasHost",
+> > +        "hasInput": "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/hasInput",
+> > +        "hasMetadata": "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipType/hasMetadata",
+> > +        "hasOptionalComponent": "https://spdx.org/rdf/3.0.1/terms/Core=
+/RelationshipType/hasOptionalComponent",
+> > +        "hasOptionalDependency": "https://spdx.org/rdf/3.0.1/terms/Cor=
+e/RelationshipType/hasOptionalDependency",
+> > +        "hasOutput": "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasOutput",
+> > +        "hasPrerequisite": "https://spdx.org/rdf/3.0.1/terms/Core/Rela=
+tionshipType/hasPrerequisite",
+> > +        "hasProvidedDependency": "https://spdx.org/rdf/3.0.1/terms/Cor=
+e/RelationshipType/hasProvidedDependency",
+> > +        "hasRequirement": "https://spdx.org/rdf/3.0.1/terms/Core/Relat=
+ionshipType/hasRequirement",
+> > +        "hasSpecification": "https://spdx.org/rdf/3.0.1/terms/Core/Rel=
+ationshipType/hasSpecification",
+> > +        "hasStaticLink": "https://spdx.org/rdf/3.0.1/terms/Core/Relati=
+onshipType/hasStaticLink",
+> > +        "hasTest": "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/hasTest",
+> > +        "hasTestCase": "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipType/hasTestCase",
+> > +        "hasVariant": "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/hasVariant",
+> > +        "invokedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/invokedBy",
+> > +        "modifiedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/modifiedBy",
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTy=
+pe/other",
+> > +        "packagedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/packagedBy",
+> > +        "patchedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/patchedBy",
+> > +        "publishedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipType/publishedBy",
+> > +        "reportedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/reportedBy",
+> > +        "republishedBy": "https://spdx.org/rdf/3.0.1/terms/Core/Relati=
+onshipType/republishedBy",
+> > +        "serializedInArtifact": "https://spdx.org/rdf/3.0.1/terms/Core=
+/RelationshipType/serializedInArtifact",
+> > +        "testedOn": "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/testedOn",
+> > +        "trainedOn": "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/trainedOn",
+> > +        "underInvestigationFor": "https://spdx.org/rdf/3.0.1/terms/Cor=
+e/RelationshipType/underInvestigationFor",
+> > +        "usesTool": "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/usesTool",
+> > +    }
+> > +    # The `from` Vulnerability affects each `to` Element. The use of t=
+he `affects` type is constrained to `VexAffectedVulnAssessmentRelationship`=
+ classed relationships.
+> > +    affects =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTyp=
+e/affects"
+> > +    # The `from` Element is amended by each `to` Element.
+> > +    amendedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipT=
+ype/amendedBy"
+> > +    # The `from` Element is an ancestor of each `to` Element.
+> > +    ancestorOf =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/ancestorOf"
+> > +    # The `from` Element is available from the additional supplier des=
+cribed by each `to` Element.
+> > +    availableFrom =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/availableFrom"
+> > +    # The `from` Element is a configuration applied to each `to` Eleme=
+nt, during a LifecycleScopeType period.
+> > +    configures =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/configures"
+> > +    # The `from` Element contains each `to` Element.
+> > +    contains =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTy=
+pe/contains"
+> > +    # The `from` Vulnerability is coordinatedBy the `to` Agent(s) (ven=
+dor, researcher, or consumer agent).
+> > +    coordinatedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/coordinatedBy"
+> > +    # The `from` Element has been copied to each `to` Element.
+> > +    copiedTo =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTy=
+pe/copiedTo"
+> > +    # The `from` Agent is delegating an action to the Agent of the `to=
+` Relationship (which must be of type invokedBy), during a LifecycleScopeTy=
+pe (e.g. the `to` invokedBy Relationship is being done on behalf of `from`).
+> > +    delegatedTo =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/delegatedTo"
+> > +    # The `from` Element depends on each `to` Element, during a Lifecy=
+cleScopeType period.
+> > +    dependsOn =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipT=
+ype/dependsOn"
+> > +    # The `from` Element is a descendant of each `to` Element.
+> > +    descendantOf =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/descendantOf"
+> > +    # The `from` Element describes each `to` Element. To denote the ro=
+ot(s) of a tree of elements in a collection, the rootElement property shoul=
+d be used.
+> > +    describes =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipT=
+ype/describes"
+> > +    # The `from` Vulnerability has no impact on each `to` Element. The=
+ use of the `doesNotAffect` is constrained to `VexNotAffectedVulnAssessment=
+Relationship` classed relationships.
+> > +    doesNotAffect =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/doesNotAffect"
+> > +    # The `from` archive expands out as an artifact described by each =
+`to` Element.
+> > +    expandsTo =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipT=
+ype/expandsTo"
+> > +    # The `from` Vulnerability has had an exploit created against it b=
+y each `to` Agent.
+> > +    exploitCreatedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relati=
+onshipType/exploitCreatedBy"
+> > +    # Designates a `from` Vulnerability has been fixed by the `to` Age=
+nt(s).
+> > +    fixedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTyp=
+e/fixedBy"
+> > +    # A `from` Vulnerability has been fixed in each `to` Element. The =
+use of the `fixedIn` type is constrained to `VexFixedVulnAssessmentRelation=
+ship` classed relationships.
+> > +    fixedIn =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTyp=
+e/fixedIn"
+> > +    # Designates a `from` Vulnerability was originally discovered by t=
+he `to` Agent(s).
+> > +    foundBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTyp=
+e/foundBy"
+> > +    # The `from` Element generates each `to` Element.
+> > +    generates =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipT=
+ype/generates"
+> > +    # Every `to` Element is a file added to the `from` Element (`from`=
+ hasAddedFile `to`).
+> > +    hasAddedFile =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationsh=
+ipType/hasAddedFile"
+> > +    # Relates a `from` Vulnerability and each `to` Element with a secu=
+rity assessment. To be used with `VulnAssessmentRelationship` types.
+> > +    hasAssessmentFor =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relati=
+onshipType/hasAssessmentFor"
+> > +    # Used to associate a `from` Artifact with each `to` Vulnerability.
+> > +    hasAssociatedVulnerability =3D "https://spdx.org/rdf/3.0.1/terms/C=
+ore/RelationshipType/hasAssociatedVulnerability"
+> > +    # The `from` SoftwareArtifact is concluded by the SPDX data creato=
+r to be governed by each `to` license.
+> > +    hasConcludedLicense =3D "https://spdx.org/rdf/3.0.1/terms/Core/Rel=
+ationshipType/hasConcludedLicense"
+> > +    # The `from` Element treats each `to` Element as a data file. A da=
+ta file is an artifact that stores data required or optional for the `from`=
+ Element's functionality. A data file can be a database file, an index file=
+, a log file, an AI model file, a calibration data file, a temporary file, =
+a backup file, and more. For AI training dataset, test dataset, test artifa=
+ct, configuration data, build input data, and build output data, please con=
+sider using the more specific relationship types: `trainedOn`, `testedOn`, =
+`hasTest`, `configures`, `hasInput`, and `hasOutput`, respectively. This re=
+lationship does not imply dependency.
+> > +    hasDataFile =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/hasDataFile"
+> > +    # The `from` SoftwareArtifact was discovered to actually contain e=
+ach `to` license, for example as detected by use of automated tooling.
+> > +    hasDeclaredLicense =3D "https://spdx.org/rdf/3.0.1/terms/Core/Rela=
+tionshipType/hasDeclaredLicense"
+> > +    # Every `to` Element is a file deleted from the `from` Element (`f=
+rom` hasDeletedFile `to`).
+> > +    hasDeletedFile =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipType/hasDeletedFile"
+> > +    # The `from` Element has manifest files that contain dependency in=
+formation in each `to` Element.
+> > +    hasDependencyManifest =3D "https://spdx.org/rdf/3.0.1/terms/Core/R=
+elationshipType/hasDependencyManifest"
+> > +    # The `from` Element is distributed as an artifact in each `to` El=
+ement (e.g. an RPM or archive file).
+> > +    hasDistributionArtifact =3D "https://spdx.org/rdf/3.0.1/terms/Core=
+/RelationshipType/hasDistributionArtifact"
+> > +    # The `from` Element is documented by each `to` Element.
+> > +    hasDocumentation =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relati=
+onshipType/hasDocumentation"
+> > +    # The `from` Element dynamically links in each `to` Element, durin=
+g a LifecycleScopeType period.
+> > +    hasDynamicLink =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipType/hasDynamicLink"
+> > +    # Every `to` Element is considered as evidence for the `from` Elem=
+ent (`from` hasEvidence `to`).
+> > +    hasEvidence =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/hasEvidence"
+> > +    # Every `to` Element is an example for the `from` Element (`from` =
+hasExample `to`).
+> > +    hasExample =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/hasExample"
+> > +    # The `from` Build was run on the `to` Element during a LifecycleS=
+copeType period (e.g. the host that the build runs on).
+> > +    hasHost =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTyp=
+e/hasHost"
+> > +    # The `from` Build has each `to` Element as an input, during a Lif=
+ecycleScopeType period.
+> > +    hasInput =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTy=
+pe/hasInput"
+> > +    # Every `to` Element is metadata about the `from` Element (`from` =
+hasMetadata `to`).
+> > +    hasMetadata =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/hasMetadata"
+> > +    # Every `to` Element is an optional component of the `from` Elemen=
+t (`from` hasOptionalComponent `to`).
+> > +    hasOptionalComponent =3D "https://spdx.org/rdf/3.0.1/terms/Core/Re=
+lationshipType/hasOptionalComponent"
+> > +    # The `from` Element optionally depends on each `to` Element, duri=
+ng a LifecycleScopeType period.
+> > +    hasOptionalDependency =3D "https://spdx.org/rdf/3.0.1/terms/Core/R=
+elationshipType/hasOptionalDependency"
+> > +    # The `from` Build element generates each `to` Element as an outpu=
+t, during a LifecycleScopeType period.
+> > +    hasOutput =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipT=
+ype/hasOutput"
+> > +    # The `from` Element has a prerequisite on each `to` Element, duri=
+ng a LifecycleScopeType period.
+> > +    hasPrerequisite =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relatio=
+nshipType/hasPrerequisite"
+> > +    # The `from` Element has a dependency on each `to` Element, depend=
+ency is not in the distributed artifact, but assumed to be provided, during=
+ a LifecycleScopeType period.
+> > +    hasProvidedDependency =3D "https://spdx.org/rdf/3.0.1/terms/Core/R=
+elationshipType/hasProvidedDependency"
+> > +    # The `from` Element has a requirement on each `to` Element, durin=
+g a LifecycleScopeType period.
+> > +    hasRequirement =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relation=
+shipType/hasRequirement"
+> > +    # Every `to` Element is a specification for the `from` Element (`f=
+rom` hasSpecification `to`), during a LifecycleScopeType period.
+> > +    hasSpecification =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relati=
+onshipType/hasSpecification"
+> > +    # The `from` Element statically links in each `to` Element, during=
+ a LifecycleScopeType period.
+> > +    hasStaticLink =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/hasStaticLink"
+> > +    # Every `to` Element is a test artifact for the `from` Element (`f=
+rom` hasTest `to`), during a LifecycleScopeType period.
+> > +    hasTest =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTyp=
+e/hasTest"
+> > +    # Every `to` Element is a test case for the `from` Element (`from`=
+ hasTestCase `to`).
+> > +    hasTestCase =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/hasTestCase"
+> > +    # Every `to` Element is a variant the `from` Element (`from` hasVa=
+riant `to`).
+> > +    hasVariant =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/hasVariant"
+> > +    # The `from` Element was invoked by the `to` Agent, during a Lifec=
+ycleScopeType period (for example, a Build element that describes a build s=
+tep).
+> > +    invokedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipT=
+ype/invokedBy"
+> > +    # The `from` Element is modified by each `to` Element.
+> > +    modifiedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/modifiedBy"
+> > +    # Every `to` Element is related to the `from` Element where the re=
+lationship type is not described by any of the SPDX relationship types (thi=
+s relationship is directionless).
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipType/=
+other"
+> > +    # Every `to` Element is a packaged instance of the `from` Element =
+(`from` packagedBy `to`).
+> > +    packagedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/packagedBy"
+> > +    # Every `to` Element is a patch for the `from` Element (`from` pat=
+chedBy `to`).
+> > +    patchedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipT=
+ype/patchedBy"
+> > +    # Designates a `from` Vulnerability was made available for public =
+use or reference by each `to` Agent.
+> > +    publishedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationshi=
+pType/publishedBy"
+> > +    # Designates a `from` Vulnerability was first reported to a projec=
+t, vendor, or tracking database for formal identification by each `to` Agen=
+t.
+> > +    reportedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relationship=
+Type/reportedBy"
+> > +    # Designates a `from` Vulnerability's details were tracked, aggreg=
+ated, and/or enriched to improve context (i.e. NVD) by each `to` Agent.
+> > +    republishedBy =3D "https://spdx.org/rdf/3.0.1/terms/Core/Relations=
+hipType/republishedBy"
+> > +    # The `from` SpdxDocument can be found in a serialized form in eac=
+h `to` Artifact.
+> > +    serializedInArtifact =3D "https://spdx.org/rdf/3.0.1/terms/Core/Re=
+lationshipType/serializedInArtifact"
+> > +    # The `from` Element has been tested on the `to` Element(s).
+> > +    testedOn =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTy=
+pe/testedOn"
+> > +    # The `from` Element has been trained on the `to` Element(s).
+> > +    trainedOn =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipT=
+ype/trainedOn"
+> > +    # The `from` Vulnerability impact is being investigated for each `=
+to` Element. The use of the `underInvestigationFor` type is constrained to =
+`VexUnderInvestigationVulnAssessmentRelationship` classed relationships.
+> > +    underInvestigationFor =3D "https://spdx.org/rdf/3.0.1/terms/Core/R=
+elationshipType/underInvestigationFor"
+> > +    # The `from` Element uses each `to` Element as a tool, during a Li=
+fecycleScopeType period.
+> > +    usesTool =3D "https://spdx.org/rdf/3.0.1/terms/Core/RelationshipTy=
+pe/usesTool"
+> > +
+> > +
+> > +# A collection of SPDX Elements that could potentially be serialized.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/SpdxDocument", compac=
+t_type=3D"SpdxDocument", abstract=3DFalse)
+> > +class SpdxDocument(ElementCollection):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides the license under which the SPDX documentation of t=
+he Element can be
+> > +        # used.
+> > +        cls._add_property(
+> > +            "dataLicense",
+> > +            ObjectProp(simplelicensing_AnyLicenseInfo, False, context=
+=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoAssertionLicense", "expandedlicensing_NoAssertionLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoneLicense", "expandedlicensing_NoneLicense"),
+> > +                ],),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/dataLicense",
+> > +            compact=3D"dataLicense",
+> > +        )
+> > +        # Provides an ExternalMap of Element identifiers.
+> > +        cls._add_property(
+> > +            "import_",
+> > +            ListProp(ObjectProp(ExternalMap, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/import",
+> > +            compact=3D"import",
+> > +        )
+> > +        # Provides a NamespaceMap of prefixes and associated namespace=
+ partial URIs applicable to an SpdxDocument and independent of any specific=
+ serialization format or instance.
+> > +        cls._add_property(
+> > +            "namespaceMap",
+> > +            ListProp(ObjectProp(NamespaceMap, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/namespaceMap",
+> > +            compact=3D"namespaceMap",
+> > +        )
+> > +
+> > +
+> > +# Indicates the type of support that is associated with an artifact.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/SupportType", compact=
+_type=3D"SupportType", abstract=3DFalse)
+> > +class SupportType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "deployed": "https://spdx.org/rdf/3.0.1/terms/Core/SupportType=
+/deployed",
+> > +        "development": "https://spdx.org/rdf/3.0.1/terms/Core/SupportT=
+ype/development",
+> > +        "endOfSupport": "https://spdx.org/rdf/3.0.1/terms/Core/Support=
+Type/endOfSupport",
+> > +        "limitedSupport": "https://spdx.org/rdf/3.0.1/terms/Core/Suppo=
+rtType/limitedSupport",
+> > +        "noAssertion": "https://spdx.org/rdf/3.0.1/terms/Core/SupportT=
+ype/noAssertion",
+> > +        "noSupport": "https://spdx.org/rdf/3.0.1/terms/Core/SupportTyp=
+e/noSupport",
+> > +        "support": "https://spdx.org/rdf/3.0.1/terms/Core/SupportType/=
+support",
+> > +    }
+> > +    # in addition to being supported by the supplier, the software is =
+known to have been deployed and is in use.  For a software as a service pro=
+vider, this implies the software is now available as a service.
+> > +    deployed =3D "https://spdx.org/rdf/3.0.1/terms/Core/SupportType/de=
+ployed"
+> > +    # the artifact is in active development and is not considered read=
+y for formal support from the supplier.
+> > +    development =3D "https://spdx.org/rdf/3.0.1/terms/Core/SupportType=
+/development"
+> > +    # there is a defined end of support for the artifact from the supp=
+lier.  This may also be referred to as end of life. There is a validUntilDa=
+te that can be used to signal when support ends for the artifact.
+> > +    endOfSupport =3D "https://spdx.org/rdf/3.0.1/terms/Core/SupportTyp=
+e/endOfSupport"
+> > +    # the artifact has been released, and there is limited support ava=
+ilable from the supplier. There is a validUntilDate that can provide additi=
+onal information about the duration of support.
+> > +    limitedSupport =3D "https://spdx.org/rdf/3.0.1/terms/Core/SupportT=
+ype/limitedSupport"
+> > +    # no assertion about the type of support is made.   This is consid=
+ered the default if no other support type is used.
+> > +    noAssertion =3D "https://spdx.org/rdf/3.0.1/terms/Core/SupportType=
+/noAssertion"
+> > +    # there is no support for the artifact from the supplier, consumer=
+ assumes any support obligations.
+> > +    noSupport =3D "https://spdx.org/rdf/3.0.1/terms/Core/SupportType/n=
+oSupport"
+> > +    # the artifact has been released, and is supported from the suppli=
+er.   There is a validUntilDate that can provide additional information abo=
+ut the duration of support.
+> > +    support =3D "https://spdx.org/rdf/3.0.1/terms/Core/SupportType/sup=
+port"
+> > +
+> > +
+> > +# An element of hardware and/or software utilized to carry out a parti=
+cular function.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Tool", compact_type=
+=3D"Tool", abstract=3DFalse)
+> > +class Tool(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# Categories of confidentiality level.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Dataset/ConfidentialityLev=
+elType", compact_type=3D"dataset_ConfidentialityLevelType", abstract=3DFals=
+e)
+> > +class dataset_ConfidentialityLevelType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "amber": "https://spdx.org/rdf/3.0.1/terms/Dataset/Confidentia=
+lityLevelType/amber",
+> > +        "clear": "https://spdx.org/rdf/3.0.1/terms/Dataset/Confidentia=
+lityLevelType/clear",
+> > +        "green": "https://spdx.org/rdf/3.0.1/terms/Dataset/Confidentia=
+lityLevelType/green",
+> > +        "red": "https://spdx.org/rdf/3.0.1/terms/Dataset/Confidentiali=
+tyLevelType/red",
+> > +    }
+> > +    # Data points in the dataset can be shared only with specific orga=
+nizations and their clients on a need to know basis.
+> > +    amber =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/Confidentialit=
+yLevelType/amber"
+> > +    # Dataset may be distributed freely, without restriction.
+> > +    clear =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/Confidentialit=
+yLevelType/clear"
+> > +    # Dataset can be shared within a community of peers and partners.
+> > +    green =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/Confidentialit=
+yLevelType/green"
+> > +    # Data points in the dataset are highly confidential and can only =
+be shared with named recipients.
+> > +    red =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/ConfidentialityL=
+evelType/red"
+> > +
+> > +
+> > +# Availability of dataset.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetAvailabilit=
+yType", compact_type=3D"dataset_DatasetAvailabilityType", abstract=3DFalse)
+> > +class dataset_DatasetAvailabilityType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "clickthrough": "https://spdx.org/rdf/3.0.1/terms/Dataset/Data=
+setAvailabilityType/clickthrough",
+> > +        "directDownload": "https://spdx.org/rdf/3.0.1/terms/Dataset/Da=
+tasetAvailabilityType/directDownload",
+> > +        "query": "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetAvai=
+labilityType/query",
+> > +        "registration": "https://spdx.org/rdf/3.0.1/terms/Dataset/Data=
+setAvailabilityType/registration",
+> > +        "scrapingScript": "https://spdx.org/rdf/3.0.1/terms/Dataset/Da=
+tasetAvailabilityType/scrapingScript",
+> > +    }
+> > +    # the dataset is not publicly available and can only be accessed a=
+fter affirmatively accepting terms on a clickthrough webpage.
+> > +    clickthrough =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+AvailabilityType/clickthrough"
+> > +    # the dataset is publicly available and can be downloaded directly.
+> > +    directDownload =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/Datas=
+etAvailabilityType/directDownload"
+> > +    # the dataset is publicly available, but not all at once, and can =
+only be accessed through queries which return parts of the dataset.
+> > +    query =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetAvailab=
+ilityType/query"
+> > +    # the dataset is not publicly available and an email registration =
+is required before accessing the dataset, although without an affirmative a=
+cceptance of terms.
+> > +    registration =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+AvailabilityType/registration"
+> > +    # the dataset provider is not making available the underlying data=
+ and the dataset must be reassembled, typically using the provided script f=
+or scraping the data.
+> > +    scrapingScript =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/Datas=
+etAvailabilityType/scrapingScript"
+> > +
+> > +
+> > +# Enumeration of dataset types.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType", comp=
+act_type=3D"dataset_DatasetType", abstract=3DFalse)
+> > +class dataset_DatasetType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "audio": "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType=
+/audio",
+> > +        "categorical": "https://spdx.org/rdf/3.0.1/terms/Dataset/Datas=
+etType/categorical",
+> > +        "graph": "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType=
+/graph",
+> > +        "image": "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType=
+/image",
+> > +        "noAssertion": "https://spdx.org/rdf/3.0.1/terms/Dataset/Datas=
+etType/noAssertion",
+> > +        "numeric": "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetTy=
+pe/numeric",
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType=
+/other",
+> > +        "sensor": "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetTyp=
+e/sensor",
+> > +        "structured": "https://spdx.org/rdf/3.0.1/terms/Dataset/Datase=
+tType/structured",
+> > +        "syntactic": "https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/syntactic",
+> > +        "text": "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType/=
+text",
+> > +        "timeseries": "https://spdx.org/rdf/3.0.1/terms/Dataset/Datase=
+tType/timeseries",
+> > +        "timestamp": "https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/timestamp",
+> > +        "video": "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType=
+/video",
+> > +    }
+> > +    # data is audio based, such as a collection of music from the 80s.
+> > +    audio =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType/au=
+dio"
+> > +    # data that is classified into a discrete number of categories, su=
+ch as the eye color of a population of people.
+> > +    categorical =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetT=
+ype/categorical"
+> > +    # data is in the form of a graph where entries are somehow related=
+ to each other through edges, such a social network of friends.
+> > +    graph =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType/gr=
+aph"
+> > +    # data is a collection of images such as pictures of animals.
+> > +    image =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType/im=
+age"
+> > +    # data type is not known.
+> > +    noAssertion =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetT=
+ype/noAssertion"
+> > +    # data consists only of numeric entries.
+> > +    numeric =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType/=
+numeric"
+> > +    # data is of a type not included in this list.
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType/ot=
+her"
+> > +    # data is recorded from a physical sensor, such as a thermometer r=
+eading or biometric device.
+> > +    sensor =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType/s=
+ensor"
+> > +    # data is stored in tabular format or retrieved from a relational =
+database.
+> > +    structured =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetTy=
+pe/structured"
+> > +    # data describes the syntax or semantics of a language or text, su=
+ch as a parse tree used for natural language processing.
+> > +    syntactic =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetTyp=
+e/syntactic"
+> > +    # data consists of unstructured text, such as a book, Wikipedia ar=
+ticle (without images), or transcript.
+> > +    text =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType/tex=
+t"
+> > +    # data is recorded in an ordered sequence of timestamped entries, =
+such as the price of a stock over the course of a day.
+> > +    timeseries =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetTy=
+pe/timeseries"
+> > +    # data is recorded with a timestamp for each entry, but not necess=
+arily ordered or at specific intervals, such as when a taxi ride starts and=
+ ends.
+> > +    timestamp =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetTyp=
+e/timestamp"
+> > +    # data is video based, such as a collection of movie clips featuri=
+ng Tom Hanks.
+> > +    video =3D "https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetType/vi=
+deo"
+> > +
+> > +
+> > +# Abstract class for additional text intended to be added to a License=
+, but
+> > +# which is not itself a standalone License.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/LicenseA=
+ddition", compact_type=3D"expandedlicensing_LicenseAddition", abstract=3DTr=
+ue)
+> > +class expandedlicensing_LicenseAddition(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Identifies the full text of a LicenseAddition.
+> > +        cls._add_property(
+> > +            "expandedlicensing_additionText",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+additionText",
+> > +            min_count=3D1,
+> > +            compact=3D"expandedlicensing_additionText",
+> > +        )
+> > +        # Specifies whether an additional text identifier has been mar=
+ked as deprecated.
+> > +        cls._add_property(
+> > +            "expandedlicensing_isDeprecatedAdditionId",
+> > +            BooleanProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+isDeprecatedAdditionId",
+> > +            compact=3D"expandedlicensing_isDeprecatedAdditionId",
+> > +        )
+> > +        # Identifies all the text and metadata associated with a licen=
+se in the license
+> > +        # XML format.
+> > +        cls._add_property(
+> > +            "expandedlicensing_licenseXml",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+licenseXml",
+> > +            compact=3D"expandedlicensing_licenseXml",
+> > +        )
+> > +        # Specifies the licenseId that is preferred to be used in plac=
+e of a deprecated
+> > +        # License or LicenseAddition.
+> > +        cls._add_property(
+> > +            "expandedlicensing_obsoletedBy",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+obsoletedBy",
+> > +            compact=3D"expandedlicensing_obsoletedBy",
+> > +        )
+> > +        # Contains a URL where the License or LicenseAddition can be f=
+ound in use.
+> > +        cls._add_property(
+> > +            "expandedlicensing_seeAlso",
+> > +            ListProp(AnyURIProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+seeAlso",
+> > +            compact=3D"expandedlicensing_seeAlso",
+> > +        )
+> > +        # Identifies the full text of a LicenseAddition, in SPDX templ=
+ating format.
+> > +        cls._add_property(
+> > +            "expandedlicensing_standardAdditionTemplate",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+standardAdditionTemplate",
+> > +            compact=3D"expandedlicensing_standardAdditionTemplate",
+> > +        )
+> > +
+> > +
+> > +# A license exception that is listed on the SPDX Exceptions list.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/ListedLi=
+censeException", compact_type=3D"expandedlicensing_ListedLicenseException",=
+ abstract=3DFalse)
+> > +class expandedlicensing_ListedLicenseException(expandedlicensing_Licen=
+seAddition):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies the SPDX License List version in which this licens=
+e or exception
+> > +        # identifier was deprecated.
+> > +        cls._add_property(
+> > +            "expandedlicensing_deprecatedVersion",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+deprecatedVersion",
+> > +            compact=3D"expandedlicensing_deprecatedVersion",
+> > +        )
+> > +        # Specifies the SPDX License List version in which this Listed=
+License or
+> > +        # ListedLicenseException identifier was first added.
+> > +        cls._add_property(
+> > +            "expandedlicensing_listVersionAdded",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+listVersionAdded",
+> > +            compact=3D"expandedlicensing_listVersionAdded",
+> > +        )
+> > +
+> > +
+> > +# A property name with an associated value.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Extension/CdxPropertyEntry=
+", compact_type=3D"extension_CdxPropertyEntry", abstract=3DFalse)
+> > +class extension_CdxPropertyEntry(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # A name used in a CdxPropertyEntry name-value pair.
+> > +        cls._add_property(
+> > +            "extension_cdxPropName",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Extension/cdxPropN=
+ame",
+> > +            min_count=3D1,
+> > +            compact=3D"extension_cdxPropName",
+> > +        )
+> > +        # A value used in a CdxPropertyEntry name-value pair.
+> > +        cls._add_property(
+> > +            "extension_cdxPropValue",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Extension/cdxPropV=
+alue",
+> > +            compact=3D"extension_cdxPropValue",
+> > +        )
+> > +
+> > +
+> > +# A characterization of some aspect of an Element that is associated w=
+ith the Element in a generalized fashion.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Extension/Extension", comp=
+act_type=3D"extension_Extension", abstract=3DTrue)
+> > +class extension_Extension(SHACLExtensibleObject, SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# Specifies the CVSS base, temporal, threat, or environmental severity=
+ type.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/CvssSeverityType"=
+, compact_type=3D"security_CvssSeverityType", abstract=3DFalse)
+> > +class security_CvssSeverityType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "critical": "https://spdx.org/rdf/3.0.1/terms/Security/CvssSev=
+erityType/critical",
+> > +        "high": "https://spdx.org/rdf/3.0.1/terms/Security/CvssSeverit=
+yType/high",
+> > +        "low": "https://spdx.org/rdf/3.0.1/terms/Security/CvssSeverity=
+Type/low",
+> > +        "medium": "https://spdx.org/rdf/3.0.1/terms/Security/CvssSever=
+ityType/medium",
+> > +        "none": "https://spdx.org/rdf/3.0.1/terms/Security/CvssSeverit=
+yType/none",
+> > +    }
+> > +    # When a CVSS score is between 9.0 - 10.0
+> > +    critical =3D "https://spdx.org/rdf/3.0.1/terms/Security/CvssSeveri=
+tyType/critical"
+> > +    # When a CVSS score is between 7.0 - 8.9
+> > +    high =3D "https://spdx.org/rdf/3.0.1/terms/Security/CvssSeverityTy=
+pe/high"
+> > +    # When a CVSS score is between 0.1 - 3.9
+> > +    low =3D "https://spdx.org/rdf/3.0.1/terms/Security/CvssSeverityTyp=
+e/low"
+> > +    # When a CVSS score is between 4.0 - 6.9
+> > +    medium =3D "https://spdx.org/rdf/3.0.1/terms/Security/CvssSeverity=
+Type/medium"
+> > +    # When a CVSS score is 0.0
+> > +    none =3D "https://spdx.org/rdf/3.0.1/terms/Security/CvssSeverityTy=
+pe/none"
+> > +
+> > +
+> > +# Specifies the exploit catalog type.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/ExploitCatalogTyp=
+e", compact_type=3D"security_ExploitCatalogType", abstract=3DFalse)
+> > +class security_ExploitCatalogType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "kev": "https://spdx.org/rdf/3.0.1/terms/Security/ExploitCatal=
+ogType/kev",
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/Security/ExploitCat=
+alogType/other",
+> > +    }
+> > +    # CISA's Known Exploited Vulnerability (KEV) Catalog
+> > +    kev =3D "https://spdx.org/rdf/3.0.1/terms/Security/ExploitCatalogT=
+ype/kev"
+> > +    # Other exploit catalogs
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/Security/ExploitCatalo=
+gType/other"
+> > +
+> > +
+> > +# Specifies the SSVC decision type.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/SsvcDecisionType"=
+, compact_type=3D"security_SsvcDecisionType", abstract=3DFalse)
+> > +class security_SsvcDecisionType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "act": "https://spdx.org/rdf/3.0.1/terms/Security/SsvcDecision=
+Type/act",
+> > +        "attend": "https://spdx.org/rdf/3.0.1/terms/Security/SsvcDecis=
+ionType/attend",
+> > +        "track": "https://spdx.org/rdf/3.0.1/terms/Security/SsvcDecisi=
+onType/track",
+> > +        "trackStar": "https://spdx.org/rdf/3.0.1/terms/Security/SsvcDe=
+cisionType/trackStar",
+> > +    }
+> > +    # The vulnerability requires attention from the organization's int=
+ernal, supervisory-level and leadership-level individuals. Necessary action=
+s include requesting assistance or information about the vulnerability, as =
+well as publishing a notification either internally and/or externally. Typi=
+cally, internal groups would meet to determine the overall response and the=
+n execute agreed upon actions. CISA recommends remediating Act vulnerabilit=
+ies as soon as possible.
+> > +    act =3D "https://spdx.org/rdf/3.0.1/terms/Security/SsvcDecisionTyp=
+e/act"
+> > +    # The vulnerability requires attention from the organization's int=
+ernal, supervisory-level individuals. Necessary actions include requesting =
+assistance or information about the vulnerability, and may involve publishi=
+ng a notification either internally and/or externally. CISA recommends reme=
+diating Attend vulnerabilities sooner than standard update timelines.
+> > +    attend =3D "https://spdx.org/rdf/3.0.1/terms/Security/SsvcDecision=
+Type/attend"
+> > +    # The vulnerability does not require action at this time. The orga=
+nization would continue to track the vulnerability and reassess it if new i=
+nformation becomes available. CISA recommends remediating Track vulnerabili=
+ties within standard update timelines.
+> > +    track =3D "https://spdx.org/rdf/3.0.1/terms/Security/SsvcDecisionT=
+ype/track"
+> > +    # ("Track\*" in the SSVC spec) The vulnerability contains specific=
+ characteristics that may require closer monitoring for changes. CISA recom=
+mends remediating Track\* vulnerabilities within standard update timelines.
+> > +    trackStar =3D "https://spdx.org/rdf/3.0.1/terms/Security/SsvcDecis=
+ionType/trackStar"
+> > +
+> > +
+> > +# Specifies the VEX justification type.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/VexJustificationT=
+ype", compact_type=3D"security_VexJustificationType", abstract=3DFalse)
+> > +class security_VexJustificationType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "componentNotPresent": "https://spdx.org/rdf/3.0.1/terms/Secur=
+ity/VexJustificationType/componentNotPresent",
+> > +        "inlineMitigationsAlreadyExist": "https://spdx.org/rdf/3.0.1/t=
+erms/Security/VexJustificationType/inlineMitigationsAlreadyExist",
+> > +        "vulnerableCodeCannotBeControlledByAdversary": "https://spdx.o=
+rg/rdf/3.0.1/terms/Security/VexJustificationType/vulnerableCodeCannotBeCont=
+rolledByAdversary",
+> > +        "vulnerableCodeNotInExecutePath": "https://spdx.org/rdf/3.0.1/=
+terms/Security/VexJustificationType/vulnerableCodeNotInExecutePath",
+> > +        "vulnerableCodeNotPresent": "https://spdx.org/rdf/3.0.1/terms/=
+Security/VexJustificationType/vulnerableCodeNotPresent",
+> > +    }
+> > +    # The software is not affected because the vulnerable component is=
+ not in the product.
+> > +    componentNotPresent =3D "https://spdx.org/rdf/3.0.1/terms/Security=
+/VexJustificationType/componentNotPresent"
+> > +    # Built-in inline controls or mitigations prevent an adversary fro=
+m leveraging the vulnerability.
+> > +    inlineMitigationsAlreadyExist =3D "https://spdx.org/rdf/3.0.1/term=
+s/Security/VexJustificationType/inlineMitigationsAlreadyExist"
+> > +    # The vulnerable component is present, and the component contains =
+the vulnerable code. However, vulnerable code is used in such a way that an=
+ attacker cannot mount any anticipated attack.
+> > +    vulnerableCodeCannotBeControlledByAdversary =3D "https://spdx.org/=
+rdf/3.0.1/terms/Security/VexJustificationType/vulnerableCodeCannotBeControl=
+ledByAdversary"
+> > +    # The affected code is not reachable through the execution of the =
+code, including non-anticipated states of the product.
+> > +    vulnerableCodeNotInExecutePath =3D "https://spdx.org/rdf/3.0.1/ter=
+ms/Security/VexJustificationType/vulnerableCodeNotInExecutePath"
+> > +    # The product is not affected because the code underlying the vuln=
+erability is not present in the product.
+> > +    vulnerableCodeNotPresent =3D "https://spdx.org/rdf/3.0.1/terms/Sec=
+urity/VexJustificationType/vulnerableCodeNotPresent"
+> > +
+> > +
+> > +# Abstract ancestor class for all vulnerability assessments
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/VulnAssessmentRel=
+ationship", compact_type=3D"security_VulnAssessmentRelationship", abstract=
+=3DTrue)
+> > +class security_VulnAssessmentRelationship(Relationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Identifies who or what supplied the artifact or VulnAssessme=
+ntRelationship
+> > +        # referenced by the Element.
+> > +        cls._add_property(
+> > +            "suppliedBy",
+> > +            ObjectProp(Agent, False, context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SpdxOrgani=
+zation", "SpdxOrganization"),
+> > +                ],),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/suppliedBy",
+> > +            compact=3D"suppliedBy",
+> > +        )
+> > +        # Specifies an Element contained in a piece of software where =
+a vulnerability was
+> > +        # found.
+> > +        cls._add_property(
+> > +            "security_assessedElement",
+> > +            ObjectProp(software_SoftwareArtifact, False),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/assessedE=
+lement",
+> > +            compact=3D"security_assessedElement",
+> > +        )
+> > +        # Specifies a time when a vulnerability assessment was modified
+> > +        cls._add_property(
+> > +            "security_modifiedTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/modifiedT=
+ime",
+> > +            compact=3D"security_modifiedTime",
+> > +        )
+> > +        # Specifies the time when a vulnerability was published.
+> > +        cls._add_property(
+> > +            "security_publishedTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/published=
+Time",
+> > +            compact=3D"security_publishedTime",
+> > +        )
+> > +        # Specified the time and date when a vulnerability was withdra=
+wn.
+> > +        cls._add_property(
+> > +            "security_withdrawnTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/withdrawn=
+Time",
+> > +            compact=3D"security_withdrawnTime",
+> > +        )
+> > +
+> > +
+> > +# Abstract class representing a license combination consisting of one =
+or more licenses.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/SimpleLicensing/AnyLicense=
+Info", compact_type=3D"simplelicensing_AnyLicenseInfo", abstract=3DTrue)
+> > +class simplelicensing_AnyLicenseInfo(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# An SPDX Element containing an SPDX license expression string.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/SimpleLicensing/LicenseExp=
+ression", compact_type=3D"simplelicensing_LicenseExpression", abstract=3DFa=
+lse)
+> > +class simplelicensing_LicenseExpression(simplelicensing_AnyLicenseInfo=
+):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Maps a LicenseRef or AdditionRef string for a Custom License=
+ or a Custom
+> > +        # License Addition to its URI ID.
+> > +        cls._add_property(
+> > +            "simplelicensing_customIdToUri",
+> > +            ListProp(ObjectProp(DictionaryEntry, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/SimpleLicensing/cu=
+stomIdToUri",
+> > +            compact=3D"simplelicensing_customIdToUri",
+> > +        )
+> > +        # A string in the license expression format.
+> > +        cls._add_property(
+> > +            "simplelicensing_licenseExpression",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/SimpleLicensing/li=
+censeExpression",
+> > +            min_count=3D1,
+> > +            compact=3D"simplelicensing_licenseExpression",
+> > +        )
+> > +        # The version of the SPDX License List used in the license exp=
+ression.
+> > +        cls._add_property(
+> > +            "simplelicensing_licenseListVersion",
+> > +            StringProp(pattern=3Dr"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-=
+9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a=
+-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/SimpleLicensing/li=
+censeListVersion",
+> > +            compact=3D"simplelicensing_licenseListVersion",
+> > +        )
+> > +
+> > +
+> > +# A license or addition that is not listed on the SPDX License List.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/SimpleLicensing/SimpleLice=
+nsingText", compact_type=3D"simplelicensing_SimpleLicensingText", abstract=
+=3DFalse)
+> > +class simplelicensing_SimpleLicensingText(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Identifies the full text of a License or Addition.
+> > +        cls._add_property(
+> > +            "simplelicensing_licenseText",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/SimpleLicensing/li=
+censeText",
+> > +            min_count=3D1,
+> > +            compact=3D"simplelicensing_licenseText",
+> > +        )
+> > +
+> > +
+> > +# A canonical, unique, immutable identifier
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/ContentIdentifier=
+", compact_type=3D"software_ContentIdentifier", abstract=3DFalse)
+> > +class software_ContentIdentifier(IntegrityMethod):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies the type of the content identifier.
+> > +        cls._add_property(
+> > +            "software_contentIdentifierType",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Conten=
+tIdentifierType/gitoid", "gitoid"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Conten=
+tIdentifierType/swhid", "swhid"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/contentId=
+entifierType",
+> > +            min_count=3D1,
+> > +            compact=3D"software_contentIdentifierType",
+> > +        )
+> > +        # Specifies the value of the content identifier.
+> > +        cls._add_property(
+> > +            "software_contentIdentifierValue",
+> > +            AnyURIProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/contentId=
+entifierValue",
+> > +            min_count=3D1,
+> > +            compact=3D"software_contentIdentifierValue",
+> > +        )
+> > +
+> > +
+> > +# Specifies the type of a content identifier.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/ContentIdentifier=
+Type", compact_type=3D"software_ContentIdentifierType", abstract=3DFalse)
+> > +class software_ContentIdentifierType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "gitoid": "https://spdx.org/rdf/3.0.1/terms/Software/ContentId=
+entifierType/gitoid",
+> > +        "swhid": "https://spdx.org/rdf/3.0.1/terms/Software/ContentIde=
+ntifierType/swhid",
+> > +    }
+> > +    # [Gitoid](https://www.iana.org/assignments/uri-schemes/prov/gitoi=
+d), stands for [Git Object ID](https://git-scm.com/book/en/v2/Git-Internals=
+-Git-Objects). A gitoid of type blob is a unique hash of a binary artifact.=
+ A gitoid may represent either an [Artifact Identifier](https://github.com/=
+omnibor/spec/blob/eb1ee5c961c16215eb8709b2975d193a2007a35d/spec/SPEC.md#art=
+ifact-identifier-types) for the software artifact or an [Input Manifest Ide=
+ntifier](https://github.com/omnibor/spec/blob/eb1ee5c961c16215eb8709b2975d1=
+93a2007a35d/spec/SPEC.md#input-manifest-identifier) for the software artifa=
+ct's associated [Artifact Input Manifest](https://github.com/omnibor/spec/b=
+lob/eb1ee5c961c16215eb8709b2975d193a2007a35d/spec/SPEC.md#artifact-input-ma=
+nifest); this ambiguity exists because the Artifact Input Manifest is itsel=
+f an artifact, and the gitoid of that artifact is its valid identifier. Git=
+oids calculated on software artifacts (Snippet, File, or Package Elements) =
+should be recorded in the SPDX 3.0 SoftwareArtifact's contentIdentifier pro=
+perty. Gitoids calculated on the Artifact Input Manifest (Input Manifest Id=
+entifier) should be recorded in the SPDX 3.0 Element's externalIdentifier p=
+roperty. See [OmniBOR Specification](https://github.com/omnibor/spec/), a m=
+inimalistic specification for describing software [Artifact Dependency Grap=
+hs](https://github.com/omnibor/spec/blob/eb1ee5c961c16215eb8709b2975d193a20=
+07a35d/spec/SPEC.md#artifact-dependency-graph-adg).
+> > +    gitoid =3D "https://spdx.org/rdf/3.0.1/terms/Software/ContentIdent=
+ifierType/gitoid"
+> > +    # SoftWare Hash IDentifier, a persistent intrinsic identifier for =
+digital artifacts, such as files, trees (also known as directories or folde=
+rs), commits, and other objects typically found in version control systems.=
+ The format of the identifiers is defined in the [SWHID specification](http=
+s://www.swhid.org/specification/v1.1/4.Syntax) (ISO/IEC DIS 18670). They ty=
+pically look like `swh:1:cnt:94a9ed024d3859793618152ea559a168bbcbb5e2`.
+> > +    swhid =3D "https://spdx.org/rdf/3.0.1/terms/Software/ContentIdenti=
+fierType/swhid"
+> > +
+> > +
+> > +# Enumeration of the different kinds of SPDX file.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/FileKindType", co=
+mpact_type=3D"software_FileKindType", abstract=3DFalse)
+> > +class software_FileKindType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "directory": "https://spdx.org/rdf/3.0.1/terms/Software/FileKi=
+ndType/directory",
+> > +        "file": "https://spdx.org/rdf/3.0.1/terms/Software/FileKindTyp=
+e/file",
+> > +    }
+> > +    # The file represents a directory and all content stored in that d=
+irectory.
+> > +    directory =3D "https://spdx.org/rdf/3.0.1/terms/Software/FileKindT=
+ype/directory"
+> > +    # The file represents a single file (default).
+> > +    file =3D "https://spdx.org/rdf/3.0.1/terms/Software/FileKindType/f=
+ile"
+> > +
+> > +
+> > +# Provides a set of values to be used to describe the common types of =
+SBOMs that
+> > +# tools may create.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/SbomType", compac=
+t_type=3D"software_SbomType", abstract=3DFalse)
+> > +class software_SbomType(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "analyzed": "https://spdx.org/rdf/3.0.1/terms/Software/SbomTyp=
+e/analyzed",
+> > +        "build": "https://spdx.org/rdf/3.0.1/terms/Software/SbomType/b=
+uild",
+> > +        "deployed": "https://spdx.org/rdf/3.0.1/terms/Software/SbomTyp=
+e/deployed",
+> > +        "design": "https://spdx.org/rdf/3.0.1/terms/Software/SbomType/=
+design",
+> > +        "runtime": "https://spdx.org/rdf/3.0.1/terms/Software/SbomType=
+/runtime",
+> > +        "source": "https://spdx.org/rdf/3.0.1/terms/Software/SbomType/=
+source",
+> > +    }
+> > +    # SBOM generated through analysis of artifacts (e.g., executables,=
+ packages, containers, and virtual machine images) after its build. Such an=
+alysis generally requires a variety of heuristics. In some contexts, this m=
+ay also be referred to as a "3rd party" SBOM.
+> > +    analyzed =3D "https://spdx.org/rdf/3.0.1/terms/Software/SbomType/a=
+nalyzed"
+> > +    # SBOM generated as part of the process of building the software t=
+o create a releasable artifact (e.g., executable or package) from data such=
+ as source files, dependencies, built components, build process ephemeral d=
+ata, and other SBOMs.
+> > +    build =3D "https://spdx.org/rdf/3.0.1/terms/Software/SbomType/buil=
+d"
+> > +    # SBOM provides an inventory of software that is present on a syst=
+em. This may be an assembly of other SBOMs that combines analysis of config=
+uration options, and examination of execution behavior in a (potentially si=
+mulated) deployment environment.
+> > +    deployed =3D "https://spdx.org/rdf/3.0.1/terms/Software/SbomType/d=
+eployed"
+> > +    # SBOM of intended, planned software project or product with inclu=
+ded components (some of which may not yet exist) for a new software artifac=
+t.
+> > +    design =3D "https://spdx.org/rdf/3.0.1/terms/Software/SbomType/des=
+ign"
+> > +    # SBOM generated through instrumenting the system running the soft=
+ware, to capture only components present in the system, as well as external=
+ call-outs or dynamically loaded components. In some contexts, this may als=
+o be referred to as an "Instrumented" or "Dynamic" SBOM.
+> > +    runtime =3D "https://spdx.org/rdf/3.0.1/terms/Software/SbomType/ru=
+ntime"
+> > +    # SBOM created directly from the development environment, source f=
+iles, and included dependencies used to build an product artifact.
+> > +    source =3D "https://spdx.org/rdf/3.0.1/terms/Software/SbomType/sou=
+rce"
+> > +
+> > +
+> > +# Provides information about the primary purpose of an Element.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurpose",=
+ compact_type=3D"software_SoftwarePurpose", abstract=3DFalse)
+> > +class software_SoftwarePurpose(SHACLObject):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "application": "https://spdx.org/rdf/3.0.1/terms/Software/Soft=
+warePurpose/application",
+> > +        "archive": "https://spdx.org/rdf/3.0.1/terms/Software/Software=
+Purpose/archive",
+> > +        "bom": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurp=
+ose/bom",
+> > +        "configuration": "https://spdx.org/rdf/3.0.1/terms/Software/So=
+ftwarePurpose/configuration",
+> > +        "container": "https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/container",
+> > +        "data": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePur=
+pose/data",
+> > +        "device": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwareP=
+urpose/device",
+> > +        "deviceDriver": "https://spdx.org/rdf/3.0.1/terms/Software/Sof=
+twarePurpose/deviceDriver",
+> > +        "diskImage": "https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/diskImage",
+> > +        "documentation": "https://spdx.org/rdf/3.0.1/terms/Software/So=
+ftwarePurpose/documentation",
+> > +        "evidence": "https://spdx.org/rdf/3.0.1/terms/Software/Softwar=
+ePurpose/evidence",
+> > +        "executable": "https://spdx.org/rdf/3.0.1/terms/Software/Softw=
+arePurpose/executable",
+> > +        "file": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePur=
+pose/file",
+> > +        "filesystemImage": "https://spdx.org/rdf/3.0.1/terms/Software/=
+SoftwarePurpose/filesystemImage",
+> > +        "firmware": "https://spdx.org/rdf/3.0.1/terms/Software/Softwar=
+ePurpose/firmware",
+> > +        "framework": "https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/framework",
+> > +        "install": "https://spdx.org/rdf/3.0.1/terms/Software/Software=
+Purpose/install",
+> > +        "library": "https://spdx.org/rdf/3.0.1/terms/Software/Software=
+Purpose/library",
+> > +        "manifest": "https://spdx.org/rdf/3.0.1/terms/Software/Softwar=
+ePurpose/manifest",
+> > +        "model": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePu=
+rpose/model",
+> > +        "module": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwareP=
+urpose/module",
+> > +        "operatingSystem": "https://spdx.org/rdf/3.0.1/terms/Software/=
+SoftwarePurpose/operatingSystem",
+> > +        "other": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePu=
+rpose/other",
+> > +        "patch": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePu=
+rpose/patch",
+> > +        "platform": "https://spdx.org/rdf/3.0.1/terms/Software/Softwar=
+ePurpose/platform",
+> > +        "requirement": "https://spdx.org/rdf/3.0.1/terms/Software/Soft=
+warePurpose/requirement",
+> > +        "source": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwareP=
+urpose/source",
+> > +        "specification": "https://spdx.org/rdf/3.0.1/terms/Software/So=
+ftwarePurpose/specification",
+> > +        "test": "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePur=
+pose/test",
+> > +    }
+> > +    # The Element is a software application.
+> > +    application =3D "https://spdx.org/rdf/3.0.1/terms/Software/Softwar=
+ePurpose/application"
+> > +    # The Element is an archived collection of one or more files (.tar=
+, .zip, etc.).
+> > +    archive =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePur=
+pose/archive"
+> > +    # The Element is a bill of materials.
+> > +    bom =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurpose=
+/bom"
+> > +    # The Element is configuration data.
+> > +    configuration =3D "https://spdx.org/rdf/3.0.1/terms/Software/Softw=
+arePurpose/configuration"
+> > +    # The Element is a container image which can be used by a containe=
+r runtime application.
+> > +    container =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwareP=
+urpose/container"
+> > +    # The Element is data.
+> > +    data =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurpos=
+e/data"
+> > +    # The Element refers to a chipset, processor, or electronic board.
+> > +    device =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurp=
+ose/device"
+> > +    # The Element represents software that controls hardware devices.
+> > +    deviceDriver =3D "https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/deviceDriver"
+> > +    # The Element refers to a disk image that can be written to a disk=
+, booted in a VM, etc. A disk image typically contains most or all of the c=
+omponents necessary to boot, such as bootloaders, kernels, firmware, usersp=
+ace, etc.
+> > +    diskImage =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwareP=
+urpose/diskImage"
+> > +    # The Element is documentation.
+> > +    documentation =3D "https://spdx.org/rdf/3.0.1/terms/Software/Softw=
+arePurpose/documentation"
+> > +    # The Element is the evidence that a specification or requirement =
+has been fulfilled.
+> > +    evidence =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePu=
+rpose/evidence"
+> > +    # The Element is an Artifact that can be run on a computer.
+> > +    executable =3D "https://spdx.org/rdf/3.0.1/terms/Software/Software=
+Purpose/executable"
+> > +    # The Element is a single file which can be independently distribu=
+ted (configuration file, statically linked binary, Kubernetes deployment, e=
+tc.).
+> > +    file =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurpos=
+e/file"
+> > +    # The Element is a file system image that can be written to a disk=
+ (or virtual) partition.
+> > +    filesystemImage =3D "https://spdx.org/rdf/3.0.1/terms/Software/Sof=
+twarePurpose/filesystemImage"
+> > +    # The Element provides low level control over a device's hardware.
+> > +    firmware =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePu=
+rpose/firmware"
+> > +    # The Element is a software framework.
+> > +    framework =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwareP=
+urpose/framework"
+> > +    # The Element is used to install software on disk.
+> > +    install =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePur=
+pose/install"
+> > +    # The Element is a software library.
+> > +    library =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePur=
+pose/library"
+> > +    # The Element is a software manifest.
+> > +    manifest =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePu=
+rpose/manifest"
+> > +    # The Element is a machine learning or artificial intelligence mod=
+el.
+> > +    model =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurpo=
+se/model"
+> > +    # The Element is a module of a piece of software.
+> > +    module =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurp=
+ose/module"
+> > +    # The Element is an operating system.
+> > +    operatingSystem =3D "https://spdx.org/rdf/3.0.1/terms/Software/Sof=
+twarePurpose/operatingSystem"
+> > +    # The Element doesn't fit into any of the other categories.
+> > +    other =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurpo=
+se/other"
+> > +    # The Element contains a set of changes to update, fix, or improve=
+ another Element.
+> > +    patch =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurpo=
+se/patch"
+> > +    # The Element represents a runtime environment.
+> > +    platform =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePu=
+rpose/platform"
+> > +    # The Element provides a requirement needed as input for another E=
+lement.
+> > +    requirement =3D "https://spdx.org/rdf/3.0.1/terms/Software/Softwar=
+ePurpose/requirement"
+> > +    # The Element is a single or a collection of source files.
+> > +    source =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurp=
+ose/source"
+> > +    # The Element is a plan, guideline or strategy how to create, perf=
+orm or analyze an application.
+> > +    specification =3D "https://spdx.org/rdf/3.0.1/terms/Software/Softw=
+arePurpose/specification"
+> > +    # The Element is a test used to verify functionality on an softwar=
+e element.
+> > +    test =3D "https://spdx.org/rdf/3.0.1/terms/Software/SoftwarePurpos=
+e/test"
+> > +
+> > +
+> > +# Class that describes a build instance of software/artifacts.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Build/Build", compact_type=
+=3D"build_Build", abstract=3DFalse)
+> > +class build_Build(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Property that describes the time at which a build stops.
+> > +        cls._add_property(
+> > +            "build_buildEndTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Build/buildEndTime=
+",
+> > +            compact=3D"build_buildEndTime",
+> > +        )
+> > +        # A buildId is a locally unique identifier used by a builder t=
+o identify a unique
+> > +        # instance of a build produced by it.
+> > +        cls._add_property(
+> > +            "build_buildId",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Build/buildId",
+> > +            compact=3D"build_buildId",
+> > +        )
+> > +        # Property describing the start time of a build.
+> > +        cls._add_property(
+> > +            "build_buildStartTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Build/buildStartTi=
+me",
+> > +            compact=3D"build_buildStartTime",
+> > +        )
+> > +        # A buildType is a hint that is used to indicate the toolchain=
+, platform, or
+> > +        # infrastructure that the build was invoked on.
+> > +        cls._add_property(
+> > +            "build_buildType",
+> > +            AnyURIProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Build/buildType",
+> > +            min_count=3D1,
+> > +            compact=3D"build_buildType",
+> > +        )
+> > +        # Property that describes the digest of the build configuratio=
+n file used to
+> > +        # invoke a build.
+> > +        cls._add_property(
+> > +            "build_configSourceDigest",
+> > +            ListProp(ObjectProp(Hash, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Build/configSource=
+Digest",
+> > +            compact=3D"build_configSourceDigest",
+> > +        )
+> > +        # Property describes the invocation entrypoint of a build.
+> > +        cls._add_property(
+> > +            "build_configSourceEntrypoint",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Build/configSource=
+Entrypoint",
+> > +            compact=3D"build_configSourceEntrypoint",
+> > +        )
+> > +        # Property that describes the URI of the build configuration s=
+ource file.
+> > +        cls._add_property(
+> > +            "build_configSourceUri",
+> > +            ListProp(AnyURIProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Build/configSource=
+Uri",
+> > +            compact=3D"build_configSourceUri",
+> > +        )
+> > +        # Property describing the session in which a build is invoked.
+> > +        cls._add_property(
+> > +            "build_environment",
+> > +            ListProp(ObjectProp(DictionaryEntry, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Build/environment",
+> > +            compact=3D"build_environment",
+> > +        )
+> > +        # Property describing a parameter used in an instance of a bui=
+ld.
+> > +        cls._add_property(
+> > +            "build_parameter",
+> > +            ListProp(ObjectProp(DictionaryEntry, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Build/parameter",
+> > +            compact=3D"build_parameter",
+> > +        )
+> > +
+> > +
+> > +# Agent represents anything with the potential to act on a system.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Agent", compact_type=
+=3D"Agent", abstract=3DFalse)
+> > +class Agent(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# An assertion made in relation to one or more elements.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Annotation", compact_=
+type=3D"Annotation", abstract=3DFalse)
+> > +class Annotation(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Describes the type of annotation.
+> > +        cls._add_property(
+> > +            "annotationType",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Annotation=
+Type/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/Annotation=
+Type/review", "review"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/annotationTyp=
+e",
+> > +            min_count=3D1,
+> > +            compact=3D"annotationType",
+> > +        )
+> > +        # Provides information about the content type of an Element or=
+ a Property.
+> > +        cls._add_property(
+> > +            "contentType",
+> > +            StringProp(pattern=3Dr"^[^\/]+\/[^\/]+$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/contentType",
+> > +            compact=3D"contentType",
+> > +        )
+> > +        # Commentary on an assertion that an annotator has made.
+> > +        cls._add_property(
+> > +            "statement",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/statement",
+> > +            compact=3D"statement",
+> > +        )
+> > +        # An Element an annotator has made an assertion about.
+> > +        cls._add_property(
+> > +            "subject",
+> > +            ObjectProp(Element, True, context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoneElemen=
+t", "NoneElement"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoAssertionLicense", "expandedlicensing_NoAssertionLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoneLicense", "expandedlicensing_NoneLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SpdxOrgani=
+zation", "SpdxOrganization"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/NoAssertio=
+nElement", "NoAssertionElement"),
+> > +                ],),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/subject",
+> > +            min_count=3D1,
+> > +            compact=3D"subject",
+> > +        )
+> > +
+> > +
+> > +# A distinct article or unit within the digital domain.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Artifact", compact_ty=
+pe=3D"Artifact", abstract=3DTrue)
+> > +class Artifact(Element):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies the time an artifact was built.
+> > +        cls._add_property(
+> > +            "builtTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/builtTime",
+> > +            compact=3D"builtTime",
+> > +        )
+> > +        # Identifies from where or whom the Element originally came.
+> > +        cls._add_property(
+> > +            "originatedBy",
+> > +            ListProp(ObjectProp(Agent, False, context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SpdxOrgani=
+zation", "SpdxOrganization"),
+> > +                ],)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/originatedBy",
+> > +            compact=3D"originatedBy",
+> > +        )
+> > +        # Specifies the time an artifact was released.
+> > +        cls._add_property(
+> > +            "releaseTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/releaseTime",
+> > +            compact=3D"releaseTime",
+> > +        )
+> > +        # The name of a relevant standard that may apply to an artifac=
+t.
+> > +        cls._add_property(
+> > +            "standardName",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/standardName",
+> > +            compact=3D"standardName",
+> > +        )
+> > +        # Identifies who or what supplied the artifact or VulnAssessme=
+ntRelationship
+> > +        # referenced by the Element.
+> > +        cls._add_property(
+> > +            "suppliedBy",
+> > +            ObjectProp(Agent, False, context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SpdxOrgani=
+zation", "SpdxOrganization"),
+> > +                ],),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/suppliedBy",
+> > +            compact=3D"suppliedBy",
+> > +        )
+> > +        # Specifies the level of support associated with an artifact.
+> > +        cls._add_property(
+> > +            "supportLevel",
+> > +            ListProp(EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SupportTyp=
+e/deployed", "deployed"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SupportTyp=
+e/development", "development"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SupportTyp=
+e/endOfSupport", "endOfSupport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SupportTyp=
+e/limitedSupport", "limitedSupport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SupportTyp=
+e/noAssertion", "noAssertion"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SupportTyp=
+e/noSupport", "noSupport"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/SupportTyp=
+e/support", "support"),
+> > +                ])),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/supportLevel",
+> > +            compact=3D"supportLevel",
+> > +        )
+> > +        # Specifies until when the artifact can be used before its usa=
+ge needs to be
+> > +        # reassessed.
+> > +        cls._add_property(
+> > +            "validUntilTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/validUntilTim=
+e",
+> > +            compact=3D"validUntilTime",
+> > +        )
+> > +
+> > +
+> > +# A collection of Elements that have a shared context.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Bundle", compact_type=
+=3D"Bundle", abstract=3DFalse)
+> > +class Bundle(ElementCollection):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Gives information about the circumstances or unifying proper=
+ties
+> > +        # that Elements of the bundle have been assembled under.
+> > +        cls._add_property(
+> > +            "context",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/context",
+> > +            compact=3D"context",
+> > +        )
+> > +
+> > +
+> > +# A mathematically calculated representation of a grouping of data.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Hash", compact_type=
+=3D"Hash", abstract=3DFalse)
+> > +class Hash(IntegrityMethod):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies the algorithm used for calculating the hash value.
+> > +        cls._add_property(
+> > +            "algorithm",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/adler32", "adler32"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/blake2b256", "blake2b256"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/blake2b384", "blake2b384"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/blake2b512", "blake2b512"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/blake3", "blake3"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/crystalsDilithium", "crystalsDilithium"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/crystalsKyber", "crystalsKyber"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/falcon", "falcon"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/md2", "md2"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/md4", "md4"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/md5", "md5"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/md6", "md6"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha1", "sha1"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha224", "sha224"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha256", "sha256"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha384", "sha384"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha3_224", "sha3_224"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha3_256", "sha3_256"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha3_384", "sha3_384"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha3_512", "sha3_512"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/HashAlgori=
+thm/sha512", "sha512"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/algorithm",
+> > +            min_count=3D1,
+> > +            compact=3D"algorithm",
+> > +        )
+> > +        # The result of applying a hash algorithm to an Element.
+> > +        cls._add_property(
+> > +            "hashValue",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/hashValue",
+> > +            min_count=3D1,
+> > +            compact=3D"hashValue",
+> > +        )
+> > +
+> > +
+> > +# Provide context for a relationship that occurs in the lifecycle.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/LifecycleScopedRelati=
+onship", compact_type=3D"LifecycleScopedRelationship", abstract=3DFalse)
+> > +class LifecycleScopedRelationship(Relationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Capture the scope of information about a specific relationsh=
+ip between elements.
+> > +        cls._add_property(
+> > +            "scope",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/LifecycleS=
+copeType/build", "build"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/LifecycleS=
+copeType/design", "design"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/LifecycleS=
+copeType/development", "development"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/LifecycleS=
+copeType/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/LifecycleS=
+copeType/runtime", "runtime"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/LifecycleS=
+copeType/test", "test"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/scope",
+> > +            compact=3D"scope",
+> > +        )
+> > +
+> > +
+> > +# A group of people who work together in an organized way for a shared=
+ purpose.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Organization", compac=
+t_type=3D"Organization", abstract=3DFalse)
+> > +class Organization(Agent):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "SpdxOrganization": "https://spdx.org/rdf/3.0.1/terms/Core/Spd=
+xOrganization",
+> > +    }
+> > +    # An Organization representing the SPDX Project.
+> > +    SpdxOrganization =3D "https://spdx.org/rdf/3.0.1/terms/Core/SpdxOr=
+ganization"
+> > +
+> > +
+> > +# An individual human being.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Person", compact_type=
+=3D"Person", abstract=3DFalse)
+> > +class Person(Agent):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# A software agent.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/SoftwareAgent", compa=
+ct_type=3D"SoftwareAgent", abstract=3DFalse)
+> > +class SoftwareAgent(Agent):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# Portion of an AnyLicenseInfo representing a set of licensing informa=
+tion
+> > +# where all elements apply.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/Conjunct=
+iveLicenseSet", compact_type=3D"expandedlicensing_ConjunctiveLicenseSet", a=
+bstract=3DFalse)
+> > +class expandedlicensing_ConjunctiveLicenseSet(simplelicensing_AnyLicen=
+seInfo):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # A license expression participating in a license set.
+> > +        cls._add_property(
+> > +            "expandedlicensing_member",
+> > +            ListProp(ObjectProp(simplelicensing_AnyLicenseInfo, False,=
+ context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoAssertionLicense", "expandedlicensing_NoAssertionLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoneLicense", "expandedlicensing_NoneLicense"),
+> > +                ],)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+member",
+> > +            min_count=3D2,
+> > +            compact=3D"expandedlicensing_member",
+> > +        )
+> > +
+> > +
+> > +# A license addition that is not listed on the SPDX Exceptions List.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/CustomLi=
+censeAddition", compact_type=3D"expandedlicensing_CustomLicenseAddition", a=
+bstract=3DFalse)
+> > +class expandedlicensing_CustomLicenseAddition(expandedlicensing_Licens=
+eAddition):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# Portion of an AnyLicenseInfo representing a set of licensing informa=
+tion where
+> > +# only one of the elements applies.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/Disjunct=
+iveLicenseSet", compact_type=3D"expandedlicensing_DisjunctiveLicenseSet", a=
+bstract=3DFalse)
+> > +class expandedlicensing_DisjunctiveLicenseSet(simplelicensing_AnyLicen=
+seInfo):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # A license expression participating in a license set.
+> > +        cls._add_property(
+> > +            "expandedlicensing_member",
+> > +            ListProp(ObjectProp(simplelicensing_AnyLicenseInfo, False,=
+ context=3D[
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoAssertionLicense", "expandedlicensing_NoAssertionLicense"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensi=
+ng/NoneLicense", "expandedlicensing_NoneLicense"),
+> > +                ],)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+member",
+> > +            min_count=3D2,
+> > +            compact=3D"expandedlicensing_member",
+> > +        )
+> > +
+> > +
+> > +# Abstract class representing a License or an OrLaterOperator.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/Extendab=
+leLicense", compact_type=3D"expandedlicensing_ExtendableLicense", abstract=
+=3DTrue)
+> > +class expandedlicensing_ExtendableLicense(simplelicensing_AnyLicenseIn=
+fo):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# A concrete subclass of AnyLicenseInfo used by Individuals in the
+> > +# ExpandedLicensing profile.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/Individu=
+alLicensingInfo", compact_type=3D"expandedlicensing_IndividualLicensingInfo=
+", abstract=3DFalse)
+> > +class expandedlicensing_IndividualLicensingInfo(simplelicensing_AnyLic=
+enseInfo):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +        "NoAssertionLicense": "https://spdx.org/rdf/3.0.1/terms/Expand=
+edLicensing/NoAssertionLicense",
+> > +        "NoneLicense": "https://spdx.org/rdf/3.0.1/terms/ExpandedLicen=
+sing/NoneLicense",
+> > +    }
+> > +    # An Individual Value for License when no assertion can be made ab=
+out its actual
+> > +    # value.
+> > +    NoAssertionLicense =3D "https://spdx.org/rdf/3.0.1/terms/ExpandedL=
+icensing/NoAssertionLicense"
+> > +    # An Individual Value for License where the SPDX data creator dete=
+rmines that no
+> > +    # license is present.
+> > +    NoneLicense =3D "https://spdx.org/rdf/3.0.1/terms/ExpandedLicensin=
+g/NoneLicense"
+> > +
+> > +
+> > +# Abstract class for the portion of an AnyLicenseInfo representing a l=
+icense.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/License"=
+, compact_type=3D"expandedlicensing_License", abstract=3DTrue)
+> > +class expandedlicensing_License(expandedlicensing_ExtendableLicense):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies whether a license or additional text identifier ha=
+s been marked as
+> > +        # deprecated.
+> > +        cls._add_property(
+> > +            "expandedlicensing_isDeprecatedLicenseId",
+> > +            BooleanProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+isDeprecatedLicenseId",
+> > +            compact=3D"expandedlicensing_isDeprecatedLicenseId",
+> > +        )
+> > +        # Specifies whether the License is listed as free by the
+> > +        # Free Software Foundation (FSF).
+> > +        cls._add_property(
+> > +            "expandedlicensing_isFsfLibre",
+> > +            BooleanProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+isFsfLibre",
+> > +            compact=3D"expandedlicensing_isFsfLibre",
+> > +        )
+> > +        # Specifies whether the License is listed as approved by the
+> > +        # Open Source Initiative (OSI).
+> > +        cls._add_property(
+> > +            "expandedlicensing_isOsiApproved",
+> > +            BooleanProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+isOsiApproved",
+> > +            compact=3D"expandedlicensing_isOsiApproved",
+> > +        )
+> > +        # Identifies all the text and metadata associated with a licen=
+se in the license
+> > +        # XML format.
+> > +        cls._add_property(
+> > +            "expandedlicensing_licenseXml",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+licenseXml",
+> > +            compact=3D"expandedlicensing_licenseXml",
+> > +        )
+> > +        # Specifies the licenseId that is preferred to be used in plac=
+e of a deprecated
+> > +        # License or LicenseAddition.
+> > +        cls._add_property(
+> > +            "expandedlicensing_obsoletedBy",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+obsoletedBy",
+> > +            compact=3D"expandedlicensing_obsoletedBy",
+> > +        )
+> > +        # Contains a URL where the License or LicenseAddition can be f=
+ound in use.
+> > +        cls._add_property(
+> > +            "expandedlicensing_seeAlso",
+> > +            ListProp(AnyURIProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+seeAlso",
+> > +            compact=3D"expandedlicensing_seeAlso",
+> > +        )
+> > +        # Provides a License author's preferred text to indicate that =
+a file is covered
+> > +        # by the License.
+> > +        cls._add_property(
+> > +            "expandedlicensing_standardLicenseHeader",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+standardLicenseHeader",
+> > +            compact=3D"expandedlicensing_standardLicenseHeader",
+> > +        )
+> > +        # Identifies the full text of a License, in SPDX templating fo=
+rmat.
+> > +        cls._add_property(
+> > +            "expandedlicensing_standardLicenseTemplate",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+standardLicenseTemplate",
+> > +            compact=3D"expandedlicensing_standardLicenseTemplate",
+> > +        )
+> > +        # Identifies the full text of a License or Addition.
+> > +        cls._add_property(
+> > +            "simplelicensing_licenseText",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/SimpleLicensing/li=
+censeText",
+> > +            min_count=3D1,
+> > +            compact=3D"simplelicensing_licenseText",
+> > +        )
+> > +
+> > +
+> > +# A license that is listed on the SPDX License List.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/ListedLi=
+cense", compact_type=3D"expandedlicensing_ListedLicense", abstract=3DFalse)
+> > +class expandedlicensing_ListedLicense(expandedlicensing_License):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies the SPDX License List version in which this licens=
+e or exception
+> > +        # identifier was deprecated.
+> > +        cls._add_property(
+> > +            "expandedlicensing_deprecatedVersion",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+deprecatedVersion",
+> > +            compact=3D"expandedlicensing_deprecatedVersion",
+> > +        )
+> > +        # Specifies the SPDX License List version in which this Listed=
+License or
+> > +        # ListedLicenseException identifier was first added.
+> > +        cls._add_property(
+> > +            "expandedlicensing_listVersionAdded",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+listVersionAdded",
+> > +            compact=3D"expandedlicensing_listVersionAdded",
+> > +        )
+> > +
+> > +
+> > +# Portion of an AnyLicenseInfo representing this version, or any later=
+ version,
+> > +# of the indicated License.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/OrLaterO=
+perator", compact_type=3D"expandedlicensing_OrLaterOperator", abstract=3DFa=
+lse)
+> > +class expandedlicensing_OrLaterOperator(expandedlicensing_ExtendableLi=
+cense):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # A License participating in an 'or later' model.
+> > +        cls._add_property(
+> > +            "expandedlicensing_subjectLicense",
+> > +            ObjectProp(expandedlicensing_License, True),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+subjectLicense",
+> > +            min_count=3D1,
+> > +            compact=3D"expandedlicensing_subjectLicense",
+> > +        )
+> > +
+> > +
+> > +# Portion of an AnyLicenseInfo representing a License which has additi=
+onal
+> > +# text applied to it.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/WithAddi=
+tionOperator", compact_type=3D"expandedlicensing_WithAdditionOperator", abs=
+tract=3DFalse)
+> > +class expandedlicensing_WithAdditionOperator(simplelicensing_AnyLicens=
+eInfo):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # A LicenseAddition participating in a 'with addition' model.
+> > +        cls._add_property(
+> > +            "expandedlicensing_subjectAddition",
+> > +            ObjectProp(expandedlicensing_LicenseAddition, True),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+subjectAddition",
+> > +            min_count=3D1,
+> > +            compact=3D"expandedlicensing_subjectAddition",
+> > +        )
+> > +        # A License participating in a 'with addition' model.
+> > +        cls._add_property(
+> > +            "expandedlicensing_subjectExtendableLicense",
+> > +            ObjectProp(expandedlicensing_ExtendableLicense, True),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/=
+subjectExtendableLicense",
+> > +            min_count=3D1,
+> > +            compact=3D"expandedlicensing_subjectExtendableLicense",
+> > +        )
+> > +
+> > +
+> > +# A type of extension consisting of a list of name value pairs.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Extension/CdxPropertiesExt=
+ension", compact_type=3D"extension_CdxPropertiesExtension", abstract=3DFals=
+e)
+> > +class extension_CdxPropertiesExtension(extension_Extension):
+> > +    NODE_KIND =3D NodeKind.BlankNodeOrIRI
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides a map of a property names to a values.
+> > +        cls._add_property(
+> > +            "extension_cdxProperty",
+> > +            ListProp(ObjectProp(extension_CdxPropertyEntry, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Extension/cdxPrope=
+rty",
+> > +            min_count=3D1,
+> > +            compact=3D"extension_cdxProperty",
+> > +        )
+> > +
+> > +
+> > +# Provides a CVSS version 2.0 assessment for a vulnerability.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/CvssV2VulnAssessm=
+entRelationship", compact_type=3D"security_CvssV2VulnAssessmentRelationship=
+", abstract=3DFalse)
+> > +class security_CvssV2VulnAssessmentRelationship(security_VulnAssessmen=
+tRelationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides a numerical (0-10) representation of the severity o=
+f a vulnerability.
+> > +        cls._add_property(
+> > +            "security_score",
+> > +            FloatProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/score",
+> > +            min_count=3D1,
+> > +            compact=3D"security_score",
+> > +        )
+> > +        # Specifies the CVSS vector string for a vulnerability.
+> > +        cls._add_property(
+> > +            "security_vectorString",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/vectorStr=
+ing",
+> > +            min_count=3D1,
+> > +            compact=3D"security_vectorString",
+> > +        )
+> > +
+> > +
+> > +# Provides a CVSS version 3 assessment for a vulnerability.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/CvssV3VulnAssessm=
+entRelationship", compact_type=3D"security_CvssV3VulnAssessmentRelationship=
+", abstract=3DFalse)
+> > +class security_CvssV3VulnAssessmentRelationship(security_VulnAssessmen=
+tRelationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides a numerical (0-10) representation of the severity o=
+f a vulnerability.
+> > +        cls._add_property(
+> > +            "security_score",
+> > +            FloatProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/score",
+> > +            min_count=3D1,
+> > +            compact=3D"security_score",
+> > +        )
+> > +        # Specifies the CVSS qualitative severity rating of a vulnerab=
+ility in relation to a piece of software.
+> > +        cls._add_property(
+> > +            "security_severity",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/critical", "critical"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/high", "high"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/low", "low"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/medium", "medium"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/none", "none"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/severity",
+> > +            min_count=3D1,
+> > +            compact=3D"security_severity",
+> > +        )
+> > +        # Specifies the CVSS vector string for a vulnerability.
+> > +        cls._add_property(
+> > +            "security_vectorString",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/vectorStr=
+ing",
+> > +            min_count=3D1,
+> > +            compact=3D"security_vectorString",
+> > +        )
+> > +
+> > +
+> > +# Provides a CVSS version 4 assessment for a vulnerability.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/CvssV4VulnAssessm=
+entRelationship", compact_type=3D"security_CvssV4VulnAssessmentRelationship=
+", abstract=3DFalse)
+> > +class security_CvssV4VulnAssessmentRelationship(security_VulnAssessmen=
+tRelationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides a numerical (0-10) representation of the severity o=
+f a vulnerability.
+> > +        cls._add_property(
+> > +            "security_score",
+> > +            FloatProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/score",
+> > +            min_count=3D1,
+> > +            compact=3D"security_score",
+> > +        )
+> > +        # Specifies the CVSS qualitative severity rating of a vulnerab=
+ility in relation to a piece of software.
+> > +        cls._add_property(
+> > +            "security_severity",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/critical", "critical"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/high", "high"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/low", "low"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/medium", "medium"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/CvssSe=
+verityType/none", "none"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/severity",
+> > +            min_count=3D1,
+> > +            compact=3D"security_severity",
+> > +        )
+> > +        # Specifies the CVSS vector string for a vulnerability.
+> > +        cls._add_property(
+> > +            "security_vectorString",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/vectorStr=
+ing",
+> > +            min_count=3D1,
+> > +            compact=3D"security_vectorString",
+> > +        )
+> > +
+> > +
+> > +# Provides an EPSS assessment for a vulnerability.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/EpssVulnAssessmen=
+tRelationship", compact_type=3D"security_EpssVulnAssessmentRelationship", a=
+bstract=3DFalse)
+> > +class security_EpssVulnAssessmentRelationship(security_VulnAssessmentR=
+elationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # The percentile of the current probability score.
+> > +        cls._add_property(
+> > +            "security_percentile",
+> > +            FloatProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/percentil=
+e",
+> > +            min_count=3D1,
+> > +            compact=3D"security_percentile",
+> > +        )
+> > +        # A probability score between 0 and 1 of a vulnerability being=
+ exploited.
+> > +        cls._add_property(
+> > +            "security_probability",
+> > +            FloatProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/probabili=
+ty",
+> > +            min_count=3D1,
+> > +            compact=3D"security_probability",
+> > +        )
+> > +
+> > +
+> > +# Provides an exploit assessment of a vulnerability.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/ExploitCatalogVul=
+nAssessmentRelationship", compact_type=3D"security_ExploitCatalogVulnAssess=
+mentRelationship", abstract=3DFalse)
+> > +class security_ExploitCatalogVulnAssessmentRelationship(security_VulnA=
+ssessmentRelationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies the exploit catalog type.
+> > +        cls._add_property(
+> > +            "security_catalogType",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/Exploi=
+tCatalogType/kev", "kev"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/Exploi=
+tCatalogType/other", "other"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/catalogTy=
+pe",
+> > +            min_count=3D1,
+> > +            compact=3D"security_catalogType",
+> > +        )
+> > +        # Describe that a CVE is known to have an exploit because it's=
+ been listed in an exploit catalog.
+> > +        cls._add_property(
+> > +            "security_exploited",
+> > +            BooleanProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/exploited=
+",
+> > +            min_count=3D1,
+> > +            compact=3D"security_exploited",
+> > +        )
+> > +        # Provides the location of an exploit catalog.
+> > +        cls._add_property(
+> > +            "security_locator",
+> > +            AnyURIProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/locator",
+> > +            min_count=3D1,
+> > +            compact=3D"security_locator",
+> > +        )
+> > +
+> > +
+> > +# Provides an SSVC assessment for a vulnerability.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/SsvcVulnAssessmen=
+tRelationship", compact_type=3D"security_SsvcVulnAssessmentRelationship", a=
+bstract=3DFalse)
+> > +class security_SsvcVulnAssessmentRelationship(security_VulnAssessmentR=
+elationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provide the enumeration of possible decisions in the
+> > +        # [Stakeholder-Specific Vulnerability Categorization (SSVC) de=
+cision tree](https://www.cisa.gov/stakeholder-specific-vulnerability-catego=
+rization-ssvc).
+> > +        cls._add_property(
+> > +            "security_decisionType",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/SsvcDe=
+cisionType/act", "act"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/SsvcDe=
+cisionType/attend", "attend"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/SsvcDe=
+cisionType/track", "track"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/SsvcDe=
+cisionType/trackStar", "trackStar"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/decisionT=
+ype",
+> > +            min_count=3D1,
+> > +            compact=3D"security_decisionType",
+> > +        )
+> > +
+> > +
+> > +# Abstract ancestor class for all VEX relationships
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/VexVulnAssessment=
+Relationship", compact_type=3D"security_VexVulnAssessmentRelationship", abs=
+tract=3DTrue)
+> > +class security_VexVulnAssessmentRelationship(security_VulnAssessmentRe=
+lationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Conveys information about how VEX status was determined.
+> > +        cls._add_property(
+> > +            "security_statusNotes",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/statusNot=
+es",
+> > +            compact=3D"security_statusNotes",
+> > +        )
+> > +        # Specifies the version of a VEX statement.
+> > +        cls._add_property(
+> > +            "security_vexVersion",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/vexVersio=
+n",
+> > +            compact=3D"security_vexVersion",
+> > +        )
+> > +
+> > +
+> > +# Specifies a vulnerability and its associated information.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/Vulnerability", c=
+ompact_type=3D"security_Vulnerability", abstract=3DFalse)
+> > +class security_Vulnerability(Artifact):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Specifies a time when a vulnerability assessment was modified
+> > +        cls._add_property(
+> > +            "security_modifiedTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/modifiedT=
+ime",
+> > +            compact=3D"security_modifiedTime",
+> > +        )
+> > +        # Specifies the time when a vulnerability was published.
+> > +        cls._add_property(
+> > +            "security_publishedTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/published=
+Time",
+> > +            compact=3D"security_publishedTime",
+> > +        )
+> > +        # Specified the time and date when a vulnerability was withdra=
+wn.
+> > +        cls._add_property(
+> > +            "security_withdrawnTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/withdrawn=
+Time",
+> > +            compact=3D"security_withdrawnTime",
+> > +        )
+> > +
+> > +
+> > +# A distinct article or unit related to Software.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/SoftwareArtifact"=
+, compact_type=3D"software_SoftwareArtifact", abstract=3DTrue)
+> > +class software_SoftwareArtifact(Artifact):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides additional purpose information of the software arti=
+fact.
+> > +        cls._add_property(
+> > +            "software_additionalPurpose",
+> > +            ListProp(EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/application", "application"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/archive", "archive"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/bom", "bom"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/configuration", "configuration"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/container", "container"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/data", "data"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/device", "device"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/deviceDriver", "deviceDriver"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/diskImage", "diskImage"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/documentation", "documentation"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/evidence", "evidence"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/executable", "executable"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/file", "file"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/filesystemImage", "filesystemImage"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/firmware", "firmware"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/framework", "framework"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/install", "install"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/library", "library"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/manifest", "manifest"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/model", "model"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/module", "module"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/operatingSystem", "operatingSystem"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/patch", "patch"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/platform", "platform"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/requirement", "requirement"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/source", "source"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/specification", "specification"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/test", "test"),
+> > +                ])),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/additiona=
+lPurpose",
+> > +            compact=3D"software_additionalPurpose",
+> > +        )
+> > +        # Provides a place for the SPDX data creator to record acknowl=
+edgement text for
+> > +        # a software Package, File or Snippet.
+> > +        cls._add_property(
+> > +            "software_attributionText",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/attributi=
+onText",
+> > +            compact=3D"software_attributionText",
+> > +        )
+> > +        # A canonical, unique, immutable identifier of the artifact co=
+ntent, that may be
+> > +        # used for verifying its identity and/or integrity.
+> > +        cls._add_property(
+> > +            "software_contentIdentifier",
+> > +            ListProp(ObjectProp(software_ContentIdentifier, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/contentId=
+entifier",
+> > +            compact=3D"software_contentIdentifier",
+> > +        )
+> > +        # Identifies the text of one or more copyright notices for a s=
+oftware Package,
+> > +        # File or Snippet, if any.
+> > +        cls._add_property(
+> > +            "software_copyrightText",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/copyright=
+Text",
+> > +            compact=3D"software_copyrightText",
+> > +        )
+> > +        # Provides information about the primary purpose of the softwa=
+re artifact.
+> > +        cls._add_property(
+> > +            "software_primaryPurpose",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/application", "application"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/archive", "archive"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/bom", "bom"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/configuration", "configuration"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/container", "container"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/data", "data"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/device", "device"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/deviceDriver", "deviceDriver"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/diskImage", "diskImage"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/documentation", "documentation"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/evidence", "evidence"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/executable", "executable"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/file", "file"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/filesystemImage", "filesystemImage"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/firmware", "firmware"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/framework", "framework"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/install", "install"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/library", "library"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/manifest", "manifest"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/model", "model"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/module", "module"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/operatingSystem", "operatingSystem"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/patch", "patch"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/platform", "platform"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/requirement", "requirement"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/source", "source"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/specification", "specification"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/Softwa=
+rePurpose/test", "test"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/primaryPu=
+rpose",
+> > +            compact=3D"software_primaryPurpose",
+> > +        )
+> > +
+> > +
+> > +# A container for a grouping of SPDX-3.0 content characterizing details
+> > +# (provenence, composition, licensing, etc.) about a product.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Core/Bom", compact_type=3D=
+"Bom", abstract=3DFalse)
+> > +class Bom(Bundle):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# A license that is not listed on the SPDX License List.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/ExpandedLicensing/CustomLi=
+cense", compact_type=3D"expandedlicensing_CustomLicense", abstract=3DFalse)
+> > +class expandedlicensing_CustomLicense(expandedlicensing_License):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# Connects a vulnerability and an element designating the element as a=
+ product
+> > +# affected by the vulnerability.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/VexAffectedVulnAs=
+sessmentRelationship", compact_type=3D"security_VexAffectedVulnAssessmentRe=
+lationship", abstract=3DFalse)
+> > +class security_VexAffectedVulnAssessmentRelationship(security_VexVulnA=
+ssessmentRelationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides advise on how to mitigate or remediate a vulnerabil=
+ity when a VEX product
+> > +        # is affected by it.
+> > +        cls._add_property(
+> > +            "security_actionStatement",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/actionSta=
+tement",
+> > +            min_count=3D1,
+> > +            compact=3D"security_actionStatement",
+> > +        )
+> > +        # Records the time when a recommended action was communicated =
+in a VEX statement
+> > +        # to mitigate a vulnerability.
+> > +        cls._add_property(
+> > +            "security_actionStatementTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/actionSta=
+tementTime",
+> > +            compact=3D"security_actionStatementTime",
+> > +        )
+> > +
+> > +
+> > +# Links a vulnerability and elements representing products (in the VEX=
+ sense) where
+> > +# a fix has been applied and are no longer affected.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/VexFixedVulnAsses=
+smentRelationship", compact_type=3D"security_VexFixedVulnAssessmentRelation=
+ship", abstract=3DFalse)
+> > +class security_VexFixedVulnAssessmentRelationship(security_VexVulnAsse=
+ssmentRelationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# Links a vulnerability and one or more elements designating the latte=
+r as products
+> > +# not affected by the vulnerability.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/VexNotAffectedVul=
+nAssessmentRelationship", compact_type=3D"security_VexNotAffectedVulnAssess=
+mentRelationship", abstract=3DFalse)
+> > +class security_VexNotAffectedVulnAssessmentRelationship(security_VexVu=
+lnAssessmentRelationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Explains why a VEX product is not affected by a vulnerabilit=
+y. It is an
+> > +        # alternative in VexNotAffectedVulnAssessmentRelationship to t=
+he machine-readable
+> > +        # justification label.
+> > +        cls._add_property(
+> > +            "security_impactStatement",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/impactSta=
+tement",
+> > +            compact=3D"security_impactStatement",
+> > +        )
+> > +        # Timestamp of impact statement.
+> > +        cls._add_property(
+> > +            "security_impactStatementTime",
+> > +            DateTimeStampProp(pattern=3Dr"^\d\d\d\d-\d\d-\d\dT\d\d:\d\=
+d:\d\dZ$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/impactSta=
+tementTime",
+> > +            compact=3D"security_impactStatementTime",
+> > +        )
+> > +        # Impact justification label to be used when linking a vulnera=
+bility to an element
+> > +        # representing a VEX product with a VexNotAffectedVulnAssessme=
+ntRelationship
+> > +        # relationship.
+> > +        cls._add_property(
+> > +            "security_justificationType",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/VexJus=
+tificationType/componentNotPresent", "componentNotPresent"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/VexJus=
+tificationType/inlineMitigationsAlreadyExist", "inlineMitigationsAlreadyExi=
+st"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/VexJus=
+tificationType/vulnerableCodeCannotBeControlledByAdversary", "vulnerableCod=
+eCannotBeControlledByAdversary"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/VexJus=
+tificationType/vulnerableCodeNotInExecutePath", "vulnerableCodeNotInExecute=
+Path"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Security/VexJus=
+tificationType/vulnerableCodeNotPresent", "vulnerableCodeNotPresent"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Security/justifica=
+tionType",
+> > +            compact=3D"security_justificationType",
+> > +        )
+> > +
+> > +
+> > +# Designates elements as products where the impact of a vulnerability =
+is being
+> > +# investigated.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Security/VexUnderInvestiga=
+tionVulnAssessmentRelationship", compact_type=3D"security_VexUnderInvestiga=
+tionVulnAssessmentRelationship", abstract=3DFalse)
+> > +class security_VexUnderInvestigationVulnAssessmentRelationship(securit=
+y_VexVulnAssessmentRelationship):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +
+> > +# Refers to any object that stores content on a computer.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/File", compact_ty=
+pe=3D"software_File", abstract=3DFalse)
+> > +class software_File(software_SoftwareArtifact):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides information about the content type of an Element or=
+ a Property.
+> > +        cls._add_property(
+> > +            "contentType",
+> > +            StringProp(pattern=3Dr"^[^\/]+\/[^\/]+$",),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Core/contentType",
+> > +            compact=3D"contentType",
+> > +        )
+> > +        # Describes if a given file is a directory or non-directory ki=
+nd of file.
+> > +        cls._add_property(
+> > +            "software_fileKind",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/FileKi=
+ndType/directory", "directory"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/FileKi=
+ndType/file", "file"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/fileKind",
+> > +            compact=3D"software_fileKind",
+> > +        )
+> > +
+> > +
+> > +# Refers to any unit of content that can be associated with a distribu=
+tion of
+> > +# software.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/Package", compact=
+_type=3D"software_Package", abstract=3DFalse)
+> > +class software_Package(software_SoftwareArtifact):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Identifies the download Uniform Resource Identifier for the =
+package at the time
+> > +        # that the document was created.
+> > +        cls._add_property(
+> > +            "software_downloadLocation",
+> > +            AnyURIProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/downloadL=
+ocation",
+> > +            compact=3D"software_downloadLocation",
+> > +        )
+> > +        # A place for the SPDX document creator to record a website th=
+at serves as the
+> > +        # package's home page.
+> > +        cls._add_property(
+> > +            "software_homePage",
+> > +            AnyURIProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/homePage",
+> > +            compact=3D"software_homePage",
+> > +        )
+> > +        # Provides a place for the SPDX data creator to record the pac=
+kage URL string
+> > +        # (in accordance with the Package URL specification) for a sof=
+tware Package.
+> > +        cls._add_property(
+> > +            "software_packageUrl",
+> > +            AnyURIProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/packageUr=
+l",
+> > +            compact=3D"software_packageUrl",
+> > +        )
+> > +        # Identify the version of a package.
+> > +        cls._add_property(
+> > +            "software_packageVersion",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/packageVe=
+rsion",
+> > +            compact=3D"software_packageVersion",
+> > +        )
+> > +        # Records any relevant background information or additional co=
+mments
+> > +        # about the origin of the package.
+> > +        cls._add_property(
+> > +            "software_sourceInfo",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/sourceInf=
+o",
+> > +            compact=3D"software_sourceInfo",
+> > +        )
+> > +
+> > +
+> > +# A collection of SPDX Elements describing a single package.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/Sbom", compact_ty=
+pe=3D"software_Sbom", abstract=3DFalse)
+> > +class software_Sbom(Bom):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Provides information about the type of an SBOM.
+> > +        cls._add_property(
+> > +            "software_sbomType",
+> > +            ListProp(EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/SbomTy=
+pe/analyzed", "analyzed"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/SbomTy=
+pe/build", "build"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/SbomTy=
+pe/deployed", "deployed"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/SbomTy=
+pe/design", "design"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/SbomTy=
+pe/runtime", "runtime"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Software/SbomTy=
+pe/source", "source"),
+> > +                ])),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/sbomType",
+> > +            compact=3D"software_sbomType",
+> > +        )
+> > +
+> > +
+> > +# Describes a certain part of a file.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Software/Snippet", compact=
+_type=3D"software_Snippet", abstract=3DFalse)
+> > +class software_Snippet(software_SoftwareArtifact):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Defines the byte range in the original host file that the sn=
+ippet information
+> > +        # applies to.
+> > +        cls._add_property(
+> > +            "software_byteRange",
+> > +            ObjectProp(PositiveIntegerRange, False),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/byteRange=
+",
+> > +            compact=3D"software_byteRange",
+> > +        )
+> > +        # Defines the line range in the original host file that the sn=
+ippet information
+> > +        # applies to.
+> > +        cls._add_property(
+> > +            "software_lineRange",
+> > +            ObjectProp(PositiveIntegerRange, False),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/lineRange=
+",
+> > +            compact=3D"software_lineRange",
+> > +        )
+> > +        # Defines the original host file that the snippet information =
+applies to.
+> > +        cls._add_property(
+> > +            "software_snippetFromFile",
+> > +            ObjectProp(software_File, True),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Software/snippetFr=
+omFile",
+> > +            min_count=3D1,
+> > +            compact=3D"software_snippetFromFile",
+> > +        )
+> > +
+> > +
+> > +# Specifies an AI package and its associated information.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/AI/AIPackage", compact_typ=
+e=3D"ai_AIPackage", abstract=3DFalse)
+> > +class ai_AIPackage(software_Package):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Indicates whether the system can perform a decision or actio=
+n without human
+> > +        # involvement or guidance.
+> > +        cls._add_property(
+> > +            "ai_autonomyType",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/PresenceTy=
+pe/no", "no"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/PresenceTy=
+pe/noAssertion", "noAssertion"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/PresenceTy=
+pe/yes", "yes"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/autonomyType",
+> > +            compact=3D"ai_autonomyType",
+> > +        )
+> > +        # Captures the domain in which the AI package can be used.
+> > +        cls._add_property(
+> > +            "ai_domain",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/domain",
+> > +            compact=3D"ai_domain",
+> > +        )
+> > +        # Indicates the amount of energy consumption incurred by an AI=
+ model.
+> > +        cls._add_property(
+> > +            "ai_energyConsumption",
+> > +            ObjectProp(ai_EnergyConsumption, False),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/energyConsumpti=
+on",
+> > +            compact=3D"ai_energyConsumption",
+> > +        )
+> > +        # Records a hyperparameter used to build the AI model containe=
+d in the AI
+> > +        # package.
+> > +        cls._add_property(
+> > +            "ai_hyperparameter",
+> > +            ListProp(ObjectProp(DictionaryEntry, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/hyperparameter",
+> > +            compact=3D"ai_hyperparameter",
+> > +        )
+> > +        # Provides relevant information about the AI software, not inc=
+luding the model
+> > +        # description.
+> > +        cls._add_property(
+> > +            "ai_informationAboutApplication",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/informationAbou=
+tApplication",
+> > +            compact=3D"ai_informationAboutApplication",
+> > +        )
+> > +        # Describes relevant information about different steps of the =
+training process.
+> > +        cls._add_property(
+> > +            "ai_informationAboutTraining",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/informationAbou=
+tTraining",
+> > +            compact=3D"ai_informationAboutTraining",
+> > +        )
+> > +        # Captures a limitation of the AI software.
+> > +        cls._add_property(
+> > +            "ai_limitation",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/limitation",
+> > +            compact=3D"ai_limitation",
+> > +        )
+> > +        # Records the measurement of prediction quality of the AI mode=
+l.
+> > +        cls._add_property(
+> > +            "ai_metric",
+> > +            ListProp(ObjectProp(DictionaryEntry, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/metric",
+> > +            compact=3D"ai_metric",
+> > +        )
+> > +        # Captures the threshold that was used for computation of a me=
+tric described in
+> > +        # the metric field.
+> > +        cls._add_property(
+> > +            "ai_metricDecisionThreshold",
+> > +            ListProp(ObjectProp(DictionaryEntry, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/metricDecisionT=
+hreshold",
+> > +            compact=3D"ai_metricDecisionThreshold",
+> > +        )
+> > +        # Describes all the preprocessing steps applied to the trainin=
+g data before the
+> > +        # model training.
+> > +        cls._add_property(
+> > +            "ai_modelDataPreprocessing",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/modelDataPrepro=
+cessing",
+> > +            compact=3D"ai_modelDataPreprocessing",
+> > +        )
+> > +        # Describes methods that can be used to explain the results fr=
+om the AI model.
+> > +        cls._add_property(
+> > +            "ai_modelExplainability",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/modelExplainabi=
+lity",
+> > +            compact=3D"ai_modelExplainability",
+> > +        )
+> > +        # Records the results of general safety risk assessment of the=
+ AI system.
+> > +        cls._add_property(
+> > +            "ai_safetyRiskAssessment",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAs=
+sessmentType/high", "high"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAs=
+sessmentType/low", "low"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAs=
+sessmentType/medium", "medium"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/AI/SafetyRiskAs=
+sessmentType/serious", "serious"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/safetyRiskAsses=
+sment",
+> > +            compact=3D"ai_safetyRiskAssessment",
+> > +        )
+> > +        # Captures a standard that is being complied with.
+> > +        cls._add_property(
+> > +            "ai_standardCompliance",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/standardComplia=
+nce",
+> > +            compact=3D"ai_standardCompliance",
+> > +        )
+> > +        # Records the type of the model used in the AI software.
+> > +        cls._add_property(
+> > +            "ai_typeOfModel",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/typeOfModel",
+> > +            compact=3D"ai_typeOfModel",
+> > +        )
+> > +        # Records if sensitive personal information is used during mod=
+el training or
+> > +        # could be used during the inference.
+> > +        cls._add_property(
+> > +            "ai_useSensitivePersonalInformation",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/PresenceTy=
+pe/no", "no"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/PresenceTy=
+pe/noAssertion", "noAssertion"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/PresenceTy=
+pe/yes", "yes"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/AI/useSensitivePer=
+sonalInformation",
+> > +            compact=3D"ai_useSensitivePersonalInformation",
+> > +        )
+> > +
+> > +
+> > +# Specifies a data package and its associated information.
+> > +@register("https://spdx.org/rdf/3.0.1/terms/Dataset/DatasetPackage", c=
+ompact_type=3D"dataset_DatasetPackage", abstract=3DFalse)
+> > +class dataset_DatasetPackage(software_Package):
+> > +    NODE_KIND =3D NodeKind.IRI
+> > +    ID_ALIAS =3D "spdxId"
+> > +    NAMED_INDIVIDUALS =3D {
+> > +    }
+> > +
+> > +    @classmethod
+> > +    def _register_props(cls):
+> > +        super()._register_props()
+> > +        # Describes the anonymization methods used.
+> > +        cls._add_property(
+> > +            "dataset_anonymizationMethodUsed",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/anonymizat=
+ionMethodUsed",
+> > +            compact=3D"dataset_anonymizationMethodUsed",
+> > +        )
+> > +        # Describes the confidentiality level of the data points conta=
+ined in the dataset.
+> > +        cls._add_property(
+> > +            "dataset_confidentialityLevel",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Confide=
+ntialityLevelType/amber", "amber"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Confide=
+ntialityLevelType/clear", "clear"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Confide=
+ntialityLevelType/green", "green"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Confide=
+ntialityLevelType/red", "red"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/confidenti=
+alityLevel",
+> > +            compact=3D"dataset_confidentialityLevel",
+> > +        )
+> > +        # Describes how the dataset was collected.
+> > +        cls._add_property(
+> > +            "dataset_dataCollectionProcess",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/dataCollec=
+tionProcess",
+> > +            compact=3D"dataset_dataCollectionProcess",
+> > +        )
+> > +        # Describes the preprocessing steps that were applied to the r=
+aw data to create the given dataset.
+> > +        cls._add_property(
+> > +            "dataset_dataPreprocessing",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/dataPrepro=
+cessing",
+> > +            compact=3D"dataset_dataPreprocessing",
+> > +        )
+> > +        # The field describes the availability of a dataset.
+> > +        cls._add_property(
+> > +            "dataset_datasetAvailability",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+AvailabilityType/clickthrough", "clickthrough"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+AvailabilityType/directDownload", "directDownload"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+AvailabilityType/query", "query"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+AvailabilityType/registration", "registration"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+AvailabilityType/scrapingScript", "scrapingScript"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/datasetAva=
+ilability",
+> > +            compact=3D"dataset_datasetAvailability",
+> > +        )
+> > +        # Describes potentially noisy elements of the dataset.
+> > +        cls._add_property(
+> > +            "dataset_datasetNoise",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/datasetNoi=
+se",
+> > +            compact=3D"dataset_datasetNoise",
+> > +        )
+> > +        # Captures the size of the dataset.
+> > +        cls._add_property(
+> > +            "dataset_datasetSize",
+> > +            NonNegativeIntegerProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/datasetSiz=
+e",
+> > +            compact=3D"dataset_datasetSize",
+> > +        )
+> > +        # Describes the type of the given dataset.
+> > +        cls._add_property(
+> > +            "dataset_datasetType",
+> > +            ListProp(EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/audio", "audio"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/categorical", "categorical"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/graph", "graph"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/image", "image"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/noAssertion", "noAssertion"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/numeric", "numeric"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/other", "other"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/sensor", "sensor"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/structured", "structured"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/syntactic", "syntactic"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/text", "text"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/timeseries", "timeseries"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/timestamp", "timestamp"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Dataset/Dataset=
+Type/video", "video"),
+> > +                ])),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/datasetTyp=
+e",
+> > +            min_count=3D1,
+> > +            compact=3D"dataset_datasetType",
+> > +        )
+> > +        # Describes a mechanism to update the dataset.
+> > +        cls._add_property(
+> > +            "dataset_datasetUpdateMechanism",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/datasetUpd=
+ateMechanism",
+> > +            compact=3D"dataset_datasetUpdateMechanism",
+> > +        )
+> > +        # Describes if any sensitive personal information is present i=
+n the dataset.
+> > +        cls._add_property(
+> > +            "dataset_hasSensitivePersonalInformation",
+> > +            EnumProp([
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/PresenceTy=
+pe/no", "no"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/PresenceTy=
+pe/noAssertion", "noAssertion"),
+> > +                    ("https://spdx.org/rdf/3.0.1/terms/Core/PresenceTy=
+pe/yes", "yes"),
+> > +                ]),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/hasSensiti=
+vePersonalInformation",
+> > +            compact=3D"dataset_hasSensitivePersonalInformation",
+> > +        )
+> > +        # Describes what the given dataset should be used for.
+> > +        cls._add_property(
+> > +            "dataset_intendedUse",
+> > +            StringProp(),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/intendedUs=
+e",
+> > +            compact=3D"dataset_intendedUse",
+> > +        )
+> > +        # Records the biases that the dataset is known to encompass.
+> > +        cls._add_property(
+> > +            "dataset_knownBias",
+> > +            ListProp(StringProp()),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/knownBias",
+> > +            compact=3D"dataset_knownBias",
+> > +        )
+> > +        # Describes a sensor used for collecting the data.
+> > +        cls._add_property(
+> > +            "dataset_sensor",
+> > +            ListProp(ObjectProp(DictionaryEntry, False)),
+> > +            iri=3D"https://spdx.org/rdf/3.0.1/terms/Dataset/sensor",
+> > +            compact=3D"dataset_sensor",
+> > +        )
+> > +
+> > +
+> > +"""Format Guard"""
+> > +# fmt: on
+> > +
+> > +
+> > +def main():
+> > +    import argparse
+> > +    from pathlib import Path
+> > +
+> > +    parser =3D argparse.ArgumentParser(description=3D"Python SHACL mod=
+el test")
+> > +    parser.add_argument("infile", type=3DPath, help=3D"Input file")
+> > +    parser.add_argument("--print", action=3D"store_true", help=3D"Prin=
+t object tree")
+> > +    parser.add_argument("--outfile", type=3DPath, help=3D"Output file")
+> > +
+> > +    args =3D parser.parse_args()
+> > +
+> > +    objectset =3D SHACLObjectSet()
+> > +    with args.infile.open("r") as f:
+> > +        d =3D JSONLDDeserializer()
+> > +        d.read(f, objectset)
+> > +
+> > +    if args.print:
+> > +        print_tree(objectset.objects)
+> > +
+> > +    if args.outfile:
+> > +        with args.outfile.open("wb") as f:
+> > +            s =3D JSONLDSerializer()
+> > +            s.write(objectset, f)
+> > +
+> > +    return 0
+> > +
+> > +
+> > +if __name__ =3D=3D "__main__":
+> > +    sys.exit(main())
+> > diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> > new file mode 100644
+> > index 0000000000..52329760b6
+> > --- /dev/null
+> > +++ b/meta/lib/oe/spdx30_tasks.py
+> > @@ -0,0 +1,1348 @@
+> > +#
+> > +# Copyright OpenEmbedded Contributors
+> > +#
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +
+> > +import json
+> > +import oe.cve_check
+> > +import oe.packagedata
+> > +import oe.patch
+> > +import oe.sbom30
+> > +import oe.spdx30
+> > +import oe.spdx_common
+> > +import oe.sdk
+> > +import os
+> > +
+> > +from contextlib import contextmanager
+> > +from datetime import datetime, timezone
+> > +from pathlib import Path
+> > +
+> > +
+> > +def walk_error(err):
+> > +    bb.error(f"ERROR walking {err.filename}: {err}")
+> > +
+> > +
+> > +def set_timestamp_now(d, o, prop):
+> > +    if d.getVar("SPDX_INCLUDE_TIMESTAMPS") =3D=3D "1":
+> > +        setattr(o, prop, datetime.now(timezone.utc))
+> > +    else:
+> > +        # Doing this helps to validated that the property actually exi=
+sts, and
+> > +        # also that it is not mandatory
+> > +        delattr(o, prop)
+> > +
+> > +
+> > +def add_license_expression(d, objset, license_expression, license_data=
+):
+> > +    simple_license_text =3D {}
+> > +    license_text_map =3D {}
+> > +    license_ref_idx =3D 0
+> > +
+> > +    def add_license_text(name):
+> > +        nonlocal objset
+> > +        nonlocal simple_license_text
+> > +
+> > +        if name in simple_license_text:
+> > +            return simple_license_text[name]
+> > +
+> > +        lic =3D objset.find_filter(
+> > +            oe.spdx30.simplelicensing_SimpleLicensingText,
+> > +            name=3Dname,
+> > +        )
+> > +
+> > +        if lic is not None:
+> > +            simple_license_text[name] =3D lic
+> > +            return lic
+> > +
+> > +        lic =3D objset.add(
+> > +            oe.spdx30.simplelicensing_SimpleLicensingText(
+> > +                _id=3Dobjset.new_spdxid("license-text", name),
+> > +                creationInfo=3Dobjset.doc.creationInfo,
+> > +                name=3Dname,
+> > +            )
+> > +        )
+> > +        objset.set_element_alias(lic)
+> > +        simple_license_text[name] =3D lic
+> > +
+> > +        if name =3D=3D "PD":
+> > +            lic.simplelicensing_licenseText =3D "Software released to =
+the public domain"
+> > +            return lic
+> > +
+> > +        # Seach for the license in COMMON_LICENSE_DIR and LICENSE_PATH
+> > +        for directory in [d.getVar("COMMON_LICENSE_DIR")] + (
+> > +            d.getVar("LICENSE_PATH") or ""
+> > +        ).split():
+> > +            try:
+> > +                with (Path(directory) / name).open(errors=3D"replace")=
+ as f:
+> > +                    lic.simplelicensing_licenseText =3D f.read()
+> > +                    return lic
+> > +
+> > +            except FileNotFoundError:
+> > +                pass
+> > +
+> > +        # If it's not SPDX or PD, then NO_GENERIC_LICENSE must be set
+> > +        filename =3D d.getVarFlag("NO_GENERIC_LICENSE", name)
+> > +        if filename:
+> > +            filename =3D d.expand("${S}/" + filename)
+> > +            with open(filename, errors=3D"replace") as f:
+> > +                lic.simplelicensing_licenseText =3D f.read()
+> > +                return lic
+> > +        else:
+> > +            bb.fatal("Cannot find any text for license %s" % name)
+> > +
+> > +    def convert(l):
+> > +        nonlocal license_text_map
+> > +        nonlocal license_ref_idx
+> > +
+> > +        if l =3D=3D "(" or l =3D=3D ")":
+> > +            return l
+> > +
+> > +        if l =3D=3D "&":
+> > +            return "AND"
+> > +
+> > +        if l =3D=3D "|":
+> > +            return "OR"
+> > +
+> > +        if l =3D=3D "CLOSED":
+> > +            return "NONE"
+> > +
+> > +        spdx_license =3D d.getVarFlag("SPDXLICENSEMAP", l) or l
+> > +        if spdx_license in license_data["licenses"]:
+> > +            return spdx_license
+> > +
+> > +        spdx_license =3D "LicenseRef-" + l
+> > +        if spdx_license not in license_text_map:
+> > +            license_text_map[spdx_license] =3D oe.sbom30.get_element_l=
+ink_id(
+> > +                add_license_text(l)
+> > +            )
+> > +
+> > +        return spdx_license
+> > +
+> > +    lic_split =3D (
+> > +        license_expression.replace("(", " ( ")
+> > +        .replace(")", " ) ")
+> > +        .replace("|", " | ")
+> > +        .replace("&", " & ")
+> > +        .split()
+> > +    )
+> > +    spdx_license_expression =3D " ".join(convert(l) for l in lic_split)
+> > +
+> > +    o =3D objset.new_license_expression(
+> > +        spdx_license_expression, license_data, license_text_map
+> > +    )
+> > +    objset.set_element_alias(o)
+> > +    return o
+> > +
+> > +
+> > +def add_package_files(
+> > +    d,
+> > +    objset,
+> > +    topdir,
+> > +    get_spdxid,
+> > +    get_purposes,
+> > +    license_data=3DNone,
+> > +    *,
+> > +    archive=3DNone,
+> > +    ignore_dirs=3D[],
+> > +    ignore_top_level_dirs=3D[],
+> > +):
+> > +    source_date_epoch =3D d.getVar("SOURCE_DATE_EPOCH")
+> > +    if source_date_epoch:
+> > +        source_date_epoch =3D int(source_date_epoch)
+> > +
+> > +    spdx_files =3D set()
+> > +
+> > +    file_counter =3D 1
+> > +    if not os.path.exists(topdir):
+> > +        bb.note(f"Skip {topdir}")
+> > +        return spdx_files
+> > +
+> > +    for subdir, dirs, files in os.walk(topdir, onerror=3Dwalk_error):
+> > +        dirs[:] =3D [d for d in dirs if d not in ignore_dirs]
+> > +        if subdir =3D=3D str(topdir):
+> > +            dirs[:] =3D [d for d in dirs if d not in ignore_top_level_=
+dirs]
+> > +
+> > +        dirs.sort()
+> > +        files.sort()
+> > +        for file in files:
+> > +            filepath =3D Path(subdir) / file
+> > +            if filepath.is_symlink() or not filepath.is_file():
+> > +                continue
+> > +
+> > +            filename =3D str(filepath.relative_to(topdir))
+> > +            file_purposes =3D get_purposes(filepath)
+> > +
+> > +            spdx_file =3D objset.new_file(
+> > +                get_spdxid(file_counter),
+> > +                filename,
+> > +                filepath,
+> > +                purposes=3Dfile_purposes,
+> > +            )
+> > +            spdx_files.add(spdx_file)
+> > +
+> > +            if (
+> > +                oe.spdx30.software_SoftwarePurpose.source in file_purp=
+oses
+> > +                and license_data is not None
+> > +            ):
+> > +                objset.scan_declared_licenses(spdx_file, filepath, lic=
+ense_data)
+> > +
+> > +            if archive is not None:
+> > +                with filepath.open("rb") as f:
+> > +                    info =3D archive.gettarinfo(fileobj=3Df)
+> > +                    info.name =3D filename
+> > +                    info.uid =3D 0
+> > +                    info.gid =3D 0
+> > +                    info.uname =3D "root"
+> > +                    info.gname =3D "root"
+> > +
+> > +                    if source_date_epoch is not None and info.mtime > =
+source_date_epoch:
+> > +                        info.mtime =3D source_date_epoch
+> > +
+> > +                    archive.addfile(info, f)
+> > +
+> > +            file_counter +=3D 1
+> > +
+> > +    bb.debug(1, "Added %d files to %s" % (len(spdx_files), objset.doc.=
+_id))
+> > +
+> > +    return spdx_files
+> > +
+> > +
+> > +def get_package_sources_from_debug(
+> > +    d, package, package_files, sources, source_hash_cache
+> > +):
+> > +    def file_path_match(file_path, pkg_file):
+> > +        if file_path.lstrip("/") =3D=3D pkg_file.name.lstrip("/"):
+> > +            return True
+> > +
+> > +        for e in pkg_file.extension:
+> > +            if isinstance(e, oe.sbom30.OEFileNameAliasExtension):
+> > +                for a in e.aliases:
+> > +                    if file_path.lstrip("/") =3D=3D a.lstrip("/"):
+> > +                        return True
+> > +
+> > +        return False
+> > +
+> > +    debug_search_paths =3D [
+> > +        Path(d.getVar("SPDXWORK")),
+> > +        Path(d.getVar("PKGD")),
+> > +        Path(d.getVar("STAGING_DIR_TARGET")),
+> > +        Path(d.getVar("STAGING_DIR_NATIVE")),
+> > +        Path(d.getVar("STAGING_KERNEL_DIR")),
+> > +    ]
+> > +
+> > +    pkg_data =3D oe.packagedata.read_subpkgdata_extended(package, d)
+> > +
+> > +    if pkg_data is None:
+> > +        return
+> > +
+> > +    dep_source_files =3D set()
+> > +
+> > +    for file_path, file_data in pkg_data["files_info"].items():
+> > +        if not "debugsrc" in file_data:
+> > +            continue
+> > +
+> > +        if not any(file_path_match(file_path, pkg_file) for pkg_file i=
+n package_files):
+> > +            bb.fatal(
+> > +                "No package file found for %s in %s; SPDX found: %s"
+> > +                % (str(file_path), package, " ".join(p.name for p in p=
+ackage_files))
+> > +            )
+> > +            continue
+> > +
+> > +        for debugsrc in file_data["debugsrc"]:
+> > +            for search in debug_search_paths:
+> > +                if debugsrc.startswith("/usr/src/kernel"):
+> > +                    debugsrc_path =3D search / debugsrc.replace("/usr/=
+src/kernel/", "")
+> > +                else:
+> > +                    debugsrc_path =3D search / debugsrc.lstrip("/")
+> > +
+> > +                if debugsrc_path in source_hash_cache:
+> > +                    file_sha256 =3D source_hash_cache[debugsrc_path]
+> > +                    if file_sha256 is None:
+> > +                        continue
+> > +                else:
+> > +                    # We can only hash files below, skip directories, =
+links, etc.
+> > +                    if not debugsrc_path.is_file():
+> > +                        source_hash_cache[debugsrc_path] =3D None
+> > +                        continue
+> > +
+> > +                    file_sha256 =3D bb.utils.sha256_file(debugsrc_path)
+> > +                    source_hash_cache[debugsrc_path] =3D file_sha256
+> > +
+> > +                if file_sha256 in sources:
+> > +                    source_file =3D sources[file_sha256]
+> > +                    dep_source_files.add(source_file)
+> > +                else:
+> > +                    bb.debug(
+> > +                        1,
+> > +                        "Debug source %s with SHA256 %s not found in a=
+ny dependency"
+> > +                        % (str(debugsrc_path), file_sha256),
+> > +                    )
+> > +                break
+> > +            else:
+> > +                bb.debug(1, "Debug source %s not found" % debugsrc)
+> > +
+> > +    return dep_source_files
+> > +
+> > +
+> > +def collect_dep_objsets(d, build):
+> > +    deps =3D oe.spdx_common.get_spdx_deps(d)
+> > +
+> > +    dep_objsets =3D []
+> > +    dep_builds =3D set()
+> > +
+> > +    dep_build_spdxids =3D set()
+> > +    for dep in deps:
+> > +        bb.debug(1, "Fetching SPDX for dependency %s" % (dep.pn))
+> > +        dep_build, dep_objset =3D oe.sbom30.find_root_obj_in_jsonld(
+> > +            d, "recipes", "recipe-" + dep.pn, oe.spdx30.build_Build
+> > +        )
+> > +        # If the dependency is part of the taskhash, return it to be l=
+inked
+> > +        # against. Otherwise, it cannot be linked against because this=
+ recipe
+> > +        # will not rebuilt if dependency changes
+> > +        if dep.in_taskhash:
+> > +            dep_objsets.append(dep_objset)
+> > +
+> > +        # The build _can_ be linked against (by alias)
+> > +        dep_builds.add(dep_build)
+> > +
+> > +    return dep_objsets, dep_builds
+> > +
+> > +
+> > +def index_sources_by_hash(sources, dest):
+> > +    for s in sources:
+> > +        if not isinstance(s, oe.spdx30.software_File):
+> > +            continue
+> > +
+> > +        if s.software_primaryPurpose !=3D oe.spdx30.software_SoftwareP=
+urpose.source:
+> > +            continue
+> > +
+> > +        for v in s.verifiedUsing:
+> > +            if v.algorithm =3D=3D oe.spdx30.HashAlgorithm.sha256:
+> > +                if not v.hashValue in dest:
+> > +                    dest[v.hashValue] =3D s
+> > +                break
+> > +        else:
+> > +            bb.fatal(f"No SHA256 found for {s.name}")
+> > +
+> > +
+> > +def collect_dep_sources(dep_objsets, dest):
+> > +    for objset in dep_objsets:
+> > +        # Don't collect sources from native recipes as they
+> > +        # match non-native sources also.
+> > +        if objset.is_native():
+> > +            continue
+> > +
+> > +        bb.debug(1, "Fetching Sources for dependency %s" % (objset.doc=
+=2Ename))
+> > +
+> > +        dep_build =3D objset.find_root(oe.spdx30.build_Build)
+> > +        if not dep_build:
+> > +            bb.fatal("Unable to find a build")
+> > +
+> > +        for e in objset.foreach_type(oe.spdx30.Relationship):
+> > +            if dep_build is not e.from_:
+> > +                continue
+> > +
+> > +            if e.relationshipType !=3D oe.spdx30.RelationshipType.hasI=
+nput:
+> > +                continue
+> > +
+> > +            index_sources_by_hash(e.to, dest)
+> > +
+> > +
+> > +def add_download_files(d, objset):
+> > +    inputs =3D set()
+> > +
+> > +    urls =3D d.getVar("SRC_URI").split()
+> > +    fetch =3D bb.fetch2.Fetch(urls, d)
+> > +
+> > +    for download_idx, src_uri in enumerate(urls):
+> > +        fd =3D fetch.ud[src_uri]
+> > +
+> > +        file_name =3D os.path.basename(fetch.localpath(src_uri))
+> > +        if oe.patch.patch_path(src_uri, fetch, "", expand=3DFalse):
+> > +            primary_purpose =3D oe.spdx30.software_SoftwarePurpose.pat=
+ch
+> > +        else:
+> > +            primary_purpose =3D oe.spdx30.software_SoftwarePurpose.sou=
+rce
+> > +
+> > +        if fd.type =3D=3D "file":
+> > +            if os.path.isdir(fd.localpath):
+> > +                walk_idx =3D 1
+> > +                for root, dirs, files in os.walk(fd.localpath, onerror=
+=3Dwalk_error):
+> > +                    dirs.sort()
+> > +                    files.sort()
+> > +                    for f in files:
+> > +                        f_path =3D os.path.join(root, f)
+> > +                        if os.path.islink(f_path):
+> > +                            # TODO: SPDX doesn't support symlinks yet
+> > +                            continue
+> > +
+> > +                        file =3D objset.new_file(
+> > +                            objset.new_spdxid(
+> > +                                "source", str(download_idx + 1), str(w=
+alk_idx)
+> > +                            ),
+> > +                            os.path.join(
+> > +                                file_name, os.path.relpath(f_path, fd.=
+localpath)
+> > +                            ),
+> > +                            f_path,
+> > +                            purposes=3D[primary_purpose],
+> > +                        )
+> > +
+> > +                        inputs.add(file)
+> > +                        walk_idx +=3D 1
+> > +
+> > +            else:
+> > +                file =3D objset.new_file(
+> > +                    objset.new_spdxid("source", str(download_idx + 1)),
+> > +                    file_name,
+> > +                    fd.localpath,
+> > +                    purposes=3D[primary_purpose],
+> > +                )
+> > +                inputs.add(file)
+> > +
+> > +        else:
+> > +            dl =3D objset.add(
+> > +                oe.spdx30.software_Package(
+> > +                    _id=3Dobjset.new_spdxid("source", str(download_idx=
+ + 1)),
+> > +                    creationInfo=3Dobjset.doc.creationInfo,
+> > +                    name=3Dfile_name,
+> > +                    software_primaryPurpose=3Dprimary_purpose,
+> > +                    software_downloadLocation=3Doe.spdx_common.fetch_d=
+ata_to_uri(
+> > +                        fd, fd.name
+> > +                    ),
+> > +                )
+> > +            )
+> > +
+> > +            if fd.method.supports_checksum(fd):
+> > +                # TODO Need something better than hard coding this
+> > +                for checksum_id in ["sha256", "sha1"]:
+> > +                    expected_checksum =3D getattr(
+> > +                        fd, "%s_expected" % checksum_id, None
+> > +                    )
+> > +                    if expected_checksum is None:
+> > +                        continue
+> > +
+> > +                    dl.verifiedUsing.append(
+> > +                        oe.spdx30.Hash(
+> > +                            algorithm=3Dgetattr(oe.spdx30.HashAlgorith=
+m, checksum_id),
+> > +                            hashValue=3Dexpected_checksum,
+> > +                        )
+> > +                    )
+> > +
+> > +            inputs.add(dl)
+> > +
+> > +    return inputs
+> > +
+> > +
+> > +def set_purposes(d, element, *var_names, force_purposes=3D[]):
+> > +    purposes =3D force_purposes[:]
+> > +
+> > +    for var_name in var_names:
+> > +        val =3D d.getVar(var_name)
+> > +        if val:
+> > +            purposes.extend(val.split())
+> > +            break
+> > +
+> > +    if not purposes:
+> > +        bb.warn("No SPDX purposes found in %s" % " ".join(var_names))
+> > +        return
+> > +
+> > +    element.software_primaryPurpose =3D getattr(
+> > +        oe.spdx30.software_SoftwarePurpose, purposes[0]
+> > +    )
+> > +    element.software_additionalPurpose =3D [
+> > +        getattr(oe.spdx30.software_SoftwarePurpose, p) for p in purpos=
+es[1:]
+> > +    ]
+> > +
+> > +
+> > +def create_spdx(d):
+> > +    def set_var_field(var, obj, name, package=3DNone):
+> > +        val =3D None
+> > +        if package:
+> > +            val =3D d.getVar("%s:%s" % (var, package))
+> > +
+> > +        if not val:
+> > +            val =3D d.getVar(var)
+> > +
+> > +        if val:
+> > +            setattr(obj, name, val)
+> > +
+> > +    license_data =3D oe.spdx_common.load_spdx_license_data(d)
+> > +
+> > +    deploydir =3D Path(d.getVar("SPDXDEPLOY"))
+> > +    deploy_dir_spdx =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
+> > +    spdx_workdir =3D Path(d.getVar("SPDXWORK"))
+> > +    include_sources =3D d.getVar("SPDX_INCLUDE_SOURCES") =3D=3D "1"
+> > +    pkg_arch =3D d.getVar("SSTATE_PKGARCH")
+> > +    is_native =3D bb.data.inherits_class("native", d) or bb.data.inher=
+its_class(
+> > +        "cross", d
+> > +    )
+> > +    include_vex =3D d.getVar("SPDX_INCLUDE_VEX")
+> > +    if not include_vex in ("none", "current", "all"):
+> > +        bb.fatal("SPDX_INCLUDE_VEX must be one of 'none', 'current', '=
+all'")
+> > +
+> > +    build_objset =3D oe.sbom30.ObjectSet.new_objset(d, "recipe-" + d.g=
+etVar("PN"))
+> > +
+> > +    build =3D build_objset.new_task_build("recipe", "recipe")
+> > +    build_objset.set_element_alias(build)
+> > +
+> > +    build_objset.doc.rootElement.append(build)
+> > +
+> > +    build_objset.set_is_native(is_native)
+> > +
+> > +    for var in (d.getVar("SPDX_CUSTOM_ANNOTATION_VARS") or "").split():
+> > +        new_annotation(
+> > +            d,
+> > +            build_objset,
+> > +            build,
+> > +            "%s=3D%s" % (var, d.getVar(var)),
+> > +            oe.spdx30.AnnotationType.other,
+> > +        )
+> > +
+> > +    build_inputs =3D set()
+> > +
+> > +    # Add CVEs
+> > +    cve_by_status =3D {}
+> > +    if include_vex !=3D "none":
+> > +        patched_cves =3D oe.cve_check.get_patched_cves(d)
+> > +        for cve, patched_cve in patched_cves.items():
+> > +            decoded_status =3D {
+> > +                "mapping": patched_cve["abbrev-status"],
+> > +                "detail": patched_cve["status"],
+> > +                "description": patched_cve.get("justification", None)
+> > +            }
+> > +
+> > +            # If this CVE is fixed upstream, skip it unless all CVEs a=
+re
+> > +            # specified.
+> > +            if (
+> > +                include_vex !=3D "all"
+> > +                and "detail" in decoded_status
+> > +                and decoded_status["detail"]
+> > +                in (
+> > +                    "fixed-version",
+> > +                    "cpe-stable-backport",
+> > +                )
+> > +            ):
+> > +                bb.debug(1, "Skipping %s since it is already fixed ups=
+tream" % cve)
+> > +                continue
+> > +
+> > +            spdx_cve =3D build_objset.new_cve_vuln(cve)
+> > +            build_objset.set_element_alias(spdx_cve)
+> > +
+> > +            cve_by_status.setdefault(decoded_status["mapping"], {})[cv=
+e] =3D (
+> > +                spdx_cve,
+> > +                decoded_status["detail"],
+> > +                decoded_status["description"],
+> > +            )
+> > +
+> > +    cpe_ids =3D oe.cve_check.get_cpe_ids(d.getVar("CVE_PRODUCT"), d.ge=
+tVar("CVE_VERSION"))
+> > +
+> > +    source_files =3D add_download_files(d, build_objset)
+> > +    build_inputs |=3D source_files
+> > +
+> > +    recipe_spdx_license =3D add_license_expression(
+> > +        d, build_objset, d.getVar("LICENSE"), license_data
+> > +    )
+> > +    build_objset.new_relationship(
+> > +        source_files,
+> > +        oe.spdx30.RelationshipType.hasConcludedLicense,
+> > +        [oe.sbom30.get_element_link_id(recipe_spdx_license)],
+> > +    )
+> > +
+> > +    dep_sources =3D {}
+> > +    if oe.spdx_common.process_sources(d) and include_sources:
+> > +        bb.debug(1, "Adding source files to SPDX")
+> > +        oe.spdx_common.get_patched_src(d)
+> > +
+> > +        files =3D add_package_files(
+> > +            d,
+> > +            build_objset,
+> > +            spdx_workdir,
+> > +            lambda file_counter: build_objset.new_spdxid(
+> > +                "sourcefile", str(file_counter)
+> > +            ),
+> > +            lambda filepath: [oe.spdx30.software_SoftwarePurpose.sourc=
+e],
+> > +            license_data,
+> > +            ignore_dirs=3D[".git"],
+> > +            ignore_top_level_dirs=3D["temp"],
+> > +            archive=3DNone,
+> > +        )
+> > +        build_inputs |=3D files
+> > +        index_sources_by_hash(files, dep_sources)
+> > +
+> > +    dep_objsets, dep_builds =3D collect_dep_objsets(d, build)
+> > +    if dep_builds:
+> > +        build_objset.new_scoped_relationship(
+> > +            [build],
+> > +            oe.spdx30.RelationshipType.dependsOn,
+> > +            oe.spdx30.LifecycleScopeType.build,
+> > +            sorted(oe.sbom30.get_element_link_id(b) for b in dep_build=
+s),
+> > +        )
+> > +
+> > +    debug_source_ids =3D set()
+> > +    source_hash_cache =3D {}
+> > +
+> > +    # Write out the package SPDX data now. It is not complete as we ca=
+nnot
+> > +    # write the runtime data, so write it to a staging area and a late=
+r task
+> > +    # will write out the final collection
+> > +
+> > +    # TODO: Handle native recipe output
+> > +    if not is_native:
+> > +        bb.debug(1, "Collecting Dependency sources files")
+> > +        collect_dep_sources(dep_objsets, dep_sources)
+> > +
+> > +        bb.build.exec_func("read_subpackage_metadata", d)
+> > +
+> > +        pkgdest =3D Path(d.getVar("PKGDEST"))
+> > +        for package in d.getVar("PACKAGES").split():
+> > +            if not oe.packagedata.packaged(package, d):
+> > +                continue
+> > +
+> > +            pkg_name =3D d.getVar("PKG:%s" % package) or package
+> > +
+> > +            bb.debug(1, "Creating SPDX for package %s" % pkg_name)
+> > +
+> > +            pkg_objset =3D oe.sbom30.ObjectSet.new_objset(d, "package-=
+" + pkg_name)
+> > +
+> > +            spdx_package =3D pkg_objset.add_root(
+> > +                oe.spdx30.software_Package(
+> > +                    _id=3Dpkg_objset.new_spdxid("package", pkg_name),
+> > +                    creationInfo=3Dpkg_objset.doc.creationInfo,
+> > +                    name=3Dpkg_name,
+> > +                    software_packageVersion=3Dd.getVar("SPDX_PACKAGE_V=
+ERSION"),
+> > +                )
+> > +            )
+> > +            set_timestamp_now(d, spdx_package, "builtTime")
+> > +
+> > +            set_purposes(
+> > +                d,
+> > +                spdx_package,
+> > +                "SPDX_PACKAGE_ADDITIONAL_PURPOSE:%s" % package,
+> > +                "SPDX_PACKAGE_ADDITIONAL_PURPOSE",
+> > +                force_purposes=3D["install"],
+> > +            )
+> > +
+> > +            supplier =3D build_objset.new_agent("SPDX_PACKAGE_SUPPLIER=
+")
+> > +            if supplier is not None:
+> > +                spdx_package.suppliedBy =3D (
+> > +                    supplier if isinstance(supplier, str) else supplie=
+r._id
+> > +                )
+> > +
+> > +            set_var_field(
+> > +                "HOMEPAGE", spdx_package, "software_homePage", package=
+=3Dpackage
+> > +            )
+> > +            set_var_field("SUMMARY", spdx_package, "summary", package=
+=3Dpackage)
+> > +            set_var_field("DESCRIPTION", spdx_package, "description", =
+package=3Dpackage)
+> > +
+> > +            pkg_objset.new_scoped_relationship(
+> > +                [oe.sbom30.get_element_link_id(build)],
+> > +                oe.spdx30.RelationshipType.hasOutput,
+> > +                oe.spdx30.LifecycleScopeType.build,
+> > +                [spdx_package],
+> > +            )
+> > +
+> > +            for cpe_id in cpe_ids:
+> > +                spdx_package.externalIdentifier.append(
+> > +                    oe.spdx30.ExternalIdentifier(
+> > +                        externalIdentifierType=3Doe.spdx30.ExternalIde=
+ntifierType.cpe23,
+> > +                        identifier=3Dcpe_id,
+> > +                    )
+> > +                )
+> > +
+> > +            # TODO: Generate a file for each actual IPK/DEB/RPM/TGZ fi=
+le
+> > +            # generated and link it to the package
+> > +            # spdx_package_file =3D pkg_objset.add(oe.spdx30.software_=
+File(
+> > +            #    _id=3Dpkg_objset.new_spdxid("distribution", pkg_name),
+> > +            #    creationInfo=3Dpkg_objset.doc.creationInfo,
+> > +            #    name=3Dpkg_name,
+> > +            #    software_primaryPurpose=3Dspdx_package.software_prima=
+ryPurpose,
+> > +            #    software_additionalPurpose=3Dspdx_package.software_ad=
+ditionalPurpose,
+> > +            # ))
+> > +            # set_timestamp_now(d, spdx_package_file, "builtTime")
+> > +
+> > +            ## TODO add hashes
+> > +            # pkg_objset.new_relationship(
+> > +            #    [spdx_package],
+> > +            #    oe.spdx30.RelationshipType.hasDistributionArtifact,
+> > +            #    [spdx_package_file],
+> > +            # )
+> > +
+> > +            # NOTE: licenses live in the recipe collection and are ref=
+erenced
+> > +            # by ID in the package collection(s). This helps reduce du=
+plication
+> > +            # (since a lot of packages will have the same license), an=
+d also
+> > +            # prevents duplicate license SPDX IDs in the packages
+> > +            package_license =3D d.getVar("LICENSE:%s" % package)
+> > +            if package_license and package_license !=3D d.getVar("LICE=
+NSE"):
+> > +                package_spdx_license =3D add_license_expression(
+> > +                    d, build_objset, package_license, license_data
+> > +                )
+> > +            else:
+> > +                package_spdx_license =3D recipe_spdx_license
+> > +
+> > +            pkg_objset.new_relationship(
+> > +                [spdx_package],
+> > +                oe.spdx30.RelationshipType.hasConcludedLicense,
+> > +                [oe.sbom30.get_element_link_id(package_spdx_license)],
+> > +            )
+> > +
+> > +            # NOTE: CVE Elements live in the recipe collection
+> > +            all_cves =3D set()
+> > +            for status, cves in cve_by_status.items():
+> > +                for cve, items in cves.items():
+> > +                    spdx_cve, detail, description =3D items
+> > +                    spdx_cve_id =3D oe.sbom30.get_element_link_id(spdx=
+_cve)
+> > +
+> > +                    all_cves.add(spdx_cve_id)
+> > +
+> > +                    if status =3D=3D "Patched":
+> > +                        pkg_objset.new_vex_patched_relationship(
+> > +                            [spdx_cve_id], [spdx_package]
+> > +                        )
+> > +                    elif status =3D=3D "Unpatched":
+> > +                        pkg_objset.new_vex_unpatched_relationship(
+> > +                            [spdx_cve_id], [spdx_package]
+> > +                        )
+> > +                    elif status =3D=3D "Ignored":
+> > +                        spdx_vex =3D pkg_objset.new_vex_ignored_relati=
+onship(
+> > +                            [spdx_cve_id],
+> > +                            [spdx_package],
+> > +                            impact_statement=3Ddescription,
+> > +                        )
+> > +
+> > +                        if detail in (
+> > +                            "ignored",
+> > +                            "cpe-incorrect",
+> > +                            "disputed",
+> > +                            "upstream-wontfix",
+> > +                        ):
+> > +                            # VEX doesn't have justifications for this
+> > +                            pass
+> > +                        elif detail in (
+> > +                            "not-applicable-config",
+> > +                            "not-applicable-platform",
+> > +                        ):
+> > +                            for v in spdx_vex:
+> > +                                v.security_justificationType =3D (
+> > +                                    oe.spdx30.security_VexJustificatio=
+nType.vulnerableCodeNotPresent
+> > +                                )
+> > +                        else:
+> > +                            bb.fatal(f"Unknown detail '{detail}' for i=
+gnored {cve}")
+> > +                    else:
+> > +                        bb.fatal(f"Unknown {cve} status '{status}'")
+> > +
+> > +            if all_cves:
+> > +                pkg_objset.new_relationship(
+> > +                    [spdx_package],
+> > +                    oe.spdx30.RelationshipType.hasAssociatedVulnerabil=
+ity,
+> > +                    sorted(list(all_cves)),
+> > +                )
+> > +
+> > +            bb.debug(1, "Adding package files to SPDX for package %s" =
+% pkg_name)
+> > +            package_files =3D add_package_files(
+> > +                d,
+> > +                pkg_objset,
+> > +                pkgdest / package,
+> > +                lambda file_counter: pkg_objset.new_spdxid(
+> > +                    "package", pkg_name, "file", str(file_counter)
+> > +                ),
+> > +                # TODO: Can we know the purpose here?
+> > +                lambda filepath: [],
+> > +                license_data,
+> > +                ignore_top_level_dirs=3D["CONTROL", "DEBIAN"],
+> > +                archive=3DNone,
+> > +            )
+> > +
+> > +            if package_files:
+> > +                pkg_objset.new_relationship(
+> > +                    [spdx_package],
+> > +                    oe.spdx30.RelationshipType.contains,
+> > +                    sorted(list(package_files)),
+> > +                )
+> > +
+> > +            if include_sources:
+> > +                debug_sources =3D get_package_sources_from_debug(
+> > +                    d, package, package_files, dep_sources, source_has=
+h_cache
+> > +                )
+> > +                debug_source_ids |=3D set(
+> > +                    oe.sbom30.get_element_link_id(d) for d in debug_so=
+urces
+> > +                )
+> > +
+> > +            oe.sbom30.write_recipe_jsonld_doc(
+> > +                d, pkg_objset, "packages-staging", deploydir, create_s=
+pdx_id_links=3DFalse
+> > +            )
+> > +
+> > +    if include_sources:
+> > +        bb.debug(1, "Adding sysroot files to SPDX")
+> > +        sysroot_files =3D add_package_files(
+> > +            d,
+> > +            build_objset,
+> > +            d.expand("${COMPONENTS_DIR}/${PACKAGE_ARCH}/${PN}"),
+> > +            lambda file_counter: build_objset.new_spdxid("sysroot", st=
+r(file_counter)),
+> > +            lambda filepath: [],
+> > +            license_data,
+> > +            archive=3DNone,
+> > +        )
+> > +
+> > +        if sysroot_files:
+> > +            build_objset.new_scoped_relationship(
+> > +                [build],
+> > +                oe.spdx30.RelationshipType.hasOutput,
+> > +                oe.spdx30.LifecycleScopeType.build,
+> > +                sorted(list(sysroot_files)),
+> > +            )
+> > +
+> > +    if build_inputs or debug_source_ids:
+> > +        build_objset.new_scoped_relationship(
+> > +            [build],
+> > +            oe.spdx30.RelationshipType.hasInput,
+> > +            oe.spdx30.LifecycleScopeType.build,
+> > +            sorted(list(build_inputs)) + sorted(list(debug_source_ids)=
+),
+> > +        )
+> > +
+> > +    oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "recipes", depl=
+oydir)
+> > +
+> > +
+> > +def create_package_spdx(d):
+> > +    deploy_dir_spdx =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
+> > +    deploydir =3D Path(d.getVar("SPDXRUNTIMEDEPLOY"))
+> > +    is_native =3D bb.data.inherits_class("native", d) or bb.data.inher=
+its_class(
+> > +        "cross", d
+> > +    )
+> > +
+> > +    providers =3D oe.spdx_common.collect_package_providers(d)
+> > +    pkg_arch =3D d.getVar("SSTATE_PKGARCH")
+> > +
+> > +    if is_native:
+> > +        return
+> > +
+> > +    bb.build.exec_func("read_subpackage_metadata", d)
+> > +
+> > +    dep_package_cache =3D {}
+> > +
+> > +    # Any element common to all packages that need to be referenced by=
+ ID
+> > +    # should be written into this objset set
+> > +    common_objset =3D oe.sbom30.ObjectSet.new_objset(
+> > +        d, "%s-package-common" % d.getVar("PN")
+> > +    )
+> > +
+> > +    pkgdest =3D Path(d.getVar("PKGDEST"))
+> > +    for package in d.getVar("PACKAGES").split():
+> > +        localdata =3D bb.data.createCopy(d)
+> > +        pkg_name =3D d.getVar("PKG:%s" % package) or package
+> > +        localdata.setVar("PKG", pkg_name)
+> > +        localdata.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + "=
+:" + package)
+> > +
+> > +        if not oe.packagedata.packaged(package, localdata):
+> > +            continue
+> > +
+> > +        spdx_package, pkg_objset =3D oe.sbom30.load_obj_in_jsonld(
+> > +            d,
+> > +            pkg_arch,
+> > +            "packages-staging",
+> > +            "package-" + pkg_name,
+> > +            oe.spdx30.software_Package,
+> > +            software_primaryPurpose=3Doe.spdx30.software_SoftwarePurpo=
+se.install,
+> > +        )
+> > +
+> > +        # We will write out a new collection, so link it to the new
+> > +        # creation info in the common package data. The old creation i=
+nfo
+> > +        # should still exist and be referenced by all the existing ele=
+ments
+> > +        # in the package
+> > +        pkg_objset.creationInfo =3D pkg_objset.copy_creation_info(
+> > +            common_objset.doc.creationInfo
+> > +        )
+> > +
+> > +        runtime_spdx_deps =3D set()
+> > +
+> > +        deps =3D bb.utils.explode_dep_versions2(localdata.getVar("RDEP=
+ENDS") or "")
+> > +        seen_deps =3D set()
+> > +        for dep, _ in deps.items():
+> > +            if dep in seen_deps:
+> > +                continue
+> > +
+> > +            if dep not in providers:
+> > +                continue
+> > +
+> > +            (dep, _) =3D providers[dep]
+> > +
+> > +            if not oe.packagedata.packaged(dep, localdata):
+> > +                continue
+> > +
+> > +            dep_pkg_data =3D oe.packagedata.read_subpkgdata_dict(dep, =
+d)
+> > +            dep_pkg =3D dep_pkg_data["PKG"]
+> > +
+> > +            if dep in dep_package_cache:
+> > +                dep_spdx_package =3D dep_package_cache[dep]
+> > +            else:
+> > +                bb.debug(1, "Searching for %s" % dep_pkg)
+> > +                dep_spdx_package, _ =3D oe.sbom30.find_root_obj_in_jso=
+nld(
+> > +                    d,
+> > +                    "packages-staging",
+> > +                    "package-" + dep_pkg,
+> > +                    oe.spdx30.software_Package,
+> > +                    software_primaryPurpose=3Doe.spdx30.software_Softw=
+arePurpose.install,
+> > +                )
+> > +                dep_package_cache[dep] =3D dep_spdx_package
+> > +
+> > +            runtime_spdx_deps.add(dep_spdx_package)
+> > +            seen_deps.add(dep)
+> > +
+> > +        if runtime_spdx_deps:
+> > +            pkg_objset.new_scoped_relationship(
+> > +                [spdx_package],
+> > +                oe.spdx30.RelationshipType.dependsOn,
+> > +                oe.spdx30.LifecycleScopeType.runtime,
+> > +                [oe.sbom30.get_element_link_id(dep) for dep in runtime=
+_spdx_deps],
+> > +            )
+> > +
+> > +        oe.sbom30.write_recipe_jsonld_doc(d, pkg_objset, "packages", d=
+eploydir)
+> > +
+> > +    oe.sbom30.write_recipe_jsonld_doc(d, common_objset, "common-packag=
+e", deploydir)
+> > +
+> > +
+> > +def write_bitbake_spdx(d):
+> > +    # Set PN to "bitbake" so that SPDX IDs can be generated
+> > +    d.setVar("PN", "bitbake")
+> > +    d.setVar("BB_TASKHASH", "bitbake")
+> > +    oe.spdx_common.load_spdx_license_data(d)
+> > +
+> > +    deploy_dir_spdx =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
+> > +
+> > +    objset =3D oe.sbom30.ObjectSet.new_objset(d, "bitbake", False)
+> > +
+> > +    host_import_key =3D d.getVar("SPDX_BUILD_HOST")
+> > +    invoked_by =3D objset.new_agent("SPDX_INVOKED_BY", add=3DFalse)
+> > +    on_behalf_of =3D objset.new_agent("SPDX_ON_BEHALF_OF", add=3DFalse)
+> > +
+> > +    if d.getVar("SPDX_INCLUDE_BITBAKE_PARENT_BUILD") =3D=3D "1":
+> > +        # Since the Build objects are unique, we may as well set the c=
+reation
+> > +        # time to the current time instead of the fallback SDE
+> > +        objset.doc.creationInfo.created =3D datetime.now(timezone.utc)
+> > +
+> > +        # Each invocation of bitbake should have a unique ID since it =
+is a
+> > +        # unique build
+> > +        nonce =3D os.urandom(16).hex()
+> > +
+> > +        build =3D objset.add_root(
+> > +            oe.spdx30.build_Build(
+> > +                _id=3Dobjset.new_spdxid(nonce, include_unihash=3DFalse=
+),
+> > +                creationInfo=3Dobjset.doc.creationInfo,
+> > +                build_buildType=3Doe.sbom30.SPDX_BUILD_TYPE,
+> > +            )
+> > +        )
+> > +        set_timestamp_now(d, build, "build_buildStartTime")
+> > +
+> > +        if host_import_key:
+> > +            objset.new_scoped_relationship(
+> > +                [build],
+> > +                oe.spdx30.RelationshipType.hasHost,
+> > +                oe.spdx30.LifecycleScopeType.build,
+> > +                [objset.new_import(host_import_key)],
+> > +            )
+> > +
+> > +        if invoked_by:
+> > +            objset.add(invoked_by)
+> > +            invoked_by_spdx =3D objset.new_scoped_relationship(
+> > +                [build],
+> > +                oe.spdx30.RelationshipType.invokedBy,
+> > +                oe.spdx30.LifecycleScopeType.build,
+> > +                [invoked_by],
+> > +            )
+> > +
+> > +            if on_behalf_of:
+> > +                objset.add(on_behalf_of)
+> > +                objset.new_scoped_relationship(
+> > +                    [on_behalf_of],
+> > +                    oe.spdx30.RelationshipType.delegatedTo,
+> > +                    oe.spdx30.LifecycleScopeType.build,
+> > +                    invoked_by_spdx,
+> > +                )
+> > +
+> > +        elif on_behalf_of:
+> > +            bb.warn("SPDX_ON_BEHALF_OF has no effect if SPDX_INVOKED_B=
+Y is not set")
+> > +
+> > +    else:
+> > +        if host_import_key:
+> > +            bb.warn(
+> > +                "SPDX_BUILD_HOST has no effect if SPDX_INCLUDE_BITBAKE=
+_PARENT_BUILD is not set"
+> > +            )
+> > +
+> > +        if invoked_by:
+> > +            bb.warn(
+> > +                "SPDX_INVOKED_BY has no effect if SPDX_INCLUDE_BITBAKE=
+_PARENT_BUILD is not set"
+> > +            )
+> > +
+> > +        if on_behalf_of:
+> > +            bb.warn(
+> > +                "SPDX_ON_BEHALF_OF has no effect if SPDX_INCLUDE_BITBA=
+KE_PARENT_BUILD is not set"
+> > +            )
+> > +
+> > +    for obj in objset.foreach_type(oe.spdx30.Element):
+> > +        obj.extension.append(oe.sbom30.OEIdAliasExtension())
+> > +
+> > +    oe.sbom30.write_jsonld_doc(d, objset, deploy_dir_spdx / "bitbake.s=
+pdx.json")
+> > +
+> > +
+> > +def collect_build_package_inputs(d, objset, build, packages, files_by_=
+hash=3DNone):
+> > +    import oe.sbom30
+> > +
+> > +    providers =3D oe.spdx_common.collect_package_providers(d)
+> > +
+> > +    build_deps =3D set()
+> > +    missing_providers =3D set()
+> > +
+> > +    for name in sorted(packages.keys()):
+> > +        if name not in providers:
+> > +            missing_providers.add(name)
+> > +            continue
+> > +
+> > +        pkg_name, pkg_hashfn =3D providers[name]
+> > +
+> > +        # Copy all of the package SPDX files into the Sbom elements
+> > +        pkg_spdx, pkg_objset =3D oe.sbom30.find_root_obj_in_jsonld(
+> > +            d,
+> > +            "packages",
+> > +            "package-" + pkg_name,
+> > +            oe.spdx30.software_Package,
+> > +            software_primaryPurpose=3Doe.spdx30.software_SoftwarePurpo=
+se.install,
+> > +        )
+> > +        build_deps.add(oe.sbom30.get_element_link_id(pkg_spdx))
+> > +
+> > +        if files_by_hash is not None:
+> > +            for h, f in pkg_objset.by_sha256_hash.items():
+> > +                files_by_hash.setdefault(h, set()).update(f)
+> > +
+> > +    if missing_providers:
+> > +        bb.fatal(
+> > +            f"Unable to find SPDX provider(s) for: {', '.join(sorted(m=
+issing_providers))}"
+> > +        )
+> > +
+> > +    if build_deps:
+> > +        objset.new_scoped_relationship(
+> > +            [build],
+> > +            oe.spdx30.RelationshipType.hasInput,
+> > +            oe.spdx30.LifecycleScopeType.build,
+> > +            sorted(list(build_deps)),
+> > +        )
+> > +
+> > +
+> > +def create_rootfs_spdx(d):
+> > +    deploy_dir_spdx =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
+> > +    deploydir =3D Path(d.getVar("SPDXROOTFSDEPLOY"))
+> > +    root_packages_file =3D Path(d.getVar("SPDX_ROOTFS_PACKAGES"))
+> > +    image_basename =3D d.getVar("IMAGE_BASENAME")
+> > +    image_rootfs =3D d.getVar("IMAGE_ROOTFS")
+> > +    machine =3D d.getVar("MACHINE")
+> > +
+> > +    with root_packages_file.open("r") as f:
+> > +        packages =3D json.load(f)
+> > +
+> > +    objset =3D oe.sbom30.ObjectSet.new_objset(
+> > +        d, "%s-%s-rootfs" % (image_basename, machine)
+> > +    )
+> > +
+> > +    rootfs =3D objset.add_root(
+> > +        oe.spdx30.software_Package(
+> > +            _id=3Dobjset.new_spdxid("rootfs", image_basename),
+> > +            creationInfo=3Dobjset.doc.creationInfo,
+> > +            name=3Dimage_basename,
+> > +            software_primaryPurpose=3Doe.spdx30.software_SoftwarePurpo=
+se.archive,
+> > +        )
+> > +    )
+> > +    set_timestamp_now(d, rootfs, "builtTime")
+> > +
+> > +    rootfs_build =3D objset.add_root(objset.new_task_build("rootfs", "=
+rootfs"))
+> > +    set_timestamp_now(d, rootfs_build, "build_buildEndTime")
+> > +
+> > +    objset.new_scoped_relationship(
+> > +        [rootfs_build],
+> > +        oe.spdx30.RelationshipType.hasOutput,
+> > +        oe.spdx30.LifecycleScopeType.build,
+> > +        [rootfs],
+> > +    )
+> > +
+> > +    files_by_hash =3D {}
+> > +    collect_build_package_inputs(d, objset, rootfs_build, packages, fi=
+les_by_hash)
+> > +
+> > +    files =3D set()
+> > +    for dirpath, dirnames, filenames in os.walk(image_rootfs, onerror=
+=3Dwalk_error):
+> > +        dirnames.sort()
+> > +        filenames.sort()
+> > +        for fn in filenames:
+> > +            fpath =3D Path(dirpath) / fn
+> > +            if fpath.is_symlink() or not fpath.is_file():
+> > +                continue
+> > +
+> > +            relpath =3D str(fpath.relative_to(image_rootfs))
+> > +            h =3D bb.utils.sha256_file(fpath)
+> > +
+> > +            found =3D False
+> > +            if h in files_by_hash:
+> > +                for f in files_by_hash[h]:
+> > +                    if isinstance(f, oe.spdx30.software_File) and f.na=
+me =3D=3D relpath:
+> > +                        files.add(oe.sbom30.get_element_link_id(f))
+> > +                        found =3D True
+> > +                        break
+> > +
+> > +            if not found:
+> > +                files.add(
+> > +                    objset.new_file(
+> > +                        objset.new_spdxid("rootfs-file", relpath),
+> > +                        relpath,
+> > +                        fpath,
+> > +                    )
+> > +                )
+> > +
+> > +    if files:
+> > +        objset.new_relationship(
+> > +            [rootfs],
+> > +            oe.spdx30.RelationshipType.contains,
+> > +            sorted(list(files)),
+> > +        )
+> > +
+> > +    oe.sbom30.write_recipe_jsonld_doc(d, objset, "rootfs", deploydir)
+> > +
+> > +
+> > +def create_image_spdx(d):
+> > +    import oe.sbom30
+> > +
+> > +    image_deploy_dir =3D Path(d.getVar("IMGDEPLOYDIR"))
+> > +    manifest_path =3D Path(d.getVar("IMAGE_OUTPUT_MANIFEST"))
+> > +    spdx_work_dir =3D Path(d.getVar("SPDXIMAGEWORK"))
+> > +
+> > +    image_basename =3D d.getVar("IMAGE_BASENAME")
+> > +    machine =3D d.getVar("MACHINE")
+> > +
+> > +    objset =3D oe.sbom30.ObjectSet.new_objset(
+> > +        d, "%s-%s-image" % (image_basename, machine)
+> > +    )
+> > +
+> > +    with manifest_path.open("r") as f:
+> > +        manifest =3D json.load(f)
+> > +
+> > +    builds =3D []
+> > +    for task in manifest:
+> > +        imagetype =3D task["imagetype"]
+> > +        taskname =3D task["taskname"]
+> > +
+> > +        image_build =3D objset.add_root(
+> > +            objset.new_task_build(taskname, "image/%s" % imagetype)
+> > +        )
+> > +        set_timestamp_now(d, image_build, "build_buildEndTime")
+> > +        builds.append(image_build)
+> > +
+> > +        artifacts =3D []
+> > +
+> > +        for image in task["images"]:
+> > +            image_filename =3D image["filename"]
+> > +            image_path =3D image_deploy_dir / image_filename
+> > +            if os.path.isdir(image_path):
+> > +                a =3D add_package_files(
+> > +                        d,
+> > +                        objset,
+> > +                        image_path,
+> > +                        lambda file_counter: objset.new_spdxid(
+> > +                            "imagefile", str(file_counter)
+> > +                        ),
+> > +                        lambda filepath: [],
+> > +                        license_data=3DNone,
+> > +                        ignore_dirs=3D[],
+> > +                        ignore_top_level_dirs=3D[],
+> > +                        archive=3DNone,
+> > +                )
+> > +                artifacts.extend(a)
+> > +            else:
+> > +                a =3D objset.add_root(
+> > +                    oe.spdx30.software_File(
+> > +                        _id=3Dobjset.new_spdxid("image", image_filenam=
+e),
+> > +                        creationInfo=3Dobjset.doc.creationInfo,
+> > +                        name=3Dimage_filename,
+> > +                        verifiedUsing=3D[
+> > +                            oe.spdx30.Hash(
+> > +                                algorithm=3Doe.spdx30.HashAlgorithm.sh=
+a256,
+> > +                                hashValue=3Dbb.utils.sha256_file(image=
+_path),
+> > +                            )
+> > +                        ],
+> > +                    )
+> > +                )
+> > +
+> > +                artifacts.append(a)
+> > +
+> > +            for a in artifacts:
+> > +                set_purposes(
+> > +                    d, a, "SPDX_IMAGE_PURPOSE:%s" % imagetype, "SPDX_I=
+MAGE_PURPOSE"
+> > +                )
+> > +
+> > +                set_timestamp_now(d, a, "builtTime")
+> > +
+> > +
+> > +        if artifacts:
+> > +            objset.new_scoped_relationship(
+> > +                [image_build],
+> > +                oe.spdx30.RelationshipType.hasOutput,
+> > +                oe.spdx30.LifecycleScopeType.build,
+> > +                artifacts,
+> > +            )
+> > +
+> > +    if builds:
+> > +        rootfs_image, _ =3D oe.sbom30.find_root_obj_in_jsonld(
+> > +            d,
+> > +            "rootfs",
+> > +            "%s-%s-rootfs" % (image_basename, machine),
+> > +            oe.spdx30.software_Package,
+> > +            # TODO: Should use a purpose to filter here?
+> > +        )
+> > +        objset.new_scoped_relationship(
+> > +            builds,
+> > +            oe.spdx30.RelationshipType.hasInput,
+> > +            oe.spdx30.LifecycleScopeType.build,
+> > +            [oe.sbom30.get_element_link_id(rootfs_image)],
+> > +        )
+> > +
+> > +    objset.add_aliases()
+> > +    objset.link()
+> > +    oe.sbom30.write_recipe_jsonld_doc(d, objset, "image", spdx_work_di=
+r)
+> > +
+> > +
+> > +def create_image_sbom_spdx(d):
+> > +    import oe.sbom30
+> > +
+> > +    image_name =3D d.getVar("IMAGE_NAME")
+> > +    image_basename =3D d.getVar("IMAGE_BASENAME")
+> > +    image_link_name =3D d.getVar("IMAGE_LINK_NAME")
+> > +    imgdeploydir =3D Path(d.getVar("SPDXIMAGEDEPLOYDIR"))
+> > +    machine =3D d.getVar("MACHINE")
+> > +
+> > +    spdx_path =3D imgdeploydir / (image_name + ".spdx.json")
+> > +
+> > +    root_elements =3D []
+> > +
+> > +    # TODO: Do we need to add the rootfs or are the image files suffic=
+ient?
+> > +    rootfs_image, _ =3D oe.sbom30.find_root_obj_in_jsonld(
+> > +        d,
+> > +        "rootfs",
+> > +        "%s-%s-rootfs" % (image_basename, machine),
+> > +        oe.spdx30.software_Package,
+> > +        # TODO: Should use a purpose here?
+> > +    )
+> > +    root_elements.append(oe.sbom30.get_element_link_id(rootfs_image))
+> > +
+> > +    image_objset, _ =3D oe.sbom30.find_jsonld(
+> > +        d, "image", "%s-%s-image" % (image_basename, machine), require=
+d=3DTrue
+> > +    )
+> > +    for o in image_objset.foreach_root(oe.spdx30.software_File):
+> > +        root_elements.append(oe.sbom30.get_element_link_id(o))
+> > +
+> > +    objset, sbom =3D oe.sbom30.create_sbom(d, image_name, root_element=
+s)
+> > +
+> > +    oe.sbom30.write_jsonld_doc(d, objset, spdx_path)
+> > +
+> > +    def make_image_link(target_path, suffix):
+> > +        if image_link_name:
+> > +            link =3D imgdeploydir / (image_link_name + suffix)
+> > +            if link !=3D target_path:
+> > +                link.symlink_to(os.path.relpath(target_path, link.pare=
+nt))
+> > +
+> > +    make_image_link(spdx_path, ".spdx.json")
+> > +
+> > +
+> > +def sdk_create_spdx(d, sdk_type, spdx_work_dir, toolchain_outputname):
+> > +    sdk_name =3D toolchain_outputname + "-" + sdk_type
+> > +    sdk_packages =3D oe.sdk.sdk_list_installed_packages(d, sdk_type =
+=3D=3D "target")
+> > +
+> > +    objset =3D oe.sbom30.ObjectSet.new_objset(d, sdk_name)
+> > +
+> > +    sdk_rootfs =3D objset.add_root(
+> > +        oe.spdx30.software_Package(
+> > +            _id=3Dobjset.new_spdxid("sdk-rootfs", sdk_name),
+> > +            creationInfo=3Dobjset.doc.creationInfo,
+> > +            name=3Dsdk_name,
+> > +            software_primaryPurpose=3Doe.spdx30.software_SoftwarePurpo=
+se.archive,
+> > +        )
+> > +    )
+> > +    set_timestamp_now(d, sdk_rootfs, "builtTime")
+> > +
+> > +    sdk_build =3D objset.add_root(objset.new_task_build("sdk-rootfs", =
+"sdk-rootfs"))
+> > +    set_timestamp_now(d, sdk_build, "build_buildEndTime")
+> > +
+> > +    objset.new_scoped_relationship(
+> > +        [sdk_build],
+> > +        oe.spdx30.RelationshipType.hasOutput,
+> > +        oe.spdx30.LifecycleScopeType.build,
+> > +        [sdk_rootfs],
+> > +    )
+> > +
+> > +    collect_build_package_inputs(d, objset, sdk_build, sdk_packages)
+> > +
+> > +    objset.add_aliases()
+> > +    oe.sbom30.write_jsonld_doc(d, objset, spdx_work_dir / "sdk-rootfs.=
+spdx.json")
+> > +
+> > +
+> > +def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputn=
+ame):
+> > +    # Load the document written earlier
+> > +    rootfs_objset =3D oe.sbom30.load_jsonld(
+> > +        d, spdx_work_dir / "sdk-rootfs.spdx.json", required=3DTrue
+> > +    )
+> > +
+> > +    # Create a new build for the SDK installer
+> > +    sdk_build =3D rootfs_objset.new_task_build("sdk-populate", "sdk-po=
+pulate")
+> > +    set_timestamp_now(d, sdk_build, "build_buildEndTime")
+> > +
+> > +    rootfs =3D rootfs_objset.find_root(oe.spdx30.software_Package)
+> > +    if rootfs is None:
+> > +        bb.fatal("Unable to find rootfs artifact")
+> > +
+> > +    rootfs_objset.new_scoped_relationship(
+> > +        [sdk_build],
+> > +        oe.spdx30.RelationshipType.hasInput,
+> > +        oe.spdx30.LifecycleScopeType.build,
+> > +        [rootfs],
+> > +    )
+> > +
+> > +    files =3D set()
+> > +    root_files =3D []
+> > +
+> > +    # NOTE: os.walk() doesn't return symlinks
+> > +    for dirpath, dirnames, filenames in os.walk(sdk_deploydir, onerror=
+=3Dwalk_error):
+> > +        dirnames.sort()
+> > +        filenames.sort()
+> > +        for fn in filenames:
+> > +            fpath =3D Path(dirpath) / fn
+> > +            if not fpath.is_file() or fpath.is_symlink():
+> > +                continue
+> > +
+> > +            relpath =3D str(fpath.relative_to(sdk_deploydir))
+> > +
+> > +            f =3D rootfs_objset.new_file(
+> > +                rootfs_objset.new_spdxid("sdk-installer", relpath),
+> > +                relpath,
+> > +                fpath,
+> > +            )
+> > +            set_timestamp_now(d, f, "builtTime")
+> > +
+> > +            if fn.endswith(".manifest"):
+> > +                f.software_primaryPurpose =3D oe.spdx30.software_Softw=
+arePurpose.manifest
+> > +            elif fn.endswith(".testdata.json"):
+> > +                f.software_primaryPurpose =3D (
+> > +                    oe.spdx30.software_SoftwarePurpose.configuration
+> > +                )
+> > +            else:
+> > +                set_purposes(d, f, "SPDX_SDK_PURPOSE")
+> > +                root_files.append(f)
+> > +
+> > +            files.add(f)
+> > +
+> > +    if files:
+> > +        rootfs_objset.new_scoped_relationship(
+> > +            [sdk_build],
+> > +            oe.spdx30.RelationshipType.hasOutput,
+> > +            oe.spdx30.LifecycleScopeType.build,
+> > +            files,
+> > +        )
+> > +    else:
+> > +        bb.warn(f"No SDK output files found in {sdk_deploydir}")
+> > +
+> > +    objset, sbom =3D oe.sbom30.create_sbom(
+> > +        d, toolchain_outputname, sorted(list(files)), [rootfs_objset]
+> > +    )
+> > +
+> > +    oe.sbom30.write_jsonld_doc(
+> > +        d, objset, sdk_deploydir / (toolchain_outputname + ".spdx.json=
+")
+> > +    )
+> > diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+> > new file mode 100644
+> > index 0000000000..4caefc7673
+> > --- /dev/null
+> > +++ b/meta/lib/oe/spdx_common.py
+> > @@ -0,0 +1,244 @@
+> > +#
+> > +# Copyright OpenEmbedded Contributors
+> > +#
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +
+> > +import bb
+> > +import collections
+> > +import json
+> > +import oe.packagedata
+> > +import re
+> > +import shutil
+> > +
+> > +from pathlib import Path
+> > +from dataclasses import dataclass
+> > +
+> > +LIC_REGEX =3D re.compile(
+> > +    rb"^\W*SPDX-License-Identifier:\s*([ \w\d.()+-]+?)(?:\s+\W*)?$",
+> > +    re.MULTILINE,
+> > +)
+> > +
+> > +
+> > +def extract_licenses(filename):
+> > +    """
+> > +    Extract SPDX License identifiers from a file
+> > +    """
+> > +    try:
+> > +        with open(filename, "rb") as f:
+> > +            size =3D min(15000, os.stat(filename).st_size)
+> > +            txt =3D f.read(size)
+> > +            licenses =3D re.findall(LIC_REGEX, txt)
+> > +            if licenses:
+> > +                ascii_licenses =3D [lic.decode("ascii") for lic in lic=
+enses]
+> > +                return ascii_licenses
+> > +    except Exception as e:
+> > +        bb.warn(f"Exception reading {filename}: {e}")
+> > +    return []
+> > +
+> > +
+> > +def is_work_shared_spdx(d):
+> > +    return '/work-shared/' in d.getVar('S')
+> > +
+> > +
+> > +def load_spdx_license_data(d):
+> > +    with open(d.getVar("SPDX_LICENSES"), "r") as f:
+> > +        data =3D json.load(f)
+> > +        # Transform the license array to a dictionary
+> > +        data["licenses"] =3D {l["licenseId"]: l for l in data["license=
+s"]}
+> > +
+> > +    return data
+> > +
+> > +
+> > +def process_sources(d):
+> > +    """
+> > +    Returns True if the sources for this recipe should be included in =
+the SPDX
+> > +    or False if not
+> > +    """
+> > +    pn =3D d.getVar("PN")
+> > +    assume_provided =3D (d.getVar("ASSUME_PROVIDED") or "").split()
+> > +    if pn in assume_provided:
+> > +        for p in d.getVar("PROVIDES").split():
+> > +            if p !=3D pn:
+> > +                pn =3D p
+> > +                break
+> > +
+> > +    # glibc-locale: do_fetch, do_unpack and do_patch tasks have been d=
+eleted,
+> > +    # so avoid archiving source here.
+> > +    if pn.startswith("glibc-locale"):
+> > +        return False
+> > +    if d.getVar("PN") =3D=3D "libtool-cross":
+> > +        return False
+> > +    if d.getVar("PN") =3D=3D "libgcc-initial":
+> > +        return False
+> > +    if d.getVar("PN") =3D=3D "shadow-sysroot":
+> > +        return False
+> > +
+> > +    return True
+> > +
+> > +
+> > +@dataclass(frozen=3DTrue)
+> > +class Dep(object):
+> > +    pn: str
+> > +    hashfn: str
+> > +    in_taskhash: bool
+> > +
+> > +
+> > +def collect_direct_deps(d, dep_task):
+> > +    """
+> > +    Find direct dependencies of current task
+> > +
+> > +    Returns the list of recipes that have a dep_task that the current =
+task
+> > +    depends on
+> > +    """
+> > +    current_task =3D "do_" + d.getVar("BB_CURRENTTASK")
+> > +    pn =3D d.getVar("PN")
+> > +
+> > +    taskdepdata =3D d.getVar("BB_TASKDEPDATA", False)
+> > +
+> > +    for this_dep in taskdepdata.values():
+> > +        if this_dep[0] =3D=3D pn and this_dep[1] =3D=3D current_task:
+> > +            break
+> > +    else:
+> > +        bb.fatal(f"Unable to find this {pn}:{current_task} in taskdepd=
+ata")
+> > +
+> > +    deps =3D set()
+> > +
+> > +    for dep_name in this_dep.deps:
+> > +        dep_data =3D taskdepdata[dep_name]
+> > +        if dep_data.taskname =3D=3D dep_task and dep_data.pn !=3D pn:
+> > +            deps.add((dep_data.pn, dep_data.hashfn, dep_name in this_d=
+ep.taskhash_deps))
+> > +
+> > +    return sorted(deps)
+> > +
+> > +
+> > +def get_spdx_deps(d):
+> > +    """
+> > +    Reads the SPDX dependencies JSON file and returns the data
+> > +    """
+> > +    spdx_deps_file =3D Path(d.getVar("SPDXDEPS"))
+> > +
+> > +    deps =3D []
+> > +    with spdx_deps_file.open("r") as f:
+> > +        for d in json.load(f):
+> > +            deps.append(Dep(*d))
+> > +    return deps
+> > +
+> > +
+> > +def collect_package_providers(d):
+> > +    """
+> > +    Returns a dictionary where each RPROVIDES is mapped to the package=
+ that
+> > +    provides it
+> > +    """
+> > +    deploy_dir_spdx =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
+> > +
+> > +    providers =3D {}
+> > +
+> > +    deps =3D collect_direct_deps(d, "do_create_spdx")
+> > +    deps.append((d.getVar("PN"), d.getVar("BB_HASHFILENAME"), True))
+> > +
+> > +    for dep_pn, dep_hashfn, _ in deps:
+> > +        localdata =3D d
+> > +        recipe_data =3D oe.packagedata.read_pkgdata(dep_pn, localdata)
+> > +        if not recipe_data:
+> > +            localdata =3D bb.data.createCopy(d)
+> > +            localdata.setVar("PKGDATA_DIR", "${PKGDATA_DIR_SDK}")
+> > +            recipe_data =3D oe.packagedata.read_pkgdata(dep_pn, locald=
+ata)
+> > +
+> > +        for pkg in recipe_data.get("PACKAGES", "").split():
+> > +            pkg_data =3D oe.packagedata.read_subpkgdata_dict(pkg, loca=
+ldata)
+> > +            rprovides =3D set(
+> > +                n
+> > +                for n, _ in bb.utils.explode_dep_versions2(
+> > +                    pkg_data.get("RPROVIDES", "")
+> > +                ).items()
+> > +            )
+> > +            rprovides.add(pkg)
+> > +
+> > +            if "PKG" in pkg_data:
+> > +                pkg =3D pkg_data["PKG"]
+> > +                rprovides.add(pkg)
+> > +
+> > +            for r in rprovides:
+> > +                providers[r] =3D (pkg, dep_hashfn)
+> > +
+> > +    return providers
+> > +
+> > +
+> > +def get_patched_src(d):
+> > +    """
+> > +    Save patched source of the recipe in SPDX_WORKDIR.
+> > +    """
+> > +    spdx_workdir =3D d.getVar("SPDXWORK")
+> > +    spdx_sysroot_native =3D d.getVar("STAGING_DIR_NATIVE")
+> > +    pn =3D d.getVar("PN")
+> > +
+> > +    workdir =3D d.getVar("WORKDIR")
+> > +
+> > +    try:
+> > +        # The kernel class functions require it to be on work-shared, =
+so we dont change WORKDIR
+> > +        if not is_work_shared_spdx(d):
+> > +            # Change the WORKDIR to make do_unpack do_patch run in ano=
+ther dir.
+> > +            d.setVar("WORKDIR", spdx_workdir)
+> > +            # Restore the original path to recipe's native sysroot (it=
+'s relative to WORKDIR).
+> > +            d.setVar("STAGING_DIR_NATIVE", spdx_sysroot_native)
+> > +
+> > +            # The changed 'WORKDIR' also caused 'B' changed, create di=
+r 'B' for the
+> > +            # possibly requiring of the following tasks (such as some =
+recipes's
+> > +            # do_patch required 'B' existed).
+> > +            bb.utils.mkdirhier(d.getVar("B"))
+> > +
+> > +            bb.build.exec_func("do_unpack", d)
+> > +
+> > +            if d.getVar("SRC_URI") !=3D "":
+> > +                if bb.data.inherits_class('dos2unix', d):
+> > +                    bb.build.exec_func('do_convert_crlf_to_lf', d)
+> > +                bb.build.exec_func("do_patch", d)
+> > +
+> > +        # Copy source from work-share to spdx_workdir
+> > +        if is_work_shared_spdx(d):
+> > +            share_src =3D d.getVar('S')
+> > +            d.setVar("WORKDIR", spdx_workdir)
+> > +            d.setVar("STAGING_DIR_NATIVE", spdx_sysroot_native)
+> > +            # Copy source to ${SPDXWORK}, same basename dir of ${S};
+> > +            src_dir =3D (
+> > +                spdx_workdir
+> > +                + "/"
+> > +                + os.path.basename(share_src)
+> > +            )
+> > +            # For kernel souce, rename suffix dir 'kernel-source'
+> > +            # to ${BP} (${BPN}-${PV})
+> > +            if bb.data.inherits_class("kernel", d):
+> > +                src_dir =3D spdx_workdir + "/" + d.getVar('BP')
+> > +
+> > +            bb.note(f"copyhardlinktree {share_src} to {src_dir}")
+> > +            oe.path.copyhardlinktree(share_src, src_dir)
+> > +
+> > +        # Some userland has no source.
+> > +        if not os.path.exists(spdx_workdir):
+> > +            bb.utils.mkdirhier(spdx_workdir)
+> > +    finally:
+> > +        d.setVar("WORKDIR", workdir)
+> > +
+> > +
+> > +def has_task(d, task):
+> > +    return bool(d.getVarFlag(task, "task", False)) and not bool(d.getV=
+arFlag(task, "noexec", False))
+> > +
+> > +
+> > +def fetch_data_to_uri(fd, name):
+> > +    """
+> > +    Translates a bitbake FetchData to a string URI
+> > +    """
+> > +    uri =3D fd.type
+> > +    # Map gitsm to git, since gitsm:// is not a valid URI protocol
+> > +    if uri =3D=3D "gitsm":
+> > +        uri =3D "git"
+> > +    proto =3D getattr(fd, "proto", None)
+> > +    if proto is not None:
+> > +        uri =3D uri + "+" + proto
+> > +    uri =3D uri + "://" + fd.host + fd.path
+> > +
+> > +    if fd.method.supports_srcrev():
+> > +        uri =3D uri + "@" + fd.revision
+> > +
+> > +    return uri
+> > --
+> > 2.43.0
+> >
 
- =C2=A0 =C2=A0 # Copy the natively built llvm-config into the target so w=
-e can run=20
-it. Horrible,
- =C2=A0 =C2=A0 # but works!
- =C2=A0 =C2=A0 if [ ${RUST_ALTERNATE_EXE_PATH_NATIVE} !=3D=20
-${RUST_ALTERNATE_EXE_PATH} -a ! -f ${RUST_ALTERNATE_EXE_PATH} ]; then
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p `dirname ${RUST_ALTERNATE_EXE_PATH}=
-`
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${RUST_ALTERNATE_EXE_PATH_NATIVE} ${RUST_=
-ALTERNATE_EXE_PATH}
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e ${STAGING_LIBDIR_NATIVE}/libc++.so.1=
- ]; then
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patchelf --set-rpath \$ORIGIN/=
-../../../../../`basename=20
-${STAGING_DIR_NATIVE}`${libdir_native} ${RUST_ALTERNATE_EXE_PATH}
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 else
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 patchelf --remove-rpath ${RUST=
-_ALTERNATE_EXE_PATH}
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi
- =C2=A0 =C2=A0 fi
-
-Since llvm-config is being copied from ${STAGING_BINDIR_NATIVE} to=20
-${STAGING_BINDIR},
-and the native Clang was built with the following configuration:
-LLVM_TARGETS_TO_BUILD ?=3D=20
-"AArch64;ARM;BPF;Mips;PowerPC;RISCV;X86;LoongArch;${LLVM_TARGETS_GPU}"
-
-The copied llvm-config will expect the corresponding target libraries to=20
-be present in the ${STAGING_LIBDIR}.
-
-To address this issue, as far as I can see we have three options.
-
-1) Build clang-target also for all mentioned archs for clang-native.
-2) Copy all the required libraries from ${STAGING_LIBDIR_NATIVE} to=20
-${STAGING_LIBDIR}.
-3) Instead of copying llvm-config from ${STAGING_BINDIR_NATIVE} to=20
-${STAGING_BINDIR},
- =C2=A0 =C2=A0 =C2=A0directly make rust-target build dependent=20
-on=C2=A0=C2=A0${STAGING_BINDIR_NATIVE}/llvm-config.
-
-Are there any better or cleaner alternatives to handle this situation?
-Any suggestions would be greatly appreciated.
-
-Regards,
-Deepesh
-
->>>>    LLVM_EXPERIMENTAL_TARGETS_TO_BUILD ?=3D ""
->>>>
->>>> @@ -107,6 +106,7 @@ EXTRA_OECMAKE +=3D "-DLLVM_ENABLE_ASSERTIONS=3DO=
-FF \
->>>>                      -DLLVM_ENABLE_PIC=3DON \
->>>>                      -DCLANG_DEFAULT_PIE_ON_LINUX=3DON \
->>>>                      -DLLVM_BINDINGS_LIST=3D'' \
->>>> +               -DLLVM_INSTALL_UTILS=3DON \
->>> tabs vs spaces inconsistenty. Please fix it.
->> Sure.
->>>>                      -DLLVM_ENABLE_FFI=3DON \
->>>>                      -DLLVM_ENABLE_ZSTD=3DON \
->>>>                      -DFFI_INCLUDE_DIR=3D$(pkg-config
->>>> --variable=3Dincludedir libffi) \
->>>> @@ -137,7 +137,7 @@ EXTRA_OECMAKE:append:class-target =3D "\
->>>> -DCMAKE_AR=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-ar \
->>>> -DCMAKE_NM=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-nm \
->>>> -DCMAKE_STRIP=3D${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}llvm-str=
-ip \
->>>> -                  -DLLVM_TARGET_ARCH=3D${HOST_ARCH} \
->>>> + -DLLVM_TARGET_ARCH=3D${@get_clang_target_arch(bb, d)} \
->>> why is this change needed ?
->>>
->> I made this change to ensure that LLVM_TARGET_ARCH is set correctly to
->> the actual target architecture.
->> However, it appears that even without this change, the build completes
->> successfully for the target. I checked
->> and printed the value of HOST_ARCH and realized it was already set
->> correctly my mistake. This change is
->> not required.
-> LLVM_TARGET_ARCH is different than the backend architecture which is
-> denoted by LLVM_TARGETS_TO_BUILD
->
->>>> -DLLVM_DEFAULT_TARGET_TRIPLE=3D${TARGET_SYS}${HF} \
->>>>                      -DLLVM_HOST_TRIPLE=3D${TARGET_SYS}${HF} \
->>>>                      -DLLVM_LIBDIR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \
->>>> diff --git a/meta/recipes-devtools/clang/common-clang.inc
->>>> b/meta/recipes-devtools/clang/common-clang.inc
->>>> index bf3a63914a..c22e3c1b19 100644
->>>> --- a/meta/recipes-devtools/clang/common-clang.inc
->>>> +++ b/meta/recipes-devtools/clang/common-clang.inc
->>>> @@ -30,10 +30,10 @@ def get_clang_arch(bb, d, arch_var):
->>>>        elif re.match('aarch64$', a):                      return
->>>> 'AArch64'
->>>>        elif re.match('aarch64_be$', a):                   return
->>>> 'AArch64'
->>>>        elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a): return 'Mi=
-ps'
->>>> -    elif re.match('riscv32$', a):                      return 'RISC=
-V'
->>>> -    elif re.match('riscv64$', a):                      return 'RISC=
-V'
->>>> +    elif re.match('riscv32$', a):                      return 'risc=
-v32'
->>>> +    elif re.match('riscv64$', a):                      return 'risc=
-v64'
->>> This is representing LLVM backend name and not normal arch and clang
->>> uses RISCV for both rv64 and rv32
->>>
->> After this change were made,
->> -                  -DLLVM_TARGET_ARCH=3D${HOST_ARCH} \
->> +                  -DLLVM_TARGET_ARCH=3D${@get_clang_target_arch(bb, d=
-)} \
->> do_configure of clang failed
->> with the following error:
->>
->> | CMake Error at cmake/config-ix.cmake:585 (message):
->> |   Unknown architecture riscv
->>
->> Since this change is irrelevant
->> -                  -DLLVM_TARGET_ARCH=3D${HOST_ARCH} \
->> +                  -DLLVM_TARGET_ARCH=3D${@get_clang_target_arch(bb, d=
-)} \
->>
->> The below changes are also not needed.
->>    -    elif re.match('riscv32$', a):                      return 'RIS=
-CV'
->>    -    elif re.match('riscv64$', a):                      return 'RIS=
-CV'
->> +    elif re.match('riscv32$', a):                      return 'riscv3=
-2'
->> +    elif re.match('riscv64$', a):                      return 'riscv6=
-4'
->> -    elif re.match('loongarch64$', a):                  return 'LoongA=
-rch'
->> +    elif re.match('loongarch64$', a):                  return
->> 'loongarch64'
->>>>        elif re.match('p(pc|owerpc)(|64)', a):             return
->>>> 'PowerPC'
->>>> -    elif re.match('loongarch64$', a):                  return
->>>> 'LoongArch'
->>>> +    elif re.match('loongarch64$', a):                  return
->>>> 'loongarch64'
->>> same problem as above here
->>>
->>>>        else:
->>>>            bb.fatal("Unhandled architecture %s" % arch_val)
->>>>            return ""
->>>> diff --git a/meta/recipes-devtools/rust/rust_1.90.0.bb
->>>> b/meta/recipes-devtools/rust/rust_1.90.0.bb
->>>> index 5d804c7398..c2cb8f8829 100644
->>>> --- a/meta/recipes-devtools/rust/rust_1.90.0.bb
->>>> +++ b/meta/recipes-devtools/rust/rust_1.90.0.bb
->>>> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D
->>>> "file://COPYRIGHT;md5=3D11a3899825f4376896e438c8c753f8dc"
->>>>    inherit rust
->>>>    inherit cargo_common
->>>>
->>>> -DEPENDS +=3D "rust-llvm"
->>>> +DEPENDS +=3D "ninja-native clang"
->>> I think using 'llvm' instead of 'clang' here is more appropriate to
->>> represent the dependency, clang provides llvm as well, it also ensure=
-s
->>> that when we split llvm out of clang recipe then you do not need to
->>> change it.
->> Sure will do that.
->>>>    # native rust uses cargo/rustc from binary snapshots to bootstrap
->>>>    # but everything else should use our native builds
->>>>    DEPENDS:append:class-target =3D " cargo-native rust-native"
->>>> @@ -28,8 +28,8 @@ PV .=3D "${@bb.utils.contains('RUST_CHANNEL',
->>>> 'stable', '', '-${RUST_CHANNEL}', d)
->>>>
->>>>    export FORCE_CRATE_HASH =3D "${BB_TASKHASH}"
->>>>
->>>> -RUST_ALTERNATE_EXE_PATH ?=3D
->>>> "${STAGING_LIBDIR}/llvm-rust/bin/llvm-config"
->>>> -RUST_ALTERNATE_EXE_PATH_NATIVE =3D
->>>> "${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config"
->>>> +RUST_ALTERNATE_EXE_PATH ?=3D "${STAGING_BINDIR}/llvm-config"
->>>> +RUST_ALTERNATE_EXE_PATH_NATIVE =3D "${STAGING_BINDIR_NATIVE}/llvm-c=
-onfig"
->>>>
->>>>    # We don't want to use bitbakes vendoring because the rust source=
-s
->>>> do their
->>>>    # own vendoring.
->>>> @@ -188,6 +188,16 @@ python do_configure() {
->>>>        bb.build.exec_func("setup_cargo_environment", d)
->>>>    }
->>>>
->>>> +#llvm-config expecting static libraries in 'lib' instead of 'lib64'.
->>>> +#Since LLVM is built as a non-multilib component, the 'lib' directo=
-ry
->>>> +#doesn't have any library files when multilibs enabled. So, copying
->>>> +#library files without impacting multilib behavior.
->>>> +do_compile:append:class-target() {
->>>> +if [ -d ${STAGING_DIR_TARGET}/usr/lib64 ]; then
->>>> +    cp ${STAGING_DIR_TARGET}/usr/lib64/libLLVM*.a
->>>> ${STAGING_DIR_TARGET}/usr/lib/.
->>>> +fi
->>>> +}
->>>> +
->>>>    rust_runx () {
->>>>        echo "COMPILE ${PN}" "$@"
->>>>
->>>> @@ -199,7 +209,7 @@ rust_runx () {
->>>>        unset CXXFLAGS
->>>>        unset CPPFLAGS
->>>>
->>>> -    export RUSTFLAGS=3D"${RUST_DEBUG_REMAP}"
->>>> +    export RUSTFLAGS=3D"${RUST_DEBUG_REMAP} -Clink-arg=3D-lz
->>>> -Clink-arg=3D-lzstd"
->>>>
->>>>        # Copy the natively built llvm-config into the target so we c=
-an
->>>> run it. Horrible,
->>>>        # but works!
->>>>
->>>>
->>>>
->>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>> Links: You receive all messages sent to this group.
->>>> View/Reply Online (#224075):
->>>> https://lists.openembedded.org/g/openembedded-core/message/224075
->>>> Mute This Topic: https://lists.openembedded.org/mt/115446166/1997914
->>>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsu=
-b
->>>> [raj.khem@gmail.com]
->>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>>
+--
+Kamel Bouhara, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
