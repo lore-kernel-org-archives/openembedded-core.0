@@ -2,40 +2,40 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2666ACAC5BB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AFAECCD187
 	for <webhook@archiver.kernel.org>; Wed,  8 Oct 2025 19:52:39 +0000 (UTC)
 Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.5])
- by mx.groups.io with SMTP id smtpd.web11.853.1759953154913471222
+ by mx.groups.io with SMTP id smtpd.web11.855.1759953158376030219
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Oct 2025 12:52:35 -0700
+ Wed, 08 Oct 2025 12:52:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=LnCtBqTq;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=dK70MW6A;
  spf=pass (domain: axis.com, ip: 52.101.84.5, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rLYuvD7WfEb7JlyCbMHTmpeQSM1ktZVsc+YiLfbSSQzmQqQBCx03novXu7rNK9SuDleg4kR1OiJGO1BwDuaAOeKR/2YELqsPdITRdFuPmkPIByYQN5P4Xw9RcKAPdcTYNPVqCAiXdxb2OcOcehPW2Nt6K8cFYji580yB+VJZGD7f5IX8Px1YAVftGYh0ko7WTC7hh4o+rqtixCyb1MsEW3RQdOSWK9sUDShNZCDICXpFwH025wTA1BrAl2BSKtup5yX30UvDZokeFV7thB/4FjGc7U9JLLInj6Dp+gaZSatTVT1n9lwWEE0MEg0It8N9uA2LW55vMO1S7itE+I66Wg==
+ b=dBmFp4xpAuChIk842EDZ+tTr74A+CPkFzwqR6sSKXQLuk8aoB1//lb4CxO//QBw3KBVmq3Ls4VZAk+AmnuVFbxNhcF1wy3/UT6qq2cUV5z6+tJEcs1rwkGPBQ7LzOPLTeOImU2+j3hyehFDLQqDkYCJZUTmwmk6WkmXnpI2LsMv1pMishtJPon6BdzAhwygznpnPZl3nnRR7jWorLbwZi8lds/0m8IvA2tmnxqpUIZY6WMXM6AV0bLeLgXY12FyyshUiUdLklQHio25k3otLsbKnnU3Wdq90xeLt6Os8mUZc4gMSnphQo2tBrM4vvKe/QRT1nbmqCQO7bp5Tjn3ECw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aeBq06O8fFSORceQdXbD+fWSdL2kX3iO7xiY6fwIx2E=;
- b=ZjaDYb4AGV8HH1PMAVkRHL5sEacLbjT/ADZAuUHAjGf4r2B+GMhew9xqHe2/Ln7QhB6w3+MaPWkvRbX/xHNGhoX2ssopLW49wpexfkIGJ+gZANcZRljq4kx3xn74SqOjVmyn/+T+2sp07SpNbvwbVoEKvEDyVlwpQVLAv1LOYWRrjb491iMrnKZDGXJbmTu51aFZqDMmM+QOz/h/vIS7tlYIZxNXqcXaEDmUpvbH41G5tjp57OlAkn9d4OMUzm4kHvGGDtyk7IdSzWapSoUsxOYDwqA3+1Jrb+jTR4gXC0K9Wdj0ja5smrzHbpHsw1U/99L6xqsI3W7ZBktVzGrsZA==
+ bh=jIx+91x3kve3103G5Ymq+JlGpuJplTO6zHKcuG1rw84=;
+ b=RApKhjN8JH39floViBG7v9N+g4qteNExBfGfoFE780lX0cAcNBe9JP8xjDqJH7V9pUOmR8uoOa/FJIzXcPHLcaxPWlc7Eeoe97+uYBJq3NMye13lp+i8VzxN5rc0yGd+WqlhQLzXm//zOMjRznEMQZM+YtUilun33lyP1rGAkhcgQg4NjChxo1ji5HhEc2QjuloWuvgsNrN/OHy/mPfKCKi0dOlaQ/cGVpoGxRKzsfkQAPwSNP09fR2DOeWOClhQxmQgR3RVJTTvRKrquDCXVrRziy11CoD/d0TaJ3S26IqNf2ZRc7+6NGsiaMcbdBGwUUpMo+9c/I4oyYWBogz4aQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
  header.from=axis.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aeBq06O8fFSORceQdXbD+fWSdL2kX3iO7xiY6fwIx2E=;
- b=LnCtBqTqwmVvZuOj0iMAjKZ7Wrdr2ywShE81qfHXsqWa1C91WVrEjh0TTpPnSIB3S1L3EQdhjZt8CHQxzmdK7+M6LUid+nibl2RvPvn9eRTy5xeR2+y2J+OFi4Ch0t9w690bY8ho5MdNgizkU7zPYz8w07aHvkiCbvj7EOl6VpY=
-Received: from DUZPR01CA0267.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b9::10) by AS8PR02MB8293.eurprd02.prod.outlook.com
- (2603:10a6:20b:509::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Wed, 8 Oct
- 2025 19:52:30 +0000
-Received: from DB5PEPF00014B9E.eurprd02.prod.outlook.com
- (2603:10a6:10:4b9:cafe::db) by DUZPR01CA0267.outlook.office365.com
- (2603:10a6:10:4b9::10) with Microsoft SMTP Server (version=TLS1_3,
+ bh=jIx+91x3kve3103G5Ymq+JlGpuJplTO6zHKcuG1rw84=;
+ b=dK70MW6AFiKhFc7RLTPMYpdE80XiQNe98gMDZA49nsss5yoR6g1U40KUhPM7OaDu+dviun2duwJ0kIFejK40DKQUZLISv3AoEvw0d1qyDBTW9hP0zx4wvt+23YM/rQmfZGcwhLhhXqD/EQz2cqwd7wVVIxdcZFNmJ+NBn+gKMUs=
+Received: from AM4PR07CA0032.eurprd07.prod.outlook.com (2603:10a6:205:1::45)
+ by VI0PR02MB10969.eurprd02.prod.outlook.com (2603:10a6:800:266::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Wed, 8 Oct
+ 2025 19:52:33 +0000
+Received: from AM1PEPF000252DB.eurprd07.prod.outlook.com
+ (2603:10a6:205:1:cafe::38) by AM4PR07CA0032.outlook.office365.com
+ (2603:10a6:205:1::45) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.9 via Frontend Transport; Wed, 8
- Oct 2025 19:52:35 +0000
+ Oct 2025 19:52:33 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
  smtp.mailfrom=axis.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=axis.com;
@@ -43,168 +43,174 @@ Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
  195.60.68.100 as permitted sender) receiver=protection.outlook.com;
  client-ip=195.60.68.100; helo=mail.axis.com; pr=C
 Received: from mail.axis.com (195.60.68.100) by
- DB5PEPF00014B9E.mail.protection.outlook.com (10.167.8.171) with Microsoft
+ AM1PEPF000252DB.mail.protection.outlook.com (10.167.16.53) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9203.9 via Frontend Transport; Wed, 8 Oct 2025 19:52:30 +0000
-Received: from SE-MAIL21W.axis.com (10.20.40.16) by se-mail02w.axis.com
+ 15.20.9203.9 via Frontend Transport; Wed, 8 Oct 2025 19:52:32 +0000
+Received: from se-mail02w.axis.com (10.20.40.8) by se-mail02w.axis.com
  (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Wed, 8 Oct
- 2025 21:52:29 +0200
-Received: from se-mail01w.axis.com (10.20.40.7) by SE-MAIL21W.axis.com
- (10.20.40.16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58; Wed, 8 Oct
- 2025 21:52:29 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Wed, 8 Oct 2025 21:52:29 +0200
+ 2025 21:52:32 +0200
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Wed, 8 Oct 2025 21:52:32 +0200
 Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id B9D731992
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Oct 2025 21:52:29 +0200 (CEST)
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 259C61AC9
+	for <openembedded-core@lists.openembedded.org>; Wed,  8 Oct 2025 21:52:32 +0200 (CEST)
 Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id B39AA1208C4; Wed,  8 Oct 2025 21:52:28 +0200 (CEST)
+	id 213BE120210; Wed,  8 Oct 2025 21:52:31 +0200 (CEST)
 From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/4] core-image.bbclass: Sort the FEATURE_PACKAGES_*
-Date: Wed, 8 Oct 2025 21:52:15 +0200
-Message-ID: <20251008195219.117570-1-pkj@axis.com>
+Subject: [PATCH 3/4] core-image.bbclass: Tweak the descriptions of the image features
+Date: Wed, 8 Oct 2025 21:52:17 +0200
+Message-ID: <20251008195219.117570-3-pkj@axis.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251008195219.117570-1-pkj@axis.com>
+References: <20251008195219.117570-1-pkj@axis.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B9E:EE_|AS8PR02MB8293:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e8d93c5-f4a1-457c-229a-08de06a43728
+X-MS-TrafficTypeDiagnostic: AM1PEPF000252DB:EE_|VI0PR02MB10969:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30c3db39-d5d2-419e-ddd7-08de06a4388f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|376014|36860700013|1800799024;
+	BCL:0;ARA:13230040|36860700013|376014|1800799024|82310400026;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?V2rtAJizDt+tpJKjC/DkustUhm1//OXC++sJioLf7fjjyo5gg132dIiyAdk2?=
- =?us-ascii?Q?tX6D0s0P8lC3iYqHcUZTb+3AkBN1iYUPgps1KE1+Pfz6oA+LZanhQGBV5QXw?=
- =?us-ascii?Q?Zu6XGXaVjU1iVw/0oJU20K9eFGe0l8xqOLv+RtOEbtsSMku1R0XZlEy9hY9w?=
- =?us-ascii?Q?ABYJlaLKjPQ6DTg3dtyAPwLBMalUYvTb7BKJiSWB5IoyS+rPOtz7IHx065Wd?=
- =?us-ascii?Q?1bQiAonmTQ7v90wwy4ahzmqOSBnAX1AJlMf8qYGD5Yd0oLuYgOfxicqlGEhm?=
- =?us-ascii?Q?ZyutV9SvvcMlvQebUs+ZDS0GAQxY4iyfuJRRWQTMdS9r73jqesJ/DutpKm/F?=
- =?us-ascii?Q?ivH28ZmXtnjV8jAeYG6zSUci8G15LufDHsHKb4ceY96URxtMrfC6uUMnRV/r?=
- =?us-ascii?Q?HWttmnwFfsX2brbY1ocUIlnT50eeNj5OrkCVpdMSSySQRqcfOOnorjidGL7P?=
- =?us-ascii?Q?YCGVK0791JOGR3U2UbcY5cgeiyhxDTCr+3fIU7fWisWw4q+0RP15N9xgpaMT?=
- =?us-ascii?Q?cnNEl8RoCqg+u4lsAcTfvbJNJ5cAZdfKGlGevgvgTDrXCHlqg5QOp0NZJOMg?=
- =?us-ascii?Q?X/kqWH1R4HvJT7LJXAjcaaUivmcjqjaZ9k6j51ipT0bS/igmKc6RcMEMEQYQ?=
- =?us-ascii?Q?A0qquVsfSoo5thNAykWM2rCKPWId/opSZC0gr7GEuw3+QvOV6MB2tCDplOj8?=
- =?us-ascii?Q?vr4GVWrLUg9Qg5XvjyeQkWCDE1aSyIMFDuuJwS+zJtsXytGlHYA4ZA365nVF?=
- =?us-ascii?Q?mVltImBpMVatyez3sXfVSoYoBGM+1p1uChzOvULWpnPSVP5v5W91iOpVfIfL?=
- =?us-ascii?Q?7GZSUO3M1ZRwFBV+X/4p5gj9BwWnzU44br30g3/F6SrlIeSdoco6wYat4Py/?=
- =?us-ascii?Q?jaROf3mV8IReJyy/61mIEXllnPrBR3iVmSOU2umENR1dMzue2qg+pCP35Urb?=
- =?us-ascii?Q?VkthT588pT0xTB6NGCMsQMYIDFislHx3H2elnkx2XbhVC2GEB2/uIja2mERt?=
- =?us-ascii?Q?GQ9gKlDaI+aydbP1evcLIk/xkC1ZY7kBEmR/PwFmMcyHtEOzSOmdD+a4fopf?=
- =?us-ascii?Q?XyVHgQPjBwxYXzdIFPHw4QSGKuEmB76cEV0sHT8iuiG+YIFE6cMLttyHolKU?=
- =?us-ascii?Q?3RAteL7N/SnjEKPehpRDPK7aYd5wpDF4PffS14Y1ii45u+JRgodJQ56PBZif?=
- =?us-ascii?Q?K+Z76awbidaijPAPBADNt4asZL5tdnndw+pTInrwdWsWodmDtAG1NyE/Etyn?=
- =?us-ascii?Q?Nic6RopqX3q5hOhaNrkMsw6zUkBnv/fnyBnF0yPIZr8wHSQDD8eAW0sZWOam?=
- =?us-ascii?Q?2BFj7b9W0XszfN88rIQBocPNOpSR8IbTQ6lf3FIJIVRKXCvirRwTmlrTJZDa?=
- =?us-ascii?Q?FbDPLqZB5oDK0tEKkOU23atoEXBvxksRV9IAQdAo0dkkx62gQdA15+a2dHqf?=
- =?us-ascii?Q?OQ8rrWrvcUQ5+0ynqDZcK9CHW9KTPou4nHBbXIR6v4+LYy7DP4JSXq6JA2nL?=
- =?us-ascii?Q?b/2oJ1mdRmvI1RpIvYYg72cGliYnVFhZlhHenKCwoEIDIgu4LdeY+9Svjjx7?=
- =?us-ascii?Q?940ntXcmrAGn26tdtts=3D?=
+	=?us-ascii?Q?JaV3XcxLU7rOGdf98yj8MRFHdDDOlxTlwCZ8nAuixIPibmVjKvSN0+7j9o3s?=
+ =?us-ascii?Q?SufYMWSexzDBHruP7YU0L73dHRe6n3CGg92tMxR7Qmv49jjADzwERIK0fZRX?=
+ =?us-ascii?Q?hINu3aq1DtGyRceQ6cknU8ezPinc26BETPnagQNQ2Mg+CPh/OtaIUwJ3bCvE?=
+ =?us-ascii?Q?EeSc7/avEPmSJzR8DbQvLDDrr/q9wMhKGAGr9+i5F0XOQ5GH15AklziLcsNS?=
+ =?us-ascii?Q?mqGvEQBLdm9PQ76Q/kDh9dDhR+pu+JyrXT/kzxGIGKmWBRPnwFWSTPTZX6rc?=
+ =?us-ascii?Q?4gB0l3RxH/mR+EsG7rQNL4TZf4lMY1wOWtmOThTP4wWUcS/qMc6WM7vzWvU9?=
+ =?us-ascii?Q?37KPYBdE6MaM4muwwcf38YpD+NwzBWXDWcMP5bSplX+Cio0xfTy78l5kqtYr?=
+ =?us-ascii?Q?AWrWOzwVCo2em2DjiCDvxS2ZnOdJXIdi4id7dX5E7OAQmL9GAf2n2YR5suLG?=
+ =?us-ascii?Q?FpEt/VNYe/1BJ2Jnd/z1uUVhpRKrZTbNuwwCSjkgy5FtG44tM8SdXhhYUa8o?=
+ =?us-ascii?Q?kyUtdFiPxRRZLKMk6O8XkVedaIgM1H0adiVYdHN12hFhu+9Q79UVmccVXfrg?=
+ =?us-ascii?Q?xbhY0Go256TRMEGHIjPKLU6seP9yQ6vKk2BPFxsHuFxqj4uT2kxQNr9Iu2rV?=
+ =?us-ascii?Q?oOt/e+6oj7njeUvwa6z3TSXy4BGTWB+98berlHbJma38Lfijn+4WvxGBspht?=
+ =?us-ascii?Q?mJTi14QhS/jjiBz3ogEBh38XshY0xZTf1xHUrLzLVjSHw9TZqAtYtz7CuaKx?=
+ =?us-ascii?Q?MVA7S+ltcFZKwyFwYK9bWunlp2LposZXzw0rWNdsrXPa/MBmz7MVqkxKhoHy?=
+ =?us-ascii?Q?u/hF9beCP4BR0ce+QVWEj6xTVMou6zV4sx8doFi3D/2bLLkvHEMomgyK3bV4?=
+ =?us-ascii?Q?7wFdafrrukusYVJy7XRw53UN+46c4W89NYG16mBHo4HEvB6wTSRWIRfKxHx9?=
+ =?us-ascii?Q?Zg4XERaBobDBdx8qzfLz0lVc9+JwD/UrJ1rD9dcJT+xuqMB9/FWmW/A78Oer?=
+ =?us-ascii?Q?NY9NptoasOHK+OvTkZIk8gicVJnpxnf3fgRWqjmsqBHKqvz3CSqnL1wiwmbL?=
+ =?us-ascii?Q?RuctuM4X5eF2n1XU5SaLkM1xYf/Ohm5KrT9SXxXj3zYElnF6U8VBY8XGSpdl?=
+ =?us-ascii?Q?oVkFVwvkTw91BKdHrlOXpQr/F9R6q+HLSiJc9ubu0BMhRWijtqaqssdPnEX9?=
+ =?us-ascii?Q?8HLn6zm1O/StoJ0VNkBuexKTpQ0Uh3uX1MdzVv4Q9LBc4g+raszaenMt3JtN?=
+ =?us-ascii?Q?mTK9YRRfnTLBsn2HrQVgnzvNqUyzGurQprg42GWup9y6ehQIUzH5Cn26z+II?=
+ =?us-ascii?Q?NVpRpib9WicraoMHuOVr1KfBJqqLTfg9q5syTMi8uMVE9RwVQ7/3zW7SGbbU?=
+ =?us-ascii?Q?yht5sIHe/HJY7TEJXRLij53VMv+dBB3RjL+UvgVjzLZhqPAQiqxysAbkuuO3?=
+ =?us-ascii?Q?puVIgZzuBLwtUbkI/cBD5TXB0ZzHjOfgZn/N9kEKFcVlr/dQQUaDeFSECq7y?=
+ =?us-ascii?Q?e6lqkTCSRvgsEQMFLq+GVCevO6eTA99YrBgaBHRyC8l54A47bCpUCNJyxTEh?=
+ =?us-ascii?Q?Kbcpic+LjUyn/aPmAgQ=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
 X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2025 19:52:30.2450
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2025 19:52:32.6135
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e8d93c5-f4a1-457c-229a-08de06a43728
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30c3db39-d5d2-419e-ddd7-08de06a4388f
 X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B9E.eurprd02.prod.outlook.com
+	AM1PEPF000252DB.eurprd07.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB8293
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR02MB10969
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Oct 2025 19:52:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224596
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224598
 
-This is primarily a preparation for the next commit.
+Some minor grammatical changes, and removal of some duplicate
+information. Also note which features were previously part of the
+debug-tweaks feature.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes-recipe/core-image.bbclass | 41 +++++++++++++-------------
- 1 file changed, 20 insertions(+), 21 deletions(-)
+ meta/classes-recipe/core-image.bbclass | 29 +++++++++++++-------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
 diff --git a/meta/classes-recipe/core-image.bbclass b/meta/classes-recipe/c=
 ore-image.bbclass
-index 4072e420c5..34d4c2f544 100644
+index 67802f738d..2fb857d2ff 100644
 --- a/meta/classes-recipe/core-image.bbclass
 +++ b/meta/classes-recipe/core-image.bbclass
-@@ -11,20 +11,20 @@
+@@ -4,16 +4,16 @@
+ #
+ # SPDX-License-Identifier: MIT
+=20
+-# IMAGE_FEATURES control content of the core reference images
++# IMAGE_FEATURES control the content of the core reference images
+ #=20
+ # By default we install packagegroup-core-boot and packagegroup-base-exten=
+ded packages;
+-# this gives us working (console only) rootfs.
++# this gives us a working (console only) rootfs.
  #
  # Available IMAGE_FEATURES:
  #
--# - weston              - Weston Wayland compositor
--# - x11                 - X server
--# - x11-base            - X server with minimal environment
--# - x11-sato            - OpenedHand Sato environment
--# - tools-debug         - debugging tools
+ # These features install additional packages into the rootfs:
  # - eclipse-debug       - Eclipse remote debugging support
--# - tools-profile       - profiling tools
--# - tools-testapps      - tools usable to make some device tests
--# - tools-sdk           - SDK (C/C++ compiler, autotools, etc.)
--# - nfs-server          - NFS server
-+# - hwcodecs            - Install hardware acceleration codecs
- # - nfs-client          - NFS client
-+# - nfs-server          - NFS server
- # - ssh-server-dropbear - SSH server (dropbear)
- # - ssh-server-openssh  - SSH server (openssh)
 -# - hwcodecs            - Install hardware acceleration codecs
-+# - tools-debug         - debugging tools
-+# - tools-profile       - profiling tools
-+# - tools-sdk           - SDK (C/C++ compiler, autotools, etc.)
-+# - tools-testapps      - tools usable to make some device tests
-+# - weston              - Weston Wayland compositor
-+# - x11                 - X server
-+# - x11-base            - X server with minimal environment
-+# - x11-sato            - OpenedHand Sato environment
++# - hwcodecs            - hardware acceleration codecs (specified in MACHI=
+NE_HWCODECS)
+ # - nfs-client          - NFS client
+ # - nfs-server          - NFS server
  # - package-management  - installs package management tools and preserves =
 the package manager database
+@@ -30,25 +30,24 @@
+ # - x11-sato            - OpenedHand Sato environment
+ #
+ # These features install complementary packages for all installed packages=
+ in the rootfs:
+-# - dbg-pkgs            - debug symbol packages for all installed packages=
+ in the rootfs
+-# - dev-pkgs            - development packages (headers, etc.) for all ins=
+talled packages in the rootfs
+-# - doc-pkgs            - documentation packages for all installed package=
+s in the rootfs
+-# - lic-pkgs            - license packages for all installed pacakges in t=
+he rootfs, requires
+-#                         LICENSE_CREATE_PACKAGE=3D"1" to be set when buil=
+ding packages too
++# - dbg-pkgs            - debug symbol packages
++# - dev-pkgs            - development packages (headers, etc.)
++# - doc-pkgs            - documentation packages
++# - lic-pkgs            - license packages, requires LICENSE_CREATE_PACKAG=
+E=3D"1" to be set when building packages too
+ # - ptest-pkgs          - ptest packages for all ptest-enabled recipes
+ #
+ # These features install complementary development packages:
+-# - bash-completion-pkgs - bash-completion packages for recipes using bash=
+-completion bbclass
++# - bash-completion-pkgs - bash-completion packages
+ #
+ # These features tweak the behavior of the rootfs:
+-# - read-only-rootfs    - tweaks an image to support read-only rootfs
+-# - stateless-rootfs    - systemctl-native not run, image populated by sys=
+temd at runtime
++# - read-only-rootfs    - tweaks an image to support a read-only rootfs
++# - stateless-rootfs    - systemctl-native is not run, image is populated =
+by systemd at runtime
+ #
+ # These features are for development purposes (some were previously part o=
+f the debug-tweaks feature):
+-# - allow-empty-password - users can have an empty password
+-# - allow-root-login     - the root user can login
+-# - empty-root-password  - the root user has no password set
+-# - post-install-logging - log the output of postinstall scriptlets
++# - allow-empty-password  - users can have an empty password (debug-tweaks=
+)
++# - allow-root-login      - the root user can login (debug-tweaks)
++# - empty-root-password   - the root user has no password set (debug-tweak=
+s)
++# - post-install-logging  - log the output of postinstall scriptlets (debu=
+g-tweaks)
  # - serial-autologin-root - with 'empty-root-password': autologin 'root' o=
 n the serial console
- # - dev-pkgs            - development packages (headers, etc.) for all ins=
-talled packages in the rootfs
-@@ -44,21 +44,20 @@
- # - allow-root-login     - the root user can login
- # - post-install-logging - log the output of postinstall scriptlets
  #
--FEATURE_PACKAGES_weston =3D "packagegroup-core-weston"
--FEATURE_PACKAGES_x11 =3D "packagegroup-core-x11"
--FEATURE_PACKAGES_x11-base =3D "packagegroup-core-x11-base"
--FEATURE_PACKAGES_x11-sato =3D "packagegroup-core-x11-sato"
--FEATURE_PACKAGES_tools-debug =3D "packagegroup-core-tools-debug"
  FEATURE_PACKAGES_eclipse-debug =3D "packagegroup-core-eclipse-debug"
--FEATURE_PACKAGES_tools-profile =3D "packagegroup-core-tools-profile"
--FEATURE_PACKAGES_tools-testapps =3D "packagegroup-core-tools-testapps"
--FEATURE_PACKAGES_tools-sdk =3D "packagegroup-core-sdk packagegroup-core-st=
-andalone-sdk-target"
--FEATURE_PACKAGES_nfs-server =3D "packagegroup-core-nfs-server"
-+FEATURE_PACKAGES_hwcodecs =3D "${MACHINE_HWCODECS}"
- FEATURE_PACKAGES_nfs-client =3D "packagegroup-core-nfs-client"
-+FEATURE_PACKAGES_nfs-server =3D "packagegroup-core-nfs-server"
- FEATURE_PACKAGES_ssh-server-dropbear =3D "packagegroup-core-ssh-dropbear"
- FEATURE_PACKAGES_ssh-server-openssh =3D "packagegroup-core-ssh-openssh"
--FEATURE_PACKAGES_hwcodecs =3D "${MACHINE_HWCODECS}"
--
-+FEATURE_PACKAGES_tools-debug =3D "packagegroup-core-tools-debug"
-+FEATURE_PACKAGES_tools-profile =3D "packagegroup-core-tools-profile"
-+FEATURE_PACKAGES_tools-sdk =3D "packagegroup-core-sdk packagegroup-core-st=
-andalone-sdk-target"
-+FEATURE_PACKAGES_tools-testapps =3D "packagegroup-core-tools-testapps"
-+FEATURE_PACKAGES_weston =3D "packagegroup-core-weston"
-+FEATURE_PACKAGES_x11 =3D "packagegroup-core-x11"
-+FEATURE_PACKAGES_x11-base =3D "packagegroup-core-x11-base"
-+FEATURE_PACKAGES_x11-sato =3D "packagegroup-core-x11-sato"
-=20
- # IMAGE_FEATURES_REPLACES_foo =3D 'bar1 bar2'
- # Including image feature foo would replace the image features bar1 and ba=
-r2
 
