@@ -2,214 +2,204 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DF7FCCD18A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC78CCD183
 	for <webhook@archiver.kernel.org>; Thu,  9 Oct 2025 19:31:29 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.9238.1760038285179044806
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.9190.1760038283182034574
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Oct 2025 12:31:25 -0700
+ Thu, 09 Oct 2025 12:31:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JJuV2+nH;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so1341873b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 12:31:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0sfxnC67;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-796f9a8a088so1070937b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 12:31:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760038284; x=1760643084; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760038282; x=1760643082; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=t2Dk3B6aFLb4eA3/NJvBvsLTdiNCn+Tb8GkJ3l4zIVA=;
-        b=JJuV2+nHUd/xXjfGBaMKBewfsKVL7ETUtAlBir1056r/PdVN/wyksW1JXPOOB/7697
-         9EdsNBwRNMVFFfKRBfUEBLQEMieJCYt3CBmRf+UlZgnupSHMU1Cel94Fey44Dkt97xoR
-         VGKm+ldIv7K4n4LHO/RqyvePEFJRpXLf/0n1NDmaJTihs1f2D40+H3TlAMOLFq1UE3kX
-         o5h4E0g/ClC16sJCd2iedV88RW9a9sEDCTvWC11rs7j4XDK3RW/JTkhemprZRGCR1LT7
-         +2yak2ik3CINHOIJpyQ+hg/2ePhJ+peFk4hBqoMhLot/4T1AdXzUcOqIUjg/3P/NrOs+
-         PRbQ==
+        bh=FiRL46nVUvHg0caXtwjBFLYypKA99nBaKsISxmjEmBQ=;
+        b=0sfxnC6704/PJ4yE08urEYpawv4l0fcIe5v4QWaol0AByGB2GJTsqlUznEiwOnbdWe
+         nnSXM2MPLwQu/WRQ4Uo9LqkqM9FUqKT1TdGNGhCIlpyaBn5fDmaS35kJJXEk05YdmmAk
+         aESUsTImNaPyOMd+9jJlESZTJMAvdlxBMhhL67knEWA9/+8M4GjITuivNRxmXdSMpCIv
+         ZRB3qvUWQydJ5bEM+D/ScOSsozPmKlFD+rRSSw0QTYlNE/1bSdJ9wjUjnUcblIhj0nLq
+         2FLIb+PFi8JfeJyDHdA4BtSJ0dLtCIbzkIEmcbopCrM6jq1XNPpjgWkYHeT99nkiVoau
+         k3Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760038284; x=1760643084;
+        d=1e100.net; s=20230601; t=1760038282; x=1760643082;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t2Dk3B6aFLb4eA3/NJvBvsLTdiNCn+Tb8GkJ3l4zIVA=;
-        b=mvnXkx4rOVKdD3OHj6G5wixccvYahsxwF3qW3di1JqEKPFAFFxo6Yi5iKiaKRBvwMp
-         46Ser9Dw2K574qgYCKwpAJp5NgTaKOALRLO9HEaz2PTjjzZYLmXII9EZBLMLqWehrd6i
-         mfQO23xLdro0g6bmkxWV+jKJvH4gsZcIJNR4I+MIGgfs+qQ+eDE+JRIQz31QGDxTxNeF
-         nFmjc8cZR0tWaQxoQDOKAxb3OODEg1q9s++0qviPJ8U09DMe6qG9FW4qvCeUHyCRCwol
-         r8hhZt+cXQKhsQe51Vv5Vi878Zck7K/4DQGNa+ABwYr/7O9Ujk05dToaoOuAVQjmmPlx
-         oyLg==
-X-Gm-Message-State: AOJu0Yw/PQYHQwH1ub9pI3Yshj3mEbVR808cfWJh5tpY4YZpBhrkiYzt
-	q+lUBy+FiEapIm/Ru+6DQryvgQk96ieD/zL/r6zuEjclcP83c9A+tufzsR92577Xsc51/jkF4cL
-	RYBsl
-X-Gm-Gg: ASbGnctxRe3He1RGMOhRbd7+SQOwS9GwpZ+qeU3Ptn4nD4+ePjbpWWB5Xj1wVVCJ+Fg
-	vYCj0IbUId7Ir+myUomTCeAWWp+lDTcwoBKyzQAaKx5ROGCTdhapTymCOR8d8d+Cj9q5bNnzhhM
-	YrMPs4Tm5NkqxJ154lDX84r2QPrwePdGV4CrauqyW1d/VHPBh+e9pPqfHCFQoJNo+xn4ERH5As8
-	izsJsQGMn5d9xA85h1fkqvdfAkBwZzYnZOhHZcMrLD5TTdPVZBueOnWBQTXz8qmM4EnkKCFvqBs
-	YRYPOsBjiuEijxHZtGkINsMy75WC83zmP6P5p0K/innY6rBoRla30Ljfwpkrw72f2r7P6g8FCPA
-	6IC5EqHENOu7MUsoONosrXbha8t4cMayC4CSFpD1Zq7zIEpQ9
-X-Google-Smtp-Source: AGHT+IHuPsxGzGXdMtcPICkd43eshWOOZtL+XD8/e39lNi76AwFw+oJO3LtlFkoepMQwvvcUkD7mnA==
-X-Received: by 2002:a62:be0f:0:b0:77d:98ee:e1c5 with SMTP id d2e1a72fcca58-792323cfdbfmr11133242b3a.15.1760038284061;
-        Thu, 09 Oct 2025 12:31:24 -0700 (PDT)
+        bh=FiRL46nVUvHg0caXtwjBFLYypKA99nBaKsISxmjEmBQ=;
+        b=mFUGLvlz2DRDVFOwWGbbkwXQgn7Vke+IT0KQ3uIQv3Zk/ZZMVdL4NkWny9nd5sau6u
+         SY5YhEHMQH6J1UX4GXO4bg29t6dRnMnuxfJv2aRR7FHxEcM7vYbFUPk3w77m+p+d/FEA
+         fnHX079GamZ9QWpPtwW77xhowl4GE+R8HEbwH30lsNORw/3Ya5Tl1CozrcGu+gWW/W/h
+         iCaXy0Ja5SiHSfvwxx4QikyVC/v2ajUFpMNgVGhOpvUbSj4ngZHrxO2QxGWMTeJEdENE
+         8I1+3WU68fvDOxxxAYMRi6exH6e8L426liEgRi3uCN+l2l6xDq2QsZq1ms6KNZDhHljD
+         yizw==
+X-Gm-Message-State: AOJu0YwA33u9kQeWTFzk0Q7LqGLic5JaB+mkPHS+0SGaHiimnUwpAG7r
+	oOvaTx8umE6sQ6RgtfhicFKTg5uUdLi1oi+NCk972UOsK6sN9LJ/Ky/wSZNoKgvKlAtUrVncmOT
+	hxVNA
+X-Gm-Gg: ASbGnct9sOGLTZrx5GRO1atOHYchu/sX/12G+Ko7P9inAdmiOf+3aau+GTAEdo2x4SZ
+	ZZBWoIPzmWbeB0lJFll9AUvCt751WIW3Vj4Wl4qAQ5Vt33iJkXG5cmTFKBtXtG+mqe0Q1LlUT1N
+	qA6gPSgwLe5AO2GieL2WJcv9Ne+XNES/tgBvB2q3Rh/OhcbLgJCq+T+rSQo4DP9N1zb3fk9inIy
+	9hecfL90EN8ecaZjySJ9TS6styryGEmkQ0tCYz3RyIDq+IY3eO90UPBSaXTZ+OSgT/Y6pus0qVF
+	ge6CPvMXXRUP2mWHB2vJN5eS+NYS216UFrQBtBPLBxSBx3riPld5M/X+MsaJhNojIQbYEE+RwiX
+	pYSbAoj1ViTIC2SduoLXNcGnXJ83GH80j6AB+DQ==
+X-Google-Smtp-Source: AGHT+IGtXitu/lZsvpHah7XRxlSBxOnmaZnKGEyGVMbkE3UpXEQpvU6ZZVo9VdYAOMzx51ZpbsUocg==
+X-Received: by 2002:a05:6a00:8d5:b0:793:1b79:ee61 with SMTP id d2e1a72fcca58-79387434292mr9650263b3a.22.1760038282171;
+        Thu, 09 Oct 2025 12:31:22 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:b96e:4301:8642:779c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d0e2d51sm495864b3a.65.2025.10.09.12.31.23
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d0e2d51sm495864b3a.65.2025.10.09.12.31.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 12:31:23 -0700 (PDT)
+        Thu, 09 Oct 2025 12:31:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/24] libxslt: Patch for CVE-2025-7424
-Date: Thu,  9 Oct 2025 12:30:48 -0700
-Message-ID: <2e2fa1ae7f24dadae9cb8371174aa7744aa42028.1760038088.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/24] busybox: patch CVE-2025-46394
+Date: Thu,  9 Oct 2025 12:30:47 -0700
+Message-ID: <137299edbc47e8a57173ef3c22bcb719d48d5302.1760038088.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1760038088.git.steve@sakoman.com>
 References: <cover.1760038088.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 19:31:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224623
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224622
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-This patch is taken from the upstream bug, and is used by Apple in their
-build of WebKit.
+Pick commit mentioning this CVE.
+Additionally fix test broken by the CVE fix.
 
-Origin: https://gitlab.gnome.org/-/project/1762/uploads/627ae84cb0643d9adf6e5c86947f6be6/gnome-libxslt-bug-139-apple-fix.diff
-
-Ref: https://gitlab.gnome.org/GNOME/libxslt/-/issues/139
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libxslt/libxslt/CVE-2025-7424.patch       | 105 ++++++++++++++++++
- .../recipes-support/libxslt/libxslt_1.1.35.bb |   1 +
- 2 files changed, 106 insertions(+)
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2025-7424.patch
+ .../busybox/busybox/CVE-2025-46394-01.patch   | 57 +++++++++++++++++++
+ .../busybox/busybox/CVE-2025-46394-02.patch   | 32 +++++++++++
+ meta/recipes-core/busybox/busybox_1.35.0.bb   |  2 +
+ 3 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
 
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2025-7424.patch b/meta/recipes-support/libxslt/libxslt/CVE-2025-7424.patch
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch b/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
 new file mode 100644
-index 0000000000..c6b234a818
+index 0000000000..c95cba3c33
 --- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2025-7424.patch
-@@ -0,0 +1,105 @@
-+From 345d6826d0eae6f0a962456b8ed6f6a1bad0877d Mon Sep 17 00:00:00 2001
-+From: David Kilzer <ddkilzer@apple.com>
-+Date: Sat, 24 May 2025 15:06:42 -0700
-+Subject: [PATCH] libxslt: Type confusion in xmlNode.psvi between stylesheet
-+ and source nodes
++++ b/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
+@@ -0,0 +1,57 @@
++From f5e1bf966b19ea1821f00a8c9ecd7774598689b4 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Wed, 24 Sep 2025 03:28:47 +0200
++Subject: [PATCH] archival/libarchive: sanitize filenames on output (prevent
++ control sequence attacks
 +
-+* libxslt/functions.c:
-+(xsltDocumentFunctionLoadDocument):
-+- Implement fix suggested by Ivan Fratric.  This copies the xmlDoc,
-+  calls xsltCleanupSourceDoc() to remove pvsi fields, then adds the
-+  xmlDoc to tctxt->docList.
-+- Add error handling for functions that may return NULL.
-+* libxslt/transform.c:
-+- Remove static keyword so this can be called from
-+  xsltDocumentFunctionLoadDocument().
-+* libxslt/transformInternals.h: Add.
-+(xsltCleanupSourceDoc): Add declaration.
++This fixes CVE-2025-46394 (terminal escape sequence injection)
 +
-+Fixes #139.
++Original credit: Ian.Norton at entrust.com
 +
-+Origin: https://gitlab.gnome.org/-/project/1762/uploads/627ae84cb0643d9adf6e5c86947f6be6/gnome-libxslt-bug-139-apple-fix.diff
++function                                             old     new   delta
++header_list                                            9      15      +6
++header_verbose_list                                  239     244      +5
++------------------------------------------------------------------------------
++(add/remove: 0/0 grow/shrink: 2/0 up/down: 11/0)               Total: 11 bytes
 +
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libxslt/-/issues/139]
-+CVE: CVE-2025-7424
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++CVE: CVE-2025-46394
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=f5e1bf966b19ea1821f00a8c9ecd7774598689b4]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ libxslt/functions.c          | 16 +++++++++++++++-
-+ libxslt/transform.c          |  3 ++-
-+ libxslt/transformInternals.h |  9 +++++++++
-+ 3 files changed, 26 insertions(+), 2 deletions(-)
-+ create mode 100644 libxslt/transformInternals.h
++ archival/libarchive/header_list.c         | 2 +-
++ archival/libarchive/header_verbose_list.c | 4 ++--
++ 2 files changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/libxslt/functions.c b/libxslt/functions.c
-+index da25c24..8a9bdc2 100644
-+--- a/libxslt/functions.c
-++++ b/libxslt/functions.c
-+@@ -41,6 +41,7 @@
-+ #include "numbersInternals.h"
-+ #include "keys.h"
-+ #include "documents.h"
-++#include "transformInternals.h"
++diff --git a/archival/libarchive/header_list.c b/archival/libarchive/header_list.c
++index 0621aa406..9490b3635 100644
++--- a/archival/libarchive/header_list.c
+++++ b/archival/libarchive/header_list.c
++@@ -8,5 +8,5 @@
++ void FAST_FUNC header_list(const file_header_t *file_header)
++ {
++ //TODO: cpio -vp DIR should output "DIR/NAME", not just "NAME" */
++-	puts(file_header->name);
+++	puts(printable_string(file_header->name));
++ }
++diff --git a/archival/libarchive/header_verbose_list.c b/archival/libarchive/header_verbose_list.c
++index a575a08a0..e7a09430d 100644
++--- a/archival/libarchive/header_verbose_list.c
+++++ b/archival/libarchive/header_verbose_list.c
++@@ -57,13 +57,13 @@ void FAST_FUNC header_verbose_list(const file_header_t *file_header)
++ 		ptm->tm_hour,
++ 		ptm->tm_min,
++ 		ptm->tm_sec,
++-		file_header->name);
+++		printable_string(file_header->name));
 + 
-+ #ifdef WITH_XSLT_DEBUG
-+ #define WITH_XSLT_DEBUG_FUNCTION
-+@@ -152,7 +153,20 @@ xsltDocumentFunctionLoadDocument(xmlXPathParserContextPtr ctxt, xmlChar* URI)
-+ 	    /*
-+ 	    * This selects the stylesheet's doc itself.
-+ 	    */
-+-	    doc = tctxt->style->doc;
-++	    doc = xmlCopyDoc(tctxt->style->doc, 1);
-++	    if (doc == NULL) {
-++		xsltTransformError(tctxt, NULL, NULL,
-++		    "document() : failed to copy style doc\n");
-++		goto out_fragment;
-++	    }
-++	    xsltCleanupSourceDoc(doc); /* Remove psvi fields. */
-++	    idoc = xsltNewDocument(tctxt, doc);
-++	    if (idoc == NULL) {
-++		xsltTransformError(tctxt, NULL, NULL,
-++		    "document() : failed to create xsltDocument\n");
-++		xmlFreeDoc(doc);
-++		goto out_fragment;
-++	    }
-+ 	} else {
-+ 	    valuePush(ctxt, xmlXPathNewNodeSet(NULL));
++ #endif /* FEATURE_TAR_UNAME_GNAME */
 + 
-+diff --git a/libxslt/transform.c b/libxslt/transform.c
-+index 7299eb5..6976a04 100644
-+--- a/libxslt/transform.c
-++++ b/libxslt/transform.c
-+@@ -42,6 +42,7 @@
-+ #include "xsltutils.h"
-+ #include "pattern.h"
-+ #include "transform.h"
-++#include "transformInternals.h"
-+ #include "variables.h"
-+ #include "numbersInternals.h"
-+ #include "namespaces.h"
-+@@ -5753,7 +5754,7 @@ xsltCountKeys(xsltTransformContextPtr ctxt)
-+  *
-+  * Resets source node flags and ids stored in 'psvi' member.
-+  */
-+-static void
-++void
-+ xsltCleanupSourceDoc(xmlDocPtr doc) {
-+     xmlNodePtr cur = (xmlNodePtr) doc;
-+     void **psviPtr;
-+diff --git a/libxslt/transformInternals.h b/libxslt/transformInternals.h
-+new file mode 100644
-+index 0000000..d0f4282
-+--- /dev/null
-++++ b/libxslt/transformInternals.h
-+@@ -0,0 +1,9 @@
-++/*
-++ * Summary: set of internal interfaces for the XSLT engine transformation part.
-++ *
-++ * Copy: See Copyright for the status of this software.
-++ *
-++ * Author: David Kilzer <ddkilzer@apple.com>
-++ */
-++
-++void xsltCleanupSourceDoc(xmlDocPtr doc);
-+-- 
-+2.25.1
++ 	/* NB: GNU tar shows "->" for symlinks and "link to" for hardlinks */
++ 	if (file_header->link_target) {
++-		printf(" -> %s", file_header->link_target);
+++		printf(" -> %s", printable_string(file_header->link_target));
++ 	}
++ 	bb_putchar('\n');
++ }
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch b/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
+new file mode 100644
+index 0000000000..ec17b9285a
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
+@@ -0,0 +1,32 @@
++From 7378db981d87b4a2264e14d60340a7fb5c67ae59 Mon Sep 17 00:00:00 2001
++From: Peter Marko <peter.marko@siemens.com>
++Date: Fri, 3 Oct 2025 16:12:56 +0200
++Subject: [PATCH] testsuite/tar.tests: fix test after CVE-2025-46394
 +
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-index 2291ed2cad..f1532a05c1 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://download.gnome.org/sources/libxslt/1.1/libxslt-${PV}.tar.xz \
-            file://CVE-2023-40403-003.patch \
-            file://CVE-2023-40403-004.patch \
-            file://CVE-2023-40403-005.patch \
-+           file://CVE-2025-7424.patch \
-           "
++tar now sanitizes output and this test needs to expect that.
++
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++
++CVE: CVE-2025-46394
++Upstream-Status: Submitted [https://lists.busybox.net/pipermail/busybox/2025-October/091743.html]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ testsuite/tar.tests | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/testsuite/tar.tests b/testsuite/tar.tests
++index 0f2e89112..48fc38114 100755
++--- a/testsuite/tar.tests
+++++ b/testsuite/tar.tests
++@@ -325,9 +325,9 @@ unset LANG
++ rm -rf etc usr
++ ' "\
++ etc/ssl/certs/3b2716e5.0
++-etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
+++etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sa??lay??c??s??.pem
++ etc/ssl/certs/f80cc7f6.0
++-usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
+++usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sa??lay??c??s??.crt
++ 0
++ etc/ssl/certs/3b2716e5.0 -> EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
++ etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem -> /usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
+diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
+index 1886410dd2..57a5747a48 100644
+--- a/meta/recipes-core/busybox/busybox_1.35.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
+@@ -59,6 +59,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://CVE-2023-42366.patch \
+            file://0001-cut-Fix-s-flag-to-omit-blank-lines.patch \
+            file://CVE-2023-39810.patch \
++           file://CVE-2025-46394-01.patch \
++           file://CVE-2025-46394-02.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg "
  
- SRC_URI[sha256sum] = "8247f33e9a872c6ac859aa45018bc4c4d00b97e2feac9eebc10c93ce1f34dd79"
 -- 
 2.43.0
 
