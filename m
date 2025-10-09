@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8AE0CCD18C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B31AACCD18F
 	for <webhook@archiver.kernel.org>; Thu,  9 Oct 2025 19:31:49 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.9255.1760038305547234121
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.9214.1760038307289424274
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Oct 2025 12:31:45 -0700
+ Thu, 09 Oct 2025 12:31:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=I1XZ2RCA;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so1348084b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 12:31:45 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Z1QcTn2E;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-789fb76b466so1253429b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 12:31:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760038305; x=1760643105; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760038306; x=1760643106; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=awG4LqcCp9hsuKGSfNu53UGlqOk2senOrbuqTut9yME=;
-        b=I1XZ2RCADLJNs0e3fcE9Z5US5HBLoqABv0CGiCkK8Z9K7e0MIcgUkcdZiWPF4iTQRb
-         BMGx5LgilSEVTXHPo7eLSsEMVeEGsNwN/eh4edEfIQoUUOqgPMbJPOHsSv4fMZ9szzSg
-         CXTwN1I5AdfoNtYrUYqtHnkXjVwDsdyUcBfY9EdeqdyY+nbAllv341+Pw5OI4tFNuMjQ
-         xr4vkrmJ++tlYuhFwDVA8B55q9OfFDHCAubEBhgBE1IQbzovl6cXMShdLelhfPSlW6Q8
-         RFkYq7WKkoqT1rjroF6d9xOjYqIJGJK+J0Q0CgT0YNiKw8j03DfKcQl6Y/A/twylshtM
-         kG/g==
+        bh=6QGqWQrXYF76rIpinXnbklVeUXD/qCyz3ZNEeLJPVOU=;
+        b=Z1QcTn2EBj9l1nobYXvYxNd74PyGwpEkfayTUM2LpDBpSP52aJSs79s09oONHrnLEa
+         GZaVqz9Y3nMW5mwita8F0NWjZR/6jlXdvdWSOZECgmiBYLkCLQ996ReWZrgM1g5PERSl
+         S/PV458AyL4JPv0Xq27uHLxR0vGwivnzJOsou2FRjsrYdIyQnHwya8RIIJHX5fUKKABV
+         9057d2hFGU2Hie7SVjUjRGj6vR5XU4uJY8z+7/h4/7GYBDnMDihFpvE4uzqpFfKeQykP
+         2Y97c1X8XEUHEX4P1WKXNybu6U5vr9aT+tZYC/q4Zxogbc5zkshbLIESK7jRGoF7v00x
+         00Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760038305; x=1760643105;
+        d=1e100.net; s=20230601; t=1760038306; x=1760643106;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=awG4LqcCp9hsuKGSfNu53UGlqOk2senOrbuqTut9yME=;
-        b=A/WRhGo2E6+qS125+GdT/5xcFY4gOkxur3PW+55pqljnCjwscm1V3+7gv+I05F9KAD
-         rJpSEyyrT6X3h0NSmyU+JrwUEx2dl/Tm3W6qWnafR6iaShzaqtZGb2SpwDJsoOyMfz54
-         n+20stLiRCGsWvIdGR9M2HXfWGM8dBPyAgdEOblqOXLuLS2vh98xrrer4XMiw5itO/Zt
-         PKAcRJNR3I3AyGdoEYYm9o7/W9W9sLrnGYeRyfkPghUh3u0crTUXrkDJJU8YxO+gZF5q
-         xs7A9b0qfY0er70pmN3LFCrm7oyOb/21SGgxx0tTr6dwZYDczJOKgf9fz5GhuxHSRHAn
-         cW2A==
-X-Gm-Message-State: AOJu0YyJnABPkJsjccms60aGiXftp9FBC7D3CxcbRxRASQb9ynieXOCw
-	N6nerox8Wcu7GIwFks36jLr19nh+ORvHddbFhOaxoDWr5oP4SMwjzv1F25tNTTHfh/ihREYvdHP
-	M9LdC
-X-Gm-Gg: ASbGnctiK4oSQzTJCAG1Ewln3+J7e+C6KBpzDTGYpjl0D4dP3JN1kXs1Qep0sWec70Z
-	9eNuGY59BQyexTbFuQBPwGwtLQ763qJSQAC5OTsaFuQ59lvuIhztusn7R1lofZDVmQLiFmg1TRi
-	N4zaB03zDDWfrzoHU7YPrS+Pjtkgr7ZDuRO/VJ07GEzlMe6UQmA1OGP9wpx5wYaOau+ohG+kDJh
-	gEYppb734ECIbHSdtzvM3AhS2vL37nbmAISW/yfg1UVPRyERdaSGpanvsITtwXtDi4Du62FCkfs
-	LMYJL0Jrahk/vM3a9u93qIHWfdAupE6SdnH8DpwGeb4cB102f/7H6POX48Gt7Fq8dWkOzlh8yTC
-	xQvaTkkOnScD/wgha1xwZI2Zg42BdKLmZq4FNJQ==
-X-Google-Smtp-Source: AGHT+IHiLEO+Cz9Te6gg8HZXNQBbj7tbylWPsdfpNhXQ0zdj6QIGFT+eYrlw98mzqAZ68pDVP90ETQ==
-X-Received: by 2002:a05:6a00:17a5:b0:781:1562:1f9e with SMTP id d2e1a72fcca58-793880f0678mr11947449b3a.32.1760038304607;
-        Thu, 09 Oct 2025 12:31:44 -0700 (PDT)
+        bh=6QGqWQrXYF76rIpinXnbklVeUXD/qCyz3ZNEeLJPVOU=;
+        b=HMId/8rEPZ1iLRN7SPNUzVSudslpdjBqn87Wnnh9B36emiJTqQ8PJ5GSSNt+t78FPO
+         +urLqdOS72j7zMHr/U4dlUlCVN+/54KrJVJKKNX/kv22Hm/sbwBqOyNqztGvm5Iw4vtr
+         M4p4ba+AxEEQ9zhPx81T49HM6DEXRg+etgtYeweqovm+8f7CX/HSE047E9SIq9CwF1lt
+         ppuIn/FD3GyM8wK/PEAbfikW/3I9E4rD1LCgnyb6iarmsz88B3BnggO06OwxsXzLxvVr
+         fQrrKlJTPIzxvFvHMCmiC7RSTi6v8fVJtjWFZWhZJ4qjw8NvwmpPkNYBmLdyFhdpUFMg
+         /3mQ==
+X-Gm-Message-State: AOJu0Yy5L84SYl/ARVydFN7Jp6NEKCbefj5XwTuhfQkb3Olf7Q9FDRZg
+	xfVKM27CzInYoG4/9q438/VSgVEH7c6qaBMCZJD9tF45eKI4hGui2zw4+lMpw1lhxOyOdnZTb4e
+	20UIZ
+X-Gm-Gg: ASbGncuEheZHq100AUobQzJ8KlLM41+agdYair7/vtc9toF2knYS/nOGp/pEReEvP9A
+	PxXw/y/rwtiVTqzp0kGREz0UuKnT4E5y5+vfB+raprRfDbYTS5d1D2QFO+pz9O0ivShomlNkhY/
+	j/mWAvjZ7yn0ui+/4rOCHd3UHPFSVRMZve9z+0kTGZn8+WGCzl5KMGA1ccMUqgykfYADHySGbob
+	tAxSYKPma8c8k/lIJArSp+A0astIoCCmdhpArxjVa6cuBJ10t3vXYQRDKMUlRSRnT+Ht2AOPfDA
+	mPQUiG/Oh7laSQ9UL4rgcf3g2JpYhKlSzqOnez+SceziHVHaBFDvepVcD7N8zXJ1+KhmuOxS15e
+	WAqughy4wzjQnu0A7ShCPfhbGP5QdcqL3GBUPIQ==
+X-Google-Smtp-Source: AGHT+IGpq7iLt3dC2wr/AfVZUd8sJxX3TEHcp2Lqsic50qb3PnFETJwnd4ikfMFlejX2Bb2ZYX/ASw==
+X-Received: by 2002:a05:6a00:391a:b0:77e:8130:fda with SMTP id d2e1a72fcca58-79385ddc9f9mr11023686b3a.13.1760038306046;
+        Thu, 09 Oct 2025 12:31:46 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:b96e:4301:8642:779c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d0e2d51sm495864b3a.65.2025.10.09.12.31.44
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d0e2d51sm495864b3a.65.2025.10.09.12.31.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 12:31:44 -0700 (PDT)
+        Thu, 09 Oct 2025 12:31:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 18/24] openssl: upgrade 3.0.17 -> 3.0.18
-Date: Thu,  9 Oct 2025 12:31:02 -0700
-Message-ID: <0a0d640436258269ffaaf23116d41f9a79db5ab7.1760038088.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 19/24] glibc: stable 2.35 branch updates
+Date: Thu,  9 Oct 2025 12:31:03 -0700
+Message-ID: <932ee96c0dc24ac3cdb9cee5bf96375568b41df0.1760038088.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1760038088.git.steve@sakoman.com>
 References: <cover.1760038088.git.steve@sakoman.com>
@@ -68,40 +68,56 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 19:31:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224637
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224638
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-This release incorporates the following bug fixes and mitigations:
-Fix Out-of-bounds read & write in RFC 3211 KEK Unwrap. (CVE-2025-9230)
-Fix Out-of-bounds read in HTTP client no_proxy handling. (CVE-2025-9232)
+git log --oneline a66bc3941ff298e474d5f02d0c3303401951141f..4e50046821f05ada5f14c76803845125ddb3ed7d
 
-Changelog:
-https://github.com/openssl/openssl/blob/openssl-3.0.18/NEWS.md#openssl-30
+4e50046821 (HEAD, origin/release/2.35/master) x86-64: Add GLIBC_ABI_DT_X86_64_PLT [BZ #33212]
+c97735cfde elf: Handle ld.so with LOAD segment gaps in _dl_find_object (bug 31943)
+96cc65a28a elf: Extract rtld_setup_phdr function from dl_main
+e3f04f64fa elf: Do not add a copy of _dl_find_object to libc.so
+bfae8bf49c arm: Use _dl_find_object on __gnu_Unwind_Find_exidx (BZ 31405)
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Testing Results:
+           Before     After   Diff
+PASS         4605      4609     +4
+XPASS           6         6      0
+FAIL          358       356     -2
+XFAIL          16        16      0
+UNRESOLVED      0         1     +1
+UNSUPPORTED   197       197      0
+
+Testcases changes
+
+testcase-name                              before           after
+
+elf/tst-link-map-contiguous-libc(new)        -               PASS
+elf/tst-link-map-contiguous-ldso(new)        -               FAIL
+elf/check-dt-x86-64-plt(new)                 -               UNRESOLVED
+misc/tst-tsearch                            FAIL             PASS
+posix/bug-regex24                           FAIL             PASS
+string/tst-cmp                              FAIL             PASS
+
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/{openssl_3.0.17.bb => openssl_3.0.18.bb}            | 2 +-
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.0.17.bb => openssl_3.0.18.bb} (99%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.17.bb b/meta/recipes-connectivity/openssl/openssl_3.0.18.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssl/openssl_3.0.17.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.0.18.bb
-index a50bd2edbf..a8dd338327 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.17.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.18.bb
-@@ -25,7 +25,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 0b06005b25..b9f5e8fb8f 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.35/master"
+ PV = "2.35"
+-SRCREV_glibc ?= "a66bc3941ff298e474d5f02d0c3303401951141f"
++SRCREV_glibc ?= "4e50046821f05ada5f14c76803845125ddb3ed7d"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
  
--SRC_URI[sha256sum] = "dfdd77e4ea1b57ff3a6dbde6b0bdc3f31db5ac99e7fdd4eaf9e1fbb6ec2db8ce"
-+SRC_URI[sha256sum] = "d80c34f5cf902dccf1f1b5df5ebb86d0392e37049e5d73df1b3abae72e4ffe8b"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
 -- 
 2.43.0
 
