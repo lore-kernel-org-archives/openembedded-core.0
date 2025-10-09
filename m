@@ -1,274 +1,387 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 708F7CCD187
-	for <webhook@archiver.kernel.org>; Thu,  9 Oct 2025 09:40:26 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.8090.1760002825236352655
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 950D5CCA470
+	for <webhook@archiver.kernel.org>; Thu,  9 Oct 2025 10:04:16 +0000 (UTC)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+ by mx.groups.io with SMTP id smtpd.web11.8507.1760004248778040157
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Oct 2025 02:40:25 -0700
+ Thu, 09 Oct 2025 03:04:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=H03zBgSB;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-421851bcb25so345653f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 02:40:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bcQKYI3t;
+ spf=pass (domain: gmail.com, ip: 209.85.217.45, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5997f407c85so270520137.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 03:04:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1760002823; x=1760607623; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760004248; x=1760609048; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=b1zKvHhjd8tefHXNqzcogujMPnUqxTnamPghKjANisM=;
-        b=H03zBgSBRat0xGK9dkHusXSb1rtNaHExJqdQVTVsr5PZC1PbogyphXd439U6WBLGKe
-         OS8BHoRCC6AkVCWtENLLZxsRKfc7DwidtOVweumqrnRM9jIT4H0zM+IXtEgR/iE4xDVr
-         VflT/KERPSFjeUBlyJxM6HcRAByh6RydSuP6g=
+        bh=iz0ubTpfWq6Q/dGplhKwh/N2BNrFBAIdY6BI7zhL4v8=;
+        b=bcQKYI3ttx+lvUZMtsuB6MnG/Nw72+KitjNtz3SebjDISzwz3euMCZqQj2CfR+lwBM
+         W1lVtccwaS+NY1ObJVR7LK0W9GxMpBCsvlO5XpAvpGwhQe/Np+Y5J/+G+EPqY4F5tHyR
+         NWghUJabznLDdSQd3oxksB2NnFvUY1WZUArtcifojkYJLQUn3tV0Ww/WskS/dF67lYoD
+         6Q/b/n8Uoe8K7inIj85SyFgxfgaADxseoYu/sG9DxWjnlgqdtyREHyqMVmK5Il3w3Ubu
+         Tf7vmEFIFP7bdajPm/SaupJzBjWPdJ0pP/xDJWTAl2yvMQ8WI8sjCiRNdvH+rEAsuapJ
+         rJvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760002823; x=1760607623;
+        d=1e100.net; s=20230601; t=1760004248; x=1760609048;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=b1zKvHhjd8tefHXNqzcogujMPnUqxTnamPghKjANisM=;
-        b=ECTrjV07J3j2K3DkO331emSxWXOVHXwRvRuRL8pnIquzT6bO4cT0l8X/F6CICV3iIT
-         fFn5mSZfjiI7sVvrChnBJHpjGVsx1o9wPBSX4sCwHW6HPzcSLeycqbd4QmQqFrINz/Qd
-         9OqLFfbs+hdroBdBqvBFbsBaFCBhMGALU1/3c+nehhfqGOg5/MoYn6z0fov0d461IU7f
-         rbGPuCXEwj61vrOs5y3sJ8uJHbmDxuEVktJAGG6sLRuSFUDHDpAh1da8XWnN7QBnBIhJ
-         qMb/jN6MlyPqgSezmRpKZWEozBunVrsIml0ERchYinV5jlEiHkQLetSGKsWfjAycmTXc
-         mX0w==
-X-Gm-Message-State: AOJu0YweXsTAoGOdpOVf8D9qMZFVsS6sjZTqq3SklRrW0Xn1HpuaeGBM
-	OGpqNNHXTSRNvFjpe+PBp80iKUyJgM2K0s2ki6v4WjJ4TKGGUulStfcX8OQ1elrgRMyjxFGM6GO
-	dsdoroDXSCfnc/pJqVcobdRgto4xhC8+8GEXQAxEYVw==
-X-Gm-Gg: ASbGncuRNKiViTEun1WgOHo87rTEGeknkWwunYII2GFcpVyg7KBYMSQft8zoZfsP+yc
-	XDSs/KuCQa1GpqJn0qPcbkJ5IZ+9/Upm7d0yL2PVDLJ+HJWQMLWaJhAcSFT0FLotCK6Ew7wqZT/
-	i/wx94rMKp7TFuJkwHeuxEjgLeRNQiK35qgsYErCuWIUQ4g4MrDrEG+DAoyPybGWVpMX/FrkFLp
-	a+eofYrL8e5+bp0cpmymYRzHDkMPXEpKSjAn84fw56aPx/r1/Gy+nGT3BK/hVAA+8b4AzLY
-X-Google-Smtp-Source: AGHT+IEuUYxdDvv66nosekGHMWuud1T37N3RM8jwaLRILE9bOG9JBpysVWbzfjGUBghKMNUxPCV5zMdzDBnoYUXtdIE=
-X-Received: by 2002:a5d:5f83:0:b0:3e4:f194:2872 with SMTP id
- ffacd0b85a97d-4266e8d7756mr4531701f8f.31.1760002823404; Thu, 09 Oct 2025
- 02:40:23 -0700 (PDT)
+        bh=iz0ubTpfWq6Q/dGplhKwh/N2BNrFBAIdY6BI7zhL4v8=;
+        b=pMNmmacDFnfdj363dJenVuSenZpQfxvpzIvM3oQ9vslJVvI+x+bYZapBmvR5kOMWza
+         9swp4QyobZTYt7bqIMXJeSqyFIgLNYLFnkLqy9hro/qPRByOqvVvY1Yu+DH/EninryAU
+         T/psk29ALBeQ+O8+zOWOo04uB/F9rHKlTSHWNhp01H19r3+dmCoJa8xboBCgKvSt6Ne0
+         z0FmooMRfaxAW9KNgnY/KeGaVyujrhClO9wFBSURL4nUaNy+e2E+t+Ojjf/VsJ82dlAl
+         QLNWmqm1Lp+2rYjS1oWGAZ3Q5qEIx0TCuNDpivDUfRrRH5myXrVxnfNd8qnSP8/4kkXR
+         TTMw==
+X-Gm-Message-State: AOJu0YwD8By6i7FxkYft5X9i3jZD/ZjnxbPBrs9ka71EHVxe4xfn+CeP
+	a0PIE+I/SBek1GTi86UHRAX6ma2wzEOC3mkjqoytGvCEYWtGebRL9xAIR255s4XTrs1VABg1r3/
+	HUUUmFrGD1E6QY5Eaq4eNk2nnSn3XsfMQxlEo+LY=
+X-Gm-Gg: ASbGncsks0fOv3Oqq/ayMu0+HkW/9i1NTX9sCX4XiSbUVMNGxQhTFnAx7zBV2GnpXX4
+	bCKDdL5e8h3baVyZs1g59K9Ywcsag/x93GWC3wxGdJqWXbkX5E6Pf+If5aIHLt0l7SKB4LW1r76
+	R9qNfBlKiZDyw1H9LgVbFqzAg5dOjOE6AkRkMz5vzWR9/04lSrE4dM0SdH5gLqZ4EKi6LIlnZh/
+	WGtdPv4JpQnpVRfA9T2jzKGweZ57MgmPr4KaTLK09+Z+9dy32P/s6TDfS0i+TgvpLfznGk7S7ka
+	6+m1q4tV
+X-Google-Smtp-Source: AGHT+IGqtiD/07E90gYB0tas1eJ1N0K05xJw8EQ51XhIL7F1scUjQOQiOMeYe6V3ENFXCzUf5Iyed1vWscXvuS1upCM=
+X-Received: by 2002:a05:6102:8389:10b0:5d5:f40a:4cf1 with SMTP id
+ ada2fe7eead31-5d5f40a4d20mr243766137.24.1760004247553; Thu, 09 Oct 2025
+ 03:04:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251002131024.48843-1-naftaly.ralamboarivony@smile.fr>
-In-Reply-To: <20251002131024.48843-1-naftaly.ralamboarivony@smile.fr>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Thu, 9 Oct 2025 11:39:57 +0200
-X-Gm-Features: AS18NWDuFEXR7tcl4N13z_jALbr_rXqpfTutkPWUMCYVnyeij6LnMuhX32Aewow
-Message-ID: <CAMSfU+5DQzSLg2Y99+UEBsN1OCocZ_TWF0Gzd-wcsEKhdmCFhg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] patchtest: fix failure when oe-core repo is in
- detached HEAD
-To: naftaly.ralamboarivony@smile.fr
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000017d2a50640b69708"
+References: <20251008130137.2266449-1-Yash.Shinde@windriver.com>
+ <CA+cAker8MWe6PCE9VfoWs=9CqnkGxzuAa2OA+3wpkEHh+BYJ+A@mail.gmail.com> <54760438-be36-471b-8634-070b767518c8@windriver.com>
+In-Reply-To: <54760438-be36-471b-8634-070b767518c8@windriver.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Thu, 9 Oct 2025 12:03:56 +0200
+X-Gm-Features: AS18NWD9sYpQcG73P5gyE1gO5xjq_rf5vMD_Wj33iMPUokXBh1VojrJpvusw7fU
+Message-ID: <CA+cAkerQe6UydF7pPDE8d-AU6STa2o9Oqv_i0KYJ42gzL59B0A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cargo-c: fix debug symbols containing TMPDIR references
+To: Yash Shinde <Yash.Shinde@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
+	Sundeep.Kokkonda@windriver.com
+Content-Type: multipart/alternative; boundary="000000000000fa8b150640b6ebae"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 09:40:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224610
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 10:04:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224611
 
---00000000000017d2a50640b69708
+--000000000000fa8b150640b6ebae
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeu. 2 oct. 2025 =C3=A0 15:10, naftaly.ralamboarivony via
-lists.openembedded.org <naftaly.ralamboarivony=3D
-smile.fr@lists.openembedded.org> a =C3=A9crit :
+On Thu, 9 Oct 2025 at 08:45, Yash Shinde <Yash.Shinde@windriver.com> wrote:
 
-> From: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
 >
-> Patchtest fails when oe-core git repo is in a "detached HEAD" state:
+> On 08-10-2025 23:13, Fr=C3=A9d=C3=A9ric Martinsons wrote:
 >
-> Error log:
+> Do you think it is cargo-c specific? Or all recipes which inherits cargo
+> class must have that?
 >
-> > File "/usr/lib/python3/dist-packages/git/repo/base.py", line 881, in
-> active_branch return self.head.reference ^^^^^^^^^^^^^^^^^^^
+> The error logs pointed out to cargo-c binaries only.
+> For cargo, DEBUG_PREFIX_MAP is already defined:
 >
-> > File "/usr/lib/python3/dist-packages/git/refs/symbolic.py", line 311, i=
-n
-> _get_reference raise TypeError("%s is a detached symbolic reference as it
-> points to %r" % (self, sha)) TypeError: HEAD is a detached symbolic
-> reference
-> as it points to '3dd31d3b29730fa1130645d76bb71914ac036335' None
+> https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/rust/cargo_1=
+.90.0.bb#n22
 >
-> In this case, no current branch is available for the clean operation.
+> This remaps the rust source path i.e $RUSTSRC.
+> However, cargo-c uses a separate source installation directory
+> ($CARGO_HOME) which isn't covered
+> by DEBUG_PREFIX_MAP.
 >
-> To fix this, updates the checkout logic:
-> - if a current branch is available, use it,
-> - otherwise, fall back to the commit pointed to by HEAD.
 >
-> This ensures that the script works correctly even when HEAD is detached.
+Thanks !
+
+
 >
-> Signed-off-by: Naftaly RALAMBOARIVONY <naftaly.ralamboarivony@smile.fr>
+> Regards,
+> Yash
+>
+> Le mer. 8 oct. 2025, 15:01, Yash Shinde via lists.openembedded.org
+> <https://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8Ev=
+Q!eT6NUyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6=
+w0vcM-0RUYHKsb9Ca4-IUA$>
+> <Yash.Shinde=3Dwindriver.com@lists.openembedded.org> a =C3=A9crit :
+>
+>> From: Yash Shinde <Yash.Shinde@windriver.com>
+>>
+>> When building cargo-c with DEBUG mode, QA checks fail due to
+>> absolute paths from the build environment (TMPDIR) being embedded into
+>> the debug symbols/binaries. This causes issues such as:
+>>
+>>   ERROR: do_package_qa: File /usr/bin/.debug/cargo-capi contains
+>> reference to TMPDIR [buildpaths]
+>>   ERROR: do_package_qa: File /usr/bin/.debug/cargo-cinstall contains
+>> reference to TMPDIR [buildpaths]
+>>   ERROR: do_package_qa: File /usr/bin/.debug/cargo-cbuild contains
+>> reference to TMPDIR [buildpaths]
+>>   ERROR: do_package_qa: File /usr/bin/.debug/cargo-ctest contains
+>> reference to TMPDIR [buildpaths]
+>>
+>> To fix this, pass an additional -ffile-prefix-map option to
+>> DEBUG_PREFIX_MAP to
+>> ensure that paths under `${CARGO_HOME}` are remapped to
+>> `${TARGET_DBGSRC_DIR}`.
+>> This ensures debug info is reproducible and does not leak host-specific
+>> paths.
+>>
+>> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+>> ---
+>>  meta/recipes-devtools/rust/cargo-c_0.10.16+cargo-0.91.0.bb
+>> <https://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!eT6N=
+Uyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-=
+0RUYHKsb90kr3UWQ$>
+>> | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/rust/cargo-c_0.10.16+cargo-0.91.0.bb
+>> <https://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!eT6N=
+Uyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-=
+0RUYHKsb90kr3UWQ$>
+>> b/meta/recipes-devtools/rust/cargo-c_0.10.16+cargo-0.91.0.bb
+>> <https://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!eT6N=
+Uyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-=
+0RUYHKsb90kr3UWQ$>
+>> index fd15f02da9..5ef68e13c2 100644
+>> --- a/meta/recipes-devtools/rust/cargo-c_0.10.16+cargo-0.91.0.bb
+>> <https://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!eT6N=
+Uyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-=
+0RUYHKsb90kr3UWQ$>
+>> +++ b/meta/recipes-devtools/rust/cargo-c_0.10.16+cargo-0.91.0.bb
+>> <https://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!eT6N=
+Uyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-=
+0RUYHKsb90kr3UWQ$>
+>> @@ -12,6 +12,8 @@ SRC_URI =3D "crate://crates.io/cargo-c/${PV};name=3Dca=
+rgo-c
+>> <https://urldefense.com/v3/__http://crates.io/cargo-c/$*7BPV*7D;name=3Dc=
+argo-c__;JSU!!AjveYdw8EvQ!eT6NUyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bI=
+zqgfXyiGljcR3YtFoalO9cR6w0vcM-0RUYHKsb9-NilF0c$>
+>> \
+>>  SRC_URI[cargo-c.sha256sum] =3D
+>> "17d431789b050b0fcf678455dfd5ceb7e5b45cd806140f8fe03b16b995d6cbff"
+>>  S =3D "${CARGO_VENDORING_DIRECTORY}/cargo-c-${PV}"
+>>
+>> +DEBUG_PREFIX_MAP +=3D
+>> "-ffile-prefix-map=3D${CARGO_HOME}=3D${TARGET_DBGSRC_DIR}"
+>> +
+>>  inherit cargo cargo-update-recipe-crates pkgconfig
+>>
+>>  DEPENDS =3D "openssl curl"
+>> --
+>> 2.49.0
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#224581):
+>> https://lists.openembedded.org/g/openembedded-core/message/224581
+>> <https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedd=
+ed-core/message/224581__;!!AjveYdw8EvQ!eT6NUyxobn9jkx3pHarcK-637_es2YI-QyHc=
+S2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-0RUYHKsb9Y5bg2LA$>
+>> Mute This Topic: https://lists.openembedded.org/mt/115653303/6213388
+>> <https://urldefense.com/v3/__https://lists.openembedded.org/mt/115653303=
+/6213388__;!!AjveYdw8EvQ!eT6NUyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIz=
+qgfXyiGljcR3YtFoalO9cR6w0vcM-0RUYHKsb9IEGgQYE$>
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+>> <https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedd=
+ed-core/unsub__;!!AjveYdw8EvQ!eT6NUyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXs=
+f2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-0RUYHKsb9b7ysiMA$>
+>> [frederic.martinsons@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>> --
+> Regards,
+> Yash Shinde
+>
 >
 
-Hello Naftaly,
-
-Notes from the patch review call:
-The patch looks good but needs a test to be merged.
-The patch creates 2 code-paths (detached/attached HEAD) but the existing
-patchtest selftests only tests one.
-We need to ensure both are tested.
-
----
->  meta/lib/patchtest/repo.py | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py
-> index 2cdd6736e4..6a7d7d2d3b 100644
-> --- a/meta/lib/patchtest/repo.py
-> +++ b/meta/lib/patchtest/repo.py
-> @@ -21,7 +21,12 @@ class PatchTestRepo(object):
->          self.repodir =3D repodir
->          self.repo =3D git.Repo.init(repodir)
->          self.patch =3D mbox.PatchSeries(patch)
-> -        self.current_branch =3D self.repo.active_branch.name
-> +
-> +        if self.repo.head.is_detached:
-> +            self.current_commit =3D self.repo.head.commit.hexsha
-> +            self.current_branch =3D None
-> +        else:
-> +            self.current_branch =3D self.repo.active_branch.name
->
->          # targeted branch defined on the patch may be invalid, so make
-> sure there
->          # is a corresponding remote branch
-> @@ -80,6 +85,6 @@ class PatchTestRepo(object):
->              self._patchmerged =3D True
->
->      def clean(self):
-> -        self.repo.git.execute(['git', 'checkout', self.current_branch])
-> +        self.repo.git.execute(['git', 'checkout', self.current_branch if
-> self.current_branch else self.current_commit])
->          self.repo.git.execute(['git', 'branch', '-D',
-> self._workingbranch])
->          self._patchmerged =3D False
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#224357):
-> https://lists.openembedded.org/g/openembedded-core/message/224357
-> Mute This Topic: https://lists.openembedded.org/mt/115551792/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Yoann Congal
-Smile ECS
-
---00000000000017d2a50640b69708
+--000000000000fa8b150640b6ebae
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 2 =
-oct. 2025 =C3=A0=C2=A015:10, naftaly.ralamboarivony via <a href=3D"http://l=
-ists.openembedded.org">lists.openembedded.org</a> &lt;naftaly.ralamboarivon=
-y=3D<a href=3D"mailto:smile.fr@lists.openembedded.org">smile.fr@lists.opene=
-mbedded.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">From: Naftaly RALAMBOARIVONY &lt;<a href=3D"mailto:=
-naftaly.ralamboarivony@smile.fr" target=3D"_blank">naftaly.ralamboarivony@s=
-mile.fr</a>&gt;<br>
-<br>
-Patchtest fails when oe-core git repo is in a &quot;detached HEAD&quot; sta=
-te:<br>
-<br>
-Error log:<br>
-<br>
-&gt; File &quot;/usr/lib/python3/dist-packages/git/repo/base.py&quot;, line=
- 881, in<br>
-active_branch return self.head.reference ^^^^^^^^^^^^^^^^^^^<br>
-<br>
-&gt; File &quot;/usr/lib/python3/dist-packages/git/refs/symbolic.py&quot;, =
-line 311, in<br>
-_get_reference raise TypeError(&quot;%s is a detached symbolic reference as=
- it<br>
-points to %r&quot; % (self, sha)) TypeError: HEAD is a detached symbolic re=
-ference<br>
-as it points to &#39;3dd31d3b29730fa1130645d76bb71914ac036335&#39; None<br>
-<br>
-In this case, no current branch is available for the clean operation.<br>
-<br>
-To fix this, updates the checkout logic:<br>
-- if a current branch is available, use it,<br>
-- otherwise, fall back to the commit pointed to by HEAD.<br>
-<br>
-This ensures that the script works correctly even when HEAD is detached.<br=
->
-<br>
-Signed-off-by: Naftaly RALAMBOARIVONY &lt;<a href=3D"mailto:naftaly.ralambo=
-arivony@smile.fr" target=3D"_blank">naftaly.ralamboarivony@smile.fr</a>&gt;=
-<br></blockquote><div><br></div><div>Hello Naftaly,</div><div><br></div><di=
-v>Notes from the patch review call:</div><div>The patch looks good but need=
-s a test to be merged.</div><div>The patch creates 2 code-paths (detached/a=
-ttached HEAD) but the existing patchtest selftests=C2=A0only tests one.</di=
-v><div>We need to ensure both are tested.</div><div><br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0meta/lib/patchtest/repo.py | 9 +++++++--<br>
-=C2=A01 file changed, 7 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py<br>
-index 2cdd6736e4..6a7d7d2d3b 100644<br>
---- a/meta/lib/patchtest/repo.py<br>
-+++ b/meta/lib/patchtest/repo.py<br>
-@@ -21,7 +21,12 @@ class PatchTestRepo(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.repodir =3D repodir<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.repo =3D git.Repo.init(repodir)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.patch =3D mbox.PatchSeries(patch)<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.current_branch =3D <a href=3D"http://self=
-.repo.active_branch.name" rel=3D"noreferrer" target=3D"_blank">self.repo.ac=
-tive_branch.name</a><br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.repo.head.is_detached:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.current_commit =3D self.rep=
-o.head.commit.hexsha<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.current_branch =3D None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.current_branch =3D <a href=
-=3D"http://self.repo.active_branch.name" rel=3D"noreferrer" target=3D"_blan=
-k">self.repo.active_branch.name</a><br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# targeted branch defined on the patch ma=
-y be invalid, so make sure there<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# is a corresponding remote branch<br>
-@@ -80,6 +85,6 @@ class PatchTestRepo(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._patchmerged =3D True<=
-br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def clean(self):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.repo.git.execute([&#39;git&#39;, &#39;che=
-ckout&#39;, self.current_branch])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.repo.git.execute([&#39;git&#39;, &#39;che=
-ckout&#39;, self.current_branch if self.current_branch else self.current_co=
-mmit])<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.repo.git.execute([&#39;git&#39;, &#3=
-9;branch&#39;, &#39;-D&#39;, self._workingbranch])<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._patchmerged =3D False<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#224357): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/224357" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/224357</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115551792/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/115551792/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 9 Oct 2=
+025 at 08:45, Yash Shinde &lt;<a href=3D"mailto:Yash.Shinde@windriver.com">=
+Yash.Shinde@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><u></u>
 
---00000000000017d2a50640b69708--
+ =20
+  <div>
+    <p><br>
+    </p>
+    <div>On 08-10-2025 23:13, Fr=C3=A9d=C3=A9ric
+      Martinsons wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+      <div>
+        <div dir=3D"auto">
+          <div>Do you think it is cargo-c specific? Or all recipes which
+            inherits cargo class must have that?=C2=A0</div>
+          <div dir=3D"auto"><br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <p>The error logs pointed out to cargo-c binaries only.=C2=A0</p>
+    For cargo, DEBUG_PREFIX_MAP is already defined:<br>
+<a href=3D"https://git.yoctoproject.org/poky/tree/meta/recipes-devtools/rus=
+t/cargo_1.90.0.bb#n22" target=3D"_blank">https://git.yoctoproject.org/poky/=
+tree/meta/recipes-devtools/rust/cargo_1.90.0.bb#n22</a><br>
+    <br>
+    This remaps the rust source path i.e $RUSTSRC.<br>
+    However, cargo-c uses a separate source installation directory
+    ($CARGO_HOME) which isn&#39;t covered<br>
+    by DEBUG_PREFIX_MAP.<br><br></div></blockquote><div><br></div><div>Than=
+ks !</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+"><div>
+    <br>
+    Regards,<br>
+    Yash
+    <blockquote type=3D"cite">
+      <div>
+        <div dir=3D"auto">
+          <div dir=3D"auto">
+            <div class=3D"gmail_quote" dir=3D"auto">
+              <div dir=3D"ltr" class=3D"gmail_attr">Le mer. 8 oct. 2025,
+                15:01, Yash Shinde via <a href=3D"https://urldefense.com/v3=
+/__http://lists.openembedded.org__;!!AjveYdw8EvQ!eT6NUyxobn9jkx3pHarcK-637_=
+es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-0RUYHKsb9Ca4-IUA$" tar=
+get=3D"_blank">
+                  lists.openembedded.org</a> &lt;Yash.Shinde=3D<a href=3D"m=
+ailto:windriver.com@lists.openembedded.org" target=3D"_blank">windriver.com=
+@lists.openembedded.org</a>&gt;
+                a =C3=A9crit=C2=A0:<br>
+              </div>
+              <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+                From: Yash Shinde &lt;<a href=3D"mailto:Yash.Shinde@windriv=
+er.com" rel=3D"noreferrer" target=3D"_blank">Yash.Shinde@windriver.com</a>&=
+gt;<br>
+                <br>
+                When building cargo-c with DEBUG mode, QA checks fail
+                due to<br>
+                absolute paths from the build environment (TMPDIR) being
+                embedded into<br>
+                the debug symbols/binaries. This causes issues such as:<br>
+                <br>
+                =C2=A0 ERROR: do_package_qa: File /usr/bin/.debug/cargo-cap=
+i
+                contains reference to TMPDIR [buildpaths]<br>
+                =C2=A0 ERROR: do_package_qa: File
+                /usr/bin/.debug/cargo-cinstall contains reference to
+                TMPDIR [buildpaths]<br>
+                =C2=A0 ERROR: do_package_qa: File
+                /usr/bin/.debug/cargo-cbuild contains reference to
+                TMPDIR [buildpaths]<br>
+                =C2=A0 ERROR: do_package_qa: File /usr/bin/.debug/cargo-cte=
+st
+                contains reference to TMPDIR [buildpaths]<br>
+                <br>
+                To fix this, pass an additional -ffile-prefix-map option
+                to DEBUG_PREFIX_MAP to<br>
+                ensure that paths under `${CARGO_HOME}` are remapped to
+                `${TARGET_DBGSRC_DIR}`.<br>
+                This ensures debug info is reproducible and does not
+                leak host-specific paths.<br>
+                <br>
+                Signed-off-by: Yash Shinde &lt;<a href=3D"mailto:Yash.Shind=
+e@windriver.com" rel=3D"noreferrer" target=3D"_blank">Yash.Shinde@windriver=
+.com</a>&gt;<br>
+                ---<br>
+                =C2=A0meta/recipes-devtools/rust/cargo-c_0.10.16+<a href=3D=
+"https://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!eT6NUyx=
+obn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-0RU=
+YHKsb90kr3UWQ$" rel=3D"noreferrer noreferrer" target=3D"_blank">cargo-0.91.=
+0.bb</a> | 2 ++<br>
+                =C2=A01 file changed, 2 insertions(+)<br>
+                <br>
+                diff --git a/meta/recipes-devtools/rust/cargo-c_0.10.16+<a =
+href=3D"https://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!=
+eT6NUyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0=
+vcM-0RUYHKsb90kr3UWQ$" rel=3D"noreferrer noreferrer" target=3D"_blank">carg=
+o-0.91.0.bb</a>
+                b/meta/recipes-devtools/rust/cargo-c_0.10.16+<a href=3D"htt=
+ps://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!eT6NUyxobn9=
+jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-0RUYHKs=
+b90kr3UWQ$" rel=3D"noreferrer noreferrer" target=3D"_blank">cargo-0.91.0.bb=
+</a><br>
+                index fd15f02da9..5ef68e13c2 100644<br>
+                --- a/meta/recipes-devtools/rust/cargo-c_0.10.16+<a href=3D=
+"https://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!eT6NUyx=
+obn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-0RU=
+YHKsb90kr3UWQ$" rel=3D"noreferrer noreferrer" target=3D"_blank">cargo-0.91.=
+0.bb</a><br>
+                +++ b/meta/recipes-devtools/rust/cargo-c_0.10.16+<a href=3D=
+"https://urldefense.com/v3/__http://cargo-0.91.0.bb__;!!AjveYdw8EvQ!eT6NUyx=
+obn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-0RU=
+YHKsb90kr3UWQ$" rel=3D"noreferrer noreferrer" target=3D"_blank">cargo-0.91.=
+0.bb</a><br>
+                @@ -12,6 +12,8 @@ SRC_URI =3D &quot;crate://<a href=3D"http=
+s://urldefense.com/v3/__http://crates.io/cargo-c/$*7BPV*7D;name=3Dcargo-c__=
+;JSU!!AjveYdw8EvQ!eT6NUyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiG=
+ljcR3YtFoalO9cR6w0vcM-0RUYHKsb9-NilF0c$" rel=3D"noreferrer noreferrer" targ=
+et=3D"_blank">crates.io/cargo-c/${PV};name=3Dcargo-c</a>
+                \<br>
+                =C2=A0SRC_URI[cargo-c.sha256sum] =3D
+                &quot;17d431789b050b0fcf678455dfd5ceb7e5b45cd806140f8fe03b1=
+6b995d6cbff&quot;<br>
+                =C2=A0S =3D &quot;${CARGO_VENDORING_DIRECTORY}/cargo-c-${PV=
+}&quot;<br>
+                <br>
+                +DEBUG_PREFIX_MAP +=3D
+                &quot;-ffile-prefix-map=3D${CARGO_HOME}=3D${TARGET_DBGSRC_D=
+IR}&quot;<br>
+                +<br>
+                =C2=A0inherit cargo cargo-update-recipe-crates pkgconfig<br=
+>
+                <br>
+                =C2=A0DEPENDS =3D &quot;openssl curl&quot;<br>
+                -- <br>
+                2.49.0<br>
+                <br>
+                <br>
+                -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+                Links: You receive all messages sent to this group.<br>
+                View/Reply Online (#224581): <a href=3D"https://urldefense.=
+com/v3/__https://lists.openembedded.org/g/openembedded-core/message/224581_=
+_;!!AjveYdw8EvQ!eT6NUyxobn9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGlj=
+cR3YtFoalO9cR6w0vcM-0RUYHKsb9Y5bg2LA$" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/message/224581</a><br>
+                Mute This Topic: <a href=3D"https://urldefense.com/v3/__htt=
+ps://lists.openembedded.org/mt/115653303/6213388__;!!AjveYdw8EvQ!eT6NUyxobn=
+9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-0RUYHK=
+sb9IEGgQYE$" rel=3D"noreferrer noreferrer" target=3D"_blank">
+                  https://lists.openembedded.org/mt/115653303/6213388</a><b=
+r>
+                Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@li=
+sts.openembedded.org" rel=3D"noreferrer" target=3D"_blank">
+                  openembedded-core+owner@lists.openembedded.org</a><br>
+                Unsubscribe: <a href=3D"https://urldefense.com/v3/__https:/=
+/lists.openembedded.org/g/openembedded-core/unsub__;!!AjveYdw8EvQ!eT6NUyxob=
+n9jkx3pHarcK-637_es2YI-QyHcS2uLhyDXsf2bIzqgfXyiGljcR3YtFoalO9cR6w0vcM-0RUYH=
+Ksb9b7ysiMA$" rel=3D"noreferrer noreferrer" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"ma=
+ilto:frederic.martinsons@gmail.com" rel=3D"noreferrer" target=3D"_blank">fr=
+ederic.martinsons@gmail.com</a>]<br>
+                -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+                <br>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <pre cols=3D"72">--=20
+Regards,
+Yash Shinde</pre>
+  </div>
+
+</blockquote></div></div>
+
+--000000000000fa8b150640b6ebae--
 
