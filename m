@@ -1,389 +1,231 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6D43CCD185
-	for <webhook@archiver.kernel.org>; Thu,  9 Oct 2025 14:20:27 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.1631.1760019619569235509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC4F7CCD185
+	for <webhook@archiver.kernel.org>; Thu,  9 Oct 2025 14:24:17 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.50])
+ by mx.groups.io with SMTP id smtpd.web10.1726.1760019845634052967
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Oct 2025 07:20:19 -0700
+ Thu, 09 Oct 2025 07:24:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eCvIZg+x;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: skandigraun@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-639e34ffa69so1468670a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 07:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760019618; x=1760624418; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X1Zc0yxK6irjad7yscZJecYz5esZYVF4RHU0EV6ngko=;
-        b=eCvIZg+xNSFAmTnZQIQD+7PB6ewgVSyOERokoFM4KgkO2/++faXzRf4n9h6lzw1aIC
-         Oc8Zz4zOrYWm9K9ZAQUCg98FH03j8p0pwRF9b2jy9XJawwOL1eRqgiOm2OfTCqHwFgb8
-         CDS9f5K8tk9WU8joOzC250GmEqE1wvjAFsxm/sLzjSQizjV/M1YF3POzSmwRV9oCnCmv
-         9ZStfxj2jv5ryJDiCptJ81hLYuX6+VESfZN5m7NIYXgZQ0HMrh9CyQJv2PTedAhs9dQH
-         Ff9rWkpqL2B+VSY7UviCERvi9lh13/GiZw+Bj5jHVmxq6Kuvkmh1IW64U+0S9eT5n/Sz
-         8tJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760019618; x=1760624418;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X1Zc0yxK6irjad7yscZJecYz5esZYVF4RHU0EV6ngko=;
-        b=bq+rGRjL+tuTPGLbHt4doKljQoa1wvfbpt8RQ4FKx1vjkizlPEBm295HMfZUz3xJGL
-         //W/rpDh+RQytZlgJ6PBsdqmAIMKNMPuwwND+zdlMP4arXp3nfaMtcMfyl6pl5JVopHH
-         07V8igml9O2batrCeirzsAW0LcV+aGzrsEVVX4AicSM18vZbriiH/mrdWdDJJYftZf0+
-         who+QNKhcy6fsijyzs3PgELDxGVKoyNEj3m2rcDZjdf/zkL6yIH0HdMAXohnDaF/YHvt
-         uP0XwnsxDfFHhAIJmEoK2QhAHCNsN7Ux7i+rqVqgdGkr6piItWDEh41IsFQBXvBgoG2b
-         m/KQ==
-X-Gm-Message-State: AOJu0YwlzFZQZqAI/8yfVUzVjlL/kzg6nno2BHOymhvYxh4yaDk8WSZv
-	drGCIxXHGjNJJBdJ7qyt6MvkwnPal8Kmp9bGLRwsJzRjAbjxdsWOwGh7JdgjzQ==
-X-Gm-Gg: ASbGncso3t/nQ1dBz3aBBRXXvsq3eBxYwwmT1IsP2ZltWFjuZV1EJPq7+vbNv4HkMsb
-	vRN7h+SSdx+OHyw7MLlYBb5ml+rNkoKh+838XyAF+whh5gIBdIeKJFT9pfdAc2uFGx/GleWbyiW
-	mXaMN+Iyxt2jUX9K0eoXkTK6UGg4nDiT+H3ic4Di0PjDGts0GjwVSi/c1qgfcVpcVwbTdgC42zE
-	ZQyy2C6FOLi19NfyCGt504uZYbWFwxZ2wVLjgGft9wKeTKvW13NQw8fsgUDp+t9d0+T8Zbz4BcU
-	Y6iOD9UtsdevJsidrmp9kOFdyGeeyMi73wYWwKAArfrxjJIKkbcCYZeob4Xkxg4zP17dil42euz
-	MMHKgDDkjakzftz4rdZpyjAnq5J0ZYtomSAOVbGT1xG11
-X-Google-Smtp-Source: AGHT+IG9IIHhxCdwgkL4Vj+KtCZWf090fAaZfvT77/ZaXHEbUH+q8xaLAHrjK8Du9FXPXxLqgm+FeQ==
-X-Received: by 2002:a05:6402:1256:b0:639:6ecb:9846 with SMTP id 4fb4d7f45d1cf-639d5c75cd9mr5615580a12.34.1760019617497;
-        Thu, 09 Oct 2025 07:20:17 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-639f40db780sm2468362a12.35.2025.10.09.07.20.16
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 07:20:17 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH v2] cargo_common.bbclass: use source replacement instead of dependency patching
-Date: Thu,  9 Oct 2025 16:20:16 +0200
-Message-ID: <20251009142016.3244170-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.51.0
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=fiBt1nDh;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=fiBt1nDh;
+ spf=pass (domain: arm.com, ip: 52.101.66.50, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=Lb1QQjgox/No8zhDIeC6baxoCyfAR4pSB3gAJoinKUlMajp4FbHNYVGf+AmMcnpsWCvcYevaa3LesXHhOYzBZdowhQx3w66j1Mwruc3eqs9b66FKOW0mWSJMoJgNQmUji7jQ8uPU5RfZyT25tJpdnQT14BREvNVzrITVWW8/wfAT2c8/ugv33mF44PMmaGf8XeHYLjcgmRc6WhO9KTRsDjNhpFN9Kuv0R3ovv6Hbvvnv+8T6BUas1wBjSXdp0ynNktXkcbnDUMR46k4Sdbe54fOzygCBjJWzmg/VmE4EDhGHLbjFdc0U/Z+gnwO5+27op0UAZD9+9v5K6UfHWFFMvw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TzioSF8CwwA4pbL1DL/PMgDj3nM2LObZfyLm1AejL5s=;
+ b=T+6kS/ivd/g16B4R1PeRtQyButGd1DmZPkUHP2ux+5hnUwX/flc5GmF18Iru083862p3QybzXF7+mTGk8vYBQ5p+mRAFq274Ibf/kF6eoKfDAhyjLlMTux/SwDLMje/VM8rcDrO/6+hatWUm/uWXGBXQJqpq4+dfDM8ts8cRJ2TCfvQ+8BabsBiM5YQcC7YhEvR4zCAWoIstVjxVcQumtBefdUKGOrtaaOcaGvR9Kh/7wU/5BLDxaU+JfqJnqYbqn0VLmK80cWl7h6DOCU/q69jnzWZrxS4N1CFtj1l4NPba3e33WZsCDQGMBBww8VSpdlWlPXLzoFHTLJcN4J0Zhw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=ti.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TzioSF8CwwA4pbL1DL/PMgDj3nM2LObZfyLm1AejL5s=;
+ b=fiBt1nDhFIT01muC73V8vzOQHRx6QL9X/aPkUcKs/jo2hTYVtRZYqw6/LxbTxlFJY4LpCxYu786ZuNH76g33ZLyVkg8y0lFvD8PN5iPaOmgCKQFr2fRkBegLaO5OuhtFzbezlrPn3Dts+mLZeAFX7RMwZsktBO27Iv573qv4YH4=
+Received: from DUZPR01CA0167.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b3::8) by AS2PR08MB8927.eurprd08.prod.outlook.com
+ (2603:10a6:20b:5fa::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Thu, 9 Oct
+ 2025 14:24:00 +0000
+Received: from DU6PEPF0000B61E.eurprd02.prod.outlook.com
+ (2603:10a6:10:4b3:cafe::51) by DUZPR01CA0167.outlook.office365.com
+ (2603:10a6:10:4b3::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.10 via Frontend Transport; Thu,
+ 9 Oct 2025 14:24:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU6PEPF0000B61E.mail.protection.outlook.com (10.167.8.133) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.9
+ via Frontend Transport; Thu, 9 Oct 2025 14:23:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x7PciVSzvHDWvmTtSiTa6yoq7yoRsRRoV7oRYrDYoM3ykgxpigqVYVLz24uOgwzWolUBGhwV7XO04DYcZ5s22SxakkejiRkwkrr+SLSVGrQW24Lzrf6rw5EWI8WX4BCygkhB70lQsU9zTFxCCSPIO28aUvKI7Rk1CbtDfQ264dz82hkTVpCwUKrvnwyYMVRx14un0v1n6MeVcHQjmotTQHUyPPlUBsYxove733zI2P746JfKej/8YbJcAEaDUJ3HfehZs5FiFMBIyY7uaiT6MYXu0061vgauZwbMiIgkcpdksH+x2i1ysk6H38FNyycOn0neJxehmvLPndMkz5xJ4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TzioSF8CwwA4pbL1DL/PMgDj3nM2LObZfyLm1AejL5s=;
+ b=GswvwzVm0DtdDxBKbXXX5JUXqB0HqpeJHr9sRR9nBNlL6PFNWHqPwHn7/Sp6vV9ypBF3gInkUi05bunbxbJXHFBnSlQP81eeepfgJb4DfgZbVAEvV3cQivpZ+tC2001cmUCmLrphKBDuocpcDOiA9EbiZK4ZMtii32buo1jltUyHh2c2WASJM5NqNxGim+2WxUOe2NeFOqwIvaQtn2Aihd/exY0WclLBCAlrS68tBsU6lHFetnMeZ2qhEBWT9MZTac3kUBZBYA4GX4VAX1xD5tHyOtOmEEOqDUE4WgGc7v+fTpL3nWVMTAKYBIVsrY6p4QW4AOIQ8rYxF6UDqIvE8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TzioSF8CwwA4pbL1DL/PMgDj3nM2LObZfyLm1AejL5s=;
+ b=fiBt1nDhFIT01muC73V8vzOQHRx6QL9X/aPkUcKs/jo2hTYVtRZYqw6/LxbTxlFJY4LpCxYu786ZuNH76g33ZLyVkg8y0lFvD8PN5iPaOmgCKQFr2fRkBegLaO5OuhtFzbezlrPn3Dts+mLZeAFX7RMwZsktBO27Iv573qv4YH4=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by VE1PR08MB5696.eurprd08.prod.outlook.com (2603:10a6:800:1ae::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.9; Thu, 9 Oct
+ 2025 14:23:25 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::7f73:806a:3493:7d50%4]) with mapi id 15.20.9182.017; Thu, 9 Oct 2025
+ 14:23:24 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "reatmon@ti.com" <reatmon@ti.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH v2] linux-firmware: Move all firmware into
+ sub-packages
+Thread-Topic: [OE-core][PATCH v2] linux-firmware: Move all firmware into
+ sub-packages
+Thread-Index: AQHcN6GPDfIH6Tx3p06D7iKopGdzVrS54TsA
+Date: Thu, 9 Oct 2025 14:23:24 +0000
+Message-ID: <D8E485CB-74EA-4719-BAAE-2E4CE23CC7EB@arm.com>
+References: <20251007154620.21284-1-reatmon@ti.com>
+In-Reply-To: <20251007154620.21284-1-reatmon@ti.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3826.700.81)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|VE1PR08MB5696:EE_|DU6PEPF0000B61E:EE_|AS2PR08MB8927:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7b1b63ad-cec6-4c75-d8ca-08de073f7bb7
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?NGh5c29KWUJ5UFRzTm9xVVNDOGtRb1RFYkl6b3JrOHRKcGYvVTNYY0RBVGJ2?=
+ =?utf-8?B?bkdHbGhhbk1RYnVyUGVZNzhmTXNRc0tvTHBJMlZ2NHFQTllDUGpBeEF5eWUr?=
+ =?utf-8?B?cGZSQmpOSExBNDU1VUpuZ0l5dE8wTGN2dlNyLzlrV1B6NXZZeTUwZmRlYTdE?=
+ =?utf-8?B?ZWV6emJidFlXdlZ3TzdVZDEzMHZhWUhBWFh2M3JlWDljZ2h4cjJiOXl1c3lY?=
+ =?utf-8?B?dTl0UU1TdjNpOWJSUC9HUHdSbjhlcExHS085eXNhZ1htMS92dUZOWi9QSGRL?=
+ =?utf-8?B?M21FcEVua2JqbTJvZWczRGlqTXVKQ3MxTnBKcm5iQ0t6c212bXVmL3dXU3gx?=
+ =?utf-8?B?S0V5cU9zdEMrcWdLdkdVcHBFNWJTMXduenUxTThZWFhCY0V2RjZBdk9yM2Fi?=
+ =?utf-8?B?NXB3aVIwVHhoakh6ZmtkUDdQbGVzeXFmL1pqa3BiYkxuSytwN2k3RzRvTk5V?=
+ =?utf-8?B?dy9FLzVhRWFyNUo2Z1pMTWR1a2ZEZVNlMjVOTHZPTHl0K2JVQlA0MmhxS1Y1?=
+ =?utf-8?B?eEdDV3RnNDV3eklwWDYyK1VacXUxQXRFSHkwWnRnc09CTk9PWHZ2VkIreTJK?=
+ =?utf-8?B?RHpWOWl1S0tWR2xnd05pSFpldk5tcVdSQURLOEtjaTNKcDNpRUxLZTBSenFu?=
+ =?utf-8?B?QnUwZDdZVTl0VEh4d2ZscVA4MWtzTmh4YnkxRWNHNTBHeGVQbXFNeWxGb1Uy?=
+ =?utf-8?B?SVEvT3ZwZ3dLTXF3dWxyODdvcDdQTlhVbUNsUE9YRGhiVmxDYXYzVGVlOHp4?=
+ =?utf-8?B?MmI5cnlJbWhqUVJvZjBRempIeEpxMmFUNWdXdU1nSG8wTml2cDAwc01icC8r?=
+ =?utf-8?B?Mkp1TzNYRVFSWFRNZ2tPb3Z4TzJXTHA4UVFZZW93L2xUd2N1d1VXcFIzQita?=
+ =?utf-8?B?SmY4VTArU2JWZWFlSGxmWWovVVlGSkRKZXNSbnc3eUcySnFkQ0N2c2J0Vi9m?=
+ =?utf-8?B?cmhPS2kyVGdEMkNBMG1ya3pNY2FrQUd4TmtzTGJ1MndQOWplT1UyMmc0U2ov?=
+ =?utf-8?B?NTVYSmhlZkdJeGtTcStsZE1KUnViT01nNHc3a2lpeWpidlpHS3cwR09qb0ph?=
+ =?utf-8?B?d0RQREZ3UjFvTmJYNEoxYlNRTW92QTQxL2k2YUFkZEgrd3VUVkJSZnAzbzFV?=
+ =?utf-8?B?ZGFUcmlFT1lXZEU0eE43eG80U2JtbUplcDVQb0hNT3dOS3ozdWk0YnUyc0tS?=
+ =?utf-8?B?ZG9CYXVHS2ZMZG90MCtrWGx5UW1rUHJWZGNjbjh2Y3pPVVNLTVRubWE0M3c5?=
+ =?utf-8?B?dERqN3g1R3VhNjVJQ3U5N1JUMEowSVlYNWplWHNKelZnZEU4SUtnUm80YnBn?=
+ =?utf-8?B?ZFJsSGMwT2FQZWVvdnpSWlFtS1ZHcUlWUXJqMGsxN3Nmb1ZvY0U3NkV3MWhl?=
+ =?utf-8?B?S1dVQW9SVE9zQ2tuVkorK24yNldZenQyRWZmeDRPYm90VnZ1RFlnbituQThW?=
+ =?utf-8?B?ei9VQ3JrMlNxZ01aUDZwaG9mdk9lVTN5amVpY0VXNThKZzJiNWFZV2tVaG5k?=
+ =?utf-8?B?OWNMWFluMmY3MlIwRVBuZjdmWHVJV0FQV296bjJUNEh0MEZjcVZteEZFd1hq?=
+ =?utf-8?B?N0Ryb0thOFV1dmVYMEM3ZHJYQjRwemk2Ty9SdlF1SVJBYkZEeS90cE55OUJI?=
+ =?utf-8?B?OTdnSDd5TG85cW5vRlUrUVlTTU9mOC9jTG9Fa1dyZk9IRjhsRE1UVkFDampC?=
+ =?utf-8?B?dDVXMlJuN3pNTUJxcGdQdU55d1FxeVAvNFF0a2hxQUpmUjY1ZjR0bzYyKzBz?=
+ =?utf-8?B?RXhKTVc0ZlpOVHl6V0lIemtSYjMxVCsyeWNubDA3VFF3bWFCVUVySU1SZWJl?=
+ =?utf-8?B?b3lyS29rc296N016LzF0YnE3VmlDZ1Q0S3MwdHF5akdOUVVzRXg5MXZJR2lo?=
+ =?utf-8?B?R0VMcWxROWZwSXpKdXBKclZMRWhwRlpQYzcvOCtsTWpSRi9nMHhReitZR0I5?=
+ =?utf-8?B?WUIwbjBIQTlOWEorMStWSjkxTGJyUksrcGJET1lodVhIWUdyNEV2NDJBcmh3?=
+ =?utf-8?B?cWUzU1lEVE9PTlI4WE80emJEZ2hoM1NLaExnMTZZQWJaWnVBOFF5VkJSUkdx?=
+ =?utf-8?Q?51olbY?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8897DAA98E169848B34710987547A550@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5696
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU6PEPF0000B61E.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	40cbe328-df18-4da0-8e70-08de073f682e
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|35042699022|376014|82310400026|36860700013|1800799024|14060799003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?ZEN3SmhPWk5HOXdZSWVKT3ozOGthV1RLZUZlbVlNUXdjS1VhVGxnVkxYQlNq?=
+ =?utf-8?B?SWh0N1IwYVJIcytrWTRnVlBxeExLZmxnUTFwRy8vQjB3SWJwQ3N3OFRKRTd1?=
+ =?utf-8?B?MDJCbFJGUG81ZUx6YStRMzNnVksyRU1NMWR4a1VSUDJqaDBxaGkzK1liTjJt?=
+ =?utf-8?B?U3R2S2UwTThJR0RiaHBkclRKaEtmMVBXVXRnandyUG5Uc3NhSHQzbDZaZ2Vp?=
+ =?utf-8?B?ZjRsYVlXMzhjZW1oeFFKM3hrNkJpNG5Oc0s3eXZUWG5pSXZYOWRYK2ZxUzBO?=
+ =?utf-8?B?VmYvaXFTVlYwaHpGY0cwNXZMTUMzWXk3eG84enNUQzMyL2RuVnJoempqei9w?=
+ =?utf-8?B?ckxjbFErSSthTzVVQkFVZCtPeEtMS2pxRDdnTStiSUZMeHlBekxBdTF6NGVF?=
+ =?utf-8?B?WERNNFRkLzNzNS8xQ3JENmkrVE9WNys3YVFNRlhVczNYc1I3MHhvNDdudmMv?=
+ =?utf-8?B?WHlVSDI1V0huaDh4TjFDRG1BeGhTMWxtdHZWa2FtNUI2aWNEcUp3bmZaTjl3?=
+ =?utf-8?B?V2pmeGk1NkhwRTVTUEx3dVdPQkozaEhhd0U1MXVPd1JhS1hNakVWUWVuc0ZN?=
+ =?utf-8?B?OHlGaUpjV1dBamRSL3M1VTlYNWEwWHlDMmxyeGFVYk9QdHQ5WDZ3RFpGS3I3?=
+ =?utf-8?B?YzEvdEV3RFp2TFVZK0ZDckF6Y3I5YWFaajJhRmJpTDZrL3puQWhmSTlQUmxS?=
+ =?utf-8?B?N1ZCc0x6VS9mVzdBMXo2eUovNU5lWWpNcHVyNjJueE0xSkJ0S084SnpyREZE?=
+ =?utf-8?B?czdqVUk1UU11YVh0cThrdGlsRG1QUTZseXRrRnVtNXpIeWY3RC9tcjhtL0RK?=
+ =?utf-8?B?cWthZE5PcVNEYWxTcVA1QkwrZkx4dHp5UHBlNUtCRXpYVHpzU0g4K3A4VjBU?=
+ =?utf-8?B?U2kxb25tVGlRN1lKQ0d6K3hTRzJ4bmM0SkdPTit1SlJoQUZsMXV5Yk42UHFV?=
+ =?utf-8?B?d0R4VU01cVJUdWdJOEY2YUtOZmxwTm9nUndSV2YrZ1hYN1Fmb0lxREpLanVT?=
+ =?utf-8?B?Q2RkM1Y3VHViRUNpdHpnTEY2TWYyczc4V3hxbjUrZVU3OGVTTUZ1RHNYR2Nq?=
+ =?utf-8?B?cDdSTXNVYkJ2MzcwRmtiaDZEcGh5b3ZZQ1NWTUtNb1Z0SnNWdTFlcjQyRE16?=
+ =?utf-8?B?NnFMeVZhSjh1dGtocUl2UUdTWWFHWkZPSS8vZmFFOXQvQ0dIODlIdEh0a05R?=
+ =?utf-8?B?Z0JzWS9jdDNXLzdYT1lPYVVoaHpJOTBRbHpvb0cxTkdDdklCZVFqMU5YeWJT?=
+ =?utf-8?B?M0JyRFR2cHVEZjhjWDN1YXVqTVpTbDRnZ2pFMjhzZ0w2bE9ScjhEeVNGM0xh?=
+ =?utf-8?B?N0U5Sys4ZFYyYUEvK2hKZGltSHRBWXVjZGpUM3JpN3docTJVSHN3NVRqT2Fm?=
+ =?utf-8?B?UEo0WmpKTnB1VG50N1JGa3RvaTU2UEYyWVlwdGJqWlVTRjhJYUw1UkhadHJz?=
+ =?utf-8?B?eWtJVDFSNmMwT2x0RXlJZ2cvMVNxK0cwcEFMUTRrbEMxQjRmMDBDVUNxd2Np?=
+ =?utf-8?B?M2crS0R1WHdFbXk1NTIzb3I0TGNUTzFpcUY5OU1jNjNlZVlKdGZqK1p3b3hK?=
+ =?utf-8?B?T3BTQWRWQy9SZHBYMVpxNDE4SWdFV1B0SlVTR1JKS21nTzBURjhyelk0WHdw?=
+ =?utf-8?B?YitRNE1IUTVpMTQwaVZHMXFtbGgyRm5BK3JmMldZekZ0d1NHMUFIV0pzZkxn?=
+ =?utf-8?B?a0VRbGNHSmI4Smx1Uzh4WCtxVkh1eXk2VlUrWUQwV2JUcTlXbG1naFdKVXcx?=
+ =?utf-8?B?d0o0MGNNdEhqVkNIZ2pQWlduNC81dEo5S2FuMTBNM1p4c2tJcmlCY2UzUmRN?=
+ =?utf-8?B?bVZEUC90elRFV3BrcCsvT29NMnQvTG80cDBIUVFUY2FFSUV1V1BHUkRIRDdp?=
+ =?utf-8?B?TDZ4TW83djFGcEdoNDZLcGhqZ2Z4VDRIdWd6UlFDQzh6YUpaZGtjbG84MjBu?=
+ =?utf-8?B?Y090bDNBaENKeDQwWkx3bmZMc2t5ODVVN3lZMVZ6L1htSWg2OWU2eDA0ZzB3?=
+ =?utf-8?B?dEppZ05qRituVUxIdjN4U1J2TkhBSmtwMUhMaWFGNG9UWXRsRDVmUVlOQTdC?=
+ =?utf-8?B?MW9hTjh5dW9XcklxZlR3K0k0N1MxYkxzSmxMTVJudGhiK2tKd0w4Z2NTRjBh?=
+ =?utf-8?Q?vZhg=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(376014)(82310400026)(36860700013)(1800799024)(14060799003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2025 14:23:57.2649
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b1b63ad-cec6-4c75-d8ca-08de073f7bb7
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF0000B61E.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8927
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 14:20:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224614
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 14:24:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224615
 
-Cargo.toml files usually contain a list of dependencies in one of two forms:
-either a crate name that can be fetched from some registry (like crates.io), or
-as a source crate, which is most often fetched from a git repository.
-
-Normally cargo handles fetching the crates from both the registry and from git,
-however with Yocto this task is taken over by Bitbake.
-
-After fetching these crates, they are made available to cargo by adding the location
-to $CARGO_HOME/config.toml. The source crates are of interest here: each git repository
-that can be found in the SRC_URI is added as one source crate.
-
-This works most of the time, as long as the repository really contains one crate only.
-
-However in case the repository is a cargo workspace, it contains multiple crates in
-different subfolders, and in order to allow cargo to process them, they need to be
-listed separately. This is not happening with the current implementation of cargo_common.
-
-This change introduces the following:
-- instead of patching the dependencies, use source replacement (the primary motivation for
-  this was that maturin seems to ignore source crate patches from config.toml)
-- the above also allows to keep the original Cargo.lock untouched (the original implementation
-  deleted git repository lines from it)
-- it adds a new folder, tentatively called ${UNPACKDIR}/yocto-vendored-source-crates. During processing
-  the separate crate folders are copied into this folder, and it is used as the central
-  vendoring folder. This is needed for source replacements: the folder that is used for
-  vendoring needs to contain the crates separately, one crate in one folder. Each folder
-  has the name of the crate that it contains. Workspaces are not included here (unless the
-  given manifest is a workspace AND a package at once)
-- previuosly the SRC_URI had to contain a "name" and a "destsuffix" parameter to be considered
-  to be a rust crate. The name is not derived from the Cargo.toml file, not from the SRC_URI.
-  Having destsuffix is still mandatory though.
-
-The change does not handle nested workspaces, only the top level Cargo.toml is processed.
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
----
-
-v2:
-- removed tomllib, because it was added to Python in 3.11, and it doesn't exist in 3.9 yet
-- added purpose-specific, minimal TOML parser functions instead
-  (extract_git_repos_from_lockfile, extract_ws_members, 
-  extract_package_name, is_package, is_workspace)
-- workspace member paths can contain wildcards. This wasn't handled
-  in v1. Now the path is first resolved with glob.
-- Add the new folder to the cleandirs of do_configure
-- When trying to create the new vendoring folder, don't fail if the folder
-  exists already.
-- Fix a bug that failed the build in case there was no Cargo.lock present in 
-  the main project.
-- added some logs
-
-v1: https://lore.kernel.org/openembedded-core/469.1760012328302936344@lists.openembedded.org/T/
-
-
- meta/classes-recipe/cargo_common.bbclass | 232 ++++++++++++++++++-----
- 1 file changed, 184 insertions(+), 48 deletions(-)
-
-diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
-index c9eb2d09a5..6056248cfd 100644
---- a/meta/classes-recipe/cargo_common.bbclass
-+++ b/meta/classes-recipe/cargo_common.bbclass
-@@ -127,8 +127,112 @@ cargo_common_do_configure () {
- }
- 
- python cargo_common_do_patch_paths() {
-+    import glob
-     import shutil
- 
-+    def is_workspace_or_package(f, workspace_or_package):
-+        """
-+        Checks if the manifest contains [workspace] or [package] header
-+        f is a file-like cargo manifest, workspace_or_package is a string,
-+        either 'workspace' or 'package'
-+        """
-+
-+        f.seek(0)
-+        for line in f.readlines():
-+            if line.strip() == '[%s]' % workspace_or_package:
-+                return True
-+        return False
-+
-+    def is_package(f):
-+        return is_workspace_or_package(f, 'package')
-+
-+    def is_workspace(f):
-+        return is_workspace_or_package(f, 'workspace')
-+
-+    def extract_package_name(f):
-+        """Extract crate name"""
-+        f.seek(0)
-+        found_package_header = False
-+        for line in f.readlines():
-+            if not found_package_header and line.strip() == '[package]':
-+                found_package_header = True
-+                continue
-+            if found_package_header and line.strip().startswith('name ='):
-+                return line.split('=')[1].strip().strip('"')
-+
-+    def extract_ws_members(f):
-+        """
-+        Find the [workspace] header in the file, and then find the 'members' key. Then
-+        extract all the elements from the corresponding array, unless it's a comment.
-+        f should a file-like object of the Cargo manifest.
-+        """
-+
-+        import re
-+        f.seek(0)
-+        found_ws_header = False
-+        found_members_start = False
-+        ws_members = []
-+        # regex to extract something from between two double-quotes
-+        member_regex = r'\"([^\"]+)\"'
-+
-+        for line in f.readlines():
-+            if not found_ws_header and line.strip() == '[workspace]':
-+                found_ws_header = True
-+                continue
-+            if found_ws_header and not found_members_start and line.strip().startswith('members'):
-+                found_members_start = True
-+            if found_members_start and not line.strip().startswith('#'):
-+                matches = re.findall(member_regex, line)
-+                ws_members.extend(matches)
-+                # the end of the member list
-+                if ']' in line:
-+                    break
-+        bb.note("Extracted workspace members: %s" % ws_members)
-+        return ws_members
-+
-+    def extract_git_repos_from_lockfile(f):
-+        """Return a list of repositories that start with 'git+' protocol from Cargo.lock"""
-+        f.seek(0)
-+        repos = []
-+        for line in f.readlines():
-+            if line.startswith('source = "git+'):
-+                repos.append(line.split('"')[1])
-+        bb.note("Extracted git repos: %s" % repos)
-+        return repos
-+
-+    def is_rust_crate_folder(path):
-+        cargo_toml_path = os.path.join(path, 'Cargo.toml')
-+        return os.path.exists(cargo_toml_path)
-+
-+    def get_matching_repo_from_lockfile(lockfile_repos, repo, revision):
-+        for lf_repo in lockfile_repos.keys():
-+            if repo in lf_repo and lf_repo.endswith(revision):
-+                lockfile_repos[lf_repo] = True
-+                return lf_repo.split("#")[0]
-+        bb.fatal('Cannot find %s (%s) repository from SRC_URI in Cargo.lock file' % (repo, revision))
-+
-+    def create_cargo_checksum(folder_path):
-+        bb.note("Creating cargo checksum for %s" % folder_path)
-+        checksum_path = os.path.join(folder_path, '.cargo-checksum.json')
-+        if os.path.exists(checksum_path):
-+            return
-+
-+        import hashlib, json
-+
-+        checksum = {'files': {}}
-+        for root, _, files in os.walk(folder_path):
-+            for f in files:
-+                full_path = os.path.join(root, f)
-+                relative_path = os.path.relpath(full_path, folder_path)
-+                if relative_path.startswith(".git/"):
-+                    continue
-+                with open(full_path, 'rb') as f2:
-+                    file_sha = hashlib.sha256(f2.read()).hexdigest()
-+                checksum["files"][relative_path] = file_sha
-+
-+        with open(checksum_path, 'w') as f:
-+            json.dump(checksum, f)
-+
-     cargo_config = os.path.join(d.getVar("CARGO_HOME"), "config.toml")
-     if not os.path.exists(cargo_config):
-         return
-@@ -137,66 +241,98 @@ python cargo_common_do_patch_paths() {
-     if len(src_uri) == 0:
-         return
- 
--    patches = dict()
-+    sources = dict()
-     workdir = d.getVar('UNPACKDIR')
-     fetcher = bb.fetch2.Fetch(src_uri, d)
--    for url in fetcher.urls:
--        ud = fetcher.ud[url]
--        if ud.type == 'git' or ud.type == 'gitsm':
--            name = ud.parm.get('name')
--            destsuffix = ud.parm.get('destsuffix')
--            if name is not None and destsuffix is not None:
--                if ud.user:
--                    repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
--                else:
--                    repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
--                path = '%s = { path = "%s" }' % (name, os.path.join(workdir, destsuffix))
--                patches.setdefault(repo, []).append(path)
- 
--    with open(cargo_config, "a+") as config:
--        for k, v in patches.items():
--            print('\n[patch."%s"]' % k, file=config)
--            for name in v:
--                print(name, file=config)
-+    vendor_folder = os.path.join(workdir, 'yocto-vendored-source-crates')
- 
--    if not patches:
--        return
-+    os.makedirs(vendor_folder, exist_ok=True)
- 
--    # Cargo.lock file is needed for to be sure that artifacts
--    # downloaded by the fetch steps are those expected by the
--    # project and that the possible patches are correctly applied.
--    # Moreover since we do not want any modification
--    # of this file (for reproducibility purpose), we prevent it by
--    # using --frozen flag (in CARGO_BUILD_FLAGS) and raise a clear error
--    # here is better than letting cargo tell (in case the file is missing)
--    # "Cargo.lock should be modified but --frozen was given"
-+    for url in fetcher.urls:
-+        ud = fetcher.ud[url]
-+        if ud.type != 'git' and ud.type != 'gitsm':
-+            continue
-+
-+        destsuffix = ud.parm.get('destsuffix')
-+        crate_folder = os.path.join(workdir, destsuffix)
-+
-+        if destsuffix is None or not is_rust_crate_folder(crate_folder):
-+            continue
-+
-+        if ud.user:
-+            repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
-+        else:
-+            repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
-+
-+        sources[destsuffix] = (repo, ud.revision, crate_folder)
-+
-+        cargo_toml_path = os.path.join(workdir, destsuffix, 'Cargo.toml')
-+        cargo_toml_file = open(cargo_toml_path, 'r')
-+
-+        if is_workspace(cargo_toml_file):
-+            bb.note("%s is a workspace" % cargo_toml_path)
-+            members = extract_ws_members(cargo_toml_file)
-+            for member in members:
-+                # "member" is a relative path, and can contain wildcards
-+                unglobbed_member_crate_folder = os.path.join(workdir, destsuffix, member)
-+                for member_crate_folder in glob.glob(unglobbed_member_crate_folder):
-+                    bb.note("Processing member: %s" % member_crate_folder)
-+                    if not is_rust_crate_folder(member_crate_folder):
-+                        bb.note("%s has no Cargo.toml, skipping" % member_crate_folder)
-+                        continue
-+
-+                    member_crate_cargo_toml = os.path.join(member_crate_folder, 'Cargo.toml')
-+                    with open(member_crate_cargo_toml) as mcct:
-+                        member_crate_name = extract_package_name(mcct)
-+                    shutil.copytree(member_crate_folder, os.path.join(vendor_folder, member_crate_name))
-+
-+        if is_package(cargo_toml_file):
-+            bb.note("%s is a package" % cargo_toml_path)
-+            crate_folder = os.path.join(workdir, destsuffix)
-+            crate_name = extract_package_name(cargo_toml_file)
-+            shutil.copytree(crate_folder, os.path.join(vendor_folder, crate_name))
-+
-+        cargo_toml_file.close()
-+
-+    if len(sources) == 0:
-+        return
- 
-     lockfile = d.getVar("CARGO_LOCK_PATH")
-     if not os.path.exists(lockfile):
-         bb.fatal(f"{lockfile} file doesn't exist")
- 
--    # There are patched files and so Cargo.lock should be modified but we use
--    # --frozen so let's handle that modifications here.
--    #
--    # Note that a "better" (more elegant ?) would have been to use cargo update for
--    # patched packages:
--    #  cargo update --offline -p package_1 -p package_2
--    # But this is not possible since it requires that cargo local git db
--    # to be populated and this is not the case as we fetch git repo ourself.
--
--    lockfile_orig = lockfile + ".orig"
--    if not os.path.exists(lockfile_orig):
--        shutil.copy(lockfile, lockfile_orig)
--
--    newlines = []
--    with open(lockfile_orig, "r") as f:
--        for line in f.readlines():
--            if not line.startswith("source = \"git"):
--                newlines.append(line)
-+    # key is the repo url, value is a boolean, which is used later
-+    # to indicate if there is a matching repository in SRC_URI also
-+    lockfile_git_repos = {}
-+    with open(lockfile, 'r') as lf:
-+        lockfile_git_repos = {repo_url: False for repo_url in extract_git_repos_from_lockfile(lf)}
-+
-+    for d in os.scandir(vendor_folder):
-+        if d.is_dir():
-+            create_cargo_checksum(d.path)
-+
-+
-+    with open(cargo_config, "a+") as config:
-+        print('\n[source."yocto-vendored-sources"]', file=config)
-+        print('directory = "%s"' % vendor_folder, file=config)
-+
-+        for destsuffix, (repo, revision, repo_path) in sources.items():
-+            lockfile_repo = get_matching_repo_from_lockfile(lockfile_git_repos, repo, revision)
-+            print('\n[source."%s"]' % lockfile_repo, file=config)
-+            print('git = "%s"' % repo, file=config)
-+            print('rev = "%s"' % revision, file=config)
-+            print('replace-with = "yocto-vendored-sources"', file=config)
-+
-+    # check if there are any git repos in the lock file that were not visited
-+    # in the previous loop, when the source replacement was created, and warn about it
-+    for lf_repo, found_in_src_uri in lockfile_git_repos.items():
-+        if not found_in_src_uri:
-+            bb.warn(f"{lf_repo} is present in lockfile, but not found in SRC_URI")
- 
--    with open(lockfile, "w") as f:
--        f.writelines(newlines)
- }
-+
-+do_configure[cleandirs] += "${UNPACKDIR}/yocto-vendored-source-crates"
- do_configure[postfuncs] += "cargo_common_do_patch_paths"
- 
- do_compile:prepend () {
+T24gNyBPY3QgMjAyNSwgYXQgMTY6NDYsIFJ5YW4gRWF0bW9uIHZpYSBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnIDxyZWF0bW9uPXRpLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4g
+DQo+IEEgbG90IG9mIHRoZSBmaXJtd2FyZSBoYXMgYWxyZWFkeSBiZWVuIGJyb2tlbiBvdXQgaW50
+byBzdWItcGFja2FnZXMsIGJ1dA0KPiBhIGdvb2QgbnVtYmVyIHdlcmUgc3RpbGwgbGluZ2VyaW5n
+IGluIHRoZSBiYXNlIGxpbnV4LWZpcm13YXJlIHBhY2thZ2UuDQo+IA0KPiBUaGlzIHBhdGNoIGRv
+ZXMgdHdvIHRoaW5nczoNCj4gDQo+IDEpIE1vdmUgYWxsIG9mIHRoZSByZW1haW5pbmcgZmlybXdh
+cmUgaW50byBzdWItcGFja2FnZXMgYmFzZWQgb24gdGhlDQo+IGRyaXZlciBuYW1lIGluIHRoZSBX
+SEVOQ0UgZmlsZSBvciBpbnRvIGV4aXN0aW5nIHN1Yi1wYWNrYWdlcyB3aGVyZSBhDQo+IGZpbGUg
+b3IgdHdvIHdlcmUgbWlzc2VkLg0KPiANCj4gMikgQ3JlYXRlIGEgbmV3IFJFTU9WRV9VTkxJQ0VO
+U0VEIHZhcmlhYmxlIGFuZCBkb19pbnN0YWxsKCkgbG9naWMgdG8NCj4gYWxsb3cgZm9yIG1hcmtp
+bmcgY2VydGFpbiBmaXJtd2FyZSBmaWxlcyBhcyBzb21ldGhpbmcgdG8gcmVtb3ZlIGFuZCBub3QN
+Cj4gcGFja2FnZSB1cC4gIFRoZSBpbnRlbnRpb24gaXMgdGhhdCBpbiB0aGUgV0hFTkNFIGZpbGUs
+IGEgbnVtYmVyIG9mDQo+IGZpcm13YXJlIGZpbGVzIGhhdmUgbm8gbGljZW5zZSBpbmZvcm1hdGlv
+biBvciB2ZXJ5IHF1ZXN0aW9uYWJsZQ0KPiBkZWNsYXJhdGlvbnMgYXMgdG8gd2hhdCB0aGUgbGlj
+ZW5zZSBpcyBmb3IgdGhlIGZpcm13YXJlLg0KDQpJ4oCZbSB0ZW1wdGVkIHRvIGFzayBmb3IgKDEp
+IGFuZCAoMikgdG8gYmUgc3BsaXQgaW50byBzZXBhcmF0ZSBwYXRjaGVzLCBidXQgaW1wb3J0YW50
+bHkgdGhpcyBlbXB0aWVzIFBOIGJ1dCBkb2VzbuKAmXQgc2V0IEFMTE9XX0VNUFRZLCBzbyB0aGUg
+bWV0YS1wYWNrYWdlIHRvIGxldCB5b3UgaW5zdGFsbCBhbGwgdGhlIGZpcm13YXJlIG5vIGxvbmdl
+ciBleGlzdHMuDQoNCkNhbiB5b3Ugc2V0IEFMTE9XX0VNUFRZOiR7UE59ID0g4oCcMeKAnSBzbyB0
+aGF0IGxpbnV4LWZpcm13YXJlIGlzIHN0aWxsIGJ1aWx0IChhbGJlaXQgZW1wdHkpLg0KDQpSb3Nz
 
