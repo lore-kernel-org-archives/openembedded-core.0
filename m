@@ -2,175 +2,221 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6512ACCD18A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 663EDCCD18C
 	for <webhook@archiver.kernel.org>; Thu,  9 Oct 2025 19:31:19 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.9186.1760038277101758066
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.9189.1760038279016436478
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Oct 2025 12:31:17 -0700
+ Thu, 09 Oct 2025 12:31:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=W5t7x0ll;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-77f5d497692so1719925b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 12:31:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zpShv/pv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-78af9ebe337so1039765b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 12:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760038276; x=1760643076; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PGDmaKBR8cKry/zOA/hi+qDJ6f+V2no4FuUgKfgCNbs=;
-        b=W5t7x0llPh56n3zn4I0wciVQxKf2UaabE0NDO1xxeLYHOWgROjfV7SqHgxftJc0Qhs
-         vcHtZGe4YZXxRqeh6XIM8+H28g9Tam/xjxej4yP24JGDFqEE2ktIZANKOGYP78sCVHoy
-         NUfMPjreog7Bwj0xmk+pEUGU7Y0Ge06SwQaVjMG3GqLnLHgIvlNu/KMvy0lCCxoRLO6l
-         VkCrk/fTpyfdfMq+jaJQ3bXj8T+G+N/wSgE3t3STp+rF5wye7YF1KSAFV8EtYcBCtO3V
-         IbVEyMyUFqzCwsv8x2UyiE4+JRAhB4e8b2Gpphk3dROOOZT9+R9pWJM5zOFXaIB3x0e5
-         OovQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760038278; x=1760643078; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GDDYcq8slEEDB8S27Gs2GwhetwMmIlYm9TLA9Kb1NEc=;
+        b=zpShv/pve9ud5wHEIGxvrM3BEkAYpOTFziSgm+gegJ/ZT1NPgqTunbB8X9XWDa4IYi
+         z2MmYIZNo/ayXNmoom1UOWC6H3Cx1BEVb2Vkt6D7I2530+aobZQthK7SB4oO7eyfbTnt
+         mcmMPsljM+8YdKn4N3q5I5tDsRvJVDAfxtGlPKQQ11nfvYY0Tu63iAP6newzsvCyVRdN
+         EdXvQ7ZChO5w/Hrr4tCbK65f6gIsSrFGye/giZWviqsHFA7Ub9kscHudCrg5lM+0CHAu
+         ZKrCpvNoKWwVfmSWaB3Kvqq8drShTG5M7DdZopLMFTKx1XxoU4CGNiHtTMX6dio3N4b5
+         yaqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760038276; x=1760643076;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PGDmaKBR8cKry/zOA/hi+qDJ6f+V2no4FuUgKfgCNbs=;
-        b=FJ3beQM6dbeb6IlP/bnjGsfJ37xI1QvvL+uLzD9PC/OxLavxZHFRey92RbVxVuT7/i
-         EeMDSROKo8i+wxzSVS8e3mvp04m5OnYxKwwit0hSO8ulFJq0P1f9AKXn1SJjAshjG2AH
-         DoqHj9MmISfTUkIKrrXrO3wHVwPUPhCKRgo4OP3AHbRlPYgSH9L6UqfptSsZXAUAigts
-         Rug1ulitfhOEuFcIIuS99Qnqw8n/fftDGi81L/H2HSlqaxV9+lxEI1JNh3zF2t0kJBLU
-         yizemusrUE+3jAAxyfFFeLkcenzgHULlm/FHXL2I8JZYit2dXf13j84C5dTrM1XTAZpd
-         mAVQ==
-X-Gm-Message-State: AOJu0Ywkk5h68WdVTpEqJM+Q7rkfzeinGbtO8D4MnS2287ZMbzXgUaKf
-	MLbDgVBJ456NJW1IeGgyAI6c4ocFp1rTSciPcjZOiIBFucBHnPtG+b4gQIHP+X0KesRMXmiSwp+
-	dFZ1a
-X-Gm-Gg: ASbGncv+ioMmKJaXh/Gq2tnWnZOU3qy/8CenYyGkf2yamML8LDbTcQBHacn0wJXHp4X
-	nXnrOkERYAuSEk9sFk+W2q8dBhtGbX5JVV4KRxuPH9veXaAbktLkCdfiV/gQ0Xx9aSI3/7bHisH
-	DnbZcV6O/75FkeMo6T1L66l3cssOZgHFlGclhULgvoYVPRMlzfT5K8lQ5VfuqneHUzedLKIsm6n
-	Y2Mny+0NdnbxzQi+jBlZJ7tjb2sd7uw7uLeBNSP7QZs91QLRpK2z8jvAQ8szI6QFnSGF2K5kM+r
-	sCGVgfAgZXxmBuc9BFwb8YXIPsq+bdFPnk0ijuZDVQ/LZKN5ReeCjDGPx3ZT77erQD8Ctx/WEGZ
-	BPAEVjYerdt7Vxsbmybbm2ZXOE7LXd69zHUmtOQ==
-X-Google-Smtp-Source: AGHT+IFm95QPhK18HPTDMghsnuZfY6VXhIZj3aH1FfHafhTVCgnPjFRWoT0AgJFdgKpVMr32YRMTig==
-X-Received: by 2002:a05:6a00:234b:b0:781:8680:3175 with SMTP id d2e1a72fcca58-79387146c19mr10816286b3a.21.1760038276197;
-        Thu, 09 Oct 2025 12:31:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760038278; x=1760643078;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GDDYcq8slEEDB8S27Gs2GwhetwMmIlYm9TLA9Kb1NEc=;
+        b=QmasiziaOhfOl2ICME0b9XCo4g7rQxtWfSkDLwqFdXiadu1kFiKg8FvYa14drCG3cu
+         7xdedSqmXmNGBFlzOMLddqoZELrX+L5DJFsVc2xU6eB7vRnkkcf/5dpjV3j0pJdBnDez
+         YeWJJ72ck1zCYiLVe7d25u9tGcBfDt0XXem7rIPNO0w6yRTwxmC8Jl8ki8caKZpJdWWo
+         DED/CJtM72OuGPYmQNztePgTtLgZQaWF43l3bZms7DO4uj3dni3ThwIenLfXh72UJFOQ
+         si/lwFxSBTnaR6vTLwqzb//6662n0ia2Uxaquz16Xhf8KUeNZD1XLmyvROwLfzatpoHI
+         YRsQ==
+X-Gm-Message-State: AOJu0YymE/S3R0Yk+SxJgqtvlFOI4RtpzdDWB3moTqovFGRPbZmJlTEo
+	8Ho/H0Z3YYlx81yAnPQRNxT5cv1vBDKHYiGXv2ol9rz35D3QRZ/57lIv1UntU4B7sbN8bPAvOZh
+	7aUN4
+X-Gm-Gg: ASbGncuiv5wR8gs8b46LyKIw99qDlCSsUxuVr4UfXnf1ndgNeOZm4egTfs3c/Sdry07
+	j+voaEw/juraMSBx0V6pd+NKLtLPb9ZhP4XeBTaW2BgmhkCP0P6iB/fwrDcOq8Gz80M6m7aTC3f
+	YZx/nl1UpI/t68UNLAducgkJFBsrIrq3KoLxJWogNqCd4myjH17mI05zq2v3I+y3qQhTp5CDn/S
+	G/4UyBfq609LijiNsNretX9JbWA3lhQH6C2kg9WsKTVarURqXHkqBwljxiQfnTiOADw0jsNW4kI
+	If+zXu41QDWDZZr2/2Lm6EqQ4D1VMg+AUL5mpxS5O+PyOWsM91xJJSivb0krPkqZJKCqPs3QWZH
+	mrU9h8fhFVtrtQtZPYImw3MbP0xUQjuCU3SuAmA==
+X-Google-Smtp-Source: AGHT+IF2PFCUi81hV+xG8wFa/e+1iEmnX0F+dW0uOttuFheNBf76g1iLPrVbscTxR8sU44Su71CPcw==
+X-Received: by 2002:a05:6a00:1701:b0:78c:9b1b:e0e3 with SMTP id d2e1a72fcca58-79385703ee8mr9886869b3a.7.1760038278112;
+        Thu, 09 Oct 2025 12:31:18 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:b96e:4301:8642:779c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d0e2d51sm495864b3a.65.2025.10.09.12.31.15
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d0e2d51sm495864b3a.65.2025.10.09.12.31.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 12:31:15 -0700 (PDT)
+        Thu, 09 Oct 2025 12:31:17 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/24] Patch review
-Date: Thu,  9 Oct 2025 12:30:44 -0700
-Message-ID: <cover.1760038088.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/24] libxml2: fix CVE-2025-9714
+Date: Thu,  9 Oct 2025 12:30:45 -0700
+Message-ID: <277692c2472f03ae62401bfbd26e8c4d872113d0.1760038088.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1760038088.git.steve@sakoman.com>
+References: <cover.1760038088.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 19:31:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224619
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224620
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Monday, October 13
+From: Theo GAIGE <tgaige.opensource@witekio.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libxml2/-/commit/677a42645ef22b5a50741bad5facf9d8a8bc6d21
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2552
-
-The following changes since commit 2285f30e643f52511c328e4f6e1f0c042bea4110:
-
-  libhandy: update git branch name (2025-09-30 06:42:16 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Aleksandar Nikolic (1):
-  scripts/install-buildtools: Update to 4.0.30
-
-Archana Polampalli (2):
-  go: fix CVE-2025-47906
-  openssl: upgrade 3.0.17 -> 3.0.18
-
-AshishKumar Mishra (2):
-  systemd: backport fix for handle USE_NLS from master
-  p11-kit: backport fix for handle USE_NLS from master
-
-Deepesh Varatharajan (1):
-  glibc: stable 2.35 branch updates
-
-Gyorgy Sarvari (1):
-  conf/bitbake.conf: use gnu mirror instead of main server
-
-Peter Marko (10):
-  busybox: patch CVE-2025-46394
-  gstreamer1.0: ignore CVEs fixed in plugins
-  gstreamer1.0: ignore CVE-2025-2759
-  grub: ignore CVE-2024-2312
-  ghostscript: patch CVE-2025-59798
-  ghostscript: patch CVE-2025-59799
-  ghostscript: patch CVE-2025-59800
-  pulseaudio: ignore CVE-2024-11586
-  ffmpeg: ignore CVE-2023-6603
-  ffmpeg: mark CVE-2023-6601 as patched
-
-Steve Sakoman (2):
-  selftest/cases/meta_ide.py: use use gnu mirror instead of main server
-  oeqa/sdk/cases/buildcpio.py: use gnu mirror instead of main server
-
-Theo GAIGE (1):
-  libxml2: fix CVE-2025-9714
-
-Vijay Anusuri (4):
-  gstreamer1.0-plugins-bad: Fix CVE-2025-3887
-  libxslt: Patch for CVE-2025-7424
-  tiff: Fix CVE-2025-8961
-  tiff: Fix CVE-2025-9165
-
- meta/conf/bitbake.conf                        |   2 +-
- meta/lib/oeqa/sdk/cases/buildcpio.py          |   2 +-
- meta/lib/oeqa/selftest/cases/meta_ide.py      |   2 +-
- meta/recipes-bsp/grub/grub2.inc               |   2 +
- .../{openssl_3.0.17.bb => openssl_3.0.18.bb}  |   2 +-
- .../busybox/busybox/CVE-2025-46394-01.patch   |  57 ++++++
- .../busybox/busybox/CVE-2025-46394-02.patch   |  32 ++++
- meta/recipes-core/busybox/busybox_1.35.0.bb   |   2 +
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- .../libxml/libxml2/CVE-2025-9714.patch        | 117 ++++++++++++
+Signed-off-by: Theo GAIGE <tgaige.opensource@witekio.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libxml/libxml2/CVE-2025-9714.patch        | 117 ++++++++++++++++++
  meta/recipes-core/libxml/libxml2_2.9.14.bb    |   1 +
- meta/recipes-core/systemd/systemd_250.14.bb   |   1 +
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.21/CVE-2025-47906.patch           | 171 ++++++++++++++++++
- .../ghostscript/CVE-2025-59798.patch          | 134 ++++++++++++++
- .../ghostscript/CVE-2025-59799.patch          |  41 +++++
- .../ghostscript/CVE-2025-59800.patch          |  36 ++++
- .../ghostscript/ghostscript_9.55.0.bb         |   3 +
- ...602-CVE-2023-6604-CVE-2023-6605-0002.patch |   2 +-
- .../recipes-multimedia/ffmpeg/ffmpeg_5.0.3.bb |   4 +
- .../CVE-2025-3887-1.patch                     |  50 +++++
- .../CVE-2025-3887-2.patch                     |  93 ++++++++++
- .../gstreamer1.0-plugins-bad_1.20.7.bb        |   2 +
- .../gstreamer/gstreamer1.0_1.20.7.bb          |  15 +-
- .../libtiff/tiff/CVE-2025-8961.patch          |  74 ++++++++
- .../libtiff/tiff/CVE-2025-9165.patch          |  32 ++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   2 +
- .../pulseaudio/pulseaudio.inc                 |   3 +
- .../libxslt/libxslt/CVE-2025-7424.patch       | 105 +++++++++++
- .../recipes-support/libxslt/libxslt_1.1.35.bb |   1 +
- .../recipes-support/p11-kit/p11-kit_0.24.1.bb |   1 +
- scripts/install-buildtools                    |   4 +-
- 32 files changed, 985 insertions(+), 11 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.0.17.bb => openssl_3.0.18.bb} (99%)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
+ 2 files changed, 118 insertions(+)
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2025-9714.patch
- create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2025-47906.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-59798.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-59799.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2025-59800.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-1.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2025-3887-2.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-8961.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2025-9165.patch
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2025-7424.patch
 
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2025-9714.patch b/meta/recipes-core/libxml/libxml2/CVE-2025-9714.patch
+new file mode 100644
+index 0000000000..24d1a8348c
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2025-9714.patch
+@@ -0,0 +1,117 @@
++From 6ef8b9f05cc21d3fc28156fe5d1251834c29c7d7 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Thu, 28 Jul 2022 20:21:24 +0200
++Subject: [PATCH] Make XPath depth check work with recursive invocations
++
++EXSLT functions like dyn:map or dyn:evaluate invoke xmlXPathRunEval
++recursively. Don't set depth to zero but keep and restore the original
++value to avoid stack overflows when abusing these functions.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/677a42645ef22b5a50741bad5facf9d8a8bc6d21]
++CVE: CVE-2025-9714
++
++Signed-off-by: Theo GAIGE <tgaige.opensource@witekio.com>
++---
++ xpath.c | 23 +++++++++++++++++------
++ 1 file changed, 17 insertions(+), 6 deletions(-)
++
++diff --git a/xpath.c b/xpath.c
++index c2d845888..028471d53 100644
++--- a/xpath.c
+++++ b/xpath.c
++@@ -13883,12 +13883,11 @@ static int
++ xmlXPathRunEval(xmlXPathParserContextPtr ctxt, int toBool)
++ {
++     xmlXPathCompExprPtr comp;
+++    int oldDepth;
++ 
++     if ((ctxt == NULL) || (ctxt->comp == NULL))
++ 	return(-1);
++ 
++-    ctxt->context->depth = 0;
++-
++     if (ctxt->valueTab == NULL) {
++ 	/* Allocate the value stack */
++ 	ctxt->valueTab = (xmlXPathObjectPtr *)
++@@ -13942,11 +13941,13 @@ xmlXPathRunEval(xmlXPathParserContextPtr ctxt, int toBool)
++ 	    "xmlXPathRunEval: last is less than zero\n");
++ 	return(-1);
++     }
+++    oldDepth = ctxt->context->depth;
++     if (toBool)
++ 	return(xmlXPathCompOpEvalToBoolean(ctxt,
++ 	    &comp->steps[comp->last], 0));
++     else
++ 	xmlXPathCompOpEval(ctxt, &comp->steps[comp->last]);
+++    ctxt->context->depth = oldDepth;
++ 
++     return(0);
++ }
++@@ -14217,6 +14218,7 @@ xmlXPathCompExprPtr
++ xmlXPathCtxtCompile(xmlXPathContextPtr ctxt, const xmlChar *str) {
++     xmlXPathParserContextPtr pctxt;
++     xmlXPathCompExprPtr comp;
+++    int oldDepth = 0;
++ 
++ #ifdef XPATH_STREAMING
++     comp = xmlXPathTryStreamCompile(ctxt, str);
++@@ -14230,8 +14232,10 @@ xmlXPathCtxtCompile(xmlXPathContextPtr ctxt, const xmlChar *str) {
++     if (pctxt == NULL)
++         return NULL;
++     if (ctxt != NULL)
++-        ctxt->depth = 0;
+++        oldDepth = ctxt->depth;
++     xmlXPathCompileExpr(pctxt, 1);
+++    if (ctxt != NULL)
+++        ctxt->depth = oldDepth;
++ 
++     if( pctxt->error != XPATH_EXPRESSION_OK )
++     {
++@@ -14252,8 +14256,10 @@ xmlXPathCtxtCompile(xmlXPathContextPtr ctxt, const xmlChar *str) {
++ 	comp = pctxt->comp;
++ 	if ((comp->nbStep > 1) && (comp->last >= 0)) {
++             if (ctxt != NULL)
++-                ctxt->depth = 0;
+++                oldDepth = ctxt->depth;
++ 	    xmlXPathOptimizeExpression(pctxt, &comp->steps[comp->last]);
+++            if (ctxt != NULL)
+++                ctxt->depth = oldDepth;
++ 	}
++ 	pctxt->comp = NULL;
++     }
++@@ -14409,6 +14415,7 @@ xmlXPathEvalExpr(xmlXPathParserContextPtr ctxt) {
++ #ifdef XPATH_STREAMING
++     xmlXPathCompExprPtr comp;
++ #endif
+++    int oldDepth = 0;
++ 
++     if (ctxt == NULL) return;
++ 
++@@ -14422,8 +14429,10 @@ xmlXPathEvalExpr(xmlXPathParserContextPtr ctxt) {
++ #endif
++     {
++         if (ctxt->context != NULL)
++-            ctxt->context->depth = 0;
+++            oldDepth = ctxt->context->depth;
++ 	xmlXPathCompileExpr(ctxt, 1);
+++        if (ctxt->context != NULL)
+++            ctxt->context->depth = oldDepth;
++         CHECK_ERROR;
++ 
++         /* Check for trailing characters. */
++@@ -14432,9 +14441,11 @@ xmlXPathEvalExpr(xmlXPathParserContextPtr ctxt) {
++ 
++ 	if ((ctxt->comp->nbStep > 1) && (ctxt->comp->last >= 0)) {
++             if (ctxt->context != NULL)
++-                ctxt->context->depth = 0;
+++                oldDepth = ctxt->context->depth;
++ 	    xmlXPathOptimizeExpression(ctxt,
++ 		&ctxt->comp->steps[ctxt->comp->last]);
+++            if (ctxt->context != NULL)
+++                ctxt->context->depth = oldDepth;
++         }
++     }
++ 
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index f34b0c25ca..932251da98 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -42,6 +42,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+            file://CVE-2025-6021.patch \
+            file://CVE-2025-49794-CVE-2025-49796.patch \
+            file://CVE-2025-6170.patch \
++           file://CVE-2025-9714.patch \
+            "
+ 
+ SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
 -- 
 2.43.0
 
