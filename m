@@ -2,204 +2,105 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC78CCD183
-	for <webhook@archiver.kernel.org>; Thu,  9 Oct 2025 19:31:29 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.9190.1760038283182034574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D10CCD184
+	for <webhook@archiver.kernel.org>; Thu,  9 Oct 2025 19:31:39 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.9194.1760038290999676858
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Oct 2025 12:31:23 -0700
+ Thu, 09 Oct 2025 12:31:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0sfxnC67;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-796f9a8a088so1070937b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 12:31:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wqC7xi6I;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so1341978b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 12:31:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760038282; x=1760643082; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760038290; x=1760643090; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FiRL46nVUvHg0caXtwjBFLYypKA99nBaKsISxmjEmBQ=;
-        b=0sfxnC6704/PJ4yE08urEYpawv4l0fcIe5v4QWaol0AByGB2GJTsqlUznEiwOnbdWe
-         nnSXM2MPLwQu/WRQ4Uo9LqkqM9FUqKT1TdGNGhCIlpyaBn5fDmaS35kJJXEk05YdmmAk
-         aESUsTImNaPyOMd+9jJlESZTJMAvdlxBMhhL67knEWA9/+8M4GjITuivNRxmXdSMpCIv
-         ZRB3qvUWQydJ5bEM+D/ScOSsozPmKlFD+rRSSw0QTYlNE/1bSdJ9wjUjnUcblIhj0nLq
-         2FLIb+PFi8JfeJyDHdA4BtSJ0dLtCIbzkIEmcbopCrM6jq1XNPpjgWkYHeT99nkiVoau
-         k3Ag==
+        bh=YT8EE1z/Fntu1XWe0BptLiJklPK+k+NBD4cUsyaks9Q=;
+        b=wqC7xi6IxZy5oIjH7JZnd9OkRfQ0lBWhTVPz1Y6uJK/P+86UiMqf44StuvJMsNUN8D
+         cNZU7ThpQ7/PKZEFPhGFelGBVYbhicHky+Laa6LY1EA4KY6VJQVgKTqNanGfAnwquWE7
+         yn6HG2nZykRlt3vG4rQ+iPddvRxy7H6v8cKrHDJJkWPAtktq0QArEfJkth/OotqVo64y
+         CS+9iXhIJTot/At6i+yInP5LqYwRTTMlYXpAOki5QtuTbkADGcyeUJdSusKj6Tu83waH
+         uSFe9KUtIdiLgIekgSF0jmyN3ScXAmcL2VUo9fTYg1zYehhzsldHNDFfi6bGNa18aGUX
+         SsRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760038282; x=1760643082;
+        d=1e100.net; s=20230601; t=1760038290; x=1760643090;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FiRL46nVUvHg0caXtwjBFLYypKA99nBaKsISxmjEmBQ=;
-        b=mFUGLvlz2DRDVFOwWGbbkwXQgn7Vke+IT0KQ3uIQv3Zk/ZZMVdL4NkWny9nd5sau6u
-         SY5YhEHMQH6J1UX4GXO4bg29t6dRnMnuxfJv2aRR7FHxEcM7vYbFUPk3w77m+p+d/FEA
-         fnHX079GamZ9QWpPtwW77xhowl4GE+R8HEbwH30lsNORw/3Ya5Tl1CozrcGu+gWW/W/h
-         iCaXy0Ja5SiHSfvwxx4QikyVC/v2ajUFpMNgVGhOpvUbSj4ngZHrxO2QxGWMTeJEdENE
-         8I1+3WU68fvDOxxxAYMRi6exH6e8L426liEgRi3uCN+l2l6xDq2QsZq1ms6KNZDhHljD
-         yizw==
-X-Gm-Message-State: AOJu0YwA33u9kQeWTFzk0Q7LqGLic5JaB+mkPHS+0SGaHiimnUwpAG7r
-	oOvaTx8umE6sQ6RgtfhicFKTg5uUdLi1oi+NCk972UOsK6sN9LJ/Ky/wSZNoKgvKlAtUrVncmOT
-	hxVNA
-X-Gm-Gg: ASbGnct9sOGLTZrx5GRO1atOHYchu/sX/12G+Ko7P9inAdmiOf+3aau+GTAEdo2x4SZ
-	ZZBWoIPzmWbeB0lJFll9AUvCt751WIW3Vj4Wl4qAQ5Vt33iJkXG5cmTFKBtXtG+mqe0Q1LlUT1N
-	qA6gPSgwLe5AO2GieL2WJcv9Ne+XNES/tgBvB2q3Rh/OhcbLgJCq+T+rSQo4DP9N1zb3fk9inIy
-	9hecfL90EN8ecaZjySJ9TS6styryGEmkQ0tCYz3RyIDq+IY3eO90UPBSaXTZ+OSgT/Y6pus0qVF
-	ge6CPvMXXRUP2mWHB2vJN5eS+NYS216UFrQBtBPLBxSBx3riPld5M/X+MsaJhNojIQbYEE+RwiX
-	pYSbAoj1ViTIC2SduoLXNcGnXJ83GH80j6AB+DQ==
-X-Google-Smtp-Source: AGHT+IGtXitu/lZsvpHah7XRxlSBxOnmaZnKGEyGVMbkE3UpXEQpvU6ZZVo9VdYAOMzx51ZpbsUocg==
-X-Received: by 2002:a05:6a00:8d5:b0:793:1b79:ee61 with SMTP id d2e1a72fcca58-79387434292mr9650263b3a.22.1760038282171;
-        Thu, 09 Oct 2025 12:31:22 -0700 (PDT)
+        bh=YT8EE1z/Fntu1XWe0BptLiJklPK+k+NBD4cUsyaks9Q=;
+        b=X7yr9HRuGyb4LrnXat5cPeYVrHg6FEHesTVpZijQjKS0aUGjVe6+QYWf4YsNY4H78q
+         Dum1lqpQOhBSoz1jw789i081yGt3+K34I2QbgGAOONjV9sY80SCK93C9EY/J0yAmtg8t
+         zrEuVfwBGvkkhcyPe9nuABWmA4kkrzAx9kUBYZDsbkvi4CWdSDMCUbwW3rJvsk0oou9+
+         gkIY/QatoGtACZyb7sf0RaCJyjjZgeKugYeerUoXJSG+XDy6tCUVoTi9EcHGLBTMtR78
+         40ThHecP6568zzMFsxAc9tQUttKohMDgJf/lvM86uSFNYBUjJhLE5wrF+18xd66QxOV4
+         GfCg==
+X-Gm-Message-State: AOJu0YyTg8giYlecsKeriCRqfw8IsNpLmw5/VE9W8Hb/2/HE6iq3YaOI
+	1oUVd/iIQlfNuaRSMKmwzAQti+jHa/4mJ9C5gkPcmX7Tz9IzraDatBW4dZ1c8H6J5ByIt47kODo
+	aljxM
+X-Gm-Gg: ASbGncvX59+HY9/cGTHy5fVuAME6LW3Sm5YZPlDvSzyooKDTAGhD8oVO4ezVa4WPCQo
+	0LGBRuk44Jlc25VPgenlktNIXoT22iGsvxsEb1/nF+LazWzDBav+8tRz/T+2p8SCiVuHeOofIVe
+	0wiB2TpkrAv6rUrpsvVB7sNB61HRJ/7Hv1z1U+yBbaei+sBncjC9+kEaC6vIxjUgoqYOeu9hSFN
+	zDs+16ZMi5hJgVVZM++wJKL5rEZ0A/nGc+ONlubV/Vplr21lFAGnjggNDwmQ9VQsC/kWqXwKTUV
+	pm7ElPvAcNOsbKDK2NYcVFyS9+SHu11KtJ1oyFpA1KJnVvIn8cyEVUyjRMJmUfywkTZ2FVzzdvl
+	hHPKGajQGyE9+1+ONDzwmygUhjiw/+ktUA82lug==
+X-Google-Smtp-Source: AGHT+IEz5IpYD9E9iJOEs2vPWjQTm1+w5pXFyINu+KhTvlEv8mfD8QvBwZqXVSc3yGqy7jiDfE6GTA==
+X-Received: by 2002:aa7:90d3:0:b0:784:27cb:a2c6 with SMTP id d2e1a72fcca58-7922fab2444mr11980175b3a.2.1760038290006;
+        Thu, 09 Oct 2025 12:31:30 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:b96e:4301:8642:779c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d0e2d51sm495864b3a.65.2025.10.09.12.31.21
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d0e2d51sm495864b3a.65.2025.10.09.12.31.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Oct 2025 12:31:21 -0700 (PDT)
+        Thu, 09 Oct 2025 12:31:29 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/24] busybox: patch CVE-2025-46394
-Date: Thu,  9 Oct 2025 12:30:47 -0700
-Message-ID: <137299edbc47e8a57173ef3c22bcb719d48d5302.1760038088.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/24] gstreamer1.0: ignore CVE-2025-2759
+Date: Thu,  9 Oct 2025 12:30:52 -0700
+Message-ID: <2162bc3b305a0b088018e251baad54c356f7855f.1760038088.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1760038088.git.steve@sakoman.com>
 References: <cover.1760038088.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 19:31:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224622
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Oct 2025 19:31:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224627
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commit mentioning this CVE.
-Additionally fix test broken by the CVE fix.
+Copy statement from [1] that it is problem of installers (non-Linux).
+Also [2] linked in NVD says "Fixed in 1.25.1 Gstreamer Installer".
+Since Yocto builds from sources into our own packages, ignore it.
+
+[1] https://security-tracker.debian.org/tracker/CVE-2025-2759
+[2] https://www.zerodayinitiative.com/advisories/ZDI-25-268/
+
+(From OE-Core rev: 99ee1df6bde2ffd4fa2ddea44c0a9b94d9d77bae)
+
+Reworked to CVE_CHECK_IGNORE format.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../busybox/busybox/CVE-2025-46394-01.patch   | 57 +++++++++++++++++++
- .../busybox/busybox/CVE-2025-46394-02.patch   | 32 +++++++++++
- meta/recipes-core/busybox/busybox_1.35.0.bb   |  2 +
- 3 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
+ meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.7.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch b/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
-new file mode 100644
-index 0000000000..c95cba3c33
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2025-46394-01.patch
-@@ -0,0 +1,57 @@
-+From f5e1bf966b19ea1821f00a8c9ecd7774598689b4 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Wed, 24 Sep 2025 03:28:47 +0200
-+Subject: [PATCH] archival/libarchive: sanitize filenames on output (prevent
-+ control sequence attacks
-+
-+This fixes CVE-2025-46394 (terminal escape sequence injection)
-+
-+Original credit: Ian.Norton at entrust.com
-+
-+function                                             old     new   delta
-+header_list                                            9      15      +6
-+header_verbose_list                                  239     244      +5
-+------------------------------------------------------------------------------
-+(add/remove: 0/0 grow/shrink: 2/0 up/down: 11/0)               Total: 11 bytes
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+CVE: CVE-2025-46394
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=f5e1bf966b19ea1821f00a8c9ecd7774598689b4]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ archival/libarchive/header_list.c         | 2 +-
-+ archival/libarchive/header_verbose_list.c | 4 ++--
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/archival/libarchive/header_list.c b/archival/libarchive/header_list.c
-+index 0621aa406..9490b3635 100644
-+--- a/archival/libarchive/header_list.c
-++++ b/archival/libarchive/header_list.c
-+@@ -8,5 +8,5 @@
-+ void FAST_FUNC header_list(const file_header_t *file_header)
-+ {
-+ //TODO: cpio -vp DIR should output "DIR/NAME", not just "NAME" */
-+-	puts(file_header->name);
-++	puts(printable_string(file_header->name));
-+ }
-+diff --git a/archival/libarchive/header_verbose_list.c b/archival/libarchive/header_verbose_list.c
-+index a575a08a0..e7a09430d 100644
-+--- a/archival/libarchive/header_verbose_list.c
-++++ b/archival/libarchive/header_verbose_list.c
-+@@ -57,13 +57,13 @@ void FAST_FUNC header_verbose_list(const file_header_t *file_header)
-+ 		ptm->tm_hour,
-+ 		ptm->tm_min,
-+ 		ptm->tm_sec,
-+-		file_header->name);
-++		printable_string(file_header->name));
-+ 
-+ #endif /* FEATURE_TAR_UNAME_GNAME */
-+ 
-+ 	/* NB: GNU tar shows "->" for symlinks and "link to" for hardlinks */
-+ 	if (file_header->link_target) {
-+-		printf(" -> %s", file_header->link_target);
-++		printf(" -> %s", printable_string(file_header->link_target));
-+ 	}
-+ 	bb_putchar('\n');
-+ }
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch b/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
-new file mode 100644
-index 0000000000..ec17b9285a
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2025-46394-02.patch
-@@ -0,0 +1,32 @@
-+From 7378db981d87b4a2264e14d60340a7fb5c67ae59 Mon Sep 17 00:00:00 2001
-+From: Peter Marko <peter.marko@siemens.com>
-+Date: Fri, 3 Oct 2025 16:12:56 +0200
-+Subject: [PATCH] testsuite/tar.tests: fix test after CVE-2025-46394
-+
-+tar now sanitizes output and this test needs to expect that.
-+
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+
-+CVE: CVE-2025-46394
-+Upstream-Status: Submitted [https://lists.busybox.net/pipermail/busybox/2025-October/091743.html]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ testsuite/tar.tests | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/testsuite/tar.tests b/testsuite/tar.tests
-+index 0f2e89112..48fc38114 100755
-+--- a/testsuite/tar.tests
-++++ b/testsuite/tar.tests
-+@@ -325,9 +325,9 @@ unset LANG
-+ rm -rf etc usr
-+ ' "\
-+ etc/ssl/certs/3b2716e5.0
-+-etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
-++etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sa??lay??c??s??.pem
-+ etc/ssl/certs/f80cc7f6.0
-+-usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
-++usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sa??lay??c??s??.crt
-+ 0
-+ etc/ssl/certs/3b2716e5.0 -> EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
-+ etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem -> /usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
-diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
-index 1886410dd2..57a5747a48 100644
---- a/meta/recipes-core/busybox/busybox_1.35.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
-@@ -59,6 +59,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2023-42366.patch \
-            file://0001-cut-Fix-s-flag-to-omit-blank-lines.patch \
-            file://CVE-2023-39810.patch \
-+           file://CVE-2025-46394-01.patch \
-+           file://CVE-2025-46394-02.patch \
-            "
- SRC_URI:append:libc-musl = " file://musl.cfg "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.7.bb
+index b9b9551bc3..3b37503608 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.7.bb
+@@ -88,4 +88,7 @@ CVE_CHECK_IGNORE += " \
+     CVE-2024-47777 CVE-2024-47778 CVE-2024-47834 CVE-2025-47183 CVE-2025-47219 \
+ "
  
++# not-applicable-platform: affects installation packages for non Linux OSes
++CVE_CHECK_IGNORE += "CVE-2025-2759"
++
+ PTEST_BUILD_HOST_FILES = ""
 -- 
 2.43.0
 
