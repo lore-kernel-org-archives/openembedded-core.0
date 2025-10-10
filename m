@@ -1,80 +1,99 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7469CCD18A
-	for <webhook@archiver.kernel.org>; Fri, 10 Oct 2025 15:42:27 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.web10.11802.1760110943443995480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF5CACCA476
+	for <webhook@archiver.kernel.org>; Fri, 10 Oct 2025 15:42:37 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.12146.1760110951927350820
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Oct 2025 08:42:24 -0700
+ Fri, 10 Oct 2025 08:42:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=JNPV8PZg;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 8C79B1A127B
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Oct 2025 15:42:21 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 5403660667;
-	Fri, 10 Oct 2025 15:42:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 45FB0102F21C8;
-	Fri, 10 Oct 2025 17:42:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760110940; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=T/jMcYzRjX4n0u0s+Cm7gc00ymW88Wfs+MGZMZnGg7Y=;
-	b=JNPV8PZgAfiYQlrE81eFQJrTIgTPyJCJITgCjArDxIZO3SUCT6Al0E4RDC7xG6TBg0iFnm
-	jGc+OjsmPQWf0LolGKYx+hHzsz2bTG0vtcULREbVmKu9huuk772mGbXVAoLnlfMoOjey1u
-	+h1BohSjq8/k92bQ3c2cwv5bcGX+DR3mtkiJ3q7xTtz3ZoBxr+fw9j8qaIqtYBmX/L/M3U
-	tAlD9Kwq8gR0PqewsB0BDy76wrwP6J0vMG6v0f5SicqUFEVlrIsNoAWa0k+ZG8GeZpemNg
-	iJx3aTuVuEfRy0qDJ7CI9534Cie8NPMAnXFRu4Af9k778tvoM6V/qmCgsrsgIA==
-Mime-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PIUvxSNV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3f0ae439b56so1426901f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Oct 2025 08:42:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1760110950; x=1760715750; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bC7LOhlKSoqh8VFZFijDBXoKiVKVGtQAwT9n2OuJLKI=;
+        b=PIUvxSNVphFd8fgKKME54ghIjpdAWPMnDfasBmpoF+biPALvcqR5Rnq2gfCSjSJKZI
+         37xMC30lp1AiFqSVZ0MAhM9AyqpacSCmis010R4lfrP9hHoWHCaMitIwTQRryTsbmDtK
+         D+P6J+TxbwCHt4OWmDH3fi4mjCdpu3OVq1aBI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760110950; x=1760715750;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bC7LOhlKSoqh8VFZFijDBXoKiVKVGtQAwT9n2OuJLKI=;
+        b=AN3IPpUH+nkKR4BBTpE0jE6d4ww9eVfpHOp5+9NUHNqs/hL9UVjoIZ1EsKfkl3Ot8t
+         59div69heUtR5eFrvKsL9bUFGe82HtJKk0WfO3Arz1lfS64pplx2DUz9eDFGXg7LLHrI
+         jaJD3LHZQH2NGOyp3HAMwpKNCrlDFt83gHdcvCe0ngfi34u9ipybS3gDQsrd4WD5jzF1
+         pCLfYvEXx4XA9KBBfmmFqDdc8lCfsN6BnKFNe5ifP2XIvNDyvO/yvF3hnXFsacm0OslK
+         rCm/UTLAKOPg46uNwvWy6wztVmHCRGLEQxCmMV9f/jLJcHLDtAZ2VyxiiU8yr/Tb0/U9
+         D1aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWyCfmyawHTA1i+U8SyjOSJckm5OWzsUwSGpRDzFA+hj1tg2Z3Zh59oz9OCQPpPfA63ioW1Prj4OJnntIK2Pjzrsg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxExhib6Y/wrf0z4xTIS58p21cB54OmVK399EAIGII1WCXIE0KM
+	hdJ7Oj2qvQEX48rRKA23IyFV0OQy6xAEBMROgGM6Y49BKL5/RbhokZtmCzaySMhEdTqS6k7CvP7
+	XEQVi
+X-Gm-Gg: ASbGnctYdnEoFeZ7xnksyviHrK5x76S4YuiPqFQzMiHfn2elTra+A6zC9A/Vj69BreO
+	YBqddY8CihNS9vWnun4GzUC1l6W+RClh1zvpiJaREBEwEplAeVM3YvSoxgEIO9IIDGK+WaMcex1
+	7DlPDo3WYXVPxebLA8c2vvZUZOFkD+T58PqSfKyK6Y4B/0xn3FgRERzaWsKdq+GiWJIijAB4vbt
+	GQQT8bNfbP84SwvMMj8CFdxPG5JbO2CFpv6NniwFghQGOGVkId7P0FxbIhJRYqkGWy/gf1owwom
+	hjcvcjeyA0dCV3YJwRZk1aM3AhxDGVBAXpEtI6GQY3K4WvqliXjZKDEzXNBVnwKrbMitCYVQ+Zj
+	gzQ1rSTMAJpxY2uzjQdSVK9jqKsUKFrPCcvd9Fo2e40hWTW5/3bSB4iXn1JJFX0A/bMbtFFcIh0
+	T7XlD/dqaX3GjXVqNl2TD2I1fWr+rMPg==
+X-Google-Smtp-Source: AGHT+IEsKLjFz4WJu+EsGwcZqJ70V+3Gr4yOXGzDucddoLPTNeSgsf09t1QC2s8/Xn9dfNZnQt8fdA==
+X-Received: by 2002:a05:6000:2013:b0:411:3c14:3ac9 with SMTP id ffacd0b85a97d-4266e8e6e66mr7999518f8f.59.1760110950261;
+        Fri, 10 Oct 2025 08:42:30 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3d6b:fc42:c556:a557? ([2001:8b0:aba:5f3c:3d6b:fc42:c556:a557])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce57ccb1sm4801850f8f.8.2025.10.10.08.42.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Oct 2025 08:42:29 -0700 (PDT)
+Message-ID: <c413c47186075616e27fde37b51984487e69ad71.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/5] mesa: add opencl -> clang build dependency
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: dmitry.baryshkov@oss.qualcomm.com, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 10 Oct 2025 16:42:28 +0100
+In-Reply-To: <20251010120125.2868011-1-dmitry.baryshkov@oss.qualcomm.com>
+References: <20251010120125.2868011-1-dmitry.baryshkov@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 10 Oct 2025 17:42:19 +0200
-Message-Id: <DDER972NVZX3.1OQ244B88C5QQ@bootlin.com>
-Subject: Re: [OE-core] [PATCH 1/3]
- oeqa/selftest/bblock/fitimage/sstatetests: Fix changing MACHINE during the
- test
-From: "Antonin Godard" <antonin.godard@bootlin.com>
-To: "Richard Purdie" <richard.purdie@linuxfoundation.org>,
- <openembedded-core@lists.openembedded.org>
-References: <20251006131454.846597-1-richard.purdie@linuxfoundation.org>
- <DDER4TNFACYK.197FU3Y7W8OXL@bootlin.com>
- <c62656752249cec0bdcf7699ff69f7471a118029.camel@linuxfoundation.org>
-In-Reply-To: <c62656752249cec0bdcf7699ff69f7471a118029.camel@linuxfoundation.org>
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Evolution 3.56.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Oct 2025 15:42:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224695
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Oct 2025 15:42:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224696
 
-On Fri Oct 10, 2025 at 5:40 PM CEST, Richard Purdie wrote:
-> On Fri, 2025-10-10 at 17:36 +0200, Antonin Godard wrote:
->> On Mon Oct 6, 2025 at 3:14 PM CEST, Richard Purdie via
->> lists.openembedded.org wrote:
->> > With config fragments, changing MACHINE in the test like this no
->> > longer works. Use the forcevarable override to allow it to work.
->> > This also needs a tweak to bitbake to work correctly, sent
->> > seperately. Whilst ugly, this avoids the need to start changing
->> > config fragments within oeqa right now.
->>=20
->> Why not move the inclusion of auto.conf after the addfragments call
->> in bitbake.conf? Maybe this triggers another issue, but I'm just
->> wondering.
->
-> It would change behaviour, there is a lot of things out there which
-> assume the current ordering and we don't really want to change it as
-> the breakage is potentially very subtle and not obvious.
+On Fri, 2025-10-10 at 14:59 +0300, Dmitry Baryshkov via lists.openembedded.=
+org wrote:
+> With the commits 448f4a84cb22 ("llvm: add recipe for just the LLVM
+> libraries") and d76dc362c8e1 ("clang: use llvm recipe") the 'llvm'
+> dependency inside mesa.inc does no longer pull in the clang libraries,
+> failing RustiCL build as it can not find Clang libaries.
+>=20
+> Add direct dependency on the clang in order to fulfill build-time deps.
+>=20
+> Fixes: d76dc362c8e1 ("clang: use llvm recipe")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>=20
+> Note, this fixes the build issue, so it would be nice to pick this up
+> even if there are review comments for other patches in the series.
+>=20
+> BTW: would it be possible to enable OpenCL in one of autobuilder
+> configurations to spot out such issues? Or would it make sense to enable
+> the 'opencl' DISTRO_FEATURE for poky?
 
-Ok, I also assumed along those lines... thanks.
+I'm not against the idea but it isn't quite that simple due to the
+meta-oe dependency...
 
-Antonin
+Cheers,
 
---=20
-Antonin Godard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Richard
 
