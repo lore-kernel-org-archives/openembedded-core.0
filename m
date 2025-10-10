@@ -1,329 +1,412 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5C0CCD18E
-	for <webhook@archiver.kernel.org>; Fri, 10 Oct 2025 07:53:25 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.3764.1760082794989498532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3452FCCA476
+	for <webhook@archiver.kernel.org>; Fri, 10 Oct 2025 08:04:45 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.3931.1760083475410574073
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Oct 2025 00:53:15 -0700
+ Fri, 10 Oct 2025 01:04:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=e3jKkHIa;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=237871debd=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59A5A8W61967446;
-	Fri, 10 Oct 2025 07:53:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=W+XuzzLzeuEm9gCkZdvVnVnnCVC/9hFsok2oq19aFvc=; b=e3jKkHIaCRSZ
-	kUVcaSVQG6uPoHBt9bfMY1EqAM8Rb9FoKFXOYAmPtdIqEdOWDDDLNPFg+IEBrKmu
-	hRDQ8gAhh2BxxuTC+ajK24rOhwVz+Opf5d6HV2QVbiYtuKBhqw9pH/Y8h0I7qIqV
-	coP5b32U9DAvCRmL3bt7xRopuCST0RGGX8VlsoH9l/fS2y7mJgZTXM5AtJqBV78z
-	3Um/E14YtCvWmWUC1VBxvLaLN45YeLXSlOiiw/gcWH7HDURtu+wMT9lna5GWSE20
-	+RQGA2MdLHYeED5U8S/HRQxa8YWutuI1c0OJF6mzet2VLYCxC12cex96Zx0sTNvh
-	1tDZ3IY0Bg==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49nx37stsy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 10 Oct 2025 07:53:03 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Fri, 10 Oct 2025 00:53:02 -0700
-Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Fri, 10 Oct 2025 00:53:01 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <peter.kjellerstedt@axis.com>, <randy.macleod@windriver.com>,
-        <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>,
-        <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH v5 2/5] debug_build.inc: collect debug build tuning configuration
-Date: Fri, 10 Oct 2025 15:52:55 +0800
-Message-ID: <20251010075258.2161972-2-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251010075258.2161972-1-hongxu.jia@windriver.com>
-References: <20251010075258.2161972-1-hongxu.jia@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fjwOKqol;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: skandigraun@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6399706fd3cso2797374a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Oct 2025 01:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760083474; x=1760688274; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7/jgyV/LeJZXCjdGTDrLcGMtT3EF3OASYN+bMvn/jkk=;
+        b=fjwOKqol8fE9kUx58Cjuwo2YUSvHl6GE/NOq0pB0dZnqzw95Mk6l2DeSsC/NRJdk1l
+         lFwM68ZQX3cTkA22HFSpDrxRp3OgAqBCjHNZI4En255IOx8xZtehCdcXfbXUdbWI+1/b
+         DdBQzIPM/0jINRrvlvIPA/O1nxcfJregyK53aHVwP8jhcbuAFMC/zBzmT73alsPT3I78
+         dseWeI70ZIBBvJPPHkQXsuCoULyk4SAn+QwIWa46cPSvIpUY505q+kiLiovB1wJ6yIj3
+         E86QnMdtCl0iiJlFQ08tM6szI+bxuI7QmbKpFSBAd9tfQh3bakjX7o+DAQ+7h88njve7
+         PSFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760083474; x=1760688274;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/jgyV/LeJZXCjdGTDrLcGMtT3EF3OASYN+bMvn/jkk=;
+        b=E7AncN84JjY8/Meuxnh8pnv80UTInf0OHFvn+O35WgjjmGiskU5JYNwlItf5FEhFgl
+         VQ3dDufDgCJmvdTnl6alK2KwewD7dVSlqdY+2TY0YajG3I+5dmZ0LMRASDM3kZ+uGZFZ
+         UTtV2C8TtnmYZkaBwVL8jP5IK9du5e6Z4YFck5UiPcsBV2OUq3sAQyvQRWnivtLSbTzW
+         /T8X+dXmo2rbc/xOEsMGlE/uVjr5+9QicbpNoJdBfbMfMllnYf3c6yh95E0DFd0ex2A/
+         QgKOdIo80aYnjumrUeswRh4CloWl3yXEwqZq7tZWAlXSSMcTVoBsw8JuFhrOxOkgOic/
+         gaXg==
+X-Forwarded-Encrypted: i=1; AJvYcCWDxgALNrvVssF0YDSunXjkYyFM3mVGM+BdVO9oimiZ3CfwXHa4+ByJezj4aRcL6p15Sa1IPLn4TgzdLgI6Q0qztA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxxofsNoREeFBpo8QftKJc7PqC8VGbfqXKefTj5cPOWZqEmtj2p
+	UDABoBO1oJbys6TvC+ry1gC+igjUAfKp2LTUvE5re+LmjgNSaBbDJXCm
+X-Gm-Gg: ASbGnctzJWI6P+AtwBW3GbNQhvOCN+QEn2oEC3tAjLCunXAkRHHZWKQbuyoHE5FCfO6
+	BwyBeBNuSL3rbnR2ju50SqzpjMvpiGqE7zlS9S/6IWfyLyzrpld14rR4CRySMY9gSxDh5+3TP/Q
+	pRDZj0+BdBCvlUZfSxgQYBCS4HNU9nH9MdMMVBdEofzGVTVEP7BzURMW90N8JKfnrhMQhk48qZz
+	XxSE0FB/Lh1ge/Wf8PzVhsPTtD3ecxJFpZcUZ68SDN4o6ASoY8kCn3j5lUEspZS8YeUlfA7GXPI
+	ZyPRcAwfxpF+6+3T1Yqxc/+qVK32poMMtFJn4oxDpWfLa0vJ/vwRVUtYgAmdhd/49IXwi0homLc
+	NzCsTtiEjgr3Hnfzv0oH/IHHNCRnHJq2SR/eULx0qTICTcry1tSHVm4r5rzYN
+X-Google-Smtp-Source: AGHT+IES1OaQZ7fFT9a17CcPfrKVA9QDSzezhDzLJp++5puY37ObRGlwmpbk1CaenbvKufFoQNAWZA==
+X-Received: by 2002:a05:6402:518a:b0:634:5722:cc3f with SMTP id 4fb4d7f45d1cf-639d5b912d2mr10498785a12.16.1760083473242;
+        Fri, 10 Oct 2025 01:04:33 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63a5c133f58sm1687525a12.30.2025.10.10.01.04.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Oct 2025 01:04:32 -0700 (PDT)
+Message-ID: <2e82bf39-47c4-416f-a7f4-783be8bd32d5@gmail.com>
+Date: Fri, 10 Oct 2025 10:04:32 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=M9tA6iws c=1 sm=1 tr=0 ts=68e8bb60 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=x6icFKpwvdMA:10 a=iGHA9ds3AAAA:8 a=3-RhneuVAAAA:8 a=t7CeM3EgAAAA:8
- a=p_J065krOJSGb3ilSzMA:9 a=IDjme54_S0fX3SJZ:21 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=VLVLkjT_5ZicWzSuYqSo:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: c0lU6AlQ8LBNg5f0TQmfGft8GAoX5JyO
-X-Proofpoint-GUID: c0lU6AlQ8LBNg5f0TQmfGft8GAoX5JyO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEwMDA0NSBTYWx0ZWRfX3sxZtJpU4M76
- aJXp50DNGFeYoAC/EaFTTnCYIxGm5Lm42SXLqYyAMlEtIBNvfW1gz5nykeovEH8fi1MHqoRjGny
- 1czKvbz6d2uKwlESeJXYHOaG9PnqZgM0iyKDd8pzQCFKpbPaCzzZ9Xehx23bWKXwnzZOY6E3eLT
- 91CbbVKHLx+A4507Bvj1xUhRCsxOSDgOJ3B4JyJf/OznlP0cnHecSCpFJDkZOeqzbQIv3PakkH9
- RgIUJkQRBfF/otMKSFu00CIYN6RpYQ7lGJ3696ZmnV3qt8vv7VXKd92O6NK1Sp1hxrtj51ciPgW
- sZJlxzT+dsmqpj/mEra8hWqLnpjDggrB/OV6pG1qC0EYnkAoZvc/6uUPWZUGrMQZqjGI0oOqdtR
- riFoo4Tq4rtgTmO5ErhrAqlc2xVFYg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-10_01,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 phishscore=0
- bulkscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510100045
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [RFC PATCH] cargo_common.bbclass: use source
+ replacement instead of dependency patching
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Tom Geelen <t.f.g.geelen@gmail.com>
+References: <20251003213000.2256939-1-skandigraun@gmail.com>
+ <211549e4-c4c2-464d-9b63-88c27d5bdf18@weidmueller.com>
+ <049f87a6-2e45-43b2-b04a-7b96e6cdb096@gmail.com>
+ <54596a81-b725-4d78-9c35-ff851e4b1113@weidmueller.com>
+ <239994b8-47de-4394-bcf0-16dc91ca654e@gmail.com>
+ <6f3eedff-44c0-48ca-86dc-c1ea8aecc9e0@weidmueller.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
+In-Reply-To: <6f3eedff-44c0-48ca-86dc-c1ea8aecc9e0@weidmueller.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Oct 2025 07:53:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224669
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Oct 2025 08:04:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224672
 
-The modern compilers and code seem to require extra steps to avoid DEBUG errors,
-Move debug tuning configuration from recipes to an include file to address these
-errors.
+On 10/10/25 08:27, Stefan Herbrechtsmeier wrote:
+> Am 09.10.2025 um 16:30 schrieb Gyorgy Sarvari:
+>> On 10/9/25 11:31, Stefan Herbrechtsmeier wrote:
+>>> Am 08.10.2025 um 13:01 schrieb Gyorgy Sarvari:
+>>>> On 10/7/25 16:59, Stefan Herbrechtsmeier wrote:
+>>>>> Am 03.10.2025 um 23:30 schrieb Gyorgy Sarvari via lists.openembedded.org:
+>>>>>> Cargo.toml files usually contain a list of dependencies in one of two forms:
+>>>>>> either a crate name that can be fetched from some registry (like crates.io), or
+>>>>>> as a source crate, which is most often fetched from a git repository.
+>>>>>>
+>>>>>> Normally cargo handles fetching the crates from both the registry and from git,
+>>>>>> however with Yocto this task is taken over by Bitbake.
+>>>>>>
+>>>>>> After fetching these crates, they are made available to cargo by adding the location
+>>>>>> to $CARGO_HOME/config.toml. The source crates are of interest here: each git repository
+>>>>>> that can be found in the SRC_URI is added as one source crate.
+>>>>>>
+>>>>>> This works most of the time, as long as the repository really contains one crate only.
+>>>>>>
+>>>>>> However in case the repository is a cargo workspace, it contains multiple crates in
+>>>>>> different subfolders, and in order to allow cargo to process them, they need to be
+>>>>>> listed separately. This is not happening with the current implementation of cargo_common.
+>>>>>>
+>>>>>> This change introduces the following:
+>>>>>> - instead of patching the dependencies, use source replacement (the primary motivation for
+>>>>>>    this was that maturin seems to ignore source crate patches from config.toml)
+>>>>>> - the above also allows to keep the original Cargo.lock untouched (the original implementation
+>>>>>>    deleted git repository lines from it)
+>>>>>> - it adds a new folder, currently ${UNPACKDIR}/yocto-vendored-source-crates. During processing
+>>>>>>    the separate crate folders are copied into this folder, and it is used as the central
+>>>>>>    vendoring folder. This is needed for source replacements: the folder that is used for
+>>>>>>    vendoring needs to contain the crates separately, one crate in one folder. Each folder
+>>>>>>    has the name of the crate that it contains. Workspaces are not included here (unless the
+>>>>>>    given manifest is a workspace AND a package at once)
+>>>>>> - previuosly the SRC_URI had to contain a "name" and a "destsuffix" parameter to be considered
+>>>>>>    to be a rust crate. The name is not derived from the Cargo.toml file, not from the SRC_URI.
+>>>>>>    Having destsuffix is still mandatory though.
+>>>>>>
+>>>>>> The change does not handle nested workspaces, only the top level Cargo.toml is processed.
+>>>>> I use a similar approach for my Cargo.lock fetcher. In my case the code 
+>>>>> finds the crate on the fly inside the a git repository because the 
+>>>>> Cargo.lock doesn't contain the subpath.
+>>>> By any chance, did you manage to solve the workspace problem? If you
+>>>> have a working solution, feel free to submit it, I wouldn't mind if I
+>>>> wouldn't have to debug mine :D
+>>> I haven't test a workspace project. Do you have an example project?
+>>>
+>> I have attached a sample recipe (that is very much based on Tom Geelen's
+>> initial work). It depends on at least 2 workspaces.
+>
+> Thanks for the sample. After switching to my cargolock fecher and
+> cargo_vendor class the project build without problems. Your git URLs
+> need a parameter to inform the config generate that the source
+> contains a rev query parameter. Additionally you need to add the
+> revision to the name and destsuffix/subdir because it is possible to
+> use crates with different revisions from the same repository.
+>
 
-Drop `:remove' operation on variable, override variables directly
+Yes, but the name and destsuffix already need to be always unique by
+definition for each SRC_URI component. If name isn't unique, then you
+can't specify different revisions. And git fetcher (and I suspect others
+too) starts fetching with deleting the target folder, so if destsuffix
+isn't unique, then only the last code prevails. If this should be
+enforced, I would rather put that logic into a new QA check, or maybe
+into the fetcher directly.
 
-Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/conf/distro/include/debug_build.inc      | 37 +++++++++++++++++++
- meta/recipes-connectivity/kea/kea_3.0.1.bb    | 10 -----
- .../debugedit/debugedit_5.2.bb                |  2 -
- meta/recipes-devtools/gcc/gcc-sanitizers.inc  |  3 --
- .../python/python3-lxml_6.0.2.bb              | 12 ------
- meta/recipes-extended/bash/bash_5.3.bb        |  3 --
- meta/recipes-extended/mdadm/mdadm_4.4.bb      |  2 -
- .../jpeg/libjpeg-turbo_3.1.2.bb               |  3 --
- .../vulkan-validation-layers_1.4.321.0.bb     |  2 -
- meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb |  1 -
- meta/recipes-kernel/perf/perf.bb              |  2 -
- meta/recipes-sato/webkit/webkitgtk_2.48.5.bb  |  3 +-
- meta/recipes-support/vim/vim_9.1.bb           |  2 +-
- 13 files changed, 40 insertions(+), 42 deletions(-)
+(A bit more touched on your note below)
 
-diff --git a/meta/conf/distro/include/debug_build.inc b/meta/conf/distro/include/debug_build.inc
-index 95e09e64f5..c006093345 100644
---- a/meta/conf/distro/include/debug_build.inc
-+++ b/meta/conf/distro/include/debug_build.inc
-@@ -3,3 +3,40 @@ DEBUG_OPTIMIZATION ?= "-Og ${DEBUG_LEVELFLAG}"
- SELECTED_OPTIMIZATION ?= "${DEBUG_OPTIMIZATION}"
- # compiler flags for native/nativesdk
- BUILD_OPTIMIZATION ?= "-Og -g"
-+
-+# The modern compilers and code seem to require extra steps to avoid DEBUG errors,
-+# this file collects debug tuning configuration to address DEBUG errors.
-+
-+DEBUG_OPTIMIZATION:append:pn-perf = " -Wno-error=maybe-uninitialized"
-+DEBUG_OPTIMIZATION:append:armv4:pn-libjpeg-turbo = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
-+DEBUG_OPTIMIZATION:append:armv5:pn-libjpeg-turbo = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
-+DEBUG_OPTIMIZATION:append:armv4:pn-bash = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
-+DEBUG_OPTIMIZATION:append:armv5:pn-bash = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
-+DEBUG_OPTIMIZATION:append:pn-mdadm = " -Wno-error"
-+DEBUG_OPTIMIZATION:mips:pn-kea = "-O ${DEBUG_LEVELFLAG}"
-+DEBUG_OPTIMIZATION:mipsel:pn-kea = "-O ${DEBUG_LEVELFLAG}"
-+# {standard input}: Assembler messages:
-+# {standard input}:1488805: Error: branch out of range
-+DEBUG_OPTIMIZATION:mips:pn-python3-lxml = "-O ${DEBUG_LEVELFLAG}"
-+DEBUG_OPTIMIZATION:mipsel:pn-python3-lxml = "-O ${DEBUG_LEVELFLAG}"
-+# used to fix ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+DEBUG_OPTIMIZATION:append:pn-gcc-sanitizers = " -Wno-error"
-+
-+BUILD_OPTIMIZATION:mips:pn-kea = "-O -g"
-+BUILD_OPTIMIZATION:mipsel:pn-kea = "-O -g"
-+# {standard input}: Assembler messages:
-+# {standard input}:1488805: Error: branch out of range
-+BUILD_OPTIMIZATION:mips:pn-python3-lxml = "-O -g"
-+BUILD_OPTIMIZATION:mipsel:pn-python3-lxml = "-O -g"
-+
-+CPPFLAGS:append:arm:pn-lttng-ust = " -DUATOMIC_NO_LINK_ERROR"
-+
-+OECMAKE_WEBKIT_NO_INLINE_HINTS:pn-webkitgtk = "-DWEBKIT_NO_INLINE_HINTS=ON"
-+
-+EXTRA_OECONF:append:pn-debugedit = " --disable-inlined-xxhash"
-+EXTRA_OECONF:append:pn-debugedit-native = " --disable-inlined-xxhash"
-+EXTRA_OECONF:append:pn-nativesdk-debugedit = " --disable-inlined-xxhash"
-+
-+lcl_maybe_fortify:pn-vim = ""
-+
-+CXXFLAGS:append:pn-vulkan-validation-layers = " -DXXH_NO_INLINE_HINTS=1"
-diff --git a/meta/recipes-connectivity/kea/kea_3.0.1.bb b/meta/recipes-connectivity/kea/kea_3.0.1.bb
-index cc34c05093..ead4e98e70 100644
---- a/meta/recipes-connectivity/kea/kea_3.0.1.bb
-+++ b/meta/recipes-connectivity/kea/kea_3.0.1.bb
-@@ -34,16 +34,6 @@ INITSCRIPT_PARAMS = "defaults 30"
- SYSTEMD_SERVICE:${PN} = "kea-dhcp4.service kea-dhcp6.service kea-dhcp-ddns.service"
- SYSTEMD_AUTO_ENABLE = "disable"
- 
--DEBUG_OPTIMIZATION:remove:mips = " -Og"
--DEBUG_OPTIMIZATION:append:mips = " -O"
--BUILD_OPTIMIZATION:remove:mips = " -Og"
--BUILD_OPTIMIZATION:append:mips = " -O"
--
--DEBUG_OPTIMIZATION:remove:mipsel = " -Og"
--DEBUG_OPTIMIZATION:append:mipsel = " -O"
--BUILD_OPTIMIZATION:remove:mipsel = " -Og"
--BUILD_OPTIMIZATION:append:mipsel = " -O"
--
- CXXFLAGS:remove = "-fvisibility-inlines-hidden"
- 
- do_configure:prepend() {
-diff --git a/meta/recipes-devtools/debugedit/debugedit_5.2.bb b/meta/recipes-devtools/debugedit/debugedit_5.2.bb
-index 76c54ba63d..4ac6cab559 100644
---- a/meta/recipes-devtools/debugedit/debugedit_5.2.bb
-+++ b/meta/recipes-devtools/debugedit/debugedit_5.2.bb
-@@ -22,8 +22,6 @@ inherit pkgconfig autotools multilib_script
- 
- RDEPENDS:${PN} += "bash elfutils-binutils"
- 
--EXTRA_OECONF = "${@oe.utils.vartrue('DEBUG_BUILD', '--disable-inlined-xxhash', '', d)}"
--
- BBCLASSEXTEND = "native nativesdk"
- 
- MULTILIB_SCRIPTS = "${PN}:${bindir}/find-debuginfo"
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-index 6c81d30243..f4727ee6db 100644
---- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-+++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-@@ -54,9 +54,6 @@ INHIBIT_DEFAULT_DEPS = "1"
- ALLOW_EMPTY:${PN} = "1"
- DEPENDS = "virtual/crypt gcc-runtime virtual/cross-cc"
- 
--# used to fix ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
--DEBUG_OPTIMIZATION:append = " -Wno-error"
--
- BBCLASSEXTEND = "nativesdk"
- 
- PACKAGES = "${PN} ${PN}-dbg"
-diff --git a/meta/recipes-devtools/python/python3-lxml_6.0.2.bb b/meta/recipes-devtools/python/python3-lxml_6.0.2.bb
-index 876fda93b6..178908e3b2 100644
---- a/meta/recipes-devtools/python/python3-lxml_6.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-lxml_6.0.2.bb
-@@ -23,18 +23,6 @@ SRC_URI[sha256sum] = "cd79f3367bd74b317dda655dc8fcfa304d9eb6e4fb06b7168c5cf27f96
- SRC_URI += "${PYPI_SRC_URI}"
- inherit pkgconfig pypi setuptools3
- 
--# {standard input}: Assembler messages:
--# {standard input}:1488805: Error: branch out of range
--DEBUG_OPTIMIZATION:remove:mips = " -Og"
--DEBUG_OPTIMIZATION:append:mips = " -O"
--BUILD_OPTIMIZATION:remove:mips = " -Og"
--BUILD_OPTIMIZATION:append:mips = " -O"
--
--DEBUG_OPTIMIZATION:remove:mipsel = " -Og"
--DEBUG_OPTIMIZATION:append:mipsel = " -O"
--BUILD_OPTIMIZATION:remove:mipsel = " -Og"
--BUILD_OPTIMIZATION:append:mipsel = " -O"
--
- BBCLASSEXTEND = "native nativesdk"
- 
- RDEPENDS:${PN} += "libxml2 libxslt python3-compression"
-diff --git a/meta/recipes-extended/bash/bash_5.3.bb b/meta/recipes-extended/bash/bash_5.3.bb
-index b50a48d28c..74671f5a56 100644
---- a/meta/recipes-extended/bash/bash_5.3.bb
-+++ b/meta/recipes-extended/bash/bash_5.3.bb
-@@ -15,9 +15,6 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
- 
- SRC_URI[tarball.sha256sum] = "0d5cd86965f869a26cf64f4b71be7b96f90a3ba8b3d74e27e8e9d9d5550f31ba"
- 
--DEBUG_OPTIMIZATION:append:armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
--DEBUG_OPTIMIZATION:append:armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
--
- CFLAGS += "-std=gnu17"
- # mkbuiltins.c is built with native toolchain and needs gnu17 as well:
- # http://errors.yoctoproject.org/Errors/Details/853016/
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.4.bb b/meta/recipes-extended/mdadm/mdadm_4.4.bb
-index 26a60e4c1a..e81b8fdf3c 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.4.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.4.bb
-@@ -39,8 +39,6 @@ EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CWFLAGS="" CXFLAGS="${CFLAGS}" SYSTEMD_DIR=${sys
-                 BINDIR="${base_sbindir}" UDEVDIR="${nonarch_base_libdir}/udev" LDFLAGS="${LDFLAGS}" \
-                 SYSROOT="${STAGING_DIR_TARGET}" STRIP='
- 
--DEBUG_OPTIMIZATION:append = " -Wno-error"
--
- do_install() {
-         oe_runmake 'DESTDIR=${D}' install install-systemd
-         install -d ${D}/${sysconfdir}/
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
-index d4877bb92b..bc9d803f6b 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.1.2.bb
-@@ -44,9 +44,6 @@ EXTRA_OECMAKE:append:class-target:powerpc = " ${@bb.utils.contains("TUNE_FEATURE
- EXTRA_OECMAKE:append:class-target:powerpc64 = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
- EXTRA_OECMAKE:append:class-target:powerpc64le = " ${@bb.utils.contains("TUNE_FEATURES", "altivec", "", "-DWITH_SIMD=False", d)}"
- 
--DEBUG_OPTIMIZATION:append:armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
--DEBUG_OPTIMIZATION:append:armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
--
- # libjpeg-turbo-2.0.2/simd/mips/jsimd_dspr2.S
- # <instantiation>:13:5: error: invalid token in expression
- # .if $17 != 0
-diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.321.0.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.321.0.bb
-index 466e757a90..fa7873b62d 100644
---- a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.321.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.321.0.bb
-@@ -26,8 +26,6 @@ EXTRA_OECMAKE = "\
-     -DSPIRV_HEADERS_INSTALL_DIR=${STAGING_EXECPREFIXDIR} \
-     "
- 
--CXXFLAGS:append = " ${@oe.utils.vartrue('DEBUG_BUILD', '-DXXH_NO_INLINE_HINTS=1', '', d)}"
--
- PACKAGECONFIG[x11] = "-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON, -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_XCB_SUPPORT=OFF, libxcb libx11 libxrandr"
- PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland"
- 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
-index 1a15c5b420..0d4c67f0fa 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
-@@ -16,7 +16,6 @@ inherit autotools lib_package manpages python3native pkgconfig
- include lttng-platforms.inc
- 
- EXTRA_OECONF = "--disable-numa"
--CPPFLAGS:append:arm = "${@oe.utils.vartrue('DEBUG_BUILD', '-DUATOMIC_NO_LINK_ERROR', '', d)}"
- 
- DEPENDS = "liburcu util-linux"
- RDEPENDS:${PN}-bin = "python3-core"
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 3b9e52fdb8..58476796d3 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -415,8 +415,6 @@ FILES:${PN}-python = " \
-                        "
- FILES:${PN}-perl = "${libexecdir}/perf-core/scripts/perl"
- 
--DEBUG_OPTIMIZATION:append = " -Wno-error=maybe-uninitialized"
--
- PACKAGESPLITFUNCS =+ "perf_fix_sources"
- 
- perf_fix_sources () {
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-index 46031322b9..ba08e8b925 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-@@ -86,11 +86,12 @@ PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,libmanette"
- PACKAGECONFIG[sysprof-capture] = "-DUSE_SYSTEM_SYSPROF_CAPTURE=YES,-DUSE_SYSTEM_SYSPROF_CAPTURE=NO,sysprof"
- PACKAGECONFIG[speech] = "-DENABLE_SPEECH_SYNTHESIS=ON,-DENABLE_SPEECH_SYNTHESIS=OFF,flite"
- 
-+OECMAKE_WEBKIT_NO_INLINE_HINTS ??= "-DWEBKIT_NO_INLINE_HINTS=OFF"
- EXTRA_OECMAKE = " \
-                  -DPORT=GTK \
-                  ${@oe.utils.vartrue('GI_DATA_ENABLED', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
-                  ${@oe.utils.vartrue('GIDOCGEN_ENABLED', '-DENABLE_DOCUMENTATION=ON', '-DENABLE_DOCUMENTATION=OFF', d)} \
--                 ${@oe.utils.vartrue('DEBUG_BUILD', '-DWEBKIT_NO_INLINE_HINTS=ON', '-DWEBKIT_NO_INLINE_HINTS=OFF', d)} \
-+                 ${OECMAKE_WEBKIT_NO_INLINE_HINTS} \
-                  -DENABLE_MINIBROWSER=ON \
-                  -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
-                  -DUSE_GTK4=ON \
-diff --git a/meta/recipes-support/vim/vim_9.1.bb b/meta/recipes-support/vim/vim_9.1.bb
-index fee9f055e9..a24a863ba5 100644
---- a/meta/recipes-support/vim/vim_9.1.bb
-+++ b/meta/recipes-support/vim/vim_9.1.bb
-@@ -20,4 +20,4 @@ ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
- # We override the default in security_flags.inc because vim (not vim-tiny!) will abort
- # in many places for _FORTIFY_SOURCE=2.  Security flags become part of CC.
- #
--lcl_maybe_fortify = "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=1',d)}"
-+lcl_maybe_fortify = "-D_FORTIFY_SOURCE=1"
--- 
-2.34.1
+>>>>>> Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+>>>>>> Cc: Tom Geelen <t.f.g.geelen@gmail.com>
+>>>>>>
+>>>>>> ---
+>>>>>>   meta/classes-recipe/cargo_common.bbclass | 158 ++++++++++++++++-------
+>>>>>>   1 file changed, 108 insertions(+), 50 deletions(-)
+>>>>>>
+>>>>>> diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+>>>>>> index c9eb2d09a5..79c1351298 100644
+>>>>>> --- a/meta/classes-recipe/cargo_common.bbclass
+>>>>>> +++ b/meta/classes-recipe/cargo_common.bbclass
+>>>>>> @@ -129,6 +129,44 @@ cargo_common_do_configure () {
+>>>>>>   python cargo_common_do_patch_paths() {
+>>>>>>       import shutil
+>>>>>>   
+>>>>>> +    def is_rust_crate_folder(path):
+>>>>>> +        cargo_toml_path = os.path.join(path, 'Cargo.toml')
+>>>>>> +        return os.path.exists(cargo_toml_path)
+>>>>>> +
+>>>>>> +    def load_toml_file(toml_path):
+>>>>>> +        import tomllib
+>>>>>> +        with open(toml_path, 'rb') as f:
+>>>>>> +            toml = tomllib.load(f)
+>>>>>> +        return toml
+>>>>>> +
+>>>>>> +    def get_matching_repo_from_lockfile(lockfile_repos, repo, revision):
+>>>>>> +        for lf_repo in lockfile_repos.keys():
+>>>>>> +            if repo in lf_repo and lf_repo.endswith(revision):
+>>>>> Does this works if the URL contains a "rev" query parameter? This 
+>>>>> happens if the same git repository is used with different revisions.
+>>>> I *think* yes, since I query the revision from the fetcher, instead of
+>>>> parsing it myself (and I use both the repo and revision for matching the
+>>>> cargo.lock repos). But will test it specifically, and make it work if it
+>>>> wouldn't work out of the box. Thanks for calling my attention on this.
+>>> The problem is that the source replacement key contains a query
+>>> parameter. The query isn't supported by the git fetcher. That means
+>>> you have to remove the query from the SRC_URI but add it back in the
+>>> source entry in the config.toml.
+>> You mean for dynamic fetching, from Cargo.lock? This patch still relies
+>> on the user adding these dependencies to the SRC_URI.
+>> Otherwise I might be misunderstanding your question...
+>
+> Please check the source inside the Cargo.lock:
+> https://github.com/astral-sh/uv/blob/0.8.19/Cargo.lock#L302
+>
+> It contains a rev query parameter. This query parameter must be part
+> of the source key inside the config.toml:
+>
+> [source."git+https://github.com/astral-sh/rs-async-zip?rev=285e48742b74ab109887d62e1ae79e7c15fd4878"]
+>
+>
+
+Yes, it supposed to work like that already. The
+extract_git_repos_from_lockfile() collects the repos starting with
+"git+" from Cargo.lock - this value contains the rev parameter already.
+These values are only used as keys in the config.toml file, just like
+your example. Before adding it to config.toml, only the last optional
+part, the revision after the "#" is cut off. (E.g.
+"git+https://github.com/foo?rev=123#123" becomes only
+"git+https://github.com/foo?rev=123")
+
+I do not use SRC_URI components in this file - currently there is some
+loose connection between SRC_URI and Cargo.lock repos: at the end I try
+to match each SRC_URI to a Cargo.lock repo, and see if the user has
+fetched every required repo (by trying to match the repo URL and
+revision), but in general the values are used differently.
+
+>>>>>> +                lockfile_repos[lf_repo] = True
+>>>>>> +                return lf_repo.split("#")[0]
+>>>>>> +        bb.fatal('Cannot find %s (%s) repository from SRC_URI in Cargo.lock file' % (repo, revision))
+>>>>>> +
+>>>>>> +    def create_cargo_checksum(folder_path):
+>>>>>> +        checksum_path = os.path.join(folder_path, '.cargo-checksum.json')
+>>>>>> +        if os.path.exists(checksum_path):
+>>>>>> +            return
+>>>>>> +
+>>>>>> +        import hashlib, json
+>>>>>> +
+>>>>>> +        checksum = {'files': {}}
+>>>>>> +        for root, _, files in os.walk(folder_path):
+>>>>>> +            for f in files:
+>>>>>> +                full_path = os.path.join(root, f)
+>>>>>> +                relative_path = os.path.relpath(full_path, folder_path)
+>>>>>> +                if relative_path.startswith(".git/"):
+>>>>>> +                    continue
+>>>>>> +                with open(full_path, 'rb') as f2:
+>>>>>> +                    file_sha = hashlib.sha256(f2.read()).hexdigest()
+>>>>>> +                checksum["files"][relative_path] = file_sha
+>>>>> Do we really need the calculation of the checksum?
+>>>> For source replacement AFAIK it is mandatory, otherwise cargo complains.
+>>>> (But I'd be happy to stand corrected)
+>>> Have you test an empty dictionary for "files" and NULL for "package"?
+>>>
+>> Are these valid states? Currently the checksum calculation happens for
+>> crate folders that have been actually copied to the vendor folder. And
+>> that happens only, in case there is at least a Cargo.toml manifest in
+>> that folder, so the files dict shouldn't be empty. Otherwise the
+>> checksum sub iterates through all the files it can find, it doesn't try
+>> to validate it against any manifests.
+>
+> Do we need the validation by cargo? The crate fetcher skip the
+> validation with an empty dict and the same works for git sources.
+>
+
+Oh, you mean if there are no sources found that should be vendored? That
+was definitely a bug in this version, and v2 should have a check for
+that - if there is nothing to vendor than it stops and returns silently.
+
+>>>>>> +
+>>>>>> +        with open(checksum_path, 'w') as f:
+>>>>>> +            json.dump(checksum, f)
+>>>>>> +
+>>>>>>       cargo_config = os.path.join(d.getVar("CARGO_HOME"), "config.toml")
+>>>>>>       if not os.path.exists(cargo_config):
+>>>>>>           return
+>>>>>> @@ -137,66 +175,86 @@ python cargo_common_do_patch_paths() {
+>>>>>>       if len(src_uri) == 0:
+>>>>>>           return
+>>>>>>   
+>>>>>> -    patches = dict()
+>>>>>> +    lockfile = d.getVar("CARGO_LOCK_PATH")
+>>>>>> +    if not os.path.exists(lockfile):
+>>>>>> +        bb.fatal(f"{lockfile} file doesn't exist")
+>>>>>> +
+>>>>>> +    lockfile = load_toml_file(lockfile)
+>>>>>> +
+>>>>>> +    # key is the repo url, value is a boolean, which is used later
+>>>>>> +    # to indicate if there is a matching repository in SRC_URI also
+>>>>>> +    lockfile_git_repos = {}
+>>>>>> +    for p in lockfile['package']:
+>>>>>> +        if 'source' in p and p['source'].startswith('git+'):
+>>>>>> +            lockfile_git_repos[p['source']] = False
+>>>>>> +
+>>>>>> +    sources = dict()
+>>>>>>       workdir = d.getVar('UNPACKDIR')
+>>>>>>       fetcher = bb.fetch2.Fetch(src_uri, d)
+>>>>>> +
+>>>>>> +    vendor_folder = os.path.join(workdir, 'yocto-vendored-source-crates')
+>>>>>> +
+>>>>>> +    os.makedirs(vendor_folder)
+>>>>>> +
+>>>>>>       for url in fetcher.urls:
+>>>>>>           ud = fetcher.ud[url]
+>>>>>> -        if ud.type == 'git' or ud.type == 'gitsm':
+>>>>>> -            name = ud.parm.get('name')
+>>>>>> -            destsuffix = ud.parm.get('destsuffix')
+>>>>>> -            if name is not None and destsuffix is not None:
+>>>>>> -                if ud.user:
+>>>>>> -                    repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
+>>>>>> -                else:
+>>>>>> -                    repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
+>>>>>> -                path = '%s = { path = "%s" }' % (name, os.path.join(workdir, destsuffix))
+>>>>>> -                patches.setdefault(repo, []).append(path)
+>>>>>> +        if ud.type != 'git' and ud.type != 'gitsm':
+>>>>>> +            continue
+>>>>>>   
+>>>>>> -    with open(cargo_config, "a+") as config:
+>>>>>> -        for k, v in patches.items():
+>>>>>> -            print('\n[patch."%s"]' % k, file=config)
+>>>>>> -            for name in v:
+>>>>>> -                print(name, file=config)
+>>>>>> +        destsuffix = ud.parm.get('destsuffix')
+>>>>>> +        crate_folder = os.path.join(workdir, destsuffix)
+>>>>>>   
+>>>>>> -    if not patches:
+>>>>>> -        return
+>>>>>> +        if destsuffix is None or not is_rust_crate_folder(crate_folder):
+>>>>>> +            continue
+>>>>>>   
+>>>>>> -    # Cargo.lock file is needed for to be sure that artifacts
+>>>>>> -    # downloaded by the fetch steps are those expected by the
+>>>>>> -    # project and that the possible patches are correctly applied.
+>>>>>> -    # Moreover since we do not want any modification
+>>>>>> -    # of this file (for reproducibility purpose), we prevent it by
+>>>>>> -    # using --frozen flag (in CARGO_BUILD_FLAGS) and raise a clear error
+>>>>>> -    # here is better than letting cargo tell (in case the file is missing)
+>>>>>> -    # "Cargo.lock should be modified but --frozen was given"
+>>>>>> +        if ud.user:
+>>>>>> +            repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
+>>>>>> +        else:
+>>>>>> +            repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
+>>>>>>   
+>>>>>> -    lockfile = d.getVar("CARGO_LOCK_PATH")
+>>>>>> -    if not os.path.exists(lockfile):
+>>>>>> -        bb.fatal(f"{lockfile} file doesn't exist")
+>>>>>> +        sources[destsuffix] = (repo, ud.revision, crate_folder)
+>>>>>> +
+>>>>>> +        cargo_toml_path = os.path.join(workdir, destsuffix, 'Cargo.toml')
+>>>>>> +        cargo_toml = load_toml_file(cargo_toml_path)
+>>>>>> +
+>>>>>> +        if 'workspace' in cargo_toml:
+>>>>>> +            members = cargo_toml['workspace']['members']
+>>>>>> +            for member in members:
+>>>>>> +                member_crate_folder = os.path.join(workdir, destsuffix, member)
+>>>>>> +                member_crate_cargo_toml = os.path.join(member_crate_folder, 'Cargo.toml')
+>>>>>> +                member_cargo_toml = load_toml_file(member_crate_cargo_toml)
+>>>>>> +                member_crate_name = member_cargo_toml['package']['name']
+>>>>>> +                shutil.copytree(member_crate_folder, os.path.join(vendor_folder, member_crate_name))
+>>>>>> +
+>>>>>> +        if 'package' in cargo_toml:
+>>>>>> +            crate_folder = os.path.join(workdir, destsuffix)
+>>>>>> +            crate_name = cargo_toml['package']['name']
+>>>>>> +            shutil.copytree(crate_folder, os.path.join(vendor_folder, crate_name))
+>>>>>> +
+>>>>>> +    for d in os.scandir(vendor_folder):
+>>>>>> +        if d.is_dir():
+>>>>>> +            create_cargo_checksum(d.path)
+>>>>>> +
+>>>>>> +
+>>>>>> +    with open(cargo_config, "a+") as config:
+>>>>>> +        print('\n[source."yocto-vendored-sources"]', file=config)
+>>>>>> +        print('directory = "%s"' % vendor_folder, file=config)
+>>>>>> +
+>>>>>> +        for destsuffix, (repo, revision, repo_path) in sources.items():
+>>>>>> +            lockfile_repo = get_matching_repo_from_lockfile(lockfile_git_repos, repo, revision)
+>>>>>> +            print('\n[source."%s"]' % lockfile_repo, file=config)
+>>>>>> +            print('git = "%s"' % repo, file=config)
+>>>>>> +            print('rev = "%s"' % revision, file=config)
+>>>>>> +            print('replace-with = "yocto-vendored-sources"', file=config)
+>>>>>> +
+>>>>>> +    # check if there are any git repos in the lock file that were not visited
+>>>>>> +    # in the previous loop, when the source replacement was created, and warn about it
+>>>>>> +    for lf_repo, found_in_src_uri in lockfile_git_repos.items():
+>>>>>> +        if not found_in_src_uri:
+>>>>>> +            bb.warn(f"{lf_repo} is present in lockfile, but not found in SRC_URI")
+>>>>>>   
+>>>>>> -    # There are patched files and so Cargo.lock should be modified but we use
+>>>>>> -    # --frozen so let's handle that modifications here.
+>>>>>> -    #
+>>>>>> -    # Note that a "better" (more elegant ?) would have been to use cargo update for
+>>>>>> -    # patched packages:
+>>>>>> -    #  cargo update --offline -p package_1 -p package_2
+>>>>>> -    # But this is not possible since it requires that cargo local git db
+>>>>>> -    # to be populated and this is not the case as we fetch git repo ourself.
+>>>>>> -
+>>>>>> -    lockfile_orig = lockfile + ".orig"
+>>>>>> -    if not os.path.exists(lockfile_orig):
+>>>>>> -        shutil.copy(lockfile, lockfile_orig)
+>>>>>> -
+>>>>>> -    newlines = []
+>>>>>> -    with open(lockfile_orig, "r") as f:
+>>>>>> -        for line in f.readlines():
+>>>>>> -            if not line.startswith("source = \"git"):
+>>>>>> -                newlines.append(line)
+>>>>>> -
+>>>>>> -    with open(lockfile, "w") as f:
+>>>>>> -        f.writelines(newlines)
+>>>>>>   }
+>>>>>> +
+>>>>>>   do_configure[postfuncs] += "cargo_common_do_patch_paths"
+>>>>>>   
+>>>>>>   do_compile:prepend () {
+>>>>>>
+>>>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>>>> Links: You receive all messages sent to this group.
+>>>>>> View/Reply Online (#224426): https://lists.openembedded.org/g/openembedded-core/message/224426
+>>>>>> Mute This Topic: https://lists.openembedded.org/mt/115578466/6374899
+>>>>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>>>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [stefan.herbrechtsmeier-oss@weidmueller.com]
+>>>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>>>>
 
 
