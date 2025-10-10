@@ -1,246 +1,463 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54DBBCAC5BB
-	for <webhook@archiver.kernel.org>; Fri, 10 Oct 2025 05:52:14 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.2559.1760075530619319704
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F6BCAC5BB
+	for <webhook@archiver.kernel.org>; Fri, 10 Oct 2025 06:28:04 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.136])
+ by mx.groups.io with SMTP id smtpd.web10.2830.1760077676124338371
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Oct 2025 22:52:10 -0700
+ Thu, 09 Oct 2025 23:27:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=kI2jPM32;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=237871debd=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59A5bshF2002452
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Oct 2025 22:52:10 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=urkib3lIio2UV1efVNMV9D
-	cYml1U/7cSSLzQtVQXs0U=; b=kI2jPM32lneFmPA8wlYJD/TkE0nTaxkC2yojnn
-	kXNGxxZcKgtZqUBNUn8CWYJj+9xpb27QflR8DoPGYfN9AfdLalXNFVLoHjUIRtEI
-	S+ld1DFnXhH1tyTh3hr//nv+nNu1WqSxsvZU/GnYsVoD3TZdZM20MyhLdAS/4YI1
-	ObNa8OJsuT5pun0IZUdFtGRNvtg1G75uqBfoqDttrQlcZ+eLyOCkxlh6q1wRAaan
-	aJOP66L95U2hzT6dgpvDPlXdVpfmsarhNjRN9dF1HhwLi45hMLkwRVWG+8LQ7mvZ
-	Gqzn2xVwW6sHJB2rzQ2Q1RIQYCMAFHs32b1Tp9yMqOzNVk7A==
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013053.outbound.protection.outlook.com [40.93.196.53])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49nx2x1r22-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 09 Oct 2025 22:52:09 -0700 (PDT)
+ dkim=pass header.i=@weidmueller.com header.s=selector2 header.b=0Wx9ioZ1;
+ spf=pass (domain: weidmueller.com, ip: 52.101.70.136, mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SL9K59CrtTS7CF4kxSPRysqmsdIbX/X93f/ip8gXA5vELzr7IuQaRmDzWiU6+LOZohoSwMu3R6dM/5FUMD8IgsFQuiUamMHTd2GNspu5wVvjW6FfwxWY2U0kHLBnqBhjQE21UVUw31c6wlBxGJTIIBHg1gFeBcQxI/KeDuDfNPqdlRNlsf34DWhDKjnQCIy54B06fljQmOJNm4eHTLawM5Rwax6M70le5PRJsDjOiYuuO4aQSo+OaP9Z9lIFKd+L3oyedRXQKHECjzJNnOOCTKPbeFpQ+9lLxXpbYlTT7hCHaIkd8V2TQ9QZNaM68hWHL7xoMbPSiIAAB+s0xIaJzg==
+ b=es4u6PMwy7b168OGjxvP8vkhlRfOCX1BlAKgFqVAoXcjnq5lihjaSuvH0VHcViPgxYOb6GYHKzC8C65Kn4iSktEuUXmqrpHQRRyVP2GdS4CM06RIGIAkOOPaykawDYYbnNW9iC0URySa2wVEzSz2gw8KB1aoXec2ClrPNyc4Tcbw9KG97PubOO1Xsitx3qDu+QeBfQgNPdW3p51e/LQTU9karYAPSSauoPoLFzOjYHm6Lcy2bJf2YRPyk91a1Jy6dik2Au+K9e/d7JZu3Yf2tpK3XamGgExe6+uhakp/scY0d3qDeBawipbGEyX15Zms/ua/zhBdPozPekId6LxvBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=urkib3lIio2UV1efVNMV9DcYml1U/7cSSLzQtVQXs0U=;
- b=ieG+AUI3nA+MFcNPmU4b7vtdJt2X3xZ2RNe8jqcgW9IHEe48qQQpSJTqiGGQ3eYpF9tTepUUtDzKiB7bBrMxqG2ZMzdK7PqVMjclrbMQXqMBtpPLQ8R9ijmFhMbUpEhaDGEfhbRQXmCxo99ft/COtlUFSudM3uJ+xKWm2J1q2yGYbd61ICOAmyRj3WBOul4e5f8jphEwhLEWUKYykpfdX+/7vrQiYR+cTQKC9sDkaHzAmbTg1VEdLmDAdEBX5TCS83FTeHQukE2eEh9Rr74eDxfOGxFPoGF66VKcP9vENktL3JUbTmsYGzhwZJo+HC5J5kSCHmR69/SJekgQQxdrnA==
+ bh=gghBISiLcN9WEFuDWCVXdI07L4fX0lgAZGdKPThgfn8=;
+ b=DBYMadaOUvvY7QMXYvQT+5cAy+RSX3IvrXdEfEcWgkg9m+E2noIEbLYW+labPgnrzHFEAA+fiyuptDbUsc8qxcgwVWEcIsNOkC59EgIhE7jZGKgjE4PRABvx7T/HUcTiiveXQeS0FxnD8+Qw62LQmxINq37/aVyugKjtpeNB4QWY92dLARoeu+Ug5Q+fS7X40TfVbdS7HivfeNOUT1Hj7m5ZtP/stC1jRkHAgxBuUAk3ez/CHuRyFJHhdXqiHOEWsEjIBR5ft0Xs7lgrTo6vyDtdGY2wKmLDDCcyOL4iqzZE+DcRVuI/GgyEkjLJZ+D7GSKwyYRVB2+QiFGjBQvTqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
- by PH7PR11MB6403.namprd11.prod.outlook.com (2603:10b6:510:1f9::9) with
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weidmueller.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gghBISiLcN9WEFuDWCVXdI07L4fX0lgAZGdKPThgfn8=;
+ b=0Wx9ioZ1vIy1Cu6huXE6uX2kOBHni/Yg31Bcz1AstVoKHIEvxnOKQD7x0bhXyFz2XNpcuzPHFm/4BiJKe/XhXtXdngmQmldwgsdS7ID9jZGU4m4qoV+xcobkad7depk4T4f+npme92tUb23awBKkNhPmN9NplTXWnUwxo8UNLO1NXaow+j7ssnEGJoUxayipXhKIQog0dmRbysagLT5UoonPdrbmM9FiR4Eu9fdD9My/w0RdutKtxdwkUa4P3fF8aPQdygfFvgOgEmFJwnT0dzIPQRTm/0XIxnhXz3tBqaxNnSGSuvE29h4H6EOwDUc2Fzz8QIPhxZWPwhCqYyFeKw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from GV1PR08MB8426.eurprd08.prod.outlook.com (2603:10a6:150:8a::17)
+ by DB9PR08MB6332.eurprd08.prod.outlook.com (2603:10a6:10:258::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Fri, 10 Oct
- 2025 05:52:06 +0000
-Received: from PH7PR11MB7608.namprd11.prod.outlook.com
- ([fe80::ef64:bc9f:eb8c:e6e]) by PH7PR11MB7608.namprd11.prod.outlook.com
- ([fe80::ef64:bc9f:eb8c:e6e%4]) with mapi id 15.20.9203.009; Fri, 10 Oct 2025
- 05:52:06 +0000
+ 2025 06:27:52 +0000
+Received: from GV1PR08MB8426.eurprd08.prod.outlook.com
+ ([fe80::f9f5:b4bd:9e01:9013]) by GV1PR08MB8426.eurprd08.prod.outlook.com
+ ([fe80::f9f5:b4bd:9e01:9013%5]) with mapi id 15.20.9203.009; Fri, 10 Oct 2025
+ 06:27:52 +0000
 Content-Type: multipart/alternative;
- boundary="------------Iu1OK98tojN87i13wPhNPjS1"
-Message-ID: <566d1cf5-7390-4817-aa19-edb28cca82f4@windriver.com>
-Date: Fri, 10 Oct 2025 13:52:01 +0800
+ boundary="------------BJtjpyyRBWQEJnicEnr6exzd"
+Message-ID: <6f3eedff-44c0-48ca-86dc-c1ea8aecc9e0@weidmueller.com>
+Date: Fri, 10 Oct 2025 08:27:50 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] xcb-util-errors: fix racing on out of source
- tree build
-To: ross.burton@arm.com,
-        "hongxu.jia@eng.windriver.com" <hongxu.jia@eng.windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20250925075646.1146511-1-hongxu.jia@windriver.com>
- <A5A09505-7119-485C-A0C6-C88DE980263C@arm.com>
+Subject: Re: [OE-core] [RFC PATCH] cargo_common.bbclass: use source
+ replacement instead of dependency patching
+To: Gyorgy Sarvari <skandigraun@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Tom Geelen <t.f.g.geelen@gmail.com>
+References: <20251003213000.2256939-1-skandigraun@gmail.com>
+ <211549e4-c4c2-464d-9b63-88c27d5bdf18@weidmueller.com>
+ <049f87a6-2e45-43b2-b04a-7b96e6cdb096@gmail.com>
+ <54596a81-b725-4d78-9c35-ff851e4b1113@weidmueller.com>
+ <239994b8-47de-4394-bcf0-16dc91ca654e@gmail.com>
 Content-Language: en-US
-From: Hongxu Jia <hongxu.jia@windriver.com>
-In-Reply-To: <A5A09505-7119-485C-A0C6-C88DE980263C@arm.com>
-X-ClientProxiedBy: TY4P286CA0007.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:26d::16) To PH7PR11MB7608.namprd11.prod.outlook.com
- (2603:10b6:510:269::20)
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+In-Reply-To: <239994b8-47de-4394-bcf0-16dc91ca654e@gmail.com>
+X-ClientProxiedBy: FR0P281CA0124.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:97::13) To GV1PR08MB8426.eurprd08.prod.outlook.com
+ (2603:10a6:150:8a::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7608:EE_|PH7PR11MB6403:EE_
-X-MS-Office365-Filtering-Correlation-Id: 63d2131d-cd59-4a1c-9011-08de07c12516
+X-MS-TrafficTypeDiagnostic: GV1PR08MB8426:EE_|DB9PR08MB6332:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7470a72e-6e07-4707-c53c-08de07c623ce
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|1800799024|4022899009|8096899003|13003099007;
+	BCL:0;ARA:13230040|366016|4022899009|1800799024|376014|13003099007|8096899003;
 X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?WnNrZTA2bGlpVHJVdmxZSEhqcDE4Y1VSL25VcVZLWXlwMXVkNzdQNEx0YjNo?=
- =?utf-8?B?c04rMlljVW0reVp5YlRFdGNKMjNDdFo2QU8xajBLdjhybWhuVFNBVVJYV0tl?=
- =?utf-8?B?MStGWEVoL3hoYU5YaGxqZVRtNWNjaFFCMnd3NitaZFNwL1lZbFQrOTQySmdW?=
- =?utf-8?B?Uk5tdytRc0srY3ExODl6UzIzYkVwOGc1NXdjQzVabUFERzcvcnoxeWlKYW5L?=
- =?utf-8?B?VGlmSWxMbDg0SDdCV201Vi96R25ORnpxUnRPZkNlK1Yyd25vbDlQK2JlanN3?=
- =?utf-8?B?MkFteGlTeWt6UGV5WUcxTlFqalRUYTBZYlkrbkd3S3FQYzZNTmhBTUYvU3Uy?=
- =?utf-8?B?L05pYXR0dG5NUHhPWngwSFUxNm16WXRaM3NmYzF4QmFRdjZETUluYjNxMklj?=
- =?utf-8?B?dWxNNjkwSUU3UmlNUDhZY0x1MFNBaTBiRXFjVnp3c3NTbzJtcHMzbkk4ME5n?=
- =?utf-8?B?ZzZZZHpZSkdpTTRmV3YwZGR5SDRFcGlCeXgzMUdHaldPVFluN3JTZlhHRy9N?=
- =?utf-8?B?RkdDcmViZkRaT1hMS3JzSUxDbTdoT0tHakVEalpkZHc0MEVVQUVGZjZMckVn?=
- =?utf-8?B?YWwwUUpzQWtON2p5WkNjend5amNUTEJCaEh0RnJ6TXU0UG4zbDRZUjVOUEt1?=
- =?utf-8?B?QXkyZUZtaTBhbmtyTGFobWpvZy9UTC9DWiszRmF4Wm1POVJicHd0S3AzQ1RL?=
- =?utf-8?B?eEc4UVEyZ0NwUG9PTS91ZEs3Ykp5dE45citPK1Rxc2ZYWXlpKzBsM0JkdHAv?=
- =?utf-8?B?Tjh5MHdWK3NHcUVoMEZzMkhxbzkzSzZWSUt6cmFUNW1pZ1BlZjJNQVIyNHY0?=
- =?utf-8?B?eW9DbzE1QWYvMXFUcUQ3YU5kTGkyMUZsbmRwcitmNzdLTGtnVjlucVVxS0hO?=
- =?utf-8?B?SnFQeDQyMlJPWC9SM2VmSjltZU9RcWJCVU5GL2xpM3JTZ0QweUFDVzJ5Zml5?=
- =?utf-8?B?RkdVaGpPNkEzcURjYy9yQ0ZVNk43dHVOWmxzWW9KaTltSHAzTU16NmJodnhM?=
- =?utf-8?B?VFZ4ZmZLMmo0WUk4YVI1Z3hxbWhvcEpiVFk2eEo2ZG8zVVM5OVZjSUtLUVYw?=
- =?utf-8?B?azVHdGY1bDYzWTRWUGpuTzdFQXFOSTlGQ2orSnMyWnJDR0J0K09TRkpLSmN1?=
- =?utf-8?B?ZWFQb1ZzQWUvU0VaSUxNSTAxMm8xSDNOOG1CTms5YU50UUEydHFzYmZJZE5G?=
- =?utf-8?B?RzUrZnFMTGhxKzYvU2NORzl6QzE3ZER3UnpHTlRPNTJEaVdnK01Xc0x0ZkNH?=
- =?utf-8?B?by9vWkdhVkt3QkV1eFB1VnQybDVFS3E4ZDRkTHNjOFpRTjFKaGowMENvNFhM?=
- =?utf-8?B?clBHQ2xRREVDamJTbXFSV0xHS3hVemFQYlJWUWdnbVk2SThVM2tpTnRhRDZi?=
- =?utf-8?B?cWhTc3RLLzdqMk1EVTlGdHJMRnlzRWF5QmRZNlgyU1h6Z1doMHFuZzRYL0cz?=
- =?utf-8?B?dE94NGNqZ2xreE1FT0hJbHNodVBObkk1VlZDUlpuM29JczZCc0xDdkhNaHhQ?=
- =?utf-8?B?eExnVTY2MDU0Qmh4UEpHZ2xPS09VbUV3NUJoK0hzQ1cycnhMMnF0bDZLS3ho?=
- =?utf-8?B?cmcwVFY4Y1BVeHcrT1RKV0tPNFl4UzQ3UjVlbUlQZDBjZ1ZMaURhMEtXT1o1?=
- =?utf-8?B?U0VjMGtyQWpUcUhSRDk0c2doamNNU3Z1Vy9OcGhzQVlpZklTSUJWK0NuN0Yy?=
- =?utf-8?B?dURIMzlCVGt3TlhDR1NZaFkraCtlQitGVDBEK1JuNnRYc01HemM4bUYwZEtu?=
- =?utf-8?B?MDBpRFFEWnRPMXkyRk5ab2M3V1Q1dzRmVzJza2JxcDRLS0w5QXlVNFVPQXNz?=
- =?utf-8?B?OGFMRTNBNEIrUHBtYkFNOS85Q3kwd1ZseTYxTmd1YTErRkNhaGowOWRTTUNN?=
- =?utf-8?B?S3VRak5PZzZ6RkJob2JMck1oL3RWZno1QUxleGVoSkVHYUE9PQ==?=
+	=?utf-8?B?TWZKb3R4dDZsdWxZbEZVekFlZGFZWDhtS1ptMGR1UlBRaE1pcExWT1B2aEVJ?=
+ =?utf-8?B?UDBmcFFpZndTNnU5NmZnVDF5M2RScm4xSVBqb0V5WTBIQjlQV3ltZnlIbVpT?=
+ =?utf-8?B?YTBZUllBWE9UZU4ramNWQjhOc2VCM0xLc1FQNmY3RlNaZHJMbmd5TEFGWVdL?=
+ =?utf-8?B?K3pNb3Nta0ZiV2VQeGo4dHEzTEJ5VU82cWsvSmNDMzl6RVdDeENOd2hqSlVD?=
+ =?utf-8?B?UTRCWnRzYjVZc0ZDTkRZZzZLMFZDdzhLSE1MaFgvMkEzdGluL1VxOVo2eDM4?=
+ =?utf-8?B?UjdBYkY3R29hTnkwSkhFZ0pwNEdtcnVtcGFKb1VJd1RHSFhYMjUrY09UVFJx?=
+ =?utf-8?B?K0llMDVjcDZIZzZVbkRpVTBZUDJ6SmdiOTVXbXl1NUUvc1JKMkpGdE5oVCtl?=
+ =?utf-8?B?WXAzTzhUdkV1VE5hRzNzblNYMFhScnc1V3FZTTA3RnROSnpwREhudmZjVkFI?=
+ =?utf-8?B?OXhKTjUvaGdEbTJQaU9Kamd1OVVFZFZxcGxTWTFINFl2eUkwRGZ6emdTQm9m?=
+ =?utf-8?B?TEpGL0ozUmw5ZU9mMXRnbDVkbDBRZG0xSFhqSFFJelhCUHB3b3BEZ3BJbzlT?=
+ =?utf-8?B?QVl1TVZJRnFaekU5NFpvRktEQngwMWFzS1VCNU1MUjR3WjFLNkQ3ZXl4SW1B?=
+ =?utf-8?B?NUdCOEZSTGZrZ2FvKzBXYWNKRjArS3Z5Zk9jb3d5TFpjb2FscnF4OEpydk1w?=
+ =?utf-8?B?ZUNtOGp4cUZxakJ3VW9uUVZUdXRrM3NjZ1E5U0R0QmtUNS9EKzFzcUdlbUNQ?=
+ =?utf-8?B?ZFM2TDl2bzQ3dmFkdVBMZnBrS3pyS2VkMFQ2cFpobEhNY1ExYXpiWVR0UEEz?=
+ =?utf-8?B?QXhQcXM1bjZ5QnlIeDh5YWpaSDBQV2x5bzR0a1oxN3BXR3lHaWRXUkNiMG1w?=
+ =?utf-8?B?a2NxVnhFNTExSFZtZVZWZFdYQUJZTnppaFZaT1ZYTFc4VUVNenlJbGRseFpv?=
+ =?utf-8?B?R2o0WXdxQ3hqMm1kdzZvNlZaSkVlczZ6SFVhZFBBekhuaWovMkg1L2VLS0dp?=
+ =?utf-8?B?NTJZS3doSDZvK25ia1IxNmZPK29zU21jYmZ5RE5ZRm1Cb2phNWxxOGp2RU1s?=
+ =?utf-8?B?UTA1d3ZBcVRzb0JQWW9VekJKMmxyalRSam5JVWtNTnROU3hUb01IQU9lUFZk?=
+ =?utf-8?B?OHRKM3ViQTZaNkVQcW5ITUlEOFcrSDNMVW1RbDRJNFdiakV4TDZ1ZG0xUnNw?=
+ =?utf-8?B?R3BkMXdhWlJvUm0wZk51MmxlclpoREE0cnNTUWpFeDlPck9TeTVBWVQxTXVp?=
+ =?utf-8?B?YktOZTN2dURqa2VxRzBXbUtrSXVodkswYjdoKzRzN0FSdDJKWVZnbE1Ma1dY?=
+ =?utf-8?B?Q09FWGVGak9BcUxNUVIwZW9mdmdLbGx2RFRtSUZ4YWxaSXFoM0J2V1k4b0dS?=
+ =?utf-8?B?UGw5cnlSQ3ZGV2xMQnI1d2lDZXgvRThZRlRDRGlvM2RoK1pIUXFmVm5HVTNW?=
+ =?utf-8?B?ZDNxRFl0dWZ4VmtxMG9EVmcvSnJJT29ZRWQ0alZRT3lMWDJ0TWo5UTlEZFhz?=
+ =?utf-8?B?TGdzSGw1TmVqT1pWMy9rakk3clJTVm5zV21xckNSSXN2OXB0LzJBeWxWdXJ6?=
+ =?utf-8?B?TlhyV1lTb1F5cmt0UGhuVGtSUTNjZXZIQnBBRFQxM2E3S0NIWnZuNmFsd3VZ?=
+ =?utf-8?B?NW5xclNvU0ZPMlBSNTBFdXIzVlA3ZUZ0V2tqUSszRHppV1kvc05nK08wemxW?=
+ =?utf-8?B?UW1DendIY2ZUWXFIVVhqSjFndUlEZThaOG9mWWtsNHRVdnY4K3drVk80YnlM?=
+ =?utf-8?B?R1YrdFN5T1h2VHhmdnVzZzgvMFVoUXBNeTlaUXBscVE4cjZLQ0VGQ2dQK1pC?=
+ =?utf-8?B?ZGw5S2lMbDFmMEIvS291MENuOCtJV1Y5U1dNcDU0ak5aZ1VaODF6Rmc4OEdx?=
+ =?utf-8?B?TUVQQWMyOGxYSHhmR2dBSHdrMUhjeGNFblRjVXRhVjRBTFE9PQ==?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(4022899009)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB8426.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(4022899009)(1800799024)(376014)(13003099007)(8096899003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?OUlIcjNoK0srQlZQQm9EVWp0YkFyVjVybkdjTTlnMVMyVWNxalVONWxEOEVZ?=
- =?utf-8?B?QitpNythNWFvK29vU2cyVHhGaDBIZFJIRFdqak5qTTF5SkZ5LzYrTTZxeUFC?=
- =?utf-8?B?NEVrY2ZmYitoOG4vODMvTmRFWFJlNFgyekNZSU8rN3lyblFQbnpPbk5kNVU2?=
- =?utf-8?B?RzlQRFlpK25RWWJJUkpFa2FvWEt4SWpoQ0QvclVMODF4Q1lVTU9sMTd0WGE3?=
- =?utf-8?B?MnovenNic1ZEYnVSc29ONUxrQ1RycEJzMG4vem00RmpuQVVwd1F4Lzd2ajFB?=
- =?utf-8?B?WEpMZHlsd0VYMWF6Nzh5eVVIVGZBTFJiOHgwMVVwc3FlVGVPM3RwUFJtUFh4?=
- =?utf-8?B?Tmt5K0Q5VHhDUEpDVVNZUWlmY2F3UTBqUVRaZFVJSjJoT3daUWdUdkNJRlZD?=
- =?utf-8?B?ODJzSnQxZnhYTWlIOGF1Y1B3Yy9aRnlSUHRjc1lDU25XTUoyMVhLL3JNYzZz?=
- =?utf-8?B?ZzVNVHltRkJmY1NBNjQ0SzdjZE9RZnNDWm9mWDhQdlZ5UnJzYk4wcFJoaTQ2?=
- =?utf-8?B?eFlXYmNCRTIyUUUvZVpUTUliWjlMQjhQUTFiK3pQR3RwemQyNUlYOFNramlH?=
- =?utf-8?B?V3A0WldlV1Y0bVlMb1FsMVI2ZVQ0MXBka0dwamYzOUVNT2hyd214QysvT0Ry?=
- =?utf-8?B?TUIxdytWRHNKbCs1QmZXL0tyaTVTdGlwL1RBT2w2Q1o5bVR4cGhmWHFQaHZK?=
- =?utf-8?B?MTV4b2JFeVZpQWxpYlQ5azJCMU1rSHg5VzEyVjdycnU5Q215SVBhdzE0MUtF?=
- =?utf-8?B?ZS9kcXRGQXpNREx5UmZtL2RiM1hHdlZBMjZKdjJzd0dzMWlGbDVlQXlvWW5D?=
- =?utf-8?B?MXg1VDlYaTUrVy9pNSszenBjbUY2MTFzZjBNVDRHS3UwczJhNVlzMHhWMzJD?=
- =?utf-8?B?RHdvNXQxelhiM05TZVo3MG1CcG5YeGFCc0c2TDNWRVpqaGpXbm55OHp6cDho?=
- =?utf-8?B?ZGYra21VMGlSMVQrV1l4ekFHN2QycmZwMncrcG8rQUYycmRWS05MYnBFKytT?=
- =?utf-8?B?MmZ4MWFwNEc5d2o5MjRodTdNZndaa3hqUWROTlpWZmFXc0Vsb1Q2NHVYYncr?=
- =?utf-8?B?b3J4Q3h4YWtKNGZHTnV4V0tJQThoVWFrNDVHVWhySk1lYkl4YXN6VVBSWFhY?=
- =?utf-8?B?dTgzaE9VNEx3UngrT2E1bEJjN0praHhkMS8zUUM0VDc2anV5Mk1CSmQ0Mys0?=
- =?utf-8?B?RUJwVkhKeFkzSWNVYitvUExoSzgvMUpHUzU1NGVQTFU0STBQZGZ0ZVR0RE9L?=
- =?utf-8?B?M3FMOTlGOG53WDdQSEtXT0lmZUx5bEdJTXljamp2OEZCODk4MnpZR2lUQ2ph?=
- =?utf-8?B?dU02dWlTL3BWMjNGQm0vSUwwejBlZ3NKRHduTnd0L29mRHg5NVRQU2hid2ZR?=
- =?utf-8?B?K3luRmZlQUdiYTlWd1BhQnMvL1RRbXp6a1RNdFNBRElwc1RvQksyNEpyajl3?=
- =?utf-8?B?Q0RwUmc2Rmw2MU1sS3A4T3BxcklYdEpnTW1xRC9XMWtON1Z0VzI3eFE2T3ow?=
- =?utf-8?B?b0J0aEg0LzhkVFo5WkJPTGE0WXpVcytIVndtSjNLNVlkNGMwdExJNEVCZThG?=
- =?utf-8?B?bmo1QTA0eWFNUEMrSXRoY3p6WFMwSWRLRktHY1RnOUJySkwzYWYzdlh6akxr?=
- =?utf-8?B?b3RWRjdadlI1Wm1wTWRHWGl6ckdCNG8wV3lFRjMrSHJ4ckZxbVp1eTByR0d4?=
- =?utf-8?B?LzhneDFiKy9FV2RzWTgzTHlFTmRadW80K0dLMWc5N25PNXlvalpvREpqSXhB?=
- =?utf-8?B?M0tLLyt5dncvQXRpODMrSUxUbkJ0Q3RIdEoxWmNBQXRkeEtZVXJzMnVpY0Fo?=
- =?utf-8?B?QmN0ZzlSeHNDSktGcFRkUDNRc0lmRWs0dW9Rc2ZlLzZ5NDhmQUUydzNmZWJu?=
- =?utf-8?B?TEtJZ2Y3dlRLQXlwZ0w1ODRGVVdaZWNjbUxZb01XbExzU3ZmcjNRcUxySU1o?=
- =?utf-8?B?WUV4alNxNFd6M2dnWWc5M3BhVWxRVjdYOXNHa1I2VmEyWFl3bHowSlhqZC9U?=
- =?utf-8?B?YjF6MldXZ3pSeHNDWVJjMnRDTzZ1OFFPWkRZSExjY3RHWGdwQXRkQWtjUXlq?=
- =?utf-8?B?a1A3Y0QxT2lsdFVJRlgva0Q1WHlJRkIxbkhoeDZSUHFNZm4rM2dZWHpNaHVk?=
- =?utf-8?B?RExYZzhjb2JmYm9qYk1GUVNhbkNlMTZ5Ti9SSkJZS2RSQWVHYjhkaTJFRzl0?=
- =?utf-8?B?dEE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63d2131d-cd59-4a1c-9011-08de07c12516
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
+	=?utf-8?B?WEZFUVhZUk9aR21oTGlMN1ErenU1amxaLzdleUUxYmtSUi84bUZONHRlcmJJ?=
+ =?utf-8?B?ZEN1SUZZZ2VVREZMaVNKdFlUaHg4cTN5WjhiamFHa3hjVUwvSzFZNXp0aGds?=
+ =?utf-8?B?TUczR0dQTlFvbGZmTGxReExtNy8zQXo4THpCTlI4dityVjhOL2haa3FWYWxl?=
+ =?utf-8?B?M1Q4U1lRdjFacTUyTVNkZHhXa092c3VGcHdyTjNrZzJoV3NCekMzNStqQVky?=
+ =?utf-8?B?OENXNlJpSEtIbnZVaGxENzNZSlkxQmRlNE1SdGdvSk5zNGw5cDdERUQvREY5?=
+ =?utf-8?B?bUJCSmE0ZGkzSGNrWEVNRXZkWCszMHBHUUo1RFFVZzdKeWRqcU9weW02QXpT?=
+ =?utf-8?B?MEc4Z1ZJSTh6U1RlYm1ZUWZnN3E1S2VhcWQ0SDhtWnBIVlkyalFOUWxjSjky?=
+ =?utf-8?B?RUw0QTdrZEJZaVN6NTFNQWs4QTNWSEFlc1N1T3N4SXNTaWxzcTkvWUVBNy8z?=
+ =?utf-8?B?WnVoM1dFMk5yMVp0WkhBVDJvanVvcWpCcDdwWm9YT2doS1RidGE3dXJKaisy?=
+ =?utf-8?B?UmZZWUFCSzRmQzRnVElFdXc0bHR5cGhQUU5teHk4T2NxWHF2L1dUTXdHTUhT?=
+ =?utf-8?B?aG0xdE1CZGJ3aG0rQ25OUHY2L2ZTandhdE5MRXpuVUoyNldpRHp3dnBNb2t0?=
+ =?utf-8?B?dkJBU3I3Wk9sZXJ0dUIrZGEzRDJrRHZRV0h1TTNCVVhxaGZVQXlQOUdoY01H?=
+ =?utf-8?B?Q2JqZk0wOWc1MmorZmxMcDBxZ0Z1Y0xHS29kQW1uUGhrbzFOWUNnNk5kd1N6?=
+ =?utf-8?B?U1RCTm1aM3k4eDVuOFVVZVVUeUV4MGx6V2hOTllSOVJEUEVVTE84eWVsclZ5?=
+ =?utf-8?B?V0prZmVGaDY4OHRTN0Z4N25mMnhzMVd2UHpuRUp6OUZhdEh5SVpOZHZhbkxY?=
+ =?utf-8?B?c29oUStSb0RhenRWdS9NYU5kSkdhNWdrN1U1akh2NnlFZVZuaWdmUW81ZHhB?=
+ =?utf-8?B?MFZCT2ZJOW4yS2xHQXYyQ3Z4LzZxVXhOWEdyUzBXSDdyV0ZSbURTVUgyVm9C?=
+ =?utf-8?B?RngwdnFzZUdMZktBdzkvL3J3a3ZWK2p3MDJKeVpsRFoyTktnVTRWd29xYzc2?=
+ =?utf-8?B?MjJESW1CRjIwMEtLdHhRT2NERW9UQmdRa3ljNEt1RVZHYVJLdG15YzZ5cDV6?=
+ =?utf-8?B?bkZDVEFlREFpZHVVUlV5c1djeW1udFpTZ3RkOWdFcEI4RWQrV0FyYm44d3RR?=
+ =?utf-8?B?YTExM1NiUk1GWHBvZHhPK3E4SW13bnJRempWWENYZjVsNWliK3NWelNzTmFT?=
+ =?utf-8?B?b0Z3QmluRnpXZldLSXRINVlCeUtDajVxYUg2dXR6TVg1SDhQSlQyMENtalF2?=
+ =?utf-8?B?RDRvdFJ6WGErR1FPWmJDZnZyUjArUHQ1MU5JcXZEOXRicTBPNzNGZEw5MURG?=
+ =?utf-8?B?UU5KemI1R3B6RnRtejlhTTdYV0VtV091L1pMK0hpVzEwQnAzbWJRdytyTFBs?=
+ =?utf-8?B?OWpsMm4zdDZkMm1ObGpZZDI4UzFGa1dhVDh4bko1bmJzZzRtUWtMMEZDZXBI?=
+ =?utf-8?B?WU9HVW5EV0ppMEhEQitIcVJXcGtzeGdGbmxTRzlWUDdYcVR3Sk1YNDR6U1Uw?=
+ =?utf-8?B?ckhCNnUwd0hadUwzc0FTRk1SeVIvTjNGL1RRZTNKMzkzakY2Qyt2dHVWWllu?=
+ =?utf-8?B?eFVML2NtcnQybWFqUEVUTXJlUzNra0dUQlIrZUZpaHBCdk1Ya1FWYys2alNB?=
+ =?utf-8?B?N3NXdG5pOGtpR3dsWlordXhjUmc2YnRDZmUxUUloT2VZWSs4a0xOMGx6aFZ1?=
+ =?utf-8?B?K0w4ajZadUFUczZVcWVmVzhDYlFOUnd4eFNBNzF1Q00yZWNaRHBvNWIwajNv?=
+ =?utf-8?B?Q2FZbmdTMEx5N1ZvVnl5eDRFQzArM1dLZ204eFJWWnNlVzRsSGNhNnVtZVRC?=
+ =?utf-8?B?WkpuMDhzMlRLZXI4NXZaQXdtY1JhYi9EWHJUeXQ5NFYvZVlKQTJ1bndKSG5M?=
+ =?utf-8?B?L01DWGJMSjdGcEdRVDVUYmVVaTlSTU5TY1ZHdlNWY29nRks2a3VVYUV5OFR2?=
+ =?utf-8?B?bDNtTm04Y1AwN0kwT1NnNGIrZGlkU1k1NUtZdWw1OFFXYVFzMWhyajV6cVFj?=
+ =?utf-8?B?S3BpVmtkN2MwVGJuNFBRY1IvY2Fpc2lTQWtxNjdrbmErRjBVSEFZWUpkODNt?=
+ =?utf-8?B?cGtoakN5TUZxR290VWQ4alEyeEgzMzZmKzJ2aExjVnE1UlVPYmdiVHlHc1Vv?=
+ =?utf-8?B?K0E9PQ==?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7470a72e-6e07-4707-c53c-08de07c623ce
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR08MB8426.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 05:52:06.7368
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 06:27:52.1633
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WbnwjC+pSZqtDrAKjbXVCj7ujYWxnIZ8edOyQy2sdUD+2ci9PhX84sQkGyF6uQsRubeWE3WQOdBtgLyxTkvsQQxDAo8mK5qsBKMmPSPc77k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6403
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: oorI-zoWc_i7lVYIDZHeAnJRrfLiiMTY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEwMDAzMSBTYWx0ZWRfX+XI0i2pk1PK/
- /3NMzsDzQsvW3z9CXg/sund2okiGX4vk+n3IVgmsbmgl0F6Ay5//8t/z4FuYoTkXS3nX6sWBHOs
- pOPENXUk/8QwYAqseYYMjjTM7Ho270arTeHyPbY/lvrkueZz2iHjwLL4/nkTas+Qu1uOf/7dF9P
- l7525/aHgviHfE3s+YpCNNJ2qy7juuXazFGFavxRQjE7nAugQz7jGQPm/G0axYB3VP9xj5jT6fR
- jJ+fcfHZbqI58rLUkEUgQd1w4cLMZam33Q76ML4rfkFd69Moj0c8lsDexEgpwbPX484kRDCd8xq
- jmdZbatP5Ng6hcGjlYUg5wKxTK6gz9UwR+hWY8BtJqXSWr9vJczgb1NUh/mn8uZnpxDkEwM12fo
- zDXh4KfzhShs94aoM1U9sfFt7RY5QA==
-X-Proofpoint-ORIG-GUID: _1LQR9x74X3mlKKvJOGOyHeKGmqsSiOL
-X-Authority-Analysis: v=2.4 cv=N78k1m9B c=1 sm=1 tr=0 ts=68e89f09 cx=c_pps
- a=5zjvB78PlnLPEzvzEo0MXg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10 a=e5mUnYsNAAAA:8 a=Q4-j1AaZAAAA:8
- a=aR16PxjQAAAA:8 a=t7CeM3EgAAAA:8 a=dWv9BQ01k2WeKlqPNRsA:9 a=QEXdDO2ut3YA:10
- a=7CQSdrXTAAAA:8 a=wvPkM9v7g1_ikmSEda4A:9 a=j1INbqIs9e7Q1NG1:21
- a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=Vxmtnl_E_bksehYqCbjh:22
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=zbFvvTOBjyH4ze5LlUjX:22 a=FdTzh2GWekK77mhwV6Dw:22
- a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-10_01,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 clxscore=1015 bulkscore=0 adultscore=0
- impostorscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510100031
+X-MS-Exchange-CrossTenant-UserPrincipalName: ickKZXoeCXafJGN3XTBHuj2PjkCigOv5l/MfI9V0c6jLj9VIY8UhOMxlmJSm2OBcyytXfrVLnSihhYxA/9n9YA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6332
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Oct 2025 05:52:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224663
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Oct 2025 06:28:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224664
 
---------------Iu1OK98tojN87i13wPhNPjS1
+--------------BJtjpyyRBWQEJnicEnr6exzd
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/30/25 00:41, Ross Burton via lists.openembedded.org wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
->
-> On 25 Sep 2025, at 08:56, hongxu via lists.openembedded.org<hongxu.jia=eng.windriver.com@lists.openembedded.org>  wrote:
->> +Upstream-Status: Submitted [xorg-devel@lists.x.org]
-> Patches should be submitted to GitLab I believe:
->
-> https://gitlab.freedesktop.org/xorg/lib/libxcb-errors
+Am 09.10.2025 um 16:30 schrieb Gyorgy Sarvari:
+> On 10/9/25 11:31, Stefan Herbrechtsmeier wrote:
+>> Am 08.10.2025 um 13:01 schrieb Gyorgy Sarvari:
+>>> On 10/7/25 16:59, Stefan Herbrechtsmeier wrote:
+>>>> Am 03.10.2025 um 23:30 schrieb Gyorgy Sarvari via lists.openembedded.org:
+>>>>> Cargo.toml files usually contain a list of dependencies in one of two forms:
+>>>>> either a crate name that can be fetched from some registry (like crates.io), or
+>>>>> as a source crate, which is most often fetched from a git repository.
+>>>>>
+>>>>> Normally cargo handles fetching the crates from both the registry and from git,
+>>>>> however with Yocto this task is taken over by Bitbake.
+>>>>>
+>>>>> After fetching these crates, they are made available to cargo by adding the location
+>>>>> to $CARGO_HOME/config.toml. The source crates are of interest here: each git repository
+>>>>> that can be found in the SRC_URI is added as one source crate.
+>>>>>
+>>>>> This works most of the time, as long as the repository really contains one crate only.
+>>>>>
+>>>>> However in case the repository is a cargo workspace, it contains multiple crates in
+>>>>> different subfolders, and in order to allow cargo to process them, they need to be
+>>>>> listed separately. This is not happening with the current implementation of cargo_common.
+>>>>>
+>>>>> This change introduces the following:
+>>>>> - instead of patching the dependencies, use source replacement (the primary motivation for
+>>>>>     this was that maturin seems to ignore source crate patches from config.toml)
+>>>>> - the above also allows to keep the original Cargo.lock untouched (the original implementation
+>>>>>     deleted git repository lines from it)
+>>>>> - it adds a new folder, currently ${UNPACKDIR}/yocto-vendored-source-crates. During processing
+>>>>>     the separate crate folders are copied into this folder, and it is used as the central
+>>>>>     vendoring folder. This is needed for source replacements: the folder that is used for
+>>>>>     vendoring needs to contain the crates separately, one crate in one folder. Each folder
+>>>>>     has the name of the crate that it contains. Workspaces are not included here (unless the
+>>>>>     given manifest is a workspace AND a package at once)
+>>>>> - previuosly the SRC_URI had to contain a "name" and a "destsuffix" parameter to be considered
+>>>>>     to be a rust crate. The name is not derived from the Cargo.toml file, not from the SRC_URI.
+>>>>>     Having destsuffix is still mandatory though.
+>>>>>
+>>>>> The change does not handle nested workspaces, only the top level Cargo.toml is processed.
+>>>> I use a similar approach for my Cargo.lock fetcher. In my case the code
+>>>> finds the crate on the fly inside the a git repository because the
+>>>> Cargo.lock doesn't contain the subpath.
+>>> By any chance, did you manage to solve the workspace problem? If you
+>>> have a working solution, feel free to submit it, I wouldn't mind if I
+>>> wouldn't have to debug mine :D
+>> I haven't test a workspace project. Do you have an example project?
+>>
+> I have attached a sample recipe (that is very much based on Tom Geelen's
+> initial work). It depends on at least 2 workspaces.
 
-I do not have permission (no new accounts) to submit a pull request, the 
-message from https://gitlab.freedesktop.org/xorg/lib/libxcb-errors
+Thanks for the sample. After switching to my cargolock fecher and 
+cargo_vendor class the project build without problems. Your git URLs 
+need a parameter to inform the config generate that the source contains 
+a rev query parameter. Additionally you need to add the revision to the 
+name and destsuffix/subdir because it is possible to use crates with 
+different revisions from the same repository.
 
-...
+>>>>> Signed-off-by: Gyorgy Sarvari<skandigraun@gmail.com>
+>>>>> Cc: Tom Geelen<t.f.g.geelen@gmail.com>
+>>>>>
+>>>>> ---
+>>>>>    meta/classes-recipe/cargo_common.bbclass | 158 ++++++++++++++++-------
+>>>>>    1 file changed, 108 insertions(+), 50 deletions(-)
+>>>>>
+>>>>> diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+>>>>> index c9eb2d09a5..79c1351298 100644
+>>>>> --- a/meta/classes-recipe/cargo_common.bbclass
+>>>>> +++ b/meta/classes-recipe/cargo_common.bbclass
+>>>>> @@ -129,6 +129,44 @@ cargo_common_do_configure () {
+>>>>>    python cargo_common_do_patch_paths() {
+>>>>>        import shutil
+>>>>>    
+>>>>> +    def is_rust_crate_folder(path):
+>>>>> +        cargo_toml_path = os.path.join(path, 'Cargo.toml')
+>>>>> +        return os.path.exists(cargo_toml_path)
+>>>>> +
+>>>>> +    def load_toml_file(toml_path):
+>>>>> +        import tomllib
+>>>>> +        with open(toml_path, 'rb') as f:
+>>>>> +            toml = tomllib.load(f)
+>>>>> +        return toml
+>>>>> +
+>>>>> +    def get_matching_repo_from_lockfile(lockfile_repos, repo, revision):
+>>>>> +        for lf_repo in lockfile_repos.keys():
+>>>>> +            if repo in lf_repo and lf_repo.endswith(revision):
+>>>> Does this works if the URL contains a "rev" query parameter? This
+>>>> happens if the same git repository is used with different revisions.
+>>> I *think* yes, since I query the revision from the fetcher, instead of
+>>> parsing it myself (and I use both the repo and revision for matching the
+>>> cargo.lock repos). But will test it specifically, and make it work if it
+>>> wouldn't work out of the box. Thanks for calling my attention on this.
+>> The problem is that the source replacement key contains a query
+>> parameter. The query isn't supported by the git fetcher. That means
+>> you have to remove the query from the SRC_URI but add it back in the
+>> source entry in the config.toml.
+> You mean for dynamic fetching, from Cargo.lock? This patch still relies
+> on the user adding these dependencies to the SRC_URI.
+> Otherwise I might be misunderstanding your question...
 
-Due to an influx of spam, we have had to impose restrictions on new 
-accounts. Please see this wiki page 
-<https://gitlab.freedesktop.org/freedesktop/freedesktop/-/wikis/home> 
-for instructions on how to get full permissions. Sorry for the 
-inconvenience.
+Please check the source inside the Cargo.lock:
+https://github.com/astral-sh/uv/blob/0.8.19/Cargo.lock#L302
 
-...
+It contains a rev query parameter. This query parameter must be part of 
+the source key inside the config.toml:
 
->
->> +inherit python3native
-> There is no need for this, we have a perfectly good python running bitbake.
+[source."git+https://github.com/astral-sh/rs-async-zip?rev=285e48742b74ab109887d62e1ae79e7c15fd4878"]
 
-The python to run bitbake is depends on the host, it is better to use 
-python3-native to build recipe to avoid host contamination?
 
-//Hongxu
+>>>>> +                lockfile_repos[lf_repo] = True
+>>>>> +                return lf_repo.split("#")[0]
+>>>>> +        bb.fatal('Cannot find %s (%s) repository from SRC_URI in Cargo.lock file' % (repo, revision))
+>>>>> +
+>>>>> +    def create_cargo_checksum(folder_path):
+>>>>> +        checksum_path = os.path.join(folder_path, '.cargo-checksum.json')
+>>>>> +        if os.path.exists(checksum_path):
+>>>>> +            return
+>>>>> +
+>>>>> +        import hashlib, json
+>>>>> +
+>>>>> +        checksum = {'files': {}}
+>>>>> +        for root, _, files in os.walk(folder_path):
+>>>>> +            for f in files:
+>>>>> +                full_path = os.path.join(root, f)
+>>>>> +                relative_path = os.path.relpath(full_path, folder_path)
+>>>>> +                if relative_path.startswith(".git/"):
+>>>>> +                    continue
+>>>>> +                with open(full_path, 'rb') as f2:
+>>>>> +                    file_sha = hashlib.sha256(f2.read()).hexdigest()
+>>>>> +                checksum["files"][relative_path] = file_sha
+>>>> Do we really need the calculation of the checksum?
+>>> For source replacement AFAIK it is mandatory, otherwise cargo complains.
+>>> (But I'd be happy to stand corrected)
+>> Have you test an empty dictionary for "files" and NULL for "package"?
+>>
+> Are these valid states? Currently the checksum calculation happens for
+> crate folders that have been actually copied to the vendor folder. And
+> that happens only, in case there is at least a Cargo.toml manifest in
+> that folder, so the files dict shouldn't be empty. Otherwise the
+> checksum sub iterates through all the files it can find, it doesn't try
+> to validate it against any manifests.
 
->
-> Ross
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#224155):https://lists.openembedded.org/g/openembedded-core/message/224155
-> Mute This Topic:https://lists.openembedded.org/mt/115426771/3617049
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [hongxu.jia@eng.windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Do we need the validation by cargo? The crate fetcher skip the 
+validation with an empty dict and the same works for git sources.
 
---------------Iu1OK98tojN87i13wPhNPjS1
+>>>>> +
+>>>>> +        with open(checksum_path, 'w') as f:
+>>>>> +            json.dump(checksum, f)
+>>>>> +
+>>>>>        cargo_config = os.path.join(d.getVar("CARGO_HOME"), "config.toml")
+>>>>>        if not os.path.exists(cargo_config):
+>>>>>            return
+>>>>> @@ -137,66 +175,86 @@ python cargo_common_do_patch_paths() {
+>>>>>        if len(src_uri) == 0:
+>>>>>            return
+>>>>>    
+>>>>> -    patches = dict()
+>>>>> +    lockfile = d.getVar("CARGO_LOCK_PATH")
+>>>>> +    if not os.path.exists(lockfile):
+>>>>> +        bb.fatal(f"{lockfile} file doesn't exist")
+>>>>> +
+>>>>> +    lockfile = load_toml_file(lockfile)
+>>>>> +
+>>>>> +    # key is the repo url, value is a boolean, which is used later
+>>>>> +    # to indicate if there is a matching repository in SRC_URI also
+>>>>> +    lockfile_git_repos = {}
+>>>>> +    for p in lockfile['package']:
+>>>>> +        if 'source' in p and p['source'].startswith('git+'):
+>>>>> +            lockfile_git_repos[p['source']] = False
+>>>>> +
+>>>>> +    sources = dict()
+>>>>>        workdir = d.getVar('UNPACKDIR')
+>>>>>        fetcher = bb.fetch2.Fetch(src_uri, d)
+>>>>> +
+>>>>> +    vendor_folder = os.path.join(workdir, 'yocto-vendored-source-crates')
+>>>>> +
+>>>>> +    os.makedirs(vendor_folder)
+>>>>> +
+>>>>>        for url in fetcher.urls:
+>>>>>            ud = fetcher.ud[url]
+>>>>> -        if ud.type == 'git' or ud.type == 'gitsm':
+>>>>> -            name = ud.parm.get('name')
+>>>>> -            destsuffix = ud.parm.get('destsuffix')
+>>>>> -            if name is not None and destsuffix is not None:
+>>>>> -                if ud.user:
+>>>>> -                    repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
+>>>>> -                else:
+>>>>> -                    repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
+>>>>> -                path = '%s = { path = "%s" }' % (name, os.path.join(workdir, destsuffix))
+>>>>> -                patches.setdefault(repo, []).append(path)
+>>>>> +        if ud.type != 'git' and ud.type != 'gitsm':
+>>>>> +            continue
+>>>>>    
+>>>>> -    with open(cargo_config, "a+") as config:
+>>>>> -        for k, v in patches.items():
+>>>>> -            print('\n[patch."%s"]' % k, file=config)
+>>>>> -            for name in v:
+>>>>> -                print(name, file=config)
+>>>>> +        destsuffix = ud.parm.get('destsuffix')
+>>>>> +        crate_folder = os.path.join(workdir, destsuffix)
+>>>>>    
+>>>>> -    if not patches:
+>>>>> -        return
+>>>>> +        if destsuffix is None or not is_rust_crate_folder(crate_folder):
+>>>>> +            continue
+>>>>>    
+>>>>> -    # Cargo.lock file is needed for to be sure that artifacts
+>>>>> -    # downloaded by the fetch steps are those expected by the
+>>>>> -    # project and that the possible patches are correctly applied.
+>>>>> -    # Moreover since we do not want any modification
+>>>>> -    # of this file (for reproducibility purpose), we prevent it by
+>>>>> -    # using --frozen flag (in CARGO_BUILD_FLAGS) and raise a clear error
+>>>>> -    # here is better than letting cargo tell (in case the file is missing)
+>>>>> -    # "Cargo.lock should be modified but --frozen was given"
+>>>>> +        if ud.user:
+>>>>> +            repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
+>>>>> +        else:
+>>>>> +            repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
+>>>>>    
+>>>>> -    lockfile = d.getVar("CARGO_LOCK_PATH")
+>>>>> -    if not os.path.exists(lockfile):
+>>>>> -        bb.fatal(f"{lockfile} file doesn't exist")
+>>>>> +        sources[destsuffix] = (repo, ud.revision, crate_folder)
+>>>>> +
+>>>>> +        cargo_toml_path = os.path.join(workdir, destsuffix, 'Cargo.toml')
+>>>>> +        cargo_toml = load_toml_file(cargo_toml_path)
+>>>>> +
+>>>>> +        if 'workspace' in cargo_toml:
+>>>>> +            members = cargo_toml['workspace']['members']
+>>>>> +            for member in members:
+>>>>> +                member_crate_folder = os.path.join(workdir, destsuffix, member)
+>>>>> +                member_crate_cargo_toml = os.path.join(member_crate_folder, 'Cargo.toml')
+>>>>> +                member_cargo_toml = load_toml_file(member_crate_cargo_toml)
+>>>>> +                member_crate_name = member_cargo_toml['package']['name']
+>>>>> +                shutil.copytree(member_crate_folder, os.path.join(vendor_folder, member_crate_name))
+>>>>> +
+>>>>> +        if 'package' in cargo_toml:
+>>>>> +            crate_folder = os.path.join(workdir, destsuffix)
+>>>>> +            crate_name = cargo_toml['package']['name']
+>>>>> +            shutil.copytree(crate_folder, os.path.join(vendor_folder, crate_name))
+>>>>> +
+>>>>> +    for d in os.scandir(vendor_folder):
+>>>>> +        if d.is_dir():
+>>>>> +            create_cargo_checksum(d.path)
+>>>>> +
+>>>>> +
+>>>>> +    with open(cargo_config, "a+") as config:
+>>>>> +        print('\n[source."yocto-vendored-sources"]', file=config)
+>>>>> +        print('directory = "%s"' % vendor_folder, file=config)
+>>>>> +
+>>>>> +        for destsuffix, (repo, revision, repo_path) in sources.items():
+>>>>> +            lockfile_repo = get_matching_repo_from_lockfile(lockfile_git_repos, repo, revision)
+>>>>> +            print('\n[source."%s"]' % lockfile_repo, file=config)
+>>>>> +            print('git = "%s"' % repo, file=config)
+>>>>> +            print('rev = "%s"' % revision, file=config)
+>>>>> +            print('replace-with = "yocto-vendored-sources"', file=config)
+>>>>> +
+>>>>> +    # check if there are any git repos in the lock file that were not visited
+>>>>> +    # in the previous loop, when the source replacement was created, and warn about it
+>>>>> +    for lf_repo, found_in_src_uri in lockfile_git_repos.items():
+>>>>> +        if not found_in_src_uri:
+>>>>> +            bb.warn(f"{lf_repo} is present in lockfile, but not found in SRC_URI")
+>>>>>    
+>>>>> -    # There are patched files and so Cargo.lock should be modified but we use
+>>>>> -    # --frozen so let's handle that modifications here.
+>>>>> -    #
+>>>>> -    # Note that a "better" (more elegant ?) would have been to use cargo update for
+>>>>> -    # patched packages:
+>>>>> -    #  cargo update --offline -p package_1 -p package_2
+>>>>> -    # But this is not possible since it requires that cargo local git db
+>>>>> -    # to be populated and this is not the case as we fetch git repo ourself.
+>>>>> -
+>>>>> -    lockfile_orig = lockfile + ".orig"
+>>>>> -    if not os.path.exists(lockfile_orig):
+>>>>> -        shutil.copy(lockfile, lockfile_orig)
+>>>>> -
+>>>>> -    newlines = []
+>>>>> -    with open(lockfile_orig, "r") as f:
+>>>>> -        for line in f.readlines():
+>>>>> -            if not line.startswith("source = \"git"):
+>>>>> -                newlines.append(line)
+>>>>> -
+>>>>> -    with open(lockfile, "w") as f:
+>>>>> -        f.writelines(newlines)
+>>>>>    }
+>>>>> +
+>>>>>    do_configure[postfuncs] += "cargo_common_do_patch_paths"
+>>>>>    
+>>>>>    do_compile:prepend () {
+>>>>>
+>>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>>> Links: You receive all messages sent to this group.
+>>>>> View/Reply Online (#224426):https://lists.openembedded.org/g/openembedded-core/message/224426
+>>>>> Mute This Topic:https://lists.openembedded.org/mt/115578466/6374899
+>>>>> Group Owner:openembedded-core+owner@lists.openembedded.org
+>>>>> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [stefan.herbrechtsmeier-oss@weidmueller.com]
+>>>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>>>
+--------------BJtjpyyRBWQEJnicEnr6exzd
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -248,74 +465,370 @@ Content-Transfer-Encoding: 7bit
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   </head>
   <body>
-    <div class="moz-cite-prefix">On 9/30/25 00:41, Ross Burton via
-      lists.openembedded.org wrote:<br>
+    <div class="moz-cite-prefix">Am 09.10.2025 um 16:30 schrieb Gyorgy
+      Sarvari:<br>
     </div>
-    <blockquote type="cite" cite="mid:A5A09505-7119-485C-A0C6-C88DE980263C@arm.com">
-      <pre class="moz-quote-pre" wrap="">CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and know the content is safe.
-
-On 25 Sep 2025, at 08:56, hongxu via lists.openembedded.org <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia=eng.windriver.com@lists.openembedded.org">&lt;hongxu.jia=eng.windriver.com@lists.openembedded.org&gt;</a> wrote:
+    <blockquote type="cite" cite="mid:239994b8-47de-4394-bcf0-16dc91ca654e@gmail.com">
+      <pre wrap="" class="moz-quote-pre">On 10/9/25 11:31, Stefan Herbrechtsmeier wrote:
 </pre>
       <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+Upstream-Status: Submitted [<a class="moz-txt-link-abbreviated" href="mailto:xorg-devel@lists.x.org">xorg-devel@lists.x.org</a>]
+        <pre wrap="" class="moz-quote-pre">Am 08.10.2025 um 13:01 schrieb Gyorgy Sarvari:
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">On 10/7/25 16:59, Stefan Herbrechtsmeier wrote:
+</pre>
+          <blockquote type="cite">
+            <pre wrap="" class="moz-quote-pre">Am 03.10.2025 um 23:30 schrieb Gyorgy Sarvari via lists.openembedded.org:
+</pre>
+            <blockquote type="cite">
+              <pre wrap="" class="moz-quote-pre">Cargo.toml files usually contain a list of dependencies in one of two forms:
+either a crate name that can be fetched from some registry (like crates.io), or
+as a source crate, which is most often fetched from a git repository.
+
+Normally cargo handles fetching the crates from both the registry and from git,
+however with Yocto this task is taken over by Bitbake.
+
+After fetching these crates, they are made available to cargo by adding the location
+to $CARGO_HOME/config.toml. The source crates are of interest here: each git repository
+that can be found in the SRC_URI is added as one source crate.
+
+This works most of the time, as long as the repository really contains one crate only.
+
+However in case the repository is a cargo workspace, it contains multiple crates in
+different subfolders, and in order to allow cargo to process them, they need to be
+listed separately. This is not happening with the current implementation of cargo_common.
+
+This change introduces the following:
+- instead of patching the dependencies, use source replacement (the primary motivation for
+   this was that maturin seems to ignore source crate patches from config.toml)
+- the above also allows to keep the original Cargo.lock untouched (the original implementation
+   deleted git repository lines from it)
+- it adds a new folder, currently ${UNPACKDIR}/yocto-vendored-source-crates. During processing
+   the separate crate folders are copied into this folder, and it is used as the central
+   vendoring folder. This is needed for source replacements: the folder that is used for
+   vendoring needs to contain the crates separately, one crate in one folder. Each folder
+   has the name of the crate that it contains. Workspaces are not included here (unless the
+   given manifest is a workspace AND a package at once)
+- previuosly the SRC_URI had to contain a &quot;name&quot; and a &quot;destsuffix&quot; parameter to be considered
+   to be a rust crate. The name is not derived from the Cargo.toml file, not from the SRC_URI.
+   Having destsuffix is still mandatory though.
+
+The change does not handle nested workspaces, only the top level Cargo.toml is processed.
+</pre>
+            </blockquote>
+            <pre wrap="" class="moz-quote-pre">I use a similar approach for my Cargo.lock fetcher. In my case the code 
+finds the crate on the fly inside the a git repository because the 
+Cargo.lock doesn't contain the subpath.
+</pre>
+          </blockquote>
+          <pre wrap="" class="moz-quote-pre">By any chance, did you manage to solve the workspace problem? If you
+have a working solution, feel free to submit it, I wouldn't mind if I
+wouldn't have to debug mine :D
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">I haven't test a workspace project. Do you have an example project?
+
 </pre>
       </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Patches should be submitted to GitLab I believe:
-
-<a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/xorg/lib/libxcb-errors">https://gitlab.freedesktop.org/xorg/lib/libxcb-errors</a></pre>
+      <pre wrap="" class="moz-quote-pre">
+I have attached a sample recipe (that is very much based on Tom Geelen's
+initial work). It depends on at least 2 workspaces.</pre>
     </blockquote>
-    <p>I do not have permission (no new accounts) to submit a pull
-      request, the message from
-      <a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/xorg/lib/libxcb-errors">https://gitlab.freedesktop.org/xorg/lib/libxcb-errors</a><br>
-    </p>
-    <p>...</p>
-    <p>Due to an influx of spam, we have had to impose restrictions on
-      new accounts. Please see <a href="https://gitlab.freedesktop.org/freedesktop/freedesktop/-/wikis/home">this
-        wiki page</a> for instructions on how to get full permissions.
-      Sorry for the inconvenience.</p>
-    <p>...<br>
-    </p>
-    <blockquote type="cite" cite="mid:A5A09505-7119-485C-A0C6-C88DE980263C@arm.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+inherit python3native
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-There is no need for this, we have a perfectly good python running bitbake.</pre>
-    </blockquote>
-    <p>The python to run bitbake is depends on the host, it is better to
-      use python3-native to build recipe to avoid host contamination?<br>
-    </p>
-    <p>//Hongxu<br>
-    </p>
-    <blockquote type="cite" cite="mid:A5A09505-7119-485C-A0C6-C88DE980263C@arm.com">
-      <pre class="moz-quote-pre" wrap="">
-
-Ross
-
-</pre>
+    <p>Thanks for the sample. After switching to my cargolock fecher and
+      cargo_vendor class the project build without problems. Your git
+      URLs need a parameter to inform the config generate that the
+      source contains a rev query parameter. Additionally you need to
+      add the revision to the name and destsuffix/subdir because it is
+      possible to use crates with different revisions from the same
+      repository.<br>
       <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#224155): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/224155">https://lists.openembedded.org/g/openembedded-core/message/224155</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/115426771/3617049">https://lists.openembedded.org/mt/115426771/3617049</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:hongxu.jia@eng.windriver.com">hongxu.jia@eng.windriver.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
+    </p>
+    <blockquote type="cite" cite="mid:239994b8-47de-4394-bcf0-16dc91ca654e@gmail.com">
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <blockquote type="cite">
+              <pre wrap="" class="moz-quote-pre">Signed-off-by: Gyorgy Sarvari <a class="moz-txt-link-rfc2396E" href="mailto:skandigraun@gmail.com">&lt;skandigraun@gmail.com&gt;</a>
+Cc: Tom Geelen <a class="moz-txt-link-rfc2396E" href="mailto:t.f.g.geelen@gmail.com">&lt;t.f.g.geelen@gmail.com&gt;</a>
 
+---
+  meta/classes-recipe/cargo_common.bbclass | 158 ++++++++++++++++-------
+  1 file changed, 108 insertions(+), 50 deletions(-)
+
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index c9eb2d09a5..79c1351298 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -129,6 +129,44 @@ cargo_common_do_configure () {
+  python cargo_common_do_patch_paths() {
+      import shutil
+  
++    def is_rust_crate_folder(path):
++        cargo_toml_path = os.path.join(path, 'Cargo.toml')
++        return os.path.exists(cargo_toml_path)
++
++    def load_toml_file(toml_path):
++        import tomllib
++        with open(toml_path, 'rb') as f:
++            toml = tomllib.load(f)
++        return toml
++
++    def get_matching_repo_from_lockfile(lockfile_repos, repo, revision):
++        for lf_repo in lockfile_repos.keys():
++            if repo in lf_repo and lf_repo.endswith(revision):
+</pre>
+            </blockquote>
+            <pre wrap="" class="moz-quote-pre">Does this works if the URL contains a &quot;rev&quot; query parameter? This 
+happens if the same git repository is used with different revisions.
+</pre>
+          </blockquote>
+          <pre wrap="" class="moz-quote-pre">I *think* yes, since I query the revision from the fetcher, instead of
+parsing it myself (and I use both the repo and revision for matching the
+cargo.lock repos). But will test it specifically, and make it work if it
+wouldn't work out of the box. Thanks for calling my attention on this.
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">The problem is that the source replacement key contains a query
+parameter. The query isn't supported by the git fetcher. That means
+you have to remove the query from the SRC_URI but add it back in the
+source entry in the config.toml.
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+You mean for dynamic fetching, from Cargo.lock? This patch still relies
+on the user adding these dependencies to the SRC_URI.
+Otherwise I might be misunderstanding your question...
 </pre>
     </blockquote>
+    <p>Please check the source inside the Cargo.lock:<br>
+      <a class="moz-txt-link-freetext" href="https://github.com/astral-sh/uv/blob/0.8.19/Cargo.lock#L302">https://github.com/astral-sh/uv/blob/0.8.19/Cargo.lock#L302</a><br>
+      <br>
+      It contains a rev query parameter. This query parameter must be
+      part of the source key inside the config.toml:<br>
+      <br>
+[source.&quot;git+https://github.com/astral-sh/rs-async-zip?rev=285e48742b74ab109887d62e1ae79e7c15fd4878&quot;]</p>
     <p><br>
     </p>
+    <blockquote type="cite" cite="mid:239994b8-47de-4394-bcf0-16dc91ca654e@gmail.com">
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">
+</pre>
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <blockquote type="cite">
+              <pre wrap="" class="moz-quote-pre">+                lockfile_repos[lf_repo] = True
++                return lf_repo.split(&quot;#&quot;)[0]
++        bb.fatal('Cannot find %s (%s) repository from SRC_URI in Cargo.lock file' % (repo, revision))
++
++    def create_cargo_checksum(folder_path):
++        checksum_path = os.path.join(folder_path, '.cargo-checksum.json')
++        if os.path.exists(checksum_path):
++            return
++
++        import hashlib, json
++
++        checksum = {'files': {}}
++        for root, _, files in os.walk(folder_path):
++            for f in files:
++                full_path = os.path.join(root, f)
++                relative_path = os.path.relpath(full_path, folder_path)
++                if relative_path.startswith(&quot;.git/&quot;):
++                    continue
++                with open(full_path, 'rb') as f2:
++                    file_sha = hashlib.sha256(f2.read()).hexdigest()
++                checksum[&quot;files&quot;][relative_path] = file_sha
+</pre>
+            </blockquote>
+            <pre wrap="" class="moz-quote-pre">Do we really need the calculation of the checksum?
+</pre>
+          </blockquote>
+          <pre wrap="" class="moz-quote-pre">For source replacement AFAIK it is mandatory, otherwise cargo complains.
+(But I'd be happy to stand corrected)
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">Have you test an empty dictionary for &quot;files&quot; and NULL for &quot;package&quot;?
+
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+Are these valid states? Currently the checksum calculation happens for
+crate folders that have been actually copied to the vendor folder. And
+that happens only, in case there is at least a Cargo.toml manifest in
+that folder, so the files dict shouldn't be empty. Otherwise the
+checksum sub iterates through all the files it can find, it doesn't try
+to validate it against any manifests.</pre>
+    </blockquote>
+    <p>Do we need the validation by cargo? The crate fetcher skip the
+      validation with an empty dict and the same works for git sources.<br>
+      <span style="white-space: pre-wrap">
+</span><br>
+    </p>
+    <blockquote type="cite" cite="mid:239994b8-47de-4394-bcf0-16dc91ca654e@gmail.com">
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <blockquote type="cite">
+              <pre wrap="" class="moz-quote-pre">+
++        with open(checksum_path, 'w') as f:
++            json.dump(checksum, f)
++
+      cargo_config = os.path.join(d.getVar(&quot;CARGO_HOME&quot;), &quot;config.toml&quot;)
+      if not os.path.exists(cargo_config):
+          return
+@@ -137,66 +175,86 @@ python cargo_common_do_patch_paths() {
+      if len(src_uri) == 0:
+          return
+  
+-    patches = dict()
++    lockfile = d.getVar(&quot;CARGO_LOCK_PATH&quot;)
++    if not os.path.exists(lockfile):
++        bb.fatal(f&quot;{lockfile} file doesn't exist&quot;)
++
++    lockfile = load_toml_file(lockfile)
++
++    # key is the repo url, value is a boolean, which is used later
++    # to indicate if there is a matching repository in SRC_URI also
++    lockfile_git_repos = {}
++    for p in lockfile['package']:
++        if 'source' in p and p['source'].startswith('git+'):
++            lockfile_git_repos[p['source']] = False
++
++    sources = dict()
+      workdir = d.getVar('UNPACKDIR')
+      fetcher = bb.fetch2.Fetch(src_uri, d)
++
++    vendor_folder = os.path.join(workdir, 'yocto-vendored-source-crates')
++
++    os.makedirs(vendor_folder)
++
+      for url in fetcher.urls:
+          ud = fetcher.ud[url]
+-        if ud.type == 'git' or ud.type == 'gitsm':
+-            name = ud.parm.get('name')
+-            destsuffix = ud.parm.get('destsuffix')
+-            if name is not None and destsuffix is not None:
+-                if ud.user:
+-                    repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
+-                else:
+-                    repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
+-                path = '%s = { path = &quot;%s&quot; }' % (name, os.path.join(workdir, destsuffix))
+-                patches.setdefault(repo, []).append(path)
++        if ud.type != 'git' and ud.type != 'gitsm':
++            continue
+  
+-    with open(cargo_config, &quot;a+&quot;) as config:
+-        for k, v in patches.items():
+-            print('\n[patch.&quot;%s&quot;]' % k, file=config)
+-            for name in v:
+-                print(name, file=config)
++        destsuffix = ud.parm.get('destsuffix')
++        crate_folder = os.path.join(workdir, destsuffix)
+  
+-    if not patches:
+-        return
++        if destsuffix is None or not is_rust_crate_folder(crate_folder):
++            continue
+  
+-    # Cargo.lock file is needed for to be sure that artifacts
+-    # downloaded by the fetch steps are those expected by the
+-    # project and that the possible patches are correctly applied.
+-    # Moreover since we do not want any modification
+-    # of this file (for reproducibility purpose), we prevent it by
+-    # using --frozen flag (in CARGO_BUILD_FLAGS) and raise a clear error
+-    # here is better than letting cargo tell (in case the file is missing)
+-    # &quot;Cargo.lock should be modified but --frozen was given&quot;
++        if ud.user:
++            repo = '%s://%s@%s%s' % (ud.proto, ud.user, ud.host, ud.path)
++        else:
++            repo = '%s://%s%s' % (ud.proto, ud.host, ud.path)
+  
+-    lockfile = d.getVar(&quot;CARGO_LOCK_PATH&quot;)
+-    if not os.path.exists(lockfile):
+-        bb.fatal(f&quot;{lockfile} file doesn't exist&quot;)
++        sources[destsuffix] = (repo, ud.revision, crate_folder)
++
++        cargo_toml_path = os.path.join(workdir, destsuffix, 'Cargo.toml')
++        cargo_toml = load_toml_file(cargo_toml_path)
++
++        if 'workspace' in cargo_toml:
++            members = cargo_toml['workspace']['members']
++            for member in members:
++                member_crate_folder = os.path.join(workdir, destsuffix, member)
++                member_crate_cargo_toml = os.path.join(member_crate_folder, 'Cargo.toml')
++                member_cargo_toml = load_toml_file(member_crate_cargo_toml)
++                member_crate_name = member_cargo_toml['package']['name']
++                shutil.copytree(member_crate_folder, os.path.join(vendor_folder, member_crate_name))
++
++        if 'package' in cargo_toml:
++            crate_folder = os.path.join(workdir, destsuffix)
++            crate_name = cargo_toml['package']['name']
++            shutil.copytree(crate_folder, os.path.join(vendor_folder, crate_name))
++
++    for d in os.scandir(vendor_folder):
++        if d.is_dir():
++            create_cargo_checksum(d.path)
++
++
++    with open(cargo_config, &quot;a+&quot;) as config:
++        print('\n[source.&quot;yocto-vendored-sources&quot;]', file=config)
++        print('directory = &quot;%s&quot;' % vendor_folder, file=config)
++
++        for destsuffix, (repo, revision, repo_path) in sources.items():
++            lockfile_repo = get_matching_repo_from_lockfile(lockfile_git_repos, repo, revision)
++            print('\n[source.&quot;%s&quot;]' % lockfile_repo, file=config)
++            print('git = &quot;%s&quot;' % repo, file=config)
++            print('rev = &quot;%s&quot;' % revision, file=config)
++            print('replace-with = &quot;yocto-vendored-sources&quot;', file=config)
++
++    # check if there are any git repos in the lock file that were not visited
++    # in the previous loop, when the source replacement was created, and warn about it
++    for lf_repo, found_in_src_uri in lockfile_git_repos.items():
++        if not found_in_src_uri:
++            bb.warn(f&quot;{lf_repo} is present in lockfile, but not found in SRC_URI&quot;)
+  
+-    # There are patched files and so Cargo.lock should be modified but we use
+-    # --frozen so let's handle that modifications here.
+-    #
+-    # Note that a &quot;better&quot; (more elegant ?) would have been to use cargo update for
+-    # patched packages:
+-    #  cargo update --offline -p package_1 -p package_2
+-    # But this is not possible since it requires that cargo local git db
+-    # to be populated and this is not the case as we fetch git repo ourself.
+-
+-    lockfile_orig = lockfile + &quot;.orig&quot;
+-    if not os.path.exists(lockfile_orig):
+-        shutil.copy(lockfile, lockfile_orig)
+-
+-    newlines = []
+-    with open(lockfile_orig, &quot;r&quot;) as f:
+-        for line in f.readlines():
+-            if not line.startswith(&quot;source = \&quot;git&quot;):
+-                newlines.append(line)
+-
+-    with open(lockfile, &quot;w&quot;) as f:
+-        f.writelines(newlines)
+  }
++
+  do_configure[postfuncs] += &quot;cargo_common_do_patch_paths&quot;
+  
+  do_compile:prepend () {
+
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#224426): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/224426">https://lists.openembedded.org/g/openembedded-core/message/224426</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/115578466/6374899">https://lists.openembedded.org/mt/115578466/6374899</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:stefan.herbrechtsmeier-oss@weidmueller.com">stefan.herbrechtsmeier-oss@weidmueller.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+            </blockquote>
+          </blockquote>
+        </blockquote>
+      </blockquote>
+    </blockquote>
   </body>
 </html>
 
---------------Iu1OK98tojN87i13wPhNPjS1--
+--------------BJtjpyyRBWQEJnicEnr6exzd--
 
