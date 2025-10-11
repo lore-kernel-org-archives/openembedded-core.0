@@ -1,310 +1,255 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <kavinaya@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68622CCD184
-	for <webhook@archiver.kernel.org>; Sat, 11 Oct 2025 09:02:03 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web11.7406.1760173321219690774
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A988CCCD184
+	for <webhook@archiver.kernel.org>; Sat, 11 Oct 2025 09:48:43 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.8035.1760176121596793406
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Oct 2025 02:02:02 -0700
+ Sat, 11 Oct 2025 02:48:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=NiUl1MUq;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2025101109015437d073b7a70002072a-t0xuzw@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2025101109015437d073b7a70002072a
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 11 Oct 2025 11:01:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=LL0C1Moar/L5GhYgFWAWug1WkBp+ZoCXptWkBMjUyro=;
- b=NiUl1MUq8uvfAsV7ryc4s98YPQPkoPe2Ab6rx6KyrR0an1C+dt5c/Pqu9Xe7PIQMuqqdLz
- v035lwaYi7BxzpxrM54Qw1tEhTMxq+JzMfl7JpgIkCMUjPEvdLSoVc9+oyFisYzMsR+A1rbP
- kVeYBf5FaMofcdX1NzE8x03uz/wKBVKwNXi+r5po8N8IKja3eSsKuNe0VorGfrFY8voeFhGv
- F8nRBSrop4Lo28BHSGKtIZZoO2o0Axhj/AjXgaQBSTLAE+JzRV/NDSR4VjdP7Ppn5YHQZtt9
- g+sVfIgFgSqiWPMPX+qqiDpWtWUSaMf6dXo89DkaOmMyHSrWOBNndrcQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] qemu: upgrade 10.0.2 -> 10.1.1
-Date: Sat, 11 Oct 2025 11:01:52 +0200
-Message-Id: <20251011090152.398298-1-peter.marko@siemens.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=bFfE3IK8;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: kavinaya@qti.qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59B4e22v003803;
+	Sat, 11 Oct 2025 09:48:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=ng1ycXLCsTt9iGcmt/neym
+	mBxyGK04FVV/WZEDTXqAA=; b=bFfE3IK8+UbPQGBKN9CPCLKtm+C+2lpQKHagQO
+	1xMWCkmLd3MwOmt/hTiLog/cZ/fErIK1kwSxsNQKCDZyBSRevb80iv+Bwf4B1+Jh
+	Ka6x7Och2PetvFN5AM+hd/7V1s5pyZg9GBNSMoXRQOJ2mWmfujRA+Ebu+22WBqB2
+	9fxroofFy34vvH9H/QPuhF8pKnumBsQTQ09UVAQr4vfAhNtoJTRwzgIACZx/z4Z/
+	MVUDoSytG+MkL0lcJd0E48q1UINOK79gI21fMnI2nyuD/0n2Po4HnE1+8D3/PqIg
+	Onrbx2VzoNY9F2/b3MXHuKWLF9trjRmFCqWL/3xyk+OEqo8Q==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qgdfrc8f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 11 Oct 2025 09:48:40 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 59B9mdfD026933
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 11 Oct 2025 09:48:39 GMT
+Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Sat, 11 Oct 2025 02:48:37 -0700
+From: Kavinaya S <kavinaya@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Kavinaya S <kavinaya@qti.qualcomm.com>,
+        Alexander Kanavin
+	<alex.kanavin@gmail.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v5] kernel-fit-image: allow extending compatible string property for DTBs
+Date: Sat, 11 Oct 2025 15:18:15 +0530
+Message-ID: <20251011094815.950261-1-kavinaya@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyNSBTYWx0ZWRfX/SQSPyV/GgEC
+ gQN7YwHY23N5inEbInH9R1v7YSGLLRrcdQGresAwA7OZpHSzBbCTuFbPnemz/bAn1zrVm5Ye+wn
+ Qa5Eacy1Rp2nMtGpLloXhAVp8Hj/x4gIZ1TrQqupCCGztx+KTTZqWJzRW4ah/aK4ZJrK21auchz
+ BuqgU+c6+iEk2Qwjay2vHcNAwfwduwiRDQL5T4cN5IGrdAKHlMC7rGVY0JlAd6VbCKxroX08ibM
+ a5ev/ZFHsz1c6d0EreS8++oE8A0mkg9tNeh1z5o6LPgVFAVE8RO1O9FWJa7PZ5V5CsoZa8CeE+V
+ +95mkWvQ/VUmU0d+Qkmw9L396GA0pS52eiqTVORJTLHFqI/llQTe1tsFLeN9G1QW2jsitb2okpE
+ xp7XYjfehcfetvzDxhChJljdTT6oWg==
+X-Proofpoint-GUID: __Hkc2O2IemV0ATbvevuWJRf0c8W-ivB
+X-Proofpoint-ORIG-GUID: __Hkc2O2IemV0ATbvevuWJRf0c8W-ivB
+X-Authority-Analysis: v=2.4 cv=J4ynLQnS c=1 sm=1 tr=0 ts=68ea27f8 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=x6icFKpwvdMA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8
+ a=R7RgVI56L6oBx1MsmUMA:9 a=rYgVvZsUlkTETui3:21
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-11_02,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ bulkscore=0 suspectscore=0 clxscore=1015 phishscore=0 spamscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510110025
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Oct 2025 09:02:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224713
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Oct 2025 09:48:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224714
 
-From: Peter Marko <peter.marko@siemens.com>
+The Linux kernel allows multiple DTBs to share the same compatible string.
+For example:
+qcs6490-rb3gen2.dtb
+qcs6490-rb3gen2-vision-mezzanine.dtb
+qcs6490-rb3gen2-industrial-mezzanine.dtb
 
-Handles CVE-2024-8354.
-Drop patch included in (backported to) this release.
-Handle new file conflict between qemu-native and qemu-system-native.
+All of these use the same base compatible string:
+compatible = "qcom,qcs6490-rb3gen2", "qcom,qcm6490";
 
-References:
-* https://www.qemu.org/2025/08/26/qemu-10-1-0/
-* https://wiki.qemu.org/ChangeLog/10.1
-* https://security-tracker.debian.org/tracker/CVE-2024-8354
+Since the latter two DTBs are overlays on top of the base DTB and do not
+modify platform properties, they retain the same compatible string.
 
-License-Update: replace FSF postal address with licenses URL
-* https://github.com/qemu/qemu/commit/4db50be038a839d8332790db4d2d63ac247efad3
+When these DTBs are bundled into a single fitImage, the bootloader cannot
+distinguish between them due to identical compatible strings.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+To address this, introduce a mechanism to extend the compatible string
+using a OE build variable:
+FIT_DTB_COMPATIBLE_EXTENTION[dtb_name] = "extension"
+
+This appends the extension to the first compatible string in the DTB,
+resulting in unique entries in the generated .its file. For example:
+FIT_DTB_COMPATIBLE_EXTENTION[qcs6490-rb3gen2-vision-mezzanine] = "vision"
+FIT_DTB_COMPATIBLE_EXTENTION[qcs6490-rb3gen2-industrial-mezzanine] = "industrial"
+
+Generates:
+compatible = "qcom,qcs6490-rb3gen2-vision", "qcom,qcm6490";
+compatible = "qcom,qcs6490-rb3gen2-industrial", "qcom,qcm6490";
+
+Suggested-By: Alexander Kanavin <alex.kanavin@gmail.com>
+Suggested-By: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
 ---
- ...native_10.0.2.bb => qemu-native_10.1.1.bb} |  0
- ...10.0.2.bb => qemu-system-native_10.1.1.bb} |  1 +
- meta/recipes-devtools/qemu/qemu.inc           | 10 +--
- ...mu-Do-not-include-file-if-not-exists.patch |  2 +-
- ...er-space-mmap-tweaks-to-address-musl.patch |  2 +-
- .../qemu/0006-qemu-Determinism-fixes.patch    |  2 +-
- ...gure-lookup-meson-exutable-from-PATH.patch |  2 +-
- ...and-the-python-venv-aren-t-used-for-.patch |  2 +-
- ...move-deprecated-get_event_loop-calls.patch | 85 -------------------
- .../qemu/qemu/fix-strerrorname_np.patch       |  2 +-
- .../qemu/{qemu_10.0.2.bb => qemu_10.1.1.bb}   |  0
- 11 files changed, 12 insertions(+), 96 deletions(-)
- rename meta/recipes-devtools/qemu/{qemu-native_10.0.2.bb => qemu-native_10.1.1.bb} (100%)
- rename meta/recipes-devtools/qemu/{qemu-system-native_10.0.2.bb => qemu-system-native_10.1.1.bb} (97%)
- delete mode 100644 meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch
- rename meta/recipes-devtools/qemu/{qemu_10.0.2.bb => qemu_10.1.1.bb} (100%)
+ meta/classes-recipe/kernel-fit-image.bbclass |  8 ++-
+ meta/conf/image-fitimage.conf                | 12 +++++
+ meta/lib/oe/fitimage.py                      |  4 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py     | 52 ++++++++++++++++++++
+ 4 files changed, 74 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu-native_10.0.2.bb b/meta/recipes-devtools/qemu/qemu-native_10.1.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu-native_10.0.2.bb
-rename to meta/recipes-devtools/qemu/qemu-native_10.1.1.bb
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_10.0.2.bb b/meta/recipes-devtools/qemu/qemu-system-native_10.1.1.bb
-similarity index 97%
-rename from meta/recipes-devtools/qemu/qemu-system-native_10.0.2.bb
-rename to meta/recipes-devtools/qemu/qemu-system-native_10.1.1.bb
-index 22462e2499e..2e4f7328ad1 100644
---- a/meta/recipes-devtools/qemu/qemu-system-native_10.0.2.bb
-+++ b/meta/recipes-devtools/qemu/qemu-system-native_10.1.1.bb
-@@ -22,6 +22,7 @@ do_install:append() {
-     # The following is also installed by qemu-native
-     rm -f ${D}${datadir}/qemu/trace-events-all
-     rm -rf ${D}${datadir}/qemu/keymaps
-+    rm -rf ${D}${datadir}/qemu/dtb
-     rm -rf ${D}${datadir}/icons/
-     rm -rf ${D}${includedir}/qemu-plugin.h
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index f04aee1807..7850d565fc 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -84,8 +84,14 @@ python do_compile() {
  
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 2ee76e9a7ce..7a4ccd4d153 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -15,8 +15,8 @@ require qemu-targets.inc
- # we need a full python3-native setup
- inherit pkgconfig ptest update-rc.d systemd python3native
+             # Copy the dtb or dtbo file into the FIT image assembly directory
+             shutil.copyfile(os.path.join(kernel_deploydir, dtb_name), dtb_name)
++
++            # Consider compatible extention if avilable
++            name, ext = os.path.splitext(dtb_name)
++            extention = (d.getVarFlag("FIT_DTB_COMPATIBLE_EXTENTION", name) or "").strip()
++
+             root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
+-                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
++                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"),
++                compatible_extention=extention)
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
--                    file://COPYING.LIB;endline=24;md5=8c5efda6cf1e1b03dcfd0e6c0d271c7f"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a3b50d8b88dcc0eb3d7d39b760b9e821 \
-+                    file://COPYING.LIB;endline=24;md5=8a8178c06478747a771588adec965232"
+     if external_kernel_devicetree:
+         # iterate over all .dtb and .dtbo files in the external kernel devicetree directory
+diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
+index 090ee148f4..86948b6bf3 100644
+--- a/meta/conf/image-fitimage.conf
++++ b/meta/conf/image-fitimage.conf
+@@ -65,3 +65,15 @@ FIT_ADDRESS_CELLS ?= "1"
+ # Machine configurations needing such a script file should include it in the
+ # SRC_URI of the kernel recipe and set the FIT_UBOOT_ENV parameter.
+ FIT_UBOOT_ENV ?= ""
++
++# For specific DTBs extend "compatible" strings when creating FIT images.
++# Format:
++#   FIT_DTB_COMPATIBLE_EXTENTION[<dtb_name>] = "<extension>"
++#
++# Result:
++#   dtb_name.dtb {
++#    ...
++#    compatible = "string1-extension", "string2", ...;
++#   };
++#
++FIT_DTB_COMPATIBLE_EXTENTION ?= ""
+diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+index f303799155..98af4aad14 100644
+--- a/meta/lib/oe/fitimage.py
++++ b/meta/lib/oe/fitimage.py
+@@ -289,7 +289,7 @@ class ItsNodeRootKernel(ItsNode):
+         self._kernel = kernel_node
  
- SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://powerpc_rom.bin \
-@@ -31,7 +31,6 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0008-Define-MAP_SYNC-and-MAP_SHARED_VALIDATE-on-needed-li.patch \
-            file://0010-configure-lookup-meson-exutable-from-PATH.patch \
-            file://0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch \
--           file://0012-Remove-deprecated-get_event_loop-calls.patch \
-            file://qemu-guest-agent.init \
-            file://qemu-guest-agent.udev \
-            "
-@@ -39,7 +38,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- UPSTREAM_CHECK_URI = "https://www.qemu.org"
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+     def fitimage_emit_section_dtb(self, dtb_id, dtb_path, dtb_loadaddress=None,
+-                                  dtbo_loadaddress=None, add_compatible=False):
++                                  dtbo_loadaddress=None, add_compatible=False, compatible_extention=""):
+         """Emit the fitImage ITS DTB section"""
+         load=None
+         dtb_ext = os.path.splitext(dtb_path)[1]
+@@ -310,6 +310,8 @@ class ItsNodeRootKernel(ItsNode):
+         compatible = None
+         if add_compatible:
+             compatible = get_compatible_from_dtb(dtb_path)
++            if compatible and compatible_extention:
++                compatible[0] = compatible[0] + "-" + compatible_extention
  
--SRC_URI[sha256sum] = "ef786f2398cb5184600f69aef4d5d691efd44576a3cff4126d38d4c6fec87759"
-+SRC_URI[sha256sum] = "e56b93d95953a9b6a64d1985dbcedfb07dc54d92c50b7912526693536c589923"
+         dtb_node = self.its_add_node_dtb(
+             "fdt-" + dtb_id,
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index 195b9ee8b5..dfe34ccdec 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -17,6 +17,9 @@ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_vars, get_bb_var
  
- CVE_STATUS[CVE-2007-0998] = "not-applicable-config: The VNC server can expose host files uder some circumstances. We don't enable it by default."
  
-@@ -49,8 +48,9 @@ CVE_STATUS[CVE-2018-18438] = "disputed: The issues identified by this CVE were d
- # As per https://bugzilla.redhat.com/show_bug.cgi?id=2203387
- CVE_STATUS[CVE-2023-2680] = "not-applicable-platform: RHEL specific issue."
++from pathlib import Path
++
++
+ class BbVarsMockGenKeys:
+     def __init__(self, keydir, gen_keys="0", sign_enabled="0", keyname="", sign_ind="0", img_keyname=""):
+         self.bb_vars = {
+@@ -819,6 +822,55 @@ MACHINE:forcevariable = "beaglebone-yocto"
+         # The alias is a symlink, therefore the compatible string is equal
+         self.assertEqual(comp_alias, comp)
  
--# NVD DB has this CVE as version-less (with "-")
-+# NVD DB has these CVE as version-less (with "-")
- CVE_STATUS[CVE-2024-6505] = "fixed-version: this CVE is fixed since 9.1.0"
-+CVE_STATUS[CVE-2024-8354] = "fixed-version: this CVE is fixed since 10.1.1"
- 
- CVE_STATUS[CVE-2023-1386] = "disputed: not an issue as per https://bugzilla.redhat.com/show_bug.cgi?id=2223985"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/0004-qemu-Do-not-include-file-if-not-exists.patch b/meta/recipes-devtools/qemu/qemu/0004-qemu-Do-not-include-file-if-not-exists.patch
-index c04e42608f5..45cdf0835c8 100644
---- a/meta/recipes-devtools/qemu/qemu/0004-qemu-Do-not-include-file-if-not-exists.patch
-+++ b/meta/recipes-devtools/qemu/qemu/0004-qemu-Do-not-include-file-if-not-exists.patch
-@@ -19,7 +19,7 @@ diff --git a/linux-user/syscall.c b/linux-user/syscall.c
- index 8bfe4912e..d04984f66 100644
- --- a/linux-user/syscall.c
- +++ b/linux-user/syscall.c
--@@ -118,7 +118,9 @@
-+@@ -119,7 +119,9 @@
-  #include <linux/blkpg.h>
-  #include <netpacket/packet.h>
-  #include <linux/netlink.h>
-diff --git a/meta/recipes-devtools/qemu/qemu/0005-qemu-Add-some-user-space-mmap-tweaks-to-address-musl.patch b/meta/recipes-devtools/qemu/qemu/0005-qemu-Add-some-user-space-mmap-tweaks-to-address-musl.patch
-index 388d11d10d2..bd494204052 100644
---- a/meta/recipes-devtools/qemu/qemu/0005-qemu-Add-some-user-space-mmap-tweaks-to-address-musl.patch
-+++ b/meta/recipes-devtools/qemu/qemu/0005-qemu-Add-some-user-space-mmap-tweaks-to-address-musl.patch
-@@ -25,7 +25,7 @@ diff --git a/linux-user/mmap.c b/linux-user/mmap.c
- index d1f36e6f1..26ccf8f4d 100644
- --- a/linux-user/mmap.c
- +++ b/linux-user/mmap.c
--@@ -1108,12 +1108,16 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-+@@ -1109,12 +1109,16 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-      int prot;
-      void *host_addr;
-  
-diff --git a/meta/recipes-devtools/qemu/qemu/0006-qemu-Determinism-fixes.patch b/meta/recipes-devtools/qemu/qemu/0006-qemu-Determinism-fixes.patch
-index 4690d86315f..aa682ddaa94 100644
---- a/meta/recipes-devtools/qemu/qemu/0006-qemu-Determinism-fixes.patch
-+++ b/meta/recipes-devtools/qemu/qemu/0006-qemu-Determinism-fixes.patch
-@@ -19,7 +19,7 @@ diff --git a/scripts/decodetree.py b/scripts/decodetree.py
- index e8b72da3a..5cd86b142 100644
- --- a/scripts/decodetree.py
- +++ b/scripts/decodetree.py
--@@ -1558,7 +1558,7 @@ def main():
-+@@ -1559,7 +1559,7 @@ def main():
-      toppat = ExcMultiPattern(0)
-  
-      for filename in args:
-diff --git a/meta/recipes-devtools/qemu/qemu/0010-configure-lookup-meson-exutable-from-PATH.patch b/meta/recipes-devtools/qemu/qemu/0010-configure-lookup-meson-exutable-from-PATH.patch
-index 28a10d98bd7..347ec872939 100644
---- a/meta/recipes-devtools/qemu/qemu/0010-configure-lookup-meson-exutable-from-PATH.patch
-+++ b/meta/recipes-devtools/qemu/qemu/0010-configure-lookup-meson-exutable-from-PATH.patch
-@@ -12,7 +12,7 @@ diff --git a/configure b/configure
- index 02f1dd231..2c5ecd346 100755
- --- a/configure
- +++ b/configure
--@@ -983,12 +983,7 @@ mkvenv="$python ${source_path}/python/scripts/mkvenv.py"
-+@@ -995,12 +995,7 @@ mkvenv="$python ${source_path}/python/scripts/mkvenv.py"
-  $mkvenv ensuregroup --dir "${source_path}/python/wheels" \
-       ${source_path}/pythondeps.toml meson || exit 1
-  
-diff --git a/meta/recipes-devtools/qemu/qemu/0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch b/meta/recipes-devtools/qemu/qemu/0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch
-index b06020d106a..a98ed574454 100644
---- a/meta/recipes-devtools/qemu/qemu/0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch
-+++ b/meta/recipes-devtools/qemu/qemu/0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch
-@@ -32,7 +32,7 @@ diff --git a/configure b/configure
- index 2c5ecd346..5315ede35 100755
- --- a/configure
- +++ b/configure
--@@ -969,14 +969,14 @@ python="$(command -v "$python")"
-+@@ -981,14 +981,14 @@ python="$(command -v "$python")"
-  echo "python determined to be '$python'"
-  echo "python version: $($python --version)"
-  
-diff --git a/meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch b/meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch
-deleted file mode 100644
-index 64816fe7d91..00000000000
---- a/meta/recipes-devtools/qemu/qemu/0012-Remove-deprecated-get_event_loop-calls.patch
-+++ /dev/null
-@@ -1,85 +0,0 @@
--From 5240406747fd43886618ae8194153e6fc957a82a Mon Sep 17 00:00:00 2001
--From: John Snow <jsnow@redhat.com>
--Date: Tue, 13 Aug 2024 09:35:30 -0400
--Subject: [PATCH] Remove deprecated get_event_loop calls
--
--This method was deprecated in 3.12 because it ordinarily should not be
--used from coroutines; if there is not a currently running event loop,
--this automatically creates a new event loop - which is usually not what
--you want from code that would ever run in the bottom half.
--
--In our case, we do want this behavior in two places:
--
--(1) The synchronous shim, for convenience: this allows fully sync
--programs to use QEMUMonitorProtocol() without needing to set up an event
--loop beforehand. This is intentional to fully box in the async
--complexities into the legacy sync shim.
--
--(2) The qmp_tui shell; instead of relying on asyncio.run to create and
--run an asyncio program, we need to be able to pass the current asyncio
--loop to urwid setup functions. For convenience, again, we create one if
--one is not present to simplify the creation of the TUI appliance.
--
--The remaining user of get_event_loop() was in fact one of the erroneous
--users that should not have been using this function: if there's no
--running event loop inside of a coroutine, you're in big trouble :)
--
--Upstream-Status: Backport [https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/33]
--Signed-off-by: John Snow <jsnow@redhat.com>
-----
-- python/qemu/qmp/legacy.py  | 9 ++++++++-
-- python/qemu/qmp/qmp_tui.py | 7 ++++++-
-- python/tests/protocol.py   | 2 +-
-- 3 files changed, 15 insertions(+), 3 deletions(-)
--
--diff --git a/python/qemu/qmp/legacy.py b/python/qemu/qmp/legacy.py
--index 22a2b56..ea9b803 100644
----- a/python/qemu/qmp/legacy.py
--+++ b/python/qemu/qmp/legacy.py
--@@ -86,7 +86,14 @@ def __init__(self,
--                 "server argument should be False when passing a socket")
-- 
--         self._qmp = QMPClient(nickname)
---        self._aloop = asyncio.get_event_loop()
--+
--+        try:
--+            self._aloop = asyncio.get_running_loop()
--+        except RuntimeError:
--+            # No running loop; since this is a sync shim likely to be
--+            # used in fully sync programs, create one if neccessary.
--+            self._aloop = asyncio.get_event_loop_policy().get_event_loop()
--+
--         self._address = address
--         self._timeout: Optional[float] = None
-- 
--diff --git a/python/qemu/qmp/qmp_tui.py b/python/qemu/qmp/qmp_tui.py
--index 2d9ebbd..d11b9fc 100644
----- a/python/qemu/qmp/qmp_tui.py
--+++ b/python/qemu/qmp/qmp_tui.py
--@@ -377,7 +377,12 @@ def run(self, debug: bool = False) -> None:
--         screen = urwid.raw_display.Screen()
--         screen.set_terminal_properties(256)
-- 
---        self.aloop = asyncio.get_event_loop()
--+        try:
--+            self.aloop = asyncio.get_running_loop()
--+        except RuntimeError:
--+            # No running asyncio event loop. Create one if necessary.
--+            self.aloop = asyncio.get_event_loop_policy().get_event_loop()
--+
--         self.aloop.set_debug(debug)
-- 
--         # Gracefully handle SIGTERM and SIGINT signals
--diff --git a/python/tests/protocol.py b/python/tests/protocol.py
--index 56c4d44..8dcef57 100644
----- a/python/tests/protocol.py
--+++ b/python/tests/protocol.py
--@@ -228,7 +228,7 @@ def async_test(async_test_method):
--         Decorator; adds SetUp and TearDown to async tests.
--         """
--         async def _wrapper(self, *args, **kwargs):
---            loop = asyncio.get_event_loop()
--+            loop = asyncio.get_running_loop()
--             loop.set_debug(True)
-- 
--             await self._asyncSetUp()
-diff --git a/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch b/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
-index 1cc973443e0..2ac84f17ca3 100644
---- a/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
-+++ b/meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
-@@ -23,7 +23,7 @@ diff --git a/target/riscv/kvm/kvm-cpu.c b/target/riscv/kvm/kvm-cpu.c
- index 8001ca153..79fb43f92 100644
- --- a/target/riscv/kvm/kvm-cpu.c
- +++ b/target/riscv/kvm/kvm-cpu.c
--@@ -1968,8 +1968,7 @@ static bool kvm_cpu_realize(CPUState *cs, Error **errp)
-+@@ -1993,8 +1993,7 @@ static bool kvm_cpu_realize(CPUState *cs, Error **errp)
-      if (riscv_has_ext(&cpu->env, RVV)) {
-          ret = prctl(PR_RISCV_V_SET_CONTROL, PR_RISCV_V_VSTATE_CTRL_ON);
-          if (ret) {
-diff --git a/meta/recipes-devtools/qemu/qemu_10.0.2.bb b/meta/recipes-devtools/qemu/qemu_10.1.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu_10.0.2.bb
-rename to meta/recipes-devtools/qemu/qemu_10.1.1.bb
++    def test_fitimage_compatible_extn_in_its(self):
++        """
++        Verify that FIT_DTB_COMPATIBLE_EXTENTION[...] is honored in the generated .its.
++
++        This test:
++        1) Selects beaglebone-yocto machine and a DTB that is part of its kernel.
++        2) Sets FIT_DTB_COMPATIBLE_EXTENTION[am335x-bonegreen-ext] to custom extension.
++        3) Runs do_assemble_fitimage to generate the FIT .its.
++        4) Asserts the .its 'compatible = ...' includes extended ones.
++
++        """
++
++        kernel_dtb = "am335x-bonegreen-ext.dtb"
++        dtb_name = os.path.splitext(os.path.basename(kernel_dtb))[0]
++
++        config = f"""
++DISTRO = "poky"
++MACHINE = "beaglebone-yocto"
++
++# Ensure the FIT flow is active
++KERNEL_CLASSES += "kernel-fit-extra-artifacts "
++
++# Ensure the selected DTB is built into the kernel deploy output
++KERNEL_DEVICETREE = "{kernel_dtb}"
++
++# Provide the extension as a varflag (pairs: base:suffix)
++# Original compatibles: "ti,am335x-bone-green", "ti,am335x-bone-black"
++FIT_DTB_COMPATIBLE_EXTENTION[{dtb_name}] = "subtypeA"
++
++"""
++        self.write_config(config)
++
++        bitbake('virtual/kernel:do_deploy')
++        bitbake('linux-yocto-fitimage:do_deploy')
++
++        # Find the generated .its in DEPLOY_DIR_IMAGE
++        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
++        self.assertTrue(deploy_dir_image and os.path.isdir(deploy_dir_image),
++                    f"DEPLOY_DIR_IMAGE not found or invalid: {deploy_dir_image}")
++
++        its_path = os.path.join(deploy_dir_image, 'fit-image.its')
++        self.assertTrue(os.path.exists(its_path), f"Expected ITS file not found: {its_path}")
++
++        # Read the ITS content
++        its_text = Path(its_path).read_text(encoding='utf-8', errors='ignore')
++
++        # Assertions: extended compatibles must appear
++        self.assertIn('ti,am335x-bone-green-subtypeA', its_text)
++
+     def test_fit_image_ext_dtb_dtbo(self):
+         """
+         Summary:     Check if FIT image and Image Tree Source (its) are created correctly.
 
