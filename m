@@ -1,81 +1,80 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skandigraun@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 974BCCCA476
-	for <webhook@archiver.kernel.org>; Sat, 11 Oct 2025 17:33:04 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web10.4508.1760203981554850063
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68728CCA476
+	for <webhook@archiver.kernel.org>; Sat, 11 Oct 2025 19:03:55 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.5999.1760209427916359182
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Oct 2025 10:33:01 -0700
+ Sat, 11 Oct 2025 12:03:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=l2xqLUqF;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-7960d69f14bso20534226d6.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Oct 2025 10:33:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ck7AxOGn;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: skandigraun@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b4539dddd99so621351766b.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Oct 2025 12:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760203980; x=1760808780; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lfd5cB5Cb8G6I9Q6+v9hyAf7JNnPZTF9yj9SaYdS8Hs=;
-        b=l2xqLUqFv9nGSowTf+BrdiQuFJTr43jt//I1+G36FVIX0FbsJgHkswfezrC////BdM
-         edQmHRbh+sUDtE0CxhU5gspoPcVRv1MDXcFPCBVw3eJOgAub32L8abShWjrzHJoKDUjr
-         RaXlG0HNbFPSIE4PCNIJyysTqAQj6Eq7utiA3qyKg9jysF9IZrJIVGbLzGvZ1deoUsLm
-         IX6hAwj0cp7DOBkTYyiJmj/KmrC/N4vaMOP9jRgIuaNIRNBUnebDnOWwhS+HhLXJB1+5
-         KZpZ3hb5myQYgUNHo/A2M+vTOu4hsqiJ726zr9pw36HR6r9amEE8Hczr87yrPBv/nSm+
-         0hoA==
+        d=gmail.com; s=20230601; t=1760209426; x=1760814226; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TFC10WIsuWjh/sCBRj2jhasvgSUm+E3MvMwdCYwtVrc=;
+        b=ck7AxOGn0aXelHHkCb7hQKo8j/SZz8ldjhCH+ovBvGOOVvjZTVzfi/Usd2Zg1K0yR0
+         Zk4wLlINuyauKJjVs3vVD7t7hC/zxOYBhvgg8CXKRvP3lr3K2BnXaD7kYOzgkaUuARQP
+         l2tqF2iW0aOlVJfYP9V7TfTWper6bDEFFfQHBVWifAHZuv9oo1NTJIwZeOucHmZGNn5R
+         XWftL23kawc7ApTyiLPbo3xsiZkecZ8XAqAb58/d++AA51dzV9y3Q8Lznf7N1KYV1nDk
+         +9Gn/XbFpjR1+rEl/I6VL4itXV4pOYvAQaN96oZllDQr1ppbyBiqLKFOlqLruSDhhLZg
+         STdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760203980; x=1760808780;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lfd5cB5Cb8G6I9Q6+v9hyAf7JNnPZTF9yj9SaYdS8Hs=;
-        b=TzS6Kd8tdips8hTcaWLWb8G6aYlrjIkzF91drzNHgrVqJqSgJ9Qn5488Fwam1iSafD
-         eZdddMukamgtoQ170P8A45ORovTZP0aoiHk4rktcryEDNFTcxubFWhKA+74YcsjvGJFV
-         I5bwDAPIHrj1sLCVkPM6SG3IxD34xzDPnZuhTX2ZpyGVAf+S/UTYaAaxVKAEZrti9562
-         ekKZ421Fq0uZZdmbPbTXlUywbCvikzjLf/D6qbJmsHZwUd3bHYgv6Jc3tDFHhr0Cy4qo
-         pv9HG2/mQpfznVoPZ81IUk8fHyiZWecCzAe4zuq0fgG5G4vCz0rcAZVotWsWQAAx0nOw
-         hkfQ==
-X-Gm-Message-State: AOJu0Yx9Kj/39HSO67e93yhc3yNu9MrIVgl8sJgdvo1WuPXC99Dh9hpV
-	OB2lmPbQnzJ9fOiRFWjvP+rgrL2gOoF3Q8kXBM3CDOSuIZ//RihVctkYnHix/QQ5JsDfKnsNcLp
-	uYYaKHJvtoh/KTZrOxYLqIgZDyPO3QbM=
-X-Gm-Gg: ASbGncsBe12tNKOk1mhSuCEHLhkOPO2bkda99Z9YSHcOBxuZe26fhAZHzBnjGnJCuT4
-	ImzKjlbolqDRGAioRar2rMQKEvyPvnJXSaEpq+NGqB3yE6cfq4rQbZbAhDn/P0J+keoOH+fDS+v
-	nqdeLsmYYYFCpDIzK+zvWWfIiC2ijiwZWoJnG3GXy4RSFHvP/oURsN4dNqnc9sSm/aYrlyH3YZc
-	U80lrsK1sCXfKKiy69SQq9bVaXBrk1QXAY4qy0/o0L3zUDfRQTulXRAazixy80KCuDfIgMYHZU2
-	cbR6x7kHad24pLP3dbiqMdQ=
-X-Google-Smtp-Source: AGHT+IFGPr8/+zBWMS27nV+xl4Tvpjjm070XIVc/Dghg3dh/AjLzpdH5S5/BMQW1Bir38dE6OAaUb8sMKSaaJWEdktk=
-X-Received: by 2002:a05:622a:4ccf:b0:4d9:5ce:374a with SMTP id
- d75a77b69052e-4e6ead58551mr234223921cf.53.1760203980399; Sat, 11 Oct 2025
- 10:33:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760209426; x=1760814226;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TFC10WIsuWjh/sCBRj2jhasvgSUm+E3MvMwdCYwtVrc=;
+        b=TIr3c8O7BOgptdGwFa9yiJx/hVIRlrT/3Hus0rYaZUxjCRsFV3KJmTcgH2YrmYe81X
+         PwAFfb0x+nym2vjN/KexuZe4h9pYGPKRQibkLgfvqxRDDcdOw81YCRZ6TsQEjjZvBnGf
+         8od2axqnC01Js8J3Ie30PjMVDX51kAa4gz9NrXMxygk68swJdZtD4YdwGz+HaT4PTsL0
+         TdfzPrKnaak53So+Eok8EPdKI9gstOzPyo5HoltHnVg0RXdO87prFouOwehYe+yCBLym
+         rdFuMG7mvt7Rfd/l4lY5PIu5ze1mdpRmxSD9e88pYGPWNT6t7gTubg89FHoJlCcggKkY
+         xJiA==
+X-Forwarded-Encrypted: i=1; AJvYcCWNy1G9Y6Z/kpfh3yUYrtR1GHdYqKRyLCzARxaXxroj/vSeNiKJ4uO34L/YYV1d6wjuWnScwATWXHJ4l3GBStyOIg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxexq7G3LG4ELLLfB9ZglQyGZucaE0rhTtLYGLZuiu4ZtggUZRl
+	saDSGgtOfITkszh5xPJzDrEBVQNKONZQ/gcDSuwUgtvAys6YuD3QMAPI
+X-Gm-Gg: ASbGncuYSCWaNJ1nJS58DtAWU7SaT2tIvT9odsQE4RLUEw8bhK+56nQRpowTa2EM1ik
+	GDR+Q+7nsCmrXaU4qHGA2YIBDKj7QF8oeRjjbB+P3uvbDxWdIOxQqTYv2z2uSwwFbWlhC3fD/OR
+	QNImcjmPNRVqQIigZf6ztK5A7ExUrHZO7CL0h+1o0YtYazJFy+kqzgLiSFngjm0bUa3scGtIUOA
+	XduuaLsa6YFx84FA4SYEx6C8O/XhoKVzyYeq7HsgH6mo39VjwLReeW7eLkj+vF8cPNA7lxN8Whz
+	FZlzX/C+fUEnFql6uYKLKglSO74CxEbbCtLCOKhY9aIVy9r3gIe9st0STN1GGZO7dW6qWvkwgY7
+	VDFjGUSvH2BsxjWgPODK3bOIoY9aue0HYTBvrw8kB1xtlig1vLaEbghyRy3Kw
+X-Google-Smtp-Source: AGHT+IG1Ga9Dg0EsdyM96U/hv0XCCaNLhGhRX5FXEd1v1Ora4TzPbtINY647vyag61GN57NSSuvEew==
+X-Received: by 2002:a17:907:9407:b0:b2b:3481:93c8 with SMTP id a640c23a62f3a-b50aa3921e2mr1679831866b.19.1760209426012;
+        Sat, 11 Oct 2025 12:03:46 -0700 (PDT)
+Received: from [192.168.1.106] ([51.154.145.205])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d61cbcb9sm548667666b.20.2025.10.11.12.03.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Oct 2025 12:03:45 -0700 (PDT)
+Message-ID: <d20a854f-d795-44a1-a970-c40a01126e3e@gmail.com>
+Date: Sat, 11 Oct 2025 21:03:44 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v5] kernel-fit-image: allow extending compatible
+ string property for DTBs
+To: kavinaya@qti.qualcomm.com, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 References: <20251011094815.950261-1-kavinaya@qti.qualcomm.com>
+Content-Language: en-US
+From: Gyorgy Sarvari <skandigraun@gmail.com>
 In-Reply-To: <20251011094815.950261-1-kavinaya@qti.qualcomm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 11 Oct 2025 19:32:49 +0200
-X-Gm-Features: AS18NWBY6sL-sQgLZorA6PhknxHjKe4egLdMY2ZV9CDVZRtgB2Hs8wvRWRTP8CI
-Message-ID: <CANNYZj9CcHEcb=Ekiags9zY2bcCVAE=WoPAvkcGHFr98qWMEVA@mail.gmail.com>
-Subject: Re: [PATCH v5] kernel-fit-image: allow extending compatible string
- property for DTBs
-To: Kavinaya S <kavinaya@qti.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Oct 2025 17:33:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224720
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Oct 2025 19:03:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224721
 
-Just wanted to say this looks fine to me on a (very) quick read, so if
-Dmitry and people on the patch review call have no objections, neither
-do I. It needs to pass the autobuilder testing too, you will hear if
-something goes wrong.
-
-Alex
-
-On Sat, 11 Oct 2025 at 11:48, Kavinaya S <kavinaya@qti.qualcomm.com> wrote:
->
+On 10/11/25 11:48, Kavinaya S via lists.openembedded.org wrote:
 > The Linux kernel allows multiple DTBs to share the same compatible string.
 > For example:
 > qcs6490-rb3gen2.dtb
@@ -94,7 +93,10 @@ On Sat, 11 Oct 2025 at 11:48, Kavinaya S <kavinaya@qti.qualcomm.com> wrote:
 > To address this, introduce a mechanism to extend the compatible string
 > using a OE build variable:
 > FIT_DTB_COMPATIBLE_EXTENTION[dtb_name] = "extension"
->
+
+One small note: "extension" is misspelled as "extention" multiple times
+in the patch.
+
 > This appends the extension to the first compatible string in the DTB,
 > resulting in unique entries in the generated .its file. For example:
 > FIT_DTB_COMPATIBLE_EXTENTION[qcs6490-rb3gen2-vision-mezzanine] = "vision"
@@ -119,7 +121,7 @@ On Sat, 11 Oct 2025 at 11:48, Kavinaya S <kavinaya@qti.qualcomm.com> wrote:
 > --- a/meta/classes-recipe/kernel-fit-image.bbclass
 > +++ b/meta/classes-recipe/kernel-fit-image.bbclass
 > @@ -84,8 +84,14 @@ python do_compile() {
->
+>  
 >              # Copy the dtb or dtbo file into the FIT image assembly directory
 >              shutil.copyfile(os.path.join(kernel_deploydir, dtb_name), dtb_name)
 > +
@@ -131,7 +133,7 @@ On Sat, 11 Oct 2025 at 11:48, Kavinaya S <kavinaya@qti.qualcomm.com> wrote:
 > -                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
 > +                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"),
 > +                compatible_extention=extention)
->
+>  
 >      if external_kernel_devicetree:
 >          # iterate over all .dtb and .dtbo files in the external kernel devicetree directory
 > diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
@@ -160,7 +162,7 @@ On Sat, 11 Oct 2025 at 11:48, Kavinaya S <kavinaya@qti.qualcomm.com> wrote:
 > +++ b/meta/lib/oe/fitimage.py
 > @@ -289,7 +289,7 @@ class ItsNodeRootKernel(ItsNode):
 >          self._kernel = kernel_node
->
+>  
 >      def fitimage_emit_section_dtb(self, dtb_id, dtb_path, dtb_loadaddress=None,
 > -                                  dtbo_loadaddress=None, add_compatible=False):
 > +                                  dtbo_loadaddress=None, add_compatible=False, compatible_extention=""):
@@ -173,7 +175,7 @@ On Sat, 11 Oct 2025 at 11:48, Kavinaya S <kavinaya@qti.qualcomm.com> wrote:
 >              compatible = get_compatible_from_dtb(dtb_path)
 > +            if compatible and compatible_extention:
 > +                compatible[0] = compatible[0] + "-" + compatible_extention
->
+>  
 >          dtb_node = self.its_add_node_dtb(
 >              "fdt-" + dtb_id,
 > diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
@@ -182,8 +184,8 @@ On Sat, 11 Oct 2025 at 11:48, Kavinaya S <kavinaya@qti.qualcomm.com> wrote:
 > +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
 > @@ -17,6 +17,9 @@ from oeqa.selftest.case import OESelftestTestCase
 >  from oeqa.utils.commands import runCmd, bitbake, get_bb_vars, get_bb_var
->
->
+>  
+>  
 > +from pathlib import Path
 > +
 > +
@@ -193,7 +195,7 @@ On Sat, 11 Oct 2025 at 11:48, Kavinaya S <kavinaya@qti.qualcomm.com> wrote:
 > @@ -819,6 +822,55 @@ MACHINE:forcevariable = "beaglebone-yocto"
 >          # The alias is a symlink, therefore the compatible string is equal
 >          self.assertEqual(comp_alias, comp)
->
+>  
 > +    def test_fitimage_compatible_extn_in_its(self):
 > +        """
 > +        Verify that FIT_DTB_COMPATIBLE_EXTENTION[...] is honored in the generated .its.
@@ -246,4 +248,14 @@ On Sat, 11 Oct 2025 at 11:48, Kavinaya S <kavinaya@qti.qualcomm.com> wrote:
 >      def test_fit_image_ext_dtb_dtbo(self):
 >          """
 >          Summary:     Check if FIT image and Image Tree Source (its) are created correctly.
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#224714): https://lists.openembedded.org/g/openembedded-core/message/224714
+> Mute This Topic: https://lists.openembedded.org/mt/115702434/6084445
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [skandigraun@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
 
