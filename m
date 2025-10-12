@@ -1,97 +1,125 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <kavinaya@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE3BCCD187
-	for <webhook@archiver.kernel.org>; Sun, 12 Oct 2025 17:14:32 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.22756.1760289262939393946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D59FCCCD187
+	for <webhook@archiver.kernel.org>; Sun, 12 Oct 2025 17:17:02 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.22688.1760289415328031307
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Oct 2025 10:14:22 -0700
+ Sun, 12 Oct 2025 10:16:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MfzVeWx8;
- spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7810289cd4bso3442737b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 10:14:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760289262; x=1760894062; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RPHXifR7YjatEjZSkmeOU67UdBsgDcCN+rjgnRQyxMs=;
-        b=MfzVeWx8ovxsO96QdqjgHDWkHRLBIzWL5cwBJ6GpPgS5IowWSUYd334rfcP/ohaMHh
-         w+8SyWTJiFy+/2GOjWVuLLMI4fAzj0akrlzodFDMKtn4Q7GigWkJcYDUdTr38M7UrRbG
-         44TPlYfKPQQRhKAV8BOuxD02XNIiFC/p1Zp/+xU2c0JVeCYCC+VHfz56Z80RYYGpwBts
-         yVc1F/SqR/SmfrsM1vn2g84J3x/VZJ0p/k7fkDaVq8LiSgpTV7I5Mvjws3U/YloeYEp+
-         IJBnolCLIPPT5OqV+maXTwY+8/Qtq5XwQZE3azzJu4e8cn3qP+kzAOQYJd63DuLpQD+0
-         ugQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760289262; x=1760894062;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RPHXifR7YjatEjZSkmeOU67UdBsgDcCN+rjgnRQyxMs=;
-        b=F7X2Qg03l82AhObgD1fjFsJm7QF3qJN7arG7flddQQP9dWF7+77xOIlgDAbTeiQ1wJ
-         gbjjOC6TPYKLugtgLcfTM6xFCn9GjL9j2+gv5ztHb6mzNxCHCD+EYc/hU2mYo/LIKl9y
-         BTMCT2x2d9+5Ou7EQhKXffLA9CzrjR2e9ljm1nQKln/zbBTeuUjUno969uZR0bDz123z
-         qDgjXCZVhZhT5eywIJ35oppCPrLsJDeTuLIYrC2wMP2eVc58plglkbvWEq/hPLnTo/Lc
-         BkGVasZET5hEkXrWgMp2kUroSmKjcrsZQKnTCNpucfbY3n6ViR4alB26R8JR+xashkdr
-         D9Jw==
-X-Gm-Message-State: AOJu0YxgcJC0MD0aiR3BEfBXZriJSSQs1kdjmH9AeyAAeD+OhTPjs9wT
-	wlaDqb3FCRyLeZdhv0r8RAyjDAXy5vLI8ouLLiB5Ce/pOaotoFwjf9r/KJCd9Vr3
-X-Gm-Gg: ASbGncuOb5y3XNjZ2zqew1Gj8gp1CWjUx0MYk5XZBFZZfftlFkMiAf3fqmifORDNGul
-	IEbhJcVga3hBPaN23fSUnxMdekUzSVDUCVbJpsAzAsq74tuKk8+TtaJd5saU8Jl6B/9erI9xbYi
-	SvSiUFuSSZJD4d1Qmxte2ZootfviImfq+kLSZDXiP1GVG3WNUGlf1/vfzgPN7KW8VQp7+NniSDg
-	YCPTImHwDjpgrjJ3LMpWLP9m/i9hPkWc/L0RaVE9aHwwNBqmljqGR5d8kahD1YfoWJDCr3utkJz
-	sxf5AT+bFHu2tir+2IKbPY5aJKyoUCv55TqHSKRXO7TTbfvH7gQG3jFSFQckXwtAdoQhYKGA1aY
-	kFNFD3l92ZFCgArLVrSebjsujsKfFtqpPIDagpQmx
-X-Google-Smtp-Source: AGHT+IGUGwXJE+9bCNQ4PmvIGzkoaxwV0rVgemZwHbIWvjshKq11/3bcmueMsU6X/Kw/FPbcj4I17A==
-X-Received: by 2002:a05:6a00:2d28:b0:78c:995b:4e9d with SMTP id d2e1a72fcca58-793858fb69amr21241961b3a.10.1760289262005;
-        Sun, 12 Oct 2025 10:14:22 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::fc3])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992bb11ca0sm8996044b3a.32.2025.10.12.10.14.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Oct 2025 10:14:21 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libpam: Fix build with LLD linker
-Date: Sun, 12 Oct 2025 10:14:19 -0700
-Message-ID: <20251012171419.2477310-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.0
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Or6zTkHw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: kavinaya@qti.qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59CFjWLK001298
+	for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 17:16:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=GHVvWQMgYqdDmz92Bukklc
+	1hhtU+lyUebbRr2DijeuE=; b=Or6zTkHwInxNuTUzusF7PbsW/OrccmDZ5Xg1JS
+	78uPi6MIsvZkfFy9Baeb+gI1ytqLhJQsj4iH/efFjqdZmiFpDfeLfgFQBA/uMeR6
+	Q2ph2yn8egZ03Kxnmwl+QgUeNCQh3S3nGfbusT5NXbVYuTUbfjCp0HgzK5NVoMpp
+	FmawF/ddNj0UBFLllFs2T6eNrK+2z3OLgs1vObsxhlbJZsI29GArATZYIRS5jO6v
+	WYgZUDNn//YuY/ASlZLu6bKkw6Fd0KQT2Rb6wR8UM2WdPLmIehbePvV8aYE9VXBg
+	mi6XtaEFGn3NTuWIag8stFJwuhaXLKo0uQT6VFeOfYC2ayAw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qgdft7xr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 17:16:54 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 59CHGs1a031772
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 17:16:54 GMT
+Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Sun, 12 Oct 2025 10:16:52 -0700
+From: Kavinaya S <kavinaya@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Kavinaya S <kavinaya@qti.qualcomm.com>
+Subject: [PATCH] kernel-fit-image: enable compatible string for kernel built-in DTBs
+Date: Sun, 12 Oct 2025 22:46:34 +0530
+Message-ID: <20251012171634.2110563-1-kavinaya@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyNSBTYWx0ZWRfXwo2xFoNjayZg
+ bbRU9htpkPMnvjzg2i/Go2Gz814vR659VUhbjcI77t5oBTAirRfgW3c8ioF0PQXGU1CzZ4eBGFL
+ 63YGf3Wq1TYixmSnf1r2KQGab5bMnPlBL05lubBE4Jra1vAklGYGzUPDAYhW+cC4102gChGmty0
+ HlYzhGGmpMflQwIHKQmGFHQ9gT5CrzzKvY3OL8FLRxfcZr+ZTSS6QPh7zRZVOv1nI7TkQQYjuOr
+ bNQd87T55lGAv3vN2VzCQzBj0BzOiUa5n/D1C9q9Ps2T2Ykeepke989C2YjbpYB3jmlDAOxmjWV
+ ukLtBkkkjhmLgkVlZkyuM2bZZxKLpL2zZHT7HOBsVZpHP2Cp65ajyJ2n1WbkJyf6F7jGzOHIpaw
+ UA8FcYm9TFi/Tatjx6+ywukLooDDVg==
+X-Proofpoint-GUID: QyAS99WJyOEA0pnQJIirqOocRcDMIOgJ
+X-Proofpoint-ORIG-GUID: QyAS99WJyOEA0pnQJIirqOocRcDMIOgJ
+X-Authority-Analysis: v=2.4 cv=J4ynLQnS c=1 sm=1 tr=0 ts=68ebe286 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=6cRAjit5A-7ZIy2jTxoA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-12_06,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ bulkscore=0 suspectscore=0 clxscore=1015 phishscore=0 spamscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510110025
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 17:14:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224742
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 17:17:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224743
 
-LLD is strict about versioned symbols unlike BFD linker, it flags
-undefined ones, Allow undefined symbols like BFD linker
+At present, the kernel-fit-image bbclass is adding compatible strings only
+for external DTBs, omitting them for DTBs built from the kernel tree. This
+behavior is limiting the ability to clearly identify the DTBs in FIT image
+that includes multiple kernel built-in DTBs and possibly mix of in tree and
+external ones, due to lack of consistent compatible strings.
 
-Fixes
-| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_acct_mgmt' failed: symbol not defined
-| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_chauthtok' failed: symbol not defined
-| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_close_session' failed: symbol not defined
-| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_open_session' failed: symbol not defined
-| riscv64-yoe-linux-clang: error: linker command failed with exit code 1 (use -v to see invocation)
+To fix this, introduce a new BitBake variable, FIT_DTB_ADD_COMPATIBLE
+when set to "True", the bbclass will extract and include the compatible
+string from kernel-built DTBs also in the .its file, just like it does
+for external DTBs.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
 ---
- meta/recipes-extended/pam/libpam_1.7.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes-recipe/kernel-fit-image.bbclass | 3 ++-
+ meta/conf/image-fitimage.conf                | 3 +++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/pam/libpam_1.7.1.bb b/meta/recipes-extended/pam/libpam_1.7.1.bb
-index 565b00c264a..882fccd25ac 100644
---- a/meta/recipes-extended/pam/libpam_1.7.1.bb
-+++ b/meta/recipes-extended/pam/libpam_1.7.1.bb
-@@ -30,6 +30,8 @@ DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index f04aee1807..0e6764cb17 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -85,7 +85,8 @@ python do_compile() {
+             # Copy the dtb or dtbo file into the FIT image assembly directory
+             shutil.copyfile(os.path.join(kernel_deploydir, dtb_name), dtb_name)
+             root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
+-                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
++                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"),
++                add_compatible = d.getVar("FIT_DTB_ADD_COMPATIBLE"))
  
- EXTRA_OEMESON = "-Ddocs=disabled -Dsecuredir=${base_libdir}/security"
+     if external_kernel_devicetree:
+         # iterate over all .dtb and .dtbo files in the external kernel devicetree directory
+diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
+index 090ee148f4..35e0459d09 100644
+--- a/meta/conf/image-fitimage.conf
++++ b/meta/conf/image-fitimage.conf
+@@ -47,6 +47,9 @@ FIT_LINUX_BIN ?= "linux.bin"
+ # Allow user to select the default DTB for FIT image when multiple dtb's exists.
+ FIT_CONF_DEFAULT_DTB ?= ""
  
-+LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++# Allow user to choose if DTB in FIT image can have compatible strings.
++FIT_DTB_ADD_COMPATIBLE ?= "False"
 +
- S = "${UNPACKDIR}/Linux-PAM-${PV}"
- 
- inherit meson gettext pkgconfig systemd ptest github-releases
+ # length of address in number of <u32> cells
+ # ex: 1 32bits address, 2 64bits address
+ FIT_ADDRESS_CELLS ?= "1"
 
