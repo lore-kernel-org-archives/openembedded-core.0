@@ -1,260 +1,97 @@
-Return-Path: <kavinaya@qti.qualcomm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AEF7CCD184
-	for <webhook@archiver.kernel.org>; Sun, 12 Oct 2025 16:25:42 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.21897.1760286340326840904
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE3BCCD187
+	for <webhook@archiver.kernel.org>; Sun, 12 Oct 2025 17:14:32 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.22756.1760289262939393946
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Oct 2025 09:25:40 -0700
+ Sun, 12 Oct 2025 10:14:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Tf/VZI+Q;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: kavinaya@qti.qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59CC3GnO009875;
-	Sun, 12 Oct 2025 16:25:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=M49Ek602x8SetTBz/HkrYo
-	dCa0LGxB1gpUe5aNxJv/k=; b=Tf/VZI+Q4DX16XzyWA9dkgyUKvqwgbkSCTgLjD
-	QS0qkP4WLwpxiLR1N8tiuFxY15N25ESL7GbjEV0BKUDqSLw6K9aIdpsFBbmti/wq
-	APe7FpjRfZmknUfzcmbvoU5+UrHa8wtx/ujAmfDWHF9/W6mJjsCXLNV42a6+K+9h
-	IzjqrjgsFE0GoQszquPPYuwaLs0CM0UQd63WkqmFbJRAXBEiJmLZaAW5pSR0iioI
-	b8OpvWR8CYUUuL2uSgQgpXHY7/EnboTvqH8x7VY5588lQPCUozWNgwneRnM7MWjv
-	S/6bXOFFAO38ls3GElub++5bmvTGKYYkJWoMN6tYtUMEhG5w==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qfbht9kp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 12 Oct 2025 16:25:38 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 59CGPbSp002157
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 12 Oct 2025 16:25:37 GMT
-Received: from hu-kavinaya-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.24; Sun, 12 Oct 2025 09:25:35 -0700
-From: Kavinaya S <kavinaya@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Kavinaya S <kavinaya@qti.qualcomm.com>,
-        Alexander Kanavin
-	<alex.kanavin@gmail.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v6] kernel-fit-image: allow extending compatible string property for DTBs
-Date: Sun, 12 Oct 2025 21:54:42 +0530
-Message-ID: <20251012162442.2087387-1-kavinaya@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MfzVeWx8;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7810289cd4bso3442737b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 10:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760289262; x=1760894062; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RPHXifR7YjatEjZSkmeOU67UdBsgDcCN+rjgnRQyxMs=;
+        b=MfzVeWx8ovxsO96QdqjgHDWkHRLBIzWL5cwBJ6GpPgS5IowWSUYd334rfcP/ohaMHh
+         w+8SyWTJiFy+/2GOjWVuLLMI4fAzj0akrlzodFDMKtn4Q7GigWkJcYDUdTr38M7UrRbG
+         44TPlYfKPQQRhKAV8BOuxD02XNIiFC/p1Zp/+xU2c0JVeCYCC+VHfz56Z80RYYGpwBts
+         yVc1F/SqR/SmfrsM1vn2g84J3x/VZJ0p/k7fkDaVq8LiSgpTV7I5Mvjws3U/YloeYEp+
+         IJBnolCLIPPT5OqV+maXTwY+8/Qtq5XwQZE3azzJu4e8cn3qP+kzAOQYJd63DuLpQD+0
+         ugQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760289262; x=1760894062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RPHXifR7YjatEjZSkmeOU67UdBsgDcCN+rjgnRQyxMs=;
+        b=F7X2Qg03l82AhObgD1fjFsJm7QF3qJN7arG7flddQQP9dWF7+77xOIlgDAbTeiQ1wJ
+         gbjjOC6TPYKLugtgLcfTM6xFCn9GjL9j2+gv5ztHb6mzNxCHCD+EYc/hU2mYo/LIKl9y
+         BTMCT2x2d9+5Ou7EQhKXffLA9CzrjR2e9ljm1nQKln/zbBTeuUjUno969uZR0bDz123z
+         qDgjXCZVhZhT5eywIJ35oppCPrLsJDeTuLIYrC2wMP2eVc58plglkbvWEq/hPLnTo/Lc
+         BkGVasZET5hEkXrWgMp2kUroSmKjcrsZQKnTCNpucfbY3n6ViR4alB26R8JR+xashkdr
+         D9Jw==
+X-Gm-Message-State: AOJu0YxgcJC0MD0aiR3BEfBXZriJSSQs1kdjmH9AeyAAeD+OhTPjs9wT
+	wlaDqb3FCRyLeZdhv0r8RAyjDAXy5vLI8ouLLiB5Ce/pOaotoFwjf9r/KJCd9Vr3
+X-Gm-Gg: ASbGncuOb5y3XNjZ2zqew1Gj8gp1CWjUx0MYk5XZBFZZfftlFkMiAf3fqmifORDNGul
+	IEbhJcVga3hBPaN23fSUnxMdekUzSVDUCVbJpsAzAsq74tuKk8+TtaJd5saU8Jl6B/9erI9xbYi
+	SvSiUFuSSZJD4d1Qmxte2ZootfviImfq+kLSZDXiP1GVG3WNUGlf1/vfzgPN7KW8VQp7+NniSDg
+	YCPTImHwDjpgrjJ3LMpWLP9m/i9hPkWc/L0RaVE9aHwwNBqmljqGR5d8kahD1YfoWJDCr3utkJz
+	sxf5AT+bFHu2tir+2IKbPY5aJKyoUCv55TqHSKRXO7TTbfvH7gQG3jFSFQckXwtAdoQhYKGA1aY
+	kFNFD3l92ZFCgArLVrSebjsujsKfFtqpPIDagpQmx
+X-Google-Smtp-Source: AGHT+IGUGwXJE+9bCNQ4PmvIGzkoaxwV0rVgemZwHbIWvjshKq11/3bcmueMsU6X/Kw/FPbcj4I17A==
+X-Received: by 2002:a05:6a00:2d28:b0:78c:995b:4e9d with SMTP id d2e1a72fcca58-793858fb69amr21241961b3a.10.1760289262005;
+        Sun, 12 Oct 2025 10:14:22 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::fc3])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992bb11ca0sm8996044b3a.32.2025.10.12.10.14.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Oct 2025 10:14:21 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libpam: Fix build with LLD linker
+Date: Sun, 12 Oct 2025 10:14:19 -0700
+Message-ID: <20251012171419.2477310-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX7rA6B/8fz4+e
- exsopC31bzw15t/W9oLypJgj94Lq/DSQlGIQqlrvX//o5GFz0bzMLymCUw9VgPTyQrhIjVTaQs9
- Simw0vL+UrEPlIqn4FMbj7Gme/x7V6hgcMRAzGBDeT9A516TI2g+GXNz5G6xdSgK8F1tM22t5rt
- 2DHZahm48/M4xWqrD4OIllLeTJmCYRZjL/6CKyvXFx1bN1n1L1lmhborWs33nenvxrJqbsfLJGG
- t1865kjzMvvPI0M2oIVw7SyZ4BIXmw1GPtzBRLa05NlRwxWpwC1K0IaWHC5MSmaccvNEirybS3K
- +suC1VVb/ccdbUKLUUOI80tH/84TpT8lwhrn3M4jf0g0eu0l+A5JNb/aHQnrBjHiw4J6nKuOowT
- eMT4PFJAtM67iAEmZfRYSF3mjrOv0w==
-X-Proofpoint-ORIG-GUID: AHYnDMcryCmn2LKPVAUa8njKg64YMnXH
-X-Authority-Analysis: v=2.4 cv=bodBxUai c=1 sm=1 tr=0 ts=68ebd683 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=x6icFKpwvdMA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8
- a=R7RgVI56L6oBx1MsmUMA:9 a=rYgVvZsUlkTETui3:21
-X-Proofpoint-GUID: AHYnDMcryCmn2LKPVAUa8njKg64YMnXH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-12_06,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 16:25:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224741
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 17:14:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224742
 
-The Linux kernel allows multiple DTBs to share the same compatible string.
-For example:
-qcs6490-rb3gen2.dtb
-qcs6490-rb3gen2-vision-mezzanine.dtb
-qcs6490-rb3gen2-industrial-mezzanine.dtb
+LLD is strict about versioned symbols unlike BFD linker, it flags
+undefined ones, Allow undefined symbols like BFD linker
 
-All of these use the same base compatible string:
-compatible = "qcom,qcs6490-rb3gen2", "qcom,qcm6490";
+Fixes
+| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_acct_mgmt' failed: symbol not defined
+| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_chauthtok' failed: symbol not defined
+| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_close_session' failed: symbol not defined
+| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_open_session' failed: symbol not defined
+| riscv64-yoe-linux-clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
-Since the latter two DTBs are overlays on top of the base DTB and do not
-modify platform properties, they retain the same compatible string.
-
-When these DTBs are bundled into a single fitImage, the bootloader cannot
-distinguish between them due to identical compatible strings.
-
-To address this, introduce a mechanism to extend the compatible string
-using a OE build variable:
-FIT_DTB_COMPATIBLE_EXTENSION[dtb_name] = "extension"
-
-This appends the extension to the first compatible string in the DTB,
-resulting in unique entries in the generated .its file. For example:
-FIT_DTB_COMPATIBLE_EXTENSION[qcs6490-rb3gen2-vision-mezzanine] = "vision"
-FIT_DTB_COMPATIBLE_EXTENSION[qcs6490-rb3gen2-industrial-mezzanine] = "industrial"
-
-Generates:
-compatible = "qcom,qcs6490-rb3gen2-vision", "qcom,qcm6490";
-compatible = "qcom,qcs6490-rb3gen2-industrial", "qcom,qcm6490";
-
-Suggested-By: Alexander Kanavin <alex.kanavin@gmail.com>
-Suggested-By: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Kavinaya S <kavinaya@qti.qualcomm.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes-recipe/kernel-fit-image.bbclass |  8 ++-
- meta/conf/image-fitimage.conf                | 12 +++++
- meta/lib/oe/fitimage.py                      |  4 +-
- meta/lib/oeqa/selftest/cases/fitimage.py     | 55 ++++++++++++++++++++
- 4 files changed, 77 insertions(+), 2 deletions(-)
+ meta/recipes-extended/pam/libpam_1.7.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index f04aee1807..3fd31db478 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -84,8 +84,14 @@ python do_compile() {
+diff --git a/meta/recipes-extended/pam/libpam_1.7.1.bb b/meta/recipes-extended/pam/libpam_1.7.1.bb
+index 565b00c264a..882fccd25ac 100644
+--- a/meta/recipes-extended/pam/libpam_1.7.1.bb
++++ b/meta/recipes-extended/pam/libpam_1.7.1.bb
+@@ -30,6 +30,8 @@ DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
  
-             # Copy the dtb or dtbo file into the FIT image assembly directory
-             shutil.copyfile(os.path.join(kernel_deploydir, dtb_name), dtb_name)
-+
-+            # Consider compatible extension if avilable
-+            name, ext = os.path.splitext(dtb_name)
-+            extension = (d.getVarFlag("FIT_DTB_COMPATIBLE_EXTENSION", name) or "").strip()
-+
-             root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
--                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"))
-+                d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"),
-+                compatible_extension=extension)
+ EXTRA_OEMESON = "-Ddocs=disabled -Dsecuredir=${base_libdir}/security"
  
-     if external_kernel_devicetree:
-         # iterate over all .dtb and .dtbo files in the external kernel devicetree directory
-diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
-index 090ee148f4..b00c1ad814 100644
---- a/meta/conf/image-fitimage.conf
-+++ b/meta/conf/image-fitimage.conf
-@@ -65,3 +65,15 @@ FIT_ADDRESS_CELLS ?= "1"
- # Machine configurations needing such a script file should include it in the
- # SRC_URI of the kernel recipe and set the FIT_UBOOT_ENV parameter.
- FIT_UBOOT_ENV ?= ""
++LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
 +
-+# For specific DTBs extend "compatible" strings when creating FIT images.
-+# Format:
-+#   FIT_DTB_COMPATIBLE_EXTENSION[<dtb_name>] = "<extension>"
-+#
-+# Result:
-+#   dtb_name.dtb {
-+#    ...
-+#    compatible = "string1-extension", "string2", ...;
-+#   };
-+#
-+FIT_DTB_COMPATIBLE_EXTENSION ?= ""
-diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
-index f303799155..58de1afaaa 100644
---- a/meta/lib/oe/fitimage.py
-+++ b/meta/lib/oe/fitimage.py
-@@ -289,7 +289,7 @@ class ItsNodeRootKernel(ItsNode):
-         self._kernel = kernel_node
+ S = "${UNPACKDIR}/Linux-PAM-${PV}"
  
-     def fitimage_emit_section_dtb(self, dtb_id, dtb_path, dtb_loadaddress=None,
--                                  dtbo_loadaddress=None, add_compatible=False):
-+                                  dtbo_loadaddress=None, add_compatible=False, compatible_extension=""):
-         """Emit the fitImage ITS DTB section"""
-         load=None
-         dtb_ext = os.path.splitext(dtb_path)[1]
-@@ -310,6 +310,8 @@ class ItsNodeRootKernel(ItsNode):
-         compatible = None
-         if add_compatible:
-             compatible = get_compatible_from_dtb(dtb_path)
-+            if compatible and compatible_extension:
-+                compatible[0] = compatible[0] + "-" + compatible_extension
- 
-         dtb_node = self.its_add_node_dtb(
-             "fdt-" + dtb_id,
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 195b9ee8b5..582e581415 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -17,6 +17,9 @@ from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_vars, get_bb_var
- 
- 
-+from pathlib import Path
-+
-+
- class BbVarsMockGenKeys:
-     def __init__(self, keydir, gen_keys="0", sign_enabled="0", keyname="", sign_ind="0", img_keyname=""):
-         self.bb_vars = {
-@@ -819,6 +822,58 @@ MACHINE:forcevariable = "beaglebone-yocto"
-         # The alias is a symlink, therefore the compatible string is equal
-         self.assertEqual(comp_alias, comp)
- 
-+    def test_fitimage_compatible_extn_in_its(self):
-+        """
-+        Verify that FIT_DTB_COMPATIBLE_EXTENSION[...] is honored in the generated .its.
-+
-+        This test:
-+        1) Selects beaglebone-yocto machine and a DTB that is part of its kernel.
-+        2) Sets FIT_DTB_COMPATIBLE_EXTENSION[am335x-bonegreen-ext] to custom extension.
-+        3) Runs do_assemble_fitimage to generate the FIT .its.
-+        4) Asserts the .its 'compatible = ...' includes extended ones.
-+
-+        """
-+
-+        kernel_dtb = "am335x-bonegreen.dtb"
-+        dtb_name = os.path.splitext(os.path.basename(kernel_dtb))[0]
-+
-+        config = f"""
-+DISTRO = "poky"
-+MACHINE = "beaglebone-yocto"
-+
-+# Ensure the FIT flow is active
-+KERNEL_CLASSES += "kernel-fit-extra-artifacts "
-+
-+# Ensure the selected DTB is built into the kernel deploy output
-+KERNEL_DEVICETREE = "{kernel_dtb}"
-+
-+# Provide the extension as a varflag (pairs: base:suffix)
-+# Original compatibles: "ti,am335x-bone-green", "ti,am335x-bone-black"
-+FIT_DTB_COMPATIBLE_EXTENSION[{dtb_name}] = "subtypeA"
-+
-+"""
-+        self.write_config(config)
-+
-+        bitbake('virtual/kernel:do_deploy')
-+        bitbake('linux-yocto-fitimage:do_deploy')
-+
-+        # Find the generated .its in DEPLOY_DIR_IMAGE
-+        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+        self.assertTrue(deploy_dir_image and os.path.isdir(deploy_dir_image),
-+                    f"DEPLOY_DIR_IMAGE not found or invalid: {deploy_dir_image}")
-+
-+        its_path = os.path.join(deploy_dir_image, 'fit-image.its')
-+        self.assertTrue(os.path.exists(its_path), f"Expected ITS file not found: {its_path}")
-+
-+        # Read the ITS content
-+        its_text = Path(its_path).read_text(encoding='utf-8', errors='ignore')
-+
-+        # Assertions: extended compatibles must appear
-+        if "compatible" in its_text:
-+            self.assertIn('ti,am335x-bone-green-subtypeA', its_text)
-+        else:
-+            pass
-+
-     def test_fit_image_ext_dtb_dtbo(self):
-         """
-         Summary:     Check if FIT image and Image Tree Source (its) are created correctly.
--- 
-2.34.1
-
+ inherit meson gettext pkgconfig systemd ptest github-releases
 
