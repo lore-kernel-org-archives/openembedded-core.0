@@ -1,237 +1,159 @@
-Return-Path: <petr.vorel@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE62DCCD187
-	for <webhook@archiver.kernel.org>; Sun, 12 Oct 2025 20:08:33 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.25799.1760299708410991661
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C562CCD187
+	for <webhook@archiver.kernel.org>; Sun, 12 Oct 2025 22:15:54 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.28060.1760307345064630009
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Oct 2025 13:08:28 -0700
+ Sun, 12 Oct 2025 15:15:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=co76we5D;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: petr.vorel@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b3d5088259eso525045766b.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 13:08:28 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SNT8TaTc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-46e2e363118so30077715e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 15:15:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760299707; x=1760904507; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xSPiPVMj6xSN7DE26lxXHKBlg+33BEu1u6e5c0O1zAY=;
-        b=co76we5D7vwwtFX67NpvDZoh/sjX1VYztxgrAvCIylub8s+zFI3CJByM1EA3CwrvIz
-         5Z5t72isWFBt7PW2jFg/qZcQ9bEy/BwC1mODAWoAVLyxUgZEDh9CMToJVU8BJkiznJ3C
-         7RK8c53yLUvkDg7/6CqNyFvEw0jqQQP3EKT0ksgn60b7RlYEthMRlxTpvJN9fTSze8ki
-         F6/uywsbQLifH4hO6iIlBx5leoYRyV9eZCMZ6N3ba2LweYjjHFbSS6U/cU2RnRI35kkL
-         5sdImqD901kExKo8vbizCHFgqMDN1+U24uiD1RGfxuRZVOq5Goqr9D7zWZljphnmU9co
-         GEOg==
+        d=linuxfoundation.org; s=google; t=1760307343; x=1760912143; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=KV2K2wGUd/f/EIDrbCaUpK/YSHQI4ngtRs5cctUpjg8=;
+        b=SNT8TaTcML9QnhxN6ipRWa3OHhWZmuSGRXsgd+PJ8YyCdw7FtHM2QEr4058UcznmGw
+         13j2xH5/u56o+QDk369+k9qlz857Zqz1TjrzTWImQSsV36WLv4zik5EDzQHT50B/KPOv
+         +Vd4OqPmtxmikY1awkGgnMJEfKvUf7L/O5U5U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760299707; x=1760904507;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xSPiPVMj6xSN7DE26lxXHKBlg+33BEu1u6e5c0O1zAY=;
-        b=khfpcgUXkHIbitqSIYezu9o2dc6ZXn2gjRhSYRI5iTxa7nEAbtbQwFH6oyQyfnqIpp
-         pT6+hJl97OjRkhttYg/NEI21WHj75ctFI8VZPfoEWqTVZrETKXNLoyIRRU64GnRwREjP
-         2P5MqPFhnR7H/K30MMSUqYmt7Kt5QlAkIbfB9nd03DFe8jz6MvMyvMyLjituvxXbyyYL
-         i9vmIO5bQNoCgHBNT9Fzj7FC0Vh8IcZvaFTWT1H6c4BJr9WMA22pRiEWq1SobBH5Yi71
-         EvrsabCSh9nINvLgm/3An6zr4wWay9fmoSPvpxoGc26Cj0V8bZNVxED1LU7LTErmsKJO
-         bLPQ==
-X-Gm-Message-State: AOJu0Yx1p+ZY3T/E7iAmyHt/NSAGK3V6Xtc7RvUR8OZoMsPR5x46M3LP
-	saniOxR0ypmg2gWcgtTdCe0bdUanMw6BFMGyR0O/hbyU6QEfCEJmWWZdOUq6qI9J
-X-Gm-Gg: ASbGncsaj8yO06ro5lMmXTK7fL6MRlbcNFZ5Cm9aMK/BwjL1QvkeACuxzyMuwR+rhk1
-	6mBUAU0M6E+RSfXp4S9JBE85/a7y+FI9e4lO3zlpn8pO0lGsR+hlQ2oWiOYirhU6aHX1jyTHwol
-	3rshj9idghZ5BE9BCGVL7oIDRvgUbMYoOjDm2gs08o8DRuJwC8qWN8JXmwySpr2l1UQIBNiqoJ9
-	YSjyHac9eq0rm2Yjq8FH29ozl4tjF/JPt0QT2BZBFybgUg49tNduiPYlFhVFUNbZ7sxykPpPHPI
-	NhUUG07pdWtrNq17Cj4I3DocVmE6q5VTipU+WZi67bWqUq5fYSIjzoZrJioDfqzDHl09EqdXHKY
-	96P/xzjRPl1E53JwOdMdvF5Z270Pr07aNogHyAW7pwE5e1KO5I6xaJWw=
-X-Google-Smtp-Source: AGHT+IEqs7d6bEkUzi+Z5hoHiYb9PVpKU3QVaNmJLiffXM4ERob6xzs+cnt6T+O0P6vKLqdEXfBlIw==
-X-Received: by 2002:a17:907:94c3:b0:b3e:d492:d7b8 with SMTP id a640c23a62f3a-b50acc1aa45mr1646522366b.64.1760299706576;
-        Sun, 12 Oct 2025 13:08:26 -0700 (PDT)
-Received: from x230 (gw1.ms-free.net. [185.243.124.10])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d951ceb4sm769537566b.72.2025.10.12.13.08.24
+        d=1e100.net; s=20230601; t=1760307343; x=1760912143;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KV2K2wGUd/f/EIDrbCaUpK/YSHQI4ngtRs5cctUpjg8=;
+        b=QkYB1VwqFqaJlpWjBauin8z5FADz6pwkZs2H3JyrVSF1As3zre3ysWwNPity+5qLqb
+         cNwEdWIsU+kJUXV8BzgT+znuHBM/vTIEWc8AiMfywS/KoZSM9KjT4OWWbV3+1+zwkmiN
+         MyUQ7dN+5WZszldoaO2RyHTwZAMXIwKRZVq+GkDfxoRiLaP9UHmopGd3tUcUc2lyJhJs
+         Lvdee8MDxD4AHDFPQQRzWetIX4L+DXiZiPYOxWFenbhPNgCaPo8Nly0L/RL1Vd3ZRSVN
+         TgmB4l3a0olCp5/8x3ARvfLciVQmtNRY164vhay6dHwSXqkqsBEoGTkkaAPcTLp3AGoJ
+         Nw9g==
+X-Forwarded-Encrypted: i=1; AJvYcCWz8j21bz7K1qinW6TPAz7WZD76+BIRXliNvJ0XKRs57WatOaK1rNPx1bqjIVVjB2pGVH19R5BG8ipDsfzfx1bRtw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyUND0Q9SlBJrkVgFYUDLuG9u7+pTkfKftH8dKf/ZG8gDj9aFd9
+	4Shu5T9HQb63c6plzX/nmn4N+PqGNw7aMRwcyeOOYeMg04QrTQb7Q9+oGo3wmVR5gWk=
+X-Gm-Gg: ASbGncuWOilnqOT6jlVEqP2fDNNIiw4UFpcUIjftQRs6M1vhQmBaxQERSOawSn3KDP7
+	VHHtm+pOG+hsUHkD3mGt3yYrZUcOpwkTUVKNrJBAkSzcWEF7Xl9aySnRxh4Xjv7Bv/CZvRBRXLR
+	2JWLZObHiR8etbtDspIhAoddDNBmu09DPBa6VaEIqJgx278zV08O8V29vm6UE1a8Nx9ZiFEnY1t
+	OU8C97RgyUo2MnekSoYg5ugdItrHZMqS/lSq/zJrk9jxZmiIxlhaOwVKkbxkJGMr4nR/UuU0wJs
+	HVe9LgaG1cJCHTh+/uNTliYpOm38qiy5hNgYyiO1AfJ2RKl35bCk1KxODpHDIAP0qXI9I4xRq+R
+	4+XY9NxBog6/U1FS9ty++zkAgCweGk/838nJmRr1QRn/qv7VBhA3hutv6tPkbc/ZFohrWc5hNf8
+	NhejSeobFnVM7MIcWlz3t6BT/6Bf6gCA==
+X-Google-Smtp-Source: AGHT+IG2bS1Xm4TnbvGPrfYlb90p1YRIP2zJfyNsyYqeohe6iNHrnKkgcrjzY6tBJawLjNISCqAWPA==
+X-Received: by 2002:a05:600c:a148:b0:46f:c55a:5a8c with SMTP id 5b1f17b1804b1-46fc55a5bbamr15051055e9.4.1760307343300;
+        Sun, 12 Oct 2025 15:15:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b5de:f04a:7657:2726? ([2001:8b0:aba:5f3c:b5de:f04a:7657:2726])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fab3cd658sm116670545e9.1.2025.10.12.15.15.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Oct 2025 13:08:26 -0700 (PDT)
-From: Petr Vorel <petr.vorel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Petr Vorel <petr.vorel@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Liu Yiding <liuyd.fnst@fujitsu.com>,
-	Jiaying Song <jiaying.song.cn@windriver.com>,
-	Mingde Zeng <matthew.zeng@windriver.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH 1/1] ltp: upgrade 20250530 -> 20250930
-Date: Sun, 12 Oct 2025 22:08:20 +0200
-Message-ID: <20251012200820.372223-1-petr.vorel@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        Sun, 12 Oct 2025 15:15:42 -0700 (PDT)
+Message-ID: <b083de5665052d27adc5f71f04fdf54656130462.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/1] ltp: upgrade 20250530 -> 20250930
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Petr Vorel <petr.vorel@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Liu Yiding <liuyd.fnst@fujitsu.com>, Jiaying Song	
+ <jiaying.song.cn@windriver.com>, Mingde Zeng <matthew.zeng@windriver.com>, 
+ Khem Raj <raj.khem@gmail.com>, Mathieu Dubois-Briand
+ <mathieu.dubois-briand@bootlin.com>
+Date: Sun, 12 Oct 2025 23:15:41 +0100
+In-Reply-To: <20251012200820.372223-1-petr.vorel@gmail.com>
+References: <20251012200820.372223-1-petr.vorel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 20:08:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224748
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 22:15:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224749
 
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
----
-Hi all,
+On Sun, 2025-10-12 at 22:08 +0200, Petr Vorel wrote:
+> Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> ---
+> Hi all,
+>=20
+> I'm sorry, I planned to test this time, but it failed. Any hint what's
+> wrong? Or can anybody test this patch?
+>=20
+> $ . oe-init-build-env
+>=20
+> .../build $ bitbake ltp
+> ERROR: Error importing OE modules: module 'bb.parse' has no attribute
+> 'vardepsexclude'
+> ERROR: Unable to parse
+> /home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py
+> Traceback (most recent call last):
+> =C2=A0 File
+> =C2=A0 "/home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py=
+",
+> =C2=A0 line 372, in eval
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 layerid, fragment_name =3D f.split('/', 1)
+> 	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^^^^^^^^^^^^^^^^^^^^^^
+> 		=C2=A0 ValueError: not enough values to unpack (expected 2, got 1)
+>=20
+> FYI I also plan to get rid of some patches posted.
 
-I'm sorry, I planned to test this time, but it failed. Any hint what's
-wrong? Or can anybody test this patch?
+Are you setting OE_FRAGMENTS to something in a config file? It
+shouldn't traceback like this so that is a bug but something is
+triggering it...
 
-$ . oe-init-build-env
+> * 0001-Add-__clear_cache-declaration-for-clang.patch
+> It's wrong, I'd like to replace it with:
+> https://patchwork.ozlabs.org/project/ltp/list/?series=3D477319&state=3D*
+>=20
+> * 0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch
+> I posted a review, hopefully we get a feedback from other developers
+> soon.
+>=20
+> * 0001-Remove-OOM-tests-from-runtest-mm.patch
+> Is it really needed to drop these tests?
+>=20
+> BTW for those who run LTP: kirk might be interesting tool to use:
+> https://github.com/linux-test-project/kirk
 
-.../build $ bitbake ltp
-ERROR: Error importing OE modules: module 'bb.parse' has no attribute
-'vardepsexclude'
-ERROR: Unable to parse
-/home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py
-Traceback (most recent call last):
-  File
-  "/home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py",
-  line 372, in eval
-      layerid, fragment_name = f.split('/', 1)
-	      ^^^^^^^^^^^^^^^^^^^^^^
-		  ValueError: not enough values to unpack (expected 2, got 1)
+I did send some questions and had some discussion on kirk a while ago.
+Quite simply, it isn't useful/interesting to Yocto Project.
 
-FYI I also plan to get rid of some patches posted.
+What we want to test with is our images and our kernel, as we build it.
+kirk, as far as I understand it has gone a different route where there
+isn't really any userspace left and it simply tests against a kernel
+binary. We'd no longer be testing our build artefacts but some more
+artificial construct.
 
-* 0001-Add-__clear_cache-declaration-for-clang.patch
-It's wrong, I'd like to replace it with:
-https://patchwork.ozlabs.org/project/ltp/list/?series=477319&state=*
+We're trying to test what we build. You're trying to test the kernel
+for regressions. They're two different things.
 
-* 0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch
-I posted a review, hopefully we get a feedback from other developers
-soon.
+I totally understand why you've gone that direction with kirk but I
+also did spell out at the time that it wasn't something which really
+fits in with the way we run tests, or what we actually aim to test. I
+was told at the time that basically, nobody is interested in what we
+want/do.
 
-* 0001-Remove-OOM-tests-from-runtest-mm.patch
-Is it really needed to drop these tests?
+> We also bundle it in LTP as a submodule:
+> https://github.com/linux-test-project/ltp/blob/master/.gitmodules
+>=20
+> It's also in pypi:
+> https://pypi.org/project/kirk/
+>=20
+> I see in meta/lib/oeqa/runtime/cases/ltp.py the deprecated
+> /opt/ltp/runltp is still being used. We want to remove it (not sure
+> when, but it will happen sooner or later). Any change somebody would
+> submit a patch to switch to kirk?
 
-BTW for those who run LTP: kirk might be interesting tool to use:
-https://github.com/linux-test-project/kirk
+It is more likely that when you drop runltp, we'll just have to drop
+ltp. Sorry :(. I did explain this at while ago :/.
 
-We also bundle it in LTP as a submodule:
-https://github.com/linux-test-project/ltp/blob/master/.gitmodules
+I did also flag the issue to our own wider community but nobody has
+stepped up to do anything about it. I've way too many other things to
+work on so it is very unlikely I have any time to look at it.
 
-It's also in pypi:
-https://pypi.org/project/kirk/
+Cheers,
 
-I see in meta/lib/oeqa/runtime/cases/ltp.py the deprecated
-/opt/ltp/runltp is still being used. We want to remove it (not sure
-when, but it will happen sooner or later). Any change somebody would
-submit a patch to switch to kirk?
-
-Kind regards,
-Petr
-
- .../0001-Remove-OOM-tests-from-runtest-mm.patch    | 13 ++++++++-----
- ...mctl08-Skip-semctl08-when-__USE_TIME64_RE.patch | 14 +++++++-------
- .../ltp/{ltp_20250530.bb => ltp_20250930.bb}       |  2 +-
- 3 files changed, 16 insertions(+), 13 deletions(-)
- rename meta/recipes-extended/ltp/{ltp_20250530.bb => ltp_20250930.bb} (99%)
-
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
-index 936e23ebda..c1cf8e8a41 100644
---- a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
-+++ b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
-@@ -1,23 +1,23 @@
--From 7096737fbbe19d0765f0a8c62ef7667bf4875780 Mon Sep 17 00:00:00 2001
-+From 3e59500d1dc60686b8c4c6a24813bd14ad479e43 Mon Sep 17 00:00:00 2001
- From: "Mingde (Matthew) Zeng" <matthewzmd@gmail.com>
- Date: Wed, 29 Jul 2020 08:47:09 -0400
--Subject: [PATCH] Remove OOM tests from runtest/mm
-+Subject: [PATCH 1/3] Remove OOM tests from runtest/mm
- 
- Disable OOM tests, as they might cause oeqa ssh connection lost
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
--[ pvorel: rebased for 20210927 ]
-+[ pvorel: rebased for 20250930 ]
- Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
- ---
-  runtest/mm | 6 ------
-  1 file changed, 6 deletions(-)
- 
- diff --git a/runtest/mm b/runtest/mm
--index 5566a7742..8014d509b 100644
-+index 41d624ad86..1e8c226389 100644
- --- a/runtest/mm
- +++ b/runtest/mm
--@@ -70,12 +70,6 @@ ksm07 ksm07
-+@@ -69,12 +69,6 @@ ksm07 ksm07
-  cpuset01 cpuset01
-  cpuset02 cpuset02
-  
-@@ -30,3 +30,6 @@ index 5566a7742..8014d509b 100644
-  swapping01 swapping01 -i 5
-  
-  thp01 thp01 -I 120
-+-- 
-+2.51.0
-+
-diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch
-index b4859a6f0a..0c7a351b7e 100644
---- a/meta/recipes-extended/ltp/ltp/0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch
-+++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch
-@@ -1,8 +1,8 @@
--From 55b48d66857a43c2609fc351293b5601e2eb955d Mon Sep 17 00:00:00 2001
-+From 1285a11d8f7660dc42afb5f3fcf147d54e321844 Mon Sep 17 00:00:00 2001
- From: Jiaying Song <jiaying.song.cn@windriver.com>
- Date: Fri, 23 May 2025 15:17:49 +0800
--Subject: [PATCH] syscalls/semctl08: Skip semctl08 when __USE_TIME64_REDIRECTS
-- is defined
-+Subject: [PATCH 3/3] syscalls/semctl08: Skip semctl08 when
-+ __USE_TIME64_REDIRECTS is defined
- 
- When __USE_TIME64_REDIRECTS is defined, glibc redirects struct semid_ds to a
- 64-bit time-safe version that omits the sem_otime_high and sem_ctime_high
-@@ -20,10 +20,10 @@ Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-  1 file changed, 5 insertions(+), 3 deletions(-)
- 
- diff --git a/testcases/kernel/syscalls/ipc/semctl/semctl08.c b/testcases/kernel/syscalls/ipc/semctl/semctl08.c
--index 1878bd4..3b799fa 100644
-+index f4549adf43..28776f266e 100644
- --- a/testcases/kernel/syscalls/ipc/semctl/semctl08.c
- +++ b/testcases/kernel/syscalls/ipc/semctl/semctl08.c
--@@ -10,7 +10,11 @@
-+@@ -12,7 +12,11 @@
-  #include "tst_test.h"
-  #include "libnewipc.h"
-  
-@@ -36,7 +36,7 @@ index 1878bd4..3b799fa 100644
-  
-  static void run(void)
-  {
--@@ -47,6 +51,4 @@ static struct tst_test test = {
-+@@ -49,6 +53,4 @@ static struct tst_test test = {
-  	.test_all = run,
-  	.needs_tmpdir = 1,
-  };
-@@ -44,5 +44,5 @@ index 1878bd4..3b799fa 100644
- -TST_TEST_TCONF("test requires struct semid64_ds to have the time_high fields");
-  #endif
- -- 
--2.34.1
-+2.51.0
- 
-diff --git a/meta/recipes-extended/ltp/ltp_20250530.bb b/meta/recipes-extended/ltp/ltp_20250930.bb
-similarity index 99%
-rename from meta/recipes-extended/ltp/ltp_20250530.bb
-rename to meta/recipes-extended/ltp/ltp_20250930.bb
-index 9ea5de10ee..1514aca8fe 100644
---- a/meta/recipes-extended/ltp/ltp_20250530.bb
-+++ b/meta/recipes-extended/ltp/ltp_20250930.bb
-@@ -24,7 +24,7 @@ TUNE_CCARGS:remove:x86-64 = "-mfpmath=sse"
- 
- CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
- CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
--SRCREV = "14331e1ecfcd63426c9d270d88b7bad9f60c6d64"
-+SRCREV = "d2550ffbbcfe163212cd7e9c132db65ae0fa06ed"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
--- 
-2.51.0
-
+Richard
 
