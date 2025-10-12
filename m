@@ -1,200 +1,237 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <petr.vorel@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 744D7CCD187
-	for <webhook@archiver.kernel.org>; Sun, 12 Oct 2025 19:19:23 +0000 (UTC)
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
- by mx.groups.io with SMTP id smtpd.web10.24852.1760296755169302803
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE62DCCD187
+	for <webhook@archiver.kernel.org>; Sun, 12 Oct 2025 20:08:33 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.25799.1760299708410991661
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Oct 2025 12:19:15 -0700
+ Sun, 12 Oct 2025 13:08:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=in7glwWf;
- spf=softfail (domain: sakoman.com, ip: 74.125.224.44, mailfrom: steve@sakoman.com)
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-6353ff1a78dso3214168d50.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 12:19:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=co76we5D;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: petr.vorel@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b3d5088259eso525045766b.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 13:08:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760296754; x=1760901554; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iH+sjr0NcDlHMA5tTjXwIn95OPB+Mu2adRQBePD0CWY=;
-        b=in7glwWfg5n/R04iMwejezC41Boqo7fe1oi5JBZrdjjU6bpmHkqBVdeWl5lwQAMsLo
-         +VW+X4L35mAmMko1iSqNJA5V/IoEsCsXfo5IDLCcWhtObYrEiEYk9F7v5yGwiA2Mhq55
-         exrLQwr9cEOK8DOeyQnQjesjX5NkBLEiXAokQ9g7sRPQ+9PRsrQKFNe7g1X4uVy7stHb
-         uNJ+nEEE8kUpsvzAotMDOMAi0gAzwcQeK7dd97qgbtv7WllAofRoujDJxcQ40auwOWth
-         2X/e/G+Wv0liFmNCAfef4wzd+KSddU2XZLuYi63AjrAheRUn1Z6bRCA2YoGjp5+WyZ/T
-         ls9Q==
+        d=gmail.com; s=20230601; t=1760299707; x=1760904507; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xSPiPVMj6xSN7DE26lxXHKBlg+33BEu1u6e5c0O1zAY=;
+        b=co76we5D7vwwtFX67NpvDZoh/sjX1VYztxgrAvCIylub8s+zFI3CJByM1EA3CwrvIz
+         5Z5t72isWFBt7PW2jFg/qZcQ9bEy/BwC1mODAWoAVLyxUgZEDh9CMToJVU8BJkiznJ3C
+         7RK8c53yLUvkDg7/6CqNyFvEw0jqQQP3EKT0ksgn60b7RlYEthMRlxTpvJN9fTSze8ki
+         F6/uywsbQLifH4hO6iIlBx5leoYRyV9eZCMZ6N3ba2LweYjjHFbSS6U/cU2RnRI35kkL
+         5sdImqD901kExKo8vbizCHFgqMDN1+U24uiD1RGfxuRZVOq5Goqr9D7zWZljphnmU9co
+         GEOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760296754; x=1760901554;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iH+sjr0NcDlHMA5tTjXwIn95OPB+Mu2adRQBePD0CWY=;
-        b=h5EyLFMXmBsaEipc6ks7zdNz/YNNS0OjwWYW+wNuheb0/JNzZ8l1FEUhhGVPNm7Fd+
-         QJBpiPvYMqkWIu4gzB1VA2W7T2yG+esT/bs1TsVDlJJUSUVKM28FuDsJ3Ne4HV2xn7dZ
-         HOdcHfvcLWKEiOnNayCsbFS7GbsSw7OKL7opaEfWteMhpK6/nAOXGPmqNRjMN2BZN2Pn
-         k9l3Yre6K4I9sLvg5MLy7dgno/FMo3QBMPkHk34+ibbO56lhpAQ0aRw3i/Jv2QqbW75l
-         zKayLrLvlMWvHF39stiB55N2q8byYXLTvVhmr/YbLBt3SN+X6fxPUm9P8Szo75xwBJJm
-         zNQQ==
-X-Gm-Message-State: AOJu0YwEVJ2Me5O89TcbcrpVvecsAEeXx58RKODlCJHehxxOUALlbD4N
-	gfWPX7hpMLy+0V0W6Oq2kSDAr92A4VmhJLHnaa5oc18bU2amT+7moTzPIrMVbIT1lNn6/DPYJ7A
-	BdpEn+hRvVK138AW19dJAdNJ6hKoviqBp9s8sULPCAA==
-X-Gm-Gg: ASbGncuBjyttwBe27/ExaWqYGjZ6m/yB9AVbHGxj8R6zb5eYdGkCd3HSManyN5cinL7
-	6paUZ8FvJaVtnDt969Uscqos40Ks4wi/T7kl8TIYqsXOBLJMVMkIfl080niK0/pUd39+zcOIP14
-	x8iagkymnLtOMKu3LmN85cZErHrh3XNGU4m/H16gKsqpmn/Hhjhteg660IPa19qy3UedwU4uMt+
-	n7n+U0jKkreYY47dfrJ6YMRmYxjfrmkc9I+hL5eSNSYeEj5kJFjZzAVloYpKy8nG6I=
-X-Google-Smtp-Source: AGHT+IE8rS0xy5d7t/xrAPQjZVW9Xj36/aIKUgFnvq1dvHrURs+KXL9nJdkAuFFr8WAyhX94CoelHHnGGxfW5ie1mks=
-X-Received: by 2002:a05:690e:48b:b0:63c:eb82:6d45 with SMTP id
- 956f58d0204a3-63ceb826ec6mr8127612d50.46.1760296753884; Sun, 12 Oct 2025
- 12:19:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760299707; x=1760904507;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xSPiPVMj6xSN7DE26lxXHKBlg+33BEu1u6e5c0O1zAY=;
+        b=khfpcgUXkHIbitqSIYezu9o2dc6ZXn2gjRhSYRI5iTxa7nEAbtbQwFH6oyQyfnqIpp
+         pT6+hJl97OjRkhttYg/NEI21WHj75ctFI8VZPfoEWqTVZrETKXNLoyIRRU64GnRwREjP
+         2P5MqPFhnR7H/K30MMSUqYmt7Kt5QlAkIbfB9nd03DFe8jz6MvMyvMyLjituvxXbyyYL
+         i9vmIO5bQNoCgHBNT9Fzj7FC0Vh8IcZvaFTWT1H6c4BJr9WMA22pRiEWq1SobBH5Yi71
+         EvrsabCSh9nINvLgm/3An6zr4wWay9fmoSPvpxoGc26Cj0V8bZNVxED1LU7LTErmsKJO
+         bLPQ==
+X-Gm-Message-State: AOJu0Yx1p+ZY3T/E7iAmyHt/NSAGK3V6Xtc7RvUR8OZoMsPR5x46M3LP
+	saniOxR0ypmg2gWcgtTdCe0bdUanMw6BFMGyR0O/hbyU6QEfCEJmWWZdOUq6qI9J
+X-Gm-Gg: ASbGncsaj8yO06ro5lMmXTK7fL6MRlbcNFZ5Cm9aMK/BwjL1QvkeACuxzyMuwR+rhk1
+	6mBUAU0M6E+RSfXp4S9JBE85/a7y+FI9e4lO3zlpn8pO0lGsR+hlQ2oWiOYirhU6aHX1jyTHwol
+	3rshj9idghZ5BE9BCGVL7oIDRvgUbMYoOjDm2gs08o8DRuJwC8qWN8JXmwySpr2l1UQIBNiqoJ9
+	YSjyHac9eq0rm2Yjq8FH29ozl4tjF/JPt0QT2BZBFybgUg49tNduiPYlFhVFUNbZ7sxykPpPHPI
+	NhUUG07pdWtrNq17Cj4I3DocVmE6q5VTipU+WZi67bWqUq5fYSIjzoZrJioDfqzDHl09EqdXHKY
+	96P/xzjRPl1E53JwOdMdvF5Z270Pr07aNogHyAW7pwE5e1KO5I6xaJWw=
+X-Google-Smtp-Source: AGHT+IEqs7d6bEkUzi+Z5hoHiYb9PVpKU3QVaNmJLiffXM4ERob6xzs+cnt6T+O0P6vKLqdEXfBlIw==
+X-Received: by 2002:a17:907:94c3:b0:b3e:d492:d7b8 with SMTP id a640c23a62f3a-b50acc1aa45mr1646522366b.64.1760299706576;
+        Sun, 12 Oct 2025 13:08:26 -0700 (PDT)
+Received: from x230 (gw1.ms-free.net. [185.243.124.10])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d951ceb4sm769537566b.72.2025.10.12.13.08.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Oct 2025 13:08:26 -0700 (PDT)
+From: Petr Vorel <petr.vorel@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Petr Vorel <petr.vorel@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Liu Yiding <liuyd.fnst@fujitsu.com>,
+	Jiaying Song <jiaying.song.cn@windriver.com>,
+	Mingde Zeng <matthew.zeng@windriver.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH 1/1] ltp: upgrade 20250530 -> 20250930
+Date: Sun, 12 Oct 2025 22:08:20 +0200
+Message-ID: <20251012200820.372223-1-petr.vorel@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-References: <cover.1760064493.git.steve@sakoman.com> <b4728274-d6cd-4fd8-b26b-ceef7811ffa0@gmail.com>
-In-Reply-To: <b4728274-d6cd-4fd8-b26b-ceef7811ffa0@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Sun, 12 Oct 2025 12:19:03 -0700
-X-Gm-Features: AS18NWD04JGjmPIV08oW6eYE72QmFE741qK_hMK0hmpX96s2kbE3-XnGThL7RNI
-Message-ID: <CAOSpxdZnAdDy9cutt62pJPxL-X2GLv1R6HzYzfMTrct2t+BMtA@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap 00/18] Patch review
-To: Gyorgy Sarvari <skandigraun@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 19:19:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224747
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 20:08:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224748
 
-On Sun, Oct 12, 2025 at 12:02=E2=80=AFPM Gyorgy Sarvari <skandigraun@gmail.=
-com> wrote:
->
-> On 10/10/25 04:50, Steve Sakoman via lists.openembedded.org wrote:
-> > Please review this set of changes for scarthgap and have comments back =
-by
-> > end of day Monday, October 13
-> >
-> > Passed a-full on autobuilder:
-> >
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2553
->
-> This didn't pass... though I guess it's some infra problem?
+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+---
+Hi all,
 
-Yes, intermittent issue.  I retested that one failing test and it succeeded=
-:
+I'm sorry, I planned to test this time, but it failed. Any hint what's
+wrong? Or can anybody test this patch?
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/66/builds/2483
+$ . oe-init-build-env
 
-Steve
+.../build $ bitbake ltp
+ERROR: Error importing OE modules: module 'bb.parse' has no attribute
+'vardepsexclude'
+ERROR: Unable to parse
+/home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py
+Traceback (most recent call last):
+  File
+  "/home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py",
+  line 372, in eval
+      layerid, fragment_name = f.split('/', 1)
+	      ^^^^^^^^^^^^^^^^^^^^^^
+		  ValueError: not enough values to unpack (expected 2, got 1)
 
->
-> > The following changes since commit 2696c50af9946f425ccaf7d0e7e0eb3fd87c=
-36bb:
-> >
-> >   expect: fix native build with GCC 15 (2025-10-02 08:40:43 -0700)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://git.openembedded.org/openembedded-core-contrib stable/scarthg=
-ap-nut
-> >   https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstabl=
-e/scarthgap-nut
-> >
-> > Aleksandar Nikolic (1):
-> >   scripts/install-buildtools: Update to 5.0.12
-> >
-> > Archana Polampalli (1):
-> >   go: fix CVE-2025-47906
-> >
-> > Deepesh Varatharajan (1):
-> >   glibc: stable 2.39 branch updates
-> >
-> > Gyorgy Sarvari (1):
-> >   conf/bitbake.conf: use gnu mirror instead of main server
-> >
-> > Hitendra Prajapati (1):
-> >   grub2: mark CVE-2024-2312 as not applicable
-> >
-> > Peter Marko (10):
-> >   busybox: patch CVE-2025-46394
-> >   gstreamer1.0: ignore CVEs fixed in plugins
-> >   gstreamer1.0: ignore CVE-2025-2759
-> >   ghostscript: patch CVE-2025-59798
-> >   ghostscript: patch CVE-2025-59799
-> >   ghostscript: patch CVE-2025-59800
-> >   expat: follow-up for CVE-2024-8176
-> >   tiff: ignore 5 CVEs
-> >   ffmpeg: ignore 8 CVEs fixed in 6.1.1 and 6.1.3 releases
-> >   openssl: upgrade 3.2.4 -> 3.2.6
-> >
-> > Ross Burton (1):
-> >   pulseaudio: ignore CVE-2024-11586
-> >
-> > Steve Sakoman (2):
-> >   selftest/cases/meta_ide.py: use use gnu mirror instead of main server
-> >   oeqa/sdk/cases/buildcpio.py: use gnu mirror instead of main server
-> >
-> >  meta/conf/bitbake.conf                        |    2 +-
-> >  meta/lib/oeqa/sdk/cases/buildcpio.py          |    2 +-
-> >  meta/lib/oeqa/selftest/cases/meta_ide.py      |    2 +-
-> >  meta/recipes-bsp/grub/grub2.inc               |    1 +
-> >  .../openssl/openssl/CVE-2025-27587-1.patch    | 1918 -----------------
-> >  .../openssl/openssl/CVE-2025-27587-2.patch    |  129 --
-> >  .../{openssl_3.2.4.bb =3D> openssl_3.2.6.bb}    |    4 +-
-> >  .../busybox/busybox/CVE-2025-46394-01.patch   |   57 +
-> >  .../busybox/busybox/CVE-2025-46394-02.patch   |   32 +
-> >  meta/recipes-core/busybox/busybox_1.36.1.bb   |    2 +
-> >  .../expat/expat/CVE-2024-8176-03.patch        |   35 +
-> >  .../expat/expat/CVE-2024-8176-04.patch        |  115 +
-> >  .../expat/expat/CVE-2024-8176-05.patch        |   78 +
-> >  meta/recipes-core/expat/expat_2.6.4.bb        |    3 +
-> >  meta/recipes-core/glibc/glibc-version.inc     |    4 +-
-> >  meta/recipes-devtools/go/go-1.22.12.inc       |    1 +
-> >  .../go/go/CVE-2025-47906.patch                |  183 ++
-> >  .../ghostscript/CVE-2025-59798.patch          |  134 ++
-> >  .../ghostscript/CVE-2025-59799.patch          |   41 +
-> >  .../ghostscript/CVE-2025-59800.patch          |   36 +
-> >  .../ghostscript/ghostscript_10.05.1.bb        |    3 +
-> >  .../recipes-multimedia/ffmpeg/ffmpeg_6.1.3.bb |    4 +
-> >  .../gstreamer/gstreamer1.0_1.22.12.bb         |   19 +-
-> >  meta/recipes-multimedia/libtiff/tiff_4.6.0.bb |    4 +
-> >  .../pulseaudio/pulseaudio.inc                 |    2 +
-> >  scripts/install-buildtools                    |    4 +-
-> >  26 files changed, 754 insertions(+), 2061 deletions(-)
-> >  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-=
-27587-1.patch
-> >  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2025-=
-27587-2.patch
-> >  rename meta/recipes-connectivity/openssl/{openssl_3.2.4.bb =3D> openss=
-l_3.2.6.bb} (98%)
-> >  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-01=
-.patch
-> >  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2025-46394-02=
-.patch
-> >  create mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-03.patc=
-h
-> >  create mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-04.patc=
-h
-> >  create mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-05.patc=
-h
-> >  create mode 100644 meta/recipes-devtools/go/go/CVE-2025-47906.patch
-> >  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2=
-025-59798.patch
-> >  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2=
-025-59799.patch
-> >  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2=
-025-59800.patch
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#224644): https://lists.openembedded.org/g/openembed=
-ded-core/message/224644
-> > Mute This Topic: https://lists.openembedded.org/mt/115683663/6084445
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-skandigraun@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
+FYI I also plan to get rid of some patches posted.
+
+* 0001-Add-__clear_cache-declaration-for-clang.patch
+It's wrong, I'd like to replace it with:
+https://patchwork.ozlabs.org/project/ltp/list/?series=477319&state=*
+
+* 0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch
+I posted a review, hopefully we get a feedback from other developers
+soon.
+
+* 0001-Remove-OOM-tests-from-runtest-mm.patch
+Is it really needed to drop these tests?
+
+BTW for those who run LTP: kirk might be interesting tool to use:
+https://github.com/linux-test-project/kirk
+
+We also bundle it in LTP as a submodule:
+https://github.com/linux-test-project/ltp/blob/master/.gitmodules
+
+It's also in pypi:
+https://pypi.org/project/kirk/
+
+I see in meta/lib/oeqa/runtime/cases/ltp.py the deprecated
+/opt/ltp/runltp is still being used. We want to remove it (not sure
+when, but it will happen sooner or later). Any change somebody would
+submit a patch to switch to kirk?
+
+Kind regards,
+Petr
+
+ .../0001-Remove-OOM-tests-from-runtest-mm.patch    | 13 ++++++++-----
+ ...mctl08-Skip-semctl08-when-__USE_TIME64_RE.patch | 14 +++++++-------
+ .../ltp/{ltp_20250530.bb => ltp_20250930.bb}       |  2 +-
+ 3 files changed, 16 insertions(+), 13 deletions(-)
+ rename meta/recipes-extended/ltp/{ltp_20250530.bb => ltp_20250930.bb} (99%)
+
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
+index 936e23ebda..c1cf8e8a41 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
+@@ -1,23 +1,23 @@
+-From 7096737fbbe19d0765f0a8c62ef7667bf4875780 Mon Sep 17 00:00:00 2001
++From 3e59500d1dc60686b8c4c6a24813bd14ad479e43 Mon Sep 17 00:00:00 2001
+ From: "Mingde (Matthew) Zeng" <matthewzmd@gmail.com>
+ Date: Wed, 29 Jul 2020 08:47:09 -0400
+-Subject: [PATCH] Remove OOM tests from runtest/mm
++Subject: [PATCH 1/3] Remove OOM tests from runtest/mm
+ 
+ Disable OOM tests, as they might cause oeqa ssh connection lost
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
+-[ pvorel: rebased for 20210927 ]
++[ pvorel: rebased for 20250930 ]
+ Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+ ---
+  runtest/mm | 6 ------
+  1 file changed, 6 deletions(-)
+ 
+ diff --git a/runtest/mm b/runtest/mm
+-index 5566a7742..8014d509b 100644
++index 41d624ad86..1e8c226389 100644
+ --- a/runtest/mm
+ +++ b/runtest/mm
+-@@ -70,12 +70,6 @@ ksm07 ksm07
++@@ -69,12 +69,6 @@ ksm07 ksm07
+  cpuset01 cpuset01
+  cpuset02 cpuset02
+  
+@@ -30,3 +30,6 @@ index 5566a7742..8014d509b 100644
+  swapping01 swapping01 -i 5
+  
+  thp01 thp01 -I 120
++-- 
++2.51.0
++
+diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch
+index b4859a6f0a..0c7a351b7e 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-semctl08-Skip-semctl08-when-__USE_TIME64_RE.patch
+@@ -1,8 +1,8 @@
+-From 55b48d66857a43c2609fc351293b5601e2eb955d Mon Sep 17 00:00:00 2001
++From 1285a11d8f7660dc42afb5f3fcf147d54e321844 Mon Sep 17 00:00:00 2001
+ From: Jiaying Song <jiaying.song.cn@windriver.com>
+ Date: Fri, 23 May 2025 15:17:49 +0800
+-Subject: [PATCH] syscalls/semctl08: Skip semctl08 when __USE_TIME64_REDIRECTS
+- is defined
++Subject: [PATCH 3/3] syscalls/semctl08: Skip semctl08 when
++ __USE_TIME64_REDIRECTS is defined
+ 
+ When __USE_TIME64_REDIRECTS is defined, glibc redirects struct semid_ds to a
+ 64-bit time-safe version that omits the sem_otime_high and sem_ctime_high
+@@ -20,10 +20,10 @@ Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+  1 file changed, 5 insertions(+), 3 deletions(-)
+ 
+ diff --git a/testcases/kernel/syscalls/ipc/semctl/semctl08.c b/testcases/kernel/syscalls/ipc/semctl/semctl08.c
+-index 1878bd4..3b799fa 100644
++index f4549adf43..28776f266e 100644
+ --- a/testcases/kernel/syscalls/ipc/semctl/semctl08.c
+ +++ b/testcases/kernel/syscalls/ipc/semctl/semctl08.c
+-@@ -10,7 +10,11 @@
++@@ -12,7 +12,11 @@
+  #include "tst_test.h"
+  #include "libnewipc.h"
+  
+@@ -36,7 +36,7 @@ index 1878bd4..3b799fa 100644
+  
+  static void run(void)
+  {
+-@@ -47,6 +51,4 @@ static struct tst_test test = {
++@@ -49,6 +53,4 @@ static struct tst_test test = {
+  	.test_all = run,
+  	.needs_tmpdir = 1,
+  };
+@@ -44,5 +44,5 @@ index 1878bd4..3b799fa 100644
+ -TST_TEST_TCONF("test requires struct semid64_ds to have the time_high fields");
+  #endif
+ -- 
+-2.34.1
++2.51.0
+ 
+diff --git a/meta/recipes-extended/ltp/ltp_20250530.bb b/meta/recipes-extended/ltp/ltp_20250930.bb
+similarity index 99%
+rename from meta/recipes-extended/ltp/ltp_20250530.bb
+rename to meta/recipes-extended/ltp/ltp_20250930.bb
+index 9ea5de10ee..1514aca8fe 100644
+--- a/meta/recipes-extended/ltp/ltp_20250530.bb
++++ b/meta/recipes-extended/ltp/ltp_20250930.bb
+@@ -24,7 +24,7 @@ TUNE_CCARGS:remove:x86-64 = "-mfpmath=sse"
+ 
+ CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+ CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+-SRCREV = "14331e1ecfcd63426c9d270d88b7bad9f60c6d64"
++SRCREV = "d2550ffbbcfe163212cd7e9c132db65ae0fa06ed"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
+            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
+-- 
+2.51.0
+
 
