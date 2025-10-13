@@ -1,277 +1,306 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DA12CCA476
-	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 06:11:57 +0000 (UTC)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
- by mx.groups.io with SMTP id smtpd.web11.36525.1760335914291451764
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AAA8CCA476
+	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 06:23:37 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web10.36428.1760336610249162665
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Oct 2025 23:11:54 -0700
+ Sun, 12 Oct 2025 23:23:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VMZE4b99;
- spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-71d60157747so37275107b3.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Oct 2025 23:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760335913; x=1760940713; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4htglPEhTb8tCmGVAlXqo5MuFeStu8VKAPv/QxrhUnw=;
-        b=VMZE4b99vtyFAwYa/RIKe3YwHfh6ZPv1TDin0xb3Dm/urdp+XZBHYHq0kGosH774t2
-         35Xc2NC58csm0cKObF7JQQg7JpuVkOBZ0B/p9chzhPvKenOKUB1pDwjXYeL/RdL1RBxx
-         QbVjqDMnci53z0ScLfMldbKdyJ6C7Hiwk3ZjAlCIGdvuJo3nFlJBGKc/pnWKNcThNJ3h
-         g9xqEQVkrZKnvA0HIssMyPNcjBmAHJTfmTGrIZ1ekoBY1ZX1wgH7Uo/GX0NsQ221SnsK
-         UoZvTdzmEnupdAbFB/SYKTs3udv5YJwie6bmqeZkV7em+QkBbN1YVrVHRfwI8ukc3zUI
-         Wtkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760335913; x=1760940713;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4htglPEhTb8tCmGVAlXqo5MuFeStu8VKAPv/QxrhUnw=;
-        b=oeEEaYwCxohR4/jhFZ5uu/jQghkhFRYsz9nflIrJuVOccKgbRkCKbj+RV11rUVkhXg
-         WLtl3rG9ahnkM86LOiKZUESMYsAJOwOs+iLZYxzIPL2Nb98jU8bqGYbVBQTljxFVoJl8
-         Z1GkfxcONd6LmSqoshjTamMswtYuBt+3je+JFsx9eG2YB5UPfFNkzfVdk1y1r/7kzhaW
-         8xw8hacB+iL223tmw/mi2vjIpSL2bjbJIq9tFzsCbcMYowAlwBvchsfUe68M3TEd4C3G
-         Vv7ZuqCJ3x1MPOIEsBdw2cE/uvqhPMEbmFOjBanT2o4Q9rKqgomauOabMwsIl1XKmybB
-         PVsw==
-X-Gm-Message-State: AOJu0YzTsPibflo99NlZEwc5F1PHgtyfiZPKG5QWqF5xLmkmvz9Jwd0y
-	9/fgs99Z9Af3TwFuwoSzS8WMtMvT27vkFviCTCd3KfljeMbRdnM8C8fQ2fGbFl5FBAYaxBenvud
-	sAt4Koi0fbGrgIjxJ6BUoVmRsUjIbt6LaVJSu
-X-Gm-Gg: ASbGncvj05LEMg9y+Fa3GcW7ZhMj9uLA/aj221Es5aBJEbyifckZuieJk3UBHoprwLq
-	xxHJGPxxLhbmnNznYxCPnZK5jSDdu/RTkvDIzaoZdVkt6egggckSTaY7fJl6LcDMmo/pXV9OIaK
-	oHK+wKon65aN+JwSqGrdFwutDpPVnWXpK7ko4yuPLs7+1JsOR2uLYpAOAqSu9mKxQ3zpV4hfgXS
-	yrsALwNqVUpSf+ZEV77yabXNszVO3rr56scv3CHiQdpjkZbBst0P/8Fxy5Q4weDhl3suw==
-X-Google-Smtp-Source: AGHT+IFZWSo7YbVQthYdn7P5cHi93CoZOcsWOsqH3ktNi5abxX+AkxOwGnyCoMW3XUSe8uw6RnozC4GO82MgwRSA8q0=
-X-Received: by 2002:a05:690e:204:b0:636:f08:8ad2 with SMTP id
- 956f58d0204a3-63ccb9047ecmr15284517d50.38.1760335913145; Sun, 12 Oct 2025
- 23:11:53 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=DN+5Pv1h;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20251013062324120e24b010000207f1-4ia1fq@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20251013062324120e24b010000207f1
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 13 Oct 2025 08:23:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=v+OR44eHyyL69kmUlDlNDb5YuFhlP4wrg2baUhULFXA=;
+ b=DN+5Pv1htj8nRbJCZMUWbf1wPR8FXiM0bBRe7gF1FB6HyX7+p6eKp9GB2Sk3ahTu7GJ0Cr
+ WiWzWDf8dKb9tUcITIJpYFt3Jn2kGoiRSa11vNmRsxfJmo+VPUvMERsh6PfMEEPMIYFa4Tzc
+ yQ8exxyucAyDT78fiJTD6MUrlcaZSvjCBDv+CC3WFC+Da8vMZ2pcUIvcfyLFEyWy9PxDyKab
+ Fr7M+ZLZsTCiscKZDkWLq7YoZHu69T4R4JBEL3HyEAWp5KJDBzy3NHh47HKXwJ6tyDoJ/VLs
+ mFqNGLkkB1tjom1xNuVBfs4tlbaGu4wNFe4tTo/gsAyxggJJIqSnTzeA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH v2] sqlite3: upgrade 3.48.0 -> 3.50.4
+Date: Mon, 13 Oct 2025 08:23:18 +0200
+Message-Id: <20251013062318.503706-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20251007063146.2204704-1-Deepesh.Varatharajan@windriver.com>
- <CAMKF1srf+8nF9rvQ058VpzeFU4zPMe4b88jYCT3QqrW=D_nkYw@mail.gmail.com> <fa48bc66-598e-4155-92e1-0ca43f61358f@windriver.com>
-In-Reply-To: <fa48bc66-598e-4155-92e1-0ca43f61358f@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 12 Oct 2025 23:11:26 -0700
-X-Gm-Features: AS18NWBILukXPxPWpRh6K1phiYrG9uvhEfeGnmyGmbOGs5gEpxMRIWKWs3ZqK9Y
-Message-ID: <CAMKF1sr8_bCUs-pVvvv-cGbG00t914Rz2+_VfT06VinLACtywA@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] glibc: stable 2.39 branch updates
-To: Deepesh Varatharajan <deepesh.varatharajan@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 06:11:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224759
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 06:23:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224760
 
-On Sun, Oct 12, 2025 at 10:43=E2=80=AFPM Deepesh Varatharajan
-<deepesh.varatharajan@windriver.com> wrote:
->
->
-> On 08-10-2025 03:00, Khem Raj wrote:
->
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d know the content is safe.
->
->
-> On Mon, Oct 6, 2025 at 11:33=E2=80=AFPM Varatharajan, Deepesh via lists.o=
-penembedded.org <deepesh.varatharajan=3Dwindriver.com@lists.openembedded.or=
-g> wrote:
->>
->> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->>
->> git log --oneline b027d5b145f1b2908f370bdb96dfe40180d0fcb6..765534258e7f=
-2c33719e3a5bc13432552991513b
->>
->> 765534258e (HEAD, origin/release/2.39/master) nss: Group merge does not =
-react to ERANGE during merge (bug 33361)
->> 7ce7b4b2f4 Rename new tst-sem17 test to tst-sem18
->> a6ac06abeb Avoid uninitialized result in sem_open when file does not exi=
-st
->> ff6ce67220 elf: handle addition overflow in _dl_find_object_update_1 [BZ=
- #32245]
->> fffc2df8a3 Optimize __libc_tsd_* thread variable access
->> 83340b35cc i386: Add GLIBC_ABI_GNU_TLS version [BZ #33221]
->> 5541edb1bd i386: Also add GLIBC_ABI_GNU2_TLS version [BZ #33129]
->> 1f17635507 debug: Fix tst-longjmp_chk3 build failure on Hurd
->> 3b6c8ea878 debug: Wire up tst-longjmp_chk3
->> 89596f46e3 i386: Update ___tls_get_addr to preserve vector registers
->> 4c2509882f elf: Preserve _rtld_global layout for the release branch
->> cf0e7d512d elf: Compile _dl_debug_state separately (bug 33224)
->> 5cd1f4b1a1 elf: Restore support for _r_debug interpositions and copy rel=
-ocations
->> 97017da5ef elf: Introduce _dl_debug_change_state
->> 5601ad79b7 elf: Introduce separate _r_debug_array variable
->> 24c94ea84e elf: Test dlopen (NULL, RTLD_LAZY) from an ELF constructor
->> 79d84b5da5 elf: Fix handling of symbol versions which hash to zero (bug =
-29190)
->> 5f5c411132 elf: Second ld.so relocation only if libc.so has been loaded
->> 4c9b1877fd elf: Reorder audit events in dlcose to match _dl_fini (bug 32=
-066)
->> f407a14ff7 elf: Call la_objclose for proxy link maps in _dl_fini (bug 32=
-065)
->> e27601b385 elf: Signal la_objopen for the proxy link map in dlmopen (bug=
- 31985)
->> fef226255d elf: Add the endswith function to <endswith.h>
->> d21a217fa0 elf: Update DSO list, write audit log to elf/tst-audit23.out
->> 4f145bb35d elf: Switch to main malloc after final ld.so self-relocation
->> 65d86471ce elf: Introduce _dl_relocate_object_no_relro
->> 5434cc2c41 elf: Do not define consider_profiling, consider_symbind as ma=
-cros
->> b2d8c6cbe7 elf: rtld_multiple_ref is always true
->> 2b89de7c91 Revert "elf: Run constructors on cyclic recursive dlopen (bug=
- 31986)"
->> 46e3ecad27 elf: Fix map_complete Systemtap probe in dl_open_worker
->> 5f225025db elf: Signal RT_CONSISTENT after relocation processing in dlop=
-en (bug 31986)
->> d6cc325fcf elf: Signal LA_ACT_CONSISTENT to auditors after RT_CONSISTENT=
- switch
->> 6917fde6f9 elf: Run constructors on cyclic recursive dlopen (bug 31986)
->> 9fa7cc6a0b ldconfig: Move endswithn into a new header file
->> 269e89bd8d x86-64: Add GLIBC_ABI_DT_X86_64_PLT [BZ #33212]
->> 62ff85fd09 x86-64: Add GLIBC_ABI_GNU2_TLS version [BZ #33129]
->> f0e8d04eef libio: Test for fdopen memory leak without SEEK_END support (=
-bug 31840)
->> 42a8cb7560 Remove memory leak in fdopen (bug 31840)
->> d1c1f78e9e math: Remove no-mathvec flag
->> 20d2d69a2f Use TLS initial-exec model for __libc_tsd_CTYPE_* thread vari=
-ables [BZ #33234]
->> c11950503f ctype: Fallback initialization of TLS using relocations (bug =
-19341, bug 32483)
->> 25c537c3b3 Use proper extern declaration for _nl_C_LC_CTYPE_{class,toupp=
-er,tolower}
->> fbdf9680cc Remove <libc-tsd.h>
->> fca5937510 ctype: Reformat Makefile.
->> 49f0e73fa3 elf: Handle ld.so with LOAD segment gaps in _dl_find_object (=
-bug 31943)
->> 64488b4b31 elf: Extract rtld_setup_phdr function from dl_main
->> 9833fcf7ce elf: Do not add a copy of _dl_find_object to libc.so
->> fbade65338 arm: Use _dl_find_object on __gnu_Unwind_Find_exidx (BZ 31405=
-)
->> 392e6cf1e8 AArch64: Improve codegen in SVE log1p
->> 3a78a276a3 AArch64: Optimize inverse trig functions
->> b6ea8902a7 AArch64: Avoid memset ifunc in cpu-features.c [BZ #33112]
->>
->> Testing Results:
->>             Before     After    Diff
->> PASS         5080      5096      +16
->> XPASS        4         4          0
->> FAIL         119       123       +4
->> XFAIL        16        16         0
->> UNSUPPORTED  154       154        0
->>
->> Testcases changes
->>
->> testcase-name                                                before     =
-      after
->>
->> debug/tst-longjmp_chk3(new)                                    -        =
-       PASS
->> elf/check-dt-x86-64-plt(new)                                   -        =
-       PASS
->> elf/check-gnu2-tls(new)                                        -        =
-       PASS
->> lf/tst-dlmopen4-nonpic(new)                                    -        =
-       PASS
->> elf/tst-dlmopen4-pic(new)                                      -        =
-       PASS
->> elf/tst-dlopen-auditdup(new)                                   -        =
-       PASS
->> elf/tst-dlopen-constructor-null(new)                           -        =
-       PASS
->> elf/tst-link-map-contiguous-ldso(new)                          -        =
-       PASS
->> elf/tst-link-map-contiguous-libc(new)                          -        =
-       PASS
->> elf/tst-nolink-libc-1(new)                                     -        =
-       PASS
->> elf/tst-nolink-libc-2(new)                                     -        =
-       PASS
->> elf/tst-rtld-no-malloc(new)                                    -        =
-       PASS
->> elf/tst-rtld-no-malloc-audit(new)                              -        =
-       PASS
->> elf/tst-rtld-no-malloc-preload(new)                            -        =
-       PASS
->> elf/tst-tls23(new)                                             -        =
-       PASS
->> elf/tst-version-hash-zero(new)                                 -        =
-       PASS
->> libio/tst-fdopen-seek-failure(new)                             -        =
-       PASS
->> libio/tst-fdopen-seek-failure-mem(new)                         -        =
-       PASS
->> nptl/tst-sem18(new)                                            -        =
-       PASS
->> ctype/tst-ctype-tls-dlmopen(new)                               -        =
-       FAIL
->> ctype/tst-ctype-tls-dlopen-static(new)                         -        =
-       FAIL
->> stdio-common/tst-scanf-bz27650                                FAIL      =
-       PASS
->> malloc/tst-aligned-alloc-random-thread-cross-malloc-check     PASS      =
-       FAIL
->> malloc/tst-aligned-alloc-random-thread-malloc-check           PASS      =
-       FAIL
->
->
-> While new passes are good the above two are regressions. So it will be go=
-od to quantify them a bit
->
-> The test failures seem to be intermittent. At the moment, I don't have th=
-e logs from the earlier failures,
-> but I reran the tests a couple of times and they passed consistently. Goi=
-ng forward, I'll keep an eye on
-> any regressions. Shall I go ahead and send V2 with the updated commit mes=
-sage?
->
+From: Peter Marko <peter.marko@siemens.com>
 
-Please do so.
+Handle CVE-2025-3277, CVE-2025-29087 and CVE-2025-29088.
 
->
->>
->> timezone/tst-tzset                                            PASS      =
-       FAIL
->> elf/ifuncmain8                                                PASS      =
-        -
->>
->> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->> ---
->>  meta/recipes-core/glibc/glibc-version.inc | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-co=
-re/glibc/glibc-version.inc
->> index 89e532fd67..f63eb0ad56 100644
->> --- a/meta/recipes-core/glibc/glibc-version.inc
->> +++ b/meta/recipes-core/glibc/glibc-version.inc
->> @@ -1,7 +1,7 @@
->>  SRCBRANCH ?=3D "release/2.39/master"
->>  PV =3D "2.39+git"
->> -SRCREV_glibc ?=3D "b027d5b145f1b2908f370bdb96dfe40180d0fcb6"
->> -SRCREV_localedef ?=3D "fab74f31b3811df543e24b6de47efdf45b538abc"
->> +SRCREV_glibc ?=3D "765534258e7f2c33719e3a5bc13432552991513b"
->> +SRCREV_localedef ?=3D "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
->>
->>  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps=
-"
->>
->> --
->> 2.49.0
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#224512): https://lists.openembedded.org/g/openembedd=
-ed-core/message/224512
->> Mute This Topic: https://lists.openembedded.org/mt/115632145/1997914
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [r=
-aj.khem@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+This update includes major change in how it is built.
+Instead of autotools, autosetup is used.
+
+Autosetup (https://msteveb.github.io/autosetup/) claims to be
+* Replacement for autoconf in many situations
+However it also claims NOT to
+* Intended to replace all possible uses of autoconf
+This means that some autoconf features are not available.
+
+Recipe changes:
+* stop inheriting autotools and define B, do_configure and do_install
+* add patch to disable zlib as autosetup cannot be preconfigured like
+  autotools to force function calls
+* update packageconfig options to match new syntax
+* libedit is detected with ncurses linking options (as seen in
+  do_configure log)
+* backport rpaths fix
+* define soname to avoid file-rdeps QA error due to wrong library name
+* clean B for do_configure as the new Makefiles do not seem to properly
+  retrigger build if configuration changes
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+v2 changes:
+- rebased to latest master
+- removed anti-strip hack not needed in latest version
+- created patch to disable zlib
+- (no change) checked proj-native build: succeeds on Debian 12 x86 host
+
+ meta/recipes-support/sqlite/sqlite3.inc       | 33 ++++++++---
+ ...rpath-configure-script-flag-to-addre.patch | 57 +++++++++++++++++++
+ .../0002-Add-option-to-disable-zlib.patch     | 51 +++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.48.0.bb |  8 ---
+ meta/recipes-support/sqlite/sqlite3_3.50.4.bb | 10 ++++
+ 5 files changed, 144 insertions(+), 15 deletions(-)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.50.4.bb
+
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+index 28a33282ae1..94dbc38ec5e 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -14,34 +14,35 @@ def sqlite_download_version(d):
+ SQLITE_PV = "${@sqlite_download_version(d)}"
+ 
+ S = "${UNPACKDIR}/sqlite-autoconf-${SQLITE_PV}"
++B = "${WORKDIR}/build"
+ 
+ UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
+ UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
+ 
+ CVE_PRODUCT = "sqlite"
+ 
+-inherit autotools pkgconfig siteinfo
++inherit pkgconfig siteinfo
+ 
+ # enable those which are enabled by default in configure
+ PACKAGECONFIG ?= "fts4 fts5 rtree dyn_ext"
+ PACKAGECONFIG:class-native ?= "fts4 fts5 rtree dyn_ext"
+ 
+-PACKAGECONFIG[editline] = "--enable-editline,--disable-editline,libedit"
+-PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline ncurses"
++PACKAGECONFIG[editline] = "--enable-editline --with-readline-header=${includedir}/editline/readline.h,--disable-editline,libedit ncurses"
++PACKAGECONFIG[readline] = "--enable-readline --with-readline-header=${includedir}/readline/readline.h,--disable-readline,readline ncurses"
+ PACKAGECONFIG[fts3] = "--enable-fts3,--disable-fts3"
+ PACKAGECONFIG[fts4] = "--enable-fts4,--disable-fts4"
+ PACKAGECONFIG[fts5] = "--enable-fts5,--disable-fts5"
+ PACKAGECONFIG[rtree] = "--enable-rtree,--disable-rtree"
+ PACKAGECONFIG[session] = "--enable-session,--disable-session"
+-PACKAGECONFIG[dyn_ext] = "--enable-dynamic-extensions,--disable-dynamic-extensions"
+-PACKAGECONFIG[zlib] = ",,zlib"
+-
+-CACHED_CONFIGUREVARS += "${@bb.utils.contains('PACKAGECONFIG', 'zlib', '', 'ac_cv_search_deflate=no',d)}"
++PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
++PACKAGECONFIG[dyn_ext] = "--enable-load-extension,--disable-load-extension"
+ 
+ EXTRA_OECONF = " \
+     --enable-shared \
+     --enable-threadsafe \
+     --disable-static-shell \
++    --disable-rpath \
++    --soname=legacy \
+ "
+ 
+ # pread() is in POSIX.1-2001 so any reasonable system must surely support it
+@@ -65,4 +66,22 @@ FILES:lib${BPN}-staticdev = "${libdir}/lib*.a"
+ 
+ AUTO_LIBNAME_PKGS = "${MLPREFIX}lib${BPN}"
+ 
++do_configure() {
++    ${S}/configure \
++        --build=${BUILD_SYS} \
++        --host=${TARGET_SYS} \
++        --prefix=${prefix} \
++        --bindir=${bindir} \
++        --libdir=${libdir} \
++        --includedir=${includedir} \
++        --mandir=${mandir} \
++        ${EXTRA_OECONF} \
++        ${PACKAGECONFIG_CONFARGS}
++}
++do_configure[cleandirs] = "${B}"
++
++do_install() {
++    oe_runmake DESTDIR=${D} install
++}
++
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch b/meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch
+new file mode 100644
+index 00000000000..f1e93a1c9a7
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch
+@@ -0,0 +1,57 @@
++From 87c807c6dd4df67328919fa28e89a06839e634fe Mon Sep 17 00:00:00 2001
++From: stephan <stephan@noemail.net>
++Date: Sun, 22 Jun 2025 22:48:11 +0000
++Subject: [PATCH] Add the --disable-rpath configure script flag to address
++ [forum:13cac3b56516f849 | forum post 13cac3b56516f849].
++
++FossilOrigin-Name: a59d9bb25e518f5d79f654615b92f6c50cfb704b5abee0f820912644b89366c5
++
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/87c807c6dd4df67328919fa28e89a06839e634fe]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ autosetup/sqlite-config.tcl | 18 +++++++++---------
++ 1 file changed, 9 insertions(+), 9 deletions(-)
++
++diff --git a/autosetup/sqlite-config.tcl b/autosetup/sqlite-config.tcl
++index bb81123204..4dd065095e 100644
++--- a/autosetup/sqlite-config.tcl
+++++ b/autosetup/sqlite-config.tcl
++@@ -334,8 +334,8 @@ proc sqlite-configure {buildMode configScript} {
++           => {Link the sqlite3 shell app against the DLL instead of embedding sqlite3.c}
++       }
++       {canonical autoconf} {
++-        # A potential TODO without a current use case:
++-        #rpath=1 => {Disable use of the rpath linker flag}
+++        rpath=1 => {Disable use of the rpath linker flag}
+++
++         # soname: https://sqlite.org/src/forumpost/5a3b44f510df8ded
++         soname:=legacy
++           => {SONAME for libsqlite3.so. "none", or not using this flag, sets no
++@@ -2119,7 +2119,6 @@ proc sqlite-handle-tcl {} {
++ ########################################################################
++ # Handle the --enable/disable-rpath flag.
++ proc sqlite-handle-rpath {} {
++-  proj-check-rpath
++   # autosetup/cc-shared.tcl sets the rpath flag definition in
++   # [get-define SH_LINKRPATH], but it does so on a per-platform basis
++   # rather than as a compiler check. Though we should do a proper
++@@ -2128,12 +2127,13 @@ proc sqlite-handle-rpath {} {
++   # for which sqlite-env-is-unix-on-windows returns a non-empty
++   # string.
++ 
++-#  if {[proj-opt-truthy rpath]} {
++-#    proj-check-rpath
++-#  } else {
++-#    msg-result "Disabling use of rpath."
++-#    define LDFLAGS_RPATH ""
++-#  }
+++  # https://sqlite.org/forum/forumpost/13cac3b56516f849
+++  if {[proj-opt-truthy rpath]} {
+++    proj-check-rpath
+++  } else {
+++    msg-result "Disabling use of rpath."
+++    define LDFLAGS_RPATH ""
+++  }
++ }
++ 
++ ########################################################################
+diff --git a/meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch b/meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch
+new file mode 100644
+index 00000000000..c14c9dbd5b7
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch
+@@ -0,0 +1,51 @@
++From f98a739032dd863ba8dd315729ded7ad0c86473c Mon Sep 17 00:00:00 2001
++From: Peter Marko <peter.marko@siemens.com>
++Date: Sun, 12 Oct 2025 23:32:46 +0200
++Subject: [PATCH] Add option to disable zlib
++
++Autotools allowed to disable zlib by preconfiguring variable
++'ac_cv_search_deflate=no'.
++Autosetup does not seem to offer this option, so implement real option.
++
++Note that configuring sqlite without zlib is virtually impossible zlib
++normally gets into the system with toolchain. So the only option is to
++configure it out.
++
++This change is being done for Yocto project, where it's currently
++important to avoid additional dependencies having to restore chain of
++dependencies in "restore build from cache" scenario.
++
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Upstream-Status: Backport [TODO]
++---
++ autosetup/sqlite-config.tcl | 10 +++++++++-
++ 1 file changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/autosetup/sqlite-config.tcl b/autosetup/sqlite-config.tcl
++index 85fe414382..77190a7053 100644
++--- a/autosetup/sqlite-config.tcl
+++++ b/autosetup/sqlite-config.tcl
++@@ -274,6 +274,14 @@ proc sqlite-configure {buildMode configScript} {
++       }
++     }
++ 
+++    # Other options for CLI shell
+++    cli-shell {
+++      {*} {
+++        zlib=1
+++          => {Disable zlib support}
+++      }
+++    }
+++
++     # Options for ICU: International Components for Unicode
++     icu {
++       {*} {
++@@ -641,7 +649,7 @@ proc sqlite-check-common-system-deps {} {
++     string.h strings.h \
++     inttypes.h
++ 
++-  if {[cc-check-includes zlib.h] && [proj-check-function-in-lib deflate z]} {
+++  if {[opt-bool zlib] && [cc-check-includes zlib.h] && [proj-check-function-in-lib deflate z]} {
++     # TODO? port over the more sophisticated zlib search from the fossil auto.def
++     define HAVE_ZLIB 1
++     define LDFLAGS_ZLIB -lz
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+deleted file mode 100644
+index bd2ac6614d8..00000000000
+--- a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require sqlite3.inc
+-
+-LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+-
+-SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
+-
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.50.4.bb b/meta/recipes-support/sqlite/sqlite3_3.50.4.bb
+new file mode 100644
+index 00000000000..b822d7e919c
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3_3.50.4.bb
+@@ -0,0 +1,10 @@
++require sqlite3.inc
++
++LICENSE = "PD"
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
++
++SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI[sha256sum] = "a3db587a1b92ee5ddac2f66b3edb41b26f9c867275782d46c3a088977d6a5b18"
++
++SRC_URI += "file://0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch"
++SRC_URI += "file://0002-Add-option-to-disable-zlib.patch"
 
