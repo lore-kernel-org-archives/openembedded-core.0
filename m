@@ -2,242 +2,179 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E73BCCD183
-	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 18:17:21 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web10.52032.1760379437799536574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FA05CCD183
+	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 18:24:21 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.web10.52178.1760379860609627992
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Oct 2025 11:17:17 -0700
+ Mon, 13 Oct 2025 11:24:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=C+re1y0j;
- spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-72e565bf2f0so47286977b3.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:17:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FGPejntd;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-71d60501806so45651467b3.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:24:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760379437; x=1760984237; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760379860; x=1760984660; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RyHRaLwIvF6xCra6NZ2kbb2EwAvV+3ASInhyCDTvIJE=;
-        b=C+re1y0jxDGm4EnpXd+W9fjboV2+sA5fgTzImAYMzqijUTx2JHW3kJG5WzxRnnMDNI
-         yjeP1LFLRhVWO37xCsf+ilHAb9Less2ZL6xjcHqco427Bt+jn4rnhDdrEhEGvlLEB0ek
-         78de6pILtiXARM4shAOYgYnY3z92dNLldjDPTiBS8lzVSx2B6H/smLQNbt/IvDYGlzB8
-         Mr3eZ/Ut34iKV6QzQ2WOQtfvIlQqJ1jxNcKlEvifSEKy0xINbS/AG7smXHARBJM4cI1j
-         lERsoJKDyJekSTcZdp/xmtAh6NS9MsuiERltdv7oK3nMBhorhIiE2vVwy69Ro31iIJG9
-         0AbA==
+        bh=uFIEQJ3CZfeU/KVMK7azrqcHy2FV8gXkMiKg2wpF9FM=;
+        b=FGPejntdXveuTxGzuaZVqsJKWTPMq4apjszoxxj0genmIp8xMw+SwzFXUiA70e9ePl
+         hrhdpHdUcV0TDkiRBLhZBToWUOe5yZQJmGqicXVITQiNMQGy8xo5XYIN93nYYDkafhyr
+         14bo5ojCuhHgC4QQtVultD3snFp6VDoFJdfXo/suI1Z+oUjwKedmz0RYoJQR1iNgKpN0
+         C4DlW95DiK+wPlelrRi6sC+mCPsfJEBgyYV9QGh9m7yS+LGUm95Onzpq7rHTdh2IqrBr
+         bjBdddT4xoEtJoflVVy9SKIWP55ix6OWXN1JW6UurfiCbaPSzfiCwCKza++yJpUifzD1
+         R+Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760379437; x=1760984237;
+        d=1e100.net; s=20230601; t=1760379860; x=1760984660;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RyHRaLwIvF6xCra6NZ2kbb2EwAvV+3ASInhyCDTvIJE=;
-        b=Gs5Gz0fPSj0tpmuYGPCIFUJ4hzKb66b91Ib8IhDjVRcTdAV3lzavdURSGord/hUys9
-         4Mh9StPgzPHj+Q3j2iWxa6GgWJONOwECc5dX6muwq7xR+cwQYLAHKEXRPgBzzZDFM/9o
-         D4golTwuqGQDBOv5LibpdbZHt1ykh4d2K87TXr1bf1XqSMO5bS7OwzbqRM5EPp6EDIjx
-         iuwLZhzGcjWpe2NVtHbSfW8p1pJMakHGEN7JkZ/YRTp6AMUjlHpvb5StyrgbzaJvZEgA
-         5P9hAgoxz5qESaaYAdrXK8rt7wgVmCOilun4UICGglZIosO8r2w1Ieh1F5epFWXO1pbv
-         A1Wg==
-X-Gm-Message-State: AOJu0YxMJpjqHQCRQZsJ7y1h/NQtKQgoxH3E4OR96YliJiSVU6ZgvZZM
-	Ep4Gv6iwXy5bCoEVPcNoihsRG5//FwFLwqzbpV7JlpVfVmRpDlPwotXMJEF973hV5pKXHKGkWDA
-	XUWGLXo9E1krnXQCK2l9rBVJ/oTG8mgr7UZ+x
-X-Gm-Gg: ASbGncvZayegkfEQ20u2OnoyaMEOW8CJdQ+2sg0Hq4Oj1wWRnx/sirPxL8/tEkys+QM
-	zSdyOKojWwZiNUx1NxEBvpUv9iVhXlP/C4inKGH3iyfTjE9i2bQxwfz1Dp03N827cW1jBENHnEV
-	6QovbXMi2M5hx5RnYUCD873TAu5onhU1K8VTmF9mKxI1kR2okcR9wrnN1Fl+aNNJ1/X++n4iK/2
-	V0BcznBaS7OUuqG5Cq7YrPHfu07HvGzSY6lq2XmZxL4P/tqFkg8igHL+wITh8SIsw==
-X-Google-Smtp-Source: AGHT+IHphH1dVVeVrc1Ni7pKhp3diq0ctmOji0jPctfLmX39tUikE4CrS2b+zTP6RenQ8MA81yPJXl4dbaMJZV89Sps=
-X-Received: by 2002:a53:c906:0:b0:62d:9854:f1c3 with SMTP id
- 956f58d0204a3-63ccb8bb4f1mr16906445d50.33.1760379436640; Mon, 13 Oct 2025
- 11:17:16 -0700 (PDT)
+        bh=uFIEQJ3CZfeU/KVMK7azrqcHy2FV8gXkMiKg2wpF9FM=;
+        b=HKoNOE2XR2mXbc8XBV0pd1HmX08RBRqCZgBQYi9ZeOPAN1khdP1jLmcLGAhiQs2FHN
+         ZXxajyVa9VJtmDJWM3VbpsfF7bbpdIsaPpP5P6u4swAbf0bRqgo0Selc1MLXdyPTvy3X
+         S3zmE86cQdkQWLbgYpqhKBwJ+dP5HVs6dBhcUKSCqbr0erLV6XKj6BwyIfoMznomnINm
+         Wul1Js+wHTrU5a0Ws2eV3oDvSbITQM80YqZikKGHiR6oTPqya9VkvxluqN4zFzhYVp0h
+         gCwAs4XKELt6JtzXDXb7LPsvWGerC/MhpJRGFE73d3IA5aS+qQTGUwuPRyU8opOU9ssF
+         i14g==
+X-Gm-Message-State: AOJu0Yzu+fnR5oVHKhBm6+1jbxRLGtnBgEu2SxBBma/rfTA9BXdOxSa4
+	SSxlE4QVtGvFCwpxPje3Krivzo8yz817KB20REnrdGAhK+GLHHFnxL97cGvcoGcJblph2XJKFyS
+	x6m+jF/362RgV6egOiDbfW7Ko+tO20Sc=
+X-Gm-Gg: ASbGnctIC+qQ24KxdTSKYgDOmq0uMQvilvo49OwfJPXwU6RiEr9aqr0kAqNTFZlhH0Y
+	DwMnCAkMGl4732ZXfq4aJDHUJbl2yDRwm3PsJi+3b2dpCBcgtuvtFnrfZpIbuMQ+PMNNx6L0DZ8
+	g7W4exQQPvCApENTQ7ZnOMzCQPdf5swzHSB1McSJzMVrviKITOIPyCHVCHT15g8MfvWU8TEJ2Uf
+	7AO58GMOetPtZqo3TQ9K1s2z/QzHIj5Psuw/ZA2VS5QnkoobOZE0ZAFPTEhBUys9A==
+X-Google-Smtp-Source: AGHT+IEREIhJ5KV4y4qG87u5ah2cyW/cwfglty8PF3hKR9l2kdzpE6ekyafIos9a7BJsylr6j0i9R5o1oBKm1nUInag=
+X-Received: by 2002:a05:690e:150e:b0:63c:f5a7:3cc with SMTP id
+ 956f58d0204a3-63cf5a70d6fmr8121795d50.56.1760379859540; Mon, 13 Oct 2025
+ 11:24:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251013094915.2816229-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20251013094915.2816229-1-Deepesh.Varatharajan@windriver.com>
+References: <20251013124515.2362058-1-ross.burton@arm.com> <20251013124515.2362058-2-ross.burton@arm.com>
+In-Reply-To: <20251013124515.2362058-2-ross.burton@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 13 Oct 2025 11:16:50 -0700
-X-Gm-Features: AS18NWDdaZWOzjHN7LhMU64264aPRSIuTyZ5W3ST9TGkCEdJdzgfOfZku3F62FQ
-Message-ID: <CAMKF1spmqS0=i-8OaLn4Uh3DDwh49gCJ5sUActA_60Q3KMbozg@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH V2] glibc: stable 2.39 branch updates
-To: deepesh.varatharajan@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
+Date: Mon, 13 Oct 2025 11:23:51 -0700
+X-Gm-Features: AS18NWDzeyfegTpdhVLL85pVQ3Gq26Yr5runoZolA2J3vCr8qs5SEbQkiCjApnU
+Message-ID: <CAMKF1sobt0UNtqurghzrAmVSG2Yu8twXRH1-roim6pGJ-fj1zg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] glibc: only install nscd if it's been enabled
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 18:17:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224792
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 18:24:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224793
 
-On Mon, Oct 13, 2025 at 2:49=E2=80=AFAM Varatharajan, Deepesh via
-lists.openembedded.org
-<deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
+On Mon, Oct 13, 2025 at 5:45=E2=80=AFAM Ross Burton via lists.openembedded.=
+org
+<ross.burton=3Darm.com@lists.openembedded.org> wrote:
 >
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> Whilst the actual nscd binary won't be installed if the PACKAGECONFIG is
+> disabled, we were still installing the init scripts and configuration
+> files.  These should be wrapped with PACKAGECONFIG checks.
 >
-> git log --oneline b027d5b145f1b2908f370bdb96dfe40180d0fcb6..58cbbd43fe829=
-10cf8ae9008351b0b0665104500
+> ${localstatedir}/db and makedbs.sh are part of libnss-db not nscd, so
+> ensure they're still always installed.
 >
-> 58cbbd43fe (HEAD -> release/2.39/master, origin/release/2.39/master) x86:=
- Detect Intel Nova Lake Processor
-> 835b1e3379 x86: Detect Intel Wildcat Lake Processor
-> 765534258e nss: Group merge does not react to ERANGE during merge (bug 33=
-361)
-> 7ce7b4b2f4 Rename new tst-sem17 test to tst-sem18
-> a6ac06abeb Avoid uninitialized result in sem_open when file does not exis=
-t
-> ff6ce67220 elf: handle addition overflow in _dl_find_object_update_1 [BZ =
-#32245]
-> fffc2df8a3 Optimize __libc_tsd_* thread variable access
-> 83340b35cc i386: Add GLIBC_ABI_GNU_TLS version [BZ #33221]
-> 5541edb1bd i386: Also add GLIBC_ABI_GNU2_TLS version [BZ #33129]
-> 1f17635507 debug: Fix tst-longjmp_chk3 build failure on Hurd
-> 3b6c8ea878 debug: Wire up tst-longjmp_chk3
-> 89596f46e3 i386: Update ___tls_get_addr to preserve vector registers
-> 4c2509882f elf: Preserve _rtld_global layout for the release branch
-> cf0e7d512d elf: Compile _dl_debug_state separately (bug 33224)
-> 5cd1f4b1a1 elf: Restore support for _r_debug interpositions and copy relo=
-cations
-> 97017da5ef elf: Introduce _dl_debug_change_state
-> 5601ad79b7 elf: Introduce separate _r_debug_array variable
-> 24c94ea84e elf: Test dlopen (NULL, RTLD_LAZY) from an ELF constructor
-> 79d84b5da5 elf: Fix handling of symbol versions which hash to zero (bug 2=
-9190)
-> 5f5c411132 elf: Second ld.so relocation only if libc.so has been loaded
-> 4c9b1877fd elf: Reorder audit events in dlcose to match _dl_fini (bug 320=
-66)
-> f407a14ff7 elf: Call la_objclose for proxy link maps in _dl_fini (bug 320=
-65)
-> e27601b385 elf: Signal la_objopen for the proxy link map in dlmopen (bug =
-31985)
-> fef226255d elf: Add the endswith function to <endswith.h>
-> d21a217fa0 elf: Update DSO list, write audit log to elf/tst-audit23.out
-> 4f145bb35d elf: Switch to main malloc after final ld.so self-relocation
-> 65d86471ce elf: Introduce _dl_relocate_object_no_relro
-> 5434cc2c41 elf: Do not define consider_profiling, consider_symbind as mac=
-ros
-> b2d8c6cbe7 elf: rtld_multiple_ref is always true
-> 2b89de7c91 Revert "elf: Run constructors on cyclic recursive dlopen (bug =
-31986)"
-> 46e3ecad27 elf: Fix map_complete Systemtap probe in dl_open_worker
-> 5f225025db elf: Signal RT_CONSISTENT after relocation processing in dlope=
-n (bug 31986)
-> d6cc325fcf elf: Signal LA_ACT_CONSISTENT to auditors after RT_CONSISTENT =
-switch
-> 6917fde6f9 elf: Run constructors on cyclic recursive dlopen (bug 31986)
-> 9fa7cc6a0b ldconfig: Move endswithn into a new header file
-> 269e89bd8d x86-64: Add GLIBC_ABI_DT_X86_64_PLT [BZ #33212]
-> 62ff85fd09 x86-64: Add GLIBC_ABI_GNU2_TLS version [BZ #33129]
-> f0e8d04eef libio: Test for fdopen memory leak without SEEK_END support (b=
-ug 31840)
-> 42a8cb7560 Remove memory leak in fdopen (bug 31840)
-> d1c1f78e9e math: Remove no-mathvec flag
-> 20d2d69a2f Use TLS initial-exec model for __libc_tsd_CTYPE_* thread varia=
-bles [BZ #33234]
-> c11950503f ctype: Fallback initialization of TLS using relocations (bug 1=
-9341, bug 32483)
-> 25c537c3b3 Use proper extern declaration for _nl_C_LC_CTYPE_{class,touppe=
-r,tolower}
-> fbdf9680cc Remove <libc-tsd.h>
-> fca5937510 ctype: Reformat Makefile.
-> 49f0e73fa3 elf: Handle ld.so with LOAD segment gaps in _dl_find_object (b=
-ug 31943)
-> 64488b4b31 elf: Extract rtld_setup_phdr function from dl_main
-> 9833fcf7ce elf: Do not add a copy of _dl_find_object to libc.so
-> fbade65338 arm: Use _dl_find_object on __gnu_Unwind_Find_exidx (BZ 31405)
-> 392e6cf1e8 AArch64: Improve codegen in SVE log1p
-> 3a78a276a3 AArch64: Optimize inverse trig functions
-> b6ea8902a7 AArch64: Avoid memset ifunc in cpu-features.c [BZ #33112]
->
-> Testing Results:
->             Before     After    Diff
-> PASS         5080      5099      +19
-> XPASS        4         4          0
-> FAIL         119       120       +1
-> XFAIL        16        16         0
-> UNSUPPORTED  154       154        0
->
-> Testcases changes
->
-> testcase-name                                                before      =
-     after
->
-> debug/tst-longjmp_chk3(new)                                    -         =
-      PASS
-> elf/check-dt-x86-64-plt(new)                                   -         =
-      PASS
-> elf/check-gnu2-tls(new)                                        -         =
-      PASS
-> lf/tst-dlmopen4-nonpic(new)                                    -         =
-      PASS
-> elf/tst-dlmopen4-pic(new)                                      -         =
-      PASS
-> elf/tst-dlopen-auditdup(new)                                   -         =
-      PASS
-> elf/tst-dlopen-constructor-null(new)                           -         =
-      PASS
-> elf/tst-link-map-contiguous-ldso(new)                          -         =
-      PASS
-> elf/tst-link-map-contiguous-libc(new)                          -         =
-      PASS
-> elf/tst-nolink-libc-1(new)                                     -         =
-      PASS
-> elf/tst-nolink-libc-2(new)                                     -         =
-      PASS
-> elf/tst-rtld-no-malloc(new)                                    -         =
-      PASS
-> elf/tst-rtld-no-malloc-audit(new)                              -         =
-      PASS
-> elf/tst-rtld-no-malloc-preload(new)                            -         =
-      PASS
-> elf/tst-tls23(new)                                             -         =
-      PASS
-> elf/tst-version-hash-zero(new)                                 -         =
-      PASS
-> libio/tst-fdopen-seek-failure(new)                             -         =
-      PASS
-> libio/tst-fdopen-seek-failure-mem(new)                         -         =
-      PASS
-> nptl/tst-sem18(new)                                            -         =
-      PASS
-> ctype/tst-ctype-tls-dlmopen(new)                               -         =
-      FAIL
-> ctype/tst-ctype-tls-dlopen-static(new)                         -         =
-      FAIL
-
-Are these two test failures intermittent ?
-
-> stdio-common/tst-scanf-bz27650                                FAIL       =
-      PASS
-> elf/ifuncmain8                                                PASS       =
-       -
->
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  meta/recipes-core/glibc/glibc-version.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  meta/recipes-core/glibc/glibc-package.inc | 41 +++++++++++++----------
+>  1 file changed, 23 insertions(+), 18 deletions(-)
 >
-> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
-e/glibc/glibc-version.inc
-> index 89e532fd67..2ca1571158 100644
-> --- a/meta/recipes-core/glibc/glibc-version.inc
-> +++ b/meta/recipes-core/glibc/glibc-version.inc
-> @@ -1,7 +1,7 @@
->  SRCBRANCH ?=3D "release/2.39/master"
->  PV =3D "2.39+git"
-> -SRCREV_glibc ?=3D "b027d5b145f1b2908f370bdb96dfe40180d0fcb6"
-> -SRCREV_localedef ?=3D "fab74f31b3811df543e24b6de47efdf45b538abc"
-> +SRCREV_glibc ?=3D "58cbbd43fe82910cf8ae9008351b0b0665104500"
-> +SRCREV_localedef ?=3D "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
+> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-cor=
+e/glibc/glibc-package.inc
+> index d4941a21a10..3d721d8f69f 100644
+> --- a/meta/recipes-core/glibc/glibc-package.inc
+> +++ b/meta/recipes-core/glibc/glibc-package.inc
+> @@ -98,16 +98,20 @@ do_install() {
+>                 rm -f ${D}${infodir}/dir
+>         fi
 >
->  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
+> -       install -d ${D}${sysconfdir}/init.d
+> -       install -d ${D}${localstatedir}/db/nscd
+> -       install -m 0755 ${S}/nscd/nscd.init ${D}${sysconfdir}/init.d/nscd
+> -       install -m 0755 ${S}/nscd/nscd.conf ${D}${sysconfdir}/nscd.conf
+> +       install -d ${D}${localstatedir}/db
+>         install -m 0755 ${UNPACKDIR}/makedbs.sh ${D}${localstatedir}/db
+> -       sed -i "s%daemon%start-stop-daemon --start --exec%g" ${D}${syscon=
+fdir}/init.d/nscd
+> -       sed -i "s|\(enable-cache\t\+netgroup\t\+\)yes|\1no|" ${D}${syscon=
+fdir}/nscd.conf
 >
+> -       install -d ${D}${systemd_system_unitdir}
+> -       install -m 0644 ${S}/nscd/nscd.service ${D}${systemd_system_unitd=
+ir}/
+> +       if ${@bb.utils.contains('PACKAGECONFIG', 'nscd', 'true', 'false',=
+ d)}; then
+
+should it check for initsystem type as well before doing the following
+operations I wonder
+
+> +               install -d ${D}${sysconfdir}/init.d
+> +               install -d ${D}${localstatedir}/db/nscd
+> +               install -m 0755 ${S}/nscd/nscd.init ${D}${sysconfdir}/ini=
+t.d/nscd
+> +               install -m 0755 ${S}/nscd/nscd.conf ${D}${sysconfdir}/nsc=
+d.conf
+> +               sed -i "s%daemon%start-stop-daemon --start --exec%g" ${D}=
+${sysconfdir}/init.d/nscd
+> +               sed -i "s|\(enable-cache\t\+netgroup\t\+\)yes|\1no|" ${D}=
+${sysconfdir}/nscd.conf
+> +
+> +               install -d ${D}${systemd_system_unitdir}
+> +               install -m 0644 ${S}/nscd/nscd.service ${D}${systemd_syst=
+em_unitdir}/
+> +       fi
+>
+>         # The dynamic loader will have been installed into
+>         # ${base_libdir}. However, if that isn't going to end up being
+> @@ -132,18 +136,19 @@ def get_libc_fpu_setting(bb, d):
+>      return ""
+>
+>  do_install:append:class-target() {
+> -       if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'fa=
+lse', d)}; then
+> -               install -d ${D}${nonarch_libdir}/tmpfiles.d
+> -               echo "d /run/nscd 755 root root -" \
+> -                       > ${D}${nonarch_libdir}/tmpfiles.d/nscd.conf
+> -       fi
+> +       if ${@bb.utils.contains('PACKAGECONFIG', 'nscd', 'true', 'false',=
+ d)}; then
+> +               if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'tr=
+ue', 'false', d)}; then
+> +                       install -d ${D}${nonarch_libdir}/tmpfiles.d
+> +                       echo "d /run/nscd 755 root root -" \
+> +                               > ${D}${nonarch_libdir}/tmpfiles.d/nscd.c=
+onf
+> +               fi
+>
+> -       if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'f=
+alse', d)}; then
+> -               install -d ${D}${sysconfdir}/default/volatiles
+> -               echo "d root root 0755 /var/run/nscd none" \
+> -                       > ${D}${sysconfdir}/default/volatiles/98_nscd
+> +               if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 't=
+rue', 'false', d)}; then
+> +                       install -d ${D}${sysconfdir}/default/volatiles
+> +                       echo "d root root 0755 /var/run/nscd none" \
+> +                               > ${D}${sysconfdir}/default/volatiles/98_=
+nscd
+> +               fi
+>         fi
+> -
+>  }
+>  do_install:append:aarch64 () {
+>         do_install_armmultilib
 > --
-> 2.49.0
+> 2.43.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#224769): https://lists.openembedded.org/g/openembedde=
-d-core/message/224769
-> Mute This Topic: https://lists.openembedded.org/mt/115731631/1997914
+> View/Reply Online (#224781): https://lists.openembedded.org/g/openembedde=
+d-core/message/224781
+> Mute This Topic: https://lists.openembedded.org/mt/115733355/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
 j.khem@gmail.com]
