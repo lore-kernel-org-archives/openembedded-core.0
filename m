@@ -1,83 +1,118 @@
-Return-Path: <jester@theyoctojester.info>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 731BCCCD185
-	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 19:00:41 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web10.53070.1760382032220008386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D597CCD185
+	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 19:07:51 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.53241.1760382461772593397
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Oct 2025 12:00:32 -0700
+ Mon, 13 Oct 2025 12:07:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@theyoctojester-info.20230601.gappssmtp.com header.s=20230601 header.b=tMz8W3XM;
- spf=neutral (domain: theyoctojester.info, ip: 209.85.215.171, mailfrom: jester@theyoctojester.info)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b6329b6e3b0so3762919a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 12:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=theyoctojester-info.20230601.gappssmtp.com; s=20230601; t=1760382031; x=1760986831; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=B406qVbW/Di84q48SP0jRnMNywVBf6H98g8cIAf0inY=;
-        b=tMz8W3XMxcsJFRiql8fs7yvLSUQOzLZRUyRr3GD9c0e8iEhJK2EL1PwwEADgXM6Yzt
-         mTJebClenY+NCnvr4+JgI9YTMAYS+eADMuQRfvKIvErEt/9Lu7rOYSgyibNbaW3sYWaV
-         XpWRbcdDHOVYLb/VcL8sfsXeQd8rowPkIiORPgnVUadYA5I5jJsbxcMnXW+WiP7S/kGs
-         4drQbcfv0PiNK6ONoX3qGtdqdUdlw5qsP9B+iS6TIxcKjJ7fjqj4BH4kIqJlbjI7teJs
-         fa+/IEm3xSnOrQ7NPmi4xtWkZarH6noDl3Rle6KGg+d9D7dssoXYi9ZXd5OaP+RnZH+6
-         DzRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760382031; x=1760986831;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B406qVbW/Di84q48SP0jRnMNywVBf6H98g8cIAf0inY=;
-        b=l4JsUka7qiE2pdaRlX+TBITOrauIVXBghn3xLa5epChqQYdb3QkFEnEIAxq5dMIi35
-         F6VM5Qb95Qup2LLgo97+ACqI6fGTHNHspJvmvv71vgo0gGzTH7CT1ED2/paB3ucnyChE
-         bVJ2ng7+/xpdm5GNbWid4avcGdOl0gyVBQxUwFAix7hoM7d+5arp+xg8hp8pF0i1cR7V
-         K3PQyTn70CywwLiz6q3NPaLu+W5dw523SEixOpc33qGBnYGxyeyqH9GxhadnM6qty5UG
-         1b4ae57fLk36ImNeP1WjmkRUI+jqMMK3ZDEybV77/66pl4mELIM6T74pu5gzwnL/mm3m
-         4HXA==
-X-Forwarded-Encrypted: i=1; AJvYcCW7OMphKjSp09ZJNvIO/Vzw7Q2qf6gtt5Oat471WZFpMd8fsFN7pJvlFD8pqucv2TZ93MHVGZsGa5MYIOCyTC+pBA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx8eICAHudbSI80d4GsjBCrQPVJME2jV9/jkPnzRcJmwrF4dMJZ
-	5qZaUt+Og0Ui1cu6WI0ggylN6Ro6w+3Xkg9ERiqSIN2/+eI09BITp7mA6EQeGdUM32DCmlNtX3x
-	yxHuvQnSKkKmiBE7vO1D/JgrNYMYvkSN1bLeeIvnRSg7SnsgKkZdMtRtT2Q==
-X-Gm-Gg: ASbGncuygRE/iK4xhvO2gZ8YcJxPhopYV8XNCEHdKpmufRPoWN5Ehq2acSVyz2HirP7
-	CMUE7iU+oWE1bNEHfW56ZelpTEEIoYoaqzW7umQ2/hh8rC1nLBJXv1Fj2E7BvEktc+/UV8sV/Ip
-	Zb5wpspHoRXUlKL3I0SM1bUZSko80F9z8T3UlLr5ekwZUg2ZIArIjCaW+7oaG+o8QYL33YpN03r
-	a7Id2RUPMbv4ITW/+9U0Eh6dQynN6oJAMg2+EJj2djTRJ19QBukp/LSFpKXum8ocIfP2g==
-X-Google-Smtp-Source: AGHT+IGwpr5HxxsMDrw1kRLbewyUoegpFAtLdTBgykRSSjhQg9uayI9WJtj2geYJH0B6YxelyQQ3+45qlZw23tKEvMk=
-X-Received: by 2002:a17:903:3d10:b0:283:f19a:bffe with SMTP id
- d9443c01a7336-29027e734acmr282414455ad.7.1760382030293; Mon, 13 Oct 2025
- 12:00:30 -0700 (PDT)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=EVPTUi8v;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2025101319073819c07ab6060002076b-wl8m7p@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2025101319073819c07ab6060002076b
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 13 Oct 2025 21:07:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=XUsYB1yEoG9WNBQ6h5NjspYKnq7A2KdD60Cgkz8mLpw=;
+ b=EVPTUi8vIsZljT4Nld+5WbeFliua9iuqf4PpzkPrZWpCwlVuqyp9IH13RZPFDoFoy+h3ns
+ 0YkIrUs3wsj8zYoeaW/qNEj5a4mCjGkAOIHND9VF6RRYQS5UVA61EjoP2/tuZDGlD8EBzPDn
+ zxMbY1VAIkfQETrdwlQf3ZvwroXsVhNes/wtRXrJyLkEfoU/v1Hrh4futIKdZPVtv2C+ZN6K
+ fuJFNJa4iZMF48306NPH4LOTzffjyZtBAQmYAFVOv8qsYtJD5ysjTcuoTX4IQxQs8DmR+ruL
+ lUY1kA2rt6EMxpa+qXYSPrQljHiSomArckWljVchWTQr5SXItUd3lA+g==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [OE-core][scarthgap][PATCH 1/2] binutils: patch CVE-2025-11082
+Date: Mon, 13 Oct 2025 21:07:30 +0200
+Message-Id: <20251013190731.172232-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-From: Josef Holzmayr <jester@theyoctojester.info>
-Date: Mon, 13 Oct 2025 21:00:04 +0200
-X-Gm-Features: AS18NWCMdN3SjIn28o2bWZF1tkG4xMEYQ8uLxmGTdFKLREWp3JU3fZUWiR4kg4w
-Message-ID: <CAEt6Nwq7EGH06tGA8q=+4RLBLfOuuidDh-LRrE3g4MXoPxwuqQ@mail.gmail.com>
-Subject: OE Workshop Brussels 2026
-To: members@lists.openembedded.org, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org, 
-	Yocto-mailing-list <yocto@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 19:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224795
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 19:07:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224796
 
-Some people don't like them Mondays. But we say, the Monday after
-FOSDEM is the best time to gather for a day full of networking and
-discussions around OpenEmbedded.
+From: Peter Marko <peter.marko@siemens.com>
 
-So here it is, the CFP and registration for the OE Workshop 2026, on
-February 2nd in Brussels.
-https://pretalx.com/openembedded-workshop-2026-2025/
+Pick patch per link in NVD report.
 
-We will spare you the rambling about all the nice people, cool
-presentations, ways to convince your boss... in the end its easy: sign
-up, show up, and if you have something to share then please submit.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+ .../binutils/binutils-2.42.inc                |  1 +
+ .../binutils/0024-CVE-2025-11082.patch        | 46 +++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0024-CVE-2025-11082.patch
 
-See you there!
-
-Josef
-on behalf of the usual suspects who run all the events.
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index e791cd2b136..a879a1b501b 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -59,5 +59,6 @@ SRC_URI = "\
+      file://0022-CVE-2025-5244.patch \
+      file://0023-CVE-2025-7546.patch \
+      file://0023-CVE-2025-7545.patch \
++     file://0024-CVE-2025-11082.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0024-CVE-2025-11082.patch b/meta/recipes-devtools/binutils/binutils/0024-CVE-2025-11082.patch
+new file mode 100644
+index 00000000000..d712a62bd53
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0024-CVE-2025-11082.patch
+@@ -0,0 +1,46 @@
++From ea1a0737c7692737a644af0486b71e4a392cbca8 Mon Sep 17 00:00:00 2001
++From: "H.J. Lu" <hjl.tools@gmail.com>
++Date: Mon, 22 Sep 2025 15:20:34 +0800
++Subject: [PATCH] elf: Don't read beyond .eh_frame section size
++
++	PR ld/33464
++	* elf-eh-frame.c (_bfd_elf_parse_eh_frame): Don't read beyond
++	.eh_frame section size.
++
++Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
++
++CVE: CVE-2025-11082
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=ea1a0737c7692737a644af0486b71e4a392cbca8]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ bfd/elf-eh-frame.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/bfd/elf-eh-frame.c b/bfd/elf-eh-frame.c
++index dc0d2e097f5..30bb313489c 100644
++--- a/bfd/elf-eh-frame.c
+++++ b/bfd/elf-eh-frame.c
++@@ -734,6 +734,7 @@ _bfd_elf_parse_eh_frame (bfd *abfd, struct bfd_link_info *info,
++       if (hdr_id == 0)
++ 	{
++ 	  unsigned int initial_insn_length;
+++	  char *null_byte;
++ 
++ 	  /* CIE  */
++ 	  this_inf->cie = 1;
++@@ -750,10 +751,13 @@ _bfd_elf_parse_eh_frame (bfd *abfd, struct bfd_link_info *info,
++ 	  REQUIRE (cie->version == 1
++ 		   || cie->version == 3
++ 		   || cie->version == 4);
++-	  REQUIRE (strlen ((char *) buf) < sizeof (cie->augmentation));
+++	  null_byte = memchr ((char *) buf, 0, end - buf);
+++	  REQUIRE (null_byte != NULL);
+++	  REQUIRE ((size_t) (null_byte - (char *) buf)
+++		   < sizeof (cie->augmentation));
++ 
++ 	  strcpy (cie->augmentation, (char *) buf);
++-	  buf = (bfd_byte *) strchr ((char *) buf, '\0') + 1;
+++	  buf = (bfd_byte *) null_byte + 1;
++ 	  this_inf->u.cie.aug_str_len = buf - start - 1;
++ 	  ENSURE_NO_RELOCS (buf);
++ 	  if (buf[0] == 'e' && buf[1] == 'h')
 
