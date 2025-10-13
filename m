@@ -1,139 +1,414 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <saravanan.kadambathursubramaniyam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE1DBCCD183
-	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 11:36:48 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.41283.1760355405099914161
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E99A8CCD183
+	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 11:45:08 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.41390.1760355902991394980
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Oct 2025 04:36:45 -0700
+ Mon, 13 Oct 2025 04:45:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dS4glOwz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-46e34052bb7so49575935e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 04:36:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1760355403; x=1760960203; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IT7YKm4PF9g4vs3FqfF0Iex4oE892OTydbLkr+qweUU=;
-        b=dS4glOwzmn2YCC0V629+kPmUQQhm30NMqPGiniSKGUccBjmvUfd9DgkvEWGQXg8h8Y
-         9yM0WfXlQZ2Rc+2AH3ACKeMEHy4O7L2OxZ/Pzps98vtj43B82kdMKcyB7RRp5zvFHRD2
-         ZA/yaZEsqgQA4jnlqi/c6YzqLHTsYXdFQeg34=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760355403; x=1760960203;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IT7YKm4PF9g4vs3FqfF0Iex4oE892OTydbLkr+qweUU=;
-        b=iUqTQPveVaRzKasEvsVc2UlUKDRlwbVOD5quervlZIozHgiwgdsieZCnBpkb1p3FRn
-         IzP2Q4FDeeKWZbXGZJqaZGpGFZFlzxPj3DOrvtdyJEcoOty3JRS3Hruzn82Rp88stln7
-         vQrW/5ge6u7IAAW9zvkg5pXrNItNaXa8qBvkIKkYcpGiVCSq8NeRuywuV7A1T1isIUs5
-         sGAx+fZuovAOx7CMfa7dNXqM/xqQfyaHmdp+FGNueN65BHW2fkPTLNAv/tdvNQeOK0YD
-         WLh7EExkWSn1fWUU7SRNYkLTE0HaYnXePaEGXI/VX7o67wLVTe37O0I72l6qTpqXAnX9
-         LsXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUBf36y5xRQ6hsXJsXj8Cxm6XLdJaMNCJImrLzW5mT4LpmH5+qqvqmEzocEeEp8o3WRhOpyPI+yxCmO82wkoeEKg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YywF6q57DjemqwoI2zM9WmICwUVFk6tWOlHfmJtb7chcvCCOGT2
-	2Qu0MFwlKTvDGvlywyMAA52xqO4Hxzw/9FaFTrkpX4E9SrZY2MIWuEubrVJjcTXmzJqZdSwzY00
-	qjAcY
-X-Gm-Gg: ASbGncv/wTLr/GgN3B0toaQyt521jsed6DnIDXwsN8pneOtnmZ1KxL1wQQbk68yuBLN
-	P6NkP7GmcmuRivY8qXZ8FjvPbMJvWWSXjxFEja4xtKjZX5hKmhdtE4VyxWsAE00GSg3NJi0DAL2
-	BV7Xt/LOLxVEa/N14ZolqdStofOmEop501R46slPkf3YiSirDVA0pk4TW9ZWapDfAOqE2ULb0Uc
-	cJYKyKlwzVBu+Dk3Xlv4XusaZ3z8XL0S3c9PtZKEMCXRoVLT0ezntV7xCVRrZzmWrCwnBfDv+vP
-	sX0E963r2BzlfUne1BIl+nrJijuEnd1wXwC05VtuHnzrjtkVSBUIUs51rk5ARKZfwEwfh4EcENE
-	Uwk5VQK5x4T55Pyi+84mnqjuO6EfMwiBp635vk8kCJDxXf3P0jvO+ZayJi3akVlCPxyLsat9pkn
-	AeLfIWsFi9aoNSoq1m4Zgx5cnGbSs=
-X-Google-Smtp-Source: AGHT+IFb8gMd4zIAwczt58Po2pxA4GH6+pFa+8GoF6sO/rPzcd6iVCpVUodNWIo9w8+4/n7+QAtweg==
-X-Received: by 2002:a05:600c:34cc:b0:46e:3550:9390 with SMTP id 5b1f17b1804b1-46fa9af18ffmr130913665e9.20.1760355403314;
-        Mon, 13 Oct 2025 04:36:43 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:10f2:650e:7ea:14f6? ([2001:8b0:aba:5f3c:10f2:650e:7ea:14f6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce582b39sm17711512f8f.15.2025.10.13.04.36.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 04:36:42 -0700 (PDT)
-Message-ID: <6b91ae5510e34296579a3b562548785f138741bd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] perf: Fix headers related build race condition
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Date: Mon, 13 Oct 2025 12:36:41 +0100
-In-Reply-To: <20251008002729.1850430-1-raj.khem@gmail.com>
-References: <20251008002729.1850430-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=IqS6NzeD;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2381f1bef8=saravanan.kadambathursubramaniyam@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59D6JVfZ3930735
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 04:45:02 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=0Qu08q1UORnKKFd0U8HI
+	OfxGCBb1nVJnP8HWNqIo5Ow=; b=IqS6NzeD55OESp7qV/4vpMMiHXKaPqTm03FS
+	pkEGSrdKwCrac2+R0ARJd8X4Ebv6abG6jMl2Q++jyR50kMDktPUCzRXe+6HaRyX4
+	94+lM7wR7Qhg8iKGydxj6Wgltt4QyJcqAPPVWPR8q6GGmdMlTvS2lgSfRpEeaYs/
+	BvqPhUe5cQK6JQ83KtOwCD+xStiM65jA0omqcwuKSWCiGNoyFd/v31lPTbodguHm
+	Rj5nLqI3Q09AamopQtvbD1wkjTbRp3+8kbrZAG2TrU5HkW4W5ofbzAnQomkynA/b
+	bHWCr5bnGVRt+ngIRA4NS9xRjb36F7sFIszQQo/+lFPJ+7hUuw==
+Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qprdse8h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 04:45:02 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.59; Mon, 13 Oct 2025 04:45:01 -0700
+Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.59 via Frontend Transport; Mon, 13 Oct 2025 04:45:00 -0700
+From: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][walnascar][PATCH V2 1/1] python3-xmltodict: fix CVE-2025-9375
+Date: Mon, 13 Oct 2025 17:14:54 +0530
+Message-ID: <20251013114454.2265433-1-saravanan.kadambathursubramaniyam@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDA1MyBTYWx0ZWRfX6roSOSD7u4he
+ PbN9asZIcqHG6gJ8n1uiO/CYgnDOPxi31asPU2t9X8JWvEIFklS71U4FZ1a2vOroIByz9sBCJ3i
+ 0cjhTxMpSOhYmoyK4D1zF/KLrYCtYUUXwsM/pH8ErbZOqC2XB1nSZCh26EOxP5QqDD5jFAYaRdS
+ ASfO2YK/nfP7J2UU0i4vCgG6PRmQ9gZhz+euHBNvxyRuPqjvV64wFRfTcXzyMcXpDLz68NOz72n
+ Xu35d7YUCul1psTYPgQVQo/Zc+v4FY5GHHAQINqtsqsGqXCc1uh3GLGydntlDwl4lmf6gqzrcty
+ iGHS0a0CRN+qzN670MLzNzGBK4Y1H46Po6rpEGju/T+ZK6tPGHVtoF46llwuFJylq1ZOk5+aU8k
+ sNdJX8ZlCrZ67Zst9RBtcTqTdW+IVQ==
+X-Proofpoint-GUID: _z6Egf5EpWftpzgrZPZHNvCFSY_0xvIl
+X-Authority-Analysis: v=2.4 cv=JaKxbEKV c=1 sm=1 tr=0 ts=68ece63e cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=x6icFKpwvdMA:10 a=PYnjg3YJAAAA:8 a=xNf9USuDAAAA:8 a=NEAV23lmAAAA:8
+ a=yEquWHxyAAAA:8 a=A1X0JdhQAAAA:8 a=t7CeM3EgAAAA:8 a=d8oaZizm7QLjo4qtjSwA:9
+ a=s5zKW874KtQA:10 a=_j3XSMEICZ-j_p4bQif0:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=Soy3cZ2v3rD3IzUh-QDm:22 a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
+X-Proofpoint-ORIG-GUID: _z6Egf5EpWftpzgrZPZHNvCFSY_0xvIl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-13_04,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1011
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
+ definitions=main-2510130053
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:36:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224777
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:45:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224778
 
-On Tue, 2025-10-07 at 17:27 -0700, Khem Raj via lists.openembedded.org wrot=
-e:
-> libperf specifies paths to includes in its output
-> directory if they exist, however install_headers target
-> is run in parallel to source files being built for libperf
-> and can race with objects being built for libperf.
->=20
-> This patch ensures that all headers are built/installed before
-> they are used.
->=20
-> Specifying additional include paths via EXTRA_CFLAGS is of
-> no consequence anymore after [1] because it now is appended to
-> CFLAGS, so if we are trying to do include path oderining via
-> EXTRA_CFLAGS it will have no effect if those paths already are
-> in compiler commandline
->=20
-> [1] https://github.com/torvalds/linux/commit/f5b07010c13c77541e8ade167d05=
-bef3b8a63739
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->=20
-> s
-> ---
-> =C2=A0meta/recipes-kernel/perf/perf.bb | 6 +++---
-> =C2=A01 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/=
-perf.bb
-> index 3b9e52fdb84..f071685a4be 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -105,7 +105,7 @@ EXTRA_OEMAKE =3D '\
-> =C2=A0=C2=A0=C2=A0=C2=A0 LDSHARED=3D"${CC} -shared" \
-> =C2=A0=C2=A0=C2=A0=C2=A0 AR=3D"${AR}" \
-> =C2=A0=C2=A0=C2=A0=C2=A0 LD=3D"${LD}" \
-> -=C2=A0=C2=A0=C2=A0 EXTRA_CFLAGS=3D"-ldw -I${S} -I${S}/libperf/include -I=
-${S}/tools/lib/perf/include" \
-> +=C2=A0=C2=A0=C2=A0 EXTRA_CFLAGS=3D"-ldw -I${S}" \
-> =C2=A0=C2=A0=C2=A0=C2=A0 YFLAGS=3D'-y --file-prefix-map=3D${WORKDIR}=3D${=
-TARGET_DBGSRC_DIR}' \
-> =C2=A0=C2=A0=C2=A0=C2=A0 EXTRA_LDFLAGS=3D"${PERF_EXTRA_LDFLAGS}" \
-> =C2=A0=C2=A0=C2=A0=C2=A0 perfexecdir=3D${libexecdir} \
-> @@ -173,8 +173,8 @@ do_compile() {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-sed -i -e 's|\$(libdir)/traceevent/plugins|\$(libdir)/traceevent_${KERNEL_V=
-ERSION}/plugins|g' ${S}/tools/perf/Makefile.config
-> =C2=A0	# There are two copies of internal headers such as:
-> =C2=A0	# libperf/include/internal/xyarray.h and tools/lib/perf/include/in=
-ternal/xyarray.h
-> -	# For reproducibile binaries, we need to find one copy, hence force lib=
-perf to be created first
-> -	oe_runmake ${B}/libperf/libperf.a V=3D1
-> +	# For reproducibile binaries, we need to find one copy, so built the he=
-aders target first
-> +	oe_runmake -C ${S}/tools/lib/perf DESTDIR=3D${B}/libperf prefix=3D inst=
-all_headers V=3D1
-> =C2=A0	oe_runmake all V=3D1
-> =C2=A0}
+Reference:
+	https://nvd.nist.gov/vuln/detail/CVE-2025-9375
+	https://security-tracker.debian.org/tracker/CVE-2025-9375
 
-This basically does the same thing as the other make command. Looking
-at the failure logs, I think the issue is in other libraries so I've
-taken this idea but applied it to the other libraries too. I'm hoping
-that fixes this.
+Upstream-patch:
+	https://github.com/martinblech/xmltodict/commit/ecd456ab88d379514b116ef9293318b74e5ed3ee
+	https://github.com/martinblech/xmltodict/commit/f98c90f071228ed73df997807298e1df4f790c33
 
-Cheers,
+Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
+---
+ .../python3-xmltodict/CVE-2025-9375-01.patch  | 113 +++++++++++
+ .../python3-xmltodict/CVE-2025-9375-02.patch  | 178 ++++++++++++++++++
+ .../python/python3-xmltodict_0.14.2.bb        |   4 +
+ 3 files changed, 295 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.patch
+ create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.patch
 
-Richard
+diff --git a/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.patch b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.patch
+new file mode 100644
+index 0000000000..7835dc9f51
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.patch
+@@ -0,0 +1,113 @@
++From ecd456ab88d379514b116ef9293318b74e5ed3ee Mon Sep 17 00:00:00 2001
++From: Martin Blech <78768+martinblech@users.noreply.github.com>
++Date: Thu, 4 Sep 2025 17:25:39 -0700
++Subject: [PATCH] Prevent XML injection: reject '<'/'>' in element/attr names
++ (incl. @xmlns)
++
++* Add tests for tag names, attribute names, and @xmlns prefixes; confirm attr values are escaped.
++
++CVE: CVE-2025-9375
++
++Upstream-Status: Backport
++https://github.com/martinblech/xmltodict/commit/ecd456ab88d379514b116ef9293318b74e5ed3ee
++
++Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
++
++---
++ tests/test_dicttoxml.py | 32 ++++++++++++++++++++++++++++++++
++ xmltodict.py            | 20 +++++++++++++++++++-
++ 2 files changed, 51 insertions(+), 1 deletion(-)
++
++diff --git a/tests/test_dicttoxml.py b/tests/test_dicttoxml.py
++index 470aca9..67e3a88 100644
++--- a/tests/test_dicttoxml.py
+++++ b/tests/test_dicttoxml.py
++@@ -231,3 +231,35 @@ xmlns:b="http://b.com/"><x a:attr="val">1</x><a:y>2</a:y><b:z>3</b:z></root>'''
++         expected_xml = '<?xml version="1.0" encoding="utf-8"?>\n<x>false</x>'
++         xml = unparse(dict(x=False))
++         self.assertEqual(xml, expected_xml)
+++
+++    def test_rejects_tag_name_with_angle_brackets(self):
+++        # Minimal guard: disallow '<' or '>' to prevent breaking tag context
+++        with self.assertRaises(ValueError):
+++            unparse({"m><tag>content</tag": "unsafe"}, full_document=False)
+++
+++    def test_rejects_attribute_name_with_angle_brackets(self):
+++        # Now we expect bad attribute names to be rejected
+++        with self.assertRaises(ValueError):
+++            unparse(
+++                {"a": {"@m><tag>content</tag": "unsafe", "#text": "x"}},
+++                full_document=False,
+++            )
+++
+++    def test_rejects_malicious_xmlns_prefix(self):
+++        # xmlns prefixes go under @xmlns mapping; reject angle brackets in prefix
+++        with self.assertRaises(ValueError):
+++            unparse(
+++                {
+++                    "a": {
+++                        "@xmlns": {"m><bad": "http://example.com/"},
+++                        "#text": "x",
+++                    }
+++                },
+++                full_document=False,
+++            )
+++
+++    def test_attribute_values_with_angle_brackets_are_escaped(self):
+++        # Attribute values should be escaped by XMLGenerator
+++        xml = unparse({"a": {"@attr": "1<middle>2", "#text": "x"}}, full_document=False)
+++        # The generated XML should contain escaped '<' and '>' within the attribute value
+++        self.assertIn('attr="1&lt;middle&gt;2"', xml)
++diff --git a/xmltodict.py b/xmltodict.py
++index 098f627..9fb249d 100755
++--- a/xmltodict.py
+++++ b/xmltodict.py
++@@ -360,6 +360,14 @@ def parse(xml_input, encoding=None, expat=expat, process_namespaces=False,
++     return handler.item
++ 
++ 
+++def _has_angle_brackets(value):
+++    """Return True if value (a str) contains '<' or '>'.
+++
+++    Non-string values return False. Uses fast substring checks implemented in C.
+++    """
+++    return isinstance(value, str) and ("<" in value or ">" in value)
+++
+++
++ def _process_namespace(name, namespaces, ns_sep=':', attr_prefix='@'):
++     if not namespaces:
++         return name
++@@ -393,6 +401,9 @@ def _emit(key, value, content_handler,
++         if result is None:
++             return
++         key, value = result
+++    # Minimal validation to avoid breaking out of tag context
+++    if _has_angle_brackets(key):
+++        raise ValueError('Invalid element name: "<" or ">" not allowed')
++     if not hasattr(value, '__iter__') or isinstance(value, (str, dict)):
++         value = [value]
++     for index, v in enumerate(value):
++@@ -421,12 +432,19 @@ def _emit(key, value, content_handler,
++                                         attr_prefix)
++                 if ik == '@xmlns' and isinstance(iv, dict):
++                     for k, v in iv.items():
+++                        if _has_angle_brackets(k):
+++                            raise ValueError(
+++                                'Invalid attribute name: "<" or ">" not allowed'
+++                            )
++                         attr = 'xmlns{}'.format(f':{k}' if k else '')
++                         attrs[attr] = str(v)
++                     continue
++                 if not isinstance(iv, str):
++                     iv = str(iv)
++-                attrs[ik[len(attr_prefix):]] = iv
+++                attr_name = ik[len(attr_prefix) :]
+++                if _has_angle_brackets(attr_name):
+++                    raise ValueError('Invalid attribute name: "<" or ">" not allowed')
+++                attrs[attr_name] = iv
++                 continue
++             children.append((ik, iv))
++         if isinstance(indent, int):
++-- 
++2.40.0
++
+diff --git a/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.patch b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.patch
+new file mode 100644
+index 0000000000..d8cd83469a
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.patch
+@@ -0,0 +1,178 @@
++From f98c90f071228ed73df997807298e1df4f790c33 Mon Sep 17 00:00:00 2001
++From: Martin Blech <78768+martinblech@users.noreply.github.com>
++Date: Mon, 8 Sep 2025 11:18:33 -0700
++Subject: [PATCH] Enhance unparse() XML name validation with stricter rules and
++ tests
++
++Extend existing validation (previously only for "<" and ">") to also
++reject element, attribute, and xmlns prefix names that are non-string,
++start with "?" or "!", or contain "/", spaces, tabs, or newlines.
++Update _emit and namespace handling to use _validate_name. Add tests
++covering these new invalid name cases.
++
++CVE: CVE-2025-9375
++
++Upstream-Status: Backport
++https://github.com/martinblech/xmltodict/commit/f98c90f071228ed73df997807298e1df4f790c33
++
++Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
++---
++ tests/test_dicttoxml.py | 60 +++++++++++++++++++++++++++++++++++++++++
++ xmltodict.py            | 48 ++++++++++++++++++++++++++-------
++ 2 files changed, 99 insertions(+), 9 deletions(-)
++
++diff --git a/tests/test_dicttoxml.py b/tests/test_dicttoxml.py
++index 67e3a88..180d767 100644
++--- a/tests/test_dicttoxml.py
+++++ b/tests/test_dicttoxml.py
++@@ -263,3 +263,63 @@ xmlns:b="http://b.com/"><x a:attr="val">1</x><a:y>2</a:y><b:z>3</b:z></root>'''
++         xml = unparse({"a": {"@attr": "1<middle>2", "#text": "x"}}, full_document=False)
++         # The generated XML should contain escaped '<' and '>' within the attribute value
++         self.assertIn('attr="1&lt;middle&gt;2"', xml)
+++
+++    def test_rejects_tag_name_starting_with_question(self):
+++        with self.assertRaises(ValueError):
+++            unparse({"?pi": "data"}, full_document=False)
+++
+++    def test_rejects_tag_name_starting_with_bang(self):
+++        with self.assertRaises(ValueError):
+++            unparse({"!decl": "data"}, full_document=False)
+++
+++    def test_rejects_attribute_name_starting_with_question(self):
+++        with self.assertRaises(ValueError):
+++            unparse({"a": {"@?weird": "x"}}, full_document=False)
+++
+++    def test_rejects_attribute_name_starting_with_bang(self):
+++        with self.assertRaises(ValueError):
+++            unparse({"a": {"@!weird": "x"}}, full_document=False)
+++
+++    def test_rejects_xmlns_prefix_starting_with_question_or_bang(self):
+++        with self.assertRaises(ValueError):
+++            unparse({"a": {"@xmlns": {"?p": "http://e/"}}}, full_document=False)
+++        with self.assertRaises(ValueError):
+++            unparse({"a": {"@xmlns": {"!p": "http://e/"}}}, full_document=False)
+++
+++    def test_rejects_non_string_names(self):
+++        class Weird:
+++            def __str__(self):
+++                return "bad>name"
+++
+++        # Non-string element key
+++        with self.assertRaises(ValueError):
+++            unparse({Weird(): "x"}, full_document=False)
+++        # Non-string attribute key
+++        with self.assertRaises(ValueError):
+++            unparse({"a": {Weird(): "x"}}, full_document=False)
+++
+++    def test_rejects_tag_name_with_slash(self):
+++        with self.assertRaises(ValueError):
+++            unparse({"bad/name": "x"}, full_document=False)
+++
+++    def test_rejects_tag_name_with_whitespace(self):
+++        for name in ["bad name", "bad\tname", "bad\nname"]:
+++            with self.assertRaises(ValueError):
+++                unparse({name: "x"}, full_document=False)
+++
+++    def test_rejects_attribute_name_with_slash(self):
+++        with self.assertRaises(ValueError):
+++            unparse({"a": {"@bad/name": "x"}}, full_document=False)
+++
+++    def test_rejects_attribute_name_with_whitespace(self):
+++        for name in ["@bad name", "@bad\tname", "@bad\nname"]:
+++            with self.assertRaises(ValueError):
+++                unparse({"a": {name: "x"}}, full_document=False)
+++
+++    def test_rejects_xmlns_prefix_with_slash_or_whitespace(self):
+++        # Slash
+++        with self.assertRaises(ValueError):
+++            unparse({"a": {"@xmlns": {"bad/prefix": "http://e/"}}}, full_document=False)
+++        # Whitespace
+++        with self.assertRaises(ValueError):
+++            unparse({"a": {"@xmlns": {"bad prefix": "http://e/"}}}, full_document=False)
++diff --git a/xmltodict.py b/xmltodict.py
++index c8491b3..7b7f8a8 100755
++--- a/xmltodict.py
+++++ b/xmltodict.py
++@@ -368,7 +368,42 @@ def _has_angle_brackets(value):
++     return isinstance(value, str) and ("<" in value or ">" in value)
++ 
++ 
+++def _has_invalid_name_chars(value):
+++    """Return True if value (a str) contains any disallowed name characters.
+++
+++    Disallowed: '<', '>', '/', or any whitespace character.
+++    Non-string values return False.
+++    """
+++    if not isinstance(value, str):
+++        return False
+++    if "<" in value or ">" in value or "/" in value:
+++        return True
+++    # Check for any whitespace (spaces, tabs, newlines, etc.)
+++    return any(ch.isspace() for ch in value)
+++
+++
+++def _validate_name(value, kind):
+++    """Validate an element/attribute name for XML safety.
+++
+++    Raises ValueError with a specific reason when invalid.
+++
+++    kind: 'element' or 'attribute' (used in error messages)
+++    """
+++    if not isinstance(value, str):
+++        raise ValueError(f"{kind} name must be a string")
+++    if value.startswith("?") or value.startswith("!"):
+++        raise ValueError(f'Invalid {kind} name: cannot start with "?" or "!"')
+++    if "<" in value or ">" in value:
+++        raise ValueError(f'Invalid {kind} name: "<" or ">" not allowed')
+++    if "/" in value:
+++        raise ValueError(f'Invalid {kind} name: "/" not allowed')
+++    if any(ch.isspace() for ch in value):
+++        raise ValueError(f"Invalid {kind} name: whitespace not allowed")
+++
+++
++ def _process_namespace(name, namespaces, ns_sep=':', attr_prefix='@'):
+++    if not isinstance(name, str):
+++        return name
++     if not namespaces:
++         return name
++     try:
++@@ -402,8 +437,7 @@ def _emit(key, value, content_handler,
++             return
++         key, value = result
++     # Minimal validation to avoid breaking out of tag context
++-    if _has_angle_brackets(key):
++-        raise ValueError('Invalid element name: "<" or ">" not allowed')
+++    _validate_name(key, "element")
++     if not hasattr(value, '__iter__') or isinstance(value, (str, dict)):
++         value = [value]
++     for index, v in enumerate(value):
++@@ -427,23 +461,19 @@ def _emit(key, value, content_handler,
++             if ik == cdata_key:
++                 cdata = iv
++                 continue
++-            if ik.startswith(attr_prefix):
+++            if isinstance(ik, str) and ik.startswith(attr_prefix):
++                 ik = _process_namespace(ik, namespaces, namespace_separator,
++                                         attr_prefix)
++                 if ik == '@xmlns' and isinstance(iv, dict):
++                     for k, v in iv.items():
++-                        if _has_angle_brackets(k):
++-                            raise ValueError(
++-                                'Invalid attribute name: "<" or ">" not allowed'
++-                            )
+++                        _validate_name(k, "attribute")
++                         attr = 'xmlns{}'.format(f':{k}' if k else '')
++                         attrs[attr] = str(v)
++                     continue
++                 if not isinstance(iv, str):
++                     iv = str(iv)
++                 attr_name = ik[len(attr_prefix) :]
++-                if _has_angle_brackets(attr_name):
++-                    raise ValueError('Invalid attribute name: "<" or ">" not allowed')
+++                _validate_name(attr_name, "attribute")
++                 attrs[attr_name] = iv
++                 continue
++             children.append((ik, iv))
++-- 
++2.40.0
++
+diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
+index 56cdf6ff4a..3cacb72f26 100644
+--- a/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
++++ b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
+@@ -5,6 +5,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
+ 
+ SRC_URI[sha256sum] = "201e7c28bb210e374999d1dde6382923ab0ed1a8a5faeece48ab525b7810a553"
+ 
++SRC_URI += " \
++	file://CVE-2025-9375-01.patch \
++	file://CVE-2025-9375-02.patch"
++
+ PYPI_PACKAGE = "xmltodict"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.49.1
+
 
