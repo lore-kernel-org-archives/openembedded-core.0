@@ -2,193 +2,314 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52765CCA476
-	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 07:07:37 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.45])
- by mx.groups.io with SMTP id smtpd.web10.37001.1760339251315280231
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE50CCD185
+	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 07:09:07 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.web10.37023.1760339337045645395
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Oct 2025 00:07:31 -0700
+ Mon, 13 Oct 2025 00:08:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=uWST02sc;
- spf=pass (domain: siemens.com, ip: 52.101.69.45, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qsoXKKGTofLbiuvqrGEOtrAh1Bn4WfwBsJaXTj/l1eFxr5dD2y+KhL8vhQACUu5Cc4Rks9e8207QuywTzZ3q64T5b2drzKtJF88Or/1Io1ouqkF0GRnnqKSi2aCp1TqQijj60Izoq2mKcJoB3n8kY0mJlzuzG//XrvCN2fNkT2EemMgC6Jqcw02PB34w/DZ0Jlzo4nrKjxuCRO9KphgqImm9V+1EQ0CfBdWywsfDPaem6Clu8BT4wpBOlxoHStQvSqiJLJ/TSU+lKFc+PExUH0iBHSLTq0xaS4Tf0NnrsbG9Qlx3WfdEcv6Y9H56F/qN56wR7fR0gUnY2qH5Xy3M8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M0XpbVj3oGABjHkRIPtP+4uAxt0sDDvoY38Le1thS5Q=;
- b=WmomuSe5w8xrGc/q4L9/ntpZTFn0lMY/85aZvH1XjjOPmTzX2ytLp7p8teKuRPo/2ODg6XeTJ1F8JgvCexyfI4BBKTWXYWNuTexzgBPgrQr+96DyzKnEpVVHJhtXIUVwrc0niqiNF7Y3SadnmD9a2wr5Cts0/VB7cqDvSvLGj/vre4k8284M8pcIuc2zZuHSfE031GUtfKO6y9HJsZMr6k1ZTxFaF0IgpHd7Lj7RQv2iLLItXmzcnLU390Y5AXOnPF4xSpp65LLyDetKUl23l2Z+y781EsPTHae6NwPG+rfQWZEz6FYsIDrRce94UAH6MsXgZcHx5+JeVSvYAciTsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M0XpbVj3oGABjHkRIPtP+4uAxt0sDDvoY38Le1thS5Q=;
- b=uWST02scHZfetqBgHhtHe+FBhKT6SAfYFDI2f5QqQMx6nqPcwnZH6s6lCD8U0XASD/cqvmme6Jg9RmH5oPKvBL2gh64JVnumFYw+4kBAZmtdR0LxPPjFsyhtnmnQuegQmYmlLmanpCp0Xjj31D37vz3fdYaxCF69XVK11w/Sa81cUieFuH9BJCP6KvQlHKCSw2Fvsm0MqBKlIamRPAxbDUWaLTwjgHt+ZFX9EGgw6rRBoLYbZNUtMisegY9NGjJGQRKLyzaMFj0g68ngAsghD2Gg0eM82TT61fLg5+g7Kwjqon/4XVPFCVoO9yWhasJGqirkysrRZq9180GpF1NwQQ==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by PAVPR10MB7419.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:30f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
- 2025 07:07:27 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
- 07:07:27 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH v2] sqlite3: upgrade 3.48.0 -> 3.50.4
-Thread-Topic: [OE-core][PATCH v2] sqlite3: upgrade 3.48.0 -> 3.50.4
-Thread-Index: AQHcPAnpEUlKPzcbL0ePyBWu4USQ4rS/m8VggAAI5QCAAAM1EA==
-Date: Mon, 13 Oct 2025 07:07:27 +0000
-Message-ID: 
- <AS1PR10MB5697AF6A2B8D7D88D297EE7CFDEAA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <186DF8D2507720C0.3474@lists.openembedded.org>
- <AS1PR10MB5697EDF33ABB021BFA11FB7BFDEAA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <CANNYZj8ynORdNtr+nxm_Mbv=O_hMjoa2uhFJZ_OUH-t12vpnfg@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj8ynORdNtr+nxm_Mbv=O_hMjoa2uhFJZ_OUH-t12vpnfg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=b44c6ce8-38e6-4aa6-9646-922507a0f53e;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-10-13T07:07:02Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PAVPR10MB7419:EE_
-x-ms-office365-filtering-correlation-id: 4ad86a22-f9ba-4c59-c05b-08de0a272b10
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?bkdRVno0QXR3aXoxdXdvc2ZESlJ0MUs1SlJzV2JOVWpWYTFhOC9hRkpWaDAw?=
- =?utf-8?B?aG1YK3BncnlOKzZUKzRZN0hTMkV5VERxaTlDNGR0ZENuK1F1UUcxUXgrTzY0?=
- =?utf-8?B?VGRjYlpBZGl6MXBvV1Q4TzZZT1pVd0orWlk2SDl2U2RVKzZTaVM4cURSUklJ?=
- =?utf-8?B?NG1aVWw1WnpleW5FeTRTckRTalJITVBHNnFyMGRaV25MeXdpWmYzQVBDZitr?=
- =?utf-8?B?SnkwZ3ppR0NGMkE3NUxGb3Q3MkJnOTdQbGdWTFFpM2lkMzgrSVIzRXdzVmFV?=
- =?utf-8?B?OGdmMVJkbS9rRXVHNXpHVDFOUkszaFZIZ1NhTkNnTnpBVWp4aDV0UldhbFBa?=
- =?utf-8?B?QTlka2ZiQzQvcExnblZRWlMrUFFLQmxxcTVzVjlaRHNXOVpJNm5uckM1eXJk?=
- =?utf-8?B?d3NIQ2MrMzlCcGdFeUpQNzcrdTI0UEZjc0RiV2pMRnN4YTVXcVc3c1pxUXl4?=
- =?utf-8?B?ZWlxM3hLdHJQSXdoNkNrcUZQWDlEVUt2cUxpSlkyeVF1THJPMDBtWUQzMklp?=
- =?utf-8?B?bUYzaVhoTHZFcDEwcHdWN1RvWjBlelIzMG5rQ1dYWUtDSUszSGV0M0ppeWY4?=
- =?utf-8?B?aUFiTjNQK01ONUt6VloxeWNqaE1Uc3VIUnkzVG44ZitvaEtERWZVVEpGTnEw?=
- =?utf-8?B?UEQyQ1RtZzhFNTVLWVE0dHpxTExaQktGTjVPRzNsS2dGb05iZGg4YzA4aWto?=
- =?utf-8?B?M241a0JzbEpDd0VlS0RSYmlZMWtKQlBwNy9TMjVtUVdyRTVCRG5scFlVU3VR?=
- =?utf-8?B?TFJDN3V6SHpNWnRlQUJkdFhtT3BPSUVlc3kzcldCeGdDK1R4WUJUT1pKOG5w?=
- =?utf-8?B?SkJ3UnE0VXJibW0wSGt2ZjJUOWV4ZnU1OVpMQmNQVTVsbjlzUmdBTXlZTjFj?=
- =?utf-8?B?ampsQnBSTkxCdW95YkRqOFMveFpaZitmQzdGNmJubUI4ZlJ5NEZmd0lHZ3lo?=
- =?utf-8?B?MDNlRks5bkxCMHZXRTZpTVhHU2Nwa3V5RHZuMXl6VmhPZVVveXZjRW9qM0tU?=
- =?utf-8?B?SzQrcmttNnZoWEw5Wk5BR3MzRGhEaWkwMkVsTjQyK0Y0Zy9BRjVsZWNveWJ3?=
- =?utf-8?B?WFAwOXJWVGo5RWVCbXpYaktiNFZCVmtKeU1FU253UFZtanVlVnU4T0l6SGUy?=
- =?utf-8?B?Skl1RVJrMmNDWVVtL1A0YmUvUVNkLzFwQzJRSXBOUjA5SjhGcEhNTDNOMGVW?=
- =?utf-8?B?UnpJTmh6cmdZczloOFkxbGpQZ2thNDhxSUtSUTJ2K1NtZ244aS9RajNlMGYy?=
- =?utf-8?B?M2hZd2daTVhZRGpid1duZmZ0bnBsZU5CajFLUU5kY1FQMm43WEJpa1MrdjI3?=
- =?utf-8?B?NVhobHN6UkZ4blhUQS8rTWJSbVRYSUVHUGxEbnRkaGl4NU5qQWcyQlkzU3dH?=
- =?utf-8?B?RzduT1VLaUpFa0dIeHRHZXZYQlF2cUhvS3A3akFNUjZZUG43K2ZkcTlQWE1K?=
- =?utf-8?B?QXIralBiR3lkbHpmWGllOURzSkxlTFd5TWhlT3NENzJzYllqMVR6ZE5zaUZT?=
- =?utf-8?B?TzR5WUY0QkZjWVBkU0RReUlDeTNRMlRIWkw1ZytqT2NPNlZDUmpFZEpoMUJ6?=
- =?utf-8?B?SDk4VUhHRnNjYW11T0NyQzR1NXNydnRBMkUwR3BZQ0UzMHAySlB1RUxwOEtr?=
- =?utf-8?B?dERFMnpUc1Z3NW1MVE02SkF2d0ZrajJ2Nk5nbUxGSldPejdyb1FVRjdnQ1g3?=
- =?utf-8?B?dUFNOVQ3YndlNjdtV0g1UEFiZnNlaXdSVjV3REpPZWNYYjM1OGdwbWhSckF0?=
- =?utf-8?B?WkZlODFpT2MvUVhRTlRpUHRSWlBwRmxQaXl3blRIblZFTkRyR0s0MUV0cU02?=
- =?utf-8?B?bUtTWjl2MjF3QllEWkp1aG5FbGd1YU9QWks4d2tjTUpIaHlDb0RTOFIyNXVR?=
- =?utf-8?B?UGl4UEVwa3o4L2lBcjYzNExNUnhVNDJ3b0VGWHVzTjVPQS9EaTcwWmNZdkFQ?=
- =?utf-8?B?Sk05MUxJWWVnWW1vS3RwcFRCR3lXbm4zQzdKZGFac3FvOGZNeUJWTUl3YjhF?=
- =?utf-8?B?V0k5b1B4QWZ3PT0=?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?bWIvTVQ4QllHTlJ5Skc3MTlNVTRjcm8wU2FEdVRodERzWEdIUTE2U014VXg5?=
- =?utf-8?B?WDg4em4xU2JXWnVoREJaSUc5VS92bG9INzdDQmRoSkp5SXBVZDhKZldON252?=
- =?utf-8?B?S3ZpamdBV01YbjZ5bG5wYi9ON1pzdkZFUHNQUG1wRHFWalUxd2RxcFlKWFhG?=
- =?utf-8?B?WnVUcEJmYUpTT0FGZTZxSng3WHd0Y3p1RTljdDZ5QnkwaHVZMWFObVl2cWw3?=
- =?utf-8?B?eFE3cXJPNkpUWE4vTzM5dnRUeXptREU4MnE0dDNTWnY0ZHUweXltQmtVSllk?=
- =?utf-8?B?R3Q0aE83NUhXYTZKa1d3QTJtODZ5R0o5Y3VYTFFsRVdqMEJ5ZXpMTGZ5aldn?=
- =?utf-8?B?U2JUdStnM2hvY0UwZjVreUN1SkFwUnQyYVppUklqRHorNlJCOTEyWVNJSXFT?=
- =?utf-8?B?cXkzdnFuL3lva3RlTmFRTlBjM21GdWRKNW55QzdydVUzMlJoZnVPUkQzd1VD?=
- =?utf-8?B?RHM4YWRqWEpUYUVCNWFFQVpxMEI4SFBlTjE4cFV5aUxPUDBQNnVrczRPaTZD?=
- =?utf-8?B?RUpkbnljT1lkQlJsaUsyY09QdkE0VDNWVzZXd1Z6LzNxVWVtdk44TzRDR0hu?=
- =?utf-8?B?WFYyQi9penkrM1N5VlQvMGlLMC9DZ3A3M250OUdINzRUQjVtZVRFajhDZGVz?=
- =?utf-8?B?MlpoU1FjZGEzNlVaZkRVUGtNM09BOVFsc2dFbWZCOUtlNW1vb0V4YkZFdHJz?=
- =?utf-8?B?OFZrZTRBeWxQQ3hXZUdEZCtzenlFbWJjd2JSeGxaNFFuVGlYeStUUW1EMHFD?=
- =?utf-8?B?Yjk4THgycEdwS29TcDAxVHNKNzljZEMvSXh5R2FPaFYrTFQxM2owM0F4cGRQ?=
- =?utf-8?B?VEZnaTdtMWVSMlplZHVjRkJINWZ3QlNDMU9ObFFpWnp6SGFISk8vK1dwRzBF?=
- =?utf-8?B?b3NlQnNIcmJwdEMwRk1HSkx3VkpCeGZuN1hMUXRucTNETkw0WHhoN1grZm1K?=
- =?utf-8?B?UjUrSG9JWUQ4SG0xdDhXNmkweUs5RTVLNFdET1JYalpoUWhodnZkSWp5Nzdk?=
- =?utf-8?B?UURkWkErVlY5Y05QMUp3UnhZaTJIM3BaMC9idm1KWGRCT3FGOTNLbmp3T1N1?=
- =?utf-8?B?VXBhYlVyRXJXRGhoeTdSYlU0cEFqWFFkYnk2SHArbncvZHFkY0NEUS9CdU4w?=
- =?utf-8?B?cGE1QjBIemJyUlJrL05UNjFTbFNMMTduQmRoNzhaWGx1UXFudzhWVG5oOExZ?=
- =?utf-8?B?eHJldUZEVFVvQldqRUZuakhKNlE5QVIwalFkbjdISks2R3E4MlJhaXdVcVFm?=
- =?utf-8?B?UFdXRTVuMGM0NzVkNTAxNUdBZFBNY0hXZUlMOHZHKzlUVVFIb2pNeHdSYWNU?=
- =?utf-8?B?OGZka2drNnZRRlNhYnFnMGRnMFQzTHBvd0NUbDljMlFHTGRKaWdTY2ZoVnJH?=
- =?utf-8?B?Tko3aCtldkdJT0ErU0ZrSWZyQzJTSGN3MzJOZkJsKytTdUlvQWRBREthakI2?=
- =?utf-8?B?czVRR25BSXRkZWJucWtWdnp1b09HMnNBdm9ZcEExeHNaNjdlWVFKWDNDaW1R?=
- =?utf-8?B?NHBFOVp0eURqN0FVTkYzeGQ5WVNhdG9tWHZ2b3djZjVqSUtSK1J0c01wRENm?=
- =?utf-8?B?cmJ2S3NOd2N2cjlXaC95OUZueFlUWUJwNmlLb1pnU2MyQjQ2eHEzQ3VHcDNk?=
- =?utf-8?B?cENKdjJ1VmE1eU5IbFNzclpLa3pSWGtZQ3lQenQwL1BGNFY1NU1Yd2R3RXpR?=
- =?utf-8?B?RDNCWjJLV01ueHNWR3dOOEQ3VnJaUUtkZlNwMUx4d2gvWGxJZ001dG9KcXVJ?=
- =?utf-8?B?eGIzRGh4ZUEzaDJJN1R4VC90OEVoandCcWJ5eTBVR3o1d0tHQzViZ0U3SDdQ?=
- =?utf-8?B?NHNJOEhHQ2lFUUM0TGNBek9xS2E1TzBQYisxQ1pyWlNPeEdsTjI0aE90VFd0?=
- =?utf-8?B?ZTVlazZMYncvMmxPL0NlUEk2OFhEVC9sejkwZVdpdUt3OXlwL2pwRVNZMVdu?=
- =?utf-8?B?RnI3bUo2UlNkZ2tRQjY4VGU0ZjRZd2x5VElmc1pOUXJRbzJYL1VyZTEvR2xi?=
- =?utf-8?B?RTlTUEtVcXZTbUVWQmlhUnB6WmQxakVOcVYwVmpOVU5OM29IRk1IUU5vL2hT?=
- =?utf-8?B?WnVzL2NzMGVDOThDZkRSK1VrNlF5N0lPeFZUcE15czZCd2IvY2lkSnEreGww?=
- =?utf-8?Q?AJ9N1d7V5HW85y8hgYHkRFQyf?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=nHLhBCBi;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202510130708531249c1176c00020756-ayb1fe@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202510130708531249c1176c00020756
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 13 Oct 2025 09:08:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=Dh/A3bqcsPuLU+kWjVctQrTDHSxiMu3rhLjU32BRZNI=;
+ b=nHLhBCBidKnJ7WpLYqI/S4ANA8eL86Fhs3VuVbRyLLx/y/vAjFcujlb0dWRt7XvW6+hpaJ
+ wRrz4JxLQYBf7GdS2ToXhIlTrRBMlvkjxgwd7XSEkdAlS1oqHLwNjtXZMkFQ3ZTC5Zxk7cby
+ gvKJywSGRcbPnTelZIXQXv+cfvym/sNLnmym6wwA/ShfL14KqRTRjyhUDcreqH44juwpvrZU
+ rAyN9H0Zd5mN2MmbKtVhH7aJgi1Ri2PIVFi0rJZI+4vDDunNBFVZvWCDCR/DzBnKD/yumCwz
+ AaxVkF500PsmytS1E1lyneDVFzsuxwmqT0zSOpfBZzK41n3X+4qBAvfA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH v3] sqlite3: upgrade 3.48.0 -> 3.50.4
+Date: Mon, 13 Oct 2025 09:08:46 +0200
+Message-Id: <20251013070846.505298-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ad86a22-f9ba-4c59-c05b-08de0a272b10
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2025 07:07:27.5432
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IkPR5qKZPQ5eAYrQ9AAbEEm4Q7zWgFvBMZYAwfw1rmYk9Q2Q4Ix4EKm8zz8jBmp0EaktzqahDDZJdFBOnWg/TQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR10MB7419
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 07:07:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224764
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 07:09:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224765
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxleGFuZGVyIEthbmF2
-aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQo+IFNlbnQ6IE1vbmRheSwgT2N0b2JlciAxMywg
-MjAyNSA4OjU2DQo+IFRvOiBNYXJrbywgUGV0ZXIgKEZUIEQgRVUgU0sgQkZTMSkgPFBldGVyLk1h
-cmtvQHNpZW1lbnMuY29tPg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENIIHYyXSBzcWxpdGUzOiB1cGdy
-YWRlIDMuNDguMCAtPiAzLjUwLjQNCj4gDQo+IE9uIE1vbiwgMTMgT2N0IDIwMjUgYXQgMDg6MjYs
-IFBldGVyIE1hcmtvIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IDxwZXRlci5tYXJrbz1z
-aWVtZW5zLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4gPiA+ICtTaWduZWQt
-b2ZmLWJ5OiBQZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5jb20+DQo+ID4gPiArVXBz
-dHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbVE9ET10NCj4gPg0KPiA+IEknbSBjdXJyZW50bHkgdW5h
-YmxlIHRvIHJlZ2lzdGVyIG15c2VsZiBpbiBzcWxpdGUgZm9ydW0uDQo+ID4gRWl0aGVyIHJlZ2lz
-dHJhdGlvbiBpcyBub3Qgd29ya2luZyBvciBvdXIgZW1haWwgc3lzdGVtIGJsb2NrcyBpdC4NCj4g
-Pg0KPiA+IFdvdWxkIGJlIGdyZWF0IGlmIHNvbWVvbmUgZWxzZSB3aG8gaGFzIGFjY291bnQgb3Ig
-Y2FuIHJlZ2lzdGVyIHBvc3RzIHRoaXMNCj4gcGF0Y2ggdGhlcmUgZm9yIGNvbW1lbnRzLg0KPiA+
-IEFsdGVybmF0aXZlbHkgSSBjb3VsZCBtYWtlIHRoaXMgSW5hcHByb3ByaWF0ZSBbb2Utc3BlY2lm
-aWNdIGZvciB0aW1lIGJlaW5nLi4uDQo+IA0KPiBUaGVyZSdzIHNvbWUgcmF0aGVyIGRpc2NvdXJh
-Z2luZyBsYW5ndWFnZSBhYm91dCBtYWtpbmcgY29udHJpYnV0aW9ucw0KPiB0byBzcWxpdGUgaGVy
-ZToNCj4gaHR0cHM6Ly9zcWxpdGUub3JnL2NvcHlyaWdodC5odG1sDQo+IA0KPiBUaGV5IGJhc2lj
-YWxseSB3YW50IHRvIGtlZXAgaXQgcHVibGljIGRvbWFpbiAod2h5PykgYW5kIHRodXMgcmVxdWly
-ZSBhDQo+IGRlY2xhcmF0aW9uIGZyb20gYW55IGNvbnRyaWJ1dG9yIHRoYXQgdGhlaXIgY29kZSBp
-cyBzdWNoICh3aXRob3V0DQo+IG9mZmVyaW5nIGFueSBzcGVjaWZpYyBoZWxwIGluIGRvaW5nIHRo
-YXQpLg0KPiANCj4gSSdkIHNheSB0aGlzIGlzIHRvbyBtdWNoIG9mIGEgaHVyZGxlLCBwb3N0aW5n
-IGEgcGF0Y2ggb24gdGhlIGZvcnVtIGlzDQo+IG5vdCBnb2luZyB0byBjb3VudCBhcyBhbiBhY3R1
-YWwgc3VibWlzc2lvbiAodGhleSB3b3VsZCBoYXZlIHRvDQo+ICdyZXdyaXRlJyB0aGUgcGF0Y2gs
-IHdoYXRldmVyIHRoYXQgbWVhbnMgaW4gY2FzZSBvZiB0cml2aWFsL3NpbXBsZQ0KPiBzdWJtaXNz
-aW9ucyksIGFuZCBpdCdzIHByb2JhYmx5IGJlc3QgdG8gbWFyayB0aGUgcGF0Y2ggYXMNCj4gSW5h
-cHByb3ByaWF0ZSwgZXhwbGFpbmluZyB0aGlzLCBhbmQgbm90aW5nIHRoYXQgcmVnaXN0cmF0aW9u
-IG9uIHRoZQ0KPiBmb3J1bSAodG8gYXQgbGVhc3QgcmVwb3J0IHRoZSBpc3N1ZSkgZGlkbid0IHN1
-Y2NlZWQuDQoNClRoYW5rcyBmb3IgdGhlIHBvaW50ZXJzLCB2MyBpbmNvbWluZy4NCg0KUGV0ZXIN
-Cg0KPiANCj4gQWxleA0K
+From: Peter Marko <peter.marko@siemens.com>
+
+Handle CVE-2025-3277, CVE-2025-29087 and CVE-2025-29088.
+
+This update includes major change in how it is built.
+Instead of autotools, autosetup is used.
+
+Autosetup (https://msteveb.github.io/autosetup/) claims to be
+* Replacement for autoconf in many situations
+However it also claims NOT to
+* Intended to replace all possible uses of autoconf
+This means that some autoconf features are not available.
+
+Recipe changes:
+* stop inheriting autotools and define B, do_configure and do_install
+* add patch to disable zlib as autosetup cannot be preconfigured like
+  autotools to force function calls
+* update packageconfig options to match new syntax
+* libedit is detected with ncurses linking options (as seen in
+  do_configure log)
+* backport rpaths fix
+* define soname to avoid file-rdeps QA error due to wrong library name
+* clean B for do_configure as the new Makefiles do not seem to properly
+  retrigger build if configuration changes
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+v2 changes:
+- rebased to latest master
+- removed anti-strip hack not needed in latest version
+- created patch to disable zlib
+- (no change) checked proj-native build: succeeds on Debian 12 x86 host
+v3 changes:
+- updated upstream status and added comment on reason for it
+
+ meta/recipes-support/sqlite/sqlite3.inc       | 33 ++++++++---
+ ...rpath-configure-script-flag-to-addre.patch | 57 ++++++++++++++++++
+ .../0002-Add-option-to-disable-zlib.patch     | 58 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.48.0.bb |  8 ---
+ meta/recipes-support/sqlite/sqlite3_3.50.4.bb | 10 ++++
+ 5 files changed, 151 insertions(+), 15 deletions(-)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.50.4.bb
+
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+index 28a33282ae1..94dbc38ec5e 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -14,34 +14,35 @@ def sqlite_download_version(d):
+ SQLITE_PV = "${@sqlite_download_version(d)}"
+ 
+ S = "${UNPACKDIR}/sqlite-autoconf-${SQLITE_PV}"
++B = "${WORKDIR}/build"
+ 
+ UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
+ UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
+ 
+ CVE_PRODUCT = "sqlite"
+ 
+-inherit autotools pkgconfig siteinfo
++inherit pkgconfig siteinfo
+ 
+ # enable those which are enabled by default in configure
+ PACKAGECONFIG ?= "fts4 fts5 rtree dyn_ext"
+ PACKAGECONFIG:class-native ?= "fts4 fts5 rtree dyn_ext"
+ 
+-PACKAGECONFIG[editline] = "--enable-editline,--disable-editline,libedit"
+-PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline ncurses"
++PACKAGECONFIG[editline] = "--enable-editline --with-readline-header=${includedir}/editline/readline.h,--disable-editline,libedit ncurses"
++PACKAGECONFIG[readline] = "--enable-readline --with-readline-header=${includedir}/readline/readline.h,--disable-readline,readline ncurses"
+ PACKAGECONFIG[fts3] = "--enable-fts3,--disable-fts3"
+ PACKAGECONFIG[fts4] = "--enable-fts4,--disable-fts4"
+ PACKAGECONFIG[fts5] = "--enable-fts5,--disable-fts5"
+ PACKAGECONFIG[rtree] = "--enable-rtree,--disable-rtree"
+ PACKAGECONFIG[session] = "--enable-session,--disable-session"
+-PACKAGECONFIG[dyn_ext] = "--enable-dynamic-extensions,--disable-dynamic-extensions"
+-PACKAGECONFIG[zlib] = ",,zlib"
+-
+-CACHED_CONFIGUREVARS += "${@bb.utils.contains('PACKAGECONFIG', 'zlib', '', 'ac_cv_search_deflate=no',d)}"
++PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
++PACKAGECONFIG[dyn_ext] = "--enable-load-extension,--disable-load-extension"
+ 
+ EXTRA_OECONF = " \
+     --enable-shared \
+     --enable-threadsafe \
+     --disable-static-shell \
++    --disable-rpath \
++    --soname=legacy \
+ "
+ 
+ # pread() is in POSIX.1-2001 so any reasonable system must surely support it
+@@ -65,4 +66,22 @@ FILES:lib${BPN}-staticdev = "${libdir}/lib*.a"
+ 
+ AUTO_LIBNAME_PKGS = "${MLPREFIX}lib${BPN}"
+ 
++do_configure() {
++    ${S}/configure \
++        --build=${BUILD_SYS} \
++        --host=${TARGET_SYS} \
++        --prefix=${prefix} \
++        --bindir=${bindir} \
++        --libdir=${libdir} \
++        --includedir=${includedir} \
++        --mandir=${mandir} \
++        ${EXTRA_OECONF} \
++        ${PACKAGECONFIG_CONFARGS}
++}
++do_configure[cleandirs] = "${B}"
++
++do_install() {
++    oe_runmake DESTDIR=${D} install
++}
++
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch b/meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch
+new file mode 100644
+index 00000000000..f1e93a1c9a7
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch
+@@ -0,0 +1,57 @@
++From 87c807c6dd4df67328919fa28e89a06839e634fe Mon Sep 17 00:00:00 2001
++From: stephan <stephan@noemail.net>
++Date: Sun, 22 Jun 2025 22:48:11 +0000
++Subject: [PATCH] Add the --disable-rpath configure script flag to address
++ [forum:13cac3b56516f849 | forum post 13cac3b56516f849].
++
++FossilOrigin-Name: a59d9bb25e518f5d79f654615b92f6c50cfb704b5abee0f820912644b89366c5
++
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/87c807c6dd4df67328919fa28e89a06839e634fe]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ autosetup/sqlite-config.tcl | 18 +++++++++---------
++ 1 file changed, 9 insertions(+), 9 deletions(-)
++
++diff --git a/autosetup/sqlite-config.tcl b/autosetup/sqlite-config.tcl
++index bb81123204..4dd065095e 100644
++--- a/autosetup/sqlite-config.tcl
+++++ b/autosetup/sqlite-config.tcl
++@@ -334,8 +334,8 @@ proc sqlite-configure {buildMode configScript} {
++           => {Link the sqlite3 shell app against the DLL instead of embedding sqlite3.c}
++       }
++       {canonical autoconf} {
++-        # A potential TODO without a current use case:
++-        #rpath=1 => {Disable use of the rpath linker flag}
+++        rpath=1 => {Disable use of the rpath linker flag}
+++
++         # soname: https://sqlite.org/src/forumpost/5a3b44f510df8ded
++         soname:=legacy
++           => {SONAME for libsqlite3.so. "none", or not using this flag, sets no
++@@ -2119,7 +2119,6 @@ proc sqlite-handle-tcl {} {
++ ########################################################################
++ # Handle the --enable/disable-rpath flag.
++ proc sqlite-handle-rpath {} {
++-  proj-check-rpath
++   # autosetup/cc-shared.tcl sets the rpath flag definition in
++   # [get-define SH_LINKRPATH], but it does so on a per-platform basis
++   # rather than as a compiler check. Though we should do a proper
++@@ -2128,12 +2127,13 @@ proc sqlite-handle-rpath {} {
++   # for which sqlite-env-is-unix-on-windows returns a non-empty
++   # string.
++ 
++-#  if {[proj-opt-truthy rpath]} {
++-#    proj-check-rpath
++-#  } else {
++-#    msg-result "Disabling use of rpath."
++-#    define LDFLAGS_RPATH ""
++-#  }
+++  # https://sqlite.org/forum/forumpost/13cac3b56516f849
+++  if {[proj-opt-truthy rpath]} {
+++    proj-check-rpath
+++  } else {
+++    msg-result "Disabling use of rpath."
+++    define LDFLAGS_RPATH ""
+++  }
++ }
++ 
++ ########################################################################
+diff --git a/meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch b/meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch
+new file mode 100644
+index 00000000000..2855372c215
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/0002-Add-option-to-disable-zlib.patch
+@@ -0,0 +1,58 @@
++From f98a739032dd863ba8dd315729ded7ad0c86473c Mon Sep 17 00:00:00 2001
++From: Peter Marko <peter.marko@siemens.com>
++Date: Sun, 12 Oct 2025 23:32:46 +0200
++Subject: [PATCH] Add option to disable zlib
++
++Autotools allowed to disable zlib by preconfiguring variable
++'ac_cv_search_deflate=no'.
++Autosetup does not seem to offer this option, so implement real option.
++
++Note that configuring sqlite without zlib is virtually impossible zlib
++normally gets into the system with toolchain. So the only option is to
++configure it out.
++
++This change is being done for Yocto project, where it's currently
++important to avoid additional dependencies having to restore chain of
++dependencies in "restore build from cache" scenario.
++
++Note about upstream status:
++Submitting patches to sqlite is problematic because of their policy of
++public domain declaration.
++This patch or a at least request to make zlib dependency optional
++should be submitted to their forum, however I was not able to register
++there.
++
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Upstream-Status: Inappropriate [oe-specific]
++---
++ autosetup/sqlite-config.tcl | 10 +++++++++-
++ 1 file changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/autosetup/sqlite-config.tcl b/autosetup/sqlite-config.tcl
++index 85fe414382..77190a7053 100644
++--- a/autosetup/sqlite-config.tcl
+++++ b/autosetup/sqlite-config.tcl
++@@ -274,6 +274,14 @@ proc sqlite-configure {buildMode configScript} {
++       }
++     }
++ 
+++    # Other options for CLI shell
+++    cli-shell {
+++      {*} {
+++        zlib=1
+++          => {Disable zlib support}
+++      }
+++    }
+++
++     # Options for ICU: International Components for Unicode
++     icu {
++       {*} {
++@@ -641,7 +649,7 @@ proc sqlite-check-common-system-deps {} {
++     string.h strings.h \
++     inttypes.h
++ 
++-  if {[cc-check-includes zlib.h] && [proj-check-function-in-lib deflate z]} {
+++  if {[opt-bool zlib] && [cc-check-includes zlib.h] && [proj-check-function-in-lib deflate z]} {
++     # TODO? port over the more sophisticated zlib search from the fossil auto.def
++     define HAVE_ZLIB 1
++     define LDFLAGS_ZLIB -lz
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb b/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
+deleted file mode 100644
+index bd2ac6614d8..00000000000
+--- a/meta/recipes-support/sqlite/sqlite3_3.48.0.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require sqlite3.inc
+-
+-LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+-
+-SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
+-
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.50.4.bb b/meta/recipes-support/sqlite/sqlite3_3.50.4.bb
+new file mode 100644
+index 00000000000..b822d7e919c
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3_3.50.4.bb
+@@ -0,0 +1,10 @@
++require sqlite3.inc
++
++LICENSE = "PD"
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
++
++SRC_URI = "http://www.sqlite.org/2025/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI[sha256sum] = "a3db587a1b92ee5ddac2f66b3edb41b26f9c867275782d46c3a088977d6a5b18"
++
++SRC_URI += "file://0001-Add-the-disable-rpath-configure-script-flag-to-addre.patch"
++SRC_URI += "file://0002-Add-option-to-disable-zlib.patch"
 
