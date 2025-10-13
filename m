@@ -2,80 +2,81 @@ Return-Path: <saravanan.kadambathursubramaniyam@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E99A8CCD183
-	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 11:45:08 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.41390.1760355902991394980
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02016CCA476
+	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 11:52:59 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.41737.1760356369834310201
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Oct 2025 04:45:03 -0700
+ Mon, 13 Oct 2025 04:52:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=IqS6NzeD;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2381f1bef8=saravanan.kadambathursubramaniyam@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59D6JVfZ3930735
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 04:45:02 -0700
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=oTAky/lR;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2381f1bef8=saravanan.kadambathursubramaniyam@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59D4nt7q1261366
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:52:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=0Qu08q1UORnKKFd0U8HI
-	OfxGCBb1nVJnP8HWNqIo5Ow=; b=IqS6NzeD55OESp7qV/4vpMMiHXKaPqTm03FS
-	pkEGSrdKwCrac2+R0ARJd8X4Ebv6abG6jMl2Q++jyR50kMDktPUCzRXe+6HaRyX4
-	94+lM7wR7Qhg8iKGydxj6Wgltt4QyJcqAPPVWPR8q6GGmdMlTvS2lgSfRpEeaYs/
-	BvqPhUe5cQK6JQ83KtOwCD+xStiM65jA0omqcwuKSWCiGNoyFd/v31lPTbodguHm
-	Rj5nLqI3Q09AamopQtvbD1wkjTbRp3+8kbrZAG2TrU5HkW4W5ofbzAnQomkynA/b
-	bHWCr5bnGVRt+ngIRA4NS9xRjb36F7sFIszQQo/+lFPJ+7hUuw==
+	:mime-version:subject:to; s=PPS06212021; bh=jhzrwQATSA58sAs2jGLG
+	a4PW2TvPjfsUN2AGrcRF35Y=; b=oTAky/lR3Ta9A4yCqBB0Ve0lPHEQVKWiP9N7
+	esS1fH+wHcvH8ZRk+XF0q+R/wwgiGrCQlvJmr+PbsSNJWvQfqXJ9RIIq+kKtQkXB
+	uwj5iZNPN6c/8cf8bBKbXt+FQpFGO0WDO9ZH80flHNZGpqvuOtEPaKkqPNGHi1Xe
+	sOzs6YOJdGd03+hDDR08AjV4KLJ5+mwOuCh84xPbEeTMSn06qhdtS7qZvx9oVqY6
+	6EyskFh67hE/Kx7C9P+aus0dxl6lYBRQzHtGTf24oMLOd8MS1jx0QfPyRbjYMxl3
+	klzz5LuSpvDI1k/gfOPRz8akz0/eFz2RbyL12tsmaM1Bf0hFCA==
 Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qprdse8h-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qcewhsrw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 04:45:02 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:52:48 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Mon, 13 Oct 2025 04:45:01 -0700
+ 15.1.2507.59; Mon, 13 Oct 2025 04:52:47 -0700
 Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Mon, 13 Oct 2025 04:45:00 -0700
+ 15.1.2507.59 via Frontend Transport; Mon, 13 Oct 2025 04:52:46 -0700
 From: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][walnascar][PATCH V2 1/1] python3-xmltodict: fix CVE-2025-9375
-Date: Mon, 13 Oct 2025 17:14:54 +0530
-Message-ID: <20251013114454.2265433-1-saravanan.kadambathursubramaniyam@windriver.com>
+Subject: [oe-core][scarthgap][PATCH V2 1/1] python3-xmltodict: fix CVE-2025-9375
+Date: Mon, 13 Oct 2025 17:22:44 +0530
+Message-ID: <20251013115244.2276644-1-saravanan.kadambathursubramaniyam@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDA1MyBTYWx0ZWRfX6roSOSD7u4he
- PbN9asZIcqHG6gJ8n1uiO/CYgnDOPxi31asPU2t9X8JWvEIFklS71U4FZ1a2vOroIByz9sBCJ3i
- 0cjhTxMpSOhYmoyK4D1zF/KLrYCtYUUXwsM/pH8ErbZOqC2XB1nSZCh26EOxP5QqDD5jFAYaRdS
- ASfO2YK/nfP7J2UU0i4vCgG6PRmQ9gZhz+euHBNvxyRuPqjvV64wFRfTcXzyMcXpDLz68NOz72n
- Xu35d7YUCul1psTYPgQVQo/Zc+v4FY5GHHAQINqtsqsGqXCc1uh3GLGydntlDwl4lmf6gqzrcty
- iGHS0a0CRN+qzN670MLzNzGBK4Y1H46Po6rpEGju/T+ZK6tPGHVtoF46llwuFJylq1ZOk5+aU8k
- sNdJX8ZlCrZ67Zst9RBtcTqTdW+IVQ==
-X-Proofpoint-GUID: _z6Egf5EpWftpzgrZPZHNvCFSY_0xvIl
-X-Authority-Analysis: v=2.4 cv=JaKxbEKV c=1 sm=1 tr=0 ts=68ece63e cx=c_pps
+X-Proofpoint-GUID: PCKYFttDcqxqNULjb4ml8wdSf7fPW398
+X-Proofpoint-ORIG-GUID: PCKYFttDcqxqNULjb4ml8wdSf7fPW398
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDA1MyBTYWx0ZWRfXxPohEI++p5rH
+ 0WezKxbcit9YmbducjsuzLvkIRjoVoBSC1owHnqDpWJkNI+DDtLLX5Jgm0tNsehJfjVWC0B19Hu
+ uEa791O5BuAdDIGWWZbHFvCi6n/0dwq7CeTUm4mtaR20+WWzmB5GeH6mVzoRVwJg4xIAmZQy8R4
+ I47FkaEkOlnivctIDLtDpgAXI56lzixrvl/SsScIsVYIJ7ZpztyCfb0Np6WSb9LYRQuEQIV8GnQ
+ cvPS3+oaELY5cpugeg96XjD67eofmT6Bo91GeQrnutZZlNWF1HxBkLAPnjGew4rEzNV1z2rJRUA
+ jShkx8QzCmapGci9z/DJu5BTlqOtEQn05O0R0S4z90C8pn+zJkNGMEl1B7mKHFbp2KFsfmvOJ0I
+ qud5DuFTz6tucORDBYtE1dK29tnw6A==
+X-Authority-Analysis: v=2.4 cv=M+xA6iws c=1 sm=1 tr=0 ts=68ece810 cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=x6icFKpwvdMA:10 a=PYnjg3YJAAAA:8 a=xNf9USuDAAAA:8 a=NEAV23lmAAAA:8
- a=yEquWHxyAAAA:8 a=A1X0JdhQAAAA:8 a=t7CeM3EgAAAA:8 a=d8oaZizm7QLjo4qtjSwA:9
- a=s5zKW874KtQA:10 a=_j3XSMEICZ-j_p4bQif0:22 a=FdTzh2GWekK77mhwV6Dw:22
- a=Soy3cZ2v3rD3IzUh-QDm:22 a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
-X-Proofpoint-ORIG-GUID: _z6Egf5EpWftpzgrZPZHNvCFSY_0xvIl
+ a=x6icFKpwvdMA:10 a=PYnjg3YJAAAA:8 a=xNf9USuDAAAA:8 a=danhDmx_AAAA:8
+ a=NEAV23lmAAAA:8 a=yEquWHxyAAAA:8 a=A1X0JdhQAAAA:8 a=t7CeM3EgAAAA:8
+ a=d8oaZizm7QLjo4qtjSwA:9 a=s5zKW874KtQA:10 a=_j3XSMEICZ-j_p4bQif0:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=Soy3cZ2v3rD3IzUh-QDm:22 a=pHzHmUro8NiASowvMSCR:22
+ a=Ew2E2A-JSTLzCXPT_086:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-13_04,2025-10-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1011
- suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510130053
+ clxscore=1015 priorityscore=1501 suspectscore=0 adultscore=0 phishscore=0
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510130053
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:45:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224778
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:52:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224779
 
 Reference:
 	https://nvd.nist.gov/vuln/detail/CVE-2025-9375
 	https://security-tracker.debian.org/tracker/CVE-2025-9375
+	https://git.launchpad.net/ubuntu/+source/python-xmltodict/commit/?id=e8110a20e00d80db31d5fc9f8f4577328385d6b6
 
 Upstream-patch:
 	https://github.com/martinblech/xmltodict/commit/ecd456ab88d379514b116ef9293318b74e5ed3ee
@@ -83,19 +84,19 @@ Upstream-patch:
 
 Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
 ---
- .../python3-xmltodict/CVE-2025-9375-01.patch  | 113 +++++++++++
- .../python3-xmltodict/CVE-2025-9375-02.patch  | 178 ++++++++++++++++++
- .../python/python3-xmltodict_0.14.2.bb        |   4 +
- 3 files changed, 295 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.patch
- create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.patch
+ .../python3-xmltodict/CVE-2025-9375-1.patch   | 111 +++++++++++
+ .../python3-xmltodict/CVE-2025-9375-2.patch   | 176 ++++++++++++++++++
+ .../python/python3-xmltodict_0.13.0.bb        |   2 +
+ 3 files changed, 289 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-2.patch
 
-diff --git a/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.patch b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.patch
+diff --git a/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-1.patch b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-1.patch
 new file mode 100644
-index 0000000000..7835dc9f51
+index 0000000000..e8977dd2ea
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-01.patch
-@@ -0,0 +1,113 @@
++++ b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-1.patch
+@@ -0,0 +1,111 @@
 +From ecd456ab88d379514b116ef9293318b74e5ed3ee Mon Sep 17 00:00:00 2001
 +From: Martin Blech <78768+martinblech@users.noreply.github.com>
 +Date: Thu, 4 Sep 2025 17:25:39 -0700
@@ -108,6 +109,7 @@ index 0000000000..7835dc9f51
 +
 +Upstream-Status: Backport
 +https://github.com/martinblech/xmltodict/commit/ecd456ab88d379514b116ef9293318b74e5ed3ee
++https://git.launchpad.net/ubuntu/+source/python-xmltodict/commit/?id=e8110a20e00d80db31d5fc9f8f4577328385d6b6
 +
 +Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
 +
@@ -116,11 +118,11 @@ index 0000000000..7835dc9f51
 + xmltodict.py            | 20 +++++++++++++++++++-
 + 2 files changed, 51 insertions(+), 1 deletion(-)
 +
-+diff --git a/tests/test_dicttoxml.py b/tests/test_dicttoxml.py
-+index 470aca9..67e3a88 100644
-+--- a/tests/test_dicttoxml.py
-++++ b/tests/test_dicttoxml.py
-+@@ -231,3 +231,35 @@ xmlns:b="http://b.com/"><x a:attr="val">1</x><a:y>2</a:y><b:z>3</b:z></root>'''
++Index: python-xmltodict-0.13.0/tests/test_dicttoxml.py
++===================================================================
++--- python-xmltodict-0.13.0.orig/tests/test_dicttoxml.py
+++++ python-xmltodict-0.13.0/tests/test_dicttoxml.py
++@@ -213,3 +213,35 @@ xmlns:b="http://b.com/"><x a:attr="val">
 +         expected_xml = '<?xml version="1.0" encoding="utf-8"?>\n<x>false</x>'
 +         xml = unparse(dict(x=False))
 +         self.assertEqual(xml, expected_xml)
@@ -156,11 +158,11 @@ index 0000000000..7835dc9f51
 ++        xml = unparse({"a": {"@attr": "1<middle>2", "#text": "x"}}, full_document=False)
 ++        # The generated XML should contain escaped '<' and '>' within the attribute value
 ++        self.assertIn('attr="1&lt;middle&gt;2"', xml)
-+diff --git a/xmltodict.py b/xmltodict.py
-+index 098f627..9fb249d 100755
-+--- a/xmltodict.py
-++++ b/xmltodict.py
-+@@ -360,6 +360,14 @@ def parse(xml_input, encoding=None, expat=expat, process_namespaces=False,
++Index: python-xmltodict-0.13.0/xmltodict.py
++===================================================================
++--- python-xmltodict-0.13.0.orig/xmltodict.py
+++++ python-xmltodict-0.13.0/xmltodict.py
++@@ -379,6 +379,14 @@ def parse(xml_input, encoding=None, expa
 +     return handler.item
 + 
 + 
@@ -175,17 +177,17 @@ index 0000000000..7835dc9f51
 + def _process_namespace(name, namespaces, ns_sep=':', attr_prefix='@'):
 +     if not namespaces:
 +         return name
-+@@ -393,6 +401,9 @@ def _emit(key, value, content_handler,
++@@ -412,6 +420,9 @@ def _emit(key, value, content_handler,
 +         if result is None:
 +             return
 +         key, value = result
 ++    # Minimal validation to avoid breaking out of tag context
 ++    if _has_angle_brackets(key):
 ++        raise ValueError('Invalid element name: "<" or ">" not allowed')
-+     if not hasattr(value, '__iter__') or isinstance(value, (str, dict)):
-+         value = [value]
-+     for index, v in enumerate(value):
-+@@ -421,12 +432,19 @@ def _emit(key, value, content_handler,
++     if (not hasattr(value, '__iter__')
++             or isinstance(value, _basestring)
++             or isinstance(value, dict)):
++@@ -445,12 +456,19 @@ def _emit(key, value, content_handler,
 +                                         attr_prefix)
 +                 if ik == '@xmlns' and isinstance(iv, dict):
 +                     for k, v in iv.items():
@@ -193,11 +195,11 @@ index 0000000000..7835dc9f51
 ++                            raise ValueError(
 ++                                'Invalid attribute name: "<" or ">" not allowed'
 ++                            )
-+                         attr = 'xmlns{}'.format(f':{k}' if k else '')
-+                         attrs[attr] = str(v)
++                         attr = 'xmlns{}'.format(':{}'.format(k) if k else '')
++                         attrs[attr] = _unicode(v)
 +                     continue
-+                 if not isinstance(iv, str):
-+                     iv = str(iv)
++                 if not isinstance(iv, _unicode):
++                     iv = _unicode(iv)
 +-                attrs[ik[len(attr_prefix):]] = iv
 ++                attr_name = ik[len(attr_prefix) :]
 ++                if _has_angle_brackets(attr_name):
@@ -205,16 +207,13 @@ index 0000000000..7835dc9f51
 ++                attrs[attr_name] = iv
 +                 continue
 +             children.append((ik, iv))
-+         if isinstance(indent, int):
-+-- 
-+2.40.0
-+
-diff --git a/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.patch b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.patch
++         if pretty:
+diff --git a/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-2.patch b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-2.patch
 new file mode 100644
-index 0000000000..d8cd83469a
+index 0000000000..1be22cff6e
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-02.patch
-@@ -0,0 +1,178 @@
++++ b/meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-2.patch
+@@ -0,0 +1,176 @@
 +From f98c90f071228ed73df997807298e1df4f790c33 Mon Sep 17 00:00:00 2001
 +From: Martin Blech <78768+martinblech@users.noreply.github.com>
 +Date: Mon, 8 Sep 2025 11:18:33 -0700
@@ -231,18 +230,19 @@ index 0000000000..d8cd83469a
 +
 +Upstream-Status: Backport
 +https://github.com/martinblech/xmltodict/commit/f98c90f071228ed73df997807298e1df4f790c33
++https://git.launchpad.net/ubuntu/+source/python-xmltodict/commit/?id=e8110a20e00d80db31d5fc9f8f4577328385d6b6
 +
-+Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
++Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com
 +---
 + tests/test_dicttoxml.py | 60 +++++++++++++++++++++++++++++++++++++++++
 + xmltodict.py            | 48 ++++++++++++++++++++++++++-------
 + 2 files changed, 99 insertions(+), 9 deletions(-)
 +
-+diff --git a/tests/test_dicttoxml.py b/tests/test_dicttoxml.py
-+index 67e3a88..180d767 100644
-+--- a/tests/test_dicttoxml.py
-++++ b/tests/test_dicttoxml.py
-+@@ -263,3 +263,63 @@ xmlns:b="http://b.com/"><x a:attr="val">1</x><a:y>2</a:y><b:z>3</b:z></root>'''
++Index: python-xmltodict-0.13.0/tests/test_dicttoxml.py
++===================================================================
++--- python-xmltodict-0.13.0.orig/tests/test_dicttoxml.py
+++++ python-xmltodict-0.13.0/tests/test_dicttoxml.py
++@@ -245,3 +245,63 @@ xmlns:b="http://b.com/"><x a:attr="val">
 +         xml = unparse({"a": {"@attr": "1<middle>2", "#text": "x"}}, full_document=False)
 +         # The generated XML should contain escaped '<' and '>' within the attribute value
 +         self.assertIn('attr="1&lt;middle&gt;2"', xml)
@@ -306,11 +306,11 @@ index 0000000000..d8cd83469a
 ++        # Whitespace
 ++        with self.assertRaises(ValueError):
 ++            unparse({"a": {"@xmlns": {"bad prefix": "http://e/"}}}, full_document=False)
-+diff --git a/xmltodict.py b/xmltodict.py
-+index c8491b3..7b7f8a8 100755
-+--- a/xmltodict.py
-++++ b/xmltodict.py
-+@@ -368,7 +368,42 @@ def _has_angle_brackets(value):
++Index: python-xmltodict-0.13.0/xmltodict.py
++===================================================================
++--- python-xmltodict-0.13.0.orig/xmltodict.py
+++++ python-xmltodict-0.13.0/xmltodict.py
++@@ -387,7 +387,42 @@ def _has_angle_brackets(value):
 +     return isinstance(value, str) and ("<" in value or ">" in value)
 + 
 + 
@@ -353,17 +353,17 @@ index 0000000000..d8cd83469a
 +     if not namespaces:
 +         return name
 +     try:
-+@@ -402,8 +437,7 @@ def _emit(key, value, content_handler,
++@@ -421,8 +456,7 @@ def _emit(key, value, content_handler,
 +             return
 +         key, value = result
 +     # Minimal validation to avoid breaking out of tag context
 +-    if _has_angle_brackets(key):
 +-        raise ValueError('Invalid element name: "<" or ">" not allowed')
 ++    _validate_name(key, "element")
-+     if not hasattr(value, '__iter__') or isinstance(value, (str, dict)):
-+         value = [value]
-+     for index, v in enumerate(value):
-+@@ -427,23 +461,19 @@ def _emit(key, value, content_handler,
++     if (not hasattr(value, '__iter__')
++             or isinstance(value, _basestring)
++             or isinstance(value, dict)):
++@@ -451,23 +485,19 @@ def _emit(key, value, content_handler,
 +             if ik == cdata_key:
 +                 cdata = iv
 +                 continue
@@ -378,11 +378,11 @@ index 0000000000..d8cd83469a
 +-                                'Invalid attribute name: "<" or ">" not allowed'
 +-                            )
 ++                        _validate_name(k, "attribute")
-+                         attr = 'xmlns{}'.format(f':{k}' if k else '')
-+                         attrs[attr] = str(v)
++                         attr = 'xmlns{}'.format(':{}'.format(k) if k else '')
++                         attrs[attr] = _unicode(v)
 +                     continue
-+                 if not isinstance(iv, str):
-+                     iv = str(iv)
++                 if not isinstance(iv, _unicode):
++                     iv = _unicode(iv)
 +                 attr_name = ik[len(attr_prefix) :]
 +-                if _has_angle_brackets(attr_name):
 +-                    raise ValueError('Invalid attribute name: "<" or ">" not allowed')
@@ -390,25 +390,20 @@ index 0000000000..d8cd83469a
 +                 attrs[attr_name] = iv
 +                 continue
 +             children.append((ik, iv))
-+-- 
-+2.40.0
-+
-diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-index 56cdf6ff4a..3cacb72f26 100644
---- a/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-+++ b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-@@ -5,6 +5,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
+diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb b/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
+index e8e275647c..9a308a29d2 100644
+--- a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
++++ b/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
+@@ -13,6 +13,8 @@ inherit pypi setuptools3 ptest
  
- SRC_URI[sha256sum] = "201e7c28bb210e374999d1dde6382923ab0ed1a8a5faeece48ab525b7810a553"
+ SRC_URI += " \
+ 	file://run-ptest \
++	file://CVE-2025-9375-1.patch \
++	file://CVE-2025-9375-2.patch \
+ "
  
-+SRC_URI += " \
-+	file://CVE-2025-9375-01.patch \
-+	file://CVE-2025-9375-02.patch"
-+
- PYPI_PACKAGE = "xmltodict"
- 
- BBCLASSEXTEND = "native nativesdk"
+ RDEPENDS:${PN} += " \
 -- 
-2.49.1
+2.44.3
 
 
