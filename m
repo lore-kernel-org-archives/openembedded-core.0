@@ -2,92 +2,96 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A883DCCA476
-	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 11:02:28 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.web11.41064.1760353341549326696
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B72EFCCD185
+	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 11:07:18 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.web10.40887.1760353631696821324
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Oct 2025 04:02:22 -0700
+ Mon, 13 Oct 2025 04:07:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=OqZ3g+Ru;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=CYQFMfDL;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id EE76C4E41068;
-	Mon, 13 Oct 2025 11:02:19 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 721EBC093AD
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:06:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B57A6606C6;
-	Mon, 13 Oct 2025 11:02:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5FA30102F2250;
-	Mon, 13 Oct 2025 13:02:18 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 63C5A606C6
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:07:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C6E65102F2263;
+	Mon, 13 Oct 2025 13:07:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760353339; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1760353630; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=pdpIY+kK2Xxhpu4P1lf2/COhzdE4xPfpWNTMoLckvmI=;
-	b=OqZ3g+Ru4e1Lh7CA7X+PM/KS7fDhlVAfFkFO4MSvybsFsqi9zVqnfUGfCIAaXxM09CIvLB
-	AZLHUVy9w5AQPSNNeTchG1QtE1meoz7HeZXcm51QYUTX+0oeyW8bSmhihJrNUx/tvAHdOo
-	UBeplpY6E3ZzX6yAStSfNV9GM2PMXH4fI0NWoWJaDHTxte3bKrpL1LCxZbxLwjk+eFLDSW
-	ta+6VRpgwIVrxflZ+o/abffcrjL63N19+TcxR4ILsRSGsaGphxT7wQFtu3DAjg1/ohgUwu
-	yD/Wgz0bWJ4bH/L4Vp2uAqXBMXg1K/zcDOo89UixnmXTbhLuMgBZklK3iaLQWw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 13 Oct 2025 13:02:17 +0200
-Message-Id: <DDH56F91Q48V.1QO5IE5R5S5UH@bootlin.com>
-Subject: Re: [OE-core] [PATCH 2/4] oeqa: runtime: Ignore SSH errors during
- setup and tear down
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <ross.burton@arm.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20251007-mathieu-ssh-fails-v1-0-a6affee3571b@bootlin.com>
- <20251007-mathieu-ssh-fails-v1-2-a6affee3571b@bootlin.com>
- <DC955EFB-988F-4BCA-91C9-8205286AA5D7@arm.com>
-In-Reply-To: <DC955EFB-988F-4BCA-91C9-8205286AA5D7@arm.com>
+	bh=DTF/nXWLZ08ucMtTr8kM0yndWzXZc3hF5jygtr8reD0=;
+	b=CYQFMfDLsa4Fl0MfKzMuvQCUbEFt94FX5H+ZCHOjAO9NMaiXWL70V8d3o8WC34lxaZRjKa
+	57MimX22mE/uLNmr7ZT7LSUEdz0bR0kodg5SST1ArjfmbauPUWzzVyjSwT4/LJ3KChxX1K
+	huRsX90gf7EdEvsAARNUYb+fsgavBQJmQY289TxZG02ei/nvCATh1feBIMkOPOFIeX21G7
+	tIo4gHqVNWHwqCb7MeTX/Ry52TxytyASWfG+4s9zA/jgXVlqjtGpjRCMWRmmJZqj8jJltD
+	wWpjB0FNFitwUvxx+6Xx6PDRojcE6uFNGGlT6DRxel4xGFbjf+uTjYx7+9GZgQ==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Date: Mon, 13 Oct 2025 13:06:45 +0200
+Subject: [PATCH 3/3] oeqa: runtime: weston: Remove tear down method
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251013-mathieu-test-clean-setup-v1-3-6cea9936d79b@bootlin.com>
+References: <20251013-mathieu-test-clean-setup-v1-0-6cea9936d79b@bootlin.com>
+In-Reply-To: <20251013-mathieu-test-clean-setup-v1-0-6cea9936d79b@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760353627; l=1745;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=4GZMa1sgsaI0iXccFd0RoD58TZn0Ao5lgY99Y2ceRZU=;
+ b=Y9RMYAPK3hZhnIDOipguhseZO3BfZDPth+al+AdgvanrI1bmo4ssyr4xRsofs+w6TYINGtuGu
+ gLKQDay1CPgB+cfTJIfY5mTFAw2em3KwcnNfzo8k1L3YVG4DXUf6bLr
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:02:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224771
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:07:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224775
 
-On Thu Oct 9, 2025 at 4:26 PM CEST, Ross Burton via lists.openembedded.org =
-wrote:
-> On 7 Oct 2025, at 18:38, Mathieu Dubois-Briand via lists.openembedded.org=
- <mathieu.dubois-briand=3Dbootlin.com@lists.openembedded.org> wrote:
->>=20
->> Tests using SSH will fail when no SSH server is present on the target.
->> These tests are disabled in these cases, by being marked with a
->> dependency on ssh.SSHTest.test_ssh, which in turns has a dependency on
->> having either dropbear or openssh-sshd in the image.
->>=20
->> But setUpClass() and tearDownClass() functions are always executed, even
->> on tests failing the dependency checks, leading to unexpected failed
->> tests.
->
-> Well that=E2=80=99s just silly.  I wonder if OEHasPackage() works on the =
-class scope too and does actually avoid doing the setup/teardown?
->
-> However, this does demonstrate that doing non-trivial setup/teardown is a=
- bad idea in test cases, and copying files to the target is definitely non-=
-trivial.
->
-> I suggest merging all of the logrotate tests and setup/teardown into a si=
-ngle test that uses finally: to cleanup, and just removing the teardown fro=
-m the weston test.
->
+Tear down method is executed even when the tests are disabled. This lead
+to SSH being used to run commands on the target, and as it might fail
+when no SSH server is present, we had to use ignore_ssh_fails=True here.
 
-I am going to send some patches to clean this.
+Instead, remove log file just before it is created: it will remain on
+the target after the test is run, but this should be acceptable.
 
-On the logrotate one, I choose to keep two separate tests, but we can
-highly simplify this cleanup part and integrate that in the tests. On
-weston, let's remove the log file before starting weston, so we can
-still be sure the log is clean.
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+ meta/lib/oeqa/runtime/cases/weston.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/lib/oeqa/runtime/cases/weston.py b/meta/lib/oeqa/runtime/cases/weston.py
+index e2cecffe8353..443b85efe8cd 100644
+--- a/meta/lib/oeqa/runtime/cases/weston.py
++++ b/meta/lib/oeqa/runtime/cases/weston.py
+@@ -14,10 +14,6 @@ import time
+ class WestonTest(OERuntimeTestCase):
+     weston_log_file = '/tmp/weston-2.log'
+ 
+-    @classmethod
+-    def tearDownClass(cls):
+-        cls.tc.target.run('rm %s' % cls.weston_log_file, ignore_ssh_fails=True)
+-
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['weston'])
+     def test_weston_running(self):
+@@ -36,6 +32,7 @@ class WestonTest(OERuntimeTestCase):
+         return 'export XDG_RUNTIME_DIR=/run/user/`id -u weston`; export WAYLAND_DISPLAY=wayland-1; %s' % cmd
+ 
+     def run_weston_init(self):
++        self.target.run('rm -f %s' % self.weston_log_file)
+         if 'systemd' in self.tc.td['VIRTUAL-RUNTIME_init_manager']:
+             self.target.run('systemd-run --collect --unit=weston-ptest.service --uid=0 -p PAMName=login -p TTYPath=/dev/tty6 -E XDG_RUNTIME_DIR=/tmp -E WAYLAND_DISPLAY=wayland-0 /usr/bin/weston --socket=wayland-1 --log=%s' % self.weston_log_file)
+         else:
+
+-- 
+2.47.3
 
 
