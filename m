@@ -1,200 +1,105 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF86CCD190
-	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 11:07:18 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.web11.41128.1760353631231379467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D91D9CCA476
+	for <webhook@archiver.kernel.org>; Mon, 13 Oct 2025 11:34:28 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.41452.1760355260520859544
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Oct 2025 04:07:11 -0700
+ Mon, 13 Oct 2025 04:34:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=sewQmD56;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id F12CEC093AC
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:06:50 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E2D90606C6
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:07:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 38D15102F2261;
-	Mon, 13 Oct 2025 13:07:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760353629; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=4R81aTo6mj2dZGQKv5Wlx+5sIE7BJ7Ab+5SNQQPC2+k=;
-	b=sewQmD56CAIClCnxjSHjOdiuSGlqh8sq/dvRfCvt+4LL3xUOg6T/vZIO+cWeanTB7wUd1L
-	Y7yHjo1bZjKuvu/6/shp6wt4d6K5TW7NNR34cxKVBH54GMbn1i2tmrCuHBwT8vR8C0Kv7V
-	/vkboJbNeJfUHgGl46JCqw8wi3ZJ89CXqksGcV/gUOSWtn9tJQnaxLKPhDFxCxDz9EZUQG
-	I2unGkjrJNQeoEPBJOX7XTMqstmRVdD8i6T5uttxN1jS711ZHfaj15BIE65NTEK8S3ITBH
-	6aeBKbQvnOMzrhCSthUyGL1tgKpQ3ZffmR1nzLQHXs/BKXbKu/qFfItKFiOBiA==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Mon, 13 Oct 2025 13:06:44 +0200
-Subject: [PATCH 2/3] oeqa: runtime: logrotate: Remove setup and tear down
- methods
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-mathieu-test-clean-setup-v1-2-6cea9936d79b@bootlin.com>
-References: <20251013-mathieu-test-clean-setup-v1-0-6cea9936d79b@bootlin.com>
-In-Reply-To: <20251013-mathieu-test-clean-setup-v1-0-6cea9936d79b@bootlin.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LRbetNZZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3ece1102998so2386525f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 04:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1760355258; x=1760960058; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QDdA+S/4Nkl8DkqWTTe85t//c78/MBvzvYnCrm4BVxg=;
+        b=LRbetNZZoj2ZEzwX+DmxQELb93jouedJ9wOfE19yFxW3u+i6+aSkXQTNLW9NdW+hCl
+         Dfq+CtfXEU+4pQQg/fBUtov8INDRO06ltHTD4aLyIhRp5XmGva/bpxEavHazM9O0JhBZ
+         qzpD3CDJmZllmlVfol3kLPZDv2DK57PK4Q1j8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760355258; x=1760960058;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QDdA+S/4Nkl8DkqWTTe85t//c78/MBvzvYnCrm4BVxg=;
+        b=NbdazenQdwgEfZX0xqY2ZxpS+Cx2fw9NG8YYVP+xXObiuFCHPf0qcZi336hfgZvQLE
+         UUeh7jo/FRELIskmC151tAHn3w5Gaz/n90TA5bZX4ApFGLFZ+j3VhoEnE744YsTnPEOv
+         PJgvyimaUlqF8gWl1st4SLPMCZ/1gduxsy0FXik9DIxNYFNMilspKkg3rtJX2DekHeso
+         mmNOJNSmLJ/Rei+AJYSC81v//mCkemh46HRlehfx7hUB1zg756rLs/ubxcmULqOfPMDp
+         wZ6OuSDSXLAXdv32YrjvC8HKJHjjcXqZbW7KdFphs5S4Oko4xIHaCYp2CRto6osVt6wS
+         mDRg==
+X-Gm-Message-State: AOJu0YyAnWi5uMm5E7Vcchsik+J3A6QGST0at/MJgZYxKOo18mWal833
+	h+Jmwx3Bi8WiAASJhZK/JL5QmXVLXLZ7rjflLpVaiRQ17C6Cbczq89bpU0THANAJXJtzvdXT5iu
+	eiwC1
+X-Gm-Gg: ASbGncvaeZvACjbqpeYiUVlAupbjWYAPzoPEHSdQM/JYSGJ4ySMYJtbr8WuxmydHdCT
+	RlfFPZYU6iLY97p0gyimhsMqvVxznaSajagmCaAJiZ1VBcMglaAuV3caxyX5QNcFC5kawOW4gLM
+	lNq66pPG9LMd61U9Fy0WG1Ph4cxbM4FoaUw05Jtp7P1kTi2dtITgzPGRaxaXG58krEAKzdBJWYf
+	LRDK5+4NtxlGxEzNm40RFL0KhWIx3v984V2BJeqwU7aO54XzuoH/YuNLVG/d8rt+riCcnQtRY80
+	k+o0QoiwD/FN5sYHNnmBMofRgJdnp47kB9ybgf0opju5WPfOxHIwt8zUlYSKV6c8cVUwUQKFRl2
+	hnLtNrRZHX9qQA5Vr79XOUS0rq+qIWes3sj+LuW+UWTLbOfsGWeH6E6c3EtuI2lSnlHoR7YqUcW
+	Qutlc=
+X-Google-Smtp-Source: AGHT+IG2/TI88F2pwh0M3sAFFDcBsa/FDRa3BdqVbG1TIG9/O3dUAKz6ghEArwE30lDGqZ0BHrFZsg==
+X-Received: by 2002:a05:6000:4917:b0:426:d3ef:6898 with SMTP id ffacd0b85a97d-426d3ef6f0fmr5964791f8f.15.1760355258148;
+        Mon, 13 Oct 2025 04:34:18 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:10f2:650e:7ea:14f6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5cfe4esm17510736f8f.26.2025.10.13.04.34.17
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Oct 2025 04:34:17 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760353627; l=8790;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=KKqfegGDY8Qo0y2eyQtotqKK5Ed41DpKZLKUFN1N0G4=;
- b=mfuGroSNMNY8FlMchVQ92nsjFExgbTXH0VOqNoDI5N4HYESOPcxxc5Mm4YQ+f2SOUQWMd+mCS
- v6rF4TsHGtsCQIwTaP5Eog3BIRV21v2g1+su0DVD470R36NKS/XaObc
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: [PATCH] perf: Improve build race/reproducibulity fixes
+Date: Mon, 13 Oct 2025 12:34:16 +0100
+Message-ID: <20251013113416.511842-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:07:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224773
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 11:34:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224776
 
-Setup and tear down methods are executed even when the tests are disabled.
-This lead to SSH being used to run commands on the target, and as it
-might fail when no SSH server is present, we had to use
-ignore_ssh_fails=True here.
+The include options shouldn't be needed with the make fix but issues still remained.
+Looking at the logs, it looks like these are from other header directories and
+we need to run "make install_headers" for all of the sub components before starting
+the main build.
 
-Instead, run cleanup tasks in tests themselves and remove the tear down
-method.
+Update the workaround to do that for each component with internal header copies.
 
-Also, the wtmp configuration file is not modified since the test was
-modified a few years ago: there is no need to backup and restore it.
-
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/logrotate.py | 100 ++++++++++++++++---------------
- 1 file changed, 52 insertions(+), 48 deletions(-)
+ meta/recipes-kernel/perf/perf.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/logrotate.py b/meta/lib/oeqa/runtime/cases/logrotate.py
-index 0d4b9ac60baa..4b9915b99ba5 100644
---- a/meta/lib/oeqa/runtime/cases/logrotate.py
-+++ b/meta/lib/oeqa/runtime/cases/logrotate.py
-@@ -12,64 +12,68 @@ from oeqa.core.decorator.depends import OETestDepends
- from oeqa.runtime.decorator.package import OEHasPackage
- 
- class LogrotateTest(OERuntimeTestCase):
--
--    @classmethod
--    def setUpClass(cls):
--        cls.tc.target.run('cp /etc/logrotate.d/wtmp $HOME/wtmp.oeqabak',
--                          ignore_ssh_fails=True)
--
--    @classmethod
--    def tearDownClass(cls):
--        cls.tc.target.run('mv -f $HOME/wtmp.oeqabak /etc/logrotate.d/wtmp && rm -rf /var/log/logrotate_dir', ignore_ssh_fails=True)
--        cls.tc.target.run('rm -rf /var/log/logrotate_testfile && rm -rf /etc/logrotate.d/logrotate_testfile', ignore_ssh_fails=True)
--
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OEHasPackage(['logrotate'])
-     def test_logrotate_wtmp(self):
--        # /var/log/wtmp may not always exist initially, so use touch to ensure it is present
--        status, output = self.target.run('touch /var/log/wtmp')
--        msg = ('Could not create/update /var/log/wtmp with touch')
--        self.assertEqual(status, 0, msg = msg)
-+        try:
-+            # /var/log/wtmp may not always exist initially, so use touch to ensure it is present
-+            status, output = self.target.run('touch /var/log/wtmp')
-+            msg = ('Could not create/update /var/log/wtmp with touch')
-+            self.assertEqual(status, 0, msg = msg)
- 
--        # Create a folder to store rotated file and add the corresponding
--        # configuration option
--        status, output = self.target.run('mkdir /var/log/logrotate_dir')
--        msg = ('Could not create logrotate_dir. Output: %s' % output)
--        self.assertEqual(status, 0, msg = msg)
-+            # Create a folder to store rotated file and add the corresponding
-+            # configuration option
-+            status, output = self.target.run('mkdir /var/log/logrotate_dir')
-+            msg = ('Could not create logrotate_dir. Output: %s' % output)
-+            self.assertEqual(status, 0, msg = msg)
- 
--        status, output = self.target.run('echo "create \n olddir /var/log/logrotate_dir \n include /etc/logrotate.d/wtmp" > /tmp/logrotate-test.conf')
--        msg = ('Could not write to /tmp/logrotate-test.conf')
--        self.assertEqual(status, 0, msg = msg)
-+            status, output = self.target.run('echo "create \n olddir /var/log/logrotate_dir \n include /etc/logrotate.d/wtmp" > /tmp/logrotate-test.conf')
-+            msg = ('Could not write to /tmp/logrotate-test.conf')
-+            self.assertEqual(status, 0, msg = msg)
- 
--        # Call logrotate -f to force the rotation immediately
--        # If logrotate fails to rotate the log, view the verbose output of logrotate to see what prevented it
--        _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test.conf')
--        status, _ = self.target.run('find /var/log/logrotate_dir -type f | grep wtmp.1')
--        msg = ("logrotate did not successfully rotate the wtmp log. Output from logrotate -vf: \n%s" % (logrotate_output))
--        self.assertEqual(status, 0, msg = msg)
-+            # Call logrotate -f to force the rotation immediately
-+            # If logrotate fails to rotate the log, view the verbose output of logrotate to see what prevented it
-+            _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test.conf')
-+            status, _ = self.target.run('find /var/log/logrotate_dir -type f | grep wtmp.1')
-+            msg = ("logrotate did not successfully rotate the wtmp log. Output from logrotate -vf: \n%s" % (logrotate_output))
-+            self.assertEqual(status, 0, msg = msg)
-+
-+        finally:
-+            # Clean files created in the test
-+            self.target.run('rm -rf /var/log/logrotate_dir')
- 
-     @OETestDepends(['logrotate.LogrotateTest.test_logrotate_wtmp'])
-     def test_logrotate_newlog(self):
--        status, output = self.target.run('echo "oeqa logrotate test file" > /var/log/logrotate_testfile')
--        msg = ('Could not create logrotate test file in /var/log')
--        self.assertEqual(status, 0, msg = msg)
-+        try:
-+            status, output = self.target.run('echo "oeqa logrotate test file" > /var/log/logrotate_testfile')
-+            msg = ('Could not create logrotate test file in /var/log')
-+            self.assertEqual(status, 0, msg = msg)
-+
-+            # Create a new configuration file dedicated to a /var/log/logrotate_testfile
-+            status, output = self.target.run('echo "/var/log/logrotate_testfile {\n missingok \n monthly \n rotate 1}" > /etc/logrotate.d/logrotate_testfile')
-+            msg = ('Could not write to /etc/logrotate.d/logrotate_testfile')
-+            self.assertEqual(status, 0, msg = msg)
-+
-+            status, output = self.target.run('mkdir /var/log/logrotate_dir')
-+            msg = ('Could not create logrotate_dir. Output: %s' % output)
-+            self.assertEqual(status, 0, msg = msg)
- 
--        # Create a new configuration file dedicated to a /var/log/logrotate_testfile
--        status, output = self.target.run('echo "/var/log/logrotate_testfile {\n missingok \n monthly \n rotate 1}" > /etc/logrotate.d/logrotate_testfile')
--        msg = ('Could not write to /etc/logrotate.d/logrotate_testfile')
--        self.assertEqual(status, 0, msg = msg)
-+            status, output = self.target.run('echo "create \n olddir /var/log/logrotate_dir \n include /etc/logrotate.d/logrotate_testfile" > /tmp/logrotate-test2.conf')
-+            msg = ('Could not write to /tmp/logrotate_test2.conf')
-+            self.assertEqual(status, 0, msg = msg)
- 
--        status, output = self.target.run('echo "create \n olddir /var/log/logrotate_dir \n include /etc/logrotate.d/logrotate_testfile" > /tmp/logrotate-test2.conf')
--        msg = ('Could not write to /tmp/logrotate_test2.conf')
--        self.assertEqual(status, 0, msg = msg)
-+            status, output = self.target.run('find /var/log/logrotate_dir -type f | grep logrotate_testfile.1')
-+            msg = ('A rotated log for logrotate_testfile is already present in logrotate_dir')
-+            self.assertEqual(status, 1, msg = msg)
- 
--        status, output = self.target.run('find /var/log/logrotate_dir -type f | grep logrotate_testfile.1')
--        msg = ('A rotated log for logrotate_testfile is already present in logrotate_dir')
--        self.assertEqual(status, 1, msg = msg)
-+            # Call logrotate -f to force the rotation immediately
-+            # If logrotate fails to rotate the log, view the verbose output of logrotate instead of just listing the files in olddir
-+            _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test2.conf')
-+            status, _ = self.target.run('find /var/log/logrotate_dir -type f | grep logrotate_testfile.1')
-+            msg = ('logrotate did not successfully rotate the logrotate_test log. Output from logrotate -vf: \n%s' % (logrotate_output))
-+            self.assertEqual(status, 0, msg = msg)
- 
--        # Call logrotate -f to force the rotation immediately
--        # If logrotate fails to rotate the log, view the verbose output of logrotate instead of just listing the files in olddir
--        _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test2.conf')
--        status, _ = self.target.run('find /var/log/logrotate_dir -type f | grep logrotate_testfile.1')
--        msg = ('logrotate did not successfully rotate the logrotate_test log. Output from logrotate -vf: \n%s' % (logrotate_output))
--        self.assertEqual(status, 0, msg = msg)
-+        finally:
-+            # Clean files created in the test
-+            self.target.run('rm -rf /var/log/logrotate_dir')
-+            self.target.run('rm -rf /var/log/logrotate_testfile && rm -rf /etc/logrotate.d/logrotate_testfile')
-
--- 
-2.47.3
-
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 3b9e52fdb84..1ac13e72690 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -105,7 +105,7 @@ EXTRA_OEMAKE = '\
+     LDSHARED="${CC} -shared" \
+     AR="${AR}" \
+     LD="${LD}" \
+-    EXTRA_CFLAGS="-ldw -I${S} -I${S}/libperf/include -I${S}/tools/lib/perf/include" \
++    EXTRA_CFLAGS="-ldw -I${S}" \
+     YFLAGS='-y --file-prefix-map=${WORKDIR}=${TARGET_DBGSRC_DIR}' \
+     EXTRA_LDFLAGS="${PERF_EXTRA_LDFLAGS}" \
+     perfexecdir=${libexecdir} \
+@@ -173,7 +173,11 @@ do_compile() {
+             sed -i -e 's|\$(libdir)/traceevent/plugins|\$(libdir)/traceevent_${KERNEL_VERSION}/plugins|g' ${S}/tools/perf/Makefile.config
+ 	# There are two copies of internal headers such as:
+ 	# libperf/include/internal/xyarray.h and tools/lib/perf/include/internal/xyarray.h
+-	# For reproducibile binaries, we need to find one copy, hence force libperf to be created first
++	# For reproducibile binaries, we need to find one copy, hence force libXXX to be created first
++	for i in api bpf subcmd symbol
++	do
++		oe_runmake -C ${S}/tools/lib/$i DESTDIR=${B}/lib$i prefix= install_headers V=1
++	done
+ 	oe_runmake ${B}/libperf/libperf.a V=1
+ 	oe_runmake all V=1
+ }
 
