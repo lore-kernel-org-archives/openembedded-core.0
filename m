@@ -1,99 +1,172 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <liuyd.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A5C5CCD185
-	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 00:08:45 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.3959.1760400516858950097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B565CCD183
+	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 02:57:06 +0000 (UTC)
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.web11.6639.1760410617233429569
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Oct 2025 17:08:36 -0700
+ Mon, 13 Oct 2025 19:56:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jH59K/5F;
- spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b6271ea3a6fso3009755a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 17:08:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760400516; x=1761005316; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fk+YC01hxY8smhjv8bZjxZCmMZ7DTfMslA6CDQnTY7Q=;
-        b=jH59K/5F6C4Rc03HzJusZFG1zEe+K2Wnn+v1KUIUvStsonXnoleBLO7sWPrcbylvbH
-         Zv+ow0cDBks/ZCI+xyRjjm1Pvm4TLm/OArthHWYpHfqk0uKlfFunEaqA7ihPjVvVhBXc
-         +pnDrlNDmNKluacfUaRgOGlZkHDVdtrP2IV2xRq6eICAdZGWnzEVR+rO0NvqdEq4PyEO
-         HhumS704QrnkR4frjWJDoLKcka7aedL0UCdkuEwRbrQ26NFxI+naJuHdlpLiBw2qj3xU
-         Zx1Nayg2DM9xNvbFf/viHFiLWWHsbDLAR8Yv1cZucTu9m7v9SAFBnAXCatEnWar7R4Mv
-         56yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760400516; x=1761005316;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Fk+YC01hxY8smhjv8bZjxZCmMZ7DTfMslA6CDQnTY7Q=;
-        b=gX1V627rmWRlAQq59P/b6Ife59QxUkyqHXky8r5R6v83T48yqjC9TRejwbIRR90KIf
-         2p1cJryrzY3TxBq1X8AXCGbxqFGUJf8TPBmkRXs5m3qCPGQls83s/ZAhf96nxvV4VnxO
-         anmIe9KDBJQI7xZQ/p2wBx0uUlfmwzVQ9IjP2c8Cwj106v7N5DPoj91LxkV7NMeJH6Dg
-         RU+E+sJWPr8/AKZdgc/oNxv4fWD13cowemgaIBmiasa9+BvaIotFPX5S0wBHv9EGD5t9
-         iss80rvTTo06btwZH35ZuOn0GirqgefPMnHJJ+NqQhv7p2QzRkV0rE+YJ5gEnbrw+yHE
-         iElg==
-X-Gm-Message-State: AOJu0YzTEPefTySFnrwsSbL53MXDeHCr63NjHef3xPgBUvfFRicmMiOT
-	sHtSjreMYnpWYV4/mjgqsHu71lhIYnTt4PqzBS60smnbJSbb61rYlNq7PjGaiDxt
-X-Gm-Gg: ASbGncsKmnsjDMC4wr2XyCKkNRmrIAZ5ynozJbYtPQpp+U3Kf/rDZuFDRKSWb5mG6cT
-	NnTMR7HbXGVkf/bO1UuF0yWlesdVqzHIto4QiT/LLWa2LL0zL2UD7OIXYwu7CkaA/OBFeZJdOPA
-	rHe4krbo8zgKOLtEReDMwa2WHXF3DpKuNOORoVwkgLd3sDi+hdUgPuLleGVZVLg+6eZk7ecpgop
-	9o+SXZCv44AVFELhlV9gLPmp3UTNEovozleZ+NCT2q7flrYZS0e/IblAunUOjKd+PKDMxSCo6Gq
-	41RMjxVh/mtDVi3o6GUgDZDNSjMSBlpdXW6P0SYVFpLdntMP+QHlGfxh/CQwcypHjwqIdyg/SxY
-	tk/F4huDkrFxAh8YV1lWx+UytssZuahraQxnQANC0
-X-Google-Smtp-Source: AGHT+IGqxtkD6Bs/IGKN3Il8Q6s0YpnfinJMKzLe+XlpzaP2Etao425U2sWJjwHT1a878rDYPt1ulQ==
-X-Received: by 2002:a17:903:252:b0:267:a231:34d0 with SMTP id d9443c01a7336-290272e3d1fmr259210065ad.42.1760400515783;
-        Mon, 13 Oct 2025 17:08:35 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([2601:646:8201:fd20::fc3])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034e47341sm144581005ad.57.2025.10.13.17.08.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 17:08:35 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=mUMnu0Ob;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: liuyd.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1760410617; x=1791946617;
+  h=from:to:subject:date:message-id;
+  bh=ZwmebLGkVQs6GvN+Y2Qi0ZjOtIpK6FIpvwiQiz8AIAM=;
+  b=mUMnu0ObUEdO8eVaRz7ytpIEiOye7Q3fHktQDk/BQAJ47TdTsyAJLbHK
+   cGY6T9Ur/zS79OVZqnH/dRR4zYE1G5gIL9/azm9kr4iNufs+oVfRDR69C
+   vDXGqv7Hsox4XXew5APPoFpgG6YwM4Eli8DkP+JPG9l8W42T9/c5WFv6O
+   j37jWC8iVcYVmH67pQI120B5CIqv1PE5WVTzflWm+FVqoBHOISlV4uoHR
+   fvRFIsnV3xjDpJlusMDu2ADd10f4T9czpwWuFNPfGKXbCRDhpsT9BatCT
+   b8SdhNtLixMXTe6xQHt+x2emaHPTKS3pqemaNXJmzU8PmRohQAbHibQ6S
+   Q==;
+X-CSE-ConnectionGUID: VDmaHUf1SiqiqkMlOiNrSg==
+X-CSE-MsgGUID: I8W6Ok0aRzS/jZlccVbypg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="194671849"
+X-IronPort-AV: E=Sophos;i="6.19,227,1754924400"; 
+   d="scan'208";a="194671849"
+Received: from unknown (HELO az2nlsmgr3.o.css.fujitsu.com) ([51.138.80.169])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 11:56:55 +0900
+Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgr3.o.css.fujitsu.com (Postfix) with ESMTPS id 39B231000344
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 02:56:55 +0000 (UTC)
+Received: from az2nlsmom3.fujitsu.com (az2nlsmom3.o.css.fujitsu.com [10.150.26.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id E5747C00232
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 02:56:54 +0000 (UTC)
+Received: from zhengrq-VirtualBox.fnst-internet.local (unknown [10.193.135.3])
+	by az2nlsmom3.fujitsu.com (Postfix) with ESMTP id 089C1101BB58
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 02:56:52 +0000 (UTC)
+From: Liu Yiding <liuyd.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] libpam: Fix build with LLD linker
-Date: Mon, 13 Oct 2025 17:08:33 -0700
-Message-ID: <20251014000833.416899-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.51.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] [OE-core] kea: fix conflict between kea-dhcp4 and kea-dhcp6 multilibs
+Date: Tue, 14 Oct 2025 10:56:39 +0800
+Message-Id: <20251014025639.5114-1-liuyd.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 00:08:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224802
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 02:57:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224803
 
-LLD is strict about versioned symbols unlike BFD linker, it flags
-undefined ones, Allow undefined symbols like BFD linker
+There are conflict of config files between kea and lib32-kea:
+  | Error: Transaction test error:
+  | file /etc/kea/kea-dhcp4.conf conflicts between attempted installs of lib32-kea-3.0.1-r0.core2_32 and kea-3.0.1-r0.x86_64_v3
+  | file /etc/kea/kea-dhcp6.conf conflicts between attempted installs of lib32-kea-3.0.1-r0.core2_32 and kea-3.0.1-r0.x86_64_v3
 
-Fixes
-| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_acct_mgmt' failed: symbol not defined
-| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_chauthtok' failed: symbol not defined
-| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_close_session' failed: symbol not defined
-| riscv64-yoe-linux-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_open_session' failed: symbol not defined
-| riscv64-yoe-linux-clang: error: linker command failed with exit code 1 (use -v to see invocation)
+Update this patch after kea was upgraded to 3.0.1.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
 ---
-v2: Use += instead of :append operator
+ .../kea/files/fix-multilib-conflict.patch     | 47 ++++++++++++++-----
+ 1 file changed, 36 insertions(+), 11 deletions(-)
 
- meta/recipes-extended/pam/libpam_1.7.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-extended/pam/libpam_1.7.1.bb b/meta/recipes-extended/pam/libpam_1.7.1.bb
-index 565b00c264a..8d9ea270288 100644
---- a/meta/recipes-extended/pam/libpam_1.7.1.bb
-+++ b/meta/recipes-extended/pam/libpam_1.7.1.bb
-@@ -30,6 +30,8 @@ DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
+diff --git a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
+index 9e1f28b560..4bfcf49391 100644
+--- a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
++++ b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
+@@ -1,7 +1,8 @@
+-From 06ebd1b2ced426c420ed162980eca194f9f918ae Mon Sep 17 00:00:00 2001
+-From: Kai Kang <kai.kang@windriver.com>
+-Date: Tue, 22 Sep 2020 15:02:33 +0800
+-Subject: [PATCH] There are conflict of config files between kea and lib32-kea:
++From cdef313bd34c5abd897b80f25554b0c66737ed05 Mon Sep 17 00:00:00 2001
++From: Liu Yiding <liuyd.fnst@fujitsu.com>
++Date: Tue, 14 Oct 2025 01:37:35 +0000
++Subject: [PATCH] There are conflict of config files between
++ kea and lib32-kea:
  
- EXTRA_OEMESON = "-Ddocs=disabled -Dsecuredir=${base_libdir}/security"
+ | Error: Transaction test error:
+ |  file /etc/kea/kea-ctrl-agent.conf conflicts between attempted installs of
+@@ -16,14 +17,15 @@ Because they are all commented out, replace the expanded libdir path with
  
-+LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
+ Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/issues/2602]
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+-
++Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
+ ---
+  src/bin/keactrl/kea-ctrl-agent.conf.pre | 3 ++-
+- src/bin/keactrl/kea-dhcp4.conf.pre      | 4 ++--
+- src/bin/keactrl/kea-dhcp6.conf.pre      | 4 ++--
+- 3 files changed, 6 insertions(+), 5 deletions(-)
++ src/bin/keactrl/kea-dhcp4.conf.pre      | 6 +++---
++ src/bin/keactrl/kea-dhcp6.conf.pre      | 6 +++---
++ 3 files changed, 8 insertions(+), 7 deletions(-)
+ 
++diff --git a/src/bin/keactrl/kea-ctrl-agent.conf.pre b/src/bin/keactrl/kea-ctrl-agent.conf.pre
++index 29d8111..de71f41 100644
+ --- a/src/bin/keactrl/kea-ctrl-agent.conf.pre
+ +++ b/src/bin/keactrl/kea-ctrl-agent.conf.pre
+ @@ -85,7 +85,8 @@
+@@ -36,6 +38,8 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+  //      "parameters": {
+  //          "param1": "foo"
+  //      }
++diff --git a/src/bin/keactrl/kea-dhcp4.conf.pre b/src/bin/keactrl/kea-dhcp4.conf.pre
++index 2a58507..86b5abf 100644
+ --- a/src/bin/keactrl/kea-dhcp4.conf.pre
+ +++ b/src/bin/keactrl/kea-dhcp4.conf.pre
+ @@ -255,7 +255,7 @@
+@@ -47,7 +51,7 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+      //       "parameters": {
+      //           "base-name": "kea-forensic4"
+      //       }
+-@@ -271,7 +271,7 @@
++@@ -271,14 +271,14 @@
+      //       // of specific options or perhaps even a combination of several
+      //       // options and fields to uniquely identify a client. Those scenarios
+      //       // are addressed by the Flexible Identifiers hook application.
+@@ -56,6 +60,16 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+      //       "parameters": {
+      //           "identifier-expression": "relay4[2].hex"
+      //       }
++     //   },
++     //   {
++     //       // the MySQL host backend hook library required for host storage.
++-    //       "library": "@libdir@/kea/hooks/libdhcp_mysql.so"
+++    //       "library": "$libdir/kea/hooks/libdhcp_mysql.so"
++     //   }
++     // ],
++ 
++diff --git a/src/bin/keactrl/kea-dhcp6.conf.pre b/src/bin/keactrl/kea-dhcp6.conf.pre
++index c69a508..2bb488f 100644
+ --- a/src/bin/keactrl/kea-dhcp6.conf.pre
+ +++ b/src/bin/keactrl/kea-dhcp6.conf.pre
+ @@ -201,7 +201,7 @@
+@@ -67,7 +81,7 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+      //       "parameters": {
+      //           "base-name": "kea-forensic6"
+      //       }
+-@@ -217,7 +217,7 @@
++@@ -217,14 +217,14 @@
+      //       // of specific options or perhaps even a combination of several
+      //       // options and fields to uniquely identify a client. Those scenarios
+      //       // are addressed by the Flexible Identifiers hook application.
+@@ -76,3 +90,14 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+      //       "parameters": {
+      //           "identifier-expression": "relay6[0].option[37].hex"
+      //       }
++     //   },
++     //   {
++     //       // the MySQL host backend hook library required for host storage.
++-    //       "library": "@libdir@/kea/hooks/libdhcp_mysql.so"
+++    //       "library": "$libdir/kea/hooks/libdhcp_mysql.so"
++     //   }
++     // ],
++ 
++-- 
++2.43.0
 +
- S = "${UNPACKDIR}/Linux-PAM-${PV}"
- 
- inherit meson gettext pkgconfig systemd ptest github-releases
+-- 
+2.43.0
+
 
