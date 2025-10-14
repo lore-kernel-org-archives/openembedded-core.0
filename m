@@ -1,204 +1,137 @@
-Return-Path: <dse@thaumatec.com>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05453CCD187
-	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 08:34:18 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.10407.1760430856184721106
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F85CCD187
+	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 08:47:28 +0000 (UTC)
+Received: from esa11.hc324-48.eu.iphmx.com (esa11.hc324-48.eu.iphmx.com [207.54.69.30])
+ by mx.groups.io with SMTP id smtpd.web11.10611.1760431639288774750
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Oct 2025 01:34:16 -0700
+ Tue, 14 Oct 2025 01:47:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@thaumatec-com.20230601.gappssmtp.com header.s=20230601 header.b=GHhP5T5I;
- spf=pass (domain: thaumatec.com, ip: 209.85.208.44, mailfrom: dse@thaumatec.com)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-63bc12a5608so2011500a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 01:34:15 -0700 (PDT)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=qCJI1r+k;
+ spf=pass (domain: bmw.de, ip: 207.54.69.30, mailfrom: prvs=37518b124=moritz.haase@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1760430854; x=1761035654; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ZdMuowfGRGP/D3yOuCsxD/uK3NgO1FzkFqSfzRlFpU=;
-        b=GHhP5T5I76j38LV0c7BHJmfTdTogpTHVhZDweA4crnxawwvv5h9Y4ShFSXj2BL8ish
-         ewQ9+H7ggyf3l00402GkDjqAvIwThTUbz1pftUQYXOyIvzfZszS4hiZwS5bzMWM//NkK
-         jFaRJGSL4LDZlB+J3nypbDm4lF44vsiwvEO1yEjCsq3uDLKzrVPL9CaDEpz9BCyvcSxp
-         pTVt0akTMm3fN5GNo1ToDpRs2G6LAbKSGZ4jiGuzBHnxKYLxnCCt+eqwjgNXFTT3ERl6
-         VuAJMPS0xuh5/QNO5MtWW3FIeV6ZG2t16g+K+irGM36X4XmI96AXilve1JA91FMG4WE/
-         snhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760430854; x=1761035654;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1ZdMuowfGRGP/D3yOuCsxD/uK3NgO1FzkFqSfzRlFpU=;
-        b=XIxi1LrKOliZhQ0JJlTDipYdUFE90P1S1wCiOVJjP5oGwp5zO7raHV7PDlinqCZuJk
-         Q2moJT/mv9HpLopMHUxL5pn8pElEisktvndgJXEheZ0yrK6lwz5B2AEWLBqXXN222qrh
-         wOJLtIRyYvW8YRvKV+bZWYVjOFpmvcmEvmT1Zdi/+N9nHUBsCv4ovWk0s6PlznlSd9TB
-         W9Wg9+A8S7na5FXbz9mKHN9kgTl0MM8S0tC3NTCnraL0Ju69WiW3foZP8qZWplgzDLDs
-         itUA44CYyvl/D2QAx73aF6DjFtQXLqUuYy+M6snVDCTfalqfZAoqTYzGUe3PwUESkIKO
-         78jA==
-X-Gm-Message-State: AOJu0YxMsAMoTegRu7RNUg92Vde4glMw6kR/OF6R+Ti37OvB266/pMPU
-	xE7ukbyfqo90GEIr5gF5fQ0t7S6N9eRu0VNkbuISKyq/CAxXAdKcYpS+eOASQsj3CrdTcGaZjvv
-	QORjC
-X-Gm-Gg: ASbGncsNi/8fXGkp/JJ2i4/K6RhhnuojidLaSz3p1SDFBwDH2ACRKIi2DX4jHHWh/vZ
-	pZmxEnBQ446QXOzgVh8iZRSxYh15pmmyYI+YyZLlMvZJODUClKtW+tPj3MtT7FU/IVT6Na9NBlo
-	AYI3f14v7lZULl/xtRGUr6bF+J5ikpl6o7bHPf0KcqjUzBiM+Kw60NSc7cvRZvQpKfki39Mx38P
-	RYi8aMUJ6q8P/Sc/NPWyLCkNuNYVTdAnhB7N9Xc/FmcaB4LFOYIRbBuiCVw5o7ipBPdH1LqqiMT
-	1pa0fjK8LH8En9z6AV5x0F5ZZC6aBniE55u/n5HvI+6GhbdJixGHQcYycPgnZ7mkllu8uAs4WIR
-	5RNnm4gXHDWPQX0SKFuB9Xi4NqjWfKzoaeP4h/ki5
-X-Google-Smtp-Source: AGHT+IGYQgSMaIpJSFJkhoQWh1QuDzNl5CJVKUCxCJurSrypUUmjWlrZ4PHOdqE3Ya3DIDsTLUg89w==
-X-Received: by 2002:a17:907:7287:b0:afd:d94b:830d with SMTP id a640c23a62f3a-b50ace22561mr2341422266b.62.1760430854127;
-        Tue, 14 Oct 2025 01:34:14 -0700 (PDT)
-Received: from fedora ([91.90.172.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d8c12c48sm1109736566b.50.2025.10.14.01.34.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 01:34:13 -0700 (PDT)
-From: Daniel Semkowicz <dse@thaumatec.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Daniel Semkowicz <dse@thaumatec.com>,
-	Steve Sakoman <steve@sakoman.com>,
-	Anuj Mittal <anuj.mittal@intel.com>
-Subject: [scarthgap][PATCH v1 1/1] gstreamer1.0-plugins-bad: fix buffer allocation fail for v4l2codecs
-Date: Tue, 14 Oct 2025 10:33:08 +0200
-Message-ID: <20251014083327.59694-1-dse@thaumatec.com>
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1760431640; x=1791967640;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=U8DvbAeZUFZOw8uX46H7Gxh+PqlmcVjkU9cX8T0AlNM=;
+  b=qCJI1r+kd/AWUYtjjwdCInYyYwXFOKgHmflFHu2Gdy8eFhx7/M3oX5+u
+   gD0c+wfMEkgJPEgNHyWkTvig/1s2aBtYe3ZoePg7wzv9NhPdvcwD2APC6
+   Oi5O1WSbOz/HUbVuIQ9u1+1b/p5f2BXP8s8ZLgKSJN44o54RHTrzFb1l6
+   g=;
+X-CSE-ConnectionGUID: /ha60NjKSL2unMd4xFDGCg==
+X-CSE-MsgGUID: ErjmWffrT7+tkgQvZrPEIg==
+Received: from 160.46.252.34.spf.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+ esa11.hc324-48.eu.iphmx.com with ESMTP/TLS; 14 Oct 2025 10:47:17 +0200
+Received: from unknown (HELO esabb6.muc) ([10.31.187.137]) by esagw1.muc with
+ ESMTP/TLS; 14 Oct 2025 10:47:16 +0200
+Received: from smucmp12a.bmwgroup.net (HELO smucmp12a.europe.bmw.corp) ([10.30.13.95])
+ by esabb6.muc with ESMTP/TLS; 14 Oct 2025 10:47:17 +0200
+Received: from q1054628.de-cci.bmwgroup.net (10.30.85.211) by
+ smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9) with Microsoft SMTP
+ Server (version=TLS; Tue, 14 Oct 2025 10:47:16 +0200
+X-CSE-ConnectionGUID: Ninp5uvsSi2+u39Yk7QZ3Q==
+X-CSE-MsgGUID: aycrNG6zT1CgHsZ4jWXrzw==
+X-CSE-ConnectionGUID: scC6bHVzQMWBUOrdXEqLcA==
+X-CSE-MsgGUID: SiPnAf7FR8qP+of/PSXj2Q==
+From: Moritz Haase <Moritz.Haase@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Moritz Haase <Moritz.Haase@bmw.de>
+Subject: [PATCH] cmake: upgrade 4.1.1 -> 4.1.2
+Date: Tue, 14 Oct 2025 10:46:52 +0200
+Message-ID: <20251014084652.444354-1-Moritz.Haase@bmw.de>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: smucmp17d.europe.bmw.corp (2a03:1e80:a15:58f::1:66) To
+ smucmp12a.europe.bmw.corp (2a03:1e80:a15:58f::1:9)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 08:34:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224813
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 08:47:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224814
 
-There is a bug in GStreamer 1.22 that prevents video playback when
-some of the v4l2codecs are paired with sinks that do not support
-GstVideoMeta. This is the case of the Qt 6.9 sink used by some
-of the Qt components.
+Release notes are available at [0].
 
-For example, when the v4l2codecs-vp8dec decoder is paired with
-QMediaPlayer, video playback fails to start with the following error:
+[0]: https://cmake.org/cmake/help/v4.1/release/4.1.html#id2
 
-  WARN   videodecoder gstvideodecoder.c:4409:gst_video_decoder_negotiate_pool: Subclass failed to decide allocation
-  ERROR  videodecoder gstvideodecoder.c:4635:gst_video_decoder_allocate_output_buffer: Failed to allocate the buffer..
-  WARN   videodecoder gstvideodecoder.c:4409:gst_video_decoder_negotiate_pool: Subclass failed to decide allocation
-  WARN  matroskademux matroska-demux.c:6131:gst_matroska_demux_loop: error: Internal data stream error.
-  WARN  matroskademux matroska-demux.c:6131:gst_matroska_demux_loop: error: streaming stopped, reason not-negotiated (-4)
-
-This problem is already fixed in GStreamer 1.24, so backport the fix.
-This fixes the buffer allocation failure for H.264, H.265, and VP8.
-
-CC: Steve Sakoman <steve@sakoman.com>
-CC: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Daniel Semkowicz <dse@thaumatec.com>
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 ---
- ...s-chain-up-to-parent-decide_allocati.patch | 87 +++++++++++++++++++
- .../gstreamer1.0-plugins-bad_1.22.12.bb       |  1 +
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch
+ ...-native_4.1.1.bb => cmake-native_4.1.2.bb} |  0
+ meta/recipes-devtools/cmake/cmake.inc         |  3 +-
+ ...d-using-undocumented-type-for-CURLOP.patch | 35 -------------------
+ .../cmake/{cmake_4.1.1.bb => cmake_4.1.2.bb}  |  0
+ 4 files changed, 1 insertion(+), 37 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_4.1.1.bb => cmake-native_4.1.2.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-cmCTestCurl-Avoid-using-undocumented-type-for-CURLOP.patch
+ rename meta/recipes-devtools/cmake/{cmake_4.1.1.bb => cmake_4.1.2.bb} (100%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch
-new file mode 100644
-index 0000000000..8906b55082
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch
-@@ -0,0 +1,87 @@
-+From 4e96cc4df0b6807cb487368afca64e022078ed6a Mon Sep 17 00:00:00 2001
-+From: James Cowgill <james.cowgill@blaize.com>
-+Date: Sun, 14 May 2023 13:23:17 +0100
-+Subject: [PATCH] v4l2codecs: Always chain up to parent decide_allocation
-+ function
-+
-+The `gst_video_decoder_negotiate_pool` function expects the
-+`decide_allocation` function to always provide a pool and will fail to
-+negotiate if the pool is missing. If we return immediately (even if we
-+don't need to do anything special) negotiation will fail if the
-+downstream element does not propose a pool.
-+
-+Fix by chaining up to the default `decide_allocation` function which
-+adds a fallback pool if one was not already proposed.
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/4630>
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/70ff80a873d8202329df1731c06f1bfed464ad2a]
-+Signed-off-by: Daniel Semkowicz <dse@thaumatec.com>
-+---
-+ sys/v4l2codecs/gstv4l2codech264dec.c | 3 ++-
-+ sys/v4l2codecs/gstv4l2codech265dec.c | 3 ++-
-+ sys/v4l2codecs/gstv4l2codecvp8dec.c  | 3 ++-
-+ 3 files changed, 6 insertions(+), 3 deletions(-)
-+
-+diff --git a/sys/v4l2codecs/gstv4l2codech264dec.c b/sys/v4l2codecs/gstv4l2codech264dec.c
-+index 1a6b144e9b..bd9041533b 100644
-+--- a/sys/v4l2codecs/gstv4l2codech264dec.c
-++++ b/sys/v4l2codecs/gstv4l2codech264dec.c
-+@@ -417,7 +417,7 @@ gst_v4l2_codec_h264_dec_decide_allocation (GstVideoDecoder * decoder,
-+   /* If we are streaming here, then it means there is nothing allocation
-+    * related in the new state and allocation can be ignored */
-+   if (self->streaming)
-+-    return TRUE;
-++    goto no_internal_changes;
-+ 
-+   self->has_videometa = gst_query_find_allocation_meta (query,
-+       GST_VIDEO_META_API_TYPE, NULL);
-+@@ -452,6 +452,7 @@ gst_v4l2_codec_h264_dec_decide_allocation (GstVideoDecoder * decoder,
-+ 
-+   self->src_pool = gst_v4l2_codec_pool_new (self->src_allocator, &self->vinfo);
-+ 
-++no_internal_changes:
-+   /* Our buffer pool is internal, we will let the base class create a video
-+    * pool, and use it if we are running out of buffers or if downstream does
-+    * not support GstVideoMeta */
-+diff --git a/sys/v4l2codecs/gstv4l2codech265dec.c b/sys/v4l2codecs/gstv4l2codech265dec.c
-+index 8d70d05220..3f0c08d6a4 100644
-+--- a/sys/v4l2codecs/gstv4l2codech265dec.c
-++++ b/sys/v4l2codecs/gstv4l2codech265dec.c
-+@@ -446,7 +446,7 @@ gst_v4l2_codec_h265_dec_decide_allocation (GstVideoDecoder * decoder,
-+   guint min = 0;
-+ 
-+   if (self->streaming)
-+-    return TRUE;
-++    goto no_internal_changes;
-+ 
-+   self->has_videometa = gst_query_find_allocation_meta (query,
-+       GST_VIDEO_META_API_TYPE, NULL);
-+@@ -465,6 +465,7 @@ gst_v4l2_codec_h265_dec_decide_allocation (GstVideoDecoder * decoder,
-+       GST_PAD_SRC, self->min_pool_size + min + 1);
-+   self->src_pool = gst_v4l2_codec_pool_new (self->src_allocator, &self->vinfo);
-+ 
-++no_internal_changes:
-+   /* Our buffer pool is internal, we will let the base class create a video
-+    * pool, and use it if we are running out of buffers or if downstream does
-+    * not support GstVideoMeta */
-+diff --git a/sys/v4l2codecs/gstv4l2codecvp8dec.c b/sys/v4l2codecs/gstv4l2codecvp8dec.c
-+index ba63a029df..bdea1fdf76 100644
-+--- a/sys/v4l2codecs/gstv4l2codecvp8dec.c
-++++ b/sys/v4l2codecs/gstv4l2codecvp8dec.c
-+@@ -284,7 +284,7 @@ gst_v4l2_codec_vp8_dec_decide_allocation (GstVideoDecoder * decoder,
-+   guint num_bitstream;
-+ 
-+   if (self->streaming)
-+-    return TRUE;
-++    goto no_internal_changes;
-+ 
-+   self->has_videometa = gst_query_find_allocation_meta (query,
-+       GST_VIDEO_META_API_TYPE, NULL);
-+@@ -319,6 +319,7 @@ gst_v4l2_codec_vp8_dec_decide_allocation (GstVideoDecoder * decoder,
-+ 
-+   self->src_pool = gst_v4l2_codec_pool_new (self->src_allocator, &self->vinfo);
-+ 
-++no_internal_changes:
-+   /* Our buffer pool is internal, we will let the base class create a video
-+    * pool, and use it if we are running out of buffers or if downstream does
-+    * not support GstVideoMeta */
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
-index e4fa2a412f..f6d0711bd8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.12.bb
-@@ -9,6 +9,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch \
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-+           file://0005-v4l2codecs-Always-chain-up-to-parent-decide_allocati.patch \
-            file://CVE-2025-3887-1.patch \
-            file://CVE-2025-3887-2.patch \
+diff --git a/meta/recipes-devtools/cmake/cmake-native_4.1.1.bb b/meta/recipes-devtools/cmake/cmake-native_4.1.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_4.1.1.bb
+rename to meta/recipes-devtools/cmake/cmake-native_4.1.2.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index e86bb3dec1..256275d42b 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -17,10 +17,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=0cafc0f3b6b28f3d5ecb5d1a68c36471 \
+ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ 
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+-           file://0001-cmCTestCurl-Avoid-using-undocumented-type-for-CURLOP.patch \
             "
-
+ 
+-SRC_URI[sha256sum] = "b29f6f19733aa224b7763507a108a427ed48c688e1faf22b29c44e1c30549282"
++SRC_URI[sha256sum] = "643f04182b7ba323ab31f526f785134fb79cba3188a852206ef0473fee282a15"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-cmCTestCurl-Avoid-using-undocumented-type-for-CURLOP.patch b/meta/recipes-devtools/cmake/cmake/0001-cmCTestCurl-Avoid-using-undocumented-type-for-CURLOP.patch
+deleted file mode 100644
+index d04d0be795..0000000000
+--- a/meta/recipes-devtools/cmake/cmake/0001-cmCTestCurl-Avoid-using-undocumented-type-for-CURLOP.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From c8143074cf3954b1e169904eb9d843cfbe14acc3 Mon Sep 17 00:00:00 2001
+-From: Brad King <brad.king@kitware.com>
+-Date: Tue, 2 Sep 2025 11:41:10 -0400
+-Subject: [PATCH] cmCTestCurl: Avoid using undocumented type for
+- CURLOPT_PROXYTYPE values
+-
+-Since upstream curl commit `1a12663d06` (CURLOPT: bump `CURLPROXY_*`
+-enums to `long`, drop casts, 2025-07-28), the `CURLPROXY_*` constants
+-are integer literals instead of `enum curl_proxytype`.  It turns out
+-that `curl_easy_setopt` has always expected a `long` anyway, and that
+-`curl_proxytype` is not documented for public use.
+-
+-Fixes: #27178
+-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+-Upstream-Status: Backport [https://gitlab.kitware.com/cmake/cmake/-/commit/c8143074cf3954b1e169904eb9d843cfbe14acc3]
+----
+- Source/CTest/cmCTestCurl.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Source/CTest/cmCTestCurl.h b/Source/CTest/cmCTestCurl.h
+-index 7836f4b9c7..9113890b5a 100644
+---- a/Source/CTest/cmCTestCurl.h
+-+++ b/Source/CTest/cmCTestCurl.h
+-@@ -52,7 +52,7 @@ private:
+-   std::vector<std::string> HttpHeaders;
+-   std::string HTTPProxyAuth;
+-   std::string HTTPProxy;
+--  curl_proxytype HTTPProxyType;
+-+  long HTTPProxyType;
+-   bool UseHttp10 = false;
+-   bool Quiet = false;
+-   int TimeOutSeconds = 0;
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-devtools/cmake/cmake_4.1.1.bb b/meta/recipes-devtools/cmake/cmake_4.1.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_4.1.1.bb
+rename to meta/recipes-devtools/cmake/cmake_4.1.2.bb
 
