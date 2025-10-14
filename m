@@ -2,129 +2,196 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10BADCCD193
-	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 16:32:18 +0000 (UTC)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
- by mx.groups.io with SMTP id smtpd.web11.705.1760459528610818367
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23545CCD184
+	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 16:42:58 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web11.943.1760460168817741098
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Oct 2025 09:32:08 -0700
+ Tue, 14 Oct 2025 09:42:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GHJqnMo0;
- spf=pass (domain: gmail.com, ip: 209.85.128.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-71d6014810fso55241397b3.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 09:32:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C00E+zNu;
+ spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-780fe73e337so66044067b3.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 09:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760459528; x=1761064328; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760460168; x=1761064968; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EK4OfbWhBjyuDecJGEm3/uHXyJjGNi/c5WcquYRDwAk=;
-        b=GHJqnMo06zEFpwiMxxgTmm46SfuNf/LH6PquvV+O+tdiGhiEzLC96I03NVBF4fHbGg
-         qVwBEr9njzKqPC11OaOT38CHNiU3EOcqe3mMzv0zGjGTrxP6uxPBpe+1yx5G1Gp1YJid
-         K3AIPyrg9COlUl3GaKlxvcGANSqWCYwWZa7uSOkNUrKQu7nBSSzXAa7hTdD/Vmho3vOs
-         +v3Hs2RbldBaYNBgmKyrm77/EmBjNR1xaToQbFORDr51CEHvPLxep/fMaUjt9rPnLeaH
-         /sBJ/a/otcMTtRRjxb2fJ80J03eSVQ80rxc2gZ5hbzm+QKXTTQ93bIWk0DHUmRMp7vee
-         ZvYA==
+        bh=XaWGVrDdN3nGnBuPueGIYJeP6cZ8ZzBKgom02CSnuro=;
+        b=C00E+zNuwfiEXitjmDS/fydH0/7/+NIQjbUkScFjjDHG87yMrj8dUS1rS9PcUmDhoq
+         NUEVp17Sl+eXOJV+G/5pPJBpD9QOqCeo9KrRqaP2sB/PAf4YOJ4oGsYU/eP4CurSqnVN
+         FEBr2wjFoFrDmqHjzGrcVMUZfxio7XEQib7oc0Y1VKqQcOOQ7WzKpLT4Wld2AHs1pYL6
+         2xPAsZCXDQbI5VaWDLFliZy8788Wd+00YT5mTk3EFsocKZcvqGIH3xalKTpu7xI+lVfX
+         /UgV7k5YDG4FHs9wl8k5n+b1b85SNZpXvjEk9cFSSwpBMnfUpm4BzSYyl90J0VohuGWm
+         YxLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760459528; x=1761064328;
+        d=1e100.net; s=20230601; t=1760460168; x=1761064968;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EK4OfbWhBjyuDecJGEm3/uHXyJjGNi/c5WcquYRDwAk=;
-        b=GJceH0sy+lTZUkwvKBPUjnCoWC7+WEFmNoS7E1T0TRzOh1eVQWqts3Lt77f7ukpUPW
-         xCYa1oCl1Oupmjwx4Z//lC9NWFZhQest6KZreDRSqTiw43AiQQZuIU1CNPju12AtcWTi
-         zGAdR2sTrfpz5GLAH1uIUL8uqF1l1aRXtsnvF+8D2nqklhzg0465/oOabnJzndceb2Cu
-         J1vIYLellBBtJ/lEPb9lLocgTnveGlRQDXAV5KXyEwOqLRStdHthBBP3RouWcvumnZ6p
-         w3jCTr5MQeVqTSNVwcBlizsJ5KZAvhSj7XbSN6JUNN0uCnnI9RfIMqs++JQW/7pJ16fk
-         MqOA==
-X-Gm-Message-State: AOJu0YyZkuurlFUUTEM6XxzSz2UK8lQqiH2qRKhD89Fxd7cA4ZcLWp8g
-	Umo+zMgjbcdARrBGbeNd4WfWqMikfWq5ggbbMcryqfNn9oI8TSdB7cPzoop3jhdHovrHTCDccW3
-	6VngvX676hO7yLfP3g671BJJZ6jH3BQE=
-X-Gm-Gg: ASbGncvvcA6F5R7nIpp/M5qLpPFpg5Abtn3qYrI7QXIymETE6iZjiJKvcLAb23qNy5Z
-	GxrHxtVYyTEstaKqHtwjbVV4omk8lm0kK84eu5QfOA51t0aadqrsqz7Lr1gldAl1satTr0dzn0w
-	6FXpYTsPltueY9rPF5WQsG7HZV3ex/7lzceb7E2blHCGbUfbR5mqtOmggqeHAPhf7iENpaHOlIs
-	OCC0mI+9a2H9uDKc0JuBSwndXB+lSVh6tpj1Fuj7RsXOEuL3wn1WGT7mG4ieoQe0rmBogYTanzy
-	GTA=
-X-Google-Smtp-Source: AGHT+IFDm2l5m2W/RNCbdLB3LkHaSehYVL/n0sembkw2btvXj9m4/ZptXC0jEKfpSjAOymSSgzhqCc/4p4xVrxtVw6c=
-X-Received: by 2002:a05:690e:2c3:b0:63c:dd26:331 with SMTP id
- 956f58d0204a3-63cdd260bb7mr13951473d50.10.1760459527553; Tue, 14 Oct 2025
- 09:32:07 -0700 (PDT)
+        bh=XaWGVrDdN3nGnBuPueGIYJeP6cZ8ZzBKgom02CSnuro=;
+        b=tNtdbrwIflwNY6mdMjDw7NZQEEtJ3ZrfA4fgl38ArA20mlSEqlNxKQ//jukcmnq3AJ
+         k+BgwhPYj+j3pcLkD7PaxKzQDef2f8yrRxIfIO1+TuaxHeIUe7lOiTZs1uOz80VwnRfi
+         hlDO9UuImtqOZM4Icbt0bKgTOc47PSUn6kcvXQCg+qHdMsqtUWSEiU3J/dDLEM1Zhg9N
+         HBvqofzss4WXGc5EbWFthlzX54uPgQWWXVC1MQWkXVyWQPG+A1+Aft9HRIIcVMGfaXXQ
+         F+WiMz9wUsXn5yWLk/5JkEcoXwbSOwqSsLZ11B1DLypLflwytV27QRzfDjTE2en/WuwY
+         rrkQ==
+X-Gm-Message-State: AOJu0YwrV877cCVagZmRFh3zM14hu2Ul9xiAB3npt/I4utQhgQi9uCCT
+	LUZotsPp+pnqHDLeKg8klP50nx6CUAYHCAhIPnABo2rZdqeU/mhkIZs2T6fqG8vD0LC4l0nhNZx
+	INIcW0a9uE3YCuPRmZtF8f1PiS7M2UfE=
+X-Gm-Gg: ASbGncvbQo8N1dKg3uyiTpD3OlR17eNYpsX+tY6AZjTTumviKqvackYr7IocpwGaF6A
+	19pzzGETwiVFCz1Dv0mTzZDIZuDpu5r51HxDL+10/Dip46Ud0iFSSzjS2o/r4Bw9tpPU37enMez
+	iJvNVcSx8emH46N69ut9sogY10K4/WnHSW3rQYdV7UqRx7i+qirmZvYGN8WYpsZx+EkI7zHBt4L
+	1qN9zTCsRCJKTo47JxS1mF8n/fmgnGiJHXJiFrARph/zl6+G2iHtxMQjZGf7oiylysO
+X-Google-Smtp-Source: AGHT+IFbPnWVt+QR0+Fp6d2PkaJeijPnL+jyu5U7FnAk3884NopfIr67apyBxq/08MikVxbE5q34dPPGPC1zDFgOWEo=
+X-Received: by 2002:a05:690e:204e:b0:63c:f5a6:f2f3 with SMTP id
+ 956f58d0204a3-63cf5a70677mr8003145d50.69.1760460167895; Tue, 14 Oct 2025
+ 09:42:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251014135606.6328-1-phanirajkiran.a@gmail.com>
-In-Reply-To: <20251014135606.6328-1-phanirajkiran.a@gmail.com>
+References: <20251014135247.6178-1-phanirajkiran.a@gmail.com>
+In-Reply-To: <20251014135247.6178-1-phanirajkiran.a@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 14 Oct 2025 09:31:40 -0700
-X-Gm-Features: AS18NWAzMBK13nJEDmJgUJ3ho9Elys0lENHvmLi3z9rkAw44p4WNyL2X7ZBzrxU
-Message-ID: <CAMKF1so=KHn485wZ=GGsiYCv8UD7j6JTQqMVC09Ft0zkiBy+UQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] Author: Mallapuram Phanirajkiran
- <phanirajkiran.a@gmail.com> Date: Tue Oct 14 02:19:57 2025 +0530
+Date: Tue, 14 Oct 2025 09:42:21 -0700
+X-Gm-Features: AS18NWAGoiC-sJz-ra8jRxtvV6O5BEyh8k8S6IYepnEmXhxg5fWwv7kDJ8U8OS0
+Message-ID: <CAMKF1sqipBZjYpmFA-sEmcoLL4MNbtxSrgs_itNHYaeB-2ztzQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] [scarthgap] musl: backport fix for
+ CVE-2025-26519 to LTS branches
 To: phanirajkiran.a@gmail.com
-Cc: openembedded-core@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org, 
+	Gunda Swetha <swetha12g@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 16:32:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224842
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 16:42:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224843
 
 On Tue, Oct 14, 2025 at 9:13=E2=80=AFAM Mallapuram Phani raj kiran via
 lists.openembedded.org
 <phanirajkiran.a=3Dgmail.com@lists.openembedded.org> wrote:
 >
->     [scarthgap] musl: backport fix for CVE-2025-26519 to LTS branches
+> From: Mallapuram Phanirajkiran <phanirajkiran.a@gmail.com>
 >
->     Fixes [YOCTO #15932]
+> Fixes [YOCTO #15932]
 >
->     The musl libc code in LTS (Scarthgap) is missing
->     the fix addressing CVE-2025-26519.  This patch backports the upstream
->     changes (or applies the required fix) so that LTS builds include it.
+> The musl libc code in LTS (Scarthgap) is missing
+> the fix addressing CVE-2025-26519.  This patch backports the upstream
+> changes (or applies the required fix) so that LTS builds include it.
 >
->     Reference:
->     https://nvd.nist.gov/vuln/detail/CVE-2025-26519
+> Reference:
+> https://nvd.nist.gov/vuln/detail/CVE-2025-26519
 >
->     (From OE-Core rev: 7af6b75221d5703ba5bf43c7cd9f1e7a2e0ed20b)
+> (From OE-Core rev: 7af6b75221d5703ba5bf43c7cd9f1e7a2e0ed20b)
 >
->     Signed-off-by: Mallapuram Phani raj kiran <phanirajkiran.a@gmail.com>
->     Signed-off-by: Gunda Swetha <swetha12g@gmail.com>
+> Signed-off-by: Mallapuram Phani raj kiran <phanirajkiran.a@gmail.com>
+> Signed-off-by: Gunda Swetha <swetha12g@gmail.com>
 >
->     Reported-by: Cristian Morales Vega
+> Reported-by: Cristian Morales Vega
 > ---
->  ...1-musl-backport-fix-for-CVE-2025-26519-to-LTS-branches.patch | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  ...x-for-CVE-2025-26519-to-LTS-branches.patch | 50 +++++++++++++++++++
+>  meta/recipes-core/musl/musl_git.bb            |  1 +
+>  2 files changed, 51 insertions(+)
+>  create mode 100644 meta/recipes-core/musl/musl/0001-musl-backport-fix-fo=
+r-CVE-2025-26519-to-LTS-branches.patch
 >
 > diff --git a/meta/recipes-core/musl/musl/0001-musl-backport-fix-for-CVE-2=
 025-26519-to-LTS-branches.patch b/meta/recipes-core/musl/musl/0001-musl-bac=
 kport-fix-for-CVE-2025-26519-to-LTS-branches.patch
-> index 3f0b14a5d0..4acedb34ef 100644
-> --- a/meta/recipes-core/musl/musl/0001-musl-backport-fix-for-CVE-2025-265=
-19-to-LTS-branches.patch
+> new file mode 100644
+> index 0000000000..3f0b14a5d0
+> --- /dev/null
 > +++ b/meta/recipes-core/musl/musl/0001-musl-backport-fix-for-CVE-2025-265=
 19-to-LTS-branches.patch
-> @@ -1,7 +1,7 @@
->  From 7ee0592397ea0e3d4b47018631642864864d443d Mon Sep 17 00:00:00 2001
->  From: Mallapuram Phanirajkiran <phanirajkiran.a@gmail.com>
->  Date: Tue, 14 Oct 2025 01:40:45 +0530
-> -Subject: [PATCH] musl: backport fix for CVE-2025-26519 to LTS branches
-> +Subject: [scarthgap] musl: backport fix for CVE-2025-26519 to LTS branch=
-es
+> @@ -0,0 +1,50 @@
+> +From 7ee0592397ea0e3d4b47018631642864864d443d Mon Sep 17 00:00:00 2001
+> +From: Mallapuram Phanirajkiran <phanirajkiran.a@gmail.com>
+> +Date: Tue, 14 Oct 2025 01:40:45 +0530
+> +Subject: [PATCH] musl: backport fix for CVE-2025-26519 to LTS branches
+> +
+> +Fixes [YOCTO #15932]
+> +
+> +The musl libc code in LTS (Scarthgap) is missing
+> +the fix addressing CVE-2025-26519.  This patch backports the upstream
+> +changes (or applies the required fix) so that LTS builds include it.
+> +
+> +Reference:
+> +https://nvd.nist.gov/vuln/detail/CVE-2025-26519
+> +(From OE-Core rev: 7af6b75221d5703ba5bf43c7cd9f1e7a2e0ed20b)
+> +
+> +Signed-off-by: Mallapuram Phani raj kiran <phanirajkiran.a@gmail.com>
+> +Signed-off-by: Gunda Swetha <swetha12g@gmail.com>
+> +
+> +Reported-by: Cristian Morales Vega
 
-This is a component patch, there is no need to reflect the yocto
-release branch here.
-you can specify that for the patch you are sending for the meta layer
+Please add Upstream-Status tag to this musl patch
 
+> +---
+> + src/locale/iconv.c | 6 +++++-
+> + 1 file changed, 5 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/src/locale/iconv.c b/src/locale/iconv.c
+> +index 3047c27b..0729465e 100644
+> +--- a/src/locale/iconv.c
+> ++++ b/src/locale/iconv.c
+> +@@ -495,7 +495,7 @@ size_t iconv(iconv_t cd, char **restrict in, size_t =
+*restrict inb, char **restri
+> +                       if (c >=3D 93 || d >=3D 94) {
+> +                               c +=3D (0xa1-0x81);
+> +                               d +=3D 0xa1;
+> +-                              if (c >=3D 93 || c>=3D0xc6-0x81 && d>0x52=
+)
+> ++                              if (c > 0xc6-0x81 || c>=3D0xc6-0x81 && d>=
+0x52)
+> +                                       goto ilseq;
+> +                               if (d-'A'<26) d =3D d-'A';
+> +                               else if (d-'a'<26) d =3D d-'a'+26;
+> +@@ -538,6 +538,10 @@ size_t iconv(iconv_t cd, char **restrict in, size_t=
+ *restrict inb, char **restri
+> +                               if (*outb < k) goto toobig;
+> +                               memcpy(*out, tmp, k);
+> +                       } else k =3D wctomb_utf8(*out, c);
+> ++                      /* This failure condition should be unreachable, =
+but
+> ++                       * is included to prevent decoder bugs from trans=
+lating
+> ++                       * into advancement outside the output buffer ran=
+ge. */
+> ++                      if (k>4) goto ilseq;
+> +                       *out +=3D k;
+> +                       *outb -=3D k;
+> +                       break;
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/=
+musl_git.bb
+> index 324269a968..db6f5ce2de 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -14,6 +14,7 @@ SRC_URI =3D "git://git.etalabs.net/git/musl;branch=3Dma=
+ster;protocol=3Dhttps \
+>             file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.pa=
+tch \
+>             file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-t=
+o-l.patch \
+>             file://0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.=
+patch \
+> +           file://0001-musl-backport-fix-for-CVE-2025-26519-to-LTS-branc=
+hes.patch \
+>            "
 >
->  Fixes [YOCTO #15932]
->
+>  S =3D "${WORKDIR}/git"
 > --
 > 2.34.1
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#224840): https://lists.openembedded.org/g/openembedde=
-d-core/message/224840
-> Mute This Topic: https://lists.openembedded.org/mt/115755456/1997914
+> View/Reply Online (#224839): https://lists.openembedded.org/g/openembedde=
+d-core/message/224839
+> Mute This Topic: https://lists.openembedded.org/mt/115755455/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
 j.khem@gmail.com]
