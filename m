@@ -2,62 +2,61 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6501CCD194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE4A8CCD184
 	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 16:13:27 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.16943.1760449987265838397
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.177.1760458326482701598
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Oct 2025 06:53:07 -0700
+ Tue, 14 Oct 2025 09:12:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dUO/PsdY;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: phanirajkiran.a@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-26c209802c0so52699825ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 06:53:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Rllv9OsK;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: phanirajkiran.a@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-77f605f22easo4834278b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 09:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760449986; x=1761054786; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760458325; x=1761063125; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V/b0cleXgyjb9qdcmj3AiAhIK3ivPWGlVNaFputMX50=;
-        b=dUO/PsdYTbDqt0beyxo7qGLY/gxqjY+sSXqzxYim+lRI6U5TUeD7P3T0LuipOWGLo5
-         aZmMcf/KTn5ZC02mwjWyG0U7XokLcwR8VTYtWbaQ09xwlinLJ/PoJczGdrnvaOSMsHc9
-         5aZRgtQH4WkfrZiyh54QCGFcMa9FEh0lDsQiM/pEzf52O9ibjRK8Z2S5vk9FRDHGK91L
-         P0gbhpLs70I8ULJ2JKPjXlK7TvCkEP+A72IKcwFwIhoqO4JkMg0ELYpX8a252t5O/SIB
-         FEucpr62stFl5b8NRho1S/Mb4FkPZhODU1SLKkTDbBiR8Zt1sAGfNNQVvuMJtX/w+leY
-         cjSQ==
+        bh=fgVkMRmT31SG4QEwxoV+TObWOdbjEcJaZvyuUf1pzUs=;
+        b=Rllv9OsKjuyapd0t9wfnnwxRWXxTTTszLd1RIIGqXnHB2kbK/RjeYFfVOcvaQMQ72/
+         MpvQfuKng8HYLbJFnY7uU4tj33leBgU4OTMxFBgC4H0pni52Xcpoy6Mz/mF1QBu6Tvof
+         pHSJtqdsoT13tQOuXQpQlCjMdLAL2Zyr5W1TgDFPsecFBrv3TsDbNvOAG5y8FLvzPO6l
+         ygoeBWrw58leH+XVbZSBIB4h8J+Efd+HoLzm+2RnOdQD/3h8blPe7LsY/9MwMZH1C4Jz
+         YPA2nEnOJm3owVirhixUsJXIjI714HiYxrbMizXvfAvrnAk1XnJRhOTk8FxQ9vSiVlcS
+         iFuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760449986; x=1761054786;
+        d=1e100.net; s=20230601; t=1760458325; x=1761063125;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V/b0cleXgyjb9qdcmj3AiAhIK3ivPWGlVNaFputMX50=;
-        b=HIaBefg3xzgB+tOHZWCRK/QyEbolkciQGjv28VGTi2X85UOK2spzwqpvSE3+GZ+eah
-         pWjXvgK0xaavza1Pp6c2NY6f7l6kNEPgdXlcpbMK7rx6sgprD2Os8ScAWOAq1/oo6TCO
-         68Ltgl6pJLNvUvpHFtLGxlBxG8PwG0XR5xruOkGOsc35Rsmf+IgOwMZDXTRKwjP/nOz4
-         lB65YllkJdfPOupJnkBYmmFSJbiBEu1d/th3iJ00/dzD00FKL1o4/4QrP0h2pz15H6h8
-         iwRypu/MrNSaEFRnMZnyNwjbEP4Q3OtC/cwMgwDl3Jcz8O0/MR61lAC9Sv4XFQ8kpDtY
-         XzZw==
-X-Gm-Message-State: AOJu0YxxiFAkr0tr+p3R//NmZCIR/STj2xS4+6uPd7pnjrVzINCWKQfZ
-	lcxERqxBHEE8ohn5rs3Ik7m25Hh/8wzus+pbFZdvZP6+TTG48RWJcmTAxV4yoQ==
-X-Gm-Gg: ASbGncsKqtt3PcgNZKzU5CD6g1qLSaJ3nTpswuQgbSQJVx3IYVDWDOv4U770xWv4ycy
-	ckKfnTgPM/8uW0sjEYZcEvp9qF+IWIpPKRRnVzMy4BdTj0EtiguzsZ6YyUtlElvy9WEM7N+bbk9
-	Abd4l048hohHcVK6y9v83KdbG6m2o7R9QLetbbEu2Zdqsmer27tHvqe9EoiL7JDdZ9Pughn0nVp
-	xls7QpImIGtA09HHchCafrZj8NojQQ3Xw6/9gAAabjPUrZoNphwUU/xYJS134WNGEQwFSITbU0o
-	dq82fCKO3K4Htmvs9Q/I1x1fuuqAEUdIH1srSlVcS2/63t34lcv7wv70zxFLCABO7tVy48EqQ0d
-	fGpUH27LjXDjYNmPKpeuxtrDw9J9fMYw38HftszTOlcqJDtiJHTMv
-X-Google-Smtp-Source: AGHT+IHE3TdtA5zEYsm4PDmEPD81U/8j4wjvK9g9u7EuRQoBBDn4NxmczNeGGs6jIeSoqRyVre2BAQ==
-X-Received: by 2002:a17:903:38cf:b0:267:87be:505e with SMTP id d9443c01a7336-2902737c68bmr271573605ad.23.1760449986053;
-        Tue, 14 Oct 2025 06:53:06 -0700 (PDT)
+        bh=fgVkMRmT31SG4QEwxoV+TObWOdbjEcJaZvyuUf1pzUs=;
+        b=VLCPY/BgDZGfMaOg/9vTilaZcWay1XRwcncANCBvJsaIySs4WUqzxW3abUMP9XnMM4
+         TQDvkwItNOpXhjhnEeCh/adzYxG612JraizvNIkUuQu+u9ZsY4ubSIzsCPHe+kz4m/x5
+         C+NPbNFa2HyEKtZcYcRFm5DiccSxVSjyRPzh19MhLvl3vT6R07F0qu0hUqEqQzqx513F
+         0Ycm3oTjLO/t119a6p1TJ7AjakvXxHHuliLkDaU3ZuKWiSYTRozWSkVrSm0jTAnGs+rE
+         wiEGOcbJco+3uPopXQRO5zOvRI4DkFAfDDtdA2ad6tbgNUE6RIGmC1QuQi4a+VkiNUys
+         cOGg==
+X-Gm-Message-State: AOJu0YywSrS2zcLKSE5oElXXm/7OnKdq/l7NvRXdolvIom7rsq/WcmNl
+	Idm1Ou3lluUpB24QSYrH9fuQSdUwtkZN2AZC0FrXKhlJy6daiK/a6aFl1bPp0g==
+X-Gm-Gg: ASbGncuw9xV2iY69Ul6cx2q0Ncf6nBih8z7XnSKoSXIKyfn3yAhKPhooFOR/giAXflL
+	ncxPikElW6iilRoO8YrhCEc/C0ADe4ThGbP3+d1iiC+6JETbq4Bqmte224AO8f0oujZI+/rn/Pc
+	XTf+fhkrQQBfABuv09wHrDjmjLNE2lZwNsIk7UlcYrc3+UjvDkNetZRASf/VsrJB3B0i+PZoDDm
+	sWZiIpLUG4FKKXdmioBoilhG/pkToe41aMBTOUyrZvz+gBzGqjx6bLTOIfYOawAa/lltCg52bRf
+	P9vQ4VxnZfh4kwXUoHRv7qqvLixhHc62x/QUZei776B4NEOV8+6qIrUpxQSsUndtr/VOjlo3dyI
+	BTq69rBV4i/UXdYoixRgnsugUuKn9xCYgAfS1Vq8LDg==
+X-Google-Smtp-Source: AGHT+IHZBF5PEUgS9HThbUgS2exA1T5qztMQrQQhK01Shz38L6IiJZeUmkLzbQOO6lk9ZlHfDy2AxQ==
+X-Received: by 2002:a05:6a00:4195:b0:781:264b:dd96 with SMTP id d2e1a72fcca58-79387440a58mr27174382b3a.19.1760458325173;
+        Tue, 14 Oct 2025 09:12:05 -0700 (PDT)
 Received: from pop-os.. ([59.93.89.240])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b5288f84esm8850663a91.0.2025.10.14.06.53.03
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d096527sm15485244b3a.44.2025.10.14.09.12.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 06:53:05 -0700 (PDT)
+        Tue, 14 Oct 2025 09:12:04 -0700 (PDT)
 From: Mallapuram Phani raj kiran <phanirajkiran.a@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Mallapuram Phanirajkiran <phanirajkiran.a@gmail.com>,
-	Gunda Swetha <swetha12g@gmail.com>
-Subject: [PATCH] [scarthgap] musl: backport fix for CVE-2025-26519 to LTS branches
-Date: Tue, 14 Oct 2025 19:22:47 +0530
-Message-Id: <20251014135247.6178-1-phanirajkiran.a@gmail.com>
+Cc: Mallapuram Phani raj kiran <phanirajkiran.a@gmail.com>
+Subject: [PATCH] [kirkstone] musl: backport fix for CVE-2025-26519 to LTS branches
+Date: Tue, 14 Oct 2025 21:41:50 +0530
+Message-Id: <20251014161150.9341-1-phanirajkiran.a@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,51 +64,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 16:13:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224839
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224841
 
-From: Mallapuram Phanirajkiran <phanirajkiran.a@gmail.com>
-
-Fixes [YOCTO #15932]
-
-The musl libc code in LTS (Scarthgap) is missing
-the fix addressing CVE-2025-26519.  This patch backports the upstream
-changes (or applies the required fix) so that LTS builds include it.
-
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-26519
-
-(From OE-Core rev: 7af6b75221d5703ba5bf43c7cd9f1e7a2e0ed20b)
-
-Signed-off-by: Mallapuram Phani raj kiran <phanirajkiran.a@gmail.com>
-Signed-off-by: Gunda Swetha <swetha12g@gmail.com>
-
-Reported-by: Cristian Morales Vega
 ---
- ...x-for-CVE-2025-26519-to-LTS-branches.patch | 50 +++++++++++++++++++
+ ...ackport-fix-for-CVE-2025-26519-to-LT.patch | 52 +++++++++++++++++++
  meta/recipes-core/musl/musl_git.bb            |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl/0001-musl-backport-fix-for-CVE-2025-26519-to-LTS-branches.patch
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-core/musl/musl/0001-kirkstone-musl-backport-fix-for-CVE-2025-26519-to-LT.patch
 
-diff --git a/meta/recipes-core/musl/musl/0001-musl-backport-fix-for-CVE-2025-26519-to-LTS-branches.patch b/meta/recipes-core/musl/musl/0001-musl-backport-fix-for-CVE-2025-26519-to-LTS-branches.patch
+diff --git a/meta/recipes-core/musl/musl/0001-kirkstone-musl-backport-fix-for-CVE-2025-26519-to-LT.patch b/meta/recipes-core/musl/musl/0001-kirkstone-musl-backport-fix-for-CVE-2025-26519-to-LT.patch
 new file mode 100644
-index 0000000000..3f0b14a5d0
+index 0000000000..c65e88535f
 --- /dev/null
-+++ b/meta/recipes-core/musl/musl/0001-musl-backport-fix-for-CVE-2025-26519-to-LTS-branches.patch
-@@ -0,0 +1,50 @@
-+From 7ee0592397ea0e3d4b47018631642864864d443d Mon Sep 17 00:00:00 2001
-+From: Mallapuram Phanirajkiran <phanirajkiran.a@gmail.com>
-+Date: Tue, 14 Oct 2025 01:40:45 +0530
-+Subject: [PATCH] musl: backport fix for CVE-2025-26519 to LTS branches
++++ b/meta/recipes-core/musl/musl/0001-kirkstone-musl-backport-fix-for-CVE-2025-26519-to-LT.patch
+@@ -0,0 +1,52 @@
++From ae865075dc7e1acd0cb7ee9417758c8e060800ed Mon Sep 17 00:00:00 2001
++From: Mallapuram Phani raj kiran <phanirajkiran.a@gmail.com>
++Date: Tue, 14 Oct 2025 20:36:36 +0530
++Subject: [kirkstone] musl: backport fix for CVE-2025-26519 to LTS
++ branches
 +
 +Fixes [YOCTO #15932]
 +
-+The musl libc code in LTS (Scarthgap) is missing
++The musl libc code in LTS (kirkstone) is missing
 +the fix addressing CVE-2025-26519.  This patch backports the upstream
 +changes (or applies the required fix) so that LTS builds include it.
 +
 +Reference:
 +https://nvd.nist.gov/vuln/detail/CVE-2025-26519
-+(From OE-Core rev: 7af6b75221d5703ba5bf43c7cd9f1e7a2e0ed20b)
++
++(From OE-Core rev: 0d11c9103f072841baf39166efc133f2a20fc4dc)
 +
 +Signed-off-by: Mallapuram Phani raj kiran <phanirajkiran.a@gmail.com>
 +Signed-off-by: Gunda Swetha <swetha12g@gmail.com>
@@ -147,14 +131,14 @@ index 0000000000..3f0b14a5d0
 +2.34.1
 +
 diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 324269a968..db6f5ce2de 100644
+index 4b85401360..e5feef2cb6 100644
 --- a/meta/recipes-core/musl/musl_git.bb
 +++ b/meta/recipes-core/musl/musl_git.bb
-@@ -14,6 +14,7 @@ SRC_URI = "git://git.etalabs.net/git/musl;branch=master;protocol=https \
+@@ -15,6 +15,7 @@ PV = "${BASEVER}+git${SRCPV}"
+ SRC_URI = "git://git.musl-libc.org/musl;branch=master \
             file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
             file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
-            file://0003-elf.h-add-typedefs-for-Elf64_Relr-and-Elf32_Relr.patch \
-+           file://0001-musl-backport-fix-for-CVE-2025-26519-to-LTS-branches.patch \
++           file://0001-kirkstone-musl-backport-fix-for-CVE-2025-26519-to-LT.patch \
            "
  
  S = "${WORKDIR}/git"
