@@ -2,56 +2,57 @@ Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA4A4CCD184
-	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 14:49:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B3ACCD184
+	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 14:55:51 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.18583.1760453369474061831
+ by mx.groups.io with SMTP id smtpd.web11.18818.1760453750256711047
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Oct 2025 07:49:29 -0700
+ Tue, 14 Oct 2025 07:55:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=T4QxI0eW;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gKHvIO+V;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2382047737=sunilkumar.dora@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59E5i9DJ2987171
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 07:49:29 -0700
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59EBJX9L2621474
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 07:55:50 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=6aa/IKl/rAK3BaBqlcnmh0eZDt+ZJh9gG593QiGmWOI=; b=
-	T4QxI0eWBUCTI2x480h2n/WPC33T19ZXsQ1j9Uk/LVhoQZtRarVAlNPOxTGcwSu9
-	bC5/Z9dcrpOzHZvULQV0DDXfydVsuSogG3wWN0ENK4J19QT1rn+pRIjijyG6vz63
-	a0nJkEcxgxJ4K/vEz58dcBEo5C1WhKFc8SsliQa82xQmeXb2z5ahpkOjryndCUjA
-	bdVzRvumVXzwlH5No7wNOO/uMxdizhCWoDB7SRinRq6qjYv3AjrqoE8EpByG7VfR
-	It9jKTdGcWlm6RRUQFj/g9fKvs/Uh59YA1KdM/ZcOfn7DOYYWt4apDZMXdZ5zlmE
-	s2FNrDFB53AYD0TXhIuTBg==
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013058.outbound.protection.outlook.com [40.93.196.58])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qjh1k47x-1
+	PPS06212021; bh=/fxc7bo42BBhnVJN696jJxsJD1p41EJuerJxqsoZuZc=; b=
+	gKHvIO+VO9z/bpkAJfdZd+mt3wV7tQ37GI/ME5QxOUX2dPySMeHvaXlI2n7FvSdq
+	0rVRC5qQFm5iIz/3rRw7Wpw+8U93TKsieX7v1Emsu6YEqRGrZXESkj33H+At4KOu
+	4EfkY7nYrAwfAICO03+dYXEcOeMdx4q8uITfdnJ2daeYqDzNXp33+3Toqh6f+QWD
+	/DkFNoJr8G+BI7UC1w0k3+LzeFDXVKMuYnH79olXkeC/mXvznsKLEfFef43pbPbI
+	P+qJn58t/o0xCb4BQArto5eH2/fFRRsUQBNiCfu29waEgKG+L+u6y5RrX5pHqpT7
+	twyaI/vTVBPg10MvucP0HA==
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010024.outbound.protection.outlook.com [52.101.56.24])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qprdtyhh-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 07:49:28 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 07:55:49 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h33T2BuzmAVaOaZJeIdmyGl1/nfxdrNZCs1P0fC8nI8EdHMsLN9c4+rqJIILhXhZdzlLP3HH5JamlJqSE2PHHk5oDMyEwV3/FXx/H2r6/+OgmSSP2U5KGLAvhj65h3BDA+ToVGGBfacCXOBQcORcM1QKs0iazTCseUxR9VsYf2S+7L6C0jzURS+YXm8PDnta+mlw7wYbZzk6YHCSjKa/UtrjxuTH6ED5S9qhkzm8SJlfqip6dM4MvS0QBzpsnIW39+kS2wj3M4gEs/mbRiuKo7PsYZAiTFrwQ7JfWXKlftW6h7fQEVoFuJX4JFRl9N77Y5IyhzlWih8I/03ibepMvA==
+ b=D/TJsiDlhZnsR58tAik5EmcK2NoASQMazcunfnViE/gDNdy8HIHxL96vh/tkcuDwA48oH1gBnuMi02wm004FhkJ8AcHjqM9jmXc1yqh7NKS+lT1aGJAgqqIWiE5ukSrQtC7HPlQjiHq7B7FJy5rdYKM8hGKmJUivUBIlyE/00Ou9yTdZh6ESK0u61J5MqdOHY/Jh6+U6FBCjYsQDHF+ARBGvLfM8yyncaF3ipY1DlOw3pqJjG2/vSTWA+j7KoST0xbbQP7Wj6si2kvHN3mESax873JEaUGOFucWcDdCflOgaviurCoNMVhtWrRRK46r+67BoNEeoSpYE7UJEvdYJ1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6aa/IKl/rAK3BaBqlcnmh0eZDt+ZJh9gG593QiGmWOI=;
- b=W+F6OseP8mSZsVwc3oiabNvgKQDGZBZdBy273OX6cVwO66krtU1xv19MIxbKx7xgxtGku+Hn7oIaC1mXrmMda0hAUOK1Z0EsU34hrOoaHIZMMOfq1bDQcTwjP0PjjgXtsMWFRfmATiqiOv6tuWuIVxs4IQLUY8rMC7cltKkrG/KBtgtFXsr5jRzo7yc9UCHxYxs88W8fLjIl8lm0rFuUEWv3+KzKVQBsi01fQsQJdzvudWZJQssTqk3Pc9moz+e6c3eXjWCO8bGWERXRTv1MIzUt4VYwJdGWFapUZp7s0RVV1JlNug4i4N3YkzAV51Rgt++UOiGXfyS1HL13tAZfTg==
+ bh=/fxc7bo42BBhnVJN696jJxsJD1p41EJuerJxqsoZuZc=;
+ b=ub7ntwSehzs+z9kHJUnpuE0Tir7KHM6oXcSNlujw3yr+OBmlVr7lEKItX1cGw801YTwZHhor595fkR1tF5aW/r3RSMoIH6E6x7LMGmefoaz1otazDMUfe8LnsZVQiKZrEsdZPuIGu0BpJLKXXpkzHWC0Hj9bD2I/V38x6SedIyRfEF4osOuOT/niHbMxmJ9akCtBU24v26JLIdg8xvYK8dT1VylKiyhXnhO/keijqIVs4bFDH1Gn83Pm+CblpIafYIC9xk8dnr/aDoIiDx7vJseWgu5RpLh82S4C+29OXNwtNKgU10yTofG7jbDZDzz4s5/54Es+ITDGQus9e/8ORw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
- DM4PR11MB6381.namprd11.prod.outlook.com (2603:10b6:8:bd::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9228.10; Tue, 14 Oct 2025 14:44:25 +0000
+ SJ2PR11MB8538.namprd11.prod.outlook.com (2603:10b6:a03:578::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.9; Tue, 14 Oct
+ 2025 14:44:45 +0000
 Received: from DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::9fa:eb3f:cf26:264d]) by DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::9fa:eb3f:cf26:264d%3]) with mapi id 15.20.9203.009; Tue, 14 Oct 2025
- 14:44:25 +0000
+ 14:44:45 +0000
 From: sunilkumar.dora@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Sundeep.Kokkonda@windriver.com, sunilkumar.dora@windriver.com
-Subject: [kirkstone][PATCH 02/11] glibc: pthreads NPTL lost wakeup fix 2
-Date: Tue, 14 Oct 2025 07:43:38 -0700
-Message-ID: <20251014144347.536537-3-sunilkumar.dora@windriver.com>
+Subject: [kirkstone][PATCH 09/11] glibc: nptl rename __condvar_quiesce_and_switch_g1
+Date: Tue, 14 Oct 2025 07:43:45 -0700
+Message-ID: <20251014144347.536537-10-sunilkumar.dora@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251014144347.536537-1-sunilkumar.dora@windriver.com>
 References: <20251014144347.536537-1-sunilkumar.dora@windriver.com>
@@ -62,594 +63,301 @@ X-ClientProxiedBy: SJ0PR03CA0279.namprd03.prod.outlook.com
  (2603:10b6:610:131::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|DM4PR11MB6381:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9cba65b-2a2b-47e0-3809-08de0b302b76
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|SJ2PR11MB8538:EE_
+X-MS-Office365-Filtering-Correlation-Id: 098a220f-886c-4d14-1956-08de0b30373b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|366016|52116014|38350700014|13003099007;
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|13003099007|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?sWQ5Y4dlSsTjZ7USD/ajpNQd0SaOp25+dhIJcNxMcYNdCWNNlzLOyMsunP+j?=
- =?us-ascii?Q?QaHvekiiUWvT2Qw+BGh+mvQGWHi2JbqdbslTQxBRj+fIrZh5rQOQOps1HT0n?=
- =?us-ascii?Q?bkbje/rBWIH4kF5Z+2buGsRm7fPVY6EwJiquwYcgSEGruPjlo4IQyV5L2kq1?=
- =?us-ascii?Q?oko4alBAOKC7QB2RVAhOFijMRj50FAT8ey3mKTNL+hbFyH3IrM1w2M78zk8y?=
- =?us-ascii?Q?gCXIbkErCwdM+hR/3e+GWStaVzQUpzP2F7pLLUHhXLlWZz+7P8lAo543Hfw+?=
- =?us-ascii?Q?1Ekuj17iw0qrmj+HJKE0yn1fH+LU/SkdoeWx/bJcxr7j+WyFdnFjY1x/LzqR?=
- =?us-ascii?Q?7J93vw9TbMBBf5GBINBY0oCinZZfSLxCqdD2+tIoR+nMBPmgcGLzBby9hh8J?=
- =?us-ascii?Q?fJhiZpx8rGp3Ri94X5zAg55nOXYkvOfE8Xx/amymE9d1dHArrPNRUoM7n9bc?=
- =?us-ascii?Q?ZaKJ9Cv7CJFtDYDA3kMTeeTXoVm1zV4LmhlVSLQ+hWR7KiZhK9JPuo48U1VY?=
- =?us-ascii?Q?7+DWXjJ98uXuTW/ZFn0Q5B7D/Eliwax/ErBGni0mB2FvfcYQLzg8dg5yO1G2?=
- =?us-ascii?Q?8WNnwIlB5e0GNjDHV9VgfEyV2dPDOt2PthFdBKi1kTOxYL+/Tc6T/AxxdUZd?=
- =?us-ascii?Q?W7f8YLnAKZuFtqKkHlwSMJl7nUko7H71pJtX2ZrMQi9zw4gHp7UdMc4nRLKb?=
- =?us-ascii?Q?W/sagJppMxPgNytGbXLV4XntbKRXlSzzJmt7gCid2d4Izhsx7xOvF4A5yxVh?=
- =?us-ascii?Q?2Fe9idhRB3Wj4m7vREnIr0y3O+Qt9h4B3AjqLAXWr8kAbdwu7GmZT/TtDt94?=
- =?us-ascii?Q?KC57xkKpsgpG/YNmwAmMbc7wE0yxUFVrXSz09Xa5J+NGN/gA8emdCdmu0rSQ?=
- =?us-ascii?Q?K2Sv/vmjeXj3kqgwPLFNLbPEgN5TNHn82PrwDZnsFDw9y8jWO+OOmk9S0UIO?=
- =?us-ascii?Q?zZ870k62IBjwLsNgbX4kaYaf9fy6thZFwqoJC/sUAlXX9OigYyIBm+FBz6pk?=
- =?us-ascii?Q?XHKIZ0GccSHt4ea746lhju/inpqrc9mtsNAelOtW5PbTSbsdh1arOQkVAJo0?=
- =?us-ascii?Q?p7rfinLinJT57Ucg60FVn3hA3LYC2REJINc3qmKTSNYiR6VD5/yHYhBsS9eh?=
- =?us-ascii?Q?bomIHPkt+24uqYxgrVjQHL19mby6aTEHVHdlg9oqAQ5QBx9A/pa4TzEZispD?=
- =?us-ascii?Q?1hB/Wwi/cIf1BqPgVSLq8WyU6ALaeV9unKg2VN76JgNpdP56qpijKea7swpN?=
- =?us-ascii?Q?8Qs1NucDS1lLQPjOwpz6KiFfvNxz5vFIUm+XgpJ38Szh0BwBluH9CkJq8/dW?=
- =?us-ascii?Q?4D+p+tMA49Jaj3KQfKg4L8Ff+pz4dzZrVVUhXjTdKrGqKdrv5eP5fEeL++Ln?=
- =?us-ascii?Q?V+BQorPhOhaa4azpDuoQZYzQpMDdRyKFpmX1LnqGyZXRHIEJyPbPWUyOKUYW?=
- =?us-ascii?Q?7SVAcYjaQf3E+MR3uGVGMOHXM/1tbcR0w4FSZE1C74W0xaWSWC141w=3D=3D?=
+	=?us-ascii?Q?smYJN2iPjd8GAcLeSGViRNsuyBUE9KK37fX5lJ/0DtCbIi4lnu0xR2jPGRva?=
+ =?us-ascii?Q?Holh7lWXCxNTnWi+6y4sqdUz+SfCIIZ+bp7l0a84Eygn7CiqxSur2uvNRIkF?=
+ =?us-ascii?Q?ZQ9V7osxGVTR82wHzu1aJvohtA2Ui/Yt6MysltKx+aDAmt/9tAESxKWC31a6?=
+ =?us-ascii?Q?AhT5z5BiaH9KNMYNwhaz9r0HfCedtoyZxrlG/cUH+qkat+3vkjH1LoqNgEI5?=
+ =?us-ascii?Q?5Felmmo+0e5/+NBxD8aq6X8nQkinkLCY0nqbf5W4Tk1jhU7F7oNASUzcwcZw?=
+ =?us-ascii?Q?f+SF0nm6PbvvhLqAb8QecbJNIJ72TNqPl3f1VTPD+ciCb1RgIuajQ0FP97GL?=
+ =?us-ascii?Q?rBOuxaMtZpKVf1/Vn2PwuhbwAFClG57lpSPLgA4sJNv46o3CNxw4ax5ZS5FX?=
+ =?us-ascii?Q?e1v7NohKBqjhgPFOjj7Vs6+MwmHOrLx7riYuBnlvAz+CihULsK11Np6GuO7L?=
+ =?us-ascii?Q?Jntx/BfUeHCsSGnz7KMvcY7OTX8Y+/C/wEbEaa6uQ1hSSXQhon+DBoPM92T0?=
+ =?us-ascii?Q?TC/xyhsE2Viacl0zpda6A5D+05PxVkeUG8oEspuUg8U/MItm1xy8Np9HDekZ?=
+ =?us-ascii?Q?LzXairOLqZtsKw1oVnj2Edyzx8KIOwqoPBhd62/EibMndkWrYwn5VNDUnyED?=
+ =?us-ascii?Q?nBuiBtw+XD21w0a7z7B9dVpFmvsR4e8ogJIr3iMJvAOxdyx0sXprzq5iKVyt?=
+ =?us-ascii?Q?GrJd9g/h7aK7iAfNZ8mND1pCXu3zC/sHneiYA4VYvPIZScBngLtjC0vMzAk5?=
+ =?us-ascii?Q?wHfTpWQXnR43ikXxuiZ+y0IJQm4eRWCuRXzZDk7maE1Vu+kGvegbG7/IFwHp?=
+ =?us-ascii?Q?wDnaL1A0/LXH02MNVHygcOHrUG4NZ78MdmY7+j65f1qo5rz6Wnx+7nn/kvTd?=
+ =?us-ascii?Q?7UVEiNm2aDJq+4BCsQnryZ3ngymlvjlYF2hq9aUGYYcQHDM6Cyf1negmaXIi?=
+ =?us-ascii?Q?pwGw1VGa5S4H+El2k3X5g5QPE2Cd9Y8Ku9cyvrgJHuCoKI/BQaXIQ/8pCZp0?=
+ =?us-ascii?Q?F41noOyE6JOazh2r6YOAiFUg4PjRA+F6+ENWaCLmNCvi+KZJzucSrEYPDiD0?=
+ =?us-ascii?Q?L/xFxuEQVM5k12isda5uYPRZ5eNknC2qOQUlOHS/1CJRmckA+U1wFc6zazq2?=
+ =?us-ascii?Q?83bGDkFbEe5+zBKuFYDDBMmO9h2jWmG3NXRbkv7AOtYAZtYTb9M5lUOfzVFg?=
+ =?us-ascii?Q?U/vTrNx0icE1OHGnAVaB6PlDkLPBhyY9ZG2dCoU2m0jcFujSGEKFvwXSF8ag?=
+ =?us-ascii?Q?R7KAtaosxFP08cdpImDaMHPKvd2Jnygf4lexags8fjBgNeBkhKYYxjmszqf0?=
+ =?us-ascii?Q?qDPmrqmlL5W5WpBCKSooG9KKJweYHk2mZ/R4K27EjUblo4Wml3SBhho3E3Ut?=
+ =?us-ascii?Q?epJRiUTNZOphNHGWYhg+PSKE9aiXMFOt/QhNxAB/HvONooGD9PVuidCdXcHS?=
+ =?us-ascii?Q?iaAQikV9yq5ZejCTrzzALVQXHrmIFgT0DAPXlHU3wd+JQA5+0jRpyQ=3D=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(52116014)(38350700014)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(13003099007)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?T6H9k/gdKmcdEuhXrGf6xfyRHYcAsO1jLFpti6TAVvYfgIFN2wbdtsZTgOQJ?=
- =?us-ascii?Q?sF0i887m+cf9ZEw8CepyN6yKZNXks9Ayqz8UdVMiwAhCrXZKOnMSw90jhlzc?=
- =?us-ascii?Q?hwAxo2OprmCQ4Z6/DiFMFmXPExqknaAcHX2STDI8sAUscHyvmDGWKo7uBrtm?=
- =?us-ascii?Q?hrt6M7Vjr4mdU8pRIhmTIbUZ4rRzyiniULCo7RuanootC4BSw0jARtdLPn4F?=
- =?us-ascii?Q?CYNh8imuDTR3VPoVDItiPyPnkenH97HU9NIxlGIcDuZq2WJ7iz7dvxVYz+sC?=
- =?us-ascii?Q?QwtX617GKSQoOClAwfLg38mBTccIgnAKangs645uHjNpKDHn85Jj29EqCLb9?=
- =?us-ascii?Q?NU5Dcz1m1QkBt7BrF8MtO1PzzaWhVZOEU+YOUv6dWTVMriBGU1Jw8ZZ2g0p+?=
- =?us-ascii?Q?JTZlmpwzLvmnfAY7fTcC3Q4E1HrYpR/U1k7y10wUEW8h6ZGif/SGxfRVwuur?=
- =?us-ascii?Q?wo3Rnaa+zgB7imCMQiqOU7Sy1VpvDWYF/tIqZ1sTx/tUp87z261omi6Nj0FA?=
- =?us-ascii?Q?2ODOCgm3y5m9LvOlNobiWIgp+ns0JZGwSzTfA4v1QA7aNXYbdKmQMQpiKme2?=
- =?us-ascii?Q?3TsicStFlZW9CUYTlkcOBgDVdU9fvKhM5dcTvqkKiADH7T6GaWmflMtUVy+X?=
- =?us-ascii?Q?3vRhrnwLj8bVQRGCzfq/HUKimDy6hSQO6pDUqPx0uND2Cx3tpmMqLz37b8i3?=
- =?us-ascii?Q?h43NaHbLYzLIV4QiHpdZAmekeFernwvBO48FuCNqoy4zO7ecrLxnZZ2qTttp?=
- =?us-ascii?Q?rQk4ZDXU+wEhkeAbiaZ7V3ugxhYz4I1tzM1lR3nEcA1iCJs+v+Uu+vFpK0UG?=
- =?us-ascii?Q?2W9wUErk1Fyp7Gm2tVVIIHvuKOQFLZxaWIwfVuvnScde8n0HrygdzyiZxUYT?=
- =?us-ascii?Q?KZzNHybi7HY/olZKzuI411cLh9SbXhg96u3yHv+8+2ryhNbKgxq93dpDd2FP?=
- =?us-ascii?Q?yYo8Fy5KbA1hFSigtHBnzmNCdUKU+YPCvPL709SYn1pM68QAMwX4Z5Rl1vkT?=
- =?us-ascii?Q?RX38Y8C2BLGiB2MsddN/l3yK4eTFc25bc89vt97IQIacuh6FY+Erif0vsYQl?=
- =?us-ascii?Q?LsrTRAI45uNq7Gvl4Nc1LIJ7lwdCBYtkDVKZFk8ZrawHoDshcBPL73pkKqBL?=
- =?us-ascii?Q?nIOju+2W7IW3/FOQwp7bjChYltNERxB3/ldtE1bC/ATzuh26nYXgmujdsKEE?=
- =?us-ascii?Q?dKqUK9xBgSedaQMQ5fcFBR9Co9ZR0OyHds+DKoEcYVn3X4PZOdm7CRyx50us?=
- =?us-ascii?Q?S8PiOUhb7DfKFPPaq3R65/DvP/6I1UyH+t5LBJ1potQ5czqlHSN3zcYfSM4B?=
- =?us-ascii?Q?eFJveY3e464fD4hh2HArKZPj04nx4Joa4LZnu5WSQileUEyCJKPUtzwUQ2fD?=
- =?us-ascii?Q?aNV5/wvlvs0O9EpNpXYlqCRt3Id3Aq65ObxNKlBOLdvnHr3pwhjyOstojUPy?=
- =?us-ascii?Q?navNYrr1G9bgKRcSiUrF77nv5pxyom/+YvEHeqR7wSBvgk0HWyAwIEKV3ib1?=
- =?us-ascii?Q?299c2n+x+BwmLwqw42F3m1thM1afjv9qmyon9yh/NLYGPXrrQ7Aj07S+QcI4?=
- =?us-ascii?Q?R0DbCS/RGZqTMWj5TLzcYOSWYXJ0AToHnklxs1aeqH06DN34EJlp21JsudHG?=
- =?us-ascii?Q?iA=3D=3D?=
+	=?us-ascii?Q?EOQfTJ/xXsenFeI1BwHEb8Zs/0PKS3/QzaSWqM/qugCejBO1FyJRF3G6qYe0?=
+ =?us-ascii?Q?7k/nG9jE+Q497Jh1kMwFUNXTjht9p1I98aven48dwD/Wqr4dvlH8vH10v3Ss?=
+ =?us-ascii?Q?IJ9863OvhnLiFb3O46lF5j1QdWZj6sTFJcxLuInjhEmHETq8muZPxo++8/7u?=
+ =?us-ascii?Q?kLIQbfXiQE2Le4IFKwKTqOU6nRjnE8isfrkN4O6uAHfloqCdTMULIMpp/gTr?=
+ =?us-ascii?Q?ZwJ4mGTjUnhZ40Tc5SYStF5pzqjSnJrvI7Kqu3m+vpJHMi6Tmc0XE2qAZPz4?=
+ =?us-ascii?Q?Z9cevrGzE/+NoSdn8u/Gx6t6qjvogmrDTh6qYbEnGYdw/8t3gE6bJOG3xACW?=
+ =?us-ascii?Q?Tg83jD85vUScGbwYF7uZnp8/bM5ATT5CfyQ7C8e1bFBWQ6rPiY7rvTyvnLuN?=
+ =?us-ascii?Q?kDEcwSG1GRroP3Rlkoz39gj18dp5gnfZZS7+EKQG1eono+Q5v4V3Mgtmdfkf?=
+ =?us-ascii?Q?Sl07lZ7GCAjB7Ueanx+NuKnnvOJnJ+7OJgkl7L8Tf4tagIPMVEQqfG4dBzRi?=
+ =?us-ascii?Q?nMA4vsrydk/OZq12dNOzSkqgHWAyrTFZuRd9OjIA98y8Dp2oExZxCjG6ShN8?=
+ =?us-ascii?Q?leOtZYHr8KxQ9j70bWMhJzMAjYT76x3pETUBSylwcxGu3PNfVOX/cX6lm0Gq?=
+ =?us-ascii?Q?kaNeyiW+zM+MPwdzVVCK9y8eixUkBPFnUTHbpToAY20oqZBs9pOwKqJwUDGt?=
+ =?us-ascii?Q?xcvSBjHq9BxbGrVvqcoV+7IjTU0YO4NxNpFkZfWOWftfzigOffBA5pBVZ040?=
+ =?us-ascii?Q?XNun/cjeamk33GavsnRHPml6BtugV3WkhTPp5/hdfOB0yY8IVxI+QprqXWJo?=
+ =?us-ascii?Q?sUkX+h3nxKkfNbumcOXIHLU1HcRhqcAt5jCrS3fnTv27FseQhFRv67fKdm8+?=
+ =?us-ascii?Q?1h40h7Kpm31B8JIikeCKJNjVnJNc3u/gFslQT4K97ck+mvjkyiCZK9i+hzAR?=
+ =?us-ascii?Q?AmJBRHT/Az+hnR0q/rkVdQ0d+y/yzqIVm5QtaBeZv4VGJPWaLbJTen0/yEcF?=
+ =?us-ascii?Q?K2qB1pBRbM7GxGIshzvLi78Z8rXkFNXlWH0yoAzHA0DgFLBvqrQg5xXu3EKu?=
+ =?us-ascii?Q?/nBuIfLq3iQX/5yqSOzrK/Dn6CGKC/O10ItGpuqcQDTymBMMIe5fRNrADOYS?=
+ =?us-ascii?Q?4zaNWZlUc43BleqYOahDgPB5CH8ELILn6qRlI8YTI+pIrqq/2gc+R2KP5vKc?=
+ =?us-ascii?Q?73bi3W3RqZZ8yCYh4WlWw5fAyWuHqMDMleB2BQI08K9mhEZaOyDcn+9hmNHQ?=
+ =?us-ascii?Q?J1x0GC7qLq7eO/dk/Zo7NO5EW1gpP9QLkJlvSmtA79Z16DD7sKHdQEetmOSY?=
+ =?us-ascii?Q?UNpA/mcp+j3w6qMjBrKjEL65EI0BR4bdxTP2riDgpjsMOCDuEXs+CJdFOSXh?=
+ =?us-ascii?Q?4a3mXJC/ipxiqQKMmZTODI/FOdRc3Pf8wlRes/9Ba+ZreCIFY40+Q88NAbSr?=
+ =?us-ascii?Q?h9rEGpy+DLYUEKH7rhLQ3wMcdDXGrqO5UBqPA1Cck8pLBZfPT0Sdu4CO5mI3?=
+ =?us-ascii?Q?zMbwYNNmnBNJfnmEsY3jakaD201Z1Pf0PKfre4p75qLCTcIsmyaON9+5NGa0?=
+ =?us-ascii?Q?0ntr75piRyGrz1XdUeusq+HijSUanDd5VbfYSgzCoCD72IuS69AYJ7fKd29K?=
+ =?us-ascii?Q?++NrIQY4BprML1nS7/fWvLI=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9cba65b-2a2b-47e0-3809-08de0b302b76
+X-MS-Exchange-CrossTenant-Network-Message-Id: 098a220f-886c-4d14-1956-08de0b30373b
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB7896.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 14:44:25.3941
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 14:44:44.9917
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qbg876cCyhPhpjKLZzQSjSdJcFVyeHQx3FIOtT8opEeVpZ3cxRJWWzYL2HF2KFjp+XDAdv8FNHQD/xxBVk9/IqdFVdkSzZhVkrJAUrDZfRE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6381
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE0MDExMiBTYWx0ZWRfX6MxQaaAxS6dy
- GmYI3DujkOPHkYdFqDMIbSdwbBeHk9wnrgJ48kjpgxnzcJ2GAUUgY0hQSdcKeCXsekGeDOUeQIt
- bYdPQoAXqhnshZ9hALUlaBpLXiFdmlYMmUxyKx6QFE7dkTCqIfxzmHGGCzxZVsivjuDvCvEYERU
- oL2HIYKjafTNRxhnrngT67J6jAME7SzKmkdqXnqqZQi/0ciQQZ4CFyhNXKjA0GDLZRK0Cf7oK/0
- V1rjb4l7q7V71rfGSB3TxxK8nNtAQmpPCoVn3BU5EtNYkGLFHVsdfHZQqVppbELE3fYfcEb4y++
- Gj9KGQ4+u2yP2BZ5TTopcMKBO/pU1Yuajo3clC8wqjWzqzPsBVImYGdo48KsiAEHFB8MoTqF80W
- Q7xDRCLZsNj8A93iigw2kWwSJjfPWQ==
-X-Proofpoint-GUID: AZ6tKjSLWPlr8HZ4q1jwfbagBk0U16un
-X-Proofpoint-ORIG-GUID: AZ6tKjSLWPlr8HZ4q1jwfbagBk0U16un
-X-Authority-Analysis: v=2.4 cv=aetsXBot c=1 sm=1 tr=0 ts=68ee62f9 cx=c_pps
- a=5YU8ENXygJz5UkgxsLF+dA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: uK6/gYZOnVKWIntMrQMBqrhiCxUyYJBThHFH1lv5EinRsnLCfxZ/kkSzQ4eCk0Jj5KEP5haVVaxLhCiIoiDQpyhF770lbp1j8FgtXqpMwPE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8538
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE0MDExMyBTYWx0ZWRfX7DtP20+otps8
+ AjwPC4vY41oFDi2DOAbz+uTNHfKMzMsZS7//KmH7Gpit+KPkaGHxe9hFKD734lJksazZkjEi+eR
+ zH5Pr7E2IKgjJSTqOLMeCjilQcgmYoOyoNwd5E5RK9Z60x9mA6aMVdYyesn2jQCmjWnTV4CjVli
+ dgdEak1fYuMrgoDuxEY5lbUy4H55t+qma8A5SYjiM8c7dgGZtHFC6/4QJhNKNHRAEBpD+JOoPss
+ EbeKdpB/XAW213X7h6hTQbwJryQeyxyKziQ+0ECY2Sw3/PGZWNFqvYiA0SJWsw0IJbdvCiHEmJp
+ M0VT7T0Vmn0zbBYuh8C612o9GJJAxk18ruGCwV/JtMnlkkYC2IDOkdrYDWkCs9Pz/rOdj3gWhl2
+ Y2/1N86e9bKB5yLBes+UDP2I2q6Ryw==
+X-Proofpoint-GUID: udSGMMyY1eAGuGbMsCqGbuRfqfGzzCPZ
+X-Authority-Analysis: v=2.4 cv=JaKxbEKV c=1 sm=1 tr=0 ts=68ee6475 cx=c_pps
+ a=qaGWf3H7ZUycNCJ7m3WmPQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=-y7sjS4E6xoPhqQzj00A:9 a=NrfbpRTlr6kA:10
+ a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=uyKIICsDoPcSdIl6ehEA:9 a=5OXmESjOoUQA:10
  a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: udSGMMyY1eAGuGbMsCqGbuRfqfGzzCPZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-14_03,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 spamscore=0 suspectscore=0 phishscore=0
- malwarescore=0 clxscore=1015 impostorscore=0 bulkscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510140112
+ malwarescore=0 spamscore=0 adultscore=0 phishscore=0 clxscore=1015
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
+ definitions=main-2510140113
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 14:49:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224831
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 14:55:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224832
 
 From: Sunil Dora <sunilkumar.dora@windriver.com>
 
 The following commits have been cherry-picked from Glibc master branch:
 Bug : https://sourceware.org/bugzilla/show_bug.cgi?id=25847
-  [1] https://sourceware.org/git/?p=glibc.git;a=commit;h=1db84775f831a1494993ce9c118deaf9537cc50a
-  [2] https://sourceware.org/pipermail/libc-stable/2025-July/002277.html
+  [1] https://sourceware.org/git/?p=glibc.git;a=commit;h=4b79e27a5073c02f6bff9aa8f4791230a0ab1867
+  [2] https://sourceware.org/pipermail/libc-stable/2025-July/002281.html
 
 Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 ---
- .../glibc/glibc/0026-PR25847-1.patch          | 455 ++++++++++++++++++
+ .../glibc/glibc/0026-PR25847-8.patch          | 161 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.35.bb         |   1 +
- 2 files changed, 456 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0026-PR25847-1.patch
+ 2 files changed, 162 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0026-PR25847-8.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0026-PR25847-1.patch b/meta/recipes-core/glibc/glibc/0026-PR25847-1.patch
+diff --git a/meta/recipes-core/glibc/glibc/0026-PR25847-8.patch b/meta/recipes-core/glibc/glibc/0026-PR25847-8.patch
 new file mode 100644
-index 0000000000..0f81f5b40b
+index 0000000000..83d9ca01a9
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0026-PR25847-1.patch
-@@ -0,0 +1,455 @@
-+From 0402999b82f697011de388f61bad68da26060bef Mon Sep 17 00:00:00 2001
-+From: Frank Barrus <frankbarrus_sw@shaggy.cc>
-+Date: Tue, 14 Oct 2025 03:55:17 -0700
-+Subject: [PATCH] pthreads NPTL: lost wakeup fix 2
++++ b/meta/recipes-core/glibc/glibc/0026-PR25847-8.patch
+@@ -0,0 +1,161 @@
++From 20d84dfa0b9a32f88259269bbeaae588744ae4ae Mon Sep 17 00:00:00 2001
++From: Malte Skarupke <malteskarupke@fastmail.fm>
++Date: Tue, 14 Oct 2025 06:33:50 -0700
++Subject: [PATCH] nptl: rename __condvar_quiesce_and_switch_g1
 +
-+This fixes the lost wakeup (from a bug in signal stealing) with a change
-+in the usage of g_signals[] in the condition variable internal state.
-+It also completely eliminates the concept and handling of signal stealing,
-+as well as the need for signalers to block to wait for waiters to wake
-+up every time there is a G1/G2 switch.  This greatly reduces the average
-+and maximum latency for pthread_cond_signal.
-+
-+The g_signals[] field now contains a signal count that is relative to
-+the current g1_start value.  Since it is a 32-bit field, and the LSB is
-+still reserved (though not currently used anymore), it has a 31-bit value
-+that corresponds to the low 31 bits of the sequence number in g1_start.
-+(since g1_start also has an LSB flag, this means bits 31:1 in g_signals
-+correspond to bits 31:1 in g1_start, plus the current signal count)
-+
-+By making the signal count relative to g1_start, there is no longer
-+any ambiguity or A/B/A issue, and thus any checks before blocking,
-+including the futex call itself, are guaranteed not to block if the G1/G2
-+switch occurs, even if the signal count remains the same.  This allows
-+initially safely blocking in G2 until the switch to G1 occurs, and
-+then transitioning from G1 to a new G1 or G2, and always being able to
-+distinguish the state change.  This removes the race condition and A/B/A
-+problems that otherwise ocurred if a late (pre-empted) waiter were to
-+resume just as the futex call attempted to block on g_signal since
-+otherwise there was no last opportunity to re-check things like whether
-+the current G1 group was already closed.
-+
-+By fixing these issues, the signal stealing code can be eliminated,
-+since there is no concept of signal stealing anymore.  The code to block
-+for all waiters to exit g_refs can also be removed, since any waiters
-+that are still in the g_refs region can be guaranteed to safely wake
-+up and exit.  If there are still any left at this time, they are all
-+sent one final futex wakeup to ensure that they are not blocked any
-+longer, but there is no need for the signaller to block and wait for
-+them to wake up and exit the g_refs region.
-+
-+The signal count is then effectively "zeroed" but since it is now
-+relative to g1_start, this is done by advancing it to a new value that
-+can be observed by any pending blocking waiters.  Any late waiters can
-+always tell the difference, and can thus just cleanly exit if they are
-+in a stale G1 or G2.  They can never steal a signal from the current
-+G1 if they are not in the current G1, since the signal value that has
-+to match in the cmpxchg has the low 31 bits of the g1_start value
-+contained in it, and that's first checked, and then it won't match if
-+there's a G1/G2 change.
-+
-+Note: the 31-bit sequence number used in g_signals is designed to
-+handle wrap-around when checking the signal count, but if the entire
-+31-bit wraparound (2 billion signals) occurs while there is still a
-+late waiter that has not yet resumed, and it happens to then match
-+the current g1_start low bits, and the pre-emption occurs after the
-+normal "closed group" checks (which are 64-bit) but then hits the
-+futex syscall and signal consuming code, then an A/B/A issue could
-+still result and cause an incorrect assumption about whether it
-+should block.  This particular scenario seems unlikely in practice.
-+Note that once awake from the futex, the waiter would notice the
-+closed group before consuming the signal (since that's still a 64-bit
-+check that would not be aliased in the wrap-around in g_signals),
-+so the biggest impact would be blocking on the futex until the next
-+full wakeup from a G1/G2 switch.
++This function no longer waits for threads to leave g1, so rename it to
++__condvar_switch_g1
 +
 +The following commits have been cherry-picked from Glibc master branch:
 +Bug : https://sourceware.org/bugzilla/show_bug.cgi?id=25847
-+Commit : 1db84775f831a1494993ce9c118deaf9537cc50a
++commit: 4b79e27a5073c02f6bff9aa8f4791230a0ab1867
 +
 +Upstream-Status: Submitted
-+[https://sourceware.org/pipermail/libc-stable/2025-July/002277.html]
++[https://sourceware.org/pipermail/libc-stable/2025-July/002281.html]
 +
 +Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 +---
-+ nptl/pthread_cond_common.c | 105 +++++++++------------------
-+ nptl/pthread_cond_wait.c   | 144 ++++++++++++-------------------------
-+ 2 files changed, 81 insertions(+), 168 deletions(-)
++ nptl/pthread_cond_broadcast.c |  4 ++--
++ nptl/pthread_cond_common.c    | 26 ++++++++++++--------------
++ nptl/pthread_cond_signal.c    | 17 ++++++++---------
++ nptl/pthread_cond_wait.c      |  9 ++++-----
++ 4 files changed, 26 insertions(+), 30 deletions(-)
 +
++diff --git a/nptl/pthread_cond_broadcast.c b/nptl/pthread_cond_broadcast.c
++index 5ae141ac..a0743558 100644
++--- a/nptl/pthread_cond_broadcast.c
+++++ b/nptl/pthread_cond_broadcast.c
++@@ -60,7 +60,7 @@ ___pthread_cond_broadcast (pthread_cond_t *cond)
++ 				cond->__data.__g_size[g1] << 1);
++       cond->__data.__g_size[g1] = 0;
++ 
++-      /* We need to wake G1 waiters before we quiesce G1 below.  */
+++      /* We need to wake G1 waiters before we switch G1 below.  */
++       /* TODO Only set it if there are indeed futex waiters.  We could
++ 	 also try to move this out of the critical section in cases when
++ 	 G2 is empty (and we don't need to quiesce).  */
++@@ -69,7 +69,7 @@ ___pthread_cond_broadcast (pthread_cond_t *cond)
++ 
++   /* G1 is complete.  Step (2) is next unless there are no waiters in G2, in
++      which case we can stop.  */
++-  if (__condvar_quiesce_and_switch_g1 (cond, wseq, &g1, private))
+++  if (__condvar_switch_g1 (cond, wseq, &g1, private))
++     {
++       /* Step (3): Send signals to all waiters in the old G2 / new G1.  */
++       atomic_fetch_add_relaxed (cond->__data.__g_signals + g1,
 +diff --git a/nptl/pthread_cond_common.c b/nptl/pthread_cond_common.c
-+index fb035f72..a55eee3e 100644
++index f976a533..3baac4da 100644
 +--- a/nptl/pthread_cond_common.c
 ++++ b/nptl/pthread_cond_common.c
-+@@ -201,7 +201,6 @@ static bool __attribute__ ((unused))
-+ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
++@@ -189,16 +189,15 @@ __condvar_get_private (int flags)
++     return FUTEX_SHARED;
++ }
++ 
++-/* This closes G1 (whose index is in G1INDEX), waits for all futex waiters to
++-   leave G1, converts G1 into a fresh G2, and then switches group roles so that
++-   the former G2 becomes the new G1 ending at the current __wseq value when we
++-   eventually make the switch (WSEQ is just an observation of __wseq by the
++-   signaler).
+++/* This closes G1 (whose index is in G1INDEX), converts G1 into a fresh G2,
+++   and then switches group roles so that the former G2 becomes the new G1
+++   ending at the current __wseq value when we eventually make the switch
+++   (WSEQ is just an observation of __wseq by the signaler).
++    If G2 is empty, it will not switch groups because then it would create an
++    empty G1 which would require switching groups again on the next signal.
++    Returns false iff groups were not switched because G2 was empty.  */
++ static bool __attribute__ ((unused))
++-__condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
+++__condvar_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
 +     unsigned int *g1index, int private)
 + {
-+-  const unsigned int maxspin = 0;
 +   unsigned int g1 = *g1index;
++@@ -214,8 +213,7 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
++ 	  + cond->__data.__g_size[g1 ^ 1]) == 0)
++ 	return false;
 + 
-+   /* If there is no waiter in G2, we don't do anything.  The expression may
-+@@ -222,84 +221,46 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
++-  /* Now try to close and quiesce G1.  We have to consider the following kinds
++-     of waiters:
+++  /* We have to consider the following kinds of waiters:
++      * Waiters from less recent groups than G1 are not affected because
++        nothing will change for them apart from __g1_start getting larger.
 +      * New waiters arriving concurrently with the group switching will all go
-+        into G2 until we atomically make the switch.  Waiters existing in G2
++@@ -223,12 +221,12 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
 +        are not affected.
-+-     * Waiters in G1 will be closed out immediately by setting a flag in
-+-       __g_signals, which will prevent waiters from blocking using a futex on
-+-       __g_signals and also notifies them that the group is closed.  As a
-+-       result, they will eventually remove their group reference, allowing us
-+-       to close switch group roles.  */
-+-
-+-  /* First, set the closed flag on __g_signals.  This tells waiters that are
-+-     about to wait that they shouldn't do that anymore.  This basically
-+-     serves as an advance notificaton of the upcoming change to __g1_start;
-+-     waiters interpret it as if __g1_start was larger than their waiter
-+-     sequence position.  This allows us to change __g1_start after waiting
-+-     for all existing waiters with group references to leave, which in turn
-+-     makes recovery after stealing a signal simpler because it then can be
-+-     skipped if __g1_start indicates that the group is closed (otherwise,
-+-     we would have to recover always because waiters don't know how big their
-+-     groups are).  Relaxed MO is fine.  */
-+-  atomic_fetch_or_relaxed (cond->__data.__g_signals + g1, 1);
-+-
-+-  /* Wait until there are no group references anymore.  The fetch-or operation
-+-     injects us into the modification order of __g_refs; release MO ensures
-+-     that waiters incrementing __g_refs after our fetch-or see the previous
-+-     changes to __g_signals and to __g1_start that had to happen before we can
-+-     switch this G1 and alias with an older group (we have two groups, so
-+-     aliasing requires switching group roles twice).  Note that nobody else
-+-     can have set the wake-request flag, so we do not have to act upon it.
-+-
-+-     Also note that it is harmless if older waiters or waiters from this G1
-+-     get a group reference after we have quiesced the group because it will
-+-     remain closed for them either because of the closed flag in __g_signals
-+-     or the later update to __g1_start.  New waiters will never arrive here
-+-     but instead continue to go into the still current G2.  */
-+-  unsigned r = atomic_fetch_or_release (cond->__data.__g_refs + g1, 0);
-+-  while ((r >> 1) > 0)
-+-    {
-+-      for (unsigned int spin = maxspin; ((r >> 1) > 0) && (spin > 0); spin--)
-+-	{
-+-	  /* TODO Back off.  */
-+-	  r = atomic_load_relaxed (cond->__data.__g_refs + g1);
-+-	}
-+-      if ((r >> 1) > 0)
-+-	{
-+-	  /* There is still a waiter after spinning.  Set the wake-request
-+-	     flag and block.  Relaxed MO is fine because this is just about
-+-	     this futex word.
-+-
-+-	     Update r to include the set wake-request flag so that the upcoming
-+-	     futex_wait only blocks if the flag is still set (otherwise, we'd
-+-	     violate the basic client-side futex protocol).  */
-+-	  r = atomic_fetch_or_relaxed (cond->__data.__g_refs + g1, 1) | 1;
-+-
-+-	  if ((r >> 1) > 0)
-+-	    futex_wait_simple (cond->__data.__g_refs + g1, r, private);
-+-	  /* Reload here so we eventually see the most recent value even if we
-+-	     do not spin.   */
-+-	  r = atomic_load_relaxed (cond->__data.__g_refs + g1);
-+-	}
-+-    }
-+-  /* Acquire MO so that we synchronize with the release operation that waiters
-+-     use to decrement __g_refs and thus happen after the waiters we waited
-+-     for.  */
-+-  atomic_thread_fence_acquire ();
-++     * Waiters in G1 will be closed out immediately by the advancing of
-++       __g_signals to the next "lowseq" (low 31 bits of the new g1_start),
-++       which will prevent waiters from blocking using a futex on
-++       __g_signals since it provides enough signals for all possible
-++       remaining waiters.  As a result, they can each consume a signal
-++       and they will eventually remove their group reference.  */
++      * Waiters in G1 have already received a signal and been woken.  */
 + 
-+   /* Update __g1_start, which finishes closing this group.  The value we add
-+      will never be negative because old_orig_size can only be zero when we
-+      switch groups the first time after a condvar was initialized, in which
-+-     case G1 will be at index 1 and we will add a value of 1.  See above for
-+-     why this takes place after waiting for quiescence of the group.
-++     case G1 will be at index 1 and we will add a value of 1.
-+      Relaxed MO is fine because the change comes with no additional
-+      constraints that others would have to observe.  */
++-  /* Update __g1_start, which finishes closing this group.  The value we add
++-     will never be negative because old_orig_size can only be zero when we
++-     switch groups the first time after a condvar was initialized, in which
++-     case G1 will be at index 1 and we will add a value of 1.
++-     Relaxed MO is fine because the change comes with no additional
++-     constraints that others would have to observe.  */
+++  /* Update __g1_start, which closes this group.  The value we add will never
+++     be negative because old_orig_size can only be zero when we switch groups
+++     the first time after a condvar was initialized, in which case G1 will be
+++     at index 1 and we will add a value of 1. Relaxed MO is fine because the
+++     change comes with no additional constraints that others would have to
+++     observe.  */
 +   __condvar_add_g1_start_relaxed (cond,
 +       (old_orig_size << 1) + (g1 == 1 ? 1 : - 1));
 + 
-+-  /* Now reopen the group, thus enabling waiters to again block using the
-+-     futex controlled by __g_signals.  Release MO so that observers that see
-+-     no signals (and thus can block) also see the write __g1_start and thus
-+-     that this is now a new group (see __pthread_cond_wait_common for the
-+-     matching acquire MO loads).  */
-+-  atomic_store_release (cond->__data.__g_signals + g1, 0);
-++  unsigned int lowseq = ((old_g1_start + old_orig_size) << 1) & ~1U;
-++
-++  /* If any waiters still hold group references (and thus could be blocked),
-++     then wake them all up now and prevent any running ones from blocking.
-++     This is effectively a catch-all for any possible current or future
-++     bugs that can allow the group size to reach 0 before all G1 waiters
-++     have been awakened or at least given signals to consume, or any
-++     other case that can leave blocked (or about to block) older waiters..  */
-++  if ((atomic_fetch_or_release (cond->__data.__g_refs + g1, 0) >> 1) > 0)
-++   {
-++    /* First advance signals to the end of the group (i.e. enough signals
-++       for the entire G1 group) to ensure that waiters which have not
-++       yet blocked in the futex will not block.
-++       Note that in the vast majority of cases, this should never
-++       actually be necessary, since __g_signals will have enough
-++       signals for the remaining g_refs waiters.  As an optimization,
-++       we could check this first before proceeding, although that
-++       could still leave the potential for futex lost wakeup bugs
-++       if the signal count was non-zero but the futex wakeup
-++       was somehow lost.  */
-++    atomic_store_release (cond->__data.__g_signals + g1, lowseq);
-++
-++    futex_wake (cond->__data.__g_signals + g1, INT_MAX, private);
-++   }
++diff --git a/nptl/pthread_cond_signal.c b/nptl/pthread_cond_signal.c
++index 14800ba0..a9bc10dc 100644
++--- a/nptl/pthread_cond_signal.c
+++++ b/nptl/pthread_cond_signal.c
++@@ -69,18 +69,17 @@ ___pthread_cond_signal (pthread_cond_t *cond)
++   bool do_futex_wake = false;
 + 
-+   /* At this point, the old G1 is now a valid new G2 (but not in use yet).
-+      No old waiter can neither grab a signal nor acquire a reference without
-+@@ -311,6 +272,10 @@ __condvar_quiesce_and_switch_g1 (pthread_cond_t *cond, uint64_t wseq,
-+   g1 ^= 1;
-+   *g1index ^= 1;
-+ 
-++  /* Now advance the new G1 g_signals to the new lowseq, giving it
-++     an effective signal count of 0 to start.  */
-++  atomic_store_release (cond->__data.__g_signals + g1, lowseq);
-++
-+   /* These values are just observed by signalers, and thus protected by the
-+      lock.  */
-+   unsigned int orig_size = wseq - (old_g1_start + old_orig_size);
++   /* If G1 is still receiving signals, we put the signal there.  If not, we
++-     check if G2 has waiters, and if so, quiesce and switch G1 to the former
++-     G2; if this results in a new G1 with waiters (G2 might have cancellations
++-     already, see __condvar_quiesce_and_switch_g1), we put the signal in the
++-     new G1.  */
+++     check if G2 has waiters, and if so, switch G1 to the former G2; if this
+++     results in a new G1 with waiters (G2 might have cancellations already,
+++     see __condvar_switch_g1), we put the signal in the new G1. */
++   if ((cond->__data.__g_size[g1] != 0)
++-      || __condvar_quiesce_and_switch_g1 (cond, wseq, &g1, private))
+++      || __condvar_switch_g1 (cond, wseq, &g1, private))
++     {
++       /* Add a signal.  Relaxed MO is fine because signaling does not need to
++-	 establish a happens-before relation (see above).  We do not mask the
++-	 release-MO store when initializing a group in
++-	 __condvar_quiesce_and_switch_g1 because we use an atomic
++-	 read-modify-write and thus extend that store's release sequence.  */
+++         establish a happens-before relation (see above).  We do not mask the
+++         release-MO store when initializing a group in __condvar_switch_g1
+++         because we use an atomic read-modify-write and thus extend that
+++         store's release sequence.  */
++       atomic_fetch_add_relaxed (cond->__data.__g_signals + g1, 2);
++       cond->__data.__g_size[g1]--;
++       /* TODO Only set it if there are indeed futex waiters.  */
 +diff --git a/nptl/pthread_cond_wait.c b/nptl/pthread_cond_wait.c
-+index 20c348a5..1cb3dbf7 100644
++index adf26a80..40a74342 100644
 +--- a/nptl/pthread_cond_wait.c
 ++++ b/nptl/pthread_cond_wait.c
-+@@ -238,9 +238,7 @@ __condvar_cleanup_waiting (void *arg)
-+    signaled), and a reference count.
-+ 
-+    The group reference count is used to maintain the number of waiters that
-+-   are using the group's futex.  Before a group can change its role, the
-+-   reference count must show that no waiters are using the futex anymore; this
-+-   prevents ABA issues on the futex word.
-++   are using the group's futex.
-+ 
-+    To represent which intervals in the waiter sequence the groups cover (and
-+    thus also which group slot contains G1 or G2), we use a 64b counter to
-+@@ -300,11 +298,12 @@ __condvar_cleanup_waiting (void *arg)
-+        last reference.
-+      * Reference count used by waiters concurrently with signalers that have
-+        acquired the condvar-internal lock.
-+-   __g_signals: The number of signals that can still be consumed.
-++   __g_signals: The number of signals that can still be consumed, relative to
-++     the current g1_start.  (i.e. bits 31 to 1 of __g_signals are bits
-++     31 to 1 of g1_start with the signal count added)
-+      * Used as a futex word by waiters.  Used concurrently by waiters and
-+        signalers.
-+-     * LSB is true iff this group has been completely signaled (i.e., it is
-+-       closed).
-++     * LSB is currently reserved and 0.
-+    __g_size: Waiters remaining in this group (i.e., which have not been
-+      signaled yet.
-+      * Accessed by signalers and waiters that cancel waiting (both do so only
-+@@ -328,18 +327,6 @@ __condvar_cleanup_waiting (void *arg)
-+    sufficient because if a waiter can see a sufficiently large value, it could
-+    have also consume a signal in the waiters group.
-+ 
-+-   Waiters try to grab a signal from __g_signals without holding a reference
-+-   count, which can lead to stealing a signal from a more recent group after
-+-   their own group was already closed.  They cannot always detect whether they
-+-   in fact did because they do not know when they stole, but they can
-+-   conservatively add a signal back to the group they stole from; if they
-+-   did so unnecessarily, all that happens is a spurious wake-up.  To make this
-+-   even less likely, __g1_start contains the index of the current g2 too,
-+-   which allows waiters to check if there aliasing on the group slots; if
-+-   there wasn't, they didn't steal from the current G1, which means that the
-+-   G1 they stole from must have been already closed and they do not need to
-+-   fix anything.
-+-
-+    It is essential that the last field in pthread_cond_t is __g_signals[1]:
-+    The previous condvar used a pointer-sized field in pthread_cond_t, so a
-+    PTHREAD_COND_INITIALIZER from that condvar implementation might only
-+@@ -435,6 +422,9 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++@@ -354,8 +354,7 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++      because we do not need to establish any happens-before relation with
++      signalers (see __pthread_cond_signal); modification order alone
++      establishes a total order of waiters/signals.  We do need acquire MO
++-     to synchronize with group reinitialization in
++-     __condvar_quiesce_and_switch_g1.  */
+++     to synchronize with group reinitialization in __condvar_switch_g1.  */
++   uint64_t wseq = __condvar_fetch_add_wseq_acquire (cond, 2);
++   /* Find our group's index.  We always go into what was G2 when we acquired
++      our position.  */
++@@ -387,9 +386,9 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
 +     {
-+       while (1)
-+ 	{
-++          uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
-++          unsigned int lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
-++
-+ 	  /* Spin-wait first.
-+ 	     Note that spinning first without checking whether a timeout
-+ 	     passed might lead to what looks like a spurious wake-up even
-+@@ -446,35 +436,45 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+ 	     having to compare against the current time seems to be the right
-+ 	     choice from a performance perspective for most use cases.  */
-+ 	  unsigned int spin = maxspin;
-+-	  while (signals == 0 && spin > 0)
-++	  while (spin > 0 && ((int)(signals - lowseq) < 2))
-+ 	    {
-+ 	      /* Check that we are not spinning on a group that's already
-+ 		 closed.  */
-+-	      if (seq < (__condvar_load_g1_start_relaxed (cond) >> 1))
-+-		goto done;
-++	      if (seq < (g1_start >> 1))
-++		break;
-+ 
-+ 	      /* TODO Back off.  */
-+ 
-+ 	      /* Reload signals.  See above for MO.  */
-+ 	      signals = atomic_load_acquire (cond->__data.__g_signals + g);
-++              g1_start = __condvar_load_g1_start_relaxed (cond);
-++              lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
-+ 	      spin--;
-+ 	    }
-+ 
-+-	  /* If our group will be closed as indicated by the flag on signals,
-+-	     don't bother grabbing a signal.  */
-+-	  if (signals & 1)
-+-	    goto done;
-+-
-+-	  /* If there is an available signal, don't block.  */
-+-	  if (signals != 0)
-++          if (seq < (g1_start >> 1))
-++	    {
-++              /* If the group is closed already,
-++	         then this waiter originally had enough extra signals to
-++	         consume, up until the time its group was closed.  */
-++	       goto done;
-++            }
-++
-++	  /* If there is an available signal, don't block.
-++             If __g1_start has advanced at all, then we must be in G1
-++	     by now, perhaps in the process of switching back to an older
-++	     G2, but in either case we're allowed to consume the available
-++	     signal and should not block anymore.  */
-++	  if ((int)(signals - lowseq) >= 2)
-+ 	    break;
-+ 
-+ 	  /* No signals available after spinning, so prepare to block.
-+ 	     We first acquire a group reference and use acquire MO for that so
-+ 	     that we synchronize with the dummy read-modify-write in
-+ 	     __condvar_quiesce_and_switch_g1 if we read from that.  In turn,
-+-	     in this case this will make us see the closed flag on __g_signals
-+-	     that designates a concurrent attempt to reuse the group's slot.
-++	     in this case this will make us see the advancement of __g_signals
-++	     to the upcoming new g1_start that occurs with a concurrent
-++	     attempt to reuse the group's slot.
-+ 	     We use acquire MO for the __g_signals check to make the
-+ 	     __g1_start check work (see spinning above).
-+ 	     Note that the group reference acquisition will not mask the
-+@@ -482,15 +482,24 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+ 	     an atomic read-modify-write operation and thus extend the release
-+ 	     sequence.  */
-+ 	  atomic_fetch_add_acquire (cond->__data.__g_refs + g, 2);
-+-	  if (((atomic_load_acquire (cond->__data.__g_signals + g) & 1) != 0)
-+-	      || (seq < (__condvar_load_g1_start_relaxed (cond) >> 1)))
-++	  signals = atomic_load_acquire (cond->__data.__g_signals + g);
-++          g1_start = __condvar_load_g1_start_relaxed (cond);
-++          lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
-++
-++          if (seq < (g1_start >> 1))
-+ 	    {
-+-	      /* Our group is closed.  Wake up any signalers that might be
-+-		 waiting.  */
-++              /* group is closed already, so don't block */
-+ 	      __condvar_dec_grefs (cond, g, private);
-+ 	      goto done;
-+ 	    }
-+ 
-++	  if ((int)(signals - lowseq) >= 2)
-++	    {
-++	      /* a signal showed up or G1/G2 switched after we grabbed the refcount */
-++	      __condvar_dec_grefs (cond, g, private);
-++	      break;
-++            }
-++
-+ 	  // Now block.
-+ 	  struct _pthread_cleanup_buffer buffer;
-+ 	  struct _condvar_cleanup_buffer cbuffer;
-+@@ -501,7 +510,7 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+ 	  __pthread_cleanup_push (&buffer, __condvar_cleanup_waiting, &cbuffer);
-+ 
-+ 	  err = __futex_abstimed_wait_cancelable64 (
-+-	    cond->__data.__g_signals + g, 0, clockid, abstime, private);
-++	    cond->__data.__g_signals + g, signals, clockid, abstime, private);
-+ 
-+ 	  __pthread_cleanup_pop (&buffer, 0);
-+ 
-+@@ -524,6 +533,8 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+ 	  signals = atomic_load_acquire (cond->__data.__g_signals + g);
-+ 	}
-+ 
-++       if (seq < (__condvar_load_g1_start_relaxed (cond) >> 1))
-++	 goto done;
-+     }
-+   /* Try to grab a signal.  Use acquire MO so that we see an up-to-date value
-+      of __g1_start below (see spinning above for a similar case).  In
-+@@ -532,69 +543,6 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+   while (!atomic_compare_exchange_weak_acquire (cond->__data.__g_signals + g,
-+ 						&signals, signals - 2));
-+ 
-+-  /* We consumed a signal but we could have consumed from a more recent group
-+-     that aliased with ours due to being in the same group slot.  If this
-+-     might be the case our group must be closed as visible through
-+-     __g1_start.  */
-+-  uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
-+-  if (seq < (g1_start >> 1))
-+-    {
-+-      /* We potentially stole a signal from a more recent group but we do not
-+-	 know which group we really consumed from.
-+-	 We do not care about groups older than current G1 because they are
-+-	 closed; we could have stolen from these, but then we just add a
-+-	 spurious wake-up for the current groups.
-+-	 We will never steal a signal from current G2 that was really intended
-+-	 for G2 because G2 never receives signals (until it becomes G1).  We
-+-	 could have stolen a signal from G2 that was conservatively added by a
-+-	 previous waiter that also thought it stole a signal -- but given that
-+-	 that signal was added unnecessarily, it's not a problem if we steal
-+-	 it.
-+-	 Thus, the remaining case is that we could have stolen from the current
-+-	 G1, where "current" means the __g1_start value we observed.  However,
-+-	 if the current G1 does not have the same slot index as we do, we did
-+-	 not steal from it and do not need to undo that.  This is the reason
-+-	 for putting a bit with G2's index into__g1_start as well.  */
-+-      if (((g1_start & 1) ^ 1) == g)
-+-	{
-+-	  /* We have to conservatively undo our potential mistake of stealing
-+-	     a signal.  We can stop trying to do that when the current G1
-+-	     changes because other spinning waiters will notice this too and
-+-	     __condvar_quiesce_and_switch_g1 has checked that there are no
-+-	     futex waiters anymore before switching G1.
-+-	     Relaxed MO is fine for the __g1_start load because we need to
-+-	     merely be able to observe this fact and not have to observe
-+-	     something else as well.
-+-	     ??? Would it help to spin for a little while to see whether the
-+-	     current G1 gets closed?  This might be worthwhile if the group is
-+-	     small or close to being closed.  */
-+-	  unsigned int s = atomic_load_relaxed (cond->__data.__g_signals + g);
-+-	  while (__condvar_load_g1_start_relaxed (cond) == g1_start)
-+-	    {
-+-	      /* Try to add a signal.  We don't need to acquire the lock
-+-		 because at worst we can cause a spurious wake-up.  If the
-+-		 group is in the process of being closed (LSB is true), this
-+-		 has an effect similar to us adding a signal.  */
-+-	      if (((s & 1) != 0)
-+-		  || atomic_compare_exchange_weak_relaxed
-+-		       (cond->__data.__g_signals + g, &s, s + 2))
-+-		{
-+-		  /* If we added a signal, we also need to add a wake-up on
-+-		     the futex.  We also need to do that if we skipped adding
-+-		     a signal because the group is being closed because
-+-		     while __condvar_quiesce_and_switch_g1 could have closed
-+-		     the group, it might stil be waiting for futex waiters to
-+-		     leave (and one of those waiters might be the one we stole
-+-		     the signal from, which cause it to block using the
-+-		     futex).  */
-+-		  futex_wake (cond->__data.__g_signals + g, 1, private);
-+-		  break;
-+-		}
-+-	      /* TODO Back off.  */
-+-	    }
-+-	}
-+-    }
-+-
-+  done:
-+ 
-+   /* Confirm that we have been woken.  We do that before acquiring the mutex
++       /* Now wait until a signal is available in our group or it is closed.
++          Acquire MO so that if we observe (signals == lowseq) after group
++-         switching in __condvar_quiesce_and_switch_g1, we synchronize with that
++-         store and will see the prior update of __g1_start done while switching
++-         groups too.  */
+++         switching in __condvar_switch_g1, we synchronize with that store and
+++         will see the prior update of __g1_start done while switching groups
+++         too.  */
++       unsigned int signals = atomic_load_acquire (cond->__data.__g_signals + g);
++       uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
++       unsigned int lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
 +-- 
 +2.49.0
 +
 diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
-index ca7f630699..15179899d4 100644
+index 7ef2c8cb4c..265dcb9129 100644
 --- a/meta/recipes-core/glibc/glibc_2.35.bb
 +++ b/meta/recipes-core/glibc/glibc_2.35.bb
-@@ -62,6 +62,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0022-sysdeps-gnu-configure.ac-Set-libc_cv_rootsbindir-onl.patch \
-            file://0023-timezone-Make-shell-interpreter-overridable-in-tzsel.patch \
-            file://0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-+           file://0026-PR25847-1.patch \
+@@ -69,6 +69,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0026-PR25847-5.patch \
+            file://0026-PR25847-6.patch \
+            file://0026-PR25847-7.patch \
++           file://0026-PR25847-8.patch \
             \
             file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
             file://0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch \
