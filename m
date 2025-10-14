@@ -2,136 +2,141 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A5C2CCD187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 566BBCCD184
 	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 06:58:47 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.9019.1760425124815608406
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.9020.1760425126799772552
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Oct 2025 23:58:44 -0700
+ Mon, 13 Oct 2025 23:58:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Cr/0BL/O;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2382c2f518=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59E5Dg292937678
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 23:58:44 -0700
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=jvmamEzR;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2382c2f518=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59E5eKkR3727090
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 06:58:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=WCDXcclOkSiSesaZZpv/
-	Zoc9UyaJXMs0P98stz88yzM=; b=Cr/0BL/OoTolXK7WLpRToV3Dmg6R494GkZ06
-	OU8IXQtbYy08+MF/3RvMrGg/aYvx9EG9vvNT1xZhLYmwk4jWGBpFGGLst6a9/S0s
-	7HawIQGH/4sl7MD9WNrq3hRupKIlP+n+GxMjNxdacdrnkANyrW/BiTI+2B7wKp3Y
-	dqqwhVKOWyxuEU/mPu1AIb9gwGNrFkQNxi6rYb9d+0iS8rrRMYWEmZciLbK4/wp7
-	Ke0GHRkxKBjMJan0IhzuQBKc7CysAw0i/neBlcPkoozp+j2Wk5l6aE6O/arq6vOa
-	xiiMq4bR0UnhWYwjqJMWPSlBtc5lU+lC98Aiz+33tAj8UZGZoA==
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=0MJPfD5YV2VBIPsEn0oBVB+0oo7TidZ3tftcYO4J/yU=; b=jvmamEzRXEZ4
+	0cmyhJwucX2QUhjDrOvWJFJjuU/TuQ6wn/cwjb0Cq0s72iHWsju8NS/MSRg6K3KE
+	zUIoAzNN4TZn9D6C19cBhXsPsst9E3itQIRhCiIHoW5+5tapWiA/v6ShgYB1Iy0n
+	bDeJYEe3xELsuAvxpwNzi+PPmgTwKd820X8vAX0RSZZZj2HMfCCex9a7rxLjy0c5
+	uQKK8zQqrIcffDI+fd3Yp13J2cnzhwwFCnaAnT4QTtZtNBO+Zvs0442HptjwBstc
+	m0j6V62cX26wg7/SFueWRzkYJE+RoGTt5cc6FPrIVkZOsTqACYxcPzSmSJLQ7Mig
+	fTKNX4kohQ==
 Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qjh1jm8j-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qcewjudh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Oct 2025 23:58:44 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 06:58:45 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Mon, 13 Oct 2025 23:58:43 -0700
+ 15.1.2507.59; Mon, 13 Oct 2025 23:58:44 -0700
 Received: from pek-lpg-core5.wrs.com (10.11.232.110) by
  ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Mon, 13 Oct 2025 23:58:43 -0700
+ 15.1.2507.59 via Frontend Transport; Mon, 13 Oct 2025 23:58:44 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/3] gpgme; 2.0.0 -> 2.0.1
-Date: Tue, 14 Oct 2025 14:58:40 +0800
-Message-ID: <20251014065842.2919308-1-hongxu.jia@windriver.com>
+Subject: [PATCH 2/3] libgpg-error: 1.55 -> 1.56
+Date: Tue, 14 Oct 2025 14:58:41 +0800
+Message-ID: <20251014065842.2919308-2-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251014065842.2919308-1-hongxu.jia@windriver.com>
+References: <20251014065842.2919308-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE0MDA1MyBTYWx0ZWRfX7FVfOwlVs69j
- ohVJmb7FQAEd9+RtZ6YJS2n+ZDRDflvvveuSi8ac52HOkN7PQMe3gm8NHV0BgvqeDlU3kh8Mp6h
- q0sJwGIBDhefeBg2fJeBO8FJIGoBq/qZiQ+pNrFPN85w4PrP7ZNs95eL6yyLDS6F5csC9Ez2Lzt
- uwEg9QkAof809+f9HK2WiBidg6SyRb4p/2/uqMs1FHD6I31FuuN5D/U8cil9jerw+Qb7Bv0DCTv
- MqL5ANHd2HS9ifNaYAYd/Tn/t5YXlEImOZMTkuFrlUxR5AWxqDj86Gt+QftlbRna20+aGA3zj2a
- t9qMA3J01IN/8niuyLmO2rU5mi2O3JiExWXafyGGT4v71zVc9Ld2TuwvHfEHAJyNMFfcwinawR8
- bNEjtU+jdTR1pvRdjXRJGg+ewKH4yw==
-X-Proofpoint-GUID: 6wE3QVQj_eM9XiQk4y0rp-0ypkxap6WD
-X-Proofpoint-ORIG-GUID: 6wE3QVQj_eM9XiQk4y0rp-0ypkxap6WD
-X-Authority-Analysis: v=2.4 cv=aetsXBot c=1 sm=1 tr=0 ts=68edf4a4 cx=c_pps
+X-Proofpoint-GUID: 5hr0ROU6ea5MpwiMfETpF-sb6dnqVaYm
+X-Proofpoint-ORIG-GUID: 5hr0ROU6ea5MpwiMfETpF-sb6dnqVaYm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE0MDA1MyBTYWx0ZWRfXxzKX/72jZIaD
+ ouxUmJp7xbJ+C97Dinrw9d1j2/NgwidNCB/nSlmbe/JB1majTDHS6mJIrUvJLV1R39FL9j1HKTV
+ fdCVGtQJ+Vq9j9ZfHop3bWDVdKgVo/3MYvfLrhxqD6/KVerVFGngIQCnLcczrdQH9SmRruKbfW1
+ qHrAMMrM5z4jLl5u+A4O5ClaBktL38/r7Y63b3jts2s8ybmnkYdfNwsBqGIv/SrC7NGpHMKGhnM
+ aMTtRgMlAT3BhwKb0QoH1bDFTBV8o+RLGlD1qg6IzboZ995Zj4G66eDHiKkDnLQ6e4yTCCb6uvK
+ 4vJe3APRFL2rt9sdfVjRd9Re68ciqr+9yVRmL6/PllpYKdQASFWzEJCOa/4xSElG0jiR1GvrCfV
+ xz/Wb8ZcuqMD3KXEv/on+ZuFnTtxDQ==
+X-Authority-Analysis: v=2.4 cv=M+xA6iws c=1 sm=1 tr=0 ts=68edf4a5 cx=c_pps
  a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
  a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8
- a=GjhjpPi7WRqdmPGd4GgA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=btDEojJCkjEMEoxrCysA:9 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 spamscore=0 suspectscore=0 phishscore=0
- malwarescore=0 clxscore=1015 impostorscore=0 bulkscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 adultscore=0 phishscore=0
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510140053
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 06:58:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224809
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224811
 
-- Refresh 0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
+- Refresh pkgconfig.patch
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...uild-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch | 11 +++++++----
- .../gpgme/{gpgme_2.0.0.bb => gpgme_2.0.1.bb}          |  2 +-
+ .../libgpg-error/libgpg-error/pkgconfig.patch         | 11 +++++++----
+ .../{libgpg-error_1.55.bb => libgpg-error_1.56.bb}    |  2 +-
  2 files changed, 8 insertions(+), 5 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme_2.0.0.bb => gpgme_2.0.1.bb} (96%)
+ rename meta/recipes-support/libgpg-error/{libgpg-error_1.55.bb => libgpg-error_1.56.bb} (95%)
 
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-index 2a906a6c73..4b8d1ceecd 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-@@ -1,6 +1,6 @@
--From 95d0bae453b2b5a7d25b92d99565d27407fffa1b Mon Sep 17 00:00:00 2001
-+From 6ad1ac8c03ae3acc0539fc1566070e2468c7df0a Mon Sep 17 00:00:00 2001
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+index dbf728b2de..38c55ad342 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
++++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+@@ -1,4 +1,4 @@
+-From 3529df77cd20253ce2a9c1962d7a72058a04fd98 Mon Sep 17 00:00:00 2001
++From fdc0b6f84bae7cd6eea18712049da62cdfd5e630 Mon Sep 17 00:00:00 2001
  From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Fri, 10 May 2019 14:18:04 +0800
-+Date: Tue, 14 Oct 2025 14:12:55 +0800
- Subject: [PATCH] Revert "build: Make gpgme.m4 use gpgrt-config with *.pc."
+ Date: Wed, 21 Aug 2024 20:03:29 -0700
+ Subject: [PATCH] support pkgconfig
+@@ -20,7 +20,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+), 195 deletions(-)
  
- This reverts commit 60828a505a1c74fd34476c181df2a588ea6f9c83.
-@@ -15,7 +15,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 8 insertions(+), 46 deletions(-)
- 
- diff --git a/src/gpgme.m4 b/src/gpgme.m4
--index 4cfe899..5f689e1 100644
-+index acbfc1c..5f689e1 100644
- --- a/src/gpgme.m4
- +++ b/src/gpgme.m4
- @@ -122,24 +122,10 @@ AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
-@@ -23,7 +23,7 @@ index 4cfe899..5f689e1 100644
-    fi
-  
- -  use_gpgrt_config=""
+ diff --git a/src/gpg-error.m4 b/src/gpg-error.m4
+-index 2d24071..c561725 100644
++index 263f21b..e54ab38 100644
+ --- a/src/gpg-error.m4
+ +++ b/src/gpg-error.m4
+ @@ -15,196 +15,14 @@
+@@ -167,11 +167,11 @@ index 2d24071..c561725 100644
+ -[ AC_REQUIRE([AC_CANONICAL_HOST])dnl
+ -  AC_REQUIRE([_AM_PATH_POSSIBLE_GPG_ERROR_CONFIG])dnl
+ -  AC_REQUIRE([_AM_PATH_GPGRT_CONFIG])dnl
 --  if test x"$GPGRT_CONFIG" != x -a "$GPGRT_CONFIG" != "no"; then
 +-  if test x"$GPGRT_CONFIG" != x && test "$GPGRT_CONFIG" != "no"; then
- -    if $GPGRT_CONFIG gpgme --exists; then
- -      GPGME_CONFIG="$GPGRT_CONFIG gpgme"
- -      AC_MSG_NOTICE([Use gpgrt-config as gpgme-config])
-@@ -113,3 +113,6 @@ index 4cfe899..5f689e1 100644
-      AC_MSG_RESULT(yes)
-      ifelse([$2], , :, [$2])
-      _AM_PATH_GPGME_CONFIG_HOST_CHECK
+ -    GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
+ -    AC_MSG_NOTICE([Use gpgrt-config with $gpgrt_libdir as gpg-error-config])
+ -    gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
+--  elif test x"$GPG_ERROR_CONFIG" != x -a "$GPG_ERROR_CONFIG" != "no"; then
++-  elif test x"$GPG_ERROR_CONFIG" != x && test "$GPG_ERROR_CONFIG" != "no"; then
+ -    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
+ -  else
+ -    gpg_error_config_version="0.0"
+@@ -241,3 +241,6 @@ index 2d24071..c561725 100644
+ -  AC_SUBST(GPG_ERROR_MT_LIBS)
+  ])
+ +
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-support/gpgme/gpgme_2.0.0.bb b/meta/recipes-support/gpgme/gpgme_2.0.1.bb
-similarity index 96%
-rename from meta/recipes-support/gpgme/gpgme_2.0.0.bb
-rename to meta/recipes-support/gpgme/gpgme_2.0.1.bb
-index c6887a0ebd..364147fad5 100644
---- a/meta/recipes-support/gpgme/gpgme_2.0.0.bb
-+++ b/meta/recipes-support/gpgme/gpgme_2.0.1.bb
-@@ -24,7 +24,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://0001-autogen.sh-remove-unknown-in-version.patch \
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.55.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.56.bb
+similarity index 95%
+rename from meta/recipes-support/libgpg-error/libgpg-error_1.55.bb
+rename to meta/recipes-support/libgpg-error/libgpg-error_1.56.bb
+index 7de52314a4..d3cc88f971 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.55.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.56.bb
+@@ -19,7 +19,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+            file://run-ptest \
             "
  
--SRC_URI[sha256sum] = "ddf161d3c41ff6a3fcbaf4be6c6e305ca4ef1cc3f1ecdfce0c8c2a167c0cc36d"
-+SRC_URI[sha256sum] = "821ab0695c842eab51752a81980c92b0410c7eadd04103f791d5d2a526784966"
+-SRC_URI[sha256sum] = "95b178148863f07d45df0cea67e880a79b9ef71f5d230baddc0071128516ef78"
++SRC_URI[sha256sum] = "82c3d2deb4ad96ad3925d6f9f124fe7205716055ab50e291116ef27975d169c0"
  
- DEPENDS = "libgpg-error libassuan"
+ BINCONFIG = "${bindir}/gpg-error-config"
  
 -- 
 2.34.1
