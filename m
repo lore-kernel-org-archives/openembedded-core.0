@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5D37CCD197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97356CCD184
 	for <webhook@archiver.kernel.org>; Tue, 14 Oct 2025 22:45:17 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web11.2580.1760481912581889073
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.2521.1760481914014727207
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Oct 2025 15:45:12 -0700
+ Tue, 14 Oct 2025 15:45:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Tytpzupz;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b550a522a49so4856287a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 15:45:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OLH/kkJ0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-27c369f898fso84710215ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 15:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760481912; x=1761086712; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760481913; x=1761086713; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/bSv9Jjr29pQHQmmMlpqj3cUyO7lAlMf96YU4p4vA8A=;
-        b=Tytpzupz/5hRedG3Cladiit21Hl6Vftv2u3p1O2MRYwMntxjjhQwdtzwom8ITJ/7Yc
-         qLrrBvvhYeBlcAn/5db7CFCkWPJ21lakcNaqmy4chKay99X4hfHx5UAwzWb4FI+QVRgu
-         T2Ru/UqguwY/yRN7Ekb7SSFL7phoYzOQpPmUiDJtMSvoCJpeq8562OnzJUQBuARqAo7W
-         jxw71M8BJGCSNwVv8DPDWHBjjZOmawsUiLg+oyqqrL94esaflE5W4xEClVMWQWTqiGcb
-         tkxYADi2miwqWildeietOvDoWub9mNoInpA5bkBqSEHKSZ4sdsIfMG017X2/gjifayu4
-         P0WA==
+        bh=o7RDkLUWowFPw+2PFZjFHI4glTHju6UNbdMufEcWvLY=;
+        b=OLH/kkJ06GSi5Dnqax923ufEA7o+/amdFmtnTOxw+JjEy8HXUOwxsjseGf0OMtCRyE
+         YKc1u1jgqhJJsrlKbmIEFLbK4nJk1537PfrDywWiTaqSwL6HrP2WlzbFTb0cU1izRUds
+         fzy+s26LFrHj21uCPzsNQDOszlSPePmMUxhtPaK1RAt85mfSvCfst8LO6g5gcftiivE0
+         KMdG2mU6O0DWdSNKX+ohlmleZ/Q8hXPBaxLKZNI14BUQ8OqiRmGBqnnHidZNvlxlX6M7
+         uPMVECXokJNvHh+eKivQpGlHurh/TANp4zY/jKWXG7fvi1flWWmtfsbBJxJ+N4hRFiON
+         9hVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760481912; x=1761086712;
+        d=1e100.net; s=20230601; t=1760481913; x=1761086713;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/bSv9Jjr29pQHQmmMlpqj3cUyO7lAlMf96YU4p4vA8A=;
-        b=W5l5ZWR/J1V0mQxbWFFrgJqK1d0vnLubrbvRHw4YL8GvPsDiOTDpto2nlw0g9DTlBk
-         NSLuzJYq6P3ycJQP0jeiDxRDle+WQ3VB1kx9LJs+sGYNSI5nV9dqeSD17flR9v1rwpX4
-         9v9a7fNlPsltHjqMGpNFQfEG17ZXf9zkL8Rjw6v1vHJi02Xql52MMTP0B0WMrRpCYhFo
-         nk8WljXvNaWGQRgwwn2BJzxebYy7BqGSjb6BOoCW56sCIo1v7dXekpr1l85H1pB2LlgP
-         NjgpQ0OnUx4XMGWVGBCS510a2KPtHI9dVgRUBftd7k4X9/wYV50xixMy5565YRkuT1kb
-         fRuw==
-X-Gm-Message-State: AOJu0Yw+TQOk3HcS/GvtviJ9e6W2dIK41jOOnrJlosueO5a42rAi1QM9
-	0X4c0neVto1KNx3/Xw5/25qB0+QCPRRSo8I6jkCcgVAcLAS4w4plBx53bfoFFuKp8xpvvYSQG9Z
-	TK9lc
-X-Gm-Gg: ASbGncueNqUnnJ3/2XAfY4Ww1DE4qq05lOFpBgT/LT1S2twlRitt94u1uKsgwP5PEtu
-	6eCklFF8LpT9kabu3Diy7illoBYCKPF/M9PTEJcoZTZdontvkn8yZf9VK1mp4ibayNiMgx/T6a0
-	saTM9dDWawMIozXRa0fEShZebhhtD5lKielh7RZnJAdkLIrkp3UHPIgYa54qcpI49TL+YED+UvP
-	Cs01sym6ypGtldxGgkOfe3PlxO34Rief7rKpLM/HfEpQpvPqupp4thJf0o965PYxEFde2X03a0U
-	wuTkUGNPr44dV+GEjX5QPrrX9pqAte0PD8Nh4/caSjB2Cqq32KWMFOC4SaGECWveE7NFIXcDbtA
-	7/UT5WYjFa4MY+zV7tj7uGhpZ34KttMuHNcKNJYtxJKw=
-X-Google-Smtp-Source: AGHT+IGdyrZW9fwfwfIXrxBIyUUZUIL2PMJJIzXUUoRKHdimM3PYaRgBwXbWqVloDrggUsfTXNe6Sw==
-X-Received: by 2002:a17:902:ce81:b0:266:f01a:98c4 with SMTP id d9443c01a7336-2902723e35cmr376298225ad.13.1760481911676;
-        Tue, 14 Oct 2025 15:45:11 -0700 (PDT)
+        bh=o7RDkLUWowFPw+2PFZjFHI4glTHju6UNbdMufEcWvLY=;
+        b=oVj5ex59nWKf7M4gOrBtBaALOoXjDUGoNSqU+T6apKmqmBEkwWNaqZtx/4gpiNdjdt
+         wQd4jUWTvHO6Eruwf/sGcK6eWy/pNqzn9kz92gwf19YUctHdZTha9ToN5Fqc20VcMYaz
+         aElrdLxULOrhuPQdk8cHjHJF+Bi//rkBv0o8xjZbhhCYkFKdqhVnGJSaI5oyVZ/kkith
+         L3nRvzcU4JL2p2IYdcB8srHdT2Wz6Hi7mmvASxMd6Val0Ty1NJEHLERR3beocYCxHczt
+         9GYd3dUYT4pRaoPJwiAGnosBcensCqUEF4Ry25dPd2zA8DDhhkMuweGnUF5YkZ5f0cTO
+         pZ0g==
+X-Gm-Message-State: AOJu0YxZ0sgLMTMFUEJkdHu/lEmJNSKabNUGKs+IGnczZHb87Uwx9E9H
+	5DE83D+iOblpwhyVVcfDS4j1Y2LlS3LiwUPs4X1u+x8K9ONzfIAG/9W2CYfexCctua8+nDMQyJt
+	sMX8L
+X-Gm-Gg: ASbGncsu5Mb3u9OtPlm+feeBC2fOhEfpP9LShhN9pGYVBCw3yr11dVPjwfz5EweTJvS
+	wNPXkmV2xhTCFQpAYE3AIPywu0nYaQfS6yylszdFBMRTjfXbON7hI/YQNUMfP38hSdbQjrsFoIt
+	8Ey/lvqh8EY6m6Yo4JWWepiEAaRxDWJ1SQm6Z33+bGK7x+NTHEp8LlonvDsays9Np5BOZUFnQGy
+	g4tTEg6g1Pg0+fvtXTq/zatcxAFevnpuc77yFQD70rxfQjbUMleOkwYdPdLh6VkozCHFDVJopn7
+	qNzYcsb/vRyM+Y+ssTyBU7KOAQAhEUGZb0W4GTWf1ep/OL/MOB7MvF4hzDq9Y/neVJxQ40VaDYa
+	mZkheD2iwzW02oLulXeXW1JbtqmSdi3WYcDX7dBNzdYY=
+X-Google-Smtp-Source: AGHT+IGyk6RhdDmmQYRKa43EWL5xy59i1Kmz2auZR5K0UsuCeOok5NwbH2acEVA9iI6lHZYGamQSvg==
+X-Received: by 2002:a17:903:9cb:b0:24d:f9f:de8f with SMTP id d9443c01a7336-2902723ca52mr370275655ad.17.1760481913135;
+        Tue, 14 Oct 2025 15:45:13 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:ebea:520a:7699:bba7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034e20479sm174847365ad.47.2025.10.14.15.45.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034e20479sm174847365ad.47.2025.10.14.15.45.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 15:45:11 -0700 (PDT)
+        Tue, 14 Oct 2025 15:45:12 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/14] glibc: Remove g_refs from condition variables
-Date: Tue, 14 Oct 2025 15:44:46 -0700
-Message-ID: <1972b6776fa8a23b9d373d516ace32e136e9058f.1760481775.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/14] glibc: nptl Use a single loop in pthread_cond_wait instaed of a nested loop
+Date: Tue, 14 Oct 2025 15:44:47 -0700
+Message-ID: <75bbc8cb3a94640120d778916abb2edf78b89fd0.1760481775.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1760481775.git.steve@sakoman.com>
 References: <cover.1760481775.git.steve@sakoman.com>
@@ -68,226 +68,141 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Oct 2025 22:45:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224863
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224864
 
 From: Sunil Dora <sunilkumar.dora@windriver.com>
 
 The following commits have been cherry-picked from Glibc master branch:
 Bug : https://sourceware.org/bugzilla/show_bug.cgi?id=25847
-  [1] https://sourceware.org/git/?p=glibc.git;a=commit;h=c36fc50781995e6758cae2b6927839d0157f213c
-  [2] https://sourceware.org/pipermail/libc-stable/2025-July/002278.html
+  [1] https://sourceware.org/git/?p=glibc.git;a=commit;h=929a4764ac90382616b6a21f099192b2475da674
+  [2] https://sourceware.org/pipermail/libc-stable/2025-July/002279.html
 
 Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../glibc/glibc/0026-PR25847-5.patch          | 188 ++++++++++++++++++
+ .../glibc/glibc/0026-PR25847-6.patch          | 103 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.35.bb         |   1 +
- 2 files changed, 189 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0026-PR25847-5.patch
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0026-PR25847-6.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0026-PR25847-5.patch b/meta/recipes-core/glibc/glibc/0026-PR25847-5.patch
+diff --git a/meta/recipes-core/glibc/glibc/0026-PR25847-6.patch b/meta/recipes-core/glibc/glibc/0026-PR25847-6.patch
 new file mode 100644
-index 0000000000..e50e942471
+index 0000000000..7d5c4fda5f
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0026-PR25847-5.patch
-@@ -0,0 +1,188 @@
-+From f904a81ff8d0469ceaf3220329e716c03fcbd2d3 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/0026-PR25847-6.patch
+@@ -0,0 +1,103 @@
++From bbd7c84a1a14bf93bf1e5976d8a1540aabbf901b Mon Sep 17 00:00:00 2001
 +From: Malte Skarupke <malteskarupke@fastmail.fm>
-+Date: Tue, 14 Oct 2025 05:59:02 -0700
-+Subject: [PATCH] nptl: Remove g_refs from condition variables
++Date: Tue, 14 Oct 2025 06:19:02 -0700
++Subject: [PATCH] nptl: Use a single loop in pthread_cond_wait instaed of a
++ nested loop
 +
-+This variable used to be needed to wait in group switching until all sleepers
-+have confirmed that they have woken. This is no longer needed. Nothing waits
-+on this variable so there is no need to track how many threads are currently
-+asleep in each group.
++The loop was a little more complicated than necessary. There was only one
++break statement out of the inner loop, and the outer loop was nearly empty.
++So just remove the outer loop, moving its code to the one break statement in
++the inner loop. This allows us to replace all gotos with break statements.
 +
 +The following commits have been cherry-picked from Glibc master branch:
 +Bug : https://sourceware.org/bugzilla/show_bug.cgi?id=25847
-+cmmit: c36fc50781995e6758cae2b6927839d0157f213c
++commit: 929a4764ac90382616b6a21f099192b2475da674
 +
 +Upstream-Status: Submitted
-+[https://sourceware.org/pipermail/libc-stable/2025-July/002278.html]
++[https://sourceware.org/pipermail/libc-stable/2025-July/002279.html]
 +
 +Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 +---
-+ nptl/pthread_cond_wait.c                | 52 +------------------------
-+ nptl/tst-cond22.c                       | 12 +++---
-+ sysdeps/nptl/bits/thread-shared-types.h |  3 +-
-+ sysdeps/nptl/pthread.h                  |  2 +-
-+ 4 files changed, 9 insertions(+), 60 deletions(-)
++ nptl/pthread_cond_wait.c | 41 +++++++++++++++++++---------------------
++ 1 file changed, 19 insertions(+), 22 deletions(-)
 +
 +diff --git a/nptl/pthread_cond_wait.c b/nptl/pthread_cond_wait.c
-+index 47e834ca..8a9219e0 100644
++index 8a9219e0..c8c99bbf 100644
 +--- a/nptl/pthread_cond_wait.c
 ++++ b/nptl/pthread_cond_wait.c
-+@@ -143,23 +143,6 @@ __condvar_cancel_waiting (pthread_cond_t *cond, uint64_t seq, unsigned int g,
++@@ -382,17 +382,15 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++       return err;
 +     }
-+ }
 + 
-+-/* Wake up any signalers that might be waiting.  */
-+-static void
-+-__condvar_dec_grefs (pthread_cond_t *cond, unsigned int g, int private)
-+-{
-+-  /* Release MO to synchronize-with the acquire load in
-+-     __condvar_quiesce_and_switch_g1.  */
-+-  if (atomic_fetch_add_release (cond->__data.__g_refs + g, -2) == 3)
++-  /* Now wait until a signal is available in our group or it is closed.
++-     Acquire MO so that if we observe (signals == lowseq) after group
++-     switching in __condvar_quiesce_and_switch_g1, we synchronize with that
++-     store and will see the prior update of __g1_start done while switching
++-     groups too.  */
++-  unsigned int signals = atomic_load_acquire (cond->__data.__g_signals + g);
++-
++-  do
 +-    {
-+-      /* Clear the wake-up request flag before waking up.  We do not need more
-+-	 than relaxed MO and it doesn't matter if we apply this for an aliased
-+-	 group because we wake all futex waiters right after clearing the
-+-	 flag.  */
-+-      atomic_fetch_and_relaxed (cond->__data.__g_refs + g, ~(unsigned int) 1);
-+-      futex_wake (cond->__data.__g_refs + g, INT_MAX, private);
-+-    }
-+-}
-+-
-+ /* Clean-up for cancellation of waiters waiting for normal signals.  We cancel
-+    our registration as a waiter, confirm we have woken up, and re-acquire the
-+    mutex.  */
-+@@ -171,8 +154,6 @@ __condvar_cleanup_waiting (void *arg)
-+   pthread_cond_t *cond = cbuffer->cond;
-+   unsigned g = cbuffer->wseq & 1;
+++
++       while (1)
++ 	{
+++	  /* Now wait until a signal is available in our group or it is closed.
+++	     Acquire MO so that if we observe (signals == lowseq) after group
+++	     switching in __condvar_quiesce_and_switch_g1, we synchronize with that
+++	     store and will see the prior update of __g1_start done while switching
+++	     groups too.  */
+++	  unsigned int signals = atomic_load_acquire (cond->__data.__g_signals + g);
++ 	  uint64_t g1_start = __condvar_load_g1_start_relaxed (cond);
++ 	  unsigned int lowseq = (g1_start & 1) == g ? signals : g1_start & ~1U;
 + 
-+-  __condvar_dec_grefs (cond, g, cbuffer->private);
-+-
-+   __condvar_cancel_waiting (cond, cbuffer->wseq >> 1, g, cbuffer->private);
-+   /* FIXME With the current cancellation implementation, it is possible that
-+      a thread is cancelled after it has returned from a syscall.  This could
-+@@ -327,15 +308,6 @@ __condvar_cleanup_waiting (void *arg)
-+    sufficient because if a waiter can see a sufficiently large value, it could
-+    have also consume a signal in the waiters group.
++@@ -401,7 +399,7 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++ 	      /* If the group is closed already,
++ 	         then this waiter originally had enough extra signals to
++ 	         consume, up until the time its group was closed.  */
++-	       goto done;
+++	       break;
++ 	    }
 + 
-+-   It is essential that the last field in pthread_cond_t is __g_signals[1]:
-+-   The previous condvar used a pointer-sized field in pthread_cond_t, so a
-+-   PTHREAD_COND_INITIALIZER from that condvar implementation might only
-+-   initialize 4 bytes to zero instead of the 8 bytes we need (i.e., 44 bytes
-+-   in total instead of the 48 we need).  __g_signals[1] is not accessed before
-+-   the first group switch (G2 starts at index 0), which will set its value to
-+-   zero after a harmless fetch-or whose return value is ignored.  This
-+-   effectively completes initialization.
-+-
-+ 
-+    Limitations:
-+    * This condvar isn't designed to allow for more than
-+@@ -440,21 +412,6 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++ 	  /* If there is an available signal, don't block.
++@@ -410,7 +408,16 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++ 	     G2, but in either case we're allowed to consume the available
++ 	     signal and should not block anymore.  */
 + 	  if ((int)(signals - lowseq) >= 2)
-+ 	    break;
++-	    break;
+++           {
+++             /* Try to grab a signal.  See above for MO.  (if we do another loop
+++                iteration we need to see the correct value of g1_start)  */
+++                     if (atomic_compare_exchange_weak_acquire (
+++                               cond->__data.__g_signals + g,
+++                       &signals, signals - 2))
+++                       break;
+++                     else
+++                       continue;
+++           }
 + 
-+-	  /* No signals available after spinning, so prepare to block.
-+-	     We first acquire a group reference and use acquire MO for that so
-+-	     that we synchronize with the dummy read-modify-write in
-+-	     __condvar_quiesce_and_switch_g1 if we read from that.  In turn,
-+-	     in this case this will make us see the advancement of __g_signals
-+-	     to the upcoming new g1_start that occurs with a concurrent
-+-	     attempt to reuse the group's slot.
-+-	     We use acquire MO for the __g_signals check to make the
-+-	     __g1_start check work (see spinning above).
-+-	     Note that the group reference acquisition will not mask the
-+-	     release MO when decrementing the reference count because we use
-+-	     an atomic read-modify-write operation and thus extend the release
-+-	     sequence.  */
-+-	  atomic_fetch_add_acquire (cond->__data.__g_refs + g, 2);
-+-
 + 	  // Now block.
 + 	  struct _pthread_cleanup_buffer buffer;
-+ 	  struct _condvar_cleanup_buffer cbuffer;
-+@@ -471,18 +428,11 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
-+ 
-+ 	  if (__glibc_unlikely (err == ETIMEDOUT || err == EOVERFLOW))
-+ 	    {
-+-	      __condvar_dec_grefs (cond, g, private);
-+-	      /* If we timed out, we effectively cancel waiting.  Note that
-+-		 we have decremented __g_refs before cancellation, so that a
-+-		 deadlock between waiting for quiescence of our group in
-+-		 __condvar_quiesce_and_switch_g1 and us trying to acquire
-+-		 the lock during cancellation is not possible.  */
-++	      /* If we timed out, we effectively cancel waiting.  */
++@@ -431,19 +438,9 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
++ 	      /* If we timed out, we effectively cancel waiting.  */
 + 	      __condvar_cancel_waiting (cond, seq, g, private);
 + 	      result = err;
-+ 	      goto done;
++-	      goto done;
+++	      break;
 + 	    }
-+-	  else
-+-	    __condvar_dec_grefs (cond, g, private);
++-
++-	  /* Reload signals.  See above for MO.  */
++-	  signals = atomic_load_acquire (cond->__data.__g_signals + g);
++ 	}
++-    }
++-  /* Try to grab a signal.  See above for MO.  (if we do another loop
++-     iteration we need to see the correct value of g1_start)  */
++-  while (!atomic_compare_exchange_weak_acquire (cond->__data.__g_signals + g,
++-						&signals, signals - 2));
++-
++- done:
 + 
-+ 	  /* Reload signals.  See above for MO.  */
-+ 	  signals = atomic_load_acquire (cond->__data.__g_signals + g);
-+diff --git a/nptl/tst-cond22.c b/nptl/tst-cond22.c
-+index 1336e9c7..bdcb45c5 100644
-+--- a/nptl/tst-cond22.c
-++++ b/nptl/tst-cond22.c
-+@@ -106,13 +106,13 @@ do_test (void)
-+       status = 1;
-+     }
-+ 
-+-  printf ("cond = { 0x%x:%x, 0x%x:%x, %u/%u/%u, %u/%u/%u, %u, %u }\n",
-++  printf ("cond = { 0x%x:%x, 0x%x:%x, %u/%u, %u/%u, %u, %u }\n",
-+ 	  c.__data.__wseq.__value32.__high,
-+ 	  c.__data.__wseq.__value32.__low,
-+ 	  c.__data.__g1_start.__value32.__high,
-+ 	  c.__data.__g1_start.__value32.__low,
-+-	  c.__data.__g_signals[0], c.__data.__g_refs[0], c.__data.__g_size[0],
-+-	  c.__data.__g_signals[1], c.__data.__g_refs[1], c.__data.__g_size[1],
-++	  c.__data.__g_signals[0], c.__data.__g_size[0],
-++	  c.__data.__g_signals[1], c.__data.__g_size[1],
-+ 	  c.__data.__g1_orig_size, c.__data.__wrefs);
-+ 
-+   if (pthread_create (&th, NULL, tf, (void *) 1l) != 0)
-+@@ -152,13 +152,13 @@ do_test (void)
-+       status = 1;
-+     }
-+ 
-+-  printf ("cond = { 0x%x:%x, 0x%x:%x, %u/%u/%u, %u/%u/%u, %u, %u }\n",
-++  printf ("cond = { 0x%x:%x, 0x%x:%x, %u/%u, %u/%u, %u, %u }\n",
-+ 	  c.__data.__wseq.__value32.__high,
-+ 	  c.__data.__wseq.__value32.__low,
-+ 	  c.__data.__g1_start.__value32.__high,
-+ 	  c.__data.__g1_start.__value32.__low,
-+-	  c.__data.__g_signals[0], c.__data.__g_refs[0], c.__data.__g_size[0],
-+-	  c.__data.__g_signals[1], c.__data.__g_refs[1], c.__data.__g_size[1],
-++	  c.__data.__g_signals[0], c.__data.__g_size[0],
-++	  c.__data.__g_signals[1], c.__data.__g_size[1],
-+ 	  c.__data.__g1_orig_size, c.__data.__wrefs);
-+ 
-+   return status;
-+diff --git a/sysdeps/nptl/bits/thread-shared-types.h b/sysdeps/nptl/bits/thread-shared-types.h
-+index 5653507e..6f17afa4 100644
-+--- a/sysdeps/nptl/bits/thread-shared-types.h
-++++ b/sysdeps/nptl/bits/thread-shared-types.h
-+@@ -95,8 +95,7 @@ struct __pthread_cond_s
-+ {
-+   __atomic_wide_counter __wseq;
-+   __atomic_wide_counter __g1_start;
-+-  unsigned int __g_refs[2] __LOCK_ALIGNMENT;
-+-  unsigned int __g_size[2];
-++  unsigned int __g_size[2] __LOCK_ALIGNMENT;
-+   unsigned int __g1_orig_size;
-+   unsigned int __wrefs;
-+   unsigned int __g_signals[2];
-+diff --git a/sysdeps/nptl/pthread.h b/sysdeps/nptl/pthread.h
-+index dedad4ec..bbb36540 100644
-+--- a/sysdeps/nptl/pthread.h
-++++ b/sysdeps/nptl/pthread.h
-+@@ -152,7 +152,7 @@ enum
-+ 
-+ 
-+ /* Conditional variable handling.  */
-+-#define PTHREAD_COND_INITIALIZER { { {0}, {0}, {0, 0}, {0, 0}, 0, 0, {0, 0} } }
-++#define PTHREAD_COND_INITIALIZER { { {0}, {0}, {0, 0}, 0, 0, {0, 0} } }
-+ 
-+ 
-+ /* Cleanup buffers */
++   /* Confirm that we have been woken.  We do that before acquiring the mutex
++      to allow for execution of pthread_cond_destroy while having acquired the
 +-- 
 +2.49.0
 +
 diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
-index f9086c0855..e744260e87 100644
+index e744260e87..3034461e9e 100644
 --- a/meta/recipes-core/glibc/glibc_2.35.bb
 +++ b/meta/recipes-core/glibc/glibc_2.35.bb
-@@ -66,6 +66,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0026-PR25847-2.patch \
+@@ -67,6 +67,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
             file://0026-PR25847-3.patch \
             file://0026-PR25847-4.patch \
-+           file://0026-PR25847-5.patch \
+            file://0026-PR25847-5.patch \
++           file://0026-PR25847-6.patch \
             \
             file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
             file://0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch \
