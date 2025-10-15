@@ -1,203 +1,239 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F1E5CCD194
-	for <webhook@archiver.kernel.org>; Wed, 15 Oct 2025 16:04:54 +0000 (UTC)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.web10.21648.1760544292763249891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC0B2CCD185
+	for <webhook@archiver.kernel.org>; Wed, 15 Oct 2025 16:56:14 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.23121.1760547366219175240
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Oct 2025 09:04:52 -0700
+ Wed, 15 Oct 2025 09:56:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=It2R3yFl;
- spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-93ba2eb817aso622223339f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 09:04:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bxiVZSGD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3f0ae439b56so4201221f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 09:56:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760544291; x=1761149091; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MGmwqk38lbIfBoRjljkYq16i2nu39VYVDTIz3rc3Tnc=;
-        b=It2R3yFlaeajuMQ6rCv9hIpiQXwIa4ej25/+P+/0vrd3msF0El711iQQbGkME8KrsN
-         s8h6zMBwLMliFerG7j8yhxCJyK2wEFM6W2Dc/BPEzodgieDR7x2uFvDrm2xq8u0Bp+CM
-         t6YzSlJwmm0n5sG1GgdgNnyBsvTbBQ++2zniicTMAO5r3Nszn/E0bA89RekwsRjbXFMz
-         PToQu+y8Qsd594m3QesK45BAAxyfay01YOMcqxLxsWWJcwvqgDj3CtJSNWPqneEktxXz
-         eigxwNa5SoxwjdX7QbqjRQn1hZMK3mcmV4EvNzH6ImHcNpOQmpqyOnPsIZIU8eSy3Asf
-         jq4g==
+        d=linuxfoundation.org; s=google; t=1760547364; x=1761152164; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P7pT5AdzsHmke0psFmTevFw7yM0gBmcWpraNzlk1VSc=;
+        b=bxiVZSGDtGolJo2Zx6fkrUUIjCXwcHMZWU+zYQXClWZOooUk1qyHQxwgEfN9h/P0sA
+         AdbeVuYWd6TGnGZAbNzlpSlF6TFC0KwiZC3dCIPrFyIX/FkhLBmRDlx6CRQTdZOBPy83
+         OpD1UINqnkSDFH2guqKMlY2OG6nhF9zz3ozQA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760544291; x=1761149091;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MGmwqk38lbIfBoRjljkYq16i2nu39VYVDTIz3rc3Tnc=;
-        b=lwi8cRaAXZUcz/qw+ShHh3KIFm33I0SyRwtnwS2gsc+hFYcbmCE/V5aPrCf0WnIL/e
-         flQTpiqTHAb9LL4nvtpq1U8pJ5y64UQyNDPYFgv390THl+HyPyvJGbx7gFRSQ8FsB0Hh
-         7H6D3RThEAFnpJHzBwEYwQKmjE6Z7iP145WrePGKRWYXgbQZuqJ+Wb8DZtePvZf3ZNiw
-         scp4RCOlARO50xDhxhiw2EPbtrJFspV9KTMX8k3BRQeuQYpjoKVt9HT6wx2/GgAnCr9j
-         0AUlObjIKdYwD8UVlQI/BK9NgDAkSwRzAoZH84+cSO//dedQkE5lmFXJL6Kc2g35Jqd6
-         vzyg==
-X-Gm-Message-State: AOJu0YyW/vW8SpEI5wSihB9aBalEjhGbWzDM/L8jrmjHBerCg2BspkzD
-	ckGmd2z7XlVRQCqqX6mAyzNhCS8oXW6/y+RKhLy2yL2Whz1jy/u9mEndna0oUQ==
-X-Gm-Gg: ASbGnctS0XOtviUq4ZEWwMxS4YWnDAR2nWeQBSpSbaGr7oxvGMk9s5XGVqLHIMyiwAV
-	PK8VboD0RLaVnau9G2GKE3H7Bxg0jv0b53wAkHPuCo40BS+wDkCtpRJBeE+TDjF2DIkmchPXPZn
-	ih+Hbl42zSxSwmBmAW6fpvt+OXjyeCG5AOZFCy/QY2tmxVomyEiAJaassNhhYqAqlHq9zIv0JfV
-	ijArcnfVwYZdkYr3rvnpXwfuw5UTfh/G4x5wl7+obL0i8vHeLp3UxSIIf7fOmWsFVKp0C22UKaP
-	+fi2PTCKUdqv2ZioT2kICthsckXz+l8/EtN01Gpr9PuS+cPwcO+TbqsFbOHxXefQQzivZ47t9NM
-	DpuCnTWF4DZrqW7aIc5s1WbsTpYvNilsvH5iMiU8uWapU9D+KyA==
-X-Google-Smtp-Source: AGHT+IH2a4BSwrg2ssZxTTZVVwxhbizoxkA5saBQsxypZYXD1LGWp84dfd2vhL4gau7SQCDmAQcYYw==
-X-Received: by 2002:a05:6602:26c8:b0:887:131c:dada with SMTP id ca18e2360f4ac-93bd18a1eafmr3903892139f.5.1760544291254;
-        Wed, 15 Oct 2025 09:04:51 -0700 (PDT)
-Received: from localhost.localdomain ([2601:282:4300:19e0::4979])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-93e2594a558sm632287139f.7.2025.10.15.09.04.47
+        d=1e100.net; s=20230601; t=1760547364; x=1761152164;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P7pT5AdzsHmke0psFmTevFw7yM0gBmcWpraNzlk1VSc=;
+        b=p8ld6djOVCDhYO7IVxIfVcqyo8mk50JnrgahtnZiIKI3wMnoyD7gjM3q3p43tNV9zI
+         V4wX+Ld7V4m0Tn8XR8GhQ8tLQoW4mSo+ozIZP/s1FYEJ7ukZS5RSR7NoggJkS9I5vu8K
+         HjR56D3wA8X0yBypTbp+ZiIPCzIJ4NcdSwmhU2KeR+PVlZNAtshXkd6dQeJXSAqn4/uU
+         f3Y8j7meLNuGwMGbHM0Yy8b/DZPUK40OTWap6bQsGH05kPX7VKsq8omhwpAWuVWTIFaf
+         7fZ5Ngrlu0fYQzliwogBCko9GffkG0a2mu47MQmQOVZJTSWddM5Rua6k6DEsF4ljuAO5
+         7TUg==
+X-Gm-Message-State: AOJu0YzIHd7LXOrhLdsbrZdtU9deSEfDIiYIRpZhJZAw9UQrUzbriYCJ
+	fi+r+KUZnRcdZ4QiyvckyVVYMyfxJztuIS7FCkfaIkBKSaZsftFMbjN58YXc042Tjcp3xI6wT8t
+	i3/Ll
+X-Gm-Gg: ASbGncu02UvujWaQr+KBoC0h/JOogev/2HYIIovt5wHm6A0w5V6gXId56kRsQmRURru
+	gRU9kueXzPrdX1+wFJQ5PkQTNQMIOboqAYgI9lQe1EF8SgKFL5VBaJMELu/3J+wC3k8JUHLXMrG
+	uGl8yqKJnUWYFqOdE45FMOOGOWCVbM3wIljPitXqfTB5aei8YaWuLAUSGxhLVXTIEblqaHyxZMw
+	p7OjTGaXo/tDz3+l6whOJuJoc96Bn3bjU75MWv8i/41soavHF6LTOZmJfofjm/Yq5y01CSm5kH5
+	cQyPU3wGMW0XE1OHniv3nW4YEn0LwBeZX+Z5x/MhPz65LDtdpMocC+oanKrHQQLdqgsjwaiRWyS
+	OHvZl3dfnz+o4UYcsXAeKwuMxUrX1mwDLDNqpc1wxgnQOQ8Cdkuy0wmkXI0dxtWqj9nCP
+X-Google-Smtp-Source: AGHT+IH4tW872Cf1lPJxOztYA+QArlTCzd/Is+6Mw7TQzDKvObAwYnBDHIjrcxXhqJ1VdhBtXTMBSw==
+X-Received: by 2002:a05:6000:240a:b0:406:87ba:997c with SMTP id ffacd0b85a97d-4266e7df82fmr19056801f8f.40.1760547363926;
+        Wed, 15 Oct 2025 09:56:03 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ce79:b94c:542e:d1d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb489af92sm339177545e9.17.2025.10.15.09.56.02
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 09:04:48 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+        Wed, 15 Oct 2025 09:56:02 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: sandeep.gundlupet-raju@amd.com,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] weston-init: Allow weston user to be specified
-Date: Wed, 15 Oct 2025 10:04:38 -0600
-Message-ID: <20251015160438.1310918-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.51.0
+Subject: [PATCH] patchelf: Update 0.18.0 -> 0.18.0+git
+Date: Wed, 15 Oct 2025 17:56:01 +0100
+Message-ID: <20251015165601.848365-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 16:04:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224899
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 16:56:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224900
 
-Adds variables to set the name of the weston user (defaulting to
-"weston") and the home directory (defaulting to "/home/weston"). This
-allows users to easily change which user the compositor runs as.
+Patchelf hasn't released since 2023 but does have fixes on its master branch. We've been
+seeing segfaults on relocated qemu-img binaries from qemu-system-native in some cases
+and using an updated patchelf does seem to avoid these.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+The patches have all be applied upstream.
+
+https://github.com/NixOS/patchelf/commit/0e338941fc730c1e7080ca04fc1ee18b9ae2854b is 2/3 combined
+
+License-Update: Change http -> https
+[https://github.com/NixOS/patchelf/commit/30da44915ec3d22e27dad457dd585e985f576986]
+
+[YOCTO #16003]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/wayland/weston-init.bb  | 21 ++++++++++++-------
- .../wayland/weston-init/weston-socket.sh      |  2 +-
- .../wayland/weston-init/weston.service        | 10 ++++-----
- .../wayland/weston-init/weston.socket         |  6 +++---
- 4 files changed, 23 insertions(+), 16 deletions(-)
+ ...-Set-interpreter-only-when-necessary.patch | 31 --------------
+ ...t-with-p_align-instead-of-pagesize-f.patch | 42 -------------------
+ ...t-extensions-based-on-p_align-instea.patch | 32 --------------
+ .../{patchelf_0.18.0.bb => patchelf_git.bb}   |  9 ++--
+ 4 files changed, 4 insertions(+), 110 deletions(-)
+ delete mode 100644 meta/recipes-devtools/patchelf/patchelf/0001-Set-interpreter-only-when-necessary.patch
+ delete mode 100644 meta/recipes-devtools/patchelf/patchelf/0002-align-startOffset-with-p_align-instead-of-pagesize-f.patch
+ delete mode 100644 meta/recipes-devtools/patchelf/patchelf/0003-make-LOAD-segment-extensions-based-on-p_align-instea.patch
+ rename meta/recipes-devtools/patchelf/{patchelf_0.18.0.bb => patchelf_git.bb} (58%)
 
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index fc817d113f..e236bdb253 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -25,6 +25,8 @@ PACKAGECONFIG[use-pixman] = ",,"
+diff --git a/meta/recipes-devtools/patchelf/patchelf/0001-Set-interpreter-only-when-necessary.patch b/meta/recipes-devtools/patchelf/patchelf/0001-Set-interpreter-only-when-necessary.patch
+deleted file mode 100644
+index 9a8216b3fe3..00000000000
+--- a/meta/recipes-devtools/patchelf/patchelf/0001-Set-interpreter-only-when-necessary.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From f5df94952e87eaa390e5c845bc48fdb3dbc31cc2 Mon Sep 17 00:00:00 2001
+-From: Yuta Hayama <hayama@lineo.co.jp>
+-Date: Fri, 21 Jul 2023 10:47:02 +0900
+-Subject: [PATCH] Set interpreter only when necessary
+-
+-If the given interpreter is already set, nothing needs to be done.
+-As with modifySoname(), it skips unnecessary processing.
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+-Upstream-Status: Submitted [https://github.com/NixOS/patchelf/pull/508]
+-
+- src/patchelf.cc | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/src/patchelf.cc b/src/patchelf.cc
+-index 86429c4..e562c49 100644
+---- a/src/patchelf.cc
+-+++ b/src/patchelf.cc
+-@@ -1460,6 +1460,11 @@ void ElfFile<ElfFileParamNames>::modifySoname(sonameMode op, const std::string &
+- template<ElfFileParams>
+- void ElfFile<ElfFileParamNames>::setInterpreter(const std::string & newInterpreter)
+- {
+-+    if (getInterpreter() == newInterpreter) {
+-+        debug("given interpreter is already set\n");
+-+        return;
+-+    }
+-+
+-     std::string & section = replaceSection(".interp", newInterpreter.size() + 1);
+-     setSubstr(section, 0, newInterpreter + '\0');
+-     changed = true;
+diff --git a/meta/recipes-devtools/patchelf/patchelf/0002-align-startOffset-with-p_align-instead-of-pagesize-f.patch b/meta/recipes-devtools/patchelf/patchelf/0002-align-startOffset-with-p_align-instead-of-pagesize-f.patch
+deleted file mode 100644
+index 7906f0f73b4..00000000000
+--- a/meta/recipes-devtools/patchelf/patchelf/0002-align-startOffset-with-p_align-instead-of-pagesize-f.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From 1198329b922f3cdddc3e87a7c81d7730b646c088 Mon Sep 17 00:00:00 2001
+-From: Yuta Hayama <hayama@lineo.co.jp>
+-Date: Fri, 28 Jul 2023 16:22:31 +0900
+-Subject: [PATCH] align startOffset with p_align instead of pagesize for
+- compatibility
+-
+-According to the ELF specification, the alignment of loadable process segments
+-should satisfy (p_vaddr mod pagesize) == (p_offset mod pagesize). However,
+-glibc earlier than 2.35 incorrectly requires that the LOAD segment be (p_vaddr
+-mod p_align) == (p_offset mod p_align), and will output the error message
+-"ELF load command address/offset not properly aligned" if this is not met.
+-
+-Since there are many systems that use glibc earlier than 2.35, it is preferable
+-that newly added LOAD segments satisfy (p_vaddr mod p_align) == (p_offset mod
+-p_align) for compatibility.
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+-Upstream-Status: Submitted [https://github.com/NixOS/patchelf/pull/510]
+-
+- src/patchelf.cc | 8 +++++++-
+- 1 file changed, 7 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/patchelf.cc b/src/patchelf.cc
+-index 82b4b46..6edb81a 100644
+---- a/src/patchelf.cc
+-+++ b/src/patchelf.cc
+-@@ -843,7 +843,13 @@ void ElfFile<ElfFileParamNames>::rewriteSectionsLibrary()
+-         neededSpace += headerTableSpace;
+-     debug("needed space is %d\n", neededSpace);
+- 
+--    Elf_Off startOffset = roundUp(fileContents->size(), getPageSize());
+-+    /* glibc earlier than 2.35 requires that the LOAD segment satisfies
+-+       (p_vaddr mod p_align) == (p_offset mod p_align).
+-+       The ELF specification requires that loadable process segments satisfy
+-+       (p_vaddr mod pagesize) == (p_offset mod pagesize), so glibc is probably
+-+       wrong, but here startOffset is calculated according to p_align for
+-+       compatibility. */
+-+    Elf_Off startOffset = roundUp(fileContents->size(), alignStartPage);
+- 
+-     // In older version of binutils (2.30), readelf would check if the dynamic
+-     // section segment is strictly smaller than the file (and not same size).
+diff --git a/meta/recipes-devtools/patchelf/patchelf/0003-make-LOAD-segment-extensions-based-on-p_align-instea.patch b/meta/recipes-devtools/patchelf/patchelf/0003-make-LOAD-segment-extensions-based-on-p_align-instea.patch
+deleted file mode 100644
+index 37eaf992d8b..00000000000
+--- a/meta/recipes-devtools/patchelf/patchelf/0003-make-LOAD-segment-extensions-based-on-p_align-instea.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 299ad5766921d593e11a42a8e4dec55b4b350876 Mon Sep 17 00:00:00 2001
+-From: Yuta Hayama <hayama@lineo.co.jp>
+-Date: Mon, 31 Jul 2023 11:58:49 +0900
+-Subject: [PATCH] make LOAD segment extensions based on p_align instead of
+- pagesize
+-
+-Since the p_align of the LOAD segment is no longer pagesize, the actual p_align
+-value is used to calculate for the LOAD segment extension.
+-
+-If calculated with pagesize, new LOAD segment may be added even though the
+-existing LOAD segment can be extended.
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+-Upstream-Status: Submitted [https://github.com/NixOS/patchelf/pull/510]
+-
+- src/patchelf.cc | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/patchelf.cc b/src/patchelf.cc
+-index 6edb81a..86429c4 100644
+---- a/src/patchelf.cc
+-+++ b/src/patchelf.cc
+-@@ -885,7 +885,7 @@ void ElfFile<ElfFileParamNames>::rewriteSectionsLibrary()
+-         rdi(lastSeg.p_type) == PT_LOAD &&
+-         rdi(lastSeg.p_flags) == (PF_R | PF_W) &&
+-         rdi(lastSeg.p_align) == alignStartPage) {
+--        auto segEnd = roundUp(rdi(lastSeg.p_offset) + rdi(lastSeg.p_memsz), getPageSize());
+-+        auto segEnd = roundUp(rdi(lastSeg.p_offset) + rdi(lastSeg.p_memsz), alignStartPage);
+-         if (segEnd == startOffset) {
+-             auto newSz = startOffset + neededSpace - rdi(lastSeg.p_offset);
+-             wri(lastSeg.p_filesz, wri(lastSeg.p_memsz, newSz));
+diff --git a/meta/recipes-devtools/patchelf/patchelf_0.18.0.bb b/meta/recipes-devtools/patchelf/patchelf_git.bb
+similarity index 58%
+rename from meta/recipes-devtools/patchelf/patchelf_0.18.0.bb
+rename to meta/recipes-devtools/patchelf/patchelf_git.bb
+index 6e86ddbde63..daeae961424 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_0.18.0.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_git.bb
+@@ -5,13 +5,12 @@ HOMEPAGE = "https://github.com/NixOS/patchelf"
+ LICENSE = "GPL-3.0-only"
  
- DEFAULTBACKEND ??= ""
- DEFAULTBACKEND:qemuall ?= "drm"
-+WESTON_USER ??= "weston"
-+WESTON_USER_HOME ??= "/home/${WESTON_USER}"
+ SRC_URI = "git://github.com/NixOS/patchelf;protocol=https;branch=master \
+-    file://0001-Set-interpreter-only-when-necessary.patch \
+-    file://0002-align-startOffset-with-p_align-instead-of-pagesize-f.patch \
+-    file://0003-make-LOAD-segment-extensions-based-on-p_align-instea.patch \
+ "
+-SRCREV = "99c24238981b7b1084313aca8f5c493bb46f302c"
++SRCREV = "b49de1b3384e7928bf0df9a889fe5a4e7b3fbddf"
  
- do_install() {
- 	# Install weston-start script
-@@ -41,10 +43,15 @@ do_install() {
- 		install -D -p -m0644 ${S}/weston.service ${D}${systemd_system_unitdir}/weston.service
- 		install -D -p -m0644 ${S}/weston.socket ${D}${systemd_system_unitdir}/weston.socket
- 		install -D -p -m0644 ${S}/weston-socket.sh ${D}${sysconfdir}/profile.d/weston-socket.sh
--		sed -i -e s:/etc:${sysconfdir}:g \
--			-e s:/usr/bin:${bindir}:g \
--			-e s:/var:${localstatedir}:g \
--			${D}${systemd_system_unitdir}/weston.service
-+		sed -i -e s:@sysconfdir@:${sysconfdir}:g \
-+			-e s:@bindir@:${bindir}:g \
-+			-e s:@localstatedir@:${localstatedir}:g \
-+			-e s:@runtimedir@:${runtimedir}:g \
-+			-e s:@WESTON_USER@:${WESTON_USER}:g \
-+			-e s:@WESTON_USER_HOME@:${WESTON_USER_HOME}:g \
-+			${D}${systemd_system_unitdir}/weston.service \
-+			${D}${systemd_system_unitdir}/weston.socket \
-+			${D}${sysconfdir}/profile.d/weston-socket.sh
- 	fi
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++PV = "0.18.0+git"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
  
- 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
-@@ -70,7 +77,7 @@ do_install() {
- 		sed -i -e "/^\[core\]/a use-pixman=true" ${D}${sysconfdir}/xdg/weston/weston.ini
- 	fi
+ inherit autotools
  
--	install -dm 755 -o weston -g weston ${D}/home/weston
-+	install -dm 755 -o ${WESTON_USER} -g ${WESTON_USER} ${D}/${WESTON_USER_HOME}
- }
- 
- INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
-@@ -95,11 +102,11 @@ FILES:${PN} += "\
-     ${systemd_system_unitdir}/weston.socket \
-     ${sysconfdir}/default/weston \
-     ${sysconfdir}/pam.d/ \
--    /home/weston \
-+    ${WESTON_USER_HOME} \
-     "
- 
- CONFFILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/default/weston"
- 
- SYSTEMD_SERVICE:${PN} = "weston.service weston.socket"
--USERADD_PARAM:${PN} = "--home /home/weston --shell /bin/sh --user-group -G video,input,render,seat,wayland weston"
-+USERADD_PARAM:${PN} = "--home ${WESTON_USER_HOME} --shell /bin/sh --user-group -G video,input,render,seat,wayland ${WESTON_USER}"
- GROUPADD_PARAM:${PN} = "-r wayland; -r render; -r seat"
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-socket.sh b/meta/recipes-graphics/wayland/weston-init/weston-socket.sh
-index 86389d63a3..8f652862da 100755
---- a/meta/recipes-graphics/wayland/weston-init/weston-socket.sh
-+++ b/meta/recipes-graphics/wayland/weston-init/weston-socket.sh
-@@ -1,7 +1,7 @@
- #!/bin/sh
- 
- # set weston variables for use with global weston socket
--global_socket="/run/wayland-0"
-+global_socket="@runtimedir@/wayland-0"
- if [ -e "$global_socket" ]; then
- 	weston_group=$(stat -c "%G" "$global_socket")
- 	if [ "$(id -u)" = "0" ]; then
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
-index 80745998ed..b7e845e88d 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.service
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.service
-@@ -33,19 +33,19 @@ ConditionPathExists=/dev/tty0
- [Service]
- # Requires systemd-notify.so Weston plugin.
- Type=notify
--EnvironmentFile=/etc/default/weston
--ExecStart=/usr/bin/weston --modules=systemd-notify.so
-+EnvironmentFile=@sysconfdir@/default/weston
-+ExecStart=@bindir@/weston --modules=systemd-notify.so
- 
- # Optional watchdog setup
- #TimeoutStartSec=60
- #WatchdogSec=20
- 
- # The user to run Weston as.
--User=weston
--Group=weston
-+User=@WESTON_USER@
-+Group=@WESTON_USER@
- 
- # Make sure the working directory is the users home directory
--WorkingDirectory=/home/weston
-+WorkingDirectory=@WESTON_USER_HOME@
- 
- # Set up a full user session for the user, required by Weston.
- PAMName=weston-autologin
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.socket b/meta/recipes-graphics/wayland/weston-init/weston.socket
-index c1bdc83c05..a7d461ee30 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.socket
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.socket
-@@ -1,11 +1,11 @@
- [Unit]
- Description=Weston socket
--RequiresMountsFor=/run
-+RequiresMountsFor=@runtimedir@
- 
- [Socket]
--ListenStream=/run/wayland-0
-+ListenStream=@runtimedir@/wayland-0
- SocketMode=0775
--SocketUser=weston
-+SocketUser=@WESTON_USER@
- SocketGroup=wayland
- RemoveOnStop=yes
- 
--- 
-2.51.0
-
 
