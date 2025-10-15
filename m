@@ -1,90 +1,104 @@
-Return-Path: <jason.m.bills@linux.intel.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E9CECCD185
-	for <webhook@archiver.kernel.org>; Wed, 15 Oct 2025 14:59:44 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by mx.groups.io with SMTP id smtpd.web11.19362.1760540379009164211
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F0ECCD194
+	for <webhook@archiver.kernel.org>; Wed, 15 Oct 2025 15:41:44 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.20965.1760542893924138039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Oct 2025 07:59:39 -0700
+ Wed, 15 Oct 2025 08:41:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=a1pLBaX0;
- spf=pass (domain: linux.intel.com, ip: 192.198.163.15, mailfrom: jason.m.bills@linux.intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760540379; x=1792076379;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7zqV7BWYq4cT589wQs4C1pt+AyCqWXLRKOPLuocCDqU=;
-  b=a1pLBaX0R6ePMvoa7vYwsdbutv+Ws7TfyDWvkgyNPXKTV8numw02NhlK
-   FWJDRXn51XcX0rkGh4pr/cxtp3zMa9g+BKugH/3i8rhV8cli3SRtzetyO
-   0u0RkdBH90kl20qOACessy1/ZGEo0VNSv8n+hrBagSQv4ozVcpyTOFYld
-   yhtEXZo8E3Vf3biGB2DeTku3IRU8y9pg3zy1p9rVaOj2LaruZQhElvXfp
-   5UZzf3+SHfPmRi2o/lDrY0PcnpuVUzpI7XXd0Q9/iKW3d7DsR7pONBo+m
-   bqjHyrq0JgDVOD9Hu/lcaJN2ktydaGN/ZvbrpL9HtpqxNBW8xW6nMknfx
-   Q==;
-X-CSE-ConnectionGUID: wsfluFmVQM6Xv881bQ+zew==
-X-CSE-MsgGUID: nR4koN2PQrK0WVNHMl0r1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="62812917"
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="62812917"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 07:59:38 -0700
-X-CSE-ConnectionGUID: QPd7BIhhRN2RYWncgtg7Zg==
-X-CSE-MsgGUID: byAXYD4CQ/Clpr5bcAf6ZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="186217085"
-Received: from hercules.jf.intel.com ([10.243.48.33])
-  by orviesa003.jf.intel.com with ESMTP; 15 Oct 2025 07:59:38 -0700
-From: "Jason M. Bills" <jason.m.bills@linux.intel.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6CD5F1655
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 08:41:25 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 041443F738
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 08:41:32 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: "Jason M. Bills" <jason.m.bills@linux.intel.com>
-Subject: [PATCH] systemd.bbclass: support template files with dots
-Date: Wed, 15 Oct 2025 07:59:36 -0700
-Message-ID: <20251015145936.857490-1-jason.m.bills@linux.intel.com>
+Subject: [PATCH 1/2] openmp: recipe cleanup
+Date: Wed, 15 Oct 2025 16:41:27 +0100
+Message-ID: <20251015154128.119639-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 14:59:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224896
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 15:41:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224897
 
-If the SYSTEMD_SERVICE variable contains a template instance that has
-dots in the name such as "xyz.openbmc_project.my@instance.service", the
-regex splits on all the dots resulting in the following python
-exception:
+Remove perlnative inherit, this recipe does not depend on non-standard
+perl (or any perl, in fact).
 
-Exception: ValueError: too many values to unpack (expected 3)
+Remove python3native inherit, this recipe does not depend on non-standard
+Python modules. python3-native will still be pulled into the sysroot via
+python3targetconfig however.
 
-To continue to support service files with dots in the name, this changes
-to first split only on the '@' to isolate the name, then split the
-second half on the dot to get the remaining two parameters.
+Remove PACKAGECONFIG:remove:powerpc, as powerpc is explicitly marked as
+not compatible later in the recipe.
 
-Confirmed when building that the three parameters for template instances
-without dots came out the same and that template instances with dots
-include the full name with dots in the first parameter.
+Remove LLVM_ENABLE_PER_TARGET_RUNTIME_DIR, this is only used during
+monolithic builds of llvm.
 
-Signed-off-by: Jason M. Bills <jason.m.bills@linux.intel.com>
+Remove OPENMP_STANDALONE_BUILD, this is automatically detected when
+building.
+
+Remove CMAKE_POSITION_INDEPENDENT_CODE, this is the default value.
+
+Remove all _TOOL, these are not used.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/systemd.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/clang/openmp_git.bb | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index 5a0550b287..fcd47809b2 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -247,7 +247,8 @@ python systemd_populate_packages() {
-                 if not systemd_service_exists(service, user, d):
-                     continue
-                 if '@' in service and '@.' not in service:
--                    (servicename, instance, service_type) = re.split('[@.]', service)
-+                    (servicename, postfix) = service.split('@')
-+                    (instance, service_type) = postfix.split('.')
-                     template_services.setdefault(servicename + '@.' + service_type, []).append(instance)
-                 else:
-                     template_services.setdefault(service, [])
+diff --git a/meta/recipes-devtools/clang/openmp_git.bb b/meta/recipes-dev=
+tools/clang/openmp_git.bb
+index b6b1cc29785..2ba83d48c64 100644
+--- a/meta/recipes-devtools/clang/openmp_git.bb
++++ b/meta/recipes-devtools/clang/openmp_git.bb
+@@ -13,21 +13,12 @@ CVE_PRODUCT +=3D "openmp"
+=20
+ LIC_FILES_CHKSUM =3D "file://openmp/LICENSE.TXT;md5=3Dd75288d1ce0450b28b=
+8d58a284c09c79"
+=20
+-inherit cmake pkgconfig perlnative python3native python3targetconfig
++inherit cmake pkgconfig python3targetconfig
+=20
+ DEPENDS +=3D "elfutils libffi clang"
+=20
+ EXTRA_OECMAKE +=3D "-DCMAKE_BUILD_TYPE=3DRelWithDebInfo \
+-                  -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=3DOFF \
+                   -DOPENMP_LIBDIR_SUFFIX=3D${@d.getVar('baselib').replac=
+e('lib', '')} \
+-                  -DOPENMP_STANDALONE_BUILD=3DON \
+-                  -DCLANG_TOOL=3D${STAGING_BINDIR_NATIVE}/clang \
+-                  -DLINK_TOOL=3D${STAGING_BINDIR_NATIVE}/llvm-link \
+-                  -DOPT_TOOL=3D${STAGING_BINDIR_NATIVE}/opt \
+-                  -DOPENMP_LLVM_LIT_EXECUTABLE=3D${STAGING_BINDIR_NATIVE=
+}/llvm-lit \
+-                  -DEXTRACT_TOOL=3D${STAGING_BINDIR_NATIVE}/llvm-extract=
+ \
+-                  -DPACKAGER_TOOL=3D${STAGING_BINDIR_NATIVE}/clang-offlo=
+ad-packager \
+-                  -DCMAKE_POSITION_INDEPENDENT_CODE=3DON \
+                   "
+=20
+ OECMAKE_SOURCEPATH =3D "${S}/openmp"
+@@ -35,8 +26,6 @@ OECMAKE_SOURCEPATH =3D "${S}/openmp"
+ PACKAGECONFIG ?=3D "ompt-tools offloading-plugin"
+=20
+ PACKAGECONFIG:remove:arm =3D "ompt-tools offloading-plugin"
+-PACKAGECONFIG:remove:powerpc =3D "ompt-tools offloading-plugin"
+-
+ PACKAGECONFIG:append:mipsarcho32 =3D " no-atomics"
+=20
+ PACKAGECONFIG[ompt-tools] =3D "-DOPENMP_ENABLE_OMPT_TOOLS=3DON,-DOPENMP_=
+ENABLE_OMPT_TOOLS=3DOFF,"
+--=20
+2.43.0
+
 
