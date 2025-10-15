@@ -1,87 +1,102 @@
-Return-Path: <michael.haener@siemens.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F730CCD193
-	for <webhook@archiver.kernel.org>; Wed, 15 Oct 2025 20:42:16 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web10.28833.1760560925892165265
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34740CCD185
+	for <webhook@archiver.kernel.org>; Wed, 15 Oct 2025 20:49:56 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.28871.1760561390112227112
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Oct 2025 13:42:06 -0700
+ Wed, 15 Oct 2025 13:49:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=michael.haener@siemens.com header.s=fm2 header.b=WDf2Et1t;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-664519-20251015204200a534a45e250002073e-mfhher@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20251015204200a534a45e250002073e
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 15 Oct 2025 22:42:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=michael.haener@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=swqGBRGRLKpWUsld4MCqRFLmX/3o48kvIUJ2MOxnjPg=;
- b=WDf2Et1t3u4a5PzjGBm8RjAHX+1mGny3Rrmh2DkUyfJI77HZvfP37hQ0oLckc/T+C1K8q1
- JSNRJ2hWoa20QoU5ygWd/ELLrT9yq2lBHu9wIELr10SQKLhEqT0ISdzHZ5rQR3IbIYBnDAuE
- N6VR05EtY2+4MWBUL1FiXHtuOrBP6b5pFq17D2qXfY2B7vkRLaW09ET2DYBOITPMcqcjXKZT
- kGiyzPlIGZNGbfYY8KnGcF24lh0LGxYFws4FXxVBFVZoBb17B76sdMvhfMNV+6Dcz74I0nBA
- q5QKZr+2SGkj5B/zICczrZuTB5RYpMgPFQeS5/P+Wn5Ub02eXd0l6hLA==;
-From: Michael Haener <michael.haener@siemens.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 54E3D1688;
+	Wed, 15 Oct 2025 13:49:41 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C17893F738;
+	Wed, 15 Oct 2025 13:49:48 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Haener <michael.haener@siemens.com>
-Subject: [scarthgap][PATCH] oeqa/runtime/ping: don't bother trying to ping localhost
-Date: Wed, 15 Oct 2025 22:41:31 +0200
-Message-Id: <20251015204131.14992-1-michael.haener@siemens.com>
+Cc: mhalstead@linuxfoundation.org
+Subject: [PATCH] classes/mirrors: use geo-located kernel.org mirrors
+Date: Wed, 15 Oct 2025 21:49:40 +0100
+Message-ID: <20251015204940.783898-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-664519:519-21489:flowmailer
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 20:42:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224905
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 20:49:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224906
 
-If SLIRP is being used instead of TAP for networking to the guest then
-the target IP will be localhost.  There's no point in pinging localhost
-to see if the target is up but whilst you'd think it is harmless, in
-some containers ping doesn't actually have enough rights to work:
+We use the kernel.org mirrors for a number of projects: obviously the
+kernel, but also the GNU tarballs are fetched from there too.
 
-  ping: socktype: SOCK_RAW
-  ping: socket: Operation not permitted
-  ping: => missing cap_net_raw+p capability or setuid?
+However, mirrors.kernel.org does not have any geo-proximity DNS magic
+and will always resolve to the primary server on in west coast USA,
+which is far from ideal if you're not near there.
 
-Look at the target address and if it's localhost or 127.0.0.* return
-immediately.
+Switch the mirror URLs to mirrors.edge.kernel.org, which does actually
+resolve to a closer server.
 
-(Backport from OE-Core rev: a06ef43d2a50e16c32bd6edbdc7b32c3528687d5)
-
-Signed-off-by: Michael Haener <michael.haener@siemens.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/lib/oeqa/runtime/cases/ping.py | 7 +++++++
- test                                | 0
- 2 files changed, 7 insertions(+)
- create mode 100644 test
+ meta/classes-global/mirrors.bbclass | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/ping.py b/meta/lib/oeqa/runtime/cases/ping.py
-index f72460e7f3..bc543f6c41 100644
---- a/meta/lib/oeqa/runtime/cases/ping.py
-+++ b/meta/lib/oeqa/runtime/cases/ping.py
-@@ -18,6 +18,13 @@ class PingTest(OERuntimeTestCase):
-         output = ''
-         count = 0
-         self.assertNotEqual(len(self.target.ip), 0, msg="No target IP address set")
-+
-+        # If the target IP is localhost (because user-space networking is being used),
-+        # then there's no point in pinging it.
-+        if self.target.ip.startswith("127.0.0.") or self.target.ip in ("localhost", "::1"):
-+            print("runtime/ping: localhost detected, not pinging")
-+            return
-+
-         try:
-             while count < 5:
-                 cmd = 'ping -c 1 %s' % self.target.ip
-diff --git a/test b/test
-new file mode 100644
-index 0000000000..e69de29bb2
--- 
-2.34.1
+diff --git a/meta/classes-global/mirrors.bbclass b/meta/classes-global/mi=
+rrors.bbclass
+index e31af488b95..75a0003ce55 100644
+--- a/meta/classes-global/mirrors.bbclass
++++ b/meta/classes-global/mirrors.bbclass
+@@ -10,8 +10,8 @@ ${DEBIAN_MIRROR}	http://snapshot.debian.org/archive/deb=
+ian/20250101T023759Z/pool
+ ${DEBIAN_MIRROR}	http://snapshot.debian.org/archive/debian-archive/20120=
+328T092752Z/debian/pool \
+ ${DEBIAN_MIRROR}	http://snapshot.debian.org/archive/debian-archive/20110=
+127T084257Z/debian/pool \
+ ${DEBIAN_MIRROR}	http://snapshot.debian.org/archive/debian-archive/20090=
+802T004153Z/debian/pool \
+-${GNU_MIRROR}	https://mirrors.kernel.org/gnu \
+-${KERNELORG_MIRROR}	http://www.kernel.org/pub \
++${GNU_MIRROR}	https://mirrors.edge.kernel.org/gnu \
++${KERNELORG_MIRROR}	http://www.edge.kernel.org/pub \
+ ${GNUPG_MIRROR}	ftp://ftp.gnupg.org/gcrypt \
+ ${GNUPG_MIRROR}	ftp://ftp.franken.de/pub/crypt/mirror/ftp.gnupg.org/gcry=
+pt \
+ ${GNUPG_MIRROR}	ftp://mirrors.dotsrc.org/gcrypt \
+@@ -26,7 +26,7 @@ ${APACHE_MIRROR}  http://archive.apache.org/dist \
+ http://downloads.sourceforge.net/watchdog/ http://fossies.org/linux/misc=
+/ \
+ ${SAVANNAH_GNU_MIRROR} http://download-mirror.savannah.gnu.org/releases =
+\
+ ${SAVANNAH_NONGNU_MIRROR} http://download-mirror.savannah.nongnu.org/rel=
+eases \
+-ftp://sourceware.org/pub http://mirrors.kernel.org/sourceware \
++ftp://sourceware.org/pub http://mirrors.edge.kernel.org/sourceware \
+ ftp://sourceware.org/pub http://gd.tuwien.ac.at/gnu/sourceware \
+ ftp://sourceware.org/pub http://ftp.gwdg.de/pub/linux/sources.redhat.com=
+/sourceware \
+ cvs://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \
+@@ -52,8 +52,8 @@ https?://.*/.*  http://sources.openembedded.org/ \
+ ftp://.*/.*     http://sources.openembedded.org/ \
+ npm://.*/?.*    http://sources.openembedded.org/ \
+ ${CPAN_MIRROR}  https://cpan.metacpan.org/ \
+-https?://downloads.yoctoproject.org/releases/uninative/ https://mirrors.=
+kernel.org/yocto/uninative/ \
+-https?://downloads.yoctoproject.org/mirror/sources/ https://mirrors.kern=
+el.org/yocto-sources/ \
++https?://downloads.yoctoproject.org/releases/uninative/ https://mirrors.=
+edge.kernel.org/yocto/uninative/ \
++https?://downloads.yoctoproject.org/mirror/sources/ https://mirrors.edge=
+.kernel.org/yocto-sources/ \
+ "
+=20
+ # Use MIRRORS to provide git repo fallbacks using the https protocol, fo=
+r cases
+--=20
+2.43.0
 
 
