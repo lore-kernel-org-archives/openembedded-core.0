@@ -2,259 +2,167 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40932CCD199
-	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 16:01:58 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web11.1175.1760630516397431002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B9DCCD199
+	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 16:11:38 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.1484.1760631088667903583
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 09:01:56 -0700
+ Thu, 16 Oct 2025 09:11:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UiAYKNDS;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b4539dddd99so161975566b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 09:01:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=khJVrgsl;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b48d8deaef9so180825466b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 09:11:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760630515; x=1761235315; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760631087; x=1761235887; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J7bmaLqhK4qKYH11EzeoViBRjwto9+EBr1qfUsPgxhk=;
-        b=UiAYKNDS4o+qmtt+CCDIj+cSn0UScLazuc6rVT9v4Mb0u8AfAU+nrhrgjVm2rknxsc
-         eyRcu9rirfRfpi1JX/TG+Cb5X+BFhZu6VKbeWW7uhUgkRLq5o67gwk3Qm4YJtfYly8YZ
-         kg/M7etH+6bTs9ygFfTfQy6n0sDFs5VkaP0KfRDpZFcaTjfBgjnVR03xeseW8pTeeh+S
-         OwR6fFE+csvAgriXXdrlFK2Q3pT2b7cB03nIL3rw2l6YuTER4BU6nqnP8oh+AeS+LKdq
-         8c2RT2/yitpdyxHydpfG+3xgoY5x/dr86HriFE1OCOeJSTwSFSfPOl3fNma/n3InJSyi
-         Ywjg==
+        bh=oQizRDgFVZZdA0C0tJMWClJMoQkw8Ax9Lvtxhq1fWfw=;
+        b=khJVrgslG/Bj36W9aDoGVU9upu+4FScKdFRSRm2WXGFo1+l0W9zEn8DLpu9sgpPN6S
+         kjvBmb4ZFLsIv4wvwf4i/YUrLCdr+GbVlABPHSNymBqmg2miiG/Hcdia1j3TjoAUK8gn
+         c2bTFU+EZ0hJZjWca+Yj10aqpd2rjtTNmN9XQm8hWEfXLNs0YuXgWUOehCL+XB0VaEDK
+         vUed2LJZRaBh+zW7oLXFBkjeORftveo45g13eWWz1+GNS1ChAirsWParN03D7p19HlMd
+         fu0zoCEORSm2sqFgva29n/9Du0prV5aDnw+DQQndfxaLlAXkwSjcFOP9dBeEWeIovf9+
+         9TDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760630515; x=1761235315;
+        d=1e100.net; s=20230601; t=1760631087; x=1761235887;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J7bmaLqhK4qKYH11EzeoViBRjwto9+EBr1qfUsPgxhk=;
-        b=v7Y2DUpmGneukkohsXMTLZteZoQaXUfFwCZowKCuefaCdoFuYTjTaR+N6xJ4DMXfxN
-         5u8rj8zFRyhqcefWkq8hEZv3qRUBvkwEvSS9GhHMeNjCTVn/tQqwQSv9u2d9ERr80Ana
-         pcXxf/N2P8oSNWRxbZtTZApH8zqwVY9gLQ5KRTDU2PgmDllZAIj3jSam/6JzXX0Y1+R4
-         fEJNi2qP5pXpkIxnIre7aCIK/pjwMyGYyMuThdFTmz4j/YE6uykHa4z5Bem+KyKSLHpC
-         KFaoCJ9SxOXENPBDgjm25Llye1vip51WGmJOiDXqTyF/232KIbLepHeBd95jXdo53uHJ
-         Ec8g==
-X-Gm-Message-State: AOJu0Yz9DdBVUskZj2WF3O+UltVFSpK8yZ6mSZ7iofWKUqP853D4NZ9A
-	L+ydFfys9MzH8QewFGk3sqCQ8cZ+t2IQqkZieriqYa6gz5fL1J+zbPGdmoMyE0WEUNLy3gxwRQ+
-	DRuoKGtcYAyBdFmgGA8EPQLaMSs9IW2g=
-X-Gm-Gg: ASbGncuG1SigaUn1bt9GrlNsUroJw5QYUDSzfWi+1Oa3mBo54dnMNmUpFCzdfli3PWC
-	LSXz2mF4kL6NtYRL9Nc64Y3fRoAHz/MCM9N6IzLCDNkG+hhQjN0vMyrHEMz0NevHm6PERQUtLZd
-	5y5O2lUk0oaY+VYY+ZcyAm9KS3cGasV3Eyfv6ypzgCptv7ye9Vt/QyPoRfdUDpf1W/aYmnx6FEN
-	bmuL1mkmKnETSHgavKXd5DvPZlM4HSmuzdHoiL9Q1vruXPcDWlAJGyA0xQnTh7C8r/MUi689CYn
-	sdBGy0c=
-X-Google-Smtp-Source: AGHT+IEa4EH9btgyf1b6QvJzIXli0jl0eXMmClmzmfL58FgfvnrjSjohCA59YLADG1+pZ0EIBb7HDKCjEQx8nLGXbm0=
-X-Received: by 2002:a17:907:940d:b0:b41:873d:e21f with SMTP id
- a640c23a62f3a-b647304ae7emr56344066b.18.1760630513717; Thu, 16 Oct 2025
- 09:01:53 -0700 (PDT)
+        bh=oQizRDgFVZZdA0C0tJMWClJMoQkw8Ax9Lvtxhq1fWfw=;
+        b=vbKOM7bU55bEs9jfJF+gD+PmLrUbydNOGp1NoGyxcZSzcd0RkmMy+FStV+wCln6Iwd
+         /nkk/yynULJ7WKa3k7WGAT2zWmCL65f0Z2E0wroNa9peTBbHopUuXKD8UIoV294P4YOD
+         UDAqV38YYXvaZrZAID85cCUgoxyxFJcTRsxBa+yyPUdDbO+m0ZsAIwvC38IeVLelAOuN
+         LGnDZcnOqE2IKmgk3GP4TZ5H88mQ7k1NUYboZABp422CpaSAiVZ3HhXTtQyZcXXRup7b
+         k0bdkaZJtbnEjotWXYUAiTbuvIOxE49c+kYrd/uXUulGzWKBhCl04Ea/IEHlyEQFXBa2
+         MH1w==
+X-Forwarded-Encrypted: i=1; AJvYcCWIS3sQikKXR+NCIGpitwfYE/Fo4c2wfSMaFnROW5BhjJtyrsf3dyQwMSfEbgs8IjvXVjpfol+CIbUhtksowUn8Fw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxE2/d2cC3k+C31jPIURIcgwOdvaMhsNy+SYIQ2tiPzp/K+WJqJ
+	cQXO4DWZtPgr4i4X2DOKYdu8bJfABZCGPJQc70c+i/ZzAhXJ0d0w/lJIpF+B4ha/2GVBOx5QnH4
+	9MeS/t739tT40ZmdaauBaTsfaGWm0JRifQvfl
+X-Gm-Gg: ASbGnctc+ELdFKqE40Vqcng132JlNhMVe3S62MHi5yZmWEtF1I1S9KdaWPmdfPY9q8R
+	gWOl9w6PVzBdQLQD/IvdT4Llbuag8Foy/3x+WefXwZIVbxPw7hOsEuwX9EbnEjyINYmJw22E1Xs
+	zLb34gLRF30nrzvbDAwGRNSVP9oZFzWAJVyrF3Z3ZzWnpm0JvnQ1mt4VWoO6w6wtMLMXmR2tn+5
+	AHnb3sYrC+OUrJsqGBbEXmO1RriOFOfXDxscm6sYfpNHBv1C4moOHmonD9EanM82s6hZTV3
+X-Google-Smtp-Source: AGHT+IHrcQKjHBQn69VFj9uDgkF60Cjl5iebfuM4gIVUIHV2v33bTNDsL4RZyfsdRlHHKmphSZm8pT9XALSOxL8WsQ0=
+X-Received: by 2002:a17:907:c05:b0:b57:78fa:db54 with SMTP id
+ a640c23a62f3a-b6473e4b0f8mr54128266b.44.1760631086811; Thu, 16 Oct 2025
+ 09:11:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20251016111628.3050999-1-ecordonnier@snap.com>
-In-Reply-To: <20251016111628.3050999-1-ecordonnier@snap.com>
+References: <20251010160842.28715-1-reatmon@ti.com> <20251010160842.28715-3-reatmon@ti.com>
+ <DB5PR02MB10213DF753E3F85BCEA448E74EFEFA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <0b6a2828-bd9b-4225-b071-72337911715c@ti.com>
+In-Reply-To: <0b6a2828-bd9b-4225-b071-72337911715c@ti.com>
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 16 Oct 2025 17:01:42 +0100
-X-Gm-Features: AS18NWBrnbSqYI9Mf1yv-oJOP-8Oe9XDZodvRGuwdLwBpgjeB9Uc-jgBPXRmrL0
-Message-ID: <CANPvuRkBq+qZD+U588QWFHG60Pg24OvULjaaJJvfSCDx=RZYfw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] opkg: upgrade 0.7.0 -> 0.9.0
-To: ecordonnier@snap.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000059d5ce064148bc83"
+Date: Thu, 16 Oct 2025 17:11:15 +0100
+X-Gm-Features: AS18NWDJiQNvwpBUKkYJCLQR3IdlKdXmwNWZKY--zoK70CWkp3BgaJEWrJG-kdU
+Message-ID: <CANPvuRnnU7kVArwg_cN9A6a-Evr4LpoLN4VEiyv-ObT7Z3Ufag@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v3 3/3] linux-firmware: Set FILES to ""
+To: reatmon@ti.com
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000082910f064148deb9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 16:01:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224975
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 16:11:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224976
 
---00000000000059d5ce064148bc83
+--00000000000082910f064148deb9
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Etienne
+Hi,
 
-Can you split the patch in two commits for each version.
+We have started seeing memory corruption in opkg after this change,
+the libsolv.so.1 segment-fault when we are creating images in do_rootfs
+tasks.
 
-Etienne Cordonnier via lists.openembedded.org <ecordonnier=3D
-snap.com@lists.openembedded.org> escreveu (quinta, 16/10/2025 =C3=A0(s) 12:=
-18):
-
-> From: Etienne Cordonnier <ecordonnier@snap.com>
->
-> See release notes at
-> - http://downloads.yoctoproject.org/releases/opkg/opkg-0.9.0.release-note=
-s
-> - http://downloads.yoctoproject.org/releases/opkg/opkg-0.8.0.release-note=
-s
->
-> [0.9.0] - 2025-06-27
->
-> Semiannual opkg release.
-> Bumping the minor version as a result of the project build tooling
-> changing from autotools to cmake.
->
-> - Added a Dockerfile container definition (`:docker/`) for a valid
-> developer build environment for opkg.
->   - It's recommended that project contributors use this container to buil=
-d
-> and test their changes.
-> - The AutoTools-based build framework has [been replaced](
-> https://git.yoctoproject.org/opkg/commit/?id=3D3f6040e321634471ec442fb0e8=
-0f140f1437e90b)
-> with a more modern, CMake framework.
->   - Refer to the `docs/CONTRIBUTING.md` documentation for updated build
-> instructions.
->
-> [0.8.0] - 2025-01-10
->
-> The minor version bump in this release is due to the changes to cURL erro=
-r
-> output line format.
->
-> - [Changed](
-> https://git.yoctoproject.org/opkg/commit/?id=3Dab03377868256427279b36c4b2=
-a298edae4260b8)
-> the error output for the curl download backend, to now report the HTTP
-> error code for failed requests.
->   - e.g. `error: log_curl_download_error: Failed to download headers of
-> https://foo.bar/all/Packages.gz: The requested URL returned error: 401`
-> - Enabling debug-verbosity, while using the cURL backend, [will now](
-> https://git.yoctoproject.org/opkg/commit/?id=3Dce6fede3db931bb0da70d1334c=
-dc4101d0aec702)
-> print cURL's verbose error log to stderr when there is a download failure=
-.
->   - The verbose output may contain confidential information about your
-> cURL transactions. So this is your reminder that debug-verbosity should n=
-ot
-> be enabled in production systems or sensitive security environments.
-> - The commandline configuration file option (`-f`) [can now](
-> https://git.yoctoproject.org/opkg/commit/?id=3D36d08b93d2859992b624a4ba2f=
-412cfa5c766050)
-> be specified multiple times, and each configuration file will be loaded a=
-nd
-> their settings merged.
-> - [Fixed](
-> https://git.yoctoproject.org/opkg/commit/?id=3Dc87188d7535684fddb8cf80993=
-c147b215602b63)
-> a bug in control field parsing where custom fields whose keys are similar
-> to other fields could be confused by the parser.
->
-> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-> ---
->  meta/recipes-devtools/opkg/opkg/run-ptest     |  3 +--
->  .../opkg/{opkg_0.7.0.bb =3D> opkg_0.9.0.bb}     | 21 +++++++++++--------
->  2 files changed, 13 insertions(+), 11 deletions(-)
->  rename meta/recipes-devtools/opkg/{opkg_0.7.0.bb =3D> opkg_0.9.0.bb} (77=
-%)
->
-> diff --git a/meta/recipes-devtools/opkg/opkg/run-ptest
-> b/meta/recipes-devtools/opkg/opkg/run-ptest
-> index 5fb7077eec9..8cf09adba57 100644
-> --- a/meta/recipes-devtools/opkg/opkg/run-ptest
-> +++ b/meta/recipes-devtools/opkg/opkg/run-ptest
-> @@ -1,5 +1,4 @@
->  #!/bin/sh
->
->  OPKG_PATH=3D$(which opkg)
-> -
-> -make OPKG_PATH=3D$OPKG_PATH run-tests
-> +make -C tests DATADIR=3D/share SYSCONFDIR=3D/etc VARDIR=3D/var
-> OPKG_PATH=3D$OPKG_PATH
-> diff --git a/meta/recipes-devtools/opkg/opkg_0.7.0.bb
-> b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
-> similarity index 77%
-> rename from meta/recipes-devtools/opkg/opkg_0.7.0.bb
-> rename to meta/recipes-devtools/opkg/opkg_0.9.0.bb
-> index 95480b47164..9fa32268541 100644
-> --- a/meta/recipes-devtools/opkg/opkg_0.7.0.bb
-> +++ b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
-> @@ -18,31 +18,31 @@ SRC_URI =3D "
-> http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
->             file://run-ptest \
->             "
->
-> -SRC_URI[sha256sum] =3D
-> "d973fd0f1568f58f87d6aecd9aa95e3e1f60214a45cee26704bf8fe757c54567"
-> +SRC_URI[sha256sum] =3D
-> "440ef321862e01f83da4d02884a0cbb4d9d7b32f82faa81a6a85493f0c89d0f5"
->
->  # This needs to be before ptest inherit, otherwise all ptest files end
-> packaged
->  # in libopkg package if OPKGLIBDIR =3D=3D libdir, because default
->  # PTEST_PATH ?=3D "${libdir}/${BPN}/ptest"
->  PACKAGES =3D+ "libopkg"
->
-> -inherit autotools pkgconfig ptest
-> +inherit cmake pkgconfig ptest
->
->  target_localstatedir :=3D "${localstatedir}"
->  OPKGLIBDIR ??=3D "${target_localstatedir}/lib"
->
->  PACKAGECONFIG ??=3D "libsolv"
->
-> -PACKAGECONFIG[gpg] =3D "--enable-gpg,--disable-gpg,\
-> +PACKAGECONFIG[gpg] =3D "-DWITH_GPGME=3DON,-DWITH_GPGME=3DOFF,\
->      gnupg gpgme libgpg-error,\
->      ${@ "gnupg" if ("native" in d.getVar("PN")) else "gnupg-gpg"}\
->      "
-> -PACKAGECONFIG[curl] =3D "--enable-curl,--disable-curl,curl"
-> -PACKAGECONFIG[ssl-curl] =3D "--enable-ssl-curl,--disable-ssl-curl,curl
-> openssl"
-> -PACKAGECONFIG[sha256] =3D "--enable-sha256,--disable-sha256"
-> -PACKAGECONFIG[libsolv] =3D "--with-libsolv,--without-libsolv,libsolv"
-> +PACKAGECONFIG[curl] =3D "-DWITH_CURL=3D0N,-DWITH_CURL=3DOFF,curl"
-> +PACKAGECONFIG[ssl-curl] =3D "-DWITH_SSLCURL=3DON,-DWITH_SSLCURL=3DOFF,cu=
-rl
-> openssl"
-> +PACKAGECONFIG[sha256] =3D "-DWITH_SHA256=3DON,-DWITH_SHA256=3DOFF"
-> +PACKAGECONFIG[libsolv] =3D
-> "-DUSE_SOLVER_LIBSOLV=3DON,-DUSE_SOLVER_LIBSOLV=3DOFF,libsolv"
->
-> -EXTRA_OECONF =3D "--enable-zstd"
-
--EXTRA_OECONF:append:class-native =3D "
-> --localstatedir=3D/${@os.path.relpath('${localstatedir}',
-> '${STAGING_DIR_NATIVE}')} --sysconfdir=3D/${@os.path.relpath('${sysconfdi=
-r}',
-> '${STAGING_DIR_NATIVE}')}"
-> +EXTRA_OECMAKE =3D "-DWITH_ZSTD=3DON"
->
-
-I wonder if we shouldn't also disable the XZ which is enabled by default
-and we don't use it.
+We fill a bug for that
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16010
 
 Jose
 
+Ryan Eatmon via lists.openembedded.org <reatmon=3D
+ti.com@lists.openembedded.org> escreveu (sexta, 10/10/2025 =C3=A0(s) 19:56)=
+:
 
-> +EXTRA_OECMAKE:append:class-native =3D "
-> -DVARDIR=3D/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}=
-')}
-> -DSYSCONFDIR=3D/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE=
-}')}"
 >
->  do_install:append () {
->         install -d ${D}${sysconfdir}/opkg
-> @@ -56,6 +56,9 @@ do_install:append () {
->  }
 >
->  do_install_ptest () {
-> +       # the ptest class uses a Makefile for installation, but cmake use=
-s
-> Ninja per default so we need to install ptests manually:
-> +       cp -r ${S}/tests ${D}${PTEST_PATH}
-> +
->         sed -i -e '/@echo $^/d' ${D}${PTEST_PATH}/tests/Makefile
->         sed -i -e '/@PYTHONPATH=3D. $(PYTHON) $^/a\\t@if [ "$$?" !=3D "0"
-> ];then echo "FAIL:"$^;else echo "PASS:"$^;fi'
-> ${D}${PTEST_PATH}/tests/Makefile
->  }
+> On 10/10/2025 1:55 PM, Peter Kjellerstedt wrote:
+> >> -----Original Message-----
+> >> From: openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> On Behalf Of Ryan Eatmon via
+> lists.openembedded.org
+> >> Sent: den 10 oktober 2025 18:09
+> >> To: openembedded-core@lists.openembedded.org
+> >> Subject: [OE-core][PATCH v3 3/3] linux-firmware: Set FILES to ""
+> >>
+> >> Now that all of the current firmware has either been moved into
+> >> sub-packages or removed due to licensing the base package is now
+> >> empty. Going forward we would like to keep the base package empty
+> >> and force the version updates to bin any new firmwares into
+> >> sub-packages.
+> >>
+> >> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+> >> ---
+> >> v3: Split single patch into three patches, and add ALLOW_EMPTY.
+> >>
+> >>   .../linux-firmware/linux-firmware_20250917.bb             | 8
+> +++++++-
+> >>   1 file changed, 7 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/recipes-kernel/linux-firmware/
+> linux-firmware_20250917.bb b/meta/recipes-kernel/linux-firmware/
+> linux-firmware_20250917.bb
+> >> index 4efdc73a45..9a12f45435 100644
+> >> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20250917.bb
+> >> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20250917.bb
+> >> @@ -3311,8 +3311,14 @@ LICENSE:${PN} =3D "\
+> >>       & WHENCE \
+> >>   "
+> >>
+> >> +# The goal for this recipe is to creata bunch of breakout packages fo=
+r
+> the
+> >
+> > creata -> create a
+>
+> That's what I get for typing too fast and not spell checking.  Do I need
+> to a v4?
+>
+>
+> >> +# firmware so that you can choose which files to include and not have
+> to pull
+> >> +# them all in.  To that end, we do want any files to be part of the
+> >
+> > do want -> do not want
+> >
+> >> +# linux-firmware package.  So set it to "".  Do not change this.
+> >> +FILES:${PN} =3D ""
+> >> +ALLOW_EMPTY:${PN} =3D "1"
+> >> +
+> >>   FILES:${PN}-license +=3D "${nonarch_base_libdir}/firmware/LICEN*"
+> >> -FILES:${PN} +=3D "${nonarch_base_libdir}/firmware/*"
+> >>   RDEPENDS:${PN} +=3D "${PN}-license"
+> >>   RDEPENDS:${PN} +=3D "${PN}-whence-license"
+> >>
+> >> --
+> >> 2.17.1
+> >
+> > //Peter
+> >
+>
 > --
-> 2.43.0
->
+> Ryan Eatmon                reatmon@ti.com
+> -----------------------------------------
+> Texas Instruments, Inc.  -  LCPD  -  MGTS
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#224962):
-> https://lists.openembedded.org/g/openembedded-core/message/224962
-> Mute This Topic: https://lists.openembedded.org/mt/115787032/5052612
+> View/Reply Online (#224705):
+> https://lists.openembedded.org/g/openembedded-core/message/224705
+> Mute This Topic: https://lists.openembedded.org/mt/115691617/5052612
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > quaresma.jose@gmail.com]
@@ -267,218 +175,123 @@ Best regards,
 
 Jos=C3=A9 Quaresma
 
---00000000000059d5ce064148bc83
+--00000000000082910f064148deb9
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><span style=3D"color:rgb=
-(0,0,0)">Hi Etienne</span></div><div><br></div>Can you split the patch in t=
-wo commits for each version.<div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">Etienne Cordonnier via <a href=3D"http://lists.o=
-penembedded.org" target=3D"_blank">lists.openembedded.org</a> &lt;ecordonni=
-er=3D<a href=3D"mailto:snap.com@lists.openembedded.org" target=3D"_blank">s=
-nap.com@lists.openembedded.org</a>&gt; escreveu (quinta, 16/10/2025 =C3=A0(=
-s) 12:18):<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From:=
- Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" target=3D"_=
-blank">ecordonnier@snap.com</a>&gt;<br>
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>We have started seeing m=
+emory corruption in opkg after this change,</div><div>the libsolv.so.1 segm=
+ent-fault when we are creating images in do_rootfs tasks.</div><div><br></d=
+iv><div>We fill a bug for that <a href=3D"https://bugzilla.yoctoproject.org=
+/show_bug.cgi?id=3D16010">https://bugzilla.yoctoproject.org/show_bug.cgi?id=
+=3D16010</a></div><div><br></div>Jose<div><br><div class=3D"gmail_quote gma=
+il_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Ryan Eatmon via <=
+a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;rea=
+tmon=3D<a href=3D"mailto:ti.com@lists.openembedded.org">ti.com@lists.openem=
+bedded.org</a>&gt; escreveu (sexta, 10/10/2025 =C3=A0(s) 19:56):<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex"><br>
 <br>
-See release notes at<br>
-- <a href=3D"http://downloads.yoctoproject.org/releases/opkg/opkg-0.9.0.rel=
-ease-notes" rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctoproj=
-ect.org/releases/opkg/opkg-0.9.0.release-notes</a><br>
-- <a href=3D"http://downloads.yoctoproject.org/releases/opkg/opkg-0.8.0.rel=
-ease-notes" rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctoproj=
-ect.org/releases/opkg/opkg-0.8.0.release-notes</a><br>
+On 10/10/2025 1:55 PM, Peter Kjellerstedt wrote:<br>
+&gt;&gt; -----Original Message-----<br>
+&gt;&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" =
+target=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=
+=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank">open=
+embedded-core@lists.openembedded.org</a>&gt; On Behalf Of Ryan Eatmon via <=
+a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blan=
+k">lists.openembedded.org</a><br>
+&gt;&gt; Sent: den 10 oktober 2025 18:09<br>
+&gt;&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" ta=
+rget=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt;&gt; Subject: [OE-core][PATCH v3 3/3] linux-firmware: Set FILES to &quo=
+t;&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; Now that all of the current firmware has either been moved into<br=
+>
+&gt;&gt; sub-packages or removed due to licensing the base package is now<b=
+r>
+&gt;&gt; empty. Going forward we would like to keep the base package empty<=
+br>
+&gt;&gt; and force the version updates to bin any new firmwares into<br>
+&gt;&gt; sub-packages.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Ryan Eatmon &lt;<a href=3D"mailto:reatmon@ti.com" t=
+arget=3D"_blank">reatmon@ti.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt; v3: Split single patch into three patches, and add ALLOW_EMPTY.<br=
+>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0.../linux-firmware/<a href=3D"http://linux-firmware_20=
+250917.bb" rel=3D"noreferrer" target=3D"_blank">linux-firmware_20250917.bb<=
+/a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 8 +++++++-<br>
+&gt;&gt;=C2=A0 =C2=A01 file changed, 7 insertions(+), 1 deletion(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/recipes-kernel/linux-firmware/<a href=3D"http://=
+linux-firmware_20250917.bb" rel=3D"noreferrer" target=3D"_blank">linux-firm=
+ware_20250917.bb</a> b/meta/recipes-kernel/linux-firmware/<a href=3D"http:/=
+/linux-firmware_20250917.bb" rel=3D"noreferrer" target=3D"_blank">linux-fir=
+mware_20250917.bb</a><br>
+&gt;&gt; index 4efdc73a45..9a12f45435 100644<br>
+&gt;&gt; --- a/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-f=
+irmware_20250917.bb" rel=3D"noreferrer" target=3D"_blank">linux-firmware_20=
+250917.bb</a><br>
+&gt;&gt; +++ b/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-f=
+irmware_20250917.bb" rel=3D"noreferrer" target=3D"_blank">linux-firmware_20=
+250917.bb</a><br>
+&gt;&gt; @@ -3311,8 +3311,14 @@ LICENSE:${PN} =3D &quot;\<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp; WHENCE \<br>
+&gt;&gt;=C2=A0 =C2=A0&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; +# The goal for this recipe is to creata bunch of breakout package=
+s for the<br>
+&gt; <br>
+&gt; creata -&gt; create a<br>
 <br>
-[0.9.0] - 2025-06-27<br>
+That&#39;s what I get for typing too fast and not spell checking.=C2=A0 Do =
+I need <br>
+to a v4?<br>
 <br>
-Semiannual opkg release.<br>
-Bumping the minor version as a result of the project build tooling changing=
- from autotools to cmake.<br>
 <br>
-- Added a Dockerfile container definition (`:docker/`) for a valid develope=
-r build environment for opkg.<br>
-=C2=A0 - It&#39;s recommended that project contributors use this container =
-to build and test their changes.<br>
-- The AutoTools-based build framework has [been replaced](<a href=3D"https:=
-//git.yoctoproject.org/opkg/commit/?id=3D3f6040e321634471ec442fb0e80f140f14=
-37e90b" rel=3D"noreferrer" target=3D"_blank">https://git.yoctoproject.org/o=
-pkg/commit/?id=3D3f6040e321634471ec442fb0e80f140f1437e90b</a>) with a more =
-modern, CMake framework.<br>
-=C2=A0 - Refer to the `docs/CONTRIBUTING.md` documentation for updated buil=
-d instructions.<br>
+&gt;&gt; +# firmware so that you can choose which files to include and not =
+have to pull<br>
+&gt;&gt; +# them all in.=C2=A0 To that end, we do want any files to be part=
+ of the<br>
+&gt; <br>
+&gt; do want -&gt; do not want<br>
+&gt; <br>
+&gt;&gt; +# linux-firmware package.=C2=A0 So set it to &quot;&quot;.=C2=A0 =
+Do not change this.<br>
+&gt;&gt; +FILES:${PN} =3D &quot;&quot;<br>
+&gt;&gt; +ALLOW_EMPTY:${PN} =3D &quot;1&quot;<br>
+&gt;&gt; +<br>
+&gt;&gt;=C2=A0 =C2=A0FILES:${PN}-license +=3D &quot;${nonarch_base_libdir}/=
+firmware/LICEN*&quot;<br>
+&gt;&gt; -FILES:${PN} +=3D &quot;${nonarch_base_libdir}/firmware/*&quot;<br=
+>
+&gt;&gt;=C2=A0 =C2=A0RDEPENDS:${PN} +=3D &quot;${PN}-license&quot;<br>
+&gt;&gt;=C2=A0 =C2=A0RDEPENDS:${PN} +=3D &quot;${PN}-whence-license&quot;<b=
+r>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.17.1<br>
+&gt; <br>
+&gt; //Peter<br>
+&gt; <br>
 <br>
-[0.8.0] - 2025-01-10<br>
-<br>
-The minor version bump in this release is due to the changes to cURL error =
-output line format.<br>
-<br>
-- [Changed](<a href=3D"https://git.yoctoproject.org/opkg/commit/?id=3Dab033=
-77868256427279b36c4b2a298edae4260b8" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://git.yoctoproject.org/opkg/commit/?id=3Dab03377868256427279b36c4b2a29=
-8edae4260b8</a>) the error output for the curl download backend, to now rep=
-ort the HTTP error code for failed requests.<br>
-=C2=A0 - e.g. `error: log_curl_download_error: Failed to download headers o=
-f <a href=3D"https://foo.bar/all/Packages.gz" rel=3D"noreferrer" target=3D"=
-_blank">https://foo.bar/all/Packages.gz</a>: The requested URL returned err=
-or: 401`<br>
-- Enabling debug-verbosity, while using the cURL backend, [will now](<a hre=
-f=3D"https://git.yoctoproject.org/opkg/commit/?id=3Dce6fede3db931bb0da70d13=
-34cdc4101d0aec702" rel=3D"noreferrer" target=3D"_blank">https://git.yoctopr=
-oject.org/opkg/commit/?id=3Dce6fede3db931bb0da70d1334cdc4101d0aec702</a>) p=
-rint cURL&#39;s verbose error log to stderr when there is a download failur=
-e.<br>
-=C2=A0 - The verbose output may contain confidential information about your=
- cURL transactions. So this is your reminder that debug-verbosity should no=
-t be enabled in production systems or sensitive security environments.<br>
-- The commandline configuration file option (`-f`) [can now](<a href=3D"htt=
-ps://git.yoctoproject.org/opkg/commit/?id=3D36d08b93d2859992b624a4ba2f412cf=
-a5c766050" rel=3D"noreferrer" target=3D"_blank">https://git.yoctoproject.or=
-g/opkg/commit/?id=3D36d08b93d2859992b624a4ba2f412cfa5c766050</a>) be specif=
-ied multiple times, and each configuration file will be loaded and their se=
-ttings merged.<br>
-- [Fixed](<a href=3D"https://git.yoctoproject.org/opkg/commit/?id=3Dc87188d=
-7535684fddb8cf80993c147b215602b63" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://git.yoctoproject.org/opkg/commit/?id=3Dc87188d7535684fddb8cf80993c147b=
-215602b63</a>) a bug in control field parsing where custom fields whose key=
-s are similar to other fields could be confused by the parser.<br>
-<br>
-Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.co=
-m" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/opkg/opkg/run-ptest=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-3 +--<br>
-=C2=A0.../opkg/{<a href=3D"http://opkg_0.7.0.bb" rel=3D"noreferrer" target=
-=3D"_blank">opkg_0.7.0.bb</a> =3D&gt; <a href=3D"http://opkg_0.9.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">opkg_0.9.0.bb</a>}=C2=A0 =C2=A0 =C2=A0| 2=
-1 +++++++++++--------<br>
-=C2=A02 files changed, 13 insertions(+), 11 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/opkg/{<a href=3D"http://opkg_0.7.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">opkg_0.7.0.bb</a> =3D&gt; <a href=3D"ht=
-tp://opkg_0.9.0.bb" rel=3D"noreferrer" target=3D"_blank">opkg_0.9.0.bb</a>}=
- (77%)<br>
-<br>
-diff --git a/meta/recipes-devtools/opkg/opkg/run-ptest b/meta/recipes-devto=
-ols/opkg/opkg/run-ptest<br>
-index 5fb7077eec9..8cf09adba57 100644<br>
---- a/meta/recipes-devtools/opkg/opkg/run-ptest<br>
-+++ b/meta/recipes-devtools/opkg/opkg/run-ptest<br>
-@@ -1,5 +1,4 @@<br>
-=C2=A0#!/bin/sh<br>
-<br>
-=C2=A0OPKG_PATH=3D$(which opkg)<br>
--<br>
--make OPKG_PATH=3D$OPKG_PATH run-tests<br>
-+make -C tests DATADIR=3D/share SYSCONFDIR=3D/etc VARDIR=3D/var OPKG_PATH=
-=3D$OPKG_PATH<br>
-diff --git a/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.7.0.bb" re=
-l=3D"noreferrer" target=3D"_blank">opkg_0.7.0.bb</a> b/meta/recipes-devtool=
-s/opkg/<a href=3D"http://opkg_0.9.0.bb" rel=3D"noreferrer" target=3D"_blank=
-">opkg_0.9.0.bb</a><br>
-similarity index 77%<br>
-rename from meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.7.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">opkg_0.7.0.bb</a><br>
-rename to meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.9.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">opkg_0.9.0.bb</a><br>
-index 95480b47164..9fa32268541 100644<br>
---- a/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.7.0.bb" rel=3D"no=
-referrer" target=3D"_blank">opkg_0.7.0.bb</a><br>
-+++ b/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.9.0.bb" rel=3D"no=
-referrer" target=3D"_blank">opkg_0.9.0.bb</a><br>
-@@ -18,31 +18,31 @@ SRC_URI =3D &quot;<a href=3D"http://downloads.yoctoproj=
-ect.org/releases/$%7BBPN%7D/$%7BBPN%7D-$%7BPV%7D.tar.gz" rel=3D"noreferrer"=
- target=3D"_blank">http://downloads.yoctoproject.org/releases/${BPN}/${BPN}=
--${PV}.tar.gz</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
--SRC_URI[sha256sum] =3D &quot;d973fd0f1568f58f87d6aecd9aa95e3e1f60214a45cee=
-26704bf8fe757c54567&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;440ef321862e01f83da4d02884a0cbb4d9d7b32f82faa=
-81a6a85493f0c89d0f5&quot;<br>
-<br>
-=C2=A0# This needs to be before ptest inherit, otherwise all ptest files en=
-d packaged<br>
-=C2=A0# in libopkg package if OPKGLIBDIR =3D=3D libdir, because default<br>
-=C2=A0# PTEST_PATH ?=3D &quot;${libdir}/${BPN}/ptest&quot;<br>
-=C2=A0PACKAGES =3D+ &quot;libopkg&quot;<br>
-<br>
--inherit autotools pkgconfig ptest<br>
-+inherit cmake pkgconfig ptest<br>
-<br>
-=C2=A0target_localstatedir :=3D &quot;${localstatedir}&quot;<br>
-=C2=A0OPKGLIBDIR ??=3D &quot;${target_localstatedir}/lib&quot;<br>
-<br>
-=C2=A0PACKAGECONFIG ??=3D &quot;libsolv&quot;<br>
-<br>
--PACKAGECONFIG[gpg] =3D &quot;--enable-gpg,--disable-gpg,\<br>
-+PACKAGECONFIG[gpg] =3D &quot;-DWITH_GPGME=3DON,-DWITH_GPGME=3DOFF,\<br>
-=C2=A0 =C2=A0 =C2=A0gnupg gpgme libgpg-error,\<br>
-=C2=A0 =C2=A0 =C2=A0${@ &quot;gnupg&quot; if (&quot;native&quot; in d.getVa=
-r(&quot;PN&quot;)) else &quot;gnupg-gpg&quot;}\<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
--PACKAGECONFIG[curl] =3D &quot;--enable-curl,--disable-curl,curl&quot;<br>
--PACKAGECONFIG[ssl-curl] =3D &quot;--enable-ssl-curl,--disable-ssl-curl,cur=
-l openssl&quot;<br>
--PACKAGECONFIG[sha256] =3D &quot;--enable-sha256,--disable-sha256&quot;<br>
--PACKAGECONFIG[libsolv] =3D &quot;--with-libsolv,--without-libsolv,libsolv&=
-quot;<br>
-+PACKAGECONFIG[curl] =3D &quot;-DWITH_CURL=3D0N,-DWITH_CURL=3DOFF,curl&quot=
-;<br>
-+PACKAGECONFIG[ssl-curl] =3D &quot;-DWITH_SSLCURL=3DON,-DWITH_SSLCURL=3DOFF=
-,curl openssl&quot;<br>
-+PACKAGECONFIG[sha256] =3D &quot;-DWITH_SHA256=3DON,-DWITH_SHA256=3DOFF&quo=
-t;<br>
-+PACKAGECONFIG[libsolv] =3D &quot;-DUSE_SOLVER_LIBSOLV=3DON,-DUSE_SOLVER_LI=
-BSOLV=3DOFF,libsolv&quot;<br>
-<br>
--EXTRA_OECONF =3D &quot;--enable-zstd&quot;=C2=A0</blockquote><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
--EXTRA_OECONF:append:class-native =3D &quot; --localstatedir=3D/${@os.path.=
-relpath(&#39;${localstatedir}&#39;, &#39;${STAGING_DIR_NATIVE}&#39;)} --sys=
-confdir=3D/${@os.path.relpath(&#39;${sysconfdir}&#39;, &#39;${STAGING_DIR_N=
-ATIVE}&#39;)}&quot;<br>
-+EXTRA_OECMAKE =3D &quot;-DWITH_ZSTD=3DON&quot;<br></blockquote><div><br></=
-div><div><div>I wonder if we shouldn&#39;t also disable the XZ which is ena=
-bled by default and we don&#39;t use it.</div></div><div><br></div><div>Jos=
-e</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+EXTRA_OECMAKE:append:class-native =3D &quot; -DVARDIR=3D/${@os.path.relpat=
-h(&#39;${localstatedir}&#39;, &#39;${STAGING_DIR_NATIVE}&#39;)} -DSYSCONFDI=
-R=3D/${@os.path.relpath(&#39;${sysconfdir}&#39;, &#39;${STAGING_DIR_NATIVE}=
-&#39;)}&quot;<br>
-<br>
-=C2=A0do_install:append () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${sysconfdir}/opkg<br>
-@@ -56,6 +56,9 @@ do_install:append () {<br>
-=C2=A0}<br>
-<br>
-=C2=A0do_install_ptest () {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# the ptest class uses a Makefile for installat=
-ion, but cmake uses Ninja per default so we need to install ptests manually=
-:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${S}/tests ${D}${PTEST_PATH}<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;/@echo $^/d&#39; ${D}${PTEST_PAT=
-H}/tests/Makefile<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;/@PYTHONPATH=3D. $(PYTHON) $^/a\=
-\t@if [ &quot;$$?&quot; !=3D &quot;0&quot; ];then echo &quot;FAIL:&quot;$^;=
-else echo &quot;PASS:&quot;$^;fi&#39; ${D}${PTEST_PATH}/tests/Makefile<br>
-=C2=A0}<br>
 -- <br>
-2.43.0<br>
-<br>
+Ryan Eatmon=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=
+=3D"mailto:reatmon@ti.com" target=3D"_blank">reatmon@ti.com</a><br>
+-----------------------------------------<br>
+Texas Instruments, Inc.=C2=A0 -=C2=A0 LCPD=C2=A0 -=C2=A0 MGTS<br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#224962): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/224962" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/224962</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115787032/505=
+View/Reply Online (#224705): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/224705" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/224705</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/115691617/505=
 2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/115787032/5052612</a><br>
+t/115691617/5052612</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -492,7 +305,6 @@ arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
 =3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
 ignature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></=
 div></div></div></div>
-</div>
 
---00000000000059d5ce064148bc83--
+--00000000000082910f064148deb9--
 
