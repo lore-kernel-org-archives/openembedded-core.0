@@ -1,77 +1,140 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8116CCD199
-	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 19:04:48 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web10.1943.1760641487049201304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B170FCCD183
+	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 19:11:38 +0000 (UTC)
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+ by mx.groups.io with SMTP id smtpd.web11.2071.1760641891501422089
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 12:04:47 -0700
+ Thu, 16 Oct 2025 12:11:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Av5xtfp/;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-87c1f607e72so9512436d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 12:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760641486; x=1761246286; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eOQydj3CKJYJ4omj2KzPKT67hseuV64Y0t0XVbwlg6E=;
-        b=Av5xtfp/4dkyGrj+sMs1BS5h70oX0qqHEfwA+szf2JXmJUoIHVmHbJgrpVWey/Xaky
-         Z4FRmqASKHKb6TYr//jHajK5/gt4+Pj83S6hZUGWQ6O3vVaRKm4tZ/yZDDo4/bjxcBGZ
-         gotC7XJ5wgRE8GF2t9uCI5zMM/po6zg7+8qoLWeBOipBKUzUOyriB2qwJmaQYUuoVskT
-         dL6bSXiUqxCiKvSfWcLbq4yHwcGIEfcF6iHI+cTTw0kxfrm6Dq0DAdSvsRDgWeCN6eoH
-         SWn+qJG1veqBFWQBSzniPgxu/UseVHUbKHsHj4m49BgwbfqSg3NcWYMZ+1HVhpb1G38a
-         iRDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760641486; x=1761246286;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eOQydj3CKJYJ4omj2KzPKT67hseuV64Y0t0XVbwlg6E=;
-        b=uOWcH7hBQrsirvUGn2UJzdaO5hYAQb+vfABDaOGbMuqFFgWvNNEma7Ow/ASeKM8q+/
-         cu7Y8ljAFDiU9I7HSdCe9JU2TaHkJKGJce163PLLY53khVQpkPVgH4fz8TnKVYtSIzCv
-         EH45uMxCse3LfsnCy9SSLHvprtW/E4WFrp6iMq3a7g82xRE1NbZkXaZuydknmK1Lqf+g
-         3Y23bk5Qqafj/LeSggA4cKVm0uk3KacDyNhDx2jfpQjHMJA+L1HYq+HpqP6zRqTt4mOP
-         iPZCw2dt587nl/F56Fgk/Fx3y4A77HYFcwHzjsvAPx0rBuyZWjNIr+RhvvgpMlrkD3Ii
-         r1Og==
-X-Gm-Message-State: AOJu0YxRCBGjF5gjo33GaHZ2UBN3jtTAtHIDQFxiRGLkfOyTNpgGsubB
-	aeLxTz+zbggGBvSMwyufRXzE8lzVhAqnHutFU9mRqOE3l+ryJZdbciBbNCiTmKtFv/J5wcyyGTD
-	reLWzzErkeAP/3gfqnNIIwHaEVVXpC2c=
-X-Gm-Gg: ASbGncs5K4/JzIZJsWga8WGP3XuQ4EH8Msv9iKGmBh8TbzD4g+4lrh2BbdL8UgrNLGq
-	HPGUb9waw7omA5m3dW8gUzg+rOhDAevba0QW4oqL3rsA8rdBOm41gi/BLQQCaNBPWYBgmeEBDfg
-	M5zLHUamkbCwPptWr2aZXF34ayKZnMPjdz5ly/9mQBgAwqonkCQOlEpE+BLlkkGlDkQHecb8aaw
-	CaEQ13M1LFe++q+3rXxYpR6eiJPw44qGCLuL3DzI9Y5wUKgdX6PFtMOTlFaes4WKtfJzaYiUIe9
-	x4aMwrTt3e92gs4NnWAALqYF2nWSzLM4u6FsYWSLgvdWRVsx/+bp00W+uXhS
-X-Google-Smtp-Source: AGHT+IHX/HH6PpdZ8loHBZWKgooMOJ5MR5GMhH0e/cgw65Sl54p2iAHaOY91/7nmc+lMio3XSfR+mKVXSI4oT+yoiS8=
-X-Received: by 2002:ad4:5c85:0:b0:72a:87e6:f8d9 with SMTP id
- 6a1803df08f44-87c0c7d9cb4mr62082116d6.8.1760641485869; Thu, 16 Oct 2025
- 12:04:45 -0700 (PDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=EpOZlW+u;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=woUNWVLF;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id BD92614000D5;
+	Thu, 16 Oct 2025 15:11:30 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Thu, 16 Oct 2025 15:11:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1760641890; x=1760728290; bh=Y5
+	pN7a4mIOp52WdyZBfDsPeAKY//mPrsT3SQ3k79fSw=; b=EpOZlW+uM2G+IvTRpq
+	8BJMDZbfUW8akJdlkZsC6n/4GUuN3Rg5SjyvGXRIADqwPHNofBQe++UG4F5du0j7
+	iGA2fqan2ndicx+x3Tq+uPLCsJhfpv9LBzaSpF4kCrAuKzPg7SqaHZoCB3DlsDu6
+	J7mneZigAH80BycIVDXqIKaY5GNbnRLSvfAkmAFRaSYFGSIT3OnHbAcu7+BhrLYV
+	M0bIh0S7KQeR3138e6wyuiEJPjJ16sMedJv0dHq2epD/Rf7Mw7bzUv0MpcGEDvMy
+	imuorFentSHvDbgdbkFudOHIPm9z/pfZ60B14UPdw+ez/MxGNvRKwooMMCacvCu4
+	NOYQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1760641890; x=1760728290; bh=Y5pN7a4mIOp52WdyZBfDsPeAKY//
+	mPrsT3SQ3k79fSw=; b=woUNWVLFb480OJduF6y+SIu9G4+eul6cbzpnuJp9MD3T
+	LXqy+gEUMg9nlFWITl9KHD10MgEZi0KSjMhsdRSS1bYC4BCelxNJssck4OygiOFS
+	PHaeHv64ds7i78Lofpk7Yl7QKfpTCxqQk/SdzlF5JwPbh4OiC37DKe7mh0WYdP8e
+	kRnDKzYjuAyPWZUTtCKgGa6X+l3rpwU2YSxYcizVRP6eJayp8ANM/P7KzfLJAoEd
+	nydSwCR308+LqRVYf9TlAjvOWkiPuH42vHcHJ+IryZRlMOTGopUZ9OWEVdYDEKWK
+	g4ofm13smXDQYfxMspkHab2O1n5+FRzVOZK8IFjcGg==
+X-ME-Sender: <xms:YkPxaPMptJos2RpZ9ag63h8r-EBk0uXtW4BmE81D_4b7NNaUWAO8yw>
+    <xme:YkPxaBYmPNRhhly7AvmjKbqKuIvaxX3T4TKDcTRhmIwIJ9WlkYcDf9In7yuyYNH5e
+    JBp-k7gxO_PF9H4INpFSqV6ZZvNid40JpFHjh33aYOyXW4hQeX5XLLS>
+X-ME-Received: <xmr:YkPxaLoDmsxtEW980p5eUqzxS9hbT09ulkLv5yMaSHJ9G0GS8ZLjq9AUewYvCpWPSsHbbfL2tv_cPAtBxBlZrPE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduvdejtdelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpefrrghulhcuuegr
+    rhhkvghruceophgruhhlsehpsggrrhhkvghrrdguvghvqeenucggtffrrghtthgvrhhnpe
+    ejleetfeelteekudeufeetffegledtgeeugfevteetkeevteeikedtffettdekhfenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhesph
+    gsrghrkhgvrhdruggvvhdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvg
+    hnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepphgruhhlsehpsggrrhhkvghrrdgu
+    vghvpdhrtghpthhtoheprghlvgigrdhkrghnrghvihhnsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:YkPxaNY1LyEatrE47v0uUMkTyiPKoccIKAacaeTo5L1iRVTI3Z_plw>
+    <xmx:YkPxaLSrIStbJp29GfvYAignEMqwaHNafXQ0nZ8FEKm6ISZYm6z5jA>
+    <xmx:YkPxaM5UGwqhG0RKfTfL6T5V5ojiItX8YJ7Ok6uWp1jy_yjj3MS_Pw>
+    <xmx:YkPxaIw5jxtAl3SEaIBya_6ZPQPCp-BK1pInEIdnRhVtUCVkNLRLZA>
+    <xmx:YkPxaA6d2K_oUi7-Ul1JvlT7lhShQp_jQcGI1bNHPVYlcEjdgHp6MQI->
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Oct 2025 15:11:29 -0400 (EDT)
+From: Paul Barker <paul@pbarker.dev>
+Date: Thu, 16 Oct 2025 20:11:08 +0100
+Subject: [PATCH] pseudo: Add hard sstate dependencies for pseudo-native
 MIME-Version: 1.0
-References: <20251015081156.11738-1-liuyd.fnst@fujitsu.com>
-In-Reply-To: <20251015081156.11738-1-liuyd.fnst@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 16 Oct 2025 21:04:34 +0200
-X-Gm-Features: AS18NWBzaDRF3XE0VL7HzVE03bBuerQnfySDxVvUOpB0790o7Q2Yw7nx4NAQUjo
-Message-ID: <CANNYZj-A_jSagKfHmL=_V5B3K+GzjJo5mYizTWQre2hZ7B52ZA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] kea: fix installation umask to 0022 of meson.
-To: liuyd.fnst@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251016-fix-pseudo-native-v1-1-7c42af094122@pbarker.dev>
+X-B4-Tracking: v=1; b=H4sIAEtD8WgC/x2MTQqAIBQGryJv3YO0n0VXiRain/U2FloRhHdPW
+ g7MzEsZSZBpUi8l3JJljxV0o8htNq5g8ZXJtGbQrR45yMNHxuV3jvaUG2yMDuiCA2xPtTsSqvQ
+ /56WUD+mRdSxjAAAA
+X-Change-ID: 20251016-fix-pseudo-native-221fe3fceea4
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+ Paul Barker <paul@pbarker.dev>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1767; i=paul@pbarker.dev;
+ h=from:subject:message-id; bh=Z6ukMIcb581vI4o7pa1qlqcr+C88xk+zXBFPqt3oWcQ=;
+ b=kA0DAAoWq2NU7J269G4ByyZiAGjxQ2Ghw5EJr0rozVSiaoVoL88nFkTxP+WN5CFCLxJ+q1CQs
+ Yh1BAAWCgAdFiEEs4z13+WNQQ1oVNogq2NU7J269G4FAmjxQ2EACgkQq2NU7J269G6FPQEA6lmJ
+ tNtP3ykFLFqbB9HGbWVI+F4t2bf+/CUhlGBfxicA/Rnc8iFRjjq4Sj1CPrzgtUtbiJ1FDidbD32
+ IUCOvMPAK
+X-Developer-Key: i=paul@pbarker.dev; a=openpgp;
+ fpr=98B2AAC100AC3F82BB5D546774975C81B7E66BAC
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 19:04:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224979
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 19:11:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224980
 
-On Wed, 15 Oct 2025 at 10:12, Yiding Liu (Fujitsu) via
-lists.openembedded.org <liuyd.fnst=fujitsu.com@lists.openembedded.org>
-wrote:
-> +Upstream-Status: Submitted https://gitlab.isc.org/isc-projects/kea/-/issues/4171
+Where a task (such as do_package) runs under fakeroot, the corresponding
+setscene task (do_package_setscene) will also run under fakeroot when
+restoring from sstate. Assuming pseudo is used as the fakeroot
+implementation, we need pseudo-native and all its runtime dependencies
+to be available in the sysroot before running any setscene tasks under
+fakeroot.
 
-Should this be submitted directly as a pull request? Is there a reason
-why it isn't?
+We already add a hard dependency from all do_package_setscene tasks to
+virtual/fakeroot-native:do_populate_sysroot in base.bbclass, but this
+does not cover transitive dependencies. So, extend the dependencies of
+pseudo-native:do_populate_sysroot_setscene to ensure that the sqlite3
+library and attr binaries are also available in the sysroot before
+running fakeroot setscene tasks.
 
-Alex
+[YOCTO #15963]
+
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+---
+ meta/recipes-devtools/pseudo/pseudo.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+index 22c934977d9b..82499cdd74da 100644
+--- a/meta/recipes-devtools/pseudo/pseudo.inc
++++ b/meta/recipes-devtools/pseudo/pseudo.inc
+@@ -155,3 +155,10 @@ do_install:append:class-nativesdk () {
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++# Setscene tasks which run under fakeroot must not be executed before
++# pseudo-native and *all* its runtime dependencies are available in the
++# sysroot.
++PSEUDO_SETSCENE_DEPS = ""
++PSEUDO_SETSCENE_DEPS:class-native = "sqlite3-native:do_populate_sysroot attr-native:do_populate_sysroot"
++do_populate_sysroot_setscene[depends] += "${PSEUDO_SETSCENE_DEPS}"
+
+---
+base-commit: 58558b97c157469f060bb2ad59a40254fb6181e4
+change-id: 20251016-fix-pseudo-native-221fe3fceea4
+
+Best regards,
+-- 
+Paul Barker
+
 
