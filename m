@@ -2,64 +2,64 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B630ECCD199
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B62D3CCD185
 	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 03:09:04 +0000 (UTC)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web10.4651.1760584137361147430
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web10.4650.1760584135744564175
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Oct 2025 20:08:57 -0700
+ Wed, 15 Oct 2025 20:08:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NZFfyh8h;
- spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-863fa984ef5so56793085a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 20:08:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UIF06uxg;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-81fdd5d7b59so4587776d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 20:08:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760584136; x=1761188936; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760584135; x=1761188935; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DnBYkbbc+c2LAO9/9Y9Imf2lgC/FiMr+TxSyXsAwGMU=;
-        b=NZFfyh8h+ZQd4EOXM6hrAtpuDTX7cFDWuvgF/IwE8FzoED90IK5CymXaUnojHhWbSP
-         Rvx8EAnCaGXhaQniKWHxCW3b/3cFl5U3JItKbVuNVyZjDEtx21l5fOeMp1puLYrudMOJ
-         8QTWXlLlQuTuPkNvhCDSn3pCGq6jlW9bqYcDnQsSc/s3jNSRacqOYNFjRmE3AWOImT9h
-         Cq1crfvohnFYdblnRoBvHCiqOMTVNEkfn0HcLq2rXB4YlPVyFR9bEGX3XO24mCCDpyYF
-         XO+N7iet5bvqn4/P/tKMQe2PEvxhNfuXaoTGHblnH5NzqYJBVPJBU1nabDBNQuHPZS36
-         bBOQ==
+        bh=dbYgptsqktDcDv8w4IWjVJoH7udrHWUxtWiqM6F+J7g=;
+        b=UIF06uxgKGjoKHZZa6bVcFG1XxYUvh5Pdfh/CmaJUav7KNZqLKrInwnAHHI/IzNOH1
+         AeaJnS7pPDmDTUZDJNlgB9hgEevtvJSjUEuLtrJ/TVA+W6ilj0y7LzCJDJbdA4EyBZUB
+         YuQPrI0RQR0jtLljLpB4h1ken6lYgSLwcpNIXYB+VK14PCSYLD3zZdoCw/HJ3c3G+yBg
+         DfAD+5xYcC4L7p0llmz1IEagwIHlSMM0ateBft+Xv6YP5ExXcqb8BwOX/pm1SdKbPWdI
+         0Rpm0pH6RIbeZZZvFZaQ3+v0kpKG2kXfm4zOHyDXmHgTPXKmMKsNvGeKDZzeYkPaQTPI
+         T2iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760584136; x=1761188936;
+        d=1e100.net; s=20230601; t=1760584135; x=1761188935;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DnBYkbbc+c2LAO9/9Y9Imf2lgC/FiMr+TxSyXsAwGMU=;
-        b=Wd9CP/0XHZYfKsrw+24Wi8a3Uko9568EG0N2XuVG0+DIFKy1CAKr73NbirvTToRlUp
-         oVZuauVFnB0a4A9CSh4HawVM8/mTvTfebTGR0qrTy6S3fGEodi27YxkJlCxIIwk14LVN
-         Y6ykvCuHeth4Pi7XTIjqc1sNHdCEEmLLiXhBjtatnSalpr0DZeoA0Qm8CeCZCx8QAoai
-         6VxIqCzKJxskGhKgydFF7sM+IVJnEQsLctKhnG24P0+Ll7Sw7MwjeOSqdEKiZE8mmSk6
-         uojMo8RwDQAJu1qMeoa1JLyZmR9Wz0GjoOqtBD+/YVZyHvIszfntoiTfYL6M4jB7GTSE
-         zW3A==
-X-Gm-Message-State: AOJu0YzMeqXpqx0p9JDNcVrgsqNb2KXIGpeFd8R3mTQYKzGEX5/LMN64
-	fzLbZE9B+Rwy5sdx+xJp6mv6tPVka2QnAg3FxKBhEI5BMAQbtaGgBug6
-X-Gm-Gg: ASbGncslfEYVC/zWFyEThHMA5XzZirjtxH4kcM9wHPm8y4p1nQEImF21VTUA/7fEDqx
-	Evru8kqeK5kXT5FjElvfHECpprJQjMVSe+tiL6B9Xfp1/4xg5lOagTU2Np0V12bdVoFfaPet932
-	cK9cMS9dgs+f/3S3Tr6uzIZ30OpSZyYVPnOI65TumFG4LfoG7je0tX/9/VDYat1UW8f4MykeECr
-	COCSIunrNAsbRlMTOv7E+bSugTeNDYEyQculIguAZMaDI9dZYJzjMVSe/B2bxidVoVhwJF2tZar
-	RyXjC9LM3BfQBE65+Zz008srfGP5wZTXWmGb+42JI8H9F0XjUVUUd8zH483Idh4FQ27NR9l9O9n
-	cAWEWOvpMpOKSePu+LU+i7naYylsNmVxiLAFipwey+pa9n/t8/c2QjKu+Nb82ZgNhfBnUvZ4odi
-	c7HQqrxFDfpCGkjwZjDqF9kGulIAKkRvKs6gCnbYSEFM+O2IdKqcMGeVmCQBYCVGYXYUmfcy6c7
-	GY/BwjOyQ1pLq0Hn0gLkMZW9Q==
-X-Google-Smtp-Source: AGHT+IHD05qjDK1gbKrzFXismEqOEgg0KlB5ZoUE2rETM+/BtFo9UMsFROEsinBqgH45b5gLU9ZF0Q==
-X-Received: by 2002:a05:622a:1f0a:b0:4d3:3ecd:efd0 with SMTP id d75a77b69052e-4e6eaccf9e8mr444730731cf.6.1760584136212;
-        Wed, 15 Oct 2025 20:08:56 -0700 (PDT)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87c012a39d9sm30824986d6.44.2025.10.15.20.08.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=dbYgptsqktDcDv8w4IWjVJoH7udrHWUxtWiqM6F+J7g=;
+        b=LXvqq+XetL+1C60NxTWIUbbeyHs8bJNh9jBEN1qEb0BcVJ/WA7TFVajaslbsUOJrnZ
+         xUlVoSXuDn/L0+YPoJ23txofosor6CnjMS1Z2oOJGltcvFCo4tQOWr4+7DzQ2Sm2LQB6
+         VOnC7whpaq74ehD71sXtJyZ/ke4nxoH9i+pH49aroyKZF/IQtpRYnLeKOenZmS+Xl3vp
+         BulzXxBwUrOxv05i+DxI/kOHe/d3+7q9CU/5E5DBfiw8hYNRfk2le5bV/vvgaj+nOtWd
+         Ltff/84oRJR8P1RN9BY0HnQU0CNI03HZiIYW0j2/xYp21iErGhGtFHWPsNDdMyie0xNN
+         rrSQ==
+X-Gm-Message-State: AOJu0YwvV0FvAuh2FBgHl/ZyHQBbj1qOR0NsoqBY05BxreXCHae7FkJ4
+	mTHoe0wggy8QJZD5QhpSFGa8ZxC/mDp359mqjW9StSpTpZ5pL46Za+P3gsNaCxoYTfE=
+X-Gm-Gg: ASbGncse6TIxTXBDV1gmOLLnpfDyPcmCqzwmk86kEQKmIKInUofUWi3ItUPuY+K6wAv
+	+dYLwt1DoQFk9qdi0V5n8Al0z4OKgwCMjaFauVY3EFx/Is5y/4Rz0V/bhO4UCByBH0UP/YBUamz
+	wK9DzRItcG5mq8XFSzoplGJUQk5myesvtKFJUgWMJ/ayice8rlSbgWV1jkhq4isRgRQPPrYMedq
+	K9T5GED9FQYXhjmC0u5DHv5bKprydNnLCYLTfTTN6yE3yeLF0m4eHFCMCkZiZ8k/uDpKGFko2Zy
+	LLLZOZSDvKBQmZ92Vfq7F1NgoajKT/Kf4ZfuXLwdsh3xWYcpqkLhvxb54R7zaGLEclZpfkTY2VR
+	5ctn/k8Ycv9jnyYpyrgmyhkzGzd89+ed9Qw5+RHQaI4AQ2pzWUuj6LDb7AqA2rtf8C3HOFSG4uN
+	vvaVlRrss8dkK9aixPlqOjilJOMKbQPw+0role2FHIiIgSBM72uIAWyev0Wc0mRTQrAyt7B92SQ
+	fMD
+X-Google-Smtp-Source: AGHT+IFCUaimwtj9LxOehelv3nu2ji7NZV0lz8g97PN75tnD6EoxxW49L2QnkzmA4ngZGf0luDOglg==
+X-Received: by 2002:a05:6214:5089:b0:794:f422:bcfe with SMTP id 6a1803df08f44-87b2ef4dbb3mr318860776d6.46.1760584134571;
         Wed, 15 Oct 2025 20:08:54 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87c012a39d9sm30824986d6.44.2025.10.15.20.08.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 20:08:53 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/11] linux-yocto/6.12: update CVE exclusions (6.12.52)
-Date: Wed, 15 Oct 2025 23:08:41 -0400
-Message-Id: <46c6aba70c43ff7f181ee686cf1da427400925d5.1760583881.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 07/11] linux-yocto/6.12: update to v6.12.52
+Date: Wed, 15 Oct 2025 23:08:40 -0400
+Message-Id: <6969fdeb97ff584f0442f772e892f737a71445cf.1760583881.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1760583881.git.bruce.ashfield@gmail.com>
 References: <cover.1760583881.git.bruce.ashfield@gmail.com>
@@ -69,194 +69,153 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 03:09:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224923
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224922
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Data pulled from: https://github.com/CVEProject/cvelistV5
+Updating linux-yocto/6.12 to the latest korg -stable release that comprises
+the following commits:
 
-    1/1 [
-        Author: cvelistV5 Github Action
-        Email: github_action@example.com
-        Subject: 10 changes (9 new | 1 updated): - 9 new CVEs: CVE-2025-42901, CVE-2025-42902, CVE-2025-42903, CVE-2025-42906, CVE-2025-42908, CVE-2025-42909, CVE-2025-42910, CVE-2025-42937, CVE-2025-42939 - 1 updated CVEs: CVE-2025-42907
-        Date: Tue, 14 Oct 2025 00:35:23 +0000
-
-    ]
+    2b2cbdcede38 Linux 6.12.52
+    e7177c7e32cb KVM: x86: Don't (re)check L1 intercepts when completing userspace I/O
+    716dceb19a9f net/9p: fix double req put in p9_fd_cancelled
+    c5c703b50e91 crypto: rng - Ensure set_ent is always present
+    77dd0e6cb9f9 driver core/PM: Set power.no_callbacks along with power.no_pm
+    99d67efda945 staging: axis-fifo: flush RX FIFO on read errors
+    7441d70d5cd6 staging: axis-fifo: fix TX handling on copy_from_user() failure
+    cc9cfbfb2916 staging: axis-fifo: fix maximum TX packet length check
+    65422a6a0d2d serial: stm32: allow selecting console when the driver is module
+    c301ec61ce6f binder: fix double-free in dbitmap
+    1855e18bff88 nvmem: layouts: fix automatic module loading
+    4827bd6548e0 hid: fix I2C read buffer overflow in raw_event() for mcp2221
+    647d6b8d22be ALSA: usb-audio: fix race condition to UAF in snd_usbmidi_free
+    c611b9e55174 ALSA: usb-audio: Kill timer properly at removal
+    5980a35c9d13 drm/amdgpu: Enable MES lr_compute_wa by default
+    2dedc6b77bf8 drm/amd/include : Update MES v12 API for fence update
+    ff2b82286fc8 drm/amd/include : MES v11 and v12 API header update
+    bfd0bec4cb2c drm/amd : Update MES API header file for v11 & v12
+    44d41506d697 platform/x86/amd/pmc: Add Stellaris Slim Gen6 AMD to spurious 8042 quirks list
+    4a918985a35f can: rcar_canfd: Fix controller mode setting
+    1d2ef21f02ba can: hi311x: fix null pointer dereference when resuming from sleep before interface was enabled
+    60bbfc295a33 netfs: Prevent duplicate unlocking
+    ec045333522e btrfs: ref-verify: handle damaged extent root tree
+    31a834865209 ASoC: rt5682s: Adjust SAR ADC button mode to fix noise issue
+    467dd7cab347 platform/x86/amd/pmf: Support new ACPI ID AMDI0108
+    1773f674c4f2 perf subcmd: avoid crash in exclude_cmds when excludes is empty
+    6263c898761b platform/x86/amd/pmc: Add MECHREVO Yilong15Pro to spurious_8042 list
+    27a0a815dbba dm-integrity: limit MAX_TAG_SIZE to 255
+    6a3a7b13ad74 ASoC: amd: acp: Adjust pdm gain value
+    e005b52b8398 rust: block: fix `srctree/` links
+    1713796d6538 wifi: rtl8xxxu: Don't claim USB ID 07b8:8188
+    914d02595ba6 wifi: rtlwifi: rtl8192cu: Don't claim USB ID 07b8:8188
+    7c1e37878a2f Bluetooth: btusb: Add USB ID 2001:332a for D-Link AX9U rev. A1
+    dad2ac26ac76 USB: serial: option: add SIMCom 8230C compositions
+    f92181c0e13c media: i2c: tc358743: Fix use-after-free bugs caused by orphan timer in probe
+    895cccf639ac wifi: rtw89: fix use-after-free in rtw89_core_tx_kick_off_and_wait()
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/cve-exclusion_6.12.inc              | 58 ++++++++++++-------
- 1 file changed, 36 insertions(+), 22 deletions(-)
+ .../linux/linux-yocto-rt_6.12.bb              |  6 ++--
+ .../linux/linux-yocto-tiny_6.12.bb            |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.12.bb | 28 +++++++++----------
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.12.inc b/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
-index a5ccb609b6..f84d42cfe1 100644
---- a/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion_6.12.inc
-@@ -1,11 +1,11 @@
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+index 0128e62152..c6697e99b2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.12.bb
+@@ -14,13 +14,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at 2025-10-07 17:30:26.724165+00:00 for kernel version 6.12.51
--# From linux_kernel_cves cve_2025-10-07_1700Z
-+# Generated at 2025-10-14 01:23:30.027767+00:00 for kernel version 6.12.52
-+# From linux_kernel_cves 2025-10-14_baseline-1-gddc0a257837
+-SRCREV_machine ?= "02092ef333fa4503bc6da5f7d1f1eda2dee9c9d7"
+-SRCREV_meta ?= "5f4ac28eb4130083ed7214f9bdedd4ee230af1a2"
++SRCREV_machine ?= "6e15f26e4078d6d17c8f2dd66b6f3a8976bb5f10"
++SRCREV_meta ?= "350aec7b58ac8a244f7084334cd072cc2b39dfdc"
  
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.12;destsuffix=${KMETA};protocol=https"
  
- python check_kernel_cve_status_version() {
--    this_version = "6.12.51"
-+    this_version = "6.12.52"
-     kernel_version = d.getVar("LINUX_VERSION")
-     if kernel_version != this_version:
-         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
-@@ -4648,11 +4648,11 @@ CVE_STATUS[CVE-2022-50228] = "fixed-version: Fixed from version 6.0"
+-LINUX_VERSION ?= "6.12.51"
++LINUX_VERSION ?= "6.12.52"
  
- CVE_STATUS[CVE-2022-50229] = "fixed-version: Fixed from version 6.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
--# CVE-2022-50230 has no known resolution
-+CVE_STATUS[CVE-2022-50230] = "fixed-version: Fixed from version 6.0"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+index 0cd6e9b99b..2fe3f17451 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.12.bb
+@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.12.inc
  
- CVE_STATUS[CVE-2022-50231] = "fixed-version: Fixed from version 6.0"
+-LINUX_VERSION ?= "6.12.51"
++LINUX_VERSION ?= "6.12.52"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
--# CVE-2022-50232 has no known resolution
-+CVE_STATUS[CVE-2022-50232] = "fixed-version: Fixed from version 6.0"
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
- CVE_STATUS[CVE-2022-50233] = "fixed-version: Fixed from version 6.0"
+-SRCREV_machine ?= "d12617f73759e07b81f95e6451e212e21dcd3230"
+-SRCREV_meta ?= "5f4ac28eb4130083ed7214f9bdedd4ee230af1a2"
++SRCREV_machine ?= "7ec0c63fa4a7870b6e16d255828f5a0ae4ec821b"
++SRCREV_meta ?= "350aec7b58ac8a244f7084334cd072cc2b39dfdc"
  
-@@ -4664,7 +4664,7 @@ CVE_STATUS[CVE-2022-50236] = "fixed-version: Fixed from version 6.2"
+ PV = "${LINUX_VERSION}+git"
  
- CVE_STATUS[CVE-2022-50239] = "fixed-version: Fixed from version 6.1"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.12.bb b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+index 620e46b250..84ae7c0360 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.12.bb
+@@ -18,25 +18,25 @@ KBRANCH:qemux86.104 ?= "v6.12/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.12/standard/base"
+ KBRANCH:qemumips64 ?= "v6.12/standard/mti-malta64"
  
--# CVE-2022-50240 has no known resolution
-+CVE_STATUS[CVE-2022-50240] = "fixed-version: Fixed from version 6.0"
+-SRCREV_machine:qemuarm ?= "21e7e89f6bbcaec3d70000333004e47031246bfd"
+-SRCREV_machine:qemuarm64 ?= "d12617f73759e07b81f95e6451e212e21dcd3230"
+-SRCREV_machine:qemuloongarch64 ?= "d12617f73759e07b81f95e6451e212e21dcd3230"
+-SRCREV_machine:qemumips ?= "64965a9f8fd95a53788b1ed6c275056ef6be9510"
+-SRCREV_machine:qemuppc ?= "d12617f73759e07b81f95e6451e212e21dcd3230"
+-SRCREV_machine:qemuriscv64 ?= "d12617f73759e07b81f95e6451e212e21dcd3230"
+-SRCREV_machine:qemuriscv32 ?= "d12617f73759e07b81f95e6451e212e21dcd3230"
+-SRCREV_machine:qemux86 ?= "d12617f73759e07b81f95e6451e212e21dcd3230"
+-SRCREV_machine:qemux86-64 ?= "d12617f73759e07b81f95e6451e212e21dcd3230"
+-SRCREV_machine:qemumips64 ?= "5298636e61f0c9d939f79cee4d48e9013aceeaef"
+-SRCREV_machine ?= "d12617f73759e07b81f95e6451e212e21dcd3230"
+-SRCREV_meta ?= "5f4ac28eb4130083ed7214f9bdedd4ee230af1a2"
++SRCREV_machine:qemuarm ?= "172b9fbf63ccfdfbcbeca1a3c7ba5c34eb9f2dcd"
++SRCREV_machine:qemuarm64 ?= "7ec0c63fa4a7870b6e16d255828f5a0ae4ec821b"
++SRCREV_machine:qemuloongarch64 ?= "7ec0c63fa4a7870b6e16d255828f5a0ae4ec821b"
++SRCREV_machine:qemumips ?= "31d0ff8e1f91778a5f6eacd2c539384999becfc9"
++SRCREV_machine:qemuppc ?= "7ec0c63fa4a7870b6e16d255828f5a0ae4ec821b"
++SRCREV_machine:qemuriscv64 ?= "7ec0c63fa4a7870b6e16d255828f5a0ae4ec821b"
++SRCREV_machine:qemuriscv32 ?= "7ec0c63fa4a7870b6e16d255828f5a0ae4ec821b"
++SRCREV_machine:qemux86 ?= "7ec0c63fa4a7870b6e16d255828f5a0ae4ec821b"
++SRCREV_machine:qemux86-64 ?= "7ec0c63fa4a7870b6e16d255828f5a0ae4ec821b"
++SRCREV_machine:qemumips64 ?= "27af9a15a47958d29f1ab8740b1bc4b6d9ecf27e"
++SRCREV_machine ?= "7ec0c63fa4a7870b6e16d255828f5a0ae4ec821b"
++SRCREV_meta ?= "350aec7b58ac8a244f7084334cd072cc2b39dfdc"
  
- CVE_STATUS[CVE-2022-50241] = "fixed-version: Fixed from version 6.1"
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "72b82d56b82137a92a20e5584029d35408d810c2"
++SRCREV_machine:class-devupstream ?= "a9152eb181adaac576e8ac1ab79989881e0f301b"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v6.12/base"
  
-@@ -4858,8 +4858,6 @@ CVE_STATUS[CVE-2022-50336] = "fixed-version: Fixed from version 6.2"
+@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.12;destsuffix=${KMETA};protocol=https"
  
- CVE_STATUS[CVE-2022-50337] = "fixed-version: Fixed from version 6.2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "6.12.51"
++LINUX_VERSION ?= "6.12.52"
  
--# CVE-2022-50338 has no known resolution
--
- CVE_STATUS[CVE-2022-50339] = "fixed-version: Fixed from version 6.1"
- 
- CVE_STATUS[CVE-2022-50340] = "fixed-version: Fixed from version 6.2"
-@@ -4938,7 +4936,7 @@ CVE_STATUS[CVE-2022-50378] = "fixed-version: Fixed from version 6.1"
- 
- CVE_STATUS[CVE-2022-50379] = "fixed-version: Fixed from version 6.1"
- 
--# CVE-2022-50380 has no known resolution
-+CVE_STATUS[CVE-2022-50380] = "fixed-version: Fixed from version 6.1"
- 
- CVE_STATUS[CVE-2022-50381] = "fixed-version: Fixed from version 6.2"
- 
-@@ -5074,8 +5072,6 @@ CVE_STATUS[CVE-2022-50448] = "fixed-version: Fixed from version 6.1"
- 
- CVE_STATUS[CVE-2022-50449] = "fixed-version: Fixed from version 6.2"
- 
--CVE_STATUS[CVE-2022-50450] = "fixed-version: Fixed from version 6.2"
--
- CVE_STATUS[CVE-2022-50451] = "fixed-version: Fixed from version 6.2"
- 
- CVE_STATUS[CVE-2022-50452] = "fixed-version: Fixed from version 6.1"
-@@ -5084,8 +5080,6 @@ CVE_STATUS[CVE-2022-50453] = "fixed-version: Fixed from version 6.2"
- 
- CVE_STATUS[CVE-2022-50454] = "fixed-version: Fixed from version 6.1"
- 
--CVE_STATUS[CVE-2022-50455] = "fixed-version: Fixed from version 6.2"
--
- CVE_STATUS[CVE-2022-50456] = "fixed-version: Fixed from version 6.2"
- 
- CVE_STATUS[CVE-2022-50457] = "fixed-version: Fixed from version 6.2"
-@@ -5148,8 +5142,6 @@ CVE_STATUS[CVE-2022-50485] = "fixed-version: Fixed from version 6.2"
- 
- CVE_STATUS[CVE-2022-50486] = "fixed-version: Fixed from version 6.2"
- 
--CVE_STATUS[CVE-2022-50487] = "fixed-version: Fixed from version 6.1"
--
- CVE_STATUS[CVE-2022-50488] = "fixed-version: Fixed from version 6.2"
- 
- CVE_STATUS[CVE-2022-50489] = "fixed-version: Fixed from version 6.1"
-@@ -5176,8 +5168,6 @@ CVE_STATUS[CVE-2022-50500] = "fixed-version: Fixed from version 6.1"
- 
- CVE_STATUS[CVE-2022-50501] = "fixed-version: Fixed from version 6.2"
- 
--# CVE-2022-50502 has no known resolution
--
- CVE_STATUS[CVE-2022-50503] = "fixed-version: Fixed from version 6.2"
- 
- CVE_STATUS[CVE-2022-50504] = "fixed-version: Fixed from version 6.2"
-@@ -7114,7 +7104,7 @@ CVE_STATUS[CVE-2023-53467] = "fixed-version: Fixed from version 6.3"
- 
- CVE_STATUS[CVE-2023-53468] = "fixed-version: Fixed from version 6.3"
- 
--# CVE-2023-53469 has no known resolution
-+CVE_STATUS[CVE-2023-53469] = "fixed-version: Fixed from version 6.5"
- 
- CVE_STATUS[CVE-2023-53470] = "fixed-version: Fixed from version 6.4"
- 
-@@ -7458,7 +7448,7 @@ CVE_STATUS[CVE-2023-53640] = "fixed-version: Fixed from version 6.4"
- 
- CVE_STATUS[CVE-2023-53641] = "fixed-version: Fixed from version 6.4"
- 
--# CVE-2023-53642 has no known resolution
-+CVE_STATUS[CVE-2023-53642] = "fixed-version: Fixed from version 6.4"
- 
- CVE_STATUS[CVE-2023-53643] = "fixed-version: Fixed from version 6.3"
- 
-@@ -14388,7 +14378,7 @@ CVE_STATUS[CVE-2025-21986] = "cpe-stable-backport: Backported in 6.12.20"
- 
- CVE_STATUS[CVE-2025-21987] = "cpe-stable-backport: Backported in 6.12.18"
- 
--# CVE-2025-21988 has no known resolution
-+CVE_STATUS[CVE-2025-21988] = "cpe-stable-backport: Backported in 6.12.20"
- 
- CVE_STATUS[CVE-2025-21989] = "cpe-stable-backport: Backported in 6.12.20"
- 
-@@ -15448,7 +15438,7 @@ CVE_STATUS[CVE-2025-38103] = "cpe-stable-backport: Backported in 6.12.34"
- 
- CVE_STATUS[CVE-2025-38104] = "cpe-stable-backport: Backported in 6.12.39"
- 
--# CVE-2025-38105 needs backporting (fixed from 6.16)
-+CVE_STATUS[CVE-2025-38105] = "cpe-stable-backport: Backported in 6.12.52"
- 
- CVE_STATUS[CVE-2025-38106] = "cpe-stable-backport: Backported in 6.12.34"
- 
-@@ -17260,6 +17250,30 @@ CVE_STATUS[CVE-2025-39952] = "cpe-stable-backport: Backported in 6.12.49"
- 
- CVE_STATUS[CVE-2025-39953] = "cpe-stable-backport: Backported in 6.12.49"
- 
-+CVE_STATUS[CVE-2025-39954] = "fixed-version: only affects 6.15 onwards"
-+
-+CVE_STATUS[CVE-2025-39955] = "cpe-stable-backport: Backported in 6.12.49"
-+
-+CVE_STATUS[CVE-2025-39956] = "cpe-stable-backport: Backported in 6.12.49"
-+
-+CVE_STATUS[CVE-2025-39957] = "cpe-stable-backport: Backported in 6.12.49"
-+
-+# CVE-2025-39958 needs backporting (fixed from 6.17)
-+
-+CVE_STATUS[CVE-2025-39959] = "fixed-version: only affects 6.15 onwards"
-+
-+CVE_STATUS[CVE-2025-39960] = "fixed-version: only affects 6.16 onwards"
-+
-+CVE_STATUS[CVE-2025-39961] = "cpe-stable-backport: Backported in 6.12.49"
-+
-+CVE_STATUS[CVE-2025-39962] = "fixed-version: only affects 6.16 onwards"
-+
-+CVE_STATUS[CVE-2025-39963] = "cpe-stable-backport: Backported in 6.12.49"
-+
-+CVE_STATUS[CVE-2025-39964] = "cpe-stable-backport: Backported in 6.12.49"
-+
-+CVE_STATUS[CVE-2025-39965] = "cpe-stable-backport: Backported in 6.12.50"
-+
- CVE_STATUS[CVE-2025-39989] = "cpe-stable-backport: Backported in 6.12.23"
- 
- # CVE-2025-40014 needs backporting (fixed from 6.15)
-@@ -17270,5 +17284,5 @@ CVE_STATUS[CVE-2025-40300] = "cpe-stable-backport: Backported in 6.12.47"
- 
- # CVE-2025-40325 needs backporting (fixed from 6.15)
- 
--# CVE-2025-40364 has no known resolution
-+CVE_STATUS[CVE-2025-40364] = "cpe-stable-backport: Backported in 6.12.14"
+ PV = "${LINUX_VERSION}+git"
  
 -- 
 2.39.2
