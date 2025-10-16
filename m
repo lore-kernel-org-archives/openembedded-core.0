@@ -1,260 +1,244 @@
-Return-Path: <mhalstead@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA954CCD199
-	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 20:47:14 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.98])
- by mx.groups.io with SMTP id smtpd.web10.3504.1760604620428088753
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE97DCCD199
+	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 23:45:35 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.web11.4452.1760658333785799427
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 01:50:21 -0700
+ Thu, 16 Oct 2025 16:45:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@phytec.de header.s=selector2 header.b=G2UsPX0b;
- spf=pass (domain: phytec.de, ip: 40.107.159.98, mailfrom: b.hahn@phytec.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fYP1mn4J9wmf4Ia1LeGBx2DmZJog1JIuTf7DHZfRUAIBV+CTNI95BaKLNszMlKNsF7VJU/fEbqUs68pmmJy1eU4iKOGXZe3+Lmz6eX/jdOcrrAlCvMcd2ZBX42JPJeI03/hKr211EV5Qn2SEvCs6H9/YE/I+9MHaJ+bgh1bhwV2s0uMMJiWUXUqDQ9QBx5ZgnksXG+RJQ8ewwt5NZ7yoWUq1t0FNgu0U2FEsMSQ4348cHB3PrCCvtpWNc2W683mJprRca8Le8p1eOwqI7OOKy9p/kHWqx7QGkUnehHN7lVoE7WxTBBPdIAUWy7qt0WjDT8Ke5cvWVvsNeyUuDs0ZUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x2XEIEPEm5rnR9FgiEallzxhzkklruHEY3FB8Ltgid0=;
- b=gCRyK0z7LYsa9DvvWNrPVPMPpacu43C3SFeWq7x/fS6AGFo2hOh1T4BrQ/PaXYzhK+TekHUN8SfBl4FqD6SmGiCz7Rn/2JeN3/hUIV+84MeEQeldgAAyyD2OSQ/ryB95amKylh/18kdPMila2UEU4BJZMx5zJ8VCwT68nIcq/TMKRLSJLxw4tz5XcKecvcQw83/Sb5htgq+xMr/VE6F4f3gf5fbYFrRHU3iUKk/gCK4eXKwvHfXb2Xdrk40nygJAoINekQK4o+iev/8Rc7gPv+XkqkG9NNVrSJtB9qVlQL6o36SjZ3hthzNevD0vOb/TJ6UriKfoaB74gpXWYnEUmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 91.26.50.189) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=phytec.de; dmarc=fail (p=quarantine sp=quarantine pct=100)
- action=quarantine header.from=phytec.de; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x2XEIEPEm5rnR9FgiEallzxhzkklruHEY3FB8Ltgid0=;
- b=G2UsPX0bAG+AGUZlvJwP/U0fKcaCaU8h2rMaCFNngpJf4EgjpOvcm5R8IBqZ2u2vOgsG7OAjwdBvbgoDVPBNJjknVQDZ923u7dTCd3JMC/En8NQyxWwrZo800tBvKyZbPH5aOk3x+uH83N+45adL7Qx2p0dVvKRdBKQI5jIs4I7zODUKKscusJu51/oI/rMCBxBff1PbZnI1T33WEa40nt93Ollugrh73CNyTDMD/37U0DUns7opM7Af5Sjam75eUOyHCil3qkc8CtqVmO3LHjWEZZ8z8orongQ0ZbsK4f7lM/0NtGt9CQTe5werfyWJzs5svbdyCf68ZyKH2gcE7g==
-Received: from DU2PR04CA0037.eurprd04.prod.outlook.com (2603:10a6:10:234::12)
- by AS8P195MB2096.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:56d::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Thu, 16 Oct
- 2025 08:35:23 +0000
-Received: from DB1PEPF000509E2.eurprd03.prod.outlook.com
- (2603:10a6:10:234:cafe::89) by DU2PR04CA0037.outlook.office365.com
- (2603:10a6:10:234::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9228.12 via Frontend Transport; Thu,
- 16 Oct 2025 08:35:23 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
- smtp.mailfrom=phytec.de; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=phytec.de;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- phytec.de discourages use of 91.26.50.189 as permitted sender)
-Received: from Postix.phytec.de (91.26.50.189) by
- DB1PEPF000509E2.mail.protection.outlook.com (10.167.242.52) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9228.7 via Frontend Transport; Thu, 16 Oct 2025 08:35:23 +0000
-Received: from augenblix2.phytec.de (172.25.0.51) by Postix.phytec.de
- (172.25.0.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 16 Oct
- 2025 10:35:22 +0200
-From: Benjamin Hahn <B.Hahn@phytec.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: <clopez@igalia.com>, <richard.purdie@linuxfoundation.org>,
-	<alex.kanavin@gmail.com>
-Subject: [PATCH BACKPORT scarthgap] icu: Backport patch to fix build issues with long paths (>512 chars)
-Date: Thu, 16 Oct 2025 10:35:11 +0200
-Message-ID: <20251016083511.3730141-1-B.Hahn@phytec.de>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lJoJzT8+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7815092cd0aso15737837b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 16:45:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760658333; x=1761263133; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I+DsoGVHm24U0H2EREcwLljkfMpYHp6TDFMh/GF1eUY=;
+        b=lJoJzT8+cUt32TLBUsSXxyaonb2toTAWHsvK4vaF43i59eDFLA21LBcbIE3WDlKarJ
+         mpc/WmgvjUV223EjR3h+RuRnhWy/JsMI2NiJuKBSfI0UPvgKF6CkC7R8uXVyO32Dq/z/
+         Z+gwcxSoH0kuFlohEVM/rDjEpVkVbLkb6CV8s+6YNhiyD/d3IXJ/YcU21x9xzC//DhBY
+         R+l9mLF2PI8ZHVZOUj3Ubo4dkif713TKmmqIYUF1AmST+jqseGfGUTu+av1Khd0oTQpy
+         xu7iSqm8assDYNvmvqugqWgVhJvqPht7UrlO33+W0hc8zXle69Wc6ayi5VlBay53/8vY
+         U1wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760658333; x=1761263133;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I+DsoGVHm24U0H2EREcwLljkfMpYHp6TDFMh/GF1eUY=;
+        b=pGosaIg25Dgwpgzh2KuIWMab99TIyfcApl/Gfc/Lgw/7ek3aI+qKTq9BBZE0RHAxK8
+         kI9CqeXlG9vjv9IMfKaeHMwVddGHO+Z3H/GeASRtgMEuDv427/KhZ0pBYcJO12/SpmU/
+         KwPCiFpl2SiclG+HlnN7yn5J2PROa3CIcQw6zCPH14obkVypZM5Fr8aF7xhbvwsPzn0b
+         Rcql6uNYOmxOWJpPfkqDNZyN9uAnJe49lMZPjCYRUzhIbULszS7TkBiT9vBICppW9zoG
+         GO26nXoC8gAk6eluQvrqEobzFodw42TUVTJJtWDQQc5LO9qniu/VakvYGGMIpq3ppcWL
+         Ersg==
+X-Gm-Message-State: AOJu0YxvwiSujboJz99HR7NR4yD1QQPQp41cwMnp+DgGSo2w2lqxrCVN
+	viGr37kqRBqr+hfNJ8/P2hI4uWHTwaHuF64R4sJjQPS0nI4deSWRKGyi684pR0ER+YUNwmmxMeL
+	hsjMKsD+0/CwtZ3Lgl74GcgDk8oOp2C0=
+X-Gm-Gg: ASbGncthNHJ86chMN3g0ZNgnArvu9HJSlMsrpCkZnRASUkRWgtv5NBv34rrt2AxCqMk
+	paY2hBnG2Oo/GhqkoycZsOYQgOBrdxmbNJx1SGHZo3JjnoE5IAQUj0swWkk7/IY3NoAMoqsuBJB
+	msZ0JsEohLppp7mPzksDYVn7O41EDW8777feCO/EJzteDLBzkPpJG/h8QN+PAJxXfdzof64Pqti
+	nPPMpTzq98ojnkiX4epl7zVJztfrsPlifZUOXcM4eduZd28kMejyAnIXFXDclgQJvpYk1QT6qIU
+	Ban3FmWRQGDDHacNMpzD1X/AYNix8M6IPWwCt4ymbibUjkDQBXpm+0mSVzCxx0sM5DoajeEqBgs
+	W8s4=
+X-Google-Smtp-Source: AGHT+IG1mNKISbMRvfAJoLLSBQC8ysbEh784bssAjiRdHfWku0QGdHlgo8y6POe5wndUyMzjpbkrmzpKhTTqyW/vKh4=
+X-Received: by 2002:a05:690e:4e:b0:63c:f5a7:3d0 with SMTP id
+ 956f58d0204a3-63e161e09e2mr1160095d50.60.1760658332696; Thu, 16 Oct 2025
+ 16:45:32 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.0.51]
-X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
- (172.25.0.11)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509E2:EE_|AS8P195MB2096:EE_
-X-MS-Office365-Filtering-Correlation-Id: d9d45382-e40a-4dfb-2c90-08de0c8ef2dd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?QtYng2F3j/M6tif29G2Jwhy2QKDkPXsnbaC6aJ8vn+xUvxOaWNjYD47I6sGw?=
- =?us-ascii?Q?uhfRLtTDi2EqHR+8aSE5etYwQn8cXtA7FUlWbHITXtpwwrZ3CEnNb5eCK/XR?=
- =?us-ascii?Q?BwCZRqo6NEIVTDn/5MBl1joNzqSgyLiik3bWhav7crANReYGJcb84ZC2hTvE?=
- =?us-ascii?Q?edCG9t2brtswqDEL7wPYwiw5xetEGXPhK47X4DIZyASpaLStq8AA1P8Z/EkV?=
- =?us-ascii?Q?7TqMPtShj5f3Zw307KaugXW6KeccZQZZqIl/gz13wbwo7SdWDMcNEBC+IpzV?=
- =?us-ascii?Q?wQ2hjaVv8uzbXknvKyT+81D57BtBqRxJo/H87B+5xCpCMFOveJTQAxSCEtOq?=
- =?us-ascii?Q?8TPAW47xslwTLemVNSkNZuH3dGfat9kDm4pzOUTl7Ra2UhC2NnkFoTlo5Fd2?=
- =?us-ascii?Q?Fyed7iSc95s5RXSFNU/AVXFxhWdJIhc/m/R6ARlN+A/tpqzgexEuhAwXCOPL?=
- =?us-ascii?Q?zBJAhux9cRC8vcDRQolOH2yTW7fpaIVOUiIxXrEt125XycX665HAp6phRWfS?=
- =?us-ascii?Q?ParEarlo4c7ql00ywDN8G3Kh7ahkR5pLvXsVW/D2mLc1C/gC0HiphB4cejZR?=
- =?us-ascii?Q?aD6eNDQA2m7oBIqABa8nPqaZigAS0w9AYsUXBA0/sG/Kp+hP6NGQ/BXOslVI?=
- =?us-ascii?Q?llluZ6ecQng8OhfQvvf+eAKDG4BvlZaPTOC21qup/UvU9wQSLZHPA7nmRzPQ?=
- =?us-ascii?Q?uoMvgDv9RdGNfDlFjiXXqP/GltWzxcS4bxqwexVwLwmdznNytnIdYolbjhHh?=
- =?us-ascii?Q?hnSLmFCmifDSkvdwMEieu8sOUVpHsQB1b9ItwNVhIS0r1ndIyW7mAZc26G5v?=
- =?us-ascii?Q?23mRSxfwp6qpKf3BUdtB4nLP3m3QXun5G/ZuGhw71FDIVLAX5bxKNPmSK9HY?=
- =?us-ascii?Q?Rct4l/y/gnsMnE32cwLnmQ1ka6r5mPadR6CujdsxJGqj0UoxstShDLS1yxK+?=
- =?us-ascii?Q?nAXriBImAPi6RTkrC6iTp/0PHKvi7Giy8HvB7L/bNXp0ZKoC0qKfNJs5oDec?=
- =?us-ascii?Q?OEXHpPXk60SRDU12woWQJ8xU4q3XZaCDJWEcbKeeqLYTnOn+4rwNl2b8/F5g?=
- =?us-ascii?Q?0Oti1XPb0yk7VeQhBTjFDFmh28HgUxnrfKOmV0TT8G/S5TXSlt/zMSRtRdD+?=
- =?us-ascii?Q?JmxmvR0lLETxhgInvZsKC3cIC1h7VaLwqqK4Su6ZcuwzpNyEmLQQ72XIxwHC?=
- =?us-ascii?Q?TSy5yeGScp9aVNn4oLQk7/Fd4uW3gaUjrhxztLbQpR3QIrBp1FxlWoj+e/+T?=
- =?us-ascii?Q?kZ6hO/vdmfnaZDYeqUpc/yU1B5In6neAH1KSGe/RkS5VxAnpZXsbg7+oxjc9?=
- =?us-ascii?Q?9H47jF/8bOb4ZQCmJ6X7+cTV/Db8K3QLsfKLZHY3ZyQ7Vw5Mg2j2gaWtAJ9I?=
- =?us-ascii?Q?+Ai4Ue9+vhwR0sr6XHnvgif/XwE7TCIrFFjAfIpvjMBbNXIpOQpd6cZ+pMhl?=
- =?us-ascii?Q?6cycZZb520AEvv2L1Feq4C/b8cwlhJxb7VJa8MqDniSnsju9xpZ5Fyy4FsCb?=
- =?us-ascii?Q?gfAkfKgdzcxh/UEiBHxUOaKicRD8bgdD10qM?=
-X-Forefront-Antispam-Report: 
-	CIP:91.26.50.189;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:Postix.phytec.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014)(13003099007);DIR:OUT;SFP:1102;
-X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 08:35:23.1955
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9d45382-e40a-4dfb-2c90-08de0c8ef2dd
-X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29;Ip=[91.26.50.189];Helo=[Postix.phytec.de]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF000509E2.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P195MB2096
+References: <20251016204058.2551043-1-peter.marko@siemens.com>
+In-Reply-To: <20251016204058.2551043-1-peter.marko@siemens.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Oct 2025 16:45:06 -0700
+X-Gm-Features: AS18NWB4ALGdSIPgJCJgYO9UAGAHrFldQ8SCqQFY1c2Hz6c5D0CoG-v8-zwwzWw
+Message-ID: <CAMKF1sq=iaajFbjbsF8+5szYwR+hk6J50Rv6LSTRe6A9xohGkw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] python3: upgrade 3.13.7 -> 3.13.9
+To: peter.marko@siemens.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 20:47:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224984
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 23:45:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224985
 
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+On Thu, Oct 16, 2025 at 1:41=E2=80=AFPM Peter Marko via lists.openembedded.=
+org
+<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+>
+> From: Peter Marko <peter.marko@siemens.com>
+>
+> Drop upstreamed patch and refresh remaining patches.
+>
+> Release information:
+> * https://www.python.org/downloads/release/python-3138/
+> * 3.13.8 is the eighth maintenance release of 3.13, containing around
+>   200 bugfixes, build improvements and documentation changes since
+>   3.13.7.
+>
+> * https://www.python.org/downloads/release/python-3139/
+> * This Python 3.13.9, a maintenance release for Python 3.13.
+> * 3.13.9 is an expedited release containing a fix for one specific
+>   regression in Python 3.13.8
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  ...r-OpenSSL-3.4-and-add-it-to-multissl.patch |  4 ++--
+>  ...est_sysconfig-for-posix_user-purelib.patch |  2 +-
+>  ...DEV-portion-of-test_makedev-when-lin.patch | 24 -------------------
+>  ...le.py-correct-the-test-output-format.patch |  2 +-
+>  .../{python3_3.13.7.bb =3D> python3_3.13.9.bb}  |  3 +--
+>  5 files changed, 5 insertions(+), 30 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/python/python3/0001-gh-90548-Sk=
+ip-NODEV-portion-of-test_makedev-when-lin.patch
+>  rename meta/recipes-devtools/python/{python3_3.13.7.bb =3D> python3_3.13=
+.9.bb} (99%)
+>
+> diff --git a/meta/recipes-devtools/python/python3/0001-Generate-data-for-=
+OpenSSL-3.4-and-add-it-to-multissl.patch b/meta/recipes-devtools/python/pyt=
+hon3/0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multissl.patch
+> index 075737e7d1a..327124e4e3a 100644
+> --- a/meta/recipes-devtools/python/python3/0001-Generate-data-for-OpenSSL=
+-3.4-and-add-it-to-multissl.patch
+> +++ b/meta/recipes-devtools/python/python3/0001-Generate-data-for-OpenSSL=
+-3.4-and-add-it-to-multissl.patch
+> @@ -1441,8 +1441,8 @@ index eae0e0c..fb06f63 100755
+>  +++ b/Tools/ssl/multissltests.py
+>  @@ -51,6 +51,7 @@ OPENSSL_RECENT_VERSIONS =3D [
+>       "3.1.7",
+> -     "3.2.3",
+> -     "3.3.2",
+> +     "3.2.6",
+> +     "3.3.5",
+>  +    "3.4.0",
+>   ]
+>
+> diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_syscon=
+fig-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/000=
+1-Update-test_sysconfig-for-posix_user-purelib.patch
+> index ab433d18367..adaca4ff779 100644
+> --- a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for=
+-posix_user-purelib.patch
+> +++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for=
+-posix_user-purelib.patch
+> @@ -25,7 +25,7 @@ diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test=
+_sysconfig.py
+>  index 1ade492..4e94889 100644
+>  --- a/Lib/test/test_sysconfig.py
+>  +++ b/Lib/test/test_sysconfig.py
+> -@@ -423,7 +423,7 @@ class TestSysConfig(unittest.TestCase):
+> +@@ -430,7 +430,7 @@ class TestSysConfig(unittest.TestCase):
+>                   expected =3D os.path.normpath(global_path.replace(base,=
+ user, 1))
+>                   # bpo-44860: platlib of posix_user doesn't use sys.plat=
+libdir,
+>                   # whereas posix_prefix does.
+> diff --git a/meta/recipes-devtools/python/python3/0001-gh-90548-Skip-NODE=
+V-portion-of-test_makedev-when-lin.patch b/meta/recipes-devtools/python/pyt=
+hon3/0001-gh-90548-Skip-NODEV-portion-of-test_makedev-when-lin.patch
+> deleted file mode 100644
+> index 4390e086d0f..00000000000
+> --- a/meta/recipes-devtools/python/python3/0001-gh-90548-Skip-NODEV-porti=
+on-of-test_makedev-when-lin.patch
+> +++ /dev/null
+> @@ -1,24 +0,0 @@
+> -From 2dc5e9f4c82888dbe21bd1eadb4b59b0efa9608c Mon Sep 17 00:00:00 2001
+> -From: Zachary Ware <zach@python.org>
+> -Date: Sat, 6 Sep 2025 13:20:12 -0500
+> -Subject: [PATCH] gh-90548: Skip NODEV portion of test_makedev when linke=
+d to musl
+> -
+> -Upstream-Status: Backport [https://github.com/python/cpython/pull/138593=
+]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - Lib/test/test_posix.py | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/Lib/test/test_posix.py b/Lib/test/test_posix.py
+> -index c9cbe15..bfc1e2b 100644
+> ---- a/Lib/test/test_posix.py
+> -+++ b/Lib/test/test_posix.py
+> -@@ -757,7 +757,7 @@ class PosixTester(unittest.TestCase):
+> -             self.assertRaises((ValueError, OverflowError), posix.makede=
+v, x, minor)
+> -             self.assertRaises((ValueError, OverflowError), posix.makede=
+v, major, x)
+> -
+> --        if sys.platform =3D=3D 'linux':
+> -+        if sys.platform =3D=3D 'linux' and not support.linked_to_musl()=
+:
+> -             NODEV =3D -1
+> -             self.assertEqual(posix.major(NODEV), NODEV)
+> -             self.assertEqual(posix.minor(NODEV), NODEV)
+> diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-cor=
+rect-the-test-output-format.patch b/meta/recipes-devtools/python/python3/00=
+01-test_locale.py-correct-the-test-output-format.patch
+> index 3fc3a7e8ced..189246911b4 100644
+> --- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-th=
+e-test-output-format.patch
+> +++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-th=
+e-test-output-format.patch
+> @@ -34,7 +34,7 @@ diff --git a/Lib/test/test_locale.py b/Lib/test/test_lo=
+cale.py
+>  index da4bd79..fd9e67d 100644
+>  --- a/Lib/test/test_locale.py
+>  +++ b/Lib/test/test_locale.py
+> -@@ -502,7 +502,7 @@ class TestRealLocales(unittest.TestCase):
+> +@@ -501,7 +501,7 @@ class TestRealLocales(unittest.TestCase):
+>               self.skipTest('test needs Turkish locale')
+>           loc =3D locale.getlocale(locale.LC_CTYPE)
+>           if verbose:
+> diff --git a/meta/recipes-devtools/python/python3_3.13.7.bb b/meta/recipe=
+s-devtools/python/python3_3.13.9.bb
+> similarity index 99%
+> rename from meta/recipes-devtools/python/python3_3.13.7.bb
+> rename to meta/recipes-devtools/python/python3_3.13.9.bb
+> index c682f1288ec..2e114a6c5bb 100644
+> --- a/meta/recipes-devtools/python/python3_3.13.7.bb
+> +++ b/meta/recipes-devtools/python/python3_3.13.9.bb
+> @@ -30,13 +30,12 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/P=
+ython-${PV}.tar.xz \
+>             file://0001-test_active_children-skip-problematic-test.patch =
+\
+>             file://0001-test_readline-skip-limited-history-test.patch \
+>             file://0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multi=
+ssl.patch \
+> -           file://0001-gh-90548-Skip-NODEV-portion-of-test_makedev-when-=
+lin.patch \
+>             "
 
-There is a bug libicu that causes libicu to be installed incorrectly when
-the build system uses long paths (more than 512 chars).
+I think this patch is a partial backport and It is still needed. You
+can try running python3 ptests on musl/qemux86-64
+target and see if they all pass.
 
-This condition is not very difficult to trigger on a OE build system
-due to the long paths an the deep of the directories that are usually
-generated by default.
-Also the bug is very subtle and won't be detected by the QA post-install
-processes because what this bug causes is that a different version of
-libicudata.so.X.Y (one without data) is installed instead of the one
-containing the data, but there won't be any file missed on the installation
-(just that it installed the wrong one).
-
-See: https://unicode-org.atlassian.net/browse/ICU-22813
-
-This patch backports the fix from upstream/main
-
-(From OE-Core rev: 67d1352873957decacde30ff208fb7bb635b0c5d)
-
-Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Benjamin Hahn <B.Hahn@phytec.de>
----
- ...813_rise_buffer_sizes_pkgdata_PR3058.patch | 72 +++++++++++++++++++
- meta/recipes-support/icu/icu_74-2.bb          |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu/ICU-22813_rise_buffer_size=
-s_pkgdata_PR3058.patch
-
-diff --git a/meta/recipes-support/icu/icu/ICU-22813_rise_buffer_sizes_pkgda=
-ta_PR3058.patch b/meta/recipes-support/icu/icu/ICU-22813_rise_buffer_sizes_=
-pkgdata_PR3058.patch
-new file mode 100644
-index 0000000000..5b97350e6f
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/ICU-22813_rise_buffer_sizes_pkgdata_PR30=
-58.patch
-@@ -0,0 +1,72 @@
-+From db70adaddcfa8050db6a69cdfef080a7f1423ad7 Mon Sep 17 00:00:00 2001
-+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-+Date: Mon, 1 Jul 2024 22:15:18 +0100
-+Subject: [PATCH] ICU-22813 Rise the size of the buffers used for the comma=
-nd
-+ strings at pkgdata
-+
-+The tool pkgdata uses snprintf() to build the strings of the commands that
-+will execute later during the install process. But the maximum size of thi=
-s
-+buffers is not enough when there is a long path.
-+
-+This has caused issues on some CI systems that use very long paths, causin=
-g
-+the install process to produce a wrong result.
-+
-+The maximum path on Linux is 4096 (defined as PATH_MAX at <linux/limits.h>=
-)
-+So the size of SMALL_BUFFER_MAX_SIZE should be 4096 to avoid errors relate=
-d
-+to truncated paths.
-+
-+Upstream-Status: Backport [https://github.com/unicode-org/icu/pull/3058]
-+
-+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
-+---
-+ tools/pkgdata/pkgdata.cpp | 6 +++---
-+ tools/toolutil/pkg_genc.h | 5 ++---
-+ 2 files changed, 5 insertions(+), 6 deletions(-)
-+
-+diff --git a/tools/pkgdata/pkgdata.cpp b/tools/pkgdata/pkgdata.cpp
-+index c2ac112..8d08c85 100644
-+--- a/tools/pkgdata/pkgdata.cpp
-++++ b/tools/pkgdata/pkgdata.cpp
-+@@ -1134,7 +1134,7 @@ static int32_t pkg_createSymLinks(const char *target=
-Dir, UBool specialHandling)
-+=20
-+ static int32_t pkg_installLibrary(const char *installDir, const char *tar=
-getDir, UBool noVersion) {
-+     int32_t result =3D 0;
-+-    char cmd[SMALL_BUFFER_MAX_SIZE];
-++    char cmd[LARGE_BUFFER_MAX_SIZE];
-+=20
-+     auto ret =3D snprintf(cmd,
-+             sizeof(cmd),
-+@@ -1205,7 +1205,7 @@ static int32_t pkg_installLibrary(const char *instal=
-lDir, const char *targetDir,
-+=20
-+ static int32_t pkg_installCommonMode(const char *installDir, const char *=
-fileName) {
-+     int32_t result =3D 0;
-+-    char cmd[SMALL_BUFFER_MAX_SIZE] =3D "";
-++    char cmd[LARGE_BUFFER_MAX_SIZE] =3D "";
-+=20
-+     if (!T_FileStream_file_exists(installDir)) {
-+         UErrorCode status =3D U_ZERO_ERROR;
-+@@ -1237,7 +1237,7 @@ static int32_t pkg_installCommonMode(const char *ins=
-tallDir, const char *fileNam
-+ #endif
-+ static int32_t pkg_installFileMode(const char *installDir, const char *sr=
-cDir, const char *fileListName) {
-+     int32_t result =3D 0;
-+-    char cmd[SMALL_BUFFER_MAX_SIZE] =3D "";
-++    char cmd[LARGE_BUFFER_MAX_SIZE] =3D "";
-+=20
-+     if (!T_FileStream_file_exists(installDir)) {
-+         UErrorCode status =3D U_ZERO_ERROR;
-+diff --git a/tools/toolutil/pkg_genc.h b/tools/toolutil/pkg_genc.h
-+index 2dd1b45..f811fe5 100644
-+--- a/tools/toolutil/pkg_genc.h
-++++ b/tools/toolutil/pkg_genc.h
-+@@ -59,9 +59,8 @@
-+ #define PKGDATA_FILE_SEP_STRING U_FILE_SEP_STRING
-+ #endif
-+=20
-+-#define LARGE_BUFFER_MAX_SIZE 2048
-+-#define SMALL_BUFFER_MAX_SIZE 512
-+-#define SMALL_BUFFER_FLAG_NAMES 32
-++#define LARGE_BUFFER_MAX_SIZE 16384
-++#define SMALL_BUFFER_MAX_SIZE 4096
-+ #define BUFFER_PADDING_SIZE 20
-+=20
-+ /** End platform defines **/
-diff --git a/meta/recipes-support/icu/icu_74-2.bb b/meta/recipes-support/ic=
-u/icu_74-2.bb
-index 83753a18e5..104acd37c2 100644
---- a/meta/recipes-support/icu/icu_74-2.bb
-+++ b/meta/recipes-support/icu/icu_74-2.bb
-@@ -122,6 +122,7 @@ SRC_URI =3D "${BASE_SRC_URI};name=3Dcode \
-            file://fix-install-manx.patch \
-            file://0001-icu-Added-armeb-support.patch \
-            file://CVE-2025-5222.patch \
-+           file://ICU-22813_rise_buffer_sizes_pkgdata_PR3058.patch \
-            "
-=20
- SRC_URI:append:class-target =3D "\
---=20
-2.25.1
-
+>  SRC_URI:append:class-native =3D " \
+>             file://0001-Lib-sysconfig.py-use-prefix-value-from-build-conf=
+igu.patch \
+>             "
+>
+> -SRC_URI[sha256sum] =3D "5462f9099dfd30e238def83c71d91897d8caa5ff6ebc7a50=
+f14d4802cdaaa79a"
+> +SRC_URI[sha256sum] =3D "ed5ef34cda36cfa2f3a340f07cac7e7814f91c7f3c411f6d=
+3562323a866c5c66"
+>
+>  # exclude pre-releases for both python 2.x and 3.x
+>  UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#224981): https://lists.openembedded.org/g/openembedde=
+d-core/message/224981
+> Mute This Topic: https://lists.openembedded.org/mt/115796872/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
