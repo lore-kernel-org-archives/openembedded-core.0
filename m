@@ -1,139 +1,55 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <kavinaya@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E86EFCCD199
-	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 14:59:03 +0000 (UTC)
-Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
- by mx.groups.io with SMTP id smtpd.web10.11244.1760626739061581490
- for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 07:58:59 -0700
-Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.10, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4cnWLT1v62zXSl;
-	Thu, 16 Oct 2025 16:58:57 +0200 (CEST)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4cnWLS2w6Mzrn4;
-	Thu, 16 Oct 2025 16:58:56 +0200 (CEST)
-From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Thu, 16 Oct 2025 16:58:45 +0200
-Subject: [PATCH] mesa: upgrade 25.2.4 -> 25.2.5
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251016-mesa-25-2-5-v1-1-08035df5e74e@cherry.de>
-X-B4-Tracking: v=1; b=H4sIACQI8WgC/x3MQQqAIBBA0avIrBvQMV10lWghOtUsslCIQLp70
- vIt/m9QuQhXmFSDwrdUOXOHGRTEPeSNUVI3kCZntPF4cA1IDgkd+tHGpFOIHC304iq8yvPf5uV
- 9P65JoatdAAAA
-X-Change-ID: 20251016-mesa-25-2-5-643cd0dacec3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D852CCCD19A
+	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 15:29:57 +0000 (UTC)
+Subject: Re: [PATCH v7] kernel-fit-image: allow overriding DTB compatible string
 To: openembedded-core@lists.openembedded.org
-Cc: Quentin Schulz <quentin.schulz@cherry.de>
-X-Mailer: b4 0.14.3
-X-Infomaniak-Routing: alpha
+From: "Kavinaya S" <kavinaya@qti.qualcomm.com>
+X-Originating-Location: Hyderabad, Telangana, IN (163.116.219.111)
+X-Originating-Platform: Windows Chrome 141
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Thu, 16 Oct 2025 08:29:48 -0700
+References: <CAB3asfhhUoscOusRRkjWavdC3QvqROuo4WvZnVH2O0sCsuB1oA@mail.gmail.com>
+In-Reply-To: <CAB3asfhhUoscOusRRkjWavdC3QvqROuo4WvZnVH2O0sCsuB1oA@mail.gmail.com>
+Message-ID: <774.1760628588661308317@lists.openembedded.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 14:59:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224971
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 15:29:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224972
 
-From: Quentin Schulz <quentin.schulz@cherry.de>
+On Wed, Oct 15, 2025 at 10:43 PM, Adrian Freihofer wrote:
 
-See https://docs.mesa3d.org/relnotes/25.2.5.html.
+>
+> What I don't quite understand yet is: Does this make sense from the kerne=
+l or
+> DTB perspective? Or are we circumventing problems that should be fixed on=
+ the
+> kernel or DTB side instead of overriding them on the Yocto side? I mean,
+> wouldn't it make more sense to assign a compatible string that is useful =
+for
+> u-boot in the DTB without requiring FIT_DTB_COMPATIBLE_OVERRIDE?
+> >=20
+> >=20
+> >
+>
 
-0001-glx-provide-glx.pc.patch is in 25.2.5 via commit 293a26135d83
-("glx: provide glx.pc") so can be dropped.
+Hi Adrian,
 
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
----
-Only build tested. kmscube run on Ringneck PX30 (Aarch64 Rockchip
-board).
+Thank you for all your valuable reviews and inputs. After an internal discu=
+ssion with our colleagues, we feel that the proposed change does not fully =
+align with Qualcomm=E2=80=99s current approach to implementing DTB-only FIT=
+ in the format expected by our UEFI bootloader. Given this, we=E2=80=99ve d=
+ecided to hold off on upstreaming the change for now. Our plan is to first =
+implement the DTB-only FIT support within our meta layer, refine it further=
+, and then propose a solution to oe-core that support both kernel+DTB FIT a=
+nd DTB-only FIT formats effectively.
 
-I have quickly glanced at the diff, one new header included (commit
-5eb46a78d8dd ("vulkan/query_pool: Store video encode feedback")) but
-it's already part of the dependencies listed in vulkan_lite_runtime_deps
-and its companion C file is also in vulkan_lite_runtime_files so it
-should be just fine without a change in the recipe.
-
-A meson config file changed in commit 4ea070a741bf ("amd: require LLVM
-when amd-use-llvm is enabled") but AFAICT we don't use this meson option
-so it changes nothing for us.
----
- .../mesa/files/0001-glx-provide-glx.pc.patch       | 41 ----------------------
- meta/recipes-graphics/mesa/mesa.inc                |  5 ++-
- 2 files changed, 2 insertions(+), 44 deletions(-)
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch b/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
-deleted file mode 100644
-index dbe58fcc89..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 4fed044aaed5911fdc58d2a634f34a7186836935 Mon Sep 17 00:00:00 2001
--From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
--Date: Sun, 12 Oct 2025 23:54:25 +0300
--Subject: [PATCH] glx: provide glx.pc
--
--New Vulkan CTS 1.4.4 started requiring glx.pc pkg-config file. Provide
--one if GLVND is not used in order to let VK CTS and other programs find
--Mesa GLX implementation.
--
--Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/37834]
-----
-- src/glx/meson.build | 12 ++++++++++++
-- 1 file changed, 12 insertions(+)
--
--diff --git a/src/glx/meson.build b/src/glx/meson.build
--index 04fdf26ba6a2..28313f83a783 100644
----- a/src/glx/meson.build
--+++ b/src/glx/meson.build
--@@ -134,6 +134,18 @@ libgl = shared_library(
--   install : true,
-- )
-- 
--+if not with_glvnd
--+  pkg.generate(
--+    name : 'glx',
--+    description : 'Mesa GLX Library',
--+    version : meson.project_version(),
--+    libraries : libgl,
--+    libraries_private : gl_priv_libs,
--+    requires_private : gl_priv_reqs,
--+    variables : ['glx_tls=yes'],
--+  )
--+endif
--+
-- if with_symbols_check
--   libgl_symbols_file = with_glvnd ? 'glvnd-symbols.txt' : 'libgl-symbols.txt'
-- 
---- 
--2.51.0
--
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 1485e0b727..6a36aea259 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,11 +17,10 @@ PE = "2"
- SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
--           file://0001-glx-provide-glx.pc.patch \
- "
- 
--SRC_URI[sha256sum] = "a370b4c549cbfbe646b319e34d73edb50ed883978f5e95133f282f0eae39ab52"
--PV = "25.2.4"
-+SRC_URI[sha256sum] = "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
-+PV = "25.2.5"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-
----
-base-commit: 5284c01374eb3957ab13ff3f271424e9ee7b9840
-change-id: 20251016-mesa-25-2-5-643cd0dacec3
-
-Best regards,
--- 
-Quentin Schulz <quentin.schulz@cherry.de>
-
+Thanks,
+Kavinaya
 
