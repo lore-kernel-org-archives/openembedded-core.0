@@ -1,180 +1,139 @@
-Return-Path: <saravanan.kadambathursubramaniyam@windriver.com>
+Return-Path: <foss@0leil.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C279DCCD199
-	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 14:28:03 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.10212.1760624877085395178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E86EFCCD199
+	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 14:59:03 +0000 (UTC)
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
+ by mx.groups.io with SMTP id smtpd.web10.11244.1760626739061581490
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 07:27:57 -0700
+ Thu, 16 Oct 2025 07:58:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=bSXbm/ch;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=23844c9b6c=saravanan.kadambathursubramaniyam@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59G8Iqs61368055
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 14:27:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=B1tL31ORjNFmN6nkgjzO
-	oGVX7PhRnQMi4TasNps93iQ=; b=bSXbm/chPmFEHPLiHgik99YnW+G98KpjNFGC
-	tp+BvOZe79QOy4+lzPDWqZPUmPcMPp6HKY/X9Y4vMgdcg7WQVgrQTzbQHzR9UB5S
-	cFoI2tO4zJsikaQ5aWqtUJ2AJT9GwsvNRsNhckpAiO7bHAXsO8wj3Qel4OnW2hWY
-	4gVNKXOqZt0TDDKy/0S7+81VWiLBb5x3gGIioyGyR18njOX1W5xcLRQghV7A85wu
-	nfDaEGhlyTHEVQYHTDFnvsapWVVbVYsifz8KhX+uM+/ElfPJTzzwO6mJK4co2JNn
-	zxDN+Fm4KZh68ePi/P9P6TO72D2/vqKfg+k4PePOOsllwjaU2A==
-Received: from ala-exchng01.corp.ad.wrs.com ([128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qcewpevf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 14:27:56 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.59; Thu, 16 Oct 2025 07:27:54 -0700
-Received: from blr-linux-engg1.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.59 via Frontend Transport; Thu, 16 Oct 2025 07:27:53 -0700
-From: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 1/1] cmake: fix CVE-2025-9301
-Date: Thu, 16 Oct 2025 19:57:52 +0530
-Message-ID: <20251016142752.2283060-1-saravanan.kadambathursubramaniyam@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 185.125.25.10, mailfrom: foss+yocto@0leil.net)
+Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4cnWLT1v62zXSl;
+	Thu, 16 Oct 2025 16:58:57 +0200 (CEST)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4cnWLS2w6Mzrn4;
+	Thu, 16 Oct 2025 16:58:56 +0200 (CEST)
+From: Quentin Schulz <foss+yocto@0leil.net>
+Date: Thu, 16 Oct 2025 16:58:45 +0200
+Subject: [PATCH] mesa: upgrade 25.2.4 -> 25.2.5
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: piwLP-LwNIlvu8LxjuguQ1GUIkt79Zbu
-X-Proofpoint-ORIG-GUID: piwLP-LwNIlvu8LxjuguQ1GUIkt79Zbu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE2MDEwNSBTYWx0ZWRfX5h19DXkxsYkl
- gKg113ds/TTuZRgkW5KuzQi2jwCPNpZeFEDDKZlGNugKepbufLJbYtrcDYtzbRoxYNvyTtaI5EX
- Kwfass334gWzOpv2YoWG8DrBSvwvKf8BDBiesxVvMyPBD3YnsbvTO5W98fqvzd3dt1NwlN/Jy8a
- 2K6CW7dT4gEyl0ykERkGvNi6IoTjzCUjwcdyHT+clSc3S3rbCQNCrwZ9st6169U1xGAZazfs3hZ
- Nx7IqA/ug/eiHoojKjDR/dSDOwUFHM6/4qaLOthgFobx7Nuj1hru9cKacoQLVbiqEMloqNb29Pg
- pbVEiL/4f8gw0JxvDEk4wCrVtoLyr69P3+EP6MXfHq6tJTJZFescNf03mxYHRXlfTgn2N8U42tu
- Kky6X0BAFOtgRzdwDgPUXMsn4TBZ9g==
-X-Authority-Analysis: v=2.4 cv=M+xA6iws c=1 sm=1 tr=0 ts=68f100ec cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=PYnjg3YJAAAA:8 a=Ud-fGmwBAAAA:8
- a=t7CeM3EgAAAA:8 a=Sy7bPN1xXRUIE74_xK8A:9 a=H0_BfbLtyfsadj6IJfz3:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-16_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 suspectscore=0 adultscore=0 phishscore=0
- impostorscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510160105
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251016-mesa-25-2-5-v1-1-08035df5e74e@cherry.de>
+X-B4-Tracking: v=1; b=H4sIACQI8WgC/x3MQQqAIBBA0avIrBvQMV10lWghOtUsslCIQLp70
+ vIt/m9QuQhXmFSDwrdUOXOHGRTEPeSNUVI3kCZntPF4cA1IDgkd+tHGpFOIHC304iq8yvPf5uV
+ 9P65JoatdAAAA
+X-Change-ID: 20251016-mesa-25-2-5-643cd0dacec3
+To: openembedded-core@lists.openembedded.org
+Cc: Quentin Schulz <quentin.schulz@cherry.de>
+X-Mailer: b4 0.14.3
+X-Infomaniak-Routing: alpha
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 14:28:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224970
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 14:59:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224971
 
-Reference:
-	https://nvd.nist.gov/vuln/detail/CVE-2025-9301
-	https://gitlab.kitware.com/cmake/cmake/-/issues/27135
+From: Quentin Schulz <quentin.schulz@cherry.de>
 
-Upstream-patch:
-	https://gitlab.kitware.com/cmake/cmake/-/commit/37e27f71bc356d880c908040cd0cb68fa2c371b8
+See https://docs.mesa3d.org/relnotes/25.2.5.html.
 
-Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
+0001-glx-provide-glx.pc.patch is in 25.2.5 via commit 293a26135d83
+("glx: provide glx.pc") so can be dropped.
+
+Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
 ---
- .../cmake/cmake/CVE-2025-9301.patch           | 71 +++++++++++++++++++
- meta/recipes-devtools/cmake/cmake_3.22.3.bb   |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-devtools/cmake/cmake/CVE-2025-9301.patch
+Only build tested. kmscube run on Ringneck PX30 (Aarch64 Rockchip
+board).
 
-diff --git a/meta/recipes-devtools/cmake/cmake/CVE-2025-9301.patch b/meta/recipes-devtools/cmake/cmake/CVE-2025-9301.patch
-new file mode 100644
-index 0000000000..08137ae503
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/CVE-2025-9301.patch
-@@ -0,0 +1,71 @@
-+From 37e27f71bc356d880c908040cd0cb68fa2c371b8 Mon Sep 17 00:00:00 2001
-+From: Tyler Yankee <tyler.yankee@kitware.com>
-+Date: Wed, 13 Aug 2025 15:22:28 -0400
-+Subject: [PATCH] foreach: Explicitly skip replay without iterations
-+
-+As written, foreach loops with a trailing `IN` (i.e., no loop
-+variable(s) given) lead to an assertion error. Handle this case by
-+exiting early when we know the loop won't execute anything.
-+
-+Fixes: #27135
-+
-+CVE: CVE-2025-9301
-+
-+Upstream-Status: Backport
-+https://gitlab.kitware.com/cmake/cmake/-/commit/37e27f71bc356d880c908040cd0cb68fa2c371b8
-+
-+Signed-off-by: Tyler Yankee <tyler.yankee@kitware.com>
-+Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
-+---
-+ Source/cmForEachCommand.cxx                  | 3 +++
-+ Tests/RunCMake/foreach/RunCMakeTest.cmake    | 1 +
-+ Tests/RunCMake/foreach/TrailingIn-result.txt | 1 +
-+ Tests/RunCMake/foreach/TrailingIn.cmake      | 5 +++++
-+ 4 files changed, 10 insertions(+)
-+ create mode 100644 Tests/RunCMake/foreach/TrailingIn-result.txt
-+ create mode 100644 Tests/RunCMake/foreach/TrailingIn.cmake
-+
-+diff --git a/Source/cmForEachCommand.cxx b/Source/cmForEachCommand.cxx
-+index dcb36265..35b59960 100644
-+--- a/Source/cmForEachCommand.cxx
-++++ b/Source/cmForEachCommand.cxx
-+@@ -100,6 +100,9 @@ bool cmForEachFunctionBlocker::ArgumentsMatch(cmListFileFunction const& lff,
-+ bool cmForEachFunctionBlocker::Replay(
-+   std::vector<cmListFileFunction> functions, cmExecutionStatus& inStatus)
-+ {
-++  if (this->Args.size() == this->IterationVarsCount) {
-++    return true;
-++  }
-+   return this->ZipLists ? this->ReplayZipLists(functions, inStatus)
-+                         : this->ReplayItems(functions, inStatus);
-+ }
-+diff --git a/Tests/RunCMake/foreach/RunCMakeTest.cmake b/Tests/RunCMake/foreach/RunCMakeTest.cmake
-+index 15ca4770..acfc742e 100644
-+--- a/Tests/RunCMake/foreach/RunCMakeTest.cmake
-++++ b/Tests/RunCMake/foreach/RunCMakeTest.cmake
-+@@ -22,3 +22,4 @@ run_cmake(foreach-RANGE-invalid-test)
-+ run_cmake(foreach-RANGE-out-of-range-test)
-+ run_cmake(foreach-var-scope-CMP0124-OLD)
-+ run_cmake(foreach-var-scope-CMP0124-NEW)
-++run_cmake(TrailingIn)
-+diff --git a/Tests/RunCMake/foreach/TrailingIn-result.txt b/Tests/RunCMake/foreach/TrailingIn-result.txt
-+new file mode 100644
-+index 00000000..573541ac
-+--- /dev/null
-++++ b/Tests/RunCMake/foreach/TrailingIn-result.txt
-+@@ -0,0 +1 @@
-++0
-+diff --git a/Tests/RunCMake/foreach/TrailingIn.cmake b/Tests/RunCMake/foreach/TrailingIn.cmake
-+new file mode 100644
-+index 00000000..e2b5b2f2
-+--- /dev/null
-++++ b/Tests/RunCMake/foreach/TrailingIn.cmake
-+@@ -0,0 +1,5 @@
-++foreach(v IN)
-++endforeach()
-++
-++foreach(v1 v2 IN)
-++endforeach()
-+-- 
-+2.35.5
-+
-diff --git a/meta/recipes-devtools/cmake/cmake_3.22.3.bb b/meta/recipes-devtools/cmake/cmake_3.22.3.bb
-index 04a0f0e793..e5e279c07f 100644
---- a/meta/recipes-devtools/cmake/cmake_3.22.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake_3.22.3.bb
-@@ -12,6 +12,7 @@ SRC_URI:append:class-nativesdk = " \
-     file://0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch \
-     file://0001-ctest-Allow-arbitrary-characters-in-test-names-of-CT.patch \
+I have quickly glanced at the diff, one new header included (commit
+5eb46a78d8dd ("vulkan/query_pool: Store video encode feedback")) but
+it's already part of the dependencies listed in vulkan_lite_runtime_deps
+and its companion C file is also in vulkan_lite_runtime_files so it
+should be just fine without a change in the recipe.
+
+A meson config file changed in commit 4ea070a741bf ("amd: require LLVM
+when amd-use-llvm is enabled") but AFAICT we don't use this meson option
+so it changes nothing for us.
+---
+ .../mesa/files/0001-glx-provide-glx.pc.patch       | 41 ----------------------
+ meta/recipes-graphics/mesa/mesa.inc                |  5 ++-
+ 2 files changed, 2 insertions(+), 44 deletions(-)
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch b/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
+deleted file mode 100644
+index dbe58fcc89..0000000000
+--- a/meta/recipes-graphics/mesa/files/0001-glx-provide-glx.pc.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 4fed044aaed5911fdc58d2a634f34a7186836935 Mon Sep 17 00:00:00 2001
+-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+-Date: Sun, 12 Oct 2025 23:54:25 +0300
+-Subject: [PATCH] glx: provide glx.pc
+-
+-New Vulkan CTS 1.4.4 started requiring glx.pc pkg-config file. Provide
+-one if GLVND is not used in order to let VK CTS and other programs find
+-Mesa GLX implementation.
+-
+-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/37834]
+----
+- src/glx/meson.build | 12 ++++++++++++
+- 1 file changed, 12 insertions(+)
+-
+-diff --git a/src/glx/meson.build b/src/glx/meson.build
+-index 04fdf26ba6a2..28313f83a783 100644
+---- a/src/glx/meson.build
+-+++ b/src/glx/meson.build
+-@@ -134,6 +134,18 @@ libgl = shared_library(
+-   install : true,
+- )
+- 
+-+if not with_glvnd
+-+  pkg.generate(
+-+    name : 'glx',
+-+    description : 'Mesa GLX Library',
+-+    version : meson.project_version(),
+-+    libraries : libgl,
+-+    libraries_private : gl_priv_libs,
+-+    requires_private : gl_priv_reqs,
+-+    variables : ['glx_tls=yes'],
+-+  )
+-+endif
+-+
+- if with_symbols_check
+-   libgl_symbols_file = with_glvnd ? 'glvnd-symbols.txt' : 'libgl-symbols.txt'
+- 
+--- 
+-2.51.0
+-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 1485e0b727..6a36aea259 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -17,11 +17,10 @@ PE = "2"
+ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
+-           file://0001-glx-provide-glx.pc.patch \
  "
-+SRC_URI += "file://CVE-2025-9301.patch"
  
- LICENSE:append = " & BSD-1-Clause & MIT"
- LIC_FILES_CHKSUM:append = " \
+-SRC_URI[sha256sum] = "a370b4c549cbfbe646b319e34d73edb50ed883978f5e95133f282f0eae39ab52"
+-PV = "25.2.4"
++SRC_URI[sha256sum] = "bb6243e7a6f525febfa1e6ab50827ca4d4bfdad73812377b0ca9b6c50998b03e"
++PV = "25.2.5"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+
+---
+base-commit: 5284c01374eb3957ab13ff3f271424e9ee7b9840
+change-id: 20251016-mesa-25-2-5-643cd0dacec3
+
+Best regards,
 -- 
-2.35.5
+Quentin Schulz <quentin.schulz@cherry.de>
 
 
