@@ -1,243 +1,174 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 017E9CCD183
-	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 09:50:12 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.69])
- by mx.groups.io with SMTP id smtpd.web10.4153.1760608205019164025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80CC8CCD183
+	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 11:18:12 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.5608.1760613485037643085
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 02:50:05 -0700
+ Thu, 16 Oct 2025 04:18:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=Kl4IdDLR;
- spf=pass (domain: axis.com, ip: 52.101.72.69, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mq2E6A0MNaO+tOB2UEXzvBPwsxvsjfa1WoqfAqGDV0AyRYpesD0BxOqzPh9O8ckZpor4Kh+7R5PGktH85DOPKNU9ibNySViNAGwlaZomWDgNPDKUq3TUpPr6vsWRkvd09Jw90NPsDD9DC2mlhsyb8i1IsQMdqgeDHSJnIeBg08E6QXZrh4v/d2AQgC/5mefGT9Mhbi76IhmqOzr+WhxNATSYrY/hrzN5c/zboBLJw2Eb+CSDJ+WvrKfnRZxS4NxV1RsRpBEJzYPWnKRUyK3xPzdzyYvohYulIRk23NeMRILyMJqqZ7eL1DVjxXQ+kTNbOQa9pvvqDrxDmrWZYaPgCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E4xE3Hpt25Q+KmRskCSBZIKfudKh1iLqBgkWF5Vz8qI=;
- b=G2AdX+7z7/sYfB2LnYa19MJ5qpESEjwdC5EJz+ZMGr9yzkedLS9yawWoLpbxU7Q/JUli1wEXJszDgQMcDZiY7/+piEKzs4ErPO0pPZ1ChlIuD2zdcE2zT/YrhQDhFruRO/agY/6lwNHSlULbXIo0hF777x7nMct+VnaM7bIu2npOGLy+fO0TU4VzdU3Et9nQc9gLWVZJSyS6qZ9KapUUQkZrvp302cT4eWB2acVuYjgATQ3pS6SYBORRHQ2XU7z8Xq2I+fjMgJVUS/0fLGue1zHQGy2XRxGDp/KGwZhsjl9dTyNf2R9JoAO3fDg6Tk98PuZIrCJ6JMLA+1TyFd1jAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E4xE3Hpt25Q+KmRskCSBZIKfudKh1iLqBgkWF5Vz8qI=;
- b=Kl4IdDLRt/XvQRNhLEQ64U4XwnR/dbA6zsWC5pPHW/b84jOD6ra0e/BDbMWVSHxhBt6jm7y/qIYLf3Oehpz9RzmnYR0pUswZHCg8Dq8goAwK1O3Ycq6LimBCfpxjgMahKAZSWoJzX6cb7JR79vEbciHBWWT2joac/jDanOc2ii4=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by DB4PR02MB8583.eurprd02.prod.outlook.com (2603:10a6:10:385::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Thu, 16 Oct
- 2025 09:50:01 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::1bee:3174:a078:5af9%7]) with mapi id 15.20.9228.012; Thu, 16 Oct 2025
- 09:49:58 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Qi.Chen@windriver.com" <Qi.Chen@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH V3 1/2] base-passwd: add clock group
-Thread-Topic: [OE-core][PATCH V3 1/2] base-passwd: add clock group
-Thread-Index: AQHcPnmAdYjh6ccYY0i71Eq0EjWAvLTEhk1w
-Date: Thu, 16 Oct 2025 09:49:58 +0000
-Message-ID: 
- <DB5PR02MB102130824E86A46D0A830FB03EFE9A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20251016084700.1537381-1-Qi.Chen@windriver.com>
-In-Reply-To: <20251016084700.1537381-1-Qi.Chen@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB4PR02MB8583:EE_
-x-ms-office365-filtering-correlation-id: c1e87d88-9b77-493e-bb1a-08de0c995e54
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?eq81aoZOQePGJpJSe0g36WafzE6S2EWTkA+ho3ualAe4D97cwnlJIGX5eJ8D?=
- =?us-ascii?Q?wRSm1r+V2kzdkcMLGqTkFZScaC2/AeHEHclG3xG8uLHwgfhSCKPn3jOM9I6F?=
- =?us-ascii?Q?6aYttVthP9kC0k1c82VyVfqxsv20xzIoY84jE6FOn/MPUQwv4GqIFrzxzNYI?=
- =?us-ascii?Q?3V+if7aBYNFux4lOwHB4IxWokH7t+zBIuHw1a1njy8M0VprUYnfnIPCR6gA4?=
- =?us-ascii?Q?NFkLxgHfvOkPZMJuadqLhve4VSYO1UxW0DQ8SBShzPzPEvwJq+6SPdcUtNYY?=
- =?us-ascii?Q?+QZ08j7bEa2wepQb3fvw2ESQ5inf7GUKkKRPZ5NYAKMhWR18QTNC2O4IkRk0?=
- =?us-ascii?Q?Iz12pP21xyaQ/jK5wwbVU2FC6ySMOddbTi+weGtsKRSlq4/dCRpZWmM839WM?=
- =?us-ascii?Q?IwS2lneCL+T8S8H+3sTz70VKCOgJHIU5k4lXwCEwHQanFgQKWqNZRd+qVAL+?=
- =?us-ascii?Q?yID3dwD56nMWH9G4EPx3p2v+cS/VUBUoTGKOvAo5WsVhoW+iL9zTMnlPukyI?=
- =?us-ascii?Q?gmjW9Txl+T3C5yLC4QmAwnpwuiBRK8j4pMy4OTO7Tq8gKG3kU2Ai5y/xvttv?=
- =?us-ascii?Q?S3O6ZHe8uILOsiDRkAs/Gxt/XbjSkHlUGNZXKCvyM8Y6dk4JcPnpVGzHyG4z?=
- =?us-ascii?Q?b3rNt7p3ZrJIKmDsfQwj4geLTuaXqPANEoKBOSfmnvKZO94XS/dmymfR7fF5?=
- =?us-ascii?Q?trBPIkXfOYu0pIlhEgtc2kkuSti2CEdZ4qkgABFyjSlvS9wuvIdrkYBRaVYy?=
- =?us-ascii?Q?7SsUHiIs0loXBQjlv0KEhvcGCQdJvVqUpRR6Jjq8Z+BTUrM9Wb50yVDQga8A?=
- =?us-ascii?Q?PtH7DALoPjN7/RY8P491AXQz7ZQO8HwDqow3DXXwYyPX1jecYVQ1swWi68Zb?=
- =?us-ascii?Q?gOhWeJwSc4BzbKQYBLpTNADzcgjdJaL2/CqrrjVIvh8zrTolIh2UXPABR2aP?=
- =?us-ascii?Q?yAN8ppQHt68ViC36vEKXWIHvuzWQiHJEcrcCMC1RLKDQbbD/TC4V6WH3rvl4?=
- =?us-ascii?Q?1Ib9IldwZb544F3ZDiLHcsrMvMYqjcT8uytc4r5fMsrqdmOopj2IynDGIwPw?=
- =?us-ascii?Q?02yjY8rAEPW6l3T2eRAyLbdmzHOxFfJ3BtFWId8JzjhePAbbPwE1HA1Re2cW?=
- =?us-ascii?Q?K4HKOexiqLhFoK60j42OAWYhF8Vkw5TBzIp6JAhQigdl5ZX77agiNm8M++jy?=
- =?us-ascii?Q?IMm1TIltfZSSDQD4r34plC40b5KkweZSNnmZMV87JQSbHtUcs/T7zE7BIb8p?=
- =?us-ascii?Q?p4ux2j659eiz8LfEODqDCYRDRnpX2IPLrN3YH5hngOqidxucDQNe1HK8p1Jy?=
- =?us-ascii?Q?GclJbaX/uegXu5AomDiv31dNavMNjh/kbLs9dIZ1dhkSz/yIKjruSl+1maWD?=
- =?us-ascii?Q?CYRkic+Bo0+60gxbC3csbcstSxSUmUknmMul41oALvyGUwb2QhtnIufvGtv7?=
- =?us-ascii?Q?4X2n9wcTMGJjit374QFojEctqiX80e/GL9V6tXJlzdCI6VrB9ycfWw=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?vJfgrj/UPxKE+j+dt5Dyzhas5fi20F8KVeC66fvDMdnBoCQJTxKnToHBsLxS?=
- =?us-ascii?Q?/U5+o/Z1FZ3gPDP+A4OAlj4Bd6MwNMxWKbOPMQajIzLY2y31b+kvPQycTpNu?=
- =?us-ascii?Q?Bp6bxTrMtgXqzCsj96uKBaKjF/lojZr+tNMNMrqhaFngJrYx9uHcacMSy9n0?=
- =?us-ascii?Q?ADnnEjgtMc+WAX6an5jkneOhHpGzzJ+ybrhENNgHCo/UneYUu+ugDQp72nnH?=
- =?us-ascii?Q?z3n3lzZMjHD7MxbuhSmJuEeDhzOcjYJnHKlPNOuZN4T1WrLWi7mqRwHnZMhg?=
- =?us-ascii?Q?UwTlW1CCTatMpy0S6YQIamabaIyEzYAxoicNs5FWVILviPC+ku1mDGTOckEk?=
- =?us-ascii?Q?Ogk7ZHbvTzvVB1ZTax8nb5ZhiGAT/jYxTetQk6Y0rhpijUU6RUsdEPezxw8A?=
- =?us-ascii?Q?P5zR3K3Px/e+GllcecVRz4s6M2JXS9zgoihWSaTJ2yeZauWcpWx6yn+QHSV5?=
- =?us-ascii?Q?5XuPPckMP6Eq0189+i9DYxP6hbS7zFTzd+A8QjP/3NQC4UpJ/zQDB2m6qOa1?=
- =?us-ascii?Q?RkIqX87bwjC/p15c5QkMyIvvtYu5GtP6lukaT0APQuZhBDmPZRk00mrr9AI9?=
- =?us-ascii?Q?3YSPFNkQenbRekbH9Jcz6jXokmUOLvrGxOvIEjlJfbbF2y9DfAWtw/PKdoh7?=
- =?us-ascii?Q?Dpu4H4eOtf55l0hJKG99HeOo/kCmK7oNfrmZmvfQbvOxW78D99SAciA21E8o?=
- =?us-ascii?Q?/CsNkj+yLqaAfhsj+iYhADM5J44Rc0J6WoLTk2Js7vMoB5sK1X+0mMHprjwb?=
- =?us-ascii?Q?Em40/C1j7dvELHlzvsODumr9lnEdrWTE+JL4Wwtxuddl6RJzrGBNq3Htxqxy?=
- =?us-ascii?Q?jSBo00hCwldV32dsOUpE+C46m4zNpxYuZfyBuGAuDmuqxu+DNNwyn8ypehsW?=
- =?us-ascii?Q?jE52mJkOsc7x+hIV19aLj8BZTzFnMwuG/Y8qClxe4uaYBbMxV/aDiiCetSoq?=
- =?us-ascii?Q?3EpfvlkFuUXPN5pAUK5owzkN+9Nun0akicn6xcyIugE/pKqT1y9Cc+vTrLz+?=
- =?us-ascii?Q?cQgWgAMfGvQNr9Qurvfd/9FQwHrgku+0ng51oc2POzHSl++W8Z4vDj8J2bm1?=
- =?us-ascii?Q?B40QVc22uya/uG3ri/QFxGQo2vMAfqStmT+XhIUUPbbMavVLnVH7GFLJFBh7?=
- =?us-ascii?Q?j1B1UuPxofF4h8ETlnQuI0901TySZDl2sZiJauwJfqKl+ALqcTUzs9Lrp+hF?=
- =?us-ascii?Q?x2uvIeYCImji1cl9MHfoayjKZfzGZQ0ddn5mz0XHKFhStPGRWhio3yb59EUD?=
- =?us-ascii?Q?nEta6x7Gupqtj6eXZETdIg8s2kFzQteY/LGc4BVAbTg3xYnhP7v9JUabYLZZ?=
- =?us-ascii?Q?97Qm/6FfBQqrboA/4dZTowuHFsrCBa6mqKiguzAMO3A+7euEHLeJGiBsSPTO?=
- =?us-ascii?Q?GAgjjOKz9tzBSOZf5TMdDEZnyXPTWKW6bL1A6IcuO+Vv5qPZ8ZndI/0BAz9q?=
- =?us-ascii?Q?cAvcb0kNFYq2/QI/wxG3f+FxPZCPvaI0txAuXENzpXEM2dy82Ea7gZ8epui4?=
- =?us-ascii?Q?dNX27z4iVJHSGaogHWIAVEGkQKfEdT6W9rvsr8r2s4vYOPkuZUG7nVRUkQ?=
- =?us-ascii?Q?=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@snap.com header.s=google header.b=aAdPGC5G;
+ spf=pass (domain: snapchat.com, ip: 209.85.128.45, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-46e5980471eso5067625e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 04:18:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snap.com; s=google; t=1760613483; x=1761218283; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yH0vH1M0nkpsrnefiwAwxuD+yqFYpcrtuY/7tXIAQVg=;
+        b=aAdPGC5GSXTKDPeG1YLy5dQTCQGff5pj+8WJCfhml20d05sO3uL8JzG+i4boHbtvS9
+         CHXeiDiEf896gt6WBgoyqRDAw8AZ+EJ1frphFiS9O9lCuiKvjVnCaTmwrcMZ2qADun4p
+         uifYCVA9IDcyw8jBAIQJw7He+8Zss4kyqIFHs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760613483; x=1761218283;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yH0vH1M0nkpsrnefiwAwxuD+yqFYpcrtuY/7tXIAQVg=;
+        b=GDK/9XyieN8aOLvwPH0m8N/fz7FKTmAvDWiTxQQOWhGfZ/264PX0pNuZ+LyyO6lr8W
+         mFD1NPlb1cpD0wOhDmseo1GGFPCtaR56ggKBtiHqHYj4WY8v1S+vS4vj6Ubi/uTNQz5+
+         3Pf/GvulZc/M/g14lYMxkKCdxNTLgA7p8zsvoBS0l7ILcjkr0nUHLkThnZf/Y0TNgkGC
+         hmAz3aRY/ElRg5o4KtsS0S6P91LBfPwf2Y3/Urk/PexJam0XOP0rZZ5e1n78DFuG2WtJ
+         BPzVhFp3F6Ix01algzATxiCYkEiCCrm2BLgZOqD2M+LhQ8G9GQ6kHaC4YkyJX+7KhJs/
+         3nIw==
+X-Gm-Message-State: AOJu0YwPG0P8z3LCtrAU7tiCA8w480AA0H0/1rCp93yfI9SPvlUZldtN
+	pkRchNCBYL0OlI2hI7ctbpOIA+FzpdLlcYdeThownNUGLrLW/W/+sVEvrhwAkjDpffs6YsLD2td
+	8GcZOVo4=
+X-Gm-Gg: ASbGncsRpayAQ24QyJke+MjymJupdDvgOIXagVNuYl3X0LylBo7OGXhKyYR7MJxEpJ8
+	Yg/iuayGkTyT+SgVsuRxtqL8B+Hv6FLiRf4SBhq940+jKbJdfBWg+uAKfgyJ8vISHU21Zembhxd
+	PSo/NnmFOHqLvzp9cgrubHnZXbrfynmu69OtVvRMHypKQO5yA5uWdtAHLNnky8e2ETTiWVTRtNO
+	6C3eBUCWaXagARpRfen164BzVdI7/Vnu79POmTY+npkrpWh6MFczKvL3L0R9U3+JtneeQyOv/Co
+	a2qffXzOOu2+d0rfvBx3OBwEvrY3+KEkPoz51SYJ8SbknbfJtlSPTaz4+JItBqE26CEmc2+q9ih
+	/Q1zNn0o0sndPRfmpG+4p6P5jpsD5EjAUizRth5rXL7Fhl862ie/mkzHKpgy7sFT1bDUMD/0caU
+	rdHB2CTKcutCIOo1BCO69+mwkixYehwAPXJlo24ErbkEU3Z0q+S2ztuPdsH/enBdQO0w==
+X-Google-Smtp-Source: AGHT+IHa/5lwqH0yNpuwsOFQIBdUBVVObiVmWWLFyCbbQwzWdlbRHqqGVRLBSzY+bGjr6pgnZWCVww==
+X-Received: by 2002:a05:600c:6090:b0:471:13dd:baef with SMTP id 5b1f17b1804b1-47113ddbf1fmr9999485e9.26.1760613483127;
+        Thu, 16 Oct 2025 04:18:03 -0700 (PDT)
+Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47114423862sm20614555e9.1.2025.10.16.04.18.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Oct 2025 04:18:02 -0700 (PDT)
+From: ecordonnier@snap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [OE-core][PATCH v2] opkg: upgrade 0.7.0 -> 0.9.0
+Date: Thu, 16 Oct 2025 13:16:28 +0200
+Message-ID: <20251016111628.3050999-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1e87d88-9b77-493e-bb1a-08de0c995e54
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2025 09:49:58.4929
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5Yg6E8WF/QawLwS2ytwsPj9Z6tfuVVTjYuQSHB4q5T8q5BIADNYAnseP250856uq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR02MB8583
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 09:50:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224961
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 11:18:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224962
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Chen Qi via lists.openembedded.org
-> Sent: den 16 oktober 2025 10:47
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core][PATCH V3 1/2] base-passwd: add clock group
->=20
-> From: Chen Qi <Qi.Chen@windriver.com>
->=20
-> New systemd version (v258) introduces a new group, clock, to
-> "enable applications like linuxptp to open clocks without root
-> privileges".[1]
->=20
-> This results in warning at do_rootfs time:
-> WARNING: Group clock has never been defined
->=20
-> Add group clock with gid 81 to fix this issue. The wheel group's
-> gid is 80, so 81 is chosen. And as the patch to add wheel group
-> was not accepted by upstream, directly mark this one's upstream
-> status to be 'Inappropriate'.
->=20
-> [1] https://github.com/systemd/systemd/commit/af96ccfc24bc4803078a46b4ef2=
-cdeb5decdfbcd
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  .../base-passwd/0001-Add-clock-group.patch    | 34 +++++++++++++++++++
->  .../base-passwd/base-passwd_3.6.7.bb          |  1 +
->  2 files changed, 35 insertions(+)
->  create mode 100644 meta/recipes-core/base-passwd/base-passwd/0001-Add-cl=
-ock-group.patch
->=20
-> diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-Add-clock-gro=
-up.patch b/meta/recipes-core/base-passwd/base-passwd/0001-Add-clock-group.p=
-atch
-> new file mode 100644
-> index 0000000000..1cb22a05f7
-> --- /dev/null
-> +++ b/meta/recipes-core/base-passwd/base-passwd/0001-Add-clock-group.patc=
-h
-> @@ -0,0 +1,34 @@
-> +From 4b3a8f347179d7e2a1062eeed13a6474deb28728 Mon Sep 17 00:00:00 2001
-> +From: Chen Qi <Qi.Chen@windriver.com>
-> +Date: Thu, 16 Oct 2025 08:48:49 +0800
-> +Subject: [PATCH] Add clock group
-> +
-> +The clock group is needed to "to enable applications like linuxptp
-> +to open clocks without root privileges". See the link below:
-> +https://github.com/systemd/systemd/commit/af96ccfc24bc4803078a46b4ef2cde=
-b
-> 5decdfbcd
-> +
-> +Note that this group is needed as long as people use udev from
-> +systemd because 50-udev-default.rules needs it. See the above
-> +commit.
-> +
-> +Upstream-Status: Inappropriate [enable feature]
-> +
-> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> +---
-> + group.master | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/group.master b/group.master
-> +index e54fd1d..6f84539 100644
-> +--- a/group.master
-> ++++ b/group.master
-> +@@ -39,5 +39,6 @@ staff:*:50:
-> + games:*:60:
-> + shutdown:*:70:
-> + wheel:*:80:
-> ++clock:*:81:
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-Why does this have to go here. Why can't you just update the=20
-GROUPADD_PARAM:${PN} in the systemd recipe to create the clock group:
+See release notes at
+- http://downloads.yoctoproject.org/releases/opkg/opkg-0.9.0.release-notes
+- http://downloads.yoctoproject.org/releases/opkg/opkg-0.8.0.release-notes
 
-GROUPADD_PARAM:${PN} =3D "-r systemd-journal; -r clock;"
+[0.9.0] - 2025-06-27
 
-That way it is only created if systemd is actually used.
+Semiannual opkg release.
+Bumping the minor version as a result of the project build tooling changing from autotools to cmake.
 
-> + users:*:100:
-> + nogroup:*:65534:
-> +--
-> +2.34.1
-> +
-> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb b/meta/re=
-cipes-core/base-passwd/base-passwd_3.6.7.bb
-> index 177927d674..e4e0890293 100644
-> --- a/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
-> +++ b/meta/recipes-core/base-passwd/base-passwd_3.6.7.bb
-> @@ -13,6 +13,7 @@ SRC_URI =3D
-> "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
->             file://0005-Add-kvm-group.patch \
->             file://0007-Add-wheel-group.patch \
->             file://0001-base-passwd-Add-the-sgx-group.patch \
-> +           file://0001-Add-clock-group.patch \
->             "
->=20
->  SRC_URI[sha256sum] =3D "cf869870fed7862b57bfa9e99cd5cd6f365e2349705a1b65=
-af7fc182629bd1ab"
-> --
-> 2.34.1
+- Added a Dockerfile container definition (`:docker/`) for a valid developer build environment for opkg.
+  - It's recommended that project contributors use this container to build and test their changes.
+- The AutoTools-based build framework has [been replaced](https://git.yoctoproject.org/opkg/commit/?id=3f6040e321634471ec442fb0e80f140f1437e90b) with a more modern, CMake framework.
+  - Refer to the `docs/CONTRIBUTING.md` documentation for updated build instructions.
 
-//Peter
+[0.8.0] - 2025-01-10
+
+The minor version bump in this release is due to the changes to cURL error output line format.
+
+- [Changed](https://git.yoctoproject.org/opkg/commit/?id=ab03377868256427279b36c4b2a298edae4260b8) the error output for the curl download backend, to now report the HTTP error code for failed requests.
+  - e.g. `error: log_curl_download_error: Failed to download headers of https://foo.bar/all/Packages.gz: The requested URL returned error: 401`
+- Enabling debug-verbosity, while using the cURL backend, [will now](https://git.yoctoproject.org/opkg/commit/?id=ce6fede3db931bb0da70d1334cdc4101d0aec702) print cURL's verbose error log to stderr when there is a download failure.
+  - The verbose output may contain confidential information about your cURL transactions. So this is your reminder that debug-verbosity should not be enabled in production systems or sensitive security environments.
+- The commandline configuration file option (`-f`) [can now](https://git.yoctoproject.org/opkg/commit/?id=36d08b93d2859992b624a4ba2f412cfa5c766050) be specified multiple times, and each configuration file will be loaded and their settings merged.
+- [Fixed](https://git.yoctoproject.org/opkg/commit/?id=c87188d7535684fddb8cf80993c147b215602b63) a bug in control field parsing where custom fields whose keys are similar to other fields could be confused by the parser.
+
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ meta/recipes-devtools/opkg/opkg/run-ptest     |  3 +--
+ .../opkg/{opkg_0.7.0.bb => opkg_0.9.0.bb}     | 21 +++++++++++--------
+ 2 files changed, 13 insertions(+), 11 deletions(-)
+ rename meta/recipes-devtools/opkg/{opkg_0.7.0.bb => opkg_0.9.0.bb} (77%)
+
+diff --git a/meta/recipes-devtools/opkg/opkg/run-ptest b/meta/recipes-devtools/opkg/opkg/run-ptest
+index 5fb7077eec9..8cf09adba57 100644
+--- a/meta/recipes-devtools/opkg/opkg/run-ptest
++++ b/meta/recipes-devtools/opkg/opkg/run-ptest
+@@ -1,5 +1,4 @@
+ #!/bin/sh
+ 
+ OPKG_PATH=$(which opkg)
+-
+-make OPKG_PATH=$OPKG_PATH run-tests
++make -C tests DATADIR=/share SYSCONFDIR=/etc VARDIR=/var OPKG_PATH=$OPKG_PATH
+diff --git a/meta/recipes-devtools/opkg/opkg_0.7.0.bb b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+similarity index 77%
+rename from meta/recipes-devtools/opkg/opkg_0.7.0.bb
+rename to meta/recipes-devtools/opkg/opkg_0.9.0.bb
+index 95480b47164..9fa32268541 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.7.0.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.9.0.bb
+@@ -18,31 +18,31 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://run-ptest \
+            "
+ 
+-SRC_URI[sha256sum] = "d973fd0f1568f58f87d6aecd9aa95e3e1f60214a45cee26704bf8fe757c54567"
++SRC_URI[sha256sum] = "440ef321862e01f83da4d02884a0cbb4d9d7b32f82faa81a6a85493f0c89d0f5"
+ 
+ # This needs to be before ptest inherit, otherwise all ptest files end packaged
+ # in libopkg package if OPKGLIBDIR == libdir, because default
+ # PTEST_PATH ?= "${libdir}/${BPN}/ptest"
+ PACKAGES =+ "libopkg"
+ 
+-inherit autotools pkgconfig ptest
++inherit cmake pkgconfig ptest
+ 
+ target_localstatedir := "${localstatedir}"
+ OPKGLIBDIR ??= "${target_localstatedir}/lib"
+ 
+ PACKAGECONFIG ??= "libsolv"
+ 
+-PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,\
++PACKAGECONFIG[gpg] = "-DWITH_GPGME=ON,-DWITH_GPGME=OFF,\
+     gnupg gpgme libgpg-error,\
+     ${@ "gnupg" if ("native" in d.getVar("PN")) else "gnupg-gpg"}\
+     "
+-PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
+-PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
+-PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
+-PACKAGECONFIG[libsolv] = "--with-libsolv,--without-libsolv,libsolv"
++PACKAGECONFIG[curl] = "-DWITH_CURL=0N,-DWITH_CURL=OFF,curl"
++PACKAGECONFIG[ssl-curl] = "-DWITH_SSLCURL=ON,-DWITH_SSLCURL=OFF,curl openssl"
++PACKAGECONFIG[sha256] = "-DWITH_SHA256=ON,-DWITH_SHA256=OFF"
++PACKAGECONFIG[libsolv] = "-DUSE_SOLVER_LIBSOLV=ON,-DUSE_SOLVER_LIBSOLV=OFF,libsolv"
+ 
+-EXTRA_OECONF = "--enable-zstd"
+-EXTRA_OECONF:append:class-native = " --localstatedir=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} --sysconfdir=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
++EXTRA_OECMAKE = "-DWITH_ZSTD=ON"
++EXTRA_OECMAKE:append:class-native = " -DVARDIR=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} -DSYSCONFDIR=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
+ 
+ do_install:append () {
+ 	install -d ${D}${sysconfdir}/opkg
+@@ -56,6 +56,9 @@ do_install:append () {
+ }
+ 
+ do_install_ptest () {
++	# the ptest class uses a Makefile for installation, but cmake uses Ninja per default so we need to install ptests manually:
++	cp -r ${S}/tests ${D}${PTEST_PATH}
++
+ 	sed -i -e '/@echo $^/d' ${D}${PTEST_PATH}/tests/Makefile
+ 	sed -i -e '/@PYTHONPATH=. $(PYTHON) $^/a\\t@if [ "$$?" != "0" ];then echo "FAIL:"$^;else echo "PASS:"$^;fi' ${D}${PTEST_PATH}/tests/Makefile
+ }
+-- 
+2.43.0
 
 
