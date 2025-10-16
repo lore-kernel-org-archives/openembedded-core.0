@@ -1,111 +1,104 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <reatmon@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF90DCCD19A
-	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 12:21:32 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.6800.1760617282738947204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9311FCCD199
+	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 13:58:03 +0000 (UTC)
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by mx.groups.io with SMTP id smtpd.web11.9343.1760623079512928097
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 05:21:23 -0700
+ Thu, 16 Oct 2025 06:57:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HuvGpsPn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3ecdf2b1751so383277f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 05:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1760617281; x=1761222081; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7nB71qOAM0fp02mKiqZz4t3OjhD3SQz7ae1n+Ndr35Y=;
-        b=HuvGpsPnlZ4WEUBCIXmYRLt8LyEWkavIReELvcvSqTO2Dxgm9PXn/I5HxqsPDkfDyE
-         KRJRCS4e3ja+KPlK6HrEU6FLfQGrPsgMe2iXIc6vOkZ4jLYHQeR5uMUjzlqlbcnXstqz
-         RFy2mRnrNsla+tNKmthsgL0/XA3TwxrigwUOA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760617281; x=1761222081;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7nB71qOAM0fp02mKiqZz4t3OjhD3SQz7ae1n+Ndr35Y=;
-        b=LLHbPAjEL0x9pumgv0fmvrZpeTNOJFm/oRR1+gUSOGWoSvAuvn55pg9uvSsiP853wa
-         g0jiq6I7SwXqBgZ0373NmGvw2uhsFOcwkG9NI7U/OpSgkWtQOndNLlKWl/HDcAmtvKkw
-         35jXWnL808aNthuJbkmaMmZgH6j9cLqfUJ+qtCLcg41MSJ4k6hGt2Phy3WxnoIMnj+12
-         uFVCznK3cWmZFrUUMuep94dxSAcWT2MHY3ExAiFTRMrFtVr8VbbKiOIaOzNOC6NXC/VT
-         SvnTl9oq94xPw4iwlfuikS/yUh9t1zLK0C1nBXtiKiMIDmouFqNNwxoOHOvFsKWe+vVA
-         IhyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2z56AHd/87quLDOB0i0YToVhQJyd93YQW8VHvzddvOKtGsZG98WJmZKEFXNVJlUrGw8BbxJRYTft2fFEyigZieg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzrCM0Pnv0YSD4Vu25KylLz1I3b98PAf/55qli6F95jrMpiXpD0
-	jDCoRBx6gUqDX+dJjlOJyMPAdfo23A0N6Ip6SEvK/V2OyITeC4A6AGF8HEU6WG6N1Sc=
-X-Gm-Gg: ASbGncvrD6ocf8m7Mve3CAooGdcbhTSeyKtHKE7LoR8/F1H4knxtHEvqWJQ2o3qbjPt
-	WwXAOZppJUO8FvwBncrRFOp5M/JW942qCZGWqL/6dx3WJVVx2EyY6rqguMidPnSHxp0O4y13GOT
-	RSLJzh9UC7FRv4KnpmDJNAOFQPjuEYKz0TWW5G/YgOOZiEqvHfg0JlM5M51iZEwRD+CttND5KdJ
-	zYz6AWwc4c/4YgQUdL/rL1iMRQj0vkRRzmwPacZAvQvK72Xuddb3rPNk4zy9GFVdq7SduKpgVrH
-	ULIAfHJ96I0bZAZzFlMcMgpwJcf2w6jwJ3qiZxiIT6lE2HbwweVf4Xj94m4FN5ZDDZ9p9qTNjVE
-	cih5aYi995B1PECssYm/CtubX+R/yM5FafV1LMARchDoo3pFd63c8SppkDFLYK11owdlpH3iDVz
-	728JEw2hW8Uchzw591qS+HxtX1FeHgitKHpfSkrKvnZE6q17kl4HZgzUKRDQL0/sXN
-X-Google-Smtp-Source: AGHT+IEp/1xrgZBM5r+9lO6vDazE1KjQW8Pgjz5PfMczaoBJxtFExfDpQ2Up8gkfbP9rxjpuPmZsNw==
-X-Received: by 2002:a05:6000:2506:b0:3e5:190b:b04e with SMTP id ffacd0b85a97d-4266e8d8c08mr19597858f8f.37.1760617281036;
-        Thu, 16 Oct 2025 05:21:21 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5c57:ae18:7f42:815d? ([2001:8b0:aba:5f3c:5c57:ae18:7f42:815d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426f6773726sm8927410f8f.49.2025.10.16.05.21.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 05:21:20 -0700 (PDT)
-Message-ID: <a35665ab177747ae7482dc097e2cc0f57e762176.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] qemu: upgrade 10.0.2 -> 10.0.5
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
-Date: Thu, 16 Oct 2025 13:21:19 +0100
-In-Reply-To: <20251014191245.581962-1-peter.marko@siemens.com>
-References: <20251014191245.581962-1-peter.marko@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=RmWG/72A;
+ spf=pass (domain: ti.com, ip: 198.47.23.235, mailfrom: reatmon@ti.com)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59GDvwNP2117021
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 08:57:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1760623078;
+	bh=NBPIK+hzYAjXN2LMlDhZOvVw8kOZsYD8ExSb1zgyTZ8=;
+	h=From:To:Subject:Date;
+	b=RmWG/72ATs+i/Qo8LK7Z9XVJOYA4Z8ZpPBG1MRAU4+NoqpC6WtwoJgu7PqoLpGg+O
+	 OTIGbthIJJHc794e+48MKdcF1dSo+jagtzrzxwAND1mbR6JhYKhf0dcHDMnq2DP234
+	 kYBo/Yga1PSsxNYJVQKqegM0LOKX3tZ/+2Ji6mLM=
+Received: from DFLE211.ent.ti.com (dfle211.ent.ti.com [10.64.6.69])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59GDvw5H1654226
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 08:57:58 -0500
+Received: from DFLE205.ent.ti.com (10.64.6.63) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 16 Oct
+ 2025 08:57:58 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE205.ent.ti.com
+ (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 16 Oct 2025 08:57:58 -0500
+Received: from uda0214219 (uda0214219.dhcp.ti.com [128.247.81.222])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59GDvw0S3829436
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 08:57:58 -0500
+Received: from reatmon by uda0214219 with local (Exim 4.90_1)
+	(envelope-from <reatmon@ti.com>)
+	id 1v9OUQ-00005H-Cg
+	for openembedded-core@lists.openembedded.org; Thu, 16 Oct 2025 08:57:58 -0500
+From: Ryan Eatmon <reatmon@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] kernel-fit-image: Split signing variables
+Date: Thu, 16 Oct 2025 08:57:58 -0500
+Message-ID: <20251016135758.32738-1-reatmon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 12:21:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224964
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 13:58:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224965
 
-On Tue, 2025-10-14 at 21:12 +0200, Peter Marko via lists.openembedded.org w=
-rote:
-> From: Peter Marko <peter.marko@siemens.com>
->=20
-> Handles CVE-2024-8354.
-> Drop patch included in (backported to) this release.
->=20
-> Reference:
-> * https://security-tracker.debian.org/tracker/CVE-2024-8354
->=20
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
-> =C2=A0...native_10.0.2.bb =3D> qemu-native_10.0.5.bb} |=C2=A0 0
-> =C2=A0...10.0.2.bb =3D> qemu-system-native_10.0.5.bb} |=C2=A0 0
-> =C2=A0meta/recipes-devtools/qemu/qemu.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +-
-> =C2=A0...move-deprecated-get_event_loop-calls.patch | 85 ----------------=
+Right now all signing is done with a single variable: UBOOT_SIGN_ENABLE.
+This has the side effect of not allowing for signing the fitImage while
+not signing the uboot files.
+
+This patch creates three new variables specific to KERNEL_FITIMAGE and
+defaults them to the corresponding UBOOT variables.  That way all
+existing code will remain the same, but we can selectively control just
+signing the fitImage without also signing the uboot files.
+
+Signed-off-by: Ryan Eatmon <reatmon@ti.com>
 ---
-> =C2=A0.../qemu/{qemu_10.0.2.bb =3D> qemu_10.0.5.bb}=C2=A0=C2=A0 |=C2=A0 0
-> =C2=A05 files changed, 1 insertion(+), 87 deletions(-)
-> =C2=A0rename meta/recipes-devtools/qemu/{qemu-native_10.0.2.bb =3D> qemu-=
-native_10.0.5.bb} (100%)
-> =C2=A0rename meta/recipes-devtools/qemu/{qemu-system-native_10.0.2.bb =3D=
-> qemu-system-native_10.0.5.bb} (100%)
-> =C2=A0delete mode 100644 meta/recipes-devtools/qemu/qemu/0012-Remove-depr=
-ecated-get_event_loop-calls.patch
-> =C2=A0rename meta/recipes-devtools/qemu/{qemu_10.0.2.bb =3D> qemu_10.0.5.=
-bb} (100%)
+ meta/classes-recipe/kernel-fit-image.bbclass | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-I did put this in for testing but we saw a lot of weird failures,
-particularly on arm and riscv targets in runtime testing. Whilst I'm
-not 100% sure it was this, we noticed a few arm/riscv changes upstream
-on this branch after the 10.0.5 release.
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index f04aee1807..29f4098ccc 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -35,6 +35,10 @@ do_configure[noexec] = "1"
+ UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
+ KERNEL_IMAGEDEST ?= "/boot"
+ 
++KERNEL_FITIMAGE_SIGN_ENABLE ?= "${UBOOT_SIGN_ENABLE}"
++KERNEL_FITIMAGE_SIGN_KEYNAME ?= "${UBOOT_SIGN_KEYNAME}"
++KERNEL_FITIMAGE_SIGN_KEYDIR ?= "${UBOOT_SIGN_KEYDIR}"
++
+ python do_compile() {
+     import shutil
+     import oe.fitimage
+@@ -50,11 +54,11 @@ python do_compile() {
+     root_node = oe.fitimage.ItsNodeRootKernel(
+         d.getVar("FIT_DESC"), d.getVar("FIT_ADDRESS_CELLS"),
+         d.getVar('HOST_PREFIX'), d.getVar('UBOOT_ARCH'),  d.getVar("FIT_CONF_PREFIX"),
+-        oe.types.boolean(d.getVar('UBOOT_SIGN_ENABLE')), d.getVar("UBOOT_SIGN_KEYDIR"),
++        oe.types.boolean(d.getVar('KERNEL_FITIMAGE_SIGN_ENABLE')), d.getVar("KERNEL_FITIMAGE_SIGN_KEYDIR"),
+         d.getVar("UBOOT_MKIMAGE"), d.getVar("UBOOT_MKIMAGE_DTCOPTS"),
+         d.getVar("UBOOT_MKIMAGE_SIGN"), d.getVar("UBOOT_MKIMAGE_SIGN_ARGS"),
+         d.getVar('FIT_HASH_ALG'), d.getVar('FIT_SIGN_ALG'), d.getVar('FIT_PAD_ALG'),
+-        d.getVar('UBOOT_SIGN_KEYNAME'),
++        d.getVar('KERNEL_FITIMAGE_SIGN_KEYNAME'),
+         oe.types.boolean(d.getVar('FIT_SIGN_INDIVIDUAL')), d.getVar('UBOOT_SIGN_IMG_KEYNAME')
+     )
+ 
+-- 
+2.17.1
 
-Since we're trying to get M3 built and stable, I'm holding off this
-until we can work out what is going on, CVE or not.
-
-Cheers,
-
-Richard
 
