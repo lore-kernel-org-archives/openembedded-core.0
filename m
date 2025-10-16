@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3670BCCD183
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37AACCCD19A
 	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 16:11:58 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.1489.1760631117296338200
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.web11.1413.1760631109504579844
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 09:11:57 -0700
+ Thu, 16 Oct 2025 09:11:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=g4UhF81g;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202510161611551e6fff75ad00020796-4ifehk@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202510161611551e6fff75ad00020796
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=At1zifeF;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-20251016161145d53c186eaf00020760-6gjsyn@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20251016161145d53c186eaf00020760
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 16 Oct 2025 18:11:55 +0200
+        Thu, 16 Oct 2025 18:11:45 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=XUs67b4e8/rtwkMk3t3ZiVXvA6pVJHQ/HWQC9Uk9/po=;
- b=g4UhF81gSWcGzRgF6KnCZAWA7j5J7eu5XrSNu7UJNB51nz+xkXreP4Y7YFnyb36Dhec69z
- pt2evG+3/Rd2nwIzcOExpXmujFQ4nopq3RbkhsYcDO1RebV5ffoycZdLe4JQdrkbvysxz8jx
- p14wvYU4W46j1r9MdvE8+4K5yVRgJvIGbAZFHxJdbONeRtedE98VyHCMzpazFQ9LVyacg/AC
- RukM83A0Nfw/q+X7ANGPhMKLJ+zNNBol6+V3/IBo55J6ItgYrNUPI1A/u/JGqXMJSEcfZhUm
- ZBmDu1fGT0+rkrpb8UUdAQJ/he9qurOA+ZAhh7JfBBexCIhfUQDRIegg==;
+ bh=Xoe1sXH0MEixaLpdwPoSF2gVMsGBK2ouSKanC+RnNbU=;
+ b=At1zifeFR6gZa9VV5ABZuxdQyQIRlhG/Dz7enz5DrI2kpHsMFgV0vHMkUONO+txUaRFsjs
+ 8Ho01lEKOW2lWayfQZbELmc8tejkOsDbZSGkrSZVk2mYzSE7fUOsET7Pwex1FBybqSjHYN4e
+ b6pW6KQp2r7HmebiHr79CffTzIiJPmQhx6EHl6TJFfp+2UeooOjMXloLQrBP5F9mCRBdbFRt
+ 47XC8dOP2rLSpX6xaVz5dBWKMlXI/orVkyHFVqN5gPwS64+xaEyDmK/Ayk3QWkU/oJAcqynv
+ MJmhWtp+DHfscECy2DvZ4kszjaUl1nj3hVkH6g1WF3l9vqVUQAVFBxwg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] python3: upgrade 3.12.11 -> 3.12.12
-Date: Thu, 16 Oct 2025 18:11:53 +0200
-Message-Id: <20251016161153.7730-1-peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] python3: upgrade 3.10.18 -> 3.10.19
+Date: Thu, 16 Oct 2025 18:11:41 +0200
+Message-Id: <20251016161141.7704-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,44 +37,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 16:11:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224978
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224977
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Drop upstreamed patch and refresh remaining patches.
 
 Release information:
-* https://www.python.org/downloads/release/python-31212/
-* The release you're looking at is Python 3.12.12, a security bugfix
-  release for the legacy 3.12 series.
+* https://www.python.org/downloads/release/python-31019/
+* The release you're looking at is Python 3.10.19, a security bugfix
+  release for the legacy 3.10 series.
 
-Handles CVE-2025-59375.
+Handles CVE-2025-59375, CVE-2025-47273 and CVE-2024-6345.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  ...e-treat-overflow-in-UID-GID-as-failu.patch |   2 +-
  .../python/python3/CVE-2025-8194.patch        | 219 ------------------
- ...{python3_3.12.11.bb => python3_3.12.12.bb} |   3 +-
+ ...{python3_3.10.18.bb => python3_3.10.19.bb} |   3 +-
  3 files changed, 2 insertions(+), 222 deletions(-)
  delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-8194.patch
- rename meta/recipes-devtools/python/{python3_3.12.11.bb => python3_3.12.12.bb} (99%)
+ rename meta/recipes-devtools/python/{python3_3.10.18.bb => python3_3.10.19.bb} (99%)
 
 diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-index 1cffdd6e05d..98b3aa42d21 100644
+index e6d7778ccd..0c51b038bb 100644
 --- a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
 +++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
 @@ -16,7 +16,7 @@ diff --git a/Lib/tarfile.py b/Lib/tarfile.py
- index 0a0f31e..4dfb67d 100755
+ index 3bbbcaa..473167d 100755
  --- a/Lib/tarfile.py
  +++ b/Lib/tarfile.py
--@@ -2685,7 +2685,8 @@ class TarFile(object):
-+@@ -2688,7 +2688,8 @@ class TarFile(object):
+-@@ -2675,7 +2675,8 @@ class TarFile(object):
++@@ -2678,7 +2678,8 @@ class TarFile(object):
                       os.lchown(targetpath, u, g)
                   else:
                       os.chown(targetpath, u, g)
 diff --git a/meta/recipes-devtools/python/python3/CVE-2025-8194.patch b/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
 deleted file mode 100644
-index b8243a67f64..00000000000
+index 44ada01133..0000000000
 --- a/meta/recipes-devtools/python/python3/CVE-2025-8194.patch
 +++ /dev/null
 @@ -1,219 +0,0 @@
@@ -104,7 +104,7 @@ index b8243a67f64..00000000000
 -index 9999a99d54..59d3f6e5cc 100755
 ---- a/Lib/tarfile.py
 -+++ b/Lib/tarfile.py
--@@ -1615,6 +1615,9 @@ class TarInfo(object):
+-@@ -1613,6 +1613,9 @@ class TarInfo(object):
 -         """Round up a byte count by BLOCKSIZE and return it,
 -            e.g. _block(834) => 1024.
 -         """
@@ -118,7 +118,7 @@ index b8243a67f64..00000000000
 -index a184ba75a8..759fa03ead 100644
 ---- a/Lib/test/test_tarfile.py
 -+++ b/Lib/test/test_tarfile.py
--@@ -50,6 +50,7 @@ bz2name = os.path.join(TEMPDIR, "testtar.tar.bz2")
+-@@ -49,6 +49,7 @@ bz2name = os.path.join(TEMPDIR, "testtar.tar.bz2")
 - xzname = os.path.join(TEMPDIR, "testtar.tar.xz")
 - tmpname = os.path.join(TEMPDIR, "tmp.tar")
 - dotlessname = os.path.join(TEMPDIR, "testtar")
@@ -126,8 +126,8 @@ index b8243a67f64..00000000000
 - 
 - sha256_regtype = (
 -     "e09e4bc8b3c9d9177e77256353b36c159f5f040531bbd4b024a8f9b9196c71ce"
--@@ -4488,6 +4489,161 @@ class OverwriteTests(archiver_tests.OverwriteTests, unittest.TestCase):
--         ar.extractall(self.testdir, filter='fully_trusted')
+-@@ -4273,6 +4274,161 @@ class TestExtractionFilters(unittest.TestCase):
+-             self.expect_exception(TypeError)  # errorlevel is not int
 - 
 - 
 -+class OffsetValidationTests(unittest.TestCase):
@@ -297,26 +297,27 @@ index b8243a67f64..00000000000
 -+:mod:`tarfile` now validates archives to ensure member offsets are
 -+non-negative.  (Contributed by Alexander Enrique Urieles Nieto in
 -+:gh:`130577`.)
-diff --git a/meta/recipes-devtools/python/python3_3.12.11.bb b/meta/recipes-devtools/python/python3_3.12.12.bb
+diff --git a/meta/recipes-devtools/python/python3_3.10.18.bb b/meta/recipes-devtools/python/python3_3.10.19.bb
 similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.12.11.bb
-rename to meta/recipes-devtools/python/python3_3.12.12.bb
-index 1c310773207..9a957c59bca 100644
---- a/meta/recipes-devtools/python/python3_3.12.11.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.12.bb
-@@ -34,14 +34,13 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- 	   file://0001-test_deadlock-skip-problematic-test.patch \
- 	   file://0001-test_active_children-skip-problematic-test.patch \
-            file://0001-test_readline-skip-limited-history-test.patch \
+rename from meta/recipes-devtools/python/python3_3.10.18.bb
+rename to meta/recipes-devtools/python/python3_3.10.19.bb
+index 89036ff3b8..8680c13893 100644
+--- a/meta/recipes-devtools/python/python3_3.10.18.bb
++++ b/meta/recipes-devtools/python/python3_3.10.19.bb
+@@ -37,7 +37,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
+            file://0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch \
 -           file://CVE-2025-8194.patch \
             "
  
  SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+@@ -46,7 +45,7 @@ SRC_URI:append:class-native = " \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
+            file://0001-Don-t-search-system-for-headers-libraries.patch \
             "
- 
--SRC_URI[sha256sum] = "c30bb24b7f1e9a19b11b55a546434f74e739bb4c271a3e3a80ff4380d49f7adb"
-+SRC_URI[sha256sum] = "fb85a13414b028c49ba18bbd523c2d055a30b56b18b92ce454ea2c51edc656c4"
+-SRC_URI[sha256sum] = "ae665bc678abd9ab6a6e1573d2481625a53719bc517e9a634ed2b9fefae3817f"
++SRC_URI[sha256sum] = "c8f4a596572201d81dd7df91f70e177e19a70f1d489968b54b5fbbf29a97c076"
  
  # exclude pre-releases for both python 2.x and 3.x
  UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
