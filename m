@@ -1,489 +1,515 @@
-Return-Path: <skandigraun@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C77D6CCD194
-	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 08:28:40 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.3389.1760603313701937690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E981ACCD194
+	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 08:36:00 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.3465.1760603750686585562
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 01:28:34 -0700
+ Thu, 16 Oct 2025 01:35:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Yz/MPiRH;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: skandigraun@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-426f1574a14so240005f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 01:28:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760603312; x=1761208112; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LomR39NJOheYPd04AlP3htEogrhy+Wz5ljJ+L6KV3nw=;
-        b=Yz/MPiRHC02+qxiVXZT7I3sHRegH9UNmZPl0vtGFBalgzBQSbo1L7JoE19S9Vn+DMt
-         ptOrOP7KCWSE4KlaPTnrFJKs5oB+tAiY23/cIazfU1BxlGJSjnt1RfGWuTIZdTcjxGg4
-         jQ+3E6a2BwCBRg7/BYzjA4gzreAyg3mzwIRKXuKRxlpHIQlUpRFusCtfVCmNGsPT+VGS
-         8U2xmZDW6D7oDb/PcOKg1l5zGMnGoVjEnqq6xN8q9LH8og61DOUYJcDHWXFnkHZfO9RE
-         6n3skVpUKD4D1UczKCGtTrUL03wPyP/vqUhrWYz5In9n8Pe50gkFZKJ5k0kiBbXwdy/W
-         EbzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760603312; x=1761208112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LomR39NJOheYPd04AlP3htEogrhy+Wz5ljJ+L6KV3nw=;
-        b=SwrKjlvxPjQQSduQsf1Q+qJQtL2+eYOr7CB59WYO4fIjhNu5v/AKiqfV2je4J2r1m5
-         mgiKNniggPm2Bam/m8g9Z67Y9j6chRGqDU6RF1arcnFO7wBDL6ok6buhyePVb7iklWfH
-         +eWokpgyRG8Pl3hUFadFcDxq1w0Nt7yof8vwNcF9rWU9shkK/mawEeBWSWMlhYfFCgSw
-         uVptH+1Sqo7EutmfiSwp9o8zn/RQ6et1TzZXnYgDEDx1cQKHDwu9v8crsgHCGjLP8NnG
-         cXzZF2qiH2XYhkcFrDS2MEstBbT42EN90SdCbZLwKh0P1RwrN4DOCiL99lq3jbMoUk4P
-         PFKg==
-X-Gm-Message-State: AOJu0YzB5hyms1Skox/MfM7VaJNGeoQog3hvsZxOfOwaLyVpexmQ9tv6
-	MOGeqmoOpVwdVwvaGP/6lD2LTLrwtqATNetmWuKDN+4wI1aXETOUY/oTFojXww==
-X-Gm-Gg: ASbGncsSlITImbwPOpPfXYK5Qz1t6Ddy65NzM+S+miIK6hpEI6j+iDHRiUBMvGV3V9S
-	KZcLyIx8AZufeale2974Z2ksKf/tCqL7TyQLE/wuinYc21K8da0uTNdtoV8Q87SrgLsmIp/EeGG
-	6y1mIOCa4DtHCQsEZpeK0HNB1P7GufPwIfKbhgFVjt74E0f4q+M3Ef2Ks7pqEnxCICNumjYkYEF
-	QgnJ+Ab1B2rA5Llkj3VKSae5wAU2o+3PkzMJxIBg7+5l00aqMEkbivAOR7k0GJl9y7wQtHmSmo5
-	72zi2358WKl3CqTgcUpa7MH0v6E0JfKNSroblT+qLZRNkFaIa5ee70htlq+tHEwSlNbjuW0z9vy
-	zBnYRHoVptSIw85CRn8slWudpCLIN37PDoNamfHtNkbZZbBlZrIq6NaDHJpzpb4eF2fuvGqXCGw
-	==
-X-Google-Smtp-Source: AGHT+IFcndBwFhhdn0IpJVos5gKQ/TlYpMcE8/NBAE5zauhy9h7n+I184Om09BnniXb2rK/kcCRZyQ==
-X-Received: by 2002:a05:600c:a41c:b0:46f:aac5:daf with SMTP id 5b1f17b1804b1-46faac50ea8mr148291165e9.35.1760603311821;
-        Thu, 16 Oct 2025 01:28:31 -0700 (PDT)
-Received: from desktop ([51.154.145.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4711444c8adsm12206715e9.13.2025.10.16.01.28.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 01:28:31 -0700 (PDT)
-From: Gyorgy Sarvari <skandigraun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] webkitgtk: upgrade 2.48.5 -> 2.50.0
-Date: Thu, 16 Oct 2025 10:28:29 +0200
-Message-ID: <20251016082830.1938981-1-skandigraun@gmail.com>
-X-Mailer: git-send-email 2.51.0
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=bFctZe34;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2384cafde6=qi.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59G4ig3R1013882
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 08:35:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=RKy+RqhTiTy08HfY3EeK7kwQ633TwkQcPAuDsu34D7w=; b=bFctZe34kV94
+	D4UjLC25VDClf/yve1fInmU10NAM5VCDNuplzYrADgdhX2NL4CzklrK6xJwjQWAb
+	MnXKxdmTkBCyz+I5fX+pViiz1TasoNn7S65TDwSobrSQMQDOWm/lHOu35LCx7VDE
+	HVvdd23z5npRuJTXsk5krJ8md9nm7pzv1z8idaJQGIdqxsHcfYySf/kdi5UAqyBA
+	lObY9DhWgyVuT4Un/sru88HOi39AUJmyn4/IRLtfISHH2a3klSOjovzjAPA6Pznk
+	Jc3h5oY2Iw6bhL3eCvhM5sasCpHD8b/yE9xhgGrZErfTZHnAOw1ErLBpfDTCgprw
+	QHZbe/1UwA==
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010063.outbound.protection.outlook.com [52.101.193.63])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 49qcewp2ym-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 08:35:49 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k9zOFvd9WAd+G4pNEZHSe1X0rpLTTlZpBSDU56/YsbcfI32w2uz5k7n2NXXNEYTkOrohoGvxTwLet5Gu8bdc3JyxFuZh2svsNMmBtGfN0/T4CMXdzsZuAjAxoEHCUHLemblUjVSl6O6Jyt3wN+yZL/vqAJQj+yjZ3X4DIaRQ/3g829fnCxRva+BFbd384L25CpC9/2Pq2c83rm1KciYmWt/Nmm0972zWfGgEtq3vsHIUkSIo8NxxTXO85AzUBAUAnLa6y2i9K+NqDC93xkVI9eNyl+j7h1nq39FTe888ElbBaxZcs+GTntvf5AAZUWWtO48PEEC8WnOEuixjnt6h4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RKy+RqhTiTy08HfY3EeK7kwQ633TwkQcPAuDsu34D7w=;
+ b=VDJmKav7HLQkZzgIq/IWJbbvRMyjCyOdIirnFGb+OhJ5S0iRCK44S8d7EHorTcQ2fEXOGzyo/D8frDlawF/a9tvDHgCHecJgkFf4hq3cRyTMsKxQTVV8wP5wfCQbP8SzrSg45xEf1nMXoAgaDH1fxvFEWMjMrADHR3u0CujfeFrLFHIWkP8L4t/co0aOhvXSO2ETKWl/ElBhrfs39phn55aWmUdRVBR92mAdG8LT5glQKuGT6TLQ4c8vOdf4Gvg9lmN5h6PorANkc2SJmLfXJ9Rhdzd7QLGgzeIOXhRnT9iDzrudpHctIkjHQVvSzoK92CCsOyHMZiZ78zpIRUO6dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by SJ0PR11MB5816.namprd11.prod.outlook.com (2603:10b6:a03:427::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.10; Thu, 16 Oct
+ 2025 08:35:45 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5ad6:8f90:b01d:2c62%4]) with mapi id 15.20.9203.009; Thu, 16 Oct 2025
+ 08:35:45 +0000
+From: "Chen, Qi" <Qi.Chen@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH] package_manager/oe-pkgdata-util: fix
+ complementary package installation
+Thread-Topic: [OE-core][PATCH] package_manager/oe-pkgdata-util: fix
+ complementary package installation
+Thread-Index: AQHcLS80r+DEFVTXCU2Qgwnju6WaiLTElUYA
+Date: Thu, 16 Oct 2025 08:35:45 +0000
+Message-ID: 
+ <CO6PR11MB560294040AD5A59501524E32EDE9A@CO6PR11MB5602.namprd11.prod.outlook.com>
+References: <20250924084233.3429501-1-Qi.Chen@windriver.com>
+In-Reply-To: <20250924084233.3429501-1-Qi.Chen@windriver.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ActionId=1182e6a3-6a71-4194-b7eb-72b7e7c12898;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=0;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=true;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2025-10-16T08:35:26Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Tag=10,
+ 3, 0, 1;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|SJ0PR11MB5816:EE_
+x-ms-office365-filtering-correlation-id: c041859a-9120-4efa-41b7-08de0c8f003c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|7053199007|38070700021;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?TUB+VfEdV6pDjUOKeCwLedNz5wWh+KDz2OPpaMFpSfQXOYgY5MQnh+wLK0Ji?=
+ =?us-ascii?Q?EC4WwDThem9GWdSVwjeRAF9ojDci93LkRT9HZo8A8xJ29zj0ik1Fe5pWM+No?=
+ =?us-ascii?Q?UlkW/ro6PWSPMYAqJo/X7pptZaCjO85P/MUySkOIRIYh4JMDRMj4wxS2RPsU?=
+ =?us-ascii?Q?KWvZ56rp2d9jtPmP7ijYCLxxyPTWbLqtfkSYkhuX1jD60CAYUJ204NX8WHGm?=
+ =?us-ascii?Q?M0LTkZNtIiAIdrsaFU40w48yNqgk+Y62Ag2WdmhqRdRuANtBmcWvwCdNYaQF?=
+ =?us-ascii?Q?D8l83W90+elNbHV06JSDlE9DeOHIKwK+gypfdPt+4daFaKzZho9hODyrCKA8?=
+ =?us-ascii?Q?94gTfxf23EhOCNjcDNqe9zOV2eOm5JaYAl+dfv8YJZMrL/Utlz0OAhu3Pvdo?=
+ =?us-ascii?Q?ABrJJ/3w3nz5bNFw31N/5Zan4+/pzr4cqrO8BrVidoyn67/Krz0IDSA/6XeE?=
+ =?us-ascii?Q?KtMEfJIw7N80gOcN9lloEQII3yHB+M5HdRUUNJrz76Mz0D6r0GedMYLNvrM3?=
+ =?us-ascii?Q?GGJjdBnENt6X4b1YVSdGo1lwMFodUPyKcI92ndj+/SeDDuhZkqMEtpUQdd5R?=
+ =?us-ascii?Q?+wAqi0IWaWPCyoX3STGyAlqthwujDxclZK9g8ybu1mlo8T8q2vv4JmIoKkE+?=
+ =?us-ascii?Q?Z9iziPYwBvB90d91cSDSn0f3GNzPVMn8xO/lSUyaU/FhxUN7Eu5RcT9jD8lo?=
+ =?us-ascii?Q?URIf2U+Elnqr8n/xz/lqDLuT4Q5fVtj+j1Hjt/iLdwPJRDixmpE4SOqfW+nI?=
+ =?us-ascii?Q?2OtigVoQiTJ08xywGE+R1rqC1Liy0jEBjFX3NLsRFnIvcXpkcjiaBcRYXTo+?=
+ =?us-ascii?Q?xmVGE9UF/SS99RHqr7bcl8BwKb/kWtuPT6bvqaZgEXXeiAyQSeeWjT346D81?=
+ =?us-ascii?Q?qol5K8Uk30gQBbahQwuZcqAZU1l0Phue36ncI8/ZvlVDzuRN34Pmp6QvWU16?=
+ =?us-ascii?Q?32HnxUa+wUub6BeFykXS16IDIWjIow7weLnR4UaWIb2iX2LPbGxjcoF9RNOw?=
+ =?us-ascii?Q?zWdb3H1LdmKmCuyOzVUh4nWkJ58wi10pv29bLJtj4psSlQGX1qW1V8sOfGVA?=
+ =?us-ascii?Q?TJbwbg8dlBusb2qIWBlChKPfNN2ilBvLVeD3eC32OzSUHmhG1jyI19Lb5nz2?=
+ =?us-ascii?Q?uELuyx/3xtBHSeKLkxTDMS3Oj/Z4P5TMVHMwhJ/b3CKCuw7DHZCNKO4BYPN3?=
+ =?us-ascii?Q?gxWmt4Vhsj7LTL4JQx3AswP+7YqGSICpDZKPXWZ0fY4QuMF40hjpas46wmMN?=
+ =?us-ascii?Q?eaL6HgNfxrK4aDH+weeYI0iNFOxRiviejxtlojr1lli0CX5qNY99riBCJ0kQ?=
+ =?us-ascii?Q?jAxqRiqGKwZipTm1whY84BO6XORoRBMPQ8x+LizelkNGxvRxujeMftP1Awe9?=
+ =?us-ascii?Q?zoKSVfiobxnxRGXRJBIKjJWy8Ve0uj/xyyBJxiNTPANalxDAsYk8L1bV8ZHk?=
+ =?us-ascii?Q?40ddQRk3+Ksm59DSq96rJiCWy0kXLgKouNJr32+6mwyJbLp3ZDGHZA=3D=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?g7rQJrm7Qu8kQbYzILFOuTgGQU2gVOtUNly2Le78cEvWBG6OBLD47eY7mw/f?=
+ =?us-ascii?Q?X6C1qVLQ/Ij1NsWfLCQM2ZlAYmugVzjV0rA1Cea9jiCivqd33xsH3uS1vyZQ?=
+ =?us-ascii?Q?+teuCmu3quWeUmPrAE6tGJUGoZKstKGB0UmfPipD5by5Vcrrh2d8iKhkXh8+?=
+ =?us-ascii?Q?U1Swzw4CH9NppZOrGz1khCrNLs0JlN22cdfUJffU1oAbrYq+AWEbYg0ZFybw?=
+ =?us-ascii?Q?bfyRSMO+7dnHvmVsZknnelPjRSs7cQFq4Uj0bxX163a8o+NFHKgszJ0bFM7u?=
+ =?us-ascii?Q?Gy6/6J8I28VCNTSXjmHobHW0iKA5hoH85FGAq2sSkWz4aFfVIlnrCXa0HuyH?=
+ =?us-ascii?Q?0BKJ+doCMYrC3sctl87CljuPF7aXxMztBGO94+yLCOtiDAeJh9280dP54OuD?=
+ =?us-ascii?Q?pfoDByv1jxyuP5SoBr5QRbMj4wOo6znvv3kkJaS2k8w3P7Ton1j3mE3wqFtw?=
+ =?us-ascii?Q?YRJlTzkyvQ4zmvw0hCCrN8jpcLLMfVOer4B9WrKwlMUL45keXcFLp455ciEN?=
+ =?us-ascii?Q?h1YmeAE/3jpi4XE/G/MvZuE6E4b0zM4yzxyoTAS5zwrrU6I2N+ivu7vhmTU6?=
+ =?us-ascii?Q?U1i6a6N6WhF4lOnIa12ECrw4uZvizlPB91vepLdQYXDW3gUpD1HR8bdwyoO1?=
+ =?us-ascii?Q?ITO5z2Y3nv0pcvxRlZprVKtR2SQ97Pqsvvwsupgjuzd3RU3k/Y1yHLhg8Iu7?=
+ =?us-ascii?Q?Zoti5emg0m6n1HuTcznRhnTkT5G3XqtDSKHJJZqYf0JK5XUWVq0Jw9kAfhuu?=
+ =?us-ascii?Q?OpffIijmaOQp4tEnPYKlO/ZB1EQ+pUZWEdou2XVoPhxqkNSEH0pbgJe3q0Ea?=
+ =?us-ascii?Q?pdu5KU+A4iJIBw3AWS6Y9WIV5SsmeprJWg4Ehdgw2Gv/vYfFeAjSGnqXHDMJ?=
+ =?us-ascii?Q?PxRVRAYijVStRihf+yF8TfJJHsRPzts1Tm1/MCLGDrrVqTS5i74sfw8jjBfF?=
+ =?us-ascii?Q?8Ck11GTszkTxl+hBEz1ptn26ew0keXTOIOohQrFR23uhCRHpW9Paezm0j2nt?=
+ =?us-ascii?Q?XIdHDscpacWUJoyqSTnUlveX0CmyCC5PnxmOsQHGM3I7+zihFML4f1zph9Jx?=
+ =?us-ascii?Q?/Lxw/idudAyRaO5lR/zf0KwgZSzK3O0r2jdudEzXAsDvvXcHjHAN9K+9NkOu?=
+ =?us-ascii?Q?nOLO0bN2sEAwXTLUPIEhkDrikE2t6f+uwZ33vpefBSm6ZdsxaU1KwXcLp8cw?=
+ =?us-ascii?Q?x19y72/hdjxIYloV7pXgOz0mQ0EYu830aILLcZOmGKSlVEDn8BTGo2wpa19M?=
+ =?us-ascii?Q?MJT+upPcdwus4cBBuHHRGk2RyOS8w0Wvt1G10mOPMsF9iZOhPKxP8DwQ6CAB?=
+ =?us-ascii?Q?dJaElrrbGKEBqctYle3x2eFlY6an52Ep/pJVVhwwo3F7/7gsRyKlYy0joMaZ?=
+ =?us-ascii?Q?9E0QvqeyHlejX5mofSE9YCGlyZz608u3j/FI0OI0F5z/1fqN4Wsy75cCSbKU?=
+ =?us-ascii?Q?jVFPD6DlSetJaHu6a75N5Ry0fVDidpQyy5I35wOOAKhq/Fwsk9eKEFLbdGU6?=
+ =?us-ascii?Q?BZ3VDESwAKLr/mCJrCt6fppfH5ITghurRuKTtIAOlbLBokj9/2jXlPfGv3tT?=
+ =?us-ascii?Q?P/SRRRL3RuE2iaKXsC/Mpa5LHXsB65CLZ9SrQEp2?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c041859a-9120-4efa-41b7-08de0c8f003c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2025 08:35:45.6489
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Xv+r+18bDNDMKgHDEzRyYr6DNeHF9v7LeqWB7+OeXJ3DLyCJjlFy5BeztTyAsUdCLKbYLehz2rUcRM2w+vuv9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5816
+X-Proofpoint-GUID: 0cf6fuV5s5EzeH0NqI9ci0NOfg9NgocN
+X-Proofpoint-ORIG-GUID: 0cf6fuV5s5EzeH0NqI9ci0NOfg9NgocN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE2MDA2NiBTYWx0ZWRfX6j07P2d6NGjC
+ 5JRjzYdAvoxz3hu2rmHiEVQ9mNZU+zCWoud/6nDVYMNUy28xNeSDTZu5adyGGT5jrrUHjyiM9Gg
+ et28S79Min7pW+/3vQu3ENkRrDI1GY3xM+yNDH0n3MSc18wT4Dy3FmQFnGLsZVrPrAi1/YRat7Y
+ 9KKfHPa5r7MKLYruudfgV9AMKX5R4MsrVjTBFiV+9nzTrjOLq+Kf3G8IcS3HeF767GLS3QhJbKJ
+ TYKIY/1BC55RUwhenfjGt4VAp/cRKOzqUVS52D5yW6wpuqB3imKl62wqCueRU3bp+r23gLx3PvC
+ re7ktB8w698J1WsS7L4zUNimAfOZk+6dCjHi8QU1tIMj8KmRd5W9hBXbvEKV4Pec+C43qnYB7nF
+ 40fEmK3Z/He4FeEsHOUVKknFYxBbuQ==
+X-Authority-Analysis: v=2.4 cv=M+xA6iws c=1 sm=1 tr=0 ts=68f0ae65 cx=c_pps
+ a=FmVrivm6CVS+kYk2MGmjxQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
+ a=1011AmDLJHh65kVMvewA:9 a=CjuIK1q_8ugA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-16_01,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 adultscore=0 phishscore=0
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510160066
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 08:28:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224957
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 08:36:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224958
 
-Dropped fix-armv7-compilation.patch, because it is included in this
-release.
-Dropped no-musttail-arm.patch, because it has been solved by project
-(a bit differently)[1]
+ping
 
-Added a new backported patch, fix-musl-compilation.patch
-to avoid build error when compiling with musl libc:
+-----Original Message-----
+From: Chen, Qi=20
+Sent: Wednesday, September 24, 2025 4:43 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] package_manager/oe-pkgdata-util: fix complementar=
+y package installation
 
-.../Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c:52:10: fatal error: execinfo.h: No such file or directory
-|    52 | #include <execinfo.h>
-|       |          ^~~~~~~~~~~~
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Another patch, fix_op_instanceof_handler_for_32-bit_C-loop_build.patch is under review by
-upstream. It fixes compiling for 32-bit targets by fixing the following error:
+We currently have a problem regarding complementary package installation, t=
+hat is, if 'oe-pkgdata-util glob' maps out packages that are not in the oe-=
+rootfs-repo, we will get error like below:
 
-error: label 'op_instanceof_return_location' used but not defined
+  No match for argument: lib32-glibc-locale-en-gb
+  Error: Unable to find a match: lib32-glibc-locale-en-gb
 
-[1]: https://github.com/WebKit/WebKit/blob/webkitgtk-2.50.0/Source/WTF/wtf/Compiler.h#L280
+Here are the steps to reproduce the issue:
+1. Add the following lines to local.conf:
+   require conf/multilib.conf
+   MULTILIBS ?=3D "multilib:lib32"
+   DEFAULTTUNE:virtclass-multilib-lib32 ?=3D "core2-32"
+   IMAGE_INSTALL:append =3D " lib32-sysstat"
+2. bitbake lib32-glibc-locale && bitbake core-image-full-cmdline
 
-Changelog:
-2.50.0:
-- Fix rendering with software rasterization enabled.
-- Fix WebAudio issues after idling for a minute.
-- Fix several crashes and rendering issues.
+This problem appears because:
+1) At do_rootfs time, we first contruct a repo with a filtering
+   mechanism to ensure we don't pull in unneeded packages.[1]
+2) oe-pkgdata-util uses the pkgdata without filtering.
 
-2.49.90:
-- Add support for font collection / fragment identifiers.
-- Fix web process deadlock on exit.
-- Fix stuttering when playing WebP animations
-- Fix CSS animations with cubic-bezier timing function.
-- Do not start the MemoryPressureMonitor if it's disabled
-- Translation updates: Polish, Slovenian.
-- Fix several crashes and rendering issues.
+In order to avoid any hardcoding that might grow in the future[2], we need =
+to give 'oe-pkgdata-util glob' some filtering ability.
 
-2.49.4:
-- Enable CSS property font-variant-emoji is now enabled by default.
-- Improve emoji font selection.
-- Add SVT-AV1 encoder support to media backend.
-- Show device scale factor in webkit://gpu.
-- Fix font rendering of composed characters with certain fonts.
-- Fix handling of font synthesis properties (bold/italic).
-- Fix documentation of WebKitDeviceInfoPermissionRequest.
-- Fix several crashes and rendering issues.
+So this patch does the following things:
+1) Add a new option, '-a/--allpkgs', to 'oe-pkgdata-util glob'.
+   This gives it a filtering mechanism. As it's an option, people who use
+   'oe-pkgdata-util glob' command could use it as before.
+2) Add to package_manager 'list_all' function implementations which
+   list all available functions in our filtered repo.
 
-2.49.3:
-- Add new API to get the theme color of a WebKitWebView.
-- Fix rendering with GTK 3.
-- Notify automation session on abnormal disconnections.
-- Fix a crash by ensuring SkiaRecordingResult is destroyed on the main thread.
-- Fix build on s390x.
-- Fix the build with GTK 3.
-- Fix several crashes and rendering issues.
+[1] https://git.openembedded.org/openembedded-core/commit/?id=3D85e72e12936=
+2db896b0d368077033e4a2e373cf9
+[2] https://lists.openembedded.org/g/openembedded-core/message/221449
 
-2.49.2:
-- Enable damage propagation to the UI process by default.
-- Pass available input devices from UI process to web process for Interaction Media Features.
-- Always have a fallback when domain does not have known base.
-- Fix URL after HSTS upgrade in case of redirection.
-- Fix rendering when device scale factor change comes before the web view geometry update.
-- Ensure web view is focused on tap gesture.
-- Fix a crash when setting WEBKIT_SKIA_GPU_PAINTING_THREADS=0.
-- Fix several crashes and rendering issues.
-- Translation updates: Brazilian Portuguese, Swedish.
-
-2.49.1:
-- Change threaded rendering implementation to use Skia API instead of WebCore display
-  list that is not thread safe. This also allowed to improve performance by recording
-  layers once and replaying every dirty region in different worker threads.
-- Added hybrid rendering mode that tries to use the GPU worker threads, but if they
-  are all busy the CPU worker threads are used if possible.
-- Add volume locking support to media player.
-- Add support for tracing counters with Sysprof.
-- Fix several crashes and rendering issues.
-
-Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../webkitgtk/fix-armv7-compilation.patch     |  32 -----
- .../webkitgtk/fix-musl-compilation.patch      |  94 ++++++++++++++
- ...ceof_handler_for_32-bit_C-loop_build.patch | 122 ++++++++++++++++++
- .../webkit/webkitgtk/no-musttail-arm.patch    |  34 -----
- ...ebkitgtk_2.48.5.bb => webkitgtk_2.50.0.bb} |   6 +-
- 5 files changed, 219 insertions(+), 69 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-armv7-compilation.patch
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.48.5.bb => webkitgtk_2.50.0.bb} (97%)
+ meta/lib/oe/package_manager/__init__.py     | 78 ++++++++++++---------
+ meta/lib/oe/package_manager/deb/__init__.py | 26 +++++++  meta/lib/oe/pack=
+age_manager/ipk/__init__.py | 20 ++++++  meta/lib/oe/package_manager/rpm/__=
+init__.py |  8 +++
+ scripts/oe-pkgdata-util                     | 14 ++++
+ 5 files changed, 111 insertions(+), 35 deletions(-)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-armv7-compilation.patch b/meta/recipes-sato/webkit/webkitgtk/fix-armv7-compilation.patch
-deleted file mode 100644
-index a857d55ae4..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/fix-armv7-compilation.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 7999ecd5ee4ea3123f7e75634d2bc57f57ca7070 Mon Sep 17 00:00:00 2001
--From: Justin Michaud <jmichaud@igalia.com>
--Date: Wed, 6 Aug 2025 21:14:26 +0300
--Subject: [PATCH] REGRESSION(2.48.5): [WPE][GTK] Does not compile on ARMv7
-- https://bugs.webkit.org/show_bug.cgi?id=296921
+diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_=
+manager/__init__.py
+index 88bc5ab195..b9a4218939 100644
+--- a/meta/lib/oe/package_manager/__init__.py
++++ b/meta/lib/oe/package_manager/__init__.py
+@@ -32,7 +32,7 @@ def create_index(arg):
+=20
+ def opkg_query(cmd_output):
+     """
+-    This method parse the output from the package managerand return
++    This method parse the output from the package manager and return
+     a dictionary with the information of the packages. This is used
+     when the packages are in deb or ipk format.
+     """
+@@ -369,40 +369,48 @@ class PackageManager(object, metaclass=3DABCMeta):
+         if globs:
+             # we need to write the list of installed packages to a file be=
+cause the
+             # oe-pkgdata-util reads it from a file
+-            with tempfile.NamedTemporaryFile(mode=3D"w+", prefix=3D"instal=
+led-pkgs") as installed_pkgs:
+-                pkgs =3D self.list_installed()
 -
--Unreviewed build fix.
+-                provided_pkgs =3D set()
+-                for pkg in pkgs.values():
+-                    provided_pkgs |=3D set(pkg.get('provs', []))
 -
--* Source/JavaScriptCore/llint/WebAssembly.asm: Replace addq with addp
--  for sp on armv7
+-                output =3D oe.utils.format_pkg_list(pkgs, "arch")
+-                installed_pkgs.write(output)
+-                installed_pkgs.flush()
 -
--Canonical link: https://commits.webkit.org/290945.344@webkitglib/2.48
--
--Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/7999ecd5ee4ea3123f7e75634d2bc57f57ca7070]
--Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-----
-- Source/JavaScriptCore/llint/WebAssembly.asm | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Source/JavaScriptCore/llint/WebAssembly.asm b/Source/JavaScriptCore/llint/WebAssembly.asm
--index 1ac3e2accf3c..bd9041404eb1 100644
----- a/Source/JavaScriptCore/llint/WebAssembly.asm
--+++ b/Source/JavaScriptCore/llint/WebAssembly.asm
--@@ -736,7 +736,7 @@ if JSVALUE64
--     storep memoryBase, Callee[cfr]
-- else
--     loadp [sp], ws0
---    addq 2 * SlotSize, sp
--+    addp 2 * SlotSize, sp
--     storep ws0, Callee[cfr]
-- end
-- 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch b/meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch
-new file mode 100644
-index 0000000000..c0112cad18
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/fix-musl-compilation.patch
-@@ -0,0 +1,94 @@
-+From 820e4bb46d7e72ba2b14b15819166919c2e81205 Mon Sep 17 00:00:00 2001
-+From: Adrian Perez de Castro <aperez@igalia.com>
-+Date: Wed, 15 Oct 2025 00:58:59 +0300
-+Subject: [PATCH] [libpas] Build fails with libc implementations that lack
-+ execinfo.h https://bugs.webkit.org/show_bug.cgi?id=300701
+-                cmd =3D ["oe-pkgdata-util",
+-                    "-p", self.d.getVar('PKGDATA_DIR'), "glob", installed_=
+pkgs.name,
+-                    globs]
+-                exclude =3D self.d.getVar('PACKAGE_EXCLUDE_COMPLEMENTARY')
+-                if exclude:
+-                    cmd.extend(['--exclude=3D' + '|'.join(exclude.split())=
+])
+-                try:
+-                    bb.note('Running %s' % cmd)
+-                    proc =3D subprocess.Popen(cmd, stdout=3Dsubprocess.PIP=
+E, stderr=3Dsubprocess.PIPE)
+-                    stdout, stderr =3D proc.communicate()
+-                    if stderr: bb.note(stderr.decode("utf-8"))
+-                    complementary_pkgs =3D stdout.decode("utf-8")
+-                    complementary_pkgs =3D set(complementary_pkgs.split())
+-                    skip_pkgs =3D sorted(complementary_pkgs & provided_pkg=
+s)
+-                    install_pkgs =3D sorted(complementary_pkgs - provided_=
+pkgs)
+-                    bb.note("Installing complementary packages ... %s (ski=
+pped already provided packages %s)" % (
+-                        ' '.join(install_pkgs),
+-                        ' '.join(skip_pkgs)))
+-                    self.install(install_pkgs, hard_depends_only=3DTrue)
+-                except subprocess.CalledProcessError as e:
+-                    bb.fatal("Could not compute complementary packages lis=
+t. Command "
+-                            "'%s' returned %d:\n%s" %
+-                            (' '.join(cmd), e.returncode, e.output.decode(=
+"utf-8")))
++            with tempfile.NamedTemporaryFile(mode=3D"w+", prefix=3D"all-pk=
+gs") as all_pkgs:
++                with tempfile.NamedTemporaryFile(mode=3D"w+", prefix=3D"in=
+stalled-pkgs") as installed_pkgs:
++                    pkgs =3D self.list_installed()
 +
-+Reviewed by NOBODY (OOPS!).
++                    provided_pkgs =3D set()
++                    for pkg in pkgs.values():
++                        provided_pkgs |=3D set(pkg.get('provs', []))
 +
-+Change guards to use backtrace() and execinfo.h on Linux only when using
-+glibc as the C library. The PlayStation and Windows cases no longer need
-+to be matched, as they are neither Linux nor Darwin, both of which are now
-+explicitly listed. The Android check is kept as it was.
++                    output =3D oe.utils.format_pkg_list(pkgs, "arch")
++                    installed_pkgs.write(output)
++                    installed_pkgs.flush()
 +
-+* Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c:
-+* Source/bmalloc/libpas/src/test/PGMTests.cpp:
-+(addPGMTests):
++                    cmd =3D ["oe-pkgdata-util",
++                           "-p", self.d.getVar('PKGDATA_DIR'), "glob",
++                           installed_pkgs.name, globs]
 +
++                    if hasattr(self, "list_all"):
++                        output_allpkg =3D self.list_all()
++                        all_pkgs.write(output_allpkg)
++                        all_pkgs.flush()
++                        cmd.extend(["--allpkgs=3D%s" % all_pkgs.name])
 +
-+Fixes the following error in OE, when compiled with musl:
++                    exclude =3D self.d.getVar('PACKAGE_EXCLUDE_COMPLEMENTA=
+RY')
++                    if exclude:
++                        cmd.extend(['--exclude=3D' + '|'.join(exclude.spli=
+t())])
++                    try:
++                        bb.note('Running %s' % cmd)
++                        proc =3D subprocess.Popen(cmd, stdout=3Dsubprocess=
+.PIPE, stderr=3Dsubprocess.PIPE)
++                        stdout, stderr =3D proc.communicate()
++                        if stderr: bb.note(stderr.decode("utf-8"))
++                        complementary_pkgs =3D stdout.decode("utf-8")
++                        complementary_pkgs =3D set(complementary_pkgs.spli=
+t())
++                        skip_pkgs =3D sorted(complementary_pkgs & provided=
+_pkgs)
++                        install_pkgs =3D sorted(complementary_pkgs - provi=
+ded_pkgs)
++                        bb.note("Installing complementary packages ... %s =
+(skipped already provided packages %s)" % (
++                            ' '.join(install_pkgs),
++                            ' '.join(skip_pkgs)))
++                        self.install(install_pkgs, hard_depends_only=3DTru=
+e)
++                    except subprocess.CalledProcessError as e:
++                        bb.fatal("Could not compute complementary packages=
+ list. Command "
++                                "'%s' returned %d:\n%s" %
++                                (' '.join(cmd), e.returncode,=20
++ e.output.decode("utf-8")))
+=20
+         if self.d.getVar('IMAGE_LOCALES_ARCHIVE') =3D=3D '1':
+             target_arch =3D self.d.getVar('TARGET_ARCH') diff --git a/meta=
+/lib/oe/package_manager/deb/__init__.py b/meta/lib/oe/package_manager/deb/_=
+_init__.py
+index eb48f3f982..0f74e1322f 100644
+--- a/meta/lib/oe/package_manager/deb/__init__.py
++++ b/meta/lib/oe/package_manager/deb/__init__.py
+@@ -112,6 +112,29 @@ class PMPkgsList(PkgsList):
+=20
+         return opkg_query(cmd_output)
+=20
++    def list_all_pkgs(self, apt_conf_file=3DNone):
++        if not apt_conf_file:
++            apt_conf_file =3D self.d.expand("${APTCONF_TARGET}/apt/apt.con=
+f")
++        os.environ['APT_CONFIG'] =3D apt_conf_file
 +
-+| ${UNPACKDIR}/webkitgtk-2.50.0/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c:52:10: fatal error: execinfo.h: No such file or directory
-+|    52 | #include <execinfo.h>
++        cmd =3D [bb.utils.which(os.getenv('PATH'), "apt"), "list"]
 +
++        try:
++            cmd_output =3D subprocess.check_output(cmd, stderr=3Dsubproces=
+s.STDOUT).strip().decode("utf-8")
++        except subprocess.CalledProcessError as e:
++            bb.fatal("Cannot get the all packages list. Command '%s' "
++                     "returned %d:\n%s" % (' '.join(cmd), e.returncode,=20
++ e.output.decode("utf-8")))
 +
-+Upstream-Status: Backport [https://github.com/WebKit/WebKit/pull/52300]
-+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
++        all_pkgs_lines =3D []
++        for line in cmd_output.splitlines():
++            line_parts =3D line.split()
++            # the valid lines takes the format of something like "findutil=
+s-locale-ga/unknown 4.10.0-r0 amd64"
++            if len(line_parts) !=3D 3:
++                continue
++            line_parts[0] =3D line_parts[0].split('/')[0]
++            new_line =3D ' '.join(line_parts)
++            all_pkgs_lines.append(new_line)
++        return "\n".join(all_pkgs_lines)
+=20
+ class DpkgPM(OpkgDpkgPM):
+     def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=
+=3DNone, deb_repo_workdir=3D"oe-rootfs-repo", filterbydependencies=3DTrue):
+@@ -436,6 +459,9 @@ class DpkgPM(OpkgDpkgPM):
+     def list_installed(self):
+         return PMPkgsList(self.d, self.target_rootfs).list_pkgs()
+=20
++    def list_all(self):
++        return PMPkgsList(self.d,=20
++ self.target_rootfs).list_all_pkgs(apt_conf_file=3Dself.apt_conf_file)
 +
-+---
-+ .../pas_probabilistic_guard_malloc_allocator.c      |  4 ++--
-+ Source/bmalloc/libpas/src/test/PGMTests.cpp         | 13 ++++++-------
-+ 2 files changed, 8 insertions(+), 9 deletions(-)
+     def package_info(self, pkg):
+         """
+         Returns a dictionary with the package info.
+diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/pack=
+age_manager/ipk/__init__.py
+index 4794f31f88..2f330ec4f0 100644
+--- a/meta/lib/oe/package_manager/ipk/__init__.py
++++ b/meta/lib/oe/package_manager/ipk/__init__.py
+@@ -90,6 +90,23 @@ class PMPkgsList(PkgsList):
+=20
+         return opkg_query(cmd_output)
+=20
++    def list_all_pkgs(self, format=3DNone):
++        cmd =3D "%s %s list" % (self.opkg_cmd, self.opkg_args)
 +
-+diff --git a/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c b/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c
-+index ff3adefa7dcc..58ec32eb4fed 100644
-+--- a/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c
-++++ b/Source/bmalloc/libpas/src/libpas/pas_probabilistic_guard_malloc_allocator.c
-+@@ -43,8 +43,8 @@
-+ #include <unistd.h>
-+ #endif
-+ 
-+-/* PlayStation does not currently support the backtrace API. Android API versions < 33 don't, either. Windows does not either. */
-+-#if !PAS_PLATFORM(PLAYSTATION) && (!PAS_OS(ANDROID) || __ANDROID_API__ >= 33) && !PAS_OS(WINDOWS)
-++/* PlayStation does not currently support the backtrace API. Android API versions < 33 don't, either. Windows does not either. Linux only with GLibc and not uCLibc/Musl. */
-++#if (PAS_OS(ANDROID) && __ANDROID_API__ >= 33) || PAS_OS(DARWIN) || (PAS_OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
-+ #include <execinfo.h>
-+ #else
-+ size_t backtrace(void** buffer, size_t size)
-+diff --git a/Source/bmalloc/libpas/src/test/PGMTests.cpp b/Source/bmalloc/libpas/src/test/PGMTests.cpp
-+index 0432f46ba3b0..dfbf957a3421 100644
-+--- a/Source/bmalloc/libpas/src/test/PGMTests.cpp
-++++ b/Source/bmalloc/libpas/src/test/PGMTests.cpp
-+@@ -43,9 +43,9 @@
-+ #include "pas_report_crash.h"
-+ #include "pas_root.h"
-+ 
-+-#if !PAS_PLATFORM(PLAYSTATION)
-++#if (PAS_OS(ANDROID) && __ANDROID_API__ >= 33) || PAS_OS(DARWIN) || (PAS_OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
-+ #include <execinfo.h>
-+-#endif // !PAS_PLATFORM(PLAYSTATION)
-++#endif
-+ 
-+ using namespace std;
-+ 
-+@@ -383,8 +383,7 @@ void testPGMMetadataVectorManagementFewDeallocations()
-+     pas_heap_lock_unlock();
-+ }
-+ 
-+-/* Backtrace API is currently not supported on PlayStation. */
-+-#if !PAS_PLATFORM(PLAYSTATION)
-++#if (PAS_OS(ANDROID) && __ANDROID_API__ >= 33) || PAS_OS(DARWIN) || (PAS_OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
-+ void testPGMMetadataDoubleFreeBehavior()
-+ {
-+     pas_probabilistic_guard_malloc_initialize_pgm_as_enabled(1);
-+@@ -583,7 +582,7 @@ void testPGMAllocMetadataOnly()
-+         CHECK(!dealloc_metadata);
-+     }
-+ }
-+-#endif // !PAS_PLATFORM(PLAYSTATION)
-++#endif
-+ 
-+ } // anonymous namespace
-+ 
-+@@ -598,9 +597,9 @@ void addPGMTests()
-+     ADD_TEST(testPGMMetadataVectorManagement());
-+     ADD_TEST(testPGMMetadataVectorManagementFewDeallocations());
-+     ADD_TEST(testPGMMetadataVectorManagementRehash());
-+-#if !PAS_PLATFORM(PLAYSTATION)
-++#if (PAS_OS(ANDROID) && __ANDROID_API__ >= 33) || PAS_OS(DARWIN) || (PAS_OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
-+     ADD_TEST(testPGMMetadataDoubleFreeBehavior());
-+     ADD_TEST(testPGMBmallocAllocationBacktrace());
-+     ADD_TEST(testPGMAllocMetadataOnly());
-+-#endif // !PAS_PLATFORM(PLAYSTATION)
-++#endif
-+ }
-diff --git a/meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch b/meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch
-new file mode 100644
-index 0000000000..aa3b53e1bb
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/fix_op_instanceof_handler_for_32-bit_C-loop_build.patch
-@@ -0,0 +1,122 @@
-+From 0000000000000000000000000000000000000000 Fri Sep 19 11:55:30 2025 
-+From: amaxcz <amaxcz@gmail.com>
-+Date: Fri, 19 Sep 2025 11:55:30 +0000
-+Subject: [PATCH] JSC: fix op_instanceof handler for 32-bit C-loop build
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++        # opkg returns success even when it printed some
++        # "Collected errors:" report to stderr. Mixing stderr into
++        # stdout then leads to random failures later on when
++        # parsing the output. To avoid this we need to collect both
++        # output streams separately and check for empty stderr.
++        p =3D subprocess.Popen(cmd, stdout=3Dsubprocess.PIPE, stderr=3Dsub=
+process.PIPE, shell=3DTrue)
++        cmd_output, cmd_stderr =3D p.communicate()
++        cmd_output =3D cmd_output.decode("utf-8")
++        cmd_stderr =3D cmd_stderr.decode("utf-8")
++        if p.returncode or cmd_stderr:
++            bb.fatal("Cannot get all packages list. Command '%s' "
++                     "returned %d and stderr:\n%s" % (cmd,=20
++ p.returncode, cmd_stderr))
 +
-+JSC: fix op_instanceof handler for 32-bit C-loop build
++        return cmd_output
+=20
+ class OpkgPM(OpkgDpkgPM):
+     def __init__(self, d, target_rootfs, config_file, archs, task_name=3D'=
+target', ipk_repo_workdir=3D"oe-rootfs-repo", filterbydependencies=3DTrue, =
+prepare_index=3DTrue):
+@@ -364,6 +381,9 @@ class OpkgPM(OpkgDpkgPM):
+     def list_installed(self):
+         return PMPkgsList(self.d, self.target_rootfs).list_pkgs()
+=20
++    def list_all(self):
++        return PMPkgsList(self.d, self.target_rootfs).list_all_pkgs()
 +
-+Fixes missing 'op_instanceof' handler in LowLevelInterpreter32_64.asm
-+which breaks 32‑bit builds.
+     def dummy_install(self, pkgs):
+         """
+         The following function dummy installs pkgs and returns the log of =
+output.
+diff --git a/meta/lib/oe/package_manager/rpm/__init__.py b/meta/lib/oe/pack=
+age_manager/rpm/__init__.py
+index 20e6cb8744..a51057650a 100644
+--- a/meta/lib/oe/package_manager/rpm/__init__.py
++++ b/meta/lib/oe/package_manager/rpm/__init__.py
+@@ -275,6 +275,14 @@ class RpmPM(PackageManager):
+                 elif os.path.isfile(source_dir):
+                     shutil.copy2(source_dir, target_dir)
+=20
++    def list_all(self):
++        output =3D self._invoke_dnf(["repoquery", "--all", "--queryformat"=
+, "Packages: %{name} %{arch} %{version}"], print_output =3D False)
++        all_pkgs_lines =3D []
++        for line in output.splitlines():
++            if line.startswith("Packages: "):
++                all_pkgs_lines.append(line.replace("Packages: ", ""))
++        return "\n".join(all_pkgs_lines)
 +
-+* No ChangeLog (raw external patch).
+     def list_installed(self):
+         output =3D self._invoke_dnf(["repoquery", "--installed", "--queryf=
+ormat", "Package: %{name} %{arch} %{version} %{name}-%{version}-%{release}.=
+%{arch}.rpm\nDependencies:\n%{requires}\nRecommendations:\n%{recommends}\nD=
+ependenciesEndHere:\n"],
+                                   print_output =3D False) diff --git a/scr=
+ipts/oe-pkgdata-util b/scripts/oe-pkgdata-util index 44ae40549a..5b7cd768a4=
+ 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -51,6 +51,15 @@ def glob(args):
+=20
+     skippedpkgs =3D set()
+     mappedpkgs =3D set()
++    allpkgs =3D set()
++    if args.allpkgs:
++        with open(args.allpkgs, 'r') as f:
++            for line in f:
++                fields =3D line.rstrip().split()
++                if not fields:
++                    continue
++                else:
++                    allpkgs.add(fields[0])
+     with open(args.pkglistfile, 'r') as f:
+         for line in f:
+             fields =3D line.rstrip().split() @@ -136,6 +145,10 @@ def glob=
+(args):
+                         logger.debug("%s is not a valid package!" % (pkg))
+                         break
+=20
++                if args.allpkgs:
++                    if mappedpkg not in allpkgs:
++                        continue
 +
-+Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=299166]
-+Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
-+
-+--- ./Source/JavaScriptCore/llint/LowLevelInterpreter32_64.asm	2025-08-08 11:17:51.552549400 +0200
-++++ ./Source/JavaScriptCore/llint/LowLevelInterpreter32_64.asm	2025-09-19 12:34:26.253563496 +0200
-+@@ -3445,4 +3445,97 @@
-+ slowPathOp(mod)
-+ 
-+ llintSlowPathOp(has_structure_with_flags)
-+-llintSlowPathOp(instanceof)
-++
-++llintOpWithMetadata(op_instanceof, OpInstanceof, macro (size, get, dispatch, metadata, return)
-++
-++    macro getAndLoadConstantOrVariable(fieldName, tagReg, payloadReg)
-++        get(fieldName, t5)
-++        loadConstantOrVariable(size, t5, tagReg, payloadReg)
-++    end
-++
-++    macro isObject(field, falseLabel)
-++        getAndLoadConstantOrVariable(field, t0, t1)
-++        bineq t0, CellTag, falseLabel
-++        bbneq JSCell::m_type[t1], ObjectType, falseLabel
-++    end
-++
-++    macro overridesHasInstance(hasInstanceField, constructorField, trueLabel)
-++        getAndLoadConstantOrVariable(hasInstanceField, t0, t1)
-++        bineq t0, CellTag, trueLabel
-++        loadp CodeBlock[cfr], t2
-++        loadp CodeBlock::m_globalObject[t2], t2
-++        loadp JSGlobalObject::m_functionProtoHasInstanceSymbolFunction[t2], t2
-++        bpneq t1, t2, trueLabel
-++
-++        get(constructorField, t5)
-++        loadConstantOrVariablePayload(size, t5, CellTag, t1, trueLabel)
-++        btbz JSCell::m_flags[t1], ImplementsDefaultHasInstance, trueLabel
-++    end
-++
-++    macro storeValue(tagReg, payloadReg, fieldName)
-++        move tagReg, t0
-++        move payloadReg, t1
-++        get(fieldName, t5)
-++        storei t0, TagOffset[cfr, t5, 8]
-++        storei t1, PayloadOffset[cfr, t5, 8]
-++    end
-++
-++.getHasInstance:
-++    isObject(m_constructor, .throwStaticError)
-++    get(m_constructor, t5)
-++    metadata(t2, t6)
-++    loadConstantOrVariablePayload(size, t5, CellTag, t3, .getHasInstanceSlow)
-++    performGetByIDHelper(OpInstanceof, m_hasInstanceModeMetadata, m_hasInstanceValueProfile, .getHasInstanceSlow, size,
-++        macro (resultTag, resultPayload)
-++            storeValue(resultTag, resultPayload, m_hasInstanceOrPrototype)
-++            jmp .getPrototype
-++        end)
-++    jmp .getPrototype
-++
-++.getHasInstanceSlow:
-++    callSlowPath(_llint_slow_path_get_hasInstance_from_instanceof)
-++    branchIfException(_llint_throw_from_slow_path_trampoline)
-++    jmp .getPrototype
-++
-++.getHasInstanceInlinedGetterOSRReturnPoint:
-++    # This path is taken when exiting to the LLInt from an inlined getter for Symbol.hasInstance.
-++    getterSetterOSRExitReturnPoint(op_instanceof, size)
-++    valueProfile(size, OpInstanceof, m_hasInstanceValueProfile, r1, r0, t2)
-++    storeValue(r1, r0, m_hasInstanceOrPrototype)
-++
-++.getPrototype:
-++    overridesHasInstance(m_hasInstanceOrPrototype, m_constructor, .instanceofCustom)
-++    isObject(m_value, .false)
-++    get(m_constructor, t5)
-++    metadata(t2, t6)
-++    loadConstantOrVariablePayload(size, t5, CellTag, t3, .getPrototypeSlow)
-++    performGetByIDHelper(OpInstanceof, m_prototypeModeMetadata, m_prototypeValueProfile, .getPrototypeSlow, size,
-++        macro (resultTag, resultPayload)
-++            storeValue(resultTag, resultPayload, m_hasInstanceOrPrototype)
-++            jmp .instanceof
-++        end)
-++    jmp .instanceof
-++
-++.getPrototypeSlow:
-++    callSlowPath(_llint_slow_path_get_prototype_from_instanceof)
-++    branchIfException(_llint_throw_from_slow_path_trampoline)
-++    jmp .instanceof
-++
-++.instanceof:
-++    callSlowPath(_llint_slow_path_instanceof_from_instanceof)
-++    dispatch()
-++
-++.throwStaticError:
-++    callSlowPath(_slow_path_throw_static_error_from_instanceof)
-++    dispatch()
-++
-++.instanceofCustom:
-++    callSlowPath(_slow_path_instanceof_custom_from_instanceof)
-++    dispatch()
-++
-++.false:
-++    get(m_dst, t5)
-++    storei BooleanTag, TagOffset[cfr, t5, 8]
-++    storei 0, PayloadOffset[cfr, t5, 8]
-++    dispatch()
-++end)
-+
-+-- 
-+2.45.0
-diff --git a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-deleted file mode 100644
-index 367e6b8342..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 4602261fa44d6bbb4c3698c79e08a6a40a6edc5a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 12 Jan 2024 09:21:39 -0800
--Subject: [PATCH] clang/arm: Do not use MUST_TAIL_CALL
--
--This causes clang-17 to crash see [1]
--this code is new in webkit 2.42[2] thats why we do not see the crash in older webkit
--
--[1] https://github.com/llvm/llvm-project/issues/67767
--[2] https://github.com/WebKit/WebKit/commit/4d816460b765acd8aef90ab474615850b91ecc35
--
--Upstream-Status: Inappropriate [work around to avoid clang compiler crash]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Update context for webkitgtk 2.48.0.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
-----
-- Source/WTF/wtf/Compiler.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Source/WTF/wtf/Compiler.h b/Source/WTF/wtf/Compiler.h
--index 16e416d..68dd9a0 100644
----- a/Source/WTF/wtf/Compiler.h
--+++ b/Source/WTF/wtf/Compiler.h
--@@ -293,7 +293,7 @@
-- #if COMPILER(CLANG)
-- #if __SIZEOF_POINTER__ == 8
-- #if !defined(MUST_TAIL_CALL) && defined(__cplusplus) && defined(__has_cpp_attribute)
---#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__) && !defined(_WIN32)
--+#if __has_cpp_attribute(clang::musttail) && !defined(__powerpc__) && !defined(_WIN32) && !defined(__arm__)
-- #define MUST_TAIL_CALL [[clang::musttail]]
-- #define HAVE_MUST_TAIL_CALL 1
-- #endif
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb
-similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.50.0.bb
-index 46031322b9..5389bf17db 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.48.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.50.0.bb
-@@ -13,14 +13,14 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
-            file://reproducibility.patch \
-            file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch \
--           file://no-musttail-arm.patch \
-            file://t6-not-declared.patch \
-            file://sys_futex.patch \
-            file://0001-Fix-build-errors-on-RISCV-https-bugs.webkit.org-show.patch \
-            file://fix-ftbfs-riscv64.patch \
--           file://fix-armv7-compilation.patch \
-+           file://fix-musl-compilation.patch \
-+           file://fix_op_instanceof_handler_for_32-bit_C-loop_build.patch \
-            "
--SRC_URI[sha256sum] = "bb64ed9d1cfd58e8b5e89ccad71dd31adfed56336bad7695031ad0b668e1987c"
-+SRC_URI[sha256sum] = "e564b8099f9a3ae32409539b290bbd2ad084e99b6d22d4aac5e51e4554df8bc2"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
- 
+                 if mappedpkg:
+                     logger.debug("%s (%s) -> %s" % (pkg, g, mappedpkg))
+                     mappedpkgs.add(mappedpkg) @@ -592,6 +605,7 @@ def main=
+():
+     parser_glob.add_argument('pkglistfile', help=3D'File listing packages =
+(one package name per line)')
+     parser_glob.add_argument('glob', nargs=3D"+", help=3D'Glob expression =
+for package names, e.g. *-dev')
+     parser_glob.add_argument('-x', '--exclude', help=3D'Exclude packages m=
+atching specified regex from the glob operation')
++    parser_glob.add_argument('-a', '--allpkgs', help=3D'File listing all=20
++ available packages (one package name per line)')
+     parser_glob.set_defaults(func=3Dglob)
+=20
+=20
+--
+2.34.1
+
 
