@@ -2,64 +2,64 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C52DECCD193
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C034DCCD19F
 	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 03:09:04 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web10.4655.1760584141705749045
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web10.4653.1760584140090902854
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Oct 2025 20:09:01 -0700
+ Wed, 15 Oct 2025 20:09:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JZMabtnN;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-7946137e7a2so5306616d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 20:09:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CzshvCL+;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-78defc1a2afso6731156d6.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 20:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760584141; x=1761188941; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760584139; x=1761188939; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sSvb3eWGiB5h0DgMUYPzFpJ2Aw3IWeLbyJzwG9izvk4=;
-        b=JZMabtnNgSLzs8A//bKDKIwQqHuVXIdy8p3HiQJl4ojsjv8aj3ShbO0j2dKTypIOXU
-         vjw/UrLZC9/FuzUQnoxfejIPGy7tSM/JvFPgw4oXAyWTZNMwx6uO23/bWt9ZsWcAvicH
-         MCLW8+V7Zobotfk7gnsKbhK9/lIMP1QDIXhtljI0uovreBfPQ6GnFvRYH1lR5RUw+468
-         UrE7mTjLEnc/a4AM7mopM42UCn2ur0mdmtTniwtoPxKNFUDSvsYLdWGo9s8ZO3Ptq9PN
-         72yfRr5hZFDaMu8dP/11CGjUAyWx6qIHDdFbuc1OOMxfcXyrDcaGW7zOmYjgzVhJD4PH
-         d2Bw==
+        bh=sQe8TiIPFKHB6mJ3sPoVQi1luMb+PTqUl1W1BhkcQNg=;
+        b=CzshvCL+Lpv86TZ9j7W3DQy+vjoxXkKhsrXoDHysh3yvxt3++m5SxNI1wkEwiZ+0TL
+         gsTpewmyWuijsRP+EglmcUDglDalsNMmaUlpoL9g1BOnaTC7fZUOHj9XvLUj3a3mkD6l
+         /NQ83FJcbv/IVJWU4TuLdeo4gyie6R8H2MLCQHNIt0PNLcsokuGEw7V8HxanszgGlDsG
+         z4Bni47D0RpyxBYYpSeh4rONJtM6q5t3NXSSj85Egn3kBJab9bF5+5QuvX975O6145xZ
+         4qXSRsRWNKXEDsVq60ZUdMd4GKsK3HQx8X53Hj1q3oHgPU5t6rPhe7eu3Ijmv2oJCuPp
+         vLrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760584141; x=1761188941;
+        d=1e100.net; s=20230601; t=1760584139; x=1761188939;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sSvb3eWGiB5h0DgMUYPzFpJ2Aw3IWeLbyJzwG9izvk4=;
-        b=JLF7dJ1I1Xpwpm71OJLnwrN9EI5Mpkf7YEoTnTvS48KNGxmn0YIjurAYOLkFpUROS8
-         reW+VV0C9dggGTKZehiHwyfGDHUx2fNf1Mp2D7epC49tQkW9yuvN1UovYdhR3bLYQ0Nw
-         zp4w0/CX/6VGYNFm5snQflvGTEUL8J+/YxqCnyoNWkpLccuH1GzoEjq77vsANI+ttstT
-         PyQMGD2sjK4S3bgz8O/9nwbSOEhMrgMZYKx2h7iEhryTeHtOMXfRpkipsSsTJRCq6X+O
-         9yOpm+Ff+rsaCexT7xPuJ/xD02xVdY4eoXexxGssTmcTBODqP9pTdmL/+0KHIrMDLMCM
-         ZYew==
-X-Gm-Message-State: AOJu0YxerdPaCFKzpyw8iDVjd6Bo+aerOfe/ON6KaCtmdENhUpBFqM7m
-	FtO77lebigLOWdbU4avejOyNqJwfiSez+1bWEblrGaAQ04rKcuW4BEAj
-X-Gm-Gg: ASbGnctFzpx9WwbZVPP8SSdVGjWnHUiF5i6j/336/7IhAqo6fpZRMMScIFjrq4rhmQH
-	0dRHmX49Vk5FPFrIjn5E9iMceHARwFJ+dI8I8UndgiC96eqTdj2jjQpyg9Onm5fTrTK14EQOsDD
-	r1atm3eAoljROPrKlu4fo0plb7skalnyYlSD+J5K5TA6F0fVUxnqBdvAxparzsiq21LMjvU/Bzl
-	J+mpeZ65OWX9ja3gaYmq+jfkja1DjpUU/hJhwlLJf7WyKtTNVJ0a70I1ORj5oBIGPUgGl0297Hb
-	aSVD1EZL2ZpyY3n/lqjb0ELgAWI/yD4dV4oNMM3s/40s/M9a0fLx5WTIHOE6wM2fnqp7mQLVfi5
-	FjorzgFw8KBadtCDpcpqg//E1rnIMLRbW2vvgbqmUDJaJ6AIcGbCTFZW4H8PQEvg7i0DceQhAjp
-	qf9Gs+H2+VXwK36scpF+Rrw8Jt0QHGzmVgBFyKFibCWst63jYlzwM1q6iN/kJfo8X6/HZrDdQrw
-	ZOF
-X-Google-Smtp-Source: AGHT+IFcK2l9F2tF58v2qslByIMJ5RUEcxK4Gtf+NCtP6Y7mSzROOhJ8ip4nWCETtti+xbNMig5jrQ==
-X-Received: by 2002:ad4:5743:0:b0:791:c933:ad45 with SMTP id 6a1803df08f44-87b2efc37e1mr429316836d6.37.1760584140528;
-        Wed, 15 Oct 2025 20:09:00 -0700 (PDT)
+        bh=sQe8TiIPFKHB6mJ3sPoVQi1luMb+PTqUl1W1BhkcQNg=;
+        b=hV+kMwThgTTW88inAxF9AoDmX7m/qlHke4pzNxhvBV6uk0UoADgS96HG29EAE8PfSc
+         59sGCW+tLNdlRCDTwX/IPU3RrNZcYiZXA8tsZzojYjHfzRK/GktEOBuhemDnxmSRuL21
+         7Rqfhtk9EYSayL8LRhn+Ezeh3aSYwe4S9WvZBIQgPCV2rvGDKc0m5rT0AbKiDT2YYklj
+         9/0a6+rOEn1Kwa0NpshzY8PdPb999QEdKAji2SI0RsZpu4TaWmxt8uuf37A5QDNWC1Lb
+         z3mj508/zaisNw+8MpF96KTvTAJwP42axRTZw4Crcpjgsmg4u8bRsXXYe8Xb7VjjYiN3
+         I09w==
+X-Gm-Message-State: AOJu0YxF8ji1dF8IT/l4wmH6h1yBf9Z3qFSstj3hu9BaJk8vb2vn0kkd
+	vhM6CjELtxcvb78zoIGnpQDqF2Inoa1K3XAtDFzrxjkyDqgfeAeGlV8h
+X-Gm-Gg: ASbGncsDVnhZ0P8HAAaxpZny5JPIaji+aKVHecus0qzLKczmfqPrNDvkGgjpXH832Iz
+	JD1zfNBqT+lBw2o/RpuAJn9ygxlGO7XHVAhojRdTjoE1dFs15Y2/hU+JQXFZTdLt0ZTFLPYSKsd
+	uCssUB/U0bU7DmKLYpiqtTYrzIYDMteBsm8EPSCH2RonlbKWf1R/G+dF8hujU2C+NLyU83WtRcu
+	WwAwtyEUPGkElOld1swuaLx4b0VbxjyOg50IeX79n8RtBamN5xOEgTkikigY8bH03bPUqomRTGP
+	GrHdaIUnkMSKKtdFitYy4obVDIa3P5yDSjDToFqhp1VvvFvOiRCMDqAXXdn9Abu0MU5ra2Kq/uk
+	swJnnzCkVU7Ggo+Z/y5qjm7jcBChRDOEYYdkYM3umJhOx/opr+lNVLVPTvFZVK2aNbtmQAjRCck
+	wM2vZM4sfCOict4iN8dN+zQ3qjypdyww45OpsDatmvl+pcf2Fy164Shbp18VcOaFPBGL6Nqv2At
+	Rob
+X-Google-Smtp-Source: AGHT+IG31k24rFywzycoASe06BUviRgFmtPb+qYmlkug1heWoabKfaAzbvb0hlFLDDLv6AMoY3GVZg==
+X-Received: by 2002:a05:6214:528f:b0:877:81d2:4c27 with SMTP id 6a1803df08f44-87b2ef38450mr389840446d6.57.1760584138977;
+        Wed, 15 Oct 2025 20:08:58 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87c012a39d9sm30824986d6.44.2025.10.15.20.08.59
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87c012a39d9sm30824986d6.44.2025.10.15.20.08.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 20:08:59 -0700 (PDT)
+        Wed, 15 Oct 2025 20:08:58 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 11/11] linux-yocto-dev: update to v6.18
-Date: Wed, 15 Oct 2025 23:08:44 -0400
-Message-Id: <c6cb67c984cd309eb6f9843ed74150f13192fc3e.1760583881.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 10/11] kern-tools: fix symbol_why for v6.18-rc1+
+Date: Wed, 15 Oct 2025 23:08:43 -0400
+Message-Id: <2825ef5ac79081dd3f980ba39155c628783709fa.1760583881.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1760583881.git.bruce.ashfield@gmail.com>
 References: <cover.1760583881.git.bruce.ashfield@gmail.com>
@@ -69,39 +69,87 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 03:09:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224926
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224925
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Bumping the -dev kernel to 6.18+
+commit f589e1df23251d8319063da0a61c1016b2a0bf85 (HEAD -> master)
+Author: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date:   Wed Oct 15 18:12:20 2025 -0400
+
+    tools/Kconfiglib: add support for transitional attribute
+
+    We need to update the parser to handle:
+
+    commit f9afce4f32e9a120fc902fa6c9e0b90ad799a6ec
+    Author: Kees Cook <kees@kernel.org>
+    Date:   Tue Sep 23 14:34:18 2025 -0700
+
+        kconfig: Add transitional symbol attribute for migration support
+
+        During kernel option migrations (e.g. CONFIG_CFI_CLANG to CONFIG_CFI),
+        existing .config files need to maintain backward compatibility while
+        preventing deprecated options from appearing in newly generated
+        configurations. This is challenging with existing Kconfig mechanisms
+        because:
+
+        1. Simply removing old options breaks existing .config files.
+        2. Manually listing an option as "deprecated" leaves it needlessly
+           visible and still writes them to new .config files.
+        3. Using any method to remove visibility (.e.g no 'prompt', 'if n',
+           etc) prevents the option from being processed at all.
+
+        Add a "transitional" attribute that creates symbols which are:
+        - Processed during configuration (can influence other symbols' defaults)
+        - Hidden from user menus (no prompts appear)
+        - Omitted from newly written .config files (gets migrated)
+        - Restricted to only having help sections (no defaults, selects, etc)
+          making it truly just a "prior value pass-through" option.
+
+        The transitional syntax requires a type argument and prevents type
+        redefinition:
+
+            config NEW_OPTION
+                bool "New option"
+                default OLD_OPTION
+
+            config OLD_OPTION
+                bool
+                transitional
+                help
+                  Transitional config for OLD_OPTION migration.
+
+        This allows seamless migration: olddefconfig processes existing
+        CONFIG_OLD_OPTION=y settings to enable CONFIG_NEW_OPTION=y, while
+        CONFIG_OLD_OPTION is omitted from newly generated .config files.
+
+        Added positive and negative testing via "testconfig" make target.
+
+        Co-developed-by: Vegard Nossum <vegard.nossum@oracle.com>
+        Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+        Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+        Tested-by: Nathan Chancellor <nathan@kernel.org>
+        Link: https://lore.kernel.org/r/20250923213422.1105654-2-kees@kernel.org
+        Signed-off-by: Kees Cook <kees@kernel.org>
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index 196e6b4761..fb4e0864d2 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # provide this .inc to set specific revisions
- include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 84b8b10a26..9240ee5db8 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
  
--KBRANCH = "v6.17/standard/base"
-+KBRANCH = "v6.18/standard/base"
- KMETA = "kernel-meta"
+ DEPENDS += "git-replacement-native"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name=machine;protocol=https \
-@@ -28,7 +28,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
- SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+-SRCREV = "fe67c98d2e9b74af44d0c4b660fa18e3a95e7edd"
++SRCREV = "f589e1df23251d8319063da0a61c1016b2a0bf85"
+ PV = "0.3+git"
  
--LINUX_VERSION ?= "6.17"
-+LINUX_VERSION ?= "6.18"
- LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
- PV = "${LINUX_VERSION}+git"
- 
+ inherit native
 -- 
 2.39.2
 
