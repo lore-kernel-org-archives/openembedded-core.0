@@ -2,64 +2,64 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C034DCCD19F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0265CCD19E
 	for <webhook@archiver.kernel.org>; Thu, 16 Oct 2025 03:09:04 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web10.4653.1760584140090902854
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web11.4555.1760584139415263349
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Oct 2025 20:09:00 -0700
+ Wed, 15 Oct 2025 20:08:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CzshvCL+;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-78defc1a2afso6731156d6.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YaNG7DB6;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-796fe71deecso3840186d6.1
         for <openembedded-core@lists.openembedded.org>; Wed, 15 Oct 2025 20:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760584139; x=1761188939; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1760584138; x=1761188938; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sQe8TiIPFKHB6mJ3sPoVQi1luMb+PTqUl1W1BhkcQNg=;
-        b=CzshvCL+Lpv86TZ9j7W3DQy+vjoxXkKhsrXoDHysh3yvxt3++m5SxNI1wkEwiZ+0TL
-         gsTpewmyWuijsRP+EglmcUDglDalsNMmaUlpoL9g1BOnaTC7fZUOHj9XvLUj3a3mkD6l
-         /NQ83FJcbv/IVJWU4TuLdeo4gyie6R8H2MLCQHNIt0PNLcsokuGEw7V8HxanszgGlDsG
-         z4Bni47D0RpyxBYYpSeh4rONJtM6q5t3NXSSj85Egn3kBJab9bF5+5QuvX975O6145xZ
-         4qXSRsRWNKXEDsVq60ZUdMd4GKsK3HQx8X53Hj1q3oHgPU5t6rPhe7eu3Ijmv2oJCuPp
-         vLrA==
+        bh=ZR4QeZK/eQek5Lg19B/6AF36HWKG6OsX6w+cr4yg2WI=;
+        b=YaNG7DB6GYhLGyjdwSTTLZ2PzHjQ0k67BeouJbWgtdiEB5wPhySk+cSAawJWD9FjRs
+         hW6++4sMxHOOMTOFS1/hMCzacMbuiDukfz/vE98c+QafV7xJRsn81hdyp+x4bnoaACcW
+         WT/+8R5PgxPaLv9p4CySDAVVaTklap9HUv18xVFrB/sIyS9kTF+jWTvjLbLZx7FmNj6q
+         ZmbM+jBrYYus72xrgJIaJ4N9ZgNzYA24JxMzAT3qUMomzl8TnX1kFKoYw9dimGAhKCDu
+         3SDAdErdZjdOFA3XZ1iLJ5SD0oWuL99t8CVQneL//E7pix0Xx7Otpyd8QrmwfUdS50Lz
+         X9YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760584139; x=1761188939;
+        d=1e100.net; s=20230601; t=1760584138; x=1761188938;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sQe8TiIPFKHB6mJ3sPoVQi1luMb+PTqUl1W1BhkcQNg=;
-        b=hV+kMwThgTTW88inAxF9AoDmX7m/qlHke4pzNxhvBV6uk0UoADgS96HG29EAE8PfSc
-         59sGCW+tLNdlRCDTwX/IPU3RrNZcYiZXA8tsZzojYjHfzRK/GktEOBuhemDnxmSRuL21
-         7Rqfhtk9EYSayL8LRhn+Ezeh3aSYwe4S9WvZBIQgPCV2rvGDKc0m5rT0AbKiDT2YYklj
-         9/0a6+rOEn1Kwa0NpshzY8PdPb999QEdKAji2SI0RsZpu4TaWmxt8uuf37A5QDNWC1Lb
-         z3mj508/zaisNw+8MpF96KTvTAJwP42axRTZw4Crcpjgsmg4u8bRsXXYe8Xb7VjjYiN3
-         I09w==
-X-Gm-Message-State: AOJu0YxF8ji1dF8IT/l4wmH6h1yBf9Z3qFSstj3hu9BaJk8vb2vn0kkd
-	vhM6CjELtxcvb78zoIGnpQDqF2Inoa1K3XAtDFzrxjkyDqgfeAeGlV8h
-X-Gm-Gg: ASbGncsDVnhZ0P8HAAaxpZny5JPIaji+aKVHecus0qzLKczmfqPrNDvkGgjpXH832Iz
-	JD1zfNBqT+lBw2o/RpuAJn9ygxlGO7XHVAhojRdTjoE1dFs15Y2/hU+JQXFZTdLt0ZTFLPYSKsd
-	uCssUB/U0bU7DmKLYpiqtTYrzIYDMteBsm8EPSCH2RonlbKWf1R/G+dF8hujU2C+NLyU83WtRcu
-	WwAwtyEUPGkElOld1swuaLx4b0VbxjyOg50IeX79n8RtBamN5xOEgTkikigY8bH03bPUqomRTGP
-	GrHdaIUnkMSKKtdFitYy4obVDIa3P5yDSjDToFqhp1VvvFvOiRCMDqAXXdn9Abu0MU5ra2Kq/uk
-	swJnnzCkVU7Ggo+Z/y5qjm7jcBChRDOEYYdkYM3umJhOx/opr+lNVLVPTvFZVK2aNbtmQAjRCck
-	wM2vZM4sfCOict4iN8dN+zQ3qjypdyww45OpsDatmvl+pcf2Fy164Shbp18VcOaFPBGL6Nqv2At
-	Rob
-X-Google-Smtp-Source: AGHT+IG31k24rFywzycoASe06BUviRgFmtPb+qYmlkug1heWoabKfaAzbvb0hlFLDDLv6AMoY3GVZg==
-X-Received: by 2002:a05:6214:528f:b0:877:81d2:4c27 with SMTP id 6a1803df08f44-87b2ef38450mr389840446d6.57.1760584138977;
+        bh=ZR4QeZK/eQek5Lg19B/6AF36HWKG6OsX6w+cr4yg2WI=;
+        b=P7q9u2jeXxyqfx3vnkjdKrHEXSX50ab3yvy1xdcl3+J1nGfbessxkspLLM++V1E1a+
+         OuVbTEjG6gKlc0+6xYHxmZ/vtDbDDwa42+fJXDiNQEzEyDdm4/VOXAuv4zHFSccF2amw
+         ZDeNt2imYkUD1n8OB9v9kQhfK2dvyd+VfZiMW9IlxT9FBxQCWIEwXfXVnfh0sVXUaboP
+         SSC9j3wIrAk4myaEULmjXzLVuOIg5F/q5HIBoPPjUYJD/jylJkM3/+Fgw3RfKJD7vveJ
+         w/+eCq6czzyglGnoR8QDmz7mIfQnFXTPcScN2JFEg05E/FosiUmy5Z+YZyHBMEGlQPY7
+         ySkw==
+X-Gm-Message-State: AOJu0YwuqfI7d5M0VjB5H2VrDZBKxj4ArJ0gWiHDvmLuWGLkfeJiH5Sp
+	8ajZiFNNbCCQXr+1lyR9+lG5Yqil/5C6OxIclxuLSrgapUmz9R2kHcqdN4YytqseJgw=
+X-Gm-Gg: ASbGnctC9EHk5ePA4uNRpnYcEfQb/4WtZSwRNROCDnByt8boDl3cfi6HWSI/FPt6KzJ
+	yi+ADXqxzBjvW1YHL0tSiOf8227md6R4WsFl0WR732EvRfEAgpwUQRIEris79QpHc6d4d6Gn7zS
+	ex7lHmTv/gaSmbbbwoKsaY+3cvUowpK2aleydHKJPnQox9Leo1VRc2O7h7mxMnoXh48QXZNrL6B
+	5CwtPipmfDVjX0q2VsAi7EyLi4ZJzobBGc8FC2Nr9bm0bPHjFF0pn7I7czlimErDZcKAYVuFvUv
+	BDF7PwOYke0XSS7IOTnxU37XwJvFu0MY3Hl1/ahh040frWlWaXeeKq6+rN1is1TA1IimsLQobKP
+	hraRt2CZbdLHrK2z0KLNeAje8jQYt0YZ8ZLAFCCT4mzc47w0yE6k0gpvXnp2haJWtbcBkxBkB6E
+	bPQXXMR3Z8JLxHVOivoxzZzpoU8YgKDtv9I8WggoCGQ6W61vQE/s1a68yTKXwNpDF1bCi6MYeC6
+	AF6AKfA6mewzUk=
+X-Google-Smtp-Source: AGHT+IFPcg6Gwae2iP8pUgfxwTWc7YTJ7hCsPpYErgwgOfB+0172IZTHAkEaPkjt/DFumLe40e/ITQ==
+X-Received: by 2002:a05:6214:412:b0:815:7c28:99c3 with SMTP id 6a1803df08f44-87b21014db7mr399547696d6.9.1760584138214;
         Wed, 15 Oct 2025 20:08:58 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87c012a39d9sm30824986d6.44.2025.10.15.20.08.58
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87c012a39d9sm30824986d6.44.2025.10.15.20.08.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 20:08:58 -0700 (PDT)
+        Wed, 15 Oct 2025 20:08:56 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/11] kern-tools: fix symbol_why for v6.18-rc1+
-Date: Wed, 15 Oct 2025 23:08:43 -0400
-Message-Id: <2825ef5ac79081dd3f980ba39155c628783709fa.1760583881.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 09/11] linux-yocto/6.16: genericarm64: feature splits and enablement
+Date: Wed, 15 Oct 2025 23:08:42 -0400
+Message-Id: <d5ce29eec099450ee58496bb57f675f773554ee2.1760583881.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1760583881.git.bruce.ashfield@gmail.com>
 References: <cover.1760583881.git.bruce.ashfield@gmail.com>
@@ -69,87 +69,98 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Oct 2025 03:09:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224925
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224924
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-commit f589e1df23251d8319063da0a61c1016b2a0bf85 (HEAD -> master)
-Author: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date:   Wed Oct 15 18:12:20 2025 -0400
+Integrating the following commit(s):
 
-    tools/Kconfiglib: add support for transitional attribute
+    9e0a3e81 genericarm64.cfg: enable more power, reset drivers
+    0293b84e genericarm64.cfg: enable MFD_KHADAS_MCU
+    f9c89a33 genericarm64-regulator.cfg: enable more drivers
+    01af8892 genericarm64.cfg: enable more IRQCHIP support
+    96bf1e51 genericarm64.scc: enable USB serial support
+    dc7502db genericarm64.cfg: improve SATA support
+    e85415a3 genericarm64.cfg: improve input device support
+    cb734447 genericarm64.cfg: enable more Hisilicon PCI drivers
+    362c7b10 genericarm64.cfg: enable USB_CHIPIDEA_NPCM
+    c9127be9 genericarm64.cfg: enable EXTCON_USBC_CROS_EC
+    3836443f genericarm64.cfg: improve PHY support
+    a25d50d8 genericarm64-clock.cfg: improve Qualcomm, Renesas etc clock driver support
+    5e47e723 usb-net.cfg: add USB_LAN78XX
+    e5be3915 genericarm64-clock.cfg: add more Renesas support
+    8d1d61f1 genericarm64.cfg: improve Renesas pmdomain support
+    89d463fc genericarm64.cfg: enable UACCE
+    18251d7d genericarm64.cfg: more MTD CFI etc support
+    070f72bc genericarm64.cfg: enable PCIe error reporting
+    dfa6ca16 genericarm64.cfg: add more ethernet support
+    5821cdf3 genericarm64.scc: add genericarm64-rtc.cfg and enable more HW support
+    e9847838 genericarm64.cfg: enable Chrome OS platform drivers
+    549b8af0 genericarm64.scc: enable Mellanox ethernet support
+    5e172179 mellanox.scc: add network driver feature
+    27eaec09 genericarm64.cfg: improve USB_DWC3 support
+    c543148b genericarm64.cfg: improve TYPEC_MUX support
+    62b093b3 genericarm64.scc: enable exFAT support
+    360d572b cfg/fs/exfat.scc: add config feature
+    8be64103 genericarm64.cfg: add more USB 3.0 and basic 2.0 support
+    48e00648 genericarm64-arch.cfg: enable more Renesas support
+    cef54e58 genericarm64.cfg: enable ARM_PSCI_FW support
+    129993c7 genericarm64.cfg: enable more TPM and FFA support
+    8cd8cb12 genericarm64.cfg: enable TCG_TIS as module
+    be840fc8 genericarm64.cfg: enable ZYNQMP_FIRMWARE
+    9f94acee genericarm64.cfg: enable COMMON_CLK_ZYNQMP
+    10a0e7c7 genericarm64.cfg: enable DMI_SYSFS
+    705cae9a genericarm64.scc: enable efi-test.scc
+    08fd4f23 efi-test: add config fragment for EFI test interface
+    98178196 genericarm64.cfg: enable ARM_PSCI_CPUIDLE_DOMAIN
 
-    We need to update the parser to handle:
-
-    commit f9afce4f32e9a120fc902fa6c9e0b90ad799a6ec
-    Author: Kees Cook <kees@kernel.org>
-    Date:   Tue Sep 23 14:34:18 2025 -0700
-
-        kconfig: Add transitional symbol attribute for migration support
-
-        During kernel option migrations (e.g. CONFIG_CFI_CLANG to CONFIG_CFI),
-        existing .config files need to maintain backward compatibility while
-        preventing deprecated options from appearing in newly generated
-        configurations. This is challenging with existing Kconfig mechanisms
-        because:
-
-        1. Simply removing old options breaks existing .config files.
-        2. Manually listing an option as "deprecated" leaves it needlessly
-           visible and still writes them to new .config files.
-        3. Using any method to remove visibility (.e.g no 'prompt', 'if n',
-           etc) prevents the option from being processed at all.
-
-        Add a "transitional" attribute that creates symbols which are:
-        - Processed during configuration (can influence other symbols' defaults)
-        - Hidden from user menus (no prompts appear)
-        - Omitted from newly written .config files (gets migrated)
-        - Restricted to only having help sections (no defaults, selects, etc)
-          making it truly just a "prior value pass-through" option.
-
-        The transitional syntax requires a type argument and prevents type
-        redefinition:
-
-            config NEW_OPTION
-                bool "New option"
-                default OLD_OPTION
-
-            config OLD_OPTION
-                bool
-                transitional
-                help
-                  Transitional config for OLD_OPTION migration.
-
-        This allows seamless migration: olddefconfig processes existing
-        CONFIG_OLD_OPTION=y settings to enable CONFIG_NEW_OPTION=y, while
-        CONFIG_OLD_OPTION is omitted from newly generated .config files.
-
-        Added positive and negative testing via "testconfig" make target.
-
-        Co-developed-by: Vegard Nossum <vegard.nossum@oracle.com>
-        Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-        Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-        Tested-by: Nathan Chancellor <nathan@kernel.org>
-        Link: https://lore.kernel.org/r/20250923213422.1105654-2-kees@kernel.org
-        Signed-off-by: Kees Cook <kees@kernel.org>
-
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.16.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index 84b8b10a26..9240ee5db8 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+index 9c1752d179..d1f7e76501 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.16.bb
+@@ -15,7 +15,7 @@ python () {
+ }
  
- DEPENDS += "git-replacement-native"
+ SRCREV_machine ?= "c31e0cb82247b36842209614bb72af9127ef2471"
+-SRCREV_meta ?= "2581b577580a3432c267877d9800bdb88f0e85aa"
++SRCREV_meta ?= "9e0a3e81b40db2b35e060ef001b3902a6a0996ac"
  
--SRCREV = "fe67c98d2e9b74af44d0c4b660fa18e3a95e7edd"
-+SRCREV = "f589e1df23251d8319063da0a61c1016b2a0bf85"
- PV = "0.3+git"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.16;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+index c0dbec8b29..ef904adad4 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.16.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
- inherit native
+ SRCREV_machine ?= "42ddd61a7bcedefc5eaedb89e91dcec7061e78ce"
+-SRCREV_meta ?= "2581b577580a3432c267877d9800bdb88f0e85aa"
++SRCREV_meta ?= "9e0a3e81b40db2b35e060ef001b3902a6a0996ac"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.16.bb b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+index 81f37c8d8a..2188c7fed2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.16.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.16.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "42ddd61a7bcedefc5eaedb89e91dcec7061e78ce"
+ SRCREV_machine:qemux86-64 ?= "42ddd61a7bcedefc5eaedb89e91dcec7061e78ce"
+ SRCREV_machine:qemumips64 ?= "9fb4ff0187c85426f21fd40d4c61b742800f65c4"
+ SRCREV_machine ?= "42ddd61a7bcedefc5eaedb89e91dcec7061e78ce"
+-SRCREV_meta ?= "2581b577580a3432c267877d9800bdb88f0e85aa"
++SRCREV_meta ?= "9e0a3e81b40db2b35e060ef001b3902a6a0996ac"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.39.2
 
