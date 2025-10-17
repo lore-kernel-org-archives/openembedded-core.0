@@ -2,243 +2,181 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2331CCD1A4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF8D3CCD1A5
 	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 20:39:43 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.3123.1760733576527625863
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.3209.1760733578260055029
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 13:39:36 -0700
+ Fri, 17 Oct 2025 13:39:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pxQeNIkD;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so2429476b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 13:39:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uNqfW6qJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-78af3fe5b17so2053086b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 13:39:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760733576; x=1761338376; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760733577; x=1761338377; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2zDgawpPAavs3NmSyipQJwxq4H7zzxmRbs1axoU6Z+g=;
-        b=pxQeNIkDzCNSjteOEK92NxxsszJZqMje5VH7N1+2hM6G7+GwWRJkOtr7JeL4bYda06
-         f6WKrCoXDlNXCMRskK+4yHwk34FkmSaa+X10fbSaALfokkSOHXTNrXJ06me7wZnlpbkl
-         4rTVlxZQpf5ceyccES8iOy03A32zfCEjDPbKHno9G58qm04MklwM0MQUFU0PTJ1sX/fV
-         v4pFzONkbQwJpToPlZjV0KoyGHVwwSl23C7lregghCotexrlBnHFEV0emr2xbpfi6kpN
-         7Uy6V9DoIh257tYSdj5bPK2t9G6KQUK/Svhhtfzk0bHeRXQWt9a0MjmUx4Fq4/6fQp81
-         pQ4Q==
+        bh=yOKds5m9MT6qqX4fkFPPgMrXpG0Jy83Lf34+PfG0lIU=;
+        b=uNqfW6qJ8nC4eCpDalOxwMaRVGvGoc0SpmfTcVnrccKyPO1iYUwgE7WY/uaBeGO59q
+         oFS8c3ZTy8OPi9a9dlND95vz4KFZqY4z18haCi8HD42DxCd415V8VimYBzMg/GFxGVF9
+         JFnUeMAFEDgmqg/xx/WDcdu90SY31dQeiBqoWJdSoe6vDkURAu+81/NTmnhmHc/sdgHM
+         fZG0NW9/693CPo4+cmf3L/NzJdi4fjfVsNErmH3QxK6hG546tE5yq2fAd+iZ43NZUHdU
+         pRvU/byF8SbDkbBY6t8ZR4a+NaRO4Fh3unOUfO5wyRUL61rVA6fQ/hgTVbi50KWwY3d8
+         of1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760733576; x=1761338376;
+        d=1e100.net; s=20230601; t=1760733577; x=1761338377;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2zDgawpPAavs3NmSyipQJwxq4H7zzxmRbs1axoU6Z+g=;
-        b=vTKbCbXdwmp+JGaSQcwv9Edfhcxuo0yufT5Yxa1zSPs6hcvnZExahvbzrJM9Rejj5N
-         oudC3GQ2Rjv1jnD9AfbtoJ2RwxwxanJYC2trnYLJ/fBOABNwhmIoeONEGdMVs5jwMtvT
-         3W//55AwS2ikGYy2XGSJzE0IF3R1qtyQ6q4UsJbaRfvzkleyNhWyn8FVRtNv9hk1B2Wi
-         Fh5czgowSAlR1y0Mg9B75RSVPBEImaN4lDOIP+7wbJKhtpcMBXznMQBxB0AFY/EMYRdg
-         ySTyWqxvMz7832U+MOh9gos6ObeebkYPhcKZbq52vrcGelEa+cCJkIprtYuCsJh+cceq
-         ZiiQ==
-X-Gm-Message-State: AOJu0YwnuOlr33t6KdAFOeT1vCSAa1YauJJZbwNSGmvp0AAhEJnT2kAn
-	ckPFYWpwqRd0yy6QBE94h4PYRPgP9A9fscIaNP92Qe4ns1IvXJxhyZvv+Vfo5LWefaxIQWqwwCa
-	bh9zgQ2o=
-X-Gm-Gg: ASbGncuyQ7czQrI8lK2Pb5m+ijSigUOd+ubD3F4OSmJFowdDKohTaVtjwotM4+mPuPX
-	ZuRuno1OJPiT1AivjKrm/Ztig9k6ya4pcGfN+zsqQ6BjsOzc0MhuX/tGjY7v19oBt0/qofeyAlR
-	5qw1yAI65PjFJ0t222A/A7dZCu+r+RNvrOgme/2FJmabsMpLzVxD2Kfg+38sGdS/rNxQkDyKfDp
-	G2AoriwWuffZWh+iVa6RZqGLada7w85EPMqdClNgzPwGFN7hs0RJ7oUlvngVLw7aNgo7Q31DrgK
-	ROjCRmvvCCi/mhbZMShBxsnGrYb9fIZHlX4PzvH6mJJXALUYHicNghdbWmgh6FmFLKUm7SOzD7R
-	lqMrT8zC4qiPln52v72SycnEzJ71xL7HlDaz2AIIQkvcnTqJ6uMWLMHfuzqWwjfXGVA==
-X-Google-Smtp-Source: AGHT+IHNobb8DW+i11th+FOSlM4IqG76bP/S4f+d/T2IKqv55vP3Ahid40iURn9Wxt/JqT4jLOmTsg==
-X-Received: by 2002:a05:6a00:2d01:b0:774:615b:c8ad with SMTP id d2e1a72fcca58-7a220a4a54bmr5713507b3a.9.1760733575664;
-        Fri, 17 Oct 2025 13:39:35 -0700 (PDT)
+        bh=yOKds5m9MT6qqX4fkFPPgMrXpG0Jy83Lf34+PfG0lIU=;
+        b=ouYzbENm74y60VXCbo3Dvd5n+Fkn9JZqkrTROhx3mblHIS1+WRvCAM1jIvmY6KEmU2
+         ITGUMxGmJwE5ljVBQA3NiXAzHLW04hCkZ3gTg5kddXMHHrWil0IUW5TvsMuL+b2vxru/
+         lWuuQN27QqBmMrEEV9BJlU0IE+I6/79I2g83uS35FxpZ3EqKHjHyzUiMX/bJbfTd9R9d
+         OsUypPf94ArqHGJW1hFTYYhjZppDjWLO0WnDWHgSj97r7r27D+bKQrXu+Go+oq/wp7CD
+         L+G1c6P4Qt9vOTnzHHUG6gAvX0Mb3aHyYWPnQcts+hEJhOXRvfdXWuW0OiwtGxQF+KcA
+         T+iw==
+X-Gm-Message-State: AOJu0YxxmbwRIQC74y3tNeezoRZUBqm1Z4AhPtXBsxdPYE75btGmQ9o+
+	Q1GwuULiNAem9IEya/ado76Diy6Ud+or8sMvdVQa2OCvYA81B5n8vfhCasc4M/pM/gj3ddGSARG
+	EfV7160U=
+X-Gm-Gg: ASbGncuuyfyGa6LBVXfZLfaQpdvUE4fQKiYvdgPmvbXZSPgh2YAB8yo39EmH/gYkNFk
+	saq8iQsVmmSvwT05hKOPOsYeQhwAKw3piQN4d+XKAdR5fVdIE6cMBGqEiBr0lQ2Gcr44p1pCc7o
+	Vl00mNHVH4YYK9gPtVlT02A5wIrPDJMcERm5q7HoPw1CpFtvbdk7fhW40bwvIL/a3yDi+RSsdbK
+	bg8f91Eys60a/inU/2gvEgKykN38D65vMM2/2DCQE6ETNIh46RaXOBjlIeAfs7jsAny9i2QzA/p
+	HNiuRfXikTHnAARLxtg0EjPlgZcSZYsUeMNCuSrA3F9NauL6EEjrMd+Eug/82scL7EgMOf5NyiA
+	wrJwnpWcgjlWoZh5J+a8xuKOSMAcPy7725JBmxOAvrlpOZlwjV4/tSjnlLH9BlDHuIn1P8Hm8O/
+	zr
+X-Google-Smtp-Source: AGHT+IEethqWfdNAshzYDy/fLX7emEBMXDdiMrykebSP8Ve45fnXYT7VAt5TX2ME9zc9eIbadvvm6w==
+X-Received: by 2002:aa7:888e:0:b0:781:17ee:602 with SMTP id d2e1a72fcca58-7a220b23bfdmr6295820b3a.28.1760733577477;
+        Fri, 17 Oct 2025 13:39:37 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:aaee:e640:34cd:6f2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a2300f254esm477061b3a.45.2025.10.17.13.39.34
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a2300f254esm477061b3a.45.2025.10.17.13.39.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 13:39:35 -0700 (PDT)
+        Fri, 17 Oct 2025 13:39:36 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/26] openssh: fix CVE-2025-61984
-Date: Fri, 17 Oct 2025 13:38:51 -0700
-Message-ID: <717d4c7609cdce2cc3a65b7ba69c316fa86a9333.1760733431.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 09/26] cmake: fix CVE-2025-9301
+Date: Fri, 17 Oct 2025 13:38:52 -0700
+Message-ID: <5d8a6fb52ca4a7641236712ba51cb322cb1f9f9d.1760733431.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1760733431.git.steve@sakoman.com>
 References: <cover.1760733431.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 20:39:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225042
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225043
 
-From: David Nyström <david.nystrom@est.tech>
-
-ssh in OpenSSH before 10.1 allows control characters in usernames that
-originate from certain possibly untrusted sources, potentially leading
-to code execution when a ProxyCommand is used. The untrusted sources
-are the command line and %-sequence expansion of a configuration file.
-
-Note:
-openssh does not support variable expansion until 10.0, so backport
-adapts for this.
+From: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-61984
+https://nvd.nist.gov/vuln/detail/CVE-2025-9301
+https://gitlab.kitware.com/cmake/cmake/-/issues/27135
 
-Upstream patch:
-https://github.com/openssh/openssh-portable/commit/35d5917652106aede47621bb3f64044604164043
+Upstream-patch:
+https://gitlab.kitware.com/cmake/cmake/-/commit/37e27f71bc356d880c908040cd0cb68fa2c371b8
 
-Signed-off-by: David Nyström <david.nystrom@est.tech>
+Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssh/openssh/CVE-2025-61984.patch      | 125 ++++++++++++++++++
- .../openssh/openssh_9.6p1.bb                  |   1 +
- 2 files changed, 126 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
+ .../cmake/cmake/CVE-2025-9301.patch           | 71 +++++++++++++++++++
+ meta/recipes-devtools/cmake/cmake_3.28.3.bb   |  1 +
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-devtools/cmake/cmake/CVE-2025-9301.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
+diff --git a/meta/recipes-devtools/cmake/cmake/CVE-2025-9301.patch b/meta/recipes-devtools/cmake/cmake/CVE-2025-9301.patch
 new file mode 100644
-index 0000000000..f705410b24
+index 0000000000..2d8974e394
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
-@@ -0,0 +1,125 @@
-+From d45e13c956b296bf933901c4da2b61eb2ccd7582 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Thu, 4 Sep 2025 00:29:09 +0000
-+Subject: [PATCH] upstream: Improve rules for %-expansion of username.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/cmake/cmake/CVE-2025-9301.patch
+@@ -0,0 +1,71 @@
++From 37e27f71bc356d880c908040cd0cb68fa2c371b8 Mon Sep 17 00:00:00 2001
++From: Tyler Yankee <tyler.yankee@kitware.com>
++Date: Wed, 13 Aug 2025 15:22:28 -0400
++Subject: [PATCH] foreach: Explicitly skip replay without iterations
 +
-+Usernames passed on the commandline will no longer be subject to
-+% expansion. Some tools invoke ssh with connection information
-+(i.e. usernames and host names) supplied from untrusted sources.
-+These may contain % expansion sequences which could yield
-+unexpected results.
++As written, foreach loops with a trailing `IN` (i.e., no loop
++variable(s) given) lead to an assertion error. Handle this case by
++exiting early when we know the loop won't execute anything.
 +
-+Since openssh-9.6, all usernames have been subject to validity
-+checking. This change tightens the validity checks by refusing
-+usernames that include control characters (again, these can cause
-+surprises when supplied adversarially).
++Fixes: #27135
 +
-+This change also relaxes the validity checks in one small way:
-+usernames supplied via the configuration file as literals (i.e.
-+include no % expansion characters) are not subject to these
-+validity checks. This allows usernames that contain arbitrary
-+characters to be used, but only via configuration files. This
-+is done on the basis that ssh's configuration is trusted.
++CVE: CVE-2025-9301
 +
-+Pointed out by David Leadbeater, ok deraadt@
++Upstream-Status: Backport
++https://gitlab.kitware.com/cmake/cmake/-/commit/37e27f71bc356d880c908040cd0cb68fa2c371b8
 +
-+OpenBSD-Commit-ID: e2f0c871fbe664aba30607321575e7c7fc798362
-+
-+Slightly modified since variable expansion of user names was
-+first released in 10.0, commit bd30cf784d6e8"
-+
-+Upstream-Status: Backport [Upstream commit https://github.com/openssh/openssh-portable/commit/35d5917652106aede47621bb3f64044604164043]
-+CVE: CVE-2025-61984
-+Signed-off-by: David Nyström <david.nystrom@est.tech>
++Signed-off-by: Tyler Yankee <tyler.yankee@kitware.com>
++Signed-off-by: Saravanan <saravanan.kadambathursubramaniyam@windriver.com>
 +---
-+ ssh.c | 26 +++++++++++++++++++++++---
-+ 1 file changed, 23 insertions(+), 3 deletions(-)
++ Source/cmForEachCommand.cxx                  | 3 +++
++ Tests/RunCMake/foreach/RunCMakeTest.cmake    | 1 +
++ Tests/RunCMake/foreach/TrailingIn-result.txt | 1 +
++ Tests/RunCMake/foreach/TrailingIn.cmake      | 5 +++++
++ 4 files changed, 10 insertions(+)
++ create mode 100644 Tests/RunCMake/foreach/TrailingIn-result.txt
++ create mode 100644 Tests/RunCMake/foreach/TrailingIn.cmake
 +
-+diff --git a/ssh.c b/ssh.c
-+index 48d93ddf2..9c49f98a8 100644
-+--- a/ssh.c
-++++ b/ssh.c
-+@@ -649,6 +649,8 @@ valid_ruser(const char *s)
-+ 	if (*s == '-')
-+ 		return 0;
-+ 	for (i = 0; s[i] != 0; i++) {
-++		if (iscntrl((u_char)s[i]))
-++			return 0;
-+ 		if (strchr("'`\";&<>|(){}", s[i]) != NULL)
-+ 			return 0;
-+ 		/* Disallow '-' after whitespace */
-+@@ -671,6 +673,7 @@ main(int ac, char **av)
-+ 	int i, r, opt, exit_status, use_syslog, direct, timeout_ms;
-+ 	int was_addr, config_test = 0, opt_terminated = 0, want_final_pass = 0;
-+ 	char *p, *cp, *line, *argv0, *logfile;
-++	int user_on_commandline = 0, user_was_default = 0;
-+ 	char cname[NI_MAXHOST], thishost[NI_MAXHOST];
-+ 	struct stat st;
-+ 	struct passwd *pw;
-+@@ -1016,8 +1019,10 @@ main(int ac, char **av)
-+ 			}
-+ 			break;
-+ 		case 'l':
-+-			if (options.user == NULL)
-++			if (options.user == NULL) {
-+ 				options.user = optarg;
-++				user_on_commandline = 1;
-++			}
-+ 			break;
-+ 
-+ 		case 'L':
-+@@ -1120,6 +1125,7 @@ main(int ac, char **av)
-+ 			if (options.user == NULL) {
-+ 				options.user = tuser;
-+ 				tuser = NULL;
-++				user_on_commandline = 1;
-+ 			}
-+ 			free(tuser);
-+ 			if (options.port == -1 && tport != -1)
-+@@ -1134,6 +1140,7 @@ main(int ac, char **av)
-+ 				if (options.user == NULL) {
-+ 					options.user = p;
-+ 					p = NULL;
-++					user_on_commandline = 1;
-+ 				}
-+ 				*cp++ = '\0';
-+ 				host = xstrdup(cp);
-+@@ -1288,8 +1295,10 @@ main(int ac, char **av)
-+ 	if (fill_default_options(&options) != 0)
-+ 		cleanup_exit(255);
-+ 
-+-	if (options.user == NULL)
-++	if (options.user == NULL) {
-++		user_was_default = 1;
-+ 		options.user = xstrdup(pw->pw_name);
-++	}
-+ 
-+ 	/*
-+ 	 * If ProxyJump option specified, then construct a ProxyCommand now.
-+@@ -1430,11 +1439,22 @@ main(int ac, char **av)
-+ 	    options.host_key_alias : options.host_arg);
-+ 	cinfo->host_arg = xstrdup(options.host_arg);
-+ 	cinfo->remhost = xstrdup(host);
-+-	cinfo->remuser = xstrdup(options.user);
-+ 	cinfo->homedir = xstrdup(pw->pw_dir);
-+ 	cinfo->locuser = xstrdup(pw->pw_name);
-+ 	cinfo->jmphost = xstrdup(options.jump_host == NULL ?
-+ 	    "" : options.jump_host);
++diff --git a/Source/cmForEachCommand.cxx b/Source/cmForEachCommand.cxx
++index 21a140d0..23f953a5 100644
++--- a/Source/cmForEachCommand.cxx
+++++ b/Source/cmForEachCommand.cxx
++@@ -101,6 +101,9 @@ bool cmForEachFunctionBlocker::ArgumentsMatch(cmListFileFunction const& lff,
++ bool cmForEachFunctionBlocker::Replay(
++   std::vector<cmListFileFunction> functions, cmExecutionStatus& inStatus)
++ {
+++  if (this->Args.size() == this->IterationVarsCount) {
+++    return true;
+++  }
++   return this->ZipLists ? this->ReplayZipLists(functions, inStatus)
++                         : this->ReplayItems(functions, inStatus);
++ }
++diff --git a/Tests/RunCMake/foreach/RunCMakeTest.cmake b/Tests/RunCMake/foreach/RunCMakeTest.cmake
++index 15ca4770..acfc742e 100644
++--- a/Tests/RunCMake/foreach/RunCMakeTest.cmake
+++++ b/Tests/RunCMake/foreach/RunCMakeTest.cmake
++@@ -22,3 +22,4 @@ run_cmake(foreach-RANGE-invalid-test)
++ run_cmake(foreach-RANGE-out-of-range-test)
++ run_cmake(foreach-var-scope-CMP0124-OLD)
++ run_cmake(foreach-var-scope-CMP0124-NEW)
+++run_cmake(TrailingIn)
++diff --git a/Tests/RunCMake/foreach/TrailingIn-result.txt b/Tests/RunCMake/foreach/TrailingIn-result.txt
++new file mode 100644
++index 00000000..573541ac
++--- /dev/null
+++++ b/Tests/RunCMake/foreach/TrailingIn-result.txt
++@@ -0,0 +1 @@
+++0
++diff --git a/Tests/RunCMake/foreach/TrailingIn.cmake b/Tests/RunCMake/foreach/TrailingIn.cmake
++new file mode 100644
++index 00000000..e2b5b2f2
++--- /dev/null
+++++ b/Tests/RunCMake/foreach/TrailingIn.cmake
++@@ -0,0 +1,5 @@
+++foreach(v IN)
+++endforeach()
 ++
-++	/*
-++	 * Usernames specified on the commandline must be validated.
-++	 * Conversely, usernames from getpwnam(3) or specified as literals
-++	 * via configuration (i.e. not expanded) are not subject to validation.
-++	 */
-++	if (user_on_commandline && !valid_ruser(options.user))
-++		fatal("remote username contains invalid characters");
-++
-++	/* Store it and calculate hash. */
-++	cinfo->remuser = xstrdup(options.user);
-++
-+ 	cinfo->conn_hash_hex = ssh_connection_hash(cinfo->thishost,
-+ 	    cinfo->remhost, cinfo->portstr, cinfo->remuser, cinfo->jmphost);
-+ 
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index bdb8a1599b..1cdd888ccb 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2025-26465.patch \
-            file://CVE-2025-32728.patch \
-            file://CVE-2025-61985.patch \
-+           file://CVE-2025-61984.patch \
-            "
- SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
+++foreach(v1 v2 IN)
+++endforeach()
++-- 
++2.44.3
++
+diff --git a/meta/recipes-devtools/cmake/cmake_3.28.3.bb b/meta/recipes-devtools/cmake/cmake_3.28.3.bb
+index 2d47b4c027..1841bfd1cf 100644
+--- a/meta/recipes-devtools/cmake/cmake_3.28.3.bb
++++ b/meta/recipes-devtools/cmake/cmake_3.28.3.bb
+@@ -11,6 +11,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://cmake-setup.py \
+     file://environment.d-cmake.sh \
+ "
++SRC_URI += "file://CVE-2025-9301.patch"
  
+ LICENSE:append = " & BSD-1-Clause & MIT"
+ LIC_FILES_CHKSUM:append = " \
 -- 
 2.43.0
 
