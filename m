@@ -2,174 +2,181 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B065DCCD195
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1506CCD1A4
 	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 20:39:23 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.3198.1760733559207256771
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.3200.1760733561412080585
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 13:39:19 -0700
+ Fri, 17 Oct 2025 13:39:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gAE4pygj;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-781db5068b8so1988779b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 13:39:19 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wbkoup/M;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7841da939deso2317310b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 13:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760733558; x=1761338358; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a8gbPg31SAXG4RiyOelWNCX8oas0lljBCd0jbGlU/54=;
-        b=gAE4pygjoN9N10aPyQ6PqJ2DPY8VbxtCKYzgL0+Vtwx79DgSPGfWe26BvoVTQeQrc3
-         kj6awmixnY2ShBH6VJNbwKIIDW1a9Zcjxx+AGhZg7cBAHgoyo9LIqTEHqaLTl2CV0D0B
-         qTjMCGUYVrhl2gKhlDNIdUDYeXBKOrcwXyV6wC2HS9g1xquKwlSOUDxlSlqT6Bid1sV4
-         eLSI+nNGbUyARvKSnzZTS7Vhk66b8eAx/uzP3IbsVao3cZe1k/X2lyrTjGiXBYRA+0qg
-         J+AKSDR6uKPA0m43nDOBHi03Tm7fBxl671uOFoO4Gd/Be1qS7yd+OkhdNxYklagM3y2Y
-         K0Ww==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1760733560; x=1761338360; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KZc6cBjbqXIOKjsfZoTQorsImsHPejnobo7+vzkiX50=;
+        b=wbkoup/MnobEFANUcHMcGNJ02YF5rwxs+rV2q5aRDOdSrhlZDXv2biQB6+MMfJ3cXi
+         xUJSQKrdiwYEEa/9O/H6ACZRZK9hZMM0TjI8JrKh4j2+t+XlHzSDwZDnA3KZYJDCxgMX
+         ZqqJGgaR6nyrBXAJgqU/hfha7lRp5+FPH9501TxOJDJFALBxTbEirIFMilRk88Vtc+tB
+         FEuG6nYTaMS/jYvDdZzOkDx7PUIo9yhB/qNux17kmWdSCQeuSQoiP1KlLrankA2EvxHb
+         FVJ2fGFvLJkqAW+jSjpBQZmf82FRJpd4ewZ9VWm3xAT5PkpxFUJn6fOb/Zal5bFYMbNr
+         6jmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760733558; x=1761338358;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a8gbPg31SAXG4RiyOelWNCX8oas0lljBCd0jbGlU/54=;
-        b=efSxO2bziA3rnN561TWOlaoN7JSGEbiLSkV+cOkw0GTTs+NEMZ6rmZwnvctVfY1wiH
-         NOsgBcilC7pwIyoecBbFt/RcVGxxvb/xVh1SirJ5NGb22ScPmaqh7jfbH3dcSmnRxj0Z
-         rsQnfb0/InIYYm0XZJhFnCiXNTbCvjW1DiQlTXQrh9HfiLIChz9K+besi8pPzeBCWS/g
-         4j3NCF+dX2yk2genJVJUlqximAfqgfQ4yI8K7s+vzmrJ+rq5In3cLNFKhsmgZZNQY/2D
-         /le+cW0CN170STGupakMm28x8cGHNUh8RNTdaKgwScVEQNiKA2mylWFZRtOEHvrgcE+L
-         64+w==
-X-Gm-Message-State: AOJu0YxCwPUn1PYkMRZlqjF/KL52yIpzGoOyy3bikJsg+06kgsOvBIHC
-	X3uXgK0yyZOYFk6ivvtkn045AsRBfqEC3M+UDpaoM/WdeLW208Rsu1CNreGCeEOlSdSzuRYvh/w
-	jxq5TLUs=
-X-Gm-Gg: ASbGnctsQlyllmET1WojiBIrrylOkWdeqikomic+F0IRsiXEfkVTLYJwt69OskOQCsK
-	WZlBpBn2oSrvfzbd/CEr171kowXl4BKzHpKHheEMbsNjOeasmciSfkXst1LhWfGgA5fzaO2Dzoj
-	at2vDJBiv5PlTI6LymwVwmAm0lH2bbrlIlbGuDcUnAB3mHHHNW5Xu7gRLyYHG5qD2snskNT6wZL
-	hpf2OvbLE+dHm6FXmycKGvRiCkXfiQtbp6NPIsXB9N04K1BVS5TOKGhn4rET74gLizhgPC3GJdj
-	uZwQPsQa5ihGI6gpXL7UMB+Z2hQs12TBobZRfEveFD4hpRDhr0Gd6h7WkvFTClEPQ6q4v3BDL9S
-	N4QS4lQrTeN0MwMIBSVmnh9q4hqPG5WucTLa04MKRSM3igu6UtKZ4944oiabZhbD4SSaPcASFCn
-	Ma
-X-Google-Smtp-Source: AGHT+IEqHDAWFR+9iwd7NE2WnTmw06g4mO9gnwoaigf/nBAuRWiOoXF9PyfqxbylukqBJjMfJswGxg==
-X-Received: by 2002:a05:6a00:1895:b0:77d:13e3:cd08 with SMTP id d2e1a72fcca58-7a220a31668mr6031697b3a.5.1760733558315;
-        Fri, 17 Oct 2025 13:39:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760733560; x=1761338360;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KZc6cBjbqXIOKjsfZoTQorsImsHPejnobo7+vzkiX50=;
+        b=ThqgB+82XsFea5fby+xCNVN7tZPnKpbP7o1EmD6umOW/NfZURzuISOZgKcHy4ems6L
+         MVrStBOA7JTes1wHJIltBc7EyB4g4skFjfB6NTZaScBiHkmB1Z3TXKLzUrduO+NsAY4l
+         YC0A9CfqnllJPKZPozjyy3Bv8TDpO1QcZUVr754mFSi88KRj/pmh6f+Js+MlQLHVmDFw
+         wuVyV/VMomp47pRwmkFHpgqzMzVSydLMFGKSL5EQm7Og+ILT1dGNVkfd/ffyi9k2K6pe
+         vjPRfDJL1bgEKB4n4zIjVCOW1VsBPcJwZJmRgBZum2gZD5oKsakil4KsE75wYn1ehK9t
+         Ygzg==
+X-Gm-Message-State: AOJu0YzfbnPQL5e3QAQPNDdX4M0FuKqLI6QG7fMSMkrCVcf5DoKgMXak
+	/L2voMDzLy6oYg0iMm+MNtCtZmBUtGlWzPYlgNWOLAzg3XSFTU3hMkPhh7m53kRRn3JrKW5ZCla
+	29g0Ecqs=
+X-Gm-Gg: ASbGncuP/aGC2J656VMWiM/amPd6pd8J772teifyDLeHl8yRGTQzB/F1PHYXBtxYRd2
+	3eua5yLDpLcvg5NHMwyOCkmQKLhNMVrvVbtf7s2YMRXUX2Enem7WK+3DgOekvCn2omQXwApVq5+
+	pOKr+fXCWL0b1+zd3iK2LKIQI8QpgsvnchGrFDs7WC3opnMlZqLi/+OwGLzKULT/LbqmaHxh6To
+	F8D3wH+ogk3W/jAzzWg4oL6K2JEF/h6nyqdr+Fq0ZW1gefcep8ZMC2PpmlhmA4paCnXuoDPvmtR
+	sHBIGRe1h7ERtvq+sPWit/5jWLQoYVvkUFE0XLmMU7wd1mcFC/KUejNMDzgbJE9ciHx97Y/6C/L
+	STq+uJ3ejvFs4xbu4fW3zIep3QyGuKq/AWaBcmsqU2KJ/NjkyGuZh+ugX5Gc29D7dow==
+X-Google-Smtp-Source: AGHT+IFO6+acawB6sAicRkFKex2wZQb+qT9hDKe6DiVrBNaxO2AdZCe3QsDZ8sBT0GtR0o0COcDahg==
+X-Received: by 2002:a05:6a00:94c3:b0:792:2dd9:d8e9 with SMTP id d2e1a72fcca58-7a2208fe6camr7163166b3a.4.1760733560542;
+        Fri, 17 Oct 2025 13:39:20 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:aaee:e640:34cd:6f2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a2300f254esm477061b3a.45.2025.10.17.13.39.17
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a2300f254esm477061b3a.45.2025.10.17.13.39.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 13:39:17 -0700 (PDT)
+        Fri, 17 Oct 2025 13:39:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/26] Patch review
-Date: Fri, 17 Oct 2025 13:38:43 -0700
-Message-ID: <cover.1760733431.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 01/26] qemu: patch CVE-2024-8354
+Date: Fri, 17 Oct 2025 13:38:44 -0700
+Message-ID: <4bab523ed8ee34e8c09deb631fc82417aa0784b9.1760733431.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1760733431.git.steve@sakoman.com>
+References: <cover.1760733431.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 20:39:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225034
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225035
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Tuesday, October 21
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+Pick commit per [1].
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/2608
+[1] https://security-tracker.debian.org/tracker/CVE-2024-8354
 
-The following changes since commit 7af6b75221d5703ba5bf43c7cd9f1e7a2e0ed20b:
-
-  build-appliance-image: Update to scarthgap head revision (2025-10-13 12:47:05 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Bruce Ashfield (12):
-  linux-yocto/6.6: update to v6.6.98
-  linux-yocto/6.6: update to v6.6.99
-  linux-yocto/6.6: update to v6.6.100
-  linux-yocto/6.6: update to v6.6.101
-  linux-yocto/6.6: update to v6.6.102
-  linux-yocto/6.6: update to v6.6.103
-  linux-yocto/6.6: update to v6.6.106
-  linux-yocto/6.6: update to v6.6.107
-  linux-yocto/6.6: update to v6.6.108
-  linux-yocto/6.6: update to v6.6.109
-  linux-yocto/6.6: update to v6.6.110
-  linux-yocto/6.6: update to v6.6.111
-
-Carlos Alberto Lopez Perez (1):
-  icu: Backport patch to fix build issues with long paths (>512 chars)
-
-David Nyström (2):
-  openssh: fix CVE-2025-61985
-  openssh: fix CVE-2025-61984
-
-Deepesh Varatharajan (1):
-  glibc: stable 2.39 branch updates
-
-Michael Haener (1):
-  oeqa/runtime/ping: don't bother trying to ping localhost
-
-Peter Marko (5):
-  qemu: patch CVE-2024-8354
-  binutils: patch CVE-2025-11082
-  binutils: patch CVE-2025-11083
-  gnupg: mark CVE-2025-30258 as patched
-  python3: upgrade 3.12.11 -> 3.12.12
-
-Rajeshkumar Ramasamy (2):
-  glib-networking: fix CVE-2025-60018
-  glib-networking: fix CVE-2025-60019
-
-Saravanan (2):
-  python3-xmltodict: fix CVE-2025-9375
-  cmake: fix CVE-2025-9301
-
- meta/lib/oeqa/runtime/cases/ping.py           |   7 +
- .../openssh/openssh/CVE-2025-61984.patch      | 125 ++++++++++
- .../openssh/openssh/CVE-2025-61985.patch      |  47 ++++
- .../openssh/openssh_9.6p1.bb                  |   2 +
- .../glib-networking/CVE-2025-60018.patch      |  83 +++++++
- .../glib-networking/CVE-2025-60019.patch      | 147 ++++++++++++
- .../glib-networking/glib-networking_2.78.1.bb |   2 +
- meta/recipes-core/glibc/glibc-version.inc     |   4 +-
- .../binutils/binutils-2.42.inc                |   2 +
- .../binutils/0024-CVE-2025-11082.patch        |  46 ++++
- .../binutils/0025-CVE-2025-11083.patch        |  77 ++++++
- .../cmake/cmake/CVE-2025-9301.patch           |  71 ++++++
- meta/recipes-devtools/cmake/cmake_3.28.3.bb   |   1 +
- .../python3-xmltodict/CVE-2025-9375-1.patch   | 111 +++++++++
- .../python3-xmltodict/CVE-2025-9375-2.patch   | 176 ++++++++++++++
- .../python/python3-xmltodict_0.13.0.bb        |   2 +
- ...e-treat-overflow-in-UID-GID-as-failu.patch |   2 +-
- .../python/python3/CVE-2025-8194.patch        | 219 ------------------
- ...{python3_3.12.11.bb => python3_3.12.12.bb} |   3 +-
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2024-8354.patch             |  75 ++++++
- .../linux/linux-yocto-rt_6.6.bb               |   6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 +--
- meta/recipes-support/gnupg/gnupg_2.4.8.bb     |   1 +
- ...813_rise_buffer_sizes_pkgdata_PR3058.patch |  72 ++++++
- meta/recipes-support/icu/icu_74-2.bb          |   1 +
- test                                          |   0
- 28 files changed, 1073 insertions(+), 244 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2025-61985.patch
- create mode 100644 meta/recipes-core/glib-networking/glib-networking/CVE-2025-60018.patch
- create mode 100644 meta/recipes-core/glib-networking/glib-networking/CVE-2025-60019.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0024-CVE-2025-11082.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0025-CVE-2025-11083.patch
- create mode 100644 meta/recipes-devtools/cmake/cmake/CVE-2025-9301.patch
- create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-1.patch
- create mode 100644 meta/recipes-devtools/python/python3-xmltodict/CVE-2025-9375-2.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2025-8194.patch
- rename meta/recipes-devtools/python/{python3_3.12.11.bb => python3_3.12.12.bb} (99%)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2024-8354.patch             | 75 +++++++++++++++++++
+ 2 files changed, 76 insertions(+)
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-8354.patch
- create mode 100644 meta/recipes-support/icu/icu/ICU-22813_rise_buffer_sizes_pkgdata_PR3058.patch
- create mode 100644 test
 
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 220f0a161c..60d372fce0 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -41,6 +41,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0001-sched_attr-Do-not-define-for-glibc-2.41.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
++           file://CVE-2024-8354.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-8354.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-8354.patch
+new file mode 100644
+index 0000000000..5472efcd09
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-8354.patch
+@@ -0,0 +1,75 @@
++From 746269eaae16423572ae7c0dfeb66140fa882149 Mon Sep 17 00:00:00 2001
++From: Peter Maydell <peter.maydell@linaro.org>
++Date: Mon, 15 Sep 2025 14:29:10 +0100
++Subject: [PATCH] hw/usb/hcd-uhci: don't assert for SETUP to non-0 endpoint
++
++If the guest feeds invalid data to the UHCI controller, we
++can assert:
++qemu-system-x86_64: ../../hw/usb/core.c:744: usb_ep_get: Assertion `pid == USB_TOKEN_IN || pid == USB_TOKEN_OUT' failed.
++
++(see issue 2548 for the repro case).  This happens because the guest
++attempts USB_TOKEN_SETUP to an endpoint other than 0, which is not
++valid.  The controller code doesn't catch this guest error, so
++instead we hit the assertion in the USB core code.
++
++Catch the case of SETUP to non-zero endpoint, and treat it as a fatal
++error in the TD, in the same way we do for an invalid PID value in
++the TD.
++
++This is the UHCI equivalent of the same bug in OHCI that we fixed in
++commit 3c3c233677 ("hw/usb/hcd-ohci: Fix #1510, #303: pid not IN or
++OUT").
++
++This bug has been tracked as CVE-2024-8354.
++
++Cc: qemu-stable@nongnu.org
++Fixes: https://gitlab.com/qemu-project/qemu/-/issues/2548
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++Reviewed-by: Michael Tokarev <mjt@tls.msk.ru>
++(cherry picked from commit d0af3cd0274e265435170a583c72b9f0a4100dff)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++CVE: CVE-2024-8354
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/746269eaae16423572ae7c0dfeb66140fa882149]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ hw/usb/hcd-uhci.c | 10 ++++++++--
++ 1 file changed, 8 insertions(+), 2 deletions(-)
++
++diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
++index 0561a6d801..8f4d6a0f71 100644
++--- a/hw/usb/hcd-uhci.c
+++++ b/hw/usb/hcd-uhci.c
++@@ -722,6 +722,7 @@ static int uhci_handle_td(UHCIState *s, UHCIQueue *q, uint32_t qh_addr,
++     bool spd;
++     bool queuing = (q != NULL);
++     uint8_t pid = td->token & 0xff;
+++    uint8_t ep_id = (td->token >> 15) & 0xf;
++     UHCIAsync *async;
++ 
++     async = uhci_async_find_td(s, td_addr);
++@@ -765,9 +766,14 @@ static int uhci_handle_td(UHCIState *s, UHCIQueue *q, uint32_t qh_addr,
++ 
++     switch (pid) {
++     case USB_TOKEN_OUT:
++-    case USB_TOKEN_SETUP:
++     case USB_TOKEN_IN:
++         break;
+++    case USB_TOKEN_SETUP:
+++        /* SETUP is only valid to endpoint 0 */
+++        if (ep_id == 0) {
+++            break;
+++        }
+++        /* fallthrough */
++     default:
++         /* invalid pid : frame interrupted */
++         s->status |= UHCI_STS_HCPERR;
++@@ -814,7 +820,7 @@ static int uhci_handle_td(UHCIState *s, UHCIQueue *q, uint32_t qh_addr,
++             return uhci_handle_td_error(s, td, td_addr, USB_RET_NODEV,
++                                         int_mask);
++         }
++-        ep = usb_ep_get(dev, pid, (td->token >> 15) & 0xf);
+++        ep = usb_ep_get(dev, pid, ep_id);
++         q = uhci_queue_new(s, qh_addr, td, ep);
++     }
++     async = uhci_async_alloc(q, td_addr);
 -- 
 2.43.0
 
