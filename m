@@ -1,130 +1,101 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B469CCD195
-	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 17:14:12 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.22104.1760721250042323326
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E69ACCCD195
+	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 18:18:52 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web10.432.1760725123275740985
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Oct 2025 10:14:11 -0700
+ Fri, 17 Oct 2025 11:18:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=cIR/JNAy;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20251017171406df9fd4c6f50002076d-uvxied@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20251017171406df9fd4c6f50002076d
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 17 Oct 2025 19:14:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=gzx2hPO7/LxdUp4C+RJnUm4exnz5UELY18jaMEvNy7Q=;
- b=cIR/JNAyEqPpqcQR/nAErPogsZCY4+J35bW6SEErVEu/vxw/ZVAA0gp+vejHM656JEfZLN
- x9GO1REapxC1hC0n1/6z6lDr0vqA5gu/m5DdLb0O5L2eLdKqiOPj3zdcjQ9K9QaZm7+6Mq9e
- hlbYJPE7EnM00YLvJcUJxPzQK13IYrrCgkdsut/zJGv/4guR391Osrc0p7Zu6ub6whjkSqha
- /Ghjma/uu38gjbY6wRuQo8UQUBGMlpZA+X4hohlKRhLSBCLjZq0gTffwc0kZ0kf499OrNgfH
- UyNNStB99L87QunPGAhb7fjCjC+fX6qu8N935XdbfEQOEJtoz0/eFJpw==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] go: upgrade 1.25.2 -> 1.25.3
-Date: Fri, 17 Oct 2025 19:14:02 +0200
-Message-Id: <20251017171402.166115-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cuo6AnTo;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-78f75b0a058so29346176d6.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 11:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760725122; x=1761329922; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kl1A+Hor4KPKouJogGf+dkZAaXVVTYL6DRr+XX2lZ7g=;
+        b=cuo6AnTot9ckgPcRo/HWAonefNf8QAi8Z3Mot8ZH62NRhw5KgBXCavdjz8hlNoqz/y
+         adr4mRqir/RGX2k0pfMIJxUuBHvbrwcE4R179UQa9DBSL5jrC5Ka5QewZxyU9gAjbPN5
+         rfm4mBJVjoDFXV/7jJWFUmitX8KpCtNsOwsbIsumw4juPW2Uds3Y/zGowrfXVzioN11c
+         Tykjs1pvShoo1fys91UUu8EJCNLUYrxM6rKF7GAoJ3TldJEf++UcddUKIYjvA0/9TsLr
+         yzJzQ2SZ5r+z366rEOhr+8l6qBJaHeOzptNjceqMvTqiE3nEV86af5/SuKTdzL7mNuVN
+         U0Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760725122; x=1761329922;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kl1A+Hor4KPKouJogGf+dkZAaXVVTYL6DRr+XX2lZ7g=;
+        b=NkUaM0+qrM8b8IIb7pkhGts97GlHi0nZDeNnOuXUI1oyzp9pxwNsRDI0TvC+Qyb730
+         pmBwhBgRvq3q8qR7iG8SbpiRMKjc08+YpWt33a5iOtAUwxReT+iEdZiQvMvGuGYeL6QF
+         vvrl0E1gDEeg+Y4ycerI/Zc6Vx30tx3qseObthgFKeQhkxlt2inIzC3rtZB5U2Vvfdkp
+         kmc5FXvIXc6y7PfFAZwqlYwOTaVMizNWVI1turZTj2ViCirA7qUPcqjk8mqzLyVkOTZq
+         H0BxMZ5ze8QUa/NIT3i+sF2ttdIQ5QH1G3+4B2yU5nzgLYomzehcf0yw8y0n5wYp810R
+         YReQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCBgcNvji43cPChuN0crhcBjMUaF1zyMhfaSB8aJxaY3vUgNdBkB0A0VPGbK++3kcQsgkxchNSeBO0aHpI75YLIQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwEQSJrbrKx9IqZsb16Hsx0+UzfJ4VhkB8+WsvRmje5Czy3+Vku
+	vubuJwubjdi5NRewOHVcr6+Z/BN5K3N6H2BsAGWaxW557p8ZfH4ZrCJZUnNVCGOllemfKVGvN9n
+	sV/cjM/ECs2i3vmcUfZIRhBFBNpaOFvI=
+X-Gm-Gg: ASbGncstKmdT6iZwyhX++OMDnrnfscQTunNYuyqQxtCdXrDI650bbNlUOiqCflBcWnx
+	5AmOVlZ1Kd/KPJ5GJ0IjfvFwgi0DbL1K1Y/WyVKVMcD2UYOe4phhevJn3Mm/XwJeH9EHzmDv9qb
+	Vavt+3lBNi5i5KoUxl0TW/AE+SuzNSpAyQyPygg8RR89K2D3gmi1gLcV68WvzPY7LWwVZK0pVHN
+	fX4etkgR7DRQXnTGsUNa9EO2VejEbGceJmuDmxnLHwhy3SbIHd/sfXYZRpLPsbS5Gh59jVZpHfb
+	gNgVWtQ7lbzydFtgWu9M5g3y6G/qoy6EEIb97Tp2PAkX7z9/M2UjWPwdLcdr
+X-Google-Smtp-Source: AGHT+IGJxA+ldDjM/uLndIQaymEzt7N6exKD34bcXwYGsOgShbjTBjUxZOPUdZRW/vnWYFhnlp5aPN46NokNI9rNgZM=
+X-Received: by 2002:a05:6214:212d:b0:87c:8e4:3375 with SMTP id
+ 6a1803df08f44-87c2061dadfmr80243306d6.31.1760725122229; Fri, 17 Oct 2025
+ 11:18:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20251013185934.GA114595@pevik> <59f5af6c290efef806b73ba905cbfc412c290109.camel@linuxfoundation.org>
+ <20251017164332.GA355538@pevik>
+In-Reply-To: <20251017164332.GA355538@pevik>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 17 Oct 2025 20:18:33 +0200
+X-Gm-Features: AS18NWAbHqrQ5GktiFwEIDpoE_I95gCu76Y_b8lKCPZlY_WHZbPHT4tCR1tM4TY
+Message-ID: <CANNYZj-6s0z-VgsONFkD-BW-kimhJ1R7bRLsXTJ2NQ7ANjfi4Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] ltp: upgrade 20250530 -> 20250930
+To: petr.vorel@gmail.com
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org, Yi Zhao <yi.zhao@eng.windriver.com>, 
+	Khem Raj <raj.khem@gmail.com>, Hui Min Mina Chou <minachou@andestech.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 17:14:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225029
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 18:18:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/225030
 
-From: Peter Marko <peter.marko@siemens.com>
+On Fri, 17 Oct 2025 at 18:43, Petr Vorel via lists.openembedded.org
+<petr.vorel=gmail.com@lists.openembedded.org> wrote:
+> Master branch from my fork [1] do:
+>
+> ... $ . oe-init-build-env
+> ./build $ bitbake ltp
+>
+> ERROR: Error importing OE modules: module 'bb.parse' has no attribute 'vardepsexclude'
+> ERROR: Unable to parse /home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py
+> Traceback (most recent call last):
+>   File "/home/pvorel/install/src/openembedded/bitbake/lib/bb/parse/ast.py", line 372, in eval
+>     layerid, fragment_name = f.split('/', 1)
+>     ^^^^^^^^^^^^^^^^^^^^^^
+> ValueError: not enough values to unpack (expected 2, got 1)
+>
+> Kind regards,
+> Petr
+>
+> [1] https://github.com/pevik/openembedded-core
 
-Upgrade to latest 1.25.x release [1]:
+Which revision/branch of bitbake repo are you using? Note that bitbake
+and oe-core repositories are tightly coupled, and if branches are
+different, or branches are same but one is behind the other, you will
+get errors such as above, e.g. "ERROR: Error importing OE modules:
+module 'bb.parse' has no attribute 'vardepsexclude'" is pretty much
+saying that oe-core is expecting something bitbake on your machine
+doesn't have.
 
-$ git --no-pager log --oneline go1.25.2..go1.25.3
-28622c1959 (tag: go1.25.3) [release-branch.go1.25] go1.25.3
-e05b2c92d9 [release-branch.go1.25] crypto/x509: rework fix for CVE-2025-58187
-79ec0c94f3 [release-branch.go1.25] spec: update spec date to match release date
-
-This release addresses breakage caused by a security patch included in Go 1.25.2
-and 1.24.8, which enforced overly restrictive validation on the parsing of X.509
-certificates. We've removed those restrictions while maintaining the security
-fix that the initial release addressed [2].
-
-[1] https://github.com/golang/go/compare/go1.25.2...go1.25.3
-[2] https://groups.google.com/g/golang-announce/c/YEyj6FUNbik
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-devtools/go/{go-1.25.2.inc => go-1.25.3.inc}   | 2 +-
- ...o-binary-native_1.25.2.bb => go-binary-native_1.25.3.bb} | 6 +++---
- ...cross-canadian_1.25.2.bb => go-cross-canadian_1.25.3.bb} | 0
- .../go/{go-cross_1.25.2.bb => go-cross_1.25.3.bb}           | 0
- .../go/{go-crosssdk_1.25.2.bb => go-crosssdk_1.25.3.bb}     | 0
- .../go/{go-runtime_1.25.2.bb => go-runtime_1.25.3.bb}       | 0
- meta/recipes-devtools/go/{go_1.25.2.bb => go_1.25.3.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.25.2.inc => go-1.25.3.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.25.2.bb => go-binary-native_1.25.3.bb} (79%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.25.2.bb => go-cross-canadian_1.25.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.25.2.bb => go-cross_1.25.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.25.2.bb => go-crosssdk_1.25.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.25.2.bb => go-runtime_1.25.3.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.25.2.bb => go_1.25.3.bb} (100%)
-
-diff --git a/meta/recipes-devtools/go/go-1.25.2.inc b/meta/recipes-devtools/go/go-1.25.3.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.25.2.inc
-rename to meta/recipes-devtools/go/go-1.25.3.inc
-index 9d1cf696700..c29f4d6ecee 100644
---- a/meta/recipes-devtools/go/go-1.25.2.inc
-+++ b/meta/recipes-devtools/go/go-1.25.3.inc
-@@ -18,4 +18,4 @@ SRC_URI += "\
-     file://0011-cmd-link-stop-forcing-binutils-gold-dependency-on-aa.patch \
-     file://0001-runtime-when-using-cgo-on-386-call-C-sigaction-funct.patch \
- "
--SRC_URI[main.sha256sum] = "3711140cfb87fce8f7a13f7cd860df041e6c12f7610f40cac6ec6fa2b65e96e4"
-+SRC_URI[main.sha256sum] = "a81a4ba593d0015e10c51e267de3ff07c7ac914dfca037d9517d029517097795"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.25.2.bb b/meta/recipes-devtools/go/go-binary-native_1.25.3.bb
-similarity index 79%
-rename from meta/recipes-devtools/go/go-binary-native_1.25.2.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.25.3.bb
-index fbdef1b695c..b1d9522cb6f 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.25.2.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.25.3.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "d7fa7f8fbd16263aa2501d681b11f972a5fd8e811f7b10cb9b26d031a3d7454b"
--SRC_URI[go_linux_arm64.sha256sum] = "9aaeb044bf8dbf50ca2fbf0edc5ebc98b90d5bda8c6b2911526df76f61232919"
--SRC_URI[go_linux_ppc64le.sha256sum] = "91dd35ac3f33baa642d9bac22b626bdb5ee0372cf80e7d782994337f81f34417"
-+SRC_URI[go_linux_amd64.sha256sum] = "0335f314b6e7bfe08c3d0cfaa7c19db961b7b99fb20be62b0a826c992ad14e0f"
-+SRC_URI[go_linux_arm64.sha256sum] = "1d42ebc84999b5e2069f5e31b67d6fc5d67308adad3e178d5a2ee2c9ff2001f5"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "68d1a08bf3567f330717d821b266a0be1c5080bd05dc238b5a43a24ca0c47d7c"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.25.2.bb b/meta/recipes-devtools/go/go-cross-canadian_1.25.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.25.2.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.25.3.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.25.2.bb b/meta/recipes-devtools/go/go-cross_1.25.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.25.2.bb
-rename to meta/recipes-devtools/go/go-cross_1.25.3.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.25.2.bb b/meta/recipes-devtools/go/go-crosssdk_1.25.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.25.2.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.25.3.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.25.2.bb b/meta/recipes-devtools/go/go-runtime_1.25.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.25.2.bb
-rename to meta/recipes-devtools/go/go-runtime_1.25.3.bb
-diff --git a/meta/recipes-devtools/go/go_1.25.2.bb b/meta/recipes-devtools/go/go_1.25.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.25.2.bb
-rename to meta/recipes-devtools/go/go_1.25.3.bb
+Alex
 
