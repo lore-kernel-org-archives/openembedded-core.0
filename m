@@ -1,264 +1,222 @@
-Return-Path: <liuyd.fnst@fujitsu.com>
+Return-Path: <johannes.schneider@leica-geosystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 850CDCCD183
-	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 01:34:26 +0000 (UTC)
-Received: from esa3.fujitsucc.c3s2.iphmx.com (esa3.fujitsucc.c3s2.iphmx.com [68.232.151.212])
- by mx.groups.io with SMTP id smtpd.web11.6206.1760664864117687759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94EF2CCD183
+	for <webhook@archiver.kernel.org>; Fri, 17 Oct 2025 01:41:36 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.9])
+ by mx.groups.io with SMTP id smtpd.web10.6273.1760665294315525079
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Oct 2025 18:34:24 -0700
+ Thu, 16 Oct 2025 18:41:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=uZ1Z9nEJ;
- dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=IRxMnTjU;
- spf=pass (domain: fujitsu.com, ip: 68.232.151.212, mailfrom: liuyd.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1760664864; x=1792200864;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version;
-  bh=buGzZ83gfBA3yo7s3pqCyyh+czlTzOxDb80HJVAQGpI=;
-  b=uZ1Z9nEJ8+2kcr4T0bjVEJDLCiV6lbfHoEUJgITduPzgiD9P0kWsk3JF
-   vRDTULV662I87cMsGZSP9y4wm4za5Y5L9IsC8j2nA7e+He1r4eu/Obdzg
-   sG7cRoF8ipmfnIQxzBAURkuAqUhZ6Z9fq83ZqwLc1HlD+GIjzyys4jfSo
-   CtOyzLZ7f8CpagvqTIOKGdzVINJZGTG5kxNcS6IccGqiIhU6IP8Emcg2T
-   qoVsSlqwVbLV5hTAC47V2LZG6SOg8D24ftj6JyzJ5rniFqhfXNf9WqZmJ
-   OzY8RjprlOvx2uuHzy7pvyQmsyQGtM7YP/XS6hVLbZsNHQtLIEe23csbR
-   w==;
-X-CSE-ConnectionGUID: aQT4yQ6lSxm4EXn4e5Gu9Q==
-X-CSE-MsgGUID: BjZmXKyyRYmlOlnKubGedw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="82448262"
-X-IronPort-AV: E=Sophos;i="6.19,234,1754924400"; 
-   d="scan'208,217";a="82448262"
-Received: from mail-japanwestazon11011012.outbound.protection.outlook.com (HELO OS0P286CU010.outbound.protection.outlook.com) ([40.107.74.12])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 10:34:21 +0900
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=XhtoMNKV;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 52.101.69.9, mailfrom: johannes.schneider@leica-geosystems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d89/1wM0yN+MYezLI0Y0ZwMKeLUSeSPam8YfSetqVy3deyQrFUTHY1yJvT62B4Bi1uCDUoucQLaSZfejms8PklN0yUp9nWMZLjSvafKhz5z5X4HkFuxmQj4SQA8Ts2cua06/M+GTTl33iOEhkfazHSEzrcnFNzrAGFuHWJ1PRm8l0fst7ARYGZNILPfdRAMR7+wpUBGoHhT7pHV54jOpUqfCYBwZSu2aOKW/J4vU2XU44Vj/+u+Pv9Ho2d+lI0Ch2GILXQJtK+Prd3KUhzRHeXozdcSwxpBm/ePRMTyHlVW1X/o+zrg8jF6PKWpa9jqEVOvq1s9i8c4god3uA7bCMQ==
+ b=plPm1rf2oOmh8b922DP7mXrO++hlkWxxL9nspWUR1mbnVq6cxrOI801zHk7uxf0SwQogY+cRr+3MzZjLCpYWSgh047Vl/axSgGsv+v0DdbBbo/AZtNGe8xvjQ++41ZSkNW8q4rlYLbADEm7DqTeGPgOVEBNu5DLV8VDW0OSAZCLU2LWs4lQzcmjbxDcF+5AtpVm2LfkAy0onKuf3j2b9eXG8s5u2n1+bZMuq7HZD1ilAAmUpmLJg5jf+eoYA0abm9NfVSIcvtYHoF0/aiqdCi05MCPvEv7pPzOCnCkRR8PFdg5S5/Cm9cFz90UMsG77wUmcsMj5YrPo5DcGqnIJOGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=buGzZ83gfBA3yo7s3pqCyyh+czlTzOxDb80HJVAQGpI=;
- b=r6/3JdcUvnAECD8qHV3oj5NfCvqflFH5fGrh+Wly4e8ADCzCJTdbaf7rdG5mSzumQMRL2SLCkZrjKIbmTLGMXn42/hEyfzvSVnR5WHX8bOkNOAAcmpz3LfuNlNxpyGfqkOkXEu9dkabz+clG/L/ITrgJMKlqF0LE1G9nsR3d61tj38+MiN0cLza6RCFhn/bBy5N3mAbPzi3/GxqX22X6UQ4HS5OL8OAGlyKAESxA2umkKFHGlpVgY9qPuKfbIu5oP4yQdHBG1QQ1xkvNFf+bXkkl/vHr88kBHtFzNxzraMqDkOMg2qVmy8pcgApCHTG2OyES2ugYhD+U625iV+3mog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ bh=Vocy/hX9TgmW/dYRjy9Q66+LzmrJgq0kYhs2/ew33sU=;
+ b=HoH5OtZiC+I5h/v2hOU/d+8aNDbJvYGmKCTnIn+UDn96GcFolEpKPQvB2CPEpHBHyiLWITPaKUXnAOoEJX8vc4LL7W97A/sxMARq5z/3bbwl+pALFmqiGOc7st8np1iaYawOZQ09E8XiqZVyJW+zXq2s/ym6EAMTh+XAaKbnRvQtpC14qj84/dcnTeYeZ0rtVAmloBiJhEkH+Z9KRcSeUjbmRTNpxB2leEF3J+d/Vi8owD/f13VVSDKjAG+Q0cbxKWWZFJ6enUZfByvo++iFahbzaK3JCSEL3DZXp/ruOtqIOKV2jbiMVkTNIeRNp4Mcprc2MxVq5HVMUPZYLmINMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.8.40.99) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=leica-geosystems.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=buGzZ83gfBA3yo7s3pqCyyh+czlTzOxDb80HJVAQGpI=;
- b=IRxMnTjURYLzX6UbZdOHPUYRVEQjFp95zUhOOt7VPcKw8UFqAbGnOGILohCpyHXhoGOk4RHO9TyxrfslzRXMyVPDLjT4QFTXzEPRvOf55E7K4JGwHmm8/eC3K16YsAKpKYPvlu98vitGQwTVJHyeZ2yccul4u8cPotGzhLVGKWWJYPl08OA7ef6Y1Lo5cbwFlg0TL1+rgrp4o+Hl7g9g6PzLzy3Ofq8xFwM/nAeFFxNk31SCjsSUMrh5dVGLhRa88O2GtTOoCjESaTo4R5lsCMazEd2zxg3v41IGQ6/2z2ra/uGPI5pwjSdDW/aoLW1n9yqCAmCDv1/XezsmuKHqng==
-Received: from OS7PR01MB11602.jpnprd01.prod.outlook.com (2603:1096:604:246::8)
- by TYCPR01MB7703.jpnprd01.prod.outlook.com (2603:1096:400:180::6) with
+ bh=Vocy/hX9TgmW/dYRjy9Q66+LzmrJgq0kYhs2/ew33sU=;
+ b=XhtoMNKVajvOaZPqJdONZto4stEfyBA+2wWj8fAITeQIxJGzqFY51Za4hXvY0z8yDLzDFZkcG6vjJgMinXnbwgFbNtMRPKMSpmMABAnSNElmicd7dvylVo/fOImlPIMtY/8dInIDuIXFjhkIPSu1YTSQfNZVIk7tlMrJethDOdM=
+Received: from DUZP191CA0059.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4fa::13)
+ by PAWPR06MB8620.eurprd06.prod.outlook.com (2603:10a6:102:391::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.6; Fri, 17 Oct
- 2025 01:34:17 +0000
-Received: from OS7PR01MB11602.jpnprd01.prod.outlook.com
- ([fe80::68a8:ca7b:386f:33be]) by OS7PR01MB11602.jpnprd01.prod.outlook.com
- ([fe80::68a8:ca7b:386f:33be%5]) with mapi id 15.20.9228.012; Fri, 17 Oct 2025
- 01:34:17 +0000
-From: "Yiding Liu (Fujitsu)" <liuyd.fnst@fujitsu.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: 
- =?gb2312?B?u9i4tDogW09FLWNvcmVdW1BBVENIXSBrZWE6IGZpeCBpbnN0YWxsYXRpb24g?=
- =?gb2312?Q?umask_to_0022_of_meson.?=
-Thread-Topic: [OE-core][PATCH] kea: fix installation umask to 0022 of meson.
-Thread-Index: AQHcPs+/xYg0x9lwtkCQstpk4YGyq7TFjbpM
-Date: Fri, 17 Oct 2025 01:34:17 +0000
-Message-ID: 
- <OS7PR01MB11602988912E7F400C417E6409BF6A@OS7PR01MB11602.jpnprd01.prod.outlook.com>
-References: <20251015081156.11738-1-liuyd.fnst@fujitsu.com>
- <CANNYZj-A_jSagKfHmL=_V5B3K+GzjJo5mYizTWQre2hZ7B52ZA@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj-A_jSagKfHmL=_V5B3K+GzjJo5mYizTWQre2hZ7B52ZA@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2025-10-17T01:34:16.931Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS7PR01MB11602:EE_|TYCPR01MB7703:EE_
-x-ms-office365-filtering-correlation-id: e736e62b-8db3-4e15-c4fe-08de0d1d49ce
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|366016|38070700021|7053199007|1580799027|8096899003|13003099007;
-x-microsoft-antispam-message-info: 
- =?gb2312?B?NXJtdnNFY25yTnRHNHIrY3puOGVteGxUajBKRnpneGF5MzcyS3B5TGNramFI?=
- =?gb2312?B?d01rWW93SHFYVE4xWTZYZm5HWWJnTzIyNXBubStLbEdCc0ZhWExKYyt3bTJy?=
- =?gb2312?B?R1JIaklaZUNxUFR0M2V2anNWRkxLcDlMbCs5ZXdRaHNwS2NsekpHc1NKQWFG?=
- =?gb2312?B?dERSNnhLUlpweW9kRDJyNkxEdFZmYUdtSGRNNi9tM3o1R25hellWVGtNdUVX?=
- =?gb2312?B?NUt5NGMrc09UVlBXTFFOaGQ4MUpXK3JtdXFJMHp2Z2lXMGFTVndzQmNkeENz?=
- =?gb2312?B?OHVnVnlvUEZid3pGeSt6SDFnWEFUNCtEeE9PVUNzdmJnNWg4ODdKUUw2YnRm?=
- =?gb2312?B?TFkzWHN4YnBnMFdCQm1NOG40WERoTCtvbVgweWNtUi9NZUlGQStyeSs3dlJH?=
- =?gb2312?B?R2VpOS8xL1BCQ3ZaNUxHTm5wcUJuRC9ZQ0I4L1pYNisrS1dBYkh1RGd6aVYw?=
- =?gb2312?B?U2YvZlVtNWxVa0xJdUcvR0ZlMGNOTWlmT1RWdklSSENZdS9ON1ZzcVUwazBS?=
- =?gb2312?B?amRRTDNPVUh4citmV0VnTldQYzJJT2FGUkZBL0tnck5uTDNTb0VRNWFWME9w?=
- =?gb2312?B?OEhsdStvcDNCREJvY2JqYW5zVm83VVpNanMzdGJHZENiT3RJRVhkVUNwQS9T?=
- =?gb2312?B?U0sxLzg2K3VsU2dNVnNjZ1VzallRM3BKRDNsMXhSajNEZGJkMDZUUEVWeXFm?=
- =?gb2312?B?Vm8ySkFzQzVYazRmV3FYRVRHcnl2aGhQZ3RibmpRVmFzeGg3NTMvOEt0N1Bn?=
- =?gb2312?B?QWRWYU56bWhUWUllVmFQcnVVNFdrNjgyeHMxTVBMWkIxS0hvYkp1NUJYV2hu?=
- =?gb2312?B?VXp4d25NT29Ja05hN2RIY2NQM2pJbVhMZEFLWExqZStFai9DWE9JQTZSRUJr?=
- =?gb2312?B?NkFIVWRJR21naEFJcTEzdW9kWG5Bd1ZOTDV6YUdhV1JhdkNhc1dSRW4rRWZR?=
- =?gb2312?B?Y2FydEFBdEVPYzNJRnNJMGl1L1RiUU0wQ0EvWGVQZ1RER2tvRldnSXZyb1R0?=
- =?gb2312?B?dW00cmh4T0FrZ0h6amthRVhCYkl1bTJ4cGpHV2V4SS9tS2NwYjN3QXhEdTNG?=
- =?gb2312?B?ejlLdE1PMUdIRjlISWFHZ25uMFZsOHN1bmJ2aHFFdTdKSlh5TFgvUHZ0ZlR4?=
- =?gb2312?B?amJtNFkvMi8zd0RqSTVxai9kTGNtTWNZdGszczRZbzcyMk54WHpmM0x5Nk9N?=
- =?gb2312?B?elNoV3hjRnIwcEdZZ2NyMlZWTndybC9uWWgva2tCcDBMR1JjVkU3OVdBRnIy?=
- =?gb2312?B?ZnFzZk50Q0IvcjFoVVpRS0JXMVRZSFFjdlFLdzd2b3VwdENycG1ZVDRwM016?=
- =?gb2312?B?L3R2T0FmYjdSRDdQQVRYSnhOVlZmZUJ0bFFGNjNORW94Qm1Jbkl5ZFlMNExn?=
- =?gb2312?B?dndNVWE3OXFocHpDdExKQUFjZEIveGZ1cE1PMWFRZ3E4K08rU0ozSHU0b3Za?=
- =?gb2312?B?ZmpJbHIyWkphTnd0TG9tQXBJVnJTeUp2aHdSMkx5NFhlNnNtdTVyNWwwNlIv?=
- =?gb2312?B?a3JlaHBlVXdraUs2YkdMU1ZCOEZOQ0pFVWVWR3JkRWExOUkwTDROQXhGV0pF?=
- =?gb2312?B?aWtTMmg0YXI5VG5qNk9lRkJuYnJGRkpVU0RQSGVOc0E0b1RBRk9DaG9veW4r?=
- =?gb2312?B?YmJIaEJ5NGxvYXI4NWc1NTcreFpsKzkrL0tmWWczc3NiRmxMRjlYS3AxSzRw?=
- =?gb2312?B?RjR1amNRdVd3NSsyNUdOK0F2UnVQUDV1NHYxZTR3YTZoelpJdmZUVUtGRDI3?=
- =?gb2312?B?cWtLRU1jd0s2SForOTNra01kWHlDRXRCS1BoT3IwUnZxL29McytIaGdFN1ZO?=
- =?gb2312?B?Yjk2VnJ1Uk95NWlZZFAwcU5LcWEwQVZ1Y1BHSU5CVm84cFFUd2VabTkrSGhp?=
- =?gb2312?B?ZkY2aWE1b2I4YzY1MDdQay9tU21xTXFhd0FNTnIydDVybFk3b0J5eCs5U0N5?=
- =?gb2312?B?b2thZGVuY0Z2Wk9QcE51WnRyM1pZSTZBbkk4K0M2Z3ZqQ3Q0aExhZjNMMGNM?=
- =?gb2312?B?bWpNZm1aMlZiOCtxWDJkK3ZySUxKM0NuWFQvWEw3L01icmUzcUlZNkU4L1hw?=
- =?gb2312?B?WmNsKzlnamVoQ1M1aUx3K2w1TDhvTi95WTJrUT09?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS7PR01MB11602.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021)(7053199007)(1580799027)(8096899003)(13003099007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?gb2312?B?YzdXa3N6VitTNUNXQm92UTNQWjloK2I4K3c3VHNCS05wQnVZQVJ1b1NOb0ds?=
- =?gb2312?B?enNDU2lmM3A5QjVVc2pXVmF5T0xjZXZvWTRId3ZWUmRwcVg5a1FIVW1lWm0z?=
- =?gb2312?B?UWdOR2Y2T1Q5RDVmblVxRjlNdGJtYUVYWDV2Q1lTOFpGa0wzTFg0MGFkMkhF?=
- =?gb2312?B?bmIvTzZXaWxucFJtOFpJZUNxWEI1ZG54RUVIWlpiOE9DZkNpd3E3a1Y0MkF2?=
- =?gb2312?B?YXNxcUd2bndlOFVmeVV1ZUxCN3BEdEwrS1E4eTA0THFPQ3RmcjJZQ2h0Rzg2?=
- =?gb2312?B?Rllia1YrSDJYKzV3TVdIcDdPd3F1T3ZNNWVWQUk1Q0VpRTh4Q0FBV09WSHUv?=
- =?gb2312?B?TW1WZVU5QVFsREV6ZWExcXErWGF6ZVMvLzE1Y2IrZHpEWE8wWXY0VjZrcTF4?=
- =?gb2312?B?STYvenkvNWNxR1lLRmpnVGcyZnBhT1QxN2J0UzFBbjIxZVUrd3RmTHVOeWxO?=
- =?gb2312?B?NXdjQnBUd05QMTBJcCtuUG9QVE1hclNmem1sbHI4TmNGTXZKbUo2a3UzcHJX?=
- =?gb2312?B?WHRPMjhsZWJvNy9BTmxNZTFTSjlGZDZuMEdnWnU1cVVwTzBFbXpzSlcwYklR?=
- =?gb2312?B?Y0RDM0IzSmlycTdmVkNsb2FRRXFCWWpOd2w3ZEJqbWhqRDJHeDAwY0ZlVXds?=
- =?gb2312?B?Rm8xakxrR1RaeGhtSUtpWVFIMEFWdGUrY3J5ZDVBZFBvOXZLYlAzYkJLaTAx?=
- =?gb2312?B?Z3RvQytkbnVHR1RQREd2NlhsampDRk1rS2ducGsrRGRCMnR3cXFIUHd5Uzd2?=
- =?gb2312?B?WlNDZXhrUmgrK05qM0NMU0ZEZGZ4VCtLaFYwT3lIVCsxSDVkM0dXZm4rTnpH?=
- =?gb2312?B?UUN3eFpVbUhRcU9LakVqdHoxNnIvaFN1SjQ3RnhLZUw0OFZ1UWJYM0d2NHNU?=
- =?gb2312?B?bmFUak5oK2VFOGlteHJXMWhpYldjeWpwYUtrRVNmOWg2UGNtWjEvRUFWblVD?=
- =?gb2312?B?dk9BZHlQRHZSZ2hGSHh6d2M3Wmh5UkREcVdUNHVmeTBvb3I3T25TTmx3ekhZ?=
- =?gb2312?B?REw0STA5WHFSTXVJclBmY2xoRkwxYlV3cU1FUFJQTzZIWThoYWVsN3U2YVYw?=
- =?gb2312?B?cmZId29sSFFBeVMrVUtKVGd5SlJaWkl1Y3ZWRlBZMy85Yks5b0FBRG42N2JG?=
- =?gb2312?B?eUY1REY2cnFnSG1mSGlob1lmRXNxekJzbE9vYkRsUnAwYjFwdUlVSHlwN1lP?=
- =?gb2312?B?N29ERjFlcjBRVnVFNGM1V2lrd0JxdCtreTR6SDdFWnExcW8wYXZFeGNRU0M0?=
- =?gb2312?B?V2VmYkFCSnpzZjJlcUsrclhzaEplYUgxeDhER2RyZTRNTUxzNXdwa0l2Vlo2?=
- =?gb2312?B?UUg5OTNmRURVNFZyTStvRTcvaVc2M0NNVHlkY3huTFBpUC9FMzR1WGl5b0k0?=
- =?gb2312?B?TUgyWDNUOUdnYUxtTVRuTWw1RUdxcjhzcWFCSENVK3piaG94bWM2NGhYTmE4?=
- =?gb2312?B?VVFrUUhSN1VGM0VSNWowTVFMM3RyYi8rV1lFdjZORFp1ZnpNdDJuczFnTzR0?=
- =?gb2312?B?cDN0M2ViRTJWaVFGY2xzOEpmU0FUdnRXNUQvMDZOT3BFSkpXbnVCcW5HTXNt?=
- =?gb2312?B?Y25LSldDQmtWSmxHbE5SWHcyd3FzbmV5WWVxVXhmT3FER3RQdWZjVjlIZXRL?=
- =?gb2312?B?Y290VVNWd1V2MnRzMys2YzZGa1ErYzJYR1RlcUtXRld1V3kxRW1IdHloWDN1?=
- =?gb2312?B?cWl5VlZvSW5OZElkU2ZJbjFRNytpMGM4U2VHcFFJdDBmWUlVMzhpMk9hWVN6?=
- =?gb2312?B?eElQdnFZanlMN01ENFBrd0E0WlczSjJ0M0trTVRub28vaFl1Z280QmpJOXV5?=
- =?gb2312?B?T3ZkS3dVT3BsVzdPbU4vak1aZ1pHL2owcFdyaFRqZTUwMG5SZmNSemgvTU94?=
- =?gb2312?B?SHg4NVRzaVp3SkVNSWxSYzVjbUVKV3dlYm5xakt0K1lHZlR6Nmw3SCtDYnFj?=
- =?gb2312?B?SlRJZUd3M0EzNGxEakVsWnJtZU1SUDg1ZU0ySDZXeExmU2hxNFQvTnBxdGpy?=
- =?gb2312?B?YjdnZU1ZZ3NwcjhjbnEzUVlzSnRORXpKNS9mekRFUE4zUjBOK0xqM2pSN2Y0?=
- =?gb2312?B?WFlNRSs0SGZhMnAzRThMNWFKOUJoV085ZG4yWmU1VEl3S2dEK0NrVmtLMlR0?=
- =?gb2312?Q?vhXaKA5iMJqgn6tTQFwXayZyJ?=
-Content-Type: multipart/alternative;
-	boundary="_000_OS7PR01MB11602988912E7F400C417E6409BF6AOS7PR01MB11602jp_"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.12; Fri, 17 Oct
+ 2025 01:41:28 +0000
+Received: from DB1PEPF000509EF.eurprd03.prod.outlook.com
+ (2603:10a6:10:4fa:cafe::78) by DUZP191CA0059.outlook.office365.com
+ (2603:10a6:10:4fa::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9228.13 via Frontend Transport; Fri,
+ 17 Oct 2025 01:41:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
+ smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
+ designates 193.8.40.99 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.99; helo=hexagon.com; pr=C
+Received: from hexagon.com (193.8.40.99) by
+ DB1PEPF000509EF.mail.protection.outlook.com (10.167.242.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9228.7 via Frontend Transport; Fri, 17 Oct 2025 01:41:27 +0000
+Received: from aherlnxbspsrv01.lgs-net.com ([10.61.228.61]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Fri, 17 Oct 2025 03:41:27 +0200
+From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+To: openembedded-core@lists.openembedded.org,
+	saul.Wold@windriver.com,
+	adrian.freihofer@siemens.com
+CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+Subject: [PATCH v1] devtool: un-/deploy-target: put deploylist into destdir
+Date: Fri, 17 Oct 2025 01:41:23 +0000
+Message-ID: <20251017014123.222073-1-johannes.schneider@leica-geosystems.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	YO8tpTHjMp04NUv+qw1W2A4aSab0cWmDVLTsVszRMiKlSI0BorZggyFOkRPvfja3BZ/BZbZSmQ2r5PH0/i3RS38CHiGGEnlbvyCBglEWTbYOkxApHsioyOGWteAnEKgQfNQ6OsFecvGZ4+BzyxG1QYhLOJlYQYRqbSTgbRotfzXKrbdzPuoSlp0I5pDjmkYqVjj+3QzEXqKng9te+o8o0hZ+GTLNqamuUE0z5pFc2QlZegjWUpWhZGLdHhaVVGRCmw5oaV77rK9RP5LG0jNM5uZoYyWQWmrW0pO/sDhffa65/Wdz3+6QGWx20MLFNEhdgYiqoJmBfaP/5Gwvx0/l/I0ZzMrhaoJ6cylSUrrxrxa9QM5qJO+2gVfbzQmCjaB8NxJJ1B2BUPA3vJHv1NgQd5SX2d633z+YTrJN+2I6f+1pHVPiYSKP0IFozkfAGu3xsVTfKkSbZVqVmmroLjifi3R82k/EkQ9fAxFKPE/yKEPMYN9CgsWp3a2uYyrvF27ic4L/kw+HTD3EYcREfww8sGfHCgeC0KmZCS9x3s/FC4WwqBehQ3LAPXjEg28GHygjdI5WZptyNNimDF/RTJoiLof5BA/hAnGrcCkJ2R1wyMCKIri4aUmR9qkkjdCE9mFX
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS7PR01MB11602.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e736e62b-8db3-4e15-c4fe-08de0d1d49ce
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2025 01:34:17.6666
+Content-Transfer-Encoding: quoted-printable
+X-OriginalArrivalTime: 17 Oct 2025 01:41:27.0592 (UTC) FILETIME=[2798D280:01DC3F07]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509EF:EE_|PAWPR06MB8620:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: b6dc889d-a3a1-449b-2413-08de0d1e4a45
+X-SET-LOWER-SCL-SCANNER: YES
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?wnBYR0oGrh1MFa2eNpSgvh5zQ/2TFDDZQLycIdXYn++VsPpTQq1hrkX8IOGn?=
+ =?us-ascii?Q?4jaaurAT9IfBfMP4ymf4i+gz/NUTIgSwO2smPjTVlpUiFAdReUnJTMFPdlmU?=
+ =?us-ascii?Q?grjZzs92gRCEmbA1u2zhYA+yQhB6xUfPJXeB/t+WnPXP1Nt2/AFwb/9rej+F?=
+ =?us-ascii?Q?B2TI3n87cVv1VBz8klQTN9wxMFoAYsGKxdCUY2jjFv/mkN5WpmkVlvaQZpeS?=
+ =?us-ascii?Q?ssV/nlMBMFV1E4X4/G1ifzAlr8pU2o9xBho4B5wQB93UBUSJsJ1WU5x2+yqZ?=
+ =?us-ascii?Q?yjZMNpa6xwaKakqZ4h6DizapU9H6szXZ4oNxXeUYzSV2d0U/U1cF5YMw1py8?=
+ =?us-ascii?Q?GA/OgBEddZvCR7/Cs+F0mlnES0FD/RdSOPD9UKMw/Lkx32RkBhxHacF2Jkma?=
+ =?us-ascii?Q?PcKF+7An9LKe4ihgUU+UxHbo+U3Gj7SfCXPAUxNBU2V8ZgGrD6xmQjkI07gm?=
+ =?us-ascii?Q?1uRbynZ+g4CLjvcDGjXcOuHcuDjDXRAsvQe2BsT0yjNzLNAsMTJ8xKAJSzHq?=
+ =?us-ascii?Q?MxzV0A0N/2Wf0eFZxtu3zpYERm4knkiGpkT+UqDeiy2/YuHJq6jTO6slCo8B?=
+ =?us-ascii?Q?kLInzlhwp3AHnAodfrfLASa93uTzeWIPmjoKyUGANGg4kmsKbjlECvLJ5s3A?=
+ =?us-ascii?Q?2m/F7yaAZW4k3lNMvJKuwFzWoQjdusluTSyOzB+xv6ZG3PEikvFoUyIb3m9Q?=
+ =?us-ascii?Q?UFqZwRIoXq/roEOj+2dXxoxJQrtxiNGJ9EKOGwAxQ37UDI+89oJ8kHes6Rcy?=
+ =?us-ascii?Q?TiVLB+SwOdnPqx7FPCfxQv/9gvwFcwI9W4g20MPDBazJdhuEBWArjheIxEBH?=
+ =?us-ascii?Q?h5zgAVzvWOvKQBlg9skglDlF+ylR+RI5dLGUaD0pZp+Gem2iokLKyve58Qs6?=
+ =?us-ascii?Q?9z6bGXxg0wkXSP2VCs0ZOl98iocNSkVtnkiZoTUkq5b28Hvd//V+m8fPPe2M?=
+ =?us-ascii?Q?8pm8PPMxXgdlGiKAS2X+zj8zvLktdtifzLg0nisKsPXrj8BNbIs866tNcb4r?=
+ =?us-ascii?Q?0ZtEKFPyrngCL2NRKKc1AeNGTc/42MWhfMPGSZxfVw1oO4/5GIsHY4RM84i3?=
+ =?us-ascii?Q?vES3FMKj9iKhnCpQbKOZjDxhGnCIbWrbUb9VcOBM3gBvF+Gtt+4qh+vXdjrr?=
+ =?us-ascii?Q?Bm/HZjt2iLDFtoh444f/YkV2HNevbQtDOrlOdEFzLxzG2DFJSPOkN8czQXbj?=
+ =?us-ascii?Q?2Jp4wy7N4yS5bEHTZkT/vrIdyjoPWbkIUc7XY781M+qF/7kUbJOg+ZPIJ71d?=
+ =?us-ascii?Q?XqMwg7dmJJ2hJ8MU7BMGJzLWCc4tpRplepu32haJCE/sf19t1i5I38+dgXus?=
+ =?us-ascii?Q?WX6sail9SXw6OSNmIU5ulfSjdYi7ZX4oONd7a/tmtnJHHlxl+KxIulDsoKcu?=
+ =?us-ascii?Q?20qxfWP8pvN1Ig59U7HJQEZI7QRRS9JqUFZRaCm0rWwZRZaFi9XrVvfHxfub?=
+ =?us-ascii?Q?LXXPwLCfm2dniSmfOqMGKNbs5MLXjHHW+Aazmr2aiQqUodmVJvd8gkbo/CdK?=
+ =?us-ascii?Q?pttnclSEANxHBg4LCqN8bulI23gr5Je9K9F5AiVaje5BdFdeXsWP6Ap7XeDW?=
+ =?us-ascii?Q?muh44rQjMrJ3USC/U5Y=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2025 01:41:27.8750
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zmhQYSnpkCrk9roNZAufa9E5k8MbjxdaTB1HixwYY0APifa2TS5pZevNc+y51HGLysTqY8D6p3u8JM4nnulncg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7703
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6dc889d-a3a1-449b-2413-08de0d1e4a45
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509EF.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR06MB8620
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 01:34:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224986
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Oct 2025 01:41:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/224987
 
---_000_OS7PR01MB11602988912E7F400C417E6409BF6AOS7PR01MB11602jp_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+When deploying on devices with a RO root-filesystem, devtool would
+fail on writing to the hard-coded "deploylist_path =3D '/.devtool'"
 
-SGkgQWxleA0KDQpJJ20gdHJ5aW5nIHRvIG1ha2UgYSBwdWxsIHJlcXVlc3QgYnV0IEkgZG9uJ3Qg
-aGF2ZSBwZXJtaXNzaW9uIHRvIGZvcmsgS2VhLg0KU28gSSBzdWJtaXQgYW4gaXNzdWUgZmlyc3Qu
-DQpBZnRlciBJIGhhdmUgdGhlIHBlcm1pc3Npb24sIEkgd2lsbCBtYWtlIGEgcHVsbCByZXF1ZXN0
-Lg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCreivP7IyzogQWxleGFuZGVyIEth
-bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQq3osvNyrG85DogMjAyNcTqMTDUwjE3yNUg
-MDM6MDQNCsrVvP7IyzogTGl1LCBZaWRpbmcvwfUg0tK2oSA8bGl1eWQuZm5zdEBmdWppdHN1LmNv
-bT4NCrOty806IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQrW98ziOiBSZTogW09FLWNvcmVd
-W1BBVENIXSBrZWE6IGZpeCBpbnN0YWxsYXRpb24gdW1hc2sgdG8gMDAyMiBvZiBtZXNvbi4NCg0K
-T24gV2VkLCAxNSBPY3QgMjAyNSBhdCAxMDoxMiwgWWlkaW5nIExpdSAoRnVqaXRzdSkgdmlhDQps
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxsaXV5ZC5mbnN0PWZ1aml0c3UuY29tQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmc+DQp3cm90ZToNCj4gK1Vwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIGh0dHBz
-Oi8vZ2l0bGFiLmlzYy5vcmcvaXNjLXByb2plY3RzL2tlYS8tL2lzc3Vlcy80MTcxDQoNClNob3Vs
-ZCB0aGlzIGJlIHN1Ym1pdHRlZCBkaXJlY3RseSBhcyBhIHB1bGwgcmVxdWVzdD8gSXMgdGhlcmUg
-YSByZWFzb24NCndoeSBpdCBpc24ndD8NCg0KQWxleA0K
+Since devtool already supports deploying to a different root-prefix
+with: hostname[:destdir], we can make use of this guaranteed RW
+location to place the deployment-list there.
 
---_000_OS7PR01MB11602988912E7F400C417E6409BF6AOS7PR01MB11602jp_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
+Add the destdir parameter to the _prepare_remote_script function, to
+construct the deploylist_path from it. For the 'undeploy' the same
+host:destdir splitting logic is used as in 'deploy'.
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
-s=3D"elementToProof">
-Hi Alex<br>
-<br>
-I'm trying to make a pull request but I don't have permission to fork Kea.<=
-br>
-So I submit an issue first.<br>
-After I have the permission, I will make a pull request.</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>=B7=A2=BC=FE=C8=CB:</b> Alexand=
-er Kanavin &lt;alex.kanavin@gmail.com&gt;<br>
-<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2025=C4=EA10=D4=C217=C8=D5 03:04<br>
-<b>=CA=D5=BC=FE=C8=CB:</b> Liu, Yiding/=C1=F5 =D2=D2=B6=A1 &lt;liuyd.fnst@f=
-ujitsu.com&gt;<br>
-<b>=B3=AD=CB=CD:</b> openembedded-core@lists.openembedded.org &lt;openembed=
-ded-core@lists.openembedded.org&gt;<br>
-<b>=D6=F7=CC=E2:</b> Re: [OE-core][PATCH] kea: fix installation umask to 00=
-22 of meson.</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On Wed, 15 Oct 2025 at 10:12, Yiding Liu (Fujitsu)=
- via<br>
-lists.openembedded.org &lt;liuyd.fnst=3Dfujitsu.com@lists.openembedded.org&=
-gt;<br>
-wrote:<br>
-&gt; +Upstream-Status: Submitted <a href=3D"https://gitlab.isc.org/isc-proj=
-ects/kea/-/issues/4171">
-https://gitlab.isc.org/isc-projects/kea/-/issues/4171</a><br>
-<br>
-Should this be submitted directly as a pull request? Is there a reason<br>
-why it isn't?<br>
-<br>
-Alex<br>
-</div>
-</span></font></div>
-</body>
-</html>
+Now it is possible to modify and build a recipe 'foo-bar' with
+devtool, and have its ./image content deployed through:
+$build> devtool deploy foo-bar target:/opt/development-overlay
+Or removed again with:
+$build> devtool undeploy foo-bar target:/opt/development-overlay
 
---_000_OS7PR01MB11602988912E7F400C417E6409BF6AOS7PR01MB11602jp_--
+Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+---
+ scripts/lib/devtool/deploy.py | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index b5ca8f2c2f..a98b33c571 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -20,9 +20,9 @@ from devtool import exec_fakeroot_no_d, setup_tinfoil, ch=
+eck_workspace_recipe, D
+=20
+ logger =3D logging.getLogger('devtool')
+=20
+-deploylist_path =3D '/.devtool'
++deploylist_dirname =3D '.devtool'
+=20
+-def _prepare_remote_script(deploy, verbose=3DFalse, dryrun=3DFalse, undepl=
+oyall=3DFalse, nopreserve=3DFalse, nocheckspace=3DFalse):
++def _prepare_remote_script(deploy, destdir=3D'/', verbose=3DFalse, dryrun=
+=3DFalse, undeployall=3DFalse, nopreserve=3DFalse, nocheckspace=3DFalse):
+     """
+     Prepare a shell script for running on the target to
+     deploy/undeploy files. We have to be careful what we put in this
+@@ -31,6 +31,7 @@ def _prepare_remote_script(deploy, verbose=3DFalse, dryru=
+n=3DFalse, undeployall=3DFals
+     busybox rather than bash with coreutils).
+     """
+     lines =3D []
++    deploylist_path =3D os.path.join(destdir, deploylist_dirname)
+     lines.append('#!/bin/sh')
+     lines.append('set -e')
+     if undeployall:
+@@ -146,7 +147,7 @@ def deploy(args, config, basepath, workspace):
+         except Exception as e:
+             raise DevtoolError('Exception parsing recipe %s: %s' %
+                             (args.recipename, e))
+-       =20
++
+         srcdir =3D rd.getVar('D')
+         workdir =3D rd.getVar('WORKDIR')
+         path =3D rd.getVar('PATH')
+@@ -244,6 +245,7 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdi=
+r, base_libdir, max_proce
+         tmpscript =3D '/tmp/devtool_deploy.sh'
+         tmpfilelist =3D os.path.join(os.path.dirname(tmpscript), 'devtool_=
+deploy.list')
+         shellscript =3D _prepare_remote_script(deploy=3DTrue,
++                                            destdir=3Ddestdir,
+                                             verbose=3Dargs.show_status,
+                                             nopreserve=3Dargs.no_preserve,
+                                             nocheckspace=3Dargs.no_check_s=
+pace)
+@@ -303,12 +305,19 @@ def undeploy(args, config, basepath, workspace):
+         scp_port =3D "-P %s" % args.port
+         ssh_port =3D "-p %s" % args.port
+=20
+-    args.target =3D args.target.split(':')[0]
++    try:
++        host, destdir =3D args.target.split(':')
++    except ValueError:
++        destdir =3D '/'
++    else:
++        args.target =3D host
++    if not destdir.endswith('/'):
++        destdir +=3D '/'
+=20
+     tmpdir =3D tempfile.mkdtemp(prefix=3D'devtool')
+     try:
+         tmpscript =3D '/tmp/devtool_undeploy.sh'
+-        shellscript =3D _prepare_remote_script(deploy=3DFalse, dryrun=3Dar=
+gs.dry_run, undeployall=3Dargs.all)
++        shellscript =3D _prepare_remote_script(deploy=3DFalse, destdir=3Dd=
+estdir, dryrun=3Dargs.dry_run, undeployall=3Dargs.all)
+         # Write out the script to a file
+         with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') =
+as f:
+             f.write(shellscript)
+
+base-commit: 58558b97c157469f060bb2ad59a40254fb6181e4
+--=20
+2.43.0
+
 
